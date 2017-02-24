@@ -33,6 +33,8 @@ class SideBar extends Component {
         trigger={ null }
         onMouseOver={ this._onMouseOver }
         onMouseOut={ this._onMouseOut }
+        collapsedWidth={ 70 }    // TODO: can we read from css instead?
+        width={ 250 }            // TODO: can we read from css instead?
       >
         <SideMenu />
         <FooterMenu />

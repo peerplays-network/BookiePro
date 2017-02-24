@@ -38,7 +38,7 @@ const onEnter = (nextState, replace, callback) => {
   // Connecting to blockchain
   // Mark connecting to blockchain
   Apis.instance(connectionString, true).init_promise.then((res) => {
-    console.log('Connected to:', res[0].network);
+    console.log('Connected to:', res[0] ? res[0].network_name : 'Undefined Blockchain');
     callback();
   }).catch((error) => {
     console.error('Fail to connect to blockchain', error);
