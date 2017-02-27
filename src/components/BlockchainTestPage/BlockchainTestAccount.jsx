@@ -6,7 +6,7 @@ import { BlockchainUtils, ChainTypes, BindToChainState } from '../../utility';
 
 // Change this property depending on the blockchain you are
 const accountName = 'ii-5';
-const accountId = '1.2.153075';
+// const accountId = '1.2.153075';
 const accountPublicKeys = ['BTS76Ht7MbK6hDqGSdJvXnrmmUU2v9XfNZRJVaf6E4mAHUpCcfc8G'];
 const accountPrivateKeys = {
   'BTS76Ht7MbK6hDqGSdJvXnrmmUU2v9XfNZRJVaf6E4mAHUpCcfc8G': PrivateKey.fromWif('5JxYc27FySQWqacFWogGqTjuV6mhVoceao5bZFTsJ3v9kTgK8Hj')
