@@ -1,0 +1,89 @@
+@import (reference) '../App.less';
+
+#betex-header {
+  padding: 0;
+  font-size: 16px;
+  background-color: @nav-bar-bg;
+  overflow: hidden;
+
+  div.logo {
+    border-right: solid 1px @nav-bar-divider;
+    display: inline-block;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+
+    img {
+      width: 40px;
+    }
+  }
+
+  div.search {
+    display: inline-block;
+  }
+
+  .search-menu {
+    background-color: @nav-bar-bg;
+
+    // assume there is one li only
+    li {
+      padding: 0 16px 0 14px;
+
+      input[type="text"] {
+        background-color: @nav-bar-bg;
+        color: @nav-bar-icon;
+        font-size: 16px;
+        border: none;
+        border-bottom: solid 1px @nav-bar-icon;
+        border-bottom-left-radius: initial;
+        border-bottom-right-radius: initial;
+        margin-left: 7px;
+        -webkit-padding-start: 35px;
+        -webkit-text-fill-color: @nav-bar-icon;
+
+        // hide the box shadow set by antd
+        &:focus {
+          box-shadow: 0 0 0 0px;
+        }
+      }
+
+      .anticon {
+        font-size: 20px;
+        padding-bottom: 2px;
+        color: @nav-bar-icon;
+      }
+    }
+  }
+
+  .top-menu {
+    background-color: @nav-bar-bg;
+    line-height: inherit;
+
+    li {
+      border-left: solid 1px @nav-bar-divider;
+
+      &.amount {
+        background-color: @nav-bar-amount-bg;
+      }
+
+      .anticon {
+        font-size: 20px;
+        color: @nav-bar-icon;
+      }
+
+      &.notification {
+        span.ant-badge {
+          > .anticon {
+            padding-bottom: 6px;
+            .anticon;
+          }
+
+          > sup.ant-badge-count {
+            box-shadow: 0 0 0 0;
+            background-color: @nav-bar-icon;
+          }
+        }
+      }
+    }
+  }
+}
