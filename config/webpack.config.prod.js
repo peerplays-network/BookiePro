@@ -57,7 +57,7 @@ module.exports = {
     require.resolve('./polyfills'),
     paths.appIndexJs
   ],
-  target: 'electron',
+  target: 'electron-renderer',
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -134,7 +134,7 @@ module.exports = {
         loader: 'babel',
         query: {
           plugins: [
-            ['import', [{ libraryName: "antd", style: true }]],  // import less
+            // ['import', [{ libraryName: "antd", style: true }]],  // import less
           ],
           // This is a feature of `babel-loader` for webpack (not Babel itself).
           // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -178,7 +178,12 @@ module.exports = {
           name: 'static/media/[name].[hash:8].[ext]'
         }
       },
+
       // Parse less files and modify variables
+//       {
+//   test: /\.less$/,
+//   loader:  ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
+// },
       {
         test: /\.less$/,
         loader: 'style!css!postcss!less'
@@ -250,6 +255,7 @@ module.exports = {
     // }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
     new ExtractTextPlugin(cssFilename),
+    new ExtractTextPlugin('[name].css'),
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
@@ -266,6 +272,7 @@ module.exports = {
   },
   externals: [nodeExternals({
     // this WILL include `jquery` and `webpack/hot/dev-server` in the bundle, as well as `lodash/*`
+    whitelist: ['antd',]
     // whitelist: ['jquery', 'webpack/hot/dev-server', /^lodash/]
   })]
 };
