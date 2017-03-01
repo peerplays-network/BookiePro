@@ -7,7 +7,7 @@ var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var url = require('url');
 var paths = require('./paths');
 var getClientEnvironment = require('./env');
-const nodeExternals = require('webpack-node-externals')
+// const nodeExternals = require('webpack-node-externals')
 
 const path = require('path')
 
@@ -134,7 +134,7 @@ module.exports = {
         loader: 'babel',
         query: {
           plugins: [
-            // ['import', [{ libraryName: "antd", style: true }]],  // import less
+            ['import', [{ libraryName: "antd", style: true }]],  // import less
           ],
           // This is a feature of `babel-loader` for webpack (not Babel itself).
           // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -270,9 +270,9 @@ module.exports = {
     net: 'empty',
     tls: 'empty'
   },
-  externals: [nodeExternals({
-    // this WILL include `jquery` and `webpack/hot/dev-server` in the bundle, as well as `lodash/*`
-    whitelist: ['antd',]
-    // whitelist: ['jquery', 'webpack/hot/dev-server', /^lodash/]
-  })]
+  // externals: [nodeExternals({
+  //   // this WILL include `jquery` and `webpack/hot/dev-server` in the bundle, as well as `lodash/*`
+  //   whitelist: ['antd',]
+  //   // whitelist: ['jquery', 'webpack/hot/dev-server', /^lodash/]
+  // })]
 };
