@@ -50,7 +50,7 @@ const onEnter = (nextState, replace, callback) => {
 
 // Add new page here
 const routes = (
-    <Route path='/' component={ App } onEnter={ onEnter } >
+  <Route path='/' component={ App } onEnter={ onEnter } >
       <IndexRoute component={ Home } />
       <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
       <Route path='/empty-page' component={ EmptyPage } />
