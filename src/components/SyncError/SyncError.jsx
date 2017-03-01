@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { Button } from 'antd';
+import { Link } from 'react-router';
 
 class SyncError extends Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
   constructor(props) {
     super(props);
 
@@ -25,7 +29,9 @@ class SyncError extends Component {
         e.preventDefault();
     }
     if (window.electron) {
-        window.remote.getCurrentWindow().reload();
+        // window.remote.getCurrentWindow().reload();
+        this.context.router.push('/');
+
     } else {
       window.location.href = '/'
     }
