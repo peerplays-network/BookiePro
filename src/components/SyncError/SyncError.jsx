@@ -30,10 +30,15 @@ class SyncError extends Component {
     }
     if (window.electron) {
         // window.remote.getCurrentWindow().reload();
-        this.context.router.push('/');
 
+        console.log("electron window");
+  this.context.router.push('/home');
     } else {
-      window.location.href = '/'
+      // window.location.href = '/'
+      console.log("electron window else");
+
+      this.context.router.push('/home');
+
     }
   }
 }

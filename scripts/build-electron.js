@@ -14,7 +14,7 @@ var url = require('url');
 var filesize = require('filesize');
 var gzipSize = require('gzip-size').sync;
 var webpack = require('webpack');
-var config = require('../config/webpack.config.electron');
+var config = require('../config/webpack.config.prod');
 var paths = require('../config/paths');
 var checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
 var recursive = require('recursive-readdir');
@@ -143,7 +143,7 @@ function build(previousSizeMap) {
 
     console.log('File sizes after gzip:');
     console.log();
-    printFileSizes(stats, previousSizeMap);
+    // printFileSizes(stats, previousSizeMap);
     console.log();
 
     var openCommand = process.platform === 'win32' ? 'start' : 'open';

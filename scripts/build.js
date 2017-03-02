@@ -143,7 +143,7 @@ function build(previousSizeMap) {
 
     console.log('File sizes after gzip:');
     console.log();
-    // printFileSizes(stats, previousSizeMap);
+    printFileSizes(stats, previousSizeMap);
     console.log();
 
     var openCommand = process.platform === 'win32' ? 'start' : 'open';

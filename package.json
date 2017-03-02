@@ -23,7 +23,6 @@
     "dotenv": "2.0.0",
     "electron": "^1.4.15",
     "electron-builder": "^14.4.0",
-    "electron-packager": "^8.5.2",
     "eslint": "3.8.1",
     "eslint-config-react-app": "^0.5.1",
     "eslint-loader": "1.6.0",
@@ -55,7 +54,6 @@
     "webpack": "1.14.0",
     "webpack-dev-server": "1.16.2",
     "webpack-manifest-plugin": "1.1.0",
-    "webpack-node-externals": "^1.5.4",
     "whatwg-fetch": "2.0.2"
   },
   "dependencies": {
@@ -79,18 +77,14 @@
   "scripts": {
     "dev": "nf start",
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "node scripts/build-electron.js",
     "electron": "electron ./src/electron-starter.js",
     "test": "node scripts/test.js --env=jsdom",
     "clean": "rm -rf ./dist",
     "clean:osx": "rm -rf ./dist/osx",
     "clean:win": "rm -rf ./dist/win",
     "pack": "build --dir",
-    "dist": "build",
-    "pack:all": "npm run clean && npm run pack:osx && npm run pack:win",
-    "pack:osx": "npm run clean:osx && electron-packager . \"Bookie\" --out=dist/osx --platform=darwin --arch=x64 --electron-version=1.4.15  --ignore=dist --ignore=assets --ignore=electron-packager --ignore=build",
-    "pack:win": "npm run clean:win && electron-packager . \"Bookie\" --out=dist/win --platform=win32 --arch=ia32 --electron-version=0.36.2 --icon=assets/win/logo.ico --ignore=dist --ignore=assets --ignore=builder.json --ignore=bower.json --ignore=README.md --ignore=.gitignore --ignore=preview.png",
-    "pack-mac": "electron-packager . --asar --asar-unpack=protocol-link.html --overwrite --platform=darwin --arch=x64 --icon=assets/app-icon/mac/app.icns --prune=true --out=out --osx-sign.identity='Developer ID Application: Peerplay' --extend-info=assets/mac/info.plist"
+    "dist": "build"
   },
   "build": {
     "appId": "com.cosmox.bookie",
