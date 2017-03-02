@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button } from 'antd';
-import { Link } from 'react-router';
 
 class SyncError extends Component {
   static contextTypes = {
@@ -29,16 +28,9 @@ class SyncError extends Component {
         e.preventDefault();
     }
     if (window.electron) {
-        // window.remote.getCurrentWindow().reload();
-
-        console.log("electron window");
-  this.context.router.push('/home');
-    } else {
-      // window.location.href = '/'
-      console.log("electron window else");
-
       this.context.router.push('/home');
-
+    } else {
+      this.context.router.push('/home');
     }
   }
 }

@@ -58,6 +58,8 @@
   },
   "dependencies": {
     "antd": "^2.7.2",
+    "electron-titlebar-windows": "^2.1.0",
+    "fs": "0.0.1-security",
     "graphenejs-lib": "^0.5.2",
     "graphenejs-ws": "^0.2.2",
     "immutable": "^3.8.1",
