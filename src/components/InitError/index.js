@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Button } from 'antd';
 
 class InitError extends Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
   constructor(props) {
     super(props);
 
@@ -25,9 +28,17 @@ class InitError extends Component {
         e.preventDefault();
     }
     if (window.electron) {
-        window.remote.getCurrentWindow().reload();
+        // window.remote.getCurrentWindow().reload();
+        console.log("electron window");
+
+        this.context.router.push('/');
+
     } else {
-      window.location.href = '/'
+      console.log("electron window ");
+
+      // window.location.href = '/'
+      this.context.router.push('/');
+
     }
   }
 }

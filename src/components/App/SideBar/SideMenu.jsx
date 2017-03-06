@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Menu, Icon } from 'antd';
-import { browserHistory } from 'react-router';
 
 class SideMenu extends Component {
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
   constructor(props) {
     super(props);
 
@@ -19,23 +22,23 @@ class SideMenu extends Component {
     this.setState({ current });
     switch (current) {
       case 'blockchain_test_page': {
-        browserHistory.push('/blockchain-test-page');
+        this.context.router.push('/blockchain-test-page');
         break;
       }
       case 'home': {
-        browserHistory.push('/home');
+        this.context.router.push('/home');
         break;
       }
       case 'my_account': {
-        browserHistory.push('/my-account');
+        this.context.router.push('/my-account');
         break;
       }
       case 'my_wager': {
-        browserHistory.push('/my-wager');
+        this.context.router.push('/my-wager');
         break;
       }
       default: {
-        browserHistory.push('/empty-page');
+        this.context.router.push('/empty-page');
         break;
       }
 

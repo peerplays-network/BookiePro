@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import App from './components/App';
 import BlockchainTestPage from './components/BlockchainTestPage';
 import EmptyPage from './components/EmptyPage';
@@ -16,11 +16,11 @@ import { Apis } from 'graphenejs-ws';
 // On enter handler
 const onEnter = (nextState, replace, callback) => {
 
-  // let connectionString = 'wss://bitshares.openledger.info/ws';
+  let connectionString = 'wss://bitshares.openledger.info/ws';
   // let connectionString = 'wss://bit.btsabc.org/ws';
   // let connectionString = 'wss://bts.transwiser.com/ws';
   // let connectionString = 'wss://bitshares.dacplay.org:8089/ws';
-  let connectionString = 'wss://openledger.hk/ws';
+  // let connectionString = 'wss://openledger.hk/ws';
   // let connectionString = 'wss://secure.freedomledger.com/ws';
   // let connectionString = 'wss://testnet.bitshares.eu/ws';
 
@@ -50,7 +50,7 @@ const onEnter = (nextState, replace, callback) => {
 
 // Add new page here
 const routes = (
-    <Route path='/' component={ App } onEnter={ onEnter } >
+  <Route path='/' component={ App } onEnter={ onEnter } >
       <IndexRoute component={ Home } />
       <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
       <Route path='/empty-page' component={ EmptyPage } />
@@ -62,7 +62,7 @@ const routes = (
 );
 
 const store = configureStore();
-const history = syncHistoryWithStore(browserHistory, store);
+const history = syncHistoryWithStore(hashHistory, store);
 
 ReactDOM.render(
   <Provider store={ store }>

@@ -7,6 +7,8 @@ const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
 
+//for window 10 modern ui lib
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -15,18 +17,25 @@ function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 1280, height: 720, minWidth: 1024, minHeight: 720})
 
+
   const startUrl = process.env.ELECTRON_START_URL || url.format({
               pathname: path.join(__dirname, '/../build/index.html'),
               protocol: 'file:',
               slashes: true
           });
+  console.log( "startUrl " + startUrl);
+
   mainWindow.loadURL(startUrl);
 
   // and load the index.html of the app.
-  mainWindow.loadURL(startUrl)
+  // mainWindow.loadURL('/../build/index.html')
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
+
+
+
+
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

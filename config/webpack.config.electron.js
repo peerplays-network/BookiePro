@@ -7,7 +7,9 @@ var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var url = require('url');
 var paths = require('./paths');
 var getClientEnvironment = require('./env');
+// const nodeExternals = require('webpack-node-externals')
 
+const path = require('path')
 
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -55,6 +57,7 @@ module.exports = {
     require.resolve('./polyfills'),
     paths.appIndexJs
   ],
+  target: 'electron-renderer',
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -66,6 +69,11 @@ module.exports = {
     // We inferred the "public path" (such as / or /my-project) from homepage.
     publicPath: publicPath
   },
+  // output: {
+  //   path: path.resolve(__dirname, 'bundle'),
+  //   publicPath: '/bundle/',
+  //   filename: 'app.bundle.js'
+  // },
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
     // We read `NODE_PATH` environment variable in `paths.js` and pass paths here.
@@ -108,6 +116,7 @@ module.exports = {
         exclude: [
           /\.html$/,
           /\.(js|jsx)$/,
+          /\.less$/,
           /\.css$/,
           /\.json$/,
           /\.svg$/
@@ -123,6 +132,15 @@ module.exports = {
         test: /\.(js|jsx)$/,
         include: paths.appSrc,
         loader: 'babel',
+        query: {
+          plugins: [
+            ['import', [{ libraryName: "antd", style: true }]],  // import less
+          ],
+          // This is a feature of `babel-loader` for webpack (not Babel itself).
+          // It enables caching results in ./node_modules/.cache/babel-loader/
+          // directory for faster rebuilds.
+          cacheDirectory: true
+        }
 
       },
       // The notation here is somewhat confusing.
@@ -159,7 +177,17 @@ module.exports = {
         query: {
           name: 'static/media/[name].[hash:8].[ext]'
         }
-      }
+      },
+
+      // Parse less files and modify variables
+//       {
+//   test: /\.less$/,
+//   loader:  ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
+// },
+      {
+        test: /\.less$/,
+        loader: 'style!css!postcss!less'
+      },
       // ** STOP ** Are you adding a new loader?
       // Remember to add the new extension(s) to the "url" loader exclusion list.
     ]
@@ -197,9 +225,9 @@ module.exports = {
         removeEmptyAttributes: true,
         removeStyleLinkTypeAttributes: true,
         keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true
+        // minifyJS: true,
+        // minifyCSS: true,
+        // minifyURLs: true
       }
     }),
     // Makes some environment variables available to the JS code, for example:
@@ -212,21 +240,22 @@ module.exports = {
     // Try to dedupe duplicated modules, if any:
     new webpack.optimize.DedupePlugin(),
     // Minify the code.
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        screw_ie8: true, // React doesn't support IE8
-        warnings: false
-      },
-      mangle: {
-        screw_ie8: true
-      },
-      output: {
-        comments: false,
-        screw_ie8: true
-      }
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     screw_ie8: true, // React doesn't support IE8
+    //     warnings: false
+    //   },
+    //   mangle: {
+    //     screw_ie8: true
+    //   },
+    //   output: {
+    //     comments: false,
+    //     screw_ie8: true
+    //   }
+    // }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
     new ExtractTextPlugin(cssFilename),
+    // new ExtractTextPlugin('[name].css'),
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
@@ -240,5 +269,10 @@ module.exports = {
     fs: 'empty',
     net: 'empty',
     tls: 'empty'
-  }
+  },
+  // externals: [nodeExternals({
+  //   // this WILL include `jquery` and `webpack/hot/dev-server` in the bundle, as well as `lodash/*`
+  //   whitelist: ['antd',]
+  //   // whitelist: ['jquery', 'webpack/hot/dev-server', /^lodash/]
+  // })]
 };
