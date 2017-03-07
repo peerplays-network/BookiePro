@@ -12,18 +12,28 @@ import { autoRehydrate, persistStore } from 'redux-persist';
 // const createStoreWithMiddleware = applyMiddleware(thunk, routerMiddleware(hashHistory))(createStore);
 // const middleware = applyMiddleware(thunk, routerMiddleware(hashHistory));
 
+
+
+
 export default function configureStore(initialState) {
+
+
+  const enhancer = compose(
+    applyMiddleware(
+      thunk,
+      routerMiddleware(hashHistory)
+    ),
+    autoRehydrate(),
+    // other store enhancers if any,
+    window.devToolsExtension ? window.devToolsExtension({
+      name: 'MyApp', actionsBlacklist: ['REDUX_STORAGE_SAVE']
+    }) : noop => noop
+  );
 
   const store = createStore(
     rootReducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
     initialState,
-    compose(
-      applyMiddleware(
-        thunk
-      ),
-      autoRehydrate()
-    ),
+    enhancer,
   );
 
   // const store = createStoreWithMiddleware(rootReducer,

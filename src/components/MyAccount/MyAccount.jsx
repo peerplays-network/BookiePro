@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Row, Col, Card } from 'antd';
 import QRCode from 'qrcode.react';
 import { Table } from 'antd';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+
 // import { Scrollbars } from 'react-custom-scrollbars';
 import { ChainStore } from 'graphenejs-lib';
 import { Button } from 'antd';
@@ -11,6 +14,16 @@ import { ChainTypes, BindToChainState, BlockchainUtils } from '../../utility';
 // import { connect } from 'react-redux';
 import ps from "perfect-scrollbar";
 import "perfect-scrollbar";
+
+import { Select } from 'antd';
+const Option = Select.Option;
+
+import { updateSettingLang,
+  updateSettingTimeZone,
+  updateSettingNotification,
+  updateCurrencyFormat
+} from '../../actions/SettingActions'
+
 // let {operations} = require("graphenejs-lib").ChainTypes;
 // let ops = Object.keys(operations);
 
@@ -45,11 +58,11 @@ const columns = [{
   key: 'amount',
 }];
 
-const expandedRowRender = record => <p>{record.id}</p>;
+// const expandedRowRender = record => <p>{record.id}</p>;
 const title = () => 'Here is title';
 const showHeader = true;
 const footer = () => 'Here is footer';
-const scroll = { y: 240 };
+// const scroll = { y: 240 };
 
 
 
@@ -85,13 +98,18 @@ class MyAccount extends Component {
 
       this.fetchRecentTransactionHistory = this.fetchRecentTransactionHistory.bind(this);
       this.renderTxList = this.renderTxList.bind(this);
+      this.hanleLangChange = this.hanleLangChange.bind(this);
+      this.hanleCurrFormatChange = this.hanleCurrFormatChange.bind(this);
+      this.hanleTimeZoneChange = this.hanleTimeZoneChange.bind(this);
+      this.hanleNotificationChange = this.hanleNotificationChange.bind(this);
+
 
     }
 
     shouldComponentUpdate(nextProps) {
         console.log(" should component update");
-        let {block, dynGlobalObject} = this.props;
-        let last_irreversible_block_num = dynGlobalObject.get("last_irreversible_block_num" );
+        // let {block, dynGlobalObject} = this.props;
+        // let last_irreversible_block_num = dynGlobalObject.get("last_irreversible_block_num" );
         if (nextProps.dynGlobalObject === this.props.dynGlobalObject) {
             return false;
         }
@@ -101,21 +119,15 @@ class MyAccount extends Component {
           return true;
     }
 
+
+
     componentDidMount() {
       console.log('component did mount');
-      const { dispatch } = this.props;
+      // const { dispatch } = this.props;
       this.fetchRecentTransactionHistory();
       ps.initialize(this.refs.global);
-
-      // ps.initialize(this.refs.global_object);
-      // ps.initialize(this.refs.dyn_global_object);
-      // ps.initialize(this.refs.global);
-
     }
 
-    // calcTime(block_number) {
-        // this.setState({time: BlockchainUtils.calc_block_time(block_number, this.props.globalObject, this.props.dynGlobalObject)});
-    // }
 
     fetchRecentTransactionHistory() {
       // console.log('fetchRecentTransactionHistory');
@@ -188,6 +200,74 @@ class MyAccount extends Component {
       return null;
     }
 
+
+    hanleNotificationChange(value) {
+      const { updateSettingNotification } = this.props
+      updateSettingNotification(value)
+    }
+
+    hanleLangChange(value){
+      const { updateSettingLang } = this.props
+      updateSettingLang(value)
+    }
+
+    hanleCurrFormatChange(value){
+      const { updateCurrencyFormat } = this.props
+      updateCurrencyFormat(value)
+    }
+
+    hanleTimeZoneChange(value){
+      const { updateSettingTimeZone } = this.props
+      updateSettingTimeZone(value)
+    }
+
+    renderSettingCard(){
+
+
+        return (
+
+          <Card title='Settings' bordered={ false } style={ { width: '100%' } } >
+            <p>Card content</p>
+            <div
+              style={ { height: '133px'} }
+              ref='global_object'
+              >
+
+
+                <Select size='large' defaultValue={ this.props.timezone } style={ { width: 200 } } onChange={ this.hanleTimeZoneChange }>
+                     <Option value='UTC-12:00'>UTC-12:00</Option>
+                     <Option value='UTC-11:00'>UTC-11:00</Option>
+                     <Option value='UTC-10:00'>UTC-10:00</Option>
+                     <Option value='UTC-05:00'>UTC-05:00</Option>
+                     <Option value='UTC-03:00'>UTC-03:00</Option>
+                     <Option value='UTC-02:00'>UTC-02:00</Option>
+                     <Option value='UTC-01:00'>UTC-01:00</Option>
+                     <Option value='UTC+00:00'>UTC+00:00</Option>
+                     <Option value='UTC+07:00'>UTC07:00</Option>
+                     <Option value='UTC+08:00'>UTC+08:00</Option>
+                     <Option value='UTC+09:00'>UTC+09:00</Option>
+                   </Select>
+                   <Select defaultValue={ this.props.lang } style={ { width: 200 } } onChange={ this.hanleLangChange }>
+                     <Option value='zh-hk'>chinese </Option>
+                     <Option value='en-us'>English</Option>
+                   </Select>
+                   <Select size='large' defaultValue={ this.props.notification } style={ { width: 200 } } onChange={ this.hanleNotificationChange }>
+                     <Option value='ON'>ON</Option>
+                     <Option value='OFF'>OFF</Option>
+                   </Select>
+                   <Select size='large' defaultValue={ this.props.currencyFormat } style={ { width: 200 } } onChange={ this.hanleCurrFormatChange }>
+                     <Option value='BTC'>BTC</Option>
+                     <Option value='mBTC'>mBTC</Option>
+                   </Select>
+
+            </div>
+            <p>Card content</p>
+
+
+          </Card>
+        );
+    }
+
     render() {
 
       return (
@@ -197,15 +277,19 @@ class MyAccount extends Component {
           >
           <Row>
           <Col span={ 8 } style={ { 'padding' : '5px' } }>
-            <Card title='Card title' bordered={ false } style={ { width: '100%' } }>
+            <Card title='Deposit' bordered={ false } style={ { width: '100%' } }>
               <p>Card content</p>
-              <p>Card content</p>
+              <p>
+                <div>
+              { JSON.stringify(this.props.dynGlobalObject) }
+                </div>
+              </p>
               <p><QRCode value='http://facebook.github.io/react/' /></p>
             </Card>
           </Col>
 
           <Col span={ 8 } style={ { 'padding' : '5px' } }>
-            <Card title='Card title' bordered={ false } style={ { width: '100%' } }>
+            <Card title='Withdraw' bordered={ false } style={ { width: '100%' } }>
               <p>Card content</p>
               <p>Card content</p>
               <p style={ { height: '133px' } }>
@@ -219,20 +303,7 @@ class MyAccount extends Component {
           </Col>
 
           <Col span={ 8 } style={ { 'padding' : '5px' } }>
-            <Card title='Card title' bordered={ false } style={ { width: '100%' } } >
-              <p>Card content</p>
-              <div
-                style={ { height: '133px'} }
-                ref='global_object'
-                >
-                  <div>
-              { JSON.stringify(this.props.dynGlobalObject) }
-                </div>
-              </div>
-              <p>Card content</p>
-
-
-            </Card>
+              { this.renderSettingCard() }
           </Col>
         </Row>
       <Row>
@@ -253,9 +324,24 @@ class MyAccount extends Component {
 const BindedMyAccount = BindToChainState()(MyAccount);
 
 const mapStateToProps = (state) => {
-  //Mock implementation
+  const { setting } = state;
   return {
-    accountName: 'ii-5'
+    lang: setting.lang,
+    timezone: setting.timezone,
+    notification: setting.notification,
+    currencyFormat: setting.currencyFormat,
   }
 }
-export default BindedMyAccount;
+
+
+function mapDispatchToProps (dispatch) {
+  return bindActionCreators({
+    updateSettingLang: updateSettingLang,
+    updateSettingTimeZone: updateSettingTimeZone,
+    updateSettingNotification: updateSettingNotification,
+    updateCurrencyFormat: updateCurrencyFormat,
+  }, dispatch)
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(BindedMyAccount);

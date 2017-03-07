@@ -17,6 +17,7 @@ import localforage from 'localforage';
 // On enter handler
 const onEnter = (nextState, replace, callback) => {
 
+  //https://github.com/dfahlander/Dexie.js/blob/master/samples/full-text-search/FullTextSearch.js dexie full text search
   let connectionString = 'wss://bitshares.openledger.info/ws';
   // let connectionString = 'wss://bit.btsabc.org/ws';
   // let connectionString = 'wss://bts.transwiser.com/ws';
