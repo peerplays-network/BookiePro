@@ -38,11 +38,12 @@ const onEnter = (nextState, replace, callback) => {
   }
 
 
+  // Localforage Indexeddb setting ( for redux-persist)
   localforage.config({
     driver      : localforage.INDEXEDDB, // Force WebSQL; same as using setDriver()
     name        : 'bookie',
     version     : 1.0,
-    storeName   : 'store_name', // Should be alphanumeric, with underscores.
+    // storeName   : 'store_name', // Should be alphanumeric, with underscores.
     description : 'desc'
   });
   localforage.setDriver(localforage.INDEXEDDB);
