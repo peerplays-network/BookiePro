@@ -9,34 +9,29 @@ import InitError from './components/InitError';
 import Home from './components/Home';
 import MyAccount from './components/MyAccount';
 import MyWager from './components/MyWager';
+import Signup from './components/Signup';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
-import { Apis } from 'graphenejs-ws';
 import localforage from 'localforage';
+import { Apis, ChainConfig } from 'graphenejs-ws';
+import { Config } from './constants';
+
 
 // On enter handler
 const onEnter = (nextState, replace, callback) => {
 
-  //https://github.com/dfahlander/Dexie.js/blob/master/samples/full-text-search/FullTextSearch.js dexie full text search
-  let connectionString = 'wss://bitshares.openledger.info/ws';
-  // let connectionString = 'wss://bit.btsabc.org/ws';
-  // let connectionString = 'wss://bts.transwiser.com/ws';
-  // let connectionString = 'wss://bitshares.dacplay.org:8089/ws';
-  // let connectionString = 'wss://openledger.hk/ws';
-  // let connectionString = 'wss://secure.freedomledger.com/ws';
-  // let connectionString = 'wss://testnet.bitshares.eu/ws';
+  let connectionString = Config.blockchainUrls[0];
 
   // Reset connection if we are going to init-error page
   if (nextState.location.pathname === "/init-error") {
     return Apis.reset(connectionString, true).init_promise
     .then(() => {
-        return callback();
+      return callback();
     }).catch((error) => {
-        console.error('Fail to reset connection to blockchain', error);
-        return callback();
+      console.error('Fail to reset connection to blockchain', error);
+      return callback();
     });
   }
-
 
   // Localforage Indexeddb setting ( for redux-persist)
   localforage.config({
@@ -52,6 +47,9 @@ const onEnter = (nextState, replace, callback) => {
   // Mark connecting to blockchain
   Apis.instance(connectionString, true).init_promise.then((res) => {
     console.log('Connected to:', res[0] ? res[0].network_name : 'Undefined Blockchain');
+    // TODO: find better place to set this
+    // This is set to TEST since Peerplays Blockchain is currently using TEST prefix
+    ChainConfig.setPrefix("TEST");
     callback();
   }).catch((error) => {
     console.error('Fail to connect to blockchain', error);
@@ -67,6 +65,7 @@ const onEnter = (nextState, replace, callback) => {
 const routes = (
   <Route path='/' component={ App } onEnter={ onEnter } >
       <IndexRoute component={ Home } />
+      <Route path='/signup' component={ Signup } />
       <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
       <Route path='/empty-page' component={ EmptyPage } />
       <Route path='/init-error' component={ InitError } />
