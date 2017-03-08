@@ -159,7 +159,9 @@ module.exports = {
       },
       // ** STOP ** Are you adding a new loader?
       // Remember to add the new extension(s) to the "url" loader exclusion list.
-    ]
+    ],
+    noParse: [new RegExp('node_modules/localforage/dist/localforage.js')]
+
   },
 
   // We use PostCSS for autoprefixing only.

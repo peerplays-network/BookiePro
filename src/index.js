@@ -12,10 +12,12 @@ import MyWager from './components/MyWager';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Apis } from 'graphenejs-ws';
+import localforage from 'localforage';
 
 // On enter handler
 const onEnter = (nextState, replace, callback) => {
 
+  //https://github.com/dfahlander/Dexie.js/blob/master/samples/full-text-search/FullTextSearch.js dexie full text search
   let connectionString = 'wss://bitshares.openledger.info/ws';
   // let connectionString = 'wss://bit.btsabc.org/ws';
   // let connectionString = 'wss://bts.transwiser.com/ws';
@@ -35,6 +37,17 @@ const onEnter = (nextState, replace, callback) => {
     });
   }
 
+
+  // Localforage Indexeddb setting ( for redux-persist)
+  localforage.config({
+    driver      : localforage.INDEXEDDB, // Force WebSQL; same as using setDriver()
+    name        : 'bookie',
+    version     : 1.0,
+    // storeName   : 'store_name', // Should be alphanumeric, with underscores.
+    description : 'desc'
+  });
+  localforage.setDriver(localforage.INDEXEDDB);
+
   // Connecting to blockchain
   // Mark connecting to blockchain
   Apis.instance(connectionString, true).init_promise.then((res) => {
@@ -46,6 +59,8 @@ const onEnter = (nextState, replace, callback) => {
     replace('/init-error');
     callback();
   })
+
+
 }
 
 // Add new page here
