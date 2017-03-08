@@ -9,6 +9,7 @@ import InitError from './components/InitError';
 import Home from './components/Home';
 import MyAccount from './components/MyAccount';
 import MyWager from './components/MyWager';
+import Localize from './components/Localize';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Apis } from 'graphenejs-ws';
@@ -58,6 +59,7 @@ const routes = (
       <Route path='/home' component={ Home } />
       <Route path='/my-account' component={ MyAccount } />
       <Route path='/my-wager' component={ MyWager } />
+      <Route path='/localize' component={ Localize } />
     </Route>
 );
 
