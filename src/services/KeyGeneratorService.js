@@ -2,7 +2,9 @@ import {key, PrivateKey} from "graphenejs-lib";
 
 class KeyGeneratorService {
 
-  // Generate private keys given accountName and password
+  /**
+   * Generate private keys given account name and password
+   */
   static generateKeys(accountName, password, roles = ["owner", "active", "memo"]) {
     let keys = {};
     roles.forEach((role) => {

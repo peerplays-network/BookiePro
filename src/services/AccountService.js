@@ -1,6 +1,10 @@
 import { Config } from '../constants';
 
 class AccountServices {
+
+  /**
+   * Ask the faucet to create account for us
+   */
   static registerThroughFaucet(attempt, accountName, keys) {
     const ownerPublicKey = keys.owner.toPublicKey().toPublicKeyString();
     const activePublicKey = keys.active.toPublicKey().toPublicKeyString();
