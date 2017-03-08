@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import { Layout } from 'antd';
-import SideBar from './SideBar';
-import NavBar from './NavBar';
 import SyncError from '../SyncError';
 import { ChainStore } from 'graphenejs-lib';
 
-const { Content } = Layout;
 
 class App extends Component {
   constructor(props) {
@@ -41,21 +37,8 @@ class App extends Component {
     } else if (this.props.connectingToBlockchain) {
       // If it is loading, no need to show header and sider
       content = ( <span>loading...</span> );
-    } else if (this.props.location.pathname === '/init-error') {
-      // If init error, no need to show header and sider
+    } else  {
       content = this.props.children;
-    } else {
-      content = (
-          <Layout className='layout'>
-            <NavBar />
-            <Layout>
-              <SideBar />
-              <Content id='main-content'>
-                { this.props.children }
-              </Content>
-            </Layout>
-          </Layout>
-      );
     }
 
     return content;

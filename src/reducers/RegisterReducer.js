@@ -14,7 +14,10 @@ export default function (state = initialState, action) {
     }
     case ActionTypes.REGISTER_SET_ERROR: {
       const error = action.error;
-      return Object.assign({}, state, { error });
+      return Object.assign({}, state, {
+        error,
+        status: RegisterStatus.DEFAULT
+      });
     }
     default:
       return state;

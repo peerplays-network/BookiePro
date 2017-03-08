@@ -10,6 +10,8 @@ import Home from './components/Home';
 import MyAccount from './components/MyAccount';
 import MyWager from './components/MyWager';
 import Signup from './components/Signup';
+import Login from './components/Login';
+import Main from './components/Main';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
 import localforage from 'localforage';
@@ -64,14 +66,17 @@ const onEnter = (nextState, replace, callback) => {
 // Add new page here
 const routes = (
   <Route path='/' component={ App } onEnter={ onEnter } >
-      <IndexRoute component={ Home } />
+      <IndexRoute component={ Login }  />
+      <Route path='/login' component={ Login } />
       <Route path='/signup' component={ Signup } />
-      <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
-      <Route path='/empty-page' component={ EmptyPage } />
       <Route path='/init-error' component={ InitError } />
-      <Route path='/home' component={ Home } />
-      <Route path='/my-account' component={ MyAccount } />
-      <Route path='/my-wager' component={ MyWager } />
+      <Route component={ Main }>
+        <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
+        <Route path='/empty-page' component={ EmptyPage } />
+        <Route path='/home' component={ Home } />
+        <Route path='/my-account' component={ MyAccount } />
+        <Route path='/my-wager' component={ MyWager } />
+      </Route>
     </Route>
 );
 

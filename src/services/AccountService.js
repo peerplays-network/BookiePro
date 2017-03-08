@@ -34,6 +34,7 @@ class AccountServices {
         // Convert response to json
         return response.json();
       }).then((responseJson) => {
+        console.log('json response', responseJson);
         // Check if the registration is rejected by the faucet
         if (responseJson.error) {
           const errorMessage = responseJson.error.base ? responseJson.error.base[0] : 'Signup Fail';

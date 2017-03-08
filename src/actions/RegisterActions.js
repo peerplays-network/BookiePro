@@ -2,6 +2,7 @@ import AppActions from './AppActions';
 import { RegisterStatus, ActionTypes } from '../constants';
 import { AccountService, KeyGeneratorService} from '../services';
 import { FetchChain } from 'graphenejs-lib';
+import NavigateActions from './NavigateActions';
 
 class RegisterActions {
 
@@ -29,7 +30,6 @@ class RegisterActions {
       let keys = KeyGeneratorService.generateKeys(accountName, password);
 
       AccountService.registerThroughFaucet(1, accountName, keys).then((result) => {
-        console.log('SUCESS', result);
         // Get full account
         return FetchChain('getAccount', accountName);
       }).then((account) => {
@@ -37,9 +37,9 @@ class RegisterActions {
         dispatch(RegisterActions.setRegisterStatus(RegisterStatus.DONE));
         // Save account information
         dispatch(AppActions.setAccount(account));
-        // Navigate to next page
+        // After some delay navigate to home page
         setTimeout(() => {
-          // TODO: Navigate to the next page
+          dispatch(NavigateActions.navigateTo('/home'))
           // Set back register status to default
           dispatch(RegisterActions.setRegisterStatus(RegisterStatus.DEFAULT));
         }, 2000);
