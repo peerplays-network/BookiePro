@@ -6,13 +6,7 @@ const initialState = {
   notification: "ON",
   currencyFormat: "BTC"
 };
-/*
 
-export const UPDATE_SETTING_LANG = 'UPDATE_SETTING_LANG';
-export const UPDATE_SETTING_TIMEZONE = 'UPDATE_SETTING_TIMEZONE';
-export const UPDATE_SETTING_NOTIFICATION = 'UPDATE_SETTING_NOTIFICATION';
-export const UPDATE_SETTING_CURRENCY_FORMAT = 'UPDATE_SETTING_CURRENCY_FORMAT';
-*/
 export default function (state = initialState, action) {
   switch(action.type) {
 

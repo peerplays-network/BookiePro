@@ -5,13 +5,10 @@ import { Table } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
-// import { Scrollbars } from 'react-custom-scrollbars';
 import { ChainStore } from 'graphenejs-lib';
 import { Button } from 'antd';
 import _ from 'lodash';
-// import Immutable from 'immutable';
 import { ChainTypes, BindToChainState, BlockchainUtils } from '../../utility';
-// import { connect } from 'react-redux';
 import ps from "perfect-scrollbar";
 import "perfect-scrollbar";
 
@@ -24,30 +21,25 @@ import { updateSettingLang,
   updateCurrencyFormat
 } from '../../actions/SettingActions'
 
-// let {operations} = require("graphenejs-lib").ChainTypes;
-// let ops = Object.keys(operations);
 
 const columns = [{
   title: 'id',
   dataIndex: 'id',
   key: 'id',
-  // width: 150,
   render: text => <a href='#'>{text}</a>,
 }, {
   title: 'op',
   dataIndex: 'op_value',
   key: 'op_value',
-  // width: 70,
+  // width: 70, sample of setting width
 },  {
   title: 'status',
   dataIndex: 'status',
   key: 'status',
-  // width: 70,
 }, {
   title: 'virtual_op',
   dataIndex: 'virtual_op',
   key: 'virtual_op',
-  // width: 70,
 }, {
   title: 'time',
   dataIndex: 'tx_time',
@@ -58,14 +50,9 @@ const columns = [{
   key: 'amount',
 }];
 
-// const expandedRowRender = record => <p>{record.id}</p>;
 const title = () => 'Here is title';
 const showHeader = true;
 const footer = () => 'Here is footer';
-// const scroll = { y: 240 };
-
-
-
 
 class MyAccount extends Component {
 
@@ -87,52 +74,53 @@ class MyAccount extends Component {
             loading: false,
             pagination: true,
             size: 'default',
-            // expandedRowRender,
             title,
             showHeader,
             footer,
-            // rowSelection: {},
             scroll: undefined,
             txList : [],
           }
 
       this.fetchRecentTransactionHistory = this.fetchRecentTransactionHistory.bind(this);
       this.renderTxList = this.renderTxList.bind(this);
-      this.hanleLangChange = this.hanleLangChange.bind(this);
-      this.hanleCurrFormatChange = this.hanleCurrFormatChange.bind(this);
-      this.hanleTimeZoneChange = this.hanleTimeZoneChange.bind(this);
-      this.hanleNotificationChange = this.hanleNotificationChange.bind(this);
+      this.handleLangChange = this.handleLangChange.bind(this);
+      this.handleCurrFormatChange = this.handleCurrFormatChange.bind(this);
+      this.handleTimeZoneChange = this.handleTimeZoneChange.bind(this);
+      this.handleNotificationChange = this.handleNotificationChange.bind(this);
 
 
     }
 
     shouldComponentUpdate(nextProps) {
-        console.log(" should component update");
+        // TODO: change in currentformat wont trigger update in of currentformat in table below... still investigating
+        // TODO:  last_irreversible_block_num comparision to optimize  shouldComponentUpdate function
         // let {block, dynGlobalObject} = this.props;
-        // let last_irreversible_block_num = dynGlobalObject.get("last_irreversible_block_num" );
+        // let  last_irreversible_block_num = dynGlobalObject.get("last_irreversible_block_num" );
+
+        if (nextProps.currencyFormat === this.props.currencyFormat) {
+        } else {
+          return true;
+        }
+
         if (nextProps.dynGlobalObject === this.props.dynGlobalObject) {
             return false;
         }
 
         this.fetchRecentTransactionHistory();
 
-          return true;
+        return true;
     }
 
 
 
     componentDidMount() {
-      console.log('component did mount');
-      // const { dispatch } = this.props;
       this.fetchRecentTransactionHistory();
       ps.initialize(this.refs.global);
     }
 
 
     fetchRecentTransactionHistory() {
-      // console.log('fetchRecentTransactionHistory');
 
-      // It seems to fetch transaction history, one needs to have account stored in ChainStore cache first
       const account = ChainStore.getAccount('1.2.153075'); // this is ii-5 account id
 
       if (!account) {
@@ -140,15 +128,11 @@ class MyAccount extends Component {
         return;
       }
       this.setState({ fetchRecentHistoryInProgress: true });
-      // Unlike getObject or get Asset, fetchRecentHistory returns a Promise....
-      // Honestly, I don't like this inconsistency... ._.
       ChainStore.fetchRecentHistory(account.get('id'))
       .then((updatedAccount) => {
         this.setState({ fetchRecentHistoryInProgress: false });
-        // console.log('Transaction History:', updatedAccount.get('history').toJS());
 
         const txList = updatedAccount.get('history').toJS();
-        // Store order inside internal state
         this.setState({ txList : txList });
 
 
@@ -157,7 +141,7 @@ class MyAccount extends Component {
 
             order.tx_time = ""+BlockchainUtils.calc_block_time(order.block_num, this.props.globalObject, this.props.dynGlobalObject)
             order.history = 'history';
-            order.amount = order.op[1].fee.amount + " mBTS";
+            order.amount = order.op[1].fee.amount + " " + this.props.currencyFormat;
             order.op_value = order.op[0] + " op";
 
             let last_irreversible_block_num = this.props.dynGlobalObject.get("last_irreversible_block_num" );
@@ -169,10 +153,8 @@ class MyAccount extends Component {
 
 
             newTxList.push(order);
-            // return  b
         });
 
-        console.log(newTxList);
         this.setState({ txList : newTxList });
         ps.update(this.refs.global);
 
@@ -189,7 +171,7 @@ class MyAccount extends Component {
             <div style={ { 'height' : '500px', 'overflow' : 'auto', 'overflow-x': 'hidden' } }
               ref='global'
               >
-              <Table {  ...this.state  } columns={  columns  } dataSource={  this.state.txList  }
+              <Table {  ...this.state  } columns={  columns  } dataSource={  this.state.txList  } rowKey='id'
               ref='table'/>
 
             </div>
@@ -201,24 +183,30 @@ class MyAccount extends Component {
     }
 
 
-    hanleNotificationChange(value) {
+    handleNotificationChange(value) {
       const { updateSettingNotification } = this.props
       updateSettingNotification(value)
     }
 
-    hanleLangChange(value){
+    handleLangChange(value){
       const { updateSettingLang } = this.props
       updateSettingLang(value)
     }
 
-    hanleCurrFormatChange(value){
+    handleCurrFormatChange(value){
       const { updateCurrencyFormat } = this.props
       updateCurrencyFormat(value)
+
+      // still fixing table reload
+      // this.setState({
+      //      txList: this.props.txList
+      // })
     }
 
-    hanleTimeZoneChange(value){
+    handleTimeZoneChange(value){
       const { updateSettingTimeZone } = this.props
       updateSettingTimeZone(value)
+
     }
 
     renderSettingCard(){
@@ -227,14 +215,14 @@ class MyAccount extends Component {
         return (
 
           <Card title='Settings' bordered={ false } style={ { width: '100%' } } >
-            <p>Card content</p>
+            <p>{ this.props.currencyFormat }</p>
             <div
               style={ { height: '133px'} }
               ref='global_object'
               >
 
 
-                <Select size='large' defaultValue={ this.props.timezone } style={ { width: 200 } } onChange={ this.hanleTimeZoneChange }>
+                <Select size='large' defaultValue={ this.props.timezone } style={ { width: 200 } } onChange={ this.handleTimeZoneChange }>
                      <Option value='UTC-12:00'>UTC-12:00</Option>
                      <Option value='UTC-11:00'>UTC-11:00</Option>
                      <Option value='UTC-10:00'>UTC-10:00</Option>
@@ -246,19 +234,19 @@ class MyAccount extends Component {
                      <Option value='UTC+07:00'>UTC07:00</Option>
                      <Option value='UTC+08:00'>UTC+08:00</Option>
                      <Option value='UTC+09:00'>UTC+09:00</Option>
-                   </Select>
-                   <Select defaultValue={ this.props.lang } style={ { width: 200 } } onChange={ this.hanleLangChange }>
-                     <Option value='zh-hk'>chinese </Option>
-                     <Option value='en-us'>English</Option>
-                   </Select>
-                   <Select size='large' defaultValue={ this.props.notification } style={ { width: 200 } } onChange={ this.hanleNotificationChange }>
-                     <Option value='ON'>ON</Option>
-                     <Option value='OFF'>OFF</Option>
-                   </Select>
-                   <Select size='large' defaultValue={ this.props.currencyFormat } style={ { width: 200 } } onChange={ this.hanleCurrFormatChange }>
-                     <Option value='BTC'>BTC</Option>
-                     <Option value='mBTC'>mBTC</Option>
-                   </Select>
+                 </Select>
+                 <Select defaultValue={ this.props.lang } style={ { width: 200 } } onChange={ this.handleLangChange }>
+                   <Option value='zh-hk'>chinese </Option>
+                   <Option value='en-us'>English</Option>
+                 </Select>
+                 <Select size='large' defaultValue={ this.props.notification } style={ { width: 200 } } onChange={ this.handleNotificationChange }>
+                   <Option value='ON'>ON</Option>
+                   <Option value='OFF'>OFF</Option>
+                 </Select>
+                 <Select size='large' defaultValue={ this.props.currencyFormat } style={ { width: 200 } } onChange={ this.handleCurrFormatChange }>
+                   <Option value='BTC'>BTC</Option>
+                   <Option value='mBTC'>mBTC</Option>
+                 </Select>
 
             </div>
             <p>Card content</p>
@@ -271,8 +259,6 @@ class MyAccount extends Component {
     render() {
 
       return (
-        // <Scrollbars
-        //          style={ { height: 733 } }>
         <div style={ { 'padding' : '5px' } }
           >
           <Row>
@@ -316,7 +302,6 @@ class MyAccount extends Component {
 
 
         </div>
-        //  </Scrollbars>
       )
     }
 }
