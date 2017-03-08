@@ -15,14 +15,14 @@ class App extends Component {
       syncFail: false,
       loading: false
     }
-    this._syncWithBlockchain = this._syncWithBlockchain.bind(this);
+    this.syncWithBlockchain = this.syncWithBlockchain.bind(this);
   }
 
   componentDidMount() {
-    this._syncWithBlockchain();
+    this.syncWithBlockchain();
   }
 
-  _syncWithBlockchain() {
+  syncWithBlockchain() {
     console.log('sync blockchain');
     this.setState({ loading: true });
     ChainStore.init().then(() => {

@@ -4,7 +4,8 @@ import { Button } from 'antd';
 class SyncError extends Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
-};
+  };
+
   constructor(props) {
     super(props);
 
@@ -25,13 +26,10 @@ class SyncError extends Component {
 
   _onReloadClick(e) {
     if (e) {
-        e.preventDefault();
+      e.preventDefault();
     }
-    if (window.electron) {
-      this.context.router.push('/home');
-    } else {
-      this.context.router.push('/home');
-    }
+
+    this.context.router.push('/home');
   }
 }
 

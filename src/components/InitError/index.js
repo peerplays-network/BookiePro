@@ -25,21 +25,10 @@ class InitError extends Component {
 
   _onReloadClick(e) {
     if (e) {
-        e.preventDefault();
+      e.preventDefault();
     }
-    if (window.electron) {
-        // window.remote.getCurrentWindow().reload();
-        console.log("electron window");
-
-        this.context.router.push('/');
-
-    } else {
-      console.log("electron window ");
-
-      // window.location.href = '/'
-      this.context.router.push('/');
-
-    }
+    
+    this.context.router.push('/');
   }
 }
 

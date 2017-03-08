@@ -41,8 +41,8 @@ const BindedProfitLiabilityCell = BindToChainState()(ProfitLiabilityCell);
 
 class UnmatchedBets extends Component {
   static propTypes = {
-      allOpenOrders: ChainTypes.ChainObjectsList.isRequired,
-      coreAsset: ChainTypes.ChainAsset.isRequired
+    allOpenOrders: ChainTypes.ChainObjectsList.isRequired,
+    coreAsset: ChainTypes.ChainAsset.isRequired
   };
 
   static defaultProps = {
@@ -50,152 +50,152 @@ class UnmatchedBets extends Component {
     coreAsset: '1.3.0'
   };
 
-constructor(props) {
-  super(props);
-  this.state = {
-    orderCancelInProgressList: []
-  };
-  this._calculateTotalMoneyOnUnmatchedBets = this._calculateTotalMoneyOnUnmatchedBets.bind(this);
-  this._processTransaction = this._processTransaction.bind(this);
-  this._cancelOrder = this._cancelOrder.bind(this);
-  this._getColumns = this._getColumns.bind(this);
-}
+  constructor(props) {
+    super(props);
+    this.state = {
+      orderCancelInProgressList: []
+    };
+    this._calculateTotalMoneyOnUnmatchedBets = this._calculateTotalMoneyOnUnmatchedBets.bind(this);
+    this._processTransaction = this._processTransaction.bind(this);
+    this._cancelOrder = this._cancelOrder.bind(this);
+    this._getColumns = this._getColumns.bind(this);
+  }
 
-_getColumns() {
+  _getColumns() {
 
- return [{
-  title: 'Event Time',
-  render: (text, record, index) => {
-    return <span>{ record.get('id') }</span>
+    return [{
+      title: 'Event Time',
+      render: (text, record, index) => {
+        return <span>{ record.get('id') }</span>
+      }
+    }, {
+      title: 'Event',
+      render: (text, record, index) => {
+        return <span>{ record.get('id').split('.')[2] }</span>
+      }
+    }, {
+      title: 'Type',
+      render: (text, record, index) => {
+        return <span>{ record.get('id').split('.')[1] }</span>
+      }
+    }, {
+      title: 'Sport',
+      render: (text, record, index) => {
+        return <Icon type='rocket' />
+      }
+    }, {
+      title: 'Odds',
+      render: (text, record, index) => {
+        let odds = BlockchainUtils.get_odds_of_order(record);
+        return (<BindedOddsOrStakeCell amount={ odds.get('amount') } asset={ odds.get('asset_id') } />);
+      }
+    }, {
+      title: 'Stake(B)',
+      render: (text, record, index) => {
+        let stake = BlockchainUtils.get_stake_of_order(record);
+        return (<BindedOddsOrStakeCell amount={ stake.get('amount') } asset={ stake.get('asset_id') } />);
+      }
+    }, {
+      title: 'Profit / Liability(B)',
+      render: (text, record, index) => {
+        let odds = BlockchainUtils.get_odds_of_order(record);
+        let stake = BlockchainUtils.get_stake_of_order(record);
+        return (
+          <BindedProfitLiabilityCell
+            oddsAmount={ odds.get('amount') }
+            oddsAsset={ odds.get('asset_id') }
+            stakeAmount={ stake.get('amount') }
+            stakeAsset={ stake.get('asset_id') }
+            />
+        );
+      }
+    }, {
+      key: 'cancel',
+      render: (text, record, index) => {
+        const orderId = record.get('id');
+        const onClick = () => {
+          this._cancelOrder(orderId);
+        }
+        const disabled = _.includes(this.state.orderCancelInProgressList, orderId);
+        return <Button onClick={ onClick } disabled={ disabled } >Cancel</Button>
+      }
+    }];
   }
-}, {
-  title: 'Event',
-  render: (text, record, index) => {
-    return <span>{ record.get('id').split('.')[2] }</span>
-  }
-}, {
-  title: 'Type',
-  render: (text, record, index) => {
-    return <span>{ record.get('id').split('.')[1] }</span>
-  }
-}, {
-  title: 'Sport',
-  render: (text, record, index) => {
-    return <Icon type='rocket' />
-  }
-}, {
-  title: 'Odds',
-  render: (text, record, index) => {
-    let odds = BlockchainUtils.get_odds_of_order(record);
-    return (<BindedOddsOrStakeCell amount={ odds.get('amount') } asset={ odds.get('asset_id') } />);
-  }
-}, {
-  title: 'Stake(B)',
-  render: (text, record, index) => {
-    let stake = BlockchainUtils.get_stake_of_order(record);
-    return (<BindedOddsOrStakeCell amount={ stake.get('amount') } asset={ stake.get('asset_id') } />);
-  }
-}, {
-  title: 'Profit / Liability(B)',
-  render: (text, record, index) => {
-    let odds = BlockchainUtils.get_odds_of_order(record);
-    let stake = BlockchainUtils.get_stake_of_order(record);
-    return (
-      <BindedProfitLiabilityCell
-       oddsAmount={ odds.get('amount') }
-       oddsAsset={ odds.get('asset_id') }
-       stakeAmount={ stake.get('amount') }
-       stakeAsset={ stake.get('asset_id') }
-      />
-    );
-  }
-}, {
-  key: 'cancel',
-  render: (text, record, index) => {
-    const orderId = record.get('id');
-    const onClick = () => {
-      this._cancelOrder(orderId);
-    }
-    const disabled = _.includes(this.state.orderCancelInProgressList, orderId);
-    return <Button onClick={ onClick } disabled={ disabled } >Cancel</Button>
-  }
-}];
-}
 
-_getUnmatchedBets() {
-  return _.filter(this.props.allOpenOrders, (order) => {
-    if (!order) return false;
-    return order.getIn(['sell_price', 'base', 'asset_id']) === '1.3.0' ||
-            order.getIn(['sell_price', 'quote', 'asset_id']) === '1.3.0';
-  });
-}
+  _getUnmatchedBets() {
+    return _.filter(this.props.allOpenOrders, (order) => {
+      if (!order) return false;
+      return order.getIn(['sell_price', 'base', 'asset_id']) === '1.3.0' ||
+      order.getIn(['sell_price', 'quote', 'asset_id']) === '1.3.0';
+    });
+  }
 
-_cancelOrder(orderId) {
-  const accountId = '1.2.153075'; // this is ii-5 account id
-  const feeId = '1.3.0'; // this is core asset (BTS)
+  _cancelOrder(orderId) {
+    const accountId = '1.2.153075'; // this is ii-5 account id
+    const feeId = '1.3.0'; // this is core asset (BTS)
 
-  // Create transaction and add operation
-  const tr = new TransactionBuilder();
-  const operationParams = {
-    fee: {
-      amount: 0,
-      asset_id: feeId,
-    },
-    fee_paying_account: accountId,
-    order: orderId,
-  };
-  tr.add_type_operation('limit_order_cancel', operationParams);
+    // Create transaction and add operation
+    const tr = new TransactionBuilder();
+    const operationParams = {
+      fee: {
+        amount: 0,
+        asset_id: feeId,
+      },
+      fee_paying_account: accountId,
+      order: orderId,
+    };
+    tr.add_type_operation('limit_order_cancel', operationParams);
 
-  // Add order id to order in progress list, this disable the Button
-  this.setState((prevState) => {
-    return { orderCancelInProgressList: _.concat(prevState.orderCancelInProgressList, orderId) }
-  });
-  // Process transaction
-  this._processTransaction(tr, () => {
-    // Remove order id from order in progress list, this enable back the button
+    // Add order id to order in progress list, this disable the Button
     this.setState((prevState) => {
-      return { orderCancelInProgressList: _.remove(prevState.orderCancelInProgressList) }
+      return { orderCancelInProgressList: _.concat(prevState.orderCancelInProgressList, orderId) }
     });
-  });
-}
-
-_processTransaction(tr, callback) {
-  // In this case, both public key and private key are hardcoded
-  const ii5PublicKeys = ['BTS76Ht7MbK6hDqGSdJvXnrmmUU2v9XfNZRJVaf6E4mAHUpCcfc8G'];
-  const ii5PrivateKeys = {
-    'BTS76Ht7MbK6hDqGSdJvXnrmmUU2v9XfNZRJVaf6E4mAHUpCcfc8G': PrivateKey.fromWif('5JxYc27FySQWqacFWogGqTjuV6mhVoceao5bZFTsJ3v9kTgK8Hj')
-  };
-
-  // Set required fees
-  tr.set_required_fees().then(() => {
-    // Get potential signatures
-    // Inside, it's trying to ask the blockchain based on the seller account id attached in the transaction
-    return tr.get_potential_signatures();
-  }).then(({ pubkeys }) => {
-    // Check if none of the potential public keys is equal to our public keys
-    const myPubKeys = _.intersection(pubkeys, ii5PublicKeys);
-    if (_.isEmpty(myPubKeys)) {
-      throw new Error('No Potential Signatures');
-    }
-    // Filter potential signatures to get required keys needed to sign the transaction
-    return tr.get_required_signatures(myPubKeys);
-  }).then((requiredPubKeys) => {
-    _.forEach(requiredPubKeys, (requiredPubKey) => {
-      // Get private key pair
-      const requiredPrivKey = ii5PrivateKeys[requiredPubKey];
-      // Add signature
-      tr.add_signer(requiredPrivKey, requiredPubKey);
+    // Process transaction
+    this._processTransaction(tr, () => {
+      // Remove order id from order in progress list, this enable back the button
+      this.setState((prevState) => {
+        return { orderCancelInProgressList: _.remove(prevState.orderCancelInProgressList) }
+      });
     });
-    // Broadcast transaction
-    return tr.broadcast()
-  }).then((res) => {
-    console.log('PROCESSING TRANSACTION SUCCESS', res);
-    callback(true);
-  }).catch((error) => {
-    console.error('PROCESSING TRANSACTION FAIL', error);
-    callback(false);
-  });
-}
+  }
+
+  _processTransaction(tr, callback) {
+    // In this case, both public key and private key are hardcoded
+    const ii5PublicKeys = ['BTS76Ht7MbK6hDqGSdJvXnrmmUU2v9XfNZRJVaf6E4mAHUpCcfc8G'];
+    const ii5PrivateKeys = {
+      'BTS76Ht7MbK6hDqGSdJvXnrmmUU2v9XfNZRJVaf6E4mAHUpCcfc8G': PrivateKey.fromWif('5JxYc27FySQWqacFWogGqTjuV6mhVoceao5bZFTsJ3v9kTgK8Hj')
+    };
+
+    // Set required fees
+    tr.set_required_fees().then(() => {
+      // Get potential signatures
+      // Inside, it's trying to ask the blockchain based on the seller account id attached in the transaction
+      return tr.get_potential_signatures();
+    }).then(({ pubkeys }) => {
+      // Check if none of the potential public keys is equal to our public keys
+      const myPubKeys = _.intersection(pubkeys, ii5PublicKeys);
+      if (_.isEmpty(myPubKeys)) {
+        throw new Error('No Potential Signatures');
+      }
+      // Filter potential signatures to get required keys needed to sign the transaction
+      return tr.get_required_signatures(myPubKeys);
+    }).then((requiredPubKeys) => {
+      _.forEach(requiredPubKeys, (requiredPubKey) => {
+        // Get private key pair
+        const requiredPrivKey = ii5PrivateKeys[requiredPubKey];
+        // Add signature
+        tr.add_signer(requiredPrivKey, requiredPubKey);
+      });
+      // Broadcast transaction
+      return tr.broadcast()
+    }).then((res) => {
+      console.log('PROCESSING TRANSACTION SUCCESS', res);
+      callback(true);
+    }).catch((error) => {
+      console.error('PROCESSING TRANSACTION FAIL', error);
+      callback(false);
+    });
+  }
 
   _calculateTotalMoneyOnUnmatchedBets(unmatchedBets) {
     let total = 0; // Total in satoshi
