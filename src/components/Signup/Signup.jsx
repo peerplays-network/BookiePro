@@ -50,7 +50,7 @@ class Signup extends Component {
   renderError() {
     // Render error message if any, just to help debugging for now
     // TODO: remove this when unneeded
-    if (this.props.error) {
+    if (this.props.error && this.props.error.message) {
       return (
         <h3 style={ {color: 'red'} }>
           { this.props.error.message.substr(0, 200) }
