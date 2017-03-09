@@ -17,7 +17,7 @@ const makeOrderBuyAsset = '1.3.121';
 class BlockchainTestAccount extends Component {
 
   static propTypes = {
-      account: ChainTypes.ChainAccount.isRequired,
+    account: ChainTypes.ChainAccount.isRequired,
   };
 
   static defaultProps = {

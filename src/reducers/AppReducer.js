@@ -1,14 +1,14 @@
 import { ActionTypes } from '../constants';
 
 const initialState = {
-  assetList: []
+  account: null
 };
 
 export default function (state = initialState, action) {
   switch(action.type) {
-    case ActionTypes.ASSET_RECEIVE_LIST: {
-      const assetList = action.assetList;
-      return Object.assign({}, state, { assetList });
+    case ActionTypes.APP_SET_ACCOUNT: {
+      const account = action.account;
+      return Object.assign({}, state, { account });
     }
     default:
       return state;

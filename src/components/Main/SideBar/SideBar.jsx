@@ -12,15 +12,15 @@ class SideBar extends Component {
       collapsed: true,
     };
 
-    this._onMouseOver = this._onMouseOver.bind(this);
-    this._onMouseOut = this._onMouseOut.bind(this);
+    this.onMouseOver = this.onMouseOver.bind(this);
+    this.onMouseOut = this.onMouseOut.bind(this);
   }
 
-  _onMouseOver() {
+  onMouseOver() {
     this.setState({ collapsed: false });
   }
 
-  _onMouseOut() {
+  onMouseOut() {
     this.setState({ collapsed: true });
   }
 
@@ -31,8 +31,8 @@ class SideBar extends Component {
         collapsible
         collapsed={ this.state.collapsed }
         trigger={ null }
-        onMouseOver={ this._onMouseOver }
-        onMouseOut={ this._onMouseOut }
+        onMouseOver={ this.onMouseOver }
+        onMouseOut={ this.onMouseOut }
         collapsedWidth={ 70 }    // TODO: can we read from css instead?
         width={ 250 }            // TODO: can we read from css instead?
       >

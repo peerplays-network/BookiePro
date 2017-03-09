@@ -27,18 +27,18 @@ class BlockchainTestPage extends Component {
   _getObject() {
     this.setState({ getObjectInProgress: true });
     // Demonstrate async way of getting object by transforming getObject with FetchChain
-      FetchChain('getObject', this.state.objectIdTextInputValue).then((object) => {
-        if (object === null) {
-          console.log('No such object');
-        } else {
-          console.log('Object ', this.state.objectIdTextInputValue + ':\n', object.toJS());
-        }
-      }).catch((error) => {
-        console.log('CAUGHT AN ERROR');
-        console.error(error);
-      }).then(() => {
-        this.setState({ getObjectInProgress: false });
-      })
+    FetchChain('getObject', this.state.objectIdTextInputValue).then((object) => {
+      if (object === null) {
+        console.log('No such object');
+      } else {
+        console.log('Object ', this.state.objectIdTextInputValue + ':\n', object.toJS());
+      }
+    }).catch((error) => {
+      console.log('CAUGHT AN ERROR');
+      console.error(error);
+    }).then(() => {
+      this.setState({ getObjectInProgress: false });
+    })
   }
 
   _getCurrentBlockchainData() {
