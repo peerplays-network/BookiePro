@@ -9,12 +9,9 @@ import InitError from './components/InitError';
 import Home from './components/Home';
 import MyAccount from './components/MyAccount';
 import MyWager from './components/MyWager';
-<<<<<<< HEAD
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Main from './components/Main';
-=======
->>>>>>> 249d71c01ad3084b9264fef92bef2fb07ef27907
 import Localize from './components/Localize';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
