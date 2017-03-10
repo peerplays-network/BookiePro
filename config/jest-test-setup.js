@@ -18,3 +18,12 @@ global.window.matchMedia = window.matchMedia || function() {
     removeListener: function() {}
   };
 };
+
+// Work around for https://github.com/WickyNilliams/enquire.js/issues/161
+global.matchMedia = window.matchMedia || function() {
+  return {
+    matches : false,
+    addListener : function() {},
+    removeListener: function() {}
+  };
+};
