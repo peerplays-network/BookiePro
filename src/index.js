@@ -12,6 +12,7 @@ import MyWager from './components/MyWager';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Main from './components/Main';
+import Localize from './components/Localize';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
 import localforage from 'localforage';
@@ -76,6 +77,7 @@ const routes = (
         <Route path='/home' component={ Home } />
         <Route path='/my-account' component={ MyAccount } />
         <Route path='/my-wager' component={ MyWager } />
+        <Route path='/localize' component={ Localize } />
       </Route>
     </Route>
 );
