@@ -4,7 +4,7 @@ import { Button } from 'antd';
 class InitError extends Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
-};
+  };
   constructor(props) {
     super(props);
 
@@ -27,8 +27,12 @@ class InitError extends Component {
     if (e) {
       e.preventDefault();
     }
-    
-    this.context.router.push('/');
+
+    if (window.electron) {
+      window.remote.getCurrentWindow().reload();
+    } else {
+      window.location.href = '/'
+    }
   }
 }
 
