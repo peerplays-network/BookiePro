@@ -1,9 +1,60 @@
 // App
 @app-bg: linear-gradient(#094B88, #00152A);
+@base-font-size: 14px;
+@input_error: #FF7788;
+
+// NavBar
+@nav-bar-amount-bg: #004B87;
+@nav-bar-bg: #004378;
+@nav-bar-divider: #061F33;
+@nav-bar-icon: #00BEF4;
+@nav-bar-height: 64px;
+
+// SideBar
+@side-bar-bg: #1563A0;
+@side-bar-divider: #061F33;
+@side-bar-icon: #FFFFFF;
+@side-bar-icon-seleced: #00BEF4;
+@side-bar-selected: #061F33;
+@side-bar-width: 70px;
+
+// Tabular Data
+@table-bg: #065CB7;
 
 // Media Queries
 @desktop:     ~"only screen and (max-width: 1366px)";
 @desktop-xl:  ~"only screen and (min-width: 1366px)";
+
+html {
+  height: 100%;
+  body {
+    height: 100%;
+    overflow: hidden;
+    // To offset the width of the SideBar
+    div#main-content {
+      padding:20px 20px 0 @side-bar-width + 20px;
+    }
+    #root{
+      height:100%;
+      &>div{
+        height:100%;
+      }
+    }
+    .ant-layout{
+      background: -webkit-linear-gradient(#094B88, #00152A);
+      background: linear-gradient(#094B88, #00152A);
+      height:100%;
+    }
+
+  }
+}
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: @base-font-size;
+  line-height: 1.42857143; //reference from bootstrap
+  color: #fff;
+}
+
 
 .float-left {
   float: left;
