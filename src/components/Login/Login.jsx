@@ -1,45 +1,23 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { NavigateActions } from '../../actions';
-import { Button } from 'antd';
-
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleSubmit() {
-    // Go to signup page
-    this.props.navigateTo('/signup');
-  }
-
-  renderSubmitButton() {
-    return (
-      <Button onClick={ this.handleSubmit } >
-        { 'Go to Signup' }
-      </Button>
-    );
-  }
-
-
+import React from 'react'
+import logo from '../../assets/images/login-logo.png';
+import { Form } from 'antd'
+import LoginForm from './Form.jsx'
+export default Form.create()(React.createClass({
   render() {
     return (
-      <div>
-        <div>
-          THIS IS LOGIN PAGE
+        <div className='ant-layout' id='main-content'>
+          <div className='loginComponent' >
+            <div className='wrapper'>
+                <div className='text-center'>
+                    <img src={ logo } alt=''/>
+                    <h2 className='login-welcome'> Welcome to Application </h2>
+                    <div className='center-ele'>
+                        <LoginForm></LoginForm>
+                    </div>
+                </div>
+            </div>
+          </div>
         </div>
-        { this.renderSubmitButton() }
-      </div>
     );
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    navigateTo: NavigateActions.navigateTo
-  }, dispatch);
-}
-
-export default connect(null, mapDispatchToProps)(Login);
+  },
+}));
