@@ -1,6 +1,6 @@
 import React from 'react'
 import logo from '../../assets/images/login-logo.png';
-import { Form, Input, Button, Checkbox, Icon } from 'antd'
+import { Form } from 'antd'
 import SignUpForm from './Form'
 export default Form.create()(React.createClass({
   render() {

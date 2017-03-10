@@ -20,8 +20,8 @@ let currentLanguage = 'ru-RU';
 
 //map state to properties if required
 const mapStateToProps = ( { /*getting data from the state*/ }, ownProps ) => ({
-    currentLanguage: currentLanguage,
-    dictionary: dictionaries[currentLanguage]
+  currentLanguage: currentLanguage,
+  dictionary: dictionaries[currentLanguage]
 });
 //keep the const as Loc if changed it breaks the functionality.
 export const Loc = connect( mapStateToProps )( LocPresentational )
