@@ -11,6 +11,7 @@ jest.mock('graphenejs-lib');
 describe('The main app', () => {
   let testApp;
 
+  // Currently this is the only way to render the component properly in a test
   beforeEach(() => {
     let history = createMemoryHistory()
     let location = history.createLocation('/')
