@@ -1,0 +1,14 @@
+exports[`TestListContainer renders correctly 1`] = `
+<div>
+  <div>
+    <input
+      onChange={[Function]}
+      value="" />
+    <button
+      onClick={[Function]}>
+      Add
+    </button>
+  </div>
+  <ul />
+</div>
+`;
