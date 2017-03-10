@@ -23,6 +23,7 @@
     "dotenv": "2.0.0",
     "electron": "^1.4.15",
     "electron-builder": "^14.4.0",
+    "enzyme": "^2.7.1",
     "eslint": "3.8.1",
     "eslint-config-react-app": "^0.5.1",
     "eslint-loader": "1.6.0",
@@ -39,6 +40,7 @@
     "html-webpack-plugin": "2.24.0",
     "http-proxy-middleware": "0.17.3",
     "jest": "18.1.0",
+    "jsdom": "^9.11.0",
     "json-loader": "0.5.4",
     "less": "^2.7.2",
     "less-loader": "^2.2.3",
@@ -47,6 +49,7 @@
     "promise": "7.1.1",
     "react-dev-utils": "^0.5.0",
     "react-scripts": "0.8.5",
+    "react-test-renderer": "^15.4.2",
     "recursive-readdir": "2.1.0",
     "strip-ansi": "3.0.1",
     "style-loader": "0.13.1",
@@ -84,7 +87,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build-electron.js",
     "electron": "electron ./src/electron-starter.js",
-    "test": "node scripts/test.js --env=jsdom",
+    "test": "jest",
+    "updateSnapshot": "jest --updateSnapshot",
     "clean": "rm -rf ./dist",
     "clean:osx": "rm -rf ./dist/osx",
     "clean:win": "rm -rf ./dist/win",
@@ -109,7 +113,8 @@
       "src/**/*.{js,jsx}"
     ],
     "setupFiles": [
-      "<rootDir>/config/polyfills.js"
+      "<rootDir>/config/polyfills.js",
+      "<rootDir>/config/jest-test-setup.js"
     ],
     "testPathIgnorePatterns": [
       "<rootDir>[/\\\\](build|docs|node_modules|scripts)[/\\\\]"
