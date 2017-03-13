@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Layout } from 'antd';
 import SideBar from './SideBar';
 import NavBar from './NavBar';
-import SyncError from '../SyncError';
-import { ChainStore } from 'graphenejs-lib';
 
 const { Content } = Layout;
 
