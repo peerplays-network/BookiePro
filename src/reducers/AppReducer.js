@@ -8,7 +8,6 @@ const initialState = {
 export default function (state = initialState, action) {
   switch(action.type) {
     case ActionTypes.APP_SET_ACCOUNT: {
-      console.log('set account', action.account)
       const account = action.account;
       return Object.assign({}, state, { account });
     }

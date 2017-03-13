@@ -1,5 +1,5 @@
 import AppActions from './AppActions';
-import { RegisterStatus, ActionTypes } from '../constants';
+import { LoadingStatus, ActionTypes } from '../constants';
 import { AccountService } from '../services';
 import { FetchChain } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
@@ -8,10 +8,10 @@ import NavigateActions from './NavigateActions';
  * Private actions
  */
 class RegisterPrivateActions {
-  static setRegisterStatusAction(status) {
+  static setLoadingStatusAction(loadingStatus) {
     return {
-      type: ActionTypes.REGISTER_SET_STATUS,
-      status
+      type: ActionTypes.REGISTER_SET_LOADING_STATUS,
+      loadingStatus
     }
   }
 
@@ -32,7 +32,7 @@ class RegisterActions {
 
     return (dispatch) => {
       // Set register status to loading
-      dispatch(RegisterPrivateActions.setRegisterStatusAction(RegisterStatus.LOADING));
+      dispatch(RegisterPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
       AccountService.registerThroughFaucet(1, accountName, password).then(() => {
         console.log('Register Success');
@@ -41,7 +41,7 @@ class RegisterActions {
       }).then((account) => {
         console.log('Get Account for Register Success', account);
         // Set register status to done
-        dispatch(RegisterPrivateActions.setRegisterStatusAction(RegisterStatus.DONE));
+        dispatch(RegisterPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
         // Set is logged in
         dispatch(AppActions.setIsLoggedInAction(true));
         // Save account information

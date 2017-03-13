@@ -1,8 +1,8 @@
-// Enumeration for Login Status
-class LoginStatus {
+// Enumeration for Loading Status
+class LoadingStatus {
   static DEFAULT = 'default';
   static LOADING = 'loading';
   static DONE = 'done';
 }
 
-export default LoginStatus;
+export default LoadingStatus;

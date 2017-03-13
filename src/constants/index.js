@@ -1,11 +1,9 @@
 import Config from './Config';
 import ActionTypes from './ActionTypes';
-import RegisterStatus from './RegisterStatus';
-import LoginStatus from './LoginStatus';
+import LoadingStatus from './LoadingStatus';
 
 export {
   Config,
   ActionTypes,
-  RegisterStatus,
-  LoginStatus
+  LoadingStatus
 }

@@ -1,5 +1,5 @@
 import AppActions from './AppActions';
-import { LoginStatus, ActionTypes } from '../constants';
+import { LoadingStatus, ActionTypes } from '../constants';
 import { AccountService } from '../services';
 import { FetchChain } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
@@ -8,10 +8,10 @@ import NavigateActions from './NavigateActions';
  * Private actions
  */
 class LoginPrivateActions {
-  static setLoginStatusAction(status) {
+  static setLoadingStatusAction(loadingStatus) {
     return {
-      type: ActionTypes.LOGIN_SET_STATUS,
-      status
+      type: ActionTypes.LOGIN_SET_LOADING_STATUS,
+      loadingStatus
     }
   }
 
@@ -31,14 +31,14 @@ class LoginActions {
   static login(accountName, password) {
     return (dispatch) => {
       // Set register status to loading
-      dispatch(LoginPrivateActions.setLoginStatusAction(LoginStatus.LOADING));
+      dispatch(LoginPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
       FetchChain('getAccount', accountName).then((account) => {
         console.log('Get Account for Login Success', account);
         const isAuthenticated = AccountService.authenticateAccount(accountName, password, account);
         if (isAuthenticated) {
           // Set login status to done
-          dispatch(LoginPrivateActions.setLoginStatusAction(LoginStatus.DONE));
+          dispatch(LoginPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
           // Set is logged in
           dispatch(AppActions.setIsLoggedInAction(true));
           // Save account information
