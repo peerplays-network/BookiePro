@@ -6,14 +6,14 @@ import NavigateActions from './NavigateActions';
 
 class RegisterActions {
 
-  static setRegisterStatus(status) {
+  static setRegisterStatusAction(status) {
     return {
       type: ActionTypes.REGISTER_SET_STATUS,
       status
     }
   }
 
-  static setRegisterError(error) {
+  static setRegisterErrorAction(error) {
     return {
       type: ActionTypes.REGISTER_SET_ERROR,
       error
@@ -24,7 +24,7 @@ class RegisterActions {
 
     return (dispatch) => {
       // Set register status to loading
-      dispatch(RegisterActions.setRegisterStatus(RegisterStatus.LOADING));
+      dispatch(RegisterActions.setRegisterStatusAction(RegisterStatus.LOADING));
 
       AccountService.registerThroughFaucet(1, accountName, password).then(() => {
         console.log('Register Success');
@@ -33,9 +33,9 @@ class RegisterActions {
       }).then((account) => {
         console.log('Get Account for Register Success', account);
         // Set register status to done
-        dispatch(RegisterActions.setRegisterStatus(RegisterStatus.DONE));
+        dispatch(RegisterActions.setRegisterStatusAction(RegisterStatus.DONE));
         // Set is logged in
-        dispatch(AppActions.setIsLoggedIn(true));
+        dispatch(AppActions.setIsLoggedInAction(true));
         // Save account information
         dispatch(AppActions.setAccount(account));
         // After some delay navigate to home page
@@ -43,7 +43,7 @@ class RegisterActions {
       }).catch((error) => {
         console.log('Register Error', error)
         // Set error
-        dispatch(RegisterActions.setRegisterError(error));
+        dispatch(RegisterActions.setRegisterErrorAction(error));
       })
     }
   }

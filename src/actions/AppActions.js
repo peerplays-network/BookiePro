@@ -4,13 +4,24 @@ import { ChainStore } from 'graphenejs-lib';
 let accountSubscriber;
 
 class AppActions {
-  static setIsLoggedIn(isLoggedIn) {
+  static setIsLoggedInAction(isLoggedIn) {
     return {
       type: ActionTypes.APP_SET_IS_LOGGED_IN,
       isLoggedIn
     }
   }
 
+  // Generate set account action
+  static setAccountAction(account) {
+    return {
+      type: ActionTypes.APP_SET_ACCOUNT,
+      account
+    }
+  }
+
+  /**
+   * Set the account and subscribe to it
+   */
   static setAccount(account) {
     return (dispatch, getState) => {
 
@@ -25,17 +36,14 @@ class AppActions {
           const previousAccount = getState().app.account;
           const updatedAccount = ChainStore.getAccount(accountId);
           // Dispatch updated account
-          if (!previousAccount || !previousAccount.equals(updatedAccount)) {
+          if (previousAccount && !previousAccount.equals(updatedAccount)) {
             dispatch(AppActions.setAccount(updatedAccount));
           }
         }
       };
       ChainStore.subscribe(accountSubscriber);
-
-      return {
-        type: ActionTypes.APP_SET_ACCOUNT,
-        account
-      }
+      // Set the account
+      dispatch(AppActions.setAccountAction(account));
     }
 
   }
