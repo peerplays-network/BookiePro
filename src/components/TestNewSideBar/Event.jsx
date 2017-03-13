@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import './Node.less';
+import './Event.less';
 
-
-class Node extends Component {
+//Event Objects (1.C.x)
+//Event objects represent sports games and they are created by Blockchain witnesses.
+//  we can directly store competitors data within an event.
+class Event extends Component {
 
   constructor(props) {
     super(props);
@@ -18,7 +20,7 @@ class Node extends Component {
 
   render() {
     return (
-      <div className='simple-node-container'
+      <div className='event-node-container'
         key={ this.props.key }
         onClick={ this.props.onClick  } >
         <label> { this.props.name } </label>
@@ -27,4 +29,4 @@ class Node extends Component {
   }
 }
 
-export default Node;
+export default Event;

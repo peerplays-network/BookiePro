@@ -53,5 +53,6 @@ export default function configureStore(initialState) {
   store.dispatch(loadTranslations(translationsObject));
   store.dispatch(setLocale('en'));
 
+
   return store;
 }
