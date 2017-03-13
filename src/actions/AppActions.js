@@ -1,21 +1,30 @@
 import { ActionTypes } from '../constants';
 import { ChainStore } from 'graphenejs-lib';
 
+// Account subscriber
 let accountSubscriber;
 
-class AppActions {
-  static setIsLoggedInAction(isLoggedIn) {
-    return {
-      type: ActionTypes.APP_SET_IS_LOGGED_IN,
-      isLoggedIn
-    }
-  }
-
+/**
+ * Private actions
+ */
+class AppPrivateActions {
   // Generate set account action
   static setAccountAction(account) {
     return {
       type: ActionTypes.APP_SET_ACCOUNT,
       account
+    }
+  }
+}
+
+/**
+ * Public actions
+ */
+class AppActions {
+  static setIsLoggedInAction(isLoggedIn) {
+    return {
+      type: ActionTypes.APP_SET_IS_LOGGED_IN,
+      isLoggedIn
     }
   }
 
@@ -43,9 +52,8 @@ class AppActions {
       };
       ChainStore.subscribe(accountSubscriber);
       // Set the account
-      dispatch(AppActions.setAccountAction(account));
+      dispatch(AppPrivateActions.setAccountAction(account));
     }
-
   }
 }
 

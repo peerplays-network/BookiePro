@@ -4,8 +4,10 @@ import { AccountService } from '../services';
 import { FetchChain } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
 
-class LoginActions {
-
+/**
+ * Private actions
+ */
+class LoginPrivateActions {
   static setLoginStatusAction(status) {
     return {
       type: ActionTypes.LOGIN_SET_STATUS,
@@ -19,19 +21,24 @@ class LoginActions {
       error
     }
   }
+}
+
+/**
+ * Public actions
+ */
+class LoginActions {
 
   static login(accountName, password) {
-
     return (dispatch) => {
       // Set register status to loading
-      dispatch(LoginActions.setLoginStatusAction(LoginStatus.LOADING));
+      dispatch(LoginPrivateActions.setLoginStatusAction(LoginStatus.LOADING));
 
       FetchChain('getAccount', accountName).then((account) => {
         console.log('Get Account for Login Success', account);
         const isAuthenticated = AccountService.authenticateAccount(accountName, password, account);
         if (isAuthenticated) {
           // Set login status to done
-          dispatch(LoginActions.setLoginStatusAction(LoginStatus.DONE));
+          dispatch(LoginPrivateActions.setLoginStatusAction(LoginStatus.DONE));
           // Set is logged in
           dispatch(AppActions.setIsLoggedInAction(true));
           // Save account information
@@ -44,7 +51,7 @@ class LoginActions {
       }).catch((error) => {
         console.log('Login Error', error)
         // Set error
-        dispatch(LoginActions.setLoginErrorAction(error));
+        dispatch(LoginPrivateActions.setLoginErrorAction(error));
       })
     }
   }

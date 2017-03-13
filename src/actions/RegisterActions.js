@@ -4,8 +4,10 @@ import { AccountService } from '../services';
 import { FetchChain } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
 
-class RegisterActions {
-
+/**
+ * Private actions
+ */
+class RegisterPrivateActions {
   static setRegisterStatusAction(status) {
     return {
       type: ActionTypes.REGISTER_SET_STATUS,
@@ -19,12 +21,18 @@ class RegisterActions {
       error
     }
   }
+}
+
+/**
+ * Public actions
+ */
+class RegisterActions {
 
   static signup(accountName, password) {
 
     return (dispatch) => {
       // Set register status to loading
-      dispatch(RegisterActions.setRegisterStatusAction(RegisterStatus.LOADING));
+      dispatch(RegisterPrivateActions.setRegisterStatusAction(RegisterStatus.LOADING));
 
       AccountService.registerThroughFaucet(1, accountName, password).then(() => {
         console.log('Register Success');
@@ -33,7 +41,7 @@ class RegisterActions {
       }).then((account) => {
         console.log('Get Account for Register Success', account);
         // Set register status to done
-        dispatch(RegisterActions.setRegisterStatusAction(RegisterStatus.DONE));
+        dispatch(RegisterPrivateActions.setRegisterStatusAction(RegisterStatus.DONE));
         // Set is logged in
         dispatch(AppActions.setIsLoggedInAction(true));
         // Save account information
@@ -43,7 +51,7 @@ class RegisterActions {
       }).catch((error) => {
         console.log('Register Error', error)
         // Set error
-        dispatch(RegisterActions.setRegisterErrorAction(error));
+        dispatch(RegisterPrivateActions.setRegisterErrorAction(error));
       })
     }
   }
