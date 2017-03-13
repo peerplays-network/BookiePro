@@ -111,6 +111,8 @@ class MyAccount extends Component {
     componentDidMount() {
       this.fetchRecentTransactionHistory();
       ps.initialize(this.refs.global);
+
+      ps.update(this.refs.global);
     }
 
 

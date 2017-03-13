@@ -178,8 +178,6 @@ class BetSlip extends Component {
         "Node": Node
     }
     return (
-      <div  style={ { width: '200px', 'height': '100%' } }>
-        {/* <SplitPane split='vertical' minSize={ 150 } maxSize={ 300 } defaultSize={ 200 }> */}
           <InfinityMenu
               tree={ this.state.tree }
               onNodeMouseClick={ this.onNodeMouseClick.bind(this) }
@@ -193,8 +191,6 @@ class BetSlip extends Component {
               }
           />
 
-          {/* </SplitPane> */}
-      </div>
     );
   }
 }
