@@ -40,12 +40,12 @@ export default function configureStore(initialState) {
     enhancer,
   );
 
-  // persistStore(store, {
-  //   storage: localforage,
-  //   whitelist: ['setting'] // Only setting wants to be persisted
-  // }, () => {
-  //   console.log('autoRehydrate completed');
-  // });
+  persistStore(store, {
+    storage: localforage,
+    whitelist: ['setting'] // Only setting wants to be persisted
+  }, () => {
+    console.log('autoRehydrate completed');
+  });
 
   return store;
 }
