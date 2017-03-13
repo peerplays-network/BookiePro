@@ -29,7 +29,11 @@ class SyncError extends Component {
       e.preventDefault();
     }
 
-    this.context.router.push('/home');
+    if (window.electron) {
+      window.remote.getCurrentWindow().reload();
+    } else {
+      window.location.href = '/'
+    }
   }
 }
 

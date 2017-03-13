@@ -20,6 +20,9 @@ import { Apis, ChainConfig } from 'graphenejs-ws';
 import { Config } from './constants';
 
 
+const store = configureStore();
+const history = syncHistoryWithStore(hashHistory, store);
+
 // On enter handler
 const onEnter = (nextState, replace, callback) => {
 
@@ -27,24 +30,14 @@ const onEnter = (nextState, replace, callback) => {
 
   // Reset connection if we are going to init-error page
   if (nextState.location.pathname === "/init-error") {
-    return Apis.reset(connectionString, true).init_promise
-    .then(() => {
+    return Apis.reset(connectionString, true).init_promise.then(() => {
+      console.log('Reset connection to  blockchain success');
       return callback();
     }).catch((error) => {
       console.error('Fail to reset connection to blockchain', error);
       return callback();
     });
   }
-
-  // Localforage Indexeddb setting ( for redux-persist)
-  localforage.config({
-    driver      : localforage.INDEXEDDB, // Force WebSQL; same as using setDriver()
-    name        : 'bookie',
-    version     : 1.0,
-    // storeName   : 'store_name', // Should be alphanumeric, with underscores.
-    description : 'desc'
-  });
-  localforage.setDriver(localforage.INDEXEDDB);
 
   // Connecting to blockchain
   // Mark connecting to blockchain
@@ -82,8 +75,7 @@ const routes = (
     </Route>
 );
 
-const store = configureStore();
-const history = syncHistoryWithStore(hashHistory, store);
+
 
 ReactDOM.render(
   <Provider store={ store }>
