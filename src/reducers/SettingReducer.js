@@ -1,4 +1,4 @@
-import * as types from '../constants/ActionTypes';
+import { ActionTypes } from '../constants';
 
 const initialState = {
   lang: "en-us",
@@ -10,23 +10,23 @@ const initialState = {
 export default function (state = initialState, action) {
   switch(action.type) {
 
-    case types.UPDATE_SETTING_LANG:
+    case ActionTypes.SETTING_UPDATE_LANG:
       return Object.assign({}, state, {
         lang: action.lang,
       });
 
-    case types.UPDATE_SETTING_TIMEZONE:
+    case ActionTypes.SETTING_UPDATE_TIMEZONE:
       return Object.assign({}, state, {
         timezone: action.timezone,
       });
 
-    case types.UPDATE_SETTING_NOTIFICATION:
+    case ActionTypes.SETTING_UPDATE_NOTIFICATION:
       // return action.notification;
       return Object.assign({}, state, {
         notification: action.notification,
       });
 
-    case types.UPDATE_SETTING_CURRENCY_FORMAT:
+    case ActionTypes.SETTING_UPDATE_CURRENCY_FORMAT:
       return Object.assign({}, state, {
         currencyFormat: action.currencyFormat,
       });

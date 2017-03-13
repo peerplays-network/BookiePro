@@ -3,28 +3,28 @@ import ActionTypes from '../constants/ActionTypes';
 //import { remote } from 'electron'
 export function updateSettingLang (lang) {
   return {
-    type: ActionTypes.UPDATE_SETTING_LANG,
+    type: ActionTypes.SETTING_UPDATE_LANG,
     lang: lang
   }
 }
 
 export function updateSettingTimeZone (timezone) {
   return {
-    type: ActionTypes.UPDATE_SETTING_TIMEZONE,
+    type: ActionTypes.SETTING_UPDATE_TIMEZONE,
     timezone: timezone
   }
 }
 
 export function updateSettingNotification (payload) {
   return {
-    type: ActionTypes.UPDATE_SETTING_NOTIFICATION,
+    type: ActionTypes.SETTING_UPDATE_NOTIFICATION,
     notification: payload
   }
 }
 
 export function updateCurrencyFormat (currencyFormat) {
   return {
-    type: ActionTypes.UPDATE_SETTING_CURRENCY_FORMAT,
+    type: ActionTypes.SETTING_UPDATE_CURRENCY_FORMAT,
     currencyFormat: currencyFormat
   }
 }
