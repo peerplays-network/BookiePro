@@ -1,6 +1,7 @@
 import AssetActions from './AssetActions';
 import SettingActions from './SettingActions';
 import RegisterActions from './RegisterActions';
+import LoginActions from './LoginActions';
 import AppActions from './AppActions';
 import NavigateActions from './NavigateActions';
 
@@ -10,5 +11,6 @@ export {
   SettingActions,
   AppActions,
   RegisterActions,
+  LoginActions,
   NavigateActions
 }

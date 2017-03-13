@@ -1,11 +1,13 @@
 import { Config } from '../constants';
+import KeyGeneratorService from './KeyGeneratorService';
 
 class AccountServices {
 
   /**
    * Ask the faucet to create account for us
    */
-  static registerThroughFaucet(attempt, accountName, keys) {
+  static registerThroughFaucet(attempt, accountName, password) {
+    const keys = KeyGeneratorService.generateKeys(accountName, password);
     const ownerPublicKey = keys.owner.toPublicKey().toPublicKeyString();
     const activePublicKey = keys.active.toPublicKey().toPublicKeyString();
     const memoPublicKey = keys.memo.toPublicKey().toPublicKeyString();
@@ -27,8 +29,13 @@ class AccountServices {
         body: JSON.stringify({
           'account': {
             'name': accountName,
-            'owner_key': ownerPublicKey,
-            'active_key': activePublicKey,
+             //NOTE: there is sth strange in the faucet api here where owner_key is assigned to account.active.key_auths
+             //NOTE: and active_key is assigned to account.owner.key_auths for the resulting created account,
+             //NOTE: that's why owner_key is assigned with activePublicKey here and active_key is assigned with ownerPublicKey here
+             //NOTE: this is also the current implementation in peerplays-redux-ui
+             //TODO: change to the right place if the faucet api is changed
+            'owner_key': activePublicKey,
+            'active_key': ownerPublicKey,
             'memo_key': memoPublicKey,
             'refcode': '',
             'referrer': ''
@@ -57,6 +64,31 @@ class AccountServices {
         }
       })
     })
+  }
+
+ /**
+  * Check if the given accountName and password is correct
+  * accountName
+  * password
+  * account - account object from blockchain
+  */
+  static authenticateAccount(accountName, password, account) {
+    const keys = KeyGeneratorService.generateKeys(accountName, password);
+    const activePublicKey = keys.active.toPublicKey().toPublicKeyString();
+
+    let isAuthenticated = false;
+    if (account) {
+      // Check the similarity of active key with the generated active key
+      const activeKeyAuths = account.getIn(['active', 'key_auths']);
+      if (activeKeyAuths) {
+        activeKeyAuths.forEach(function (keyArr) {
+          if (keyArr.first() && keyArr.first() === activePublicKey) {
+            isAuthenticated = true;
+          }
+        });
+      }
+    }
+    return isAuthenticated;
   }
 }
 
