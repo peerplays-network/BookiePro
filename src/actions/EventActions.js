@@ -12,9 +12,9 @@ class EventPrivateActions {
     }
   }
 
-  static setLoadingStatus(loadingStatus) {
+  static setGetEventsLoadingStatus(loadingStatus) {
     return {
-      type: ActionTypes.EVENT_SET_LOADING_STATUS,
+      type: ActionTypes.EVENT_SET_GET_EVENTS_LOADING_STATUS,
       loadingStatus
     }
   }
@@ -26,11 +26,11 @@ class EventPrivateActions {
 class EventActions {
   static getEvents(sportId) {
     return (dispatch) => {
-      dispatch(EventPrivateActions.setLoadingStatus(LoadingStatus.LOADING));
+      dispatch(EventPrivateActions.setGetEventsLoadingStatus(LoadingStatus.LOADING));
 
       // TODO: Replace with actual blockchain call
       FakeApi.getEvents(sportId).then((events) => {
-        dispatch(EventPrivateActions.setLoadingStatus(LoadingStatus.DONE));
+        dispatch(EventPrivateActions.setGetEventsLoadingStatus(LoadingStatus.DONE));
         dispatch(EventPrivateActions.addEvents(events));
       });
 

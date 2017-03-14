@@ -3,15 +3,15 @@ import { LoadingStatus } from '../constants';
 import _ from 'lodash';
 
 let initialState = {
-  loadingStatus: LoadingStatus.DEFAULT,
+  getCompetitorsLoadingStatus: LoadingStatus.DEFAULT,
   competitors: []
 };
 
 export default function (state = initialState, action) {
   switch(action.type) {
-    case ActionTypes.COMPETITOR_SET_LOADING_STATUS: {
+    case ActionTypes.COMPETITOR_SET_GET_COMPETITORS_LOADING_STATUS: {
       return Object.assign({}, state, {
-        loadingStatus: action.loadingStatus
+        getCompetitorsLoadingStatus: action.loadingStatus
       });
     }
     case ActionTypes.COMPETITOR_ADD_COMPETITORS: {

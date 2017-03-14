@@ -12,9 +12,9 @@ class CompetitorPrivateActions {
     }
   }
 
-  static setLoadingStatus(loadingStatus) {
+  static setGetCompetitorsLoadingStatus(loadingStatus) {
     return {
-      type: ActionTypes.COMPETITOR_SET_LOADING_STATUS,
+      type: ActionTypes.COMPETITOR_SET_GET_COMPETITORS_LOADING_STATUS,
       loadingStatus
     }
   }
@@ -26,11 +26,11 @@ class CompetitorPrivateActions {
 class CompetitorActions {
   static getCompetitors(sportId) {
     return (dispatch) => {
-      dispatch(CompetitorPrivateActions.setLoadingStatus(LoadingStatus.LOADING));
+      dispatch(CompetitorPrivateActions.setGetCompetitorsLoadingStatus(LoadingStatus.LOADING));
 
       // TODO: Replace with actual blockchain call
       FakeApi.getCompetitors(sportId).then((competitors) => {
-        dispatch(CompetitorPrivateActions.setLoadingStatus(LoadingStatus.DONE));
+        dispatch(CompetitorPrivateActions.setGetCompetitorsLoadingStatus(LoadingStatus.DONE));
         dispatch(CompetitorPrivateActions.addCompetitors(competitors));
       });
 

@@ -12,9 +12,9 @@ class EventGroupPrivateActions {
     }
   }
 
-  static setLoadingStatus(loadingStatus) {
+  static setGetEventGroupsLoadingStatus(loadingStatus) {
     return {
-      type: ActionTypes.EVENT_GROUP_SET_LOADING_STATUS,
+      type: ActionTypes.EVENT_GROUP_SET_GET_EVENT_GROUPS_LOADING_STATUS,
       loadingStatus
     }
   }
@@ -26,11 +26,11 @@ class EventGroupPrivateActions {
 class EventGroupActions {
   static getEventGroups(sportId) {
     return (dispatch) => {
-      dispatch(EventGroupPrivateActions.setLoadingStatus(LoadingStatus.LOADING));
+      dispatch(EventGroupPrivateActions.setGetEventGroupsLoadingStatus(LoadingStatus.LOADING));
 
       // TODO: Replace with actual blockchain call
       FakeApi.getEventGroups(sportId).then((eventGroups) => {
-        dispatch(EventGroupPrivateActions.setLoadingStatus(LoadingStatus.DONE));
+        dispatch(EventGroupPrivateActions.setGetEventGroupsLoadingStatus(LoadingStatus.DONE));
         dispatch(EventGroupPrivateActions.addEventGroups(eventGroups));
       });
 

@@ -3,15 +3,15 @@ import { LoadingStatus } from '../constants';
 import _ from 'lodash';
 
 let initialState = {
-  loadingStatus: LoadingStatus.DEFAULT,
+  getEventsLoadingStatus: LoadingStatus.DEFAULT,
   events: []
 };
 
 export default function (state = initialState, action) {
   switch(action.type) {
-    case ActionTypes.EVENT_SET_LOADING_STATUS: {
+    case ActionTypes.EVENT_SET_GET_EVENTS_LOADING_STATUS: {
       return Object.assign({}, state, {
-        loadingStatus: action.loadingStatus
+        getEventsLoadingStatus: action.loadingStatus
       });
     }
     case ActionTypes.EVENT_ADD_EVENTS: {

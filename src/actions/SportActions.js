@@ -12,9 +12,9 @@ class SportPrivateActions {
     }
   }
 
-  static setLoadingStatus(loadingStatus) {
+  static setGetSportsLoadingStatus(loadingStatus) {
     return {
-      type: ActionTypes.SPORT_SET_LOADING_STATUS,
+      type: ActionTypes.SPORT_SET_GET_SPORTS_LOADING_STATUS,
       loadingStatus
     }
   }
@@ -26,11 +26,11 @@ class SportPrivateActions {
 class SportActions {
   static getSportList() {
     return (dispatch) => {
-      dispatch(SportPrivateActions.setLoadingStatus(LoadingStatus.LOADING));
+      dispatch(SportPrivateActions.setGetSportsLoadingStatus(LoadingStatus.LOADING));
 
       // TODO: Replace with actual blockchain call
       FakeApi.getSports().then((sports) => {
-        dispatch(SportPrivateActions.setLoadingStatus(LoadingStatus.DONE));
+        dispatch(SportPrivateActions.setGetSportsLoadingStatus(LoadingStatus.DONE));
         dispatch(SportPrivateActions.addSports(sports));
       });
 
