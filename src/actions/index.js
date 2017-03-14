@@ -3,6 +3,7 @@ import SettingActions from './SettingActions';
 import RegisterActions from './RegisterActions';
 import LoginActions from './LoginActions';
 import AppActions from './AppActions';
+import SportActions from './SportActions';
 import NavigateActions from './NavigateActions';
 
 // Combine all the actions here for import shortcut
@@ -12,5 +13,6 @@ export {
   AppActions,
   RegisterActions,
   LoginActions,
+  SportActions,
   NavigateActions
 }
