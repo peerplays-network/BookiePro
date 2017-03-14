@@ -19,10 +19,10 @@ class MyWager extends Component {
   render() {
     return (
       <div className='my-wager'>
-        <div className='title'>
+        <div className='page-title'>
           My Wager
         </div>
-        <Tabs className='content' defaultActiveKey='unmatchedBets' onChange={ this.onTabChange }>
+        <Tabs className='content bookie-tab' defaultActiveKey='unmatchedBets' onChange={ this.onTabChange }>
           <TabPane tab='UNMATCHED BETS' key='unmatchedBets'>
             <UnmatchedBets />
           </TabPane>
