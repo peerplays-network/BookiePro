@@ -1,56 +1,41 @@
 import React, { Component } from 'react';
-import { ChainTypes, BindToChainState } from '../../utility';
-import { connect } from 'react-redux';
 import { Tabs } from 'antd';
 import UnmatchedBets from './UnmatchedBets';
-import './MyWager.less';
+import MatchedBets from './UnmatchedBets';
+import ResolvedBets from './ResolvedBets';
 
 const TabPane = Tabs.TabPane;
 
 class MyWager extends Component {
-  static propTypes = {
-      account: ChainTypes.ChainAccount.isRequired,
-      accountName: React.PropTypes.string,
-  };
-
-  static defaultProps = {
-      account: 'props.accountName',
-  };
-
   constructor(props) {
     super(props);
-    this._onTabChange = this._onTabChange.bind(this);
+    this.onTabChange = this.onTabChange.bind(this);
   }
 
-  _onTabChange(key) {
-    console.log(key);
+  onTabChange(key) {
+    console.log('Go to Tab ', key);
   }
 
   render() {
-    const allOpenOrders =  this.props.account.get('orders') ? this.props.account.get('orders').toJS() : [];
     return (
       <div className='my-wager'>
         <div className='title'>
           My Wager
         </div>
-        <Tabs className='content' defaultActiveKey='unmatchedBets' onChange={ this._onTabChange }>
+        <Tabs className='content' defaultActiveKey='unmatchedBets' onChange={ this.onTabChange }>
           <TabPane tab='UNMATCHED BETS' key='unmatchedBets'>
-            <UnmatchedBets allOpenOrders={ allOpenOrders } />
+            <UnmatchedBets />
           </TabPane>
-          <TabPane tab='MATCHED BETS' key='matchedBets'>Content of Tab Pane 2</TabPane>
-          <TabPane tab='RESOLVED BETS' key='resolvedBets'>Content of Tab Pane 3</TabPane>
+          <TabPane tab='MATCHED BETS' key='matchedBets'>
+            <MatchedBets />
+          </TabPane>
+          <TabPane tab='RESOLVED BETS' key='resolvedBets'>
+            <ResolvedBets />
+          </TabPane>
         </Tabs>
       </div>
     );
   }
 }
 
-const BindedMyWager = BindToChainState()(MyWager);
-
-const mapStateToProps = (state) => {
-  //Mock implementation
-  return {
-    accountName: 'ii-5'
-  }
-}
-export default connect(mapStateToProps)(BindedMyWager);
+export default MyWager;

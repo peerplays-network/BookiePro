@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-class UnmatchedBets extends Component {
+class MatchedBets extends Component {
   render() {
     return (
       <div>
-        {'This is unmatched bets'}
+        {'This is matched bets'}
       </div>
     )
   }
 }
 
-export default UnmatchedBets;
+export default MatchedBets;
