@@ -2,11 +2,7 @@ import { ActionTypes } from '../constants';
 import { LoadingStatus } from '../constants';
 
 let initialState = {
-<<<<<<< 860a029c0e5f50431908537dabf2389521b436b2
   loadingStatus: LoadingStatus.DEFAULT,
-=======
-  status: LoadingStatus.DEFAULT,
->>>>>>> combine login status and register status
   error: null
 };
 
