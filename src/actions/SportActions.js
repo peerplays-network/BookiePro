@@ -1,4 +1,4 @@
-import SportListDummyData from '../dummyData/SportList';
+import FakeApi from '../dummyData/FakeApi';
 import { LoadingStatus, ActionTypes } from '../constants';
 
 /**
@@ -22,7 +22,7 @@ class SportPrivateActions {
 }
 
 /**
- * Private actions
+ * Public actions
  */
 class SportActions {
   // Generate set account action
@@ -32,11 +32,11 @@ class SportActions {
       dispatch(SportPrivateActions.setLoadingStatus(LoadingStatus.LOADING));
 
       // TODO: Replace with actual blockchain call
-      setTimeout(() => {
+      FakeApi.getSportList().then((sportList) => {
         dispatch(SportPrivateActions.setLoadingStatus(LoadingStatus.DONE));
         // Set sport list
-        dispatch(SportPrivateActions.setSportList(SportListDummyData));
-      }, 500);
+        dispatch(SportPrivateActions.setSportList(sportList));
+      });
 
     };
   }

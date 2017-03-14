@@ -1,4 +1,4 @@
-export default [
+const SportList = [
   {
     "id": "1.100.1",
     "event_group_ids": [
@@ -36,3 +36,5 @@ export default [
     "name": "Soccer"
   }
 ];
+
+export default SportList;
