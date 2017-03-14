@@ -1,5 +1,6 @@
 import { ActionTypes } from '../constants';
 import { LoadingStatus } from '../constants';
+import _ from 'lodash';
 
 let initialState = {
   loadingStatus: LoadingStatus.DEFAULT,
@@ -13,9 +14,9 @@ export default function (state = initialState, action) {
         loadingStatus: action.loadingStatus
       });
     }
-    case ActionTypes.EVENT_GROUP_SET_EVENT_GROUPS: {
+    case ActionTypes.EVENT_GROUP_ADD_EVENT_GROUPS: {
       return Object.assign({}, state, {
-        eventGroups: action.eventGroups
+        eventGroups: _.unionBy(action.eventGroups, state.eventGroups, 'id')
       });
     }
     default:

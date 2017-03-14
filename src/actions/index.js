@@ -5,6 +5,8 @@ import LoginActions from './LoginActions';
 import AppActions from './AppActions';
 import SportActions from './SportActions';
 import EventGroupActions from './EventGroupActions';
+import CompetitorActions from './CompetitorActions';
+import EventActions from './EventActions';
 import NavigateActions from './NavigateActions';
 
 // Combine all the actions here for import shortcut
@@ -16,5 +18,7 @@ export {
   LoginActions,
   SportActions,
   EventGroupActions,
+  CompetitorActions,
+  EventActions,
   NavigateActions
 }

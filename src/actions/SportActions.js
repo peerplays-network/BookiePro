@@ -5,11 +5,10 @@ import { LoadingStatus, ActionTypes } from '../constants';
  * Private actions
  */
 class SportPrivateActions {
-  // Generate set account action
-  static setSportList(sportList) {
+  static addSports(sports) {
     return {
-      type: ActionTypes.SPORT_SET_SPORT_LIST,
-      sportList
+      type: ActionTypes.SPORT_ADD_SPORTS,
+      sports
     }
   }
 
@@ -25,17 +24,14 @@ class SportPrivateActions {
  * Public actions
  */
 class SportActions {
-  // Generate set account action
   static getSportList() {
     return (dispatch) => {
-      // Simulate getting sport
       dispatch(SportPrivateActions.setLoadingStatus(LoadingStatus.LOADING));
 
       // TODO: Replace with actual blockchain call
-      FakeApi.getSportList().then((sportList) => {
+      FakeApi.getSports().then((sports) => {
         dispatch(SportPrivateActions.setLoadingStatus(LoadingStatus.DONE));
-        // Set sport list
-        dispatch(SportPrivateActions.setSportList(sportList));
+        dispatch(SportPrivateActions.addSports(sports));
       });
 
     };

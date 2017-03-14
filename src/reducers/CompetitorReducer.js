@@ -4,19 +4,19 @@ import _ from 'lodash';
 
 let initialState = {
   loadingStatus: LoadingStatus.DEFAULT,
-  sports: []
+  competitors: []
 };
 
 export default function (state = initialState, action) {
   switch(action.type) {
-    case ActionTypes.SPORT_SET_LOADING_STATUS: {
+    case ActionTypes.COMPETITOR_SET_LOADING_STATUS: {
       return Object.assign({}, state, {
         loadingStatus: action.loadingStatus
       });
     }
-    case ActionTypes.SPORT_ADD_SPORTS: {
+    case ActionTypes.COMPETITOR_ADD_COMPETITORS: {
       return Object.assign({}, state, {
-        sports: _.unionBy(action.sports, state.sports, 'id')
+        competitors: _.unionBy(action.competitors, state.competitors, 'id')
       });
     }
     default:

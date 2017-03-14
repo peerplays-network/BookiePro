@@ -6,6 +6,8 @@ import RegisterReducer from './RegisterReducer';
 import LoginReducer from './LoginReducer';
 import SportReducer from './SportReducer';
 import EventGroupReducer from './EventGroupReducer';
+import CompetitorReducer from './CompetitorReducer';
+import EventReducer from './EventReducer';
 import { routerReducer } from 'react-router-redux';
 import { i18nReducer } from 'redux-react-i18n'
 import { reducer as formReducer } from 'redux-form'
@@ -16,8 +18,10 @@ const rootReducer = combineReducers({
   setting: SettingReducer,
   register: RegisterReducer,
   login: LoginReducer,
-  eventGroup: EventGroupReducer,
   sport: SportReducer,
+  eventGroup: EventGroupReducer,
+  event: EventReducer,
+  competitor: CompetitorReducer,
   routing: routerReducer,
   form: formReducer,
   i18n: i18nReducer
