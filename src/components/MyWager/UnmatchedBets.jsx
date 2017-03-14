@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import {  Icon,Table,DatePicker } from 'antd';
+import {  Icon,Table } from 'antd';
 import './MyWager.less';
-import { Select } from 'antd';
-const Option = Select.Option;
 const dataSource = [
     {
         key: '1',
@@ -77,12 +75,12 @@ const columns = [
         key: 'odds',
     },
     {
-        title: 'Stake(Ƀ)',
+        title: 'Stake()',
         dataIndex: 'stake',
         key: 'stake',
     },
     {
-        title: 'Profit / Liability(Ƀ)',
+        title: 'Profit / Liability()',
         dataIndex: 'profit',
         key: 'profit',
     },
@@ -123,50 +121,9 @@ class UnmatchedBets extends Component {
                   <p className='font18 padding-tb-5'>TOTAL: Ƀ20.71</p>
                 </div>
                 <div className='float-right'>
-                    {/*<a className='display-block
-                     padding-10 icon-bg' href=''>*/}
-                    {/*<Icon type='delete'></Icon>*/}
-                    {/*</a>*/}
-                  <div className='filter'>
-
-                    <div className='ant-form-inline'>
-                      <div className='ant-form-item'>
-                        <label> Period</label>
-                        <Select className='bookie-select' defaultValue='default' style={ {width: 150} } >
-                          <Option value='default'> Last 14 days</Option>
-                          <Option value='jack'>Jack</Option>
-                          <Option value='lucy'>Lucy</Option>
-                          <Option value='Yiminghe'>yiminghe</Option>
-                        </Select>
-                      </div>
-                      <div className='ant-form-item'>
-                        <label> Date</label>
-                        <DatePicker
-                            disabledDate={ this.disabledStartDate }
-                            showTime
-                            format='YYYY-MM-DD HH:mm:ss'
-                            value={ startValue }
-                            placeholder='Start'
-                        />
-                        <span className='margin-lr-10 font16'>
-                              -
-                        </span>
-                        <DatePicker
-                            disabledDate={ this.disabledEndDate }
-                            showTime
-                            format='YYYY-MM-DD HH:mm:ss'
-                            value={ endValue }
-                            placeholder='End'
-                        />
-                      </div>
-                      <div className='ant-form-item'>
-                        <a className='export-icon' href=''>
-                          <Icon type='file'></Icon>
-                        </a>
-                      </div>
-                    </div>
-
-                  </div>
+                    <a className='export-icon' href=''>
+                        <Icon type='delete'></Icon>
+                    </a>
                 </div>
                 <div className='right-left'></div>
               </div>

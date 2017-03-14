@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Tabs } from 'antd';
 import UnmatchedBets from './UnmatchedBets';
-import MatchedBets from './UnmatchedBets';
+import MatchedBets from './MatchedBets';
 import ResolvedBets from './ResolvedBets';
 
 const TabPane = Tabs.TabPane;
