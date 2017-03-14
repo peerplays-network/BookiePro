@@ -48,6 +48,21 @@ class FakeApi {
     });
   }
 
+  static searchEvents(keyword) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = _.filter(events, (item) => {
+          const team1Name = item.name.split(' vs ')[0];
+          const team2Name = item.name.split(' vs ')[1];
+          const team1FirstName = team1Name.split(' ')[0];
+          const team2FirstName = team2Name.split(' ')[0];
+          return team1FirstName.startsWith(keyword) || team2FirstName.startsWith(keyword);
+        });
+        resolve(filteredResult);
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
 }
 
 export default FakeApi

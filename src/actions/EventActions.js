@@ -18,6 +18,20 @@ class EventPrivateActions {
       loadingStatus
     }
   }
+
+  static setSearchEventsLoadingStatus(loadingStatus) {
+    return {
+      type: ActionTypes.EVENT_SET_SEARCH_EVENTS_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
+  static setSearchResult(searchResult) {
+    return {
+      type: ActionTypes.EVENT_SET_SEARCH_RESULT,
+      searchResult
+    }
+  }
 }
 
 /**
@@ -35,6 +49,24 @@ class EventActions {
       });
 
     };
+  }
+
+  static searchEvents(keyword) {
+    return (dispatch) => {
+      dispatch(EventPrivateActions.setSearchEventsLoadingStatus(LoadingStatus.LOADING));
+
+      // TODO: Replace with actual blockchain call
+      FakeApi.searchEvents(keyword).then((result) => {
+        dispatch(EventPrivateActions.setSearchEventsLoadingStatus(LoadingStatus.DONE));
+        dispatch(EventPrivateActions.setSearchResult(result));
+      });
+    }
+  }
+
+  static clearSearchResult() {
+    return (dispatch) => {
+      dispatch(EventPrivateActions.setSearchResult([]));
+    }
   }
 }
 
