@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+import { Router, Route, IndexRedirect, hashHistory } from 'react-router';
 import App from './components/App';
 import BlockchainTestPage from './components/BlockchainTestPage';
 import EmptyPage from './components/EmptyPage';
@@ -59,7 +59,7 @@ const onEnter = (nextState, replace, callback) => {
 // Add new page here
 const routes = (
   <Route path='/' component={ App } onEnter={ onEnter } >
-      <IndexRoute component={ Login }  />
+      <IndexRedirect to='/login' />
       <Route path='/login' component={ Login } />
       <Route path='/signup' component={ Signup } />
       <Route path='/init-error' component={ InitError } />
