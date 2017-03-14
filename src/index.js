@@ -15,7 +15,6 @@ import Main from './components/Main';
 import Localize from './components/Localize';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
-import localforage from 'localforage';
 import { Apis, ChainConfig } from 'graphenejs-ws';
 import { Config } from './constants';
 

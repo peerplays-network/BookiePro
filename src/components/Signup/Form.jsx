@@ -2,7 +2,7 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { Button } from 'antd'
 const SignUpForm = (props) => {
-  const { handleSubmit, pristine, submitting } = props
+  const { handleSubmit, pristine, submitting, onClickLogin } = props
   return (
     <form onSubmit={ handleSubmit }>
       <div className='form-fields'>
@@ -38,7 +38,7 @@ const SignUpForm = (props) => {
         <button className='btn btn-regular grid-100 margin-top-25' type='submit' disabled={ pristine || submitting }>Create Account</button>
       </div>
       <div className='form-fields'>
-        <p className='font16'> Already have an account? <a className='underline blue-text' href='/login'> Log In </a> </p>
+        <p className='font16'> Already have an account? <a className='underline blue-text' href='#' onClick={ onClickLogin }> Log In </a> </p>
       </div>
     </form>
   )

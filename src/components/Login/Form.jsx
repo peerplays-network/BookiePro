@@ -1,7 +1,9 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
+
+
 const LoginForm = (props) => {
-  const { handleSubmit, pristine, submitting } = props
+  const { handleSubmit, pristine, submitting, onClickSignup } = props
   return (
     <form onSubmit={ handleSubmit }>
       <div className='form-fields'>
@@ -14,12 +16,12 @@ const LoginForm = (props) => {
         <button className='btn btn-regular grid-100 margin-top-25' type='submit' disabled={ pristine || submitting }>Login</button>
       </div>
       <div className='form-fields signup-link'>
-        <a className='font16' href='/signup'> SIGN UP </a>
+        <a className='font16' href='#' onClick={ onClickSignup }> SIGN UP </a>
       </div>
     </form>
   )
 };
 
 export default reduxForm({
-  form: 'simple'  // a unique identifier for this form
+  form: 'login'  // a unique identifier for this form
 })(LoginForm)

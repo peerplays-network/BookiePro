@@ -3,6 +3,7 @@ import AssetReducer from './AssetReducer';
 import SettingReducer from './SettingReducer';
 import AppReducer from './AppReducer';
 import RegisterReducer from './RegisterReducer';
+import LoginReducer from './LoginReducer';
 import { routerReducer } from 'react-router-redux';
 import { i18nReducer } from 'redux-react-i18n'
 import { reducer as formReducer } from 'redux-form'
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   asset: AssetReducer,
   setting: SettingReducer,
   register: RegisterReducer,
+  login: LoginReducer,
   routing: routerReducer,
   form: formReducer,
   i18n: i18nReducer
