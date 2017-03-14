@@ -121,9 +121,9 @@ class UnmatchedBets extends Component {
                   <p className='font18 padding-tb-5'>TOTAL: Ƀ20.71</p>
                 </div>
                 <div className='float-right'>
-                    <a className='export-icon' href=''>
-                        <Icon type='delete'></Icon>
-                    </a>
+                    <div className='float-right'>
+                        <a className='btn cancel-btn' href=''>Cancel ALl</a>
+                    </div>
                 </div>
                 <div className='right-left'></div>
               </div>

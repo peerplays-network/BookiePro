@@ -198,9 +198,8 @@ class ResolvedBets extends Component {
                         />
                       </div>
                       <div className='ant-form-item'>
-                        <a className='export-icon' href=''>
-                          <Icon type='file'></Icon>
-                        </a>
+                        <a className='btn btn-regular' href=''>Search</a>
+                        <a className='btn btn-regular margin-lr-10' href=''>Export</a>
                       </div>
                     </div>
 

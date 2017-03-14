@@ -120,11 +120,7 @@ class MatchedBets extends Component {
                 <div className='float-left'>
                   <p className='font18 padding-tb-5'>TOTAL: Ƀ20.71</p>
                 </div>
-                <div className='float-right'>
-                  <a className='export-icon' href=''>
-                    <Icon type='delete'></Icon>
-                  </a>
-                </div>
+
                 <div className='right-left'></div>
               </div>
               <Table className='bookie-table' pagination={ false } dataSource={ dataSource } columns={ columns } />
