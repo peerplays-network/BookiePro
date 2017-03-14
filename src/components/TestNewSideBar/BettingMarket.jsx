@@ -22,7 +22,10 @@ class BettingMarket extends Component {
       <div className='betting-market-leaf-container'
         key={ this.props.key }
         onClick={ this.props.onClick  } >
-        <label> { this.props.name } </label>
+          <div className='betting-market-label-container'>
+
+            <label> { this.props.name } </label>
+          </div>
       </div>
     );
   }

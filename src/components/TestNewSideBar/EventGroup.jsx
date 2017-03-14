@@ -25,7 +25,9 @@ class EventGroup extends Component {
       <div className='eventgroup-node-container'
         key={ this.props.key }
         onClick={ this.props.onClick  } >
-        <label> { this.props.name } </label>
+          <div className='label-container'>
+            <label> { this.props.name } </label>
+          </div>
       </div>
     );
   }

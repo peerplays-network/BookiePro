@@ -23,7 +23,9 @@ class Event extends Component {
       <div className='event-node-container'
         key={ this.props.key }
         onClick={ this.props.onClick  } >
-        <label> { this.props.name } </label>
+          <div className='event-label-container'>
+            <label> { this.props.name } </label>
+          </div>
       </div>
     );
   }

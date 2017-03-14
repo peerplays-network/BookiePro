@@ -66,6 +66,7 @@
     "graphenejs-lib": "^0.4.10-peerplays.1",
     "graphenejs-ws": "^0.1.6-peerplays.1",
     "immutable": "^3.8.1",
+    "immutable-treeutils": "^0.1.8",
     "localforage": "^1.5.0",
     "lodash": "^4.17.4",
     "numeral": "^2.0.4",

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import BetSlip from '../BetSlip';
-import Banner from './Banner';
-import MarketTable from '../MarketTable';
 import SplitPane from 'react-split-pane'
 import TestNewSideBar from '../TestNewSideBar';
 
@@ -57,8 +55,6 @@ class MarketScreen extends Component {
             primary='second'>
               <div >
                 { this.props.children }
-               {/* <Banner />
-               <MarketTable /> */}
               </div>
               <div style={ { 'height' : '100%', 'overflow' : 'hidden', 'position' : 'relative' } }
                 ref='betslips'>
