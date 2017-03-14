@@ -12,6 +12,7 @@ import MyWager from './components/MyWager';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Main from './components/Main';
+import SportMarket from './components/SportMarket';
 import MarketScreen from './components/MarketScreen';
 import Localize from './components/Localize';
 import configureStore from './store/configureStore';
@@ -70,7 +71,13 @@ const routes = (
 
         {/* TODO Home is to be deprcated due to new design in side bar.( not shared component to all chils in Main) please check MarketScreen */}
         <Route path='/home' component={ Home } />
-        <Route path='/market-screen' component={ MarketScreen } />
+        <Route path='/market-screen' component={ MarketScreen } >
+          <IndexRoute component={ SportMarket }/>
+          <Route path='sport/:objectId' component={ SportMarket }/>
+          <Route path='even-group/:objectId' component={ SportMarket }/>
+          <Route path='event/:objectId' component={ SportMarket }/>
+          <Route path='betting-market-group/:objectId' component={ SportMarket }/>
+        </Route>
 
         <Route path='/my-account' component={ MyAccount } />
         <Route path='/my-wager' component={ MyWager } />

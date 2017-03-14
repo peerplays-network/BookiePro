@@ -28,7 +28,6 @@ class MarketScreen extends Component {
 
   updatePs(){
     Ps.update(this.refs.betslips);
-    Ps.update(this.refs.sidebar);
 
   }
 
@@ -38,18 +37,28 @@ class MarketScreen extends Component {
      // remove css of splitpane in MarketScreen.less to disable resizing
 
      //TODO Banner not yet fixed
-     //TODO perfect-scrollbar has some problem in scrolling to the end
+     //TODO perfect-scrollbar make doubled height when scrollbar is needed, to be fixed
+
+    const styleLeftPane = { background: '#1563A0' };
+
     return (
-      <SplitPane split='vertical' minSize={ 200 } defaultSize={ 200 }>
+      <SplitPane
+          split='vertical'
+          minSize={ 200 } defaultSize={ 200 }
+          pane1Style={ styleLeftPane }>
             <div style={ { 'height' : '100%', 'overflow' : 'hidden' } }
               ref='sidebar'>
               <TestNewSideBar/>
 
             </div>
-        <SplitPane split='vertical' defaultSize={ 400 } primary='second'>
+        <SplitPane
+            split='vertical'
+            minSize={ 400 } defaultSize={ 400 }
+            primary='second'>
               <div >
-               <Banner />
-               <MarketTable />
+                { this.props.children }
+               {/* <Banner />
+               <MarketTable /> */}
               </div>
               <div style={ { 'height' : '100%', 'overflow' : 'hidden', 'position' : 'relative' } }
                 ref='betslips'>
