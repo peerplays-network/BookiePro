@@ -12,48 +12,47 @@ import Sport from './Sport';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux'
 
-import { findKeyPathOf } from '../../utility/TreeUtils'
+import { findKeyPathOf, differences } from '../../utility/TreeUtils'
 
 //http://stackoverflow.com/questions/33479866/js-change-object-inside-array-in-for-each-loop
 
 //https://www.toptal.com/react/react-redux-and-immutablejs
 //http://thomastuts.com/blog/immutable-js-101-maps-lists.html
 
-// for customComponent doc : https://www.bountysource.com/issues/30555786-having-trouble-with-search
+// for customComponent in InfinityMenu : https://www.bountysource.com/issues/30555786-having-trouble-with-search
 
-class TestNewSideBar extends Component {
+class SideBar extends Component {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   };
 
   componentWillMount() {
-    console.log('componentWillMount');
 		  this.setState({
   			tree: this.props.completeTree
   		});
-      this.updateSider = this.updateSider.bind(this);
-
+    this.updateSider = this.updateSider.bind(this);
 	 }
 
-   componentDidMount(){
-     console.log('componentDidMount');
+  componentDidMount(){
+    this.updateSider(this.props.completeTree, this.props.objectId);
 
-     this.updateSider(this.props) ;
-   }
+  }
+  componentWillReceiveProps(nextProps) {
+    this.updateSider(nextProps.completeTree, nextProps.objectId);
+  }
 
-  updateSider(treeConfig) {
-    console.log('updateSider');
-
+  updateSider(completeTree, targetObjectId) {
       //to use immutable-js to update tree
       //http://stackoverflow.com/questions/41298577/how-to-get-altered-tree-from-immutable-tree-maximising-reuse-of-nodes?rq=1
-    const nested = Immutable.fromJS(treeConfig.completeTree);
+    const nested = Immutable.fromJS(completeTree);
 
-    if ( treeConfig.objectId){
-      var keyPath = findKeyPathOf(nested, 'children', (node => node.get('objectId') === treeConfig.objectId) );
+    if ( targetObjectId){
+      var keyPath = findKeyPathOf(nested, 'children', (node => node.get('objectId') === targetObjectId) );
       // console.log('keyPath: ', keyPath); //[1, "children", 0, "children", 0, "children", 4]
 
-      // Found it?
+
+      // Found path?
       if (keyPath) {
         var newTree = nested;
           // Sample code Set 'name' to 'Hello' in that node:
@@ -79,6 +78,9 @@ class TestNewSideBar extends Component {
             node.set('isSelected', true)
             .set('isOpen', true)
           );
+
+
+
         }
 
           //for event
@@ -92,6 +94,8 @@ class TestNewSideBar extends Component {
             node.set('isSelected', true)
             .set('isOpen', true)
           );
+
+
         }
 
           //for betting market group
@@ -112,32 +116,57 @@ class TestNewSideBar extends Component {
           // Print the new tree for debug:
           // console.log(JSON.stringify(newTree.toJS(), null, 2));
           // Compare all nodes to see which ones were altered:
-          // var altered = differences(nested, newTree, 'children').map(x => x.get('id'));
-          // console.log('IDs of nodes that were replaced: ', altered);
+        var altered = differences(nested, newTree, 'children').map(x => x.get('id'));
+        // console.log('IDs of nodes that were replaced: ', altered);
           //[1101111, 12222, 13333, 2305]
+
+        if ( keyPath.length >= 3){
+          newTree = newTree.setIn(keyPath.slice(0,2),
+            newTree.getIn(keyPath.slice(0,2)).filter(function(metric) {
+              return metric.get('id') === altered[1];
+            })
+          )
+        }
+
+        if ( keyPath.length >= 5){
+          newTree = newTree.setIn(keyPath.slice(0,4),
+            newTree.getIn(keyPath.slice(0,4)).filter(function(metric) {
+              return metric.get('id') === altered[2];
+            })
+          )
+        }
+
+        // if ( keyPath.length >= 7 ){
+        //   newTree = newTree.setIn(keyPath.slice(0,6),
+        //     newTree.getIn(keyPath.slice(0,6)).filter(function(metric) {
+        //       return metric.get('id') === altered[4];
+        //     })
+        //   )
+        // }
 
         var updatedTree = newTree.toJS();
 
-        // updatedTree.forEach(function(item) {
-        //   item.isOpen = false;//setting the value
-        //   delete item.num;//deleting the num from the object
+
+        if (keyPath[0] === 0){
+
+        } else{
+          updatedTree = updatedTree.filter(function(p) {
+            return (p.id === "0" || p.isOpen === true);
+          });
+        }
+        // var newPeople = [];
+        // updatedTree.forEach(function(p){
+        //   if(p.id === "0" || p.isOpen === true){
+        //     newPeople.push(p);
+        //   }
         // });
-        // console.log('updatedTree:, ' + JSON.stringify(updatedTree, null, 2));
-
-
-        var newPeople = [];
-        newTree.forEach(function(p){
-          if(p.length <= 4){
-            newPeople.push(p);
-          }
-        });
 
 
         this.setState({
           tree: updatedTree
         });
       } else {
-        console.log('Not found! ', treeConfig.objectId);
+        console.log('Not found! ', targetObjectId);
       }
 
 
@@ -145,26 +174,24 @@ class TestNewSideBar extends Component {
 
   }
 
-  componentWillReceiveProps(nextProps) {
 
-      this.updateSider(nextProps);
-
-  }
 
   onNodeMouseClick(event, tree, node, level, keyPath) {
-    // this.setState({
-    //   tree: tree
-    // });
-
-    console.log( 'going to push: ', node.id);
-    // this.updateSider() ;
+    this.setState({
+      tree: tree
+    });
     this.props.push('/market-screen/' + node.customComponent + '/' + node.id);
 
-    // this.context.router.push('/market-screen/sport/' + node.id);
-    // this.context.router.push('home');
-
-    // console.log( node); // Prints the leaf name
-    // console.log( tree[1].children); // Prints the leaf name
+    // /// special id for all sports
+    // if ( node.id === '0'){
+    //   this.props.push('/market-screen/');
+    //   this.forceUpdate()
+    //
+    //
+    // } else {
+    //   this.props.push('/market-screen/' + node.customComponent + '/' + node.id);
+    //
+    // }
 
   }
 
@@ -185,8 +212,6 @@ class TestNewSideBar extends Component {
 
 
   render() {
-    console.log( 'render');
-    console.log('location', this.props.location)
     // console.log(JSON.stringify(newTree.toJS(), null, 2));
 
     return (
@@ -211,17 +236,20 @@ class TestNewSideBar extends Component {
   }
 }
 
-TestNewSideBar.propTypes = {
+SideBar.propTypes = {
   completeTree: React.PropTypes.array.isRequired,
-  level: React.PropTypes.string,
-  objectId: React.PropTypes.string,
+  objectId: React.PropTypes.string.isRequired,
 };
+
+SideBar.defaultProps = {
+  objectId: '0'
+};
+
 
 const mapStateToProps = (state) => {
   const { sidebar } = state;
   return {
     sidebarObjectId: sidebar.objectId,
-    sidebarLevel: sidebar.level,
 
   }
 }
@@ -236,4 +264,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TestNewSideBar);
+)(SideBar);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BetSlip from '../BetSlip';
 import SplitPane from 'react-split-pane'
-import TestNewSideBar from '../TestNewSideBar';
+import SideBar from '../SideBar';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
@@ -51,12 +51,12 @@ class MarketScreen extends Component {
             <div style={ { 'height' : '100%', 'overflow' : 'hidden' } }
               ref='sidebar'>
               { transitionName.length === 4 ?
-                 <TestNewSideBar
+                 <SideBar
                    completeTree={ this.props.completeTree }
-                   level={ transitionName[2] }
                    objectId={ transitionName[3] }/>  :
-                  <TestNewSideBar
-                  completeTree={ this.props.completeTree }/>
+                  <SideBar
+                  completeTree={ this.props.completeTree }
+                  objectId={ '0' }/>
                }
             </div>
         <SplitPane
