@@ -1,19 +1,16 @@
 import React from 'react';
-import { Loc } from '../../store/localize';
-import translateIt from '../../store/translator'
+
+var I18n = require('react-redux-i18n').I18n;
 
 const Localize = () => (
   <div id='home-wrapper'>
-    <p>
-      {/*use the Loc tag to translate the key, note: this will return translated value with span tag around it*/}
-      <Loc locKey='key_1'/><br/>
-      <Loc locKey='key_2'/>
-    </p>
     <div>
-      {/*This is how we will translate the word, this code returns exact translation without any tag around it*/}
-      {translateIt('key_1')}
-      {/*pass the default value, in case the key is not present page will display the default value*/}
-      {translateIt('key_3','default value goes here')}
+      {I18n.t('application.title')}<br/>  {/* => returns 'Toffe app met i18n!' for locale 'nl'*/}
+      {I18n.t('export', {count: 1})}<br/> {/* => returns 'Niks te exporteren' for locale 'nl'*/}
+      {I18n.t('application.weird_key')}<br/> {/* => returns 'Weird key' as translation is missing*/}
+      {I18n.t('application.hello', {name: 'Aad'})}<br/> {/* => returns 'Hallo, Aad!' for locale 'nl'*/}
+      {I18n.l(1385856000000, { dateFormat: 'date.long' })}<br/> {/* => returns '1 december 2013' for locale 'nl'*/}
+      {I18n.l(Math.PI, { maximumFractionDigits: 2 })}<br/> {/* => returns '3,14' for locale 'nl'*/}
     </div>
   </div>
 );
