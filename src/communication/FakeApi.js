@@ -12,6 +12,23 @@ const {
 const TIMEOUT_LENGTH = 500;
 
 class FakeApi {
+  static getObjects(arrayOfObjectIds = []) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = [];
+        // Iterate every object in dummy data to find the matching object
+        _.forEach(dummyData, (category) => {
+          _.forEach(category, (item) => {
+            if (_.includes(arrayOfObjectIds, item.id)) {
+              filteredResult.push(item);
+            }
+          })
+        })
+        resolve(filteredResult);
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
   static getSports() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {

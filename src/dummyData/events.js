@@ -16,6 +16,11 @@ const events = [
         competitor_id: '1.102.2',
         score: 17
       },
+    ],
+    betting_market_group_ids: [
+      '1.104.1',
+      '1.104.2',
+      '1.104.3'
     ]
   },
   {
@@ -35,6 +40,11 @@ const events = [
         competitor_id: '1.102.4',
         score: 0
       },
+    ],
+    betting_market_group_ids: [
+      '1.104.4',
+      '1.104.5',
+      '1.104.6'
     ]
   }
 ];
