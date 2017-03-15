@@ -2,6 +2,7 @@ import { ActionTypes } from '../constants';
 import { LoadingStatus } from '../constants';
 
 let initialState = {
+  loadingStatus: LoadingStatus.DEFAULT,
   status: LoadingStatus.DEFAULT,
   errors: [],
   accountForLogin: null

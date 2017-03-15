@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { ChainValidation } from 'graphenejs-lib';
 import { AccountService } from '../../services';
 import { LoginActions } from '../../actions';
+import { I18n } from 'react-redux-i18n';
 
 //Component for text field
 const renderField = ({  tabIndex, className, errors, placeholder, input, label, type, iconClass,
@@ -48,11 +49,11 @@ const LoginForm = (props) => {
 				<button className='btn btn-regular grid-100 margin-top-25' type='submit'
 					disabled={ invalid || submitting || asyncValidating }>
 					{ //set loadingstatus on submit
-						status !== 'default' ? status : 'Login' }
+						status !== 'default' ? status : I18n.t('login.title') }
 				</button>
       </div>
 			<div className='form-fields signup-link'>
-        <a className='font16' href='#' onClick={ onClickSignup }> SIGN UP </a>
+        <a className='font16' href='#' onClick={ onClickSignup }> { I18n.t('login.signup') } </a>
       </div>
     </form>
   )
@@ -70,7 +71,7 @@ export default reduxForm({
   	 }
 
   	if(!values.password || values.password.length < 22) {
-  		errors.password = 'Password must be %(cnt)s characters or more';
+  		errors.password = I18n.t('login.password_length');
   	 }
 
   	return errors;
@@ -82,7 +83,7 @@ export default reduxForm({
 			 let account = result.find(a => a[0] === values.accountName);
       if(!account) {
 				 dispatch(LoginActions.setLoginAccount(null));
-		     throw { accountName: 'Account Name not found' };
+		     throw { accountName: I18n.t('login.account_name_notfound') };
       } else
         dispatch(LoginActions.setLoginAccount(account));
     });
