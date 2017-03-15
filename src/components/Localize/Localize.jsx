@@ -11,7 +11,9 @@ const Localize = () => (
     </p>
     <div>
       {/*This is how we will translate the word, this code returns exact translation without any tag around it*/}
-      {translateIt('ru-RU', 'key_1')}
+      {translateIt('key_1')}
+      {/*pass the default value, in case the key is not present page will display the default value*/}
+      {translateIt('key_3','default value goes here')}
     </div>
   </div>
 );
