@@ -3,7 +3,7 @@ import { LoadingStatus } from '../constants';
 
 let initialState = {
   loadingStatus: LoadingStatus.DEFAULT,
-  error: null
+  errors: []
 };
 
 export default function (state = initialState, action) {
@@ -12,10 +12,9 @@ export default function (state = initialState, action) {
       const loadingStatus = action.loadingStatus;
       return Object.assign({}, state, { loadingStatus });
     }
-    case ActionTypes.REGISTER_SET_ERROR: {
-      const error = action.error;
+    case ActionTypes.REGISTER_SET_ERROR: {      
       return Object.assign({}, state, {
-        error,
+        errors: action.errors,
         status: LoadingStatus.DEFAULT
       });
     }

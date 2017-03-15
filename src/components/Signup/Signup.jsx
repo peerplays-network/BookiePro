@@ -25,13 +25,13 @@ class Signup extends Component {
             <div className='text-center'>
               <img src={ logo } alt=''/>
               <h2 className='margin-tb-25'> Welcome to Application </h2>
-              <p className='font22 margin-btm-20'>Please create your new account</p>
+              <p className='font20 margin-btm-20'>Please create your new account</p>
               <div className='center-ele'>
                 <SignUpForm
                   loadingStatus={ this.props.loadingStatus }
-                  serverError={ this.props.serverError }
                   onClickLogin={ this.onClickLogin.bind(this) }
-                  onSubmit={ this.handleSubmit.bind(this) }/>
+                  onSubmit={ this.handleSubmit.bind(this) }
+                  errors={ this.props.errors } />
               </div>
             </div>
           </div>
@@ -44,7 +44,7 @@ class Signup extends Component {
 const mapStateToProps = (state) => {
   return {
     loadingStatus: state.register.loadingStatus,
-    serverError: state.register.error!= null ? state.register.error.message : ''
+    errors: state.register.errors
   }
 }
 const mapDispatchToProps = (dispatch) => {
