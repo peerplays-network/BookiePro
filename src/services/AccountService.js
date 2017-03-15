@@ -1,5 +1,6 @@
 import { Config } from '../constants';
 import KeyGeneratorService from './KeyGeneratorService';
+import { Apis } from "graphenejs-ws";
 
 class AccountServices {
 
@@ -89,6 +90,16 @@ class AccountServices {
       }
     }
     return isAuthenticated;
+  }
+
+  /**
+   * Get the list of matching account name
+   * account - account object list from blockchain
+   */
+  static lookupAccounts(startChar, limit) {
+    return Apis.instance().db_api().exec("lookup_accounts", [
+      startChar, limit
+    ]);
   }
 }
 
