@@ -5,7 +5,8 @@ const {
   sports,
   eventGroups,
   competitors,
-  events
+  events,
+  bets
 } = dummyData;
 
 const TIMEOUT_LENGTH = 500;
@@ -66,6 +67,27 @@ class FakeApi {
       }, TIMEOUT_LENGTH);
     });
   }
+
+  static getOngoingBets(accountId) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = _.filter(bets, (item) => {
+          return item.bettor_id === accountId;
+        });
+        resolve(filteredResult);
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  static getResolvedBets(accountId, startTime, stopTime) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        // TODO: do it later, pending for confirmation from Dan
+        resolve([]);
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
 
 }
 

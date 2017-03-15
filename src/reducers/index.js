@@ -10,6 +10,7 @@ import CompetitorReducer from './CompetitorReducer';
 import EventReducer from './EventReducer';
 import BettingMarketGroupReducer from './BettingMarketGroupReducer';
 import BettingMarketReducer from './BettingMarketReducer';
+import BetReducer from './BetReducer';
 import { routerReducer } from 'react-router-redux';
 import { i18nReducer } from 'redux-react-i18n'
 import { reducer as formReducer } from 'redux-form'
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   competitor: CompetitorReducer,
   bettingMarketGroup: BettingMarketGroupReducer,
   bettingMarket: BettingMarketReducer,
+  bet: BetReducer,
   routing: routerReducer,
   form: formReducer,
   i18n: i18nReducer

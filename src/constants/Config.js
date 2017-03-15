@@ -1,7 +1,6 @@
 export default {
   faucetUrls: ['https://595-dev-faucet.pixelplex.by'],
   blockchainUrls: [
-    'ws://52.221.226.91:8090',
     'wss://595-dev-blockchain.pixelplex.by/ws',
     'ws://52.221.226.91:8090',
     'wss://595-dev-blockchain.pixelplex.by/ws',
