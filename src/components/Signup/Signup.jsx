@@ -5,6 +5,7 @@ import SignUpForm from './Form';
 import { NavigateActions, RegisterActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { I18n }  from 'react-redux-i18n'
 
 class Signup extends Component {
 
@@ -14,6 +15,7 @@ class Signup extends Component {
   }
 
   handleSubmit(values) {
+    console.log('sign up?');
     this.props.signup(values.accountName, values.password);
   }
 
@@ -24,8 +26,8 @@ class Signup extends Component {
           <div className='wrapper'>
             <div className='text-center'>
               <img src={ logo } alt=''/>
-              <h2 className='margin-tb-25'> Welcome to Application </h2>
-              <p className='font20 margin-btm-20'>Please create your new account</p>
+              <h2 className='margin-tb-25'> {I18n.t('application.welcome_title')} </h2>
+              <p className='font20 margin-btm-20'>{I18n.t('signup.new_acc_req_text')}</p>
               <div className='center-ele'>
                 <SignUpForm
                   loadingStatus={ this.props.loadingStatus }
