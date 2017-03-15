@@ -1,5 +1,6 @@
 import { Config } from '../constants';
 import KeyGeneratorService from './KeyGeneratorService';
+import { Apis } from "graphenejs-ws";
 
 class AccountServices {
 
@@ -90,6 +91,14 @@ class AccountServices {
     }
     return isAuthenticated;
   }
+
+  //Check if account name is already taken
+  static lookupAccounts(startChar, limit) {
+    return Apis.instance().db_api().exec("lookup_accounts", [
+      startChar, limit
+    ]);
+  }
+
 }
 
 export default AccountServices;
