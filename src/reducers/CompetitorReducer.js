@@ -3,20 +3,20 @@ import { LoadingStatus } from '../constants';
 import _ from 'lodash';
 
 let initialState = {
-  getSportsLoadingStatus: LoadingStatus.DEFAULT,
-  sports: []
+  getCompetitorsLoadingStatus: LoadingStatus.DEFAULT,
+  competitors: []
 };
 
 export default function (state = initialState, action) {
   switch(action.type) {
-    case ActionTypes.SPORT_SET_GET_SPORTS_LOADING_STATUS: {
+    case ActionTypes.COMPETITOR_SET_GET_COMPETITORS_LOADING_STATUS: {
       return Object.assign({}, state, {
-        getSportsLoadingStatus: action.loadingStatus
+        getCompetitorsLoadingStatus: action.loadingStatus
       });
     }
-    case ActionTypes.SPORT_ADD_SPORTS: {
+    case ActionTypes.COMPETITOR_ADD_COMPETITORS: {
       return Object.assign({}, state, {
-        sports: _.unionBy(action.sports, state.sports, 'id')
+        competitors: _.unionBy(action.competitors, state.competitors, 'id')
       });
     }
     default:

@@ -6,6 +6,7 @@ import { Apis } from 'graphenejs-ws';
 import { connect } from 'react-redux';
 import AssetActions from '../../actions/AssetActions';
 import BlockchainTestAccount from './BlockchainTestAccount';
+import { EventActions } from '../../actions';
 
 class BlockchainTestPage extends Component {
   constructor(props) {
@@ -22,6 +23,11 @@ class BlockchainTestPage extends Component {
     this._renderAssetList = this._renderAssetList.bind(this);
     this._fetchMarketLimitOrdersInSeries = this._fetchMarketLimitOrdersInSeries.bind(this);
     this._fetchMarketLimitOrdersInParallel = this._fetchMarketLimitOrdersInParallel.bind(this);
+    this._onClickInternalApiTestButton = this._onClickInternalApiTestButton.bind(this);
+  }
+
+  _onClickInternalApiTestButton() {
+    this.props.dispatch(EventActions.searchEvents("Bas"))
   }
 
   _getObject() {
@@ -193,6 +199,12 @@ class BlockchainTestPage extends Component {
           {'If you want to see how BindToChainState works, pay attention on propTypes, defaultProps, _getAccount(), and BindedBlockchainTestPage '}
         </div>
         <div>------------------------------------------------</div>
+          <div>
+            <Button onClick={ this._onClickInternalApiTestButton }>
+              {'Internal API Test Button'}
+            </Button>
+          </div>
+        <div>------------------------------------------------</div>
         <div>
           <span>
             {'Object Id: '}
@@ -257,6 +269,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     clearAssetList: () => {
       dispatch(AssetActions.clearAssetList());
+    },
+    dispatch: (action) => {
+      dispatch(action);
     }
   }
 }

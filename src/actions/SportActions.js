@@ -1,42 +1,38 @@
-import SportListDummyData from '../dummyData/SportList';
+import FakeApi from '../communication/FakeApi';
 import { LoadingStatus, ActionTypes } from '../constants';
 
 /**
  * Private actions
  */
 class SportPrivateActions {
-  // Generate set account action
-  static setSportList(sportList) {
+  static setGetSportsLoadingStatusAction(loadingStatus) {
     return {
-      type: ActionTypes.SPORT_SET_SPORT_LIST,
-      sportList
-    }
-  }
-
-  static setLoadingStatus(loadingStatus) {
-    return {
-      type: ActionTypes.SPORT_SET_LOADING_STATUS,
+      type: ActionTypes.SPORT_SET_GET_SPORTS_LOADING_STATUS,
       loadingStatus
     }
   }
 }
 
 /**
- * Private actions
+ * Public actions
  */
 class SportActions {
-  // Generate set account action
+  static addSportsAction(sports) {
+    return {
+      type: ActionTypes.SPORT_ADD_SPORTS,
+      sports
+    }
+  }
+
   static getSportList() {
     return (dispatch) => {
-      // Simulate getting sport
-      dispatch(SportPrivateActions.setLoadingStatus(LoadingStatus.LOADING));
+      dispatch(SportPrivateActions.setGetSportsLoadingStatusAction(LoadingStatus.LOADING));
 
       // TODO: Replace with actual blockchain call
-      setTimeout(() => {
-        dispatch(SportPrivateActions.setLoadingStatus(LoadingStatus.DONE));
-        // Set sport list
-        dispatch(SportPrivateActions.setSportList(SportListDummyData));
-      }, 500);
+      FakeApi.getSports().then((sports) => {
+        dispatch(SportPrivateActions.setGetSportsLoadingStatusAction(LoadingStatus.DONE));
+        dispatch(SportActions.addSportsAction(sports));
+      });
 
     };
   }
