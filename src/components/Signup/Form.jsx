@@ -106,7 +106,7 @@ class SignUpForm extends React.Component {
             </div>
             <div className='form-fields'>
               <div className='download-file'>
-                <p className='margin-btm-20 font18'>{ I18n.t('signup.password_warning') }</p>
+                <p className='margin-btm-20 font15'>{ I18n.t('signup.password_warning') }</p>
                 <div className='text-center'>
                   <Fields names={ ['password'] } component={ renderRecoveryButtonFields } onClick={ this.onClickDownload.bind(this) }/>
                 </div>
