@@ -5,14 +5,7 @@ import { LoadingStatus, ActionTypes } from '../constants';
  * Private actions
  */
 class EventGroupPrivateActions {
-  static addEventGroups(eventGroups) {
-    return {
-      type: ActionTypes.EVENT_GROUP_ADD_EVENT_GROUPS,
-      eventGroups
-    }
-  }
-
-  static setGetEventGroupsLoadingStatus(loadingStatus) {
+  static setGetEventGroupsLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.EVENT_GROUP_SET_GET_EVENT_GROUPS_LOADING_STATUS,
       loadingStatus
@@ -24,6 +17,13 @@ class EventGroupPrivateActions {
  * Public actions
  */
 class EventGroupActions {
+  static addEventGroupsAction(eventGroups) {
+    return {
+      type: ActionTypes.EVENT_GROUP_ADD_EVENT_GROUPS,
+      eventGroups
+    }
+  }
+
   static getEventGroups(sportId) {
     return (dispatch) => {
       dispatch(EventGroupPrivateActions.setGetEventGroupsLoadingStatus(LoadingStatus.LOADING));
@@ -31,7 +31,7 @@ class EventGroupActions {
       // TODO: Replace with actual blockchain call
       FakeApi.getEventGroups(sportId).then((eventGroups) => {
         dispatch(EventGroupPrivateActions.setGetEventGroupsLoadingStatus(LoadingStatus.DONE));
-        dispatch(EventGroupPrivateActions.addEventGroups(eventGroups));
+        dispatch(EventGroupActions.addEventGroupsAction(eventGroups));
       });
 
     };

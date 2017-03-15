@@ -15,12 +15,7 @@ import "perfect-scrollbar";
 import { Select } from 'antd';
 const Option = Select.Option;
 
-import { updateSettingLang,
-  updateSettingTimeZone,
-  updateSettingNotification,
-  updateCurrencyFormat
-} from '../../actions/SettingActions'
-
+import { SettingActions } from '../../actions';
 
 const columns = [{
   title: 'id',
@@ -321,10 +316,10 @@ const mapStateToProps = (state) => {
 
 function mapDispatchToProps (dispatch) {
   return bindActionCreators({
-    updateSettingLang: updateSettingLang,
-    updateSettingTimeZone: updateSettingTimeZone,
-    updateSettingNotification: updateSettingNotification,
-    updateCurrencyFormat: updateCurrencyFormat,
+    updateSettingLang: SettingActions.updateSettingLang,
+    updateSettingTimeZone: SettingActions.updateSettingTimeZone,
+    updateSettingNotification: SettingActions.updateSettingNotification,
+    updateCurrencyFormat: SettingActions.updateCurrencyFormat,
   }, dispatch)
 }
 

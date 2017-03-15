@@ -5,28 +5,21 @@ import { LoadingStatus, ActionTypes } from '../constants';
  * Private actions
  */
 class EventPrivateActions {
-  static addEvents(events) {
-    return {
-      type: ActionTypes.EVENT_ADD_EVENTS,
-      events
-    }
-  }
-
-  static setGetEventsLoadingStatus(loadingStatus) {
+  static setGetEventsLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.EVENT_SET_GET_EVENTS_LOADING_STATUS,
       loadingStatus
     }
   }
 
-  static setSearchEventsLoadingStatus(loadingStatus) {
+  static setSearchEventsLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.EVENT_SET_SEARCH_EVENTS_LOADING_STATUS,
       loadingStatus
     }
   }
 
-  static setSearchResult(searchResult) {
+  static setSearchResultAction(searchResult) {
     return {
       type: ActionTypes.EVENT_SET_SEARCH_RESULT,
       searchResult
@@ -38,14 +31,21 @@ class EventPrivateActions {
  * Public actions
  */
 class EventActions {
+  static addEventsAction(events) {
+    return {
+      type: ActionTypes.EVENT_ADD_EVENTS,
+      events
+    }
+  }
+
   static getEvents(sportId) {
     return (dispatch) => {
-      dispatch(EventPrivateActions.setGetEventsLoadingStatus(LoadingStatus.LOADING));
+      dispatch(EventPrivateActions.setGetEventsLoadingStatusAction(LoadingStatus.LOADING));
 
       // TODO: Replace with actual blockchain call
       FakeApi.getEvents(sportId).then((events) => {
-        dispatch(EventPrivateActions.setGetEventsLoadingStatus(LoadingStatus.DONE));
-        dispatch(EventPrivateActions.addEvents(events));
+        dispatch(EventPrivateActions.setGetEventsLoadingStatusAction(LoadingStatus.DONE));
+        dispatch(EventActions.addEventsAction(events));
       });
 
     };
@@ -53,19 +53,19 @@ class EventActions {
 
   static searchEvents(keyword) {
     return (dispatch) => {
-      dispatch(EventPrivateActions.setSearchEventsLoadingStatus(LoadingStatus.LOADING));
+      dispatch(EventPrivateActions.setSearchEventsLoadingStatusAction(LoadingStatus.LOADING));
 
       // TODO: Replace with actual blockchain call
       FakeApi.searchEvents(keyword).then((result) => {
-        dispatch(EventPrivateActions.setSearchEventsLoadingStatus(LoadingStatus.DONE));
-        dispatch(EventPrivateActions.setSearchResult(result));
+        dispatch(EventPrivateActions.setSearchEventsLoadingStatusAction(LoadingStatus.DONE));
+        dispatch(EventPrivateActions.setSearchResultAction(result));
       });
     }
   }
 
   static clearSearchResult() {
     return (dispatch) => {
-      dispatch(EventPrivateActions.setSearchResult([]));
+      dispatch(EventPrivateActions.setSearchResultAction([]));
     }
   }
 }
