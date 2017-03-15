@@ -3,139 +3,191 @@ import InfinityMenu from "react-infinity-menu";
 import "react-infinity-menu/src/infinity-menu.css";
 import Immutable from 'immutable';
 
-import BettingMarket from './BettingMarket';
+import BettingMarketGroup from './BettingMarketGroup';
 import Event from './Event';
 import EventGroup from './EventGroup';
 import Sport from './Sport';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
-import { findKeyPathOf, differences } from '../../utility/TreeUtils'
+// import NavigateActions from '../../actions/NavigateActions';
+import { push } from 'react-router-redux';
+import { connect } from 'react-redux'
+
+import { findKeyPathOf } from '../../utility/TreeUtils'
+
 //http://stackoverflow.com/questions/33479866/js-change-object-inside-array-in-for-each-loop
-//http://stackoverflow.com/questions/41298577/how-to-get-altered-tree-from-immutable-tree-maximising-reuse-of-nodes?rq=1
 
 //https://www.toptal.com/react/react-redux-and-immutablejs
 //http://thomastuts.com/blog/immutable-js-101-maps-lists.html
 
-//https://www.bountysource.com/issues/30555786-having-trouble-with-search
 // for customComponent doc : https://www.bountysource.com/issues/30555786-having-trouble-with-search
-// good https://github.com/sitepoint-editors/immutable-redux-todo/blob/master/src/actions.js
-
-// to update the keypath of isOpen
-//http://stackoverflow.com/questions/41298577/how-to-get-altered-tree-from-immutable-tree-maximising-reuse-of-nodes
-
-
 
 class TestNewSideBar extends Component {
 
-  static propTypes = {
-    complete_tree: React.PropTypes.array, //bind to redux
-    tree: React.PropTypes.array,
-    level: React.PropTypes.string,
-    object_id: React.PropTypes.string,
-
-
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    // this.findKeyPathOf = this.findKeyPathOf.bind(this);
-    // this.differences = this.differences.bind(this);
-  }
-
-
-  static callback(key) {
-    window.console.log('callcack', key);
-  }
-
-  static deleteAllPanels(event) {
-    event.preventDefault();
-    // this stops the event from bubbling up to the Collapse header
-    event.stopPropagation();
-    window.console.log('clicked delete all panels', event);
-  }
-
   componentWillMount() {
-
-
-
-
+    console.log('componentWillMount');
 		  this.setState({
-  			tree: this.props.complete_tree
+  			tree: this.props.completeTree
   		});
+      this.updateSider = this.updateSider.bind(this);
 
 	 }
-   componentDidMount() {
 
-    //  const { sportObjectId, eventGpObjectId, eventObjectId } = this.props.params
-      // console.log( this.props.params );
-      // Sample data
+   componentDidMount(){
+     console.log('componentDidMount');
 
-      const nested = Immutable.fromJS(this.props.complete_tree);
-      // const nested = Immutable.fromJS(tree);
+     this.updateSider(this.props) ;
+   }
 
-      var keyPath = findKeyPathOf(nested, 'children', (node => node.get('objectId') == '1.C.85') );
-      var updatedTree = this.props.complete_tree;
+  updateSider(treeConfig) {
+    console.log('updateSider');
+
+      //to use immutable-js to update tree
+      //http://stackoverflow.com/questions/41298577/how-to-get-altered-tree-from-immutable-tree-maximising-reuse-of-nodes?rq=1
+    const nested = Immutable.fromJS(treeConfig.completeTree);
+
+    if ( treeConfig.objectId){
+      var keyPath = findKeyPathOf(nested, 'children', (node => node.get('objectId') === treeConfig.objectId) );
+      // console.log('keyPath: ', keyPath); //[1, "children", 0, "children", 0, "children", 4]
 
       // Found it?
       if (keyPath) {
-          // Set 'name' to 'Hello' in that node:
-          var newTree = nested.updateIn(keyPath, node => node.set('name', 'Hello').set('isOpen', true));
-          // Print the new tree:
-          console.log(JSON.stringify(newTree.toJS(), null, 2));
-          // Compare all nodes to see which ones were altered:
-          var altered = differences(nested, newTree, 'children').map(x => x.get('id'));
-          console.log('IDs of nodes that were replaced: ', altered);
+        var newTree = nested;
+          // Sample code Set 'name' to 'Hello' in that node:
+        // var newTree = nested.updateIn(keyPath, node =>
+        //   node.set('name', 'Hello')
+        //   .set('isOpen', true)
+        // );
 
-          updatedTree = newTree.toJS();
+          //for sport
+        if ( keyPath.length === 1){
+          newTree = newTree.updateIn(keyPath.slice(0,1), node =>
+            node.set('isSelected', true)
+            .set('isOpen', true)
+          );
+        }
+
+          //for event group
+        else if ( keyPath.length === 3){
+          newTree = newTree.updateIn(keyPath.slice(0,1), node =>
+            node.set('isSelected', true)
+            .set('isOpen', true)
+          ).updateIn(keyPath.slice(0,3), node =>
+            node.set('isSelected', true)
+            .set('isOpen', true)
+          );
+        }
+
+          //for event
+        else if ( keyPath.length === 5){
+          newTree = newTree.updateIn(keyPath.slice(0,1), node =>
+            node.set('isOpen', true)
+          ).updateIn(keyPath.slice(0,3), node =>
+            node.set('isSelected', true)
+            .set('isOpen', true)
+          ).updateIn(keyPath.slice(0,5), node =>
+            node.set('isSelected', true)
+            .set('isOpen', true)
+          );
+        }
+
+          //for betting market group
+        else if ( keyPath.length === 7){
+          newTree = newTree.updateIn(keyPath.slice(0,1), node =>
+            node.set('isOpen', true)
+          ).updateIn(keyPath.slice(0,3), node =>
+            node.set('isOpen', true)
+          ).updateIn(keyPath.slice(0,5), node =>
+            node.set('isSelected', true)
+            .set('isOpen', true)
+          ).updateIn(keyPath.slice(0,7), node =>
+            node.set('isSelected', true)
+            .set('isOpen', true)
+          );
+        }
+
+          // Print the new tree for debug:
+          // console.log(JSON.stringify(newTree.toJS(), null, 2));
+          // Compare all nodes to see which ones were altered:
+          // var altered = differences(nested, newTree, 'children').map(x => x.get('id'));
+          // console.log('IDs of nodes that were replaced: ', altered);
+          //[1101111, 12222, 13333, 2305]
+
+        var updatedTree = newTree.toJS();
+
+        // updatedTree.forEach(function(item) {
+        //   item.isOpen = false;//setting the value
+        //   delete item.num;//deleting the num from the object
+        // });
+        // console.log('updatedTree:, ' + JSON.stringify(updatedTree, null, 2));
+
+
+        var newPeople = [];
+        newTree.forEach(function(p){
+          if(p.length <= 4){
+            newPeople.push(p);
+          }
+        });
+
+
+        this.setState({
+          tree: updatedTree
+        });
       } else {
-          console.log('Not found!');
+        console.log('Not found! ', treeConfig.objectId);
       }
 
-      updatedTree.forEach(function(item) {
-        item.isOpen = false;//setting the value
-        delete item.num;//deleting the num from the object
-      });
-      console.log( 'dd' + updatedTree);
 
+    }
 
-      var newPeople = [];
-      newTree.forEach(function(p){
-          if(p.length <= 4){
-              newPeople.push(p);
-          }
-      });
+  }
 
-      this.setState({
-  			tree: updatedTree
-  		});
+  componentWillReceiveProps(nextProps) {
 
-   }
+      this.updateSider(nextProps);
+
+  }
 
   onNodeMouseClick(event, tree, node, level, keyPath) {
-    this.setState({
-      tree: tree
-    });
+    // this.setState({
+    //   tree: tree
+    // });
+
+    console.log( 'going to push: ', node.id);
+    // this.updateSider() ;
+    this.props.push('/market-screen/' + node.customComponent + '/' + node.id);
+
+    // this.context.router.push('/market-screen/sport/' + node.id);
+    // this.context.router.push('home');
+
+    // console.log( node); // Prints the leaf name
+    // console.log( tree[1].children); // Prints the leaf name
 
   }
 
   onLeafMouseClick(event, leaf) {
-    console.log( leaf.id ); // Prints the leaf id
-    console.log( leaf.name ); // Prints the leaf name
+    // console.log( leaf.id ); // Prints the leaf id
+    // console.log( leaf.name ); // Prints the leaf name
   }
 
   onLeafMouseUp(event, leaf) {
-    console.log( leaf.id ); // Prints the leaf id
-    console.log( leaf.name ); // Prints the leaf name
+    // console.log( leaf.id ); // Prints the leaf id
+    // console.log( leaf.name ); // Prints the leaf name
   }
 
   onLeafMouseDown(event, leaf) {
-    console.log( leaf.id ); // Prints the leaf id
-    console.log( leaf.name ); // Prints the leaf name
+    // console.log( leaf.id ); // Prints the leaf id
+    // console.log( leaf.name ); // Prints the leaf name
   }
 
 
   render() {
+    console.log( 'render');
+    console.log('location', this.props.location)
+    // console.log(JSON.stringify(newTree.toJS(), null, 2));
 
     return (
           <InfinityMenu
@@ -150,7 +202,7 @@ class TestNewSideBar extends Component {
                 "Sport" : Sport,
                 "EventGroup" : EventGroup,
                 "Event" : Event,
-                "BettingMarket" : BettingMarket
+                "BettingMarketGroup" : BettingMarketGroup
               }
             }
           />
@@ -159,18 +211,29 @@ class TestNewSideBar extends Component {
   }
 }
 
+TestNewSideBar.propTypes = {
+  completeTree: React.PropTypes.array.isRequired,
+  level: React.PropTypes.string,
+  objectId: React.PropTypes.string,
+};
+
 const mapStateToProps = (state) => {
   const { sidebar } = state;
   return {
-    complete_tree: sidebar.complete_tree,
-    level: sidebar.level,
-    object_id: sidebar.object_id
+    sidebarObjectId: sidebar.objectId,
+    sidebarLevel: sidebar.level,
+
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    push: (url) => {
+      dispatch(push(url))
+    }
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return bindActionCreators({
-  }, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TestNewSideBar);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TestNewSideBar);

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './EventGroup.less';
 
 // EventGroup Objects (1.B.x)
@@ -6,31 +6,24 @@ import './EventGroup.less';
 // League (or similarly, Conference and Division, e.g. NFL, NCAA, Premier League...)
 // Tournament (e.g. FA Cup, World Cup...)
 // The main purpose of having EventGroups is to group events under their respective leagues/tournament at the application side bar.
-class EventGroup extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-
-  }
-  componentDidMount() {
-    // console.log( this.props.key + " " + this.props.name );
-    // console.log( JSON.stringify( this.props.data));
-
-  }
-
+const EventGroup = React.createClass({
   render() {
     return (
       <div className='eventgroup-node-container'
-        key={ this.props.key }
+        key={ this.props.id }
         onClick={ this.props.onClick  } >
-          <div className='label-container'>
+        { this.props.data.isSelected ?
+          <div className='eventgroup-label-container-selected'>
             <label> { this.props.name } </label>
           </div>
+          :
+          <div className='eventgroup-label-container'>
+            <label> { this.props.name } </label>
+          </div>
+         }
       </div>
     );
   }
-}
+});
 
 export default EventGroup;
