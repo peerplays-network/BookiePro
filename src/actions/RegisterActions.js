@@ -3,6 +3,7 @@ import { LoadingStatus, ActionTypes } from '../constants';
 import { AccountService } from '../services';
 import { FetchChain } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
+import { Apis } from "graphenejs-ws";
 
 /**
  * Private actions
@@ -59,8 +60,27 @@ class RegisterActions {
         */
         dispatch(RegisterPrivateActions.setRegisterErrorAction([typeof error === 'string'? error
               : typeof error === 'object' && error.message ? error.message : 'Error Occured']))
+        * Hence, type checking is done and the 'error' state is converted to an object
+        */
+        if(typeof error === 'string'){
+          dispatch(RegisterPrivateActions.setRegisterErrorAction({ message: error }));
+        } else if(typeof error === 'object'){
+          dispatch(RegisterPrivateActions.setRegisterErrorAction(error));
+        }
       })
     }
+  }
+
+  /**
+   * The Peerplaysblockchain project had this async validation on the account name field
+   * to check if the account name is already taken.
+   * This code was present in the AccountRepository file. Since we do not have repositary files now,
+   * I have included it as an action over here.
+  */
+  static lookupAccounts(startChar, limit) {
+    return Apis.instance().db_api().exec("lookup_accounts", [
+      startChar, limit
+    ]);
   }
 }
 
