@@ -12,7 +12,7 @@ import BettingMarketGroupReducer from './BettingMarketGroupReducer';
 import BettingMarketReducer from './BettingMarketReducer';
 import BetReducer from './BetReducer';
 import { routerReducer } from 'react-router-redux';
-import { i18nReducer } from 'redux-react-i18n'
+import { i18nReducer } from 'react-redux-i18n'
 import { reducer as formReducer } from 'redux-form'
 
 const rootReducer = combineReducers({

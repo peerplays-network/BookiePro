@@ -8,6 +8,8 @@ import rootReducer from '../reducers';
 import localforage from 'localforage';
 
 import { autoRehydrate, persistStore } from 'redux-persist';
+import { loadTranslations, setLocale, syncTranslationWithStore } from 'react-redux-i18n';
+import { translationsObject } from './translations'
 
 export default function configureStore(initialState) {
 
@@ -46,6 +48,10 @@ export default function configureStore(initialState) {
   }, () => {
     console.log('autoRehydrate completed');
   });
+
+  syncTranslationWithStore(store)
+  store.dispatch(loadTranslations(translationsObject));
+  store.dispatch(setLocale('en'));
 
   return store;
 }
