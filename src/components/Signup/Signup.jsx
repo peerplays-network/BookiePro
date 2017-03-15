@@ -21,13 +21,13 @@ class Signup extends Component {
 
   render() {
     return (
-      <div className='ant-layout' id='main-content'>
+      <div className='sportsbg' id='main-content'>
         <div className='registerComponent' >
           <div className='wrapper'>
             <div className='text-center'>
               <img src={ logo } alt=''/>
               <h2 className='margin-tb-25'> {I18n.t('application.welcome_title')} </h2>
-              <p className='font20 margin-btm-20'>{I18n.t('signup.new_acc_req_text')}</p>
+              <p className='font18 margin-btm-20'>{I18n.t('signup.new_acc_req_text')}</p>
               <div className='center-ele'>
                 <SignUpForm
                   loadingStatus={ this.props.loadingStatus }
