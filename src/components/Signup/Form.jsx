@@ -6,6 +6,7 @@ import copy from 'copy-to-clipboard'
 import RandomString from 'randomstring'
 import { saveAs } from '../../utility/fileSaver.js';
 import { AccountService } from '../../services';
+import { I18n }  from 'react-redux-i18n'
 
 //Component to render the plain fields
 const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touched, error } }) => (
@@ -21,7 +22,7 @@ const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touch
 const renderPasswordField = ({ onClickCopy, tabIndex, errors, input, type, meta: { touched, error, value} }) => (
   <div>
       <input autoComplete='off' readOnly { ...input } type={ type } tabIndex={ tabIndex } />
-      <button className='btn btn-regular copy-btn' onClick={ onClickCopy.bind(this, input.value) }>Copy</button>
+      <button className='btn btn-regular copy-btn' onClick={ onClickCopy.bind(this, input.value) }>{I18n.t('signup.copy_text')}</button>
       { (touched) && error && <span className='errorText'>{ error }</span> }
   </div>
 );
@@ -49,7 +50,7 @@ const renderRecoveryButtonFields = (fields) => (
         <Button type='primary' htmlType='submit' className='btn btn-green grid-100'
           onClick={ fields.onClick.bind(this, fields.password.input.value) }
           disabled={ !fields.password.meta.valid }>
-          Download Recovery File
+          {I18n.t('signup.download_rec_text')}
         </Button>
     </div>
   </div>
@@ -87,12 +88,12 @@ class SignUpForm extends React.Component {
 
   //Render the redux-form
   render() {
-    const { handleSubmit, submitting, onClickLogin, errors, invalid, asyncValidating,loadingStatus } = this.props;
+    const { handleSubmit,onClickLogin,errors,loadingStatus } = this.props;
     return (
           <form onSubmit={ handleSubmit }>
             <div className='form-fields'>
                 <Field name='accountName' id='accountName' errors={ errors }
-                  component={ renderField }  placeholder='Account Name' type='text' tabIndex='1' />
+                  component={ renderField }  placeholder={ I18n.t('signup.acc_name') } type='text' tabIndex='1' />
             </div>
             <div className='form-fields pos-rel'>
             <Field name='password' errors={ errors } component={ renderPasswordField }
@@ -105,8 +106,7 @@ class SignUpForm extends React.Component {
             </div>
             <div className='form-fields'>
               <div className='download-file'>
-                <p className='margin-btm-20 font18'>If you lose your password, you will lose all of your funds! Keep your password safe!
-                  To download a text file of your password, click the download button below:</p>
+                <p className='margin-btm-20 font18'>{ I18n.t('signup.password_warning') }</p>
                 <div className='text-center'>
                   <Fields names={ ['password'] } component={ renderRecoveryButtonFields } onClick={ this.onClickDownload.bind(this) }/>
                 </div>
@@ -115,20 +115,20 @@ class SignUpForm extends React.Component {
             <div className='form-fields text-left less-margin font14'>
                 <Field name='understand' id='understand'
                   component={ renderCheckboxField } type='checkbox'
-                  pseudoText='I understand that Peerplays cannot recover my password.'  tabIndex='4'/>
+                  pseudoText={ I18n.t('signup.cannot_recover_password_warning') }  tabIndex='4'/>
             </div>
             <div className='form-fields text-left font14'>
               <Field name='secure' id='secure'
                   component={ renderCheckboxField } type='checkbox'
-                  pseudoText='I have securely saved my password recovery file.'  tabIndex='5'/>
+                  pseudoText={ I18n.t('signup.securely_saved_password_warning') }  tabIndex='5'/>
             </div>
             <div className='form-fields'>
                 <button className='btn btn-regular grid-100 margin-top-25' type='submit'
-                disabled={ invalid || submitting || asyncValidating || ( loadingStatus==='loading' && errors.length===0) }
-                >{ loadingStatus==='loading' && errors.length===0  ? 'loading ...' : 'create account' }</button>
+                disabled={ loadingStatus==='loading' && errors.length===0 }
+                >{ loadingStatus==='loading' && errors.length===0  ? I18n.t('application.loading') : I18n.t('signup.create_account') }</button>
             </div>
             <div className='form-fields'>
-              <p className='font16'> Already have an account? <a className='underline blue-text' href='#' onClick={ onClickLogin }> Log In </a> </p>
+              <p className='font16'> { I18n.t('signup.already_account') } <a className='underline blue-text' href='#' onClick={ onClickLogin }> { I18n.t('signup.log_in') } </a> </p>
             </div>
           </form>
         )
@@ -138,6 +138,7 @@ class SignUpForm extends React.Component {
 export default reduxForm({
   form: 'registerAccountForm',  // a unique identifier for this form
   fields: ['accountName', 'password', 'password_retype', 'secure', 'understand'],
+  touchOnBlur: false,
   //Form field validations
   validate: function submit(values) {
     let errors = {};
@@ -148,23 +149,23 @@ export default reduxForm({
       errors.accountName = accountError;
     } else {
       if (!ChainValidation.is_cheap_name(values.accountName)) {
-        errors.accountName = "This is a premium name which is not supported by this faucet. Please enter a regular name containing least one dash, a number or no vowels.";
+        errors.accountName = I18n.t('signup.premium_acc_text');
       }
     }
 
     //Password-Re-type password fields validation
     if (values.password && values.password !== values.password_retype) {
-      errors.password_retype = 'Password does not match';//TODO:translate
+      errors.password_retype = I18n.t('signup.password_no_match');
     }
 
     //Checkboxes validations
     if (!values.understand) {
-      errors.understand = 'Field is required';
+      errors.understand = I18n.t('signup.field_req');
     }
     if (!values.secure) {
-      errors.secure = 'Field is required';
+      errors.secure = I18n.t('signup.field_req');
     }
-    
+
     return errors;
   },
   //Async Validation to check if the account name is already taken
@@ -173,7 +174,7 @@ export default reduxForm({
         .then(result => {
           let account = result.find(a => a[0] === values.accountName);
           if(account) {
-            throw { accountName: 'Account name is already taken' };
+            throw { accountName: I18n.t('signup.acc_name_taken') };
           }
         });
   },
