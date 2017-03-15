@@ -1,4 +1,4 @@
-import FakeApi from '../dummyData/FakeApi';
+import FakeApi from '../communication/FakeApi';
 import { LoadingStatus, ActionTypes } from '../constants';
 
 /**

@@ -1,8 +1,12 @@
-import sports from './sports';
-import eventGroups from './eventGroups';
-import competitors from './competitors';
-import events from './events';
 import _ from 'lodash';
+import dummyData from '../dummyData';
+
+const {
+  sports,
+  eventGroups,
+  competitors,
+  events
+} = dummyData;
 
 const TIMEOUT_LENGTH = 500;
 
