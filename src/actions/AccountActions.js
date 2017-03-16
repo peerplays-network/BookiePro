@@ -1,6 +1,7 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import FakeApi from '../communication/FakeApi';
 import { ChainStore } from 'graphenejs-lib';
+import NotificationActions from './NotificationActions';
 
 // Account subscriber
 let accountSubscriber;
@@ -118,7 +119,9 @@ class AccountActions {
       // Set the account
       dispatch(AccountPrivateActions.setAccountAction(account));
       // Get balance for the account
-      dispatch(AccountPrivateActions.getBalance(account))
+      dispatch(AccountPrivateActions.getBalance(account));
+      // Update notification for the accounts
+      dispatch(NotificationActions.updateNotifications(account));
     }
   }
 
