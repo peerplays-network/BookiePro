@@ -26,7 +26,7 @@ class SideBar extends Component {
       tree: this.props.completeTree
     }
 
-      this.updateSider = this.updateSider.bind(this);
+    this.updateSider = this.updateSider.bind(this);
   }
 
   componentDidMount(){

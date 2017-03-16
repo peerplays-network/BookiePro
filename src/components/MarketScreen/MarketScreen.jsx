@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 var Ps = require('perfect-scrollbar');
 
-import { HomeActions } from '../../actions';
+import { SidebarActions } from '../../actions';
 
 
 class MarketScreen extends Component {
@@ -99,7 +99,7 @@ const mapStateToProps = (state) => {
 
 function mapDispatchToProps (dispatch) {
   return bindActionCreators({
-    getDataForSidebar : HomeActions.getDataForSidebar,
+    getDataForSidebar : SidebarActions.getDataForSidebar,
 
   }, dispatch)
 }
