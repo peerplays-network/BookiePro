@@ -3,6 +3,7 @@ import { LoadingStatus, ActionTypes } from '../constants';
 import { AccountService } from '../services';
 import { FetchChain } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
+var I18n = require('react-redux-i18n').I18n;
 
 /**
  * Private actions
@@ -21,7 +22,6 @@ class LoginPrivateActions {
       errors:errors
     }
   }
-
 }
 
 /**
@@ -34,7 +34,6 @@ class LoginActions {
       dispatch(LoginPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
       FetchChain('getAccount', accountName).then((account) => {
-        console.log('Get Account for Login Success', account);
         const isAuthenticated = AccountService.authenticateAccount(accountName, password, account);
 
         if (isAuthenticated) {
@@ -48,12 +47,11 @@ class LoginActions {
           dispatch(NavigateActions.navigateTo('/home'))
         } else {
           //set error on password mismatch
-          dispatch(LoginPrivateActions.setLoginErrorAction(['Password doesn\'t match']));
+          dispatch(LoginPrivateActions.setLoginErrorAction([I18n.t('login.password_match')]));
         }
       }).catch((error) => {
-
         // Set error
-        dispatch(LoginPrivateActions.setLoginErrorAction(['Wrong Account Name or password']));
+        dispatch(LoginPrivateActions.setLoginErrorAction([I18n.t('login.wrong_accountname_password')]));
       })
     }
   }
