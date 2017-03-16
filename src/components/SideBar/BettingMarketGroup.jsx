@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './BettingMarketGroup.less';
 
-const BettingMarketGroup = React.createClass({
+class BettingMarketGroup extends Component {
   render() {
     return (
       <div className='betting-market-node-container'
@@ -19,6 +19,6 @@ const BettingMarketGroup = React.createClass({
       </div>
     );
   }
-});
+}
 
 export default BettingMarketGroup;

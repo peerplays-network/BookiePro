@@ -12,7 +12,7 @@ import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BetActions from './BetActions';
 import NavigateActions from './NavigateActions';
 import SidebarActions from './SidebarActions';
-
+import HomeActions from './HomeActions';
 // Combine all the actions here for import shortcut
 export {
   AssetActions,
@@ -26,6 +26,7 @@ export {
   EventActions,
   BettingMarketActions,
   BettingMarketGroupActions,
+  HomeActions,
   BetActions,
   NavigateActions,
   SidebarActions

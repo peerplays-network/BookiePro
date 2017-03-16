@@ -3,10 +3,10 @@ import { ActionTypes } from '../constants';
 
 class SidebarActions{
 
-  static treeUpdate(tree) {
+  static treeUpdate(complete_tree) {
     return {
       type: ActionTypes.UPDATE_SIDEBAR_COMPLETE_TREE,
-      tree
+      complete_tree
     }
   }
 

@@ -7,6 +7,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 var Ps = require('perfect-scrollbar');
 
+import { HomeActions } from '../../actions';
+
+
 class MarketScreen extends Component {
 
   constructor(props) {
@@ -19,6 +22,9 @@ class MarketScreen extends Component {
   componentDidMount() {
     Ps.initialize(this.refs.betslips);
     Ps.initialize(this.refs.sidebar);
+
+    // const { getDataForSidebar } = this.props
+    // getDataForSidebar();
   }
 
   updatePs(){
@@ -93,12 +99,13 @@ const mapStateToProps = (state) => {
 
 function mapDispatchToProps (dispatch) {
   return bindActionCreators({
+    getDataForSidebar : HomeActions.getDataForSidebar,
+
   }, dispatch)
 }
 
 
 MarketScreen.propTypes = {
   completeTree: React.PropTypes.array.isRequired,
-  tree: React.PropTypes.array,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MarketScreen);

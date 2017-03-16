@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './EventGroup.less';
 
-const EventGroup = React.createClass({
+class EventGroup extends Component {
   render() {
     return (
       <div className='eventgroup-node-container'
@@ -19,6 +19,6 @@ const EventGroup = React.createClass({
       </div>
     );
   }
-});
+}
 
 export default EventGroup;

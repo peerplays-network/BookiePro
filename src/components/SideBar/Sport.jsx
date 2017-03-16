@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './Sport.less';
 
-const Sport = React.createClass({
+class Sport extends Component {
   render() {
     return (
       <div className='sport-node-container'
@@ -19,6 +19,6 @@ const Sport = React.createClass({
       </div>
     );
   }
-});
+}
 
 export default Sport;

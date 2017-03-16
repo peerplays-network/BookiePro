@@ -20,12 +20,14 @@ class SideBar extends Component {
     router: React.PropTypes.object.isRequired
   };
 
-  componentWillMount() {
-		  this.setState({
-  			tree: this.props.completeTree
-  		});
-    this.updateSider = this.updateSider.bind(this);
-	 }
+  constructor(props) {
+    super(props);
+    this.state = {
+      tree: this.props.completeTree
+    }
+
+      this.updateSider = this.updateSider.bind(this);
+  }
 
   componentDidMount(){
     this.updateSider(this.props.completeTree, this.props.objectId);

@@ -206,12 +206,7 @@ export default function (state = initialState, action) {
       });
     }
 
-    case ActionTypes.UPDATE_SIDEBAR_COMPLETE_TREE: {
-      return Object.assign({}, state, {
-        complete_tree: action.complete_tree,
 
-      });
-    }
 
 
     default:

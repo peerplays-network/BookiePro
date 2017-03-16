@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './Event.less';
 
-const Event = React.createClass({
+class Event extends Component {
   render() {
     return (
       <div className='event-node-container'
@@ -19,6 +19,6 @@ const Event = React.createClass({
       </div>
     );
   }
-});
+}
 
 export default Event;
