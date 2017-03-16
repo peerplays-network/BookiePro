@@ -78,7 +78,7 @@ export const translationsObject = {
       create_account: 'Create Account',
       already_account: 'Already have an account?',
       log_in: 'Log In',
-      premium_acc_text: 'This is a premium name which is not supported by this faucet. Please enter a regular name containing least one dash, a number or no vowels.',
+      premium_acc_text: 'This is a premium name. Please enter a regular name containing least one dash, a number or no vowels.',
       password_no_match: 'Password does not match',
       field_req: 'Field is required',
       acc_name_taken: 'Account name is already taken'
