@@ -46,8 +46,8 @@ class BetActions {
       dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call
       FakeApi.getOngoingBets(accountId).then((bets) => {
-        dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.DONE));
         dispatch(BetActions.addOngoingBetsAction(bets));
+        dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.DONE));
       });
 
     };
@@ -61,8 +61,8 @@ class BetActions {
       dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call
       FakeApi.getResolvedBets(accountId, startTime, stopTime).then((bets) => {
-        dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.DONE));
         dispatch(BetActions.addResolvedBetsAction(bets));
+        dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.DONE));
       });
 
     };

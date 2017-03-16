@@ -52,6 +52,33 @@ class AccountPrivateActions {
     }
   }
 
+  static setBalanceAction(availableBalance, inGameBalance) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_BALANCE,
+      availableBalance,
+      inGameBalance
+    }
+  }
+
+  static setGetBalanceLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_GET_BALANCE_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
+  static getBalance(account) {
+    return (dispatch) => {
+      dispatch(AccountPrivateActions.setGetBalanceLoadingStatusAction(LoadingStatus.LOADING));
+      Promise.all([
+        FakeApi.getAvailableBalance(account),
+        FakeApi.getInGameBalance(account)
+      ]).then((result) => {
+        dispatch(AccountPrivateActions.setBalanceAction(result[0], result[1]));
+        dispatch(AccountPrivateActions.setGetBalanceLoadingStatusAction(LoadingStatus.DONE));
+      })
+    }
+  }
 }
 
 /**
@@ -90,6 +117,8 @@ class AccountActions {
       ChainStore.subscribe(accountSubscriber);
       // Set the account
       dispatch(AccountPrivateActions.setAccountAction(account));
+      // Get balance for the account
+      dispatch(AccountPrivateActions.getBalance(account))
     }
   }
 
@@ -101,8 +130,8 @@ class AccountActions {
       dispatch(AccountPrivateActions.setGetTransactionHistoriesLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call
       FakeApi.getTransactionHistory(accountId, startTime, stopTime).then((transactionHistories) => {
-        dispatch(AccountPrivateActions.setGetTransactionHistoriesLoadingStatusAction(LoadingStatus.DONE));
         dispatch(AccountPrivateActions.setTransactionHistoriesAction(transactionHistories));
+        dispatch(AccountPrivateActions.setGetTransactionHistoriesLoadingStatusAction(LoadingStatus.DONE));
       });
     };
   }
@@ -115,8 +144,8 @@ class AccountActions {
       dispatch(AccountPrivateActions.setGetDepositAddressLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call
       FakeApi.getDepositAddress(accountId).then((depositAddress) => {
-        dispatch(AccountPrivateActions.setGetDepositAddressLoadingStatusAction(LoadingStatus.DONE));
         dispatch(AccountPrivateActions.setDepositAddressAction(depositAddress));
+        dispatch(AccountPrivateActions.setGetDepositAddressLoadingStatusAction(LoadingStatus.DONE));
       });
     };
   }

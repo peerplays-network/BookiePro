@@ -30,8 +30,8 @@ class SportActions {
 
       // TODO: Replace with actual blockchain call
       FakeApi.getSports().then((sports) => {
-        dispatch(SportPrivateActions.setGetSportsLoadingStatusAction(LoadingStatus.DONE));
         dispatch(SportActions.addSportsAction(sports));
+        dispatch(SportPrivateActions.setGetSportsLoadingStatusAction(LoadingStatus.DONE));
       });
 
     };

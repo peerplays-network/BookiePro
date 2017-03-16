@@ -30,8 +30,8 @@ class EventGroupActions {
 
       // TODO: Replace with actual blockchain call
       FakeApi.getEventGroups(sportId).then((eventGroups) => {
-        dispatch(EventGroupPrivateActions.setGetEventGroupsLoadingStatus(LoadingStatus.DONE));
         dispatch(EventGroupActions.addEventGroupsAction(eventGroups));
+        dispatch(EventGroupPrivateActions.setGetEventGroupsLoadingStatus(LoadingStatus.DONE));
       });
 
     };

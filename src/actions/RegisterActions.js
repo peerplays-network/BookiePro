@@ -49,12 +49,12 @@ class RegisterActions {
         // Set is logged in
         dispatch(AppActions.setIsLoggedInAction(true));
 
-        // After some delay navigate to home page
-        dispatch(NavigateActions.navigateTo('/exchange'))
-
         // Set register status to done
         dispatch(RegisterPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
 
+        // After some delay navigate to home page
+        dispatch(NavigateActions.navigateTo('/exchange'));
+        
       }).catch((error) => {
         // Set error
         /**

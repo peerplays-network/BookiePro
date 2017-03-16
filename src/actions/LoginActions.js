@@ -38,14 +38,14 @@ class LoginActions {
         const keys = KeyGeneratorService.generateKeys(accountName, password);
         const isAuthenticated = AccountService.authenticateAccount(account, keys);
         if (isAuthenticated) {
-          // Set login status to done
-          dispatch(LoginPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
-          // Set is logged in
-          dispatch(AppActions.setIsLoggedInAction(true));
           // Save account information
           dispatch(AccountActions.setAccount(account));
           // Save keys
           dispatch(AccountActions.setKeysAction(keys));
+          // Set is logged in
+          dispatch(AppActions.setIsLoggedInAction(true));
+          // Set login status to done
+          dispatch(LoginPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
           // Navigate to home
           dispatch(NavigateActions.navigateTo('/home'))
         } else {
