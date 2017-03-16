@@ -37,9 +37,9 @@ const renderRetypePasswordField = ({ tabIndex, className, errors, input, type, m
 
 //Component to render the checkboxes
 const renderCheckboxField = ({ pseudoText,tabIndex, errors, placeholder, input, label, type, meta: { touched, error, dirty } }) => (
-    <div>
-        <input autoComplete='off' { ...input } type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
-        <label>{ pseudoText }</label>
+    <div className='float-left width260 text-left align-checkbox'>
+      <input autoComplete='off' { ...input } type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
+      <label>{ pseudoText }</label>
     </div>
 );
 
@@ -47,9 +47,10 @@ const renderCheckboxField = ({ pseudoText,tabIndex, errors, placeholder, input, 
 const renderRecoveryButtonFields = (fields) => (
   <div>
     <div className='loginCreate__btnWrap'>
-        <Button type='primary' htmlType='submit' className='btn btn-green grid-100'
+        <Button type='primary' htmlType='submit'
+          className={ 'btn ' + (fields.password.input.value!==fields.password_retype.input.value ? 'btn-green-disabled':' btn-green') + ' grid-100' }
           onClick={ fields.onClick.bind(this, fields.password.input.value) }
-          disabled={ !fields.password.meta.valid }>
+          disabled={ fields.password.input.value!==fields.password_retype.input.value }>
           {I18n.t('signup.download_rec_text')}
         </Button>
     </div>
@@ -88,7 +89,7 @@ class SignUpForm extends React.Component {
 
   //Render the redux-form
   render() {
-    const { handleSubmit,onClickLogin,errors,loadingStatus } = this.props;
+    const { handleSubmit,onClickLogin,errors,loadingStatus,invalid,asyncValidating,submitting } = this.props;
     return (
           <form onSubmit={ handleSubmit }>
             <div className='form-fields'>
@@ -106,25 +107,28 @@ class SignUpForm extends React.Component {
             </div>
             <div className='form-fields'>
               <div className='download-file'>
-                <p className='margin-btm-20 font15'>{ I18n.t('signup.password_warning') }</p>
+                <p className='margin-btm-20 font15'>
+                  { I18n.t('signup.password_warning_1') }<strong>{ I18n.t('signup.password_warning_2') }</strong>{ I18n.t('signup.password_warning_3') }
+                </p>
                 <div className='text-center'>
-                  <Fields names={ ['password'] } component={ renderRecoveryButtonFields } onClick={ this.onClickDownload.bind(this) }/>
+                  <Fields names={ ['password','password_retype'] } component={ renderRecoveryButtonFields } onClick={ this.onClickDownload.bind(this) }/>
                 </div>
               </div>
             </div>
-            <div className='form-fields text-left less-margin font14'>
-                <Field name='understand' id='understand'
+            <div className='clearfix center-div'>
+              <Field name='understand' id='understand'
                   component={ renderCheckboxField } type='checkbox'
-                  pseudoText={ I18n.t('signup.cannot_recover_password_warning') }  tabIndex='4'/>
-            </div>
-            <div className='form-fields text-left font14'>
+                    pseudoText={ I18n.t('signup.cannot_recover_password_warning') }  tabIndex='4'/>
               <Field name='secure' id='secure'
                   component={ renderCheckboxField } type='checkbox'
                   pseudoText={ I18n.t('signup.securely_saved_password_warning') }  tabIndex='5'/>
             </div>
             <div className='form-fields'>
-                <button className='btn btn-regular grid-100 margin-top-25' type='submit'
-                disabled={ loadingStatus==='loading' && errors.length===0 }
+                <button className='btn btn-regular-disabled grid-100 margin-top-25' type='submit'
+                  className={ 'btn ' + (invalid || submitting || asyncValidating ||
+                  (loadingStatus==='loading' && errors.length===0) ? 'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-25' }
+                disabled={ invalid || submitting || asyncValidating ||
+                  (loadingStatus==='loading' && errors.length===0) }
                 >{ loadingStatus==='loading' && errors.length===0  ? I18n.t('application.loading') : I18n.t('signup.create_account') }</button>
             </div>
             <div className='form-fields'>
@@ -138,7 +142,6 @@ class SignUpForm extends React.Component {
 export default reduxForm({
   form: 'registerAccountForm',  // a unique identifier for this form
   fields: ['accountName', 'password', 'password_retype', 'secure', 'understand'],
-  touchOnBlur: false,
   //Form field validations
   validate: function submit(values) {
     let errors = {};
