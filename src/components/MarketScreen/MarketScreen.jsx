@@ -57,16 +57,19 @@ class MarketScreen extends Component {
               { transitionName.length === 4 ?
                  <SideBar
                    completeTree={ this.props.completeTree }
+                   level={ transitionName.length }
                    objectId={ transitionName[3] }/>  :
                    (
 
                      transitionName.length === 3 ?
                         <SideBar
                           completeTree={ this.props.completeTree }
+                          level={ transitionName.length }
                           objectId={ transitionName[2] }/>  :
                          <SideBar
                          completeTree={ this.props.completeTree }
-                         objectId={ '0' }/>
+                         level={ transitionName.length }
+                         objectId={ '' }/>
 
                    )
                }

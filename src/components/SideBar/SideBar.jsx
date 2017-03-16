@@ -38,6 +38,11 @@ class SideBar extends Component {
       //http://stackoverflow.com/questions/41298577/how-to-get-altered-tree-from-immutable-tree-maximising-reuse-of-nodes?rq=1
     const nested = Immutable.fromJS(completeTree);
 
+    if ( !targetObjectId){
+      // id of 'all sports'
+      targetObjectId = '0'
+    }
+
     if ( targetObjectId){
       var keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === targetObjectId) );
 
@@ -126,7 +131,16 @@ class SideBar extends Component {
         });
       } else {
         console.log('Not found! ', targetObjectId);
+        this.setState({
+          tree: completeTree
+        });
       }
+    } else {
+      console.log('No Id ! ', targetObjectId);
+
+      this.setState({
+        tree: completeTree
+      });
     }
   }
 
@@ -134,7 +148,16 @@ class SideBar extends Component {
     this.setState({
       tree: tree
     });
-    this.props.navigateTo('/market-screen/' + node.customComponent + '/' + node.id);
+
+    if ( node.id === '0'){
+      this.props.navigateTo('/market-screen/');
+
+    // commented for including  node.customComponent in url
+    // } else if ( this.props.level && this.props.level === 3){
+    //   this.props.navigateTo('/market-screen/' + node.id);
+    } else {
+      this.props.navigateTo('/market-screen/' + node.customComponent + '/' + node.id);
+    }
 
   }
 
@@ -162,10 +185,11 @@ class SideBar extends Component {
 SideBar.propTypes = {
   completeTree: React.PropTypes.array.isRequired,
   objectId: React.PropTypes.string.isRequired,
+  level: React.PropTypes.number.isRequired,
 };
 
 SideBar.defaultProps = {
-  objectId: '0'
+  objectId: ''
 };
 
 
@@ -173,7 +197,6 @@ const mapStateToProps = (state) => {
   const { sidebar } = state;
   return {
     sidebarObjectId: sidebar.objectId,
-
   }
 }
 

@@ -1,4 +1,3 @@
-//const uid = () => Math.random().toString(34).slice(2);
 import { ActionTypes } from '../constants';
 import FakeApi from '../communication/FakeApi';
 import SportActions from './SportActions';
@@ -6,7 +5,7 @@ import EventGroupActions from './EventGroupActions';
 import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import _ from 'lodash';
-import Immutable from 'immutable';
+import Immutable, { List } from 'immutable';
 
 
 class SidebarActions{
@@ -17,7 +16,6 @@ class SidebarActions{
       // First get list of sports
       FakeApi.getSports().then((sports) => {
 
-        // Store sports inside redux store
         dispatch(SportActions.addSportsAction(sports))
 
         const getEventsGpPromiseArray = [];
@@ -28,6 +26,7 @@ class SidebarActions{
 
         return Promise.all(getEventsGpPromiseArray);
 
+        // get related event groups
       }).then((eventGroups) => {
 
         const eventGpArray = [];
@@ -48,27 +47,27 @@ class SidebarActions{
 
         return Promise.all(getEventsPromiseArray);
 
+        // get related events
       }).then((eventResults) => {
-        // console.log('events', events);
+
         var mkGroupIds = Immutable.List([]);
         _.forEach(eventResults, (items) => {
 
           dispatch(EventActions.addEventsAction(items));
 
           _.forEach(items, (item) => {
+            // concat with unique
             const newGroupIds = Immutable.List(item.betting_market_group_ids);
             mkGroupIds = mkGroupIds.toSet().union(newGroupIds.toSet()).toList();
           });
         });
 
-        console.log( 'mkGroupIds : ', mkGroupIds.toJS());
         return FakeApi.getObjects(mkGroupIds.toJS());
 
+        // get related betting market groups
       }).then((bettingMktGroups) => {
-        console.log( 'bettingMktGroups : ', bettingMktGroups);
 
         dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMktGroups));
-
 
       }).then((events) => {
         // Store the final events id inside Home Redux store
@@ -87,14 +86,13 @@ class SidebarActions{
       const {events} = getState().event;
       const {bettingMarketGroups} = getState().bettingMarketGroup;
 
-      const { List } = require('immutable')
       const eventGroupsList = List(eventGroups);
       const eventList = List(events);
       const bettingMktGroupList = List(bettingMarketGroups);
 
       let completeTree = []
 
-      //add hard code heard "all sports"
+      //add hard code header "all sports"
       completeTree.push({
         name: "ALL SPORTS", /*require for menu lib */
         id: "0", /*require for menu lib */
@@ -123,7 +121,6 @@ class SidebarActions{
         })
 
         _.forEach(targetEventGroups.toJS(), (eventGroup) => {
-          console.log(eventGroup);
 
           var eventGroupNode = {};
           eventGroupNode.name = eventGroup.name;
