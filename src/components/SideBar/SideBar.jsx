@@ -2,23 +2,19 @@ import React, { Component } from 'react';
 import InfinityMenu from "react-infinity-menu";
 import "react-infinity-menu/src/infinity-menu.css";
 import Immutable from 'immutable';
+import { NavigateActions } from '../../actions';
 
 import BettingMarketGroup from './BettingMarketGroup';
 import Event from './Event';
 import EventGroup from './EventGroup';
 import Sport from './Sport';
-
-import { push } from 'react-router-redux';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 
 import { findKeyPathOf, differences } from '../../utility/TreeUtils'
 
 // for customComponent in InfinityMenu : https://www.bountysource.com/issues/30555786-having-trouble-with-search
 class SideBar extends Component {
-
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  };
 
   constructor(props) {
     super(props);
@@ -138,7 +134,8 @@ class SideBar extends Component {
     this.setState({
       tree: tree
     });
-    this.props.push('/market-screen/' + node.customComponent + '/' + node.id);
+    this.props.navigateTo('/market-screen/' + node.customComponent + '/' + node.id);
+
   }
 
   render() {
@@ -179,12 +176,11 @@ const mapStateToProps = (state) => {
 
   }
 }
+
 const mapDispatchToProps = (dispatch) => {
-  return {
-    push: (url) => {
-      dispatch(push(url))
-    }
-  }
+  return bindActionCreators({
+    navigateTo: NavigateActions.navigateTo,
+  }, dispatch);
 }
 
 export default connect(
