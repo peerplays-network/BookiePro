@@ -5,7 +5,7 @@ import LoginForm from './Form.jsx';
 import { NavigateActions, LoginActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { I18n } from 'react-redux-i18n';
+var I18n = require('react-redux-i18n').I18n;
 
 class Login extends Component {
   constructor(props) {

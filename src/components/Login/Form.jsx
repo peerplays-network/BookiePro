@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { ChainValidation } from 'graphenejs-lib';
 import { AccountService } from '../../services';
 import { LoginActions } from '../../actions';
-import { I18n } from 'react-redux-i18n';
+var I18n = require('react-redux-i18n').I18n;
 
 //Component for text field
 const renderField = ({  tabIndex, className, errors, placeholder, input, label, type, iconClass,
