@@ -35,7 +35,7 @@ class Login extends Component {
               <h2 className='login-welcome'> { I18n.t('application.welcome_title') } </h2>
               <div className='center-ele'>
                 <LoginForm onClickSignup={ this.onClickSignup }
-                  onSubmit={ this.handleSubmit.bind(this) } errors={ this.props.errors } status={ this.props.status } />
+                  onSubmit={ this.handleSubmit } errors={ this.props.errors } status={ this.props.status } />
               </div>
             </div>
           </div>

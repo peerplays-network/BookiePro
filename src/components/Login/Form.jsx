@@ -46,7 +46,7 @@ const LoginForm = (props) => {
 					errors.length && !invalid ? <span className='errorText' key={ errors }>{ errors }</span>  :	null }
       </div>
       <div className='form-fields'>
-				<button className='btn btn-regular grid-100 margin-top-25' type='submit'
+				<button className={ 'btn ' + ((invalid || submitting || asyncValidating) ? 'btn-regular-disabled' : 'btn-regular') + ' grid-100 margin-top-25' } type='submit'
 					disabled={ invalid || submitting || asyncValidating }>
 					{ //set loadingstatus on submit
 						status !== 'default' ? status : I18n.t('login.title') }
@@ -81,11 +81,8 @@ export default reduxForm({
     return AccountService.lookupAccounts(values.accountName, 100)
     .then(result => {
 			 let account = result.find(a => a[0] === values.accountName);
-      if(!account) {
-				 dispatch(LoginActions.setLoginAccount(null));
-		     throw { accountName: I18n.t('login.account_name_notfound') };
-      } else
-        dispatch(LoginActions.setLoginAccount(account));
+      if(!account)
+				 throw { accountName: I18n.t('login.account_name_notfound') };
     });
 	 },
   asyncBlurFields: [ 'accountName' ]

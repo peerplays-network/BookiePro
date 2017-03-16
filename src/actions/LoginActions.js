@@ -28,15 +28,6 @@ class LoginPrivateActions {
  * Public actions
  */
 class LoginActions {
-
-  //set account info in state
-  static setLoginAccount(account) {
-    return {
-      type: ActionTypes.LOGIN_SET_ACCOUNT_FOR_LOGIN,
-      accountForLogin: account
-    }
-  }
-
   static login(accountName, password) {
     return (dispatch) => {
       // Set register status to loading
