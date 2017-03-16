@@ -74,7 +74,8 @@ class SignUpForm extends React.Component {
   }
 
   //Download the password in a text file
-  onClickDownload(val) {
+  onClickDownload(val,e) {
+    e.preventDefault();
     let blob = new Blob([ val ], {
       type: 'text/plain'
     });
