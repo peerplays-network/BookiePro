@@ -1,9 +1,6 @@
 import React from 'react';
 import './Event.less';
 
-//Event Objects (1.C.x)
-//Event objects represent sports games and they are created by Blockchain witnesses.
-//  we can directly store competitors data within an event.
 const Event = React.createClass({
   render() {
     return (

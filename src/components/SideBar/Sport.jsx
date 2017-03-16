@@ -1,10 +1,6 @@
 import React from 'react';
 import './Sport.less';
 
-// Sport Objects (1.A.x)
-// Sports are defined as Blockchain objects so that we can use their Graphene object IDs as identifiers, say,
-//  when we request events of a type of Sport.
-//  Each Sport object contains the list of object Ids of all underlying event groups.
 const Sport = React.createClass({
   render() {
     return (

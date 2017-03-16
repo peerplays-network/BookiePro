@@ -1,8 +1,6 @@
 import React from 'react';
 import './BettingMarketGroup.less';
 
-//BettingMarket Object (1.E.x)
-//A betting market is a market where bettors can bet on a single specific outcome for an event
 const BettingMarketGroup = React.createClass({
   render() {
     return (
