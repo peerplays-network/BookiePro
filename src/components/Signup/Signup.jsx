@@ -9,13 +9,17 @@ import { I18n }  from 'react-redux-i18n'
 
 class Signup extends Component {
 
+  constructor(props){
+    super(props);
+    this.onClickLogin = this.onClickLogin.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
   onClickLogin(e) {
     e.preventDefault();
     this.props.navigateTo('/login')
   }
 
   handleSubmit(values) {
-    console.log('sign up?');
     this.props.signup(values.accountName, values.password);
   }
 
@@ -31,8 +35,8 @@ class Signup extends Component {
               <div className='center-ele'>
                 <SignUpForm
                   loadingStatus={ this.props.loadingStatus }
-                  onClickLogin={ this.onClickLogin.bind(this) }
-                  onSubmit={ this.handleSubmit.bind(this) }
+                  onClickLogin={ this.onClickLogin }
+                  onSubmit={ this.handleSubmit }
                   errors={ this.props.errors } />
               </div>
             </div>
