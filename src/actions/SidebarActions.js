@@ -2,25 +2,99 @@
 import { ActionTypes } from '../constants';
 import FakeApi from '../communication/FakeApi';
 import SportActions from './SportActions';
+import EventGroupActions from './EventGroupActions';
 import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import _ from 'lodash';
+import Immutable from 'immutable';
 
 
 class SidebarActions{
 
-  static setDataForSidebar(){
+  static getData() {
+    return (dispatch) => {
+
+      // First get list of sports
+      FakeApi.getSports().then((sports) => {
+
+        // Store sports inside redux store
+        dispatch(SportActions.addSportsAction(sports))
+
+        const getEventsGpPromiseArray = [];
+        _.forEach(sports, (sport) => {
+          const eventGpPromise = FakeApi.getEventGroups(sport.id);
+          getEventsGpPromiseArray.push(eventGpPromise);
+        });
+
+        return Promise.all(getEventsGpPromiseArray);
+
+      }).then((eventGroups) => {
+
+        const eventGpArray = [];
+        _.forEach(eventGroups, (items) => {
+
+          dispatch(EventGroupActions.addEventGroupsAction(items));
+
+          _.forEach(items, (item) => {
+            eventGpArray.push(item);
+          });
+        });
+
+        const getEventsPromiseArray = [];
+        _.forEach(eventGpArray, (eventGp) => {
+          const eventGpPromise = FakeApi.getEvents(eventGp.sport_id);
+          getEventsPromiseArray.push(eventGpPromise);
+        });
+
+        return Promise.all(getEventsPromiseArray);
+
+      }).then((eventResults) => {
+        // console.log('events', events);
+        var mkGroupIds = Immutable.List([]);
+        _.forEach(eventResults, (items) => {
+
+          dispatch(EventActions.addEventsAction(items));
+
+          _.forEach(items, (item) => {
+            const newGroupIds = Immutable.List(item.betting_market_group_ids);
+            mkGroupIds = mkGroupIds.toSet().union(newGroupIds.toSet()).toList();
+          });
+        });
+
+        console.log( 'mkGroupIds : ', mkGroupIds.toJS());
+        return FakeApi.getObjects(mkGroupIds.toJS());
+
+      }).then((bettingMktGroups) => {
+        console.log( 'bettingMktGroups : ', bettingMktGroups);
+
+        dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMktGroups));
+
+
+      }).then((events) => {
+        // Store the final events id inside Home Redux store
+        dispatch(SidebarActions.setTreeForSidebar());
+      });
+
+    };
+  }
+
+
+  static setTreeForSidebar(){
 
     return (dispatch, getState) => {
       const {sports} = getState().sport;
       const {eventGroups} = getState().eventGroup;
-      //
-      //
-      //
-      //
-      //
+      const {events} = getState().event;
+      const {bettingMarketGroups} = getState().bettingMarketGroup;
+
+      const { List } = require('immutable')
+      const eventGroupsList = List(eventGroups);
+      const eventList = List(events);
+      const bettingMktGroupList = List(bettingMarketGroups);
 
       let completeTree = []
+
+      //add hard code heard "all sports"
       completeTree.push({
         name: "ALL SPORTS", /*require for menu lib */
         id: "0", /*require for menu lib */
@@ -30,6 +104,7 @@ class SidebarActions{
         objectId: "0",
         children: []  /*require for TreeUtil.js*/
       });
+
       _.forEach(sports, (sport) => {
 
         var sportNode = {};
@@ -39,19 +114,72 @@ class SidebarActions{
         sportNode.isOpen = false;
         sportNode.customComponent = "Sport";
         sportNode.objectId = sport.id;
+
         sportNode.children = [];
 
-        console.log('sportNode: ', sportNode);
+
+        const targetEventGroups = eventGroupsList.filter(function(metric) {
+          return metric.sport_id === sport.id;
+        })
+
+        _.forEach(targetEventGroups.toJS(), (eventGroup) => {
+          console.log(eventGroup);
+
+          var eventGroupNode = {};
+          eventGroupNode.name = eventGroup.name;
+          eventGroupNode.id = eventGroup.id;
+          eventGroupNode.isOpen = false;
+          eventGroupNode.customComponent = "EventGroup";
+          eventGroupNode.objectId = eventGroup.id;
+          eventGroupNode.children = [];
+
+          const targetEvents = eventList.filter(function(metric) {
+            return metric.event_group_id === eventGroupNode.id;
+          })
+
+          _.forEach(targetEvents.toJS(), (event) => {
+
+            var eventNode = {};
+            eventNode.name = event.name;
+            eventNode.id = event.id;
+            eventNode.isOpen = false;
+            eventNode.customComponent = "Event";
+            eventNode.objectId = event.id;
+            eventNode.children = [];
+
+            const targetBettingMktGps = bettingMktGroupList.filter(function(metric) {
+              return metric.event_id === eventNode.id;
+            })
+
+            _.forEach(targetBettingMktGps.toJS(), (mktGroup) => {
+
+              var mktGroupNode = {};
+              mktGroupNode.name = mktGroup.market_type_id;
+              mktGroupNode.id = mktGroup.id;
+              mktGroupNode.isOpen = false;
+              mktGroupNode.customComponent = "BettingMarketGroup";
+              mktGroupNode.objectId = mktGroup.id;
+              mktGroupNode.children = [];
+
+              eventNode.children.push(mktGroupNode);
+
+            })
+
+            eventGroupNode.children.push(eventNode);
+
+          })
+
+          sportNode.children.push(eventGroupNode);
+        });
+
         completeTree.push(sportNode);
       });
 
-      console.log('completeTree: ', completeTree);
-
-
-      dispatch(SidebarActions.treeUpdate(completeTree));
+      dispatch(SidebarActions.updateTree(completeTree));
     }
   }
-  static treeUpdate(complete_tree) {
+
+  static updateTree(complete_tree) {
     return {
       type: ActionTypes.UPDATE_SIDEBAR_COMPLETE_TREE,
       complete_tree

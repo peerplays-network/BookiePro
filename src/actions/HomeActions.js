@@ -68,6 +68,8 @@ class HomeActions {
         // Combine the resulting betting market groups
         const bettingMarketGroups = [];
         _.forEach(result, (retrievedBettingMarketGroups) => {
+          // NOTE : need to update bettingMarketGroups when using concat
+          // bettingMarketGroups = bettingMarketGroups.concat(retrievedBettingMarketGroups);
           bettingMarketGroups.concat(retrievedBettingMarketGroups);
         });
         // Store betting market groups inside redux store

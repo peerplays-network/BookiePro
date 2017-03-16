@@ -23,8 +23,8 @@ class MarketScreen extends Component {
     Ps.initialize(this.refs.betslips);
     Ps.initialize(this.refs.sidebar);
 
-    // const { getDataForSidebar } = this.props
-    // getDataForSidebar();
+    const { getDataForSidebar } = this.props
+    getDataForSidebar();
   }
 
   updatePs(){
@@ -99,7 +99,7 @@ const mapStateToProps = (state) => {
 
 function mapDispatchToProps (dispatch) {
   return bindActionCreators({
-    getDataForSidebar : SidebarActions.getDataForSidebar,
+    getDataForSidebar : SidebarActions.getData,
 
   }, dispatch)
 }
