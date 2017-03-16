@@ -351,17 +351,31 @@ class MyAccount extends Component {
                         className='bookie-select'
                         defaultValue={ this.props.timezone }
                         onChange={ this.handleTimeZoneChange }>
-                          <Option value='UTC-12:00'>UTC-12:00</Option>
-                          <Option value='UTC-11:00'>UTC-11:00</Option>
-                          <Option value='UTC-10:00'>UTC-10:00</Option>
-                          <Option value='UTC-05:00'>UTC-05:00</Option>
-                          <Option value='UTC-03:00'>UTC-03:00</Option>
-                          <Option value='UTC-02:00'>UTC-02:00</Option>
-                          <Option value='UTC-01:00'>UTC-01:00</Option>
-                          <Option value='UTC+00:00'>UTC+00:00</Option>
-                          <Option value='UTC+07:00'>UTC07:00</Option>
-                          <Option value='UTC+08:00'>UTC+08:00</Option>
-                          <Option value='UTC+09:00'>UTC+09:00</Option>
+                        <Option value='UTC-12:00'>{ I18n.t('myAccount.UTC_12') }</Option>
+                        <Option value='UTC-11:00'>{ I18n.t('myAccount.UTC_11') }</Option>
+                        <Option value='UTC-10:00'>{ I18n.t('myAccount.UTC_10') }</Option>
+                        <Option value='UTC-09:00'>{ I18n.t('myAccount.UTC_9') }</Option>
+                        <Option value='UTC-08:00'>{ I18n.t('myAccount.UTC_8') }</Option>
+                        <Option value='UTC-07:00'>{ I18n.t('myAccount.UTC_7') }</Option>
+                        <Option value='UTC-06:00'>{ I18n.t('myAccount.UTC_6') }</Option>
+                        <Option value='UTC-05:00'>{ I18n.t('myAccount.UTC_5') }</Option>
+                        <Option value='UTC-04:00'>{ I18n.t('myAccount.UTC_4') }</Option>
+                        <Option value='UTC-03:00'>{ I18n.t('myAccount.UTC_3') }</Option>
+                        <Option value='UTC-02:00'>{ I18n.t('myAccount.UTC_2') }</Option>
+                        <Option value='UTC-01:00'>{ I18n.t('myAccount.UTC_1') }</Option>
+                        <Option value='UTC+00:00'>{ I18n.t('myAccount.UTC0') }</Option>
+                        <Option value='UTC+01:00'>{ I18n.t('myAccount.UTC1') }</Option>
+                        <Option value='UTC+02:00'>{ I18n.t('myAccount.UTC2') }</Option>
+                        <Option value='UTC+03:00'>{ I18n.t('myAccount.UTC3') }</Option>
+                        <Option value='UTC+04:00'>{ I18n.t('myAccount.UTC4') }</Option>
+                        <Option value='UTC+05:00'>{ I18n.t('myAccount.UTC5') }</Option>
+                        <Option value='UTC+06:00'>{ I18n.t('myAccount.UTC6') }0</Option>
+                        <Option value='UTC+07:00'>{ I18n.t('myAccount.UTC7') }</Option>
+                        <Option value='UTC+08:00'>{ I18n.t('myAccount.UTC8') }</Option>
+                        <Option value='UTC+09:00'>{ I18n.t('myAccount.UTC9') }</Option>
+                        <Option value='UTC+10:00'>{ I18n.t('myAccount.UTC10') }</Option>
+                        <Option value='UTC+11:00'>{ I18n.t('myAccount.UTC11') }</Option>
+                        <Option value='UTC+12:00'>{ I18n.t('myAccount.UTC12') }</Option>
                       </Select>
                   </div>
               </Col>
@@ -374,19 +388,10 @@ class MyAccount extends Component {
                   <div ref='global_object'>
                       <Select
                         className='bookie-select'
-                        defaultValue={ this.props.timezone }
+                        defaultValue='BTC'
                         onChange={ this.handleTimeZoneChange }>
-                          <Option value='UTC-12:00'>UTC-12:00</Option>
-                          <Option value='UTC-11:00'>UTC-11:00</Option>
-                          <Option value='UTC-10:00'>UTC-10:00</Option>
-                          <Option value='UTC-05:00'>UTC-05:00</Option>
-                          <Option value='UTC-03:00'>UTC-03:00</Option>
-                          <Option value='UTC-02:00'>UTC-02:00</Option>
-                          <Option value='UTC-01:00'>UTC-01:00</Option>
-                          <Option value='UTC+00:00'>UTC+00:00</Option>
-                          <Option value='UTC+07:00'>UTC07:00</Option>
-                          <Option value='UTC+08:00'>UTC+08:00</Option>
-                          <Option value='UTC+09:00'>UTC+09:00</Option>
+                          <Option value='UTC-12:00'> BTC</Option>
+                          <Option value='UTC-11:00'>mBTC</Option>
                       </Select>
                   </div>
               </Col>
