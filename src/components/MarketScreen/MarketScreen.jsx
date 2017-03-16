@@ -5,8 +5,6 @@ import SideBar from '../SideBar';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-// import ps from "perfect-scrollbar";
-// import "perfect-scrollbar";
 var Ps = require('perfect-scrollbar');
 
 class MarketScreen extends Component {
@@ -54,9 +52,17 @@ class MarketScreen extends Component {
                  <SideBar
                    completeTree={ this.props.completeTree }
                    objectId={ transitionName[3] }/>  :
-                  <SideBar
-                  completeTree={ this.props.completeTree }
-                  objectId={ '0' }/>
+                   (
+
+                     transitionName.length === 3 ?
+                        <SideBar
+                          completeTree={ this.props.completeTree }
+                          objectId={ transitionName[2] }/>  :
+                         <SideBar
+                         completeTree={ this.props.completeTree }
+                         objectId={ '0' }/>
+
+                   )
                }
             </div>
         <SplitPane
@@ -92,9 +98,7 @@ function mapDispatchToProps (dispatch) {
 
 
 MarketScreen.propTypes = {
-  completeTree: React.PropTypes.array.isRequired, //bind to redux
+  completeTree: React.PropTypes.array.isRequired,
   tree: React.PropTypes.array,
-
-
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MarketScreen);
