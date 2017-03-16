@@ -6,6 +6,7 @@ import bettingMarketGroups from './bettingMarketGroups';
 import bettingMarkets from './bettingMarkets';
 import accounts from './accounts';
 import binnedOrderBooks from './binnedOrderBooks';
+import globalBettingStatistics from './globalBettingStatistics';
 
 export default {
   accounts,
@@ -16,4 +17,5 @@ export default {
   bettingMarketGroups,
   bettingMarkets,
   binnedOrderBooks,
+  globalBettingStatistics
 }

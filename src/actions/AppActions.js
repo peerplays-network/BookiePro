@@ -1,5 +1,6 @@
-import { ActionTypes } from '../constants';
+import { ActionTypes, LoadingStatus } from '../constants';
 import { ChainStore } from 'graphenejs-lib';
+import FakeApi from '../communication/FakeApi';
 
 // Account subscriber
 let accountSubscriber;
@@ -8,11 +9,24 @@ let accountSubscriber;
  * Private actions
  */
 class AppPrivateActions {
-  // Generate set account action
   static setAccountAction(account) {
     return {
       type: ActionTypes.APP_SET_ACCOUNT,
       account
+    }
+  }
+
+  static setGlobalBettingStatisticsAction(globalBettingStatistics) {
+    return {
+      type: ActionTypes.APP_SET_GLOBAL_BETTING_STATISTICS,
+      globalBettingStatistics
+    }
+  }
+
+  static setGetGlobalBettingStatisticsLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.APP_SET_GET_GLOBAL_BETTING_STATISTICS_LOADING_STATUS,
+      loadingStatus
     }
   }
 }
@@ -55,6 +69,17 @@ class AppActions {
       dispatch(AppPrivateActions.setAccountAction(account));
     }
   }
-}
+
+  static getGlobalBettingStatistics() {
+    return (dispatch) => {
+      dispatch(AppPrivateActions.setGetGlobalBettingStatisticsLoadingStatusAction(LoadingStatus.LOADING));
+      // TODO: replace with actual blockchain call later
+      FakeApi.getGlobalBettingStatistics().then((globalBettingStatistics) => {
+        dispatch(AppPrivateActions.setGlobalBettingStatisticsAction(globalBettingStatistics));
+        dispatch(AppPrivateActions.setGetGlobalBettingStatisticsLoadingStatusAction(LoadingStatus.DONE));
+      });
+    }
+  }
+ }
 
 export default AppActions;

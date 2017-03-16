@@ -18,12 +18,14 @@ class FakeApi {
       setTimeout(() => {
         const filteredResult = [];
         // Iterate every object in dummy data to find the matching object
-        _.forEach(dummyData, (category) => {
-          _.forEach(category, (item) => {
-            if (_.includes(arrayOfObjectIds, item.id)) {
-              filteredResult.push(item);
-            }
-          })
+        const allObjects = [];
+        _.forEach(dummyData, (item) => {
+          _.concat(allObjects, item);
+        })
+        _.forEach(allObjects, (item) => {
+          if (_.includes(arrayOfObjectIds, item.id)) {
+            filteredResult.push(item);
+          }
         })
         resolve(filteredResult);
       }, TIMEOUT_LENGTH);
@@ -123,6 +125,41 @@ class FakeApi {
       }, TIMEOUT_LENGTH);
     })
   }
+
+  static getTransactionHistories(accountId, startTime, stopTime) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        // TODO: do it later, pending for confirmation from Dan
+        resolve([]);
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  static withdraw(walletAddress) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  static getDepositAddress(accountId) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('THISISDUMMYDEPOSITADDRESSFORANYACCOUNTID');
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  static getGlobalBettingStatistics() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('THISISDUMMYDEPOSITADDRESSFORANYACCOUNTID');
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+
 }
 
 export default FakeApi

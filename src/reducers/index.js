@@ -14,6 +14,7 @@ import BettingMarketGroupReducer from './BettingMarketGroupReducer';
 import BettingMarketReducer from './BettingMarketReducer';
 import BetReducer from './BetReducer';
 import AllSportsReducer from './AllSportsReducer';
+import AccountReducer from './AccountReducer';
 import { routerReducer } from 'react-router-redux';
 import { i18nReducer } from 'react-redux-i18n'
 import { reducer as formReducer } from 'redux-form'
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   bettingMarket: BettingMarketReducer,
   bet: BetReducer,
   allSports: AllSportsReducer,
+  account: AccountReducer,
   routing: routerReducer,
   form: formReducer,
   i18n: i18nReducer,

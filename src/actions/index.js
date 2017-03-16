@@ -10,6 +10,7 @@ import EventActions from './EventActions';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BetActions from './BetActions';
+import AccountActions from './AccountActions';
 import NavigateActions from './NavigateActions';
 import SidebarActions from './SidebarActions';
 import AllSportsActions from './AllSportsActions';
@@ -30,5 +31,6 @@ export {
   AllSportsActions,
   BetActions,
   NavigateActions,
-  SidebarActions
+  SidebarActions,
+  AccountActions
 }
