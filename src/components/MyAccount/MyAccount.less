@@ -1,0 +1,201 @@
+.pos-relative{ position: relative;  }
+.border-blue{border:2px solid #2FA5E6}
+.padding-tb-5{padding:5px 0}
+.margin-bottom-30{ margin-bottom:30px}
+.margin-lr-10{margin:0 10px}
+.font16{ font-size:16px;}
+.margin-tb-15{  margin:15px 0;  }
+.margin-tb-20{  margin:20px 0;  }
+.margin-tb-10{  margin:10px 0;  }
+.text-center{ text-align: center;}
+
+.processed{color: #00BEF4; }
+.completed{ color: #7ED321; }
+.btn-primary{  background-image: linear-gradient(-180deg, rgba(55,192,255,0.92) 2%, #1F6CB4 97%);  box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);  }
+.bookie-select{  display: block;  }
+.ant-select-selection--single{  height: 36px;  border-radius:2px;  }
+.ant-select-selection__rendered{  line-height: 36px;  }
+.ant-input{  height:36px;  line-height: 36px;  border-radius:2px;  }
+.btn{  cursor: pointer; &:focus{  outline:none;  } }
+.bookie-switch{
+  border:1px solid #E1E1E1;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+  background-color: #FFFFFF;
+  height: 28px;
+  min-width: 50px;
+  line-height: 28px;
+  &:after{
+    background-color: #1D7BE3;
+    width: 24px;
+    height: 24px;
+    border-radius: 24px;
+  }
+  &.ant-switch-checked{
+    &:after{
+      margin-left: -24px;
+    }
+  }
+}
+.my-account{
+  color: #FFFFFF;
+  padding-left:20px;
+  .bookie-breadcrumb{
+    color: #FFFFFF;
+    font-size:16px;
+    text-transform: uppercase;
+    margin-bottom:30px;
+    a,.ant-breadcrumb-separator{
+      color: #FFFFFF;
+    }
+    .ant-breadcrumb-link{
+      color: #00BEF4;
+    }
+    &>span{
+      &:last-child{
+        font-weight:400;
+      }
+    }
+  }
+  .bookie-amount{
+    background-color: #99C9FF;
+    text-align: right;
+    margin:75px 0;
+  }
+  .registerComponent{
+    .bookie-input,.btn{
+      height:45px;
+      line-height:45px;
+    }
+    .btn{
+      display: block;
+      width:100%;
+      border-radius:2px;
+    }
+    .copy-btn{
+      width:auto;
+    }
+  }
+
+  .top-data{
+    padding: 15px;
+    color: #fff;
+    border-bottom:1px solid #1563A0;
+  }
+  .export-icon{
+    display: block;
+    background-color: #004E9B;
+    padding:0 10px;
+    border-radius:2px;
+    height:36px;
+    line-height:36px;
+    margin-left: 25px;
+    color: #FFFFFF;
+  }
+  .ant-form-inline {
+    .ant-form-item{
+      &:last-child{
+        margin-right:0;
+      }
+    }
+  }
+  .filter{
+    label{
+      font-size:16px;
+      color: #FFFFFF;
+      margin-right:10px;
+    }
+  }
+  .transaction-table{
+    background-color: rgba(6,92,183,0.35);
+    margin-top: 30px;
+    box-shadow: 0 2px 4px 0 #02070C;
+  }
+  .ant-form-item{
+    color:#fff
+  }
+  .page-title{
+    font-size:16px;
+    text-transform:uppercase;
+    font-weight: normal
+  }
+}
+
+.bookie-card{
+  background: rgba(6,92,183,0.35);
+  box-shadow: 0 2px 4px 0 #02070C;
+  height:340px;
+  border-radius:0;
+  font-size:14px;
+  .ant-card-body{
+    color: #FFFFFF;
+    padding:15px;
+    font-size:16px;
+  }
+  .ant-card-head{
+    padding:0 15px;
+    border-bottom-color: #1563A0;
+  }
+  .ant-card-head-title{
+    font-size:18px;
+    color: #FFFFFF;
+    font-weight:500;
+    text-transform: uppercase;
+  }
+}
+
+.bookie-table{
+  padding: 0 10px;
+  table{
+    color: #FFFFFF;
+    font-size: 14px;
+    .ant-table-thead > tr > th{
+      background-color: transparent;
+      border-bottom:1px solid #fff;
+    }
+    .ant-table-tbody > tr > td{
+      border-bottom:0 none;
+      font-size:14px;
+      word-break: normal;
+    }
+    .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+      padding:15px 5px;
+      color: #FFFFFF;
+    }
+    .ant-table-thead > tr:hover, .ant-table-tbody > tr:hover,.ant-table-tbody > tr:hover > td{
+      background-color: transparent;
+    }
+  }
+}
+
+
+.ant-calendar-input{
+  color: #4A4A4A;
+}
+.ant-calendar-date-panel{
+  background-color: rgba(3,41,77,0.95);
+}
+.ant-calendar-header .ant-calendar-my-select a,.ant-calendar-header .ant-calendar-prev-month-btn,.ant-calendar-header .ant-calendar-next-month-btn,.ant-calendar-date{
+  color: #FFFFFF;
+}
+.ant-calendar-column-header-inner {
+  color: #166ABC;
+}
+.ant-calendar-date:hover{
+  background: transparent;
+  color: inherit;
+}
+.ant-calendar-footer-btn{
+  border-top-color: rgba(125,175,213,0.20);
+}
+.ant-calendar-last-month-cell .ant-calendar-date, .ant-calendar-next-month-btn-day .ant-calendar-date{
+  color: rgba(47,165,230, 0.25);
+}
+.ant-calendar-header{
+  border-bottom-color: #034A8E;
+}
+.ant-calendar-today-btn{
+  color: #00BEF4;
+}
+::-webkit-input-placeholder,.rw-input { /* Chrome/Opera/Safari */
+  color: #4A4A4A;
+}
