@@ -3,6 +3,8 @@ import { LoadingStatus } from '../constants';
 import _ from 'lodash';
 
 let initialState = {
+  account: null,
+  keys: null,
   getDepositAddressLoadingStatus: LoadingStatus.DEFAULT,
   getTransactionHistoriesLoadingStatus: LoadingStatus.DEFAULT,
   withdrawLoadingStatus: LoadingStatus.DEFAULT,
@@ -35,6 +37,16 @@ export default function (state = initialState, action) {
     case ActionTypes.ACCOUNT_SET_TRANSACTION_HISTORIES: {
       return Object.assign({}, state, {
         transactionHistories: action.transactionHistories
+      });
+    }
+    case ActionTypes.ACCOUNT_SET_ACCOUNT: {
+      return Object.assign({}, state, {
+        account: action.account
+      });
+    }
+    case ActionTypes.ACCOUNT_SET_KEYS: {
+      return Object.assign({}, state, {
+        keys: action.keys
       });
     }
     default:

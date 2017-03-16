@@ -1,6 +1,7 @@
 import AppActions from './AppActions';
+import AccountActions from './AccountActions';
 import { LoadingStatus, ActionTypes } from '../constants';
-import { AccountService } from '../services';
+import { AccountService, KeyGeneratorService } from '../services';
 import { FetchChain } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
 
@@ -33,22 +34,26 @@ class RegisterActions {
 
       // Set register status to loading
       dispatch(RegisterPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
-      AccountService.registerThroughFaucet(1, accountName, password).then(() => {
+
+      const keys = KeyGeneratorService.generateKeys(accountName, password);
+      AccountService.registerThroughFaucet(1, accountName, keys).then(() => {
         // Get full account
         return FetchChain('getAccount', accountName);
       }).then((account) => {
+        // Save account information
+        dispatch(AppActions.setAccount(account));
 
-        // Set register status to done
-        dispatch(RegisterPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
+        // Save keys
+        dispatch(AccountActions.setKeysAction(keys));
 
         // Set is logged in
         dispatch(AppActions.setIsLoggedInAction(true));
 
-        // Save account information
-        dispatch(AppActions.setAccount(account));
-
         // After some delay navigate to home page
         dispatch(NavigateActions.navigateTo('/exchange'))
+
+        // Set register status to done
+        dispatch(RegisterPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
 
       }).catch((error) => {
         // Set error

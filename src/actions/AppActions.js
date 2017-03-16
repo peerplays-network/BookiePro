@@ -1,21 +1,10 @@
 import { ActionTypes, LoadingStatus } from '../constants';
-import { ChainStore } from 'graphenejs-lib';
 import FakeApi from '../communication/FakeApi';
-
-// Account subscriber
-let accountSubscriber;
 
 /**
  * Private actions
  */
 class AppPrivateActions {
-  static setAccountAction(account) {
-    return {
-      type: ActionTypes.APP_SET_ACCOUNT,
-      account
-    }
-  }
-
   static setGlobalBettingStatisticsAction(globalBettingStatistics) {
     return {
       type: ActionTypes.APP_SET_GLOBAL_BETTING_STATISTICS,
@@ -42,33 +31,7 @@ class AppActions {
     }
   }
 
-  /**
-   * Set the account and subscribe to it
-   */
-  static setAccount(account) {
-    return (dispatch, getState) => {
 
-      // Unsubscribe previous account subscriber
-      if (accountSubscriber) {
-        ChainStore.unsubscribe(accountSubscriber);
-      }
-      // Define new account subscriber and subscribe to ChainStore
-      accountSubscriber = () => {
-        const accountId = account && account.get('id');
-        if (accountId) {
-          const previousAccount = getState().app.account;
-          const updatedAccount = ChainStore.getAccount(accountId);
-          // Dispatch updated account
-          if (previousAccount && !previousAccount.equals(updatedAccount)) {
-            dispatch(AppActions.setAccount(updatedAccount));
-          }
-        }
-      };
-      ChainStore.subscribe(accountSubscriber);
-      // Set the account
-      dispatch(AppPrivateActions.setAccountAction(account));
-    }
-  }
 
   static getGlobalBettingStatistics() {
     return (dispatch) => {

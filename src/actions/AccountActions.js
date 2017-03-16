@@ -1,5 +1,9 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import FakeApi from '../communication/FakeApi';
+import { ChainStore } from 'graphenejs-lib';
+
+// Account subscriber
+let accountSubscriber;
 
 /**
  * Private actions
@@ -40,12 +44,55 @@ class AccountPrivateActions {
       depositAddress
     }
   }
+
+  static setAccountAction(account) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_ACCOUNT,
+      account
+    }
+  }
+
 }
 
 /**
  * Public actions
  */
 class AccountActions {
+  static setKeysAction(keys) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_KEYS,
+      keys
+    }
+  }
+
+  /**
+   * Set the account and subscribe to it
+   */
+  static setAccount(account) {
+    return (dispatch, getState) => {
+
+      // Unsubscribe previous account subscriber
+      if (accountSubscriber) {
+        ChainStore.unsubscribe(accountSubscriber);
+      }
+      // Define new account subscriber and subscribe to ChainStore
+      accountSubscriber = () => {
+        const accountId = account && account.get('id');
+        if (accountId) {
+          const previousAccount = getState().app.account;
+          const updatedAccount = ChainStore.getAccount(accountId);
+          // Dispatch updated account
+          if (previousAccount && !previousAccount.equals(updatedAccount)) {
+            dispatch(AccountActions.setAccount(updatedAccount));
+          }
+        }
+      };
+      ChainStore.subscribe(accountSubscriber);
+      // Set the account
+      dispatch(AccountPrivateActions.setAccountAction(account));
+    }
+  }
+
   static getTransactionHistories(startTime, stopTime) {
     return (dispatch, getState) => {
       const account = getState().app.account;
