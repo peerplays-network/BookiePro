@@ -4,7 +4,7 @@ const bettingMarketGroups = [
     event_id: '1.103.1',
     market_type_id: 'Moneyline',
     options: null,
-    betting_markets: [
+    betting_market_ids: [
       '1.105.1',
       '1.105.2'
     ]
@@ -17,7 +17,7 @@ const bettingMarketGroups = [
       margin: 5,
       score: 0
     },
-    betting_markets: [
+    betting_market_ids: [
       '1.105.3',
       '1.105.4'
     ]
@@ -30,7 +30,7 @@ const bettingMarketGroups = [
       margin: 0,
       score: 5
     },
-    betting_markets: [
+    betting_market_ids: [
       '1.105.5',
       '1.105.6'
     ]
@@ -40,7 +40,7 @@ const bettingMarketGroups = [
     event_id: '1.103.2',
     market_type_id: 'Moneyline',
     options: null,
-    betting_markets: [
+    betting_market_ids: [
       '1.105.7',
       '1.105.8'
     ]
@@ -53,7 +53,7 @@ const bettingMarketGroups = [
       margin: 15,
       score: 0
     },
-    betting_markets: [
+    betting_market_ids: [
       '1.105.9',
       '1.105.10'
     ]
@@ -66,7 +66,7 @@ const bettingMarketGroups = [
       margin: 0,
       score: 15
     },
-    betting_markets: [
+    betting_market_ids: [
       '1.105.11',
       '1.105.12'
     ]

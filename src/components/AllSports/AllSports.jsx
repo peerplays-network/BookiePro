@@ -7,7 +7,7 @@ import { HomeActions } from '../../actions';
 
 const { getData } = HomeActions;
 
-class Home extends Component {
+class AllSports extends Component {
   constructor(props) {
     super(props);
     this.props.dispatch(getData());
@@ -15,18 +15,11 @@ class Home extends Component {
 
   render() {
     return (
-      <div id='home-wrapper'>
-        <div className='left-content'>
-          <Banner />
-          { Object.keys(this.props.sports).length > 0 &&
-            <SimpleBettingWidget sport={ this.props.sports['1.100.1'] } />
-          }
-        </div>
-        <div className='right-content'>
-          <BetSlip />
-          <BetSlip />
-          <BetSlip />
-        </div>
+      <div id='all-sports-wrapper'>
+        <Banner />
+        { Object.keys(this.props.sports).length > 0 &&
+          <SimpleBettingWidget sport={ this.props.sports['1.100.1'] } />
+        }
       </div>
     );
   }
@@ -75,4 +68,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(AllSports);

@@ -6,7 +6,8 @@ const {
   eventGroups,
   competitors,
   events,
-  bets
+  bets,
+  binnedOrderBooks
 } = dummyData;
 
 const TIMEOUT_LENGTH = 500;
@@ -105,7 +106,19 @@ class FakeApi {
     });
   }
 
-
+  static get_binned_order_book(bettingMarketId, binning_precision) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        let mappedResult = [];
+        binnedOrderBooks.forEach((orderBook) => {
+          if (orderBook.betting_market_id === bettingMarketId) {
+            mappedResult.push(orderBook);
+          }
+        });
+        resolve(mappedResult);
+      }, TIMEOUT_LENGTH);
+    })
+  }
 }
 
 export default FakeApi

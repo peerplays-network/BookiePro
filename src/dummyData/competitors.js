@@ -2,12 +2,12 @@ const competitors = [
   {
     id: '1.102.1',
     sport_id: '1.100.1',
-    name: 'American Football Team 1'
+    name: 'NY Giants'
   },
   {
     id: '1.102.2',
     sport_id: '1.100.1',
-    name: 'American Football Team 2'
+    name: 'Green Bay'
   },
   {
     id: '1.102.3',

@@ -5,6 +5,7 @@ import events from './events';
 import bettingMarketGroups from './bettingMarketGroups';
 import bettingMarkets from './bettingMarkets';
 import accounts from './accounts';
+import binnedOrderBooks from './binnedOrderBooks';
 
 export default {
   accounts,
@@ -13,5 +14,6 @@ export default {
   competitors,
   events,
   bettingMarketGroups,
-  bettingMarkets
+  bettingMarkets,
+  binnedOrderBooks,
 }
