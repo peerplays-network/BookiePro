@@ -5,7 +5,7 @@ import EventGroupActions from './EventGroupActions';
 import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import _ from 'lodash';
-import Immutable, { List } from 'immutable';
+import Immutable from 'immutable';
 
 
 class SidebarActions{
@@ -32,6 +32,7 @@ class SidebarActions{
         const eventGpArray = [];
         _.forEach(eventGroups, (items) => {
 
+          //NOTE to be fine tune
           dispatch(EventGroupActions.addEventGroupsAction(items));
 
           _.forEach(items, (item) => {
@@ -53,10 +54,12 @@ class SidebarActions{
         var mkGroupIds = Immutable.List([]);
         _.forEach(eventResults, (items) => {
 
+          //NOTE to be fine tune
           dispatch(EventActions.addEventsAction(items));
 
           _.forEach(items, (item) => {
-            // concat with unique
+            // get related betting market groups
+
             const newGroupIds = Immutable.List(item.betting_market_group_ids);
             mkGroupIds = mkGroupIds.toSet().union(newGroupIds.toSet()).toList();
           });
@@ -86,6 +89,7 @@ class SidebarActions{
       const {events} = getState().event;
       const {bettingMarketGroups} = getState().bettingMarketGroup;
 
+      const { List } = require('immutable')
       const eventGroupsList = List(eventGroups);
       const eventList = List(events);
       const bettingMktGroupList = List(bettingMarketGroups);
@@ -178,7 +182,7 @@ class SidebarActions{
 
   static updateTree(complete_tree) {
     return {
-      type: ActionTypes.UPDATE_SIDEBAR_COMPLETE_TREE,
+      type: ActionTypes.SIDEBAR_UPDATE_COMPLETE_TREE,
       complete_tree
     }
   }

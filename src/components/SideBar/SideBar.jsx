@@ -38,12 +38,15 @@ class SideBar extends Component {
       //http://stackoverflow.com/questions/41298577/how-to-get-altered-tree-from-immutable-tree-maximising-reuse-of-nodes?rq=1
     const nested = Immutable.fromJS(completeTree);
 
-    if ( !targetObjectId){
-      // id of 'all sports'
-      targetObjectId = '0'
-    }
+    if ( !targetObjectId ){
+      console.log('No Id ! ', targetObjectId);
+      targetObjectId = '0';
 
-    if ( targetObjectId){
+      this.setState({
+        tree: completeTree
+      });
+
+    } else {
       var keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === targetObjectId) );
 
       // Found path?
@@ -118,9 +121,7 @@ class SideBar extends Component {
         var updatedTree = newTree.toJS();
 
 
-        if (keyPath[0] === 0){
-
-        } else{
+        if (keyPath[0] !== 0){
           updatedTree = updatedTree.filter(function(p) {
             return (p.id === "0" || p.isOpen === true);
           });
@@ -135,12 +136,6 @@ class SideBar extends Component {
           tree: completeTree
         });
       }
-    } else {
-      console.log('No Id ! ', targetObjectId);
-
-      this.setState({
-        tree: completeTree
-      });
     }
   }
 
