@@ -49,9 +49,12 @@ export default function configureStore(initialState) {
     console.log('autoRehydrate completed');
   });
 
+
   syncTranslationWithStore(store)
   store.dispatch(loadTranslations(translationsObject));
   store.dispatch(setLocale('en'));
+
+
 
   return store;
 }

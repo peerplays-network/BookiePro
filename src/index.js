@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, IndexRedirect, hashHistory } from 'react-router';
+import { Router, Route, IndexRedirect, hashHistory, IndexRoute } from 'react-router';
 import App from './components/App';
 import BlockchainTestPage from './components/BlockchainTestPage';
 import EmptyPage from './components/EmptyPage';
@@ -12,6 +12,8 @@ import MyWager from './components/MyWager';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Main from './components/Main';
+import SportMarket from './components/SportMarket';
+import MarketScreen from './components/MarketScreen';
 import Localize from './components/Localize';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
@@ -66,7 +68,19 @@ const routes = (
       <Route component={ Main }>
         <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
         <Route path='/empty-page' component={ EmptyPage } />
+
+        {/* TODO Home is to be deprcated due to new design in side bar.( not shared component to all chils in Main) please check MarketScreen */}
         <Route path='/home' component={ Home } />
+        <Route path='/market-screen' component={ MarketScreen } >
+          <IndexRoute component={ SportMarket }/>
+          <Route path='Sport/:objectId' component={ SportMarket }/>
+          <Route path='EventGroup/:objectId' component={ SportMarket }/>
+          <Route path='Event/:objectId' component={ SportMarket }/>
+          <Route path='BettingMarketGroup/:objectId' component={ SportMarket }/>
+          {/* TODO perhaps we just need objectID, objectId itself tells the type of object */}
+          <Route path=':objectId' component={ SportMarket }/>
+        </Route>
+
         <Route path='/my-account' component={ MyAccount } />
         <Route path='/my-wager' component={ MyWager } />
         <Route path='/localize' component={ Localize } />

@@ -66,9 +66,9 @@ class HomeActions {
         return Promise.all(getBettingMarketGroupPromiseArray);
       }).then((result) => {
         // Combine the resulting betting market groups
-        const bettingMarketGroups = [];
+        var bettingMarketGroups = [];
         _.forEach(result, (retrievedBettingMarketGroups) => {
-          bettingMarketGroups.concat(retrievedBettingMarketGroups);
+          bettingMarketGroups = bettingMarketGroups.concat(retrievedBettingMarketGroups);
         });
         // Store betting market groups inside redux store
         dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMarketGroups));
@@ -83,4 +83,4 @@ class HomeActions {
   }
 }
 
-export default SportActions;
+export default HomeActions;

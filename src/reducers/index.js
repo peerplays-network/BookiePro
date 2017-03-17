@@ -2,6 +2,8 @@ import { combineReducers } from 'redux';
 import AssetReducer from './AssetReducer';
 import SettingReducer from './SettingReducer';
 import AppReducer from './AppReducer';
+import SidebarReducer from './SidebarReducer';
+
 import RegisterReducer from './RegisterReducer';
 import LoginReducer from './LoginReducer';
 import SportReducer from './SportReducer';
@@ -30,7 +32,8 @@ const rootReducer = combineReducers({
   bet: BetReducer,
   routing: routerReducer,
   form: formReducer,
-  i18n: i18nReducer
+  i18n: i18nReducer,
+  sidebar: SidebarReducer
 });
 
 export default rootReducer;

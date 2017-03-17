@@ -1,0 +1,157 @@
+@import (reference) '../Main/Main.less';
+
+#home-wrapper {
+  > div.left-content {
+    position: absolute;
+    right: 400px;
+    overflow: scroll;
+    height: 100%;
+    background: @app-bg;
+    color: white;
+    padding: 20px 20px @nav-bar-height 20px;
+  }
+
+  > div.right-content {
+    position: absolute;
+    width: 400px;
+    right: 0;
+    overflow: scroll;
+    height: 100%;
+    background: @app-bg;
+    color: white;
+    padding-bottom: @nav-bar-height;
+  }
+
+  div.banner {
+    position: relative;
+
+    @media @desktop {
+      background: url('../../assets/home_banner_dark_small.png') no-repeat;
+      height: 150px;
+    }
+
+    @media @desktop-xl {
+      background: url('../../assets/home_banner_dark_big.png') no-repeat;
+      height: 228px;
+    }
+
+    >div.statistics {
+      position: absolute;
+      right: 50px;
+      bottom: 20px;
+
+      > div.digits {
+        margin-left: 150px;
+
+        > span.digit {
+          background-color: black;
+          color: white;
+          font-size: 24px;
+          padding: 4px;
+          margin: 3px;
+        }
+      }
+
+      > div.text {
+        margin-left: 10px;
+
+        > span.text {
+          display: block;
+          color: white;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+//I add it for resizer in split pane
+.Resizer {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #000;
+    opacity: .2;
+    z-index: 1;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding;
+    background-clip: padding-box;
+}
+
+.Resizer:hover {
+    -webkit-transition: all 2s ease;
+    transition: all 2s ease;
+}
+
+.Resizer.horizontal {
+    height: 11px;
+    margin: -5px 0;
+    border-top: 5px solid rgba(255, 255, 255, 0);
+    border-bottom: 5px solid rgba(255, 255, 255, 0);
+    cursor: row-resize;
+    width: 100%;
+}
+
+.Resizer.horizontal:hover {
+    border-top: 5px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 5px solid rgba(0, 0, 0, 0.5);
+}
+
+.Resizer.vertical {
+    width: 11px;
+    margin: 0 -5px;
+    border-left: 5px solid rgba(255, 255, 255, 0);
+    border-right: 5px solid rgba(255, 255, 255, 0);
+    cursor: col-resize;
+}
+
+.Resizer.vertical:hover {
+    border-left: 5px solid rgba(0, 0, 0, 0.5);
+    border-right: 5px solid rgba(0, 0, 0, 0.5);
+}
+
+.vertical section {
+    width: 100vh;
+    height: 100vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+}
+
+.vertical header {
+    padding: 1rem;
+    background: #eee;
+}
+
+.vertical footer {
+    padding: 1rem;
+    background: #eee;
+}
+
+
+.horizontal section {
+    width: 100vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.horizontal header {
+    padding: 1rem;
+    background: #eee;
+}
+
+.horizontal footer {
+    padding: 1rem;
+    background: #eee;
+}
