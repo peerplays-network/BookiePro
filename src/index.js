@@ -6,7 +6,6 @@ import App from './components/App';
 import BlockchainTestPage from './components/BlockchainTestPage';
 import EmptyPage from './components/EmptyPage';
 import InitError from './components/InitError';
-import Home from './components/Home';
 import MyAccount from './components/MyAccount';
 import MyWager from './components/MyWager';
 import Signup from './components/Signup';
@@ -14,6 +13,7 @@ import Login from './components/Login';
 import Main from './components/Main';
 import SportMarket from './components/SportMarket';
 import MarketScreen from './components/MarketScreen';
+import AllSports from './components/AllSports';
 import Localize from './components/Localize';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
@@ -70,9 +70,8 @@ const routes = (
         <Route path='/empty-page' component={ EmptyPage } />
 
         {/* TODO Home is to be deprcated due to new design in side bar.( not shared component to all chils in Main) please check MarketScreen */}
-        <Route path='/home' component={ Home } />
         <Route path='/market-screen' component={ MarketScreen } >
-          <IndexRoute component={ SportMarket }/>
+          <IndexRoute component={ AllSports }/>
           <Route path='Sport/:objectId' component={ SportMarket }/>
           <Route path='EventGroup/:objectId' component={ SportMarket }/>
           <Route path='Event/:objectId' component={ SportMarket }/>
