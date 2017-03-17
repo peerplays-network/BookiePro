@@ -106,7 +106,7 @@ class FakeApi {
     });
   }
 
-  static get_binned_order_book(bettingMarketId, binning_precision) {
+  static getBinnedOrderBook(bettingMarketId, binning_precision) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         let mappedResult = [];

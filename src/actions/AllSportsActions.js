@@ -97,7 +97,7 @@ class AllSportsActions {
         // Create promisr to get Binned Order Books for each market
         let getBinnedOrderBookPromiseArray = [];
         _.forEach(bettingMarkets, (market) => {
-          const getBinnedOrderBookPromise = FakeApi.get_binned_order_book(market.id, 2);
+          const getBinnedOrderBookPromise = FakeApi.getBinnedOrderBook(market.id, 2);
           getBinnedOrderBookPromiseArray.push(getBinnedOrderBookPromise);
         })
 
