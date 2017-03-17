@@ -218,13 +218,12 @@ class MyAccount extends Component {
   }
 
 
+  componentDidMount() {
+    this.fetchRecentTransactionHistory();
+    ps.initialize(this.refs.global);
 
-    componentDidMount() {
-      this.fetchRecentTransactionHistory();
-      ps.initialize(this.refs.global);
-
-      ps.update(this.refs.global);
-    }
+    ps.update(this.refs.global);
+  }
 
 
   fetchRecentTransactionHistory() {
@@ -275,25 +274,25 @@ class MyAccount extends Component {
       return (
         <Col span={ 24 }
              style={ {'padding': '5px'} }>
-            <Card title='Card title'
-                  bordered={ false }
-                  style={ {width: '100%'} }>
+          <Card title='Card title'
+                bordered={ false }
+                style={ {width: '100%'} }>
 
-                <div style={ {
-                  'height': '500px',
-                  'overflow': 'auto',
-                  'overflow-x': 'hidden'
-                } }
-                     ref='global'
-                >
-                    <Table {  ...this.state  }
-                           columns={  columns  }
-                           dataSource={  this.state.txList  }
-                           rowKey='id'
-                           ref='table'/>
+            <div style={ {
+              'height': '500px',
+              'overflow': 'auto',
+              'overflow-x': 'hidden'
+            } }
+                 ref='global'
+            >
+              <Table {  ...this.state  }
+                     columns={  columns  }
+                     dataSource={  this.state.txList  }
+                     rowKey='id'
+                     ref='table'/>
 
-                </div>
-            </Card>
+            </div>
+          </Card>
         </Col>
       );
     }
@@ -331,84 +330,112 @@ class MyAccount extends Component {
 
 
     return (
-      <Card className='bookie-card' title={ I18n.t('myAccount.settings') }
+      <Card className='bookie-card'
+            title={ I18n.t('myAccount.settings') }
             bordered={ false }
             style={ {width: '100%'} }>
-          <Row>
-              <Col span={ 18 }>
-                  <p> { I18n.t('myAccount.notifications') }</p>
-              </Col>
-              <Col span={ 6 }>
-                  <Switch className='bookie-switch'
-                          defaultChecked={ false }
-                          onChange={ onChange }/>
-              </Col>
-          </Row>
-          <Row className='margin-tb-15'>
-              <Col span={ 18 }>
-                  <p className='padding-tb-5'> { I18n.t('myAccount.time_zone') }</p>
-              </Col>
-              <Col span={ 6 }>
-                  <div ref='global_object'>
-                      <Select
-                        className='bookie-select'
-                        defaultValue={ this.props.timezone }
-                        onChange={ this.handleTimeZoneChange }>
-                        <Option value='UTC-12:00'>{ I18n.t('myAccount.UTC_12') }</Option>
-                        <Option value='UTC-11:00'>{ I18n.t('myAccount.UTC_11') }</Option>
-                        <Option value='UTC-10:00'>{ I18n.t('myAccount.UTC_10') }</Option>
-                        <Option value='UTC-09:00'>{ I18n.t('myAccount.UTC_9') }</Option>
-                        <Option value='UTC-08:00'>{ I18n.t('myAccount.UTC_8') }</Option>
-                        <Option value='UTC-07:00'>{ I18n.t('myAccount.UTC_7') }</Option>
-                        <Option value='UTC-06:00'>{ I18n.t('myAccount.UTC_6') }</Option>
-                        <Option value='UTC-05:00'>{ I18n.t('myAccount.UTC_5') }</Option>
-                        <Option value='UTC-04:00'>{ I18n.t('myAccount.UTC_4') }</Option>
-                        <Option value='UTC-03:00'>{ I18n.t('myAccount.UTC_3') }</Option>
-                        <Option value='UTC-02:00'>{ I18n.t('myAccount.UTC_2') }</Option>
-                        <Option value='UTC-01:00'>{ I18n.t('myAccount.UTC_1') }</Option>
-                        <Option value='UTC+00:00'>{ I18n.t('myAccount.UTC0') }</Option>
-                        <Option value='UTC+01:00'>{ I18n.t('myAccount.UTC1') }</Option>
-                        <Option value='UTC+02:00'>{ I18n.t('myAccount.UTC2') }</Option>
-                        <Option value='UTC+03:00'>{ I18n.t('myAccount.UTC3') }</Option>
-                        <Option value='UTC+04:00'>{ I18n.t('myAccount.UTC4') }</Option>
-                        <Option value='UTC+05:00'>{ I18n.t('myAccount.UTC5') }</Option>
-                        <Option value='UTC+06:00'>{ I18n.t('myAccount.UTC6') }0</Option>
-                        <Option value='UTC+07:00'>{ I18n.t('myAccount.UTC7') }</Option>
-                        <Option value='UTC+08:00'>{ I18n.t('myAccount.UTC8') }</Option>
-                        <Option value='UTC+09:00'>{ I18n.t('myAccount.UTC9') }</Option>
-                        <Option value='UTC+10:00'>{ I18n.t('myAccount.UTC10') }</Option>
-                        <Option value='UTC+11:00'>{ I18n.t('myAccount.UTC11') }</Option>
-                        <Option value='UTC+12:00'>{ I18n.t('myAccount.UTC12') }</Option>
-                      </Select>
-                  </div>
-              </Col>
-          </Row>
-          <Row className='margin-tb-15'>
-              <Col span={ 18 }>
-                  <p className='padding-tb-5'>{ I18n.t('myAccount.format') }</p>
-              </Col>
-              <Col span={ 6 }>
-                  <div ref='global_object'>
-                      <Select
-                        className='bookie-select'
-                        defaultValue='BTC'
-                        onChange={ this.handleTimeZoneChange }>
-                          <Option value='UTC-12:00'> BTC</Option>
-                          <Option value='UTC-11:00'>mBTC</Option>
-                      </Select>
-                  </div>
-              </Col>
-          </Row>
-          <Row
-            className='margin-tb-15 registerComponent'>
-              <button
-                className='btn btn-primary margin-tb-15'>
-                { I18n.t('myAccount.change_password') }
-              </button>
-              <button className='btn btn-primary'>
-                { I18n.t('myAccount.create_recovery_file') }
-              </button>
-          </Row>
+        <Row>
+          <Col span={ 18 }>
+            <p> { I18n.t('myAccount.notifications') }</p>
+          </Col>
+          <Col span={ 6 }>
+            <Switch className='bookie-switch'
+                    defaultChecked={ false }
+                    onChange={ onChange }/>
+          </Col>
+        </Row>
+        <Row className='margin-tb-15'>
+          <Col span={ 18 }>
+            <p
+              className='padding-tb-5'> { I18n.t('myAccount.time_zone') }</p>
+          </Col>
+          <Col span={ 6 }>
+            <div ref='global_object'>
+              <Select
+                className='bookie-select'
+                defaultValue={ this.props.timezone }
+                onChange={ this.handleTimeZoneChange }>
+                <Option
+                  value='UTC-12:00'>{ I18n.t('myAccount.UTC_12') }</Option>
+                <Option
+                  value='UTC-11:00'>{ I18n.t('myAccount.UTC_11') }</Option>
+                <Option
+                  value='UTC-10:00'>{ I18n.t('myAccount.UTC_10') }</Option>
+                <Option
+                  value='UTC-09:00'>{ I18n.t('myAccount.UTC_9') }</Option>
+                <Option
+                  value='UTC-08:00'>{ I18n.t('myAccount.UTC_8') }</Option>
+                <Option
+                  value='UTC-07:00'>{ I18n.t('myAccount.UTC_7') }</Option>
+                <Option
+                  value='UTC-06:00'>{ I18n.t('myAccount.UTC_6') }</Option>
+                <Option
+                  value='UTC-05:00'>{ I18n.t('myAccount.UTC_5') }</Option>
+                <Option
+                  value='UTC-04:00'>{ I18n.t('myAccount.UTC_4') }</Option>
+                <Option
+                  value='UTC-03:00'>{ I18n.t('myAccount.UTC_3') }</Option>
+                <Option
+                  value='UTC-02:00'>{ I18n.t('myAccount.UTC_2') }</Option>
+                <Option
+                  value='UTC-01:00'>{ I18n.t('myAccount.UTC_1') }</Option>
+                <Option
+                  value='UTC+00:00'>{ I18n.t('myAccount.UTC0') }</Option>
+                <Option
+                  value='UTC+01:00'>{ I18n.t('myAccount.UTC1') }</Option>
+                <Option
+                  value='UTC+02:00'>{ I18n.t('myAccount.UTC2') }</Option>
+                <Option
+                  value='UTC+03:00'>{ I18n.t('myAccount.UTC3') }</Option>
+                <Option
+                  value='UTC+04:00'>{ I18n.t('myAccount.UTC4') }</Option>
+                <Option
+                  value='UTC+05:00'>{ I18n.t('myAccount.UTC5') }</Option>
+                <Option
+                  value='UTC+06:00'>{ I18n.t('myAccount.UTC6') }0</Option>
+                <Option
+                  value='UTC+07:00'>{ I18n.t('myAccount.UTC7') }</Option>
+                <Option
+                  value='UTC+08:00'>{ I18n.t('myAccount.UTC8') }</Option>
+                <Option
+                  value='UTC+09:00'>{ I18n.t('myAccount.UTC9') }</Option>
+                <Option
+                  value='UTC+10:00'>{ I18n.t('myAccount.UTC10') }</Option>
+                <Option
+                  value='UTC+11:00'>{ I18n.t('myAccount.UTC11') }</Option>
+                <Option
+                  value='UTC+12:00'>{ I18n.t('myAccount.UTC12') }</Option>
+              </Select>
+            </div>
+          </Col>
+        </Row>
+        <Row className='margin-tb-15'>
+          <Col span={ 18 }>
+            <p
+              className='padding-tb-5'>{ I18n.t('myAccount.format') }</p>
+          </Col>
+          <Col span={ 6 }>
+            <div ref='global_object'>
+              <Select
+                className='bookie-select'
+                defaultValue='BTC'
+                onChange={ this.handleTimeZoneChange }>
+                <Option value='UTC-12:00'> BTC</Option>
+                <Option value='UTC-11:00'>mBTC</Option>
+              </Select>
+            </div>
+          </Col>
+        </Row>
+        <Row
+          className='margin-tb-15 registerComponent'>
+          <button
+            className='btn btn-primary margin-tb-15'>
+            { I18n.t('myAccount.change_password') }
+          </button>
+          <button className='btn btn-primary'>
+            { I18n.t('myAccount.create_recovery_file') }
+          </button>
+        </Row>
       </Card>
     );
   }
@@ -417,157 +444,159 @@ class MyAccount extends Component {
     const {startValue, endValue} = this.state;
     return (
       <div className='my-account'>
-          <Breadcrumb className='bookie-breadcrumb'>
-              <Breadcrumb.Item><a href='/'>  {I18n.t('myAccount.home')} </a></Breadcrumb.Item>
-              <Breadcrumb.Item>{I18n.t('myAccount.my_account')}</Breadcrumb.Item>
-          </Breadcrumb>
-          <Row gutter={ 10 }>
-              <Col span={ 8 }>
-                  <Card className='bookie-card'
-                        title={ I18n.t('myAccount.deposit') }
-                        bordered={ false }
-                        style={ {width: '100%'} }>
-                      <p>{ I18n.t('myAccount.deposit_desc') }</p>
-                      <p>
+        <Breadcrumb className='bookie-breadcrumb'>
+          <Breadcrumb.Item><a
+            href='/'>  {I18n.t('myAccount.home')} </a></Breadcrumb.Item>
+          <Breadcrumb.Item>{I18n.t('myAccount.my_account')}</Breadcrumb.Item>
+        </Breadcrumb>
+        <Row gutter={ 10 }>
+          <Col span={ 8 }>
+            <Card className='bookie-card'
+                  title={ I18n.t('myAccount.deposit') }
+                  bordered={ false }
+                  style={ {width: '100%'} }>
+              <p>{ I18n.t('myAccount.deposit_desc') }</p>
+              <p>
 
-                        {/*{ JSON.stringify(this.props.dynGlobalObject) }*/}
+                {/*{ JSON.stringify(this.props.dynGlobalObject) }*/}
 
-                      </p>
+              </p>
 
-                      <p className='text-center margin-tb-20'>
-                          <QRCode
-                            value='http://facebook.github.io/react/'/>
-                      </p>
-                      <div
-                        className='registerComponent pos-relative'>
-                          <Input
-                            className='bookie-input'
-                            defaultValue='163WXbtyK3xrGEFhprM9JgzbZSyCKnc3AC'
+              <p className='text-center margin-tb-20'>
+                <QRCode
+                  value='http://facebook.github.io/react/'/>
+              </p>
+              <div
+                className='registerComponent pos-relative'>
+                <Input
+                  className='bookie-input'
+                  defaultValue='163WXbtyK3xrGEFhprM9JgzbZSyCKnc3AC'
 
-                          />
-                          <button
-                            className='btn btn-primary copy-btn'>
-                            { I18n.t('myAccount.copy') }
-                          </button>
-                      </div>
-                  </Card>
-              </Col>
-
-              <Col span={ 8 }>
-                  <Card className='bookie-card'
-                        title={ I18n.t('myAccount.withdraw') }
-                        bordered={ false }
-                        style={ {width: '100%'} }>
-                      <p>{ I18n.t('myAccount.withdraw_desc') }</p>
-                    {/*<p style={ { height: '133px' } }>*/}
-                    {/*<Button   onClick={ () => { this.fetchRecentTransactionHistory(); } }>*/}
-                    {/*{'refresh Order'}*/}
-                    {/*</Button>*/}
-                    {/*</p>*/}
-                      <div
-                        className='registerComponent'>
-                          <Input
-                            className='bookie-input bookie-amount'
-                            prefix={ <Icon
-                              type='pay-circle'/> }
-                            defaultValue='21221'
-                          />
-                      </div>
-                      <div
-                        className='registerComponent pos-relative'>
-
-                          <Input
-                            className='bookie-input'
-                            placeholder={ I18n.t('myAccount.send_value') }
-                          />
-                          <button
-                            className='btn copy-btn btn-primary'>
-                            { I18n.t('myAccount.send') }
-                          </button>
-                      </div>
-
-                  </Card>
-              </Col>
-
-              <Col span={ 8 }>
-                { this.renderSettingCard() }
-              </Col>
-          </Row>
-          <Row>
-            {/*<div*/}
-            {/*>*/}
-            {/*{ this.renderTxList() }*/}
-            {/*</div>*/}
-              <div className='transaction-table'>
-                  <div className='top-data clearfix'>
-                      <div className='float-left'>
-                          <p className='font18 padding-tb-5 page-title '>
-                            { I18n.t('myAccount.transaction_history') }</p>
-                      </div>
-                      <div className='float-right'>
-                          <div className='filter'>
-                              <div
-                                className='ant-form-inline'>
-                                  <div
-                                    className='ant-form-item'>
-                                      <label>
-                                        { I18n.t('myAccount.period') }</label>
-                                      <Select
-                                        className='bookie-select'
-                                        defaultValue='default'
-                                        style={ {width: 150} }>
-                                          <Option
-                                            value='default'>
-                                              Last 14
-                                              days</Option>
-                                          <Option
-                                            value='jack'>Jack</Option>
-                                          <Option
-                                            value='lucy'>Lucy</Option>
-                                          <Option
-                                            value='Yiminghe'>yiminghe</Option>
-                                      </Select>
-                                  </div>
-                                  <div
-                                    className='ant-form-item'>
-                                      <label>
-                                        { I18n.t('myAccount.date') }</label>
-                                      <DatePicker
-                                        disabledDate={ this.disabledStartDate }
-                                        showTime
-                                        format='YYYY-MM-DD HH:mm:ss'
-                                        value={ startValue }
-                                        placeholder='From'
-                                      />
-                                      <span
-                                        className='margin-lr-10 font16'>  - </span>
-                                      <DatePicker
-                                        disabledDate={ this.disabledEndDate }
-                                        showTime
-                                        format='YYYY-MM-DD HH:mm:ss'
-                                        value={ endValue }
-                                        placeholder='To'
-                                      />
-                                  </div>
-                                  <div
-                                    className='ant-form-item'>
-                                      <a className='export-icon'
-                                         href=''>
-                                          <Icon
-                                            type='file'/></a>
-                                  </div>
-                              </div>
-
-                          </div>
-                      </div>
-
-                  </div>
-                  <Table className='bookie-table'
-                         pagination={ false }
-                         dataSource={ dataSource }
-                         columns={ columns }/>
+                />
+                <button
+                  className='btn btn-primary copy-btn'>
+                  { I18n.t('myAccount.copy') }
+                </button>
               </div>
-          </Row>
+            </Card>
+          </Col>
+
+          <Col span={ 8 }>
+            <Card className='bookie-card'
+                  title={ I18n.t('myAccount.withdraw') }
+                  bordered={ false }
+                  style={ {width: '100%'} }>
+              <p>{ I18n.t('myAccount.withdraw_desc') }</p>
+              {/*<p style={ { height: '133px' } }>*/}
+              {/*<Button   onClick={ () => { this.fetchRecentTransactionHistory(); } }>*/}
+              {/*{'refresh Order'}*/}
+              {/*</Button>*/}
+              {/*</p>*/}
+              <div
+                className='registerComponent'>
+                <Input
+                  className='bookie-input bookie-amount'
+                  prefix={ <Icon
+                    type='pay-circle'/> }
+                  defaultValue='21221'
+                />
+              </div>
+              <div
+                className='registerComponent pos-relative'>
+
+                <Input
+                  className='bookie-input'
+                  placeholder={ I18n.t('myAccount.send_value') }
+                />
+                <button
+                  className='btn copy-btn btn-primary'>
+                  { I18n.t('myAccount.send') }
+                </button>
+              </div>
+
+            </Card>
+          </Col>
+
+          <Col span={ 8 }>
+            { this.renderSettingCard() }
+          </Col>
+        </Row>
+        <Row>
+          {/*<div*/}
+          {/*>*/}
+          {/*{ this.renderTxList() }*/}
+          {/*</div>*/}
+          <div className='transaction-table'>
+            <div className='top-data clearfix'>
+              <div className='float-left'>
+                <p
+                  className='font18 padding-tb-5 page-title '>
+                  { I18n.t('myAccount.transaction_history') }</p>
+              </div>
+              <div className='float-right'>
+                <div className='filter'>
+                  <div
+                    className='ant-form-inline'>
+                    <div
+                      className='ant-form-item'>
+                      <label>
+                        { I18n.t('myAccount.period') }</label>
+                      <Select
+                        className='bookie-select'
+                        defaultValue='default'
+                        style={ {width: 150} }>
+                        <Option
+                          value='default'>
+                          Last 14
+                          days</Option>
+                        <Option
+                          value='jack'>Jack</Option>
+                        <Option
+                          value='lucy'>Lucy</Option>
+                        <Option
+                          value='Yiminghe'>yiminghe</Option>
+                      </Select>
+                    </div>
+                    <div
+                      className='ant-form-item'>
+                      <label>
+                        { I18n.t('myAccount.date') }</label>
+                      <DatePicker
+                        disabledDate={ this.disabledStartDate }
+                        showTime
+                        format='YYYY-MM-DD HH:mm:ss'
+                        value={ startValue }
+                        placeholder='From'
+                      />
+                      <span
+                        className='margin-lr-10 font16'>  - </span>
+                      <DatePicker
+                        disabledDate={ this.disabledEndDate }
+                        showTime
+                        format='YYYY-MM-DD HH:mm:ss'
+                        value={ endValue }
+                        placeholder='To'
+                      />
+                    </div>
+                    <div
+                      className='ant-form-item'>
+                      <a className='export-icon'
+                         href=''>
+                        <Icon
+                          type='file'/></a>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+            <Table className='bookie-table'
+                   pagination={ false }
+                   dataSource={ dataSource }
+                   columns={ columns }/>
+          </div>
+        </Row>
 
 
       </div>
