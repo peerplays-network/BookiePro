@@ -17,7 +17,6 @@ class Home extends Component {
   //}
 
   render() {
-    console.log('home-props', this.props);
     return (
       <div id='home-wrapper'>
         <div className='left-content'>
@@ -56,10 +55,8 @@ const findBinnedOrderBooksFromEvent = (event, state) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log('home-map-state', state);
-  const { home, sport, event } = state;
+  const { sport, event } = state;
   let page = {};
-  console.log(sport);
   sport.sports.forEach((sport) => {
     page[sport.id] = { name: sport.name };
   });
@@ -75,9 +72,6 @@ const mapStateToProps = (state) => {
       offers: findBinnedOrderBooksFromEvent(event, state)
     });
   });
-
-
-  console.log('Page', page);
 
   return {
     sports: page

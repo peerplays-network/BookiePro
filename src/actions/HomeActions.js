@@ -104,7 +104,6 @@ class HomeActions {
         // Call the promises together
         return Promise.all(getBinnedOrderBookPromiseArray);
       }).then((result) => {
-        console.log('HomeAction.final', result);
         let binnedOrderBooks = [];
         _.forEach(result, (retrievedOrderBooks) => {
           binnedOrderBooks = binnedOrderBooks.concat(retrievedOrderBooks);

@@ -11,13 +11,11 @@ const offerColumnWidth = 70;
 // index: [ 1 | 2]
 const renderOffer = (betType, index) => {
   return (text, record) => {
-    console.log(record, betType, index);
     if (record.offers.length === 0) {
       return '';
     }
     // Assume the first orderbook for now
     const offer = record.offers[0][betType][index-1];
-    console.log('renderOffer', offer);
     return (
       <div className='offer'>
         <div className='odds'>{ offer.odds }</div>

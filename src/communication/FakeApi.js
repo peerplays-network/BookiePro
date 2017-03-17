@@ -111,12 +111,10 @@ class FakeApi {
       setTimeout(() => {
         let mappedResult = [];
         binnedOrderBooks.forEach((orderBook) => {
-          console.log('FakeApi', bettingMarketId, orderBook, orderBook.betting_market_id === bettingMarketId);
           if (orderBook.betting_market_id === bettingMarketId) {
             mappedResult.push(orderBook);
           }
         });
-        console.log('get_binned_order_book', mappedResult);
         resolve(mappedResult);
       }, TIMEOUT_LENGTH);
     })
