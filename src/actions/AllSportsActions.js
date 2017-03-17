@@ -10,17 +10,17 @@ import _ from 'lodash';
 /**
  * Private actions
  */
-class HomePrivateActions {
+class AllSportsPrivateActions {
   static setLoadingStatusAction(loadingStatus) {
     return {
-      type: ActionTypes.HOME_SET_LOADING_STATUS,
+      type: ActionTypes.ALL_SPORTS_SET_LOADING_STATUS,
       loadingStatus
     }
   }
 
-  static addEventIdsAction(eventIds) {
+  static setEventIdsAction(eventIds) {
     return {
-      type: ActionTypes.HOME_ADD_EVENT_IDS,
+      type: ActionTypes.ALL_SPORTS_SET_EVENT_IDS,
       eventIds
     }
   }
@@ -29,10 +29,10 @@ class HomePrivateActions {
 /**
  * Public actions
  */
-class HomeActions {
+class AllSportsActions {
   static getData() {
     return (dispatch) => {
-      dispatch(HomePrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
+      dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
       let events = [];
       // First get list of sports
@@ -113,12 +113,12 @@ class HomeActions {
 
         // Store the final events id inside Home Redux store
         const eventIds = _.map(events, 'id');
-        dispatch(HomePrivateActions.addEventIdsAction(eventIds));
-        dispatch(HomePrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
+        dispatch(AllSportsPrivateActions.setEventIdsAction(eventIds));
+        dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
       });
 
     };
   }
 }
 
-export default HomeActions;
+export default AllSportsActions;

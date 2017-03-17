@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import BetSlip from '../BetSlip';
-import SplitPane from 'react-split-pane'
-import SideBar from '../SideBar';
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-var Ps = require('perfect-scrollbar');
-
+import SplitPane from 'react-split-pane';
+import BetSlip from '../BetSlip';
+import SideBar from '../SideBar';
 import { SidebarActions } from '../../actions';
 
+var Ps = require('perfect-scrollbar');
 
-class MarketScreen extends Component {
+class Exchange extends Component {
 
   constructor(props) {
     super(props);
@@ -40,7 +38,7 @@ class MarketScreen extends Component {
   render() {
      //setting width of sider as 200
      //primary = second , defaultSize =  400 = setting betslip width as 400
-     // remove css of splitpane in MarketScreen.less to disable resizing
+     // remove css of splitpane in Exchange.less to disable resizing
 
      //TODO Banner not yet fixed
      //TODO perfect-scrollbar make doubled height when scrollbar is needed, to be fixed
@@ -112,7 +110,7 @@ function mapDispatchToProps (dispatch) {
 }
 
 
-MarketScreen.propTypes = {
+Exchange.propTypes = {
   completeTree: React.PropTypes.array.isRequired,
 };
-export default connect(mapStateToProps, mapDispatchToProps)(MarketScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(Exchange);

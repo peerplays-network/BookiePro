@@ -12,7 +12,7 @@ import Signup from './components/Signup';
 import Login from './components/Login';
 import Main from './components/Main';
 import SportMarket from './components/SportMarket';
-import MarketScreen from './components/MarketScreen';
+import Exchange from './components/Exchange';
 import AllSports from './components/AllSports';
 import Localize from './components/Localize';
 import configureStore from './store/configureStore';
@@ -68,9 +68,7 @@ const routes = (
       <Route component={ Main }>
         <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
         <Route path='/empty-page' component={ EmptyPage } />
-
-        {/* TODO Home is to be deprcated due to new design in side bar.( not shared component to all chils in Main) please check MarketScreen */}
-        <Route path='/market-screen' component={ MarketScreen } >
+        <Route path='/exchange' component={ Exchange } >
           <IndexRoute component={ AllSports }/>
           <Route path='Sport/:objectId' component={ SportMarket }/>
           <Route path='EventGroup/:objectId' component={ SportMarket }/>

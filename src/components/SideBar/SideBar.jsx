@@ -148,13 +148,13 @@ class SideBar extends Component {
     });
 
     if ( node.id === '0'){
-      this.props.navigateTo('/market-screen/');
+      this.props.navigateTo('/exchange/');
 
     // commented for including  node.customComponent in url
     // } else if ( this.props.level && this.props.level === 3){
     //   this.props.navigateTo('/market-screen/' + node.id);
     } else {
-      this.props.navigateTo('/market-screen/' + node.customComponent + '/' + node.id);
+      this.props.navigateTo('/exchange/' + node.customComponent.toLowerCase() + '/' + node.id);
     }
 
   }
