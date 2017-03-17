@@ -32,7 +32,7 @@ class SidebarActions{
         const eventGpArray = [];
         _.forEach(eventGroups, (items) => {
 
-          //NOTE to be fine tune
+          //NOTE to be fine tune later to move dispatch out of the loop
           dispatch(EventGroupActions.addEventGroupsAction(items));
 
           _.forEach(items, (item) => {
@@ -54,7 +54,7 @@ class SidebarActions{
         var mkGroupIds = Immutable.List([]);
         _.forEach(eventResults, (items) => {
 
-          //NOTE to be fine tune
+          //NOTE to be fine tune later to move dispatch out of the loop
           dispatch(EventActions.addEventsAction(items));
 
           _.forEach(items, (item) => {

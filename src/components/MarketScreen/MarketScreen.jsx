@@ -24,6 +24,10 @@ class MarketScreen extends Component {
     Ps.initialize(this.refs.sidebar);
 
     const { getDataForSidebar } = this.props
+
+    //NOTE to be fine tune later for not to call api everytime,
+    // we could fine tune when we could subscribe change event in
+    // sport / eventgp / event / betting mkg gp
     getDataForSidebar();
   }
 

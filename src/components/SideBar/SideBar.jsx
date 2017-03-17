@@ -38,14 +38,17 @@ class SideBar extends Component {
       //http://stackoverflow.com/questions/41298577/how-to-get-altered-tree-from-immutable-tree-maximising-reuse-of-nodes?rq=1
     const nested = Immutable.fromJS(completeTree);
 
-    if ( !targetObjectId ){
+    if ( !targetObjectId){
+      // id of 'all sports'
+      targetObjectId = '0'
+    }
+
+    if ( !targetObjectId) {
       console.log('No Id ! ', targetObjectId);
-      targetObjectId = '0';
 
       this.setState({
         tree: completeTree
       });
-
     } else {
       var keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === targetObjectId) );
 
