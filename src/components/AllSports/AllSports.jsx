@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import BetSlip from '../BetSlip';
 import Banner from './Banner';
 import SimpleBettingWidget from '../SimpleBettingWidget';
-import { HomeActions } from '../../actions';
+import { AllSportsActions } from '../../actions';
 
-const { getData } = HomeActions;
+const { getData } = AllSportsActions;
 
 class AllSports extends Component {
   constructor(props) {

@@ -1,5 +1,4 @@
 import { ActionTypes } from '../constants';
-import { LoadingStatus } from '../constants';
 
 let initialState = {
   sports: [],
@@ -8,7 +7,7 @@ let initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case ActionTypes.HOME_ADD_EVENT_IDS: {
+    case ActionTypes.ALL_SPORTS_SET_EVENT_IDS: {
       return {
         eventIds: action.eventIds.slice()
       }

@@ -13,7 +13,7 @@ import EventReducer from './EventReducer';
 import BettingMarketGroupReducer from './BettingMarketGroupReducer';
 import BettingMarketReducer from './BettingMarketReducer';
 import BetReducer from './BetReducer';
-import HomeReducer from './HomeReducer';
+import AllSportsReducer from './AllSportsReducer';
 import BinnedOrderBookReducer from './BinnedOrderBookReducer';
 import { routerReducer } from 'react-router-redux';
 import { i18nReducer } from 'react-redux-i18n'
@@ -33,7 +33,7 @@ const rootReducer = combineReducers({
   bettingMarket: BettingMarketReducer,
   binnedOrderBook: BinnedOrderBookReducer,
   bet: BetReducer,
-  home: HomeReducer,
+  allSports: AllSportsReducer,
   routing: routerReducer,
   form: formReducer,
   i18n: i18nReducer,
