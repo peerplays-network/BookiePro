@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { Icon, Table } from 'antd';
 
 const bitcoinSymbol = '\u0243';
@@ -25,11 +26,25 @@ const renderOffer = (betType, index) => {
   };
 };
 
+// TODO: Consider moving this to a utility library later
+// TODO: The implementation below is for demo purpose. Will review this in future iterations.
+const renderEventTime = (text, record) => {
+  const eventTime = moment(parseInt(record.time, 10))
+  let timeString = eventTime.calendar();
+  // TODO: Need a better way as this is NOT going to work once we have localization
+  if (timeString.toLowerCase().includes('tomorrow')) {
+    return `Tomorrow, ${eventTime.format('HH:mm')}`;
+  }
+
+  return eventTime.format('DD/MM/YYYY HH:mm');
+}
+
 const columns = [{
   dataIndex: 'time',
   key: 'time',
   width: eventTimeColumnWidth,
-  className: 'event-time'
+  className: 'event-time',
+  render: renderEventTime
 }, {
   dataIndex: 'name',
   key: 'name',
