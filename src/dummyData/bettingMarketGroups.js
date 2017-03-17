@@ -30,7 +30,7 @@ const bettingMarketGroups = [
       margin: 0,
       score: 5
     },
-    betting_markets_id: [
+    betting_market_ids: [
       '1.105.5',
       '1.105.6'
     ]
