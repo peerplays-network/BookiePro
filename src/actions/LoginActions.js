@@ -3,6 +3,7 @@ import { LoadingStatus, ActionTypes } from '../constants';
 import { AccountService } from '../services';
 import { FetchChain } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
+var I18n = require('react-redux-i18n').I18n;
 
 /**
  * Private actions
@@ -15,10 +16,10 @@ class LoginPrivateActions {
     }
   }
 
-  static setLoginErrorAction(error) {
+  static setLoginErrorAction(errors) {
     return {
       type: ActionTypes.LOGIN_SET_ERROR,
-      error
+      errors:errors
     }
   }
 }
@@ -27,15 +28,14 @@ class LoginPrivateActions {
  * Public actions
  */
 class LoginActions {
-
   static login(accountName, password) {
     return (dispatch) => {
       // Set register status to loading
       dispatch(LoginPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
       FetchChain('getAccount', accountName).then((account) => {
-        console.log('Get Account for Login Success', account);
         const isAuthenticated = AccountService.authenticateAccount(accountName, password, account);
+
         if (isAuthenticated) {
           // Set login status to done
           dispatch(LoginPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
@@ -46,12 +46,12 @@ class LoginActions {
           // Navigate to home
           dispatch(NavigateActions.navigateTo('/home'))
         } else {
-          throw new Error('Password doesn\'t match');
+          //set error on password mismatch
+          dispatch(LoginPrivateActions.setLoginErrorAction([I18n.t('login.password_match')]));
         }
       }).catch((error) => {
-        console.log('Login Error', error)
         // Set error
-        dispatch(LoginPrivateActions.setLoginErrorAction(error));
+        dispatch(LoginPrivateActions.setLoginErrorAction([I18n.t('login.wrong_accountname_password')]));
       })
     }
   }

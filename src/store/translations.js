@@ -1,28 +1,32 @@
 export const translationsObject = {
   en: {
+    login: {
+      account_name: 'Account Name',
+      password: 'Password',
+      title: 'LOGIN',
+      signup: 'SIGN UP',
+      password_length: 'Password must be %(cnt)s characters or more',
+      account_name_notfound: 'Account Name not found',
+      password_match: 'Password doesn\'t match',
+      wrong_accountname_password: 'Wrong Account Name or Password'
+    },
     application: {
-      title: 'Awesome app with i18n!',
-      hello: 'Hello, %{name}!'
-    },
-    date: {
-      long: 'MMMM Do, YYYY'
-    },
-    export: 'Export %{count} items',
-    export_0: 'Nothing to export',
-    export_1: 'Export %{count} item',
-    two_lines: 'Line 1<br />Line 2'
+      welcome_title: 'Welcome to Application',
+      loading: 'loading ...'
+    }
   },
   nl: {
+    login: {
+      account_name: 'Account Name',
+      password: 'Password',
+      title: 'LOGIN',
+      signup: 'SIGN UP',
+      password_length: 'Password must be %(cnt)s characters or more',
+      account_name_notfound: 'Account Name not found'
+    },
     application: {
-      title: 'Toffe app met i18n!',
-      hello: 'Hallo, %{name}!'
-    },
-    date: {
-      long: 'D MMMM YYYY'
-    },
-    export: 'Exporteer %{count} dingen',
-    export_0: 'Niks te exporteren',
-    export_1: 'Exporteer %{count} ding',
-    two_lines: 'Regel 1<br />Regel 2'
+      welcome_title: 'Welcome to Application',
+      loading: 'loading ...'
+    }
   }
 };
