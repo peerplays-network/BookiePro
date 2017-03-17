@@ -15,7 +15,8 @@ const renderOffer = (betType, index) => {
     if (record.offers.length === 0) {
       return '';
     }
-    const offer = record.offers[index-1][betType];
+    // Assume the first orderbook for now
+    const offer = record.offers[0][betType][index-1];
     console.log('renderOffer', offer);
     return (
       <div className='offer'>

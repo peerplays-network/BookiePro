@@ -2,7 +2,7 @@ const events = [
   {
     id: '1.103.1',
     sport_id: '1.100.1',
-    name: 'American Football Team 1 vs American Football Team 2',
+    name: 'NY Giants vs Green Bay',
     seasons: '2016-2017',
     start_time: 1489479436, // 14 March 2017
     event_group_id: '1.101.1',
