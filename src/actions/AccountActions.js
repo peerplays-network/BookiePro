@@ -107,7 +107,7 @@ class AccountActions {
       accountSubscriber = () => {
         const accountId = account && account.get('id');
         if (accountId) {
-          const previousAccount = getState().app.account;
+          const previousAccount = getState().account.account;
           const updatedAccount = ChainStore.getAccount(accountId);
           // Dispatch updated account
           if (previousAccount && !previousAccount.equals(updatedAccount)) {

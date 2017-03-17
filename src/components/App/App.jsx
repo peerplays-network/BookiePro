@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import SyncError from '../SyncError';
 import { ChainStore } from 'graphenejs-lib';
+import { SoftwareUpdateActions } from '../../actions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 
 class App extends Component {
@@ -19,10 +22,11 @@ class App extends Component {
   }
 
   syncWithBlockchain() {
-    console.log('sync blockchain');
     this.setState({ loading: true });
     ChainStore.init().then(() => {
       this.setState({synced: true, loading: false, syncFail: false});
+      // Listen to software update
+      this.props.listenToSoftwareUpdate();
     }).catch((error) => {
       console.error('ChainStore.init error', error);
       this.setState({loading: false, synced: false, syncFail: true});
@@ -45,4 +49,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    listenToSoftwareUpdate: SoftwareUpdateActions.listenToSoftwareUpdate
+  }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(App);

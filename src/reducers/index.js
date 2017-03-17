@@ -16,6 +16,7 @@ import BetReducer from './BetReducer';
 import AllSportsReducer from './AllSportsReducer';
 import AccountReducer from './AccountReducer';
 import NotificationReducer from './NotificationReducer';
+import SoftwareUpdateReducer from './SoftwareUpdateReducer';
 import { routerReducer } from 'react-router-redux';
 import { i18nReducer } from 'react-redux-i18n'
 import { reducer as formReducer } from 'redux-form'
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   allSports: AllSportsReducer,
   account: AccountReducer,
   notification: NotificationReducer,
+  softwareUpdate: SoftwareUpdateReducer,
   routing: routerReducer,
   form: formReducer,
   i18n: i18nReducer,
