@@ -1,5 +1,5 @@
 import React,  {  Component  }  from 'react';
-import Banner from '../MarketScreen/Banner';
+import Banner from '../Exchange/Banner';
 import MarketTable from '../MarketTable';
 
 class SportMarket extends Component {
