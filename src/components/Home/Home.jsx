@@ -12,9 +12,6 @@ class Home extends Component {
     super(props);
     this.props.dispatch(getData());
   }
-  //componentWillMount() {
-  //  this.props.dispatch(getData());
-  //}
 
   render() {
     return (
