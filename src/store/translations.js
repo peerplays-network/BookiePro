@@ -98,6 +98,18 @@ export const translationsObject = {
       ' - for example betting that Oakland will not beat Houston. Your bet against Oakland will therefore win if the result is either a Houston win or a draw.' +
       ' The current odds will automatically be selected' +
       ' but you can alter these to your liking.'
+    },
+    deposit:{
+      title: 'Make a Deposit',
+      left_description: 'To deposit on your desktop computer or laptop, ' +
+      'copy and paste our address into your wallet and' +
+      ' complete the transaction.',
+      right_description: 'To make a mobile deposit, open' +
+      ' your Bitcoin wallet app on your smartphone or ' +
+      'tablet and scan the QR code.',
+      copy: 'Copy',
+      continue: 'Continue',
+      or: 'or'
     }
   },
   nl: {
