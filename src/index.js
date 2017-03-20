@@ -22,7 +22,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import Deposit from './components/Deposit'
 import ChangePassword from './components/ChangePassword'
 import Welcome from './components/Welcome'
-
+import Landing from './components/Landing'
 
 const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store, {
@@ -40,6 +40,7 @@ const routes = (
       <Route path='/signup' component={ Signup } />
       <Route path='/welcome' component={ Welcome } />
       <Route path='/deposit' component={ Deposit } />
+      <Route path='/landing' component={ Landing } />
       <Route component={ Main }>
         <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
         <Route path='/empty-page' component={ EmptyPage } />
