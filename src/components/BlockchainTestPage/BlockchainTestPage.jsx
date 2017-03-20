@@ -6,7 +6,7 @@ import { Apis } from 'graphenejs-ws';
 import { connect } from 'react-redux';
 import AssetActions from '../../actions/AssetActions';
 import BlockchainTestAccount from './BlockchainTestAccount';
-import { EventActions } from '../../actions';
+import { BetActions } from '../../actions';
 
 class BlockchainTestPage extends Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class BlockchainTestPage extends Component {
   }
 
   _onClickInternalApiTestButton() {
-    this.props.dispatch(EventActions.searchEvents("Bas"))
+    this.props.dispatch(BetActions.getOngoingBets())
   }
 
   _getObject() {
