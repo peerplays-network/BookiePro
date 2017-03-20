@@ -83,6 +83,14 @@ export const translationsObject = {
       password_match: 'Password doesn\'t match',
       wrong_accountname_password: 'Wrong Account Name or Password'
     },
+    changePassword:{
+      title: 'Change Your Password',
+      confirm_password: 'Confirm Password',
+      cancel: 'Cancel',
+      confirm: 'Confirm',
+      successText: 'Congratulations! You have successfully' +
+      ' changed your password.'
+    }
   },
   nl: {
     login: {

@@ -19,7 +19,7 @@ import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Apis, ChainConfig } from 'graphenejs-ws';
 import { Config } from './constants';
-
+import ChangePassword from './components/ChangePassword'
 
 const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
@@ -77,8 +77,8 @@ const routes = (
           {/* TODO perhaps we just need objectID, objectId itself tells the type of object */}
           <Route path=':objectId' component={ SportMarket }/>
         </Route>
-
         <Route path='/my-account' component={ MyAccount } />
+        <Route path='/change-password' component={ ChangePassword } />
         <Route path='/my-wager' component={ MyWager } />
         <Route path='/localize' component={ Localize } />
       </Route>
