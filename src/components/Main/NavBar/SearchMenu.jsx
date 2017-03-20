@@ -56,7 +56,7 @@ class SearchMenu extends Component {
         className='search-menu'
         theme='dark'
       >
-        <Menu.Item>
+        <Menu.Item className='search-menu-item'>
 
           <Select.Async
             multi={ this.state.multi }
