@@ -37,45 +37,10 @@ class SearchMenu extends Component {
   		return Promise.resolve({ options: [] });
   	}
 
-    //--- method 1 API search call
+    //API search call
     return FakeApi.searchEvents(input).then((events) => {
       return { options: events };
     });
-
-    //--- method 2 LOCAL search call
-    //--- indexeddb callback using dexie
-    //--- each keyword is stored in a _teamWords table, with 'word'' indexed
-    //--- schema : _teamWords: "++,word,teamId"
-    // https://github.com/dfahlander/Dexie.js/blob/master/samples/full-text-search/FullTextSearch.js
-    // var foundIds = {};
-    // console.log("data  "  +db._teamWords.where('word').startsWith(input ) );
-    // var result = [];
-    //   return db._teamWords.where('word').startsWith(input)
-    //   .each(function (wordToEmailMapping) {
-    //     foundIds[wordToEmailMapping.teamId.toString()] = true;
-    //
-    // }).then(function () {
-    //     // Now we got all email IDs in the keys of foundIds object.
-    //     // Convert to array if IDs.
-    //     var teamIds = Object.keys(foundIds).map(function (idStr) { return parseInt(idStr); });
-    //     console.log("Found " + teamIds.length + " emails containing a word starting with " + input);
-    //     // Now query all items from the array:
-    //
-    //     return db.teams.where('id').anyOf(teamIds).each(function (email) {
-    //         console.log ("Found email:  "  + JSON.stringify(email));
-    //         result.push(email);
-    //
-    //     });
-    //
-    //
-    // }).then(function (){
-    //   console.log (result);
-    //   return { options: result };
-    //
-    // });
-
-
-
 
   }
 
