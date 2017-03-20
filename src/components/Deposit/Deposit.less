@@ -1,0 +1,84 @@
+.text-center{
+  text-align: center;
+}
+.btn{
+  cursor: pointer;
+}
+html body div#main-content{
+  padding-left:0;
+}
+.margin-top-40{
+  margin-top:40px;
+}
+.pos-relative{
+  position: relative;
+}
+.depositComponent{
+  padding:30px 0;
+  .anticon{
+    font-size:44px;
+  }
+  h2{
+    padding:30px 0;
+    font-size:20px;
+  }
+  .bookie-qr{
+    border:1px solid #2FA5E6;
+    display: inline-block;
+  }
+  .deposit-content{
+    margin: 50px auto;
+    width: 75%;
+    text-align: left;
+    p{
+      font-size:18px;
+      margin-bottom:30px;
+      line-height: 36px;
+    }
+    .registerComponent{
+      margin-top: 80px;
+    }
+  }
+}
+.vertical-divider {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  height: 50%;
+  line-height: 0;
+  text-align:center;
+  font-size:18px;
+  transform: translateX(-50%);
+}
+
+.vertical-divider:before,
+.vertical-divider:after {
+  position: absolute;
+  left: 50%;
+  content: '';
+  z-index: 9;
+  border-left: 1px solid #fff;
+  width: 0;
+  height: calc(80% - 1rem);
+}
+
+.row-divided > .vertical-divider {
+  height: calc(45% - 1rem);
+}
+
+.vertical-divider:before {
+  top: -100%;
+}
+
+.vertical-divider:after {
+  top: auto;
+  bottom: 0;
+}
+
+.row-divided {
+  position:relative;
+}

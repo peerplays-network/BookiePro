@@ -19,6 +19,7 @@ import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Apis, ChainConfig } from 'graphenejs-ws';
 import { Config } from './constants';
+import Deposit from './components/Deposit'
 import ChangePassword from './components/ChangePassword'
 import Welcome from './components/Welcome'
 
@@ -66,6 +67,7 @@ const routes = (
       <Route path='/login' component={ Login } />
       <Route path='/signup' component={ Signup } />
     <Route path='/welcome' component={ Welcome } />
+      <Route path='/deposit' component={ Deposit } />
       <Route path='/init-error' component={ InitError } />
       <Route component={ Main }>
         <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
