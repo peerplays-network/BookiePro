@@ -18,7 +18,7 @@ class SearchMenu extends Component {
     this.state = {
     };
     this.onChange = this.onChange.bind(this);
-    this.gotoUser = this.gotoUser.bind(this);
+    this.gotoEvent = this.gotoEvent.bind(this);
   }
 
   onChange (event) {
@@ -31,7 +31,7 @@ class SearchMenu extends Component {
     this.props.navigateTo('/market-screen/Event/' + event.id );
   }
 
-  getUsers (input) {
+  getEvents (input) {
 
   	if (!input) {
   		return Promise.resolve({ options: [] });
@@ -44,7 +44,7 @@ class SearchMenu extends Component {
 
   }
 
-  gotoUser (value, event) {
+  gotoEvent (value, event) {
   }
 
   render() {
@@ -62,10 +62,10 @@ class SearchMenu extends Component {
             multi={ this.state.multi }
             value={ this.state.value }
             onChange={ this.onChange }
-            onValueClick={ this.gotoUser }
+            onValueClick={ this.gotoEvent }
             valueKey='id'
             labelKey='name'
-            loadOptions={ this.getUsers }
+            loadOptions={ this.getEvents }
             backspaceRemoves={ this.state.backspaceRemoves } />
 
         </Menu.Item>
