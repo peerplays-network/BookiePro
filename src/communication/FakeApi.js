@@ -144,6 +144,14 @@ class FakeApi {
     });
   }
 
+  static changePassword(oldPassword, newPassword) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
   static getDepositAddress(accountId) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {

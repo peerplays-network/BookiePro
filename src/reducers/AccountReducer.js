@@ -8,6 +8,7 @@ let initialState = {
   getDepositAddressLoadingStatus: LoadingStatus.DEFAULT,
   getTransactionHistoriesLoadingStatus: LoadingStatus.DEFAULT,
   withdrawLoadingStatus: LoadingStatus.DEFAULT,
+  changePasswordLoadingStatus: LoadingStatus.DEFAULT,
   transactionHistories: [],
   depositAddress: null
 };
@@ -27,6 +28,11 @@ export default function (state = initialState, action) {
     case ActionTypes.ACCOUNT_SET_WITHDRAW_LOADING_STATUS: {
       return Object.assign({}, state, {
         withdrawLoadingStatus: action.loadingStatus
+      });
+    }
+    case ActionTypes.ACCOUNT_SET_CHANGE_PASSWORD_LOADING_STATUS: {
+      return Object.assign({}, state, {
+        changePasswordLoadingStatus: action.loadingStatus
       });
     }
     case ActionTypes.ACCOUNT_SET_DEPOSIT_ADDRESS: {

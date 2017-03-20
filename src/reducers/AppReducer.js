@@ -1,7 +1,6 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 
 const initialState = {
-  account: null,
   isLoggedIn: false,
   getGlobalBettingStatisticsLoadingStatus: LoadingStatus.DEFAULT,
   globalBettingStatistics: null

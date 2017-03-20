@@ -32,6 +32,13 @@ class AccountPrivateActions {
     }
   }
 
+  static setChangePasswordLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_CHANGE_PASSWORD_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
   static setTransactionHistoriesAction(transactionHistories) {
     return {
       type: ActionTypes.ACCOUNT_SET_TRANSACTION_HISTORIES,
@@ -159,6 +166,16 @@ class AccountActions {
       // TODO: Replace with actual blockchain call
       FakeApi.withdraw(walletAddress).then(() => {
         dispatch(AccountPrivateActions.setWithdrawLoadingStatusAction(LoadingStatus.DONE));
+      });
+    };
+  }
+
+  static changePassword(oldPassword, newPassword) {
+    return (dispatch) => {
+      dispatch(AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.LOADING));
+      // TODO: Replace with actual blockchain call
+      FakeApi.changePassword(oldPassword, newPassword).then(() => {
+        dispatch(AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DONE));
       });
     };
   }
