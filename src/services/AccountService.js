@@ -91,11 +91,11 @@ class AccountServices {
     }
     return isAuthenticated;
   }
-
   /**
    * Get the list of matching account name
    * account - account object list from blockchain
    */
+  //Check if account name is already taken
   static lookupAccounts(startChar, limit) {
     return Apis.instance().db_api().exec("lookup_accounts", [
       startChar, limit

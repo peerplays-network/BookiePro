@@ -5,44 +5,39 @@ import SignUpForm from './Form';
 import { NavigateActions, RegisterActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { I18n }  from 'react-redux-i18n'
 
 class Signup extends Component {
-  constructor(props) {
+
+  constructor(props){
     super(props);
     this.onClickLogin = this.onClickLogin.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
   onClickLogin(e) {
     e.preventDefault();
     this.props.navigateTo('/login')
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    // TODO: Fill the right properties here
-    // (i guess it will be binded with redux since we are using redux-form)
-    // Currently it is hardcoded
-    const accountName = 'testaccount123d';
-    const password = 'DgTdQBzqF1NLnniikZuoedoWYzVHjJmV28LS7PJAqWdkwRkWzkyq';
-    this.props.signup(accountName, password);
+  handleSubmit(values) {
+    this.props.signup(values.accountName, values.password);
   }
-
 
   render() {
     return (
-      <div className='ant-layout' id='main-content'>
+      <div className='sportsbg' id='main-content'>
         <div className='registerComponent' >
           <div className='wrapper'>
             <div className='text-center'>
               <img src={ logo } alt=''/>
-              <h2 className='margin-tb-25'> Welcome to Application </h2>
-              <p className='font22 margin-btm-20'>Please create your new account</p>
+              <h2 className='margin-tb-25'> {I18n.t('application.welcome_title')} </h2>
+              <p className='font18 margin-btm-20'>{I18n.t('signup.new_acc_req_text')}</p>
               <div className='center-ele'>
                 <SignUpForm
+                  loadingStatus={ this.props.loadingStatus }
                   onClickLogin={ this.onClickLogin }
-                  handleSubmit={ this.handleSubmit }
-                  />
+                  onSubmit={ this.handleSubmit }
+                  errors={ this.props.errors } />
               </div>
             </div>
           </div>
@@ -52,10 +47,16 @@ class Signup extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    loadingStatus: state.register.loadingStatus,
+    errors: state.register.errors
+  }
+}
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     signup: RegisterActions.signup
   }, dispatch);
 }
-export default connect(null, mapDispatchToProps)(Form.create()(Signup))
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(Signup))
