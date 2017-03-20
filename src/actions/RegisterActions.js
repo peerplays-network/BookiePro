@@ -54,7 +54,6 @@ class RegisterActions {
 
         // After some delay navigate to home page
         dispatch(NavigateActions.navigateTo('/exchange'));
-        
       }).catch((error) => {
         // Set error
         /**

@@ -47,7 +47,7 @@ class LoginActions {
           // Set login status to done
           dispatch(LoginPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
           // Navigate to home
-          dispatch(NavigateActions.navigateTo('/home'))
+          dispatch(NavigateActions.navigateTo('/exchange'))
         } else {
           //set error on password mismatch
           dispatch(LoginPrivateActions.setLoginErrorAction([I18n.t('login.password_match')]));
