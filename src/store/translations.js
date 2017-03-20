@@ -13,6 +13,18 @@ export const translationsObject = {
     application: {
       welcome_title: 'Welcome to Application',
       loading: 'loading ...'
+    },
+    deposit:{
+      title: 'Make a Deposit',
+      left_description: 'To deposit on your desktop computer or laptop, ' +
+      'copy and paste our address into your wallet and' +
+      ' complete the transaction.',
+      right_description: 'To make a mobile deposit, open' +
+      ' your Bitcoin wallet app on your smartphone or ' +
+      'tablet and scan the QR code.',
+      copy: 'Copy',
+      continue: 'Continue',
+      or: 'or'
     }
   },
   nl: {

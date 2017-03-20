@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Icon, Row, Col, Input} from 'antd'
 import QRCode from 'qrcode.react';
+var I18n = require('react-redux-i18n').I18n;
+
 class Deposit extends Component {
   render() {
     return (
@@ -9,18 +11,14 @@ class Deposit extends Component {
           <div className='wrapper'>
             <div className='text-center'>
               <Icon type='edit'/>
-              <h2 className='login-welcome'> Make a
-                Deposit </h2>
+              <h2 className='login-welcome'>  {I18n.t('deposit.title')} </h2>
               <div
                 className='center-section deposit-content'>
                 <Row type='flex' gutter='100'
                      className='row-divided'>
                   <Col className='or' span={ 12 }>
                     <p>
-                      To deposit on your desktop computer or
-                      laptop, <b>copy and paste our
-                      address </b> into your wallet and
-                      complete the transaction.
+                      {I18n.t('deposit.left_description')}
                     </p>
 
                     <div
@@ -32,16 +30,14 @@ class Deposit extends Component {
                       />
                       <button
                         className='btn btn-regular copy-btn'>
-                        Copy
+                        {I18n.t('deposit.copy')}
                       </button>
                     </div>
 
                   </Col>
-                  <div className='vertical-divider'>or</div>
+                  <div className='vertical-divider'>{I18n.t('deposit.or')}</div>
                   <Col span={ 12 }>
-                    <p>To make a mobile deposit, open your
-                      Bitcoin wallet app on your smartphone
-                      or tablet and <b>scan the QR code.</b>
+                    <p>{I18n.t('deposit.right_description')}
                     </p>
                     <div className='text-center'>
                       <p className='bookie-qr'><QRCode
@@ -56,7 +52,7 @@ class Deposit extends Component {
                   className='text-center registerComponent margin-top-40'>
                   <button
                     className='btn btn-regular'>
-                    Continue
+                    {I18n.t('deposit.continue')}
                   </button>
                 </div>
               </div>
