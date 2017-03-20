@@ -33,14 +33,21 @@ const findBinnedOrderBooksFromEvent = (event, state) => {
     bettingMarketIds = bettingMarketIds.concat(group.betting_market_ids);
   });
 
-  return state.binnedOrderBook.binnedOrderBooks.filter((orderBook) => {
-    return bettingMarketIds.includes(orderBook.betting_market_id)
-  }).map((orderBook) => {
-    return {
-      back: orderBook.aggregated_back_bets,
-      lay: orderBook.aggregated_lay_bets
+  const { allSports } = state;
+
+  const binnedOrderBooks = allSports.binnedOrderBooks;
+  const matchedBinnedOrderBooks = [];
+  bettingMarketIds.forEach((bettingMarketId) => {
+    if (binnedOrderBooks.hasOwnProperty(bettingMarketId)) {
+      const orderBook = allSports.binnedOrderBooks[bettingMarketId];
+      matchedBinnedOrderBooks.push({
+        back: orderBook.aggregated_back_bets,
+        lay: orderBook.aggregated_lay_bets
+      });
     }
   });
+
+  return matchedBinnedOrderBooks;
 }
 
 const mapStateToProps = (state) => {

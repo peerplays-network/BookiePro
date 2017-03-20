@@ -4,7 +4,6 @@ import SportActions from './SportActions';
 import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
-import BinnedOrderBookActions from './BinnedOrderBookActions';
 import _ from 'lodash';
 
 /**
@@ -22,6 +21,13 @@ class AllSportsPrivateActions {
     return {
       type: ActionTypes.ALL_SPORTS_SET_EVENT_IDS,
       eventIds
+    }
+  }
+
+  static setBinnedOrderBooksAction(binnedOrderBooks) {
+    return {
+      type: ActionTypes.ALL_SPORTS_SET_BINNED_ORDER_BOOKS,
+      binnedOrderBooks
     }
   }
 }
@@ -99,7 +105,7 @@ class AllSportsActions {
         _.forEach(bettingMarkets, (market) => {
           const getBinnedOrderBookPromise = FakeApi.getBinnedOrderBook(market.id, 2);
           getBinnedOrderBookPromiseArray.push(getBinnedOrderBookPromise);
-        })
+        });
 
         // Call the promises together
         return Promise.all(getBinnedOrderBookPromiseArray);
@@ -107,13 +113,16 @@ class AllSportsActions {
         let binnedOrderBooks = [];
         _.forEach(result, (retrievedOrderBooks) => {
           binnedOrderBooks = binnedOrderBooks.concat(retrievedOrderBooks);
-        })
-        // Store binned order books inside redux store
-        dispatch(BinnedOrderBookActions.addBinnedOrderBooksAction(binnedOrderBooks));
+        });
 
         // Store the final events id inside Home Redux store
         const eventIds = _.map(events, 'id');
         dispatch(AllSportsPrivateActions.setEventIdsAction(eventIds));
+
+        // Store binned order books inside redux store
+        dispatch(AllSportsPrivateActions.setBinnedOrderBooksAction(binnedOrderBooks));
+
+        // Finish loading (TODO: Are we sure this is really the last action dispatched?)
         dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
       });
 
