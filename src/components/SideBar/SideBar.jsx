@@ -162,7 +162,7 @@ class SideBar extends Component {
   render() {
 
     return (
-          <InfinityMenu
+    <InfinityMenu
               disableDefaultHeaderContent={ true }
               tree={ this.state.tree }
               onNodeMouseClick={ this.onNodeMouseClick.bind(this) }
@@ -173,7 +173,7 @@ class SideBar extends Component {
                 "Event" : Event,
                 "BettingMarketGroup" : BettingMarketGroup
               }
-            }
+            } 
           />
 
     );

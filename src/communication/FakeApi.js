@@ -77,9 +77,18 @@ class FakeApi {
         const filteredResult = _.filter(events, (item) => {
           const team1Name = item.name.split(' vs ')[0];
           const team2Name = item.name.split(' vs ')[1];
-          const team1FirstName = team1Name.split(' ')[0];
-          const team2FirstName = team2Name.split(' ')[0];
-          return team1FirstName.startsWith(keyword) || team2FirstName.startsWith(keyword);
+
+          let isFound = false;
+
+          _.forEach( _.concat(team1Name.split(' '), team2Name.split(' ')),
+          (name) => {
+            if ( name.toLowerCase().startsWith(keyword.toLowerCase()) ){
+              isFound = true;
+            }
+          })
+
+          return isFound;
+
         });
         resolve(filteredResult);
       }, TIMEOUT_LENGTH);
