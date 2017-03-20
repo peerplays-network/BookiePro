@@ -14,7 +14,7 @@ class ChangePassword extends Component{
           <Breadcrumb.Item> Change Password</Breadcrumb.Item>
         </Breadcrumb>
         <Card className='bookie-card'
-              title= { I18n.t('changePassword.title') }
+              title={ I18n.t('changePassword.title') }
               bordered={ false }
               style={ {width: '100%'} }>
           <div className='registerComponent'>
