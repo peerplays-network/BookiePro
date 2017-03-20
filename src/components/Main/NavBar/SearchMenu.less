@@ -1,0 +1,43 @@
+.Select-placeholder, .Select--single > .Select-control .Select-value {
+  line-height: 46px,
+}
+
+.Select-control{
+  width: 400px;
+}
+
+div.search-menu{
+
+    // assume there is one li only
+    li {
+      padding: 0 16px 0 14px;
+
+      input[type="text"] {
+        font-size: 16px;
+        border: none;
+        border-bottom-left-radius: initial;
+        border-bottom-right-radius: initial;
+        margin-left: 7px;
+        -webkit-padding-start: 35px;
+
+        // hide the box shadow set by antd
+        &:focus {
+          box-shadow: 0 0 0 0px;
+        }
+      }
+
+      .anticon {
+        font-size: 20px;
+        padding-bottom: 2px;
+      }
+    }
+
+
+  .ant-menu-vertical .ant-menu-item{
+    overflow: visible;
+  }
+
+  .ant-menu-dark{
+    background:transparent;
+  }
+}
