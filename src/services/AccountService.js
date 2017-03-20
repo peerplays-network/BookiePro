@@ -91,8 +91,6 @@ class AccountServices {
     }
     return isAuthenticated;
   }
-
-<<<<<<< HEAD
   /**
    * Get the list of matching account name
    * account - account object list from blockchain

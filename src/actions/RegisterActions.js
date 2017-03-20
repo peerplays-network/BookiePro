@@ -48,7 +48,7 @@ class RegisterActions {
         dispatch(AppActions.setAccount(account));
 
         // After some delay navigate to home page
-        dispatch(NavigateActions.navigateTo('/home'))
+        dispatch(NavigateActions.navigateTo('/exchange'))
 
       }).catch((error) => {
         // Set error
