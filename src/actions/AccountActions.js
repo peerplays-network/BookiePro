@@ -1,6 +1,8 @@
 import { ActionTypes, LoadingStatus } from '../constants';
+import { BlockchainUtils } from '../utility';
+import { WalletService } from '../services';
 import FakeApi from '../communication/FakeApi';
-import { ChainStore } from 'graphenejs-lib';
+import { ChainStore, TransactionBuilder, FetchChain } from 'graphenejs-lib';
 import NotificationActions from './NotificationActions';
 
 // Account subscriber
@@ -180,6 +182,45 @@ class AccountActions {
     };
   }
 
+  static createLimitOrder(sellAssetId, buyAssetId, sellAmount, buyAmount) {
+    return (dispatch, getState) => {
+      FetchChain('getAsset', [sellAssetId, buyAssetId]).then((result) => {
+        const sellAsset = result.get('0'); // Core token
+        const buyAsset = result.get('1');
+        const sellAssetAmount = sellAmount;
+        const buyAssetAmount = buyAmount;
+        const accountId = getState().account.account.get('id');
+        const sellAssetSatoshiAmount = BlockchainUtils.get_satoshi_amount(sellAssetAmount, sellAsset);
+        const buyAssetSatoshiAmount = BlockchainUtils.get_satoshi_amount(buyAssetAmount, buyAsset);
+        const expiration = new Date();
+        expiration.setYear(expiration.getFullYear() + 5);
+        const isFillOrKill = false;
+
+        // Create transaction and add operation
+        const tr = new TransactionBuilder();
+        const operationParams = {
+          'seller': accountId,
+          'amount_to_sell': {
+            'amount': sellAssetSatoshiAmount,
+            'asset_id': sellAssetId
+          },
+          expiration : expiration,
+          'min_to_receive': {
+            'amount': buyAssetSatoshiAmount,
+            'asset_id': buyAssetId
+          },
+          'fill_or_kill': isFillOrKill
+        };
+        tr.add_type_operation('limit_order_create', operationParams);
+        // Process transaction
+        return WalletService.processTransaction(getState(), tr);
+      }).then(() => {
+        console.log('Create limit order success');
+      }).catch((error) => {
+        console.error('Create limit order fails', error);
+      })
+    }
+  }
 
 }
 

@@ -6,7 +6,7 @@ import { Apis } from 'graphenejs-ws';
 import { connect } from 'react-redux';
 import AssetActions from '../../actions/AssetActions';
 import BlockchainTestAccount from './BlockchainTestAccount';
-import { BetActions } from '../../actions';
+import { BetActions, AccountActions } from '../../actions';
 
 class BlockchainTestPage extends Component {
   constructor(props) {
@@ -27,7 +27,8 @@ class BlockchainTestPage extends Component {
   }
 
   _onClickInternalApiTestButton() {
-    this.props.dispatch(BetActions.getOngoingBets())
+    // this.props.dispatch(BetActions.getOngoingBets())
+    this.props.dispatch(AccountActions.createLimitOrder('1.3.0', '1.3.1', 1, 1));
   }
 
   _getObject() {
