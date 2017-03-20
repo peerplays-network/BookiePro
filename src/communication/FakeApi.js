@@ -194,6 +194,13 @@ class FakeApi {
     });
   }
 
+  static processTransaction(transactionObject) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, TIMEOUT_LENGTH);
+    });
+  }
 
 }
 

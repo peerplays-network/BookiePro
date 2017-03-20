@@ -22,6 +22,16 @@ export default function (state = initialState, action) {
         getResolvedBetsLoadingStatus: action.loadingStatus
       });
     }
+    case ActionTypes.BET_SET_MAKE_BETS_LOADING_STATUS: {
+      return Object.assign({}, state, {
+        makeBetsLoadingStatus: action.loadingStatus
+      });
+    }
+    case ActionTypes.BET_SET_CANCEL_BETS_LOADING_STATUS: {
+      return Object.assign({}, state, {
+        cancelBetsLoadingStatus: action.loadingStatus
+      });
+    }
     case ActionTypes.BET_SET_ONGOING_BETS: {
       const unmatchedBets = [];
       const matchedBets = [];

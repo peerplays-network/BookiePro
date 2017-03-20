@@ -3,6 +3,7 @@ import { LoadingStatus, ActionTypes } from '../constants';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import EventActions from './EventActions';
+import { TransactionBuilder } from 'graphenejs-lib';
 import _ from 'lodash';
 
 /**
@@ -19,6 +20,20 @@ class BetPrivateActions {
   static setGetResolvedBetsLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.BET_SET_GET_RESOLVED_BETS_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
+  static setMakeBetsLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.BET_SET_MAKE_BETS_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
+  static setCancelBetsLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.BET_SET_CANCEL_BETS_LOADING_STATUS,
       loadingStatus
     }
   }
@@ -114,6 +129,44 @@ class BetActions {
       });
 
     };
+  }
+
+  static makeBets(bets) {
+    return (dispatch) => {
+      dispatch(BetPrivateActions.setMakeBetsLoadingStatus(LoadingStatus.LOADING));
+
+      const tr = new TransactionBuilder();
+      _.forEach(bets, (bet) => {
+        // Create operation for each bet and attach it to the transaction
+        const operationParams = {};
+        const operationType = 'bet_operation';
+        tr.add_type_operation(operationType, operationParams);
+      });
+
+      // TODO: replace this with wallet service process transaction later on
+      FakeApi.processTransaction(tr).then(() => {
+        dispatch(BetPrivateActions.setMakeBetsLoadingStatus(LoadingStatus.DONE));
+      });
+    }
+  }
+
+  static cancelBets(bets) {
+    return (dispatch) => {
+      dispatch(BetPrivateActions.setCancelBetsLoadingStatus(LoadingStatus.LOADING));
+
+      const tr = new TransactionBuilder();
+      _.forEach(bets, (bet) => {
+        // Create operation for each bet and attach it to the transaction
+        const operationParams = {};
+        const operationType = 'cancel_bet_operation';
+        tr.add_type_operation(operationType, operationParams);
+      });
+
+      // TODO: replace this with wallet service process transaction later on
+      FakeApi.processTransaction(tr).then(() => {
+        dispatch(BetPrivateActions.setCancelBetsLoadingStatus(LoadingStatus.DONE));
+      });
+    }
   }
 }
 
