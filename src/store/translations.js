@@ -13,6 +13,13 @@ export const translationsObject = {
     application: {
       welcome_title: 'Welcome to Application',
       loading: 'loading ...'
+    },
+    landing:{
+      login: 'Login',
+      signup: 'Signup now',
+      slogan: 'Slogan',
+      copyright: 'Copyright',
+      terms: 'Terms & Conditions'
     }
   },
   myAccount:{

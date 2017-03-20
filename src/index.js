@@ -19,7 +19,7 @@ import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Apis, ChainConfig } from 'graphenejs-ws';
 import { Config } from './constants';
-
+import Landing from './components/Landing'
 
 const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
@@ -64,6 +64,7 @@ const routes = (
       <IndexRedirect to='/login' />
       <Route path='/login' component={ Login } />
       <Route path='/signup' component={ Signup } />
+      <Route path='/landing' component={ Landing } />
       <Route path='/init-error' component={ InitError } />
       <Route component={ Main }>
         <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
