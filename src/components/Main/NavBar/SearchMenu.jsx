@@ -52,25 +52,27 @@ class SearchMenu extends Component {
     //valueKey and labelKey are the keys in options: [] provieded to loadOptions
     // ref: https://github.com/JedWatson/react-select
     return (
-      <Menu
-        className='search-menu'
-        theme='dark'
-      >
-        <Menu.Item className='search-menu-item'>
 
-          <Select.Async
-            multi={ this.state.multi }
-            value={ this.state.value }
-            onChange={ this.onChange }
-            onValueClick={ this.gotoEvent }
-            valueKey='id'
-            labelKey='name'
-            loadOptions={ this.getEvents }
-            backspaceRemoves={ this.state.backspaceRemoves } />
+      <div className='search-menu'>
+        <Menu
+          theme='dark'
+        >
+          <Menu.Item className='search-menu-item'>
 
-        </Menu.Item>
+            <Select.Async
+              multi={ this.state.multi }
+              value={ this.state.value }
+              onChange={ this.onChange }
+              onValueClick={ this.gotoEvent }
+              valueKey='id'
+              labelKey='name'
+              loadOptions={ this.getEvents }
+              backspaceRemoves={ this.state.backspaceRemoves } />
 
-      </Menu>
+          </Menu.Item>
+
+        </Menu>
+      </div>
     );
   }
 }
