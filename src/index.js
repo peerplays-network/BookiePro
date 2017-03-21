@@ -19,7 +19,6 @@ import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Apis, ChainConfig } from 'graphenejs-ws';
 import { Config } from './constants';
-import Welcome from './components/Welcome'
 import ChangePassword from './components/ChangePassword'
 import Welcome from './components/Welcome'
 
