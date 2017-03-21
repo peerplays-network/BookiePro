@@ -17,10 +17,11 @@ class Sport extends Component {
       <div className='sport-wrapper'>
         <Banner sport={ this.props.sport }/>
         {
-          Object.keys(this.props.eventGroups).map((eventGroupId) => {
+          Object.keys(this.props.eventGroups).map((eventGroupId, idx) => {
             const eventGroup = this.props.eventGroups[eventGroupId];
             return (
               <SimpleBettingWidget
+                key={ idx }
                 title={ eventGroup.name }
                 events={ eventGroup.events }
               />

@@ -100,17 +100,26 @@ const renderFooter = (title) => (
   </div>
 )
 
-const SimpleBettingWidget = (props) => (
-  <div className='simple-betting'>
-    <Table
-      bordered
-      pagination={ false }
-      columns={ columns }
-      dataSource={ props.events }
-      title={ () => renderTitle(props.title) }
-      footer={ () => renderFooter(props.title) }
-    />
-  </div>
-);
+const SimpleBettingWidget = (props) => {
+  let events = [];
+  if (props.events !== undefined) {
+    events = props.events.map((event) => (
+      Object.assign({}, event, { key: event.id })
+    ));
+  }
 
+  return (
+    <div className='simple-betting'>
+      <Table
+        bordered
+        pagination={ false }
+        columns={ columns }
+        dataSource={ events }
+        title={ () => renderTitle(props.title) }
+        footer={ () => renderFooter(props.title) }
+      />
+    </div>
+  );
+
+}
 export default SimpleBettingWidget;
