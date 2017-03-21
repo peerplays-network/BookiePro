@@ -7,8 +7,7 @@ class AccountServices {
   /**
    * Ask the faucet to create account for us
    */
-  static registerThroughFaucet(attempt, accountName, password) {
-    const keys = KeyGeneratorService.generateKeys(accountName, password);
+  static registerThroughFaucet(attempt, accountName, keys) {
     const ownerPublicKey = keys.owner.toPublicKey().toPublicKeyString();
     const activePublicKey = keys.active.toPublicKey().toPublicKeyString();
     const memoPublicKey = keys.memo.toPublicKey().toPublicKeyString();
@@ -73,8 +72,7 @@ class AccountServices {
   * password
   * account - account object from blockchain
   */
-  static authenticateAccount(accountName, password, account) {
-    const keys = KeyGeneratorService.generateKeys(accountName, password);
+  static authenticateAccount(account, keys) {
     const activePublicKey = keys.active.toPublicKey().toPublicKeyString();
 
     let isAuthenticated = false;

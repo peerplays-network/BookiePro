@@ -12,5 +12,6 @@ export default {
     'wss://testnet.bitshares.eu/ws',
     'wss://eu.openledger.info/ws',
     'ws://52.221.226.91:8090'
-  ]
+  ],
+  softwareUpdateReferenceAccountName: 'peerplays1'
 }

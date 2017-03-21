@@ -44,8 +44,8 @@ class EventActions {
 
       // TODO: Replace with actual blockchain call
       FakeApi.getEvents(sportId).then((events) => {
-        dispatch(EventPrivateActions.setGetEventsLoadingStatusAction(LoadingStatus.DONE));
         dispatch(EventActions.addEventsAction(events));
+        dispatch(EventPrivateActions.setGetEventsLoadingStatusAction(LoadingStatus.DONE));
       });
 
     };
@@ -57,8 +57,8 @@ class EventActions {
 
       // TODO: Replace with actual blockchain call
       FakeApi.searchEvents(keyword).then((result) => {
-        dispatch(EventPrivateActions.setSearchEventsLoadingStatusAction(LoadingStatus.DONE));
         dispatch(EventPrivateActions.setSearchResultAction(result));
+        dispatch(EventPrivateActions.setSearchEventsLoadingStatusAction(LoadingStatus.DONE));
       });
     }
   }

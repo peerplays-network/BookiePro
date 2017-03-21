@@ -30,8 +30,8 @@ class CompetitorActions {
 
       // TODO: Replace with actual blockchain call
       FakeApi.getCompetitors(sportId).then((competitors) => {
-        dispatch(CompetitorPrivateActions.setGetCompetitorsLoadingStatusAction(LoadingStatus.DONE));
         dispatch(CompetitorActions.addCompetitorsAction(competitors));
+        dispatch(CompetitorPrivateActions.setGetCompetitorsLoadingStatusAction(LoadingStatus.DONE));
       });
 
     };

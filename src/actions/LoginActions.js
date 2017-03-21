@@ -1,6 +1,7 @@
 import AppActions from './AppActions';
+import AccountActions from './AccountActions';
 import { LoadingStatus, ActionTypes } from '../constants';
-import { AccountService } from '../services';
+import { AccountService, KeyGeneratorService } from '../services';
 import { FetchChain } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
 var I18n = require('react-redux-i18n').I18n;
@@ -34,17 +35,19 @@ class LoginActions {
       dispatch(LoginPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
       FetchChain('getAccount', accountName).then((account) => {
-        const isAuthenticated = AccountService.authenticateAccount(accountName, password, account);
-
+        const keys = KeyGeneratorService.generateKeys(accountName, password);
+        const isAuthenticated = AccountService.authenticateAccount(account, keys);
         if (isAuthenticated) {
-          // Set login status to done
-          dispatch(LoginPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
+          // Save account information
+          dispatch(AccountActions.setAccount(account));
+          // Save keys
+          dispatch(AccountActions.setKeysAction(keys));
           // Set is logged in
           dispatch(AppActions.setIsLoggedInAction(true));
-          // Save account information
-          dispatch(AppActions.setAccount(account));
+          // Set login status to done
+          dispatch(LoginPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
           // Navigate to home
-          dispatch(NavigateActions.navigateTo('/home'))
+          dispatch(NavigateActions.navigateTo('/exchange'))
         } else {
           //set error on password mismatch
           dispatch(LoginPrivateActions.setLoginErrorAction([I18n.t('login.password_match')]));
