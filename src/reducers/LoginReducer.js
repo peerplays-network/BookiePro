@@ -19,6 +19,9 @@ export default function (state = initialState, action) {
         status: LoadingStatus.DEFAULT
       });
     }
+    case ActionTypes.ACCOUNT_LOGOUT: {
+      return initialState;
+    }
     default:
       return state;
   }

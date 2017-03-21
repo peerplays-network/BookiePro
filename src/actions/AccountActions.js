@@ -4,6 +4,7 @@ import { WalletService } from '../services';
 import FakeApi from '../communication/FakeApi';
 import { ChainStore, TransactionBuilder, FetchChain } from 'graphenejs-lib';
 import NotificationActions from './NotificationActions';
+import NavigateActions from './NavigateActions';
 
 // Account subscriber
 let accountSubscriber;
@@ -87,6 +88,12 @@ class AccountPrivateActions {
         dispatch(AccountPrivateActions.setBalanceAction(result[0], result[1]));
         dispatch(AccountPrivateActions.setGetBalanceLoadingStatusAction(LoadingStatus.DONE));
       })
+    }
+  }
+
+  static logoutAction() {
+    return {
+      type: ActionTypes.ACCOUNT_LOGOUT
     }
   }
 }
@@ -221,6 +228,15 @@ class AccountActions {
       })
     }
   }
+
+  static logout() {
+    return (dispatch) => {
+      dispatch(AccountPrivateActions.logoutAction());
+      // Navigate to the beginning of the app
+      dispatch(NavigateActions.navigateTo('/'));
+    }
+  }
+
 
 }
 

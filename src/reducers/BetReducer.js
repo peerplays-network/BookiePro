@@ -54,6 +54,9 @@ export default function (state = initialState, action) {
         resolvedBets: action.resolvedBets
       });
     }
+    case ActionTypes.ACCOUNT_LOGOUT: {
+      return initialState;
+    }
     default:
       return state;
   }

@@ -55,6 +55,9 @@ export default function (state = initialState, action) {
         keys: action.keys
       });
     }
+    case ActionTypes.ACCOUNT_LOGOUT: {
+      return initialState;
+    }
     default:
       return state;
   }
