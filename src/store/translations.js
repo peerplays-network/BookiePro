@@ -111,6 +111,10 @@ export const translationsObject = {
       password_match: 'Password doesn\'t match',
       wrong_accountname_password: 'Wrong Account Name or Password'
     },
+    application: {
+      welcome_title: 'Welcome to Application',
+      loading: 'loading ...'
+    },
     signup: {
       new_acc_req_text: 'Please create your new account',
       copy_text: 'Copy',
