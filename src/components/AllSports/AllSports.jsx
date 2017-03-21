@@ -17,13 +17,17 @@ class AllSports extends Component {
       <div id='all-sports-wrapper'>
         <Banner />
         { Object.keys(this.props.sports).length > 0 &&
-          <SimpleBettingWidget sport={ this.props.sports['1.100.1'] } />
+          <SimpleBettingWidget
+            title={ this.props.sports['1.100.1'].name }
+            events={ this.props.sports['1.100.1'].events }
+          />
         }
       </div>
     );
   }
 }
 
+// TODO: Should be a common function
 const findBinnedOrderBooksFromEvent = (event, state) => {
   const bettingMarketGroups = state.bettingMarketGroup.bettingMarketGroups.filter(
     (group) => event.betting_market_group_ids.includes(group.id)

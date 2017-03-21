@@ -83,19 +83,19 @@ const columns = [{
   }]
 }];
 
-const renderTitle = (sport) => (
+const renderTitle = (title) => (
   <div className='title'>
-    <div className='sport'>{ sport.name }</div>
+    <div className='sport'>{ title }</div>
     <div className='rules'>
       <Icon type='info-circle-o' /> Rules
     </div>
   </div>
 );
 
-const renderFooter = (sport) => (
+const renderFooter = (title) => (
   <div className='footer'>
     <a href='/' onClick={ e => e.preventDefault() }>
-      More { sport.name }
+      More { title }
     </a>
   </div>
 )
@@ -106,9 +106,9 @@ const SimpleBettingWidget = (props) => (
       bordered
       pagination={ false }
       columns={ columns }
-      dataSource={ props.sport.events }
-      title={ () => renderTitle(props.sport) }
-      footer={ () => renderFooter(props.sport) }
+      dataSource={ props.events }
+      title={ () => renderTitle(props.title) }
+      footer={ () => renderFooter(props.title) }
     />
   </div>
 );
