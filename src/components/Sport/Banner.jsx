@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Banner = () => (
+const Banner = (props) => (
   <div className='banner'>
       <div className='sport-name'>
-        AMERICAN FOOTBALL
+        { props.sport }
       </div>
   </div>
 )
