@@ -3,8 +3,7 @@ const sports = [
     id: '1.100.1',
     event_group_ids: [
       '1.101.1',
-      '1.101.2',
-      '1.101.3',
+      '1.101.2'
     ],
     name: 'American Football'
   },
