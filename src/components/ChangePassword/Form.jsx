@@ -7,7 +7,7 @@ const SignUpForm = (props) => {
   return (
     <form onSubmit={ handleSubmit }>
       <div className='form-fields'>
-        <Field name='username' component='input' type='password'/>
+        <Field name='username' component='input' type='text'/>
       </div>
       <div className='form-fields'>
         <Field name='password' component='input' type='password' />
