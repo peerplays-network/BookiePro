@@ -101,6 +101,7 @@ const renderFooter = (title) => (
 )
 
 const SimpleBettingWidget = (props) => {
+  // Introduce the key attribute to suppress the React warning
   let events = [];
   if (props.events !== undefined) {
     events = props.events.map((event) => (
