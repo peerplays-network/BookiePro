@@ -74,14 +74,12 @@ export const translationsObject = {
       acc_name_taken: 'Account name is already taken'
     },
     login: {
-      account_name: 'Account Name',
+      username: 'Username',
       password: 'Password',
       title: 'LOGIN',
       signup: 'SIGN UP',
-      password_length: 'Password must be %(cnt)s characters or more',
-      account_name_notfound: 'Account Name not found',
-      password_match: 'Password doesn\'t match',
-      wrong_accountname_password: 'Wrong Account Name or Password'
+      username_notfound: 'username not found',
+      wrong_username_password: 'wrong username or password'
     },
     changePassword:{
       title: 'Change Your Password',
@@ -114,14 +112,12 @@ export const translationsObject = {
   },
   nl: {
     login: {
-      account_name: 'Account Name',
+      username: 'Username',
       password: 'Password',
       title: 'LOGIN',
       signup: 'SIGN UP',
-      password_length: 'Password must be %(cnt)s characters or more',
-      account_name_notfound: 'Account Name not found',
-      password_match: 'Password doesn\'t match',
-      wrong_accountname_password: 'Wrong Account Name or Password'
+      username_notfound: 'username not found',
+      wrong_username_password: 'wrong username or password'
     },
     application: {
       welcome_title: 'Welcome to Application',
