@@ -26,8 +26,8 @@ SoftwareUpdateModal.propTypes = {
   title: React.PropTypes.string.isRequired,
   closable: React.PropTypes.bool.isRequired,
   visible: React.PropTypes.bool.isRequired,
-  onOk: React.PropTypes.number.func,
-  onCancel: React.PropTypes.number.func,
+  onOk: React.PropTypes.func,
+  onCancel: React.PropTypes.func,
 
 };
 

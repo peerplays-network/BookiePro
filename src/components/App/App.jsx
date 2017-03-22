@@ -54,7 +54,13 @@ class App extends Component {
         // }
 
       }
+    } else if ( this.state.synced &&
+      prevState.synced === true &&
+      this.props.location.pathname.length === 1){
+
+      this.props.navigateTo('/login');
     }
+
   }
 
   syncWithBlockchain() {
