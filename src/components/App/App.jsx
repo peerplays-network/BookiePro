@@ -6,7 +6,7 @@ import { NavigateActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
-import { compareVersionNumbers } from '../../utility/Utils'
+import { compareVersionNumbers } from '../../utility/versionUtils'
 
 class App extends Component {
   constructor(props) {
