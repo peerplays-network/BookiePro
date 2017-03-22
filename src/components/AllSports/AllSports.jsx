@@ -16,11 +16,17 @@ class AllSports extends Component {
     return (
       <div id='all-sports-wrapper'>
         <Banner />
-        { Object.keys(this.props.sports).length > 0 &&
-          <SimpleBettingWidget
-            title={ this.props.sports['1.100.1'].name }
-            events={ this.props.sports['1.100.1'].events }
-          />
+        {
+          Object.keys(this.props.sports).map((sportId, idx) => {
+            const sport = this.props.sports[sportId];
+            return (
+              <SimpleBettingWidget
+                key={ idx }
+                title={ sport.name }
+                events={ sport.events }
+              />
+            )
+          })
         }
       </div>
     );
@@ -56,21 +62,26 @@ const findBinnedOrderBooksFromEvent = (event, state) => {
 
 const mapStateToProps = (state) => {
   const { sport, event } = state;
+
+  // Construct the page content
   let page = {};
+
+  // Create a map using sport id as keys
   sport.sports.forEach((sport) => {
     page[sport.id] = { name: sport.name };
+    page[sport.id]['events'] = [];
   });
+
+  // For each event, generate data entry for the Simple Betting Widget
   event.events.forEach((event) => {
-    let sport = page[event.sport_id];
-    if (!sport.hasOwnProperty('events')) {
-      sport['events'] = [];
+    if (page.hasOwnProperty(event.sport_id)) {
+      page[event.sport_id]['events'].push({
+        id: event.id,
+        name: event.name,
+        time: event.start_time,
+        offers: findBinnedOrderBooksFromEvent(event, state)
+      });
     }
-    sport['events'].push({
-      id: event.id,
-      name: event.name,
-      time: event.start_time,
-      offers: findBinnedOrderBooksFromEvent(event, state)
-    });
   });
 
   return {

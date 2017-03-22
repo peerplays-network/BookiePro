@@ -40,7 +40,6 @@ class AllSportsActions {
     return (dispatch) => {
       dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
-      let events = [];
       // First get list of sports
       FakeApi.getSports().then((sports) => {
         // Store sports inside redux store
@@ -56,13 +55,18 @@ class AllSportsActions {
         // Call the promise together
         return Promise.all(getEventsPromiseArray);
       }).then((result) => {
+        let events = [];
+        
         // Combine the resulting events
         _.forEach(result, (retrievedEvents) => {
-          // This is defined in outer scope
           events = events.concat(retrievedEvents);
         });
         // Store events inside redux store
         dispatch(EventActions.addEventsAction(events));
+
+        // Store the final events id inside Home Redux store
+        const eventIds = _.map(events, 'id');
+        dispatch(AllSportsPrivateActions.setEventIdsAction(eventIds));
 
         // Create promise to get betting market groups for each event
         let getBettingMarketGroupPromiseArray = [];
@@ -114,10 +118,6 @@ class AllSportsActions {
         _.forEach(result, (retrievedOrderBooks) => {
           binnedOrderBooks = binnedOrderBooks.concat(retrievedOrderBooks);
         });
-
-        // Store the final events id inside Home Redux store
-        const eventIds = _.map(events, 'id');
-        dispatch(AllSportsPrivateActions.setEventIdsAction(eventIds));
 
         // Store binned order books inside redux store
         dispatch(AllSportsPrivateActions.setBinnedOrderBooksAction(binnedOrderBooks));
