@@ -12,7 +12,7 @@ import { compareVersionNumbers } from '../../utility/Utils'
 // NOTE { THIS CODE WILL BREAK WHEN RUNNING IN BROWSER / ENDPOINT IS LOCALHOST
 // NOTE we could only get the version number from package.json in PACKED ELECTRON APP}
 // NOTE
-// NOTE uncomment it when we are about to publish packed electron app
+// NOTE uncomment it ONLY when we are about to publish packed electron app
 // NOTE
 // NOTE ref: https://github.com/electron/electron/issues/7085
 // NOTE ref: https://electron.atom.io/docs/tutorial/quick-start/#write-your-first-electron-app
@@ -30,6 +30,7 @@ class App extends Component {
 
       newVersionModalVisible: false,
 
+      //compatabile with format A.B and A.B.C   for comparision logic, pls check Utils.compareVersionNumbers
       currentVersion: "1.1.1" // hardcode for testing hardupdate/softupdate
     }
     this.syncWithBlockchain = this.syncWithBlockchain.bind(this);
@@ -37,18 +38,17 @@ class App extends Component {
 
   componentDidMount() {
 
-    // NOTE uncomment it when we are about to publish packed electron app. for details, pls refer to the alert note on top.
+    // NOTE uncomment 'app.getVersion()' when we are about to publish packed electron app. for details, pls refer to the alert note on top.
     // this.setState({ currentVersion: app.getVersion() });
 
     this.syncWithBlockchain();
   }
+
   componentDidUpdate(prevProps, prevState){
 
     //when blockchain sync is done ( and success)
     if ( this.state.synced && prevState.synced === false){
 
-
-      //TODO to be compared with the this.state.version
       if ( this.props.version &&
         (this.props.needHardUpdate || this.props.needSoftUpdate) &&
         (compareVersionNumbers(this.state.currentVersion, this.props.version) < 0)){
@@ -59,7 +59,11 @@ class App extends Component {
 
       } else {
 
-        //TODO uncomment when we enforce 'loginined is required IN EVERY ROUTE'
+        if ( this.props.location.pathname.length === 1){
+          this.props.navigateTo('/login');
+        }
+
+        //TODO replace this block with below when we enforce 'login is required IN EVERY ROUTE'
         // if ( this.state.isLoggedIn){
         //   this.props.navigateTo('/exchange');
         // } else {
@@ -88,9 +92,9 @@ class App extends Component {
     });
   }
 
-  setModal2Visible(modal2Visible) {
+  setModalVisible(modalVisible) {
     this.setState({
-      newVersionModalVisible: modal2Visible
+      newVersionModalVisible: modalVisible
     });
   }
 
@@ -103,10 +107,10 @@ class App extends Component {
         closable={ !this.props.needHardUpdate }
         maskClosable={ !this.props.needHardUpdate }
         visible={ this.state.newVersionModalVisible }
-        onOk={ () => this.setModal2Visible(false) }
-        onCancel={ () => this.setModal2Visible(false) }
+        onOk={ () => this.setModalVisible(false) }
+        onCancel={ () => this.setModalVisible(false) }
       >
-        <p>I need to update first</p>
+        <p>I need to update first {this.props.version}</p>
         <p>some contents...</p>
         <p>some contents...</p>
       </Modal>
@@ -130,7 +134,7 @@ class App extends Component {
         </div> );
     } else if (this.props.children){
       content = (
-        <div>
+        <div id='main-content'>
           { this.props.children }
           { softwareUpdateModal }
         </div>

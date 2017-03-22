@@ -6,7 +6,7 @@ let initialState = {
   referenceAccount: null,
   needHardUpdate: false,
   needSoftUpdate: false,
-  version: null, //assuming format is A.B.C
+  version: null,
   displayText: null
 };
 

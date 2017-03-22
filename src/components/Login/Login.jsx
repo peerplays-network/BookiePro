@@ -12,7 +12,6 @@ class Login extends Component {
     super(props);
     this.onClickSignup = this.onClickSignup.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.skipLogin = this.skipLogin.bind(this);
   }
 
   //Navigate to signup page

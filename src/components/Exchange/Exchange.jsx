@@ -19,15 +19,13 @@ class Exchange extends Component {
   }
 
   componentDidMount() {
-
     Ps.initialize(ReactDOM.findDOMNode(this.refs.betslips));
     Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
-
-    const { getDataForSidebar } = this.props
 
     //NOTE to be fine tune later for not to call api everytime,
     // we could fine tune when we could SUBSCRIBE change in
     // sport / eventgp / event / betting mkg gp
+    const { getDataForSidebar } = this.props
     getDataForSidebar();
   }
 
