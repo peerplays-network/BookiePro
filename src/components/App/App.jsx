@@ -1,10 +1,3 @@
-// NOTE uncomment it when running in electron with "npm run pack"
-// NOTE we could only get the version number from package.json in app from packed
-// NOTE ref: https://github.com/electron/electron/issues/7085
-// const electron = window.require('electron');
-// const { app } = electron.remote
-
-
 import React, { Component } from 'react';
 import SyncError from '../SyncError';
 import { ChainStore } from 'graphenejs-lib';
@@ -12,6 +5,18 @@ import { SoftwareUpdateActions } from '../../actions';
 import { NavigateActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Modal, Button } from 'antd';
+
+// NOTE ====================================  ALERT  ====================================
+// NOTE { THIS CODE WILL BREAK WHEN RUNNING IN BROWSER / ENDPOINT IS LOCALHOST
+// NOTE we could only get the version number from package.json in PACKED ELECTRON APP}
+// NOTE
+// NOTE uncomment it when we are about to publish packed electron app
+// NOTE
+// NOTE ref: https://github.com/electron/electron/issues/7085
+// NOTE ====================================  ALERT  ====================================
+// const electron = window.require('electron');
+// const { app } = electron.remote
 
 class App extends Component {
   constructor(props) {
@@ -20,37 +25,33 @@ class App extends Component {
       synced: false,
       syncFail: false,
       loading: false,
-      testingUpdate: true
+      testingUpdate: true,
+
+      newVersionModalVisible: false,
+
+      currentVersion: "1.1.1a" // hardcode for testing hardupdate/softupdate
     }
     this.syncWithBlockchain = this.syncWithBlockchain.bind(this);
   }
 
   componentDidMount() {
+
+    // NOTE uncomment it when we are about to publish packed electron app. for details, pls refer to the alert note on top.
+    // this.setState({ currentVersion: app.getVersion() });
+
     this.syncWithBlockchain();
   }
   componentDidUpdate(prevProps, prevState){
 
-    //
+    //when blockchain sync is done ( and success)
     if ( this.state.synced && prevState.synced === false){
 
-      try {
-        if (typeof app === 'undefined' ){
-
-        } else {
-          // let appVersion = app.getVersion();
-          // console.log( appVersion);
-        };
-      } catch(err) {
-          // caught the reference error
-          // code here will execute **only** if variable was never declared
-      }
-
-      //TODO uncomment when we enforce 'loginined is required'
-      if ( this.state.isLoggedIn){
-        this.props.navigateTo('/exchange');
-      } else {
-        this.props.navigateTo('/login');
-      }
+      //TODO uncomment when we enforce 'loginined is required IN EVERY ROUTE'
+      // if ( this.state.isLoggedIn){
+      //   this.props.navigateTo('/exchange');
+      // } else {
+      //   this.props.navigateTo('/login');
+      // }
 
     }
   }

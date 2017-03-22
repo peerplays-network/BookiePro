@@ -27,6 +27,7 @@ class Login extends Component {
   }
 
   skipLogin(e){
+    //TODO will make it as "more" fake(i.e. removing hardoce username/pw)  main purpose here is to update the isLoggedIn status )
     this.props.login('testaccount123d', 'DgTdQBzqF1NLnniikZuoedoWYzVHjJmV28LS7PJAqWdkwRkWzkyq');
   }
 

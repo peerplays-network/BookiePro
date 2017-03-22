@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from "react-dom";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import SplitPane from 'react-split-pane';
@@ -6,7 +7,7 @@ import BetSlip from '../BetSlip';
 import SideBar from '../SideBar';
 import { SidebarActions } from '../../actions';
 
-var Ps = require('perfect-scrollbar');
+import Ps from "perfect-scrollbar";
 
 class Exchange extends Component {
 
@@ -18,16 +19,23 @@ class Exchange extends Component {
   }
 
   componentDidMount() {
-    Ps.initialize(this.refs.betslips);
-    Ps.initialize(this.refs.sidebar);
+
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.betslips));
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
 
     const { getDataForSidebar } = this.props
 
     //NOTE to be fine tune later for not to call api everytime,
-    // we could fine tune when we could subscribe change event in
+    // we could fine tune when we could SUBSCRIBE change in
     // sport / eventgp / event / betting mkg gp
     getDataForSidebar();
   }
+
+  componentDidUpdate() {
+    Ps.update(ReactDOM.findDOMNode(this.refs.betslips));
+    Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
+  }
+
 
   updatePs(){
     Ps.update(this.refs.betslips);
@@ -54,7 +62,7 @@ class Exchange extends Component {
           split='vertical'
           minSize={ sidebarWidth } defaultSize={ sidebarWidth }
           pane1Style={ styleLeftPane }>
-            <div style={ { 'height' : '100%', 'overflow' : 'hidden' } }
+            <div style={ { 'height' : '93%', 'overflow' : 'hidden', 'position' : 'relative' } }
               ref='sidebar'>
               { transitionName.length === 4 ?
                  <SideBar
@@ -83,7 +91,7 @@ class Exchange extends Component {
               <div >
                 { this.props.children }
               </div>
-              <div style={ { 'height' : '100%', 'overflow' : 'hidden', 'position' : 'relative' } }
+              <div style={ { 'height' : '93%', 'overflow' : 'hidden', 'position' : 'relative' } }
                 ref='betslips'>
                 <BetSlip onClick={ () => { this.updatePs(); } } />
                 <BetSlip onClick={ () => { this.updatePs(); } }/>
