@@ -41,7 +41,7 @@ class RegisterActions {
         return FetchChain('getAccount', accountName);
       }).then((account) => {
         // Save account information
-        dispatch(AppActions.setAccount(account));
+        dispatch(AccountActions.setAccount(account));
 
         // Save keys
         dispatch(AccountActions.setKeysAction(keys));
