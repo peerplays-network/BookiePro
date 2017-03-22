@@ -1,0 +1,23 @@
+@import (reference) '../../Main/Main.less';
+
+div.sport-banner {
+  position: relative;
+
+  @media @desktop {
+    background: url('../../../assets/football_banner_small.png') no-repeat;
+    height: 120px;
+  }
+
+  @media @desktop-xl {
+    background: url('../../../assets/football_banner_big.png') no-repeat;
+    height: 120px;
+  }
+
+  > div.sport-name {
+    position: absolute;
+    font-size: 18px;
+    left: 30px;
+    bottom: 10px;
+    text-transform: uppercase;
+  }
+}

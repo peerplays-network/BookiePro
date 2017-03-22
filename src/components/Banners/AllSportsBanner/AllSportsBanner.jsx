@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Banner = () => (
-  <div className='banner'>
+  <div className='all-sports-banner'>
     <div className='statistics'>
       <div className='digits'>
         <span className='digit'>1</span>
