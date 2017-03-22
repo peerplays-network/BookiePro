@@ -46,21 +46,24 @@ class Exchange extends Component {
      //primary = second , defaultSize =  400 = setting betslip width as 400
      // remove css of splitpane in Exchange.less to disable resizing
 
-     //TODO Banner not yet fixed
-     //TODO perfect-scrollbar make doubled height when scrollbar is needed, to be fixed
-
     const styleLeftPane = { background: '#1563A0' };
     const sidebarWidth = 200;
     const betslipWidth = 400;
+    const splitPaneStyle = {
+      'top':'0px',
+      'paddingTop':'64px', //due to top bar
+      'position': 'fixed'
+    };
 
     let transitionName = this.props.location.pathname.split("/");
 
     return (
       <SplitPane
+          style={ splitPaneStyle }
           split='vertical'
           minSize={ sidebarWidth } defaultSize={ sidebarWidth }
           pane1Style={ styleLeftPane }>
-            <div style={ { 'height' : '92%', 'position' : 'relative' } }
+            <div style={ { 'height' : '100%', 'position' : 'relative' } }
               ref='sidebar'>
               { transitionName.length === 4 ?
                  <SideBar
@@ -89,7 +92,7 @@ class Exchange extends Component {
               <div >
                 { this.props.children }
               </div>
-              <div style={ { 'height' : '92%', 'position' : 'relative' } }
+              <div style={ { 'height' : '100%', 'position' : 'relative' } }
                 ref='betslips'>
                 <BetSlip onClick={ () => { this.updatePs(); } } />
                 <BetSlip onClick={ () => { this.updatePs(); } }/>

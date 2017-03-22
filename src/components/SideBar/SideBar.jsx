@@ -173,7 +173,7 @@ class SideBar extends Component {
                 "Event" : Event,
                 "BettingMarketGroup" : BettingMarketGroup
               }
-            } 
+            }
           />
 
     );

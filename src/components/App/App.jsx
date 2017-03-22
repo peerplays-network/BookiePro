@@ -5,20 +5,8 @@ import { SoftwareUpdateActions } from '../../actions';
 import { NavigateActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Modal } from 'antd';
+import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
 import { compareVersionNumbers } from '../../utility/Utils'
-
-// NOTE ====================================  ALERT  ====================================
-// NOTE { THIS CODE WILL BREAK WHEN RUNNING IN BROWSER / ENDPOINT IS LOCALHOST
-// NOTE we could only get the version number from package.json in PACKED ELECTRON APP}
-// NOTE
-// NOTE uncomment it ONLY when we are about to publish packed electron app
-// NOTE
-// NOTE ref: https://github.com/electron/electron/issues/7085
-// NOTE ref: https://electron.atom.io/docs/tutorial/quick-start/#write-your-first-electron-app
-// NOTE ====================================  ALERT  ====================================
-// const electron = window.require('electron');
-// const { app } = electron.remote
 
 class App extends Component {
   constructor(props) {
@@ -30,23 +18,18 @@ class App extends Component {
 
       newVersionModalVisible: false,
 
-      //compatabile with format A.B and A.B.C   for comparision logic, pls check Utils.compareVersionNumbers
       currentVersion: "1.1.1" // hardcode for testing hardupdate/softupdate
     }
     this.syncWithBlockchain = this.syncWithBlockchain.bind(this);
   }
 
   componentDidMount() {
-
-    // NOTE uncomment 'app.getVersion()' when we are about to publish packed electron app. for details, pls refer to the alert note on top.
-    // this.setState({ currentVersion: app.getVersion() });
-
     this.syncWithBlockchain();
   }
 
   componentDidUpdate(prevProps, prevState){
 
-    //when blockchain sync is done ( and success)
+    //when blockchain sync is done ( and success), assuming connection success => sync success
     if ( this.state.synced && prevState.synced === false){
 
       if ( this.props.version &&
@@ -101,19 +84,13 @@ class App extends Component {
   render() {
 
     let softwareUpdateModal = (
-      <Modal
-        title='I need to update first'
-        wrapClassName='vertical-center-modal'
+      <SoftwareUpdateModal
+        title='I need to update the app first'
         closable={ !this.props.needHardUpdate }
-        maskClosable={ !this.props.needHardUpdate }
         visible={ this.state.newVersionModalVisible }
         onOk={ () => this.setModalVisible(false) }
         onCancel={ () => this.setModalVisible(false) }
-      >
-        <p>I need to update first {this.props.version}</p>
-        <p>some contents...</p>
-        <p>some contents...</p>
-      </Modal>
+      />
     );
 
     let content = (
@@ -154,8 +131,8 @@ const mapStateToProps = (state) => {
     version: softwareUpdate.version, //
 
     // uncomment below for testing
-    // needHardUpdate: false,
-    // needSoftUpdate: true,
+    // needHardUpdate: true,
+    // needSoftUpdate: false,
     // version: "1.1.17", //
   }
 }
