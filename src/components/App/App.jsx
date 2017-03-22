@@ -47,11 +47,16 @@ class App extends Component {
     //when blockchain sync is done ( and success)
     if ( this.state.synced && prevState.synced === false){
 
+
       //TODO to be compared with the this.state.version
-      if ((compareVersionNumbers(this.state.currentVersion, "1.7.10") < 0)){
+      if ( this.props.version &&
+        (this.props.needHardUpdate || this.props.needSoftUpdate) &&
+        (compareVersionNumbers(this.state.currentVersion, this.props.version) < 0)){
+
         this.setState({
           newVersionModalVisible: true
         });
+
       } else {
 
         //TODO uncomment when we enforce 'loginined is required IN EVERY ROUTE'
@@ -95,8 +100,8 @@ class App extends Component {
       <Modal
         title='I need to update first'
         wrapClassName='vertical-center-modal'
-        closable={ false }
-        maskClosable={ false }
+        closable={ !this.props.needHardUpdate }
+        maskClosable={ !this.props.needHardUpdate }
         visible={ this.state.newVersionModalVisible }
         onOk={ () => this.setModal2Visible(false) }
         onCancel={ () => this.setModal2Visible(false) }
@@ -141,7 +146,13 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn: app.isLoggedIn,
     needHardUpdate: softwareUpdate.needHardUpdate,
+    needSoftUpdate: softwareUpdate.needSoftUpdate,
+    version: softwareUpdate.version, //
 
+    // uncomment below for testing
+    // needHardUpdate: false,
+    // needSoftUpdate: true,
+    // version: "1.1.17", //
   }
 }
 

@@ -26,11 +26,6 @@ class Login extends Component {
     this.props.login(e.accountName, e.password);
   }
 
-  skipLogin(e){
-    //TODO will make it as "more" fake(i.e. removing hardoce username/pw)  main purpose here is to update the isLoggedIn status )
-    this.props.login('testaccount123d', 'DgTdQBzqF1NLnniikZuoedoWYzVHjJmV28LS7PJAqWdkwRkWzkyq');
-  }
-
   render() {
     return (
       <div className='sportsbg' id='main-content'>
@@ -42,11 +37,6 @@ class Login extends Component {
               <div className='center-ele'>
                 <LoginForm onClickSignup={ this.onClickSignup }
                   onSubmit={ this.handleSubmit } errors={ this.props.errors } status={ this.props.status } />
-              </div>
-
-              {/* TODO : remove when we have real login process */}
-              <div className='center-ele'>
-                <button className={ 'btn btn-regular' } onClick={ this.skipLogin }>Skip ( to test login screen)</button>
               </div>
             </div>
           </div>
