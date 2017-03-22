@@ -1,7 +1,7 @@
 import FakeApi from '../communication/FakeApi';
-import { LoadingStatus, ActionTypes } from '../constants';
-import SportActions from './SportActions';
+import { ActionTypes, LoadingStatus } from '../constants';
 import EventActions from './EventActions';
+import EventGroupActions from './EventGroupActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import _ from 'lodash';
@@ -9,24 +9,31 @@ import _ from 'lodash';
 /**
  * Private actions
  */
-class AllSportsPrivateActions {
+class SportPagePrivateActions {
   static setLoadingStatusAction(loadingStatus) {
     return {
-      type: ActionTypes.ALL_SPORTS_SET_LOADING_STATUS,
+      type: ActionTypes.SPORT_PAGE_SET_LOADING_STATUS,
       loadingStatus
     }
   }
 
   static setEventIdsAction(eventIds) {
     return {
-      type: ActionTypes.ALL_SPORTS_SET_EVENT_IDS,
+      type: ActionTypes.SPORT_PAGE_SET_EVENT_IDS,
       eventIds
+    }
+  }
+
+  static setEventGroupIdsAction(eventGroupIds) {
+    return {
+      type: ActionTypes.SPORT_PAGE_SET_EVENT_GROUP_IDS,
+      eventGroupIds
     }
   }
 
   static setBinnedOrderBooksAction(binnedOrderBooks) {
     return {
-      type: ActionTypes.ALL_SPORTS_SET_BINNED_ORDER_BOOKS,
+      type: ActionTypes.SPORT_PAGE_SET_BINNED_ORDER_BOOKS,
       binnedOrderBooks
     }
   }
@@ -35,28 +42,22 @@ class AllSportsPrivateActions {
 /**
  * Public actions
  */
-class AllSportsActions {
-  static getData() {
+class SportPageActions {
+  static getData(sportId) {
     return (dispatch) => {
-      dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
+      dispatch(SportPagePrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
-      // First get list of sports
-      FakeApi.getSports().then((sports) => {
-        // Store sports inside redux store
-        dispatch(SportActions.addSportsAction(sports))
+      FakeApi.getEventGroups(sportId).then((retrievedEventGroups) => {
+        // Store event groups inside redux Store
+        dispatch(EventGroupActions.addEventGroupsAction(retrievedEventGroups));
 
-        // Create promise to get events for each sports
-        let getEventsPromiseArray = [];
-        _.forEach(sports, (sport) => {
-          const getEventsPromise = FakeApi.getEvents(sport.id);
-          getEventsPromiseArray.push(getEventsPromise);
-        });
+        // Store the final event group ids inside SportPage Redux store
+        const eventGroupIds = _.map(retrievedEventGroups, 'id');
+        dispatch(SportPagePrivateActions.setEventGroupIdsAction(eventGroupIds));
 
-        // Call the promise together
-        return Promise.all(getEventsPromiseArray);
+        return FakeApi.getEvents(sportId);
       }).then((result) => {
         let events = [];
-        
         // Combine the resulting events
         _.forEach(result, (retrievedEvents) => {
           events = events.concat(retrievedEvents);
@@ -64,9 +65,9 @@ class AllSportsActions {
         // Store events inside redux store
         dispatch(EventActions.addEventsAction(events));
 
-        // Store the final events id inside Home Redux store
+        // Store the final event ids inside SportPage Redux store
         const eventIds = _.map(events, 'id');
-        dispatch(AllSportsPrivateActions.setEventIdsAction(eventIds));
+        dispatch(SportPagePrivateActions.setEventIdsAction(eventIds));
 
         // Create promise to get betting market groups for each event
         let getBettingMarketGroupPromiseArray = [];
@@ -120,14 +121,13 @@ class AllSportsActions {
         });
 
         // Store binned order books inside redux store
-        dispatch(AllSportsPrivateActions.setBinnedOrderBooksAction(binnedOrderBooks));
+        dispatch(SportPagePrivateActions.setBinnedOrderBooksAction(binnedOrderBooks));
 
         // Finish loading (TODO: Are we sure this is really the last action dispatched?)
-        dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
+        dispatch(SportPagePrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
       });
-
     };
   }
 }
 
-export default AllSportsActions;
+export default SportPageActions;

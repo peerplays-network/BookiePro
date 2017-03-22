@@ -14,6 +14,7 @@ import Main from './components/Main';
 import SportMarket from './components/SportMarket';
 import Exchange from './components/Exchange';
 import AllSports from './components/AllSports';
+import Sport from './components/Sport';
 import Localize from './components/Localize';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
@@ -72,7 +73,7 @@ const routes = (
         <Route path='/empty-page' component={ EmptyPage } />
         <Route path='/exchange' component={ Exchange } >
           <IndexRoute component={ AllSports }/>
-          <Route path='Sport/:objectId' component={ SportMarket }/>
+          <Route path='Sport/:objectId' component={ Sport }/>
           <Route path='EventGroup/:objectId' component={ SportMarket }/>
           <Route path='Event/:objectId' component={ SportMarket }/>
           <Route path='BettingMarketGroup/:objectId' component={ SportMarket }/>
