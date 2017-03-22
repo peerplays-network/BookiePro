@@ -94,24 +94,24 @@ class App extends Component {
     );
 
     let content = (
-        <div className='sportsbg' id='main-content'>
+        <div className='sportsbg'>
           { softwareUpdateModal }
         </div>
     );
 
     if (this.state.syncFail) {
       content = (
-        <div className='sportsbg' id='main-content'>
+        <div className='sportsbg'>
           <SyncError/>
         </div> );
     } else if (this.state.loading) {
       content = (
-        <div className='sportsbg' id='main-content'>
+        <div className='sportsbg'>
           <span>loading...connecitng to blockchain</span>
         </div> );
     } else if (this.props.children){
       content = (
-        <div id='main-content'>
+        <div>
           { this.props.children }
           { softwareUpdateModal }
         </div>

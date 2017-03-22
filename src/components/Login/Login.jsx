@@ -27,7 +27,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div className='sportsbg' id='main-content'>
+      <div className='sportsbg'>
         <div className='loginComponent' >
           <div className='wrapper'>
             <div className='text-center'>

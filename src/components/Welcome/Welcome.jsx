@@ -7,7 +7,7 @@ var I18n = require('react-redux-i18n').I18n;
 class Welcome extends Component{
   render() {
     return (
-      <div className='sportsbg' id='main-content'>
+      <div className='sportsbg'>
         <div className='welcomeComponent'>
           <div className='wrapper'>
             <div className='text-center'>

@@ -10,7 +10,7 @@ class Main extends Component {
       <Layout className='layout'>
         <NavBar />
         <Layout>
-          <Content id='main-content'>
+          <Content>
             { this.props.children }
           </Content>
         </Layout>
