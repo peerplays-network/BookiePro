@@ -12,22 +12,22 @@ const competitors = [
   {
     id: '1.102.3',
     sport_id: '1.100.1',
-    name: 'American Football Team 3'
+    name: 'Seatle Seahawks'
   },
   {
     id: '1.102.4',
     sport_id: '1.100.2',
-    name: 'Basketball Team 1'
+    name: 'Cleveland Cavaliers'
   },
   {
     id: '1.102.5',
     sport_id: '1.100.2',
-    name: 'Basketball Team 2'
+    name: 'Golden State Wariors'
   },
   {
     id: '1.102.6',
     sport_id: '1.100.2',
-    name: 'Basketball Team 3'
+    name: 'Oklahoma City Thunders'
   },
 
 ];

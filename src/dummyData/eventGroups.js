@@ -22,7 +22,7 @@ const eventGroups = [
   {
     id: '1.101.5',
     sport_id: '1.100.2',
-    name: 'Basketball Event Group 1'
+    name: 'Basketball Event Group 2'
   },
   {
     id: '1.101.6',

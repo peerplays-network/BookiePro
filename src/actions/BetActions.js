@@ -3,6 +3,7 @@ import { LoadingStatus, ActionTypes } from '../constants';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import EventActions from './EventActions';
+import SportActions from './SportActions';
 import { TransactionBuilder } from 'graphenejs-lib';
 import _ from 'lodash';
 
@@ -59,15 +60,15 @@ class BetActions {
 
   static getOngoingBets() {
     return (dispatch, getState) => {
-      const account = getState().account.account;
-      const accountId = account && account.get('id');
+      // const account = getState().account.account;
+      // const accountId = account && account.get('id');
+      const accountId = '1.2.48';
 
       dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call
       let ongoingBets = [];
       FakeApi.getOngoingBets(accountId).then((retrievedBets) => {
         ongoingBets = retrievedBets;
-        console.log('ongoingBets', ongoingBets);
 
         // Get betting market ids
         let bettingMarketIds = _.chain(ongoingBets).map((bet) => {
@@ -75,10 +76,8 @@ class BetActions {
         }).uniq().value();
 
         // Get betting market object
-        console.log('bettingMarketIds', bettingMarketIds);
         return FakeApi.getObjects(bettingMarketIds);
       }).then((bettingMarkets) => {
-        console.log('bettingMarkets', bettingMarkets);
         // Store betting market groups inside redux store
         dispatch(BettingMarketActions.addBettingMarketsAction(bettingMarkets));
 
@@ -88,11 +87,9 @@ class BetActions {
         }).uniq().value();
 
         // Get the betting market groups
-        console.log('bettingMarketGroupIds', bettingMarketGroupIds);
         return FakeApi.getObjects(bettingMarketGroupIds);
       }).then((bettingMarketGroups) => {
         // Store betting market groups inside redux store
-        console.log('bettingMarketGroups', bettingMarketGroups);
         dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMarketGroups));
 
         // Get unique event ids
@@ -100,19 +97,27 @@ class BetActions {
           return bettingMarketGroup.event_id
         }).uniq().value();
 
-        console.log('eventIds', eventIds);
         // Get the betting market groups
         return FakeApi.getObjects(eventIds);
       }).then((events) => {
-        console.log('events', events);
         // Store events inside redux store
         dispatch(EventActions.addEventsAction(events));
+
+        // Get unique sport ids
+        let sportIds = _.chain(events).map((event) => {
+          return event.sport_id
+        }).uniq().value();
+
+        // Get the sports
+        return FakeApi.getObjects(sportIds);
+      }).then((sports) => {
+        // Store sports inside redux store
+        dispatch(SportActions.addSportsAction(sports));
 
         // Add ongoing bets to redux store
         dispatch(BetActions.addOngoingBetsAction(ongoingBets));
         dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.DONE));
       });
-
     };
   }
 
