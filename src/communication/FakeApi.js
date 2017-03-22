@@ -36,7 +36,7 @@ class FakeApi {
   static getSports() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(sports);
+        resolve(_.cloneDeep(sports));
       }, TIMEOUT_LENGTH);
     });
   }
@@ -143,7 +143,7 @@ class FakeApi {
       }, TIMEOUT_LENGTH);
     });
   }
-  
+
   static getDepositAddress(accountId) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
