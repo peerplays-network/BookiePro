@@ -38,6 +38,8 @@
 //copied from peerplaysblockchain-peerplays-graphene-ui
 /* perfect-scrollbar v0.6.2 */
 .ps-container {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
   overflow: hidden !important; }
   .ps-container.ps-active-x > .ps-scrollbar-x-rail, .ps-container.ps-active-y > .ps-scrollbar-y-rail {
     display: block; }
@@ -140,6 +142,32 @@
     .ps-container:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y {
       background-color: #999; }
 
+
+
+/* use css to set position of modal */
+.vertical-center-modal {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.vertical-center-modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  width: 0;
+}
+
+.vertical-center-modal .ant-modal {
+  display: inline-block;
+  vertical-align: middle;
+  top: 0;
+  text-align: left;
+}
+
+.vertical-center-modal .ant-modal-body {
+  color: black;
+}
 
 html {
   height: 100%;

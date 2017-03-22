@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 let initialState = {
   referenceAccount: null,
-  needHardUpdate: false,
+  needHardUpdate: true,
   needSoftUpdate: false,
   version: null, //assuming format is A.B.C
   displayText: null

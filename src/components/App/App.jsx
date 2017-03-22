@@ -5,7 +5,8 @@ import { SoftwareUpdateActions } from '../../actions';
 import { NavigateActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
+import { compareVersionNumbers } from '../../utility/Utils'
 
 // NOTE ====================================  ALERT  ====================================
 // NOTE { THIS CODE WILL BREAK WHEN RUNNING IN BROWSER / ENDPOINT IS LOCALHOST
@@ -14,6 +15,7 @@ import { Modal, Button } from 'antd';
 // NOTE uncomment it when we are about to publish packed electron app
 // NOTE
 // NOTE ref: https://github.com/electron/electron/issues/7085
+// NOTE ref: https://electron.atom.io/docs/tutorial/quick-start/#write-your-first-electron-app
 // NOTE ====================================  ALERT  ====================================
 // const electron = window.require('electron');
 // const { app } = electron.remote
@@ -22,14 +24,13 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      synced: false,
+      synced: false, //  state of sync with blockchain
       syncFail: false,
       loading: false,
-      testingUpdate: true,
 
       newVersionModalVisible: false,
 
-      currentVersion: "1.1.1a" // hardcode for testing hardupdate/softupdate
+      currentVersion: "1.1.1" // hardcode for testing hardupdate/softupdate
     }
     this.syncWithBlockchain = this.syncWithBlockchain.bind(this);
   }
@@ -46,13 +47,21 @@ class App extends Component {
     //when blockchain sync is done ( and success)
     if ( this.state.synced && prevState.synced === false){
 
-      //TODO uncomment when we enforce 'loginined is required IN EVERY ROUTE'
-      // if ( this.state.isLoggedIn){
-      //   this.props.navigateTo('/exchange');
-      // } else {
-      //   this.props.navigateTo('/login');
-      // }
+      //TODO to be compared with the this.state.version
+      if ((compareVersionNumbers(this.state.currentVersion, "1.7.10") < 0)){
+        this.setState({
+          newVersionModalVisible: true
+        });
+      } else {
 
+        //TODO uncomment when we enforce 'loginined is required IN EVERY ROUTE'
+        // if ( this.state.isLoggedIn){
+        //   this.props.navigateTo('/exchange');
+        // } else {
+        //   this.props.navigateTo('/login');
+        // }
+
+      }
     }
   }
 
@@ -74,9 +83,33 @@ class App extends Component {
     });
   }
 
+  setModal2Visible(modal2Visible) {
+    this.setState({
+      newVersionModalVisible: modal2Visible
+    });
+  }
+
   render() {
+
+    let softwareUpdateModal = (
+      <Modal
+        title='I need to update first'
+        wrapClassName='vertical-center-modal'
+        closable={ false }
+        maskClosable={ false }
+        visible={ this.state.newVersionModalVisible }
+        onOk={ () => this.setModal2Visible(false) }
+        onCancel={ () => this.setModal2Visible(false) }
+      >
+        <p>I need to update first</p>
+        <p>some contents...</p>
+        <p>some contents...</p>
+      </Modal>
+    );
+
     let content = (
         <div className='sportsbg' id='main-content'>
+          { softwareUpdateModal }
         </div>
     );
 
@@ -90,8 +123,13 @@ class App extends Component {
         <div className='sportsbg' id='main-content'>
           <span>loading...connecitng to blockchain</span>
         </div> );
-    } else if ( this.props.children ) {
-      content = ( this.props.children );
+    } else if (this.props.children){
+      content = (
+        <div>
+          { this.props.children }
+          { softwareUpdateModal }
+        </div>
+      );
     }
 
     return content;
@@ -99,9 +137,11 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { app } = state;
+  const { app, softwareUpdate } = state;
   return {
     isLoggedIn: app.isLoggedIn,
+    needHardUpdate: softwareUpdate.needHardUpdate,
+
   }
 }
 

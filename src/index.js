@@ -64,7 +64,6 @@ const onEnter = (nextState, replace, callback) => {
 // Add new page here
 const routes = (
   <Route path='/' component={ App } onEnter={ onEnter } >
-      {/* <IndexRedirect to='/login' /> */}
       <Route path='/login' component={ Login } />
       <Route path='/signup' component={ Signup } />
     <Route path='/welcome' component={ Welcome } />

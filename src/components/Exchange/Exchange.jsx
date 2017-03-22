@@ -7,7 +7,7 @@ import BetSlip from '../BetSlip';
 import SideBar from '../SideBar';
 import { SidebarActions } from '../../actions';
 
-import Ps from "perfect-scrollbar";
+import Ps from 'perfect-scrollbar';
 
 class Exchange extends Component {
 
@@ -62,7 +62,7 @@ class Exchange extends Component {
           split='vertical'
           minSize={ sidebarWidth } defaultSize={ sidebarWidth }
           pane1Style={ styleLeftPane }>
-            <div style={ { 'height' : '93%', 'overflow' : 'hidden', 'position' : 'relative' } }
+            <div style={ { 'height' : '92%', 'position' : 'relative' } }
               ref='sidebar'>
               { transitionName.length === 4 ?
                  <SideBar
@@ -91,7 +91,7 @@ class Exchange extends Component {
               <div >
                 { this.props.children }
               </div>
-              <div style={ { 'height' : '93%', 'overflow' : 'hidden', 'position' : 'relative' } }
+              <div style={ { 'height' : '92%', 'position' : 'relative' } }
                 ref='betslips'>
                 <BetSlip onClick={ () => { this.updatePs(); } } />
                 <BetSlip onClick={ () => { this.updatePs(); } }/>
