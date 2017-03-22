@@ -24,6 +24,13 @@ class SportPagePrivateActions {
     }
   }
 
+  static setEventGroupIdsAction(eventGroupIds) {
+    return {
+      type: ActionTypes.SPORT_PAGE_SET_EVENT_GROUP_IDS,
+      eventGroupIds
+    }
+  }
+
   static setBinnedOrderBooksAction(binnedOrderBooks) {
     return {
       type: ActionTypes.SPORT_PAGE_SET_BINNED_ORDER_BOOKS,
@@ -40,20 +47,27 @@ class SportPageActions {
     return (dispatch) => {
       dispatch(SportPagePrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
-      let events= [];
-      FakeApi.getEventGroups(sportId).then((eventGroups) => {
+      FakeApi.getEventGroups(sportId).then((retrievedEventGroups) => {
         // Store event groups inside redux Store
-        dispatch(EventGroupActions.addEventGroupsAction(eventGroups));
+        dispatch(EventGroupActions.addEventGroupsAction(retrievedEventGroups));
+
+        // Store the final event group ids inside SportPage Redux store
+        const eventGroupIds = _.map(retrievedEventGroups, 'id');
+        dispatch(SportPagePrivateActions.setEventGroupIdsAction(eventGroupIds));
 
         return FakeApi.getEvents(sportId);
       }).then((result) => {
+        let events = [];
         // Combine the resulting events
         _.forEach(result, (retrievedEvents) => {
-          // This is defined in outer scope
           events = events.concat(retrievedEvents);
         });
         // Store events inside redux store
         dispatch(EventActions.addEventsAction(events));
+
+        // Store the final event ids inside SportPage Redux store
+        const eventIds = _.map(events, 'id');
+        dispatch(SportPagePrivateActions.setEventIdsAction(eventIds));
 
         // Create promise to get betting market groups for each event
         let getBettingMarketGroupPromiseArray = [];
@@ -105,10 +119,6 @@ class SportPageActions {
         _.forEach(result, (retrievedOrderBooks) => {
           binnedOrderBooks = binnedOrderBooks.concat(retrievedOrderBooks);
         });
-
-        // Store the final events id inside Home Redux store
-        const eventIds = _.map(events, 'id');
-        dispatch(SportPagePrivateActions.setEventIdsAction(eventIds));
 
         // Store binned order books inside redux store
         dispatch(SportPagePrivateActions.setBinnedOrderBooksAction(binnedOrderBooks));
