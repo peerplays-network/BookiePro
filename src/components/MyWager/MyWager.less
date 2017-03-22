@@ -130,7 +130,9 @@
   .cancel-btn {
     background-image: linear-gradient(-180deg, rgba(23, 102, 162, 0.92) 4%, #134E85 97%);
     box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248, 235, 218, 0.43);
-    padding: 0px 10px
+    padding: 0px 10px;
+    height: 25px;
+    line-height: 27px;
   }
 
   .ant-form-inline label{
@@ -176,4 +178,32 @@
 }
 .ant-calendar-today-btn{
   color: #00BEF4;
+}
+.ant-pagination-prev, .ant-pagination-next{
+  background-color: transparent;
+  border:0 none;
+  a{
+    color: #FFFFFF ;
+  }
+}
+.ant-pagination-item{
+  background-color: transparent;
+  border:0 none;
+  border-radius: 0;
+  font-size:16px;
+  font-weight:500;
+  a{
+    color: #FFFFFF ;
+  }
+}
+.ant-pagination-item-active{
+  background-color: #1563A0 ;
+}
+:root .ant-pagination-prev a:after, :root .ant-pagination-next a:after{
+  font-size:16px;
+}
+.ant-table-placeholder{
+  background-color: transparent;
+  color: #fff;
+  border-bottom: 0px;
 }
