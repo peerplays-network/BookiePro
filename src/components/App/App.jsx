@@ -1,3 +1,10 @@
+// NOTE uncomment it when running in electron with "npm run pack"
+// NOTE we could only get the version number from package.json in app from packed
+// NOTE ref: https://github.com/electron/electron/issues/7085
+// const electron = window.require('electron');
+// const { app } = electron.remote
+
+
 import React, { Component } from 'react';
 import SyncError from '../SyncError';
 import { ChainStore } from 'graphenejs-lib';
@@ -5,7 +12,6 @@ import { SoftwareUpdateActions } from '../../actions';
 import { NavigateActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 
 class App extends Component {
   constructor(props) {
@@ -23,10 +29,29 @@ class App extends Component {
     this.syncWithBlockchain();
   }
   componentDidUpdate(prevProps, prevState){
+
+    //
     if ( this.state.synced && prevState.synced === false){
 
-      // if ( this.state)
-      // this.props.navigateTo('/login');
+      try {
+        if (typeof app === 'undefined' ){
+
+        } else {
+          // let appVersion = app.getVersion();
+          // console.log( appVersion);
+        };
+      } catch(err) {
+          // caught the reference error
+          // code here will execute **only** if variable was never declared
+      }
+
+      //TODO uncomment when we enforce 'loginined is required'
+      if ( this.state.isLoggedIn){
+        this.props.navigateTo('/exchange');
+      } else {
+        this.props.navigateTo('/login');
+      }
+
     }
   }
 
@@ -55,18 +80,27 @@ class App extends Component {
     );
 
     if (this.state.syncFail) {
-      content = <SyncError />
+      content = (
+        <div className='sportsbg' id='main-content'>
+          <SyncError/>
+        </div> );
     } else if (this.state.loading) {
-      // If it is loading, no need to show header and sider
-      content = (   <div className='sportsbg' id='main-content'>
-          <span>loading...</span>
+      content = (
+        <div className='sportsbg' id='main-content'>
+          <span>loading...connecitng to blockchain</span>
         </div> );
     } else if ( this.props.children ) {
       content = ( this.props.children );
     }
 
-    console.log('content : ', content);
     return content;
+  }
+}
+
+const mapStateToProps = (state) => {
+  const { app } = state;
+  return {
+    isLoggedIn: app.isLoggedIn,
   }
 }
 
@@ -77,4 +111,4 @@ const mapDispatchToProps = (dispatch) => {
   }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

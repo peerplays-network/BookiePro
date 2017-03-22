@@ -12,7 +12,7 @@ class SidebarActions{
 
   static getData() {
     return (dispatch) => {
-
+      // TODO  to fine tune later for side bar
       // First get list of sports
       FakeApi.getSports().then((sports) => {
 

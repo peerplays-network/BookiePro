@@ -12,6 +12,7 @@ class Login extends Component {
     super(props);
     this.onClickSignup = this.onClickSignup.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.skipLogin = this.skipLogin.bind(this);
   }
 
   //Navigate to signup page
@@ -25,6 +26,10 @@ class Login extends Component {
     this.props.login(e.accountName, e.password);
   }
 
+  skipLogin(e){
+    this.props.login('testaccount123d', 'DgTdQBzqF1NLnniikZuoedoWYzVHjJmV28LS7PJAqWdkwRkWzkyq');
+  }
+
   render() {
     return (
       <div className='sportsbg' id='main-content'>
@@ -36,6 +41,11 @@ class Login extends Component {
               <div className='center-ele'>
                 <LoginForm onClickSignup={ this.onClickSignup }
                   onSubmit={ this.handleSubmit } errors={ this.props.errors } status={ this.props.status } />
+              </div>
+
+              {/* TODO : remove when we have real login process */}
+              <div className='center-ele'>
+                <button className={ 'btn btn-regular' } onClick={ this.skipLogin }>Skip ( to test login screen)</button>
               </div>
             </div>
           </div>

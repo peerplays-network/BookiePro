@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, IndexRedirect, hashHistory, IndexRoute } from 'react-router';
+import { Router, Route, hashHistory, IndexRoute } from 'react-router';
 import App from './components/App';
 import BlockchainTestPage from './components/BlockchainTestPage';
 import EmptyPage from './components/EmptyPage';
@@ -22,6 +22,7 @@ import { Apis, ChainConfig } from 'graphenejs-ws';
 import { Config } from './constants';
 import ChangePassword from './components/ChangePassword'
 import Welcome from './components/Welcome'
+
 
 const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
