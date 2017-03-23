@@ -21,6 +21,7 @@ class Exchange extends Component {
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.betslips));
     Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.middlepanel));
 
     //NOTE to be fine tune later for not to call api everytime,
     // we could fine tune when we could SUBSCRIBE change in
@@ -32,6 +33,7 @@ class Exchange extends Component {
   componentDidUpdate() {
     Ps.update(ReactDOM.findDOMNode(this.refs.betslips));
     Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
+    Ps.update(ReactDOM.findDOMNode(this.refs.middlepanel));
   }
 
 
@@ -89,7 +91,8 @@ class Exchange extends Component {
             split='vertical'
             minSize={ betslipWidth } defaultSize={ betslipWidth }
             primary='second'>
-              <div >
+              <div style={ { 'height' : '100%', 'position' : 'relative' } }
+                ref='middlepanel'>
                 { this.props.children }
               </div>
               <div style={ { 'height' : '100%', 'position' : 'relative' } }
