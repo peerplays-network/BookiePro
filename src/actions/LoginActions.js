@@ -50,11 +50,11 @@ class LoginActions {
           dispatch(NavigateActions.navigateTo('/exchange'))
         } else {
           //set error on password mismatch
-          dispatch(LoginPrivateActions.setLoginErrorAction([I18n.t('login.password_match')]));
+          dispatch(LoginPrivateActions.setLoginErrorAction([I18n.t('login.wrong_username_password')]));
         }
       }).catch((error) => {
         // Set error
-        dispatch(LoginPrivateActions.setLoginErrorAction([I18n.t('login.wrong_accountname_password')]));
+        dispatch(LoginPrivateActions.setLoginErrorAction([I18n.t('login.wrong_username_password')]));
       })
     }
   }

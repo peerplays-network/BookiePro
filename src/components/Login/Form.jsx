@@ -2,7 +2,6 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { ChainValidation } from 'graphenejs-lib';
 import { AccountService } from '../../services';
-import { LoginActions } from '../../actions';
 var I18n = require('react-redux-i18n').I18n;
 
 //Component for text field
@@ -37,11 +36,11 @@ const LoginForm = (props) => {
   return (
     <form onSubmit={ handleSubmit }>
       <div className='form-fields'>
-        <Field name='accountName' component={ renderField } type='text' placeholder='AccountName'
+        <Field name='userName' component={ renderField } type='text' placeholder={ I18n.t('login.username') }
           errors={ errors } normalize={ normalizeAccount } tabIndex='1'/>
       </div>
       <div className='form-fields pos-rel'>
-        <Field name='password' component={ renderField } type='password' placeholder='Password' tabIndex='2'/>
+        <Field name='password' component={ renderField } type='password' placeholder={ I18n.t('login.password') } tabIndex='2'/>
 				{ //show server errors on submit
 					errors.length && !invalid ? <span className='errorText' key={ errors }>{ errors }</span>  :	null }
       </div>
@@ -64,26 +63,29 @@ export default reduxForm({
 	//Form fields validation
   validate: function submit(values) {
   	const errors = {  };
-  	let accountError = ChainValidation.is_account_name_error(values.accountName);
+  	let accountError = ChainValidation.is_account_name_error(values.userName);
 
   	if(accountError) {
-  		errors.accountName = accountError;
+			//overriding blockchain error with general error
+			//Note: even if the username format is incorrect it will show this generic error
+			//TODO: confirm if we really need to show generic error for these errors
+  		errors.userName = I18n.t('login.username_notfound');
   	 }
 
   	if(!values.password || values.password.length < 22) {
-  		errors.password = I18n.t('login.password_length');
+  		errors.password = I18n.t('login.password_short');
   	 }
 
   	return errors;
   },
 	//asynchronously validate username and store in state
   asyncValidate: (values, dispatch) => {
-    return AccountService.lookupAccounts(values.accountName, 100)
+    return AccountService.lookupAccounts(values.userName, 100)
     .then(result => {
-			 let account = result.find(a => a[0] === values.accountName);
+			 let account = result.find(a => a[0] === values.userName);
       if(!account)
-				 throw { accountName: I18n.t('login.account_name_notfound') };
+				 throw { userName: I18n.t('login.username_notfound') };
     });
 	 },
-  asyncBlurFields: [ 'accountName' ]
+  asyncBlurFields: [ 'userName' ]
 })(LoginForm)
