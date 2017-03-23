@@ -1,7 +1,7 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import Immutable from 'immutable';
 
-const initialState = Immutable.Map({
+const initialState = Immutable.fromJS({
   isLoggedIn: false,
   getGlobalBettingStatisticsLoadingStatus: LoadingStatus.DEFAULT,
   globalBettingStatistics: null

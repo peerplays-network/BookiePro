@@ -48,9 +48,10 @@ class Signup extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const register = state.get('register');
   return {
-    loadingStatus: state.register.loadingStatus,
-    errors: state.register.errors
+    loadingStatus: register.get('loadingStatus'),
+    errors: register.get('errors')
   }
 }
 const mapDispatchToProps = (dispatch) => {

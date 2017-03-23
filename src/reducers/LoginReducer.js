@@ -2,7 +2,7 @@ import { ActionTypes } from '../constants';
 import { LoadingStatus } from '../constants';
 import Immutable from 'immutable';
 
-let initialState = Immutable.Map({
+let initialState = Immutable.fromJS({
   loadingStatus: LoadingStatus.DEFAULT,
   errors: []
 });
@@ -14,7 +14,7 @@ export default function (state = initialState, action) {
     }
     case ActionTypes.LOGIN_SET_ERROR: {
       return state.merge({
-        errors: action.errors,
+        errors: Immutable.fromJS(action.errors),
         status: LoadingStatus.DEFAULT
       });
     }

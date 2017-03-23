@@ -7,7 +7,7 @@ class WalletService {
    */
   static processTransaction(state, transactionObject) {
     // Get stored private keys and public keys
-    const storedPrivateKeys = state.account.keys;
+    const storedPrivateKeys = state.getIn(['account','keys']);
     const storedPublicKeys = _.mapValues(storedPrivateKeys, (privateKey) => {
       return privateKey.toPublicKey().toPublicKeyString();
     });
