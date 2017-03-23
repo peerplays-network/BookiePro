@@ -1,14 +1,15 @@
 import { ActionTypes } from '../constants';
 import { ChainTypes } from 'graphenejs-lib';
 import _ from 'lodash';
+import Immutable from 'immutable';
 
-let initialState = {
+let initialState = Immutable.Map({
   referenceAccount: null,
   needHardUpdate: false,
   needSoftUpdate: false,
   version: null,
   displayText: null
-};
+});
 
 export default function (state = initialState, action) {
   switch(action.type) {
@@ -44,7 +45,7 @@ export default function (state = initialState, action) {
         }
       }
 
-      return Object.assign({}, state, {
+      return state.merge({
         referenceAccount,
         needHardUpdate,
         needSoftUpdate,

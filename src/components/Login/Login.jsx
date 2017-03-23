@@ -46,9 +46,10 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const login = state.get('login');
   return ({
-    errors:state.login.errors,
-    status:state.login.status
+    errors: login.get('errors'),
+    status: login.get('loadingStatus')
   });
 };
 

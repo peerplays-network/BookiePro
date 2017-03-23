@@ -129,9 +129,10 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { app, softwareUpdate } = state;
+  const app = state.get('app');
+  const softwareUpdate = state.get('softwareUpdate');
   return {
-    isLoggedIn: app.isLoggedIn,
+    isLoggedIn: app.get('isLoggedIn'),
     needHardUpdate: softwareUpdate.needHardUpdate,
     needSoftUpdate: softwareUpdate.needSoftUpdate,
     version: softwareUpdate.version, //

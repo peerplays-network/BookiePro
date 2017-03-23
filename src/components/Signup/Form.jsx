@@ -1,5 +1,5 @@
 import React from 'react'
-import { Field, Fields, reduxForm } from 'redux-form'
+import { Field, Fields, reduxForm } from 'redux-form/immutable'
 import { Button } from 'antd'
 import { ChainValidation } from 'graphenejs-lib'
 import copy from 'copy-to-clipboard'

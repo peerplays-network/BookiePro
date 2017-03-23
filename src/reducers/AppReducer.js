@@ -1,30 +1,22 @@
 import { ActionTypes, LoadingStatus } from '../constants';
+import Immutable from 'immutable';
 
-const initialState = {
+const initialState = Immutable.Map({
   isLoggedIn: false,
   getGlobalBettingStatisticsLoadingStatus: LoadingStatus.DEFAULT,
   globalBettingStatistics: null
-};
+});
 
 export default function (state = initialState, action) {
   switch(action.type) {
-    case ActionTypes.APP_SET_ACCOUNT: {
-      const account = action.account;
-      return Object.assign({}, state, { account });
-    }
     case ActionTypes.APP_SET_IS_LOGGED_IN: {
-      const isLoggedIn = action.isLoggedIn;
-      return Object.assign({}, state, { isLoggedIn });
+      return state.set('isLoggedIn', action.isLoggedIn);
     }
     case ActionTypes.APP_SET_GET_GLOBAL_BETTING_STATISTICS_LOADING_STATUS: {
-      return Object.assign({}, state, {
-        getGlobalBettingStatisticsLoadingStatus: action.loadingStatus
-      });
+      return state.set('getGlobalBettingStatisticsLoadingStatus', action.loadingStatus);
     }
     case ActionTypes.APP_SET_GLOBAL_BETTING_STATISTICS: {
-      return Object.assign({}, state, {
-        globalBettingStatistics: action.globalBettingStatistics
-      });
+      return state.set('globalBettingStatistics', action.globalBettingStatistics);
     }
     case ActionTypes.ACCOUNT_LOGOUT: {
       return initialState;

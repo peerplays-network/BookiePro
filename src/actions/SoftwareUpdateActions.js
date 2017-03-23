@@ -27,7 +27,7 @@ class SoftwareUpdateActions {
       }
       // Define new account subscriber and subscribe to ChainStore
       accountSubscriber = () => {
-        const previousAccount = getState().softwareUpdate.referenceAccount;
+        const previousAccount = getState().getIn(['softwareUpdate','referenceAccount']);
         const updatedAccount = ChainStore.getAccount(accountName);
         // Dispatch updated account
         if (previousAccount && !previousAccount.equals(updatedAccount)) {
