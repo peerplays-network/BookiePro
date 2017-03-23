@@ -26,7 +26,9 @@ export default function (state = initialState, action) {
         globalBettingStatistics: action.globalBettingStatistics
       });
     }
-
+    case ActionTypes.ACCOUNT_LOGOUT: {
+      return initialState;
+    }
     default:
       return state;
   }

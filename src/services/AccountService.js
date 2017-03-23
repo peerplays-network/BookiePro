@@ -74,18 +74,34 @@ class AccountServices {
   */
   static authenticateAccount(account, keys) {
     const activePublicKey = keys.active.toPublicKey().toPublicKeyString();
+    const ownerPublicKey = keys.owner.toPublicKey().toPublicKeyString();
 
     let isAuthenticated = false;
     if (account) {
-      // Check the similarity of active key with the generated active key
+      // Check the similarity of keys
       const activeKeyAuths = account.getIn(['active', 'key_auths']);
+      const ownerKeyAuths = account.getIn(['owner', 'key_auths']);
+      // Check active keys
+      let activeKeyMatches = false;
       if (activeKeyAuths) {
-        activeKeyAuths.forEach(function (keyArr) {
+        activeKeyAuths.forEach((keyArr) => {
           if (keyArr.first() && keyArr.first() === activePublicKey) {
-            isAuthenticated = true;
+            activeKeyMatches = true;
+            return false;
           }
         });
       }
+      // Check owner keys
+      let ownerKeyMatches = false;
+      if (ownerKeyAuths) {
+        ownerKeyAuths.forEach((keyArr) => {
+          if (keyArr.first() && keyArr.first() === ownerPublicKey) {
+            ownerKeyMatches = true;
+            return false;
+          }
+        });
+      }
+      isAuthenticated = activeKeyMatches && ownerKeyMatches;
     }
     return isAuthenticated;
   }

@@ -1,9 +1,10 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import { BlockchainUtils } from '../utility';
-import { WalletService } from '../services';
+import { WalletService, AccountService, KeyGeneratorService } from '../services';
 import FakeApi from '../communication/FakeApi';
 import { ChainStore, TransactionBuilder, FetchChain } from 'graphenejs-lib';
 import NotificationActions from './NotificationActions';
+import NavigateActions from './NavigateActions';
 
 // Account subscriber
 let accountSubscriber;
@@ -41,6 +42,20 @@ class AccountPrivateActions {
     }
   }
 
+  static setChangePasswordError(error) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_CHANGE_PASSWORD_ERROR,
+      error
+    }
+  }
+
+  static setGetBalanceLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_GET_BALANCE_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
   static setTransactionHistoriesAction(transactionHistories) {
     return {
       type: ActionTypes.ACCOUNT_SET_TRANSACTION_HISTORIES,
@@ -70,12 +85,6 @@ class AccountPrivateActions {
     }
   }
 
-  static setGetBalanceLoadingStatusAction(loadingStatus) {
-    return {
-      type: ActionTypes.ACCOUNT_SET_GET_BALANCE_LOADING_STATUS,
-      loadingStatus
-    }
-  }
 
   static getBalance(account) {
     return (dispatch) => {
@@ -87,6 +96,12 @@ class AccountPrivateActions {
         dispatch(AccountPrivateActions.setBalanceAction(result[0], result[1]));
         dispatch(AccountPrivateActions.setGetBalanceLoadingStatusAction(LoadingStatus.DONE));
       })
+    }
+  }
+
+  static logoutAction() {
+    return {
+      type: ActionTypes.ACCOUNT_LOGOUT
     }
   }
 }
@@ -173,11 +188,49 @@ class AccountActions {
   }
 
   static changePassword(oldPassword, newPassword) {
-    return (dispatch) => {
+    return (dispatch, getState) => {
       dispatch(AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.LOADING));
-      // TODO: Replace with actual blockchain call
-      FakeApi.changePassword(oldPassword, newPassword).then(() => {
+
+      const account = getState().account.account;
+      const oldKeys = KeyGeneratorService.generateKeys(account.get('name'), oldPassword);
+
+      Promise.resolve().then(() => {
+        // Check if account is authenticated
+        const isAuthenticated = AccountService.authenticateAccount(account, oldKeys);
+        if (!isAuthenticated) {
+          throw new Error('Old Password doesn`t match');
+        }
+
+        // Generate new public key
+        const newKeys = KeyGeneratorService.generateKeys(account.get('name'), newPassword);
+        const newOwnerPublicKey = newKeys.owner.toPublicKey().toPublicKeyString();
+        const newActivePublicKey = newKeys.active.toPublicKey().toPublicKeyString();
+        const newMemoPublicKey = newKeys.memo.toPublicKey().toPublicKeyString();
+
+        // Create transaction and add operation
+        const tr = new TransactionBuilder();
+        const operationParams = {
+          fee: {
+            amount: 0,
+            asset_id: '1.3.0'
+          },
+          account: account.get('id'),
+          owner: Object.assign({}, account.get('owner').toJS(), {key_auths: [[newOwnerPublicKey, 1]]}),
+          active:  Object.assign({}, account.get('active').toJS(), {key_auths: [[newActivePublicKey, 1]]}),
+          new_options: Object.assign({}, account.get('options').toJS(), {memo_key: newMemoPublicKey})
+        };
+        tr.add_type_operation('account_update', operationParams);
+
+        // Process transaction
+        return WalletService.processTransaction(getState(), tr);
+      }).then(() => {
+        // Success
+        console.log('change password success');
         dispatch(AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DONE));
+      }).catch((error) => {
+        // Fail
+        console.log('change password fail', error);
+        dispatch(AccountPrivateActions.setChangePasswordError(error));
       });
     };
   }
@@ -221,6 +274,16 @@ class AccountActions {
       })
     }
   }
+
+  static logout() {
+    return (dispatch) => {
+      dispatch(AccountPrivateActions.logoutAction());
+      // Navigate to the beginning of the app
+      dispatch(NavigateActions.navigateTo('/'));
+    }
+  }
+
+
 
 }
 

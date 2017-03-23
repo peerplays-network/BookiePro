@@ -36,7 +36,7 @@ class FakeApi {
   static getSports() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(sports);
+        resolve(_.cloneDeep(sports));
       }, TIMEOUT_LENGTH);
     });
   }
@@ -137,14 +137,6 @@ class FakeApi {
   }
 
   static withdraw(walletAddress) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, TIMEOUT_LENGTH);
-    });
-  }
-
-  static changePassword(oldPassword, newPassword) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve();

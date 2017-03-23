@@ -12,11 +12,14 @@ export default function (state = initialState, action) {
       const loadingStatus = action.loadingStatus;
       return Object.assign({}, state, { loadingStatus });
     }
-    case ActionTypes.REGISTER_SET_ERROR: {      
+    case ActionTypes.REGISTER_SET_ERROR: {
       return Object.assign({}, state, {
         errors: action.errors,
         status: LoadingStatus.DEFAULT
       });
+    }
+    case ActionTypes.ACCOUNT_LOGOUT: {
+      return initialState;
     }
     default:
       return state;

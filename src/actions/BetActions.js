@@ -37,6 +37,13 @@ class BetPrivateActions {
       loadingStatus
     }
   }
+
+  static setEditBetsLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.BET_SET_EDIT_BETS_LOADING_STATUS,
+      loadingStatus
+    }
+  }
 }
 
 /**
@@ -67,7 +74,6 @@ class BetActions {
       let ongoingBets = [];
       FakeApi.getOngoingBets(accountId).then((retrievedBets) => {
         ongoingBets = retrievedBets;
-        console.log('ongoingBets', ongoingBets);
 
         // Get betting market ids
         let bettingMarketIds = _.chain(ongoingBets).map((bet) => {
@@ -75,10 +81,8 @@ class BetActions {
         }).uniq().value();
 
         // Get betting market object
-        console.log('bettingMarketIds', bettingMarketIds);
         return FakeApi.getObjects(bettingMarketIds);
       }).then((bettingMarkets) => {
-        console.log('bettingMarkets', bettingMarkets);
         // Store betting market groups inside redux store
         dispatch(BettingMarketActions.addBettingMarketsAction(bettingMarkets));
 
@@ -88,11 +92,9 @@ class BetActions {
         }).uniq().value();
 
         // Get the betting market groups
-        console.log('bettingMarketGroupIds', bettingMarketGroupIds);
         return FakeApi.getObjects(bettingMarketGroupIds);
       }).then((bettingMarketGroups) => {
         // Store betting market groups inside redux store
-        console.log('bettingMarketGroups', bettingMarketGroups);
         dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMarketGroups));
 
         // Get unique event ids
@@ -165,6 +167,30 @@ class BetActions {
       // TODO: replace this with wallet service process transaction later on
       FakeApi.processTransaction(tr).then(() => {
         dispatch(BetPrivateActions.setCancelBetsLoadingStatus(LoadingStatus.DONE));
+      });
+    }
+  }
+
+  static editBets(bets) {
+    return (dispatch) => {
+      dispatch(BetPrivateActions.setEditBetsLoadingStatus(LoadingStatus.LOADING));
+
+      const tr = new TransactionBuilder();
+      _.forEach(bets, (bet) => {
+        // Create operation for each bet and attach it to the transaction
+        const cancelOperationParams = {};
+        const cancelOperationType = 'cancel_bet_operation';
+        // Add cancel operation
+        tr.add_type_operation(cancelOperationType, cancelOperationParams);
+        // Add create operation
+        const createOperationParams = {};
+        const createOperationType = 'bet_operation';
+        tr.add_type_operation(createOperationType, createOperationParams);
+      });
+
+      // TODO: replace this with wallet service process transaction later on
+      FakeApi.processTransaction(tr).then(() => {
+        dispatch(BetPrivateActions.setEditBetsLoadingStatus(LoadingStatus.DONE));
       });
     }
   }
