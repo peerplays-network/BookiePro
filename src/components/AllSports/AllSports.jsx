@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Banner from './Banner';
+import { AllSportsBanner } from '../Banners';
 import SimpleBettingWidget from '../SimpleBettingWidget';
 import { AllSportsActions } from '../../actions';
 
@@ -15,7 +15,7 @@ class AllSports extends Component {
   render() {
     return (
       <div id='all-sports-wrapper'>
-        <Banner />
+        <AllSportsBanner />
         {
           Object.keys(this.props.sports).map((sportId, idx) => {
             const sport = this.props.sports[sportId];

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Banner from './Banner';
+import { SportBanner } from '../Banners';
 import SimpleBettingWidget from '../SimpleBettingWidget';
 import { SportPageActions } from '../../actions';
 
@@ -15,7 +15,7 @@ class Sport extends Component {
   render() {
     return (
       <div className='sport-wrapper'>
-        <Banner sport={ this.props.sport }/>
+        <SportBanner sport={ this.props.sport }/>
         {
           Object.keys(this.props.eventGroups).map((eventGroupId, idx) => {
             const eventGroup = this.props.eventGroups[eventGroupId];
