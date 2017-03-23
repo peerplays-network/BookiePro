@@ -16,12 +16,12 @@ export default function(state = initialState, action) {
       return Object.assign({}, state, { eventGroupIds: action.eventGroupIds.slice() });
     }
     case ActionTypes.SPORT_PAGE_SET_BINNED_ORDER_BOOKS: {
-      const newbinnedOrderBooksState = Object.assign({}, state.binnedOrderBooks);
+      const newBinnedOrderBooksState = Object.assign({}, state.binnedOrderBooks);
       action.binnedOrderBooks.forEach((binnedOrderBook) => {
         const betting_market_id = binnedOrderBook.betting_market_id;
-        newbinnedOrderBooksState[betting_market_id] = binnedOrderBook;
+        newBinnedOrderBooksState[betting_market_id] = binnedOrderBook;
       })
-      return Object.assign({}, state, { binnedOrderBooks: newbinnedOrderBooksState });
+      return Object.assign({}, state, { binnedOrderBooks: newBinnedOrderBooksState });
     }
     default:
       return state;

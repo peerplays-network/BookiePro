@@ -13,8 +13,7 @@ export default function(state = initialState, action) {
     }
     case ActionTypes.ALL_SPORTS_SET_BINNED_ORDER_BOOKS: {
       const newbinnedOrderBooksState = Object.assign({}, state.binnedOrderBooks);
-      const binnedOrderBooks = action.binnedOrderBooks.slice();
-      binnedOrderBooks.forEach((binnedOrderBook) => {
+      action.binnedOrderBooks.forEach((binnedOrderBook) => {
         const betting_market_id = binnedOrderBook.betting_market_id;
         newbinnedOrderBooksState[betting_market_id] = binnedOrderBook;
       })

@@ -18,20 +18,59 @@ class EventGroup extends Component {
         <SportBanner sport={ this.props.sport }/>
         <SimpleBettingWidget
           title={ this.props.eventGroup }
-          event={ [] }
+          events={ this.props.events }
         />
       </div>
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+// TODO: Should be a common function
+const findBinnedOrderBooksFromEvent = (event, state) => {
+  const bettingMarketGroups = state.bettingMarketGroup.bettingMarketGroups.filter(
+    (group) => event.betting_market_group_ids.includes(group.id)
+  );
+  let bettingMarketIds = [];
+  bettingMarketGroups.forEach((group) => {
+    bettingMarketIds = bettingMarketIds.concat(group.betting_market_ids);
+  });
+
   const { eventGroupPage } = state;
 
-  console.log('EventGroupPage', eventGroupPage);
+  const binnedOrderBooks = eventGroupPage.binnedOrderBooks;
+  const matchedBinnedOrderBooks = [];
+  bettingMarketIds.forEach((bettingMarketId) => {
+    if (binnedOrderBooks.hasOwnProperty(bettingMarketId)) {
+      const orderBook = eventGroupPage.binnedOrderBooks[bettingMarketId];
+      matchedBinnedOrderBooks.push({
+        back: orderBook.aggregated_back_bets,
+        lay: orderBook.aggregated_lay_bets
+      });
+    }
+  });
+
+  return matchedBinnedOrderBooks;
+}
+
+const mapStateToProps = (state) => {
+  const { event, eventGroupPage } = state;
+
+  // For each event, generate data entry for the Simple Betting Widget
+  const myEvents = event.events
+    .filter((event) => eventGroupPage.eventIds.includes(event.id))
+    .map((event) => {
+      return {
+        id: event.id,
+        name: event.name,
+        time: event.start_time,
+        offers: findBinnedOrderBooksFromEvent(event, state)
+      }
+    });
+
   return {
     sport: eventGroupPage.sportName,
-    eventGroup: eventGroupPage.eventGroupName
+    eventGroup: eventGroupPage.eventGroupName,
+    events: myEvents
   };
 };
 

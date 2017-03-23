@@ -118,6 +118,7 @@ const SimpleBettingWidget = (props) => {
         dataSource={ events }
         title={ () => renderTitle(props.title) }
         footer={ () => renderFooter(props.title) }
+        locale={ {emptyText: 'No Data'} }
       />
     </div>
   );
