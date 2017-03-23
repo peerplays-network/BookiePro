@@ -28,7 +28,11 @@ import Welcome from './components/Welcome'
 
 
 const store = configureStore();
-const history = syncHistoryWithStore(hashHistory, store);
+const history = syncHistoryWithStore(hashHistory, store, {
+  selectLocationState (state) {
+    return state.get('routing').toJS();
+  }
+});
 
 // On enter handler
 const onEnter = (nextState, replace, callback) => {
