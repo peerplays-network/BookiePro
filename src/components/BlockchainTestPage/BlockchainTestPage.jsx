@@ -5,7 +5,7 @@ import { ChainStore, FetchChain } from 'graphenejs-lib';
 import { Apis } from 'graphenejs-ws';
 import { connect } from 'react-redux';
 import AssetActions from '../../actions/AssetActions';
-import BlockchainTestAccount from './BlockchainTestAccount';
+import TestBookieAccount from './TestBookieAccount';
 import { BetActions, AccountActions } from '../../actions';
 
 class BlockchainTestPage extends Component {
@@ -248,7 +248,7 @@ class BlockchainTestPage extends Component {
         </div>
         { this._renderAssetList() }
         <div>------------------------------------------------</div>
-        <BlockchainTestAccount />
+        <TestBookieAccount />
         <div>------------------------------------------------</div>
       </div>
     );
