@@ -8,8 +8,6 @@ import {
   Input,
   Icon,
   Switch,
-  Table,
-  DatePicker,
   Select,
   Breadcrumb
 } from 'antd';
@@ -26,142 +24,20 @@ import {
 } from '../../utility';
 import ps from 'perfect-scrollbar';
 import 'perfect-scrollbar';
+import dateFormat from 'dateformat';
 
-const dataSource = [
-  {
-    key: '1',
-    id: 'TX#0000014',
-    'time': '19/01/2017 02:33:02',
-    'desc': 'Deposit',
-    'status': <span
-      className='processed'>Processing</span>,
-    'amount': 1.31
-  },
-  {
-    key: '2',
-    id: 'TX#0000014',
-    'time': '19/01/2017 02:33:02',
-    'desc': 'Deposit',
-    'status': <span
-      className='completed'>Completed</span>,
-    'amount': 1.31
-  },
-  {
-    key: '3',
-    id: 'TX#0000014',
-    'time': '19/01/2017 02:33:02',
-    'desc': 'Deposit',
-    'status': <span
-      className='processed'>Processing</span>,
-    'amount': 1.31
-  },
-  {
-    key: '4',
-    id: 'TX#0000014',
-    'time': '19/01/2017 02:33:02',
-    'desc': 'Deposit',
-    'status': <span
-      className='processed'>Processing</span>,
-    'amount': 1.31
-  },
-  {
-    key: '5',
-    id: 'TX#0000014',
-    'time': '19/01/2017 02:33:02',
-    'desc': 'Deposit',
-    'status': <span
-      className='completed'>Completed</span>,
-    'amount': 1.31
-  },
-  {
-    key: '6',
-    id: 'TX#0000014',
-    'time': '19/01/2017 02:33:02',
-    'desc': 'Deposit',
-    'status': <span
-      className='processed'>Processing</span>,
-    'amount': 1.31
-  },
-  {
-    key: '7',
-    id: 'TX#0000014',
-    'time': '19/01/2017 02:33:02',
-    'desc': 'Deposit',
-    'status': <span
-      className='completed'>Completed</span>,
-    'amount': 1.31
-  },
-  {
-    key: '8',
-    id: 'TX#0000014',
-    'time': '19/01/2017 02:33:02',
-    'desc': 'Deposit',
-    'status': <span
-      className='completed'>Completed</span>,
-    'amount': 1.31
-  }
-];
-
-const columns = [
-  {
-    title: I18n.t('myAccount.id'),
-    dataIndex: 'id',
-    key: 'id',
-  },
-  {
-    title: I18n.t('myAccount.time'),
-    dataIndex: 'time',
-    key: 'time',
-  },
-  {
-    title: I18n.t('myAccount.description'),
-    dataIndex: 'desc',
-    key: 'desc',
-  },
-  {
-    title: I18n.t('myAccount.status'),
-    dataIndex: 'status',
-    key: 'status',
-  },
-  {
-    title: I18n.t('myAccount.amount'),
-    dataIndex: 'amount',
-    key: 'amount',
-  }
-];
 const Option = Select.Option;
 function onChange(checked) {
   console.log(`switch to ${checked}`);
 }
 
 import { SettingActions,TransHistActions } from '../../actions';
-
-
 const title = () => 'Here is title';
 const showHeader = true;
 const footer = () => 'Here is footer';
 
 class MyAccount extends Component {
-  state = {
-    startValue: null,
-    endValue: null,
-    endOpen: false,
-  };
-  disabledStartDate = (startValue) => {
-    const endValue = this.state.endValue;
-    if (!startValue || !endValue) {
-      return false;
-    }
-    return startValue.valueOf() > endValue.valueOf();
-  }
 
-  disabledEndDate = (endValue) => {
-    const startValue = this.state.startValue;
-    if (!endValue || !startValue) {
-      return false;
-    }
-    return endValue.valueOf() <= startValue.valueOf();
-  }
   static propTypes = {
     dynGlobalObject: ChainTypes.ChainObject.isRequired,
     globalObject: ChainTypes.ChainObject.isRequired,
@@ -170,11 +46,16 @@ class MyAccount extends Component {
   static defaultProps = {
     dynGlobalObject: '2.1.0',
     globalObject: '2.0.0',
-
   };
 
   constructor(props) {
     super(props);
+
+    //To set initial values for start and end change
+    var startDate = new Date();
+    var endDate = new Date();
+    startDate.setDate(startDate.getDate()-6)
+
     this.state = {
       bordered: false,
       loading: false,
@@ -185,17 +66,27 @@ class MyAccount extends Component {
       footer,
       scroll: undefined,
       txList: [],
+
+      //Show/Hide date fields based on 'Period' selection
+      showDateFields: false,
+      //Since, the default period is 'Last 7 days', we set the initial start and end date accordingly
+      startDate:dateFormat(startDate, "yyyy-mm-dd h:MM:ss"),
+      endDate:dateFormat(endDate, "yyyy-mm-dd h:MM:ss")
     }
 
-    this.fetchRecentTransactionHistory = this.fetchRecentTransactionHistory.bind(this);
-    this.renderTxList = this.renderTxList.bind(this);
+    //this.fetchRecentTransactionHistory = this.fetchRecentTransactionHistory.bind(this);
     this.handleLangChange = this.handleLangChange.bind(this);
     this.handleCurrFormatChange = this.handleCurrFormatChange.bind(this);
     this.handleTimeZoneChange = this.handleTimeZoneChange.bind(this);
     this.handleNotificationChange = this.handleNotificationChange.bind(this);
 
+    this.periodChange = this.periodChange.bind(this);
+    this.onStartChange = this.onStartChange.bind(this);
+    this.onEndChange = this.onEndChange.bind(this);
+    this.searchTransactionHistory = this.searchTransactionHistory.bind(this);
 
   }
+
 
   shouldComponentUpdate(nextProps) {
     // TODO: change in currentformat wont trigger update in of currentformat in table below... still investigating
@@ -219,14 +110,70 @@ class MyAccount extends Component {
 
 
   componentDidMount() {
-    this.props.getTransactionHistory();
+    //this.setState({startDate: dateFormat(new Date().setDate(new Date().getDate()-6), "yyyy-mm-dd h:MM:ss")});
+    //this.setState({endDate: dateFormat(new Date(), "yyyy-mm-dd h:MM:ss")});
+
+    this.periodChange('last7Days');
+    this.searchTransactionHistory();
+
     //this.fetchRecentTransactionHistory();
     //ps.initialize(this.refs.global);
-
     //ps.update(this.refs.global);
   }
 
+  //Search transaction history with filters
+  searchTransactionHistory(e){
+    this.props.getTransactionHistory(this.state.startDate, this.state.endDate);
+  }
 
+  //Update state for from date whenever it is selected from the calender
+  onStartChange = (value) => {
+    this.setState({startDate: value.format('YYYY-MM-DD HH:mm:ss')});
+  }
+
+  //Update state for to date whenever it is selected from the calender
+  onEndChange = (value) => {
+    this.setState({endDate: value.format('YYYY-MM-DD HH:mm:ss')});
+  }
+
+  //Show the date fields of the user selects 'Custom' from the Period dropdown and update states of the dates accordingly
+  periodChange = (value) => {
+    if(value === 'custom'){
+      this.setState({showDateFields: true});
+    }
+    else {
+      var startDate = new Date();
+      switch(value){
+        case 'last7Days':
+          startDate.setDate(startDate.getDate()-6);
+          break;
+        case 'last14Days':
+          startDate.setDate(startDate.getDate()-13);
+          break;
+        case 'thisMonth':
+          const thisDay = startDate.getDate() - 1;
+          //To give me first day of this month
+          startDate.setDate(startDate.getDate()-thisDay);
+          break;
+        case 'lastMonth':
+          startDate.setDate(1);
+          startDate.setMonth(startDate.getMonth() - 1);
+          //Last date of the previous month
+          var month = startDate.getMonth();
+          var endDate = new Date(startDate.getFullYear(), month + 1, 0);
+          break;
+        default:
+          startDate.setDate(startDate.getDate()-6);
+          break;
+      }
+      this.setState({startDate: dateFormat(startDate, "yyyy-mm-dd h:MM:ss")});
+      this.setState({endDate: dateFormat(endDate, "yyyy-mm-dd h:MM:ss")});
+      this.setState({showDateFields: false});
+
+    }
+  }
+
+  //NOTE: Not removing this code as of now since I will need to refer it later when correct data is obtained
   fetchRecentTransactionHistory() {
 
     const account = ChainStore.getAccount('1.2.153075'); // this is ii-5 account id
@@ -269,38 +216,6 @@ class MyAccount extends Component {
       });
   }
 
-
-  renderTxList() {
-    if (!_.isEmpty(this.state.txList)) {
-      return (
-        <Col span={ 24 }
-             style={ {'padding': '5px'} }>
-          <Card title='Card title'
-                bordered={ false }
-                style={ {width: '100%'} }>
-
-            <div style={ {
-              'height': '500px',
-              'overflow': 'auto',
-              'overflow-x': 'hidden'
-            } }
-                 ref='global'
-            >
-              <Table {  ...this.state  }
-                     columns={  columns  }
-                     dataSource={  this.state.txList  }
-                     rowKey='id'
-                     ref='table'/>
-
-            </div>
-          </Card>
-        </Col>
-      );
-    }
-    return null;
-  }
-
-
   handleNotificationChange(value) {
     const {updateSettingNotification} = this.props
     updateSettingNotification(value)
@@ -327,15 +242,7 @@ class MyAccount extends Component {
 
   }
 
-  getTransactionHistory(){
-    console.log("data?");
-    console.log(this.props.transactionHistory);
-
-  }
-
   renderSettingCard() {
-
-
     return (
       <Card className='bookie-card'
             title={ I18n.t('myAccount.settings') }
@@ -448,7 +355,7 @@ class MyAccount extends Component {
   }
 
   render() {
-    const {startValue, endValue} = this.state;
+    const {showDateFields} = this.state;
     return (
       <div className='my-account'>
         <Breadcrumb className='bookie-breadcrumb'>
@@ -469,7 +376,7 @@ class MyAccount extends Component {
 
               </p>
 
-              <p className='text-center margin-tb-20'>
+              <p className='text-center margin-tb-30'>
                 <QRCode
                   value='http://facebook.github.io/react/'/>
               </p>
@@ -529,18 +436,13 @@ class MyAccount extends Component {
           </Col>
         </Row>
         <Row>
-          {/*<div*/}
-          {/*>*/}
-          {/*{ this.renderTxList() }*/}
-          {/*</div>*/}
-
-          <TransactionHistory transactionHistory={ this.props.transactionHistory }
-            currencyFormat={ this.props.currencyFormat }
+          <TransactionHistory ref='transHist' transactionHistory={ this.props.transactionHistory }
+            currencyFormat={ this.props.currencyFormat } handleSearchClick={ this.searchTransactionHistory }
+              periodChange={ this.periodChange } showDateFields={ showDateFields }
+              onStartChange={ this.onStartChange } onEndChange={ this.onEndChange }
+              startDate={ this.state.startDate } endDate={ this.state.startDate }
             />
-
         </Row>
-
-
       </div>
     )
   }

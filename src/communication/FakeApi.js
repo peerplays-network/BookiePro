@@ -121,14 +121,25 @@ class FakeApi {
     })
   }
 
-  static getTransactionHistory() {
+  static getTransactionHistory(startDate,endDate) {
     return new Promise((resolve, reject) => {
-      //setTimeout(() => {
-      resolve(_.orderBy(transactionHistory, function(value) {return (value.time+'')}, 'desc'));
-      //}, TIMEOUT_LENGTH);
+      if(startDate !== undefined && endDate !== undefined){
+        var filteredHistory =  _.filter(transactionHistory, (hist) => {
+          return (hist.time >= startDate && hist.time <= endDate)
+        });
+        resolve(_.orderBy(filteredHistory,
+          function(value) {
+            return (value.time+''
+          )}, 'desc'
+        ));
+      }
+      resolve(_.orderBy(transactionHistory,
+        function(value) {
+          return (value.time+''
+        )}, 'desc'
+      ));
     });
   }
-
 }
 
 export default FakeApi

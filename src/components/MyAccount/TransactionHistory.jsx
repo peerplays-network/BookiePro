@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { Table,DatePicker,Select } from 'antd';
 var I18n = require('react-redux-i18n').I18n;
 import './MyAccount.less';
-import { ChainTypes } from '../../utility';
-
-
+import dateFormat from 'dateformat';
 
 const columns = [
   {
@@ -33,17 +31,14 @@ const columns = [
     key: 'amount',
   }
 ];
+const Option = Select.Option;
 
 class TransactionHistory extends Component {
 
-  constructor(props){
-    super(props);
-    this.searchTransactionHistory = this.searchTransactionHistory.bind(this);
-  }
   state = {
     startValue: null,
     endValue: null,
-    endOpen: false,
+    endOpen: false
   };
 
   disabledStartDate = (startValue) => {
@@ -62,59 +57,21 @@ class TransactionHistory extends Component {
     return endValue.valueOf() <= startValue.valueOf();
   }
 
-  onChange = (field, value) => {
-    this.setState({
-      [field]: value,
-    });
-  }
-
-  onStartChange = (value) => {
-    this.onChange('startValue', value);
-  }
-
-  onEndChange = (value) => {
-    this.onChange('endValue', value);
-  }
-
-  handleStartOpenChange = (open) => {
-    if (!open) {
-      this.setState({ endOpen: true });
-    }
-  }
-
-  handleEndOpenChange = (open) => {
-    this.setState({ endOpen: open });
-  }
-  static propTypes = {
-    dynGlobalObject: ChainTypes.ChainObject.isRequired,
-    globalObject: ChainTypes.ChainObject.isRequired,
-  };
-
-  static defaultProps = {
-    dynGlobalObject: '2.1.0',
-    globalObject: '2.0.0',
-
-  };
-
-  searchTransactionHistory = () => {
-    alert(this.state.startValue < this.state.endValue);
-  }
-
   render() {
 
-    const {startValue, endValue, endOpen } = this.state;
-    const { transactionHistory,currencyFormat } = this.props;
-    const paginationParams = { pageSize: 5 };
-
+    const { transactionHistory,currencyFormat,handleSearchClick,periodChange,showDateFields,onStartChange,onEndChange} = this.props;
+    const paginationParams = { pageSize: 20 };
+    //Format and bind data.
     let newTxList = [];
     transactionHistory.forEach(row => {
       let rowObj = {
         key: row.id,
         id: row.id,
-        'time': row.time,
+        'time': dateFormat(row.time, "dd/mm/yyyy h:MM TT"),
         'desc': row.description,
         'status': <span
-          className='completed'>{ row.status }</span>,
+          className={ row.status==='Processing' ? 'processed'
+            : (row.status==='Completed' ? 'completed' : '') }>{ row.status }</span>,
         'amount': row.op[1].fee.amount + ' ' + currencyFormat
       };
       newTxList.push(rowObj);
@@ -136,57 +93,45 @@ class TransactionHistory extends Component {
                   className='ant-form-item'>
                   <label>
                     { I18n.t('myAccount.period') }</label>
-                  <Select
-                    className='bookie-select'
-                    defaultValue='default'
-                    style={ {width: 150} }>
-                    <Option
-                      value='default'>
-                      Last 14
-                      days</Option>
-                    <Option
-                      value='jack'>Jack</Option>
-                    <Option
-                      value='lucy'>Lucy</Option>
-                    <Option
-                      value='Yiminghe'>yiminghe</Option>
+                  <Select className='bookie-select' defaultValue='last7Days' style={ {width: 150} } onChange={ periodChange }>
+                    <Option value='last7Days'>Last 7 days</Option>
+                    <Option value='last14Days'>Last 14 days</Option>
+                    <Option value='thisMonth'>This month</Option>
+                    <Option value='lastMonth'>Last month</Option>
+                    <Option value='custom'>Custom</Option>
                   </Select>
                 </div>
-                <div
-                  className='ant-form-item'>
-                  <label>
-                    { I18n.t('myAccount.date') }</label>
-                    <DatePicker
-                    disabledDate={ this.disabledStartDate }
-                    showTime
-                    format='YYYY-MM-DD HH:mm:ss'
-                    value={ startValue }
-                    placeholder='Start'
-                    onChange={ this.onStartChange }
-                    onOpenChange={ this.handleStartOpenChange }
-                  />
-                  <span className='margin-lr-10 font16'>  - </span>
-                    <DatePicker
-                     disabledDate={ this.disabledEndDate }
-                     showTime
-                     format='YYYY-MM-DD HH:mm:ss'
-                     value={ endValue }
-                     placeholder='End'
-                     onChange={ this.onEndChange }
-                     open={ endOpen }
-                     onOpenChange={ this.handleEndOpenChange }
-                     />
-                </div>
+              {
+                showDateFields
+                  ?   <div
+                      className='ant-form-item'>
+                      <label>
+                        { I18n.t('myAccount.date') }</label>
+                        <DatePicker
+                        disabledDate={ this.disabledStartDate }
+                        format='YYYY-MM-DD HH:mm:ss'
+                        //value={ startDate }
+                        placeholder='From'
+                        onChange={ onStartChange }
+                      />
+                      <span className='margin-lr-10 font16'>  - </span>
+                        <DatePicker
+                         disabledDate={ this.disabledEndDate }
+                         format='YYYY-MM-DD HH:mm:ss'
+                         //value={ endDate }
+                         placeholder='To'
+                         onChange={ onEndChange }
+                         />
+                    </div>
+                : null
+              }
                 <div className='ant-form-item'>
-                  <a className='btn btn-regular' onClick={ this.searchTransactionHistory }>Search</a>
+                  <a className='btn btn-regular' onClick={ handleSearchClick }>Search</a>
                   <a className='btn btn-regular margin-lr-10'>Export</a>
                 </div>
-
               </div>
-
             </div>
           </div>
-
         </div>
         <Table className='bookie-table'
                pagination={ paginationParams }

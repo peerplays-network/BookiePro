@@ -26,12 +26,11 @@ class TransHistActions {
     }
   }
 
-  static getTransactionHistory(){
+  static getTransactionHistory(startDate,endDate){
     return (dispatch) => {
       dispatch(TransHistPrivateActions.setTransHistLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call
-      FakeApi.getTransactionHistory().then((transactionHistory) => {
-        //console.log(transactionHistory);
+      FakeApi.getTransactionHistory(startDate,endDate).then((transactionHistory) => {
         dispatch(TransHistPrivateActions.setTransHistLoadingStatusAction(LoadingStatus.DONE));
         dispatch(TransHistActions.addTransactionHistory(transactionHistory));
       });
