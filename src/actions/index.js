@@ -18,6 +18,7 @@ import SidebarActions from './SidebarActions';
 import AllSportsActions from './AllSportsActions';
 import SportPageActions from './SportPageActions';
 import EventGroupPageActions from './EventGroupPageActions';
+import TransHistActions from './TransactionHistoryActions';
 
 // Combine all the actions here for import shortcut
 export {
@@ -40,5 +41,6 @@ export {
   AccountActions,
   NotificationActions,
   SoftwareUpdateActions,
-  NavigateActions
+  NavigateActions,
+  TransHistActions
 }

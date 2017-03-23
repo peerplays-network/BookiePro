@@ -8,7 +8,8 @@ const {
   events,
   bets,
   binnedOrderBooks,
-  globalBettingStatistics
+  globalBettingStatistics,
+  transactionHistory
 } = dummyData;
 
 const TIMEOUT_LENGTH = 500;
@@ -191,6 +192,12 @@ class FakeApi {
       setTimeout(() => {
         resolve();
       }, TIMEOUT_LENGTH);
+
+  static getTransactionHistory() {
+    return new Promise((resolve, reject) => {
+      //setTimeout(() => {
+      resolve(_.orderBy(transactionHistory, function(value) {return (value.time+'')}, 'desc'));
+      //}, TIMEOUT_LENGTH);
     });
   }
 

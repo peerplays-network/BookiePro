@@ -14,11 +14,13 @@ import BettingMarketGroupReducer from './BettingMarketGroupReducer';
 import BettingMarketReducer from './BettingMarketReducer';
 import BetReducer from './BetReducer';
 import AllSportsReducer from './AllSportsReducer';
+
 import SportPageReducer from './SportPageReducer';
 import EventGroupPageReducer from './EventGroupPageReducer';
 import AccountReducer from './AccountReducer';
 import NotificationReducer from './NotificationReducer';
 import SoftwareUpdateReducer from './SoftwareUpdateReducer';
+import TransactionHistoryReducer from './TransactionHistoryReducer';
 import { routerReducer } from 'react-router-redux';
 import { i18nReducer } from 'react-redux-i18n'
 import { reducer as formReducer } from 'redux-form'
@@ -45,7 +47,8 @@ const rootReducer = combineReducers({
   routing: routerReducer,
   form: formReducer,
   i18n: i18nReducer,
-  sidebar: SidebarReducer
+  sidebar: SidebarReducer,
+  transHistory: TransactionHistoryReducer
 });
 
 export default rootReducer;
