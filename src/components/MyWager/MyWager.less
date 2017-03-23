@@ -12,7 +12,24 @@
 .margin-left-10{margin-left: 10px}
 .btn-regular{  background-image: linear-gradient(-180deg, rgba(55,192,255,0.92) 2%, #1F6CB4 97%);  box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);  }
 .my-wager {
-  padding:0 0 20px 20px;
+  padding:20px 0;
+  .bookie-breadcrumb{
+    color: #FFFFFF;
+    font-size:16px;
+    text-transform: uppercase;
+    margin-bottom:0px;
+    a,.ant-breadcrumb-separator{
+      color: #FFFFFF;
+    }
+    .ant-breadcrumb-link{
+      color: #00BEF4;
+    }
+    &>span{
+      &:last-child{
+        font-weight:400;
+      }
+    }
+  }
   .bookie-table{
     padding: 0 10px;
     .anticon{
@@ -44,7 +61,7 @@
       margin-top:30px;
     }
     .ant-tabs-tabpane{
-      background-color: rgba(6,92,183,0.35);
+     background-color: rgba(0,92,183,0.35);
     }
     .top-data{
       padding: 15px;
@@ -69,7 +86,7 @@
       line-height:34px;
     }
     .ant-tabs-nav .ant-tabs-tab{
-      color: #C8C8C8;
+      color: #A9A9A9;
       font-size: 16px;
       width: 100%;
       padding: 15px 0;
