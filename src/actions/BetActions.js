@@ -62,6 +62,7 @@ class BetActions {
     return (dispatch, getState) => {
       // const account = getState().account.account;
       // const accountId = account && account.get('id');
+      //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
       const accountId = '1.2.48';
 
       dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.LOADING));
