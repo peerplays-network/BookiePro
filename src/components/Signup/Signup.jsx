@@ -25,7 +25,7 @@ class Signup extends Component {
 
   render() {
     return (
-      <div className='sportsbg' id='main-content'>
+      <div className='sportsbg'>
         <div className='registerComponent' >
           <div className='wrapper'>
             <div className='text-center'>

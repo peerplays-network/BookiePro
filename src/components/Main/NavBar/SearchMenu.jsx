@@ -28,7 +28,7 @@ class SearchMenu extends Component {
     });
 
     //NOTE please update the url if  it is not valid
-    this.props.navigateTo('/market-screen/Event/' + event.id );
+    this.props.navigateTo('/exchange/event/' + event.id );
   }
 
   getEvents (input) {

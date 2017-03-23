@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from "react-dom";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import SplitPane from 'react-split-pane';
@@ -6,7 +7,7 @@ import BetSlip from '../BetSlip';
 import SideBar from '../SideBar';
 import { SidebarActions } from '../../actions';
 
-var Ps = require('perfect-scrollbar');
+import Ps from 'perfect-scrollbar';
 
 class Exchange extends Component {
 
@@ -18,16 +19,23 @@ class Exchange extends Component {
   }
 
   componentDidMount() {
-    Ps.initialize(this.refs.betslips);
-    Ps.initialize(this.refs.sidebar);
-
-    const { getDataForSidebar } = this.props
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.betslips));
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.middlepanel));
 
     //NOTE to be fine tune later for not to call api everytime,
-    // we could fine tune when we could subscribe change event in
+    // we could fine tune when we could SUBSCRIBE change in
     // sport / eventgp / event / betting mkg gp
+    const { getDataForSidebar } = this.props
     getDataForSidebar();
   }
+
+  componentDidUpdate() {
+    Ps.update(ReactDOM.findDOMNode(this.refs.betslips));
+    Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
+    Ps.update(ReactDOM.findDOMNode(this.refs.middlepanel));
+  }
+
 
   updatePs(){
     Ps.update(this.refs.betslips);
@@ -40,21 +48,24 @@ class Exchange extends Component {
      //primary = second , defaultSize =  400 = setting betslip width as 400
      // remove css of splitpane in Exchange.less to disable resizing
 
-     //TODO Banner not yet fixed
-     //TODO perfect-scrollbar make doubled height when scrollbar is needed, to be fixed
-
     const styleLeftPane = { background: '#1563A0' };
     const sidebarWidth = 200;
     const betslipWidth = 400;
+    const splitPaneStyle = {
+      'top':'0px',
+      'paddingTop':'64px', //due to top bar
+      'position': 'fixed'
+    };
 
     let transitionName = this.props.location.pathname.split("/");
 
     return (
       <SplitPane
+          style={ splitPaneStyle }
           split='vertical'
           minSize={ sidebarWidth } defaultSize={ sidebarWidth }
           pane1Style={ styleLeftPane }>
-            <div style={ { 'height' : '100%', 'overflow' : 'hidden' } }
+            <div style={ { 'height' : '100%', 'position' : 'relative' } }
               ref='sidebar'>
               { transitionName.length === 4 ?
                  <SideBar
@@ -80,10 +91,11 @@ class Exchange extends Component {
             split='vertical'
             minSize={ betslipWidth } defaultSize={ betslipWidth }
             primary='second'>
-              <div >
+              <div style={ { 'height' : '100%', 'position' : 'relative' } }
+                ref='middlepanel'>
                 { this.props.children }
               </div>
-              <div style={ { 'height' : '100%', 'overflow' : 'hidden', 'position' : 'relative' } }
+              <div style={ { 'height' : '100%', 'position' : 'relative' } }
                 ref='betslips'>
                 <BetSlip onClick={ () => { this.updatePs(); } } />
                 <BetSlip onClick={ () => { this.updatePs(); } }/>

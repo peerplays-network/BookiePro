@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, IndexRedirect, hashHistory, IndexRoute } from 'react-router';
+import { Router, Route, hashHistory, IndexRoute } from 'react-router';
 import App from './components/App';
 import BlockchainTestPage from './components/BlockchainTestPage';
 import EmptyPage from './components/EmptyPage';
@@ -23,6 +23,7 @@ import { Config } from './constants';
 import Deposit from './components/Deposit'
 import ChangePassword from './components/ChangePassword'
 import Welcome from './components/Welcome'
+
 
 const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
@@ -64,7 +65,6 @@ const onEnter = (nextState, replace, callback) => {
 // Add new page here
 const routes = (
   <Route path='/' component={ App } onEnter={ onEnter } >
-      <IndexRedirect to='/login' />
       <Route path='/login' component={ Login } />
       <Route path='/signup' component={ Signup } />
     <Route path='/welcome' component={ Welcome } />
