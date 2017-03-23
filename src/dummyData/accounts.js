@@ -1,3 +1,6 @@
+import _ from 'lodash';
+import Immutable from 'immutable';
+
 const accounts = [
   {
     blacklisting_accounts: [],
@@ -67,4 +70,5 @@ const accounts = [
   }
 ];
 
-export default accounts;
+const immutableAccounts = _.map(accounts, (account) => Immutable.fromJS(account));
+export default immutableAccounts;

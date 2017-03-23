@@ -1,3 +1,6 @@
+import _ from 'lodash';
+import Immutable from 'immutable';
+
 const balances = [
   {
     id: '2.5.44',
@@ -7,4 +10,5 @@ const balances = [
   }
 ];
 
-export default balances;
+const immutableBalances = _.map(balances, balance => Immutable.fromJS(balance));
+export default immutableBalances;

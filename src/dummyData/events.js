@@ -1,3 +1,6 @@
+import _ from 'lodash';
+import Immutable from 'immutable';
+
 import moment from 'moment';
 
 const events = [
@@ -413,4 +416,5 @@ const events = [
 
 //TODO: add more in this list, pay attention on the relation with the sports, competitors, event group dummy data
 
-export default events;
+const immutableEvents = _.map(events, event => Immutable.fromJS(event));
+export default immutableEvents;
