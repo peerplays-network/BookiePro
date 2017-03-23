@@ -5,6 +5,12 @@ import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import _ from 'lodash';
+import {
+  getEventsBySports,
+  getBettingMarketGroupsByEvents,
+  getBettingMarketsInBettingMarketGroups,
+  getBinnedOrderBooksByBettingMarkets
+} from './utilities'
 
 /**
  * Private actions
@@ -40,84 +46,42 @@ class AllSportsActions {
     return (dispatch) => {
       dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
+      let events = [];
       // First get list of sports
       FakeApi.getSports().then((sports) => {
         // Store sports inside redux store
         dispatch(SportActions.addSportsAction(sports))
+        return getEventsBySports(sports);
 
-        // Create promise to get events for each sports
-        let getEventsPromiseArray = [];
-        _.forEach(sports, (sport) => {
-          const getEventsPromise = FakeApi.getEvents(sport.id);
-          getEventsPromiseArray.push(getEventsPromise);
-        });
-
-        // Call the promise together
-        return Promise.all(getEventsPromiseArray);
       }).then((result) => {
-        let events = [];
-        
         // Combine the resulting events
-        _.forEach(result, (retrievedEvents) => {
-          events = events.concat(retrievedEvents);
-        });
+        // Save retrieved events for action dispatch later
+        events = _.flatMap(result);
+
         // Store events inside redux store
         dispatch(EventActions.addEventsAction(events));
+        return getBettingMarketGroupsByEvents(events);
 
-        // Store the final events id inside Home Redux store
-        const eventIds = _.map(events, 'id');
-        dispatch(AllSportsPrivateActions.setEventIdsAction(eventIds));
-
-        // Create promise to get betting market groups for each event
-        let getBettingMarketGroupPromiseArray = [];
-        _.forEach(events, (event) => {
-          const getBettingMarketGroupPromise = FakeApi.getObjects(event.betting_market_group_ids);
-          getBettingMarketGroupPromiseArray.push(getBettingMarketGroupPromise);
-        });
-
-        // Call the promise together
-        return Promise.all(getBettingMarketGroupPromiseArray);
       }).then((result) => {
         // Combine the resulting betting market groups
-        let bettingMarketGroups = [];
-        _.forEach(result, (retrievedBettingMarketGroups) => {
-          bettingMarketGroups = bettingMarketGroups.concat(retrievedBettingMarketGroups);
-        });
+        const bettingMarketGroups = _.flatMap(result);
         // Store betting market groups inside redux store
         dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMarketGroups));
+        return getBettingMarketsInBettingMarketGroups(bettingMarketGroups)
 
-        // Create promise to get betting markets for each group
-        let getBettingMarketPromiseArray = [];
-        _.forEach(bettingMarketGroups, (group) => {
-          const getBettingMarketPromise = FakeApi.getObjects(group.betting_market_ids);
-          getBettingMarketPromiseArray.push(getBettingMarketPromise);
-        });
-
-        // Call the promises together
-        return Promise.all(getBettingMarketPromiseArray)
       }).then((result) => {
-        // Combine the result betting markets
-        let bettingMarkets = [];
-        _.forEach(result, (retrievedBettingMarkets) => {
-          bettingMarkets = bettingMarkets.concat(retrievedBettingMarkets);
-        });
+        // Combine the resulting betting markets
+        const bettingMarkets = _.flatMap(result);
         // Store betting markets inside redux store
         dispatch(BettingMarketActions.addBettingMarketsAction(bettingMarkets));
+        return getBinnedOrderBooksByBettingMarkets(bettingMarkets);
 
-        // Create promisr to get Binned Order Books for each market
-        let getBinnedOrderBookPromiseArray = [];
-        _.forEach(bettingMarkets, (market) => {
-          const getBinnedOrderBookPromise = FakeApi.getBinnedOrderBook(market.id, 2);
-          getBinnedOrderBookPromiseArray.push(getBinnedOrderBookPromise);
-        });
-
-        // Call the promises together
-        return Promise.all(getBinnedOrderBookPromiseArray);
       }).then((result) => {
-        let binnedOrderBooks = [];
-        _.forEach(result, (retrievedOrderBooks) => {
-          binnedOrderBooks = binnedOrderBooks.concat(retrievedOrderBooks);
-        });
+        // Combine the resulting binned order books
+        let binnedOrderBooks = _.flatMap(result);
+
+        // Store the final events id inside AllSports Redux store
+        dispatch(AllSportsPrivateActions.setEventIdsAction(_.map(events, 'id')));
 
         // Store binned order books inside redux store
         dispatch(AllSportsPrivateActions.setBinnedOrderBooksAction(binnedOrderBooks));
