@@ -3,7 +3,6 @@ import AssetReducer from './AssetReducer';
 import SettingReducer from './SettingReducer';
 import AppReducer from './AppReducer';
 import SidebarReducer from './SidebarReducer';
-
 import RegisterReducer from './RegisterReducer';
 import LoginReducer from './LoginReducer';
 import SportReducer from './SportReducer';
@@ -14,7 +13,6 @@ import BettingMarketGroupReducer from './BettingMarketGroupReducer';
 import BettingMarketReducer from './BettingMarketReducer';
 import BetReducer from './BetReducer';
 import AllSportsReducer from './AllSportsReducer';
-
 import SportPageReducer from './SportPageReducer';
 import EventGroupPageReducer from './EventGroupPageReducer';
 import AccountReducer from './AccountReducer';
