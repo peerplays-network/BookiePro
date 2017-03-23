@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 var I18n = require('react-redux-i18n').I18n;
-
+import TransactionHistory from './TransactionHistory'
 import {
   Row,
   Col,
@@ -134,7 +134,7 @@ function onChange(checked) {
   console.log(`switch to ${checked}`);
 }
 
-import {SettingActions} from '../../actions';
+import { SettingActions,TransHistActions } from '../../actions';
 
 
 const title = () => 'Here is title';
@@ -212,17 +212,18 @@ class MyAccount extends Component {
       return false;
     }
 
-    this.fetchRecentTransactionHistory();
+    //this.fetchRecentTransactionHistory();
 
     return true;
   }
 
 
   componentDidMount() {
-    this.fetchRecentTransactionHistory();
-    ps.initialize(this.refs.global);
+    this.props.getTransactionHistory();
+    //this.fetchRecentTransactionHistory();
+    //ps.initialize(this.refs.global);
 
-    ps.update(this.refs.global);
+    //ps.update(this.refs.global);
   }
 
 
@@ -323,6 +324,12 @@ class MyAccount extends Component {
   handleTimeZoneChange(value) {
     const {updateSettingTimeZone} = this.props
     updateSettingTimeZone(value)
+
+  }
+
+  getTransactionHistory(){
+    console.log("data?");
+    console.log(this.props.transactionHistory);
 
   }
 
@@ -526,76 +533,11 @@ class MyAccount extends Component {
           {/*>*/}
           {/*{ this.renderTxList() }*/}
           {/*</div>*/}
-          <div className='transaction-table'>
-            <div className='top-data clearfix'>
-              <div className='float-left'>
-                <p
-                  className='font18 padding-tb-5 page-title '>
-                  { I18n.t('myAccount.transaction_history') }</p>
-              </div>
-              <div className='float-right'>
-                <div className='filter'>
-                  <div
-                    className='ant-form-inline'>
-                    <div
-                      className='ant-form-item'>
-                      <label>
-                        { I18n.t('myAccount.period') }</label>
-                      <Select
-                        className='bookie-select'
-                        defaultValue='default'
-                        style={ {width: 150} }>
-                        <Option
-                          value='default'>
-                          Last 14
-                          days</Option>
-                        <Option
-                          value='jack'>Jack</Option>
-                        <Option
-                          value='lucy'>Lucy</Option>
-                        <Option
-                          value='Yiminghe'>yiminghe</Option>
-                      </Select>
-                    </div>
-                    <div
-                      className='ant-form-item'>
-                      <label>
-                        { I18n.t('myAccount.date') }</label>
-                      <DatePicker
-                        disabledDate={ this.disabledStartDate }
-                        showTime
-                        format='YYYY-MM-DD HH:mm:ss'
-                        value={ startValue }
-                        placeholder='From'
-                      />
-                      <span
-                        className='margin-lr-10 font16'>  - </span>
-                      <DatePicker
-                        disabledDate={ this.disabledEndDate }
-                        showTime
-                        format='YYYY-MM-DD HH:mm:ss'
-                        value={ endValue }
-                        placeholder='To'
-                      />
-                    </div>
-                    <div
-                      className='ant-form-item'>
-                      <a className='export-icon'
-                         href=''>
-                        <Icon
-                          type='file'/></a>
-                    </div>
-                  </div>
 
-                </div>
-              </div>
+          <TransactionHistory transactionHistory={ this.props.transactionHistory }
+            currencyFormat={ this.props.currencyFormat }
+            />
 
-            </div>
-            <Table className='bookie-table'
-                   pagination={ false }
-                   dataSource={ dataSource }
-                   columns={ columns }/>
-          </div>
         </Row>
 
 
@@ -613,6 +555,7 @@ const mapStateToProps = (state) => {
     timezone: setting.timezone,
     notification: setting.notification,
     currencyFormat: setting.currencyFormat,
+    transactionHistory: state.transHistory.transactionHistory
   }
 }
 
@@ -623,6 +566,7 @@ function mapDispatchToProps(dispatch) {
     updateSettingTimeZone: SettingActions.updateSettingTimeZone,
     updateSettingNotification: SettingActions.updateSettingNotification,
     updateCurrencyFormat: SettingActions.updateCurrencyFormat,
+    getTransactionHistory: TransHistActions.getTransactionHistory
   }, dispatch)
 }
 
