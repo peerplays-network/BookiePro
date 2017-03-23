@@ -79,6 +79,7 @@ export const translationsObject = {
       title: 'LOGIN',
       signup: 'SIGN UP',
       username_notfound: 'username not found',
+      password_short: 'password too short',
       wrong_username_password: 'wrong username or password'
     },
     changePassword:{
@@ -117,6 +118,7 @@ export const translationsObject = {
       title: 'LOGIN',
       signup: 'SIGN UP',
       username_notfound: 'username not found',
+      password_short: 'password too short',
       wrong_username_password: 'wrong username or password'
     },
     application: {

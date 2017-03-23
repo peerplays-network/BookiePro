@@ -66,11 +66,14 @@ export default reduxForm({
   	let accountError = ChainValidation.is_account_name_error(values.userName);
 
   	if(accountError) {
-  		errors.userName = accountError;
+			//overriding blockchain error with general error
+			//Note: even if the username format is incorrect it will show this generic error
+			//TODO: confirm if we really need to show generic error for these errors
+  		errors.userName = I18n.t('login.username_notfound');
   	 }
 
-  	if(!values.password || values.password.length < 52) {
-  		errors.password = I18n.t('login.wrong_username_password');
+  	if(!values.password || values.password.length < 22) {
+  		errors.password = I18n.t('login.password_short');
   	 }
 
   	return errors;
