@@ -8,7 +8,8 @@ const {
   events,
   bets,
   binnedOrderBooks,
-  globalBettingStatistics
+  globalBettingStatistics,
+  transactionHistory
 } = dummyData;
 
 const TIMEOUT_LENGTH = 500;
@@ -191,9 +192,28 @@ class FakeApi {
       setTimeout(() => {
         resolve();
       }, TIMEOUT_LENGTH);
-    });
+    })
   }
 
+  static getTransactionHistory(accountid,startDate,endDate) {
+    return new Promise((resolve, reject) => {
+      if(startDate !== undefined && endDate !== undefined){
+        var filteredHistory =  _.filter(transactionHistory, (hist) => {
+          return (hist.time >= startDate && hist.time <= endDate)
+        });
+        resolve(_.orderBy(filteredHistory,
+          function(value) {
+            return (value.time+''
+          )}, 'desc'
+        ));
+      }
+      resolve(_.orderBy(transactionHistory,
+        function(value) {
+          return (value.time+''
+        )}, 'desc'
+      ));
+    });
+  }
 }
 
 export default FakeApi

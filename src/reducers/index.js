@@ -3,7 +3,6 @@ import AssetReducer from './AssetReducer';
 import SettingReducer from './SettingReducer';
 import AppReducer from './AppReducer';
 import SidebarReducer from './SidebarReducer';
-
 import RegisterReducer from './RegisterReducer';
 import LoginReducer from './LoginReducer';
 import SportReducer from './SportReducer';
