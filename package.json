@@ -100,6 +100,7 @@
     "clean:osx": "rm -rf ./dist/osx",
     "clean:win": "rm -rf ./dist/win",
     "pack": "build --dir",
+    "pack:all": "build --all",
     "dist": "build"
   },
   "build": {

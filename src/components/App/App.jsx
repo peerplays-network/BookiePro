@@ -17,8 +17,8 @@ class App extends Component {
       loading: false,
 
       newVersionModalVisible: false,
+      currentVersion: "1.0.0"  // hardcode for testing hardupdate/softupdate
 
-      currentVersion: "1.1.1" // hardcode for testing hardupdate/softupdate
     }
     this.syncWithBlockchain = this.syncWithBlockchain.bind(this);
   }
@@ -30,16 +30,20 @@ class App extends Component {
   componentDidUpdate(prevProps, prevState){
 
     //when blockchain sync is done ( and success), assuming connection success => sync success
-    if ( this.state.synced && prevState.synced === false){
+    if ( (this.state.synced && prevState.synced === false) ||
+      ( prevProps && this.props.latestVersion !== prevProps.latestVersion)){
 
-      if ( this.props.version &&
+      if ( this.props.latestVersion &&
         (this.props.needHardUpdate || this.props.needSoftUpdate) &&
-        (compareVersionNumbers(this.state.currentVersion, this.props.version) < 0)){
+        (compareVersionNumbers(this.state.currentVersion, this.props.latestVersion) < 0)){
 
         this.setState({
           newVersionModalVisible: true
         });
 
+        if ( this.props.location.pathname.length === 1){
+          this.props.navigateTo('/login');
+        }
       } else {
 
         if ( this.props.location.pathname.length === 1){
@@ -87,6 +91,19 @@ class App extends Component {
     });
   }
 
+  setModalVisibleOK(modalVisible) {
+    this.setState({
+      newVersionModalVisible: modalVisible
+    });
+
+    if ( this.props.needHardUpdate){
+      const remote = require('electron').remote;
+
+      var window = remote.getCurrentWindow();
+      window.close();
+    }
+  }
+
   render() {
 
     let softwareUpdateModal = (
@@ -94,8 +111,9 @@ class App extends Component {
         title='I need to update the app first'
         closable={ !this.props.needHardUpdate }
         visible={ this.state.newVersionModalVisible }
-        onOk={ () => this.setModalVisible(false) }
+        onOk={ () => this.setModalVisibleOK(false) }
         onCancel={ () => this.setModalVisible(false) }
+        latestVersion={ this.props.latestVersion }
       />
     );
 
@@ -134,7 +152,7 @@ const mapStateToProps = (state) => {
     isLoggedIn: app.isLoggedIn,
     needHardUpdate: softwareUpdate.needHardUpdate,
     needSoftUpdate: softwareUpdate.needSoftUpdate,
-    version: softwareUpdate.version, //
+    latestVersion: softwareUpdate.version, //
 
     // uncomment below for testing
     // needHardUpdate: true,

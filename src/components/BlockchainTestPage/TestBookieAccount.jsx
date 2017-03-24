@@ -2,25 +2,21 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { Button } from 'antd';
 import { TransactionBuilder, PrivateKey, FetchChain } from 'graphenejs-lib';
+import {Aes, ChainValidation, key, TransactionHelper} from "graphenejs-lib";
+
 import { BlockchainUtils, ChainTypes, BindToChainState } from '../../utility';
 
-// {
-//  "ownerPublicKey": "TEST6Zxuh7T6Nv3R6KXXLUt9a7MYuEsiqukVTvDwgxEoVYUssQuSpy",
-//  "activePublicKey": "TEST5YV8br6ztoCPQiC8XPJN2BU4jmywMic27QqGcR3DsyjHroViB7",
-//  "memoPublicKey": "TEST7EJWbFSvVHNmXoYRjJpVhJZuQ21qDiXMKhrZZFcNCWY8oAtFMK",
-//  "ownerPrivateKeyWif": "5JsEthPkpPVk9Fmx16x1ZgDjhHwvVBkRCS83TQQciSrm64frj2p",
-//  "activePrivateKeyWif": "5JZpe5ANwzApzR4dPq24AXPVf3VMhDAHs5XV5T126bR255Q8Mhd",
-//  "memoPrivateKeyWif": "5KQAvZAoEbTS2h4QmBVKsdXVJaUhzWL1peGE26w71PeH2FAgx9F"
-// }
+import { string2Bin, bin2String } from '../../utility/versionUtils'
 
-// testaccount123d with password DgTdQBzqF1NLnniikZuoedoWYzVHjJmV28LS7PJAqWdkwRkWzkyq
+
 
 // Change this property depending on the blockchain you are
 const accountName = 'peerplays1';
+
 // const accountId = '1.2.153075';
-const accountPublicKeys = ['BTS76Ht7MbK6hDqGSdJvXnrmmUU2v9XfNZRJVaf6E4mAHUpCcfc8G'];
+const accountPublicKeys = ['TEST5YV8br6ztoCPQiC8XPJN2BU4jmywMic27QqGcR3DsyjHroViB7'];
 const accountPrivateKeys = {
-  'BTS76Ht7MbK6hDqGSdJvXnrmmUU2v9XfNZRJVaf6E4mAHUpCcfc8G': PrivateKey.fromWif('5JxYc27FySQWqacFWogGqTjuV6mhVoceao5bZFTsJ3v9kTgK8Hj')
+  'TEST5YV8br6ztoCPQiC8XPJN2BU4jmywMic27QqGcR3DsyjHroViB7': PrivateKey.fromWif('5JZpe5ANwzApzR4dPq24AXPVf3VMhDAHs5XV5T126bR255Q8Mhd')
 };
 const makeOrderSellAsset = '1.3.0';
 const makeOrderBuyAsset = '1.3.121';
@@ -46,6 +42,8 @@ class TestBokieAccount extends Component {
 
     this._getAccount = this._getAccount.bind(this);
     this._makeOpenOrder = this._makeOpenOrder.bind(this);
+    this._makeTransferTx = this._makeTransferTx.bind(this);
+
     this._cancelOrder = this._cancelOrder.bind(this);
     this._renderOrderList = this._renderOrderList.bind(this);
     this._getListOfOpenOrders = this._getListOfOpenOrders.bind(this);
@@ -67,6 +65,9 @@ class TestBokieAccount extends Component {
     const account = this.props.account; // this is ii-5 account id
     const history = account.get('history');
     console.log('Transaction History:', history.toJS());
+
+    console.log('Transaction first History:', JSON.stringify(history.toJS()[0], null, 2));
+
   }
 
   _renderOrderList() {
@@ -111,6 +112,7 @@ class TestBokieAccount extends Component {
       // Inside, it's trying to ask the blockchain based on the seller account id attached in the transaction
       return tr.get_potential_signatures();
     }).then(({ pubkeys }) => {
+      console.log( ' pubkeys : ', pubkeys);
       // Check if none of the potential public keys is equal to our public keys
       const myPubKeys = _.intersection(pubkeys, accountPublicKeys);
       if (_.isEmpty(myPubKeys)) {
@@ -135,6 +137,8 @@ class TestBokieAccount extends Component {
       callback(false);
     });
   }
+
+
 
   _makeOpenOrder() {
     // Mark open order in progress
@@ -223,6 +227,87 @@ class TestBokieAccount extends Component {
 
 
 
+      // var asset = new Serializer("asset", { amount: int64,
+      //     asset_id: protocol_id_type("asset") });
+      //
+      // var memo_data = new Serializer("memo_data", { from: public_key,
+      //     to: public_key,
+      //     nonce: uint64,
+      //     message: bytes() });
+      //
+      // var transfer = new Serializer("transfer", { fee: asset,
+      //     from: protocol_id_type("account"),
+      //     to: protocol_id_type("account"),
+      //     amount: asset,
+      //     memo: optional(memo_data),
+      //     extensions: set(future_extensions) });
+
+      // needHardUpdate = memo.need_hard_update;
+      // needSoftUpdate = memo.need_soft_update;
+      // version = memo.version;
+      // displayText = memo.display_text;    /
+
+  _makeTransferTx() {
+
+    this.setState({ makeOpenOrderInProgress: true });
+
+    const accountFrom = '1.2.152';
+    const coreAssetIdFrom = '1.3.0'; // TODO  or 1.3.0
+    const accountTo = '1.2.48';
+
+    // Create transaction and add operation
+    const tr = new TransactionBuilder();
+
+    const memo_from_public = 'TEST5YV8br6ztoCPQiC8XPJN2BU4jmywMic27QqGcR3DsyjHroViB7'
+    const memo_to_public = 'TEST7sAG3NHoq8Z1y3xykpzEbajYE8AhHzZdYMzBZA2hsiEPAMttBU'
+    // const memo_from_privkey = PrivateKey.fromWif('5JZpe5ANwzApzR4dPq24AXPVf3VMhDAHs5XV5T126bR255Q8Mhd');
+    const memoMessage = {
+      need_hard_update: true,
+      need_soft_update: false,
+      version: '1.7.0',
+      displayText: 'update or bysdfadasdfde'
+    };
+
+
+    const nonce = TransactionHelper.unique_nonce_uint64();
+    const msg = string2Bin(JSON.stringify(memoMessage));
+
+    // msg = Aes.encrypt_with_checksum(
+    //         memo_from_privkey,
+    //         memo_to_public,
+    //         nonce,
+    //         msg);
+
+    const memo_object = {
+      from: memo_from_public,
+      to: memo_to_public,
+      nonce: nonce,
+      message: msg
+    }
+      // }
+    const operationParams = {
+      from: accountFrom,
+      to: accountTo,
+      amount: {
+        amount: 1,
+        asset_id: coreAssetIdFrom,
+      },
+      memo: memo_object,
+      extensions: []
+    };
+
+    tr.add_type_operation('transfer', operationParams);
+    // Process transaction
+    this._processTransaction(tr, (success) => {
+      // Mark open order in progress finish
+      this.setState({ makeOpenOrderInProgress: false });
+      if (success) {
+        // Refresh account
+        this._getAccount();
+      }
+    });
+
+  }
   render() {
     return (
       <div>
@@ -244,6 +329,11 @@ class TestBokieAccount extends Component {
         <div>
           <Button onClick={ this._makeOpenOrder } disabled={ this.state.makeOpenOrderInProgress }>
             {'Make Open Order'}
+          </Button>
+        </div>
+        <div>
+          <Button onClick={ this._makeTransferTx } >
+            {'Make Transfer to update version number'}
           </Button>
         </div>
         { this._renderOrderList() }

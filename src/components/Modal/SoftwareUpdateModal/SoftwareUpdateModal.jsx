@@ -13,9 +13,10 @@ class SoftwareUpdateModal extends Component {
         visible={ this.props.visible }
         onOk={ this.props.onOk }
         onCancel={ this.props.onCancel }
+        okText = { 'OK' }
       >
-        <p>I need to update first {this.props.version}</p>
-        <p>some contents...</p>
+        <p>I need to update first {this.props.latestVersion}</p>
+        <p>Click OK to close if it is hard update</p>
         <p>some contents...</p>
       </Modal>
     );

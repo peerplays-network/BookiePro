@@ -1,12 +1,13 @@
 import { ActionTypes } from '../constants';
 import { ChainTypes } from 'graphenejs-lib';
 import _ from 'lodash';
+import { hex2a } from '../utility/versionUtils'
 
 let initialState = {
   referenceAccount: null,
   needHardUpdate: false,
   needSoftUpdate: false,
-  version: null,
+  version: '1.0.0',
   displayText: null
 };
 
@@ -34,12 +35,27 @@ export default function (state = initialState, action) {
 
         // Check the memo of latest update transaction to find update information
         if (latestUpdateTransaction) {
+
           const memo = latestUpdateTransaction.getIn(['op', 1, 'memo']);
-          if (memo) {
-            needHardUpdate = memo.need_hard_update;
-            needSoftUpdate = memo.need_soft_update;
-            version = memo.version;
-            displayText = memo.display_text;
+
+          if (memo && memo.get('message')) {
+            // console.log('memo message', JSON.stringify(memo.get('message')));
+
+            try {
+              console.log('latestUpdateTransaction :' , hex2a(memo.get('message')));
+
+              const memoJson =  JSON.parse(hex2a(memo.get('message')));
+              needHardUpdate = memoJson.need_hard_update;
+              needSoftUpdate = memoJson.need_soft_update;
+              version = memoJson.version;
+              displayText = memoJson.displayText;
+
+
+            } catch (e){
+              // console.error(e);
+
+            }
+
           }
         }
       }

@@ -1,3 +1,15 @@
+//peerplays1
+// {
+//  "ownerPublicKey": "TEST6Zxuh7T6Nv3R6KXXLUt9a7MYuEsiqukVTvDwgxEoVYUssQuSpy",
+//  "activePublicKey": "TEST5YV8br6ztoCPQiC8XPJN2BU4jmywMic27QqGcR3DsyjHroViB7",
+//  "memoPublicKey": "TEST7EJWbFSvVHNmXoYRjJpVhJZuQ21qDiXMKhrZZFcNCWY8oAtFMK",
+//  "ownerPrivateKeyWif": "5JsEthPkpPVk9Fmx16x1ZgDjhHwvVBkRCS83TQQciSrm64frj2p",
+//  "activePrivateKeyWif": "5JZpe5ANwzApzR4dPq24AXPVf3VMhDAHs5XV5T126bR255Q8Mhd",
+//  "memoPrivateKeyWif": "5KQAvZAoEbTS2h4QmBVKsdXVJaUhzWL1peGE26w71PeH2FAgx9F"
+// }
+
+// peerplays1 with password DgTdQBzqF1NLnniikZuoedoWYzVHjJmV28LS7PJAqWdkwRkWzkyq
+
 const acc = {
  "blacklisting_accounts": [],
  "statistics": "2.6.152",
