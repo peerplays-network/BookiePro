@@ -1,12 +1,12 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { hashHistory } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
 import localforage from 'localforage';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { autoRehydrate, persistStore } from 'redux-persist-immutable';
-import { loadTranslations, setLocale, syncTranslationWithStore } from 'react-redux-i18n';
-import { I18n, Translate, Localize } from 'react-redux-i18n';
+import { loadTranslations, setLocale } from 'react-redux-i18n';
+import { I18n } from 'react-redux-i18n';
 import { translationsObject } from './translations';
 import Immutable from 'immutable';
 import rootReducer from '../reducers';
