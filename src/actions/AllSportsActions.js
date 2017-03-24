@@ -23,16 +23,10 @@ class AllSportsPrivateActions {
     }
   }
 
-  static setEventIdsAction(eventIds) {
+  static setDataAction(eventIds, binnedOrderBooks) {
     return {
-      type: ActionTypes.ALL_SPORTS_SET_EVENT_IDS,
-      eventIds
-    }
-  }
-
-  static setBinnedOrderBooksAction(binnedOrderBooks) {
-    return {
-      type: ActionTypes.ALL_SPORTS_SET_BINNED_ORDER_BOOKS,
+      type: ActionTypes.ALL_SPORTS_SET_DATA,
+      eventIds,
       binnedOrderBooks
     }
   }
@@ -80,11 +74,8 @@ class AllSportsActions {
         // Combine the resulting binned order books
         let binnedOrderBooks = _.flatMap(result);
 
-        // Store the final events id inside AllSports Redux store
-        dispatch(AllSportsPrivateActions.setEventIdsAction(_.map(events, 'id')));
-
-        // Store binned order books inside redux store
-        dispatch(AllSportsPrivateActions.setBinnedOrderBooksAction(binnedOrderBooks));
+        // Stored all retrieve data in the AllSports state in Redux store
+        dispatch(AllSportsPrivateActions.setDataAction(_.map(events, 'id'), binnedOrderBooks));
 
         // Finish loading (TODO: Are we sure this is really the last action dispatched?)
         dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
