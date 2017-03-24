@@ -67,8 +67,7 @@ class BetActions {
 
   static getOngoingBets() {
     return (dispatch, getState) => {
-      // const account = getState().account.account;
-      // const accountId = account && account.get('id');
+      // const accountId = getState().getIn(['account', 'account', 'id']);
       //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
       const accountId = '1.2.48';
 
@@ -131,8 +130,7 @@ class BetActions {
 
   static getResolvedBets(startTime, stopTime) {
     return (dispatch, getState) => {
-      const account = getState().account.account;
-      const accountId = account && account.get('id');
+      const accountId = getState().getIn(['account', 'account', 'id']);
 
       dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call

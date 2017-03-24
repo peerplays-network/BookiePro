@@ -35,24 +35,24 @@ class AllSports extends Component {
 
 // TODO: Should be a common function
 const findBinnedOrderBooksFromEvent = (event, state) => {
-  const bettingMarketGroups = state.bettingMarketGroup.bettingMarketGroups.filter(
-    (group) => event.betting_market_group_ids.includes(group.id)
+  const bettingMarketGroupsById = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']).filter(
+    (group) => event.get('betting_market_group_ids').includes(group.get('id'))
   );
   let bettingMarketIds = [];
-  bettingMarketGroups.forEach((group) => {
-    bettingMarketIds = bettingMarketIds.concat(group.betting_market_ids);
+  bettingMarketGroupsById.forEach((group) => {
+    bettingMarketIds = bettingMarketIds.concat(group.get('betting_market_ids'));
   });
 
-  const { allSports } = state;
+  const allSports = state.get('allSports');
 
-  const binnedOrderBooks = allSports.binnedOrderBooks;
+  const binnedOrderBooks = allSports.get('binnedOrderBooks');
   const matchedBinnedOrderBooks = [];
   bettingMarketIds.forEach((bettingMarketId) => {
-    if (binnedOrderBooks.hasOwnProperty(bettingMarketId)) {
-      const orderBook = allSports.binnedOrderBooks[bettingMarketId];
+    if (binnedOrderBooks.has(bettingMarketId)) {
+      const orderBook = allSports.getIn(['binnedOrderBooks','bettingMarketId']);
       matchedBinnedOrderBooks.push({
-        back: orderBook.aggregated_back_bets,
-        lay: orderBook.aggregated_lay_bets
+        back: orderBook.get('aggregated_back_bets'),
+        lay: orderBook.get('aggregated_lay_bets')
       });
     }
   });
@@ -61,24 +61,27 @@ const findBinnedOrderBooksFromEvent = (event, state) => {
 }
 
 const mapStateToProps = (state) => {
-  const { sport, event } = state;
+  const sportsById = state.getIn(['sport', 'sportsById']);
+  const eventsById = state.getIn(['event', 'eventsById']);
 
   // Construct the page content
   let page = {};
 
   // Create a map using sport id as keys
-  sport.sports.forEach((sport) => {
-    page[sport.id] = { name: sport.name };
-    page[sport.id]['events'] = [];
+  sportsById.forEach((sport) => {
+    const sportId = sport.get('id');
+    page[sportId] = { name: sport.get('name') };
+    page[sportId]['events'] = [];
   });
 
   // For each event, generate data entry for the Simple Betting Widget
-  event.events.forEach((event) => {
-    if (page.hasOwnProperty(event.sport_id)) {
-      page[event.sport_id]['events'].push({
-        id: event.id,
-        name: event.name,
-        time: event.start_time,
+  eventsById.forEach((event) => {
+    const eventSportId = event.get('sport_id');
+    if (page.hasOwnProperty(eventSportId)) {
+      page[eventSportId]['events'].push({
+        id: event.get('id'),
+        name: event.get('name'),
+        time: event.get('start_time'),
         offers: findBinnedOrderBooksFromEvent(event, state)
       });
     }

@@ -10,7 +10,9 @@ let initialState = Immutable.fromJS({
 export default function (state = initialState, action) {
   switch(action.type) {
     case ActionTypes.LOGIN_SET_LOADING_STATUS: {
-      return state.set('loadingStatus', action.loadingStatus);
+      return state.merge({
+        loadingStatus: action.loadingStatus
+      });
     }
     case ActionTypes.LOGIN_SET_ERROR: {
       return state.merge({

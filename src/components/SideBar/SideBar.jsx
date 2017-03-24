@@ -9,7 +9,7 @@ import Event from './Event';
 import EventGroup from './EventGroup';
 import Sport from './Sport';
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
 import { findKeyPathOf, differences } from '../../utility/TreeUtils'
 
@@ -19,18 +19,18 @@ class SideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tree: this.props.completeTree
+      tree: this.props.completeTree.toJS()
     }
 
     this.updateSider = this.updateSider.bind(this);
   }
 
   componentDidMount(){
-    this.updateSider(this.props.completeTree, this.props.objectId);
+    this.updateSider(this.props.completeTree.toJS(), this.props.objectId);
 
   }
   componentWillReceiveProps(nextProps) {
-    this.updateSider(nextProps.completeTree, nextProps.objectId);
+    this.updateSider(nextProps.completeTree.toJS(), nextProps.objectId);
   }
 
   updateSider(completeTree, targetObjectId) {
@@ -160,7 +160,7 @@ class SideBar extends Component {
   }
 
   render() {
-
+    console.log('tree', this.state.tree);
     return (
     <InfinityMenu
               disableDefaultHeaderContent={ true }
@@ -181,7 +181,7 @@ class SideBar extends Component {
 }
 
 SideBar.propTypes = {
-  completeTree: React.PropTypes.array.isRequired,
+  completeTree: React.PropTypes.instanceOf(Immutable.List).isRequired,
   objectId: React.PropTypes.string.isRequired,
   level: React.PropTypes.number.isRequired,
 };
@@ -192,9 +192,9 @@ SideBar.defaultProps = {
 
 
 const mapStateToProps = (state) => {
-  const { sidebar } = state;
+  const sidebar = state.get('sidebar');
   return {
-    sidebarObjectId: sidebar.objectId,
+    sidebarObjectId: sidebar.get('objectId'),
   }
 }
 

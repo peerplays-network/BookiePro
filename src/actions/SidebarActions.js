@@ -47,15 +47,14 @@ class SidebarActions{
   static setTreeForSidebar(){
 
     return (dispatch, getState) => {
-      const {sports} = getState().sport;
-      const {eventGroups} = getState().eventGroup;
-      const {events} = getState().event;
-      const {bettingMarketGroups} = getState().bettingMarketGroup;
+      const sportsById = getState().getIn(['sport', 'sportsById']);
+      const eventGroupsById = getState().getIn(['eventGroup', 'eventGroupsById']);
+      const eventsById = getState().getIn(['event', 'eventsById']);
+      const bettingMarketGroupsById = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
 
-      const { List } = require('immutable')
-      const eventGroupsList = List(eventGroups);
-      const eventList = List(events);
-      const bettingMktGroupList = List(bettingMarketGroups);
+      const eventGroupsList = Immutable.List(eventGroupsById.values());
+      const eventList = Immutable.List(eventsById.values());
+      const bettingMktGroupList = Immutable.List(bettingMarketGroupsById.values());
 
       let completeTree = []
 
@@ -70,21 +69,21 @@ class SidebarActions{
         children: []  /*require for TreeUtil.js*/
       });
 
-      _.forEach(sports, (sport) => {
+      sportsById.forEach((sport) => {
 
         var sportNode = {};
 
-        sportNode.name = sport.name;
-        sportNode.id = sport.id;
+        sportNode.name = sport.get('name');
+        sportNode.id = sport.get('id');
         sportNode.isOpen = false;
         sportNode.customComponent = "Sport";
-        sportNode.objectId = sport.id;
+        sportNode.objectId = sport.get('id');
 
         sportNode.children = [];
 
 
         const targetEventGroups = eventGroupsList.filter(function(metric) {
-          return metric.sport_id === sport.id;
+          return metric.get('sport_id') === sport.get('id');
         })
 
         _.forEach(targetEventGroups.toJS(), (eventGroup) => {
@@ -98,7 +97,7 @@ class SidebarActions{
           eventGroupNode.children = [];
 
           const targetEvents = eventList.filter(function(metric) {
-            return metric.event_group_id === eventGroupNode.id;
+            return metric.get('event_group_id') === eventGroupNode.id;
           })
 
           _.forEach(targetEvents.toJS(), (event) => {
@@ -112,7 +111,7 @@ class SidebarActions{
             eventNode.children = [];
 
             const targetBettingMktGps = bettingMktGroupList.filter(function(metric) {
-              return metric.event_id === eventNode.id;
+              return metric.get('event_id') === eventNode.id;
             })
 
             _.forEach(targetBettingMktGps.toJS(), (mktGroup) => {

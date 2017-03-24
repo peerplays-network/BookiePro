@@ -1,8 +1,9 @@
 import { ActionTypes } from '../constants';
 import { LoadingStatus } from '../constants';
 import _ from 'lodash';
+import Immutable from 'immutable';
 
-let initialState = {
+let initialState = Immutable.fromJS({
   account: null,
   keys: null,
   getDepositAddressLoadingStatus: LoadingStatus.DEFAULT,
@@ -12,52 +13,52 @@ let initialState = {
   changePasswordError: null,
   transactionHistories: [],
   depositAddress: null
-};
+});
 
 export default function (state = initialState, action) {
   switch(action.type) {
     case ActionTypes.ACCOUNT_SET_GET_DEPOSIT_ADDRESS_LOADING_STATUS: {
-      return Object.assign({}, state, {
+      return state.merge({
         getDepositAddressLoadingStatus: action.loadingStatus
       });
     }
     case ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_LOADING_STATUS: {
-      return Object.assign({}, state, {
+      return state.merge({
         getTransactionHistoriesLoadingStatus: action.loadingStatus
       });
     }
     case ActionTypes.ACCOUNT_SET_WITHDRAW_LOADING_STATUS: {
-      return Object.assign({}, state, {
+      return state.merge({
         withdrawLoadingStatus: action.loadingStatus
       });
     }
     case ActionTypes.ACCOUNT_SET_CHANGE_PASSWORD_LOADING_STATUS: {
-      return Object.assign({}, state, {
+      return state.merge({
         changePasswordLoadingStatus: action.loadingStatus
       });
     }
     case ActionTypes.ACCOUNT_SET_CHANGE_PASSWORD_ERROR: {
-      return Object.assign({}, state, {
+      return state.merge({
         changePasswordError: action.error
       });
     }
     case ActionTypes.ACCOUNT_SET_DEPOSIT_ADDRESS: {
-      return Object.assign({}, state, {
+      return state.merge({
         depositAddress: action.depositAddress
       });
     }
     case ActionTypes.ACCOUNT_SET_TRANSACTION_HISTORIES: {
-      return Object.assign({}, state, {
+      return state.merge({
         transactionHistories: action.transactionHistories
       });
     }
     case ActionTypes.ACCOUNT_SET_ACCOUNT: {
-      return Object.assign({}, state, {
+      return state.merge({
         account: action.account
       });
     }
     case ActionTypes.ACCOUNT_SET_KEYS: {
-      return Object.assign({}, state, {
+      return state.merge({
         keys: action.keys
       });
     }

@@ -6,6 +6,7 @@ import SplitPane from 'react-split-pane';
 import BetSlip from '../BetSlip';
 import SideBar from '../SideBar';
 import { SidebarActions } from '../../actions';
+import Immutable from 'immutable';
 
 import Ps from 'perfect-scrollbar';
 
@@ -108,21 +109,20 @@ class Exchange extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  const { sidebar } = state;
+  const sidebar = state.get('sidebar');
   return {
-    completeTree: sidebar.complete_tree,
-  }
+    completeTree: sidebar.get('complete_tree'),
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     getDataForSidebar : SidebarActions.getData,
-
-  }, dispatch)
+  }, dispatch);
 }
 
-
 Exchange.propTypes = {
-  completeTree: React.PropTypes.array.isRequired,
+  completeTree: React.PropTypes.instanceOf(Immutable.List),
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(Exchange);

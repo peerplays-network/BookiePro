@@ -119,7 +119,7 @@ class App extends Component {
       content = (
         <div>
           { this.props.children }
-          { softwareUpdateModal }
+
         </div>
       );
     }
@@ -133,9 +133,9 @@ const mapStateToProps = (state) => {
   const softwareUpdate = state.get('softwareUpdate');
   return {
     isLoggedIn: app.get('isLoggedIn'),
-    needHardUpdate: softwareUpdate.needHardUpdate,
-    needSoftUpdate: softwareUpdate.needSoftUpdate,
-    version: softwareUpdate.version, //
+    needHardUpdate: softwareUpdate.get('needHardUpdate'),
+    needSoftUpdate: softwareUpdate.get('needSoftUpdate'),
+    version: softwareUpdate.get('version'), //
 
     // uncomment below for testing
     // needHardUpdate: true,
