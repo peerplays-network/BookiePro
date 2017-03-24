@@ -32,7 +32,7 @@ export default function (state = initialState, action) {
         cancelBetsLoadingStatus: action.loadingStatus
       });
     }
-    case ActionTypes.BET_SET_ONGOING_BETS: {
+    case ActionTypes.BET_ADD_ONGOING_BETS: {
       const unmatchedBets = [];
       const matchedBets = [];
       // Split ongoing bets to unmatched and matched bets
@@ -44,12 +44,13 @@ export default function (state = initialState, action) {
           matchedBets.push(bet);
         }
       })
+
       return Object.assign({}, state, {
-        matchedBets,
-        unmatchedBets
+        matchedBets: matchedBets,
+        unmatchedBets: unmatchedBets
       });
     }
-    case ActionTypes.BET_SET_RESOLVED_BETS: {
+    case ActionTypes.BET_ADD_RESOLVED_BETS: {
       return Object.assign({}, state, {
         resolvedBets: action.resolvedBets
       });

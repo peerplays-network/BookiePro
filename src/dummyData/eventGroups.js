@@ -10,6 +10,11 @@ const eventGroups = [
     name: 'NCAA'
   },
   {
+    id: '1.101.3',
+    sport_id: '1.100.1',
+    name: 'American Football Event Group 3'
+  },
+  {
     id: '1.101.4',
     sport_id: '1.100.2',
     name: 'Basketball Event Group 1'

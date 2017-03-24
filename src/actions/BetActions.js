@@ -3,6 +3,7 @@ import { LoadingStatus, ActionTypes } from '../constants';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import EventActions from './EventActions';
+import SportActions from './SportActions';
 import { TransactionBuilder } from 'graphenejs-lib';
 import _ from 'lodash';
 
@@ -66,8 +67,10 @@ class BetActions {
 
   static getOngoingBets() {
     return (dispatch, getState) => {
-      const account = getState().account.account;
-      const accountId = account && account.get('id');
+      // const account = getState().account.account;
+      // const accountId = account && account.get('id');
+      //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
+      const accountId = '1.2.48';
 
       dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call
@@ -102,19 +105,27 @@ class BetActions {
           return bettingMarketGroup.event_id
         }).uniq().value();
 
-        console.log('eventIds', eventIds);
         // Get the betting market groups
         return FakeApi.getObjects(eventIds);
       }).then((events) => {
-        console.log('events', events);
         // Store events inside redux store
         dispatch(EventActions.addEventsAction(events));
+
+        // Get unique sport ids
+        let sportIds = _.chain(events).map((event) => {
+          return event.sport_id
+        }).uniq().value();
+
+        // Get the sports
+        return FakeApi.getObjects(sportIds);
+      }).then((sports) => {
+        // Store sports inside redux store
+        dispatch(SportActions.addSportsAction(sports));
 
         // Add ongoing bets to redux store
         dispatch(BetActions.addOngoingBetsAction(ongoingBets));
         dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.DONE));
       });
-
     };
   }
 
