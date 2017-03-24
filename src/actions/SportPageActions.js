@@ -1,5 +1,6 @@
 import FakeApi from '../communication/FakeApi';
 import { ActionTypes, LoadingStatus } from '../constants';
+import SportActions from './SportActions';
 import EventActions from './EventActions';
 import EventGroupActions from './EventGroupActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
@@ -43,7 +44,16 @@ class SportPageActions {
 
       let eventGroups = [];
       let events = [];
-      FakeApi.getEventGroups(sportId).then((result) => {
+      // First get list of sports
+      FakeApi.getSports().then((sports) => {
+        // Store sports inside redux store
+        dispatch(SportActions.addSportsAction(sports))
+        // Find the sport we are dealing with
+        const mySport = sports.find((sport) => sport.id === sportId);
+        // Request event groups for my sport
+        return FakeApi.getObjects(mySport.event_group_ids);
+
+      }).then((result) => {
         eventGroups = result;
         // Store event groups inside redux Store
         dispatch(EventGroupActions.addEventGroupsAction(eventGroups));
