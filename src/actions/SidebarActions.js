@@ -5,8 +5,7 @@ import EventGroupActions from './EventGroupActions';
 import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import _ from 'lodash';
-import Immutable from 'immutable';
-
+import { getBettingMarketGroupsByEvents } from './utilities';
 
 class SidebarActions{
 
@@ -15,65 +14,28 @@ class SidebarActions{
 
       // First get list of sports
       FakeApi.getSports().then((sports) => {
-
         dispatch(SportActions.addSportsAction(sports))
-
-        const getEventsGpPromiseArray = [];
-        _.forEach(sports, (sport) => {
-          const eventGpPromise = FakeApi.getEventGroups(sport.id);
-          getEventsGpPromiseArray.push(eventGpPromise);
-        });
-
-        return Promise.all(getEventsGpPromiseArray);
+        // Get all event groups for all sports
+        return FakeApi.getObjects(_.flatMap(sports, 'event_group_ids'));
 
         // get related event groups
       }).then((eventGroups) => {
-
-        const eventGpArray = [];
-        _.forEach(eventGroups, (items) => {
-
-          //NOTE to be fine tune later to move dispatch out of the loop
-          dispatch(EventGroupActions.addEventGroupsAction(items));
-
-          _.forEach(items, (item) => {
-            eventGpArray.push(item);
-          });
-        });
-
-        const getEventsPromiseArray = [];
-        _.forEach(eventGpArray, (eventGp) => {
-          const eventGpPromise = FakeApi.getEvents(eventGp.sport_id);
-          getEventsPromiseArray.push(eventGpPromise);
-        });
-
-        return Promise.all(getEventsPromiseArray);
+        dispatch(EventGroupActions.addEventGroupsAction(eventGroups));
+        return Promise.all(eventGroups.map((group) => FakeApi.getEvents(group.sport_id)));
 
         // get related events
-      }).then((eventResults) => {
-
-        var mkGroupIds = Immutable.List([]);
-        _.forEach(eventResults, (items) => {
-
-          //NOTE to be fine tune later to move dispatch out of the loop
-          dispatch(EventActions.addEventsAction(items));
-
-          _.forEach(items, (item) => {
-            // get related betting market groups
-
-            const newGroupIds = Immutable.List(item.betting_market_group_ids);
-            mkGroupIds = mkGroupIds.toSet().union(newGroupIds.toSet()).toList();
-          });
-        });
-
-        return FakeApi.getObjects(mkGroupIds.toJS());
+      }).then((result) => {
+        const events = _.flatMap(result);
+        // Store events inside redux store
+        dispatch(EventActions.addEventsAction(events));
+        return getBettingMarketGroupsByEvents(events);
 
         // get related betting market groups
-      }).then((bettingMktGroups) => {
-
+      }).then((result) => {
+        const bettingMktGroups = _.flatMap(result);
         dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMktGroups));
-
-      }).then((events) => {
-        // Store the final events id inside Home Redux store
+        // TODO: There may be a synchronization problem here
+        // TODO: This should be done in mapStateToProps of the Sidebar
         dispatch(SidebarActions.setTreeForSidebar());
       });
 
@@ -81,6 +43,7 @@ class SidebarActions{
   }
 
 
+  // TODO: Should move the bulk of this logic to the mapStateToProps in Sidebar
   static setTreeForSidebar(){
 
     return (dispatch, getState) => {
