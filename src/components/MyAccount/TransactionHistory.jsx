@@ -65,14 +65,14 @@ class TransactionHistory extends Component {
     let newTxList = [];
     transactionHistory.forEach(row => {
       let rowObj = {
-        key: row.id,
-        id: row.id,
-        'time': dateFormat(row.time, "dd/mm/yyyy h:MM TT"),
-        'desc': row.description,
+        key: row.get('id'),
+        id: row.get('id'),
+        'time': dateFormat(row.get('time'), "dd/mm/yyyy h:MM TT"),
+        'desc': row.get('description'),
         'status': <span
-          className={ row.status==='Processing' ? 'processed'
-            : (row.status==='Completed' ? 'completed' : '') }>{ row.status }</span>,
-        'amount': row.op[1].fee.amount + ' ' + currencyFormat
+          className={ row.get('status') ==='Processing' ? 'processed'
+            : (row.get('status') ==='Completed' ? 'completed' : '') }>{ row.get('status') }</span>,
+        'amount': row.getIn(['op',1,'fee', 'amount']) + ' ' + currencyFormat
       };
       newTxList.push(rowObj);
     });
