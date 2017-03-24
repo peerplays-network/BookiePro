@@ -57,7 +57,9 @@ class EventGroupPageActions {
 
         return FakeApi.getEvents(eventGroup.sport_id);
       }).then((result) => {
-        events = _.flatMap(result);
+        // Without a proper call to get events by event group, we can only filter the results like this
+        events = _.flatMap(result).filter((event) => event.event_group_id === eventGroupId);
+
         // Store events inside redux store
         dispatch(EventActions.addEventsAction(events));
 
