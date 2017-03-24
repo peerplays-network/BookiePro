@@ -8,7 +8,8 @@ import _ from 'lodash';
 import {
   getBettingMarketGroupsByEvents,
   getBettingMarketsInBettingMarketGroups,
-  getBinnedOrderBooksByBettingMarkets
+  getBinnedOrderBooksByBettingMarkets,
+  groupBinnedOrderBooksByBettingMarketId
 } from './utilities'
 
 /**
@@ -69,7 +70,7 @@ class SportPageActions {
         return getBinnedOrderBooksByBettingMarkets(bettingMarkets);
 
       }).then((result) => {
-        let binnedOrderBooks = _.flatMap(result);
+        const binnedOrderBooks = groupBinnedOrderBooksByBettingMarketId(_.flatMap(result));
 
         // Stored all retrieve data in the SportPage state in Redux store
         dispatch(SportPagePrivateActions.setDataAction(

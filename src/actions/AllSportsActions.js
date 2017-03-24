@@ -9,7 +9,8 @@ import {
   getEventsBySports,
   getBettingMarketGroupsByEvents,
   getBettingMarketsInBettingMarketGroups,
-  getBinnedOrderBooksByBettingMarkets
+  getBinnedOrderBooksByBettingMarkets,
+  groupBinnedOrderBooksByBettingMarketId
 } from './utilities'
 
 /**
@@ -72,7 +73,7 @@ class AllSportsActions {
 
       }).then((result) => {
         // Combine the resulting binned order books
-        let binnedOrderBooks = _.flatMap(result);
+        const binnedOrderBooks = groupBinnedOrderBooksByBettingMarketId(_.flatMap(result));
 
         // Stored all retrieve data in the AllSports state in Redux store
         dispatch(AllSportsPrivateActions.setDataAction(_.map(events, 'id'), binnedOrderBooks));

@@ -49,9 +49,19 @@ const getBinnedOrderBooksByBettingMarkets = (bettingMarkets) => {
   return Promise.all(getBinnedOrderBookPromiseArray);
 }
 
+const groupBinnedOrderBooksByBettingMarketId = (binnedOrderBooks) => {
+  const map = {};
+  binnedOrderBooks.forEach((binnedOrderBook) => {
+    const betting_market_id = binnedOrderBook.betting_market_id;
+    map[betting_market_id] = binnedOrderBook;
+  });
+  return map;
+}
+
 export {
   getEventsBySports,
   getBettingMarketGroupsByEvents,
   getBettingMarketsInBettingMarketGroups,
-  getBinnedOrderBooksByBettingMarkets
+  getBinnedOrderBooksByBettingMarkets,
+  groupBinnedOrderBooksByBettingMarketId
 };
