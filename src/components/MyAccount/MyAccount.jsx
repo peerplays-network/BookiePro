@@ -31,10 +31,12 @@ function onChange(checked) {
   console.log(`switch to ${checked}`);
 }
 
-import { SettingActions,TransHistActions } from '../../actions';
+import { SettingActions,AccountActions } from '../../actions';
 const title = () => 'Here is title';
 const showHeader = true;
 const footer = () => 'Here is footer';
+
+let isMounted = false;
 
 class MyAccount extends Component {
 
@@ -108,19 +110,17 @@ class MyAccount extends Component {
     return true;
   }
 
-
   componentDidMount() {
-    //this.setState({startDate: dateFormat(new Date().setDate(new Date().getDate()-6), "yyyy-mm-dd h:MM:ss")});
-    //this.setState({endDate: dateFormat(new Date(), "yyyy-mm-dd h:MM:ss")});
-
-    this.periodChange('last7Days');
+    isMounted = true;
     this.searchTransactionHistory();
-
     //this.fetchRecentTransactionHistory();
     //ps.initialize(this.refs.global);
     //ps.update(this.refs.global);
   }
 
+  componentWillUnmount(){
+    isMounted = false;
+  }
   //Search transaction history with filters
   searchTransactionHistory(e){
     this.props.getTransactionHistory(this.state.startDate, this.state.endDate);
@@ -436,12 +436,17 @@ class MyAccount extends Component {
           </Col>
         </Row>
         <Row>
-          <TransactionHistory ref='transHist' transactionHistory={ this.props.transactionHistory }
-            currencyFormat={ this.props.currencyFormat } handleSearchClick={ this.searchTransactionHistory }
-              periodChange={ this.periodChange } showDateFields={ showDateFields }
-              onStartChange={ this.onStartChange } onEndChange={ this.onEndChange }
-              startDate={ this.state.startDate } endDate={ this.state.startDate }
-            />
+          {
+            isMounted ?
+            <TransactionHistory ref='transHist' transactionHistory={ this.props.transactionHistory }
+              currencyFormat={ this.props.currencyFormat } handleSearchClick={ this.searchTransactionHistory }
+                periodChange={ this.periodChange } showDateFields={ showDateFields }
+                onStartChange={ this.onStartChange } onEndChange={ this.onEndChange }
+                startDate={ this.state.startDate } endDate={ this.state.startDate }
+              /> :
+              null
+          }
+
         </Row>
       </div>
     )
@@ -457,7 +462,7 @@ const mapStateToProps = (state) => {
     timezone: setting.timezone,
     notification: setting.notification,
     currencyFormat: setting.currencyFormat,
-    transactionHistory: state.transHistory.transactionHistory
+    transactionHistory: state.account.transactionHistories
   }
 }
 
@@ -468,7 +473,7 @@ function mapDispatchToProps(dispatch) {
     updateSettingTimeZone: SettingActions.updateSettingTimeZone,
     updateSettingNotification: SettingActions.updateSettingNotification,
     updateCurrencyFormat: SettingActions.updateCurrencyFormat,
-    getTransactionHistory: TransHistActions.getTransactionHistory
+    getTransactionHistory: AccountActions.getTransactionHistories
   }, dispatch)
 }
 

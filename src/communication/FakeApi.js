@@ -195,7 +195,7 @@ class FakeApi {
     })
   }
 
-  static getTransactionHistory(startDate,endDate) {
+  static getTransactionHistory(accountid,startDate,endDate) {
     return new Promise((resolve, reject) => {
       if(startDate !== undefined && endDate !== undefined){
         var filteredHistory =  _.filter(transactionHistory, (hist) => {
