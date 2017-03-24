@@ -10,18 +10,12 @@ let initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.EVENT_GROUP_PAGE_SET_DATA: {
-      const newBinnedOrderBooksState = Object.assign({}, state.binnedOrderBooks);
-      action.binnedOrderBooks.forEach((binnedOrderBook) => {
-        const betting_market_id = binnedOrderBook.betting_market_id;
-        newBinnedOrderBooksState[betting_market_id] = binnedOrderBook;
-      })
-
-      return {
+      return Object.assign({}, state, {
         sportName: action.sportName,
         eventGroupName: action.eventGroupName,
-        eventIds: action.eventIds.slice(),
-        binnedOrderBooks: newBinnedOrderBooksState
-      };
+        eventIds: action.eventIds,
+        binnedOrderBooks: action.binnedOrderBooks
+      });
     }
     default:
       return state;
