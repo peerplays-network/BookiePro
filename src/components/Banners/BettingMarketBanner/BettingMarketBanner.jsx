@@ -1,5 +1,18 @@
 import React from 'react';
 
+const renderClockColumn = (number, label) => {
+  let digits = (number > 9 ? number.toString() : '0' + number.toString());
+  return (
+    <div className='column'>
+      <div className='digits'>
+        <span className='digit'>{ digits[0] }</span>
+        <span className='digit'>{ digits[1] }</span>
+      </div>
+      <div className='label'>{ label }</div>
+    </div>
+  );
+}
+
 const Banner = () => (
   <div className='betting-market-banner'>
     <div className='event'>
@@ -9,34 +22,10 @@ const Banner = () => (
     <div className='countdown'>
       <div className='time-remaining'>Time Remaining</div>
       <div className='clock'>
-        <div className='column'>
-          <div className='digits'>
-            <span className='digit'>0</span>
-            <span className='digit'>1</span>
-          </div>
-          <div className='label'>DAYS</div>
-        </div>
-        <div className='column'>
-          <div className='digits'>
-            <span className='digit'>1</span>
-            <span className='digit'>2</span>
-          </div>
-          <div className='label'>HOURS</div>
-        </div>
-        <div className='column'>
-          <div className='digits'>
-            <span className='digit'>0</span>
-            <span className='digit'>0</span>
-          </div>
-          <div className='label'>MINS</div>
-        </div>
-        <div className='column'>
-          <div className='digits'>
-            <span className='digit'>0</span>
-            <span className='digit'>0</span>
-          </div>
-          <div className='label'>SECS</div>
-        </div>
+        { renderClockColumn(1, 'DAYS') }
+        { renderClockColumn(12, 'HOURS') }
+        { renderClockColumn(0, 'MINS') }
+        { renderClockColumn(0, 'SECS') }
       </div>
     </div>
   </div>
