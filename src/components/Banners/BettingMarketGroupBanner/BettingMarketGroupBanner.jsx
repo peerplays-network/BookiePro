@@ -13,8 +13,8 @@ const renderClockColumn = (number, label) => {
   );
 }
 
-const Banner = () => (
-  <div className='betting-market-banner'>
+const BettingMarketGroupBanner = () => (
+  <div className='betting-market-group-banner'>
     <div className='event'>
       <div className='time'>Pre-Live! Starts on 10/01/2017 13:00</div>
       <div className='name'>NY GIANTS VS GREEN DAY</div>
@@ -31,4 +31,4 @@ const Banner = () => (
   </div>
 )
 
-export default Banner;
+export default BettingMarketGroupBanner;

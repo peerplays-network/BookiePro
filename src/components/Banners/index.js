@@ -1,10 +1,10 @@
 import AllSportsBanner from './AllSportsBanner';
 import SportBanner from './SportBanner';
-import BettingMarketBanner from './BettingMarketBanner';
+import BettingMarketGroupBanner from './BettingMarketGroupBanner';
 
 // Combine all the banners here for import shortcut
 export {
   AllSportsBanner,
   SportBanner,
-  BettingMarketBanner
+  BettingMarketGroupBanner
 }

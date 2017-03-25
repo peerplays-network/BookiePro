@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { BettingMarketBanner } from '../Banners';
+import { BettingMarketGroupBanner } from '../Banners';
 import SimpleBettingWidget from '../SimpleBettingWidget';
 
-class BettingMarket extends Component {
+class BettingMarketGroup extends Component {
   render() {
     return (
-      <div className='betting-market-wrapper'>
-        <BettingMarketBanner />
+      <div className='betting-market-group-wrapper'>
+        <BettingMarketGroupBanner />
         <SimpleBettingWidget
           title='Betting Market Title'
           events={ [] }
@@ -16,4 +16,4 @@ class BettingMarket extends Component {
   }
 }
 
-export default BettingMarket;
+export default BettingMarketGroup;

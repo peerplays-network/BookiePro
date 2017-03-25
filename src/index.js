@@ -16,7 +16,7 @@ import Exchange from './components/Exchange';
 import AllSports from './components/AllSports';
 import Sport from './components/Sport';
 import EventGroup from './components/EventGroup';
-import BettingMarket from './components/BettingMarket';
+import BettingMarketGroup from './components/BettingMarketGroup';
 import Localize from './components/Localize';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
@@ -80,7 +80,7 @@ const routes = (
           <Route path='Sport/:objectId' component={ Sport }/>
           <Route path='EventGroup/:objectId' component={ EventGroup }/>
           <Route path='Event/:objectId' component={ SportMarket }/>
-          <Route path='BettingMarketGroup/:objectId' component={ BettingMarket }/>
+          <Route path='BettingMarketGroup/:objectId' component={ BettingMarketGroup }/>
           {/* TODO perhaps we just need objectID, objectId itself tells the type of object */}
           <Route path=':objectId' component={ SportMarket }/>
         </Route>
