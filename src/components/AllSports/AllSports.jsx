@@ -16,8 +16,8 @@ class AllSports extends Component {
 
   render() {
     return (
-      <div id='all-sports-wrapper'>
-        <QuickBetDrawerContainer>
+      <QuickBetDrawerContainer>
+        <div id='all-sports-wrapper'>
           <AllSportsBanner />
           {
             Object.keys(this.props.sports).map((sportId, idx) => {
@@ -31,8 +31,8 @@ class AllSports extends Component {
               )
             })
           }
-        </QuickBetDrawerContainer>
-      </div>
+        </div>
+      </QuickBetDrawerContainer>
     );
   }
 }

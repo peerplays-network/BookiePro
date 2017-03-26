@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { SportBanner } from '../Banners';
 import SimpleBettingWidget from '../SimpleBettingWidget';
+import { QuickBetDrawerContainer } from '../BettingDrawers';
 import { SportPageActions } from '../../actions';
 import Immutable from 'immutable';
 const { getData } = SportPageActions;
@@ -14,21 +15,23 @@ class Sport extends Component {
 
   render() {
     return (
-      <div className='sport-wrapper'>
-        <SportBanner sport={ this.props.sport }/>
-        {
-          Object.keys(this.props.eventGroups).map((eventGroupId, idx) => {
-            const eventGroup = this.props.eventGroups[eventGroupId];
-            return (
-              <SimpleBettingWidget
-                key={ idx }
-                title={ eventGroup.name }
-                events={ eventGroup.events }
-              />
-            );
-          })
-        }
-      </div>
+      <QuickBetDrawerContainer>
+        <div className='sport-wrapper'>
+          <SportBanner sport={ this.props.sport }/>
+          {
+            Object.keys(this.props.eventGroups).map((eventGroupId, idx) => {
+              const eventGroup = this.props.eventGroups[eventGroupId];
+              return (
+                <SimpleBettingWidget
+                  key={ idx }
+                  title={ eventGroup.name }
+                  events={ eventGroup.events }
+                />
+              );
+            })
+          }
+        </div>
+      </QuickBetDrawerContainer>
     )
   }
 }
