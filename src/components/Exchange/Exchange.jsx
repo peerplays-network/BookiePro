@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import SplitPane from 'react-split-pane';
-import BetSlip from '../BetSlip';
 import SideBar from '../SideBar';
 import { SidebarActions } from '../../actions';
 import Immutable from 'immutable';
@@ -20,9 +19,7 @@ class Exchange extends Component {
   }
 
   componentDidMount() {
-    Ps.initialize(ReactDOM.findDOMNode(this.refs.betslips));
     Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
-    Ps.initialize(ReactDOM.findDOMNode(this.refs.middlepanel));
 
     //NOTE to be fine tune later for not to call api everytime,
     // we could fine tune when we could SUBSCRIBE change in
@@ -32,9 +29,7 @@ class Exchange extends Component {
   }
 
   componentDidUpdate() {
-    Ps.update(ReactDOM.findDOMNode(this.refs.betslips));
     Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
-    Ps.update(ReactDOM.findDOMNode(this.refs.middlepanel));
   }
 
 
@@ -51,7 +46,6 @@ class Exchange extends Component {
 
     const styleLeftPane = { background: '#1563A0' };
     const sidebarWidth = 200;
-    const betslipWidth = 400;
     const splitPaneStyle = {
       'top':'0px',
       'paddingTop':'64px', //due to top bar
@@ -88,22 +82,7 @@ class Exchange extends Component {
                    )
                }
             </div>
-        <SplitPane
-            split='vertical'
-            minSize={ betslipWidth } defaultSize={ betslipWidth }
-            primary='second'>
-              <div style={ { 'height' : '100%', 'position' : 'relative' } }
-                ref='middlepanel'>
-                { this.props.children }
-              </div>
-              <div style={ { 'height' : '100%', 'position' : 'relative' } }
-                ref='betslips'>
-                <BetSlip onClick={ () => { this.updatePs(); } } />
-                <BetSlip onClick={ () => { this.updatePs(); } }/>
-                <BetSlip onClick={ () => { this.updatePs(); } }/>
-              </div>
-        </SplitPane>
-
+            { this.props.children }
        </SplitPane>
     );
   }

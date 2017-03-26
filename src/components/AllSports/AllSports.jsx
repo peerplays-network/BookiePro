@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { AllSportsBanner } from '../Banners';
 import SimpleBettingWidget from '../SimpleBettingWidget';
+import { QuickBetDrawerContainer } from '../BettingDrawers';
 import { AllSportsActions } from '../../actions';
 import Immutable from 'immutable';
 
@@ -16,19 +17,21 @@ class AllSports extends Component {
   render() {
     return (
       <div id='all-sports-wrapper'>
-        <AllSportsBanner />
-        {
-          Object.keys(this.props.sports).map((sportId, idx) => {
-            const sport = this.props.sports[sportId];
-            return (
-              <SimpleBettingWidget
-                key={ idx }
-                title={ sport.name }
-                events={ sport.events }
-              />
-            )
-          })
-        }
+        <QuickBetDrawerContainer>
+          <AllSportsBanner />
+          {
+            Object.keys(this.props.sports).map((sportId, idx) => {
+              const sport = this.props.sports[sportId];
+              return (
+                <SimpleBettingWidget
+                  key={ idx }
+                  title={ sport.name }
+                  events={ sport.events }
+                />
+              )
+            })
+          }
+        </QuickBetDrawerContainer>
       </div>
     );
   }
