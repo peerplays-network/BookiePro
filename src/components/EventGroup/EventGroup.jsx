@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { SportBanner } from '../Banners';
 import SimpleBettingWidget from '../SimpleBettingWidget';
-import { QuickBetDrawerContainer } from '../BettingDrawers';
 import { EventGroupPageActions } from '../../actions';
 import Immutable from 'immutable';
 
@@ -16,15 +15,13 @@ class EventGroup extends Component {
 
   render() {
     return (
-      <QuickBetDrawerContainer>
-        <div className='event-group-wrapper'>
-          <SportBanner sport={ this.props.sport }/>
-          <SimpleBettingWidget
-            title={ this.props.eventGroup }
-            events={ this.props.events }
-          />
-        </div>
-      </QuickBetDrawerContainer>
+      <div className='event-group-wrapper'>
+        <SportBanner sport={ this.props.sport }/>
+        <SimpleBettingWidget
+          title={ this.props.eventGroup }
+          events={ this.props.events }
+        />
+      </div>
     )
   }
 }

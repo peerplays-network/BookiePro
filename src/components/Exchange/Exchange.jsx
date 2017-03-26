@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import SplitPane from 'react-split-pane';
 import SideBar from '../SideBar';
+import { QuickBetDrawer, MarketDrawer } from '../BettingDrawers';
 import { SidebarActions } from '../../actions';
 import Immutable from 'immutable';
 
@@ -20,6 +21,8 @@ class Exchange extends Component {
 
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.main));
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.drawer));
 
     //NOTE to be fine tune later for not to call api everytime,
     // we could fine tune when we could SUBSCRIBE change in
@@ -30,6 +33,8 @@ class Exchange extends Component {
 
   componentDidUpdate() {
     Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
+    Ps.update(ReactDOM.findDOMNode(this.refs.main));
+    Ps.update(ReactDOM.findDOMNode(this.refs.drawer));
   }
 
 
@@ -46,6 +51,7 @@ class Exchange extends Component {
 
     const styleLeftPane = { background: '#1563A0' };
     const sidebarWidth = 200;
+    const betslipWidth = 400;
     const splitPaneStyle = {
       'top':'0px',
       'paddingTop':'64px', //due to top bar
@@ -53,7 +59,7 @@ class Exchange extends Component {
     };
 
     let transitionName = this.props.location.pathname.split("/");
-
+    console.log(transitionName);
     return (
       <SplitPane
           style={ splitPaneStyle }
@@ -82,7 +88,28 @@ class Exchange extends Component {
                    )
                }
             </div>
-            { this.props.children }
+            <SplitPane
+                split='vertical'
+                minSize={ betslipWidth } defaultSize={ betslipWidth }
+                primary='second'>
+                  <div style={ { 'height' : '100%', 'position' : 'relative' } }
+                    ref='main'>
+                    { this.props.children }
+                  </div>
+                  <div style={ { 'height' : '100%', 'position' : 'relative' } }
+                    ref='drawer'>
+                    {
+                      (transitionName.length < 3 ||
+                      transitionName[2].toLowerCase() !== 'bettingmarketgroup') &&
+                      <QuickBetDrawer />
+                    }
+                    {
+                      transitionName.length > 2 &&
+                      transitionName[2].toLowerCase() === 'bettingmarketgroup' &&
+                      <MarketDrawer />
+                    }
+                  </div>
+            </SplitPane>
        </SplitPane>
     );
   }
