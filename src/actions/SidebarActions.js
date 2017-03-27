@@ -109,7 +109,7 @@ class SidebarActions{
 
       _.forEach(sports, (sport) => {
 
-        var sportNode = {};
+        let sportNode = {};
 
         sportNode.name = sport.name;
         sportNode.id = sport.id;
@@ -123,10 +123,10 @@ class SidebarActions{
         const targetEventGroups = eventGroupsList.filter(function(metric) {
           return metric.sport_id === sport.id;
         })
+        targetEventGroups.forEach((eventGroup) =>{
+        // _.forEach(targetEventGroups.toJS(), (eventGroup) => {
 
-        _.forEach(targetEventGroups.toJS(), (eventGroup) => {
-
-          var eventGroupNode = {};
+          let eventGroupNode = {};
           eventGroupNode.name = eventGroup.name;
           eventGroupNode.id = eventGroup.id;
           eventGroupNode.isOpen = false;
@@ -137,10 +137,10 @@ class SidebarActions{
           const targetEvents = eventList.filter(function(metric) {
             return metric.event_group_id === eventGroupNode.id;
           })
+          targetEvents.forEach( (event) =>  {
+          // _.forEach(targetEvents.toJS(), (event) => {
 
-          _.forEach(targetEvents.toJS(), (event) => {
-
-            var eventNode = {};
+            let eventNode = {};
             eventNode.name = event.name;
             eventNode.id = event.id;
             eventNode.isOpen = false;
@@ -151,10 +151,10 @@ class SidebarActions{
             const targetBettingMktGps = bettingMktGroupList.filter(function(metric) {
               return metric.event_id === eventNode.id;
             })
+            targetBettingMktGps.forEach( (mktGroup) => {
+            // _.forEach(targetBettingMktGps.toJS(), (mktGroup) => {
 
-            _.forEach(targetBettingMktGps.toJS(), (mktGroup) => {
-
-              var mktGroupNode = {};
+              let mktGroupNode = {};
               mktGroupNode.name = mktGroup.market_type_id;
               mktGroupNode.id = mktGroup.id;
               mktGroupNode.isOpen = false;

@@ -1,7 +1,7 @@
 
 // testaccount123d with password DgTdQBzqF1NLnniikZuoedoWYzVHjJmV28LS7PJAqWdkwRkWzkyq
 
-const acc2 = {
+export const acc2 = {
  "blacklisting_accounts": [],
  "proposals": [],
  "statistics": "2.6.48",

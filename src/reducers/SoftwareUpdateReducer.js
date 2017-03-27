@@ -1,13 +1,13 @@
 import { ActionTypes } from '../constants';
 import { ChainTypes } from 'graphenejs-lib';
 import _ from 'lodash';
-import { hex2a } from '../utility/versionUtils'
+import { hex2a } from '../utility/StringUtils'
 
 let initialState = {
   referenceAccount: null,
   needHardUpdate: false,
   needSoftUpdate: false,
-  version: '1.0.0',
+  version: '0.0.1', // minimum value, we not using null to avoid null checking
   displayText: null
 };
 
@@ -39,20 +39,16 @@ export default function (state = initialState, action) {
           const memo = latestUpdateTransaction.getIn(['op', 1, 'memo']);
 
           if (memo && memo.get('message')) {
-            // console.log('memo message', JSON.stringify(memo.get('message')));
 
             try {
-              console.log('latestUpdateTransaction :' , hex2a(memo.get('message')));
-
+              // Assuming that we dun need to decrypt the message to parse 'software update' memo message
               const memoJson =  JSON.parse(hex2a(memo.get('message')));
               needHardUpdate = memoJson.need_hard_update;
               needSoftUpdate = memoJson.need_soft_update;
               version = memoJson.version;
               displayText = memoJson.displayText;
 
-
             } catch (e){
-              // console.error(e);
 
             }
 
