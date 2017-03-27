@@ -6,7 +6,7 @@ import { Apis } from 'graphenejs-ws';
 import { connect } from 'react-redux';
 import AssetActions from '../../actions/AssetActions';
 import BlockchainTestAccount from './BlockchainTestAccount';
-import { BetActions, AccountActions } from '../../actions';
+import { AccountActions } from '../../actions';
 
 class BlockchainTestPage extends Component {
   constructor(props) {
@@ -256,9 +256,8 @@ class BlockchainTestPage extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { asset } = state;
   return {
-    assetList: []
+    assetList: state.getIn(['asset', 'assetList']).toJS()
   };
 }
 

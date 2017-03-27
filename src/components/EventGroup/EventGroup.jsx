@@ -74,14 +74,9 @@ const mapStateToProps = (state) => {
       }
     });
 
-    // TODO: this is a temporary solution where we change everything to normal JS object instead of immutable
-    // TODO: later on mapStateToProps should return immutable object
-    console.log('myevents', myEvents);
-
   return {
     sport: eventGroupPage.get('sportName'),
     eventGroup: eventGroupPage.get('eventGroupName'),
-
     events: myEvents
   };
 };

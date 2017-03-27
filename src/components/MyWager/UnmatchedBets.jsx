@@ -76,10 +76,6 @@ class UnmatchedBets extends Component {
     const bettingMarketGroups = _.map(bettingMarketGroupsById.toJS());
     const events = _.map(eventsById.toJS());
     const sports = _.map(sportsById.toJS());
-    console.log('unmatchedBets', unmatchedBets);
-    console.log('bettingMarkets', bettingMarkets);
-    console.log('events', events);
-    console.log('sports', sports);
 
     //merging betting market group id for reference
     var unmatchedData = [];
@@ -93,7 +89,6 @@ class UnmatchedBets extends Component {
       unmatchedData = privateFunctions.mergeEventData(unmatchedData, events, 'event_id', 'id');
       //merging sport data for display
       unmatchedData = privateFunctions.mergeSport(unmatchedData, sports, 'sport_id', 'id', 'sport_name');
-      console.log('unmatchedata', unmatchedData);
       //formating data for display
       unmatchedData = _.forEach(unmatchedData, function(d){
         _.merge(d, {'cancel' : (d['cancelled'] ? '' : <a className='btn cancel-btn' href=''>cancel</a>) });
