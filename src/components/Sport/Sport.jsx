@@ -13,6 +13,7 @@ class Sport extends Component {
   }
 
   render() {
+    console.log('render this.props', this.props);
     return (
       <div className='sport-wrapper'>
         <SportBanner sport={ this.props.sport }/>
@@ -43,9 +44,9 @@ const findBinnedOrderBooksFromEvent = (event, state) => {
     bettingMarketIds = bettingMarketIds.concat(group.get('betting_market_ids'));
   });
 
-  const allSports = state.get('allSports');
+  const sportPage = state.get('sportPage');
 
-  const binnedOrderBooks = allSports.get('binnedOrderBooks');
+  const binnedOrderBooks = sportPage.get('binnedOrderBooks');
   let matchedBinnedOrderBooks = Immutable.List();
   bettingMarketIds.forEach((bettingMarketId) => {
     if (binnedOrderBooks.has(bettingMarketId)) {
@@ -83,6 +84,7 @@ const mapStateToProps = (state, ownProps) => {
 
   // First, found all relevant event objects based on the component's state
   const myEvents = eventsById.filter((event) => sportPage.get('eventIds').includes(event.get('id')));
+  console.log('myEvents', myEvents);
 
   // Create a map using event group id as keys
   eventGroupsById.forEach((eventGroup) => {
@@ -104,6 +106,8 @@ const mapStateToProps = (state, ownProps) => {
       });
     }
   });
+
+  console.log('mapStateToProps', page);
 
   return {
     sport: sportName,
