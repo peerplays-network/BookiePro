@@ -1,40 +1,36 @@
 import React, { Component } from 'react';
 import { Button } from 'antd';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { AppActions } from '../../actions';
 
 class InitError extends Component {
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  };
+
   constructor(props) {
     super(props);
-
-    this._onReloadClick = this._onReloadClick.bind(this);
+    this.onReloadClick = this.onReloadClick.bind(this);
   }
   render() {
     return (
-      <div>
+      <div className='sportsbg'>
         <div>
           { 'Fail to Connect to Blockchain' }
         </div>
-        <Button type='primary' size='large' onClick={ this._onReloadClick }>
+        <Button type='primary' size='large' onClick={ this.onReloadClick }>
           { 'Click here to retry' }
         </Button>
       </div>
     );
   }
 
-  _onReloadClick(e) {
-    if (e) {
-      e.preventDefault();
-    }
-
-    if (window.electron) {
-      window.remote.getCurrentWindow().reload();
-    } else {
-      window.location.href = '/'
-    }
+  onReloadClick() {
+    this.props.connectToBlockchain();
   }
 }
 
-
-export default InitError;
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    connectToBlockchain: AppActions.connectToBlockchain
+  }, dispatch);
+}
+export default connect(null, mapDispatchToProps)(InitError);

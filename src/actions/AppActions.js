@@ -1,10 +1,18 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import FakeApi from '../communication/FakeApi';
+import { ConnectionService } from '../services';
 
 /**
  * Private actions
  */
 class AppPrivateActions {
+  static setConnectToBlockchainLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.APP_SET_CONNECT_TO_BLOCKCHAIN_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
   static setGlobalBettingStatisticsAction(globalBettingStatistics) {
     return {
       type: ActionTypes.APP_SET_GLOBAL_BETTING_STATISTICS,
@@ -31,7 +39,41 @@ class AppActions {
     }
   }
 
-
+  static connectToBlockchain() {
+    return (dispatch) => {
+      dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.LOADING));
+      // Define websocketSubscriber
+      const wsStatusCallback = (message) => {
+        switch (message) {
+          case 'open': {
+            console.log('Websocket connection open');
+            break;
+          }
+          case 'reconnect': {
+            console.log('Websocket connection reconnect');
+            break;
+          }
+          case 'error': {
+            console.log('Websocket connection error');
+            break;
+          }
+          case 'closed': {
+            console.log('Websocket connection close');
+            break;
+          }
+          default: break;
+        }
+      };
+      ConnectionService.connectToBlockchain(wsStatusCallback).then(() => {
+        // Sync with blockchain
+        return ConnectionService.syncWithBlockchain();
+      }).then(() => {
+        dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.DONE));
+      }).catch(() => {
+        dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));
+      });
+    }
+  }
 
   static getGlobalBettingStatistics() {
     return (dispatch) => {

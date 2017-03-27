@@ -50,8 +50,7 @@ class SoftwareUpdateActions {
         console.error('error is', error);
         // retry
         if (attempt > 0) {
-          console.log(attempt--);
-          dispatch(SoftwareUpdateActions.listenToSoftwareUpdate(attempt--));
+          dispatch(SoftwareUpdateActions.listenToSoftwareUpdate(attempt-1));
         }
       });
     }
