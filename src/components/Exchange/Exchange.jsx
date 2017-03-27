@@ -10,6 +10,15 @@ import Immutable from 'immutable';
 
 import Ps from 'perfect-scrollbar';
 
+// Pick one of the 2 betting drawers based on the path
+const selectBettingDrawer = (pathTokens) => {
+  if (pathTokens.length < 3 || pathTokens[2].toLowerCase() !== 'bettingmarketgroup') {
+    return ( <QuickBetDrawer /> );
+  }
+
+  return ( <MarketDrawer /> );
+}
+
 class Exchange extends Component {
 
   constructor(props) {
@@ -37,12 +46,9 @@ class Exchange extends Component {
     Ps.update(ReactDOM.findDOMNode(this.refs.drawer));
   }
 
-
   updatePs(){
     Ps.update(this.refs.betslips);
   }
-
-
 
   render() {
      //setting width of sider as 200
@@ -59,7 +65,7 @@ class Exchange extends Component {
     };
 
     let transitionName = this.props.location.pathname.split("/");
-    console.log(transitionName);
+
     return (
       <SplitPane
           style={ splitPaneStyle }
@@ -74,7 +80,6 @@ class Exchange extends Component {
                    level={ transitionName.length }
                    objectId={ transitionName[3] }/>  :
                    (
-
                      transitionName.length === 3 ?
                         <SideBar
                           completeTree={ this.props.completeTree }
@@ -98,22 +103,14 @@ class Exchange extends Component {
                   </div>
                   <div style={ { 'height' : '100%', 'position' : 'relative' } }
                     ref='drawer'>
-                    {
-                      (transitionName.length < 3 ||
-                      transitionName[2].toLowerCase() !== 'bettingmarketgroup') &&
-                      <QuickBetDrawer />
-                    }
-                    {
-                      transitionName.length > 2 &&
-                      transitionName[2].toLowerCase() === 'bettingmarketgroup' &&
-                      <MarketDrawer />
-                    }
+                    { selectBettingDrawer(transitionName) }
                   </div>
             </SplitPane>
        </SplitPane>
     );
   }
 }
+
 const mapStateToProps = (state) => {
   const sidebar = state.get('sidebar');
   return {
