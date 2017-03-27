@@ -13,7 +13,6 @@ class Sport extends Component {
   }
 
   render() {
-    console.log('render this.props', this.props);
     return (
       <div className='sport-wrapper'>
         <SportBanner sport={ this.props.sport }/>
@@ -84,7 +83,6 @@ const mapStateToProps = (state, ownProps) => {
 
   // First, found all relevant event objects based on the component's state
   const myEvents = eventsById.filter((event) => sportPage.get('eventIds').includes(event.get('id')));
-  console.log('myEvents', myEvents);
 
   // Create a map using event group id as keys
   eventGroupsById.forEach((eventGroup) => {
@@ -106,8 +104,6 @@ const mapStateToProps = (state, ownProps) => {
       });
     }
   });
-
-  console.log('mapStateToProps', page);
 
   return {
     sport: sportName,
