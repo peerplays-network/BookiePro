@@ -1,14 +1,15 @@
+@quick-bet-drawer-width: 400px;
 @quick-bet-drawer-title-height: 40px;
+@quick-bet-drawer-footer-height: 40px;
 @quick-bet-drawer-title-bg: #004378;
 
 #quick-bet-drawer {
-  width: 400px;
-  position: relative;
+  height: 100%;
 
   > div.title {
     position: fixed;
     background-color: @quick-bet-drawer-title-bg;
-    width: 100%;
+    width: @quick-bet-drawer-width;
     height: @quick-bet-drawer-title-height;
     z-index: 100;
 
@@ -21,5 +22,22 @@
 
   > div.content {
     padding-top: @quick-bet-drawer-title-height;
+    padding-bottom: @quick-bet-drawer-footer-height;
+  }
+
+  > div.footer {
+    position: fixed;
+    background-color: @quick-bet-drawer-title-bg;
+    width: @quick-bet-drawer-width;
+    height: @quick-bet-drawer-footer-height;
+    z-index: 100;
+    bottom: 0;
+    padding: 5px;
+
+    > button.place-bet {
+        background-color: #37C1FF;
+        color: white;
+        width: 100%;
+      }
   }
 }

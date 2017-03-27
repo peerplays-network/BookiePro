@@ -31,7 +31,6 @@ class Exchange extends Component {
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
     Ps.initialize(ReactDOM.findDOMNode(this.refs.main));
-    Ps.initialize(ReactDOM.findDOMNode(this.refs.drawer));
 
     //NOTE to be fine tune later for not to call api everytime,
     // we could fine tune when we could SUBSCRIBE change in
@@ -43,7 +42,6 @@ class Exchange extends Component {
   componentDidUpdate() {
     Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
     Ps.update(ReactDOM.findDOMNode(this.refs.main));
-    Ps.update(ReactDOM.findDOMNode(this.refs.drawer));
   }
 
   updatePs(){
@@ -101,10 +99,7 @@ class Exchange extends Component {
                     ref='main'>
                     { this.props.children }
                   </div>
-                  <div style={ { 'height' : '100%', 'position' : 'relative' } }
-                    ref='drawer'>
-                    { selectBettingDrawer(transitionName) }
-                  </div>
+                  { selectBettingDrawer(transitionName) }
             </SplitPane>
        </SplitPane>
     );

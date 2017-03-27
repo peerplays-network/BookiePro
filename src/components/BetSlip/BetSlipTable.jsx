@@ -131,7 +131,6 @@ class BetSlipTable extends Component {
             dataSource={ layData }
           />
         </div>
-        <Button className='place_bet'>PLACE BET $0.295</Button>
       </div>
     );
   }
