@@ -34,8 +34,8 @@ export default function (state = initialState, action) {
       });
     }
     case ActionTypes.BET_ADD_ONGOING_BETS: {
-      const unmatchedBets = Immutable.List();
-      const matchedBets = Immutable.List();
+      const unmatchedBets = [];
+      const matchedBets = [];
       // Split ongoing bets to unmatched and matched bets
       _.forEach(action.ongoingBets, (bet) => {
         if (bet.get('amount_to_bet') === bet.get('remaining_amount_to_bet')
