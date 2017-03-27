@@ -160,21 +160,18 @@ class SideBar extends Component {
   }
 
   render() {
-    console.log('tree', this.state.tree);
     return (
     <InfinityMenu
-              disableDefaultHeaderContent={ true }
-              tree={ this.state.tree }
-              onNodeMouseClick={ this.onNodeMouseClick.bind(this) }
-              customComponentMappings={
-              {
-                "Sport" : Sport,
-                "EventGroup" : EventGroup,
-                "Event" : Event,
-                "BettingMarketGroup" : BettingMarketGroup
-              }
-            }
-          />
+      disableDefaultHeaderContent={ true }
+      tree={ this.state.tree }
+      onNodeMouseClick={ this.onNodeMouseClick.bind(this) }
+      customComponentMappings={ {
+        "Sport" : Sport,
+        "EventGroup" : EventGroup,
+        "Event" : Event,
+        "BettingMarketGroup" : BettingMarketGroup
+      } }
+  />
 
     );
   }

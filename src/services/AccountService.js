@@ -1,5 +1,4 @@
 import { Config } from '../constants';
-import KeyGeneratorService from './KeyGeneratorService';
 import { Apis } from "graphenejs-ws";
 
 class AccountServices {
