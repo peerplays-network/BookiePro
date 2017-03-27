@@ -1,8 +1,8 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form/immutable';
 import { ChainValidation } from 'graphenejs-lib';
 import { AccountService } from '../../services';
-var I18n = require('react-redux-i18n').I18n;
+import { I18n } from 'react-redux-i18n';
 
 //Component for text field
 const renderField = ({  tabIndex, className, errors, placeholder, input, label, type, iconClass,

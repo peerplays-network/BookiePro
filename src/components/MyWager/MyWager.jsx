@@ -42,8 +42,8 @@ class MyWager extends Component {
 
         <Tabs className='content bookie-tab' defaultActiveKey='unmatchedBets' onChange={ this.onTabChange }>
           <TabPane tab='UNMATCHED BETS' key='unmatchedBets'>
-            <UnmatchedBets unmatchedBets={ this.props.unmatchedBets } bettingMarkets={ this.props.bettingMarkets }
-              bettingMarketGroups={ this.props.bettingMarketGroups } events={ this.props.events } sports={ this.props.sports }
+            <UnmatchedBets unmatchedBets={ this.props.unmatchedBets } bettingMarketsById={ this.props.bettingMarketsById }
+              bettingMarketGroupsById={ this.props.bettingMarketGroupsById } eventsById={ this.props.eventsById } sportsById={ this.props.sportsById }
               unmatchedBetsLoadingStatus={ this.props.ongoingBetsLoadingStatus } currencyFormat={ this.props.currencyFormat } />
           </TabPane>
           <TabPane tab='MATCHED BETS' key='matchedBets'>
@@ -60,15 +60,15 @@ class MyWager extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    ongoingBetsLoadingStatus: state.bet.getOngoingBetsLoadingStatus,
-    unmatchedBets: state.bet.unmatchedBets,
-    matchedBets: state.bet.matchedBets,
-    resolvedBets: state.bet.resolvedBets,
-    bettingMarkets: state.bettingMarket.bettingMarkets,
-    bettingMarketGroups: state.bettingMarketGroup.bettingMarketGroups,
-    events: state.event.events,
-    sports: state.sport.sports,
-    currencyFormat: state.setting.currencyFormat
+    ongoingBetsLoadingStatus: state.getIn(['bet','getOngoingBetsLoadingStatus']),
+    unmatchedBets: state.getIn(['bet','unmatchedBets']),
+    matchedBets: state.getIn(['bet','matchedBets']),
+    resolvedBets: state.getIn(['bet','resolvedBets']),
+    bettingMarketsById: state.getIn(['bettingMarket','bettingMarketsById']),
+    bettingMarketGroupsById: state.getIn(['bettingMarketGroup','bettingMarketGroupsById']),
+    eventsById: state.getIn(['event','eventsById']),
+    sportsById: state.getIn(['sport','sportsById']),
+    currencyFormat: state.getIn(['setting','currencyFormat'])
   }
 }
 

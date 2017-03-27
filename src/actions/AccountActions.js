@@ -131,7 +131,7 @@ class AccountActions {
       accountSubscriber = () => {
         const accountId = account && account.get('id');
         if (accountId) {
-          const previousAccount = getState().account.account;
+          const previousAccount = getState().getIn(['account', 'account']);
           const updatedAccount = ChainStore.getAccount(accountId);
           // Dispatch updated account
           if (previousAccount && !previousAccount.equals(updatedAccount)) {
@@ -151,8 +151,7 @@ class AccountActions {
 
   static getTransactionHistories(startTime, stopTime) {
     return (dispatch, getState) => {
-      const account = getState().app.account;
-      const accountId = account && account.get('id');
+      const accountId = getState().getIn(['account', 'account', 'id']);
 
       dispatch(AccountPrivateActions.setGetTransactionHistoriesLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call
@@ -165,8 +164,7 @@ class AccountActions {
 
   static getDepositAddress() {
     return (dispatch, getState) => {
-      const account = getState().app.account;
-      const accountId = account && account.get('id');
+      const accountId = getState().getIn(['account', 'account', 'id']);
 
       dispatch(AccountPrivateActions.setGetDepositAddressLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call
@@ -191,7 +189,7 @@ class AccountActions {
     return (dispatch, getState) => {
       dispatch(AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.LOADING));
 
-      const account = getState().account.account;
+      const account = getState().getIn(['account', 'account']);
       const oldKeys = KeyGeneratorService.generateKeys(account.get('name'), oldPassword);
 
       Promise.resolve().then(() => {
@@ -242,7 +240,7 @@ class AccountActions {
         const buyAsset = result.get('1');
         const sellAssetAmount = sellAmount;
         const buyAssetAmount = buyAmount;
-        const accountId = getState().account.account.get('id');
+        const accountId = getState().getIn(['account', 'account', 'id']);
         const sellAssetSatoshiAmount = BlockchainUtils.get_satoshi_amount(sellAssetAmount, sellAsset);
         const buyAssetSatoshiAmount = BlockchainUtils.get_satoshi_amount(buyAssetAmount, buyAsset);
         const expiration = new Date();

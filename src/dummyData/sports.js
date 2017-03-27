@@ -1,3 +1,6 @@
+import _ from 'lodash';
+import Immutable from 'immutable';
+
 const sports = [
   {
     id: '1.100.1',
@@ -36,4 +39,5 @@ const sports = [
   }
 ];
 
-export default sports;
+const immutableSports = _.map(sports, sport => Immutable.fromJS(sport));
+export default immutableSports;

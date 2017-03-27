@@ -55,6 +55,7 @@ class privateFunctions{
   //merge sport data to bets for display
   //created seperate function otherwise column data with the same column name will be replaced in main data
   static mergeSport(data, relData, col, relCol, relName){
+    // TODO: temporary solution is converting immutable object using toJS(), but should be avoided in the final version
   	_.forEach(data, function(d){
   		var matchObj = _.find(relData, {[relCol]: d[col]})
   		_.merge(d, {[relName] : matchObj['name']})
@@ -66,8 +67,20 @@ class privateFunctions{
 class UnmatchedBets extends Component {
   render() {
     let total = 0;
-    const { unmatchedBets, bettingMarkets, bettingMarketGroups, events, sports, unmatchedBetsLoadingStatus,
+    let { unmatchedBets, bettingMarketsById, bettingMarketGroupsById, eventsById, sportsById, unmatchedBetsLoadingStatus,
       currencyFormat } = this.props;
+    // TODO: temporary solution is converting immutable object using toJS() and toArray(), but should be avoided in the final version
+    // TODO: this temporary solution is used to make minimal change to the current code after changing the whole redux tree into immutable tree
+    unmatchedBets = unmatchedBets.toJS();
+    const bettingMarkets = _.map(bettingMarketsById.toJS());
+    const bettingMarketGroups = _.map(bettingMarketGroupsById.toJS());
+    const events = _.map(eventsById.toJS());
+    const sports = _.map(sportsById.toJS());
+    console.log('unmatchedBets', unmatchedBets);
+    console.log('bettingMarkets', bettingMarkets);
+    console.log('events', events);
+    console.log('sports', sports);
+
     //merging betting market group id for reference
     var unmatchedData = [];
 
@@ -80,7 +93,7 @@ class UnmatchedBets extends Component {
       unmatchedData = privateFunctions.mergeEventData(unmatchedData, events, 'event_id', 'id');
       //merging sport data for display
       unmatchedData = privateFunctions.mergeSport(unmatchedData, sports, 'sport_id', 'id', 'sport_name');
-
+      console.log('unmatchedata', unmatchedData);
       //formating data for display
       unmatchedData = _.forEach(unmatchedData, function(d){
         _.merge(d, {'cancel' : (d['cancelled'] ? '' : <a className='btn cancel-btn' href=''>cancel</a>) });

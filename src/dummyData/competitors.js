@@ -1,3 +1,6 @@
+import _ from 'lodash';
+import Immutable from 'immutable';
+
 const competitors = [
   {
     id: '1.102.1',
@@ -103,4 +106,5 @@ const competitors = [
 
 //TODO: add more of this, please follow sport_id from sports dummy data
 
-export default competitors;
+const immutableCompetitors = _.map(competitors, competitor => Immutable.fromJS(competitor));
+export default immutableCompetitors;

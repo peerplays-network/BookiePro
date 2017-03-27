@@ -49,9 +49,9 @@ class SportPageActions {
         // Store sports inside redux store
         dispatch(SportActions.addSportsAction(sports))
         // Find the sport we are dealing with
-        const mySport = sports.find((sport) => sport.id === sportId);
+        const mySport = sports.find((sport) => sport.get('id') === sportId);
         // Request event groups for my sport
-        return FakeApi.getObjects(mySport.event_group_ids);
+        return FakeApi.getObjects(mySport.get('event_group_ids'));
 
       }).then((result) => {
         eventGroups = result;
@@ -84,8 +84,8 @@ class SportPageActions {
 
         // Stored all retrieve data in the SportPage state in Redux store
         dispatch(SportPagePrivateActions.setDataAction(
-          _.map(events, 'id'),
-          _.map(eventGroups, 'id'),
+          _.map(events, (event) => event.get('id')),
+          _.map(eventGroups, (eventGroup) => eventGroup.get('id')),
           binnedOrderBooks
         ));
 

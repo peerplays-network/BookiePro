@@ -258,7 +258,7 @@ class BlockchainTestPage extends Component {
 const mapStateToProps = (state) => {
   const { asset } = state;
   return {
-    assetList: asset.assetList
+    assetList: []
   };
 }
 

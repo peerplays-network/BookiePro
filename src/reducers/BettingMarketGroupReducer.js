@@ -1,15 +1,17 @@
 import { ActionTypes } from '../constants';
 import _ from 'lodash';
+import Immutable from 'immutable';
 
-let initialState = {
-  bettingMarketGroups: []
-};
+let initialState = Immutable.fromJS({
+  bettingMarketGroupsById: {}
+});
 
 export default function (state = initialState, action) {
   switch(action.type) {
     case ActionTypes.BETTING_MARKET_GROUP_ADD_BETTING_MARKET_GROUPS: {
-      return Object.assign({}, state, {
-        bettingMarketGroups: _.unionBy(action.bettingMarketGroups, state.bettingMarketGroups, 'id')
+      const bettingMarketGroupsById = _.keyBy(action.bettingMarketGroups, bettingMarketGroup => bettingMarketGroup.get('id'));
+      return state.merge({
+        bettingMarketGroupsById
       });
     }
     default:

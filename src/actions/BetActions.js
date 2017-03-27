@@ -67,8 +67,7 @@ class BetActions {
 
   static getOngoingBets() {
     return (dispatch, getState) => {
-      // const account = getState().account.account;
-      // const accountId = account && account.get('id');
+      // const accountId = getState().getIn(['account', 'account', 'id']);
       //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
       const accountId = '1.2.48';
 
@@ -80,7 +79,7 @@ class BetActions {
 
         // Get betting market ids
         let bettingMarketIds = _.chain(ongoingBets).map((bet) => {
-          return bet.betting_market_id
+          return bet.get('betting_market_id')
         }).uniq().value();
 
         // Get betting market object
@@ -91,7 +90,7 @@ class BetActions {
 
         // Get unique betting market group ids
         let bettingMarketGroupIds = _.chain(bettingMarkets).map((bettingMarket) => {
-          return bettingMarket.betting_market_group_id
+          return bettingMarket.get('betting_market_group_id')
         }).uniq().value();
 
         // Get the betting market groups
@@ -102,7 +101,7 @@ class BetActions {
 
         // Get unique event ids
         let eventIds = _.chain(bettingMarketGroups).map((bettingMarketGroup) => {
-          return bettingMarketGroup.event_id
+          return bettingMarketGroup.get('event_id')
         }).uniq().value();
 
         // Get the betting market groups
@@ -113,7 +112,7 @@ class BetActions {
 
         // Get unique sport ids
         let sportIds = _.chain(events).map((event) => {
-          return event.sport_id
+          return event.get('sport_id')
         }).uniq().value();
 
         // Get the sports
@@ -131,8 +130,7 @@ class BetActions {
 
   static getResolvedBets(startTime, stopTime) {
     return (dispatch, getState) => {
-      const account = getState().account.account;
-      const accountId = account && account.get('id');
+      const accountId = getState().getIn(['account', 'account', 'id']);
 
       dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call

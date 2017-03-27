@@ -1,4 +1,6 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
+import { reducer as formReducer } from 'redux-form/immutable';
+
 import AssetReducer from './AssetReducer';
 import SettingReducer from './SettingReducer';
 import AppReducer from './AppReducer';
@@ -18,9 +20,10 @@ import EventGroupPageReducer from './EventGroupPageReducer';
 import AccountReducer from './AccountReducer';
 import NotificationReducer from './NotificationReducer';
 import SoftwareUpdateReducer from './SoftwareUpdateReducer';
-import { routerReducer } from 'react-router-redux';
-import { i18nReducer } from 'react-redux-i18n'
-import { reducer as formReducer } from 'redux-form'
+import ImmutableRouterReducer from './ImmutableRouterReducer';
+import Immutablei18nReducer from './Immutablei18nReducer';
+
+
 
 const rootReducer = combineReducers({
   app: AppReducer,
@@ -41,10 +44,10 @@ const rootReducer = combineReducers({
   account: AccountReducer,
   notification: NotificationReducer,
   softwareUpdate: SoftwareUpdateReducer,
-  routing: routerReducer,
+  sidebar: SidebarReducer,
+  routing: ImmutableRouterReducer,
   form: formReducer,
-  i18n: i18nReducer,
-  sidebar: SidebarReducer
+  i18n: Immutablei18nReducer,
 });
 
 export default rootReducer;

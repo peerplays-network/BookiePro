@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-var I18n = require('react-redux-i18n').I18n;
+import { I18n } from 'react-redux-i18n';
 import TransactionHistory from './TransactionHistory'
 import {
   Row,
@@ -23,18 +23,10 @@ import {
   BlockchainUtils
 } from '../../utility';
 import ps from 'perfect-scrollbar';
-import 'perfect-scrollbar';
 import dateFormat from 'dateformat';
+import { SettingActions,AccountActions } from '../../actions';
 
 const Option = Select.Option;
-function onChange(checked) {
-  console.log(`switch to ${checked}`);
-}
-
-import { SettingActions,AccountActions } from '../../actions';
-const title = () => 'Here is title';
-const showHeader = true;
-const footer = () => 'Here is footer';
 
 let isMounted = false;
 
@@ -59,13 +51,8 @@ class MyAccount extends Component {
     startDate.setDate(startDate.getDate()-6)
 
     this.state = {
-      bordered: false,
-      loading: false,
       pagination: true,
       size: 'default',
-      title,
-      showHeader,
-      footer,
       scroll: undefined,
       txList: [],
 
@@ -254,8 +241,8 @@ class MyAccount extends Component {
           </Col>
           <Col span={ 6 }>
             <Switch className='bookie-switch'
-                    defaultChecked={ false }
-                    onChange={ onChange }/>
+                    checked={ this.props.notification }
+                    onChange={ this.handleNotificationChange }/>
           </Col>
         </Row>
         <Row className='margin-tb-15'>
@@ -456,13 +443,13 @@ class MyAccount extends Component {
 const BindedMyAccount = BindToChainState()(MyAccount);
 
 const mapStateToProps = (state) => {
-  const {setting} = state;
+  const setting = state.get('setting');
   return {
-    lang: setting.lang,
-    timezone: setting.timezone,
-    notification: setting.notification,
-    currencyFormat: setting.currencyFormat,
-    transactionHistory: state.account.transactionHistories
+    lang: setting.get('lang'),
+    timezone: setting.get('timezone'),
+    notification: setting.get('notification'),
+    currencyFormat: setting.get('currencyFormat'),
+    transactionHistory: state.getIn(['account', 'transactionHistories'])
   }
 }
 

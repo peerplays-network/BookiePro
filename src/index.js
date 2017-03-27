@@ -28,7 +28,11 @@ import Welcome from './components/Welcome'
 
 
 const store = configureStore();
-const history = syncHistoryWithStore(hashHistory, store);
+const history = syncHistoryWithStore(hashHistory, store, {
+  selectLocationState (state) {
+    return state.get('routing').toJS();
+  }
+});
 
 // On enter handler
 const onEnter = (nextState, replace, callback) => {
@@ -69,7 +73,7 @@ const routes = (
   <Route path='/' component={ App } onEnter={ onEnter } >
       <Route path='/login' component={ Login } />
       <Route path='/signup' component={ Signup } />
-    <Route path='/welcome' component={ Welcome } />
+      <Route path='/welcome' component={ Welcome } />
       <Route path='/deposit' component={ Deposit } />
       <Route path='/init-error' component={ InitError } />
       <Route component={ Main }>

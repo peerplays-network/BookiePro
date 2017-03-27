@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { SportBanner } from '../Banners';
 import SimpleBettingWidget from '../SimpleBettingWidget';
 import { EventGroupPageActions } from '../../actions';
+import Immutable from 'immutable';
 
 const { getData } = EventGroupPageActions;
 
@@ -27,49 +28,60 @@ class EventGroup extends Component {
 
 // TODO: Should be a common function
 const findBinnedOrderBooksFromEvent = (event, state) => {
-  const bettingMarketGroups = state.bettingMarketGroup.bettingMarketGroups.filter(
-    (group) => event.betting_market_group_ids.includes(group.id)
+  const bettingMarketGroupsById = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']).filter(
+    (group) => event.get('betting_market_group_ids').includes(group.get('id'))
   );
-  let bettingMarketIds = [];
-  bettingMarketGroups.forEach((group) => {
-    bettingMarketIds = bettingMarketIds.concat(group.betting_market_ids);
+  let bettingMarketIds = Immutable.List();
+  bettingMarketGroupsById.forEach((group) => {
+    bettingMarketIds = bettingMarketIds.concat(group.get('betting_market_ids'));
   });
 
-  const { eventGroupPage } = state;
+  const allSports = state.get('allSports');
 
-  const binnedOrderBooks = eventGroupPage.binnedOrderBooks;
-  const matchedBinnedOrderBooks = [];
+  const binnedOrderBooks = allSports.get('binnedOrderBooks');
+  let matchedBinnedOrderBooks = Immutable.List();
   bettingMarketIds.forEach((bettingMarketId) => {
-    if (binnedOrderBooks.hasOwnProperty(bettingMarketId)) {
-      const orderBook = eventGroupPage.binnedOrderBooks[bettingMarketId];
-      matchedBinnedOrderBooks.push({
-        back: orderBook.aggregated_back_bets,
-        lay: orderBook.aggregated_lay_bets
+    if (binnedOrderBooks.has(bettingMarketId)) {
+      const orderBook = binnedOrderBooks.get(bettingMarketId);
+      matchedBinnedOrderBooks = matchedBinnedOrderBooks.push({
+        // TODO: this is a temporary solution where we change everything to normal JS object instead of immutable
+        // TODO: later on mapStateToProps should return immutable object
+        back: orderBook.get('aggregated_back_bets').toJS(),
+        lay: orderBook.get('aggregated_lay_bets').toJS()
       });
+
     }
   });
 
-  return matchedBinnedOrderBooks;
+  // TODO: this is a temporary solution where we change everything to normal JS object instead of immutable
+  // TODO: later on mapStateToProps should return immutable object
+  return matchedBinnedOrderBooks.toJS();
 }
 
 const mapStateToProps = (state) => {
-  const { event, eventGroupPage } = state;
+  const eventsById = state.getIn(['event', 'eventsById']);
+  const eventGroupPage = state.get('eventGroupPage');
 
   // For each event, generate data entry for the Simple Betting Widget
-  const myEvents = event.events
-    .filter((event) => eventGroupPage.eventIds.includes(event.id))
+  const myEvents = eventsById.toArray()
+    .filter((event) => eventGroupPage.get('eventIds').includes(event.get('id')))
     .map((event) => {
       return {
-        id: event.id,
-        name: event.name,
-        time: event.start_time,
+        id: event.get('id'),
+        name: event.get('name'),
+        time: event.get('start_time'),
         offers: findBinnedOrderBooksFromEvent(event, state)
       }
     });
 
+    // TODO: this is a temporary solution where we change everything to normal JS object instead of immutable
+    // TODO: later on mapStateToProps should return immutable object
+    console.log('myevents', myEvents);
+
   return {
-    sport: eventGroupPage.sportName,
-    eventGroup: eventGroupPage.eventGroupName,
+    sport: eventGroupPage.get('sportName'),
+    eventGroup: eventGroupPage.get('eventGroupName'),
+
     events: myEvents
   };
 };

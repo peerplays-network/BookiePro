@@ -27,7 +27,7 @@ class NotificationActions {
 
   static updateNotifications(account) {
     return (dispatch, getState) => {
-      const txHistories = account && account.get('history');
+      const txHistories = getState().getIn(['account', 'account', 'history']);
       // Check if there is history
       if (txHistories && txHistories.length > 0) {
         // Check if we have previous latest transaction history id
