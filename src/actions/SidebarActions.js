@@ -6,6 +6,7 @@ import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import _ from 'lodash';
 import { getBettingMarketGroupsByEvents } from './utilities';
+import Immutable from 'immutable';
 
 class SidebarActions{
 
@@ -15,13 +16,14 @@ class SidebarActions{
       // First get list of sports
       FakeApi.getSports().then((sports) => {
         dispatch(SportActions.addSportsAction(sports))
+        const eventGroupIds = _.flatMap(sports, (sport) => sport.get('event_group_ids').toJS());
         // Get all event groups for all sports
-        return FakeApi.getObjects(_.flatMap(sports, 'event_group_ids'));
+        return FakeApi.getObjects(eventGroupIds);
 
         // get related event groups
       }).then((eventGroups) => {
         dispatch(EventGroupActions.addEventGroupsAction(eventGroups));
-        return Promise.all(eventGroups.map((group) => FakeApi.getEvents(group.sport_id)));
+        return Promise.all(eventGroups.map((group) => FakeApi.getEvents(group.get('sport_id'))));
 
         // get related events
       }).then((result) => {

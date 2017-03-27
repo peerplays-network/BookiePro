@@ -74,9 +74,9 @@ class AllSportsActions {
       }).then((result) => {
         // Combine the resulting binned order books
         const binnedOrderBooks = groupBinnedOrderBooksByBettingMarketId(_.flatMap(result));
-
         // Stored all retrieve data in the AllSports state in Redux store
-        dispatch(AllSportsPrivateActions.setDataAction(_.map(events, 'id'), binnedOrderBooks));
+        const eventIds = _.map(events, (event) => event.get('id'));
+        dispatch(AllSportsPrivateActions.setDataAction(eventIds, binnedOrderBooks));
 
         // Finish loading (TODO: Are we sure this is really the last action dispatched?)
         dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
