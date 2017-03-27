@@ -5,8 +5,8 @@ import EventGroupActions from './EventGroupActions';
 import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import _ from 'lodash';
+import { getBettingMarketGroupsByEvents } from './utilities';
 import Immutable from 'immutable';
-
 
 class SidebarActions{
 
@@ -15,65 +15,29 @@ class SidebarActions{
 
       // First get list of sports
       FakeApi.getSports().then((sports) => {
-
         dispatch(SportActions.addSportsAction(sports))
-
-        const getEventsGpPromiseArray = [];
-        _.forEach(sports, (sport) => {
-          const eventGpPromise = FakeApi.getEventGroups(sport.id);
-          getEventsGpPromiseArray.push(eventGpPromise);
-        });
-
-        return Promise.all(getEventsGpPromiseArray);
+        const eventGroupIds = _.flatMap(sports, (sport) => sport.get('event_group_ids').toJS());
+        // Get all event groups for all sports
+        return FakeApi.getObjects(eventGroupIds);
 
         // get related event groups
       }).then((eventGroups) => {
-
-        const eventGpArray = [];
-        _.forEach(eventGroups, (items) => {
-
-          //NOTE to be fine tune later to move dispatch out of the loop
-          dispatch(EventGroupActions.addEventGroupsAction(items));
-
-          _.forEach(items, (item) => {
-            eventGpArray.push(item);
-          });
-        });
-
-        const getEventsPromiseArray = [];
-        _.forEach(eventGpArray, (eventGp) => {
-          const eventGpPromise = FakeApi.getEvents(eventGp.sport_id);
-          getEventsPromiseArray.push(eventGpPromise);
-        });
-
-        return Promise.all(getEventsPromiseArray);
+        dispatch(EventGroupActions.addEventGroupsAction(eventGroups));
+        return Promise.all(eventGroups.map((group) => FakeApi.getEvents(group.get('sport_id'))));
 
         // get related events
-      }).then((eventResults) => {
-
-        var mkGroupIds = Immutable.List([]);
-        _.forEach(eventResults, (items) => {
-
-          //NOTE to be fine tune later to move dispatch out of the loop
-          dispatch(EventActions.addEventsAction(items));
-
-          _.forEach(items, (item) => {
-            // get related betting market groups
-
-            const newGroupIds = Immutable.List(item.betting_market_group_ids);
-            mkGroupIds = mkGroupIds.toSet().union(newGroupIds.toSet()).toList();
-          });
-        });
-
-        return FakeApi.getObjects(mkGroupIds.toJS());
+      }).then((result) => {
+        const events = _.flatMap(result);
+        // Store events inside redux store
+        dispatch(EventActions.addEventsAction(events));
+        return getBettingMarketGroupsByEvents(events);
 
         // get related betting market groups
-      }).then((bettingMktGroups) => {
-
+      }).then((result) => {
+        const bettingMktGroups = _.flatMap(result);
         dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMktGroups));
-
-      }).then((events) => {
-        // Store the final events id inside Home Redux store
+        // TODO: There may be a synchronization problem here
+        // TODO: This should be done in mapStateToProps of the Sidebar
         dispatch(SidebarActions.setTreeForSidebar());
       });
 
@@ -81,18 +45,18 @@ class SidebarActions{
   }
 
 
+  // TODO: Should move the bulk of this logic to the mapStateToProps in Sidebar
   static setTreeForSidebar(){
 
     return (dispatch, getState) => {
-      const {sports} = getState().sport;
-      const {eventGroups} = getState().eventGroup;
-      const {events} = getState().event;
-      const {bettingMarketGroups} = getState().bettingMarketGroup;
+      const sportsById = getState().getIn(['sport', 'sportsById']);
+      const eventGroupsById = getState().getIn(['eventGroup', 'eventGroupsById']);
+      const eventsById = getState().getIn(['event', 'eventsById']);
+      const bettingMarketGroupsById = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
 
-      const { List } = require('immutable')
-      const eventGroupsList = List(eventGroups);
-      const eventList = List(events);
-      const bettingMktGroupList = List(bettingMarketGroups);
+      const eventGroupsList = Immutable.List(eventGroupsById.values());
+      const eventList = Immutable.List(eventsById.values());
+      const bettingMktGroupList = Immutable.List(bettingMarketGroupsById.values());
 
       let completeTree = []
 
@@ -107,24 +71,23 @@ class SidebarActions{
         children: []  /*require for TreeUtil.js*/
       });
 
-      _.forEach(sports, (sport) => {
+      sportsById.forEach((sport) => {
 
         let sportNode = {};
 
-        sportNode.name = sport.name;
-        sportNode.id = sport.id;
+        sportNode.name = sport.get('name');
+        sportNode.id = sport.get('id');
         sportNode.isOpen = false;
         sportNode.customComponent = "Sport";
-        sportNode.objectId = sport.id;
+        sportNode.objectId = sport.get('id');
 
         sportNode.children = [];
 
 
         const targetEventGroups = eventGroupsList.filter(function(metric) {
-          return metric.sport_id === sport.id;
+          return metric.get('sport_id') === sport.get('id');
         })
         targetEventGroups.forEach((eventGroup) =>{
-        // _.forEach(targetEventGroups.toJS(), (eventGroup) => {
 
           let eventGroupNode = {};
           eventGroupNode.name = eventGroup.name;
@@ -135,10 +98,9 @@ class SidebarActions{
           eventGroupNode.children = [];
 
           const targetEvents = eventList.filter(function(metric) {
-            return metric.event_group_id === eventGroupNode.id;
+            return metric.get('event_group_id') === eventGroupNode.id;
           })
           targetEvents.forEach( (event) =>  {
-          // _.forEach(targetEvents.toJS(), (event) => {
 
             let eventNode = {};
             eventNode.name = event.name;
@@ -149,10 +111,9 @@ class SidebarActions{
             eventNode.children = [];
 
             const targetBettingMktGps = bettingMktGroupList.filter(function(metric) {
-              return metric.event_id === eventNode.id;
+              return metric.get('event_id') === eventNode.id;
             })
             targetBettingMktGps.forEach( (mktGroup) => {
-            // _.forEach(targetBettingMktGps.toJS(), (mktGroup) => {
 
               let mktGroupNode = {};
               mktGroupNode.name = mktGroup.market_type_id;

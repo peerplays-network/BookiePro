@@ -2,14 +2,15 @@ import { ActionTypes } from '../constants';
 import { ChainTypes } from 'graphenejs-lib';
 import _ from 'lodash';
 import { hex2a } from '../utility/StringUtils'
+import Immutable from 'immutable';
 
-let initialState = {
+let initialState = Immutable.Map({
   referenceAccount: null,
   needHardUpdate: false,
   needSoftUpdate: false,
   version: '0.0.1', // minimum value, we not using null to avoid null checking
   displayText: null
-};
+});
 
 export default function (state = initialState, action) {
   switch(action.type) {
@@ -56,7 +57,7 @@ export default function (state = initialState, action) {
         }
       }
 
-      return Object.assign({}, state, {
+      return state.merge({
         referenceAccount,
         needHardUpdate,
         needSoftUpdate,

@@ -9,6 +9,7 @@ import binnedOrderBooks from './binnedOrderBooks';
 import balances from './balances';
 import globalBettingStatistics from './globalBettingStatistics';
 import bets from './bets';
+import transactionHistory from './transactionHistory';
 
 export default {
   accounts,
@@ -21,5 +22,6 @@ export default {
   bettingMarkets,
   binnedOrderBooks,
   globalBettingStatistics,
-  balances
+  balances,
+  transactionHistory
 }

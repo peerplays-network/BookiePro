@@ -15,6 +15,8 @@ import SportMarket from './components/SportMarket';
 import Exchange from './components/Exchange';
 import AllSports from './components/AllSports';
 import Sport from './components/Sport';
+import EventGroup from './components/EventGroup';
+import BettingMarketGroup from './components/BettingMarketGroup';
 import Localize from './components/Localize';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
@@ -26,7 +28,11 @@ import Welcome from './components/Welcome'
 
 
 const store = configureStore();
-const history = syncHistoryWithStore(hashHistory, store);
+const history = syncHistoryWithStore(hashHistory, store, {
+  selectLocationState (state) {
+    return state.get('routing').toJS();
+  }
+});
 
 // On enter handler
 const onEnter = (nextState, replace, callback) => {
@@ -67,7 +73,7 @@ const routes = (
   <Route path='/' component={ App } onEnter={ onEnter } >
       <Route path='/login' component={ Login } />
       <Route path='/signup' component={ Signup } />
-    <Route path='/welcome' component={ Welcome } />
+      <Route path='/welcome' component={ Welcome } />
       <Route path='/deposit' component={ Deposit } />
       <Route path='/init-error' component={ InitError } />
       <Route component={ Main }>
@@ -76,9 +82,9 @@ const routes = (
         <Route path='/exchange' component={ Exchange } >
           <IndexRoute component={ AllSports }/>
           <Route path='Sport/:objectId' component={ Sport }/>
-          <Route path='EventGroup/:objectId' component={ SportMarket }/>
+          <Route path='EventGroup/:objectId' component={ EventGroup }/>
           <Route path='Event/:objectId' component={ SportMarket }/>
-          <Route path='BettingMarketGroup/:objectId' component={ SportMarket }/>
+          <Route path='BettingMarketGroup/:objectId' component={ BettingMarketGroup }/>
           {/* TODO perhaps we just need objectID, objectId itself tells the type of object */}
           <Route path=':objectId' component={ SportMarket }/>
         </Route>

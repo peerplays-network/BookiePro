@@ -1,49 +1,5 @@
-@import (reference) '../Main/Main.less';
-
 #all-sports-wrapper {
   margin: auto;
   width: 90%;
   padding-top: 15px;
-  
-  div.banner {
-    position: relative;
-
-    @media @desktop {
-      background: url('../../assets/home_banner_dark_small.png') no-repeat;
-      height: 150px;
-    }
-
-    @media @desktop-xl {
-      background: url('../../assets/home_banner_dark_big.png') no-repeat;
-      height: 228px;
-    }
-
-    >div.statistics {
-      position: absolute;
-      right: 50px;
-      bottom: 20px;
-
-      > div.digits {
-        margin-left: 150px;
-
-        > span.digit {
-          background-color: black;
-          color: white;
-          font-size: 24px;
-          padding: 4px;
-          margin: 3px;
-        }
-      }
-
-      > div.text {
-        margin-left: 10px;
-
-        > span.text {
-          display: block;
-          color: white;
-          font-size: 16px;
-        }
-      }
-    }
-  }
 }

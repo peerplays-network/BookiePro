@@ -1,0 +1,58 @@
+@import (reference) '../../Main/Main.less';
+
+div.betting-market-group-banner {
+  position: relative;
+
+  @media @desktop {
+    background: url('../../../assets/footballevent_banner.png') no-repeat;
+    height: 120px;
+  }
+
+  @media @desktop-xl {
+    background: url('../../../assets/footballevent_banner_big.png') no-repeat;
+    height: 120px;
+  }
+
+  > div.event {
+    > div.time {
+      font-size: 18px;
+      padding: 5px;
+    }
+    > div.name {
+      font-size: 20px;
+      padding: 5px;
+    }
+  }
+
+  > div.countdown {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+
+    > div.time-remaining {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    > div.clock {
+      > div.column {
+        display: inline-block;
+        margin-right: 5px;
+
+        > div.digits {
+          > span.digit {
+            background-color: black;
+            color: white;
+            font-size: 30px;
+            padding: 4px;
+            margin: 3px;
+          }
+        }
+        > div.label {
+          font-size: 10px;
+          text-align: center;
+          margin-top: 2px;
+        }
+      }
+    }
+  }
+}

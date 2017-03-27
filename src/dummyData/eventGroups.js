@@ -1,3 +1,6 @@
+import _ from 'lodash';
+import Immutable from 'immutable';
+
 const eventGroups = [
   {
     id: '1.101.1',
@@ -8,6 +11,11 @@ const eventGroups = [
     id: '1.101.2',
     sport_id: '1.100.1',
     name: 'NCAA'
+  },
+  {
+    id: '1.101.3',
+    sport_id: '1.100.1',
+    name: 'American Football Event Group 3'
   },
   {
     id: '1.101.4',
@@ -28,4 +36,5 @@ const eventGroups = [
 
 //TODO: complete this list based on sports dummy data
 
-export default eventGroups;
+const immutableEventGroups = _.map(eventGroups, eventGroup => Immutable.fromJS(eventGroup));
+export default immutableEventGroups;

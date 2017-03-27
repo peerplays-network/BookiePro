@@ -31,11 +31,11 @@ class App extends Component {
 
     //when blockchain sync is done ( and success), assuming connection success => sync success
     if ( (this.state.synced && prevState.synced === false) ||
-      ( prevProps && this.props.latestVersion !== prevProps.latestVersion)){
+      ( prevProps && this.props.version !== prevProps.version)){
 
-      if ( this.props.latestVersion &&
+      if ( this.props.version &&
         (this.props.needHardUpdate || this.props.needSoftUpdate) &&
-        (compareVersionNumbers(this.state.currentVersion, this.props.latestVersion) < 0)){
+        (compareVersionNumbers(this.state.currentVersion, this.props.version) < 0)){
 
         this.setState({
           newVersionModalVisible: true
@@ -113,7 +113,7 @@ class App extends Component {
         visible={ this.state.newVersionModalVisible }
         onOk={ () => this.setModalVisibleOK(false) }
         onCancel={ () => this.setModalVisible(false) }
-        latestVersion={ this.props.latestVersion }
+        latestVersion={ this.props.version }
       />
     );
 
@@ -137,7 +137,7 @@ class App extends Component {
       content = (
         <div>
           { this.props.children }
-          { softwareUpdateModal }
+
         </div>
       );
     }
@@ -147,12 +147,14 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { app, softwareUpdate } = state;
+  const app = state.get('app');
+  const softwareUpdate = state.get('softwareUpdate');
   return {
-    isLoggedIn: app.isLoggedIn,
-    needHardUpdate: softwareUpdate.needHardUpdate,
-    needSoftUpdate: softwareUpdate.needSoftUpdate,
-    latestVersion: softwareUpdate.version, //
+
+    isLoggedIn: app.get('isLoggedIn'),
+    needHardUpdate: softwareUpdate.get('needHardUpdate'),
+    needSoftUpdate: softwareUpdate.get('needSoftUpdate'),
+    version: softwareUpdate.get('version'), //
 
     // uncomment below for testing
     // needHardUpdate: true,

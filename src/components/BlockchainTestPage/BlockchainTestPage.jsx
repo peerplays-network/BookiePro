@@ -8,6 +8,7 @@ import AssetActions from '../../actions/AssetActions';
 import TestBookieAccount from './TestBookieAccount';
 import { BetActions, AccountActions } from '../../actions';
 
+
 class BlockchainTestPage extends Component {
   constructor(props) {
     super(props);
@@ -256,9 +257,8 @@ class BlockchainTestPage extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { asset } = state;
   return {
-    assetList: asset.assetList
+    assetList: state.getIn(['asset', 'assetList']).toJS()
   };
 }
 

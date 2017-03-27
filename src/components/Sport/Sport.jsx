@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Banner from './Banner';
+import { SportBanner } from '../Banners';
 import SimpleBettingWidget from '../SimpleBettingWidget';
 import { SportPageActions } from '../../actions';
-
+import Immutable from 'immutable';
 const { getData } = SportPageActions;
 
 class Sport extends Component {
@@ -15,7 +15,7 @@ class Sport extends Component {
   render() {
     return (
       <div className='sport-wrapper'>
-        <Banner sport={ this.props.sport }/>
+        <SportBanner sport={ this.props.sport }/>
         {
           Object.keys(this.props.eventGroups).map((eventGroupId, idx) => {
             const eventGroup = this.props.eventGroups[eventGroupId];
@@ -35,62 +35,71 @@ class Sport extends Component {
 
 // TODO: Should be a common function
 const findBinnedOrderBooksFromEvent = (event, state) => {
-  const bettingMarketGroups = state.bettingMarketGroup.bettingMarketGroups.filter(
-    (group) => event.betting_market_group_ids.includes(group.id)
+  const bettingMarketGroupsById = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']).filter(
+    (group) => event.get('betting_market_group_ids').includes(group.get('id'))
   );
-  let bettingMarketIds = [];
-  bettingMarketGroups.forEach((group) => {
-    bettingMarketIds = bettingMarketIds.concat(group.betting_market_ids);
+  let bettingMarketIds = Immutable.List();
+  bettingMarketGroupsById.forEach((group) => {
+    bettingMarketIds = bettingMarketIds.concat(group.get('betting_market_ids'));
   });
 
-  const { sportPage } = state;
+  const allSports = state.get('allSports');
 
-  const binnedOrderBooks = sportPage.binnedOrderBooks;
-  const matchedBinnedOrderBooks = [];
+  const binnedOrderBooks = allSports.get('binnedOrderBooks');
+  let matchedBinnedOrderBooks = Immutable.List();
   bettingMarketIds.forEach((bettingMarketId) => {
-    if (binnedOrderBooks.hasOwnProperty(bettingMarketId)) {
-      const orderBook = sportPage.binnedOrderBooks[bettingMarketId];
-      matchedBinnedOrderBooks.push({
-        back: orderBook.aggregated_back_bets,
-        lay: orderBook.aggregated_lay_bets
+    if (binnedOrderBooks.has(bettingMarketId)) {
+      const orderBook = binnedOrderBooks.get(bettingMarketId);
+      matchedBinnedOrderBooks = matchedBinnedOrderBooks.push({
+        // TODO: this is a temporary solution where we change everything to normal JS object instead of immutable
+        // TODO: later on mapStateToProps should return immutable object
+        back: orderBook.get('aggregated_back_bets').toJS(),
+        lay: orderBook.get('aggregated_lay_bets').toJS()
       });
+
     }
   });
 
-  return matchedBinnedOrderBooks;
+  // TODO: this is a temporary solution where we change everything to normal JS object instead of immutable
+  // TODO: later on mapStateToProps should return immutable object
+  return matchedBinnedOrderBooks.toJS();
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { sport, eventGroup, event, sportPage } = state;
+  const sportsById = state.getIn(['sport', 'sportsById']);
+  const eventsById = state.getIn(['event', 'eventsById']);
+  const sportPage = state.get('sportPage');
+  const eventGroupsById = state.getIn(['eventGroup', 'eventGroupsById']);
 
   // Determine the banner title
-  const sportObject = sport.sports.find((obj) => obj.id === ownProps.params.objectId);
+  const sportObject = sportsById.get(ownProps.params.objectId);
   let sportName = '';
   if (sportObject !== undefined) {
-    sportName = sportObject.name;
+    sportName = sportObject.get('name');
   }
 
   // Construct the page content
   let page = {};
 
   // First, found all relevant event objects based on the component's state
-  const myEvents = event.events.filter((event) => sportPage.eventIds.includes(event.id));
+  const myEvents = eventsById.filter((event) => sportPage.get('eventIds').includes(event.get('id')));
 
   // Create a map using event group id as keys
-  eventGroup.eventGroups.forEach((eventGroup) => {
-    if (sportPage.eventGroupIds.includes(eventGroup.id)) {
-      page[eventGroup.id] = { name: eventGroup.name };
-      page[eventGroup.id]['events'] = [];
+  eventGroupsById.forEach((eventGroup) => {
+    const eventGroupId = eventGroup.get('id');
+    if (sportPage.get('eventGroupIds').includes(eventGroupId)) {
+      page[eventGroupId] = { name: eventGroup.get('name') };
+      page[eventGroupId]['events'] = [];
     }
   });
 
   // For each event, generate data entry for the Simple Betting Widget
   myEvents.forEach((event) => {
-    if (page.hasOwnProperty(event.event_group_id)) {
-      page[event.event_group_id]['events'].push({
-        id: event.id,
-        name: event.name,
-        time: event.start_time,
+    if (page.hasOwnProperty(event.get('event_group_id'))) {
+      page[event.get('event_group_id')]['events'].push({
+        id: event.get('id'),
+        name: event.get('name'),
+        time: event.get('start_time'),
         offers: findBinnedOrderBooksFromEvent(event, state)
       });
     }

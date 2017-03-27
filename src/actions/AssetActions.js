@@ -1,5 +1,6 @@
 import { ActionTypes } from '../constants';
 import { Apis } from 'graphenejs-ws';
+import Immutable from 'immutable';
 
 /**
  * Private actions
@@ -29,7 +30,7 @@ class AssetActions {
   }
 
   static clearAssetList() {
-    return AssetPrivateActions.setAssetListAction([]);
+    return AssetPrivateActions.setAssetListAction(Immutable.List());
   }
 }
 

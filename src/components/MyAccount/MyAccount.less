@@ -6,17 +6,19 @@
 .font16{ font-size:16px;}
 .margin-tb-15{  margin:15px 0;  }
 .margin-tb-20{  margin:20px 0;  }
+.margin-tb-30{  margin:30px 0;  }
 .margin-tb-10{  margin:10px 0;  }
 .text-center{ text-align: center;}
 
 .processed{color: #00BEF4; }
-.completed{ color: #7ED321; }
+.completed{ color: #FFF; }
 .btn-primary{  background-image: linear-gradient(-180deg, rgba(55,192,255,0.92) 2%, #1F6CB4 97%);  box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);  }
 .bookie-select{  display: block;  }
 .ant-select-selection--single{  height: 36px;  border-radius:2px;  }
 .ant-select-selection__rendered{  line-height: 36px;  }
 .ant-input{  height:36px;  line-height: 36px;  border-radius:2px;  }
 .btn{  cursor: pointer; &:focus{  outline:none;  } }
+.btn-regular{  background-image: linear-gradient(-180deg, rgba(55,192,255,0.92) 2%, #1F6CB4 97%);  box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);  }
 .bookie-switch{
   border:1px solid #E1E1E1;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
@@ -118,10 +120,21 @@
     text-transform:uppercase;
     font-weight: normal
   }
+  .btn {
+    text-transform: uppercase;
+    display: inline-block;
+    color: #ffffff;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 0;
+    background-color: inherit;
+    padding: 0 20px;
+    border: 0 none;
+  }
 }
 
 .bookie-card{
-  background: rgba(6,92,183,0.35);
+  background: rgba(0,92,183,0.35);
   box-shadow: 0 2px 4px 0 #02070C;
   height:340px;
   border-radius:0;
@@ -198,4 +211,28 @@
 }
 ::-webkit-input-placeholder,.rw-input { /* Chrome/Opera/Safari */
   color: #4A4A4A;
+}
+
+.ant-pagination-prev, .ant-pagination-next{
+  background-color: transparent;
+  border:0 none;
+  a{
+    color: #FFFFFF ;
+  }
+}
+.ant-pagination-item{
+  background-color: transparent;
+  border:0 none;
+  border-radius: 0;
+  font-size:16px;
+  font-weight:500;
+  a{
+    color: #FFFFFF ;
+  }
+}
+.ant-pagination-item-active{
+  background-color: #1563A0 ;
+}
+:root .ant-pagination-prev a:after, :root .ant-pagination-next a:after{
+  font-size:16px;
 }

@@ -22,7 +22,7 @@ class Login extends Component {
 
   //validates accountName password and navigate to home page
   handleSubmit(e) {
-    this.props.login(e.accountName, e.password);
+    this.props.login(e.userName, e.password);
   }
 
   render() {
@@ -46,9 +46,10 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const login = state.get('login');
   return ({
-    errors:state.login.errors,
-    status:state.login.status
+    errors: login.get('errors'),
+    status: login.get('loadingStatus')
   });
 };
 

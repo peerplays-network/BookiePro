@@ -8,7 +8,8 @@ const {
   events,
   bets,
   binnedOrderBooks,
-  globalBettingStatistics
+  globalBettingStatistics,
+  transactionHistory
 } = dummyData;
 
 const TIMEOUT_LENGTH = 500;
@@ -24,7 +25,7 @@ class FakeApi {
           allObjects = _.concat(allObjects, item);
         })
         _.forEach(allObjects, (item) => {
-          if (_.includes(arrayOfObjectIds, item.id)) {
+          if (_.includes(arrayOfObjectIds, item.get('id'))) {
             filteredResult.push(item);
           }
         })
@@ -36,7 +37,7 @@ class FakeApi {
   static getSports() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(sports);
+        resolve(_.cloneDeep(sports));
       }, TIMEOUT_LENGTH);
     });
   }
@@ -56,7 +57,7 @@ class FakeApi {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const filteredResult = _.filter(competitors, (item) => {
-          return item.sport_id === sportId;
+          return item.get('sport_id') === sportId;
         });
         resolve(filteredResult);
       }, TIMEOUT_LENGTH);
@@ -67,7 +68,7 @@ class FakeApi {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const filteredResult = _.filter(events, (item) => {
-          return item.sport_id === sportId;
+          return item.get('sport_id') === sportId;
         });
         resolve(filteredResult);
       }, TIMEOUT_LENGTH);
@@ -78,8 +79,8 @@ class FakeApi {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const filteredResult = _.filter(events, (item) => {
-          const team1Name = item.name.split(' vs ')[0];
-          const team2Name = item.name.split(' vs ')[1];
+          const team1Name = item.get('name').split(' vs ')[0];
+          const team2Name = item.get('name').split(' vs ')[1];
 
           const keywordLowerCase = keyword.toLowerCase();
 
@@ -97,7 +98,7 @@ class FakeApi {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const filteredResult = _.filter(bets, (item) => {
-          return item.bettor_id === accountId;
+          return item.get('bettor_id') === accountId;
         });
         resolve(filteredResult);
       }, TIMEOUT_LENGTH);
@@ -118,7 +119,7 @@ class FakeApi {
       setTimeout(() => {
         let mappedResult = [];
         binnedOrderBooks.forEach((orderBook) => {
-          if (orderBook.betting_market_id === bettingMarketId) {
+          if (orderBook.get('betting_market_id') === bettingMarketId) {
             mappedResult.push(orderBook);
           }
         });
@@ -137,14 +138,6 @@ class FakeApi {
   }
 
   static withdraw(walletAddress) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, TIMEOUT_LENGTH);
-    });
-  }
-
-  static changePassword(oldPassword, newPassword) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve();
@@ -173,7 +166,7 @@ class FakeApi {
     return FakeApi.getObjects([availableBalanceId]).then((objects) => {
       let availableBalance = 0;
       if (objects && objects.length > 0 ) {
-        availableBalance += objects[0].balance || 0
+        availableBalance += objects[0].get('balance') || 0
       }
       return availableBalance
     });
@@ -199,9 +192,28 @@ class FakeApi {
       setTimeout(() => {
         resolve();
       }, TIMEOUT_LENGTH);
-    });
+    })
   }
 
+  static getTransactionHistory(accountid,startDate,endDate) {
+    return new Promise((resolve, reject) => {
+      if(startDate !== undefined && endDate !== undefined){
+        var filteredHistory =  _.filter(transactionHistory, (hist) => {
+          return (hist.get('time') >= startDate && hist.get('time') <= endDate)
+        });
+        resolve(_.orderBy(filteredHistory,
+          function(value) {
+            return (value.get('time')+''
+          )}, 'desc'
+        ));
+      }
+      resolve(_.orderBy(transactionHistory,
+        function(value) {
+          return (value.get('time')+''
+        )}, 'desc'
+      ));
+    });
+  }
 }
 
 export default FakeApi

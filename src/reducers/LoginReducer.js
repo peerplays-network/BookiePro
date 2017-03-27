@@ -1,23 +1,27 @@
 import { ActionTypes } from '../constants';
 import { LoadingStatus } from '../constants';
+import Immutable from 'immutable';
 
-let initialState = {
+let initialState = Immutable.fromJS({
   loadingStatus: LoadingStatus.DEFAULT,
-  status: LoadingStatus.DEFAULT,
   errors: []
-};
+});
 
 export default function (state = initialState, action) {
   switch(action.type) {
     case ActionTypes.LOGIN_SET_LOADING_STATUS: {
-      const loadingStatus = action.loadingStatus;
-      return Object.assign({}, state, { status:loadingStatus });
+      return state.merge({
+        loadingStatus: action.loadingStatus
+      });
     }
     case ActionTypes.LOGIN_SET_ERROR: {
-      return Object.assign({}, state, {
-        errors: action.errors,
+      return state.merge({
+        errors: Immutable.fromJS(action.errors),
         status: LoadingStatus.DEFAULT
       });
+    }
+    case ActionTypes.ACCOUNT_LOGOUT: {
+      return initialState;
     }
     default:
       return state;

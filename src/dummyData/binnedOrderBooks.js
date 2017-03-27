@@ -1,3 +1,6 @@
+import _ from 'lodash';
+import Immutable from 'immutable';
+
 // TODO: Replace this with the real definition of order_book_bin
 //       with amount_to_bet and amount_to_win
 function OrderBookBin(odds, price) {
@@ -24,4 +27,5 @@ const binnedOrderBooks = [
 //TODO: add more in this list, pay attention on the relation with the betting_markets dummy data
 //TODO: for each event, make one moneyline, spread, overunder
 
-export default binnedOrderBooks;
+const immutableBinnedOrderBooks = _.map(binnedOrderBooks, binnedOrderBook => Immutable.fromJS(binnedOrderBook));
+export default immutableBinnedOrderBooks;
