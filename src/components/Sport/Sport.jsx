@@ -43,9 +43,9 @@ const findBinnedOrderBooksFromEvent = (event, state) => {
     bettingMarketIds = bettingMarketIds.concat(group.get('betting_market_ids'));
   });
 
-  const allSports = state.get('allSports');
+  const sportPage = state.get('sportPage');
 
-  const binnedOrderBooks = allSports.get('binnedOrderBooks');
+  const binnedOrderBooks = sportPage.get('binnedOrderBooks');
   let matchedBinnedOrderBooks = Immutable.List();
   bettingMarketIds.forEach((bettingMarketId) => {
     if (binnedOrderBooks.has(bettingMarketId)) {

@@ -51,7 +51,7 @@ class SportPageActions {
         // Find the sport we are dealing with
         const mySport = sports.find((sport) => sport.get('id') === sportId);
         // Request event groups for my sport
-        return FakeApi.getObjects(mySport.get('event_group_ids'));
+        return FakeApi.getObjects(mySport.get('event_group_ids').toJS());
 
       }).then((result) => {
         eventGroups = result;
