@@ -50,15 +50,15 @@ class EventGroupPageActions {
         // Store the resolved event group object in the outer scope variable
         eventGroup = retrievedObjects[0];
 
-        return FakeApi.getObjects([eventGroup.sport_id]);
+        return FakeApi.getObjects([eventGroup.get('sport_id')]);
       }).then((result) => {
         // Store the resolve sport object in the outer scope variable
         sport = result[0];
 
-        return FakeApi.getEvents(eventGroup.sport_id);
+        return FakeApi.getEvents(eventGroup.get('sport_id'));
       }).then((result) => {
         // Without a proper call to get events by event group, we can only filter the results like this
-        events = _.flatMap(result).filter((event) => event.event_group_id === eventGroupId);
+        events = _.flatMap(result).filter((event) => event.get('event_group_id') === eventGroupId);
 
         // Store events inside redux store
         dispatch(EventActions.addEventsAction(events));
@@ -83,9 +83,9 @@ class EventGroupPageActions {
 
         // Stored all retrieve data in the EventGroupPage state in Redux store
         dispatch(EventGroupPagePrivateActions.setDataAction(
-          sport.name,
-          eventGroup.name,
-          _.map(events, 'id'),    // list of event ids
+          sport.get('name'),
+          eventGroup.get('name'),
+          _.map(events, (event) => event.get('id')),    // list of event ids
           binnedOrderBooks
         ));
 

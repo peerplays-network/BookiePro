@@ -1,21 +1,23 @@
 import { ActionTypes } from '../constants';
+import Immutable from 'immutable';
+import _ from 'lodash';
 
-let initialState = {
+let initialState = Immutable.fromJS({
   sportName: '',
   eventGroupName: '',
   eventIds: [],
   binnedOrderBooks: {}
-};
+});
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.EVENT_GROUP_PAGE_SET_DATA: {
-      return Object.assign({}, state, {
+      return state.merge({
         sportName: action.sportName,
         eventGroupName: action.eventGroupName,
         eventIds: action.eventIds,
         binnedOrderBooks: action.binnedOrderBooks
-      });
+      })
     }
     default:
       return state;
