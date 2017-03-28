@@ -3,12 +3,21 @@ import ReactDOM from "react-dom";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import SplitPane from 'react-split-pane';
-import BetSlip from '../BetSlip';
 import SideBar from '../SideBar';
+import { QuickBetDrawer, MarketDrawer } from '../BettingDrawers';
 import { SidebarActions } from '../../actions';
 import Immutable from 'immutable';
 
 import Ps from 'perfect-scrollbar';
+
+// Pick one of the 2 betting drawers based on the path
+const selectBettingDrawer = (pathTokens) => {
+  if (pathTokens.length < 3 || pathTokens[2].toLowerCase() !== 'bettingmarketgroup') {
+    return ( <QuickBetDrawer /> );
+  }
+
+  return ( <MarketDrawer /> );
+}
 
 class Exchange extends Component {
 
@@ -20,9 +29,8 @@ class Exchange extends Component {
   }
 
   componentDidMount() {
-    Ps.initialize(ReactDOM.findDOMNode(this.refs.betslips));
     Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
-    Ps.initialize(ReactDOM.findDOMNode(this.refs.middlepanel));
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.main));
 
     //NOTE to be fine tune later for not to call api everytime,
     // we could fine tune when we could SUBSCRIBE change in
@@ -32,17 +40,13 @@ class Exchange extends Component {
   }
 
   componentDidUpdate() {
-    Ps.update(ReactDOM.findDOMNode(this.refs.betslips));
     Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
-    Ps.update(ReactDOM.findDOMNode(this.refs.middlepanel));
+    Ps.update(ReactDOM.findDOMNode(this.refs.main));
   }
-
 
   updatePs(){
     Ps.update(this.refs.betslips);
   }
-
-
 
   render() {
      //setting width of sider as 200
@@ -74,7 +78,6 @@ class Exchange extends Component {
                    level={ transitionName.length }
                    objectId={ transitionName[3] }/>  :
                    (
-
                      transitionName.length === 3 ?
                         <SideBar
                           completeTree={ this.props.completeTree }
@@ -88,26 +91,21 @@ class Exchange extends Component {
                    )
                }
             </div>
-        <SplitPane
-            split='vertical'
-            minSize={ betslipWidth } defaultSize={ betslipWidth }
-            primary='second'>
-              <div style={ { 'height' : '100%', 'position' : 'relative' } }
-                ref='middlepanel'>
-                { this.props.children }
-              </div>
-              <div style={ { 'height' : '100%', 'position' : 'relative' } }
-                ref='betslips'>
-                <BetSlip onClick={ () => { this.updatePs(); } } />
-                <BetSlip onClick={ () => { this.updatePs(); } }/>
-                <BetSlip onClick={ () => { this.updatePs(); } }/>
-              </div>
-        </SplitPane>
-
+            <SplitPane
+                split='vertical'
+                minSize={ betslipWidth } defaultSize={ betslipWidth }
+                primary='second'>
+                  <div style={ { 'height' : '100%', 'position' : 'relative' } }
+                    ref='main'>
+                    { this.props.children }
+                  </div>
+                  { selectBettingDrawer(transitionName) }
+            </SplitPane>
        </SplitPane>
     );
   }
 }
+
 const mapStateToProps = (state) => {
   const sidebar = state.get('sidebar');
   return {

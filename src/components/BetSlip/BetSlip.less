@@ -1,26 +1,24 @@
-div.betslip-wrapper > div.betslip-panel {
-  > div.ant-collapse-header {
+div.betslip-wrapper {
+  &:first-of-type {
+    margin-top: 15px;
+  }
+  margin-right: 15px;
+  margin-bottom: 15px;
+
+  > div.header {
     background-color: #1563A0;
     color: white;
+    height: 40px;
+    padding: 10px;
 
-    > .arrow:before {
-      color: white;
+    > span.icon {
+      float: right;
+      margin-right: 5px;
     }
-  }
-
-  > div.ant-collapse-content {
-    padding: 0;
-    background-color: black;
   }
 }
 
 div.betslip {
-  > button.place_bet {
-    background-color: #37C1FF;
-    color: white;
-    width: 100%;
-  }
-
   table td.delete-button {
     padding: 0;
     margin: 0;
