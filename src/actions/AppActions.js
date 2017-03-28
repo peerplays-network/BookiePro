@@ -26,6 +26,13 @@ class AppPrivateActions {
       loadingStatus
     }
   }
+
+  static setConnectionStatusAction(connectionStatus) {
+    return {
+      type: ActionTypes.APP_SET_CONNECTION_STATUS,
+      connectionStatus
+    }
+  }
 }
 
 /**
@@ -40,31 +47,16 @@ class AppActions {
   }
 
   static connectToBlockchain() {
-    return (dispatch) => {
+    return (dispatch, getState) => {
       dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.LOADING));
-      // Define websocketSubscriber
-      const wsStatusCallback = (message) => {
-        switch (message) {
-          case 'open': {
-            console.log('Websocket connection open');
-            break;
-          }
-          case 'reconnect': {
-            console.log('Websocket connection reconnect');
-            break;
-          }
-          case 'error': {
-            console.log('Websocket connection error');
-            break;
-          }
-          case 'closed': {
-            console.log('Websocket connection close');
-            break;
-          }
-          default: break;
+      // Define callback whenever connection change
+      const connectionStatusCallback = (connectionStatus) => {
+        // Dispatch action if connection status is updated
+        if (getState().getIn(['app', 'connectonStatus']) !== connectionStatus) {
+          dispatch(AppPrivateActions.setConnectionStatusAction(connectionStatus));
         }
       };
-      ConnectionService.connectToBlockchain(wsStatusCallback).then(() => {
+      ConnectionService.connectToBlockchain(connectionStatusCallback).then(() => {
         // Sync with blockchain
         return ConnectionService.syncWithBlockchain();
       }).then(() => {

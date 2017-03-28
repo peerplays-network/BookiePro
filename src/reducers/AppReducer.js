@@ -1,11 +1,12 @@
-import { ActionTypes, LoadingStatus } from '../constants';
+import { ActionTypes, LoadingStatus, ConnectionStatus } from '../constants';
 import Immutable from 'immutable';
 
 const initialState = Immutable.fromJS({
   isLoggedIn: false,
   getGlobalBettingStatisticsLoadingStatus: LoadingStatus.DEFAULT,
   connectToBlockchainLoadingStatus: LoadingStatus.DEFAULT,
-  globalBettingStatistics: null
+  globalBettingStatistics: null,
+  connectionStatus: ConnectionStatus.DISCONNECTED
 });
 
 export default function (state = initialState, action) {
@@ -28,6 +29,11 @@ export default function (state = initialState, action) {
     case ActionTypes.APP_SET_CONNECT_TO_BLOCKCHAIN_LOADING_STATUS: {
       return state.merge({
         connectToBlockchainLoadingStatus: action.loadingStatus
+      });
+    }
+    case ActionTypes.APP_SET_CONNECTION_STATUS: {
+      return state.merge({
+        connectionStatus: action.connectionStatus
       });
     }
     case ActionTypes.ACCOUNT_LOGOUT: {
