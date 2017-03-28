@@ -21,13 +21,12 @@ class EventGroupPagePrivateActions {
     }
   }
 
-  static setDataAction(sportName, eventGroupName, eventIds, binnedOrderBooks, binnedOrderBooksByEvent) {
+  static setDataAction(sportName, eventGroupName, eventIds, binnedOrderBooksByEvent) {
     return {
       type: ActionTypes.EVENT_GROUP_PAGE_SET_DATA,
       sportName,
       eventGroupName,
       eventIds,
-      binnedOrderBooks,
       binnedOrderBooksByEvent
     }
   }
@@ -97,7 +96,6 @@ class EventGroupPageActions {
           sport.get('name'),
           eventGroup.get('name'),
           _.map(events, (event) => event.get('id')),    // list of event ids
-          binnedOrderBooks,
           binnedOrderBooksByEvent
         ));
 
