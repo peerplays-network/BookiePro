@@ -15,13 +15,13 @@ const renderTeam = (text, record) => (
 
 const renderInputWithControl = (text, record) => (
   <Input
-    value={ text }
+    defaultValue={ text }
   />
 )
 
 const renderInput = (text, record) => (
   <Input
-    value={ text }
+    defaultValue={ text }
   />
 )
 
