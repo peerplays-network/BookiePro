@@ -1,13 +1,14 @@
 import { ActionTypes } from '../constants';
 import { ChainTypes } from 'graphenejs-lib';
 import _ from 'lodash';
+import { StringUtils } from '../utility';
 import Immutable from 'immutable';
 
 let initialState = Immutable.Map({
   referenceAccount: null,
   needHardUpdate: false,
   needSoftUpdate: false,
-  version: null,
+  version: '0.0.1', // minimum value, we not using null to avoid null checking
   displayText: null
 });
 
@@ -35,12 +36,24 @@ export default function (state = initialState, action) {
 
         // Check the memo of latest update transaction to find update information
         if (latestUpdateTransaction) {
+
           const memo = latestUpdateTransaction.getIn(['op', 1, 'memo']);
-          if (memo) {
-            needHardUpdate = memo.need_hard_update;
-            needSoftUpdate = memo.need_soft_update;
-            version = memo.version;
-            displayText = memo.display_text;
+
+          if (memo && memo.get('message')) {
+
+            try {
+              // Assuming that we dun need to decrypt the message to parse 'software update' memo message
+              const memoJson =  JSON.parse(StringUtils.hex2a(memo.toJS().message));
+
+              needHardUpdate = memoJson.need_hard_update;
+              needSoftUpdate = memoJson.need_soft_update;
+              version = memoJson.version;
+              displayText = memoJson.displayText;
+
+            } catch (e){
+
+            }
+
           }
         }
       }

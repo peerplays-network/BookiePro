@@ -105,7 +105,8 @@
     "clean:osx": "rm -rf ./dist/osx",
     "clean:win": "rm -rf ./dist/win",
     "pack": "build --dir",
-    "dist": "build"
+    "pack:all": "build -mwl",
+    "dist": "dist:"
   },
   "build": {
     "appId": "com.cosmox.bookie",
