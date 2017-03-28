@@ -1,17 +1,29 @@
 import React from 'react';
-import { Button, Icon, Table } from 'antd';
+import { Button, Icon, Input, Table } from 'antd';
 
 const deleteAllPanels = (event) => {
   event.preventDefault();
   window.console.log('clicked delete all panels', event);
 }
 
-const renderBetType = (text, record) => (
+const renderTeam = (text, record) => (
   <div>
     <div className='team'>{ record.team }</div>
     <div className='bet_type'>{ record.bet_type }</div>
   </div>
 );
+
+const renderInputWithControl = (text, record) => (
+  <Input
+    value={ text }
+  />
+)
+
+const renderInput = (text, record) => (
+  <Input
+    value={ text }
+  />
+)
 
 const renderDeleteButton = (text, record) => (
   <Button
@@ -25,25 +37,28 @@ const backColumns = [{
   key: 'back',
   width: '23%',
   className: 'team',
-  render: renderBetType,
+  render: renderTeam,
 }, {
   title: 'ODDS',
   dataIndex: 'odds',
   key: 'odds',
   width: '23%',
   className: 'numeric',
+  render: renderInputWithControl,
 }, {
   title: 'STAKE(B)',
   dataIndex: 'stake',
   key: 'stake',
   width: '24%',
   className: 'numeric',
+  render: renderInput,
 }, {
   title: 'PROFIT(B)',
   dataIndex: 'profit',
   key: 'profit',
   width: '24%',
   className: 'numeric',
+  render: renderInput,
 }, {
   title: '',
   dataIndex: 'delete',
@@ -58,25 +73,28 @@ const layColumns = [{
   key: 'lay',
   width: '23%',
   className: 'team',
-  render: renderBetType,
+  render: renderTeam,
 }, {
   title: 'ODDS',
   dataIndex: 'odds',
   key: 'odds',
   width: '23%',
   className: 'numeric',
+  render: renderInputWithControl,
 }, {
   title: "BACKER'S STAKE(B)",
   dataIndex: 'stake',
   key: 'stake',
   width: '24%',
   className: 'numeric',
+  render: renderInput,
 }, {
   title: 'LIABILITY(B)',
   dataIndex: 'liability',
   key: 'liability',
   width: '24%',
   className: 'numeric',
+  render: renderInput,
 }, {
   title: '',
   dataIndex: 'delete',
