@@ -60,23 +60,26 @@ const findBinnedOrderBooksFromEvent = (event, state) => {
 
 const mapStateToProps = (state) => {
   const eventsById = state.getIn(['event', 'eventsById']);
-  const eventGroupPage = state.get('eventGroupPage');
+  const eventIds = state.getIn(['eventGroupPage', 'eventIds']);
+  const binnedOrderBooksByEvent = state.getIn(['eventGroupPage', 'binnedOrderBooksByEvent']);
 
   // For each event, generate data entry for the Simple Betting Widget
   const myEvents = eventsById.toArray()
-    .filter((event) => eventGroupPage.get('eventIds').includes(event.get('id')))
+    .filter((event) => eventIds.includes(event.get('id')))
     .map((event) => {
+      const eventId = event.get('id');
+      const offers = binnedOrderBooksByEvent.has(eventId)? binnedOrderBooksByEvent.get(eventId) : Immutable.List() ;
       return {
-        id: event.get('id'),
+        id: eventId,
         name: event.get('name'),
         time: event.get('start_time'),
-        offers: findBinnedOrderBooksFromEvent(event, state)
+        offers: offers //findBinnedOrderBooksFromEvent(event, state)
       }
     });
 
   return {
-    sport: eventGroupPage.get('sportName'),
-    eventGroup: eventGroupPage.get('eventGroupName'),
+    sport: state.getIn(['eventGroupPage', 'sportName']),
+    eventGroup: state.getIn(['eventGroupPage', 'eventGroupName']),
     events: myEvents
   };
 };
