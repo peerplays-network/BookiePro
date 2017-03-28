@@ -52,8 +52,8 @@ const mapStateToProps = (state) => {
   // For each event, generate data entry for the Simple Betting Widget
   eventsById.forEach((event) => {
     const eventSportId = event.get('sport_id');
-    const eventId = event.get('id');
     if (page.hasOwnProperty(eventSportId)) {
+      const eventId = event.get('id');
       const offers = binnedOrderBooksByEvent.has(eventId)? binnedOrderBooksByEvent.get(eventId) : Immutable.List() ;
       page[eventSportId]['events'].push({
         id: event.get('id'),

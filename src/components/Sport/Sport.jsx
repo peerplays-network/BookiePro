@@ -70,6 +70,7 @@ const mapStateToProps = (state, ownProps) => {
   const eventsById = state.getIn(['event', 'eventsById']);
   const sportPage = state.get('sportPage');
   const eventGroupsById = state.getIn(['eventGroup', 'eventGroupsById']);
+  const binnedOrderBooksByEvent = state.getIn(['sportPage', 'binnedOrderBooksByEvent']);
 
   // Determine the banner title
   const sportObject = sportsById.get(ownProps.params.objectId);
@@ -96,11 +97,13 @@ const mapStateToProps = (state, ownProps) => {
   // For each event, generate data entry for the Simple Betting Widget
   myEvents.forEach((event) => {
     if (page.hasOwnProperty(event.get('event_group_id'))) {
+      const eventId = event.get('id');
+      const offers = binnedOrderBooksByEvent.has(eventId)? binnedOrderBooksByEvent.get(eventId) : Immutable.List() ;
       page[event.get('event_group_id')]['events'].push({
         id: event.get('id'),
         name: event.get('name'),
         time: event.get('start_time'),
-        offers: findBinnedOrderBooksFromEvent(event, state)
+        offers: offers //findBinnedOrderBooksFromEvent(event, state)
       });
     }
   });
