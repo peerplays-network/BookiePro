@@ -49,8 +49,6 @@ const mapStateToProps = (state) => {
     page[sportId]['events'] = [];
   });
 
-  //allSports.binnedOrderBooksByEvent.get(event.get('id'))
-
   // For each event, generate data entry for the Simple Betting Widget
   eventsById.forEach((event) => {
     const eventSportId = event.get('sport_id');
@@ -61,7 +59,7 @@ const mapStateToProps = (state) => {
         id: event.get('id'),
         name: event.get('name'),
         time: event.get('start_time'),
-        offers: offers //findBinnedOrderBooksFromEvent(event, state)
+        offers: offers
       });
     }
   });

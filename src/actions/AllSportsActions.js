@@ -26,11 +26,10 @@ class AllSportsPrivateActions {
     }
   }
 
-  static setDataAction(eventIds, binnedOrderBooks, binnedOrderBooksByEvent) {
+  static setDataAction(eventIds, binnedOrderBooksByEvent) {
     return {
       type: ActionTypes.ALL_SPORTS_SET_DATA,
       eventIds,
-      binnedOrderBooks,
       binnedOrderBooksByEvent
     }
   }
@@ -88,7 +87,7 @@ class AllSportsActions {
 
         // Stored all retrieve data in the AllSports state in Redux store
         const eventIds = _.map(events, (event) => event.get('id'));
-        dispatch(AllSportsPrivateActions.setDataAction(eventIds, binnedOrderBooks, binnedOrderBooksByEvent));
+        dispatch(AllSportsPrivateActions.setDataAction(eventIds, binnedOrderBooksByEvent));
 
         // Finish loading (TODO: Are we sure this is really the last action dispatched?)
         dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
