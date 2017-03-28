@@ -254,13 +254,16 @@ class TestBookieAccount extends Component {
     if ( versionString.length  === 0 ){
       versionString = '1.0.0';
     }
+
+    // {need_hard_update, need_soft_update}
+    // {false, false} ==> no modal  , { true, true} / { true, false } hard update modal, { false, true } soft update modal
     const memoMessage = {
       need_hard_update: true,
-      need_soft_update: false,
+      need_soft_update: true,
       version: this.state.version,
       displayText: {
-        en: 'update or bysdfadasdfde in en',
-        ln: 'update or bysdfadasdfde in ln '
+        en: '<h1>Updates Available</h1><a href=\'http://www.w3.org/\'>W3C</a> is a link to latest version of Bookie App.',
+        ln: 'Updates Available. Do you want to restart to install these updates now or try again tonight?(ln)https://bitbucket.org'
       }
     };
 

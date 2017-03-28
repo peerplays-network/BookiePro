@@ -6,7 +6,7 @@ class SoftwareUpdateModal extends Component {
   render() {
     return (
       <Modal
-        title={ this.props.modalTitle }
+        title={ 'New Version :' + this.props.latestVersion }
         wrapClassName={ 'vertical-center-modal' }
         closable={ this.props.closable }
         maskClosable={ this.props.closable }
@@ -16,16 +16,14 @@ class SoftwareUpdateModal extends Component {
         okText={ 'OK' }
         cancelText={ 'Ignore it' }
       >
-        <p>New Version : {this.props.latestVersion}</p>
-        <p>{ this.props.modalTitle }</p>
-        <p>some contents...</p>
+        <p dangerouslySetInnerHTML={ { __html:this.props.modalTitle} } />
       </Modal>
     );
   }
 }
 
 SoftwareUpdateModal.propTypes = {
-  modalTitle: React.PropTypes.string.isRequired,
+  modalTitle: React.PropTypes.any,
   closable: React.PropTypes.bool.isRequired,
   visible: React.PropTypes.bool.isRequired,
   onOk: React.PropTypes.func,

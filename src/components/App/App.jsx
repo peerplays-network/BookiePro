@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
 import { StringUtils } from '../../utility';
 
+//TODO default version update text.
 const defaultNewVersionText = 'New version found. Please update the version'
 
 class App extends Component {
@@ -35,6 +36,7 @@ class App extends Component {
     if ( (this.state.synced && prevState.synced === false) ||
       ( prevProps && this.props.version !== prevProps.version)){
 
+        //software update is suggested.
       if ( this.props.version &&
         (this.props.needHardUpdate || this.props.needSoftUpdate) &&
         (StringUtils.compareVersionNumbers(this.state.currentVersion, this.props.version) < 0)){
@@ -87,13 +89,13 @@ class App extends Component {
     });
   }
 
-  setModalVisible(modalVisible) {
+  okWillCloseModal(modalVisible) {
     this.setState({
       newVersionModalVisible: modalVisible
     });
   }
 
-  setModalVisibleOK(modalVisible) {
+  okWillCloseApp(modalVisible) {
     this.setState({
       newVersionModalVisible: modalVisible
     });
@@ -108,15 +110,14 @@ class App extends Component {
 
   render() {
 
-
     let softwareUpdateModal = (
 
         <SoftwareUpdateModal
           modalTitle={ this.props.displayText ? this.props.displayText.get(this.props.locale) : defaultNewVersionText }
           closable={ !this.props.needHardUpdate }
           visible={ this.state.newVersionModalVisible }
-          onOk={ () => this.setModalVisibleOK(false) }
-          onCancel={ () => this.setModalVisible(false) }
+          onOk={ this.props.needHardUpdate ? () => this.okWillCloseApp(false) : () => this.okWillCloseModal(false) }
+          onCancel={ this.props.needHardUpdate ? () => this.okWillCloseApp(false) : () => this.okWillCloseModal(false) }
           latestVersion={ this.props.version }
         />
 
@@ -133,21 +134,20 @@ class App extends Component {
         <div className='sportsbg'>
           <SyncError/>
           { softwareUpdateModal }
-
-        </div> );
+        </div>
+      );
     } else if (this.state.loading) {
       content = (
         <div className='sportsbg'>
           <span>loading...connecitng to blockchain</span>
           { softwareUpdateModal }
-
-        </div> );
+        </div>
+      );
     } else if (this.props.children){
       content = (
         <div>
           { this.props.children }
           { softwareUpdateModal }
-
         </div>
       );
     }
