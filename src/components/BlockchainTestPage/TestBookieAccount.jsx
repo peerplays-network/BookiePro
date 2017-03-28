@@ -5,19 +5,18 @@ import { TransactionHelper, TransactionBuilder, PrivateKey, FetchChain } from 'g
 
 import { BlockchainUtils, ChainTypes, BindToChainState, StringUtils } from '../../utility';
 
-import { acc } from '../../dummyData/account_auth/acc';
-import { acc2 } from '../../dummyData/account_auth/acc2';
+import { acc } from '../../dummyData/accountInfo/acc';
+import { acc2 } from '../../dummyData/accountInfo/acc2';
 
 // Change this property depending on the blockchain you are
-const accountName = 'peerplays1';
+const accountName = acc.name
 
-// const accountId = '1.2.153075';
 const accountPublicKeys = ['TEST5YV8br6ztoCPQiC8XPJN2BU4jmywMic27QqGcR3DsyjHroViB7'];
 const accountPrivateKeys = {
   'TEST5YV8br6ztoCPQiC8XPJN2BU4jmywMic27QqGcR3DsyjHroViB7': PrivateKey.fromWif('5JZpe5ANwzApzR4dPq24AXPVf3VMhDAHs5XV5T126bR255Q8Mhd')
 };
 const makeOrderSellAsset = '1.3.0';
-const makeOrderBuyAsset = '1.3.121';
+const makeOrderBuyAsset = '1.3.1';
 
 class TestBookieAccount extends Component {
 
@@ -155,7 +154,7 @@ class TestBookieAccount extends Component {
       const buyAsset = result.get('1');
       const sellAssetAmount = 0.0123;
       const buyAssetAmount = 10;
-      const accountId = '1.2.153075'; // this is ii-5 account id
+      const accountId = acc.id; // this is dummy account id
       const sellAssetSatoshiAmount = BlockchainUtils.get_satoshi_amount(sellAssetAmount, sellAsset);
       const buyAssetSatoshiAmount = BlockchainUtils.get_satoshi_amount(buyAssetAmount, buyAsset);
       const expiration = new Date();
@@ -203,7 +202,7 @@ class TestBookieAccount extends Component {
   }
 
   _cancelOrder(orderId) {
-    const accountId = '1.2.153075'; // this is ii-5 account id
+    const accountId = acc.id // this is dummy account id
     const feeId = '1.3.0'; // this is core asset (BTS)
 
     // Create transaction and add operation
