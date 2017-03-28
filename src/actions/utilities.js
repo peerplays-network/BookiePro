@@ -50,6 +50,7 @@ const groupBinnedOrderBooksByEvent = (event, bettingMarketGroups, binnedOrderBoo
     if (binnedOrderBooks.hasOwnProperty(bettingMarketId)) {
       const orderBook = binnedOrderBooks[bettingMarketId];
       let immutableOrderBook = Immutable.Map();
+      // TODO: the actual orderBook dummy data are still in plain JS Object
       immutableOrderBook = immutableOrderBook.set('back', orderBook.get('aggregated_back_bets'));
       immutableOrderBook = immutableOrderBook.set('lay', orderBook.get('aggregated_lay_bets'));
       groupedBinnedOrderBooks = groupedBinnedOrderBooks.push(immutableOrderBook);

@@ -26,12 +26,11 @@ class SportPagePrivateActions {
     }
   }
 
-  static setDataAction(eventIds, eventGroupIds, binnedOrderBooks, binnedOrderBooksByEvent) {
+  static setDataAction(eventIds, eventGroupIds, binnedOrderBooksByEvent) {
     return {
       type: ActionTypes.SPORT_PAGE_SET_DATA,
       eventIds,
       eventGroupIds,
-      binnedOrderBooks,
       binnedOrderBooksByEvent
     }
   }
@@ -97,7 +96,6 @@ class SportPageActions {
         dispatch(SportPagePrivateActions.setDataAction(
           _.map(events, (event) => event.get('id')),
           _.map(eventGroups, (eventGroup) => eventGroup.get('id')),
-          binnedOrderBooks,
           binnedOrderBooksByEvent
         ));
 
