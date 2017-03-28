@@ -87,7 +87,7 @@ class SidebarActions{
         const targetEventGroups = eventGroupsList.filter(function(metric) {
           return metric.get('sport_id') === sport.get('id');
         })
-        targetEventGroups.forEach((eventGroup) =>{
+        _.forEach(targetEventGroups.toJS(), (eventGroup) => {
 
           let eventGroupNode = {};
           eventGroupNode.name = eventGroup.name;
@@ -100,7 +100,7 @@ class SidebarActions{
           const targetEvents = eventList.filter(function(metric) {
             return metric.get('event_group_id') === eventGroupNode.id;
           })
-          targetEvents.forEach( (event) =>  {
+          _.forEach(targetEvents.toJS(), (event) => {
 
             let eventNode = {};
             eventNode.name = event.name;
@@ -113,7 +113,7 @@ class SidebarActions{
             const targetBettingMktGps = bettingMktGroupList.filter(function(metric) {
               return metric.get('event_id') === eventNode.id;
             })
-            targetBettingMktGps.forEach( (mktGroup) => {
+            _.forEach(targetBettingMktGps.toJS(), (mktGroup) => {
 
               let mktGroupNode = {};
               mktGroupNode.name = mktGroup.market_type_id;

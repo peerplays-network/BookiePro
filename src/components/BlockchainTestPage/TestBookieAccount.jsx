@@ -262,7 +262,8 @@ class TestBookieAccount extends Component {
       need_soft_update: true,
       version: this.state.version,
       displayText: {
-        en: '<h1>Updates Available</h1><a href=\'http://www.w3.org/\'>W3C</a> is a link to latest version of Bookie App.',
+        en: '<h1>Updates Available</h1><a href=\'http://www.google.com\' '+
+        ' onclick="window.open(\'http://www.google.com\', \'newwindow\', \'width=300, height=250\'); return false;"> Print</a> is a link to latest version of Bookie App.',
         ln: 'Updates Available. Do you want to restart to install these updates now or try again tonight?(ln)https://bitbucket.org'
       }
     };
