@@ -20,7 +20,7 @@ class Signup extends Component {
   }
 
   handleSubmit(values) {
-    this.props.signup(values.accountName, values.password);
+    this.props.signup(values.get('accountName'), values.get('password'));
   }
 
   render() {
