@@ -72,16 +72,16 @@ class AccountServices {
   * account - account object from blockchain
   */
   static authenticateAccount(account, keys) {
-    // Andrianto Lie [5:49 PM]
-const x = {
-     ownerPublicKey: keys.owner.toPublicKey().toPublicKeyString(),
-     activePublicKey: keys.active.toPublicKey().toPublicKeyString(),
-     memoPublicKey: keys.active.toPublicKey().toPublicKeyString(),
-     ownerPrivateKey: keys.owner.toWif(),
-     activePrivateKey: keys.active.toWif(),
-     memoPrivateKey: keys.memo.toWif()
-   };
-   console.log(x);
+    // // For checking key
+    // const x = {
+    //   ownerPublicKey: keys.owner.toPublicKey().toPublicKeyString(),
+    //   activePublicKey: keys.active.toPublicKey().toPublicKeyString(),
+    //   memoPublicKey: keys.active.toPublicKey().toPublicKeyString(),
+    //   ownerPrivateKey: keys.owner.toWif(),
+    //   activePrivateKey: keys.active.toWif(),
+    //   memoPrivateKey: keys.memo.toWif()
+    // };
+    // console.log(x);
     const activePublicKey = keys.active.toPublicKey().toPublicKeyString();
     const ownerPublicKey = keys.owner.toPublicKey().toPublicKeyString();
 

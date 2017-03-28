@@ -14,7 +14,7 @@ export const acc = {
   "statistics": "2.6.152",
   "active_special_authority": [
     0,
-   {}
+    {}
   ],
   "network_fee_percentage": 2000,
   "active": {
