@@ -1,0 +1,106 @@
+div.editable-bet-table-wrapper {
+  &:first-of-type {
+    margin-top: 15px;
+  }
+  margin-right: 15px;
+  margin-bottom: 15px;
+
+  > div.header {
+    background-color: #1563A0;
+    color: white;
+    height: 40px;
+    padding: 10px;
+
+    > span.icon {
+      float: right;
+      margin-right: 5px;
+    }
+  }
+
+  div.bet-table {
+    // common table css for both back and lay sections
+    div.ant-table-body {
+      tr {
+        line-height: 12px;
+        font-size: 14px;
+      }
+
+      thead.ant-table-thead {
+        tr > th.numeric {
+          font-weight: lighter;
+        }
+      }
+
+      tbody.ant-table-tbody {
+        td.team > div {
+          div.team {
+            font-size: 15px;
+            margin-bottom: 3px;
+          }
+        }
+
+        td.numeric {
+          font-size: 17px;
+          font-weight: lighter;
+        }
+
+        td.delete-button {
+          padding: 0;
+          margin: 0;
+
+          button {
+            width: 100%;
+            height: 100%;
+            padding: 20px 0px;
+          }
+        }
+      }
+    }
+
+    > .back {
+      table td.delete-button > button {
+        background-color: #37C1FF;
+        color: white;
+      }
+
+      .ant-table-thead > tr > th {
+        background-color: #004378;
+        color: white;
+      }
+
+      .ant-table-tbody > tr > td {
+        border-color: #166ABC;
+        background-color: #004E9B;
+        color: white;
+
+        div.bet_type {
+          color: #37C1FF;
+          font-size: 10px;
+        }
+      }
+    }
+
+    > .lay {
+      table td.delete-button > button {
+        background-color: #1ACBB4;
+        color: white;
+      }
+
+      .ant-table-thead > tr > th {
+        background-color: #05696B;
+        color: white;
+      }
+
+      .ant-table-tbody > tr > td {
+        border-color: #359C9F;
+        background-color: #008487;
+        color: white;
+
+        div.bet_type {
+          color: #1ACBB4;
+          font-size: 10px;
+        }
+      }
+    }
+  }
+}

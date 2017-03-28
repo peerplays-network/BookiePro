@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Ps from 'perfect-scrollbar';
-import BetSlip from '../../BetSlip';
+import EditableBetTable from '../EditableBetTable';
 import { Button } from 'antd';
 
 class QuickBetDrawer extends Component {
@@ -17,12 +17,12 @@ class QuickBetDrawer extends Component {
     return (
       <div id='quick-bet-drawer' ref='drawer'>
         <div className='title'>
-          <div className='label'>Quick Bet Drawer</div>
+          <div className='label'>BETSLIP</div>
         </div>
         <div className='content'>
-          <BetSlip />
-          <BetSlip />
-          <BetSlip />
+          <EditableBetTable />
+          <EditableBetTable />
+          <EditableBetTable />
         </div>
         <div className='footer'>
           <Button className='place-bet'>PLACE BET $0.295</Button>
