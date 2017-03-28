@@ -3,9 +3,10 @@ import _ from 'lodash';
 import { Button } from 'antd';
 import { TransactionHelper, TransactionBuilder, PrivateKey, FetchChain } from 'graphenejs-lib';
 
-import { BlockchainUtils, ChainTypes, BindToChainState } from '../../utility';
+import { BlockchainUtils, ChainTypes, BindToChainState, StringUtils } from '../../utility';
 
-import { string2Bin } from '../../utility/StringUtils'
+import { acc } from '../../dummyData/account_auth/acc';
+import { acc2 } from '../../dummyData/account_auth/acc2';
 
 // Change this property depending on the blockchain you are
 const accountName = 'peerplays1';
@@ -18,7 +19,7 @@ const accountPrivateKeys = {
 const makeOrderSellAsset = '1.3.0';
 const makeOrderBuyAsset = '1.3.121';
 
-class TestBokieAccount extends Component {
+class TestBookieAccount extends Component {
 
   static propTypes = {
     account: ChainTypes.ChainAccount.isRequired,
@@ -236,15 +237,17 @@ class TestBokieAccount extends Component {
   _makeTransferTx() {
 
     this.setState({ makeOpenOrderInProgress: true });
-    const accountFrom = '1.2.152';
-    const accountTo = '1.2.48';
+    const accountFrom = acc.id;
+    const accountTo = acc2.id;
+    const memo_from_public = acc.options.memo_key
+    const memo_to_public = acc2.options.memo_key
+
     const coreAssetIdFrom = '1.3.0';
 
     // Create transaction and add operation
     const tr = new TransactionBuilder();
 
-    const memo_from_public = 'TEST5YV8br6ztoCPQiC8XPJN2BU4jmywMic27QqGcR3DsyjHroViB7'
-    const memo_to_public = 'TEST7sAG3NHoq8Z1y3xykpzEbajYE8AhHzZdYMzBZA2hsiEPAMttBU'
+
     // const memo_from_privkey = PrivateKey.fromWif('5JZpe5ANwzApzR4dPq24AXPVf3VMhDAHs5XV5T126bR255Q8Mhd');
 
     let versionString = this.state.version;
@@ -255,12 +258,15 @@ class TestBokieAccount extends Component {
       need_hard_update: true,
       need_soft_update: false,
       version: this.state.version,
-      displayText: 'update or bysdfadasdfde'
+      displayText: {
+        en: 'update or bysdfadasdfde in en',
+        ln: 'update or bysdfadasdfde in ln '
+      }
     };
 
 
     const nonce = TransactionHelper.unique_nonce_uint64();
-    const msg = string2Bin(JSON.stringify(memoMessage));
+    const msg = StringUtils.string2Bin(JSON.stringify(memoMessage));
     const memo_object = {
       from: memo_from_public,
       to: memo_to_public,
@@ -328,5 +334,5 @@ class TestBokieAccount extends Component {
   }
 }
 
-const BindedBlockchainTestAccount = BindToChainState()(TestBokieAccount);
+const BindedBlockchainTestAccount = BindToChainState()(TestBookieAccount);
 export default BindedBlockchainTestAccount;

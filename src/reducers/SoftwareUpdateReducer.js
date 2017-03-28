@@ -1,7 +1,7 @@
 import { ActionTypes } from '../constants';
 import { ChainTypes } from 'graphenejs-lib';
 import _ from 'lodash';
-import { hex2a } from '../utility/StringUtils'
+import { StringUtils } from '../utility';
 import Immutable from 'immutable';
 
 let initialState = Immutable.Map({
@@ -43,7 +43,8 @@ export default function (state = initialState, action) {
 
             try {
               // Assuming that we dun need to decrypt the message to parse 'software update' memo message
-              const memoJson =  JSON.parse(hex2a(memo.get('message')));
+              const memoJson =  JSON.parse(StringUtils.hex2a(memo.toJS().message));
+
               needHardUpdate = memoJson.need_hard_update;
               needSoftUpdate = memoJson.need_soft_update;
               version = memoJson.version;

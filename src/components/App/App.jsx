@@ -6,7 +6,9 @@ import { NavigateActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
-import { compareVersionNumbers } from '../../utility/versionUtils'
+import { StringUtils } from '../../utility';
+
+const defaultNewVersionText = 'New version found. Please update the version'
 
 class App extends Component {
   constructor(props) {
@@ -35,7 +37,7 @@ class App extends Component {
 
       if ( this.props.version &&
         (this.props.needHardUpdate || this.props.needSoftUpdate) &&
-        (compareVersionNumbers(this.state.currentVersion, this.props.version) < 0)){
+        (StringUtils.compareVersionNumbers(this.state.currentVersion, this.props.version) < 0)){
 
         this.setState({
           newVersionModalVisible: true
@@ -106,15 +108,18 @@ class App extends Component {
 
   render() {
 
+
     let softwareUpdateModal = (
-      <SoftwareUpdateModal
-        title='I need to update the app first'
-        closable={ !this.props.needHardUpdate }
-        visible={ this.state.newVersionModalVisible }
-        onOk={ () => this.setModalVisibleOK(false) }
-        onCancel={ () => this.setModalVisible(false) }
-        latestVersion={ this.props.version }
-      />
+
+        <SoftwareUpdateModal
+          modalTitle={ this.props.displayText ? this.props.displayText.get(this.props.locale) : defaultNewVersionText }
+          closable={ !this.props.needHardUpdate }
+          visible={ this.state.newVersionModalVisible }
+          onOk={ () => this.setModalVisibleOK(false) }
+          onCancel={ () => this.setModalVisible(false) }
+          latestVersion={ this.props.version }
+        />
+
     );
 
     let content = (
@@ -127,16 +132,21 @@ class App extends Component {
       content = (
         <div className='sportsbg'>
           <SyncError/>
+          { softwareUpdateModal }
+
         </div> );
     } else if (this.state.loading) {
       content = (
         <div className='sportsbg'>
           <span>loading...connecitng to blockchain</span>
+          { softwareUpdateModal }
+
         </div> );
     } else if (this.props.children){
       content = (
         <div>
           { this.props.children }
+          { softwareUpdateModal }
 
         </div>
       );
@@ -149,14 +159,17 @@ class App extends Component {
 const mapStateToProps = (state) => {
   const app = state.get('app');
   const softwareUpdate = state.get('softwareUpdate');
+  const i18n = state.get('i18n');
   return {
 
     isLoggedIn: app.get('isLoggedIn'),
     needHardUpdate: softwareUpdate.get('needHardUpdate'),
     needSoftUpdate: softwareUpdate.get('needSoftUpdate'),
+    displayText: softwareUpdate.get('displayText'),
     version: softwareUpdate.get('version'), //
+    locale: i18n.get('locale')
 
-    // uncomment below for testing
+    // uncomment below for software update modal testing
     // needHardUpdate: true,
     // needSoftUpdate: false,
     // version: "1.1.17", //
