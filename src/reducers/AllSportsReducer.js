@@ -4,15 +4,17 @@ import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
   eventIds: [],
-  binnedOrderBooks: {}
+  binnedOrderBooks: {},
+  binnedOrderBooksByEvent: {}
 });
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.ALL_SPORTS_SET_DATA: {
       return state.merge({
-        eventsIds: action.eventIds,
-        binnedOrderBooks: action.binnedOrderBooks
+        eventIds: action.eventIds,
+        binnedOrderBooks: action.binnedOrderBooks,
+        binnedOrderBooksByEvent: action.binnedOrderBooksByEvent
       });
     }
     default:
