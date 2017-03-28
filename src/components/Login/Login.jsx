@@ -22,7 +22,7 @@ class Login extends Component {
 
   //validates accountName password and navigate to home page
   handleSubmit(e) {
-    this.props.login(e.userName, e.password);
+    this.props.login(e.get('userName'), e.get('password'));
   }
 
   render() {

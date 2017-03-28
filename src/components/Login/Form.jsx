@@ -63,7 +63,7 @@ export default reduxForm({
 	//Form fields validation
   validate: function submit(values) {
   	const errors = {  };
-  	let accountError = ChainValidation.is_account_name_error(values.userName);
+  	let accountError = ChainValidation.is_account_name_error(values.get('userName'));
 
   	if(accountError) {
 			//overriding blockchain error with general error
@@ -72,7 +72,7 @@ export default reduxForm({
   		errors.userName = I18n.t('login.username_notfound');
   	 }
 
-  	if(!values.password || values.password.length < 22) {
+  	if(!values.get('password') || values.get('password').length < 22) {
   		errors.password = I18n.t('login.password_short');
   	 }
 
@@ -80,9 +80,9 @@ export default reduxForm({
   },
 	//asynchronously validate username and store in state
   asyncValidate: (values, dispatch) => {
-    return AccountService.lookupAccounts(values.userName, 100)
+    return AccountService.lookupAccounts(values.get('userName'), 100)
     .then(result => {
-			 let account = result.find(a => a[0] === values.userName);
+			 let account = result.find(a => a[0] === values.get('userName'));
       if(!account)
 				 throw { userName: I18n.t('login.username_notfound') };
     });

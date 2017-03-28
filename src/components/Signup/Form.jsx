@@ -148,25 +148,25 @@ export default reduxForm({
     let errors = {};
 
     //Account name field validations
-    let accountError = ChainValidation.is_account_name_error(values.accountName);
+    let accountError = ChainValidation.is_account_name_error(values.get('accountName'));
     if(accountError) {
       errors.accountName = accountError;
     } else {
-      if (!ChainValidation.is_cheap_name(values.accountName)) {
+      if (!ChainValidation.is_cheap_name(values.get('accountName'))) {
         errors.accountName = I18n.t('signup.premium_acc_text');
       }
     }
 
     //Password-Re-type password fields validation
-    if (values.password && values.password !== values.password_retype) {
+    if (values.get('password') && values.get('password') !== values.get('password_retype')) {
       errors.password_retype = I18n.t('signup.password_no_match');
     }
 
     //Checkboxes validations
-    if (!values.understand) {
+    if (!values.get('understand')) {
       errors.understand = I18n.t('signup.field_req');
     }
-    if (!values.secure) {
+    if (!values.get('secure')) {
       errors.secure = I18n.t('signup.field_req');
     }
 
@@ -174,9 +174,9 @@ export default reduxForm({
   },
   //Async Validation to check if the account name is already taken
   asyncValidate: (values) => {
-    return AccountService.lookupAccounts(values.accountName, 100)
+    return AccountService.lookupAccounts(values.get('accountName'), 100)
         .then(result => {
-          let account = result.find(a => a[0] === values.accountName);
+          let account = result.find(a => a[0] === values.get('accountName'));
           if(account) {
             throw { accountName: I18n.t('signup.acc_name_taken') };
           }
