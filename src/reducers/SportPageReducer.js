@@ -5,7 +5,7 @@ import _ from 'lodash';
 let initialState = Immutable.fromJS({
   eventIds: [],
   eventGroupIds: [],
-  binnedOrderBooks: {}
+  binnedOrderBooksByEvent: {}
 });
 
 export default function(state = initialState, action) {
@@ -14,7 +14,7 @@ export default function(state = initialState, action) {
       return state.merge({
         eventIds: action.eventIds,
         eventGroupIds: action.eventGroupIds,
-        binnedOrderBooks: action.binnedOrderBooks
+        binnedOrderBooksByEvent: action.binnedOrderBooksByEvent
       });
     }
     default:

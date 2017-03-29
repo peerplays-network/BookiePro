@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import Immutable from 'immutable';
 
+// TODO: Replace this with a plain function that return literal JS objects
 // TODO: Replace this with the real definition of order_book_bin
 //       with amount_to_bet and amount_to_win
 function OrderBookBin(odds, price) {
@@ -8,9 +9,7 @@ function OrderBookBin(odds, price) {
   this.price = price;
 }
 
-// TODO: Most likely Binned Order Books should not exist as standalone Blockchain objects
-//       Will review this once the data can be displayed on screen
-
+// We don't have a unique key for these as they are NOT Blockchain object
 const binnedOrderBooks = [
   {
     betting_market_id: '1.105.1',

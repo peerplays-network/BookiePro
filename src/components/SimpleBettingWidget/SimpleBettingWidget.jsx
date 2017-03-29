@@ -12,11 +12,12 @@ const offerColumnWidth = 70;
 // index: [ 1 | 2]
 const renderOffer = (betType, index) => {
   return (text, record) => {
-    if (record.offers.length === 0) {
+    // TODO: Need a better way to check this after the Immutable JS changes
+    if (record.offers === undefined || record.offers.size === 0) {
       return '';
     }
     // Assume the first orderbook for now
-    const offer = record.offers[0][betType][index-1];
+    const offer = record.offers.get(0).get(betType).get(index-1);
     return (
       <div className='offer'>
         <div className='odds'>{ offer.odds }</div>

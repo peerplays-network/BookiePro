@@ -1,5 +1,6 @@
 import FakeApi from '../communication/FakeApi';
 import _ from 'lodash';
+import Immutable from 'immutable';
 
 const getEventsBySports = (sports) => {
   // Create promise to get events for each sport and call them together
@@ -34,10 +35,36 @@ const groupBinnedOrderBooksByBettingMarketId = (binnedOrderBooks) => {
   return map;
 }
 
+const groupBinnedOrderBooksByEvent = (event, bettingMarketGroups, binnedOrderBooks) => {
+  const matchedBettingMarketGroups = bettingMarketGroups.filter(
+    (group) => event.get('betting_market_group_ids').includes(group.get('id'))
+  );
+
+  let bettingMarketIds = Immutable.List();
+  matchedBettingMarketGroups.forEach((group) => {
+    bettingMarketIds = bettingMarketIds.concat(group.get('betting_market_ids'));
+  });
+
+  let groupedBinnedOrderBooks = Immutable.List();
+  bettingMarketIds.forEach((bettingMarketId) => {
+    if (binnedOrderBooks.hasOwnProperty(bettingMarketId)) {
+      const orderBook = binnedOrderBooks[bettingMarketId];
+      let immutableOrderBook = Immutable.Map();
+      // TODO: the actual orderBook dummy data are still in plain JS Object
+      immutableOrderBook = immutableOrderBook.set('back', orderBook.get('aggregated_back_bets'));
+      immutableOrderBook = immutableOrderBook.set('lay', orderBook.get('aggregated_lay_bets'));
+      groupedBinnedOrderBooks = groupedBinnedOrderBooks.push(immutableOrderBook);
+    }
+  });
+
+  return groupedBinnedOrderBooks;
+}
+
 export {
   getEventsBySports,
   getBettingMarketGroupsByEvents,
   getBettingMarketsInBettingMarketGroups,
   getBinnedOrderBooksByBettingMarkets,
-  groupBinnedOrderBooksByBettingMarketId
+  groupBinnedOrderBooksByBettingMarketId,
+  groupBinnedOrderBooksByEvent
 };

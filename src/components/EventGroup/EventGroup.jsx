@@ -26,57 +26,28 @@ class EventGroup extends Component {
   }
 }
 
-// TODO: Should be a common function
-const findBinnedOrderBooksFromEvent = (event, state) => {
-  const bettingMarketGroupsById = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']).filter(
-    (group) => event.get('betting_market_group_ids').includes(group.get('id'))
-  );
-  let bettingMarketIds = Immutable.List();
-  bettingMarketGroupsById.forEach((group) => {
-    bettingMarketIds = bettingMarketIds.concat(group.get('betting_market_ids'));
-  });
-
-  const eventGroupPage = state.get('eventGroupPage');
-
-  const binnedOrderBooks = eventGroupPage.get('binnedOrderBooks');
-  let matchedBinnedOrderBooks = Immutable.List();
-  bettingMarketIds.forEach((bettingMarketId) => {
-    if (binnedOrderBooks.has(bettingMarketId)) {
-      const orderBook = binnedOrderBooks.get(bettingMarketId);
-      matchedBinnedOrderBooks = matchedBinnedOrderBooks.push({
-        // TODO: this is a temporary solution where we change everything to normal JS object instead of immutable
-        // TODO: later on mapStateToProps should return immutable object
-        back: orderBook.get('aggregated_back_bets').toJS(),
-        lay: orderBook.get('aggregated_lay_bets').toJS()
-      });
-
-    }
-  });
-
-  // TODO: this is a temporary solution where we change everything to normal JS object instead of immutable
-  // TODO: later on mapStateToProps should return immutable object
-  return matchedBinnedOrderBooks.toJS();
-}
-
 const mapStateToProps = (state) => {
   const eventsById = state.getIn(['event', 'eventsById']);
-  const eventGroupPage = state.get('eventGroupPage');
+  const eventIds = state.getIn(['eventGroupPage', 'eventIds']);
+  const binnedOrderBooksByEvent = state.getIn(['eventGroupPage', 'binnedOrderBooksByEvent']);
 
   // For each event, generate data entry for the Simple Betting Widget
   const myEvents = eventsById.toArray()
-    .filter((event) => eventGroupPage.get('eventIds').includes(event.get('id')))
+    .filter((event) => eventIds.includes(event.get('id')))
     .map((event) => {
+      const eventId = event.get('id');
+      const offers = binnedOrderBooksByEvent.has(eventId)? binnedOrderBooksByEvent.get(eventId) : Immutable.List() ;
       return {
-        id: event.get('id'),
+        id: eventId,
         name: event.get('name'),
         time: event.get('start_time'),
-        offers: findBinnedOrderBooksFromEvent(event, state)
+        offers: offers
       }
     });
 
   return {
-    sport: eventGroupPage.get('sportName'),
-    eventGroup: eventGroupPage.get('eventGroupName'),
+    sport: state.getIn(['eventGroupPage', 'sportName']),
+    eventGroup: state.getIn(['eventGroupPage', 'eventGroupName']),
     events: myEvents
   };
 };

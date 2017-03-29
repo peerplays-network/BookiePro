@@ -6,7 +6,7 @@ let initialState = Immutable.fromJS({
   sportName: '',
   eventGroupName: '',
   eventIds: [],
-  binnedOrderBooks: {}
+  binnedOrderBooksByEvent: {}
 });
 
 export default function(state = initialState, action) {
@@ -16,7 +16,7 @@ export default function(state = initialState, action) {
         sportName: action.sportName,
         eventGroupName: action.eventGroupName,
         eventIds: action.eventIds,
-        binnedOrderBooks: action.binnedOrderBooks
+        binnedOrderBooksByEvent: action.binnedOrderBooksByEvent
       })
     }
     default:

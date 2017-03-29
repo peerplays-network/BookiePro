@@ -5,12 +5,14 @@ import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import _ from 'lodash';
+import Immutable from 'immutable';
 import {
   getEventsBySports,
   getBettingMarketGroupsByEvents,
   getBettingMarketsInBettingMarketGroups,
   getBinnedOrderBooksByBettingMarkets,
-  groupBinnedOrderBooksByBettingMarketId
+  groupBinnedOrderBooksByBettingMarketId,
+  groupBinnedOrderBooksByEvent
 } from './utilities'
 
 /**
@@ -24,11 +26,11 @@ class AllSportsPrivateActions {
     }
   }
 
-  static setDataAction(eventIds, binnedOrderBooks) {
+  static setDataAction(eventIds, binnedOrderBooksByEvent) {
     return {
       type: ActionTypes.ALL_SPORTS_SET_DATA,
       eventIds,
-      binnedOrderBooks
+      binnedOrderBooksByEvent
     }
   }
 }
@@ -42,6 +44,7 @@ class AllSportsActions {
       dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
       let events = [];
+      let bettingMarketGroups = [];
       // First get list of sports
       FakeApi.getSports().then((sports) => {
         // Store sports inside redux store
@@ -59,7 +62,7 @@ class AllSportsActions {
 
       }).then((result) => {
         // Combine the resulting betting market groups
-        const bettingMarketGroups = _.flatMap(result);
+        bettingMarketGroups = _.flatMap(result);
         // Store betting market groups inside redux store
         dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMarketGroups));
         return getBettingMarketsInBettingMarketGroups(bettingMarketGroups)
@@ -74,9 +77,17 @@ class AllSportsActions {
       }).then((result) => {
         // Combine the resulting binned order books
         const binnedOrderBooks = groupBinnedOrderBooksByBettingMarketId(_.flatMap(result));
+
+        let binnedOrderBooksByEvent = Immutable.Map();
+        events.forEach((event) => {
+          binnedOrderBooksByEvent = binnedOrderBooksByEvent.set(
+            event.get('id'), groupBinnedOrderBooksByEvent(event, bettingMarketGroups, binnedOrderBooks)
+          );
+        });
+
         // Stored all retrieve data in the AllSports state in Redux store
         const eventIds = _.map(events, (event) => event.get('id'));
-        dispatch(AllSportsPrivateActions.setDataAction(eventIds, binnedOrderBooks));
+        dispatch(AllSportsPrivateActions.setDataAction(eventIds, binnedOrderBooksByEvent));
 
         // Finish loading (TODO: Are we sure this is really the last action dispatched?)
         dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));

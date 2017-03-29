@@ -4,11 +4,13 @@ import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import _ from 'lodash';
+import Immutable from 'immutable';
 import {
   getBettingMarketGroupsByEvents,
   getBettingMarketsInBettingMarketGroups,
   getBinnedOrderBooksByBettingMarkets,
-  groupBinnedOrderBooksByBettingMarketId
+  groupBinnedOrderBooksByBettingMarketId,
+  groupBinnedOrderBooksByEvent
 } from './utilities'
 
 class EventGroupPagePrivateActions {
@@ -19,13 +21,13 @@ class EventGroupPagePrivateActions {
     }
   }
 
-  static setDataAction(sportName, eventGroupName, eventIds, binnedOrderBooks) {
+  static setDataAction(sportName, eventGroupName, eventIds, binnedOrderBooksByEvent) {
     return {
       type: ActionTypes.EVENT_GROUP_PAGE_SET_DATA,
       sportName,
       eventGroupName,
       eventIds,
-      binnedOrderBooks
+      binnedOrderBooksByEvent
     }
   }
 
@@ -46,6 +48,7 @@ class EventGroupPageActions {
       let eventGroup;
       let sport;
       let events = [];
+      let bettingMarketGroups = [];
       FakeApi.getObjects([eventGroupId]).then((retrievedObjects) => {
         // Store the resolved event group object in the outer scope variable
         eventGroup = retrievedObjects[0];
@@ -66,7 +69,7 @@ class EventGroupPageActions {
         return getBettingMarketGroupsByEvents(events);
       }).then((result) => {
         // Combine the resulting betting market groups
-        let bettingMarketGroups = _.flatMap(result);
+        bettingMarketGroups = _.flatMap(result);
         // Store betting market groups inside redux store
         dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMarketGroups));
 
@@ -81,12 +84,19 @@ class EventGroupPageActions {
       }).then((result) => {
         const binnedOrderBooks = groupBinnedOrderBooksByBettingMarketId(_.flatMap(result));
 
+        let binnedOrderBooksByEvent = Immutable.Map();
+        events.forEach((event) => {
+          binnedOrderBooksByEvent = binnedOrderBooksByEvent.set(
+            event.get('id'), groupBinnedOrderBooksByEvent(event, bettingMarketGroups, binnedOrderBooks)
+          );
+        });
+
         // Stored all retrieve data in the EventGroupPage state in Redux store
         dispatch(EventGroupPagePrivateActions.setDataAction(
           sport.get('name'),
           eventGroup.get('name'),
           _.map(events, (event) => event.get('id')),    // list of event ids
-          binnedOrderBooks
+          binnedOrderBooksByEvent
         ));
 
         // Finish loading (TODO: Are we sure this is really the last action dispatched?)
