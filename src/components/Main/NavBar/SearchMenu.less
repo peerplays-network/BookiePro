@@ -11,7 +11,6 @@ div.search-menu{
     // assume there is one li only
     li {
       padding: 0 16px 0 14px;
-
       input[type="text"] {
         font-size: 16px;
         border: none;
@@ -35,9 +34,66 @@ div.search-menu{
 
   .ant-menu-vertical .ant-menu-item{
     overflow: visible;
+    line-height: 38px;
+    height: 44px;
+    padding:0;
   }
 
   .ant-menu-dark{
     background:transparent;
+  }
+  .Select-control{
+    background-color: transparent;
+    border:0 none;
+
+    border-radius: 0;
+    color: #00BEF4;
+  }
+  .Select-placeholder{
+    color: #00BEF4;
+    font-size:18px;
+    //border-bottom:1px solid #00BEF4;
+    height:auto;
+    padding:0;
+    width:200px;
+    &:focus{
+
+    }
+  }
+  .Select-arrow-zone{
+    display: none;
+  }
+  .Select-input{
+    font-size:18px;
+    padding:0;
+    border-bottom:1px solid #00BEF4;
+    width:200px;
+  }
+
+}
+.search-menu{
+  .Select-menu-outer{
+    background-color: #002340;
+    color: #FFFFFF;
+    border:0 none;
+    position: absolute;
+    left:0;
+    border-top:0 none;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-top:0;
+  }
+}
+
+
+.Select{
+  padding:5px 20px;
+  &.is-focus, &.is-open{
+    .Select-input{
+      border-bottom-color: #FFFFFF;
+    }
+    .Select-input,.Select-placeholder{
+      color: #FFFFFF;
+    }
   }
 }
