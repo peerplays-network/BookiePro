@@ -1,4 +1,5 @@
 import ActionTypes from '../constants/ActionTypes';
+import NavigateActions from '../actions/NavigateActions'
 
 /**
  * Public actions
@@ -29,6 +30,13 @@ class SettingActions {
     return {
       type: ActionTypes.SETTING_UPDATE_CURRENCY_FORMAT,
       currencyFormat: currencyFormat
+    }
+  }
+
+  static redirectToChangePwd(){
+    return (dispatch) => {
+     //Navigate to the 'Change Password' page when 'Change Password' button is clicked
+      dispatch(NavigateActions.navigateTo('/change-password'));
     }
   }
 
