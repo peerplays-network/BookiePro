@@ -1,41 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { Icon, Table } from 'antd';
-import QuickBetDrawerActions from '../../actions';
+import { QuickBetDrawerActions } from '../../actions';
 
 const bitcoinSymbol = '\u0243';
 // We cannot use CSS to override antd Table column width using CSS
 // This can only be done via the code
 const eventTimeColumnWidth = 90;
 const offerColumnWidth = 70;
-
-const createBet = (event, record) => {
-  event.preventDefault();
-  console.log('SimpleBettingWidget click offer', record);
-}
-
-// betType: [ back | lay ]
-// index: [ 1 | 2]
-const renderOffer = (betType, index) => {
-  return (text, record) => {
-    const offers = record.get('offers');
-    // TODO: Need a better way to check this after the Immutable JS changes
-    if (offers === undefined || offers.isEmpty()) {
-      return '';
-    }
-    // TODO: Check if we always have only one offer here. If yes, get rid of the list
-    // TODO: Need to come back here once we converted the Binned Order Books dummy data to ImmutableJS Map too
-    const offer = offers.get(0).get(betType).get(index-1);
-    return (
-      <a href='#' onClick={ (event) => createBet(event, record) }>
-        <div className='offer'>
-          <div className='odds'>{ offer.odds }</div>
-          <div className='price'>{ bitcoinSymbol } { offer.price }</div>
-        </div>
-      </a>
-    );
-  };
-};
 
 // TODO: Consider moving this to a utility library later
 // TODO: The implementation below is for demo purpose. Will review this in future iterations.
@@ -50,50 +24,52 @@ const renderEventTime = (text, record) => {
   return eventTime.format('DD/MM/YYYY HH:mm');
 }
 
-const columns = [{
-  dataIndex: 'time',
-  key: 'time',
-  width: eventTimeColumnWidth,
-  className: 'event-time',
-  render: renderEventTime
-}, {
-  dataIndex: 'name',
-  key: 'name',
-  // Do not specify width so the column
-  // will grow/shrink with the size of the table
-  className: 'team',
-  render: (text, record) => record.get('name')
-}, {
-  title: '1',
-  children: [{
-    dataIndex: 'back_offer_1',
-    key: 'back_offer_1',
-    width: offerColumnWidth,
-    className: 'back-offer',
-    render: renderOffer('back', 1)
+const getColumns = (renderOffer) => ([
+  {
+    dataIndex: 'time',
+    key: 'time',
+    width: eventTimeColumnWidth,
+    className: 'event-time',
+    render: renderEventTime
   }, {
-    dataIndex: 'lay_offer_1',
-    key: 'lay_offer_1',
-    width: offerColumnWidth,
-    className: 'lay-offer',
-    render: renderOffer('lay', 1)
-  }]
-}, {
-  title: '2',
-  children: [{
-    dataIndex: 'back_offer_2',
-    key: 'back_offer_2',
-    width: offerColumnWidth,
-    className: 'back-offer',
-    render: renderOffer('back', 2)
+    dataIndex: 'name',
+    key: 'name',
+    // Do not specify width so the column
+    // will grow/shrink with the size of the table
+    className: 'team',
+    render: (text, record) => record.get('name')
   }, {
-    dataIndex: 'lay_Offer_2',
-    key: 'lay_offer_2',
-    width: offerColumnWidth,
-    className: 'lay-offer',
-    render: renderOffer('lay', 2)
-  }]
-}];
+    title: '1',
+    children: [{
+      dataIndex: 'back_offer_1',
+      key: 'back_offer_1',
+      width: offerColumnWidth,
+      className: 'back-offer',
+      render: renderOffer('back', 1)
+    }, {
+      dataIndex: 'lay_offer_1',
+      key: 'lay_offer_1',
+      width: offerColumnWidth,
+      className: 'lay-offer',
+      render: renderOffer('lay', 1)
+    }]
+  }, {
+    title: '2',
+    children: [{
+      dataIndex: 'back_offer_2',
+      key: 'back_offer_2',
+      width: offerColumnWidth,
+      className: 'back-offer',
+      render: renderOffer('back', 2)
+    }, {
+      dataIndex: 'lay_Offer_2',
+      key: 'lay_offer_2',
+      width: offerColumnWidth,
+      className: 'lay-offer',
+      render: renderOffer('lay', 2)
+    }]
+  }
+]);
 
 const renderTitle = (title) => (
   <div className='title'>
@@ -112,30 +88,72 @@ const renderFooter = (title) => (
   </div>
 )
 
-const SimpleBettingWidget = (props) => {
-  // Introduce the key attribute to suppress the React warning
-  let events = [];
-  if (props.events !== undefined) {
-    events = props.events.map((event) => event.set('key', event.get('id')));
-    events = events.toArray();  // antd table only accepts vanilla JS arrays
+class SimpleBettingWidget extends Component {
+  constructor(props) {
+    super(props);
+    this.onOfferClicked = this.onOfferClicked.bind(this);
+    this.renderOffer = this.renderOffer.bind(this);
   }
 
-  return (
-    // Note that we have to explicitly tell antd Table how to find the rowKey
-    // because it is not compatible with Immutable JS
-    <div className='simple-betting'>
-      <Table
-        bordered
-        pagination={ false }
-        columns={ columns }
-        dataSource={ events }
-        title={ () => renderTitle(props.title) }
-        footer={ () => renderFooter(props.title) }
-        locale={ {emptyText: 'No Data'} }
-        rowKey={ (record) => record.get('key') }
-      />
-    </div>
-  );
+  onOfferClicked(event, record, offer) {
+    event.preventDefault();
+    this.props.createBet(record, offer);
+  }
 
+  // betType: [ back | lay ]
+  // index: [ 1 | 2]
+  renderOffer(betType, index) {
+    return (text, record) => {
+      const offers = record.get('offers');
+      // TODO: Need a better way to check this after the Immutable JS changes
+      if (offers === undefined || offers.isEmpty()) {
+        return '';
+      }
+      // TODO: Check if we always have only one offer here. If yes, get rid of the list
+      // TODO: Need to come back here once we converted the Binned Order Books dummy data to ImmutableJS Map too
+      const offer = offers.get(0).get(betType).get(index-1);
+      return (
+        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, offer) }>
+          <div className='offer'>
+            <div className='odds'>{ offer.odds }</div>
+            <div className='price'>{ bitcoinSymbol } { offer.price }</div>
+          </div>
+        </a>
+      );
+    };
+  };
+
+  render() {
+    // Introduce the key attribute to suppress the React warning
+    let events = [];
+    if (this.props.events !== undefined) {
+      events = this.props.events.map((event) => event.set('key', event.get('id')));
+      events = events.toArray();  // antd table only accepts vanilla JS arrays
+    }
+
+    return (
+      // Note that we have to explicitly tell antd Table how to find the rowKey
+      // because it is not compatible with Immutable JS
+      <div className='simple-betting'>
+        <Table
+          bordered
+          pagination={ false }
+          columns={ getColumns(this.renderOffer) }
+          dataSource={ events }
+          title={ () => renderTitle(this.props.title) }
+          footer={ () => renderFooter(this.props.title) }
+          locale={ {emptyText: 'No Data'} }
+          rowKey={ (record) => record.get('key') }
+        />
+      </div>
+    );
+  }
 }
-export default SimpleBettingWidget;
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    createBet: QuickBetDrawerActions.createBet,
+  }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(SimpleBettingWidget);

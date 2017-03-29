@@ -23,7 +23,7 @@ const renderBetTables = (props) => (
 )
 
 const renderContent = (props) => {
-  if (props.events.isEmpty()) {
+  if (props.bets.isEmpty()) {
     return renderBlankDrawer();
   }
 
@@ -49,7 +49,7 @@ class QuickBetDrawer extends Component {
           { renderContent(this.props) }
         </div>
         {
-          !this.props.events.isEmpty() &&
+          !this.props.bets.isEmpty() &&
           <div className='footer'>
             <Button className='place-bet'>PLACE BET $0.295</Button>
           </div>
@@ -60,10 +60,10 @@ class QuickBetDrawer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const events = state.getIn(['quickBetDrawer', 'events']);
-  console.log('QuickBetDrawer mapState', events.toJS());
+  const bets = state.getIn(['quickBetDrawer', 'bets']);
+  console.log('QuickBetDrawer mapState', bets.toJS());
   return {
-    events: events
+    bets: bets
   };
 }
 
