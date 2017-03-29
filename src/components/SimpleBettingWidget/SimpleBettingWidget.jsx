@@ -18,12 +18,14 @@ const createBet = (event, record) => {
 // index: [ 1 | 2]
 const renderOffer = (betType, index) => {
   return (text, record) => {
+    const offers = record.get('offers');
     // TODO: Need a better way to check this after the Immutable JS changes
-    if (record.offers === undefined || record.offers.isEmpty()) {
+    if (offers === undefined || offers.isEmpty()) {
       return '';
     }
     // TODO: Check if we always have only one offer here. If yes, get rid of the list
-    const offer = record.offers.get(0).get(betType).get(index-1);
+    // TODO: Need to come back here once we converted the Binned Order Books dummy data to ImmutableJS Map too
+    const offer = offers.get(0).get(betType).get(index-1);
     return (
       <a href='#' onClick={ (event) => createBet(event, record) }>
         <div className='offer'>
@@ -38,7 +40,7 @@ const renderOffer = (betType, index) => {
 // TODO: Consider moving this to a utility library later
 // TODO: The implementation below is for demo purpose. Will review this in future iterations.
 const renderEventTime = (text, record) => {
-  const eventTime = moment(parseInt(record.time, 10))
+  const eventTime = moment(parseInt(record.get('time'), 10))
   let timeString = eventTime.calendar();
   // TODO: Need a better way as this is NOT going to work once we have localization
   if (timeString.toLowerCase().includes('tomorrow')) {
@@ -59,7 +61,8 @@ const columns = [{
   key: 'name',
   // Do not specify width so the column
   // will grow/shrink with the size of the table
-  className: 'team'
+  className: 'team',
+  render: (text, record) => record.get('name')
 }, {
   title: '1',
   children: [{
@@ -113,12 +116,13 @@ const SimpleBettingWidget = (props) => {
   // Introduce the key attribute to suppress the React warning
   let events = [];
   if (props.events !== undefined) {
-    events = props.events.map((event) => (
-      Object.assign({}, event, { key: event.id })
-    ));
+    events = props.events.map((event) => event.set('key', event.get('id')));
+    events = events.toArray();  // antd table only accepts vanilla JS arrays
   }
 
   return (
+    // Note that we have to explicitly tell antd Table how to find the rowKey
+    // because it is not compatible with Immutable JS
     <div className='simple-betting'>
       <Table
         bordered
@@ -128,6 +132,7 @@ const SimpleBettingWidget = (props) => {
         title={ () => renderTitle(props.title) }
         footer={ () => renderFooter(props.title) }
         locale={ {emptyText: 'No Data'} }
+        rowKey={ (record) => record.get('key') }
       />
     </div>
   );

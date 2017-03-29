@@ -14,17 +14,19 @@ class AllSports extends Component {
   }
 
   render() {
+    const { sports } = this.props;
     return (
       <div id='all-sports-wrapper'>
         <AllSportsBanner />
         {
-          Object.keys(this.props.sports).map((sportId, idx) => {
-            const sport = this.props.sports[sportId];
+          // convert the list of keys into vanilla JS array so that I can grab the index
+          sports.keySeq().toArray().map((sportId, idx) => {
+            const sport = sports.get(sportId);
             return (
               <SimpleBettingWidget
-                key={ idx }
-                title={ sport.name }
-                events={ sport.events }
+                key={ idx }                   // required by React to have unique key
+                title={ sport.get('name') }
+                events={ sport.get('events') }
               />
             )
           })
@@ -40,27 +42,30 @@ const mapStateToProps = (state) => {
   const binnedOrderBooksByEvent = state.getIn(['allSports', 'binnedOrderBooksByEvent']);
 
   // Construct the page content
-  let page = {};
+  let page = Immutable.Map();
 
   // Create a map using sport id as keys
   sportsById.forEach((sport) => {
     const sportId = sport.get('id');
-    page[sportId] = { name: sport.get('name') };
-    page[sportId]['events'] = [];
+    page = page.set(sportId, Immutable.Map());
+    page = page.setIn([sportId, 'name'], sport.get('name'));
+    page = page.setIn([sportId, 'events'], Immutable.List());
   });
 
   // For each event, generate data entry for the Simple Betting Widget
   eventsById.forEach((event) => {
     const eventSportId = event.get('sport_id');
-    if (page.hasOwnProperty(eventSportId)) {
+    if (page.has(eventSportId)) {
       const eventId = event.get('id');
       const offers = binnedOrderBooksByEvent.has(eventId)? binnedOrderBooksByEvent.get(eventId) : Immutable.List() ;
-      page[eventSportId]['events'].push({
+      let eventList = page.getIn([eventSportId, 'events']);
+      eventList = eventList.push(Immutable.fromJS({
         id: event.get('id'),
         name: event.get('name'),
         time: event.get('start_time'),
         offers: offers
-      });
+      }));
+      page = page.setIn([eventSportId, 'events'], eventList);
     }
   });
 
