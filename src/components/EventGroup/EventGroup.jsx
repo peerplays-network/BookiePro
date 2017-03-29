@@ -14,12 +14,13 @@ class EventGroup extends Component {
   }
 
   render() {
+    const { sport, eventGroup, events } = this.props;
     return (
       <div className='event-group-wrapper'>
-        <SportBanner sport={ this.props.sport }/>
+        <SportBanner sport={ sport }/>
         <SimpleBettingWidget
-          title={ this.props.eventGroup }
-          events={ this.props.events }
+          title={ eventGroup }
+          events={ events }
         />
       </div>
     )
@@ -32,18 +33,20 @@ const mapStateToProps = (state) => {
   const binnedOrderBooksByEvent = state.getIn(['eventGroupPage', 'binnedOrderBooksByEvent']);
 
   // For each event, generate data entry for the Simple Betting Widget
-  const myEvents = eventsById.toArray()
+  let myEvents = eventsById.toArray()
     .filter((event) => eventIds.includes(event.get('id')))
     .map((event) => {
       const eventId = event.get('id');
       const offers = binnedOrderBooksByEvent.has(eventId)? binnedOrderBooksByEvent.get(eventId) : Immutable.List() ;
-      return {
+      return Immutable.fromJS({
         id: eventId,
         name: event.get('name'),
         time: event.get('start_time'),
         offers: offers
-      }
+      })
     });
+  // props attribute should all be ImmutableJS objects
+  myEvents = Immutable.List(myEvents);
 
   return {
     sport: state.getIn(['eventGroupPage', 'sportName']),
