@@ -222,13 +222,21 @@ class AccountActions {
         // Process transaction
         return WalletService.processTransaction(getState(), tr);
       }).then(() => {
-        // Success
-        console.log('change password success');
         dispatch(AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DONE));
+
+        //Navigate to 'My Account' screen after 3 seconds
+        setTimeout(function(){
+          //Reset the loading status to default since the screen is redirected to the 'My Account' screen
+          dispatch(AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DEFAULT));
+          dispatch(NavigateActions.navigateTo('/my-account'))
+        },3000);
+
+
+
       }).catch((error) => {
-        // Fail
-        console.log('change password fail', error);
-        dispatch(AccountPrivateActions.setChangePasswordError(error));
+        //Set password change error
+        dispatch(AccountPrivateActions.setChangePasswordError([typeof error === 'string'? error
+              : typeof error === 'object' && error.message ? error.message : 'Error Occured']));
       });
     };
   }
