@@ -9,7 +9,7 @@ const deleteAllPanels = (event) => {
 const renderTeam = (text, record) => (
   <div>
     <div className='team'>{ record.team }</div>
-    <div className='bet_type'>{ record.bet_type }</div>
+    <div className='market_type'>{ record.market_type }</div>
   </div>
 );
 
@@ -106,14 +106,14 @@ const layColumns = [{
 const backData = [{
   key: 1,
   team: 'Clemson',
-  bet_type: 'Moneyline',
+  market_type: 'Moneyline',
   odds: '02.78',
   stake: '0000.18',
   profit: '00000.32',
 }, {
   key: 2,
   team: 'Alabama',
-  bet_type: 'Moneyline',
+  market_type: 'Moneyline',
   odds: '3.1',
   stake: '0.89',
   profit: '1.87',
@@ -122,14 +122,14 @@ const backData = [{
 const layData = [{
   key: 1,
   team: 'Clemson',
-  bet_type: 'Moneyline',
+  market_type: 'Moneyline',
   odds: '02.78',
   stake: '0000.18',
   liability: '00000.32',
 }, {
   key: 2,
   team: 'Alabama',
-  bet_type: '+6.5',
+  market_type: '+6.5',
   odds: '3.1',
   stake: '0.89',
   liability: '1.87',
