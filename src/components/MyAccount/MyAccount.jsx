@@ -5,7 +5,6 @@ import {
   Row,
   Col,
   Card,
-  Input,
   Icon,
   Switch,
   Table,
@@ -13,7 +12,6 @@ import {
   Select,
   Breadcrumb
 } from 'antd';
-import QRCode from 'qrcode.react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
 import './MyAccount.less'
@@ -26,6 +24,8 @@ import {
 } from '../../utility';
 import ps from 'perfect-scrollbar';
 import 'perfect-scrollbar';
+import Deposit from './Deposit'
+import Withdraw from './Withdraw'
 
 const dataSource = [
   {
@@ -451,72 +451,12 @@ class MyAccount extends Component {
         </Breadcrumb>
         <Row gutter={ 10 }>
           <Col span={ 8 }>
-            <Card className='bookie-card'
-                  title={ I18n.t('myAccount.deposit') }
-                  bordered={ false }
-                  style={ {width: '100%'} }>
-              <p>{ I18n.t('myAccount.deposit_desc') }</p>
-              <p>
-
-                {/*{ JSON.stringify(this.props.dynGlobalObject) }*/}
-
-              </p>
-
-              <p className='text-center margin-tb-20'>
-                <QRCode
-                  value='http://facebook.github.io/react/'/>
-              </p>
-              <div
-                className='registerComponent pos-relative'>
-                <Input
-                  className='bookie-input'
-                  defaultValue='163WXbtyK3xrGEFhprM9JgzbZSyCKnc3AC'
-
-                />
-                <button
-                  className='btn btn-primary copy-btn'>
-                  { I18n.t('myAccount.copy') }
-                </button>
-              </div>
-            </Card>
+            <Deposit cardClass='bookie-card' />
           </Col>
 
           <Col span={ 8 }>
-            <Card className='bookie-card'
-                  title={ I18n.t('myAccount.withdraw') }
-                  bordered={ false }
-                  style={ {width: '100%'} }>
-              <p>{ I18n.t('myAccount.withdraw_desc') }</p>
-              {/*<p style={ { height: '133px' } }>*/}
-              {/*<Button   onClick={ () => { this.fetchRecentTransactionHistory(); } }>*/}
-              {/*{'refresh Order'}*/}
-              {/*</Button>*/}
-              {/*</p>*/}
-              <div
-                className='registerComponent'>
-                <Input
-                  className='bookie-input bookie-amount'
-                  prefix={ <Icon
-                    type='pay-circle'/> }
-                  defaultValue='21221'
-                />
-              </div>
-              <div
-                className='registerComponent pos-relative'>
-
-                <Input
-                  className='bookie-input'
-                  placeholder={ I18n.t('myAccount.send_value') }
-                />
-                <button
-                  className='btn copy-btn btn-primary'>
-                  { I18n.t('myAccount.send') }
-                </button>
-              </div>
-
-            </Card>
+            <Withdraw cardClass='bookie-card' />
           </Col>
-
           <Col span={ 8 }>
             { this.renderSettingCard() }
           </Col>

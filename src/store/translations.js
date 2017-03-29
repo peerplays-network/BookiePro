@@ -110,6 +110,13 @@ export const translationsObject = {
       copy: 'Copy',
       continue: 'Continue',
       or: 'or'
+    },
+    topbar:{
+      available: 'Available',
+      in_game: 'In-game',
+      myaccount:'My Account',
+      help: 'Help & Support',
+      signout: 'Sign Out'
     }
   },
   nl: {
