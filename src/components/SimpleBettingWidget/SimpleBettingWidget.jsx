@@ -9,9 +9,9 @@ const bitcoinSymbol = '\u0243';
 const eventTimeColumnWidth = 90;
 const offerColumnWidth = 70;
 
-const createBet = (event) => {
+const createBet = (event, record) => {
   event.preventDefault();
-  console.log('SimpleBettingWidget click offer', event.target);
+  console.log('SimpleBettingWidget click offer', record);
 }
 
 // betType: [ back | lay ]
@@ -19,13 +19,13 @@ const createBet = (event) => {
 const renderOffer = (betType, index) => {
   return (text, record) => {
     // TODO: Need a better way to check this after the Immutable JS changes
-    if (record.offers === undefined || record.offers.size === 0) {
+    if (record.offers === undefined || record.offers.isEmpty()) {
       return '';
     }
-    // Assume the first orderbook for now
+    // TODO: Check if we always have only one offer here. If yes, get rid of the list
     const offer = record.offers.get(0).get(betType).get(index-1);
     return (
-      <a href='#' onClick={ createBet }>
+      <a href='#' onClick={ (event) => createBet(event, record) }>
         <div className='offer'>
           <div className='odds'>{ offer.odds }</div>
           <div className='price'>{ bitcoinSymbol } { offer.price }</div>
