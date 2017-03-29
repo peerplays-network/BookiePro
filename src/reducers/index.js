@@ -22,7 +22,7 @@ import NotificationReducer from './NotificationReducer';
 import SoftwareUpdateReducer from './SoftwareUpdateReducer';
 import ImmutableRouterReducer from './ImmutableRouterReducer';
 import Immutablei18nReducer from './Immutablei18nReducer';
-
+import QuickBetDrawerReducer from './QuickBetDrawerReducer';
 
 
 const rootReducer = combineReducers({
@@ -48,6 +48,7 @@ const rootReducer = combineReducers({
   routing: ImmutableRouterReducer,
   form: formReducer,
   i18n: Immutablei18nReducer,
+  quickBetDrawer: QuickBetDrawerReducer,
 });
 
 export default rootReducer;

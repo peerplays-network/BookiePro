@@ -1,12 +1,18 @@
 import React from 'react';
 import moment from 'moment';
 import { Icon, Table } from 'antd';
+import QuickBetDrawerActions from '../../actions';
 
 const bitcoinSymbol = '\u0243';
 // We cannot use CSS to override antd Table column width using CSS
 // This can only be done via the code
 const eventTimeColumnWidth = 90;
 const offerColumnWidth = 70;
+
+const createBet = (event) => {
+  event.preventDefault();
+  console.log('SimpleBettingWidget click offer', event.target);
+}
 
 // betType: [ back | lay ]
 // index: [ 1 | 2]
@@ -19,10 +25,12 @@ const renderOffer = (betType, index) => {
     // Assume the first orderbook for now
     const offer = record.offers.get(0).get(betType).get(index-1);
     return (
-      <div className='offer'>
-        <div className='odds'>{ offer.odds }</div>
-        <div className='price'>{ bitcoinSymbol } { offer.price }</div>
-      </div>
+      <a href='#' onClick={ createBet }>
+        <div className='offer'>
+          <div className='odds'>{ offer.odds }</div>
+          <div className='price'>{ bitcoinSymbol } { offer.price }</div>
+        </div>
+      </a>
     );
   };
 };

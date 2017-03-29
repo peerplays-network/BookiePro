@@ -1,8 +1,34 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import Ps from 'perfect-scrollbar';
 import EditableBetTable from '../EditableBetTable';
 import { Button } from 'antd';
+
+const renderBlankDrawer = () => (
+  <div className='blank-drawer'>
+    <div className='instructions'>CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP</div>
+    <div className='my-bet-button'>
+      <Button>VIEW YOUR BETS IN MY BETS</Button>
+    </div>
+  </div>
+)
+
+const renderBetTables = (props) => (
+  <div>
+    <EditableBetTable />
+    <EditableBetTable />
+    <EditableBetTable />
+  </div>
+)
+
+const renderContent = (props) => {
+  if (props.events.isEmpty()) {
+    return renderBlankDrawer();
+  }
+
+  return renderBetTables(props);
+}
 
 class QuickBetDrawer extends Component {
   componentDidMount() {
@@ -20,17 +46,25 @@ class QuickBetDrawer extends Component {
           <div className='label'>BETSLIP</div>
         </div>
         <div className='content'>
-          <EditableBetTable />
-          <EditableBetTable />
-          <EditableBetTable />
+          { renderContent(this.props) }
         </div>
-        <div className='footer'>
-          <Button className='place-bet'>PLACE BET $0.295</Button>
-        </div>
+        {
+          !this.props.events.isEmpty() &&
+          <div className='footer'>
+            <Button className='place-bet'>PLACE BET $0.295</Button>
+          </div>
+        }
       </div>
     );
   }
 }
 
+const mapStateToProps = (state) => {
+  const events = state.getIn(['quickBetDrawer', 'events']);
+  console.log('QuickBetDrawer mapState', events.toJS());
+  return {
+    events: events
+  };
+}
 
-export default QuickBetDrawer;
+export default connect(mapStateToProps)(QuickBetDrawer);
