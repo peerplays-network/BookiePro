@@ -4,6 +4,8 @@ import ConnectionUtils from './ConnectionUtils';
 import ChainTypes from './ChainTypes';
 import StringUtils from './StringUtils';
 import TreeUtils from './TreeUtils';
+import DateUtils from './DateUtils';
+import MergeObjectUtils from './MergeObjectUtils';
 
 export {
   BindToChainState,
@@ -11,5 +13,7 @@ export {
   ChainTypes,
   StringUtils,
   TreeUtils,
-  ConnectionUtils
+  ConnectionUtils,
+  DateUtils,
+  MergeObjectUtils
 };
