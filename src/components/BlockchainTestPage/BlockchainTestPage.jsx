@@ -6,7 +6,7 @@ import { Apis } from 'graphenejs-ws';
 import { connect } from 'react-redux';
 import AssetActions from '../../actions/AssetActions';
 import TestBookieAccount from './TestBookieAccount';
-import { BetActions, AccountActions } from '../../actions';
+import { AccountActions } from '../../actions';
 
 
 class BlockchainTestPage extends Component {

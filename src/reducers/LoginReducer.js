@@ -17,7 +17,7 @@ export default function (state = initialState, action) {
     case ActionTypes.LOGIN_SET_ERROR: {
       return state.merge({
         errors: Immutable.fromJS(action.errors),
-        status: LoadingStatus.DEFAULT
+        status: LoadingStatus.ERROR
       });
     }
     case ActionTypes.ACCOUNT_LOGOUT: {

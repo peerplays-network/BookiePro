@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import SyncError from '../SyncError';
-import { ChainStore } from 'graphenejs-lib';
-import { SoftwareUpdateActions } from '../../actions';
-import { NavigateActions } from '../../actions';
+import InitError from '../InitError';
+import { LoadingStatus } from '../../constants';
+import { SoftwareUpdateActions, NavigateActions, AppActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
@@ -14,79 +13,26 @@ const defaultNewVersionText = 'New version found. Please update the version'
 class App extends Component {
   constructor(props) {
     super(props);
+    const currentVersion = '1.0.0'; // hardcode for testing hardupdate/softupdate
     this.state = {
-      synced: false, //  state of sync with blockchain
-      syncFail: false,
-      loading: false,
+      currentVersion,
+      newVersionModalVisible: (this.props.needHardUpdate || this.props.needSoftUpdate) &&
+                              (StringUtils.compareVersionNumbers(currentVersion, this.props.version) < 0)
+    };
+  }
 
-      newVersionModalVisible: false,
-      currentVersion: "1.0.0"  // hardcode for testing hardupdate/softupdate
+  componentWillMount() {
+    // Connect to blockchain
+    this.props.connectToBlockchain();
+  }
 
+  componentWillReceiveProps(nextProps) {
+    // Update new version modal visible
+    const newVersionModalVisible = (nextProps.needHardUpdate || nextProps.needSoftUpdate) &&
+                                    (StringUtils.compareVersionNumbers(this.state.currentVersion, nextProps.version) < 0);
+    if (this.state.newVersionModalVisible !== newVersionModalVisible) {
+      this.setState({ newVersionModalVisible });
     }
-    this.syncWithBlockchain = this.syncWithBlockchain.bind(this);
-  }
-
-  componentDidMount() {
-    this.syncWithBlockchain();
-  }
-
-  componentDidUpdate(prevProps, prevState){
-
-    //when blockchain sync is done ( and success), assuming connection success => sync success
-    if ( (this.state.synced && prevState.synced === false) ||
-      ( prevProps && this.props.version !== prevProps.version)){
-
-        //software update is suggested.
-      if ( this.props.version &&
-        (this.props.needHardUpdate || this.props.needSoftUpdate) &&
-        (StringUtils.compareVersionNumbers(this.state.currentVersion, this.props.version) < 0)){
-
-        this.setState({
-          newVersionModalVisible: true
-        });
-
-        if ( this.props.location.pathname.length === 1){
-          this.props.navigateTo('/login');
-        }
-      } else {
-
-        if ( this.props.location.pathname.length === 1){
-          this.props.navigateTo('/login');
-        }
-
-        //TODO replace this block with below when we enforce 'login is required IN EVERY ROUTE'
-        // if ( this.state.isLoggedIn){
-        //   this.props.navigateTo('/exchange');
-        // } else {
-        //   this.props.navigateTo('/login');
-        // }
-
-      }
-    } else if ( this.state.synced &&
-      prevState.synced === true &&
-      this.props.location.pathname.length === 1){
-
-      this.props.navigateTo('/login');
-    }
-
-  }
-
-  syncWithBlockchain() {
-    this.setState({ loading: true });
-    ChainStore.init().then(() => {
-      this.setState({
-        synced: true,
-        loading: false,
-        syncFail: false});
-      // Listen to software update
-      this.props.listenToSoftwareUpdate();
-    }).catch((error) => {
-      console.error('ChainStore.init error', error);
-      this.setState({
-        loading: false,
-        synced: false,
-        syncFail: true});
-    });
   }
 
   okWillCloseModal(modalVisible) {
@@ -123,36 +69,32 @@ class App extends Component {
 
     );
 
-    let content = (
-        <div className='sportsbg'>
-          { softwareUpdateModal }
-        </div>
-    );
-
-    if (this.state.syncFail) {
-      content = (
-        <div className='sportsbg'>
-          <SyncError/>
-          { softwareUpdateModal }
-        </div>
-      );
-    } else if (this.state.loading) {
-      content = (
-        <div className='sportsbg'>
-          <span>loading...connecitng to blockchain</span>
-          { softwareUpdateModal }
-        </div>
-      );
-    } else if (this.props.children){
-      content = (
-        <div>
-          { this.props.children }
-          { softwareUpdateModal }
-        </div>
-      );
+    let content = null;
+    // Show page based on blockchain connection loading status
+    switch(this.props.connectToBlockchainLoadingStatus) {
+      case LoadingStatus.ERROR: {
+        content = <InitError/>
+        break;
+      }
+      case LoadingStatus.DONE: {
+        content = this.props.children;
+        break;
+      }
+      default: {
+        content = (
+          <div className='sportsbg'>
+            <span>{ 'Connecting to blockchain...' }</span>
+          </div>
+        );
+      }
     }
 
-    return content;
+    return (
+      <div>
+        { content }
+        { softwareUpdateModal }
+      </div>
+    );
   }
 }
 
@@ -160,26 +102,34 @@ const mapStateToProps = (state) => {
   const app = state.get('app');
   const softwareUpdate = state.get('softwareUpdate');
   const i18n = state.get('i18n');
+  const needHardUpdate = softwareUpdate.get('needHardUpdate');
+  const needSoftUpdate = softwareUpdate.get('needSoftUpdate');
+  const version = softwareUpdate.get('version');
+  const displayText = softwareUpdate.get('displayText');
+  const locale = i18n.get('locale');
+  const isLoggedIn = app.get('isLoggedIn');
+  const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');
+
   return {
-
-    isLoggedIn: app.get('isLoggedIn'),
-    needHardUpdate: softwareUpdate.get('needHardUpdate'),
-    needSoftUpdate: softwareUpdate.get('needSoftUpdate'),
-    displayText: softwareUpdate.get('displayText'),
-    version: softwareUpdate.get('version'), //
-    locale: i18n.get('locale')
-
+    connectToBlockchainLoadingStatus,
+    isLoggedIn,
+    needHardUpdate,
+    needSoftUpdate,
+    version,
+    displayText,
+    locale
     // uncomment below for software update modal testing
     // needHardUpdate: true,
     // needSoftUpdate: false,
-    // version: "1.1.17", //
+    // version: "1.1.17",
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
-    listenToSoftwareUpdate: SoftwareUpdateActions.listenToSoftwareUpdate
+    listenToSoftwareUpdate: SoftwareUpdateActions.listenToSoftwareUpdate,
+    connectToBlockchain: AppActions.connectToBlockchain
   }, dispatch);
 }
 

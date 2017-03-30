@@ -1,10 +1,18 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import FakeApi from '../communication/FakeApi';
+import { ConnectionService } from '../services';
 
 /**
  * Private actions
  */
 class AppPrivateActions {
+  static setConnectToBlockchainLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.APP_SET_CONNECT_TO_BLOCKCHAIN_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
   static setGlobalBettingStatisticsAction(globalBettingStatistics) {
     return {
       type: ActionTypes.APP_SET_GLOBAL_BETTING_STATISTICS,
@@ -16,6 +24,13 @@ class AppPrivateActions {
     return {
       type: ActionTypes.APP_SET_GET_GLOBAL_BETTING_STATISTICS_LOADING_STATUS,
       loadingStatus
+    }
+  }
+
+  static setConnectionStatusAction(connectionStatus) {
+    return {
+      type: ActionTypes.APP_SET_CONNECTION_STATUS,
+      connectionStatus
     }
   }
 }
@@ -31,7 +46,26 @@ class AppActions {
     }
   }
 
-
+  static connectToBlockchain() {
+    return (dispatch, getState) => {
+      dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.LOADING));
+      // Define callback whenever connection change
+      const connectionStatusCallback = (connectionStatus) => {
+        // Dispatch action if connection status is updated
+        if (getState().getIn(['app', 'connectonStatus']) !== connectionStatus) {
+          dispatch(AppPrivateActions.setConnectionStatusAction(connectionStatus));
+        }
+      };
+      ConnectionService.connectToBlockchain(connectionStatusCallback).then(() => {
+        // Sync with blockchain
+        return ConnectionService.syncWithBlockchain();
+      }).then(() => {
+        dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.DONE));
+      }).catch(() => {
+        dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));
+      });
+    }
+  }
 
   static getGlobalBettingStatistics() {
     return (dispatch) => {
