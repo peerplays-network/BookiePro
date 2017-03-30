@@ -1,66 +1,66 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
-import Ps from 'perfect-scrollbar';
-import EditableBetTable from '../EditableBetTable';
-import { Button } from 'antd';
 import Immutable from 'immutable';
+import Ps from 'perfect-scrollbar';
+import SplitPane from 'react-split-pane';
+import { Button } from 'antd';
+import EditableBetTable from '../EditableBetTable';
 
-const renderBlankDrawer = () => (
-  <div className='blank-drawer'>
-    <div className='instructions'>CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP</div>
-    <div className='my-bet-button'>
-      <Button>VIEW YOUR BETS IN MY BETS</Button>
-    </div>
-  </div>
-)
-
-const renderBetTables = (bets) => (
-  <div>
-    {
+const renderContent = (props) => (
+  <div className='content' ref='bettingtable'>
+    { props.bets.isEmpty() &&
+      <div className='blank-drawer'>
+        <div className='instructions'>CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP</div>
+        <div className='my-bet-button'>
+          <Button>VIEW YOUR BETS IN MY BETS</Button>
+        </div>
+      </div>
+    }
+    { !props.bets.isEmpty() &&
       // convert the list of keys into vanilla JS array for iterating
-      bets.keySeq().toArray().map((eventId) => (
+      props.bets.keySeq().toArray().map((eventId) => (
         <EditableBetTable
           key={ eventId }
-          data={ bets.get(eventId) }
+          data={ props.bets.get(eventId) }
         />
       ))
     }
   </div>
 )
 
-const renderContent = (props) => {
-  if (props.bets.isEmpty()) {
-    return renderBlankDrawer();
-  }
-
-  return renderBetTables(props.bets);
-}
-
 class QuickBetDrawer extends Component {
   componentDidMount() {
-    Ps.initialize(ReactDOM.findDOMNode(this.refs.drawer));
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.bettingtable));
   }
 
   componentDidUpdate() {
-    Ps.update(ReactDOM.findDOMNode(this.refs.drawer));
+    Ps.update(ReactDOM.findDOMNode(this.refs.bettingtable));
   }
 
   render() {
     return (
       <div id='quick-bet-drawer' ref='drawer'>
-        <div className='title'>
-          <div className='label'>BETSLIP</div>
-        </div>
-        <div className='content'>
-          { renderContent(this.props) }
-        </div>
-        {
-          !this.props.bets.isEmpty() &&
-          <div className='footer'>
-            <Button className='place-bet'>PLACE BET $0.295</Button>
+        <SplitPane split='horizontal' defaultSize='40'>
+          <div className='title'>
+            <div className='label'>BETSLIP</div>
           </div>
-        }
+          <SplitPane
+            split='horizontal'
+            minSize={ 40 }
+            defaultSize={ 40 }
+            primary='second'
+            pane1Style={ { 'overflow-y': 'hidden' } }
+          >
+            { renderContent(this.props) }
+            {
+              !this.props.bets.isEmpty() &&
+              <div className='footer'>
+                <Button className='place-bet'>PLACE BET $0.295</Button>
+              </div>
+            }
+          </SplitPane>
+        </SplitPane>
       </div>
     );
   }
