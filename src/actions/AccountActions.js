@@ -117,6 +117,10 @@ class AccountActions {
     }
   }
 
+  static resetChangePwdLoadingStatus(){
+    return AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DEFAULT);
+  }
+
   /**
    * Set the account and subscribe to it
    */
@@ -188,6 +192,8 @@ class AccountActions {
   static changePassword(oldPassword, newPassword) {
     return (dispatch, getState) => {
       dispatch(AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.LOADING));
+      //Reset any previous errors tracked
+      dispatch(AccountPrivateActions.setChangePasswordError([]));
 
       const account = getState().getIn(['account', 'account']);
       const oldKeys = KeyGeneratorService.generateKeys(account.get('name'), oldPassword);
@@ -222,18 +228,16 @@ class AccountActions {
         // Process transaction
         return WalletService.processTransaction(getState(), tr);
       }).then(() => {
+
+        //Update keys with new passoword
+        const keys = KeyGeneratorService.generateKeys(account.toJS().name, newPassword);
+        dispatch(AccountActions.setKeysAction(keys));
+
+        //To display the success message
         dispatch(AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DONE));
 
-        //Navigate to 'My Account' screen after 3 seconds
-        setTimeout(function(){
-          //Reset the loading status to default since the screen is redirected to the 'My Account' screen
-          dispatch(AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DEFAULT));
-          dispatch(NavigateActions.navigateTo('/my-account'))
-        },3000);
-
-
-
       }).catch((error) => {
+        dispatch(AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DEFAULT));
         //Set password change error
         dispatch(AccountPrivateActions.setChangePasswordError([typeof error === 'string'? error
               : typeof error === 'object' && error.message ? error.message : 'Error Occured']));

@@ -13,7 +13,7 @@ const renderPasswordField = ({ placeholder,tabIndex, errors, input, maxLength, t
   </div>
 );
 
-//Allow to type only characters and digits
+//Allow to type only letters and digits
 const normalizePassword = (value) => {
   if (!value) {
     return value
@@ -65,7 +65,10 @@ const ChangePasswordForm = (props) => {
   )
 };
 
-//Change Password field validations
+/* Change Password field validations:
+ -- Minimum 22 characters required on each field
+ -- All fields are mandatory
+*/
 const validateChangePasswordFields = (value,blankFieldErrMsg,minFieldErrMsg) => {
   const minLength = 22;
   if (!value || value.trim() === '') {

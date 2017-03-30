@@ -12,6 +12,7 @@ class ChangePassword extends Component{
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onClickCancel = this.onClickCancel.bind(this);
+    this.onHomeLinkClick = this.onHomeLinkClick.bind(this);
   }
 
   handleSubmit(values) {
@@ -19,20 +20,29 @@ class ChangePassword extends Component{
     this.props.changePassword(values.get('old_password'), values.get('new_password'));
   }
 
+  /* Redirect to 'My Account' screen when clicked on
+  --'Cancel' button
+  --'My Account' link on the Breadcrumb*/
   onClickCancel(e) {
     e.preventDefault();
-    this.props.navigateTo('/my-account')
+    this.props.navigateTo('/my-account');
+    this.props.resetChangePwdLoadingStatus();
+  }
+
+  //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
+  onHomeLinkClick(e){
+    e.preventDefault();
+    this.props.navigateTo('/exchange');
+    this.props.resetChangePwdLoadingStatus();
   }
 
   render(){
     return(
       <div className='change-password'>
         <Breadcrumb className='bookie-breadcrumb'>
-          <Breadcrumb.Item><a
-            href='/'>  { I18n.t('myAccount.home') } </a></Breadcrumb.Item>
-          <Breadcrumb.Item><a
-            href='/'>{ I18n.t('myAccount.my_account') } </a></Breadcrumb.Item>
-          <Breadcrumb.Item> Change Password</Breadcrumb.Item>
+          <Breadcrumb.Item><a onClick={ this.onHomeLinkClick }>{ I18n.t('myAccount.home') }</a></Breadcrumb.Item>
+          <Breadcrumb.Item><a onClick={ this.onClickCancel }>{ I18n.t('myAccount.my_account') }</a></Breadcrumb.Item>
+          <Breadcrumb.Item>{ I18n.t('myAccount.change_password') }</Breadcrumb.Item>
         </Breadcrumb>
         <Card className='bookie-card'
               title={ I18n.t('changePassword.title') }
@@ -56,6 +66,9 @@ class ChangePassword extends Component{
                 <div className='text-center'>
                   <Icon type='lock big-icon'/>
                   <p className='font16 margin-tb-20'>{ I18n.t('changePassword.successText') }</p>
+                    <button className='btn btn-regular grid-100 margin-top-25' type='button' onClick={ this.onClickCancel }>
+                      { I18n.t('changePassword.back_to_my_account') }
+                    </button>
                 </div> : null
               }
             </div>
@@ -77,7 +90,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
-    changePassword: AccountActions.changePassword
+    changePassword: AccountActions.changePassword,
+    resetChangePwdLoadingStatus: AccountActions.resetChangePwdLoadingStatus
   }, dispatch);
 }
 
