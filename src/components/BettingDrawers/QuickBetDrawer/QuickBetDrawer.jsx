@@ -74,12 +74,6 @@ const mapStateToProps = (state) => {
     const marketType = bet.get('market_type');
     // Page content are first grouped by event_id
     if (!page.has(eventId)) {
-      /*
-      let eventObj = Immutable.Map();
-      eventObj = eventObj.set('id', eventId);
-      eventObj = eventObj.set('name', bet.get('event_name'));
-      eventObj = eventObj.set('unconfirmedBets', Immutable.Map());
-      */
       const eventObj = Immutable.Map()
                           .set('id', eventId)
                           .set('name', bet.get('event_name'))
