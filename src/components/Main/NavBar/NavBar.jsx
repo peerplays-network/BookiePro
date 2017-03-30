@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from 'antd';
+import { Layout, Row, Col } from 'antd';
 
 import SearchMenu from './SearchMenu';
 import TopMenu from './TopMenu';
@@ -9,18 +9,31 @@ const { Header } = Layout;
 
 const NavBar = () => (
   <Header id='betex-header'>
-    <div className='float-left'>
-      <div className='logo'>
-        <img alt='logo' src={ logo } />
-      </div>
-      <div className='search'>
-        <SearchMenu />
-      </div>
-    </div>
-    <div className='float-right'>
-      <TopMenu />
-    </div>
-    <div className='clearfix' />
+    <Row>
+      <Col span={ 12 }>
+        <Row>
+          <Col span={ 2 }>
+            <div className='logo'>
+              <img alt='logo' src={ logo } />
+            </div>
+          </Col>
+          <Col span={ 22 }>
+            <div className='search'>
+              <SearchMenu />
+            </div>
+          </Col>
+        </Row>
+
+
+      </Col>
+      <Col span={ 12 }>
+        <div className='text-right ant-right-menu'>
+          <TopMenu />
+        </div>
+      </Col>
+    </Row>
+
+
   </Header>
 );
 
