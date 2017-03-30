@@ -11,13 +11,13 @@ class DropdownMenu extends Component{
       <Card className={ this.props.cardClass }>
         <Menu>
           <Menu.Item>
-            <a target='_blank' rel='noopener noreferrer' href='http://www.alipay.com/'> <Icon type='user' /> { I18n.t('topbar.myaccount') } </a>
+            <a href='/my-acocunt'> <Icon type='user' /> { I18n.t('topbar.myaccount') } </a>
           </Menu.Item>
           <Menu.Item>
-            <a target='_blank' rel='noopener noreferrer' href='http://www.taobao.com/'><Icon type='user' /> { I18n.t('topbar.help') } </a>
+            <a href='/help'><Icon type='user' /> { I18n.t('topbar.help') } </a>
           </Menu.Item>
           <Menu.Item>
-            <a target='_blank' rel='noopener noreferrer' href='http://www.tmall.com/'><Icon type='user' /> { I18n.t('topbar.signout') } </a>
+            <a href='/logout'><Icon type='user' /> { I18n.t('topbar.signout') } </a>
           </Menu.Item>
         </Menu>
       </Card>
