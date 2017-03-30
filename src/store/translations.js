@@ -93,6 +93,7 @@ export const translationsObject = {
       min_pwd_error: 'Password must be minimum 22 characters long',
       cancel: 'Cancel',
       confirm: 'Confirm',
+      back_to_my_account: 'Back to My Account',
       successText: 'Congratulations! You have successfully' +
       ' changed your password.'
     },
