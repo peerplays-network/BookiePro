@@ -1,4 +1,4 @@
-div.betslip-wrapper {
+div.editable-bet-table-wrapper {
   &:first-of-type {
     margin-top: 15px;
   }
@@ -17,7 +17,7 @@ div.betslip-wrapper {
     }
   }
 
-  div.betslip {
+  div.bet-table {
     // common table css for both back and lay sections
     div.ant-table-body {
       tr {
@@ -31,22 +31,32 @@ div.betslip-wrapper {
         }
       }
 
-      tbody.ant-table-tbody {
-        td.team > div {
+      tbody.ant-table-tbody > tr {
+        > td.team > div {
           div.team {
             font-size: 15px;
             margin-bottom: 3px;
           }
         }
 
-        td.numeric {
-          font-size: 17px;
-          font-weight: lighter;
+        > td.numeric {
+          padding-right: 0px;
+          padding-left: 0px;
+
+          > input {
+            font-size: 14px;
+            font-weight: lighter;
+          }
+        }
+        // Special override of the last input field cell
+        > td:nth-of-type(4) {
+          padding-right: 5px;
         }
 
-        td.delete-button {
+        > td.delete-button {
           padding: 0;
           margin: 0;
+          margin-left: 5px;
 
           button {
             width: 100%;
@@ -57,7 +67,7 @@ div.betslip-wrapper {
       }
     }
 
-    > .back {
+    > div.back {
       table td.delete-button > button {
         background-color: #37C1FF;
         color: white;
@@ -73,14 +83,14 @@ div.betslip-wrapper {
         background-color: #004E9B;
         color: white;
 
-        div.bet_type {
+        div.market_type {
           color: #37C1FF;
           font-size: 10px;
         }
       }
     }
 
-    > .lay {
+    > div.lay {
       table td.delete-button > button {
         background-color: #1ACBB4;
         color: white;
@@ -96,7 +106,7 @@ div.betslip-wrapper {
         background-color: #008487;
         color: white;
 
-        div.bet_type {
+        div.market_type {
           color: #1ACBB4;
           font-size: 10px;
         }

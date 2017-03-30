@@ -13,17 +13,19 @@ class Sport extends Component {
   }
 
   render() {
+    const { sport, eventGroups } = this.props;
     return (
       <div className='sport-wrapper'>
-        <SportBanner sport={ this.props.sport }/>
+        <SportBanner sport={ sport }/>
         {
-          Object.keys(this.props.eventGroups).map((eventGroupId, idx) => {
-            const eventGroup = this.props.eventGroups[eventGroupId];
+          // convert the list of keys into vanilla JS array so that I can grab the index
+          eventGroups.keySeq().toArray().map((eventGroupId, idx) => {
+            const eventGroup = eventGroups.get(eventGroupId);
             return (
               <SimpleBettingWidget
-                key={ idx }
-                title={ eventGroup.name }
-                events={ eventGroup.events }
+                key={ idx }                    // required by React to have unique key
+                title={ eventGroup.get('name') }
+                events={ eventGroup.get('events') }
               />
             );
           })
@@ -48,7 +50,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   // Construct the page content
-  let page = {};
+  let page = Immutable.Map();
 
   // First, found all relevant event objects based on the component's state
   const myEvents = eventsById.filter((event) => sportPage.get('eventIds').includes(event.get('id')));
@@ -57,22 +59,26 @@ const mapStateToProps = (state, ownProps) => {
   eventGroupsById.forEach((eventGroup) => {
     const eventGroupId = eventGroup.get('id');
     if (sportPage.get('eventGroupIds').includes(eventGroupId)) {
-      page[eventGroupId] = { name: eventGroup.get('name') };
-      page[eventGroupId]['events'] = [];
+      page = page.set(eventGroupId, Immutable.Map());
+      page = page.setIn([eventGroupId, 'name'], eventGroup.get('name'));
+      page = page.setIn([eventGroupId, 'events'], Immutable.List());
     }
   });
 
   // For each event, generate data entry for the Simple Betting Widget
   myEvents.forEach((event) => {
-    if (page.hasOwnProperty(event.get('event_group_id'))) {
+    const eventGroupId = event.get('event_group_id');
+    if (page.has(eventGroupId)) {
       const eventId = event.get('id');
       const offers = binnedOrderBooksByEvent.has(eventId)? binnedOrderBooksByEvent.get(eventId) : Immutable.List() ;
-      page[event.get('event_group_id')]['events'].push({
+      let eventList = page.getIn([eventGroupId, 'events']);
+      eventList = eventList.push(Immutable.fromJS({
         id: event.get('id'),
         name: event.get('name'),
         time: event.get('start_time'),
         offers: offers
-      });
+      }))
+      page = page.setIn([eventGroupId, 'events'], eventList);
     }
   });
 

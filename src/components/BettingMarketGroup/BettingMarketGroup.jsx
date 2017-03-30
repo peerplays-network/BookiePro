@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BettingMarketGroupBanner } from '../Banners';
 import SimpleBettingWidget from '../SimpleBettingWidget';
+import Immutable from 'immutable';
 
 class BettingMarketGroup extends Component {
   render() {
@@ -9,7 +10,7 @@ class BettingMarketGroup extends Component {
         <BettingMarketGroupBanner />
         <SimpleBettingWidget
           title='Betting Market Title'
-          events={ [] }
+          events={ Immutable.List() }
         />
       </div>
     )

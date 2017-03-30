@@ -20,14 +20,6 @@ const selectBettingDrawer = (pathTokens) => {
 }
 
 class Exchange extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-    }
-    this.updatePs = this.updatePs.bind(this);
-  }
-
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
     Ps.initialize(ReactDOM.findDOMNode(this.refs.main));
@@ -42,10 +34,6 @@ class Exchange extends Component {
   componentDidUpdate() {
     Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
     Ps.update(ReactDOM.findDOMNode(this.refs.main));
-  }
-
-  updatePs(){
-    Ps.update(this.refs.betslips);
   }
 
   render() {

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Button, Table } from 'antd';
 
 const renderBetType = (text, record) => (
-  <span>
-    <span>{ record.team }</span><br />
-    <span className='bet_type'>{ record.bet_type }</span>
-  </span>
+  <div>
+    <div className='team'>{ record.team }</div>
+    <div className='bet_type'>{ record.bet_type }</div>
+  </div>
 );
 
 const backColumns = [{
@@ -13,6 +13,7 @@ const backColumns = [{
   dataIndex: 'back',
   key: 'back',
   width: '23%',
+  className: 'team',
   render: renderBetType,
 }, {
   title: 'ODDS',
@@ -65,6 +66,7 @@ const layColumns = [{
   dataIndex: 'lay',
   key: 'lay',
   width: '23%',
+  className: 'team',
   render: renderBetType,
 }, {
   title: 'ODDS',
