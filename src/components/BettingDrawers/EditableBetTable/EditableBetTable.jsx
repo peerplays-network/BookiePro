@@ -121,7 +121,6 @@ const buildBetTableData = (bets) => {
 
 const EditableBetTable = (props) => {
   const { data } = props;
-  console.log(data.toJS());
   const backBets = data.hasIn(['unconfirmedBets', 'back']) ?
                     data.getIn(['unconfirmedBets', 'back']) : Immutable.List();
   const layBets = data.hasIn(['unconfirmedBets', 'lay']) ?

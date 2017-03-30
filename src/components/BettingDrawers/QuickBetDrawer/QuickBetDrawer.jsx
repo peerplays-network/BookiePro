@@ -68,7 +68,6 @@ class QuickBetDrawer extends Component {
 
 const mapStateToProps = (state) => {
   const bets = state.getIn(['quickBetDrawer', 'bets']);
-  console.log('QuickBetDrawer mapState', bets.toJS());
   let page = Immutable.Map();
   bets.forEach((bet) => {
     const eventId = bet.get('event_id');
@@ -104,7 +103,6 @@ const mapStateToProps = (state) => {
     unconfirmedBets = unconfirmedBets.set(marketType, betListByMarketType);
     page = page.setIn([eventId, 'unconfirmedBets'], unconfirmedBets);
   });
-  console.log('QuickBetDrawer Page', page.toJS());
   return {
     bets: page
   };

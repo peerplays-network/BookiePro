@@ -13,7 +13,6 @@ class QuickBetDrawerPrivateActions {
 class QuickBetDrawerActions {
   static createBet(record, team, marketType, offer) {
     return (dispatch) => {
-      console.log('QuickBetDrawerActions create_bet', record, team, marketType, offer);
       const bet = Immutable.fromJS({
         event_id: record.get('id'),
         event_name: record.get('name'),

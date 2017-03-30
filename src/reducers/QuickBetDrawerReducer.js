@@ -6,7 +6,6 @@ let initialState = Immutable.fromJS({
 });
 
 export default function(state = initialState, action) {
-  console.log('QuickBetDrawerReducer', action);
   switch (action.type) {
     case ActionTypes.QUICK_BET_DRAWER_ADD_QUICK_BET: {
       const oldBets = state.get('bets');
