@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Icon, Input, Table } from 'antd';
+import Immutable from 'immutable';
 
 const deleteAllPanels = (event) => {
   event.preventDefault();
@@ -13,6 +14,7 @@ const renderTeam = (text, record) => (
   </div>
 );
 
+// TODO: Need styling work on the special buttons in the input box
 const renderInputWithControl = (text, record) => (
   <Input
     defaultValue={ text }
@@ -103,41 +105,27 @@ const layColumns = [{
   render: renderDeleteButton,
 }];
 
-const backData = [{
-  key: 1,
-  team: 'Clemson',
-  market_type: 'Moneyline',
-  odds: '02.78',
-  stake: '0000.18',
-  profit: '00000.32',
-}, {
-  key: 2,
-  team: 'Alabama',
-  market_type: 'Moneyline',
-  odds: '3.1',
-  stake: '0.89',
-  profit: '1.87',
-}];
-
-const layData = [{
-  key: 1,
-  team: 'Clemson',
-  market_type: 'Moneyline',
-  odds: '02.78',
-  stake: '0000.18',
-  liability: '00000.32',
-}, {
-  key: 2,
-  team: 'Alabama',
-  market_type: '+6.5',
-  odds: '3.1',
-  stake: '0.89',
-  liability: '1.87',
-}];
+// TODO: REVIEW This function applies to both Back and Lay bets for now.
+const buildBetTableData = (bets) => {
+  return bets.map((bet, idx) => {
+    return Immutable.Map()
+            .set('key', idx)
+            .set('team', bet.get('team'))
+            .set('market_type', 'Moneyline')   // TODO: change this
+            .set('odds', bet.get('odds'))
+            .set('stake', bet.get('price'))
+            .set('profit', '0')                // TODO: change this
+            .set('liability', '0');            // TODO: change this
+  });
+}
 
 const EditableBetTable = (props) => {
-  console.log(props);
   const { data } = props;
+  console.log(data.toJS());
+  const backBets = data.hasIn(['unconfirmedBets', 'back']) ?
+                    data.getIn(['unconfirmedBets', 'back']) : Immutable.List();
+  const layBets = data.hasIn(['unconfirmedBets', 'lay']) ?
+                    data.getIn(['unconfirmedBets', 'lay']) : Immutable.List();
   return (
     <div className='editable-bet-table-wrapper'>
       <div className='header'>
@@ -150,20 +138,26 @@ const EditableBetTable = (props) => {
         </span>
       </div>
       <div className='bet-table'>
-        <div className='back'>
-          <Table
-            pagination={ false }
-            columns={ backColumns }
-            dataSource={ backData }
-          />
-        </div>
-        <div className='lay'>
-          <Table
-            pagination={ false }
-            columns={ layColumns }
-            dataSource={ layData }
-          />
-        </div>
+        {
+          !backBets.isEmpty() &&
+          <div className='back'>
+            <Table
+              pagination={ false }
+              columns={ backColumns }
+              dataSource={ buildBetTableData(backBets).toJS() }
+            />
+          </div>
+        }
+        {
+          !layBets.isEmpty() &&
+          <div className='lay'>
+            <Table
+              pagination={ false }
+              columns={ layColumns }
+              dataSource={ buildBetTableData(layBets).toJS() }
+            />
+          </div>
+        }
       </div>
     </div>
   );

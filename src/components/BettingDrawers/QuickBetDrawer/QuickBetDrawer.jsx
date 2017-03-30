@@ -75,10 +75,16 @@ const mapStateToProps = (state) => {
     const marketType = bet.get('market_type');
     // Page content are first grouped by event_id
     if (!page.has(eventId)) {
+      /*
       let eventObj = Immutable.Map();
       eventObj = eventObj.set('id', eventId);
       eventObj = eventObj.set('name', bet.get('event_name'));
       eventObj = eventObj.set('unconfirmedBets', Immutable.Map());
+      */
+      const eventObj = Immutable.Map()
+                          .set('id', eventId)
+                          .set('name', bet.get('event_name'))
+                          .set('unconfirmedBets', Immutable.Map());
       page = page.set(eventId, eventObj);
     }
     // Then page content is further grouped by market type (back or lay)
@@ -87,11 +93,12 @@ const mapStateToProps = (state) => {
       unconfirmedBets = unconfirmedBets.set(marketType, Immutable.List());
     }
     // Add the bet to the list of bets with the same market type
-    let betListByMarketType = unconfirmedBets.get(marketType)
-    let betObj = Immutable.Map();
+    let betListByMarketType = unconfirmedBets.get(marketType);
     // TODO: Binned Order Book data are not in Immutable JS format yet
-    betObj = betObj.set('odds', bet.get('offer').odds);
-    betObj = betObj.set('price', bet.get('offer').price);
+    let betObj = Immutable.Map()
+                  .set('odds', bet.get('offer').odds)
+                  .set('price', bet.get('offer').price)
+                  .set('team', bet.get('team_name'));
     betListByMarketType = betListByMarketType.push(betObj);
     // Put everything back in their rightful places
     unconfirmedBets = unconfirmedBets.set(marketType, betListByMarketType);

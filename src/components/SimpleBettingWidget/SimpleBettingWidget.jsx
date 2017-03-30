@@ -95,13 +95,13 @@ class SimpleBettingWidget extends Component {
     this.renderOffer = this.renderOffer.bind(this);
   }
 
-  onOfferClicked(event, record, marketType, offer) {
+  onOfferClicked(event, record, team, marketType, offer) {
     event.preventDefault();
-    this.props.createBet(record, marketType, offer);
+    this.props.createBet(record, team, marketType, offer);
   }
 
   // marketType: [ back | lay ]
-  // index: [ 1 | 2]
+  // index: [ 1 (Home Team) | 2 (Away Team)]
   renderOffer(marketType, index) {
     return (text, record) => {
       const offers = record.get('offers');
@@ -112,8 +112,10 @@ class SimpleBettingWidget extends Component {
       // TODO: Check if we always have only one offer here. If yes, get rid of the list
       // TODO: Need to come back here once we converted the Binned Order Books dummy data to ImmutableJS Map too
       const offer = offers.get(0).get(marketType).get(index-1);
+      // TODO: REVIEW This is temp solution. The better way is to use the Competitor data.
+      const team = record.get('name').split('vs')[index-1].trim()
       return (
-        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, marketType, offer) }>
+        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, marketType, offer) }>
           <div className='offer'>
             <div className='odds'>{ offer.odds }</div>
             <div className='price'>{ bitcoinSymbol } { offer.price }</div>
