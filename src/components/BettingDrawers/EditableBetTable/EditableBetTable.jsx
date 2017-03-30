@@ -135,34 +135,38 @@ const layData = [{
   liability: '1.87',
 }];
 
-const EditableBetTable = () => (
-  <div className='editable-bet-table-wrapper'>
-    <div className='header'>
-      <span className='title'>CLEMON VS ALABAMA</span>
-      <span className='icon'>
-        <Icon
-          type='close-circle'
-          onClick={ deleteAllPanels }
-        />
-      </span>
-    </div>
-    <div className='bet-table'>
-      <div className='back'>
-        <Table
-          pagination={ false }
-          columns={ backColumns }
-          dataSource={ backData }
-        />
+const EditableBetTable = (props) => {
+  console.log(props);
+  const { data } = props;
+  return (
+    <div className='editable-bet-table-wrapper'>
+      <div className='header'>
+        <span className='title'>{ data.get('name') }</span>
+        <span className='icon'>
+          <Icon
+            type='close-circle'
+            onClick={ deleteAllPanels }
+          />
+        </span>
       </div>
-      <div className='lay'>
-        <Table
-          pagination={ false }
-          columns={ layColumns }
-          dataSource={ layData }
-        />
+      <div className='bet-table'>
+        <div className='back'>
+          <Table
+            pagination={ false }
+            columns={ backColumns }
+            dataSource={ backData }
+          />
+        </div>
+        <div className='lay'>
+          <Table
+            pagination={ false }
+            columns={ layColumns }
+            dataSource={ layData }
+          />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+}
 
 export default EditableBetTable;

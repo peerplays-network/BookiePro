@@ -95,14 +95,14 @@ class SimpleBettingWidget extends Component {
     this.renderOffer = this.renderOffer.bind(this);
   }
 
-  onOfferClicked(event, record, offer) {
+  onOfferClicked(event, record, marketType, offer) {
     event.preventDefault();
-    this.props.createBet(record, offer);
+    this.props.createBet(record, marketType, offer);
   }
 
-  // betType: [ back | lay ]
+  // marketType: [ back | lay ]
   // index: [ 1 | 2]
-  renderOffer(betType, index) {
+  renderOffer(marketType, index) {
     return (text, record) => {
       const offers = record.get('offers');
       // TODO: Need a better way to check this after the Immutable JS changes
@@ -111,9 +111,9 @@ class SimpleBettingWidget extends Component {
       }
       // TODO: Check if we always have only one offer here. If yes, get rid of the list
       // TODO: Need to come back here once we converted the Binned Order Books dummy data to ImmutableJS Map too
-      const offer = offers.get(0).get(betType).get(index-1);
+      const offer = offers.get(0).get(marketType).get(index-1);
       return (
-        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, offer) }>
+        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, marketType, offer) }>
           <div className='offer'>
             <div className='odds'>{ offer.odds }</div>
             <div className='price'>{ bitcoinSymbol } { offer.price }</div>

@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import Ps from 'perfect-scrollbar';
 import EditableBetTable from '../EditableBetTable';
 import { Button } from 'antd';
+import Immutable from 'immutable';
 
 const renderBlankDrawer = () => (
   <div className='blank-drawer'>
@@ -14,11 +15,17 @@ const renderBlankDrawer = () => (
   </div>
 )
 
-const renderBetTables = (props) => (
+const renderBetTables = (bets) => (
   <div>
-    <EditableBetTable />
-    <EditableBetTable />
-    <EditableBetTable />
+    {
+      // convert the list of keys into vanilla JS array for iterating
+      bets.keySeq().toArray().map((eventId) => (
+        <EditableBetTable
+          key={ eventId }
+          data={ bets.get(eventId) }
+        />
+      ))
+    }
   </div>
 )
 
@@ -27,7 +34,7 @@ const renderContent = (props) => {
     return renderBlankDrawer();
   }
 
-  return renderBetTables(props);
+  return renderBetTables(props.bets);
 }
 
 class QuickBetDrawer extends Component {
@@ -62,8 +69,37 @@ class QuickBetDrawer extends Component {
 const mapStateToProps = (state) => {
   const bets = state.getIn(['quickBetDrawer', 'bets']);
   console.log('QuickBetDrawer mapState', bets.toJS());
+  let page = Immutable.Map();
+  bets.forEach((bet) => {
+    const eventId = bet.get('event_id');
+    const marketType = bet.get('market_type');
+    // Page content are first grouped by event_id
+    if (!page.has(eventId)) {
+      let eventObj = Immutable.Map();
+      eventObj = eventObj.set('id', eventId);
+      eventObj = eventObj.set('name', bet.get('event_name'));
+      eventObj = eventObj.set('unconfirmedBets', Immutable.Map());
+      page = page.set(eventId, eventObj);
+    }
+    // Then page content is further grouped by market type (back or lay)
+    let unconfirmedBets = page.getIn([eventId, 'unconfirmedBets']);
+    if (!unconfirmedBets.has(marketType)) {
+      unconfirmedBets = unconfirmedBets.set(marketType, Immutable.List());
+    }
+    // Add the bet to the list of bets with the same market type
+    let betListByMarketType = unconfirmedBets.get(marketType)
+    let betObj = Immutable.Map();
+    // TODO: Binned Order Book data are not in Immutable JS format yet
+    betObj = betObj.set('odds', bet.get('offer').odds);
+    betObj = betObj.set('price', bet.get('offer').price);
+    betListByMarketType = betListByMarketType.push(betObj);
+    // Put everything back in their rightful places
+    unconfirmedBets = unconfirmedBets.set(marketType, betListByMarketType);
+    page = page.setIn([eventId, 'unconfirmedBets'], unconfirmedBets);
+  });
+  console.log('QuickBetDrawer Page', page.toJS());
   return {
-    bets: bets
+    bets: page
   };
 }
 
