@@ -195,6 +195,7 @@ const mapStateToProps = (state) => {
       mergeData = privateFunctions.formatBettingData(mergeData);
       mergeData = List(mergeData);
 
+      //totalling the unmatchedBets
       mergeData.forEach((d, index) => {
         total += parseFloat(d.get('remaining_amount_to_bet'));
       });
