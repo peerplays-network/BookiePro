@@ -45,6 +45,7 @@ class TopMenu extends Component {
       current: e.key,
     });
   }
+  //TODO: change href to actions
   render() {
     return (
       <Menu
@@ -62,12 +63,12 @@ class TopMenu extends Component {
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='smile'>
-          <Icon type='calendar' />
+          <a href='/#/my-wager'> <Icon type='calendar' /> </a>
         </Menu.Item>
         <Menu.Item key='deposit'>
           <Dropdown trigger={ ['click'] } overlay={ depositCard(this.props.depositAddress) } placement='bottomRight'>
             <a className='ant-dropdown-link' href='#'>
-              <Icon type='frown-o' />
+              <Icon type='pay-circle-o' />
             </a>
           </Dropdown>
 
@@ -75,7 +76,7 @@ class TopMenu extends Component {
         <Menu.Item key='withdrawn'>
           <Dropdown trigger={ ['click'] } overlay={ withdrawCard } placement='bottomRight'>
             <a className='ant-dropdown-link' href='#'>
-              <Icon type='frown-o' />
+              <Icon type='pay-circle-o' />
             </a>
           </Dropdown>
         </Menu.Item>
@@ -83,7 +84,7 @@ class TopMenu extends Component {
           <Dropdown trigger={ ['click'] } overlay={ notificationCard } placement='bottomRight'>
             <a className='ant-dropdown-link' href='#'>
               <Badge count={ 5 }>
-                <Icon type='star-o' />
+                <Icon type='notification' />
               </Badge>
             </a>
           </Dropdown>
@@ -91,7 +92,7 @@ class TopMenu extends Component {
         <Menu.Item key='drop-down'>
           <Dropdown trigger={ ['click'] } overlay={ dropdownMenuCard } placement='bottomRight'>
             <a className='ant-dropdown-link' href='#'>
-              <Icon type='frown-o' />
+              <Icon type='menu-fold' />
             </a>
           </Dropdown>
         </Menu.Item>

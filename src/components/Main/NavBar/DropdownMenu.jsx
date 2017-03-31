@@ -6,18 +6,19 @@ import {
   Icon
 } from 'antd';
 class DropdownMenu extends Component{
+  //TODO: change href to actions
   render(){
     return(
       <Card className={ this.props.cardClass }>
         <Menu>
           <Menu.Item>
-            <a href='/my-acocunt'> <Icon type='user' /> { I18n.t('topbar.myaccount') } </a>
+            <a href='/#/my-account'> <Icon type='user' /> { I18n.t('topbar.myaccount') } </a>
           </Menu.Item>
           <Menu.Item>
-            <a href='/help'><Icon type='user' /> { I18n.t('topbar.help') } </a>
+            <a href='/#/help'><Icon type='question-circle-o' /> { I18n.t('topbar.help') } </a>
           </Menu.Item>
           <Menu.Item>
-            <a href='/logout'><Icon type='user' /> { I18n.t('topbar.signout') } </a>
+            <a href='/#/logout'><Icon type='logout' /> { I18n.t('topbar.signout') } </a>
           </Menu.Item>
         </Menu>
       </Card>
