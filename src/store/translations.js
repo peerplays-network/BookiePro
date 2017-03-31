@@ -116,6 +116,13 @@ export const translationsObject = {
       myaccount:'My Account',
       help: 'Help & Support',
       signout: 'Sign Out'
+    },
+    landing:{
+      login: 'Login',
+      signup: 'Signup now',
+      slogan: 'Slogan',
+      copyright: 'Copyright',
+      terms: 'Terms & Conditions'
     }
   },
   nl: {
