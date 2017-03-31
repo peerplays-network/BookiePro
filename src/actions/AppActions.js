@@ -1,6 +1,7 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import FakeApi from '../communication/FakeApi';
 import { ConnectionService } from '../services';
+import SoftwareUpdateActions from './SoftwareUpdateActions';
 
 /**
  * Private actions
@@ -60,6 +61,9 @@ class AppActions {
         // Sync with blockchain
         return ConnectionService.syncWithBlockchain();
       }).then(() => {
+        // Listen to software update
+        dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());
+        // Mark done
         dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.DONE));
       }).catch(() => {
         dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));
