@@ -35,6 +35,9 @@ class App extends Component {
     console.log(newVerNum + ' ' + currentVernNum )
 
     const needHardUpdate = newVerNum[0] > currentVernNum[0]
+
+    this.setState({ needHardUpdate });
+
     const needSoftUpdate = ( newVerNum[0] ===  currentVernNum[0] ) && ( newVerNum[1] > currentVernNum[1] )
     // Update new version modal visible
     const newVersionModalVisible =  (needHardUpdate || needSoftUpdate) &&
@@ -70,10 +73,10 @@ class App extends Component {
 
         <SoftwareUpdateModal
           modalTitle={ this.props.displayText ? this.props.displayText.get(this.props.locale) : defaultNewVersionText }
-          closable={ !this.props.needHardUpdate }
+          closable={ !this.state.needHardUpdate }
           visible={ this.state.newVersionModalVisible }
-          onOk={ this.props.needHardUpdate ? () => this.okWillCloseApp(false) : () => this.okWillCloseModal(false) }
-          onCancel={ this.props.needHardUpdate ? () => this.okWillCloseApp(false) : () => this.okWillCloseModal(false) }
+          onOk={ this.state.needHardUpdate ? () => this.okWillCloseApp(false) : () => this.okWillCloseModal(false) }
+          onCancel={ this.state.needHardUpdate ? () => this.okWillCloseApp(false) : () => this.okWillCloseModal(false) }
           latestVersion={ this.props.version }
         />
 
@@ -112,8 +115,6 @@ const mapStateToProps = (state) => {
   const app = state.get('app');
   const softwareUpdate = state.get('softwareUpdate');
   const i18n = state.get('i18n');
-  const needHardUpdate = softwareUpdate.get('needHardUpdate');
-  const needSoftUpdate = softwareUpdate.get('needSoftUpdate');
   const version = softwareUpdate.get('version');
   const displayText = softwareUpdate.get('displayText');
   const locale = i18n.get('locale');
@@ -123,8 +124,6 @@ const mapStateToProps = (state) => {
   return {
     connectToBlockchainLoadingStatus,
     isLoggedIn,
-    needHardUpdate,
-    needSoftUpdate,
     version,
     displayText,
     locale
