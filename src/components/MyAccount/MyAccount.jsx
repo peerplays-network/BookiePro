@@ -249,7 +249,7 @@ class MyAccount extends Component {
           </Col>
           <Col span={ 6 }>
             <Switch className='bookie-switch'
-                    checked={ this.props.notification }
+                    defaultChecked={ this.props.notification }
                     onChange={ this.handleNotificationChange }/>
           </Col>
         </Row>

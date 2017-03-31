@@ -4,15 +4,19 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
-  account: null,
-  keys: null,
+  account: {},
+  privateKeyWifsByRole: {},
+  publicKeyStringsByRole: {},
   getDepositAddressLoadingStatus: LoadingStatus.DEFAULT,
   getTransactionHistoriesLoadingStatus: LoadingStatus.DEFAULT,
   withdrawLoadingStatus: LoadingStatus.DEFAULT,
   changePasswordLoadingStatus: LoadingStatus.DEFAULT,
   changePasswordError: null,
   transactionHistories: [],
-  depositAddress: null
+  depositAddress: null,
+  inGameBalancesByAssetId: {},
+  availableBalancesByAssetId: {},
+  statistics: {}
 });
 
 export default function (state = initialState, action) {
@@ -57,9 +61,44 @@ export default function (state = initialState, action) {
         account: action.account
       });
     }
+    case ActionTypes.ACCOUNT_SET_AVAILABLE_BALANCES: {
+      let availableBalancesByAssetId = Immutable.Map();
+      action.availableBalances.forEach((balance) => {
+        const assetId = balance.get('asset_type');
+        availableBalancesByAssetId = availableBalancesByAssetId.set(assetId, balance);
+      })
+      return state.merge({
+        availableBalancesByAssetId
+      })
+    }
+    case ActionTypes.ACCOUNT_UPDATE_AVAILABLE_BALANCE: {
+      const assetId = action.availableBalance.get('asset_type');
+      return state.setIn(['availableBalancesByAssetId', assetId], action.availableBalance);
+    }
+    case ActionTypes.ACCOUNT_REMOVE_AVAILABLE_BALANCE_BY_ID: {
+      return state.updateIn(['availableBalancesByAssetId'], availableBalancesByAssetId => {
+        return availableBalancesByAssetId.filterNot( balance => balance.get('id') === action.balanceId);
+      });
+    }
+    case ActionTypes.ACCOUNT_SET_IN_GAME_BALANCES: {
+      let inGameBalancesByAssetId = Immutable.Map();
+      action.inGameBalances.forEach((balance) => {
+        const assetId = balance.get('asset_type');
+        inGameBalancesByAssetId = inGameBalancesByAssetId.set(assetId, balance);
+      })
+      return state.merge({
+        inGameBalancesByAssetId
+      })
+    }
     case ActionTypes.ACCOUNT_SET_KEYS: {
       return state.merge({
-        keys: action.keys
+        privateKeyWifsByRole: action.privateKeyWifsByRole,
+        publicKeyStringsByRole: action.publicKeyStringsByRole
+      });
+    }
+    case ActionTypes.ACCOUNT_SET_STATISTICS: {
+      return state.merge({
+        statistics: action.statistics
       });
     }
     case ActionTypes.ACCOUNT_LOGOUT: {

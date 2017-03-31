@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import { BlockchainUtils } from '../utility';
+const { getObjectIdInstanceNumber } = BlockchainUtils;
 
 class NotificationService {
 
@@ -7,10 +9,9 @@ class NotificationService {
    */
   static convertTxHistoriesToNotifications(txHistories, prevLatestTxHistoryId) {
     let notifications = [];
-
-    const prevLatestTxHistoryInstanceNumber = parseInt(prevLatestTxHistoryId.split('.')[2], 10);
-    _.forEach(txHistories, (txHistory) => {
-      const txHistoryInstanceNumber = parseInt(txHistories.get('id').split('.')[2], 10)
+    const prevLatestTxHistoryInstanceNumber = getObjectIdInstanceNumber(prevLatestTxHistoryId);
+    txHistories.forEach( txHistory => {
+      const txHistoryInstanceNumber = getObjectIdInstanceNumber(txHistory.get('id'));
       if (txHistoryInstanceNumber > prevLatestTxHistoryInstanceNumber) {
         //TODO: determine the conversion later, for now just use history object as it is
         notifications.push(txHistory);

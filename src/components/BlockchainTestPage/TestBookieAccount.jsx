@@ -7,6 +7,7 @@ import { BlockchainUtils, ChainTypes, BindToChainState, StringUtils } from '../.
 
 import { acc } from '../../dummyData/accountInfo/acc';
 import { acc2 } from '../../dummyData/accountInfo/acc2';
+import { Apis } from 'graphenejs-ws';
 
 // Change this property depending on the blockchain you are
 const accountName = acc.name
@@ -69,10 +70,16 @@ class TestBookieAccount extends Component {
     // Similar to _getAccount(), notice that account is already binded by BindToChainState
     // Therefore the following call will result in an object
     const account = this.props.account; // this is ii-5 account id
-    const history = account.get('history');
-    console.log('Transaction History:', history.toJS());
+    // const history = account.get('history');
 
-    console.log('Transaction first History:', JSON.stringify(history.toJS()[0], null, 2));
+    Apis.instance().history_api().exec("get_account_history",
+                            [ account.get('id'), '1.11.0', 100, '1.11.0'])
+              .then( history => {
+                console.log('history', history);
+                console.log('Transaction first History:', JSON.stringify(history[0], null, 2));
+              });
+
+
 
   }
 

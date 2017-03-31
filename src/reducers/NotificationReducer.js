@@ -14,7 +14,7 @@ export default function (state = initialState, action) {
     }
     case ActionTypes.NOTIFICATION_REMOVE_NOTIFICATIONS: {
       return state.update('notifications', (notifications) => {
-        notifications.filterNot(notification => _.includes(action.notifications, notification));
+        notifications.filterNot(notification => notifications.includes(notification));
       });
     }
     case ActionTypes.NOTIFICATION_SET_LATEST_TRANSACTION_HISTORY_ID: {

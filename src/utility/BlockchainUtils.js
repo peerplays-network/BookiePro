@@ -495,6 +495,28 @@ var Utils = {
       stake = order.getIn(['sell_price', 'quote']);
     }
     return stake;
+  },
+
+  blockchainTimeStringToDate(timeString) {
+    if( ! timeString) return new Date("1970-01-01T00:00:00.000Z");
+    // does not end in Z
+    // https://github.com/cryptonomex/graphene/issues/368
+    if( ! /Z$/.test(timeString)) {
+      timeString += "Z";
+    }
+    return new Date(timeString);
+  },
+
+  getObjectIdPrefix(objectId) {
+    let regex = /^\d+\.\d+/;
+    let matches = regex.exec(objectId);
+    return matches && matches[0];
+  },
+
+  getObjectIdInstanceNumber(objectId) {
+    let regex = /\d+$/;
+    let matches = regex.exec(objectId);
+    return matches && matches[0];
   }
 };
 

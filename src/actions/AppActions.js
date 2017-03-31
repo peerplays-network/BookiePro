@@ -47,19 +47,33 @@ class AppActions {
     }
   }
 
+  static setBlockchainDynamicGlobalPropertyAction(blockchainDynamicGlobalProperty) {
+    return {
+      type: ActionTypes.APP_SET_BLOCKCHAIN_DYNAMIC_GLOBAL_PROPERTY,
+      blockchainDynamicGlobalProperty
+    }
+  }
+
+  static setBlockchainGlobalPropertyAction(blockchainGlobalProperty) {
+    return {
+      type: ActionTypes.APP_SET_BLOCKCHAIN_GLOBAL_PROPERTY,
+      blockchainGlobalProperty
+    }
+  }
+
   static connectToBlockchain() {
     return (dispatch, getState) => {
       dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.LOADING));
       // Define callback whenever connection change
       const connectionStatusCallback = (connectionStatus) => {
         // Dispatch action if connection status is updated
-        if (getState().getIn(['app', 'connectonStatus']) !== connectionStatus) {
+        if (getState().getIn(['app', 'connectionStatus']) !== connectionStatus) {
           dispatch(AppPrivateActions.setConnectionStatusAction(connectionStatus));
         }
       };
       ConnectionService.connectToBlockchain(connectionStatusCallback).then(() => {
         // Sync with blockchain
-        return ConnectionService.syncWithBlockchain();
+        return ConnectionService.syncWithBlockchain(dispatch, getState);
       }).then(() => {
         // Listen to software update
         dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());

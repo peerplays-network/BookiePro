@@ -29,7 +29,10 @@ class BlockchainTestPage extends Component {
 
   _onClickInternalApiTestButton() {
     // this.props.dispatch(BetActions.getOngoingBets())
-    this.props.dispatch(AccountActions.createLimitOrder('1.3.0', '1.3.1', 1, 1));
+    this.props.dispatch(AccountActions.changePassword('DgTdQBzqF1NLnniikZuoedoWYzVHjJmV28LS7PJAqWdkwRkWzkyq', 'DgTdQBzqF1NLnniikZuoedoWYzVHjJmV28LS7PJAqWdkwRkWzkyq'));
+    // Apis.instance().db_api().exec("get_full_accounts", [["1.2.152"],true]).then( results => {
+    //   console.log('full accounts', results);
+    // });
   }
 
   _getObject() {
