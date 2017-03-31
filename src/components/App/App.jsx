@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import InitError from '../InitError';
 import { LoadingStatus } from '../../constants';
-import { SoftwareUpdateActions, NavigateActions, AppActions } from '../../actions';
+import { NavigateActions, AppActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
@@ -128,7 +128,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
-    listenToSoftwareUpdate: SoftwareUpdateActions.listenToSoftwareUpdate,
     connectToBlockchain: AppActions.connectToBlockchain
   }, dispatch);
 }
