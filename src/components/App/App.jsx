@@ -108,7 +108,7 @@ const mapStateToProps = (state) => {
   const displayText = softwareUpdate.get('displayText');
   const locale = i18n.get('locale');
   const isLoggedIn = app.get('isLoggedIn');
-  const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');;
+  const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');
 
   return {
     connectToBlockchainLoadingStatus,
