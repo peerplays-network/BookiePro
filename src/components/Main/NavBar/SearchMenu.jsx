@@ -65,11 +65,11 @@ class SearchMenu extends Component {
     //API search call
     return FakeApi.searchEvents(input).then((events) => {
 
-      console.log(events)
+      // console.log(events)
       events = events.map(function(item) {
         return item.toJS()
       });
-      console.log(events)
+      // console.log(events)
 
       return { options: events };
     });
