@@ -126,10 +126,18 @@ class SimpleBettingWidget extends Component {
   };
 
   render() {
-    // Introduce the key attribute to suppress the React warning
     let events = [];
     if (this.props.events !== undefined) {
+      // Introduce the key attribute to suppress the React warning
       events = this.props.events.map((event) => event.set('key', event.get('id')));
+      // Sort by event time
+      events = events.sort((a, b) => {
+        let timeA = a.get('time');
+        let timeB = b.get('time');
+        if (timeA < timeB) { return -1; }
+        if (timeA > timeB) { return 1; }
+        return 0;
+      })
       events = events.toArray();  // antd table only accepts vanilla JS arrays
     }
 

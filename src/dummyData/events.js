@@ -9,7 +9,7 @@ const events = [
     sport_id: '1.100.1',
     name: 'NY Giants vs Green Bay',
     seasons: '2016-2017',
-    start_time: 1489462211000,
+    start_time: moment().add(1, 'days').unix() * 1000, // Always tomorrow
     event_group_id: '1.101.1',
     event_status_id: 'Completed',
     scores: [
