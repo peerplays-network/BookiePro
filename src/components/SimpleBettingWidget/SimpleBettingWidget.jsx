@@ -128,7 +128,6 @@ class SimpleBettingWidget extends Component {
     let events = [];
     if (this.props.events !== undefined) {
       // Introduce the key attribute to suppress the React warning
-      console.log('DEBUG', this.props.events.toJS());
       events = this.props.events.map((event) => event.set('key', event.get('id')));
       // Sort by event time
       events = events.sort((a, b) => {

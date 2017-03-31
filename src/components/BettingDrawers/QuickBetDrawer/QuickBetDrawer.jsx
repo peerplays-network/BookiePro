@@ -39,7 +39,6 @@ class QuickBetDrawer extends Component {
   }
 
   render() {
-    console.log(this.props.bets.toJS());
     return (
       <div id='quick-bet-drawer' ref='drawer'>
         <SplitPane split='horizontal' defaultSize='40px'>
