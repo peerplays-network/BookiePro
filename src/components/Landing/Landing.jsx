@@ -1,6 +1,15 @@
 import React, { Component } from 'react'
+import TermsModal from '../Modal/TermsModal'
 var I18n = require('react-redux-i18n').I18n;
 
+class HTMLEncodeComponent extends Component{
+  render(){
+    let markup = { __html: this.props.htmlToRender }
+    return(
+      <div dangerouslySetInnerHTML={ markup }></div>
+    )
+  }
+}
 class Landing extends Component{
   render(){
     return(
@@ -19,7 +28,9 @@ class Landing extends Component{
         <div className='footer clearfix'>
           <a href>{I18n.t('landing.copyright')}</a>
           <span className='padding-lr-5'> | </span>
-          <a href>{I18n.t('landing.terms')}</a>
+          <TermsModal title='terms and conditions' parentClass='terms' buttonTitle='terms and conditions'>
+            <HTMLEncodeComponent htmlToRender={ I18n.t('terms') } />
+          </TermsModal>
         </div>
       </div>
     )

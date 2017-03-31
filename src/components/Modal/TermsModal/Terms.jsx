@@ -4,21 +4,21 @@ import { Modal, Button } from 'antd';
 class Privacy extends Component {
   state = {
     visible: false
-  }
+  };
   showModal = () => {
     this.setState({
       visible: true
     });
-  }
+  };
   handleCancel = () => {
     this.setState({
       visible: false,
     });
-  }
+  };
   render() {
     return (
-      <div>
-        <Button className='privacy-button' type='primary' onClick={ this.showModal }> { this.props.buttonTitle } </Button>
+      <div className='modal-inline'>
+        <Button onClick={ this.showModal }> { this.props.buttonTitle } </Button>
         <Modal
           title={ this.props.title }
           wrapClassName={ this.props.parentClass + '-modal' }
