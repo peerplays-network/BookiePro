@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Table } from 'antd';
 import { LoadingStatus } from '../../constants';
 var I18n = require('react-redux-i18n').I18n;
+import { List } from 'immutable';
 import './MyWager.less';
 
 class UnmatchedBets extends PureComponent {
@@ -24,7 +25,7 @@ class UnmatchedBets extends PureComponent {
         <Table className='bookie-table' pagination={ { pageSize: 10 } } rowKey='id'
           locale={ {emptyText: ( unmatchedBets && unmatchedBets.length === 0 &&
             unmatchedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : unmatchedBetsLoadingStatus )} }
-          dataSource={ unmatchedBets } columns={ columns } />
+          dataSource={ List(unmatchedBets).toJS() } columns={ columns } />
       </div>
     )
   }
