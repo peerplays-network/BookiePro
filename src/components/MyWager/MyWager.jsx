@@ -7,14 +7,58 @@ import { BetActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getFormattedDate } from '../../utility/DateUtils';
-import { mergeRelationData, mergeBettingMarketGroup, mergeEventData, mergeSport} from '../../utility/MergeObjectUtils';
+import { mergeRelationData} from '../../utility/MergeObjectUtils';
 import _ from 'lodash';
-
+import { List, Map } from 'immutable';
 import { LoadingStatus } from '../../constants';
 import { I18n } from 'react-redux-i18n';
 
 const TabPane = Tabs.TabPane;
 var tabKey = 'unmatchedBets';
+
+class privateFunctions{
+  //merge betting market group data to bets for display
+  //created seperate function otherwise column data with the same column name will be replaced in main data;
+  static mergeBettingMarketGroup(data, relData, col){
+    data.forEach((d, index) => {
+    	var matchObj = relData.get(d.get(col));
+      if(matchObj){
+        d = d.set('event_id', matchObj.get('event_id'));
+        d = d.set('market_type_id', matchObj.get('market_type_id'));
+        if(matchObj.get('market_type_id') === 'Moneyline'){
+          d = d.set('options', '');
+        }
+        else if(matchObj.get('market_type_id') === 'Spread'){
+          if(matchObj.get('options').get('margin') > 0)
+            d = d.set('options', ('+' + matchObj.get('options').get('margin')));
+          else
+            d = d.set('options', matchObj.get('options').get('margin'));
+        }
+        else{
+      	  d = d.set('options', matchObj.get('options').get('score'));
+        }
+        data[index] = d;
+      }
+    })
+    return data;
+  }
+
+  //formatting data after getting all reuired data merged
+  static formatBettingData(data){
+    data.forEach((d, index) => {
+      let rowObj = {
+        'cancel' : (d.get('cancelled') ? '' : <a className='btn cancel-btn' href=''>{ I18n.t('mybets.cancel') }</a>),
+        'type' : (d.get('back_or_lay') + ' | ' + d.get('payout_condition_string') + ' ' + d.get('options') + ' | ' + d.get('market_type_id')),
+        'odds' : (d.get('remaining_amount_to_win') / d.get('remaining_amount_to_bet')).toFixed(2),
+        'remaining_amount_to_bet' : (d.get('remaining_amount_to_bet') / 100000 ),
+        'remaining_amount_to_win' : (d.get('remaining_amount_to_win') / 100000 ),
+        'event_time': getFormattedDate(d.get('event_time'))
+      };
+      data[index] = d.merge(Map(rowObj));
+    });
+    return data;
+  }
+}
 
 class MyWager extends PureComponent {
   constructor(props) {
@@ -117,7 +161,6 @@ const mapStateToProps = (state) => {
     let mergeData = [];
     let total = 0;
     if(state.getIn(['bet','getOngoingBetsLoadingStatus']) === LoadingStatus.DONE){
-
       state.getIn(['bet','unmatchedBets']).forEach(row =>
       {
         let rowObj = {
@@ -129,33 +172,33 @@ const mapStateToProps = (state) => {
           'remaining_amount_to_win': row.get('remaining_amount_to_win'),
           'cancelled': row.get('cancelled')
         }
-        mergeData.push(rowObj);
+        mergeData.push(Map(rowObj));
       });
-
 
       //merging betting market data for display and betting_market_group_id for reference
-      mergeData = mergeRelationData(mergeData, state.getIn(['bettingMarket','bettingMarketsById']),
-        'betting_market_id', 'id', ['betting_market_group_id', 'payout_condition_string']);
+      mergeData = mergeRelationData(mergeData, state.getIn(['bettingMarket','bettingMarketsById']), 'betting_market_id',
+        {betting_market_group_id: 'betting_market_group_id' , payout_condition_string: 'payout_condition_string'});
+
       //merging betting market group data for display and eventid for reference
-      mergeData = mergeBettingMarketGroup(mergeData, state.getIn(['bettingMarketGroup','bettingMarketGroupsById']),
-        'betting_market_group_id', 'id');
+      mergeData = privateFunctions.mergeBettingMarketGroup(mergeData, state.getIn(['bettingMarketGroup','bettingMarketGroupsById']),
+        'betting_market_group_id');
+
       //merging evemt data for display and sport id for reference
-      mergeData = mergeEventData(mergeData, state.getIn(['event','eventsById']), 'event_id', 'id');
+      mergeData = mergeRelationData(mergeData, state.getIn(['event','eventsById']), 'event_id',
+      {'name': 'event_name' , 'start_time': 'event_time', 'sport_id': 'sport_id'});
+
       //merging sport data for display
-      mergeData = mergeSport(mergeData, state.getIn(['sport','sportsById']), 'sport_id', 'id', 'sport_name');
+      mergeData = mergeRelationData(mergeData, state.getIn(['sport','sportsById']), 'sport_id',
+      {'name': 'sport_name'});
 
       //formating data for display
-      mergeData = _.forEach(mergeData, function(d){
-        _.merge(d, {'cancel' : (d['cancelled'] ? '' : <a className='btn cancel-btn' href=''>{ I18n.t('mybets.cancel') }</a>) });
-        //TODO: need to clarify on team and market options
-        _.merge(d, {'type' : (d['back_or_lay'] + ' | ' + d['payout_condition_string'] + ' ' + d['options'] + ' | ' + d['market_type_id']) });
-        //TODO: verify Odd calculation formula = amount to win / amount to bet
-        _.merge(d, {'odds' : (d['remaining_amount_to_win'] / d['remaining_amount_to_bet']).toFixed(2)  });
-        _.merge(d, {'remaining_amount_to_bet' : (d['remaining_amount_to_bet'] / 100000 )});
-        _.merge(d, {'remaining_amount_to_win' : (d['remaining_amount_to_win'] / 100000 )});
-        _.merge(d, {'event_time': getFormattedDate(d['event_time'])});
-        total += parseFloat(d['remaining_amount_to_bet']);
+      mergeData = privateFunctions.formatBettingData(mergeData);
+      mergeData = List(mergeData);
+
+      mergeData.forEach((d, index) => {
+        total += parseFloat(d.get('remaining_amount_to_bet'));
       });
+
       //TODO: verify if we will use 5 or 6 digits after decimal
       total = total.toFixed(5);
     }
