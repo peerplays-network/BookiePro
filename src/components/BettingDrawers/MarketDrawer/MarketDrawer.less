@@ -1,17 +1,13 @@
-@market-drawer-width: 400px;
-@market-drawer-title-height: 40px;
-@market-drawer-footer-height: 40px;
-@market-drawer-title-bg: #004378;
+@quick-bet-drawer-width: 400px;
+@quick-bet-drawer-title-height: 40px;
+@quick-bet-drawer-footer-height: 40px;
+@quick-bet-drawer-title-bg: #004378;
 
 #market-drawer {
-  height: 100%;
-
-  > div.title {
-    position: fixed;
-    background-color: @market-drawer-title-bg;
-    width: @market-drawer-width;
-    height: @market-drawer-title-height;
-    z-index: 100;
+  div.title {
+    background-color: @quick-bet-drawer-title-bg;
+    width: @quick-bet-drawer-width;
+    height: @quick-bet-drawer-title-height;
 
     > div.label {
       padding: 10px;
@@ -20,18 +16,30 @@
     }
   }
 
-  > div.content {
-    padding-top: @market-drawer-title-height;
-    padding-bottom: @market-drawer-footer-height;
+  div.content {
+    position: relative;
+    height: 100%;
+
+    > div.blank {
+      width: 80%;
+      height: 100%;
+      margin: auto;
+      text-align: center;
+      margin-top: 20%;
+
+      > div.my-bet-button {
+        margin-top: 20%;
+
+        > button {
+          width: 100%;
+        }
+      }
+    }
   }
 
-  > div.footer {
-    position: fixed;
-    background-color: @market-drawer-title-bg;
-    width: @market-drawer-width;
-    height: @market-drawer-footer-height;
-    z-index: 100;
-    bottom: 0;
+  div.footer {
+    background-color: @quick-bet-drawer-title-bg;
+    width: @quick-bet-drawer-width;
     padding: 5px;
 
     > button.place-bet {

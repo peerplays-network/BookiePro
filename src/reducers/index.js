@@ -23,6 +23,7 @@ import SoftwareUpdateReducer from './SoftwareUpdateReducer';
 import ImmutableRouterReducer from './ImmutableRouterReducer';
 import Immutablei18nReducer from './Immutablei18nReducer';
 import QuickBetDrawerReducer from './QuickBetDrawerReducer';
+import MarketDrawerReducer from './MarketDrawerReducer';
 
 
 const rootReducer = combineReducers({
@@ -49,6 +50,7 @@ const rootReducer = combineReducers({
   form: formReducer,
   i18n: Immutablei18nReducer,
   quickBetDrawer: QuickBetDrawerReducer,
+  marketDrawer: MarketDrawerReducer,
 });
 
 export default rootReducer;

@@ -10,7 +10,7 @@ import EditableBetTable from '../EditableBetTable';
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
     { props.bets.isEmpty() &&
-      <div className='blank-drawer'>
+      <div className='blank'>
         <div className='instructions'>CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP</div>
         <div className='my-bet-button'>
           <Button>VIEW YOUR BETS IN MY BETS</Button>

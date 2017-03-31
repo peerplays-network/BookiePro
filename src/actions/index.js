@@ -19,6 +19,7 @@ import AllSportsActions from './AllSportsActions';
 import SportPageActions from './SportPageActions';
 import EventGroupPageActions from './EventGroupPageActions';
 import QuickBetDrawerActions from './QuickBetDrawerActions';
+import MarketDrawerActions from './MarketDrawerActions';
 
 // Combine all the actions here for import shortcut
 export {
@@ -37,6 +38,7 @@ export {
   SportPageActions,
   EventGroupPageActions,
   QuickBetDrawerActions,
+  MarketDrawerActions,
   BetActions,
   SidebarActions,
   AccountActions,
