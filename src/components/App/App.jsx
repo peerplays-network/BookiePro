@@ -74,7 +74,8 @@ class App extends Component {
         <SoftwareUpdateModal
           modalTitle={ this.props.displayText ? this.props.displayText.get(this.props.locale) : defaultNewVersionText }
           closable={ !this.state.needHardUpdate }
-          visible={ this.state.newVersionModalVisible }
+          visible={ false }
+          // visible={ this.state.newVersionModalVisible }
           onOk={ this.state.needHardUpdate ? () => this.okWillCloseApp(false) : () => this.okWillCloseModal(false) }
           onCancel={ this.state.needHardUpdate ? () => this.okWillCloseApp(false) : () => this.okWillCloseModal(false) }
           latestVersion={ this.props.version }

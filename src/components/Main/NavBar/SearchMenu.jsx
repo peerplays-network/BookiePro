@@ -10,6 +10,8 @@ import FakeApi from '../../../communication/FakeApi';
 import { NavigateActions } from '../../../actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
+import Immutable from 'immutable';
+import { findKeyPathOf } from '../../../utility/TreeUtils'
 
 class SearchMenu extends Component {
 
@@ -21,14 +23,37 @@ class SearchMenu extends Component {
     this.gotoEvent = this.gotoEvent.bind(this);
   }
 
+
+
   onChange (event) {
 
     this.setState({
       value: event,
     });
 
+    let isMoneyLineFound = false;
+
+    if ( this.props.completeTree){
+      const nested = Immutable.fromJS(this.props.completeTree);
+      var keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === event.id) );
+
+      const moneyline = nested.getIn(keyPath).get('children').filter(function(mktGroup) {
+        //NOTE if type id is not in string format please change it
+        return mktGroup.get('market_type_id') === 'Moneyline';
+      })
+
+      if ( moneyline.size > 0 ){
+        isMoneyLineFound =  true;
+        this.props.navigateTo('/exchange/bettingmarketgroup/' + moneyline.get(0).get('id') );
+      }
+
+    }
+
     //NOTE navigateTo money line bettingmarketgroup instead
-    this.props.navigateTo('/exchange/event/' + event.id );
+    if ( isMoneyLineFound === false){
+      this.props.navigateTo('/exchange/event/' + event.id );
+    }
+
   }
 
   getEvents (input) {
@@ -88,6 +113,13 @@ SearchMenu.propTypes = {
   label: React.PropTypes.string,
 };
 
+const mapStateToProps = (state) => {
+  const sidebar = state.get('sidebar');
+  return {
+    completeTree: sidebar.get('complete_tree'),
+  };
+}
+
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
@@ -95,6 +127,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SearchMenu);
