@@ -2,14 +2,16 @@ import { ActionTypes } from '../constants';
 import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
-  bets: [],
+  unconfirmedBets: [],
+  unmatchedBets: [],
+  matchedBets: []
 });
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case ActionTypes.QUICK_BET_DRAWER_ADD_QUICK_BET: {
+    case ActionTypes.MARKET_DRAWER_ADD_UNCONFIRMED_BET: {
       return state.merge({
-        bets: state.get('bets').push(action.bet)
+        unconfirmedBets: state.get('unconfirmedBets').push(action.bet)
       });
     }
     default:
