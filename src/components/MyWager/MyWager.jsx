@@ -161,7 +161,6 @@ const mapStateToProps = (state) => {
     let mergeData = [];
     let total = 0;
     if(state.getIn(['bet','getOngoingBetsLoadingStatus']) === LoadingStatus.DONE){
-
       state.getIn(['bet','unmatchedBets']).forEach(row =>
       {
         let rowObj = {
