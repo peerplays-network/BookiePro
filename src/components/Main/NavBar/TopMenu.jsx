@@ -85,24 +85,24 @@ class TopMenu extends Component {
         </Menu.Item>
         <Menu.Item key='deposit'>
           <Dropdown trigger={ ['click'] } overlay={ depositCard(this.props.depositAddress) } placement='bottomRight'>
-              <Icon type='pay-circle-o' />
+            <Icon type='pay-circle-o' />
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='withdraw'>
           <Dropdown trigger={ ['click'] } overlay={ withdrawCard } placement='bottomRight'>
-              <Icon type='pay-circle-o' />
+            <Icon type='pay-circle-o' />
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='notifications' className='notification'>
           <Dropdown trigger={ ['click'] } overlay={ notificationCard } placement='bottomRight'>
-              <Badge count={ 5 }>
-                <Icon type='notification' />
-              </Badge>
+            <Badge count={ 5 }>
+              <Icon type='notification' />
+            </Badge>
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='drop-down'>
-          <Dropdown key='drop-down-item' trigger={ ['click'] } overlay={ dropdownMenuCard } placement='bottomRight'>
-              <Icon type='menu-fold' />
+          <Dropdown trigger={ ['click'] } overlay={ dropdownMenuCard } placement='bottomRight'>
+            <Icon type='menu-fold' />
           </Dropdown>
         </Menu.Item>
       </Menu>
