@@ -16,6 +16,7 @@ class App extends Component {
     const currentVersion = '1.0.0'; // hardcode for testing hardupdate/softupdate
     this.state = {
       currentVersion,
+      needHardUpdate : false,
       newVersionModalVisible: (StringUtils.compareVersionNumbers(currentVersion, this.props.version) < 0)
     };
   }
