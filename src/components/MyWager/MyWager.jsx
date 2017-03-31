@@ -16,7 +16,7 @@ import { I18n } from 'react-redux-i18n';
 const TabPane = Tabs.TabPane;
 var tabKey = 'unmatchedBets';
 
-class privateFunctions{
+class PrivateFunctions{
   //merge betting market group data to bets for display
   //created seperate function otherwise column data with the same column name will be replaced in main data;
   static mergeBettingMarketGroup(data, relData, col){
@@ -180,7 +180,7 @@ const mapStateToProps = (state) => {
         {betting_market_group_id: 'betting_market_group_id' , payout_condition_string: 'payout_condition_string'});
 
       //merging betting market group data for display and eventid for reference
-      mergeData = privateFunctions.mergeBettingMarketGroup(mergeData, state.getIn(['bettingMarketGroup','bettingMarketGroupsById']),
+      mergeData = PrivateFunctions.mergeBettingMarketGroup(mergeData, state.getIn(['bettingMarketGroup','bettingMarketGroupsById']),
         'betting_market_group_id');
 
       //merging evemt data for display and sport id for reference
@@ -192,7 +192,7 @@ const mapStateToProps = (state) => {
       {'name': 'sport_name'});
 
       //formating data for display
-      mergeData = privateFunctions.formatBettingData(mergeData);
+      mergeData = PrivateFunctions.formatBettingData(mergeData);
       mergeData = List(mergeData);
 
       mergeData.forEach((d, index) => {
