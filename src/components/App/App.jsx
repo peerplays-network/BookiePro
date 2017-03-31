@@ -33,7 +33,6 @@ class App extends Component {
 
     const newVerNum = nextProps.version.split('.');
     const currentVernNum = this.state.currentVersion.split('.');
-    console.log(newVerNum + ' ' + currentVernNum )
 
     const needHardUpdate = newVerNum[0] > currentVernNum[0]
 
