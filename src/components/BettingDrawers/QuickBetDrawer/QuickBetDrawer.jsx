@@ -41,7 +41,7 @@ class QuickBetDrawer extends Component {
   render() {
     return (
       <div id='quick-bet-drawer' ref='drawer'>
-        <SplitPane split='horizontal' defaultSize='40'>
+        <SplitPane split='horizontal' defaultSize='40px'>
           <div className='title'>
             <div className='label'>BETSLIP</div>
           </div>
@@ -50,7 +50,7 @@ class QuickBetDrawer extends Component {
             minSize={ 40 }
             defaultSize={ 40 }
             primary='second'
-            pane1Style={ { 'overflow-y': 'hidden' } }
+            pane1Style={ { 'overflowY': 'hidden' } }
           >
             { renderContent(this.props) }
             {
@@ -87,10 +87,9 @@ const mapStateToProps = (state) => {
     }
     // Add the bet to the list of bets with the same market type
     let betListByMarketType = unconfirmedBets.get(marketType);
-    // TODO: Binned Order Book data are not in Immutable JS format yet
     let betObj = Immutable.Map()
-                  .set('odds', bet.get('offer').odds)
-                  .set('price', bet.get('offer').price)
+                  .set('odds', bet.getIn(['offer', 'odds']))
+                  .set('price', bet.getIn(['offer', 'price']))
                   .set('team', bet.get('team_name'));
     betListByMarketType = betListByMarketType.push(betObj);
     // Put everything back in their rightful places

@@ -110,15 +110,14 @@ class SimpleBettingWidget extends Component {
         return '';
       }
       // TODO: Check if we always have only one offer here. If yes, get rid of the list
-      // TODO: Need to come back here once we converted the Binned Order Books dummy data to ImmutableJS Map too
       const offer = offers.get(0).get(marketType).get(index-1);
       // TODO: REVIEW This is temp solution. The better way is to use the Competitor data.
       const team = record.get('name').split('vs')[index-1].trim()
       return (
         <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, marketType, offer) }>
           <div className='offer'>
-            <div className='odds'>{ offer.odds }</div>
-            <div className='price'>{ bitcoinSymbol } { offer.price }</div>
+            <div className='odds'>{ offer.get('odds') }</div>
+            <div className='price'>{ bitcoinSymbol } { offer.get('price') }</div>
           </div>
         </a>
       );
