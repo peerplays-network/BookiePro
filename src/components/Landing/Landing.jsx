@@ -1,17 +1,23 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import TermsModal from '../Modal/TermsModal'
 var I18n = require('react-redux-i18n').I18n;
-
+import Ps from 'perfect-scrollbar';
 class HTMLEncodeComponent extends Component{
+  componentDidMount() {
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.terms_content));
+  }
   render(){
     let markup = { __html: this.props.htmlToRender }
     return(
-      <div dangerouslySetInnerHTML={ markup }></div>
+      <div style={ { 'height' : '100%', 'position' : 'relative' } } ref='terms_content' dangerouslySetInnerHTML={ markup }></div>
     )
   }
 }
 class Landing extends Component{
+
   render(){
+
     return(
       <div className='splashComponent'>
         <div className='wrapper'>
