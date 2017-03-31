@@ -1,4 +1,4 @@
-.privacy-modal, .rules-modal{
+.terms-modal, .rules-modal{
   .ant-modal-header{
     background-color: transparent;
     border-radius: 0;
@@ -10,6 +10,10 @@
       font-weight:700;
       text-transform: uppercase;
     }
+  }
+  .ant-modal-body{
+    overflow: scroll;
+    height: 1000px;
   }
   .ant-modal-content{
     background: rgba(6,31,50,0.95);
@@ -32,6 +36,24 @@
       font-size: 20px;
     }
   }
+  ul{
+    margin-bottom:30px;
+    padding-left:30px;
+    p{
+      margin-bottom:0;
+      margin-left:-30px;
+    }
+    li{
+      list-style: disc;
+
+      font-size:16px;
+      line-height:32px;
+      margin-bottom:0px;
+    }
+  }
+  .ant-modal{
+    top:50px;
+  }
 }
 .rules-modal{
   .ant-modal-header{
@@ -40,9 +62,10 @@
     }
   }
 }
-.privacy-button{
-  text-transform: uppercase;
-}
+.terms-modal{ overflow: hidden}
 .ant-modal-mask{
   background-color: rgba(0,36,64,0.95);
+}
+.modal-inline{
+  display: inline-block;
 }
