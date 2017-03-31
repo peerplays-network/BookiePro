@@ -23,7 +23,7 @@ class App extends Component {
 
   componentWillMount() {
     // Connect to blockchain
-    //this.props.connectToBlockchain();
+    this.props.connectToBlockchain();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -108,7 +108,7 @@ const mapStateToProps = (state) => {
   const displayText = softwareUpdate.get('displayText');
   const locale = i18n.get('locale');
   const isLoggedIn = app.get('isLoggedIn');
-  const connectToBlockchainLoadingStatus = LoadingStatus.DONE;
+  const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');;
 
   return {
     connectToBlockchainLoadingStatus,
