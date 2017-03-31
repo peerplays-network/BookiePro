@@ -12,9 +12,7 @@ import Ps from 'perfect-scrollbar';
 
 // Pick one of the 2 betting drawers based on the path
 const selectBettingDrawer = (pathTokens) => {
-  console.log(pathTokens);
   if (pathTokens.length < 3 || pathTokens[2].toLowerCase() !== 'bettingmarketgroup') {
-    console.log('haha', pathTokens[2]);
     return ( <QuickBetDrawer /> );
   }
 

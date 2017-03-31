@@ -3,7 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { Icon, Table } from 'antd';
-import { QuickBetDrawerActions } from '../../actions';
+import { MarketDrawerActions } from '../../actions';
+
+/**
+ * NOTES: This version of ComplexBettingWidget is just a clone of the
+ *        SimpleBettingWidget. This is only used as a stub to test the
+ *        basic Market Drawer. Please feel free to modify/replace this.
+ **/
 
 const bitcoinSymbol = '\u0243';
 // We cannot use CSS to override antd Table column width using CSS
@@ -88,7 +94,7 @@ const renderFooter = (title) => (
   </div>
 )
 
-class SimpleBettingWidget extends Component {
+class ComplexBettingWidget extends Component {
   constructor(props) {
     super(props);
     this.onOfferClicked = this.onOfferClicked.bind(this);
@@ -128,7 +134,6 @@ class SimpleBettingWidget extends Component {
     let events = [];
     if (this.props.events !== undefined) {
       // Introduce the key attribute to suppress the React warning
-      console.log('DEBUG', this.props.events.toJS());
       events = this.props.events.map((event) => event.set('key', event.get('id')));
       // Sort by event time
       events = events.sort((a, b) => {
@@ -144,7 +149,7 @@ class SimpleBettingWidget extends Component {
     return (
       // Note that we have to explicitly tell antd Table how to find the rowKey
       // because it is not compatible with Immutable JS
-      <div className='simple-betting'>
+      <div className='complex-betting'>
         <Table
           bordered
           pagination={ false }
@@ -162,8 +167,8 @@ class SimpleBettingWidget extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    createBet: QuickBetDrawerActions.createBet,
+    createBet: MarketDrawerActions.createBet,
   }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(SimpleBettingWidget);
+export default connect(null, mapDispatchToProps)(ComplexBettingWidget);
