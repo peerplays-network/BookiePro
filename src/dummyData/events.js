@@ -3,13 +3,20 @@ import Immutable from 'immutable';
 
 import moment from 'moment';
 
+/**
+ * Instructions
+ *
+ * You can use the moment.js library to create a timestamp in the future.
+ * Please follow the examples already defined in this file. Thanks. 
+ */
+
 const events = [
   {
     id: '1.103.1',
     sport_id: '1.100.1',
     name: 'NY Giants vs Green Bay',
     seasons: '2016-2017',
-    start_time: 1489462211000,
+    start_time: moment().add(1, 'days').unix() * 1000,
     event_group_id: '1.101.1',
     event_status_id: 'Completed',
     scores: [
@@ -33,7 +40,7 @@ const events = [
     sport_id: '1.100.2',
     name: 'Cleveland Cavaliers vs Golden State Wariors',
     seasons: '2017-2018',
-    start_time: moment().add(1, 'days').unix() * 1000, // Always tomorrow
+    start_time: moment().add(1, 'days').unix() * 1000,
     event_group_id: '1.101.4',
     event_status_id: 'Upcoming',
     scores: [
@@ -225,7 +232,7 @@ const events = [
     sport_id: '1.100.2',
     name: 'Tanduay Light vs San Beda',
     seasons: '2016-2017',
-    start_time: 1489462211000,
+    start_time: moment().add(9, 'days').unix() * 1000,
     event_group_id: '1.101.4',
     event_status_id: 'Completed',
     scores: [
@@ -249,7 +256,7 @@ const events = [
     sport_id: '1.100.2',
     name: 'Racal Ceramica vs Cafe France Bakers',
     seasons: '2017-2018',
-    start_time: moment().add(9, 'days').unix() * 1000, // Always tomorrow
+    start_time: moment().add(9, 'days').unix() * 1000,
     event_group_id: '1.101.4',
     event_status_id: 'Upcoming',
     scores: [
