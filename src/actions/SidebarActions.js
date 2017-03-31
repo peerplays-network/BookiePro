@@ -120,6 +120,7 @@ class SidebarActions{
               mktGroupNode.id = mktGroup.id;
               mktGroupNode.isOpen = false;
               mktGroupNode.customComponent = "BettingMarketGroup";
+              mktGroupNode.market_type_id = mktGroup.market_type_id
               mktGroupNode.objectId = mktGroup.id;
               mktGroupNode.children = [];
 
