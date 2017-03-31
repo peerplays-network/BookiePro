@@ -257,8 +257,6 @@ class TestBookieAccount extends Component {
     // {need_hard_update, need_soft_update}
     // {false, false} ==> no modal  , { true, true} / { true, false } hard update modal, { false, true } soft update modal
     const memoMessage = {
-      need_hard_update: true,
-      need_soft_update: true,
       version: this.state.version,
       displayText: {
         en: '<h1>Updates Available</h1><a href=\'http://www.google.com\' '+

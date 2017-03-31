@@ -6,8 +6,6 @@ import Immutable from 'immutable';
 
 let initialState = Immutable.Map({
   referenceAccount: null,
-  needHardUpdate: false,
-  needSoftUpdate: false,
   version: '0.0.1', // minimum value, we not using null to avoid null checking
   displayText: null
 });
@@ -16,8 +14,6 @@ export default function (state = initialState, action) {
   switch(action.type) {
     case ActionTypes.SOFTWARE_UPDATE_SET_REFERENCE_ACCOUNT: {
       const referenceAccount = action.referenceAccount;
-      let needHardUpdate = false;
-      let needSoftUpdate = false;
       let version = null;
       let displayText = null;
 
@@ -45,8 +41,6 @@ export default function (state = initialState, action) {
               // Assuming that we dun need to decrypt the message to parse 'software update' memo message
               const memoJson =  JSON.parse(StringUtils.hex2a(memo.toJS().message));
 
-              needHardUpdate = memoJson.need_hard_update;
-              needSoftUpdate = memoJson.need_soft_update;
               version = memoJson.version;
               displayText = memoJson.displayText;
 
@@ -60,8 +54,6 @@ export default function (state = initialState, action) {
 
       return state.merge({
         referenceAccount,
-        needHardUpdate,
-        needSoftUpdate,
         version,
         displayText
       });
