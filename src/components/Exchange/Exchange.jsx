@@ -46,7 +46,7 @@ class Exchange extends Component {
     const betslipWidth = 400;
     const splitPaneStyle = {
       'top':'0px',
-      'paddingTop':'64px', //due to top bar
+      'marginTop':'64px', //due to top bar
       'position': 'fixed'
     };
 
