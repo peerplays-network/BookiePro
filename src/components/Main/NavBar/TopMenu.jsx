@@ -5,11 +5,15 @@ import Withdraw from '../../MyAccount/Withdraw'
 import Amount from './AmountDropDown'
 import Notification from './Notification'
 import DropdownMenu from './DropdownMenu'
+import { AccountActions } from '../../../actions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux'
+
 const amountCard = (
   <Amount cardClass='bookie-amount-card' />
 );
-const depositCard = (
-  <Deposit cardClass='bookie-card deposit-card' />
+const depositCard = (depositAddress) => (
+  <Deposit cardClass='bookie-card deposit-card' depositAddress={ depositAddress } />
 );
 const withdrawCard = (
   <Withdraw cardClass='bookie-card withdraw-card' />
@@ -30,6 +34,10 @@ class TopMenu extends Component {
     };
 
     this.handleClick = this.handleClick.bind(this);
+  }
+  componentDidMount(){
+    //Get the deposit address
+    this.props.getDepositAddress();
   }
   handleClick(e) {
     console.log('click ', e);
@@ -57,7 +65,7 @@ class TopMenu extends Component {
           <Icon type='calendar' />
         </Menu.Item>
         <Menu.Item key='deposit'>
-          <Dropdown trigger={ ['click'] } overlay={ depositCard } placement='bottomRight'>
+          <Dropdown trigger={ ['click'] } overlay={ depositCard(this.props.depositAddress) } placement='bottomRight'>
             <a className='ant-dropdown-link' href='#'>
               <Icon type='frown-o' />
             </a>
@@ -92,4 +100,19 @@ class TopMenu extends Component {
   }
 }
 
-export default TopMenu;
+const mapStateToProps = (state) => {
+  const account = state.get('account');
+  return {
+    //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
+    loadingStatus: account.get('getDepositAddressLoadingStatus'),
+    depositAddress: account.get('depositAddress')
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    getDepositAddress: AccountActions.getDepositAddress,
+  }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);
