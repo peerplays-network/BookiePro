@@ -1,11 +1,8 @@
 import { Apis } from 'graphenejs-ws';
 import { BlockchainUtils } from '../utility';
-import { AppActions, AccountActions, NotificationActions } from '../actions';
+import { AppActions, AccountActions, NotificationActions, SoftwareUpdateActions } from '../actions';
 import Immutable from 'immutable';
-import KeyGeneratorService from './KeyGeneratorService';
-import AccountService from './AccountService';
-import { I18n } from 'react-redux-i18n';
-import { ObjectPrefix, Config } from '../constants';
+import { ObjectPrefix } from '../constants';
 import { ChainValidation } from 'graphenejs-lib';
 import _ from 'lodash';
 const { blockchainTimeStringToDate, getObjectIdPrefix } = BlockchainUtils;
@@ -36,9 +33,12 @@ class CommunicationService {
       case ObjectPrefix.ACCOUNT_PREFIX: {
         const accountId = updatedObject.get('id');
         const myAccountId = this.getState().getIn(['account', 'account', 'id']);
-        // Check if this account is related to my account
+        const softwareUpdateRefAccId = this.getState().getIn(['softwareUpdate', 'referenceAccount', 'id']);
+        // Check if this account is related to my account or software update account
         if (accountId === myAccountId) {
           this.dispatch(AccountActions.setAccountAction(updatedObject));
+        } else if (accountId === softwareUpdateRefAccId) {
+          this.dispatch(SoftwareUpdateActions.setReferenceAccountAction(updatedObject));
         }
         break;
       }
@@ -62,7 +62,8 @@ class CommunicationService {
       case ObjectPrefix.ACCOUNT_STAT_PREFIX: {
         const ownerId = updatedObject.get('owner');
         const myAccountId = this.getState().getIn(['account', 'account', 'id']);
-        // Check if this statistic is related to my account
+        const softwareUpdateRefAccId = this.getState().getIn(['softwareUpdate', 'referenceAccount', 'id']);
+        // Check if this statistic is related to my account or software update account
         if (ownerId === myAccountId) {
           // Check if this account made new transaction, if that's the case update the notification
           const mostRecentOp = this.getState().getIn(['account', 'statistics', 'most_recent_op']);
@@ -73,6 +74,16 @@ class CommunicationService {
           }
           // Set the newest statistic
           this.dispatch(AccountActions.setStatisticsAction(updatedObject));
+        } else if (ownerId === softwareUpdateRefAccId) {
+          // Check if this account made new transaction, if that's the case check for software update
+          const mostRecentOp = this.getState().getIn(['softwareUpdate', 'referenceAccountStatistics', 'most_recent_op']);
+          const updatedMostRecentOp = updatedObject.get('most_recent_op')
+          const hasMadeNewTransaction = updatedMostRecentOp !== mostRecentOp;
+          if (hasMadeNewTransaction) {
+            this.dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());
+          }
+          // Set the newest statistic
+          this.dispatch(SoftwareUpdateActions.setReferenceAccountStatisticsAction(updatedObject));
         }
         break;
       }

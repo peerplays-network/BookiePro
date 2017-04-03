@@ -1,7 +1,17 @@
 import { ActionTypes, Config } from '../constants';
-import { ChainStore, FetchChain } from 'graphenejs-lib';
+import { CommunicationService } from '../services';
+import { ChainTypes } from 'graphenejs-lib';
+import { StringUtils } from '../utility';
 
-let accountSubscriber;
+class SoftwareUpdatePrivateActions {
+  static setUpdateParameter(version, displayText) {
+    return {
+      type: ActionTypes.SOFTWARE_UPDATE_SET_UPDATE_PARAMETER,
+      version,
+      displayText
+    }
+  }
+}
 
 /**
  * Public actions
@@ -14,29 +24,49 @@ class SoftwareUpdateActions {
     }
   }
 
-  /**
-   * Set the account and subscribe to it
-   */
-  static setReferenceAccount(account) {
-    return (dispatch, getState) => {
-      const accountName = Config.softwareUpdateReferenceAccountName;
+  static setReferenceAccountStatisticsAction(referenceAccountStatistics) {
+    return {
+      type: ActionTypes.SOFTWARE_UPDATE_SET_REFERENCE_ACCOUNT_STATISTICS,
+      referenceAccountStatistics
+    }
+  }
 
-      // Unsubscribe previous account subscriber
-      if (accountSubscriber) {
-        ChainStore.unsubscribe(accountSubscriber);
+  static checkForSoftwareUpdate() {
+    return (dispatch, getState) => {
+      const referenceAccountId = getState().getIn(['softwareUpdate', 'referenceAccount', 'id']);
+      if (!referenceAccountId) {
+        // Reference account not set yet
+        dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());
+      } else {
+        // Get latest 100 transaction histories and parse it
+        CommunicationService.fetchRecentHistory(referenceAccountId).then((history) => {
+          history.forEach((transaction) => {
+            const operationType = transaction.getIn(['op', 0]);
+            // 0 is operation type for transfer
+            if (operationType === ChainTypes.operations.transfer) {
+              // Check memo
+              const memo = transaction.getIn(['op', 1, 'memo']);
+              if (memo && memo.get('message')) {
+                try {
+                  // Assuming that we dun need to decrypt the message to parse 'software update' memo message
+                  const memoJson =  JSON.parse(StringUtils.hex2a(memo.toJS().message));
+                  const version = memoJson.version;
+                  const displayText = memoJson.displayText;
+
+                  // If it has version then it is an update transaction
+                  if (version) {
+                    dispatch(SoftwareUpdatePrivateActions.setUpdateParameter(version, displayText));
+                    // Terminate early
+                    return false;
+                  }
+                } catch (e){
+                }
+              }
+            }
+          });
+        });
       }
-      // Define new account subscriber and subscribe to ChainStore
-      accountSubscriber = () => {
-        const previousAccount = getState().getIn(['softwareUpdate','referenceAccount']);
-        const updatedAccount = ChainStore.getAccount(accountName);
-        // Dispatch updated account
-        if (previousAccount && !previousAccount.equals(updatedAccount)) {
-          dispatch(SoftwareUpdateActions.setReferenceAccount(updatedAccount));
-        }
-      };
-      ChainStore.subscribe(accountSubscriber);
-      // Set the reference account
-      dispatch(SoftwareUpdateActions.setReferenceAccountAction(account));
+
     }
   }
 
@@ -44,8 +74,11 @@ class SoftwareUpdateActions {
     return (dispatch) => {
       const accountName = Config.softwareUpdateReferenceAccountName;
       // Fetch reference account in asycn manner
-      FetchChain('getAccount', accountName).then((account) => {
-        dispatch(SoftwareUpdateActions.setReferenceAccount(account));
+      CommunicationService.getFullAccount(accountName).then( (fullAccount) => {
+        const account = fullAccount.get('account');
+        const statistics = fullAccount.get('statistics');
+        dispatch(SoftwareUpdateActions.setReferenceAccountAction(account));
+        dispatch(SoftwareUpdateActions.setReferenceAccountStatisticsAction(statistics));
       }).catch((error) => {
         console.error('error is', error);
         // retry
