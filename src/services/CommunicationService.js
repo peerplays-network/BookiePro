@@ -176,10 +176,11 @@ class CommunicationService {
   * Fetch recent history of an account
   */
   static fetchRecentHistory(accountId, stopTxHistoryId, limit=100) {
-    // 0 denotes the current time
-    const startTxHistoryId = ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0';
+    // 1.11.0 denotes the current time
+    const currentTimeTransactionId = ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0';
+    const startTxHistoryId = currentTimeTransactionId;
     return Apis.instance().history_api().exec('get_account_history',
-                  [ accountId, stopTxHistoryId, limit, startTxHistoryId]).then((history) => {
+                  [ accountId, stopTxHistoryId || currentTimeTransactionId, limit, startTxHistoryId]).then((history) => {
                     // Return immutable object to make it consistent with other functions
                     return Immutable.fromJS(history);
                   });

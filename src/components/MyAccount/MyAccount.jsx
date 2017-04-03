@@ -12,13 +12,9 @@ import {
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
 import './MyAccount.less'
-import {ChainStore} from 'graphenejs-lib';
 import _ from 'lodash';
-import {
-  ChainTypes,
-  BindToChainState,
-  BlockchainUtils
-} from '../../utility';
+import { BlockchainUtils } from '../../utility';
+import { CommunicationService } from '../../services';
 import ps from 'perfect-scrollbar';
 import 'perfect-scrollbar';
 import Deposit from './Deposit'
@@ -31,16 +27,6 @@ const Option = Select.Option;
 let isMounted = false;
 
 class MyAccount extends Component {
-
-  static propTypes = {
-    dynGlobalObject: ChainTypes.ChainObject.isRequired,
-    globalObject: ChainTypes.ChainObject.isRequired,
-  };
-
-  static defaultProps = {
-    dynGlobalObject: '2.1.0',
-    globalObject: '2.0.0',
-  };
 
   constructor(props) {
     super(props);
@@ -63,7 +49,7 @@ class MyAccount extends Component {
       endDate:dateFormat(endDate, "yyyy-mm-dd h:MM:ss")
     }
 
-    //this.fetchRecentTransactionHistory = this.fetchRecentTransactionHistory.bind(this);
+    // this.fetchRecentTransactionHistory = this.fetchRecentTransactionHistory.bind(this);
     this.handleLangChange = this.handleLangChange.bind(this);
     this.handleCurrFormatChange = this.handleCurrFormatChange.bind(this);
     this.handleTimeZoneChange = this.handleTimeZoneChange.bind(this);
@@ -101,7 +87,7 @@ class MyAccount extends Component {
   componentDidMount() {
     isMounted = true;
     this.searchTransactionHistory();
-    //this.fetchRecentTransactionHistory();
+    // this.fetchRecentTransactionHistory();
     //ps.initialize(this.refs.global);
     //ps.update(this.refs.global);
 
@@ -167,20 +153,19 @@ class MyAccount extends Component {
   //NOTE: Not removing this code as of now since I will need to refer it later when correct data is obtained
   fetchRecentTransactionHistory() {
 
-    const account = ChainStore.getAccount('1.2.153075'); // this is ii-5 account id
-
-    if (!account) {
-      console.log('Fetching data in progress... Please try again in a moment...');
+    const account = this.props.account;
+    const accountId = account.get('id');
+    if (!accountId) {
+      console.log('No account');
       return;
     }
     this.setState({fetchRecentHistoryInProgress: true});
-    ChainStore.fetchRecentHistory(account.get('id'))
-      .then((updatedAccount) => {
+    CommunicationService.fetchRecentHistory(accountId)
+      .then((result) => {
         this.setState({fetchRecentHistoryInProgress: false});
 
-        const txList = updatedAccount.get('history').toJS();
+        const txList = result.toJS();
         this.setState({txList: txList});
-
 
         const newTxList = [];
         txList.forEach(order => {
@@ -389,12 +374,16 @@ class MyAccount extends Component {
   }
 }
 
-const BindedMyAccount = BindToChainState()(MyAccount);
 
 const mapStateToProps = (state) => {
+  const app = state.get('app');
+  const account = state.get('account');
   const setting = state.get('setting');
   const account = state.get('account');
   return {
+    dynGlobalObject: app.get('blockchainDynamicGlobalProperty'),
+    globalObject: app.get('blockchainGlobalProperty'),
+    account: account.get('account'),
     lang: setting.get('lang'),
     timezone: setting.get('timezone'),
     notification: setting.get('notification'),
@@ -420,4 +409,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(BindedMyAccount);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccount);
