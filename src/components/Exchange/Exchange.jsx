@@ -44,6 +44,7 @@ class Exchange extends Component {
     const styleLeftPane = { background: '#1563A0' };
     const sidebarWidth = 200;
     const betslipWidth = 400;
+
     let transitionName = this.props.location.pathname.split("/");
 
     return (
