@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Badge, Menu, Icon, Dropdown } from 'antd';
-import Deposit from '../../MyAccount/Deposit';
-import Withdraw from '../../MyAccount/Withdraw';
-import Amount from './AmountDropDown';
-import Notification from './Notification';
-import DropdownMenu from './DropdownMenu';
-import { bindActionCreators } from 'redux';
+import { Badge, Menu, Icon,Dropdown } from 'antd';
+import Deposit from '../../MyAccount/Deposit'
+import Withdraw from '../../MyAccount/Withdraw'
+import Amount from './AmountDropDown'
+import Notification from './Notification'
+import DropdownMenu from './DropdownMenu'
+import { AccountActions } from '../../../actions';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
 import { NavigateActions } from '../../../actions';
 
 class TopMenu extends Component {
@@ -52,8 +53,8 @@ class TopMenu extends Component {
     const amountCard = (
       <Amount cardClass='bookie-amount-card' />
     );
-    const depositCard = (
-      <Deposit cardClass='bookie-card deposit-card' />
+    const depositCard = (depositAddress) => (
+      <Deposit cardClass='bookie-card deposit-card' depositAddress={ depositAddress } />
     );
     const withdrawCard = (
       <Withdraw cardClass='bookie-card withdraw-card' />
@@ -84,35 +85,30 @@ class TopMenu extends Component {
            <Icon type='calendar' />
         </Menu.Item>
         <Menu.Item key='deposit'>
-          <Dropdown trigger={ ['click'] } overlay={ depositCard(this.props.depositAddress) } placement='bottomRight'>
-            <Icon type='pay-circle-o' />
+          <Dropdown trigger={ ['click'] } overlay={ depositCard } placement='bottomRight'>
+              <Icon type='pay-circle-o' />
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='withdraw'>
           <Dropdown trigger={ ['click'] } overlay={ withdrawCard } placement='bottomRight'>
-            <Icon type='pay-circle-o' />
+              <Icon type='pay-circle-o' />
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='notifications' className='notification'>
           <Dropdown trigger={ ['click'] } overlay={ notificationCard } placement='bottomRight'>
-            <Badge count={ 5 }>
-              <Icon type='notification' />
-            </Badge>
+              <Badge count={ 5 }>
+                <Icon type='notification' />
+              </Badge>
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='drop-down'>
-          <Dropdown trigger={ ['click'] } overlay={ dropdownMenuCard } placement='bottomRight'>
-            <Icon type='menu-fold' />
+          <Dropdown key='drop-down-item' trigger={ ['click'] } overlay={ dropdownMenuCard } placement='bottomRight'>
+              <Icon type='menu-fold' />
           </Dropdown>
         </Menu.Item>
       </Menu>
     );
   }
-}
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    navigateTo: NavigateActions.navigateTo,
-  }, dispatch);
 }
 
 const mapStateToProps = (state) => {
