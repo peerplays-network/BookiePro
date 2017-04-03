@@ -1,9 +1,31 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {Icon, Row, Col, Input} from 'antd'
 import QRCode from 'qrcode.react';
 var I18n = require('react-redux-i18n').I18n;
+import { NavigateActions,AccountActions } from '../../actions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import copy from 'copy-to-clipboard'
 
-class Deposit extends Component {
+class Deposit extends PureComponent {
+  constructor(props){
+    super(props);
+    this.onClickContinue = this.onClickContinue.bind(this);
+  }
+  componentDidMount(){
+    //Get the deposit address
+    this.props.getDepositAddress();
+  }
+  //Navigate to the 'Welcome' screen on 'Continue' button click
+  onClickContinue(e) {
+    e.preventDefault();
+    this.props.navigateTo('/welcome');
+  }
+  //Copy the Deposit Address to clipboard
+  onClickCopy(depAddr,e) {
+    e.preventDefault();
+    copy(depAddr);
+  }
   render() {
     return (
       <div className='sportsbg' id='main-content'>
@@ -14,26 +36,24 @@ class Deposit extends Component {
               <h2 className='login-welcome'>  {I18n.t('deposit.title')} </h2>
               <div
                 className='center-section deposit-content'>
-                <Row type='flex' gutter='100'
+                <Row type='flex' gutter={ 100 }
                      className='row-divided'>
                   <Col className='or' span={ 12 }>
                     <p>
                       {I18n.t('deposit.left_description')}
                     </p>
-
                     <div
                       className='registerComponent pos-relative'>
-                      <Input
+                      <Input readOnly
                         className='bookie-input'
-                        defaultValue='163WXbtyK3xrGEFhprM9JgzbZSyCKnc3AC'
-
+                        value={ this.props.depositAddress }
                       />
-                      <button
-                        className='btn btn-regular copy-btn'>
+                     <button
+                        className='btn btn-regular copy-btn'
+                        onClick={ this.onClickCopy.bind(this,this.props.depositAddress) }>
                         {I18n.t('deposit.copy')}
                       </button>
                     </div>
-
                   </Col>
                   <div className='vertical-divider'>{I18n.t('deposit.or')}</div>
                   <Col span={ 12 }>
@@ -42,16 +62,14 @@ class Deposit extends Component {
                     <div className='text-center'>
                       <p className='bookie-qr'><QRCode
                         className='bookie-qr'
-                        value='http://facebook.github.io/react/'/>
+                        value={ JSON.stringify(this.props.depositAddress) }/>
                       </p>
                     </div>
-
                   </Col>
                 </Row>
                 <div
                   className='text-center registerComponent margin-top-40'>
-                  <button
-                    className='btn btn-regular'>
+                  <button onClick={ this.onClickContinue } className='btn btn-regular'>
                     {I18n.t('deposit.continue')}
                   </button>
                 </div>
@@ -63,4 +81,18 @@ class Deposit extends Component {
     )
   }
 }
-export default Deposit;
+const mapStateToProps = (state) => {
+  const account = state.get('account');
+  return {
+    //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
+    loadingStatus: account.get('getDepositAddressLoadingStatus'),
+    depositAddress: account.get('depositAddress')
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    getDepositAddress: AccountActions.getDepositAddress,
+    navigateTo: NavigateActions.navigateTo,
+  }, dispatch);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Deposit)

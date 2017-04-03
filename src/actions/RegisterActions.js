@@ -53,7 +53,7 @@ class RegisterActions {
         dispatch(RegisterPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
 
         // After some delay navigate to home page
-        dispatch(NavigateActions.navigateTo('/exchange'));
+        dispatch(NavigateActions.navigateTo('/deposit'));
       }).catch((error) => {
         // Set error
         /**

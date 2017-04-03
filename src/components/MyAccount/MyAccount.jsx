@@ -5,7 +5,6 @@ import {
   Row,
   Col,
   Card,
-  Icon,
   Switch,
   Select,
   Breadcrumb
@@ -104,6 +103,9 @@ class MyAccount extends Component {
     //this.fetchRecentTransactionHistory();
     //ps.initialize(this.refs.global);
     //ps.update(this.refs.global);
+
+    //Get the deposit address
+    this.props.getDepositAddress();
   }
 
   componentWillUnmount(){
@@ -353,7 +355,7 @@ class MyAccount extends Component {
         </Breadcrumb>
         <Row gutter={ 10 }>
           <Col span={ 8 }>
-            <Deposit cardClass='bookie-card' />
+            <Deposit cardClass='bookie-card' depositAddress={ this.props.depositAddress }/>
           </Col>
 
           <Col span={ 8 }>
@@ -385,12 +387,16 @@ const BindedMyAccount = BindToChainState()(MyAccount);
 
 const mapStateToProps = (state) => {
   const setting = state.get('setting');
+  const account = state.get('account');
   return {
     lang: setting.get('lang'),
     timezone: setting.get('timezone'),
     notification: setting.get('notification'),
     currencyFormat: setting.get('currencyFormat'),
-    transactionHistory: state.getIn(['account', 'transactionHistories'])
+    transactionHistory: state.getIn(['account', 'transactionHistories']),
+    //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
+    loadingStatus: account.get('getDepositAddressLoadingStatus'),
+    depositAddress: account.get('depositAddress')
   }
 }
 
@@ -401,7 +407,8 @@ function mapDispatchToProps(dispatch) {
     updateSettingTimeZone: SettingActions.updateSettingTimeZone,
     updateSettingNotification: SettingActions.updateSettingNotification,
     updateCurrencyFormat: SettingActions.updateCurrencyFormat,
-    getTransactionHistory: AccountActions.getTransactionHistories
+    getTransactionHistory: AccountActions.getTransactionHistories,
+    getDepositAddress: AccountActions.getDepositAddress,
   }, dispatch)
 }
 

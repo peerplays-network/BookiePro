@@ -96,7 +96,8 @@ export const translationsObject = {
       place_bet_desc: 'You can place a lay (against) bet by selecting the odds in the blue box. When placing a lay bet you are betting for an outcome not to happen' +
       ' - for example betting that Oakland will not beat Houston. Your bet against Oakland will therefore win if the result is either a Houston win or a draw.' +
       ' The current odds will automatically be selected' +
-      ' but you can alter these to your liking.'
+      ' but you can alter these to your liking.',
+      start_betting_now: 'Start Betting Now'
     },
     deposit:{
       title: 'Make a Deposit',
