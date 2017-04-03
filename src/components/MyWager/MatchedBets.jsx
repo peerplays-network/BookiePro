@@ -13,7 +13,7 @@ class MatchedBets extends Component {
         <div className='top-data clearfix'>
           <div className='float-left'>
             <p className='font18 padding-tb-5'>
-              { I18n.t('mybets.total') + ' : ' + (currencyFormat === 'BTC' ? 'Ƀ ' : 'm ') + betsTotal }
+              { I18n.t('mybets.total') + ' : ' + (currencyFormat === 'BTC' ? 'Ƀ ' : 'm ') + (betsTotal ? betsTotal : 0) }
             </p>
           </div>
           <div className='right-left'></div>
