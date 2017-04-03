@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { Button } from 'antd';
 import { Apis } from 'graphenejs-ws';
 import { connect } from 'react-redux';
-import AssetActions from '../../actions/AssetActions';
 import TestBookieAccount from './TestBookieAccount';
 import { AccountActions } from '../../actions';
 
@@ -20,7 +19,6 @@ class BlockchainTestPage extends Component {
 
     this._onObjectIdTextInputChange = this._onObjectIdTextInputChange.bind(this);
     this._getObject = this._getObject.bind(this);
-    this._renderAssetList = this._renderAssetList.bind(this);
     this._fetchMarketLimitOrdersInParallel = this._fetchMarketLimitOrdersInParallel.bind(this);
     this._onClickInternalApiTestButton = this._onClickInternalApiTestButton.bind(this);
   }
@@ -73,26 +71,6 @@ class BlockchainTestPage extends Component {
   }
 
 
-
-  _renderAssetList() {
-    if (this.props.assetList.length > 0) {
-      return (
-        <div>
-          <div>------------------------------------------------</div>
-          {
-            this.props.assetList.map( (asset, index) => {
-              return (
-                <div key={ index }>
-                  { asset.symbol }
-                </div>
-              );
-            })
-          }
-        </div>
-      );
-    }
-  }
-
   render() {
     return (
       <div>
@@ -129,17 +107,6 @@ class BlockchainTestPage extends Component {
             {'Fetch Market Limit Orders in Parallel'}
           </Button>
         </div>
-        <div>
-          <Button onClick={ () => { this.props.fetchAssetList('A', 10)} } disabled={ this.state.makeOpenOrderInProgress }>
-            {'Get List of Assets and Store it in Redux (Redux demo)'}
-          </Button>
-        </div>
-        <div>
-          <Button onClick={ () => { this.props.clearAssetList() } }>
-            {'Clear List of Assets from Redux (Redux demo)'}
-          </Button>
-        </div>
-        { this._renderAssetList() }
         <div>------------------------------------------------</div>
         <TestBookieAccount account={ this.props.account }/>
         <div>------------------------------------------------</div>
@@ -150,24 +117,8 @@ class BlockchainTestPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    account: state.getIn(['account', 'account']),
-    assetList: state.getIn(['asset', 'assetList']).toJS()
+    account: state.getIn(['account', 'account'])
   };
 }
 
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchAssetList: (start, count) => {
-      dispatch(AssetActions.fetchAssetList(start, count) );
-    },
-    clearAssetList: () => {
-      dispatch(AssetActions.clearAssetList());
-    },
-    dispatch: (action) => {
-      dispatch(action);
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(BlockchainTestPage);
+export default connect(mapStateToProps, null)(BlockchainTestPage);

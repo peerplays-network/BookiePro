@@ -172,6 +172,16 @@ class CommunicationService {
     });
   }
 
+
+  /**
+   * Get list of assets
+   */
+  static getAssets(assetIds) {
+    return Apis.instance().db_api().exec("get_objects", [[assetIds]]).then( assets => {
+      return Immutable.fromJS(assets);
+    });
+  }
+
   /**
    * Get full account
    */
