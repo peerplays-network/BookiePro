@@ -28,6 +28,8 @@ class TopMenu extends Component {
 
   handleClick(e) {
     //TODO:handle selected menu
+    event.preventDefault();
+
     this.setState({
       current: e.key,
     });
@@ -82,28 +84,36 @@ class TopMenu extends Component {
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='mywager'>
-           <Icon type='calendar' />
+          <Icon type='calendar' />
         </Menu.Item>
         <Menu.Item key='deposit'>
-          <Dropdown trigger={ ['click'] } overlay={ depositCard } placement='bottomRight'>
+          <Dropdown trigger={ ['click'] } overlay={ depositCard(this.props.depositAddress) } placement='bottomRight'>
+            <a className='ant-dropdown-link' href='#'>
               <Icon type='pay-circle-o' />
+            </a>
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='withdraw'>
           <Dropdown trigger={ ['click'] } overlay={ withdrawCard } placement='bottomRight'>
+            <a className='ant-dropdown-link' href='#'>
               <Icon type='pay-circle-o' />
+            </a>
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='notifications' className='notification'>
           <Dropdown trigger={ ['click'] } overlay={ notificationCard } placement='bottomRight'>
+            <a className='ant-dropdown-link' href='#'>
               <Badge count={ 5 }>
                 <Icon type='notification' />
               </Badge>
+            </a>
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='drop-down'>
           <Dropdown key='drop-down-item' trigger={ ['click'] } overlay={ dropdownMenuCard } placement='bottomRight'>
+            <a className='ant-dropdown-link' href='#'>
               <Icon type='menu-fold' />
+            </a>
           </Dropdown>
         </Menu.Item>
       </Menu>
