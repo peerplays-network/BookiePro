@@ -1,29 +1,27 @@
-import React, {Component} from 'react';
-let I18n = require('react-redux-i18n').I18n;
+import React from 'react';
+import { I18n } from 'react-redux-i18n';
 import {
   Card,
   Menu,
   Icon
 } from 'antd';
-class DropdownMenu extends Component{
-  //TODO: change href to actions
-  render(){
-    return(
-      <Card className={ this.props.cardClass }>
-        <Menu>
-          <Menu.Item>
-            <a href='/#/my-account'> <Icon type='user' /> { I18n.t('topbar.myaccount') } </a>
-          </Menu.Item>
-          <Menu.Item>
-            <a href='/#/help'><Icon type='question-circle-o' /> { I18n.t('topbar.help') } </a>
-          </Menu.Item>
-          <Menu.Item>
-            <a href='/#/logout'><Icon type='logout' /> { I18n.t('topbar.signout') } </a>
-          </Menu.Item>
-        </Menu>
-      </Card>
-    )
-  }
+
+const DropdownMenu = (props) => {
+  return(
+    <Card className={ props.cardClass }>
+      <Menu onClick={ props.onSubmenuClick }>
+        <Menu.Item key='myaccount'>
+          <Icon type='user' /> { I18n.t('topbar.myaccount') }
+        </Menu.Item>
+        <Menu.Item key='help'>
+          <Icon type='question-circle-o' /> { I18n.t('topbar.help') }
+        </Menu.Item>
+        <Menu.Item key='logout'>
+          <Icon type='logout' /> { I18n.t('topbar.signout') }
+        </Menu.Item>
+      </Menu>
+    </Card>
+  )
 }
 
 export default DropdownMenu;
