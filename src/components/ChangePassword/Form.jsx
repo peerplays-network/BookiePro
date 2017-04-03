@@ -13,43 +13,32 @@ const renderPasswordField = ({ placeholder,tabIndex, errors, input, maxLength, t
   </div>
 );
 
-//Allow to type only letters and digits
-const normalizePassword = (value) => {
-  if (!value) {
-    return value
-  }
-  const onlyNums = value.replace(/[^a-z0-9]/gi,'')
-  if (onlyNums) {
-    return onlyNums
-  }
-}
 
 const ChangePasswordForm = (props) => {
-  const { handleSubmit,onClickCancel,errors,loadingStatus,invalid,asyncValidating,submitting } = props
+  const { handleSubmit,reset,errors,loadingStatus,invalid,asyncValidating,submitting,pristine } = props
   return (
     <form onSubmit={ handleSubmit }>
       <div className='form-fields'>
         <Field name='old_password' id='old_password' errors={ errors } maxLength='52'
-          normalize={ normalizePassword }
           component={ renderPasswordField }  placeholder={ I18n.t('changePassword.current_password') } type='password' tabIndex='1' />
       </div>
       <div className='form-fields'>
         <Field name='new_password' id='new_password' errors={ errors } maxLength='52'
-          normalize={ normalizePassword }
           component={ renderPasswordField } placeholder={ I18n.t('changePassword.new_password') } type='password' tabIndex='2' />
       </div>
       <div className='form-fields'>
         <Field name='new_password_confirm' id='new_password_confirm' errors={ errors } maxLength='52'
-          normalize={ normalizePassword }
           component={ renderPasswordField } placeholder={ I18n.t('changePassword.confirm_password') } type='password' tabIndex='3'/>
       </div>
       <div className='form-fields'>
+        <div>{ Field.old_password }</div>
         <button
           type='button'
-          onClick={ onClickCancel }
+          onClick={ reset }
+          disabled={ (loadingStatus==='loading' && errors.length===0) || pristine || submitting }
           className={ 'btn ' + (
-            (loadingStatus==='loading' && errors.length===0) ? 'btn-regular-disabled':' cancel-btn') + ' grid-100 margin-top-25' }
-          disabled={ loadingStatus==='loading' && errors.length===0 }>
+            ((loadingStatus==='loading' && errors.length===0) || pristine || submitting) ? 'btn-regular-disabled':' cancel-btn') + ' grid-100 margin-top-25' }
+          >
           { I18n.t('changePassword.cancel') }
         </button>
         <button
