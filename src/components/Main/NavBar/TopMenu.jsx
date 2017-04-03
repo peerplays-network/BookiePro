@@ -115,7 +115,6 @@ const mapDispatchToProps = (dispatch) => {
   }, dispatch);
 }
 
-<<<<<<< HEAD
 const mapStateToProps = (state) => {
   const account = state.get('account');
   return {
@@ -133,8 +132,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);
-=======
-export default connect(null,
-  mapDispatchToProps
-)(TopMenu);
->>>>>>> - removed a tag from the menu item
