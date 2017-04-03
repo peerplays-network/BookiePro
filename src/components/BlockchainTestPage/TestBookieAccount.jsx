@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { Button } from 'antd';
-import { TransactionHelper, TransactionBuilder, PrivateKey, FetchChain } from 'graphenejs-lib';
+import { TransactionHelper, TransactionBuilder, PrivateKey } from 'graphenejs-lib';
 
-import { BlockchainUtils, ChainTypes, BindToChainState, StringUtils } from '../../utility';
+import { BlockchainUtils, StringUtils } from '../../utility';
 
 import { acc } from '../../dummyData/accountInfo/acc';
 import { acc2 } from '../../dummyData/accountInfo/acc2';
 import { Apis } from 'graphenejs-ws';
-
-// Change this property depending on the blockchain you are
-const accountName = acc.name
+import Immutable from 'immutable';
 
 const accountPublicKeys = ['TEST5YV8br6ztoCPQiC8XPJN2BU4jmywMic27QqGcR3DsyjHroViB7'];
 const accountPrivateKeys = {
@@ -21,14 +19,6 @@ const makeOrderBuyAsset = '1.3.1';
 
 class TestBookieAccount extends Component {
 
-  static propTypes = {
-    account: ChainTypes.ChainAccount.isRequired,
-  };
-
-  static defaultProps = {
-    account: accountName,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -36,6 +26,8 @@ class TestBookieAccount extends Component {
       orderCancelInProgressList: [],
       makeOpenOrderInProgress: false,
       fetchRecentHistoryInProgress: false,
+      getListOfOpenOrdersInProgress: false,
+      updateTransferInProgress: false,
       version: '1.0.0'
     };
 
@@ -58,34 +50,29 @@ class TestBookieAccount extends Component {
   }
 
   _getAccount() {
-    // Demonstrate sync way of getting object
-    // Notice that ii-5 account object is already binded with BindToChainState
-    // Therefore the following call will result in fetching the right object from cache
-    const object = this.props.account; // this is ii-5 account id
-    console.log('Account:\n', object.toJS());
+    const account = Immutable.fromJS(acc); // dummy account
+    console.log('Account:\n', account.toJS());
   }
 
   _fetchRecentTransactionHistory() {
-    // Transaction history is contained inside account object
-    // Similar to _getAccount(), notice that account is already binded by BindToChainState
-    // Therefore the following call will result in an object
-    const account = this.props.account; // this is ii-5 account id
-    // const history = account.get('history');
-
+    const account = Immutable.fromJS(acc); // dummy account
+    const accountId = account.get('id');
+    if (!accountId) {
+      console.log('No account');
+      return;
+    }
     Apis.instance().history_api().exec("get_account_history",
-                            [ account.get('id'), '1.11.0', 100, '1.11.0'])
+                            [ accountId, '1.11.0', 100, '1.11.0'])
               .then( history => {
                 console.log('history', history);
                 console.log('Transaction first History:', JSON.stringify(history[0], null, 2));
               });
-
-
-
   }
 
   _renderOrderList() {
     if (!_.isEmpty(this.state.orderList)) {
-      const orderListItems = _.map(this.state.orderList, (orderId) => {
+      const orderListItems = _.map(this.state.orderList, (order) => {
+        const orderId = order.id;
         const disabled = _.includes(this.state.orderCancelInProgressList, orderId);
         return (
           <div key={ orderId }>
@@ -108,14 +95,19 @@ class TestBookieAccount extends Component {
   }
 
   _getListOfOpenOrders() {
-    // List of open orders is contained inside account object
-    // Similar to _getAccount(), notice that account is already binded by BindToChainState
-    // Therefore the following call will result in an object
-    const object = this.props.account; // this is ii-5 account id
-    const orderList = object.get('orders').toJS();
-    console.log('Orders:\n', orderList);
-    // Store order inside internal state
-    this.setState({ orderList });
+    const account = Immutable.fromJS(acc); // dummy account
+    const accountId = account.get('id');
+    this.setState({ getListOfOpenOrdersInProgress: true })
+    Apis.instance().db_api().exec("get_full_accounts", [[accountId],false]).then((results) => {
+      const full_account = results[0][1];
+      const limit_orders = full_account.limit_orders;
+      console.log('Orders:\n', limit_orders);
+      // Store order inside internal state
+      this.setState({ orderList: limit_orders, getListOfOpenOrdersInProgress: false });
+    }).catch((error) => {
+      console.error(error);
+      this.setState({ getListOfOpenOrdersInProgress: false });
+    })
   }
 
   _processTransaction(tr, callback) {
@@ -154,14 +146,15 @@ class TestBookieAccount extends Component {
 
 
   _makeOpenOrder() {
+    const account = Immutable.fromJS(acc); // dummy account
+    const accountId = account.get('id');
     // Mark open order in progress
     this.setState({ makeOpenOrderInProgress: true });
-    FetchChain('getAsset', [makeOrderSellAsset, makeOrderBuyAsset]).then((result) => {
-      const sellAsset = result.get('0'); // Core token
-      const buyAsset = result.get('1');
+    Apis.instance().db_api().exec("get_objects", [[makeOrderSellAsset, makeOrderBuyAsset]]).then((result) => {
+      const sellAsset = Immutable.fromJS(result[0]);
+      const buyAsset = Immutable.fromJS(result[1]);
       const sellAssetAmount = 0.0123;
       const buyAssetAmount = 10;
-      const accountId = acc.id; // this is dummy account id
       const sellAssetSatoshiAmount = BlockchainUtils.get_satoshi_amount(sellAssetAmount, sellAsset);
       const buyAssetSatoshiAmount = BlockchainUtils.get_satoshi_amount(buyAssetAmount, buyAsset);
       const expiration = new Date();
@@ -209,7 +202,9 @@ class TestBookieAccount extends Component {
   }
 
   _cancelOrder(orderId) {
-    const accountId = acc.id // this is dummy account id
+    const account = Immutable.fromJS(acc); // dummy account
+    const accountId = account.get('id');
+
     const feeId = '1.3.0'; // this is core asset (BTS)
 
     // Create transaction and add operation
@@ -241,8 +236,7 @@ class TestBookieAccount extends Component {
 
   //to demonstrate how to update memo for version update
   _makeTransferTx() {
-
-    this.setState({ makeOpenOrderInProgress: true });
+    this.setState({ updateTransferInProgress: true });
     const accountFrom = acc.id;
     const accountTo = acc2.id;
     const memo_from_public = acc.options.memo_key
@@ -252,7 +246,6 @@ class TestBookieAccount extends Component {
 
     // Create transaction and add operation
     const tr = new TransactionBuilder();
-
 
     // const memo_from_privkey = PrivateKey.fromWif('5JZpe5ANwzApzR4dPq24AXPVf3VMhDAHs5XV5T126bR255Q8Mhd');
 
@@ -295,13 +288,8 @@ class TestBookieAccount extends Component {
 
     tr.add_type_operation('transfer', operationParams);
     // Process transaction
-    this._processTransaction(tr, (success) => {
-      // Mark open order in progress finish
-      this.setState({ makeOpenOrderInProgress: false });
-      if (success) {
-        // Refresh account
-        this._getAccount();
-      }
+    this._processTransaction(tr, () => {
+      this.setState({ updateTransferInProgress: false });
     });
 
   }
@@ -314,7 +302,7 @@ class TestBookieAccount extends Component {
           </Button>
         </div>
         <div>
-          <Button onClick={ this._getListOfOpenOrders }>
+          <Button onClick={ this._getListOfOpenOrders } disabled={ this.state.getListOfOpenOrdersInProgress }>
             {'Get List of Open Orders'}
           </Button>
         </div>
@@ -333,7 +321,7 @@ class TestBookieAccount extends Component {
         <div>
           <input type='text' name='version' value={ this.state.version } onChange={ this._onVersionTextInputChange }  style={ {  'background':'black'} }/>
 
-          <Button onClick={ this._makeTransferTx } >
+          <Button onClick={ this._makeTransferTx } disabled={ this.state.updateTransferInProgress } >
             {'Make Transfer to update version number'}
           </Button>
         </div>
@@ -342,5 +330,4 @@ class TestBookieAccount extends Component {
   }
 }
 
-const BindedBlockchainTestAccount = BindToChainState()(TestBookieAccount);
-export default BindedBlockchainTestAccount;
+export default TestBookieAccount;
