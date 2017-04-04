@@ -616,6 +616,728 @@ const bettingMarkets = [
     "payout_condition_string": "Under",
     "bet_asset_type": "1.3.0"
   },
+  //baseball
+  {
+    "id": "1.105.103",
+    "betting_market_group_id": "1.104.52",
+    "payout_condition_string": "Miami Marlins",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.104",
+    "betting_market_group_id": "1.104.52",
+    "payout_condition_string": "Washington Nationals",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.105",
+    "betting_market_group_id": "1.104.53",
+    "payout_condition_string": "Miami Marlins",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.106",
+    "betting_market_group_id": "1.104.53",
+    "payout_condition_string": "Washington Nationals",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.107",
+    "betting_market_group_id": "1.104.54",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.108",
+    "betting_market_group_id": "1.104.54",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.109",
+    "betting_market_group_id": "1.104.55",
+    "payout_condition_string": "Atlanta Braves",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.110",
+    "betting_market_group_id": "1.104.55",
+    "payout_condition_string": "New York Mets",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.111",
+    "betting_market_group_id": "1.104.56",
+    "payout_condition_string": "Atlanta Braves",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.112",
+    "betting_market_group_id": "1.104.56",
+    "payout_condition_string": "New York Mets",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.113",
+    "betting_market_group_id": "1.104.57",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.114",
+    "betting_market_group_id": "1.104.57",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.115",
+    "betting_market_group_id": "1.104.58",
+    "payout_condition_string": "Pittsburgh Pirates",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.116",
+    "betting_market_group_id": "1.104.58",
+    "payout_condition_string": "Boston Red Sox",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.117",
+    "betting_market_group_id": "1.104.59",
+    "payout_condition_string": "Pittsburgh Pirates",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.118",
+    "betting_market_group_id": "1.104.59",
+    "payout_condition_string": "Boston Red Sox",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.119",
+    "betting_market_group_id": "1.104.60",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.120",
+    "betting_market_group_id": "1.104.60",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.121",
+    "betting_market_group_id": "1.104.61",
+    "payout_condition_string": "Colorado Rockies",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.122",
+    "betting_market_group_id": "1.104.61",
+    "payout_condition_string": "Milwaukee Brewers",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.123",
+    "betting_market_group_id": "1.104.62",
+    "payout_condition_string": "Colorado Rockies",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.124",
+    "betting_market_group_id": "1.104.62",
+    "payout_condition_string": "Milwaukee Brewers",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.125",
+    "betting_market_group_id": "1.104.63",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.126",
+    "betting_market_group_id": "1.104.63",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.127",
+    "betting_market_group_id": "1.104.64",
+    "payout_condition_string": "Toronto Blue Jays",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.128",
+    "betting_market_group_id": "1.104.64",
+    "payout_condition_string": "Baltimore Orioles",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.129",
+    "betting_market_group_id": "1.104.65",
+    "payout_condition_string": "Toronto Blue Jays",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.130",
+    "betting_market_group_id": "1.104.65",
+    "payout_condition_string": "Baltimore Orioles",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.131",
+    "betting_market_group_id": "1.104.66",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.132",
+    "betting_market_group_id": "1.104.66",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.133",
+    "betting_market_group_id": "1.104.67",
+    "payout_condition_string": "San Diego Padres",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.134",
+    "betting_market_group_id": "1.104.67",
+    "payout_condition_string": "Los Angeles Dodgers",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.135",
+    "betting_market_group_id": "1.104.68",
+    "payout_condition_string": "San Diego Padres",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.136",
+    "betting_market_group_id": "1.104.68",
+    "payout_condition_string": "Los Angeles Dodgers",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.137",
+    "betting_market_group_id": "1.104.69",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.138",
+    "betting_market_group_id": "1.104.69",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.139",
+    "betting_market_group_id": "1.104.70",
+    "payout_condition_string": "Kansas City Royals",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.140",
+    "betting_market_group_id": "1.104.70",
+    "payout_condition_string": "Minnesota Twins",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.141",
+    "betting_market_group_id": "1.104.71",
+    "payout_condition_string": "Kansas City Royals",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.142",
+    "betting_market_group_id": "1.104.71",
+    "payout_condition_string": "Minnesota Twins",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.143",
+    "betting_market_group_id": "1.104.72",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.144",
+    "betting_market_group_id": "1.104.72",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.145",
+    "betting_market_group_id": "1.104.73",
+    "payout_condition_string": "Detroit Tigers",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.146",
+    "betting_market_group_id": "1.104.73",
+    "payout_condition_string": "Chicago White Sox",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.147",
+    "betting_market_group_id": "1.104.74",
+    "payout_condition_string": "Detroit Tigers",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.148",
+    "betting_market_group_id": "1.104.74",
+    "payout_condition_string": "Chicago White Sox",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.149",
+    "betting_market_group_id": "1.104.75",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.150",
+    "betting_market_group_id": "1.104.75",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.151",
+    "betting_market_group_id": "1.104.76",
+    "payout_condition_string": "Philadelphia Phillies",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.152",
+    "betting_market_group_id": "1.104.76",
+    "payout_condition_string": "Cincinnati Reds",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.153",
+    "betting_market_group_id": "1.104.77",
+    "payout_condition_string": "Philadelphia Phillies",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.154",
+    "betting_market_group_id": "1.104.77",
+    "payout_condition_string": "Cincinnati Reds",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.155",
+    "betting_market_group_id": "1.104.78",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.156",
+    "betting_market_group_id": "1.104.78",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.157",
+    "betting_market_group_id": "1.104.79",
+    "payout_condition_string": "Cleveland Indians",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.158",
+    "betting_market_group_id": "1.104.79",
+    "payout_condition_string": "Texas Rangers",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.159",
+    "betting_market_group_id": "1.104.80",
+    "payout_condition_string": "Cleveland Indians",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.160",
+    "betting_market_group_id": "1.104.80",
+    "payout_condition_string": "Texas Rangers",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.161",
+    "betting_market_group_id": "1.104.81",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.162",
+    "betting_market_group_id": "1.104.81",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  //soccer
+  {
+    "id": "1.105.163",
+    "betting_market_group_id": "1.104.82",
+    "payout_condition_string": "Southern District",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.164",
+    "betting_market_group_id": "1.104.82",
+    "payout_condition_string": "Hong Kong Rangers",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.165",
+    "betting_market_group_id": "1.104.83",
+    "payout_condition_string": "Southern District",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.166",
+    "betting_market_group_id": "1.104.83",
+    "payout_condition_string": "Hong Kong Rangers",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.167",
+    "betting_market_group_id": "1.104.84",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.168",
+    "betting_market_group_id": "1.104.84",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.169",
+    "betting_market_group_id": "1.104.85",
+    "payout_condition_string": "Erchim FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.170",
+    "betting_market_group_id": "1.104.85",
+    "payout_condition_string": "Kigwancha SC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.171",
+    "betting_market_group_id": "1.104.86",
+    "payout_condition_string": "Erchim FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.172",
+    "betting_market_group_id": "1.104.86",
+    "payout_condition_string": "Kigwancha SC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.173",
+    "betting_market_group_id": "1.104.87",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.174",
+    "betting_market_group_id": "1.104.87",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.175",
+    "betting_market_group_id": "1.104.88",
+    "payout_condition_string": "E Suburbs Brisbane",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.176",
+    "betting_market_group_id": "1.104.88",
+    "payout_condition_string": "Ipswich Knights",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.177",
+    "betting_market_group_id": "1.104.89",
+    "payout_condition_string": "E Suburbs Brisbane",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.178",
+    "betting_market_group_id": "1.104.89",
+    "payout_condition_string": "Ipswich Knights",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.179",
+    "betting_market_group_id": "1.104.90",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.180",
+    "betting_market_group_id": "1.104.90",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.181",
+    "betting_market_group_id": "1.104.91",
+    "payout_condition_string": "Felda Utd",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.182",
+    "betting_market_group_id": "1.104.91",
+    "payout_condition_string": "Ceres La Salle",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.183",
+    "betting_market_group_id": "1.104.92",
+    "payout_condition_string": "Felda Utd",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.184",
+    "betting_market_group_id": "1.104.92",
+    "payout_condition_string": "Ceres La Salle",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.185",
+    "betting_market_group_id": "1.104.93",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.186",
+    "betting_market_group_id": "1.104.93",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.187",
+    "betting_market_group_id": "1.104.94",
+    "payout_condition_string": "Mitchelton FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.188",
+    "betting_market_group_id": "1.104.94",
+    "payout_condition_string": "Brisbane Knights FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.189",
+    "betting_market_group_id": "1.104.95",
+    "payout_condition_string": "Mitchelton FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.190",
+    "betting_market_group_id": "1.104.95",
+    "payout_condition_string": "Brisbane Knights FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.191",
+    "betting_market_group_id": "1.104.96",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.192",
+    "betting_market_group_id": "1.104.96",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.193",
+    "betting_market_group_id": "1.104.97",
+    "payout_condition_string": "Logan Lightning FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.194",
+    "betting_market_group_id": "1.104.97",
+    "payout_condition_string": "Capalaba FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.195",
+    "betting_market_group_id": "1.104.98",
+    "payout_condition_string": "Logan Lightning FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.196",
+    "betting_market_group_id": "1.104.98",
+    "payout_condition_string": "Capalaba FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.197",
+    "betting_market_group_id": "1.104.99",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.198",
+    "betting_market_group_id": "1.104.99",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.199",
+    "betting_market_group_id": "1.104.100",
+    "payout_condition_string": "Uni of Queensland",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.200",
+    "betting_market_group_id": "1.104.100",
+    "payout_condition_string": "Ipswich City FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.201",
+    "betting_market_group_id": "1.104.101",
+    "payout_condition_string": "Uni of Queensland",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.202",
+    "betting_market_group_id": "1.104.101",
+    "payout_condition_string": "Ipswich City FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.203",
+    "betting_market_group_id": "1.104.102",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.204",
+    "betting_market_group_id": "1.104.102",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.205",
+    "betting_market_group_id": "1.104.103",
+    "payout_condition_string": "Southside Eagles SC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.206",
+    "betting_market_group_id": "1.104.103",
+    "payout_condition_string": "Brisbane Force",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.207",
+    "betting_market_group_id": "1.104.104",
+    "payout_condition_string": "Southside Eagles SC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.208",
+    "betting_market_group_id": "1.104.104",
+    "payout_condition_string": "Brisbane Force",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.209",
+    "betting_market_group_id": "1.104.105",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.210",
+    "betting_market_group_id": "1.104.105",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.211",
+    "betting_market_group_id": "1.104.106",
+    "payout_condition_string": "Moreton Bay Jets FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.212",
+    "betting_market_group_id": "1.104.106",
+    "payout_condition_string": "Western Pride FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.213",
+    "betting_market_group_id": "1.104.107",
+    "payout_condition_string": "Moreton Bay Jets FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.214",
+    "betting_market_group_id": "1.104.107",
+    "payout_condition_string": "Western Pride FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.215",
+    "betting_market_group_id": "1.104.108",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.216",
+    "betting_market_group_id": "1.104.108",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.217",
+    "betting_market_group_id": "1.104.109",
+    "payout_condition_string": "Brisbane Strikers",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.218",
+    "betting_market_group_id": "1.104.109",
+    "payout_condition_string": "Sunshine Coast FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.219",
+    "betting_market_group_id": "1.104.110",
+    "payout_condition_string": "Brisbane Strikers",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.220",
+    "betting_market_group_id": "1.104.110",
+    "payout_condition_string": "Sunshine Coast FC",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.221",
+    "betting_market_group_id": "1.104.111",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.222",
+    "betting_market_group_id": "1.104.111",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
+  }
 ];
 
 //TODO: add more in this list, pay attention on the relation with the betting_market_groups dummy data
