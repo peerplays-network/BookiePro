@@ -98,219 +98,6 @@ class MyAccount extends Component {
   }
 
   componentWillUnmount(){
-    isMounted = false;
-  }
-  //Search transaction history with filters
-  searchTransactionHistory(e){
-    this.props.getTransactionHistory(this.state.startDate, this.state.endDate);
-  }
-
-  //Update state for from date whenever it is selected from the calender
-  onStartChange = (value) => {
-    this.setState({startDate: value.format('YYYY-MM-DD HH:mm:ss')});
-  }
-
-  //Update state for to date whenever it is selected from the calender
-  onEndChange = (value) => {
-    this.setState({endDate: value.format('YYYY-MM-DD HH:mm:ss')});
-  }
-
-  //Show the date fields of the user selects 'Custom' from the Period dropdown and update states of the dates accordingly
-  periodChange = (value) => {
-    if(value === 'custom'){
-      this.setState({showDateFields: true});
-    }
-    else {
-      var startDate = new Date();
-      switch(value){
-        case 'last7Days':
-          startDate.setDate(startDate.getDate()-6);
-          break;
-        case 'last14Days':
-          startDate.setDate(startDate.getDate()-13);
-          break;
-        case 'thisMonth':
-          const thisDay = startDate.getDate() - 1;
-          //To give me first day of this month
-          startDate.setDate(startDate.getDate()-thisDay);
-          break;
-        case 'lastMonth':
-          startDate.setDate(1);
-          startDate.setMonth(startDate.getMonth() - 1);
-          //Last date of the previous month
-          var month = startDate.getMonth();
-          var endDate = new Date(startDate.getFullYear(), month + 1, 0);
-          break;
-        default:
-          startDate.setDate(startDate.getDate()-6);
-          break;
-      }
-      this.setState({startDate: dateFormat(startDate, "yyyy-mm-dd h:MM:ss")});
-      this.setState({endDate: dateFormat(endDate, "yyyy-mm-dd h:MM:ss")});
-      this.setState({showDateFields: false});
-
-    }
-  }
-
-  //NOTE: Not removing this code as of now since I will need to refer it later when correct data is obtained
-  fetchRecentTransactionHistory() {
-
-    const account = this.props.account;
-    const accountId = account.get('id');
-    if (!accountId) {
-      console.log('No account');
-      return;
-    }
-    this.setState({fetchRecentHistoryInProgress: true});
-    CommunicationService.fetchRecentHistory(accountId)
-      .then((result) => {
-        this.setState({fetchRecentHistoryInProgress: false});
-
-        const txList = result.toJS();
-        this.setState({txList: txList});
-
-        const newTxList = [];
-        txList.forEach(order => {
-
-          order.tx_time = '' + BlockchainUtils.calc_block_time(order.block_num, this.props.globalObject, this.props.dynGlobalObject)
-          order.history = 'history';
-          order.amount = order.op[1].fee.amount + ' ' + this.props.currencyFormat;
-          order.op_value = order.op[0] + ' op';
-
-          let last_irreversible_block_num = this.props.dynGlobalObject.get('last_irreversible_block_num');
-          let status = 'completed';
-          if (order.block_num > last_irreversible_block_num) {
-            status = (order.block_num - last_irreversible_block_num) + 'imcomplete';
-          }
-          order.status = status;
-
-
-          newTxList.push(order);
-        });
-
-        this.setState({txList: newTxList});
-        ps.update(this.refs.global);
-
-      });
-  }
-
-  handleNotificationChange(value) {
-    const {updateSettingNotification} = this.props
-    updateSettingNotification(value)
-  }
-
-  handleLangChange(value) {
-    const {updateSettingLang} = this.props
-    updateSettingLang(value)
-  }
-
-  handleCurrFormatChange(value) {
-    const {updateCurrencyFormat} = this.props
-    updateCurrencyFormat(value)
-
-    // still fixing table reload
-    // this.setState({
-    //      txList: this.props.txList
-    // })
-  }
-
-  handleTimeZoneChange(value) {
-    const {updateSettingTimeZone} = this.props
-    updateSettingTimeZone(value)
-
-  }
-
-  handleRedirectToChangePwd(){
-    this.props.redirectToChangePwd();
-  }
-
-  handleWithdrawAmtChange(e){
-    let withdrawAmt = e.target.value;
-    if(!isNaN(withdrawAmt)){
-      //If the withdraw amount entered is less than the user's available balance, generate error
-      if((parseFloat(withdrawAmt) > 10) || parseFloat(withdrawAmt) === 0){
-        this.setState({ hasWithdrawAmtErr: true })
-      } else {
-        this.setState({ hasWithdrawAmtErr: false })
-      }
-    } else {
-      this.setState({ hasWithdrawAmtErr: false })
-    }
-  }
-
-  handleWithdrawSubmit(values){
-    //track the withdraw amount to display in success message after successfull submit
-    this.setState({ withdrawAmount:values.get('withdrawAmount') });
-    this.props.withdraw(values.get('withdrawAmount'), values.get('walletAddr'));
-  }
-
-  renderSettingCard() {
-    return (
-      <Card className='bookie-card'
-            title={ I18n.t('myAccount.settings') }
-            bordered={ false }
-            style={ {width: '100%'} }>
-        <Row>
-          <Col span={ 18 }>
-            <p> { I18n.t('myAccount.notifications') }</p>
-          </Col>
-          <Col span={ 6 }>
-            <Switch className='bookie-switch'
-                    defaultChecked={ this.props.notification }
-                    onChange={ this.handleNotificationChange }/>
-          </Col>
-        </Row>
-        {/*<Row className='margin-tb-15'>*/}
-          {/*<Col span={ 18 }>*/}
-            {/*<p*/}
-              {/*className='padding-tb-5'> { I18n.t('myAccount.time_zone') }</p>*/}
-          {/*</Col>*/}
-          {/*<Col span={ 6 }>*/}
-            {/*<div ref='global_object'>*/}
-              {/*<Select*/}
-                {/*className='bookie-select'*/}
-                {/*defaultValue={ this.props.timezone }*/}
-                {/*onChange={ this.handleTimeZoneChange }>*/}
-                {/*<Option*/}
-                  {/*value='UTC-12:00'>{ I18n.t('myAccount.UTC_12') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-11:00'>{ I18n.t('myAccount.UTC_11') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-10:00'>{ I18n.t('myAccount.UTC_10') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-09:00'>{ I18n.t('myAccount.UTC_9') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-08:00'>{ I18n.t('myAccount.UTC_8') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-07:00'>{ I18n.t('myAccount.UTC_7') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-06:00'>{ I18n.t('myAccount.UTC_6') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-05:00'>{ I18n.t('myAccount.UTC_5') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-04:00'>{ I18n.t('myAccount.UTC_4') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-03:00'>{ I18n.t('myAccount.UTC_3') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-02:00'>{ I18n.t('myAccount.UTC_2') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-01:00'>{ I18n.t('myAccount.UTC_1') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+00:00'>{ I18n.t('myAccount.UTC0') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+01:00'>{ I18n.t('myAccount.UTC1') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+02:00'>{ I18n.t('myAccount.UTC2') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+03:00'>{ I18n.t('myAccount.UTC3') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+04:00'>{ I18n.t('myAccount.UTC4') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+05:00'>{ I18n.t('myAccount.UTC5') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+06:00'>{ I18n.t('myAccount.UTC6') }0</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+07:00'>{ I18n.t('myAccount.UTC7') }</Option>*/}
                 {/*<Option*/}
                   {/*value='UTC+08:00'>{ I18n.t('myAccount.UTC8') }</Option>*/}
                 {/*<Option*/}
@@ -409,6 +196,11 @@ const mapStateToProps = (state) => {
   const app = state.get('app');
   const account = state.get('account');
   const setting = state.get('setting');
+  /*-1 will be used to check to display 'Not available' against the withdraw amount field
+      when the asset '1.3.0' is not obtained for some reason
+  */
+  const balance = account.getIn(['availableBalancesByAssetId','1.3.0','balance']);
+  const availableBalance = balance !== undefined ? balance : -1;
   return {
     dynGlobalObject: app.get('blockchainDynamicGlobalProperty'),
     globalObject: app.get('blockchainGlobalProperty'),
@@ -421,7 +213,7 @@ const mapStateToProps = (state) => {
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: account.get('getDepositAddressLoadingStatus'),
     depositAddress: account.get('depositAddress'),
-    availableBalance: account.get('availableBalance'),
+    availableBalance: availableBalance,
     withdrawLoadingStatus: account.get('withdrawLoadingStatus')
   }
 }
@@ -436,8 +228,10 @@ function mapDispatchToProps(dispatch) {
     getTransactionHistory: AccountActions.getTransactionHistories,
     getDepositAddress: AccountActions.getDepositAddress,
     redirectToChangePwd: SettingActions.redirectToChangePwd,
+    //TODO: Wallet Address verification and error response pending.
     withdraw: AccountActions.withdraw
   }, dispatch)
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyAccount);
