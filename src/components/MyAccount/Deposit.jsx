@@ -18,7 +18,7 @@ class Deposit extends Component{
       <Card className={ this.props.cardClass }
             title={ I18n.t('myAccount.deposit') }>
         <p>{ I18n.t('myAccount.deposit_desc') }</p>
-        <p className='text-center margin-tb-30'>
+        <p className='text-center margin-tb-25'>
           <QRCode value={ JSON.stringify(this.props.depositAddress) }/>
         </p>
         <div
