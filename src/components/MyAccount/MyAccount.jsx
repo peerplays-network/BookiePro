@@ -359,7 +359,8 @@ class MyAccount extends Component {
           </Col>
 
           <Col span={ 8 }>
-            <Withdraw cardClass='bookie-card' />
+            <Withdraw cardClass='bookie-card'
+              currencyFormat={ this.props.currencyFormat } />
           </Col>
           <Col span={ 8 }>
             { this.renderSettingCard() }
