@@ -12,17 +12,22 @@
 .margin-left-10{margin-left: 10px}
 .btn-regular{  background-image: linear-gradient(-180deg, rgba(55,192,255,0.92) 2%, #1F6CB4 97%);  box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);  }
 .my-wager {
-  padding:20px 0;
+  padding:10px 60px;
   .bookie-breadcrumb{
     color: #FFFFFF;
     font-size:16px;
     text-transform: uppercase;
-    margin-bottom:0px;
+    margin-bottom:0;
     a,.ant-breadcrumb-separator{
       color: #FFFFFF;
+      font-weight:normal;
+    }
+    .ant-breadcrumb-separator{
+      margin:0 2px;
     }
     .ant-breadcrumb-link{
-      color: #00BEF4;
+      color: #00CAF7;
+      font-weight:700;
     }
     &>span{
       &:last-child{
@@ -31,25 +36,35 @@
     }
   }
   .bookie-table{
-    padding: 0 10px;
-    .anticon{
-      display: block;
+    padding: 0 16px;
+    .ant-table{
+      overflow: visible;
+    }
+    .ant-table-content{
+      min-height:630px;
     }
     table{
+      table-layout: fixed;
       color: #FFFFFF;
       font-size: 14px;
       .ant-table-thead > tr > th{
         background-color: transparent;
         border-bottom:1px solid #fff;
+        font-weight:700;
       }
       .ant-table-tbody > tr > td{
         border-bottom:0 none;
         font-size:14px;
         word-break: normal;
       }
+
       .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
-        padding:10px 5px;
+        padding:10px 25px 10px 0;
         color: #FFFFFF;
+        vertical-align: top;
+      }
+      .ant-table-tbody tr td:last-child{
+        padding-right:0;
       }
       .ant-table-thead > tr:hover, .ant-table-tbody > tr:hover,.ant-table-tbody > tr:hover > td{
         background-color: transparent;
@@ -57,6 +72,7 @@
     }
   }
   .bookie-tab{
+    margin-top:10px;
     .ant-tabs{
       margin-top:30px;
     }
@@ -64,7 +80,9 @@
      background-color: rgba(0,92,183,0.35);
     }
     .top-data{
-      padding: 15px;
+      padding: 0 16px;
+      height:45px;
+      line-height: 45px;
       color: #fff;
       border-bottom:1px solid #1563A0;
     }
@@ -74,31 +92,41 @@
         color: #FFFFFF;
       }
     }
-    .ant-select-lg .ant-select-selection--single{
-      height: 36px;
-      line-height: 36px;
-      border-radius:2px;
+    .ant-form-inline {
+      .ant-form-item{
+        margin-right:25px;
+        &:last-child{
+          margin-right:0;
+        }
+      }
+
     }
     ::-webkit-input-placeholder,.rw-input { /* Chrome/Opera/Safari */
-      color: #4A4A4A;
+      color: #A9A9A9;
     }
-    .ant-select-lg .ant-select-selection__rendered{
-      line-height:34px;
+    .ant-select-selection-selected-value{
+      font-size:16px;
+      font-weight:500;
+      color: #C8C8C8;
     }
     .ant-tabs-nav .ant-tabs-tab{
       color: #A9A9A9;
       font-size: 16px;
       width: 100%;
-      padding: 15px 0;
+      padding: 10px 0;
       margin-right:0;
     }
     .ant-input{
-      height:36px;
-      line-height: 36px;
+      height:30px;
+      line-height: 30px;
       border-radius:2px;
+      box-shadow: rgba(0, 0, 0, 0.498039) 0px 2px 4px 0px;
+      border-color: rgb(225, 225, 225);
+      font-size:16px;
     }
     .ant-tabs-nav .ant-tabs-tab-active{
       color: #fff;
+      font-weight:700;
     }
     .ant-tabs-tab{
       padding: 10px 30px;
@@ -107,12 +135,17 @@
     }
     .ant-tabs-bar{
       border-bottom-color:#979797;
+      margin-bottom:20px;
     }
     .ant-tabs-nav{
       width:100%;
       display: flex;
       justify-content: space-between;
       align-items:center;
+    }
+    .ant-tabs-ink-bar{
+      background: #2196F3;
+      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
     }
   }
   .export-icon{
@@ -132,34 +165,44 @@
     color: #FFFFFF;
     font-size: 14px;
     margin-right:15px;
+    &:last-child{
+      margin-right:0;
+      text-align: right;
+    }
   }
   .btn {
     text-transform: uppercase;
     display: inline-block;
     color: #ffffff;
-    height: 36px;
-    line-height: 36px;
+    height: 28px;
+    line-height: 28px;
+    font-weight:500;
+    font-size:16px;
     border-radius: 0;
     background-color: inherit;
-    padding: 0 20px;
     border: 0 none;
+    padding:0;
+    text-align: center;
   }
   .cancel-btn {
     background-image: linear-gradient(-180deg, rgba(23, 102, 162, 0.92) 4%, #134E85 97%);
     box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248, 235, 218, 0.43);
-    padding: 0px 10px;
-    height: 25px;
-    line-height: 27px;
+    width:130px;
   }
-
+  .btn-regular{
+    width:108px;
+  }
   .ant-form-inline label{
-    margin-right:10px;
+    margin-right:14px;
   }
   .ant-select-selection__rendered{
-    line-height: 36px;
+    line-height: 30px;
   }
   .ant-select-selection--single{
-    height:36px;
+    height:30px;
+    border-color: #E1E1E1;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+
   }
   .ant-select{
     font-size:12px;
@@ -224,3 +267,10 @@
   color: #fff;
   border-bottom: 0px;
 }
+.bookie-table table thead tr th:nth-of-type(5) {width:80px;}
+.bookie-table table thead tr th:nth-of-type(1) {width:150px;}
+.bookie-table table thead tr th:nth-of-type(6) {width:80px;}
+.bookie-table table thead tr th:nth-of-type(8) {width:150px;}
+.bookie-table table tbody tr td:nth-of-type(8) {text-align: right}
+.bookie-table table thead tr th:nth-of-type(7) {width:85px;}
+.bookie-table table thead tr th:nth-of-type(4) {width:160px;}

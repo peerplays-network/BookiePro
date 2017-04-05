@@ -12,7 +12,7 @@ class UnmatchedBets extends PureComponent {
       <div>
         <div className='top-data clearfix'>
           <div className='float-left'>
-            <p className='font18 padding-tb-5'>{ I18n.t('mybets.total') } : { (currencyFormat === 'BTC' ? 'Ƀ ' : 'm ') + (betsTotal ? betsTotal : 0) }</p>
+            <p className='font16'>{ I18n.t('mybets.total') } : { (currencyFormat === 'BTC' ? 'Ƀ ' : 'm ') + (betsTotal ? betsTotal : 0) }</p>
           </div>
           <div className='float-right'>
             <div className='float-right'>

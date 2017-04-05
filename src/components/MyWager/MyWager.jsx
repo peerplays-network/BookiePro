@@ -117,9 +117,6 @@ const mapStateToProps = (state) => {
   if(tabKey === 'unmatchedBets' || tabKey === 'matchedBets'){
     const columns = [
       {
-        key: 'id',
-      },
-      {
         title: I18n.t('mybets.event_time'),
         dataIndex: 'event_time',
         key: 'event_time',
