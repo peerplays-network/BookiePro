@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card,Breadcrumb,Icon,Form } from 'antd'
 var I18n = require('react-redux-i18n').I18n;
-import ChangePasswordForm from './Form'
+import ChangePasswordForm from './ChangePasswordForm'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigateActions,AccountActions } from '../../actions';
