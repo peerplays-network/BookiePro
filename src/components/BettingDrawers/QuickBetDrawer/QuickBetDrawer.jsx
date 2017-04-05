@@ -4,7 +4,9 @@ import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import SplitPane from 'react-split-pane';
+import { NavigateActions } from '../../../actions';
 import { Button } from 'antd';
+import { bindActionCreators } from 'redux';
 import EditableBetTable from '../EditableBetTable';
 
 const renderContent = (props) => (
@@ -30,6 +32,14 @@ const renderContent = (props) => (
 )
 
 class QuickBetDrawer extends Component {
+
+  constructor(props) {
+    super(props);
+    this.setUnplacedBetButton = this.setUnplacedBetButton.bind(this);
+    this.clearUnplacedBetButton = this.clearUnplacedBetButton.bind(this);
+    this.goToMyBets = this.goToMyBets.bind(this);
+  }
+
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.bettingtable));
   }
@@ -38,12 +48,33 @@ class QuickBetDrawer extends Component {
     Ps.update(ReactDOM.findDOMNode(this.refs.bettingtable));
   }
 
+  //simulation events of unplaced bet
+  setUnplacedBetButton() {
+    this.props.updateUplacedBetStatus(true);
+  }
+
+  clearUnplacedBetButton() {
+    this.props.updateUplacedBetStatus(false);
+  }
+
+  goToMyBets(){
+    this.props.navigateTo('/my-wager/');
+
+  }
+  //simulation events of unplaced bet
+
   render() {
     return (
       <div id='quick-bet-drawer' ref='drawer'>
         <SplitPane split='horizontal' defaultSize='40px'>
           <div className='title'>
             <div className='label'>BETSLIP</div>
+            {/* //simulation events of unplaced bet */}
+            <Button title='set' onClick={ this.setUnplacedBetButton } >update bet </Button>
+            <Button title='clear' onClick={ this.clearUnplacedBetButton } > clear bet</Button>
+            <Button title='clear' onClick={ this.goToMyBets } > go to my bets</Button>
+
+            {/* //simulation events of unplaced bet */}
           </div>
           <SplitPane
             split='horizontal'
@@ -101,4 +132,13 @@ const mapStateToProps = (state) => {
   };
 }
 
-export default connect(mapStateToProps)(QuickBetDrawer);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    navigateTo: NavigateActions.navigateTo,
+  }, dispatch);
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(QuickBetDrawer);

@@ -2,24 +2,30 @@ import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
+import { withRouter } from 'react-router'
 import SplitPane from 'react-split-pane';
 import SideBar from '../SideBar';
 import { QuickBetDrawer, MarketDrawer } from '../BettingDrawers';
-import { SidebarActions } from '../../actions';
+import { SidebarActions, NavigateActions } from '../../actions';
 import Immutable from 'immutable';
+import UnplacedBetModal from '../Modal/UnplacedBetModal';
 
 import Ps from 'perfect-scrollbar';
 
-// Pick one of the 2 betting drawers based on the path
-const selectBettingDrawer = (pathTokens) => {
-  if (pathTokens.length < 3 || pathTokens[2].toLowerCase() !== 'bettingmarketgroup') {
-    return ( <QuickBetDrawer /> );
+class Exchange extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      //NOTE to be stored in  action/reducer?
+      // this deciison is left to whom responsible for betting drawer
+      hasUnplacedBet: false,
+
+      confirmToLeave: false,
+      unplacedBetModalVisible: false,
+    }
   }
 
-  return ( <MarketDrawer /> );
-}
-
-class Exchange extends Component {
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
     Ps.initialize(ReactDOM.findDOMNode(this.refs.main));
@@ -31,10 +37,65 @@ class Exchange extends Component {
     getDataForSidebar();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState){
     Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
     Ps.update(ReactDOM.findDOMNode(this.refs.main));
+
+    //confirming to ignore unplaced bet
+    if (prevState.confirmToLeave === false && this.state.confirmToLeave === true){
+      this.props.navigateTo(this.state.nextLocation);
+      this.setState({
+        confirmToLeave: false
+      })
+    }
   }
+
+  componentWillReceiveProps(nextProps) {
+    const { router, routes } = nextProps;
+    //route change from /exchange/xxxxx to /exchange/yyyyy wont trigger unamount in Exchange.jsx,
+    //so setRouteLeaveHook is placed in componentDidUpdate instead of componentDidMount
+
+    // hook CURRENT route leave
+    const currentRoute = routes[nextProps.routes.length - 1];
+    router.setRouteLeaveHook(currentRoute, this.routerWillLeave.bind(this));
+  }
+
+  //being of route hooking
+  updateUplacedBetStatus(value){
+    this.setState({
+      hasUnplacedBet: value,
+    })
+  }
+
+  setModalVisible(modalVisible) {
+    this.setState({
+      unplacedBetModalVisible: modalVisible
+    });
+  }
+
+  handleLeave(){
+    this.setModalVisible(false)
+    this.setState({
+      hasUnplacedBet: false,
+      confirmToLeave: true
+    });
+  }
+
+  routerWillLeave(nextLocation){
+
+    this.setState({
+      nextLocation: nextLocation
+    })
+
+    if (!this.state.confirmToLeave && this.state.hasUnplacedBet){
+      this.setModalVisible(true);
+      return false;
+    } else {
+      return true;
+    }
+
+  }
+  //end of route hooking
 
   render() {
      //setting width of sider as 200
@@ -50,8 +111,26 @@ class Exchange extends Component {
       'paddingTop':'64px', //due to top bar
       'position': 'fixed'
     };
-      
+
+    let unplacedBetModal = (
+      <UnplacedBetModal
+        visible={ this.state.unplacedBetModalVisible }
+        onLeave={ () => this.handleLeave() }
+        onStay={ () => this.setModalVisible(false) }
+      />
+    );
+
+    // Pick one of the 2 betting drawers based on the path
+    let selectBettingDrawer = (pathTokens) => {
+      if (pathTokens.length < 3 || pathTokens[2].toLowerCase() !== 'bettingmarketgroup') {
+        return ( <QuickBetDrawer updateUplacedBetStatus={ this.updateUplacedBetStatus.bind(this) } bettingStatus={ this.state.hasUnplacedBet } /> );
+      }
+
+      return ( <MarketDrawer updateUplacedBetStatus={ this.updateUplacedBetStatus.bind(this) } bettingStatus={ this.state.hasUnplacedBet } /> );
+    }
+
     return (
+    <div>
       <SplitPane
           style={ splitPaneStyle }
           split='vertical'
@@ -59,24 +138,10 @@ class Exchange extends Component {
           pane1Style={ styleLeftPane }>
             <div style={ { 'height' : '100%', 'position' : 'relative' } }
               ref='sidebar'>
-              { transitionName.length === 4 ?
-                 <SideBar
-                   completeTree={ this.props.completeTree }
-                   level={ transitionName.length }
-                   objectId={ transitionName[3] }/>  :
-                   (
-                     transitionName.length === 3 ?
-                        <SideBar
-                          completeTree={ this.props.completeTree }
-                          level={ transitionName.length }
-                          objectId={ transitionName[2] }/>  :
-                         <SideBar
-                         completeTree={ this.props.completeTree }
-                         level={ transitionName.length }
-                         objectId={ '' }/>
-
-                   )
-               }
+              <SideBar
+                 completeTree={ this.props.completeTree }
+                 level={ transitionName.length }
+                 objectId={ transitionName[transitionName.length -1] }/>
             </div>
             <SplitPane
                 split='vertical'
@@ -84,11 +149,14 @@ class Exchange extends Component {
                 primary='second'>
                   <div style={ { 'height' : '100%', 'position' : 'relative' } }
                     ref='main'>
-                    { this.props.children }
+                    {React.cloneElement(this.props.children, { completeTree: this.props.completeTree })}
+                    {/* { this.props.children } */}
                   </div>
                   { selectBettingDrawer(transitionName) }
             </SplitPane>
        </SplitPane>
+       { unplacedBetModal }
+     </div>
     );
   }
 }
@@ -102,6 +170,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
+    navigateTo: NavigateActions.navigateTo,
     getDataForSidebar : SidebarActions.getData,
   }, dispatch);
 }
@@ -110,4 +179,7 @@ Exchange.propTypes = {
   completeTree: React.PropTypes.instanceOf(Immutable.List),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Exchange);
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Exchange));

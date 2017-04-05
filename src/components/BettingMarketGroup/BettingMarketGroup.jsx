@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BettingMarketGroupBanner } from '../Banners';
 import ComplexBettingWidget from '../ComplexBettingWidget';
+import ComplexBettingWidget2 from '../ComplexBettingWidget2';
 import Immutable from 'immutable';
 import moment from 'moment'; // TODO: Remove later. For hardcoded data only
 
@@ -26,7 +27,11 @@ class BettingMarketGroup extends Component {
     return (
       <div className='betting-market-group-wrapper'>
         <BettingMarketGroupBanner />
-        <ComplexBettingWidget
+        {/* <ComplexBettingWidget
+          title='Test Title'
+          events={ fakeData }
+        /> */}
+        <ComplexBettingWidget2
           title='Test Title'
           events={ fakeData }
         />
