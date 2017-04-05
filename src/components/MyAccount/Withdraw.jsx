@@ -18,21 +18,21 @@ class Withdraw extends Component{
             className='registerComponent'>
             <Input
               className='bookie-input bookie-amount'
-              prefix={ <Icon
-                type='pay-circle'/> }
               defaultValue='21221'
             />
           </div>
-          <div
-            className='registerComponent pos-relative'>
-            <Input
-              className='bookie-input'
-              placeholder={ I18n.t('myAccount.send_value') }
-            />
-            <button
-              className='btn copy-btn btn-primary'>
-              { I18n.t('myAccount.send') }
-            </button>
+          <div className='bottom-div'>
+            <div
+              className='registerComponent pos-relative'>
+              <Input
+                className='bookie-input'
+                placeholder={ I18n.t('myAccount.send_value') }
+              />
+              <button
+                className='btn copy-btn btn-primary'>
+                { I18n.t('myAccount.send') }
+              </button>
+            </div>
           </div>
         </div>
       </Card>
