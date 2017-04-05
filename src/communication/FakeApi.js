@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import dummyData from '../dummyData';
-
+import Immutable from 'immutable';
 const {
   sports,
   eventGroups,
@@ -9,7 +9,9 @@ const {
   bets,
   binnedOrderBooks,
   globalBettingStatistics,
-  transactionHistory
+  transactionHistory,
+  bettingMarketGroups,
+  bettingMarkets
 } = dummyData;
 
 const TIMEOUT_LENGTH = 500;
@@ -38,6 +40,17 @@ class FakeApi {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(_.cloneDeep(sports));
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  static getSportsByIds(sportIds) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = _.filter(sports, (item) => {
+          return sportIds.includes(item.get('id'));
+        });
+        resolve(filteredResult);
       }, TIMEOUT_LENGTH);
     });
   }
@@ -74,6 +87,90 @@ class FakeApi {
       }, TIMEOUT_LENGTH);
     });
   }
+
+
+  static getEventsBySportId(sportId) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = _.filter(events, (item) => {
+          return item.get('sport_id') === sportId;
+        });
+        resolve(filteredResult);
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  static getEventsBySportIds(sportIds) {
+    const promises = sportIds.map( sportId => this.getEventsBySportId(sportId));
+    return Promise.all(promises).then( result => {
+      return Immutable.List(_.flatten(result));
+    });
+  }
+
+  static getEventsByIds(eventIds) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = _.filter(events, (item) => {
+          return eventIds.includes(item.get('id'));
+        });
+        resolve(filteredResult);
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+
+  static getEventGroupsBySportId(sportId) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = _.filter(eventGroups, (item) => {
+          return item.get('sport_id') === sportId;
+        });
+        resolve(filteredResult);
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  static getEventGroupsBySportIds(sportIds) {
+    const promises = sportIds.map( sportId => this.getEventGroupsBySportId(sportId));
+    return Promise.all(promises).then( result => {
+      return Immutable.List(_.flatten(result));
+    });
+  }
+
+  static getEventGroupsByIds(eventGroupIds) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = _.filter(eventGroups, (item) => {
+          return eventGroupIds.includes(item.get('id'));
+        });
+        resolve(filteredResult);
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+
+  static getBettingMarketGroupsByIds(bettingMarketGroupIds) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = _.filter(bettingMarketGroups, (item) => {
+          return bettingMarketGroupIds.includes(item.get('id'));
+        });
+        resolve(filteredResult);
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  static getBettingMarketsByIds(bettingMarketIds) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = _.filter(bettingMarkets, (item) => {
+          return bettingMarketIds.includes(item.get('id'));
+        });
+        resolve(filteredResult);
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
 
   static searchEvents(keyword) {
     return new Promise((resolve, reject) => {

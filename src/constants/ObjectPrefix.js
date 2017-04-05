@@ -18,6 +18,14 @@ class ObjectPrefix {
   static DYNAMIC_GLOBAL_PROPERTY_PREFIX = implementation_ids + '.' + impl_object_type.dynamic_global_property;
   static ACCOUNT_STAT_PREFIX = implementation_ids + '.' + impl_object_type.account_statistics;
   static ACCOUNT_BALANCE_PREFIX = implementation_ids + '.' + impl_object_type.account_balance;
+  // TODO: replaced with actual prefix later on
+  static SPORT_PREFIX = 'SPORT_PREFIX';
+  static EVENT_GROUP_PREFIX = 'EVENT_GROUP_PREFIX';
+  static COMPETITOR_PREFIX = 'COMPETITOR_PREFIX';
+  static EVENT_PREFIX = 'EVENT_PREFIX';
+  static BETTING_MARKET_GROUP_PREFIX = 'BETTING_MARKET_GROUP_PREFIX';
+  static BETTING_MARKET_PREFIX = 'BETTING_MARKET_PREFIX';
+  static BET_PREFIX = 'BET_PREFIX';
 }
 
 

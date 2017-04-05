@@ -8,8 +8,6 @@ import BettingMarketActions from './BettingMarketActions';
 import _ from 'lodash';
 import Immutable from 'immutable';
 import {
-  getBettingMarketGroupsByEvents,
-  getBettingMarketsInBettingMarketGroups,
   getBinnedOrderBooksByBettingMarkets,
   groupBinnedOrderBooksByBettingMarketId,
   groupBinnedOrderBooksByEvent
@@ -44,58 +42,47 @@ class SportPageActions {
     return (dispatch) => {
       dispatch(SportPagePrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
-      let eventGroups = [];
-      let events = [];
-      let bettingMarketGroups = [];
-      // First get list of sports
-      FakeApi.getSports().then((sports) => {
-        // Store sports inside redux store
-        dispatch(SportActions.addSportsAction(sports))
-        // Find the sport we are dealing with
-        const mySport = sports.find((sport) => sport.get('id') === sportId);
-        // Request event groups for my sport
-        return FakeApi.getObjects(mySport.get('event_group_ids').toJS());
+      let retrievedEventGroups = Immutable.List();
+      let retrievedEvents = Immutable.List();
+      let retrievedBettingMarketGroups = Immutable.List();
 
-      }).then((result) => {
-        eventGroups = result;
-        // Store event groups inside redux Store
-        dispatch(EventGroupActions.addEventGroupsAction(eventGroups));
-        return FakeApi.getEvents(sportId);
-
-      }).then((result) => {
-        events = _.flatMap(result);
-        // Store events inside redux store
-        dispatch(EventActions.addEventsAction(events));
-        return getBettingMarketGroupsByEvents(events);
-
-      }).then((result) => {
-        // Combine the resulting betting market groups
-        bettingMarketGroups = _.flatMap(result);
-        // Store betting market groups inside redux store
-        dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMarketGroups));
-        return getBettingMarketsInBettingMarketGroups(bettingMarketGroups);
-
-      }).then((result) => {
-        // Combine the result betting markets
-        let bettingMarkets = _.flatMap(result);
-        // Store betting markets inside redux store
-        dispatch(BettingMarketActions.addBettingMarketsAction(bettingMarkets));
+      // Get sport detail
+      dispatch(SportActions.getSportsByIds([sportId])).then( (sports) => {
+        const sport = sports.get(0);
+        const eventGroupIds = sport.get('event_group_ids');
+        // Get event group
+        return dispatch(EventGroupActions.getEventGroupsByIds(eventGroupIds));
+      }).then( (eventGroups) => {
+        retrievedEventGroups = eventGroups;
+        // Get events
+        return dispatch(EventActions.getEventsBySportIds([sportId]));
+      }).then( (events) => {
+        retrievedEvents = events;
+        // Get betting market groups
+        const bettingMarketGroupIds = events.flatMap( event => event.get('betting_market_group_ids'));
+        return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
+      }).then((bettingMarketGroups) => {
+        retrievedBettingMarketGroups = bettingMarketGroups;
+        // Get betting markets
+        const bettingMarketIds = bettingMarketGroups.flatMap( bettingMarketGroup => bettingMarketGroup.get('betting_market_ids'));
+        return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds));
+      }).then((bettingMarkets) => {
+        // Get binned order books
         return getBinnedOrderBooksByBettingMarkets(bettingMarkets);
-
       }).then((result) => {
         const binnedOrderBooks = groupBinnedOrderBooksByBettingMarketId(_.flatMap(result));
 
         let binnedOrderBooksByEvent = Immutable.Map();
-        events.forEach((event) => {
+        retrievedEvents.forEach((event) => {
           binnedOrderBooksByEvent = binnedOrderBooksByEvent.set(
-            event.get('id'), groupBinnedOrderBooksByEvent(event, bettingMarketGroups, binnedOrderBooks)
+            event.get('id'), groupBinnedOrderBooksByEvent(event, retrievedBettingMarketGroups, binnedOrderBooks)
           );
         });
 
         // Stored all retrieve data in the SportPage state in Redux store
         dispatch(SportPagePrivateActions.setDataAction(
-          _.map(events, (event) => event.get('id')),
-          _.map(eventGroups, (eventGroup) => eventGroup.get('id')),
+          retrievedEvents.map((event) => event.get('id')),
+          retrievedEventGroups.map((eventGroup) => eventGroup.get('id')),
           binnedOrderBooksByEvent
         ));
 

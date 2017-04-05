@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
   getSportsLoadingStatus: LoadingStatus.DEFAULT,
+  getSportsByIdsLoadingStatus: {},
   sportsById: {}
 });
 
@@ -15,8 +16,21 @@ export default function (state = initialState, action) {
         getSportsLoadingStatus: action.loadingStatus
       });
     }
+    case ActionTypes.SPORT_SET_GET_SPORTS_BY_IDS_LOADING_STATUS: {
+      let getSportsByIdsLoadingStatus = Immutable.Map();
+      action.sportIds.forEach( sportId => {
+        getSportsByIdsLoadingStatus = getSportsByIdsLoadingStatus.set(sportId, action.loadingStatus);
+      })
+      return state.mergeIn(['getSportsByIdsLoadingStatus'], getSportsByIdsLoadingStatus);
+    }
     case ActionTypes.SPORT_ADD_SPORTS: {
-      const sportsById = _.keyBy(action.sports, sport => sport.get('id'));
+      let sportsById = state.get('sportsById');
+      action.sports.forEach( sport => {
+        const sportId = sport.get('id');
+        // Set sports by id
+        sportsById = sportsById.set(sportId, sport);
+      });
+
       return state.merge({
         sportsById
       });

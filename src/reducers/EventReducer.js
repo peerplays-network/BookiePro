@@ -1,11 +1,11 @@
 import { ActionTypes } from '../constants';
-import { LoadingStatus } from '../constants';
 import _ from 'lodash';
 import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
-  getEventsLoadingStatus: LoadingStatus.DEFAULT,
   eventsById: {},
+  getEventsBySportIdsLoadingStatus: {},
+  getEventsByIdsLoadingStatus: {},
   searchResult: []
 });
 
@@ -16,8 +16,28 @@ export default function (state = initialState, action) {
         getEventsLoadingStatus: action.loadingStatus
       });
     }
+    case ActionTypes.EVENT_SET_GET_EVENTS_BY_SPORT_IDS_LOADING_STATUS: {
+      let getEventsBySportIdsLoadingStatus = Immutable.Map();
+      action.sportIds.forEach( sportId => {
+        getEventsBySportIdsLoadingStatus = getEventsBySportIdsLoadingStatus.set(sportId, action.loadingStatus);
+      })
+      return state.mergeIn(['getEventsBySportIdsLoadingStatus'], getEventsBySportIdsLoadingStatus);
+    }
+    case ActionTypes.EVENT_SET_GET_EVENTS_BY_IDS_LOADING_STATUS: {
+      let getEventsByIdsLoadingStatus = Immutable.Map();
+      action.eventIds.forEach( eventId => {
+        getEventsByIdsLoadingStatus = getEventsByIdsLoadingStatus.set(eventId, action.loadingStatus);
+      })
+      return state.mergeIn(['getEventsByIdsLoadingStatus'], getEventsByIdsLoadingStatus);
+    }
     case ActionTypes.EVENT_ADD_EVENTS: {
-      const eventsById = _.keyBy(action.events, event => event.get('id'));
+      let eventsById = state.get('eventsById');
+      action.events.forEach( event => {
+        const eventId = event.get('id');
+        // Set events by id
+        eventsById = eventsById.set(eventId, event);
+      });
+
       return state.merge({
         eventsById
       });
