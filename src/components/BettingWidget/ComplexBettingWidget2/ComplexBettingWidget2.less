@@ -4,11 +4,86 @@
 @complex-betting-lay-bg: #008487;
 @complex-betting-label: #FFFFFF;
 
+
+// div.rt-tr{
+//   height:10px;
+// }
+
+.rt-table > .-header{
+  padding: 0px;
+  height: 0px;
+}
+
+.rt-th{
+  .offer-header{
+    background-color: @complex-betting-header-border;
+
+  }
+  .alignleft {
+    float: left;
+    background-color: @complex-betting-bg;
+
+  }
+  .alignright {
+    float: right;
+    background-color: @complex-betting-bg;
+  }
+
+
+}
+
+.rt-td{
+  padding: 0px 0px;
+
+
+  .odds-offer {
+    display: table;
+    height:  100%;
+    width:   100%;
+    // padding: 10px;
+    // border:  thin solid darkgray;
+  }
+
+  .odds-offer p {
+    text-align: center;
+    display:        table-cell;
+    vertical-align: middle;
+  }
+
+  .back-offer {
+    height: 100%;
+    display: inline-block;
+    width:   100%;
+    background-color: @complex-betting-back-bg;
+    padding: 7px 5px;
+  }
+  .lay-offer {
+    eight: 100%;
+    display: inline-block;
+    width:   100%;
+    background-color: @complex-betting-lay-bg;
+    padding: 7px 5px;
+  }
+
+  .odds {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .price {
+    font-size: 12px;
+    text-align: center;
+  }
+}
+
+
 div.complex-betting {
   // Using fade (from LESS) can set opacity to background only
   // If we set opacity explicitly, it will affect the text (foreground) too
   background-color: fade(@complex-betting-bg, 35%);
   margin-top: 15px;
+
+
 
   div.ant-table {
     color: @complex-betting-label;

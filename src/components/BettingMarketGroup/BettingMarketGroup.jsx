@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BettingMarketGroupBanner } from '../Banners';
 import ComplexBettingWidget from '../ComplexBettingWidget';
-import ComplexBettingWidget2 from '../ComplexBettingWidget2';
+import ComplexBettingWidget2 from '../BettingWidget/ComplexBettingWidget2';
 import Immutable from 'immutable';
 import moment from 'moment'; // TODO: Remove later. For hardcoded data only
 

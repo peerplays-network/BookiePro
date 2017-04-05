@@ -65,7 +65,8 @@ class AppActions {
         dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());
         // Mark done
         dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.DONE));
-      }).catch(() => {
+      }).catch((error) => {
+        console.error('error', error);
         dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));
       });
     }
