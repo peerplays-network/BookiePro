@@ -163,7 +163,7 @@ class ResolvedBets extends Component {
       <div>
         <div className='top-data clearfix'>
           <div className='float-left'>
-            <p className='font18 padding-tb-5'>TOTAL: Ƀ20.71</p>
+            <p className='font16'>TOTAL: Ƀ20.71</p>
           </div>
           <div className='float-right'>
             <div className='filter'>
@@ -199,7 +199,7 @@ class ResolvedBets extends Component {
                 </div>
                 <div className='ant-form-item'>
                   <a className='btn btn-regular' href=''>Search</a>
-                  <a className='btn btn-regular margin-lr-10' href=''>Export</a>
+                  <a className='btn btn-regular margin-left-10' href=''>Export</a>
                 </div>
               </div>
 
