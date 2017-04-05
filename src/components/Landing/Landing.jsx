@@ -15,9 +15,7 @@ class HTMLEncodeComponent extends Component{
   }
 }
 class Landing extends Component{
-
   render(){
-
     return(
       <div className='splashComponent'>
         <div className='wrapper'>
