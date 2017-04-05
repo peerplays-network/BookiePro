@@ -1,5 +1,4 @@
 import { Apis, ChainConfig } from 'graphenejs-ws';
-import { ChainStore } from 'graphenejs-lib';
 import { Config, ConnectionStatus } from '../constants';
 import { ConnectionUtils } from '../utility';
 import CommunicationService from './CommunicationService';
@@ -140,8 +139,6 @@ class ConnectionService {
         console.log('Retry syncing with blockchain');
         return ConnectionService.syncWithBlockchain(dispatch, getState,attempt-1);
       } else {
-        // Give up, close current connection to blockchain
-        this.closeConnectionToBlockchain();
         // Throw the error to be caught by the outer promise handler
         throw error;
       }

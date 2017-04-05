@@ -36,10 +36,10 @@ class SoftwareUpdateActions {
       const referenceAccountId = getState().getIn(['softwareUpdate', 'referenceAccount', 'id']);
       if (!referenceAccountId) {
         // Reference account not set yet
-        dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());
+        return dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());
       } else {
         // Get latest 100 transaction histories and parse it
-        CommunicationService.fetchRecentHistory(referenceAccountId).then((history) => {
+        return CommunicationService.fetchRecentHistory(referenceAccountId).then((history) => {
           history.forEach((transaction) => {
             const operationType = transaction.getIn(['op', 0]);
             // 0 is operation type for transfer
@@ -47,23 +47,22 @@ class SoftwareUpdateActions {
               // Check memo
               const memo = transaction.getIn(['op', 1, 'memo']);
               if (memo && memo.get('message')) {
-                try {
-                  // Assuming that we dun need to decrypt the message to parse 'software update' memo message
-                  const memoJson =  JSON.parse(StringUtils.hex2a(memo.toJS().message));
-                  const version = memoJson.version;
-                  const displayText = memoJson.displayText;
+                // Assuming that we dun need to decrypt the message to parse 'software update' memo message
+                const memoJson =  JSON.parse(StringUtils.hex2a(memo.toJS().message));
+                const version = memoJson.version;
+                const displayText = memoJson.displayText;
 
-                  // If it has version then it is an update transaction
-                  if (version) {
-                    dispatch(SoftwareUpdatePrivateActions.setUpdateParameter(version, displayText));
-                    // Terminate early
-                    return false;
-                  }
-                } catch (e){
+                // If it has version then it is an update transaction
+                if (version) {
+                  dispatch(SoftwareUpdatePrivateActions.setUpdateParameter(version, displayText));
+                  // Terminate early
+                  return false;
                 }
               }
             }
           });
+        }).catch((error) => {
+          console.error('Fail to check for software update', error);
         });
       }
 
@@ -73,17 +72,21 @@ class SoftwareUpdateActions {
   static listenToSoftwareUpdate(attempt=3) {
     return (dispatch) => {
       const accountName = Config.softwareUpdateReferenceAccountName;
-      // Fetch reference account in asycn manner
-      CommunicationService.getFullAccount(accountName).then( (fullAccount) => {
+      // Fetch reference account in async manner
+      return CommunicationService.getFullAccount(accountName).then( (fullAccount) => {
         const account = fullAccount.get('account');
         const statistics = fullAccount.get('statistics');
         dispatch(SoftwareUpdateActions.setReferenceAccountAction(account));
         dispatch(SoftwareUpdateActions.setReferenceAccountStatisticsAction(statistics));
+        // Check for software update
+        return dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());
       }).catch((error) => {
-        console.error('error is', error);
-        // retry
+        // Retry
         if (attempt > 0) {
           dispatch(SoftwareUpdateActions.listenToSoftwareUpdate(attempt-1));
+        } else {
+          // Throw error
+          throw error;
         }
       });
     }

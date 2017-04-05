@@ -76,10 +76,14 @@ class AppActions {
         return ConnectionService.syncWithBlockchain(dispatch, getState);
       }).then(() => {
         // Listen to software update
-        dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());
+        return dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());
+      }).then(() => {
         // Mark done
         dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.DONE));
-      }).catch(() => {
+      }).catch((error) => {
+        console.error(error);
+        // Fail to connect, sync, and listen to software update, close connection to the blockchain
+        ConnectionService.closeConnectionToBlockchain();
         dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));
       });
     }

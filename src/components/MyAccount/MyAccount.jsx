@@ -379,7 +379,6 @@ const mapStateToProps = (state) => {
   const app = state.get('app');
   const account = state.get('account');
   const setting = state.get('setting');
-  const account = state.get('account');
   return {
     dynGlobalObject: app.get('blockchainDynamicGlobalProperty'),
     globalObject: app.get('blockchainGlobalProperty'),
