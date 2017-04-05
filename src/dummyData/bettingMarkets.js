@@ -3,330 +3,328 @@ import Immutable from 'immutable';
 
 const bettingMarkets = [
   {
-    id: '1.105.1',
-    betting_market_group_id: '1.104.1',
-    payout_condition_string: null,
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.1",
+    "betting_market_group_id": "1.104.1",
+    "payout_condition_string": null,
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.2',
-    betting_market_group_id: '1.104.1',
-    payout_condition_string: null,
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.2",
+    "betting_market_group_id": "1.104.1",
+    "payout_condition_string": null,
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.3',
-    betting_market_group_id: '1.104.2',
-    payout_condition_string: null,
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.3",
+    "betting_market_group_id": "1.104.2",
+    "payout_condition_string": null,
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.4',
-    betting_market_group_id: '1.104.2',
-    payout_condition_string: null,
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.4",
+    "betting_market_group_id": "1.104.2",
+    "payout_condition_string": null,
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.5',
-    betting_market_group_id: '1.104.3',
-    payout_condition_string: null,
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.5",
+    "betting_market_group_id": "1.104.3",
+    "payout_condition_string": null,
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.6',
-    betting_market_group_id: '1.104.2',
-    payout_condition_string: null,
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.6",
+    "betting_market_group_id": "1.104.2",
+    "payout_condition_string": null,
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.7',
-    betting_market_group_id: '1.104.4',
-    payout_condition_string: null,
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.7",
+    "betting_market_group_id": "1.104.4",
+    "payout_condition_string": null,
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.8',
-    betting_market_group_id: '1.104.4',
-    payout_condition_string: null,
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.8",
+    "betting_market_group_id": "1.104.4",
+    "payout_condition_string": null,
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.9',
-    betting_market_group_id: '1.104.5',
-    payout_condition_string: null,
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.9",
+    "betting_market_group_id": "1.104.5",
+    "payout_condition_string": null,
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.10',
-    betting_market_group_id: '1.104.5',
-    payout_condition_string: null,
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.10",
+    "betting_market_group_id": "1.104.5",
+    "payout_condition_string": null,
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.11',
-    betting_market_group_id: '1.104.6',
-    payout_condition_string: null,
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.11",
+    "betting_market_group_id": "1.104.6",
+    "payout_condition_string": null,
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.12',
-    betting_market_group_id: '1.104.6',
-    payout_condition_string: 'Over',
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.12",
+    "betting_market_group_id": "1.104.6",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.13',
-    betting_market_group_id: '1.104.7',
-    payout_condition_string: "CAarolina Panthers",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.13",
+    "betting_market_group_id": "1.104.7",
+    "payout_condition_string": "CAarolina Panthers",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.14',
-    betting_market_group_id: '1.104.7',
-    payout_condition_string: "Denver Bancos",
-    bet_asset_type: '1.3.0' // core asset
-  },
-
-  {
-    id: '1.105.15',
-    betting_market_group_id: '1.104.8',
-    payout_condition_string: "CAarolina Panthers",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.14",
+    "betting_market_group_id": "1.104.7",
+    "payout_condition_string": "Denver Bancos",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.16',
-    betting_market_group_id: '1.104.8',
-    payout_condition_string: "Denver Bancos",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.15",
+    "betting_market_group_id": "1.104.8",
+    "payout_condition_string": "CAarolina Panthers",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.17',
-    betting_market_group_id: '1.104.9',
-    payout_condition_string: "Under",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.16",
+    "betting_market_group_id": "1.104.8",
+    "payout_condition_string": "Denver Bancos",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.18',
-    betting_market_group_id: '1.104.9',
-    payout_condition_string: "Under",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.17",
+    "betting_market_group_id": "1.104.9",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.19',
-    betting_market_group_id: '1.104.10',
-    payout_condition_string: "Tampa Bay Buccaneers",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.18",
+    "betting_market_group_id": "1.104.9",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.20',
-    betting_market_group_id: '1.104.10',
-    payout_condition_string: "Atlanta Falcons",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.19",
+    "betting_market_group_id": "1.104.10",
+    "payout_condition_string": "Tampa Bay Buccaneers",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.21',
-    betting_market_group_id: '1.104.11',
-    payout_condition_string: "Tampa Bay Buccaneers",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.20",
+    "betting_market_group_id": "1.104.10",
+    "payout_condition_string": "Atlanta Falcons",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.22',
-    betting_market_group_id: '1.104.11',
-    payout_condition_string: "Atlanta Falcons",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.21",
+    "betting_market_group_id": "1.104.11",
+    "payout_condition_string": "Tampa Bay Buccaneers",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.23',
-    betting_market_group_id: '1.104.12',
-    payout_condition_string: "Over",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.22",
+    "betting_market_group_id": "1.104.11",
+    "payout_condition_string": "Atlanta Falcons",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.24',
-    betting_market_group_id: '1.104.12',
-    payout_condition_string: "Under",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.23",
+    "betting_market_group_id": "1.104.12",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.25',
-    betting_market_group_id: '1.104.13',
-    payout_condition_string: "Minnesota Vikings",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.24",
+    "betting_market_group_id": "1.104.12",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.26',
-    betting_market_group_id: '1.104.13',
-    payout_condition_string: "Tennessee Titans",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.25",
+    "betting_market_group_id": "1.104.13",
+    "payout_condition_string": "Minnesota Vikings",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.27',
-    betting_market_group_id: '1.104.14',
-    payout_condition_string: "Minnesota Vikings",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.26",
+    "betting_market_group_id": "1.104.13",
+    "payout_condition_string": "Tennessee Titans",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.28',
-    betting_market_group_id: '1.104.14',
-    payout_condition_string: "Tennessee Titans",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.27",
+    "betting_market_group_id": "1.104.14",
+    "payout_condition_string": "Minnesota Vikings",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.29',
-    betting_market_group_id: '1.104.15',
-    payout_condition_string: "Over",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.28",
+    "betting_market_group_id": "1.104.14",
+    "payout_condition_string": "Tennessee Titans",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.30',
-    betting_market_group_id: '1.104.15',
-    payout_condition_string: "Over",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.29",
+    "betting_market_group_id": "1.104.15",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.31',
-    betting_market_group_id: '1.104.16',
-    payout_condition_string: "Cleveland Browns",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.30",
+    "betting_market_group_id": "1.104.15",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.32',
-    betting_market_group_id: '1.104.16',
-    payout_condition_string: "Philandelphia Eagles",
-    bet_asset_type: '1.3.0' // core asset
-  },
-
-  {
-    id: '1.105.33',
-    betting_market_group_id: '1.104.17',
-    payout_condition_string: "Cleveland Browns",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.31",
+    "betting_market_group_id": "1.104.16",
+    "payout_condition_string": "Cleveland Browns",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.34',
-    betting_market_group_id: '1.104.17',
-    payout_condition_string: "Philandelphia Eagles",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.32",
+    "betting_market_group_id": "1.104.16",
+    "payout_condition_string": "Philandelphia Eagles",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.35',
-    betting_market_group_id: '1.104.18',
-    payout_condition_string: "Over",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.33",
+    "betting_market_group_id": "1.104.17",
+    "payout_condition_string": "Cleveland Browns",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.36',
-    betting_market_group_id: '1.104.18',
-    payout_condition_string: "Over",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.34",
+    "betting_market_group_id": "1.104.17",
+    "payout_condition_string": "Philandelphia Eagles",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.37',
-    betting_market_group_id: '1.104.19',
-    payout_condition_string: "Cincinnati Bengals",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.35",
+    "betting_market_group_id": "1.104.18",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.38',
-    betting_market_group_id: '1.104.19',
-    payout_condition_string: "New York Jets",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.36",
+    "betting_market_group_id": "1.104.18",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.39',
-    betting_market_group_id: '1.104.20',
-    payout_condition_string: "Cincinnati Bengals",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.37",
+    "betting_market_group_id": "1.104.19",
+    "payout_condition_string": "Cincinnati Bengals",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.40',
-    betting_market_group_id: '1.104.20',
-    payout_condition_string: "New York Jets",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.38",
+    "betting_market_group_id": "1.104.19",
+    "payout_condition_string": "New York Jets",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.41',
-    betting_market_group_id: '1.104.21',
-    payout_condition_string: "Over",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.39",
+    "betting_market_group_id": "1.104.20",
+    "payout_condition_string": "Cincinnati Bengals",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.42',
-    betting_market_group_id: '1.104.21',
-    payout_condition_string: "Under",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.40",
+    "betting_market_group_id": "1.104.20",
+    "payout_condition_string": "New York Jets",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.43',
-    betting_market_group_id: '1.104.22',
-    payout_condition_string: "Oakland Raiders",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.41",
+    "betting_market_group_id": "1.104.21",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.44',
-    betting_market_group_id: '1.104.22',
-    payout_condition_string: "New Orleans Saints",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.42",
+    "betting_market_group_id": "1.104.21",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.45',
-    betting_market_group_id: '1.104.23',
-    payout_condition_string: "Oakland Raiders",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.43",
+    "betting_market_group_id": "1.104.22",
+    "payout_condition_string": "Oakland Raiders",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.46',
-    betting_market_group_id: '1.104.23',
-    payout_condition_string: "New Orleans Saints",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.44",
+    "betting_market_group_id": "1.104.22",
+    "payout_condition_string": "New Orleans Saints",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.47',
-    betting_market_group_id: '1.104.24',
-    payout_condition_string: "Under",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.45",
+    "betting_market_group_id": "1.104.23",
+    "payout_condition_string": "Oakland Raiders",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.48',
-    betting_market_group_id: '1.104.24',
-    payout_condition_string: "Over",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.46",
+    "betting_market_group_id": "1.104.23",
+    "payout_condition_string": "New Orleans Saints",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.49',
-    betting_market_group_id: '1.104.25',
-    payout_condition_string: "San Diego Chargers",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.47",
+    "betting_market_group_id": "1.104.24",
+    "payout_condition_string": "Under",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.50',
-    betting_market_group_id: '1.104.25',
-    payout_condition_string: "Kansas City Chiefs",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.48",
+    "betting_market_group_id": "1.104.24",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.51',
-    betting_market_group_id: '1.104.26',
-    payout_condition_string: "San Diego Chargers",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.49",
+    "betting_market_group_id": "1.104.25",
+    "payout_condition_string": "San Diego Chargers",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.52',
-    betting_market_group_id: '1.104.26',
-    payout_condition_string: "Kansas City Chiefs",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.50",
+    "betting_market_group_id": "1.104.25",
+    "payout_condition_string": "Kansas City Chiefs",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.53',
-    betting_market_group_id: '1.104.27',
-    payout_condition_string: "Over",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.51",
+    "betting_market_group_id": "1.104.26",
+    "payout_condition_string": "San Diego Chargers",
+    "bet_asset_type": "1.3.0"
   },
   {
-    id: '1.105.54',
-    betting_market_group_id: '1.104.27',
-    payout_condition_string: "Over",
-    bet_asset_type: '1.3.0' // core asset
+    "id": "1.105.52",
+    "betting_market_group_id": "1.104.26",
+    "payout_condition_string": "Kansas City Chiefs",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.53",
+    "betting_market_group_id": "1.104.27",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.54",
+    "betting_market_group_id": "1.104.27",
+    "payout_condition_string": "Over",
+    "bet_asset_type": "1.3.0"
   },
   {
     "id": "1.105.55",
@@ -616,7 +614,6 @@ const bettingMarkets = [
     "payout_condition_string": "Under",
     "bet_asset_type": "1.3.0"
   },
-  //baseball
   {
     "id": "1.105.103",
     "betting_market_group_id": "1.104.52",
@@ -977,7 +974,6 @@ const bettingMarkets = [
     "payout_condition_string": "Under",
     "bet_asset_type": "1.3.0"
   },
-  //soccer
   {
     "id": "1.105.163",
     "betting_market_group_id": "1.104.82",

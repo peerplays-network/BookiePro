@@ -11,54 +11,54 @@ const createOrderBookBin = (odds, price) => ({
 // We don't have a unique key for these as they are NOT Blockchain object
 const binnedOrderBooks = [
   {
-    betting_market_id: '1.105.1',
-    aggregated_back_bets: [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
-    aggregated_lay_bets: [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
+    "betting_market_id": "1.105.1",
+    "aggregated_back_bets": [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
+    "aggregated_lay_bets": [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
   },
   {
-    betting_market_id: '1.105.2',
-    aggregated_back_bets: [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
-    aggregated_lay_bets: [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
+    "betting_market_id": "1.105.2",
+    "aggregated_back_bets": [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
+    "aggregated_lay_bets": [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
   },
   {
-    betting_market_id: '1.105.7',
-    aggregated_back_bets: [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
-    aggregated_lay_bets: [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
+    "betting_market_id": "1.105.7",
+    "aggregated_back_bets": [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
+    "aggregated_lay_bets": [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
   },
   {
-    betting_market_id: '1.105.8',
-    aggregated_back_bets: [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
-    aggregated_lay_bets: [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
+    "betting_market_id": "1.105.8",
+    "aggregated_back_bets": [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
+    "aggregated_lay_bets": [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
   },
   {
-    betting_market_id: '1.105.13',
-    aggregated_back_bets: [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
-    aggregated_lay_bets: [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
+    "betting_market_id": "1.105.13",
+    "aggregated_back_bets": [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
+    "aggregated_lay_bets": [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
   },
   {
-    betting_market_id: '1.105.14',
-    aggregated_back_bets: [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
-    aggregated_lay_bets: [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
+    "betting_market_id": "1.105.14",
+    "aggregated_back_bets": [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
+    "aggregated_lay_bets": [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
   },
   {
-    betting_market_id: '1.105.19',
-    aggregated_back_bets: [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
-    aggregated_lay_bets: [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
+    "betting_market_id": "1.105.19",
+    "aggregated_back_bets": [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
+    "aggregated_lay_bets": [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
   },
   {
-    betting_market_id: '1.105.20',
-    aggregated_back_bets: [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
-    aggregated_lay_bets: [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
+    "betting_market_id": "1.105.20",
+    "aggregated_back_bets": [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
+    "aggregated_lay_bets": [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
   },
   {
-    betting_market_id: '1.105.25',
-    aggregated_back_bets: [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
-    aggregated_lay_bets: [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
+    "betting_market_id": "1.105.25",
+    "aggregated_back_bets": [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
+    "aggregated_lay_bets": [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
   },
   {
-    betting_market_id: '1.105.26',
-    aggregated_back_bets: [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
-    aggregated_lay_bets: [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
+    "betting_market_id": "1.105.26",
+    "aggregated_back_bets": [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
+    "aggregated_lay_bets": [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
   },
   {
     "betting_market_id": "1.105.27",
@@ -201,34 +201,34 @@ const binnedOrderBooks = [
     "aggregated_lay_bets": [createOrderBookBin(3.82, 0.47), createOrderBookBin(3.49, 0.003)]
   },
   {
-    betting_market_id: '1.105.55',
-    aggregated_back_bets: [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
-    aggregated_lay_bets: [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
+    "betting_market_id": "1.105.55",
+    "aggregated_back_bets": [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
+    "aggregated_lay_bets": [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
   },
   {
-    betting_market_id: '1.105.56',
-    aggregated_back_bets: [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
-    aggregated_lay_bets: [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
+    "betting_market_id": "1.105.56",
+    "aggregated_back_bets": [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
+    "aggregated_lay_bets": [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
   },
   {
-    betting_market_id: '1.105.61',
-    aggregated_back_bets: [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
-    aggregated_lay_bets: [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
+    "betting_market_id": "1.105.61",
+    "aggregated_back_bets": [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
+    "aggregated_lay_bets": [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
   },
   {
-    betting_market_id: '1.105.62',
-    aggregated_back_bets: [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
-    aggregated_lay_bets: [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
+    "betting_market_id": "1.105.62",
+    "aggregated_back_bets": [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
+    "aggregated_lay_bets": [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
   },
   {
-    betting_market_id: '1.105.67',
-    aggregated_back_bets: [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
-    aggregated_lay_bets: [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
+    "betting_market_id": "1.105.67",
+    "aggregated_back_bets": [createOrderBookBin(3.25, 0.173), createOrderBookBin(3.10, 0.082)],
+    "aggregated_lay_bets": [createOrderBookBin(2.89, 0.25), createOrderBookBin(2.10, 0.056)]
   },
   {
-    betting_market_id: '1.105.68',
-    aggregated_back_bets: [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
-    aggregated_lay_bets: [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
+    "betting_market_id": "1.105.68",
+    "aggregated_back_bets": [createOrderBookBin(3.01, 0.23), createOrderBookBin(1.76, 0.06)],
+    "aggregated_lay_bets": [createOrderBookBin(2.19, 0.023), createOrderBookBin(1.9, 0.17)]
   },
   {
     "betting_market_id": "1.105.69",
@@ -400,7 +400,6 @@ const binnedOrderBooks = [
     "aggregated_back_bets": [createOrderBookBin(4.69, 0.82), createOrderBookBin(2.26, 0.71)],
     "aggregated_lay_bets": [createOrderBookBin(6.9, 0.69), createOrderBookBin(3.24, 0.35)]
   },
-  //baseball
   {
     "betting_market_id": "1.105.103",
     "aggregated_back_bets": [createOrderBookBin(8.0, 0.34), createOrderBookBin(4.2, 0.25)],
@@ -701,7 +700,6 @@ const binnedOrderBooks = [
     "aggregated_back_bets": [createOrderBookBin(6.99, 0.9), createOrderBookBin(3.1, 0.21)],
     "aggregated_lay_bets": [createOrderBookBin(7.59, 0.29), createOrderBookBin(5.77, 0.09)]
   },
-  //soccer
   {
     "betting_market_id": "1.105.163",
     "aggregated_back_bets": [createOrderBookBin(6.5, 0.49), createOrderBookBin(6.2, 0.003)],

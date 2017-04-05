@@ -3,327 +3,327 @@ import Immutable from 'immutable';
 
 const bettingMarketGroups = [
   {
-    id: '1.104.1',
-    event_id: '1.103.1',
-    market_type_id: 'Moneyline',
-    options: null,
-    betting_market_ids: [
-      '1.105.1',
-      '1.105.2'
+    "id": "1.104.1",
+    "event_id": "1.103.1",
+    "market_type_id": "Moneyline",
+    "options": null,
+    "betting_market_ids": [
+      "1.105.1",
+      "1.105.2"
     ]
   },
   {
-    id: '1.104.2',
-    event_id: '1.103.1',
-    market_type_id: 'Spread',
-    options: {
-      margin: 5,
-      score: 0
+    "id": "1.104.2",
+    "event_id": "1.103.1",
+    "market_type_id": "Spread",
+    "options": {
+      "margin": 5,
+      "score": 0
     },
-    betting_market_ids: [
-      '1.105.3',
-      '1.105.4'
+    "betting_market_ids": [
+      "1.105.3",
+      "1.105.4"
     ]
   },
   {
-    id: '1.104.3',
-    event_id: '1.103.1',
-    market_type_id: 'OverUnder',
-    options: {
-      margin: 0,
-      score: 8
+    "id": "1.104.3",
+    "event_id": "1.103.1",
+    "market_type_id": "OverUnder",
+    "options": {
+      "margin": 0,
+      "score": 8
     },
-    betting_market_ids: [
-      '1.105.5',
-      '1.105.6'
+    "betting_market_ids": [
+      "1.105.5",
+      "1.105.6"
     ]
   },
   {
-    id: '1.104.4',
-    event_id: '1.103.2',
-    market_type_id: 'Moneyline',
-    options: null,
-    betting_market_ids: [
-      '1.105.7',
-      '1.105.8'
+    "id": "1.104.4",
+    "event_id": "1.103.2",
+    "market_type_id": "Moneyline",
+    "options": null,
+    "betting_market_ids": [
+      "1.105.7",
+      "1.105.8"
     ]
   },
   {
-    id: '1.104.5',
-    event_id: '1.103.2',
-    market_type_id: 'Spread',
-    options: {
-      margin: 15,
-      score: 0
+    "id": "1.104.5",
+    "event_id": "1.103.2",
+    "market_type_id": "Spread",
+    "options": {
+      "margin": 15,
+      "score": 0
     },
-    betting_market_ids: [
-      '1.105.9',
-      '1.105.10'
+    "betting_market_ids": [
+      "1.105.9",
+      "1.105.10"
     ]
   },
   {
-    id: '1.104.6',
-    event_id: '1.103.2',
-    market_type_id: 'OverUnder',
-    options: {
-      margin: 0,
-      score: 15
+    "id": "1.104.6",
+    "event_id": "1.103.2",
+    "market_type_id": "OverUnder",
+    "options": {
+      "margin": 0,
+      "score": 15
     },
-    betting_market_ids: [
-      '1.105.11',
-      '1.105.12'
+    "betting_market_ids": [
+      "1.105.11",
+      "1.105.12"
     ]
   },
   {
-    id: '1.104.7',
-    event_id: '1.103.3',
-    market_type_id: 'Moneyline',
-    options: null,
-    betting_market_ids: [
-      '1.105.13',
-      '1.105.14'
+    "id": "1.104.7",
+    "event_id": "1.103.3",
+    "market_type_id": "Moneyline",
+    "options": null,
+    "betting_market_ids": [
+      "1.105.13",
+      "1.105.14"
     ]
   },
   {
-    id: '1.104.8',
-    event_id: '1.103.3',
-    market_type_id: 'Spread',
-    options: {
-      margin: 5,
-      score: 0
+    "id": "1.104.8",
+    "event_id": "1.103.3",
+    "market_type_id": "Spread",
+    "options": {
+      "margin": 5,
+      "score": 0
     },
-    betting_market_ids: [
-      '1.105.3',
-      '1.105.4'
+    "betting_market_ids": [
+      "1.105.3",
+      "1.105.4"
     ]
   },
   {
-    id: '1.104.9',
-    event_id: '1.103.3',
-    market_type_id: 'OverUnder',
-    options: {
-      margin: 0,
-      score: 6
+    "id": "1.104.9",
+    "event_id": "1.103.3",
+    "market_type_id": "OverUnder",
+    "options": {
+      "margin": 0,
+      "score": 6
     },
-    betting_market_ids: [
-      '1.105.5',
-      '1.105.6'
+    "betting_market_ids": [
+      "1.105.5",
+      "1.105.6"
     ]
   },
   {
-    id: '1.104.10',
-    event_id: '1.103.4',
-    market_type_id: 'Moneyline',
-    options: null,
-    betting_market_ids: [
-      '1.105.19',
-      '1.105.20'
+    "id": "1.104.10",
+    "event_id": "1.103.4",
+    "market_type_id": "Moneyline",
+    "options": null,
+    "betting_market_ids": [
+      "1.105.19",
+      "1.105.20"
     ]
   },
   {
-    id: '1.104.11',
-    event_id: '1.103.4',
-    market_type_id: 'Spread',
-    options: {
-      margin: 5,
-      score: 0
+    "id": "1.104.11",
+    "event_id": "1.103.4",
+    "market_type_id": "Spread",
+    "options": {
+      "margin": 5,
+      "score": 0
     },
-    betting_market_ids: [
-      '1.105.21',
-      '1.105.22'
+    "betting_market_ids": [
+      "1.105.21",
+      "1.105.22"
     ]
   },
   {
-    id: '1.104.12',
-    event_id: '1.103.4',
-    market_type_id: 'OverUnder',
-    options: {
-      margin: 0,
-      score: 10
+    "id": "1.104.12",
+    "event_id": "1.103.4",
+    "market_type_id": "OverUnder",
+    "options": {
+      "margin": 0,
+      "score": 10
     },
-    betting_market_ids: [
-      '1.105.23',
-      '1.105.24'
+    "betting_market_ids": [
+      "1.105.23",
+      "1.105.24"
     ]
   },
   {
-    id: '1.104.13',
-    event_id: '1.103.5',
-    market_type_id: 'Moneyline',
-    options: null,
-    betting_market_ids: [
-      '1.105.25',
-      '1.105.26'
+    "id": "1.104.13",
+    "event_id": "1.103.5",
+    "market_type_id": "Moneyline",
+    "options": null,
+    "betting_market_ids": [
+      "1.105.25",
+      "1.105.26"
     ]
   },
   {
-    id: '1.104.14',
-    event_id: '1.103.5',
-    market_type_id: 'Spread',
-    options: {
-      margin: 5,
-      score: 0
+    "id": "1.104.14",
+    "event_id": "1.103.5",
+    "market_type_id": "Spread",
+    "options": {
+      "margin": 5,
+      "score": 0
     },
-    betting_market_ids: [
-      '1.105.27',
-      '1.105.28'
+    "betting_market_ids": [
+      "1.105.27",
+      "1.105.28"
     ]
   },
   {
-    id: '1.104.15',
-    event_id: '1.103.5',
-    market_type_id: 'OverUnder',
-    options: {
-      margin: 0,
-      score: 6
+    "id": "1.104.15",
+    "event_id": "1.103.5",
+    "market_type_id": "OverUnder",
+    "options": {
+      "margin": 0,
+      "score": 6
     },
-    betting_market_ids: [
-      '1.105.29',
-      '1.105.30'
+    "betting_market_ids": [
+      "1.105.29",
+      "1.105.30"
     ]
   },
   {
-    id: '1.104.16',
-    event_id: '1.103.6',
-    market_type_id: 'Moneyline',
-    options: null,
-    betting_market_ids: [
-      '1.105.31',
-      '1.105.32'
+    "id": "1.104.16",
+    "event_id": "1.103.6",
+    "market_type_id": "Moneyline",
+    "options": null,
+    "betting_market_ids": [
+      "1.105.31",
+      "1.105.32"
     ]
   },
   {
-    id: '1.104.17',
-    event_id: '1.103.6',
-    market_type_id: 'Spread',
-    options: {
-      margin: 5,
-      score: 0
+    "id": "1.104.17",
+    "event_id": "1.103.6",
+    "market_type_id": "Spread",
+    "options": {
+      "margin": 5,
+      "score": 0
     },
-    betting_market_ids: [
-      '1.105.33',
-      '1.105.34'
+    "betting_market_ids": [
+      "1.105.33",
+      "1.105.34"
     ]
   },
   {
-    id: '1.104.18',
-    event_id: '1.103.6',
-    market_type_id: 'OverUnder',
-    options: {
-      margin: 0,
-      score: 4
+    "id": "1.104.18",
+    "event_id": "1.103.6",
+    "market_type_id": "OverUnder",
+    "options": {
+      "margin": 0,
+      "score": 4
     },
-    betting_market_ids: [
-      '1.105.35',
-      '1.105.36'
+    "betting_market_ids": [
+      "1.105.35",
+      "1.105.36"
     ]
   },
   {
-    id: '1.104.19',
-    event_id: '1.103.7',
-    market_type_id: 'Moneyline',
-    options: null,
-    betting_market_ids: [
-      '1.105.37',
-      '1.105.38'
+    "id": "1.104.19",
+    "event_id": "1.103.7",
+    "market_type_id": "Moneyline",
+    "options": null,
+    "betting_market_ids": [
+      "1.105.37",
+      "1.105.38"
     ]
   },
   {
-    id: '1.104.20',
-    event_id: '1.103.7',
-    market_type_id: 'Spread',
-    options: {
-      margin: 5,
-      score: 0
+    "id": "1.104.20",
+    "event_id": "1.103.7",
+    "market_type_id": "Spread",
+    "options": {
+      "margin": 5,
+      "score": 0
     },
-    betting_market_ids: [
-      '1.105.39',
-      '1.105.40'
+    "betting_market_ids": [
+      "1.105.39",
+      "1.105.40"
     ]
   },
   {
-    id: '1.104.21',
-    event_id: '1.103.7',
-    market_type_id: 'OverUnder',
-    options: {
-      margin: 0,
-      score: 9
+    "id": "1.104.21",
+    "event_id": "1.103.7",
+    "market_type_id": "OverUnder",
+    "options": {
+      "margin": 0,
+      "score": 9
     },
-    betting_market_ids: [
-      '1.105.41',
-      '1.105.42'
+    "betting_market_ids": [
+      "1.105.41",
+      "1.105.42"
     ]
   },
   {
-    id: '1.104.22',
-    event_id: '1.103.8',
-    market_type_id: 'Moneyline',
-    options: null,
-    betting_market_ids: [
-      '1.105.43',
-      '1.105.44'
+    "id": "1.104.22",
+    "event_id": "1.103.8",
+    "market_type_id": "Moneyline",
+    "options": null,
+    "betting_market_ids": [
+      "1.105.43",
+      "1.105.44"
     ]
   },
   {
-    id: '1.104.23',
-    event_id: '1.103.8',
-    market_type_id: 'Spread',
-    options: {
-      margin: 5,
-      score: 0
+    "id": "1.104.23",
+    "event_id": "1.103.8",
+    "market_type_id": "Spread",
+    "options": {
+      "margin": 5,
+      "score": 0
     },
-    betting_market_ids: [
-      '1.105.45',
-      '1.105.46'
+    "betting_market_ids": [
+      "1.105.45",
+      "1.105.46"
     ]
   },
   {
-    id: '1.104.24',
-    event_id: '1.103.8',
-    market_type_id: 'OverUnder',
-    options: {
-      margin: 0,
-      score: 10
+    "id": "1.104.24",
+    "event_id": "1.103.8",
+    "market_type_id": "OverUnder",
+    "options": {
+      "margin": 0,
+      "score": 10
     },
-    betting_market_ids: [
-      '1.105.47',
-      '1.105.48'
+    "betting_market_ids": [
+      "1.105.47",
+      "1.105.48"
     ]
   },
   {
-    id: '1.104.25',
-    event_id: '1.103.9',
-    market_type_id: 'Moneyline',
-    options: null,
-    betting_market_ids: [
-      '1.105.49',
-      '1.105.50'
+    "id": "1.104.25",
+    "event_id": "1.103.9",
+    "market_type_id": "Moneyline",
+    "options": null,
+    "betting_market_ids": [
+      "1.105.49",
+      "1.105.50"
     ]
   },
   {
-    id: '1.104.26',
-    event_id: '1.103.9',
-    market_type_id: 'Spread',
-    options: {
-      margin: 5,
-      score: 0
+    "id": "1.104.26",
+    "event_id": "1.103.9",
+    "market_type_id": "Spread",
+    "options": {
+      "margin": 5,
+      "score": 0
     },
-    betting_market_ids: [
-      '1.105.51',
-      '1.105.52'
+    "betting_market_ids": [
+      "1.105.51",
+      "1.105.52"
     ]
   },
   {
-    id: '1.104.27',
-    event_id: '1.103.9',
-    market_type_id: 'OverUnder',
-    options: {
-      margin: 0,
-      score: 12
+    "id": "1.104.27",
+    "event_id": "1.103.9",
+    "market_type_id": "OverUnder",
+    "options": {
+      "margin": 0,
+      "score": 12
     },
-    betting_market_ids: [
-      '1.105.53',
-      '1.105.54'
+    "betting_market_ids": [
+      "1.105.53",
+      "1.105.54"
     ]
   },
   {
@@ -638,7 +638,6 @@ const bettingMarketGroups = [
       "1.105.102"
     ]
   },
-  //baseball
   {
     "id": "1.104.52",
     "event_id": "1.103.18",
@@ -1029,7 +1028,6 @@ const bettingMarketGroups = [
       "1.105.162"
     ]
   },
-  //soccer
   {
     "id": "1.104.82",
     "event_id": "1.103.28",
