@@ -154,58 +154,60 @@ export const translationsObject = {
       matched_bets: 'MATCHED BETS',
       resolved_bets: 'RESOLVED BETS',
     },
-    terms_content: '<p>BY USING THIS WEBSITE IN ANY MANNER WHATSOEVER OR BY CLICKING THE &ldquo;ACCEPT&rdquo; ICON ON OUR WEBSITE YOU ARE INDICATING ' +
-    'THAT YOU ACCEPT AND AGREE TO BE BOUND BY THESE TERMS AND CONDITIONS OF USE, OUR RULES AND THE PRIVACY POLICY (AS EACH MAY BE AMENDED FROM ' +
-    'TIME TO TIME) WHICH, TOGETHER WITH THE TERMS OF ANY CONTRACTS ENTERED INTO BY YOU WITH OTHER MEMBERS OF MATCHBOOK (&ldquo;THIS AGREEMENT&rdquo;) ' +
-    'GOVERN YOUR RELATIONSHIP ' +
-    'WITH US AND WITH OTHER MEMBERS OF MATCHBOOK.</p><p>IF YOU DO NOT AGREE TO EACH AND EVERY TERM OF THIS AGREEMENT, SIMPLY EXIT FROM THE WEBSITE. ' +
-    'FOR THE AVOIDANCE OF DOUBT, ' +
-    'WE MAY, ' +
-    'AT OUR ABSOLUTE DISCRETION, REFUSE YOUR REQUEST TO USE THE EXCHANGE.</p> <p>In consideration of our providing the Matchbook Services ' +
-    'to you, you agree to all of the terms and conditions contained in this Agreement.</p> <p>Definitions &amp; Interpretation</p> ' +
-    '<p>In this Agreement the following terms shall have the following meanings:</p> <p>&ldquo;this Agreement&rdquo; means these Terms and ' +
-    'Conditions of Use, the Rules and Privacy Policy, collectively; &ldquo;Exchange&rdquo; means the betting exchange operated by Matchbook; ' +
-    '&ldquo;Matchbook&rdquo; means Triplebet Limited, a private limited company duly incorporated with registration number 1827 with its ' +
-    'registered office situated at Inchalla, Le Val, Alderney, GY9 3UL; &ldquo;We/ us/ our&rdquo; means, as appropriate, Matchbook or Matchbook&rsquo;s; ' +
-    '&ldquo;MB Casino&rdquo; ' +
-    'means the online casino available on the Matchbook Website; &ldquo;Matchbook Services&rdquo; mean the betting exchange services made available ' +
-    'by Matchbook on the Matchbook Website; &ldquo;Matchbook Website&rdquo; or &ldquo;Website&rdquo; means the website found at www.matchbook.com, ' +
-    'which is owned and operated by Matchbook, including any other similar URLs used by the desktop and mobile versions of the website; &ldquo;Member&rdquo; ' +
-    'means a person who has successfully registered a user account at the Exchange; &ldquo;Rules&rdquo; mean the practical rules which must be ' +
-    'followed to make a bet and the like at the Exchange; &ldquo;Privacy Policy&rdquo; means our privacy policy as it applies to your personally ' +
-    'identifiable information and related aspects; &ldquo;You&rdquo; means any user of the Website or Member of the Exchange.  </p> <p>In this Agreement:</p> ' +
-    '<p>words in the singular include the plural and vice versa and words in one gender include any other gender; the paragraph headings are for the sake ' +
-    'of convenience only and shall not affect the interpretation of this Agreement.</p> <p>Becoming a Member of the Exchange and MB Casino</p> <p>You may ' +
-    'not use the Exchange and/or MB Casino unless and until you have successfully applied for membership of the Matchbook Website. You will only be deemed ' +
-    'to have successfully applied for membership of the Exchange and MB Casino once you have: applied online at the Website for membership or you have applied ' +
-    'offline through one of our registration agents (not available to customers in Great Britain) or you have applied offline through one of our registration ' +
-    'referrers; accepted the terms of this Agreement; and been issued by us with a member name and password We may, in our absolute discretion, refuse to accept ' +
-    'your application for membership of the Exchange and MB Casino for any or no reason. We shall not be obliged to furnish you with any reasons for such refusal.' +
-    '</p> <p>Trading on the Exchange</p> <p>Matchbook provides a platform upon which you can enter into various betting transactions in relation to the markets ' +
-    'available on our site (&quot;Markets&quot;).</p>' +
-    '<ul><p>You can enter into betting transactions either' +
-    ' </p> <li>on our site (the &quot;Website Service&quot;)</li> <li>through one of our referrers</li><li>through one of our agents (not available to customers in Great o' +
-    ' Britain), or</li> <li>by the Application Programs Interface (&quot;API&quot;). </li> </ul>' +
-    '<p>We provide an API feed that allows clients to access the information available through our site directly via calls to the site. This enables clients ' +
-    'to access the information without having to go via the URL: www.matchbook.com. Clients are free to develop their own program to use the API feed to make calls ' +
-    'to the site in order to place trades.</p><p>The following use of price data or any other data or content from our site or via the API or any other Matchbook ' +
-    'data from any other source (together, &ldquo;Matchbook Data&rdquo;) is strictly prohibited without the specific prior written consent of Triplebet Limited:' +
-    '</p><p>Commercial use by any person; and/or Any use for any purpose by a competitor of Triplebet limited, or an employee, contractor or agent of any such ' +
-    'competitor (&ldquo;Restricted Person&rdquo;), provided always that Restricted Persons may place bets. Screen scraping, web scraping or any other automated ' +
-    'or manual collection of Matchbook Data, for commercial use by any person and/or for any use by a Restricted Person, is expressly prohibited.</p>' +
-    '<p>Your Representations and Warranties</p><p>You hereby represent and warrant (and our decision to grant you membership of the Exchange and MB Casino is ' +
-    'based upon such representations and warranties) that</p><p>you are fully and legally entitled to enter into this Agreement; your entering into this Agreement is ' +
-    'not illegal in your jurisdiction of residence and you will not use the Exchange and/or MB Casino while located in any jurisdiction that prohibits the use of such ' +
-    'services; you are 18 years of age or older; or the age of legal consent for engaging with our services under the laws of the jurisdiction in which you are located ' +
-    'while using the Site, whichever is the higher; unless otherwise agreed by us in writing, you are acting as a principal and not as an agent on behalf of a third ' +
-    'party; all details provided by you to the Exchange and MB Casino are accurate and that you will not take steps to conceal your true identity from the Exchange and MB ' +
-    'Casino by, for example, without limitation, using pseudonyms, false addresses or taking technical steps to conceal your identity or location; your sole aim on opening ' +
-    'an account on our licensed gaming platform is to establish a &lsquo;normal&rsquo; commercial relationship with Triplebet Limited, with the strict purpose of ' +
-    'conducting betting and other gaming and gambling transactions; you understand that you will not receive any interest on any outstanding amount(s) in your account, ' +
-    'and you shall not treat Triplebet Limited as a bank or other financial institution; you are the authorised user of any credit or debit card you use on the Exchange and ' +
-    'MB Casino and that you have never failed to honour ' +
-    'a liability on a bet by attempting to charge back a ' +
-    'payment made by card for betting services; all and any monies utilized by you on the Exchange and MB Casino are the proceeds of or derived from lawful activities.<' +
-    '/p>'
+    terms_dialogue:{
+      content: '<p>BY USING THIS WEBSITE IN ANY MANNER WHATSOEVER OR BY CLICKING THE &ldquo;ACCEPT&rdquo; ICON ON OUR WEBSITE YOU ARE INDICATING ' +
+      'THAT YOU ACCEPT AND AGREE TO BE BOUND BY THESE TERMS AND CONDITIONS OF USE, OUR RULES AND THE PRIVACY POLICY (AS EACH MAY BE AMENDED FROM ' +
+      'TIME TO TIME) WHICH, TOGETHER WITH THE TERMS OF ANY CONTRACTS ENTERED INTO BY YOU WITH OTHER MEMBERS OF MATCHBOOK (&ldquo;THIS AGREEMENT&rdquo;) ' +
+      'GOVERN YOUR RELATIONSHIP ' +
+      'WITH US AND WITH OTHER MEMBERS OF MATCHBOOK.</p><p>IF YOU DO NOT AGREE TO EACH AND EVERY TERM OF THIS AGREEMENT, SIMPLY EXIT FROM THE WEBSITE. ' +
+      'FOR THE AVOIDANCE OF DOUBT, ' +
+      'WE MAY, ' +
+      'AT OUR ABSOLUTE DISCRETION, REFUSE YOUR REQUEST TO USE THE EXCHANGE.</p> <p>In consideration of our providing the Matchbook Services ' +
+      'to you, you agree to all of the terms and conditions contained in this Agreement.</p> <p>Definitions &amp; Interpretation</p> ' +
+      '<p>In this Agreement the following terms shall have the following meanings:</p> <p>&ldquo;this Agreement&rdquo; means these Terms and ' +
+      'Conditions of Use, the Rules and Privacy Policy, collectively; &ldquo;Exchange&rdquo; means the betting exchange operated by Matchbook; ' +
+      '&ldquo;Matchbook&rdquo; means Triplebet Limited, a private limited company duly incorporated with registration number 1827 with its ' +
+      'registered office situated at Inchalla, Le Val, Alderney, GY9 3UL; &ldquo;We/ us/ our&rdquo; means, as appropriate, Matchbook or Matchbook&rsquo;s; ' +
+      '&ldquo;MB Casino&rdquo; ' +
+      'means the online casino available on the Matchbook Website; &ldquo;Matchbook Services&rdquo; mean the betting exchange services made available ' +
+      'by Matchbook on the Matchbook Website; &ldquo;Matchbook Website&rdquo; or &ldquo;Website&rdquo; means the website found at www.matchbook.com, ' +
+      'which is owned and operated by Matchbook, including any other similar URLs used by the desktop and mobile versions of the website; &ldquo;Member&rdquo; ' +
+      'means a person who has successfully registered a user account at the Exchange; &ldquo;Rules&rdquo; mean the practical rules which must be ' +
+      'followed to make a bet and the like at the Exchange; &ldquo;Privacy Policy&rdquo; means our privacy policy as it applies to your personally ' +
+      'identifiable information and related aspects; &ldquo;You&rdquo; means any user of the Website or Member of the Exchange.  </p> <p>In this Agreement:</p> ' +
+      '<p>words in the singular include the plural and vice versa and words in one gender include any other gender; the paragraph headings are for the sake ' +
+      'of convenience only and shall not affect the interpretation of this Agreement.</p> <p>Becoming a Member of the Exchange and MB Casino</p> <p>You may ' +
+      'not use the Exchange and/or MB Casino unless and until you have successfully applied for membership of the Matchbook Website. You will only be deemed ' +
+      'to have successfully applied for membership of the Exchange and MB Casino once you have: applied online at the Website for membership or you have applied ' +
+      'offline through one of our registration agents (not available to customers in Great Britain) or you have applied offline through one of our registration ' +
+      'referrers; accepted the terms of this Agreement; and been issued by us with a member name and password We may, in our absolute discretion, refuse to accept ' +
+      'your application for membership of the Exchange and MB Casino for any or no reason. We shall not be obliged to furnish you with any reasons for such refusal.' +
+      '</p> <p>Trading on the Exchange</p> <p>Matchbook provides a platform upon which you can enter into various betting transactions in relation to the markets ' +
+      'available on our site (&quot;Markets&quot;).</p>' +
+      '<ul><p>You can enter into betting transactions either' +
+      ' </p> <li>on our site (the &quot;Website Service&quot;)</li> <li>through one of our referrers</li><li>through one of our agents (not available to customers in Great o' +
+      ' Britain), or</li> <li>by the Application Programs Interface (&quot;API&quot;). </li> </ul>' +
+      '<p>We provide an API feed that allows clients to access the information available through our site directly via calls to the site. This enables clients ' +
+      'to access the information without having to go via the URL: www.matchbook.com. Clients are free to develop their own program to use the API feed to make calls ' +
+      'to the site in order to place trades.</p><p>The following use of price data or any other data or content from our site or via the API or any other Matchbook ' +
+      'data from any other source (together, &ldquo;Matchbook Data&rdquo;) is strictly prohibited without the specific prior written consent of Triplebet Limited:' +
+      '</p><p>Commercial use by any person; and/or Any use for any purpose by a competitor of Triplebet limited, or an employee, contractor or agent of any such ' +
+      'competitor (&ldquo;Restricted Person&rdquo;), provided always that Restricted Persons may place bets. Screen scraping, web scraping or any other automated ' +
+      'or manual collection of Matchbook Data, for commercial use by any person and/or for any use by a Restricted Person, is expressly prohibited.</p>' +
+      '<p>Your Representations and Warranties</p><p>You hereby represent and warrant (and our decision to grant you membership of the Exchange and MB Casino is ' +
+      'based upon such representations and warranties) that</p><p>you are fully and legally entitled to enter into this Agreement; your entering into this Agreement is ' +
+      'not illegal in your jurisdiction of residence and you will not use the Exchange and/or MB Casino while located in any jurisdiction that prohibits the use of such ' +
+      'services; you are 18 years of age or older; or the age of legal consent for engaging with our services under the laws of the jurisdiction in which you are located ' +
+      'while using the Site, whichever is the higher; unless otherwise agreed by us in writing, you are acting as a principal and not as an agent on behalf of a third ' +
+      'party; all details provided by you to the Exchange and MB Casino are accurate and that you will not take steps to conceal your true identity from the Exchange and MB ' +
+      'Casino by, for example, without limitation, using pseudonyms, false addresses or taking technical steps to conceal your identity or location; your sole aim on opening ' +
+      'an account on our licensed gaming platform is to establish a &lsquo;normal&rsquo; commercial relationship with Triplebet Limited, with the strict purpose of ' +
+      'conducting betting and other gaming and gambling transactions; you understand that you will not receive any interest on any outstanding amount(s) in your account, ' +
+      'and you shall not treat Triplebet Limited as a bank or other financial institution; you are the authorised user of any credit or debit card you use on the Exchange and ' +
+      'MB Casino and that you have never failed to honour ' +
+      'a liability on a bet by attempting to charge back a ' +
+      'payment made by card for betting services; all and any monies utilized by you on the Exchange and MB Casino are the proceeds of or derived from lawful activities.<' +
+      '/p>'
+    }
   }
 };

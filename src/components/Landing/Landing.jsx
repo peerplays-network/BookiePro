@@ -33,7 +33,7 @@ class Landing extends Component{
           <a href>{I18n.t('landing.copyright')}</a>
           <span className='padding-lr-5'> | </span>
           <TermsModal title={ I18n.t('landing.terms') } parentClass='terms' buttonTitle={ I18n.t('landing.terms') }>
-            <HTMLEncodeComponent htmlToRender={ I18n.t('terms_content') } />
+            <HTMLEncodeComponent htmlToRender={ I18n.t('terms_dialogue.content') } />
           </TermsModal>
         </div>
       </div>
