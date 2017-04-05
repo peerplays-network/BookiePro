@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../../assets/images/login-logo.png';
 import { Form } from 'antd';
-import SignUpForm from './Form';
+import SignupForm from './SignupForm';
 import { NavigateActions, RegisterActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -33,7 +33,7 @@ class Signup extends Component {
               <h2 className='margin-tb-25'> {I18n.t('application.welcome_title')} </h2>
               <p className='font18 margin-btm-20'>{I18n.t('signup.new_acc_req_text')}</p>
               <div className='center-ele'>
-                <SignUpForm
+                <SignupForm
                   loadingStatus={ this.props.loadingStatus }
                   onClickLogin={ this.onClickLogin }
                   onSubmit={ this.handleSubmit }

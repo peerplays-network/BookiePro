@@ -6,6 +6,7 @@ import copy from 'copy-to-clipboard'
 import RandomString from 'randomstring'
 import { saveAs } from '../../utility/fileSaver.js';
 import { AccountService } from '../../services';
+import { LoadingStatus } from '../../constants';
 import { I18n }  from 'react-redux-i18n'
 
 //Component to render the plain fields
@@ -57,7 +58,7 @@ const renderRecoveryButtonFields = (fields) => (
   </div>
 )
 
-class SignUpForm extends React.Component {
+class SignupForm extends React.Component {
   //Auto-generate the password before the component mounts
   componentWillMount() {
     this.handleInitialize();
@@ -125,12 +126,11 @@ class SignUpForm extends React.Component {
                   pseudoText={ I18n.t('signup.securely_saved_password_warning') }  tabIndex='5'/>
             </div>
             <div className='form-fields'>
-                <button className='btn btn-regular-disabled grid-100 margin-top-25' type='submit'
+                <button type='submit'
                   className={ 'btn ' + (invalid || submitting || asyncValidating ||
-                  (loadingStatus==='loading' && errors.length===0) ? 'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-25' }
-                disabled={ invalid || submitting || asyncValidating ||
-                  (loadingStatus==='loading' && errors.length===0) }
-                >{ loadingStatus==='loading' && errors.length===0  ? I18n.t('application.loading') : I18n.t('signup.create_account') }</button>
+                  loadingStatus===LoadingStatus.LOADING ? 'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-25' }
+                disabled={ invalid || submitting || asyncValidating || loadingStatus===LoadingStatus.LOADING }
+                >{ loadingStatus===LoadingStatus.LOADING ? I18n.t('application.loading') : I18n.t('signup.create_account') }</button>
             </div>
             <div className='form-fields'>
               <p className='font16'> { I18n.t('signup.already_account') } <a className='underline blue-text' href='#' onClick={ onClickLogin }> { I18n.t('signup.log_in') } </a> </p>
@@ -183,4 +183,4 @@ export default reduxForm({
         });
   },
   asyncBlurFields: [ 'accountName' ]
-})(SignUpForm)
+})(SignupForm)
