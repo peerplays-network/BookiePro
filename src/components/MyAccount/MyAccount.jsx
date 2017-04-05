@@ -239,7 +239,7 @@ class MyAccount extends Component {
 
   renderSettingCard() {
     return (
-      <Card className='bookie-card setting-card'
+      <Card className='bookie-card'
             title={ I18n.t('myAccount.settings') }
             bordered={ false }
             style={ {width: '100%'} }>
@@ -335,17 +335,20 @@ class MyAccount extends Component {
             </div>
           </Col>
         </Row>
-        <Row
-          className='registerComponent'>
-          <button
-            onClick={ this.handleRedirectToChangePwd }
-            className='btn btn-primary margin-tb-30'>
-            { I18n.t('myAccount.change_password') }
-          </button>
-          <button className='btn btn-primary'>
-            { I18n.t('myAccount.create_recovery_file') }
-          </button>
-        </Row>
+        <div className='bottom-div'>
+          <Row
+            className='registerComponent'>
+            <button
+              onClick={ this.handleRedirectToChangePwd }
+              className='btn btn-primary margin-tb-30'>
+              { I18n.t('myAccount.change_password') }
+            </button>
+            <button className='btn btn-primary'>
+              { I18n.t('myAccount.create_recovery_file') }
+            </button>
+          </Row>
+        </div>
+
       </Card>
     );
   }
@@ -353,13 +356,13 @@ class MyAccount extends Component {
   render() {
     const {showDateFields} = this.state;
     return (
-      <div className='my-account'>
+      <div className='my-account section-padding'>
         <Breadcrumb className='bookie-breadcrumb'>
           <Breadcrumb.Item><a
             href='/'>  {I18n.t('myAccount.home')} </a></Breadcrumb.Item>
           <Breadcrumb.Item>{I18n.t('myAccount.my_account')}</Breadcrumb.Item>
         </Breadcrumb>
-        <Row gutter={ 10 }>
+        <Row gutter={ 20 }>
           <Col span={ 8 }>
             <Deposit cardClass='bookie-card' depositAddress={ this.props.depositAddress }/>
           </Col>
