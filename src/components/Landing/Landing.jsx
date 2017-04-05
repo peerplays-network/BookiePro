@@ -34,8 +34,8 @@ class Landing extends Component{
         <div className='footer clearfix'>
           <a href>{I18n.t('landing.copyright')}</a>
           <span className='padding-lr-5'> | </span>
-          <TermsModal title='terms and conditions' parentClass='terms' buttonTitle='terms and conditions'>
-            <HTMLEncodeComponent htmlToRender={ I18n.t('terms') } />
+          <TermsModal title={ I18n.t('landing.terms') } parentClass='terms' buttonTitle={ I18n.t('landing.terms') }>
+            <HTMLEncodeComponent htmlToRender={ I18n.t('terms_content') } />
           </TermsModal>
         </div>
       </div>

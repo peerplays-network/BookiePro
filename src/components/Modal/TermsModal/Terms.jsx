@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'antd';
 
-class Privacy extends Component {
+class Terms extends Component {
   state = {
     visible: false
   };
@@ -24,7 +24,7 @@ class Privacy extends Component {
           wrapClassName={ this.props.parentClass + '-modal' }
           visible={ this.state.visible }
           footer=''
-          width='989'
+          width='747'
           onCancel={ this.handleCancel }
         >
           { this.props.children }
@@ -35,4 +35,4 @@ class Privacy extends Component {
 }
 
 
-export default Privacy;
+export default Terms;
