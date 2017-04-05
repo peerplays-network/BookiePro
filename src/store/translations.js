@@ -69,7 +69,7 @@ export const translationsObject = {
       already_account: 'Already have an account?',
       log_in: 'Log In',
       premium_acc_text: 'This is a premium name. Please enter a regular name containing least one dash, a number or no vowels.',
-      password_no_match: 'Password does not match',
+      password_no_match: 'The password you entered does not match',
       field_req: 'Field is required',
       acc_name_taken: 'Account name is already taken'
     },
@@ -84,9 +84,16 @@ export const translationsObject = {
     },
     changePassword:{
       title: 'Change Your Password',
+      enter_old_password: 'Enter your current password',
+      enter_new_password: 'Enter your new password',
+      confirm_new_password: 'Confirm your new password',
+      current_password: 'Current Password',
+      new_password: 'New Password',
       confirm_password: 'Confirm Password',
+      min_pwd_error: 'Password must be minimum 22 characters long',
       cancel: 'Cancel',
       confirm: 'Confirm',
+      back_to_my_account: 'Back to My Account',
       successText: 'Congratulations! You have successfully' +
       ' changed your password.'
     },

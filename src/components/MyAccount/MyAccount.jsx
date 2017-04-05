@@ -73,6 +73,7 @@ class MyAccount extends Component {
     this.onStartChange = this.onStartChange.bind(this);
     this.onEndChange = this.onEndChange.bind(this);
     this.searchTransactionHistory = this.searchTransactionHistory.bind(this);
+    this.handleRedirectToChangePwd = this.handleRedirectToChangePwd.bind(this);
 
   }
 
@@ -232,6 +233,10 @@ class MyAccount extends Component {
 
   }
 
+  handleRedirectToChangePwd(){
+    this.props.redirectToChangePwd();
+  }
+
   renderSettingCard() {
     return (
       <Card className='bookie-card'
@@ -333,6 +338,7 @@ class MyAccount extends Component {
         <Row
           className='margin-tb-15 registerComponent'>
           <button
+            onClick={ this.handleRedirectToChangePwd }
             className='btn btn-primary margin-tb-15'>
             { I18n.t('myAccount.change_password') }
           </button>
@@ -409,6 +415,7 @@ function mapDispatchToProps(dispatch) {
     updateCurrencyFormat: SettingActions.updateCurrencyFormat,
     getTransactionHistory: AccountActions.getTransactionHistories,
     getDepositAddress: AccountActions.getDepositAddress,
+    redirectToChangePwd: SettingActions.redirectToChangePwd
   }, dispatch)
 }
 
