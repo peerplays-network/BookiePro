@@ -4,8 +4,10 @@ import ComplexBettingWidget from '../ComplexBettingWidget';
 import ComplexBettingWidget2 from '../BettingWidget/ComplexBettingWidget2';
 import Immutable from 'immutable';
 import moment from 'moment'; // TODO: Remove later. For hardcoded data only
+import { BettingMarketGroupPageActions } from '../../actions';
 
-
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 // // dummy data -- bettting market groups
 // {
@@ -79,6 +81,12 @@ const fakeData =
 ///////// HARDCODED DATA ENDS  //////////
 
 class BettingMarketGroup extends Component {
+
+  constructor(props) {
+    super(props);
+    this.props.getData(props.params.objectId);
+  }
+
   render() {
     return (
       <div className='betting-market-group-wrapper'>
@@ -96,4 +104,27 @@ class BettingMarketGroup extends Component {
   }
 }
 
-export default BettingMarketGroup;
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    getData: BettingMarketGroupPageActions.getData,
+  }, dispatch);
+}
+
+const mapStateToProps = (state) => {
+  const eventsById = state.getIn(['event', 'eventsById']);
+  const eventIds = state.getIn(['eventGroupPage', 'eventIds']);
+  const binnedOrderBooksByEvent = state.getIn(['eventGroupPage', 'binnedOrderBooksByEvent']);
+
+  // myEvents = Immutable.List(myEvents);
+
+  return {
+    // sport: state.getIn(['eventGroupPage', 'sportName']),
+    // eventGroup: state.getIn(['eventGroupPage', 'eventGroupName']),
+    // events: myEvents
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BettingMarketGroup);
