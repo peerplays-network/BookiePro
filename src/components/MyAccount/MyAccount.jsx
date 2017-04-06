@@ -47,7 +47,8 @@ class MyAccount extends Component {
       //Since, the default period is 'Last 7 days', we set the initial start and end date accordingly
       startDate:dateFormat(startDate, "yyyy-mm-dd h:MM:ss"),
       endDate:dateFormat(endDate, "yyyy-mm-dd h:MM:ss"),
-      withdrawAmount:''
+      withdrawAmount:'',
+      formName : 'myAccount'
     }
 
     // this.fetchRecentTransactionHistory = this.fetchRecentTransactionHistory.bind(this);
@@ -220,22 +221,9 @@ class MyAccount extends Component {
 
   }
 
+
   handleRedirectToChangePwd(){
     this.props.redirectToChangePwd();
-  }
-
-  handleWithdrawAmtChange(e){
-    let withdrawAmt = e.target.value;
-    if(!isNaN(withdrawAmt)){
-      //If the withdraw amount entered is less than the user's available balance, generate error
-      if((parseFloat(withdrawAmt) > 10) || parseFloat(withdrawAmt) === 0){
-        this.setState({ hasWithdrawAmtErr: true })
-      } else {
-        this.setState({ hasWithdrawAmtErr: false })
-      }
-    } else {
-      this.setState({ hasWithdrawAmtErr: false })
-    }
   }
 
   handleWithdrawSubmit(values){
@@ -363,7 +351,6 @@ class MyAccount extends Component {
 
   render() {
     const {showDateFields} = this.state;
-
     return (
       <div className='my-account section-padding'>
         <Breadcrumb className='bookie-breadcrumb'>
@@ -382,6 +369,7 @@ class MyAccount extends Component {
               onSubmit={ this.handleWithdrawSubmit }
               withdrawLoadingStatus={ this.props.withdrawLoadingStatus }
               withdrawAmount={ this.state.withdrawAmount }
+              formName={ this.state.formName }
               />
           </Col>
           <Col span={ 8 }>
