@@ -362,6 +362,7 @@ class MyAccount extends Component {
 
   render() {
     const {showDateFields} = this.state;
+
     return (
       <div className='my-account section-padding'>
         <Breadcrumb className='bookie-breadcrumb'>
