@@ -7,8 +7,7 @@ import {
   Card,
   Switch,
   Select,
-  Breadcrumb,
-  Form
+  Breadcrumb
 } from 'antd';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
@@ -61,7 +60,8 @@ class MyAccount extends Component {
       showDateFields: false,
       //Since, the default period is 'Last 7 days', we set the initial start and end date accordingly
       startDate:dateFormat(startDate, "yyyy-mm-dd h:MM:ss"),
-      endDate:dateFormat(endDate, "yyyy-mm-dd h:MM:ss")
+      endDate:dateFormat(endDate, "yyyy-mm-dd h:MM:ss"),
+      hasWithdrawAmtErr: false
     }
 
     //this.fetchRecentTransactionHistory = this.fetchRecentTransactionHistory.bind(this);
@@ -69,6 +69,8 @@ class MyAccount extends Component {
     this.handleCurrFormatChange = this.handleCurrFormatChange.bind(this);
     this.handleTimeZoneChange = this.handleTimeZoneChange.bind(this);
     this.handleNotificationChange = this.handleNotificationChange.bind(this);
+    this.handleWithdrawAmtChange = this.handleWithdrawAmtChange.bind(this);
+    this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
 
     this.periodChange = this.periodChange.bind(this);
     this.onStartChange = this.onStartChange.bind(this);
@@ -78,7 +80,7 @@ class MyAccount extends Component {
   }
 
 
-  shouldComponentUpdate(nextProps) {
+  /*shouldComponentUpdate(nextProps) {
     // TODO: change in currentformat wont trigger update in of currentformat in table below... still investigating
     // TODO:  last_irreversible_block_num comparision to optimize  shouldComponentUpdate function
     // let {block, dynGlobalObject} = this.props;
@@ -96,7 +98,7 @@ class MyAccount extends Component {
     //this.fetchRecentTransactionHistory();
 
     return true;
-  }
+  }*/
 
   componentDidMount() {
     isMounted = true;
@@ -233,6 +235,24 @@ class MyAccount extends Component {
 
   }
 
+  handleWithdrawAmtChange(e){
+    let withdrawAmt = e.target.value;
+    if(!isNaN(withdrawAmt)){
+      //If the withdraw amount entered is less than the user's available balance, generate error
+      if((parseFloat(withdrawAmt) > 10) || parseFloat(withdrawAmt) === 0){
+        this.setState({ hasWithdrawAmtErr: true })
+      } else {
+        this.setState({ hasWithdrawAmtErr: false })
+      }
+    } else {
+      this.setState({ hasWithdrawAmtErr: false })
+    }
+  }
+
+  handleWithdrawSubmit(values){
+    this.props.withdraw(values.get('withdrawAmt'), values.get('walletAddr'));
+  }
+
   renderSettingCard() {
     return (
       <Card className='bookie-card'
@@ -348,8 +368,6 @@ class MyAccount extends Component {
   render() {
     const {showDateFields} = this.state;
     const prefix = this.props.currencyFormat === 'BTC' ? 'B' : ( this.props.currencyFormat === 'mBTC' ? 'mB' : '');
-    const WrappedDepositForm = Form.create()(Withdraw);
-
     return (
       <div className='my-account'>
         <Breadcrumb className='bookie-breadcrumb'>
@@ -361,10 +379,16 @@ class MyAccount extends Component {
           <Col span={ 8 }>
             <Deposit cardClass='bookie-card' depositAddress={ this.props.depositAddress }/>
           </Col>
-
           <Col span={ 8 }>
-            <WrappedDepositForm cardClass='bookie-card'
-              prefix={ prefix } availableBalance={ this.props.availableBalance } />
+            <Withdraw cardClass='bookie-card'
+              prefix={ prefix }
+              onWithdrawAmtChange={ this.handleWithdrawAmtChange }
+              hasWithdrawAmtErr={ this.state.hasWithdrawAmtErr }
+              availableBalance={ this.props.availableBalance }
+              onSubmit={ this.handleWithdrawSubmit }
+              withdrawLoadingStatus={ this.props.withdrawLoadingStatus }
+              withdrawCardTitle={ this.props.withdrawCardTitle }
+              />
           </Col>
           <Col span={ 8 }>
             { this.renderSettingCard() }
@@ -393,6 +417,12 @@ const BindedMyAccount = BindToChainState()(MyAccount);
 const mapStateToProps = (state) => {
   const setting = state.get('setting');
   const account = state.get('account');
+  let withdrawCardTitle = '';
+  if(account.get('withdrawLoadingStatus') === 'default')
+    withdrawCardTitle = I18n.t('myAccount.withdraw');
+  if(account.get('withdrawLoadingStatus') === 'done')
+    withdrawCardTitle = 'Withdraw Completed';
+
   return {
     lang: setting.get('lang'),
     timezone: setting.get('timezone'),
@@ -402,7 +432,9 @@ const mapStateToProps = (state) => {
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: account.get('getDepositAddressLoadingStatus'),
     depositAddress: account.get('depositAddress'),
-    availableBalance: account.get('availableBalance')
+    availableBalance: account.get('availableBalance'),
+    withdrawLoadingStatus: account.get('withdrawLoadingStatus'),
+    withdrawCardTitle: withdrawCardTitle
   }
 }
 
@@ -414,7 +446,8 @@ function mapDispatchToProps(dispatch) {
     updateSettingNotification: SettingActions.updateSettingNotification,
     updateCurrencyFormat: SettingActions.updateCurrencyFormat,
     getTransactionHistory: AccountActions.getTransactionHistories,
-    getDepositAddress: AccountActions.getDepositAddress
+    getDepositAddress: AccountActions.getDepositAddress,
+    withdraw: AccountActions.withdraw
   }, dispatch)
 }
 
