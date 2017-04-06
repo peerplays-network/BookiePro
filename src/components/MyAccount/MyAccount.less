@@ -65,27 +65,31 @@
   }
   .bookie-amount-field{
     position: relative;
-  }
-  .icon-m{
-    &::before{
-      position: absolute;
-      color: #00BEF4;
-      font-size:20px;
-      left: 15px;
-      top:7px;
-      content: 'm';
+    &.icon-m{
+      &::before{
+        position: absolute;
+        color: #00BEF4;
+        font-size:20px;
+        left: 15px;
+        top:7px;
+        content: 'm';
+      }
+    }
+    &.icon-bitcoin{
+      &::before{
+        position: absolute;
+        top: 12px;
+        left: 15px;
+        content: '';
+        background-image: url('../../assets/icons/bitcoin_icon.png');
+        width:16px;
+        height:16px;
+        background-size: 16px 16px;
+      }
     }
   }
-  .icon-bitcoin{
-    &::before{
-      top: 12px;
-      content: ‘’;
-      //background-image: url(‘../../assets/icons/bitcoin_icon.png’);
-      width:16px;
-      height:16px;
-      background-size: 16px 16px;
-    }
-  }
+
+
   .bookie-amount{
     text-align: right;
     margin:70px 0 0;
@@ -145,8 +149,7 @@
       padding:0 10px;
       background-image: linear-gradient(-180deg, rgba(23,102,162,0.92) 4%, #134E85  97%);
       box-shadow: 0px 2px 3px 0px #0D3B7B , inset 1px 2px 0px 0px rgba(248,235,218,0.43);cursor:not-allowed; }
-    .copy-btn-disabled{  background-image: linear-gradient(-180deg, rgba(23,102,162,0.92) 4%, #134E85  97%);
-        box-shadow: 0px 2px 3px 0px #0D3B7B , inset 1px 2px 0px 0px rgba(248,235,218,0.43);cursor:not-allowed; }
+    }
   }
   .top-data{
     padding: 0 16px;
@@ -349,6 +352,28 @@
 }
 .withdraw-sucess-amount{
   color: #00BEF4;
+  min-width: 14px;
+  text-align: left;
+  display: inline-block;
+  .icon-bitcoin{
+    background-image: url('../../assets/icons/bitcoin_icon.png');
+    display: inline-block;
+    width: 14px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    vertical-align: -2px;
+    margin-right: -5px;
+    background-position: center;
+  }
+  .icon-m{
+    margin-right: -5px;
+    &::before{
+      color: #00BEF4;
+      font-size:20px;
+      content: 'm';
+    }
+  }
 }
 .ant-pagination-item-active{
   background-color: #1563A0 ;

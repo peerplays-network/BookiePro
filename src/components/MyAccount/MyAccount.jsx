@@ -56,6 +56,7 @@ class MyAccount extends Component {
     this.handleTimeZoneChange = this.handleTimeZoneChange.bind(this);
     this.handleNotificationChange = this.handleNotificationChange.bind(this);
     this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
+
     this.periodChange = this.periodChange.bind(this);
     this.onStartChange = this.onStartChange.bind(this);
     this.onEndChange = this.onEndChange.bind(this);
