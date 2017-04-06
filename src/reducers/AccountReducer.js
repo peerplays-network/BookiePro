@@ -19,7 +19,8 @@ let initialState = Immutable.fromJS({
   changePasswordErrors: [],
   inGameBalancesByAssetId: {},
   availableBalancesByAssetId: {},
-  statistics: {}
+  statistics: {},
+  availableBalance: 0
 });
 
 export default function (state = initialState, action) {
