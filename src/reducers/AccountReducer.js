@@ -16,7 +16,8 @@ let initialState = Immutable.fromJS({
   depositAddress: null,
   inGameBalancesByAssetId: {},
   availableBalancesByAssetId: {},
-  statistics: {}
+  statistics: {},
+  availableBalance: 0
 });
 
 export default function (state = initialState, action) {
@@ -50,6 +51,11 @@ export default function (state = initialState, action) {
       return state.merge({
         depositAddress: action.depositAddress
       });
+    }
+    case ActionTypes.ACCOUNT_SET_BALANCE: {
+      return state.merge({
+        availableBalance: action.availableBalance
+      })
     }
     case ActionTypes.ACCOUNT_SET_TRANSACTION_HISTORIES: {
       return state.merge({

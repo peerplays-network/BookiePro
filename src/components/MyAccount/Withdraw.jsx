@@ -4,13 +4,26 @@ import {
   Card,
   Input
 } from 'antd';
+import { Field, Fields, reduxForm } from 'redux-form/immutable'
+
+
+//Component to render the plain fields
+const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touched, error } }) => (
+  <div>
+      <input autoFocus={ tabIndex === '1' } autoComplete='off'  { ...input }
+         type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
+       { (touched) && error && <span className='errorText'>{error}</span> }
+      { !error && errors && errors.length ? errors.map((err) => { return <span className='errorText' key={ err }>{ err }</span>}) : null }
+  </div>
+);
 
 class Withdraw extends Component{
 
   constructor(props) {
     super(props);
-    this.state = { value: '' };
+    this.state = { value: '', hasAmtFieldErr: false, amtFieldErrMsg: '' };
   }
+
   // allow only numbers and decimal
   onAmountChange = (e) => {
     const { value } = e.target;
@@ -28,16 +41,24 @@ class Withdraw extends Component{
     if (onBlur) {
       onBlur();
     }
+    console.log('Available Balance: ' + this.props.availableBalance);
+    if(this.state.value !==''){
+      let amt = parseFloat(this.state.value);
+      if(amt > this.props.availableBalance)
+        this.setState({ hasAmtFieldErr: true });
+      else
+        this.setState({ hasAmtFieldErr: false });
+    } else {
+      this.setState({ hasAmtFieldErr: false });
+    }
+
+
   }
 
+
+
   render(){
-    const { currencyFormat } = this.props;
-    const prefix = currencyFormat === 'BTC' ? 'B' : ( currencyFormat === 'mBTC' ? 'mB' : '');
-
-    //TEST
-    const errors = [];
-    //errors[0] = 'You do not have sufficient bitcoin to withdraw, your current account balance is xxxBTC';
-
+    const { prefix } = this.props;
     return(
       <Card className={ this.props.cardClass }
             title={ I18n.t('myAccount.withdraw') }>
@@ -53,7 +74,9 @@ class Withdraw extends Component{
               prefix={ prefix }
               value={ this.state.value }
             />
-          { errors && errors.length ? errors.map((err) => { return <span className='errorText' key={ err }>{ err }</span>}) : null }
+              <span className='errorText'>
+                { this.state.hasAmtFieldErr }
+              </span>
           </div>
           <div className='bottom-div'>
             <div
@@ -69,6 +92,8 @@ class Withdraw extends Component{
             </div>
           </div>
         </div>
+
+  
       </Card>
     )
   }
