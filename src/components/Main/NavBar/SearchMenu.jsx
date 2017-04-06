@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu } from 'antd';
+import { Menu, Icon } from 'antd';
 import _ from 'lodash';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
@@ -86,6 +86,7 @@ class SearchMenu extends Component {
     return (
 
       <div className='search-menu'>
+        {/*<Icon type='search'/>*/}
         <Menu
           theme='dark'
         >
@@ -99,7 +100,8 @@ class SearchMenu extends Component {
               valueKey='id'
               labelKey='name'
               loadOptions={ this.getEvents }
-              backspaceRemoves={ this.state.backspaceRemoves } />
+              backspaceRemoves={ this.state.backspaceRemoves }
+              placeholder='Search Team' />
 
           </Menu.Item>
 

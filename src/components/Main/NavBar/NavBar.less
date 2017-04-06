@@ -10,11 +10,13 @@
   top: 0;
   width: 100%;
   z-index:9999;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
   div.logo {
     border-right: solid 1px @nav-bar-divider;
-    padding-top: 5px;
-    text-align: center;
-    line-height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
     img {
       width: 30px;
     }
@@ -30,6 +32,8 @@
     line-height: inherit;
     //float: right;
     display: inline-block;
+    border-bottom:0 none;
+
     li {
       padding:0;
       border-left: solid 1px @nav-bar-divider;
@@ -37,9 +41,9 @@
       color: #00BEF4;
       &.amount {
         a{
-          padding:0 40px;
-          color: #00BEF4;
 
+          color: #00BEF4;
+          font-size:18px;
         }
       }
 
@@ -52,7 +56,6 @@
         span.ant-badge {
           > .anticon {
             padding-bottom: 6px;
-            .anticon;
           }
 
           > sup.ant-badge-count {
@@ -68,12 +71,20 @@
         }
       }
       a{
-        padding:0 20px;
+        //padding:0 20px;
       }
       &>i, &>span{
         padding:0 20px;
       }
     }
+  }
+  .ant-badge-count{
+    top: 0;
+    min-width: 15px;
+    height: 15px;
+    line-height: 15px;
+    padding: 0;
+    margin-left: 1px;
   }
 }
 .ant-dropdown{
@@ -82,7 +93,7 @@
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
     color: #FFFFFF;
     font-size:14px;
-    margin-top:-5px;
+    margin-top:-2px;
     //height: auto;
     border-radius: 0;
     border:0 none;
@@ -143,8 +154,9 @@
       .ant-menu-item{
         padding:0 10px;
         font-size: 16px;
-        height:50px;
-        line-height:50px;
+        height:60px;
+        line-height:60px;
+        transition: none;
         &>a{
           color: #FFFFFF;
           font-size:18px;
@@ -156,6 +168,9 @@
         }
         &.ant-menu-item-selected{
           background-color: rgba(0,78,155,0.20);
+        }
+        &:hover{
+          color: inherit;
         }
       }
     }
@@ -193,5 +208,115 @@
   }
   &:last-child{
     margin-bottom:0;
+  }
+}
+.ant-dropdown-link{
+  padding:0;
+  display: block;
+}
+.icon-main {
+  //padding: 0 15px;
+  display: flex;
+  height: 60px;
+  align-items: center;
+  width:56px;
+  justify-content:center;
+  i{
+    display: block;
+  }
+  &.bitcoin-icon-main{
+    padding:0;
+    width:180px;
+    i{
+      display: inline-block;
+      margin-right:5px;
+    }
+    .ant-dropdown-link{
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.mywager-icon-main{
+  .mywager-icon{
+    background-image: url('../../../assets/mywager_icon.png');
+    width:28px;
+    height:24px;
+  }
+  &:hover{
+    .mywager-icon{
+      background-image: url('../../../assets/mywager_icon_s.png');
+    }
+  }
+}
+
+.deposit-icon-main{
+  .deposit-icon{
+    background-image: url('../../../assets/deposit_icon.png');
+    width:30px;
+    height:30px;
+  }
+  &:hover{
+    .deposit-icon{
+      background-image: url('../../../assets/deposit_icon_s.png');
+    }
+  }
+}
+
+
+.withdraw-icon-main{
+  .withdraw-icon{
+    background-image: url('../../../assets/withdraw_icon.png');
+    width:34px;
+    height:23px;
+  }
+  &:hover{
+    .withdraw-icon{
+      height:24px;
+      background-image: url('../../../assets/withdraw_icon_s.png');
+    }
+  }
+}
+
+.notification-icon-main{
+  .notification-icon{
+    background-image: url('../../../assets/notification_icon.png');
+    width:18px;
+    height:22px;
+    background-repeat: no-repeat;
+  }
+  &:hover{
+    .notification-icon{
+      background-image: url('../../../assets/notification_icon_s.png');
+    }
+  }
+}
+
+.dropdown-icon-main{
+  .dropdown-icon{
+    background-image: url('../../../assets/more_icon.png');
+    width:5px;
+    height:21px;
+    background-repeat: no-repeat;
+  }
+  &:hover{
+    .dropdown-icon{
+      background-image: url('../../../assets/more_icon_s.png');
+    }
+  }
+}
+
+.bitcoin-icon-main{
+  .bitcoin-icon{
+    background-image: url('../../../assets/bitcoin_icon.png');
+    width:32px;
+    height:32px;
+    background-repeat: no-repeat;
+  }
+  &:hover{
+    .bitcoin-icon{
+      background-image: url('../../../assets/bitcoin_icon_s.png');
+    }
   }
 }
