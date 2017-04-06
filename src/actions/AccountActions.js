@@ -173,7 +173,7 @@ class AccountActions {
     };
   }
 
-  static withdraw(walletAddress) {
+  static withdraw(withdrawAmt,walletAddress) {
     return (dispatch) => {
       dispatch(AccountPrivateActions.setWithdrawLoadingStatusAction(LoadingStatus.LOADING));
       CommunicationService.withdraw(walletAddress).then(() => {
