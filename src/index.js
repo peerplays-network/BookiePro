@@ -48,10 +48,9 @@ const routes = (
           <IndexRoute component={ AllSports }/>
           <Route path='Sport/:objectId' component={ Sport }/>
           <Route path='EventGroup/:objectId' component={ EventGroup }/>
-          <Route path='Event/:objectId' component={ SportMarket }/>
+          <Route path=':eventName/:eventId/BettingMarketGroup/:objectId/' component={ BettingMarketGroup }/>
           <Route path='BettingMarketGroup/:objectId' component={ BettingMarketGroup }/>
-          {/* TODO perhaps we just need objectID, objectId itself tells the type of object */}
-          <Route path=':objectId' component={ SportMarket }/>
+
         </Route>
         <Route path='/my-account' component={ MyAccount } />
         <Route path='/change-password' component={ ChangePassword } />

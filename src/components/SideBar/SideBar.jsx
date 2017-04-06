@@ -143,9 +143,9 @@ class SideBar extends Component {
   }
 
   onNodeMouseClick(event, tree, node, level, keyPath) {
-    this.setState({
-      tree: tree
-    });
+    // this.setState({
+    //   tree: tree
+    // });
 
     if ( node.id === '0'){
       this.props.navigateTo('/exchange/');
@@ -153,8 +153,24 @@ class SideBar extends Component {
     // commented for including  node.customComponent in url
     // } else if ( this.props.level && this.props.level === 3){
     //   this.props.navigateTo('/market-screen/' + node.id);
+
     } else {
-      this.props.navigateTo('/exchange/' + node.customComponent.toLowerCase() + '/' + node.id);
+
+      if ( node.customComponent.toLowerCase() === 'event'){
+        const moneyline = node.children.filter(function(mktGroup) {
+          //NOTE if type id is not in string format please change it
+          return mktGroup.market_type_id === 'Moneyline';
+        })
+
+        if ( moneyline.length > 0){
+          this.props.navigateTo('/exchange/bettingmarketgroup/' + moneyline[0].id );
+        } else {
+          this.props.navigateTo('/exchange/' + node.customComponent.toLowerCase() + '/' + node.id);
+        }
+      } else {
+        this.props.navigateTo('/exchange/' + node.customComponent.toLowerCase() + '/' + node.id);
+      }
+
     }
 
   }

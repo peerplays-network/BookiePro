@@ -26,26 +26,27 @@ class App extends Component {
     this.props.connectToBlockchain();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if ( !nextProps.version){
-      return
+  componentDidUpdate(prevProps, prevState){
+
+    //check if the version stored in softwareUpdate changed
+    //we dun want to show the modal upon every route change
+    if ( prevProps && this.props.version && this.props.version !== prevProps.version){
+
+      const newVerNum = this.props.version.split('.');
+      const currentVernNum = this.state.currentVersion.split('.');
+      const needHardUpdate = newVerNum[0] > currentVernNum[0]
+
+      this.setState({ needHardUpdate });
+
+      const needSoftUpdate = ( newVerNum[0] ===  currentVernNum[0] ) && ( newVerNum[1] > currentVernNum[1] )
+
+      this.setState({
+         newVersionModalVisible : (needHardUpdate || needSoftUpdate) &&
+           (StringUtils.compareVersionNumbers(this.state.currentVersion, this.props.version) < 0)
+      });
+
     }
 
-    const newVerNum = nextProps.version.split('.');
-    const currentVernNum = this.state.currentVersion.split('.');
-
-    const needHardUpdate = newVerNum[0] > currentVernNum[0]
-
-    this.setState({ needHardUpdate });
-
-    const needSoftUpdate = ( newVerNum[0] ===  currentVernNum[0] ) && ( newVerNum[1] > currentVernNum[1] )
-    // Update new version modal visible
-    const newVersionModalVisible =  (needHardUpdate || needSoftUpdate) &&
-      (StringUtils.compareVersionNumbers(this.state.currentVersion, nextProps.version) < 0);
-
-    if (this.state.newVersionModalVisible !== newVersionModalVisible) {
-      this.setState({ newVersionModalVisible });
-    }
   }
 
   okWillCloseModal(modalVisible) {
