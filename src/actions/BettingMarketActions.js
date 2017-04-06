@@ -1,6 +1,6 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import Immutable from 'immutable';
-import FakeApi from '../communication/FakeApi';
+import { CommunicationService } from '../services';
 
 class BettingMarketPrivateActions {
   static setGetBettingMarketsByIdsLoadingStatusAction(bettingMarketIds, loadingStatus) {
@@ -10,33 +10,34 @@ class BettingMarketPrivateActions {
       loadingStatus
     }
   }
-}
-
-/**
- * Public actions
- */
-class BettingMarketActions {
   static addBettingMarketsAction(bettingMarkets) {
     return {
       type: ActionTypes.BETTING_MARKET_ADD_BETTING_MARKETS,
       bettingMarkets
     }
   }
+}
 
+/**
+ * Public actions
+ */
+class BettingMarketActions {
+
+  /**
+   * Get betting markets given array of their ids (can be immutable array)
+   */
   static getBettingMarketsByIds(bettingMarketIds) {
     return (dispatch, getState) => {
-      bettingMarketIds = Immutable.List().concat(bettingMarketIds);
-
       let retrievedBettingMarkets = Immutable.List();
       let idsOfBettingMarketsToBeRetrieved = Immutable.List();
 
-      // Get eventIdsBySportId
-      const bettingMarketByIds = getState().getIn(['bettingMarket', 'bettingMarketByIds']);
+      // Check if the data is already inside redux store
+      const bettingMarketsById = getState().getIn(['bettingMarket', 'bettingMarketsById']);
       const getBettingMarketsByIdsLoadingStatus = getState().getIn(['bettingMarket', 'getBettingMarketsByIdsLoadingStatus']);
       bettingMarketIds.forEach( (bettingMarketId) => {
         if (getBettingMarketsByIdsLoadingStatus.get(bettingMarketId) === LoadingStatus.DONE) {
-          if (bettingMarketByIds.has(bettingMarketId)) {
-            retrievedBettingMarkets = retrievedBettingMarkets.concat(bettingMarketByIds.get(bettingMarketId));
+          if (bettingMarketsById.has(bettingMarketId)) {
+            retrievedBettingMarkets = retrievedBettingMarkets.push(bettingMarketsById.get(bettingMarketId));
           }
         } else {
           idsOfBettingMarketsToBeRetrieved = idsOfBettingMarketsToBeRetrieved.push(bettingMarketId);
@@ -44,15 +45,18 @@ class BettingMarketActions {
       })
 
       if (idsOfBettingMarketsToBeRetrieved.size === 0) {
-        // No events to be retrieved
+        // All data is inside redux store, return it
         return Promise.resolve(retrievedBettingMarkets);
       } else {
+        // Some data is in the blockchain, retrieve from blockchain
+        // Set status
         dispatch(BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(idsOfBettingMarketsToBeRetrieved, LoadingStatus.LOADING));
-
-        // TODO: Replace with actual blockchain call
-        return FakeApi.getBettingMarketsByIds(idsOfBettingMarketsToBeRetrieved).then((bettingMarkets) => {
-          dispatch(BettingMarketActions.addBettingMarketsAction(bettingMarkets));
+        return CommunicationService.getObjectsByIds(idsOfBettingMarketsToBeRetrieved).then((bettingMarkets) => {
+          // Add to redux store
+          dispatch(BettingMarketPrivateActions.addBettingMarketsAction(bettingMarkets));
+          // Set status
           dispatch(BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(idsOfBettingMarketsToBeRetrieved, LoadingStatus.DONE));
+          // Concat and return
           return retrievedBettingMarkets.concat(bettingMarkets);
         });
       }

@@ -1,4 +1,3 @@
-import FakeApi from '../communication/FakeApi';
 import { ActionTypes, LoadingStatus } from '../constants';
 import SportActions from './SportActions';
 import EventActions from './EventActions';
@@ -48,6 +47,7 @@ class SportPageActions {
 
       // Get sport detail
       dispatch(SportActions.getSportsByIds([sportId])).then( (sports) => {
+        console.log('sporrt', sports.toJS());
         const sport = sports.get(0);
         const eventGroupIds = sport.get('event_group_ids');
         // Get event group
@@ -70,7 +70,7 @@ class SportPageActions {
         // Get binned order books
         return getBinnedOrderBooksByBettingMarkets(bettingMarkets);
       }).then((result) => {
-        const binnedOrderBooks = groupBinnedOrderBooksByBettingMarketId(_.flatMap(result));
+        const binnedOrderBooks = groupBinnedOrderBooksByBettingMarketId(result);
 
         let binnedOrderBooksByEvent = Immutable.Map();
         retrievedEvents.forEach((event) => {

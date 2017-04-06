@@ -1,16 +1,16 @@
-import FakeApi from '../communication/FakeApi';
+import { CommunicationService } from '../services';
 import _ from 'lodash';
 import Immutable from 'immutable';
 
 const getEventsBySports = (sports) => {
   // Create promise to get events for each sport and call them together
-  return Promise.all(sports.map((sport) => FakeApi.getEvents(sport.get('id'))));
+  return Promise.all(sports.map((sport) => CommunicationService.getEventsBySportIds(sport.get('id'))));
 };
 
 const getBettingMarketGroupsByEvents = (events) => {
   // Concatenate betting market group ids and call get objects api
   const bettingMarketGroupIds = _.flatMap(events, (event) => event.get('betting_market_group_ids').toJS());
-  return FakeApi.getObjects(bettingMarketGroupIds);
+  return CommunicationService.getObjectsByIds(bettingMarketGroupIds);
 }
 
 const getBettingMarketsInBettingMarketGroups = (bettingMarketGroups) => {
@@ -18,12 +18,12 @@ const getBettingMarketsInBettingMarketGroups = (bettingMarketGroups) => {
   const bettingMarketIds = _.flatMap(bettingMarketGroups, (bettingMarketGroup) => {
     return bettingMarketGroup.get('betting_market_ids').toJS()
   });
-  return FakeApi.getObjects(bettingMarketIds);
+  return CommunicationService.getObjectsByIds(bettingMarketIds);
 }
 
 const getBinnedOrderBooksByBettingMarkets = (bettingMarkets) => {
   // Create promise to get Binned Order Books for each market and call them together
-  return Promise.all(bettingMarkets.map((market) => FakeApi.getBinnedOrderBook(market.get('id'), 2)));
+  return Promise.all(bettingMarkets.map((market) => CommunicationService.getBinnedOrderBook(market.get('id'), 2))).then(result => Immutable.fromJS(_.omitBy(result, _.isNil)));
 }
 
 const groupBinnedOrderBooksByBettingMarketId = (binnedOrderBooks) => {

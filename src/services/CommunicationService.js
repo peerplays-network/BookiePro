@@ -5,6 +5,9 @@ import Immutable from 'immutable';
 import { ObjectPrefix } from '../constants';
 import { ChainValidation } from 'graphenejs-lib';
 import _ from 'lodash';
+import dummyData from '../dummyData';
+const TIMEOUT_LENGTH = 500;
+
 const { blockchainTimeStringToDate, getObjectIdPrefix } = BlockchainUtils;
 
 class CommunicationService {
@@ -206,6 +209,227 @@ class CommunicationService {
                     return Immutable.fromJS(history);
                   });
   }
+
+  /**
+   * Get all sports
+   */
+  static getAllSports() {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(Immutable.fromJS(dummyData.sports));
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get event groups given array of sport ids (can be immutable)
+   */
+  static getEventGroupsBySportIds(sportIds) {
+    // TODO: Replace later
+    const promises = sportIds.map( (sportId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const filteredResult = _.filter(dummyData.eventGroups, (item) => {
+            return item.sport_id === sportId;
+          });
+          resolve(filteredResult);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( result => {
+      return Immutable.fromJS(_.flatten(result));
+    });
+  }
+
+
+  /**
+   * Get events given array of sport ids (can be immutable)
+   */
+  static getEventsBySportIds(sportIds) {
+    // TODO: Replace later
+    const promises = sportIds.map( (sportId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const filteredResult = _.filter(dummyData.events, (item) => {
+            return item.sport_id === sportId;
+          });
+          resolve(filteredResult);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( result => {
+      return Immutable.fromJS(_.flatten(result));
+    });
+  }
+
+  /**
+   * Get comeptitors given array of sport ids (can be immutable)
+   */
+  static getCompetitorsBySportIds(sportIds) {
+    // TODO: Replace later
+    const promises = sportIds.map( (sportId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const filteredResult = _.filter(dummyData.competitors, (item) => {
+            return item.sport_id === sportId;
+          });
+          resolve(filteredResult);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( result => {
+      return Immutable.fromJS(_.flatten(result));
+    });
+  }
+
+
+
+  /**
+   * Search events given keyword
+   */
+  static searchEvents(keyword) {
+    // TODO: Replace Later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = _.filter(dummyData.events, (item) => {
+          const team1Name = item.name.split(' vs ')[0];
+          const team2Name = item.name.split(' vs ')[1];
+
+          const keywordLowerCase = keyword.toLowerCase();
+
+          const team1FirstName = team1Name.split(' ')[0].toLowerCase();
+          const team2FirstName = team2Name.split(' ')[0].toLowerCase();
+          return team1FirstName.startsWith(keywordLowerCase) || team2FirstName.startsWith(keywordLowerCase);
+
+        });
+        resolve(Immutable.fromJS(filteredResult));
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+
+
+  /**
+   * Get any blockchain object given their id
+   */
+  static getObjectsByIds(arrayOfObjectIds = []) {
+    // TODO: Replace Later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = [];
+        // Iterate every object in dummy data to find the matching object
+        let allObjects = [];
+        _.forEach(dummyData, (item) => {
+          allObjects = _.concat(allObjects, item);
+        })
+        _.forEach(allObjects, (item) => {
+          if (arrayOfObjectIds.includes(item.id)) {
+            filteredResult.push(item);
+          }
+        })
+        resolve(Immutable.fromJS(filteredResult));
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get ongoing bets (unmatched and matched bets)
+   */
+  static getOngoingBets(accountId) {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = _.filter(dummyData.bets, (item) => {
+          return item.bettor_id === accountId;
+        });
+        resolve(Immutable.fromJS(filteredResult));
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get resolved bets
+   */
+  static getResolvedBets(accountId, startTime, stopTime) {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        // TODO: still pending the format of resolved bets
+        resolve(Immutable.List());
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get binned order books
+   */
+  static getBinnedOrderBook(bettingMarketId, binning_precision) {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        let result = null;
+        dummyData.binnedOrderBooks.forEach((orderBook) => {
+          if (orderBook.betting_market_id === bettingMarketId) {
+            result = orderBook;
+            return false;
+          }
+        });
+
+        resolve(Immutable.fromJS(result));
+      }, TIMEOUT_LENGTH);
+    })
+  }
+
+  /**
+   * Withdraw money
+   */
+  static withdraw(walletAddress) {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get deposit address
+   */
+  static getDepositAddress(accountId) {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('THISISDUMMYDEPOSITADDRESSFORANYACCOUNTID');
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get global betting statistics
+   */
+  static getGlobalBettingStatistics() {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(Immutable.fromJS(dummyData.globalBettingStatistics));
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get transaction history of an account
+   */
+  static getTransactionHistories(accountId, startTime, stopTime) {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        // TODO: do it later, pending for confirmation from Dan
+        resolve([]);
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
 }
 
 export default CommunicationService;

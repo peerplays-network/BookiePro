@@ -1,6 +1,3 @@
-import _ from 'lodash';
-import Immutable from 'immutable';
-
 const transactionHistories = [{
   'id': 'TX#0000001',
   'description': 'Deposit',
@@ -356,5 +353,4 @@ const transactionHistories = [{
 
 ]
 
-const immutableTransactionHistories = _.map(transactionHistories, history => Immutable.fromJS(history));
-export default immutableTransactionHistories;
+export default transactionHistories;

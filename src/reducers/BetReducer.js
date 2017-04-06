@@ -6,6 +6,9 @@ import Immutable from 'immutable';
 let initialState = Immutable.fromJS({
   getOngoingBetsLoadingStatus: LoadingStatus.DEFAULT,
   getResolvedBetsLoadingStatus: LoadingStatus.DEFAULT,
+  makeBetsLoadingStatus: LoadingStatus.DEFAULT,
+  editBetsByIdsLoadingStatus: {},
+  cancelBetsByIdsLoadingStatus: {},
   unmatchedBets: [],
   matchedBets: [],
   resolvedBets: []
@@ -28,30 +31,38 @@ export default function (state = initialState, action) {
         makeBetsLoadingStatus: action.loadingStatus
       });
     }
-    case ActionTypes.BET_SET_CANCEL_BETS_LOADING_STATUS: {
-      return state.merge({
-        cancelBetsLoadingStatus: action.loadingStatus
-      });
+    case ActionTypes.BET_SET_CANCEL_BETS_BY_IDS_LOADING_STATUS: {
+      let cancelBetsByIdsLoadingStatus = Immutable.Map();
+      action.betIds.forEach( betId => {
+        cancelBetsByIdsLoadingStatus = cancelBetsByIdsLoadingStatus.set(betId, action.loadingStatus);
+      })
+      return state.mergeIn(['cancelBetsByIdsLoadingStatus'], cancelBetsByIdsLoadingStatus);
     }
-    case ActionTypes.BET_ADD_ONGOING_BETS: {
-      const unmatchedBets = [];
-      const matchedBets = [];
+    case ActionTypes.BET_SET_EDIT_BETS_BY_IDS_LOADING_STATUS: {
+      let editBetsByIdsLoadingStatus = Immutable.Map();
+      action.betIds.forEach( betId => {
+        editBetsByIdsLoadingStatus = editBetsByIdsLoadingStatus.set(betId, action.loadingStatus);
+      })
+      return state.mergeIn(['editBetsByIdsLoadingStatus'], editBetsByIdsLoadingStatus);
+    }
+    case ActionTypes.BET_SET_ONGOING_BETS: {
+      let unmatchedBets = Immutable.List();
+      let matchedBets = Immutable.List();
       // Split ongoing bets to unmatched and matched bets
-      _.forEach(action.ongoingBets, (bet) => {
+      action.ongoingBets.forEach((bet) => {
         if (bet.get('amount_to_bet') === bet.get('remaining_amount_to_bet')
           && bet.get('amount_to_win') === bet.get('remaining_amount_to_win')) {
-          unmatchedBets.push(bet);
+          unmatchedBets = unmatchedBets.push(bet);
         } else {
-          matchedBets.push(bet);
+          matchedBets = matchedBets.push(bet);
         }
       })
-
       return state.merge({
         matchedBets,
         unmatchedBets
       });
     }
-    case ActionTypes.BET_ADD_RESOLVED_BETS: {
+    case ActionTypes.BET_SET_RESOLVED_BETS: {
       return state.merge({
         resolvedBets: action.resolvedBets
       });

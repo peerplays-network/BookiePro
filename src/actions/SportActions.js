@@ -1,14 +1,14 @@
-import FakeApi from '../communication/FakeApi';
 import { LoadingStatus, ActionTypes } from '../constants';
 import Immutable from 'immutable';
+import { CommunicationService } from '../services';
 
 /**
  * Private actions
  */
 class SportPrivateActions {
-  static setGetSportsLoadingStatusAction(loadingStatus) {
+  static setGetAllSportsLoadingStatusAction(loadingStatus) {
     return {
-      type: ActionTypes.SPORT_SET_GET_SPORTS_LOADING_STATUS,
+      type: ActionTypes.SPORT_SET_GET_ALL_SPORTS_LOADING_STATUS,
       loadingStatus
     }
   }
@@ -19,34 +19,40 @@ class SportPrivateActions {
       loadingStatus
     }
   }
-}
 
-/**
- * Public actions
- */
-class SportActions {
   static addSportsAction(sports) {
     return {
       type: ActionTypes.SPORT_ADD_SPORTS,
       sports
     }
   }
+}
 
+/**
+ * Public actions
+ */
+class SportActions {
+
+  /**
+   * Get all sports
+   */
   static getAllSports() {
     return (dispatch, getState) => {
-      const getSportsLoadingStatus = getState().getIn(['sport', 'getSportsLoadingStatus']);
+      const getAllSportsLoadingStatus = getState().getIn(['sport', 'getAllSportsLoadingStatus']);
       // Fetch sports only if it is not retrived yet
-      if (getSportsLoadingStatus === LoadingStatus.DONE) {
+      if (getAllSportsLoadingStatus === LoadingStatus.DONE) {
         // Return the stored sports
         const sports = getState().getIn(['sport', 'sportsById']).toList();
         return Promise.resolve(sports);
       } else {
         // Retrieve sports from blockchain
-        dispatch(SportPrivateActions.setGetSportsLoadingStatusAction(LoadingStatus.LOADING));
-        // TODO: Replace with actual blockchain call
-        return FakeApi.getSports().then((sports) => {
-          dispatch(SportActions.addSportsAction(sports));
-          dispatch(SportPrivateActions.setGetSportsLoadingStatusAction(LoadingStatus.DONE));
+        // Set status
+        dispatch(SportPrivateActions.setGetAllSportsLoadingStatusAction(LoadingStatus.LOADING));
+        return CommunicationService.getAllSports().then((sports) => {
+          // Add data
+          dispatch(SportPrivateActions.addSportsAction(sports));
+          // Set status
+          dispatch(SportPrivateActions.setGetAllSportsLoadingStatusAction(LoadingStatus.DONE));
           const sportIds = sports.map(sport => sport.get('id'));
           dispatch(SportPrivateActions.setGetSportsByIdsLoadingStatusAction(sportIds, LoadingStatus.DONE));
           return Immutable.fromJS(sports);
@@ -55,6 +61,9 @@ class SportActions {
     };
   }
 
+  /**
+   * Get sports given array of sportIds (can be immutable array)
+   */
   static getSportsByIds(sportIds) {
     return (dispatch, getState) => {
       sportIds = Immutable.List().concat(sportIds);
@@ -62,12 +71,13 @@ class SportActions {
       let retrievedSports = Immutable.List();
       let idsOfSportsToBeRetrieved = Immutable.List();
 
+      // Check if the requested data is already inside redux store
       const getSportsByIdsLoadingStatus = getState().getIn(['sport', 'getSportsByIdsLoadingStatus']);
       const sportsById = getState().getIn(['sport', 'sportsById']);;
       sportIds.forEach( sportId => {
         if (getSportsByIdsLoadingStatus.get(sportId) === LoadingStatus.DONE) {
           if (sportsById.has(sportId)) {
-            retrievedSports = retrievedSports.concat(sportsById.get(sportId));
+            retrievedSports = retrievedSports.push(sportsById.get(sportId));
           }
         } else {
           idsOfSportsToBeRetrieved = idsOfSportsToBeRetrieved.push(sportId);
@@ -75,14 +85,19 @@ class SportActions {
       })
 
       if (idsOfSportsToBeRetrieved.size === 0) {
-        // No sports to be retrieved
+        // No sports to be retrieved from blockchain, return retrieved data from redux store
         return Promise.resolve(retrievedSports);
       } else {
+        // Retrieve sports from blockchain
+        // Set status
         dispatch(SportPrivateActions.setGetSportsByIdsLoadingStatusAction(idsOfSportsToBeRetrieved, LoadingStatus.LOADING));
-        // TODO: Replace with actual blockchain call
-        return FakeApi.getSportsByIds(idsOfSportsToBeRetrieved).then((sports) => {
-          dispatch(SportActions.addSportsAction(sports));
+        return CommunicationService.getObjectsByIds(idsOfSportsToBeRetrieved).then((sports) => {
+          console.log(' retrieved', sports.toJS());
+          // Add sports
+          dispatch(SportPrivateActions.addSportsAction(sports));
+          // Set status
           dispatch(SportPrivateActions.setGetSportsByIdsLoadingStatusAction(idsOfSportsToBeRetrieved, LoadingStatus.DONE));
+          // Combine list and return the result
           return retrievedSports.concat(sports);
         });
       }

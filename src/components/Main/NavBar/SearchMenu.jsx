@@ -6,8 +6,8 @@ import 'react-select/dist/react-select.css';
 
 import './SearchMenu.less';
 
-import FakeApi from '../../../communication/FakeApi';
 import { NavigateActions } from '../../../actions';
+import { CommunicationService } from '../../../services';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 import Immutable from 'immutable';
@@ -63,12 +63,10 @@ class SearchMenu extends Component {
   	}
 
     //API search call
-    return FakeApi.searchEvents(input).then((events) => {
+    return CommunicationService.searchEvents(input).then((events) => {
 
       // console.log(events)
-      events = events.map(function(item) {
-        return item.toJS()
-      });
+      events = events.toJS();
       // console.log(events)
 
       return { options: events };

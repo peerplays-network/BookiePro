@@ -4,16 +4,16 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
-  getSportsLoadingStatus: LoadingStatus.DEFAULT,
+  getAllSportsLoadingStatus: LoadingStatus.DEFAULT,
   getSportsByIdsLoadingStatus: {},
   sportsById: {}
 });
 
 export default function (state = initialState, action) {
   switch(action.type) {
-    case ActionTypes.SPORT_SET_GET_SPORTS_LOADING_STATUS: {
+    case ActionTypes.SPORT_SET_GET_ALL_SPORTS_LOADING_STATUS: {
       return state.merge({
-        getSportsLoadingStatus: action.loadingStatus
+        getAllSportsLoadingStatus: action.loadingStatus
       });
     }
     case ActionTypes.SPORT_SET_GET_SPORTS_BY_IDS_LOADING_STATUS: {

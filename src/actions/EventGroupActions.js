@@ -1,4 +1,4 @@
-import FakeApi from '../communication/FakeApi';
+import { CommunicationService } from '../services';
 import { LoadingStatus, ActionTypes } from '../constants';
 import Immutable from 'immutable';
 
@@ -6,12 +6,6 @@ import Immutable from 'immutable';
  * Private actions
  */
 class EventGroupPrivateActions {
-  static setGetEventGroupsLoadingStatusAction(loadingStatus) {
-    return {
-      type: ActionTypes.EVENT_GROUP_SET_GET_EVENT_GROUPS_LOADING_STATUS,
-      loadingStatus
-    }
-  }
   static setGetEventGroupsBySportIdsLoadingStatusAction(sportIds, loadingStatus) {
     return {
       type: ActionTypes.EVENT_GROUP_SET_GET_EVENT_GROUPS_BY_SPORT_IDS_LOADING_STATUS,
@@ -26,36 +20,25 @@ class EventGroupPrivateActions {
       loadingStatus
     }
   }
-}
 
-/**
- * Public actions
- */
-class EventGroupActions {
   static addEventGroupsAction(eventGroups) {
     return {
       type: ActionTypes.EVENT_GROUP_ADD_EVENT_GROUPS,
       eventGroups
     }
   }
+}
 
-  static getEventGroups(sportId) {
-    return (dispatch) => {
-      dispatch(EventGroupPrivateActions.setGetEventGroupsLoadingStatus(LoadingStatus.LOADING));
+/**
+ * Public actions
+ */
+class EventGroupActions {
 
-      // TODO: Replace with actual blockchain call
-      FakeApi.getEventGroups(sportId).then((eventGroups) => {
-        dispatch(EventGroupActions.addEventGroupsAction(eventGroups));
-        dispatch(EventGroupPrivateActions.setGetEventGroupsLoadingStatus(LoadingStatus.DONE));
-      });
-
-    };
-  }
-
+  /**
+   * Get event groups given array of sport ids (can be immutable)
+   */
   static getEventGroupsBySportIds(sportIds) {
     return (dispatch, getState) => {
-      sportIds = Immutable.List().concat(sportIds);
-
       let retrievedEventGroups = Immutable.List();
       let sportIdsOfEventGroupsToBeRetrieved = Immutable.List();
 
@@ -70,11 +53,12 @@ class EventGroupActions {
         })
       })
 
+      // Check if the requested data is already inside redux store
       const getEventGroupsBySportIdsLoadingStatus = getState().getIn(['eventGroup', 'getEventGroupsBySportIdsLoadingStatus']);
       sportIds.forEach( sportId => {
         if (getEventGroupsBySportIdsLoadingStatus.get(sportId) === LoadingStatus.DONE) {
           if (eventGroupsBySportId.has(sportId)) {
-            retrievedEventGroups = retrievedEventGroups.concat(eventGroupsBySportId.get(sportId));
+            retrievedEventGroups = retrievedEventGroups.push(eventGroupsBySportId.get(sportId));
           }
         } else {
           sportIdsOfEventGroupsToBeRetrieved = sportIdsOfEventGroupsToBeRetrieved.push(sportId);
@@ -82,17 +66,20 @@ class EventGroupActions {
       })
 
       if (sportIdsOfEventGroupsToBeRetrieved.size === 0) {
-        // No eventGroups to be retrieved
+        // No event groups to be retrieved from blockchain, return retrieved data from redux store
         return Promise.resolve(retrievedEventGroups);
       } else {
+        // Retrieve from blockchain
+        // Set status
         dispatch(EventGroupPrivateActions.setGetEventGroupsBySportIdsLoadingStatusAction(sportIdsOfEventGroupsToBeRetrieved, LoadingStatus.LOADING));
-
-        // TODO: Replace with actual blockchain call
-        return FakeApi.getEventGroupsBySportIds(sportIdsOfEventGroupsToBeRetrieved).then((eventGroups) => {
-          dispatch(EventGroupActions.addEventGroupsAction(eventGroups));
+        return CommunicationService.getEventGroupsBySportIds(sportIdsOfEventGroupsToBeRetrieved).then((eventGroups) => {
+          // Add to redux store
+          dispatch(EventGroupPrivateActions.addEventGroupsAction(eventGroups));
+          // Set status
           dispatch(EventGroupPrivateActions.setGetEventGroupsBySportIdsLoadingStatusAction(sportIdsOfEventGroupsToBeRetrieved, LoadingStatus.DONE));
           const eventGroupIds = eventGroups.map( eventGroup => eventGroup.get('id'));
           dispatch(EventGroupPrivateActions.setGetEventGroupsByIdsLoadingStatusAction(eventGroupIds, LoadingStatus.DONE));
+          // Concat with retrieved result from redux store
           return retrievedEventGroups.concat(eventGroups);
         });
       }
@@ -101,19 +88,21 @@ class EventGroupActions {
     };
   }
 
+  /**
+   * Get event groups given array of their ids (can be immutable)
+   */
   static getEventGroupsByIds(eventGroupIds) {
     return (dispatch, getState) => {
-      eventGroupIds = Immutable.List().concat(eventGroupIds);
-
       let retrievedEventGroups = Immutable.List();
       let idsOfEventGroupsToBeRetrieved = Immutable.List();
 
-      const getEventGroupsByIdsLoadingStatus = getState().getIn(['eventGroup', 'getEventGroupsByIdsLoadingStatus']);
+      // Check if the requested data is already inside redux store
       const eventGroupsById = getState().getIn(['eventGroup', 'eventGroupsById']);;
+      const getEventGroupsByIdsLoadingStatus = getState().getIn(['eventGroup', 'getEventGroupsByIdsLoadingStatus']);
       eventGroupIds.forEach( eventGroupId => {
         if (getEventGroupsByIdsLoadingStatus.get(eventGroupId) === LoadingStatus.DONE) {
           if (eventGroupsById.has(eventGroupId)) {
-            retrievedEventGroups = retrievedEventGroups.concat(eventGroupsById.get(eventGroupId));
+            retrievedEventGroups = retrievedEventGroups.push(eventGroupsById.get(eventGroupId));
           }
         } else {
           idsOfEventGroupsToBeRetrieved = idsOfEventGroupsToBeRetrieved.push(eventGroupId);
@@ -121,15 +110,17 @@ class EventGroupActions {
       })
 
       if (idsOfEventGroupsToBeRetrieved.size === 0) {
-        // No eventGroups to be retrieved
+        // No Event Groups to be retrieved, return data from redux store
         return Promise.resolve(retrievedEventGroups);
       } else {
+        // Set status
         dispatch(EventGroupPrivateActions.setGetEventGroupsByIdsLoadingStatusAction(idsOfEventGroupsToBeRetrieved, LoadingStatus.LOADING));
-
-        // TODO: Replace with actual blockchain call
-        return FakeApi.getEventGroupsByIds(idsOfEventGroupsToBeRetrieved).then((eventGroups) => {
-          dispatch(EventGroupActions.addEventGroupsAction(eventGroups));
+        return CommunicationService.getObjectsByIds(idsOfEventGroupsToBeRetrieved).then((eventGroups) => {
+          // Add to redux store
+          dispatch(EventGroupPrivateActions.addEventGroupsAction(eventGroups));
+          // Set status
           dispatch(EventGroupPrivateActions.setGetEventGroupsByIdsLoadingStatusAction(idsOfEventGroupsToBeRetrieved, LoadingStatus.DONE));
+          // Concat with the retrieved data and return
           return retrievedEventGroups.concat(eventGroups);
         });
       }

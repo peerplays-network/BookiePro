@@ -10,19 +10,18 @@ let initialState = Immutable.fromJS({
 export default function (state = initialState, action) {
   switch(action.type) {
     case ActionTypes.BETTING_MARKET_ADD_BETTING_MARKETS: {
-      const bettingMarketsById = _.keyBy(action.bettingMarkets, bettingMarket => bettingMarket.get('id'));
-      return state.merge({
-        bettingMarketsById
-      });
+      let bettingMarketsById = Immutable.Map();
+      action.bettingMarkets.forEach( bettingMarket => {
+        bettingMarketsById = bettingMarketsById.set(bettingMarket.get('id'), bettingMarket);
+      })
+      return state.mergeIn(['bettingMarketsById'], bettingMarketsById);
     }
     case ActionTypes.BETTING_MARKET_GROUP_SET_GET_BETTING_MARKETS_BY_IDS_LOADING_STATUS: {
       let getBettingMarketsByIdsLoadingStatus = Immutable.Map();
       action.bettingMarketGroupIds.forEach( id => {
         getBettingMarketsByIdsLoadingStatus = getBettingMarketsByIdsLoadingStatus.set(id, action.loadingStatus);
       })
-      return state.merge({
-        getBettingMarketsByIdsLoadingStatus
-      });
+      return state.mergeIn(['getBettingMarketsByIdsLoadingStatus'], getBettingMarketsByIdsLoadingStatus);
     }
     default:
       return state;

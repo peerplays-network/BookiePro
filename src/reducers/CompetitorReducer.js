@@ -25,10 +25,11 @@ export default function (state = initialState, action) {
       return state.mergeIn(['getCompetitorsByIdsLoadingStatus'], getCompetitorsByIdsLoadingStatus);
     }
     case ActionTypes.COMPETITOR_ADD_COMPETITORS: {
-      const competitorsById = _.keyBy(action.competitors, competitor => competitor.get('id'));
-      return state.merge({
-        competitorsById
-      });
+      let competitorsById = Immutable.Map();
+      action.competitors.forEach( competitor => {
+        competitorsById = competitorsById.set(competitor.get('id'), competitor);
+      })
+      return state.mergeIn(['competitorsById'], competitorsById);
     }
     default:
       return state;

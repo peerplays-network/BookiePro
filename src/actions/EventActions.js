@@ -1,4 +1,4 @@
-import FakeApi from '../communication/FakeApi';
+import { CommunicationService } from '../services';
 import { LoadingStatus, ActionTypes } from '../constants';
 import Immutable from 'immutable';
 
@@ -35,23 +35,25 @@ class EventPrivateActions {
       searchResult
     }
   }
-}
 
-/**
- * Public actions
- */
-class EventActions {
   static addEventsAction(events) {
     return {
       type: ActionTypes.EVENT_ADD_EVENTS,
       events
     }
   }
+}
 
+/**
+ * Public actions
+ */
+class EventActions {
+
+  /**
+   * Get events given array of sport ids (can be immutable)
+   */
   static getEventsBySportIds(sportIds) {
     return (dispatch, getState) => {
-      sportIds = Immutable.List().concat(sportIds);
-
       let retrievedEvents = Immutable.List();
       let sportIdsOfEventsToBeRetrieved = Immutable.List();
 
@@ -66,6 +68,7 @@ class EventActions {
         })
       })
 
+      // Check if the requested data is already inside redux store
       const getEventsBySportIdsLoadingStatus = getState().getIn(['event', 'getEventsBySportIdsLoadingStatus']);
       sportIds.forEach( sportId => {
         if (getEventsBySportIdsLoadingStatus.get(sportId) === LoadingStatus.DONE) {
@@ -78,30 +81,37 @@ class EventActions {
       })
 
       if (sportIdsOfEventsToBeRetrieved.size === 0) {
-        // No events to be retrieved
+        // No events to be retrieved from blockchain, return retrieved data from redux store
         return Promise.resolve(retrievedEvents);
       } else {
+        // Retrieve data from blockchain
+        // Set status
         dispatch(EventPrivateActions.setGetEventsBySportIdsLoadingStatusAction(sportIdsOfEventsToBeRetrieved, LoadingStatus.LOADING));
-
-        // TODO: Replace with actual blockchain call
-        return FakeApi.getEventsBySportIds(sportIdsOfEventsToBeRetrieved).then((events) => {
-          dispatch(EventActions.addEventsAction(events));
+        return CommunicationService.getEventsBySportIds(sportIdsOfEventsToBeRetrieved).then((events) => {
+          // Add data to redux store
+          dispatch(EventPrivateActions.addEventsAction(events));
+          // Set status
           dispatch(EventPrivateActions.setGetEventsBySportIdsLoadingStatusAction(sportIdsOfEventsToBeRetrieved, LoadingStatus.DONE));
+          const eventIds = events.map( event => event.get('id'));
+          dispatch(EventPrivateActions.setGetEventsByIdsLoadingStatusAction(eventIds, LoadingStatus.DONE));
+          // Concat with retrieved data from redux store
           return retrievedEvents.concat(events);
         });
       }
     };
   }
 
+  /**
+   * Get events given array of ids (can be immutable)
+   */
   static getEventsByIds(eventIds) {
     return (dispatch, getState) => {
-      eventIds = Immutable.List().concat(eventIds);
-
       let retrievedEvents = Immutable.List();
       let idsOfEventsToBeRetrieved = Immutable.List();
 
-      const getEventsByIdsLoadingStatus = getState().getIn(['event', 'getEventsByIdsLoadingStatus']);
+      // Check if the requested data is already inside redux store
       const eventsById = getState().getIn(['event', 'eventsById']);;
+      const getEventsByIdsLoadingStatus = getState().getIn(['event', 'getEventsByIdsLoadingStatus']);
       eventIds.forEach( eventId => {
         if (getEventsByIdsLoadingStatus.get(eventId) === LoadingStatus.DONE) {
           if (eventsById.has(eventId)) {
@@ -113,36 +123,47 @@ class EventActions {
       })
 
       if (idsOfEventsToBeRetrieved.size === 0) {
-        // No events to be retrieved
+        // No events to be retrieved, return data from redux store
         return Promise.resolve(retrievedEvents);
       } else {
+        // Retrieve from blockchain
+        // Set status
         dispatch(EventPrivateActions.setGetEventsByIdsLoadingStatusAction(idsOfEventsToBeRetrieved, LoadingStatus.LOADING));
-
-        // TODO: Replace with actual blockchain call
-        return FakeApi.getEventsByIds(idsOfEventsToBeRetrieved).then((events) => {
-          dispatch(EventActions.addEventsAction(events));
+        return CommunicationService.getObjectsByIds(idsOfEventsToBeRetrieved).then((events) => {
+          // Add to redux store
+          dispatch(EventPrivateActions.addEventsAction(events));
+          // Set status
           dispatch(EventPrivateActions.setGetEventsByIdsLoadingStatusAction(idsOfEventsToBeRetrieved, LoadingStatus.DONE));
+          // Concat with retrieved data from redux store
           return retrievedEvents.concat(events);
         });
       }
     };
   }
 
+  /**
+   * Search events given keyword
+   */
   static searchEvents(keyword) {
     return (dispatch) => {
+      // Set status
       dispatch(EventPrivateActions.setSearchEventsLoadingStatusAction(LoadingStatus.LOADING));
-
-      // TODO: Replace with actual blockchain call
-      FakeApi.searchEvents(keyword).then((result) => {
+      // Ask blockchain
+      CommunicationService.searchEvents(keyword).then((result) => {
+        // Set data to redux store
         dispatch(EventPrivateActions.setSearchResultAction(result));
+        // Set status
         dispatch(EventPrivateActions.setSearchEventsLoadingStatusAction(LoadingStatus.DONE));
       });
     }
   }
 
+  /**
+   * Clear search result
+   */
   static clearSearchResult() {
     return (dispatch) => {
-      dispatch(EventPrivateActions.setSearchResultAction([]));
+      dispatch(EventPrivateActions.setSearchResultAction(Immutable.List()));
     }
   }
 }

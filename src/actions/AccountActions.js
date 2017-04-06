@@ -1,7 +1,6 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import { BlockchainUtils } from '../utility';
-import { WalletService, AccountService, KeyGeneratorService } from '../services';
-import FakeApi from '../communication/FakeApi';
+import { WalletService, AccountService, KeyGeneratorService, CommunicationService } from '../services';
 import { TransactionBuilder, FetchChain } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
 
@@ -156,7 +155,7 @@ class AccountActions {
 
       dispatch(AccountPrivateActions.setGetTransactionHistoriesLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call
-      FakeApi.getTransactionHistory(accountId, startTime, stopTime).then((transactionHistories) => {
+      CommunicationService.getTransactionHistories(accountId, startTime, stopTime).then((transactionHistories) => {
         dispatch(AccountPrivateActions.setTransactionHistoriesAction(transactionHistories));
         dispatch(AccountPrivateActions.setGetTransactionHistoriesLoadingStatusAction(LoadingStatus.DONE));
       });
@@ -169,7 +168,7 @@ class AccountActions {
 
       dispatch(AccountPrivateActions.setGetDepositAddressLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call
-      FakeApi.getDepositAddress(accountId).then((depositAddress) => {
+      CommunicationService.getDepositAddress(accountId).then((depositAddress) => {
         dispatch(AccountPrivateActions.setDepositAddressAction(depositAddress));
         dispatch(AccountPrivateActions.setGetDepositAddressLoadingStatusAction(LoadingStatus.DONE));
       });
@@ -180,7 +179,7 @@ class AccountActions {
     return (dispatch) => {
       dispatch(AccountPrivateActions.setWithdrawLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call
-      FakeApi.withdraw(walletAddress).then(() => {
+      CommunicationService.withdraw(walletAddress).then(() => {
         dispatch(AccountPrivateActions.setWithdrawLoadingStatusAction(LoadingStatus.DONE));
       });
     };

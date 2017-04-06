@@ -1,6 +1,6 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import Immutable from 'immutable';
-import FakeApi from '../communication/FakeApi';
+import { CommunicationService } from '../services';
 
 class BettingMarketGroupPrivateActions {
   static setGetBettingMarketGroupsByIdsLoadingStatusAction(bettingMarketGroupIds, loadingStatus) {
@@ -10,50 +10,53 @@ class BettingMarketGroupPrivateActions {
       loadingStatus
     }
   }
-
-}
-
-/**
- * Public actions
- */
-class BettingMarketGroupActions {
   static addBettingMarketGroupsAction(bettingMarketGroups) {
     return {
       type: ActionTypes.BETTING_MARKET_GROUP_ADD_BETTING_MARKET_GROUPS,
       bettingMarketGroups
     }
   }
+}
 
+/**
+ * Public actions
+ */
+class BettingMarketGroupActions {
+
+  /**
+   * Get betting market groups given their ids (can be immutable array)
+   */
   static getBettingMarketGroupsByIds(bettingMarketGroupIds) {
     return (dispatch, getState) => {
-      bettingMarketGroupIds = Immutable.List().concat(bettingMarketGroupIds);
-
       let retrievedBettingMarketGroups = Immutable.List();
       let idsOfBettingMarketGroupsToBeRetrieved = Immutable.List();
 
-      // Get eventIdsBySportId
-      const bettingMarketGroupByIds = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupByIds']);
+      // Check if the data is already inside redux store
+      const bettingMarketGroupsById = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
       const getBettingMarketGroupsByIdsLoadingStatus = getState().getIn(['bettingMarketGroup', 'getBettingMarketGroupsByIdsLoadingStatus']);
       bettingMarketGroupIds.forEach( (bettingMarketGroupId) => {
         if (getBettingMarketGroupsByIdsLoadingStatus.get(bettingMarketGroupId) === LoadingStatus.DONE) {
-          if (bettingMarketGroupByIds.has(bettingMarketGroupId)) {
-            retrievedBettingMarketGroups = retrievedBettingMarketGroups.concat(bettingMarketGroupByIds.get(bettingMarketGroupId));
-          }  
+          if (bettingMarketGroupsById.has(bettingMarketGroupId)) {
+            retrievedBettingMarketGroups = retrievedBettingMarketGroups.push(bettingMarketGroupsById.get(bettingMarketGroupId));
+          }
         } else {
           idsOfBettingMarketGroupsToBeRetrieved = idsOfBettingMarketGroupsToBeRetrieved.push(bettingMarketGroupId);
         }
       })
 
       if (idsOfBettingMarketGroupsToBeRetrieved.size === 0) {
-        // No events to be retrieved
+        // All data is inside redux store, return it
         return Promise.resolve(retrievedBettingMarketGroups);
       } else {
+        // Some data is in the blockchain, retrieve from blockchain
+        // Set status
         dispatch(BettingMarketGroupPrivateActions.setGetBettingMarketGroupsByIdsLoadingStatusAction(idsOfBettingMarketGroupsToBeRetrieved, LoadingStatus.LOADING));
-
-        // TODO: Replace with actual blockchain call
-        return FakeApi.getBettingMarketGroupsByIds(idsOfBettingMarketGroupsToBeRetrieved).then((bettingMarketGroups) => {
-          dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMarketGroups));
+        return CommunicationService.getObjectsByIds(idsOfBettingMarketGroupsToBeRetrieved).then((bettingMarketGroups) => {
+          // Add to redux store
+          dispatch(BettingMarketGroupPrivateActions.addBettingMarketGroupsAction(bettingMarketGroups));
+          // Set status
           dispatch(BettingMarketGroupPrivateActions.setGetBettingMarketGroupsByIdsLoadingStatusAction(idsOfBettingMarketGroupsToBeRetrieved, LoadingStatus.DONE));
+          // Concat and return
           return retrievedBettingMarketGroups.concat(bettingMarketGroups);
         });
       }

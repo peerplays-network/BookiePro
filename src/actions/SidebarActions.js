@@ -1,5 +1,4 @@
 import { ActionTypes } from '../constants';
-import FakeApi from '../communication/FakeApi';
 import SportActions from './SportActions';
 import EventGroupActions from './EventGroupActions';
 import EventActions from './EventActions';
@@ -12,7 +11,7 @@ class SidebarActions{
   static getData() {
     return (dispatch) => {
 
-      let retrievedSportIds = Immutable.List();
+      let retrievedSportIds;
       // Get sports
       dispatch(SportActions.getAllSports()).then((sports) => {
         retrievedSportIds = sports.map( sport => sport.get('id'));

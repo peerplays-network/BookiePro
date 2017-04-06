@@ -39,8 +39,8 @@ class AllSportsActions {
     return (dispatch) => {
       dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
-      let retrievedEvents = [];
-      let retrievedBettingMarketGroups = [];
+      let retrievedEvents;
+      let retrievedBettingMarketGroups;
 
       // Get sports
       dispatch(SportActions.getAllSports()).then((sports) => {
@@ -62,7 +62,7 @@ class AllSportsActions {
         return getBinnedOrderBooksByBettingMarkets(bettingMarkets);
       }).then((result) => {
         // Combine the resulting binned order books
-        const binnedOrderBooks = groupBinnedOrderBooksByBettingMarketId(_.flatMap(result));
+        const binnedOrderBooks = groupBinnedOrderBooksByBettingMarketId(result);
 
         let binnedOrderBooksByEvent = Immutable.Map();
         retrievedEvents.forEach((event) => {

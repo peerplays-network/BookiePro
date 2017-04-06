@@ -1,4 +1,4 @@
-import FakeApi from '../communication/FakeApi';
+import { CommunicationService } from '../services';
 import { LoadingStatus, ActionTypes } from '../constants';
 import Immutable from 'immutable';
 
@@ -21,112 +21,111 @@ class CompetitorPrivateActions {
       loadingStatus
     }
   }
-}
 
-/**
- * Public actions
- */
-class CompetitorActions {
   static addCompetitorsAction(competitors) {
     return {
       type: ActionTypes.COMPETITOR_ADD_COMPETITORS,
       competitors
     }
   }
+}
 
-  static getCompetitors(sportId) {
-    return (dispatch) => {
-      dispatch(CompetitorPrivateActions.setGetCompetitorsLoadingStatusAction(LoadingStatus.LOADING));
+/**
+ * Public actions
+ */
+class CompetitorActions {
 
-      // TODO: Replace with actual blockchain call
-      FakeApi.getCompetitors(sportId).then((competitors) => {
-        dispatch(CompetitorActions.addCompetitorsAction(competitors));
-        dispatch(CompetitorPrivateActions.setGetCompetitorsLoadingStatusAction(LoadingStatus.DONE));
-      });
+  /**
+   * Get list of competitors given sport ids
+   */
+  static getCompetitorsBySportIds(sportIds) {
+    return (dispatch, getState) => {
+      let retrievedCompetitors = Immutable.List();
+      let sportIdsOfCompetitorsToBeRetrieved = Immutable.List();
 
+      // Get competitorIdsBySportId
+      const competitorsById = getState().getIn(['competitor', 'competitorsById']);
+      let competitorsBySportId = Immutable.Map();
+      competitorsById.forEach( (competitor, id) => {
+        const sportId = competitor.get('sport_id');
+        competitorsBySportId = competitorsBySportId.update(sportId, competitors => {
+          if (!competitors) competitors = Immutable.List();
+          return competitors.push(competitor);
+        })
+      })
+
+      // Check if the data is already inside the redux store
+      const getCompetitorsBySportIdsLoadingStatus = getState().getIn(['competitor', 'getCompetitorsBySportIdsLoadingStatus']);
+      sportIds.forEach( sportId => {
+        if (getCompetitorsBySportIdsLoadingStatus.get(sportId) === LoadingStatus.DONE) {
+          if (competitorsBySportId.has(sportId)) {
+            retrievedCompetitors = retrievedCompetitors.push(competitorsBySportId.get(sportId));
+          }
+        } else {
+          sportIdsOfCompetitorsToBeRetrieved = sportIdsOfCompetitorsToBeRetrieved.push(sportId);
+        }
+      })
+
+      if (sportIdsOfCompetitorsToBeRetrieved.size === 0) {
+        // All data is inside redux store, return it
+        return Promise.resolve(retrievedCompetitors);
+      } else {
+        // Retrieve data from blockchain
+        // Set status
+        dispatch(CompetitorPrivateActions.setGetCompetitorsBySportIdsLoadingStatusAction(sportIdsOfCompetitorsToBeRetrieved, LoadingStatus.LOADING));
+        return CommunicationService.getCompetitorsBySportIds(sportIdsOfCompetitorsToBeRetrieved).then((competitors) => {
+          // Add to redux store
+          dispatch(CompetitorPrivateActions.addCompetitorsAction(competitors));
+          // Set status
+          dispatch(CompetitorPrivateActions.setGetCompetitorsBySportIdsLoadingStatusAction(sportIdsOfCompetitorsToBeRetrieved, LoadingStatus.DONE));
+          const competitorIds = competitors.map(competitor => competitor.get('id'));
+          dispatch(CompetitorPrivateActions.setGetCompetitorsByIdsLoadingStatusAction(competitorIds, LoadingStatus.DONE));
+          // Concat with data inside redux store and return
+          return retrievedCompetitors.concat(competitors);
+        });
+      }
     };
   }
 
+  /**
+   * Get competitors given their ids (can be immutable array)
+   */
+  static getCompetitorsByIds(competitorIds) {
+    return (dispatch, getState) => {
+      let retrievedCompetitors = Immutable.List();
+      let idsOfCompetitorsToBeRetrieved = Immutable.List();
 
-    static getCompetitorsBySportIds(sportIds) {
-      return (dispatch, getState) => {
-        sportIds = Immutable.List().concat(sportIds);
-
-        let retrievedCompetitors = Immutable.List();
-        let sportIdsOfCompetitorsToBeRetrieved = Immutable.List();
-
-        // Get competitorIdsBySportId
-        const competitorsById = getState().getIn(['competitor', 'competitorsById']);
-        let competitorsBySportId = Immutable.Map();
-        competitorsById.forEach( (competitor, id) => {
-          const sportId = competitor.get('sport_id');
-          competitorsBySportId = competitorsBySportId.update(sportId, competitors => {
-            if (!competitors) competitors = Immutable.List();
-            return competitors.push(competitor);
-          })
-        })
-
-        const getCompetitorsBySportIdsLoadingStatus = getState().getIn(['competitor', 'getCompetitorsBySportIdsLoadingStatus']);
-        sportIds.forEach( sportId => {
-          if (getCompetitorsBySportIdsLoadingStatus.get(sportId) === LoadingStatus.DONE) {
-            if (competitorsBySportId.has(sportId)) {
-              retrievedCompetitors = retrievedCompetitors.concat(competitorsBySportId.get(sportId));
-            }
-          } else {
-            sportIdsOfCompetitorsToBeRetrieved = sportIdsOfCompetitorsToBeRetrieved.push(sportId);
+      // Check if the data is already inside redux store
+      const getCompetitorsByIdsLoadingStatus = getState().getIn(['competitor', 'getCompetitorsByIdsLoadingStatus']);
+      const competitorsById = getState().getIn(['competitor', 'competitorsById']);;
+      competitorIds.forEach( competitorId => {
+        if (getCompetitorsByIdsLoadingStatus.get(competitorId) === LoadingStatus.DONE) {
+          if (competitorsById.has(competitorId)) {
+            retrievedCompetitors = retrievedCompetitors.concat(competitorsById.get(competitorId));
           }
-        })
-
-        if (sportIdsOfCompetitorsToBeRetrieved.size === 0) {
-          // No competitors to be retrieved
-          return Promise.resolve(retrievedCompetitors);
         } else {
-          dispatch(CompetitorPrivateActions.setGetCompetitorsBySportIdsLoadingStatusAction(sportIdsOfCompetitorsToBeRetrieved, LoadingStatus.LOADING));
-
-          // TODO: Replace with actual blockchain call
-          return FakeApi.getCompetitorsBySportIds(sportIdsOfCompetitorsToBeRetrieved).then((competitors) => {
-            dispatch(CompetitorActions.addCompetitorsAction(competitors));
-            dispatch(CompetitorPrivateActions.setGetCompetitorsBySportIdsLoadingStatusAction(sportIdsOfCompetitorsToBeRetrieved, LoadingStatus.DONE));
-            return retrievedCompetitors.concat(competitors);
-          });
+          idsOfCompetitorsToBeRetrieved = idsOfCompetitorsToBeRetrieved.push(competitorId);
         }
-      };
-    }
+      })
 
-    static getCompetitorsByIds(competitorIds) {
-      return (dispatch, getState) => {
-        competitorIds = Immutable.List().concat(competitorIds);
+      if (idsOfCompetitorsToBeRetrieved.size === 0) {
+        // No competitors to be retrieved from blockchain, all data is in blockchain
+        return Promise.resolve(retrievedCompetitors);
+      } else {
+        // Retrieve data from blockchain
+        dispatch(CompetitorPrivateActions.setGetCompetitorsByIdsLoadingStatusAction(idsOfCompetitorsToBeRetrieved, LoadingStatus.LOADING));
 
-        let retrievedCompetitors = Immutable.List();
-        let idsOfCompetitorsToBeRetrieved = Immutable.List();
-
-        const getCompetitorsByIdsLoadingStatus = getState().getIn(['competitor', 'getCompetitorsByIdsLoadingStatus']);
-        const competitorsById = getState().getIn(['competitor', 'competitorsById']);;
-        competitorIds.forEach( competitorId => {
-          if (getCompetitorsByIdsLoadingStatus.get(competitorId) === LoadingStatus.DONE) {
-            if (competitorsById.has(competitorId)) {
-              retrievedCompetitors = retrievedCompetitors.concat(competitorsById.get(competitorId));
-            }
-          } else {
-            idsOfCompetitorsToBeRetrieved = idsOfCompetitorsToBeRetrieved.push(competitorId);
-          }
-        })
-
-        if (idsOfCompetitorsToBeRetrieved.size === 0) {
-          // No competitors to be retrieved
-          return Promise.resolve(retrievedCompetitors);
-        } else {
-          dispatch(CompetitorPrivateActions.setGetCompetitorsByIdsLoadingStatusAction(idsOfCompetitorsToBeRetrieved, LoadingStatus.LOADING));
-
-          // TODO: Replace with actual blockchain call
-          return FakeApi.getCompetitorsByIds(idsOfCompetitorsToBeRetrieved).then((competitors) => {
-            dispatch(CompetitorActions.addCompetitorsAction(competitors));
-            dispatch(CompetitorPrivateActions.setGetCompetitorsByIdsLoadingStatusAction(idsOfCompetitorsToBeRetrieved, LoadingStatus.DONE));
-            return retrievedCompetitors.concat(competitors);
-          });
-        }
-      };
-    }
+        return CommunicationService.getObjectsByIds(idsOfCompetitorsToBeRetrieved).then((competitors) => {
+          // Add to redux store
+          dispatch(CompetitorPrivateActions.addCompetitorsAction(competitors));
+          // Set status
+          dispatch(CompetitorPrivateActions.setGetCompetitorsByIdsLoadingStatusAction(idsOfCompetitorsToBeRetrieved, LoadingStatus.DONE));
+          // Concat and return
+          return retrievedCompetitors.concat(competitors);
+        });
+      }
+    };
+  }
 }
 
 export default CompetitorActions;

@@ -74,7 +74,7 @@ class EventGroupPageActions {
         // Get binned order books
         return getBinnedOrderBooksByBettingMarkets(bettingMarkets);
       }).then((result) => {
-        const binnedOrderBooks = groupBinnedOrderBooksByBettingMarketId(_.flatMap(result));
+        const binnedOrderBooks = groupBinnedOrderBooksByBettingMarketId(result);
 
         let binnedOrderBooksByEvent = Immutable.Map();
         retrievedEvents.forEach((event) => {
