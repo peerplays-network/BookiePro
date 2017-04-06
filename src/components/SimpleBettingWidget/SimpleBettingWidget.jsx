@@ -96,13 +96,6 @@ class SimpleBettingWidget extends Component {
   }
 
   onOfferClicked(event, record, team, marketType, offer) {
-
-    console.log( 'event: ', event);
-    console.log( 'record: ', record);
-    console.log( 'team: ', team);
-    console.log( 'marketType: ', marketType);
-    console.log( 'offer: ', offer.toJS());
-
     event.preventDefault();
     this.props.createBet(record, team, marketType, offer);
   }
