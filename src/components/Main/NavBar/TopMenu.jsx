@@ -78,42 +78,55 @@ class TopMenu extends Component {
       >
         <Menu.Item key='balance' className='amount'>
           <Dropdown trigger={ ['click'] } overlay={ amountCard } placement='bottomRight'>
-            <a className='ant-dropdown-link' href='#'>
-              1.234444
-            </a>
+            <div className='icon-main bitcoin-icon-main'>
+              <a className='ant-dropdown-link' href='#'>
+                <i className='bitcoin-icon'></i>
+                1.234444
+              </a>
+            </div>
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='mywager'>
-          <Icon type='calendar' />
+          <div className='icon-main mywager-icon-main'>
+            <i className='mywager-icon'></i>
+          </div>
         </Menu.Item>
         <Menu.Item key='deposit'>
           <Dropdown trigger={ ['click'] } overlay={ depositCard(this.props.depositAddress) } placement='bottomRight'>
-            <a className='ant-dropdown-link' href='#'>
-              <Icon type='pay-circle-o' />
-            </a>
+            <div className='icon-main deposit-icon-main'>
+              <a className='ant-dropdown-link' href='#'>
+                <i className='deposit-icon'></i>
+              </a>
+            </div>
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='withdraw'>
           <Dropdown trigger={ ['click'] } overlay={ withdrawCard } placement='bottomRight'>
-            <a className='ant-dropdown-link' href='#'>
-              <Icon type='pay-circle-o' />
-            </a>
+            <div className='icon-main withdraw-icon-main'>
+              <a className='ant-dropdown-link' href='#'>
+                <i className='withdraw-icon'></i>
+              </a>
+            </div>
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='notifications' className='notification'>
           <Dropdown trigger={ ['click'] } overlay={ notificationCard } placement='bottomRight'>
-            <a className='ant-dropdown-link' href='#'>
+            <div className='icon-main notification-icon-main'>
+              <a className='ant-dropdown-link' href='#'>
               <Badge count={ 5 }>
-                <Icon type='notification' />
+                <i className='notification-icon'></i>
               </Badge>
             </a>
+            </div>
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='drop-down'>
           <Dropdown key='drop-down-item' trigger={ ['click'] } overlay={ dropdownMenuCard } placement='bottomRight'>
-            <a className='ant-dropdown-link' href='#'>
-              <Icon type='menu-fold' />
-            </a>
+            <div className='icon-main dropdown-icon-main'>
+              <a className='ant-dropdown-link' href='#'>
+                <i className='dropdown-icon'></i>
+              </a>
+            </div>
           </Dropdown>
         </Menu.Item>
       </Menu>
