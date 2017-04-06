@@ -7,7 +7,8 @@ import {
   Card,
   Switch,
   Select,
-  Breadcrumb
+  Breadcrumb,
+  Form
 } from 'antd';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
@@ -340,6 +341,9 @@ class MyAccount extends Component {
 
   render() {
     const {showDateFields} = this.state;
+    const prefix = this.props.currencyFormat === 'BTC' ? 'B' : ( this.props.currencyFormat === 'mBTC' ? 'mB' : '');
+    const WrappedDepositForm = Form.create()(Withdraw);
+
     return (
       <div className='my-account section-padding'>
         <Breadcrumb className='bookie-breadcrumb'>
@@ -353,8 +357,8 @@ class MyAccount extends Component {
           </Col>
 
           <Col span={ 8 }>
-            <Withdraw cardClass='bookie-card'
-              currencyFormat={ this.props.currencyFormat } />
+            <WrappedDepositForm cardClass='bookie-card'
+              prefix={ prefix } availableBalance={ this.props.availableBalance } />
           </Col>
           <Col span={ 8 }>
             { this.renderSettingCard() }
@@ -394,7 +398,8 @@ const mapStateToProps = (state) => {
     transactionHistory: state.getIn(['account', 'transactionHistories']),
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: account.get('getDepositAddressLoadingStatus'),
-    depositAddress: account.get('depositAddress')
+    depositAddress: account.get('depositAddress'),
+    availableBalance: account.get('availableBalance')
   }
 }
 
