@@ -354,5 +354,5 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps)
-(ComplexBettingWidget2);
+  mapDispatchToProps
+)(ComplexBettingWidget2);

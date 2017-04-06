@@ -1333,7 +1333,14 @@ const bettingMarkets = [
     "betting_market_group_id": "1.104.111",
     "payout_condition_string": "Under",
     "bet_asset_type": "1.3.0"
-  }
+  },
+  {
+    "id": "1.105.223",
+    "betting_market_group_id": "1.104.43",
+    "payout_condition_string": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+
 ];
 
 //TODO: add more in this list, pay attention on the relation with the betting_market_groups dummy data
