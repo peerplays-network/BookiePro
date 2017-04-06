@@ -7,7 +7,7 @@ export const translationsObject = {
     myAccount:{
       home:'Home',
       my_account: 'My Account',
-      deposit: 'desposit',
+      deposit: 'Deposit',
       deposit_desc: 'Please send your BTC to the address' +
       ' below',
       copy: 'copy',
@@ -20,7 +20,7 @@ export const translationsObject = {
       time_zone: 'Choose Time Zone',
       format: 'Choose Format',
       change_password: 'Change Password',
-      create_Recovery_file: 'Create recovery file',
+      create_recovery_file: 'Download Password File',
       transaction_history: 'Transaction History',
       period: 'Period',
       date: 'Date',

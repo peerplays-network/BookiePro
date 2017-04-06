@@ -82,7 +82,7 @@ class TransactionHistory extends Component {
         <div className='top-data clearfix'>
           <div className='float-left'>
             <p
-              className='font18 padding-tb-5 page-title '>
+              className='font16 page-title '>
               { I18n.t('myAccount.transaction_history') }</p>
           </div>
           <div className='float-right'>
@@ -127,7 +127,7 @@ class TransactionHistory extends Component {
               }
                 <div className='ant-form-item'>
                   <a className='btn btn-regular' onClick={ handleSearchClick }>Search</a>
-                  <a className='btn btn-regular margin-lr-10'>Export</a>
+                  <a className='btn btn-regular margin-left-10'>Export</a>
                 </div>
               </div>
             </div>

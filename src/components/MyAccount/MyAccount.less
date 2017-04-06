@@ -7,6 +7,7 @@
 .margin-tb-15{  margin:15px 0;  }
 .margin-tb-20{  margin:20px 0;  }
 .margin-tb-30{  margin:30px 0;  }
+.margin-tb-25{  margin:25px 0;  }
 .margin-tb-10{  margin:10px 0;  }
 .text-center{ text-align: center;}
 
@@ -23,13 +24,15 @@
   border:1px solid #E1E1E1;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
   background-color: #FFFFFF;
-  height: 28px;
-  min-width: 50px;
-  line-height: 28px;
+  height: 24px;
+  min-width: 45px;
+  line-height: 26px;
+  float: right;
+
   &:after{
     background-color: #1D7BE3;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     border-radius: 24px;
   }
   &.ant-switch-checked{
@@ -38,19 +41,24 @@
     }
   }
 }
+.section-padding{
+  padding:10px 60px;
+}
 .my-account{
   color: #FFFFFF;
-  padding:20px 20px 0;
+
   .bookie-breadcrumb{
     color: #FFFFFF;
     font-size:16px;
     text-transform: uppercase;
-    margin-bottom:30px;
+    margin-bottom:20px;
     a,.ant-breadcrumb-separator{
       color: #FFFFFF;
+      font-weight:normal;
     }
     .ant-breadcrumb-link{
-      color: #00BEF4;
+      color: #00CAF7;
+      font-weight:700;
     }
     &>span{
       &:last-child{
@@ -59,28 +67,43 @@
     }
   }
   .bookie-amount{
-    background-color: #99C9FF;
+
     text-align: right;
-    margin:75px 0;
+    margin:70px 0 0;
   }
   .registerComponent{
     .bookie-input,.btn{
+      height:30px;
+      line-height:30px;
+      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+    }
+    .bookie-amount{
       height:45px;
-      line-height:45px;
+      line-height: 45px;
     }
     .btn{
       display: block;
       width:100%;
+      font-size:16px;
       border-radius:2px;
     }
     .copy-btn{
       width:auto;
+      box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);
+    }
+    .btn-primary{
+      box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);
+    }
+    input{
+      border:1px solid #979797;
     }
   }
 
   .top-data{
-    padding: 15px;
+    padding: 0 16px;
     color: #fff;
+    height:50px;
+    line-height: 48px;
     border-bottom:1px solid #1563A0;
   }
   .export-icon{
@@ -104,85 +127,126 @@
     label{
       font-size:16px;
       color: #FFFFFF;
-      margin-right:10px;
+      margin-right:14px;
     }
   }
   .transaction-table{
     background-color: rgba(6,92,183,0.35);
-    margin-top: 30px;
+    margin-top: 20px;
     box-shadow: 0 2px 4px 0 #02070C;
+    min-height: 550px;
   }
   .ant-form-item{
     color:#fff
   }
+  .ant-form-inline {
+    .ant-form-item{
+      margin-right:25px;
+      &:last-child{
+        margin-right:0;
+      }
+    }
+
+  }
   .page-title{
     font-size:16px;
     text-transform:uppercase;
-    font-weight: normal
+    font-weight: bold;
   }
   .btn {
     text-transform: uppercase;
     display: inline-block;
     color: #ffffff;
-    height: 36px;
-    line-height: 36px;
     border-radius: 0;
     background-color: inherit;
-    padding: 0 20px;
-    border: 0 none;
-  }
-}
-
-.bookie-card{
-  background: rgba(0,92,183,0.35);
-  box-shadow: 0 2px 4px 0 #02070C;
-  height:340px;
-  border-radius:0;
-  border:0 none;
-  font-size:14px;
-  .ant-card-body{
-    color: #FFFFFF;
-    padding:15px;
     font-size:16px;
-  }
-  .ant-card-head{
-    padding:0 15px;
-    border-bottom-color: #1563A0;
-  }
-  .ant-card-head-title{
-    font-size:18px;
-    color: #FFFFFF;
     font-weight:500;
-    text-transform: uppercase;
   }
-  .my-account{
-    padding:0;
+  .bookie-card{
+    background: rgba(0,92,183,0.35);
+    box-shadow: 0 2px 4px 0 #02070C;
+    height:312px;
+    border-radius:0;
+    border:0 none;
+    font-size:14px;
+    .ant-card-body{
+      color: #FFFFFF;
+      padding:10px 15px;
+      font-size:16px;
+    }
+    .ant-card-head{
+      padding:0 15px;
+      border-bottom-color: #1563A0;
+    }
+    .ant-card-head-title{
+      font-size:18px;
+      color: #FFFFFF;
+      font-weight:500;
+      text-transform: uppercase;
+    }
+    .my-account{
+      padding:0;
+    }
   }
+
+  .bookie-select{
+    .ant-select-selection__rendered{
+      line-height:30px;
+    }
+    .ant-select-selection--single{
+      height:30px;
+      border-color: #E1E1E1;
+      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+    }
+  }
+  ::-webkit-input-placeholder{
+    color: #A9A9A9 !important;
+  }
+  .bookie-table{
+    padding: 0 16px;
+    .ant-table{
+      overflow: visible;
+    }
+    .ant-table-content{
+      min-height: 630px;
+    }
+    table{
+      table-layout: fixed;
+      color: #FFFFFF;
+      font-size: 14px;
+      .ant-table-thead > tr > th{
+        background-color: transparent;
+        border-bottom:1px solid #fff;
+        font-weight:700;
+      }
+      .ant-table-tbody > tr > td{
+        border-bottom:0 none;
+        font-size:14px;
+        word-break: normal;
+      }
+      .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+        padding:10px 25px 10px 0;
+        color: #FFFFFF;
+        vertical-align: top;
+      }
+      .ant-table-tbody tr td:last-child{
+        padding-right:0;
+      }
+      .ant-table-thead > tr:hover, .ant-table-tbody > tr:hover,.ant-table-tbody > tr:hover > td{
+        background-color: transparent;
+      }
+    }
+  }
+
+  .bookie-table table thead tr th:nth-of-type(1) {width:150px;}
+  .bookie-table table thead tr th:nth-of-type(2) {width:200px;}
+  .bookie-table table thead tr th:nth-of-type(4) {width:150px;}
+  .bookie-table table thead tr th:nth-of-type(5) {width:100px;}
 }
 
-.bookie-table{
-  padding: 0 10px;
-  table{
-    color: #FFFFFF;
-    font-size: 14px;
-    .ant-table-thead > tr > th{
-      background-color: transparent;
-      border-bottom:1px solid #fff;
-    }
-    .ant-table-tbody > tr > td{
-      border-bottom:0 none;
-      font-size:14px;
-      word-break: normal;
-    }
-    .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
-      padding:15px 5px;
-      color: #FFFFFF;
-    }
-    .ant-table-thead > tr:hover, .ant-table-tbody > tr:hover,.ant-table-tbody > tr:hover > td{
-      background-color: transparent;
-    }
-  }
-}
+
+
+
 
 
 .ant-calendar-input{
@@ -213,8 +277,12 @@
 .ant-calendar-today-btn{
   color: #00BEF4;
 }
-::-webkit-input-placeholder,.rw-input { /* Chrome/Opera/Safari */
-  color: #4A4A4A;
+.bottom-div{
+  padding: 0 15px;
+  position: absolute;
+  bottom:15px;
+  width:100%;
+  left:0;
 }
 
 .ant-pagination-prev, .ant-pagination-next{
@@ -239,4 +307,11 @@
 }
 :root .ant-pagination-prev a:after, :root .ant-pagination-next a:after{
   font-size:16px;
+}
+@media screen and (min-width: 1024px) and (max-width: 1140px){
+  .my-account{
+    .bookie-card{
+      height: 330px;
+    }
+  }
 }

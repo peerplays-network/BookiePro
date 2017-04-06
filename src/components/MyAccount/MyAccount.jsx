@@ -238,71 +238,71 @@ class MyAccount extends Component {
                     onChange={ this.handleNotificationChange }/>
           </Col>
         </Row>
-        <Row className='margin-tb-15'>
-          <Col span={ 18 }>
-            <p
-              className='padding-tb-5'> { I18n.t('myAccount.time_zone') }</p>
-          </Col>
-          <Col span={ 6 }>
-            <div ref='global_object'>
-              <Select
-                className='bookie-select'
-                defaultValue={ this.props.timezone }
-                onChange={ this.handleTimeZoneChange }>
-                <Option
-                  value='UTC-12:00'>{ I18n.t('myAccount.UTC_12') }</Option>
-                <Option
-                  value='UTC-11:00'>{ I18n.t('myAccount.UTC_11') }</Option>
-                <Option
-                  value='UTC-10:00'>{ I18n.t('myAccount.UTC_10') }</Option>
-                <Option
-                  value='UTC-09:00'>{ I18n.t('myAccount.UTC_9') }</Option>
-                <Option
-                  value='UTC-08:00'>{ I18n.t('myAccount.UTC_8') }</Option>
-                <Option
-                  value='UTC-07:00'>{ I18n.t('myAccount.UTC_7') }</Option>
-                <Option
-                  value='UTC-06:00'>{ I18n.t('myAccount.UTC_6') }</Option>
-                <Option
-                  value='UTC-05:00'>{ I18n.t('myAccount.UTC_5') }</Option>
-                <Option
-                  value='UTC-04:00'>{ I18n.t('myAccount.UTC_4') }</Option>
-                <Option
-                  value='UTC-03:00'>{ I18n.t('myAccount.UTC_3') }</Option>
-                <Option
-                  value='UTC-02:00'>{ I18n.t('myAccount.UTC_2') }</Option>
-                <Option
-                  value='UTC-01:00'>{ I18n.t('myAccount.UTC_1') }</Option>
-                <Option
-                  value='UTC+00:00'>{ I18n.t('myAccount.UTC0') }</Option>
-                <Option
-                  value='UTC+01:00'>{ I18n.t('myAccount.UTC1') }</Option>
-                <Option
-                  value='UTC+02:00'>{ I18n.t('myAccount.UTC2') }</Option>
-                <Option
-                  value='UTC+03:00'>{ I18n.t('myAccount.UTC3') }</Option>
-                <Option
-                  value='UTC+04:00'>{ I18n.t('myAccount.UTC4') }</Option>
-                <Option
-                  value='UTC+05:00'>{ I18n.t('myAccount.UTC5') }</Option>
-                <Option
-                  value='UTC+06:00'>{ I18n.t('myAccount.UTC6') }0</Option>
-                <Option
-                  value='UTC+07:00'>{ I18n.t('myAccount.UTC7') }</Option>
-                <Option
-                  value='UTC+08:00'>{ I18n.t('myAccount.UTC8') }</Option>
-                <Option
-                  value='UTC+09:00'>{ I18n.t('myAccount.UTC9') }</Option>
-                <Option
-                  value='UTC+10:00'>{ I18n.t('myAccount.UTC10') }</Option>
-                <Option
-                  value='UTC+11:00'>{ I18n.t('myAccount.UTC11') }</Option>
-                <Option
-                  value='UTC+12:00'>{ I18n.t('myAccount.UTC12') }</Option>
-              </Select>
-            </div>
-          </Col>
-        </Row>
+        {/*<Row className='margin-tb-15'>*/}
+          {/*<Col span={ 18 }>*/}
+            {/*<p*/}
+              {/*className='padding-tb-5'> { I18n.t('myAccount.time_zone') }</p>*/}
+          {/*</Col>*/}
+          {/*<Col span={ 6 }>*/}
+            {/*<div ref='global_object'>*/}
+              {/*<Select*/}
+                {/*className='bookie-select'*/}
+                {/*defaultValue={ this.props.timezone }*/}
+                {/*onChange={ this.handleTimeZoneChange }>*/}
+                {/*<Option*/}
+                  {/*value='UTC-12:00'>{ I18n.t('myAccount.UTC_12') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC-11:00'>{ I18n.t('myAccount.UTC_11') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC-10:00'>{ I18n.t('myAccount.UTC_10') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC-09:00'>{ I18n.t('myAccount.UTC_9') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC-08:00'>{ I18n.t('myAccount.UTC_8') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC-07:00'>{ I18n.t('myAccount.UTC_7') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC-06:00'>{ I18n.t('myAccount.UTC_6') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC-05:00'>{ I18n.t('myAccount.UTC_5') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC-04:00'>{ I18n.t('myAccount.UTC_4') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC-03:00'>{ I18n.t('myAccount.UTC_3') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC-02:00'>{ I18n.t('myAccount.UTC_2') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC-01:00'>{ I18n.t('myAccount.UTC_1') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC+00:00'>{ I18n.t('myAccount.UTC0') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC+01:00'>{ I18n.t('myAccount.UTC1') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC+02:00'>{ I18n.t('myAccount.UTC2') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC+03:00'>{ I18n.t('myAccount.UTC3') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC+04:00'>{ I18n.t('myAccount.UTC4') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC+05:00'>{ I18n.t('myAccount.UTC5') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC+06:00'>{ I18n.t('myAccount.UTC6') }0</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC+07:00'>{ I18n.t('myAccount.UTC7') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC+08:00'>{ I18n.t('myAccount.UTC8') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC+09:00'>{ I18n.t('myAccount.UTC9') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC+10:00'>{ I18n.t('myAccount.UTC10') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC+11:00'>{ I18n.t('myAccount.UTC11') }</Option>*/}
+                {/*<Option*/}
+                  {/*value='UTC+12:00'>{ I18n.t('myAccount.UTC12') }</Option>*/}
+              {/*</Select>*/}
+            {/*</div>*/}
+          {/*</Col>*/}
+        {/*</Row>*/}
         <Row className='margin-tb-15'>
           <Col span={ 18 }>
             <p
@@ -320,17 +320,20 @@ class MyAccount extends Component {
             </div>
           </Col>
         </Row>
-        <Row
-          className='margin-tb-15 registerComponent'>
-          <button
-            onClick={ this.handleRedirectToChangePwd }
-            className='btn btn-primary margin-tb-15'>
-            { I18n.t('myAccount.change_password') }
-          </button>
-          <button className='btn btn-primary'>
-            { I18n.t('myAccount.create_recovery_file') }
-          </button>
-        </Row>
+        <div className='bottom-div'>
+          <Row
+            className='registerComponent'>
+            <button
+              onClick={ this.handleRedirectToChangePwd }
+              className='btn btn-primary margin-tb-30'>
+              { I18n.t('myAccount.change_password') }
+            </button>
+            <button className='btn btn-primary'>
+              { I18n.t('myAccount.create_recovery_file') }
+            </button>
+          </Row>
+        </div>
+
       </Card>
     );
   }
@@ -338,13 +341,13 @@ class MyAccount extends Component {
   render() {
     const {showDateFields} = this.state;
     return (
-      <div className='my-account'>
+      <div className='my-account section-padding'>
         <Breadcrumb className='bookie-breadcrumb'>
           <Breadcrumb.Item><a
             href='/'>  {I18n.t('myAccount.home')} </a></Breadcrumb.Item>
           <Breadcrumb.Item>{I18n.t('myAccount.my_account')}</Breadcrumb.Item>
         </Breadcrumb>
-        <Row gutter={ 10 }>
+        <Row gutter={ 20 }>
           <Col span={ 8 }>
             <Deposit cardClass='bookie-card' depositAddress={ this.props.depositAddress }/>
           </Col>
