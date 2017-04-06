@@ -1,36 +1,43 @@
-import { ActionTypes } from '../constants';
-import { Apis } from 'graphenejs-ws';
-import Immutable from 'immutable';
+import { ActionTypes, LoadingStatus } from '../constants';
+import { CommunicationService } from '../services';
 
 /**
  * Private actions
  */
 class AssetPrivateActions {
-  static setAssetListAction(assetList) {
+
+  static setGetAssetsLoadingStatusAction(loadingStatus) {
     return {
-      type: ActionTypes.ASSET_RECEIVE_LIST,
-      assetList
+      type: ActionTypes.ASSET_SET_GET_ASSETS_LOADING_STATUS,
+      loadingStatus
     }
-  };
+  }
+  static addAssetsAction(assets) {
+    return {
+      type: ActionTypes.ASSET_ADD_ASSETS,
+      assets
+    }
+  }
+
 }
 
 /**
  * Public actions
  */
 class AssetActions {
-  static fetchAssetList(start, count) {
-    return (dispatch) => {
-      // Fetch data from blockchain
-      Apis.instance().db_api().exec('list_assets', [start, count])
-        .then(assetList => {
-          // Store it inside redux
-          dispatch(AssetPrivateActions.setAssetListAction(assetList));
-        });
-    }
-  }
 
-  static clearAssetList() {
-    return AssetPrivateActions.setAssetListAction(Immutable.List());
+  static getAssets(assetIds) {
+    return (dispatch) => {
+      dispatch(AssetPrivateActions.setGetAssetsLoadingStatusAction(LoadingStatus.LOADING));
+      return CommunicationService.getAssets.then((assets) => {
+        // Set asset
+        dispatch(AssetPrivateActions.addAssetsAction(assets));
+        dispatch(AssetPrivateActions.setGetAssetsLoadingStatusAction(LoadingStatus.DONE));
+      }).catch((error) => {
+        dispatch(AssetPrivateActions.setGetAssetsLoadingStatusAction(LoadingStatus.ERROR));
+        throw error;
+      });
+    }
   }
 }
 

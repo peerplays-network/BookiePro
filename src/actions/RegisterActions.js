@@ -1,5 +1,6 @@
 import AppActions from './AppActions';
 import AccountActions from './AccountActions';
+import LoginActions from './LoginActions';
 import { LoadingStatus, ActionTypes } from '../constants';
 import { AccountService, KeyGeneratorService } from '../services';
 import { FetchChain } from 'graphenejs-lib';
@@ -19,7 +20,7 @@ class RegisterPrivateActions {
   static setRegisterErrorAction(errors) {
     return {
       type: ActionTypes.REGISTER_SET_ERROR,
-      errors:errors
+      errors
     }
   }
 }
@@ -37,18 +38,9 @@ class RegisterActions {
 
       const keys = KeyGeneratorService.generateKeys(accountName, password);
       AccountService.registerThroughFaucet(1, accountName, keys).then(() => {
-        // Get full account
-        return FetchChain('getAccount', accountName);
-      }).then((account) => {
-        // Save account information
-        dispatch(AccountActions.setAccount(account));
-
-        // Save keys
-        dispatch(AccountActions.setKeysAction(keys));
-
-        // Set is logged in
-        dispatch(AppActions.setIsLoggedInAction(true));
-
+        // Log the user in
+        return dispatch(LoginActions.loginWithKeys(accountName, keys));
+      }).then(() => {
         // Set register status to done
         dispatch(RegisterPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
 
@@ -56,13 +48,7 @@ class RegisterActions {
         dispatch(NavigateActions.navigateTo('/deposit'));
       }).catch((error) => {
         // Set error
-        /**
-        * AccountService.registerThroughFaucet - Error from this call returns as a promise
-        * FetchChain('getAccount', accountName) - Error from call returns as a string
-        * Hence, type checking is done and the 'error' state is converted to an array containing the errors
-        */
-        dispatch(RegisterPrivateActions.setRegisterErrorAction([typeof error === 'string'? error
-              : typeof error === 'object' && error.message ? error.message : 'Error Occured']))
+        dispatch(RegisterPrivateActions.setRegisterErrorAction([error.message ? error.message : 'Error Occured']))
       })
     }
   }

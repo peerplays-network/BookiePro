@@ -1,7 +1,7 @@
 import { Apis, ChainConfig } from 'graphenejs-ws';
-import { ChainStore } from 'graphenejs-lib';
 import { Config, ConnectionStatus } from '../constants';
 import { ConnectionUtils } from '../utility';
+import CommunicationService from './CommunicationService';
 
 const MAX_ATTEMPT = 3;
 const connectionString = Config.blockchainUrls[0];
@@ -38,6 +38,7 @@ class ConnectionService {
 
     // Define new callback
     this.onlineStatusCallback = () => {
+      console.log('Connected to Internet.');
       if (ConnectionUtils.isWebsocketOpen()) {
         // Internet is on and websocket is open
         connectionStatusCallback(ConnectionStatus.CONNECTED);
@@ -48,6 +49,7 @@ class ConnectionService {
     };
 
     this.offlineStatusCallback = () => {
+      console.log('Disconnected from the internet.');
       // Internet is off and websocket is open/ closed
       connectionStatusCallback(ConnectionStatus.DISCONNECTED);
     }
@@ -55,6 +57,7 @@ class ConnectionService {
     this.websocketStatusCallback = (message) => {
       switch (message) {
         case 'open': {
+          console.log('Websocket connection is open.');
           if (ConnectionUtils.isConnectedToInternet()) {
             // Internet is on and websocket is open
             connectionStatusCallback(ConnectionStatus.CONNECTED);
@@ -66,6 +69,7 @@ class ConnectionService {
           break;
         }
         case 'closed': {
+          console.log('Websocket connection is closed.');
           // Internet is on/off and websocket is closed
           connectionStatusCallback(ConnectionStatus.DISCONNECTED);
           break;
@@ -123,9 +127,9 @@ class ConnectionService {
   /**
    * Sync with blockchain, so the app always have the latest data
    */
-  static syncWithBlockchain(attempt=MAX_ATTEMPT) {
+  static syncWithBlockchain(dispatch, getState, attempt=MAX_ATTEMPT) {
     // Sync with blockchain using ChainStore
-    return ChainStore.init().then(() => {
+    return CommunicationService.syncWithBlockchain(dispatch, getState).then(() => {
       console.log('Sync with Blockchain Success');
     }).catch((error) => {
       console.error('Sync with Blockchain Fail', error);
@@ -133,10 +137,8 @@ class ConnectionService {
       if (attempt > 0) {
         // Retry to connect
         console.log('Retry syncing with blockchain');
-        return ConnectionService.syncWithBlockchain(attempt-1);
+        return ConnectionService.syncWithBlockchain(dispatch, getState,attempt-1);
       } else {
-        // Give up, close current connection to blockchain
-        this.closeConnectionToBlockchain();
         // Throw the error to be caught by the outer promise handler
         throw error;
       }

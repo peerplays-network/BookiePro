@@ -2,12 +2,9 @@ import { ActionTypes, LoadingStatus } from '../constants';
 import { BlockchainUtils } from '../utility';
 import { WalletService, AccountService, KeyGeneratorService } from '../services';
 import FakeApi from '../communication/FakeApi';
-import { ChainStore, TransactionBuilder, FetchChain } from 'graphenejs-lib';
-import NotificationActions from './NotificationActions';
+import { TransactionBuilder, FetchChain } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
 
-// Account subscriber
-let accountSubscriber;
 
 /**
  * Private actions
@@ -70,38 +67,24 @@ class AccountPrivateActions {
     }
   }
 
-  static setAccountAction(account) {
-    return {
-      type: ActionTypes.ACCOUNT_SET_ACCOUNT,
-      account
-    }
-  }
-
-  static setBalanceAction(availableBalance, inGameBalance) {
-    return {
-      type: ActionTypes.ACCOUNT_SET_BALANCE,
-      availableBalance,
-      inGameBalance
-    }
-  }
-
-
-  static getBalance(account) {
-    return (dispatch) => {
-      dispatch(AccountPrivateActions.setGetBalanceLoadingStatusAction(LoadingStatus.LOADING));
-      Promise.all([
-        FakeApi.getAvailableBalance(account),
-        FakeApi.getInGameBalance(account)
-      ]).then((result) => {
-        dispatch(AccountPrivateActions.setBalanceAction(result[0], result[1]));
-        dispatch(AccountPrivateActions.setGetBalanceLoadingStatusAction(LoadingStatus.DONE));
-      })
-    }
-  }
-
   static logoutAction() {
     return {
       type: ActionTypes.ACCOUNT_LOGOUT
+    }
+  }
+
+  static setKeysAction(privateKeyWifsByRole, publicKeyStringsByRole) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_KEYS,
+      privateKeyWifsByRole,
+      publicKeyStringsByRole
+    }
+  }
+
+  static updateAvailableBalanceAction(availableBalance) {
+    return {
+      type: ActionTypes.ACCOUNT_UPDATE_AVAILABLE_BALANCE,
+      availableBalance,
     }
   }
 }
@@ -110,10 +93,11 @@ class AccountPrivateActions {
  * Public actions
  */
 class AccountActions {
-  static setKeysAction(keys) {
+
+  static removeAvailableBalanceByIdAction(balanceId) {
     return {
-      type: ActionTypes.ACCOUNT_SET_KEYS,
-      keys
+      type: ActionTypes.ACCOUNT_REMOVE_AVAILABLE_BALANCE_BY_ID,
+      balanceId,
     }
   }
 
@@ -121,35 +105,48 @@ class AccountActions {
     return AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DEFAULT);
   }
 
-  /**
-   * Set the account and subscribe to it
-   */
-  static setAccount(account) {
+  static updateAvailableBalance(availableBalance) {
     return (dispatch, getState) => {
-
-      // Unsubscribe previous account subscriber
-      if (accountSubscriber) {
-        ChainStore.unsubscribe(accountSubscriber);
+      const assetId = availableBalance.get('asset_type');
+      const currentBalance = getState().getIn(['account', 'availableBalancesByAssetId', assetId]);
+      if (!availableBalance.equals(currentBalance)) {
+        dispatch(AccountPrivateActions.updateAvailableBalanceAction(availableBalance));
       }
-      // Define new account subscriber and subscribe to ChainStore
-      accountSubscriber = () => {
-        const accountId = account && account.get('id');
-        if (accountId) {
-          const previousAccount = getState().getIn(['account', 'account']);
-          const updatedAccount = ChainStore.getAccount(accountId);
-          // Dispatch updated account
-          if (previousAccount && !previousAccount.equals(updatedAccount)) {
-            dispatch(AccountActions.setAccount(updatedAccount));
-          }
-        }
-      };
-      ChainStore.subscribe(accountSubscriber);
-      // Set the account
-      dispatch(AccountPrivateActions.setAccountAction(account));
-      // Get balance for the account
-      dispatch(AccountPrivateActions.getBalance(account));
-      // Update notification for the accounts
-      dispatch(NotificationActions.updateNotifications(account));
+    }
+  }
+
+  static setAvailableBalancesAction(availableBalances) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_AVAILABLE_BALANCES,
+      availableBalances,
+    }
+  }
+
+  static setInGameBalancesAction(inGameBalances) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_IN_GAME_BALANCES,
+      inGameBalances
+    }
+  }
+  static setKeysAction(privateKeyWifsByRole, publicKeyStringsByRole) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_KEYS,
+      privateKeyWifsByRole,
+      publicKeyStringsByRole
+    }
+  }
+
+  static setStatisticsAction(statistics) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_STATISTICS,
+      statistics
+    }
+  }
+
+  static setAccountAction(account) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_ACCOUNT,
+      account
     }
   }
 
@@ -197,7 +194,6 @@ class AccountActions {
 
       const account = getState().getIn(['account', 'account']);
       const oldKeys = KeyGeneratorService.generateKeys(account.get('name'), oldPassword);
-
       Promise.resolve().then(() => {
         // Check if account is authenticated
         const isAuthenticated = AccountService.authenticateAccount(account, oldKeys);
