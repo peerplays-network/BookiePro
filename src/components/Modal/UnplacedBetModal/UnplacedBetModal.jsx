@@ -6,7 +6,7 @@ class UnplacedBetModal extends Component {
   render() {
     return (
       <Modal
-        title={ 'confrim navigation' }
+        title={ 'Confirm navigation' }
         wrapClassName={ 'unplaced-bet-modal' }
         closable={ true }
         maskClosable={ true }
