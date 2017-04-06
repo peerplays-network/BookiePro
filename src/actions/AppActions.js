@@ -72,7 +72,7 @@ class AppActions {
       };
       ConnectionService.connectToBlockchain(connectionStatusCallback).then(() => {
         // Sync with blockchain
-        return ConnectionService.syncWithBlockchain(dispatch, getState);
+        return CommunicationService.syncWithBlockchain(dispatch, getState);
       }).then(() => {
         // Listen to software update
         return dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());

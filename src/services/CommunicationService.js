@@ -135,7 +135,7 @@ class CommunicationService {
   /**
    * Sync communication service with blockchain, so it always has the latest data
    */
-  static syncWithBlockchain(dispatch, getState) {
+  static syncWithBlockchain(dispatch, getState, attempt=3) {
     return new Promise((resolve, reject) => {
       // Check if db api is ready
       let db_api = Apis.instance().db_api();
@@ -156,6 +156,7 @@ class CommunicationService {
           const onUpdate = this.onUpdate.bind(this);
           return Apis.instance().db_api().exec( 'set_subscribe_callback', [ onUpdate, true ] ).then(() => {
             // Sync success
+            console.log('Sync with Blockchain Success');
             // Set reference to dispatch and getState
             this.dispatch = dispatch;
             this.getState = getState;
@@ -169,9 +170,17 @@ class CommunicationService {
           throw new Error();
         }
       }).catch( error => {
-        // Fail, return
-        reject(new Error('Fail to Sync with Blockchain.'));
-      })
+        console.error('Sync with Blockchain Fail', error);
+        // Retry if needed
+        if (attempt > 0) {
+          // Retry to connect
+          console.log('Retry syncing with blockchain');
+          return CommunicationService.syncWithBlockchain(dispatch, getState, attempt-1);
+        } else {
+          // Give up, reject an error to be caught by the outer promise handler
+          reject(new Error('Fail to Sync with Blockchain.'));
+        }
+      });
     });
   }
 

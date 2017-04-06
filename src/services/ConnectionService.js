@@ -1,9 +1,7 @@
 import { Apis, ChainConfig } from 'graphenejs-ws';
 import { Config, ConnectionStatus } from '../constants';
 import { ConnectionUtils } from '../utility';
-import CommunicationService from './CommunicationService';
 
-const MAX_ATTEMPT = 3;
 const connectionString = Config.blockchainUrls[0];
 
 class ConnectionService {
@@ -97,7 +95,7 @@ class ConnectionService {
   /**
    * Open websocket connection to blockchain
    */
-  static connectToBlockchain(connectionStatusCallback, attempt=MAX_ATTEMPT) {
+  static connectToBlockchain(connectionStatusCallback, attempt=3) {
     // Set connection status callback
     ConnectionService.setConnectionStatusCallback(connectionStatusCallback);
     // Set connection status to be connecting
@@ -124,26 +122,6 @@ class ConnectionService {
     })
   }
 
-  /**
-   * Sync with blockchain, so the app always have the latest data
-   */
-  static syncWithBlockchain(dispatch, getState, attempt=MAX_ATTEMPT) {
-    // Sync with blockchain using ChainStore
-    return CommunicationService.syncWithBlockchain(dispatch, getState).then(() => {
-      console.log('Sync with Blockchain Success');
-    }).catch((error) => {
-      console.error('Sync with Blockchain Fail', error);
-      // Retry if needed
-      if (attempt > 0) {
-        // Retry to connect
-        console.log('Retry syncing with blockchain');
-        return ConnectionService.syncWithBlockchain(dispatch, getState,attempt-1);
-      } else {
-        // Throw the error to be caught by the outer promise handler
-        throw error;
-      }
-    });
-  }
 }
 
 export default ConnectionService;
