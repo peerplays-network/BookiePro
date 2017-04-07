@@ -79,7 +79,7 @@ class EventActions {
       sportIds.forEach( sportId => {
         if (getEventsBySportIdsLoadingStatus.get(sportId) === LoadingStatus.DONE) {
           if (eventsBySportId.has(sportId)) {
-            retrievedEvents = retrievedEvents.concat(eventsBySportId.get(sportId));
+            retrievedEvents = retrievedEvents.push(eventsBySportId.get(sportId));
           }
         } else {
           sportIdsOfEventsToBeRetrieved = sportIdsOfEventsToBeRetrieved.push(sportId);
@@ -121,7 +121,7 @@ class EventActions {
       eventIds.forEach( eventId => {
         if (getEventsByIdsLoadingStatus.get(eventId) === LoadingStatus.DONE) {
           if (eventsById.has(eventId)) {
-            retrievedEvents = retrievedEvents.concat(eventsById.get(eventId));
+            retrievedEvents = retrievedEvents.push(eventsById.get(eventId));
           }
         } else {
           idsOfEventsToBeRetrieved = idsOfEventsToBeRetrieved.push(eventId);

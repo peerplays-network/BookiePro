@@ -5,7 +5,7 @@ import { CommunicationService } from '../services';
 class BettingMarketPrivateActions {
   static setGetBettingMarketsByIdsLoadingStatusAction(bettingMarketIds, loadingStatus) {
     return {
-      type: ActionTypes.BETTING_MARKET_SET_GET_BETTING_MARKET_BY_IDS_LOADING_STATUS,
+      type: ActionTypes.BETTING_MARKET_SET_GET_BETTING_MARKETS_BY_IDS_LOADING_STATUS,
       bettingMarketIds,
       loadingStatus
     }

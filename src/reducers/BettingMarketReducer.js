@@ -16,9 +16,9 @@ export default function (state = initialState, action) {
       })
       return state.mergeIn(['bettingMarketsById'], bettingMarketsById);
     }
-    case ActionTypes.BETTING_MARKET_GROUP_SET_GET_BETTING_MARKETS_BY_IDS_LOADING_STATUS: {
+    case ActionTypes.BETTING_MARKET_SET_GET_BETTING_MARKETS_BY_IDS_LOADING_STATUS: {
       let getBettingMarketsByIdsLoadingStatus = Immutable.Map();
-      action.bettingMarketGroupIds.forEach( id => {
+      action.bettingMarketIds.forEach( id => {
         getBettingMarketsByIdsLoadingStatus = getBettingMarketsByIdsLoadingStatus.set(id, action.loadingStatus);
       })
       return state.mergeIn(['getBettingMarketsByIdsLoadingStatus'], getBettingMarketsByIdsLoadingStatus);

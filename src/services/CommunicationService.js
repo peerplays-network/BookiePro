@@ -504,15 +504,29 @@ class CommunicationService {
   /**
    * Get transaction history of an account
    */
-  static getTransactionHistories(accountId, startTime, stopTime) {
+  static getTransactionHistories(accountId, startDate, endDate) {
     // TODO: Replace later
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // TODO: do it later, pending for confirmation from Dan
-        resolve([]);
-      }, TIMEOUT_LENGTH);
+      if(startDate !== undefined && endDate !== undefined){
+        const filteredHistory =  _.filter(dummyData.transactionHistory, (hist) => {
+          return (hist.time >= startDate && hist.time <= endDate)
+        });
+        resolve(Immutable.fromJS(_.orderBy(filteredHistory,
+          function(value) {
+            return (value.time +''
+          )}, 'desc'
+        )));
+      }
+      resolve(Immutable.fromJS(_.orderBy(dummyData.transactionHistory,
+        function(value) {
+          return (value.time +''
+        )}, 'desc'
+      )));
     });
+
   }
+
+
 
 }
 

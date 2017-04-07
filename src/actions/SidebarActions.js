@@ -126,7 +126,6 @@ class SidebarActions{
 
         completeTree.push(sportNode);
       });
-
       dispatch(SidebarActions.updateTree(completeTree));
     }
   }

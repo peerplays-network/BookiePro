@@ -218,7 +218,6 @@ const mapStateToProps = (state) => {
 
 
     if(tabKey === 'unmatchedBets'){
-          console.log(JSON.stringify(mergeData, null, 2))
       return {
         unmatchedBetsColumns: columns,
         unmatchedBetsData: mergeData,
