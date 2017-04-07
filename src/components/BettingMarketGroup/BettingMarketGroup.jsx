@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BettingMarketGroupBanner } from '../Banners';
-import ComplexBettingWidget from '../ComplexBettingWidget';
+// import ComplexBettingWidget from '../ComplexBettingWidget';
 import ComplexBettingWidget2 from '../BettingWidget/ComplexBettingWidget2';
 import Immutable from 'immutable';
 import moment from 'moment'; // TODO: Remove later. For hardcoded data only
@@ -8,6 +8,7 @@ import { BettingMarketGroupPageActions } from '../../actions';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { findKeyPathOf } from '../../utility/TreeUtils'
 
 // // dummy data -- bettting market groups
 // {
@@ -84,20 +85,71 @@ class BettingMarketGroup extends Component {
 
   constructor(props) {
     super(props);
-    this.props.getData(props.params.objectId);
+    this.state = {
+      eventName: '',
+      marketData: []
+    }
+    this.updateMarketData = this.updateMarketData.bind(this);
+
   }
 
+
+  componentDidMount(){
+    this.props.getData(this.props.params.objectId);
+  }
+
+  componentWillReceiveProps(nextProps){
+
+    if (nextProps.params.objectId !== this.props.params.objectId){
+      this.props.getData(nextProps.params.objectId);
+    }
+
+    //when sidebar is ready, we could retrieve the event name directly
+
+    if ( this.state.eventName === '' || nextProps.params.objectId !== this.props.params.objectId){
+      const nested = Immutable.fromJS(nextProps.completeTree);
+      var keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === this.props.params.objectId) );
+
+      if ( keyPath !==  undefined){
+        this.setState({
+          //retrive the event Node
+          eventName: nested.getIn(keyPath.slice(0,5)).get('name')
+        })
+      }
+
+    }
+
+    if ( !this.props.binnedOrderBooks.equals(nextProps.binnedOrderBooks)){
+      this.updateMarketData(nextProps.bettingMarkets, nextProps.binnedOrderBooks)
+    }
+
+  }
+
+  //update the data in table of complex betting widget
+  updateMarketData(bettingMarkets, binnedOrderBooks){
+
+  }
+
+  // componentWillUpdate(nextProps, nextState){
+  //
+  // }
+
   render() {
+
+
+
     return (
       <div className='betting-market-group-wrapper'>
-        <BettingMarketGroupBanner />
+        <BettingMarketGroupBanner
+          eventName={ this.state.eventName }
+        />
         {/* <ComplexBettingWidget
           title='Test Title'
           events={ fakeData }
         /> */}
         <ComplexBettingWidget2
-          title='Test Title'
-          events={ fakeData }
+          title={ this.state.eventName }
+          marketData={ this.state.marketData }
         />
       </div>
     )
@@ -111,17 +163,15 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
-  const eventsById = state.getIn(['event', 'eventsById']);
-  const eventIds = state.getIn(['eventGroupPage', 'eventIds']);
-  const binnedOrderBooksByEvent = state.getIn(['eventGroupPage', 'binnedOrderBooksByEvent']);
-
-  // myEvents = Immutable.List(myEvents);
+  const bettingMktGroupPage = state.get('bettingMarketGroupPage');
+  const sidebar = state.get('sidebar');
 
   return {
-    // sport: state.getIn(['eventGroupPage', 'sportName']),
-    // eventGroup: state.getIn(['eventGroupPage', 'eventGroupName']),
-    // events: myEvents
-  };
+    bettingMarketGroup: bettingMktGroupPage.get('bettingMarketGroup'),
+    bettingMarkets: bettingMktGroupPage.get('bettingMarkets'),
+    binnedOrderBooks: bettingMktGroupPage.get('binnedOrderBooks'),
+    completeTree: sidebar.get('complete_tree'),
+  }
 };
 
 export default connect(

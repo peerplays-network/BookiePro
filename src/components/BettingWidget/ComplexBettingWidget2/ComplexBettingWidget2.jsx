@@ -44,7 +44,6 @@ const marketData = [{
       }
     ]
   },
-  "key": "1.103.2"
 },{
   id: '1.105.86',
   name: 'Academic Plovdiv',
@@ -98,7 +97,6 @@ const marketData = [{
       }
     ]
   },
-  "key": "1.103.2"
 }]
 
 class ComplexBettingWidget2 extends Component {
@@ -106,6 +104,7 @@ class ComplexBettingWidget2 extends Component {
   constructor(props) {
     super(props);
 
+    //props.marketData
     const index = 0
     const orig = Immutable.fromJS(marketData);
 
@@ -338,6 +337,11 @@ class ComplexBettingWidget2 extends Component {
 
   }
 }
+
+ComplexBettingWidget2.propTypes = {
+  title: React.PropTypes.string.isRequired,
+  marketData: React.PropTypes.any.isRequired
+};
 
 const mapStateToProps = (state) => {
   const sidebar = state.get('sidebar');

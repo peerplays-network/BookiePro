@@ -17,6 +17,7 @@ import BetReducer from './BetReducer';
 import AllSportsReducer from './AllSportsReducer';
 import SportPageReducer from './SportPageReducer';
 import EventGroupPageReducer from './EventGroupPageReducer';
+import BettingMarketGroupPageReducer from './BettingMarketGroupPageReducer';
 import AccountReducer from './AccountReducer';
 import NotificationReducer from './NotificationReducer';
 import SoftwareUpdateReducer from './SoftwareUpdateReducer';
@@ -42,6 +43,7 @@ const rootReducer = combineReducers({
   allSports: AllSportsReducer,
   sportPage: SportPageReducer,
   eventGroupPage: EventGroupPageReducer,
+  bettingMarketGroupPage: BettingMarketGroupPageReducer,
   account: AccountReducer,
   notification: NotificationReducer,
   softwareUpdate: SoftwareUpdateReducer,
