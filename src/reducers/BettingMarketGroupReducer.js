@@ -9,7 +9,7 @@ let initialState = Immutable.fromJS({
 
 export default function (state = initialState, action) {
   switch(action.type) {
-    case ActionTypes.BETTING_MARKET_GROUP_ADD_BETTING_MARKET_GROUPS: {
+    case ActionTypes.BETTING_MARKET_GROUP_ADD_OR_UPDATE_BETTING_MARKET_GROUPS: {
       let bettingMarketGroupsById = Immutable.Map();
       action.bettingMarketGroups.forEach( bettingMarketGroup => {
         bettingMarketGroupsById = bettingMarketGroupsById.set(bettingMarketGroup.get('id'), bettingMarketGroup);
