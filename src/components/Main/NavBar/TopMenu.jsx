@@ -15,9 +15,17 @@ class TopMenu extends Component {
     super(props);
     this.state = {
       current: 'smile',
+      withdrawAmount:''
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
+  }
+
+  handleWithdrawSubmit(values){
+    //track the withdraw amount to display in success message after successfull submit
+    this.setState({withdrawAmount:values.get('withdrawAmount')});
+    this.props.withdraw(values.get('withdrawAmount'), values.get('walletAddr'));
   }
 
   componentDidMount(){
@@ -58,7 +66,13 @@ class TopMenu extends Component {
       <Deposit cardClass='bookie-card deposit-card' depositAddress={ depositAddress } />
     );
     const withdrawCard = (
-      <Withdraw cardClass='bookie-card withdraw-card' />
+      <Withdraw cardClass='bookie-card withdraw-card'
+        currencyFormat={ this.props.currencyFormat }
+        availableBalance={ this.props.availableBalance }
+        onSubmit={ this.handleWithdrawSubmit }
+        withdrawLoadingStatus={ this.props.withdrawLoadingStatus }
+        withdrawAmount={ this.state.withdrawAmount }
+        />
     );
     const dropdownMenuCard = (
       <DropdownMenu cardClass='menu-card' onSubmenuClick={ this.handleClick } />
@@ -138,14 +152,18 @@ const mapStateToProps = (state) => {
   return {
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: account.get('getDepositAddressLoadingStatus'),
-    depositAddress: account.get('depositAddress')
+    depositAddress: account.get('depositAddress'),
+    availableBalance: account.get('availableBalance'),
+    withdrawLoadingStatus: account.get('withdrawLoadingStatus'),
+    currencyFormat: state.get('setting').get('currencyFormat'),
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     getDepositAddress: AccountActions.getDepositAddress,
-    navigateTo: NavigateActions.navigateTo
+    navigateTo: NavigateActions.navigateTo,
+    withdraw: AccountActions.withdraw
   }, dispatch)
 }
 
