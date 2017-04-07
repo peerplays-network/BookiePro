@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Icon } from 'antd';
+import { Menu } from 'antd';
 import _ from 'lodash';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';

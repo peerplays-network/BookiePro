@@ -133,22 +133,50 @@ div.search-menu{
 .Select-clear-zone{
   display: none;
 }
-.has-value.Select--single > .Select-control .Select-value .Select-value-label, .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label{
-  font-size: 18px;
-  color: #FFFFFF;
-  padding-left:25px;
+
+// search result selected option styling
+.has-value.Select--single {
+  >.Select-control {
+    .Select-value {
+      .Select-value-label {
+        font-size: 18px;
+        color: #FFFFFF;
+        padding-left: 25px;
+      }
+    }
+  }
 }
+.has-value.is-pseudo-focused.Select--single {
+  >.Select-control {
+    .Select-value {
+      .Select-value-label {
+        font-size: 18px;
+        color: #FFFFFF;
+        padding-left: 25px;
+      }
+    }
+  }
+}
+
 .has-value.is-pseudo-focused{
   .Select-input{
     opacity:1;
   }
 }
+// selected result input box styling
 .Select.has-value{
   .Select-input{
     color: #FFFFFF;
     border-bottom-color: #FFFFFF;
   }
 }
-.Select-placeholder, .Select--single > .Select-control .Select-value{
+.Select-placeholder {
   max-width: 268px;
+}
+.Select--single {
+  >.Select-control {
+    .Select-value {
+      max-width: 268px;
+    }
+  }
 }

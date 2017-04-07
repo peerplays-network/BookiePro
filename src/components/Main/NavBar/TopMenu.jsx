@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Badge, Menu, Icon,Dropdown } from 'antd';
+import { Badge, Menu,Dropdown } from 'antd';
 import Deposit from '../../MyAccount/Deposit'
 import Withdraw from '../../MyAccount/Withdraw'
 import Amount from './AmountDropDown'
@@ -13,7 +13,6 @@ import { NavigateActions } from '../../../actions';
 class TopMenu extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       current: 'smile',
     };
