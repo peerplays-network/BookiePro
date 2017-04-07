@@ -3,16 +3,17 @@ let I18n = require('react-redux-i18n').I18n;
 import {
   Card
 } from 'antd';
-import { Field, reduxForm } from 'redux-form/immutable'
-import { LoadingStatus } from '../../constants'
+import { Field, reduxForm } from 'redux-form/immutable';
+import { LoadingStatus } from '../../constants';
 
 //Component to render fields
-const renderField = ({ tabIndex, errors, placeholder, input, type, hasWithdrawAmtErr,withdrawAmtExceedErrMsg,
+const renderField = ({ className, errors, placeholder,haswithdrawAmountErr, input, type ,withdrawAmountExceedErrMsg,
     meta: { touched, error } }) => (
   <div>
-      <input autoFocus={ tabIndex === '1' } autoComplete='off'  { ...input }
-         type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
-       { (touched) && (error || hasWithdrawAmtErr) && <span className='errorText'>{hasWithdrawAmtErr ? withdrawAmtExceedErrMsg : error}</span> }
+      <input className={ className } autoComplete='off'  { ...input }
+         type={ type } placeholder={ placeholder }/>
+       { (touched) && (error || haswithdrawAmountErr) &&
+          <span className='errorText'>{haswithdrawAmountErr ? withdrawAmountExceedErrMsg : error}</span> }
       { !error && errors && errors.length ? errors.map((err) => { return <span className='errorText' key={ err }>{ err }</span>}) : null }
   </div>
 );
@@ -30,66 +31,71 @@ const normalizeAmount = (value, previousValue) => {
 };
 
 class Withdraw extends Component{
-
-  //TODO: TESTING THIS
-  /*constructor(props){
+  constructor(props){
     super(props);
     this.state = {
-      hasWithdrawAmtErr: false
+      haswithdrawAmountErr: false
     }
-    this.onWithdrawAmtChange = this.onWithdrawAmtChange.bind(this);
+    this.onwithdrawAmountChange = this.onwithdrawAmountChange.bind(this);
   }
-  onWithdrawAmtChange(e){
-    let withdrawAmt = e.target.value;
-    console.log(withdrawAmt);
-    if(!isNaN(withdrawAmt)){
-      //If the withdraw amount entered is less than the user's available balance, generate error
-      if((parseFloat(withdrawAmt) > 10) || parseFloat(withdrawAmt) === 0){
-        this.setState({ hasWithdrawAmtErr: true })
+  //Check entered amount with user's available balance
+  onwithdrawAmountChange(e){
+    let withdrawAmount = e.target.value;
+    if(!isNaN(withdrawAmount)){
+      if((parseFloat(withdrawAmount) > 10) || parseFloat(withdrawAmount) === 0){
+        this.setState({ haswithdrawAmountErr: true })
       } else {
-        this.setState({ hasWithdrawAmtErr: false })
+        this.setState({ haswithdrawAmountErr: false })
       }
     } else {
-      this.setState({ hasWithdrawAmtErr: false })
+      this.setState({ haswithdrawAmountErr: false })
     }
-  }*/
-
+  }
   render(){
     const { invalid,asyncValidating,submitting,
-            onWithdrawAmtChange,hasWithdrawAmtErr,prefix,availableBalance,handleSubmit,withdrawLoadingStatus,withdrawCardTitle } = this.props;
-    const isDisabled = invalid || submitting || asyncValidating ||
-                       hasWithdrawAmtErr || withdrawLoadingStatus===LoadingStatus.LOADING;
-
+            availableBalance,handleSubmit,withdrawLoadingStatus,currencyFormat,withdrawAmount } = this.props,
+      isWithdrawLoadingStatusLoading = withdrawLoadingStatus===LoadingStatus.LOADING,
+      isWithdrawLoadingStatusDone = withdrawLoadingStatus===LoadingStatus.DONE,
+      isDisabled = invalid || submitting || asyncValidating ||
+                       this.state.haswithdrawAmountErr || isWithdrawLoadingStatusLoading,
+      prefix = currencyFormat === 'BTC' ? 'B' : ( currencyFormat === 'mBTC' ? 'mB' : '');
+    let withdrawCardTitle = '';
+    if(withdrawLoadingStatus === LoadingStatus.DEFAULT)
+      withdrawCardTitle = I18n.t('myAccount.withdraw');
+    if(isWithdrawLoadingStatusDone)
+      withdrawCardTitle = I18n.t('myAccount.withdraw_completed');
+    //TODO: Keeping is pending for now. Will implement when error response is obtained from the action.
+    /*if(this.state.haswithdrawAmountErr)
+      withdrawCardTitle = I18n.t('myAccount.withdraw_failed');*/
+    //TODO: Wallet address validation pending
     return(
       <Card className={ this.props.cardClass } title={ withdrawCardTitle }>
         <div className='my-account'>
-          { withdrawLoadingStatus !== 'done' ? <p>{ I18n.t('myAccount.withdraw_desc') }</p> : null }
-          { withdrawLoadingStatus === 'done' ?
+          { !isWithdrawLoadingStatusDone ? <p>{ I18n.t('myAccount.withdraw_desc') }</p> : null }
+          { isWithdrawLoadingStatusDone ?
             <div className='registerComponent'>
               <p>
-                You have successfully withdrawn from your account and transferred it to your wallet.
+                { I18n.t('myAccount.withdraw_completed_msg_1') + withdrawAmount + prefix + I18n.t('myAccount.withdraw_completed_msg_2') }
               </p>
             </div> :
             <div className='registerComponent'>
-              <form onSubmit={ handleSubmit }>
+              <form onSubmit={ handleSubmit } className='withdrawForm'>
                 <div className='form-fields'>
-                    <Field name='withdrawAmt' id='withdrawAmt' className='bookie-input bookie-amount'
-                      onChange={ onWithdrawAmtChange }
-                      hasWithdrawAmtErr={ hasWithdrawAmtErr }
-                      withdrawAmtExceedErrMsg={ I18n.t('myAccount.insuffBitcoinErr') + availableBalance + prefix }
-                      component={ renderField }  type='text' normalize={ normalizeAmount } />
+                  <Field name='withdrawAmount' id='withdrawAmount' className='bookie-input bookie-amount'
+                    onChange={ this.onwithdrawAmountChange }
+                    haswithdrawAmountErr={ this.state.haswithdrawAmountErr }
+                    withdrawAmountExceedErrMsg={ I18n.t('myAccount.insuffBitcoinErr') + availableBalance + prefix }
+                    component={ renderField }  type='text' normalize={ normalizeAmount } />
                 </div>
                 <div className='form-fields'>
-                    <Field name='walletAddr' id='walletAddr' className='bookie-input'
-                      component={ renderField } placeholder={ I18n.t('myAccount.send_value') } type='text'/>
-                </div>
-                <div className='form-fields'>
-                  <button
-                    type='submit'
-                    disabled={ isDisabled }
-                    className={ 'btn ' + (isDisabled ? 'copy-btn-disabled':' copy-btn') + ' btn-primary' }>
-                    { withdrawLoadingStatus==='loading'  ? I18n.t('application.loading') : I18n.t('myAccount.send') }
-                  </button>
+                  <Field name='walletAddr' id='walletAddr' className='walletAddr-input'
+                    component={ renderField } placeholder={ I18n.t('myAccount.send_value') } type='text'/>
+                    <button
+                      className={ 'btn ' + (isDisabled ? 'copy-btn-disabled':' copy-btn') + ' btn-primary' }
+                      type='submit'
+                      disabled={ isDisabled }>
+                      { isWithdrawLoadingStatusLoading  ? I18n.t('application.loading') : I18n.t('myAccount.send') }
+                    </button>
                 </div>
               </form>
             </div>
@@ -99,15 +105,14 @@ class Withdraw extends Component{
     )
   }
 }
-
 export default reduxForm({
   form: 'withdrawForm',  // a unique identifier for this form
-  fields: ['withdrawAmt', 'walletAddr'],
+  fields: ['withdrawAmount', 'walletAddr'],
   //Form field validations
   validate: function submit(values) {
     let errors = {};
-    if (!values.get('withdrawAmt')) {
-      errors.withdrawAmt = I18n.t('myAccount.enter_withdrawAmt')
+    if (!values.get('withdrawAmount')) {
+      errors.withdrawAmount = I18n.t('myAccount.enter_withdrawAmount')
     }
     if (!values.get('walletAddr')) {
       errors.walletAddr = I18n.t('myAccount.enter_wallet_addr')
