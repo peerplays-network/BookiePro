@@ -20,7 +20,7 @@ import 'perfect-scrollbar';
 import Deposit from './Deposit'
 import Withdraw from './Withdraw'
 import dateFormat from 'dateformat';
-import { SettingActions,AccountActions } from '../../actions';
+import { SettingActions, AccountActions } from '../../actions';
 
 const Option = Select.Option;
 
@@ -47,7 +47,7 @@ class MyAccount extends Component {
       //Since, the default period is 'Last 7 days', we set the initial start and end date accordingly
       startDate:dateFormat(startDate, "yyyy-mm-dd h:MM:ss"),
       endDate:dateFormat(endDate, "yyyy-mm-dd h:MM:ss"),
-      hasWithdrawAmtErr: false
+      withdrawAmount:''
     }
 
     // this.fetchRecentTransactionHistory = this.fetchRecentTransactionHistory.bind(this);
@@ -55,7 +55,6 @@ class MyAccount extends Component {
     this.handleCurrFormatChange = this.handleCurrFormatChange.bind(this);
     this.handleTimeZoneChange = this.handleTimeZoneChange.bind(this);
     this.handleNotificationChange = this.handleNotificationChange.bind(this);
-    this.handleWithdrawAmtChange = this.handleWithdrawAmtChange.bind(this);
     this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
 
     this.periodChange = this.periodChange.bind(this);
@@ -221,7 +220,6 @@ class MyAccount extends Component {
 
   }
 
-
   handleRedirectToChangePwd(){
     this.props.redirectToChangePwd();
   }
@@ -241,7 +239,9 @@ class MyAccount extends Component {
   }
 
   handleWithdrawSubmit(values){
-    this.props.withdraw(values.get('withdrawAmt'), values.get('walletAddr'));
+    //track the withdraw amount to display in success message after successfull submit
+    this.setState({ withdrawAmount:values.get('withdrawAmount') });
+    this.props.withdraw(values.get('withdrawAmount'), values.get('walletAddr'));
   }
 
   renderSettingCard() {
@@ -362,7 +362,6 @@ class MyAccount extends Component {
 
   render() {
     const {showDateFields} = this.state;
-    const prefix = this.props.currencyFormat === 'BTC' ? 'B' : ( this.props.currencyFormat === 'mBTC' ? 'mB' : '');
     return (
       <div className='my-account section-padding'>
         <Breadcrumb className='bookie-breadcrumb'>
@@ -376,13 +375,11 @@ class MyAccount extends Component {
           </Col>
           <Col span={ 8 }>
             <Withdraw cardClass='bookie-card'
-              prefix={ prefix }
-              onWithdrawAmtChange={ this.handleWithdrawAmtChange }
-              hasWithdrawAmtErr={ this.state.hasWithdrawAmtErr }
+              currencyFormat={ this.props.currencyFormat }
               availableBalance={ this.props.availableBalance }
               onSubmit={ this.handleWithdrawSubmit }
               withdrawLoadingStatus={ this.props.withdrawLoadingStatus }
-              withdrawCardTitle={ this.props.withdrawCardTitle }
+              withdrawAmount={ this.state.withdrawAmount }
               />
           </Col>
           <Col span={ 8 }>
