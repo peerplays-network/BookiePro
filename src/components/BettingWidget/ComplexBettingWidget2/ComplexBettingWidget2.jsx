@@ -25,6 +25,8 @@ class ComplexBettingWidget2 extends Component {
 
     this.state = {
       tableData:  Immutable.fromJS([]),
+      backAllPercent: 0,
+      layAllPercent: 0,
     }
 
     this.onOfferClicked = this.onOfferClicked.bind(this);
@@ -38,7 +40,10 @@ class ComplexBettingWidget2 extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setTableData(nextProps.marketData)
+    if (this.props.marketData !== nextProps.marketData){
+      this.setTableData(nextProps.marketData)
+    }
+
   }
 
   // betting widget full :
@@ -51,6 +56,9 @@ class ComplexBettingWidget2 extends Component {
     const startingIndex = 0
 
     if ( !orig.equals(Immutable.fromJS([]) ) ){
+
+      let backBookPercent = 0.0;
+      let layBookPercent = 0.0;
 
       orig.forEach((row, i) => {
 
@@ -65,10 +73,21 @@ class ComplexBettingWidget2 extends Component {
         orig = orig.setIn([i, 'offer', 'back'], backTableData)
           .setIn([i, 'offer', 'lay'], layTableData)
 
+        //adding up based on the best price that is being offered i.e. backTableData[0]
+        if (backTableData.size > 0){
+          backBookPercent = parseFloat(backBookPercent, 10) + parseFloat( (100 / backTableData.getIn([0, 'odds'])).toFixed(2));
+        }
+
+        //adding up based on the best price that is being offered i.e. layTableData[0]
+        if (layTableData.size > 0){
+          layBookPercent = parseFloat(layBookPercent, 10) + parseFloat( (100 / layTableData.getIn([0, 'odds'])).toFixed(2));
+        }
       });
 
       this.setState({
-        tableData: orig
+        tableData: orig,
+        backBookPercent: Math.round(backBookPercent) ,
+        layBookPercent: Math.round(layBookPercent)
       })
     } else {
       this.setState({
@@ -115,11 +134,11 @@ class ComplexBettingWidget2 extends Component {
   onOfferClicked(rowInfo, column) {
 
     const record = Immutable.fromJS(rowInfo.row).set('name', this.props.eventName)
-    const team = rowInfo.rowValues.name
+    const competitor = rowInfo.rowValues.name
     const marketType = column.className
-    // for 'OFFER' case, offer will be empty
+    // for 'null OFFER' case in which we only see 'OFFER' in item, offer will be empty
     const offer = Immutable.fromJS(rowInfo.rowValues[column.id])
-    this.props.createBet(record, team, marketType, offer);
+    this.props.createBet(record, competitor, marketType, offer);
   }
 
   render() {
@@ -127,6 +146,10 @@ class ComplexBettingWidget2 extends Component {
     const minNameWidth = 200;
     const minOfferWidth = 40;
     const minArrowWidth = 15;
+     // we must use 'back' here for actions. ie. this.props.createBet(record, competitor, 'back', offer);
+    const classNameBack = 'back'
+    // we must use 'lay' here for actions, ie. this.props.createBet(record, competitor, 'lay', offer);
+    const classNameLay = 'lay'
 
     const columns = [{
       header: props => null,
@@ -148,7 +171,7 @@ class ComplexBettingWidget2 extends Component {
       header:  props =>
       // NOTE will be seperated comopent for header
         <div className='offer-header'>
-          <p className='alignleft'>104%</p>
+          <p className='alignleft'>{ this.state.backBookPercent }%</p>
           <p className='alignright'>{I18n.t('complex_betting_widget.back_all')}</p>
         </div>,
       columns: [{
@@ -156,7 +179,7 @@ class ComplexBettingWidget2 extends Component {
         header: props => null,
         style: { 'padding': '0px'},
         minWidth: minOfferWidth,
-        className: 'back', // we must use 'back' here for actions. ie. this.props.createBet(record, team, 'back', offer);
+        className: classNameBack, // we must use 'back' here for actions. ie. this.props.createBet(record, competitor, 'back', offer);
         accessor: row => row.offer.back.length > 2 ? row.offer.back[2] : undefined,
         render: props => props.value ?
          <div className='back-offer'>
@@ -169,7 +192,7 @@ class ComplexBettingWidget2 extends Component {
         header: props => null,
         style: { 'padding': '0px'},
         minWidth: minOfferWidth,
-        className: 'back',
+        className: classNameBack,
         accessor: row => row.offer.back.length > 1 ? row.offer.back[1] : undefined,
         render: props => props.value ?
          <div className='back-offer'>
@@ -182,7 +205,7 @@ class ComplexBettingWidget2 extends Component {
         header: props => null,
         style: { 'padding': '0px'},
         minWidth: minOfferWidth,
-        className: 'back',
+        className: classNameBack,
         accessor: row => row.offer.back.length > 0 ? row.offer.back[0] : undefined,
         render: props => props.value ?
          <div className='back-offer'>
@@ -195,14 +218,14 @@ class ComplexBettingWidget2 extends Component {
       // NOTE will be seperated comopent for header
       header:  props =>
         <div className='offer-header'><p className='alignleft'>{I18n.t('complex_betting_widget.lay_all')}</p>
-          <p className='alignright'>99.4%</p>
+          <p className='alignright'>{ this.state.layBookPercent }%</p>
         </div>,
       columns: [{
         id: 'lay1',
         header: props => null,
         style: { 'padding': '0px'},
         minWidth: minOfferWidth,
-        className: 'lay', // we must use 'lay' here for actions, ie. this.props.createBet(record, team, 'lay', offer);
+        className: classNameLay,
         accessor: row => row.offer.lay.length > 0 ? row.offer.lay[0] : undefined,
         render: props => props.value ?
          <div className='lay-offer'>
@@ -215,7 +238,7 @@ class ComplexBettingWidget2 extends Component {
         header: props => null,
         style: { 'padding': '0px'},
         minWidth: minOfferWidth,
-        className: 'lay',
+        className: classNameLay,
         accessor: row => row.offer.lay.length > 1 ? row.offer.lay[1] : undefined,
         render: props => props.value ?
          <div className='lay-offer'>
@@ -232,7 +255,7 @@ class ComplexBettingWidget2 extends Component {
         header: props => null,
         style: { 'padding': '0px'},
         minWidth: minOfferWidth,
-        className: 'lay',
+        className: classNameLay,
         accessor: row => row.offer.lay.length > 2 ? row.offer.lay[2] : undefined,
         render: props => props.value ?
          <div className='lay-offer'>
