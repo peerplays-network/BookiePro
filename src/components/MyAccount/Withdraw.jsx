@@ -42,7 +42,7 @@ class Withdraw extends Component{
   onwithdrawAmountChange(e){
     let withdrawAmount = e.target.value;
     if(!isNaN(withdrawAmount)){
-      if((parseFloat(withdrawAmount) > 10) || parseFloat(withdrawAmount) === 0){
+      if((parseFloat(withdrawAmount) > this.props.availableBalance) || parseFloat(withdrawAmount) === 0){
         this.setState({ haswithdrawAmountErr: true })
       } else {
         this.setState({ haswithdrawAmountErr: false })
@@ -88,13 +88,13 @@ class Withdraw extends Component{
                     component={ renderField }  type='text' normalize={ normalizeAmount } />
                 </div>
                 <div className='form-fields'>
-                  <Field name='walletAddr' id='walletAddr' className='walletAddr-input'
+                  <Field name='walletAddr' id='walletAddr' className='bookie-input walletAddr-input'
                     component={ renderField } placeholder={ I18n.t('myAccount.send_value') } type='text'/>
                     <button
-                      className={ 'btn ' + (isDisabled ? 'copy-btn-disabled':' copy-btn') + ' btn-primary' }
+                      className={ 'btn ' + (isDisabled ? 'send-btn-disabled':' send-btn') + ' btn-primary' }
                       type='submit'
                       disabled={ isDisabled }>
-                      { isWithdrawLoadingStatusLoading  ? I18n.t('application.loading') : I18n.t('myAccount.send') }
+                      { I18n.t('myAccount.send') }
                     </button>
                 </div>
               </form>
