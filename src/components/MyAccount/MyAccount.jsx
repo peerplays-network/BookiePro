@@ -55,7 +55,6 @@ class MyAccount extends Component {
     this.handleCurrFormatChange = this.handleCurrFormatChange.bind(this);
     this.handleTimeZoneChange = this.handleTimeZoneChange.bind(this);
     this.handleNotificationChange = this.handleNotificationChange.bind(this);
-    this.handleWithdrawAmtChange = this.handleWithdrawAmtChange.bind(this);
     this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
     this.periodChange = this.periodChange.bind(this);
     this.onStartChange = this.onStartChange.bind(this);
@@ -220,7 +219,6 @@ class MyAccount extends Component {
 
   }
 
-
   handleRedirectToChangePwd(){
     this.props.redirectToChangePwd();
   }
@@ -240,7 +238,9 @@ class MyAccount extends Component {
   }
 
   handleWithdrawSubmit(values){
-    this.props.withdraw(values.get('withdrawAmt'), values.get('walletAddr'));
+    //track the withdraw amount to display in success message after successfull submit
+    this.setState({ withdrawAmount:values.get('withdrawAmount') });
+    this.props.withdraw(values.get('withdrawAmount'), values.get('walletAddr'));
   }
 
   renderSettingCard() {
