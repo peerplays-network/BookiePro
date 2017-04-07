@@ -52,10 +52,10 @@ class Exchange extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { router, routes } = nextProps;
-    //route change from /exchange/xxxxx to /exchange/yyyyy wont trigger unamount in Exchange.jsx,
-    //so setRouteLeaveHook is placed in componentDidUpdate instead of componentDidMount
+    //route change from /exchange/xxxxx to /exchange/yyyyy wont trigger unmount in Exchange.jsx,
+    //so setRouteLeaveHook is placed in componentWillReceiveProps instead of componentDidMount
 
-    // hook CURRENT route leave
+    // hook CURRENT route leave. current route is retrieved from nextProps
     const currentRoute = routes[nextProps.routes.length - 1];
     router.setRouteLeaveHook(currentRoute, this.routerWillLeave.bind(this));
   }

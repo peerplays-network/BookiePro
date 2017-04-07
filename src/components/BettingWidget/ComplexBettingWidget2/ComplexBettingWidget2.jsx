@@ -16,140 +16,71 @@ import Immutable from 'immutable';
 const itemDisplay = 3;
 const bitcoinSymbol = '\u0243';
 
-//NOTE hardcoded data before integration, structure does not match with binnedOrderBooks yet.
-const marketData = [{
-  id: '1.105.85',
-  name: 'Levski Sofia',
-  "offer": {
-    "backIndex": 0,
-    "backOrigin": [
-      {
-        "odds": 3.25,
-        "price": 0.173
-      },
-      {
-        "odds": 3.1,
-        "price": 0.082
-      }
-    ],
-    "layIndex": 0,
-    "layOrigin": [
-      {
-        "odds": 2.1,
-        "price": 0.25
-      },
-      {
-        "odds": 2.89,
-        "price": 0.056
-      }
-    ]
-  },
-},{
-  id: '1.105.86',
-  name: 'Academic Plovdiv',
-  "offer": {
-    "backIndex": 0,
-
-    "backOrigin": [
-      {
-        "odds": 1.40,
-        "price": 0.015
-      },
-      {
-        "odds": 1.41,
-        "price": 0.04
-      },
-      {
-        "odds": 1.42,
-        "price": 1.952
-      },
-      {
-        "odds": 1.43,
-        "price": 1.952
-      },
-      {
-        "odds": 1.44,
-        "price": 1.952
-      }
-    ],
-    "layIndex": 0,
-
-    "layOrigin": [
-      {
-        "odds": 1.48,
-        "price": 1.467
-      },
-      {
-        "odds": 1.49,
-        "price": 0.012
-      },
-      {
-        "odds": 1.50,
-        "price": 0.032
-      },
-      {
-        "odds": 1.51,
-        "price": 0.132
-      },
-      {
-        "odds": 1.52,
-        "price": 0.332
-      }
-    ]
-  },
-}]
-
+//NOTE should we rename it as FullBettingWidget according to URD?
 class ComplexBettingWidget2 extends Component {
 
   constructor(props) {
     super(props);
 
-    //props.marketData
-    const index = 0
-    const orig = Immutable.fromJS(marketData);
-
-    //NOTE will be moved to a sepearted fucntion for resuabllity
-    let firstTeamBack = orig.getIn([0, 'offer', 'backOrigin'])
-      .sort((a, b) => b.get('odds') - a.get('odds'))
-      .slice(index, index + itemDisplay);
-    let firstTeamLay = orig.getIn([0, 'offer', 'layOrigin'])
-      .slice(index, index + itemDisplay)
-    let secondTeamBack = orig.getIn([1, 'offer', 'backOrigin'])
-      .sort((a, b) => b.get('odds') - a.get('odds'))
-      .slice(index, index + itemDisplay);
-    let secondTeamLay = orig.getIn([1, 'offer', 'layOrigin'])
-      .slice(index, index + itemDisplay)
-
-    let updated = orig.setIn([0, 'offer', 'back'], firstTeamBack)
-      .setIn([0, 'offer', 'lay'], firstTeamLay)
-      .setIn([1, 'offer', 'back'], secondTeamBack)
-      .setIn([1, 'offer', 'lay'], secondTeamLay);
-
     this.state = {
-      tree: this.props.completeTree.toJS(),
-      displayData: updated
-
+      tableData:  Immutable.fromJS([]),
     }
+
     this.onOfferClicked = this.onOfferClicked.bind(this);
-    this.displaySwift = this.displaySwift.bind(this);
-    this.updateTeamName = this.updateTeamName.bind(this);
+    this.swiftOfferDisplay = this.swiftOfferDisplay.bind(this);
+    this.setTableData = this.setTableData.bind(this);
   }
 
   componentDidMount(){
-    this.updateTeamName(this.props.completeTree.toJS(), this.props.objectId);
+    this.setTableData(this.props.marketData)
+
   }
 
   componentWillReceiveProps(nextProps) {
-    this.updateTeamName(nextProps.completeTree.toJS(), nextProps.objectId);
+    this.setTableData(nextProps.marketData)
   }
 
-  updateTeamName(completeTree, targetObjectId) {
-    //NOTE note yet implemented
+  // betting widget full :
+  //                 ----------------------------------------  BACK ALL    |     LAY ALL ---------------------------------------
+  // COMPTEITOR 1 | backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2]
+  // COMPTEITOR 2 | backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2]
+  setTableData(marketData){
+
+    let orig = Immutable.fromJS(marketData);
+    const startingIndex = 0
+
+    if ( !orig.equals(Immutable.fromJS([]) ) ){
+
+      orig.forEach((row, i) => {
+
+        const backTableData = orig.getIn([i, 'offer', 'backOrigin'])
+          .sort((a, b) => b.get('odds') - a.get('odds')) //descending order
+          .slice(startingIndex, startingIndex + itemDisplay);
+
+        const layTableData = orig.getIn([i, 'offer', 'layOrigin'])
+          .sort((a, b) => a.get('odds') - b.get('odds')) //assending order
+          .slice(startingIndex, startingIndex + itemDisplay)
+
+        orig = orig.setIn([i, 'offer', 'back'], backTableData)
+          .setIn([i, 'offer', 'lay'], layTableData)
+
+      });
+
+      this.setState({
+        tableData: orig
+      })
+    } else {
+      this.setState({
+        tableData: Immutable.fromJS([])
+      })
+    }
+
   }
 
-  displaySwift(index, type, change){
+  //the arrow onclick funciton
+  swiftOfferDisplay(index, type, change){
 
-    let updated = this.state.displayData;
+    let updated = this.state.tableData;
     let offerIndex = updated.getIn([index, 'offer', type + 'Index'])
     let layList = updated.getIn([index, 'offer', type + 'Origin'])
 
@@ -175,17 +106,14 @@ class ComplexBettingWidget2 extends Component {
       .setIn([index, 'offer', type], layList.slice(offerIndex, offerIndex + itemDisplay));
 
     this.setState({
-      displayData: updated
+      tableData: updated
     })
 
   }
 
   onOfferClicked(rowInfo, column) {
 
-    // console.log('It was in this column:', JSON.stringify(column, null, 4))
-    // console.log('It was in this row:', JSON.stringify(rowInfo.row, null, 4))
-
-    const record = Immutable.fromJS(rowInfo.row)
+    const record = Immutable.fromJS(rowInfo.row).set('name', this.props.eventName)
     const team = rowInfo.rowValues.name
     const marketType = column.className
     // for 'OFFER' case, offer will be empty
@@ -195,25 +123,25 @@ class ComplexBettingWidget2 extends Component {
 
   render() {
 
-    const nameWidth = 200;
-    const offerWidth = 40;
-    const arrowWidth = 15;
+    const minNameWidth = 200;
+    const minOfferWidth = 40;
+    const minArrowWidth = 15;
 
     const columns = [{
       header: props => null,
       accessor: 'name', // String-based value accessors
-      minWidth: nameWidth,
+      minWidth: minNameWidth,
     }, {
       className: 'back-left',
       header: props => null,
       style: { 'padding': '0px'},
-      minWidth: arrowWidth,
+      minWidth: minArrowWidth,
       render: props => <div className='back-offer'>{ '<' }</div>
     }, {
       className: 'back-right',
       header: props => null,
       style: { 'padding': '0px'},
-      minWidth: arrowWidth,
+      minWidth: minArrowWidth,
       render: props => <div className='back-offer'>{ '>' }</div>
     }, {
       header:  props =>
@@ -226,31 +154,40 @@ class ComplexBettingWidget2 extends Component {
         id: 'back3',
         header: props => null,
         style: { 'padding': '0px'},
-        minWidth: offerWidth,
+        minWidth: minOfferWidth,
         className: 'back', // we must use 'back' here for actions. ie. this.props.createBet(record, team, 'back', offer);
         accessor: row => row.offer.back.length > 2 ? row.offer.back[2] : undefined,
         render: props => props.value ?
-         <div className='back-offer'><div className='odds'>{props.value.odds}</div><div className='price'>{ bitcoinSymbol }{props.value.price} </div></div> :
+         <div className='back-offer'>
+           <div className='odds'>{props.value.odds}</div>
+           <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
+         </div> :
          <div className='back-offer'><div className='odds-offer'><p>OFFER</p></div></div>
       }, {
         id: 'back2',
         header: props => null,
         style: { 'padding': '0px'},
-        minWidth: offerWidth,
+        minWidth: minOfferWidth,
         className: 'back',
         accessor: row => row.offer.back.length > 1 ? row.offer.back[1] : undefined,
         render: props => props.value ?
-         <div className='back-offer'><div className='odds'>{props.value.odds}</div><div className='price'>{ bitcoinSymbol }{props.value.price} </div></div> :
+         <div className='back-offer'>
+           <div className='odds'>{props.value.odds}</div>
+           <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
+         </div> :
          <div className='back-offer'><div className='odds-offer'><p>OFFER</p></div></div>
       }, {
         id: 'back1',
         header: props => null,
         style: { 'padding': '0px'},
-        minWidth: offerWidth,
+        minWidth: minOfferWidth,
         className: 'back',
         accessor: row => row.offer.back.length > 0 ? row.offer.back[0] : undefined,
         render: props => props.value ?
-         <div className='back-offer'><div className='odds'>{props.value.odds}</div><div className='price'>{ bitcoinSymbol }{props.value.price} </div></div> :
+         <div className='back-offer'>
+           <div className='odds'>{props.value.odds}</div>
+           <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
+         </div> :
          <div className='back-offer'><div className='odds-offer'><p>OFFER</p></div></div>
       }]
     }, {
@@ -263,75 +200,99 @@ class ComplexBettingWidget2 extends Component {
         id: 'lay1',
         header: props => null,
         style: { 'padding': '0px'},
-        minWidth: offerWidth,
+        minWidth: minOfferWidth,
         className: 'lay', // we must use 'lay' here for actions, ie. this.props.createBet(record, team, 'lay', offer);
         accessor: row => row.offer.lay.length > 0 ? row.offer.lay[0] : undefined,
         render: props => props.value ?
-         <div className='lay-offer'><div className='odds'>{props.value.odds}</div><div className='price'>{ bitcoinSymbol }{props.value.price} </div></div> :
+         <div className='lay-offer'>
+           <div className='odds'>{props.value.odds}</div>
+           <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
+         </div> :
          <div className='lay-offer'><div className='odds-offer'><p>OFFER</p></div></div>
       }, {
         id: 'lay2',
         header: props => null,
         style: { 'padding': '0px'},
-        minWidth: offerWidth,
+        minWidth: minOfferWidth,
         className: 'lay',
         accessor: row => row.offer.lay.length > 1 ? row.offer.lay[1] : undefined,
         render: props => props.value ?
-         <div className='lay-offer'><div className='odds'>{props.value.odds}</div><div className='price'>{ bitcoinSymbol }{props.value.price} </div></div> :
-         <div className='lay-offer'><div className='odds-offer'><p>OFFER</p></div></div>
+         <div className='lay-offer'>
+           <div className='odds'>{props.value.odds}</div>
+           <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
+         </div> :
+         <div className='lay-offer'>
+           <div className='odds-offer'>
+             <p>OFFER</p>
+           </div>
+         </div>
       }, {
         id: 'lay3',
         header: props => null,
         style: { 'padding': '0px'},
-        minWidth: offerWidth,
+        minWidth: minOfferWidth,
         className: 'lay',
         accessor: row => row.offer.lay.length > 2 ? row.offer.lay[2] : undefined,
         render: props => props.value ?
-         <div className='lay-offer'><div className='odds'>{props.value.odds}</div><div className='price'>{ bitcoinSymbol }{props.value.price} </div></div> :
-         <div className='lay-offer'><div className='odds-offer'><p>OFFER</p></div></div>
+         <div className='lay-offer'>
+           <div className='odds'>{props.value.odds}</div>
+           <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
+         </div> :
+         <div className='lay-offer'>
+           <div className='odds-offer'>
+             <p>OFFER</p>
+           </div>
+         </div>
       }]
     }, {
       className: 'lay-left',
       header: props => null,
       style: { 'padding': '0px'},
-      minWidth: arrowWidth,
+      minWidth: minArrowWidth,
       render: props => <div className='lay-offer'>{ '<' }</div>
     }, {
       className: 'lay-right',
       header: props => null,
       style: { 'padding': '0px'},
-      minWidth: arrowWidth,
+      minWidth: minArrowWidth,
       render: props => <div className='lay-offer'>{ '>' }</div>
     }]
 
     return (
       <div className='comlex-betting'>
-        <ReactTable
-          defaultPageSize={ 2 }
-          data={ this.state.displayData.toJS() }
-          columns={ columns }
-          showPagination={ false }
-          getTdProps={ (state, rowInfo, column, instance) => {
-            return {
-              onClick: e => {
 
-                if ( column.className === 'lay-right'){
-                  this.displaySwift(rowInfo.index, 'lay', 1)
-                } else if ( column.className === 'lay-left'){
-                  this.displaySwift(rowInfo.index, 'lay', -1)
-                } else if ( column.className === 'back-right'){
-                  this.displaySwift(rowInfo.index, 'back', 1)
-                } else if ( column.className === 'back-left'){
-                  this.displaySwift(rowInfo.index, 'back', -1)
-                } else if ( column.className === 'lay' || column.className === 'back'){
-                  this.onOfferClicked(rowInfo, column)
+        {
+          this.state.tableData.equals(Immutable.fromJS([])) ?
+          <div/>
+          :
+          <ReactTable
+            pageSize={ this.state.tableData.size }
+            data={ this.state.tableData.toJS() }
+            columns={ columns }
+            showPagination={ false }
+            getTdProps={ (state, rowInfo, column, instance) => {
+              return {
+                onClick: (event) => {
+
+                  if ( column.className === 'lay-right'){
+                    this.swiftOfferDisplay(rowInfo.index, 'lay', 1)
+                  } else if ( column.className === 'lay-left'){
+                    this.swiftOfferDisplay(rowInfo.index, 'lay', -1)
+                  } else if ( column.className === 'back-right'){
+                    this.swiftOfferDisplay(rowInfo.index, 'back', 1)
+                  } else if ( column.className === 'back-left'){
+                    this.swiftOfferDisplay(rowInfo.index, 'back', -1)
+                  } else if ( column.className === 'lay' || column.className === 'back'){
+                    this.onOfferClicked(rowInfo, column)
+                  }
+
                 }
-
               }
             }
-          }
-         }
-        />
+           }
+          />
+        }
+
       </div>
     );
 
@@ -339,16 +300,9 @@ class ComplexBettingWidget2 extends Component {
 }
 
 ComplexBettingWidget2.propTypes = {
-  title: React.PropTypes.string.isRequired,
+  eventName: React.PropTypes.string.isRequired,
   marketData: React.PropTypes.any.isRequired
 };
-
-const mapStateToProps = (state) => {
-  const sidebar = state.get('sidebar');
-  return {
-    completeTree: sidebar.get('complete_tree'),
-  };
-}
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
@@ -357,6 +311,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(ComplexBettingWidget2);
