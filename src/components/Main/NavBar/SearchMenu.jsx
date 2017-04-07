@@ -99,7 +99,8 @@ class SearchMenu extends Component {
               valueKey='id'
               labelKey='name'
               loadOptions={ this.getEvents }
-              backspaceRemoves={ this.state.backspaceRemoves } />
+              backspaceRemoves={ this.state.backspaceRemoves }
+              placeholder='Search Team' />
 
           </Menu.Item>
 
