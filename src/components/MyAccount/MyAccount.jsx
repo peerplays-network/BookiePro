@@ -415,6 +415,7 @@ const mapStateToProps = (state) => {
   */
   const balance = account.getIn(['availableBalancesByAssetId','1.3.0','balance']);
   const availableBalance = balance !== undefined ? balance : -1;
+
   return {
     dynGlobalObject: app.get('blockchainDynamicGlobalProperty'),
     globalObject: app.get('blockchainGlobalProperty'),
