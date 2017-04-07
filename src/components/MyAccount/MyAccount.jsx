@@ -220,22 +220,9 @@ class MyAccount extends Component {
 
   }
 
+
   handleRedirectToChangePwd(){
     this.props.redirectToChangePwd();
-  }
-
-  handleWithdrawAmtChange(e){
-    let withdrawAmt = e.target.value;
-    if(!isNaN(withdrawAmt)){
-      //If the withdraw amount entered is less than the user's available balance, generate error
-      if((parseFloat(withdrawAmt) > 10) || parseFloat(withdrawAmt) === 0){
-        this.setState({ hasWithdrawAmtErr: true })
-      } else {
-        this.setState({ hasWithdrawAmtErr: false })
-      }
-    } else {
-      this.setState({ hasWithdrawAmtErr: false })
-    }
   }
 
   handleWithdrawSubmit(values){
