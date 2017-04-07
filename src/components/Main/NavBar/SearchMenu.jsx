@@ -86,7 +86,6 @@ class SearchMenu extends Component {
     return (
 
       <div className='search-menu'>
-        {/*<Icon type='search'/>*/}
         <Menu
           theme='dark'
         >
