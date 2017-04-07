@@ -10,7 +10,7 @@ const { Header } = Layout;
 const NavBar = () => (
   <Header id='betex-header'>
     <Row>
-      <Col span={ 12 }>
+      <Col span={ 15 }>
         <Row>
           <Col span={ 2 }>
             <div className='logo'>
@@ -26,7 +26,7 @@ const NavBar = () => (
 
 
       </Col>
-      <Col span={ 12 }>
+      <Col span={ 9 }>
         <div className='text-right ant-right-menu'>
           <TopMenu />
         </div>
