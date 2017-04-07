@@ -35,7 +35,7 @@ const groupBinnedOrderBooksByBettingMarketId = (binnedOrderBooks) => {
   return map;
 }
 
-const groupBinnedOrderBooksByEvent = (event, bettingMarketGroups, binnedOrderBooks) => {
+const groupBinnedOrderBooksByEvent = (event, bettingMarketGroups, binnedOrderBooksByBettingMarketId) => {
   const matchedBettingMarketGroups = bettingMarketGroups.filter(
     (group) => event.get('betting_market_group_ids').includes(group.get('id'))
   );
@@ -46,9 +46,9 @@ const groupBinnedOrderBooksByEvent = (event, bettingMarketGroups, binnedOrderBoo
   });
 
   let groupedBinnedOrderBooks = Immutable.List();
-  bettingMarketIds.forEach((bettingMarketId) => {
-    if (binnedOrderBooks.hasOwnProperty(bettingMarketId)) {
-      const orderBook = binnedOrderBooks[bettingMarketId];
+  bettingMarketIds.forEach((bettingMarketId, index) => {
+    if (binnedOrderBooksByBettingMarketId.has(bettingMarketId)) {
+      const orderBook = binnedOrderBooksByBettingMarketId.get(bettingMarketId);
       let immutableOrderBook = Immutable.Map();
       // TODO: the actual orderBook dummy data are still in plain JS Object
       immutableOrderBook = immutableOrderBook.set('back', orderBook.get('aggregated_back_bets'));
@@ -59,6 +59,7 @@ const groupBinnedOrderBooksByEvent = (event, bettingMarketGroups, binnedOrderBoo
 
   return groupedBinnedOrderBooks;
 }
+
 
 export {
   getEventsBySports,

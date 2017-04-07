@@ -66,7 +66,7 @@ class CompetitorActions {
       sportIds.forEach( sportId => {
         if (getCompetitorsBySportIdsLoadingStatus.get(sportId) === LoadingStatus.DONE) {
           if (competitorsBySportId.has(sportId)) {
-            retrievedCompetitors = retrievedCompetitors.push(competitorsBySportId.get(sportId));
+            retrievedCompetitors = retrievedCompetitors.concat(competitorsBySportId.get(sportId));
           }
         } else {
           sportIdsOfCompetitorsToBeRetrieved = sportIdsOfCompetitorsToBeRetrieved.push(sportId);

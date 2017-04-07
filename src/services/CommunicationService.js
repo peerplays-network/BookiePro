@@ -12,6 +12,7 @@ import {
   EventActions,
   BettingMarketActions,
   BettingMarketGroupActions,
+  BinnedOrderBookActions,
   BetActions
 } from '../actions';
 import Immutable from 'immutable';
@@ -72,7 +73,7 @@ class CommunicationService {
         break;
       }
       case ObjectPrefix.DYNAMIC_GLOBAL_PROPERTY_PREFIX: {
-        // Update dynamic global property
+          // Update dynamic global property
         this.dispatch(AppActions.setBlockchainDynamicGlobalPropertyAction(updatedObject));
         break;
       }
@@ -145,7 +146,9 @@ class CommunicationService {
           // Assume all bet to be ongoing for now, resolved bets should not be able to be deleted or updated
           this.dispatch(BetActions.addOrUpdateOngoingBetsAction([updatedObject]));
         }
-
+        // Update related binned order books
+        let bettingMarketId = updatedObject.get('betting_market_id');
+        this.dispatch(BinnedOrderBookActions.refreshBinnedOrderBooksByBettingMarketIds(bettingMarketId));
         break;
       }
       default: break;
@@ -463,6 +466,39 @@ class CommunicationService {
         resolve(Immutable.fromJS(result));
       }, TIMEOUT_LENGTH);
     })
+  }
+
+  /**
+   * Get binned order books
+   */
+  static getBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision) {
+    // TODO: Replace later
+    // Create promises of getting binned order book for each betting market
+    const promises = bettingMarketIds.map( (bettingMarketId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          // Get related binned order book from dummy data
+          let filteredResult = _.find(dummyData.binnedOrderBooks, (item) => {
+            return item.betting_market_id === bettingMarketId;
+          });
+          // Remove betting_market_id to simulate real blockchain object, since real binned order book doesn't have betting market id on it
+          filteredResult =  _.omit(filteredResult, 'betting_market_id');
+
+          resolve(filteredResult);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( (result) => {
+      const finalResult = {};
+      // Modify the data structure of return objects, from list of binnedOrderBooks into dictionary of binnedOrderBooks with betting market id as the key
+      _.forEach(result, (item, index) => {
+        if (!_.isEmpty(item)) {
+          const bettingMarketId = bettingMarketIds.get ? bettingMarketIds.get(index) : bettingMarketIds[index];
+          finalResult[bettingMarketId] = result[index];
+        }
+      });
+      return Immutable.fromJS(finalResult);
+    });
   }
 
   /**

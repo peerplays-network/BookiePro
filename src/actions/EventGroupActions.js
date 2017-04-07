@@ -66,7 +66,7 @@ class EventGroupActions {
       sportIds.forEach( sportId => {
         if (getEventGroupsBySportIdsLoadingStatus.get(sportId) === LoadingStatus.DONE) {
           if (eventGroupsBySportId.has(sportId)) {
-            retrievedEventGroups = retrievedEventGroups.push(eventGroupsBySportId.get(sportId));
+            retrievedEventGroups = retrievedEventGroups.concat(eventGroupsBySportId.get(sportId));
           }
         } else {
           sportIdsOfEventGroupsToBeRetrieved = sportIdsOfEventGroupsToBeRetrieved.push(sportId);

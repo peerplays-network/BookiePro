@@ -10,6 +10,7 @@ import EventActions from './EventActions';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BetActions from './BetActions';
+import BinnedOrderBookActions from './BinnedOrderBookActions';
 import AccountActions from './AccountActions';
 import NotificationActions from './NotificationActions';
 import SoftwareUpdateActions from './SoftwareUpdateActions';
@@ -42,6 +43,7 @@ export {
   QuickBetDrawerActions,
   MarketDrawerActions,
   BetActions,
+  BinnedOrderBookActions,
   SidebarActions,
   AccountActions,
   NotificationActions,

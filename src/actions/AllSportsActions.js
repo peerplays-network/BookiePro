@@ -3,11 +3,10 @@ import SportActions from './SportActions';
 import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
+import BinnedOrderBookActions from './BinnedOrderBookActions';
 import _ from 'lodash';
 import Immutable from 'immutable';
 import {
-  getBinnedOrderBooksByBettingMarkets,
-  groupBinnedOrderBooksByBettingMarketId,
   groupBinnedOrderBooksByEvent
 } from './utilities'
 
@@ -59,15 +58,14 @@ class AllSportsActions {
         return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds));
       }).then((bettingMarkets) => {
         // Get binned order books
-        return getBinnedOrderBooksByBettingMarkets(bettingMarkets);
-      }).then((result) => {
-        // Combine the resulting binned order books
-        const binnedOrderBooks = groupBinnedOrderBooksByBettingMarketId(result);
-
+        const bettingMarketIds = bettingMarkets.map( bettingMarket => bettingMarket.get('id'));
+        return dispatch(BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
+      }).then((binnedOrderBooksByBettingMarketId) => {
+        // Sort binned order book by event
         let binnedOrderBooksByEvent = Immutable.Map();
         retrievedEvents.forEach((event) => {
           binnedOrderBooksByEvent = binnedOrderBooksByEvent.set(
-            event.get('id'), groupBinnedOrderBooksByEvent(event, retrievedBettingMarketGroups, binnedOrderBooks)
+            event.get('id'), groupBinnedOrderBooksByEvent(event, retrievedBettingMarketGroups, binnedOrderBooksByBettingMarketId)
           );
         });
 
