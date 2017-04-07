@@ -161,6 +161,11 @@ export const translationsObject = {
       matched_bets: 'MATCHED BETS',
       resolved_bets: 'RESOLVED BETS',
     },
+    complex_betting_widget:{
+      back_all: 'BACK ALL',
+      lay_all: 'LAY ALL',
+      offer: 'OFFER',
+    },
     terms_dialogue:{
       content: '<p>BY USING THIS WEBSITE IN ANY MANNER WHATSOEVER OR BY CLICKING THE &ldquo;ACCEPT&rdquo; ICON ON OUR WEBSITE YOU ARE INDICATING ' +
       'THAT YOU ACCEPT AND AGREE TO BE BOUND BY THESE TERMS AND CONDITIONS OF USE, OUR RULES AND THE PRIVACY POLICY (AS EACH MAY BE AMENDED FROM ' +

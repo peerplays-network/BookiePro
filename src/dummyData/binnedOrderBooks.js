@@ -1003,7 +1003,7 @@ const binnedOrderBooks = [
   {
     "betting_market_id": "1.105.223",
     "aggregated_back_bets": [createOrderBookBin(4.8, 0.59)],
-    "aggregated_lay_bets": [createOrderBookBin(2.44, 0.45), createOrderBookBin(2.43, 0.39), createOrderBookBin(2.42, 0.39), createOrderBookBin(2.41, 0.39), createOrderBookBin(2.40, 0.39)]
+    "aggregated_lay_bets": []
   },
 ];
 

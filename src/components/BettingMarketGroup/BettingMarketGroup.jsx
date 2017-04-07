@@ -53,7 +53,7 @@ class BettingMarketGroup extends Component {
       this.props.getData(nextProps.params.objectId);
     }
 
-    //when sidebar is ready, we could retrieve the event name directly
+    //when content of sidebar is ready, we could retrieve the event name directly I.e. without api call
     if ( this.state.eventName === '' || nextProps.params.objectId !== this.props.params.objectId){
       const nested = Immutable.fromJS(nextProps.completeTree);
       var keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === this.props.params.objectId) );
@@ -67,15 +67,8 @@ class BettingMarketGroup extends Component {
 
     }
 
-    if ( !this.props.binnedOrderBooks.equals(nextProps.binnedOrderBooks)){
-      try {
-        this.updateMarketData(nextProps.bettingMarkets, nextProps.binnedOrderBooks)
-      } catch(error){
-
-        this.updateMarketData(nextProps.bettingMarkets, nextProps.binnedOrderBooks)
-
-        console.error('binnedOrderBooks and bettingMarkets has problem in dummydata.')
-      }
+    if ( nextProps.binnedOrderBooks === null || !this.props.binnedOrderBooks.equals(nextProps.binnedOrderBooks)){
+      this.updateMarketData(nextProps.bettingMarkets, nextProps.binnedOrderBooks)
     }
 
   }
@@ -101,34 +94,54 @@ class BettingMarketGroup extends Component {
 
   //update the data in table of complex betting widget
   updateMarketData(bettingMarkets, binnedOrderBooks){
-    let marketData = this.mergeObjectArrays(bettingMarkets.toJS(), binnedOrderBooks.toJS(), 'id', 'betting_market_id');
+    let marketData;
+    try {
+      marketData = this.mergeObjectArrays(bettingMarkets.toJS(), binnedOrderBooks.toJS(), 'id', 'betting_market_id');
+      marketData.forEach(function (data, i) {
+        data.name = data.payout_condition_string;
 
-    marketData.forEach(function (data, i) {
-      data.name = data.payout_condition_string;
+        data.offer = {
+          'backIndex': 0,
+          'layIndex': 0,
+          'backOrigin': data.aggregated_lay_bets,
+          'layOrigin': data.aggregated_back_bets
+        }
 
-      data.offer = {
-        'backIndex': 0,
-        'layIndex': 0,
-        'backOrigin': data.aggregated_lay_bets,
-        'layOrigin': data.aggregated_back_bets
-      }
+        delete data.payout_condition_string;
+        delete data.betting_market_id;
+        delete data.aggregated_lay_bets;
+        delete data.aggregated_back_bets;
 
-      delete data.payout_condition_string;
-      delete data.betting_market_id;
-      delete data.aggregated_lay_bets;
-      delete data.aggregated_back_bets;
+      });
+      this.setState({
+        marketData
+      })
 
-    });
+    } catch(error){
+      //assuming both aggregated_lay_bets and aggregated_back_bets are empty
+      console.error('missing binnedOrderBooks in dummy data')
+      marketData = bettingMarkets.toJS()
+      marketData.forEach(function (data, i) {
+        data.name = data.payout_condition_string;
 
-    this.setState({
-      marketData
-    })
+        data.offer = {
+          'backIndex': 0,
+          'layIndex': 0,
+          'backOrigin': [],
+          'layOrigin': []
+        }
+
+        delete data.payout_condition_string;
+
+      });
+      this.setState({
+        marketData
+      })
+    }
 
   }
 
   render() {
-
-
 
     return (
       <div className='betting-market-group-wrapper'>

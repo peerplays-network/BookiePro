@@ -5,6 +5,7 @@ import { MarketDrawerActions } from '../../../actions';
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 import Immutable from 'immutable';
+var I18n = require('react-redux-i18n').I18n;
 
 /**
  * NOTES: This version of ComplexBettingWidget2 is in DEVELOPMENT stage and primary goal is for BASIC visualization,
@@ -148,7 +149,7 @@ class ComplexBettingWidget2 extends Component {
       // NOTE will be seperated comopent for header
         <div className='offer-header'>
           <p className='alignleft'>104%</p>
-          <p className='alignright'>Back All</p>
+          <p className='alignright'>{I18n.t('complex_betting_widget.back_all')}</p>
         </div>,
       columns: [{
         id: 'back3',
@@ -162,7 +163,7 @@ class ComplexBettingWidget2 extends Component {
            <div className='odds'>{props.value.odds}</div>
            <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
          </div> :
-         <div className='back-offer'><div className='odds-offer'><p>OFFER</p></div></div>
+         <div className='back-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }, {
         id: 'back2',
         header: props => null,
@@ -175,7 +176,7 @@ class ComplexBettingWidget2 extends Component {
            <div className='odds'>{props.value.odds}</div>
            <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
          </div> :
-         <div className='back-offer'><div className='odds-offer'><p>OFFER</p></div></div>
+         <div className='back-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }, {
         id: 'back1',
         header: props => null,
@@ -188,12 +189,12 @@ class ComplexBettingWidget2 extends Component {
            <div className='odds'>{props.value.odds}</div>
            <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
          </div> :
-         <div className='back-offer'><div className='odds-offer'><p>OFFER</p></div></div>
+         <div className='back-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }]
     }, {
       // NOTE will be seperated comopent for header
       header:  props =>
-        <div className='offer-header'><p className='alignleft'>Lay All</p>
+        <div className='offer-header'><p className='alignleft'>{I18n.t('complex_betting_widget.lay_all')}</p>
           <p className='alignright'>99.4%</p>
         </div>,
       columns: [{
@@ -208,7 +209,7 @@ class ComplexBettingWidget2 extends Component {
            <div className='odds'>{props.value.odds}</div>
            <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
          </div> :
-         <div className='lay-offer'><div className='odds-offer'><p>OFFER</p></div></div>
+         <div className='lay-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }, {
         id: 'lay2',
         header: props => null,
@@ -223,7 +224,7 @@ class ComplexBettingWidget2 extends Component {
          </div> :
          <div className='lay-offer'>
            <div className='odds-offer'>
-             <p>OFFER</p>
+             <p>{I18n.t('complex_betting_widget.offer')}</p>
            </div>
          </div>
       }, {
@@ -240,7 +241,7 @@ class ComplexBettingWidget2 extends Component {
          </div> :
          <div className='lay-offer'>
            <div className='odds-offer'>
-             <p>OFFER</p>
+             <p>{I18n.t('complex_betting_widget.offer')}</p>
            </div>
          </div>
       }]
