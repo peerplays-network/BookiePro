@@ -13,11 +13,11 @@ const renderClockColumn = (number, label) => {
   );
 }
 
-const BettingMarketGroupBanner = () => (
+const BettingMarketGroupBanner = (props) => (
   <div className='betting-market-group-banner'>
     <div className='event'>
       <div className='time'>Pre-Live! Starts on 10/01/2017 13:00</div>
-      <div className='name'>NY GIANTS VS GREEN DAY</div>
+      <div className='name'>{ props.eventName }</div>
     </div>
     <div className='countdown'>
       <div className='time-remaining'>Time Remaining</div>

@@ -18,6 +18,7 @@ import SidebarActions from './SidebarActions';
 import AllSportsActions from './AllSportsActions';
 import SportPageActions from './SportPageActions';
 import EventGroupPageActions from './EventGroupPageActions';
+import BettingMarketGroupPageActions from './BettingMarketGroupPageActions';
 import QuickBetDrawerActions from './QuickBetDrawerActions';
 import MarketDrawerActions from './MarketDrawerActions';
 
@@ -37,6 +38,7 @@ export {
   AllSportsActions,
   SportPageActions,
   EventGroupPageActions,
+  BettingMarketGroupPageActions,
   QuickBetDrawerActions,
   MarketDrawerActions,
   BetActions,

@@ -17,9 +17,9 @@ class Exchange extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //NOTE to be stored in  action/reducer?
-      // this deciison is left to whom responsible for betting drawer
+      //////// dummy buttons for routing hooking BEGINS //////////
       hasUnplacedBet: false,
+      //////// dummy buttons for routing hooking ENDS //////////
 
       confirmToLeave: false,
       unplacedBetModalVisible: false,
@@ -52,20 +52,21 @@ class Exchange extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { router, routes } = nextProps;
-    //route change from /exchange/xxxxx to /exchange/yyyyy wont trigger unamount in Exchange.jsx,
-    //so setRouteLeaveHook is placed in componentDidUpdate instead of componentDidMount
+    //route change from /exchange/xxxxx to /exchange/yyyyy wont trigger unmount in Exchange.jsx,
+    //so setRouteLeaveHook is placed in componentWillReceiveProps instead of componentDidMount
 
-    // hook CURRENT route leave
+    // hook CURRENT route leave. current route is retrieved from nextProps
     const currentRoute = routes[nextProps.routes.length - 1];
     router.setRouteLeaveHook(currentRoute, this.routerWillLeave.bind(this));
   }
 
-  //being of route hooking
+  //////// dummy buttons for routing hooking BEGINS //////////
   updateUplacedBetStatus(value){
     this.setState({
       hasUnplacedBet: value,
     })
   }
+  //////// dummy buttons for routing hooking ENDS //////////
 
   setModalVisible(modalVisible) {
     this.setState({
@@ -122,6 +123,7 @@ class Exchange extends Component {
     );
 
     // Pick one of the 2 betting drawers based on the path
+    //NOTE////// updateUplacedBetStatus is used for dummy buttons //////////
     let selectBettingDrawer = (pathTokens) => {
       if (pathTokens.length < 3 || pathTokens[2].toLowerCase() !== 'bettingmarketgroup') {
         return ( <QuickBetDrawer updateUplacedBetStatus={ this.updateUplacedBetStatus.bind(this) } bettingStatus={ this.state.hasUnplacedBet } /> );
@@ -150,8 +152,7 @@ class Exchange extends Component {
                 primary='second'>
                   <div style={ { 'height' : '100%', 'position' : 'relative' } }
                     ref='main'>
-                    {React.cloneElement(this.props.children, { completeTree: this.props.completeTree })}
-                    {/* { this.props.children } */}
+                    { this.props.children }
                   </div>
                   { selectBettingDrawer(transitionName) }
             </SplitPane>

@@ -312,13 +312,13 @@ const binnedOrderBooks = [
   },
   {
     "betting_market_id": "1.105.85",
-    "aggregated_back_bets": [createOrderBookBin(8.65, 0.25), createOrderBookBin(2.11, 0.241)],
-    "aggregated_lay_bets": [createOrderBookBin(2.65, 0.769), createOrderBookBin(2.3, 0.22)]
+    "aggregated_back_bets": [createOrderBookBin(3.1, 0.25), createOrderBookBin(3.25, 0.241)],
+    "aggregated_lay_bets": [createOrderBookBin(2.89, 0.769), createOrderBookBin(2.1, 0.22)]
   },
   {
     "betting_market_id": "1.105.86",
-    "aggregated_back_bets": [createOrderBookBin(4.6, 0.59), createOrderBookBin(2.11, 0.19)],
-    "aggregated_lay_bets": [createOrderBookBin(8.55, 0.45), createOrderBookBin(5.00, 0.39)]
+    "aggregated_back_bets": [createOrderBookBin(4.8, 0.59), createOrderBookBin(4.9, 0.19), createOrderBookBin(5.0, 0.19), createOrderBookBin(5.1, 0.19), createOrderBookBin(5.2, 0.19)],
+    "aggregated_lay_bets": [createOrderBookBin(1.44, 0.45), createOrderBookBin(1.43, 0.39), createOrderBookBin(1.42, 0.39), createOrderBookBin(1.41, 0.39), createOrderBookBin(1.40, 0.39)]
   },
   {
     "betting_market_id": "1.105.87",
@@ -999,7 +999,12 @@ const binnedOrderBooks = [
     "betting_market_id": "1.105.222",
     "aggregated_back_bets": [createOrderBookBin(2.91, 0.72), createOrderBookBin(2.8, 0.24)],
     "aggregated_lay_bets": [createOrderBookBin(6.2, 0.95), createOrderBookBin(5.3, 0.52)]
-  }
+  },
+  {
+    "betting_market_id": "1.105.223",
+    "aggregated_back_bets": [createOrderBookBin(4.8, 0.59)],
+    "aggregated_lay_bets": []
+  },
 ];
 
 //TODO: add more in this list, pay attention on the relation with the betting_markets dummy data

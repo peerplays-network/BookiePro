@@ -48,7 +48,7 @@ class QuickBetDrawer extends Component {
     Ps.update(ReactDOM.findDOMNode(this.refs.bettingtable));
   }
 
-  //simulation events of unplaced bet
+  //////// dummy buttons for routing hooking BEGINS //////////
   setUnplacedBetButton() {
     this.props.updateUplacedBetStatus(true);
   }
@@ -61,7 +61,7 @@ class QuickBetDrawer extends Component {
     this.props.navigateTo('/my-wager/');
 
   }
-  //simulation events of unplaced bet
+  //////// dummy buttons for routing hooking ENDS //////////
 
   render() {
     return (
@@ -69,12 +69,11 @@ class QuickBetDrawer extends Component {
         <SplitPane split='horizontal' defaultSize='40px'>
           <div className='title'>
             <div className='label'>BETSLIP</div>
-            {/* //simulation events of unplaced bet */}
+            {/* dummy buttons for routing hooking BEGINS  */}
             <Button title='set' onClick={ this.setUnplacedBetButton } >update bet </Button>
             <Button title='clear' onClick={ this.clearUnplacedBetButton } > clear bet</Button>
             <Button title='clear' onClick={ this.goToMyBets } > go to my bets</Button>
-
-            {/* //simulation events of unplaced bet */}
+            {/* dummy buttons for routing hooking ENDS */}
           </div>
           <SplitPane
             split='horizontal'

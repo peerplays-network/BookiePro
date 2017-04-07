@@ -531,7 +531,8 @@ const bettingMarketGroups = [
     },
     "betting_market_ids": [
       "1.105.85",
-      "1.105.86"
+      "1.105.86",
+      "1.105.223"
     ]
   },
   {
