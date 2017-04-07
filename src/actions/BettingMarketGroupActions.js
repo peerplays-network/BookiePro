@@ -10,18 +10,27 @@ class BettingMarketGroupPrivateActions {
       loadingStatus
     }
   }
-  static addBettingMarketGroupsAction(bettingMarketGroups) {
-    return {
-      type: ActionTypes.BETTING_MARKET_GROUP_ADD_BETTING_MARKET_GROUPS,
-      bettingMarketGroups
-    }
-  }
+
 }
 
 /**
  * Public actions
  */
 class BettingMarketGroupActions {
+
+  static addOrUpdateBettingMarketGroupsAction(bettingMarketGroups) {
+    return {
+      type: ActionTypes.BETTING_MARKET_GROUP_ADD_OR_UPDATE_BETTING_MARKET_GROUPS,
+      bettingMarketGroups
+    }
+  }
+
+  static removeBettingMarketGroupsByIdsAction(bettingMarketGroupIds) {
+    return {
+      type: ActionTypes.BETTING_MARKET_GROUP_REMOVE_BETTING_MARKET_GROUPS_BY_IDS,
+      bettingMarketGroupIds
+    }
+  }
 
   /**
    * Get betting market groups given their ids (can be immutable array)
@@ -53,7 +62,7 @@ class BettingMarketGroupActions {
         dispatch(BettingMarketGroupPrivateActions.setGetBettingMarketGroupsByIdsLoadingStatusAction(idsOfBettingMarketGroupsToBeRetrieved, LoadingStatus.LOADING));
         return CommunicationService.getObjectsByIds(idsOfBettingMarketGroupsToBeRetrieved).then((bettingMarketGroups) => {
           // Add to redux store
-          dispatch(BettingMarketGroupPrivateActions.addBettingMarketGroupsAction(bettingMarketGroups));
+          dispatch(BettingMarketGroupActions.addOrUpdateBettingMarketGroupsAction(bettingMarketGroups));
           // Set status
           dispatch(BettingMarketGroupPrivateActions.setGetBettingMarketGroupsByIdsLoadingStatusAction(idsOfBettingMarketGroupsToBeRetrieved, LoadingStatus.DONE));
           // Concat and return

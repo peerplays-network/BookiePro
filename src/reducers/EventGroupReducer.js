@@ -24,12 +24,19 @@ export default function (state = initialState, action) {
       })
       return state.mergeIn(['getEventGroupsByIdsLoadingStatus'], getEventGroupsByIdsLoadingStatus);
     }
-    case ActionTypes.EVENT_GROUP_ADD_EVENT_GROUPS: {
+    case ActionTypes.EVENT_GROUP_ADD_OR_UPDATE_EVENT_GROUPS: {
       let eventGroupsById = Immutable.Map();
       action.eventGroups.forEach( (eventGroup) => {
         eventGroupsById = eventGroupsById.set(eventGroup.get('id'), eventGroup);
       });
       return state.mergeIn(['eventGroupsById'], eventGroupsById );
+    }
+    case ActionTypes.EVENT_GROUP_REMOVE_EVENT_GROUPS_BY_IDS: {
+      let nextState = state;
+      action.eventGroupIds.forEach((eventGroupId) => {
+        nextState = nextState.deleteIn(['eventGroupsById', eventGroupId]);
+      })
+      return nextState;
     }
     default:
       return state;

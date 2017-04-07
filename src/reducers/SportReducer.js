@@ -23,17 +23,19 @@ export default function (state = initialState, action) {
       })
       return state.mergeIn(['getSportsByIdsLoadingStatus'], getSportsByIdsLoadingStatus);
     }
-    case ActionTypes.SPORT_ADD_SPORTS: {
-      let sportsById = state.get('sportsById');
+    case ActionTypes.SPORT_ADD_OR_UPDATE_SPORTS: {
+      let sportsById = Immutable.Map();
       action.sports.forEach( sport => {
-        const sportId = sport.get('id');
-        // Set sports by id
-        sportsById = sportsById.set(sportId, sport);
+        sportsById = sportsById.set(sport.get('id'), sport);
       });
-
-      return state.merge({
-        sportsById
-      });
+      return state.mergeIn(['sportsById'], sportsById);
+    }
+    case ActionTypes.SPORT_REMOVE_SPORTS_BY_IDS: {
+      let nextState = state;
+      action.sportIds.forEach((sportId) => {
+        nextState = nextState.deleteIn(['sportsById', sportId]);
+      })
+      return nextState;
     }
     default:
       return state;

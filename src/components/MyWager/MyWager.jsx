@@ -166,7 +166,7 @@ const mapStateToProps = (state) => {
     let mergeData = [];
     let total = 0;
     if(state.getIn(['bet','getOngoingBetsLoadingStatus']) === LoadingStatus.DONE){
-      state.getIn(['bet',(tabKey === 'matchedBets' ? 'matchedBets' : 'unmatchedBets')]).forEach(row =>
+      state.getIn(['bet',(tabKey === 'matchedBets' ? 'matchedBetsById' : 'unmatchedBetsById')]).toList().forEach(row =>
       {
         let rowObj = {
           key: row.get('id'),
@@ -216,7 +216,9 @@ const mapStateToProps = (state) => {
       total = total.toFixed(5);
     }
 
+
     if(tabKey === 'unmatchedBets'){
+          console.log(JSON.stringify(mergeData, null, 2))
       return {
         unmatchedBetsColumns: columns,
         unmatchedBetsData: mergeData,

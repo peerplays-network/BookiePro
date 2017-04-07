@@ -25,12 +25,19 @@ export default function (state = initialState, action) {
       })
       return state.mergeIn(['getEventsByIdsLoadingStatus'], getEventsByIdsLoadingStatus);
     }
-    case ActionTypes.EVENT_ADD_EVENTS: {
+    case ActionTypes.EVENT_ADD_OR_UPDATE_EVENTS: {
       let eventsById = Immutable.Map();
       action.events.forEach( event => {
         eventsById = eventsById.set(event.get('id'), event);
       })
       return state.mergeIn(['eventsById'], eventsById);
+    }
+    case ActionTypes.EVENT_REMOVE_EVENTS_BY_IDS: {
+      let nextState = state;
+      action.eventIds.forEach((eventId) => {
+        nextState = nextState.deleteIn(['eventsById', eventId]);
+      });
+      return nextState;
     }
     case ActionTypes.EVENT_SET_SEARCH_RESULT: {
       return state.set('searchResult', action.searchResult);

@@ -47,7 +47,6 @@ class SportPageActions {
 
       // Get sport detail
       dispatch(SportActions.getSportsByIds([sportId])).then( (sports) => {
-        console.log('sporrt', sports.toJS());
         const sport = sports.get(0);
         const eventGroupIds = sport.get('event_group_ids');
         // Get event group

@@ -27,6 +27,13 @@ class AssetPrivateActions {
  * Public actions
  */
 class AssetActions {
+  static updateAssetsAction(assets) {
+    return {
+      type: ActionTypes.ASSET_UPDATE_ASSETS,
+      assets
+    }
+  }
+
   /**
    * Get assets given their ids (can be immutable array)
    */

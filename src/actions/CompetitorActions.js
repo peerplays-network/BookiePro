@@ -21,19 +21,26 @@ class CompetitorPrivateActions {
       loadingStatus
     }
   }
-
-  static addCompetitorsAction(competitors) {
-    return {
-      type: ActionTypes.COMPETITOR_ADD_COMPETITORS,
-      competitors
-    }
-  }
 }
 
 /**
  * Public actions
  */
 class CompetitorActions {
+
+  static addOrUpdateCompetitorsAction(competitors) {
+    return {
+      type: ActionTypes.COMPETITOR_ADD_OR_UPDATE_COMPETITORS,
+      competitors
+    }
+  }
+
+  static removeCompetitorsByIdsAction(competitorIds) {
+    return {
+      type: ActionTypes.COMPETITOR_REMOVE_COMPETITORS_BY_IDS,
+      competitorIds
+    }
+  }
 
   /**
    * Get list of competitors given sport ids
@@ -75,7 +82,7 @@ class CompetitorActions {
         dispatch(CompetitorPrivateActions.setGetCompetitorsBySportIdsLoadingStatusAction(sportIdsOfCompetitorsToBeRetrieved, LoadingStatus.LOADING));
         return CommunicationService.getCompetitorsBySportIds(sportIdsOfCompetitorsToBeRetrieved).then((competitors) => {
           // Add to redux store
-          dispatch(CompetitorPrivateActions.addCompetitorsAction(competitors));
+          dispatch(CompetitorActions.addOrUpdateCompetitorsAction(competitors));
           // Set status
           dispatch(CompetitorPrivateActions.setGetCompetitorsBySportIdsLoadingStatusAction(sportIdsOfCompetitorsToBeRetrieved, LoadingStatus.DONE));
           const competitorIds = competitors.map(competitor => competitor.get('id'));
@@ -117,7 +124,7 @@ class CompetitorActions {
 
         return CommunicationService.getObjectsByIds(idsOfCompetitorsToBeRetrieved).then((competitors) => {
           // Add to redux store
-          dispatch(CompetitorPrivateActions.addCompetitorsAction(competitors));
+          dispatch(CompetitorActions.addOrUpdateCompetitorsAction(competitors));
           // Set status
           dispatch(CompetitorPrivateActions.setGetCompetitorsByIdsLoadingStatusAction(idsOfCompetitorsToBeRetrieved, LoadingStatus.DONE));
           // Concat and return

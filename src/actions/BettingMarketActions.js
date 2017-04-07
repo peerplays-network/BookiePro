@@ -10,18 +10,26 @@ class BettingMarketPrivateActions {
       loadingStatus
     }
   }
-  static addBettingMarketsAction(bettingMarkets) {
-    return {
-      type: ActionTypes.BETTING_MARKET_ADD_BETTING_MARKETS,
-      bettingMarkets
-    }
-  }
 }
 
 /**
  * Public actions
  */
 class BettingMarketActions {
+
+  static addOrUpdateBettingMarketsAction(bettingMarkets) {
+    return {
+      type: ActionTypes.BETTING_MARKET_ADD_OR_UPDATE_BETTING_MARKETS,
+      bettingMarkets
+    }
+  }
+
+  static removeBettingMarketsByIdsAction(bettingMarketIds) {
+    return {
+      type: ActionTypes.BETTING_MARKET_REMOVE_BETTING_MARKETS_BY_IDS,
+      bettingMarketIds
+    }
+  }
 
   /**
    * Get betting markets given array of their ids (can be immutable array)
@@ -53,7 +61,7 @@ class BettingMarketActions {
         dispatch(BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(idsOfBettingMarketsToBeRetrieved, LoadingStatus.LOADING));
         return CommunicationService.getObjectsByIds(idsOfBettingMarketsToBeRetrieved).then((bettingMarkets) => {
           // Add to redux store
-          dispatch(BettingMarketPrivateActions.addBettingMarketsAction(bettingMarkets));
+          dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(bettingMarkets));
           // Set status
           dispatch(BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(idsOfBettingMarketsToBeRetrieved, LoadingStatus.DONE));
           // Concat and return

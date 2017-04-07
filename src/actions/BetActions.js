@@ -49,25 +49,34 @@ class BetPrivateActions {
     }
   }
 
-  static setOngoingBetsAction(ongoingBets) {
-    return {
-      type: ActionTypes.BET_SET_ONGOING_BETS,
-      ongoingBets
-    }
-  }
-
-  static setResolvedBetsAction(resolvedBets) {
-    return {
-      type: ActionTypes.BET_SET_RESOLVED_BETS,
-      resolvedBets
-    }
-  }
 }
 
 /**
  * Public actions
  */
 class BetActions {
+
+  static addOrUpdateOngoingBetsAction(ongoingBets) {
+    return {
+      type: ActionTypes.BET_ADD_OR_UPDATE_ONGOING_BETS,
+      ongoingBets
+    }
+  }
+
+  static removeOngoingBetsByIdsAction(ongoingBetIds) {
+    return {
+      type: ActionTypes.BET_REMOVE_ONGOING_BETS,
+      ongoingBetIds
+    }
+  }
+
+  static addOrUpdateResolvedBetsAction(resolvedBets) {
+    return {
+      type: ActionTypes.BET_ADD_OR_UPDATE_RESOLVED_BETS,
+      resolvedBets
+    }
+  }
+
   /**
    * Get ongoing bets (unmatched and matched bets);
    */
@@ -106,7 +115,7 @@ class BetActions {
           return dispatch(SportActions.getSportsByIds(sportIds));
         }).then((sports) => {
           // Add ongoing bets to redux store
-          dispatch(BetActions.setOngoingBetsAction(retrievedOngoingBets));
+          dispatch(BetActions.addOrUpdateOngoingBetsAction(retrievedOngoingBets));
           // Set status
           dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.DONE));
         });
@@ -124,7 +133,7 @@ class BetActions {
       dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.LOADING));
       CommunicationService.getResolvedBets(accountId, startTime, stopTime).then((bets) => {
         // Add to redux store
-        dispatch(BetActions.setResolvedBetsAction(bets));
+        dispatch(BetActions.addOrUpdateResolvedBetsAction(bets));
         // Set status
         dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.DONE));
       });

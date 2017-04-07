@@ -24,12 +24,19 @@ export default function (state = initialState, action) {
       })
       return state.mergeIn(['getCompetitorsByIdsLoadingStatus'], getCompetitorsByIdsLoadingStatus);
     }
-    case ActionTypes.COMPETITOR_ADD_COMPETITORS: {
+    case ActionTypes.COMPETITOR_ADD_OR_UPDATE_COMPETITORS: {
       let competitorsById = Immutable.Map();
       action.competitors.forEach( competitor => {
         competitorsById = competitorsById.set(competitor.get('id'), competitor);
       })
       return state.mergeIn(['competitorsById'], competitorsById);
+    }
+    case ActionTypes.COMPETITOR_REMOVE_COMPETITORS_BY_IDS: {
+      let nextState = state;
+      action.competitorIds.forEach((competitorId) => {
+        nextState = nextState.deleteIn(['competitorsById', competitorId]);
+      });
+      return nextState;
     }
     default:
       return state;

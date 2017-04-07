@@ -1,6 +1,19 @@
 import { Apis } from 'graphenejs-ws';
 import { BlockchainUtils } from '../utility';
-import { AppActions, AccountActions, NotificationActions, SoftwareUpdateActions } from '../actions';
+import {
+  AssetActions,
+  AppActions,
+  AccountActions,
+  NotificationActions,
+  SoftwareUpdateActions,
+  SportActions,
+  EventGroupActions,
+  CompetitorActions,
+  EventActions,
+  BettingMarketActions,
+  BettingMarketGroupActions,
+  BetActions
+} from '../actions';
 import Immutable from 'immutable';
 import { ObjectPrefix } from '../constants';
 import { ChainValidation } from 'graphenejs-lib';
@@ -46,6 +59,7 @@ class CommunicationService {
         break;
       }
       case ObjectPrefix.ASSET_PREFIX: {
+        this.dispatch(AssetActions.updateAssetsAction([updatedObject]));
         break;
       }
       case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
@@ -99,6 +113,41 @@ class CommunicationService {
         }
         break;
       }
+      case ObjectPrefix.SPORT_PREFIX: {
+        this.dispatch(SportActions.addOrUpdateSportsAction([updatedObject]));
+        break;
+      }
+      case ObjectPrefix.COMPETITOR_PREFIX: {
+        this.dispatch(CompetitorActions.addOrUpdateCompetitorsAction([updatedObject]));
+        break;
+      }
+      case ObjectPrefix.EVENT_GROUP_PREFIX: {
+        this.dispatch(EventGroupActions.addOrUpdateEventGroupsAction([updatedObject]));
+        break;
+      }
+      case ObjectPrefix.EVENT_PREFIX: {
+        this.dispatch(EventActions.addOrUpdateEventsAction([updatedObject]));
+        break;
+      }
+      case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {
+        this.dispatch(BettingMarketGroupActions.addOrUpdateBettingMarketGroupsAction([updatedObject]));
+        break;
+      }
+      case ObjectPrefix.BETTING_MARKET_PREFIX: {
+        this.dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction([updatedObject]));
+        break;
+      }
+      case ObjectPrefix.BET_PREFIX: {
+        const bettorId = updatedObject.get('bettor_id');
+        const myAccountId = this.getState().getIn(['account', 'account', 'id']);
+        // Check if this bet is related to me
+        if (bettorId === myAccountId) {
+          // Assume all bet to be ongoing for now, resolved bets should not be able to be deleted or updated
+          this.dispatch(BetActions.addOrUpdateOngoingBetsAction([updatedObject]));
+        }
+
+        break;
+      }
       default: break;
     }
 
@@ -117,10 +166,36 @@ class CommunicationService {
         }
         break;
       }
-      case ObjectPrefix.ASSET_PREFIX: {
+      case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
         break;
       }
-      case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
+      case ObjectPrefix.SPORT_PREFIX: {
+        this.dispatch(SportActions.removeSportsByIdsAction([deletedObjectId]));
+        break;
+      }
+      case ObjectPrefix.COMPETITOR_PREFIX: {
+        this.dispatch(CompetitorActions.removeCompetitorsByIdsAction([deletedObjectId]));
+        break;
+      }
+      case ObjectPrefix.EVENT_GROUP_PREFIX: {
+        this.dispatch(EventGroupActions.removeEventGroupsByIdsAction([deletedObjectId]));
+        break;
+      }
+      case ObjectPrefix.EVENT_PREFIX: {
+        this.dispatch(EventActions.removeEventsByIdsAction([deletedObjectId]));
+        break;
+      }
+      case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {
+        this.dispatch(BettingMarketGroupActions.removeBettingMarketGroupsByIdsAction([deletedObjectId]));
+        break;
+      }
+      case ObjectPrefix.BETTING_MARKET_PREFIX: {
+        this.dispatch(BettingMarketActions.removeBettingMarketsByIdsAction([deletedObjectId]));
+        break;
+      }
+      case ObjectPrefix.BET_PREFIX: {
+        // Assume all bet to be ongoing for now, resolved bets should not be able to be deleted or updated
+        this.dispatch(BetActions.removeBetsByIdsAction([deletedObjectId]));
         break;
       }
       case ObjectPrefix.ACCOUNT_BALANCE_PREFIX: {

@@ -21,18 +21,26 @@ class EventGroupPrivateActions {
     }
   }
 
-  static addEventGroupsAction(eventGroups) {
-    return {
-      type: ActionTypes.EVENT_GROUP_ADD_EVENT_GROUPS,
-      eventGroups
-    }
-  }
 }
 
 /**
  * Public actions
  */
 class EventGroupActions {
+
+  static addOrUpdateEventGroupsAction(eventGroups) {
+    return {
+      type: ActionTypes.EVENT_GROUP_ADD_OR_UPDATE_EVENT_GROUPS,
+      eventGroups
+    }
+  }
+
+  static removeEventGroupsByIdsAction(eventGroupIds) {
+    return {
+      type: ActionTypes.EVENT_GROUP_REMOVE_EVENT_GROUPS_BY_IDS,
+      eventGroupIds
+    }
+  }
 
   /**
    * Get event groups given array of sport ids (can be immutable)
@@ -74,7 +82,7 @@ class EventGroupActions {
         dispatch(EventGroupPrivateActions.setGetEventGroupsBySportIdsLoadingStatusAction(sportIdsOfEventGroupsToBeRetrieved, LoadingStatus.LOADING));
         return CommunicationService.getEventGroupsBySportIds(sportIdsOfEventGroupsToBeRetrieved).then((eventGroups) => {
           // Add to redux store
-          dispatch(EventGroupPrivateActions.addEventGroupsAction(eventGroups));
+          dispatch(EventGroupActions.addOrUpdateEventGroupsAction(eventGroups));
           // Set status
           dispatch(EventGroupPrivateActions.setGetEventGroupsBySportIdsLoadingStatusAction(sportIdsOfEventGroupsToBeRetrieved, LoadingStatus.DONE));
           const eventGroupIds = eventGroups.map( eventGroup => eventGroup.get('id'));
@@ -117,7 +125,7 @@ class EventGroupActions {
         dispatch(EventGroupPrivateActions.setGetEventGroupsByIdsLoadingStatusAction(idsOfEventGroupsToBeRetrieved, LoadingStatus.LOADING));
         return CommunicationService.getObjectsByIds(idsOfEventGroupsToBeRetrieved).then((eventGroups) => {
           // Add to redux store
-          dispatch(EventGroupPrivateActions.addEventGroupsAction(eventGroups));
+          dispatch(EventGroupActions.addOrUpdateEventGroupsAction(eventGroups));
           // Set status
           dispatch(EventGroupPrivateActions.setGetEventGroupsByIdsLoadingStatusAction(idsOfEventGroupsToBeRetrieved, LoadingStatus.DONE));
           // Concat with the retrieved data and return

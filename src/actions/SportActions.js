@@ -19,19 +19,26 @@ class SportPrivateActions {
       loadingStatus
     }
   }
-
-  static addSportsAction(sports) {
-    return {
-      type: ActionTypes.SPORT_ADD_SPORTS,
-      sports
-    }
-  }
 }
 
 /**
  * Public actions
  */
 class SportActions {
+
+  static addOrUpdateSportsAction(sports) {
+    return {
+      type: ActionTypes.SPORT_ADD_OR_UPDATE_SPORTS,
+      sports
+    }
+  }
+
+  static removeSportsByIdsAction(sportIds) {
+    return {
+      type: ActionTypes.SPORT_REMOVE_SPORTS_BY_IDS,
+      sportIds
+    }
+  }
 
   /**
    * Get all sports
@@ -50,7 +57,7 @@ class SportActions {
         dispatch(SportPrivateActions.setGetAllSportsLoadingStatusAction(LoadingStatus.LOADING));
         return CommunicationService.getAllSports().then((sports) => {
           // Add data
-          dispatch(SportPrivateActions.addSportsAction(sports));
+          dispatch(SportActions.addOrUpdateSportsAction(sports));
           // Set status
           dispatch(SportPrivateActions.setGetAllSportsLoadingStatusAction(LoadingStatus.DONE));
           const sportIds = sports.map(sport => sport.get('id'));
@@ -92,9 +99,8 @@ class SportActions {
         // Set status
         dispatch(SportPrivateActions.setGetSportsByIdsLoadingStatusAction(idsOfSportsToBeRetrieved, LoadingStatus.LOADING));
         return CommunicationService.getObjectsByIds(idsOfSportsToBeRetrieved).then((sports) => {
-          console.log(' retrieved', sports.toJS());
           // Add sports
-          dispatch(SportPrivateActions.addSportsAction(sports));
+          dispatch(SportActions.addOrUpdateSportsAction(sports));
           // Set status
           dispatch(SportPrivateActions.setGetSportsByIdsLoadingStatusAction(idsOfSportsToBeRetrieved, LoadingStatus.DONE));
           // Combine list and return the result

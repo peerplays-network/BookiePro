@@ -35,19 +35,25 @@ class EventPrivateActions {
       searchResult
     }
   }
-
-  static addEventsAction(events) {
-    return {
-      type: ActionTypes.EVENT_ADD_EVENTS,
-      events
-    }
-  }
 }
 
 /**
  * Public actions
  */
 class EventActions {
+  static addOrUpdateEventsAction(events) {
+    return {
+      type: ActionTypes.EVENT_ADD_OR_UPDATE_EVENTS,
+      events
+    }
+  }
+
+  static removeEventsByIdsAction(eventIds) {
+    return {
+      type: ActionTypes.EVENT_REMOVE_EVENTS_BY_IDS,
+      eventIds
+    }
+  }
 
   /**
    * Get events given array of sport ids (can be immutable)
@@ -89,7 +95,7 @@ class EventActions {
         dispatch(EventPrivateActions.setGetEventsBySportIdsLoadingStatusAction(sportIdsOfEventsToBeRetrieved, LoadingStatus.LOADING));
         return CommunicationService.getEventsBySportIds(sportIdsOfEventsToBeRetrieved).then((events) => {
           // Add data to redux store
-          dispatch(EventPrivateActions.addEventsAction(events));
+          dispatch(EventActions.addOrUpdateEventsAction(events));
           // Set status
           dispatch(EventPrivateActions.setGetEventsBySportIdsLoadingStatusAction(sportIdsOfEventsToBeRetrieved, LoadingStatus.DONE));
           const eventIds = events.map( event => event.get('id'));
@@ -131,7 +137,7 @@ class EventActions {
         dispatch(EventPrivateActions.setGetEventsByIdsLoadingStatusAction(idsOfEventsToBeRetrieved, LoadingStatus.LOADING));
         return CommunicationService.getObjectsByIds(idsOfEventsToBeRetrieved).then((events) => {
           // Add to redux store
-          dispatch(EventPrivateActions.addEventsAction(events));
+          dispatch(EventActions.addOrUpdateEventsAction(events));
           // Set status
           dispatch(EventPrivateActions.setGetEventsByIdsLoadingStatusAction(idsOfEventsToBeRetrieved, LoadingStatus.DONE));
           // Concat with retrieved data from redux store

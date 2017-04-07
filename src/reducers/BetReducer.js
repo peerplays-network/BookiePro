@@ -9,9 +9,9 @@ let initialState = Immutable.fromJS({
   makeBetsLoadingStatus: LoadingStatus.DEFAULT,
   editBetsByIdsLoadingStatus: {},
   cancelBetsByIdsLoadingStatus: {},
-  unmatchedBets: [],
-  matchedBets: [],
-  resolvedBets: []
+  unmatchedBetsById: {},
+  matchedBetsById: {},
+  resolvedBetsById: {}
 });
 
 export default function (state = initialState, action) {
@@ -45,27 +45,46 @@ export default function (state = initialState, action) {
       })
       return state.mergeIn(['editBetsByIdsLoadingStatus'], editBetsByIdsLoadingStatus);
     }
-    case ActionTypes.BET_SET_ONGOING_BETS: {
-      let unmatchedBets = Immutable.List();
-      let matchedBets = Immutable.List();
+    case ActionTypes.BET_ADD_OR_UPDATE_ONGOING_BETS: {
+      let unmatchedBetsById = Immutable.Map();
+      let matchedBetsById = Immutable.Map();
       // Split ongoing bets to unmatched and matched bets
+      let newBetIds = Immutable.List();
       action.ongoingBets.forEach((bet) => {
+        newBetIds = newBetIds.push(bet.get('id'));
         if (bet.get('amount_to_bet') === bet.get('remaining_amount_to_bet')
           && bet.get('amount_to_win') === bet.get('remaining_amount_to_win')) {
-          unmatchedBets = unmatchedBets.push(bet);
+          unmatchedBetsById = unmatchedBetsById.set(bet.get('id'), bet);
         } else {
-          matchedBets = matchedBets.push(bet);
+          matchedBetsById = matchedBetsById.set(bet.get('id'), bet);
         }
       })
-      return state.merge({
-        matchedBets,
-        unmatchedBets
+      let nextState = state;
+      // Remove related old bets from existing unmatchedBetsById (in case unmatched bets become matched bets)
+      // And from existing unmatchedBetsById (in case matched bets become unmatched bets) => although I think this one might not possible to happen
+      newBetIds.forEach((newBetId) => {
+        nextState = nextState.deleteIn(['unmatchedBetsById', newBetId]);
+        nextState = nextState.deleteIn(['matchedBetsById', newBetId]);
       });
+      // Merge the new data
+      nextState = nextState.mergeIn(['unmatchedBetsById'], unmatchedBetsById);
+      nextState = nextState.mergeIn(['matchedBetsById'], matchedBetsById);
+      return nextState;
     }
-    case ActionTypes.BET_SET_RESOLVED_BETS: {
-      return state.merge({
-        resolvedBets: action.resolvedBets
+    case ActionTypes.BET_REMOVE_ONGOING_BETS: {
+      let nextState = state;
+      action.betIds.forEach((betId) => {
+        nextState = nextState.deleteIn(['unmatchedBetsById', betId]);
+        nextState = nextState.deleteIn(['matchedBetsById', betId]);
       });
+      return nextState;
+    }
+    case ActionTypes.BET_ADD_OR_UPDATE_RESOLVED_BETS: {
+      let resolvedBetsById = Immutable.Map();
+      action.resolvedBets.forEach((bet) => {
+        resolvedBetsById = resolvedBetsById.set(bet.get('id'), bet);
+      });
+      return state.mergeIn(['resolvedBetsById'], resolvedBetsById);
     }
     case ActionTypes.ACCOUNT_LOGOUT: {
       return initialState;

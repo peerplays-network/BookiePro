@@ -23,6 +23,13 @@ export default function (state = initialState, action) {
       })
       return state.mergeIn(['getBettingMarketsByIdsLoadingStatus'], getBettingMarketsByIdsLoadingStatus);
     }
+    case ActionTypes.BETTING_MARKET_REMOVE_BETTING_MARKETS_BY_IDS: {
+      let nextState = state;
+      action.bettingMarketIds.forEach((bettingMarketId) => {
+        nextState = nextState.deleteIn(['bettingMarketsById', bettingMarketId]);
+      });
+      return nextState;
+    }
     default:
       return state;
   }
