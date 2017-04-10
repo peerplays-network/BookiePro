@@ -1,143 +1,13 @@
 import React, { Component } from 'react';
-import {  Icon,Table,DatePicker,Select } from 'antd';
+import {  Table,DatePicker,Select } from 'antd';
+import { LoadingStatus } from '../../constants';
 import './MyWager.less';
-const Option = Select.Option;
-const dataSource = [
-  {
-    key: '1',
-    eventName: '15/01/2017 18:05',
-    event: 'Pittsburgh Steelers vs Kansas City Chiefs',
-    type: 'Back | Pittsburgh Steelers +5.5 | Spreads',
-    sport: <Icon type='search' />,
-    odds: 2.07,
-    stake: 3.14,
-    profit: <span className='color-green'>+57.50</span>,
-    cancel: <a className='btn cancel-btn' href=''>cancel</a>
-  },
-  {
-    key: '2',
-    eventName: '15/01/2017 18:05',
-    event: 'Pittsburgh Steelers vs Kansas City Chiefs',
-    type: 'Back | Pittsburgh Steelers +5.5 | Spreads',
-    sport: <Icon type='search' />,
-    odds: 2.07,
-    stake: 3.14,
-    profit: <span className='color-red'>-11.24</span>,
-    cancel: <a className='btn cancel-btn' href=''>cancel</a>
-  },
-  {
-    key: '3',
-    eventName: '15/01/2017 18:05',
-    event: 'Pittsburgh Steelers vs Kansas City Chiefs',
-    type: 'Back | Pittsburgh Steelers +5.5 | Spreads',
-    sport: <Icon type='search' />,
-    odds: 2.07,
-    stake: 3.14,
-    profit: <span className='color-green'>+57.50</span>,
-    cancel: <a className='btn cancel-btn' href=''>cancel</a>
-  },
-  {
-    key: '4',
-    eventName: '15/01/2017 18:05',
-    event: 'Pittsburgh Steelers vs Kansas City Chiefs',
-    type: 'Back | Pittsburgh Steelers +5.5 | Spreads',
-    sport: <Icon type='search' />,
-    odds: 2.07,
-    stake: 3.14,
-    profit: <span className='color-red'>-11.24</span>,
-    cancel: <a className='btn cancel-btn' href=''>cancel</a>
-  },
-  {
-    key: '5',
-    eventName: '15/01/2017 18:05',
-    event: 'Pittsburgh Steelers vs Kansas City Chiefs',
-    type: 'Back | Pittsburgh Steelers +5.5 | Spreads',
-    sport: <Icon type='search' />,
-    odds: 2.07,
-    stake: 3.14,
-    profit: <span className='color-green'>+57.50</span>,
-    cancel: <a className='btn cancel-btn' href=''>cancel</a>
-  },
-  {
-    key: '6',
-    eventName: '15/01/2017 18:05',
-    event: 'Pittsburgh Steelers vs Kansas City Chiefs',
-    type: 'Back | Pittsburgh Steelers +5.5 | Spreads',
-    sport: <Icon type='search' />,
-    odds: 2.07,
-    stake: 3.14,
-    profit: <span className='color-red'>-11.24</span>,
-    cancel: <a className='btn cancel-btn' href=''>cancel</a>
-  },
-  {
-    key: '7',
-    eventName: '15/01/2017 18:05',
-    event: 'Pittsburgh Steelers vs Kansas City Chiefs',
-    type: 'Back | Pittsburgh Steelers +5.5 | Spreads',
-    sport: <Icon type='search' />,
-    odds: 2.07,
-    stake: 3.14,
-    profit: <span className='color-green'>+57.50</span>,
-    cancel: <a className='btn cancel-btn' href=''>cancel</a>
-  },
-  {
-    key: '8',
-    eventName: '15/01/2017 18:05',
-    event: 'Pittsburgh Steelers vs Kansas City Chiefs',
-    type: 'Back | Pittsburgh Steelers +5.5 | Spreads',
-    sport: <Icon type='search' />,
-    odds: 2.07,
-    stake: 3.14,
-    profit: <span className='color-red'>-11.24</span>,
-    cancel: <a className='btn cancel-btn' href=''>cancel</a>
-  }
-];
-
-const columns = [
-  {
-    title: 'Event Time',
-    dataIndex: 'eventName',
-    key: 'eventName',
-  },
-  {
-    title: 'Event',
-    dataIndex: 'event',
-    key: 'event',
-  },
-  {
-    title: 'Type',
-    dataIndex: 'type',
-    key: 'type',
-  },
-  {
-    title: 'Sport',
-    dataIndex: 'sport',
-    key: 'sport',
-  },
-  {
-    title: 'Odds',
-    dataIndex: 'odds',
-    key: 'odds',
-  },
-  {
-    title: 'Stake()',
-    dataIndex: 'stake',
-    key: 'stake',
-  },
-  {
-    title: 'Profit / Liability()',
-    dataIndex: 'profit',
-    key: 'profit',
-  },
-  {
-    title: '',
-    dataIndex: 'cancel',
-    key: 'cancel',
-  }
-];
+import { List } from 'immutable';
+import { I18n } from 'react-redux-i18n';
 
 class ResolvedBets extends Component {
   state = {
+    period: 'last7Days',
     startValue: null,
     endValue: null,
     endOpen: false,
@@ -158,23 +28,24 @@ class ResolvedBets extends Component {
     return endValue.valueOf() <= startValue.valueOf();
   }
   render() {
-    const { startValue, endValue } = this.state;
+    const { startValue, endValue, columns, resolvedBets, resolvedBetsLoadingStatus, currencyFormat, betsTotal } = this.props;
     return (
       <div>
         <div className='top-data clearfix'>
           <div className='float-left'>
-            <p className='font16'>TOTAL: Ƀ20.71</p>
+            <p className='font16'>{ I18n.t('mybets.total') } : { (currencyFormat === 'BTC' ? 'Ƀ ' : 'm ') + (betsTotal ? betsTotal : 0) }</p>
           </div>
           <div className='float-right'>
             <div className='filter'>
               <div className='ant-form-inline'>
                 <div className='ant-form-item'>
                   <label> Period</label>
-                  <Select className='bookie-select' defaultValue='default' style={ {width: 150} } >
-                    <Option value='default'> Last 14 days</Option>
-                    <Option value='jack'>Jack</Option>
-                    <Option value='lucy'>Lucy</Option>
-                    <Option value='Yiminghe'>yiminghe</Option>
+                  <Select className='bookie-select' value={ this.state.period } style={ {width: 150} }>
+                    <Select.Option value='last7Days'>Last 7 days</Select.Option>
+                    <Select.Option value='last14Days'>Last 14 days</Select.Option>
+                    <Select.Option value='thisMonth'>This month</Select.Option>
+                    <Select.Option value='lastMonth'>Last month</Select.Option>
+                    <Select.Option value='custom'>Custom</Select.Option>
                   </Select>
                 </div>
                 <div className='ant-form-item'>
@@ -202,12 +73,15 @@ class ResolvedBets extends Component {
                   <a className='btn btn-regular margin-left-10' href=''>Export</a>
                 </div>
               </div>
-
             </div>
           </div>
           <div className='right-left'></div>
         </div>
-        <Table className='bookie-table' pagination={ false } dataSource={ dataSource } columns={ columns } />
+
+        <Table pagination={ {pageSize: 10} }
+          locale={ {emptyText: ( resolvedBets && resolvedBets.length === 0 &&
+            resolvedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : resolvedBetsLoadingStatus )} }
+          className='bookie-table' dataSource={ List(resolvedBets).toJS() } columns={ columns }/>
       </div>
     )
   }

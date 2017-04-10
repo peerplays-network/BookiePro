@@ -128,17 +128,66 @@ class BetActions {
     };
   }
 
-  static getResolvedBets(startTime, stopTime) {
+  static getResolvedBets() {
     return (dispatch, getState) => {
-      const accountId = getState().getIn(['account', 'account', 'id']);
+      // const accountId = getState().getIn(['account', 'account', 'id']);
+      //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
+      const accountId = '1.2.48';
 
       dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call
-      FakeApi.getResolvedBets(accountId, startTime, stopTime).then((bets) => {
-        dispatch(BetActions.addResolvedBetsAction(bets));
+      let resolvedBets = [];
+      FakeApi.getResolvedBets(accountId).then((bets) => {
+        resolvedBets = bets;
+
+        // Get betting market ids
+        let bettingMarketIds = _.chain(resolvedBets).map((bet) => {
+          return bet.get('betting_market_id')
+        }).uniq().value();
+
+        // Get betting market object
+        return FakeApi.getObjects(bettingMarketIds);
+      }).then((bettingMarkets) => {
+        // Store betting market groups inside redux store
+        dispatch(BettingMarketActions.addBettingMarketsAction(bettingMarkets));
+
+        // Get unique betting market group ids
+        let bettingMarketGroupIds = _.chain(bettingMarkets).map((bettingMarket) => {
+          return bettingMarket.get('betting_market_group_id')
+        }).uniq().value();
+
+        // Get the betting market groups
+        return FakeApi.getObjects(bettingMarketGroupIds);
+      }).then((bettingMarketGroups) => {
+        // Store betting market groups inside redux store
+        dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMarketGroups));
+
+        // Get unique event ids
+        let eventIds = _.chain(bettingMarketGroups).map((bettingMarketGroup) => {
+          return bettingMarketGroup.get('event_id')
+        }).uniq().value();
+
+        // Get the betting market groups
+        return FakeApi.getObjects(eventIds);
+      }).then((events) => {
+        // Store events inside redux store
+        dispatch(EventActions.addEventsAction(events));
+
+        // Get unique sport ids
+        let sportIds = _.chain(events).map((event) => {
+          return event.get('sport_id')
+        }).uniq().value();
+
+        // Get the sports
+        return FakeApi.getObjects(sportIds);
+      }).then((sports) => {
+        // Store sports inside redux store
+        dispatch(SportActions.addSportsAction(sports));
+
+        // Add ongoing bets to redux store
+        dispatch(BetActions.addResolvedBetsAction(resolvedBets));
         dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.DONE));
       });
-
     };
   }
 
