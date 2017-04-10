@@ -31,116 +31,16 @@ class BettingMarketGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventName: '',
       marketData: []
     }
 
     this.props.getData(this.props.params.objectId);
-    this.updateMarketData = this.updateMarketData.bind(this);
-    this.mergeObjectArrays = this.mergeObjectArrays.bind(this);
-  }
-
-  componentWillMount(){
   }
 
   componentWillReceiveProps(nextProps){
-
     if (nextProps.params.objectId !== this.props.params.objectId){
-      this.setState({
-        marketData: []
-      })
       this.props.getData(nextProps.params.objectId);
     }
-
-    // NOTE: this one is not needed, since the event should already available in redux store by the time user reaches this page
-    // which means it can be extracted in mapStateToProps
-    // ---------------------------------------------------------
-    //when content of sidebar is ready, we could retrieve the event name directly I.e. without api call
-    // if ( this.state.eventName === '' || nextProps.params.objectId !== this.props.params.objectId){
-    //   const nested = Immutable.fromJS(nextProps.completeTree);
-    //   var keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === this.props.params.objectId) );
-    //
-    //   if ( keyPath !==  undefined){
-    //     this.setState({
-    //       //retrive the event Node
-    //       eventName: nested.getIn(keyPath.slice(0,5)).get('name')
-    //     })
-    //   }
-    //
-    // }
-
-    if ( nextProps.binnedOrderBooks === null || !this.props.binnedOrderBooks.equals(nextProps.binnedOrderBooks)){
-      this.updateMarketData(nextProps.bettingMarkets, nextProps.binnedOrderBooks)
-    }
-
-  }
-
-  //merge two json object based on key value in javascript
-  // modified based on soluton in
-  //http://stackoverflow.com/questions/30093561/merge-two-json-object-based-on-key-value-in-javascript
-  mergeObjectArrays (arr1, arr2, match1, match2) {
-    return _.union(
-      _.map(arr1, function (obj1) {
-        var same = _.find(arr2, function (obj2) {
-          return obj1[match1] === obj2[match2];
-        });
-        return same ? _.extend(obj1, same) : obj1;
-      }),
-      _.reject(arr2, function (obj2) {
-        return _.find(arr1, function(obj1) {
-          return obj2[match2] === obj1[match1];
-        });
-      })
-    );
-  }
-
-  //update the data in table of complex betting widget
-  updateMarketData(bettingMarkets, binnedOrderBooks){
-    let marketData;
-    try {
-      marketData = this.mergeObjectArrays(bettingMarkets.toJS(), binnedOrderBooks.toJS(), 'id', 'betting_market_id');
-      marketData.forEach(function (data, i) {
-        data.name = data.payout_condition_string;
-
-        data.offer = {
-          'backIndex': 0,
-          'layIndex': 0,
-          'backOrigin': data.aggregated_lay_bets,
-          'layOrigin': data.aggregated_back_bets
-        }
-
-        delete data.payout_condition_string;
-        delete data.betting_market_id;
-        delete data.aggregated_lay_bets;
-        delete data.aggregated_back_bets;
-
-      });
-      this.setState({
-        marketData
-      })
-
-    } catch(error){
-      //assuming both aggregated_lay_bets and aggregated_back_bets are empty
-      console.error('missing binnedOrderBooks in dummy data')
-      marketData = bettingMarkets.toJS()
-      marketData.forEach(function (data, i) {
-        data.name = data.payout_condition_string;
-
-        data.offer = {
-          'backIndex': 0,
-          'layIndex': 0,
-          'backOrigin': [],
-          'layOrigin': []
-        }
-
-        delete data.payout_condition_string;
-
-      });
-      this.setState({
-        marketData
-      })
-    }
-
   }
 
   render() {
@@ -156,11 +56,35 @@ class BettingMarketGroup extends Component {
         /> */}
         <ComplexBettingWidget2
           eventName={ this.props.eventName }
-          marketData={ this.state.marketData }
+          marketData={
+            /*TODO: don't user toJS here but update the selector of ComplexBettingWidget2 to support immutable instead*/
+            this.props.marketData.toJS() }
         />
       </div>
     )
   }
+}
+
+// NOTE: this function is the refactored version of updateMarketData with minimal change, better to revisit later
+// Convert data for ComplexBettingWidget2
+const createMarketData = (bettingMarkets, binnedOrderBooksByBettingMarketId) => {
+  let marketData = Immutable.List();
+  bettingMarkets.forEach((bettingMarket) => {
+    const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarket.get('id'));
+    let data = Immutable.Map();
+    data = data.set('name', bettingMarket.get('payout_condition_string'));
+    const aggregated_lay_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
+    const aggregated_back_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
+    let offer = Immutable.Map({
+      backIndex: 0,
+      layIndex: 0,
+      backOrigin: aggregated_lay_bets,
+      layOrigin: aggregated_back_bets
+    })
+    data = data.set('offer', offer);
+    marketData = marketData.push(data);
+  });
+  return marketData;
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -188,17 +112,13 @@ const mapStateToProps = (state, ownProps) => {
     const bettingMarket = bettingMarketsById.get(bettingMarketId);
     if (bettingMarket) relatedBettingMarkets = relatedBettingMarkets.push(bettingMarket);
   });
-  // Extract related binned order books
-  let relatedBinnedOrderBooksByBettingMarketId = Immutable.Map();
-  bettingMarketIds.forEach((bettingMarketId) => {
-    const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarketId);
-    if (binnedOrderBook) relatedBinnedOrderBooksByBettingMarketId = relatedBinnedOrderBooksByBettingMarketId.set(bettingMarketId, binnedOrderBook);
-  })
+  // Create market data
+  const marketData = createMarketData(relatedBettingMarkets, binnedOrderBooksByBettingMarketId);
 
   return {
     bettingMarketGroup,
     bettingMarkets: relatedBettingMarkets,
-    binnedOrderBooks: relatedBinnedOrderBooksByBettingMarketId,
+    marketData,
     eventName
   }
 };
