@@ -39,13 +39,13 @@ class ResolvedBets extends Component {
             <div className='filter'>
               <div className='ant-form-inline'>
                 <div className='ant-form-item'>
-                  <label> Period</label>
+                  <label> { I18n.t('mybets.period') }</label>
                   <Select className='bookie-select' value={ this.state.period } style={ {width: 150} }>
-                    <Select.Option value='last7Days'>Last 7 days</Select.Option>
-                    <Select.Option value='last14Days'>Last 14 days</Select.Option>
-                    <Select.Option value='thisMonth'>This month</Select.Option>
-                    <Select.Option value='lastMonth'>Last month</Select.Option>
-                    <Select.Option value='custom'>Custom</Select.Option>
+                    <Select.Option value='last7Days'>{I18n.t('mybets.last_7_Days') }</Select.Option>
+                    <Select.Option value='last14Days'>{I18n.t('mybets.last_14_Days') }</Select.Option>
+                    <Select.Option value='thisMonth'>{I18n.t('mybets.this_Month') }</Select.Option>
+                    <Select.Option value='lastMonth'>{I18n.t('mybets.last_Month') }</Select.Option>
+                    <Select.Option value='custom'>{I18n.t('mybets.custom') }</Select.Option>
                   </Select>
                 </div>
                 <div className='ant-form-item'>
@@ -69,8 +69,8 @@ class ResolvedBets extends Component {
                     />
                 </div>
                 <div className='ant-form-item'>
-                  <a className='btn btn-regular' href=''>Search</a>
-                  <a className='btn btn-regular margin-left-10' href=''>Export</a>
+                  <a className='btn btn-regular' href=''>{I18n.t('mybets.search') }</a>
+                  <a className='btn btn-regular margin-left-10' href=''>{I18n.t('mybets.export') }</a>
                 </div>
               </div>
             </div>
