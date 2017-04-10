@@ -372,26 +372,6 @@ class CommunicationService {
     });
   }
 
-  /**
-   * Get event groups given array of sport ids (can be immutable)
-   */
-  static getEventGroupsBySportIds(sportIds) {
-    // TODO: Replace later
-    const promises = sportIds.map( (sportId) => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const filteredResult = _.filter(dummyData.eventGroups, (item) => {
-            return item.sport_id === sportId;
-          });
-          resolve(filteredResult);
-        }, TIMEOUT_LENGTH);
-      });
-    });
-    return Promise.all(promises).then( result => {
-      return Immutable.fromJS(_.flatten(result));
-    });
-  }
-
 
   /**
    * Get events given array of sport ids (can be immutable)
