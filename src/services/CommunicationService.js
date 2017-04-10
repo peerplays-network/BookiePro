@@ -1,138 +1,282 @@
 import { Apis } from 'graphenejs-ws';
 import { BlockchainUtils } from '../utility';
-import { AppActions, AccountActions, NotificationActions, SoftwareUpdateActions } from '../actions';
+import {
+  AssetActions,
+  AppActions,
+  AccountActions,
+  NotificationActions,
+  SoftwareUpdateActions,
+  SportActions,
+  EventGroupActions,
+  CompetitorActions,
+  EventActions,
+  BettingMarketActions,
+  BettingMarketGroupActions,
+  BinnedOrderBookActions,
+  BetActions
+} from '../actions';
 import Immutable from 'immutable';
 import { ObjectPrefix } from '../constants';
 import { ChainValidation } from 'graphenejs-lib';
 import _ from 'lodash';
+import dummyData from '../dummyData';
+const TIMEOUT_LENGTH = 500;
+const SYNC_MIN_INTERVAL = 1000; // 1 seconds
 const { blockchainTimeStringToDate, getObjectIdPrefix } = BlockchainUtils;
 
 class CommunicationService {
   static dispatch = null;
   static getState = null;
+  static updatedObjectsByObjectIdByObjectIdPrefix = Immutable.Map();
+  static deletedObjectIdsByObjectIdPrefix = Immutable.Map();
+  static syncReduxStoreWithBlockchainTime;
 
+  /**
+   * Callback for change in the blockchain
+   */
   static onUpdate(data) {
-    // The resulted data is an array of array
-    let updatedObjects = Immutable.fromJS(_.flatten(data));
-    // console.log('updated', updatedObjects);
-    updatedObjects.forEach((updatedObject) => {
+    // Split and categorize updated data from blockchain
+    // We flatten it since the updatd data from blockchain is an array of array
+    this.categorizeUpdatedDataFromBlockchain(_.flatten(data));
+    // Only sync the data every given period
+    if (!this.syncReduxStoreWithBlockchainTime || (new Date().getTime() - this.syncReduxStoreWithBlockchainTime) > SYNC_MIN_INTERVAL ) {
+      this.updateObjects(this.updatedObjectsByObjectIdByObjectIdPrefix);
+      this.deleteObjects(this.deletedObjectIdsByObjectIdPrefix);
+      // Clear data, after we have sync them
+      this.updatedObjectsByObjectIdByObjectIdPrefix = Immutable.Map();
+      this.deletedObjectIdsByObjectIdPrefix = Immutable.Map();
+      // Set new time
+      this.syncReduxStoreWithBlockchainTime = new Date().getTime();
+    }
+  }
+
+
+  /**
+   * Categorize the updated data from blockchain depending on the object id prefix
+   */
+  static categorizeUpdatedDataFromBlockchain(data) {
+    // Parse the data given by blockchain and categorize them
+    _.forEach(data, (object) => {
       // If updatedObject is object_id instead of an object, it means that object is deleted
-      if (ChainValidation.is_object_id(updatedObject)) {
-        const deletedObjectId = updatedObject;
-        this.deleteObject(deletedObjectId);
+      if (ChainValidation.is_object_id(object)) {
+        const deletedObjectId = object;
+        const objectIdPrefix = getObjectIdPrefix(deletedObjectId);
+        this.deletedObjectIdsByObjectIdPrefix = this.deletedObjectIdsByObjectIdPrefix.update(objectIdPrefix, list => {
+          if (!list) list = Immutable.List();
+          return list.push(deletedObjectId);
+        })
       } else {
-        this.updateObject(updatedObject);
+        const updatedObjectId = object.id;
+        const objectIdPrefix = getObjectIdPrefix(updatedObjectId);
+        this.updatedObjectsByObjectIdByObjectIdPrefix = this.updatedObjectsByObjectIdByObjectIdPrefix.update(objectIdPrefix, map => {
+          // Use map instead of list for more efficient duplicate detection
+          if (!map) map = Immutable.Map();
+          return map.set(updatedObjectId, object);
+        })
       }
+    })
+  }
+
+
+  /**
+   * Update objects in redux store
+   */
+  static updateObjects(updatedObjectsByObjectIdByObjectIdPrefix) {
+    updatedObjectsByObjectIdByObjectIdPrefix.forEach((updatedObjectsByObjectId, objectIdPrefix) => {
+      const updatedObjects = updatedObjectsByObjectId.toList();
+      switch (objectIdPrefix) {
+        case ObjectPrefix.ACCOUNT_PREFIX: {
+          const myAccountId = this.getState().getIn(['account', 'account', 'id']);
+          const softwareUpdateRefAccId = this.getState().getIn(['softwareUpdate', 'referenceAccount', 'id']);
+          updatedObjects.forEach((updatedObject) => {
+            const accountId = updatedObject.get('id');
+            // Check if this account is related to my account or software update account
+            if (accountId === myAccountId) {
+              this.dispatch(AccountActions.setAccountAction(updatedObject));
+            } else if (accountId === softwareUpdateRefAccId) {
+              this.dispatch(SoftwareUpdateActions.setReferenceAccountAction(updatedObject));
+            }
+          })
+          break;
+        }
+        case ObjectPrefix.ASSET_PREFIX: {
+          this.dispatch(AssetActions.updateAssetsAction(updatedObjects));
+          break;
+        }
+        case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
+          // TODO:
+          break;
+        }
+        case ObjectPrefix.GLOBAL_PROPERTY_PREFIX: {
+          // Update global property
+          const globalProperty = updatedObjects.get(0);
+          if (globalProperty) this.dispatch(AppActions.setBlockchainGlobalPropertyAction(globalProperty));
+          break;
+        }
+        case ObjectPrefix.DYNAMIC_GLOBAL_PROPERTY_PREFIX: {
+          // Update dynamic global property
+          const dynamicGlobalProperty = updatedObjects.get(0);
+          if (dynamicGlobalProperty) this.dispatch(AppActions.setBlockchainDynamicGlobalPropertyAction(dynamicGlobalProperty));
+          break;
+        }
+        case ObjectPrefix.ACCOUNT_STAT_PREFIX: {
+          const myAccountId = this.getState().getIn(['account', 'account', 'id']);
+          const softwareUpdateRefAccId = this.getState().getIn(['softwareUpdate', 'referenceAccount', 'id']);
+          updatedObjects.forEach((updatedObject) => {
+            const ownerId = updatedObject.get('owner');
+            // Check if this statistic is related to my account or software update account
+            if (ownerId === myAccountId) {
+              // Check if this account made new transaction, if that's the case update the notification
+              const mostRecentOp = this.getState().getIn(['account', 'statistics', 'most_recent_op']);
+              const updatedMostRecentOp = updatedObject.get('most_recent_op')
+              const hasMadeNewTransaction = updatedMostRecentOp !== mostRecentOp;
+              if (hasMadeNewTransaction) {
+                this.dispatch(NotificationActions.updateNotification());
+              }
+              // Set the newest statistic
+              this.dispatch(AccountActions.setStatisticsAction(updatedObject));
+            } else if (ownerId === softwareUpdateRefAccId) {
+              // Check if this account made new transaction, if that's the case check for software update
+              const mostRecentOp = this.getState().getIn(['softwareUpdate', 'referenceAccountStatistics', 'most_recent_op']);
+              const updatedMostRecentOp = updatedObject.get('most_recent_op')
+              const hasMadeNewTransaction = updatedMostRecentOp !== mostRecentOp;
+              if (hasMadeNewTransaction) {
+                this.dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());
+              }
+              // Set the newest statistic
+              this.dispatch(SoftwareUpdateActions.setReferenceAccountStatisticsAction(updatedObject));
+            }
+          })
+          break;
+        }
+        case ObjectPrefix.ACCOUNT_BALANCE_PREFIX: {
+          const myAccountId = this.getState().getIn(['account', 'account', 'id']);
+          updatedObjects.forEach((updatedObject) => {
+            const ownerId = updatedObject.get('owner');
+            // Check if this balance related to my account
+            if (ownerId === myAccountId) {
+              this.dispatch(AccountActions.updateAvailableBalance(updatedObject));
+            }
+          });
+          break;
+        }
+        case ObjectPrefix.SPORT_PREFIX: {
+          this.dispatch(SportActions.addOrUpdateSportsAction(updatedObjects));
+          break;
+        }
+        case ObjectPrefix.COMPETITOR_PREFIX: {
+          this.dispatch(CompetitorActions.addOrUpdateCompetitorsAction(updatedObjects));
+          break;
+        }
+        case ObjectPrefix.EVENT_GROUP_PREFIX: {
+          this.dispatch(EventGroupActions.addOrUpdateEventGroupsAction(updatedObjects));
+          break;
+        }
+        case ObjectPrefix.EVENT_PREFIX: {
+          this.dispatch(EventActions.addOrUpdateEventsAction(updatedObjects));
+          break;
+        }
+        case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {
+          this.dispatch(BettingMarketGroupActions.addOrUpdateBettingMarketGroupsAction(updatedObjects));
+          break;
+        }
+        case ObjectPrefix.BETTING_MARKET_PREFIX: {
+          this.dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(updatedObjects));
+          break;
+        }
+        case ObjectPrefix.BET_PREFIX: {
+          const myAccountId = this.getState().getIn(['account', 'account', 'id']);
+          let bettingMarketIds = Immutable.List();
+          updatedObjects.forEach((updatedObject) => {
+            const bettorId = updatedObject.get('bettor_id');
+            const bettingMarketId = updatedObject.get('betting_market_id');
+            bettingMarketIds = bettingMarketIds.push(bettingMarketId);
+            // Check if this bet is related to me
+            if (bettorId === myAccountId) {
+              // Assume all bet to be ongoing for now, resolved bets should not be able to be deleted or updated
+              this.dispatch(BetActions.addOrUpdateOngoingBetsAction([updatedObject]));
+            }
+          });
+
+          // Update related binned order books
+          this.dispatch(BinnedOrderBookActions.refreshBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
+          break;
+        }
+        default: break;
+      }
+
+    })
+
+  }
+
+  /**
+   * Delete objects from redux store
+   */
+  static deleteObjects(deletedObjectIdsByObjectIdPrefix) {
+    deletedObjectIdsByObjectIdPrefix.forEach((deleteObjectIds, objectIdPrefix) => {
+      switch (objectIdPrefix) {
+        case ObjectPrefix.ACCOUNT_PREFIX: {
+          const myAccountId = this.getState().getIn(['account', 'account', 'id']);
+          deletedObjectIdsByObjectIdPrefix.forEach((deletedObjectId) => {
+            // Check if this account is related to my account
+            if (deletedObjectId === myAccountId) {
+              // If it is, logout the user
+              // This normally shouldn't happen
+              this.dispatch(AccountActions.logout());
+            }
+          });
+          break;
+        }
+        case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
+          break;
+        }
+        case ObjectPrefix.SPORT_PREFIX: {
+          this.dispatch(SportActions.removeSportsByIdsAction(deleteObjectIds));
+          break;
+        }
+        case ObjectPrefix.COMPETITOR_PREFIX: {
+          this.dispatch(CompetitorActions.removeCompetitorsByIdsAction(deleteObjectIds));
+          break;
+        }
+        case ObjectPrefix.EVENT_GROUP_PREFIX: {
+          this.dispatch(EventGroupActions.removeEventGroupsByIdsAction(deleteObjectIds));
+          break;
+        }
+        case ObjectPrefix.EVENT_PREFIX: {
+          this.dispatch(EventActions.removeEventsByIdsAction(deleteObjectIds));
+          break;
+        }
+        case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {
+          this.dispatch(BettingMarketGroupActions.removeBettingMarketGroupsByIdsAction(deleteObjectIds));
+          break;
+        }
+        case ObjectPrefix.BETTING_MARKET_PREFIX: {
+          this.dispatch(BettingMarketActions.removeBettingMarketsByIdsAction(deleteObjectIds));
+          break;
+        }
+        case ObjectPrefix.BET_PREFIX: {
+          // Assume all bet to be ongoing for now, resolved bets should not be able to be deleted or updated
+          this.dispatch(BetActions.removeBetsByIdsAction(deleteObjectIds));
+          break;
+        }
+        case ObjectPrefix.ACCOUNT_BALANCE_PREFIX: {
+          deleteObjectIds.forEach((deletedObjectId) => {
+            this.dispatch(AccountActions.removeAvailableBalanceByIdAction(deletedObjectId));
+          })
+          break;
+        }
+        default: break;
+      }
+
     });
-  }
 
-  static updateObject(updatedObject) {
-    const updatedObjectId = updatedObject.get('id');
-    const updatedObjectIdPrefix = getObjectIdPrefix(updatedObjectId);
-    switch (updatedObjectIdPrefix) {
-      case ObjectPrefix.ACCOUNT_PREFIX: {
-        const accountId = updatedObject.get('id');
-        const myAccountId = this.getState().getIn(['account', 'account', 'id']);
-        const softwareUpdateRefAccId = this.getState().getIn(['softwareUpdate', 'referenceAccount', 'id']);
-        // Check if this account is related to my account or software update account
-        if (accountId === myAccountId) {
-          this.dispatch(AccountActions.setAccountAction(updatedObject));
-        } else if (accountId === softwareUpdateRefAccId) {
-          this.dispatch(SoftwareUpdateActions.setReferenceAccountAction(updatedObject));
-        }
-        break;
-      }
-      case ObjectPrefix.ASSET_PREFIX: {
-        break;
-      }
-      case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
-        // TODO:
-        break;
-      }
-      case ObjectPrefix.GLOBAL_PROPERTY_PREFIX: {
-        // Update global property
-        this.dispatch(AppActions.setBlockchainGlobalPropertyAction(updatedObject));
-        break;
-      }
-      case ObjectPrefix.DYNAMIC_GLOBAL_PROPERTY_PREFIX: {
-        // Update dynamic global property
-        this.dispatch(AppActions.setBlockchainDynamicGlobalPropertyAction(updatedObject));
-        break;
-      }
-      case ObjectPrefix.ACCOUNT_STAT_PREFIX: {
-        const ownerId = updatedObject.get('owner');
-        const myAccountId = this.getState().getIn(['account', 'account', 'id']);
-        const softwareUpdateRefAccId = this.getState().getIn(['softwareUpdate', 'referenceAccount', 'id']);
-        // Check if this statistic is related to my account or software update account
-        if (ownerId === myAccountId) {
-          // Check if this account made new transaction, if that's the case update the notification
-          const mostRecentOp = this.getState().getIn(['account', 'statistics', 'most_recent_op']);
-          const updatedMostRecentOp = updatedObject.get('most_recent_op')
-          const hasMadeNewTransaction = updatedMostRecentOp !== mostRecentOp;
-          if (hasMadeNewTransaction) {
-            this.dispatch(NotificationActions.updateNotification());
-          }
-          // Set the newest statistic
-          this.dispatch(AccountActions.setStatisticsAction(updatedObject));
-        } else if (ownerId === softwareUpdateRefAccId) {
-          // Check if this account made new transaction, if that's the case check for software update
-          const mostRecentOp = this.getState().getIn(['softwareUpdate', 'referenceAccountStatistics', 'most_recent_op']);
-          const updatedMostRecentOp = updatedObject.get('most_recent_op')
-          const hasMadeNewTransaction = updatedMostRecentOp !== mostRecentOp;
-          if (hasMadeNewTransaction) {
-            this.dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());
-          }
-          // Set the newest statistic
-          this.dispatch(SoftwareUpdateActions.setReferenceAccountStatisticsAction(updatedObject));
-        }
-        break;
-      }
-      case ObjectPrefix.ACCOUNT_BALANCE_PREFIX: {
-        const ownerId = updatedObject.get('owner');
-        const myAccountId = this.getState().getIn(['account', 'account', 'id']);
-        // Check if this balance related to my account
-        if (ownerId === myAccountId) {
-          this.dispatch(AccountActions.updateAvailableBalance(updatedObject));
-        }
-        break;
-      }
-      default: break;
-    }
-
-  }
-
-  static deleteObject(deletedObjectId) {
-    const deletedObjectIdPrefix = getObjectIdPrefix(deletedObjectId);
-    switch (deletedObjectIdPrefix) {
-      case ObjectPrefix.ACCOUNT_PREFIX: {
-        // Check if this account is related to my account
-        const myAccountId = this.getState().getIn(['account', 'account', 'id']);
-        if (deletedObjectId === myAccountId) {
-          // If it is, logout the user
-          // This normally shouldn't happen
-          this.dispatch(AccountActions.logout());
-        }
-        break;
-      }
-      case ObjectPrefix.ASSET_PREFIX: {
-        break;
-      }
-      case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
-        break;
-      }
-      case ObjectPrefix.ACCOUNT_BALANCE_PREFIX: {
-        this.dispatch(AccountActions.removeAvailableBalanceByIdAction(deletedObjectId));
-        break;
-      }
-      default: break;
-    }
 
   }
 
   /**
    * Sync communication service with blockchain, so it always has the latest data
    */
-  static syncWithBlockchain(dispatch, getState) {
+  static syncWithBlockchain(dispatch, getState, attempt=3) {
     return new Promise((resolve, reject) => {
       // Check if db api is ready
       let db_api = Apis.instance().db_api();
@@ -153,6 +297,7 @@ class CommunicationService {
           const onUpdate = this.onUpdate.bind(this);
           return Apis.instance().db_api().exec( 'set_subscribe_callback', [ onUpdate, true ] ).then(() => {
             // Sync success
+            console.log('Sync with Blockchain Success');
             // Set reference to dispatch and getState
             this.dispatch = dispatch;
             this.getState = getState;
@@ -166,9 +311,17 @@ class CommunicationService {
           throw new Error();
         }
       }).catch( error => {
-        // Fail, return
-        reject(new Error('Fail to Sync with Blockchain.'));
-      })
+        console.error('Sync with Blockchain Fail', error);
+        // Retry if needed
+        if (attempt > 0) {
+          // Retry to connect
+          console.log('Retry syncing with blockchain');
+          return CommunicationService.syncWithBlockchain(dispatch, getState, attempt-1);
+        } else {
+          // Give up, reject an error to be caught by the outer promise handler
+          reject(new Error('Fail to Sync with Blockchain.'));
+        }
+      });
     });
   }
 
@@ -206,6 +359,272 @@ class CommunicationService {
                     return Immutable.fromJS(history);
                   });
   }
+
+  /**
+   * Get all sports
+   */
+  static getAllSports() {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(Immutable.fromJS(dummyData.sports));
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get event groups given array of sport ids (can be immutable)
+   */
+  static getEventGroupsBySportIds(sportIds) {
+    // TODO: Replace later
+    const promises = sportIds.map( (sportId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const filteredResult = _.filter(dummyData.eventGroups, (item) => {
+            return item.sport_id === sportId;
+          });
+          resolve(filteredResult);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( result => {
+      return Immutable.fromJS(_.flatten(result));
+    });
+  }
+
+
+  /**
+   * Get events given array of sport ids (can be immutable)
+   */
+  static getEventsBySportIds(sportIds) {
+    // TODO: Replace later
+    const promises = sportIds.map( (sportId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const filteredResult = _.filter(dummyData.events, (item) => {
+            return item.sport_id === sportId;
+          });
+          resolve(filteredResult);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( result => {
+      return Immutable.fromJS(_.flatten(result));
+    });
+  }
+
+  /**
+   * Get comeptitors given array of sport ids (can be immutable)
+   */
+  static getCompetitorsBySportIds(sportIds) {
+    // TODO: Replace later
+    const promises = sportIds.map( (sportId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const filteredResult = _.filter(dummyData.competitors, (item) => {
+            return item.sport_id === sportId;
+          });
+          resolve(filteredResult);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( result => {
+      return Immutable.fromJS(_.flatten(result));
+    });
+  }
+
+
+
+  /**
+   * Search events given keyword
+   */
+  static searchEvents(keyword) {
+    // TODO: Replace Later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = _.filter(dummyData.events, (item) => {
+          const team1Name = item.name.split(' vs ')[0];
+          const team2Name = item.name.split(' vs ')[1];
+
+          const keywordLowerCase = keyword.toLowerCase();
+
+          const team1FirstName = team1Name.split(' ')[0].toLowerCase();
+          const team2FirstName = team2Name.split(' ')[0].toLowerCase();
+          return team1FirstName.startsWith(keywordLowerCase) || team2FirstName.startsWith(keywordLowerCase);
+
+        });
+        resolve(Immutable.fromJS(filteredResult));
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+
+
+  /**
+   * Get any blockchain object given their id
+   */
+  static getObjectsByIds(arrayOfObjectIds = []) {
+    // TODO: Replace Later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = [];
+        // Iterate every object in dummy data to find the matching object
+        let allObjects = [];
+        _.forEach(dummyData, (item) => {
+          allObjects = _.concat(allObjects, item);
+        })
+        _.forEach(allObjects, (item) => {
+          if (arrayOfObjectIds.includes(item.id)) {
+            filteredResult.push(item);
+          }
+        })
+        resolve(Immutable.fromJS(filteredResult));
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get ongoing bets (unmatched and matched bets)
+   */
+  static getOngoingBets(accountId) {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = _.filter(dummyData.bets, (item) => {
+          return item.bettor_id === accountId;
+        });
+        resolve(Immutable.fromJS(filteredResult));
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get resolved bets
+   */
+  static getResolvedBets(accountId, startTime, stopTime) {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        // TODO: still pending the format of resolved bets
+        resolve(Immutable.List());
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get binned order books
+   */
+  static getBinnedOrderBook(bettingMarketId, binning_precision) {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        let result = null;
+        dummyData.binnedOrderBooks.forEach((orderBook) => {
+          if (orderBook.betting_market_id === bettingMarketId) {
+            result = orderBook;
+            return false;
+          }
+        });
+
+        resolve(Immutable.fromJS(result));
+      }, TIMEOUT_LENGTH);
+    })
+  }
+
+  /**
+   * Get binned order books
+   */
+  static getBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision) {
+    // TODO: Replace later
+    // Create promises of getting binned order book for each betting market
+    const promises = bettingMarketIds.map( (bettingMarketId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          // Get related binned order book from dummy data
+          let filteredResult = _.find(dummyData.binnedOrderBooks, (item) => {
+            return item.betting_market_id === bettingMarketId;
+          });
+          // TODO: the real binned_order_book object shouldn't have betting_market_id, append betting_market_id to binnedOrderBook here when blockchain is ready
+          resolve(filteredResult);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( (result) => {
+      const finalResult = {};
+      // Modify the data structure of return objects, from list of binnedOrderBooks into dictionary of binnedOrderBooks with betting market id as the key
+      _.forEach(result, (item, index) => {
+        if (!_.isEmpty(item)) {
+          const bettingMarketId = item['betting_market_id'];
+          finalResult[bettingMarketId] = result[index];
+        }
+      });
+      return Immutable.fromJS(finalResult);
+    });
+  }
+
+  /**
+   * Withdraw money
+   */
+  static withdraw(walletAddress) {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get deposit address
+   */
+  static getDepositAddress(accountId) {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('THISISDUMMYDEPOSITADDRESSFORANYACCOUNTID');
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get global betting statistics
+   */
+  static getGlobalBettingStatistics() {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(Immutable.fromJS(dummyData.globalBettingStatistics));
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get transaction history of an account
+   */
+  static getTransactionHistories(accountId, startDate, endDate) {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      if(startDate !== undefined && endDate !== undefined){
+        const filteredHistory =  _.filter(dummyData.transactionHistory, (hist) => {
+          return (hist.time >= startDate && hist.time <= endDate)
+        });
+        resolve(Immutable.fromJS(_.orderBy(filteredHistory,
+          function(value) {
+            return (value.time +''
+          )}, 'desc'
+        )));
+      }
+      resolve(Immutable.fromJS(_.orderBy(dummyData.transactionHistory,
+        function(value) {
+          return (value.time +''
+        )}, 'desc'
+      )));
+    });
+
+  }
+
+
+
 }
 
 export default CommunicationService;

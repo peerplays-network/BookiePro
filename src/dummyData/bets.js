@@ -1,6 +1,3 @@
-import _ from 'lodash';
-import Immutable from 'immutable';
-
 const bets = [
   {
     "id": "1.106.1",
@@ -2352,5 +2349,4 @@ const bets = [
 // Matched bets -> remaining_amount_to_bet === 0
 // Cancelled bets -> cancelled === true (and it must be an unmatched bets since matched bets can't be cancelled)
 
-const immutableBets = _.map(bets, bet => Immutable.fromJS(bet));
-export default immutableBets;
+export default bets;

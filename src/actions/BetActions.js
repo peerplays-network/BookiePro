@@ -1,4 +1,5 @@
-import FakeApi from '../communication/FakeApi';
+import Immutable from 'immutable';
+import { CommunicationService, WalletService } from '../services';
 import { LoadingStatus, ActionTypes } from '../constants';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
@@ -32,160 +33,171 @@ class BetPrivateActions {
     }
   }
 
-  static setCancelBetsLoadingStatusAction(loadingStatus) {
+  static setCancelBetsByIdsLoadingStatusAction(betIds, loadingStatus) {
     return {
-      type: ActionTypes.BET_SET_CANCEL_BETS_LOADING_STATUS,
+      type: ActionTypes.BET_SET_CANCEL_BETS_BY_IDS_LOADING_STATUS,
+      betIds,
       loadingStatus
     }
   }
 
-  static setEditBetsLoadingStatusAction(loadingStatus) {
+  static setEditBetsByIdsLoadingStatusAction(betIds, loadingStatus) {
     return {
-      type: ActionTypes.BET_SET_EDIT_BETS_LOADING_STATUS,
+      type: ActionTypes.BET_SET_EDIT_BETS_BY_IDS_LOADING_STATUS,
+      betIds,
       loadingStatus
     }
   }
+
 }
 
 /**
  * Public actions
  */
 class BetActions {
-  static addOngoingBetsAction(ongoingBets) {
+
+  static addOrUpdateOngoingBetsAction(ongoingBets) {
     return {
-      type: ActionTypes.BET_ADD_ONGOING_BETS,
+      type: ActionTypes.BET_ADD_OR_UPDATE_ONGOING_BETS,
       ongoingBets
     }
   }
 
-  static addResolvedBetsAction(resolvedBets) {
+  static removeOngoingBetsByIdsAction(ongoingBetIds) {
     return {
-      type: ActionTypes.BET_ADD_RESOLVED_BETS,
+      type: ActionTypes.BET_REMOVE_ONGOING_BETS,
+      ongoingBetIds
+    }
+  }
+
+  static addOrUpdateResolvedBetsAction(resolvedBets) {
+    return {
+      type: ActionTypes.BET_ADD_OR_UPDATE_RESOLVED_BETS,
       resolvedBets
     }
   }
 
+  /**
+   * Get ongoing bets (unmatched and matched bets);
+   */
   static getOngoingBets() {
     return (dispatch, getState) => {
       // const accountId = getState().getIn(['account', 'account', 'id']);
       //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
       const accountId = '1.2.48';
 
-      dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.LOADING));
-      // TODO: Replace with actual blockchain call
-      let ongoingBets = [];
-      FakeApi.getOngoingBets(accountId).then((retrievedBets) => {
-        ongoingBets = retrievedBets;
-
-        // Get betting market ids
-        let bettingMarketIds = _.chain(ongoingBets).map((bet) => {
-          return bet.get('betting_market_id')
-        }).uniq().value();
-
-        // Get betting market object
-        return FakeApi.getObjects(bettingMarketIds);
-      }).then((bettingMarkets) => {
-        // Store betting market groups inside redux store
-        dispatch(BettingMarketActions.addBettingMarketsAction(bettingMarkets));
-
-        // Get unique betting market group ids
-        let bettingMarketGroupIds = _.chain(bettingMarkets).map((bettingMarket) => {
-          return bettingMarket.get('betting_market_group_id')
-        }).uniq().value();
-
-        // Get the betting market groups
-        return FakeApi.getObjects(bettingMarketGroupIds);
-      }).then((bettingMarketGroups) => {
-        // Store betting market groups inside redux store
-        dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMarketGroups));
-
-        // Get unique event ids
-        let eventIds = _.chain(bettingMarketGroups).map((bettingMarketGroup) => {
-          return bettingMarketGroup.get('event_id')
-        }).uniq().value();
-
-        // Get the betting market groups
-        return FakeApi.getObjects(eventIds);
-      }).then((events) => {
-        // Store events inside redux store
-        dispatch(EventActions.addEventsAction(events));
-
-        // Get unique sport ids
-        let sportIds = _.chain(events).map((event) => {
-          return event.get('sport_id')
-        }).uniq().value();
-
-        // Get the sports
-        return FakeApi.getObjects(sportIds);
-      }).then((sports) => {
-        // Store sports inside redux store
-        dispatch(SportActions.addSportsAction(sports));
-
-        // Add ongoing bets to redux store
-        dispatch(BetActions.addOngoingBetsAction(ongoingBets));
-        dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.DONE));
-      });
+      // Check if data is already in the redux store
+      const getOngoingBetsLoadingStatus = getState().getIn(['bet', 'getOngoingBetsLoadingStatus']);
+      if (getOngoingBetsLoadingStatus !== LoadingStatus.DONE) {
+        // It has been never been retrieved before, fetch from blockchain
+        dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.LOADING));
+        let retrievedOngoingBets = [];
+        CommunicationService.getOngoingBets(accountId).then((ongoingBets) => {
+          retrievedOngoingBets = ongoingBets;
+          // Get betting market ids
+          let bettingMarketIds = ongoingBets.map(bet => bet.get('betting_market_id')).toSet();
+          // Get betting market object
+          return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds));
+        }).then((bettingMarkets) => {
+          // Get unique betting market group ids
+          let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
+          // Get the betting market groups
+          return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
+        }).then((bettingMarketGroups) => {
+          // Get unique event ids
+          let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet();
+          // Get the betting market groups
+          return dispatch(EventActions.getEventsByIds(eventIds));
+        }).then((events) => {
+          // Get unique sport ids
+          let sportIds = events.map(event => event.get('sport_id')).toSet();
+          // Get the betting market groups
+          return dispatch(SportActions.getSportsByIds(sportIds));
+        }).then((sports) => {
+          // Add ongoing bets to redux store
+          dispatch(BetActions.addOrUpdateOngoingBetsAction(retrievedOngoingBets));
+          // Set status
+          dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.DONE));
+        });
+      }
     };
   }
 
+  /**
+   * Get resolved bets
+   */
   static getResolvedBets(startTime, stopTime) {
     return (dispatch, getState) => {
       const accountId = getState().getIn(['account', 'account', 'id']);
 
       dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.LOADING));
-      // TODO: Replace with actual blockchain call
-      FakeApi.getResolvedBets(accountId, startTime, stopTime).then((bets) => {
-        dispatch(BetActions.addResolvedBetsAction(bets));
+      CommunicationService.getResolvedBets(accountId, startTime, stopTime).then((bets) => {
+        // Add to redux store
+        dispatch(BetActions.addOrUpdateResolvedBetsAction(bets));
+        // Set status
         dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.DONE));
       });
 
     };
   }
 
+  /**
+   * Make bets, (bets format in this parameter is not determined yet)
+   */
   static makeBets(bets) {
-    return (dispatch) => {
+    return (dispatch, getState) => {
       dispatch(BetPrivateActions.setMakeBetsLoadingStatus(LoadingStatus.LOADING));
 
       const tr = new TransactionBuilder();
-      _.forEach(bets, (bet) => {
+      bets.forEach((bet) => {
         // Create operation for each bet and attach it to the transaction
         const operationParams = {};
         const operationType = 'bet_operation';
         tr.add_type_operation(operationType, operationParams);
       });
 
-      // TODO: replace this with wallet service process transaction later on
-      FakeApi.processTransaction(tr).then(() => {
+      // TODO: replace this with validwallet service process transaction later on
+      WalletService.processFakeTransaction(getState(), tr).then(() => {
         dispatch(BetPrivateActions.setMakeBetsLoadingStatus(LoadingStatus.DONE));
       });
     }
   }
 
+  /**
+   * Cancel bets
+   * bets - array of blockchain bet objects
+   */
   static cancelBets(bets) {
-    return (dispatch) => {
-      dispatch(BetPrivateActions.setCancelBetsLoadingStatus(LoadingStatus.LOADING));
-
+    return (dispatch, getState) => {
+      let betIds = Immutable.List();
+      // Build transaction
       const tr = new TransactionBuilder();
-      _.forEach(bets, (bet) => {
+      bets.forEach((bet) => {
+        betIds = betIds.push(bet.get('id'));
         // Create operation for each bet and attach it to the transaction
         const operationParams = {};
         const operationType = 'cancel_bet_operation';
         tr.add_type_operation(operationType, operationParams);
       });
 
-      // TODO: replace this with wallet service process transaction later on
-      FakeApi.processTransaction(tr).then(() => {
-        dispatch(BetPrivateActions.setCancelBetsLoadingStatus(LoadingStatus.DONE));
+      dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
+      // TODO: replace this with valid wallet service process transaction later on
+      WalletService.processFakeTransaction(getState(), tr).then(() => {
+        dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds,LoadingStatus.DONE));
       });
     }
   }
 
+  /**
+   * Edit bets
+   * bets - array of edited blockchain bet objects
+   */
   static editBets(bets) {
-    return (dispatch) => {
-      dispatch(BetPrivateActions.setEditBetsLoadingStatus(LoadingStatus.LOADING));
-
+    return (dispatch, getState) => {
+      let betIds = Immutable.List();
       const tr = new TransactionBuilder();
-      _.forEach(bets, (bet) => {
+      bets.forEach((bet) => {
+        betIds = betIds.push(bet.get('id'));
         // Create operation for each bet and attach it to the transaction
         const cancelOperationParams = {};
         const cancelOperationType = 'cancel_bet_operation';
@@ -196,10 +208,10 @@ class BetActions {
         const createOperationType = 'bet_operation';
         tr.add_type_operation(createOperationType, createOperationParams);
       });
-
-      // TODO: replace this with wallet service process transaction later on
-      FakeApi.processTransaction(tr).then(() => {
-        dispatch(BetPrivateActions.setEditBetsLoadingStatus(LoadingStatus.DONE));
+      dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
+      // TODO: replace this with valid wallet service process transaction later on
+      WalletService.processFakeTransaction(getState(), tr).then(() => {
+        dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
       });
     }
   }

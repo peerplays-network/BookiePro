@@ -3,16 +3,32 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
-  bettingMarketsById: {}
+  bettingMarketsById: {},
+  getBettingMarketsByIdsLoadingStatus: {}
 });
 
 export default function (state = initialState, action) {
   switch(action.type) {
-    case ActionTypes.BETTING_MARKET_ADD_BETTING_MARKETS: {
-      const bettingMarketsById = _.keyBy(action.bettingMarkets, bettingMarket => bettingMarket.get('id'));
-      return state.merge({
-        bettingMarketsById
+    case ActionTypes.BETTING_MARKET_ADD_OR_UPDATE_BETTING_MARKETS: {
+      let bettingMarketsById = Immutable.Map();
+      action.bettingMarkets.forEach( bettingMarket => {
+        bettingMarketsById = bettingMarketsById.set(bettingMarket.get('id'), bettingMarket);
+      })
+      return state.mergeIn(['bettingMarketsById'], bettingMarketsById);
+    }
+    case ActionTypes.BETTING_MARKET_SET_GET_BETTING_MARKETS_BY_IDS_LOADING_STATUS: {
+      let getBettingMarketsByIdsLoadingStatus = Immutable.Map();
+      action.bettingMarketIds.forEach( id => {
+        getBettingMarketsByIdsLoadingStatus = getBettingMarketsByIdsLoadingStatus.set(id, action.loadingStatus);
+      })
+      return state.mergeIn(['getBettingMarketsByIdsLoadingStatus'], getBettingMarketsByIdsLoadingStatus);
+    }
+    case ActionTypes.BETTING_MARKET_REMOVE_BETTING_MARKETS_BY_IDS: {
+      let nextState = state;
+      action.bettingMarketIds.forEach((bettingMarketId) => {
+        nextState = nextState.deleteIn(['bettingMarketsById', bettingMarketId]);
       });
+      return nextState;
     }
     default:
       return state;

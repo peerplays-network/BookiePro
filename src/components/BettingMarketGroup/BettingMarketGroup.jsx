@@ -8,7 +8,6 @@ import moment from 'moment'; // TODO: Remove later. For hardcoded data only
 import { BettingMarketGroupPageActions } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { findKeyPathOf } from '../../utility/TreeUtils'
 
 //////// HARDCODED DATA BEGINS //////////
 const fakeData =
@@ -35,13 +34,13 @@ class BettingMarketGroup extends Component {
       eventName: '',
       marketData: []
     }
-    this.props.getData(this.props.params.objectId);
 
+    this.props.getData(this.props.params.objectId);
     this.updateMarketData = this.updateMarketData.bind(this);
     this.mergeObjectArrays = this.mergeObjectArrays.bind(this);
   }
 
-  componentDidMount(){
+  componentWillMount(){
   }
 
   componentWillReceiveProps(nextProps){
@@ -53,19 +52,22 @@ class BettingMarketGroup extends Component {
       this.props.getData(nextProps.params.objectId);
     }
 
+    // NOTE: this one is not needed, since the event should already available in redux store by the time user reaches this page
+    // which means it can be extracted in mapStateToProps
+    // ---------------------------------------------------------
     //when content of sidebar is ready, we could retrieve the event name directly I.e. without api call
-    if ( this.state.eventName === '' || nextProps.params.objectId !== this.props.params.objectId){
-      const nested = Immutable.fromJS(nextProps.completeTree);
-      var keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === this.props.params.objectId) );
-
-      if ( keyPath !==  undefined){
-        this.setState({
-          //retrive the event Node
-          eventName: nested.getIn(keyPath.slice(0,5)).get('name')
-        })
-      }
-
-    }
+    // if ( this.state.eventName === '' || nextProps.params.objectId !== this.props.params.objectId){
+    //   const nested = Immutable.fromJS(nextProps.completeTree);
+    //   var keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === this.props.params.objectId) );
+    //
+    //   if ( keyPath !==  undefined){
+    //     this.setState({
+    //       //retrive the event Node
+    //       eventName: nested.getIn(keyPath.slice(0,5)).get('name')
+    //     })
+    //   }
+    //
+    // }
 
     if ( nextProps.binnedOrderBooks === null || !this.props.binnedOrderBooks.equals(nextProps.binnedOrderBooks)){
       this.updateMarketData(nextProps.bettingMarkets, nextProps.binnedOrderBooks)
@@ -146,14 +148,14 @@ class BettingMarketGroup extends Component {
     return (
       <div className='betting-market-group-wrapper'>
         <BettingMarketGroupBanner
-          eventName={ this.state.eventName }
+          eventName={ this.props.eventName }
         />
         {/* <ComplexBettingWidget
           title='Test Title'
           events={ fakeData }
         /> */}
         <ComplexBettingWidget2
-          eventName={ this.state.eventName }
+          eventName={ this.props.eventName }
           marketData={ this.state.marketData }
         />
       </div>
@@ -167,15 +169,37 @@ const mapDispatchToProps = (dispatch) => {
   }, dispatch);
 }
 
-const mapStateToProps = (state) => {
-  const bettingMktGroupPage = state.get('bettingMarketGroupPage');
-  const sidebar = state.get('sidebar');
+const mapStateToProps = (state, ownProps) => {
+  const bettingMarketGroupId = ownProps.params.objectId;
+  const bettingMarketGroupsById = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
+  const binnedOrderBooksByBettingMarketId = state.getIn(['binnedOrderBook', 'binnedOrderBooksByBettingMarketId']);
+  const bettingMarketsById = state.getIn(['bettingMarket', 'bettingMarketsById']);
+  const eventsById = state.getIn(['event', 'eventsById']);
+
+  // Extract betting market group
+  const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
+  // Extract event name
+  const event = bettingMarketGroup && eventsById.get(bettingMarketGroup.get('event_id'));
+  const eventName = (event && event.get('name')) || '';
+  // Extract betting markets related to the betting market group
+  const bettingMarketIds = (bettingMarketGroup && bettingMarketGroup.get('betting_market_ids')) || Immutable.List();
+  let relatedBettingMarkets = Immutable.List();
+  bettingMarketIds.forEach((bettingMarketId) => {
+    const bettingMarket = bettingMarketsById.get(bettingMarketId);
+    if (bettingMarket) relatedBettingMarkets = relatedBettingMarkets.push(bettingMarket);
+  });
+  // Extract related binned order books
+  let relatedBinnedOrderBooksByBettingMarketId = Immutable.Map();
+  bettingMarketIds.forEach((bettingMarketId) => {
+    const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarketId);
+    if (binnedOrderBook) relatedBinnedOrderBooksByBettingMarketId = relatedBinnedOrderBooksByBettingMarketId.set(bettingMarketId, binnedOrderBook);
+  })
 
   return {
-    bettingMarketGroup: bettingMktGroupPage.get('bettingMarketGroup'),
-    bettingMarkets: bettingMktGroupPage.get('bettingMarkets'),
-    binnedOrderBooks: bettingMktGroupPage.get('binnedOrderBooks'),
-    completeTree: sidebar.get('complete_tree'),
+    bettingMarketGroup,
+    bettingMarkets: relatedBettingMarkets,
+    binnedOrderBooks: relatedBinnedOrderBooksByBettingMarketId,
+    eventName
   }
 };
 

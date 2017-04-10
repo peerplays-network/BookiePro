@@ -1,13 +1,10 @@
-import _ from 'lodash';
-import Immutable from 'immutable';
-
 import moment from 'moment';
 
 /**
  * Instructions
  *
  * You can use the moment.js library to create a timestamp in the future.
- * Please follow the examples already defined in this file. Thanks. 
+ * Please follow the examples already defined in this file. Thanks.
  */
 
 const events = [
@@ -903,5 +900,4 @@ const events = [
 
 //TODO: add more in this list, pay attention on the relation with the sports, competitors, event group dummy data
 
-const immutableEvents = _.map(events, event => Immutable.fromJS(event));
-export default immutableEvents;
+export default events;

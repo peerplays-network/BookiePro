@@ -2,7 +2,15 @@ import _ from 'lodash';
 import { PrivateKey } from 'graphenejs-lib';
 
 class WalletService {
-
+  // Process fake transaction (for testing)
+  static processFakeTransaction(state, transactionObject) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 500);
+    })
+  }
+  
   /**
    * Process the given transaction
    */

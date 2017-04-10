@@ -1,5 +1,3 @@
-import Immutable from 'immutable';
-
 const globalBettingStatistics = {
   id: '1.107.0',
   total_amount_staked: {
@@ -10,4 +8,4 @@ const globalBettingStatistics = {
   number_of_active_events: 5
 };
 
-export default Immutable.fromJS(globalBettingStatistics);
+export default globalBettingStatistics;

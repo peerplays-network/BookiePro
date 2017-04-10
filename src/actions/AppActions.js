@@ -1,6 +1,5 @@
 import { ActionTypes, LoadingStatus } from '../constants';
-import FakeApi from '../communication/FakeApi';
-import { ConnectionService } from '../services';
+import { ConnectionService, CommunicationService } from '../services';
 import SoftwareUpdateActions from './SoftwareUpdateActions';
 
 /**
@@ -73,7 +72,7 @@ class AppActions {
       };
       ConnectionService.connectToBlockchain(connectionStatusCallback).then(() => {
         // Sync with blockchain
-        return ConnectionService.syncWithBlockchain(dispatch, getState);
+        return CommunicationService.syncWithBlockchain(dispatch, getState);
       }).then(() => {
         // Listen to software update
         return dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());
@@ -82,7 +81,7 @@ class AppActions {
         dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
         console.error(error);
-        // Fail to connect, sync, and listen to software update, close connection to the blockchain
+        // Fail to connect/ sync/ listen to software update, close connection to the blockchain
         ConnectionService.closeConnectionToBlockchain();
         dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));
       });
@@ -92,8 +91,7 @@ class AppActions {
   static getGlobalBettingStatistics() {
     return (dispatch) => {
       dispatch(AppPrivateActions.setGetGlobalBettingStatisticsLoadingStatusAction(LoadingStatus.LOADING));
-      // TODO: replace with actual blockchain call later
-      FakeApi.getGlobalBettingStatistics().then((globalBettingStatistics) => {
+      CommunicationService.getGlobalBettingStatistics().then((globalBettingStatistics) => {
         dispatch(AppPrivateActions.setGlobalBettingStatisticsAction(globalBettingStatistics));
         dispatch(AppPrivateActions.setGetGlobalBettingStatisticsLoadingStatusAction(LoadingStatus.DONE));
       });

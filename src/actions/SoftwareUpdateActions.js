@@ -11,12 +11,6 @@ class SoftwareUpdatePrivateActions {
       displayText
     }
   }
-}
-
-/**
- * Public actions
- */
-class SoftwareUpdateActions {
   static setReferenceAccountAction(referenceAccount) {
     return {
       type: ActionTypes.SOFTWARE_UPDATE_SET_REFERENCE_ACCOUNT,
@@ -30,7 +24,17 @@ class SoftwareUpdateActions {
       referenceAccountStatistics
     }
   }
+}
 
+/**
+ * Public actions
+ */
+class SoftwareUpdateActions {
+
+
+  /**
+   * Check for software update
+   */
   static checkForSoftwareUpdate() {
     return (dispatch, getState) => {
       const referenceAccountId = getState().getIn(['softwareUpdate', 'referenceAccount', 'id']);
@@ -69,6 +73,9 @@ class SoftwareUpdateActions {
     }
   }
 
+  /**
+   * Listen to software update (fetch info from software update reference account)
+   */
   static listenToSoftwareUpdate(attempt=3) {
     return (dispatch) => {
       const accountName = Config.softwareUpdateReferenceAccountName;
@@ -76,8 +83,8 @@ class SoftwareUpdateActions {
       return CommunicationService.getFullAccount(accountName).then( (fullAccount) => {
         const account = fullAccount.get('account');
         const statistics = fullAccount.get('statistics');
-        dispatch(SoftwareUpdateActions.setReferenceAccountAction(account));
-        dispatch(SoftwareUpdateActions.setReferenceAccountStatisticsAction(statistics));
+        dispatch(SoftwareUpdatePrivateActions.setReferenceAccountAction(account));
+        dispatch(SoftwareUpdatePrivateActions.setReferenceAccountStatisticsAction(statistics));
         // Check for software update
         return dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());
       }).catch((error) => {

@@ -1,6 +1,3 @@
-import _ from 'lodash';
-import Immutable from 'immutable';
-
 const bettingMarketGroups = [
   {
     "id": "1.104.1",
@@ -1424,5 +1421,4 @@ const bettingMarketGroups = [
 //TODO: add more in this list, pay attention on the relation with the events, betting_markets dummy data
 //TODO: for each event, make one moneyline, spread, overunder
 
-const immutableBettingMarketGroups = _.map(bettingMarketGroups, bettingMarketGroup => Immutable.fromJS(bettingMarketGroup));
-export default immutableBettingMarketGroups;
+export default bettingMarketGroups;

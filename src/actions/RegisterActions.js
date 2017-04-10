@@ -1,9 +1,6 @@
-import AppActions from './AppActions';
-import AccountActions from './AccountActions';
 import LoginActions from './LoginActions';
 import { LoadingStatus, ActionTypes } from '../constants';
 import { AccountService, KeyGeneratorService } from '../services';
-import { FetchChain } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
 
 /**

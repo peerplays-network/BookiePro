@@ -1,11 +1,9 @@
 import { ActionTypes } from '../constants';
-import FakeApi from '../communication/FakeApi';
 import SportActions from './SportActions';
 import EventGroupActions from './EventGroupActions';
 import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import _ from 'lodash';
-import { getBettingMarketGroupsByEvents } from './utilities';
 import Immutable from 'immutable';
 
 class SidebarActions{
@@ -13,33 +11,24 @@ class SidebarActions{
   static getData() {
     return (dispatch) => {
 
-      // First get list of sports
-      FakeApi.getSports().then((sports) => {
-        dispatch(SportActions.addSportsAction(sports))
-        const eventGroupIds = _.flatMap(sports, (sport) => sport.get('event_group_ids').toJS());
-        // Get all event groups for all sports
-        return FakeApi.getObjects(eventGroupIds);
-
-        // get related event groups
+      let retrievedSportIds;
+      // Get sports
+      dispatch(SportActions.getAllSports()).then((sports) => {
+        retrievedSportIds = sports.map( sport => sport.get('id'));
+        // Get event groups related to the sports
+        return dispatch(EventGroupActions.getEventGroupsBySportIds(retrievedSportIds));
       }).then((eventGroups) => {
-        dispatch(EventGroupActions.addEventGroupsAction(eventGroups));
-        return Promise.all(eventGroups.map((group) => FakeApi.getEvents(group.get('sport_id'))));
-
-        // get related events
-      }).then((result) => {
-        const events = _.flatMap(result);
-        // Store events inside redux store
-        dispatch(EventActions.addEventsAction(events));
-        return getBettingMarketGroupsByEvents(events);
-
-        // get related betting market groups
-      }).then((result) => {
-        const bettingMktGroups = _.flatMap(result);
-        dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMktGroups));
+        // Get events related to the sports (because we don't have get event based on event groups)
+        return dispatch(EventActions.getEventsBySportIds(retrievedSportIds));
+      }).then((events) => {
+        // Get betting market groups
+        const bettingMarketGroupIds = events.flatMap( event => event.get('betting_market_group_ids'));
+        return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
+      }).then((bettingMarketGroups) => {
         // TODO: There may be a synchronization problem here
         // TODO: This should be done in mapStateToProps of the Sidebar
         dispatch(SidebarActions.setTreeForSidebar());
-      });
+      })
 
     };
   }
@@ -137,7 +126,6 @@ class SidebarActions{
 
         completeTree.push(sportNode);
       });
-
       dispatch(SidebarActions.updateTree(completeTree));
     }
   }

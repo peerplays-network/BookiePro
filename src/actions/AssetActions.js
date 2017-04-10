@@ -1,46 +1,77 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import { CommunicationService } from '../services';
+import Immutable from 'immutable';
 
 /**
  * Private actions
  */
 class AssetPrivateActions {
 
-  static setGetAssetsLoadingStatusAction(loadingStatus) {
+  static setGetAssetsByIdsLoadingStatusAction(assetIds, loadingStatus) {
     return {
-      type: ActionTypes.ASSET_SET_GET_ASSETS_LOADING_STATUS,
+      type: ActionTypes.ASSET_SET_GET_ASSETS_BY_IDS_LOADING_STATUS,
+      assetIds,
       loadingStatus
     }
   }
+
   static addAssetsAction(assets) {
     return {
       type: ActionTypes.ASSET_ADD_ASSETS,
       assets
     }
   }
-
 }
 
 /**
  * Public actions
  */
 class AssetActions {
+  static updateAssetsAction(assets) {
+    return {
+      type: ActionTypes.ASSET_UPDATE_ASSETS,
+      assets
+    }
+  }
 
-  static getAssets(assetIds) {
-    return (dispatch) => {
-      dispatch(AssetPrivateActions.setGetAssetsLoadingStatusAction(LoadingStatus.LOADING));
-      return CommunicationService.getAssets.then((assets) => {
-        // Set asset
-        dispatch(AssetPrivateActions.addAssetsAction(assets));
-        dispatch(AssetPrivateActions.setGetAssetsLoadingStatusAction(LoadingStatus.DONE));
-      }).catch((error) => {
-        dispatch(AssetPrivateActions.setGetAssetsLoadingStatusAction(LoadingStatus.ERROR));
-        throw error;
-      });
+  /**
+   * Get assets given their ids (can be immutable array)
+   */
+  static getAssetsByIds(assetIds) {
+    return (dispatch, getState) => {
+      let retrievedAssets = Immutable.List();
+      let idsOfAssetsToBeRetrieved = Immutable.List();
+
+      // Check if the data is already inside the redux store
+      const getAssetsByIdsLoadingStatus = getState().getIn(['asset', 'getAssetsByIdsLoadingStatus']);
+      const assetsById = getState().getIn(['asset', 'assetsById']);
+      assetIds.forEach((assetId) => {
+        if (getAssetsByIdsLoadingStatus.get(assetId) === LoadingStatus.DONE) {
+          if (getAssetsByIdsLoadingStatus.has(assetId)) {
+            retrievedAssets = retrievedAssets.concat(assetsById.get(assetId));
+          }
+        } else {
+          idsOfAssetsToBeRetrieved = idsOfAssetsToBeRetrieved.push(assetId);
+        }
+      })
+
+      if (idsOfAssetsToBeRetrieved.size === 0) {
+        // No assets to be retrieved from blockchain, all data is in blockchain
+        return Promise.resolve(retrievedAssets);
+      } else {
+        // Retrieve data from blockchain
+        dispatch(AssetPrivateActions.setGetAssetsByIdsLoadingStatusAction(idsOfAssetsToBeRetrieved, LoadingStatus.LOADING));
+        return CommunicationService.getObjectsByIds(idsOfAssetsToBeRetrieved).then((assets) => {
+          // Add to redux store
+          dispatch(AssetPrivateActions.addAssetsAction(assets));
+          // Set status
+          dispatch(AssetPrivateActions.setGetAssetsByIdsLoadingStatusAction(idsOfAssetsToBeRetrieved, LoadingStatus.DONE));
+          // Concat and return
+          return retrievedAssets.concat(assets);
+        });
+      }
     }
   }
 }
 
-
-// List variables that you want to expose here
 export default AssetActions;
