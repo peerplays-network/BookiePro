@@ -5,7 +5,6 @@ import {
 } from 'antd';
 import { Field, reduxForm } from 'redux-form/immutable';
 import { LoadingStatus } from '../../constants';
-
 //Component to render fields
 const renderField = ({ className, errors, placeholder,haswithdrawAmountErr, input, type ,withdrawAmountExceedErrMsg,
     meta: { touched, error } }) => (
@@ -17,7 +16,6 @@ const renderField = ({ className, errors, placeholder,haswithdrawAmountErr, inpu
       { !error && errors && errors.length ? errors.map((err) => { return <span className='errorText' key={ err }>{ err }</span>}) : null }
   </div>
 );
-
 //Allow decimal numbers
 const normalizeAmount = (value, previousValue) => {
   if(!value.length) {
@@ -29,7 +27,6 @@ const normalizeAmount = (value, previousValue) => {
   }
   return value;
 };
-
 class Withdraw extends Component{
   constructor(props){
     super(props);
@@ -38,11 +35,13 @@ class Withdraw extends Component{
     }
     this.onwithdrawAmountChange = this.onwithdrawAmountChange.bind(this);
   }
+
   //Check entered amount with user's available balance
   onwithdrawAmountChange(e){
+
     let withdrawAmount = e.target.value;
     if(!isNaN(withdrawAmount)){
-      if((parseFloat(withdrawAmount) > this.props.availableBalance) || parseFloat(withdrawAmount) === 0){
+      if((parseFloat(withdrawAmount) > 10) || parseFloat(withdrawAmount) === 0){
         this.setState({ haswithdrawAmountErr: true })
       } else {
         this.setState({ haswithdrawAmountErr: false })
@@ -50,7 +49,9 @@ class Withdraw extends Component{
     } else {
       this.setState({ haswithdrawAmountErr: false })
     }
+
   }
+
   render(){
     const { invalid,asyncValidating,submitting,
             availableBalance,handleSubmit,withdrawLoadingStatus,currencyFormat,withdrawAmount } = this.props,
@@ -73,29 +74,33 @@ class Withdraw extends Component{
         <div className='my-account'>
           { !isWithdrawLoadingStatusDone ? <p>{ I18n.t('myAccount.withdraw_desc') }</p> : null }
           { isWithdrawLoadingStatusDone ?
-            <div className='registerComponent'>
-              <p>
-                { I18n.t('myAccount.withdraw_completed_msg_1') + withdrawAmount + prefix + I18n.t('myAccount.withdraw_completed_msg_2') }
+            <div className='withdraw-success-msg'>
+              <p className='text-center'>
+                { I18n.t('myAccount.withdraw_completed_msg_1') }  <span className='withdraw-sucess-amount'> { withdrawAmount + prefix }</span>   { I18n.t('myAccount.withdraw_completed_msg_2') }
               </p>
             </div> :
             <div className='registerComponent'>
               <form onSubmit={ handleSubmit } className='withdrawForm'>
-                <div className='form-fields'>
+                <div className='form-fields bookie-amount-field icon-bitcoin'>
+                 {/*Please look into this for toggling the icon functionality*/}
                   <Field name='withdrawAmount' id='withdrawAmount' className='bookie-input bookie-amount'
-                    onChange={ this.onwithdrawAmountChange }
+                    onChange={ this.onwithdrawAmountChange } 
+                    onBlur={ this.onwithdrawAmountChange }
                     haswithdrawAmountErr={ this.state.haswithdrawAmountErr }
                     withdrawAmountExceedErrMsg={ I18n.t('myAccount.insuffBitcoinErr') + availableBalance + prefix }
                     component={ renderField }  type='text' normalize={ normalizeAmount } />
                 </div>
                 <div className='form-fields'>
-                  <Field name='walletAddr' id='walletAddr' className='bookie-input walletAddr-input'
-                    component={ renderField } placeholder={ I18n.t('myAccount.send_value') } type='text'/>
+                  <div className='bottom-div'>
+                    <Field name='walletAddr' id='walletAddr' className='bookie-input walletAddr-input'
+                           component={ renderField } placeholder={ I18n.t('myAccount.send_value') } type='text'/>
                     <button
                       className={ 'btn ' + (isDisabled ? 'send-btn-disabled':' send-btn') + ' btn-primary' }
                       type='submit'
                       disabled={ isDisabled }>
                       { I18n.t('myAccount.send') }
                     </button>
+                  </div>
                 </div>
               </form>
             </div>
