@@ -123,21 +123,41 @@ class BetActions {
     };
   }
 
-  /**
-   * Get resolved bets
-   */
   static getResolvedBets(startTime, stopTime) {
     return (dispatch, getState) => {
-      const accountId = getState().getIn(['account', 'account', 'id']);
+      // const accountId = getState().getIn(['account', 'account', 'id']);
+      //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
+      const accountId = '1.2.48';
 
       dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.LOADING));
-      CommunicationService.getResolvedBets(accountId, startTime, stopTime).then((bets) => {
+      // TODO: Replace with actual blockchain call
+      let retrievedResolvedBets = [];
+      CommunicationService.getResolvedBets(accountId, startTime, stopTime).then((resolvedBets) => {
+        retrievedResolvedBets = resolvedBets;
+        // Get betting market ids
+        let bettingMarketIds = resolvedBets.map(bet => bet.get('betting_market_id')).toSet();
+        // Get betting market object
+        return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds));
+      }).then((bettingMarkets) => {
+        // Get unique betting market group ids
+        let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
+        // Get the betting market groups
+        return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
+      }).then((bettingMarketGroups) => {
+        // Get unique event ids
+        let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet();
+        // Get the betting market groups
+        return dispatch(EventActions.getEventsByIds(eventIds));
+      }).then((events) => {
+        // Get unique sport ids
+        let sportIds = events.map(event => event.get('sport_id')).toSet();
+        // Get the betting market groups
+        return dispatch(SportActions.getSportsByIds(sportIds));
+      }).then((sports) => {
         // Add to redux store
-        dispatch(BetActions.addOrUpdateResolvedBetsAction(bets));
-        // Set status
+        dispatch(BetActions.addOrUpdateResolvedBetsAction(retrievedResolvedBets));
         dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.DONE));
       });
-
     };
   }
 

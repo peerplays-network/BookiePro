@@ -57,7 +57,12 @@
         font-size:14px;
         word-break: normal;
       }
-
+      .ant-table-tbody > tr > td > span.profit{
+        color: #03CA44;
+      }
+      .ant-table-tbody > tr > td > span.loss{
+        color: #FF6477;
+      }
       .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
         padding:10px 25px 10px 0;
         color: #FFFFFF;
@@ -99,7 +104,6 @@
           margin-right:0;
         }
       }
-
     }
     ::-webkit-input-placeholder,.rw-input { /* Chrome/Opera/Safari */
       color: #A9A9A9;
@@ -202,7 +206,6 @@
     height:30px;
     border-color: #E1E1E1;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
-
   }
   .ant-select{
     font-size:12px;
@@ -267,10 +270,90 @@
   color: #fff;
   border-bottom: 0px;
 }
-.bookie-table table thead tr th:nth-of-type(5) {width:80px;}
-.bookie-table table thead tr th:nth-of-type(1) {width:150px;}
-.bookie-table table thead tr th:nth-of-type(6) {width:80px;}
-.bookie-table table thead tr th:nth-of-type(8) {width:150px;}
-.bookie-table table tbody tr td:nth-of-type(8) {text-align: right}
-.bookie-table table thead tr th:nth-of-type(7) {width:85px;}
-.bookie-table table thead tr th:nth-of-type(4) {width:160px;}
+.bookie-table {
+ table {
+   thead {
+     tr {
+       th {
+         &:nth-of-type(5) {
+           width: 80px;
+         }
+         &:nth-of-type(1) {
+           width: 150px;
+         }
+         &:nth-of-type(6) {
+           width: 80px;
+         }
+         &:nth-of-type(8) {
+           width: 150px;
+         }
+         &:nth-of-type(7) {
+           width: 85px;
+         }
+         &:nth-of-type(4) {
+           width: 160px;
+         }
+       }
+     }
+   }
+   tbody {
+     tr {
+       td {
+         &:nth-of-type(8) {
+           text-align: right;
+         }
+       }
+     }
+   }
+ }
+}
+@media screen and (max-width: 1180px) {
+ .bookie-table {
+   table {
+     thead {
+       tr {
+         th {
+           &:nth-of-type(1) {
+             width: 105px;
+           }
+           &:nth-of-type(4) {
+             width: 100px;
+           }
+           &:nth-of-type(8) {
+             width: 100px;
+           }
+           &:nth-of-type(6) {
+             width: 55px;
+           }
+         }
+       }
+     }
+   }
+ }
+ .my-wager {
+   .bookie-table {
+     .cancel-btn {
+       text-align: center;
+       width: auto;
+       display: block;
+     }
+   }
+   .bookie-tab {
+     .ant-form-inline {
+       .ant-form-item {
+         margin-right: 10px;
+       }
+     }
+   }
+   .ant-form-inline {
+     label {
+       margin-right: 5px;
+     }
+   }
+   .btn {
+     font-size: 14px;
+     width: auto;
+     padding: 0 10px;
+   }
+ }
+}
