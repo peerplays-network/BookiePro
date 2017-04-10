@@ -10,7 +10,7 @@ export function getFormattedDate(dateToFormat){
     return I18n.t('mybets.today') + ', ' + moment(new Date(dateToFormat)).format("HH:mm");
   else if(moment(new Date(dateToFormat)).format("MM-DD-YYYY") === moment().add(1, 'days').format("MM-DD-YYYY"))
     return I18n.t('mybets.tomorrow') + ', ' + moment(new Date(dateToFormat)).format("HH:mm");
-  else if(moment(new Date(dateToFormat)).week() === moment().week())
+  else if(moment(new Date(dateToFormat)).week() === moment().week() && moment(new Date(dateToFormat)) > moment())
     return days[moment(new Date(dateToFormat)).day()] + ', ' + moment(new Date(dateToFormat)).format("HH:mm");
   else{
     return moment(new Date(dateToFormat)).format("MM-DD-YYYY HH:mm");

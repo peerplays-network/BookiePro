@@ -109,7 +109,8 @@ class FakeApi {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         // TODO: do it later, pending for confirmation from Dan
-        resolve([]);
+        // temporarily returning data from bets
+        resolve(bets);
       }, TIMEOUT_LENGTH);
     });
   }

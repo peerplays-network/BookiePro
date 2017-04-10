@@ -12,9 +12,12 @@ import _ from 'lodash';
 import { List, Map } from 'immutable';
 import { LoadingStatus } from '../../constants';
 import { I18n } from 'react-redux-i18n';
+import moment from 'moment';
 
 const TabPane = Tabs.TabPane;
 var tabKey = 'unmatchedBets';
+let startDate = moment().subtract(6, 'days').format("MM/DD/YYYY HH:mm:ss");
+let endDate = moment().format("MM/DD/YYYY HH:mm:ss");
 
 class PrivateFunctions{
   //merge betting market group data to bets for display
@@ -45,6 +48,13 @@ class PrivateFunctions{
 
   //formatting data after getting all reuired data merged
   static formatBettingData(data){
+    //showing past data as resolvedBets and future data as matchedBets unmatchedBets
+    if(tabKey === 'resolvedBets')
+      data = data.filter(d => (((moment(d.get('event_time')).format("MM/DD/YYYY HH:mm:ss") >= moment(startDate).format("MM/DD/YYYY HH:mm:ss")) &&
+        (moment(d.get('event_time')).format("MM/DD/YYYY HH:mm:ss") <= moment(endDate).format("MM/DD/YYYY HH:mm:ss")))));
+    else
+      data = data.filter(d => (((moment(d.get('event_time')).format("MM/DD/YYYY HH:mm:ss") >= moment().format("MM/DD/YYYY HH:mm:ss")) )));
+
     data.forEach((d, index) => {
       let rowObj = {
         'type' : (d.get('back_or_lay') + ' | ' + d.get('payout_condition_string') + ' ' + d.get('options') + ' | ' + d.get('market_type_id')),
@@ -53,6 +63,13 @@ class PrivateFunctions{
         'amount_to_win' : (d.get('amount_to_win') / 100000 ),
         'event_time': getFormattedDate(d.get('event_time'))
       };
+      //randomly changed win value to negative for liability display
+      //applied class based on profit or loss
+      if(tabKey === 'resolvedBets'){
+        rowObj.amount_to_win *= Math.floor(Math.random()*2) === 1 ? 1 : -1;
+        rowObj.amount_to_win = <span className={ rowObj.amount_to_win > 0 ? 'profit' : 'loss' }>
+          {(rowObj.amount_to_win > 0 ? '+' : '')}{ rowObj.amount_to_win }</span>;
+      }
       if(tabKey === 'unmatchedBets')
         rowObj.cancel = (d.get('cancelled') ? '' : <a className='btn cancel-btn' href=''>{ I18n.t('mybets.cancel') }</a>);
       data[index] = d.merge(Map(rowObj));
@@ -68,8 +85,10 @@ class MyWager extends PureComponent {
   }
 
   onTabChange(key) {
-    if(key === 'resolvedBets'){
-      console.log('Go to Tab ', key);
+    if (key === 'resolvedBets') {
+      //console.log('Go to Tab ', key);
+      this.props.getResolvedBets();
+      tabKey = key;
     }
     else{
       //get matched and unmatched bets
@@ -104,7 +123,10 @@ class MyWager extends PureComponent {
               currencyFormat={ this.props.matchedBetsCurrencyFormat } betsTotal={ this.props.matchedBetsTotal }/>
           </TabPane>
           <TabPane tab={ I18n.t('mybets.resolved_bets') } key='resolvedBets'>
-            <ResolvedBets />
+            <ResolvedBets columns={ this.props.resolvedBetsColumns }
+              resolvedBets={ this.props.resolvedBetsData } resolvedBetsLoadingStatus={ this.props.resolvedBetsLoadingStatus }
+              currencyFormat={ this.props.resolvedBetsCurrencyFormat } betsTotal={ this.props.resolvedBetsTotal }
+            />
           </TabPane>
         </Tabs>
       </div>
@@ -113,110 +135,111 @@ class MyWager extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
-
-  if(tabKey === 'unmatchedBets' || tabKey === 'matchedBets'){
-    const columns = [
-      {
-        title: I18n.t('mybets.event_time'),
-        dataIndex: 'event_time',
-        key: 'event_time',
-      },
-      {
-        title: I18n.t('mybets.event'),
-        dataIndex: 'event_name',
-        key: 'event_name',
-      },
-      {
-        title: I18n.t('mybets.type'),
-        dataIndex: 'type',
-        key: 'type',
-      },
-      {
-        title: I18n.t('mybets.sport'),
-        dataIndex: 'sport_name',
-        key: 'sport_name',
-      },
-      {
-        title: I18n.t('mybets.odds'),
-        dataIndex: 'odds',
-        key: 'odds',
-      },
-      {
-        title: I18n.t('mybets.stake') + '(' + (state.getIn(['setting','currencyFormat']) === 'BTC' ? 'Ƀ' : 'm') + ')',
-        dataIndex: 'amount_to_bet',
-        key: 'amount_to_bet',
-      },
-      {
-        title: I18n.t('mybets.profit') + ' / ' + I18n.t('mybets.liability') + '(' + (state.getIn(['setting','currencyFormat']) === 'BTC' ? 'Ƀ' : 'm') + ')',
-        dataIndex: 'amount_to_win',
-        key: 'amount_to_win',
-      }
-    ];
-
-    if(tabKey === 'unmatchedBets'){
-      columns.push(
-        {
-          title: '',
-          dataIndex: 'cancel',
-          key: 'cancel',
-        }
-      );
+  const columns = [
+    {
+      title: I18n.t('mybets.event_time'),
+      dataIndex: 'event_time',
+      key: 'event_time',
+    },
+    {
+      title: I18n.t('mybets.event'),
+      dataIndex: 'event_name',
+      key: 'event_name',
+    },
+    {
+      title: I18n.t('mybets.type'),
+      dataIndex: 'type',
+      key: 'type',
+    },
+    {
+      title: I18n.t('mybets.sport'),
+      dataIndex: 'sport_name',
+      key: 'sport_name',
+    },
+    {
+      title: I18n.t('mybets.odds'),
+      dataIndex: 'odds',
+      key: 'odds',
+    },
+    {
+      title: I18n.t('mybets.stake') + '(' + (state.getIn(['setting','currencyFormat']) === 'BTC' ? 'Ƀ' : 'm') + ')',
+      dataIndex: 'amount_to_bet',
+      key: 'amount_to_bet',
+    },
+    {
+      title: I18n.t('mybets.profit') + ' / ' + I18n.t('mybets.liability') + '(' + (state.getIn(['setting','currencyFormat']) === 'BTC' ? 'Ƀ' : 'm') + ')',
+      dataIndex: 'amount_to_win',
+      key: 'amount_to_win'
     }
+  ];
 
-    let mergeData = [];
-    let total = 0;
-    if(state.getIn(['bet','getOngoingBetsLoadingStatus']) === LoadingStatus.DONE){
-      state.getIn(['bet',(tabKey === 'matchedBets' ? 'matchedBets' : 'unmatchedBets')]).forEach(row =>
+  if(tabKey === 'unmatchedBets'){
+    columns.push(
       {
-        let rowObj = {
-          key: row.get('id'),
-          id: row.get('id'),
-          'betting_market_id': row.get('betting_market_id'),
-          'back_or_lay': row.get('back_or_lay')
-        }
-        //used same name amount_to_bet and amount_to_win for matchedBets and unmatchedBets to shorten code
-        if(tabKey === 'unmatchedBets'){
-          rowObj.cancelled = row.get('cancelled');
-          rowObj.amount_to_bet = row.get('remaining_amount_to_bet');
-          rowObj.amount_to_win = row.get('remaining_amount_to_win');
-        }
-        else {
-          rowObj.amount_to_bet = row.get('amount_to_bet');
-          rowObj.amount_to_win = row.get('amount_to_win');
-        }
-        mergeData.push(Map(rowObj));
-      });
+        title: '',
+        dataIndex: 'cancel',
+        key: 'cancel',
+      }
+    );
+  }
 
-      //merging betting market data for display and betting_market_group_id for reference
-      mergeData = mergeRelationData(mergeData, state.getIn(['bettingMarket','bettingMarketsById']), 'betting_market_id',
-        {betting_market_group_id: 'betting_market_group_id' , payout_condition_string: 'payout_condition_string'});
+  let mergeData = [];
+  let total = 0;
+  if((tabKey !== 'resolvedBets' &&  state.getIn(['bet','getOngoingBetsLoadingStatus']) === LoadingStatus.DONE) ||
+    (tabKey === 'resolvedBets' &&  state.getIn(['bet','getResolvedBetsLoadingStatus']) === LoadingStatus.DONE)){
+    //get bet data on tab selected
+    state.getIn(['bet',tabKey]).forEach(row =>
+    {
+      let rowObj = {
+        key: row.get('id'),
+        id: row.get('id'),
+        'betting_market_id': row.get('betting_market_id'),
+        'back_or_lay': row.get('back_or_lay')
+      }
+      //used same name amount_to_bet and amount_to_win for matchedBets and unmatchedBets to shorten code
+      if(tabKey === 'unmatchedBets'){
+        rowObj.cancelled = row.get('cancelled');
+        rowObj.amount_to_bet = row.get('remaining_amount_to_bet');
+        rowObj.amount_to_win = row.get('remaining_amount_to_win');
+      }
+      else {
+        rowObj.amount_to_bet = row.get('amount_to_bet');
+        rowObj.amount_to_win = row.get('amount_to_win');
+      }
+      mergeData.push(Map(rowObj));
+    });
 
-      //merging betting market group data for display and eventid for reference
-      mergeData = PrivateFunctions.mergeBettingMarketGroup(mergeData, state.getIn(['bettingMarketGroup','bettingMarketGroupsById']),
-        'betting_market_group_id');
+    //merging betting market data for display and betting_market_group_id for reference
+    mergeData = mergeRelationData(mergeData, state.getIn(['bettingMarket','bettingMarketsById']), 'betting_market_id',
+      {betting_market_group_id: 'betting_market_group_id' , payout_condition_string: 'payout_condition_string'});
 
-      //merging evemt data for display and sport id for reference
-      mergeData = mergeRelationData(mergeData, state.getIn(['event','eventsById']), 'event_id',
+    //merging betting market group data for display and eventid for reference
+    mergeData = PrivateFunctions.mergeBettingMarketGroup(mergeData,
+      state.getIn(['bettingMarketGroup','bettingMarketGroupsById']), 'betting_market_group_id');
+
+    //merging evemt data for display and sport id for reference
+    mergeData = mergeRelationData(mergeData, state.getIn(['event','eventsById']), 'event_id',
       {'name': 'event_name' , 'start_time': 'event_time', 'sport_id': 'sport_id'});
 
-      //merging sport data for display
-      mergeData = mergeRelationData(mergeData, state.getIn(['sport','sportsById']), 'sport_id',
+    //merging sport data for display
+    mergeData = mergeRelationData(mergeData, state.getIn(['sport','sportsById']), 'sport_id',
       {'name': 'sport_name'});
 
-      //formating data for display
-      mergeData = PrivateFunctions.formatBettingData(mergeData);
-      mergeData = List(mergeData);
+    //formating data for display
+    mergeData = PrivateFunctions.formatBettingData(mergeData);
+    mergeData = List(mergeData);
 
-      //totalling the Bets stake and profit/liability
-      mergeData.forEach((d, index) => {
-        total += parseFloat(d.get('amount_to_bet') + d.get('amount_to_win'));
-      });
+    //totalling the Bets stake and profit/liability
+    mergeData.forEach((d, index) => {
+      total += parseFloat(d.get('amount_to_bet') + d.get('amount_to_win'));
+    });
 
-      //TODO: verify if we will use 5 or 6 digits after decimal
-      total = total.toFixed(5);
-    }
+    //TODO: verify if we will use 5 or 6 digits after decimal
+    total = total.toFixed(5);
+  }
 
-    if(tabKey === 'unmatchedBets'){
+  switch (tabKey) {
+    case 'unmatchedBets':
       return {
         unmatchedBetsColumns: columns,
         unmatchedBetsData: mergeData,
@@ -224,8 +247,7 @@ const mapStateToProps = (state) => {
         unmatchedBetsCurrencyFormat: state.getIn(['setting','currencyFormat']),
         unmatchedBetsTotal: total
       }
-    }
-    else{
+    case 'matchedBets':
       return {
         matchedBetsColumns: columns,
         matchedBetsData: mergeData,
@@ -233,13 +255,22 @@ const mapStateToProps = (state) => {
         matchedBetsCurrencyFormat: state.getIn(['setting','currencyFormat']),
         matchedBetsTotal: total
       }
-    }
+    case 'resolvedBets':
+      return {
+        resolvedBetsColumns: columns,
+        resolvedBetsData: mergeData,
+        resolvedBetsLoadingStatus: state.getIn(['bet','getResolvedBetsLoadingStatus']),
+        resolvedBetsCurrencyFormat: state.getIn(['setting','currencyFormat']),
+        resolvedBetsTotal: total
+      }
+    default:
   }
 }
 
 function mapDispatchToProps(dispatch){
   return bindActionCreators({
-    getOngoingBets: BetActions.getOngoingBets
+    getOngoingBets: BetActions.getOngoingBets,
+    getResolvedBets: BetActions.getResolvedBets
   }, dispatch);
 }
 
