@@ -8,8 +8,6 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
 import {
-  getBinnedOrderBooksByBettingMarkets,
-  groupBinnedOrderBooksByBettingMarketId,
   groupBinnedOrderBooksByEvent
 } from './utilities'
 
