@@ -16,8 +16,8 @@ import moment from 'moment';
 
 const TabPane = Tabs.TabPane;
 var tabKey = 'unmatchedBets';
-let startDate = moment().subtract(6, 'days').format("MM/DD/YYYY HH:mm:ss");
-let endDate = moment().format("MM/DD/YYYY HH:mm:ss");
+let startDate = moment().subtract(1, 'days').hour(0).minute(0);
+let endDate = moment();
 
 class PrivateFunctions{
   //merge betting market group data to bets for display
@@ -50,10 +50,12 @@ class PrivateFunctions{
   static formatBettingData(data){
     //showing past data as resolvedBets and future data as matchedBets unmatchedBets
     if(tabKey === 'resolvedBets')
-      data = data.filter(d => (((moment(d.get('event_time')).format("MM/DD/YYYY HH:mm:ss") >= moment(startDate).format("MM/DD/YYYY HH:mm:ss")) &&
-        (moment(d.get('event_time')).format("MM/DD/YYYY HH:mm:ss") <= moment(endDate).format("MM/DD/YYYY HH:mm:ss")))));
+      data = data.filter(d => (((moment(d.get('event_time')) >= moment(startDate)) &&
+        (moment(d.get('event_time')) <= moment(endDate)))));
     else
-      data = data.filter(d => (((moment(d.get('event_time')).format("MM/DD/YYYY HH:mm:ss") >= moment().format("MM/DD/YYYY HH:mm:ss")) )));
+      data = data.filter(d => (((moment(d.get('event_time')) >= moment()) )));
+
+    console.log(data.length);
 
     data.forEach((d, index) => {
       let rowObj = {
