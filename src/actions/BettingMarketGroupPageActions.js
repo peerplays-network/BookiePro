@@ -1,29 +1,18 @@
-import FakeApi from '../communication/FakeApi';
 import { ActionTypes, LoadingStatus } from '../constants';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
-import {
-  getBinnedOrderBooksByBettingMarkets,
-} from './utilities'
+import EventActions from './EventActions';
+import BinnedOrderBookActions from './BinnedOrderBookActions';
 
 class BettingMarketGroupPagePrivateActions {
-  
+
   static setLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.BETTING_MARKET_GROUP_PAGE_SET_LOADING_STATUS,
       loadingStatus
     }
   }
-
-  static setDataAction(bettingMarketGroup, bettingMarkets, binnedOrderBooks) {
-    return {
-      type: ActionTypes.BETTING_MARKET_GROUP_PAGE_SET_DATA,
-      bettingMarketGroup,
-      bettingMarkets,
-      binnedOrderBooks,
-    }
-  }
-
+  
 }
 
 class BettingMarketGroupPageActions {
@@ -32,39 +21,21 @@ class BettingMarketGroupPageActions {
     return (dispatch) => {
       dispatch(BettingMarketGroupPagePrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
-      let bettingMarketGroup;
-      let bettingMarkets = [];
-      let binnedOrderBooks = [];
-
       // get related betting market group object
-      FakeApi.getObjects([bettingMktGrpId]).then((bettingMarketGroups) => {
-
-        dispatch(BettingMarketGroupActions.addBettingMarketGroupsAction(bettingMarketGroups));
-
-        bettingMarketGroup = bettingMarketGroups[0]
-        // get related betting markets objects
-        return FakeApi.getObjects(bettingMarketGroup.get('betting_market_ids').toJS());
-
-      }).then((bettingMarketsObjects) => {
-
-        dispatch(BettingMarketActions.addBettingMarketsAction(bettingMarketsObjects));
-
-        bettingMarkets = bettingMarketsObjects
-        // get related binned order books objects
-        return getBinnedOrderBooksByBettingMarkets(bettingMarkets);
-
+      dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds([bettingMktGrpId])).then((bettingMarketGroups) => {
+        const bettingMarketGroup = bettingMarketGroups.get(0);
+        const bettingMarketIds = bettingMarketGroup.get('betting_market_ids');
+        const eventId = bettingMarketGroup.get('event_id');
+        // get related betting markets objects and event object
+        return Promise.all([
+          dispatch(EventActions.getEventsByIds([eventId])),
+          dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds))
+        ]);
       }).then((result) => {
-
-        binnedOrderBooks =  result.map((market) => market[0])
-
-        // Stored all retrieve data in the EventGroupPage state in Redux store
-        dispatch(BettingMarketGroupPagePrivateActions.setDataAction(
-          bettingMarketGroup,
-          bettingMarkets,
-          binnedOrderBooks
-        ));
-
-        // Finish loading (TODO: Are we sure this is really the last action dispatched?)
+        const bettingMarkets = result[1];
+        const bettingMarketIds = bettingMarkets.map( bettingMarket => bettingMarket.get('id'));
+        return dispatch(BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
+      }).then((binnedOrderBooksByBettingMarketId) => {
         dispatch(BettingMarketGroupPagePrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
       });
     }

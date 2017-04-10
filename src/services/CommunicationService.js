@@ -481,9 +481,7 @@ class CommunicationService {
           let filteredResult = _.find(dummyData.binnedOrderBooks, (item) => {
             return item.betting_market_id === bettingMarketId;
           });
-          // Remove betting_market_id to simulate real blockchain object, since real binned order book doesn't have betting market id on it
-          filteredResult =  _.omit(filteredResult, 'betting_market_id');
-
+          // TODO: the real binned_order_book object shouldn't have betting_market_id, append betting_market_id to binnedOrderBook here when blockchain is ready
           resolve(filteredResult);
         }, TIMEOUT_LENGTH);
       });
@@ -493,7 +491,7 @@ class CommunicationService {
       // Modify the data structure of return objects, from list of binnedOrderBooks into dictionary of binnedOrderBooks with betting market id as the key
       _.forEach(result, (item, index) => {
         if (!_.isEmpty(item)) {
-          const bettingMarketId = bettingMarketIds.get ? bettingMarketIds.get(index) : bettingMarketIds[index];
+          const bettingMarketId = item['betting_market_id'];
           finalResult[bettingMarketId] = result[index];
         }
       });
