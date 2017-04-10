@@ -2744,7 +2744,12 @@ const bettingMarkets = [
     "payout_condition_string": "Under",
     "bet_asset_type": "1.3.0"
   },
-  //Resolved Bets Ends
+  {
+    "id": "1.105.457",
+    "betting_market_group_id": "1.104.112",
+    "payout_condition_string": "Le Havre",
+    "bet_asset_type": "1.3.0"
+  },
 ];
 
 //TODO: add more in this list, pay attention on the relation with the betting_market_groups dummy data
