@@ -99,12 +99,14 @@ class Exchange extends Component {
   //end of route hooking
 
   render() {
-     //setting width of sider as 200
+     //setting width of sider as 220
      //primary = second , defaultSize =  400 = setting betslip width as 400
      // remove css of splitpane in Exchange.less to disable resizing
 
-    const styleLeftPane = { background: '#1563A0' };
-    const sidebarWidth = 200;
+    //pane width and style is required here
+    //because it goes into splitpane component
+    const styleLeftPane = { background: '#002440' };
+    const sidebarWidth = 220;
     const betslipWidth = 400;
 
     let transitionName = this.props.location.pathname.split("/");
