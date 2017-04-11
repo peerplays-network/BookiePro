@@ -3,9 +3,20 @@ import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
+import { Tabs } from 'antd';
 import EditableBetTable from '../EditableBetTable';
 
-const renderContent = (props) => (
+const TabPane = Tabs.TabPane;
+
+const renderPlacedBets = (props) => (
+  <div className='content' ref='placedBets'>
+    <div className='blank'>
+      <div className='instructions'>CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP</div>
+    </div>
+  </div>
+);
+
+const renderUnconfirmedBets = (props) => (
   <div className='content' ref='unconfirmedBets'>
     { props.unconfirmedBets.isEmpty() &&
       <div className='blank'>
@@ -18,7 +29,7 @@ const renderContent = (props) => (
       />
     }
   </div>
-)
+);
 
 class MarketDrawer extends Component {
   componentDidMount() {
@@ -32,12 +43,16 @@ class MarketDrawer extends Component {
   render() {
     return (
       <div id='market-drawer'>
-        <div className='title'>
-          <div className='label'>BetSlip</div>
-        </div>
-        { renderContent(this.props) }
+        <Tabs defaultActiveKey='1' type='card'>
+          <TabPane tab='BETSLIP' key='1'>
+            { renderUnconfirmedBets(this.props) }
+          </TabPane>
+          <TabPane tab='PLACEBETS' key='2'>
+            { renderPlacedBets(this.props) }
+          </TabPane>
+        </Tabs>
       </div>
-    );
+    )
   }
 }
 
