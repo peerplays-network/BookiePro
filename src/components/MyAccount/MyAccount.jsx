@@ -47,8 +47,7 @@ class MyAccount extends Component {
       //Since, the default period is 'Last 7 days', we set the initial start and end date accordingly
       startDate:dateFormat(startDate, "yyyy-mm-dd h:MM:ss"),
       endDate:dateFormat(endDate, "yyyy-mm-dd h:MM:ss"),
-      withdrawAmount:'',
-      formName : 'myAccount'
+      withdrawAmount:''
     }
 
     // this.fetchRecentTransactionHistory = this.fetchRecentTransactionHistory.bind(this);
@@ -368,7 +367,6 @@ class MyAccount extends Component {
               onSubmit={ this.handleWithdrawSubmit }
               withdrawLoadingStatus={ this.props.withdrawLoadingStatus }
               withdrawAmount={ this.state.withdrawAmount }
-              formName={ this.state.formName }
               />
           </Col>
           <Col span={ 8 }>
