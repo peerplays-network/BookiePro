@@ -1,6 +1,7 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import { ConnectionService, CommunicationService } from '../services';
 import SoftwareUpdateActions from './SoftwareUpdateActions';
+import log from 'loglevel';
 
 /**
  * Private actions
@@ -77,10 +78,11 @@ class AppActions {
         // Listen to software update
         return dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());
       }).then(() => {
+        log.info('Connected to blockchain.');
         // Mark done
         dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
-        console.error(error);
+        log.error('Fail to connect to blockchain', error);
         // Fail to connect/ sync/ listen to software update, close connection to the blockchain
         ConnectionService.closeConnectionToBlockchain();
         dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));

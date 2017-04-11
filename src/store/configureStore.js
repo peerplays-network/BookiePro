@@ -10,7 +10,7 @@ import { I18n } from 'react-redux-i18n';
 import { translationsObject } from './translations';
 import Immutable from 'immutable';
 import rootReducer from '../reducers';
-
+import log from 'loglevel';
 
 const syncImmutableTranslationWithStore = (store) => {
   I18n.setTranslationsGetter(() => {
@@ -70,7 +70,7 @@ export default function configureStore() {
     storage: localforage,
     whitelist: ['setting'] // Only setting wants to be persisted
   }, () => {
-    console.log('autoRehydrate completed');
+    log.debug('Auto Rehydrate completed');
   });
 
   // Set translation

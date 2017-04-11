@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 let I18n = require('react-redux-i18n').I18n;
 import {
   Card,
-  Input,
-  Icon
+  Input
 } from 'antd';
 
 

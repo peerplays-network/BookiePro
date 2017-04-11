@@ -20,6 +20,7 @@ import { ObjectPrefix } from '../constants';
 import { ChainValidation } from 'graphenejs-lib';
 import _ from 'lodash';
 import dummyData from '../dummyData';
+import log from 'loglevel';
 const TIMEOUT_LENGTH = 500;
 const SYNC_MIN_INTERVAL = 1000; // 1 seconds
 const { blockchainTimeStringToDate, getObjectIdPrefix } = BlockchainUtils;
@@ -82,6 +83,7 @@ class CommunicationService {
    * Update objects in redux store
    */
   static updateObjects(updatedObjectsByObjectIdByObjectIdPrefix) {
+    log.debug('Sync - updating', updatedObjectsByObjectIdByObjectIdPrefix.toJS());
     updatedObjectsByObjectIdByObjectIdPrefix.forEach((updatedObjectsByObjectId, objectIdPrefix) => {
       const updatedObjects = updatedObjectsByObjectId.toList();
       switch (objectIdPrefix) {
@@ -213,6 +215,7 @@ class CommunicationService {
    * Delete objects from redux store
    */
   static deleteObjects(deletedObjectIdsByObjectIdPrefix) {
+    log.debug('Sync - deleting', deletedObjectIdsByObjectIdPrefix.toJS());
     deletedObjectIdsByObjectIdPrefix.forEach((deleteObjectIds, objectIdPrefix) => {
       switch (objectIdPrefix) {
         case ObjectPrefix.ACCOUNT_PREFIX: {
@@ -269,8 +272,38 @@ class CommunicationService {
       }
 
     });
+  }
 
+  /**
+   * Call blokchain db api
+   * Route every call to blockchain db api through this function, so we can see the logging
+   */
+  static callBlockchainDbApi(methodName, params) {
+    return Apis.instance().db_api().exec(methodName, params).then((result) => {
+      // Intercept and log
+      log.debug(`Call blockchain DB Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
+      return result;
+    }).catch((error) => {
+      // Intercept and log
+      log.error(`Error in calling DB Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nError: `, error);
+      throw error;
+    })
+  }
 
+  /**
+   * Call blokchain history api
+   * Route every call to blockchain history api through this function, so we can see the logging
+   */
+  static callBlockchainHistoryApi(methodName, params) {
+    return Apis.instance().history_api().exec(methodName, params).then((result) => {
+      // Intercept and log
+      log.debug(`Call blockchain History Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
+      return result;
+    }).catch((error) => {
+      // Intercept and log
+      log.error(`Error in calling History Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nError: `, error);
+      throw error;
+    })
   }
 
   /**
@@ -285,7 +318,7 @@ class CommunicationService {
       }
 
       // Get current blockchain data (dynamic global property and global property), to ensure blockchain time is in sync
-      db_api.exec('get_objects', [['2.1.0', '2.0.0']]).then( result => {
+      this.callBlockchainDbApi('get_objects', [['2.1.0', '2.0.0']]).then( result => {
         const blockchainDynamicGlobalProperty = Immutable.fromJS(result[0]);
         const blockchainGlobalProperty = Immutable.fromJS(result[1]);
         const now = new Date().getTime();
@@ -297,7 +330,7 @@ class CommunicationService {
           const onUpdate = this.onUpdate.bind(this);
           return Apis.instance().db_api().exec( 'set_subscribe_callback', [ onUpdate, true ] ).then(() => {
             // Sync success
-            console.log('Sync with Blockchain Success');
+            log.debug('Sync with Blockchain Success');
             // Set reference to dispatch and getState
             this.dispatch = dispatch;
             this.getState = getState;
@@ -311,11 +344,11 @@ class CommunicationService {
           throw new Error();
         }
       }).catch( error => {
-        console.error('Sync with Blockchain Fail', error);
+        log.error('Sync with Blockchain Fail', error);
         // Retry if needed
         if (attempt > 0) {
           // Retry to connect
-          console.log('Retry syncing with blockchain');
+          log.info('Retry syncing with blockchain');
           return CommunicationService.syncWithBlockchain(dispatch, getState, attempt-1);
         } else {
           // Give up, reject an error to be caught by the outer promise handler
@@ -325,21 +358,11 @@ class CommunicationService {
     });
   }
 
-
-  /**
-   * Get list of assets
-   */
-  static getAssets(assetIds) {
-    return Apis.instance().db_api().exec("get_objects", [[assetIds]]).then( assets => {
-      return Immutable.fromJS(assets);
-    });
-  }
-
   /**
    * Get full account
    */
   static getFullAccount(accountNameOrId) {
-    return Apis.instance().db_api().exec("get_full_accounts", [[accountNameOrId], true]).then( result => {
+    return this.callBlockchainDbApi('get_full_accounts', [[accountNameOrId], true]).then( result => {
       const fullAccount = result && result[0] && result[0][1];
       // Return the full account
       return Immutable.fromJS(fullAccount);
@@ -353,7 +376,7 @@ class CommunicationService {
     // 1.11.0 denotes the current time
     const currentTimeTransactionId = ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0';
     const startTxHistoryId = currentTimeTransactionId;
-    return Apis.instance().history_api().exec('get_account_history',
+    return this.callBlockchainHistoryApi('get_account_history',
                   [ accountId, stopTxHistoryId || currentTimeTransactionId, limit, startTxHistoryId]).then((history) => {
                     // Return immutable object to make it consistent with other functions
                     return Immutable.fromJS(history);
@@ -412,8 +435,6 @@ class CommunicationService {
       return Immutable.fromJS(_.flatten(result));
     });
   }
-
-
 
   /**
    * Search events given keyword

@@ -4,26 +4,26 @@ import { BettingMarketGroupBanner } from '../Banners';
 import ComplexBettingWidget2 from '../BettingWidget/ComplexBettingWidget2';
 import Immutable from 'immutable';
 import _ from 'lodash';
-import moment from 'moment'; // TODO: Remove later. For hardcoded data only
+// import moment from 'moment'; // TODO: Remove later. For hardcoded data only
 import { BettingMarketGroupPageActions } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 //////// HARDCODED DATA BEGINS //////////
-const fakeData =
-  Immutable.fromJS([
-    {
-      id: '1.999.1',
-      time: moment().add(1, 'days').unix() * 1000,
-      name: 'Zanarkand Abes vs Besaid Aurochs',
-      offers: [
-        {
-          back: [{ odds: 3.85, price: 2.781 }, { odds: 2.31, price: 1.843 }],
-          lay: [{ odds: 2.71, price: 1.89 }, { odds: 2.71, price: 1.89 } ]
-        }
-      ]
-    }
-  ])
+// const fakeData =
+//   Immutable.fromJS([
+//     {
+//       id: '1.999.1',
+//       time: moment().add(1, 'days').unix() * 1000,
+//       name: 'Zanarkand Abes vs Besaid Aurochs',
+//       offers: [
+//         {
+//           back: [{ odds: 3.85, price: 2.781 }, { odds: 2.31, price: 1.843 }],
+//           lay: [{ odds: 2.71, price: 1.89 }, { odds: 2.71, price: 1.89 } ]
+//         }
+//       ]
+//     }
+//   ])
 ///////// HARDCODED DATA ENDS  //////////
 
 class BettingMarketGroup extends Component {
