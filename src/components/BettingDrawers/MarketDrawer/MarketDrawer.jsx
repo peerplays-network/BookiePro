@@ -45,21 +45,21 @@ const mapStateToProps = (state) => {
   const unconfirmedBets = state.getIn(['marketDrawer', 'unconfirmedBets']);
   let betslips = Immutable.Map();
   unconfirmedBets.forEach((bet) => {
-    const marketType = bet.get('market_type');
+    const betType = bet.get('bet_type');
 
     // The betslips are grouped by market type (back or lay)
-    if (!betslips.has(marketType)) {
-      betslips = betslips.set(marketType, Immutable.List());
+    if (!betslips.has(betType)) {
+      betslips = betslips.set(betType, Immutable.List());
     }
     // Add the bet to the list of bets with the same market type
-    let betListByMarketType = betslips.get(marketType);
+    let betListBybetType = betslips.get(betType);
     let betObj = Immutable.Map()
                   .set('odds', bet.getIn(['offer', 'odds']))
                   .set('price', bet.getIn(['offer', 'price']))
                   .set('team', bet.get('team_name'));
-    betListByMarketType = betListByMarketType.push(betObj);
+    betListBybetType = betListBybetType.push(betObj);
     // Put everything back in their rightful places
-    betslips = betslips.set(marketType, betListByMarketType);
+    betslips = betslips.set(betType, betListBybetType);
   });
   return {
     unconfirmedBets: betslips
