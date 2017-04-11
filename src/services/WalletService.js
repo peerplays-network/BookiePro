@@ -46,7 +46,6 @@ class WalletService {
       // Broadcast transaction
       return transaction.broadcast();
     }).then(() => {
-      console.log('seucss');
       // Log transaction excluded it's signatures
       if (log.getLevel() === log.levels.DEBUG) {
         const filteredTransaction = _.pickBy(transaction.toObject(), (v, k) => k !== 'signatures');
@@ -54,7 +53,7 @@ class WalletService {
       }
 
     }).catch((error) => {
-      console.log('fail')
+      // Intercept and log error
       log.error('Processing Transaction fails', error);
       // Throw the error to be caught by next promise in chain
       throw error;

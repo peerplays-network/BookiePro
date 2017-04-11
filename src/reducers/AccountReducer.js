@@ -8,12 +8,15 @@ let initialState = Immutable.fromJS({
   privateKeyWifsByRole: {},
   publicKeyStringsByRole: {},
   getDepositAddressLoadingStatus: LoadingStatus.DEFAULT,
-  getTransactionHistoriesLoadingStatus: LoadingStatus.DEFAULT,
-  withdrawLoadingStatus: LoadingStatus.DEFAULT,
-  changePasswordLoadingStatus: LoadingStatus.DEFAULT,
-  changePasswordError: [],
-  transactionHistories: [],
   depositAddress: null,
+  getDepositAddressError: null,
+  getTransactionHistoriesLoadingStatus: LoadingStatus.DEFAULT,
+  transactionHistories: [],
+  getTransactionHistoriesError: null,
+  withdrawLoadingStatus: LoadingStatus.DEFAULT,
+  withdrawError: null,
+  changePasswordLoadingStatus: LoadingStatus.DEFAULT,
+  changePasswordErrors: [],
   inGameBalancesByAssetId: {},
   availableBalancesByAssetId: {},
   statistics: {}
@@ -31,9 +34,26 @@ export default function (state = initialState, action) {
         getTransactionHistoriesLoadingStatus: action.loadingStatus
       });
     }
+    case ActionTypes.ACCOUNT_SET_TRANSACTION_HISTORIES: {
+      return state.merge({
+        transactionHistories: action.transactionHistories
+      });
+    }
+    case ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_ERROR: {
+      return state.merge({
+        getTransactionHistoriesError: action.error,
+        getTransactionHistoriesLoadingStatus: LoadingStatus.ERROR
+      });
+    }
     case ActionTypes.ACCOUNT_SET_WITHDRAW_LOADING_STATUS: {
       return state.merge({
         withdrawLoadingStatus: action.loadingStatus
+      });
+    }
+    case ActionTypes.ACCOUNT_SET_WITHDRAW_ERROR: {
+      return state.merge({
+        withdrawError: action.error,
+        withdrawLoadingStatus: LoadingStatus.ERROR
       });
     }
     case ActionTypes.ACCOUNT_SET_CHANGE_PASSWORD_LOADING_STATUS: {
@@ -41,9 +61,9 @@ export default function (state = initialState, action) {
         changePasswordLoadingStatus: action.loadingStatus
       });
     }
-    case ActionTypes.ACCOUNT_SET_CHANGE_PASSWORD_ERROR: {
+    case ActionTypes.ACCOUNT_SET_CHANGE_PASSWORD_ERRORS: {
       return state.merge({
-        changePasswordError: action.error,
+        changePasswordErrors: action.errors,
         changePasswordLoadingStatus: LoadingStatus.ERROR
       });
     }
@@ -52,9 +72,10 @@ export default function (state = initialState, action) {
         depositAddress: action.depositAddress
       });
     }
-    case ActionTypes.ACCOUNT_SET_TRANSACTION_HISTORIES: {
+    case ActionTypes.ACCOUNT_SET_GET_DEPOSIT_ADDRESS_ERROR: {
       return state.merge({
-        transactionHistories: action.transactionHistories
+        getDepositAddressError: action.error,
+        getDepositAddressLoadingStatus: LoadingStatus.ERROR
       });
     }
     case ActionTypes.ACCOUNT_SET_ACCOUNT: {

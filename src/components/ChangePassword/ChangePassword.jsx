@@ -84,7 +84,7 @@ class ChangePassword extends PureComponent{
 const mapStateToProps = (state) => {
   const account = state.get('account');
   const loadingStatus = account.get('changePasswordLoadingStatus');
-  const errors = loadingStatus === LoadingStatus.ERROR ? account.get('changePasswordError') : Immutable.List();
+  const errors = loadingStatus === LoadingStatus.ERROR ? account.get('changePasswordErrors') : Immutable.List();
   return {
     loadingStatus,
     errors

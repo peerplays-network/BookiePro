@@ -40,10 +40,10 @@ class AccountPrivateActions {
     }
   }
 
-  static setChangePasswordError(error) {
+  static setChangePasswordErrorsAction(errors) {
     return {
-      type: ActionTypes.ACCOUNT_SET_CHANGE_PASSWORD_ERROR,
-      error
+      type: ActionTypes.ACCOUNT_SET_CHANGE_PASSWORD_ERRORS,
+      errors
     }
   }
 
@@ -58,6 +58,29 @@ class AccountPrivateActions {
     return {
       type: ActionTypes.ACCOUNT_SET_TRANSACTION_HISTORIES,
       transactionHistories
+    }
+  }
+
+  static setGetTransactionHistoriesErrorAction(error) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_ERROR,
+      error
+    }
+  }
+
+
+  static setWithdrawErrorAction(error) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_WITHDRAW_ERROR,
+      error
+    }
+  }
+
+
+  static setGetDepositAddressErrorAction(error) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_GET_DEPOSIT_ADDRESS_ERROR,
+      error
     }
   }
 
@@ -145,6 +168,9 @@ class AccountActions {
     }
   }
 
+  /**
+   * Set keys for the account
+   */
   static setKeys(keys) {
     return (dispatch) => {
       let privateKeyWifsByRole = Immutable.Map();
@@ -157,6 +183,9 @@ class AccountActions {
     }
   }
 
+  /**
+   * Get transaction history
+   */
   static getTransactionHistories(startTime, stopTime) {
     return (dispatch, getState) => {
       const accountId = getState().getIn(['account', 'account', 'id']);
@@ -165,6 +194,10 @@ class AccountActions {
       CommunicationService.getTransactionHistories(accountId, startTime, stopTime).then((transactionHistories) => {
         dispatch(AccountPrivateActions.setTransactionHistoriesAction(transactionHistories));
         dispatch(AccountPrivateActions.setGetTransactionHistoriesLoadingStatusAction(LoadingStatus.DONE));
+      }).catch((error) => {
+        log.error('Get transaction histories error', error);
+        //Set password change error
+        dispatch(AccountPrivateActions.setGetTransactionHistoriesErrorAction(error));
       });
     };
   }
@@ -177,6 +210,10 @@ class AccountActions {
       CommunicationService.getDepositAddress(accountId).then((depositAddress) => {
         dispatch(AccountPrivateActions.setDepositAddressAction(depositAddress));
         dispatch(AccountPrivateActions.setGetDepositAddressLoadingStatusAction(LoadingStatus.DONE));
+      }).catch((error) => {
+        log.error('Get deposit address error', error);
+        //Set password change error
+        dispatch(AccountPrivateActions.setGetDepositAddressErrorAction(error));
       });
     };
   }
@@ -186,6 +223,10 @@ class AccountActions {
       dispatch(AccountPrivateActions.setWithdrawLoadingStatusAction(LoadingStatus.LOADING));
       CommunicationService.withdraw(walletAddress).then(() => {
         dispatch(AccountPrivateActions.setWithdrawLoadingStatusAction(LoadingStatus.DONE));
+      }).catch((error) => {
+        log.error('Withdraw error', error);
+        //Set password change error
+        dispatch(AccountPrivateActions.setWithdrawErrorAction(error));
       });
     };
   }
@@ -232,7 +273,7 @@ class AccountActions {
       }).catch((error) => {
         log.error('Change Password error', error);
         //Set password change error
-        dispatch(AccountPrivateActions.setChangePasswordError([error.message ? error.message : 'Error Occured']));
+        dispatch(AccountPrivateActions.setChangePasswordErrorsAction([error.message ? error.message : 'Error Occured']));
       });
     };
   }

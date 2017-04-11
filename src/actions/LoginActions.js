@@ -4,7 +4,6 @@ import NavigateActions from './NavigateActions';
 import AccountActions from './AccountActions';
 import AppActions from './AppActions';
 import NotificationActions from './NotificationActions';
-import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
 import log from 'loglevel';
@@ -74,6 +73,7 @@ class LoginActions {
       const keys = KeyGeneratorService.generateKeys(accountName, password);
 
       return dispatch(LoginActions.loginWithKeys(accountName, keys)).then(() => {
+        log.debug('Login succeed.')
         // Set login status to done
         dispatch(LoginPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
         // Navigate to home
