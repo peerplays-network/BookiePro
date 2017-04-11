@@ -41,32 +41,32 @@ const getColumns = (renderOffer) => ([
   }, {
     title: '1',
     children: [{
-      dataIndex: 'back_offer_1',
-      key: 'back_offer_1',
+      dataIndex: 'back_offer_home',
+      key: 'back_offer_home',
       width: offerColumnWidth,
       className: 'back-offer',
-      render: renderOffer('back', 1)
+      render: renderOffer('back', 'lay', 1)
     }, {
-      dataIndex: 'lay_offer_1',
-      key: 'lay_offer_1',
+      dataIndex: 'lay_offer_home',
+      key: 'lay_offer_home',
       width: offerColumnWidth,
       className: 'lay-offer',
-      render: renderOffer('lay', 1)
+      render: renderOffer('lay', 'back', 1)
     }]
   }, {
     title: '2',
     children: [{
-      dataIndex: 'back_offer_2',
-      key: 'back_offer_2',
+      dataIndex: 'back_offer_away',
+      key: 'back_offer_away',
       width: offerColumnWidth,
       className: 'back-offer',
-      render: renderOffer('back', 2)
+      render: renderOffer('back', 'lay', 2)
     }, {
-      dataIndex: 'lay_Offer_2',
-      key: 'lay_offer_2',
+      dataIndex: 'lay_Offer_away',
+      key: 'lay_offer_away',
       width: offerColumnWidth,
       className: 'lay-offer',
-      render: renderOffer('lay', 2)
+      render: renderOffer('lay', 'back', 2)
     }]
   }
 ]);
@@ -95,26 +95,26 @@ class SimpleBettingWidget extends Component {
     this.renderOffer = this.renderOffer.bind(this);
   }
 
-  onOfferClicked(event, record, team, marketType, offer) {
+  onOfferClicked(event, record, team, betType, offer) {
     event.preventDefault();
-    this.props.createBet(record, team, marketType, offer);
+    this.props.createBet(record, team, betType, offer);
   }
 
-  // marketType: [ back | lay ]
+  // action: [ lay(ing) | back(ing) ]
+  // betType: [ back | lay ]
   // index: [ 1 (Home Team) | 2 (Away Team)]
-  renderOffer(marketType, index) {
+  renderOffer(action, typeOfBet, index) {
     return (text, record) => {
       const offers = record.get('offers');
-      // TODO: Need a better way to check this after the Immutable JS changes
-      if (offers === undefined || offers.isEmpty()) {
+      if (offers.isEmpty()) {
         return '';
       }
-      // TODO: Check if we always have only one offer here. If yes, get rid of the list
-      const offer = offers.get(0).get(marketType).get(index-1);
+      // TODO: Exception handling
+      const offer = offers.get(index-1).get(typeOfBet).get(0);
       // TODO: REVIEW This is temp solution. The better way is to use the Competitor data.
       const team = record.get('name').split('vs')[index-1].trim()
       return (
-        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, marketType, offer) }>
+        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, offer) }>
           <div className='offer'>
             <div className='odds'>{ offer.get('odds') }</div>
             <div className='price'>{ bitcoinSymbol } { offer.get('price') }</div>
