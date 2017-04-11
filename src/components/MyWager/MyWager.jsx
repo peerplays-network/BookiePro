@@ -3,7 +3,7 @@ import { Tabs, Breadcrumb } from 'antd';
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import ResolvedBets from './ResolvedBets';
-import { BetActions } from '../../actions';
+import { NavigateActions, BetActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getFormattedDate } from '../../utility/DateUtils';
@@ -81,6 +81,7 @@ class MyWager extends PureComponent {
   constructor(props) {
     super(props);
     this.onTabChange = this.onTabChange.bind(this);
+    this.onHomeLinkClick = this.onHomeLinkClick.bind(this);
   }
 
   onTabChange(key) {
@@ -102,11 +103,17 @@ class MyWager extends PureComponent {
     this.props.getOngoingBets();
   }
 
+  //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
+  onHomeLinkClick(e){
+    e.preventDefault();
+    this.props.navigateTo('/exchange');
+  }
+
   render() {
     return (
       <div className='my-wager'>
         <Breadcrumb className='bookie-breadcrumb'>
-          <Breadcrumb.Item><a href='/'>  { I18n.t('mybets.home') } </a></Breadcrumb.Item>
+          <Breadcrumb.Item><a onClick={ this.onHomeLinkClick }>{ I18n.t('mybets.home') }</a></Breadcrumb.Item>
           <Breadcrumb.Item> { I18n.t('mybets.mywager') } </Breadcrumb.Item>
         </Breadcrumb>
 
@@ -268,6 +275,7 @@ const mapStateToProps = (state) => {
 
 function mapDispatchToProps(dispatch){
   return bindActionCreators({
+    navigateTo: NavigateActions.navigateTo,
     getOngoingBets: BetActions.getOngoingBets,
     getResolvedBets: BetActions.getResolvedBets
   }, dispatch);
