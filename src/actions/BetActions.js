@@ -86,7 +86,7 @@ class BetActions {
       //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
       const accountId = '1.2.48';
 
-      // Check if data is already in the redux store
+      // Check if data is already in the redux store, if it has been retrieved, no need to fetch it again from blockchain
       const getOngoingBetsLoadingStatus = getState().getIn(['bet', 'getOngoingBetsLoadingStatus']);
       if (getOngoingBetsLoadingStatus !== LoadingStatus.DONE) {
         // It has been never been retrieved before, fetch from blockchain

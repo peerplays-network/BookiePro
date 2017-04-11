@@ -3,20 +3,12 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
-  getEventGroupsBySportIdsLoadingStatus: {},
   getEventGroupsByIdsLoadingStatus: {},
   eventGroupsById: {}
 });
 
 export default function (state = initialState, action) {
   switch(action.type) {
-    case ActionTypes.EVENT_GROUP_SET_GET_EVENT_GROUPS_BY_SPORT_IDS_LOADING_STATUS: {
-      let getEventGroupsBySportIdsLoadingStatus = Immutable.Map();
-      action.sportIds.forEach( (sportId) => {
-        getEventGroupsBySportIdsLoadingStatus = getEventGroupsBySportIdsLoadingStatus.set(sportId, action.loadingStatus);
-      })
-      return state.mergeIn(['getEventGroupsBySportIdsLoadingStatus'], getEventGroupsBySportIdsLoadingStatus);
-    }
     case ActionTypes.EVENT_GROUP_SET_GET_EVENT_GROUPS_BY_IDS_LOADING_STATUS: {
       let getEventGroupsByIdsLoadingStatus = Immutable.Map();
       action.eventGroupIds.forEach( (eventGroupId) => {
