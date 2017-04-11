@@ -27,7 +27,7 @@ const NavBar = () => (
 
       </Col>
       <Col span={ 9 }>
-        <div className='text-right ant-right-menu'>
+        <div className='top-menu-wrapper'>
           <TopMenu />
         </div>
       </Col>
