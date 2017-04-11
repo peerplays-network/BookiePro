@@ -72,7 +72,7 @@ class CommunicationService {
         this.updatedObjectsByObjectIdByObjectIdPrefix = this.updatedObjectsByObjectIdByObjectIdPrefix.update(objectIdPrefix, map => {
           // Use map instead of list for more efficient duplicate detection
           if (!map) map = Immutable.Map();
-          return map.set(updatedObjectId, object);
+          return map.set(updatedObjectId, Immutable.fromJS(object));
         })
       }
     })

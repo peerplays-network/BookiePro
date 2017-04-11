@@ -38,7 +38,7 @@ const history = syncHistoryWithStore(hashHistory, store, {
 // Level of log is TRACE > DEBUG > INFO > WARN > ERROR
 // (i.e. if you set it to INFO, you won't logging for TRACE and DEBUG)
 // Use log.levels.DEBUG to see most of the API communication logging
-log.setLevel(log.levels.INFO);
+log.setLevel(log.levels.DEBUG);
 
 // Add new page here
 const routes = (
