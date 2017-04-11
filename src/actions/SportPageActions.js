@@ -8,8 +8,8 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
 import {
-  groupBinnedOrderBooksByEvent
-} from './utilities'
+  groupMoneyLineBinnedOrderBooks
+} from './dataUtils';
 
 /**
  * Private actions
@@ -73,7 +73,7 @@ class SportPageActions {
         let binnedOrderBooksByEvent = Immutable.Map();
         retrievedEvents.forEach((event) => {
           binnedOrderBooksByEvent = binnedOrderBooksByEvent.set(
-            event.get('id'), groupBinnedOrderBooksByEvent(event, retrievedBettingMarketGroups, binnedOrderBooksByBettingMarketId)
+            event.get('id'), groupMoneyLineBinnedOrderBooks(event, retrievedBettingMarketGroups, binnedOrderBooksByBettingMarketId)
           );
         });
 

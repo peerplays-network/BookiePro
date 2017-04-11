@@ -101,7 +101,7 @@ const mapStateToProps = (state) => {
   let page = Immutable.Map();
   bets.forEach((bet) => {
     const eventId = bet.get('event_id');
-    const marketType = bet.get('market_type');
+    const betType = bet.get('bet_type');
     // Page content are first grouped by event_id
     if (!page.has(eventId)) {
       const eventObj = Immutable.Map()
@@ -112,18 +112,18 @@ const mapStateToProps = (state) => {
     }
     // Then page content is further grouped by market type (back or lay)
     let unconfirmedBets = page.getIn([eventId, 'unconfirmedBets']);
-    if (!unconfirmedBets.has(marketType)) {
-      unconfirmedBets = unconfirmedBets.set(marketType, Immutable.List());
+    if (!unconfirmedBets.has(betType)) {
+      unconfirmedBets = unconfirmedBets.set(betType, Immutable.List());
     }
     // Add the bet to the list of bets with the same market type
-    let betListByMarketType = unconfirmedBets.get(marketType);
+    let betListBybetType = unconfirmedBets.get(betType);
     let betObj = Immutable.Map()
                   .set('odds', bet.getIn(['offer', 'odds']))
                   .set('price', bet.getIn(['offer', 'price']))
                   .set('team', bet.get('team_name'));
-    betListByMarketType = betListByMarketType.push(betObj);
+    betListBybetType = betListBybetType.push(betObj);
     // Put everything back in their rightful places
-    unconfirmedBets = unconfirmedBets.set(marketType, betListByMarketType);
+    unconfirmedBets = unconfirmedBets.set(betType, betListBybetType);
     page = page.setIn([eventId, 'unconfirmedBets'], unconfirmedBets);
   });
   return {
