@@ -16,7 +16,7 @@ import moment from 'moment';
 
 const TabPane = Tabs.TabPane;
 var tabKey = 'unmatchedBets';
-let startDate = moment().subtract(1, 'days').hour(0).minute(0);
+let startDate = moment().subtract(6, 'days').hour(0).minute(0);
 let endDate = moment();
 
 class PrivateFunctions{
@@ -54,8 +54,6 @@ class PrivateFunctions{
         (moment(d.get('event_time')) <= moment(endDate)))));
     else
       data = data.filter(d => (((moment(d.get('event_time')) >= moment()) )));
-
-    console.log(data.length);
 
     data.forEach((d, index) => {
       let rowObj = {
