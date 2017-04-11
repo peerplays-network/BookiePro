@@ -163,6 +163,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     getDepositAddress: AccountActions.getDepositAddress,
     navigateTo: NavigateActions.navigateTo,
+    //TODO: Wallet Address verification and error response pending. 
     withdraw: AccountActions.withdraw
   }, dispatch)
 }

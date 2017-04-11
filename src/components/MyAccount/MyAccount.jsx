@@ -432,7 +432,6 @@ function mapDispatchToProps(dispatch) {
     getTransactionHistory: AccountActions.getTransactionHistories,
     getDepositAddress: AccountActions.getDepositAddress,
     redirectToChangePwd: SettingActions.redirectToChangePwd,
-    //TODO: Wallet Address verification and error response pending.
     withdraw: AccountActions.withdraw
   }, dispatch)
 }
