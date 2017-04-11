@@ -9,31 +9,23 @@ const { Header } = Layout;
 
 const NavBar = () => (
   <Header id='betex-header'>
-    <Row>
-      <Col span={ 15 }>
-        <Row>
-          <Col span={ 2 }>
-            <div className='logo'>
-              <img alt='logo' src={ logo } />
-            </div>
-          </Col>
-          <Col span={ 22 }>
-            <div className='search'>
-              <SearchMenu />
-            </div>
-          </Col>
-        </Row>
-
-
+    <Row className='top-bar-row' type='flex'>
+      <Col>
+        <div className='logo'>
+          <img alt='logo' src={ logo } />
+        </div>
       </Col>
-      <Col span={ 9 }>
+      <Col>
+        <div className='search'>
+          <SearchMenu />
+        </div>
+      </Col>
+      <Col>
         <div className='text-right ant-right-menu'>
           <TopMenu />
         </div>
       </Col>
     </Row>
-
-
   </Header>
 );
 
