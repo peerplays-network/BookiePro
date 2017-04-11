@@ -1,5 +1,5 @@
 @simple-betting-bg: #065CB7;
-@simple-betting-header-border: #00BEF4;
+@simple-betting-header-border: #1563A0;
 @simple-betting-back-bg: #004E9B;
 @simple-betting-lay-bg: #008487;
 @simple-betting-label: #FFFFFF;
@@ -7,40 +7,59 @@
 div.simple-betting {
   // Using fade (from LESS) can set opacity to background only
   // If we set opacity explicitly, it will affect the text (foreground) too
-  background-color: fade(@simple-betting-bg, 35%);
-  margin-top: 15px;
-
+  background-color: fade(@simple-betting-bg, 0%);
+  margin-top: 20px;
+  box-shadow: 0 2px 4px 0 #02070C;
   div.ant-table {
     color: @simple-betting-label;
 
     div.ant-table-title {
-      border: none;
-
+      border:0 none;
+      border-bottom: 1px solid #1563A0;
+      padding:13px 15px;
       div.title {
         div.sport {
-          font-size: 18px;
+          font-size: 16px;
           text-transform: uppercase;
           display: inline-block;
+          font-weight:bold;
         }
 
         div.rules {
           font-size: 14px;
           float: right;
           display: inline-block;
+          font-weight:500;
+          i{
+            font-size:18px;
+            margin-left:0;
+            vertical-align: middle;
+          }
+          .modal-inline{
+            .ant-btn{
+              padding:0;
+              background-color: transparent;
+              border:0 none;
+              color: #FFFFFF;
+              border-radius:0;
+              font-size:14px;
+            }
+          }
         }
       }
     }
 
     table {
-      border-left: none;
+      border: none;
       border-radius: 0;
-      border-color: @simple-betting-header-border;
 
       th {
         background-color: transparent;
         border-right: none;
         padding: 3px 8px;
-
+        color: #FFFFFF;
+        font-size:14px;
+        font-weight:normal;
         &.back-offer { display: none; }
         &.lay-offer { display: none; }
       }
@@ -52,9 +71,12 @@ div.simple-betting {
 
         &.event-time {
           word-break: break-word;
+          font-weight:bold;
+          vertical-align: top;
         }
         &.team {
-          font-size: 16px;
+          font-size: 14px;
+          font-weight:500;
         }
         &.back-offer {
           background-color: @simple-betting-back-bg;
@@ -74,6 +96,7 @@ div.simple-betting {
             > div.price {
               font-size: 12px;
               text-align: center;
+              font-weight:500;
             }
           }
         }
@@ -97,6 +120,8 @@ div.simple-betting {
           color: @simple-betting-label;
           text-decoration: underline;
           text-transform: capitalize;
+          font-size:14px;
+          font-weight:500;
         }
       }
     }
