@@ -11,7 +11,7 @@ let initialState = Immutable.fromJS({
   getTransactionHistoriesLoadingStatus: LoadingStatus.DEFAULT,
   withdrawLoadingStatus: LoadingStatus.DEFAULT,
   changePasswordLoadingStatus: LoadingStatus.DEFAULT,
-  changePasswordError: null,
+  changePasswordError: [],
   transactionHistories: [],
   depositAddress: null,
   inGameBalancesByAssetId: {},
@@ -43,7 +43,8 @@ export default function (state = initialState, action) {
     }
     case ActionTypes.ACCOUNT_SET_CHANGE_PASSWORD_ERROR: {
       return state.merge({
-        changePasswordError: action.error
+        changePasswordError: action.error,
+        changePasswordLoadingStatus: LoadingStatus.ERROR
       });
     }
     case ActionTypes.ACCOUNT_SET_DEPOSIT_ADDRESS: {

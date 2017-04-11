@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Card,Breadcrumb,Icon,Form } from 'antd'
 var I18n = require('react-redux-i18n').I18n;
 import ChangePasswordForm from './ChangePasswordForm'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigateActions,AccountActions } from '../../actions';
+import { LoadingStatus } from '../../constants';
+import Immutable from 'immutable';
 
-class ChangePassword extends Component{
+class ChangePassword extends PureComponent{
 
   constructor(props){
     super(props);
@@ -52,7 +54,7 @@ class ChangePassword extends Component{
             <div className='center-form'>
               {
                 //Display the form initially (initially and when the data is getting saved. (Loading will be displayed on 'Submit' button))
-                this.props.loadingStatus!=='done'  ?
+                this.props.loadingStatus!==LoadingStatus.DONE  ?
                 <ChangePasswordForm
                   onSubmit={ this.handleSubmit }
                   onClickCancel={ this.onClickCancel }
@@ -62,7 +64,7 @@ class ChangePassword extends Component{
               }
               {
                 //Show the success message when the password has been changed successfully (DONE) and the form will be hidden
-                this.props.loadingStatus==='done' && this.props.errors.length===0  ?
+                this.props.loadingStatus===LoadingStatus.DONE && this.props.errors.isEmpty()  ?
                 <div className='text-center'>
                   <Icon type='lock big-icon'/>
                   <p className='font16 margin-tb-20'>{ I18n.t('changePassword.successText') }</p>
@@ -81,9 +83,11 @@ class ChangePassword extends Component{
 
 const mapStateToProps = (state) => {
   const account = state.get('account');
+  const loadingStatus = account.get('changePasswordLoadingStatus');
+  const errors = loadingStatus === LoadingStatus.ERROR ? account.get('changePasswordError') : Immutable.List();
   return {
-    loadingStatus: account.get('changePasswordLoadingStatus'),
-    errors: account.get('changePasswordError') != null ? account.get('changePasswordError').toJS() : []
+    loadingStatus,
+    errors
   }
 }
 
