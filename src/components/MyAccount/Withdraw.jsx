@@ -28,6 +28,7 @@ const normalizeAmount = (value, previousValue) => {
   return value;
 };
 class Withdraw extends Component{
+
   constructor(props){
     super(props);
     this.state = {
@@ -38,10 +39,9 @@ class Withdraw extends Component{
 
   //Check entered amount with user's available balance
   onwithdrawAmountChange(e){
-
     let withdrawAmount = e.target.value;
     if(!isNaN(withdrawAmount)){
-      if((parseFloat(withdrawAmount) > 10) || parseFloat(withdrawAmount) === 0){
+      if((parseFloat(withdrawAmount) > this.props.availableBalance) || parseFloat(withdrawAmount) === 0){
         this.setState({ haswithdrawAmountErr: true })
       } else {
         this.setState({ haswithdrawAmountErr: false })
@@ -49,7 +49,6 @@ class Withdraw extends Component{
     } else {
       this.setState({ haswithdrawAmountErr: false })
     }
-
   }
 
   render(){
@@ -59,7 +58,7 @@ class Withdraw extends Component{
       isWithdrawLoadingStatusDone = withdrawLoadingStatus===LoadingStatus.DONE,
       isDisabled = invalid || submitting || asyncValidating ||
                        this.state.haswithdrawAmountErr || isWithdrawLoadingStatusLoading,
-      prefix = currencyFormat === 'BTC' ? 'B' : ( currencyFormat === 'mBTC' ? 'mB' : '');
+      prefix = currencyFormat === 'BTC' ? 'icon-bitcoin' : ( currencyFormat === 'mBTC' ? 'icon-m' : '');
     let withdrawCardTitle = '';
     if(withdrawLoadingStatus === LoadingStatus.DEFAULT)
       withdrawCardTitle = I18n.t('myAccount.withdraw');
@@ -76,18 +75,19 @@ class Withdraw extends Component{
           { isWithdrawLoadingStatusDone ?
             <div className='withdraw-success-msg'>
               <p className='text-center'>
-                { I18n.t('myAccount.withdraw_completed_msg_1') }  <span className='withdraw-sucess-amount'> { withdrawAmount + prefix }</span>   { I18n.t('myAccount.withdraw_completed_msg_2') }
+                { I18n.t('myAccount.withdraw_completed_msg_1') }  <span className='withdraw-sucess-amount'>
+                 <i className={ prefix } ></i> { withdrawAmount }</span>   { I18n.t('myAccount.withdraw_completed_msg_2') }
               </p>
             </div> :
             <div className='registerComponent'>
               <form onSubmit={ handleSubmit } className='withdrawForm'>
-                <div className='form-fields bookie-amount-field icon-bitcoin'>
+                <div className={ 'form-fields bookie-amount-field ' + prefix }>
                  {/*Please look into this for toggling the icon functionality*/}
                   <Field name='withdrawAmount' id='withdrawAmount' className='bookie-input bookie-amount'
                     onChange={ this.onwithdrawAmountChange }
                     onBlur={ this.onwithdrawAmountChange }
                     haswithdrawAmountErr={ this.state.haswithdrawAmountErr }
-                    withdrawAmountExceedErrMsg={ I18n.t('myAccount.insuffBitcoinErr') + availableBalance + prefix }
+                    withdrawAmountExceedErrMsg={ I18n.t('myAccount.insuffBitcoinErr') + availableBalance + currencyFormat }
                     component={ renderField }  type='text' normalize={ normalizeAmount } />
                 </div>
                 <div className='form-fields'>
@@ -113,11 +113,12 @@ class Withdraw extends Component{
 export default reduxForm({
   form: 'withdrawForm',  // a unique identifier for this form
   fields: ['withdrawAmount', 'walletAddr'],
+  destroyOnUnmount:false,
   //Form field validations
   validate: function submit(values) {
     let errors = {};
     if (!values.get('withdrawAmount')) {
-      errors.withdrawAmount = I18n.t('myAccount.enter_withdrawAmount')
+      errors.withdrawAmount = I18n.t('myAccount.enter_withdrawAmount');
     }
     if (!values.get('walletAddr')) {
       errors.walletAddr = I18n.t('myAccount.enter_wallet_addr')
