@@ -7,6 +7,7 @@ import EventActions from './EventActions';
 import SportActions from './SportActions';
 import { TransactionBuilder } from 'graphenejs-lib';
 import _ from 'lodash';
+import log from 'loglevel';
 
 /**
  * Private actions
@@ -19,6 +20,13 @@ class BetPrivateActions {
     }
   }
 
+  static setGetOngoingBetsErrorAction(error) {
+    return {
+      type: ActionTypes.BET_SET_GET_ONGOING_BETS_ERROR,
+      error
+    }
+  }
+
   static setGetResolvedBetsLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.BET_SET_GET_RESOLVED_BETS_LOADING_STATUS,
@@ -26,10 +34,24 @@ class BetPrivateActions {
     }
   }
 
+  static setGetResolvedBetsErrorAction(error) {
+    return {
+      type: ActionTypes.BET_SET_GET_RESOLVED_BETS_ERROR,
+      error
+    }
+  }
+
   static setMakeBetsLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.BET_SET_MAKE_BETS_LOADING_STATUS,
       loadingStatus
+    }
+  }
+
+  static setMakeBetsErrorAction(error) {
+    return {
+      type: ActionTypes.BET_SET_MAKE_BETS_ERROR,
+      error
     }
   }
 
@@ -41,11 +63,27 @@ class BetPrivateActions {
     }
   }
 
+  static setCancelBetsErrorByBetIdAction(betIds, error) {
+    return {
+      type: ActionTypes.BET_SET_CANCEL_BETS_ERROR_BY_BET_ID,
+      betIds,
+      error
+    }
+  }
+
   static setEditBetsByIdsLoadingStatusAction(betIds, loadingStatus) {
     return {
       type: ActionTypes.BET_SET_EDIT_BETS_BY_IDS_LOADING_STATUS,
       betIds,
       loadingStatus
+    }
+  }
+
+  static setEditBetsErrorByBetIdAction(betIds, error) {
+    return {
+      type: ActionTypes.BET_SET_EDIT_BETS_ERROR_BY_BET_ID,
+      betIds,
+      error
     }
   }
 
@@ -118,6 +156,10 @@ class BetActions {
           dispatch(BetActions.addOrUpdateOngoingBetsAction(retrievedOngoingBets));
           // Set status
           dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.DONE));
+        }).catch((error) => {
+          log.error('Fail to get onloading bets', error);
+          // Set error
+          dispatch(BetActions.setGetOngoingBetsErrorAction(error));
         });
       }
     };
@@ -136,6 +178,10 @@ class BetActions {
         dispatch(BetActions.addOrUpdateResolvedBetsAction(bets));
         // Set status
         dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.DONE));
+      }).catch((error) => {
+        log.error('Fail to get resolved bets', error);
+        // Set error
+        dispatch(BetActions.setGetResolvedBetsErrorAction(error));
       });
 
     };
@@ -159,6 +205,10 @@ class BetActions {
       // TODO: replace this with validwallet service process transaction later on
       WalletService.processFakeTransaction(getState(), tr).then(() => {
         dispatch(BetPrivateActions.setMakeBetsLoadingStatus(LoadingStatus.DONE));
+      }).catch((error) => {
+        log.error('Fail to get make bets', error);
+        // Set error
+        dispatch(BetActions.setMakeBetsErrorAction(error));
       });
     }
   }
@@ -184,6 +234,10 @@ class BetActions {
       // TODO: replace this with valid wallet service process transaction later on
       WalletService.processFakeTransaction(getState(), tr).then(() => {
         dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds,LoadingStatus.DONE));
+      }).catch((error) => {
+        log.error('Fail to cancel bets', error);
+        // Set error
+        dispatch(BetActions.setCancelBetsErrorByBetIdAction(betIds, error));
       });
     }
   }
@@ -212,6 +266,10 @@ class BetActions {
       // TODO: replace this with valid wallet service process transaction later on
       WalletService.processFakeTransaction(getState(), tr).then(() => {
         dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
+      }).catch((error) => {
+        log.error('Fail to edit bets', error);
+        // Set error
+        dispatch(BetActions.setEditBetsErrorByBetIdAction(betIds, error));
       });
     }
   }
