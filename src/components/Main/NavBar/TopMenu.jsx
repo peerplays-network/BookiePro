@@ -149,11 +149,13 @@ class TopMenu extends Component {
 
 const mapStateToProps = (state) => {
   const account = state.get('account');
+  const availableBalance = account.get('availableBalancesByAssetId').get('1.3.0')!==undefined ?
+                            account.get('availableBalancesByAssetId').get('1.3.0').toJS().balance : 0;
   return {
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: account.get('getDepositAddressLoadingStatus'),
     depositAddress: account.get('depositAddress'),
-    availableBalance: account.get('availableBalance'),
+    availableBalance: availableBalance,
     withdrawLoadingStatus: account.get('withdrawLoadingStatus'),
     currencyFormat: state.get('setting').get('currencyFormat'),
   }
@@ -163,7 +165,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     getDepositAddress: AccountActions.getDepositAddress,
     navigateTo: NavigateActions.navigateTo,
-    //TODO: Wallet Address verification and error response pending. 
+    //TODO: Wallet Address verification and error response pending.
     withdraw: AccountActions.withdraw
   }, dispatch)
 }

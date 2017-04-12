@@ -396,6 +396,8 @@ const mapStateToProps = (state) => {
   const app = state.get('app');
   const account = state.get('account');
   const setting = state.get('setting');
+  const availableBalance = account.get('availableBalancesByAssetId').get('1.3.0')!==undefined ?
+                            account.get('availableBalancesByAssetId').get('1.3.0').toJS().balance : 0;
   return {
     dynGlobalObject: app.get('blockchainDynamicGlobalProperty'),
     globalObject: app.get('blockchainGlobalProperty'),
@@ -408,7 +410,7 @@ const mapStateToProps = (state) => {
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: account.get('getDepositAddressLoadingStatus'),
     depositAddress: account.get('depositAddress'),
-    availableBalance: account.get('availableBalance'),
+    availableBalance: availableBalance,
     withdrawLoadingStatus: account.get('withdrawLoadingStatus')
   }
 }
@@ -423,7 +425,7 @@ function mapDispatchToProps(dispatch) {
     getTransactionHistory: AccountActions.getTransactionHistories,
     getDepositAddress: AccountActions.getDepositAddress,
     redirectToChangePwd: SettingActions.redirectToChangePwd,
-    //TODO: Wallet Address verification and error response pending. 
+    //TODO: Wallet Address verification and error response pending.
     withdraw: AccountActions.withdraw
   }, dispatch)
 }
