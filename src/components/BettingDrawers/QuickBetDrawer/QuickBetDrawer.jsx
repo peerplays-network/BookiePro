@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import SplitPane from 'react-split-pane';
-import { I18n } from 'react-redux-i18n';
+import { I18n, Translate } from 'react-redux-i18n';
 import { NavigateActions } from '../../../actions';
 import { Button } from 'antd';
 import { bindActionCreators } from 'redux';
@@ -15,8 +15,7 @@ const renderContent = (props) => (
     { props.bets.isEmpty() &&
       <div className='blank'>
         <div className='instructions'>
-          { I18n.t('quick_bet_drawer.unconfirmed_bets.empty.instructions1') } <br/>
-          { I18n.t('quick_bet_drawer.unconfirmed_bets.empty.instructions2') }
+          <Translate value='quick_bet_drawer.unconfirmed_bets.empty.instructions' dangerousHTML/>
         </div>
         <div className='my-bet-button'>
           <Button>{ I18n.t('quick_bet_drawer.unconfirmed_bets.empty.my_bet_button') }</Button>

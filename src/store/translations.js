@@ -170,8 +170,7 @@ export const translationsObject = {
       header: 'BETSLIP',
       unconfirmed_bets: {
         empty: {
-          instructions1: 'CLICK ON THE ODDS TO ADD',
-          instructions2: 'SELECTIONS TO THE BETSLIP',
+          instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
           my_bet_button: 'VIEW YOUR BETS IN MY BETS'
         },
         content: {
@@ -185,8 +184,7 @@ export const translationsObject = {
       unconfirmed_bets: {
         header: 'BETSLIP',
         empty: {
-          instructions1: 'CLICK ON THE ODDS TO ADD',
-          instructions2: 'SELECTIONS TO THE BETSLIP',
+          instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
           my_bet_button: 'VIEW YOUR BETS IN MY BETS'
         },
         content: {
@@ -196,8 +194,7 @@ export const translationsObject = {
       unmatched_bets: {
         header: 'UNMATCHED BETS',
         empty: {
-          instructions1: 'CLICK ON THE ODDS TO ADD',
-          instructions2: 'SELECTIONS TO THE BETSLIP',
+          instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
           my_bet_button: 'VIEW YOUR BETS IN MY BETS'
         }
       }

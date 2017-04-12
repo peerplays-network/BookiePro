@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
-import { I18n } from 'react-redux-i18n';
+import { I18n, Translate } from 'react-redux-i18n';
 import { Button, Tabs } from 'antd';
 import EditableBetTable from '../EditableBetTable';
 
@@ -13,8 +13,7 @@ const renderPlacedBets = (props) => (
   <div className='content' ref='placedBets'>
     <div className='blank'>
       <div className='instructions'>
-        { I18n.t('market_drawer.unmatched_bets.empty.instructions1') } <br/>
-        { I18n.t('market_drawer.unmatched_bets.empty.instructions2') }
+        <Translate value='market_drawer.unmatched_bets.empty.instructions' dangerousHTML/>
       </div>
     </div>
   </div>
@@ -25,8 +24,7 @@ const renderUnconfirmedBets = (props) => (
     { props.unconfirmedBets.isEmpty() &&
       <div className='blank'>
         <div className='instructions'>
-          { I18n.t('market_drawer.unconfirmed_bets.empty.instructions1') } <br/>
-          { I18n.t('market_drawer.unconfirmed_bets.empty.instructions2') }
+          <Translate value='market_drawer.unconfirmed_bets.empty.instructions' dangerousHTML/>
         </div>
         <div className='my-bet-button'>
           <Button>{ I18n.t('quick_bet_drawer.unconfirmed_bets.empty.my_bet_button') }</Button>
