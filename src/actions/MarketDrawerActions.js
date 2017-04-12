@@ -11,13 +11,13 @@ class MarketDrawerPrivateActions {
 }
 
 class MarketDrawerActions {
-  static createBet(record, team, marketType, offer) {
+  static createBet(record, team, betType, offer) {
     return (dispatch) => {
       const bet = Immutable.fromJS({
         event_id: record.get('id'),
         event_name: record.get('name'),
         team_name: team,
-        market_type: marketType,
+        bet_type: betType,
         offer: offer
       });
       dispatch(MarketDrawerPrivateActions.addUnconfirmedBet(bet));

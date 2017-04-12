@@ -3,13 +3,32 @@ import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
+import { I18n, Translate } from 'react-redux-i18n';
+import { Button, Tabs } from 'antd';
 import EditableBetTable from '../EditableBetTable';
 
-const renderContent = (props) => (
+const TabPane = Tabs.TabPane;
+
+const renderPlacedBets = (props) => (
+  <div className='content' ref='placedBets'>
+    <div className='blank'>
+      <div className='instructions'>
+        <Translate value='market_drawer.unmatched_bets.empty.instructions' dangerousHTML/>
+      </div>
+    </div>
+  </div>
+);
+
+const renderUnconfirmedBets = (props) => (
   <div className='content' ref='unconfirmedBets'>
     { props.unconfirmedBets.isEmpty() &&
       <div className='blank'>
-        <div className='instructions'>CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP</div>
+        <div className='instructions'>
+          <Translate value='market_drawer.unconfirmed_bets.empty.instructions' dangerousHTML/>
+        </div>
+        <div className='my-bet-button'>
+          <Button>{ I18n.t('quick_bet_drawer.unconfirmed_bets.empty.my_bet_button') }</Button>
+        </div>
       </div>
     }
     { !props.unconfirmedBets.isEmpty() &&
@@ -18,7 +37,7 @@ const renderContent = (props) => (
       />
     }
   </div>
-)
+);
 
 class MarketDrawer extends Component {
   componentDidMount() {
@@ -32,12 +51,16 @@ class MarketDrawer extends Component {
   render() {
     return (
       <div id='market-drawer'>
-        <div className='title'>
-          <div className='label'>BetSlip</div>
-        </div>
-        { renderContent(this.props) }
+        <Tabs defaultActiveKey='1' type='card'>
+          <TabPane tab='BETSLIP' key='1'>
+            { renderUnconfirmedBets(this.props) }
+          </TabPane>
+          <TabPane tab='PLACEBETS' key='2'>
+            { renderPlacedBets(this.props) }
+          </TabPane>
+        </Tabs>
       </div>
-    );
+    )
   }
 }
 
@@ -45,21 +68,21 @@ const mapStateToProps = (state) => {
   const unconfirmedBets = state.getIn(['marketDrawer', 'unconfirmedBets']);
   let betslips = Immutable.Map();
   unconfirmedBets.forEach((bet) => {
-    const marketType = bet.get('market_type');
+    const betType = bet.get('bet_type');
 
     // The betslips are grouped by market type (back or lay)
-    if (!betslips.has(marketType)) {
-      betslips = betslips.set(marketType, Immutable.List());
+    if (!betslips.has(betType)) {
+      betslips = betslips.set(betType, Immutable.List());
     }
     // Add the bet to the list of bets with the same market type
-    let betListByMarketType = betslips.get(marketType);
+    let betListByBetType = betslips.get(betType);
     let betObj = Immutable.Map()
                   .set('odds', bet.getIn(['offer', 'odds']))
                   .set('price', bet.getIn(['offer', 'price']))
                   .set('team', bet.get('team_name'));
-    betListByMarketType = betListByMarketType.push(betObj);
+    betListByBetType = betListByBetType.push(betObj);
     // Put everything back in their rightful places
-    betslips = betslips.set(marketType, betListByMarketType);
+    betslips = betslips.set(betType, betListByBetType);
   });
   return {
     unconfirmedBets: betslips

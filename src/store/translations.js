@@ -166,6 +166,39 @@ export const translationsObject = {
       lay_all: 'LAY ALL',
       offer: 'OFFER',
     },
+    quick_bet_drawer: {
+      header: 'BETSLIP',
+      unconfirmed_bets: {
+        empty: {
+          instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
+          my_bet_button: 'VIEW YOUR BETS IN MY BETS'
+        },
+        content: {
+          place_bet_button: 'PLACE BET \u0243%{amount}'
+        }
+      }
+    },
+    market_drawer: {
+      tab1: 'BETSLIP',
+      tab2: 'PLACED BETS',
+      unconfirmed_bets: {
+        header: 'BETSLIP',
+        empty: {
+          instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
+          my_bet_button: 'VIEW YOUR BETS IN MY BETS'
+        },
+        content: {
+          place_bet_button: 'PLACE BET \u0243%{amount}'
+        }
+      },
+      unmatched_bets: {
+        header: 'UNMATCHED BETS',
+        empty: {
+          instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
+          my_bet_button: 'VIEW YOUR BETS IN MY BETS'
+        }
+      }
+    },
     terms_dialogue:{
       content: '<p>BY USING THIS WEBSITE IN ANY MANNER WHATSOEVER OR BY CLICKING THE &ldquo;ACCEPT&rdquo; ICON ON OUR WEBSITE YOU ARE INDICATING ' +
       'THAT YOU ACCEPT AND AGREE TO BE BOUND BY THESE TERMS AND CONDITIONS OF USE, OUR RULES AND THE PRIVACY POLICY (AS EACH MAY BE AMENDED FROM ' +

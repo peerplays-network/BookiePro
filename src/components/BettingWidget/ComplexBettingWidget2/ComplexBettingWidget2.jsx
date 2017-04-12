@@ -135,10 +135,10 @@ class ComplexBettingWidget2 extends Component {
 
     const record = Immutable.fromJS(rowInfo.row).set('name', this.props.eventName)
     const competitor = rowInfo.rowValues.name
-    const marketType = column.className
+    const betType = column.className
     // for 'null OFFER' case in which we only see 'OFFER' in item, offer will be empty
     const offer = Immutable.fromJS(rowInfo.rowValues[column.id])
-    this.props.createBet(record, competitor, marketType, offer);
+    this.props.createBet(record, competitor, betType, offer);
   }
 
   render() {
@@ -283,7 +283,7 @@ class ComplexBettingWidget2 extends Component {
     }]
 
     return (
-      <div className='comlex-betting'>
+      <div className='complex-betting'>
 
         {
           this.state.tableData.equals(Immutable.fromJS([])) ?
