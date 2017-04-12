@@ -299,7 +299,6 @@ class MyAccount extends Component {
                   {/*value='UTC+06:00'>{ I18n.t('myAccount.UTC6') }0</Option>*/}
                 {/*<Option*/}
                   {/*value='UTC+07:00'>{ I18n.t('myAccount.UTC7') }</Option>*/}
->>>>>>> Withdraw:
                 {/*<Option*/}
                   {/*value='UTC+08:00'>{ I18n.t('myAccount.UTC8') }</Option>*/}
                 {/*<Option*/}
@@ -404,7 +403,6 @@ const mapStateToProps = (state) => {
   */
   const balance = account.getIn(['availableBalancesByAssetId','1.3.0','balance']);
   const availableBalance = balance !== undefined ? balance : -1;
-
   return {
     dynGlobalObject: app.get('blockchainDynamicGlobalProperty'),
     globalObject: app.get('blockchainGlobalProperty'),
