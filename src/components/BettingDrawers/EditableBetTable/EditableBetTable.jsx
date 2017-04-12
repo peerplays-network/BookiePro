@@ -27,89 +27,100 @@ const renderInput = (text, record) => (
   />
 )
 
-const renderDeleteButton = (text, record) => (
-  <Button
-    onClick={ () => window.console.log('delete', record.key) }
-  >X</Button>
+const renderDeleteButton = (deleteOne) => {
+  return (text, record) => (
+    <Button
+      onClick={ () => deleteOne(record) }
+    >X</Button>
+  );
+}
+
+const getBackColumns = (deleteOne) => (
+  [
+    {
+      title: 'BACK',
+      dataIndex: 'back',
+      key: 'back',
+      width: '23%',
+      className: 'team',
+      render: renderTeam,
+    }, {
+      title: 'ODDS',
+      dataIndex: 'odds',
+      key: 'odds',
+      width: '23%',
+      className: 'numeric',
+      render: renderInputWithControl,
+    }, {
+      title: 'STAKE(B)',
+      dataIndex: 'stake',
+      key: 'stake',
+      width: '24%',
+      className: 'numeric',
+      render: renderInput,
+    }, {
+      title: 'PROFIT(B)',
+      dataIndex: 'profit',
+      key: 'profit',
+      width: '24%',
+      className: 'numeric',
+      render: renderInput,
+    }, {
+      title: '',
+      dataIndex: 'delete',
+      key: 'delete',
+      className: 'delete-button',
+      render: renderDeleteButton(deleteOne),
+    }
+  ]
 );
 
-const backColumns = [{
-  title: 'BACK',
-  dataIndex: 'back',
-  key: 'back',
-  width: '23%',
-  className: 'team',
-  render: renderTeam,
-}, {
-  title: 'ODDS',
-  dataIndex: 'odds',
-  key: 'odds',
-  width: '23%',
-  className: 'numeric',
-  render: renderInputWithControl,
-}, {
-  title: 'STAKE(B)',
-  dataIndex: 'stake',
-  key: 'stake',
-  width: '24%',
-  className: 'numeric',
-  render: renderInput,
-}, {
-  title: 'PROFIT(B)',
-  dataIndex: 'profit',
-  key: 'profit',
-  width: '24%',
-  className: 'numeric',
-  render: renderInput,
-}, {
-  title: '',
-  dataIndex: 'delete',
-  key: 'delete',
-  className: 'delete-button',
-  render: renderDeleteButton,
-}];
-
-const layColumns = [{
-  title: 'LAY',
-  dataIndex: 'lay',
-  key: 'lay',
-  width: '23%',
-  className: 'team',
-  render: renderTeam,
-}, {
-  title: 'ODDS',
-  dataIndex: 'odds',
-  key: 'odds',
-  width: '23%',
-  className: 'numeric',
-  render: renderInputWithControl,
-}, {
-  title: "BACKER'S STAKE(B)",
-  dataIndex: 'stake',
-  key: 'stake',
-  width: '24%',
-  className: 'numeric',
-  render: renderInput,
-}, {
-  title: 'LIABILITY(B)',
-  dataIndex: 'liability',
-  key: 'liability',
-  width: '24%',
-  className: 'numeric',
-  render: renderInput,
-}, {
-  title: '',
-  dataIndex: 'delete',
-  key: 'delete',
-  className: 'delete-button',
-  render: renderDeleteButton,
-}];
+const getLayColumns = (deleteOne) => (
+  [
+    {
+      title: 'LAY',
+      dataIndex: 'lay',
+      key: 'lay',
+      width: '23%',
+      className: 'team',
+      render: renderTeam,
+    }, {
+      title: 'ODDS',
+      dataIndex: 'odds',
+      key: 'odds',
+      width: '23%',
+      className: 'numeric',
+      render: renderInputWithControl,
+    }, {
+      title: "BACKER'S STAKE(B)",
+      dataIndex: 'stake',
+      key: 'stake',
+      width: '24%',
+      className: 'numeric',
+      render: renderInput,
+    }, {
+      title: 'LIABILITY(B)',
+      dataIndex: 'liability',
+      key: 'liability',
+      width: '24%',
+      className: 'numeric',
+      render: renderInput,
+    }, {
+      title: '',
+      dataIndex: 'delete',
+      key: 'delete',
+      className: 'delete-button',
+      render: renderDeleteButton(deleteOne),
+    }
+  ]
+);
 
 // TODO: REVIEW This function applies to both Back and Lay bets for now.
 const buildBetTableData = (bets) => {
   return bets.map((bet, idx) => {
     return Immutable.Map()
             .set('key', idx)
+            .set('id', bet.get('id'))
             .set('team', bet.get('team'))
             .set('market_type', 'Moneyline')   // TODO: change this
             .set('odds', bet.get('odds'))
@@ -142,7 +153,7 @@ const EditableBetTable = (props) => {
           <div className='back'>
             <Table
               pagination={ false }
-              columns={ backColumns }
+              columns={ getBackColumns(props.deleteOne) }
               dataSource={ buildBetTableData(backBets).toJS() }
             />
           </div>
@@ -152,7 +163,7 @@ const EditableBetTable = (props) => {
           <div className='lay'>
             <Table
               pagination={ false }
-              columns={ layColumns }
+              columns={ getLayColumns(props.deleteOne) }
               dataSource={ buildBetTableData(layBets).toJS() }
             />
           </div>
