@@ -420,7 +420,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     updateSettingLang: SettingActions.updateSettingLang,
