@@ -174,7 +174,7 @@ export default reduxForm({
   },
   //Async Validation to check if the account name is already taken
   asyncValidate: (values) => {
-    return AccountService.lookupAccounts(values.get('accountName'), 100)
+    return AccountService.lookupAccounts(values.get('accountName'), 1)
         .then(result => {
           let account = result.find(a => a[0] === values.get('accountName'));
           if(account) {

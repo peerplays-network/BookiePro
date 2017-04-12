@@ -1,3 +1,8 @@
+import { ObjectPrefix } from '../constants';
+import _ from 'lodash';
+
+const relevantObjectPrefixes = _.values(ObjectPrefix);
+
 const Utils = {
   get_satoshi_amount(amount, asset) {
     let precision = asset.toJS ? asset.get('precision') : asset.precision;
@@ -74,6 +79,10 @@ const Utils = {
     let regex = /\d+$/;
     let matches = regex.exec(objectId);
     return matches && matches[0];
+  },
+
+  isRelevantObject(objectIdPrefix) {
+    return _.includes(relevantObjectPrefixes, objectIdPrefix);
   }
 };
 

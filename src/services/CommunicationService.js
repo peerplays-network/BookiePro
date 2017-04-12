@@ -23,7 +23,7 @@ import dummyData from '../dummyData';
 import log from 'loglevel';
 const TIMEOUT_LENGTH = 500;
 const SYNC_MIN_INTERVAL = 1000; // 1 seconds
-const { blockchainTimeStringToDate, getObjectIdPrefix } = BlockchainUtils;
+const { blockchainTimeStringToDate, getObjectIdPrefix, isRelevantObject } = BlockchainUtils;
 
 class CommunicationService {
   static dispatch = null;
@@ -41,8 +41,14 @@ class CommunicationService {
     this.categorizeUpdatedDataFromBlockchain(_.flatten(data));
     // Only sync the data every given period
     if (!this.syncReduxStoreWithBlockchainTime || (new Date().getTime() - this.syncReduxStoreWithBlockchainTime) > SYNC_MIN_INTERVAL ) {
-      this.updateObjects(this.updatedObjectsByObjectIdByObjectIdPrefix);
-      this.deleteObjects(this.deletedObjectIdsByObjectIdPrefix);
+      // Update and delete objects
+      if (!this.updatedObjectsByObjectIdByObjectIdPrefix.isEmpty()) {
+        this.updateObjects(this.updatedObjectsByObjectIdByObjectIdPrefix);
+      }
+      if (!this.deletedObjectIdsByObjectIdPrefix.isEmpty()) {
+        this.deleteObjects(this.deletedObjectIdsByObjectIdPrefix);
+      }
+
       // Clear data, after we have sync them
       this.updatedObjectsByObjectIdByObjectIdPrefix = Immutable.Map();
       this.deletedObjectIdsByObjectIdPrefix = Immutable.Map();
@@ -62,18 +68,25 @@ class CommunicationService {
       if (ChainValidation.is_object_id(object)) {
         const deletedObjectId = object;
         const objectIdPrefix = getObjectIdPrefix(deletedObjectId);
-        this.deletedObjectIdsByObjectIdPrefix = this.deletedObjectIdsByObjectIdPrefix.update(objectIdPrefix, list => {
-          if (!list) list = Immutable.List();
-          return list.push(deletedObjectId);
-        })
+        // Add this to the list if it is relevant
+        if (isRelevantObject(objectIdPrefix)) {
+          this.deletedObjectIdsByObjectIdPrefix = this.deletedObjectIdsByObjectIdPrefix.update(objectIdPrefix, list => {
+            if (!list) list = Immutable.List();
+            return list.push(deletedObjectId);
+          })
+        }
+
       } else {
         const updatedObjectId = object.id;
         const objectIdPrefix = getObjectIdPrefix(updatedObjectId);
-        this.updatedObjectsByObjectIdByObjectIdPrefix = this.updatedObjectsByObjectIdByObjectIdPrefix.update(objectIdPrefix, map => {
-          // Use map instead of list for more efficient duplicate detection
-          if (!map) map = Immutable.Map();
-          return map.set(updatedObjectId, Immutable.fromJS(object));
-        })
+        // Add this to the list if it is relevant
+        if (isRelevantObject(objectIdPrefix)) {
+          this.updatedObjectsByObjectIdByObjectIdPrefix = this.updatedObjectsByObjectIdByObjectIdPrefix.update(objectIdPrefix, map => {
+            // Use map instead of list for more efficient duplicate detection
+            if (!map) map = Immutable.Map();
+            return map.set(updatedObjectId, Immutable.fromJS(object));
+          })
+        }
       }
     })
   }
