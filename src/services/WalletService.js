@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { PrivateKey } from 'graphenejs-lib';
 import log from 'loglevel';
+import { I18n } from 'react-redux-i18n';
 
 class WalletService {
   // Process fake transaction (for testing)
@@ -30,7 +31,7 @@ class WalletService {
       // Check if none of the potential public keys is equal to our public keys
       const myPubKeys = storedPublicKeys.filter(publicKey => _.includes(potentialPublicKeys, publicKey)).toArray();
       if (_.isEmpty(myPubKeys)) {
-        throw new Error('No Potential Signatures');
+        throw new Error(I18n.t('processTransaction.no_valid_signatures'));
       }
       // Filter potential signatures to get required keys needed to sign the transaction
       return transaction.get_required_signatures(myPubKeys);

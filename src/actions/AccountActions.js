@@ -5,6 +5,7 @@ import { TransactionBuilder, FetchChain } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
 import log from 'loglevel';
 import Immutable from 'immutable';
+import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
 
 /**
@@ -251,7 +252,7 @@ class AccountActions {
         // Check if account is authenticated
         const isAuthenticated = AccountService.authenticateAccount(account, oldKeys);
         if (!isAuthenticated) {
-          throw new Error('Old Password doesn`t match');
+          throw new Error(I18n.t('changePassword.old_password_does_not_match'));
         }
         // Create transaction and add operation
         const tr = new TransactionBuilder();

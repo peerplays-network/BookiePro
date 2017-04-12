@@ -87,6 +87,7 @@ export const translationsObject = {
       enter_old_password: 'Enter your current password',
       enter_new_password: 'Enter your new password',
       confirm_new_password: 'Confirm your new password',
+      old_password_does_not_match: 'Old password doesn\'t match',
       current_password: 'Current Password',
       new_password: 'New Password',
       confirm_password: 'Confirm Password',
@@ -105,6 +106,9 @@ export const translationsObject = {
       ' The current odds will automatically be selected' +
       ' but you can alter these to your liking.',
       start_betting_now: 'Start Betting Now'
+    },
+    processTransaction: {
+      no_valid_signatures: 'No valid signatures',
     },
     deposit:{
       title: 'Make a Deposit',
