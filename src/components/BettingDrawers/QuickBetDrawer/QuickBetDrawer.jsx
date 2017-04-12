@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import SplitPane from 'react-split-pane';
+import { I18n } from 'react-redux-i18n';
 import { NavigateActions } from '../../../actions';
 import { Button } from 'antd';
 import { bindActionCreators } from 'redux';
@@ -13,9 +14,12 @@ const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
     { props.bets.isEmpty() &&
       <div className='blank'>
-        <div className='instructions'>CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP</div>
+        <div className='instructions'>
+          { I18n.t('quick_bet_drawer.unconfirmed_bets.empty.instructions1') } <br/>
+          { I18n.t('quick_bet_drawer.unconfirmed_bets.empty.instructions2') }
+        </div>
         <div className='my-bet-button'>
-          <Button>VIEW YOUR BETS IN MY BETS</Button>
+          <Button>{ I18n.t('quick_bet_drawer.unconfirmed_bets.empty.my_bet_button') }</Button>
         </div>
       </div>
     }
@@ -68,7 +72,7 @@ class QuickBetDrawer extends Component {
       <div id='quick-bet-drawer' ref='drawer'>
         <SplitPane split='horizontal' defaultSize='40px'>
           <div className='title'>
-            <div className='label'>BETSLIP</div>
+            <div className='label'>{ I18n.t('quick_bet_drawer.header') }</div>
             {/* dummy buttons for routing hooking BEGINS  */}
             <Button title='set' onClick={ this.setUnplacedBetButton } >update bet </Button>
             <Button title='clear' onClick={ this.clearUnplacedBetButton } > clear bet</Button>
@@ -86,7 +90,9 @@ class QuickBetDrawer extends Component {
             {
               !this.props.bets.isEmpty() &&
               <div className='footer'>
-                <Button className='place-bet'>PLACE BET $0.295</Button>
+                <Button className='place-bet'>
+                  { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button', { amount : 0.295}) }
+                </Button>
               </div>
             }
           </SplitPane>
