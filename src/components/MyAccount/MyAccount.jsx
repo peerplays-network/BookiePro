@@ -396,8 +396,11 @@ const mapStateToProps = (state) => {
   const app = state.get('app');
   const account = state.get('account');
   const setting = state.get('setting');
+  /*-1 will be used to check to display 'Not available' against the withdraw amount field
+      when the asset '1.3.0' is not obtained for some reason
+  */
   const availableBalance = account.get('availableBalancesByAssetId').get('1.3.0')!==undefined ?
-                            account.get('availableBalancesByAssetId').get('1.3.0').toJS().balance : 0;
+                            account.get('availableBalancesByAssetId').get('1.3.0').toJS().balance : -1;
   return {
     dynGlobalObject: app.get('blockchainDynamicGlobalProperty'),
     globalObject: app.get('blockchainGlobalProperty'),

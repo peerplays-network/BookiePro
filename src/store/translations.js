@@ -2,7 +2,8 @@ export const translationsObject = {
   en: {
     application: {
       welcome_title: 'Welcome to Application',
-      loading: 'loading ...'
+      loading: 'loading ...',
+      notAvailableErr: 'Not available'
     },
     myAccount:{
       home:'Home',
