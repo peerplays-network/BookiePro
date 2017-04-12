@@ -16,6 +16,7 @@ import moment from 'moment';
 
 const TabPane = Tabs.TabPane;
 var tabKey = 'unmatchedBets';
+//TODO:need to check if this variables can be moved at component level
 let startDate = moment().subtract(6, 'days').hour(0).minute(0);
 let endDate = moment();
 
