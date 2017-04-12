@@ -167,7 +167,8 @@ class ComplexBettingWidget2 extends Component {
       minWidth: minArrowWidth,
       render: props => <div className='back-offer'>{ '>' }</div>
     }, {
-      minWidth: 100,
+      // TODO: width adjustment will do later because I
+      // cant manipulate width of the th tag
       header:  props =>
       // NOTE will be seperated comopent for header
         <div className='offer-header clearfix'>
