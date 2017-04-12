@@ -1,9 +1,9 @@
 // Enumeration for Loading Status
-class LoadingStatus {
-  static DEFAULT = 'default';
-  static LOADING = 'loading';
-  static DONE = 'done';
-  static ERROR = 'error';
+const LoadingStatus = {
+  DEFAULT: 'default',
+  LOADING: 'loading',
+  DONE: 'done',
+  ERROR: 'error'
 }
 
 export default LoadingStatus;

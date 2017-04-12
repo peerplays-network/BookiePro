@@ -6,6 +6,7 @@ import BettingMarketActions from './BettingMarketActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
 import _ from 'lodash';
 import Immutable from 'immutable';
+import log from 'loglevel';
 import {
   groupMoneyLineBinnedOrderBooks
 } from './dataUtils';
@@ -26,6 +27,12 @@ class AllSportsPrivateActions {
       type: ActionTypes.ALL_SPORTS_SET_DATA,
       eventIds,
       binnedOrderBooksByEvent
+    }
+  }
+  static setErrorAction(error) {
+    return {
+      type: ActionTypes.ALL_SPORTS_SET_ERROR,
+      error
     }
   }
 }
@@ -75,6 +82,10 @@ class AllSportsActions {
 
         // Finish loading (TODO: Are we sure this is really the last action dispatched?)
         dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
+        log.debug('All Sports get data succeed.');
+      }).catch((error) => {
+        log.error('All Sports get data error', error);
+        dispatch(AllSportsPrivateActions.setErrorAction(error));
       });
 
     };

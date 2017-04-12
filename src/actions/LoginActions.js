@@ -4,9 +4,9 @@ import NavigateActions from './NavigateActions';
 import AccountActions from './AccountActions';
 import AppActions from './AppActions';
 import NotificationActions from './NotificationActions';
-import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
+import log from 'loglevel';
 
 /**
  * Private actions
@@ -51,13 +51,7 @@ class LoginActions {
           // Save account available balance
           dispatch(AccountActions.setAvailableBalancesAction(availableBalances));
           // Save keys
-          let privateKeyWifsByRole = Immutable.Map();
-          let publicKeyStringsByRole = Immutable.Map();
-          _.forEach(keys, (privateKey, role) => {
-            privateKeyWifsByRole = privateKeyWifsByRole.set(role, privateKey.toWif());
-            publicKeyStringsByRole = publicKeyStringsByRole.set(role, privateKey.toPublicKey().toPublicKeyString());
-          });
-          dispatch(AccountActions.setKeysAction(privateKeyWifsByRole, publicKeyStringsByRole));
+          dispatch(AccountActions.setKeys(keys));
           // Set is logged in
           dispatch(AppActions.setIsLoggedInAction(true));
           // Init notification
@@ -79,11 +73,13 @@ class LoginActions {
       const keys = KeyGeneratorService.generateKeys(accountName, password);
 
       return dispatch(LoginActions.loginWithKeys(accountName, keys)).then(() => {
+        log.debug('Login succeed.')
         // Set login status to done
         dispatch(LoginPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
         // Navigate to home
         dispatch(NavigateActions.navigateTo('/exchange'));
       }).catch((error) => {
+        log.error('Login error', error);
         // Set error
         dispatch(LoginPrivateActions.setLoginErrorAction([I18n.t('login.wrong_username_password')]));
       })

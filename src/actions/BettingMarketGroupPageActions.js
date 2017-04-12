@@ -3,6 +3,7 @@ import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import EventActions from './EventActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
+import log from 'loglevel';
 
 class BettingMarketGroupPagePrivateActions {
 
@@ -12,7 +13,14 @@ class BettingMarketGroupPagePrivateActions {
       loadingStatus
     }
   }
-  
+
+  static setErrorAction(error) {
+    return {
+      type: ActionTypes.EVENT_GROUP_PAGE_SET_ERROR,
+      error
+    }
+  }
+
 }
 
 class BettingMarketGroupPageActions {
@@ -37,6 +45,9 @@ class BettingMarketGroupPageActions {
         return dispatch(BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
       }).then((binnedOrderBooksByBettingMarketId) => {
         dispatch(BettingMarketGroupPagePrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
+      }).catch((error) => {
+        log.error('Betting market group page get data error', error);
+        dispatch(BettingMarketGroupPagePrivateActions.setErrorAction(error));
       });
     }
   }

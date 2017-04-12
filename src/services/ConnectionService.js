@@ -1,7 +1,7 @@
 import { Apis, ChainConfig } from 'graphenejs-ws';
 import { Config, ConnectionStatus } from '../constants';
 import { ConnectionUtils } from '../utility';
-
+import log from 'loglevel';
 const connectionString = Config.blockchainUrls[0];
 
 class ConnectionService {
@@ -36,7 +36,7 @@ class ConnectionService {
 
     // Define new callback
     this.onlineStatusCallback = () => {
-      console.log('Connected to Internet.');
+      log.info('Connected to Internet.');
       if (ConnectionUtils.isWebsocketOpen()) {
         // Internet is on and websocket is open
         connectionStatusCallback(ConnectionStatus.CONNECTED);
@@ -47,7 +47,7 @@ class ConnectionService {
     };
 
     this.offlineStatusCallback = () => {
-      console.log('Disconnected from the internet.');
+      log.info('Disconnected from the internet.');
       // Internet is off and websocket is open/ closed
       connectionStatusCallback(ConnectionStatus.DISCONNECTED);
     }
@@ -55,7 +55,7 @@ class ConnectionService {
     this.websocketStatusCallback = (message) => {
       switch (message) {
         case 'open': {
-          console.log('Websocket connection is open.');
+          log.info('Websocket connection is open.');
           if (ConnectionUtils.isConnectedToInternet()) {
             // Internet is on and websocket is open
             connectionStatusCallback(ConnectionStatus.CONNECTED);
@@ -67,7 +67,7 @@ class ConnectionService {
           break;
         }
         case 'closed': {
-          console.log('Websocket connection is closed.');
+          log.info('Websocket connection is closed.');
           // Internet is on/off and websocket is closed
           connectionStatusCallback(ConnectionStatus.DISCONNECTED);
           break;
@@ -103,17 +103,17 @@ class ConnectionService {
     // Connecting to blockchain
     return Apis.instance(connectionString, true).init_promise.then((res) => {
       // Print out which blockchain we are connecting to
-      console.log('Connected to:', res[0] ? res[0].network_name : 'Undefined Blockchain');
+      log.debug('Connected to:', res[0] ? res[0].network_name : 'Undefined Blockchain');
       // This is set to TEST since Peerplays Blockchain Testnet is currently using TEST prefix
       ChainConfig.setPrefix("TEST");
     }).catch((error) => {
-      console.error('Fail to connect to blockchain', error);
+      log.error('Fail to connect to blockchain', error);
       // Close residue connection to blockchain
       this.closeConnectionToBlockchain();
       // Retry if needed
       if (attempt > 0) {
         // Retry to connect
-        console.log('Retry connecting to blockchain');
+        log.info('Retry connecting to blockchain');
         return ConnectionService.connectToBlockchain(connectionStatusCallback, attempt-1);
       } else {
         // Give up, throw the error to be caught by the outer promise handler

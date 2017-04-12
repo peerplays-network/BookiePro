@@ -1,6 +1,7 @@
 import { ActionTypes } from '../constants';
 import { NotificationService, CommunicationService } from '../services';
 import { ObjectPrefix } from '../constants';
+import log from 'loglevel';
 
 /**
  * Private actions
@@ -19,13 +20,41 @@ class NotificationPrivateActions {
       latestTransactionHistoryId
     }
   }
+
+  static setInitNotificationsErrorAction(error) {
+    return {
+      type: ActionTypes.NOTIFICATION_SET_INIT_NOTIFICATIONS_ERROR,
+      error
+    }
+  }
+
+  static setInitNotificationsLoadingStatus(loadingStatus) {
+    return {
+      type: ActionTypes.NOTIFICATION_SET_INIT_NOTIFICATIONS_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
+  static setUpdateNotificationsErrorAction(error) {
+    return {
+      type: ActionTypes.NOTIFICATION_SET_UPDATE_NOTIFICATIONS_ERROR,
+      error
+    }
+  }
+
+  static setUpdateNotificationsLoadingStatus(loadingStatus) {
+    return {
+      type: ActionTypes.NOTIFICATION_SET_UPDATE_NOTIFICATIONS_LOADING_STATUS,
+      loadingStatus
+    }
+  }
 }
 
 /**
  * Public actions
  */
 class NotificationActions {
-  static initNotification() {
+  static initNotification(attempt=3) {
     return (dispatch, getState) => {
       const accountId = getState().getIn(['account', 'account', 'id']);
       // Get the latest transaction history
@@ -36,6 +65,13 @@ class NotificationActions {
         // Since by the agreed definition: notifications are transactions that happen when the app is open
         const latestTxHistoryId = history && history.getIn([0, 'id']);
         dispatch(NotificationPrivateActions.setLatestTransactionHistoryId(latestTxHistoryId));
+      }).catch((error) => {
+        if (attempt > 0) {
+          log.warn('Retry initializing notification', error);
+          return dispatch(NotificationActions.initNotification(attempt-1));
+        } else {
+          log.error('Fail to init notification', error);
+        }
       });
     }
   }

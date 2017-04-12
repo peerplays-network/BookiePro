@@ -2,6 +2,7 @@ import { ActionTypes, Config } from '../constants';
 import { CommunicationService } from '../services';
 import { ChainTypes } from 'graphenejs-lib';
 import { StringUtils } from '../utility';
+import log from 'loglevel';
 
 class SoftwareUpdatePrivateActions {
   static setUpdateParameter(version, displayText) {
@@ -35,7 +36,7 @@ class SoftwareUpdateActions {
   /**
    * Check for software update
    */
-  static checkForSoftwareUpdate() {
+  static checkForSoftwareUpdate(attempt=3) {
     return (dispatch, getState) => {
       const referenceAccountId = getState().getIn(['softwareUpdate', 'referenceAccount', 'id']);
       if (!referenceAccountId) {
@@ -62,11 +63,19 @@ class SoftwareUpdateActions {
                   // Terminate early
                   return false;
                 }
+                log.debug('Check for software update succeed');
               }
             }
           });
         }).catch((error) => {
-          console.error('Fail to check for software update', error);
+          // Retry
+          if (attempt > 0) {
+            log.warn('Retry checking for software update', error);
+            dispatch(SoftwareUpdateActions.checkForSoftwareUpdate(attempt-1));
+          } else {
+            // Log the error and give up
+            log.error('Fail to check for software update', error);
+          }
         });
       }
 
@@ -85,13 +94,16 @@ class SoftwareUpdateActions {
         const statistics = fullAccount.get('statistics');
         dispatch(SoftwareUpdatePrivateActions.setReferenceAccountAction(account));
         dispatch(SoftwareUpdatePrivateActions.setReferenceAccountStatisticsAction(statistics));
+        log.debug('Listen to software update succeed.')
         // Check for software update
         return dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());
       }).catch((error) => {
         // Retry
         if (attempt > 0) {
+          log.warn('Retry listening to software update', error);
           dispatch(SoftwareUpdateActions.listenToSoftwareUpdate(attempt-1));
         } else {
+          log.error('Fail to listen to software update', error);
           // Throw error
           throw error;
         }

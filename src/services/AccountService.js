@@ -1,5 +1,6 @@
 import { Config } from '../constants';
-import { Apis } from "graphenejs-ws";
+import log from 'loglevel';
+import CommunicationService from './CommunicationService';
 
 class AccountServices {
 
@@ -44,20 +45,24 @@ class AccountServices {
         // Convert response to json
         return response.json();
       }).then((responseJson) => {
-        console.log('json response', responseJson);
         // Check if the registration is rejected by the faucet
         if (responseJson.error) {
           const errorMessage = responseJson.error.base ? responseJson.error.base[0] : 'Signup Fail';
-          reject(new Error(errorMessage));
+          const error = new Error(errorMessage);
+          log.error('Fail to register for account by the faucet', error);
+          reject(error);
         } else {
+          log.debug('Account created by the faucet', responseJson);
           resolve(responseJson);
         }
-      }).catch(err => {
+      }).catch(error => {
         // Fail, retry for fixed amount of attempt
         if(attempt <= 0) {
-          reject(err);
+          log.warn('Retry registering for account by the faucet')
+          reject(error);
         }
         else {
+          log.error('Fail to register for account by the faucet', error);
           attempt--;
           return AccountServices.registerThroughFaucet(attempt, accountName, keys).then(res => resolve(res)).catch(err => reject(err));
         }
@@ -120,7 +125,7 @@ class AccountServices {
    */
   //Check if account name is already taken
   static lookupAccounts(startChar, limit) {
-    return Apis.instance().db_api().exec("lookup_accounts", [
+    return CommunicationService.callBlockchainDbApi('lookup_accounts', [
       startChar, limit
     ]);
   }

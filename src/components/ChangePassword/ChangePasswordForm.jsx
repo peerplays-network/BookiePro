@@ -15,7 +15,8 @@ const renderPasswordField = ({ placeholder,tabIndex, errors, input, maxLength, t
 
 
 const ChangePasswordForm = (props) => {
-  const { handleSubmit,reset,errors,loadingStatus,invalid,asyncValidating,submitting,pristine } = props
+  const { handleSubmit,reset,loadingStatus,invalid,asyncValidating,submitting,pristine } = props
+  const errors = props.errors.toJS();
   return (
     <form onSubmit={ handleSubmit }>
       <div className='form-fields'>

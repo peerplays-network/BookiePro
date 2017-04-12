@@ -10,7 +10,6 @@ import MyWager from './components/MyWager';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Main from './components/Main';
-import SportMarket from './components/SportMarket';
 import Exchange from './components/Exchange';
 import AllSports from './components/AllSports';
 import Sport from './components/Sport';
@@ -23,14 +22,23 @@ import Deposit from './components/Deposit'
 import ChangePassword from './components/ChangePassword'
 import Welcome from './components/Welcome'
 import Landing from './components/Landing'
+import log from 'loglevel';
 
+// Configure store
 const store = configureStore();
+// Configure history
 const history = syncHistoryWithStore(hashHistory, store, {
   selectLocationState (state) {
     // Custom selector for immutable redux state
     return state.get('routing').toJS();
   }
 });
+
+// Configure log
+// Level of log is TRACE > DEBUG > INFO > WARN > ERROR
+// (i.e. if you set it to INFO, you won't logging for TRACE and DEBUG)
+// Use log.levels.DEBUG to see most of the API communication logging
+log.setLevel(log.levels.INFO);
 
 // Add new page here
 const routes = (

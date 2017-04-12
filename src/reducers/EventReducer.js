@@ -7,7 +7,8 @@ let initialState = Immutable.fromJS({
   eventIdsBySportId: {},
   getEventsBySportIdsLoadingStatus: {},
   getEventsByIdsLoadingStatus: {},
-  searchResult: []
+  searchResult: [],
+  searchEventsError: null
 });
 
 export default function (state = initialState, action) {
@@ -58,7 +59,14 @@ export default function (state = initialState, action) {
       return nextState;
     }
     case ActionTypes.EVENT_SET_SEARCH_RESULT: {
-      return state.set('searchResult', action.searchResult);
+      return state.merge({
+        searchResult: action.searchResult
+      });
+    }
+    case ActionTypes.EVENT_SET_SEARCH_EVENTS_ERROR: {
+      return state.merge({
+        searchEventsError: action.error
+      })
     }
     default:
       return state;

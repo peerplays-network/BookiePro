@@ -80,7 +80,7 @@ export default reduxForm({
   },
 	//asynchronously validate username and store in state
   asyncValidate: (values, dispatch) => {
-    return AccountService.lookupAccounts(values.get('userName'), 100)
+    return AccountService.lookupAccounts(values.get('userName'), 1)
     .then(result => {
 			 let account = result.find(a => a[0] === values.get('userName'));
       if(!account)

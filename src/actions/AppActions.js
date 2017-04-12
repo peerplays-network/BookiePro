@@ -1,6 +1,7 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import { ConnectionService, CommunicationService } from '../services';
 import SoftwareUpdateActions from './SoftwareUpdateActions';
+import log from 'loglevel';
 
 /**
  * Private actions
@@ -24,6 +25,20 @@ class AppPrivateActions {
     return {
       type: ActionTypes.APP_SET_GET_GLOBAL_BETTING_STATISTICS_LOADING_STATUS,
       loadingStatus
+    }
+  }
+
+  static setGetGlobalBettingStatisticsErrorAction(error) {
+    return {
+      type: ActionTypes.APP_SET_GET_GLOBAL_BETTING_STATISTICS_ERROR,
+      error
+    }
+  }
+
+  static setConnectToBlockchainErrorAction(error) {
+    return {
+      type: ActionTypes.APP_SET_CONNECT_TO_BLOCKCHAIN_ERROR,
+      error
     }
   }
 
@@ -77,10 +92,11 @@ class AppActions {
         // Listen to software update
         return dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());
       }).then(() => {
+        log.info('Connected to blockchain.');
         // Mark done
         dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
-        console.error(error);
+        log.error('Fail to connect to blockchain', error);
         // Fail to connect/ sync/ listen to software update, close connection to the blockchain
         ConnectionService.closeConnectionToBlockchain();
         dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));
@@ -92,8 +108,12 @@ class AppActions {
     return (dispatch) => {
       dispatch(AppPrivateActions.setGetGlobalBettingStatisticsLoadingStatusAction(LoadingStatus.LOADING));
       CommunicationService.getGlobalBettingStatistics().then((globalBettingStatistics) => {
+        log.debug('Get global betting statistics succeed.');
         dispatch(AppPrivateActions.setGlobalBettingStatisticsAction(globalBettingStatistics));
         dispatch(AppPrivateActions.setGetGlobalBettingStatisticsLoadingStatusAction(LoadingStatus.DONE));
+      }).catch((error) => {
+        log.error('Fail to get global betting statistics', error);
+        dispatch(AppPrivateActions.setGetGlobalBettingStatisticsErrorAction(error));
       });
     }
   }

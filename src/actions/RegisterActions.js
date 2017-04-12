@@ -2,6 +2,7 @@ import LoginActions from './LoginActions';
 import { LoadingStatus, ActionTypes } from '../constants';
 import { AccountService, KeyGeneratorService } from '../services';
 import NavigateActions from './NavigateActions';
+import log from 'loglevel';
 
 /**
  * Private actions
@@ -38,12 +39,14 @@ class RegisterActions {
         // Log the user in
         return dispatch(LoginActions.loginWithKeys(accountName, keys));
       }).then(() => {
+        log.debug('Signup succeed.');
         // Set register status to done
         dispatch(RegisterPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
 
         // After some delay navigate to home page
         dispatch(NavigateActions.navigateTo('/deposit'));
       }).catch((error) => {
+        log.error('Signup Error', error);
         // Set error
         dispatch(RegisterPrivateActions.setRegisterErrorAction([error.message ? error.message : 'Error Occured']))
       })

@@ -1,10 +1,14 @@
-import { ActionTypes } from '../constants';
+import { ActionTypes, LoadingStatus } from '../constants';
 import _ from 'lodash';
 import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
   notifications: [],
-  latestTransactionHistoryId: null
+  latestTransactionHistoryId: null,
+  initNotificationLoadingStatus: LoadingStatus.DEFAULT,
+  initNotificationError: null,
+  updateNotificationLoadingStatus: LoadingStatus.DEFAULT,
+  updateNotificationError: null
 });
 
 export default function (state = initialState, action) {
@@ -21,6 +25,28 @@ export default function (state = initialState, action) {
       return state.merge({
         latestTransactionHistoryId: action.latestTransactionHistoryId
       });
+    }
+    case ActionTypes.NOTIFICATION_SET_INIT_NOTIFICATIONS_ERROR: {
+      return state.merge({
+        initNotificationError: action.error,
+        initNotificationLoadingStatus: LoadingStatus.ERROR
+      })
+    }
+    case ActionTypes.NOTIFICATION_SET_INIT_NOTIFICATIONS_LOADING_STATUS: {
+      return state.merge({
+        initNotificationLoadingStatus: action.loadingStatus
+      })
+    }
+    case ActionTypes.NOTIFICATION_SET_UPDATE_NOTIFICATIONS_ERROR: {
+      return state.merge({
+        updateNotificationError: action.error,
+        updateNotificationLoadingStatus: LoadingStatus.ERROR
+      })
+    }
+    case ActionTypes.NOTIFICATION_SET_UPDATE_NOTIFICATIONS_LOADING_STATUS: {
+      return state.merge({
+        updateNotificationLoadingStatus: action.loadingStatus
+      })
     }
     case ActionTypes.ACCOUNT_LOGOUT: {
       return initialState;

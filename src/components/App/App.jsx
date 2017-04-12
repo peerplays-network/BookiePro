@@ -41,7 +41,7 @@ class App extends Component {
       const needSoftUpdate = ( newVerNum[0] ===  currentVernNum[0] ) && ( newVerNum[1] > currentVernNum[1] )
 
       this.setState({
-         newVersionModalVisible : (needHardUpdate || needSoftUpdate) &&
+        newVersionModalVisible : (needHardUpdate || needSoftUpdate) &&
            (StringUtils.compareVersionNumbers(this.state.currentVersion, this.props.version) < 0)
       });
 

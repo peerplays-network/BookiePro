@@ -3,7 +3,10 @@ import { BlockchainUtils } from '../utility';
 import { WalletService, AccountService, KeyGeneratorService, CommunicationService } from '../services';
 import { TransactionBuilder, FetchChain } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
-
+import log from 'loglevel';
+import Immutable from 'immutable';
+import { I18n } from 'react-redux-i18n';
+import _ from 'lodash';
 
 /**
  * Private actions
@@ -38,10 +41,10 @@ class AccountPrivateActions {
     }
   }
 
-  static setChangePasswordError(error) {
+  static setChangePasswordErrorsAction(errors) {
     return {
-      type: ActionTypes.ACCOUNT_SET_CHANGE_PASSWORD_ERROR,
-      error
+      type: ActionTypes.ACCOUNT_SET_CHANGE_PASSWORD_ERRORS,
+      errors
     }
   }
 
@@ -56,6 +59,29 @@ class AccountPrivateActions {
     return {
       type: ActionTypes.ACCOUNT_SET_TRANSACTION_HISTORIES,
       transactionHistories
+    }
+  }
+
+  static setGetTransactionHistoriesErrorAction(error) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_ERROR,
+      error
+    }
+  }
+
+
+  static setWithdrawErrorAction(error) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_WITHDRAW_ERROR,
+      error
+    }
+  }
+
+
+  static setGetDepositAddressErrorAction(error) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_GET_DEPOSIT_ADDRESS_ERROR,
+      error
     }
   }
 
@@ -86,6 +112,7 @@ class AccountPrivateActions {
       availableBalance,
     }
   }
+
 }
 
 /**
@@ -127,13 +154,6 @@ class AccountActions {
       inGameBalances
     }
   }
-  static setKeysAction(privateKeyWifsByRole, publicKeyStringsByRole) {
-    return {
-      type: ActionTypes.ACCOUNT_SET_KEYS,
-      privateKeyWifsByRole,
-      publicKeyStringsByRole
-    }
-  }
 
   static setStatisticsAction(statistics) {
     return {
@@ -149,14 +169,38 @@ class AccountActions {
     }
   }
 
+  /**
+   * Set keys for the account
+   */
+  static setKeys(keys) {
+    return (dispatch) => {
+      log.debug('Set account\'s keys');
+      let privateKeyWifsByRole = Immutable.Map();
+      let publicKeyStringsByRole = Immutable.Map();
+      _.forEach(keys, (privateKey, role) => {
+        privateKeyWifsByRole = privateKeyWifsByRole.set(role, privateKey.toWif());
+        publicKeyStringsByRole = publicKeyStringsByRole.set(role, privateKey.toPublicKey().toPublicKeyString());
+      });
+      dispatch(AccountPrivateActions.setKeysAction(privateKeyWifsByRole, publicKeyStringsByRole));
+    }
+  }
+
+  /**
+   * Get transaction history
+   */
   static getTransactionHistories(startTime, stopTime) {
     return (dispatch, getState) => {
       const accountId = getState().getIn(['account', 'account', 'id']);
 
       dispatch(AccountPrivateActions.setGetTransactionHistoriesLoadingStatusAction(LoadingStatus.LOADING));
       CommunicationService.getTransactionHistories(accountId, startTime, stopTime).then((transactionHistories) => {
+        log.debug('Get transaction histories succeed.');
         dispatch(AccountPrivateActions.setTransactionHistoriesAction(transactionHistories));
         dispatch(AccountPrivateActions.setGetTransactionHistoriesLoadingStatusAction(LoadingStatus.DONE));
+      }).catch((error) => {
+        log.error('Get transaction histories error', error);
+        //Set password change error
+        dispatch(AccountPrivateActions.setGetTransactionHistoriesErrorAction(error));
       });
     };
   }
@@ -167,8 +211,13 @@ class AccountActions {
 
       dispatch(AccountPrivateActions.setGetDepositAddressLoadingStatusAction(LoadingStatus.LOADING));
       CommunicationService.getDepositAddress(accountId).then((depositAddress) => {
+        log.debug('Get deposit address succeed.');
         dispatch(AccountPrivateActions.setDepositAddressAction(depositAddress));
         dispatch(AccountPrivateActions.setGetDepositAddressLoadingStatusAction(LoadingStatus.DONE));
+      }).catch((error) => {
+        log.error('Get deposit address error', error);
+        //Set password change error
+        dispatch(AccountPrivateActions.setGetDepositAddressErrorAction(error));
       });
     };
   }
@@ -177,7 +226,12 @@ class AccountActions {
     return (dispatch) => {
       dispatch(AccountPrivateActions.setWithdrawLoadingStatusAction(LoadingStatus.LOADING));
       CommunicationService.withdraw(walletAddress).then(() => {
+        log.debug('Withdraw succeed.');
         dispatch(AccountPrivateActions.setWithdrawLoadingStatusAction(LoadingStatus.DONE));
+      }).catch((error) => {
+        log.error('Withdraw error', error);
+        //Set password change error
+        dispatch(AccountPrivateActions.setWithdrawErrorAction(error));
       });
     };
   }
@@ -185,24 +239,21 @@ class AccountActions {
   static changePassword(oldPassword, newPassword) {
     return (dispatch, getState) => {
       dispatch(AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.LOADING));
-      //Reset any previous errors tracked
-      dispatch(AccountPrivateActions.setChangePasswordError([]));
 
       const account = getState().getIn(['account', 'account']);
       const oldKeys = KeyGeneratorService.generateKeys(account.get('name'), oldPassword);
+      // Generate new public key
+      const newKeys = KeyGeneratorService.generateKeys(account.get('name'), newPassword);
+      const newOwnerPublicKey = newKeys.owner.toPublicKey().toPublicKeyString();
+      const newActivePublicKey = newKeys.active.toPublicKey().toPublicKeyString();
+      const newMemoPublicKey = newKeys.memo.toPublicKey().toPublicKeyString();
+
       Promise.resolve().then(() => {
         // Check if account is authenticated
         const isAuthenticated = AccountService.authenticateAccount(account, oldKeys);
         if (!isAuthenticated) {
-          throw new Error('Old Password doesn`t match');
+          throw new Error(I18n.t('changePassword.old_password_does_not_match'));
         }
-
-        // Generate new public key
-        const newKeys = KeyGeneratorService.generateKeys(account.get('name'), newPassword);
-        const newOwnerPublicKey = newKeys.owner.toPublicKey().toPublicKeyString();
-        const newActivePublicKey = newKeys.active.toPublicKey().toPublicKeyString();
-        const newMemoPublicKey = newKeys.memo.toPublicKey().toPublicKeyString();
-
         // Create transaction and add operation
         const tr = new TransactionBuilder();
         const operationParams = {
@@ -216,27 +267,23 @@ class AccountActions {
           new_options: Object.assign({}, account.get('options').toJS(), {memo_key: newMemoPublicKey})
         };
         tr.add_type_operation('account_update', operationParams);
-
         // Process transaction
         return WalletService.processTransaction(getState(), tr);
       }).then(() => {
-
-        //Update keys with new passoword
-        const keys = KeyGeneratorService.generateKeys(account.toJS().name, newPassword);
-        dispatch(AccountActions.setKeysAction(keys));
-
+        log.debug('Change Password succeed.');
+        // Set keys
+        dispatch(AccountActions.setKeys(newKeys));
         //To display the success message
         dispatch(AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DONE));
-
       }).catch((error) => {
-        dispatch(AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DEFAULT));
+        log.error('Change Password error', error);
         //Set password change error
-        dispatch(AccountPrivateActions.setChangePasswordError([typeof error === 'string'? error
-              : typeof error === 'object' && error.message ? error.message : 'Error Occured']));
+        dispatch(AccountPrivateActions.setChangePasswordErrorsAction([error.message ? error.message : 'Error Occured']));
       });
     };
   }
 
+  // TODO: The following this are used for testing only, remove later
   static createLimitOrder(sellAssetId, buyAssetId, sellAmount, buyAmount) {
     return (dispatch, getState) => {
       FetchChain('getAsset', [sellAssetId, buyAssetId]).then((result) => {
@@ -277,11 +324,15 @@ class AccountActions {
     }
   }
 
+  /**
+   * Logout the user
+   */
   static logout() {
     return (dispatch) => {
       dispatch(AccountPrivateActions.logoutAction());
       // Navigate to the beginning of the app
       dispatch(NavigateActions.navigateTo('/'));
+      log.debug('Logout user succeed.');
     }
   }
 

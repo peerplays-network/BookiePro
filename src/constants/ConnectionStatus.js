@@ -7,10 +7,10 @@
  * Internet is off, websocket is closed = DISCONNECTED
  */
 
-class ConnectionStatus {
-  static DISCONNECTED = 'disconnected';
-  static CONNECTING = 'connecting';
-  static CONNECTED = 'connected';
+const ConnectionStatus = {
+  DISCONNECTED: 'disconnected',
+  CONNECTING: 'connecting',
+  CONNECTED: 'connected'
 }
 
 export default ConnectionStatus;
