@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
-import { Tabs } from 'antd';
+import { I18n } from 'react-redux-i18n';
+import { Button, Tabs } from 'antd';
 import EditableBetTable from '../EditableBetTable';
 
 const TabPane = Tabs.TabPane;
@@ -11,7 +12,10 @@ const TabPane = Tabs.TabPane;
 const renderPlacedBets = (props) => (
   <div className='content' ref='placedBets'>
     <div className='blank'>
-      <div className='instructions'>CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP</div>
+      <div className='instructions'>
+        { I18n.t('market_drawer.unmatched_bets.empty.instructions1') } <br/>
+        { I18n.t('market_drawer.unmatched_bets.empty.instructions2') }
+      </div>
     </div>
   </div>
 );
@@ -20,7 +24,13 @@ const renderUnconfirmedBets = (props) => (
   <div className='content' ref='unconfirmedBets'>
     { props.unconfirmedBets.isEmpty() &&
       <div className='blank'>
-        <div className='instructions'>CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP</div>
+        <div className='instructions'>
+          { I18n.t('market_drawer.unconfirmed_bets.empty.instructions1') } <br/>
+          { I18n.t('market_drawer.unconfirmed_bets.empty.instructions2') }
+        </div>
+        <div className='my-bet-button'>
+          <Button>{ I18n.t('quick_bet_drawer.unconfirmed_bets.empty.my_bet_button') }</Button>
+        </div>
       </div>
     }
     { !props.unconfirmedBets.isEmpty() &&
