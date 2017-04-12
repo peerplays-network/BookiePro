@@ -3,80 +3,10 @@
 @complex-betting-back-bg: #004E9B;
 @complex-betting-lay-bg: #008487;
 @complex-betting-label: #FFFFFF;
-
-
-// div.rt-tr{
-//   height:10px;
-// }
-
 .rt-table > .-header{
   padding: 0px;
   height: 0px;
 }
-
-.rt-th{
-  .offer-header{
-    background-color: @complex-betting-header-border;
-
-  }
-  .alignleft {
-    float: left;
-    background-color: @complex-betting-bg;
-
-  }
-  .alignright {
-    float: right;
-    background-color: @complex-betting-bg;
-  }
-
-
-}
-
-.rt-td{
-  padding: 0px 0px;
-
-
-  .odds-offer {
-    display: table;
-    height:  100%;
-    width:   100%;
-    // padding: 10px;
-    // border:  thin solid darkgray;
-  }
-
-  .odds-offer p {
-    text-align: center;
-    display:        table-cell;
-    vertical-align: middle;
-  }
-
-  .back-offer {
-    height: 100%;
-    display: inline-block;
-    width:   100%;
-    background-color: @complex-betting-back-bg;
-    padding: 7px 5px;
-  }
-  .lay-offer {
-    eight: 100%;
-    display: inline-block;
-    width:   100%;
-    background-color: @complex-betting-lay-bg;
-    padding: 7px 5px;
-  }
-
-  .odds {
-    font-size: 16px;
-    text-align: center;
-  }
-
-  .price {
-    font-size: 12px;
-    text-align: center;
-  }
-}
-
-
 div.complex-betting {
   // Using fade (from LESS) can set opacity to background only
   // If we set opacity explicitly, it will affect the text (foreground) too
@@ -102,6 +32,9 @@ div.complex-betting {
           font-size: 14px;
           float: right;
           display: inline-block;
+          span{
+            margin-right:10px;
+          }
         }
       }
     }
@@ -175,5 +108,163 @@ div.complex-betting {
         }
       }
     }
+  }
+}
+.comlex-betting{
+  background-color: rgba(6, 92, 183, 0.35);
+  box-shadow: 0 2px 4px 0 #02070C;
+  margin-top: 20px;
+  padding-bottom:20px;
+  .title{
+    padding:13px 15px;
+    border-bottom:1px solid #1563A0;
+    margin-bottom:25px;
+  }
+  .name{
+    font-size:16px;
+    font-weight:bold;
+    text-transform: uppercase;
+    display: inline-block;
+  }
+  div.rules {
+    font-size: 14px;
+    float: right;
+    display: inline-block;
+    font-weight:500;
+    span{
+      margin-right:10px;
+    }
+    i{
+      font-size:18px;
+      margin-left:0;
+      vertical-align: middle;
+    }
+    .modal-inline{
+      .ant-btn{
+        padding:0;
+        background-color: transparent;
+        border:0 none;
+        color: #FFFFFF;
+        border-radius:0;
+        font-size:14px;
+      }
+    }
+  }
+  .ReactTable{
+    border:0 none;
+    .rt-td{
+      padding:0;
+      border-right:0 none;
+      .back-offer, .lay-offer{
+        display: flex;
+        height:100%;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .odds-offer {
+        font-size:16px;
+      }
+      .back-offer {
+        .odds, .price {
+          background-color: #005CB8;
+        }
+        &.back-all-offer{
+          .odds, .price {
+            background-color: @complex-betting-back-bg;
+          }
+        }
+      }
+      .lay-offer {
+        .odds, .price {
+          background-color: #129CA0;
+        }
+        &.lay-all-offer{
+          .odds, .price {
+            background-color: @complex-betting-lay-bg;
+          }
+        }
+      }
+      .odds {
+        font-size: 16px;
+        text-align: center;
+        padding-top:3px;
+      }
+      .price {
+        font-size: 12px;
+        text-align: center;
+        padding-bottom:3px;
+      }
+      .odds, .price{
+        width:100%;
+      }
+      &:first-child{
+        padding:3px 10px;
+      }
+      &.lay-left{
+        padding-left:5px;
+      }
+      &.back-right{
+        padding:0 5px 0 2px;
+      }
+      &.lay-right{
+        padding:0 5px;
+      }
+    }
+    .rt-tr-group{
+      border-top:1px solid #FFFFFF;
+      &:last-child{
+        border-bottom:1px solid #FFFFFF;
+      }
+      .back, .lay,.back-right{
+        border-right:1px solid #FFFFFF;
+      }
+      .rt-td{
+        &:first-child{
+          text-align: left;
+        }
+      }
+    }
+    .rt-th{
+      font-weight:500;
+      padding:0;
+      border-right:none;
+      .alignleft {
+        float: left;
+      }
+      .alignright {
+        float: right;
+      }
+      p{
+        padding:4px 0;
+      }
+      &:nth-of-type(2){
+        .alignright{
+          border-left:1px solid #FFFFFF;
+          border-top:1px solid #FFFFFF;
+          padding: 4px 3px;
+         }
+      }
+      &:nth-of-type(3){
+        .alignleft{
+          border:1px solid #FFFFFF;
+          border-bottom:none;
+          padding: 4px 3px;
+          background-color: @complex-betting-lay-bg;
+        }
+      }
+    }
+   .rt-thead.-headerGroups{
+      background: transparent;
+      border-bottom:0 none;
+    }
+  }
+  .icon-bitcoin{
+    background-image: url('../../../assets/icons/bitcoin_icon_s.png');
+    width:12px;
+    height:14px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    display: inline-block;
   }
 }
