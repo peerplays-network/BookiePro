@@ -34,6 +34,7 @@ const renderUnconfirmedBets = (props) => (
     { !props.unconfirmedBets.isEmpty() &&
       <EditableBetTable
         data={ Immutable.fromJS({ unconfirmedBets: props.unconfirmedBets }) }
+        deleteOne={ (record) => console.log('MarketDrawer DeleteOne', record) }
       />
     }
   </div>
