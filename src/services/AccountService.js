@@ -48,18 +48,21 @@ class AccountServices {
         // Check if the registration is rejected by the faucet
         if (responseJson.error) {
           const errorMessage = responseJson.error.base ? responseJson.error.base[0] : 'Signup Fail';
-          reject(new Error(errorMessage));
+          const error = new Error(errorMessage);
+          log.error('Fail to register for account by the faucet', error);
+          reject(error);
         } else {
+          log.debug('Account created by the faucet', responseJson);
           resolve(responseJson);
         }
-      }).catch(err => {
+      }).catch(error => {
         // Fail, retry for fixed amount of attempt
         if(attempt <= 0) {
-          log.warn('Retry registering for account in the faucet')
-          reject(err);
+          log.warn('Retry registering for account by the faucet')
+          reject(error);
         }
         else {
-          log.error('Fail to register for account in the faucet', err);
+          log.error('Fail to register for account by the faucet', error);
           attempt--;
           return AccountServices.registerThroughFaucet(attempt, accountName, keys).then(res => resolve(res)).catch(err => reject(err));
         }

@@ -156,8 +156,9 @@ class BetActions {
           dispatch(BetActions.addOrUpdateOngoingBetsAction(retrievedOngoingBets));
           // Set status
           dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.DONE));
+          log.debug('Get matched and unmatched bets succeed.');
         }).catch((error) => {
-          log.error('Fail to get onloading bets', error);
+          log.error('Fail to get matched and unmatched bets', error);
           // Set error
           dispatch(BetActions.setGetOngoingBetsErrorAction(error));
         });
@@ -178,6 +179,7 @@ class BetActions {
         dispatch(BetActions.addOrUpdateResolvedBetsAction(bets));
         // Set status
         dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.DONE));
+        log.debug('Get resolved bets succeed.');
       }).catch((error) => {
         log.error('Fail to get resolved bets', error);
         // Set error
@@ -204,6 +206,7 @@ class BetActions {
 
       // TODO: replace this with validwallet service process transaction later on
       WalletService.processFakeTransaction(getState(), tr).then(() => {
+        log.debug('Make bets succeed.');
         dispatch(BetPrivateActions.setMakeBetsLoadingStatus(LoadingStatus.DONE));
       }).catch((error) => {
         log.error('Fail to get make bets', error);
@@ -233,6 +236,7 @@ class BetActions {
       dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
       // TODO: replace this with valid wallet service process transaction later on
       WalletService.processFakeTransaction(getState(), tr).then(() => {
+        log.debug('Cancel bets succeed.');
         dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds,LoadingStatus.DONE));
       }).catch((error) => {
         log.error('Fail to cancel bets', error);

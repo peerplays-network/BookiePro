@@ -1,4 +1,5 @@
 import { push, replace } from 'react-router-redux';
+import log from 'loglevel';
 
 class NavigateActions {
 
@@ -10,6 +11,7 @@ class NavigateActions {
   static navigateTo(path, pushPage = true) {
     return (dispatch) => {
       if (path) {
+        log.debug('Navigate to ', path);
         if (pushPage) {
           dispatch(push(path));
         } else {

@@ -7,6 +7,7 @@ import BettingMarketActions from './BettingMarketActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
 import _ from 'lodash';
 import Immutable from 'immutable';
+import log from 'loglevel';
 import {
   groupMoneyLineBinnedOrderBooks
 } from './dataUtils';
@@ -33,6 +34,13 @@ class EventGroupPagePrivateActions {
     return {
       type: ActionTypes.EVENT_GROUP_PAGE_SET_EVENT_IDS,
       eventIds
+    }
+  }
+
+  static setErrorAction(error) {
+    return {
+      type: ActionTypes.EVENT_GROUP_PAGE_SET_ERROR,
+      error
     }
   }
 
@@ -92,6 +100,9 @@ class EventGroupPageActions {
 
         // Finish loading (TODO: Are we sure this is really the last action dispatched?)
         dispatch(EventGroupPagePrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
+      }).catch((error) => {
+        log.error('Event sport page get data error', error);
+        dispatch(EventGroupPagePrivateActions.setErrorAction(error));
       });
     }
   }

@@ -1,16 +1,19 @@
-import { ActionTypes } from '../constants';
+import { ActionTypes, LoadingStatus } from '../constants';
 import SportActions from './SportActions';
 import EventGroupActions from './EventGroupActions';
 import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import _ from 'lodash';
 import Immutable from 'immutable';
+import log from 'loglevel';
 
 class SidebarActions{
 
   static getData() {
     return (dispatch) => {
 
+      // Loading status
+      dispatch(SidebarActions.setLoadingStatusAction(LoadingStatus.LOADING));
       let retrievedSportIds;
       // Get sports
       dispatch(SportActions.getAllSports()).then((sports) => {
@@ -26,9 +29,15 @@ class SidebarActions{
         const bettingMarketGroupIds = events.flatMap( event => event.get('betting_market_group_ids'));
         return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
       }).then((bettingMarketGroups) => {
+        // Loading status
+        dispatch(SidebarActions.setLoadingStatusAction(LoadingStatus.DONE));
         // TODO: There may be a synchronization problem here
         // TODO: This should be done in mapStateToProps of the Sidebar
         dispatch(SidebarActions.setTreeForSidebar());
+      }).catch((error) => {
+        log.error('Sidebar get data error', error);
+        // Loading status
+        dispatch(SidebarActions.setErrorAction(error));
       })
 
     };
@@ -136,6 +145,20 @@ class SidebarActions{
     return {
       type: ActionTypes.SIDEBAR_UPDATE_COMPLETE_TREE,
       complete_tree
+    }
+  }
+
+  static setErrorAction(error) {
+    return {
+      type: ActionTypes.SIDEBAR_SET_ERROR,
+      error
+    }
+  }
+
+  static setLoadingStatusAction(loadingstatus) {
+    return {
+      type: ActionTypes.SIDEBAR_SET_LOADING_STATUS,
+      loadingstatus
     }
   }
 

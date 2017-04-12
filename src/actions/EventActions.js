@@ -1,6 +1,7 @@
 import { CommunicationService } from '../services';
 import { LoadingStatus, ActionTypes } from '../constants';
 import Immutable from 'immutable';
+import log from 'loglevel';
 
 /**
  * Private actions
@@ -33,6 +34,13 @@ class EventPrivateActions {
     return {
       type: ActionTypes.EVENT_SET_SEARCH_RESULT,
       searchResult
+    }
+  }
+
+  static setSearchEventsErrorAction(error) {
+    return {
+      type: ActionTypes.EVENT_SET_SEARCH_EVENTS_ERROR,
+      error
     }
   }
 }
@@ -160,6 +168,10 @@ class EventActions {
         dispatch(EventPrivateActions.setSearchResultAction(result));
         // Set status
         dispatch(EventPrivateActions.setSearchEventsLoadingStatusAction(LoadingStatus.DONE));
+        log.debug('Search events succeed.');
+      }).catch((error) => {
+        log.error('Fail to search events', error);
+        dispatch(EventPrivateActions.setSearchEventsErrorAction(error));
       });
     }
   }

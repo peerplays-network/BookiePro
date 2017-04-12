@@ -173,6 +173,7 @@ class AccountActions {
    */
   static setKeys(keys) {
     return (dispatch) => {
+      log.debug('Set account\'s keys');
       let privateKeyWifsByRole = Immutable.Map();
       let publicKeyStringsByRole = Immutable.Map();
       _.forEach(keys, (privateKey, role) => {
@@ -192,6 +193,7 @@ class AccountActions {
 
       dispatch(AccountPrivateActions.setGetTransactionHistoriesLoadingStatusAction(LoadingStatus.LOADING));
       CommunicationService.getTransactionHistories(accountId, startTime, stopTime).then((transactionHistories) => {
+        log.debug('Get transaction histories succeed.');
         dispatch(AccountPrivateActions.setTransactionHistoriesAction(transactionHistories));
         dispatch(AccountPrivateActions.setGetTransactionHistoriesLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
@@ -208,6 +210,7 @@ class AccountActions {
 
       dispatch(AccountPrivateActions.setGetDepositAddressLoadingStatusAction(LoadingStatus.LOADING));
       CommunicationService.getDepositAddress(accountId).then((depositAddress) => {
+        log.debug('Get deposit address succeed.');
         dispatch(AccountPrivateActions.setDepositAddressAction(depositAddress));
         dispatch(AccountPrivateActions.setGetDepositAddressLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
@@ -222,6 +225,7 @@ class AccountActions {
     return (dispatch) => {
       dispatch(AccountPrivateActions.setWithdrawLoadingStatusAction(LoadingStatus.LOADING));
       CommunicationService.withdraw(walletAddress).then(() => {
+        log.debug('Withdraw succeed.');
         dispatch(AccountPrivateActions.setWithdrawLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
         log.error('Withdraw error', error);
@@ -278,6 +282,7 @@ class AccountActions {
     };
   }
 
+  // TODO: The following this are used for testing only, remove later
   static createLimitOrder(sellAssetId, buyAssetId, sellAmount, buyAmount) {
     return (dispatch, getState) => {
       FetchChain('getAsset', [sellAssetId, buyAssetId]).then((result) => {
@@ -318,11 +323,15 @@ class AccountActions {
     }
   }
 
+  /**
+   * Logout the user
+   */
   static logout() {
     return (dispatch) => {
       dispatch(AccountPrivateActions.logoutAction());
       // Navigate to the beginning of the app
       dispatch(NavigateActions.navigateTo('/'));
+      log.debug('Logout user succeed.');
     }
   }
 

@@ -28,6 +28,20 @@ class AppPrivateActions {
     }
   }
 
+  static setGetGlobalBettingStatisticsErrorAction(error) {
+    return {
+      type: ActionTypes.APP_SET_GET_GLOBAL_BETTING_STATISTICS_ERROR,
+      error
+    }
+  }
+
+  static setConnectToBlockchainErrorAction(error) {
+    return {
+      type: ActionTypes.APP_SET_CONNECT_TO_BLOCKCHAIN_ERROR,
+      error
+    }
+  }
+
   static setConnectionStatusAction(connectionStatus) {
     return {
       type: ActionTypes.APP_SET_CONNECTION_STATUS,
@@ -94,8 +108,12 @@ class AppActions {
     return (dispatch) => {
       dispatch(AppPrivateActions.setGetGlobalBettingStatisticsLoadingStatusAction(LoadingStatus.LOADING));
       CommunicationService.getGlobalBettingStatistics().then((globalBettingStatistics) => {
+        log.debug('Get global betting statistics succeed.');
         dispatch(AppPrivateActions.setGlobalBettingStatisticsAction(globalBettingStatistics));
         dispatch(AppPrivateActions.setGetGlobalBettingStatisticsLoadingStatusAction(LoadingStatus.DONE));
+      }).catch((error) => {
+        log.error('Fail to get global betting statistics', error);
+        dispatch(AppPrivateActions.setGetGlobalBettingStatisticsErrorAction(error));
       });
     }
   }

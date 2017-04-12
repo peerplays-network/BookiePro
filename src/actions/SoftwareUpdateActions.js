@@ -63,6 +63,7 @@ class SoftwareUpdateActions {
                   // Terminate early
                   return false;
                 }
+                log.debug('Check for software update succeed');
               }
             }
           });
@@ -93,6 +94,7 @@ class SoftwareUpdateActions {
         const statistics = fullAccount.get('statistics');
         dispatch(SoftwareUpdatePrivateActions.setReferenceAccountAction(account));
         dispatch(SoftwareUpdatePrivateActions.setReferenceAccountStatisticsAction(statistics));
+        log.debug('Listen to software update succeed.')
         // Check for software update
         return dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());
       }).catch((error) => {

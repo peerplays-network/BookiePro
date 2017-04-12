@@ -1,10 +1,12 @@
-import { ActionTypes } from '../constants';
+import { ActionTypes, LoadingStatus } from '../constants';
 import _ from 'lodash';
 import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
   bettingMarketGroupsById: {},
-  getBettingMarketGroupsByIdsLoadingStatus: {}
+  getBettingMarketGroupsByIdsLoadingStatus: {},
+  loadingStatus: LoadingStatus.DEFAULT,
+  error: null
 });
 
 export default function (state = initialState, action) {
@@ -29,6 +31,17 @@ export default function (state = initialState, action) {
         nextState = nextState.deleteIn(['bettingMarketGroupsById', bettingMarketGroupId]);
       });
       return nextState;
+    }
+    case ActionTypes.BETTING_MARKET_GROUP_SET_LOADING_STATUS: {
+      return state.merge({
+        loadingStatus: action.loadingStatus
+      })
+    }
+    case ActionTypes.BETTING_MARKET_GROUP_SET_ERROR: {
+      return state.merge({
+        error: action.error,
+        loadingStatus: LoadingStatus.ERROR
+      })
     }
     default:
       return state;
