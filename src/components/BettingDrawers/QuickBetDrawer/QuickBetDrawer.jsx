@@ -29,6 +29,7 @@ const renderContent = (props) => (
           key={ eventId }
           data={ props.bets.get(eventId) }
           deleteOne={ props.deleteBet }
+          deleteMany={ props.deleteBets }
         />
       ))
     }
@@ -142,6 +143,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     deleteBet: QuickBetDrawerActions.deleteBet,
+    deleteBets: QuickBetDrawerActions.deleteBets,
   }, dispatch);
 }
 
