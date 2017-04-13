@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
-import { Icon, Table } from 'antd';
+import {  Table } from 'antd';
+import RulesModal from '../Modal/RulesModal'
 import { QuickBetDrawerActions } from '../../actions';
-
+import { I18n, Translate } from 'react-redux-i18n';
 const bitcoinSymbol = '\u0243';
 // We cannot use CSS to override antd Table column width using CSS
 // This can only be done via the code
@@ -75,7 +76,10 @@ const renderTitle = (title) => (
   <div className='title'>
     <div className='sport'>{ title }</div>
     <div className='rules'>
-      <Icon type='info-circle-o' /> Rules
+      {/* Rules Dialogue box */}
+      <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
+        <Translate value='rules_dialogue.content' dangerousHTML/>
+      </RulesModal>
     </div>
   </div>
 );
