@@ -38,16 +38,29 @@ class Withdraw extends Component{
   constructor(props){
     super(props);
     this.state = {
-      hasWithdrawAmountErr: false
+      hasWithdrawAmountErr: false,
+      convertedAvailableBalance: this.convertAmount(this.props.availableBalance,5,this.props.currencyFormat)
     }
     this.onwithdrawAmountChange = this.onwithdrawAmountChange.bind(this);
+  }
+
+  //Converts the amount obtained in satoshi to the user's set currency as per the precision
+  convertAmount(amountInSatoshi, precision, targetCurrency){
+    if(amountInSatoshi !==-1){
+      if(targetCurrency === 'BTC')
+        return (amountInSatoshi / Math.pow(10, precision));
+      if(targetCurrency === 'mBTC')
+        return (amountInSatoshi / Math.pow(10, precision)) * 1000;
+    } else {
+      return -1;
+    }
   }
 
   //Check entered amount with user's available balance
   onwithdrawAmountChange(event){
     let withdrawAmount = event.target.value;
     if(!isNaN(withdrawAmount)){
-      if((parseFloat(withdrawAmount) > this.props.availableBalance)
+      if((parseFloat(withdrawAmount) > this.state.convertedAvailableBalance)
         || parseFloat(withdrawAmount) === 0 || parseFloat(withdrawAmount) === -1){
         this.setState({ hasWithdrawAmountErr: true })
       } else {
@@ -91,7 +104,8 @@ class Withdraw extends Component{
                     onChange={ this.onwithdrawAmountChange }
                     onBlur={ this.onwithdrawAmountChange }
                     hasWithdrawAmountErr={ this.state.hasWithdrawAmountErr }
-                    withdrawAmountErrMsg={ availableBalance!==-1 ? (I18n.t('myAccount.insuffBitcoinErr') + availableBalance + currencyFormat)
+                    withdrawAmountErrMsg={ availableBalance!==-1 ? (I18n.t('myAccount.insuffBitcoinErr')
+                                + this.state.convertedAvailableBalance + currencyFormat)
                                 : I18n.t('application.notAvailableErr') }
                     component={ renderField }  type='text' normalize={ normalizeAmount }/>
                 </div>
