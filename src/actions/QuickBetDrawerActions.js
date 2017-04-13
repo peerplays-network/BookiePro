@@ -3,17 +3,24 @@ import Immutable from 'immutable';
 import moment from 'moment';
 
 class QuickBetDrawerPrivateActions {
-  static addQuickBet(bet) {
+  static addOneBet(bet) {
     return {
-      type: ActionTypes.QUICK_BET_DRAWER_ADD_QUICK_BET,
+      type: ActionTypes.QUICK_BET_DRAWER_ADD_ONE_BET,
       bet
     };
   }
 
-  static deleteQuickBet(quickBetId) {
+  static deleteOneBet(betId) {
     return {
-      type: ActionTypes.QUICK_BET_DRAWER_DELETE_QUICK_BET,
-      quickBetId
+      type: ActionTypes.QUICK_BET_DRAWER_DELETE_ONE_BET,
+      betId
+    }
+  }
+
+  static deleteManyBets(listOfBetIds) {
+    return {
+      type: ActionTypes.QUICK_BET_DRAWER_DELETE_MANY_BETS,
+      listOfBetIds
     }
   }
 }
@@ -29,14 +36,19 @@ class QuickBetDrawerActions {
         offer: offer,
         id: parseInt(moment().format('x'), 10)  // unix millisecond timestamp
       });
-      dispatch(QuickBetDrawerPrivateActions.addQuickBet(bet));
+      dispatch(QuickBetDrawerPrivateActions.addOneBet(bet));
     };
   }
 
   static deleteBet(bet) {
-    // NOTE the bet object is a vanilla JS object stored in a ant-design table
     return (dispatch) => {
-      dispatch(QuickBetDrawerPrivateActions.deleteQuickBet(bet.id));
+      dispatch(QuickBetDrawerPrivateActions.deleteOneBet(bet.get('id')));
+    }
+  }
+
+  static deleteBets(bets) {
+    return (dispatch) => {
+      dispatch(QuickBetDrawerPrivateActions.deleteManyBets(bets.map(b => b.get('id'))));
     }
   }
 }

@@ -7,15 +7,19 @@ let initialState = Immutable.fromJS({
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case ActionTypes.QUICK_BET_DRAWER_ADD_QUICK_BET: {
+    case ActionTypes.QUICK_BET_DRAWER_ADD_ONE_BET: {
       return state.merge({
         bets: state.get('bets').push(action.bet)
       });
     }
-    case ActionTypes.QUICK_BET_DRAWER_DELETE_QUICK_BET: {
-      const index = state.get('bets').findIndex((bet) => bet.get('id') === action.quickBetId);
+    case ActionTypes.QUICK_BET_DRAWER_DELETE_ONE_BET: {
       return state.merge({
-        bets: state.get('bets').delete(index)
+        bets: state.get('bets').filterNot(b => b.get('id') === action.betId)
+      });
+    }
+    case ActionTypes.QUICK_BET_DRAWER_DELETE_MANY_BETS: {
+      return state.merge({
+        bets: state.get('bets').filterNot(b => action.listOfBetIds.includes(b.get('id')))
       });
     }
     default:

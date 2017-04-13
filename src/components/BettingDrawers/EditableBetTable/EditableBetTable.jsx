@@ -2,11 +2,6 @@ import React from 'react';
 import { Button, Icon, Input, Table } from 'antd';
 import Immutable from 'immutable';
 
-const deleteAllPanels = (event) => {
-  event.preventDefault();
-  window.console.log('clicked delete all panels', event);
-}
-
 const renderTeam = (text, record) => (
   <div>
     <div className='team'>{ record.team }</div>
@@ -30,7 +25,7 @@ const renderInput = (text, record) => (
 const renderDeleteButton = (deleteOne) => {
   return (text, record) => (
     <Button
-      onClick={ () => deleteOne(record) }
+      onClick={ () => deleteOne(Immutable.fromJS(record)) }
     >X</Button>
   );
 }
@@ -143,7 +138,7 @@ const EditableBetTable = (props) => {
         <span className='icon'>
           <Icon
             type='close-circle'
-            onClick={ deleteAllPanels }
+            onClick={ () => props.deleteMany(backBets.concat(layBets)) }
           />
         </span>
       </div>
