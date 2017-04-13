@@ -234,9 +234,11 @@ class TestBookieAccount extends Component {
   }
 
 
-  //to demonstrate how to update memo for version update
+  //to demonstrate how to update the latest version through transaction with memo
   _makeTransferTx() {
     this.setState({ updateTransferInProgress: true });
+
+    //NOTE accountFrom and accountTo are hardcoded
     const accountFrom = acc.id;
     const accountTo = acc2.id;
     const memo_from_public = acc.options.memo_key
@@ -253,12 +255,13 @@ class TestBookieAccount extends Component {
       versionString = '1.0.0';
     }
 
-    //NOTE  version A.B.C
     // A comparison --> Force Update --> Force Update Modal
     // B comparison --> Soft Updates --> Soft Update Modal
     // C comparison --> No modal
     const memoMessage = {
+      //version number attached to the modal, used to compare with the value definied in "App.jsx"
       version: this.state.version,
+      //text/html to be shown in version notification modal
       displayText: {
         en: '<h1>Updates Available</h1><a href=\'http://www.google.com\' '+
         ' onclick="window.open(\'http://www.google.com\', \'newwindow\', \'width=300, height=250\'); return false;"> Print</a> is a link to latest version of Bookie App.',
@@ -268,6 +271,8 @@ class TestBookieAccount extends Component {
 
 
     const nonce = TransactionHelper.unique_nonce_uint64();
+
+    // due to api param, message needs to be in brinary array
     const msg = StringUtils.string2Bin(JSON.stringify(memoMessage));
     const memo_object = {
       from: memo_from_public,
@@ -280,7 +285,7 @@ class TestBookieAccount extends Component {
       from: accountFrom,
       to: accountTo,
       amount: {
-        amount: 1, // minimum amount   0.00001 TESTPLAYS
+        amount: 1, // minimum amount   0.00001 
         asset_id: coreAssetIdFrom,
       },
       memo: memo_object,
