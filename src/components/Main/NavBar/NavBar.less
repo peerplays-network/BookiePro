@@ -17,6 +17,7 @@
     align-items: center;
     justify-content: center;
     height: 60px;
+    padding:0 15px;
     img {
       width: 30px;
     }
@@ -100,6 +101,7 @@
     }
   }
   .bookie-amount-card{
+    width:440px;
     padding: 22px 15px;
     height:auto;
     text-align: center;
@@ -123,9 +125,6 @@
         }
       }
     }
-  }
-  .bookie-amount-card{
-    width:440px;
   }
   .deposit-card{
     width:380px;
@@ -245,7 +244,7 @@
   }
   &:hover{
     .mywager-icon{
-      background-image: url('../../../assets/icons/mywager_icon_s.png');
+      background-image: url('../../../assets/icons/mywager_icon_hover.png');
     }
   }
 }
@@ -261,7 +260,7 @@
   }
   &:hover{
     .deposit-icon{
-      background-image: url('../../../assets/icons/deposit_icon_s.png');
+      background-image: url('../../../assets/icons/deposit_icon_hover.png');
     }
   }
 }
@@ -279,7 +278,7 @@
   &:hover{
     .withdraw-icon{
       height:24px;
-      background-image: url('../../../assets/icons/withdraw_icon_s.png');
+      background-image: url('../../../assets/icons/withdraw_icon_hover.png');
     }
   }
 }
@@ -295,7 +294,7 @@
   }
   &:hover{
     .notification-icon{
-      background-image: url('../../../assets/icons/notifications_icon_s.png');
+      background-image: url('../../../assets/icons/notifications_icon_hover.png');
     }
   }
 }
@@ -311,7 +310,7 @@
   }
   &:hover{
     .dropdown-icon{
-      background-image: url('../../../assets/icons/more_icon_s.png');
+      background-image: url('../../../assets/icons/more_icon_hover.png');
     }
   }
 }
@@ -335,10 +334,17 @@
   }
   &:hover{
     .bitcoin-icon{
-      background-image: url('../../../assets/icons/bitcoin_icon_s.png');
+      background-image: url('../../../assets/icons/bitcoin_icon_hover.png');
     }
     .mbitcoin-icon{
-      background-image: url('../../../assets/icons/mbitcoin_icon_s.png');
+      background-image: url('../../../assets/icons/mbitcoin_icon_hover.png');
+    }
+  }
+}
+.top-bar-row{
+  &>div{
+    &:nth-of-type(2){
+      flex-grow: 2;
     }
   }
 }
