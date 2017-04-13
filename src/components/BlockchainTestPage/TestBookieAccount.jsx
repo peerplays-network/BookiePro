@@ -247,15 +247,16 @@ class TestBookieAccount extends Component {
     // Create transaction and add operation
     const tr = new TransactionBuilder();
 
-    // const memo_from_privkey = PrivateKey.fromWif('5JZpe5ANwzApzR4dPq24AXPVf3VMhDAHs5XV5T126bR255Q8Mhd');
 
     let versionString = this.state.version;
     if ( versionString.length  === 0 ){
       versionString = '1.0.0';
     }
 
-    // {need_hard_update, need_soft_update}
-    // {false, false} ==> no modal  , { true, true} / { true, false } hard update modal, { false, true } soft update modal
+    //NOTE  version A.B.C
+    // A comparison --> Force Update --> Force Update Modal
+    // B comparison --> Soft Updates --> Soft Update Modal
+    // C comparison --> No modal
     const memoMessage = {
       version: this.state.version,
       displayText: {

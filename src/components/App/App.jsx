@@ -7,13 +7,15 @@ import { bindActionCreators } from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
 import { StringUtils } from '../../utility';
 
-//TODO default version update text.
+//NOTE default version update text.
 const defaultNewVersionText = 'New version found. Please update the version'
 
 class App extends Component {
   constructor(props) {
     super(props);
-    const currentVersion = '1.0.0'; // hardcode for testing hardupdate/softupdate
+
+    //NOTE current version of the app, should be sync to version definied in package.json
+    const currentVersion = '1.0.0';
     this.state = {
       currentVersion,
       needHardUpdate : false,
@@ -28,8 +30,8 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState){
 
-    //check if the version stored in softwareUpdate changed
-    //we dun want to show the modal upon every route change
+    //check if the version stored in props changed
+    //we dun want to show the modal to notify the same version upon every route change
     if ( prevProps && this.props.version && this.props.version !== prevProps.version){
 
       const newVerNum = this.props.version.split('.');
@@ -128,10 +130,6 @@ const mapStateToProps = (state) => {
     version,
     displayText,
     locale
-    // uncomment below for software update modal testing
-    // needHardUpdate: true,
-    // needSoftUpdate: false,
-    // version: "1.1.17",
   }
 }
 
