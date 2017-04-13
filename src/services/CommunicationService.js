@@ -519,8 +519,11 @@ class CommunicationService {
     // TODO: Replace later
     return new Promise((resolve, reject) => {
       setTimeout(() => {
+        const filteredResult = _.filter(dummyData.bets, (item) => {
+          return item.bettor_id === accountId;
+        });
         // TODO: still pending the format of resolved bets
-        resolve(Immutable.List());
+        resolve(Immutable.fromJS(filteredResult));
       }, TIMEOUT_LENGTH);
     });
   }

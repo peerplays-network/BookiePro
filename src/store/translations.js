@@ -164,6 +164,14 @@ export const translationsObject = {
       unmatched_bets: 'UNMATCHED BETS',
       matched_bets: 'MATCHED BETS',
       resolved_bets: 'RESOLVED BETS',
+      period: 'Period',
+      last_7_Days: 'Last 7 days',
+      last_14_Days: 'Last 14 days',
+      this_Month: 'This month',
+      last_Month: 'Last month',
+      custom: 'Custom',
+      search: 'Search',
+      export: 'Export'
     },
     complex_betting_widget:{
       back_all: 'Back all',
