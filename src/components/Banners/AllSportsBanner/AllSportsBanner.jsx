@@ -6,26 +6,26 @@ const Banner = () => (
     <div className='statistics'>
       <div className='flip-amount'>
         <div className='digit'>
-          <span className='front'>1</span>
-          <span className='back'>1</span>
+          <span className='top-half'>1</span>
+          <span className='bottom-half'>1</span>
         </div>
         <div className='digit'>
-          <span className='front'>1</span>
-          <span className='back'>1</span>
+          <span className='top-half'>1</span>
+          <span className='bottom-half'>1</span>
         </div>
         <div className='digit-delimiter'>.</div>
         <div className='digit'>
-          <span className='front'>0</span>
-          <span className='back'>0</span>
+          <span className='top-half'>0</span>
+          <span className='bottom-half'>0</span>
         </div>
         <div className='digit'>
-          <span className='front'>0</span>
-          <span className='back'>0</span>
+          <span className='top-half'>0</span>
+          <span className='bottom-half'>0</span>
         </div>
       </div>
       <div className='text'>
         <span className='text'>
-          { I18n.t('homepage.bannerText') }
+          { I18n.t('AllSports.bannerText') }
         </span>
       </div>
     </div>

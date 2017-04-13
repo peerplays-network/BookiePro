@@ -5,8 +5,7 @@ import moment from 'moment';
 import {  Table } from 'antd';
 import RulesModal from '../Modal/RulesModal'
 import { QuickBetDrawerActions } from '../../actions';
-var I18n = require('react-redux-i18n').I18n;
-
+import { I18n, Translate } from 'react-redux-i18n';
 const bitcoinSymbol = '\u0243';
 // We cannot use CSS to override antd Table column width using CSS
 // This can only be done via the code
@@ -26,15 +25,6 @@ const renderEventTime = (text, record) => {
   return eventTime.format('DD/MM/YYYY HH:mm');
 }
 
-// code for rendering HTML data to the browser
-class HTMLEncodeComponent extends Component{
-  render(){
-    let markup = { __html: this.props.htmlToRender }
-    return(
-      <div dangerouslySetInnerHTML={ markup }></div>
-    )
-  }
-}
 const getColumns = (renderOffer) => ([
   {
     dataIndex: 'time',
@@ -88,7 +78,7 @@ const renderTitle = (title) => (
     <div className='rules'>
       {/* Rules Dialogue box */}
       <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
-        <HTMLEncodeComponent htmlToRender={ I18n.t('rules_dialogue.content') } />
+        <Translate value='rules_dialogue.content' dangerousHTML/>
       </RulesModal>
     </div>
   </div>
