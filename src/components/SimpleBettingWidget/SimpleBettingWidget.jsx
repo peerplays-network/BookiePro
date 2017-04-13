@@ -102,7 +102,6 @@ class SimpleBettingWidget extends Component {
   // TODO: Cut down the number of parameters
   onOfferClicked(event, record, team, betType, betting_market_id, offer) {
     event.preventDefault();
-    console.log('SimpleBettingWidget clicked offer', record.toJS(), offer.toJS());
     this.props.createBet(record, team, betType, betting_market_id, offer);
   }
 
