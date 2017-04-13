@@ -26,13 +26,14 @@ class QuickBetDrawerPrivateActions {
 }
 
 class QuickBetDrawerActions {
-  static createBet(record, team, betType, offer) {
+  static createBet(record, team, betType, betting_market_id, offer) {
     return (dispatch) => {
       const bet = Immutable.fromJS({
         event_id: record.get('id'),
         event_name: record.get('name'),
         team_name: team,
         bet_type: betType,
+        betting_market_id: betting_market_id,
         offer: offer,
         id: parseInt(moment().format('x'), 10)  // unix millisecond timestamp
       });
