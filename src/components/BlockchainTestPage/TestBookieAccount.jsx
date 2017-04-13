@@ -255,6 +255,7 @@ class TestBookieAccount extends Component {
       versionString = '1.0.0';
     }
 
+    //versionString format : 'A.B.C'
     // A comparison --> Force Update --> Force Update Modal
     // B comparison --> Soft Updates --> Soft Update Modal
     // C comparison --> No modal
@@ -285,7 +286,7 @@ class TestBookieAccount extends Component {
       from: accountFrom,
       to: accountTo,
       amount: {
-        amount: 1, // minimum amount   0.00001 
+        amount: 1, // minimum amount   0.00001
         asset_id: coreAssetIdFrom,
       },
       memo: memo_object,
