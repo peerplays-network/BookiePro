@@ -12,6 +12,12 @@ export default function(state = initialState, action) {
         bets: state.get('bets').push(action.bet)
       });
     }
+    case ActionTypes.QUICK_BET_DRAWER_DELETE_QUICK_BET: {
+      const index = state.get('bets').findIndex((bet) => bet.get('id') === action.quickBetId);
+      return state.merge({
+        bets: state.get('bets').delete(index)
+      });
+    }
     default:
       return state;
   }

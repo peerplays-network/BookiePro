@@ -5,7 +5,7 @@ import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import SplitPane from 'react-split-pane';
 import { I18n, Translate } from 'react-redux-i18n';
-import { NavigateActions } from '../../../actions';
+import { NavigateActions, QuickBetDrawerActions } from '../../../actions';
 import { Button } from 'antd';
 import { bindActionCreators } from 'redux';
 import EditableBetTable from '../EditableBetTable';
@@ -28,6 +28,7 @@ const renderContent = (props) => (
         <EditableBetTable
           key={ eventId }
           data={ props.bets.get(eventId) }
+          deleteOne={ props.deleteBet }
         />
       ))
     }
@@ -123,6 +124,7 @@ const mapStateToProps = (state) => {
     // Add the bet to the list of bets with the same market type
     let betListBybetType = unconfirmedBets.get(betType);
     let betObj = Immutable.Map()
+                  .set('id', bet.get('id'))
                   .set('odds', bet.getIn(['offer', 'odds']))
                   .set('price', bet.getIn(['offer', 'price']))
                   .set('team', bet.get('team_name'));
@@ -139,6 +141,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
+    deleteBet: QuickBetDrawerActions.deleteBet,
   }, dispatch);
 }
 
