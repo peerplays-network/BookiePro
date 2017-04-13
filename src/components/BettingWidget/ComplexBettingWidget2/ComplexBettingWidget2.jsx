@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { MarketDrawerActions } from '../../../actions';
 import ReactTable from 'react-table'
+import { Icon } from 'antd'
 import 'react-table/react-table.css'
 import Immutable from 'immutable';
-var I18n = require('react-redux-i18n').I18n;
+import { I18n } from 'react-redux-i18n';
 
 /**
  * NOTES: This version of ComplexBettingWidget2 is in DEVELOPMENT stage and primary goal is for BASIC visualization,
@@ -144,12 +145,12 @@ class ComplexBettingWidget2 extends Component {
   render() {
 
     const minNameWidth = 200;
-    const minOfferWidth = 40;
-    const minArrowWidth = 15;
+    const minOfferWidth = 50;
+    const minArrowWidth = 7;
      // we must use 'back' here for actions. ie. this.props.createBet(record, competitor, 'back', offer);
-    const classNameBack = 'back'
+    const classNameBack = 'back';
     // we must use 'lay' here for actions, ie. this.props.createBet(record, competitor, 'lay', offer);
-    const classNameLay = 'lay'
+    const classNameLay = 'lay';
 
     const columns = [{
       header: props => null,
@@ -158,26 +159,25 @@ class ComplexBettingWidget2 extends Component {
     }, {
       className: 'back-left',
       header: props => null,
-      style: { 'padding': '0px'},
       minWidth: minArrowWidth,
       render: props => <div className='back-offer'>{ '<' }</div>
     }, {
       className: 'back-right',
       header: props => null,
-      style: { 'padding': '0px'},
       minWidth: minArrowWidth,
       render: props => <div className='back-offer'>{ '>' }</div>
     }, {
+      // TODO: width adjustment will do later because I
+      // cant manipulate width of the th tag
       header:  props =>
       // NOTE will be seperated comopent for header
-        <div className='offer-header'>
+        <div className='offer-header clearfix'>
           <p className='alignleft'>{ this.state.backBookPercent }%</p>
           <p className='alignright'>{I18n.t('complex_betting_widget.back_all')}</p>
         </div>,
       columns: [{
         id: 'back3',
         header: props => null,
-        style: { 'padding': '0px'},
         minWidth: minOfferWidth,
         className: classNameBack, // we must use 'back' here for actions. ie. this.props.createBet(record, competitor, 'back', offer);
         accessor: row => row.offer.back.length > 2 ? row.offer.back[2] : undefined,
@@ -190,7 +190,6 @@ class ComplexBettingWidget2 extends Component {
       }, {
         id: 'back2',
         header: props => null,
-        style: { 'padding': '0px'},
         minWidth: minOfferWidth,
         className: classNameBack,
         accessor: row => row.offer.back.length > 1 ? row.offer.back[1] : undefined,
@@ -203,12 +202,11 @@ class ComplexBettingWidget2 extends Component {
       }, {
         id: 'back1',
         header: props => null,
-        style: { 'padding': '0px'},
         minWidth: minOfferWidth,
         className: classNameBack,
         accessor: row => row.offer.back.length > 0 ? row.offer.back[0] : undefined,
         render: props => props.value ?
-         <div className='back-offer'>
+         <div className='back-offer back-all-offer'>
            <div className='odds'>{props.value.odds}</div>
            <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
          </div> :
@@ -223,12 +221,11 @@ class ComplexBettingWidget2 extends Component {
       columns: [{
         id: 'lay1',
         header: props => null,
-        style: { 'padding': '0px'},
         minWidth: minOfferWidth,
         className: classNameLay,
         accessor: row => row.offer.lay.length > 0 ? row.offer.lay[0] : undefined,
         render: props => props.value ?
-         <div className='lay-offer'>
+         <div className='lay-offer lay-all-offer'>
            <div className='odds'>{props.value.odds}</div>
            <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
          </div> :
@@ -236,7 +233,6 @@ class ComplexBettingWidget2 extends Component {
       }, {
         id: 'lay2',
         header: props => null,
-        style: { 'padding': '0px'},
         minWidth: minOfferWidth,
         className: classNameLay,
         accessor: row => row.offer.lay.length > 1 ? row.offer.lay[1] : undefined,
@@ -253,7 +249,6 @@ class ComplexBettingWidget2 extends Component {
       }, {
         id: 'lay3',
         header: props => null,
-        style: { 'padding': '0px'},
         minWidth: minOfferWidth,
         className: classNameLay,
         accessor: row => row.offer.lay.length > 2 ? row.offer.lay[2] : undefined,
@@ -271,20 +266,27 @@ class ComplexBettingWidget2 extends Component {
     }, {
       className: 'lay-left',
       header: props => null,
-      style: { 'padding': '0px'},
       minWidth: minArrowWidth,
       render: props => <div className='lay-offer'>{ '<' }</div>
     }, {
       className: 'lay-right',
       header: props => null,
-      style: { 'padding': '0px'},
       minWidth: minArrowWidth,
       render: props => <div className='lay-offer'>{ '>' }</div>
     }]
 
     return (
       <div className='complex-betting'>
-
+        <div className='title'>
+          <div className='name'> {I18n.t('complex_betting_widget.moneyline')} </div>
+          <div className='rules'>
+            <span>{I18n.t('complex_betting_widget.matched')}: <i className='icon-bitcoin'></i> 4.65</span>
+            {/* TODO: Rules dialogue will do after
+             homepage_changes branch will merge to
+              develop */}
+            <Icon type='info-circle-o' /> Rules
+          </div>
+        </div>
         {
           this.state.tableData.equals(Immutable.fromJS([])) ?
           <div/>

@@ -166,9 +166,11 @@ export const translationsObject = {
       resolved_bets: 'RESOLVED BETS',
     },
     complex_betting_widget:{
-      back_all: 'BACK ALL',
-      lay_all: 'LAY ALL',
+      back_all: 'Back all',
+      lay_all: 'Lay all',
       offer: 'OFFER',
+      matched: 'Matched',
+      moneyline: 'Moneyline'
     },
     quick_bet_drawer: {
       header: 'BETSLIP',
@@ -257,6 +259,17 @@ export const translationsObject = {
       'a liability on a bet by attempting to charge back a ' +
       'payment made by card for betting services; all and any monies utilized by you on the Exchange and MB Casino are the proceeds of or derived from lawful activities.<' +
       '/p>'
+    },
+    bettingMarketGroup :{
+      match_start_on: 'Pre-Live! Starts on 10/01/2017' +
+      ' 13:00',
+      title: 'Levski Sofia vs Academic' +
+      ' Plovdiv',
+      time_remaining: 'Time Remaining',
+      days: 'Days',
+      hours: 'Hours',
+      mins: 'Mins',
+      secs: 'Secs'
     }
   }
 };
