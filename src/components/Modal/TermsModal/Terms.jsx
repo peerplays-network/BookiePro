@@ -24,7 +24,7 @@ class Terms extends Component {
           wrapClassName={ this.props.parentClass + '-modal' }
           visible={ this.state.visible }
           footer=''
-          width='747'
+          width={ 747 }
           onCancel={ this.handleCancel }
         >
           { this.props.children }

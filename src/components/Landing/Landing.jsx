@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import TermsModal from '../Modal/TermsModal'
-var I18n = require('react-redux-i18n').I18n;
+import { I18n, Translate } from 'react-redux-i18n';
 import Ps from 'perfect-scrollbar';
 class HTMLEncodeComponent extends Component{
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.terms_content));
   }
   render(){
-    let markup = { __html: this.props.htmlToRender }
     return(
-      <div style={ { 'height' : '100%', 'position' : 'relative' } } ref='terms_content' dangerouslySetInnerHTML={ markup }></div>
+      <div style={ { 'height' : '100%', 'position' : 'relative' } } ref='terms_content' >
+        <Translate value='terms_dialogue.content' dangerousHTML/>
+      </div>
     )
   }
 }
@@ -33,7 +34,9 @@ class Landing extends Component{
           <a href>{I18n.t('landing.copyright')}</a>
           <span className='padding-lr-5'> | </span>
           <TermsModal title={ I18n.t('landing.terms') } parentClass='terms' buttonTitle={ I18n.t('landing.terms') }>
-            <HTMLEncodeComponent htmlToRender={ I18n.t('terms_dialogue.content') } />
+            <div style={ { 'height' : '100%', 'position' : 'relative' } } ref='terms_content' >
+              <HTMLEncodeComponent />
+            </div>
           </TermsModal>
         </div>
       </div>
