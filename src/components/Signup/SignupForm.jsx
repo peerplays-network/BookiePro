@@ -1,13 +1,13 @@
-import React from 'react'
-import { Field, Fields, reduxForm } from 'redux-form/immutable'
-import { Button } from 'antd'
-import { ChainValidation } from 'graphenejs-lib'
-import copy from 'copy-to-clipboard'
-import RandomString from 'randomstring'
+import React, { PureComponent } from 'react';
+import { Field, Fields, reduxForm } from 'redux-form/immutable';
+import { Button } from 'antd';
+import { ChainValidation } from 'graphenejs-lib';
+import copy from 'copy-to-clipboard';
+import RandomString from 'randomstring';
 import { saveAs } from '../../utility/fileSaver.js';
 import { AccountService } from '../../services';
 import { LoadingStatus } from '../../constants';
-import { I18n }  from 'react-redux-i18n'
+import { I18n }  from 'react-redux-i18n';
 
 //Component to render the plain fields
 const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touched, error } }) => (
@@ -15,7 +15,8 @@ const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touch
       <input autoFocus={ tabIndex === '1' } autoComplete='off'  { ...input }
          type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
        { (touched) && error && <span className='errorText'>{error}</span> }
-      { !error && errors && errors.length ? errors.map((err) => { return <span className='errorText' key={ err }>{ err }</span>}) : null }
+      { !error && errors && errors.length ?
+        errors.map((currentError) => { return <span className='errorText' key={ currentError }>{ currentError }</span>}) : null }
   </div>
 );
 
@@ -30,18 +31,18 @@ const renderPasswordField = ({ onClickCopy, tabIndex, errors, input, type, meta:
 
 //Component to render the retype-password field
 const renderRetypePasswordField = ({ tabIndex, className, errors, input, type, meta: { touched, error } }) => (
-    <div>
-        <input autoComplete='off' type={ type } { ...input } tabIndex={ tabIndex } />
-        { (touched) && error && <span className='errorText'>{ error }</span> }
-    </div>
+  <div>
+      <input autoComplete='off' type={ type } { ...input } tabIndex={ tabIndex } />
+      { (touched) && error && <span className='errorText'>{ error }</span> }
+  </div>
 );
 
 //Component to render the checkboxes
 const renderCheckboxField = ({ pseudoText,tabIndex, errors, placeholder, input, label, type, meta: { touched, error, dirty } }) => (
-    <div className='float-left width260 text-left align-checkbox'>
-      <input autoComplete='off' { ...input } type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
-      <label>{ pseudoText }</label>
-    </div>
+  <div className='float-left width260 text-left align-checkbox'>
+    <input autoComplete='off' { ...input } type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
+    <label>{ pseudoText }</label>
+  </div>
 );
 
 //Component to render the 'Copy' button
@@ -58,14 +59,15 @@ const renderRecoveryButtonFields = (fields) => (
   </div>
 )
 
-class SignupForm extends React.Component {
-  //Auto-generate the password before the component mounts
+class SignupForm extends PureComponent {
+
   componentWillMount() {
-    this.handleInitialize();
+    //Auto-generate the password before the component mounts
+    this.initializePassword();
   }
 
-  //Generate the 52 character long random string for password
-  handleInitialize() {
+  //Initialize the password field with a 52 character long random string
+  initializePassword() {
     this.props.initialize({
       password: RandomString.generate({
         length: 52,
@@ -75,17 +77,17 @@ class SignupForm extends React.Component {
   }
 
   //Download the password in a text file
-  onClickDownload(val,e) {
-    e.preventDefault();
-    let blob = new Blob([ val ], {
+  onClickDownload(password,event) {
+    event.preventDefault();
+    let blob = new Blob([ password ], {
       type: 'text/plain'
     });
     saveAs(blob, 'account-recovery-file.txt');
   }
 
   //Copy the password to clipboard
-  onClickCopy(password,e) {
-    e.preventDefault();
+  onClickCopy(password,event) {
+    event.preventDefault();
     copy(password);
   }
 
@@ -93,50 +95,50 @@ class SignupForm extends React.Component {
   render() {
     const { handleSubmit,onClickLogin,errors,loadingStatus,invalid,asyncValidating,submitting } = this.props;
     return (
-          <form onSubmit={ handleSubmit }>
-            <div className='form-fields'>
-                <Field name='accountName' id='accountName' errors={ errors }
-                  component={ renderField }  placeholder={ I18n.t('signup.acc_name') } type='text' tabIndex='1' />
-            </div>
-            <div className='form-fields pos-rel'>
-            <Field name='password' errors={ errors } component={ renderPasswordField }
-                    type='text' onClickCopy={ this.onClickCopy.bind(this) } tabIndex='2'/>
-            </div>
-            <div className='form-fields'>
-              <Field name='password_retype' errors={ errors }
-                  component={ renderRetypePasswordField }
-                  type='text' tabIndex='3'/>
-            </div>
-            <div className='form-fields'>
-              <div className='download-file'>
-                <p className='margin-btm-20 font15'>
-                  { I18n.t('signup.password_warning_1') }<strong>{ I18n.t('signup.password_warning_2') }</strong>{ I18n.t('signup.password_warning_3') }
-                </p>
-                <div className='text-center'>
-                  <Fields names={ ['password','password_retype'] } component={ renderRecoveryButtonFields } onClick={ this.onClickDownload.bind(this) }/>
-                </div>
+        <form onSubmit={ handleSubmit }>
+          <div className='form-fields'>
+              <Field name='accountName' id='accountName' errors={ errors }
+                component={ renderField }  placeholder={ I18n.t('signup.acc_name') } type='text' tabIndex='1' />
+          </div>
+          <div className='form-fields pos-rel'>
+          <Field name='password' errors={ errors } component={ renderPasswordField }
+                  type='text' onClickCopy={ this.onClickCopy.bind(this) } tabIndex='2'/>
+          </div>
+          <div className='form-fields'>
+            <Field name='password_retype' errors={ errors }
+                component={ renderRetypePasswordField }
+                type='text' tabIndex='3'/>
+          </div>
+          <div className='form-fields'>
+            <div className='download-file'>
+              <p className='margin-btm-20 font15'>
+                { I18n.t('signup.password_warning_1') }<strong>{ I18n.t('signup.password_warning_2') }</strong>{ I18n.t('signup.password_warning_3') }
+              </p>
+              <div className='text-center'>
+                <Fields names={ ['password','password_retype'] } component={ renderRecoveryButtonFields } onClick={ this.onClickDownload.bind(this) }/>
               </div>
             </div>
-            <div className='clearfix center-div'>
-              <Field name='understand' id='understand'
-                  component={ renderCheckboxField } type='checkbox'
-                    pseudoText={ I18n.t('signup.cannot_recover_password_warning') }  tabIndex='4'/>
-              <Field name='secure' id='secure'
-                  component={ renderCheckboxField } type='checkbox'
-                  pseudoText={ I18n.t('signup.securely_saved_password_warning') }  tabIndex='5'/>
-            </div>
-            <div className='form-fields'>
-                <button type='submit'
-                  className={ 'btn ' + (invalid || submitting || asyncValidating ||
-                  loadingStatus===LoadingStatus.LOADING ? 'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-25' }
-                disabled={ invalid || submitting || asyncValidating || loadingStatus===LoadingStatus.LOADING }
-                >{ loadingStatus===LoadingStatus.LOADING ? I18n.t('application.loading') : I18n.t('signup.create_account') }</button>
-            </div>
-            <div className='form-fields'>
-              <p className='font16'> { I18n.t('signup.already_account') } <a className='underline blue-text' href='#' onClick={ onClickLogin }> { I18n.t('signup.log_in') } </a> </p>
-            </div>
-          </form>
-        )
+          </div>
+          <div className='clearfix center-div'>
+            <Field name='understand' id='understand'
+                component={ renderCheckboxField } type='checkbox'
+                  pseudoText={ I18n.t('signup.cannot_recover_password_warning') }  tabIndex='4'/>
+            <Field name='secure' id='secure'
+                component={ renderCheckboxField } type='checkbox'
+                pseudoText={ I18n.t('signup.securely_saved_password_warning') }  tabIndex='5'/>
+          </div>
+          <div className='form-fields'>
+              <button type='submit'
+                className={ 'btn ' + (invalid || submitting || asyncValidating ||
+                loadingStatus===LoadingStatus.LOADING ? 'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-25' }
+              disabled={ invalid || submitting || asyncValidating || loadingStatus===LoadingStatus.LOADING }
+              >{ loadingStatus===LoadingStatus.LOADING ? I18n.t('application.loading') : I18n.t('signup.create_account') }</button>
+          </div>
+          <div className='form-fields'>
+            <p className='font16'> { I18n.t('signup.already_account') } <a className='underline blue-text' href='#' onClick={ onClickLogin }> { I18n.t('signup.log_in') } </a> </p>
+          </div>
+        </form>
+      )
   }
 }
 
@@ -146,7 +148,6 @@ export default reduxForm({
   //Form field validations
   validate: function submit(values) {
     let errors = {};
-
     //Account name field validations
     let accountError = ChainValidation.is_account_name_error(values.get('accountName'));
     if(accountError) {
@@ -156,12 +157,10 @@ export default reduxForm({
         errors.accountName = I18n.t('signup.premium_acc_text');
       }
     }
-
     //Password-Re-type password fields validation
     if (values.get('password') && values.get('password') !== values.get('password_retype')) {
       errors.password_retype = I18n.t('signup.password_no_match');
     }
-
     //Checkboxes validations
     if (!values.get('understand')) {
       errors.understand = I18n.t('signup.field_req');
@@ -169,14 +168,13 @@ export default reduxForm({
     if (!values.get('secure')) {
       errors.secure = I18n.t('signup.field_req');
     }
-
     return errors;
   },
   //Async Validation to check if the account name is already taken
   asyncValidate: (values) => {
     return AccountService.lookupAccounts(values.get('accountName'), 1)
         .then(result => {
-          let account = result.find(a => a[0] === values.get('accountName'));
+          let account = result.find(account => account[0] === values.get('accountName'));
           if(account) {
             throw { accountName: I18n.t('signup.acc_name_taken') };
           }

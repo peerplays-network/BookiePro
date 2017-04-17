@@ -1,82 +1,17 @@
-import React, { Component } from 'react';
-import { Table,DatePicker,Select } from 'antd';
-var I18n = require('react-redux-i18n').I18n;
+import React, { PureComponent } from 'react';
+import { Table,DatePicker,Select,LocaleProvider } from 'antd';
 import './MyAccount.less';
-import dateFormat from 'dateformat';
+import { LoadingStatus } from '../../constants';
+import { I18n } from 'react-redux-i18n';
 
-const columns = [
-  {
-    title: I18n.t('myAccount.id'),
-    dataIndex: 'id',
-    key: 'id'
-  },
-  {
-    title: I18n.t('myAccount.time'),
-    dataIndex: 'time',
-    key: 'time'
-  },
-  {
-    title: I18n.t('myAccount.description'),
-    dataIndex: 'desc',
-    key: 'desc'
-  },
-  {
-    title: I18n.t('myAccount.status'),
-    dataIndex: 'status',
-    key: 'status',
-  },
-  {
-    title: I18n.t('myAccount.amount'),
-    dataIndex: 'amount',
-    key: 'amount',
-  }
-];
 const Option = Select.Option;
+const paginationParams = { pageSize: 20 };
 
-class TransactionHistory extends Component {
-
-  state = {
-    startValue: null,
-    endValue: null,
-    endOpen: false
-  };
-
-  disabledStartDate = (startValue) => {
-    const endValue = this.state.endValue;
-    if (!startValue || !endValue) {
-      return false;
-    }
-    return startValue.valueOf() > endValue.valueOf();
-  }
-
-  disabledEndDate = (endValue) => {
-    const startValue = this.state.startValue;
-    if (!endValue || !startValue) {
-      return false;
-    }
-    return endValue.valueOf() <= startValue.valueOf();
-  }
+class TransactionHistory extends PureComponent {
 
   render() {
-
-    const { transactionHistory,currencyFormat,handleSearchClick,periodChange,showDateFields,onStartChange,onEndChange} = this.props;
-    const paginationParams = { pageSize: 20 };
-    //Format and bind data.
-    let newTxList = [];
-    transactionHistory.forEach(row => {
-      let rowObj = {
-        key: row.get('id'),
-        id: row.get('id'),
-        'time': dateFormat(row.get('time'), "dd/mm/yyyy h:MM TT"),
-        'desc': row.get('description'),
-        'status': <span
-          className={ row.get('status') ==='Processing' ? 'processed'
-            : (row.get('status') ==='Completed' ? 'completed' : '') }>{ row.get('status') }</span>,
-        'amount': row.getIn(['op',1,'fee', 'amount']) + ' ' + currencyFormat
-      };
-      newTxList.push(rowObj);
-    });
-
+    const { transactionHistory,transHistLoadingStatus,dataColumns,handleSearchClick,periodChange,showDateFields,
+     onStartChange,onEndChange,disabledFromDate,disabledToDate,fromDate,toDate } = this.props;
     return (
       <div className='transaction-table'>
         <div className='top-data clearfix'>
@@ -91,52 +26,50 @@ class TransactionHistory extends Component {
                 className='ant-form-inline'>
                 <div
                   className='ant-form-item'>
-                  <label>
-                    { I18n.t('myAccount.period') }</label>
+                  <label>{ I18n.t('application.period') }</label>
                   <Select className='bookie-select' defaultValue='last7Days' style={ {width: 150} } onChange={ periodChange }>
-                    <Option value='last7Days'>Last 7 days</Option>
-                    <Option value='last14Days'>Last 14 days</Option>
-                    <Option value='thisMonth'>This month</Option>
-                    <Option value='lastMonth'>Last month</Option>
-                    <Option value='custom'>Custom</Option>
+                    <Option value='last7Days'>{ I18n.t('application.last_7_Days') }</Option>
+                    <Option value='last14Days'>{ I18n.t('application.last_14_Days') }</Option>
+                    <Option value='thisMonth'>{ I18n.t('application.this_Month') }</Option>
+                    <Option value='lastMonth'>{ I18n.t('application.last_Month') }</Option>
+                    <Option value='custom'>{ I18n.t('application.custom') }</Option>
                   </Select>
                 </div>
-              {
-                showDateFields
-                  ?   <div
-                      className='ant-form-item'>
-                      <label>
-                        { I18n.t('myAccount.date') }</label>
+                { showDateFields ?
+                  <LocaleProvider locale={ I18n.t('application.locale') }>
+                    <div className='ant-form-item'>
+                      <label>{ I18n.t('myAccount.date') }</label>
                         <DatePicker
-                        disabledDate={ this.disabledStartDate }
-                        format='YYYY-MM-DD HH:mm:ss'
-                        //value={ startDate }
-                        placeholder='From'
-                        onChange={ onStartChange }
-                      />
-                      <span className='margin-lr-10 font16'>  - </span>
-                        <DatePicker
-                         disabledDate={ this.disabledEndDate }
+                         disabledDate={ disabledFromDate }
                          format='YYYY-MM-DD HH:mm:ss'
-                         //value={ endDate }
-                         placeholder='To'
-                         onChange={ onEndChange }
-                         />
+                         placeholder='From'
+                         onChange={ onStartChange } />
+                        <span className='margin-lr-10 font16'>  - </span>
+                        <DatePicker
+                          disabledDate={ disabledToDate }
+                          format='YYYY-MM-DD HH:mm:ss'
+                          placeholder='To'
+                          onChange={ onEndChange }/>
                     </div>
-                : null
-              }
+                  </LocaleProvider> : null
+                }
                 <div className='ant-form-item'>
-                  <a className='btn btn-regular' onClick={ handleSearchClick }>Search</a>
-                  <a className='btn btn-regular margin-left-10'>Export</a>
+                  <button
+                    className={ 'btn ' + (showDateFields && (fromDate===null || toDate===null) ? 'btn-regular-disabled':' btn-regular') }
+                    disabled={ showDateFields && (fromDate===null || toDate===null) }
+                    onClick={ handleSearchClick }>{ I18n.t('application.search') }</button>
+                  <button className='btn btn-regular margin-left-10'>{ I18n.t('application.export') }</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <Table className='bookie-table'
-               pagination={ paginationParams }
-               dataSource={ newTxList }
-               columns={ columns }/>
+          locale={ {emptyText: ( transactionHistory && transactionHistory.length === 0 &&
+          transHistLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : transHistLoadingStatus )} }
+          pagination={ paginationParams }
+          dataSource={ transactionHistory }
+          columns={ dataColumns }/>
       </div>
 
     )
