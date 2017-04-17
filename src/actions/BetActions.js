@@ -199,6 +199,7 @@ class BetActions {
       }).then((sports) => {
         // Add to redux store
         dispatch(BetActions.addOrUpdateResolvedBetsAction(retrievedResolvedBets));
+        // Set status
         dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.DONE));
         log.debug('Get resolved bets succeed.');
       }).catch((error) => {
@@ -247,10 +248,11 @@ class BetActions {
       const tr = new TransactionBuilder();
       bets.forEach((bet) => {
         betIds = betIds.push(bet.get('id'));
+        //NOTE:commented as transaction add operation not doing anything
         // Create operation for each bet and attach it to the transaction
-        const operationParams = {};
-        const operationType = 'cancel_bet_operation';
-        tr.add_type_operation(operationType, operationParams);
+        // const operationParams = {};
+        // const operationType = 'cancel_bet_operation';
+        // tr.add_type_operation(operationType, operationParams);
       });
 
       dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
