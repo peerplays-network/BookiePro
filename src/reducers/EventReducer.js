@@ -1,4 +1,4 @@
-import { ActionTypes } from '../constants';
+import { ActionTypes, LoadingStatus } from '../constants';
 import _ from 'lodash';
 import Immutable from 'immutable';
 
@@ -7,6 +7,8 @@ let initialState = Immutable.fromJS({
   eventIdsBySportId: {},
   getEventsBySportIdsLoadingStatus: {},
   getEventsByIdsLoadingStatus: {},
+
+  getSearchEventsLoadingStatus: LoadingStatus.DEFAULT,
   searchResult: [],
   searchEventsError: null
 });
@@ -20,6 +22,7 @@ export default function (state = initialState, action) {
       })
       return state.mergeIn(['getEventsBySportIdsLoadingStatus'], getEventsBySportIdsLoadingStatus);
     }
+
     case ActionTypes.EVENT_SET_GET_EVENTS_BY_IDS_LOADING_STATUS: {
       let getEventsByIdsLoadingStatus = Immutable.Map();
       action.eventIds.forEach( eventId => {
@@ -27,6 +30,13 @@ export default function (state = initialState, action) {
       })
       return state.mergeIn(['getEventsByIdsLoadingStatus'], getEventsByIdsLoadingStatus);
     }
+
+    case ActionTypes.EVENT_SET_SEARCH_EVENTS_LOADING_STATUS: {
+      return state.merge({
+        getSearchEventsLoadingStatus: action.loadingStatus
+      });
+    }
+
     case ActionTypes.EVENT_ADD_OR_UPDATE_EVENTS: {
       let nextState = state;
       action.events.forEach( event => {
