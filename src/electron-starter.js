@@ -1,11 +1,12 @@
-const electron = require('electron')
+const electron = require('electron');
 // Module to control application life.
-const app = electron.app
+const app = electron.app;
 // Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
+const BrowserWindow = electron.BrowserWindow;
 
-const path = require('path')
-const url = require('url')
+const path = require('path');
+const url = require('url');
+const { Menu } = electron;
 
 //for window 10 modern ui lib
 
@@ -34,7 +35,23 @@ function createWindow () {
   mainWindow.webContents.openDevTools()
 
 
+  // TODO: edit the menu as required
+  //This is implmented to fix the copy paste issue in electron app for mac
+  //reference: https://pracucci.com/atom-electron-enable-copy-and-paste.html
+   var template = [{
+       label: "Application",
+       submenu: [
+           { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+       ]}, {
+       label: "Edit",
+       submenu: [
+           { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+           { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+           { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+       ]}
+   ];
 
+   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
 
   // Emitted when the window is closed.
