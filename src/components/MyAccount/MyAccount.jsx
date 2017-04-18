@@ -403,34 +403,6 @@ const mapStateToProps = (state) => {
   */
   const balance = account.getIn(['availableBalancesByAssetId','1.3.0','balance']);
   const availableBalance = balance !== undefined ? balance : -1;
-  //Transaction History table Columns
-  const columns = [
-    {
-      title: I18n.t('myAccount.id'),
-      dataIndex: 'id',
-      key: 'id'
-    },
-    {
-      title: I18n.t('myAccount.time'),
-      dataIndex: 'time',
-      key: 'time'
-    },
-    {
-      title: I18n.t('myAccount.description'),
-      dataIndex: 'desc',
-      key: 'desc'
-    },
-    {
-      title: I18n.t('myAccount.status'),
-      dataIndex: 'status',
-      key: 'status',
-    },
-    {
-      title: I18n.t('myAccount.amount'),
-      dataIndex: 'amount',
-      key: 'amount',
-    }
-  ];
   //Transaction History table Data (dummy data binding)
   let transactionHistoryData = [];
   if(state.getIn(['account', 'getTransactionHistoriesLoadingStatus']) === LoadingStatus.DONE)
@@ -459,7 +431,6 @@ const mapStateToProps = (state) => {
     notification: setting.get('notification'),
     currencyFormat: setting.get('currencyFormat'),
     transactionHistory: transactionHistoryData,
-    dataColumns: columns,
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: account.get('getDepositAddressLoadingStatus'),
     depositAddress: account.get('depositAddress'),

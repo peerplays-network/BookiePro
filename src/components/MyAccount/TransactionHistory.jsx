@@ -6,11 +6,39 @@ import { I18n } from 'react-redux-i18n';
 
 const Option = Select.Option;
 const paginationParams = { pageSize: 20 };
+//Transaction History table Columns
+const columns = [
+  {
+    title: I18n.t('myAccount.id'),
+    dataIndex: 'id',
+    key: 'id'
+  },
+  {
+    title: I18n.t('myAccount.time'),
+    dataIndex: 'time',
+    key: 'time'
+  },
+  {
+    title: I18n.t('myAccount.description'),
+    dataIndex: 'desc',
+    key: 'desc'
+  },
+  {
+    title: I18n.t('myAccount.status'),
+    dataIndex: 'status',
+    key: 'status',
+  },
+  {
+    title: I18n.t('myAccount.amount'),
+    dataIndex: 'amount',
+    key: 'amount',
+  }
+];
 
 class TransactionHistory extends PureComponent {
 
   render() {
-    const { transactionHistory,transHistLoadingStatus,dataColumns,handleSearchClick,periodChange,showDateFields,
+    const { transactionHistory,transHistLoadingStatus,handleSearchClick,periodChange,showDateFields,
      onStartChange,onEndChange,disabledFromDate,disabledToDate,fromDate,toDate } = this.props;
     return (
       <div className='transaction-table'>
@@ -69,7 +97,7 @@ class TransactionHistory extends PureComponent {
           transHistLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : transHistLoadingStatus )} }
           pagination={ paginationParams }
           dataSource={ transactionHistory }
-          columns={ dataColumns }/>
+          columns={ columns }/>
       </div>
 
     )
