@@ -36,6 +36,11 @@ export default function(state = initialState, action) {
         bets: oldBets.filterNot(b => action.listOfBetIds.includes(b.get('id')))
       });
     }
+    case ActionTypes.QUICK_BET_DRAWER_DELETE_ALL_BETS: {
+      return state.merge({
+        bets: Immutable.List()
+      });
+    }
     default:
       return state;
   }

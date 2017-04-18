@@ -23,6 +23,12 @@ class QuickBetDrawerPrivateActions {
       listOfBetIds
     }
   }
+
+  static deleteAllBets() {
+    return {
+      type: ActionTypes.QUICK_BET_DRAWER_DELETE_ALL_BETS,
+    }
+  }
 }
 
 class QuickBetDrawerActions {
@@ -50,6 +56,12 @@ class QuickBetDrawerActions {
   static deleteBets(bets) {
     return (dispatch) => {
       dispatch(QuickBetDrawerPrivateActions.deleteManyBets(bets.map(b => b.get('id'))));
+    }
+  }
+
+  static deleteAllBets() {
+    return (dispatch) => {
+      dispatch(QuickBetDrawerPrivateActions.deleteAllBets());
     }
   }
 }
