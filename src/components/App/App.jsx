@@ -13,13 +13,9 @@ const defaultNewVersionText = 'New version found. Please update the version'
 class App extends Component {
   constructor(props) {
     super(props);
-
-    //NOTE current version of the app, should be sync to version definied in package.json
-    const currentVersion = '1.0.0';
     this.state = {
-      currentVersion,
       needHardUpdate : false,
-      newVersionModalVisible: (StringUtils.compareVersionNumbers(currentVersion, this.props.version) < 0)
+      newVersionModalVisible: false
     };
   }
 

@@ -61,7 +61,8 @@ class AssetActions {
       } else {
         // Retrieve data from blockchain
         dispatch(AssetPrivateActions.setGetAssetsByIdsLoadingStatusAction(idsOfAssetsToBeRetrieved, LoadingStatus.LOADING));
-        return CommunicationService.getObjectsByIds(idsOfAssetsToBeRetrieved).then((assets) => {
+        // TODO: mark later
+        return CommunicationService.getObjectsByIds(idsOfAssetsToBeRetrieved, true).then((assets) => {
           // Add to redux store
           dispatch(AssetPrivateActions.addAssetsAction(assets));
           // Set status

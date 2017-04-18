@@ -172,7 +172,7 @@ class MyAccount extends Component {
         const newTxList = [];
         txList.forEach(order => {
 
-          order.tx_time = '' + BlockchainUtils.calc_block_time(order.block_num, this.props.globalObject, this.props.dynGlobalObject)
+          order.tx_time = '' + BlockchainUtils.calcBlockTime(order.block_num, this.props.globalObject, this.props.dynGlobalObject)
           order.history = 'history';
           order.amount = order.op[1].fee.amount + ' ' + this.props.currencyFormat;
           order.op_value = order.op[0] + ' op';

@@ -106,6 +106,10 @@ export const translationsObject = {
       successText: 'Congratulations! You have successfully' +
       ' changed your password.'
     },
+    notification: {
+      deposit: 'The deposit of %{amount} %{currency} is confirmed',
+      bet_resolved: 'A market you’ve bet on is ended and bets are resolved'
+    },
     welcome:{
       getting_started: 'Getting Started',
       place_bet: 'Placing a new bet',

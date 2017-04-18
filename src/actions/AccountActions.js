@@ -1,7 +1,7 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import { BlockchainUtils } from '../utility';
 import { WalletService, AccountService, KeyGeneratorService, CommunicationService } from '../services';
-import { TransactionBuilder, FetchChain } from 'graphenejs-lib';
+import { TransactionBuilder } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
 import log from 'loglevel';
 import Immutable from 'immutable';
@@ -284,11 +284,16 @@ class AccountActions {
   }
 
   // TODO: The following this are used for testing only, remove later
-  static createLimitOrder(sellAssetId, buyAssetId, sellAmount, buyAmount) {
+  static createLimitOrder() {
     return (dispatch, getState) => {
-      FetchChain('getAsset', [sellAssetId, buyAssetId]).then((result) => {
-        const sellAsset = result.get('0'); // Core token
-        const buyAsset = result.get('1');
+      const sellAssetId = '1.3.0';
+      const buyAssetId = '1.3.1';
+      const sellAmount = 0.001;
+      const buyAmount = 0.001;
+      CommunicationService.callBlockchainDbApi('get_objects',[[sellAssetId, buyAssetId]]).then((result) => {
+        console.log('result', result)
+        const sellAsset = Immutable.fromJS(result[0]); // Core token
+        const buyAsset = Immutable.fromJS(result[1]);
         const sellAssetAmount = sellAmount;
         const buyAssetAmount = buyAmount;
         const accountId = getState().getIn(['account', 'account', 'id']);
@@ -300,7 +305,7 @@ class AccountActions {
 
         // Create transaction and add operation
         const tr = new TransactionBuilder();
-        const operationParams = {
+        const operationParams1 = {
           'seller': accountId,
           'amount_to_sell': {
             'amount': sellAssetSatoshiAmount,
@@ -313,7 +318,36 @@ class AccountActions {
           },
           'fill_or_kill': isFillOrKill
         };
-        tr.add_type_operation('limit_order_create', operationParams);
+        const operationParams2 = {
+          'seller': accountId,
+          'amount_to_sell': {
+            'amount': sellAssetSatoshiAmount,
+            'asset_id': sellAssetId
+          },
+          expiration : expiration,
+          'min_to_receive': {
+            'amount': buyAssetSatoshiAmount*2,
+            'asset_id': buyAssetId
+          },
+          'fill_or_kill': isFillOrKill
+        };
+        const operationParams3 = {
+          'seller': accountId,
+          'amount_to_sell': {
+            'amount': sellAssetSatoshiAmount,
+            'asset_id': sellAssetId
+          },
+          expiration : expiration,
+          'min_to_receive': {
+            'amount': buyAssetSatoshiAmount*3,
+            'asset_id': buyAssetId
+          },
+          'fill_or_kill': isFillOrKill
+        };
+        tr.add_type_operation('limit_order_create', operationParams1);
+        tr.add_type_operation('limit_order_create', operationParams2);
+        tr.add_type_operation('limit_order_create', operationParams3);
+        console.log(tr)
         // Process transaction
         return WalletService.processTransaction(getState(), tr);
       }).then(() => {

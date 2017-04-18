@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
   notifications: [],
-  latestTransactionHistoryId: null,
+  latestTransactionHistoryIdByAccountId: {},
   initNotificationLoadingStatus: LoadingStatus.DEFAULT,
   initNotificationError: null,
   updateNotificationLoadingStatus: LoadingStatus.DEFAULT,
@@ -22,28 +22,26 @@ export default function (state = initialState, action) {
       });
     }
     case ActionTypes.NOTIFICATION_SET_LATEST_TRANSACTION_HISTORY_ID: {
-      return state.merge({
-        latestTransactionHistoryId: action.latestTransactionHistoryId
-      });
+      return state.setIn(['latestTransactionHistoryIdByAccountId', action.accountId], action.latestTransactionHistoryId);
     }
-    case ActionTypes.NOTIFICATION_SET_INIT_NOTIFICATIONS_ERROR: {
+    case ActionTypes.NOTIFICATION_SET_INIT_NOTIFICATION_ERROR: {
       return state.merge({
         initNotificationError: action.error,
         initNotificationLoadingStatus: LoadingStatus.ERROR
       })
     }
-    case ActionTypes.NOTIFICATION_SET_INIT_NOTIFICATIONS_LOADING_STATUS: {
+    case ActionTypes.NOTIFICATION_SET_INIT_NOTIFICATION_LOADING_STATUS: {
       return state.merge({
         initNotificationLoadingStatus: action.loadingStatus
       })
     }
-    case ActionTypes.NOTIFICATION_SET_UPDATE_NOTIFICATIONS_ERROR: {
+    case ActionTypes.NOTIFICATION_SET_UPDATE_NOTIFICATION_ERROR: {
       return state.merge({
         updateNotificationError: action.error,
         updateNotificationLoadingStatus: LoadingStatus.ERROR
       })
     }
-    case ActionTypes.NOTIFICATION_SET_UPDATE_NOTIFICATIONS_LOADING_STATUS: {
+    case ActionTypes.NOTIFICATION_SET_UPDATE_NOTIFICATION_LOADING_STATUS: {
       return state.merge({
         updateNotificationLoadingStatus: action.loadingStatus
       })
