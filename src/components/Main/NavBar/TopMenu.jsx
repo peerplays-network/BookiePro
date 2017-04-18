@@ -15,9 +15,17 @@ class TopMenu extends Component {
     super(props);
     this.state = {
       current: 'smile',
+      withdrawAmount:''
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
+  }
+
+  handleWithdrawSubmit(values){
+    //track the withdraw amount to display in success message after successfull submit
+    this.setState({withdrawAmount:values.get('withdrawAmount')});
+    this.props.withdraw(values.get('withdrawAmount'), values.get('walletAddr'));
   }
 
   componentDidMount(){
@@ -58,7 +66,13 @@ class TopMenu extends Component {
       <Deposit cardClass='bookie-card deposit-card' depositAddress={ depositAddress } />
     );
     const withdrawCard = (
-      <Withdraw cardClass='bookie-card withdraw-card' />
+      <Withdraw cardClass='bookie-card withdraw-card'
+        currencyFormat={ this.props.currencyFormat }
+        availableBalance={ this.props.availableBalance }
+        onSubmit={ this.handleWithdrawSubmit }
+        withdrawLoadingStatus={ this.props.withdrawLoadingStatus }
+        withdrawAmount={ this.state.withdrawAmount }
+        />
     );
     const dropdownMenuCard = (
       <DropdownMenu cardClass='menu-card' onSubmenuClick={ this.handleClick } />
@@ -135,17 +149,27 @@ class TopMenu extends Component {
 
 const mapStateToProps = (state) => {
   const account = state.get('account');
+  /*-1 will be used to check to display 'Not available' against the withdraw amount field
+      when the asset '1.3.0' is not obtained for some reason
+  */
+  const balance = account.getIn(['availableBalancesByAssetId','1.3.0','balance']);
+  const availableBalance = balance !== undefined ? balance : -1;
   return {
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: account.get('getDepositAddressLoadingStatus'),
-    depositAddress: account.get('depositAddress')
+    depositAddress: account.get('depositAddress'),
+    availableBalance: availableBalance,
+    withdrawLoadingStatus: account.get('withdrawLoadingStatus'),
+    currencyFormat: state.get('setting').get('currencyFormat'),
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     getDepositAddress: AccountActions.getDepositAddress,
-    navigateTo: NavigateActions.navigateTo
+    navigateTo: NavigateActions.navigateTo,
+    //TODO: Wallet Address verification and error response pending.
+    withdraw: AccountActions.withdraw
   }, dispatch)
 }
 

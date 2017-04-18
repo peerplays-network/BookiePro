@@ -20,7 +20,7 @@ import 'perfect-scrollbar';
 import Deposit from './Deposit'
 import Withdraw from './Withdraw'
 import dateFormat from 'dateformat';
-import { SettingActions,AccountActions } from '../../actions';
+import { SettingActions, AccountActions } from '../../actions';
 
 const Option = Select.Option;
 
@@ -46,7 +46,8 @@ class MyAccount extends Component {
       showDateFields: false,
       //Since, the default period is 'Last 7 days', we set the initial start and end date accordingly
       startDate:dateFormat(startDate, "yyyy-mm-dd h:MM:ss"),
-      endDate:dateFormat(endDate, "yyyy-mm-dd h:MM:ss")
+      endDate:dateFormat(endDate, "yyyy-mm-dd h:MM:ss"),
+      withdrawAmount:''
     }
 
     // this.fetchRecentTransactionHistory = this.fetchRecentTransactionHistory.bind(this);
@@ -54,6 +55,7 @@ class MyAccount extends Component {
     this.handleCurrFormatChange = this.handleCurrFormatChange.bind(this);
     this.handleTimeZoneChange = this.handleTimeZoneChange.bind(this);
     this.handleNotificationChange = this.handleNotificationChange.bind(this);
+    this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
 
     this.periodChange = this.periodChange.bind(this);
     this.onStartChange = this.onStartChange.bind(this);
@@ -64,7 +66,7 @@ class MyAccount extends Component {
   }
 
 
-  shouldComponentUpdate(nextProps) {
+  /*shouldComponentUpdate(nextProps) {
     // TODO: change in currentformat wont trigger update in of currentformat in table below... still investigating
     // TODO:  last_irreversible_block_num comparision to optimize  shouldComponentUpdate function
     // let {block, dynGlobalObject} = this.props;
@@ -82,7 +84,7 @@ class MyAccount extends Component {
     //this.fetchRecentTransactionHistory();
 
     return true;
-  }
+  }*/
 
   componentDidMount() {
     isMounted = true;
@@ -218,8 +220,15 @@ class MyAccount extends Component {
 
   }
 
+
   handleRedirectToChangePwd(){
     this.props.redirectToChangePwd();
+  }
+
+  handleWithdrawSubmit(values){
+    //track the withdraw amount to display in success message after successfull submit
+    this.setState({ withdrawAmount:values.get('withdrawAmount') });
+    this.props.withdraw(values.get('withdrawAmount'), values.get('walletAddr'));
   }
 
   renderSettingCard() {
@@ -351,9 +360,14 @@ class MyAccount extends Component {
           <Col span={ 8 }>
             <Deposit cardClass='bookie-card' depositAddress={ this.props.depositAddress }/>
           </Col>
-
           <Col span={ 8 }>
-            <Withdraw cardClass='bookie-card' />
+            <Withdraw cardClass='bookie-card'
+              currencyFormat={ this.props.currencyFormat }
+              availableBalance={ this.props.availableBalance }
+              onSubmit={ this.handleWithdrawSubmit }
+              withdrawLoadingStatus={ this.props.withdrawLoadingStatus }
+              withdrawAmount={ this.state.withdrawAmount }
+              />
           </Col>
           <Col span={ 8 }>
             { this.renderSettingCard() }
@@ -382,6 +396,11 @@ const mapStateToProps = (state) => {
   const app = state.get('app');
   const account = state.get('account');
   const setting = state.get('setting');
+  /*-1 will be used to check to display 'Not available' against the withdraw amount field
+      when the asset '1.3.0' is not obtained for some reason
+  */
+  const balance = account.getIn(['availableBalancesByAssetId','1.3.0','balance']);
+  const availableBalance = balance !== undefined ? balance : -1;
   return {
     dynGlobalObject: app.get('blockchainDynamicGlobalProperty'),
     globalObject: app.get('blockchainGlobalProperty'),
@@ -393,10 +412,11 @@ const mapStateToProps = (state) => {
     transactionHistory: state.getIn(['account', 'transactionHistories']),
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: account.get('getDepositAddressLoadingStatus'),
-    depositAddress: account.get('depositAddress')
+    depositAddress: account.get('depositAddress'),
+    availableBalance: availableBalance,
+    withdrawLoadingStatus: account.get('withdrawLoadingStatus')
   }
 }
-
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
@@ -406,7 +426,8 @@ function mapDispatchToProps(dispatch) {
     updateCurrencyFormat: SettingActions.updateCurrencyFormat,
     getTransactionHistory: AccountActions.getTransactionHistories,
     getDepositAddress: AccountActions.getDepositAddress,
-    redirectToChangePwd: SettingActions.redirectToChangePwd
+    redirectToChangePwd: SettingActions.redirectToChangePwd,
+    withdraw: AccountActions.withdraw
   }, dispatch)
 }
 

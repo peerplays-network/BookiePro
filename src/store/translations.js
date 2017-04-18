@@ -2,7 +2,8 @@ export const translationsObject = {
   en: {
     application: {
       welcome_title: 'Welcome to Application',
-      loading: 'loading ...'
+      loading: 'loading ...',
+      notAvailableErr: 'Not available'
     },
     myAccount:{
       home:'Home',
@@ -13,6 +14,10 @@ export const translationsObject = {
       copy: 'copy',
       withdraw: 'withdraw',
       withdraw_desc: 'Please select your amount',
+      withdraw_completed: 'Withdraw Completed',
+      withdraw_failed: 'Withdraw Failied',
+      withdraw_completed_msg_1: 'You have successfully withdrawn ',
+      withdraw_completed_msg_2: ' from your account and transferred it to your wallet.',
       send: 'send',
       send_value: 'Your Wallet Address',
       settings: 'settings',
@@ -29,6 +34,9 @@ export const translationsObject = {
       description: 'Description',
       status: 'Status',
       amount: 'Amount',
+      insuffBitcoinErr: 'You do not have sufficient bitcoin to withdraw, your current account balance is ',
+      enter_withdrawAmt: 'Enter amount you want to withdraw',
+      enter_wallet_addr: 'Enter Wallet Address',
       UTC12:'UTC+12:00',
       UTC_12:'UTC-12:00',
       UTC11:'UTC+11:00',
