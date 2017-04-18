@@ -6,7 +6,7 @@ import { withRouter } from 'react-router'
 import SplitPane from 'react-split-pane';
 import SideBar from '../SideBar';
 import { QuickBetDrawer, MarketDrawer } from '../BettingDrawers';
-import { SidebarActions, NavigateActions } from '../../actions';
+import { NavigateActions } from '../../actions';
 import Immutable from 'immutable';
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
 
@@ -29,12 +29,6 @@ class Exchange extends Component {
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
     Ps.initialize(ReactDOM.findDOMNode(this.refs.main));
-
-    //NOTE to be fine tune later for not to call api everytime,
-    // we could fine tune when we could SUBSCRIBE change in
-    // sport / eventgp / event / betting mkg gp
-    const { getDataForSidebar } = this.props
-    getDataForSidebar();
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -175,7 +169,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
-    getDataForSidebar : SidebarActions.getData,
   }, dispatch);
 }
 
