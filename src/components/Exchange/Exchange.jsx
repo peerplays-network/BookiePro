@@ -55,7 +55,7 @@ class Exchange extends Component {
   }
 
   //////// dummy buttons for routing hooking BEGINS //////////
-  updateUplacedBetStatus(value){
+  updateUnplacedBetStatus(value){
     this.setState({
       hasUnplacedBet: value,
     })
@@ -119,13 +119,13 @@ class Exchange extends Component {
     );
 
     // Pick one of the 2 betting drawers based on the path
-    //NOTE////// updateUplacedBetStatus is used for dummy buttons //////////
+    //NOTE////// updateUnplacedBetStatus is used for dummy buttons //////////
     let selectBettingDrawer = (pathTokens) => {
       if (pathTokens.length < 3 || pathTokens[2].toLowerCase() !== 'bettingmarketgroup') {
-        return ( <QuickBetDrawer updateUplacedBetStatus={ this.updateUplacedBetStatus.bind(this) } bettingStatus={ this.state.hasUnplacedBet } /> );
+        return ( <QuickBetDrawer updateUnplacedBetStatus={ this.updateUnplacedBetStatus.bind(this) } bettingStatus={ this.state.hasUnplacedBet } /> );
       }
 
-      return ( <MarketDrawer updateUplacedBetStatus={ this.updateUplacedBetStatus.bind(this) } bettingStatus={ this.state.hasUnplacedBet } /> );
+      return ( <MarketDrawer updateUnplacedBetStatus={ this.updateUnplacedBetStatus.bind(this) } bettingStatus={ this.state.hasUnplacedBet } /> );
     }
 
     return (

@@ -18,7 +18,9 @@ const renderContent = (props) => (
           <Translate value='quick_bet_drawer.unconfirmed_bets.empty.instructions' dangerousHTML/>
         </div>
         <div className='my-bet-button'>
-          <Button>{ I18n.t('quick_bet_drawer.unconfirmed_bets.empty.my_bet_button') }</Button>
+          <Button onClick={ () => props.navigateTo('/my-wager/') }>
+            { I18n.t('quick_bet_drawer.unconfirmed_bets.empty.my_bet_button') }
+          </Button>
         </div>
       </div>
     }
@@ -53,18 +55,17 @@ class QuickBetDrawer extends Component {
     Ps.update(ReactDOM.findDOMNode(this.refs.bettingtable));
   }
 
+  goToMyBets(){
+    this.props.navigateTo('/my-wager/');
+  }
+
   //////// dummy buttons for routing hooking BEGINS //////////
   setUnplacedBetButton() {
-    this.props.updateUplacedBetStatus(true);
+    this.props.updateUnplacedBetStatus(true);
   }
 
   clearUnplacedBetButton() {
-    this.props.updateUplacedBetStatus(false);
-  }
-
-  goToMyBets(){
-    this.props.navigateTo('/my-wager/');
-
+    this.props.updateUnplacedBetStatus(false);
   }
   //////// dummy buttons for routing hooking ENDS //////////
 
@@ -77,7 +78,6 @@ class QuickBetDrawer extends Component {
             {/* dummy buttons for routing hooking BEGINS  */}
             <Button title='set' onClick={ this.setUnplacedBetButton } >update bet </Button>
             <Button title='clear' onClick={ this.clearUnplacedBetButton } > clear bet</Button>
-            <Button title='clear' onClick={ this.goToMyBets } > go to my bets</Button>
             {/* dummy buttons for routing hooking ENDS */}
           </div>
           <SplitPane
