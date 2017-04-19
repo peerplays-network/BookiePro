@@ -115,6 +115,9 @@ class SimpleBettingWidget extends Component {
       }
       // TODO: Exception handling
       const offer = offers.get(index-1).get(typeOfBet).get(0);
+      if (offer === undefined) {
+        return '';
+      }
       // TODO: REVIEW This is temp solution. The better way is to use the Competitor data.
       const team = record.get('name').split('vs')[index-1].trim()
       return (

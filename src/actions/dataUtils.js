@@ -13,8 +13,15 @@ const groupMoneyLineBinnedOrderBooks = (event, bettingMarketGroups, binnedOrderB
   moneyline.get('betting_market_ids').forEach((bettingMarketId) => {
     let immutableOrderBook = Immutable.Map();
     const orderBook = binnedOrderBooksByBettingMarketId.get(bettingMarketId);
-    immutableOrderBook = immutableOrderBook.set('back', orderBook.get('aggregated_back_bets'));
-    immutableOrderBook = immutableOrderBook.set('lay', orderBook.get('aggregated_lay_bets'));
+    if (orderBook === undefined) {
+      immutableOrderBook = immutableOrderBook
+                            .set('back', Immutable.List())
+                            .set('lay', Immutable.List());
+    } else {
+      immutableOrderBook = immutableOrderBook
+                            .set('back', orderBook.get('aggregated_back_bets'))
+                            .set('lay', orderBook.get('aggregated_lay_bets'));
+    }
     groupedBinnedOrderBooks = groupedBinnedOrderBooks.push(immutableOrderBook);
   });
   return groupedBinnedOrderBooks;
