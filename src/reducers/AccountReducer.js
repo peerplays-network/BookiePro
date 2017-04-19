@@ -20,7 +20,6 @@ let initialState = Immutable.fromJS({
   inGameBalancesByAssetId: {},
   availableBalancesByAssetId: {},
   statistics: {},
-  availableBalance: 0
 });
 
 export default function (state = initialState, action) {
@@ -84,19 +83,13 @@ export default function (state = initialState, action) {
         account: action.account
       });
     }
-    case ActionTypes.ACCOUNT_SET_AVAILABLE_BALANCES: {
-      let availableBalancesByAssetId = Immutable.Map();
+    case ActionTypes.ACCOUNT_ADD_OR_UPDATE_AVAILABLE_BALANCES: {
+      let nextState = state;
       action.availableBalances.forEach((balance) => {
         const assetId = balance.get('asset_type');
-        availableBalancesByAssetId = availableBalancesByAssetId.set(assetId, balance);
+        nextState = nextState.setIn(['availableBalancesByAssetId', assetId], balance);
       })
-      return state.merge({
-        availableBalancesByAssetId
-      })
-    }
-    case ActionTypes.ACCOUNT_UPDATE_AVAILABLE_BALANCE: {
-      const assetId = action.availableBalance.get('asset_type');
-      return state.setIn(['availableBalancesByAssetId', assetId], action.availableBalance);
+      return nextState;
     }
     case ActionTypes.ACCOUNT_REMOVE_AVAILABLE_BALANCE_BY_ID: {
       return state.updateIn(['availableBalancesByAssetId'], availableBalancesByAssetId => {

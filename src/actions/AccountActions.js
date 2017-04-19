@@ -3,6 +3,7 @@ import { BlockchainUtils } from '../utility';
 import { WalletService, AccountService, KeyGeneratorService, CommunicationService } from '../services';
 import { TransactionBuilder } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
+import AssetActions from './AssetActions';
 import log from 'loglevel';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
@@ -106,10 +107,11 @@ class AccountPrivateActions {
     }
   }
 
-  static updateAvailableBalanceAction(availableBalance) {
+
+  static addOrUpdateAvailableBalancesAction(availableBalances) {
     return {
-      type: ActionTypes.ACCOUNT_UPDATE_AVAILABLE_BALANCE,
-      availableBalance,
+      type: ActionTypes.ACCOUNT_ADD_OR_UPDATE_AVAILABLE_BALANCES,
+      availableBalances,
     }
   }
 
@@ -131,22 +133,20 @@ class AccountActions {
     return AccountPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DEFAULT);
   }
 
-  static updateAvailableBalance(availableBalance) {
+  static addOrUpdateAvailableBalances(availableBalances) {
     return (dispatch, getState) => {
-      const assetId = availableBalance.get('asset_type');
-      const currentBalance = getState().getIn(['account', 'availableBalancesByAssetId', assetId]);
-      if (!availableBalance.equals(currentBalance)) {
-        dispatch(AccountPrivateActions.updateAvailableBalanceAction(availableBalance));
-      }
+      const assetIds = availableBalances.map( balance => balance.get('asset_type'));
+      // Get asset objects for each balance
+      dispatch(AssetActions.getAssetsByIds(assetIds)).then((assets) => {
+        // Save available balances
+        dispatch(AccountPrivateActions.addOrUpdateAvailableBalancesAction(availableBalances));
+        log.debug('Add available balances succeeds.');
+      }).catch((error) => {
+        log.error('Fail to add or update available balances', error);
+      })
     }
   }
 
-  static setAvailableBalancesAction(availableBalances) {
-    return {
-      type: ActionTypes.ACCOUNT_SET_AVAILABLE_BALANCES,
-      availableBalances,
-    }
-  }
 
   static setInGameBalancesAction(inGameBalances) {
     return {
@@ -364,8 +364,8 @@ class AccountActions {
   static logout() {
     return (dispatch) => {
       dispatch(AccountPrivateActions.logoutAction());
-      // Navigate to the beginning of the app
-      dispatch(NavigateActions.navigateTo('/'));
+      // Navigate to the login page of the app
+      dispatch(NavigateActions.navigateTo('/login'));
       log.debug('Logout user succeed.');
     }
   }

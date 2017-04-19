@@ -166,13 +166,10 @@ class CommunicationService {
         }
         case ObjectPrefix.ACCOUNT_BALANCE_PREFIX: {
           const myAccountId = this.getState().getIn(['account', 'account', 'id']);
-          updatedObjects.forEach((updatedObject) => {
-            const ownerId = updatedObject.get('owner');
-            // Check if this balance related to my account
-            if (ownerId === myAccountId) {
-              this.dispatch(AccountActions.updateAvailableBalance(updatedObject));
-            }
-          });
+          // Filter the balances related to the account
+          const myAvailableBalances = updatedObjects.filter( balance => balance.get('owner') === myAccountId);
+          this.dispatch(AccountActions.addOrUpdateAvailableBalances(myAvailableBalances));
+
           break;
         }
         case ObjectPrefix.SPORT_PREFIX: {
