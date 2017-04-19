@@ -57,7 +57,6 @@ class Exchange extends Component {
   }
 
   handleLeave(){
-    // TODO: Handle Market Drawer too
     const transitionName = this.props.location.pathname.split("/");
     if (transitionName.length < 3 || transitionName[2].toLowerCase() !== 'bettingmarketgroup') {
       this.props.clearQuickBetDrawer();
