@@ -3,6 +3,7 @@ import { CommunicationService } from '../services';
 import { ChainTypes } from 'graphenejs-lib';
 import { StringUtils } from '../utility';
 import log from 'loglevel';
+import NotificationActions from './NotificationActions';
 
 class SoftwareUpdatePrivateActions {
   static setUpdateParameter(version, displayText) {
@@ -59,7 +60,15 @@ class SoftwareUpdateActions {
 
                 // If it has version then it is an update transaction
                 if (version) {
+                  // Set update parameter
                   dispatch(SoftwareUpdatePrivateActions.setUpdateParameter(version, displayText));
+                  // Check if we need to add it to notification list
+                  const newVerNum = version.split('.');
+                  const currentVernNum = Config.version.split('.');
+                  const needSoftUpdate = ( newVerNum[0] ===  currentVernNum[0] ) && ( newVerNum[1] > currentVernNum[1] )
+                  if (needSoftUpdate) {
+                    dispatch(NotificationActions.addSoftUpdateNotification(version));
+                  }
                   // Terminate early
                   return false;
                 }

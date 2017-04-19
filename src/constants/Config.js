@@ -1,4 +1,5 @@
 export default {
+  version: '1.0.0',
   faucetUrls: ['https://595-dev-faucet.pixelplex.by'],
   blockchainUrls: [
     'wss://595-dev-blockchain.pixelplex.by/ws',

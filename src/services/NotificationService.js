@@ -78,6 +78,7 @@ class NotificationService {
   static convertTransactionsToNotifications(state, transactions, relevantAssetsById, relevantBettingMarketsById) {
     const globalProperty = state.getIn(['app', 'blockchainGlobalProperty']);
     const dynamicGlobalProperty = state.getIn(['app', 'blockchainDynamicGlobalProperty']);
+    const myAccountId = state.getIn(['account', 'account', 'id']);
     // TODO: get currency
     const currency = 'BTC';
     let notifications = Immutable.List();
@@ -93,7 +94,8 @@ class NotificationService {
           // TODO: check if it is from gateway
           // const from = operationContent.get('from');
           const isFromGateway = true;
-          if (isFromGateway) {
+          const isForMe = operationContent.get('to') === myAccountId;
+          if (isFromGateway && isForMe) {
             // Get amount and check
             const assetId = operationContent.getIn(['amount', 'asset_id']);
             const assetPrecision = relevantAssetsById.getIn([assetId, 'precision']);
