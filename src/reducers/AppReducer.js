@@ -63,7 +63,9 @@ export default function (state = initialState, action) {
       });
     }
     case ActionTypes.ACCOUNT_LOGOUT: {
-      return initialState;
+      return state.merge({
+        isLoggedIn: false
+      });
     }
     default:
       return state;
