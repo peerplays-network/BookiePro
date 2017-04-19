@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Icon, Input, Table } from 'antd';
+import { Button, Icon, Table } from 'antd';
 import Immutable from 'immutable';
 
 const renderTeam = (text, record) => (
@@ -12,9 +12,13 @@ const renderTeam = (text, record) => (
 const renderInput = (field, action) => {
   return (text, record) => {
     // antd table records are vanilla JS objects
+    // we cannot use antd Input component here because we have problem
+    // changing the value if user clicks on an offer from the same market
     return (
-      <Input
-        defaultValue={ text }
+      <input
+        type='text'
+        value={ text }
+        className='ant-input'
         onChange={
           (event) => {
             const delta = Immutable.Map()
