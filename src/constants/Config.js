@@ -1,5 +1,5 @@
 export default {
-  version: '1.0.0',
+  version: '1.0.0', // TODO: this one should be in sync with version in package.json
   faucetUrls: ['https://595-dev-faucet.pixelplex.by'],
   blockchainUrls: [
     'wss://595-dev-blockchain.pixelplex.by/ws',
