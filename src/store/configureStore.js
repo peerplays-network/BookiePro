@@ -4,14 +4,13 @@ import { hashHistory } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
 import localforage from 'localforage';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { autoRehydrate, persistStore } from 'redux-persist-immutable';
+import { autoRehydrate, persistStore, createTransform } from 'redux-persist-immutable';
 import { loadTranslations, setLocale } from 'react-redux-i18n';
 import { I18n } from 'react-redux-i18n';
 import { translationsObject } from './translations';
 import Immutable from 'immutable';
 import rootReducer from '../reducers';
 import log from 'loglevel';
-import createFilter from 'redux-persist-transform-filter';
 
 const syncImmutableTranslationWithStore = (store) => {
   I18n.setTranslationsGetter(() => {
@@ -66,17 +65,23 @@ export default function configureStore() {
   });
   localforage.setDriver(localforage.INDEXEDDB);
 
-  // Create filter
-  const saveSubsetNotificationFilter = createFilter(
-  'notification',
-  ['latestTransactionHistoryIdByAccountId']
-);
+  // Create filter to whitelist only subset of the redux store
+  const subsetFilterTransform = createTransform(
+    (inboundState, key) => {
+      // Only persist latestTransactionHistoryIdByAccountId for notification reducer
+      if (key === 'notification') {
+        const savedState = inboundState.filter((v, k) => k === 'latestTransactionHistoryIdByAccountId');
+        return savedState;
+      }
+    },
+    (outboundState, key) => { return outboundState },
+  );
 
   // Persist store
   persistStore(store, {
     storage: localforage,
-    whitelist: ['setting', 'account'], // Only setting wants to be persisted
-    transforms: [saveSubsetNotificationFilter]
+    whitelist: ['setting', 'notification'], // Only setting wants to be persisted
+    transforms: [subsetFilterTransform],
   }, () => {
     log.debug('Auto Rehydrate completed');
   });
