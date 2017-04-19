@@ -9,12 +9,12 @@ const initialState = Immutable.fromJS({
 
 export default function (state = initialState, action) {
   switch(action.type) {
-    case ActionTypes.ASSET_ADD_ASSETS: {
-      let assetsById = Immutable.Map();
+    case ActionTypes.ASSET_ADD_OR_UPDATE_ASSETS: {
+      let newState = state;
       action.assets.forEach( asset => {
-        assetsById = assetsById.set(asset.get('id'), asset);
+        newState = newState.setIn(['assetsById', asset.get('id')], asset);
       })
-      return state.mergeIn(['assetsById'], assetsById);
+      return newState;
     }
     case ActionTypes.ASSET_SET_GET_ASSETS_BY_IDS_LOADING_STATUS: {
       let getAssetsByIdsLoadingStatus = Immutable.Map();

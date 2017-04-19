@@ -115,7 +115,7 @@ class CommunicationService {
           break;
         }
         case ObjectPrefix.ASSET_PREFIX: {
-          this.dispatch(AssetActions.updateAssetsAction(updatedObjects));
+          this.dispatch(AssetActions.addOrUpdateAssetsAction(updatedObjects));
           break;
         }
         case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
@@ -329,9 +329,11 @@ class CommunicationService {
       }
 
       // Get current blockchain data (dynamic global property and global property), to ensure blockchain time is in sync
-      this.callBlockchainDbApi('get_objects', [['2.1.0', '2.0.0']]).then( result => {
+      // Also ask for core asset here
+      this.callBlockchainDbApi('get_objects', [['2.1.0', '2.0.0', '1.3.0']]).then( result => {
         const blockchainDynamicGlobalProperty = result.get(0);
         const blockchainGlobalProperty = result.get(1);
+        const coreAsset = result.get(2);
         const now = new Date().getTime();
         const headTime = blockchainTimeStringToDate(blockchainDynamicGlobalProperty.get('time')).getTime();
         const delta = (now - headTime)/1000;
@@ -349,6 +351,8 @@ class CommunicationService {
             dispatch(AppActions.setBlockchainDynamicGlobalPropertyAction(blockchainDynamicGlobalProperty));
             // Save global property
             dispatch(AppActions.setBlockchainGlobalPropertyAction(blockchainGlobalProperty));
+            // Save core asset
+            dispatch(AssetActions.addOrUpdateAssetsAction([coreAsset]));
             resolve();
           });
         } else {
