@@ -381,7 +381,7 @@ class MyAccount extends PureComponent {
         <Row>
           <TransactionHistory
              transHistLoadingStatus={ this.props.transHistLoadingStatus } transactionHistory={ this.props.transactionHistory }
-             dataColumns={ this.props.dataColumns } handleSearchClick={ this.searchTransactionHistory }
+             handleSearchClick={ this.searchTransactionHistory }
              periodChange={ this.periodChange } showDateFields={ this.state.showDateFields }
              onStartChange={ this.onStartChange } onEndChange={ this.onEndChange }
              disabledFromDate={ this.disabledFromDate } disabledToDate={ this.disabledToDate }
