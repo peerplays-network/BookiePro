@@ -15,6 +15,7 @@ import { I18n } from 'react-redux-i18n';
  * Planning to move every betting-widget-related componets to BettingWidget folder, serving similar purpose as BettingDrawers
  **/
 
+const floatPlaces = 2;
 const itemDisplay = 3;
 const bitcoinSymbol = '\u0243';
 
@@ -31,80 +32,103 @@ class ComplexBettingWidget2 extends Component {
     }
 
     this.onOfferClicked = this.onOfferClicked.bind(this);
-    this.swiftOfferDisplay = this.swiftOfferDisplay.bind(this);
+    this.shiftOfferDisplay = this.shiftOfferDisplay.bind(this);
     this.setTableData = this.setTableData.bind(this);
   }
 
   componentDidMount(){
-    this.setTableData(this.props.marketData)
+    this.setTableData(this.props.marketData, this.props.unconfirmedBets)
+
 
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.marketData !== nextProps.marketData){
-      this.setTableData(nextProps.marketData)
+    if (!this.props.marketData.equals( nextProps.marketData) ||
+      this.props.unconfirmedBets !== nextProps.unconfirmedBets){
+      this.setTableData(nextProps.marketData, nextProps.unconfirmedBets)
     }
-
   }
 
   // betting widget full :
   //                 ----------------------------------------  BACK ALL    |     LAY ALL ---------------------------------------
   // COMPTEITOR 1 | backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2]
   // COMPTEITOR 2 | backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2]
-  setTableData(marketData){
+  setTableData(marketData, unconfirmedBets){
+    let tableData = marketData;
 
-    let orig = Immutable.fromJS(marketData);
-    const startingIndex = 0
 
-    if ( !orig.equals(Immutable.fromJS([]) ) ){
+    if ( !tableData.equals(Immutable.fromJS([]) ) ){
 
       let backBookPercent = 0.0;
       let layBookPercent = 0.0;
 
-      orig.forEach((row, i) => {
+      tableData.forEach((row, i) => {
 
-        const backTableData = orig.getIn([i, 'offer', 'backOrigin'])
+        //get backTableData for i th row
+        let backStartingIndex = 0
+        if ( this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'backIndex']) ){
+          backStartingIndex = this.state.tableData.getIn([i, 'offer', 'backIndex'])
+        }
+        const backTableData = tableData.getIn([i, 'offer', 'backOrigin'])
           .sort((a, b) => b.get('odds') - a.get('odds')) //descending order
-          .slice(startingIndex, startingIndex + itemDisplay);
+          .slice(backStartingIndex, backStartingIndex + itemDisplay);
 
-        const layTableData = orig.getIn([i, 'offer', 'layOrigin'])
+        //get layTableData for i th row
+        let layStartingIndex = 0
+        if ( this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'layIndex']) ){
+          layStartingIndex = this.state.tableData.getIn([i, 'offer', 'layIndex'])
+        }
+        const layTableData = tableData.getIn([i, 'offer', 'layOrigin'])
           .sort((a, b) => a.get('odds') - b.get('odds')) //assending order
-          .slice(startingIndex, startingIndex + itemDisplay)
+          .slice(layStartingIndex, layStartingIndex + itemDisplay)
 
-        orig = orig.setIn([i, 'offer', 'back'], backTableData)
+        tableData = tableData.setIn([i, 'offer', 'back'], backTableData)
           .setIn([i, 'offer', 'lay'], layTableData)
-          .setIn([i, 'offer', 'betting_market_id'], orig.getIn([i, 'offer', 'betting_market_id']));
+          .setIn([i, 'offer', 'betting_market_id'], tableData.getIn([i, 'offer', 'betting_market_id']))
+          .setIn([i, 'offer', 'backIndex'], backStartingIndex)
+          .setIn([i, 'offer', 'layIndex'], layStartingIndex);
 
-        //adding up based on the best price that is being offered i.e. backTableData[0]
+        //back percentage calculation
+        //i.e. adding up based on the best price that is being offered i.e. backTableData[0] of each market
         if (backTableData.size > 0){
-          backBookPercent = parseFloat(backBookPercent, 10) + parseFloat( (100 / backTableData.getIn([0, 'odds'])).toFixed(2));
+          backBookPercent = parseFloat(backBookPercent) + parseFloat( (100 / backTableData.getIn([0, 'odds'])) );
+          backBookPercent = parseFloat(backBookPercent).toFixed(floatPlaces)
         }
 
-        //adding up based on the best price that is being offered i.e. layTableData[0]
+        //lay percentage calculation
+        //i.e. adding up based on the best price that is being offered i.e. layTableData[0] of each market
         if (layTableData.size > 0){
-          layBookPercent = parseFloat(layBookPercent, 10) + parseFloat( (100 / layTableData.getIn([0, 'odds'])).toFixed(2));
+          layBookPercent = parseFloat(layBookPercent) + parseFloat( (100 / layTableData.getIn([0, 'odds'])) );
+          layBookPercent = parseFloat(layBookPercent).toFixed(floatPlaces)
         }
+
+        if ( unconfirmedBets.size > 0){
+          // console.log('row 0 ' ,  JSON.stringify( row.toJS() , null , 2 ) )
+          //
+          // console.log('unconfirmedBets 0 ' , JSON.stringify( unconfirmedBets.get(0).toJS(), null , 2 ) )
+        }
+
       });
 
       this.setState({
-        tableData: orig,
+        tableData: tableData,
         backBookPercent: Math.round(backBookPercent) ,
         layBookPercent: Math.round(layBookPercent)
       })
     } else {
       this.setState({
-        tableData: Immutable.fromJS([])
+        tableData: Immutable.List()
       })
     }
 
   }
 
   //the arrow onclick funciton
-  swiftOfferDisplay(index, type, change){
+  shiftOfferDisplay(index, type, change){
 
-    let updated = this.state.tableData;
-    let offerIndex = updated.getIn([index, 'offer', type + 'Index'])
-    let layList = updated.getIn([index, 'offer', type + 'Origin'])
+    let updatedTableData = this.state.tableData;
+    let offerIndex = updatedTableData.getIn([index, 'offer', type + 'Index'])
+    let layList = updatedTableData.getIn([index, 'offer', type + 'Origin'])
 
     if ( type === 'back'){
 
@@ -124,11 +148,11 @@ class ComplexBettingWidget2 extends Component {
     }
 
     offerIndex += change
-    updated = updated.setIn([index, 'offer', type + 'Index'], offerIndex)
+    updatedTableData = updatedTableData.setIn([index, 'offer', type + 'Index'], offerIndex)
       .setIn([index, 'offer', type], layList.slice(offerIndex, offerIndex + itemDisplay));
 
     this.setState({
-      tableData: updated
+      tableData: updatedTableData
     })
 
   }
@@ -137,6 +161,7 @@ class ComplexBettingWidget2 extends Component {
     const record = Immutable.fromJS(rowInfo.row).set('name', this.props.eventName);
     const competitor = rowInfo.rowValues.name;
     const betType = column.className;
+
     // for 'null OFFER' case in which we only see 'OFFER' in item, offer will be empty
     const offer = Immutable.fromJS(rowInfo.rowValues[column.id]);
     const betting_market_id = rowInfo.row.offer.betting_market_id;
@@ -184,7 +209,7 @@ class ComplexBettingWidget2 extends Component {
         accessor: row => row.offer.back.length > 2 ? row.offer.back[2] : undefined,
         render: props => props.value ?
          <div className='back-offer'>
-           <div className='odds'>{props.value.odds}</div>
+           <div className='odds'>{ parseFloat(props.value.odds).toFixed(floatPlaces) }</div>
            <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
          </div> :
          <div className='back-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
@@ -196,7 +221,7 @@ class ComplexBettingWidget2 extends Component {
         accessor: row => row.offer.back.length > 1 ? row.offer.back[1] : undefined,
         render: props => props.value ?
          <div className='back-offer'>
-           <div className='odds'>{props.value.odds}</div>
+           <div className='odds'>{ parseFloat(props.value.odds).toFixed(floatPlaces) }</div>
            <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
          </div> :
          <div className='back-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
@@ -208,7 +233,7 @@ class ComplexBettingWidget2 extends Component {
         accessor: row => row.offer.back.length > 0 ? row.offer.back[0] : undefined,
         render: props => props.value ?
          <div className='back-offer back-all-offer'>
-           <div className='odds'>{props.value.odds}</div>
+           <div className='odds'>{ parseFloat(props.value.odds).toFixed(floatPlaces) }</div>
            <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
          </div> :
          <div className='back-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
@@ -227,7 +252,7 @@ class ComplexBettingWidget2 extends Component {
         accessor: row => row.offer.lay.length > 0 ? row.offer.lay[0] : undefined,
         render: props => props.value ?
          <div className='lay-offer lay-all-offer'>
-           <div className='odds'>{props.value.odds}</div>
+           <div className='odds'>{ parseFloat(props.value.odds).toFixed(floatPlaces) }</div>
            <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
          </div> :
          <div className='lay-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
@@ -239,7 +264,7 @@ class ComplexBettingWidget2 extends Component {
         accessor: row => row.offer.lay.length > 1 ? row.offer.lay[1] : undefined,
         render: props => props.value ?
          <div className='lay-offer'>
-           <div className='odds'>{props.value.odds}</div>
+           <div className='odds'>{ parseFloat(props.value.odds).toFixed(floatPlaces) }</div>
            <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
          </div> :
          <div className='lay-offer'>
@@ -255,7 +280,7 @@ class ComplexBettingWidget2 extends Component {
         accessor: row => row.offer.lay.length > 2 ? row.offer.lay[2] : undefined,
         render: props => props.value ?
          <div className='lay-offer'>
-           <div className='odds'>{props.value.odds}</div>
+           <div className='odds'>{ parseFloat(props.value.odds).toFixed(floatPlaces) }</div>
            <div className='price'>{ bitcoinSymbol }{props.value.price} </div>
          </div> :
          <div className='lay-offer'>
@@ -302,13 +327,13 @@ class ComplexBettingWidget2 extends Component {
                 onClick: (event) => {
 
                   if ( column.className === 'lay-right'){
-                    this.swiftOfferDisplay(rowInfo.index, 'lay', 1)
+                    this.shiftOfferDisplay(rowInfo.index, 'lay', 1)
                   } else if ( column.className === 'lay-left'){
-                    this.swiftOfferDisplay(rowInfo.index, 'lay', -1)
+                    this.shiftOfferDisplay(rowInfo.index, 'lay', -1)
                   } else if ( column.className === 'back-right'){
-                    this.swiftOfferDisplay(rowInfo.index, 'back', 1)
+                    this.shiftOfferDisplay(rowInfo.index, 'back', 1)
                   } else if ( column.className === 'back-left'){
-                    this.swiftOfferDisplay(rowInfo.index, 'back', -1)
+                    this.shiftOfferDisplay(rowInfo.index, 'back', -1)
                   } else if ( column.className === 'lay' || column.className === 'back'){
                     this.onOfferClicked(rowInfo, column)
                   }
@@ -331,6 +356,13 @@ ComplexBettingWidget2.propTypes = {
   marketData: React.PropTypes.any.isRequired
 };
 
+const mapStateToProps = (state) => {
+  const marketDrawer = state.get('marketDrawer');
+  return {
+    unconfirmedBets: marketDrawer.get('unconfirmedBets'),
+  };
+}
+
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     createBet: MarketDrawerActions.createBet,
@@ -338,6 +370,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(ComplexBettingWidget2);

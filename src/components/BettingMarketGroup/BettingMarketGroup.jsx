@@ -56,9 +56,7 @@ class BettingMarketGroup extends Component {
         /> */}
         <ComplexBettingWidget2
           eventName={ this.props.eventName }
-          marketData={
-            /*TODO: don't user toJS here but update the selector of ComplexBettingWidget2 to support immutable instead*/
-            this.props.marketData.toJS() }
+          marketData={ this.props.marketData }
         />
       </div>
     )
