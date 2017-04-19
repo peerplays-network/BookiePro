@@ -3,6 +3,7 @@ import { CommunicationService } from '../services';
 import { ChainTypes } from 'graphenejs-lib';
 import { StringUtils } from '../utility';
 import log from 'loglevel';
+import NotificationActions from './NotificationActions';
 
 class SoftwareUpdatePrivateActions {
   static setUpdateParameter(version, displayText) {
@@ -12,6 +13,14 @@ class SoftwareUpdatePrivateActions {
       displayText
     }
   }
+
+}
+
+/**
+ * Public actions
+ */
+class SoftwareUpdateActions {
+
   static setReferenceAccountAction(referenceAccount) {
     return {
       type: ActionTypes.SOFTWARE_UPDATE_SET_REFERENCE_ACCOUNT,
@@ -25,14 +34,6 @@ class SoftwareUpdatePrivateActions {
       referenceAccountStatistics
     }
   }
-}
-
-/**
- * Public actions
- */
-class SoftwareUpdateActions {
-
-
   /**
    * Check for software update
    */
@@ -59,7 +60,15 @@ class SoftwareUpdateActions {
 
                 // If it has version then it is an update transaction
                 if (version) {
+                  // Set update parameter
                   dispatch(SoftwareUpdatePrivateActions.setUpdateParameter(version, displayText));
+                  // Check if we need to add it to notification list
+                  const newVerNum = version.split('.');
+                  const currentVernNum = Config.version.split('.');
+                  const needSoftUpdate = ( newVerNum[0] ===  currentVernNum[0] ) && ( newVerNum[1] > currentVernNum[1] )
+                  if (needSoftUpdate) {
+                    dispatch(NotificationActions.addSoftUpdateNotification(version));
+                  }
                   // Terminate early
                   return false;
                 }
@@ -92,8 +101,8 @@ class SoftwareUpdateActions {
       return CommunicationService.getFullAccount(accountName).then( (fullAccount) => {
         const account = fullAccount.get('account');
         const statistics = fullAccount.get('statistics');
-        dispatch(SoftwareUpdatePrivateActions.setReferenceAccountAction(account));
-        dispatch(SoftwareUpdatePrivateActions.setReferenceAccountStatisticsAction(statistics));
+        dispatch(SoftwareUpdateActions.setReferenceAccountAction(account));
+        dispatch(SoftwareUpdateActions.setReferenceAccountStatisticsAction(statistics));
         log.debug('Listen to software update succeed.')
         // Check for software update
         return dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());

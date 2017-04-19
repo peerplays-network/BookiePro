@@ -477,24 +477,30 @@ class CommunicationService {
   /**
    * Get any blockchain object given their id
    */
-  static getObjectsByIds(arrayOfObjectIds = []) {
-    // TODO: Replace Later
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const filteredResult = [];
-        // Iterate every object in dummy data to find the matching object
-        let allObjects = [];
-        _.forEach(dummyData, (item) => {
-          allObjects = _.concat(allObjects, item);
-        })
-        _.forEach(allObjects, (item) => {
-          if (arrayOfObjectIds.includes(item.id)) {
-            filteredResult.push(item);
-          }
-        })
-        resolve(Immutable.fromJS(filteredResult));
-      }, TIMEOUT_LENGTH);
-    });
+  static getObjectsByIds(arrayOfObjectIds = [], fromBlockchain=false) {
+    // TODO: remove this separation later
+    if (fromBlockchain) {
+      return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]).then( result => {
+        return Immutable.fromJS(result);
+      });
+    } else {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const filteredResult = [];
+          // Iterate every object in dummy data to find the matching object
+          let allObjects = [];
+          _.forEach(dummyData, (item) => {
+            allObjects = _.concat(allObjects, item);
+          })
+          _.forEach(allObjects, (item) => {
+            if (arrayOfObjectIds.includes(item.id)) {
+              filteredResult.push(item);
+            }
+          })
+          resolve(Immutable.fromJS(filteredResult));
+        }, TIMEOUT_LENGTH);
+      });
+    }
   }
 
   /**

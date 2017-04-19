@@ -50,12 +50,20 @@ class TestBookieAccount extends Component {
   }
 
   _getAccount() {
-    const account = Immutable.fromJS(acc); // dummy account
+    const account = this.props.account;
+    if (account.isEmpty()) {
+      console.log('No account is available')
+      return;
+    }
     console.log('Account:\n', account.toJS());
   }
 
   _fetchRecentTransactionHistory() {
-    const account = Immutable.fromJS(acc); // dummy account
+    const account = this.props.account;
+    if (account.isEmpty()) {
+      console.log('No account is available')
+      return;
+    }
     const accountId = account.get('id');
     if (!accountId) {
       console.log('No account');

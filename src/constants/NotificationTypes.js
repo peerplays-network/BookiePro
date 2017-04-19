@@ -1,0 +1,8 @@
+const NotificationTypes = {
+  DEPOSIT: 'DEPOSIT',
+  BET_RESOLVED: 'BET_RESOLVED',
+  EVENT_CANCELLED: 'EVENT_CANCELLED',
+  SOFTWARE_UPDATE_AVAILABLE: 'SOFTWARE_UPDATE_AVAILABLE'
+};
+
+export default NotificationTypes;

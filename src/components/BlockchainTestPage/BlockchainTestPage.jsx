@@ -24,11 +24,13 @@ class BlockchainTestPage extends Component {
   }
 
   _onClickInternalApiTestButton() {
+    this.props.dispatch(AccountActions.createLimitOrder());
     // this.props.dispatch(BetActions.getOngoingBets())
-    this.props.dispatch(AccountActions.changePassword('DgTdQBzqF1NLnniikZuoedoWYzVHjJmV28LS7PJAqWdkwRkWzkyq', 'DgTdQBzqF1NLnniikZuoedoWYzVHjJmV28LS7PJAqWdkwRkWzkyq'));
+    // this.props.dispatch(AccountActions.changePassword('DgTdQBzqF1NLnniikZuoedoWYzVHjJmV28LS7PJAqWdkwRkWzkyq', 'DgTdQBzqF1NLnniikZuoedoWYzVHjJmV28LS7PJAqWdkwRkWzkyq'));
     // Apis.instance().db_api().exec("get_full_accounts", [["1.2.152"],true]).then( results => {
     //   console.log('full accounts', results);
     // });
+
   }
 
   _getObject() {

@@ -50,7 +50,7 @@ const Utils = {
     return Math.pow(10, precision);
   },
 
-  calc_block_time(block_number, globalObject, dynGlobalObject) {
+  calcBlockTime(block_number, globalObject, dynGlobalObject) {
     if (!globalObject || !dynGlobalObject) return null;
     const block_interval = globalObject.get('parameters').get('block_interval');
     const head_block = dynGlobalObject.get('head_block_number');

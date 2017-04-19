@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import InitError from '../InitError';
-import { LoadingStatus } from '../../constants';
+import { LoadingStatus, Config } from '../../constants';
 import { NavigateActions, AppActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -13,13 +13,9 @@ const defaultNewVersionText = 'New version found. Please update the version'
 class App extends Component {
   constructor(props) {
     super(props);
-
-    //NOTE current version of the app, should be sync to version definied in package.json
-    const currentVersion = '1.0.0';
     this.state = {
-      currentVersion,
       needHardUpdate : false,
-      newVersionModalVisible: (StringUtils.compareVersionNumbers(currentVersion, this.props.version) < 0)
+      newVersionModalVisible: false
     };
   }
 
@@ -35,7 +31,7 @@ class App extends Component {
     if ( prevProps && this.props.version && this.props.version !== prevProps.version){
 
       const newVerNum = this.props.version.split('.');
-      const currentVernNum = this.state.currentVersion.split('.');
+      const currentVernNum = Config.version.split('.');
       const needHardUpdate = newVerNum[0] > currentVernNum[0]
 
       this.setState({ needHardUpdate });
@@ -44,7 +40,7 @@ class App extends Component {
 
       this.setState({
         newVersionModalVisible : (needHardUpdate || needSoftUpdate) &&
-           (StringUtils.compareVersionNumbers(this.state.currentVersion, this.props.version) < 0)
+           (StringUtils.compareVersionNumbers(Config.version, this.props.version) < 0)
       });
 
     }

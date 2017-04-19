@@ -11,6 +11,7 @@ import { translationsObject } from './translations';
 import Immutable from 'immutable';
 import rootReducer from '../reducers';
 import log from 'loglevel';
+import createFilter from 'redux-persist-transform-filter';
 
 const syncImmutableTranslationWithStore = (store) => {
   I18n.setTranslationsGetter(() => {
@@ -65,10 +66,17 @@ export default function configureStore() {
   });
   localforage.setDriver(localforage.INDEXEDDB);
 
+  // Create filter
+  const saveSubsetNotificationFilter = createFilter(
+  'notification',
+  ['latestTransactionHistoryIdByAccountId']
+);
+
   // Persist store
   persistStore(store, {
     storage: localforage,
-    whitelist: ['setting'] // Only setting wants to be persisted
+    whitelist: ['setting', 'account'], // Only setting wants to be persisted
+    transforms: [saveSubsetNotificationFilter]
   }, () => {
     log.debug('Auto Rehydrate completed');
   });
