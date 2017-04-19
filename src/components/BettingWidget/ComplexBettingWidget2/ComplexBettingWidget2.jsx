@@ -73,6 +73,7 @@ class ComplexBettingWidget2 extends Component {
 
         orig = orig.setIn([i, 'offer', 'back'], backTableData)
           .setIn([i, 'offer', 'lay'], layTableData)
+          .setIn([i, 'offer', 'betting_market_id'], orig.getIn([i, 'offer', 'betting_market_id']));
 
         //adding up based on the best price that is being offered i.e. backTableData[0]
         if (backTableData.size > 0){
@@ -133,13 +134,13 @@ class ComplexBettingWidget2 extends Component {
   }
 
   onOfferClicked(rowInfo, column) {
-
-    const record = Immutable.fromJS(rowInfo.row).set('name', this.props.eventName)
-    const competitor = rowInfo.rowValues.name
-    const betType = column.className
+    const record = Immutable.fromJS(rowInfo.row).set('name', this.props.eventName);
+    const competitor = rowInfo.rowValues.name;
+    const betType = column.className;
     // for 'null OFFER' case in which we only see 'OFFER' in item, offer will be empty
-    const offer = Immutable.fromJS(rowInfo.rowValues[column.id])
-    this.props.createBet(record, competitor, betType, offer);
+    const offer = Immutable.fromJS(rowInfo.rowValues[column.id]);
+    const betting_market_id = rowInfo.row.offer.betting_market_id;
+    this.props.createBet(record, competitor, betType, betting_market_id, offer);
   }
 
   render() {

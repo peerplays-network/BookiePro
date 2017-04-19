@@ -6,7 +6,7 @@ import { withRouter } from 'react-router'
 import SplitPane from 'react-split-pane';
 import SideBar from '../SideBar';
 import { QuickBetDrawer, MarketDrawer } from '../BettingDrawers';
-import { NavigateActions } from '../../actions';
+import { QuickBetDrawerActions, MarketDrawerActions, NavigateActions } from '../../actions';
 import Immutable from 'immutable';
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
 
@@ -17,10 +17,6 @@ class Exchange extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //////// dummy buttons for routing hooking BEGINS //////////
-      hasUnplacedBet: false,
-      //////// dummy buttons for routing hooking ENDS //////////
-
       confirmToLeave: false,
       unplacedBetModalVisible: false,
     }
@@ -54,14 +50,6 @@ class Exchange extends Component {
     router.setRouteLeaveHook(currentRoute, this.routerWillLeave.bind(this));
   }
 
-  //////// dummy buttons for routing hooking BEGINS //////////
-  updateUplacedBetStatus(value){
-    this.setState({
-      hasUnplacedBet: value,
-    })
-  }
-  //////// dummy buttons for routing hooking ENDS //////////
-
   setModalVisible(modalVisible) {
     this.setState({
       unplacedBetModalVisible: modalVisible
@@ -69,20 +57,24 @@ class Exchange extends Component {
   }
 
   handleLeave(){
-    this.setModalVisible(false)
+    const transitionName = this.props.location.pathname.split("/");
+    if (transitionName.length < 3 || transitionName[2].toLowerCase() !== 'bettingmarketgroup') {
+      this.props.clearQuickBetDrawer();
+    } else {
+      this.props.clearMarketDrawerBetslips();
+    }
+    this.setModalVisible(false);
     this.setState({
-      hasUnplacedBet: false,
       confirmToLeave: true
     });
   }
 
   routerWillLeave(nextLocation){
-
     this.setState({
       nextLocation: nextLocation
     })
 
-    if (!this.state.confirmToLeave && this.state.hasUnplacedBet){
+    if (!this.state.confirmToLeave && this.props.hasUnplacedBets){
       this.setModalVisible(true);
       return false;
     } else {
@@ -119,13 +111,12 @@ class Exchange extends Component {
     );
 
     // Pick one of the 2 betting drawers based on the path
-    //NOTE////// updateUplacedBetStatus is used for dummy buttons //////////
     let selectBettingDrawer = (pathTokens) => {
       if (pathTokens.length < 3 || pathTokens[2].toLowerCase() !== 'bettingmarketgroup') {
-        return ( <QuickBetDrawer updateUplacedBetStatus={ this.updateUplacedBetStatus.bind(this) } bettingStatus={ this.state.hasUnplacedBet } /> );
+        return ( <QuickBetDrawer /> );
       }
 
-      return ( <MarketDrawer updateUplacedBetStatus={ this.updateUplacedBetStatus.bind(this) } bettingStatus={ this.state.hasUnplacedBet } /> );
+      return ( <MarketDrawer /> );
     }
 
     return (
@@ -159,16 +150,26 @@ class Exchange extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  // Determine which betting drawer we should check
+  let path = ['marketDrawer', 'unconfirmedBets'];
+  const transitionName = ownProps.location.pathname.split("/");
+  if (transitionName.length < 3 || transitionName[2].toLowerCase() !== 'bettingmarketgroup') {
+    path = ['quickBetDrawer', 'bets'];
+  }
+
   const sidebar = state.get('sidebar');
   return {
     completeTree: sidebar.get('complete_tree'),
+    hasUnplacedBets: !state.getIn(path).isEmpty()
   };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
+    clearQuickBetDrawer: QuickBetDrawerActions.deleteAllBets,
+    clearMarketDrawerBetslips: MarketDrawerActions.deleteAllUnconfirmedBets,
   }, dispatch);
 }
 

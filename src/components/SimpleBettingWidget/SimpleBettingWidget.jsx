@@ -99,9 +99,10 @@ class SimpleBettingWidget extends Component {
     this.renderOffer = this.renderOffer.bind(this);
   }
 
-  onOfferClicked(event, record, team, betType, offer) {
+  // TODO: Cut down the number of parameters
+  onOfferClicked(event, record, team, betType, betting_market_id, offer) {
     event.preventDefault();
-    this.props.createBet(record, team, betType, offer);
+    this.props.createBet(record, team, betType, betting_market_id, offer);
   }
 
   // action: [ lay(ing) | back(ing) ]
@@ -114,6 +115,7 @@ class SimpleBettingWidget extends Component {
         return '';
       }
       // TODO: Exception handling
+      const betting_market_id = offers.get(index-1).get('betting_market_id');
       const offer = offers.get(index-1).get(typeOfBet).get(0);
       if (offer === undefined) {
         return '';
@@ -121,7 +123,7 @@ class SimpleBettingWidget extends Component {
       // TODO: REVIEW This is temp solution. The better way is to use the Competitor data.
       const team = record.get('name').split('vs')[index-1].trim()
       return (
-        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, offer) }>
+        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, offer) }>
           <div className='offer'>
             <div className='odds'>{ offer.get('odds') }</div>
             <div className='price'>{ bitcoinSymbol } { offer.get('price') }</div>

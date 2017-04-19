@@ -23,16 +23,23 @@ class QuickBetDrawerPrivateActions {
       listOfBetIds
     }
   }
+
+  static deleteAllBets() {
+    return {
+      type: ActionTypes.QUICK_BET_DRAWER_DELETE_ALL_BETS,
+    }
+  }
 }
 
 class QuickBetDrawerActions {
-  static createBet(record, team, betType, offer) {
+  static createBet(record, team, betType, betting_market_id, offer) {
     return (dispatch) => {
       const bet = Immutable.fromJS({
         event_id: record.get('id'),
         event_name: record.get('name'),
         team_name: team,
         bet_type: betType,
+        betting_market_id: betting_market_id,
         offer: offer,
         id: parseInt(moment().format('x'), 10)  // unix millisecond timestamp
       });
@@ -49,6 +56,12 @@ class QuickBetDrawerActions {
   static deleteBets(bets) {
     return (dispatch) => {
       dispatch(QuickBetDrawerPrivateActions.deleteManyBets(bets.map(b => b.get('id'))));
+    }
+  }
+
+  static deleteAllBets() {
+    return (dispatch) => {
+      dispatch(QuickBetDrawerPrivateActions.deleteAllBets());
     }
   }
 }

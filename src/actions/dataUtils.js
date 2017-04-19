@@ -11,7 +11,7 @@ const groupMoneyLineBinnedOrderBooks = (event, bettingMarketGroups, binnedOrderB
   let groupedBinnedOrderBooks = Immutable.List();
   // Implicit Rule: the first betting market is for the home team
   moneyline.get('betting_market_ids').forEach((bettingMarketId) => {
-    let immutableOrderBook = Immutable.Map();
+    let immutableOrderBook = Immutable.Map().set('betting_market_id', bettingMarketId);
     const orderBook = binnedOrderBooksByBettingMarketId.get(bettingMarketId);
     if (orderBook === undefined) {
       immutableOrderBook = immutableOrderBook

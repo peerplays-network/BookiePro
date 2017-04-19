@@ -18,7 +18,9 @@ const renderContent = (props) => (
           <Translate value='quick_bet_drawer.unconfirmed_bets.empty.instructions' dangerousHTML/>
         </div>
         <div className='my-bet-button'>
-          <Button>{ I18n.t('quick_bet_drawer.unconfirmed_bets.empty.my_bet_button') }</Button>
+          <Button onClick={ () => props.navigateTo('/my-wager/') }>
+            { I18n.t('quick_bet_drawer.unconfirmed_bets.empty.my_bet_button') }
+          </Button>
         </div>
       </div>
     }
@@ -38,13 +40,6 @@ const renderContent = (props) => (
 
 class QuickBetDrawer extends Component {
 
-  constructor(props) {
-    super(props);
-    this.setUnplacedBetButton = this.setUnplacedBetButton.bind(this);
-    this.clearUnplacedBetButton = this.clearUnplacedBetButton.bind(this);
-    this.goToMyBets = this.goToMyBets.bind(this);
-  }
-
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.bettingtable));
   }
@@ -53,32 +48,12 @@ class QuickBetDrawer extends Component {
     Ps.update(ReactDOM.findDOMNode(this.refs.bettingtable));
   }
 
-  //////// dummy buttons for routing hooking BEGINS //////////
-  setUnplacedBetButton() {
-    this.props.updateUplacedBetStatus(true);
-  }
-
-  clearUnplacedBetButton() {
-    this.props.updateUplacedBetStatus(false);
-  }
-
-  goToMyBets(){
-    this.props.navigateTo('/my-wager/');
-
-  }
-  //////// dummy buttons for routing hooking ENDS //////////
-
   render() {
     return (
       <div id='quick-bet-drawer' ref='drawer'>
         <SplitPane split='horizontal' defaultSize='40px'>
           <div className='title'>
             <div className='label'>{ I18n.t('quick_bet_drawer.header') }</div>
-            {/* dummy buttons for routing hooking BEGINS  */}
-            <Button title='set' onClick={ this.setUnplacedBetButton } >update bet </Button>
-            <Button title='clear' onClick={ this.clearUnplacedBetButton } > clear bet</Button>
-            <Button title='clear' onClick={ this.goToMyBets } > go to my bets</Button>
-            {/* dummy buttons for routing hooking ENDS */}
           </div>
           <SplitPane
             split='horizontal'

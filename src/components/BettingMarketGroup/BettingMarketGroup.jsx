@@ -78,6 +78,7 @@ const createMarketData = (bettingMarkets, binnedOrderBooksByBettingMarketId) => 
     let offer = Immutable.Map({
       backIndex: 0,
       layIndex: 0,
+      betting_market_id: bettingMarket.get('id'),
       backOrigin: aggregated_lay_bets,
       layOrigin: aggregated_back_bets
     })
