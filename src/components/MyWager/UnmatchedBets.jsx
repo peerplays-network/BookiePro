@@ -7,7 +7,18 @@ import './MyWager.less';
 
 class UnmatchedBets extends PureComponent {
   render() {
-    const { columns, unmatchedBets, unmatchedBetsLoadingStatus, currencyFormat, betsTotal } = this.props;
+    const { columns, unmatchedBets, unmatchedBetsLoadingStatus, currencyFormat, betsTotal, cancelBet,
+      cancelAllBets } = this.props;
+    //cancel column added here to attach bet cancel click event handler
+    if(columns)
+      columns.push(
+        {
+          title: '',
+          dataIndex: 'cancel',
+          key: 'cancel',
+          onCellClick: function(record, event){cancelBet(record, event);}
+        }
+      );
     return (
       <div>
         <div className='top-data clearfix'>
@@ -16,16 +27,17 @@ class UnmatchedBets extends PureComponent {
           </div>
           <div className='float-right'>
             <div className='float-right'>
-              { /* cancel all To be done */ }
-              <a className='btn cancel-btn' href='' disabled={ unmatchedBets && unmatchedBets.length === 0 }>{ I18n.t('mybets.cancel_all') }</a>
+              <button className='btn cancel-btn' onClick={ cancelAllBets }
+                disabled={ unmatchedBets && unmatchedBets.size === 0 }>{ I18n.t('mybets.cancel_all') }</button>
             </div>
           </div>
           <div className='right-left'></div>
         </div>
         <Table className='bookie-table' pagination={ { pageSize: 10 } } rowKey='id'
-          locale={ {emptyText: ( unmatchedBets && unmatchedBets.length === 0 &&
+          locale={ {emptyText: ( unmatchedBets && unmatchedBets.size === 0 &&
             unmatchedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : unmatchedBetsLoadingStatus )} }
-          dataSource={ List(unmatchedBets).toJS() } columns={ columns } />
+          dataSource={ List(unmatchedBets).toJS() } columns={ columns } >
+        </Table>
       </div>
     )
   }

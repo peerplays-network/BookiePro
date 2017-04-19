@@ -16,32 +16,33 @@ import moment from 'moment';
 
 const TabPane = Tabs.TabPane;
 var tabKey = 'unmatchedBets';
-//TODO:need to check if this variables can be moved at component level
+//TODO: Declared it at global level because I have to use it in mapStateToProps
+//need to check if this variables can be moved at component level
 let startDate = moment().subtract(6, 'days').hour(0).minute(0);
 let endDate = moment();
 
-class PrivateFunctions{
+class MyWagerPrivateFunctions{
   //merge betting market group data to bets for display
   //created seperate function otherwise column data with the same column name will be replaced in main data;
   static mergeBettingMarketGroup(data, relData, col){
-    data.forEach((d, index) => {
-    	var matchObj = relData.get(d.get(col));
+    data.forEach((row, index) => {
+    	var matchObj = relData.get(row.get(col));
       if(matchObj){
-        d = d.set('event_id', matchObj.get('event_id'));
-        d = d.set('market_type_id', matchObj.get('market_type_id'));
+        row = row.set('event_id', matchObj.get('event_id'));
+        row = row.set('market_type_id', matchObj.get('market_type_id'));
         if(matchObj.get('market_type_id') === 'Moneyline'){
-          d = d.set('options', '');
+          row = row.set('options', '');
         }
         else if(matchObj.get('market_type_id') === 'Spread'){
           if(matchObj.get('options').get('margin') > 0)
-            d = d.set('options', ('+' + matchObj.get('options').get('margin')));
+            row = row.set('options', ('+' + matchObj.get('options').get('margin')));
           else
-            d = d.set('options', matchObj.get('options').get('margin'));
+            row = row.set('options', matchObj.get('options').get('margin'));
         }
         else{
-      	  d = d.set('options', matchObj.get('options').get('score'));
+      	  row = row.set('options', matchObj.get('options').get('score'));
         }
-        data[index] = d;
+        data[index] = row;
       }
     })
     return data;
@@ -51,17 +52,19 @@ class PrivateFunctions{
   static formatBettingData(data){
     //showing past data as resolvedBets and future data as matchedBets unmatchedBets
     if(tabKey === 'resolvedBets')
-      data = data.filter(d => (moment(d.get('event_time')).isBetween(startDate, endDate)));
+      data = data.filter(row => (moment(row.get('event_time')).isBetween(startDate, endDate)));
     else
-      data = data.filter(d => (((moment(d.get('event_time')).isAfter(moment().hour(0).minute(0))))));
+      data = data.filter(row => (((moment(row.get('event_time')).isAfter(moment().hour(0).minute(0))))));
 
-    data.forEach((d, index) => {
+    //check if this can be improved
+    //TODO: use .map() instead of foreach as suggested
+    data.forEach((row, index) => {
       let rowObj = {
-        'type' : (d.get('back_or_lay') + ' | ' + d.get('payout_condition_string') + ' ' + d.get('options') + ' | ' + d.get('market_type_id')),
-        'odds' : (d.get('amount_to_win') / d.get('amount_to_bet')).toFixed(2),
-        'amount_to_bet' : (d.get('amount_to_bet') / 100000 ),
-        'amount_to_win' : (d.get('amount_to_win') / 100000 ),
-        'event_time': getFormattedDate(d.get('event_time'))
+        'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
+        'odds' : (row.get('amount_to_win') / row.get('amount_to_bet')).toFixed(2),
+        'amount_to_bet' : (row.get('amount_to_bet') / 100000 ),
+        'amount_to_win' : (row.get('amount_to_win') / 100000 ),
+        'event_time': getFormattedDate(row.get('event_time'))
       };
       //randomly changed win value to negative for liability display
       //applied class based on profit or loss
@@ -71,8 +74,8 @@ class PrivateFunctions{
           {(rowObj.amount_to_win > 0 ? '+' : '')}{ rowObj.amount_to_win }</span>;
       }
       if(tabKey === 'unmatchedBets')
-        rowObj.cancel = (d.get('cancelled') ? '' : <a className='btn cancel-btn' href=''>{ I18n.t('mybets.cancel') }</a>);
-      data[index] = d.merge(Map(rowObj));
+        rowObj.cancel = (row.get('cancelled') ? '' : <a className='btn cancel-btn' target='_self'>{ I18n.t('mybets.cancel') }</a>);
+      data[index] = row.merge(rowObj);
     });
     return data;
   }
@@ -83,6 +86,8 @@ class MyWager extends PureComponent {
     super(props);
     this.onTabChange = this.onTabChange.bind(this);
     this.onHomeLinkClick = this.onHomeLinkClick.bind(this);
+    this.cancelBet = this.cancelBet.bind(this);
+    this.cancelAllBets = this.cancelAllBets.bind(this);
   }
 
   onTabChange(key) {
@@ -110,6 +115,18 @@ class MyWager extends PureComponent {
     this.props.navigateTo('/exchange');
   }
 
+  //cancel single bet
+  //record is presentaional record not a blockchain bet object
+  cancelBet(record, event){
+    //cancelBets expects array of blockchain bet objects so passing single bet object in array
+    this.props.cancelBets(List([Map(record)]));
+  }
+
+  //cacel all bets and load unmatchedBets
+  cancelAllBets(){
+    this.props.cancelBets(this.props.unmatchedBetsData);
+  }
+
   render() {
     return (
       <div className='my-wager'>
@@ -122,7 +139,8 @@ class MyWager extends PureComponent {
           <TabPane tab={ I18n.t('mybets.unmatched_bets') } key='unmatchedBets'>
             <UnmatchedBets columns={ this.props.unmatchedBetsColumns } unmatchedBets={ this.props.unmatchedBetsData }
               unmatchedBetsLoadingStatus={ this.props.unmatchedBetsLoadingStatus }
-              currencyFormat={ this.props.unmatchedBetsCurrencyFormat } betsTotal={ this.props.unmatchedBetsTotal }/>
+              currencyFormat={ this.props.unmatchedBetsCurrencyFormat } betsTotal={ this.props.unmatchedBetsTotal }
+              cancelBet={ this.cancelBet } cancelAllBets={ this.cancelAllBets }/>
           </TabPane>
           <TabPane tab={ I18n.t('mybets.matched_bets') } key='matchedBets'>
             <MatchedBets columns={ this.props.matchedBetsColumns } matchedBets={ this.props.matchedBetsData }
@@ -180,22 +198,17 @@ const mapStateToProps = (state) => {
     }
   ];
 
-  if(tabKey === 'unmatchedBets'){
-    columns.push(
-      {
-        title: '',
-        dataIndex: 'cancel',
-        key: 'cancel',
-      }
-    );
-  }
-
   let mergeData = [];
   let total = 0;
   if((tabKey !== 'resolvedBets' &&  state.getIn(['bet','getOngoingBetsLoadingStatus']) === LoadingStatus.DONE) ||
     (tabKey === 'resolvedBets' &&  state.getIn(['bet','getResolvedBetsLoadingStatus']) === LoadingStatus.DONE)){
+
     //get bet data on tab selected
-    state.getIn(['bet',tabKey + 'ById']).forEach(row =>
+    //filtering unmatchedBets - cancelled bets
+    state.getIn(['bet',tabKey + 'ById'])
+    .filter(row => (tabKey !== 'unmatchedBets' ||
+      (tabKey === 'unmatchedBets' && !state.getIn(['bet','cancelBetsByIdsLoadingStatus']).get(row.get('id')))))
+    .forEach(row =>
     {
       let rowObj = {
         key: row.get('id'),
@@ -221,7 +234,7 @@ const mapStateToProps = (state) => {
       {betting_market_group_id: 'betting_market_group_id' , payout_condition_string: 'payout_condition_string'});
 
     //merging betting market group data for display and eventid for reference
-    mergeData = PrivateFunctions.mergeBettingMarketGroup(mergeData,
+    mergeData = MyWagerPrivateFunctions.mergeBettingMarketGroup(mergeData,
       state.getIn(['bettingMarketGroup','bettingMarketGroupsById']), 'betting_market_group_id');
 
     //merging evemt data for display and sport id for reference
@@ -233,12 +246,12 @@ const mapStateToProps = (state) => {
       {'name': 'sport_name'});
 
     //formating data for display
-    mergeData = PrivateFunctions.formatBettingData(mergeData);
+    mergeData = MyWagerPrivateFunctions.formatBettingData(mergeData);
     mergeData = List(mergeData);
 
     //totalling the Bets stake and profit/liability
-    mergeData.forEach((d, index) => {
-      total += parseFloat(d.get('amount_to_bet') + d.get('amount_to_win'));
+    mergeData.forEach((row, index) => {
+      total += parseFloat(row.get('amount_to_bet') + row.get('amount_to_win'));
     });
 
     //TODO: verify if we will use 5 or 6 digits after decimal
@@ -278,7 +291,8 @@ function mapDispatchToProps(dispatch){
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     getOngoingBets: BetActions.getOngoingBets,
-    getResolvedBets: BetActions.getResolvedBets
+    getResolvedBets: BetActions.getResolvedBets,
+    cancelBets: BetActions.cancelBets
   }, dispatch);
 }
 
