@@ -72,6 +72,8 @@ export default function configureStore() {
       if (key === 'notification') {
         const savedState = inboundState.filter((v, k) => k === 'latestTransactionHistoryIdByAccountId');
         return savedState;
+      } else {
+        return inboundState;
       }
     },
     (outboundState, key) => { return outboundState },
