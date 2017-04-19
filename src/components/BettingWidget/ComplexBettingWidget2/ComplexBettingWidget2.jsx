@@ -18,6 +18,8 @@ import { I18n } from 'react-redux-i18n';
 const floatPlaces = 2;
 const itemDisplay = 3;
 const bitcoinSymbol = '\u0243';
+const betTypeBack = 'back';
+const betTypeLay = 'lay';
 
 //NOTE should we rename it as FullBettingWidget according to URD?
 class ComplexBettingWidget2 extends Component {
@@ -51,8 +53,11 @@ class ComplexBettingWidget2 extends Component {
 
   // betting widget full :
   //                 ----------------------------------------  BACK ALL    |     LAY ALL ---------------------------------------
-  // COMPTEITOR 1 | backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2]
-  // COMPTEITOR 2 | backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2]
+  // COMPTETITOR 1 header--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2]
+  // COMPTETITOR 2 header--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2]
+  //
+  // genereate header + layTableData + backTableData for Display
+  // among which header contains team name + exposure caluclation
   setTableData(marketData, unconfirmedBets){
     let tableData = marketData;
 
@@ -82,12 +87,71 @@ class ComplexBettingWidget2 extends Component {
           .sort((a, b) => a.get('odds') - b.get('odds')) //assending order
           .slice(layStartingIndex, layStartingIndex + itemDisplay)
 
-        tableData = tableData.setIn([i, 'offer', 'back'], backTableData)
-          .setIn([i, 'offer', 'lay'], layTableData)
-          .setIn([i, 'offer', 'betting_market_id'], tableData.getIn([i, 'offer', 'betting_market_id']))
-          .setIn([i, 'offer', 'backIndex'], backStartingIndex)
-          .setIn([i, 'offer', 'layIndex'], layStartingIndex);
 
+        //TODO migrate to betting module
+        // Betslip Exposure (Pending Change Request)
+        // Case    Exposure of the selection that the bet originates from    All other selection’s exposure
+        // A full back bet betslip is filled    + Profit    - Stake
+        // A full lay bet betslip is filled    - Liability    + Backer’s Stake
+
+        let betslip_exposure = 0.00
+        let market_exposure = 0.00
+        let bettingMarketId = row.getIn(['offer', 'betting_market_id']);
+        if ( unconfirmedBets.size > 0 ){
+          // console.log(' =======  debug ==============')
+          // console.log('row 0 ' ,  JSON.stringify( row.toJS() , null , 2 ) )
+
+          unconfirmedBets.forEach((bet, i) => {
+            // console.log('unconfirmedBets ', i , ' ' , JSON.stringify( bet.toJS(), null , 2 ) )
+
+            if (bettingMarketId === bet.get('betting_market_id')){
+              if ( bet.get('bet_type') === betTypeBack){
+                //  + Profit
+                betslip_exposure = parseFloat(betslip_exposure) + parseFloat( bet.get('profit') );
+              } else if ( bet.get('bet_type') === betTypeLay){
+                //  - Stake
+                betslip_exposure = parseFloat(betslip_exposure) - parseFloat( bet.get('stake') );
+              }
+            } else {
+              if ( bet.get('bet_type') === betTypeBack){
+                //  - Liability
+                betslip_exposure = parseFloat(betslip_exposure) - parseFloat( bet.get('liability') );
+              } else if ( bet.get('bet_type') === betTypeLay){
+                //  + Backer’s Stake
+                betslip_exposure = parseFloat(betslip_exposure) + parseFloat( bet.get('stake') );
+              }
+            }
+
+          });
+
+          betslip_exposure = parseFloat(betslip_exposure).toFixed(5)
+
+          tableData = tableData.setIn([i, 'offer', 'back'], backTableData)
+            .setIn([i, 'offer', 'lay'], layTableData)
+            .setIn([i, 'offer', 'backIndex'], backStartingIndex)
+            .setIn([i, 'offer', 'layIndex'], layStartingIndex)
+            .setIn([i, 'header'], {
+              'name': tableData.getIn([i, 'name']),
+              'market_exposure': market_exposure,
+              'betslip_exposure': betslip_exposure  }
+            );
+
+        } else {
+
+          tableData = tableData.setIn([i, 'offer', 'back'], backTableData)
+            .setIn([i, 'offer', 'lay'], layTableData)
+            .setIn([i, 'offer', 'backIndex'], backStartingIndex)
+            .setIn([i, 'offer', 'layIndex'], layStartingIndex)
+            .setIn([i, 'header'], {
+              'name': tableData.getIn([i, 'name']),
+              'market_exposure': market_exposure}
+            );
+        }
+
+
+
+
+        //TODO migrate to betting module
         //back percentage calculation
         //i.e. adding up based on the best price that is being offered i.e. backTableData[0] of each market
         if (backTableData.size > 0){
@@ -95,6 +159,7 @@ class ComplexBettingWidget2 extends Component {
           backBookPercent = parseFloat(backBookPercent).toFixed(floatPlaces)
         }
 
+        //TODO migrate to betting module
         //lay percentage calculation
         //i.e. adding up based on the best price that is being offered i.e. layTableData[0] of each market
         if (layTableData.size > 0){
@@ -102,11 +167,7 @@ class ComplexBettingWidget2 extends Component {
           layBookPercent = parseFloat(layBookPercent).toFixed(floatPlaces)
         }
 
-        if ( unconfirmedBets.size > 0){
-          // console.log('row 0 ' ,  JSON.stringify( row.toJS() , null , 2 ) )
-          //
-          // console.log('unconfirmedBets 0 ' , JSON.stringify( unconfirmedBets.get(0).toJS(), null , 2 ) )
-        }
+
 
       });
 
@@ -159,7 +220,7 @@ class ComplexBettingWidget2 extends Component {
 
   onOfferClicked(rowInfo, column) {
     const record = Immutable.fromJS(rowInfo.row).set('name', this.props.eventName);
-    const competitor = rowInfo.rowValues.name;
+    const competitor =  rowInfo.rowValues.header.name;
     const betType = column.className;
 
     // for 'null OFFER' case in which we only see 'OFFER' in item, offer will be empty
@@ -180,8 +241,17 @@ class ComplexBettingWidget2 extends Component {
 
     const columns = [{
       header: props => null,
-      accessor: 'name', // String-based value accessors
       minWidth: minNameWidth,
+      accessor: 'header' ,
+      render: props => props.value.betslip_exposure ?
+       <div className='compeitor-name'>
+         <div className='odds'>{props.value.name}</div>
+         <div className='price'> >> {props.value.betslip_exposure} </div>
+       </div> :
+       <div className='compeitor-name'>
+         <div className='odds'>{props.value.name}</div>
+         <div className='price'> --- </div>
+       </div>
     }, {
       className: 'back-left',
       header: props => null,
@@ -302,6 +372,7 @@ class ComplexBettingWidget2 extends Component {
     }]
 
     return (
+
       <div className='complex-betting'>
         <div className='title'>
           <div className='name'> {I18n.t('complex_betting_widget.moneyline')} </div>
@@ -365,7 +436,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    createBet: MarketDrawerActions.createBet,
+    createBet: MarketDrawerActions.createDummyBet,
   }, dispatch);
 }
 
