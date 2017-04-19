@@ -13,7 +13,7 @@ import _ from 'lodash';
  */
 class AccountPrivateActions {
 
-  static setGetTransactionHistoriesLoadingStatusAction(loadingStatus) {
+  static setGetTransactionHistoryLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_LOADING_STATUS,
       loadingStatus
@@ -62,7 +62,7 @@ class AccountPrivateActions {
     }
   }
 
-  static setGetTransactionHistoriesErrorAction(error) {
+  static setGetTransactionHistoryErrorAction(error) {
     return {
       type: ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_ERROR,
       error
@@ -188,19 +188,19 @@ class AccountActions {
   /**
    * Get transaction history
    */
-  static getTransactionHistories(startTime, stopTime) {
+  static getTransactionHistory(startTime, stopTime) {
     return (dispatch, getState) => {
       const accountId = getState().getIn(['account', 'account', 'id']);
 
-      dispatch(AccountPrivateActions.setGetTransactionHistoriesLoadingStatusAction(LoadingStatus.LOADING));
-      CommunicationService.getTransactionHistories(accountId, startTime, stopTime).then((transactionHistories) => {
+      dispatch(AccountPrivateActions.setGetTransactionHistoryLoadingStatusAction(LoadingStatus.LOADING));
+      CommunicationService.getTransactionHistoryGivenTimeRange(accountId, startTime, stopTime).then((transactionHistories) => {
         log.debug('Get transaction histories succeed.');
         dispatch(AccountPrivateActions.setTransactionHistoriesAction(transactionHistories));
-        dispatch(AccountPrivateActions.setGetTransactionHistoriesLoadingStatusAction(LoadingStatus.DONE));
+        dispatch(AccountPrivateActions.setGetTransactionHistoryLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
         log.error('Get transaction histories error', error);
         //Set password change error
-        dispatch(AccountPrivateActions.setGetTransactionHistoriesErrorAction(error));
+        dispatch(AccountPrivateActions.setGetTransactionHistoryErrorAction(error));
       });
     };
   }

@@ -52,7 +52,7 @@ class TopMenu extends Component {
         //TODO: add navigation action for help page
         break;
       case 'logout':
-        //TODO: add action for logout
+        this.props.logout();
         break;
       default:
     }
@@ -169,7 +169,8 @@ function mapDispatchToProps(dispatch) {
     getDepositAddress: AccountActions.getDepositAddress,
     navigateTo: NavigateActions.navigateTo,
     //TODO: Wallet Address verification and error response pending.
-    withdraw: AccountActions.withdraw
+    withdraw: AccountActions.withdraw,
+    logout: AccountActions.logout
   }, dispatch)
 }
 
