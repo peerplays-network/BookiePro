@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Card,Breadcrumb,Icon,Form } from 'antd'
-var I18n = require('react-redux-i18n').I18n;
+import { I18n }  from 'react-redux-i18n';
 import ChangePasswordForm from './ChangePasswordForm'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -13,8 +13,8 @@ class ChangePassword extends PureComponent{
   constructor(props){
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.onClickCancel = this.onClickCancel.bind(this);
-    this.onHomeLinkClick = this.onHomeLinkClick.bind(this);
+    this.navigateToMyAccount = this.navigateToMyAccount.bind(this);
+    this.navigateToHome = this.navigateToHome.bind(this);
   }
 
   handleSubmit(values) {
@@ -22,28 +22,31 @@ class ChangePassword extends PureComponent{
     this.props.changePassword(values.get('old_password'), values.get('new_password'));
   }
 
-  /* Redirect to 'My Account' screen when clicked on
-  --'Cancel' button
-  --'My Account' link on the Breadcrumb*/
-  onClickCancel(e) {
-    e.preventDefault();
-    this.props.navigateTo('/my-account');
+  //Navigate to the required location
+  navigateToLocation(event, targetLocation){
+    event.preventDefault();
+    this.props.navigateTo(targetLocation);
     this.props.resetChangePwdLoadingStatus();
   }
 
+  /* Redirect to 'My Account' screen when clicked on
+  --'Back to My Account' button (after successful password change)
+  --'My Account' link on the Breadcrumb */
+  navigateToMyAccount(event) {
+    this.navigateToLocation(event, '/my-account');
+  }
+
   //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
-  onHomeLinkClick(e){
-    e.preventDefault();
-    this.props.navigateTo('/exchange');
-    this.props.resetChangePwdLoadingStatus();
+  navigateToHome(event){
+    this.navigateToLocation(event, '/exchange');
   }
 
   render(){
     return(
       <div className='change-password'>
         <Breadcrumb className='bookie-breadcrumb'>
-          <Breadcrumb.Item><a onClick={ this.onHomeLinkClick }>{ I18n.t('myAccount.home') }</a></Breadcrumb.Item>
-          <Breadcrumb.Item><a onClick={ this.onClickCancel }>{ I18n.t('myAccount.my_account') }</a></Breadcrumb.Item>
+          <Breadcrumb.Item><a onClick={ this.navigateToHome }>{ I18n.t('myAccount.home') }</a></Breadcrumb.Item>
+          <Breadcrumb.Item><a onClick={ this.navigateToMyAccount }>{ I18n.t('myAccount.my_account') }</a></Breadcrumb.Item>
           <Breadcrumb.Item>{ I18n.t('myAccount.change_password') }</Breadcrumb.Item>
         </Breadcrumb>
         <Card className='bookie-card'
@@ -57,10 +60,8 @@ class ChangePassword extends PureComponent{
                 this.props.loadingStatus!==LoadingStatus.DONE  ?
                 <ChangePasswordForm
                   onSubmit={ this.handleSubmit }
-                  onClickCancel={ this.onClickCancel }
                   loadingStatus={ this.props.loadingStatus }
-                  errors={ this.props.errors }
-                  /> : null
+                  errors={ this.props.errors }/> : null
               }
               {
                 //Show the success message when the password has been changed successfully (DONE) and the form will be hidden
@@ -68,7 +69,7 @@ class ChangePassword extends PureComponent{
                 <div className='text-center'>
                   <Icon type='lock big-icon'/>
                   <p className='font16 margin-tb-20'>{ I18n.t('changePassword.successText') }</p>
-                    <button className='btn btn-regular grid-100 margin-top-25' type='button' onClick={ this.onClickCancel }>
+                    <button className='btn btn-regular grid-100 margin-top-25' type='button' onClick={ this.navigateToMyAccount }>
                       { I18n.t('changePassword.back_to_my_account') }
                     </button>
                 </div> : null

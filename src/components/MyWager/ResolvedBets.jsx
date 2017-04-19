@@ -4,6 +4,7 @@ import { LoadingStatus } from '../../constants';
 import './MyWager.less';
 import { List } from 'immutable';
 import { I18n } from 'react-redux-i18n';
+const Option = Select.Option;
 
 class ResolvedBets extends Component {
   state = {
@@ -39,13 +40,13 @@ class ResolvedBets extends Component {
             <div className='filter'>
               <div className='ant-form-inline'>
                 <div className='ant-form-item'>
-                  <label> { I18n.t('mybets.period') }</label>
+                  <label>{ I18n.t('application.period') }</label>
                   <Select className='bookie-select' value={ this.state.period } style={ {width: 150} }>
-                    <Select.Option value='last7Days'>{I18n.t('mybets.last_7_Days') }</Select.Option>
-                    <Select.Option value='last14Days'>{I18n.t('mybets.last_14_Days') }</Select.Option>
-                    <Select.Option value='thisMonth'>{I18n.t('mybets.this_Month') }</Select.Option>
-                    <Select.Option value='lastMonth'>{I18n.t('mybets.last_Month') }</Select.Option>
-                    <Select.Option value='custom'>{I18n.t('mybets.custom') }</Select.Option>
+                    <Option value='last7Days'>{I18n.t('application.last_7_Days') }</Option>
+                    <Option value='last14Days'>{I18n.t('application.last_14_Days') }</Option>
+                    <Option value='thisMonth'>{I18n.t('application.this_Month') }</Option>
+                    <Option value='lastMonth'>{I18n.t('application.last_Month') }</Option>
+                    <Option value='custom'>{I18n.t('application.custom') }</Option>
                   </Select>
                 </div>
                 <div className='ant-form-item'>
@@ -69,8 +70,8 @@ class ResolvedBets extends Component {
                     />
                 </div>
                 <div className='ant-form-item'>
-                  <a className='btn btn-regular' href=''>{I18n.t('mybets.search') }</a>
-                  <a className='btn btn-regular margin-left-10' href=''>{I18n.t('mybets.export') }</a>
+                  <a className='btn btn-regular' href=''>{I18n.t('application.search') }</a>
+                  <a className='btn btn-regular margin-left-10' href=''>{I18n.t('application.export') }</a>
                 </div>
               </div>
             </div>

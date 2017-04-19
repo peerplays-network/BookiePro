@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import TransactionHistory from './TransactionHistory'
 import {
@@ -17,36 +17,29 @@ import { BlockchainUtils } from '../../utility';
 import { CommunicationService } from '../../services';
 import ps from 'perfect-scrollbar';
 import 'perfect-scrollbar';
-import Deposit from './Deposit'
-import Withdraw from './Withdraw'
-import dateFormat from 'dateformat';
-import { SettingActions, AccountActions } from '../../actions';
+import Deposit from './Deposit';
+import Withdraw from './Withdraw';
+import moment from 'moment';
+import { SettingActions,AccountActions } from '../../actions';
+import { LoadingStatus } from '../../constants';
 
 const Option = Select.Option;
 
-let isMounted = false;
-
-class MyAccount extends Component {
+class MyAccount extends PureComponent {
 
   constructor(props) {
     super(props);
-
-    //To set initial values for start and end change
-    var startDate = new Date();
-    var endDate = new Date();
-    startDate.setDate(startDate.getDate()-6)
 
     this.state = {
       pagination: true,
       size: 'default',
       scroll: undefined,
       txList: [],
-
       //Show/Hide date fields based on 'Period' selection
       showDateFields: false,
-      //Since, the default period is 'Last 7 days', we set the initial start and end date accordingly
-      startDate:dateFormat(startDate, "yyyy-mm-dd h:MM:ss"),
-      endDate:dateFormat(endDate, "yyyy-mm-dd h:MM:ss"),
+      //Since, the default period is 'Last 7 days', we set the initial 'From' and 'To' dates accordingly
+      fromDate: moment().subtract(6, 'days'),
+      toDate: moment(),
       withdrawAmount:''
     }
 
@@ -87,7 +80,6 @@ class MyAccount extends Component {
   }*/
 
   componentDidMount() {
-    isMounted = true;
     this.searchTransactionHistory();
     // this.fetchRecentTransactionHistory();
     //ps.initialize(this.refs.global);
@@ -97,58 +89,72 @@ class MyAccount extends Component {
     this.props.getDepositAddress();
   }
 
-  componentWillUnmount(){
-    isMounted = false;
+  //Disable out of range dates for 'From Date'
+  disabledFromDate = (fromValue) => {
+    const toValue = this.state.toDate;
+    if (!fromValue || !toValue) {
+      return false;
+    }
+    return fromValue.valueOf() > toValue.valueOf();
   }
+
+  //Disable out of range dates for 'To Date'
+  disabledToDate = (toValue) => {
+    const fromValue = this.state.fromDate;
+    if (!toValue || !fromValue) {
+      return false;
+    }
+    return toValue.valueOf() <= fromValue.valueOf();
+  }
+
   //Search transaction history with filters
-  searchTransactionHistory(e){
-    this.props.getTransactionHistory(this.state.startDate, this.state.endDate);
+  searchTransactionHistory(){
+    //Format from date and to date in the required format and pass
+    this.props.getTransactionHistory(this.state.fromDate.format("YYYY-MM-DD HH:mm:ss"),
+               this.state.toDate.format("YYYY-MM-DD HH:mm:ss"));
   }
 
-  //Update state for from date whenever it is selected from the calender
+  //Update state for 'from date' whenever it is selected from the calender
   onStartChange = (value) => {
-    this.setState({startDate: value.format('YYYY-MM-DD HH:mm:ss')});
+    this.setState({ fromDate:value });
   }
 
-  //Update state for to date whenever it is selected from the calender
+  //Update state for 'to date' whenever it is selected from the calender
   onEndChange = (value) => {
-    this.setState({endDate: value.format('YYYY-MM-DD HH:mm:ss')});
+    this.setState({ toDate:value });
   }
 
   //Show the date fields of the user selects 'Custom' from the Period dropdown and update states of the dates accordingly
   periodChange = (value) => {
     if(value === 'custom'){
-      this.setState({showDateFields: true});
+      //Date would set set on selection from the datepicker
+      this.setState({ showDateFields: true,fromDate: null,toDate: null });
     }
     else {
-      var startDate = new Date();
+      let fromDate;
+      this.setState({ toDate: moment() });
       switch(value){
-        case 'last7Days':
-          startDate.setDate(startDate.getDate()-6);
+        case 'last7Days':default:
+          //Subtract 6 days from the current day
+          fromDate = moment().subtract(6, 'days');
           break;
         case 'last14Days':
-          startDate.setDate(startDate.getDate()-13);
+          //Subtract 14 days from the current day
+          fromDate = moment().subtract(13, 'days');
           break;
         case 'thisMonth':
-          const thisDay = startDate.getDate() - 1;
-          //To give me first day of this month
-          startDate.setDate(startDate.getDate()-thisDay);
+          //First of the current month, 12:00 am
+          fromDate = moment().startOf('month');
           break;
         case 'lastMonth':
-          startDate.setDate(1);
-          startDate.setMonth(startDate.getMonth() - 1);
-          //Last date of the previous month
-          var month = startDate.getMonth();
-          var endDate = new Date(startDate.getFullYear(), month + 1, 0);
-          break;
-        default:
-          startDate.setDate(startDate.getDate()-6);
+          //Last month's 1st day
+          fromDate = moment().subtract(1, 'months').startOf('month');
+          //Last month's last day
+          this.setState({toDate: moment().subtract(1, 'months').endOf('month')});
           break;
       }
-      this.setState({startDate: dateFormat(startDate, "yyyy-mm-dd h:MM:ss")});
-      this.setState({endDate: dateFormat(endDate, "yyyy-mm-dd h:MM:ss")});
-      this.setState({showDateFields: false});
-
+      this.setState({ fromDate: fromDate });
+      this.setState({ showDateFields: false });
     }
   }
 
@@ -348,7 +354,6 @@ class MyAccount extends Component {
   }
 
   render() {
-    const {showDateFields} = this.state;
     return (
       <div className='my-account section-padding'>
         <Breadcrumb className='bookie-breadcrumb'>
@@ -374,17 +379,14 @@ class MyAccount extends Component {
           </Col>
         </Row>
         <Row>
-          {
-            isMounted ?
-            <TransactionHistory ref='transHist' transactionHistory={ this.props.transactionHistory }
-              currencyFormat={ this.props.currencyFormat } handleSearchClick={ this.searchTransactionHistory }
-                periodChange={ this.periodChange } showDateFields={ showDateFields }
-                onStartChange={ this.onStartChange } onEndChange={ this.onEndChange }
-                startDate={ this.state.startDate } endDate={ this.state.startDate }
-              /> :
-              null
-          }
-
+          <TransactionHistory
+             transHistLoadingStatus={ this.props.transHistLoadingStatus } transactionHistory={ this.props.transactionHistory }
+             handleSearchClick={ this.searchTransactionHistory }
+             periodChange={ this.periodChange } showDateFields={ this.state.showDateFields }
+             onStartChange={ this.onStartChange } onEndChange={ this.onEndChange }
+             disabledFromDate={ this.disabledFromDate } disabledToDate={ this.disabledToDate }
+             fromDate={ this.state.fromDate } toDate={ this.state.toDate }
+           />
         </Row>
       </div>
     )
@@ -401,6 +403,25 @@ const mapStateToProps = (state) => {
   */
   const balance = account.getIn(['availableBalancesByAssetId','1.3.0','balance']);
   const availableBalance = balance !== undefined ? balance : -1;
+  //Transaction History table Data (dummy data binding)
+  let transactionHistoryData = [];
+  if(state.getIn(['account', 'getTransactionHistoriesLoadingStatus']) === LoadingStatus.DONE)
+  {
+    transactionHistoryData = [];
+    state.getIn(['account', 'transactionHistories']).forEach(row => {
+      let rowObj = {
+        key: row.get('id'),
+        id: row.get('id'),
+        time: moment(row.get('time')).format('DD/MM/YYYY HH:mm:ss'),
+        'desc': row.get('description'),
+        'status': <span
+          className={ row.get('status') ==='Processing' ? 'processed'
+            : (row.get('status') ==='Completed' ? 'completed' : '') }>{ row.get('status') }</span>,
+        'amount': row.getIn(['op',1,'fee', 'amount']) + ' ' + (setting.currencyFormat!==undefined ? setting.currencyFormat : '')
+      };
+      transactionHistoryData.push(rowObj);
+    });
+  }
   return {
     dynGlobalObject: app.get('blockchainDynamicGlobalProperty'),
     globalObject: app.get('blockchainGlobalProperty'),
@@ -409,7 +430,7 @@ const mapStateToProps = (state) => {
     timezone: setting.get('timezone'),
     notification: setting.get('notification'),
     currencyFormat: setting.get('currencyFormat'),
-    transactionHistory: state.getIn(['account', 'transactionHistories']),
+    transactionHistory: transactionHistoryData,
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: account.get('getDepositAddressLoadingStatus'),
     depositAddress: account.get('depositAddress'),

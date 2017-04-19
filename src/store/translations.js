@@ -1,9 +1,19 @@
+import enUS from 'antd/lib/locale-provider/en_US';
 export const translationsObject = {
   en: {
     application: {
       welcome_title: 'Welcome to Application',
       loading: 'loading ...',
-      notAvailableErr: 'Not available'
+      notAvailableErr: 'Not available',
+      locale: enUS,
+      period: 'Period',
+      last_7_Days: 'Last 7 days',
+      last_14_Days: 'Last 14 days',
+      this_Month: 'This month',
+      last_Month: 'Last month',
+      custom: 'Custom',
+      search: 'Search',
+      export: 'Export'
     },
     myAccount:{
       home:'Home',
@@ -176,15 +186,7 @@ export const translationsObject = {
       nodata: 'No Data',
       unmatched_bets: 'UNMATCHED BETS',
       matched_bets: 'MATCHED BETS',
-      resolved_bets: 'RESOLVED BETS',
-      period: 'Period',
-      last_7_Days: 'Last 7 days',
-      last_14_Days: 'Last 14 days',
-      this_Month: 'This month',
-      last_Month: 'Last month',
-      custom: 'Custom',
-      search: 'Search',
-      export: 'Export'
+      resolved_bets: 'RESOLVED BETS'
     },
     complex_betting_widget:{
       back_all: 'Back all',

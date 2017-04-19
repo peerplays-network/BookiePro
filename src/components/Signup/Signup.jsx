@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import logo from '../../assets/images/login-logo.png';
 import { Form } from 'antd';
 import SignupForm from './SignupForm';
@@ -7,18 +7,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { I18n }  from 'react-redux-i18n'
 
-class Signup extends Component {
+class Signup extends PureComponent {
 
   constructor(props){
     super(props);
     this.onClickLogin = this.onClickLogin.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  onClickLogin(e) {
-    e.preventDefault();
+
+  //Navigate to login page
+  onClickLogin(event) {
+    event.preventDefault();
     this.props.navigateTo('/login')
   }
 
+  //Sign up the user 
   handleSubmit(values) {
     this.props.signup(values.get('accountName'), values.get('password'));
   }
