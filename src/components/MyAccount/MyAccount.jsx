@@ -445,7 +445,7 @@ function mapDispatchToProps(dispatch) {
     updateSettingTimeZone: SettingActions.updateSettingTimeZone,
     updateSettingNotification: SettingActions.updateSettingNotification,
     updateCurrencyFormat: SettingActions.updateCurrencyFormat,
-    getTransactionHistory: AccountActions.getTransactionHistories,
+    getTransactionHistory: AccountActions.getTransactionHistory,
     getDepositAddress: AccountActions.getDepositAddress,
     redirectToChangePwd: SettingActions.redirectToChangePwd,
     withdraw: AccountActions.withdraw

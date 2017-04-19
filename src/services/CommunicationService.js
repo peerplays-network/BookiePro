@@ -654,9 +654,9 @@ class CommunicationService {
   }
 
   /**
-   * Get transaction history of an account
+   * Get transaction history of an account given time range
    */
-  static getTransactionHistories(accountId, startDate, endDate) {
+  static getTransactionHistoryGivenTimeRange(accountId, startDate, endDate) {
     // TODO: Replace later
     return new Promise((resolve, reject) => {
       if(startDate !== undefined && endDate !== undefined){
