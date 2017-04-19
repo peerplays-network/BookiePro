@@ -186,7 +186,10 @@ export const translationsObject = {
       nodata: 'No Data',
       unmatched_bets: 'UNMATCHED BETS',
       matched_bets: 'MATCHED BETS',
-      resolved_bets: 'RESOLVED BETS'
+      resolved_bets: 'RESOLVED BETS',
+      date: 'Date',
+      from: 'From',
+      to: 'To'
     },
     complex_betting_widget:{
       back_all: 'Back all',
