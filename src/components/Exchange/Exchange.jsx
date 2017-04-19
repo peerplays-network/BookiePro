@@ -6,7 +6,7 @@ import { withRouter } from 'react-router'
 import SplitPane from 'react-split-pane';
 import SideBar from '../SideBar';
 import { QuickBetDrawer, MarketDrawer } from '../BettingDrawers';
-import { QuickBetDrawerActions, NavigateActions } from '../../actions';
+import { QuickBetDrawerActions, MarketDrawerActions, NavigateActions } from '../../actions';
 import Immutable from 'immutable';
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
 
@@ -58,7 +58,12 @@ class Exchange extends Component {
 
   handleLeave(){
     // TODO: Handle Market Drawer too
-    this.props.clearQuickBetDrawer();
+    const transitionName = this.props.location.pathname.split("/");
+    if (transitionName.length < 3 || transitionName[2].toLowerCase() !== 'bettingmarketgroup') {
+      this.props.clearQuickBetDrawer();
+    } else {
+      this.props.clearMarketDrawerBetslips();
+    }
     this.setModalVisible(false);
     this.setState({
       confirmToLeave: true
@@ -165,6 +170,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     clearQuickBetDrawer: QuickBetDrawerActions.deleteAllBets,
+    clearMarketDrawerBetslips: MarketDrawerActions.deleteAllUnconfirmedBets,
   }, dispatch);
 }
 

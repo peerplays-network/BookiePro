@@ -2,7 +2,7 @@ import { ActionTypes } from '../constants';
 import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
-  bets: [],
+  bets: Immutable.List(),
 });
 
 export default function(state = initialState, action) {

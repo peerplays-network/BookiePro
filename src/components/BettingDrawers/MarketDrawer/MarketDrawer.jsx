@@ -4,7 +4,9 @@ import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import { I18n, Translate } from 'react-redux-i18n';
+import { NavigateActions } from '../../../actions';
 import { Button, Tabs } from 'antd';
+import { bindActionCreators } from 'redux';
 import EditableBetTable from '../EditableBetTable';
 
 const TabPane = Tabs.TabPane;
@@ -27,7 +29,9 @@ const renderUnconfirmedBets = (props) => (
           <Translate value='market_drawer.unconfirmed_bets.empty.instructions' dangerousHTML/>
         </div>
         <div className='my-bet-button'>
-          <Button>{ I18n.t('quick_bet_drawer.unconfirmed_bets.empty.my_bet_button') }</Button>
+          <Button onClick={ () => props.navigateTo('/my-wager/') }>
+            { I18n.t('quick_bet_drawer.unconfirmed_bets.empty.my_bet_button') }
+          </Button>
         </div>
       </div>
     }
@@ -91,5 +95,13 @@ const mapStateToProps = (state) => {
   };
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    navigateTo: NavigateActions.navigateTo,
+  }, dispatch);
+}
 
-export default connect(mapStateToProps)(MarketDrawer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MarketDrawer);
