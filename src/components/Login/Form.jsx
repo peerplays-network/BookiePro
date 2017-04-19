@@ -82,7 +82,7 @@ export default reduxForm({
   asyncValidate: (values, dispatch) => {
     return AccountService.lookupAccounts(values.get('userName'), 1)
     .then(result => {
-			 let account = result.find(a => a[0] === values.get('userName'));
+			 let account = result.find(a => a.get(0) === values.get('userName'));
       if(!account)
 				 throw { userName: I18n.t('login.username_notfound') };
     });

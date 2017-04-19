@@ -290,12 +290,13 @@ class CommunicationService {
   /**
    * Call blokchain db api
    * Route every call to blockchain db api through this function, so we can see the logging
+   * Also ensure the returned data is immutable
    */
   static callBlockchainDbApi(methodName, params) {
     return Apis.instance().db_api().exec(methodName, params).then((result) => {
       // Intercept and log
       log.debug(`Call blockchain DB Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
-      return result;
+      return Immutable.fromJS(result);
     }).catch((error) => {
       // Intercept and log
       log.error(`Error in calling DB Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nError: `, error);
@@ -311,7 +312,7 @@ class CommunicationService {
     return Apis.instance().history_api().exec(methodName, params).then((result) => {
       // Intercept and log
       log.debug(`Call blockchain History Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
-      return result;
+      return Immutable.fromJS(result);
     }).catch((error) => {
       // Intercept and log
       log.error(`Error in calling History Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nError: `, error);
@@ -332,8 +333,8 @@ class CommunicationService {
 
       // Get current blockchain data (dynamic global property and global property), to ensure blockchain time is in sync
       this.callBlockchainDbApi('get_objects', [['2.1.0', '2.0.0']]).then( result => {
-        const blockchainDynamicGlobalProperty = Immutable.fromJS(result[0]);
-        const blockchainGlobalProperty = Immutable.fromJS(result[1]);
+        const blockchainDynamicGlobalProperty = result.get(0);
+        const blockchainGlobalProperty = result.get(1);
         const now = new Date().getTime();
         const headTime = blockchainTimeStringToDate(blockchainDynamicGlobalProperty.get('time')).getTime();
         const delta = (now - headTime)/1000;
@@ -376,24 +377,57 @@ class CommunicationService {
    */
   static getFullAccount(accountNameOrId) {
     return this.callBlockchainDbApi('get_full_accounts', [[accountNameOrId], true]).then( result => {
-      const fullAccount = result && result[0] && result[0][1];
+      const fullAccount = result.getIn([0, 1]);
       // Return the full account
-      return Immutable.fromJS(fullAccount);
+      return fullAccount;
     });
   }
 
+  /**
+   * Fetch transaction history of an account given object id of the transaction
+   * This function do the fetch recursively if there is more than 100 transactions between startTxHistoryId and stopTxHistoryId
+   */
+  static fetchTransactionHistory(accountId, startTxHistoryId, stopTxHistoryId, limit=100) {
+    // Upper limit for getting transaction is 100
+    const fetchUpperLimit = 100;
+      // If the limit given is higher than upper limit, we need to call the api recursively
+    let needToRequestRecursively = false;
+    let adjustedLimit = Math.max(limit,0);
+    if (adjustedLimit > fetchUpperLimit) {
+      adjustedLimit = fetchUpperLimit;
+      needToRequestRecursively = true;
+    }
+    // 1.11.0 denotes the current time
+    const currentTimeTransactionId = ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0';
+    startTxHistoryId = startTxHistoryId || currentTimeTransactionId;
+    stopTxHistoryId = stopTxHistoryId || currentTimeTransactionId;
+
+    let result = Immutable.List();
+    return this.callBlockchainHistoryApi('get_account_history',
+                  [ accountId, stopTxHistoryId, adjustedLimit, startTxHistoryId]).then((history) => {
+                    // Concat to the result
+                    result = result.concat(history);
+                    if (needToRequestRecursively && history.size === fetchUpperLimit) {
+                      // if we need to request recursively and find out that the size of retrieved history is equal to upper limit,
+                      // very likely we are not in the end of data
+                      // Use the latest transaction id as new startTxHistoryId
+                      const newStartTxHistoryId = history.last().get('id');
+                      return this.fetchTransactionHistory(accountId, newStartTxHistoryId, stopTxHistoryId, limit-adjustedLimit)
+                    } else {
+                      return history;
+                    }
+                  }).then((history) => {
+                    return result.concat(history);
+                  });
+  }
  /**
-  * Fetch recent history of an account
+  * Fetch recent history of an account  given object id of the transaction
   */
   static fetchRecentHistory(accountId, stopTxHistoryId, limit=100) {
     // 1.11.0 denotes the current time
     const currentTimeTransactionId = ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0';
     const startTxHistoryId = currentTimeTransactionId;
-    return this.callBlockchainHistoryApi('get_account_history',
-                  [ accountId, stopTxHistoryId || currentTimeTransactionId, limit, startTxHistoryId]).then((history) => {
-                    // Return immutable object to make it consistent with other functions
-                    return Immutable.fromJS(history);
-                  });
+    return this.fetchTransactionHistory(accountId, startTxHistoryId, stopTxHistoryId, limit);
   }
 
   /**
@@ -480,9 +514,7 @@ class CommunicationService {
   static getObjectsByIds(arrayOfObjectIds = [], fromBlockchain=false) {
     // TODO: remove this separation later
     if (fromBlockchain) {
-      return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]).then( result => {
-        return Immutable.fromJS(result);
-      });
+      return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]);
     } else {
       return new Promise((resolve, reject) => {
         setTimeout(() => {

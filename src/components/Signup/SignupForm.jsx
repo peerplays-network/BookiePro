@@ -174,7 +174,7 @@ export default reduxForm({
   asyncValidate: (values) => {
     return AccountService.lookupAccounts(values.get('accountName'), 1)
         .then(result => {
-          let account = result.find(account => account[0] === values.get('accountName'));
+          let account = result.find(account => account.get(0) === values.get('accountName'));
           if(account) {
             throw { accountName: I18n.t('signup.acc_name_taken') };
           }
