@@ -85,6 +85,7 @@ const mapStateToProps = (state) => {
     let betObj = Immutable.Map()
                   .set('odds', bet.getIn(['offer', 'odds']))
                   .set('price', bet.getIn(['offer', 'price']))
+                  .set('stake', bet.get('stake'))
                   .set('profit', bet.get('profit'))
                   .set('liability', bet.get('liability'))
                   .set('team', bet.get('team_name'));

@@ -102,23 +102,47 @@ class ComplexBettingWidget2 extends Component {
           // console.log('row 0 ' ,  JSON.stringify( row.toJS() , null , 2 ) )
 
           unconfirmedBets.forEach((bet, i) => {
-            // console.log('unconfirmedBets ', i , ' ' , JSON.stringify( bet.toJS(), null , 2 ) )
+            console.log('unconfirmedBets ', i , ' ' , JSON.stringify( bet.toJS(), null , 2 ) )
 
             if (bettingMarketId === bet.get('betting_market_id')){
+              //Exposure of the selection that the bet originates from
+
               if ( bet.get('bet_type') === betTypeBack){
-                //  + Profit
+                // A full back bet betslip is filled -- > + Profit
+                console.log( ' + Profit')
+                console.log(bettingMarketId, ' ', betslip_exposure, ' + ' , bet.get('profit') )
                 betslip_exposure = parseFloat(betslip_exposure) + parseFloat( bet.get('profit') );
+
               } else if ( bet.get('bet_type') === betTypeLay){
-                //  - Stake
-                betslip_exposure = parseFloat(betslip_exposure) - parseFloat( bet.get('stake') );
+                //  - Liability
+                console.log( ' - Liability')
+                console.log(bettingMarketId, ' ', betslip_exposure, ' - ' , bet.get('liability') )
+
+                betslip_exposure = parseFloat(betslip_exposure) - parseFloat( bet.get('liability') );
+
+
               }
             } else {
+              //  All other selection’s exposure
+
               if ( bet.get('bet_type') === betTypeBack){
-                //  - Liability
-                betslip_exposure = parseFloat(betslip_exposure) - parseFloat( bet.get('liability') );
+
+                // A full back bet betslip is filled  - Stake
+                console.log( ' - Stake')
+                console.log(bettingMarketId, ' ', betslip_exposure, ' - ' , bet.get('stake') )
+
+                betslip_exposure = parseFloat(betslip_exposure) - parseFloat( bet.get('stake') );
+
+
               } else if ( bet.get('bet_type') === betTypeLay){
                 //  + Backer’s Stake
+                console.log( ' + Backer’s Stake')
+
+                console.log(bettingMarketId, ' ', betslip_exposure, ' + ' , bet.get('stake') )
+
                 betslip_exposure = parseFloat(betslip_exposure) + parseFloat( bet.get('stake') );
+
+
               }
             }
 
