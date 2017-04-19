@@ -10,6 +10,13 @@ class QuickBetDrawerPrivateActions {
     };
   }
 
+  static updateOneBet(delta) {
+    return {
+      type: ActionTypes.QUICK_BET_DRAWER_UPDATE_ONE_BET,
+      delta
+    };
+  }
+
   static deleteOneBet(betId) {
     return {
       type: ActionTypes.QUICK_BET_DRAWER_DELETE_ONE_BET,
@@ -45,6 +52,12 @@ class QuickBetDrawerActions {
       });
       dispatch(QuickBetDrawerPrivateActions.addOneBet(bet));
     };
+  }
+
+  static updateBet(delta) {
+    return (dispatch) => {
+      dispatch(QuickBetDrawerPrivateActions.updateOneBet(delta));
+    }
   }
 
   static deleteBet(bet) {

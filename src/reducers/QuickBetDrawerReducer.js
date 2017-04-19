@@ -18,7 +18,7 @@ export default function(state = initialState, action) {
       // IF there exists a bet with the same bet type from the same betting market, REPLACE it.
       if (index >= 0) {
         return state.merge({
-          bets: oldBets.splice(index, 1, newBet)
+          bets: oldBets.set(index, newBet)
         });
       }
       // ELSE just append
@@ -40,6 +40,15 @@ export default function(state = initialState, action) {
       return state.merge({
         bets: Immutable.List()
       });
+    }
+    case ActionTypes.QUICK_BET_DRAWER_UPDATE_ONE_BET: {
+      const bets = state.get('bets');
+      const index = bets.findIndex(b => b.get('id') === action.delta.get('id'));
+      const offer = state.getIn(['bets', index, 'offer']);
+      const changes = Immutable.Map().set(action.delta.get('field'), action.delta.get('value'));
+      return state.merge({
+        bets: bets.setIn([index, 'offer'], offer.merge(changes))
+      })
     }
     default:
       return state;
