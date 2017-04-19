@@ -391,12 +391,7 @@ class CommunicationService {
     // Upper limit for getting transaction is 100
     const fetchUpperLimit = 100;
       // If the limit given is higher than upper limit, we need to call the api recursively
-    let needToRequestRecursively = false;
-    let adjustedLimit = Math.max(limit,0);
-    if (adjustedLimit > fetchUpperLimit) {
-      adjustedLimit = fetchUpperLimit;
-      needToRequestRecursively = true;
-    }
+    let adjustedLimit = Math.min(Math.max(limit,0), fetchUpperLimit);
     // 1.11.0 denotes the current time
     const currentTimeTransactionId = ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0';
     startTxHistoryId = startTxHistoryId || currentTimeTransactionId;
@@ -407,12 +402,12 @@ class CommunicationService {
                   [ accountId, stopTxHistoryId, adjustedLimit, startTxHistoryId]).then((history) => {
                     // Concat to the result
                     result = result.concat(history);
-                    if (needToRequestRecursively && history.size === fetchUpperLimit) {
-                      // if we need to request recursively and find out that the size of retrieved history is equal to upper limit,
-                      // very likely we are not in the end of data
+                    const remainingLimit = limit-adjustedLimit;
+                    if (history.size === adjustedLimit && remainingLimit > 0) {
+                      // if we still haven't got all the data, do this again recursively
                       // Use the latest transaction id as new startTxHistoryId
                       const newStartTxHistoryId = history.last().get('id');
-                      return this.fetchTransactionHistory(accountId, newStartTxHistoryId, stopTxHistoryId, limit-adjustedLimit)
+                      return this.fetchTransactionHistory(accountId, newStartTxHistoryId, stopTxHistoryId, remainingLimit)
                     } else {
                       return history;
                     }
