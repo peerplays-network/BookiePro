@@ -386,7 +386,7 @@ class ComplexBettingWidget2 extends Component {
 
       <div className='complex-betting'>
         <div className='title'>
-          <div className='name'> {I18n.t('complex_betting_widget.moneyline')} </div>
+          <div className='name'> { this.props.bettingMarketGroupName } </div>
           <div className='rules'>
             <span>{I18n.t('complex_betting_widget.matched')}: <i className='icon-bitcoin'></i> 4.65</span>
             {/* TODO: Rules dialogue will do after
@@ -435,6 +435,7 @@ class ComplexBettingWidget2 extends Component {
 
 ComplexBettingWidget2.propTypes = {
   eventName: React.PropTypes.string.isRequired,
+  bettingMarketGroupName: React.PropTypes.string.isRequired,
   marketData: React.PropTypes.any.isRequired
 };
 

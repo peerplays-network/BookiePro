@@ -56,6 +56,7 @@ class BettingMarketGroup extends Component {
         /> */}
         <ComplexBettingWidget2
           eventName={ this.props.eventName }
+          bettingMarketGroupName={ this.props.bettingMarketGroupName }
           marketData={ this.props.marketData }
         />
       </div>
@@ -101,6 +102,10 @@ const mapStateToProps = (state, ownProps) => {
 
   // Extract betting market group
   const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
+
+  //NOTE using market_type_id to retrieve team name
+  const bettingMarketGroupName = (bettingMarketGroup && bettingMarketGroup.get('market_type_id')) || '';
+
   // Extract event name
   const event = bettingMarketGroup && eventsById.get(bettingMarketGroup.get('event_id'));
   const eventName = (event && event.get('name')) || '';
@@ -118,7 +123,8 @@ const mapStateToProps = (state, ownProps) => {
     bettingMarketGroup,
     bettingMarkets: relatedBettingMarkets,
     marketData,
-    eventName
+    eventName,
+    bettingMarketGroupName
   }
 };
 
