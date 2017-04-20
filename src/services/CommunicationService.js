@@ -620,7 +620,11 @@ class CommunicationService {
     const promises = bettingMarketGroupIds.map( (bettingMarketGroupId) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve(Math.floor((Math.random() * 1000) + 1));
+          const amountObject = {
+            amount: Math.floor((Math.random() * 1000000) + 100000),
+            asset_id: '1.3.0'
+          }
+          resolve(amountObject);
         }, TIMEOUT_LENGTH);
       });
     });
