@@ -8,16 +8,18 @@ import log from 'loglevel';
 
 class BettingMarketGroupPagePrivateActions {
 
-  static setLoadingStatusAction(loadingStatus) {
+  static setLoadingStatusAction(bettingMarketGroupId, loadingStatus) {
     return {
       type: ActionTypes.BETTING_MARKET_GROUP_PAGE_SET_LOADING_STATUS,
+      bettingMarketGroupId,
       loadingStatus
     }
   }
 
-  static setErrorAction(error) {
+  static setErrorAction(bettingMarketGroupId, error) {
     return {
       type: ActionTypes.BETTING_MARKET_GROUP_PAGE_SET_ERROR,
+      bettingMarketGroupId,
       error
     }
   }
@@ -28,7 +30,7 @@ class BettingMarketGroupPageActions {
 
   static getData(bettingMktGrpId) {
     return (dispatch) => {
-      dispatch(BettingMarketGroupPagePrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
+      dispatch(BettingMarketGroupPagePrivateActions.setLoadingStatusAction(bettingMktGrpId, LoadingStatus.LOADING));
 
       // get related betting market group object
       dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds([bettingMktGrpId])).then((bettingMarketGroups) => {
@@ -48,10 +50,10 @@ class BettingMarketGroupPageActions {
         return dispatch(BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
       }).then(() => {
         // Set status to done
-        dispatch(BettingMarketGroupPagePrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
+        dispatch(BettingMarketGroupPagePrivateActions.setLoadingStatusAction(bettingMktGrpId, LoadingStatus.DONE));
       }).catch((error) => {
-        log.error('Betting market group page get data error', error);
-        dispatch(BettingMarketGroupPagePrivateActions.setErrorAction(error));
+        log.error('Betting market group page get data error', bettingMktGrpId, error);
+        dispatch(BettingMarketGroupPagePrivateActions.setErrorAction(bettingMktGrpId, error));
       });
     }
   }

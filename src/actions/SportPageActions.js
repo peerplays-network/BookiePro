@@ -16,9 +16,10 @@ import {
  * Private actions
  */
 class SportPagePrivateActions {
-  static setLoadingStatusAction(loadingStatus) {
+  static setLoadingStatusAction(sportId, loadingStatus) {
     return {
       type: ActionTypes.SPORT_PAGE_SET_LOADING_STATUS,
+      sportId,
       loadingStatus
     }
   }
@@ -32,9 +33,10 @@ class SportPagePrivateActions {
     }
   }
 
-  static setErrorAction(error) {
+  static setErrorAction(sportId, error) {
     return {
       type: ActionTypes.SPORT_PAGE_SET_ERROR,
+      sportId,
       error
     }
   }
@@ -46,7 +48,7 @@ class SportPagePrivateActions {
 class SportPageActions {
   static getData(sportId) {
     return (dispatch) => {
-      dispatch(SportPagePrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
+      dispatch(SportPagePrivateActions.setLoadingStatusAction(sportId, LoadingStatus.LOADING));
 
       let retrievedEventGroups = Immutable.List();
       let retrievedEvents = Immutable.List();
@@ -93,11 +95,11 @@ class SportPageActions {
         ));
 
         // Finish loading (TODO: Are we sure this is really the last action dispatched?)
-        dispatch(SportPagePrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
+        dispatch(SportPagePrivateActions.setLoadingStatusAction(sportId, LoadingStatus.DONE));
       }).catch((error) => {
         // Log and set error
-        log.error('Sport page get data error', error);
-        dispatch(SportPagePrivateActions.setErrorAction(error));
+        log.error('Sport page get data error', sportId, error);
+        dispatch(SportPagePrivateActions.setErrorAction(sportId, error));
       });
     };
   }

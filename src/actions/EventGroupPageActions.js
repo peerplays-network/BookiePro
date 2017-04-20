@@ -13,9 +13,10 @@ import {
 } from './dataUtils';
 
 class EventGroupPagePrivateActions {
-  static setLoadingStatusAction(loadingStatus) {
+  static setLoadingStatusAction(eventGroupId, loadingStatus) {
     return {
       type: ActionTypes.EVENT_GROUP_PAGE_SET_LOADING_STATUS,
+      eventGroupId,
       loadingStatus
     }
   }
@@ -30,16 +31,10 @@ class EventGroupPagePrivateActions {
     }
   }
 
-  static setEventIdsAction(eventIds) {
-    return {
-      type: ActionTypes.EVENT_GROUP_PAGE_SET_EVENT_IDS,
-      eventIds
-    }
-  }
-
-  static setErrorAction(error) {
+  static setErrorAction(eventGroupId, error) {
     return {
       type: ActionTypes.EVENT_GROUP_PAGE_SET_ERROR,
+      eventGroupId,
       error
     }
   }
@@ -49,7 +44,7 @@ class EventGroupPagePrivateActions {
 class EventGroupPageActions {
   static getData(eventGroupId) {
     return (dispatch) => {
-      dispatch(EventGroupPagePrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
+      dispatch(EventGroupPagePrivateActions.setLoadingStatusAction(eventGroupId, LoadingStatus.LOADING));
 
       let retrievedEventGroup;
       let retrievedSport;
@@ -99,10 +94,10 @@ class EventGroupPageActions {
         ));
 
         // Finish loading (TODO: Are we sure this is really the last action dispatched?)
-        dispatch(EventGroupPagePrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
+        dispatch(EventGroupPagePrivateActions.setLoadingStatusAction(eventGroupId, LoadingStatus.DONE));
       }).catch((error) => {
-        log.error('Event sport page get data error', error);
-        dispatch(EventGroupPagePrivateActions.setErrorAction(error));
+        log.error('Event sport page get data error', eventGroupId, error);
+        dispatch(EventGroupPagePrivateActions.setErrorAction(eventGroupId, error));
       });
     }
   }
