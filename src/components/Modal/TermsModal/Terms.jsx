@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'antd';
-
+import Ps from 'perfect-scrollbar';
+import ReactDOM from 'react-dom'
 class Terms extends Component {
   state = {
     visible: false
   };
+  componentDidUpdate() {
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.scrollableSection));
+  }
   showModal = () => {
     this.setState({
       visible: true
@@ -27,7 +31,9 @@ class Terms extends Component {
           width={ 747 }
           onCancel={ this.handleCancel }
         >
-          { this.props.children }
+          <div style={ { 'height' : '100%', 'position' : 'relative' } } ref='scrollableSection'>
+            { this.props.children }
+          </div>
         </Modal>
       </div>
     );
