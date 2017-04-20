@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import { Modal, Button } from 'antd';
-import Ps from 'perfect-scrollbar';
-import ReactDOM from 'react-dom'
-class Terms extends Component {
+import { Modal, Button, Icon } from 'antd';
+
+class RulesModal extends Component {
   state = {
     visible: false
   };
-  componentDidUpdate() {
-    Ps.initialize(ReactDOM.findDOMNode(this.refs.scrollableSection));
-  }
   showModal = () => {
     this.setState({
       visible: true
@@ -22,18 +18,16 @@ class Terms extends Component {
   render() {
     return (
       <div className='modal-inline'>
-        <Button onClick={ this.showModal }> { this.props.buttonTitle } </Button>
+        <Button onClick={ this.showModal }> <Icon type='info-circle-o' />   { this.props.buttonTitle } </Button>
         <Modal
           title={ this.props.title }
           wrapClassName={ this.props.parentClass + '-modal' }
           visible={ this.state.visible }
           footer=''
-          width={ 747 }
+          width='747'
           onCancel={ this.handleCancel }
         >
-          <div style={ { 'height' : '100%', 'position' : 'relative' } } ref='scrollableSection'>
-            { this.props.children }
-          </div>
+          { this.props.children }
         </Modal>
       </div>
     );
@@ -41,4 +35,4 @@ class Terms extends Component {
 }
 
 
-export default Terms;
+export default RulesModal;

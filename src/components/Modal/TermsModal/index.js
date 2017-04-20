@@ -1,3 +1,3 @@
-import Terms from './Terms';
-import './Terms.less';
-export default Terms;
+import TermsModal from './TermsModal';
+import './TermsModal.less';
+export default TermsModal;
