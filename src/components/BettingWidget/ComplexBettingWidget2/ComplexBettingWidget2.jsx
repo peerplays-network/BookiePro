@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { MarketDrawerActions } from '../../../actions';
-import { BettingModule } from '../../../utility';
+import { BettingModuleUtils } from '../../../utility';
 import { BetTypes } from '../../../constants';
 import ReactTable from 'react-table'
 import { Icon } from 'antd'
@@ -88,7 +88,7 @@ class ComplexBettingWidget2 extends Component {
         //get Exposure
         let market_exposure = 0.00
         const bettingMarketId = row.getIn(['offer', 'betting_market_id']);
-        const betslip_exposure = BettingModule.getExposure(bettingMarketId, unconfirmedBets);
+        const betslip_exposure = BettingModuleUtils.getExposure(bettingMarketId, unconfirmedBets);
 
         //update i th row
         // equivalant to  rowInfo.row in function onOfferClicked(rowInfo, column)

@@ -1,6 +1,6 @@
 import { ActionTypes } from '../constants';
 import Immutable from 'immutable';
-import { BettingModule } from '../utility';
+import { BettingModuleUtils } from '../utility';
 
 class MarketDrawerPrivateActions {
   static addUnconfirmedBet(bet) {
@@ -48,8 +48,8 @@ class MarketDrawerActions {
         offer: offer,
 
         stake: randomStake,
-        profit:  offer ? BettingModule.getProfitOrLiability( randomStake, offer.get('odds') ) : 0,
-        liability:  offer ? BettingModule.getProfitOrLiability( randomStake, offer.get('odds') ) : 0
+        profit:  offer ? BettingModuleUtils.getProfitOrLiability( randomStake, offer.get('odds') ) : 0,
+        liability:  offer ? BettingModuleUtils.getProfitOrLiability( randomStake, offer.get('odds') ) : 0
       });
       dispatch(MarketDrawerPrivateActions.addUnconfirmedBet(bet));
     };

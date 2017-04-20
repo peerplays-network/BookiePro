@@ -4,7 +4,7 @@ const oddsPlaces = 2;
 const stakePlaces = 3; //minimum stake = 0.001 BTC
 const exposurePlaces = oddsPlaces + stakePlaces;
 
-var BettingModule = {
+var BettingModuleUtils = {
 
   //Appendix I – Summary of Formulas
 
@@ -84,4 +84,4 @@ var BettingModule = {
   }
 }
 
-export default BettingModule;
+export default BettingModuleUtils;
