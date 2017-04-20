@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import { I18n, Translate } from 'react-redux-i18n';
-import { NavigateActions } from '../../../actions';
+import { MarketDrawerActions, NavigateActions } from '../../../actions';
 import { Button, Tabs } from 'antd';
 import { bindActionCreators } from 'redux';
 import EditableBetTable from '../EditableBetTable';
@@ -39,7 +39,8 @@ const renderUnconfirmedBets = (props) => (
       <EditableBetTable
         data={ Immutable.fromJS({ unconfirmedBets: props.unconfirmedBets }) }
         deleteOne={ (record) => console.log('MarketDrawer DeleteOne', record.toJS()) }
-        deleteMany={ (records) => console.log('MarketDrawer DeleteOne', records.toJS()) }
+        deleteMany={ (records) => console.log('MarketDrawer DeleteMany', records.toJS()) }
+        updateOne={ props.updateUnconfirmedBet }
       />
     }
   </div>
@@ -106,6 +107,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
+    updateUnconfirmedBet: MarketDrawerActions.updateUnconfirmedBet,
   }, dispatch);
 }
 

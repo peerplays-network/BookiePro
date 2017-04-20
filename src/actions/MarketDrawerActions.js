@@ -10,6 +10,13 @@ class MarketDrawerPrivateActions {
     };
   }
 
+  static updateUnconfirmedBet(delta) {
+    return {
+      type: ActionTypes.MARKET_DRAWER_UPDATE_UNCONFIRMED_BET,
+      delta
+    };
+  }
+
   static deleteAllConfirmedBets() {
     return {
       type: ActionTypes.MARKET_DRAWER_DELETE_ALL_UNCONFIRMED_BETS,
@@ -53,6 +60,12 @@ class MarketDrawerActions {
       });
       dispatch(MarketDrawerPrivateActions.addUnconfirmedBet(bet));
     };
+  }
+
+  static updateUnconfirmedBet(delta) {
+    return (dispatch) => {
+      dispatch(MarketDrawerActions.updateUnconfirmedBet(delta));
+    }
   }
 
   static deleteAllUnconfirmedBets() {
