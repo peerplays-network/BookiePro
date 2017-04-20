@@ -22,6 +22,7 @@ import Withdraw from './Withdraw';
 import moment from 'moment';
 import { SettingActions,AccountActions } from '../../actions';
 import { LoadingStatus } from '../../constants';
+import Immutable from 'immutable';
 
 const Option = Select.Option;
 
@@ -55,6 +56,7 @@ class MyAccount extends PureComponent {
     this.onEndChange = this.onEndChange.bind(this);
     this.searchTransactionHistory = this.searchTransactionHistory.bind(this);
     this.handleRedirectToChangePwd = this.handleRedirectToChangePwd.bind(this);
+    this.renderSettingCard = this.renderSettingCard.bind(this);
 
   }
 
@@ -328,9 +330,9 @@ class MyAccount extends PureComponent {
               <Select
                 className='bookie-select'
                 defaultValue='BTC'
-                onChange={ this.handleTimeZoneChange }>
-                <Option value='UTC-12:00'> BTC</Option>
-                <Option value='UTC-11:00'>mBTC</Option>
+                onChange={ this.handleCurrFormatChange }>
+                <Option value='BTC'> BTC</Option>
+                <Option value='mBTC'>mBTC</Option>
               </Select>
             </div>
           </Col>
@@ -397,7 +399,9 @@ class MyAccount extends PureComponent {
 const mapStateToProps = (state) => {
   const app = state.get('app');
   const account = state.get('account');
-  const setting = state.get('setting');
+  const accountId = account.getIn(['account','id']);
+  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || Immutable.Map();
+
   /*-1 will be used to check to display 'Not available' against the withdraw amount field
       when the asset '1.3.0' is not obtained for some reason
   */

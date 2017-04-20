@@ -2,6 +2,7 @@ import { LoadingStatus, ActionTypes } from '../constants';
 import { CommunicationService, KeyGeneratorService, AccountService } from '../services';
 import NavigateActions from './NavigateActions';
 import AccountActions from './AccountActions';
+import SettingActions from './SettingActions';
 import AppActions from './AppActions';
 import NotificationActions from './NotificationActions';
 import { I18n } from 'react-redux-i18n';
@@ -52,6 +53,8 @@ class LoginActions {
           dispatch(AccountActions.setAvailableBalancesAction(availableBalances));
           // Save keys
           dispatch(AccountActions.setKeys(keys));
+          // Set initial setting (in case this is first time login)
+          dispatch(SettingActions.setInitialSetting());
           // Set is logged in
           dispatch(AppActions.setIsLoggedInAction(true));
           // Init notification
