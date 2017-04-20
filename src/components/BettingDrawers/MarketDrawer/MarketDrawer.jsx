@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import { I18n, Translate } from 'react-redux-i18n';
-import { NavigateActions } from '../../../actions';
+import { MarketDrawerActions, NavigateActions } from '../../../actions';
 import { Button, Tabs } from 'antd';
 import { bindActionCreators } from 'redux';
 import EditableBetTable from '../EditableBetTable';
@@ -38,8 +38,9 @@ const renderUnconfirmedBets = (props) => (
     { !props.unconfirmedBets.isEmpty() &&
       <EditableBetTable
         data={ Immutable.fromJS({ unconfirmedBets: props.unconfirmedBets }) }
-        deleteOne={ (record) => console.log('MarketDrawer DeleteOne', record.toJS()) }
-        deleteMany={ (records) => console.log('MarketDrawer DeleteOne', records.toJS()) }
+        deleteOne={ props.deleteUnconfirmedBet }
+        deleteMany={ props.deleteUnconfirmedBets }
+        updateOne={ props.updateUnconfirmedBet }
       />
     }
   </div>
@@ -61,7 +62,7 @@ class MarketDrawer extends Component {
           <TabPane tab='BETSLIP' key='1'>
             { renderUnconfirmedBets(this.props) }
           </TabPane>
-          <TabPane tab='PLACEBETS' key='2'>
+          <TabPane tab='PLACED BETS' key='2'>
             { renderPlacedBets(this.props) }
           </TabPane>
         </Tabs>
@@ -83,16 +84,15 @@ const mapStateToProps = (state) => {
     // Add the bet to the list of bets with the same market type
     let betListByBetType = betslips.get(betType);
     let betObj = Immutable.Map()
-                  .set('odds', bet.getIn(['offer', 'odds']))
-                  .set('price', bet.getIn(['offer', 'price']))
-
+                  .set('id', bet.get('id'))
+                  .set('odds', bet.getIn(['offer', 'odds'], ''))
+                  .set('price', bet.getIn(['offer', 'price'], ''))
                   //NOTE  to be removed once calculation of profit/liability is done
                   //being
                   .set('stake', bet.get('stake'))
                   .set('profit', bet.get('profit'))
                   .set('liability', bet.get('liability'))
                   //end
-
                   .set('team', bet.get('team_name'));
     betListByBetType = betListByBetType.push(betObj);
     // Put everything back in their rightful places
@@ -106,6 +106,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
+    deleteUnconfirmedBet: MarketDrawerActions.deleteUnconfirmedBet,
+    deleteUnconfirmedBets: MarketDrawerActions.deleteUnconfirmedBets,
+    updateUnconfirmedBet: MarketDrawerActions.updateUnconfirmedBet,
   }, dispatch);
 }
 

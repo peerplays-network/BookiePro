@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Icon, Input, Table } from 'antd';
+import { Button, Icon, Table } from 'antd';
 import Immutable from 'immutable';
 
 const renderTeam = (text, record) => (
@@ -9,18 +9,33 @@ const renderTeam = (text, record) => (
   </div>
 );
 
-// TODO: Need styling work on the special buttons in the input box
-const renderInputWithControl = (text, record) => (
-  <Input
-    defaultValue={ text }
-  />
-)
+const renderInput = (field, action) => {
+  return (text, record) => {
+    // antd table records are vanilla JS objects
+    // we cannot use antd Input component here because we have problem
+    // changing the value if user clicks on an offer from the same market
+    return (
+      <input
+        type='text'
+        value={ text }
+        className='ant-input'
+        onChange={
+          (event) => {
+            const delta = Immutable.Map()
+                            .set('id', record.id)
+                            .set('field', field)
+                            .set('value', event.target.value);
+            action(delta);
+          }
+        }
+      />
+    );
+  }
+}
 
-const renderInput = (text, record) => (
-  <Input
-    defaultValue={ text }
-  />
-)
+// TODO: Need styling work on the special buttons in the input box
+//       So we are just calling the same method right now
+const renderInputWithControl = renderInput;
 
 const renderDeleteButton = (deleteOne) => {
   return (text, record) => (
@@ -30,7 +45,7 @@ const renderDeleteButton = (deleteOne) => {
   );
 }
 
-const getBackColumns = (deleteOne) => (
+const getBackColumns = (deleteOne, updateOne) => (
   [
     {
       title: 'BACK',
@@ -45,21 +60,20 @@ const getBackColumns = (deleteOne) => (
       key: 'odds',
       width: '23%',
       className: 'numeric',
-      render: renderInputWithControl,
+      render: renderInputWithControl('odds', updateOne),
     }, {
       title: 'STAKE(B)',
       dataIndex: 'stake',
       key: 'stake',
       width: '24%',
       className: 'numeric',
-      render: renderInput,
+      render: renderInput('price', updateOne), // price is the original name
     }, {
       title: 'PROFIT(B)',
       dataIndex: 'profit',
       key: 'profit',
       width: '24%',
-      className: 'numeric',
-      render: renderInput,
+      className: 'numeric'
     }, {
       title: '',
       dataIndex: 'delete',
@@ -70,7 +84,7 @@ const getBackColumns = (deleteOne) => (
   ]
 );
 
-const getLayColumns = (deleteOne) => (
+const getLayColumns = (deleteOne, updateOne) => (
   [
     {
       title: 'LAY',
@@ -85,21 +99,20 @@ const getLayColumns = (deleteOne) => (
       key: 'odds',
       width: '23%',
       className: 'numeric',
-      render: renderInputWithControl,
+      render: renderInputWithControl('odds', updateOne),
     }, {
       title: "BACKER'S STAKE(B)",
       dataIndex: 'stake',
       key: 'stake',
       width: '24%',
       className: 'numeric',
-      render: renderInput,
+      render: renderInput('price', updateOne),
     }, {
       title: 'LIABILITY(B)',
       dataIndex: 'liability',
       key: 'liability',
       width: '24%',
-      className: 'numeric',
-      render: renderInput,
+      className: 'numeric'
     }, {
       title: '',
       dataIndex: 'delete',
@@ -149,7 +162,7 @@ const EditableBetTable = (props) => {
           <div className='back'>
             <Table
               pagination={ false }
-              columns={ getBackColumns(props.deleteOne) }
+              columns={ getBackColumns(props.deleteOne, props.updateOne) }
               dataSource={ buildBetTableData(backBets).toJS() }
             />
           </div>
@@ -159,7 +172,7 @@ const EditableBetTable = (props) => {
           <div className='lay'>
             <Table
               pagination={ false }
-              columns={ getLayColumns(props.deleteOne) }
+              columns={ getLayColumns(props.deleteOne, props.updateOne) }
               dataSource={ buildBetTableData(layBets).toJS() }
             />
           </div>
