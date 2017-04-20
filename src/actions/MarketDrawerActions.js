@@ -32,11 +32,12 @@ class MarketDrawerActions {
     };
   }
 
-  //NOTE  to be removed once calculation of profit/liability is done
+  //NOTE  to be removed once edit of stake is done
   static createDummyBet(record, team, betType, betting_market_id, offer) {
 
+    //generate a random number to simulate the change in stake
     const randomStake = (Math.random() * (0.800 - 0.100) + 0.100).toFixed(3);
-    console.log( ' offer, ', offer)
+    
     return (dispatch) => {
       const bet = Immutable.fromJS({
         event_id: record.get('id'),
@@ -46,7 +47,6 @@ class MarketDrawerActions {
         betting_market_id: betting_market_id,
         offer: offer,
 
-        //NOTE get a IRRATIONAL RANDOM number  -- at 2 decimal places for the odds, and minimum bet is 0.001 bitcoin  --> 5
         stake: randomStake,
         profit: BettingModule.getProfitOrLiability( randomStake, offer.get('odds')),
         liability:  BettingModule.getProfitOrLiability( randomStake, offer.get('odds'))
