@@ -11,6 +11,11 @@ var BettingModule = {
   // Profit = Stake * (Odds – 1)
   // Liability = Backer's Stake * (Odds – 1)
   getProfitOrLiability: function(stake, odd) {
+
+    //check invalid input
+    if ( parseFloat(odd).toFixed(oddsPlaces) < 1.01 ){
+      return 0
+    }
     return  ( parseFloat(stake) * ( parseFloat(odd) - 1 ) ).toFixed(exposurePlaces)
   },
 

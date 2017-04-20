@@ -43,7 +43,7 @@ class ComplexBettingWidget2 extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //only perform calculatino when there exists changes in related data
+    //only perform calculation when there exists changes in related data
     if (!this.props.marketData.equals( nextProps.marketData) ||
       this.props.unconfirmedBets !== nextProps.unconfirmedBets){
       this.setTableData(nextProps.marketData, nextProps.unconfirmedBets)
@@ -59,7 +59,7 @@ class ComplexBettingWidget2 extends Component {
   // among which header contains team name + exposure caluclation
   setTableData(tableData, unconfirmedBets){
 
-    if ( !tableData.equals(Immutable.fromJS([]) ) ){
+    if ( !tableData.isEmpty()){
 
       let backBookPercent = 0.0;
       let layBookPercent = 0.0;
@@ -333,7 +333,7 @@ class ComplexBettingWidget2 extends Component {
           </div>
         </div>
         {
-          this.state.tableData.equals(Immutable.fromJS([])) ?
+          this.state.tableData.isEmpty() ?
           <div/>
           :
           <ReactTable
