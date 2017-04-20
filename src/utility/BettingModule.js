@@ -43,7 +43,12 @@ var BettingModule = {
         return;
       }
 
+      if ( parseFloat( bet.get('profit') ) === 0 || parseFloat( bet.get('liability') ) === 0){
+        return;
+      }
+
       if (bettingMarketId === bet.get('betting_market_id')){
+
         //Exposure of the selection that the bet originates from
         if ( bet.get('bet_type') === BetTypes.BACK){
           // A full back bet betslip is filled --> + Profit
