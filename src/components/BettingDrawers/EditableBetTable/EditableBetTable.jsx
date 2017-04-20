@@ -119,9 +119,10 @@ const buildBetTableData = (bets) => {
             .set('team', bet.get('team'))
             .set('market_type', 'Moneyline')   // TODO: change this
             .set('odds', bet.get('odds'))
-            .set('stake', bet.get('price'))
-            .set('profit', '0')                // TODO: change this
-            .set('liability', '0');            // TODO: change this
+
+            .set('stake', bet.has('stake') ?  bet.get('stake') : bet.get('price')) // TODO: change this
+            .set('profit', bet.has('profit') ?  bet.get('profit') : '0')                // TODO: change this
+            .set('liability', bet.has('liability') ?  bet.get('liability') : '0');            // TODO: change this
   });
 }
 
