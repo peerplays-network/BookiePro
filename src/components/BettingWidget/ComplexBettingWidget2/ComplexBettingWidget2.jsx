@@ -165,8 +165,24 @@ class ComplexBettingWidget2 extends Component {
 
   placeAllBestBets(event) {
     const {id} = event.target;
-    const bestOffer = this.getBestOfferOfEachmarket(id);
-    console.log(bestOffer.toJS());
+    const betType = id
+    this.state.tableData.filter( item => {
+
+      if ( item.hasIn([ 'offer', betType + 'Origin', '0' ])){
+        return true
+      } else {
+        return false
+      }
+
+    }).forEach( row => {
+      const competitor =  row.get('name');
+      const record = row;
+      const offer = row.getIn([ 'offer', betType + 'Origin', '0' ])
+      const betting_market_id = row.getIn( ['offer', 'betting_market_id'])
+      this.props.createBet(record, competitor, betType, betting_market_id, offer);
+    });
+
+
 
   }
 
