@@ -63,8 +63,8 @@ class ComplexBettingWidget2 extends Component {
 
     if ( !tableData.isEmpty()){
 
-      let backBookPercent = 0.0;
-      let layBookPercent = 0.0;
+      let backBookPercent = BettingModuleUtils.getBookPercentage( this.getBestOfferOfEachmarket(tableData, BetTypes.BACK) );
+      let layBookPercent = BettingModuleUtils.getBookPercentage( this.getBestOfferOfEachmarket(tableData, BetTypes.LAY) );
 
       tableData.forEach((row, i) => {
         //in i th row
@@ -103,28 +103,12 @@ class ComplexBettingWidget2 extends Component {
             'market_exposure': market_exposure,
             'betslip_exposure': parseFloat(betslip_exposure) !== 0 ?  betslip_exposure : undefined })
 
-        //TODO migrate to betting module
-        //back percentage calculation
-        //i.e. adding up based on the best price that is being offered i.e. backTableData[0] of each market
-        if (backTableData.size > 0){
-          backBookPercent = parseFloat(backBookPercent) + parseFloat( (100 / backTableData.getIn([0, 'odds'])) );
-          backBookPercent = parseFloat(backBookPercent).toFixed(floatPlaces)
-        }
-
-        //TODO migrate to betting module
-        //lay percentage calculation
-        //i.e. adding up based on the best price that is being offered i.e. layTableData[0] of each market
-        if (layTableData.size > 0){
-          layBookPercent = parseFloat(layBookPercent) + parseFloat( (100 / layTableData.getIn([0, 'odds'])) );
-          layBookPercent = parseFloat(layBookPercent).toFixed(floatPlaces)
-        }
-
       });
 
       this.setState({
-        tableData: tableData,
-        backBookPercent: Math.round(backBookPercent) ,
-        layBookPercent: Math.round(layBookPercent)
+        tableData,
+        backBookPercent,
+        layBookPercent
       })
     } else {
       this.setState({
@@ -186,8 +170,8 @@ class ComplexBettingWidget2 extends Component {
 
   }
 
-  getBestOfferOfEachmarket(betType){
-    return this.state.tableData.map( item => {
+  getBestOfferOfEachmarket(tableData, betType){
+    return tableData.map( item => {
 
       if ( item.hasIn([ 'offer', betType + 'Origin', '0' ])){
         return item.getIn([ 'offer', betType + 'Origin', '0' ])
