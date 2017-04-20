@@ -62,7 +62,7 @@ class MarketDrawer extends Component {
           <TabPane tab='BETSLIP' key='1'>
             { renderUnconfirmedBets(this.props) }
           </TabPane>
-          <TabPane tab='PLACEBETS' key='2'>
+          <TabPane tab='PLACED BETS' key='2'>
             { renderPlacedBets(this.props) }
           </TabPane>
         </Tabs>
@@ -83,17 +83,16 @@ const mapStateToProps = (state) => {
     }
     // Add the bet to the list of bets with the same market type
     let betListByBetType = betslips.get(betType);
+    console.log(bet.toJS());
     let betObj = Immutable.Map()
-                  .set('odds', bet.getIn(['offer', 'odds']))
-                  .set('price', bet.getIn(['offer', 'price']))
-
+                  .set('odds', bet.getIn(['offer', 'odds'], ''))
+                  .set('price', bet.getIn(['offer', 'price'], ''))
                   //NOTE  to be removed once calculation of profit/liability is done
                   //being
                   .set('stake', bet.get('stake'))
                   .set('profit', bet.get('profit'))
                   .set('liability', bet.get('liability'))
                   //end
-
                   .set('team', bet.get('team_name'));
     betListByBetType = betListByBetType.push(betObj);
     // Put everything back in their rightful places
