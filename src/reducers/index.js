@@ -15,6 +15,7 @@ import BettingMarketGroupReducer from './BettingMarketGroupReducer';
 import BettingMarketReducer from './BettingMarketReducer';
 import BetReducer from './BetReducer';
 import BinnedOrderBookReducer from './BinnedOrderBookReducer';
+import LiquidityReducer from './LiquidityReducer';
 import AllSportsReducer from './AllSportsReducer';
 import SportPageReducer from './SportPageReducer';
 import EventGroupPageReducer from './EventGroupPageReducer';
@@ -42,6 +43,7 @@ const rootReducer = combineReducers({
   bettingMarket: BettingMarketReducer,
   bet: BetReducer,
   binnedOrderBook: BinnedOrderBookReducer,
+  liquidity: LiquidityReducer,
   allSports: AllSportsReducer,
   sportPage: SportPageReducer,
   eventGroupPage: EventGroupPageReducer,

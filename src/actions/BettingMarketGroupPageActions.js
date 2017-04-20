@@ -3,6 +3,7 @@ import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import EventActions from './EventActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
+import LiquidityActions from './LiquidityActions';
 import log from 'loglevel';
 
 class BettingMarketGroupPagePrivateActions {
@@ -16,7 +17,7 @@ class BettingMarketGroupPagePrivateActions {
 
   static setErrorAction(error) {
     return {
-      type: ActionTypes.EVENT_GROUP_PAGE_SET_ERROR,
+      type: ActionTypes.BETTING_MARKET_GROUP_PAGE_SET_ERROR,
       error
     }
   }
@@ -34,16 +35,19 @@ class BettingMarketGroupPageActions {
         const bettingMarketGroup = bettingMarketGroups.get(0);
         const bettingMarketIds = bettingMarketGroup.get('betting_market_ids');
         const eventId = bettingMarketGroup.get('event_id');
-        // get related betting markets objects and event object
+        // get related betting markets objects, event object, and total matched bets in parallel (since they are mutually exclusive)
         return Promise.all([
+          dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)),
           dispatch(EventActions.getEventsByIds([eventId])),
-          dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds))
+          dispatch(LiquidityActions.getTotalMatchedBetsByBettingMarketGroupIds([bettingMktGrpId]))
         ]);
       }).then((result) => {
-        const bettingMarkets = result[1];
+        const bettingMarkets = result[0];
         const bettingMarketIds = bettingMarkets.map( bettingMarket => bettingMarket.get('id'));
+        // Get binned order books
         return dispatch(BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
-      }).then((binnedOrderBooksByBettingMarketId) => {
+      }).then(() => {
+        // Set status to done
         dispatch(BettingMarketGroupPagePrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
         log.error('Betting market group page get data error', error);

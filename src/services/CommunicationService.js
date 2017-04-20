@@ -503,7 +503,6 @@ class CommunicationService {
   }
 
 
-
   /**
    * Get any blockchain object given their id
    */
@@ -612,6 +611,30 @@ class CommunicationService {
       return Immutable.fromJS(finalResult);
     });
   }
+
+  /**
+   * Get total matched bets given array of betting market group ids (can be immutable)
+   */
+  static getTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds) {
+    // TODO: Replace later
+    const promises = bettingMarketGroupIds.map( (bettingMarketGroupId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(Math.floor((Math.random() * 1000) + 1));
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( result => {
+      const finalResult = {};
+      bettingMarketGroupIds.forEach((bettingMarketGroupId, index) => {
+        if (result[index]) {
+          finalResult[bettingMarketGroupId] = result[index];
+        }
+      })
+      return Immutable.fromJS(finalResult);
+    });
+  }
+
 
   /**
    * Withdraw money
