@@ -101,6 +101,16 @@ class SettingActions {
       }
     }
   }
+  /**
+   * Mark skip logout popup next time for this account
+   */
+  static markSkipLogoutPopupAction(accountId, isSkipLogoutPopup) {
+    return {
+      type: ActionTypes.SETTING_MARK_SKIP_LOGOUT_POPUP,
+      accountId,
+      isSkipLogoutPopup
+    }
+  }
 
   static redirectToChangePwd(){
     return (dispatch) => {

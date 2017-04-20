@@ -309,6 +309,14 @@ export const translationsObject = {
       hours: 'Hours',
       mins: 'Mins',
       secs: 'Secs'
+    },
+    logoutModal: {
+      title: 'Logout',
+      explanation: 'Your password is required to login. Please make sure you have stored your password in a safe place.',
+      confirmation: 'Are you sure you want to logout?',
+      skipLogoutPopupNextTime: 'Do not show me this message again',
+      confirm: 'Logout',
+      cancel: 'Cancel'
     }
   }
 };

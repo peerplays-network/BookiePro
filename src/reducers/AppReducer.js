@@ -10,7 +10,8 @@ const initialState = Immutable.fromJS({
   globalBettingStatistics: null,
   connectionStatus: ConnectionStatus.DISCONNECTED,
   blockchainDynamicGlobalProperty: null,
-  blockchainGlobalProperty: null
+  blockchainGlobalProperty: null,
+  isShowLogoutPopup: false,
 });
 
 export default function (state = initialState, action) {
@@ -61,6 +62,11 @@ export default function (state = initialState, action) {
       return state.merge({
         connectionStatus: action.connectionStatus
       });
+    }
+    case ActionTypes.APP_SHOW_LOGOUT_POPUP: {
+      return state.merge({
+        isShowLogoutPopup: action.isShowLogoutPopup
+      })
     }
     case ActionTypes.ACCOUNT_LOGOUT: {
       return state.merge({

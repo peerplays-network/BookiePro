@@ -170,7 +170,7 @@ function mapDispatchToProps(dispatch) {
     navigateTo: NavigateActions.navigateTo,
     //TODO: Wallet Address verification and error response pending.
     withdraw: AccountActions.withdraw,
-    logout: AccountActions.logout
+    logout: AccountActions.logoutAndShowPopupIfNeeded
   }, dispatch)
 }
 
