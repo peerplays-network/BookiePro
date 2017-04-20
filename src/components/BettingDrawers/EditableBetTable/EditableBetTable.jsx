@@ -73,8 +73,7 @@ const getBackColumns = (deleteOne, updateOne) => (
       dataIndex: 'profit',
       key: 'profit',
       width: '24%',
-      className: 'numeric',
-      render: renderInput('profit', updateOne),
+      className: 'numeric'
     }, {
       title: '',
       dataIndex: 'delete',
@@ -113,8 +112,7 @@ const getLayColumns = (deleteOne, updateOne) => (
       dataIndex: 'liability',
       key: 'liability',
       width: '24%',
-      className: 'numeric',
-      render: renderInput('liability', updateOne),
+      className: 'numeric'
     }, {
       title: '',
       dataIndex: 'delete',
