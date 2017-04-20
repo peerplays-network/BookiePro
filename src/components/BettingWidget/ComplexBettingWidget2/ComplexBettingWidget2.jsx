@@ -36,6 +36,8 @@ class ComplexBettingWidget2 extends Component {
     this.onOfferClicked = this.onOfferClicked.bind(this);
     this.shiftOfferDisplay = this.shiftOfferDisplay.bind(this);
     this.setTableData = this.setTableData.bind(this);
+    this.placeAllBestBets = this.placeAllBestBets.bind(this);
+    this.getBestOfferOfEachmarket = this.getBestOfferOfEachmarket.bind(this);
   }
 
   componentDidMount(){
@@ -55,8 +57,8 @@ class ComplexBettingWidget2 extends Component {
   // COMPTETITOR 1 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
   // COMPTETITOR 2 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
   //
-  // genereate header + layTableData + backTableData for Display
-  // among which header contains team name + exposure caluclation
+  // genereate firstColumn + layTableData + backTableData for Display
+  // among which firstColumn contains team name + exposure caluclation
   setTableData(tableData, unconfirmedBets, reserveIndex){
 
     if ( !tableData.isEmpty()){
@@ -177,6 +179,27 @@ class ComplexBettingWidget2 extends Component {
     this.props.createBet(record, competitor, betType, betting_market_id, offer);
   }
 
+  placeAllBestBets(event) {
+    const {id} = event.target;
+    const bestOffer = this.getBestOfferOfEachmarket(id);
+    console.log(bestOffer.toJS());
+
+  }
+
+  getBestOfferOfEachmarket(betType){
+    return this.state.tableData.map( item => {
+
+      if ( item.hasIn([ 'offer', betType + 'Origin', '0' ])){
+        return item.getIn([ 'offer', betType + 'Origin', '0' ])
+      } else {
+        return undefined
+      }
+
+    }).filter( item => {
+      return item !== undefined
+    });
+  }
+
   render() {
 
     const minNameWidth = 200;
@@ -217,7 +240,7 @@ class ComplexBettingWidget2 extends Component {
       // NOTE will be seperated comopent for header
         <div className='offer-header clearfix'>
           <p className='alignleft'>{ this.state.backBookPercent }%</p>
-          <p className='alignright'>{I18n.t('complex_betting_widget.back_all')}</p>
+          <p className='alignright' id={ BetTypes.BACK } onClick={ this.placeAllBestBets } >{I18n.t('complex_betting_widget.back_all')}</p>
         </div>,
       columns: [{
         id: 'back3',
@@ -259,7 +282,8 @@ class ComplexBettingWidget2 extends Component {
     }, {
       // NOTE will be seperated comopent for header
       header:  props =>
-        <div className='offer-header'><p className='alignleft'>{I18n.t('complex_betting_widget.lay_all')}</p>
+        <div className='offer-header'>
+          <p className='alignleft' id={ BetTypes.LAY } onClick={ this.placeAllBestBets } >{I18n.t('complex_betting_widget.lay_all')}</p>
           <p className='alignright'>{ this.state.layBookPercent }%</p>
         </div>,
       columns: [{

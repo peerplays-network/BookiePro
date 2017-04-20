@@ -105,14 +105,6 @@ class SideBar extends Component {
           // Compare all nodes to see which ones were altered:
         var altered = differences(nested, newTree, 'children').map(x => x.get('id'));
 
-        if ( keyPath.length >= 3){
-          newTree = newTree.setIn(keyPath.slice(0,2),
-            newTree.getIn(keyPath.slice(0,2)).filter(function(metric) {
-              return metric.get('id') === altered[1];
-            })
-          )
-        }
-
         if ( keyPath.length >= 5){
           newTree = newTree.setIn(keyPath.slice(0,4),
             newTree.getIn(keyPath.slice(0,4)).filter(function(metric) {
@@ -121,6 +113,13 @@ class SideBar extends Component {
           )
         }
 
+        if ( keyPath.length >= 3){
+          newTree = newTree.setIn(keyPath.slice(0,2),
+            newTree.getIn(keyPath.slice(0,2)).filter(function(metric) {
+              return metric.get('id') === altered[1];
+            })
+          )
+        }
         var updatedTree = newTree.toJS();
 
 
