@@ -38,8 +38,8 @@ const renderUnconfirmedBets = (props) => (
     { !props.unconfirmedBets.isEmpty() &&
       <EditableBetTable
         data={ Immutable.fromJS({ unconfirmedBets: props.unconfirmedBets }) }
-        deleteOne={ (record) => console.log('MarketDrawer DeleteOne', record.toJS()) }
-        deleteMany={ (records) => console.log('MarketDrawer DeleteMany', records.toJS()) }
+        deleteOne={ props.deleteUnconfirmedBet }
+        deleteMany={ props.deleteUnconfirmedBets }
         updateOne={ props.updateUnconfirmedBet }
       />
     }
@@ -83,8 +83,8 @@ const mapStateToProps = (state) => {
     }
     // Add the bet to the list of bets with the same market type
     let betListByBetType = betslips.get(betType);
-    console.log(bet.toJS());
     let betObj = Immutable.Map()
+                  .set('id', bet.get('id'))
                   .set('odds', bet.getIn(['offer', 'odds'], ''))
                   .set('price', bet.getIn(['offer', 'price'], ''))
                   //NOTE  to be removed once calculation of profit/liability is done
@@ -106,6 +106,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
+    deleteUnconfirmedBet: MarketDrawerActions.deleteUnconfirmedBet,
+    deleteUnconfirmedBets: MarketDrawerActions.deleteUnconfirmedBets,
     updateUnconfirmedBet: MarketDrawerActions.updateUnconfirmedBet,
   }, dispatch);
 }

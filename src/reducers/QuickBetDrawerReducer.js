@@ -42,12 +42,11 @@ export default function(state = initialState, action) {
       });
     }
     case ActionTypes.QUICK_BET_DRAWER_UPDATE_ONE_BET: {
-      const bets = state.get('bets');
-      const index = bets.findIndex(b => b.get('id') === action.delta.get('id'));
-      const offer = state.getIn(['bets', index, 'offer']);
+      const index = oldBets.findIndex(b => b.get('id') === action.delta.get('id'));
+      const offer = oldBets.getIn([index, 'offer']);
       const changes = Immutable.Map().set(action.delta.get('field'), action.delta.get('value'));
       return state.merge({
-        bets: bets.setIn([index, 'offer'], offer.merge(changes))
+        bets: oldBets.setIn([index, 'offer'], offer.merge(changes))
       })
     }
     default:

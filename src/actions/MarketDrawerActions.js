@@ -1,6 +1,7 @@
 import { ActionTypes } from '../constants';
 import Immutable from 'immutable';
 import { BettingModuleUtils } from '../utility';
+import moment from 'moment';
 
 class MarketDrawerPrivateActions {
   static addUnconfirmedBet(bet) {
@@ -10,10 +11,24 @@ class MarketDrawerPrivateActions {
     };
   }
 
-  static updateUnconfirmedBet(delta) {
+  static updateOneUnconfirmedBet(delta) {
     return {
-      type: ActionTypes.MARKET_DRAWER_UPDATE_UNCONFIRMED_BET,
+      type: ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNCONFIRMED_BET,
       delta
+    };
+  }
+
+  static deleteOneUnconfirmedBet(betId) {
+    return {
+      type: ActionTypes.MARKET_DRAWER_DELETE_ONE_UNCONFIRMED_BET,
+      betId
+    };
+  }
+
+  static deleteManyUnconfirmedBets(listOfBetIds) {
+    return {
+      type: ActionTypes.MARKET_DRAWER_DELETE_MANY_UNCONFIRMED_BETS,
+      listOfBetIds
     };
   }
 
@@ -33,7 +48,8 @@ class MarketDrawerActions {
         team_name: team,
         bet_type: betType,
         betting_market_id: betting_market_id,
-        offer: offer
+        offer: offer,
+        id: parseInt(moment().format('x'), 10)  // unix millisecond timestamp
       });
       dispatch(MarketDrawerPrivateActions.addUnconfirmedBet(bet));
     };
@@ -64,7 +80,19 @@ class MarketDrawerActions {
 
   static updateUnconfirmedBet(delta) {
     return (dispatch) => {
-      dispatch(MarketDrawerActions.updateUnconfirmedBet(delta));
+      dispatch(MarketDrawerPrivateActions.updateOneUnconfirmedBet(delta));
+    }
+  }
+
+  static deleteUnconfirmedBet(bet) {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.deleteOneUnconfirmedBet(bet.get('id')));
+    }
+  }
+
+  static deleteUnconfirmedBets(bets) {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.deleteManyUnconfirmedBets(bets.map(b => b.get('id'))));
     }
   }
 
