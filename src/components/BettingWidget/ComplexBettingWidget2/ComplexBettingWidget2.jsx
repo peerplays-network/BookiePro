@@ -51,7 +51,7 @@ class ComplexBettingWidget2 extends Component {
   }
 
   // betting widget full :
-  //                 ---------------------|-------------------  BACK ALL (row.backOffer)   --------|     LAY ALL (row.layOffer) -------------------------|
+  //                 ---------------------|-------------------  BACK ALL (row.back)   --------|     LAY ALL (row.lay) -------------------------|
   // COMPTETITOR 1 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
   // COMPTETITOR 2 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
   //
@@ -92,8 +92,8 @@ class ComplexBettingWidget2 extends Component {
 
         //update i th row
         // equivalant to  rowInfo.row in function onOfferClicked(rowInfo, column)
-        tableData = tableData.setIn([i, 'offer', 'backOffer'], backTableData)
-          .setIn([i, 'offer', 'layOffer'], layTableData)
+        tableData = tableData.setIn([i, 'offer', 'back'], backTableData)
+          .setIn([i, 'offer', 'lay'], layTableData)
           .setIn([i, 'offer', 'backIndex'], backStartingIndex)
           .setIn([i, 'offer', 'layIndex'], layStartingIndex)
           .setIn([i, 'firstColumn'], {
@@ -224,7 +224,7 @@ class ComplexBettingWidget2 extends Component {
         header: props => null,
         minWidth: minOfferWidth,
         className: classNameBack, // we must use 'back' here for actions. ie. this.props.createBet(record, competitor, 'back', offer);
-        accessor: row => row.offer.backOffer.length > 2 ? row.offer.backOffer[2] : undefined,
+        accessor: row => row.offer.back.length > 2 ? row.offer.back[2] : undefined,
         render: props => props.value ?
          <div className='back-offer'>
            <div className='odds'>{ parseFloat(props.value.odds).toFixed(floatPlaces) }</div>
@@ -236,7 +236,7 @@ class ComplexBettingWidget2 extends Component {
         header: props => null,
         minWidth: minOfferWidth,
         className: classNameBack,
-        accessor: row => row.offer.backOffer.length > 1 ? row.offer.backOffer[1] : undefined,
+        accessor: row => row.offer.back.length > 1 ? row.offer.back[1] : undefined,
         render: props => props.value ?
          <div className='back-offer'>
            <div className='odds'>{ parseFloat(props.value.odds).toFixed(floatPlaces) }</div>
@@ -248,7 +248,7 @@ class ComplexBettingWidget2 extends Component {
         header: props => null,
         minWidth: minOfferWidth,
         className: classNameBack,
-        accessor: row => row.offer.backOffer.length > 0 ? row.offer.backOffer[0] : undefined,
+        accessor: row => row.offer.back.length > 0 ? row.offer.back[0] : undefined,
         render: props => props.value ?
          <div className='back-offer back-all-offer'>
            <div className='odds'>{ parseFloat(props.value.odds).toFixed(floatPlaces) }</div>
@@ -267,7 +267,7 @@ class ComplexBettingWidget2 extends Component {
         header: props => null,
         minWidth: minOfferWidth,
         className: classNameLay,
-        accessor: row => row.offer.layOffer.length > 0 ? row.offer.layOffer[0] : undefined,
+        accessor: row => row.offer.lay.length > 0 ? row.offer.lay[0] : undefined,
         render: props => props.value ?
          <div className='lay-offer lay-all-offer'>
            <div className='odds'>{ parseFloat(props.value.odds).toFixed(floatPlaces) }</div>
@@ -279,7 +279,7 @@ class ComplexBettingWidget2 extends Component {
         header: props => null,
         minWidth: minOfferWidth,
         className: classNameLay,
-        accessor: row => row.offer.layOffer.length > 1 ? row.offer.layOffer[1] : undefined,
+        accessor: row => row.offer.lay.length > 1 ? row.offer.lay[1] : undefined,
         render: props => props.value ?
          <div className='lay-offer'>
            <div className='odds'>{ parseFloat(props.value.odds).toFixed(floatPlaces) }</div>
@@ -295,7 +295,7 @@ class ComplexBettingWidget2 extends Component {
         header: props => null,
         minWidth: minOfferWidth,
         className: classNameLay,
-        accessor: row => row.offer.layOffer.length > 2 ? row.offer.layOffer[2] : undefined,
+        accessor: row => row.offer.lay.length > 2 ? row.offer.lay[2] : undefined,
         render: props => props.value ?
          <div className='lay-offer'>
            <div className='odds'>{ parseFloat(props.value.odds).toFixed(floatPlaces) }</div>
@@ -346,13 +346,13 @@ class ComplexBettingWidget2 extends Component {
                 onClick: (event) => {
 
                   if ( column.className === 'lay-right'){
-                    this.shiftOfferDisplay(rowInfo.index, 'layOffer', 1)
+                    this.shiftOfferDisplay(rowInfo.index, 'lay', 1)
                   } else if ( column.className === 'lay-left'){
-                    this.shiftOfferDisplay(rowInfo.index, 'layOffer', -1)
+                    this.shiftOfferDisplay(rowInfo.index, 'lay', -1)
                   } else if ( column.className === 'back-right'){
-                    this.shiftOfferDisplay(rowInfo.index, 'backOffer', 1)
+                    this.shiftOfferDisplay(rowInfo.index, 'back', 1)
                   } else if ( column.className === 'back-left'){
-                    this.shiftOfferDisplay(rowInfo.index, 'backOffer', -1)
+                    this.shiftOfferDisplay(rowInfo.index, 'back', -1)
                   } else if ( column.className === BetTypes.LAY || column.className === BetTypes.BACK){
                     this.onOfferClicked(rowInfo, column)
                   }

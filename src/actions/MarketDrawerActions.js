@@ -37,7 +37,7 @@ class MarketDrawerActions {
 
     //generate a random number to simulate the change in stake
     const randomStake = (Math.random() * (0.800 - 0.100) + 0.100).toFixed(3);
-    
+
     return (dispatch) => {
       const bet = Immutable.fromJS({
         event_id: record.get('id'),
@@ -48,8 +48,8 @@ class MarketDrawerActions {
         offer: offer,
 
         stake: randomStake,
-        profit: BettingModule.getProfitOrLiability( randomStake, offer.get('odds')),
-        liability:  BettingModule.getProfitOrLiability( randomStake, offer.get('odds'))
+        profit:  offer ? BettingModule.getProfitOrLiability( randomStake, offer.get('odds') ) : 0,
+        liability:  offer ? BettingModule.getProfitOrLiability( randomStake, offer.get('odds') ) : 0
       });
       dispatch(MarketDrawerPrivateActions.addUnconfirmedBet(bet));
     };
