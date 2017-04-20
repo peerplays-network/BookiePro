@@ -7,9 +7,9 @@ import BetTypes from './BetTypes';
 
 export {
   Config,
+  BetTypes,
   ActionTypes,
   LoadingStatus,
   ConnectionStatus,
-  ObjectPrefix,
-  BetTypes
+  ObjectPrefix
 }
