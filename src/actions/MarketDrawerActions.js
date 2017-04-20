@@ -69,7 +69,7 @@ class MarketDrawerActions {
         bet_type: betType,
         betting_market_id: betting_market_id,
         offer: offer,
-
+        id: parseInt(moment().format('x'), 10),  // unix millisecond timestamp
         stake: randomStake,
         profit:  offer ? BettingModuleUtils.getProfitOrLiability( randomStake, offer.get('odds') ) : 0,
         liability:  offer ? BettingModuleUtils.getProfitOrLiability( randomStake, offer.get('odds') ) : 0
