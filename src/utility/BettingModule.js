@@ -1,9 +1,8 @@
+import { BetTypes } from '../constants';
+
 const oddsPlaces = 2;
 const stakePlaces = 3; //minimum stake = 0.001 BTC
 const exposurePlaces = oddsPlaces + stakePlaces;
-
-const betTypeBack = 'back';
-const betTypeLay = 'lay';
 
 var BettingModule = {
 
@@ -46,20 +45,20 @@ var BettingModule = {
 
       if (bettingMarketId === bet.get('betting_market_id')){
         //Exposure of the selection that the bet originates from
-        if ( bet.get('bet_type') === betTypeBack){
-          // A full back bet betslip is filled -- > + Profit
+        if ( bet.get('bet_type') === BetTypes.BACK){
+          // A full back bet betslip is filled --> + Profit
           exposure = parseFloat(exposure) + parseFloat( bet.get('profit') );
-        } else if ( bet.get('bet_type') === betTypeLay){
-          //  - Liability
+        } else if ( bet.get('bet_type') === BetTypes.LAY){
+          // A full lay bet betslip is filled --> - Liability
           exposure = parseFloat(exposure) - parseFloat( bet.get('liability') );
         }
       } else {
         //  All other selection’s exposure
-        if ( bet.get('bet_type') === betTypeBack){
-          // A full back bet betslip is filled  - Stake
+        if ( bet.get('bet_type') === BetTypes.BACK){
+          // A full back bet betslip is filled --> - Stake
           exposure = parseFloat(exposure) - parseFloat( bet.get('stake') );
-        } else if ( bet.get('bet_type') === betTypeLay){
-          //  + Backer’s Stake
+        } else if ( bet.get('bet_type') === BetTypes.LAY){
+          // A full lay bet betslip is filled --> + Backer’s Stake
           exposure = parseFloat(exposure) + parseFloat( bet.get('stake') );
         }
       }

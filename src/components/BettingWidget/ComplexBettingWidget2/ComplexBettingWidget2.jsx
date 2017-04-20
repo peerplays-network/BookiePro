@@ -40,11 +40,10 @@ class ComplexBettingWidget2 extends Component {
 
   componentDidMount(){
     this.setTableData(this.props.marketData, this.props.unconfirmedBets)
-
-
   }
 
   componentWillReceiveProps(nextProps) {
+    //only perform calculatino when there exists changes in related data
     if (!this.props.marketData.equals( nextProps.marketData) ||
       this.props.unconfirmedBets !== nextProps.unconfirmedBets){
       this.setTableData(nextProps.marketData, nextProps.unconfirmedBets)
@@ -54,13 +53,11 @@ class ComplexBettingWidget2 extends Component {
   // betting widget full :
   //                 ---------------------|-------------------  BACK ALL (row.backOffer)   --------|     LAY ALL (row.layOffer) -------------------------|
   // COMPTETITOR 1 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
-  // COMPTETITOR 2 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] | 
+  // COMPTETITOR 2 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
   //
   // genereate header + layTableData + backTableData for Display
   // among which header contains team name + exposure caluclation
-  setTableData(marketData, unconfirmedBets){
-    let tableData = marketData;
-
+  setTableData(tableData, unconfirmedBets){
 
     if ( !tableData.equals(Immutable.fromJS([]) ) ){
 
@@ -119,8 +116,6 @@ class ComplexBettingWidget2 extends Component {
           layBookPercent = parseFloat(layBookPercent) + parseFloat( (100 / layTableData.getIn([0, 'odds'])) );
           layBookPercent = parseFloat(layBookPercent).toFixed(floatPlaces)
         }
-
-
 
       });
 
