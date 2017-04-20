@@ -39,14 +39,14 @@ class ComplexBettingWidget2 extends Component {
   }
 
   componentDidMount(){
-    this.setTableData(this.props.marketData, this.props.unconfirmedBets)
+    this.setTableData(this.props.marketData, this.props.unconfirmedBets, false)
   }
 
   componentWillReceiveProps(nextProps) {
     //only perform calculation when there exists changes in related data
     if (!this.props.marketData.equals( nextProps.marketData) ||
       this.props.unconfirmedBets !== nextProps.unconfirmedBets){
-      this.setTableData(nextProps.marketData, nextProps.unconfirmedBets)
+      this.setTableData(nextProps.marketData, nextProps.unconfirmedBets, this.props.bettingMarketGroupName === nextProps.bettingMarketGroupName)
     }
   }
 
@@ -57,7 +57,7 @@ class ComplexBettingWidget2 extends Component {
   //
   // genereate header + layTableData + backTableData for Display
   // among which header contains team name + exposure caluclation
-  setTableData(tableData, unconfirmedBets){
+  setTableData(tableData, unconfirmedBets, reserveIndex){
 
     if ( !tableData.isEmpty()){
 
@@ -69,7 +69,7 @@ class ComplexBettingWidget2 extends Component {
 
         //get backTableData
         let backStartingIndex = 0
-        if ( this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'backIndex']) ){
+        if ( reserveIndex && this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'backIndex']) ){
           backStartingIndex = this.state.tableData.getIn([i, 'offer', 'backIndex']) //retrieve scrolling Index from previous state
         }
         const backTableData = tableData.getIn([i, 'offer', 'backOrigin'])
@@ -78,7 +78,7 @@ class ComplexBettingWidget2 extends Component {
 
         //get layTableData
         let layStartingIndex = 0
-        if ( this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'layIndex']) ){
+        if ( reserveIndex && this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'layIndex']) ){
           layStartingIndex = this.state.tableData.getIn([i, 'offer', 'layIndex']) //retrieve scrolling Index from previous state
         }
         const layTableData = tableData.getIn([i, 'offer', 'layOrigin'])
