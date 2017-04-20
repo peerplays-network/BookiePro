@@ -98,50 +98,37 @@ class ComplexBettingWidget2 extends Component {
         let market_exposure = 0.00
         let bettingMarketId = row.getIn(['offer', 'betting_market_id']);
         if ( unconfirmedBets.size > 0 ){
-          // console.log(' =======  debug ==============')
+          console.log(' =======  debug ==============', bettingMarketId)
           // console.log('row 0 ' ,  JSON.stringify( row.toJS() , null , 2 ) )
 
+          //NOTE assuming bet.get('stake')  bet.get('profit') bet.get('liability') exist
           unconfirmedBets.forEach((bet, i) => {
-            console.log('unconfirmedBets ', i , ' ' , JSON.stringify( bet.toJS(), null , 2 ) )
+            // console.log('unconfirmedBets ', i , ' ' , JSON.stringify( bet.toJS(), null , 2 ) )
+
+            // if (bett)
 
             if (bettingMarketId === bet.get('betting_market_id')){
               //Exposure of the selection that the bet originates from
 
               if ( bet.get('bet_type') === betTypeBack){
                 // A full back bet betslip is filled -- > + Profit
-                console.log( ' + Profit')
-                console.log(bettingMarketId, ' ', betslip_exposure, ' + ' , bet.get('profit') )
                 betslip_exposure = parseFloat(betslip_exposure) + parseFloat( bet.get('profit') );
 
               } else if ( bet.get('bet_type') === betTypeLay){
                 //  - Liability
-                console.log( ' - Liability')
-                console.log(bettingMarketId, ' ', betslip_exposure, ' - ' , bet.get('liability') )
-
                 betslip_exposure = parseFloat(betslip_exposure) - parseFloat( bet.get('liability') );
-
 
               }
             } else {
               //  All other selection’s exposure
 
               if ( bet.get('bet_type') === betTypeBack){
-
                 // A full back bet betslip is filled  - Stake
-                console.log( ' - Stake')
-                console.log(bettingMarketId, ' ', betslip_exposure, ' - ' , bet.get('stake') )
-
                 betslip_exposure = parseFloat(betslip_exposure) - parseFloat( bet.get('stake') );
-
 
               } else if ( bet.get('bet_type') === betTypeLay){
                 //  + Backer’s Stake
-                console.log( ' + Backer’s Stake')
-
-                console.log(bettingMarketId, ' ', betslip_exposure, ' + ' , bet.get('stake') )
-
                 betslip_exposure = parseFloat(betslip_exposure) + parseFloat( bet.get('stake') );
-
 
               }
             }
@@ -154,7 +141,7 @@ class ComplexBettingWidget2 extends Component {
             .setIn([i, 'offer', 'lay'], layTableData)
             .setIn([i, 'offer', 'backIndex'], backStartingIndex)
             .setIn([i, 'offer', 'layIndex'], layStartingIndex)
-            .setIn([i, 'header'], {
+            .setIn([i, 'firstColumn'], {
               'name': tableData.getIn([i, 'name']),
               'market_exposure': market_exposure,
               'betslip_exposure': betslip_exposure  }
@@ -166,7 +153,7 @@ class ComplexBettingWidget2 extends Component {
             .setIn([i, 'offer', 'lay'], layTableData)
             .setIn([i, 'offer', 'backIndex'], backStartingIndex)
             .setIn([i, 'offer', 'layIndex'], layStartingIndex)
-            .setIn([i, 'header'], {
+            .setIn([i, 'firstColumn'], {
               'name': tableData.getIn([i, 'name']),
               'market_exposure': market_exposure}
             );
@@ -244,7 +231,7 @@ class ComplexBettingWidget2 extends Component {
 
   onOfferClicked(rowInfo, column) {
     const record = Immutable.fromJS(rowInfo.row).set('name', this.props.eventName);
-    const competitor =  rowInfo.rowValues.header.name;
+    const competitor =  rowInfo.rowValues.firstColumn.name;
     const betType = column.className;
 
     // for 'null OFFER' case in which we only see 'OFFER' in item, offer will be empty
@@ -258,23 +245,23 @@ class ComplexBettingWidget2 extends Component {
     const minNameWidth = 200;
     const minOfferWidth = 50;
     const minArrowWidth = 7;
-     // we must use 'back' here for actions. ie. this.props.createBet(record, competitor, 'back', offer);
+    // to match the back bet-type in placebet action dispatch
     const classNameBack = 'back';
-    // we must use 'lay' here for actions, ie. this.props.createBet(record, competitor, 'lay', offer);
+    // to match the lay bet-type in placebet action dispatch
     const classNameLay = 'lay';
 
     const columns = [{
       header: props => null,
       minWidth: minNameWidth,
-      accessor: 'header' ,
+      accessor: 'firstColumn' ,
       render: props => props.value.betslip_exposure ?
-       <div className='compeitor-name'>
-         <div className='odds'>{props.value.name}</div>
-         <div className='price'> >> {props.value.betslip_exposure} </div>
+       <div className='compeitor'>
+         <div className='name'>{props.value.name}</div>
+         <div className='exposure'> {props.value.market_exposure} >> { parseFloat(props.value.betslip_exposure) + parseFloat(props.value.market_exposure) } </div>
        </div> :
-       <div className='compeitor-name'>
-         <div className='odds'>{props.value.name}</div>
-         <div className='price'> --- </div>
+       <div className='compeitor'>
+         <div className='name'>{props.value.name}</div>
+         <div className='exposure'></div>
        </div>
     }, {
       className: 'back-left',
@@ -460,6 +447,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
+    //NOTE using createDummyBet for dummy data to generate randomized stake/profit/libability
+    // createBet: MarketDrawerActions.createBet,
     createBet: MarketDrawerActions.createDummyBet,
   }, dispatch);
 }

@@ -1,5 +1,6 @@
 import { ActionTypes } from '../constants';
 import Immutable from 'immutable';
+import { BettingModule } from '../utility';
 
 class MarketDrawerPrivateActions {
   static addUnconfirmedBet(bet) {
@@ -33,6 +34,9 @@ class MarketDrawerActions {
 
   //NOTE  to be removed once calculation of profit/liability is done
   static createDummyBet(record, team, betType, betting_market_id, offer) {
+
+    const randomStake = (Math.random() * (0.800 - 0.100) + 0.100).toFixed(3);
+    console.log( ' offer, ', offer)
     return (dispatch) => {
       const bet = Immutable.fromJS({
         event_id: record.get('id'),
@@ -43,9 +47,9 @@ class MarketDrawerActions {
         offer: offer,
 
         //NOTE get a IRRATIONAL RANDOM number  -- at 2 decimal places for the odds, and minimum bet is 0.001 bitcoin  --> 5
-        stake: (Math.random() * (0.800 - 0.100) + 0.100).toFixed(3),
-        profit: (Math.random() * (100.120 - 0.0200) + 0.0200).toFixed(5),
-        liability:  (Math.random() * (100.120 - 0.0200) + 0.0200).toFixed(5)
+        stake: randomStake,
+        profit: BettingModule.getProfitOrLiability( randomStake, offer.get('odds')),
+        liability:  BettingModule.getProfitOrLiability( randomStake, offer.get('odds'))
       });
       dispatch(MarketDrawerPrivateActions.addUnconfirmedBet(bet));
     };

@@ -4,6 +4,7 @@ import StringUtils from './StringUtils';
 import TreeUtils from './TreeUtils';
 import DateUtils from './DateUtils';
 import MergeObjectUtils from './MergeObjectUtils';
+import BettingModule from './BettingModule';
 
 export {
   BlockchainUtils,
@@ -11,5 +12,6 @@ export {
   TreeUtils,
   ConnectionUtils,
   DateUtils,
-  MergeObjectUtils
+  MergeObjectUtils,
+  BettingModule
 };
