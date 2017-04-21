@@ -41,7 +41,7 @@ class AssetActions {
       assetIds.forEach((assetId) => {
         if (getAssetsByIdsLoadingStatus.get(assetId) === LoadingStatus.DONE) {
           if (getAssetsByIdsLoadingStatus.has(assetId)) {
-            retrievedAssets = retrievedAssets.concat(assetsById.get(assetId));
+            retrievedAssets = retrievedAssets.push(assetsById.get(assetId));
           }
         } else {
           idsOfAssetsToBeRetrieved = idsOfAssetsToBeRetrieved.push(assetId);
