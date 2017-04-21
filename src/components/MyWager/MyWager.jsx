@@ -84,16 +84,29 @@ class MyWagerPrivateFunctions{
 class MyWager extends PureComponent {
   constructor(props) {
     super(props);
+    this.state = {
+      period: 'last7Days',
+      startDate: moment().subtract(6, 'days'),
+      endDate: moment()
+    };
     this.onTabChange = this.onTabChange.bind(this);
     this.onHomeLinkClick = this.onHomeLinkClick.bind(this);
     this.cancelBet = this.cancelBet.bind(this);
     this.cancelAllBets = this.cancelAllBets.bind(this);
+    this.onSearchClick = this.onSearchClick.bind(this);
+    this.onPeriodSelect = this.onPeriodSelect.bind(this);
+    this.disabledStartDate = this.disabledStartDate.bind(this);
+    this.disabledEndDate = this.disabledEndDate.bind(this);
+    this.onStartDateSelect = this.onStartDateSelect.bind(this);
+    this.onEndDateSelect = this.onEndDateSelect.bind(this);
   }
 
   onTabChange(key) {
     if (key === 'resolvedBets') {
-      //console.log('Go to Tab ', key);
-      this.props.getResolvedBets(startDate, endDate);
+      //set default period - startDate and endDate
+      this.setState({'startDate': moment().subtract(6, 'days').hour(0).minute(0),
+        'endDate': moment(), 'period': 'last7Days'});
+      this.props.getResolvedBets(this.state.startDate, this.state.endDate);
       tabKey = key;
     }
     else{
@@ -127,6 +140,78 @@ class MyWager extends PureComponent {
     this.props.cancelBets(this.props.unmatchedBetsData);
   }
 
+  //Resolved Bets - set min date for End Date depending on the selection of Start Date
+  disabledStartDate = (selectedDate) => {
+    const endDate = this.state.endDate;
+    if (!selectedDate || !endDate) {
+      return false;
+    }
+    return selectedDate.valueOf() > endDate.valueOf();
+  }
+
+  //Resolved Bets - Disabled End Date depending on the selection of Start Date
+  disabledEndDate = (selectedDate) => {
+    const startDate = this.state.startDate;
+    if (!selectedDate || !startDate) {
+      return false;
+    }
+    return selectedDate.valueOf() <= startDate.valueOf();
+  }
+
+  //Resolved Bets Period select change handler
+  onPeriodSelect(value) {
+
+    this.setState({
+      period: value
+    });
+
+    if (value !== 'custom') {
+      var startDate = new Date();
+      this.setState({endDate: moment()});
+      switch (value) {
+        case 'last7Days':
+          startDate = moment().subtract(6, 'days');
+          break;
+        case 'last14Days':
+          startDate = moment().subtract(13, 'days');
+          break;
+        case 'thisMonth':
+          startDate = moment().startOf('month');
+          break;
+        case 'lastMonth':
+          //Last month's 1st day
+          startDate = moment().subtract(1, 'months').startOf('month');
+          //Last month's last day
+          this.setState({endDate: moment().subtract(1, 'months').endOf('month')});
+          break;
+        default:
+          startDate.subtract(6, 'days');
+          break;
+      }
+      this.setState({startDate: startDate.hour(0).minute(0)});
+    }
+    else
+        this.setState({startDate: null, endDate: null});
+  }
+
+  //Resolved Bets - Start Date change handler
+  onStartDateSelect(value) {
+    this.setState({startDate: moment(value).hour(0).minute(0)});
+  }
+
+  //Resolved Bets End Date change handler
+  onEndDateSelect(value) {
+    this.setState({endDate: moment(value).hour(23).minute(59)});
+  }
+
+  //Resolved Bets Search handler
+  onSearchClick(e) {
+    e.preventDefault();
+    startDate = this.state.startDate;
+    endDate = this.state.endDate;
+    this.props.getResolvedBets(this.state.startDate, this.state.endDate);
+  }
+
   render() {
     return (
       <div className='my-wager'>
@@ -151,6 +236,10 @@ class MyWager extends PureComponent {
             <ResolvedBets columns={ this.props.resolvedBetsColumns }
               resolvedBets={ this.props.resolvedBetsData } resolvedBetsLoadingStatus={ this.props.resolvedBetsLoadingStatus }
               currencyFormat={ this.props.resolvedBetsCurrencyFormat } betsTotal={ this.props.resolvedBetsTotal }
+              period={ this.state.period } startDate={ this.state.startDate } endDate={ this.state.endDate }
+              disabledStartDate={ this.disabledStartDate } disabledEndDate={ this.disabledEndDate }
+              onStartDateSelect={ this.onStartDateSelect } onEndDateSelect={ this.onEndDateSelect }
+              onPeriodSelect={ this.onPeriodSelect } onSearchClick={ this.onSearchClick }
             />
           </TabPane>
         </Tabs>

@@ -1,35 +1,16 @@
 import React, { Component } from 'react';
-import {  Table,DatePicker,Select } from 'antd';
+import {  Table,DatePicker,Select,LocaleProvider } from 'antd';
 import { LoadingStatus } from '../../constants';
 import './MyWager.less';
 import { List } from 'immutable';
 import { I18n } from 'react-redux-i18n';
-const Option = Select.Option;
 
 class ResolvedBets extends Component {
-  state = {
-    period: 'last7Days',
-    startValue: null,
-    endValue: null,
-    endOpen: false,
-  };
-  disabledStartDate = (startValue) => {
-    const endValue = this.state.endValue;
-    if (!startValue || !endValue) {
-      return false;
-    }
-    return startValue.valueOf() > endValue.valueOf();
-  }
-
-  disabledEndDate = (endValue) => {
-    const startValue = this.state.startValue;
-    if (!endValue || !startValue) {
-      return false;
-    }
-    return endValue.valueOf() <= startValue.valueOf();
-  }
   render() {
-    const { startValue, endValue, columns, resolvedBets, resolvedBetsLoadingStatus, currencyFormat, betsTotal } = this.props;
+    const { columns, resolvedBets, resolvedBetsLoadingStatus, currencyFormat, betsTotal ,
+      period, disabledStartDate, disabledEndDate, onStartDateSelect, onEndDateSelect, onPeriodSelect, onSearchClick,
+      startDate, endDate
+      } = this.props;
     return (
       <div>
         <div className='top-data clearfix'>
@@ -40,38 +21,42 @@ class ResolvedBets extends Component {
             <div className='filter'>
               <div className='ant-form-inline'>
                 <div className='ant-form-item'>
-                  <label>{ I18n.t('application.period') }</label>
-                  <Select className='bookie-select' value={ this.state.period } style={ {width: 150} }>
-                    <Option value='last7Days'>{I18n.t('application.last_7_Days') }</Option>
-                    <Option value='last14Days'>{I18n.t('application.last_14_Days') }</Option>
-                    <Option value='thisMonth'>{I18n.t('application.this_Month') }</Option>
-                    <Option value='lastMonth'>{I18n.t('application.last_Month') }</Option>
-                    <Option value='custom'>{I18n.t('application.custom') }</Option>
+                  <label> { I18n.t('mybets.period') }</label>
+                  <Select className='bookie-select' value={ period } onChange={ onPeriodSelect }
+                      style={ {width: 150} }>
+                    <Select.Option value='last7Days'>{I18n.t('mybets.last_7_Days') }</Select.Option>
+                    <Select.Option value='last14Days'>{I18n.t('mybets.last_14_Days') }</Select.Option>
+                    <Select.Option value='thisMonth'>{I18n.t('mybets.this_Month') }</Select.Option>
+                    <Select.Option value='lastMonth'>{I18n.t('mybets.last_Month') }</Select.Option>
+                    <Select.Option value='custom'>{I18n.t('mybets.custom') }</Select.Option>
                   </Select>
                 </div>
+                {
+                  period === 'custom' ?
+                  <LocaleProvider locale={ I18n.t('application.locale') }>
+                    <div className='ant-form-item'>
+                      <label>{ I18n.t('mybets.date') }</label>
+                        <DatePicker
+                         disabledDate={ disabledStartDate }
+                         format='YYYY-MM-DD'
+                         placeholder={ I18n.t('mybets.from') }
+                         onChange={ onStartDateSelect } />
+                        <span className='margin-lr-10 font16'>  - </span>
+                        <DatePicker
+                          disabledDate={ disabledEndDate }
+                          format='YYYY-MM-DD'
+                          placeholder={ I18n.t('mybets.to') }
+                          onChange={ onEndDateSelect }/>
+                    </div>
+                  </LocaleProvider>
+                  :null
+                }
                 <div className='ant-form-item'>
-                  <label> Date</label>
-                  <DatePicker
-                    disabledDate={ this.disabledStartDate }
-                    showTime
-                    format='YYYY-MM-DD HH:mm:ss'
-                    value={ startValue }
-                    placeholder='From'
-                    />
-                  <span className='margin-lr-10 font16'>
-                    -
-                  </span>
-                  <DatePicker
-                    disabledDate={ this.disabledEndDate }
-                    showTime
-                    format='YYYY-MM-DD HH:mm:ss'
-                    value={ endValue }
-                    placeholder='To'
-                    />
-                </div>
-                <div className='ant-form-item'>
-                  <a className='btn btn-regular' href=''>{I18n.t('application.search') }</a>
-                  <a className='btn btn-regular margin-left-10' href=''>{I18n.t('application.export') }</a>
+                  <button
+                    className={ (period === 'custom' && (startDate===null || endDate===null) ? 'btn-regular-disabled':'btn-regular') + ' btn' }
+                    disabled={ period === 'custom' && (startDate===null || endDate===null) }
+                    onClick={ onSearchClick }>{I18n.t('mybets.search') }</button>
+                  <a className='btn btn-regular margin-left-10' href=''>{I18n.t('mybets.export') }</a>
                 </div>
               </div>
             </div>
