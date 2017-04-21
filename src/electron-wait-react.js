@@ -5,6 +5,7 @@ process.env.ELECTRON_START_URL = `http://localhost:${port}`;
 
 const client = new net.Socket();
 
+// Start electron only if the web app is ready
 let startedElectron = false;
 const tryConnection = () => client.connect({port: port}, () => {
   client.end();

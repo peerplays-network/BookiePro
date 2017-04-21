@@ -20,10 +20,10 @@ function createWindow () {
 
 
   const startUrl = process.env.ELECTRON_START_URL || url.format({
-              pathname: path.join(__dirname, '/../build/index.html'),
-              protocol: 'file:',
-              slashes: true
-          });
+    pathname: path.join(__dirname, '/../build/index.html'),
+    protocol: 'file:',
+    slashes: true
+  });
   console.log( "startUrl " + startUrl);
 
   mainWindow.loadURL(startUrl);
@@ -38,20 +38,20 @@ function createWindow () {
   // TODO: edit the menu as required
   //This is implmented to fix the copy paste issue in electron app for mac
   //reference: https://pracucci.com/atom-electron-enable-copy-and-paste.html
-   var template = [{
-       label: "Application",
-       submenu: [
-           { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
-       ]}, {
-       label: "Edit",
-       submenu: [
-           { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-           { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
-           { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-       ]}
-   ];
+  var template = [{
+    label: "Application",
+    submenu: [
+       { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+    ]}, {
+      label: "Edit",
+      submenu: [
+         { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+         { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+         { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+      ]}
+    ];
 
-   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
 
   // Emitted when the window is closed.

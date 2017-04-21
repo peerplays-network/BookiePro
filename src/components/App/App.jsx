@@ -61,7 +61,7 @@ class App extends Component {
       newVersionModalVisible: modalVisible
     });
 
-    if ( this.props.needHardUpdate){
+    if ( this.state.needHardUpdate){
       const remote = require('electron').remote;
 
       var window = remote.getCurrentWindow();
