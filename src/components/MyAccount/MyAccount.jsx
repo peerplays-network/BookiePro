@@ -441,7 +441,7 @@ const mapStateToProps = (state) => {
 
   //Transaction History table Data (dummy data binding)
   let transactionHistoryData = [];
-  if(state.getIn(['account', 'getTransactionHistoriesLoadingStatus']) === LoadingStatus.DONE)
+  if(state.getIn(['account', 'getTransactionHistoryLoadingStatus']) === LoadingStatus.DONE)
   {
     transactionHistoryData = [];
     state.getIn(['account', 'transactionHistories']).forEach(row => {
@@ -485,7 +485,7 @@ const mapStateToProps = (state) => {
     notification: setting.get('notification'),
     currencyFormat: setting.get('currencyFormat'),
     transactionHistory: transactionHistoryData,
-    transactionHistoryLoadingStatus: account.get('getTransactionHistoriesLoadingStatus'),
+    transactionHistoryLoadingStatus: account.get('getTransactionHistoryLoadingStatus'),
     transactionHistoryExport: transactionHistoryExportData,
     transactionHistoryExportLoadingStatus: account.get('getTransactionHistoriesExportLoadingStatus'),
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available

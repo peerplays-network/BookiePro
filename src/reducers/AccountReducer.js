@@ -42,7 +42,7 @@ export default function (state = initialState, action) {
         transactionHistories: action.transactionHistories
       });
     }
-    case ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_ERROR_EXPORT: {
+    case ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_ERROR: {
       return state.merge({
         getTransactionHistoryError: action.error,
         getTransactionHistoryLoadingStatus: LoadingStatus.ERROR
@@ -60,7 +60,7 @@ export default function (state = initialState, action) {
         transactionHistoriesExport: action.transactionHistoriesExport
       });
     }
-    case ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_ERROR: {
+    case ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_ERROR_EXPORT: {
       return state.merge({
         getTransactionHistoriesExportError: action.error,
         getTransactionHistoriesExportLoadingStatus: LoadingStatus.ERROR

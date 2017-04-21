@@ -84,7 +84,7 @@ class AccountPrivateActions {
       transactionHistoriesExport
     }
   }
-  
+
   static setGetTransactionHistoriesExportErrorAction(error) {
     return {
       type: ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_ERROR_EXPORT,
@@ -236,7 +236,7 @@ class AccountActions {
       dispatch(AccountPrivateActions.setGetTransactionHistoriesExportLoadingStatusAction(LoadingStatus.LOADING));
       //Included a 3 second timeout now, just to test the various states of export
       setTimeout(function(){
-        CommunicationService.getTransactionHistories(accountId, startTime, stopTime).then((transactionHistoriesExport) => {
+        CommunicationService.getTransactionHistoryGivenTimeRange(accountId, startTime, stopTime).then((transactionHistoriesExport) => {
           if(getState().getIn(['account', 'getTransactionHistoriesExportLoadingStatus'])===LoadingStatus.DEFAULT)
             return;
           log.debug('Get transaction histories succeed.');
