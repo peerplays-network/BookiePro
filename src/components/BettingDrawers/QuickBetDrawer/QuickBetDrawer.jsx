@@ -88,8 +88,8 @@ const mapStateToProps = (state) => {
     // Page content are first grouped by event_id
     if (!page.has(eventId)) {
       const eventObj = Immutable.Map()
-                          .set('id', eventId)
-                          .set('name', bet.get('event_name'))
+                          .set('event_id', eventId)
+                          .set('event_name', bet.get('event_name'))
                           .set('unconfirmedBets', Immutable.Map());
       page = page.set(eventId, eventObj);
     }
@@ -100,12 +100,7 @@ const mapStateToProps = (state) => {
     }
     // Add the bet to the list of bets with the same market type
     let betListBybetType = unconfirmedBets.get(betType);
-    let betObj = Immutable.Map()
-                  .set('id', bet.get('id'))
-                  .set('odds', bet.getIn(['offer', 'odds']))
-                  .set('price', bet.getIn(['offer', 'price']))
-                  .set('team', bet.get('team_name'));
-    betListBybetType = betListBybetType.push(betObj);
+    betListBybetType = betListBybetType.push(bet);
     // Put everything back in their rightful places
     unconfirmedBets = unconfirmedBets.set(betType, betListBybetType);
     page = page.setIn([eventId, 'unconfirmedBets'], unconfirmedBets);

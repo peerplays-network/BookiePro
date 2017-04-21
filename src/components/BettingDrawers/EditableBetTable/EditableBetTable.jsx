@@ -17,7 +17,7 @@ const renderInput = (field, action) => {
     return (
       <input
         type='text'
-        value={ text }
+        value={ text === undefined? '' : text }
         className='ant-input'
         onChange={
           (event) => {
@@ -67,7 +67,7 @@ const getBackColumns = (deleteOne, updateOne) => (
       key: 'stake',
       width: '24%',
       className: 'numeric',
-      render: renderInput('price', updateOne), // price is the original name
+      render: renderInput('stake', updateOne), // price is the original name
     }, {
       title: 'PROFIT(B)',
       dataIndex: 'profit',
@@ -106,7 +106,7 @@ const getLayColumns = (deleteOne, updateOne) => (
       key: 'stake',
       width: '24%',
       className: 'numeric',
-      render: renderInput('price', updateOne),
+      render: renderInput('stake', updateOne),
     }, {
       title: 'LIABILITY(B)',
       dataIndex: 'liability',
@@ -126,16 +126,8 @@ const getLayColumns = (deleteOne, updateOne) => (
 // TODO: REVIEW This function applies to both Back and Lay bets for now.
 const buildBetTableData = (bets) => {
   return bets.map((bet, idx) => {
-    return Immutable.Map()
-            .set('key', idx)
-            .set('id', bet.get('id'))
-            .set('team', bet.get('team'))
-            .set('market_type', 'Moneyline')   // TODO: change this
-            .set('odds', bet.get('odds'))
-
-            .set('stake', bet.has('stake') ?  bet.get('stake') : bet.get('price')) // TODO: change this
-            .set('profit', bet.has('profit') ?  bet.get('profit') : '0')                // TODO: change this
-            .set('liability', bet.has('liability') ?  bet.get('liability') : '0');            // TODO: change this
+    // TODO: change hard-coded market type
+    return bet.set('key', idx).set('market_type', 'Moneyline');
   });
 }
 
@@ -148,7 +140,7 @@ const EditableBetTable = (props) => {
   return (
     <div className='editable-bet-table-wrapper'>
       <div className='header'>
-        <span className='title'>{ data.get('name') }</span>
+        <span className='title'>{ data.get('event_name') }</span>
         <span className='icon'>
           <Icon
             type='close-circle'

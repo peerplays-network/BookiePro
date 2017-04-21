@@ -33,12 +33,12 @@ const getColumns = (renderOffer) => ([
     className: 'event-time',
     render: renderEventTime
   }, {
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'event_name',
+    key: 'event_name',
     // Do not specify width so the column
     // will grow/shrink with the size of the table
-    className: 'team',
-    render: (text, record) => record.get('name')
+    className: 'event-name',
+    render: (text, record) => record.get('event_name')
   }, {
     title: '1',
     children: [{
@@ -99,10 +99,9 @@ class SimpleBettingWidget extends Component {
     this.renderOffer = this.renderOffer.bind(this);
   }
 
-  // TODO: Cut down the number of parameters
-  onOfferClicked(event, record, team, betType, betting_market_id, offer) {
+  onOfferClicked(event, record, team, betType, betting_market_id, odds) {
     event.preventDefault();
-    this.props.createBet(record, team, betType, betting_market_id, offer);
+    this.props.createBet(record.get('event_id'), record.get('event_name'), team, betType, betting_market_id, odds);
   }
 
   // action: [ lay(ing) | back(ing) ]
@@ -121,9 +120,9 @@ class SimpleBettingWidget extends Component {
         return '';
       }
       // TODO: REVIEW This is temp solution. The better way is to use the Competitor data.
-      const team = record.get('name').split('vs')[index-1].trim()
+      const team = record.get('event_name').split('vs')[index-1].trim();
       return (
-        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, offer) }>
+        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, offer.get('odds')) }>
           <div className='offer'>
             <div className='odds'>{ offer.get('odds') }</div>
             <div className='price'>{ bitcoinSymbol } { offer.get('price') }</div>
@@ -137,7 +136,7 @@ class SimpleBettingWidget extends Component {
     let events = [];
     if (this.props.events !== undefined) {
       // Introduce the key attribute to suppress the React warning
-      events = this.props.events.map((event) => event.set('key', event.get('id')));
+      events = this.props.events.map((event) => event.set('key', event.get('event_id')));
       // Sort by event time
       events = events.sort((a, b) => {
         let timeA = a.get('time');
