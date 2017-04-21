@@ -164,10 +164,10 @@ class ComplexBettingWidget2 extends Component {
     this.state.tableData.filter( item => item.hasIn([ 'offer', betType + 'Origin', '0' ]) )
     .forEach( row => {
       const competitor =  row.get('name');
-      const record = row;
       const offer = row.getIn([ 'offer', betType + 'Origin', '0' ])
+      const odds = offer && offer.get('odds');
       const betting_market_id = row.getIn( ['offer', 'betting_market_id'])
-      this.props.createBet(record, competitor, betType, betting_market_id, offer);
+      this.props.createBet(competitor, betType, betting_market_id, odds);
     });
 
 
