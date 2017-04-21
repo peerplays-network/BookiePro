@@ -41,7 +41,8 @@ class MyAccount extends PureComponent {
       //Since, the default period is 'Last 7 days', we set the initial 'From' and 'To' dates accordingly
       fromDate: moment().subtract(6, 'days'),
       toDate: moment(),
-      withdrawAmount:''
+      withdrawAmount:'',
+      exportButtonClicked: false
     }
 
     // this.fetchRecentTransactionHistory = this.fetchRecentTransactionHistory.bind(this);
@@ -55,6 +56,9 @@ class MyAccount extends PureComponent {
     this.onStartChange = this.onStartChange.bind(this);
     this.onEndChange = this.onEndChange.bind(this);
     this.searchTransactionHistory = this.searchTransactionHistory.bind(this);
+    this.exportTransactionHistory = this.exportTransactionHistory.bind(this);
+    this.resetTransactionHistoryExportLoadingStatus = this.resetTransactionHistoryExportLoadingStatus.bind(this);
+    this.clearTransactionHistoryExport = this.clearTransactionHistoryExport.bind(this);
     this.handleRedirectToChangePwd = this.handleRedirectToChangePwd.bind(this);
     this.renderSettingCard = this.renderSettingCard.bind(this);
 
@@ -114,6 +118,26 @@ class MyAccount extends PureComponent {
     //Format from date and to date in the required format and pass
     this.props.getTransactionHistory(this.state.fromDate.format("YYYY-MM-DD HH:mm:ss"),
                this.state.toDate.format("YYYY-MM-DD HH:mm:ss"));
+  }
+
+  //Export transaction history
+  exportTransactionHistory(event){
+    event.preventDefault();
+    //To show export related status after the 'Export' button is clicked
+    this.setState({ exportButtonClicked: true });
+    this.props.getTransactionHistoryExport(this.state.fromDate.format("YYYY-MM-DD HH:mm:ss"),
+               this.state.toDate.format("YYYY-MM-DD HH:mm:ss"));
+  }
+
+  //Cancel transaction history export - Resetting it's loading status to 'default'
+  resetTransactionHistoryExportLoadingStatus(){
+    this.props.resetTransactionHistoryExportLoadingStatus();
+    this.setState({ exportButtonClicked: false });
+  }
+
+  //Clear transaction history export data after downloading it to release memory
+  clearTransactionHistoryExport(){
+    this.props.clearTransactionHistoryExport();
   }
 
   //Update state for 'from date' whenever it is selected from the calender
@@ -382,8 +406,15 @@ class MyAccount extends PureComponent {
         </Row>
         <Row>
           <TransactionHistory
-             transHistLoadingStatus={ this.props.transHistLoadingStatus } transactionHistory={ this.props.transactionHistory }
+             transactionHistory={ this.props.transactionHistory }
+             transactionHistoryLoadingStatus={ this.props.transactionHistoryLoadingStatus }
+             transactionHistoryExport={ this.props.transactionHistoryExport }
+             transactionHistoryExportLoadingStatus={ this.props.transactionHistoryExportLoadingStatus }
+             exportButtonClicked={ this.state.exportButtonClicked }
              handleSearchClick={ this.searchTransactionHistory }
+             handleExportClick={ this.exportTransactionHistory }
+             resetTransactionHistoryExportLoadingStatus={ this.resetTransactionHistoryExportLoadingStatus }
+             clearTransactionHistoryExport={ this.clearTransactionHistoryExport }
              periodChange={ this.periodChange } showDateFields={ this.state.showDateFields }
              onStartChange={ this.onStartChange } onEndChange={ this.onEndChange }
              disabledFromDate={ this.disabledFromDate } disabledToDate={ this.disabledToDate }
@@ -407,6 +438,7 @@ const mapStateToProps = (state) => {
   */
   const balance = account.getIn(['availableBalancesByAssetId','1.3.0','balance']);
   const availableBalance = balance !== undefined ? balance : -1;
+
   //Transaction History table Data (dummy data binding)
   let transactionHistoryData = [];
   if(state.getIn(['account', 'getTransactionHistoriesLoadingStatus']) === LoadingStatus.DONE)
@@ -426,6 +458,24 @@ const mapStateToProps = (state) => {
       transactionHistoryData.push(rowObj);
     });
   }
+
+  //Transaction History table Data (to export to Excel file)
+  let transactionHistoryExportData = [];
+  if(state.getIn(['account', 'getTransactionHistoriesExportLoadingStatus']) === LoadingStatus.DONE)
+  {
+    transactionHistoryExportData = [];
+    state.getIn(['account', 'transactionHistoriesExport']).forEach(row => {
+      let rowObj = {
+        Id: row.get('id'),
+        Time: moment(row.get('time')).format('DD/MM/YYYY HH:mm:ss'),
+        Description: row.get('description'),
+        Status: row.get('status'),
+        Amount: row.getIn(['op',1,'fee', 'amount']) + ' ' + (setting.currencyFormat!==undefined ? setting.currencyFormat : '')
+      };
+      transactionHistoryExportData.push(rowObj);
+    });
+  }
+
   return {
     dynGlobalObject: app.get('blockchainDynamicGlobalProperty'),
     globalObject: app.get('blockchainGlobalProperty'),
@@ -435,6 +485,9 @@ const mapStateToProps = (state) => {
     notification: setting.get('notification'),
     currencyFormat: setting.get('currencyFormat'),
     transactionHistory: transactionHistoryData,
+    transactionHistoryLoadingStatus: account.get('getTransactionHistoriesLoadingStatus'),
+    transactionHistoryExport: transactionHistoryExportData,
+    transactionHistoryExportLoadingStatus: account.get('getTransactionHistoriesExportLoadingStatus'),
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: account.get('getDepositAddressLoadingStatus'),
     depositAddress: account.get('depositAddress'),
@@ -450,6 +503,9 @@ function mapDispatchToProps(dispatch) {
     updateSettingNotification: SettingActions.updateSettingNotification,
     updateCurrencyFormat: SettingActions.updateCurrencyFormat,
     getTransactionHistory: AccountActions.getTransactionHistory,
+    getTransactionHistoryExport: AccountActions.getTransactionHistoriesExport,
+    resetTransactionHistoryExportLoadingStatus: AccountActions.resetTransactionHistoryExportLoadingStatus,
+    clearTransactionHistoryExport: AccountActions.clearTransactionHistoryExport,
     getDepositAddress: AccountActions.getDepositAddress,
     redirectToChangePwd: SettingActions.redirectToChangePwd,
     withdraw: AccountActions.withdraw

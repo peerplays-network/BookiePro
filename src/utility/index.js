@@ -5,6 +5,8 @@ import TreeUtils from './TreeUtils';
 import DateUtils from './DateUtils';
 import MergeObjectUtils from './MergeObjectUtils';
 import BettingModuleUtils from './BettingModuleUtils';
+import ExportUtils from './ExportUtils';
+import FileSaver from './fileSaver';
 
 export {
   BlockchainUtils,
@@ -14,4 +16,6 @@ export {
   DateUtils,
   MergeObjectUtils,
   BettingModuleUtils,
+  ExportUtils,
+  FileSaver
 };

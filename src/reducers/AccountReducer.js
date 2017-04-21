@@ -13,6 +13,9 @@ let initialState = Immutable.fromJS({
   getTransactionHistoryLoadingStatus: LoadingStatus.DEFAULT,
   transactionHistories: [],
   getTransactionHistoryError: null,
+  getTransactionHistoriesExportLoadingStatus: LoadingStatus.DEFAULT,
+  transactionHistoriesExport: [],
+  getTransactionHistoriesExportError: null,
   withdrawLoadingStatus: LoadingStatus.DEFAULT,
   withdrawError: null,
   changePasswordLoadingStatus: LoadingStatus.DEFAULT,
@@ -39,12 +42,33 @@ export default function (state = initialState, action) {
         transactionHistories: action.transactionHistories
       });
     }
-    case ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_ERROR: {
+    case ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_ERROR_EXPORT: {
       return state.merge({
         getTransactionHistoryError: action.error,
         getTransactionHistoryLoadingStatus: LoadingStatus.ERROR
       });
     }
+
+
+    case ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_LOADING_STATUS_EXPORT: {
+      return state.merge({
+        getTransactionHistoriesExportLoadingStatus: action.loadingStatus
+      });
+    }
+    case ActionTypes.ACCOUNT_SET_TRANSACTION_HISTORIES_EXPORT: {
+      return state.merge({
+        transactionHistoriesExport: action.transactionHistoriesExport
+      });
+    }
+    case ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_ERROR: {
+      return state.merge({
+        getTransactionHistoriesExportError: action.error,
+        getTransactionHistoriesExportLoadingStatus: LoadingStatus.ERROR
+      });
+    }
+
+
+
     case ActionTypes.ACCOUNT_SET_WITHDRAW_LOADING_STATUS: {
       return state.merge({
         withdrawLoadingStatus: action.loadingStatus

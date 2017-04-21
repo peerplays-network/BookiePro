@@ -3,6 +3,7 @@ import { Table,DatePicker,Select,LocaleProvider } from 'antd';
 import './MyAccount.less';
 import { LoadingStatus } from '../../constants';
 import { I18n } from 'react-redux-i18n';
+import Export from '../Export'
 
 const Option = Select.Option;
 const paginationParams = { pageSize: 20 };
@@ -38,9 +39,17 @@ const columns = [
 class TransactionHistory extends PureComponent {
 
   render() {
-    const { transactionHistory,transHistLoadingStatus,handleSearchClick,periodChange,showDateFields,
-     onStartChange,onEndChange,disabledFromDate,disabledToDate,fromDate,toDate } = this.props;
+    const { transactionHistory,transactionHistoryLoadingStatus,
+      transactionHistoryExport,transactionHistoryExportLoadingStatus,
+      exportButtonClicked,resetTransactionHistoryExportLoadingStatus,clearTransactionHistoryExport,
+      handleSearchClick,handleExportClick,periodChange,showDateFields,
+      onStartChange,onEndChange,disabledFromDate,disabledToDate,fromDate,toDate } = this.props;
+    const hasNoTransactionHistoryData = transactionHistory && transactionHistory.length === 0,
+      hasNoTransactionHistoryDataExport = transactionHistoryExport && transactionHistoryExport.length === 0,
+      disableButtons = showDateFields && (fromDate===null || toDate===null);
+
     return (
+      <div>
       <div className='transaction-table'>
         <div className='top-data clearfix'>
           <div className='float-left'>
@@ -83,23 +92,38 @@ class TransactionHistory extends PureComponent {
                 }
                 <div className='ant-form-item'>
                   <button
-                    className={ 'btn ' + (showDateFields && (fromDate===null || toDate===null) ? 'btn-regular-disabled':' btn-regular') }
-                    disabled={ showDateFields && (fromDate===null || toDate===null) }
+                    className={ 'btn ' + (disableButtons ? 'btn-regular-disabled':' btn-regular') }
+                    disabled={ disableButtons }
                     onClick={ handleSearchClick }>{ I18n.t('application.search') }</button>
-                  <button className='btn btn-regular margin-left-10'>{ I18n.t('application.export') }</button>
+                  <button
+                    className={ 'btn ' + ((disableButtons ? 'btn-regular-disabled':' btn-regular') + ' margin-left-10') }
+                    disabled={ disableButtons }
+                    onClick={ handleExportClick }>
+                    { I18n.t('application.export') }
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <Table className='bookie-table'
-          locale={ {emptyText: ( transactionHistory && transactionHistory.length === 0 &&
-          transHistLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : transHistLoadingStatus )} }
+          locale={ { emptyText: (
+            (hasNoTransactionHistoryData && transactionHistoryLoadingStatus === LoadingStatus.DONE ?
+            I18n.t('mybets.nodata') : transactionHistoryLoadingStatus) ||
+            hasNoTransactionHistoryDataExport) } }
           pagination={ paginationParams }
           dataSource={ transactionHistory }
           columns={ columns }/>
       </div>
-
+      { exportButtonClicked ?
+        <Export
+          exportData={ transactionHistoryExport }
+          exportLoadingStatus={ transactionHistoryExportLoadingStatus }
+          resetExportLoadingStatus={ resetTransactionHistoryExportLoadingStatus }
+          clearExportDataStore={ clearTransactionHistoryExport }
+          screenName={ I18n.t('myAccount.screenName') }
+          />: null }
+      </div>
     )
   }
 }
