@@ -152,6 +152,8 @@ class SimpleBettingWidget extends Component {
     return (
       // Note that we have to explicitly tell antd Table how to find the rowKey
       // because it is not compatible with Immutable JS
+      // if you enable the pagination then design of the
+      // pagination is shown
       <div className='simple-betting'>
         <Table
           bordered
