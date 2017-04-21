@@ -12,7 +12,10 @@ export default function(state = initialState, action) {
   const unconfirmedBets = state.get('unconfirmedBets');
   switch (action.type) {
     case ActionTypes.MARKET_DRAWER_ADD_UNCONFIRMED_BET: {
-      const newBet = action.bet;
+      let newBet = action.bet
+                     .set('stake', undefined)
+                     .set('profit', undefined)
+                     .set('liability', undefined)
       // If no match, returns -1
       const index = unconfirmedBets.findIndex(
         b => b.get('bet_type') === newBet.get('bet_type') &&

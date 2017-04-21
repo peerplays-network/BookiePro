@@ -83,17 +83,7 @@ const mapStateToProps = (state) => {
     }
     // Add the bet to the list of bets with the same market type
     let betListByBetType = betslips.get(betType);
-    let betObj = Immutable.Map()
-                  .set('id', bet.get('id'))
-                  .set('odds', bet.get('odds'))
-                  //NOTE  to be removed once calculation of profit/liability is done
-                  //being
-                  .set('stake', bet.get('stake'))
-                  .set('profit', bet.get('profit'))
-                  .set('liability', bet.get('liability'))
-                  //end
-                  .set('team', bet.get('team_name'));
-    betListByBetType = betListByBetType.push(betObj);
+    betListByBetType = betListByBetType.push(bet);
     // Put everything back in their rightful places
     betslips = betslips.set(betType, betListByBetType);
   });

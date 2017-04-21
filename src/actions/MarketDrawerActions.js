@@ -39,10 +39,10 @@ class MarketDrawerPrivateActions {
 }
 
 class MarketDrawerActions {
-  static createBet(team_name, bet_type, betting_market_id, odds = '') {
+  static createBet(team, bet_type, betting_market_id, odds = '') {
     return (dispatch) => {
       const bet = Immutable.fromJS({
-        team_name,
+        team,
         bet_type,
         betting_market_id,
         odds,
