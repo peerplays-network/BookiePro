@@ -79,8 +79,22 @@ var BettingModuleUtils = {
 
   },
 
-  getBookPercentage: function(){
-    return 0;
+  //   Book Percentage (Pending Change Request)
+  // Back Book Percentage: (100% / Best Back Odds of Selection 1) + … + (100% / Best Back Odds of Selection n)
+  // Lay Book Percentage: (100% / Best Lay Odds of Selection 1) + … + (100% / Best Lay Odds of Selection n)
+
+  // Parameters:
+  // BestBackOddsPerMarket  Immutable.List : the best grouped back odds of each selection
+  // Returns:
+  // BackBookPercentage: the back book percentage of the market
+  getBookPercentage: function( bestOfferList){
+    let backBookPercent = 0.0;
+
+    bestOfferList.forEach( (offer) => {
+      backBookPercent = parseFloat(backBookPercent) + parseFloat( (100 / offer.get('odds')) );
+    } )
+
+    return Math.round(backBookPercent);
   }
 }
 

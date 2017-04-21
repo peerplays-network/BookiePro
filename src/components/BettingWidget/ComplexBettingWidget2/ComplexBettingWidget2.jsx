@@ -36,17 +36,19 @@ class ComplexBettingWidget2 extends Component {
     this.onOfferClicked = this.onOfferClicked.bind(this);
     this.shiftOfferDisplay = this.shiftOfferDisplay.bind(this);
     this.setTableData = this.setTableData.bind(this);
+    this.placeAllBestBets = this.placeAllBestBets.bind(this);
+    this.getBestOfferOfEachmarket = this.getBestOfferOfEachmarket.bind(this);
   }
 
   componentDidMount(){
-    this.setTableData(this.props.marketData, this.props.unconfirmedBets)
+    this.setTableData(this.props.marketData, this.props.unconfirmedBets, false)
   }
 
   componentWillReceiveProps(nextProps) {
     //only perform calculation when there exists changes in related data
     if (!this.props.marketData.equals( nextProps.marketData) ||
       this.props.unconfirmedBets !== nextProps.unconfirmedBets){
-      this.setTableData(nextProps.marketData, nextProps.unconfirmedBets)
+      this.setTableData(nextProps.marketData, nextProps.unconfirmedBets, this.props.bettingMarketGroupName === nextProps.bettingMarketGroupName)
     }
   }
 
@@ -55,34 +57,32 @@ class ComplexBettingWidget2 extends Component {
   // COMPTETITOR 1 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
   // COMPTETITOR 2 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
   //
-  // genereate header + layTableData + backTableData for Display
-  // among which header contains team name + exposure caluclation
-  setTableData(tableData, unconfirmedBets){
+  // genereate firstColumn + layTableData + backTableData for Display
+  // among which firstColumn contains team name + exposure caluclation
+  setTableData(tableData, unconfirmedBets, reserveIndex){
 
     if ( !tableData.isEmpty()){
 
-      let backBookPercent = 0.0;
-      let layBookPercent = 0.0;
+      let backBookPercent = BettingModuleUtils.getBookPercentage( this.getBestOfferOfEachmarket(tableData, BetTypes.BACK) );
+      let layBookPercent = BettingModuleUtils.getBookPercentage( this.getBestOfferOfEachmarket(tableData, BetTypes.LAY) );
 
       tableData.forEach((row, i) => {
         //in i th row
 
         //get backTableData
         let backStartingIndex = 0
-        if ( this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'backIndex']) ){
+        if ( reserveIndex && this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'backIndex']) ){
           backStartingIndex = this.state.tableData.getIn([i, 'offer', 'backIndex']) //retrieve scrolling Index from previous state
         }
         const backTableData = tableData.getIn([i, 'offer', 'backOrigin'])
-          .sort((a, b) => b.get('odds') - a.get('odds'))  //display in descending order
           .slice(backStartingIndex, backStartingIndex + itemDisplay);
 
         //get layTableData
         let layStartingIndex = 0
-        if ( this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'layIndex']) ){
+        if ( reserveIndex && this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'layIndex']) ){
           layStartingIndex = this.state.tableData.getIn([i, 'offer', 'layIndex']) //retrieve scrolling Index from previous state
         }
         const layTableData = tableData.getIn([i, 'offer', 'layOrigin'])
-          .sort((a, b) => a.get('odds') - b.get('odds')) //display in assending order
           .slice(layStartingIndex, layStartingIndex + itemDisplay)
 
         //get Exposure
@@ -101,28 +101,12 @@ class ComplexBettingWidget2 extends Component {
             'market_exposure': market_exposure,
             'betslip_exposure': parseFloat(betslip_exposure) !== 0 ?  betslip_exposure : undefined })
 
-        //TODO migrate to betting module
-        //back percentage calculation
-        //i.e. adding up based on the best price that is being offered i.e. backTableData[0] of each market
-        if (backTableData.size > 0){
-          backBookPercent = parseFloat(backBookPercent) + parseFloat( (100 / backTableData.getIn([0, 'odds'])) );
-          backBookPercent = parseFloat(backBookPercent).toFixed(floatPlaces)
-        }
-
-        //TODO migrate to betting module
-        //lay percentage calculation
-        //i.e. adding up based on the best price that is being offered i.e. layTableData[0] of each market
-        if (layTableData.size > 0){
-          layBookPercent = parseFloat(layBookPercent) + parseFloat( (100 / layTableData.getIn([0, 'odds'])) );
-          layBookPercent = parseFloat(layBookPercent).toFixed(floatPlaces)
-        }
-
       });
 
       this.setState({
-        tableData: tableData,
-        backBookPercent: Math.round(backBookPercent) ,
-        layBookPercent: Math.round(layBookPercent)
+        tableData,
+        backBookPercent,
+        layBookPercent
       })
     } else {
       this.setState({
@@ -141,10 +125,6 @@ class ComplexBettingWidget2 extends Component {
 
     if ( type === BetTypes.BACK){
 
-      //reverse the sorting and change for display
-      layList = layList.sort(
-        (a, b) => b.get('odds') - a.get('odds')
-      );
       change *= -1
 
     }
@@ -175,6 +155,32 @@ class ComplexBettingWidget2 extends Component {
     const offer = Immutable.fromJS(rowInfo.rowValues[column.id]);
     const betting_market_id = rowInfo.row.offer.betting_market_id;
     this.props.createBet(record, competitor, betType, betting_market_id, offer);
+  }
+
+  placeAllBestBets(event) {
+    const {id} = event.target;
+    const betType = id
+    this.state.tableData.filter( item => item.hasIn([ 'offer', betType + 'Origin', '0' ]) )
+    .forEach( row => {
+      const competitor =  row.get('name');
+      const record = row;
+      const offer = row.getIn([ 'offer', betType + 'Origin', '0' ])
+      const betting_market_id = row.getIn( ['offer', 'betting_market_id'])
+      this.props.createBet(record, competitor, betType, betting_market_id, offer);
+    });
+
+
+
+  }
+
+  getBestOfferOfEachmarket(tableData, betType){
+    return tableData.map( item => {
+
+      return item.getIn([ 'offer', betType + 'Origin', '0' ])
+
+    }).filter( item => {
+      return item !== undefined
+    });
   }
 
   render() {
@@ -217,7 +223,7 @@ class ComplexBettingWidget2 extends Component {
       // NOTE will be seperated comopent for header
         <div className='offer-header clearfix'>
           <p className='alignleft'>{ this.state.backBookPercent }%</p>
-          <p className='alignright'>{I18n.t('complex_betting_widget.back_all')}</p>
+          <p className='alignright' id={ BetTypes.BACK } onClick={ this.placeAllBestBets } >{I18n.t('complex_betting_widget.back_all')}</p>
         </div>,
       columns: [{
         id: 'back3',
@@ -259,7 +265,8 @@ class ComplexBettingWidget2 extends Component {
     }, {
       // NOTE will be seperated comopent for header
       header:  props =>
-        <div className='offer-header'><p className='alignleft'>{I18n.t('complex_betting_widget.lay_all')}</p>
+        <div className='offer-header'>
+          <p className='alignleft' id={ BetTypes.LAY } onClick={ this.placeAllBestBets } >{I18n.t('complex_betting_widget.lay_all')}</p>
           <p className='alignright'>{ this.state.layBookPercent }%</p>
         </div>,
       columns: [{
