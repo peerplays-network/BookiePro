@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Modal, Button } from 'antd';
+import { Modal, Button, Icon } from 'antd';
 
-class Terms extends Component {
+class RulesModal extends Component {
   state = {
     visible: false
   };
@@ -18,7 +18,7 @@ class Terms extends Component {
   render() {
     return (
       <div className='modal-inline'>
-        <Button onClick={ this.showModal }> { this.props.buttonTitle } </Button>
+        <Button onClick={ this.showModal }> <Icon type='info-circle-o' />   { this.props.buttonTitle } </Button>
         <Modal
           title={ this.props.title }
           wrapClassName={ this.props.parentClass + '-modal' }
@@ -35,4 +35,4 @@ class Terms extends Component {
 }
 
 
-export default Terms;
+export default RulesModal;

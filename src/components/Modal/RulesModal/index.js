@@ -1,3 +1,3 @@
-import Rules from './Rules';
-import './Rules.less';
-export default Rules;
+import RulesModal from './RulesModal';
+import './RulesModal.less';
+export default RulesModal;
