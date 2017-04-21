@@ -85,8 +85,7 @@ const mapStateToProps = (state) => {
     let betListByBetType = betslips.get(betType);
     let betObj = Immutable.Map()
                   .set('id', bet.get('id'))
-                  .set('odds', bet.getIn(['offer', 'odds'], ''))
-                  .set('price', bet.getIn(['offer', 'price'], ''))
+                  .set('odds', bet.get('odds'))
                   //NOTE  to be removed once calculation of profit/liability is done
                   //being
                   .set('stake', bet.get('stake'))

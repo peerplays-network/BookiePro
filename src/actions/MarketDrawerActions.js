@@ -1,6 +1,5 @@
 import { ActionTypes } from '../constants';
 import Immutable from 'immutable';
-import { BettingModuleUtils } from '../utility';
 import moment from 'moment';
 
 class MarketDrawerPrivateActions {
@@ -40,39 +39,14 @@ class MarketDrawerPrivateActions {
 }
 
 class MarketDrawerActions {
-  static createBet(record, team, betType, betting_market_id, offer) {
+  static createBet(team_name, bet_type, betting_market_id, odds = '') {
     return (dispatch) => {
       const bet = Immutable.fromJS({
-        event_id: record.get('id'),
-        event_name: record.get('name'),
-        team_name: team,
-        bet_type: betType,
-        betting_market_id: betting_market_id,
-        offer: offer,
+        team_name,
+        bet_type,
+        betting_market_id,
+        odds,
         id: parseInt(moment().format('x'), 10)  // unix millisecond timestamp
-      });
-      dispatch(MarketDrawerPrivateActions.addUnconfirmedBet(bet));
-    };
-  }
-
-  //NOTE  to be removed once edit of stake is done
-  static createDummyBet(record, team, betType, betting_market_id, offer) {
-
-    //generate a random number to simulate the change in stake
-    const randomStake = (Math.random() * (0.800 - 0.100) + 0.100).toFixed(3);
-
-    return (dispatch) => {
-      const bet = Immutable.fromJS({
-        event_id: record.get('id'),
-        event_name: record.get('name'),
-        team_name: team,
-        bet_type: betType,
-        betting_market_id: betting_market_id,
-        offer: offer,
-        id: parseInt(moment().format('x'), 10),  // unix millisecond timestamp
-        stake: randomStake,
-        profit:  offer ? BettingModuleUtils.getProfitOrLiability( randomStake, offer.get('odds') ) : 0,
-        liability:  offer ? BettingModuleUtils.getProfitOrLiability( randomStake, offer.get('odds') ) : 0
       });
       dispatch(MarketDrawerPrivateActions.addUnconfirmedBet(bet));
     };

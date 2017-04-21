@@ -67,7 +67,7 @@ const getBackColumns = (deleteOne, updateOne) => (
       key: 'stake',
       width: '24%',
       className: 'numeric',
-      render: renderInput('price', updateOne), // price is the original name
+      render: renderInput('stake', updateOne), // price is the original name
     }, {
       title: 'PROFIT(B)',
       dataIndex: 'profit',
@@ -106,7 +106,7 @@ const getLayColumns = (deleteOne, updateOne) => (
       key: 'stake',
       width: '24%',
       className: 'numeric',
-      render: renderInput('price', updateOne),
+      render: renderInput('stake', updateOne),
     }, {
       title: 'LIABILITY(B)',
       dataIndex: 'liability',

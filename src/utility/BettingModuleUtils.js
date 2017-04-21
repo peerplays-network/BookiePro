@@ -4,19 +4,32 @@ const oddsPlaces = 2;
 const stakePlaces = 3; //minimum stake = 0.001 BTC
 const exposurePlaces = oddsPlaces + stakePlaces;
 
+var isFieldInvalid = function(object, field) {
+  if (!object.has(field)) return true;
+  const floatValue = parseFloat(object.get(field));
+  if (floatValue === 0) return true;
+
+  return isNaN(floatValue);
+}
+
 var BettingModuleUtils = {
 
   //Appendix I – Summary of Formulas
 
   // Profit = Stake * (Odds – 1)
   // Liability = Backer's Stake * (Odds – 1)
-  getProfitOrLiability: function(stake, odd) {
+  getProfitOrLiability: function(stake, odds) {
+    const floatStake = parseFloat(stake);
+    const floatOdds = parseFloat(odds);
 
     //check invalid input
-    if ( parseFloat(odd).toFixed(oddsPlaces) < 1.01 ){
-      return 0
+    if (isNaN(floatStake) || isNaN(floatOdds) ) {
+      return;
     }
-    return  ( parseFloat(stake) * ( parseFloat(odd) - 1 ) ).toFixed(exposurePlaces)
+    if ( floatOdds.toFixed(oddsPlaces) < 1.01 ){
+      return;
+    }
+    return  ( floatStake * ( floatOdds - 1 ) ).toFixed(exposurePlaces)
   },
 
 
@@ -43,12 +56,10 @@ var BettingModuleUtils = {
     //NOTE using bet.get('stake') for stake related calculation
     bets.forEach((bet, i) => {
 
-      // checking if input of stake is VALID
-      if ( bet.get('stake') && parseFloat( bet.get('stake') ) && parseFloat( bet.get('stake') ) === 0 ){
-        return;
-      }
-
-      if ( parseFloat( bet.get('profit') ) === 0 || parseFloat( bet.get('liability') ) === 0){
+      // TODO: Confirm if stake should be empty or having having a zero value if it is not available
+      // TODO: Confirm if profit/liability should be empty or having a zero value if it is not available
+      if ( isFieldInvalid(bet, 'odds') || isFieldInvalid(bet, 'stake') ||
+           isFieldInvalid(bet, 'profit') || isFieldInvalid(bet, 'liability') ) {
         return;
       }
 

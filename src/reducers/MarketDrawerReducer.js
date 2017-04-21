@@ -1,5 +1,6 @@
-import { ActionTypes } from '../constants';
 import Immutable from 'immutable';
+import { ActionTypes } from '../constants';
+import { BettingModuleUtils } from '../utility';
 
 let initialState = Immutable.fromJS({
   unconfirmedBets: Immutable.List(),
@@ -45,10 +46,15 @@ export default function(state = initialState, action) {
     }
     case ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNCONFIRMED_BET: {
       const index = unconfirmedBets.findIndex(b => b.get('id') === action.delta.get('id'));
-      const offer = unconfirmedBets.getIn([index, 'offer']);
-      const changes = Immutable.Map().set(action.delta.get('field'), action.delta.get('value'));
+      const { delta } = action;
+      let bet = unconfirmedBets.get(index).set(delta.get('field'), delta.get('value'));
+      // Calculate the profit/liability of a bet based on the latest odds and stake value
+      if (bet.has('stake')) {
+        const profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
+        bet = bet.set('profit', profit).set('liability', profit);
+      }
       return state.merge({
-        unconfirmedBets: unconfirmedBets.setIn([index, 'offer'], offer.merge(changes))
+        unconfirmedBets: unconfirmedBets.set(index, bet)
       })
     }
     default:
