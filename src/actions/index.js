@@ -11,6 +11,7 @@ import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BetActions from './BetActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
+import LiquidityActions from './LiquidityActions';
 import AccountActions from './AccountActions';
 import NotificationActions from './NotificationActions';
 import SoftwareUpdateActions from './SoftwareUpdateActions';
@@ -44,6 +45,7 @@ export {
   MarketDrawerActions,
   BetActions,
   BinnedOrderBookActions,
+  LiquidityActions,
   SidebarActions,
   AccountActions,
   NotificationActions,

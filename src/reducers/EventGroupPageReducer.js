@@ -7,8 +7,8 @@ let initialState = Immutable.fromJS({
   eventGroupName: '',
   eventIds: [],
   binnedOrderBooksByEvent: {},
-  error: null,
-  loadingStatus: LoadingStatus.DEFAULT
+  errorByEventGroupId: {},
+  loadingStatusByEventGroupId: {}
 });
 
 export default function(state = initialState, action) {
@@ -21,17 +21,16 @@ export default function(state = initialState, action) {
         binnedOrderBooksByEvent: action.binnedOrderBooksByEvent
       })
     }
-    case ActionTypes.EVENT_GROUP_SET_LOADING_STATUS: {
-      return state.merge({
-        loadingStatus: action.loadingStatus
-      })
+    case ActionTypes.EVENT_GROUP_PAGE_SET_LOADING_STATUS: {
+      return state.setIn(['loadingStatusByEventGroupId', action.eventGroupId], action.loadingStatus);
     }
-    case ActionTypes.EVENT_GROUP_SET_ERROR: {
-      return state.merge({
-        error: action.error,
-        loadingStatus: LoadingStatus.ERROR
-      })
+    case ActionTypes.EVENT_GROUP_PAGE_SET_ERROR: {
+      let nextState = state;
+      nextState = state.setIn(['loadingStatusByEventGroupId', action.eventGroupId], LoadingStatus.ERROR);
+      nextState = state.setIn(['errorByEventGroupId', action.eventGroupId], action.error);
+      return nextState;
     }
+
     default:
       return state;
   }

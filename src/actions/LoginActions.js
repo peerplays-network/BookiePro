@@ -50,7 +50,7 @@ class LoginActions {
           // Save account statistic
           dispatch(AccountActions.setStatisticsAction(accountStatistics));
           // Save account available balance
-          dispatch(AccountActions.setAvailableBalancesAction(availableBalances));
+          dispatch(AccountActions.addOrUpdateAvailableBalances(availableBalances));
           // Save keys
           dispatch(AccountActions.setKeys(keys));
           // Set initial setting (in case this is first time login)

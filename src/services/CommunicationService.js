@@ -115,7 +115,7 @@ class CommunicationService {
           break;
         }
         case ObjectPrefix.ASSET_PREFIX: {
-          this.dispatch(AssetActions.updateAssetsAction(updatedObjects));
+          this.dispatch(AssetActions.addOrUpdateAssetsAction(updatedObjects));
           break;
         }
         case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
@@ -166,13 +166,10 @@ class CommunicationService {
         }
         case ObjectPrefix.ACCOUNT_BALANCE_PREFIX: {
           const myAccountId = this.getState().getIn(['account', 'account', 'id']);
-          updatedObjects.forEach((updatedObject) => {
-            const ownerId = updatedObject.get('owner');
-            // Check if this balance related to my account
-            if (ownerId === myAccountId) {
-              this.dispatch(AccountActions.updateAvailableBalance(updatedObject));
-            }
-          });
+          // Filter the balances related to the account
+          const myAvailableBalances = updatedObjects.filter( balance => balance.get('owner') === myAccountId);
+          this.dispatch(AccountActions.addOrUpdateAvailableBalances(myAvailableBalances));
+
           break;
         }
         case ObjectPrefix.SPORT_PREFIX: {
@@ -332,9 +329,11 @@ class CommunicationService {
       }
 
       // Get current blockchain data (dynamic global property and global property), to ensure blockchain time is in sync
-      this.callBlockchainDbApi('get_objects', [['2.1.0', '2.0.0']]).then( result => {
+      // Also ask for core asset here
+      this.callBlockchainDbApi('get_objects', [['2.1.0', '2.0.0', '1.3.0']]).then( result => {
         const blockchainDynamicGlobalProperty = result.get(0);
         const blockchainGlobalProperty = result.get(1);
+        const coreAsset = result.get(2);
         const now = new Date().getTime();
         const headTime = blockchainTimeStringToDate(blockchainDynamicGlobalProperty.get('time')).getTime();
         const delta = (now - headTime)/1000;
@@ -352,6 +351,8 @@ class CommunicationService {
             dispatch(AppActions.setBlockchainDynamicGlobalPropertyAction(blockchainDynamicGlobalProperty));
             // Save global property
             dispatch(AppActions.setBlockchainGlobalPropertyAction(blockchainGlobalProperty));
+            // Save core asset
+            dispatch(AssetActions.addOrUpdateAssetsAction([coreAsset]));
             resolve();
           });
         } else {
@@ -502,7 +503,6 @@ class CommunicationService {
   }
 
 
-
   /**
    * Get any blockchain object given their id
    */
@@ -611,6 +611,34 @@ class CommunicationService {
       return Immutable.fromJS(finalResult);
     });
   }
+
+  /**
+   * Get total matched bets given array of betting market group ids (can be immutable)
+   */
+  static getTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds) {
+    // TODO: Replace later
+    const promises = bettingMarketGroupIds.map( (bettingMarketGroupId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const amountObject = {
+            amount: Math.floor((Math.random() * 1000000) + 100000),
+            asset_id: '1.3.0'
+          }
+          resolve(amountObject);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( result => {
+      const finalResult = {};
+      bettingMarketGroupIds.forEach((bettingMarketGroupId, index) => {
+        if (result[index]) {
+          finalResult[bettingMarketGroupId] = result[index];
+        }
+      })
+      return Immutable.fromJS(finalResult);
+    });
+  }
+
 
   /**
    * Withdraw money

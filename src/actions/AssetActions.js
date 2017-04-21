@@ -14,22 +14,15 @@ class AssetPrivateActions {
       loadingStatus
     }
   }
-
-  static addAssetsAction(assets) {
-    return {
-      type: ActionTypes.ASSET_ADD_ASSETS,
-      assets
-    }
-  }
 }
 
 /**
  * Public actions
  */
 class AssetActions {
-  static updateAssetsAction(assets) {
+  static addOrUpdateAssetsAction(assets) {
     return {
-      type: ActionTypes.ASSET_UPDATE_ASSETS,
+      type: ActionTypes.ASSET_ADD_OR_UPDATE_ASSETS,
       assets
     }
   }
@@ -64,7 +57,7 @@ class AssetActions {
         // TODO: mark later
         return CommunicationService.getObjectsByIds(idsOfAssetsToBeRetrieved, true).then((assets) => {
           // Add to redux store
-          dispatch(AssetPrivateActions.addAssetsAction(assets));
+          dispatch(AssetActions.addOrUpdateAssetsAction(assets));
           // Set status
           dispatch(AssetPrivateActions.setGetAssetsByIdsLoadingStatusAction(idsOfAssetsToBeRetrieved, LoadingStatus.DONE));
           // Concat and return
