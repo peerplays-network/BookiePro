@@ -17,7 +17,7 @@ const renderInput = (field, action) => {
     return (
       <input
         type='text'
-        value={ text }
+        value={ text === undefined? '' : text }
         className='ant-input'
         onChange={
           (event) => {
