@@ -75,7 +75,6 @@ class ComplexBettingWidget2 extends Component {
           backStartingIndex = this.state.tableData.getIn([i, 'offer', 'backIndex']) //retrieve scrolling Index from previous state
         }
         const backTableData = tableData.getIn([i, 'offer', 'backOrigin'])
-          .sort((a, b) => b.get('odds') - a.get('odds'))  //display in descending order
           .slice(backStartingIndex, backStartingIndex + itemDisplay);
 
         //get layTableData
@@ -84,7 +83,6 @@ class ComplexBettingWidget2 extends Component {
           layStartingIndex = this.state.tableData.getIn([i, 'offer', 'layIndex']) //retrieve scrolling Index from previous state
         }
         const layTableData = tableData.getIn([i, 'offer', 'layOrigin'])
-          .sort((a, b) => a.get('odds') - b.get('odds')) //display in assending order
           .slice(layStartingIndex, layStartingIndex + itemDisplay)
 
         //get Exposure
@@ -127,10 +125,6 @@ class ComplexBettingWidget2 extends Component {
 
     if ( type === BetTypes.BACK){
 
-      //reverse the sorting and change for display
-      layList = layList.sort(
-        (a, b) => b.get('odds') - a.get('odds')
-      );
       change *= -1
 
     }

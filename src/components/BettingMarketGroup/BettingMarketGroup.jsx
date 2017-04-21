@@ -78,8 +78,8 @@ const createMarketData = (bettingMarkets, binnedOrderBooksByBettingMarketId) => 
       backIndex: 0,
       layIndex: 0,
       betting_market_id: bettingMarket.get('id'),
-      backOrigin: aggregated_lay_bets,
-      layOrigin: aggregated_back_bets
+      backOrigin: aggregated_lay_bets.sort((a, b) => b.get('odds') - a.get('odds')),  //display in descending order, ensure best odd is in the first index
+      layOrigin: aggregated_back_bets.sort((a, b) => a.get('odds') - b.get('odds'))  //display in ascending order, ensure best odd is in the first index
     })
     data = data.set('offer', offer);
     marketData = marketData.push(data);
