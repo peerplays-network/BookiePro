@@ -60,8 +60,8 @@ const mapStateToProps = (state) => {
       const offers = binnedOrderBooksByEvent.has(eventId)? binnedOrderBooksByEvent.get(eventId) : Immutable.List() ;
       let eventList = page.getIn([eventSportId, 'events']);
       eventList = eventList.push(Immutable.fromJS({
-        id: event.get('id'),
-        name: event.get('name'),
+        event_id: event.get('id'),
+        event_name: event.get('name'),
         time: event.get('start_time'),
         offers: offers
       }));

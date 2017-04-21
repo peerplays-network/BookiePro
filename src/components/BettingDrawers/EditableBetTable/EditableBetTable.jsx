@@ -140,7 +140,7 @@ const EditableBetTable = (props) => {
   return (
     <div className='editable-bet-table-wrapper'>
       <div className='header'>
-        <span className='title'>{ data.get('name') }</span>
+        <span className='title'>{ data.get('event_name') }</span>
         <span className='icon'>
           <Icon
             type='close-circle'
