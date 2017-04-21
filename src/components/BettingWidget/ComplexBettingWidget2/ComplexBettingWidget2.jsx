@@ -173,7 +173,7 @@ class ComplexBettingWidget2 extends Component {
     // for 'null OFFER' case in which we only see 'OFFER' in item, offer will be empty
     const offer = Immutable.fromJS(rowInfo.rowValues[column.id]);
     // Only need the odds value
-    const odds = offer === undefined ? undefined : offer.get('odds');
+    const odds = offer && offer.get('odds');
     const betting_market_id = rowInfo.row.offer.betting_market_id;
     this.props.createBet(competitor, betType, betting_market_id, odds);
   }
