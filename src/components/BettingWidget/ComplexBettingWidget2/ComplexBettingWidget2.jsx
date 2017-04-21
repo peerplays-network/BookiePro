@@ -160,15 +160,8 @@ class ComplexBettingWidget2 extends Component {
   placeAllBestBets(event) {
     const {id} = event.target;
     const betType = id
-    this.state.tableData.filter( item => {
-
-      if ( item.hasIn([ 'offer', betType + 'Origin', '0' ])){
-        return true
-      } else {
-        return false
-      }
-
-    }).forEach( row => {
+    this.state.tableData.filter( item => item.hasIn([ 'offer', betType + 'Origin', '0' ]) )
+    .forEach( row => {
       const competitor =  row.get('name');
       const record = row;
       const offer = row.getIn([ 'offer', betType + 'Origin', '0' ])
@@ -183,11 +176,7 @@ class ComplexBettingWidget2 extends Component {
   getBestOfferOfEachmarket(tableData, betType){
     return tableData.map( item => {
 
-      if ( item.hasIn([ 'offer', betType + 'Origin', '0' ])){
-        return item.getIn([ 'offer', betType + 'Origin', '0' ])
-      } else {
-        return undefined
-      }
+      return item.getIn([ 'offer', betType + 'Origin', '0' ])
 
     }).filter( item => {
       return item !== undefined
