@@ -13,9 +13,17 @@ export const translationsObject = {
       last_Month: 'Last month',
       custom: 'Custom',
       search: 'Search',
-      export: 'Export'
+      export: 'Export',
+      download: 'Download',
+      exportDataFetchMsg: 'Please wait while we are processing your request',
+      exportDataReadyMsg: 'Your exported file is ready! Please download the exported file now.',
+      exportLoadingHeader: 'Exporting to .Xlsx',
+      exportDownloadHeader: 'Export Completed',
+      exportStatusHeader: 'Export Status',
+      close: 'Close'
     },
     myAccount:{
+      screenName: 'myAccount_',
       home:'Home',
       my_account: 'My Account',
       deposit: 'Deposit',
@@ -183,7 +191,7 @@ export const translationsObject = {
       cancel_all: 'Cancel All',
       home: 'home',
       mywager: 'My Wager',
-      nodata: 'No Data',
+      nodata: 'Sorry, no results found.',
       unmatched_bets: 'UNMATCHED BETS',
       matched_bets: 'MATCHED BETS',
       resolved_bets: 'RESOLVED BETS',

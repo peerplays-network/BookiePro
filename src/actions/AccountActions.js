@@ -21,6 +21,13 @@ class AccountPrivateActions {
     }
   }
 
+  static setGetTransactionHistoriesExportLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_LOADING_STATUS_EXPORT,
+      loadingStatus
+    }
+  }
+
   static setGetDepositAddressLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.ACCOUNT_SET_GET_DEPOSIT_ADDRESS_LOADING_STATUS,
@@ -63,6 +70,7 @@ class AccountPrivateActions {
     }
   }
 
+
   static setGetTransactionHistoryErrorAction(error) {
     return {
       type: ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_ERROR,
@@ -70,6 +78,19 @@ class AccountPrivateActions {
     }
   }
 
+  static setTransactionHistoriesExportAction(transactionHistoriesExport) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_TRANSACTION_HISTORIES_EXPORT,
+      transactionHistoriesExport
+    }
+  }
+
+  static setGetTransactionHistoriesExportErrorAction(error) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_GET_TRANSACTION_HISTORIES_ERROR_EXPORT,
+      error
+    }
+  }
 
   static setWithdrawErrorAction(error) {
     return {
@@ -203,6 +224,41 @@ class AccountActions {
         dispatch(AccountPrivateActions.setGetTransactionHistoryErrorAction(error));
       });
     };
+  }
+
+  /**
+   * Get transaction history for Export
+   */
+  static getTransactionHistoriesExport(startTime, stopTime) {
+    return (dispatch, getState) => {
+      const accountId = getState().getIn(['account', 'account', 'id']);
+
+      dispatch(AccountPrivateActions.setGetTransactionHistoriesExportLoadingStatusAction(LoadingStatus.LOADING));
+      //Included a 3 second timeout now, just to test the various states of export
+      setTimeout(function(){
+        CommunicationService.getTransactionHistoryGivenTimeRange(accountId, startTime, stopTime).then((transactionHistoriesExport) => {
+          if(getState().getIn(['account', 'getTransactionHistoriesExportLoadingStatus'])===LoadingStatus.DEFAULT)
+            return;
+          log.debug('Get transaction histories succeed.');
+          dispatch(AccountPrivateActions.setTransactionHistoriesExportAction(transactionHistoriesExport));
+          dispatch(AccountPrivateActions.setGetTransactionHistoriesExportLoadingStatusAction(LoadingStatus.DONE));
+        }).catch((error) => {
+          log.error('Get transaction histories error', error);
+          //Set password change error
+          dispatch(AccountPrivateActions.setGetTransactionHistoriesExportErrorAction(error));
+        });
+      }, 3000);
+    };
+  }
+
+  //Reset transaction history export status to default when the export is cancelled
+  static resetTransactionHistoryExportLoadingStatus(){
+    return AccountPrivateActions.setGetTransactionHistoriesExportLoadingStatusAction(LoadingStatus.DEFAULT);
+  }
+
+  //Clear transaction history export data after download to clean up memory
+  static clearTransactionHistoryExport(){
+    return AccountPrivateActions.setTransactionHistoriesExportAction([]);
   }
 
   static getDepositAddress() {
