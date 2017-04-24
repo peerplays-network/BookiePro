@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import logo from '../../assets/images/login-logo.png';
+import logo from '../../assets/images/bookie_logo_login.png';
 import { Form } from 'antd';
 import LoginForm from './Form.jsx';
 import { NavigateActions, LoginActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-var I18n = require('react-redux-i18n').I18n;
 
 class Login extends Component {
   constructor(props) {
@@ -27,12 +26,11 @@ class Login extends Component {
 
   render() {
     return (
-      <div className='sportsbg'>
+      <div className='loginBackground'>
         <div className='loginComponent' >
           <div className='wrapper'>
             <div className='text-center'>
-              <img src={ logo } alt=''/>
-              <h2 className='login-welcome'> { I18n.t('application.welcome_title') } </h2>
+              <img src={ logo } height='150px' width='136px' alt=''/>
               <div className='center-ele'>
                 <LoginForm onClickSignup={ this.onClickSignup }
                   onSubmit={ this.handleSubmit } errors={ this.props.errors } status={ this.props.status } />

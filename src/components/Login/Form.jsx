@@ -5,7 +5,7 @@ import { AccountService } from '../../services';
 import { I18n } from 'react-redux-i18n';
 
 //Component for text field
-const renderField = ({  tabIndex, className, errors, placeholder, input, label, type, iconClass,
+const renderField = ({  tabIndex, className, errors, placeholder, input, type,
 	meta: {  touched, error, dirty }  }) => (
 
 	<div>
@@ -39,7 +39,7 @@ const LoginForm = (props) => {
         <Field name='userName' component={ renderField } type='text' placeholder={ I18n.t('login.username') }
           errors={ errors } normalize={ normalizeAccount } tabIndex='1'/>
       </div>
-      <div className='form-fields pos-rel'>
+      <div className='form-fields'>
         <Field name='password' component={ renderField } type='password' placeholder={ I18n.t('login.password') } tabIndex='2'/>
 				{ //show server errors on submit
 					errors.length && !invalid ? <span className='errorText' key={ errors }>{ errors }</span>  :	null }
