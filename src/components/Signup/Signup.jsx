@@ -33,7 +33,7 @@ class Signup extends PureComponent {
           <div className='wrapper'>
             <div className='text-center'>
               <img src={ logo } className='logo' width='114px' height='105px' alt=''/>
-              <p className='font18 margin-btm-20'>{I18n.t('signup.new_acc_req_text')}</p>
+              <p className='font18 margin-btm-24'>{I18n.t('signup.new_acc_req_text')}</p>
               <div className='center-ele'>
                 <SignupForm
                   loadingStatus={ this.props.loadingStatus }
