@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import logo from '../../assets/images/login-logo.png';
+import logo from '../../assets/images/bookie_logo_signup.png';
 import { Form } from 'antd';
 import SignupForm from './SignupForm';
 import { NavigateActions, RegisterActions } from '../../actions';
@@ -21,19 +21,18 @@ class Signup extends PureComponent {
     this.props.navigateTo('/login')
   }
 
-  //Sign up the user 
+  //Sign up the user
   handleSubmit(values) {
     this.props.signup(values.get('accountName'), values.get('password'));
   }
 
   render() {
     return (
-      <div className='sportsbg'>
+      <div className='signupBackground'>
         <div className='registerComponent' >
           <div className='wrapper'>
             <div className='text-center'>
-              <img src={ logo } alt=''/>
-              <h2 className='margin-tb-25'> {I18n.t('application.welcome_title')} </h2>
+              <img src={ logo } className='logo' width='114px' height='105px' alt=''/>
               <p className='font18 margin-btm-20'>{I18n.t('signup.new_acc_req_text')}</p>
               <div className='center-ele'>
                 <SignupForm
