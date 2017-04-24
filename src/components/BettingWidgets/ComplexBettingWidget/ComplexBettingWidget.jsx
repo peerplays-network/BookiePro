@@ -10,19 +10,12 @@ import 'react-table/react-table.css'
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
 
-/**
- * NOTES: This version of ComplexBettingWidget2 is in DEVELOPMENT stage and primary goal is for BASIC visualization,
- * going to replace ComplexBettingWidget when integration to dummy api is done
- *
- * Planning to move every betting-widget-related componets to BettingWidget folder, serving similar purpose as BettingDrawers
- **/
-
 const floatPlaces = 2;
 const itemDisplay = 3;
 const bitcoinSymbol = '\u0243';
 
 //NOTE should we rename it as FullBettingWidget according to URD?
-class ComplexBettingWidget2 extends Component {
+class ComplexBettingWidget extends Component {
 
   constructor(props) {
     super(props);
@@ -378,7 +371,7 @@ class ComplexBettingWidget2 extends Component {
   }
 }
 
-ComplexBettingWidget2.propTypes = {
+ComplexBettingWidget.propTypes = {
   eventName: React.PropTypes.string.isRequired,
   bettingMarketGroupName: React.PropTypes.string.isRequired,
   marketData: React.PropTypes.any.isRequired
@@ -400,4 +393,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ComplexBettingWidget2);
+)(ComplexBettingWidget);

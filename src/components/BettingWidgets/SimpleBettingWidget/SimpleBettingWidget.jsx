@@ -2,15 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
-import { Icon, Table } from 'antd';
-import { MarketDrawerActions } from '../../actions';
-
-/**
- * NOTES: This version of ComplexBettingWidget is just a clone of the
- *        SimpleBettingWidget. This is only used as a stub to test the
- *        basic Market Drawer. Please feel free to modify/replace this.
- **/
-
+import {  Table } from 'antd';
+import RulesModal from '../../Modal/RulesModal'
+import { QuickBetDrawerActions } from '../../../actions';
+import { I18n, Translate } from 'react-redux-i18n';
 const bitcoinSymbol = '\u0243';
 // We cannot use CSS to override antd Table column width using CSS
 // This can only be done via the code
@@ -38,41 +33,41 @@ const getColumns = (renderOffer) => ([
     className: 'event-time',
     render: renderEventTime
   }, {
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'event_name',
+    key: 'event_name',
     // Do not specify width so the column
     // will grow/shrink with the size of the table
-    className: 'team',
-    render: (text, record) => record.get('name')
+    className: 'event-name',
+    render: (text, record) => record.get('event_name')
   }, {
     title: '1',
     children: [{
-      dataIndex: 'back_offer_1',
-      key: 'back_offer_1',
+      dataIndex: 'back_offer_home',
+      key: 'back_offer_home',
       width: offerColumnWidth,
       className: 'back-offer',
-      render: renderOffer('back', 1)
+      render: renderOffer('back', 'lay', 1)
     }, {
-      dataIndex: 'lay_offer_1',
-      key: 'lay_offer_1',
+      dataIndex: 'lay_offer_home',
+      key: 'lay_offer_home',
       width: offerColumnWidth,
       className: 'lay-offer',
-      render: renderOffer('lay', 1)
+      render: renderOffer('lay', 'back', 1)
     }]
   }, {
     title: '2',
     children: [{
-      dataIndex: 'back_offer_2',
-      key: 'back_offer_2',
+      dataIndex: 'back_offer_away',
+      key: 'back_offer_away',
       width: offerColumnWidth,
       className: 'back-offer',
-      render: renderOffer('back', 2)
+      render: renderOffer('back', 'lay', 2)
     }, {
-      dataIndex: 'lay_Offer_2',
-      key: 'lay_offer_2',
+      dataIndex: 'lay_Offer_away',
+      key: 'lay_offer_away',
       width: offerColumnWidth,
       className: 'lay-offer',
-      render: renderOffer('lay', 2)
+      render: renderOffer('lay', 'back', 2)
     }]
   }
 ]);
@@ -81,7 +76,10 @@ const renderTitle = (title) => (
   <div className='title'>
     <div className='sport'>{ title }</div>
     <div className='rules'>
-      <Icon type='info-circle-o' /> Rules
+      {/* Rules Dialogue box */}
+      <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
+        <Translate value='rules_dialogue.content' dangerousHTML/>
+      </RulesModal>
     </div>
   </div>
 );
@@ -94,33 +92,37 @@ const renderFooter = (title) => (
   </div>
 )
 
-class ComplexBettingWidget extends Component {
+class SimpleBettingWidget extends Component {
   constructor(props) {
     super(props);
     this.onOfferClicked = this.onOfferClicked.bind(this);
     this.renderOffer = this.renderOffer.bind(this);
   }
 
-  onOfferClicked(event, record, team, marketType, offer) {
+  onOfferClicked(event, record, team, betType, betting_market_id, odds) {
     event.preventDefault();
-    this.props.createBet(record, team, marketType, offer);
+    this.props.createBet(record.get('event_id'), record.get('event_name'), team, betType, betting_market_id, odds);
   }
 
-  // marketType: [ back | lay ]
+  // action: [ lay(ing) | back(ing) ]
+  // betType: [ back | lay ]
   // index: [ 1 (Home Team) | 2 (Away Team)]
-  renderOffer(marketType, index) {
+  renderOffer(action, typeOfBet, index) {
     return (text, record) => {
       const offers = record.get('offers');
-      // TODO: Need a better way to check this after the Immutable JS changes
-      if (offers === undefined || offers.isEmpty()) {
+      if (offers.isEmpty()) {
         return '';
       }
-      // TODO: Check if we always have only one offer here. If yes, get rid of the list
-      const offer = offers.get(0).get(marketType).get(index-1);
+      // TODO: Exception handling
+      const betting_market_id = offers.get(index-1).get('betting_market_id');
+      const offer = offers.get(index-1).get(typeOfBet).get(0);
+      if (offer === undefined) {
+        return '';
+      }
       // TODO: REVIEW This is temp solution. The better way is to use the Competitor data.
-      const team = record.get('name').split('vs')[index-1].trim()
+      const team = record.get('event_name').split('vs')[index-1].trim();
       return (
-        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, marketType, offer) }>
+        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, offer.get('odds')) }>
           <div className='offer'>
             <div className='odds'>{ offer.get('odds') }</div>
             <div className='price'>{ bitcoinSymbol } { offer.get('price') }</div>
@@ -134,7 +136,7 @@ class ComplexBettingWidget extends Component {
     let events = [];
     if (this.props.events !== undefined) {
       // Introduce the key attribute to suppress the React warning
-      events = this.props.events.map((event) => event.set('key', event.get('id')));
+      events = this.props.events.map((event) => event.set('key', event.get('event_id')));
       // Sort by event time
       events = events.sort((a, b) => {
         let timeA = a.get('time');
@@ -149,7 +151,9 @@ class ComplexBettingWidget extends Component {
     return (
       // Note that we have to explicitly tell antd Table how to find the rowKey
       // because it is not compatible with Immutable JS
-      <div className='complex-betting'>
+      // if you enable the pagination then design of the
+      // pagination is shown
+      <div className='simple-betting'>
         <Table
           bordered
           pagination={ false }
@@ -167,8 +171,8 @@ class ComplexBettingWidget extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    createBet: MarketDrawerActions.createBet,
+    createBet: QuickBetDrawerActions.createBet,
   }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(ComplexBettingWidget);
+export default connect(null, mapDispatchToProps)(SimpleBettingWidget);

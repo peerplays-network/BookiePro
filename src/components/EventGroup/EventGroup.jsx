@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { SportBanner } from '../Banners';
-import SimpleBettingWidget from '../SimpleBettingWidget';
+import { SimpleBettingWidget } from '../BettingWidgets';
 import { EventGroupPageActions } from '../../actions';
 import Immutable from 'immutable';
 
