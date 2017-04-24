@@ -3,25 +3,28 @@
 div.betting-market-group-banner {
   position: relative;
   border:1px solid #A9A9A9;
+
   @media @desktop {
     background: url('../../../assets/footballevent_banner.png') no-repeat;
     height: 120px;
+    background-size: cover;
   }
 
   @media @desktop-xl {
-    background: url('../../../assets/footballevent_banner_big.png') no-repeat;
+    background: url('../../../assets/footballevent_banner_big.png') center no-repeat;
     height: 120px;
+    background-size: cover;
   }
 
   > div.event {
     padding:0 10px;
     > div.time {
       font-size: 16px;
-      padding-top: 7px;
+      padding-top: 8px;
     }
     > div.name {
       font-size: 20px;
-      padding-top: 7px;
+      padding-top: 8px;
       font-weight:500;
     }
   }
@@ -33,7 +36,7 @@ div.betting-market-group-banner {
 
     > div.time-remaining {
       text-align: center;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
       font-weight:500;
     }
       div.clock {
@@ -112,7 +115,7 @@ div.betting-market-group-banner {
     }
   }
 }
-@media screen and (max-width: 1310px){
+@media screen and (max-width: 1336px){
   div.betting-market-group-banner {
     >div.event {
       >div.name {
