@@ -4,6 +4,7 @@ import { BettingModuleUtils } from '../utility';
 
 let initialState = Immutable.fromJS({
   bets: Immutable.List(),
+  showBetSlipConfirmation: false,
 });
 
 export default function(state = initialState, action) {
@@ -57,6 +58,16 @@ export default function(state = initialState, action) {
       return state.merge({
         bets: oldBets.set(index, bet)
       })
+    }
+    case ActionTypes.QUICK_BET_DRAWER_SHOW_BETSLIP_CONFIRMATION: {
+      return state.merge({
+        showBetSlipConfirmation: true
+      });
+    }
+    case ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_CONFIRMATION: {
+      return state.merge({
+        showBetSlipConfirmation: false
+      });
     }
     default:
       return state;

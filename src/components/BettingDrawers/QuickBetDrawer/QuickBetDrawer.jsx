@@ -24,6 +24,19 @@ const renderContent = (props) => (
         </div>
       </div>
     }
+    {
+      props.showBetSlipConfirmation &&
+      <div className='confirmation'>
+        <div className='instructions'>
+          The transaction fee of this bet is 0.0051.<br/>
+          Are you sure you want to place this bet?
+        </div>
+        <div className='confirm-buttons'>
+          <Button onClick={ props.hideBetSlipConfirmation }>CANCEL</Button>
+          <Button>CONFIRM BET</Button>
+        </div>
+      </div>
+    }
     { !props.bets.isEmpty() &&
       // convert the list of keys into vanilla JS array for iterating
       props.bets.keySeq().toArray().map((eventId) => (
@@ -33,6 +46,7 @@ const renderContent = (props) => (
           deleteOne={ props.deleteBet }
           deleteMany={ props.deleteBets }
           updateOne={ props.updateBet }
+          dimmed={ props.showBetSlipConfirmation }
         />
       ))
     }
@@ -66,8 +80,8 @@ class QuickBetDrawer extends Component {
             { renderContent(this.props) }
             {
               !this.props.bets.isEmpty() &&
-              <div className='footer'>
-                <Button className='place-bet'>
+              <div className={ `footer ${this.props.showBetSlipConfirmation ? 'dimmed' : ''}` }>
+                <Button className='place-bet' onClick={ this.props.clickPlaceBet }>
                   { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button', { amount : 0.295}) }
                 </Button>
               </div>
@@ -106,7 +120,8 @@ const mapStateToProps = (state) => {
     page = page.setIn([eventId, 'unconfirmedBets'], unconfirmedBets);
   });
   return {
-    bets: page
+    bets: page,
+    showBetSlipConfirmation: state.getIn(['quickBetDrawer', 'showBetSlipConfirmation'])
   };
 }
 
@@ -116,6 +131,8 @@ const mapDispatchToProps = (dispatch) => {
     deleteBet: QuickBetDrawerActions.deleteBet,
     deleteBets: QuickBetDrawerActions.deleteBets,
     updateBet: QuickBetDrawerActions.updateBet,
+    clickPlaceBet: QuickBetDrawerActions.clickPlaceBet,
+    hideBetSlipConfirmation: QuickBetDrawerActions.hideBetSlipConfirmation,
   }, dispatch);
 }
 
