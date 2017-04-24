@@ -81,7 +81,7 @@ class QuickBetDrawer extends Component {
             {
               !this.props.bets.isEmpty() &&
               <div className={ `footer ${this.props.showBetSlipConfirmation ? 'dimmed' : ''}` }>
-                <Button className='place-bet' onClick={ this.props.clickPlaceBet }>
+                <Button className='place-bet' onClick={ this.props.clickPlaceBet } disabled={ this.props.showBetSlipConfirmation }>
                   { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button', { amount : 0.295}) }
                 </Button>
               </div>
