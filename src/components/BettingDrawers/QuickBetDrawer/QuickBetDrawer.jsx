@@ -66,7 +66,7 @@ class QuickBetDrawer extends Component {
   render() {
     return (
       <div id='quick-bet-drawer' ref='drawer'>
-        <SplitPane split='horizontal' defaultSize='40px'>
+        <SplitPane split='horizontal' defaultSize='40px' allowResize={ false }>
           <div className='title'>
             <div className='label'>{ I18n.t('quick_bet_drawer.header') }</div>
           </div>
@@ -75,6 +75,7 @@ class QuickBetDrawer extends Component {
             minSize={ 40 }
             defaultSize={ 40 }
             primary='second'
+            allowResize={ false }
             pane1Style={ { 'overflowY': 'hidden' } }
           >
             { renderContent(this.props) }
