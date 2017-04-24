@@ -4,6 +4,8 @@ import { WalletService, AccountService, KeyGeneratorService, CommunicationServic
 import { TransactionBuilder } from 'graphenejs-lib';
 import NavigateActions from './NavigateActions';
 import AssetActions from './AssetActions';
+import SettingActions from './SettingActions';
+import AppActions from './AppActions';
 import log from 'loglevel';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
@@ -415,14 +417,46 @@ class AccountActions {
   }
 
   /**
-   * Logout the user
+   * Logout the user, show popup dialog if needed
    */
-  static logout() {
-    return (dispatch) => {
-      dispatch(AccountPrivateActions.logoutAction());
-      // Navigate to the login page of the app
-      dispatch(NavigateActions.navigateTo('/login'));
-      log.debug('Logout user succeed.');
+  static logoutAndShowPopupIfNeeded() {
+    return (dispatch, getState) => {
+      const accountId = getState().getIn(['account', 'account', 'id']);
+      if (accountId) {
+        const isSkipLogoutPopup = getState().getIn(['setting', 'settingByAccountId', accountId, 'isSkipLogoutPopup']);
+        if (isSkipLogoutPopup) {
+          // Skip logout popup, directly confirm logout
+          dispatch(AccountActions.confirmLogout(isSkipLogoutPopup));
+        } else {
+          // Show logout popup
+          dispatch(AppActions.showLogoutPopupAction(true))
+        }
+      } else {
+        log.error('No user is logged in');
+      }
+    }
+  }
+
+  /**
+   * Confirm logging out the user (use this to confirm logout for the logout popup modal)
+   */
+  static confirmLogout(skipLogoutPopupNextTime) {
+    return (dispatch, getState) => {
+      // Mark skip logout popup
+      const accountId = getState().getIn(['account', 'account', 'id']);
+      if (accountId) {
+        // Close popup
+        dispatch(AppActions.showLogoutPopupAction(false))
+        // Save in redux
+        dispatch(SettingActions.markSkipLogoutPopupAction(accountId, skipLogoutPopupNextTime));
+        // Dispatch logout action to clear data
+        dispatch(AccountPrivateActions.logoutAction());
+        // Navigate to the login page of the app
+        dispatch(NavigateActions.navigateTo('/login'));
+        log.debug('Logout user succeed.');
+      } else {
+        log.error('No user is logged in');
+      }
     }
   }
 

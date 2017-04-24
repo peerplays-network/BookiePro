@@ -2,7 +2,7 @@ import { ActionTypes } from '../constants';
 import Immutable from 'immutable';
 
 const initialState = Immutable.fromJS({
-  settingByAccountId: {}
+  settingByAccountId: {},
 });
 
 export default function (state = initialState, action) {
@@ -13,6 +13,7 @@ export default function (state = initialState, action) {
         timezone: 'UTC+08:00',
         notification: true,
         currencyFormat: 'BTC',
+        skipLogoutPopup: false
       })
     }
     case ActionTypes.SETTING_UPDATE_LANG: {
@@ -33,6 +34,11 @@ export default function (state = initialState, action) {
     case ActionTypes.SETTING_UPDATE_CURRENCY_FORMAT: {
       return state.mergeIn(['settingByAccountId', action.accountId], {
         currencyFormat: action.currencyFormat,
+      })
+    }
+    case ActionTypes.SETTING_MARK_SKIP_LOGOUT_POPUP: {
+      return state.mergeIn(['settingByAccountId', action.accountId], {
+        isSkipLogoutPopup: action.isSkipLogoutPopup,
       })
     }
     default:

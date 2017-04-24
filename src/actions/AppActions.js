@@ -54,6 +54,16 @@ class AppPrivateActions {
  * Public actions
  */
 class AppActions {
+  /**
+   * Action to show logout popup
+   */
+  static showLogoutPopupAction(isShowLogoutPopup) {
+    return {
+      type: ActionTypes.APP_SHOW_LOGOUT_POPUP,
+      isShowLogoutPopup
+    }
+  }
+
   static setIsLoggedInAction(isLoggedIn) {
     return {
       type: ActionTypes.APP_SET_IS_LOGGED_IN,

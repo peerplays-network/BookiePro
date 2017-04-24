@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import InitError from '../InitError';
 import { LoadingStatus, Config } from '../../constants';
-import { NavigateActions, AppActions } from '../../actions';
+import { NavigateActions, AppActions, AccountActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
+import LogoutModal from '../Modal/LogoutModal';
 import { StringUtils } from '../../utility';
 
 //NOTE default version update text.
@@ -17,6 +18,8 @@ class App extends Component {
       needHardUpdate : false,
       newVersionModalVisible: false
     };
+    this.onConfirmLogout = this.onConfirmLogout.bind(this);
+    this.onCancelLogout = this.onCancelLogout.bind(this);
   }
 
   componentWillMount() {
@@ -58,7 +61,7 @@ class App extends Component {
       newVersionModalVisible: modalVisible
     });
 
-    if ( this.props.needHardUpdate){
+    if ( this.state.needHardUpdate){
       const remote = require('electron').remote;
 
       var window = remote.getCurrentWindow();
@@ -66,10 +69,21 @@ class App extends Component {
     }
   }
 
+  onConfirmLogout(skipLogoutPopupNextTime) {
+    console.log('click ok')
+    // Logout
+    this.props.confirmLogout(skipLogoutPopupNextTime);
+  }
+
+  onCancelLogout() {
+    console.log('click cancel')
+    // Hide modal
+    this.props.showLogoutPopup(false);
+  }
+
   render() {
 
     let softwareUpdateModal = (
-
         <SoftwareUpdateModal
           modalTitle={ this.props.displayText ? this.props.displayText.get(this.props.locale) : defaultNewVersionText }
           closable={ !this.state.needHardUpdate }
@@ -78,7 +92,14 @@ class App extends Component {
           onCancel={ this.state.needHardUpdate ? () => this.okWillCloseApp(false) : () => this.okWillCloseModal(false) }
           latestVersion={ this.props.version }
         />
+    );
 
+    let logoutModal = (
+      <LogoutModal
+        onConfirmLogout={ this.onConfirmLogout }
+        onCancelLogout={ this.onCancelLogout }
+        visible={ this.props.isShowLogoutPopup }
+        />
     );
 
     let content = null;
@@ -104,6 +125,7 @@ class App extends Component {
     return (
       <div>
         { content }
+        { logoutModal }
         { softwareUpdateModal }
       </div>
     );
@@ -119,20 +141,24 @@ const mapStateToProps = (state) => {
   const locale = i18n.get('locale');
   const isLoggedIn = app.get('isLoggedIn');
   const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');
+  const isShowLogoutPopup = app.get('isShowLogoutPopup');
 
   return {
     connectToBlockchainLoadingStatus,
     isLoggedIn,
     version,
     displayText,
-    locale
+    locale,
+    isShowLogoutPopup
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
-    connectToBlockchain: AppActions.connectToBlockchain
+    connectToBlockchain: AppActions.connectToBlockchain,
+    showLogoutPopup: AppActions.showLogoutPopupAction,
+    confirmLogout: AccountActions.confirmLogout
   }, dispatch);
 }
 
