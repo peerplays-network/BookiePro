@@ -192,6 +192,13 @@ class AccountActions {
     }
   }
 
+  static setPassword(password) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_PASSWORD,
+      password
+    }
+  }
+
   /**
    * Set keys for the account
    */
@@ -329,6 +336,8 @@ class AccountActions {
         return WalletService.processTransaction(getState(), tr);
       }).then(() => {
         log.debug('Change Password succeed.');
+        // Set new password
+        dispatch(AccountActions.setPassword(newPassword));
         // Set keys
         dispatch(AccountActions.setKeys(newKeys));
         //To display the success message

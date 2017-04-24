@@ -23,6 +23,7 @@ import moment from 'moment';
 import { SettingActions,AccountActions } from '../../actions';
 import { LoadingStatus } from '../../constants';
 import Immutable from 'immutable';
+import { saveAs } from '../../utility/fileSaver.js';
 
 const Option = Select.Option;
 
@@ -61,6 +62,8 @@ class MyAccount extends PureComponent {
     this.clearTransactionHistoryExport = this.clearTransactionHistoryExport.bind(this);
     this.handleRedirectToChangePwd = this.handleRedirectToChangePwd.bind(this);
     this.renderSettingCard = this.renderSettingCard.bind(this);
+    this.handleDownloadPasswordFile = this.handleDownloadPasswordFile.bind(this);
+
 
   }
 
@@ -258,9 +261,17 @@ class MyAccount extends PureComponent {
   }
 
   handleWithdrawSubmit(values){
-    //track the withdraw amount to display in success message after successfull submit
+    //track the withdraw amount to display in success message after successful submit
     this.setState({ withdrawAmount:values.get('withdrawAmount') });
     this.props.withdraw(values.get('withdrawAmount'), values.get('walletAddr'));
+  }
+
+  //Download the password in a text file
+  handleDownloadPasswordFile() {
+    let blob = new Blob([ this.props.password ], {
+      type: 'text/plain'
+    });
+    saveAs(blob, 'account-recovery-file.txt');
   }
 
   renderSettingCard() {
@@ -369,7 +380,8 @@ class MyAccount extends PureComponent {
               className='btn btn-primary margin-tb-30'>
               { I18n.t('myAccount.change_password') }
             </button>
-            <button className='btn btn-primary'>
+            <button className='btn btn-primary'
+              onClick={ this.handleDownloadPasswordFile }>
               { I18n.t('myAccount.create_recovery_file') }
             </button>
           </Row>
@@ -480,6 +492,7 @@ const mapStateToProps = (state) => {
     dynGlobalObject: app.get('blockchainDynamicGlobalProperty'),
     globalObject: app.get('blockchainGlobalProperty'),
     account: account.get('account'),
+    password: account.get('password'),
     lang: setting.get('lang'),
     timezone: setting.get('timezone'),
     notification: setting.get('notification'),

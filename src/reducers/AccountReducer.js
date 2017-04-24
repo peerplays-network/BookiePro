@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
   account: {},
+  password: null,
   privateKeyWifsByRole: {},
   publicKeyStringsByRole: {},
   getDepositAddressLoadingStatus: LoadingStatus.DEFAULT,
@@ -105,6 +106,11 @@ export default function (state = initialState, action) {
     case ActionTypes.ACCOUNT_SET_ACCOUNT: {
       return state.merge({
         account: action.account
+      });
+    }
+    case ActionTypes.ACCOUNT_SET_PASSWORD: {
+      return state.merge({
+        password: action.password
       });
     }
     case ActionTypes.ACCOUNT_ADD_OR_UPDATE_AVAILABLE_BALANCES: {
