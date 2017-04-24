@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BettingMarketGroupBanner } from '../Banners';
-import ComplexBettingWidget from '../BettingWidgets/';
+import { ComplexBettingWidget } from '../BettingWidgets/';
 import Immutable from 'immutable';
 import _ from 'lodash';
 import { BettingMarketGroupPageActions } from '../../actions';

@@ -1,2 +1,6 @@
 import ComplexBettingWidget from './ComplexBettingWidget';
-export default ComplexBettingWidget;
+import SimpleBettingWidget from './SimpleBettingWidget';
+export {
+  ComplexBettingWidget,
+  SimpleBettingWidget
+};

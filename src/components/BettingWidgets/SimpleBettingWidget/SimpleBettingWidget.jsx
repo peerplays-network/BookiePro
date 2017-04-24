@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import {  Table } from 'antd';
-import RulesModal from '../Modal/RulesModal'
-import { QuickBetDrawerActions } from '../../actions';
+import RulesModal from '../../Modal/RulesModal'
+import { QuickBetDrawerActions } from '../../../actions';
 import { I18n, Translate } from 'react-redux-i18n';
 const bitcoinSymbol = '\u0243';
 // We cannot use CSS to override antd Table column width using CSS
