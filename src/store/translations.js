@@ -228,6 +228,9 @@ export const translationsObject = {
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
           my_bet_button: 'VIEW YOUR BETS IN MY BETS'
+        },
+        content: {
+          place_bet_button: 'PLACE BET \u0243%{amount}'
         }
       }
     },

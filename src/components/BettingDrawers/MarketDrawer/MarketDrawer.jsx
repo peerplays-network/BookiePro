@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
+import SplitPane from 'react-split-pane';
 import { I18n, Translate } from 'react-redux-i18n';
 import { MarketDrawerActions, NavigateActions } from '../../../actions';
 import { Button, Tabs } from 'antd';
@@ -60,7 +61,23 @@ class MarketDrawer extends Component {
       <div id='market-drawer'>
         <Tabs defaultActiveKey='1' type='card'>
           <TabPane tab='BETSLIP' key='1'>
-            { renderUnconfirmedBets(this.props) }
+            <SplitPane
+              split='horizontal'
+              minSize={ 40 }
+              defaultSize={ 40 }
+              primary='second'
+              pane1Style={ { 'overflowY': 'hidden' } }
+            >
+              { renderUnconfirmedBets(this.props) }
+              {
+                !this.props.unconfirmedBets.isEmpty() &&
+                <div className='footer'>
+                  <Button className='place-bet'>
+                    { I18n.t('market_drawer.unconfirmed_bets.content.place_bet_button', { amount : 0.295}) }
+                  </Button>
+                </div>
+              }
+            </SplitPane>
           </TabPane>
           <TabPane tab='PLACED BETS' key='2'>
             { renderPlacedBets(this.props) }
