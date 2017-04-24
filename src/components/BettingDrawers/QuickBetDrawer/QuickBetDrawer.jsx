@@ -24,19 +24,6 @@ const renderContent = (props) => (
         </div>
       </div>
     }
-    {
-      props.showBetSlipConfirmation &&
-      <div className='confirmation'>
-        <div className='instructions'>
-          The transaction fee of this bet is 0.0051.<br/>
-          Are you sure you want to place this bet?
-        </div>
-        <div className='confirm-buttons'>
-          <Button onClick={ props.hideBetSlipConfirmation }>CANCEL</Button>
-          <Button>CONFIRM BET</Button>
-        </div>
-      </div>
-    }
     { !props.bets.isEmpty() &&
       // convert the list of keys into vanilla JS array for iterating
       props.bets.keySeq().toArray().map((eventId) => (
@@ -89,6 +76,19 @@ class QuickBetDrawer extends Component {
             }
           </SplitPane>
         </SplitPane>
+        {
+          this.props.showBetSlipConfirmation &&
+          <div className='confirmation'>
+            <div className='instructions'>
+              The transaction fee of this bet is 0.0051.<br/>
+              Are you sure you want to place this bet?
+            </div>
+            <div className='confirm-buttons'>
+              <Button onClick={ this.props.hideBetSlipConfirmation }>CANCEL</Button>
+              <Button>CONFIRM BET</Button>
+            </div>
+          </div>
+        }
       </div>
     );
   }
