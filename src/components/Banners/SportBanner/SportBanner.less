@@ -2,22 +2,25 @@
 
 div.sport-banner {
   position: relative;
-
+  border:1px solid #A9A9A9;
   @media @desktop {
     background: url('../../../assets/football_banner_small.png') no-repeat;
+    background-size: cover;
     height: 120px;
   }
 
   @media @desktop-xl {
     background: url('../../../assets/football_banner_big.png') no-repeat;
     height: 120px;
+    background-size: cover;
   }
 
   > div.sport-name {
     position: absolute;
     font-size: 18px;
-    left: 30px;
-    bottom: 10px;
+    left: 27px;
+    bottom: 15px;
     text-transform: uppercase;
+    font-weight:500;
   }
 }
