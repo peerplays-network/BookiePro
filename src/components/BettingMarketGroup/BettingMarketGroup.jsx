@@ -3,7 +3,7 @@ import { BettingMarketGroupBanner } from '../Banners';
 import { ComplexBettingWidget } from '../BettingWidgets/';
 import Immutable from 'immutable';
 import _ from 'lodash';
-import { BettingMarketGroupPageActions } from '../../actions';
+import { BettingMarketGroupPageActions, MarketDrawerActions } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -35,6 +35,10 @@ class BettingMarketGroup extends Component {
           eventName={ this.props.eventName }
           bettingMarketGroupName={ this.props.bettingMarketGroupName }
           marketData={ this.props.marketData }
+          totalMatchedBetsAmount={ this.props.totalMatchedBetsAmount }
+          createBet={ this.props.createBet }
+          unconfirmedBets={ this.props.unconfirmedBets }
+          currencyFormat={ this.props.currencyFormat }
         />
       </div>
     )
@@ -67,10 +71,16 @@ const createMarketData = (bettingMarkets, binnedOrderBooksByBettingMarketId) => 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     getData: BettingMarketGroupPageActions.getData,
+    createBet: MarketDrawerActions.createBet,
   }, dispatch);
 }
 
 const mapStateToProps = (state, ownProps) => {
+
+  const account = state.get('account');
+  const accountId = account.getIn(['account','id']);
+  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting']) ;
+
   const bettingMarketGroupId = ownProps.params.objectId;
   const bettingMarketGroupsById = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
   const binnedOrderBooksByBettingMarketId = state.getIn(['binnedOrderBook', 'binnedOrderBooksByBettingMarketId']);
@@ -96,12 +106,21 @@ const mapStateToProps = (state, ownProps) => {
   // Create market data
   const marketData = createMarketData(relatedBettingMarkets, binnedOrderBooksByBettingMarketId);
 
+  // Extract total Bets
+  const totalMatchedBetsByMarketGroupId = state.getIn(['liquidity', 'totalMatchedBetsByBettingMarketGroupId']);
+  const totalMatchedBetsAmount = totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'amount']);
+
+  const marketDrawer = state.get('marketDrawer');
+
   return {
     bettingMarketGroup,
     bettingMarkets: relatedBettingMarkets,
     marketData,
     eventName,
-    bettingMarketGroupName
+    bettingMarketGroupName,
+    totalMatchedBetsAmount: totalMatchedBetsAmount ? totalMatchedBetsAmount : 0,
+    unconfirmedBets: marketDrawer.get('unconfirmedBets'),
+    currencyFormat: 'mBTC',//setting.get('currencyFormat'),
   }
 };
 

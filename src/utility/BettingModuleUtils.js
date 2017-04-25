@@ -16,6 +16,7 @@ var isFieldInvalid = function(object, field) {
 
 var BettingModuleUtils = {
 
+  //TODO migrate to concurrency util
   getConcurrencySymbol: function( currency = 'BTC' ){
     if ( currency === 'mBTC'){
       return mBitcoinSymbol;
@@ -24,6 +25,28 @@ var BettingModuleUtils = {
     } else{
       return
     }
+  },
+
+  //TODO migrate to concurrency util
+  getFormattedCurrency: function( amount, currency = 'BTC' ){
+
+    const currencySymbol = this.getConcurrencySymbol(currency);
+
+    if (currency === 'mBTC'){
+      if( amount >= 0 ){
+        return currencySymbol + 1000 * amount ;
+      }else{
+        return '-' + currencySymbol + 1000 * amount * -1;
+      }
+    } else {
+      //base currency BTC in blockchain
+      if( amount >= 0 ){
+        return currencySymbol + amount ;
+      }else{
+        return '-' + currencySymbol + amount * -1;
+      }
+    }
+
   },
 
   //  =========== Bet Calculations ===========
