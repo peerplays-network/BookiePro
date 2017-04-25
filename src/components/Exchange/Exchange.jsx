@@ -124,6 +124,7 @@ class Exchange extends Component {
       <SplitPane
           style={ splitPaneStyle }
           split='vertical'
+          allowResize={ false }
           minSize={ sidebarWidth } defaultSize={ sidebarWidth }
           pane1Style={ styleLeftPane }>
             <div style={ { 'height' : '100%', 'position' : 'relative' } }
@@ -135,6 +136,7 @@ class Exchange extends Component {
             </div>
             <SplitPane
                 split='vertical'
+                allowResize={ false }
                 minSize={ betslipWidth } defaultSize={ betslipWidth }
                 primary='second'>
                   <div style={ { 'height' : '100%', 'position' : 'relative' } }
