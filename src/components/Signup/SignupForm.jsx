@@ -7,7 +7,7 @@ import RandomString from 'randomstring';
 import { saveAs } from '../../utility/fileSaver.js';
 import { AccountService } from '../../services';
 import { LoadingStatus } from '../../constants';
-import { I18n }  from 'react-redux-i18n';
+import { I18n, Translate }  from 'react-redux-i18n';
 
 //Component to render the plain fields
 const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touched, error } }) => (
@@ -39,7 +39,7 @@ const renderRetypePasswordField = ({ tabIndex, className, errors, input, type, m
 
 //Component to render the checkboxes
 const renderCheckboxField = ({ pseudoText,tabIndex, errors, placeholder, input, label, type, meta: { touched, error, dirty } }) => (
-  <div className='float-left width260 text-left align-checkbox'>
+  <div className='float-left width300 text-left align-checkbox'>
     <input autoComplete='off' { ...input } type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
     <label>{ pseudoText }</label>
   </div>
@@ -109,10 +109,10 @@ class SignupForm extends PureComponent {
                 component={ renderRetypePasswordField }
                 type='text' tabIndex='3'/>
           </div>
-          <div className='form-fields'>
+          <div className='form-fields savePasswordBox'>
             <div className='download-file'>
-              <p className='margin-btm-20 font15'>
-                { I18n.t('signup.password_warning_1') }<strong>{ I18n.t('signup.password_warning_2') }</strong>{ I18n.t('signup.password_warning_3') }
+              <p className='passwordMessage'>
+                { I18n.t('signup.password_warning_1') }<span className='boldTextInMessage'>{ I18n.t('signup.password_warning_2') }</span>{ I18n.t('signup.password_warning_3') }
               </p>
               <div className='text-center'>
                 <Fields names={ ['password','password_retype'] } component={ renderRecoveryButtonFields } onClick={ this.onClickDownload.bind(this) }/>
@@ -120,22 +120,23 @@ class SignupForm extends PureComponent {
             </div>
           </div>
           <div className='clearfix center-div'>
+            {/*TODO: bold text inside warning*/}
             <Field name='understand' id='understand'
                 component={ renderCheckboxField } type='checkbox'
-                  pseudoText={ I18n.t('signup.cannot_recover_password_warning') }  tabIndex='4'/>
+                  pseudoText={ <Translate value='signup.cannot_recover_password_warning' dangerousHTML/> }  tabIndex='4'/>
             <Field name='secure' id='secure'
                 component={ renderCheckboxField } type='checkbox'
                 pseudoText={ I18n.t('signup.securely_saved_password_warning') }  tabIndex='5'/>
           </div>
-          <div className='form-fields'>
+          <div className='form-fields margin-btm-20 '>
               <button type='submit'
                 className={ 'btn ' + (invalid || submitting || asyncValidating ||
-                loadingStatus===LoadingStatus.LOADING ? 'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-25' }
+                loadingStatus===LoadingStatus.LOADING ? 'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-18' }
               disabled={ invalid || submitting || asyncValidating || loadingStatus===LoadingStatus.LOADING }
               >{ loadingStatus===LoadingStatus.LOADING ? I18n.t('application.loading') : I18n.t('signup.create_account') }</button>
           </div>
           <div className='form-fields'>
-            <p className='font16'> { I18n.t('signup.already_account') } <a className='underline blue-text' href='#' onClick={ onClickLogin }> { I18n.t('signup.log_in') } </a> </p>
+            <p className='font14'> { I18n.t('signup.already_account') } <a className='underline blue-text' href='#' onClick={ onClickLogin }> { I18n.t('signup.log_in') } </a> </p>
           </div>
         </form>
       )

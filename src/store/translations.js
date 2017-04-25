@@ -89,7 +89,7 @@ export const translationsObject = {
       password_warning_1: 'If you lose your password, you will lose all of your funds!',
       password_warning_2: ' Keep your password safe!',
       password_warning_3: ' To download a text file of your password, click the save button below:',
-      cannot_recover_password_warning: 'I understand that Peerplays cannot recover my password.',
+      cannot_recover_password_warning: 'I understand that Peerplays <span class=mediumMessageInText>cannot recover my password.</span>',
       securely_saved_password_warning: 'I have securely saved my password recovery file.',
       create_account: 'Create Account',
       already_account: 'Already have an account?',
