@@ -48,6 +48,12 @@ class QuickBetDrawerPrivateActions {
       type: ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_CONFIRMATION,
     }
   }
+
+  static hideBetSlipError() {
+    return {
+      type: ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_ERROR,
+    }
+  }
 }
 
 class QuickBetDrawerActions {
@@ -96,9 +102,10 @@ class QuickBetDrawerActions {
     }
   }
 
-  static hideBetSlipConfirmation() {
+  static cancelPlaceBet() {
     return (dispatch) => {
       dispatch(QuickBetDrawerPrivateActions.hideBetSlipConfirmation());
+      dispatch(QuickBetDrawerPrivateActions.hideBetSlipError());
     }
   }
 }

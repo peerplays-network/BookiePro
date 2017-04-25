@@ -1,10 +1,12 @@
 import Immutable from 'immutable';
-import { ActionTypes } from '../constants';
+import { LoadingStatus, ActionTypes } from '../constants';
 import { BettingModuleUtils } from '../utility';
 
 let initialState = Immutable.fromJS({
   bets: Immutable.List(),
   showBetSlipConfirmation: false,
+  showBetSlipWaiting: false,
+  showBetSlipError: false,
 });
 
 export default function(state = initialState, action) {
@@ -68,6 +70,26 @@ export default function(state = initialState, action) {
       return state.merge({
         showBetSlipConfirmation: false
       });
+    }
+    case ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_ERROR: {
+      return state.merge({
+        showBetSlipError: false
+      });
+    }
+    case ActionTypes.BET_SET_MAKE_BETS_LOADING_STATUS: {
+      return state.merge({
+        bets: action.loadingStatus === LoadingStatus.DONE ? Immutable.List() : oldBets,
+        showBetSlipWaiting: action.loadingStatus === LoadingStatus.LOADING,
+        showBetSlipError: false,
+        showBetSlipConfirmation: false
+      })
+    }
+    case ActionTypes.BET_SET_MAKE_BETS_ERROR: {
+      return state.merge({
+        showBetSlipWaiting: false,
+        showBetSlipError: true,
+        showBetSlipConfirmation: false
+      })
     }
     default:
       return state;

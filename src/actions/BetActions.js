@@ -215,24 +215,25 @@ class BetActions {
    */
   static makeBets(bets) {
     return (dispatch, getState) => {
-      dispatch(BetPrivateActions.setMakeBetsLoadingStatus(LoadingStatus.LOADING));
+      dispatch(BetPrivateActions.setMakeBetsLoadingStatusAction(LoadingStatus.LOADING));
 
       const tr = new TransactionBuilder();
       bets.forEach((bet) => {
+        // TODO: Temporarily disabled until we have the real blockchain ready
         // Create operation for each bet and attach it to the transaction
-        const operationParams = {};
-        const operationType = 'bet_operation';
-        tr.add_type_operation(operationType, operationParams);
+        //const operationParams = {};
+        //const operationType = 'bet_operation';
+        //tr.add_type_operation(operationType, operationParams);
       });
 
       // TODO: replace this with validwallet service process transaction later on
       WalletService.processFakeTransaction(getState(), tr).then(() => {
         log.debug('Make bets succeed.');
-        dispatch(BetPrivateActions.setMakeBetsLoadingStatus(LoadingStatus.DONE));
+        dispatch(BetPrivateActions.setMakeBetsLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
         log.error('Fail to get make bets', error);
         // Set error
-        dispatch(BetActions.setMakeBetsErrorAction(error));
+        dispatch(BetPrivateActions.setMakeBetsErrorAction(error));
       });
     }
   }

@@ -5,7 +5,7 @@ import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import SplitPane from 'react-split-pane';
 import { I18n, Translate } from 'react-redux-i18n';
-import { NavigateActions, QuickBetDrawerActions } from '../../../actions';
+import { BetActions, NavigateActions, QuickBetDrawerActions } from '../../../actions';
 import { Button } from 'antd';
 import { bindActionCreators } from 'redux';
 import EditableBetTable from '../EditableBetTable';
@@ -33,7 +33,7 @@ const renderContent = (props) => (
           deleteOne={ props.deleteBet }
           deleteMany={ props.deleteBets }
           updateOne={ props.updateBet }
-          dimmed={ props.showBetSlipConfirmation }
+          dimmed={ props.obscureContent }
         />
       ))
     }
@@ -68,7 +68,7 @@ class QuickBetDrawer extends Component {
             { renderContent(this.props) }
             {
               !this.props.bets.isEmpty() &&
-              <div className={ `footer ${this.props.showBetSlipConfirmation ? 'dimmed' : ''}` }>
+              <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
                 <Button className='place-bet' onClick={ this.props.clickPlaceBet }>
                   { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button', { amount : 0.295}) }
                 </Button>
@@ -84,8 +84,29 @@ class QuickBetDrawer extends Component {
               Are you sure you want to place this bet?
             </div>
             <div className='confirm-buttons'>
-              <Button onClick={ this.props.hideBetSlipConfirmation }>CANCEL</Button>
-              <Button>CONFIRM BET</Button>
+              <Button onClick={ this.props.cancelPlaceBet }>CANCEL</Button>
+              <Button onClick={ () => this.props.makeBets(this.props.originalBets) }>CONFIRM BET</Button>
+            </div>
+          </div>
+        }
+        {
+          this.props.showBetSlipWaiting &&
+          <div className='waiting'>
+            <div className='instructions'>
+              Waiting...
+            </div>
+          </div>
+        }
+        {
+          this.props.showBetSlipError &&
+          <div className='error'>
+            <div className='instructions'>
+              Sorry, we are unable to proceed<br/>
+              with your request. Please try again!
+            </div>
+            <div className='confirm-buttons'>
+              <Button onClick={ this.props.cancelPlaceBet }>CANCEL</Button>
+              <Button onClick={ () => this.props.makeBets(this.props.originalBets) }>TRY AGAIN</Button>
             </div>
           </div>
         }
@@ -95,9 +116,9 @@ class QuickBetDrawer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const bets = state.getIn(['quickBetDrawer', 'bets']);
+  const originalBets = state.getIn(['quickBetDrawer', 'bets']);
   let page = Immutable.Map();
-  bets.forEach((bet) => {
+  originalBets.forEach((bet) => {
     const eventId = bet.get('event_id');
     const betType = bet.get('bet_type');
     // Page content are first grouped by event_id
@@ -120,9 +141,17 @@ const mapStateToProps = (state) => {
     unconfirmedBets = unconfirmedBets.set(betType, betListBybetType);
     page = page.setIn([eventId, 'unconfirmedBets'], unconfirmedBets);
   });
+  // Other statuses
+  const showBetSlipConfirmation = state.getIn(['quickBetDrawer', 'showBetSlipConfirmation']);
+  const showBetSlipWaiting = state.getIn(['quickBetDrawer', 'showBetSlipWaiting']);
+  const showBetSlipError = state.getIn(['quickBetDrawer', 'showBetSlipError']);
   return {
+    originalBets,
     bets: page,
-    showBetSlipConfirmation: state.getIn(['quickBetDrawer', 'showBetSlipConfirmation'])
+    showBetSlipConfirmation,
+    showBetSlipWaiting,
+    showBetSlipError,
+    obscureContent: showBetSlipConfirmation || showBetSlipWaiting || showBetSlipError,
   };
 }
 
@@ -133,7 +162,8 @@ const mapDispatchToProps = (dispatch) => {
     deleteBets: QuickBetDrawerActions.deleteBets,
     updateBet: QuickBetDrawerActions.updateBet,
     clickPlaceBet: QuickBetDrawerActions.clickPlaceBet,
-    hideBetSlipConfirmation: QuickBetDrawerActions.hideBetSlipConfirmation,
+    cancelPlaceBet: QuickBetDrawerActions.cancelPlaceBet,
+    makeBets: BetActions.makeBets,
   }, dispatch);
 }
 

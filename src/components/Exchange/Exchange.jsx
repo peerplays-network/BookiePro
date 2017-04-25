@@ -60,7 +60,7 @@ class Exchange extends Component {
     const transitionName = this.props.location.pathname.split("/");
     if (transitionName.length < 3 || transitionName[2].toLowerCase() !== 'bettingmarketgroup') {
       this.props.clearQuickBetDrawer();
-      this.props.hideQuickBetBetSlipConfirmation();
+      this.props.cancelQuickBets();
     } else {
       this.props.clearMarketDrawerBetslips();
     }
@@ -170,7 +170,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     clearQuickBetDrawer: QuickBetDrawerActions.deleteAllBets,
-    hideQuickBetBetSlipConfirmation: QuickBetDrawerActions.hideBetSlipConfirmation,
+    cancelQuickBets: QuickBetDrawerActions.cancelPlaceBet,
     clearMarketDrawerBetslips: MarketDrawerActions.deleteAllUnconfirmedBets,
   }, dispatch);
 }
