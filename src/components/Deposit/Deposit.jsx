@@ -40,7 +40,7 @@ class Deposit extends PureComponent {
                 <Row type='flex' gutter={ 100 } className='row-divided'>
                   <Col span={ 12 }>
                     <p>
-                      { <Translate value = 'deposit.left_description' dangerousHTML /> }
+                      { <Translate value='deposit.left_description' dangerousHTML /> }
                     </p>
                     <div className='depositAddress pos-relative'>
                       <Input readOnly className='bookie-input' value={ this.props.depositAddress }/>
@@ -51,7 +51,7 @@ class Deposit extends PureComponent {
                   </Col>
                   <div className='vertical-divider'>{ I18n.t('deposit.or') }</div>
                   <Col span={ 12 }>
-                    <p>{ <Translate value = 'deposit.right_description' dangerousHTML /> }
+                    <p>{ <Translate value='deposit.right_description' dangerousHTML /> }
                     </p>
                     <div className='text-center'>
                       <div className='bookie-qr'><QRCode className='bookie-qr' size='165' value={ JSON.stringify(this.props.depositAddress) }/>
