@@ -37,7 +37,7 @@ class LoginActions {
    * Log the user in given account name and keys
    * This is internal action that is used for the exposed login and signup function
    */
-  static loginWithKeys(accountName, keys) {
+  static loginWithKeys(accountName, keys, password) {
     return (dispatch) => {
       return CommunicationService.getFullAccount(accountName).then((fullAccount) => {
         const account = fullAccount.get('account');
@@ -47,6 +47,8 @@ class LoginActions {
           const availableBalances = fullAccount.get('balances');
           // Save account information
           dispatch(AccountActions.setAccountAction(account));
+          // Save password
+          dispatch(AccountActions.setPassword(password));
           // Save account statistic
           dispatch(AccountActions.setStatisticsAction(accountStatistics));
           // Save account available balance
@@ -75,7 +77,7 @@ class LoginActions {
       dispatch(LoginPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
       const keys = KeyGeneratorService.generateKeys(accountName, password);
 
-      return dispatch(LoginActions.loginWithKeys(accountName, keys)).then(() => {
+      return dispatch(LoginActions.loginWithKeys(accountName, keys, password)).then(() => {
         log.debug('Login succeed.')
         // Set login status to done
         dispatch(LoginPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));

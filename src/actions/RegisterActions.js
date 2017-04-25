@@ -37,7 +37,7 @@ class RegisterActions {
       const keys = KeyGeneratorService.generateKeys(accountName, password);
       AccountService.registerThroughFaucet(1, accountName, keys).then(() => {
         // Log the user in
-        return dispatch(LoginActions.loginWithKeys(accountName, keys));
+        return dispatch(LoginActions.loginWithKeys(accountName, keys, password));
       }).then(() => {
         log.debug('Signup succeed.');
         // Set register status to done
