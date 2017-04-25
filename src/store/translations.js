@@ -89,7 +89,7 @@ export const translationsObject = {
       password_warning_1: 'If you lose your password, you will lose all of your funds!',
       password_warning_2: ' Keep your password safe!',
       password_warning_3: ' To download a text file of your password, click the save button below:',
-      cannot_recover_password_warning: 'I understand that Peerplays <span class=mediumMessageInText>cannot recover my password.</span>',
+      cannot_recover_password_warning: 'I understand that Peerplays <span class="mediumMessageInText">cannot recover my password.</span>',
       securely_saved_password_warning: 'I have securely saved my password recovery file.',
       create_account: 'Create Account',
       already_account: 'Already have an account?',
@@ -144,11 +144,11 @@ export const translationsObject = {
     deposit:{
       title: 'Make a Deposit',
       left_description: 'To deposit on your desktop computer or laptop, ' +
-      'copy and paste our address into your wallet and' +
+      '<span class="boldTextInMessage">copy and paste our address</span> into your wallet and' +
       ' complete the transaction.',
       right_description: 'To make a mobile deposit, open' +
       ' your Bitcoin wallet app on your smartphone or ' +
-      'tablet and scan the QR code.',
+      'tablet and <span class="boldTextInMessage">scan the QR code.</span>',
       copy: 'Copy',
       continue: 'Continue',
       or: 'or'
