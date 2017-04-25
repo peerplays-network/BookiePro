@@ -16,9 +16,9 @@ var isFieldInvalid = function(object, field) {
 
 var BettingModuleUtils = {
 
-  oddsPlaces:2,
-  stakePlaces:3,
-  exposurePlaces:5,
+  oddsPlaces:oddsPlaces,
+  stakePlaces:stakePlaces,
+  exposurePlaces:exposurePlaces,
 
   //TODO migrate to concurrency util
   getConcurrencySymbol: function( currency = 'BTC' ){
@@ -32,7 +32,12 @@ var BettingModuleUtils = {
   },
 
   //TODO migrate to concurrency util
-  // format to support negative bitcoin currency values
+
+
+  // return formatted string to support negative bitcoin currency values
+  // amount :  amount with BTC as backStartingIndex
+  // precision :  percision
+  // currency : 'BTC' or 'mBTC'
   getFormattedCurrency: function( amount, currency = 'BTC', precision = 0 ){
 
     const currencySymbol = this.getConcurrencySymbol(currency);
@@ -143,20 +148,20 @@ var BettingModuleUtils = {
   // Total (Matched) = ∑ Back Bet’s Stake & Lay Bet’s Liability in the Matched section, immutable.List
   getTotal: function( stakeList, liabilityList, currency = 'BTC'){
 
-    let total = 0.0;
+    let total = parseFloat(0.0);
 
     stakeList.forEach( (stake) => {
-      total = parseFloat(total) + stake;
+      total += stake;
     } )
 
     liabilityList.forEach( (liability) => {
-      total = parseFloat(total) + liability;
+      total += liability;
     } )
 
     if ( currency === 'mBTC'){
-      return parseFloat(total).toFixed(exposurePlaces - 3);
+      return total.toFixed(exposurePlaces - 3);
     } else if ( currency === 'BTC'){
-      return parseFloat(total).toFixed(exposurePlaces);
+      return total.toFixed(exposurePlaces);
     } else{
       return
     }
@@ -180,7 +185,7 @@ var BettingModuleUtils = {
   // Returns:
   //  exposure of the target betting market
   getExposure: function(bettingMarketId, bets , currency = 'BTC'){
-    let exposure = 0.00
+    let exposure = parseFloat(0)
 
     //NOTE using bet.get('stake') for stake related calculation
     bets.forEach((bet, i) => {
@@ -197,19 +202,19 @@ var BettingModuleUtils = {
         //Exposure of the selection that the bet originates from
         if ( bet.get('bet_type') === BetTypes.BACK){
           // A full back bet betslip is filled --> + Profit
-          exposure = parseFloat(exposure) + parseFloat( bet.get('profit') );
+          exposure += parseFloat( bet.get('profit') );
         } else if ( bet.get('bet_type') === BetTypes.LAY){
           // A full lay bet betslip is filled --> - Liability
-          exposure = parseFloat(exposure) - parseFloat( bet.get('liability') );
+          exposure -= parseFloat( bet.get('liability') );
         }
       } else {
         //  All other selection’s exposure
         if ( bet.get('bet_type') === BetTypes.BACK){
           // A full back bet betslip is filled --> - Stake
-          exposure = parseFloat(exposure) - parseFloat( bet.get('stake') );
+          exposure -= parseFloat( bet.get('stake') );
         } else if ( bet.get('bet_type') === BetTypes.LAY){
           // A full lay bet betslip is filled --> + Backer’s Stake
-          exposure = parseFloat(exposure) + parseFloat( bet.get('stake') );
+          exposure += parseFloat( bet.get('stake') );
         }
       }
 
