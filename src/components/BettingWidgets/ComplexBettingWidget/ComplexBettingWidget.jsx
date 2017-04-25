@@ -176,7 +176,7 @@ class ComplexBettingWidget extends Component {
   }
 
   render() {
-    
+
     const minNameWidth = 200;
     const minOfferWidth = 50;
     const minArrowWidth = 7;
@@ -196,7 +196,8 @@ class ComplexBettingWidget extends Component {
 
         const potentialExposure = BettingModuleUtils.getFormattedCurrency(
            BettingModuleUtils.getPotentialExposure(props.value.market_exposure, props.value.betslip_exposure ),
-           this.props.currencyFormat );
+           this.props.currencyFormat,
+           BettingModuleUtils.exposurePlaces );
 
         return ( props.value.betslip_exposure ?
          <div className='competitor'>

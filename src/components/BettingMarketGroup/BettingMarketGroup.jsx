@@ -120,7 +120,7 @@ const mapStateToProps = (state, ownProps) => {
     bettingMarketGroupName,
     totalMatchedBetsAmount: totalMatchedBetsAmount ? totalMatchedBetsAmount : 0,
     unconfirmedBets: marketDrawer.get('unconfirmedBets'),
-    currencyFormat: 'mBTC',//setting.get('currencyFormat'),
+    currencyFormat: setting.get('currencyFormat'),
   }
 };
 

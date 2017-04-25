@@ -4,7 +4,7 @@ const oddsPlaces = 2;
 const stakePlaces = 3; //minimum stake = 0.001 BTC
 const exposurePlaces = oddsPlaces + stakePlaces;
 const bitcoinSymbol = '\u0243';
-const mBitcoinSymbol = 'm\u0243';
+const mBitcoinSymbol = 'm' + bitcoinSymbol;
 
 var isFieldInvalid = function(object, field) {
   if (!object.has(field)) return true;
@@ -15,6 +15,10 @@ var isFieldInvalid = function(object, field) {
 }
 
 var BettingModuleUtils = {
+
+  oddsPlaces:2,
+  stakePlaces:3,
+  exposurePlaces:5,
 
   //TODO migrate to concurrency util
   getConcurrencySymbol: function( currency = 'BTC' ){
@@ -28,15 +32,20 @@ var BettingModuleUtils = {
   },
 
   //TODO migrate to concurrency util
-  getFormattedCurrency: function( amount, currency = 'BTC' ){
+  // format to support negative bitcoin currency values
+  getFormattedCurrency: function( amount, currency = 'BTC', precision = 0 ){
 
     const currencySymbol = this.getConcurrencySymbol(currency);
 
     if (currency === 'mBTC'){
+      let mPrecision = precision -3;
+      if ( mPrecision < 0 ){
+        mPrecision = 0;
+      }
       if( amount >= 0 ){
-        return currencySymbol + 1000 * amount ;
+        return currencySymbol + (1000 * amount ).toFixed(mPrecision);
       }else{
-        return '-' + currencySymbol + 1000 * amount * -1;
+        return '-' + currencySymbol + (1000 * amount * -1).toFixed(mPrecision);
       }
     } else {
       //base currency BTC in blockchain
@@ -235,7 +244,7 @@ var BettingModuleUtils = {
     let backBookPercent = 0.0;
 
     bestOfferList.forEach( (offer) => {
-      backBookPercent = parseFloat(backBookPercent) + parseFloat( (100 / offer.get('odds')) );
+      backBookPercent += ( (100 / offer.get('odds')) );
     } )
 
     return Math.round(backBookPercent);
@@ -260,17 +269,14 @@ var BettingModuleUtils = {
     let totalProfit = 0.0;
 
     stakeList.forEach( (stake) => {
-      totalStake = parseFloat(totalStake) + stake;
+      totalStake += stake;
     } )
 
     profitList.forEach( (profit) => {
-      totalProfit = parseFloat(totalProfit) + profit;
+      totalProfit += profit;
     } )
 
-    const floatTotalProfit = parseFloat(totalProfit);
-    const floatTotalStake = parseFloat(totalStake);
-
-    return  ( ( floatTotalProfit + floatTotalStake ) / floatTotalStake ).toFixed(oddsPlaces);
+    return  ( ( totalProfit + totalStake ) / totalStake ).toFixed(oddsPlaces);
   }
 
 }
