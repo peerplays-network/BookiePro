@@ -61,23 +61,27 @@ class MarketDrawer extends Component {
       <div id='market-drawer'>
         <Tabs defaultActiveKey='1' type='card'>
           <TabPane tab='BETSLIP' key='1'>
-            <SplitPane
-              split='horizontal'
-              minSize={ 40 }
-              defaultSize={ 40 }
-              primary='second'
-              pane1Style={ { 'overflowY': 'hidden' } }
-            >
-              { renderUnconfirmedBets(this.props) }
-              {
-                !this.props.unconfirmedBets.isEmpty() &&
-                <div className='footer'>
-                  <Button className='place-bet'>
-                    { I18n.t('market_drawer.unconfirmed_bets.content.place_bet_button', { amount : 0.295}) }
-                  </Button>
-                </div>
-              }
-            </SplitPane>
+            <div className='betslip'>
+              <SplitPane
+                split='horizontal'
+                minSize={ 40 }
+                defaultSize={ 40 }
+                primary='second'
+                allowResize={ false }
+                pane1Style={ { 'overflowY': 'hidden' } }
+              >
+                { renderUnconfirmedBets(this.props) }
+                {
+                  !this.props.unconfirmedBets.isEmpty() &&
+                  <div className='footer'>
+                    <Button className='place-bet'>
+                      { I18n.t('market_drawer.unconfirmed_bets.content.place_bet_button', { amount : 0.295}) }
+                    </Button>
+                  </div>
+                }
+              </SplitPane>
+            </div>
+
           </TabPane>
           <TabPane tab='PLACED BETS' key='2'>
             { renderPlacedBets(this.props) }
