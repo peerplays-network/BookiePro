@@ -168,6 +168,7 @@ export const translationsObject = {
       terms: 'Terms & Conditions'
     },
     mybets:{
+      screenName: 'myBets_',
       //Days of week - first three characters
       today: 'Today',
       tomorrow: 'Tomorrow',

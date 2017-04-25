@@ -87,6 +87,26 @@ class BetPrivateActions {
     }
   }
 
+  static setGetResolvedBetsExportLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.BET_SET_GET_RESOLVED_BETS_EXPORT_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
+  static setGetResolvedBetsExportErrorAction(error) {
+    return {
+      type: ActionTypes.BET_SET_GET_RESOLVED_BETS_EXPORT_ERROR,
+      error
+    }
+  }
+
+  static clearResolvedBetsExportAction() {
+    return {
+      type: ActionTypes.BET_CLEAR_RESOLVED_BETS_EXPORT
+    }
+  }
+
 }
 
 /**
@@ -113,6 +133,23 @@ class BetActions {
       type: ActionTypes.BET_ADD_OR_UPDATE_RESOLVED_BETS,
       resolvedBets
     }
+  }
+
+  static addOrUpdateResolvedBetsExportAction(resolvedBetsExport) {
+    return {
+      type: ActionTypes.BET_ADD_OR_UPDATE_RESOLVED_BETS_EXPORT,
+      resolvedBetsExport
+    }
+  }
+
+  //Reset Resolved bets export status to default when the export is cancelled
+  static resetResolvedBetsExportLoadingStatus(){
+    return BetPrivateActions.setGetResolvedBetsExportLoadingStatusAction(LoadingStatus.DEFAULT);
+  }
+
+  //Clear Resolved Bets export data after download to clean up memory
+  static clearResolvedBetsExport(){
+    return BetPrivateActions.clearResolvedBetsExportAction();
   }
 
   /**
@@ -207,6 +244,58 @@ class BetActions {
         // Set error
         dispatch(BetActions.setGetResolvedBetsErrorAction(error));
       });
+    };
+  }
+
+  /**
+   * Get resolved bets to export
+   */
+  static getResolvedBetsToExport(startTime, stopTime) {
+    return (dispatch, getState) => {
+      // const accountId = getState().getIn(['account', 'account', 'id']);
+      //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
+      const accountId = '1.2.48';
+
+      dispatch(BetPrivateActions.setGetResolvedBetsExportLoadingStatusAction(LoadingStatus.LOADING));
+      //Included a 3 second timeout now, just to test the various states of export
+      setTimeout(function(){
+        // TODO: Replace with actual blockchain call
+        let retrievedResolvedBets = [];
+        CommunicationService.getResolvedBets(accountId, startTime, stopTime).then((resolvedBets) => {
+          if(getState().getIn(['bet', 'getResolvedBetsExportLoadingStatus'])===LoadingStatus.DEFAULT)
+            return;
+          retrievedResolvedBets = resolvedBets;
+          // Get betting market ids
+          let bettingMarketIds = resolvedBets.map(bet => bet.get('betting_market_id')).toSet();
+          // Get betting market object
+          return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds));
+        }).then((bettingMarkets) => {
+          // Get unique betting market group ids
+          let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
+          // Get the betting market groups
+          return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
+        }).then((bettingMarketGroups) => {
+          // Get unique event ids
+          let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet();
+          // Get the betting market groups
+          return dispatch(EventActions.getEventsByIds(eventIds));
+        }).then((events) => {
+          // Get unique sport ids
+          let sportIds = events.map(event => event.get('sport_id')).toSet();
+          // Get the betting market groups
+          return dispatch(SportActions.getSportsByIds(sportIds));
+        }).then((sports) => {
+          // Add to redux store
+          dispatch(BetActions.addOrUpdateResolvedBetsExportAction(retrievedResolvedBets));
+          // Set Resolved Bets Export Loadings tatus
+          dispatch(BetPrivateActions.setGetResolvedBetsExportLoadingStatusAction(LoadingStatus.DONE));
+          log.debug('Get resolved bets export succeed.');
+        }).catch((error) => {
+          log.error('Fail to get resolved bets export', error);
+          // Set error
+          dispatch(BetActions.setGetResolvedBetsExportErrorAction(error));
+        });
+      }, 3000);
     };
   }
 

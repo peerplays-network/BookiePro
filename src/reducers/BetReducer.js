@@ -8,6 +8,8 @@ let initialState = Immutable.fromJS({
   getOngoingBetsError: null,
   getResolvedBetsLoadingStatus: LoadingStatus.DEFAULT,
   getResolvedBetsError: null,
+  getResolvedBetsExportLoadingStatus: LoadingStatus.DEFAULT,
+  getResolvedBetsExportError: null,
   makeBetsLoadingStatus: LoadingStatus.DEFAULT,
   makeBetsError: null,
   editBetsByIdsLoadingStatus: {},
@@ -16,7 +18,8 @@ let initialState = Immutable.fromJS({
   cancelBetsErrorByBetId: {},
   unmatchedBetsById: {},
   matchedBetsById: {},
-  resolvedBetsById: {}
+  resolvedBetsById: {},
+  resolvedBetsExportById: {}
 });
 
 export default function (state = initialState, action) {
@@ -124,6 +127,29 @@ export default function (state = initialState, action) {
         resolvedBetsById = resolvedBetsById.set(bet.get('id'), bet);
       });
       return state.mergeIn(['resolvedBetsById'], resolvedBetsById);
+    }
+    case ActionTypes.BET_SET_GET_RESOLVED_BETS_EXPORT_LOADING_STATUS: {
+      return state.merge({
+        getResolvedBetsExportLoadingStatus: action.loadingStatus
+      });
+    }
+    case ActionTypes.BET_SET_GET_RESOLVED_BETS_EXPORT_ERROR: {
+      return state.merge({
+        getResolvedBetsExportError: action.error,
+        getResolvedBetsExportLoadingStatus: LoadingStatus.ERROR
+      });
+    }
+    case ActionTypes.BET_ADD_OR_UPDATE_RESOLVED_BETS_EXPORT: {
+      let resolvedBetsExportById = Immutable.Map();
+      action.resolvedBetsExport.forEach((bet) => {
+        resolvedBetsExportById = resolvedBetsExportById.set(bet.get('id'), bet);
+      });
+      return state.mergeIn(['resolvedBetsExportById'], resolvedBetsExportById);
+    }
+    case ActionTypes.BET_CLEAR_RESOLVED_BETS_EXPORT: {
+      return state.merge({
+        resolvedBetsExportById: {}
+      });
     }
     case ActionTypes.ACCOUNT_LOGOUT: {
       return initialState;

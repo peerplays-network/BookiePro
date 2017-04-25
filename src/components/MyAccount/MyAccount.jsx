@@ -406,6 +406,7 @@ class MyAccount extends PureComponent {
           <Col span={ 8 }>
             <Withdraw cardClass='bookie-card'
               currencyFormat={ this.props.currencyFormat }
+              precision={ this.props.precision }
               availableBalance={ this.props.availableBalance }
               onSubmit={ this.handleWithdrawSubmit }
               withdrawLoadingStatus={ this.props.withdrawLoadingStatus }
@@ -497,6 +498,7 @@ const mapStateToProps = (state) => {
     timezone: setting.get('timezone'),
     notification: setting.get('notification'),
     currencyFormat: setting.get('currencyFormat'),
+    precision: state.getIn(['asset', 'assetsById', '1.3.0']).get('precision'),
     transactionHistory: transactionHistoryData,
     transactionHistoryLoadingStatus: account.get('getTransactionHistoryLoadingStatus'),
     transactionHistoryExport: transactionHistoryExportData,
