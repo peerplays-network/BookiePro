@@ -218,7 +218,12 @@ var BettingModuleUtils = {
 
   },
 
-  //   Book Percentage (Pending Change Request)
+  getPotentialExposure: function( marketExposure, betslipExposure){
+    return (parseFloat(marketExposure) + parseFloat(betslipExposure)).toFixed(exposurePlaces);
+  },
+
+  //  =========== Book Percentage  ===========
+
   // Back Book Percentage: (100% / Best Back Odds of Selection 1) + … + (100% / Best Back Odds of Selection n)
   // Lay Book Percentage: (100% / Best Lay Odds of Selection 1) + … + (100% / Best Lay Odds of Selection n)
 
