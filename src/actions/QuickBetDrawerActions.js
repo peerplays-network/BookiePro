@@ -36,6 +36,24 @@ class QuickBetDrawerPrivateActions {
       type: ActionTypes.QUICK_BET_DRAWER_DELETE_ALL_BETS,
     }
   }
+
+  static showBetSlipConfirmation() {
+    return {
+      type: ActionTypes.QUICK_BET_DRAWER_SHOW_BETSLIP_CONFIRMATION,
+    }
+  }
+
+  static hideBetSlipConfirmation() {
+    return {
+      type: ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_CONFIRMATION,
+    }
+  }
+
+  static hideBetSlipError() {
+    return {
+      type: ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_ERROR,
+    }
+  }
 }
 
 class QuickBetDrawerActions {
@@ -75,6 +93,19 @@ class QuickBetDrawerActions {
   static deleteAllBets() {
     return (dispatch) => {
       dispatch(QuickBetDrawerPrivateActions.deleteAllBets());
+    }
+  }
+
+  static clickPlaceBet() {
+    return (dispatch) => {
+      dispatch(QuickBetDrawerPrivateActions.showBetSlipConfirmation());
+    }
+  }
+
+  static cancelPlaceBet() {
+    return (dispatch) => {
+      dispatch(QuickBetDrawerPrivateActions.hideBetSlipConfirmation());
+      dispatch(QuickBetDrawerPrivateActions.hideBetSlipError());
     }
   }
 }

@@ -20,12 +20,15 @@
     position: relative;
     height: 100%;
 
-    > div.blank {
+    > div.empty {
       width: 80%;
       height: 100%;
       margin: auto;
       text-align: center;
-      margin-top: 20%;
+
+      > div.instructions {
+        margin-top: 20%;
+      }
 
       > div.my-bet-button {
         margin-top: 20%;
@@ -37,15 +40,53 @@
     }
   }
 
+  div.overlay {
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    z-index: 1000;
+
+    > div.instructions {
+      margin-top: 40%;
+    }
+
+    > div.buttons {
+      margin-top: 20px;
+
+      > button:nth-of-type(2) {
+        margin-left: 50px;
+      }
+    }
+  }
+
+  div.waiting {
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    z-index: 1000;
+
+    > div.instructions {
+      margin-top: 50%;
+    }
+  }
+
   div.footer {
     background-color: @quick-bet-drawer-title-bg;
     width: @quick-bet-drawer-width;
     padding: 5px;
 
+    &.dimmed {
+      opacity: .1;
+    }
+
     > button.place-bet {
         background-color: #37C1FF;
         color: white;
         width: 100%;
-      }
+    }
   }
 }

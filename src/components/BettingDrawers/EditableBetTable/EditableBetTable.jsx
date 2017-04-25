@@ -138,7 +138,7 @@ const EditableBetTable = (props) => {
   const layBets = data.hasIn(['unconfirmedBets', 'lay']) ?
                     data.getIn(['unconfirmedBets', 'lay']) : Immutable.List();
   return (
-    <div className='editable-bet-table-wrapper'>
+    <div className={ `editable-bet-table-wrapper ${props.dimmed ? 'dimmed' : '' }` }>
       <div className='header'>
         <span className='title'>{ data.get('event_name') }</span>
         <span className='icon'>
