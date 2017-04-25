@@ -25,7 +25,36 @@ var BettingModuleUtils = {
       return
     }
   },
+
+  //  =========== Bet Calculations ===========
+
   //Appendix I – Summary of Formulas
+  // Stake = Profit / (Odds – 1)
+  // Backer's Stake = Liability / (Odds – 1)
+  getStake: function(odds, profit, currency = 'BTC') {
+    const floatProfit = parseFloat(profit);
+    const floatOdds = parseFloat(odds);
+
+    //check invalid input
+    if (isNaN(floatProfit) || isNaN(floatOdds) ) {
+      return;
+    }
+    if ( floatOdds.toFixed(oddsPlaces) < 1.01 ){
+      return;
+    }
+
+    // Numbers, format depending on
+    // Settings – Bitcoin unit (BTC: 5 decimal
+    //   places, mBTC: 2 decimal places)
+    if ( currency === 'mBTC'){
+      return ( ( floatProfit / ( floatOdds - 1 ) ) * 1000).toFixed(stakePlaces - 3);
+    } else if ( currency === 'BTC'){
+      return ( floatProfit / ( floatOdds - 1 ) ).toFixed(stakePlaces);
+    } else{
+      return
+    }
+
+  },
 
   // Profit = Stake * (Odds – 1)
   // Liability = Backer's Stake * (Odds – 1)
@@ -53,9 +82,56 @@ var BettingModuleUtils = {
     }
   },
 
+  //Payout = Backer’s Stake * Odds
+  getPayout: function(stake, odds, currency = 'BTC') {
+    const floatStake = parseFloat(stake);
+    const floatOdds = parseFloat(odds);
 
-  // Exposure
-  //
+    //check invalid input
+    if (isNaN(floatStake) || isNaN(floatOdds) ) {
+      return;
+    }
+    if ( floatOdds.toFixed(oddsPlaces) < 1.01 ){
+      return;
+    }
+
+    if ( currency === 'mBTC'){
+      return ( ( floatStake * floatOdds ) * 1000).toFixed(exposurePlaces - 3);
+    } else if ( currency === 'BTC'){
+      return ( ( floatStake * floatOdds ) ).toFixed(exposurePlaces);
+    } else{
+      return
+    }
+  },
+
+  //  =========== Betting Drawer ===========
+
+  // Total (Betslip) = ∑ Back Bet’s Stake & Lay Bet’s Liability in the Betslip section
+  // Total (Unmatched) = ∑ Back Bet’s Stake & Lay Bet’s Liability in the Unmatched sectionimmutable.List
+  // Total (Matched) = ∑ Back Bet’s Stake & Lay Bet’s Liability in the Matched section, immutable.List
+  getTotal: function( stakeList, liabilityList, currency = 'BTC'){
+
+    let total = 0.0;
+
+    stakeList.forEach( (stake) => {
+      total = parseFloat(total) + stake;
+    } )
+
+    liabilityList.forEach( (liability) => {
+      total = parseFloat(total) + liability;
+    } )
+
+    if ( currency === 'mBTC'){
+      return parseFloat(total).toFixed(exposurePlaces - 3);
+    } else if ( currency === 'BTC'){
+      return parseFloat(total).toFixed(exposurePlaces);
+    } else{
+      return
+    }
+  },
+
+  //  =========== Exposure ===========
+
   // Matched Exposure (Pending Change Request)
   // Case    Exposure of the selection that the bet originates from    All other selection’s exposure
   // A back bet is matched    + Profit    - Stake
@@ -136,20 +212,39 @@ var BettingModuleUtils = {
 
     return Math.round(backBookPercent);
   },
-  //   Matched Back Bets (Pending Change Request)
+
+  //  =========== Average Odds ===========
+
   //
   // Grouped Profit = ∑ Profit
   // Grouped Stake = ∑ Stake
   // Average Odds (round to 2 decimal places) = (∑ Stake + ∑ Profit) / ∑ Stake
+  // Average Odds (round to 2 decimal places) = (∑ Backer’s Stake + ∑ Liability) / ∑ Backer’s Stake
 
   // Parameters:
   // BestBackOddsPerMarket  Immutable.List : the best grouped back odds of each selection
   // bet matchedBetsById
   //     matchedBetsById = matchedBetsById.set(bet.get('id'), bet);
-  getAverageOddsFromMatchedBets: function(){
 
+  getAverageOddsFromMatchedBets: function( stakeList, profitList){
+
+    let totalStake = 0.0;
+    let totalProfit = 0.0;
+
+    stakeList.forEach( (stake) => {
+      totalStake = parseFloat(totalStake) + stake;
+    } )
+
+    profitList.forEach( (profit) => {
+      totalProfit = parseFloat(totalProfit) + profit;
+    } )
+
+    const floatTotalProfit = parseFloat(totalProfit);
+    const floatTotalStake = parseFloat(totalStake);
+
+    return  ( ( floatTotalProfit + floatTotalStake ) / floatTotalStake ).toFixed(oddsPlaces);
   }
-  
+
 }
 
 export default BettingModuleUtils;
