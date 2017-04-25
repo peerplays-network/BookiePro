@@ -4,8 +4,8 @@
 @complex-betting-lay-bg: #008487;
 @complex-betting-label: #FFFFFF;
 .rt-table > .-header{
-  padding: 0px;
-  height: 0px;
+  padding: 0;
+  height: 0;
 }
 div.complex-betting {
   // Using fade (from LESS) can set opacity to background only
@@ -109,6 +109,12 @@ div.complex-betting {
       }
     }
   }
+  .increased-value{
+    color: #02CB43;
+  }
+  .decreased-value{
+    color: #FF7788;
+  }
 }
 .complex-betting{
   background-color: rgba(6, 92, 183, 0.35);
@@ -131,8 +137,8 @@ div.complex-betting {
     float: right;
     display: inline-block;
     font-weight:500;
-    span{
-      margin-right:10px;
+    span:first-child{
+      margin-right:15px;
     }
     i{
       font-size:18px;
@@ -147,6 +153,10 @@ div.complex-betting {
         color: #FFFFFF;
         border-radius:0;
         font-size:14px;
+      }
+      // overriding ant design default styling for left spacing  as per mockup
+      .ant-btn > .anticon + span, .ant-btn > span + .anticon{
+        margin-left:10px;
       }
     }
   }
@@ -171,7 +181,12 @@ div.complex-betting {
       .exposure {
         font-size: 12px;
         text-align: left;
-        padding-bottom:3px;
+        span{
+          margin-left:4px;
+          &:first-child{
+            margin-left:0;
+          }
+        }
       }
 
       .odds-offer {
@@ -211,7 +226,7 @@ div.complex-betting {
         width:100%;
       }
       &:first-child{
-        padding:3px 10px;
+        padding:0 10px;
       }
       &.lay-left{
         padding-left:5px;

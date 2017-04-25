@@ -5,10 +5,11 @@ import { MarketDrawerActions } from '../../../actions';
 import { BettingModuleUtils } from '../../../utility';
 import { BetTypes } from '../../../constants';
 import ReactTable from 'react-table'
-import { Icon } from 'antd'
 import 'react-table/react-table.css'
 import Immutable from 'immutable';
-import { I18n } from 'react-redux-i18n';
+import { Icon } from 'antd';
+import RulesModal from '../../Modal/RulesModal'
+import { I18n, Translate } from 'react-redux-i18n';
 
 const floatPlaces = 2;
 const itemDisplay = 3;
@@ -186,7 +187,6 @@ class ComplexBettingWidget extends Component {
     const classNameBack = BetTypes.BACK;
     // to match the lay bet-type in placebet action dispatch
     const classNameLay = BetTypes.LAY;
-
     const columns = [{
       header: props => null,
       minWidth: minNameWidth,
@@ -194,7 +194,19 @@ class ComplexBettingWidget extends Component {
       render: props => props.value.betslip_exposure ?
        <div className='compeitor'>
          <div className='name'>{props.value.name}</div>
-         <div className='exposure'> {props.value.market_exposure} >> { parseFloat(props.value.betslip_exposure) + parseFloat(props.value.market_exposure) } </div>
+         <div className='exposure'>
+           {
+             (props.value.market_exposure) >= 0 ?
+                <span className='increased-value'>{props.value.market_exposure} </span> :
+                <span className='decreased-value'> {props.value.market_exposure}  </span>
+           }
+           <Icon type='caret-right'></Icon>
+           {
+             (parseFloat(props.value.betslip_exposure) + parseFloat(props.value.market_exposure)) >= 0 ?
+               <span className='increased-value'>{parseFloat(props.value.betslip_exposure) + parseFloat(props.value.market_exposure)} </span> :
+               <span className='decreased-value'>{parseFloat(props.value.betslip_exposure) + parseFloat(props.value.market_exposure) } </span>
+           }
+         </div>
        </div> :
        <div className='compeitor'>
          <div className='name'>{props.value.name}</div>
@@ -327,10 +339,10 @@ class ComplexBettingWidget extends Component {
           <div className='name'> { this.props.bettingMarketGroupName } </div>
           <div className='rules'>
             <span>{I18n.t('complex_betting_widget.matched')}: <i className='icon-bitcoin'></i> 4.65</span>
-            {/* TODO: Rules dialogue will do after
-             homepage_changes branch will merge to
-              develop */}
-            <Icon type='info-circle-o' /> Rules
+            {/* Rules Dialogue box */}
+            <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
+              <Translate value='rules_dialogue.content' dangerousHTML/>
+            </RulesModal>
           </div>
         </div>
         {
