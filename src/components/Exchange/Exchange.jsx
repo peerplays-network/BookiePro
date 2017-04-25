@@ -59,7 +59,10 @@ class Exchange extends Component {
   handleLeave(){
     const transitionName = this.props.location.pathname.split("/");
     if (transitionName.length < 3 || transitionName[2].toLowerCase() !== 'bettingmarketgroup') {
+      // This will remove all bet slips
       this.props.clearQuickBetDrawer();
+      // This has the same effect of clicking any cancel button
+      // in order to hide any overlay on the betting drawer
       this.props.cancelQuickBets();
     } else {
       this.props.clearMarketDrawerBetslips();
@@ -79,6 +82,9 @@ class Exchange extends Component {
       this.setModalVisible(true);
       return false;
     } else {
+      // DO NOT remove
+      // We still need to gracefully "leave" the page and reset the drawer
+      this.handleLeave();
       return true;
     }
 

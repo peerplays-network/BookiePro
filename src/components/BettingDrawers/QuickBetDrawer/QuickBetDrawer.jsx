@@ -15,7 +15,12 @@ const renderContent = (props) => (
     { props.bets.isEmpty() &&
       <div className='blank'>
         <div className='instructions'>
-          <Translate value='quick_bet_drawer.unconfirmed_bets.empty.instructions' dangerousHTML/>
+          {  props.showBetSlipSuccess &&
+             'Your bets have been successfully placed.'
+          }
+          { !props.showBetSlipSuccess &&
+            <Translate value='quick_bet_drawer.unconfirmed_bets.empty.instructions' dangerousHTML/>
+          }
         </div>
         <div className='my-bet-button'>
           <Button onClick={ () => props.navigateTo('/my-wager/') }>
@@ -51,6 +56,7 @@ class QuickBetDrawer extends Component {
   }
 
   render() {
+    const emptyMessage = 'The transaction fee of this bet is 0.0051.<br/>Are you sure you want to place this bet?';
     return (
       <div id='quick-bet-drawer' ref='drawer'>
         <SplitPane split='horizontal' defaultSize='40px' allowResize={ false }>
@@ -145,12 +151,14 @@ const mapStateToProps = (state) => {
   const showBetSlipConfirmation = state.getIn(['quickBetDrawer', 'showBetSlipConfirmation']);
   const showBetSlipWaiting = state.getIn(['quickBetDrawer', 'showBetSlipWaiting']);
   const showBetSlipError = state.getIn(['quickBetDrawer', 'showBetSlipError']);
+  const showBetSlipSuccess = state.getIn(['quickBetDrawer', 'showBetSlipSuccess']);
   return {
     originalBets,
     bets: page,
     showBetSlipConfirmation,
     showBetSlipWaiting,
     showBetSlipError,
+    showBetSlipSuccess,
     obscureContent: showBetSlipConfirmation || showBetSlipWaiting || showBetSlipError,
   };
 }

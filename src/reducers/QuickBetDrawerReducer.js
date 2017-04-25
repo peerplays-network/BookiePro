@@ -7,6 +7,7 @@ let initialState = Immutable.fromJS({
   showBetSlipConfirmation: false,
   showBetSlipWaiting: false,
   showBetSlipError: false,
+  showBetSlipSuccess: false,
 });
 
 export default function(state = initialState, action) {
@@ -35,17 +36,20 @@ export default function(state = initialState, action) {
     }
     case ActionTypes.QUICK_BET_DRAWER_DELETE_ONE_BET: {
       return state.merge({
-        bets: oldBets.filterNot(b => b.get('id') === action.betId)
+        bets: oldBets.filterNot(b => b.get('id') === action.betId),
+        showBetSlipSuccess: false,
       });
     }
     case ActionTypes.QUICK_BET_DRAWER_DELETE_MANY_BETS: {
       return state.merge({
-        bets: oldBets.filterNot(b => action.listOfBetIds.includes(b.get('id')))
+        bets: oldBets.filterNot(b => action.listOfBetIds.includes(b.get('id'))),
+        showBetSlipSuccess: false,
       });
     }
     case ActionTypes.QUICK_BET_DRAWER_DELETE_ALL_BETS: {
       return state.merge({
-        bets: Immutable.List()
+        bets: Immutable.List(),
+        showBetSlipSuccess: false,
       });
     }
     case ActionTypes.QUICK_BET_DRAWER_UPDATE_ONE_BET: {
@@ -81,14 +85,16 @@ export default function(state = initialState, action) {
         bets: action.loadingStatus === LoadingStatus.DONE ? Immutable.List() : oldBets,
         showBetSlipWaiting: action.loadingStatus === LoadingStatus.LOADING,
         showBetSlipError: false,
-        showBetSlipConfirmation: false
+        showBetSlipConfirmation: false,
+        showBetSlipSuccess: action.loadingStatus === LoadingStatus.DONE,
       })
     }
     case ActionTypes.BET_SET_MAKE_BETS_ERROR: {
       return state.merge({
         showBetSlipWaiting: false,
         showBetSlipError: true,
-        showBetSlipConfirmation: false
+        showBetSlipConfirmation: false,
+        showBetSlipSuccess: false,
       })
     }
     default:
