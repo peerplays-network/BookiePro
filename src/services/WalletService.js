@@ -8,7 +8,8 @@ class WalletService {
   static processFakeTransaction(state, transactionObject) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve();
+        //resolve();
+        reject(new Error('failed'));
       }, 500);
     })
   }

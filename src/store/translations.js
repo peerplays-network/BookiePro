@@ -223,6 +223,9 @@ export const translationsObject = {
           cancel_button: 'CANCEL',
           try_again_button: 'TRY AGAIN',
         },
+        success: {
+          instructions: 'Your bets have been successfully placed.',
+        },
         content: {
           place_bet_button: 'PLACE BET \u0243%{amount}'
         }

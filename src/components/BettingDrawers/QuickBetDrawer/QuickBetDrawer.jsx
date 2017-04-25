@@ -13,10 +13,10 @@ import EditableBetTable from '../EditableBetTable';
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
     { props.bets.isEmpty() &&
-      <div className='blank'>
+      <div className='empty'>
         <div className='instructions'>
           {  props.showBetSlipSuccess &&
-             'Your bets have been successfully placed.'
+             I18n.t('quick_bet_drawer.unconfirmed_bets.success.instructions')
           }
           { !props.showBetSlipSuccess &&
             <Translate value='quick_bet_drawer.unconfirmed_bets.empty.instructions' dangerousHTML/>
