@@ -3,6 +3,8 @@ import { BetTypes } from '../constants';
 const oddsPlaces = 2;
 const stakePlaces = 3; //minimum stake = 0.001 BTC
 const exposurePlaces = oddsPlaces + stakePlaces;
+const bitcoinSymbol = '\u0243';
+const mBitcoinSymbol = 'm\u0243';
 
 var isFieldInvalid = function(object, field) {
   if (!object.has(field)) return true;
@@ -14,11 +16,20 @@ var isFieldInvalid = function(object, field) {
 
 var BettingModuleUtils = {
 
+  getConcurrencySymbol: function( currency = 'BTC' ){
+    if ( currency === 'mBTC'){
+      return mBitcoinSymbol;
+    } else if ( currency === 'BTC'){
+      return bitcoinSymbol;
+    } else{
+      return
+    }
+  },
   //Appendix I – Summary of Formulas
 
   // Profit = Stake * (Odds – 1)
   // Liability = Backer's Stake * (Odds – 1)
-  getProfitOrLiability: function(stake, odds) {
+  getProfitOrLiability: function(stake, odds, currency = 'BTC') {
     const floatStake = parseFloat(stake);
     const floatOdds = parseFloat(odds);
 
@@ -29,7 +40,17 @@ var BettingModuleUtils = {
     if ( floatOdds.toFixed(oddsPlaces) < 1.01 ){
       return;
     }
-    return  ( floatStake * ( floatOdds - 1 ) ).toFixed(exposurePlaces)
+
+    // Numbers, format depending on
+    // Settings – Bitcoin unit (BTC: 5 decimal
+    //   places, mBTC: 2 decimal places)
+    if ( currency === 'mBTC'){
+      return ( ( floatStake * ( floatOdds - 1 ) ) * 1000).toFixed(exposurePlaces - 3);
+    } else if ( currency === 'BTC'){
+      return ( floatStake * ( floatOdds - 1 ) ).toFixed(exposurePlaces);
+    } else{
+      return
+    }
   },
 
 
@@ -50,7 +71,7 @@ var BettingModuleUtils = {
   //  unconfirmedBets, Immutable.List : marketDrawer.unconfirmedBets stored in redux
   // Returns:
   //  exposure of the target betting market
-  getExposure: function(bettingMarketId, bets ){
+  getExposure: function(bettingMarketId, bets , currency = 'BTC'){
     let exposure = 0.00
 
     //NOTE using bet.get('stake') for stake related calculation
@@ -85,8 +106,16 @@ var BettingModuleUtils = {
       }
 
     });
-
-    return exposure.toFixed(exposurePlaces);
+    // Numbers, format depending on
+        // Settings – Bitcoin unit (BTC: 5 decimal
+        //   places, mBTC: 2 decimal places)
+    if ( currency === 'mBTC'){
+      return (exposure * 1000).toFixed(exposurePlaces - 3);
+    } else if ( currency === 'BTC'){
+      return exposure.toFixed(exposurePlaces);
+    } else {
+      return
+    }
 
   },
 
@@ -106,7 +135,21 @@ var BettingModuleUtils = {
     } )
 
     return Math.round(backBookPercent);
+  },
+  //   Matched Back Bets (Pending Change Request)
+  //
+  // Grouped Profit = ∑ Profit
+  // Grouped Stake = ∑ Stake
+  // Average Odds (round to 2 decimal places) = (∑ Stake + ∑ Profit) / ∑ Stake
+
+  // Parameters:
+  // BestBackOddsPerMarket  Immutable.List : the best grouped back odds of each selection
+  // bet matchedBetsById
+  //     matchedBetsById = matchedBetsById.set(bet.get('id'), bet);
+  getAverageOddsFromMatchedBets: function(){
+
   }
+  
 }
 
 export default BettingModuleUtils;
