@@ -216,12 +216,12 @@ export const translationsObject = {
         confirmation: {
           instructions: 'The transaction fee of this bet is \u0243%{amount}.<br/>Are you sure you want to place this bet?',
           cancel_button: 'CANCEL',
-          confirm_bet_button: 'CONFIRM BET',
+          confirm_button: 'CONFIRM BET',
         },
         error: {
           instructions: 'Sorry, we are unable to proceed<br/>with your request. Please try again!',
           cancel_button: 'CANCEL',
-          try_again_button: 'TRY AGAIN',
+          confirm_button: 'TRY AGAIN',
         },
         success: {
           instructions: 'Your bets have been successfully placed.',

@@ -10,6 +10,22 @@ import { Button } from 'antd';
 import { bindActionCreators } from 'redux';
 import EditableBetTable from '../EditableBetTable';
 
+const renderOverlay = (props, className, transactionFee=0) => (
+  <div className='overlay'>
+    <div className='instructions'>
+      <Translate value={ `quick_bet_drawer.unconfirmed_bets.${ className }.instructions` } amount={ transactionFee } dangerousHTML/>
+    </div>
+    <div className='buttons'>
+      <Button onClick={ props.cancelPlaceBet }>
+        { I18n.t(`quick_bet_drawer.unconfirmed_bets.${ className }.cancel_button`) }
+      </Button>
+      <Button onClick={ () => props.makeBets(props.originalBets) }>
+        { I18n.t(`quick_bet_drawer.unconfirmed_bets.${ className }.confirm_button`) }
+      </Button>
+    </div>
+  </div>
+)
+
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
     { props.bets.isEmpty() &&
@@ -56,7 +72,6 @@ class QuickBetDrawer extends Component {
   }
 
   render() {
-    const emptyMessage = 'The transaction fee of this bet is 0.0051.<br/>Are you sure you want to place this bet?';
     return (
       <div id='quick-bet-drawer' ref='drawer'>
         <SplitPane split='horizontal' defaultSize='40px' allowResize={ false }>
@@ -82,44 +97,14 @@ class QuickBetDrawer extends Component {
             }
           </SplitPane>
         </SplitPane>
-        {
-          this.props.showBetSlipConfirmation &&
-          <div className='confirmation'>
-            <div className='instructions'>
-              <Translate value='quick_bet_drawer.unconfirmed_bets.confirmation.instructions' amount={ 0.051 } dangerousHTML/>
-            </div>
-            <div className='confirm-buttons'>
-              <Button onClick={ this.props.cancelPlaceBet }>
-                { I18n.t('quick_bet_drawer.unconfirmed_bets.confirmation.cancel_button') }
-              </Button>
-              <Button onClick={ () => this.props.makeBets(this.props.originalBets) }>
-                { I18n.t('quick_bet_drawer.unconfirmed_bets.confirmatio.confirm_bet_button') }
-              </Button>
-            </div>
-          </div>
-        }
+        { this.props.showBetSlipConfirmation && renderOverlay(this.props, 'confirmation', 0.051) }
+        { this.props.showBetSlipError && renderOverlay(this.props, 'error') }
         { // TODO: Replace this with an approved spinning icon.
           // The waiting text is just a placeholder
           this.props.showBetSlipWaiting &&
           <div className='waiting'>
             <div className='instructions'>
               Waiting...
-            </div>
-          </div>
-        }
-        {
-          this.props.showBetSlipError &&
-          <div className='error'>
-            <div className='instructions'>
-              <Translate value='quick_bet_drawer.unconfirmed_bets.error.instructions' dangerousHTML/>
-            </div>
-            <div className='confirm-buttons'>
-              <Button onClick={ this.props.cancelPlaceBet }>
-                { I18n.t('quick_bet_drawer.unconfirmed_bets.error.cancel_button') }
-              </Button>
-              <Button onClick={ () => this.props.makeBets(this.props.originalBets) }>
-                { I18n.t('quick_bet_drawer.unconfirmed_bets.error.try_again_button') }
-              </Button>
             </div>
           </div>
         }
