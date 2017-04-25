@@ -86,16 +86,20 @@ class QuickBetDrawer extends Component {
           this.props.showBetSlipConfirmation &&
           <div className='confirmation'>
             <div className='instructions'>
-              The transaction fee of this bet is 0.0051.<br/>
-              Are you sure you want to place this bet?
+              <Translate value='quick_bet_drawer.unconfirmed_bets.confirmation.instructions' amount={ 0.051 } dangerousHTML/>
             </div>
             <div className='confirm-buttons'>
-              <Button onClick={ this.props.cancelPlaceBet }>CANCEL</Button>
-              <Button onClick={ () => this.props.makeBets(this.props.originalBets) }>CONFIRM BET</Button>
+              <Button onClick={ this.props.cancelPlaceBet }>
+                { I18n.t('quick_bet_drawer.unconfirmed_bets.confirmation.cancel_button') }
+              </Button>
+              <Button onClick={ () => this.props.makeBets(this.props.originalBets) }>
+                { I18n.t('quick_bet_drawer.unconfirmed_bets.confirmatio.confirm_bet_button') }
+              </Button>
             </div>
           </div>
         }
-        {
+        { // TODO: Replace this with an approved spinning icon.
+          // The waiting text is just a placeholder
           this.props.showBetSlipWaiting &&
           <div className='waiting'>
             <div className='instructions'>
@@ -107,12 +111,15 @@ class QuickBetDrawer extends Component {
           this.props.showBetSlipError &&
           <div className='error'>
             <div className='instructions'>
-              Sorry, we are unable to proceed<br/>
-              with your request. Please try again!
+              <Translate value='quick_bet_drawer.unconfirmed_bets.error.instructions' dangerousHTML/>
             </div>
             <div className='confirm-buttons'>
-              <Button onClick={ this.props.cancelPlaceBet }>CANCEL</Button>
-              <Button onClick={ () => this.props.makeBets(this.props.originalBets) }>TRY AGAIN</Button>
+              <Button onClick={ this.props.cancelPlaceBet }>
+                { I18n.t('quick_bet_drawer.unconfirmed_bets.error.cancel_button') }
+              </Button>
+              <Button onClick={ () => this.props.makeBets(this.props.originalBets) }>
+                { I18n.t('quick_bet_drawer.unconfirmed_bets.error.try_again_button') }
+              </Button>
             </div>
           </div>
         }
