@@ -3,6 +3,7 @@ import { BettingMarketGroupBanner } from '../Banners';
 import { ComplexBettingWidget } from '../BettingWidgets/';
 import Immutable from 'immutable';
 import _ from 'lodash';
+import { BettingModuleUtils } from '../../utility';
 import { BettingMarketGroupPageActions, MarketDrawerActions } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -81,6 +82,8 @@ const mapStateToProps = (state, ownProps) => {
   const accountId = account.getIn(['account','id']);
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting']) ;
 
+  const currencyFormat = setting.get('currencyFormat');
+
   const bettingMarketGroupId = ownProps.params.objectId;
   const bettingMarketGroupsById = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
   const binnedOrderBooksByBettingMarketId = state.getIn(['binnedOrderBook', 'binnedOrderBooksByBettingMarketId']);
@@ -108,7 +111,17 @@ const mapStateToProps = (state, ownProps) => {
 
   // Extract total Bets
   const totalMatchedBetsByMarketGroupId = state.getIn(['liquidity', 'totalMatchedBetsByBettingMarketGroupId']);
-  const totalMatchedBetsAmount = totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'amount']);
+
+  //TODO migrate to curruencyUtil in next curruency related PR
+  const totalMatchedBetsAssetId = totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'asset_id']);
+  const totalMatchedBetsAsset = state.getIn(['asset','assetsById', totalMatchedBetsAssetId])
+
+  const totalMatchedBetsAmount = BettingModuleUtils.getFormattedCurrency(
+    totalMatchedBetsAsset ?
+      totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'amount']) / Math.pow(10, totalMatchedBetsAsset.get('precision')) : 0,
+    currencyFormat,
+    totalMatchedBetsAsset ? totalMatchedBetsAsset.get('precision') : 0 );
+
 
   const marketDrawer = state.get('marketDrawer');
 
@@ -118,9 +131,9 @@ const mapStateToProps = (state, ownProps) => {
     marketData,
     eventName,
     bettingMarketGroupName,
-    totalMatchedBetsAmount: totalMatchedBetsAmount ? totalMatchedBetsAmount : 0,
+    totalMatchedBetsAmount,
     unconfirmedBets: marketDrawer.get('unconfirmedBets'),
-    currencyFormat: setting.get('currencyFormat'),
+    currencyFormat,
   }
 };
 

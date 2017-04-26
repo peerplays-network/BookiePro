@@ -1,4 +1,5 @@
 import { BetTypes } from '../constants';
+import _ from 'lodash';
 
 const oddsPlaces = 2;
 const stakePlaces = 3; //minimum stake = 0.001 BTC
@@ -21,7 +22,7 @@ var BettingModuleUtils = {
   exposurePlaces:exposurePlaces,
 
   //TODO migrate to concurrency util
-  getConcurrencySymbol: function( currency = 'BTC' ){
+  getCurruencySymbol: function( currency = 'BTC' ){
     if ( currency === 'mBTC'){
       return mBitcoinSymbol;
     } else if ( currency === 'BTC'){
@@ -35,30 +36,28 @@ var BettingModuleUtils = {
 
 
   // return formatted string to support negative bitcoin currency values
-  // amount :  amount with BTC as backStartingIndex
-  // precision :  percision
-  // currency : 'BTC' or 'mBTC'
-  getFormattedCurrency: function( amount, currency = 'BTC', precision = 0 ){
+  // amount : float,  amount with BTC as backStartingIndex
+  // precision : integer, percision
+  // currency : string, display currency, 'BTC' or 'mBTC'
+  // showSymbol : boolean
+  getFormattedCurrency: function( amount, currency = 'BTC', precision = 0, showSymbol = true){
 
-    const currencySymbol = this.getConcurrencySymbol(currency);
+    const currencySymbol = this.getCurruencySymbol(currency);
 
     if (currency === 'mBTC'){
       let mPrecision = precision -3;
       if ( mPrecision < 0 ){
         mPrecision = 0;
       }
-      if( amount >= 0 ){
-        return currencySymbol + (1000 * amount ).toFixed(mPrecision);
-      }else{
-        return '-' + currencySymbol + (1000 * amount * -1).toFixed(mPrecision);
-      }
+
+      return ( amount >= 0 ? '' : '-') + ( showSymbol ? currencySymbol : '' ) + (1000 * Math.abs(amount) ).toFixed(mPrecision);
+
+    } else if (currency === 'BTC'){
+
+      return ( amount >= 0 ? '' : '-') + ( showSymbol ? currencySymbol : '' ) + Math.abs(amount).toFixed(precision);
+
     } else {
-      //base currency BTC in blockchain
-      if( amount >= 0 ){
-        return currencySymbol + amount ;
-      }else{
-        return '-' + currencySymbol + amount * -1;
-      }
+      return
     }
 
   },
@@ -80,16 +79,7 @@ var BettingModuleUtils = {
       return;
     }
 
-    // Numbers, format depending on
-    // Settings – Bitcoin unit (BTC: 5 decimal
-    //   places, mBTC: 2 decimal places)
-    if ( currency === 'mBTC'){
-      return ( ( floatProfit / ( floatOdds - 1 ) ) * 1000).toFixed(stakePlaces - 3);
-    } else if ( currency === 'BTC'){
-      return ( floatProfit / ( floatOdds - 1 ) ).toFixed(stakePlaces);
-    } else{
-      return
-    }
+    return this.getFormattedCurrency( floatProfit / ( floatOdds - 1 ) , currency, stakePlaces, false);
 
   },
 
@@ -107,16 +97,8 @@ var BettingModuleUtils = {
       return;
     }
 
-    // Numbers, format depending on
-    // Settings – Bitcoin unit (BTC: 5 decimal
-    //   places, mBTC: 2 decimal places)
-    if ( currency === 'mBTC'){
-      return ( ( floatStake * ( floatOdds - 1 ) ) * 1000).toFixed(exposurePlaces - 3);
-    } else if ( currency === 'BTC'){
-      return ( floatStake * ( floatOdds - 1 ) ).toFixed(exposurePlaces);
-    } else{
-      return
-    }
+    return this.getFormattedCurrency( floatStake * ( floatOdds - 1 ) , currency, exposurePlaces, false);
+
   },
 
   //Payout = Backer’s Stake * Odds
@@ -132,60 +114,53 @@ var BettingModuleUtils = {
       return;
     }
 
-    if ( currency === 'mBTC'){
-      return ( ( floatStake * floatOdds ) * 1000).toFixed(exposurePlaces - 3);
-    } else if ( currency === 'BTC'){
-      return ( ( floatStake * floatOdds ) ).toFixed(exposurePlaces);
-    } else{
-      return
-    }
+    return this.getFormattedCurrency( floatStake * floatOdds , currency, exposurePlaces, false);
+
   },
 
   //  =========== Betting Drawer ===========
 
-  // Total (Betslip) = ∑ Back Bet’s Stake & Lay Bet’s Liability in the Betslip section
-  // Total (Unmatched) = ∑ Back Bet’s Stake & Lay Bet’s Liability in the Unmatched sectionimmutable.List
-  // Total (Matched) = ∑ Back Bet’s Stake & Lay Bet’s Liability in the Matched section, immutable.List
+
+  // Total (Betslip) = ∑ Back Bet’s Stake(BTC) & Lay Bet’s Liability(BTC) in the Betslip section
+  // Total (Unmatched) = ∑ Back Bet’s Stake(BTC) & Lay Bet’s Liability(BTC) in the Unmatched sectionimmutable.List
+  // Total (Matched) = ∑ Back Bet’s Stake(BTC) & Lay Bet’s Liability(BTC) in the Matched section, immutable.List
+  // NOTE assuming the param are not Immutable.List,
+  //
+  // Parameters:
+  // stakeList : stake Array
+  // liabilityList : liability Array
+  // currency : display currency
+  //
+  // Returns:
+  //  total
   getTotal: function( stakeList, liabilityList, currency = 'BTC'){
 
-    let total = parseFloat(0.0);
+    const total = 0.0 + _.sum(stakeList) + _.sum(liabilityList);
 
-    stakeList.forEach( (stake) => {
-      total += stake;
-    } )
+    return this.getFormattedCurrency( total , currency, exposurePlaces, false);
 
-    liabilityList.forEach( (liability) => {
-      total += liability;
-    } )
-
-    if ( currency === 'mBTC'){
-      return total.toFixed(exposurePlaces - 3);
-    } else if ( currency === 'BTC'){
-      return total.toFixed(exposurePlaces);
-    } else{
-      return
-    }
   },
 
   //  =========== Exposure ===========
 
   // Matched Exposure (Pending Change Request)
   // Case    Exposure of the selection that the bet originates from    All other selection’s exposure
-  // A back bet is matched    + Profit    - Stake
-  // A lay bet is matched    - Liability    + Backer’s Stake
+  // A back bet is matched    + Profit(BTC)   - Stake(BTC)
+  // A lay bet is matched    - Liability(BTC)    + Backer’s Stake(BTC)
   //
   // Betslip Exposure (Pending Change Request)
   // Case    Exposure of the selection that the bet originates from    All other selection’s exposure
-  // A full back bet betslip is filled    + Profit    - Stake
-  // A full lay bet betslip is filled    - Liability    + Backer’s Stake
+  // A full back bet betslip is filled    + Profit(BTC)   - Stake(BTC)
+  // A full lay bet betslip is filled    - Liability(BTC)   + Backer’s Stake(BTC)
   //
   // Parameters:
   //  bettingMarketId, String : id of the betting market for which expsoure calculation specified
-  //  unconfirmedBets, Immutable.List : marketDrawer.unconfirmedBets stored in redux
+  //  bets: unconfirmedBets, Immutable.List : marketDrawer.unconfirmedBets stored in redux
+
   // Returns:
   //  exposure of the target betting market
   getExposure: function(bettingMarketId, bets , currency = 'BTC'){
-    let exposure = parseFloat(0)
+    let exposure = 0.0
 
     //NOTE using bet.get('stake') for stake related calculation
     bets.forEach((bet, i) => {
@@ -219,18 +194,10 @@ var BettingModuleUtils = {
       }
 
     });
-    // Numbers, format depending on
-        // Settings – Bitcoin unit (BTC: 5 decimal
-        //   places, mBTC: 2 decimal places)
-    if ( currency === 'mBTC'){
-      return (exposure * 1000).toFixed(exposurePlaces - 3);
-    } else if ( currency === 'BTC'){
-      return exposure.toFixed(exposurePlaces);
-    } else {
-      return
-    }
 
+    return this.getFormattedCurrency( exposure , currency, exposurePlaces, false);
   },
+
 
   getPotentialExposure: function( marketExposure, betslipExposure){
     return (parseFloat(marketExposure) + parseFloat(betslipExposure)).toFixed(exposurePlaces);
@@ -242,9 +209,9 @@ var BettingModuleUtils = {
   // Lay Book Percentage: (100% / Best Lay Odds of Selection 1) + … + (100% / Best Lay Odds of Selection n)
 
   // Parameters:
-  // BestBackOddsPerMarket  Immutable.List : the best grouped back odds of each selection
+  //  bestOfferList : BestBackOddsPerMarket  Immutable.List : the best grouped back odds of each selection
   // Returns:
-  // BackBookPercentage: the back book percentage of the market
+  //  BackBookPercentage: the back book percentage of the market
   getBookPercentage: function( bestOfferList){
     let backBookPercent = 0.0;
 
@@ -264,22 +231,14 @@ var BettingModuleUtils = {
   // Average Odds (round to 2 decimal places) = (∑ Backer’s Stake + ∑ Liability) / ∑ Backer’s Stake
 
   // Parameters:
-  // BestBackOddsPerMarket  Immutable.List : the best grouped back odds of each selection
-  // bet matchedBetsById
-  //     matchedBetsById = matchedBetsById.set(bet.get('id'), bet);
-
+  // stakeList, profitList : Array like  [4, 2, 8, 6]
+  // NOTE assuming the param are not Immutable.List,
+  // Returns:
+  //  average Odds
   getAverageOddsFromMatchedBets: function( stakeList, profitList){
 
-    let totalStake = 0.0;
-    let totalProfit = 0.0;
-
-    stakeList.forEach( (stake) => {
-      totalStake += stake;
-    } )
-
-    profitList.forEach( (profit) => {
-      totalProfit += profit;
-    } )
+    const totalStake = _.sum(stakeList);
+    const totalProfit = _.sum(profitList);
 
     return  ( ( totalProfit + totalStake ) / totalStake ).toFixed(oddsPlaces);
   }
