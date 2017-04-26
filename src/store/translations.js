@@ -22,6 +22,10 @@ export const translationsObject = {
       exportStatusHeader: 'Export Status',
       close: 'Close'
     },
+    titleBar:{
+      title: 'Bookie',
+      clock: 'Local Time %{time}'
+    },
     myAccount:{
       screenName: 'myAccount_',
       home:'Home',

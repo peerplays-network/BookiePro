@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {Icon } from 'antd'
 import Controls from './Controls';
 import PropTypes from 'prop-types';
+import Clock from '../Clock';
 
 class MacTitleBar extends Component {
 
@@ -10,14 +10,18 @@ class MacTitleBar extends Component {
       <div className='mac-title-bar'>
         <div className='title'>Bookie</div>
         <div className='left'>
-          <Controls isWindowFocused={ this.props.isWindowFocused }/>
+          <Controls
+            isWindowFocused={ this.props.isWindowFocused }
+            onMaximizeClick={ this.props.onMaximizeClick }
+            onMinimizeClick={ this.props.onMinimizeClick }
+            onResizeClick={ this.props.onResizeClick }
+            onCloseClick={ this.props.onCloseClick }
+            isFullscreen={ this.props.isFullscreen }
+          />
         </div>
         <div className='right'>
-          <Icon className='connection-icon' type='smile'/>
-          <div className='clock'>
-            {'Local Time 23:01'}
-          </div>
-
+          <i className={ this.props.isConnected ? 'connection-status-online' : 'connection-status-offline' } />
+          <Clock className='clock' />
         </div>
 
       </div>
@@ -27,7 +31,13 @@ class MacTitleBar extends Component {
 }
 
 MacTitleBar.propTypes = {
-  isWindowFocused: PropTypes.bool
+  isWindowFocused: PropTypes.bool,
+  onMaximizeClick: PropTypes.func,
+  onResizeClick: PropTypes.func,
+  onMinimizeClick: PropTypes.func,
+  onCloseClick: PropTypes.func,
+  isFullscreen: PropTypes.bool,
+  isConnected: PropTypes.bool
 };
 
 export default MacTitleBar;

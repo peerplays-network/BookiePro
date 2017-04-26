@@ -21,7 +21,7 @@ class Resize extends Component {
   };
 
   handleKeyup = () => {
-    if (this.state.altKey) this.setState({ altKey: false });
+    if (this.state && this.state.altKey) this.setState({ altKey: false });
   };
 
   render() {

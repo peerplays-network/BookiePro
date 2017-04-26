@@ -10,6 +10,10 @@ const AppUtils = {
     const platformName = window.navigator.platform;
     let regex = /^mac/i;
     return regex.test(platformName);
+  },
+  // Check if the app is running inside electron
+  isRunningInsideElectron() {
+    return process && process.type === 'renderer'
   }
 }
 

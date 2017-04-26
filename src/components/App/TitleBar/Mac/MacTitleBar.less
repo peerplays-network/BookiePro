@@ -8,14 +8,14 @@
   text-align: center;
   position: relative;
   .left {
-    left: 5px;
+    left: 14px;
     top: 50%;
     transform: translateY(-50%);
     margin: auto;
     position: absolute;
   }
   .right {
-    right: 5px;
+    right: 16px;
     top: 50%;
     transform: translateY(-50%);
     position: absolute;
@@ -25,7 +25,24 @@
     .clock {
       font-size: 16px;
       font-family: 'Roboto';
-      margin-left: 5px;
+      margin-left: 12px;
+    }
+
+    .connection-status-online {
+      background-image: url('../../../../assets/icons/connect_icon.png');
+      width: 20px;
+      height: 20px;
+      background-size: 20px 20px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .connection-status-offline {
+      background-image: url('../../../../assets/icons/disconnect_icon.png');
+      width: 20px;
+      height: 20px;
+      background-size: 20px 20px;
+      background-repeat: no-repeat;
+      background-position: center;
     }
   }
   .title {
@@ -36,4 +53,5 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
 }
