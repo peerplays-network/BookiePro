@@ -3,7 +3,7 @@ import { Layout, Row, Col } from 'antd';
 
 import SearchMenu from './SearchMenu';
 import TopMenu from './TopMenu';
-import logo from '../../../assets/logo.png';
+import logo from '../../../assets/images/bookie_logo_topnav.png';
 
 const { Header } = Layout;
 
