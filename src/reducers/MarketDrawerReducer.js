@@ -1,11 +1,15 @@
 import Immutable from 'immutable';
-import { ActionTypes } from '../constants';
+import { LoadingStatus, ActionTypes } from '../constants';
 import { BettingModuleUtils } from '../utility';
 
 let initialState = Immutable.fromJS({
   unconfirmedBets: Immutable.List(),
   unmatchedBets: Immutable.List(),
-  matchedBets: Immutable.List()
+  matchedBets: Immutable.List(),
+  showBetSlipConfirmation: false,
+  showBetSlipWaiting: false,
+  showBetSlipError: false,
+  showBetSlipSuccess: false,
 });
 
 export default function(state = initialState, action) {
@@ -34,17 +38,20 @@ export default function(state = initialState, action) {
     }
     case ActionTypes.MARKET_DRAWER_DELETE_ONE_UNCONFIRMED_BET: {
       return state.merge({
-        unconfirmedBets: unconfirmedBets.filterNot(b => b.get('id') === action.betId)
+        unconfirmedBets: unconfirmedBets.filterNot(b => b.get('id') === action.betId),
+        showBetSlipSuccess: false,
       });
     }
     case ActionTypes.MARKET_DRAWER_DELETE_MANY_UNCONFIRMED_BETS: {
       return state.merge({
-        unconfirmedBets: unconfirmedBets.filterNot(b => action.listOfBetIds.includes(b.get('id')))
+        unconfirmedBets: unconfirmedBets.filterNot(b => action.listOfBetIds.includes(b.get('id'))),
+        showBetSlipSuccess: false,
       });
     }
     case ActionTypes.MARKET_DRAWER_DELETE_ALL_UNCONFIRMED_BETS: {
       return state.merge({
-        unconfirmedBets: Immutable.List()
+        unconfirmedBets: Immutable.List(),
+        showBetSlipSuccess: false,
       });
     }
     case ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNCONFIRMED_BET: {
@@ -58,6 +65,38 @@ export default function(state = initialState, action) {
       }
       return state.merge({
         unconfirmedBets: unconfirmedBets.set(index, bet)
+      })
+    }
+    case ActionTypes.MARKET_DRAWER_SHOW_BETSLIP_CONFIRMATION: {
+      return state.merge({
+        showBetSlipConfirmation: true
+      });
+    }
+    case ActionTypes.MARKET_DRAWER_HIDE_BETSLIP_CONFIRMATION: {
+      return state.merge({
+        showBetSlipConfirmation: false
+      });
+    }
+    case ActionTypes.MARKET_DRAWER_HIDE_BETSLIP_ERROR: {
+      return state.merge({
+        showBetSlipError: false
+      });
+    }
+    case ActionTypes.BET_SET_MAKE_BETS_LOADING_STATUS: {
+      return state.merge({
+        bets: action.loadingStatus === LoadingStatus.DONE ? Immutable.List() : unconfirmedBets,
+        showBetSlipWaiting: action.loadingStatus === LoadingStatus.LOADING,
+        showBetSlipError: false,
+        showBetSlipConfirmation: false,
+        showBetSlipSuccess: action.loadingStatus === LoadingStatus.DONE,
+      })
+    }
+    case ActionTypes.BET_SET_MAKE_BETS_ERROR: {
+      return state.merge({
+        showBetSlipWaiting: false,
+        showBetSlipError: true,
+        showBetSlipConfirmation: false,
+        showBetSlipSuccess: false,
       })
     }
     default:

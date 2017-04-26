@@ -36,6 +36,24 @@ class MarketDrawerPrivateActions {
       type: ActionTypes.MARKET_DRAWER_DELETE_ALL_UNCONFIRMED_BETS,
     }
   }
+
+  static showBetSlipConfirmation() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_SHOW_BETSLIP_CONFIRMATION,
+    }
+  }
+
+  static hideBetSlipConfirmation() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_HIDE_BETSLIP_CONFIRMATION,
+    }
+  }
+
+  static hideBetSlipError() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_HIDE_BETSLIP_ERROR,
+    }
+  }
 }
 
 class MarketDrawerActions {
@@ -73,6 +91,19 @@ class MarketDrawerActions {
   static deleteAllUnconfirmedBets() {
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.deleteAllConfirmedBets());
+    }
+  }
+
+  static clickPlaceBet() {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.showBetSlipConfirmation());
+    }
+  }
+
+  static cancelPlaceBet() {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.hideBetSlipConfirmation());
+      dispatch(MarketDrawerPrivateActions.hideBetSlipError());
     }
   }
 }
