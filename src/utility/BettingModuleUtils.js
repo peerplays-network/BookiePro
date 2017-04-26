@@ -21,7 +21,7 @@ var BettingModuleUtils = {
   stakePlaces:stakePlaces,
   exposurePlaces:exposurePlaces,
 
-  //TODO migrate to concurrency util
+  //TODO migrate to curruency util
   getCurruencySymbol: function( currency = 'BTC' ){
     if ( currency === 'mBTC'){
       return mBitcoinSymbol;
@@ -32,10 +32,10 @@ var BettingModuleUtils = {
     }
   },
 
-  //TODO migrate to concurrency util
+  //TODO migrate to curruency util
 
 
-  // return formatted string to support negative bitcoin currency values
+  // return formatted string to support negative bitcoin curruency values
   // amount : float,  amount with BTC as backStartingIndex
   // precision : integer, percision
   // currency : string, display currency, 'BTC' or 'mBTC'
