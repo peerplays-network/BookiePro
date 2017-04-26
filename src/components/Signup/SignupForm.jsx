@@ -50,7 +50,7 @@ const renderRecoveryButtonFields = (fields) => (
   <div>
     <div className='loginCreate__btnWrap'>
         <Button type='primary' htmlType='submit'
-          className={ 'btn ' + (fields.password.input.value!==fields.password_retype.input.value ? 'btn-green-disabled':' btn-green') + ' grid-100' }
+          className={ 'btn ' + (fields.password.input.value!==fields.password_retype.input.value ? 'btn-regular-disabled':' btn-green') + ' grid-100' }
           onClick={ fields.onClick.bind(this, fields.password.input.value) }
           disabled={ fields.password.input.value!==fields.password_retype.input.value }>
           {I18n.t('signup.download_rec_text')}
@@ -119,7 +119,7 @@ class SignupForm extends PureComponent {
               </div>
             </div>
           </div>
-          <div className='clearfix center-div'>
+          <div className='clearfix center-object'>
             {/*TODO: bold text inside warning*/}
             <Field name='understand' id='understand'
                 component={ renderCheckboxField } type='checkbox'
@@ -136,7 +136,7 @@ class SignupForm extends PureComponent {
               >{ loadingStatus===LoadingStatus.LOADING ? I18n.t('application.loading') : I18n.t('signup.create_account') }</button>
           </div>
           <div className='form-fields'>
-            <p className='font14'> { I18n.t('signup.already_account') } <a className='underline blue-text' href='#' onClick={ onClickLogin }> { I18n.t('signup.log_in') } </a> </p>
+            <p> { I18n.t('signup.already_account') } <a className='text-underline blue-text' href='#' onClick={ onClickLogin }> { I18n.t('signup.log_in') } </a> </p>
           </div>
         </form>
       )
