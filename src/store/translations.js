@@ -235,10 +235,23 @@ export const translationsObject = {
       tab1: 'BETSLIP',
       tab2: 'PLACED BETS',
       unconfirmed_bets: {
-        header: 'BETSLIP',
+        header: 'Betslip',
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
           my_bet_button: 'VIEW YOUR BETS IN MY BETS'
+        },
+        confirmation: {
+          instructions: 'The transaction fee of this bet is \u0243%{amount}.<br/>Are you sure you want to place this bet?',
+          cancel_button: 'CANCEL',
+          confirm_button: 'CONFIRM BET',
+        },
+        error: {
+          instructions: 'Sorry, we are unable to proceed<br/>with your request. Please try again!',
+          cancel_button: 'CANCEL',
+          confirm_button: 'TRY AGAIN',
+        },
+        success: {
+          instructions: 'Your bets have been successfully placed.',
         },
         content: {
           place_bet_button: 'PLACE BET \u0243%{amount}'

@@ -51,6 +51,7 @@ const renderContent = (props) => (
         <EditableBetTable
           key={ eventId }
           data={ props.bets.get(eventId) }
+          title={ props.bets.get(eventId).get('event_name') }
           deleteOne={ props.deleteBet }
           deleteMany={ props.deleteBets }
           updateOne={ props.updateBet }
