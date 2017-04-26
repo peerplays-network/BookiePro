@@ -200,28 +200,26 @@ class ComplexBettingWidget extends Component {
            this.props.currencyFormat,
            BettingModuleUtils.exposurePlaces );
 
-        return ( props.value.betslip_exposure ?
-         <div className='competitor'>
-           <div className='name'>{props.value.name}</div>
-           <div className='exposure'>
-             {
-               (props.value.market_exposure) === 0 ? '' :
-                  (props.value.market_exposure) >= 0 ?
-                  <span className='increased-value'>{ marketExposure } </span> :
-                  <span className='decreased-value'>{ marketExposure }  </span>
-             }
-             <Icon type='caret-right'></Icon>
-             {
-               props.value.betslip_exposure + props.value.market_exposure >= 0 ?
-                 <span className='increased-value'>{ potentialExposure } </span> :
-                 <span className='decreased-value'>{ potentialExposure }  </span>
-             }
-           </div>
-         </div> :
-         <div className='competitor'>
-           <div className='name'>{props.value.name}</div>
-           <div className='exposure'></div>
-         </div>)
+        const marketExposureClass = props.value.market_exposure >= 0 ?
+          'increased-value' : 'decreased-value';
+        const potentialExposureClass = props.value.betslip_exposure + props.value.market_exposure >= 0 ?
+          'increased-value' : 'decreased-value';
+
+        return (
+          <div className='competitor'>
+            <div className='name'>{props.value.name}</div>
+            { props.value.betslip_exposure &&
+              <div className='exposure'>
+                {  props.value.market_exposure.toFixed(0) === 0 ?
+                  <span className={ marketExposureClass }>{ marketExposure }</span> :
+                   ''
+                }
+                <Icon type='caret-right'></Icon>
+                <span className={ potentialExposureClass  }>{ potentialExposure }</span>
+              </div>
+            }
+          </div>
+        )
       }
     }, {
       className: 'back-left',
