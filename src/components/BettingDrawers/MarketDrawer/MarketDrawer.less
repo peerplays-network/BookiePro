@@ -4,16 +4,10 @@
 @market-drawer-title-bg: #004378;
 
 #market-drawer {
-  div.title {
-    background-color: @market-drawer-title-bg;
-    width: @market-drawer-width;
-    height: @market-drawer-title-height;
+  height: 100%;
 
-    > div.label {
-      padding: 10px;
-      text-transform: uppercase;
-      font-size: 14px;
-    }
+  div.ant-tabs {
+    height: 100%;
   }
 
   div.ant-tabs-nav {
@@ -35,6 +29,14 @@
     }
   }
 
+  div.betslip {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: @market-drawer-title-height;
+  }
+
+  // content is used in both tabs so I didn't put it under div.betslip yet
   div.content {
     position: relative;
     height: 100%;
@@ -58,6 +60,8 @@
   }
 
   div.footer {
+    position: absolute;
+    bottom: @market-drawer-footer-height;
     background-color: @market-drawer-title-bg;
     width: @market-drawer-width;
     padding: 5px;
