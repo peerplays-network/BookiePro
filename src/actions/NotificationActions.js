@@ -8,6 +8,7 @@ import Immutable from 'immutable';
 import { NotificationTypes } from '../constants';
 import { I18n } from 'react-redux-i18n';
 
+
 /**
  * Private actions
  */
@@ -158,6 +159,22 @@ class NotificationActions {
       const notification = Immutable.Map({
         type: NotificationTypes.SOFTWARE_UPDATE_AVAILABLE,
         content: I18n.t('notification.software_update'),
+        date: new Date()
+      });
+      const notifications = Immutable.List([notification]);
+      dispatch(NotificationPrivateActions.addNotificationsAction(notifications));
+    }
+  }
+
+  /**
+   * Add transaction history export notification
+   */
+  static addTransactionHistoryExportNotification() {
+    return (dispatch) => {
+      // Create notification object and add it
+      const notification = Immutable.Map({
+        type: NotificationTypes.TRANSACTION_HISTORY_DATA_EXPORTED,
+        content: I18n.t('notification.transaction_history_data_exported'),
         date: new Date()
       });
       const notifications = Immutable.List([notification]);

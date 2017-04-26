@@ -127,7 +127,8 @@ export const translationsObject = {
     notification: {
       deposit: 'The deposit of %{amount} %{currency} is confirmed',
       bet_resolved: 'A market you’ve bet on is ended and bets are resolved',
-      software_update: 'New version available, update now'
+      software_update: 'New version available, update now',
+      transaction_history_data_exported: 'Transaction History Data is exported'
     },
     welcome:{
       getting_started: 'Getting Started',
