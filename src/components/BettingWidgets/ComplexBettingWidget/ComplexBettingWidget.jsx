@@ -250,7 +250,7 @@ class ComplexBettingWidget extends Component {
         accessor: row => row.offer.back.length > 2 ? row.offer.back[2] : undefined,
         render: props => props.value ?
          <div className='back-offer'>
-           <div className='odds'>{ parseFloat(props.value.odds).toFixed(oddFloatPlaces) }</div>
+           <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
              { BettingModuleUtils.getFormattedCurrency(props.value.price,
                this.props.currencyFormat,
@@ -265,7 +265,7 @@ class ComplexBettingWidget extends Component {
         accessor: row => row.offer.back.length > 1 ? row.offer.back[1] : undefined,
         render: props => props.value ?
          <div className='back-offer'>
-           <div className='odds'>{ parseFloat(props.value.odds).toFixed(oddFloatPlaces) }</div>
+           <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
              { BettingModuleUtils.getFormattedCurrency(props.value.price,this.props.currencyFormat, BettingModuleUtils.stakePlaces )}</div>
          </div> :
@@ -278,7 +278,7 @@ class ComplexBettingWidget extends Component {
         accessor: row => row.offer.back.length > 0 ? row.offer.back[0] : undefined,
         render: props => props.value ?
          <div className='back-offer back-all-offer'>
-           <div className='odds'>{ parseFloat(props.value.odds).toFixed(oddFloatPlaces) }</div>
+           <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
              { BettingModuleUtils.getFormattedCurrency(props.value.price,this.props.currencyFormat, BettingModuleUtils.stakePlaces )}</div>
          </div> :
@@ -299,7 +299,7 @@ class ComplexBettingWidget extends Component {
         accessor: row => row.offer.lay.length > 0 ? row.offer.lay[0] : undefined,
         render: props => props.value ?
          <div className='lay-offer lay-all-offer'>
-           <div className='odds'>{ parseFloat(props.value.odds).toFixed(oddFloatPlaces) }</div>
+           <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
              { BettingModuleUtils.getFormattedCurrency(props.value.price,this.props.currencyFormat, BettingModuleUtils.stakePlaces )}</div>
          </div> :
@@ -312,7 +312,7 @@ class ComplexBettingWidget extends Component {
         accessor: row => row.offer.lay.length > 1 ? row.offer.lay[1] : undefined,
         render: props => props.value ?
          <div className='lay-offer'>
-           <div className='odds'>{ parseFloat(props.value.odds).toFixed(oddFloatPlaces) }</div>
+           <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
              { BettingModuleUtils.getFormattedCurrency(props.value.price,this.props.currencyFormat, BettingModuleUtils.stakePlaces )}</div>
          </div> :
@@ -329,7 +329,7 @@ class ComplexBettingWidget extends Component {
         accessor: row => row.offer.lay.length > 2 ? row.offer.lay[2] : undefined,
         render: props => props.value ?
          <div className='lay-offer'>
-           <div className='odds'>{ parseFloat(props.value.odds).toFixed(oddFloatPlaces) }</div>
+           <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
              { BettingModuleUtils.getFormattedCurrency(props.value.price,this.props.currencyFormat, BettingModuleUtils.stakePlaces )}</div>
          </div> :
