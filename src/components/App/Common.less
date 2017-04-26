@@ -1,0 +1,55 @@
+// Common classess
+.text-center {text-align: center;}
+.font16 {font-size: 16px;}
+.center-object{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Form fields
+.errorText{
+  color: @field_error;
+}
+
+// Buttons
+.btn{
+  color: @btn_label;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-radius: 0;
+  height: 30px;
+  line-height: 30px;
+  border: 0 none;
+  text-align: center;
+  cursor: pointer;
+}
+
+input {
+  border: 1px solid @field_border;
+  box-shadow: 0 2px 4px 0 @field_shadow;
+  border-radius: 1.5px;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 16px;
+  color: @field;
+  display: block;
+  width: 100%;
+  font-size: 18px;
+  &:focus {
+    outline: none;
+    border-color: @field_selected_border;
+    box-shadow: 0 2px 4px @field_selected_shadow;
+  }
+}
+.btn-regular {
+  background: @primary_btn;
+  box-shadow: @btn_shadow;
+}
+
+.btn-regular-disabled {
+  background: @disable_btn;
+  box-shadow: @btn_shadow;
+  cursor: not-allowed;
+}
