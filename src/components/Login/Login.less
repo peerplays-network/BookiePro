@@ -1,11 +1,8 @@
-h2 {
-  font-size: 26px;
-  font-weight: bold;
-}
+@import (reference) '../App/colors.less';
+@import '../App/common.less';
 
 .loginBackground {
-  background: -webkit-linear-gradient(#094B88 , #00152A );
-  background: linear-gradient(#094B88 , #00152A );
+  background: @app-bg;
   background: url("../../assets/images/sports-background.png");
   background-size: cover;
   height: 100%;
@@ -20,83 +17,24 @@ h2 {
     padding-top: 75px;
     margin: 0 auto;
   }
-
   .btn {
-    color: #ffffff;
     width: 100%;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    font-size: 16px;
-    font-weight: 500;
-    text-transform: uppercase;
-    display: inline-block;
-    border-radius: 0;
-    border: 0 none;
-    padding: 0;
     margin-top:10px;
   }
-
-  .text-center {
-    text-align: center;
-  }
-
   .form-fields {
     margin-bottom: 40px;
   }
-
   .errorText {
-    color: #FF7788;
     float: left;
   }
-
-  .text-center {
-    text-align: center;
-  }
-
   .login-welcome {
     margin: 25px 0 40px;
   }
-
   a {
     color: #ffffff;
-    border: 1px solid;
+    border: 1px solid #FFFFFF;
     padding: 5px 40px;
   }
-
-  .font16 {
-    font-size: 16px;
-  }
-
-  input {
-    height: 36px;
-    line-height: 36px;
-    border-radius: 2px;
-    padding: 6px 16px;
-    border: 0 none;
-    -webkit-box-shadow: none;
-    color: #333;
-    display: block;
-    width: 100%;
-    font-size: 18px;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  .btn-regular {
-    background-image: linear-gradient(-180deg, rgba(55,192,255,0.92) 2%, #1F6CB4 97%);
-    box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);
-    cursor: pointer;
-  }
-
-  .btn-regular-disabled {
-    background-image: linear-gradient(-180deg, rgba(23,102,162,0.92) 4%, #134E85 97%);
-    box-shadow: 0 2px 3px 0 #0D3B7B , inset 1px 2px 0 0 rgba(248,235,218,0.43);
-    cursor: not-allowed;
-  }
-
   .signup-link {
     margin-top: 50px;
   }
