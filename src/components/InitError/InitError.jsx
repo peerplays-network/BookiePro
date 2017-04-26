@@ -12,7 +12,7 @@ class InitError extends Component {
   }
   render() {
     return (
-      <div className='sportsbg'>
+      <div>
         <div>
           { 'Fail to Connect to Blockchain' }
         </div>

@@ -1,0 +1,107 @@
+.mac-controls {
+  .close {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-app-region: no-drag;
+    cursor: default;
+    box-sizing: border-box;
+    width: 12px;
+    height: 12px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 50%;
+    margin-top: 1px;
+    margin-left: 5px;
+    margin-right: 4px;
+    line-height: 0;
+    background-color: #ff5f57;
+    border-color: #e2463f;
+
+    :active {
+      background-color: #bf4943;
+      border-color: #ad3934
+    }
+
+    icon {
+      width: 10px;
+      height: 10px
+    }
+  }
+
+  .close-unfocused {
+    .close();
+    background-color: #dddddd;
+    border-color: #d0d0d0;
+  }
+
+  .minimize {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-app-region: no-drag;
+    cursor: default;
+    box-sizing: border-box;
+    width: 12px;
+    height: 12px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 50%;
+    margin-top: 1px;
+    margin-left: 5px;
+    margin-right: 4px;
+    line-height: 0;
+    background-color: #ffbd2e;
+    border-color: #e1a116;
+
+    :active {
+      background-color: #bf9123;
+      border-color: #ad7d15
+    }
+
+    icon {
+      width: 10px;
+      height: 10px
+    }
+  }
+
+  .minimize-unfocused {
+    .minimize();
+    background-color: #dddddd;
+    border-color: #d0d0d0;
+  }
+
+  .resize {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-app-region: no-drag;
+    cursor: default;
+    box-sizing: border-box;
+    width: 12px;
+    height: 12px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 50%;
+    margin-top: 1px;
+    margin-left: 5px;
+    margin-right: 4px;
+    line-height: 0;
+    background-color: #28c940;
+    border-color: #12ac28;
+
+    :active {
+      background-color: #1f9a31;
+      border-color: #128622
+    }
+
+    icon {
+      width: 10px;
+      height: 10px
+    }
+  }
+
+  .resize-unfocused {
+    .resize();
+    background-color: #dddddd;
+    border-color: #d0d0d0;
+  }
+
+}

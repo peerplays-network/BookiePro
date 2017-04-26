@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
 import LogoutModal from '../Modal/LogoutModal';
 import { StringUtils } from '../../utility';
+import TitleBar from './TitleBar';
 
 //NOTE default version update text.
 const defaultNewVersionText = 'New version found. Please update the version'
@@ -115,7 +116,7 @@ class App extends Component {
       }
       default: {
         content = (
-          <div className='sportsbg'>
+          <div>
             <span>{ 'Connecting to blockchain...' }</span>
           </div>
         );
@@ -123,7 +124,8 @@ class App extends Component {
     }
 
     return (
-      <div>
+      <div className='sportsbg'>
+        <TitleBar />
         { content }
         { logoutModal }
         { softwareUpdateModal }

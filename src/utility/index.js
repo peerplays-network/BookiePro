@@ -5,8 +5,10 @@ import TreeUtils from './TreeUtils';
 import BettingModuleUtils from './BettingModuleUtils';
 import ExportUtils from './ExportUtils';
 import FileSaver from './fileSaver';
+import AppUtils from './AppUtils';
 
 export {
+  AppUtils,
   BlockchainUtils,
   StringUtils,
   TreeUtils,
