@@ -1,6 +1,8 @@
 // Common classess
 .text-center {text-align: center;}
 .font16 {font-size: 16px;}
+.pos-relative { position: relative;}
+.boldTextInMessage { font-weight: bold;}
 .center-object{
   display: flex;
   justify-content: center;
@@ -10,6 +12,16 @@
 // Form fields
 .errorText{
   color: @field_error;
+}
+
+// Common class for Sports banner background for login, signup, deposit
+.sportsBannerBg {
+  background: @app-bg;
+  background: url("../../assets/images/sports-background.png");
+  background-size: cover;
+  overflow: auto;
+  height: 100%;
+  .center-object;
 }
 
 // Buttons

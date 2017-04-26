@@ -1,56 +1,32 @@
-.text-center {
-  text-align: center;
-}
-
-.btn {
-  cursor: pointer;
-}
-
-html body div#main-content {
-  padding-left: 0;
-}
+@import '../App/Colors.less';
+@import '../App/Common.less';
 
 .margin-top-100 {
   margin-top: 100px;
 }
-
-.pos-relative {
-  position: relative;
-}
-
 .depositComponent {
   padding: 30px 0;
-
-  .anticon {
-    font-size: 44px;
-  }
-
   h2 {
     padding: 30px 0;
     font-size: 20px;
   }
-
   .bookie-qr {
     width: 167px;
     height: 167px;
-    border: 1px solid #2FA5E6;
+    border: 1px solid @qr_code_border;
     display: inline-block;
   }
-
   .deposit-content {
     margin: 50px auto;
     text-align: left;
-
     p {
       font-size: 18px;
       margin-bottom: 30px;
       line-height: 32px;
     }
-
     .registerComponent {
       margin-top: 80px;
     }
-
     .copy-btn {
       width: auto;
       position: absolute;
@@ -60,111 +36,66 @@ html body div#main-content {
       height: 36px;
       font-size: 18px;
     }
-
-    .boldTextInMessage {
-      font-weight: bold;
-    }
   }
   .depositAddress {
     input {
-      height: 36px;
-      width: 100%;
-      line-height: 36px;
-      border-radius: 2px;
-      padding: 6px 5px;
-      border: 0 none;
-      -webkit-box-shadow: none;
-      color: #333;
-      display: block;
       font-size: 18px;
     }
   }
-
   .wrapper {
     width:980px;
   }
+  .vertical-divider {
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: 50%;
+    line-height: 0;
+    text-align: center;
+    font-size: 18px;
+    transform: translateX(-50%);
+  }
+  .vertical-divider:after,
+  .vertical-divider:before {
+    position: absolute;
+    left: 50%;
+    content: '';
+    z-index: 9;
+    border-left: 1px solid @white;
+    width: 0;
+    height: calc(80% - 1rem);
+  }
+  .row-divided > .vertical-divider {
+    height: calc(45% - 1rem);
+  }
+  .vertical-divider:before {
+    top: -100%;
+  }
+  .vertical-divider:after {
+    top: auto;
+    bottom: 0;
+  }
+  .row-divided {
+    position: relative;
+  }
+  .btn{
+    width:420px;
+  }
+  .deposit-icon {
+    background-image: url('../../assets/icons/deposit_icon_deposit_screen.png');
+    width:58px;
+    height:58px;
+    background-repeat: no-repeat;
+    background-size: 58px 58px;
+    background-position: center;
+    display: inline-block;
+  }
 }
 
-.depositBackground {
-  background: -webkit-linear-gradient(#094B88 , #00152A );
-  background: linear-gradient(#094B88 , #00152A );
-  background: url("../../assets/images/sports-background.png");
-  background-size: cover;
-  overflow: auto;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-.deposit-icon {
-  background-image: url('../../assets/icons/deposit_icon_deposit_screen.png');
-  width:58px;
-  height:58px;
-  background-repeat: no-repeat;
-  background-size: 58px 58px;
-  background-position: center;
-  display: inline-block;
-}
 
-.vertical-divider {
-  position: absolute;
-  z-index: 10;
-  top: 50%;
-  left: 50%;
-  margin: 0;
-  padding: 0;
-  width: auto;
-  height: 50%;
-  line-height: 0;
-  text-align: center;
-  font-size: 18px;
-  transform: translateX(-50%);
-}
 
-.vertical-divider:after,
-.vertical-divider:before {
-  position: absolute;
-  left: 50%;
-  content: '';
-  z-index: 9;
-  border-left: 1px solid #fff;
-  width: 0;
-  height: calc(80% - 1rem);
-}
-
-.row-divided > .vertical-divider {
-  height: calc(45% - 1rem);
-}
-
-.vertical-divider:before {
-  top: -100%;
-}
-
-.vertical-divider:after {
-  top: auto;
-  bottom: 0;
-}
-
-.row-divided {
-  position: relative;
-}
-
-.btn {
-  width: 420px;
-  text-transform: uppercase;
-  display: inline-block;
-  color: #ffffff;
-  font-weight: 500;
-  height: 30px;
-  line-height: 30px;
-  border-radius: 0;
-  border: 0 none;
-  font-size: 16px;
-  box-shadow: inset 1px 2px 0px 0px rgba(249, 235, 218, 0.43), 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
-}
-.btn-regular {
-  background-image: linear-gradient(-180deg, rgba(55,192,255,0.92) 2%, #1F6CB4 97%);
-  box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);
-  cursor: pointer;
-}
