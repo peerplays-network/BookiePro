@@ -210,9 +210,8 @@ class ComplexBettingWidget extends Component {
             <div className='name'>{props.value.name}</div>
             { props.value.betslip_exposure &&
               <div className='exposure'>
-                {  props.value.market_exposure.toFixed(BettingModuleUtils.exposurePlaces) === 0 ?
-                  <span className={ marketExposureClass }>{ marketExposure }</span> :
-                   ''
+                {  props.value.market_exposure.toFixed(BettingModuleUtils.exposurePlaces) &&
+                  <span className={ marketExposureClass }>{ marketExposure }</span>
                 }
                 <Icon type='caret-right'></Icon>
                 <span className={ potentialExposureClass  }>{ potentialExposure }</span>

@@ -118,28 +118,6 @@ var BettingModuleUtils = {
 
   },
 
-  //  =========== Betting Drawer ===========
-
-
-  // Total (Betslip) = ∑ Back Bet’s Stake(BTC) & Lay Bet’s Liability(BTC) in the Betslip section
-  // Total (Unmatched) = ∑ Back Bet’s Stake(BTC) & Lay Bet’s Liability(BTC) in the Unmatched sectionimmutable.List
-  // Total (Matched) = ∑ Back Bet’s Stake(BTC) & Lay Bet’s Liability(BTC) in the Matched section, immutable.List
-  // NOTE assuming the param are not Immutable.List,
-  //
-  // Parameters:
-  // stakeList : stake Array
-  // liabilityList : liability Array
-  // currency : display currency
-  //
-  // Returns:
-  //  total
-  getTotal: function( stakeList, liabilityList, currency = 'BTC'){
-
-    const total = 0.0 + _.sum(stakeList) + _.sum(liabilityList);
-
-    return this.getFormattedCurrency( total , currency, exposurePlaces, false);
-
-  },
 
   //  =========== Exposure ===========
 
@@ -221,6 +199,43 @@ var BettingModuleUtils = {
 
     return Math.round(backBookPercent);
   },
+
+  //  =========== Betting Drawer ===========
+
+  // Total (Betslip) = ∑ Back Bet’s Stake(BTC) & Lay Bet’s Liability(BTC) in the Betslip section
+  //
+  // Parameters:
+  // bets : unconfirmedBets, Immutable.List : marketDrawer.unconfirmedBets stored in redux
+  // currency : display currency
+  //
+  // Returns:
+  //  total
+  getBetslipTotal: function( bets, currency = 'BTC'){
+
+    const accumulator = (total, bet) => {
+
+      if ( isFieldInvalid(bet, 'odds') || isFieldInvalid(bet, 'stake') ||
+           isFieldInvalid(bet, 'profit') || isFieldInvalid(bet, 'liability') ) {
+        return total;
+      }
+
+      if ( bet.get('bet_type') === BetTypes.BACK){
+        // + Back Bet’s Stake(BTC)
+        return total + parseFloat( bet.get('stake') );
+      } else if ( bet.get('bet_type') === BetTypes.LAY){
+        // + Lay Bet’s Liability(BTC)
+        return total + parseFloat( bet.get('liability') );
+      } else {
+        return total;
+      }
+    }
+     // this can be reused many times within the module
+    let total = bets.reduce(accumulator, 0.0);
+
+    return this.getFormattedCurrency( total , currency, exposurePlaces, false);
+
+  },
+
 
   //  =========== Average Odds ===========
 
