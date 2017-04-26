@@ -1,48 +1,32 @@
+@import '../App/Colors.less';
+@import '../App/Common.less';
+
 .signupBackground {
-  background: -webkit-linear-gradient(#094B88 , #00152A );
-  background: linear-gradient(#094B88 , #00152A );
+  background: @app-bg;
   background: url("../../assets/images/sports-background.png");
   background-size: cover;
   overflow: auto;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  .center-object;
 }
 
-.registerComponent {
-  h2 {
-    font-size: 20px;
-    font-weight: bold;
-  }
-
+.signupComponent {
   .wrapper {
     padding: 50px 0;
   }
-
   .logo {
     margin-bottom: 27px;
   }
-
   .center-ele {
     width: 650px;
     margin: 0 auto;
   }
-
   .btn {
     width: 334px;
-    text-align: center;
-    padding: 0;
   }
-
-  .text-center {
-    text-align: center;
-  }
-
   .form-fields {
     margin-bottom: 30px;
   }
-
   .form-fields .copy-btn {
     width: auto;
     position: absolute;
@@ -52,186 +36,51 @@
     height: 36px;
     font-size: 18px;
   }
-
   form input[type="checkbox"] {
     float: left;
-    height: 18px;
+    height: 16px;
+    width:16px;
     margin-right: 24px;
     margin-top: 3px;
+    &:focus{
+      box-shadow: none;
+    }
   }
-
-  label {
-    font-size: 16px;
-    margin-left: 5px;
-    vertical-align: middle;
-  }
-
   .download-file {
-    border: 1px solid #FFFFFF;
+    border: 1px solid @white;
     padding: 10px 21px 14px;
     text-align: left;
   }
-
   .passwordMessage {
     margin-bottom: 14px;
     font-size: 16px;
   }
-
   .savePasswordBox {
     margin-bottom: 18px;
   }
-
   .blue-text {
-    color: #2FA5E6;
+    color: @login_link;
   }
-
   .errorText {
-    color: #FF7788;
-    float: left;
-    font-size: 12px;
-  }
-
-  .float-left {
     float: left;
   }
-
-  .text-left {
-    text-align: left;
-  }
-
-  .text-center {
-    text-align: center;
-  }
-
-  .pos-rel {
-    position: relative;
-  }
-
-  .margin-btm-20 {
-    margin-bottom: 20px;
-  }
-
-  .margin-btm-24 {
-    margin-bottom: 24px;
-  }
-
-  .margin-top-18 {
-    margin-top: 18px;
-  }
-
   .align-checkbox {
     margin-left: 21px;
   }
-
   .align-checkbox label {
     font-size: 14px;
     width: 235px;
     float: left;
+    margin-left: 5px;
   }
-
-  .font16 {
-    font-size: 16px;
-  }
-
-  .font18 {
-    font-size: 18px;
-  }
-
-  .boldTextInMessage {
-    font-weight: bold;
-  }
-
-  .mediumMessageInText {
-    font-weight: 500;
-  }
-
-  .underline {
-    text-decoration: underline;
-  }
-
-  .page-title {
-    font-size: 18px;
-    text-transform: uppercase;
-    font-weight: 300;
-  }
-  // used in My-wager, My account
-
-  input {
-    height: 36px;
-    width: 100%;
-    line-height: 36px;
-    border-radius: 2px;
-    padding: 6px 16px;
-    border: 0 none;
-    -webkit-box-shadow: none;
-    color: #333;
-    display: block;
-    font-size: 18px;
-
-    &:focus {
-      outline: none;
-      padding: 6px 14px;//decreasing the padding to add 2px border needed for highlight effect. if you remove this inside text will dance.
-      border: 2px solid rgba(0, 190, 244, 1);
-      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
-    }
-  }
-
-  .btn-regular {
-    background-image: linear-gradient(-180deg, rgba(55,192,255,0.92) 2%, #1F6CB4 97%);
-    box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);
-    cursor: pointer;
-  }
-
-  .btn-regular-disabled {
-    background-image: linear-gradient(-180deg, rgba(23,102,162,0.92) 4%, #134E85 97%);
-    box-shadow: 0 2px 3px 0 #0D3B7B , inset 1px 2px 0 0 rgba(248,235,218,0.43);
-    cursor: not-allowed;
-  }
-
-  .btn {
-    text-transform: uppercase;
-    display: inline-block;
-    color: #ffffff;
-    font-weight: 500;
-    height: 30px;
-    line-height: 30px;
-    border-radius: 0;
-    border: 0 none;
-    font-size: 16px;
-    box-shadow: inset 1px 2px 0px 0px rgba(249, 235, 218, 0.43), 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
-  }
-
-  .cancel-btn {
-    background-image: linear-gradient(-180deg, rgba(23, 102, 162, 0.92) 4%, #134E85 97%);
-    box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248, 235, 218, 0.43);
-  }
-
-  .btn-green {
-    background-image: linear-gradient(-180deg, #1ACBB4 20%, #03787B 97%);
-    //box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);
-  }
-
-  .btn-green-disabled {
-    background-image: linear-gradient(-180deg, rgba(23,102,162,0.92) 4%, #134E85 50%);
-    //box-shadow: 0 2px 3px 0 #0D3B7B , inset 1px 2px 0 0 rgba(248,235,218,0.43);
-    cursor: not-allowed;
-  }
-
-  .btn-green-disabled:hover {
-    color: #fff;
-  }
-
-  .center-div {
-    display: table;
-    margin: 0 auto;
-  }
-
   .width300 {
     width: 300px;
   }
-
-  .rw-input,
-  ::-webkit-input-placeholder {
-    color: #4A4A4A;
+  .btn-regular-disabled{
+    color: @white;
+    &:hover{
+      background: @disable_btn;
+      color: @white;
+    }
   }
 }

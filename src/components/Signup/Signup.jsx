@@ -29,7 +29,7 @@ class Signup extends PureComponent {
   render() {
     return (
       <div className='signupBackground'>
-        <div className='registerComponent' >
+        <div className='signupComponent' >
           <div className='wrapper'>
             <div className='text-center'>
               <img src={ logo } className='logo' width='114px' height='105px' alt=''/>
