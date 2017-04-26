@@ -14,14 +14,14 @@ import './BetSlip.less';
 const renderOverlay = (props, className, transactionFee=0) => (
   <div className='overlay'>
     <div className='instructions'>
-      <Translate value={ `quick_bet_drawer.unconfirmed_bets.${ className }.instructions` } amount={ transactionFee } dangerousHTML/>
+      <Translate value={ `market_drawer.unconfirmed_bets.${ className }.instructions` } amount={ transactionFee } dangerousHTML/>
     </div>
     <div className='buttons'>
       <Button onClick={ props.cancelPlaceBet }>
-        { I18n.t(`quick_bet_drawer.unconfirmed_bets.${ className }.cancel_button`) }
+        { I18n.t(`market_drawer.unconfirmed_bets.${ className }.cancel_button`) }
       </Button>
       <Button onClick={ () => props.makeBets(props.originalBets) }>
-        { I18n.t(`quick_bet_drawer.unconfirmed_bets.${ className }.confirm_button`) }
+        { I18n.t(`market_drawer.unconfirmed_bets.${ className }.confirm_button`) }
       </Button>
     </div>
   </div>
@@ -41,7 +41,7 @@ const renderContent = (props) => (
         </div>
         <div className='my-bet-button'>
           <Button onClick={ () => props.navigateTo('/my-wager/') }>
-            { I18n.t('quick_bet_drawer.unconfirmed_bets.empty.my_bet_button') }
+            { I18n.t('market_drawer.unconfirmed_bets.empty.my_bet_button') }
           </Button>
         </div>
       </div>
@@ -82,7 +82,7 @@ class BetSlip extends PureComponent {
           {
             !this.props.bets.isEmpty() &&
             <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
-              <Button className='place-bet' onClick={ this.props.clickPlaceBet }>>
+              <Button className='place-bet' onClick={ this.props.clickPlaceBet }>
                 { I18n.t('market_drawer.unconfirmed_bets.content.place_bet_button', { amount : 0.295}) }
               </Button>
             </div>
@@ -121,10 +121,10 @@ const mapStateToProps = (state) => {
     page = page.set(betType, betListByBetType);
   });
   // Other statuses
-  const showBetSlipConfirmation = state.getIn(['quickBetDrawer', 'showBetSlipConfirmation']);
-  const showBetSlipWaiting = state.getIn(['quickBetDrawer', 'showBetSlipWaiting']);
-  const showBetSlipError = state.getIn(['quickBetDrawer', 'showBetSlipError']);
-  const showBetSlipSuccess = state.getIn(['quickBetDrawer', 'showBetSlipSuccess']);
+  const showBetSlipConfirmation = state.getIn(['marketDrawer', 'showBetSlipConfirmation']);
+  const showBetSlipWaiting = state.getIn(['marketDrawer', 'showBetSlipWaiting']);
+  const showBetSlipError = state.getIn(['marketDrawer', 'showBetSlipError']);
+  const showBetSlipSuccess = state.getIn(['marketDrawer', 'showBetSlipSuccess']);
   return {
     originalBets,
     bets: page,

@@ -84,7 +84,7 @@ export default function(state = initialState, action) {
     }
     case ActionTypes.BET_SET_MAKE_BETS_LOADING_STATUS: {
       return state.merge({
-        bets: action.loadingStatus === LoadingStatus.DONE ? Immutable.List() : unconfirmedBets,
+        unconfirmedBets: action.loadingStatus === LoadingStatus.DONE ? Immutable.List() : unconfirmedBets,
         showBetSlipWaiting: action.loadingStatus === LoadingStatus.LOADING,
         showBetSlipError: false,
         showBetSlipConfirmation: false,

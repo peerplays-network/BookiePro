@@ -21,7 +21,7 @@ class MarketDrawer extends Component {
       <div id='market-drawer'>
         <Tabs defaultActiveKey='1' type='card'>
           <TabPane tab='BETSLIP' key='1'>
-            <BetSlip unconfirmedBets={ this.props.unconfirmedBets } />
+            <BetSlip/>
           </TabPane>
           <TabPane tab='PLACED BETS' key='2'>
             { renderPlacedBets(this.props) }
