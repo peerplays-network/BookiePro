@@ -364,7 +364,7 @@ class MyAccount extends PureComponent {
             <div ref='global_object'>
               <Select
                 className='bookie-select'
-                defaultValue='BTC'
+                defaultValue={ this.props.currencyFormat }
                 onChange={ this.handleCurrFormatChange }>
                 <Option value='BTC'> BTC</Option>
                 <Option value='mBTC'>mBTC</Option>
@@ -443,7 +443,7 @@ const mapStateToProps = (state) => {
   const app = state.get('app');
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
-  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || Immutable.Map();
+  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting']) ;
 
   /*-1 will be used to check to display 'Not available' against the withdraw amount field
       when the asset '1.3.0' is not obtained for some reason
