@@ -235,7 +235,7 @@ export const translationsObject = {
       tab1: 'BETSLIP',
       tab2: 'PLACED BETS',
       unconfirmed_bets: {
-        header: 'BETSLIP',
+        header: 'Betslip',
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
           my_bet_button: 'VIEW YOUR BETS IN MY BETS'
