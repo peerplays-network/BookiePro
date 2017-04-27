@@ -27,18 +27,25 @@ class UnmatchedBets extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  // Extract the current Betting Market Group Id the user is viewing
+  // This is required to filter the data from all ongoing bets
+  // TODO REVIEW Whoever can come up with a better way, please go ahead and do that
   const bettingMarketGroupId = window.location.href.split('/').pop();
+  // From the current (dummy) bet data, I only need the Betting Market ID
   const bettingMarketIds= state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId, 'betting_market_ids']);
+  // Transform the raw bet data into a specific format for the EditableBetTable
   const originalBets = state.getIn(['marketDrawer', 'unmatchedBets'])
                             .filter(bet => bettingMarketIds.includes(bet.get('betting_market_id')))
                             .map(bet => Immutable.fromJS({
+                              id: bet.get('id'),
                               bettor_id: bet.get('bettor_id'),
-                              bet_type: bet.get('back_or_lay'),
+                              // TODO: may not need toLowerCase once we got the real data
+                              bet_type: bet.get('back_or_lay').toLowerCase(),
                               odds: bet.get('amount_to_win'),
                               stake: bet.get('amount_to_bet')
                             }));
+  // This is essentially the same procedure used in BetSlip
   let page = Immutable.Map();
-  // We need to transform the bet data into a specific format for the EditableBetTable
   originalBets.forEach((bet) => {
     const betType = bet.get('bet_type');
 
