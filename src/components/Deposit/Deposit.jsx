@@ -28,7 +28,7 @@ class Deposit extends PureComponent {
   }
   render() {
     return (
-      <div className='sportsBannerBg' id='main-content'>
+      <div className='onboardingSportsBackground' id='main-content'>
         <div className='depositComponent'>
           <div className='wrapper'>
             <div className='text-center'>
