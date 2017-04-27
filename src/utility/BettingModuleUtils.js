@@ -141,7 +141,6 @@ var BettingModuleUtils = {
   getExposure: function(bettingMarketId, bets , currency = 'BTC'){
     let exposure = 0.0
 
-    //NOTE using bet.get('stake') for stake related calculation
     bets.forEach((bet, i) => {
 
       // TODO: Confirm if stake should be empty or having having a zero value if it is not available
@@ -192,11 +191,8 @@ var BettingModuleUtils = {
   // Returns:
   //  BackBookPercentage: the back book percentage of the market
   getBookPercentage: function( bestOfferList){
-    let backBookPercent = 0.0;
 
-    bestOfferList.forEach( (offer) => {
-      backBookPercent += ( (100 / offer.get('odds')) );
-    } )
+    const backBookPercent = bestOfferList.reduce( (total, offer) => total + ( 100 / offer.get('odds') ) , 0.0);
 
     return Math.round(backBookPercent);
   },
@@ -275,6 +271,9 @@ var BettingModuleUtils = {
   //  )
 
 
+  //     sample : render @ MyWager.jsx(
+  // BettingModuleUtils.getAverageOddsFromMatchedBets(this.props.matchedBetsData, 'mBTC', 5 )
+
   getAverageOddsFromMatchedBets: function( matchedBets, currency = 'BTC', precision = 5){
 
 
@@ -284,16 +283,16 @@ var BettingModuleUtils = {
     // Grouped Backer’s Stake = ∑ Backer’s Stake
     const accumulator = (result, bet) => {
 
-      const amountToBet =  bet.get('amount_to_bet') / Math.pow(10, precision);
-      const amountToWin =  bet.get('amount_to_win') / Math.pow(10, precision);
+      const amountToBet = bet.get('amount_to_bet') / Math.pow(10, precision);
+      const amountToWin = bet.get('amount_to_win') / Math.pow(10, precision);
 
-      if ( bet.get('back_or_lay') === BetTypes.BACK){
+      if ( bet.get('back_or_lay') === 'Back'){
         // for back bet, amount to bet is stake, amount to win is profit
         return result.update( 'groupedStake', (groupedStake) => groupedStake + amountToBet )
           .update( 'groupedLiability', (groupedLiability) => groupedLiability + amountToWin )
           .update( 'groupedProfit', (groupedProfit) => groupedProfit + amountToWin )
 
-      } else if ( bet.get('back_or_lay') === BetTypes.LAY){
+      } else if ( bet.get('back_or_lay') === 'Lay'){
         // for lay bet amount to bet is liability, amount to win is backers stake
         return result.update( 'groupedStake', (groupedStake) => groupedStake + amountToWin )
           .update( 'groupedLiability', (groupedLiability) => groupedLiability + amountToBet )
@@ -317,7 +316,7 @@ var BettingModuleUtils = {
     const averageOdds = ( averageOddsresult.get('groupedStake') + averageOddsresult.get('groupedProfit') ) /  averageOddsresult.get('groupedStake')
 
     averageOddsresult = averageOddsresult
-      .set('averageOdds', this.getFormattedCurrency(averageOdds, currency, oddsPlaces, false ))
+      .set('averageOdds', averageOdds.toFixed(oddsPlaces))
       .update('groupedProfit', (groupedProfit) => this.getFormattedCurrency( groupedProfit, currency, exposurePlaces, false) )
       .update('groupedLiability', (groupedLiability) => this.getFormattedCurrency( groupedLiability, currency, exposurePlaces, false) )
       .update('groupedStake', (groupedStake) => this.getFormattedCurrency( groupedStake, currency, stakePlaces, false) );
