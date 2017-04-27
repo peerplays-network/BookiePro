@@ -80,7 +80,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
-  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting']) ;
+  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']) ;
 
   const currencyFormat = setting.get('currencyFormat');
 
