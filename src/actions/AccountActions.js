@@ -6,6 +6,7 @@ import NavigateActions from './NavigateActions';
 import AssetActions from './AssetActions';
 import SettingActions from './SettingActions';
 import AppActions from './AppActions';
+import NotificationActions from './NotificationActions';
 import log from 'loglevel';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
@@ -249,6 +250,8 @@ class AccountActions {
           if(getState().getIn(['account', 'getTransactionHistoriesExportLoadingStatus'])===LoadingStatus.DEFAULT)
             return;
           log.debug('Get transaction histories succeed.');
+          //Add notification for transaction history export
+          dispatch(NotificationActions.addTransactionHistoryExportNotification());
           dispatch(AccountPrivateActions.setTransactionHistoriesExportAction(transactionHistoriesExport));
           dispatch(AccountPrivateActions.setGetTransactionHistoriesExportLoadingStatusAction(LoadingStatus.DONE));
         }).catch((error) => {
