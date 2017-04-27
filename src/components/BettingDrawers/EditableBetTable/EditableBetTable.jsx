@@ -133,10 +133,8 @@ const buildBetTableData = (bets) => {
 
 const EditableBetTable = (props) => {
   const { data } = props;
-  const backBets = data.hasIn(['unconfirmedBets', 'back']) ?
-                    data.getIn(['unconfirmedBets', 'back']) : Immutable.List();
-  const layBets = data.hasIn(['unconfirmedBets', 'lay']) ?
-                    data.getIn(['unconfirmedBets', 'lay']) : Immutable.List();
+  const backBets = data.get('back') || Immutable.List();
+  const layBets = data.get('lay') || Immutable.List();
   return (
     <div className={ `editable-bet-table-wrapper ${props.dimmed ? 'dimmed' : '' }` }>
       <div className='header'>

@@ -48,7 +48,7 @@ const renderContent = (props) => (
     }
     { !props.bets.isEmpty() &&
       <EditableBetTable
-        data={ Immutable.fromJS({ unconfirmedBets: props.bets }) }
+        data={ props.bets }
         title={ I18n.t('market_drawer.unconfirmed_bets.header') }
         deleteOne={ props.deleteUnconfirmedBet }
         deleteMany={ props.deleteUnconfirmedBets }
