@@ -313,6 +313,7 @@ var BettingModuleUtils = {
 
     // Average Odds (round to 2 decimal places) = (∑ Backer’s Stake + ∑ Liability) / ∑ Backer’s Stake
     // Average Odds (round to 2 decimal places) = (∑ Stake + ∑ Profit) / ∑ Stake
+    // assuming ∑ Stake !== 0
     const averageOdds = ( averageOddsresult.get('groupedStake') + averageOddsresult.get('groupedProfit') ) /  averageOddsresult.get('groupedStake')
 
     averageOddsresult = averageOddsresult

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal } from 'antd';
+import PropTypes from 'prop-types';
 
 class SoftwareUpdateModal extends Component {
 
@@ -23,11 +24,11 @@ class SoftwareUpdateModal extends Component {
 }
 
 SoftwareUpdateModal.propTypes = {
-  modalTitle: React.PropTypes.any,
-  closable: React.PropTypes.bool.isRequired,
-  visible: React.PropTypes.bool.isRequired,
-  onOk: React.PropTypes.func,
-  onCancel: React.PropTypes.func,
+  modalTitle: PropTypes.any,
+  closable: PropTypes.bool.isRequired,
+  visible: PropTypes.bool.isRequired,
+  onOk: PropTypes.func,
+  onCancel: PropTypes.func,
 
 };
 

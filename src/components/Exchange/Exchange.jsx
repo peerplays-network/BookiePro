@@ -9,6 +9,7 @@ import { QuickBetDrawer, MarketDrawer } from '../BettingDrawers';
 import { QuickBetDrawerActions, MarketDrawerActions, NavigateActions } from '../../actions';
 import Immutable from 'immutable';
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
+import PropTypes from 'prop-types';
 
 import Ps from 'perfect-scrollbar';
 
@@ -184,7 +185,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 Exchange.propTypes = {
-  completeTree: React.PropTypes.instanceOf(Immutable.List),
+  completeTree: PropTypes.instanceOf(Immutable.List),
 };
 
 export default withRouter(connect(
