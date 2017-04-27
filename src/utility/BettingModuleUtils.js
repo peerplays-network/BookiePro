@@ -265,7 +265,7 @@ var BettingModuleUtils = {
   // "remaining_amount_to_win": 5290,
   // "cancelled": falset
 
-
+  // precision =  precision: state.getIn(['asset', 'assetsById', '1.3.0', 'precision'])
 
   // Returns:
   //  Immutable.toJS(
@@ -274,7 +274,8 @@ var BettingModuleUtils = {
   // Grouped Stake
   //  )
 
-  getAverageOddsFromMatchedBets: function( matchedBets, currency = 'BTC', assetPrecision = 5){
+
+  getAverageOddsFromMatchedBets: function( matchedBets, currency = 'BTC', precision = 5){
 
 
     // Grouped Profit = ∑ Profit
@@ -283,16 +284,21 @@ var BettingModuleUtils = {
     // Grouped Backer’s Stake = ∑ Backer’s Stake
     const accumulator = (result, bet) => {
 
+      const amountToBet =  bet.get('amount_to_bet') / Math.pow(10, precision);
+      const amountToWin =  bet.get('amount_to_win') / Math.pow(10, precision);
+
       if ( bet.get('back_or_lay') === BetTypes.BACK){
         // for back bet, amount to bet is stake, amount to win is profit
-        return result.update( 'groupedStake', result.get('groupedStake') + bet.get('amount_to_bet'))
-          .update( 'groupedLiability', result.get('groupedLiability') + bet.get('amount_to_win'))
-          .update( 'groupedProfit', result.get('groupedProfit') + bet.get('amount_to_win'))
+        return result.update( 'groupedStake', (groupedStake) => groupedStake + amountToBet )
+          .update( 'groupedLiability', (groupedLiability) => groupedLiability + amountToWin )
+          .update( 'groupedProfit', (groupedProfit) => groupedProfit + amountToWin )
+
       } else if ( bet.get('back_or_lay') === BetTypes.LAY){
         // for lay bet amount to bet is liability, amount to win is backers stake
-        return result.update( 'groupedStake', result.get('groupedStake') + bet.get('amount_to_win'))
-          .update( 'groupedLiability', result.get('groupedLiability') + bet.get('amount_to_bet'))
-          .update( 'groupedProfit', result.get('groupedProfit') + bet.get('amount_to_bet'))
+        return result.update( 'groupedStake', (groupedStake) => groupedStake + amountToWin )
+          .update( 'groupedLiability', (groupedLiability) => groupedLiability + amountToBet )
+          .update( 'groupedProfit', (groupedProfit) => groupedProfit + amountToBet )
+
       } else {
         return result;
       }
@@ -307,12 +313,13 @@ var BettingModuleUtils = {
 
     // Average Odds (round to 2 decimal places) = (∑ Backer’s Stake + ∑ Liability) / ∑ Backer’s Stake
     // Average Odds (round to 2 decimal places) = (∑ Stake + ∑ Profit) / ∑ Stake
-    const averageOdds = ( averageOddsresult.get('groupedStake') + averageOddsresult.get('groupedProfit')) /  averageOddsresult.get('groupedStake')
+    const averageOdds = ( averageOddsresult.get('groupedStake') + averageOddsresult.get('groupedProfit') ) /  averageOddsresult.get('groupedStake')
 
-    averageOddsresult = averageOddsresult.set('averageOdds', BettingModuleUtils.getFormattedCurrency(averageOdds,
-      currency,
-      BettingModuleUtils.oddsPlaces,
-      false ));
+    averageOddsresult = averageOddsresult
+      .set('averageOdds', this.getFormattedCurrency(averageOdds, currency, oddsPlaces, false ))
+      .update('groupedProfit', (groupedProfit) => this.getFormattedCurrency( groupedProfit, currency, exposurePlaces, false) )
+      .update('groupedLiability', (groupedLiability) => this.getFormattedCurrency( groupedLiability, currency, exposurePlaces, false) )
+      .update('groupedStake', (groupedStake) => this.getFormattedCurrency( groupedStake, currency, stakePlaces, false) );
 
     return averageOddsresult;
   }
