@@ -38,8 +38,8 @@ class PlacedBets extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
-  const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
+  const unmatchedBets = state.getIn(['bet', 'unmatchedBetsById']);
+  const matchedBets = state.getIn(['bet', 'matchedBetsById']);
   return {
     isEmpty: unmatchedBets.isEmpty() && matchedBets.isEmpty()
   }
