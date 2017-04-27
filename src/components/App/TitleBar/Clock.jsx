@@ -11,7 +11,6 @@ class Clock extends Component {
   }
 
   componentDidMount() {
-    console.log('tick')
     this.timer = setInterval(
       () => this.tick(),
       1000
