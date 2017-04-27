@@ -1,0 +1,117 @@
+.windows-controls {
+  webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+  display: flex;
+  height: 32px;
+
+  .close {
+    -webkit-user-select: none;
+    user-select: none;
+    webkit-app-region: no-drag;
+    app-region: no-drag;
+    cursor: default;
+    width: 46px;
+    height: 100%;
+    line-height: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:active {
+      background-color: #f1707a;
+    }
+
+    &:hover {
+      transition: background-color 0.1s;
+      background-color: #e81123;
+    }
+    .icon {
+      width: 10px;
+      height: 10px
+    }
+
+  }
+
+  .minimize {
+    -webkit-user-select: none;
+    user-select: none;
+    webkit-app-region: no-drag;
+    app-region: no-drag;
+    cursor: default;
+    width: 46px;
+    height: 100%;
+    line-height: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:active {
+      background-color: #cccccc;
+    }
+
+    &:hover {
+      transition: background-color 0.1s;
+      background-color: #e5e5e5;
+    }
+
+    .icon {
+      width: 10px;
+      height: 10px
+    }
+  }
+
+  .minimize-dark-background {
+    .minimize();
+    &:active {
+      background-color: rgba(255; 255; 255; .23);
+    }
+
+    &:hover {
+      transition: background-color 0.1s;
+      background-color: rgba(255; 255; 255; .13);
+    }
+  }
+
+  .maximize {
+    -webkit-user-select: none;
+    user-select: none;
+    webkit-app-region: no-drag;
+    app-region: no-drag;
+    cursor: default;
+    width: 46px;
+    height: 100%;
+    line-height: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:active {
+      background-color: #cccccc;
+    }
+
+    &:hover {
+      transition: background-color 0.1s;
+      background-color: #e5e5e5;
+    }
+
+    .icon {
+      width: 10px;
+      height: 10px
+    }
+
+  }
+
+  .maximize-dark-background {
+    .maximize();
+    &:active {
+      background-color: rgba(255; 255; 255; .23);
+    }
+
+    &:hover {
+      transition: background-color 0.1s;
+      background-color: rgba(255; 255; 255; .13);
+    }
+  }
+
+}

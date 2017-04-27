@@ -106,7 +106,6 @@ class Exchange extends Component {
     let transitionName = this.props.location.pathname.split("/");
     const splitPaneStyle = {
       'top':'0px',
-      'paddingTop':'64px', //due to top bar
       'position': 'fixed'
     };
 

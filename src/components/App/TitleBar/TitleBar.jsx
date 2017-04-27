@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import MacTitleBar from './Mac';
+import MacTitleBar from './MacTitleBar';
+import WindowsTitleBar from './WindowsTitleBar';
 import { AppUtils } from '../../../utility';
 import { ConnectionStatus } from '../../../constants';
 import { connect } from 'react-redux';
 
 const isWindowsPlatform = AppUtils.isWindowsPlatform();
-const isMacPlatform = AppUtils.isMacPlatform();
 const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 
 // Import electron only if we are running inside electron (otherwise it will throw exception)
@@ -25,11 +25,13 @@ class TitleBar extends Component {
 
     this.state = {
       isWindowFocused,
+      isMaximized: false,
       isFullscreen: false
     };
     this.windowFocus = this.windowFocus.bind(this);
     this.windowBlur = this.windowBlur.bind(this);
     this.onResizeClick = this.onResizeClick.bind(this);
+    this.onMaximizeUnmaximizeClick = this.onMaximizeUnmaximizeClick.bind(this);
   }
 
   onMinimizeClick() {
@@ -39,13 +41,15 @@ class TitleBar extends Component {
     }
   }
 
-  onMaximizeClick() {
+  onMaximizeUnmaximizeClick() {
     if (electron) {
       const window = electron.remote.getCurrentWindow();
       if (window.isMaximized()){
         window.unmaximize();
+        this.setState({ isMaximized: false });
       } else {
         window.maximize();
+        this.setState({ isMaximized: true });
       }
     }
   }
@@ -94,22 +98,32 @@ class TitleBar extends Component {
   };
 
   render() {
-    if (isMacPlatform) {
+
+    if (isWindowsPlatform) {
+      return (
+        <WindowsTitleBar
+          isWindowFocused={ this.state.isWindowFocused }
+          onMaximizeClick={ this.onMaximizeUnmaximizeClick }
+          onRestoreDownClick={ this.onMaximizeUnmaximizeClick }
+          onMinimizeClick={ this.onMinimizeClick }
+          onCloseClick={ this.onCloseClick }
+          isMaximized={ this.state.isMaximized }
+          isConnected={ this.props.isConnected }
+        />
+      );
+    } else {
+      // Instead of returning nothing when it is either not Mac or Windows, resort to Mac style
       return (
         <MacTitleBar
           isWindowFocused={ this.state.isWindowFocused }
-          onMaximizeClick={ this.onMaximizeClick }
+          onMaximizeClick={ this.onMaximizeUnmaximizeClick }
           onMinimizeClick={ this.onMinimizeClick }
           onResizeClick={ this.onResizeClick }
           onCloseClick={ this.onCloseClick }
           isFullscreen={ this.state.isFullscreen }
           isConnected={ this.props.isConnected }
         />
-      );
-    } else if (isWindowsPlatform) {
-      return null;
-    } else {
-      return null;
+      )
     }
   }
 }

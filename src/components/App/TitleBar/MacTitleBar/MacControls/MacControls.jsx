@@ -21,7 +21,7 @@ var styles = {
   }
 };
 
-class Controls extends Component {
+class MacControls extends Component {
   static propTypes = {
     inset: PropTypes.bool,
     isFullscreen: PropTypes.bool,
@@ -62,4 +62,4 @@ class Controls extends Component {
 }
 
 
-export default Controls;
+export default MacControls;

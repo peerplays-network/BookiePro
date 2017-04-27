@@ -1,43 +1,41 @@
 import React, { Component } from 'react';
-import Controls from './Controls';
+import WindowsControls from './WindowsControls';
 import PropTypes from 'prop-types';
 import Clock from '../Clock';
 
-class MacTitleBar extends Component {
+class WindowsTitleBar extends Component {
 
   render() {
     return (
-      <div className='mac-title-bar'>
-        <div className='title'>Bookie</div>
+      <div className='windows-title-bar'>
         <div className='left'>
-          <Controls
-            isWindowFocused={ this.props.isWindowFocused }
-            onMaximizeClick={ this.props.onMaximizeClick }
-            onMinimizeClick={ this.props.onMinimizeClick }
-            onResizeClick={ this.props.onResizeClick }
-            onCloseClick={ this.props.onCloseClick }
-            isFullscreen={ this.props.isFullscreen }
-          />
-        </div>
-        <div className='right'>
           <i className={ this.props.isConnected ? 'connection-status-online' : 'connection-status-offline' } />
           <Clock className='clock' />
         </div>
-
+        <div className='right'>
+          <WindowsControls
+            isWindowFocused={ this.props.isWindowFocused }
+            onMaximizeClick={ this.props.onMaximizeClick }
+            onMinimizeClick={ this.props.onMinimizeClick }
+            onRestoreDownClick={ this.props.onRestoreDownClick }
+            onCloseClick={ this.props.onCloseClick }
+            isMaximized={ this.props.isMaximized }
+          />
+        </div>
       </div>
     )
   }
 
 }
 
-MacTitleBar.propTypes = {
+WindowsTitleBar.propTypes = {
   isWindowFocused: PropTypes.bool,
   onMaximizeClick: PropTypes.func,
-  onResizeClick: PropTypes.func,
+  onRestoreDownClick: PropTypes.func,
   onMinimizeClick: PropTypes.func,
   onCloseClick: PropTypes.func,
-  isFullscreen: PropTypes.bool,
+  isMaximized: PropTypes.bool,
   isConnected: PropTypes.bool
 };
 
-export default MacTitleBar;
+export default WindowsTitleBar;
