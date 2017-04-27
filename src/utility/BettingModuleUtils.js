@@ -286,13 +286,14 @@ var BettingModuleUtils = {
       const amountToBet = bet.get('amount_to_bet') / Math.pow(10, precision);
       const amountToWin = bet.get('amount_to_win') / Math.pow(10, precision);
 
-      if ( bet.get('back_or_lay') === 'Back'){
+      // TODO: may not need toLowerCase once we got the real data
+      if ( bet.get('back_or_lay').toLowerCase() === BetTypes.BACK){
         // for back bet, amount to bet is stake, amount to win is profit
         return result.update( 'groupedStake', (groupedStake) => groupedStake + amountToBet )
           .update( 'groupedLiability', (groupedLiability) => groupedLiability + amountToWin )
           .update( 'groupedProfit', (groupedProfit) => groupedProfit + amountToWin )
 
-      } else if ( bet.get('back_or_lay') === 'Lay'){
+      } else if ( bet.get('back_or_lay').toLowerCase() === BetTypes.LAY){
         // for lay bet amount to bet is liability, amount to win is backers stake
         return result.update( 'groupedStake', (groupedStake) => groupedStake + amountToWin )
           .update( 'groupedLiability', (groupedLiability) => groupedLiability + amountToBet )

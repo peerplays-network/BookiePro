@@ -13,7 +13,7 @@ class Sport extends Component {
   }
 
   render() {
-    const { sport, eventGroups } = this.props;
+    const { sport, eventGroups, currencyFormat } = this.props;
     return (
       <div className='sport-wrapper'>
         <SportBanner sport={ sport }/>
@@ -26,6 +26,7 @@ class Sport extends Component {
                 key={ idx }                    // required by React to have unique key
                 title={ eventGroup.get('name') }
                 events={ eventGroup.get('events') }
+                currencyFormat={ currencyFormat }
               />
             );
           })

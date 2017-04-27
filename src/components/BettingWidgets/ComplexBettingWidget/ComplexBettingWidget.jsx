@@ -176,7 +176,8 @@ class ComplexBettingWidget extends Component {
   }
 
   render() {
-
+    const { currencyFormat, bettingMarketGroupName, totalMatchedBetsAmount } = this.props;
+    
     const minNameWidth = 200;
     const minOfferWidth = 50;
     const minArrowWidth = 7;
@@ -192,12 +193,12 @@ class ComplexBettingWidget extends Component {
 
         const marketExposure = BettingModuleUtils.getFormattedCurrency(
            parseFloat(props.value.market_exposure),
-           this.props.currencyFormat,
+           currencyFormat,
            BettingModuleUtils.exposurePlaces  );
 
         const potentialExposure = BettingModuleUtils.getFormattedCurrency(
            BettingModuleUtils.getPotentialExposure(props.value.market_exposure, props.value.betslip_exposure ),
-           this.props.currencyFormat,
+           currencyFormat,
            BettingModuleUtils.exposurePlaces );
 
         const marketExposureClass = props.value.market_exposure >= 0 ?
@@ -210,7 +211,7 @@ class ComplexBettingWidget extends Component {
             <div className='name'>{props.value.name}</div>
             { props.value.betslip_exposure &&
               <div className='exposure'>
-                {  props.value.market_exposure.toFixed(BettingModuleUtils.exposurePlaces) &&
+                {  props.value.market_exposure > 0 &&
                   <span className={ marketExposureClass }>{ marketExposure }</span>
                 }
                 <Icon type='caret-right'></Icon>
@@ -250,7 +251,7 @@ class ComplexBettingWidget extends Component {
            <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
              { BettingModuleUtils.getFormattedCurrency(props.value.price,
-               this.props.currencyFormat,
+               currencyFormat,
                BettingModuleUtils.stakePlaces )}</div>
          </div> :
          <div className='back-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
@@ -264,7 +265,7 @@ class ComplexBettingWidget extends Component {
          <div className='back-offer'>
            <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
-             { BettingModuleUtils.getFormattedCurrency(props.value.price,this.props.currencyFormat, BettingModuleUtils.stakePlaces )}</div>
+             { BettingModuleUtils.getFormattedCurrency(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces )}</div>
          </div> :
          <div className='back-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }, {
@@ -277,7 +278,7 @@ class ComplexBettingWidget extends Component {
          <div className='back-offer back-all-offer'>
            <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
-             { BettingModuleUtils.getFormattedCurrency(props.value.price,this.props.currencyFormat, BettingModuleUtils.stakePlaces )}</div>
+             { BettingModuleUtils.getFormattedCurrency(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces )}</div>
          </div> :
          <div className='back-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }]
@@ -298,7 +299,7 @@ class ComplexBettingWidget extends Component {
          <div className='lay-offer lay-all-offer'>
            <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
-             { BettingModuleUtils.getFormattedCurrency(props.value.price,this.props.currencyFormat, BettingModuleUtils.stakePlaces )}</div>
+             { BettingModuleUtils.getFormattedCurrency(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces )}</div>
          </div> :
          <div className='lay-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }, {
@@ -311,7 +312,7 @@ class ComplexBettingWidget extends Component {
          <div className='lay-offer'>
            <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
-             { BettingModuleUtils.getFormattedCurrency(props.value.price,this.props.currencyFormat, BettingModuleUtils.stakePlaces )}</div>
+             { BettingModuleUtils.getFormattedCurrency(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces )}</div>
          </div> :
          <div className='lay-offer'>
            <div className='odds-offer'>
@@ -328,7 +329,7 @@ class ComplexBettingWidget extends Component {
          <div className='lay-offer'>
            <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
-             { BettingModuleUtils.getFormattedCurrency(props.value.price,this.props.currencyFormat, BettingModuleUtils.stakePlaces )}</div>
+             { BettingModuleUtils.getFormattedCurrency(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces )}</div>
          </div> :
          <div className='lay-offer'>
            <div className='odds-offer'>
@@ -352,10 +353,10 @@ class ComplexBettingWidget extends Component {
 
       <div className='complex-betting'>
         <div className='title'>
-          <div className='name'> { this.props.bettingMarketGroupName } </div>
+          <div className='name'> { bettingMarketGroupName } </div>
           <div className='rules'>
             <span>
-              {I18n.t('complex_betting_widget.matched')}:{ this.props.totalMatchedBetsAmount }
+              {I18n.t('complex_betting_widget.matched')}:{ totalMatchedBetsAmount }
             </span>
             {/* Rules Dialogue box */}
             <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
