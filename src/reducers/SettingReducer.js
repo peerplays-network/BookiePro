@@ -3,18 +3,19 @@ import Immutable from 'immutable';
 
 const initialState = Immutable.fromJS({
   settingByAccountId: {},
+  defaultSetting: {
+    lang: 'en-us',
+    timezone: 'UTC+08:00',
+    notification: true,
+    currencyFormat: 'BTC',
+    skipLogoutPopup: false
+  }
 });
 
 export default function (state = initialState, action) {
   switch(action.type) {
     case ActionTypes.SETTING_SET_INITIAL_SETTING: {
-      return state.mergeIn(['settingByAccountId', action.accountId], {
-        lang: 'en-us',
-        timezone: 'UTC+08:00',
-        notification: true,
-        currencyFormat: 'BTC',
-        skipLogoutPopup: false
-      })
+      return state.setIn(['settingByAccountId', action.accountId], state.get('defaultSetting'));
     }
     case ActionTypes.SETTING_UPDATE_LANG: {
       return state.mergeIn(['settingByAccountId', action.accountId], {
