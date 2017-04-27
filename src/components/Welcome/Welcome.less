@@ -1,95 +1,94 @@
-@light-blue: #004E9B;
-@light-green: #008487;
-.bg-lightblue{  background-color:@light-blue ;  }
-.bg-lightgreen{  background: @light-green;  }
-.margin-tb-10{
-  margin:10px 0;
-}
-.align-center{
-  align-items: center;
-}
-h3{
-  font-size:20px;
-}
+@import '../App/Colors.less';
+@import '../App/Common.less';
 
-.text-center{
-  text-align: center;
-}
-.welcomeComponent{
-  h3{
-    padding:40px 0;
+
+
+.welcomeComponent {
+  h3 {
+    font-size: 20px;
+    padding: 40px 0;
   }
-  .welcomeCarousel{
-    border:1px solid #FFFFFF;
-    padding:40px 30px;
-    margin: 0 50px;
-    h4{
-      font-size:18px;
-      font-weight:500;
+  .welcomeCarousel {
+    border: 1px solid @white;
+    background-color: @welcome_section_bg;
+    box-shadow: @welcome_section_shadow;
+    padding: 40px 30px;
+    margin: 0 auto;
+    width: 1190px;
+    h4 {
+      font-size: 18px;
+      font-weight: 500;
       text-transform: uppercase;
-      padding-bottom:10px;
-      border-bottom:1px solid #FFFFFF;
+      padding-bottom: 10px;
+      border-bottom: 1px solid @white;
     }
-    .middle-content{
-      padding:40px 0 0;
-      font-size:16px;
+    .middle-content {
+      padding: 40px 0 0;
+      font-size: 16px;
       line-height: 36px;
     }
   }
-  .btn{
-    margin:40px 0;
+  .btn {
+    margin: 40px 0;
   }
-}
-.ant-carousel{
-  .bookie-carousel{
-    height: 472px;
-    .slick-dots{
-      li{
-        button{
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background: transparent;
-          border: 1px solid #fff;
-          opacity: 1;
-        }
-        &.slick-active{
-          button{
+  .ant-carousel {
+    .bookie-carousel {
+      height: 472px;
+      .slick-dots {
+        li {
+          button {
             width: 10px;
-            background: #2FA5E6;
-            border:1px solid transparent;
+            height: 10px;
+            border-radius: 50%;
+            background: transparent;
+            border: 1px solid @welcome_carousel_dot;
+            opacity: 1;
+          }
+          &.slick-active {
+            button {
+              width: 10px;
+              background: @welcome_dot_active;
+              border: 1px solid transparent;
+            }
           }
         }
       }
     }
   }
-}
-.simple-widget{
-
-    .ant-row-flex{
-      border:1px solid #FFFFFF;
-      border-left:0 none;
-      &>div{
-        padding:3px 0 0 10px;
-        border-right:1px solid #FFFFFF;
-        &:last-child{
-          padding:0;
-          border-right:0 none;
+  .simple-widget {
+    .ant-row-flex {
+      border: 1px solid @white;
+      border-left: 0 none;
+      & > div {
+        padding: 0 0 0 10px;
+        border-right: 1px solid @white;
+        display: flex;
+        align-items: center;
+        &:last-child {
+          display: block;
+          padding: 0;
+          border-right: 0 none;
         }
       }
-      .ant-row-flex{
-        border:0 none;
-        &>div{
-          padding:3px 0;
-          &:last-child{
-            border-right:0 none;
+      .ant-row-flex {
+        border: 0 none;
+        & > div {
+          padding: 3px 0;
+          justify-content: center;
+          &:last-child {
+            border-right: 0 none;
           }
         }
       }
     }
-    p{
-      span{
+    p {
+      span {
         display: block;
       }
     }
+  }
 }
+
+
+
+

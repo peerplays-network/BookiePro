@@ -7,7 +7,7 @@ class CarouselComponent1 extends Component {
   render() {
     return (
       <div className='welcomeContent'>
-          <Row className='align-center' gutter={ 30 }
+          <Row className='align-center' gutter={ 46 }
                type='flex' align='center'>
             <Col span={ 16 }>
               <div className='simple-widget'>

@@ -20,7 +20,7 @@ class Welcome extends PureComponent{
   }
   render() {
     return (
-      <div className='sportsbg'>
+      <div className='onboardingSportsBackground'>
         <div className='welcomeComponent'>
           <div className='wrapper'>
             <div className='text-center'>
