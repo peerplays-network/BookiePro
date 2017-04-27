@@ -99,6 +99,11 @@ export default function(state = initialState, action) {
         showBetSlipSuccess: false,
       })
     }
+    case ActionTypes.BET_ADD_OR_UPDATE_ONGOING_BETS: {
+      return state.merge({
+        unmatchedBets: action.ongoingBets,
+      })
+    }
     default:
       return state;
   }
