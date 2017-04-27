@@ -28,11 +28,11 @@ class Signup extends PureComponent {
 
   render() {
     return (
-      <div className='signupBackground'>
-        <div className='registerComponent' >
+      <div className='onboardingSportsBackground'>
+        <div className='signupComponent' >
           <div className='wrapper'>
             <div className='text-center'>
-              <img src={ logo } className='logo' width='114px' height='105px' alt=''/>
+              <img src={ logo } className='logo' width='110px' height='112px' alt=''/>
               <p className='font18 margin-btm-24'>{I18n.t('signup.new_acc_req_text')}</p>
               <div className='center-ele'>
                 <SignupForm
