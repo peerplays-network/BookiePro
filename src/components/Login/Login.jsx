@@ -30,7 +30,7 @@ class Login extends Component {
         <div className='loginComponent' >
           <div className='wrapper'>
             <div className='text-center'>
-              <img src={ logo } height='150px' width='136px' alt=''/>
+              <img src={ logo } height='148' width='132' alt=''/>
               <div className='center-ele'>
                 <LoginForm onClickSignup={ this.onClickSignup }
                   onSubmit={ this.handleSubmit } errors={ this.props.errors } status={ this.props.status } />
