@@ -150,7 +150,7 @@ class Exchange extends Component {
                   <div style={ { 'height' : '100%', 'position' : 'relative' } }
                     ref='main'>
                      {React.cloneElement(this.props.children, {
-                       currencyFormat: 'mBTC'//this.props.currencyFormat
+                       currencyFormat: this.props.currencyFormat
                      })}
                   </div>
                   { selectBettingDrawer(transitionName) }
