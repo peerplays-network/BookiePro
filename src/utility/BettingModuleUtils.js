@@ -1,5 +1,6 @@
 import { BetTypes } from '../constants';
 import _ from 'lodash';
+import Immutable from 'immutable';
 
 const oddsPlaces = 2;
 const stakePlaces = 3; //minimum stake = 0.001 BTC
@@ -200,7 +201,7 @@ var BettingModuleUtils = {
     return Math.round(backBookPercent);
   },
 
-  //  =========== Betting Drawer ===========
+  //  =========== Betting Drawer =========== CR-036 page 2
 
   // Total (Betslip) = ∑ Back Bet’s Stake(BTC) & Lay Bet’s Liability(BTC) in the Betslip section
   //
@@ -237,25 +238,83 @@ var BettingModuleUtils = {
   },
 
 
-  //  =========== Average Odds ===========
+  //  =========== Average Odds =========== CR-036 page 2
 
-  //
+  // Matched Back Bets (Pending Change Request)
   // Grouped Profit = ∑ Profit
   // Grouped Stake = ∑ Stake
   // Average Odds (round to 2 decimal places) = (∑ Stake + ∑ Profit) / ∑ Stake
+
+  //  Matched Lay Bets (Pending Change Request)
+  //  Grouped Liability = ∑ Liability
+  // Grouped Backer’s Stake = ∑ Backer’s Stake
   // Average Odds (round to 2 decimal places) = (∑ Backer’s Stake + ∑ Liability) / ∑ Backer’s Stake
 
+  // NOTE format below is outdated according to the wiki
+  // https://bitbucket.org/ii5/bookie/wiki/blockchain-objects/bet
   // Parameters:
-  // stakeList, profitList : Array like  [4, 2, 8, 6]
-  // NOTE assuming the param are not Immutable.List,
+  // matchedBets :  Immutable.List( Array(bets) )
+  // bets.js
+  // "id": "1.106.2",
+  // "bettor_id": "1.2.48",
+  // "betting_market_id": "1.105.12",
+  // "amount_to_bet": 2150,
+  // "amount_to_win": 5290,
+  // "back_or_lay": "Lay",
+  // "remaining_amount_to_bet": 2150,
+  // "remaining_amount_to_win": 5290,
+  // "cancelled": falset
+
+
+
   // Returns:
-  //  average Odds
-  getAverageOddsFromMatchedBets: function( stakeList, profitList){
+  //  Immutable.toJS(
+  // average Odds,
+  //  Grouped Profit
+  // Grouped Stake
+  //  )
 
-    const totalStake = _.sum(stakeList);
-    const totalProfit = _.sum(profitList);
+  getAverageOddsFromMatchedBets: function( matchedBets, currency = 'BTC', assetPrecision = 5){
 
-    return  ( ( totalProfit + totalStake ) / totalStake ).toFixed(oddsPlaces);
+
+    // Grouped Profit = ∑ Profit
+    // Grouped Stake = ∑ Stake
+    //  Grouped Liability = ∑ Liability
+    // Grouped Backer’s Stake = ∑ Backer’s Stake
+    const accumulator = (result, bet) => {
+
+      if ( bet.get('back_or_lay') === BetTypes.BACK){
+        // for back bet, amount to bet is stake, amount to win is profit
+        return result.update( 'groupedStake', result.get('groupedStake') + bet.get('amount_to_bet'))
+          .update( 'groupedLiability', result.get('groupedLiability') + bet.get('amount_to_win'))
+          .update( 'groupedProfit', result.get('groupedProfit') + bet.get('amount_to_win'))
+      } else if ( bet.get('back_or_lay') === BetTypes.LAY){
+        // for lay bet amount to bet is liability, amount to win is backers stake
+        return result.update( 'groupedStake', result.get('groupedStake') + bet.get('amount_to_win'))
+          .update( 'groupedLiability', result.get('groupedLiability') + bet.get('amount_to_bet'))
+          .update( 'groupedProfit', result.get('groupedProfit') + bet.get('amount_to_bet'))
+      } else {
+        return result;
+      }
+    }
+
+    let averageOddsresult =  matchedBets.reduce(accumulator, Immutable.fromJS({
+      'groupedProfit' : 0.0,
+      'groupedLiability' : 0.0,
+      'groupedStake' : 0.0,
+      'averageOdds' : 0.0,
+    }));
+
+    // Average Odds (round to 2 decimal places) = (∑ Backer’s Stake + ∑ Liability) / ∑ Backer’s Stake
+    // Average Odds (round to 2 decimal places) = (∑ Stake + ∑ Profit) / ∑ Stake
+    const averageOdds = ( averageOddsresult.get('groupedStake') + averageOddsresult.get('groupedProfit')) /  averageOddsresult.get('groupedStake')
+
+    averageOddsresult = averageOddsresult.set('averageOdds', BettingModuleUtils.getFormattedCurrency(averageOdds,
+      currency,
+      BettingModuleUtils.oddsPlaces,
+      false ));
+
+    return averageOddsresult;
   }
 
 }
