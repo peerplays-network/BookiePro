@@ -1,9 +1,11 @@
+@import '../../App/Colors.less';
+@import '../../App/Common.less';
 .rules-modal{
   .ant-modal{
     overflow: hidden;
-    background: rgba(6,31,50,0.95);
-    border: 1px solid #FFFFFF;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+    background: @dialogue_bg;
+    border: 1px solid @white;
+    box-shadow: @dialogue_shadow;
     top:5%;
     max-height: 90%;
     padding-bottom:0;
@@ -12,17 +14,18 @@
     background-color: transparent;
     border-radius: 0;
     border-bottom:0 none;
-    padding-bottom:5px;
+    padding:25px 40px 15px;
     .ant-modal-title{
-      color: #FFFFFF;
+      color: @dialogue_blue_title;
       font-size:16px;
       font-weight:700;
       text-transform: uppercase;
     }
   }
   .ant-modal-body{
+    padding:0 40px 0;
     overflow: auto;
-    height: 473px;
+    height: 400px;
   }
   .ant-modal-content{
     background-color: transparent;
@@ -38,7 +41,8 @@
   .ant-modal-close{
     right: 20px;
     top: 10px;
-    color: #FFFFFF;
+    color: @white;
+    font-weight:normal;
     .ant-modal-close-x{
       font-size: 20px;
     }
@@ -52,32 +56,9 @@
     }
     li{
       list-style: disc;
-
       font-size:16px;
       line-height:32px;
       margin-bottom:0;
     }
   }
-  .ps-container:hover > .ps-scrollbar-y-rail:hover {
-    background-color: transparent;
-    opacity: 1;
-  }
-}
-.rules-modal{
-  .ant-modal-header{
-    .ant-modal-title{
-      color: #00BEF4;
-    }
-  }
-}
-
-.ant-modal-mask{
-  background-color: rgba(0,36,64,0.95);
-}
-.modal-inline{
-  display: inline-block;
-}
-.height-div{
-  height:1070px;
-  overflow-y: scroll;
 }
