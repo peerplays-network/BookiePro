@@ -28,7 +28,7 @@ class Signup extends PureComponent {
 
   render() {
     return (
-      <div className='signupBackground'>
+      <div className='onboardingSportsBackground'>
         <div className='signupComponent' >
           <div className='wrapper'>
             <div className='text-center'>
