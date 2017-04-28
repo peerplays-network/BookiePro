@@ -80,7 +80,7 @@ class SoftwareUpdateActions {
           // Retry
           if (attempt > 0) {
             log.warn('Retry checking for software update', error);
-            dispatch(SoftwareUpdateActions.checkForSoftwareUpdate(attempt-1));
+            return dispatch(SoftwareUpdateActions.checkForSoftwareUpdate(attempt-1));
           } else {
             // Log the error and give up
             log.error('Fail to check for software update', error);
@@ -99,18 +99,20 @@ class SoftwareUpdateActions {
       const accountName = Config.softwareUpdateReferenceAccountName;
       // Fetch reference account in async manner
       return CommunicationService.getFullAccount(accountName).then( (fullAccount) => {
-        const account = fullAccount.get('account');
-        const statistics = fullAccount.get('statistics');
-        dispatch(SoftwareUpdateActions.setReferenceAccountAction(account));
-        dispatch(SoftwareUpdateActions.setReferenceAccountStatisticsAction(statistics));
-        log.debug('Listen to software update succeed.')
-        // Check for software update
-        return dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());
+        if (fullAccount) {
+          const account = fullAccount.get('account');
+          const statistics = fullAccount.get('statistics');
+          dispatch(SoftwareUpdateActions.setReferenceAccountAction(account));
+          dispatch(SoftwareUpdateActions.setReferenceAccountStatisticsAction(statistics));
+          log.debug('Listen to software update succeed.')
+          // Check for software update
+          return dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());
+        }
       }).catch((error) => {
         // Retry
         if (attempt > 0) {
           log.warn('Retry listening to software update', error);
-          dispatch(SoftwareUpdateActions.listenToSoftwareUpdate(attempt-1));
+          return dispatch(SoftwareUpdateActions.listenToSoftwareUpdate(attempt-1));
         } else {
           log.error('Fail to listen to software update', error);
           // Throw error
