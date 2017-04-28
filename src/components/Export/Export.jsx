@@ -36,7 +36,7 @@ class Export extends PureComponent{
   */
   render(){
     return(
-      <div className='export-overlay'>
+      <div className={ this.props.screenName === I18n.t('mybets.screenName') ? 'export-overlay-top export-overlay' : 'export-overlay' } >
       {
         this.props.exportLoadingStatus===LoadingStatus.LOADING ?
           <Card className='export-card' title={ I18n.t('application.exportLoadingHeader') }>

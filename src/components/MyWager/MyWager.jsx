@@ -13,6 +13,8 @@ import { List, Map } from 'immutable';
 import { LoadingStatus } from '../../constants';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
+import Immutable from 'immutable';
+import { convertAmount } from '../../utility/CurrencyUtils';
 
 const TabPane = Tabs.TabPane;
 var tabKey = 'unmatchedBets';
@@ -49,7 +51,7 @@ class MyWagerPrivateFunctions{
   }
 
   //formatting data after getting all reuired data merged
-  static formatBettingData(data){
+  static formatBettingData(data, precision, targetCurrency){
     //showing past data as resolvedBets and future data as matchedBets unmatchedBets
     if(tabKey === 'resolvedBets')
       data = data.filter(row => (moment(row.get('event_time')).isBetween(startDate, endDate)));
@@ -62,8 +64,8 @@ class MyWagerPrivateFunctions{
       let rowObj = {
         'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
         'odds' : (row.get('amount_to_win') / row.get('amount_to_bet')).toFixed(2),
-        'amount_to_bet' : (row.get('amount_to_bet') / 100000 ),
-        'amount_to_win' : (row.get('amount_to_win') / 100000 ),
+        'amount_to_bet' : convertAmount(row.get('amount_to_bet'),precision, targetCurrency),
+        'amount_to_win' : convertAmount(row.get('amount_to_win'),precision, targetCurrency),
         'event_time': getFormattedDate(row.get('event_time'))
       };
       //randomly changed win value to negative for liability display
@@ -79,6 +81,69 @@ class MyWagerPrivateFunctions{
     });
     return data;
   }
+
+  //Resolved bets Export - formatting data after getting all reuired data merged
+  static formatBettingDataToExport(data, precision, targetCurrency){
+    //showing past data as resolvedBets and future data as matchedBets unmatchedBets
+    data = data.filter(row => (moment(row.get('event_time')).isBetween(startDate, endDate)))
+    //check if this can be improved
+    //TODO: use .map() instead of foreach as suggested
+    data.forEach((row, index) => {
+      let rowObj = {
+        'event_time': getFormattedDate(row.get('event_time')),
+        'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
+        'odds' : (row.get('amount_to_win') / row.get('amount_to_bet')).toFixed(2),
+        'amount_to_bet' : convertAmount(row.get('amount_to_bet'),precision, targetCurrency),
+        //randomly changed win value to negative for liability display
+        'amount_to_win' : convertAmount(row.get('amount_to_win'),precision, targetCurrency) * (Math.floor(Math.random()*2) === 1 ? 1 : -1)
+      };
+      data[index] = row.merge(rowObj);
+    });
+    return data;
+  }
+
+  //common function to merge betsData, bettingMarket, bettingMarketGroup, Event and sports for display and export functionality
+  static mergeBetData(BetData, state){
+    let mergeData = [];
+    BetData.forEach(row =>
+    {
+      let rowObj = {
+        key: row.get('id'),
+        id: row.get('id'),
+        'betting_market_id': row.get('betting_market_id'),
+        'back_or_lay': row.get('back_or_lay')
+      }
+      //used same name amount_to_bet and amount_to_win for matchedBets and unmatchedBets to shorten code
+      if(tabKey === 'unmatchedBets'){
+        rowObj.cancelled = row.get('cancelled');
+        rowObj.amount_to_bet = row.get('remaining_amount_to_bet');
+        rowObj.amount_to_win = row.get('remaining_amount_to_win');
+      }
+      else {
+        rowObj.amount_to_bet = row.get('amount_to_bet');
+        rowObj.amount_to_win = row.get('amount_to_win');
+      }
+      mergeData.push(Map(rowObj));
+    });
+
+    //merging betting market data for display and betting_market_group_id for reference
+    mergeData = mergeRelationData(mergeData, state.getIn(['bettingMarket','bettingMarketsById']), 'betting_market_id',
+      {betting_market_group_id: 'betting_market_group_id' , payout_condition_string: 'payout_condition_string'});
+
+    //merging betting market group data for display and eventid for reference
+    mergeData = MyWagerPrivateFunctions.mergeBettingMarketGroup(mergeData,
+      state.getIn(['bettingMarketGroup','bettingMarketGroupsById']), 'betting_market_group_id');
+
+    //merging evemt data for display and sport id for reference
+    mergeData = mergeRelationData(mergeData, state.getIn(['event','eventsById']), 'event_id',
+      {'name': 'event_name' , 'start_time': 'event_time', 'sport_id': 'sport_id'});
+
+    //merging sport data for display
+    mergeData = mergeRelationData(mergeData, state.getIn(['sport','sportsById']), 'sport_id',
+      {'name': 'sport_name'});
+
+    return mergeData;
+  }
 }
 
 class MyWager extends PureComponent {
@@ -87,25 +152,29 @@ class MyWager extends PureComponent {
     this.state = {
       period: 'last7Days',
       startDate: moment().subtract(6, 'days'),
-      endDate: moment()
+      endDate: moment(),
+      exportButtonClicked: false
     };
     this.onTabChange = this.onTabChange.bind(this);
     this.onHomeLinkClick = this.onHomeLinkClick.bind(this);
     this.cancelBet = this.cancelBet.bind(this);
     this.cancelAllBets = this.cancelAllBets.bind(this);
     this.onSearchClick = this.onSearchClick.bind(this);
+    this.onResolvedBetsExport = this.onResolvedBetsExport.bind(this);
     this.onPeriodSelect = this.onPeriodSelect.bind(this);
     this.disabledStartDate = this.disabledStartDate.bind(this);
     this.disabledEndDate = this.disabledEndDate.bind(this);
     this.onStartDateSelect = this.onStartDateSelect.bind(this);
     this.onEndDateSelect = this.onEndDateSelect.bind(this);
+    this.resetResolvedBetsExportLoadingStatus = this.resetResolvedBetsExportLoadingStatus.bind(this);
+    this.clearResolvedBetsExport = this.clearResolvedBetsExport.bind(this);
   }
 
   onTabChange(key) {
     if (key === 'resolvedBets') {
       //set default period - startDate and endDate
-      this.setState({'startDate': moment().subtract(6, 'days').hour(0).minute(0),
-        'endDate': moment(), 'period': 'last7Days'});
+      // this.setState({'startDate': moment().subtract(6, 'days').hour(0).minute(0),
+      //   'endDate': moment(), 'period': 'last7Days'});
       this.props.getResolvedBets(this.state.startDate, this.state.endDate);
       tabKey = key;
     }
@@ -212,6 +281,27 @@ class MyWager extends PureComponent {
     this.props.getResolvedBets(this.state.startDate, this.state.endDate);
   }
 
+  //Export Resolved Bets
+  onResolvedBetsExport(event){
+    event.preventDefault();
+    //To show export related status after the 'Export' button is clicked
+    this.setState({ exportButtonClicked: true });
+    startDate = this.state.startDate;
+    endDate = this.state.endDate;
+    this.props.getResolvedBetsToExport(this.state.startDate, this.state.endDate);
+  }
+
+  //Cancel Resolved Bets export - Resetting it's loading status to 'default'
+  resetResolvedBetsExportLoadingStatus(){
+    this.props.resetResolvedBetsExportLoadingStatus();
+    this.setState({ exportButtonClicked: false });
+  }
+
+  //Clear Resolved Bets data after downloading it to release memory
+  clearResolvedBetsExport(){
+    this.props.clearResolvedBetsExport();
+  }
+
   render() {
     return (
       <div className='my-wager'>
@@ -240,6 +330,12 @@ class MyWager extends PureComponent {
               disabledStartDate={ this.disabledStartDate } disabledEndDate={ this.disabledEndDate }
               onStartDateSelect={ this.onStartDateSelect } onEndDateSelect={ this.onEndDateSelect }
               onPeriodSelect={ this.onPeriodSelect } onSearchClick={ this.onSearchClick }
+              exportButtonClicked={ this.state.exportButtonClicked }
+              onResolvedBetsExport={ this.onResolvedBetsExport }
+              resolvedBetsExport={ this.props.resolvedBetsExportData }
+              resolvedBetsExportLoadingStatus={ this.props.resolvedBetsExportLoadingStatus }
+              resetResolvedBetsExportLoadingStatus={ this.resetResolvedBetsExportLoadingStatus }
+              clearResolvedBetsExport={ this.clearResolvedBetsExport }
             />
           </TabPane>
         </Tabs>
@@ -249,6 +345,12 @@ class MyWager extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
+  //temporarily setting accountId to default
+  // const account = state.get('account');
+  // const accountId = account.getIn(['account','id']);
+  const accountId = '1.2.248';
+  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || Immutable.Map();
+
   const columns = [
     {
       title: I18n.t('mybets.event_time'),
@@ -276,67 +378,37 @@ const mapStateToProps = (state) => {
       key: 'odds',
     },
     {
-      title: I18n.t('mybets.stake') + '(' + (state.getIn(['setting','currencyFormat']) === 'BTC' ? 'Ƀ' : 'm') + ')',
+      title: I18n.t('mybets.stake') + '(' + (setting.get('currencyFormat') === 'BTC' ? 'Ƀ' : 'm') + ')',
       dataIndex: 'amount_to_bet',
       key: 'amount_to_bet',
     },
     {
-      title: I18n.t('mybets.profit') + ' / ' + I18n.t('mybets.liability') + '(' + (state.getIn(['setting','currencyFormat']) === 'BTC' ? 'Ƀ' : 'm') + ')',
+      title: I18n.t('mybets.profit') + ' / ' + I18n.t('mybets.liability') + '(' + (setting.get('currencyFormat') === 'BTC' ? 'Ƀ' : 'm') + ')',
       dataIndex: 'amount_to_win',
       key: 'amount_to_win'
     }
   ];
 
   let mergeData = [];
+  let exportData = [];
   let total = 0;
   if((tabKey !== 'resolvedBets' &&  state.getIn(['bet','getOngoingBetsLoadingStatus']) === LoadingStatus.DONE) ||
     (tabKey === 'resolvedBets' &&  state.getIn(['bet','getResolvedBetsLoadingStatus']) === LoadingStatus.DONE)){
 
-    //get bet data on tab selected
-    //filtering unmatchedBets - cancelled bets
-    state.getIn(['bet',tabKey + 'ById'])
-    .filter(row => (tabKey !== 'unmatchedBets' ||
-      (tabKey === 'unmatchedBets' && !state.getIn(['bet','cancelBetsByIdsLoadingStatus']).get(row.get('id')))))
-    .forEach(row =>
-    {
-      let rowObj = {
-        key: row.get('id'),
-        id: row.get('id'),
-        'betting_market_id': row.get('betting_market_id'),
-        'back_or_lay': row.get('back_or_lay')
-      }
-      //used same name amount_to_bet and amount_to_win for matchedBets and unmatchedBets to shorten code
-      if(tabKey === 'unmatchedBets'){
-        rowObj.cancelled = row.get('cancelled');
-        rowObj.amount_to_bet = row.get('remaining_amount_to_bet');
-        rowObj.amount_to_win = row.get('remaining_amount_to_win');
-      }
-      else {
-        rowObj.amount_to_bet = row.get('amount_to_bet');
-        rowObj.amount_to_win = row.get('amount_to_win');
-      }
-      mergeData.push(Map(rowObj));
-    });
-
-    //merging betting market data for display and betting_market_group_id for reference
-    mergeData = mergeRelationData(mergeData, state.getIn(['bettingMarket','bettingMarketsById']), 'betting_market_id',
-      {betting_market_group_id: 'betting_market_group_id' , payout_condition_string: 'payout_condition_string'});
-
-    //merging betting market group data for display and eventid for reference
-    mergeData = MyWagerPrivateFunctions.mergeBettingMarketGroup(mergeData,
-      state.getIn(['bettingMarketGroup','bettingMarketGroupsById']), 'betting_market_group_id');
-
-    //merging evemt data for display and sport id for reference
-    mergeData = mergeRelationData(mergeData, state.getIn(['event','eventsById']), 'event_id',
-      {'name': 'event_name' , 'start_time': 'event_time', 'sport_id': 'sport_id'});
-
-    //merging sport data for display
-    mergeData = mergeRelationData(mergeData, state.getIn(['sport','sportsById']), 'sport_id',
-      {'name': 'sport_name'});
+    //merge bets data based on tab selected
+    if(tabKey === 'unmatchedBets'){
+      mergeData = MyWagerPrivateFunctions.mergeBetData(
+        state.getIn(['bet',tabKey + 'ById'])
+          //filtering unmatchedBets - cancelled bets
+          .filter(row => !state.getIn(['bet','cancelBetsByIdsLoadingStatus']).get(row.get('id')))
+        , state);
+    }
+    else
+      mergeData = MyWagerPrivateFunctions.mergeBetData(state.getIn(['bet',tabKey + 'ById']), state);
 
     //formating data for display
-    mergeData = MyWagerPrivateFunctions.formatBettingData(mergeData);
-    mergeData = List(mergeData);
+    mergeData = MyWagerPrivateFunctions.formatBettingData(mergeData, state.getIn(['asset', 'assetsById', '1.3.0']).get('precision'),
+      setting.get('currencyFormat'));
 
     //totalling the Bets stake and profit/liability
     mergeData.forEach((row, index) => {
@@ -345,6 +417,28 @@ const mapStateToProps = (state) => {
 
     //TODO: verify if we will use 5 or 6 digits after decimal
     total = total.toFixed(5);
+  }
+
+  if(tabKey === 'resolvedBets' &&  state.getIn(['bet','getResolvedBetsExportLoadingStatus']) === LoadingStatus.DONE){
+    exportData = MyWagerPrivateFunctions.mergeBetData(state.getIn(['bet','resolvedBetsExportById']), state);
+    //formating data for display
+    exportData = MyWagerPrivateFunctions.formatBettingDataToExport(exportData, state.getIn(['asset', 'assetsById', '1.3.0']).get('precision'),
+      setting.get('currencyFormat'));
+
+    //Generated Resolved bets export object array using foreach to display properties in particular order in excel.
+    //TODO: Need to check if this can be improved
+    /*NOTE: Things to be taken care of for Resolved bet export data are listed below:-
+      1. Object property name change as per column configuration
+      2. Sequence of properties in Object as per column configuration
+      3. Removing unwanted columns from export data
+    */
+    exportData.forEach((row, index) => {
+      let formattedRow = {};
+      for (var i = 0; i < columns.length; i++) {
+        formattedRow[columns[i].title] = row.get(columns[i].key);
+      }
+      exportData[index] = formattedRow;
+    });
   }
 
   switch (tabKey) {
@@ -370,7 +464,9 @@ const mapStateToProps = (state) => {
         resolvedBetsData: mergeData,
         resolvedBetsLoadingStatus: state.getIn(['bet','getResolvedBetsLoadingStatus']),
         resolvedBetsCurrencyFormat: state.getIn(['setting','currencyFormat']),
-        resolvedBetsTotal: total
+        resolvedBetsTotal: total,
+        resolvedBetsExportData: exportData,
+        resolvedBetsExportLoadingStatus: state.getIn(['bet','getResolvedBetsExportLoadingStatus'])
       }
     default:
   }
@@ -381,6 +477,9 @@ function mapDispatchToProps(dispatch){
     navigateTo: NavigateActions.navigateTo,
     getOngoingBets: BetActions.getOngoingBets,
     getResolvedBets: BetActions.getResolvedBets,
+    getResolvedBetsToExport: BetActions.getResolvedBetsToExport,
+    resetResolvedBetsExportLoadingStatus: BetActions.resetResolvedBetsExportLoadingStatus,
+    clearResolvedBetsExport: BetActions.clearResolvedBetsExport,
     cancelBets: BetActions.cancelBets
   }, dispatch);
 }

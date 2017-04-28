@@ -4,14 +4,17 @@ import { LoadingStatus } from '../../constants';
 import './MyWager.less';
 import { List } from 'immutable';
 import { I18n } from 'react-redux-i18n';
+import Export from '../Export';
 
 class ResolvedBets extends Component {
   render() {
     const { columns, resolvedBets, resolvedBetsLoadingStatus, currencyFormat, betsTotal ,
       period, disabledStartDate, disabledEndDate, onStartDateSelect, onEndDateSelect, onPeriodSelect, onSearchClick,
-      startDate, endDate
+      startDate, endDate, onResolvedBetsExport, exportButtonClicked, resolvedBetsExport, resolvedBetsExportLoadingStatus,
+      resetResolvedBetsExportLoadingStatus, clearResolvedBetsExport
       } = this.props;
     return (
+      <div>
       <div>
         <div className='top-data clearfix'>
           <div className='float-left'>
@@ -56,7 +59,10 @@ class ResolvedBets extends Component {
                     className={ (period === 'custom' && (startDate===null || endDate===null) ? 'btn-regular-disabled':'btn-regular') + ' btn' }
                     disabled={ period === 'custom' && (startDate===null || endDate===null) }
                     onClick={ onSearchClick }>{I18n.t('mybets.search') }</button>
-                  <a className='btn btn-regular margin-left-10' href=''>{I18n.t('mybets.export') }</a>
+                  <button
+                    className={ (period === 'custom' && (startDate===null || endDate===null) ? 'btn-regular-disabled':'btn-regular') + ' btn margin-left-10' }
+                    disabled={ (period === 'custom' && (startDate===null || endDate===null)) || exportButtonClicked }
+                    onClick={ onResolvedBetsExport }>{I18n.t('mybets.export') }</button>
                 </div>
               </div>
             </div>
@@ -68,6 +74,15 @@ class ResolvedBets extends Component {
           locale={ {emptyText: ( resolvedBets && resolvedBets.length === 0 &&
             resolvedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : resolvedBetsLoadingStatus )} }
           className='bookie-table' dataSource={ List(resolvedBets).toJS() } columns={ columns }/>
+      </div>
+      { exportButtonClicked ?
+        <Export
+          exportData={ List(resolvedBetsExport).toJS() }
+          exportLoadingStatus={ resolvedBetsExportLoadingStatus }
+          resetExportLoadingStatus={ resetResolvedBetsExportLoadingStatus }
+          clearExportDataStore={ clearResolvedBetsExport }
+          screenName={ I18n.t('mybets.screenName') }
+          />: null }
       </div>
     )
   }

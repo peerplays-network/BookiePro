@@ -270,7 +270,7 @@ class AccountActions {
 
   //Clear transaction history export data after download to clean up memory
   static clearTransactionHistoryExport(){
-    return AccountPrivateActions.setTransactionHistoriesExportAction([]);
+    return AccountPrivateActions.setTransactionHistoriesExportAction();
   }
 
   static getDepositAddress() {

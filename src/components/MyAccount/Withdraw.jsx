@@ -5,6 +5,7 @@ import {
 } from 'antd';
 import { Field, reduxForm } from 'redux-form/immutable';
 import { LoadingStatus } from '../../constants';
+import { convertAmount } from '../../utility/CurrencyUtils';
 
 //Component to render fields
 const renderField = ({ className, errors, placeholder,hasWithdrawAmountErr, input, type,
@@ -39,21 +40,9 @@ class Withdraw extends Component{
     super(props);
     this.state = {
       hasWithdrawAmountErr: false,
-      convertedAvailableBalance: this.convertAmount(this.props.availableBalance,5,this.props.currencyFormat)
+      convertedAvailableBalance: convertAmount(this.props.availableBalance,this.props.precision,this.props.currencyFormat)
     }
     this.onwithdrawAmountChange = this.onwithdrawAmountChange.bind(this);
-  }
-
-  //Converts the amount obtained in satoshi to the user's set currency as per the precision
-  convertAmount(amountInSatoshi, precision, targetCurrency){
-    if(amountInSatoshi !==-1){
-      if(targetCurrency === 'BTC')
-        return (amountInSatoshi / Math.pow(10, precision));
-      if(targetCurrency === 'mBTC')
-        return (amountInSatoshi / Math.pow(10, precision)) * 1000;
-    } else {
-      return -1;
-    }
   }
 
   //Check entered amount with user's available balance
