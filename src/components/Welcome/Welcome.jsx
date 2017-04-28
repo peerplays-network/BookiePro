@@ -20,26 +20,22 @@ class Welcome extends PureComponent{
   }
   render() {
     return (
-      <div className='sportsbg'>
-        <div className='welcomeComponent'>
-          <div className='wrapper'>
-            <div className='text-center'>
-              <h3
-                className='text-center'>{I18n.t('welcome.getting_started')}</h3>
-            </div>
-            <div className='welcomeCarousel'>
-              <Carousel className='bookie-carousel'>
-                <div> <CarouselComponent1/> </div>
-                <div> <CarouselComponent2/> </div>
-                <div> <CarouselComponent3/> </div>
-              </Carousel>
-            </div>
-            <div className='registerComponent text-center'>
-              <button className='btn btn-regular' onClick={ this.onClickStartBetting }>
-                {I18n.t('welcome.start_betting_now')}
-              </button>
-            </div>
-          </div>
+      <div className='onboardingSportsBackground welcomeComponent wrapper'>
+        <div className='text-center'>
+          <h3
+            className='text-center'>{I18n.t('welcome.getting_started')}</h3>
+        </div>
+        <div className='welcomeCarousel'>
+          <Carousel className='bookie-carousel'>
+            <div> <CarouselComponent1/> </div>
+            <div> <CarouselComponent2/> </div>
+            <div> <CarouselComponent3/> </div>
+          </Carousel>
+        </div>
+        <div className='registerComponent text-center'>
+          <button className='btn btn-regular' onClick={ this.onClickStartBetting }>
+            {I18n.t('welcome.start_betting_now')}
+          </button>
         </div>
       </div>
     )

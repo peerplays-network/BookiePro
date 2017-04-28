@@ -31,13 +31,6 @@
 @desktop:     ~"only screen and (max-width: 1366px)";
 @desktop-xl:  ~"only screen and (min-width: 1366px)";
 
-.sportsbg{
-  background: @app-bg;
-  background: url(../../assets/images/sports-background.png);
-  background-size: cover;
-  height: 100%;
-}
-
 //TODO: further optimize perfect scrollbar css
 //copied from peerplaysblockchain-peerplays-graphene-ui
 /* perfect-scrollbar v0.6.2 */
@@ -140,14 +133,6 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: @base-font-size;
   line-height: 1.42857143; //reference from bootstrap
-  color: #fff;
+  color: @white;
 }
 
-
-.float-left {
-  float: left;
-}
-
-.float-right {
-  float: right;
-}
