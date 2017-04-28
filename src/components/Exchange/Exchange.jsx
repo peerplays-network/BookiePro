@@ -9,6 +9,7 @@ import { QuickBetDrawer, MarketDrawer } from '../BettingDrawers';
 import { QuickBetDrawerActions, MarketDrawerActions, NavigateActions } from '../../actions';
 import Immutable from 'immutable';
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
+import PropTypes from 'prop-types';
 
 import Ps from 'perfect-scrollbar';
 
@@ -148,7 +149,9 @@ class Exchange extends Component {
                 primary='second'>
                   <div style={ { 'height' : '100%', 'position' : 'relative' } }
                     ref='main'>
-                    { this.props.children }
+                     {React.cloneElement(this.props.children, {
+                       currencyFormat: this.props.currencyFormat
+                     })}
                   </div>
                   { selectBettingDrawer(transitionName) }
             </SplitPane>
@@ -160,6 +163,12 @@ class Exchange extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+
+  const account = state.get('account');
+  const accountId = account.getIn(['account','id']);
+  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting'])
+
+  const currencyFormat = setting.get('currencyFormat');
   // Determine which betting drawer we should check
   let path = ['marketDrawer', 'unconfirmedBets'];
   const transitionName = ownProps.location.pathname.split("/");
@@ -170,7 +179,8 @@ const mapStateToProps = (state, ownProps) => {
   const sidebar = state.get('sidebar');
   return {
     completeTree: sidebar.get('complete_tree'),
-    hasUnplacedBets: !state.getIn(path).isEmpty()
+    hasUnplacedBets: !state.getIn(path).isEmpty(),
+    currencyFormat
   };
 }
 
@@ -184,7 +194,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 Exchange.propTypes = {
-  completeTree: React.PropTypes.instanceOf(Immutable.List),
+  completeTree: PropTypes.instanceOf(Immutable.List),
 };
 
 export default withRouter(connect(

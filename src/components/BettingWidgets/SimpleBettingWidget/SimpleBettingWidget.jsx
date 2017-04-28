@@ -6,6 +6,7 @@ import {  Table } from 'antd';
 import RulesModal from '../../Modal/RulesModal'
 import { QuickBetDrawerActions } from '../../../actions';
 import { I18n, Translate } from 'react-redux-i18n';
+import { BettingModuleUtils } from '../../../utility';
 const bitcoinSymbol = '\u0243';
 // We cannot use CSS to override antd Table column width using CSS
 // This can only be done via the code
@@ -25,7 +26,7 @@ const renderEventTime = (text, record) => {
   return eventTime.format('DD/MM/YYYY HH:mm');
 }
 
-const getColumns = (renderOffer) => ([
+const getColumns = (renderOffer, currencyFormat) => ([
   {
     dataIndex: 'time',
     key: 'time',
@@ -46,13 +47,13 @@ const getColumns = (renderOffer) => ([
       key: 'back_offer_home',
       width: offerColumnWidth,
       className: 'back-offer',
-      render: renderOffer('back', 'lay', 1)
+      render: renderOffer('back', 'lay', 1, currencyFormat)
     }, {
       dataIndex: 'lay_offer_home',
       key: 'lay_offer_home',
       width: offerColumnWidth,
       className: 'lay-offer',
-      render: renderOffer('lay', 'back', 1)
+      render: renderOffer('lay', 'back', 1, currencyFormat)
     }]
   }, {
     title: '2',
@@ -61,13 +62,13 @@ const getColumns = (renderOffer) => ([
       key: 'back_offer_away',
       width: offerColumnWidth,
       className: 'back-offer',
-      render: renderOffer('back', 'lay', 2)
+      render: renderOffer('back', 'lay', 2, currencyFormat)
     }, {
       dataIndex: 'lay_Offer_away',
       key: 'lay_offer_away',
       width: offerColumnWidth,
       className: 'lay-offer',
-      render: renderOffer('lay', 'back', 2)
+      render: renderOffer('lay', 'back', 2, currencyFormat)
     }]
   }
 ]);
@@ -107,7 +108,7 @@ class SimpleBettingWidget extends Component {
   // action: [ lay(ing) | back(ing) ]
   // betType: [ back | lay ]
   // index: [ 1 (Home Team) | 2 (Away Team)]
-  renderOffer(action, typeOfBet, index) {
+  renderOffer(action, typeOfBet, index, currencyFormat) {
     return (text, record) => {
       const offers = record.get('offers');
       if (offers.isEmpty()) {
@@ -125,7 +126,9 @@ class SimpleBettingWidget extends Component {
         <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, offer.get('odds')) }>
           <div className='offer'>
             <div className='odds'>{ offer.get('odds') }</div>
-            <div className='price'>{ bitcoinSymbol } { offer.get('price') }</div>
+            <div className='price'>
+              { BettingModuleUtils.getFormattedCurrency( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces )}
+            </div>
           </div>
         </a>
       );
@@ -157,7 +160,7 @@ class SimpleBettingWidget extends Component {
         <Table
           bordered
           pagination={ false }
-          columns={ getColumns(this.renderOffer) }
+          columns={ getColumns(this.renderOffer, this.props.currencyFormat) }
           dataSource={ events }
           title={ () => renderTitle(this.props.title) }
           footer={ () => renderFooter(this.props.title) }

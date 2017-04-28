@@ -5,6 +5,7 @@ import ConnectionStatus from './ConnectionStatus';
 import NotificationTypes from './NotificationTypes';
 import ObjectPrefix from './ObjectPrefix';
 import BetTypes from './BetTypes';
+import CurrencyTypes from './CurrencyTypes';
 
 export {
   Config,
@@ -13,5 +14,6 @@ export {
   LoadingStatus,
   ConnectionStatus,
   NotificationTypes,
+  CurrencyTypes,
   ObjectPrefix
 }

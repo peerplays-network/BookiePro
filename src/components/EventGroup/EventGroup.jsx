@@ -14,13 +14,14 @@ class EventGroup extends Component {
   }
 
   render() {
-    const { sport, eventGroup, events } = this.props;
+    const { sport, eventGroup, events, currencyFormat } = this.props;
     return (
       <div className='event-group-wrapper'>
         <SportBanner sport={ sport }/>
         <SimpleBettingWidget
           title={ eventGroup }
           events={ events }
+          currencyFormat={ currencyFormat }
         />
       </div>
     )

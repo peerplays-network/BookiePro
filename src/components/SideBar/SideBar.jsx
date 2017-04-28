@@ -12,6 +12,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { findKeyPathOf, differences } from '../../utility/TreeUtils'
+import PropTypes from 'prop-types';
 
 // for customComponent in InfinityMenu : https://www.bountysource.com/issues/30555786-having-trouble-with-search
 class SideBar extends Component {
@@ -193,9 +194,9 @@ class SideBar extends Component {
 }
 
 SideBar.propTypes = {
-  completeTree: React.PropTypes.instanceOf(Immutable.List).isRequired,
-  objectId: React.PropTypes.string.isRequired,
-  level: React.PropTypes.number.isRequired,
+  completeTree: PropTypes.instanceOf(Immutable.List).isRequired,
+  objectId: PropTypes.string.isRequired,
+  level: PropTypes.number.isRequired,
 };
 
 SideBar.defaultProps = {

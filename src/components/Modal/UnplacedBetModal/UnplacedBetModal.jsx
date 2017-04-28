@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal } from 'antd';
+import PropTypes from 'prop-types';
 
 class UnplacedBetModal extends Component {
 
@@ -23,9 +24,9 @@ class UnplacedBetModal extends Component {
 }
 
 UnplacedBetModal.propTypes = {
-  visible: React.PropTypes.bool.isRequired,
-  onLeave: React.PropTypes.func,
-  onStay: React.PropTypes.func,
+  visible: PropTypes.bool.isRequired,
+  onLeave: PropTypes.func,
+  onStay: PropTypes.func,
 
 };
 

@@ -3,7 +3,7 @@ import { Menu } from 'antd';
 import _ from 'lodash';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-
+import PropTypes from 'prop-types';
 import './SearchMenu.less';
 
 import { NavigateActions, EventActions } from '../../../actions';
@@ -131,7 +131,7 @@ class SearchMenu extends Component {
 }
 
 SearchMenu.propTypes = {
-  label: React.PropTypes.string,
+  label: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {

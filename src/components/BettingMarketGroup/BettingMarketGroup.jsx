@@ -78,12 +78,6 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state, ownProps) => {
 
-  const account = state.get('account');
-  const accountId = account.getIn(['account','id']);
-  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']) ;
-
-  const currencyFormat = setting.get('currencyFormat');
-
   const bettingMarketGroupId = ownProps.params.objectId;
   const bettingMarketGroupsById = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
   const binnedOrderBooksByBettingMarketId = state.getIn(['binnedOrderBook', 'binnedOrderBooksByBettingMarketId']);
@@ -119,7 +113,7 @@ const mapStateToProps = (state, ownProps) => {
   const totalMatchedBetsAmount = BettingModuleUtils.getFormattedCurrency(
     totalMatchedBetsAsset ?
       totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'amount']) / Math.pow(10, totalMatchedBetsAsset.get('precision')) : 0,
-    currencyFormat,
+    ownProps.currencyFormat,
     totalMatchedBetsAsset ? totalMatchedBetsAsset.get('precision') : 0 );
 
 
@@ -133,7 +127,6 @@ const mapStateToProps = (state, ownProps) => {
     bettingMarketGroupName,
     totalMatchedBetsAmount,
     unconfirmedBets: marketDrawer.get('unconfirmedBets'),
-    currencyFormat,
   }
 };
 
