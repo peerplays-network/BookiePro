@@ -30,8 +30,26 @@ class TitleBar extends Component {
     };
     this.windowFocus = this.windowFocus.bind(this);
     this.windowBlur = this.windowBlur.bind(this);
-    this.onResizeClick = this.onResizeClick.bind(this);
-    this.onMaximizeUnmaximizeClick = this.onMaximizeUnmaximizeClick.bind(this);
+    this.windowMaximized = this.windowMaximized.bind(this);
+    this.windowUnmaximized = this.windowUnmaximized.bind(this);
+    this.windowEnterFullScreen = this.windowEnterFullScreen.bind(this);
+    this.windowExitFullScreen = this.windowExitFullScreen.bind(this);
+  }
+
+  windowMaximized() {
+    this.setState({ isMaximized: true });
+  }
+
+  windowUnmaximized() {
+    this.setState({ isMaximized: false });
+  }
+
+  windowEnterFullScreen() {
+    this.setState({ isFullscreen: true });
+  }
+
+  windowExitFullScreen() {
+    this.setState({ isFullscreen: false });
   }
 
   onMinimizeClick() {
@@ -46,10 +64,8 @@ class TitleBar extends Component {
       const window = electron.remote.getCurrentWindow();
       if (window.isMaximized()){
         window.unmaximize();
-        this.setState({ isMaximized: false });
       } else {
         window.maximize();
-        this.setState({ isMaximized: true });
       }
     }
   }
@@ -59,10 +75,8 @@ class TitleBar extends Component {
       const window = electron.remote.getCurrentWindow();
       if (window.isFullScreen()) {
         window.setFullScreen(false);
-        this.setState({ isFullscreen: false });
       } else {
         window.setFullScreen(true);
-        this.setState({ isFullscreen: true });
       }
 
     }
@@ -79,6 +93,15 @@ class TitleBar extends Component {
     if (typeof window !== 'undefined') {
       window.addEventListener('focus', this.windowFocus);
       window.addEventListener('blur', this.windowBlur);
+      if (electron) {
+        const electronWindow = electron.remote.getCurrentWindow();
+        electronWindow.on('maximize', this.windowMaximized);
+        electronWindow.on('unmaximize', this.windowUnmaximized);
+        electronWindow.on('enter-full-screen', this.windowEnterFullScreen);
+        electronWindow.on('leave-full-screen', this.windowExitFullScreen);
+        electronWindow.on('enter-html-full-screen', this.windowEnterFullScreen);
+        electronWindow.on('leave-html-full-screen', this.windowExitFullScreen);
+      }
     }
   }
 
@@ -86,6 +109,15 @@ class TitleBar extends Component {
     if (typeof window !== 'undefined') {
       window.removeEventListener('focus', this.windowFocus);
       window.removeEventListener('blur', this.windowBlur);
+      if (electron) {
+        const electronWindow = electron.remote.getCurrentWindow();
+        electronWindow.removeListener('maximize', this.windowMaximized);
+        electronWindow.removeListener('unmaximize', this.windowUnmaximized);
+        electronWindow.removeListener('enter-full-screen', this.windowEnterFullScreen);
+        electronWindow.removeListener('leave-full-screen', this.windowExitFullScreen);
+        electronWindow.removeListener('enter-html-full-screen', this.windowEnterFullScreen);
+        electronWindow.removeListener('leave-html-full-screen', this.windowExitFullScreen);
+      }
     }
   }
 
