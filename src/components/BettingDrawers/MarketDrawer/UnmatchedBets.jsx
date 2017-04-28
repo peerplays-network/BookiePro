@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'antd';
 import Immutable from 'immutable';
+import { BettingModuleUtils } from '../../../utility';
 import EditableBetTable from '../EditableBetTable';
 import './UnmatchedBets.less';
 
@@ -55,6 +56,8 @@ const mapStateToProps = (state, ownProps) => {
     }
     // Add the bet to the list of bets with the same market type
     let betListByBetType = page.get(betType);
+    const profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
+    bet = bet.set('profit', profit).set('liability', profit);
     betListByBetType = betListByBetType.push(bet);
     // Put everything back in their rightful places
     page = page.set(betType, betListByBetType);

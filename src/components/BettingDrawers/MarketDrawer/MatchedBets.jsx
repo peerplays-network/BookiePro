@@ -1,25 +1,22 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'antd';
+import { Checkbox } from 'antd';
 import Immutable from 'immutable';
-import EditableBetTable from '../EditableBetTable';
+import { BettingModuleUtils } from '../../../utility';
+import ReadOnlyBetTable from '../ReadOnlyBetTable';
 import './MatchedBets.less';
 
 class MatchedBets extends PureComponent {
   render() {
     return (
       <div className='matched-bets'>
-        <EditableBetTable
+        <ReadOnlyBetTable
           data={ this.props.bets }
           title='Matched Bets'
-          deleteOne={ () => console.log('matched bets delete one') }
-          deleteMany={ () => console.log('matched bets delete many') }
-          updateOne={ () => console.log('matched bets update one') }
           dimmed={ false }
         />
-        <div className='buttons'>
-          <Button onClick={ () => console.log('matched bets reset') }>RESET</Button>
-          <Button onClick={ () => console.log('matched bets reset') }>UPDATE</Button>
+        <div className='controls'>
+          <Checkbox>Average Odds</Checkbox>
         </div>
       </div>
     )
@@ -55,23 +52,16 @@ const mapStateToProps = (state, ownProps) => {
     }
     // Add the bet to the list of bets with the same market type
     let betListByBetType = page.get(betType);
+    const profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
+    bet = bet.set('profit', profit).set('liability', profit);
     betListByBetType = betListByBetType.push(bet);
     // Put everything back in their rightful places
     page = page.set(betType, betListByBetType);
   });
-  // Other statuses
-  const showBetUpdateConfirmation = state.getIn(['marketDrawer', 'showBetUpdateConfirmation']);
-  const showBetUpdateWaiting = state.getIn(['marketDrawer', 'showBetUpdateWaiting']);
-  const showBetUpdateError = state.getIn(['marketDrawer', 'showBetUpdateError']);
-  const showBetUpdateSuccess = state.getIn(['marketDrawer', 'showBetUpdateSuccess']);
   return {
     originalBets,
     bets: page,
-    showBetUpdateConfirmation,
-    showBetUpdateWaiting,
-    showBetUpdateError,
-    showBetUpdateSuccess,
-    obscureContent: showBetUpdateConfirmation || showBetUpdateWaiting || showBetUpdateError,
+    obscureContent: false,
   };
 }
 

@@ -1,0 +1,90 @@
+div.readonly-bet-table-wrapper {
+  &:first-of-type {
+    margin-top: 15px;
+  }
+  &.dimmed {
+    opacity: .1;
+  }
+
+  margin-right: 15px;
+  margin-bottom: 15px;
+
+  > div.header {
+    background-color: #1563A0;
+    color: white;
+    height: 40px;
+    padding: 10px;
+  }
+
+  div.bet-table {
+    // common table css for both back and lay sections
+    div.ant-table-body {
+      tr {
+        line-height: 12px;
+        font-size: 14px;
+      }
+
+      thead.ant-table-thead {
+        tr > th.numeric {
+          font-weight: lighter;
+        }
+      }
+
+      tbody.ant-table-tbody > tr {
+        > td.team > div {
+          div.team {
+            font-size: 15px;
+            margin-bottom: 3px;
+            word-break: break-word;
+          }
+        }
+
+        > td.numeric {
+          padding-right: 0px;
+          padding-left: 0px;
+
+          > input {
+            font-size: 14px;
+            font-weight: lighter;
+          }
+        }
+      }
+    }
+
+    > div.back {
+      .ant-table-thead > tr > th {
+        background-color: #004378;
+        color: white;
+      }
+
+      .ant-table-tbody > tr > td {
+        border-color: #166ABC;
+        background-color: #004E9B;
+        color: white;
+
+        div.market_type {
+          color: #37C1FF;
+          font-size: 10px;
+        }
+      }
+    }
+
+    > div.lay {
+      .ant-table-thead > tr > th {
+        background-color: #05696B;
+        color: white;
+      }
+
+      .ant-table-tbody > tr > td {
+        border-color: #359C9F;
+        background-color: #008487;
+        color: white;
+
+        div.market_type {
+          color: #1ACBB4;
+          font-size: 10px;
+        }
+      }
+    }
+  }
+}
