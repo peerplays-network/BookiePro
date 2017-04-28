@@ -13,7 +13,6 @@ import { List, Map } from 'immutable';
 import { LoadingStatus } from '../../constants';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import Immutable from 'immutable';
 import { convertAmount } from '../../utility/CurrencyUtils';
 
 const TabPane = Tabs.TabPane;
@@ -187,6 +186,7 @@ class MyWager extends PureComponent {
 
   componentDidMount()
   {
+    tabKey = 'unmatchedBets';
     //get data for default active tab unmatched Bets
     this.props.getOngoingBets();
   }
@@ -345,11 +345,9 @@ class MyWager extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  //temporarily setting accountId to default
-  // const account = state.get('account');
-  // const accountId = account.getIn(['account','id']);
-  const accountId = '1.2.248';
-  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || Immutable.Map();
+  const account = state.get('account');
+  const accountId = account.getIn(['account','id']);
+  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting']) ;
 
   const columns = [
     {
@@ -447,7 +445,7 @@ const mapStateToProps = (state) => {
         unmatchedBetsColumns: columns,
         unmatchedBetsData: mergeData,
         unmatchedBetsLoadingStatus: state.getIn(['bet','getOngoingBetsLoadingStatus']),
-        unmatchedBetsCurrencyFormat: state.getIn(['setting','currencyFormat']),
+        unmatchedBetsCurrencyFormat: setting.get('currencyFormat'),
         unmatchedBetsTotal: total
       }
     case 'matchedBets':
@@ -455,7 +453,7 @@ const mapStateToProps = (state) => {
         matchedBetsColumns: columns,
         matchedBetsData: mergeData,
         matchedBetsLoadingStatus: state.getIn(['bet','getOngoingBetsLoadingStatus']),
-        matchedBetsCurrencyFormat: state.getIn(['setting','currencyFormat']),
+        matchedBetsCurrencyFormat: setting.get('currencyFormat'),
         matchedBetsTotal: total
       }
     case 'resolvedBets':
@@ -463,7 +461,7 @@ const mapStateToProps = (state) => {
         resolvedBetsColumns: columns,
         resolvedBetsData: mergeData,
         resolvedBetsLoadingStatus: state.getIn(['bet','getResolvedBetsLoadingStatus']),
-        resolvedBetsCurrencyFormat: state.getIn(['setting','currencyFormat']),
+        resolvedBetsCurrencyFormat: setting.get('currencyFormat'),
         resolvedBetsTotal: total,
         resolvedBetsExportData: exportData,
         resolvedBetsExportLoadingStatus: state.getIn(['bet','getResolvedBetsExportLoadingStatus'])
