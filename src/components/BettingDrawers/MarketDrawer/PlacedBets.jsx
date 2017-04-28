@@ -5,6 +5,7 @@ import { I18n, Translate } from 'react-redux-i18n';
 import { Button } from 'antd';
 import { BetActions, NavigateActions } from '../../../actions';
 import UnmatchedBets from './UnmatchedBets';
+import MatchedBets from './MatchedBets';
 import './PlacedBets.less';
 
 class PlacedBets extends PureComponent {
@@ -17,7 +18,10 @@ class PlacedBets extends PureComponent {
       <div className='placed-bets'>
         <div className='content'>
           { !this.props.isEmpty &&
-            <UnmatchedBets/>
+            <div>
+              <UnmatchedBets/>
+              <MatchedBets/>
+            </div>
           }
           { this.props.isEmpty &&
             <div className='empty'>
