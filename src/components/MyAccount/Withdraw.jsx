@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import { Field, reduxForm } from 'redux-form/immutable';
 import { LoadingStatus } from '../../constants';
-import { convertAmount } from '../../utility/CurrencyUtils';
+import { CurrencyUtils } from '../../utility';
 
 //Component to render fields
 const renderField = ({ className, errors, placeholder,hasWithdrawAmountErr, input, type,
@@ -40,7 +40,7 @@ class Withdraw extends Component{
     super(props);
     this.state = {
       hasWithdrawAmountErr: false,
-      convertedAvailableBalance: convertAmount(this.props.availableBalance,this.props.precision,this.props.currencyFormat)
+      convertedAvailableBalance: CurrencyUtils.convertAmount(this.props.availableBalance,this.props.precision,this.props.currencyFormat)
     }
     this.onwithdrawAmountChange = this.onwithdrawAmountChange.bind(this);
   }

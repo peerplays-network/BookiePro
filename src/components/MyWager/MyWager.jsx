@@ -14,7 +14,7 @@ import { LoadingStatus } from '../../constants';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import Immutable from 'immutable';
-import { convertAmount } from '../../utility/CurrencyUtils';
+import { CurrencyUtils } from '../../utility';
 
 const TabPane = Tabs.TabPane;
 var tabKey = 'unmatchedBets';
@@ -64,8 +64,8 @@ class MyWagerPrivateFunctions{
       let rowObj = {
         'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
         'odds' : (row.get('amount_to_win') / row.get('amount_to_bet')).toFixed(2),
-        'amount_to_bet' : convertAmount(row.get('amount_to_bet'),precision, targetCurrency),
-        'amount_to_win' : convertAmount(row.get('amount_to_win'),precision, targetCurrency),
+        // 'amount_to_bet' : CurrencyUtils.convertAmount(row.get('amount_to_bet'),precision, targetCurrency),
+        // 'amount_to_win' : CurrencyUtils.convertAmount(row.get('amount_to_win'),precision, targetCurrency),
         'event_time': getFormattedDate(row.get('event_time'))
       };
       //randomly changed win value to negative for liability display
@@ -93,9 +93,9 @@ class MyWagerPrivateFunctions{
         'event_time': getFormattedDate(row.get('event_time')),
         'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
         'odds' : (row.get('amount_to_win') / row.get('amount_to_bet')).toFixed(2),
-        'amount_to_bet' : convertAmount(row.get('amount_to_bet'),precision, targetCurrency),
+        'amount_to_bet' : CurrencyUtils.convertAmount(row.get('amount_to_bet'),precision, targetCurrency),
         //randomly changed win value to negative for liability display
-        'amount_to_win' : convertAmount(row.get('amount_to_win'),precision, targetCurrency) * (Math.floor(Math.random()*2) === 1 ? 1 : -1)
+        'amount_to_win' : CurrencyUtils.convertAmount(row.get('amount_to_win'),precision, targetCurrency) * (Math.floor(Math.random()*2) === 1 ? 1 : -1)
       };
       data[index] = row.merge(rowObj);
     });
@@ -349,7 +349,7 @@ const mapStateToProps = (state) => {
   // const account = state.get('account');
   // const accountId = account.getIn(['account','id']);
   const accountId = '1.2.248';
-  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || Immutable.Map();
+  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting'])
 
   const columns = [
     {
