@@ -3,7 +3,7 @@ import { BettingMarketGroupBanner } from '../Banners';
 import { ComplexBettingWidget } from '../BettingWidgets/';
 import Immutable from 'immutable';
 import _ from 'lodash';
-import { BettingModuleUtils } from '../../utility';
+import { BettingModuleUtils, CurrencyUtils } from '../../utility';
 import { BettingMarketGroupPageActions, MarketDrawerActions } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -110,7 +110,7 @@ const mapStateToProps = (state, ownProps) => {
   const totalMatchedBetsAssetId = totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'asset_id']);
   const totalMatchedBetsAsset = state.getIn(['asset','assetsById', totalMatchedBetsAssetId])
 
-  const totalMatchedBetsAmount = BettingModuleUtils.getFormattedCurrency(
+  const totalMatchedBetsAmount = CurrencyUtils.getFormattedCurrency(
     totalMatchedBetsAsset ?
       totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'amount']) / Math.pow(10, totalMatchedBetsAsset.get('precision')) : 0,
     ownProps.currencyFormat,

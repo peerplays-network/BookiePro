@@ -1,21 +1,54 @@
 const bitcoinSymbol = '\u0243';
 const mBitcoinSymbol = 'm' + bitcoinSymbol;
 
-
 var CurrencyUtils = {
 
-  //Converts the amount obtained in satoshi to the user's set currency as per the precision
-  convertAmount: function(amountInSatoshi, precision, targetCurrency){
-    // console.log( amountInSatoshi + ' ' + precision + ' ' + targetCurrency)
-    if(amountInSatoshi !==-1){
-      if(targetCurrency === 'BTC')
-        return (amountInSatoshi / Math.pow(10, precision));
-      if(targetCurrency === 'mBTC')
-        return (amountInSatoshi / Math.pow(10, precision)) * 1000;
-    } else {
-      return -1;
+  getCurruencySymbol: function( currency = 'BTC' ){
+    if ( currency === 'mBTC'){
+      return mBitcoinSymbol;
+    } else if ( currency === 'BTC'){
+      return bitcoinSymbol;
+    } else{
+      return
     }
-  }
+  },
+
+  // return formatted string to support negative bitcoin curruency values
+  // amount : float,  amount with BTC as backStartingIndex
+  // precision : integer, percision
+  // currency : string, display currency, 'BTC' or 'mBTC'
+  // showSymbol : boolean
+  getFormattedCurrency: function( amount, currency = 'BTC', precision = 0, showSymbol = true){
+
+    const currencySymbol = this.getCurruencySymbol(currency);
+
+    if (currency === 'mBTC'){
+      let mPrecision = precision -3;
+      if ( mPrecision < 0 ){
+        mPrecision = 0;
+      }
+
+      if ( showSymbol ){
+        return ( amount >= 0 ? '' : '-') + ( showSymbol ? currencySymbol : '' ) + (1000 * Math.abs(amount) ).toFixed(mPrecision);
+      } else {
+        return ( 1000 * amount ).toFixed(mPrecision);
+      }
+
+
+    } else if (currency === 'BTC'){
+
+      if ( showSymbol ){
+        return ( amount >= 0 ? '' : '-') + ( showSymbol ? currencySymbol : '' ) + Math.abs(amount).toFixed(precision);
+      } else {
+        return (amount).toFixed(precision);
+      }
+
+    } else {
+      return
+    }
+
+  },
+
 }
 
 export default CurrencyUtils;

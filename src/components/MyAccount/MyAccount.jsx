@@ -22,7 +22,6 @@ import Withdraw from './Withdraw';
 import moment from 'moment';
 import { SettingActions,AccountActions } from '../../actions';
 import { LoadingStatus } from '../../constants';
-import Immutable from 'immutable';
 import { saveAs } from '../../utility/fileSaver.js';
 
 const Option = Select.Option;

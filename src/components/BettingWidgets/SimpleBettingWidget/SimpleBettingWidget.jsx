@@ -6,7 +6,7 @@ import {  Table } from 'antd';
 import RulesModal from '../../Modal/RulesModal'
 import { QuickBetDrawerActions } from '../../../actions';
 import { I18n, Translate } from 'react-redux-i18n';
-import { BettingModuleUtils } from '../../../utility';
+import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 const bitcoinSymbol = '\u0243';
 // We cannot use CSS to override antd Table column width using CSS
 // This can only be done via the code
@@ -127,7 +127,7 @@ class SimpleBettingWidget extends Component {
           <div className='offer'>
             <div className='odds'>{ offer.get('odds') }</div>
             <div className='price'>
-              { BettingModuleUtils.getFormattedCurrency( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces )}
+              { CurrencyUtils.getFormattedCurrency( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces )}
             </div>
           </div>
         </a>
