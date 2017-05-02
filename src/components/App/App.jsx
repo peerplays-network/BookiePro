@@ -111,22 +111,24 @@ class App extends Component {
         break;
       }
       case LoadingStatus.DONE: {
-        content = this.props.children;
+        content = (
+          this.props.children
+        )
         break;
       }
       default: {
         content = (
-          <div>
-            <span>{ 'Connecting to blockchain...' }</span>
-          </div>
+          <span>{ 'Connecting to blockchain...' }</span>
         );
       }
     }
 
     return (
-      <div className='sportsbg'>
+      <div className='app'>
         <TitleBar />
-        { content }
+        <div className='app-content'>
+          { content }
+        </div>
         { logoutModal }
         { softwareUpdateModal }
       </div>
