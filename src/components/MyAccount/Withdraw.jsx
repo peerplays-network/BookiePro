@@ -42,7 +42,7 @@ class Withdraw extends Component{
     this.state = {
       hasWithdrawAmountErr: false,
       convertedAvailableBalance : CurrencyUtils.getFormattedCurrency(availableBalance/ Math.pow(10, precision),
-       currencyFormat, BettingModuleUtils.exposurePlaces, false),
+       currencyFormat, BettingModuleUtils.exposurePlaces),
     }
     this.onwithdrawAmountChange = this.onwithdrawAmountChange.bind(this);
   }
