@@ -64,8 +64,8 @@ class MyWagerPrivateFunctions{
       let rowObj = {
         'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
         'odds' : (row.get('amount_to_win') / row.get('amount_to_bet')).toFixed(2),
-        // 'amount_to_bet' : CurrencyUtils.convertAmount(row.get('amount_to_bet'),precision, targetCurrency),
-        // 'amount_to_win' : CurrencyUtils.convertAmount(row.get('amount_to_win'),precision, targetCurrency),
+        'amount_to_bet' : CurrencyUtils.convertAmount(row.get('amount_to_bet'),precision, targetCurrency),
+        'amount_to_win' : CurrencyUtils.convertAmount(row.get('amount_to_win'),precision, targetCurrency),
         'event_time': getFormattedDate(row.get('event_time'))
       };
       //randomly changed win value to negative for liability display
@@ -345,10 +345,9 @@ class MyWager extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  //temporarily setting accountId to default
-  // const account = state.get('account');
-  // const accountId = account.getIn(['account','id']);
-  const accountId = '1.2.248';
+
+  const account = state.get('account');
+  const accountId = account.getIn(['account','id']);
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting'])
 
   const columns = [
