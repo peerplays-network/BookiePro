@@ -162,7 +162,7 @@ const mapStateToProps = (state) => {
   */
   const balance = account.getIn(['availableBalancesByAssetId','1.3.0','balance']);
   let availableBalance = balance !== undefined ?
-    CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), setting.get('currencyFormat') === 'BTC' ? BettingModuleUtils.exposurePlaces : 0) : -1;
+    CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces) : -1;
 
   //since we don't have any API to get inGameBalances, we summing unmatched and matched bets
   let inGameAmount = 0;
@@ -174,7 +174,7 @@ const mapStateToProps = (state) => {
   state.getIn(['bet','matchedBetsById']).forEach(row => {
     inGameAmount += row.get('amount_to_bet');
   });
-  inGameAmount = CurrencyUtils.getFormattedCurrency(inGameAmount/ Math.pow(10, precision), setting.get('currencyFormat'), setting.get('currencyFormat') === 'BTC' ? BettingModuleUtils.stakePlaces : 0)
+  inGameAmount = CurrencyUtils.getFormattedCurrency(inGameAmount/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.stakePlaces)
 
   return {
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
