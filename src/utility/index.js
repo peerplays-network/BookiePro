@@ -3,6 +3,7 @@ import ConnectionUtils from './ConnectionUtils';
 import StringUtils from './StringUtils';
 import TreeUtils from './TreeUtils';
 import BettingModuleUtils from './BettingModuleUtils';
+import CurrencyUtils from './CurrencyUtils';
 import ExportUtils from './ExportUtils';
 import FileSaver from './fileSaver';
 import AppUtils from './AppUtils';
@@ -16,6 +17,7 @@ export {
   TreeUtils,
   ConnectionUtils,
   BettingModuleUtils,
+  CurrencyUtils,
   ExportUtils,
   FileSaver
 };

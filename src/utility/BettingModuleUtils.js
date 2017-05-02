@@ -1,12 +1,10 @@
 import { BetTypes } from '../constants';
 import _ from 'lodash';
 import Immutable from 'immutable';
-
+import { CurrencyUtils } from './';
 const oddsPlaces = 2;
 const stakePlaces = 3; //minimum stake = 0.001 BTC
 const exposurePlaces = oddsPlaces + stakePlaces;
-const bitcoinSymbol = '\u0243';
-const mBitcoinSymbol = 'm' + bitcoinSymbol;
 
 var isFieldInvalid = function(object, field) {
   if (!object.has(field)) return true;
@@ -18,50 +16,13 @@ var isFieldInvalid = function(object, field) {
 
 var BettingModuleUtils = {
 
+  //eodds percision (BTC)
   oddsPlaces:oddsPlaces,
+  //stake / backers' stake percision (BTC)
   stakePlaces:stakePlaces,
+  //exposure / profit / liability percision (BTC)
   exposurePlaces:exposurePlaces,
 
-  //TODO migrate to curruency util
-  getCurruencySymbol: function( currency = 'BTC' ){
-    if ( currency === 'mBTC'){
-      return mBitcoinSymbol;
-    } else if ( currency === 'BTC'){
-      return bitcoinSymbol;
-    } else{
-      return
-    }
-  },
-
-  //TODO migrate to curruency util
-
-
-  // return formatted string to support negative bitcoin curruency values
-  // amount : float,  amount with BTC as backStartingIndex
-  // precision : integer, percision
-  // currency : string, display currency, 'BTC' or 'mBTC'
-  // showSymbol : boolean
-  getFormattedCurrency: function( amount, currency = 'BTC', precision = 0, showSymbol = true){
-
-    const currencySymbol = this.getCurruencySymbol(currency);
-
-    if (currency === 'mBTC'){
-      let mPrecision = precision -3;
-      if ( mPrecision < 0 ){
-        mPrecision = 0;
-      }
-
-      return ( amount >= 0 ? '' : '-') + ( showSymbol ? currencySymbol : '' ) + (1000 * Math.abs(amount) ).toFixed(mPrecision);
-
-    } else if (currency === 'BTC'){
-
-      return ( amount >= 0 ? '' : '-') + ( showSymbol ? currencySymbol : '' ) + Math.abs(amount).toFixed(precision);
-
-    } else {
-      return
-    }
-
-  },
 
   //  =========== Bet Calculations ===========
 
@@ -80,7 +41,7 @@ var BettingModuleUtils = {
       return;
     }
 
-    return this.getFormattedCurrency( floatProfit / ( floatOdds - 1 ) , currency, stakePlaces, false);
+    return CurrencyUtils.getFormattedCurrency( floatProfit / ( floatOdds - 1 ) , currency, stakePlaces, false);
 
   },
 
@@ -98,7 +59,7 @@ var BettingModuleUtils = {
       return;
     }
 
-    return this.getFormattedCurrency( floatStake * ( floatOdds - 1 ) , currency, exposurePlaces, false);
+    return CurrencyUtils.getFormattedCurrency( floatStake * ( floatOdds - 1 ) , currency, exposurePlaces, false);
 
   },
 
@@ -115,7 +76,7 @@ var BettingModuleUtils = {
       return;
     }
 
-    return this.getFormattedCurrency( floatStake * floatOdds , currency, exposurePlaces, false);
+    return CurrencyUtils.getFormattedCurrency( floatStake * floatOdds , currency, exposurePlaces, false);
 
   },
 
@@ -173,7 +134,7 @@ var BettingModuleUtils = {
 
     });
 
-    return this.getFormattedCurrency( exposure , currency, exposurePlaces, false);
+    return CurrencyUtils.getFormattedCurrency( exposure , currency, exposurePlaces, false);
   },
 
 
@@ -229,7 +190,7 @@ var BettingModuleUtils = {
      // this can be reused many times within the module
     let total = bets.reduce(accumulator, 0.0);
 
-    return this.getFormattedCurrency( total , currency, exposurePlaces, false);
+    return CurrencyUtils.getFormattedCurrency( total , currency, exposurePlaces, false);
 
   },
 
@@ -318,9 +279,9 @@ var BettingModuleUtils = {
 
     averageOddsresult = averageOddsresult
       .set('averageOdds', averageOdds.toFixed(oddsPlaces))
-      .update('groupedProfit', (groupedProfit) => this.getFormattedCurrency( groupedProfit, currency, exposurePlaces, false) )
-      .update('groupedLiability', (groupedLiability) => this.getFormattedCurrency( groupedLiability, currency, exposurePlaces, false) )
-      .update('groupedStake', (groupedStake) => this.getFormattedCurrency( groupedStake, currency, stakePlaces, false) );
+      .update('groupedProfit', (groupedProfit) => CurrencyUtils.getFormattedCurrency( groupedProfit, currency, exposurePlaces, false) )
+      .update('groupedLiability', (groupedLiability) => CurrencyUtils.getFormattedCurrency( groupedLiability, currency, exposurePlaces, false) )
+      .update('groupedStake', (groupedStake) => CurrencyUtils.getFormattedCurrency( groupedStake, currency, stakePlaces, false) );
 
     return averageOddsresult;
   }

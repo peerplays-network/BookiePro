@@ -13,8 +13,7 @@ import { List, Map } from 'immutable';
 import { LoadingStatus } from '../../constants';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import Immutable from 'immutable';
-import { convertAmount } from '../../utility/CurrencyUtils';
+import { CurrencyUtils, BettingModuleUtils } from '../../utility';
 
 const TabPane = Tabs.TabPane;
 var tabKey = 'unmatchedBets';
@@ -63,9 +62,9 @@ class MyWagerPrivateFunctions{
     data.forEach((row, index) => {
       let rowObj = {
         'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
-        'odds' : (row.get('amount_to_win') / row.get('amount_to_bet')).toFixed(2),
-        'amount_to_bet' : convertAmount(row.get('amount_to_bet'),precision, targetCurrency),
-        'amount_to_win' : convertAmount(row.get('amount_to_win'),precision, targetCurrency),
+        'odds' : (row.get('amount_to_win') / row.get('amount_to_bet')).toFixed(BettingModuleUtils.oddsPlaces),
+        'amount_to_bet' : CurrencyUtils.getFormattedCurrency(row.get('amount_to_bet')/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.stakePlaces),
+        'amount_to_win' : CurrencyUtils.getFormattedCurrency(row.get('amount_to_win')/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.exposurePlaces),
         'event_time': getFormattedDate(row.get('event_time'))
       };
       //randomly changed win value to negative for liability display
@@ -93,9 +92,11 @@ class MyWagerPrivateFunctions{
         'event_time': getFormattedDate(row.get('event_time')),
         'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
         'odds' : (row.get('amount_to_win') / row.get('amount_to_bet')).toFixed(2),
-        'amount_to_bet' : convertAmount(row.get('amount_to_bet'),precision, targetCurrency),
+
         //randomly changed win value to negative for liability display
-        'amount_to_win' : convertAmount(row.get('amount_to_win'),precision, targetCurrency) * (Math.floor(Math.random()*2) === 1 ? 1 : -1)
+        'amount_to_bet' : CurrencyUtils.getFormattedCurrency(row.get('amount_to_bet')/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.stakePlaces),
+        'amount_to_win' : CurrencyUtils.getFormattedCurrency(row.get('amount_to_win')/ Math.pow(10, precision) * ( Math.floor(Math.random()*2) === 1 ? 1 : -1 ),
+          targetCurrency, BettingModuleUtils.exposurePlaces),
       };
       data[index] = row.merge(rowObj);
     });
@@ -345,11 +346,10 @@ class MyWager extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  //temporarily setting accountId to default
-  // const account = state.get('account');
-  // const accountId = account.getIn(['account','id']);
-  const accountId = '1.2.248';
-  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || Immutable.Map();
+
+  const account = state.get('account');
+  const accountId = account.getIn(['account','id']);
+  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting'])
 
   const columns = [
     {
