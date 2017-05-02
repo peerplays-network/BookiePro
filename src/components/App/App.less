@@ -9,6 +9,10 @@
 // App
 @base-font-size: 14px;
 
+// Title Bar
+@title-bar-mac-height: 40px;
+@title-bar-windows-height: 32px;
+
 // NavBar
 @nav-bar-amount-bg: #004B87;
 @nav-bar-bg: #004378;
@@ -30,6 +34,12 @@
 // Media Queries
 @desktop:     ~"only screen and (max-width: 1366px)";
 @desktop-xl:  ~"only screen and (min-width: 1366px)";
+
+.sportsbg{
+  background: @app-bg;
+  background: url(../../assets/images/sports-background.png);
+  background-size: cover;
+}
 
 //TODO: further optimize perfect scrollbar css
 //copied from peerplaysblockchain-peerplays-graphene-ui
@@ -122,9 +132,6 @@ html {
         height:60px;
         line-height:60px;
       }
-      .ant-layout-content{
-        margin-top:60px;
-      }
     }
 
   }
@@ -135,4 +142,3 @@ body {
   line-height: 1.42857143; //reference from bootstrap
   color: @white;
 }
-
