@@ -28,8 +28,18 @@ const mapStateToProps = (state, ownProps) => {
   // This is required to filter the data from all ongoing bets
   // TODO REVIEW Whoever can come up with a better way, please go ahead and do that
   const bettingMarketGroupId = window.location.href.split('/').pop();
+  const bettingMarketGroup = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
   // From the current (dummy) bet data, I only need the Betting Market ID
-  const bettingMarketIds= state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId, 'betting_market_ids']);
+  const bettingMarketIds= bettingMarketGroup.get('betting_market_ids');
+  // Use event object to find the associated competitors
+  const event_id = bettingMarketGroup.get('event_id');
+  const competitors = state.getIn(['event', 'eventsById', event_id, 'scores'])
+                           .map(score => state.getIn(['competitor', 'competitorsById', score.get('competitor_id')]));
+  // TODO: REVIEW Assume the first betting market corresponds to the HOME (first) team
+  let competitorByBettingMarketId = Immutable.Map();
+  bettingMarketIds.forEach((bettingMarketId, i) => {
+    competitorByBettingMarketId = competitorByBettingMarketId.set(bettingMarketId, competitors.get(i))
+  });
   // Transform the raw bet data into a specific format for the EditableBetTable
   const originalBets = state.getIn(['bet', 'matchedBetsById'])
                             .filter(bet => bettingMarketIds.includes(bet.get('betting_market_id')))
@@ -39,7 +49,8 @@ const mapStateToProps = (state, ownProps) => {
                               // TODO: may not need toLowerCase once we got the real data
                               bet_type: bet.get('back_or_lay').toLowerCase(),
                               odds: bet.get('amount_to_win'),
-                              stake: bet.get('amount_to_bet')
+                              stake: bet.get('amount_to_bet'),
+                              team: competitorByBettingMarketId.get(bet.get('betting_market_id')).get('name'),
                             }));
   // This is essentially the same procedure used in BetSlip
   let page = Immutable.Map();
