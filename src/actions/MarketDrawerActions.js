@@ -54,6 +54,13 @@ class MarketDrawerPrivateActions {
       type: ActionTypes.MARKET_DRAWER_HIDE_BETSLIP_ERROR,
     }
   }
+
+  static updateOneUnmatchedBet(delta) {
+    return {
+      type: ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNMATCHED_BET,
+      delta
+    };
+  }
 }
 
 class MarketDrawerActions {
@@ -104,6 +111,12 @@ class MarketDrawerActions {
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.hideBetSlipConfirmation());
       dispatch(MarketDrawerPrivateActions.hideBetSlipError());
+    }
+  }
+
+  static updateUnmatchedBet(delta) {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.updateOneUnmatchedBet(delta));
     }
   }
 }

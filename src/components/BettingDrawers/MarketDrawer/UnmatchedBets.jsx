@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Button } from 'antd';
 import Immutable from 'immutable';
 import { BettingModuleUtils } from '../../../utility';
+import { MarketDrawerActions } from '../../../actions';
 import EditableBetTable from '../EditableBetTable';
 import './UnmatchedBets.less';
 
@@ -15,7 +17,7 @@ class UnmatchedBets extends PureComponent {
           title='Unmatched Bets'
           deleteOne={ () => console.log('unmatched bets delete one') }
           deleteMany={ () => console.log('unmatched bets delete many') }
-          updateOne={ () => console.log('unmatched bets update one') }
+          updateOne={ this.props.updateUnmatcedBet }
           dimmed={ false }
         />
         <div className='buttons'>
@@ -89,6 +91,14 @@ const mapStateToProps = (state, ownProps) => {
   };
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    updateUnmatcedBet: MarketDrawerActions.updateUnmatchedBet,
+  }, dispatch);
+}
+
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(UnmatchedBets);
