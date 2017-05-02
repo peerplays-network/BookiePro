@@ -2,6 +2,7 @@ import { ActionTypes, LoadingStatus } from '../constants';
 import EventActions from './EventActions';
 import SportActions from './SportActions';
 import EventGroupActions from './EventGroupActions';
+import CompetitorActions from './CompetitorActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
@@ -59,9 +60,11 @@ class EventGroupPageActions {
         return dispatch(SportActions.getSportsByIds([sportId]));
       }).then((sports) => {
         retrievedSport = sports.get(0);
-        const sportId = retrievedSport.get('id');
+        // Get competitiors related to the sports
+        return dispatch(CompetitorActions.getCompetitorsBySportIds([retrievedSport.get('id')]));
+      }).then((competitors) => {
         // Get events
-        return dispatch(EventActions.getEventsBySportIds([sportId]))
+        return dispatch(EventActions.getEventsBySportIds([retrievedSport.get('id')]));
       }).then((events) => {
         retrievedEvents = events;
         // Get betting market groups

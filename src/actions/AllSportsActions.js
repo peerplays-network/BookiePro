@@ -1,6 +1,7 @@
 import { LoadingStatus, ActionTypes } from '../constants';
 import SportActions from './SportActions';
 import EventActions from './EventActions';
+import CompetitorActions from './CompetitorActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
@@ -45,14 +46,18 @@ class AllSportsActions {
     return (dispatch) => {
       dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
+      let retrievedSportIds;
       let retrievedEvents;
       let retrievedBettingMarketGroups;
 
       // Get sports
       dispatch(SportActions.getAllSports()).then((sports) => {
-        const sportIds = sports.map( sport => sport.get('id'));
+        retrievedSportIds = sports.map( sport => sport.get('id'));
+        // Get competitiors related to the sports
+        return dispatch(CompetitorActions.getCompetitorsBySportIds(retrievedSportIds));
+      }).then((competitors) => {
         // Get events related to the sports
-        return dispatch(EventActions.getEventsBySportIds(sportIds));
+        return dispatch(EventActions.getEventsBySportIds(retrievedSportIds));
       }).then((events) => {
         retrievedEvents = events;
         // Get betting market groups
