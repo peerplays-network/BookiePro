@@ -275,7 +275,7 @@ class MyAccount extends PureComponent {
 
   renderSettingCard() {
     return (
-      <Card className='bookie-card'
+      <Card className='bookie-card settingComponent'
             title={ I18n.t('myAccount.settings') }
             bordered={ false }
             style={ {width: '100%'} }>
@@ -354,7 +354,7 @@ class MyAccount extends PureComponent {
             {/*</div>*/}
           {/*</Col>*/}
         {/*</Row>*/}
-        <Row className='margin-tb-15'>
+        <Row className='margin-tb-25'>
           <Col span={ 18 }>
             <p
               className='padding-tb-5'>{ I18n.t('myAccount.format') }</p>
@@ -371,7 +371,7 @@ class MyAccount extends PureComponent {
             </div>
           </Col>
         </Row>
-        <div className='bottom-div'>
+        <div className='card-footer'>
           <Row
             className='registerComponent'>
             <button
@@ -385,7 +385,6 @@ class MyAccount extends PureComponent {
             </button>
           </Row>
         </div>
-
       </Card>
     );
   }
@@ -400,10 +399,10 @@ class MyAccount extends PureComponent {
         </Breadcrumb>
         <Row gutter={ 20 }>
           <Col span={ 8 }>
-            <Deposit cardClass='bookie-card' depositAddress={ this.props.depositAddress }/>
+            <Deposit cardClass='bookie-card depositCardComponent' depositAddress={ this.props.depositAddress }/>
           </Col>
           <Col span={ 8 }>
-            <Withdraw cardClass='bookie-card'
+            <Withdraw cardClass='bookie-card withdrawComponent'
               currencyFormat={ this.props.currencyFormat }
               precision={ this.props.precision }
               availableBalance={ this.props.availableBalance }
