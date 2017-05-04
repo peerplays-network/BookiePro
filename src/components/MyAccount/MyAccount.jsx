@@ -20,7 +20,7 @@ import 'perfect-scrollbar';
 import Deposit from './Deposit';
 import Withdraw from './Withdraw';
 import moment from 'moment';
-import { SettingActions,AccountActions } from '../../actions';
+import { SettingActions,AccountActions,NavigateActions } from '../../actions';
 import { LoadingStatus } from '../../constants';
 import { saveAs } from '../../utility/fileSaver.js';
 
@@ -62,7 +62,7 @@ class MyAccount extends PureComponent {
     this.handleRedirectToChangePwd = this.handleRedirectToChangePwd.bind(this);
     this.renderSettingCard = this.renderSettingCard.bind(this);
     this.handleDownloadPasswordFile = this.handleDownloadPasswordFile.bind(this);
-
+    this.handleNavigateToHome = this.handleNavigateToHome.bind(this);
 
   }
 
@@ -273,6 +273,11 @@ class MyAccount extends PureComponent {
     saveAs(blob, 'account-recovery-file.txt');
   }
 
+  //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
+  handleNavigateToHome(){
+    this.props.navigateTo('/exchange');
+  }
+
   renderSettingCard() {
     return (
       <Card className='bookie-card settingComponent'
@@ -393,8 +398,9 @@ class MyAccount extends PureComponent {
     return (
       <div className='my-account section-padding'>
         <Breadcrumb className='bookie-breadcrumb'>
-          <Breadcrumb.Item><a
-            href='/'>  {I18n.t('myAccount.home')} </a></Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a onClick={ this.handleNavigateToHome }>  {I18n.t('myAccount.home')} </a>
+          </Breadcrumb.Item>
           <Breadcrumb.Item>{I18n.t('myAccount.my_account')}</Breadcrumb.Item>
         </Breadcrumb>
         <Row gutter={ 20 }>
@@ -521,7 +527,8 @@ function mapDispatchToProps(dispatch) {
     clearTransactionHistoryExport: AccountActions.clearTransactionHistoryExport,
     getDepositAddress: AccountActions.getDepositAddress,
     redirectToChangePwd: SettingActions.redirectToChangePwd,
-    withdraw: AccountActions.withdraw
+    withdraw: AccountActions.withdraw,
+    navigateTo: NavigateActions.navigateTo,
   }, dispatch)
 }
 
