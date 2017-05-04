@@ -6,8 +6,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
 import LogoutModal from '../Modal/LogoutModal';
-import { StringUtils } from '../../utility';
+import { StringUtils, AppUtils } from '../../utility';
 import TitleBar from './TitleBar';
+
+const isWindowsPlatform = AppUtils.isWindowsPlatform();
+const titleBarHeight = isWindowsPlatform ? '32px' : '40px';
 
 //NOTE default version update text.
 const defaultNewVersionText = 'New version found. Please update the version'
@@ -123,10 +126,20 @@ class App extends Component {
       }
     }
 
+    // Use inline style to determine title bar height and top distance since they are depend on platform version
+    const appContentStyle = {
+      'top': titleBarHeight
+    }
+
+    const titleBarStyle = {
+      'height': titleBarHeight,
+      'min-height': titleBarHeight
+    }
+
     return (
       <div className='app'>
-        <TitleBar />
-        <div className='app-content'>
+        <TitleBar isWindowsPlatform={ isWindowsPlatform } style={ titleBarStyle } />
+        <div className='app-content' style={ appContentStyle }>
           { content }
         </div>
         { logoutModal }
