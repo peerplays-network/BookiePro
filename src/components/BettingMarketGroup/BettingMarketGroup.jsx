@@ -3,10 +3,11 @@ import { BettingMarketGroupBanner } from '../Banners';
 import { ComplexBettingWidget } from '../BettingWidgets/';
 import Immutable from 'immutable';
 import _ from 'lodash';
-import { BettingModuleUtils, CurrencyUtils } from '../../utility';
+import { CurrencyUtils } from '../../utility';
 import { BettingMarketGroupPageActions, MarketDrawerActions } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { I18n } from 'react-redux-i18n';
 
 class BettingMarketGroup extends Component {
 
@@ -87,17 +88,14 @@ const mapStateToProps = (state, ownProps) => {
 
   // Extract betting market group
   const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
-  if ( bettingMarketGroup ){
-    console.log(bettingMarketGroup.toJS())
 
-  }
   //NOTE using market_type_id to retrieve team name
   let bettingMarketGroupName = (bettingMarketGroup && bettingMarketGroup.get('market_type_id')) || '';
 
   if ( bettingMarketGroupName === 'Spread'){
-    bettingMarketGroupName = 'Spread +/- ' + bettingMarketGroup.get('options').get('margin');
+    bettingMarketGroupName = I18n.t('bettingMarketGroup.spread') + bettingMarketGroup.get('options').get('margin');
   } else if ( bettingMarketGroupName === 'OverUnder'){
-    bettingMarketGroupName = 'Over/Under ' + bettingMarketGroup.get('options').get('score');
+    bettingMarketGroupName = I18n.t('bettingMarketGroup.overunder') + bettingMarketGroup.get('options').get('score');
   }
 
   // Extract event name
@@ -118,7 +116,6 @@ const mapStateToProps = (state, ownProps) => {
   // Extract total Bets
   const totalMatchedBetsByMarketGroupId = state.getIn(['liquidity', 'totalMatchedBetsByBettingMarketGroupId']);
 
-  //TODO migrate to curruencyUtil in next curruency related PR
   const totalMatchedBetsAssetId = totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'asset_id']);
   const totalMatchedBetsAsset = state.getIn(['asset','assetsById', totalMatchedBetsAssetId])
 

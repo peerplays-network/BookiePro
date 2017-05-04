@@ -151,6 +151,7 @@ class SidebarActions{
               );
             }
 
+
           })
 
           sportNode = sportNode.update('children',

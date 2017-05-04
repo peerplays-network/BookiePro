@@ -289,7 +289,8 @@ export const translationsObject = {
       'which they are receiving pictures or data.</p>'
     },
     AllSports:{
-      bannerText: 'In play of 100 open games'
+      bannerText: 'In play of 100 open games',
+      allSports: 'ALL SPORTS'
     },
     terms_dialogue:{
       content: '<p>BY USING THIS WEBSITE IN ANY MANNER WHATSOEVER OR BY CLICKING THE &ldquo;ACCEPT&rdquo; ICON ON OUR WEBSITE YOU ARE INDICATING ' +
@@ -355,7 +356,9 @@ export const translationsObject = {
       days: 'Days',
       hours: 'Hours',
       mins: 'Mins',
-      secs: 'Secs'
+      secs: 'Secs',
+      spread: 'Spread +/- ',
+      overunder: 'Over/Under ',
     },
     logoutModal: {
       title: 'Logout',
