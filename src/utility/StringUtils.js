@@ -76,7 +76,17 @@ var Utils = {
     }
 
     return 0;
+  },
+
+  getSignedNumber: function(number){
+    if(number > 0){
+      return ' +' + number;
+    }else{
+      return ' ' + number.toString();
+    }
   }
+
+
 
 }
 export default Utils;

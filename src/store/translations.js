@@ -357,8 +357,10 @@ export const translationsObject = {
       hours: 'Hours',
       mins: 'Mins',
       secs: 'Secs',
-      spread: 'Spread +/- ',
+      spread: 'Spread ',
       overunder: 'Over/Under ',
+      over: 'Over ',
+      under: 'Under '
     },
     logoutModal: {
       title: 'Logout',

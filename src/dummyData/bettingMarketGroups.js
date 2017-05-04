@@ -14,7 +14,7 @@ const bettingMarketGroups = [
     "event_id": "1.103.1",
     "market_type_id": "Spread",
     "options": {
-      "margin": 5,
+      "margin": -5,
       "score": 0
     },
     "betting_market_ids": [
@@ -537,7 +537,7 @@ const bettingMarketGroups = [
     "event_id": "1.103.15",
     "market_type_id": "Spread",
     "options": {
-      "margin": 0,
+      "margin": -10,
       "score": 5
     },
     "betting_market_ids": [
@@ -1427,7 +1427,7 @@ const bettingMarketGroups = [
     },
     "betting_market_ids": [
       "1.105.224",
-      "1.105.457"      
+      "1.105.457"
     ]
   },
   {

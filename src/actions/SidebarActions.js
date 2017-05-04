@@ -129,7 +129,6 @@ class SidebarActions{
                   // currently we have 'Spread', 'OverUnder' and 'Moneyline'
                   mktGroupNode = mktGroupNode.update('name',
                     (name) => {
-
                       if ( marketTypeId === 'Spread'){
                         return I18n.t('bettingMarketGroup.spread') +  ( mktGroup.get('options').get('margin') >= 0 ? '+' : '' )+ mktGroup.get('options').get('margin');
                       } else if ( marketTypeId === 'OverUnder'){
