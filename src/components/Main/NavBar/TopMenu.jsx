@@ -5,10 +5,11 @@ import Withdraw from '../../MyAccount/Withdraw'
 import Amount from './AmountDropDown'
 import Notification from './Notification'
 import DropdownMenu from './DropdownMenu'
-import { AccountActions } from '../../../actions';
+import { AccountActions, BetActions } from '../../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { NavigateActions } from '../../../actions';
+import { CurrencyUtils, BettingModuleUtils } from '../../../utility';
 
 class TopMenu extends Component {
   constructor(props) {
@@ -31,6 +32,8 @@ class TopMenu extends Component {
   componentDidMount(){
     //Get the deposit address
     this.props.getDepositAddress();
+    //Get unmatched and matched bets to calculate inGameAmount
+    this.props.getOngoingBets();
   }
 
   handleClick(e) {
@@ -60,7 +63,9 @@ class TopMenu extends Component {
 
   render() {
     const amountCard = (
-      <Amount cardClass='bookie-amount-card' />
+      <Amount cardClass='bookie-amount-card'
+        availableBalance={ this.props.availableBalance }
+        inGameAmount={ this.props.inGameAmount }/>
     );
     const depositCard = (depositAddress) => (
       <Deposit cardClass='bookie-card deposit-card' depositAddress={ depositAddress } />
@@ -93,8 +98,8 @@ class TopMenu extends Component {
           <Dropdown trigger={ ['click'] } overlay={ amountCard } placement='bottomRight'>
             <div className='icon-main bitcoin-icon-main'>
               <a className='ant-dropdown-link' href='#'>
-                <i className='bitcoin-icon'></i>
-                1.234444
+                <i className={ this.props.currencyFormat === 'BTC' ? 'bitcoin-icon' : 'mbitcoin-icon' }></i>
+                { this.props.availableBalance }
               </a>
             </div>
           </Dropdown>
@@ -149,18 +154,36 @@ class TopMenu extends Component {
 
 const mapStateToProps = (state) => {
   const account = state.get('account');
+  const accountId = account.getIn(['account','id']);
+  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting']) ;
+  const precision = state.getIn(['asset', 'assetsById', '1.3.0']).get('precision');
   /*-1 will be used to check to display 'Not available' against the withdraw amount field
       when the asset '1.3.0' is not obtained for some reason
   */
   const balance = account.getIn(['availableBalancesByAssetId','1.3.0','balance']);
-  const availableBalance = balance !== undefined ? balance : -1;
+  let availableBalance = balance !== undefined ?
+    CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces) : -1;
+
+  //since we don't have any API to get inGameBalances, we summing unmatched and matched bets
+  let inGameAmount = 0;
+  state.getIn(['bet','unmatchedBetsById'])
+  .filter(row => !state.getIn(['bet','cancelBetsByIdsLoadingStatus']).get(row.get('id')))
+  .forEach(row => {
+    inGameAmount += row.get('amount_to_bet');
+  });
+  state.getIn(['bet','matchedBetsById']).forEach(row => {
+    inGameAmount += row.get('amount_to_bet');
+  });
+  inGameAmount = CurrencyUtils.getFormattedCurrency(inGameAmount/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.stakePlaces)
+
   return {
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: account.get('getDepositAddressLoadingStatus'),
     depositAddress: account.get('depositAddress'),
     availableBalance: availableBalance,
     withdrawLoadingStatus: account.get('withdrawLoadingStatus'),
-    currencyFormat: state.get('setting').get('currencyFormat'),
+    currencyFormat: setting.get('currencyFormat'),
+    inGameAmount: inGameAmount
   }
 }
 
@@ -170,7 +193,8 @@ function mapDispatchToProps(dispatch) {
     navigateTo: NavigateActions.navigateTo,
     //TODO: Wallet Address verification and error response pending.
     withdraw: AccountActions.withdraw,
-    logout: AccountActions.logoutAndShowPopupIfNeeded
+    logout: AccountActions.logoutAndShowPopupIfNeeded,
+    getOngoingBets: BetActions.getOngoingBets
   }, dispatch)
 }
 

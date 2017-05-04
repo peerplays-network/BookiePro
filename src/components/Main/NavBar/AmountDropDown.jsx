@@ -11,10 +11,10 @@ class Amount extends Component{
       <Card className={ this.props.cardClass }>
         <Row>
           <Col span={ 12 }>
-            <p> 1.133006 <span> { I18n.t('topbar.available') } </span> </p>
+            <p> { this.props.availableBalance } <span> { I18n.t('topbar.available') } </span> </p>
           </Col>
           <Col span={ 12 }>
-            <p> 0.001 <span> { I18n.t('topbar.in_game') } </span> </p>
+            <p> { this.props.inGameAmount } <span> { I18n.t('topbar.in_game') } </span> </p>
           </Col>
         </Row>
       </Card>
