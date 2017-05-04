@@ -81,7 +81,9 @@ var Utils = {
   getSignedNumber: function(number){
     if(number > 0){
       return ' +' + number;
-    }else{
+    } else if ( number === 0) {
+      return '';
+    } else{
       return ' ' + number.toString();
     }
   }
