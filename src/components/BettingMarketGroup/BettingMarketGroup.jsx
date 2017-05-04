@@ -87,9 +87,18 @@ const mapStateToProps = (state, ownProps) => {
 
   // Extract betting market group
   const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
+  if ( bettingMarketGroup ){
+    console.log(bettingMarketGroup.toJS())
 
+  }
   //NOTE using market_type_id to retrieve team name
-  const bettingMarketGroupName = (bettingMarketGroup && bettingMarketGroup.get('market_type_id')) || '';
+  let bettingMarketGroupName = (bettingMarketGroup && bettingMarketGroup.get('market_type_id')) || '';
+
+  if ( bettingMarketGroupName === 'Spread'){
+    bettingMarketGroupName = 'Spread +/- ' + bettingMarketGroup.get('options').get('margin');
+  } else if ( bettingMarketGroupName === 'OverUnder'){
+    bettingMarketGroupName = 'Over/Under ' + bettingMarketGroup.get('options').get('score');
+  }
 
   // Extract event name
   const event = bettingMarketGroup && eventsById.get(bettingMarketGroup.get('event_id'));
