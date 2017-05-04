@@ -1,0 +1,80 @@
+@import '../App/Colors.less';
+@import '../App/Common.less';
+
+.withdrawComponent{
+  .bookie-amount-field{
+    position: relative;
+    .center-object;
+    &.icon-m{
+      &::before{
+        position: absolute;
+        color: @myaccount_blue_text;
+        font-size:20px;
+        left: 15px;
+        content: 'm';
+      }
+    }
+    &.icon-bitcoin{
+      &::before{
+        position: absolute;
+        left: 15px;
+        content: '';
+        background-image: url('../../assets/icons/bitcoin_icon.png');
+        width:16px;
+        height:16px;
+        background-size: 16px 16px;
+      }
+    }
+    &>div{
+      width:100%;
+    }
+  }
+  .bookie-amount{
+    text-align: right;
+    color: @withdraw_amount;
+    font-size:20px;
+    height:45px;
+    line-height: 45px;
+  }
+  .withdrawForm{
+    margin-top:75px;
+    .errorText{
+      position: absolute;
+    }
+  }
+  .btn{
+    right:15px;
+  }
+  .withdraw-success-amount{
+    color: @myaccount_blue_text;
+    min-width: 14px;
+    text-align: left;
+    display: inline-block;
+    .icon-bitcoin{
+      background: url('../../assets/icons/bitcoin_icon.png') no-repeat center;
+      display: inline-block;
+      width: 14px;
+      height: 16px;
+      background-size: 100%;
+      vertical-align: -2px;
+      margin-right: -5px;
+    }
+    .icon-m{
+      margin-right: -5px;
+      &::before{
+        color: @myaccount_blue_text;
+        font-size:20px;
+        content: 'm';
+      }
+    }
+  }
+  .withdraw-success-msg{
+    display: flex;
+    align-items:center;
+    height:100%;
+  }
+  .btn, input, .ant-input{
+    height:30px;
+    line-height:30px;
+  }
+}

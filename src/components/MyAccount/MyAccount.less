@@ -1,406 +1,92 @@
-.pos-relative{ position: relative;  }
-.border-blue{border:2px solid #2FA5E6}
-.padding-tb-5{padding:5px 0}
-.margin-bottom-30{ margin-bottom:30px}
-.margin-lr-10{margin:0 10px}
-.font16{ font-size:16px;}
-.margin-tb-15{  margin:15px 0;  }
-.margin-tb-20{  margin:20px 0;  }
-.margin-tb-30{  margin:30px 0;  }
-.margin-tb-25{  margin:25px 0;  }
-.margin-tb-10{  margin:10px 0;  }
-.text-center{ text-align: center;}
-.processed{color: #00BEF4; }
-.completed{ color: #FFF; }
-.btn-primary{  background-image: linear-gradient(-180deg, rgba(55,192,255,0.92) 2%, #1F6CB4 97%);  box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);  }
-.bookie-select{  display: block;  }
-.ant-select-selection--single{  height: 36px;  border-radius:2px;  }
-.ant-select-selection__rendered{  line-height: 36px;  }
-
-.btn{  cursor: pointer; &:focus{  outline:none;  } }
-.btn-regular{  background-image: linear-gradient(-180deg, rgba(55,192,255,0.92) 2%, #1F6CB4 97%);  box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);  }
-.btn-regular-disabled{  background-image: linear-gradient(-180deg, rgba(23,102,162,0.92) 4%, #134E85  97%);
-    box-shadow: 0px 2px 3px 0px #0D3B7B , inset 1px 2px 0px 0px rgba(248,235,218,0.43);cursor:not-allowed; }
-.bookie-switch{
-  border:1px solid #E1E1E1;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
-  background-color: #FFFFFF;
-  height: 24px;
-  min-width: 45px;
-  line-height: 26px;
-  float: right;
-  &:after{
-    background-color: #1D7BE3;
-    width: 20px;
-    height: 20px;
-    border-radius: 24px;
-  }
-  &.ant-switch-checked{
-    &:after{
-      margin-left: -24px;
-    }
-  }
-}
-.section-padding{
-  padding:10px 60px;
-}
+@import '../App/Colors.less';
+@import '../App/Common.less';
 .my-account{
-  color: #FFFFFF;
-  .ant-input{
-    height:31px;
-    line-height: 31px;
-    border-radius:2px;
-  }
-  .btn-regular-disabled{
-    cursor: not-allowed;
-  }
-  .bookie-breadcrumb{
-    color: #FFFFFF;
-    font-size:16px;
-    text-transform: uppercase;
-    margin-bottom:20px;
-    a,.ant-breadcrumb-separator{
-      color: #FFFFFF;
-      font-weight:normal;
+  .bookie-switch{
+    border:1px solid @switch_border;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+    background-color: @switch_bg;
+    height: 24px;
+    min-width: 45px;
+    line-height: 26px;
+    float: right;
+    &:after{
+      background-color: @switch_active;
+      width: 20px;
+      height: 20px;
+      border-radius: 24px;
     }
-    .ant-breadcrumb-link{
-      color: #00CAF7;
-      font-weight:700;
-    }
-    &>span{
-      &:last-child{
-        font-weight:400;
+    &.ant-switch-checked{
+      &:after{
+        margin-left: -24px;
       }
     }
   }
-  .bookie-amount-field{
-    position: relative;
-    &.icon-m{
-      &::before{
-        position: absolute;
-        color: #00BEF4;
-        font-size:20px;
-        left: 15px;
-        top:7px;
-        content: 'm';
-      }
-    }
-    &.icon-bitcoin{
-      &::before{
-        position: absolute;
-        top: 12px;
-        left: 15px;
-        content: '';
-        background-image: url('../../assets/icons/bitcoin_icon.png');
-        width:16px;
-        height:16px;
-        background-size: 16px 16px;
-      }
-    }
-  }
-
-
-  .bookie-amount{
-    text-align: right;
-    margin:70px 0 0;
-    color: #004378;
-    font-size:20px;
-  }
-  .withdrawForm{
-    margin-top:75px;
-    .form-fields{
-      margin-bottom:0;
-    }
-    .bottom-div{
-      .errorText{
-        position: absolute;
-      }
-    }
-  }
-  .registerComponent{
-    .bookie-input,.btn{
-      height:30px;
-      line-height:30px;
-      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
-    }
-    .bookie-amount{
-      height:45px;
-      line-height: 45px;
-    }
-    .btn{
-      display: block;
-      width:100%;
-      font-size:16px;
-      border-radius:2px;
-    }
-    .copy-btn{
-      width:54px;
-      position: absolute;
-      top:0;
-      right:0;
-      padding:0;
-      box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);
-    }
-    .btn-primary{
-      box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);
-    }
-    input{
-      border:1px solid #979797;
-    }
-    .send-btn{
-      width:54px;
-      position: absolute;
-      padding: 0;
-      top:0;
-      right:10px;
-      box-shadow: 0 2px 3px 0 #0D3B7B, inset 1px 2px 0 0 rgba(248,235,218,0.43);
-    }
-    .send-btn-disabled{
-      width:auto;
-      position: absolute;
-      right:10px;
-      top:0;
-      padding:0 10px;
-      background-image: linear-gradient(-180deg, rgba(23,102,162,0.92) 4%, #134E85  97%);
-      box-shadow: 0px 2px 3px 0px #0D3B7B , inset 1px 2px 0px 0px rgba(248,235,218,0.43);cursor:not-allowed; }
-    }
-  }
-  .top-data{
-    padding: 0 16px;
-    color: #fff;
-    height:50px;
-    line-height: 48px;
-    border-bottom:1px solid #1563A0;
-  }
-  .export-icon{
-    display: block;
-    background-color: #004E9B;
-    padding:0 10px;
-    border-radius:2px;
-    height:36px;
-    line-height:36px;
-    margin-left: 25px;
-    color: #FFFFFF;
-  }
-  .ant-form-inline {
-    .ant-form-item{
-      &:last-child{
-        margin-right:0;
-      }
-      span{
-        vertical-align: middle;
-      }
-    }
-  }
-  .filter{
-    label{
-      font-size:16px;
-      color: #FFFFFF;
-      margin-right:14px;
-      vertical-align: middle;
-    }
-    .btn{
-      vertical-align: middle;
-    }
-  }
-  .transaction-table{
-    background-color: rgba(6,92,183,0.35);
-    margin-top: 20px;
-    box-shadow: 0 2px 4px 0 #02070C;
-    min-height: 550px;
-  }
-  .ant-form-item{
-    color:#fff
-  }
-  .ant-form-inline {
-    .ant-form-item{
-      margin-right:25px;
-      &:last-child{
-        margin-right:0;
-      }
-    }
-  }
-  .page-title{
-    font-size:16px;
-    text-transform:uppercase;
-    font-weight: bold;
-  }
-  .btn {
-    text-transform: uppercase;
-    display: inline-block;
-    color: #ffffff;
-    border-radius: 0;
-    background-color: inherit;
-    font-size:16px;
-    font-weight:500;
+  input{
+    height: 30px;
+    line-height: 30px;
   }
   .bookie-card{
-    background: rgba(0,92,183,0.35);
-    box-shadow: 0 2px 4px 0 #02070C;
     height:312px;
-    border-radius:0;
-    border:0 none;
-    font-size:14px;
-    .ant-card-body{
-      color: #FFFFFF;
-      padding:10px 15px;
-      font-size:16px;
-      height:86%;
-    }
-    .ant-card-head{
-      padding:0 15px;
-      border-bottom-color: #1563A0;
-    }
-    .ant-card-head-title{
-      font-size:18px;
-      color: #FFFFFF;
-      font-weight:500;
-      text-transform: uppercase;
-    }
-    .my-account{
-      padding:0;
-      height:100%;
-    }
-    .withdraw-success-msg{
-      display: flex;
-      align-items:center;
-      height:100%;
-    }
   }
-  .bookie-select{
-    .ant-select-selection__rendered{
-      line-height:30px;
-    }
-    .ant-select-selection--single{
-      height:31px;
-      border-color: #E1E1E1;
-      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
-    }
-  }
-  ::-webkit-input-placeholder{
-    color: #A9A9A9 !important;
-  }
-  .bookie-table{
-    padding: 0 16px;
-    .ant-table{
-      overflow: visible;
-    }
-    .ant-table-content{
-      min-height: 630px;
-    }
-    table{
-      table-layout: fixed;
-      color: #FFFFFF;
-      font-size: 14px;
-      .ant-table-thead > tr > th{
-        background-color: transparent;
-        border-bottom:1px solid #fff;
-        font-weight:700;
-      }
-      .ant-table-tbody > tr > td{
-        border-bottom:0 none;
-        font-size:14px;
-        word-break: normal;
-      }
-      .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
-        padding:10px 25px 10px 0;
-        color: #FFFFFF;
-        vertical-align: top;
-      }
-      .ant-table-tbody tr td:last-child{
-        padding-right:0;
-      }
-      .ant-table-thead > tr:hover, .ant-table-tbody > tr:hover,.ant-table-tbody > tr:hover > td{
-        background-color: transparent;
+  .bookie-table {
+    table {
+      thead {
+        tr {
+          th {
+            &:nth-of-type(1) {
+              width: 150px;
+              text-transform: uppercase;
+            }
+            &:nth-of-type(2) {
+              width: 200px;
+            }
+            &:nth-of-type(4) {
+              width: 150px;
+            }
+            &:nth-of-type(5) {
+              width: 100px;
+            }
+          }
+        }
       }
     }
   }
-  .bookie-table table thead tr th:nth-of-type(1) {width:150px;}
-  .bookie-table table thead tr th:nth-of-type(2) {width:200px;}
-  .bookie-table table thead tr th:nth-of-type(4) {width:150px;}
-  .bookie-table table thead tr th:nth-of-type(5) {width:100px;}
-.ant-calendar-input{
-  color: #4A4A4A;
-}
-.ant-calendar-date-panel{
-  background-color: rgba(3,41,77,0.95);
-}
-.ant-calendar-header .ant-calendar-my-select a,.ant-calendar-header .ant-calendar-prev-month-btn,.ant-calendar-header .ant-calendar-next-month-btn,.ant-calendar-date{
-  color: #FFFFFF;
-}
-.ant-calendar-column-header-inner {
-  color: #166ABC;
-}
-.ant-calendar-date:hover{
-  background: transparent;
-  color: inherit;
-}
-.ant-calendar-footer-btn{
-  border-top-color: rgba(125,175,213,0.20);
-}
-.ant-calendar-last-month-cell .ant-calendar-date, .ant-calendar-next-month-btn-day .ant-calendar-date{
-  color: rgba(47,165,230, 0.25);
-}
-.ant-calendar-header{
-  border-bottom-color: #034A8E;
-}
-.ant-calendar-today-btn{
-  color: #00BEF4;
-}
-.bottom-div{
-  padding: 0 15px;
-  position: absolute;
-  bottom:20px;
-  width:100%;
-  left:0;
-}
-.ant-pagination-prev, .ant-pagination-next{
-  background-color: transparent;
-  border:0 none;
-  a{
-    color: #FFFFFF ;
+  .settingComponent{
+    .btn{
+      width:100%;
+    }
+    .bookie-select{
+      display: block;
+    }
   }
-}
-.ant-pagination-item{
-  background-color: transparent;
-  border:0 none;
-  border-radius: 0;
-  font-size:16px;
-  font-weight:500;
-  a{
-    color: #FFFFFF ;
+  .processed{
+    color: @myaccount_blue_text;
   }
-}
-.withdraw-sucess-amount{
-  color: #00BEF4;
-  min-width: 14px;
-  text-align: left;
-  display: inline-block;
-  .icon-bitcoin{
-    background-image: url('../../assets/icons/bitcoin_icon.png');
+  .completed{
+    color: @status_completed;
+  }
+
+  .icon-bitcoin-white{
+    background-image: url('../../assets/icons/bitcoin_icon_hover.png');
     display: inline-block;
-    width: 14px;
-    height: 16px;
+    width: 12px;
+    height: 12px;
     background-repeat: no-repeat;
     background-size: 100%;
     vertical-align: -2px;
-    margin-right: -5px;
-    background-position: center;
-  }
-  .icon-m{
-    margin-right: -5px;
-    &::before{
-      color: #00BEF4;
-      font-size:20px;
-      content: 'm';
-    }
   }
 }
-.ant-pagination-item-active{
-  background-color: #1563A0 ;
-}
-:root .ant-pagination-prev a:after, :root .ant-pagination-next a:after{
-  font-size:16px;
+.depositCardComponent{
+  .btn, input, .ant-input{
+    height:30px;
+    line-height: 30px;
+  }
+  .bookie-qr {
+    width: 130px;
+    height: 130px;
+    border: 1px solid @qr_code_border;
+    display: inline-block;
+  }
 }
 @media screen and (min-width: 1024px) and (max-width: 1140px){
   .my-account{

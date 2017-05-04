@@ -68,10 +68,10 @@ class TopMenu extends Component {
         inGameAmount={ this.props.inGameAmount }/>
     );
     const depositCard = (depositAddress) => (
-      <Deposit cardClass='bookie-card deposit-card' depositAddress={ depositAddress } />
+      <Deposit cardClass='bookie-card deposit-card depositCardComponent' depositAddress={ depositAddress } />
     );
     const withdrawCard = (
-      <Withdraw cardClass='bookie-card withdraw-card'
+      <Withdraw cardClass='bookie-card withdraw-card withdrawComponent'
         currencyFormat={ this.props.currencyFormat }
         availableBalance={ this.props.availableBalance }
         onSubmit={ this.handleWithdrawSubmit }

@@ -48,11 +48,32 @@
 .margin-top-18 {
   margin-top: 18px;
 }
+.margin-tb-15 {
+  margin: 15px 0;
+}
+.margin-tb-20 {
+  margin: 20px 0;
+}
+.margin-tb-30 {
+  margin: 30px 0;
+}
+.margin-tb-25 {
+  margin: 25px 0;
+}
+.margin-lr-10{
+  margin:0 10px;
+}
+.margin-top-20{
+  margin-top: 20px;
+}
 .padding-15{
   padding:15px;
 }
 .padding-lr-5{
   padding:0 5px;
+}
+.padding-tb-5{
+  padding:5px 0
 }
 .center-object{
   display: flex;
@@ -79,7 +100,38 @@
   font-size:12px;
 }
 
-// Common class for Sports banner background for login, signup, deposit
+// Card Title [myAccount, myWager]
+.card-title{
+  font-size:16px;
+  text-transform:uppercase;
+  font-weight: bold;
+}
+
+// Spacing between the left navigation and Betslip component
+// [myAccount]
+.section-padding{
+  padding:0 60px;
+}
+
+// Card footer
+// to place footer section always stick to bottom
+.card-footer{
+  padding: 0 15px;
+  position: absolute;
+  bottom:20px;
+  width:100%;
+  left:0;
+}
+
+// Table Card structure [myAccount]
+// [myAccount]
+.table-card{
+  background-color: @card_bg;
+  box-shadow: @card_shadow;
+}
+
+// Common class for Sports banner background
+// [Login, signup, deposit, Landing]
 .onboardingSportsBackground {
   height: 100%;
   .center-object;
@@ -98,6 +150,8 @@
   border: 0 none;
   text-align: center;
   cursor: pointer;
+  //TODO: will remove important after optimizing the On Boarding Landing page
+  padding:0 !important;
 }
 .btn-regular {
   background: @primary_btn;
@@ -113,14 +167,30 @@
   background: @download_btn;
   box-shadow: @btn_shadow;
 }
+.inputWithButton{
+  width:54px;
+  position: absolute;
+  padding: 0;
+  top:0;
+  right:0;
+}
+//TODO: will remove this class after optimization done
+//[signup, deposit]
+.copy-btn{
+  padding:0 10px !important;
+}
+//TODO: Temporary fix, will remove this during my-wager fixes
+.my-wager .btn-regular-disabled{
+  width:106px;
+}
 
-input {
+input, .ant-input, .ant-calendar-input {
   border: 1px solid @field_border;
   box-shadow: 0 2px 4px 0 @field_shadow;
   border-radius: 1.5px;
   height: 36px;
   line-height: 36px;
-  padding: 0 16px;
+  padding: 0 10px;
   color: @field;
   display: block;
   width: 100%;
@@ -133,7 +203,366 @@ input {
 }
 .rw-input,
 ::-webkit-input-placeholder {
-  color: @field;
+  color: @field !important;
+}
+
+// breadcrumb [myAccount, myWager]
+.bookie-breadcrumb{
+  color: @breadcrumb_link;
+  font-size:16px;
+  text-transform: uppercase;
+  margin:18px 0 22px !important;
+  a,.ant-breadcrumb-separator{
+    color: @white;
+    font-weight:normal;
+  }
+  .ant-breadcrumb-link{
+    color: @breadcrumb_link_current;
+    font-weight:700;
+  }
+  &>span{
+    &:last-child{
+      font-weight:400;
+    }
+  }
+}
+
+// Card [Notification, myAccount, Simple-betting-widget]
+.bookie-card{
+  //TODO: Will remove !important after fixing change password fixes
+  background: @card_bg;
+  box-shadow: @card_shadow !important;
+  border-radius:0;
+  border:0 none;
+  font-size:14px;
+  .ant-card-body{
+    color: @white;
+    padding:10px 15px;
+    font-size:16px;
+    height:86%;
+  }
+  .ant-card-head{
+    padding:0 15px;
+    border-bottom-color: @card_header_border;
+    background: transparent;
+  }
+  .ant-card-head-title{
+    font-size:16px !important;
+    color: @white;
+    font-weight:700 !important;
+    text-transform: uppercase;
+  }
+  &:hover{
+    box-shadow: @card_shadow;
+  }
+}
+
+// Pagination
+// MyAccount, MyWager, Homepage, EventPage
+.ant-pagination{
+  .ant-pagination-prev, .ant-pagination-next{
+    background-color: transparent;
+    border:0 none;
+    a{
+      color: @pagination_label ;
+    }
+  }
+  .ant-pagination-item{
+    background-color: transparent;
+    border:0 none;
+    border-radius: 0;
+    font-size:16px;
+    font-weight:500;
+    a{
+      color: @pagination_label ;
+    }
+  }
+  .ant-pagination-item-active{
+    background-color:@pagination_active_bg;
+  }
+}
+
+// Table component [Myaccount]
+.bookie-table{
+  padding: 0 16px;
+  .ant-table{
+    overflow: visible;
+  }
+  .ant-table-content{
+    min-height: 630px;
+  }
+  table{
+    table-layout: fixed;
+    color: @white;
+    font-size: 14px;
+    .ant-table-thead > tr > th{
+      background-color: transparent;
+      border-bottom:1px solid @white;
+      font-weight:700;
+    }
+    .ant-table-tbody > tr > td{
+      border-bottom:0 none;
+      font-size:14px;
+      word-break: normal;
+    }
+    .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+      padding:10px 25px 10px 0;
+      color: @white;
+      vertical-align: top;
+    }
+    .ant-table-tbody tr td:last-child{
+      padding-right:0;
+    }
+    .ant-table-thead > tr:hover, .ant-table-tbody > tr:hover,.ant-table-tbody > tr:hover > td{
+      background-color: transparent;
+    }
+  }
+}
+
+// Filter Component
+// [myAccount]
+.filterComponent{
+  padding: 0 16px;
+  color: @white;
+  height:50px;
+  line-height: 48px;
+  border-bottom:1px solid @filter_table_header_border;
+  label{
+    font-size:16px;
+    color: @white;
+    margin-right:14px;
+    vertical-align: middle;
+  }
+  .ant-form-inline {
+    .ant-form-item{
+      margin-right:25px;
+      &:last-child{
+        margin-right:0;
+      }
+      .ant-calendar-picker + span{
+        color: @white;
+      }
+      span{
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .btn{
+    width:106px;
+    vertical-align: middle;
+  }
+  .ant-input{
+    width:140px;
+    border:0 none;
+    font-size:16px;
+    cursor: pointer;
+    border-radius:1.5px;
+  }
+  .ant-calendar-picker{
+    vertical-align: middle;
+    .ant-calendar-picker-icon{
+      display: none;
+    }
+  }
+}
+
+// [myAccount, myWager]
+.bookie-select{
+  .ant-select-selection__rendered{
+    line-height:30px;
+  }
+  .ant-select-selection{
+    border: 1px solid @field_border;
+    color: @field;
+    font-size:16px;
+  }
+  .ant-select-selection--single{
+    height:30px;
+    border-radius: 1.5px;
+    border: 0 none;
+    box-shadow: 0 2px 4px 0 @field_shadow;
+  }
+}
+.ant-select-dropdown{
+  border-radius: 1.5px;
+  box-shadow: 0 0 0 1px @dropdown_shadow;
+  .ant-select-dropdown-menu-item{
+    color: @field;
+    font-size:16px;
+    padding:8px 0;
+    text-align: center;
+    font-weight:500;
+    &:hover{
+      background-color: @dropdown_hover;
+    }
+  }
+}
+
+//Datepicker
+// [myAccount, myWager]
+.ant-calendar{
+  width:284px;
+  font-size:14px;
+  border-radius:1.5px;
+  border:0 none;
+  background:transparent;
+  margin-top: 9px;
+  box-shadow:none;
+  .ant-calendar-body{
+    padding:0 8px;
+  }
+  .ant-calendar-column-header{
+    line-height: normal;
+    padding:20px 0;
+  }
+  .ant-calendar-cell{
+    padding:10px 0;
+  }
+  .ant-calendar-header{
+    height:auto;
+    line-height: normal;
+    padding:8px 0;
+    border-bottom-color: @datepicker_header_border;
+    a{
+      padding:0;
+      color: @white;
+    }
+    .ant-calendar-prev-month-btn{
+      left:20px;
+      font-size:20px;
+      line-height: 32px;
+    }
+    .ant-calendar-next-month-btn{
+      right:20px;
+      font-size:20px;
+      line-height: 32px;
+    }
+    .ant-calendar-prev-year-btn, .ant-calendar-next-year-btn{
+      display: none;
+    }
+    .ant-calendar-month-panel,.ant-calendar-year-panel {
+      background-color: @datepicker_year_panel_bg;
+      border-radius: 0;
+      top:0;
+      .ant-calendar-month-panel-header,.ant-calendar-year-panel-header{
+        height:auto;
+        padding:15px 0;
+        line-height: normal;
+        border-bottom-color: @datepicker_header_border;
+        .ant-calendar-month-panel-year-select,
+        .ant-calendar-year-panel-decade-select{
+          line-height: normal;
+        }
+        a{
+          top:5px;
+        }
+      }
+    }
+  }
+  .ant-calendar-input{
+    color: @field;
+  }
+  .ant-calendar-input-wrap{
+    height: 30px;
+    padding:0;
+    border-bottom:0 none;
+  }
+  .ant-calendar-disabled-cell{
+    .ant-calendar-date{
+      background: transparent;
+      color: @datepicker_day_label_disabled;
+    }
+  }
+  .ant-calendar-footer{
+    .ant-calendar-footer-btn{
+      text-align: left;
+      border-top-color: @datepicker_footer_border;
+      line-height: normal;
+      padding:15px 0;
+      .ant-calendar-today-btn{
+        margin-left:16px;
+      }
+    }
+  }
+  .ant-calendar-column-header{
+    .ant-calendar-column-header-inner{
+      color: @datepicker_week_label;
+    }
+  }
+  .ant-calendar-date-panel{
+    background-color: @datepicker_bg;
+    margin-top: 10px;
+    border: 1px solid @white;
+    border-radius:1.5px;
+  }
+  .ant-calendar-today-btn{
+    color: @datepicker_day_selected;
+  }
+  .ant-calendar-input{
+    border:0 none;
+    width:140px;
+    border-radius:0;
+    height:30px;
+    line-height:30px;
+    padding:0 10px;
+    font-size:16px;
+  }
+  .ant-calendar-selected-day{
+    .ant-calendar-date{
+      background: @datepicker_day_selected;
+    }
+    &.ant-calendar-disabled-cell{
+      .ant-calendar-date{
+        color: @datepicker_day_label;
+      }
+    }
+    .ant-calendar-date{
+      &:hover{
+        background: @datepicker_day_selected;
+      }
+    }
+  }
+  .ant-calendar-my-select{
+    font-size:18px;
+    .ant-calendar-month-select{
+      color: @datepicker_month_label;
+    }
+    .ant-calendar-year-select{
+      color: @datepicker_year_label;
+      padding-left:5px;
+    }
+  }
+  .ant-calendar-date,.ant-calendar-month-panel-month{
+    color: @datepicker_day_label;
+    width:28px;
+    height:24px;
+    line-height:22px;
+    &:hover{
+      background-color: transparent;
+    }
+  }
+  .ant-calendar-today{
+    .ant-calendar-date{
+      border:0 none;
+    }
+  }
+  .ant-calendar-last-month-cell{
+    .ant-calendar-date{
+      color: @datepicker_day_label_disabled;
+    }
+  }
+}
+
+// Calendar Icon
+//[myAccount, myWager]
+.calendar-icon{
+  background: url("../../assets/icons/calendar_icon.png") no-repeat;
+  display: inline-block;
+  width:29px;
+  height:26px;
+  vertical-align: middle;
+  background-size: 100%;
 }
 
 // Dialogue common styling

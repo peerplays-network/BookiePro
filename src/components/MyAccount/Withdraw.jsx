@@ -7,6 +7,7 @@ import { Field, reduxForm } from 'redux-form/immutable';
 import { LoadingStatus } from '../../constants';
 import { BettingModuleUtils, CurrencyUtils } from '../../utility';
 
+import './Withdraw.less';
 //Component to render fields
 const renderField = ({ className, errors, placeholder,hasWithdrawAmountErr, input, type,
   withdrawAmountErrMsg,
@@ -79,16 +80,16 @@ class Withdraw extends Component{
 
     return(
       <Card className={ this.props.cardClass } title={ withdrawCardTitle }>
-        <div className='my-account'>
+        <div className='withdrawComponent'>
           { !isWithdrawLoadingStatusDone ? <p>{ I18n.t('myAccount.withdraw_desc') }</p> : null }
           { isWithdrawLoadingStatusDone ?
             <div className='withdraw-success-msg'>
               <p className='text-center'>
-                { I18n.t('myAccount.withdraw_completed_msg_1') }  <span className='withdraw-sucess-amount'>
+                { I18n.t('myAccount.withdraw_completed_msg_1') }  <span className='withdraw-success-amount'>
                  <i className={ prefix } ></i> { withdrawAmount }</span>   { I18n.t('myAccount.withdraw_completed_msg_2') }
               </p>
             </div> :
-            <div className='registerComponent'>
+
               <form onSubmit={ handleSubmit } className='withdrawForm'>
                 <div className={ 'form-fields bookie-amount-field ' + prefix }>
                   <Field name='withdrawAmount' id='withdrawAmount' className='bookie-input bookie-amount'
@@ -101,11 +102,11 @@ class Withdraw extends Component{
                     component={ renderField }  type='text' normalize={ normalizeAmount }/>
                 </div>
                 <div className='form-fields'>
-                  <div className='bottom-div'>
+                  <div className='card-footer'>
                     <Field name='walletAddr' id='walletAddr' className='bookie-input walletAddr-input'
                            component={ renderField } placeholder={ I18n.t('myAccount.send_value') } type='text'/>
                     <button
-                      className={ 'btn ' + (isDisabled ? 'send-btn-disabled':' send-btn') + ' btn-primary' }
+                      className={ 'btn inputWithButton ' + (isDisabled ? 'btn-regular-disabled':' btn-regular')  }
                       type='submit'
                       disabled={ isDisabled }>
                       { I18n.t('myAccount.send') }
@@ -113,7 +114,6 @@ class Withdraw extends Component{
                   </div>
                 </div>
               </form>
-            </div>
           }
         </div>
       </Card>

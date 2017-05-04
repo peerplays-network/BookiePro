@@ -19,18 +19,20 @@ class Deposit extends Component{
             title={ I18n.t('myAccount.deposit') }>
         <p>{ I18n.t('myAccount.deposit_desc') }</p>
         <p className='text-center margin-tb-25'>
-          <QRCode value={ JSON.stringify(this.props.depositAddress) }/>
+          <span className='bookie-qr'>
+            <QRCode value={ JSON.stringify(this.props.depositAddress) }/>
+          </span>
         </p>
-        <div className='bottom-div'>
+        <div className='card-footer'>
           <div
-            className='registerComponent pos-relative'>
+            className='pos-rel'>
             <Input readOnly
                    className='bookie-input'
                    value={ this.props.depositAddress }
             />
             <button
               onClick={ this.onClickCopy.bind(this,this.props.depositAddress) }
-              className='btn btn-primary copy-btn'>
+              className='btn btn-regular inputWithButton'>
               { I18n.t('myAccount.copy') }
             </button>
           </div>
