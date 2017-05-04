@@ -28,6 +28,8 @@ class AllSports extends Component {
                 title={ sport.get('name') }
                 events={ sport.get('events') }
                 currencyFormat={ currencyFormat }
+                nodeId={ sportId }
+                nodeType='sport'              //'nodeId','nodeType' - required for navigation of 'more' link
               />
             )
           })
@@ -69,7 +71,6 @@ const mapStateToProps = (state) => {
       page = page.setIn([eventSportId, 'events'], eventList);
     }
   });
-
   return {
     sports: page
   }

@@ -16,6 +16,7 @@ class Sport extends Component {
     const { sport, eventGroups, currencyFormat } = this.props;
     return (
       <div className='sport-wrapper'>
+
         <SportBanner sport={ sport }/>
         {
           // convert the list of keys into vanilla JS array so that I can grab the index
@@ -27,6 +28,8 @@ class Sport extends Component {
                 title={ eventGroup.get('name') }
                 events={ eventGroup.get('events') }
                 currencyFormat={ currencyFormat }
+                nodeId={ eventGroupId }
+                nodeType='eventgroup'          //'nodeId','nodeType' - required for navigation of 'more' link
               />
             );
           })

@@ -4,14 +4,15 @@ import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import {  Table } from 'antd';
 import RulesModal from '../../Modal/RulesModal'
-import { QuickBetDrawerActions } from '../../../actions';
+import { QuickBetDrawerActions,NavigateActions } from '../../../actions';
 import { I18n, Translate } from 'react-redux-i18n';
 import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
-const bitcoinSymbol = '\u0243';
 // We cannot use CSS to override antd Table column width using CSS
 // This can only be done via the code
 const eventTimeColumnWidth = 90;
 const offerColumnWidth = 70;
+//display 15 events of an event list per page as per doc
+const paginationParams = { pageSize: 15 };
 
 // TODO: Consider moving this to a utility library later
 // TODO: The implementation below is for demo purpose. Will review this in future iterations.
@@ -85,24 +86,36 @@ const renderTitle = (title) => (
   </div>
 );
 
-const renderFooter = (title) => (
-  <div className='footer'>
-    <a href='/' onClick={ e => e.preventDefault() }>
-      More { title }
-    </a>
-  </div>
-)
+
 
 class SimpleBettingWidget extends Component {
   constructor(props) {
     super(props);
     this.onOfferClicked = this.onOfferClicked.bind(this);
     this.renderOffer = this.renderOffer.bind(this);
+    this.handleMoreLinkClick = this.handleMoreLinkClick.bind(this);
+  }
+
+  handleMoreLinkClick = (event,type, id) => {
+    event.preventDefault();
+    this.props.navigateTo('/exchange/' + type + '/' + id);
   }
 
   onOfferClicked(event, record, team, betType, betting_market_id, odds) {
     event.preventDefault();
     this.props.createBet(record.get('event_id'), record.get('event_name'), team, betType, betting_market_id, odds);
+  }
+
+  renderFooter(title, type, id) {
+    return  (
+      type!==undefined ? (
+        <div className='footer'>
+          <a onClick={ (event) => this.handleMoreLinkClick(event,type, id) }>
+            More { title }
+          </a>
+        </div>
+      ) : null
+    )
   }
 
   // action: [ lay(ing) | back(ing) ]
@@ -140,6 +153,7 @@ class SimpleBettingWidget extends Component {
     if (this.props.events !== undefined) {
       // Introduce the key attribute to suppress the React warning
       events = this.props.events.map((event) => event.set('key', event.get('event_id')));
+
       // Sort by event time
       events = events.sort((a, b) => {
         let timeA = a.get('time');
@@ -148,9 +162,29 @@ class SimpleBettingWidget extends Component {
         if (timeA > timeB) { return 1; }
         return 0;
       })
-      events = events.toArray();  // antd table only accepts vanilla JS arrays
-    }
 
+      /**
+        - this.props.nodeType will be defined when navigated from
+          home to sport screen and sport to event group listing screen
+        - it will be undefined when navigating from event group list screen to a particular event group
+        This is used to decide what has to be displayed on the footer of the table - 'more' link or pagination
+
+        - Display 3 events per sport when all sports are displayed from home
+        - Display 10 events per event group for a particular sport
+        - Display all records when events are displayed for a particular event group
+          [paging of 15 will be applied on it directly while rendering the Antd table]
+      **/
+      switch(this.props.nodeType){
+        case 'sport':
+          events = events.toArray().length > 3 ? events.toArray().slice(1,4) : events.toArray();
+          break;
+        case 'eventgroup':
+          events = events.toArray().length > 10 ? events.toArray().slice(1,11) : events.toArray();
+          break;
+        default:
+          events = events.toArray();
+      }
+    }
     return (
       // Note that we have to explicitly tell antd Table how to find the rowKey
       // because it is not compatible with Immutable JS
@@ -159,11 +193,16 @@ class SimpleBettingWidget extends Component {
       <div className='simple-betting'>
         <Table
           bordered
-          pagination={ false }
           columns={ getColumns(this.renderOffer, this.props.currencyFormat) }
           dataSource={ events }
           title={ () => renderTitle(this.props.title) }
-          footer={ () => renderFooter(this.props.title) }
+          //Show pagination for events of an event group, else display 'more' link
+          footer={ () =>
+            this.props.events.toArray().length > 10 ?
+              this.renderFooter(this.props.title,this.props.nodeType,this.props.nodeId) :
+              null
+          }
+          pagination={ this.props.nodeType===undefined ? paginationParams : false }
           locale={ {emptyText: 'No Data'} }
           rowKey={ (record) => record.get('key') }
         />
@@ -175,6 +214,7 @@ class SimpleBettingWidget extends Component {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     createBet: QuickBetDrawerActions.createBet,
+    navigateTo: NavigateActions.navigateTo,
   }, dispatch);
 }
 

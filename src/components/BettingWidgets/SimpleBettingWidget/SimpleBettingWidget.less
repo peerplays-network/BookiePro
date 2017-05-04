@@ -52,7 +52,13 @@ div.simple-betting {
     table {
       border: none;
       border-radius: 0;
-
+      .ant-table-tbody{
+        tr{
+          &:hover{
+            background: transparent;
+          }
+        }
+      }
       th {
         background-color: transparent;
         border-right: none;
@@ -127,7 +133,7 @@ div.simple-betting {
     }
   }
   .ant-table-content{
-    min-height:540px;
+    // min-height:540px;
   }
   .ant-pagination-item:hover a, .ant-pagination-next:hover a, .ant-pagination-prev:hover a{
     color: #FFFFFF;
