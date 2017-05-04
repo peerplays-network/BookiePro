@@ -47,7 +47,7 @@ const mapStateToProps = (state, ownProps) => {
     competitorByBettingMarketId = competitorByBettingMarketId.set(bettingMarketId, competitors.get(i))
   });
   // Transform the raw bet data into a specific format for the EditableBetTable
-  const originalBets = state.getIn(['bet', 'matchedBetsById'])
+  const originalBets = state.getIn(['bet', 'unmatchedBetsById'])
                             .filter(bet => bettingMarketIds.includes(bet.get('betting_market_id')))
                             .map(bet => Immutable.fromJS({
                               id: bet.get('id'),
