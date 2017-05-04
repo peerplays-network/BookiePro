@@ -29,13 +29,14 @@ class EventGroup extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const eventGroupId = window.location.href.split('/').pop();
   const eventsById = state.getIn(['event', 'eventsById']);
   const eventIds = state.getIn(['eventGroupPage', 'eventIds']);
   const binnedOrderBooksByEvent = state.getIn(['eventGroupPage', 'binnedOrderBooksByEvent']);
 
   // For each event, generate data entry for the Simple Betting Widget
   let myEvents = eventsById.toArray()
-    .filter((event) => eventIds.includes(event.get('id')))
+    .filter((event) => event.get('event_group_id') === eventGroupId && eventIds.includes(event.get('id')))
     .map((event) => {
       const eventId = event.get('id');
       const offers = binnedOrderBooksByEvent.has(eventId)? binnedOrderBooksByEvent.get(eventId) : Immutable.List() ;
