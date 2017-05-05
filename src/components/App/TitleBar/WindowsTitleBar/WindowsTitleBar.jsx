@@ -6,20 +6,31 @@ import Clock from '../Clock';
 class WindowsTitleBar extends Component {
 
   render() {
+    const {
+        isConnected,
+        isWindowFocused,
+        onMaximizeClick,
+        onMinimizeClick,
+        onRestoreDownClick,
+        onCloseClick,
+        isMaximized,
+         ...props
+       } = this.props;
+
     return (
-      <div className='windows-title-bar'>
+      <div className='windows-title-bar' { ...props }>
         <div className='left'>
-          <i className={ this.props.isConnected ? 'connection-status-online' : 'connection-status-offline' } />
+          <i className={ isConnected ? 'connection-status-online' : 'connection-status-offline' } />
           <Clock className='clock' />
         </div>
         <div className='right'>
           <WindowsControls
-            isWindowFocused={ this.props.isWindowFocused }
-            onMaximizeClick={ this.props.onMaximizeClick }
-            onMinimizeClick={ this.props.onMinimizeClick }
-            onRestoreDownClick={ this.props.onRestoreDownClick }
-            onCloseClick={ this.props.onCloseClick }
-            isMaximized={ this.props.isMaximized }
+            isWindowFocused={ isWindowFocused }
+            onMaximizeClick={ onMaximizeClick }
+            onMinimizeClick={ onMinimizeClick }
+            onRestoreDownClick={ onRestoreDownClick }
+            onCloseClick={ onCloseClick }
+            isMaximized={ isMaximized }
           />
         </div>
       </div>

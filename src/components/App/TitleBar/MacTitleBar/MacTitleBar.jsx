@@ -7,21 +7,32 @@ import { I18n } from 'react-redux-i18n';
 class MacTitleBar extends Component {
 
   render() {
+    const {
+        isConnected,
+        isWindowFocused,
+        onMaximizeClick,
+        onMinimizeClick,
+        onResizeClick,
+        onCloseClick,
+        isFullscreen,
+         ...props
+       } = this.props;
+
     return (
-      <div className='mac-title-bar'>
+      <div className='mac-title-bar' { ...props }>
         <div className='title'>{ I18n.t('titleBar.title') }</div>
         <div className='left'>
           <MacControls
-            isWindowFocused={ this.props.isWindowFocused }
-            onMaximizeClick={ this.props.onMaximizeClick }
-            onMinimizeClick={ this.props.onMinimizeClick }
-            onResizeClick={ this.props.onResizeClick }
-            onCloseClick={ this.props.onCloseClick }
-            isFullscreen={ this.props.isFullscreen }
+            isWindowFocused={ isWindowFocused }
+            onMaximizeClick={ onMaximizeClick }
+            onMinimizeClick={ onMinimizeClick }
+            onResizeClick={ onResizeClick }
+            onCloseClick={ onCloseClick }
+            isFullscreen={ isFullscreen }
           />
         </div>
         <div className='right'>
-          <i className={ this.props.isConnected ? 'connection-status-online' : 'connection-status-offline' } />
+          <i className={ isConnected ? 'connection-status-online' : 'connection-status-offline' } />
           <Clock className='clock' />
         </div>
 

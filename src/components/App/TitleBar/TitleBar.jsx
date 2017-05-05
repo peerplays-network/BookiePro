@@ -4,8 +4,8 @@ import WindowsTitleBar from './WindowsTitleBar';
 import { AppUtils } from '../../../utility';
 import { ConnectionStatus } from '../../../constants';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const isWindowsPlatform = AppUtils.isWindowsPlatform();
 const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 
 // Import electron only if we are running inside electron (otherwise it will throw exception)
@@ -130,7 +130,7 @@ class TitleBar extends Component {
   };
 
   render() {
-
+    const { isConnected, isWindowsPlatform, ...props } = this.props;
     if (isWindowsPlatform) {
       return (
         <WindowsTitleBar
@@ -140,7 +140,8 @@ class TitleBar extends Component {
           onMinimizeClick={ this.onMinimizeClick }
           onCloseClick={ this.onCloseClick }
           isMaximized={ this.state.isMaximized }
-          isConnected={ this.props.isConnected }
+          isConnected={ isConnected }
+          { ...props }
         />
       );
     } else {
@@ -153,11 +154,17 @@ class TitleBar extends Component {
           onResizeClick={ this.onResizeClick }
           onCloseClick={ this.onCloseClick }
           isFullscreen={ this.state.isFullscreen }
-          isConnected={ this.props.isConnected }
+          isConnected={ isConnected }
+          { ...props }
         />
       )
     }
   }
+}
+
+TitleBar.propTypes = {
+  isWindowsPlatform: PropTypes.bool,
+  height: PropTypes.string
 }
 
 const mapStateToProps = (state) => {

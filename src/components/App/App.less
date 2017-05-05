@@ -9,9 +9,6 @@
 // App
 @base-font-size: 14px;
 
-// Title Bar
-@title-bar-mac-height: 40px;
-@title-bar-windows-height: 32px;
 
 // NavBar
 @nav-bar-amount-bg: #004B87;
@@ -43,12 +40,14 @@
 
 .app {
   .sportsbg();
-  display: flex;
-  flex-direction: column;
+  position: relative;
 }
 
 .app-content {
-  flex: 1;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
 }
 
 //TODO: further optimize perfect scrollbar css
