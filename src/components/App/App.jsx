@@ -133,7 +133,7 @@ class App extends Component {
 
     const titleBarStyle = {
       'height': titleBarHeight,
-      'min-height': titleBarHeight
+      'minHeight': titleBarHeight
     }
 
     return (
