@@ -20,7 +20,7 @@ import 'perfect-scrollbar';
 import Deposit from './Deposit';
 import Withdraw from './Withdraw';
 import moment from 'moment';
-import { SettingActions,AccountActions,NavigateActions, HistoryActions } from '../../actions';
+import { SettingActions, BalanceActions, NavigateActions, HistoryActions } from '../../actions';
 import { LoadingStatus } from '../../constants';
 import { saveAs } from '../../utility/fileSaver.js';
 
@@ -453,7 +453,7 @@ const mapStateToProps = (state) => {
   /*-1 will be used to check to display 'Not available' against the withdraw amount field
       when the asset '1.3.0' is not obtained for some reason
   */
-  const balance = account.getIn(['availableBalancesByAssetId','1.3.0','balance']);
+  const balance = state.getIn(['balance', 'availableBalancesByAssetId','1.3.0','balance']);
   const availableBalance = balance !== undefined ? balance : -1;
 
   //Transaction History table Data (dummy data binding)
@@ -509,9 +509,9 @@ const mapStateToProps = (state) => {
     transactionHistoryExportLoadingStatus: state.getIn(['history', 'getTransactionHistoryExportLoadingStatus']),
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: account.get('getDepositAddressLoadingStatus'),
-    depositAddress: account.get('depositAddress'),
+    depositAddress: state.getIn(['balance', 'depositAddress']),
     availableBalance: availableBalance,
-    withdrawLoadingStatus: account.get('withdrawLoadingStatus')
+    withdrawLoadingStatus: state.getIn(['balance', 'withdrawLoadingStatus'])
   }
 }
 
@@ -525,9 +525,9 @@ function mapDispatchToProps(dispatch) {
     getTransactionHistoryExport: HistoryActions.getTransactionHistoryExport,
     resetTransactionHistoryExportLoadingStatus: HistoryActions.resetTransactionHistoryExportLoadingStatus,
     clearTransactionHistoryExport: HistoryActions.clearTransactionHistoryExport,
-    getDepositAddress: AccountActions.getDepositAddress,
+    getDepositAddress: BalanceActions.getDepositAddress,
     redirectToChangePwd: SettingActions.redirectToChangePwd,
-    withdraw: AccountActions.withdraw,
+    withdraw: BalanceActions.withdraw,
     navigateTo: NavigateActions.navigateTo,
   }, dispatch)
 }

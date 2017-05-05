@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Row, Col, Input } from 'antd'
 import QRCode from 'qrcode.react';
 import { I18n, Translate } from 'react-redux-i18n';
-import { NavigateActions, AccountActions } from '../../actions';
+import { NavigateActions, BalanceActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import copy from 'copy-to-clipboard'
@@ -73,16 +73,15 @@ class Deposit extends PureComponent {
   }
 }
 const mapStateToProps = (state) => {
-  const account = state.get('account');
   return {
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
-    loadingStatus: account.get('getDepositAddressLoadingStatus'),
-    depositAddress: account.get('depositAddress')
+    loadingStatus: state.getIn(['balance', 'getDepositAddressLoadingStatus']),
+    depositAddress: state.getIn(['balance', 'depositAddress'])
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    getDepositAddress: AccountActions.getDepositAddress,
+    getDepositAddress: BalanceActions.getDepositAddress,
     navigateTo: NavigateActions.navigateTo
   }, dispatch);
 }

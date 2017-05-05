@@ -23,10 +23,12 @@ import QuickBetDrawerActions from './QuickBetDrawerActions';
 import MarketDrawerActions from './MarketDrawerActions';
 import HistoryActions from './HistoryActions';
 import AuthActions from './AuthActions';
+import BalanceActions from './BalanceActions';
 
 // Combine all the actions here for import shortcut
 export {
   AssetActions,
+  BalanceActions,
   SettingActions,
   AppActions,
   SportActions,

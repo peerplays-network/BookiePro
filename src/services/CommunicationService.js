@@ -13,7 +13,8 @@ import {
   BettingMarketActions,
   BettingMarketGroupActions,
   BinnedOrderBookActions,
-  BetActions
+  BetActions,
+  BalanceActions
 } from '../actions';
 import Immutable from 'immutable';
 import { ObjectPrefix } from '../constants';
@@ -168,7 +169,7 @@ class CommunicationService {
           const myAccountId = this.getState().getIn(['account', 'account', 'id']);
           // Filter the balances related to the account
           const myAvailableBalances = updatedObjects.filter( balance => balance.get('owner') === myAccountId);
-          this.dispatch(AccountActions.addOrUpdateAvailableBalances(myAvailableBalances));
+          this.dispatch(BalanceActions.addOrUpdateAvailableBalances(myAvailableBalances));
 
           break;
         }
@@ -226,7 +227,7 @@ class CommunicationService {
    */
   static deleteObjects(deletedObjectIdsByObjectIdPrefix) {
     log.debug('Sync - deleting', deletedObjectIdsByObjectIdPrefix.toJS());
-    deletedObjectIdsByObjectIdPrefix.forEach((deleteObjectIds, objectIdPrefix) => {
+    deletedObjectIdsByObjectIdPrefix.forEach((deletedObjectIds, objectIdPrefix) => {
       switch (objectIdPrefix) {
         case ObjectPrefix.ACCOUNT_PREFIX: {
           const myAccountId = this.getState().getIn(['account', 'account', 'id']);
@@ -244,38 +245,36 @@ class CommunicationService {
           break;
         }
         case ObjectPrefix.SPORT_PREFIX: {
-          this.dispatch(SportActions.removeSportsByIdsAction(deleteObjectIds));
+          this.dispatch(SportActions.removeSportsByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.COMPETITOR_PREFIX: {
-          this.dispatch(CompetitorActions.removeCompetitorsByIdsAction(deleteObjectIds));
+          this.dispatch(CompetitorActions.removeCompetitorsByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.EVENT_GROUP_PREFIX: {
-          this.dispatch(EventGroupActions.removeEventGroupsByIdsAction(deleteObjectIds));
+          this.dispatch(EventGroupActions.removeEventGroupsByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.EVENT_PREFIX: {
-          this.dispatch(EventActions.removeEventsByIdsAction(deleteObjectIds));
+          this.dispatch(EventActions.removeEventsByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {
-          this.dispatch(BettingMarketGroupActions.removeBettingMarketGroupsByIdsAction(deleteObjectIds));
+          this.dispatch(BettingMarketGroupActions.removeBettingMarketGroupsByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.BETTING_MARKET_PREFIX: {
-          this.dispatch(BettingMarketActions.removeBettingMarketsByIdsAction(deleteObjectIds));
+          this.dispatch(BettingMarketActions.removeBettingMarketsByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.BET_PREFIX: {
           // Assume all bet to be ongoing for now, resolved bets should not be able to be deleted or updated
-          this.dispatch(BetActions.removeBetsByIdsAction(deleteObjectIds));
+          this.dispatch(BetActions.removeBetsByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.ACCOUNT_BALANCE_PREFIX: {
-          deleteObjectIds.forEach((deletedObjectId) => {
-            this.dispatch(AccountActions.removeAvailableBalanceByIdAction(deletedObjectId));
-          })
+          this.dispatch(BalanceActions.removeAvailableBalancesByIdsAction(deletedObjectIds));
           break;
         }
         default: break;

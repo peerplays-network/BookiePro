@@ -5,7 +5,7 @@ import Withdraw from '../../MyAccount/Withdraw'
 import Amount from './AmountDropDown'
 import Notification from './Notification'
 import DropdownMenu from './DropdownMenu'
-import { AccountActions, BetActions, AuthActions } from '../../../actions';
+import { BetActions, AuthActions, BalanceActions } from '../../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { NavigateActions } from '../../../actions';
@@ -160,7 +160,7 @@ const mapStateToProps = (state) => {
   /*-1 will be used to check to display 'Not available' against the withdraw amount field
       when the asset '1.3.0' is not obtained for some reason
   */
-  const balance = account.getIn(['availableBalancesByAssetId','1.3.0','balance']);
+  const balance = state.getIn(['balance', 'availableBalancesByAssetId', '1.3.0', 'balance']);
   let availableBalance = balance !== undefined ?
     CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces) : -1;
 
@@ -178,10 +178,10 @@ const mapStateToProps = (state) => {
 
   return {
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
-    loadingStatus: account.get('getDepositAddressLoadingStatus'),
-    depositAddress: account.get('depositAddress'),
+    loadingStatus: state.getIn(['balance', 'getDepositAddressLoadingStatus']),
+    depositAddress: state.getIn(['balance', 'depositAddress']),
     availableBalance: availableBalance,
-    withdrawLoadingStatus: account.get('withdrawLoadingStatus'),
+    withdrawLoadingStatus: state.getIn(['balance', 'withdrawLoadingStatus']),
     currencyFormat: setting.get('currencyFormat'),
     inGameAmount: inGameAmount
   }
@@ -189,10 +189,10 @@ const mapStateToProps = (state) => {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    getDepositAddress: AccountActions.getDepositAddress,
+    getDepositAddress: BalanceActions.getDepositAddress,
     navigateTo: NavigateActions.navigateTo,
     //TODO: Wallet Address verification and error response pending.
-    withdraw: AccountActions.withdraw,
+    withdraw: BalanceActions.withdraw,
     logout: AuthActions.logoutAndShowPopupIfNeeded,
     getOngoingBets: BetActions.getOngoingBets
   }, dispatch)

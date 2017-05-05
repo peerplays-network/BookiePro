@@ -3,6 +3,7 @@ import { CommunicationService, KeyGeneratorService, AccountService, WalletServic
 import NavigateActions from './NavigateActions';
 import AccountActions from './AccountActions';
 import SettingActions from './SettingActions';
+import BalanceActions from './BalanceActions';
 import AppActions from './AppActions';
 import NotificationActions from './NotificationActions';
 import { I18n } from 'react-redux-i18n';
@@ -82,7 +83,9 @@ class AuthPrivateActions {
           // Save account statistic
           dispatch(AccountActions.setStatisticsAction(accountStatistics));
           // Save account available balance
-          dispatch(AccountActions.addOrUpdateAvailableBalances(availableBalances));
+          console.log('avialablbalance', availableBalances.toJS())
+          console.log('fullaccou', fullAccount.toJS())
+          dispatch(BalanceActions.addOrUpdateAvailableBalances(availableBalances));
           // Set initial setting (in case this is first time login)
           dispatch(SettingActions.setInitialSetting());
           // Set is logged in

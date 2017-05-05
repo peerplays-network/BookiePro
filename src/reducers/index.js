@@ -27,6 +27,7 @@ import Immutablei18nReducer from './Immutablei18nReducer';
 import QuickBetDrawerReducer from './QuickBetDrawerReducer';
 import MarketDrawerReducer from './MarketDrawerReducer';
 import HistoryReducer from './HistoryReducer';
+import BalanceReducer from './BalanceReducer';
 
 
 const rootReducer = combineReducers({
@@ -48,6 +49,7 @@ const rootReducer = combineReducers({
   eventGroupPage: EventGroupPageReducer,
   bettingMarketGroupPage: BettingMarketGroupPageReducer,
   account: AccountReducer,
+  balance: BalanceReducer,
   history: HistoryReducer,
   notification: NotificationReducer,
   softwareUpdate: SoftwareUpdateReducer,
