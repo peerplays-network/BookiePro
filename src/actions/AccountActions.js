@@ -156,29 +156,13 @@ class AccountActions {
     }
   }
 
-  static setPassword(password) {
+  static setPasswordAndKeysAction(password, keys) {
     return {
-      type: ActionTypes.ACCOUNT_SET_PASSWORD,
-      password
+      type: ActionTypes.ACCOUNT_SET_PASSWORD_AND_KEYS,
+      password,
+      keys
     }
   }
-
-  /**
-   * Set keys for the account
-   */
-  static setKeys(keys) {
-    return (dispatch) => {
-      log.debug('Set account\'s keys');
-      let privateKeyWifsByRole = Immutable.Map();
-      let publicKeyStringsByRole = Immutable.Map();
-      _.forEach(keys, (privateKey, role) => {
-        privateKeyWifsByRole = privateKeyWifsByRole.set(role, privateKey.toWif());
-        publicKeyStringsByRole = publicKeyStringsByRole.set(role, privateKey.toPublicKey().toPublicKeyString());
-      });
-      dispatch(AccountPrivateActions.setKeysAction(privateKeyWifsByRole, publicKeyStringsByRole));
-    }
-  }
-
 
   static getDepositAddress() {
     return (dispatch, getState) => {

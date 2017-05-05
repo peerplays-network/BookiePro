@@ -1,7 +1,5 @@
 import AssetActions from './AssetActions';
 import SettingActions from './SettingActions';
-import RegisterActions from './RegisterActions';
-import LoginActions from './LoginActions';
 import AppActions from './AppActions';
 import SportActions from './SportActions';
 import EventGroupActions from './EventGroupActions';
@@ -24,14 +22,13 @@ import BettingMarketGroupPageActions from './BettingMarketGroupPageActions';
 import QuickBetDrawerActions from './QuickBetDrawerActions';
 import MarketDrawerActions from './MarketDrawerActions';
 import HistoryActions from './HistoryActions';
+import AuthActions from './AuthActions';
 
 // Combine all the actions here for import shortcut
 export {
   AssetActions,
   SettingActions,
   AppActions,
-  RegisterActions,
-  LoginActions,
   SportActions,
   EventGroupActions,
   CompetitorActions,
@@ -52,5 +49,6 @@ export {
   NotificationActions,
   SoftwareUpdateActions,
   HistoryActions,
+  AuthActions,
   NavigateActions
 }

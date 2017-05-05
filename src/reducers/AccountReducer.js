@@ -1,5 +1,4 @@
-import { ActionTypes } from '../constants';
-import { LoadingStatus } from '../constants';
+import { ActionTypes, LoadingStatus } from '../constants';
 import _ from 'lodash';
 import Immutable from 'immutable';
 
@@ -14,8 +13,6 @@ let initialState = Immutable.fromJS({
   getDepositAddressError: null,
   withdrawLoadingStatus: LoadingStatus.DEFAULT,
   withdrawError: null,
-  changePasswordLoadingStatus: LoadingStatus.DEFAULT,
-  changePasswordErrors: [],
   inGameBalancesByAssetId: {},
   availableBalancesByAssetId: {},
   statistics: {},
@@ -44,17 +41,6 @@ export default function (state = initialState, action) {
         withdrawLoadingStatus: LoadingStatus.ERROR
       });
     }
-    case ActionTypes.ACCOUNT_SET_CHANGE_PASSWORD_LOADING_STATUS: {
-      return state.merge({
-        changePasswordLoadingStatus: action.loadingStatus
-      });
-    }
-    case ActionTypes.ACCOUNT_SET_CHANGE_PASSWORD_ERRORS: {
-      return state.merge({
-        changePasswordErrors: action.errors,
-        changePasswordLoadingStatus: LoadingStatus.ERROR
-      });
-    }
     case ActionTypes.ACCOUNT_SET_DEPOSIT_ADDRESS: {
       return state.merge({
         depositAddress: action.depositAddress
@@ -71,9 +57,18 @@ export default function (state = initialState, action) {
         account: action.account
       });
     }
-    case ActionTypes.ACCOUNT_SET_PASSWORD: {
+    case ActionTypes.ACCOUNT_SET_PASSWORD_AND_KEYS: {
+      let privateKeyWifsByRole = Immutable.Map();
+      let publicKeyStringsByRole = Immutable.Map();
+      _.forEach(action.keys, (privateKey, role) => {
+        privateKeyWifsByRole = privateKeyWifsByRole.set(role, privateKey.toWif());
+        publicKeyStringsByRole = publicKeyStringsByRole.set(role, privateKey.toPublicKey().toPublicKeyString());
+      });
+
       return state.merge({
-        password: action.password
+        password: action.password,
+        privateKeyWifsByRole,
+        publicKeyStringsByRole
       });
     }
     case ActionTypes.ACCOUNT_ADD_OR_UPDATE_AVAILABLE_BALANCES: {
@@ -98,12 +93,6 @@ export default function (state = initialState, action) {
       return state.merge({
         inGameBalancesByAssetId
       })
-    }
-    case ActionTypes.ACCOUNT_SET_KEYS: {
-      return state.merge({
-        privateKeyWifsByRole: action.privateKeyWifsByRole,
-        publicKeyStringsByRole: action.publicKeyStringsByRole
-      });
     }
     case ActionTypes.ACCOUNT_SET_STATISTICS: {
       return state.merge({

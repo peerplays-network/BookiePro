@@ -4,7 +4,7 @@ import { I18n }  from 'react-redux-i18n';
 import ChangePasswordForm from './ChangePasswordForm'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { NavigateActions,AccountActions } from '../../actions';
+import { NavigateActions, AuthActions } from '../../actions';
 import { LoadingStatus } from '../../constants';
 import Immutable from 'immutable';
 
@@ -83,9 +83,8 @@ class ChangePassword extends PureComponent{
 }
 
 const mapStateToProps = (state) => {
-  const account = state.get('account');
-  const loadingStatus = account.get('changePasswordLoadingStatus');
-  const errors = loadingStatus === LoadingStatus.ERROR ? account.get('changePasswordErrors') : Immutable.List();
+  const loadingStatus = state.getIn(['auth', 'changePasswordLoadingStatus']);
+  const errors = loadingStatus === LoadingStatus.ERROR ? state.getIn(['auth', 'changePasswordErrors']) : Immutable.List();
   return {
     loadingStatus,
     errors
@@ -95,8 +94,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
-    changePassword: AccountActions.changePassword,
-    resetChangePwdLoadingStatus: AccountActions.resetChangePwdLoadingStatus
+    changePassword: AuthActions.changePassword,
+    resetChangePwdLoadingStatus: AuthActions.resetChangePwdLoadingStatus
   }, dispatch);
 }
 

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import logo from '../../assets/images/bookie_logo_signup.png';
 import { Form } from 'antd';
 import SignupForm from './SignupForm';
-import { NavigateActions, RegisterActions } from '../../actions';
+import { NavigateActions, AuthActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { I18n }  from 'react-redux-i18n'
@@ -50,16 +50,15 @@ class Signup extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  const register = state.get('register');
   return {
-    loadingStatus: register.get('loadingStatus'),
-    errors: register.get('errors')
+    errors: state.getIn(['auth','signupErrors']),
+    status: state.getIn(['auth','signupLoadingStatus'])
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
-    signup: RegisterActions.signup
+    signup: AuthActions.signup
   }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(Signup))

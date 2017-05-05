@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from '../../assets/images/bookie_logo_login.png';
 import { Form } from 'antd';
 import LoginForm from './Form.jsx';
-import { NavigateActions, LoginActions } from '../../actions';
+import { NavigateActions, AuthActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -44,17 +44,16 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const login = state.get('login');
   return ({
-    errors: login.get('errors'),
-    status: login.get('loadingStatus')
+    errors: state.getIn(['auth','loginErrors']),
+    status: state.getIn(['auth','loginLoadingStatus'])
   });
 };
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
-    login: LoginActions.login
+    login: AuthActions.login
   }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(Login))

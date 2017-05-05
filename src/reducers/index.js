@@ -4,9 +4,8 @@ import { reducer as formReducer } from 'redux-form/immutable';
 import AssetReducer from './AssetReducer';
 import SettingReducer from './SettingReducer';
 import AppReducer from './AppReducer';
+import AuthReducer  from './AuthReducer';
 import SidebarReducer from './SidebarReducer';
-import RegisterReducer from './RegisterReducer';
-import LoginReducer from './LoginReducer';
 import SportReducer from './SportReducer';
 import EventGroupReducer from './EventGroupReducer';
 import CompetitorReducer from './CompetitorReducer';
@@ -32,10 +31,9 @@ import HistoryReducer from './HistoryReducer';
 
 const rootReducer = combineReducers({
   app: AppReducer,
+  auth: AuthReducer,
   asset: AssetReducer,
   setting: SettingReducer,
-  register: RegisterReducer,
-  login: LoginReducer,
   sport: SportReducer,
   eventGroup: EventGroupReducer,
   event: EventReducer,
