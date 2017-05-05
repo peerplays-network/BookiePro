@@ -62,11 +62,6 @@ export default function (state = initialState, action) {
         isShowLogoutPopup: action.isShowLogoutPopup
       })
     }
-    case ActionTypes.ACCOUNT_LOGOUT: {
-      return state.merge({
-        isLoggedIn: false
-      });
-    }
     default:
       return state;
   }

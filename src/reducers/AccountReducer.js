@@ -99,7 +99,7 @@ export default function (state = initialState, action) {
         statistics: action.statistics
       });
     }
-    case ActionTypes.ACCOUNT_LOGOUT: {
+    case ActionTypes.AUTH_LOGOUT: {
       return initialState;
     }
     default:

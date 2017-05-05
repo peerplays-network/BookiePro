@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import InitError from '../InitError';
 import { LoadingStatus, Config } from '../../constants';
-import { NavigateActions, AppActions, AccountActions } from '../../actions';
+import { NavigateActions, AppActions, AuthActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
@@ -175,7 +175,7 @@ const mapDispatchToProps = (dispatch) => {
     navigateTo: NavigateActions.navigateTo,
     connectToBlockchain: AppActions.connectToBlockchain,
     showLogoutPopup: AppActions.showLogoutPopupAction,
-    confirmLogout: AccountActions.confirmLogout
+    confirmLogout: AuthActions.confirmLogout
   }, dispatch);
 }
 

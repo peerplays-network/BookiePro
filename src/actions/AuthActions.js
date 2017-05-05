@@ -3,6 +3,7 @@ import { CommunicationService, KeyGeneratorService, AccountService, WalletServic
 import NavigateActions from './NavigateActions';
 import AccountActions from './AccountActions';
 import SettingActions from './SettingActions';
+import AppActions from './AppActions';
 import NotificationActions from './NotificationActions';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
@@ -13,6 +14,12 @@ import { TransactionBuilder } from 'graphenejs-lib';
  * Private actions
  */
 class AuthPrivateActions {
+  static logoutAction() {
+    return {
+      type: ActionTypes.AUTH_LOGOUT
+    }
+  }
+
   static setLoginLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.AUTH_SET_LOGIN_LOADING_STATUS,
@@ -106,7 +113,7 @@ class AuthActions {
       return dispatch(AuthPrivateActions.loginWithKeys(accountName, password, keys)).then(() => {
         log.debug('Login succeed.')
         // Navigate to home page
-        dispatch(NavigateActions.navigateTo('/deposit'));
+        dispatch(NavigateActions.navigateTo('/exchange'));
         // Set login status to done
         dispatch(AuthPrivateActions.setLoginLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
@@ -190,6 +197,50 @@ class AuthActions {
         dispatch(AuthPrivateActions.setChangePasswordErrorsAction([error.message ? error.message : 'Error Occured']));
       });
     };
+  }
+
+  /**
+   * Logout the user, show popup dialog if needed
+   */
+  static logoutAndShowPopupIfNeeded() {
+    return (dispatch, getState) => {
+      const accountId = getState().getIn(['account', 'account', 'id']);
+      if (accountId) {
+        const isSkipLogoutPopup = getState().getIn(['setting', 'settingByAccountId', accountId, 'isSkipLogoutPopup']);
+        if (isSkipLogoutPopup) {
+          // Skip logout popup, directly confirm logout
+          dispatch(AuthActions.confirmLogout(isSkipLogoutPopup));
+        } else {
+          // Show logout popup
+          dispatch(AppActions.showLogoutPopupAction(true))
+        }
+      } else {
+        log.error('No user is logged in');
+      }
+    }
+  }
+
+  /**
+   * Confirm logging out the user (use this to confirm logout for the logout popup modal)
+   */
+  static confirmLogout(skipLogoutPopupNextTime) {
+    return (dispatch, getState) => {
+      // Mark skip logout popup
+      const accountId = getState().getIn(['account', 'account', 'id']);
+      if (accountId) {
+        // Close popup
+        dispatch(AppActions.showLogoutPopupAction(false))
+        // Save in redux
+        dispatch(SettingActions.markSkipLogoutPopupAction(accountId, skipLogoutPopupNextTime));
+        // Dispatch logout action to clear data
+        dispatch(AuthPrivateActions.logoutAction());
+        // Navigate to the login page of the app
+        dispatch(NavigateActions.navigateTo('/login'));
+        log.debug('Logout user succeed.');
+      } else {
+        log.error('No user is logged in');
+      }
+    }
   }
 
 }

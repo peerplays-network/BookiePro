@@ -5,7 +5,7 @@ import Withdraw from '../../MyAccount/Withdraw'
 import Amount from './AmountDropDown'
 import Notification from './Notification'
 import DropdownMenu from './DropdownMenu'
-import { AccountActions, BetActions } from '../../../actions';
+import { AccountActions, BetActions, AuthActions } from '../../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { NavigateActions } from '../../../actions';
@@ -193,7 +193,7 @@ function mapDispatchToProps(dispatch) {
     navigateTo: NavigateActions.navigateTo,
     //TODO: Wallet Address verification and error response pending.
     withdraw: AccountActions.withdraw,
-    logout: AccountActions.logoutAndShowPopupIfNeeded,
+    logout: AuthActions.logoutAndShowPopupIfNeeded,
     getOngoingBets: BetActions.getOngoingBets
   }, dispatch)
 }
