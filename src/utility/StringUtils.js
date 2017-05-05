@@ -78,6 +78,7 @@ var Utils = {
     return 0;
   },
 
+  // return +(number) or +(number) based on the input number
   getSignedNumber: function(number){
     if(number > 0){
       return ' +' + number;

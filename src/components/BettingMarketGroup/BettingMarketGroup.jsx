@@ -61,16 +61,18 @@ const createMarketData = (bettingMarkets, binnedOrderBooksByBettingMarketId,
   bettingMarkets.forEach((bettingMarket, i) => {
     const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarket.get('id'));
     let data = Immutable.Map().set('name', bettingMarket.get('payout_condition_string'));
+    const homeSelection = homeName ? homeName : data.get('name')
+    const awaySelection = awayName ? awayName : data.get('name')
 
-    //parse market type id to return team name
+    //parse market type id to get team name ( for first column in complex betting widget)
     const marketTypeId = bettingMarketGroup.get('market_type_id');
     if ( marketTypeId === 'Spread'){
 
       const margin = bettingMarketGroup.getIn(['options', 'margin']);
       if ( i === homeId ){
-        data = data.set('name', homeName + StringUtils.getSignedNumber(margin) );
+        data = data.set('name', homeSelection + StringUtils.getSignedNumber(margin) );
       } else if ( i === awayId ){
-        data = data.set('name', awayName + StringUtils.getSignedNumber(margin*-1));
+        data = data.set('name', awaySelection + StringUtils.getSignedNumber(margin*-1));
       }
 
     } else if ( marketTypeId === 'OverUnder'){
@@ -83,10 +85,10 @@ const createMarketData = (bettingMarkets, binnedOrderBooksByBettingMarketId,
       }
 
     } else if ( marketTypeId === 'Moneyline'){
-      if ( i === homeId ){
-        data = data.set('name', homeName );
-      } else if ( i === awayId ){
-        data = data.set('name', awayName );
+      if ( i === homeId && homeName ){
+        data = data.set('name', homeSelection );
+      } else if ( i === awayId && awayName ){
+        data = data.set('name', awaySelection );
       }
 
     }

@@ -150,13 +150,11 @@ class SidebarActions{
               );
             }
 
-
           })
 
           sportNode = sportNode.update('children',
             (children) => { return (children) ? children.push(eventGroupNode) : null; }
           );
-
 
         });
 
