@@ -67,7 +67,7 @@ class Export extends PureComponent{
             <p>{ I18n.t('mybets.nodata') }</p>
             <div className='card-footer'>
               <button className='btn cancel-btn'
-                onClick={ () => { this.props.resetExportLoadingStatus() } }>{ I18n.t('mybets.close') }
+                onClick={ () => { this.props.resetExportLoadingStatus() } }>{ I18n.t('mybets.cancel') }
               </button>
             </div>
           </Card>

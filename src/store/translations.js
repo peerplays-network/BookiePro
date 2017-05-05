@@ -19,7 +19,7 @@ export const translationsObject = {
       exportDataReadyMsg: 'Your exported file is ready! Please download the exported file now.',
       exportLoadingHeader: 'Exporting to .Xlsx',
       exportDownloadHeader: 'Export Completed',
-      exportStatusHeader: 'Export Status',
+      exportStatusHeader: 'Export Failed',
       close: 'Close'
     },
     titleBar:{
