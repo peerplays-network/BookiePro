@@ -4,6 +4,7 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
+  isLoggedIn: false,
   account: {},
   password: null,
   privateKeyWifsByRole: {},
@@ -28,6 +29,11 @@ let initialState = Immutable.fromJS({
 
 export default function (state = initialState, action) {
   switch(action.type) {
+    case ActionTypes.ACCOUNT_SET_IS_LOGGED_IN: {
+      return state.merge({
+        isLoggedIn: action.isLoggedIn
+      });
+    }
     case ActionTypes.ACCOUNT_SET_GET_DEPOSIT_ADDRESS_LOADING_STATUS: {
       return state.merge({
         getDepositAddressLoadingStatus: action.loadingStatus

@@ -64,13 +64,6 @@ class AppActions {
     }
   }
 
-  static setIsLoggedInAction(isLoggedIn) {
-    return {
-      type: ActionTypes.APP_SET_IS_LOGGED_IN,
-      isLoggedIn
-    }
-  }
-
   static setBlockchainDynamicGlobalPropertyAction(blockchainDynamicGlobalProperty) {
     return {
       type: ActionTypes.APP_SET_BLOCKCHAIN_DYNAMIC_GLOBAL_PROPERTY,

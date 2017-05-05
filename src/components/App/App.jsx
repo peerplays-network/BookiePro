@@ -156,7 +156,7 @@ const mapStateToProps = (state) => {
   const version = softwareUpdate.get('version');
   const displayText = softwareUpdate.get('displayText');
   const locale = i18n.get('locale');
-  const isLoggedIn = app.get('isLoggedIn');
+  const isLoggedIn = state.getIn(['account','isLoggedIn']);
   const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');
   const isShowLogoutPopup = app.get('isShowLogoutPopup');
 

@@ -145,6 +145,12 @@ class AccountPrivateActions {
  * Public actions
  */
 class AccountActions {
+  static setIsLoggedInAction(isLoggedIn) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_IS_LOGGED_IN,
+      isLoggedIn
+    }
+  }
 
   static removeAvailableBalanceByIdAction(balanceId) {
     return {

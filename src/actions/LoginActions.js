@@ -58,7 +58,7 @@ class LoginActions {
           // Set initial setting (in case this is first time login)
           dispatch(SettingActions.setInitialSetting());
           // Set is logged in
-          dispatch(AppActions.setIsLoggedInAction(true));
+          dispatch(AccountActions.setIsLoggedInAction(true));
           // Init notification
           dispatch(NotificationActions.initNotification());
         } else {
