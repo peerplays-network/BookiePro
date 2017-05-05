@@ -115,6 +115,7 @@ export default function(state = initialState, action) {
       return state.merge({
         unmatchedBets,
         matchedBets,
+        bettingMarketGroupId: action.bettingMarketGroupId,
       });
     }
     case ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNMATCHED_BET: {

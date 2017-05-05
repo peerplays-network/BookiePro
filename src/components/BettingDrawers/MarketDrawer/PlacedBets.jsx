@@ -19,6 +19,8 @@ class PlacedBets extends PureComponent {
     Ps.update(ReactDOM.findDOMNode(this.refs.placedBets));
   }
 
+  // TODO We only need this when the user refresh the browser in web mode
+  //      However, this should not happen in the actual desktop app
   componentWillMount() {
     // Extract the current Betting Market Group Id the user is viewing
     // This is required to filter the data from all ongoing bets
@@ -56,8 +58,8 @@ class PlacedBets extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  const unmatchedBets = state.getIn(['bet', 'unmatchedBetsById']);
-  const matchedBets = state.getIn(['bet', 'matchedBetsById']);
+  const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
+  const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   return {
     isEmpty: unmatchedBets.isEmpty() && matchedBets.isEmpty()
   }
