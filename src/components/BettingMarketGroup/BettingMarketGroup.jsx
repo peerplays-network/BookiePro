@@ -135,6 +135,8 @@ const mapStateToProps = (state, ownProps) => {
     bettingMarketGroupName = I18n.t('bettingMarketGroup.spread');
   } else if ( bettingMarketGroupName === 'OverUnder'){
     bettingMarketGroupName = I18n.t('bettingMarketGroup.overunder');
+  } else if ( bettingMarketGroupName === 'Moneyline'){
+    bettingMarketGroupName = I18n.t('bettingMarketGroup.moneyline');
   }
 
   // Extract event name

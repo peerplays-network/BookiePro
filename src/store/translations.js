@@ -359,6 +359,7 @@ export const translationsObject = {
       secs: 'Secs',
       spread: 'Spread ',
       overunder: 'Over/Under ',
+      moneyline: 'Moneyline ',
       over: 'Over ',
       under: 'Under '
     },
