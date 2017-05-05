@@ -66,7 +66,7 @@ class EventActions {
   /**
    * Get events given array of sport ids (can be immutable)
    */
-  static getEventsBySportIds(sportIds) {
+  static getActiveEventsBySportIds(sportIds) {
     return (dispatch, getState) => {
       let retrievedEvents = Immutable.List();
       let sportIdsOfEventsToBeRetrieved = Immutable.List();
@@ -101,7 +101,7 @@ class EventActions {
         // Retrieve data from blockchain
         // Set status
         dispatch(EventPrivateActions.setGetEventsBySportIdsLoadingStatusAction(sportIdsOfEventsToBeRetrieved, LoadingStatus.LOADING));
-        return CommunicationService.getEventsBySportIds(sportIdsOfEventsToBeRetrieved).then((events) => {
+        return CommunicationService.getActiveEventsBySportIds(sportIdsOfEventsToBeRetrieved).then((events) => {
           // Add data to redux store
           dispatch(EventActions.addOrUpdateEventsAction(events));
           // Set status

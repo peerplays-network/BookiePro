@@ -440,15 +440,16 @@ class CommunicationService {
 
 
   /**
-   * Get events given array of sport ids (can be immutable)
+   * Get active events given array of sport ids (can be immutable)
    */
-  static getEventsBySportIds(sportIds) {
+  static getActiveEventsBySportIds(sportIds) {
     // TODO: Replace later
     const promises = sportIds.map( (sportId) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
+          const currentTime = new Date().getTime();
           const filteredResult = _.filter(dummyData.events, (item) => {
-            return item.sport_id === sportId;
+            return (item.sport_id === sportId) && (item.start_time - currentTime > 0);
           });
           resolve(filteredResult);
         }, TIMEOUT_LENGTH);

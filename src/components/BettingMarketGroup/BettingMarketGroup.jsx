@@ -95,7 +95,7 @@ const mapStateToProps = (state, ownProps) => {
   const event = bettingMarketGroup && eventsById.get(bettingMarketGroup.get('event_id'));
   const eventName = (event && event.get('name')) || '';
   const eventTime = (event && event.get('start_time') && new Date(event.get('start_time'))) || new Date();
-  console.log('event_time', eventTime);
+
   // Extract betting markets related to the betting market group
   const bettingMarketIds = (bettingMarketGroup && bettingMarketGroup.get('betting_market_ids')) || Immutable.List();
   let relatedBettingMarkets = Immutable.List();
