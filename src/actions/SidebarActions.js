@@ -147,6 +147,7 @@ class SidebarActions{
 
               eventGroupNode = eventGroupNode.update('children',
                 (children) => { return (children) ? children.push(eventNode) : null;}
+
               );
             }
 
