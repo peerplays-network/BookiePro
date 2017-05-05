@@ -107,7 +107,7 @@ class SidebarActions{
             return event.get('event_group_id') === eventGroupNode.get('id');
           }).forEach( (event) => {
 
-            const eventTime = event.start_time;
+            const eventTime = event.get('start_time');
             const currentTime = new Date().getTime();
             const isEventActive = (eventTime - currentTime) > 0;
             if (isEventActive) {
