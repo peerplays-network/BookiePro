@@ -70,9 +70,9 @@ const createMarketData = (bettingMarkets, binnedOrderBooksByBettingMarketId,
 
       const margin = bettingMarketGroup.getIn(['options', 'margin']);
       if ( i === homeId ){
-        data = data.set('name', homeSelection + StringUtils.getSignedNumber(margin) );
+        data = data.set('name', homeSelection + StringUtils.formatSignedNumber(margin) );
       } else if ( i === awayId ){
-        data = data.set('name', awaySelection + StringUtils.getSignedNumber(margin*-1));
+        data = data.set('name', awaySelection + StringUtils.formatSignedNumber(margin*-1));
       }
 
     } else if ( marketTypeId === 'OverUnder'){
