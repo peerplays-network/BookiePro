@@ -1,6 +1,7 @@
 import { ActionTypes } from '../constants';
 import Immutable from 'immutable';
 import moment from 'moment';
+import BetActions from './BetActions';
 
 class MarketDrawerPrivateActions {
   static addUnconfirmedBet(bet) {
@@ -52,6 +53,13 @@ class MarketDrawerPrivateActions {
   static hideBetSlipError() {
     return {
       type: ActionTypes.MARKET_DRAWER_HIDE_BETSLIP_ERROR,
+    }
+  }
+
+  static getPlacedBets(placedBets) {
+    return {
+      type: ActionTypes.MARKET_DRAWER_GET_PLACED_BETS,
+      placedBets
     }
   }
 
@@ -111,6 +119,17 @@ class MarketDrawerActions {
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.hideBetSlipConfirmation());
       dispatch(MarketDrawerPrivateActions.hideBetSlipError());
+    }
+  }
+
+  static getPlacedBets(bettingMarketGroupId) {
+    return (dispatch, getState) => {
+      dispatch(BetActions.getOngoingBets()).then(bets => {
+        const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
+        const bettingMarketIds= bettingMarketGroup.get('betting_market_ids');
+        const placedBets = bets.filter(bet => bettingMarketIds.includes(bet.get('betting_market_id')));
+        dispatch(MarketDrawerPrivateActions.getPlacedBets(placedBets));
+      })
     }
   }
 

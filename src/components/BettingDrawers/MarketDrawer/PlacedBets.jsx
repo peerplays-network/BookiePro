@@ -5,7 +5,7 @@ import { I18n, Translate } from 'react-redux-i18n';
 import ReactDOM from 'react-dom';
 import { Button } from 'antd';
 import Ps from 'perfect-scrollbar';
-import { BetActions, NavigateActions } from '../../../actions';
+import { MarketDrawerActions, NavigateActions } from '../../../actions';
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import './PlacedBets.less';
@@ -20,7 +20,11 @@ class PlacedBets extends PureComponent {
   }
 
   componentWillMount() {
-    this.props.getOngoingBets();
+    // Extract the current Betting Market Group Id the user is viewing
+    // This is required to filter the data from all ongoing bets
+    // TODO REVIEW feel free to replace this with a better method!
+    const bettingMarketGroupId = window.location.href.split('/').pop();
+    this.props.getPlacedBets(bettingMarketGroupId);
   }
 
   render() {
@@ -62,7 +66,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
-    getOngoingBets: BetActions.getOngoingBets,
+    getPlacedBets: MarketDrawerActions.getPlacedBets,
   }, dispatch);
 }
 

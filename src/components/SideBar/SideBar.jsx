@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import InfinityMenu from "react-infinity-menu";
 import "react-infinity-menu/src/infinity-menu.css";
 import Immutable from 'immutable';
-import { NavigateActions } from '../../actions';
+import { NavigateActions, MarketDrawerActions } from '../../actions';
 
 import BettingMarketGroup from './BettingMarketGroup';
 import Event from './Event';
@@ -164,6 +164,7 @@ class SideBar extends Component {
 
         if ( moneyline.length > 0){
           this.props.navigateTo('/exchange/bettingmarketgroup/' + moneyline[0].id );
+          this.props.getPlacedBets(moneyline[0].id);
         } else {
           this.props.navigateTo('/exchange/' + node.customComponent.toLowerCase() + '/' + node.id);
         }
@@ -214,6 +215,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
+    getPlacedBets: MarketDrawerActions.getPlacedBets,
   }, dispatch);
 }
 

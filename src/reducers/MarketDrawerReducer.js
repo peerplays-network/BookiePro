@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 import { LoadingStatus, ActionTypes } from '../constants';
 import { BettingModuleUtils } from '../utility';
+import { isUnmatchedBet } from './dataUtils';
 
 let initialState = Immutable.fromJS({
   unconfirmedBets: Immutable.List(),
@@ -99,6 +100,22 @@ export default function(state = initialState, action) {
         showBetSlipConfirmation: false,
         showBetSlipSuccess: false,
       })
+    }
+    // TODO: Once the Blockchain is ready, we also need to listen to bet update events
+    case ActionTypes.MARKET_DRAWER_GET_PLACED_BETS: {
+      let unmatchedBets = Immutable.List();
+      let matchedBets = Immutable.List();
+      action.placedBets.forEach(bet => {
+        if (isUnmatchedBet(bet)) {
+          unmatchedBets = unmatchedBets.push(bet);
+        } else {
+          matchedBets = matchedBets.push(bet);
+        }
+      });
+      return state.merge({
+        unmatchedBets,
+        matchedBets,
+      });
     }
     case ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNMATCHED_BET: {
       const index = unmatchedBets.findIndex(b => b.get('id') === action.delta.get('id'));

@@ -167,7 +167,7 @@ class BetActions {
         // It has been never been retrieved before, fetch from blockchain
         dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.LOADING));
         let retrievedOngoingBets = [];
-        CommunicationService.getOngoingBets(accountId).then((ongoingBets) => {
+        return CommunicationService.getOngoingBets(accountId).then((ongoingBets) => {
           retrievedOngoingBets = ongoingBets;
           // Get betting market ids
           let bettingMarketIds = ongoingBets.map(bet => bet.get('betting_market_id')).toSet();
@@ -194,11 +194,15 @@ class BetActions {
           // Set status
           dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.DONE));
           log.debug('Get matched and unmatched bets succeed.');
+          return retrievedOngoingBets;
         }).catch((error) => {
           log.error('Fail to get matched and unmatched bets', error);
           // Set error
           dispatch(BetActions.setGetOngoingBetsErrorAction(error));
         });
+      } else {
+        return Promise.resolve(getState().getIn(['bet', 'unmatchedBetsById'])
+                                 .concat(getState().getIn(['bet', 'matchedBetsById'])));
       }
     };
   }

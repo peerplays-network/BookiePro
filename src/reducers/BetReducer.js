@@ -2,6 +2,7 @@ import { ActionTypes } from '../constants';
 import { LoadingStatus } from '../constants';
 import _ from 'lodash';
 import Immutable from 'immutable';
+import { isUnmatchedBet } from './dataUtils';
 
 let initialState = Immutable.fromJS({
   getOngoingBetsLoadingStatus: LoadingStatus.DEFAULT,
@@ -94,8 +95,7 @@ export default function (state = initialState, action) {
       let newBetIds = Immutable.List();
       action.ongoingBets.forEach((bet) => {
         newBetIds = newBetIds.push(bet.get('id'));
-        if (bet.get('amount_to_bet') === bet.get('remaining_amount_to_bet')
-          && bet.get('amount_to_win') === bet.get('remaining_amount_to_win')) {
+        if (isUnmatchedBet(bet)) {
           unmatchedBetsById = unmatchedBetsById.set(bet.get('id'), bet);
         } else {
           matchedBetsById = matchedBetsById.set(bet.get('id'), bet);
