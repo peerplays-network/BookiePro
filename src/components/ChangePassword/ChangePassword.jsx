@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Card,Breadcrumb,Icon,Form } from 'antd'
-import { I18n }  from 'react-redux-i18n';
+import { I18n,Translate }  from 'react-redux-i18n';
 import ChangePasswordForm from './ChangePasswordForm'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -68,7 +68,7 @@ class ChangePassword extends PureComponent{
                 this.props.loadingStatus===LoadingStatus.DONE && this.props.errors.isEmpty()  ?
                 <div className='text-center'>
                   <Icon type='lock big-icon'/>
-                  <p className='font16 margin-tb-20'>{ I18n.t('changePassword.successText') }</p>
+                  <p className='font16 margin-tb-20'>{ <Translate value='changePassword.successText' dangerousHTML/> }</p>
                     <button className='btn btn-regular grid-100 margin-top-25' type='button' onClick={ this.navigateToMyAccount }>
                       { I18n.t('changePassword.back_to_my_account') }
                     </button>

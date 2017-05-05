@@ -126,7 +126,7 @@ export const translationsObject = {
       cancel: 'Cancel',
       confirm: 'Confirm',
       back_to_my_account: 'Back to My Account',
-      successText: 'Congratulations! You have successfully' +
+      successText: 'Congratulations! You have successfully<br/>' +
       ' changed your password.'
     },
     notification: {
