@@ -44,7 +44,7 @@ class SoftwareUpdateActions {
         // Reference account not set yet
         return dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());
       } else {
-        // Get latest 100 transaction histories and parse it
+        // Get latest 100 transaction history and parse it
         return CommunicationService.fetchRecentHistory(referenceAccountId).then((history) => {
           history.forEach((transaction) => {
             const operationType = transaction.getIn(['op', 0]);
