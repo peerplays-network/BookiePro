@@ -28,17 +28,31 @@ class AuthPrivateActions {
     }
   }
 
-  static setSignupLoadingStatusAction(loadingStatus) {
-    return {
-      type: ActionTypes.AUTH_SET_SIGNUP_LOADING_STATUS,
-      loadingStatus
-    }
-  }
-
   static setLoginErrorsAction(errors) {
     return {
       type: ActionTypes.AUTH_SET_LOGIN_ERRORS,
       errors
+    }
+  }
+
+  static setAutoLoginLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.AUTH_SET_AUTO_LOGIN_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
+  static setAutoLoginErrorsAction(errors) {
+    return {
+      type: ActionTypes.AUTH_SET_AUTO_LOGIN_ERRORS,
+      errors
+    }
+  }
+
+  static setSignupLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.AUTH_SET_SIGNUP_LOADING_STATUS,
+      loadingStatus
     }
   }
 
@@ -83,8 +97,6 @@ class AuthPrivateActions {
           // Save account statistic
           dispatch(AccountActions.setStatisticsAction(accountStatistics));
           // Save account available balance
-          console.log('avialablbalance', availableBalances.toJS())
-          console.log('fullaccou', fullAccount.toJS())
           dispatch(BalanceActions.addOrUpdateAvailableBalances(availableBalances));
           // Set initial setting (in case this is first time login)
           dispatch(SettingActions.setInitialSetting());
@@ -105,6 +117,37 @@ class AuthPrivateActions {
  * Public actions
  */
 class AuthActions {
+  /**
+   * Auto login
+   */
+  static autoLogin() {
+    return (dispatch, getState) => {
+      const isLoggedIn = getState().getIn(['account', 'isLoggedIn']);
+      const accountName = getState().getIn(['account', 'account', 'name']);
+      const password = getState().getIn(['account', 'password']);
+      if (!isLoggedIn || !accountName || !password ) {
+        // No auto login information
+        log.info('No auto login information');
+        return Promise.reject();
+      } else {
+        const keys = KeyGeneratorService.generateKeys(accountName, password);
+        dispatch(AuthPrivateActions.setAutoLoginLoadingStatusAction(LoadingStatus.LOADING));
+        return dispatch(AuthPrivateActions.loginWithKeys(accountName, password, keys)).then(() => {
+          log.debug('Auto login succeed.')
+          // Navigate to home page
+          dispatch(NavigateActions.navigateTo('/exchange'));
+          // Set login status to done
+          dispatch(AuthPrivateActions.setAutoLoginLoadingStatusAction(LoadingStatus.DONE));
+        }).catch((error) => {
+          log.error('Auto login error', error);
+          // Set error
+          dispatch(AuthPrivateActions.setAutoLoginErrorsAction([I18n.t('login.wrong_username_password')]));
+          throw error;
+        })
+      }
+
+    }
+  }
   /**
    * Log the user in with account name and password
    */

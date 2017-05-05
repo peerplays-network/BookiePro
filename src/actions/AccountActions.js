@@ -3,7 +3,6 @@ import { BlockchainUtils } from '../utility';
 import { WalletService, CommunicationService } from '../services';
 import { TransactionBuilder } from 'graphenejs-lib';
 import Immutable from 'immutable';
-import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
 
 
