@@ -14,8 +14,8 @@ var CurrencyUtils = {
   },
 
   // return formatted string to support negative bitcoin curruency values
-  // amount : float,  amount with BTC as backStartingIndex
-  // precision : integer  either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
+  // amount : float,  amount
+  // precision : integer ( ***BTC*** base), either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
   // currency : string, display currency, 'BTC' or 'mBTC'
   // showSymbol : boolean
   getFormattedCurrency: function( amount, currency = 'BTC', precision = 0, showSymbol = false){
@@ -23,6 +23,7 @@ var CurrencyUtils = {
     const currencySymbol = this.getCurruencySymbol(currency);
 
     if (currency === 'mBTC'){
+      // 1 BTC = 1 * 10^3 mBTC
       let mPrecision = precision -3;
       if ( mPrecision < 0 ){
         mPrecision = 0;

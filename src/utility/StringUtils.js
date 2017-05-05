@@ -76,7 +76,20 @@ var Utils = {
     }
 
     return 0;
+  },
+
+  // return +(number) or +(number) based on the input number
+  formatSignedNumber: function(number){
+    if(number > 0){
+      return ' +' + number;
+    } else if ( number === 0) {
+      return '';
+    } else{
+      return ' ' + number.toString();
+    }
   }
+
+
 
 }
 export default Utils;

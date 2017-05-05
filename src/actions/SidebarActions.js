@@ -7,6 +7,7 @@ import BettingMarketGroupActions from './BettingMarketGroupActions';
 import _ from 'lodash';
 import Immutable from 'immutable';
 import log from 'loglevel';
+import { I18n } from 'react-redux-i18n';
 
 class SidebarActions{
 
@@ -47,6 +48,19 @@ class SidebarActions{
     };
   }
 
+  // item : immutable.js
+  // componentClass : String
+  static createNode(item, componentClass){
+    return Immutable.fromJS({
+      'name': item.get('name'),
+      'id': item.get('id'),
+      'objectId': item.get('id'),
+      'isOpen': false,
+      'children': [],
+      'customComponent': componentClass
+    });
+
+  }
 
   // TODO: Should move the bulk of this logic to the mapStateToProps in Sidebar
   static setTreeForSidebar(){
@@ -57,92 +71,95 @@ class SidebarActions{
       const eventsById = getState().getIn(['event', 'eventsById']);
       const bettingMarketGroupsById = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
 
-      const eventGroupsList = Immutable.List(eventGroupsById.values());
-      const eventList = Immutable.List(eventsById.values());
-      const bettingMktGroupList = Immutable.List(bettingMarketGroupsById.values());
+      //sort the ordering of items in same level
+      // currently they are sorted by object id
+      const eventGroupsList = Immutable.List(eventGroupsById.values())
+        .sort((a, b) => a.get('id').localeCompare(b.get('id')) );
+      const eventList = Immutable.List(eventsById.values())
+        .sort((a, b) => a.get('id').localeCompare(b.get('id')) );
+      const bettingMktGroupList = Immutable.List(bettingMarketGroupsById.values())
+        .sort((a, b) => a.get('id').localeCompare(b.get('id')) );
 
-      let completeTree = []
+      let completeTree = Immutable.List();
 
       //add hard code header "all sports"
-      completeTree.push({
-        name: "ALL SPORTS", /*require for menu lib */
+      completeTree = completeTree.push(Immutable.fromJS({
+        name: I18n.t('AllSports.allSports'), /*require for menu lib */
         id: "0", /*require for menu lib */
         isOpen: false, /*optional for menu lib */
         isSelected: false, /*optional for node component  */
         customComponent: "Sport",  /*require for custom component*/
         objectId: "0",
         children: []  /*require for TreeUtil.js*/
-      });
+      }) );
 
       sportsById.forEach((sport) => {
 
-        let sportNode = {};
+        let sportNode = this.createNode(sport, 'Sport');
 
-        sportNode.name = sport.get('name');
-        sportNode.id = sport.get('id');
-        sportNode.isOpen = false;
-        sportNode.customComponent = "Sport";
-        sportNode.objectId = sport.get('id');
+        eventGroupsList.filter(eventGroup => {
+          return eventGroup.get('sport_id') === sport.get('id');
+        }).forEach( (eventGroup) => {
 
-        sportNode.children = [];
+          let eventGroupNode = this.createNode(eventGroup, 'EventGroup');
 
+          eventList.filter(event => {
+            return event.get('event_group_id') === eventGroupNode.get('id');
+          }).forEach( (event) => {
 
-        const targetEventGroups = eventGroupsList.filter(function(metric) {
-          return metric.get('sport_id') === sport.get('id');
-        })
-        _.forEach(targetEventGroups.toJS(), (eventGroup) => {
-
-          let eventGroupNode = {};
-          eventGroupNode.name = eventGroup.name;
-          eventGroupNode.id = eventGroup.id;
-          eventGroupNode.isOpen = false;
-          eventGroupNode.customComponent = "EventGroup";
-          eventGroupNode.objectId = eventGroup.id;
-          eventGroupNode.children = [];
-
-          const targetEvents = eventList.filter(function(metric) {
-            return metric.get('event_group_id') === eventGroupNode.id;
-          })
-          _.forEach(targetEvents.toJS(), (event) => {
-
-            const eventTime = event.start_time;
+            const eventTime = event.get('start_time');
             const currentTime = new Date().getTime();
             const isEventActive = (eventTime - currentTime) > 0;
             if (isEventActive) {
-              let eventNode = {};
-              eventNode.name = event.name;
-              eventNode.id = event.id;
-              eventNode.isOpen = false;
-              eventNode.customComponent = "Event";
-              eventNode.objectId = event.id;
-              eventNode.children = [];
+              let eventNode = this.createNode(event, 'Event');
 
-              const targetBettingMktGps = bettingMktGroupList.filter(function(metric) {
-                return metric.get('event_id') === eventNode.id;
+              bettingMktGroupList.filter(bettingMktGroup => {
+                return bettingMktGroup.get('event_id') === eventNode.get('id');
+              }).forEach( (mktGroup) => {
+
+                let mktGroupNode = this.createNode(mktGroup, 'BettingMarketGroup');
+                const marketTypeId = mktGroup.get('market_type_id');
+                mktGroupNode = mktGroupNode.set('market_type_id', marketTypeId )
+                  .set('options',mktGroup.get('options') )
+                  .set('name',marketTypeId );
+
+                if ( mktGroup.get('options') ){
+
+                  // update the name to be shown in sidebar based on market typd
+                  // currently we have 'Spread', 'OverUnder' and 'Moneyline'
+                  mktGroupNode = mktGroupNode.update('name',
+                    (name) => {
+                      if ( marketTypeId === 'Spread'){
+                        return I18n.t('bettingMarketGroup.spread') +  ( mktGroup.get('options').get('margin') >= 0 ? '+' : '' )+ mktGroup.get('options').get('margin');
+                      } else if ( marketTypeId === 'OverUnder'){
+                        return I18n.t('bettingMarketGroup.overunder') + mktGroup.get('options').get('score');
+                      } else {
+                        return name;
+
+                      }
+                    });
+                };
+
+                eventNode = eventNode.update('children',
+                  (children) => {return (children) ? children.push(mktGroupNode) : null;}
+                );
               })
-              _.forEach(targetBettingMktGps.toJS(), (mktGroup) => {
 
-                let mktGroupNode = {};
-                mktGroupNode.name = mktGroup.market_type_id;
-                mktGroupNode.id = mktGroup.id;
-                mktGroupNode.isOpen = false;
-                mktGroupNode.customComponent = "BettingMarketGroup";
-                mktGroupNode.market_type_id = mktGroup.market_type_id
-                mktGroupNode.objectId = mktGroup.id;
-                mktGroupNode.children = [];
+              eventGroupNode = eventGroupNode.update('children',
+                (children) => { return (children) ? children.push(eventNode) : null;}
 
-                eventNode.children.push(mktGroupNode);
-
-              })
-
-              eventGroupNode.children.push(eventNode);
+              );
             }
+
           })
 
-          sportNode.children.push(eventGroupNode);
+          sportNode = sportNode.update('children',
+            (children) => { return (children) ? children.push(eventGroupNode) : null; }
+          );
+
         });
 
-        completeTree.push(sportNode);
+        completeTree = completeTree.push(sportNode);
       });
 
       dispatch(SidebarActions.updateTree(completeTree));

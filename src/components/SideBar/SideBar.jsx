@@ -27,11 +27,11 @@ class SideBar extends Component {
   }
 
   componentDidMount(){
-    this.updateSider(this.props.completeTree.toJS(), this.props.objectId);
+    this.updateSider(this.props.completeTree, this.props.objectId);
 
   }
   componentWillReceiveProps(nextProps) {
-    this.updateSider(nextProps.completeTree.toJS(), nextProps.objectId);
+    this.updateSider(nextProps.completeTree, nextProps.objectId);
   }
 
   updateSider(completeTree, targetObjectId) {
@@ -48,7 +48,7 @@ class SideBar extends Component {
       console.log('No Id ! ', targetObjectId);
 
       this.setState({
-        tree: completeTree
+        tree: completeTree.toJS()
       });
     } else {
       var keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === targetObjectId) );
@@ -130,13 +130,14 @@ class SideBar extends Component {
           });
         }
 
+
         this.setState({
           tree: updatedTree
         });
       } else {
         console.log('Not found! ', targetObjectId);
         this.setState({
-          tree: completeTree
+          tree: completeTree.toJS()
         });
       }
     }

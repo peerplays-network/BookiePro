@@ -140,7 +140,7 @@ class SimpleBettingWidget extends Component {
           <div className='offer'>
             <div className='odds'>{ offer.get('odds') }</div>
             <div className='price'>
-              { CurrencyUtils.getFormattedCurrency( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces )}
+              { CurrencyUtils.getFormattedCurrency( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces, true )}
             </div>
           </div>
         </a>
