@@ -130,7 +130,7 @@ class TitleBar extends Component {
   };
 
   render() {
-    const { isConnected, isWindowsPlatform, ...props } = this.props;
+    const { isConnected, isWindowsPlatform, style } = this.props;
     if (isWindowsPlatform) {
       return (
         <WindowsTitleBar
@@ -141,7 +141,7 @@ class TitleBar extends Component {
           onCloseClick={ this.onCloseClick }
           isMaximized={ this.state.isMaximized }
           isConnected={ isConnected }
-          { ...props }
+          style={ style }
         />
       );
     } else {
@@ -155,7 +155,7 @@ class TitleBar extends Component {
           onCloseClick={ this.onCloseClick }
           isFullscreen={ this.state.isFullscreen }
           isConnected={ isConnected }
-          { ...props }
+          style={ style }
         />
       )
     }
@@ -164,7 +164,8 @@ class TitleBar extends Component {
 
 TitleBar.propTypes = {
   isWindowsPlatform: PropTypes.bool,
-  height: PropTypes.string
+  height: PropTypes.string,
+  style: PropTypes.object
 }
 
 const mapStateToProps = (state) => {

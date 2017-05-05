@@ -27,7 +27,7 @@ class SidebarActions{
         return dispatch(CompetitorActions.getCompetitorsBySportIds(retrievedSportIds));
       }).then((competitors) => {
         // Get events related to the sports (because we don't have get event based on event groups)
-        return dispatch(EventActions.getEventsBySportIds(retrievedSportIds));
+        return dispatch(EventActions.getActiveEventsBySportIds(retrievedSportIds));
       }).then((events) => {
         // Get betting market groups
         const bettingMarketGroupIds = events.flatMap( event => event.get('betting_market_group_ids'));
@@ -105,34 +105,38 @@ class SidebarActions{
           })
           _.forEach(targetEvents.toJS(), (event) => {
 
-            let eventNode = {};
-            eventNode.name = event.name;
-            eventNode.id = event.id;
-            eventNode.isOpen = false;
-            eventNode.customComponent = "Event";
-            eventNode.objectId = event.id;
-            eventNode.children = [];
+            const eventTime = event.start_time;
+            const currentTime = new Date().getTime();
+            const isEventActive = (eventTime - currentTime) > 0;
+            if (isEventActive) {
+              let eventNode = {};
+              eventNode.name = event.name;
+              eventNode.id = event.id;
+              eventNode.isOpen = false;
+              eventNode.customComponent = "Event";
+              eventNode.objectId = event.id;
+              eventNode.children = [];
 
-            const targetBettingMktGps = bettingMktGroupList.filter(function(metric) {
-              return metric.get('event_id') === eventNode.id;
-            })
-            _.forEach(targetBettingMktGps.toJS(), (mktGroup) => {
+              const targetBettingMktGps = bettingMktGroupList.filter(function(metric) {
+                return metric.get('event_id') === eventNode.id;
+              })
+              _.forEach(targetBettingMktGps.toJS(), (mktGroup) => {
 
-              let mktGroupNode = {};
-              mktGroupNode.name = mktGroup.market_type_id;
-              mktGroupNode.id = mktGroup.id;
-              mktGroupNode.isOpen = false;
-              mktGroupNode.customComponent = "BettingMarketGroup";
-              mktGroupNode.market_type_id = mktGroup.market_type_id
-              mktGroupNode.objectId = mktGroup.id;
-              mktGroupNode.children = [];
+                let mktGroupNode = {};
+                mktGroupNode.name = mktGroup.market_type_id;
+                mktGroupNode.id = mktGroup.id;
+                mktGroupNode.isOpen = false;
+                mktGroupNode.customComponent = "BettingMarketGroup";
+                mktGroupNode.market_type_id = mktGroup.market_type_id
+                mktGroupNode.objectId = mktGroup.id;
+                mktGroupNode.children = [];
 
-              eventNode.children.push(mktGroupNode);
+                eventNode.children.push(mktGroupNode);
 
-            })
+              })
 
-            eventGroupNode.children.push(eventNode);
-
+              eventGroupNode.children.push(eventNode);
+            }
           })
 
           sportNode.children.push(eventGroupNode);

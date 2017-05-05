@@ -36,8 +36,12 @@ const mapStateToProps = (state) => {
 
   // For each event, generate data entry for the Simple Betting Widget
   let myEvents = eventsById.toArray()
-    .filter((event) => event.get('event_group_id') === eventGroupId && eventIds.includes(event.get('id')))
-    .map((event) => {
+    .filter((event) => {
+      const eventTime = event.get('start_time');
+      const currentTime = new Date().getTime();
+      const isEventActive = (eventTime - currentTime) > 0;
+      return event.get('event_group_id') === eventGroupId && eventIds.includes(event.get('id')) && isEventActive
+    }).map((event) => {
       const eventId = event.get('id');
       const offers = binnedOrderBooksByEvent.has(eventId)? binnedOrderBooksByEvent.get(eventId) : Immutable.List() ;
       return Immutable.fromJS({

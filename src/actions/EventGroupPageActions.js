@@ -61,7 +61,7 @@ class EventGroupPageActions {
       }).then((sports) => {
         retrievedSport = sports.get(0);
         // Get events
-        return dispatch(EventActions.getEventsBySportIds([retrievedSport.get('id')]));
+        return dispatch(EventActions.getActiveEventsBySportIds([retrievedSport.get('id')]));
       }).then((events) => {
         retrievedEvents = events;
         // Get all competitors

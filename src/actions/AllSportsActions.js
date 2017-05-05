@@ -57,7 +57,7 @@ class AllSportsActions {
         return dispatch(CompetitorActions.getCompetitorsBySportIds(retrievedSportIds));
       }).then((competitors) => {
         // Get events related to the sports
-        return dispatch(EventActions.getEventsBySportIds(retrievedSportIds));
+        return dispatch(EventActions.getActiveEventsBySportIds(retrievedSportIds));
       }).then((events) => {
         retrievedEvents = events;
         // Get betting market groups

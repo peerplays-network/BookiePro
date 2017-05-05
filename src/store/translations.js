@@ -364,6 +364,13 @@ export const translationsObject = {
       skipLogoutPopupNextTime: 'Do not show me this message again',
       confirm: 'Logout',
       cancel: 'Cancel'
+    },
+    bannerClock: {
+      header: 'Time Remaining',
+      days: 'DAYS',
+      hours: 'HOURS',
+      minutes: 'MINS',
+      seconds: 'SECS'
     }
   }
 };
