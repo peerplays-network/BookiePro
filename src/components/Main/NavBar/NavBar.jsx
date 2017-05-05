@@ -26,8 +26,8 @@ class NavBar extends React.Component {
       <Header id='betex-header'>
         <Row className='top-bar-row' type='flex'>
           <Col>
-            <div className='logo'>
-              <img alt='logo' src={ logo } onClick={ this.handleNavigateToHome }/>
+            <div className='logo' onClick={ this.handleNavigateToHome }>
+              <img alt='logo' src={ logo } />
             </div>
           </Col>
           <Col>
