@@ -5,7 +5,7 @@ import { Apis } from 'graphenejs-ws';
 import { connect } from 'react-redux';
 import TestBookieAccount from './TestBookieAccount';
 import { AccountActions } from '../../actions';
-
+import BannerClock from '../Banners/BannerClock';
 
 class BlockchainTestPage extends Component {
   constructor(props) {
@@ -112,6 +112,7 @@ class BlockchainTestPage extends Component {
         <div>------------------------------------------------</div>
         <TestBookieAccount account={ this.props.account }/>
         <div>------------------------------------------------</div>
+        <BannerClock />
       </div>
     );
   }

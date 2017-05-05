@@ -31,88 +31,8 @@ div.betting-market-group-banner {
 
   > div.countdown {
     position: absolute;
-    right: 15px;
-    bottom: 12px;
-
-    > div.time-remaining {
-      text-align: center;
-      margin-bottom: 10px;
-      font-weight:500;
-    }
-      div.clock {
-        div.column {
-        float: left;
-        margin-right: 15px;
-        position: relative;
-        > div.label {
-          font-size: 10px;
-          text-align: center;
-          margin-top: 2px;
-          font-weight:500;
-          text-transform: uppercase;
-        }
-        &:after{
-          content: ':';
-          position: absolute;
-          top: 0;
-          font-size: 46px;
-          line-height: 32px;
-          right: -13px;
-        }
-          &:last-child{
-            &:after{
-              content: '';
-            }
-          }
-          &:last-child{
-            margin-right:0;
-          }
-      }
-      .digit {
-        position: relative;
-        width: 27px;
-        height: 40px;
-        margin-left: 5px;
-        text-align: center;
-        line-height: 0;
-        border-radius: 3px;
-        float: left;
-        margin-bottom:2px;
-        &:first-child{
-          margin-left:0;
-        }
-      }
-      .digit span {
-        position: absolute;
-        left: 0;
-        height: 20px;
-        width: 27px;
-        overflow: hidden;
-        border-radius: 3px 3px 0 0;
-        font-size: 32px;
-        font-weight: 700;
-        text-indent: 2px;
-        color: #ffffff;
-      }
-      .digit span.top-half {
-        top: 0;
-        padding-top: 20px;
-        background-color: #082639;
-      }
-      .digit span.bottom-half {
-        bottom: 0;
-        background-color: #0E324A;
-        border-radius: 0 0 3px 3px;
-      }
-      .digit-delimiter {
-        float: left;
-        margin-right: -5px;
-        font-weight: 700;
-        font-size: 32px;
-        color: #FFFFFF;
-        text-indent: 3.3333333333333335px;
-      }
-    }
+    right: 12px;
+    bottom: 10px;
   }
 }
 @media screen and (max-width: 1336px){
@@ -126,31 +46,9 @@ div.betting-market-group-banner {
       }
     }
     >div.countdown {
-      div.clock {
-        .digit {
-          span {
-            width: 18px;
-            height: 12px;
-            font-size: 20px;
-          }
-          width: 18px;
-          height: 24px;
-          span.top-half {
-            padding-top: 12px;
-          }
-        }
-        div.column {
-          &:after {
-            font-size: 20px;
-            line-height: 18px;
-            right: -8px;
-          }
-          >div.label {
-            font-size: 9px;
-          }
-          margin-right: 10px;
-        }
-      }
+      position: absolute;
+      right: 12px;
+      bottom: 10px;
     }
   }
 }

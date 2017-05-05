@@ -31,6 +31,7 @@ class BettingMarketGroup extends Component {
       <div className='betting-market-group-wrapper'>
         <BettingMarketGroupBanner
           eventName={ this.props.eventName }
+          eventTime={ this.props.eventTime }
         />
         <ComplexBettingWidget
           eventName={ this.props.eventName }
@@ -93,6 +94,8 @@ const mapStateToProps = (state, ownProps) => {
   // Extract event name
   const event = bettingMarketGroup && eventsById.get(bettingMarketGroup.get('event_id'));
   const eventName = (event && event.get('name')) || '';
+  const eventTime = (event && event.get('start_time') && new Date(event.get('start_time'))) || new Date();
+  console.log('event_time', eventTime);
   // Extract betting markets related to the betting market group
   const bettingMarketIds = (bettingMarketGroup && bettingMarketGroup.get('betting_market_ids')) || Immutable.List();
   let relatedBettingMarkets = Immutable.List();
@@ -124,6 +127,7 @@ const mapStateToProps = (state, ownProps) => {
     bettingMarkets: relatedBettingMarkets,
     marketData,
     eventName,
+    eventTime,
     bettingMarketGroupName,
     totalMatchedBetsAmount,
     unconfirmedBets: marketDrawer.get('unconfirmedBets'),

@@ -1,0 +1,92 @@
+@flipColour: #fff;
+@flipColourDark: darken(@flipColour, 35%);
+@textColour: #333;
+@textColourDark: darken(@textColour, 35%);
+
+.banner-clock{
+  float: left;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .banner-clock-header {
+    font-size: 14px;
+    text-align: center;
+    position: relative;
+    font-family: 'Roboto';
+  }
+
+  .banner-clock-content {
+    position: relative;
+    margin-top: 8px;
+
+    .colon {
+      font-size: 24px;
+      margin-right: 3px;
+      position: relative;
+      height: 100%;
+      float: left;
+      font-family: 'Roboto';
+    }
+
+    .banner-clock-digits {
+      position: relative;
+      float: left;
+      margin-right: 3px;
+      &:last-child { margin-right: 0; }
+      display: flex;
+      flex-direction: column;
+
+      .banner-clock-digits-footer {
+        font-size: 10px;
+        text-align: center;
+        margin-top: 2px;
+      }
+
+      .banner-clock-digit {
+        margin-right: 3px;
+        &:last-child { margin-right: 0; }
+      	position: relative;
+        float: left;
+        width: 27px;
+        height: 36px;
+        border-radius: 3px;
+        overflow: hidden;
+        text-align: center;
+
+        .background-top {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          right: 0px;
+          height: 50%;
+          background-color: #0B293F;
+          clip-path: polygon(0 0, 100% 0, 100% 95%, 95% 95%, 95% 100%, 5% 100%, 5% 95%, 0 95%);
+        }
+
+        .background-bottom {
+          position: absolute;
+          bottom: 0px;
+          left: 0px;
+          right: 0px;
+          height: 50%;
+          background-color: #0E324A;
+          clip-path: polygon(0 5%, 5% 5%, 5% 0, 95% 0, 95% 5%, 100% 5%, 100% 100%, 0 100%);
+        }
+
+        .base {
+          font-family: 'Roboto';
+          font-size: 26px;
+        	display: block;
+        	position: absolute;
+        	top: 50%;
+        	left: 50%;
+        	transform: translate(-50%, -50%);
+        	color: #fff;
+        }
+      }
+    }
+
+  }
+}
