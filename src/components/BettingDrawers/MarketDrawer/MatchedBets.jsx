@@ -41,15 +41,8 @@ const mapStateToProps = (state, ownProps) => {
   });
   // Transform the raw bet data into a specific format for the EditableBetTable
   const originalBets = matchedBets.map(bet =>
-                         Immutable.fromJS({
-                           id: bet.get('id'),
-                           bettor_id: bet.get('bettor_id'),
-                           // TODO: may not need toLowerCase once we got the real data
-                           bet_type: bet.get('back_or_lay').toLowerCase(),
-                           odds: bet.get('amount_to_win'),
-                           stake: bet.get('amount_to_bet'),
-                           team: competitorByBettingMarketId.get(bet.get('betting_market_id')).get('name'),
-                         }));
+                         bet.set('team', competitorByBettingMarketId.get(bet.get('betting_market_id')).get('name'))
+                       );
   // This is essentially the same procedure used in BetSlip
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
