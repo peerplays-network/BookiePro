@@ -5,9 +5,8 @@ import {
 } from 'antd';
 import { Field, reduxForm } from 'redux-form/immutable';
 import { LoadingStatus } from '../../constants';
-import { BettingModuleUtils, CurrencyUtils } from '../../utility';
-
 import './Withdraw.less';
+
 //Component to render fields
 const renderField = ({ className, errors, placeholder,hasWithdrawAmountErr, input, type,
   withdrawAmountErrMsg,
@@ -39,20 +38,17 @@ class Withdraw extends Component{
 
   constructor(props){
     super(props);
-    const { availableBalance, currencyFormat, precision } = this.props;
     this.state = {
-      hasWithdrawAmountErr: false,
-      convertedAvailableBalance : CurrencyUtils.getFormattedCurrency(availableBalance/ Math.pow(10, precision),
-       currencyFormat, BettingModuleUtils.exposurePlaces),
+      hasWithdrawAmountErr: false
     }
-    this.onwithdrawAmountChange = this.onwithdrawAmountChange.bind(this);
+    this.onWithdrawAmountChange = this.onWithdrawAmountChange.bind(this);
   }
 
   //Check entered amount with user's available balance
-  onwithdrawAmountChange(event){
+  onWithdrawAmountChange(event){
     let withdrawAmount = event.target.value;
     if(!isNaN(withdrawAmount)){
-      if((parseFloat(withdrawAmount) > this.state.convertedAvailableBalance)
+      if((parseFloat(withdrawAmount) > this.props.convertedAvailableBalance)
         || parseFloat(withdrawAmount) === 0 || parseFloat(withdrawAmount) === -1){
         this.setState({ hasWithdrawAmountErr: true })
       } else {
@@ -60,6 +56,17 @@ class Withdraw extends Component{
       }
     } else {
       this.setState({ hasWithdrawAmountErr: false })
+    }
+  }
+
+  componentDidMount(){
+    this.props.reset();
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.currencyFormat !== this.props.currencyFormat) {
+      // Reset withdraw form when currency is changed
+      this.props.reset();
     }
   }
 
@@ -93,11 +100,11 @@ class Withdraw extends Component{
               <form onSubmit={ handleSubmit } className='withdrawForm'>
                 <div className={ 'form-fields bookie-amount-field ' + prefix }>
                   <Field name='withdrawAmount' id='withdrawAmount' className='bookie-input bookie-amount'
-                    onChange={ this.onwithdrawAmountChange }
-                    onBlur={ this.onwithdrawAmountChange }
+                    onChange={ this.onWithdrawAmountChange }
+                    onBlur={ this.onWithdrawAmountChange }
                     hasWithdrawAmountErr={ this.state.hasWithdrawAmountErr }
                     withdrawAmountErrMsg={ availableBalance!==-1 ? (I18n.t('myAccount.insuffBitcoinErr')
-                                + this.state.convertedAvailableBalance + currencyFormat)
+                                + this.props.convertedAvailableBalance + currencyFormat)
                                 : I18n.t('application.notAvailableErr') }
                     component={ renderField }  type='text' normalize={ normalizeAmount }/>
                 </div>

@@ -2,39 +2,11 @@ import React, { PureComponent } from 'react';
 import { Table,DatePicker,Select,LocaleProvider } from 'antd';
 import './MyAccount.less';
 import { LoadingStatus } from '../../constants';
-import { I18n, Translate } from 'react-redux-i18n';
+import { I18n } from 'react-redux-i18n';
 import Export from '../Export'
 
 const Option = Select.Option;
 const paginationParams = { pageSize: 20 };
-//Transaction History table Columns
-const columns = [
-  {
-    title: I18n.t('myAccount.id'),
-    dataIndex: 'id',
-    key: 'id'
-  },
-  {
-    title: I18n.t('myAccount.time'),
-    dataIndex: 'time',
-    key: 'time'
-  },
-  {
-    title: I18n.t('myAccount.description'),
-    dataIndex: 'desc',
-    key: 'desc'
-  },
-  {
-    title: I18n.t('myAccount.status'),
-    dataIndex: 'status',
-    key: 'status',
-  },
-  {
-    title: <Translate value='myAccount.bitcoinIcon' dangerousHTML/> ,
-    dataIndex: 'amount',
-    key: 'amount',
-  }
-];
 
 class TransactionHistory extends PureComponent {
 
@@ -44,9 +16,39 @@ class TransactionHistory extends PureComponent {
       exportButtonClicked,resetTransactionHistoryExportLoadingStatus,clearTransactionHistoryExport,
       handleSearchClick,handleExportClick,periodChange,showDateFields,
       onStartChange,onEndChange,disabledFromDate,disabledToDate,fromDate,toDate } = this.props;
+
     const hasNoTransactionHistoryData = transactionHistory && transactionHistory.length === 0,
       hasNoTransactionHistoryDataExport = transactionHistoryExport && transactionHistoryExport.length === 0,
       disableButtons = showDateFields && (fromDate===null || toDate===null);
+      
+    //Transaction History table Columns
+    const columns = [
+      {
+        title: I18n.t('myAccount.id'),
+        dataIndex: 'id',
+        key: 'id'
+      },
+      {
+        title: I18n.t('myAccount.time'),
+        dataIndex: 'time',
+        key: 'time'
+      },
+      {
+        title: I18n.t('myAccount.description'),
+        dataIndex: 'desc',
+        key: 'desc'
+      },
+      {
+        title: I18n.t('myAccount.status'),
+        dataIndex: 'status',
+        key: 'status',
+      },
+      {
+        title: I18n.t('myAccount.amount') + '(' + (this.props.currencyFormat === 'BTC' ? 'Ƀ' : 'm') + ')',
+        dataIndex: 'amount',
+        key: 'amount',
+      }
+    ];
 
     return (
       <div className='pos-rel'>
@@ -108,14 +110,16 @@ class TransactionHistory extends PureComponent {
               </div>
             </div>
           </div>
-          <Table className='bookie-table'
-            locale={ { emptyText: (
-              (hasNoTransactionHistoryData && transactionHistoryLoadingStatus === LoadingStatus.DONE ?
-              I18n.t('mybets.nodata') : transactionHistoryLoadingStatus) ||
-              hasNoTransactionHistoryDataExport) } }
-            pagination={ paginationParams }
-            dataSource={ transactionHistory }
-            columns={ columns }/>
+          <LocaleProvider locale={ I18n.t('application.locale') }>
+            <Table className='bookie-table'
+              locale={ { emptyText: (
+                (hasNoTransactionHistoryData && transactionHistoryLoadingStatus === LoadingStatus.DONE ?
+                I18n.t('mybets.nodata') : transactionHistoryLoadingStatus) ||
+                hasNoTransactionHistoryDataExport) } }
+              pagination={ transactionHistory.length > 20 ? paginationParams : false }
+              dataSource={ transactionHistory }
+              columns={ columns }/>
+          </LocaleProvider>
         </div>
         { exportButtonClicked ?
         <Export

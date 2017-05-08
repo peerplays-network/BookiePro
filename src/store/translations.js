@@ -27,8 +27,6 @@ export const translationsObject = {
       clock: 'Local Time %{time}'
     },
     myAccount:{
-      bitcoinIcon: 'Amount(<i' +
-      ' class="icon-bitcoin-white"></i>)',
       screenName: 'myAccount_',
       home:'Home',
       my_account: 'My Account',
@@ -57,6 +55,7 @@ export const translationsObject = {
       time: 'Time',
       description: 'Description',
       status: 'Status',
+      amount: 'Amount',
       insuffBitcoinErr: 'You do not have sufficient bitcoin to withdraw, your current account balance is ',
       enter_withdrawAmt: 'Enter amount you want to withdraw',
       enter_wallet_addr: 'Enter Wallet Address',
