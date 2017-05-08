@@ -32,7 +32,7 @@ class MarketDrawerPrivateActions {
     };
   }
 
-  static deleteAllConfirmedBets() {
+  static deleteAllUnconfirmedBets() {
     return {
       type: ActionTypes.MARKET_DRAWER_DELETE_ALL_UNCONFIRMED_BETS,
     }
@@ -68,6 +68,20 @@ class MarketDrawerPrivateActions {
     return {
       type: ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNMATCHED_BET,
       delta
+    };
+  }
+
+  static deleteOneUnmatchedBet(betId) {
+    return {
+      type: ActionTypes.MARKET_DRAWER_DELETE_ONE_UNMATCHED_BET,
+      betId
+    };
+  }
+
+  static deleteManyUnmatchedBets(listOfBetIds) {
+    return {
+      type: ActionTypes.MARKET_DRAWER_DELETE_MANY_UNMATCHED_BETS,
+      listOfBetIds
     };
   }
 }
@@ -106,7 +120,7 @@ class MarketDrawerActions {
 
   static deleteAllUnconfirmedBets() {
     return (dispatch) => {
-      dispatch(MarketDrawerPrivateActions.deleteAllConfirmedBets());
+      dispatch(MarketDrawerPrivateActions.deleteAllUnconfirmedBets());
     }
   }
 
@@ -137,6 +151,24 @@ class MarketDrawerActions {
   static updateUnmatchedBet(delta) {
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.updateOneUnmatchedBet(delta));
+    }
+  }
+
+  static deleteUnmatchedBet(bet) {
+    return (dispatch) => {
+      dispatch(BetActions.cancelBets(Immutable.List([bet])));
+      // TODO DEPRECATE: Once the Blockchain is ready we SHOULD NOT manually remove an unmatched bet
+      console.warn("Warning    Manual removal of unmatched bets in UI should be prohibited once Bet cancellation is available in Blockchain");
+      dispatch(MarketDrawerPrivateActions.deleteOneUnmatchedBet(bet.get('id')));
+    }
+  }
+
+  static deleteUnmatchedBets(bets) {
+    return (dispatch) => {
+      dispatch(BetActions.cancelBets(Immutable.List(bets)));
+      // TODO DEPRECATE: Once the Blockchain is ready we SHOULD NOT manually remove an unmatched bet
+      console.warn("Warning    Manual removal of unmatched bets in UI should be prohibited once Bet cancellation is available in Blockchain");
+      dispatch(MarketDrawerPrivateActions.deleteManyUnmatchedBets(bets.map(b => b.get('id'))));
     }
   }
 }

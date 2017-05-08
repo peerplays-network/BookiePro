@@ -131,6 +131,16 @@ export default function(state = initialState, action) {
         unmatchedBets: unmatchedBets.set(index, bet)
       })
     }
+    case ActionTypes.MARKET_DRAWER_DELETE_ONE_UNMATCHED_BET: {
+      return state.merge({
+        unmatchedBets: unmatchedBets.filterNot(b => b.get('id') === action.betId),
+      });
+    }
+    case ActionTypes.MARKET_DRAWER_DELETE_MANY_UNMATCHED_BETS: {
+      return state.merge({
+        unmatchedBets: unmatchedBets.filterNot(b => action.listOfBetIds.includes(b.get('id'))),
+      });
+    }
     default:
       return state;
   }

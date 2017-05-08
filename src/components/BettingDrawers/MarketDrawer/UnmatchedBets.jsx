@@ -15,14 +15,14 @@ class UnmatchedBets extends PureComponent {
         <EditableBetTable
           data={ this.props.bets }
           title='Unmatched Bets'
-          deleteOne={ () => console.log('unmatched bets delete one') }
-          deleteMany={ () => console.log('unmatched bets delete many') }
+          deleteOne={ this.props.deleteUnmatchedBet }
+          deleteMany={ this.props.deleteUnmatchedBets }
           updateOne={ this.props.updateUnmatcedBet }
           dimmed={ false }
         />
         <div className='buttons'>
           <Button onClick={ () => console.log('unmatched bets reset') }>RESET</Button>
-          <Button onClick={ () => console.log('unmatched bets reset') }>UPDATE</Button>
+          <Button onClick={ () => console.log('unmatched bets update') }>UPDATE</Button>
         </div>
       </div>
     )
@@ -84,6 +84,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     updateUnmatcedBet: MarketDrawerActions.updateUnmatchedBet,
+    deleteUnmatchedBet: MarketDrawerActions.deleteUnmatchedBet,
+    deleteUnmatchedBets: MarketDrawerActions.deleteUnmatchedBets,
   }, dispatch);
 }
 
