@@ -14,76 +14,76 @@ class ResolvedBets extends Component {
       resetResolvedBetsExportLoadingStatus, clearResolvedBetsExport
       } = this.props;
     return (
-      <div>
-      <div>
-        <div className='top-data clearfix'>
-          <div className='float-left'>
-            <p className='font16'>{ I18n.t('mybets.total') } : { (currencyFormat === 'BTC' ? 'Ƀ ' : 'm ') + (betsTotal ? betsTotal : 0) }</p>
-          </div>
-          <div className='float-right'>
-            <div className='filter'>
-              <div className='ant-form-inline'>
-                <div className='ant-form-item'>
-                  <label> { I18n.t('mybets.period') }</label>
-                  <Select className='bookie-select' value={ period } onChange={ onPeriodSelect }
-                      style={ {width: 150} }>
-                    <Select.Option value='last7Days'>{I18n.t('mybets.last_7_Days') }</Select.Option>
-                    <Select.Option value='last14Days'>{I18n.t('mybets.last_14_Days') }</Select.Option>
-                    <Select.Option value='thisMonth'>{I18n.t('mybets.this_Month') }</Select.Option>
-                    <Select.Option value='lastMonth'>{I18n.t('mybets.last_Month') }</Select.Option>
-                    <Select.Option value='custom'>{I18n.t('mybets.custom') }</Select.Option>
-                  </Select>
-                </div>
-                {
-                  period === 'custom' ?
-                  <LocaleProvider locale={ I18n.t('application.locale') }>
-                    <div className='ant-form-item'>
-                      <label>{ I18n.t('mybets.date') }</label>
-                        <DatePicker
-                         disabledDate={ disabledStartDate }
-                         format='YYYY-MM-DD'
-                         placeholder={ I18n.t('mybets.from') }
-                         onChange={ onStartDateSelect } />
-                        <span className='margin-lr-10 font16'>  - </span>
-                        <DatePicker
-                          disabledDate={ disabledEndDate }
-                          format='YYYY-MM-DD'
-                          placeholder={ I18n.t('mybets.to') }
-                          onChange={ onEndDateSelect }/>
-                    </div>
-                  </LocaleProvider>
-                  :null
-                }
-                <div className='ant-form-item'>
-                  <button
-                    className={ (period === 'custom' && (startDate===null || endDate===null) ? 'btn-regular-disabled':'btn-regular') + ' btn' }
-                    disabled={ period === 'custom' && (startDate===null || endDate===null) }
-                    onClick={ onSearchClick }>{I18n.t('mybets.search') }</button>
-                  <button
-                    className={ (period === 'custom' && (startDate===null || endDate===null) ? 'btn-regular-disabled':'btn-regular') + ' btn margin-left-10' }
-                    disabled={ (period === 'custom' && (startDate===null || endDate===null)) || exportButtonClicked }
-                    onClick={ onResolvedBetsExport }>{I18n.t('mybets.export') }</button>
+      <div className='table-card'>
+        <div>
+          <div className='filterComponent clearfix'>
+            <div className='float-left'>
+              <p className='card-title'>{ I18n.t('mybets.total') } : { (currencyFormat === 'BTC' ? 'Ƀ ' : 'm ') + (betsTotal ? betsTotal : 0) }</p>
+            </div>
+            <div className='float-right'>
+              <div className='filter'>
+                <div className='ant-form-inline'>
+                  <div className='ant-form-item'>
+                    <label> { I18n.t('mybets.period') }</label>
+                    <Select className='bookie-select' value={ period } onChange={ onPeriodSelect }
+                        style={ {width: 150} }>
+                      <Select.Option value='last7Days'>{I18n.t('mybets.last_7_Days') }</Select.Option>
+                      <Select.Option value='last14Days'>{I18n.t('mybets.last_14_Days') }</Select.Option>
+                      <Select.Option value='thisMonth'>{I18n.t('mybets.this_Month') }</Select.Option>
+                      <Select.Option value='lastMonth'>{I18n.t('mybets.last_Month') }</Select.Option>
+                      <Select.Option value='custom'>{I18n.t('mybets.custom') }</Select.Option>
+                    </Select>
+                  </div>
+                  {
+                    period === 'custom' ?
+                    <LocaleProvider locale={ I18n.t('application.locale') }>
+                      <div className='ant-form-item'>
+                        <label>{ I18n.t('mybets.date') }</label>
+                          <DatePicker
+                           disabledDate={ disabledStartDate }
+                           allowClear={ false }
+                           format='YYYY-MM-DD'
+                           placeholder={ I18n.t('mybets.from') }
+                           onChange={ onStartDateSelect } />
+                          <span className='margin-lr-10 font16'>  - </span>
+                          <DatePicker
+                            disabledDate={ disabledEndDate }
+                            format='YYYY-MM-DD'
+                            placeholder={ I18n.t('mybets.to') }
+                            onChange={ onEndDateSelect }/>
+                      </div>
+                    </LocaleProvider>
+                    :null
+                  }
+                  <div className='ant-form-item'>
+                    <button
+                      className={ (period === 'custom' && (startDate===null || endDate===null) ? 'btn-regular-disabled':'btn-regular') + ' btn' }
+                      disabled={ period === 'custom' && (startDate===null || endDate===null) }
+                      onClick={ onSearchClick }>{I18n.t('mybets.search') }</button>
+                    <button
+                      className={ (period === 'custom' && (startDate===null || endDate===null) ? 'btn-regular-disabled':'btn-regular') + ' btn margin-left-10' }
+                      disabled={ (period === 'custom' && (startDate===null || endDate===null)) || exportButtonClicked }
+                      onClick={ onResolvedBetsExport }>{I18n.t('mybets.export') }</button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className='right-left'></div>
-        </div>
 
-        <Table pagination={ {pageSize: 10} }
-          locale={ {emptyText: ( resolvedBets && resolvedBets.length === 0 &&
-            resolvedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : resolvedBetsLoadingStatus )} }
-          className='bookie-table' dataSource={ List(resolvedBets).toJS() } columns={ columns }/>
-      </div>
-      { exportButtonClicked ?
-        <Export
-          exportData={ List(resolvedBetsExport).toJS() }
-          exportLoadingStatus={ resolvedBetsExportLoadingStatus }
-          resetExportLoadingStatus={ resetResolvedBetsExportLoadingStatus }
-          clearExportDataStore={ clearResolvedBetsExport }
-          screenName={ I18n.t('mybets.screenName') }
-          />: null }
-      </div>
+          <Table pagination={ {pageSize: 10} }
+            locale={ {emptyText: ( resolvedBets && resolvedBets.length === 0 &&
+              resolvedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : resolvedBetsLoadingStatus )} }
+            className='bookie-table' dataSource={ List(resolvedBets).toJS() } columns={ columns }/>
+        </div>
+        { exportButtonClicked ?
+          <Export
+            exportData={ List(resolvedBetsExport).toJS() }
+            exportLoadingStatus={ resolvedBetsExportLoadingStatus }
+            resetExportLoadingStatus={ resetResolvedBetsExportLoadingStatus }
+            clearExportDataStore={ clearResolvedBetsExport }
+            screenName={ I18n.t('mybets.screenName') }
+            />: null }
+        </div>
     )
   }
 }

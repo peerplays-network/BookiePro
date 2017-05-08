@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Table } from 'antd';
 import { LoadingStatus } from '../../constants';
-var I18n = require('react-redux-i18n').I18n;
+import { I18n } from 'react-redux-i18n';
 import { List } from 'immutable';
 import './MyWager.less';
 
@@ -20,18 +20,15 @@ class UnmatchedBets extends PureComponent {
         }
       );
     return (
-      <div>
-        <div className='top-data clearfix'>
+      <div className='table-card'>
+        <div className='filterComponent clearfix'>
           <div className='float-left'>
-            <p className='font16'>{ I18n.t('mybets.total') } : { (currencyFormat === 'BTC' ? 'Ƀ ' : 'm ') + (betsTotal ? betsTotal : 0) }</p>
+            <p className='card-title'>{ I18n.t('mybets.total') } : { (currencyFormat === 'BTC' ? 'Ƀ ' : 'm ') + (betsTotal ? betsTotal : 0) }</p>
           </div>
-          <div className='float-right'>
             <div className='float-right'>
               <button className='btn cancel-btn' onClick={ cancelAllBets }
                 disabled={ unmatchedBets && unmatchedBets.size === 0 }>{ I18n.t('mybets.cancel_all') }</button>
             </div>
-          </div>
-          <div className='right-left'></div>
         </div>
         <Table className='bookie-table' pagination={ { pageSize: 10 } } rowKey='id'
           locale={ {emptyText: ( unmatchedBets && unmatchedBets.size === 0 &&

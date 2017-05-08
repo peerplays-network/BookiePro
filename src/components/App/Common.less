@@ -66,6 +66,9 @@
 .margin-top-20{
   margin-top: 20px;
 }
+.margin-left-10{
+  margin-left: 10px
+}
 .padding-15{
   padding:15px;
 }
@@ -98,6 +101,8 @@
 .errorText{
   color: @field_error;
   font-size:12px;
+  //Adjusted to 3px because by applying padding-top:6px, the error text goes out of box
+  padding-top:3px;
 }
 
 // Card Title [myAccount, myWager]
@@ -211,10 +216,13 @@ input, .ant-input, .ant-calendar-input {
   color: @breadcrumb_link;
   font-size:16px;
   text-transform: uppercase;
-  margin:18px 0 22px !important;
+  margin:20px 0 20px!important;
   a,.ant-breadcrumb-separator{
     color: @white;
     font-weight:normal;
+  }
+  .ant-breadcrumb-separator{
+    margin:0 4px 0 0 ;
   }
   .ant-breadcrumb-link{
     color: @breadcrumb_link_current;
@@ -280,6 +288,11 @@ input, .ant-input, .ant-calendar-input {
   .ant-pagination-item-active{
     background-color:@pagination_active_bg;
   }
+  .ant-pagination-jump-prev,.ant-pagination-jump-next{
+    &:after{
+      color: @white;
+    }
+  }
 }
 
 // Table component [Myaccount]
@@ -317,6 +330,11 @@ input, .ant-input, .ant-calendar-input {
       background-color: transparent;
     }
   }
+  .ant-table-placeholder{
+    background-color: transparent;
+    color: @white;
+    border-bottom: 0;
+  }
 }
 
 // Filter Component
@@ -324,8 +342,8 @@ input, .ant-input, .ant-calendar-input {
 .filterComponent{
   padding: 0 16px;
   color: @white;
-  height:50px;
-  line-height: 48px;
+  height:45px;
+  line-height: 43px;
   border-bottom:1px solid @filter_table_header_border;
   label{
     font-size:16px;
