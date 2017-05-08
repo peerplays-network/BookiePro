@@ -35,8 +35,9 @@ class SideBar extends Component {
   }
 
   updateSider(completeTree, targetObjectId) {
-      //immutable-js to update tree
-      //http://stackoverflow.com/questions/41298577/how-to-get-altered-tree-from-immutable-tree-maximising-reuse-of-nodes?rq=1
+
+    //immutable-js to update tree
+    //http://stackoverflow.com/questions/41298577/how-to-get-altered-tree-from-immutable-tree-maximising-reuse-of-nodes?rq=1
     const nested = Immutable.fromJS(completeTree);
 
     if ( !targetObjectId){
@@ -52,7 +53,6 @@ class SideBar extends Component {
       });
     } else {
       var keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === targetObjectId) );
-
       // Found path?
       if (keyPath) {
         var newTree = nested;
@@ -67,8 +67,7 @@ class SideBar extends Component {
           //for event group
         else if ( keyPath.length === 3){
           newTree = newTree.updateIn(keyPath.slice(0,1), node =>
-            node.set('isSelected', true)
-            .set('isOpen', true)
+            node.set('isOpen', true)
           ).updateIn(keyPath.slice(0,3), node =>
             node.set('isSelected', true)
             .set('isOpen', true)

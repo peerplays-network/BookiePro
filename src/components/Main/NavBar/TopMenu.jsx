@@ -16,7 +16,8 @@ class TopMenu extends Component {
     super(props);
     this.state = {
       current: 'smile',
-      withdrawAmount:''
+      withdrawAmount:'',
+      isSubMenuVisible: false
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -50,15 +51,22 @@ class TopMenu extends Component {
         break;
       case 'myaccount':
         this.props.navigateTo('/my-account');
+        this.setState({ isSubMenuVisible: false });
         break;
       case 'help':
         //TODO: add navigation action for help page
         break;
       case 'logout':
         this.props.logout();
+        this.setState({ isSubMenuVisible: false });
         break;
       default:
     }
+  }
+
+  //Set sub menu visibility
+  handleSubMenuVisibleChange = (flag) => {
+    this.setState({ isSubMenuVisible: flag });
   }
 
   render() {
@@ -139,7 +147,10 @@ class TopMenu extends Component {
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='drop-down'>
-          <Dropdown key='drop-down-item' trigger={ ['click'] } overlay={ dropdownMenuCard } placement='bottomRight'>
+          <Dropdown key='drop-down-item' trigger={ ['click'] }
+            overlay={ dropdownMenuCard } placement='bottomRight'
+            onVisibleChange={ this.handleSubMenuVisibleChange }
+            visible={ this.state.isSubMenuVisible }>
             <div className='icon-main dropdown-icon-main'>
               <a className='ant-dropdown-link' href='#'>
                 <i className='dropdown-icon'></i>

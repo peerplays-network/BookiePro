@@ -198,11 +198,13 @@ class SimpleBettingWidget extends Component {
           title={ () => renderTitle(this.props.title) }
           //Show pagination for events of an event group, else display 'more' link
           footer={ () =>
-            this.props.events.toArray().length > 10 ?
+            (this.props.nodeType === 'sport' && this.props.events.toArray().length > 3) ||
+            (this.props.nodeType === 'eventgroup' && this.props.events.toArray().length > 10) ?
               this.renderFooter(this.props.title,this.props.nodeType,this.props.nodeId) :
               null
           }
-          pagination={ this.props.nodeType===undefined ? paginationParams : false }
+          pagination={ this.props.nodeType===undefined && this.props.events.toArray().length > 15
+            ? paginationParams : false }
           locale={ {emptyText: 'No Data'} }
           rowKey={ (record) => record.get('key') }
         />
