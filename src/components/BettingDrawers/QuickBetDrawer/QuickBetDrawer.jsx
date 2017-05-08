@@ -50,7 +50,7 @@ const renderContent = (props) => (
       props.bets.keySeq().toArray().map((eventId) => (
         <EditableBetTable
           key={ eventId }
-          data={ props.bets.get(eventId) }
+          data={ props.bets.get(eventId).get('unconfirmedBets') }
           title={ props.bets.get(eventId).get('event_name') }
           deleteOne={ props.deleteBet }
           deleteMany={ props.deleteBets }

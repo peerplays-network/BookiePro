@@ -26,6 +26,11 @@ class BettingMarketGroup extends Component {
   componentWillReceiveProps(nextProps){
     if (nextProps.params.objectId !== this.props.params.objectId){
       this.props.getData(nextProps.params.objectId);
+      // Extract the current Betting Market Group Id the user is viewing
+      // This is required to filter the data from all ongoing bets
+      // TODO REVIEW feel free to replace this with a better method!
+      const bettingMarketGroupId = window.location.href.split('/').pop();
+      this.props.getPlacedBets(bettingMarketGroupId);
     }
   }
 
@@ -113,6 +118,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     getData: BettingMarketGroupPageActions.getData,
     createBet: MarketDrawerActions.createBet,
+    getPlacedBets: MarketDrawerActions.getPlacedBets,
   }, dispatch);
 }
 

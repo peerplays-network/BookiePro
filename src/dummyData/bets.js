@@ -176,12 +176,34 @@ const bets = [
     "cancelled": false
   },
   {
+    "id": "1.106.161",
+    "bettor_id": "1.2.48",
+    "betting_market_id": "1.105.37",
+    "amount_to_bet": 230,
+    "amount_to_win": 330,
+    "back_or_lay": "Lay",
+    "remaining_amount_to_bet": 230,
+    "remaining_amount_to_win": 330,
+    "cancelled": false
+  },
+  {
     "id": "1.106.17",
     "bettor_id": "1.2.48",
     "betting_market_id": "1.105.38",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
     "back_or_lay": "Back",
+    "remaining_amount_to_bet": 0,
+    "remaining_amount_to_win": 0,
+    "cancelled": false
+  },
+  {
+    "id": "1.106.171",
+    "bettor_id": "1.2.48",
+    "betting_market_id": "1.105.38",
+    "amount_to_bet": 4500,
+    "amount_to_win": 5800,
+    "back_or_lay": "Lay",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false

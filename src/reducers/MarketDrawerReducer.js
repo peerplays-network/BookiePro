@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 import { LoadingStatus, ActionTypes } from '../constants';
 import { BettingModuleUtils } from '../utility';
+import { isUnmatchedBet, transformBetObject } from './dataUtils';
 
 let initialState = Immutable.fromJS({
   unconfirmedBets: Immutable.List(),
@@ -14,6 +15,7 @@ let initialState = Immutable.fromJS({
 
 export default function(state = initialState, action) {
   const unconfirmedBets = state.get('unconfirmedBets');
+  const unmatchedBets = state.get('unmatchedBets');
   switch (action.type) {
     case ActionTypes.MARKET_DRAWER_ADD_UNCONFIRMED_BET: {
       const newBet = action.bet
@@ -98,6 +100,46 @@ export default function(state = initialState, action) {
         showBetSlipConfirmation: false,
         showBetSlipSuccess: false,
       })
+    }
+    // TODO: Once the Blockchain is ready, we also need to listen to bet update events
+    case ActionTypes.MARKET_DRAWER_GET_PLACED_BETS: {
+      let unmatchedBets = Immutable.List();
+      let matchedBets = Immutable.List();
+      action.placedBets.forEach(bet => {
+        if (isUnmatchedBet(bet)) {
+          unmatchedBets = unmatchedBets.push(transformBetObject(bet));
+        } else {
+          matchedBets = matchedBets.push(transformBetObject(bet));
+        }
+      });
+      return state.merge({
+        unmatchedBets,
+        matchedBets,
+        bettingMarketGroupId: action.bettingMarketGroupId,
+      });
+    }
+    case ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNMATCHED_BET: {
+      const { delta } = action;
+      const index = unmatchedBets.findIndex(b => b.get('id') === delta.get('id'));
+      let bet = unmatchedBets.get(index).set(delta.get('field'), delta.get('value'));
+      // Calculate the profit/liability of a bet based on the latest odds and stake value
+      if (bet.has('stake')) {
+        const profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
+        bet = bet.set('profit', profit).set('liability', profit);
+      }
+      return state.merge({
+        unmatchedBets: unmatchedBets.set(index, bet)
+      })
+    }
+    case ActionTypes.MARKET_DRAWER_DELETE_ONE_UNMATCHED_BET: {
+      return state.merge({
+        unmatchedBets: unmatchedBets.filterNot(b => b.get('id') === action.betId),
+      });
+    }
+    case ActionTypes.MARKET_DRAWER_DELETE_MANY_UNMATCHED_BETS: {
+      return state.merge({
+        unmatchedBets: unmatchedBets.filterNot(b => action.listOfBetIds.includes(b.get('id'))),
+      });
     }
     default:
       return state;

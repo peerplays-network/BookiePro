@@ -1,0 +1,33 @@
+@placed-bets-title-height: 40px;
+
+div.placed-bets {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: @placed-bets-title-height;
+
+  div.content {
+    position: relative;
+    height: 100%;
+
+    > div.empty {
+      width: 80%;
+      height: 100%;
+      margin: auto;
+      text-align: center;
+      color: #FFF;
+
+      > div.instructions {
+        margin-top: 20%;
+      }
+
+      > div.my-bet-button {
+        margin-top: 20%;
+
+        > button {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
