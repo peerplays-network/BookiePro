@@ -57,6 +57,16 @@ class AppPrivateActions {
  */
 class AppActions {
   /**
+   * Action to set title bar transparency
+   */
+  static setTitleBarTransparency(isTitleBarTransparent) {
+    return {
+      type: ActionTypes.APP_SET_TITLE_BAR_TRANSPARENCY,
+      isTitleBarTransparent
+    }
+  }
+
+  /**
    * Action to show logout popup
    */
   static showNotificationCardAction(isShowNotificationCard) {

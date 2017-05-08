@@ -4,14 +4,21 @@ import NavBar from './NavBar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router'
-import { SidebarActions } from '../../actions';
+import { SidebarActions, AppActions } from '../../actions';
 const { Content } = Layout;
 
 class Main extends Component {
 
   componentDidMount() {
-    const { getDataForSidebar } = this.props
-    getDataForSidebar();
+    // Get sidebar data
+    this.props.getDataForSidebar();
+    // Change title bar color to solid
+    this.props.setTitleBarTransparency(false);
+  }
+
+  componentWillUnmount() {
+    // Set title bar to transparent
+    this.props.setTitleBarTransparency(true);
   }
 
   render() {
@@ -32,6 +39,7 @@ class Main extends Component {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     getDataForSidebar : SidebarActions.getData,
+    setTitleBarTransparency: AppActions.setTitleBarTransparency
   }, dispatch);
 }
 

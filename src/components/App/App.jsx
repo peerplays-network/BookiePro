@@ -147,6 +147,10 @@ class App extends Component {
       'minHeight': titleBarHeight
     }
 
+    if (this.props.isTitleBarTransparent) {
+      titleBarStyle['backgroundColor'] = 'transparent';
+    }
+
     return (
       <div className='app'>
         <TitleBar isWindowsPlatform={ isWindowsPlatform } style={ titleBarStyle } />
@@ -171,8 +175,8 @@ const mapStateToProps = (state) => {
   const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');
   const isShowLogoutPopup = app.get('isShowLogoutPopup');
   const isShowSoftwareUpdatePopup = app.get('isShowSoftwareUpdatePopup');
-
   const isNeedHardUpdate = SoftwareUpdateUtils.isNeedHardUpdate(version);
+  const isTitleBarTransparent = app.get('isTitleBarTransparent');
 
   return {
     connectToBlockchainLoadingStatus,
@@ -182,7 +186,8 @@ const mapStateToProps = (state) => {
     locale,
     isShowLogoutPopup,
     isShowSoftwareUpdatePopup,
-    isNeedHardUpdate
+    isNeedHardUpdate,
+    isTitleBarTransparent
   }
 }
 

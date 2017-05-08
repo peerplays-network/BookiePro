@@ -43,7 +43,7 @@ log.setLevel(log.levels.INFO);
 // Add new page here
 const routes = (
   <Route path='/' component={ App }  >
-      <IndexRedirect to='login' />
+      <IndexRedirect to='landing' />
       <Route path='/login' component={ Login } />
       <Route path='/signup' component={ Signup } />
       <Route path='/welcome' component={ Welcome } />
