@@ -367,8 +367,8 @@ export const translationsObject = {
       explanation: 'Your password is required to login. Please make sure you have stored your password in a safe place.',
       confirmation: 'Are you sure you want to logout?',
       skipLogoutPopupNextTime: 'Do not show me this message again',
-      confirm: 'Logout',
-      cancel: 'Cancel'
+      confirm: 'Leave this page',
+      cancel: 'Stay on this page'
     },
     bannerClock: {
       header: 'Time Remaining',
