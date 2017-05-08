@@ -101,7 +101,7 @@ class TopMenu extends Component {
         this.setState({ isSubMenuVisible: false });
         break;
       case 'help':
-        //TODO: add navigation action for help page
+        this.props.navigateTo('/help-and-support');
         break;
       case 'logout':
         this.props.logout();
