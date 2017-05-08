@@ -46,6 +46,7 @@ class BettingMarketGroup extends Component {
           createBet={ this.props.createBet }
           unconfirmedBets={ this.props.unconfirmedBets }
           currencyFormat={ this.props.currencyFormat }
+          loadingStatus={ this.props.loadingStatus }
         />
       </div>
     )
@@ -125,6 +126,9 @@ const mapStateToProps = (state, ownProps) => {
   const eventsById = state.getIn(['event', 'eventsById']);
   const competitorsById = state.getIn(['competitor', 'competitorsById']);
 
+  //Extract loading status
+  const loadingStatus = state.getIn(['bettingMarketGroupPage', 'loadingStatusByBettingMarketGroupId', bettingMarketGroupId]);
+
   // Extract betting market group
   const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
 
@@ -178,8 +182,8 @@ const mapStateToProps = (state, ownProps) => {
     totalMatchedBetsAsset ?
       totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'amount']) / Math.pow(10, totalMatchedBetsAsset.get('precision')) : 0,
     ownProps.currencyFormat,
-    totalMatchedBetsAsset ? totalMatchedBetsAsset.get('precision') : 0 );
-
+    totalMatchedBetsAsset ? totalMatchedBetsAsset.get('precision') : 0,
+    true );
 
   const marketDrawer = state.get('marketDrawer');
 
@@ -192,6 +196,7 @@ const mapStateToProps = (state, ownProps) => {
     bettingMarketGroupName,
     totalMatchedBetsAmount,
     unconfirmedBets: marketDrawer.get('unconfirmedBets'),
+    loadingStatus,
   }
 };
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
-import { BetTypes } from '../../../constants';
+import { BetTypes, LoadingStatus } from '../../../constants';
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 import Immutable from 'immutable';
@@ -355,7 +355,7 @@ class ComplexBettingWidget extends Component {
           <div className='name'> { bettingMarketGroupName } </div>
           <div className='rules'>
             <span>
-              {I18n.t('complex_betting_widget.matched')}:{ totalMatchedBetsAmount }
+              { I18n.t('complex_betting_widget.matched') }:{ this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
             </span>
             {/* Rules Dialogue box */}
             <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
