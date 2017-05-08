@@ -1,17 +1,17 @@
 @import (reference) '../Main.less';
-.text-right{
-  text-align: right;
-}
+@import '../../App/Colors.less';
+@import '../../App/Common.less';
+
+
 #betex-header {
   padding: 0;
   font-size: 16px;
-  background-color: @nav-bar-bg;
-
+  background-color: @topbar_bg;
   width: 100%;
   z-index:999;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+  box-shadow: @card_shadow;
   div.logo {
-    border-right: solid 1px @nav-bar-divider;
+    border-right: solid 1px @topbar_divider;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,27 +29,22 @@
     height: 60px;
   }
   .top-menu {
-    background-color: @nav-bar-bg;
+    background-color: @topbar_bg;
     line-height: inherit;
     display: inline-block;
     border-bottom:0 none;
 
     li {
       padding:0;
-      border-left: solid 1px @nav-bar-divider;
+      border-left: solid 1px @topbar_divider;
       margin-top:0;
-      color: #00BEF4;
+      color: @topbar_label;
       &.amount {
         a{
-          color: #00BEF4;
+          color: @topbar_label;
           font-size:18px;
           transition: 0s color;
         }
-      }
-
-      .anticon {
-        font-size: 20px;
-        color: @nav-bar-icon;
       }
 
       &.notification {
@@ -59,15 +54,15 @@
           }
 
           > sup.ant-badge-count {
-            box-shadow: 0 0 0 0;
-            background-color: @nav-bar-icon;
+            box-shadow: none;
+            background-color: @topbar_badge_count;
           }
         }
       }
       &:hover{
         background-color: rgba(0,36,64,0.95);
         a, .anticon{
-          color: #FFFFFF !important;
+          color: @white !important;
         }
       }
       a{
@@ -88,16 +83,16 @@
 }
 .ant-dropdown{
   .ant-card, .ant-dropdown-menu{
-    background: #002340;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
-    color: #FFFFFF;
+    background: @topbar_dropdown_card;
+    box-shadow: @card_shadow;
+    color: @white;
     font-size:14px;
-    margin-top:-2px;
+    margin-top:-3px;
     border-radius: 0;
     border:0 none;
     .ant-card-head{
       h3{
-        color: #00BEF4;
+        color: @card_blue_title;
       }
     }
   }
@@ -122,16 +117,22 @@
     .ant-row{
       &>div{
         &:last-child{
-          border-left:1px solid #FFFFFF;
+          border-left:1px solid @white;
         }
       }
     }
   }
   .deposit-card{
     width:380px;
+    height:318px;
   }
   .withdraw-card{
     width:406px;
+    height:302px;
+    .withdrawForm{
+      margin-top:60px;
+    }
+
   }
   .notification-card{
     width:400px;
@@ -146,25 +147,23 @@
     }
     .ant-menu{
       background: transparent;
-      color: #FFFFFF;
+      color: @white;
       .ant-menu-item{
         padding:0 10px;
         font-size: 16px;
         height:60px;
         line-height:60px;
         transition: none;
+        text-transform: uppercase;
         &>a{
-          color: #FFFFFF;
+          color: @white;
           font-size:18px;
           font-weight:500;
           text-transform: uppercase;
         }
-        &.ant-menu-item-active{
-          background-color: rgba(0,78,155,0.20);
-        }
-        &.ant-menu-item-selected{
-          background-color: rgba(0,78,155,0.20);
-          color:#fff;
+        &.ant-menu-item-active,&.ant-menu-item-selected{
+          background-color: @topbar_more_menu_active;
+          color: @white;
         }
         &:hover{
           color: inherit;
@@ -176,11 +175,12 @@
     }
   }
 }
+
 .bookie-alert{
   padding: 20px 48px 20px 16px !important;
   border:0 none;
   background-color: transparent;
-  color: #FFFFFF;
+  color: @white;
   font-size:14px;
   border-radius:0;
   .ant-alert-close-icon{
@@ -188,11 +188,11 @@
     height:auto;
   }
   .ant-alert-close-icon .anticon-cross{
-    color: #FFFFFF;
+    color: @white;
     font-size:18px;
   }
   &:hover{
-    background-color: #2FA5E6;
+    background-color: @topbar_notification_hover;
   }
   p{
     font-size:16px;
@@ -206,10 +206,6 @@
   &:last-child{
     margin-bottom:0;
   }
-}
-.ant-dropdown-link{
-  padding:0;
-  display: block;
 }
 .icon-main {
   display: flex;
