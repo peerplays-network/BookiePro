@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import InitError from '../InitError';
 import { LoadingStatus, Config } from '../../constants';
-import { NavigateActions, AppActions, AccountActions } from '../../actions';
+import { NavigateActions, AppActions, AuthActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
@@ -156,7 +156,7 @@ const mapStateToProps = (state) => {
   const version = softwareUpdate.get('version');
   const displayText = softwareUpdate.get('displayText');
   const locale = i18n.get('locale');
-  const isLoggedIn = app.get('isLoggedIn');
+  const isLoggedIn = state.getIn(['account','isLoggedIn']);
   const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');
   const isShowLogoutPopup = app.get('isShowLogoutPopup');
 
@@ -175,7 +175,7 @@ const mapDispatchToProps = (dispatch) => {
     navigateTo: NavigateActions.navigateTo,
     connectToBlockchain: AppActions.connectToBlockchain,
     showLogoutPopup: AppActions.showLogoutPopupAction,
-    confirmLogout: AccountActions.confirmLogout
+    confirmLogout: AuthActions.confirmLogout
   }, dispatch);
 }
 

@@ -151,7 +151,7 @@ export default function (state = initialState, action) {
         resolvedBetsExportById: {}
       });
     }
-    case ActionTypes.ACCOUNT_LOGOUT: {
+    case ActionTypes.AUTH_LOGOUT: {
       return initialState;
     }
     default:

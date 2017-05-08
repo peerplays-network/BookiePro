@@ -1,4 +1,4 @@
-const transactionHistories = [{
+const transactionHistory = [{
   'id': 'TX#0000001',
   'description': 'Deposit',
   'time': '2017-01-19 02:33:02',
@@ -493,4 +493,4 @@ const transactionHistories = [{
 
 ]
 
-export default transactionHistories;
+export default transactionHistory;

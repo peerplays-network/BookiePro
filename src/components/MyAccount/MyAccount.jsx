@@ -20,7 +20,7 @@ import 'perfect-scrollbar';
 import Deposit from './Deposit';
 import Withdraw from './Withdraw';
 import moment from 'moment';
-import { SettingActions,AccountActions,NavigateActions } from '../../actions';
+import { SettingActions, BalanceActions, NavigateActions, HistoryActions } from '../../actions';
 import { LoadingStatus } from '../../constants';
 import { saveAs } from '../../utility/fileSaver.js';
 
@@ -448,20 +448,20 @@ const mapStateToProps = (state) => {
   const app = state.get('app');
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
-  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting']) ;
+  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']) ;
 
   /*-1 will be used to check to display 'Not available' against the withdraw amount field
       when the asset '1.3.0' is not obtained for some reason
   */
-  const balance = account.getIn(['availableBalancesByAssetId','1.3.0','balance']);
+  const balance = state.getIn(['balance', 'availableBalancesByAssetId','1.3.0','balance']);
   const availableBalance = balance !== undefined ? balance : -1;
 
   //Transaction History table Data (dummy data binding)
   let transactionHistoryData = [];
-  if(state.getIn(['account', 'getTransactionHistoryLoadingStatus']) === LoadingStatus.DONE)
+  if(state.getIn(['history', 'getTransactionHistoryLoadingStatus']) === LoadingStatus.DONE)
   {
     transactionHistoryData = [];
-    state.getIn(['account', 'transactionHistories']).forEach(row => {
+    state.getIn(['history', 'transactionHistory']).forEach(row => {
       let rowObj = {
         key: row.get('id'),
         id: row.get('id'),
@@ -478,10 +478,10 @@ const mapStateToProps = (state) => {
 
   //Transaction History table Data (to export to Excel file)
   let transactionHistoryExportData = [];
-  if(state.getIn(['account', 'getTransactionHistoriesExportLoadingStatus']) === LoadingStatus.DONE)
+  if(state.getIn(['history', 'getTransactionHistoryExportLoadingStatus']) === LoadingStatus.DONE)
   {
     transactionHistoryExportData = [];
-    state.getIn(['account', 'transactionHistoriesExport']).forEach(row => {
+    state.getIn(['history', 'transactionHistoryExport']).forEach(row => {
       let rowObj = {
         Id: row.get('id'),
         Time: moment(row.get('time')).format('DD/MM/YYYY HH:mm:ss'),
@@ -504,14 +504,14 @@ const mapStateToProps = (state) => {
     currencyFormat: setting.get('currencyFormat'),
     precision: state.getIn(['asset', 'assetsById', '1.3.0']).get('precision'),
     transactionHistory: transactionHistoryData,
-    transactionHistoryLoadingStatus: account.get('getTransactionHistoryLoadingStatus'),
+    transactionHistoryLoadingStatus: state.getIn(['history','getTransactionHistoryLoadingStatus']),
     transactionHistoryExport: transactionHistoryExportData,
-    transactionHistoryExportLoadingStatus: account.get('getTransactionHistoriesExportLoadingStatus'),
+    transactionHistoryExportLoadingStatus: state.getIn(['history', 'getTransactionHistoryExportLoadingStatus']),
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: account.get('getDepositAddressLoadingStatus'),
-    depositAddress: account.get('depositAddress'),
+    depositAddress: state.getIn(['balance', 'depositAddress']),
     availableBalance: availableBalance,
-    withdrawLoadingStatus: account.get('withdrawLoadingStatus')
+    withdrawLoadingStatus: state.getIn(['balance', 'withdrawLoadingStatus'])
   }
 }
 
@@ -521,13 +521,13 @@ function mapDispatchToProps(dispatch) {
     updateSettingTimeZone: SettingActions.updateSettingTimeZone,
     updateSettingNotification: SettingActions.updateSettingNotification,
     updateCurrencyFormat: SettingActions.updateCurrencyFormat,
-    getTransactionHistory: AccountActions.getTransactionHistory,
-    getTransactionHistoryExport: AccountActions.getTransactionHistoriesExport,
-    resetTransactionHistoryExportLoadingStatus: AccountActions.resetTransactionHistoryExportLoadingStatus,
-    clearTransactionHistoryExport: AccountActions.clearTransactionHistoryExport,
-    getDepositAddress: AccountActions.getDepositAddress,
+    getTransactionHistory: HistoryActions.getTransactionHistory,
+    getTransactionHistoryExport: HistoryActions.getTransactionHistoryExport,
+    resetTransactionHistoryExportLoadingStatus: HistoryActions.resetTransactionHistoryExportLoadingStatus,
+    clearTransactionHistoryExport: HistoryActions.clearTransactionHistoryExport,
+    getDepositAddress: BalanceActions.getDepositAddress,
     redirectToChangePwd: SettingActions.redirectToChangePwd,
-    withdraw: AccountActions.withdraw,
+    withdraw: BalanceActions.withdraw,
     navigateTo: NavigateActions.navigateTo,
   }, dispatch)
 }

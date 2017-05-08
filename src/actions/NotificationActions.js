@@ -96,7 +96,7 @@ class NotificationActions {
   }
 
   /**
-   * Check for new transaction histories and set notification accordingly
+   * Check for new transaction history and set notification accordingly
    */
   static updateNotification(attempt=3) {
     return (dispatch, getState) => {

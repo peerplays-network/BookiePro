@@ -54,7 +54,6 @@ class SettingActions {
    */
   static setInitialSetting() {
     return (dispatch, getState) => {
-      console.log('account', getState().toJS())
       const accountId = getState().getIn(['account', 'account', 'id']);
       if (accountId) {
         const settingByAccountId = getState().getIn(['setting', 'settingByAccountId']);

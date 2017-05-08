@@ -4,9 +4,8 @@ import { reducer as formReducer } from 'redux-form/immutable';
 import AssetReducer from './AssetReducer';
 import SettingReducer from './SettingReducer';
 import AppReducer from './AppReducer';
+import AuthReducer  from './AuthReducer';
 import SidebarReducer from './SidebarReducer';
-import RegisterReducer from './RegisterReducer';
-import LoginReducer from './LoginReducer';
 import SportReducer from './SportReducer';
 import EventGroupReducer from './EventGroupReducer';
 import CompetitorReducer from './CompetitorReducer';
@@ -27,14 +26,15 @@ import ImmutableRouterReducer from './ImmutableRouterReducer';
 import Immutablei18nReducer from './Immutablei18nReducer';
 import QuickBetDrawerReducer from './QuickBetDrawerReducer';
 import MarketDrawerReducer from './MarketDrawerReducer';
+import HistoryReducer from './HistoryReducer';
+import BalanceReducer from './BalanceReducer';
 
 
 const rootReducer = combineReducers({
   app: AppReducer,
+  auth: AuthReducer,
   asset: AssetReducer,
   setting: SettingReducer,
-  register: RegisterReducer,
-  login: LoginReducer,
   sport: SportReducer,
   eventGroup: EventGroupReducer,
   event: EventReducer,
@@ -49,14 +49,16 @@ const rootReducer = combineReducers({
   eventGroupPage: EventGroupPageReducer,
   bettingMarketGroupPage: BettingMarketGroupPageReducer,
   account: AccountReducer,
+  balance: BalanceReducer,
+  history: HistoryReducer,
   notification: NotificationReducer,
   softwareUpdate: SoftwareUpdateReducer,
   sidebar: SidebarReducer,
+  quickBetDrawer: QuickBetDrawerReducer,
+  marketDrawer: MarketDrawerReducer,
   routing: ImmutableRouterReducer,
   form: formReducer,
   i18n: Immutablei18nReducer,
-  quickBetDrawer: QuickBetDrawerReducer,
-  marketDrawer: MarketDrawerReducer,
 });
 
 export default rootReducer;

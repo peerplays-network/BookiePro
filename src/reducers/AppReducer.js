@@ -2,7 +2,6 @@ import { ActionTypes, LoadingStatus, ConnectionStatus } from '../constants';
 import Immutable from 'immutable';
 
 const initialState = Immutable.fromJS({
-  isLoggedIn: false,
   getGlobalBettingStatisticsLoadingStatus: LoadingStatus.DEFAULT,
   getGlobalBettingStatisticsError: null,
   connectToBlockchainLoadingStatus: LoadingStatus.DEFAULT,
@@ -24,11 +23,6 @@ export default function (state = initialState, action) {
     case ActionTypes.APP_SET_BLOCKCHAIN_GLOBAL_PROPERTY: {
       return state.merge({
         blockchainGlobalProperty: action.blockchainGlobalProperty
-      });
-    }
-    case ActionTypes.APP_SET_IS_LOGGED_IN: {
-      return state.merge({
-        isLoggedIn: action.isLoggedIn
       });
     }
     case ActionTypes.APP_SET_GET_GLOBAL_BETTING_STATISTICS_LOADING_STATUS: {
@@ -67,11 +61,6 @@ export default function (state = initialState, action) {
       return state.merge({
         isShowLogoutPopup: action.isShowLogoutPopup
       })
-    }
-    case ActionTypes.ACCOUNT_LOGOUT: {
-      return state.merge({
-        isLoggedIn: false
-      });
     }
     default:
       return state;

@@ -1,6 +1,8 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import { ConnectionService, CommunicationService } from '../services';
 import SoftwareUpdateActions from './SoftwareUpdateActions';
+import AuthActions from './AuthActions';
+import NavigateActions from './NavigateActions';
 import log from 'loglevel';
 
 /**
@@ -64,13 +66,6 @@ class AppActions {
     }
   }
 
-  static setIsLoggedInAction(isLoggedIn) {
-    return {
-      type: ActionTypes.APP_SET_IS_LOGGED_IN,
-      isLoggedIn
-    }
-  }
-
   static setBlockchainDynamicGlobalPropertyAction(blockchainDynamicGlobalProperty) {
     return {
       type: ActionTypes.APP_SET_BLOCKCHAIN_DYNAMIC_GLOBAL_PROPERTY,
@@ -103,8 +98,17 @@ class AppActions {
         return dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());
       }).then(() => {
         log.info('Connected to blockchain.');
-        // Mark done
-        dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.DONE));
+        // Do auto login
+        dispatch(AuthActions.autoLogin()).then(() => {
+          // Redirect the user to exchange page
+          dispatch(NavigateActions.navigateTo('/exchange'));
+        }).catch(() => {
+          // Fail to do auto login, do nothing
+        }).then(() => {
+          // Mark done of connected to blockchain
+          dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.DONE));
+        })
+
       }).catch((error) => {
         log.error('Fail to connect to blockchain', error);
         // Fail to connect/ sync/ listen to software update, close connection to the blockchain
