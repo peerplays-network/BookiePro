@@ -11,6 +11,7 @@ let initialState = Immutable.fromJS({
   showBetSlipWaiting: false,
   showBetSlipError: false,
   showBetSlipSuccess: false,
+  showPlacedBetsConfirmation: false,
 });
 
 export default function(state = initialState, action) {
@@ -139,6 +140,21 @@ export default function(state = initialState, action) {
     case ActionTypes.MARKET_DRAWER_DELETE_MANY_UNMATCHED_BETS: {
       return state.merge({
         unmatchedBets: unmatchedBets.filterNot(b => action.listOfBetIds.includes(b.get('id'))),
+      });
+    }
+    case ActionTypes.MARKET_DRAWER_SHOW_PLACED_BETS_CONFIRMATION: {
+      return state.merge({
+        showPlacedBetsConfirmation: true
+      });
+    }
+    case ActionTypes.MARKET_DRAWER_HIDE_PLACED_BETS_CONFIRMATION: {
+      return state.merge({
+        showPlacedBetsConfirmation: false
+      });
+    }
+    case ActionTypes.MARKET_DRAWER_HIDE_PLACED_BETS_ERROr: {
+      return state.merge({
+        showPlacedBetsError: false
       });
     }
     default:

@@ -18,11 +18,11 @@ class UnmatchedBets extends PureComponent {
           deleteOne={ this.props.deleteUnmatchedBet }
           deleteMany={ this.props.deleteUnmatchedBets }
           updateOne={ this.props.updateUnmatcedBet }
-          dimmed={ false }
+          dimmed={ this.props.obscureContent }
         />
-        <div className='buttons'>
+        <div className={ `buttons ${this.props.obscureContent ? 'dimmed' : ''}` }>
           <Button onClick={ () => console.log('unmatched bets reset') }>RESET</Button>
-          <Button onClick={ () => console.log('unmatched bets update') }>UPDATE</Button>
+          <Button onClick={ this.props.clickUpdateBet }>UPDATE</Button>
         </div>
       </div>
     )
@@ -67,17 +67,17 @@ const mapStateToProps = (state, ownProps) => {
     page = page.set(betType, betListByBetType);
   });
   // Other statuses
-  const showBetUpdateConfirmation = state.getIn(['marketDrawer', 'showBetUpdateConfirmation']);
-  const showBetUpdateWaiting = state.getIn(['marketDrawer', 'showBetUpdateWaiting']);
-  const showBetUpdateError = state.getIn(['marketDrawer', 'showBetUpdateError']);
-  const showBetUpdateSuccess = state.getIn(['marketDrawer', 'showBetUpdateSuccess']);
+  const showPlacedBetsConfirmation = state.getIn(['marketDrawer', 'showPlacedBetsConfirmation']);
+  const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);
+  const showPlacedBetsError = state.getIn(['marketDrawer', 'showPlacedBetsError']);
+  const showPlacedBetsSuccess = state.getIn(['marketDrawer', 'showPlacedBetsSuccess']);
   return {
     bets: page,
-    showBetUpdateConfirmation,
-    showBetUpdateWaiting,
-    showBetUpdateError,
-    showBetUpdateSuccess,
-    obscureContent: showBetUpdateConfirmation || showBetUpdateWaiting || showBetUpdateError,
+    showPlacedBetsConfirmation,
+    showPlacedBetsWaiting,
+    showPlacedBetsError,
+    showPlacedBetsSuccess,
+    obscureContent: showPlacedBetsConfirmation || showPlacedBetsWaiting || showPlacedBetsError,
   };
 }
 
@@ -86,6 +86,7 @@ const mapDispatchToProps = (dispatch) => {
     updateUnmatcedBet: MarketDrawerActions.updateUnmatchedBet,
     deleteUnmatchedBet: MarketDrawerActions.deleteUnmatchedBet,
     deleteUnmatchedBets: MarketDrawerActions.deleteUnmatchedBets,
+    clickUpdateBet: MarketDrawerActions.clickUpdateBet,
   }, dispatch);
 }
 

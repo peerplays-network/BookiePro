@@ -10,6 +10,22 @@ import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import './PlacedBets.less';
 
+const renderOverlay = (props, className, transactionFee=0) => (
+  <div className='overlay'>
+    <div className='instructions'>
+      <Translate value={ `market_drawer.unmatched_bets.${ className }.instructions` } amount={ transactionFee } dangerousHTML/>
+    </div>
+    <div className='buttons'>
+      <Button onClick={ props.cancelUpdateBet }>
+        { I18n.t(`market_drawer.unmatched_bets.${ className }.cancel_button`) }
+      </Button>
+      <Button onClick={ () => props.makeBets(props.originalBets) }>
+        { I18n.t(`market_drawer.unmatched_bets.${ className }.confirm_button`) }
+      </Button>
+    </div>
+  </div>
+)
+
 class PlacedBets extends PureComponent {
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.placedBets));
@@ -39,6 +55,7 @@ class PlacedBets extends PureComponent {
               <MatchedBets/>
             </div>
           }
+          { this.props.showPlacedBetsConfirmation && renderOverlay(this.props, 'confirmation', 0.051) }
           { this.props.isEmpty &&
             <div className='empty'>
               <div className='instructions'>
@@ -60,8 +77,10 @@ class PlacedBets extends PureComponent {
 const mapStateToProps = (state) => {
   const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
+  const showPlacedBetsConfirmation = state.getIn(['marketDrawer', 'showPlacedBetsConfirmation']);
   return {
-    isEmpty: unmatchedBets.isEmpty() && matchedBets.isEmpty()
+    isEmpty: unmatchedBets.isEmpty() && matchedBets.isEmpty(),
+    showPlacedBetsConfirmation,
   }
 }
 
@@ -69,6 +88,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     getPlacedBets: MarketDrawerActions.getPlacedBets,
+    cancelUpdateBet: MarketDrawerActions.cancelUpdateBet,
   }, dispatch);
 }
 
