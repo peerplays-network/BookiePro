@@ -188,6 +188,12 @@ class NotificationActions {
       notifications
     }
   }
+
+  static notificationsCheckedAction(){
+    return {
+      type: ActionTypes.NOTIFICATION_CHECKED
+    }
+  }
 }
 
 export default NotificationActions;

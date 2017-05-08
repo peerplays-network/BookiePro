@@ -5,7 +5,7 @@ import Withdraw from '../../MyAccount/Withdraw'
 import Amount from './AmountDropDown'
 import Notification from './Notification'
 import DropdownMenu from './DropdownMenu'
-import { BetActions, AuthActions, BalanceActions } from '../../../actions';
+import { BetActions, AuthActions, BalanceActions, NotificationActions } from '../../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { NavigateActions } from '../../../actions';
@@ -60,6 +60,9 @@ class TopMenu extends Component {
         this.props.logout();
         this.setState({ isSubMenuVisible: false });
         break;
+      case 'notifications':
+        this.props.notificationsCheckedAction();
+        break;
       default:
     }
   }
@@ -93,9 +96,8 @@ class TopMenu extends Component {
       <DropdownMenu cardClass='menu-card' onSubmenuClick={ this.handleClick } />
     );
     const notificationCard = (
-      <Notification cardClass='notification-card' />
+      <Notification cardClass='notification-card' notifications={ this.props.notifications } />
     );
-
     return (
       <Menu
         className='top-menu'
@@ -141,7 +143,7 @@ class TopMenu extends Component {
           <Dropdown trigger={ ['click'] } overlay={ notificationCard } placement='bottomRight'>
             <div className='icon-main notification-icon-main'>
               <a className='ant-dropdown-link' href='#'>
-              <Badge count={ 5 }>
+              <Badge count={ this.props.notifications.size }>
                 <i className='notification-icon'></i>
               </Badge>
             </a>
@@ -198,7 +200,8 @@ const mapStateToProps = (state) => {
     precision: precision,
     convertedAvailableBalance: convertedAvailableBalance,
     currencyFormat: setting.get('currencyFormat'),
-    inGameAmount: inGameAmount
+    inGameAmount: inGameAmount,
+    notifications: state.getIn(['notification','notifications'])
   }
 }
 
@@ -209,7 +212,8 @@ function mapDispatchToProps(dispatch) {
     //TODO: Wallet Address verification and error response pending.
     withdraw: BalanceActions.withdraw,
     logout: AuthActions.logoutAndShowPopupIfNeeded,
-    getOngoingBets: BetActions.getOngoingBets
+    getOngoingBets: BetActions.getOngoingBets,
+    notificationsCheckedAction: NotificationActions.notificationsCheckedAction
   }, dispatch)
 }
 

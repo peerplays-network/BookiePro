@@ -8,7 +8,8 @@ let initialState = Immutable.fromJS({
   initNotificationLoadingStatus: LoadingStatus.DEFAULT,
   initNotificationError: null,
   updateNotificationLoadingStatus: LoadingStatus.DEFAULT,
-  updateNotificationError: null
+  updateNotificationError: null,
+  lastNotificationCheckTime: new Date()
 });
 
 export default function (state = initialState, action) {
@@ -48,6 +49,11 @@ export default function (state = initialState, action) {
     }
     case ActionTypes.AUTH_LOGOUT: {
       return initialState;
+    }
+    case ActionTypes.NOTIFICATION_CHECKED: {
+      return state.merge({
+        lastNotificationCheckTime: new Date()
+      })
     }
     default:
       return state;
