@@ -306,10 +306,10 @@ class MyWager extends PureComponent {
 
   render() {
     return (
-      <div className='my-wager'>
+      <div className='my-wager section-padding'>
         <Breadcrumb className='bookie-breadcrumb'>
           <Breadcrumb.Item><a onClick={ this.onHomeLinkClick }>{ I18n.t('mybets.home') }</a></Breadcrumb.Item>
-          <Breadcrumb.Item> { I18n.t('mybets.mywager') } </Breadcrumb.Item>
+          <Breadcrumb.Item> { I18n.t('mybets.mybets') } </Breadcrumb.Item>
         </Breadcrumb>
 
         <Tabs className='content bookie-tab' defaultActiveKey='unmatchedBets' onChange={ this.onTabChange }>
@@ -384,7 +384,7 @@ const mapStateToProps = (state) => {
       key: 'amount_to_bet',
     },
     {
-      title: I18n.t('mybets.profit') + ' / ' + I18n.t('mybets.liability') + '(' + (setting.get('currencyFormat') === 'BTC' ? 'Ƀ' : 'm') + ')',
+      title: I18n.t('mybets.profit')  + '(' + (setting.get('currencyFormat') === 'BTC' ? 'Ƀ' : 'm') + ')',
       dataIndex: 'amount_to_win',
       key: 'amount_to_win'
     }
