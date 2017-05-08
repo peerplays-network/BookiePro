@@ -264,7 +264,7 @@ export const translationsObject = {
           place_bet_button: 'PLACE BET \u0243%{amount}'
         }
       },
-      unmatched_bets: {
+      placed_bets: {
         header: 'UNMATCHED BETS',
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
@@ -275,8 +275,20 @@ export const translationsObject = {
           cancel_button: 'CANCEL',
           confirm_button: 'CONFIRM BET',
         },
+        error: {
+          instructions: 'Sorry, we are unable to proceed<br/>with your request. Please try again!',
+          cancel_button: 'CANCEL',
+          confirm_button: 'TRY AGAIN',
+        },
+        success: {
+          instructions: 'Your bets have been successfully updated.',
+        },
+      },
+      unmatched_bets: {
+        header: 'UNMATCHED BETS',
         content: {
-          place_bet_button: 'PLACE BET \u0243%{amount}'
+          update_button: 'UPDATE \u0243%{amount}',
+          reset_button: 'RESET',
         }
       }
     },

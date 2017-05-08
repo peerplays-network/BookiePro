@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button } from 'antd';
 import Immutable from 'immutable';
+import { I18n } from 'react-redux-i18n';
 import { BettingModuleUtils } from '../../../utility';
 import { MarketDrawerActions } from '../../../actions';
 import EditableBetTable from '../EditableBetTable';
@@ -21,8 +22,12 @@ class UnmatchedBets extends PureComponent {
           dimmed={ this.props.obscureContent }
         />
         <div className={ `buttons ${this.props.obscureContent ? 'dimmed' : ''}` }>
-          <Button onClick={ () => console.log('unmatched bets reset') }>RESET</Button>
-          <Button onClick={ this.props.clickUpdateBet }>UPDATE</Button>
+          <Button onClick={ () => console.log('unmatched bets reset') }>
+            { I18n.t('market_drawer.unmatched_bets.content.reset_button') }
+          </Button>
+          <Button onClick={ this.props.clickUpdateBet }>
+            { I18n.t('market_drawer.unmatched_bets.content.update_button', { amount : 0.295}) }
+          </Button>
         </div>
       </div>
     )

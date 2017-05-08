@@ -12,6 +12,9 @@ let initialState = Immutable.fromJS({
   showBetSlipError: false,
   showBetSlipSuccess: false,
   showPlacedBetsConfirmation: false,
+  showPlacedBetsError: false,
+  showPlacedBetsWaiting: false,
+  showPlacedBetsSuccess: false,
 });
 
 export default function(state = initialState, action) {
@@ -152,10 +155,26 @@ export default function(state = initialState, action) {
         showPlacedBetsConfirmation: false
       });
     }
-    case ActionTypes.MARKET_DRAWER_HIDE_PLACED_BETS_ERROr: {
+    case ActionTypes.MARKET_DRAWER_HIDE_PLACED_BETS_ERROR: {
       return state.merge({
         showPlacedBetsError: false
       });
+    }
+    case ActionTypes.BET_SET_EDIT_BETS_BY_IDS_LOADING_STATUS: {
+      return state.merge({
+        showPlacedBetsWaiting: action.loadingStatus === LoadingStatus.LOADING,
+        showPlacedBetsError: false,
+        showPlacedBetsConfirmation: false,
+        showPlacedBetsSuccess: action.loadingStatus === LoadingStatus.DONE,
+      })
+    }
+    case ActionTypes.BET_SET_EDIT_BETS_ERROR_BY_BET_ID: {
+      return state.merge({
+        showPlacedBetsWaiting: false,
+        showPlacedBetsError: true,
+        showPlacedBetsConfirmation: false,
+        showPlacedBetsSuccess: false,
+      })
     }
     default:
       return state;

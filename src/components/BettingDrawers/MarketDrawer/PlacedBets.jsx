@@ -5,7 +5,7 @@ import { I18n, Translate } from 'react-redux-i18n';
 import ReactDOM from 'react-dom';
 import { Button } from 'antd';
 import Ps from 'perfect-scrollbar';
-import { MarketDrawerActions, NavigateActions } from '../../../actions';
+import { BetActions, MarketDrawerActions, NavigateActions } from '../../../actions';
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import './PlacedBets.less';
@@ -13,14 +13,14 @@ import './PlacedBets.less';
 const renderOverlay = (props, className, transactionFee=0) => (
   <div className='overlay'>
     <div className='instructions'>
-      <Translate value={ `market_drawer.unmatched_bets.${ className }.instructions` } amount={ transactionFee } dangerousHTML/>
+      <Translate value={ `market_drawer.placed_bets.${ className }.instructions` } amount={ transactionFee } dangerousHTML/>
     </div>
     <div className='buttons'>
       <Button onClick={ props.cancelUpdateBet }>
-        { I18n.t(`market_drawer.unmatched_bets.${ className }.cancel_button`) }
+        { I18n.t(`market_drawer.placed_bets.${ className }.cancel_button`) }
       </Button>
-      <Button onClick={ () => props.makeBets(props.originalBets) }>
-        { I18n.t(`market_drawer.unmatched_bets.${ className }.confirm_button`) }
+      <Button onClick={ () => props.editBets(props.unmatchedBets) }>
+        { I18n.t(`market_drawer.placed_bets.${ className }.confirm_button`) }
       </Button>
     </div>
   </div>
@@ -56,14 +56,29 @@ class PlacedBets extends PureComponent {
             </div>
           }
           { this.props.showPlacedBetsConfirmation && renderOverlay(this.props, 'confirmation', 0.051) }
+          { this.props.showPlacedBetsError && renderOverlay(this.props, 'error') }
+          { // TODO: Replace this with an approved spinning icon.
+            // The waiting text is just a placeholder
+            this.props.showPlacedBetsWaiting &&
+            <div className='waiting'>
+              <div className='instructions'>
+                Waiting...
+              </div>
+            </div>
+          }
           { this.props.isEmpty &&
             <div className='empty'>
               <div className='instructions'>
-                <Translate value='market_drawer.unconfirmed_bets.empty.instructions' dangerousHTML/>
+                {  this.props.showPlacedBetsSuccess &&
+                   I18n.t('market_drawer.placed_bets.success.instructions')
+                }
+                { !this.props.showPlacedBetsSuccess &&
+                  <Translate value='market_drawer.placed_bets.empty.instructions' dangerousHTML/>
+                }
               </div>
               <div className='my-bet-button'>
                 <Button onClick={ () => this.props.navigateTo('/my-wager/') }>
-                  { I18n.t('market_drawer.unconfirmed_bets.empty.my_bet_button') }
+                  { I18n.t('market_drawer.placed_bets.empty.my_bet_button') }
                 </Button>
               </div>
             </div>
@@ -78,9 +93,16 @@ const mapStateToProps = (state) => {
   const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   const showPlacedBetsConfirmation = state.getIn(['marketDrawer', 'showPlacedBetsConfirmation']);
+  const showPlacedBetsSuccess = state.getIn(['marketDrawer', 'showPlacedBetsSuccess']);
+  const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);
+  const showPlacedBetsError = state.getIn(['marketDrawer', 'showPlacedBetsError']);
   return {
+    unmatchedBets,
     isEmpty: unmatchedBets.isEmpty() && matchedBets.isEmpty(),
     showPlacedBetsConfirmation,
+    showPlacedBetsSuccess,
+    showPlacedBetsWaiting,
+    showPlacedBetsError,
   }
 }
 
@@ -89,6 +111,7 @@ const mapDispatchToProps = (dispatch) => {
     navigateTo: NavigateActions.navigateTo,
     getPlacedBets: MarketDrawerActions.getPlacedBets,
     cancelUpdateBet: MarketDrawerActions.cancelUpdateBet,
+    editBets: BetActions.editBets,
   }, dispatch);
 }
 
