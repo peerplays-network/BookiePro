@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Checkbox } from 'antd';
 import Immutable from 'immutable';
+import { I18n } from 'react-redux-i18n';
 import { BettingModuleUtils } from '../../../utility';
 import ReadOnlyBetTable from '../ReadOnlyBetTable';
 import './MatchedBets.less';
@@ -12,11 +13,11 @@ class MatchedBets extends PureComponent {
       <div className='matched-bets'>
         <ReadOnlyBetTable
           data={ this.props.bets }
-          title='Matched Bets'
+          title={ I18n.t('market_drawer.matched_bets.header') }
           dimmed={ this.props.obscureContent }
         />
         <div className={ `controls ${this.props.obscureContent ? 'dimmed' : ''}` }>
-          <Checkbox>Average Odds</Checkbox>
+          <Checkbox>{ I18n.t('market_drawer.matched_bets.average_odds') }</Checkbox>
         </div>
       </div>
     )
