@@ -18,9 +18,11 @@ export default function (state = initialState, action) {
       return state.update('notifications', notifications => notifications.concat(action.notifications));
     }
     case ActionTypes.NOTIFICATION_REMOVE_NOTIFICATIONS: {
-      return state.update('notifications', (notifications) => {
-        notifications.filterNot(notification => notifications.includes(notification));
+      let nextState = state;
+      nextState = nextState.update('notifications', (notifications) => {
+        return notifications.filterNot(notification => action.notificationIds.includes(notification.get('id')));
       });
+      return nextState;
     }
     case ActionTypes.NOTIFICATION_SET_LATEST_TRANSACTION_HISTORY_ID: {
       return state.setIn(['latestTransactionHistoryIdByAccountId', action.accountId], action.latestTransactionHistoryId);

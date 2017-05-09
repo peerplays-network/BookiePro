@@ -118,14 +118,12 @@ class NotificationActions {
       } else {
         dispatch(NotificationPrivateActions.setUpdateNotificationLoadingStatus(LoadingStatus.LOADING));
         const accountId = getState().getIn(['account', 'account', 'id']);
-        console.log('check new notification');
 
         let updatedLatestTxHistoryId, relevantTransactions, relevantAdditionalInfo, relevantAssetsById, relevantBettingMarketsById;
         CommunicationService.fetchRecentHistory(accountId, latestTxHistoryId).then((transactions) => {
           // Filter history and extract relevant info
           relevantTransactions = NotificationService.filterRelevantTransactions(transactions, latestTxHistoryId);
           relevantAdditionalInfo = NotificationService.extractRelevantInfo(relevantTransactions)
-          console.log("before releavant transaction", relevantTransactions.toJS());
           // Set reference to updated latest transaction history
           updatedLatestTxHistoryId = transactions && transactions.getIn([0, 'id']);
 
@@ -140,13 +138,11 @@ class NotificationActions {
 
           const isShowNotification = getState().getIn(['setting','settingByAccountId', accountId, 'notification']);
           if (isShowNotification) {
-            console.log("releavant transaction", relevantTransactions.toJS());
             // Create notifications and store it
             const notifications = NotificationService.convertTransactionsToNotifications(getState(),
                                                                                           relevantTransactions,
                                                                                           relevantAssetsById,
                                                                                           relevantBettingMarketsById);
-                                                                                          console.log("notif", notifications.toJS());
             dispatch(NotificationPrivateActions.addNotificationsAction(notifications));
           }
 
@@ -198,10 +194,10 @@ class NotificationActions {
     }
   }
 
-  static removeNotificationsAction(notifications) {
+  static removeNotificationsAction(notificationIds) {
     return {
       type: ActionTypes.NOTIFICATION_REMOVE_NOTIFICATIONS,
-      notifications
+      notificationIds
     }
   }
 

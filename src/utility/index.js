@@ -8,6 +8,7 @@ import ExportUtils from './ExportUtils';
 import FileSaver from './fileSaver';
 import AppUtils from './AppUtils';
 import ColorUtils from './ColorUtils';
+import DateUtils from './DateUtils';
 
 export {
   AppUtils,
@@ -19,5 +20,6 @@ export {
   BettingModuleUtils,
   CurrencyUtils,
   ExportUtils,
+  DateUtils,
   FileSaver
 };

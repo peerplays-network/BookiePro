@@ -5,10 +5,10 @@ import Withdraw from '../../MyAccount/Withdraw'
 import Amount from './AmountDropDown'
 import Notification from './Notification'
 import DropdownMenu from './DropdownMenu'
-import { BetActions, AuthActions, BalanceActions, NotificationActions } from '../../../actions';
+import { BetActions, AuthActions, BalanceActions, NotificationActions, NavigateActions } from '../../../actions';
+import { NotificationTypes } from '../../../constants';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import { NavigateActions } from '../../../actions';
 import { CurrencyUtils, BettingModuleUtils } from '../../../utility';
 import { createSelector } from 'reselect';
 
@@ -18,17 +18,52 @@ class TopMenu extends Component {
     this.state = {
       current: 'smile',
       withdrawAmount:'',
-      isSubMenuVisible: false
+      isSubMenuVisible: false,
     };
 
     this.handleClick = this.handleClick.bind(this);
     this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
+    this.handleNotificationItemClick = this.handleNotificationItemClick.bind(this);
+    this.handleNotificationItemClickClose = this.handleNotificationItemClickClose.bind(this);
   }
 
   handleWithdrawSubmit(values){
     //track the withdraw amount to display in success message after successfull submit
     this.setState({withdrawAmount:values.get('withdrawAmount')});
     this.props.withdraw(values.get('withdrawAmount'), values.get('walletAddr'));
+  }
+
+  handleNotificationItemClickClose(notification) {
+    const notificationId = notification && notification.get('id');
+    this.props.removeNotifications([notificationId]);
+  }
+
+  handleNotificationItemClick(notification) {
+    const notificationType = notification && notification.get('type');
+    switch (notificationType) {
+      case NotificationTypes.DEPOSIT: {
+        this.props.navigateTo('/my-account');
+        break;
+      }
+      case NotificationTypes.BET_RESOLVED: {
+        this.props.navigateTo('/my-wager');
+        break;
+      }
+      case NotificationTypes.EVENT_CANCELLED: {
+        this.props.navigateTo('/my-wager');
+        break;
+      }
+      case NotificationTypes.SOFTWARE_UPDATE_AVAILABLE: {
+        break;
+      }
+      case NotificationTypes.TRANSACTION_HISTORY_DATA_EXPORTED: {
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+
   }
 
   componentDidMount(){
@@ -97,7 +132,11 @@ class TopMenu extends Component {
       <DropdownMenu cardClass='menu-card' onSubmenuClick={ this.handleClick } />
     );
     const notificationCard = (
-      <Notification cardClass='notification-card' notifications={ this.props.notifications } />
+      <Notification
+        notifications={ this.props.notifications }
+        onClickItem={ this.handleNotificationItemClick }
+        onClickCloseItem={ this.handleNotificationItemClickClose }
+      />
     );
     return (
       <Menu
@@ -228,7 +267,8 @@ function mapDispatchToProps(dispatch) {
     withdraw: BalanceActions.withdraw,
     logout: AuthActions.logoutAndShowPopupIfNeeded,
     getOngoingBets: BetActions.getOngoingBets,
-    markNotificationsAsRead: NotificationActions.markNotificationsAsReadAction
+    markNotificationsAsRead: NotificationActions.markNotificationsAsReadAction,
+    removeNotifications: NotificationActions.removeNotificationsAction
   }, dispatch)
 }
 
