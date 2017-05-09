@@ -39,7 +39,7 @@ const renderContent = (props) => (
           }
         </div>
         <div className='my-bet-button'>
-          <Button onClick={ () => props.navigateTo('/my-wager/') }>
+          <Button className='btn btn-regular' onClick={ () => props.navigateTo('/my-wager/') }>
             { I18n.t('quick_bet_drawer.unconfirmed_bets.empty.my_bet_button') }
           </Button>
         </div>

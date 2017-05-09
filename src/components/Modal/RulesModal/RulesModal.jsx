@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button, Icon } from 'antd';
+import { Modal, Button } from 'antd';
 
 class RulesModal extends Component {
   state = {
@@ -18,7 +18,7 @@ class RulesModal extends Component {
   render() {
     return (
       <div className='modal-inline'>
-        <Button onClick={ this.showModal }><Icon type='info-circle-o' />{ this.props.buttonTitle }</Button>
+        <Button onClick={ this.showModal }><i className='info-icon'></i>{ this.props.buttonTitle }</Button>
         <Modal
           title={ this.props.title }
           wrapClassName={ this.props.parentClass + '-modal' }
