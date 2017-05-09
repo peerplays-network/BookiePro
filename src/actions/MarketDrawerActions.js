@@ -84,6 +84,24 @@ class MarketDrawerPrivateActions {
       listOfBetIds
     };
   }
+
+  static showPlacedBetsConfirmation() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_SHOW_PLACED_BETS_CONFIRMATION,
+    }
+  }
+
+  static hidePlacedBetsConfirmation() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_HIDE_PLACED_BETS_CONFIRMATION,
+    }
+  }
+
+  static hidePlacedBetsError() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_HIDE_PLACED_BETS_ERROR,
+    }
+  }
 }
 
 class MarketDrawerActions {
@@ -169,6 +187,19 @@ class MarketDrawerActions {
       // TODO DEPRECATE: Once the Blockchain is ready we SHOULD NOT manually remove an unmatched bet
       console.warn("Warning    Manual removal of unmatched bets in UI should be prohibited once Bet cancellation is available in Blockchain");
       dispatch(MarketDrawerPrivateActions.deleteManyUnmatchedBets(bets.map(b => b.get('id'))));
+    }
+  }
+
+  static clickUpdateBet() {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.showPlacedBetsConfirmation());
+    }
+  }
+
+  static cancelUpdateBet() {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.hidePlacedBetsConfirmation());
+      dispatch(MarketDrawerPrivateActions.hidePlacedBetsError());
     }
   }
 }

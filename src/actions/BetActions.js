@@ -312,7 +312,8 @@ class BetActions {
 
       const tr = new TransactionBuilder();
       bets.forEach((bet) => {
-        // TODO: Temporarily disabled until we have the real blockchain ready
+        // NOTE: Temporarily disabled until we have the real blockchain ready
+        console.warn('warning   BetActions.makeBets is currently disabled.');
         // Create operation for each bet and attach it to the transaction
         //const operationParams = {};
         //const operationType = 'bet_operation';
@@ -343,6 +344,7 @@ class BetActions {
       bets.forEach((bet) => {
         betIds = betIds.push(bet.get('id'));
         //NOTE:commented as transaction add operation not doing anything
+        console.warn('warning   BetActions.cancelBets is currently disabled.');
         // Create operation for each bet and attach it to the transaction
         // const operationParams = {};
         // const operationType = 'cancel_bet_operation';
@@ -372,24 +374,26 @@ class BetActions {
       const tr = new TransactionBuilder();
       bets.forEach((bet) => {
         betIds = betIds.push(bet.get('id'));
+        // NOTE: This will be commented out until we have the actual Blockchain
+        console.warn('warning   BetActions.editBets is currently disabled.');
         // Create operation for each bet and attach it to the transaction
-        const cancelOperationParams = {};
-        const cancelOperationType = 'cancel_bet_operation';
+        //const cancelOperationParams = {};
+        //const cancelOperationType = 'cancel_bet_operation';
         // Add cancel operation
-        tr.add_type_operation(cancelOperationType, cancelOperationParams);
+        //tr.add_type_operation(cancelOperationType, cancelOperationParams);
         // Add create operation
-        const createOperationParams = {};
-        const createOperationType = 'bet_operation';
-        tr.add_type_operation(createOperationType, createOperationParams);
+        //const createOperationParams = {};
+        //const createOperationType = 'bet_operation';
+        //tr.add_type_operation(createOperationType, createOperationParams);
       });
       dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
       // TODO: replace this with valid wallet service process transaction later on
       WalletService.processFakeTransaction(getState(), tr).then(() => {
-        dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
+        dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.DONE));
       }).catch((error) => {
         log.error('Fail to edit bets', error);
         // Set error
-        dispatch(BetActions.setEditBetsErrorByBetIdAction(betIds, error));
+        dispatch(BetPrivateActions.setEditBetsErrorByBetIdAction(betIds, error));
       });
     }
   }

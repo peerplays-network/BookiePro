@@ -13,9 +13,9 @@ class MatchedBets extends PureComponent {
         <ReadOnlyBetTable
           data={ this.props.bets }
           title='Matched Bets'
-          dimmed={ false }
+          dimmed={ this.props.obscureContent }
         />
-        <div className='controls'>
+        <div className={ `controls ${this.props.obscureContent ? 'dimmed' : ''}` }>
           <Checkbox>Average Odds</Checkbox>
         </div>
       </div>
@@ -60,10 +60,14 @@ const mapStateToProps = (state, ownProps) => {
     // Put everything back in their rightful places
     page = page.set(betType, betListByBetType);
   });
+  // Other statuses
+  const showPlacedBetsConfirmation = state.getIn(['marketDrawer', 'showPlacedBetsConfirmation']);
+  const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);
+  const showPlacedBetsError = state.getIn(['marketDrawer', 'showPlacedBetsError']);
   return {
     originalBets,
     bets: page,
-    obscureContent: false,
+    obscureContent: showPlacedBetsConfirmation || showPlacedBetsWaiting || showPlacedBetsError,
   };
 }
 

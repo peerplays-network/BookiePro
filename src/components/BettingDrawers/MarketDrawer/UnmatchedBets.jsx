@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button } from 'antd';
 import Immutable from 'immutable';
+import { I18n } from 'react-redux-i18n';
 import { BettingModuleUtils } from '../../../utility';
 import { MarketDrawerActions } from '../../../actions';
 import EditableBetTable from '../EditableBetTable';
@@ -18,11 +19,15 @@ class UnmatchedBets extends PureComponent {
           deleteOne={ this.props.deleteUnmatchedBet }
           deleteMany={ this.props.deleteUnmatchedBets }
           updateOne={ this.props.updateUnmatcedBet }
-          dimmed={ false }
+          dimmed={ this.props.obscureContent }
         />
-        <div className='buttons'>
-          <Button onClick={ () => console.log('unmatched bets reset') }>RESET</Button>
-          <Button onClick={ () => console.log('unmatched bets update') }>UPDATE</Button>
+        <div className={ `buttons ${this.props.obscureContent ? 'dimmed' : ''}` }>
+          <Button onClick={ () => console.log('unmatched bets reset') }>
+            { I18n.t('market_drawer.unmatched_bets.content.reset_button') }
+          </Button>
+          <Button onClick={ this.props.clickUpdateBet }>
+            { I18n.t('market_drawer.unmatched_bets.content.update_button', { amount : 0.295}) }
+          </Button>
         </div>
       </div>
     )
@@ -67,17 +72,17 @@ const mapStateToProps = (state, ownProps) => {
     page = page.set(betType, betListByBetType);
   });
   // Other statuses
-  const showBetUpdateConfirmation = state.getIn(['marketDrawer', 'showBetUpdateConfirmation']);
-  const showBetUpdateWaiting = state.getIn(['marketDrawer', 'showBetUpdateWaiting']);
-  const showBetUpdateError = state.getIn(['marketDrawer', 'showBetUpdateError']);
-  const showBetUpdateSuccess = state.getIn(['marketDrawer', 'showBetUpdateSuccess']);
+  const showPlacedBetsConfirmation = state.getIn(['marketDrawer', 'showPlacedBetsConfirmation']);
+  const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);
+  const showPlacedBetsError = state.getIn(['marketDrawer', 'showPlacedBetsError']);
+  const showPlacedBetsSuccess = state.getIn(['marketDrawer', 'showPlacedBetsSuccess']);
   return {
     bets: page,
-    showBetUpdateConfirmation,
-    showBetUpdateWaiting,
-    showBetUpdateError,
-    showBetUpdateSuccess,
-    obscureContent: showBetUpdateConfirmation || showBetUpdateWaiting || showBetUpdateError,
+    showPlacedBetsConfirmation,
+    showPlacedBetsWaiting,
+    showPlacedBetsError,
+    showPlacedBetsSuccess,
+    obscureContent: showPlacedBetsConfirmation || showPlacedBetsWaiting || showPlacedBetsError,
   };
 }
 
@@ -86,6 +91,7 @@ const mapDispatchToProps = (dispatch) => {
     updateUnmatcedBet: MarketDrawerActions.updateUnmatchedBet,
     deleteUnmatchedBet: MarketDrawerActions.deleteUnmatchedBet,
     deleteUnmatchedBets: MarketDrawerActions.deleteUnmatchedBets,
+    clickUpdateBet: MarketDrawerActions.clickUpdateBet,
   }, dispatch);
 }
 
