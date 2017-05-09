@@ -8,6 +8,7 @@ import { Icon } from 'antd';
 import RulesModal from '../../Modal/RulesModal'
 import { I18n, Translate } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 const oddFloatPlaces = 2;
 const itemDisplay = 3;
@@ -175,7 +176,7 @@ class ComplexBettingWidget extends Component {
   }
 
   render() {
-    const { currencyFormat, bettingMarketGroupName, totalMatchedBetsAmount } = this.props;
+    const { currencyFormat, bettingMarketGroup, bettingMarketGroupName, totalMatchedBetsAmount, eventTime, sportId } = this.props;
 
     const minNameWidth = 200;
     const minOfferWidth = 50;
@@ -348,6 +349,9 @@ class ComplexBettingWidget extends Component {
       render: props => <div className='lay-offer'>{ '>' }</div>
     }]
 
+    const ruleTransalte =  ( bettingMarketGroup && sportId ) ?
+      'rules_dialogue.' + sportId.split('.').join('_') + '.' + bettingMarketGroup.get('market_type_id') + '.content' : ''
+
     return (
 
       <div className='complex-betting'>
@@ -359,7 +363,7 @@ class ComplexBettingWidget extends Component {
             </span>
             {/* Rules Dialogue box */}
             <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
-              <Translate value='rules_dialogue.content' dangerousHTML/>
+              <Translate value={ ruleTransalte } datetime={ moment(eventTime).format('DD/MM/YYYY, h:mm a') } dangerousHTML/>
             </RulesModal>
           </div>
         </div>

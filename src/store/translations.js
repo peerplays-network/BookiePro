@@ -275,7 +275,7 @@ export const translationsObject = {
       }
     },
     rules_dialogue:{
-      title: 'Moneyline - Rules',
+      title: 'Rules',
       buttonTitle:'Rules',
       content: '<p>Predict the result of this match including any overtime that may be played. IN THE EVENT OF A TIE ' +
       'AFTER OVERTIME ALL BETS PLACED ON THIS MARKET WILL BE VOID. At kick off all unmatched bets will be cancelled ' +
@@ -285,7 +285,176 @@ export const translationsObject = {
       ' that: </br> Transmissions described as live by' +
       ' some broadcasters may actually be delayed and that all in-play ' +
       'matches are not necessarily televised.</p><p>The extent of any such delay may vary, depending on the set-up through ' +
-      'which they are receiving pictures or data.</p>'
+      'which they are receiving pictures or data.</p>',
+
+
+
+
+
+
+
+
+
+      //American Football
+      '1_100_1':{
+        Moneyline:{
+          content: '<p>Scheduled Event Start Time:</br>' +
+          '%{datetime}</br>' +
+          'Win Only Market</p>' +
+          '<p>MARKET INFORMATION</p>' +
+          '<p>For further information please see Bookie Rules.</p>' +
+          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
+          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
+          '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
+        },
+        'Spread':{
+          content: '<p>Scheduled Event Start Time:</br>' +
+          '%{datetime}</br>' +
+          'Win Only Market</p>' +
+          '<p>MARKET INFORMATION</p>' +
+          '<p>For further information please see Bookie Rules.</p>' +
+          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
+          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
+          '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
+        },
+        'Underover':{
+          content: '<p>Scheduled Event Start Time:</br>' +
+          '%{datetime}</br>' +
+          'Win Only Market</p>' +
+          '<p>MARKET INFORMATION</p>' +
+          '<p>For further information please see Bookie Rules.</p>' +
+          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
+          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
+          '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
+        },
+
+      },
+      //BasketBall
+      '1_100_2':{
+        Moneyline:{
+          content: '<p>Scheduled Event Start Time:</br>' +
+          '%{datetime}</br>' +
+          'Win Only Market</p>' +
+          '<p>MARKET INFORMATION</p>' +
+          '<p>For further information please see Bookie Rules.</p>' +
+          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
+          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
+          '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
+        },
+        'Spread':{
+          content: '<p>Scheduled Event Start Time:</br>' +
+          '%{datetime}</br>' +
+          'Win Only Market</p>' +
+          '<p>MARKET INFORMATION</p>' +
+          '<p>For further information please see Bookie Rules.</p>' +
+          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
+          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
+          '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
+        },
+        'Underover':{
+          content: '<p>Scheduled Event Start Time:</br>' +
+          '%{datetime}</br>' +
+          'Win Only Market</p>' +
+          '<p>MARKET INFORMATION</p>' +
+          '<p>For further information please see Bookie Rules.</p>' +
+          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
+          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
+          '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
+        },
+
+      },
+      //BaseBall
+      '1_100_3':{
+        Moneyline:{
+          content: '<p>Scheduled Event Start Time:</br>' +
+          '%{datetime}</br>' +
+          'Win Only Market</p>' +
+          '<p>MARKET INFORMATION</p>' +
+          '<p>For further information please see Bookie Rules.</p>' +
+          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
+          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
+          '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
+        },
+        'Spread':{
+          content: '<p>Scheduled Event Start Time:</br>' +
+          '%{datetime}</br>' +
+          'Win Only Market</p>' +
+          '<p>MARKET INFORMATION</p>' +
+          '<p>For further information please see Bookie Rules.</p>' +
+          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
+          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
+          '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
+        },
+        'Underover':{
+          content: '<p>Scheduled Event Start Time:</br>' +
+          '%{datetime}</br>' +
+          'Win Only Market</p>' +
+          '<p>MARKET INFORMATION</p>' +
+          '<p>For further information please see Bookie Rules.</p>' +
+          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
+          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
+          '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
+        },
+
+      },
+      //Soccer
+      '1_100_4':{
+        Moneyline:{
+          content: '<p>Scheduled Event Start Time:</br>' +
+          '%{datetime}</br>' +
+          'Win Only Market</p>' +
+          '<p>MARKET INFORMATION</p>' +
+          '<p>For further information please see Bookie Rules.</p>' +
+          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
+          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
+          '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
+        },
+        'Spread':{
+          content: '<p>Scheduled Event Start Time:</br>' +
+          '%{datetime}</br>' +
+          'Win Only Market</p>' +
+          '<p>MARKET INFORMATION</p>' +
+          '<p>For further information please see Bookie Rules.</p>' +
+          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
+          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
+          '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
+        },
+        'Underover':{
+          content: '<p>Scheduled Event Start Time:</br>' +
+          '%{datetime}</br>' +
+          'Win Only Market</p>' +
+          '<p>MARKET INFORMATION</p>' +
+          '<p>For further information please see Bookie Rules.</p>' +
+          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
+          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
+          '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
+        },
+
+      }
     },
     AllSports:{
       bannerText: 'In play of 100 open games',

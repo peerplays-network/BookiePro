@@ -43,7 +43,9 @@ class BettingMarketGroup extends Component {
           eventTime={ this.props.eventTime }
         />
         <ComplexBettingWidget
+          sportId={ this.props.sportId }
           eventName={ this.props.eventName }
+          eventTime={ this.props.eventTime }
           bettingMarketGroup={ this.props.bettingMarketGroup }
           bettingMarketGroupName={ this.props.bettingMarketGroupName }
           marketData={ this.props.marketData }
@@ -153,12 +155,15 @@ const mapStateToProps = (state, ownProps) => {
   // Extract home name and away name ( competitors)
   let homeName = ''
   let awayName = ''
+  let sportId = ''
 
   if ( event){
     const homeCompetitorId = event.getIn(['scores', homeId, 'competitor_id']);
     const awayCompetitorId = event.getIn(['scores', awayId, 'competitor_id']);
     homeName = competitorsById.getIn([homeCompetitorId, 'name']);
     awayName = competitorsById.getIn([awayCompetitorId, 'name']);
+
+    sportId = competitorsById.getIn([homeCompetitorId, 'sport_id']);
   }
 
   // Extract betting markets related to the betting market group
@@ -190,6 +195,7 @@ const mapStateToProps = (state, ownProps) => {
   const marketDrawer = state.get('marketDrawer');
 
   return {
+    sportId,
     bettingMarketGroup,
     bettingMarkets: relatedBettingMarkets,
     marketData,
