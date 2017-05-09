@@ -15,6 +15,7 @@ let initialState = Immutable.fromJS({
   showPlacedBetsError: false,
   showPlacedBetsWaiting: false,
   showPlacedBetsSuccess: false,
+  groupByAverageOdds: false,
 });
 
 export default function(state = initialState, action) {
@@ -198,6 +199,11 @@ export default function(state = initialState, action) {
       );
       return state.merge({
         unmatchedBets: restoredBets,
+      })
+    }
+    case ActionTypes.MARKET_DRAWER_SET_GROUP_BY_AVERAGE_ODDS: {
+      return state.merge({
+        groupByAverageOdds: action.groupByAverageOdds,
       })
     }
     default:

@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Checkbox } from 'antd';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
 import { BettingModuleUtils } from '../../../utility';
+import { MarketDrawerActions } from '../../../actions';
 import ReadOnlyBetTable from '../ReadOnlyBetTable';
 import './MatchedBets.less';
 
@@ -17,7 +19,9 @@ class MatchedBets extends PureComponent {
           dimmed={ this.props.obscureContent }
         />
         <div className={ `controls ${this.props.obscureContent ? 'dimmed' : ''}` }>
-          <Checkbox>{ I18n.t('market_drawer.matched_bets.average_odds') }</Checkbox>
+          <Checkbox onChange={ e => this.props.clickAverageOdds(e.target.checked) }>
+            { I18n.t('market_drawer.matched_bets.average_odds') }
+          </Checkbox>
         </div>
       </div>
     )
@@ -72,6 +76,13 @@ const mapStateToProps = (state, ownProps) => {
   };
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    clickAverageOdds: MarketDrawerActions.clickAverageOdds,
+  }, dispatch);
+}
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(MatchedBets);
