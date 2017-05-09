@@ -14,6 +14,7 @@ const dummyOperationType = {
 class NotificationService {
   // Use this to generate notification id
   static nextNotificationId = 0;
+
   /**
    * Filter relevant transactions that are useful for notifications
    */
@@ -69,10 +70,10 @@ class NotificationService {
    * Convert transaction history to notification object
    * Notification object will look the following
    * {
-   *   id: number (this will be generated, useful for removal)
    *   type: NotificationTypes
    *   content: String
    *   date: Date
+   *   isRead: false
    * }
    */
   static convertTransactionsToNotifications(state, transactions, relevantAssetsById, relevantBettingMarketsById) {
@@ -101,23 +102,20 @@ class NotificationService {
             const assetPrecision = relevantAssetsById.getIn([assetId, 'precision']);
             const amount = operationContent.getIn(['amount', 'amount']) / Math.pow(10, assetPrecision);
 
+            const type = NotificationTypes.DEPOSIT;
+            const content = I18n.t('notification.deposit', { amount, currency });
             // Create notification object and add it
-            const notification = Immutable.Map({
-              type: NotificationTypes.DEPOSIT,
-              content: I18n.t('notification.deposit', { amount, currency }),
-              date
-            });
+            const notification = NotificationService.createNotificationObject(type, content, date);
             notifications = notifications.push(notification);
           }
           break;
         }
         case dummyOperationType.betting_market_resolved: {
+          const type = NotificationTypes.BET_RESOLVED;
+          const content = I18n.t('notification.bet_resolved');
+          // Create notification object and add it
+          const notification = NotificationService.createNotificationObject(type, content, date);
             // Create notification object and add it
-          const notification = Immutable.Map({
-            type: NotificationTypes.BET_RESOLVED,
-            content: I18n.t('notification.bet_resolved'),
-            date
-          });
           notifications = notifications.push(notification);
           break;
         }
@@ -126,6 +124,20 @@ class NotificationService {
     });
 
     return notifications;
+  }
+
+  // Create notification object
+  static createNotificationObject(type, content, date) {
+    const id = NotificationService.nextNotificationId;
+    NotificationService.nextNotificationId += 1;
+
+    return Immutable.Map({
+      id,
+      type,
+      content,
+      date,
+      isRead: false
+    });
   }
 }
 

@@ -50,9 +50,11 @@ export default function (state = initialState, action) {
     case ActionTypes.AUTH_LOGOUT: {
       return initialState;
     }
-    case ActionTypes.NOTIFICATION_CHECKED: {
-      return state.merge({
-        lastNotificationCheckTime: new Date()
+    case ActionTypes.NOTIFICATION_MARK_NOTIFICATIONS_AS_READ: {
+      return state.update('notifications', (notifications) => {
+        return notifications.map((notification) => {
+          return notification.set('isRead', true);
+        })
       })
     }
     default:

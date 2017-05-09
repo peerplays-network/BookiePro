@@ -54,9 +54,14 @@ class SoftwareUpdateActions {
               const memo = transaction.getIn(['op', 1, 'memo']);
               if (memo && memo.get('message')) {
                 // Assuming that we dun need to decrypt the message to parse 'software update' memo message
-                const memoJson =  JSON.parse(StringUtils.hex2a(memo.toJS().message));
-                const version = memoJson.version;
-                const displayText = memoJson.displayText;
+                let memoJson, version, displayText;
+                try {
+                  memoJson = JSON.parse(StringUtils.hex2a(memo.get('message')));
+                  version = memoJson.version;
+                  displayText = memoJson.displayText;
+                } catch (error) {
+                  log.warn('Invalid memo, most likely this is not software update transaction');
+                }
 
                 // If it has version then it is an update transaction
                 if (version) {
@@ -69,10 +74,11 @@ class SoftwareUpdateActions {
                   if (needSoftUpdate) {
                     dispatch(NotificationActions.addSoftUpdateNotification(version));
                   }
+                  log.trace('Check for software update succeed');
                   // Terminate early
                   return false;
                 }
-                log.debug('Check for software update succeed');
+
               }
             }
           });

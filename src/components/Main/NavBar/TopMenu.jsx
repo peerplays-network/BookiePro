@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { NavigateActions } from '../../../actions';
 import { CurrencyUtils, BettingModuleUtils } from '../../../utility';
+import { createSelector } from 'reselect';
 
 class TopMenu extends Component {
   constructor(props) {
@@ -61,7 +62,7 @@ class TopMenu extends Component {
         this.setState({ isSubMenuVisible: false });
         break;
       case 'notifications':
-        this.props.notificationsCheckedAction();
+        this.props.markNotificationsAsRead();
         break;
       default:
     }
@@ -143,7 +144,7 @@ class TopMenu extends Component {
           <Dropdown trigger={ ['click'] } overlay={ notificationCard } placement='bottomRight'>
             <div className='icon-main notification-icon-main'>
               <a className='ant-dropdown-link' href='#'>
-              <Badge count={ this.props.notifications.size }>
+              <Badge count={ this.props.unreadNotificationNumber }>
                 <i className='notification-icon'></i>
               </Badge>
             </a>
@@ -170,7 +171,7 @@ class TopMenu extends Component {
 const mapStateToProps = (state) => {
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
-  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting']) ;
+  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']) ;
   const precision = state.getIn(['asset', 'assetsById', '1.3.0']).get('precision');
   /*-1 will be used to check to display 'Not available' against the withdraw amount field
       when the asset '1.3.0' is not obtained for some reason
@@ -179,7 +180,7 @@ const mapStateToProps = (state) => {
   const convertedAvailableBalance = CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces);
   let availableBalance = balance !== undefined ? convertedAvailableBalance : -1;
 
-  //since we don't have any API to get inGameBalances, we summing unmatched and matched bets
+  // in game balances is gained by summing matched bets and unmatched bets
   let inGameAmount = 0;
   state.getIn(['bet','unmatchedBetsById'])
   .filter(row => !state.getIn(['bet','cancelBetsByIdsLoadingStatus']).get(row.get('id')))
@@ -191,6 +192,19 @@ const mapStateToProps = (state) => {
   });
   inGameAmount = CurrencyUtils.getFormattedCurrency(inGameAmount/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.stakePlaces)
 
+  const notificationsSelector = (state) => state.getIn(['notification', 'notifications']);
+  const notifications = notificationsSelector(state);
+  // Calculate unread notif
+  const unreadNotificationNumberSelector = createSelector(
+    notificationsSelector,
+    (notifications) => {
+      return notifications.reduce((acc, notification) => {
+        return acc + (notification.get('isRead') ? 0 : 1);
+      }, 0)
+    }
+  )
+  const unreadNotificationNumber = unreadNotificationNumberSelector(state);
+
   return {
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: state.getIn(['balance', 'getDepositAddressLoadingStatus']),
@@ -201,7 +215,8 @@ const mapStateToProps = (state) => {
     convertedAvailableBalance: convertedAvailableBalance,
     currencyFormat: setting.get('currencyFormat'),
     inGameAmount: inGameAmount,
-    notifications: state.getIn(['notification','notifications'])
+    notifications,
+    unreadNotificationNumber
   }
 }
 
@@ -213,7 +228,7 @@ function mapDispatchToProps(dispatch) {
     withdraw: BalanceActions.withdraw,
     logout: AuthActions.logoutAndShowPopupIfNeeded,
     getOngoingBets: BetActions.getOngoingBets,
-    notificationsCheckedAction: NotificationActions.notificationsCheckedAction
+    markNotificationsAsRead: NotificationActions.markNotificationsAsReadAction
   }, dispatch)
 }
 
