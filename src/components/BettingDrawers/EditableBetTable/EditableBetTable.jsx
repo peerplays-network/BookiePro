@@ -131,6 +131,10 @@ const buildBetTableData = (bets) => {
   });
 }
 
+const getRowClassName = (record, index) => (
+  record.updated ? 'updated' : ''
+)
+
 const EditableBetTable = (props) => {
   const { data } = props;
   const backBets = data.get('back') || Immutable.List();
@@ -154,6 +158,7 @@ const EditableBetTable = (props) => {
               pagination={ false }
               columns={ getBackColumns(props.deleteOne, props.updateOne) }
               dataSource={ buildBetTableData(backBets).toJS() }
+              rowClassName={ getRowClassName }
             />
           </div>
         }
@@ -164,6 +169,7 @@ const EditableBetTable = (props) => {
               pagination={ false }
               columns={ getLayColumns(props.deleteOne, props.updateOne) }
               dataSource={ buildBetTableData(layBets).toJS() }
+              rowClassName={ getRowClassName }
             />
           </div>
         }

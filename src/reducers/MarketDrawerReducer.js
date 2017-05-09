@@ -111,7 +111,14 @@ export default function(state = initialState, action) {
       let matchedBets = Immutable.List();
       action.placedBets.forEach(bet => {
         if (isUnmatchedBet(bet)) {
-          unmatchedBets = unmatchedBets.push(transformBetObject(bet));
+          // NOTE: The original values are stored as separate fields for the
+          //       implementation of the RESET button in Unmatched Bets
+          let transformed = transformBetObject(bet);
+          transformed = transformed
+                          .set('updated', false)
+                          .set('original_odds', transformed.get('odds'))
+                          .set('original_stake', transformed.get('stake'));
+          unmatchedBets = unmatchedBets.push(transformed);
         } else {
           matchedBets = matchedBets.push(transformBetObject(bet));
         }
@@ -131,6 +138,11 @@ export default function(state = initialState, action) {
         const profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
         bet = bet.set('profit', profit).set('liability', profit);
       }
+      // Check if the bet needs to be marked as updated
+      // NOTE: For unmatched bets, the original stake and odds MUST exist
+      const updated = (bet.has('stake') && bet.get('stake') !== bet.get('original_stake')) ||
+                      (bet.has('odds') && bet.get('odds') !== bet.get('original_odds'));
+      bet = bet.set('updated', updated);
       return state.merge({
         unmatchedBets: unmatchedBets.set(index, bet)
       })
@@ -174,6 +186,18 @@ export default function(state = initialState, action) {
         showPlacedBetsError: true,
         showPlacedBetsConfirmation: false,
         showPlacedBetsSuccess: false,
+      })
+    }
+    case ActionTypes.MARKET_DRAWER_RESET_UNMATCHED_BETS: {
+      // Just reset every bet to their original values
+      // It is a small list anyway
+      const restoredBets = unmatchedBets.map(bet =>
+        bet.set('updated', false)
+           .set('odds', bet.get('original_odds'))
+           .set('stake', bet.get('original_stake'))
+      );
+      return state.merge({
+        unmatchedBets: restoredBets,
       })
     }
     default:
