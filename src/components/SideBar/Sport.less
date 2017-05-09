@@ -1,15 +1,20 @@
+@import '../App/Colors.less';
+
 .sport-node-container:hover {
-  color: #00BEF4;
+  color: @sports_label_selected;
   cursor: pointer;
 }
 
 .sport-node-container {
-  color: #ffffff;
+  color: @sports_label;
   margin-left: 15px;
   padding: 10px 0;
-  border-bottom: solid 1px #084272;
+  border-bottom: solid 1px @sports_label_border;
 }
 
 .sport-label-container-selected {
-  color: #00BEF4;
+  color: @sports_label_selected;
+}
+.sport-label-container-selected label{
+  font-weight:700;
 }
