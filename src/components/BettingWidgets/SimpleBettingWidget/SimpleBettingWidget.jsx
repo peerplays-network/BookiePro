@@ -205,7 +205,7 @@ class SimpleBettingWidget extends Component {
           }
           pagination={ this.props.nodeType===undefined && this.props.events.toArray().length > 15
             ? paginationParams : false }
-          locale={ {emptyText: 'No Data'} }
+          locale={ {emptyText: I18n.t('simple_betting_widget.no_data')} }
           rowKey={ (record) => record.get('key') }
         />
       </div>
