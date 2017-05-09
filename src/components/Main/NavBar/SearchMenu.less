@@ -60,9 +60,12 @@ div.search-menu{
     &:before{
       position: absolute;
       content: '';
-      .search-icon-blue;
       left:0;
       top:0;
+      .search-icon;
+      .search-icon-blue;
+      //Background size should be applied only after background property otherwise it would not work
+      background-size: 100%;
     }
     input{
       color: @white;
@@ -99,7 +102,10 @@ div.search-menu{
     }
     .Select-input{
       &:before{
+        .search-icon;
         .search-icon-white;
+        //Background size should be applied only after background property otherwise it would not work
+        background-size: 100%;
       }
     }
     &.has-value{
@@ -133,7 +139,7 @@ div.search-menu{
     }
     &:hover{
       color: @white;
-      background-color: rgba(0,78,155,0.20);
+      background-color: @topbar_more_menu_active;
     }
   }
   .Select-noresults{
