@@ -3,7 +3,8 @@ import { Table,DatePicker,Select,LocaleProvider } from 'antd';
 import './MyAccount.less';
 import { LoadingStatus } from '../../constants';
 import { I18n } from 'react-redux-i18n';
-import Export from '../Export'
+import Export from '../Export';
+import { CurrencyUtils } from '../../utility';
 
 const Option = Select.Option;
 const paginationParams = { pageSize: 20 };
@@ -20,7 +21,7 @@ class TransactionHistory extends PureComponent {
     const hasNoTransactionHistoryData = transactionHistory && transactionHistory.length === 0,
       hasNoTransactionHistoryDataExport = transactionHistoryExport && transactionHistoryExport.length === 0,
       disableButtons = showDateFields && (fromDate===null || toDate===null);
-      
+
     //Transaction History table Columns
     const columns = [
       {
@@ -44,7 +45,8 @@ class TransactionHistory extends PureComponent {
         key: 'status',
       },
       {
-        title: I18n.t('myAccount.amount') + '(' + (this.props.currencyFormat === 'BTC' ? 'Ƀ' : 'm') + ')',
+        title: I18n.t('myAccount.amount') +
+                '(' + CurrencyUtils.getCurruencySymbol(this.props.currencyFormat) + ')',
         dataIndex: 'amount',
         key: 'amount',
       }

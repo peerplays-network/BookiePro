@@ -5,15 +5,6 @@
   .bookie-amount-field{
     position: relative;
     .center-object;
-    &.icon-m{
-      &::before{
-        position: absolute;
-        color: @myaccount_blue_text;
-        font-size:20px;
-        left: 15px;
-        content: 'm';
-      }
-    }
     &.icon-bitcoin{
       &::before{
         position: absolute;
@@ -23,6 +14,18 @@
         width:16px;
         height:16px;
         background-size: 16px 16px;
+      }
+    }
+    &.icon-mbitcoin{
+      &::before{
+        position: absolute;
+        left: 15px;
+        content: '';
+        background-image: url('../../assets/icons/mbitcoin_icon.png');
+        background-repeat: no-repeat;
+        width:28px;
+        height:15px;
+        background-size: 100%;
       }
     }
     &>div{

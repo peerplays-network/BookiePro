@@ -6,6 +6,7 @@ import {
 import { Field, reduxForm } from 'redux-form/immutable';
 import { LoadingStatus } from '../../constants';
 import './Withdraw.less';
+import { CurrencyUtils } from '../../utility';
 
 //Component to render fields
 const renderField = ({ className, errors, placeholder,hasWithdrawAmountErr, input, type,
@@ -77,7 +78,7 @@ class Withdraw extends Component{
       isWithdrawLoadingStatusDone = withdrawLoadingStatus===LoadingStatus.DONE,
       isDisabled = invalid || submitting || asyncValidating ||
                        this.state.hasWithdrawAmountErr || isWithdrawLoadingStatusLoading,
-      prefix = currencyFormat === 'BTC' ? 'icon-bitcoin' : ( currencyFormat === 'mBTC' ? 'icon-m' : '');
+      prefix = currencyFormat === 'BTC' ? 'icon-bitcoin' : ( currencyFormat === 'mBTC' ? 'icon-mbitcoin' : '');
 
     let withdrawCardTitle = '';
     if(withdrawLoadingStatus === LoadingStatus.DEFAULT)
@@ -104,7 +105,8 @@ class Withdraw extends Component{
                     onBlur={ this.onWithdrawAmountChange }
                     hasWithdrawAmountErr={ this.state.hasWithdrawAmountErr }
                     withdrawAmountErrMsg={ availableBalance!==-1 ? (I18n.t('myAccount.insuffBitcoinErr')
-                                + this.props.convertedAvailableBalance + currencyFormat)
+                                + this.props.convertedAvailableBalance
+                                + ' ' + CurrencyUtils.getCurruencySymbol(currencyFormat))
                                 : I18n.t('application.notAvailableErr') }
                     component={ renderField }  type='text' normalize={ normalizeAmount }/>
                 </div>
