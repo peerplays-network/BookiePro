@@ -176,7 +176,7 @@ class ComplexBettingWidget extends Component {
   }
 
   render() {
-    const { currencyFormat, bettingMarketGroup, bettingMarketGroupName, totalMatchedBetsAmount, eventTime, sportId } = this.props;
+    const { currencyFormat, bettingMarketGroup, bettingMarketGroupName, totalMatchedBetsAmount, eventTime, sportId, eventName } = this.props;
 
     const minNameWidth = 200;
     const minOfferWidth = 50;
@@ -365,7 +365,11 @@ class ComplexBettingWidget extends Component {
             </span>
             {/* Rules Dialogue box */}
             <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
-              <Translate value={ ruleTransalte } datetime={ moment(eventTime).format('DD/MM/YYYY, h:mm a') } dangerousHTML/>
+              <Translate value={ ruleTransalte }
+                datetime={ moment(eventTime).format('DD/MM/YYYY, h:mm a') }
+                eventName={ eventName }
+                marketName={ bettingMarketGroupName } 
+                dangerousHTML/>
             </RulesModal>
           </div>
         </div>

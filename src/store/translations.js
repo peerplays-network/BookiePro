@@ -298,7 +298,9 @@ export const translationsObject = {
       //American Football
       '1_100_1':{
         Moneyline:{
-          content: '<p>Scheduled Event Start Time:</br>' +
+          content: '<p>%{eventName}</br>' +
+          '%{marketName}</p>' +
+          '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
@@ -310,7 +312,9 @@ export const translationsObject = {
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
         'Spread':{
-          content: '<p>Scheduled Event Start Time:</br>' +
+          content: '<p>%{eventName}</br>' +
+          '%{marketName}</p>' +
+          '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
@@ -322,7 +326,9 @@ export const translationsObject = {
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
         'Underover':{
-          content: '<p>Scheduled Event Start Time:</br>' +
+          content: '<p>%{eventName}</br>' +
+          '%{marketName}</p>' +
+          '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
@@ -338,7 +344,9 @@ export const translationsObject = {
       //BasketBall
       '1_100_2':{
         Moneyline:{
-          content: '<p>Scheduled Event Start Time:</br>' +
+          content: '<p>%{eventName}</br>' +
+          '%{marketName}</p>' +
+          '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
@@ -350,7 +358,9 @@ export const translationsObject = {
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
         'Spread':{
-          content: '<p>Scheduled Event Start Time:</br>' +
+          content: '<p>%{eventName}</br>' +
+          '%{marketName}</p>' +
+          '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
@@ -362,7 +372,9 @@ export const translationsObject = {
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
         'Underover':{
-          content: '<p>Scheduled Event Start Time:</br>' +
+          content: '<p>%{eventName}</br>' +
+          '%{marketName}</p>' +
+          '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
@@ -379,7 +391,9 @@ export const translationsObject = {
       '1_100_3':{
         //dummy not yet definied in ACD_v1.0
         Moneyline:{
-          content: '<p>Scheduled Event Start Time:</br>' +
+          content: '<p>%{eventName}</br>' +
+          '%{marketName}</p>' +
+          '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
@@ -392,7 +406,9 @@ export const translationsObject = {
         },
         //dummy not yet definied in ACD_v1.0
         'Spread':{
-          content: '<p>Scheduled Event Start Time:</br>' +
+          content: '<p>%{eventName}</br>' +
+          '%{marketName}</p>' +
+          '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
@@ -405,7 +421,9 @@ export const translationsObject = {
         },
         //dummy not yet definied in ACD_v1.0
         'Underover':{
-          content: '<p>Scheduled Event Start Time:</br>' +
+          content: '<p>%{eventName}</br>' +
+          '%{marketName}</p>' +
+          '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
@@ -422,7 +440,9 @@ export const translationsObject = {
       '1_100_4':{
         //dummy not yet definied in ACD_v1.0
         Moneyline:{
-          content: '<p>Scheduled Event Start Time:</br>' +
+          content: '<p>%{eventName}</br>' +
+          '%{marketName}</p>' +
+          '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
@@ -435,7 +455,9 @@ export const translationsObject = {
         },
         //dummy not yet definied in ACD_v1.0
         'Spread':{
-          content: '<p>Scheduled Event Start Time:</br>' +
+          content: '<p>%{eventName}</br>' +
+          '%{marketName}</p>' +
+          '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
@@ -447,7 +469,9 @@ export const translationsObject = {
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
         'Underover':{
-          content: '<p>Scheduled Event Start Time:</br>' +
+          content: '<p>%{eventName}</br>' +
+          '%{marketName}</p>' +
+          '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
@@ -460,7 +484,9 @@ export const translationsObject = {
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
         'Matchodds':{
-          content: '<p>Scheduled Event Start Time:</br>' +
+          content: '<p>%{eventName}</br>' +
+          '%{marketName}</p>' +
+          '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
@@ -472,7 +498,9 @@ export const translationsObject = {
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
         'Correctscore':{
-          content: '<p>Scheduled Event Start Time:</br>' +
+          content: '<p>%{eventName}</br>' +
+          '%{marketName}</p>' +
+          '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
