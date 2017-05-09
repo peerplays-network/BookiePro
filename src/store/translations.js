@@ -303,10 +303,10 @@ export const translationsObject = {
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see Bookie Rules.</p>' +
-          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>Who will win this match? This market INCLUDES any overtime that may be played. IN THE EVENT OF A TIE AFTER OVERTIME ALL BETS PLACED ON THIS MARKET WILL BE VOID. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
-          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
+          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised. </p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
         'Spread':{
@@ -315,8 +315,8 @@ export const translationsObject = {
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see Bookie Rules.</p>' +
-          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>Which team will win this match with the stated handicap applied? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -327,8 +327,8 @@ export const translationsObject = {
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see Bookie Rules.</p>' +
-          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>How many points in total will be scored in this game  - more or less than the stated number? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -344,7 +344,7 @@ export const translationsObject = {
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see Bookie Rules.</p>' +
           '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -355,8 +355,8 @@ export const translationsObject = {
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see Bookie Rules.</p>' +
-          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>Which team will win this match with the stated handicap applied? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -367,8 +367,8 @@ export const translationsObject = {
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see Bookie Rules.</p>' +
-          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>How many points in total will be scored in this game - more or less than the stated number? This market INCLUDES any overtime that may be played. ' +
+          'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -377,6 +377,7 @@ export const translationsObject = {
       },
       //BaseBall
       '1_100_3':{
+        //dummy not yet definied in ACD_v1.0
         Moneyline:{
           content: '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
@@ -389,6 +390,7 @@ export const translationsObject = {
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
+        //dummy not yet definied in ACD_v1.0
         'Spread':{
           content: '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
@@ -401,6 +403,7 @@ export const translationsObject = {
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
+        //dummy not yet definied in ACD_v1.0
         'Underover':{
           content: '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
@@ -417,6 +420,7 @@ export const translationsObject = {
       },
       //Soccer
       '1_100_4':{
+        //dummy not yet definied in ACD_v1.0
         Moneyline:{
           content: '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
@@ -429,6 +433,7 @@ export const translationsObject = {
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
+        //dummy not yet definied in ACD_v1.0
         'Spread':{
           content: '<p>Scheduled Event Start Time:</br>' +
           '%{datetime}</br>' +
@@ -447,8 +452,33 @@ export const translationsObject = {
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see Bookie Rules.</p>' +
-          '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          '<p>How many goals in total will be scored in this match - more or less than the stated number? ' +
+          'All bets apply to Full Time according to the match officials, plus any stoppage time. ' +
+          'Extra-time/penalty shoot-outs are not included. At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
+          '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
+          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
+          '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
+        },
+        'Matchodds':{
+          content: '<p>Scheduled Event Start Time:</br>' +
+          '%{datetime}</br>' +
+          'Win Only Market</p>' +
+          '<p>MARKET INFORMATION</p>' +
+          '<p>For further information please see Bookie Rules.</p>' +
+          '<p>Predict the result of this match. All bets apply to Full Time according to the match officials, plus any stoppage time. ' +
+          'Extra-time/penalty shoot-outs are not included. At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
+          '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
+          'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
+          '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
+        },
+        'Correctscore':{
+          content: '<p>Scheduled Event Start Time:</br>' +
+          '%{datetime}</br>' +
+          'Win Only Market</p>' +
+          '<p>MARKET INFORMATION</p>' +
+          '<p>For further information please see Bookie Rules.</p>' +
+          '<p>Predict the score of this match. All bets apply to Full Time according to the match officials, plus any stoppage time. ' +
+          'Extra-time/penalty shoot-outs are not included. At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',

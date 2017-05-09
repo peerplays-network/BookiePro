@@ -349,8 +349,10 @@ class ComplexBettingWidget extends Component {
       render: props => <div className='lay-offer'>{ '>' }</div>
     }]
 
+
+    //TODO using string for market_type_id instead of 1.xxxx.x
     const ruleTransalte =  ( bettingMarketGroup && sportId ) ?
-      'rules_dialogue.' + sportId.split('.').join('_') + '.' + bettingMarketGroup.get('market_type_id') + '.content' : ''
+      'rules_dialogue.' + sportId.split('.').join('_') + '.' + bettingMarketGroup.get('market_type_id') + '.content' : 'rules_dialogue.content'
 
     return (
 
