@@ -351,8 +351,8 @@ class ComplexBettingWidget extends Component {
 
 
     //TODO using string for market_type_id instead of 1.xxxx.x
-    const ruleTransalte =  ( bettingMarketGroup && sportId ) ?
-      'rules_dialogue.' + sportId.split('.').join('_') + '.' + bettingMarketGroup.get('market_type_id') + '.content' : 'rules_dialogue.content'
+    const ruleTransalte =  ( bettingMarketGroup && sportId  &&
+      'rules_dialogue.' + sportId.split('.').join('_') + '.' + bettingMarketGroup.get('market_type_id') + '.content' ) || 'rules_dialogue.content'
 
     return (
 
@@ -368,7 +368,7 @@ class ComplexBettingWidget extends Component {
               <Translate value={ ruleTransalte }
                 datetime={ moment(eventTime).format('DD/MM/YYYY, h:mm a') }
                 eventName={ eventName }
-                marketName={ bettingMarketGroupName } 
+                marketName={ bettingMarketGroupName }
                 dangerousHTML/>
             </RulesModal>
           </div>
