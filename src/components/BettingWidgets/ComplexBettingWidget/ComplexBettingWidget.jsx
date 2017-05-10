@@ -349,10 +349,12 @@ class ComplexBettingWidget extends Component {
       render: props => <div className='lay-offer'>{ '>' }</div>
     }]
 
-
     //TODO using string for market_type_id instead of 1.xxxx.x
-    const ruleTransalte =  ( bettingMarketGroup && sportId  &&
+    const ruleModalText =  ( bettingMarketGroup && sportId  &&
       'rules_dialogue.' + sportId.split('.').join('_') + '.' + bettingMarketGroup.get('market_type_id') + '.content' ) || 'rules_dialogue.content'
+
+    //retrieve system language when running in Electron app
+    const currentLocale = window.navigator.language || window.navigator.userLanguage;
 
     return (
 
@@ -365,8 +367,8 @@ class ComplexBettingWidget extends Component {
             </span>
             {/* Rules Dialogue box */}
             <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
-              <Translate value={ ruleTransalte }
-                datetime={ moment(eventTime).format('DD/MM/YYYY, h:mm a') }
+              <Translate value={ ruleModalText }
+                datetime={ moment(eventTime).locale(currentLocale).format('LLL') }
                 eventName={ eventName }
                 marketName={ bettingMarketGroupName }
                 dangerousHTML/>
