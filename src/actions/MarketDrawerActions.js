@@ -216,15 +216,15 @@ class MarketDrawerActions {
     }
   }
 
-<<<<<<< HEAD
   static clickReset() {
     return (dispatch)  => {
       dispatch(MarketDrawerPrivateActions.resetUnmatchedBets());
-=======
+    }
+  }
+
   static clickAverageOdds(groupByAverageOdds) {
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.setGroupByAverageOdds(groupByAverageOdds));
->>>>>>> added onChange handler to average odds checkbox
     }
   }
 }

@@ -28,9 +28,37 @@ class MatchedBets extends PureComponent {
   }
 }
 
+const groupBetsByAverageOdds = (matchedBets) => {
+  // Group bets by betting market id
+  let betsByBettingMarketId = Immutable.Map();
+  matchedBets.forEach(bet => {
+    const betting_market_id = bet.get('betting_market_id');
+    if (!betsByBettingMarketId.has(betting_market_id)) {
+      betsByBettingMarketId = betsByBettingMarketId.set(betting_market_id, Immutable.List());
+    }
+    betsByBettingMarketId = betsByBettingMarketId.update(betting_market_id, list => list.push(bet));
+  })
+  return betsByBettingMarketId.map(bets => {
+    const result = BettingModuleUtils.calculateAverageOddsFromMatchedBets(bets);
+    const first = bets.get(0);
+    return Immutable.fromJS({
+      bet_type: first.get('bet_type'),
+      betting_market_id: first.get('betting_market_id'),
+      bettor_id: first.get('bettor_id'),
+      id: first.get('id'),
+      liability: result.get('groupedProfitOrLiability'),
+      odds: result.get('averageOdds'),
+      profit: result.get('groupedProfitOrLiability'),
+      stake: result.get('groupedStake'),
+      team: first.get('team'),
+    });
+  }).toList();
+}
+
 const mapStateToProps = (state, ownProps) => {
   const bettingMarketGroupId = state.getIn(['marketDrawer', 'bettingMarketGroupId']);
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
+  const groupByAverageOdds = state.getIn(['marketDrawer', 'groupByAverageOdds']);
 
   const bettingMarketGroup = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
   // From the current (dummy) bet data, I only need the Betting Market ID
@@ -65,6 +93,14 @@ const mapStateToProps = (state, ownProps) => {
     // Put everything back in their rightful places
     page = page.set(betType, betListByBetType);
   });
+  if (groupByAverageOdds) {
+    if (page.has('back')) {
+      page = page.update('back', bets => groupBetsByAverageOdds(bets));
+    }
+    if (page.has('lay')) {
+      page = page.update('lay', bets => groupBetsByAverageOdds(bets));
+    }
+  }
   // Other statuses
   const showPlacedBetsConfirmation = state.getIn(['marketDrawer', 'showPlacedBetsConfirmation']);
   const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);

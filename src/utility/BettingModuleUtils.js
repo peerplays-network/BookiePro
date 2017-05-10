@@ -284,8 +284,55 @@ var BettingModuleUtils = {
       .update('groupedStake', (groupedStake) => CurrencyUtils.getFormattedCurrency( groupedStake, currency, stakePlaces, false) );
 
     return averageOddsresult;
-  }
+  },
 
+  /*
+   *  =========== Average Odds (CR-036) ===========
+   *  Matched Back Bets
+   *  Grouped Profit = ∑ Profit
+   *  Grouped Stake = ∑ Stake
+   *  Average Odds (round to 2 decimal places) = (∑ Stake + ∑ Profit) / ∑ Stake
+   *
+   *  Matched Lay Bets
+   *  Grouped Liability = ∑ Liability
+   *  Grouped Backer’s Stake = ∑ Backer’s Stake
+   *  Average Odds (round to 2 decimal places) = (∑ Backer’s Stake + ∑ Liability) / ∑ Backer’s Stake
+   *
+   *  Parameters:
+   *  matchedBets - list of matched bets with the same bet type, i.e. all back or all lay
+   *  currency - string representing the currency used in the final calculated values
+   *  precision - by default the average odds shpuld be rounded to 2 decimal places
+   *
+   *  Return:
+   *  Immuatable object that has the following fields:
+   *    - averageOdds
+   *    - groupedProfitOrLiability
+   *    - groupedStake
+   *
+   *  There is no clear distinction between profit and liability. They are
+   *  essentially calculated in the same way using odds and stake (back) or
+   *  backer's stake (lay) but are presented using different labels.
+   *
+   *  Notes:
+   *  This function expects a `normalized` bet objects. This `normalized` format
+   *  is only used within the betting application. Bet objects from Blockchain
+   *  should be transformed into the normalized format at the Reducer level using
+   *  the following common function: /src/reducers/dataUtils.js
+   *
+   */
+  calculateAverageOddsFromMatchedBets: function(matchedBets, currency = 'BTC', precision = 2) {
+    // Assume all the bets are of the same bet type so we can just sample from the first bet
+    const profitOrLiability = matchedBets.get(0).get('bet_type').toLowerCase() === 'back' ? 'profit' : 'liability';
+    // profit and liability are consider the same thing with different label
+    let groupedProfitOrLiability = matchedBets.reduce((sum, bet) => sum + parseFloat(bet.get(profitOrLiability)), 0.0);
+    let groupedStake = matchedBets.reduce((sum, bet) => sum = parseFloat(bet.get('stake')), 0.0);
+    const averageOdds = (groupedStake + groupedProfitOrLiability) / groupedStake;
+    return Immutable.fromJS({
+      averageOdds: averageOdds.toFixed(oddsPlaces),
+      groupedProfitOrLiability: CurrencyUtils.getFormattedCurrency( groupedProfitOrLiability, currency, exposurePlaces, false),
+      groupedStake: CurrencyUtils.getFormattedCurrency( groupedStake, currency, stakePlaces, false),
+    });
+  }
 }
 
 export default BettingModuleUtils;
