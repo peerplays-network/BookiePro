@@ -287,14 +287,6 @@ export const translationsObject = {
       'matches are not necessarily televised.</p><p>The extent of any such delay may vary, depending on the set-up through ' +
       'which they are receiving pictures or data.</p>',
 
-
-
-
-
-
-
-
-
       //American Football
       '1_100_1':{
         Moneyline:{
