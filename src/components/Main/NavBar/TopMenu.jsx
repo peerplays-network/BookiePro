@@ -5,7 +5,7 @@ import Withdraw from '../../MyAccount/Withdraw'
 import Amount from './AmountDropDown'
 import Notification from './Notification'
 import DropdownMenu from './DropdownMenu'
-import { BetActions, AuthActions, BalanceActions, NotificationActions, NavigateActions } from '../../../actions';
+import { BetActions, AuthActions, BalanceActions, NotificationActions, NavigateActions, AppActions } from '../../../actions';
 import { NotificationTypes } from '../../../constants';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
@@ -62,6 +62,7 @@ class TopMenu extends Component {
         break;
       }
       case NotificationTypes.SOFTWARE_UPDATE_AVAILABLE: {
+        this.props.showSoftwareUpdatePopup(true);
         break;
       }
       case NotificationTypes.TRANSACTION_HISTORY_DATA_EXPORTED: {
@@ -286,7 +287,8 @@ function mapDispatchToProps(dispatch) {
     logout: AuthActions.logoutAndShowPopupIfNeeded,
     getOngoingBets: BetActions.getOngoingBets,
     markNotificationsAsRead: NotificationActions.markNotificationsAsReadAction,
-    removeNotifications: NotificationActions.removeNotificationsAction
+    removeNotifications: NotificationActions.removeNotificationsAction,
+    showSoftwareUpdatePopup: AppActions.showSoftwareUpdatePopupAction
   }, dispatch)
 }
 

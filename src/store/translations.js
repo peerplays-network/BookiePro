@@ -135,6 +135,9 @@ export const translationsObject = {
       software_update: 'New version available, update now',
       transaction_history_data_exported: 'Transaction History Data is exported'
     },
+    softwareUpdate: {
+      default: 'New version found. Please update the version',
+    },
     welcome:{
       getting_started: 'Getting Started',
       place_bet: 'Placing a new bet',

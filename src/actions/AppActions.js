@@ -66,6 +66,17 @@ class AppActions {
     }
   }
 
+  /**
+   * Action to show software update popup
+   */
+  static showSoftwareUpdatePopupAction(isShowSoftwareUpdatePopup) {
+    return {
+      type: ActionTypes.APP_SHOW_SOFTWARE_UPDATE_POPUP,
+      isShowSoftwareUpdatePopup
+    }
+  }
+
+
   static setBlockchainDynamicGlobalPropertyAction(blockchainDynamicGlobalProperty) {
     return {
       type: ActionTypes.APP_SET_BLOCKCHAIN_DYNAMIC_GLOBAL_PROPERTY,

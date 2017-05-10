@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
 import InitError from '../InitError';
-import { LoadingStatus, Config } from '../../constants';
+import { LoadingStatus } from '../../constants';
 import { NavigateActions, AppActions, AuthActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
 import LogoutModal from '../Modal/LogoutModal';
-import { StringUtils, AppUtils } from '../../utility';
+import { AppUtils, SoftwareUpdateUtils } from '../../utility';
 import TitleBar from './TitleBar';
+import { I18n } from 'react-redux-i18n';
 
 const isWindowsPlatform = AppUtils.isWindowsPlatform();
 const titleBarHeight = isWindowsPlatform ? '32px' : '40px';
 
-//NOTE default version update text.
-const defaultNewVersionText = 'New version found. Please update the version'
+const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
+
+// Import electron only if we are running inside electron (otherwise it will throw exception)
+let electron;
+if (isRunningInsideElectron) {
+  electron = require('electron');
+}
+
 
 class App extends Component {
   constructor(props) {
@@ -24,6 +31,8 @@ class App extends Component {
     };
     this.onConfirmLogout = this.onConfirmLogout.bind(this);
     this.onCancelLogout = this.onCancelLogout.bind(this);
+    this.onConfirmSoftwareUpdate = this.onConfirmSoftwareUpdate.bind(this);
+    this.onCancelSoftwareUpdate = this.onCancelSoftwareUpdate.bind(this);
   }
 
   componentWillMount() {
@@ -31,27 +40,31 @@ class App extends Component {
     this.props.connectToBlockchain();
   }
 
-  componentDidUpdate(prevProps, prevState){
-
-    //check if the version stored in props changed
-    //we dun want to show the modal to notify the same version upon every route change
-    if ( prevProps && this.props.version && this.props.version !== prevProps.version){
-
-      const newVerNum = this.props.version.split('.');
-      const currentVernNum = Config.version.split('.');
-      const needHardUpdate = newVerNum[0] > currentVernNum[0]
-
-      this.setState({ needHardUpdate });
-
-      const needSoftUpdate = ( newVerNum[0] ===  currentVernNum[0] ) && ( newVerNum[1] > currentVernNum[1] )
-
-      this.setState({
-        newVersionModalVisible : (needHardUpdate || needSoftUpdate) &&
-           (StringUtils.compareVersionNumbers(Config.version, this.props.version) < 0)
-      });
-
+  onConfirmSoftwareUpdate() {
+    if (this.props.isNeedHardUpdate) {
+      // Close the app if it is hard update
+      if (electron) {
+        // Case of electron
+        const electronWindow = electron.remote.getCurrentWindow();
+        electronWindow.close();
+      }
     }
+    // Hide popup
+    this.props.showSoftwareUpdatePopup(false);
 
+  }
+
+  onCancelSoftwareUpdate() {
+    if (this.props.isNeedHardUpdate) {
+      // Close the app if it is hard update
+      if (electron) {
+        // Case of electron
+        const electronWindow = electron.remote.getCurrentWindow();
+        electronWindow.close();
+      }
+    }
+    // Hide popup
+    this.props.showSoftwareUpdatePopup(false);
   }
 
   okWillCloseModal(modalVisible) {
@@ -74,13 +87,11 @@ class App extends Component {
   }
 
   onConfirmLogout(skipLogoutPopupNextTime) {
-    console.log('click ok')
     // Logout
     this.props.confirmLogout(skipLogoutPopupNextTime);
   }
 
   onCancelLogout() {
-    console.log('click cancel')
     // Hide modal
     this.props.showLogoutPopup(false);
   }
@@ -89,11 +100,11 @@ class App extends Component {
 
     let softwareUpdateModal = (
         <SoftwareUpdateModal
-          modalTitle={ this.props.displayText ? this.props.displayText.get(this.props.locale) : defaultNewVersionText }
-          closable={ !this.state.needHardUpdate }
-          visible={ this.state.newVersionModalVisible }
-          onOk={ this.state.needHardUpdate ? () => this.okWillCloseApp(false) : () => this.okWillCloseModal(false) }
-          onCancel={ this.state.needHardUpdate ? () => this.okWillCloseApp(false) : () => this.okWillCloseModal(false) }
+          modalTitle={ this.props.displayText }
+          closable={ !this.props.isNeedHardUpdate }
+          visible={ this.props.isShowSoftwareUpdatePopup }
+          onOk={ this.onConfirmSoftwareUpdate }
+          onCancel={ this.onCancelSoftwareUpdate }
           latestVersion={ this.props.version }
         />
     );
@@ -154,11 +165,14 @@ const mapStateToProps = (state) => {
   const softwareUpdate = state.get('softwareUpdate');
   const i18n = state.get('i18n');
   const version = softwareUpdate.get('version');
-  const displayText = softwareUpdate.get('displayText');
   const locale = i18n.get('locale');
+  const displayText = softwareUpdate.getIn(['displayText', locale]) || I18n.t('softwareUpdate.default');
   const isLoggedIn = state.getIn(['account','isLoggedIn']);
   const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');
   const isShowLogoutPopup = app.get('isShowLogoutPopup');
+  const isShowSoftwareUpdatePopup = app.get('isShowSoftwareUpdatePopup');
+
+  const isNeedHardUpdate = SoftwareUpdateUtils.isNeedHardUpdate(version);
 
   return {
     connectToBlockchainLoadingStatus,
@@ -166,7 +180,9 @@ const mapStateToProps = (state) => {
     version,
     displayText,
     locale,
-    isShowLogoutPopup
+    isShowLogoutPopup,
+    isShowSoftwareUpdatePopup,
+    isNeedHardUpdate
   }
 }
 
@@ -175,7 +191,8 @@ const mapDispatchToProps = (dispatch) => {
     navigateTo: NavigateActions.navigateTo,
     connectToBlockchain: AppActions.connectToBlockchain,
     showLogoutPopup: AppActions.showLogoutPopupAction,
-    confirmLogout: AuthActions.confirmLogout
+    confirmLogout: AuthActions.confirmLogout,
+    showSoftwareUpdatePopup: AppActions.showSoftwareUpdatePopupAction
   }, dispatch);
 }
 

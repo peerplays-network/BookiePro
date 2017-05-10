@@ -11,10 +11,16 @@ const initialState = Immutable.fromJS({
   blockchainDynamicGlobalProperty: null,
   blockchainGlobalProperty: null,
   isShowLogoutPopup: false,
+  isShowSoftwareUpdatePopup: false,
 });
 
 export default function (state = initialState, action) {
   switch(action.type) {
+    case ActionTypes.APP_SHOW_SOFTWARE_UPDATE_POPUP: {
+      return state.merge({
+        isShowSoftwareUpdatePopup: action.isShowSoftwareUpdatePopup
+      });
+    }
     case ActionTypes.APP_SET_BLOCKCHAIN_DYNAMIC_GLOBAL_PROPERTY: {
       return state.merge({
         blockchainDynamicGlobalProperty: action.blockchainDynamicGlobalProperty

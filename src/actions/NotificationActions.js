@@ -175,7 +175,7 @@ class NotificationActions {
       // Create notification object and add it
       const notification = NotificationService.createNotificationObject(type, content, date);
       const notifications = Immutable.List([notification]);
-      dispatch(NotificationPrivateActions.addOrUpdateNotificationsAction(notifications));
+      dispatch(NotificationPrivateActions.addNotificationsAction(notifications));
     }
   }
 
@@ -190,7 +190,7 @@ class NotificationActions {
       // Create notification object and add it
       const notification = NotificationService.createNotificationObject(type, content, date);
       const notifications = Immutable.List([notification]);
-      dispatch(NotificationPrivateActions.addOrUpdateNotificationsAction(notifications));
+      dispatch(NotificationPrivateActions.addNotificationsAction(notifications));
     }
   }
 

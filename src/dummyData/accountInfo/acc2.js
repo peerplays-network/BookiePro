@@ -1,40 +1,29 @@
 
-// testaccount123d with password DgTdQBzqF1NLnniikZuoedoWYzVHjJmV28LS7PJAqWdkwRkWzkyq
+// toto01 with password aR4gpSXES6QaaiEllwK5M1uWbly61o0sijC4kD3kzeDXa8MG64sg
 
 export const acc2 = {
   "blacklisting_accounts": [],
-  "proposals": [],
-  "statistics": "2.6.48",
-  "vesting_balances": [],
+  "statistics": "2.6.166",
   "active_special_authority": [
     0,
     {}
   ],
   "network_fee_percentage": 2000,
-  "orders": [
-    "1.7.311",
-    "1.7.313",
-    "1.7.314",
-    "1.7.315",
-    "1.7.316"
-  ],
   "active": {
     "weight_threshold": 1,
     "account_auths": [],
     "key_auths": [
       [
-        "TEST7sAG3NHoq8Z1y3xykpzEbajYE8AhHzZdYMzBZA2hsiEPAMttBU",
+        "TEST7NztyiDjyYJgNKFtzVBeaN9yFXGrLXvMz2n2nWfGHc8Eo9Mer9",
         1
       ]
     ],
     "address_auths": []
   },
-  "call_orders": [],
   "blacklisted_accounts": [],
   "top_n_control_flags": 0,
   "whitelisting_accounts": [],
-  "name": "testaccount123d",
-  "referrer_name": "nathan",
+  "name": "toto01",
   "registrar": "1.2.18",
   "owner_special_authority": [
     0,
@@ -45,24 +34,19 @@ export const acc2 = {
     "account_auths": [],
     "key_auths": [
       [
-        "TEST5Vx4cM2YQjpfvLgMbUWNGUeVLvY3MogQ6mAxAYCgJ4426orxz4",
+        "TEST8e78T9Dsh3Z89286mLQGmjCGuezoa7R4Fc2QjDAXU22DYJkkQg",
         1
       ]
     ],
     "address_auths": []
   },
-  "lifetime_referrer_name": "nathan",
   "membership_expiration_date": "1970-01-01T00:00:00",
   "referrer_rewards_percentage": 0,
   "lifetime_referrer": "1.2.18",
-  "balances": {
-    "1.3.0": "2.5.48"
-  },
-  "id": "1.2.48",
+  "id": "1.2.166",
   "lifetime_referrer_fee_percentage": 3000,
-  "registrar_name": "nathan",
   "options": {
-    "memo_key": "TEST7sAG3NHoq8Z1y3xykpzEbajYE8AhHzZdYMzBZA2hsiEPAMttBU",
+    "memo_key": "TEST7NztyiDjyYJgNKFtzVBeaN9yFXGrLXvMz2n2nWfGHc8Eo9Mer9",
     "voting_account": "1.2.5",
     "num_witness": 0,
     "num_committee": 0,
