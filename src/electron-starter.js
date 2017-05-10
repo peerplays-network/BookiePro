@@ -16,7 +16,12 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1280, height: 768, minWidth: 1024, minHeight: 768, frame: false})
+
+  console.log( ' icon path ', path.join(__dirname, 'assets/icons/png/64x64.png'))
+  mainWindow = new BrowserWindow({width: 1280, height: 768, minWidth: 1024, minHeight: 768,
+    icon: path.join(__dirname, 'assets/icons/png/64x64.png'),
+    frame: false
+  })
 
 
   const startUrl = process.env.ELECTRON_START_URL || url.format({

@@ -2,7 +2,7 @@
   "name": "bookie",
   "author": "ii-5",
   "description": "Electron app powered by CRA",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "homepage": "./",
   "devDependencies": {
@@ -109,17 +109,21 @@
     "clean:osx": "rm -rf ./dist/osx",
     "clean:win": "rm -rf ./dist/win",
     "pack": "build --dir",
-    "pack:all": "build -mwl",
+    "pack:all": "build -mw",
     "dist": "dist:"
   },
   "build": {
     "appId": "com.cosmox.bookie",
     "mac": {
-      "category": "public.app-category.productivity"
+      "category": "public.app-category.productivity",
+      "icon": "./src/assets/icons/mac/icon.icns"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
+    },
+    "win": {
+      "icon": "./src/assets/icons/win/icon.ico"
     },
     "directories": {
       "buildResources": "public"
