@@ -1,35 +1,37 @@
+@import '../App/Colors.less';
+
 .infinity-menu-node-container {
 	width: 100%;
-	background-color: rgb(137, 139, 143);
-	color: rgb(255, 255, 255);
+	background-color: @infinite_menu_bg;
+	color: @infinite_menu_white_label;
 	height: 40px;
 	padding-left: 10px;
 	padding-top: 20px;
-	border-bottom: solid 1px rgb(73, 73, 73);
+	border-bottom: solid 1px @infinite_menu_border;
 }
 
 .infinity-menu-node-container:hover {
-	background-color: rgb(73, 73, 73);
+	background-color: @infinite_menu_hover_bg;
 }
 
 .infinity-menu-leaf-container {
 	width: 100%;
-	background-color: rgb(94, 96, 99);
-	color: rgb(255, 255, 255);
+	background-color: @infinite_menu_leaf_bg;
+	color: @infinite_menu_white_label;
 	height: 30px;
 	padding-left: 20px;
 	padding-top: 15px;
-	border-bottom: solid 1px rgb(73, 73 ,73);
+	border-bottom: solid 1px @infinite_menu_leaf_border;
 }
 
 .infinity-menu-leaf-container:hover {
-	background-color: rgb(73, 73, 73);
+	background-color: @infinite_menu_leaf_hover_bg;
 }
 
 .infinity-menu-load-more-container {
 	width: 100%;
-	background-color: rgb(255, 255, 255);
-	color: rgb(94, 96, 99);
+	background-color: @infinite_menu_white_label;
+	color: @infinite_menu_load_more_label;
 	height: 30px;
 	padding-left: 20px;
 	padding-top: 15px;
@@ -38,9 +40,10 @@
 }
 
 .infinity-menu-load-more-container:hover {
-	background-color: rgb(200, 200, 200);
+	background-color: @infinite_menu_load_more_hover_bg;
 }
 .infinity-menu-container label{
 	font-size: 14px;
 	cursor: pointer;
+	text-transform: uppercase;
 }
