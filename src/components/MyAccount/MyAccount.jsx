@@ -23,6 +23,7 @@ import moment from 'moment';
 import { SettingActions, BalanceActions, NavigateActions, HistoryActions } from '../../actions';
 import { LoadingStatus } from '../../constants';
 import { saveAs } from '../../utility/fileSaver.js';
+import { BettingModuleUtils, CurrencyUtils } from '../../utility';
 
 const Option = Select.Option;
 
@@ -415,6 +416,7 @@ class MyAccount extends PureComponent {
               onSubmit={ this.handleWithdrawSubmit }
               withdrawLoadingStatus={ this.props.withdrawLoadingStatus }
               withdrawAmount={ this.state.withdrawAmount }
+              convertedAvailableBalance={ this.props.convertedAvailableBalance }
               />
           </Col>
           <Col span={ 8 }>
@@ -436,6 +438,7 @@ class MyAccount extends PureComponent {
              onStartChange={ this.onStartChange } onEndChange={ this.onEndChange }
              disabledFromDate={ this.disabledFromDate } disabledToDate={ this.disabledToDate }
              fromDate={ this.state.fromDate } toDate={ this.state.toDate }
+             currencyFormat={ this.props.currencyFormat }
            />
         </Row>
       </div>
@@ -456,6 +459,9 @@ const mapStateToProps = (state) => {
   const balance = state.getIn(['balance', 'availableBalancesByAssetId','1.3.0','balance']);
   const availableBalance = balance !== undefined ? balance : -1;
 
+  const precision = state.getIn(['asset', 'assetsById', '1.3.0']).get('precision');
+  const currencyFormat = setting.get('currencyFormat');
+
   //Transaction History table Data (dummy data binding)
   let transactionHistoryData = [];
   if(state.getIn(['history', 'getTransactionHistoryLoadingStatus']) === LoadingStatus.DONE)
@@ -470,7 +476,7 @@ const mapStateToProps = (state) => {
         'status': <span
           className={ row.get('status') ==='Processing' ? 'processed'
             : (row.get('status') ==='Completed' ? 'completed' : '') }>{ row.get('status') }</span>,
-        'amount': row.getIn(['op',1,'fee', 'amount']) + ' ' + (setting.currencyFormat!==undefined ? setting.currencyFormat : '')
+        'amount': CurrencyUtils.getFormattedCurrency(row.getIn(['op',1,'fee', 'amount'])/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces)
       };
       transactionHistoryData.push(rowObj);
     });
@@ -487,7 +493,7 @@ const mapStateToProps = (state) => {
         Time: moment(row.get('time')).format('DD/MM/YYYY HH:mm:ss'),
         Description: row.get('description'),
         Status: row.get('status'),
-        Amount: row.getIn(['op',1,'fee', 'amount']) + ' ' + (setting.currencyFormat!==undefined ? setting.currencyFormat : '')
+        Amount: CurrencyUtils.getFormattedCurrency(row.getIn(['op',1,'fee', 'amount'])/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces)
       };
       transactionHistoryExportData.push(rowObj);
     });
@@ -501,8 +507,8 @@ const mapStateToProps = (state) => {
     lang: setting.get('lang'),
     timezone: setting.get('timezone'),
     notification: setting.get('notification'),
-    currencyFormat: setting.get('currencyFormat'),
-    precision: state.getIn(['asset', 'assetsById', '1.3.0']).get('precision'),
+    currencyFormat: currencyFormat,
+    precision: precision,
     transactionHistory: transactionHistoryData,
     transactionHistoryLoadingStatus: state.getIn(['history','getTransactionHistoryLoadingStatus']),
     transactionHistoryExport: transactionHistoryExportData,
@@ -511,7 +517,9 @@ const mapStateToProps = (state) => {
     loadingStatus: account.get('getDepositAddressLoadingStatus'),
     depositAddress: state.getIn(['balance', 'depositAddress']),
     availableBalance: availableBalance,
-    withdrawLoadingStatus: state.getIn(['balance', 'withdrawLoadingStatus'])
+    withdrawLoadingStatus: state.getIn(['balance', 'withdrawLoadingStatus']),
+    convertedAvailableBalance : CurrencyUtils.getFormattedCurrency(availableBalance/ Math.pow(10, state.getIn(['asset', 'assetsById', '1.3.0']).get('precision')),
+     setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces),
   }
 }
 

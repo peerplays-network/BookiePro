@@ -81,11 +81,13 @@ class TopMenu extends Component {
     const withdrawCard = (
       <Withdraw cardClass='bookie-card withdraw-card withdrawComponent'
         currencyFormat={ this.props.currencyFormat }
+        precision={ this.props.precision }
         availableBalance={ this.props.availableBalance }
         onSubmit={ this.handleWithdrawSubmit }
         withdrawLoadingStatus={ this.props.withdrawLoadingStatus }
         withdrawAmount={ this.state.withdrawAmount }
-        />
+        convertedAvailableBalance={ this.props.convertedAvailableBalance }
+      />
     );
     const dropdownMenuCard = (
       <DropdownMenu cardClass='menu-card' onSubmenuClick={ this.handleClick } />
@@ -172,8 +174,8 @@ const mapStateToProps = (state) => {
       when the asset '1.3.0' is not obtained for some reason
   */
   const balance = state.getIn(['balance', 'availableBalancesByAssetId', '1.3.0', 'balance']);
-  let availableBalance = balance !== undefined ?
-    CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces) : -1;
+  const convertedAvailableBalance = CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces);
+  let availableBalance = balance !== undefined ? convertedAvailableBalance : -1;
 
   //since we don't have any API to get inGameBalances, we summing unmatched and matched bets
   let inGameAmount = 0;
@@ -193,6 +195,8 @@ const mapStateToProps = (state) => {
     depositAddress: state.getIn(['balance', 'depositAddress']),
     availableBalance: availableBalance,
     withdrawLoadingStatus: state.getIn(['balance', 'withdrawLoadingStatus']),
+    precision: precision,
+    convertedAvailableBalance: convertedAvailableBalance,
     currencyFormat: setting.get('currencyFormat'),
     inGameAmount: inGameAmount
   }
