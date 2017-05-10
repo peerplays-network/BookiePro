@@ -5,6 +5,9 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
+import {
+  Card
+} from 'antd';
 
 class Notification extends PureComponent{
 
@@ -44,9 +47,9 @@ class Notification extends PureComponent{
     }
 
     return(
-      <div className='notification-card' ref='notification'>
+      <Card className='notification-card' ref='notification'>
         { children }
-      </div>
+      </Card>
     )
   }
 }
