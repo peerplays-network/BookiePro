@@ -1,27 +1,45 @@
+@import '../../App/Colors.less';
+@import '../../App/Common.less';
+
 div.readonly-bet-table-wrapper {
   &.dimmed {
     opacity: .1;
   }
-
+  .ant-table{
+    border-radius:0;
+    table{
+      border-radius:inherit;
+    }
+  }
   margin-right: 15px;
   margin-top: 15px;
 
   > div.header {
-    background-color: #1563A0;
-    color: white;
-    height: 40px;
-    padding: 10px;
+    background-color: @betslip_header_bg;
+    color: @white;
+    padding: 5px 10px;
+    .title{
+      text-transform: uppercase;
+      font-weight:bold;
+    }
   }
 
   div.bet-table {
     // common table css for both back and lay sections
+    .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+      padding: 0 8px;
+    }
     div.ant-table-body {
       tr {
         line-height: 12px;
         font-size: 14px;
+        height:50px;
       }
 
       thead.ant-table-thead {
+        tr{
+          height:37px;
+        }
         tr > th.numeric {
           font-weight: lighter;
         }
@@ -50,17 +68,17 @@ div.readonly-bet-table-wrapper {
 
     > div.back {
       .ant-table-thead > tr > th {
-        background-color: #004378;
+        background-color: @editable_table_header_bg;
         color: white;
       }
 
       .ant-table-tbody > tr > td {
-        border-color: #166ABC;
-        background-color: #004E9B;
+        border-color: @editable_table_back_body_border;
+        background-color: @editable_table_back_body_bg;
         color: white;
 
         div.market_type {
-          color: #37C1FF;
+          color: @editable_table_back_market_type;
           font-size: 10px;
         }
       }
@@ -68,17 +86,17 @@ div.readonly-bet-table-wrapper {
 
     > div.lay {
       .ant-table-thead > tr > th {
-        background-color: #05696B;
+        background-color: @editable_table_lay_header_bg;
         color: white;
+        word-break: break-word;
       }
-
       .ant-table-tbody > tr > td {
-        border-color: #359C9F;
-        background-color: #008487;
+        border-color: @editable_table_lay_body_border;
+        background-color:@editable_table_lay_body_bg;
         color: white;
 
         div.market_type {
-          color: #1ACBB4;
+          color: @editable_table_lay_market_type;
           font-size: 10px;
         }
       }

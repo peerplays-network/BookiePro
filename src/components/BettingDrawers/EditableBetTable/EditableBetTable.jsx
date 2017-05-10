@@ -15,20 +15,24 @@ const renderInput = (field, action) => {
     // we cannot use antd Input component here because we have problem
     // changing the value if user clicks on an offer from the same market
     return (
-      <input
-        type='number'
-        value={ text === undefined? '' : text }
-        className='ant-input'
-        onChange={
-          (event) => {
-            const delta = Immutable.Map()
-                            .set('id', record.id)
-                            .set('field', field)
-                            .set('value', event.target.value);
-            action(delta);
+      <div className='pos-rel'>
+        <input
+          type='text'
+          value={ text === undefined? '' : text }
+          className='ant-input'
+          onChange={
+            (event) => {
+              const delta = Immutable.Map()
+                .set('id', record.id)
+                .set('field', field)
+                .set('value', event.target.value);
+              action(delta);
+            }
           }
-        }
-      />
+        />
+        <a className='up-arrow' href=''><i className='up-arrow-icon'></i></a>
+        <a className='down-arrow' href=''><i className='down-arrow-icon'></i></a>
+      </div>
     );
   }
 }

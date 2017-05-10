@@ -31,7 +31,7 @@
     div.ant-tabs-tab {
       color: @white;
       width: 50%;
-      background: none;
+      background-color: @market_drawer_tab_bg;
       margin: 0px;
       border-radius: 0px;
       border: 0 none;
@@ -42,13 +42,11 @@
       font-size:18px;
       font-weight:700;
       box-shadow: @market_drawer_btn_shadow;
-      &:nth-child(2){
-        background-color: @betslip_bg;
-      }
-      &:nth-child(3){
-        background-color: @placed_bets_bg;
+      &.ant-tabs-tab-active{
+        background-color: @market_drawer_tab_active_bg;
       }
     }
+
   }
 
   div.content {
