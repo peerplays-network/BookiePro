@@ -19,12 +19,14 @@ class TopMenu extends Component {
       current: 'smile',
       withdrawAmount:'',
       isSubMenuVisible: false,
+      isNotificationCardVisible: false
     };
 
     this.handleClick = this.handleClick.bind(this);
     this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
-    this.handleNotificationItemClick = this.handleNotificationItemClick.bind(this);
-    this.handleNotificationItemClickClose = this.handleNotificationItemClickClose.bind(this);
+    this.handleNotificationCardItemClick = this.handleNotificationCardItemClick.bind(this);
+    this.handleNotificationCardItemClickClose = this.handleNotificationCardItemClickClose.bind(this);
+    this.handleNotificationCardVisibleChange = this.handleNotificationCardVisibleChange.bind(this);
   }
 
   handleWithdrawSubmit(values){
@@ -33,12 +35,18 @@ class TopMenu extends Component {
     this.props.withdraw(values.get('withdrawAmount'), values.get('walletAddr'));
   }
 
-  handleNotificationItemClickClose(notification) {
+  handleNotificationCardVisibleChange(visible) {
+    this.setState((prevState) => {
+      return { isNotificationCardVisible: visible }
+    })
+  }
+
+  handleNotificationCardItemClickClose(notification) {
     const notificationId = notification && notification.get('id');
     this.props.removeNotifications([notificationId]);
   }
 
-  handleNotificationItemClick(notification) {
+  handleNotificationCardItemClick(notification) {
     const notificationType = notification && notification.get('type');
     switch (notificationType) {
       case NotificationTypes.DEPOSIT: {
@@ -50,7 +58,7 @@ class TopMenu extends Component {
         break;
       }
       case NotificationTypes.EVENT_CANCELLED: {
-        this.props.navigateTo('/my-wager');
+        this.props.navigateTo('/my-account');
         break;
       }
       case NotificationTypes.SOFTWARE_UPDATE_AVAILABLE: {
@@ -63,6 +71,10 @@ class TopMenu extends Component {
         break;
       }
     }
+    // Hide notification dropdown
+    this.setState((prevState) => {
+      return { isNotificationCardVisible: false }
+    })
 
   }
 
@@ -134,8 +146,8 @@ class TopMenu extends Component {
     const notificationCard = (
       <Notification
         notifications={ this.props.notifications }
-        onClickItem={ this.handleNotificationItemClick }
-        onClickCloseItem={ this.handleNotificationItemClickClose }
+        onClickItem={ this.handleNotificationCardItemClick }
+        onClickCloseItem={ this.handleNotificationCardItemClickClose }
       />
     );
     return (
@@ -180,7 +192,13 @@ class TopMenu extends Component {
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='notifications' className='notification'>
-          <Dropdown trigger={ ['click'] } overlay={ notificationCard } placement='bottomRight'>
+          <Dropdown
+            trigger={ ['click'] }
+            overlay={ notificationCard }
+            placement='bottomRight'
+            visible={ this.state.isNotificationCardVisible }
+            onVisibleChange={ this.handleNotificationCardVisibleChange }
+          >
             <div className='icon-main notification-icon-main'>
               <a className='ant-dropdown-link' href='#'>
               <Badge count={ this.props.unreadNotificationNumber }>
