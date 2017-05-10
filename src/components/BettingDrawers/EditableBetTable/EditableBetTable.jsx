@@ -16,7 +16,7 @@ const renderInput = (field, action) => {
     // changing the value if user clicks on an offer from the same market
     return (
       <input
-        type='text'
+        type='number'
         value={ text === undefined? '' : text }
         className='ant-input'
         onChange={
@@ -39,9 +39,9 @@ const renderInputWithControl = renderInput;
 
 const renderDeleteButton = (deleteOne) => {
   return (text, record) => (
-    <Button
+    <Button className='btn'
       onClick={ () => deleteOne(Immutable.fromJS(record)) }
-    >X</Button>
+    ><Icon type='close'/></Button>
   );
 }
 
@@ -144,10 +144,7 @@ const EditableBetTable = (props) => {
       <div className='header'>
         <span className='title'>{ props.title }</span>
         <span className='icon'>
-          <Icon
-            type='close-circle'
-            onClick={ () => props.deleteMany(backBets.concat(layBets)) }
-          />
+          <i className='trash-icon' onClick={ () => props.deleteMany(backBets.concat(layBets)) }></i>
         </span>
       </div>
       <div className='bet-table'>

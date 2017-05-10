@@ -1,7 +1,9 @@
+@import '../../App/Colors.less';
+@import '../../App/Common.less';
+
 @betslip-width: 400px;
 @betslip-title-height: 40px;
 @betslip-footer-height: 40px;
-@betslip-title-bg: #004378;
 
 div.betslip {
   position: absolute;
@@ -18,14 +20,18 @@ div.betslip {
       height: 100%;
       margin: auto;
       text-align: center;
-      color: #FFF;
+      color: @white;
 
       > div.instructions {
         margin-top: 20%;
+        font-size:16px;
+        font-weight:500;
       }
 
       > div.my-bet-button {
         margin-top: 20%;
+        font-size:16px;
+   font-weight:500;
 
         > button {
           width: 100%;
@@ -40,7 +46,7 @@ div.betslip {
     height: 100%;
     width: 100%;
     text-align: center;
-    color: #fff;
+    color: @white;
     z-index: 1000;
 
     > div.instructions {
@@ -62,7 +68,7 @@ div.betslip {
     height: 100%;
     width: 100%;
     text-align: center;
-    color: #fff;
+    color: @white;
     z-index: 1000;
 
     > div.instructions {
@@ -73,7 +79,7 @@ div.betslip {
   div.footer {
     position: absolute;
     bottom: @betslip-footer-height;
-    background-color: @betslip-title-bg;
+    background-color: @betslip_bg;
     width: @betslip-width;
     padding: 5px;
 
@@ -82,8 +88,7 @@ div.betslip {
     }
 
     > button.place-bet {
-        background-color: #37C1FF;
-        color: white;
+        color: @white;
         width: 100%;
       }
   }

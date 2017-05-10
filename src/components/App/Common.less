@@ -164,8 +164,7 @@
 .btn-regular-disabled {
   background: @disable_btn;
   box-shadow: @btn_shadow;
-  //TODO: will remove important once button:pointer style remove for whole application
-  cursor: not-allowed !important;
+  cursor: not-allowed;
 }
 .btn-download{
   background: @download_btn;
@@ -638,6 +637,17 @@ input, .ant-input, .ant-calendar-input {
   vertical-align: middle;
   background-size: 100%;
   margin-right:10px;
+}
+
+// Trash Icon
+//[Market Betslips]
+.trash-icon{
+  background: url("../../assets/icons/trash_icon.png") no-repeat;
+  display: inline-block;
+  width:11px;
+  height:13px;
+  vertical-align: middle;
+  background-size: 100%;
 }
 
 // Search Icon

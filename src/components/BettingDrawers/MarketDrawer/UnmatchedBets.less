@@ -1,3 +1,6 @@
+@import '../../App/Colors.less';
+@import '../../App/Common.less';
+
 div.unmatched-bets {
   div.buttons {
     width: 100%;
@@ -9,6 +12,15 @@ div.unmatched-bets {
     
     button {
       width: 50%;
+    }
+  }
+  .btn-reset{
+    .btn-regular-disabled;
+    cursor: default;
+    &:hover, &:focus{
+      .btn-regular-disabled;
+      color: @white;
+      cursor: default;
     }
   }
 }
