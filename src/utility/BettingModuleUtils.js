@@ -231,8 +231,8 @@ var BettingModuleUtils = {
     // Assume all the bets are of the same bet type so we can just sample from the first bet
     const profitOrLiability = matchedBets.get(0).get('bet_type').toLowerCase() === 'back' ? 'profit' : 'liability';
     // profit and liability are consider the same thing with different label
-    let groupedProfitOrLiability = matchedBets.reduce((sum, bet) => sum + parseFloat(bet.get(profitOrLiability)), 0.0);
-    let groupedStake = matchedBets.reduce((sum, bet) => sum = parseFloat(bet.get('stake')), 0.0);
+    const groupedProfitOrLiability = matchedBets.reduce((sum, bet) => sum + parseFloat(bet.get(profitOrLiability)), 0.0);
+    const groupedStake = matchedBets.reduce((sum, bet) => sum = parseFloat(bet.get('stake')), 0.0);
     const averageOdds = (groupedStake + groupedProfitOrLiability) / groupedStake;
     return Immutable.fromJS({
       averageOdds: averageOdds.toFixed(oddsPlaces),
