@@ -212,6 +212,9 @@ export const translationsObject = {
       matched: 'Matched',
       moneyline: 'Moneyline'
     },
+    simple_betting_widget:{
+      no_data: 'There is no event to be displayed.'
+    },
     quick_bet_drawer: {
       header: 'BETSLIP',
       unconfirmed_bets: {
