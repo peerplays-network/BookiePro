@@ -105,25 +105,21 @@
     "electron": "electron ./src/electron-starter.js",
     "test": "jest",
     "updateSnapshot": "jest --updateSnapshot",
-    "clean": "rm -rf ./dist",
-    "clean:osx": "rm -rf ./dist/osx",
-    "clean:win": "rm -rf ./dist/win",
     "pack": "build --dir",
     "pack:all": "build -mw",
-    "dist": "dist:"
+    "dist": "build"
   },
   "build": {
-    "appId": "com.cosmox.bookie",
+    "appId": "com.peerplays.bookie",
     "mac": {
       "category": "public.app-category.productivity",
-      "icon": "./src/assets/icons/mac/icon.icns"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "icon": "./build/icon.icns"
     },
     "win": {
-      "icon": "./src/assets/icons/win/icon.ico"
+      "target" : [
+        "nsis"
+      ],
+      "icon": "./build/icon.ico"
     },
     "directories": {
       "buildResources": "public"
