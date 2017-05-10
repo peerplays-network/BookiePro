@@ -102,6 +102,12 @@ class MarketDrawerPrivateActions {
       type: ActionTypes.MARKET_DRAWER_HIDE_PLACED_BETS_ERROR,
     }
   }
+
+  static resetUnmatchedBets() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_RESET_UNMATCHED_BETS,
+    }
+  }
 }
 
 class MarketDrawerActions {
@@ -200,6 +206,12 @@ class MarketDrawerActions {
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.hidePlacedBetsConfirmation());
       dispatch(MarketDrawerPrivateActions.hidePlacedBetsError());
+    }
+  }
+
+  static clickReset() {
+    return (dispatch)  => {
+      dispatch(MarketDrawerPrivateActions.resetUnmatchedBets());
     }
   }
 }
