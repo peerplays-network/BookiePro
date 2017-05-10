@@ -1,11 +1,9 @@
 @import '../../App/Colors.less';
 @import '../../App/Common.less';
+
 .rules-modal{
   .ant-modal{
     overflow: hidden;
-    background: @dialogue_bg;
-    border: 1px solid @white;
-    box-shadow: @dialogue_shadow;
     top:5%;
     max-height: 90%;
     padding-bottom:0;
@@ -14,52 +12,20 @@
     background-color: transparent;
     border-radius: 0;
     border-bottom:0 none;
-    padding:25px 40px 15px;
+    padding:25px 40px 15px !important;
     .ant-modal-title{
       color: @dialogue_blue_title;
-      font-size:16px;
-      font-weight:700;
-      text-transform: uppercase;
     }
   }
   .ant-modal-body{
-    padding:0 40px 0;
+    padding:0 40px 15px !important;
     overflow: auto;
     height: 400px;
   }
-  .ant-modal-content{
-    background-color: transparent;
-  }
   p{
-    font-size:16px;
     line-height:32px;
     margin-bottom:30px;
     &:last-child{
-      margin-bottom:0;
-    }
-  }
-  .ant-modal-close{
-    right: 10px;
-    top: 10px;
-    color: @white;
-    font-weight:normal;
-    .ant-modal-close-x{
-      font-size: 18px;
-      width:auto;
-      height:auto;
-    }
-  }
-  ul{
-    margin-bottom:30px;
-    padding-left:30px;
-    p{
-      margin-bottom:0;
-      margin-left:-30px;
-    }
-    li{
-      list-style: disc;
-      font-size:16px;
-      line-height:32px;
       margin-bottom:0;
     }
   }
