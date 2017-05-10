@@ -1,6 +1,7 @@
-.Select-placeholder, .Select--single > .Select-control .Select-value {
-  line-height: 46px,
-}
+@import '../../App/Colors.less';
+@import '../../App/Common.less';
+
+
 
 div.search-menu{
   // assume there is one li only
@@ -16,15 +17,7 @@ div.search-menu{
 
       // hide the box shadow set by antd
       &:focus {
-        box-shadow: 0 0 0 0px;
-      }
-    }
-    .anticon {
-      font-size: 20px;
-      padding-bottom: 2px;
-      &:before{
-        display: inline-block;
-        margin-right:10px;
+        box-shadow: none;
       }
     }
   }
@@ -37,18 +30,21 @@ div.search-menu{
   .ant-menu-dark{
     background:transparent;
   }
+}
+.Select{
   .Select-control{
     background-color: transparent;
     border:0 none;
     padding: 16px 16px 0 16px;
     border-radius: 0;
-    color: #00BEF4;
+    color: @topbar_select_label;
     height: 60px;
     line-height: 22px;
+    width:350px;
   }
   .Select-placeholder{
-    color: #00BEF4;
-    font-size:16px;
+    color: @topbar_select_label;
+    font-size:18px;
     padding-top: 5px;
     padding-left:50px;
   }
@@ -58,124 +54,144 @@ div.search-menu{
   .Select-input{
     font-size:16px;
     padding-left:35px;
-    border-bottom:1px solid #00BEF4;
-    width:260px;
+    position: relative;
+    border-bottom:1px solid @topbar_select_label;
+    width:380px;
+    &:before{
+      position: absolute;
+      content: '';
+      left:0;
+      top:0;
+      .search-icon;
+      .search-icon-blue;
+      //Background size should be applied only after background property otherwise it would not work
+      background-size: 100%;
+    }
     input{
-      padding:0px;
+      color: @white;
+      height:auto;
+      padding:0;
+      font-size:18px;
+      &:focus{
+        border:0 none;
+        box-shadow: none;
+      }
     }
   }
-}
-.search-menu{
   .Select-menu-outer{
-    background-color: #002440;
-    color: #FFFFFF;
+    background-color: @topbar_search_result_bg;
+    color: @white;
     border:0 none;
     position: absolute;
     left:0;
     border-top:0 none;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
-    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.50);
-    background-color: #002440;
+    box-shadow: @card_shadow;
     opacity: 1;
-    .Select-menu{
-      padding-left: 35px;
-    }
   }
-}
-
-.Select{
   &.is-focused{
-    background-color: rgba(0, 36, 64, 0.5);
+    background-color: @topbar_more_menu_active;
   }
-  &.is-focus, &.is-open{
+  &.is-focus, &.is-open, &.has-value{
     .Select-input{
-      border-bottom-color: #FFFFFF;
+      border-bottom-color: @white;
     }
     .Select-input,.Select-placeholder{
-      color: #FFFFFF;
+      color: @white;
     }
-
+    .Select-input{
+      &:before{
+        .search-icon;
+        .search-icon-white;
+        //Background size should be applied only after background property otherwise it would not work
+        background-size: 100%;
+      }
+    }
+    &.has-value{
+      &> .Select-control .Select-value{
+        line-height: 56px;
+        padding-left:17px;
+      }
+    }
   }
-  .Select-input{
-    position: relative;
-    &:before{
-      content: "\E670";
+  .Select-clear-zone{
+    vertical-align: baseline;
+    top: 2px;
+    left: -15px;
+    .Select-clear{
       display: inline-block;
-      font-family: "anticon" !important;
-      position: absolute;
-      left:0;
-      top:0;
+      font-size: 32px;
+      color: #fff;
+      line-height: 18px;
+      width: 18px;
+      height: 18px;
     }
   }
-}
-
-.Select-option{
-  color: #FFFFFF;
-  background-color: transparent;
-  font-size:16px;
-  &.is-focused,&.is-pseudo-focused, &.is-selected{
-    color: #FFFFFF;
+  .Select-option{
+    color: @white;
     background-color: transparent;
+    font-size:16px;
+    padding-left:50px;
+    &.is-focused,&.is-pseudo-focused, &.is-selected{
+      color: @white;
+      background-color: transparent;
+    }
+    &:hover{
+      color: @white;
+      background-color: @topbar_more_menu_active;
+    }
   }
-  &:hover{
-    color: #FFFFFF;
-    background-color: rgba(0,78,155,0.20);
+  .Select-noresults{
+    color: @white;
+    font-size:16px;
+    padding-left:50px;
   }
-}
-
-.Select-noresults{
-  color: #FFFFFF;
-  font-size:16px;
-}
-
-.Select-clear-zone{
-  display: none;
-}
-
-// search result selected option styling
-.has-value.Select--single {
-  >.Select-control {
-    .Select-value {
-      .Select-value-label {
-        font-size: 18px;
-        color: #FFFFFF;
-        padding-left: 25px;
+  &.has-value.is-pseudo-focused{
+    .Select-input{
+      opacity:1;
+    }
+  }
+  // selected result input box styling
+  &.has-value{
+    .Select-input{
+      color: @white;
+      border-bottom-color: @white;
+    }
+  }
+  .Select-placeholder {
+    max-width: 368px;
+  }
+  &.Select--single {
+    >.Select-control {
+      .Select-value {
+        max-width: 368px;
+      }
+    }
+  }
+  .Select-placeholder, .Select--single > .Select-control .Select-value {
+    line-height: 44px;
+  }
+  // search result selected option styling
+  &.has-value.Select--single,&.has-value.is-pseudo-focused.Select--single {
+    >.Select-control {
+      .Select-value {
+        .Select-value-label {
+          font-size: 18px;
+          color: @white;
+          padding-left: 35px;
+        }
       }
     }
   }
 }
-.has-value.is-pseudo-focused.Select--single {
-  >.Select-control {
-    .Select-value {
-      .Select-value-label {
-        font-size: 18px;
-        color: #FFFFFF;
-        padding-left: 25px;
-      }
-    }
-  }
+.is-focused:not(.is-open) > .Select-control{
+  box-shadow: none;
 }
 
-.has-value.is-pseudo-focused{
-  .Select-input{
-    opacity:1;
-  }
-}
-// selected result input box styling
-.Select.has-value{
-  .Select-input{
-    color: #FFFFFF;
-    border-bottom-color: #FFFFFF;
-  }
-}
-.Select-placeholder {
-  max-width: 268px;
-}
-.Select--single {
-  >.Select-control {
-    .Select-value {
-      max-width: 268px;
-    }
-  }
-}
+
+
+
+
+
+
