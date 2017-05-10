@@ -40,7 +40,7 @@ const renderContent = (props) => (
           }
         </div>
         <div className='my-bet-button'>
-          <Button onClick={ () => props.navigateTo('/my-wager/') }>
+          <Button className='btn btn-regular' onClick={ () => props.navigateTo('/my-wager/') }>
             { I18n.t('market_drawer.unconfirmed_bets.empty.my_bet_button') }
           </Button>
         </div>
@@ -83,7 +83,7 @@ class BetSlip extends PureComponent {
           {
             !this.props.bets.isEmpty() &&
             <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
-              <Button className='place-bet' onClick={ this.props.clickPlaceBet }>
+              <Button className='btn btn-regular place-bet' onClick={ this.props.clickPlaceBet }>
                 { I18n.t('market_drawer.unconfirmed_bets.content.place_bet_button', { amount : 0.295}) }
               </Button>
             </div>

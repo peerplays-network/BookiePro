@@ -165,8 +165,7 @@
 .btn-regular-disabled {
   background: @disable_btn;
   box-shadow: @btn_shadow;
-  //TODO: will remove important once button:pointer style remove for whole application
-  cursor: not-allowed !important;
+  cursor: not-allowed;
 }
 .btn-download{
   background: @download_btn;
@@ -587,4 +586,15 @@ input, .ant-input, .ant-calendar-input {
 // pages - simple-betting rules modal
 .ant-modal-mask{
   background-color: @dialogue_overlay_bg;
+}
+
+// Trash Icon
+//[Market Betslips]
+.trash-icon{
+  background: url("../../assets/icons/trash_icon.png") no-repeat;
+  display: inline-block;
+  width:11px;
+  height:13px;
+  vertical-align: middle;
+  background-size: 100%;
 }

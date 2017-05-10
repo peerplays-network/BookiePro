@@ -22,10 +22,10 @@ class UnmatchedBets extends PureComponent {
           dimmed={ this.props.obscureContent }
         />
         <div className={ `buttons ${this.props.obscureContent ? 'dimmed' : ''}` }>
-          <Button onClick={ this.props.clickReset }>
+          <Button className='btn btn-reset' onClick={ () => console.log('unmatched bets reset') }>
             { I18n.t('market_drawer.unmatched_bets.content.reset_button') }
           </Button>
-          <Button onClick={ this.props.clickUpdateBet }>
+          <Button className='btn btn-regular' onClick={ this.props.clickUpdateBet }>
             { I18n.t('market_drawer.unmatched_bets.content.update_button', { amount : 0.295}) }
           </Button>
         </div>
