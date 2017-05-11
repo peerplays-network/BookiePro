@@ -38,10 +38,10 @@ const renderRetypePasswordField = ({ tabIndex, className, errors, input, type, m
 );
 
 //Component to render the checkboxes
-const renderCheckboxField = ({ pseudoText,tabIndex, errors, placeholder, input, label, type, meta: { touched, error, dirty } }) => (
+const renderCheckboxField = ({ id,pseudoText,tabIndex, errors, placeholder, input, label, type, meta: { touched, error, dirty } }) => (
   <div className='float-left width300 text-left align-checkbox'>
-    <input autoComplete='off' { ...input } type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
-    <label>{ pseudoText }</label>
+    <input id={ id } autoComplete='off' { ...input } type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
+    <label htmlFor={ id }> <span>{ pseudoText }</span></label>
   </div>
 );
 
