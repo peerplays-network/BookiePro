@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 import { LoadingStatus, ActionTypes } from '../constants';
 import { BettingModuleUtils } from '../utility';
-import { isMatchedBet, isUnmatchedBet, transformBetObject } from './dataUtils';
+import { transformBetObject } from './dataUtils';
 
 let initialState = Immutable.fromJS({
   unconfirmedBets: Immutable.List(),
