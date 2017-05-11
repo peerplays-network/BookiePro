@@ -18,8 +18,8 @@ const transformBetObject = bet =>
     bettor_id: bet.get('bettor_id'),
     // TODO: may not need toLowerCase once we got the real data
     bet_type: bet.get('back_or_lay').toLowerCase(),
-    odds: bet.get('amount_to_win').toString(),
-    stake: bet.get('amount_to_bet').toString(),
+    odds: bet.get('remaining_amount_to_win'),
+    stake: bet.get('remaining_amount_to_bet'),
     betting_market_id: bet.get('betting_market_id'),
   })
 

@@ -108,6 +108,13 @@ class MarketDrawerPrivateActions {
       type: ActionTypes.MARKET_DRAWER_RESET_UNMATCHED_BETS,
     }
   }
+
+  static setGroupByAverageOdds(groupByAverageOdds) {
+    return {
+      type: ActionTypes.MARKET_DRAWER_SET_GROUP_BY_AVERAGE_ODDS,
+      groupByAverageOdds
+    }
+  }
 }
 
 class MarketDrawerActions {
@@ -212,6 +219,12 @@ class MarketDrawerActions {
   static clickReset() {
     return (dispatch)  => {
       dispatch(MarketDrawerPrivateActions.resetUnmatchedBets());
+    }
+  }
+
+  static clickAverageOdds(groupByAverageOdds) {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.setGroupByAverageOdds(groupByAverageOdds));
     }
   }
 }

@@ -15,7 +15,7 @@ class UnmatchedBets extends PureComponent {
       <div className='unmatched-bets'>
         <EditableBetTable
           data={ this.props.bets }
-          title='Unmatched Bets'
+          title={ I18n.t('market_drawer.unmatched_bets.header') }
           deleteOne={ this.props.deleteUnmatchedBet }
           deleteMany={ this.props.deleteUnmatchedBets }
           updateOne={ this.props.updateUnmatcedBet }

@@ -193,99 +193,53 @@ var BettingModuleUtils = {
     return CurrencyUtils.getFormattedCurrency( total , currency, exposurePlaces, false);
 
   },
-
-
-  //  =========== Average Odds =========== CR-036 page 2
-
-  // Matched Back Bets (Pending Change Request)
-  // Grouped Profit = ∑ Profit
-  // Grouped Stake = ∑ Stake
-  // Average Odds (round to 2 decimal places) = (∑ Stake + ∑ Profit) / ∑ Stake
-
-  //  Matched Lay Bets (Pending Change Request)
-  //  Grouped Liability = ∑ Liability
-  // Grouped Backer’s Stake = ∑ Backer’s Stake
-  // Average Odds (round to 2 decimal places) = (∑ Backer’s Stake + ∑ Liability) / ∑ Backer’s Stake
-
-  // NOTE format below is outdated according to the wiki
-  // https://bitbucket.org/ii5/bookie/wiki/blockchain-objects/bet
-  // Parameters:
-  // matchedBets :  Immutable.List( Array(bets) )
-  // bets.js
-  // "id": "1.106.2",
-  // "bettor_id": "1.2.48",
-  // "betting_market_id": "1.105.12",
-  // "amount_to_bet": 2150,
-  // "amount_to_win": 5290,
-  // "back_or_lay": "Lay",
-  // "remaining_amount_to_bet": 2150,
-  // "remaining_amount_to_win": 5290,
-  // "cancelled": falset
-
-  // precision =  precision: state.getIn(['asset', 'assetsById', '1.3.0', 'precision'])
-
-  // Returns:
-  //  Immutable.toJS(
-  // average Odds,
-  //  Grouped Profit
-  // Grouped Stake
-  //  )
-
-
-  //     sample : render @ MyWager.jsx(
-  // BettingModuleUtils.getAverageOddsFromMatchedBets(this.props.matchedBetsData, 'mBTC', 5 )
-
-  getAverageOddsFromMatchedBets: function( matchedBets, currency = 'BTC', precision = 5){
-
-
-    // Grouped Profit = ∑ Profit
-    // Grouped Stake = ∑ Stake
-    //  Grouped Liability = ∑ Liability
-    // Grouped Backer’s Stake = ∑ Backer’s Stake
-    const accumulator = (result, bet) => {
-
-      const amountToBet = bet.get('amount_to_bet') / Math.pow(10, precision);
-      const amountToWin = bet.get('amount_to_win') / Math.pow(10, precision);
-
-      // TODO: may not need toLowerCase once we got the real data
-      if ( bet.get('back_or_lay').toLowerCase() === BetTypes.BACK){
-        // for back bet, amount to bet is stake, amount to win is profit
-        return result.update( 'groupedStake', (groupedStake) => groupedStake + amountToBet )
-          .update( 'groupedLiability', (groupedLiability) => groupedLiability + amountToWin )
-          .update( 'groupedProfit', (groupedProfit) => groupedProfit + amountToWin )
-
-      } else if ( bet.get('back_or_lay').toLowerCase() === BetTypes.LAY){
-        // for lay bet amount to bet is liability, amount to win is backers stake
-        return result.update( 'groupedStake', (groupedStake) => groupedStake + amountToWin )
-          .update( 'groupedLiability', (groupedLiability) => groupedLiability + amountToBet )
-          .update( 'groupedProfit', (groupedProfit) => groupedProfit + amountToBet )
-
-      } else {
-        return result;
-      }
-    }
-
-    let averageOddsresult =  matchedBets.reduce(accumulator, Immutable.fromJS({
-      'groupedProfit' : 0.0,
-      'groupedLiability' : 0.0,
-      'groupedStake' : 0.0,
-      'averageOdds' : 0.0,
-    }));
-
-    // Average Odds (round to 2 decimal places) = (∑ Backer’s Stake + ∑ Liability) / ∑ Backer’s Stake
-    // Average Odds (round to 2 decimal places) = (∑ Stake + ∑ Profit) / ∑ Stake
-    // assuming ∑ Stake !== 0
-    const averageOdds = ( averageOddsresult.get('groupedStake') + averageOddsresult.get('groupedProfit') ) /  averageOddsresult.get('groupedStake')
-
-    averageOddsresult = averageOddsresult
-      .set('averageOdds', averageOdds.toFixed(oddsPlaces))
-      .update('groupedProfit', (groupedProfit) => CurrencyUtils.getFormattedCurrency( groupedProfit, currency, exposurePlaces, false) )
-      .update('groupedLiability', (groupedLiability) => CurrencyUtils.getFormattedCurrency( groupedLiability, currency, exposurePlaces, false) )
-      .update('groupedStake', (groupedStake) => CurrencyUtils.getFormattedCurrency( groupedStake, currency, stakePlaces, false) );
-
-    return averageOddsresult;
+  /*
+   *  =========== Average Odds (CR-036) ===========
+   *  Matched Back Bets
+   *  Grouped Profit = ∑ Profit
+   *  Grouped Stake = ∑ Stake
+   *  Average Odds (round to 2 decimal places) = (∑ Stake + ∑ Profit) / ∑ Stake
+   *
+   *  Matched Lay Bets
+   *  Grouped Liability = ∑ Liability
+   *  Grouped Backer’s Stake = ∑ Backer’s Stake
+   *  Average Odds (round to 2 decimal places) = (∑ Backer’s Stake + ∑ Liability) / ∑ Backer’s Stake
+   *
+   *  Parameters:
+   *  matchedBets - list of matched bets with the same bet type, i.e. all back or all lay
+   *  currency - string representing the currency used in the final calculated values
+   *  precision - by default the average odds shpuld be rounded to 2 decimal places
+   *
+   *  Return:
+   *  Immuatable object that has the following fields:
+   *    - averageOdds
+   *    - groupedProfitOrLiability
+   *    - groupedStake
+   *
+   *  There is no clear distinction between profit and liability. They are
+   *  essentially calculated in the same way using odds and stake (back) or
+   *  backer's stake (lay) but are presented using different labels.
+   *
+   *  Notes:
+   *  This function expects a `normalized` bet objects. This `normalized` format
+   *  is only used within the betting application. Bet objects from Blockchain
+   *  should be transformed into the normalized format at the Reducer level using
+   *  the following common function: /src/reducers/dataUtils.js
+   *
+   */
+  calculateAverageOddsFromMatchedBets: function(matchedBets, currency = 'BTC', precision = 2) {
+    // Assume all the bets are of the same bet type so we can just sample from the first bet
+    const profitOrLiability = matchedBets.get(0).get('bet_type').toLowerCase() === 'back' ? 'profit' : 'liability';
+    // profit and liability are consider the same thing with different label
+    const groupedProfitOrLiability = matchedBets.reduce((sum, bet) => sum + parseFloat(bet.get(profitOrLiability)), 0.0);
+    const groupedStake = matchedBets.reduce((sum, bet) => sum = parseFloat(bet.get('stake')), 0.0);
+    const averageOdds = (groupedStake + groupedProfitOrLiability) / groupedStake;
+    return Immutable.fromJS({
+      averageOdds: averageOdds.toFixed(oddsPlaces),
+      groupedProfitOrLiability: CurrencyUtils.getFormattedCurrency( groupedProfitOrLiability, currency, exposurePlaces, false),
+      groupedStake: CurrencyUtils.getFormattedCurrency( groupedStake, currency, stakePlaces, false),
+    });
   }
-
 }
 
 export default BettingModuleUtils;

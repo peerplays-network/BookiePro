@@ -266,7 +266,7 @@ export const translationsObject = {
         }
       },
       placed_bets: {
-        header: 'UNMATCHED BETS',
+        header: 'PLACED BETS',
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
           my_bet_button: 'VIEW YOUR BETS IN MY BETS'
@@ -290,6 +290,12 @@ export const translationsObject = {
         content: {
           update_button: 'UPDATE \u0243%{amount}',
           reset_button: 'RESET',
+        }
+      },
+      matched_bets: {
+        header: 'MATCHED BETS',
+        content: {
+          average_odds: 'Average Odds',
         }
       }
     },
