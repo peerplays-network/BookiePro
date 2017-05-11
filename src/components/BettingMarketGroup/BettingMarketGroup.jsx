@@ -105,10 +105,10 @@ const createMarketData = (bettingMarkets, binnedOrderBooksByBettingMarketId,
     let offer = Immutable.Map({
       backIndex: 0,
       layIndex: 0,
-      betting_market_id: bettingMarket.get('id'),
+      bettingMarketId: bettingMarket.get('id'),
       backOrigin: aggregated_lay_bets.sort((a, b) => b.get('odds') - a.get('odds')),  //display in descending order, ensure best odd is in the first index
       layOrigin: aggregated_back_bets.sort((a, b) => a.get('odds') - b.get('odds')),  //display in ascending order, ensure best odd is in the first index
-
+      bettingMarketGroup: bettingMarketGroup,
     })
     data = data.set('offer', offer);
     marketData = marketData.push(data);

@@ -317,7 +317,7 @@ export const translationsObject = {
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
-        'Underover':{
+        'OverUnder':{
           content: '<p>%{eventName}</br>' +
           '%{marketName}</p>' +
           '<p>Scheduled Event Start Time:</br>' +
@@ -363,7 +363,7 @@ export const translationsObject = {
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
-        'Underover':{
+        'OverUnder':{
           content: '<p>%{eventName}</br>' +
           '%{marketName}</p>' +
           '<p>Scheduled Event Start Time:</br>' +
@@ -412,7 +412,7 @@ export const translationsObject = {
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
         //dummy not yet definied in ACD_v1.0
-        'Underover':{
+        'OverUnder':{
           content: '<p>%{eventName}</br>' +
           '%{marketName}</p>' +
           '<p>Scheduled Event Start Time:</br>' +
@@ -460,7 +460,7 @@ export const translationsObject = {
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
-        'Underover':{
+        'OverUnder':{
           content: '<p>%{eventName}</br>' +
           '%{marketName}</p>' +
           '<p>Scheduled Event Start Time:</br>' +
