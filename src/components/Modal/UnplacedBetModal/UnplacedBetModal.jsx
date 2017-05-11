@@ -9,7 +9,7 @@ class UnplacedBetModal extends Component {
     return (
       <Modal
         title={ I18n.t('unplacedBetModal.title') }
-        wrapClassName={ 'unplaced-bet-modal' }
+        wrapClassName={ 'vertical-center-modal' }
         closable={ true }
         maskClosable={ true }
         visible={ this.props.visible }
