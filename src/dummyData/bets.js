@@ -28,7 +28,7 @@ const bets = [
     "amount_to_bet": 250,
     "amount_to_win": 450,
     "back_or_lay": "Lay",
-    "remaining_amount_to_bet": 120,
+    "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 450,
     "cancelled": false
   },

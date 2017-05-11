@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 import { LoadingStatus, ActionTypes } from '../constants';
 import { BettingModuleUtils } from '../utility';
-import { isUnmatchedBet, transformBetObject } from './dataUtils';
+import { isMatchedBet, isUnmatchedBet, transformBetObject } from './dataUtils';
 
 let initialState = Immutable.fromJS({
   unconfirmedBets: Immutable.List(),
@@ -111,17 +111,17 @@ export default function(state = initialState, action) {
       let unmatchedBets = Immutable.List();
       let matchedBets = Immutable.List();
       action.placedBets.forEach(bet => {
-        if (isUnmatchedBet(bet)) {
-          // NOTE: The original values are stored as separate fields for the
-          //       implementation of the RESET button in Unmatched Bets
-          let transformed = transformBetObject(bet);
-          transformed = transformed
-                          .set('updated', false)
-                          .set('original_odds', transformed.get('odds'))
-                          .set('original_stake', transformed.get('stake'));
-          unmatchedBets = unmatchedBets.push(transformed);
-        } else {
-          matchedBets = matchedBets.push(transformBetObject(bet));
+        let transformed = transformBetObject(bet);
+        if (transformed.has('matched')) {
+          matchedBets = matchedBets.push(transformed.get('matched'));
+        }
+        if (transformed.has('unmatched')) {
+          let unmatchedBet = transformed.get('unmatched');
+          unmatchedBet = unmatchedBet
+                           .set('updated', false)
+                           .set('original_odds', unmatchedBet.get('odds'))
+                           .set('original_stake', unmatchedBet.get('stake'));
+          unmatchedBets = unmatchedBets.push(unmatchedBet);
         }
       });
       return state.merge({
