@@ -42,9 +42,9 @@ class Deposit extends PureComponent {
                     <p>
                       { <Translate value='deposit.left_description' dangerousHTML /> }
                     </p>
-                    <div className='depositAddress pos-relative'>
+                    <div className='depositAddress pos-rel'>
                       <Input readOnly className='bookie-input' value={ this.props.depositAddress }/>
-                      <button className='btn btn-regular copy-btn' onClick={ this.onClickCopy.bind(this, this.props.depositAddress) }>
+                      <button className='btn btn-regular inputWithButton' onClick={ this.onClickCopy.bind(this, this.props.depositAddress) }>
                         { I18n.t('deposit.copy') }
                       </button>
                     </div>

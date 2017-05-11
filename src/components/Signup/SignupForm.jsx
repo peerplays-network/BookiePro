@@ -24,7 +24,7 @@ const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touch
 const renderPasswordField = ({ onClickCopy, tabIndex, errors, input, type, meta: { touched, error, value} }) => (
   <div>
       <input autoComplete='off' readOnly { ...input } type={ type } tabIndex={ tabIndex } />
-      <button className='btn btn-regular copy-btn' onClick={ onClickCopy.bind(this, input.value) }>{I18n.t('signup.copy_text')}</button>
+      <button className='btn btn-regular inputWithButton' onClick={ onClickCopy.bind(this, input.value) }>{I18n.t('signup.copy_text')}</button>
       { (touched) && error && <span className='errorText'>{ error }</span> }
   </div>
 );
