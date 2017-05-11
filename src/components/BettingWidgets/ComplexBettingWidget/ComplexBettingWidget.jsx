@@ -176,7 +176,7 @@ class ComplexBettingWidget extends Component {
   }
 
   render() {
-    const { currencyFormat, bettingMarketGroup, bettingMarketGroupName, totalMatchedBetsAmount, eventTime, sportId, eventName } = this.props;
+    const { currencyFormat, bettingMarketGroup, bettingMarketGroupName, totalMatchedBetsAmount, eventTime, sportName, eventName } = this.props;
 
     const minNameWidth = 200;
     const minOfferWidth = 50;
@@ -350,8 +350,8 @@ class ComplexBettingWidget extends Component {
     }]
 
     //TODO using string for market_type_id instead of 1.xxxx.x
-    const ruleModalText =  ( bettingMarketGroup && sportId  &&
-      'rules_dialogue.' + sportId.split('.').join('_') + '.' + bettingMarketGroup.get('market_type_id') + '.content' ) || 'rules_dialogue.content'
+    const ruleModalText =  ( bettingMarketGroup && sportName  &&
+      'rules_dialogue.' + sportName.replace(/\s/g,'') + '.' + bettingMarketGroup.get('market_type_id') + '.content' ) || 'rules_dialogue.content'
 
     //retrieve system language when running in Electron app
     const currentLocale = window.navigator.language || window.navigator.userLanguage;

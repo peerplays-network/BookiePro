@@ -288,7 +288,7 @@ export const translationsObject = {
       'which they are receiving pictures or data.</p>',
 
       //American Football
-      '1_100_1':{
+      'AmericanFootball':{
         Moneyline:{
           content: '<p>%{eventName}</br>' +
           '%{marketName}</p>' +
@@ -334,7 +334,7 @@ export const translationsObject = {
 
       },
       //BasketBall
-      '1_100_2':{
+      'BasketBall':{
         Moneyline:{
           content: '<p>%{eventName}</br>' +
           '%{marketName}</p>' +
@@ -380,7 +380,7 @@ export const translationsObject = {
 
       },
       //BaseBall
-      '1_100_3':{
+      'BaseBall':{
         //dummy not yet definied in ACD_v1.0
         Moneyline:{
           content: '<p>%{eventName}</br>' +
@@ -429,7 +429,7 @@ export const translationsObject = {
 
       },
       //Soccer
-      '1_100_4':{
+      'Soccer':{
         //dummy not yet definied in ACD_v1.0
         Moneyline:{
           content: '<p>%{eventName}</br>' +
