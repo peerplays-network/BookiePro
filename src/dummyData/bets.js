@@ -59,10 +59,10 @@ const bets = [
     "bettor_id": "1.2.48",
     "betting_market_id": "1.105.2",
     "amount_to_bet": 1000,
-    "amount_to_win": 350,
+    "amount_to_win": 1350,
     "back_or_lay": "Back",
     "remaining_amount_to_bet": 700,
-    "remaining_amount_to_win": 350,
+    "remaining_amount_to_win": 1350,
     "cancelled": false
   },
   {
