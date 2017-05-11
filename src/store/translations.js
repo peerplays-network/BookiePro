@@ -129,10 +129,14 @@ export const translationsObject = {
       ' changed your password.'
     },
     notification: {
+      empty: 'No notification',
       deposit: 'The deposit of %{amount} %{currency} is confirmed',
       bet_resolved: 'A market you’ve bet on is ended and bets are resolved',
       software_update: 'New version available, update now',
       transaction_history_data_exported: 'Transaction History Data is exported'
+    },
+    softwareUpdate: {
+      default: 'New version found. Please update the version',
     },
     welcome:{
       getting_started: 'Getting Started',

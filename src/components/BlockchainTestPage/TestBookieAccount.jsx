@@ -10,9 +10,10 @@ import { acc2 } from '../../dummyData/accountInfo/acc2';
 import { Apis } from 'graphenejs-ws';
 import Immutable from 'immutable';
 
-const accountPublicKeys = ['TEST5YV8br6ztoCPQiC8XPJN2BU4jmywMic27QqGcR3DsyjHroViB7'];
+const accountPublicKeys = ['TEST5kpfGxMritUzRt9XB9vKjByZibGM9JMw915Twst1smFc8v9UYY', 'TEST7iHErQZYecgvWhC87NSkXJCxjert2wHyR7tiFhNrd4qkLcvXGN'];
 const accountPrivateKeys = {
-  'TEST5YV8br6ztoCPQiC8XPJN2BU4jmywMic27QqGcR3DsyjHroViB7': PrivateKey.fromWif('5JZpe5ANwzApzR4dPq24AXPVf3VMhDAHs5XV5T126bR255Q8Mhd')
+  'TEST5kpfGxMritUzRt9XB9vKjByZibGM9JMw915Twst1smFc8v9UYY': PrivateKey.fromWif('5JQWne7vqF2tAvo9DHUFquMKkNHrK8717ZBgaSBfndLzRPR13t3'),
+  'TEST7iHErQZYecgvWhC87NSkXJCxjert2wHyR7tiFhNrd4qkLcvXGN': PrivateKey.fromWif('5Jk1PKGQY8bwFNsVmcNxCXpGjdeaSUeBjJ6VcA6Mk4LA6C6dqj1')
 };
 const makeOrderSellAsset = '1.3.0';
 const makeOrderBuyAsset = '1.3.1';

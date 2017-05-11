@@ -1,9 +1,11 @@
 import { ActionTypes, Config } from '../constants';
 import { CommunicationService } from '../services';
+import { SoftwareUpdateUtils } from '../utility';
 import { ChainTypes } from 'graphenejs-lib';
 import { StringUtils } from '../utility';
 import log from 'loglevel';
 import NotificationActions from './NotificationActions';
+import AppActions from './AppActions';
 
 class SoftwareUpdatePrivateActions {
   static setUpdateParameter(version, displayText) {
@@ -54,25 +56,34 @@ class SoftwareUpdateActions {
               const memo = transaction.getIn(['op', 1, 'memo']);
               if (memo && memo.get('message')) {
                 // Assuming that we dun need to decrypt the message to parse 'software update' memo message
-                const memoJson =  JSON.parse(StringUtils.hex2a(memo.toJS().message));
-                const version = memoJson.version;
-                const displayText = memoJson.displayText;
+                let memoJson, version, displayText;
+                try {
+                  memoJson = JSON.parse(StringUtils.hex2a(memo.get('message')));
+                  version = memoJson.version;
+                  displayText = memoJson.displayText;
+                } catch (error) {
+                  log.warn('Invalid memo, most likely this is not software update transaction');
+                }
 
-                // If it has version then it is an update transaction
-                if (version) {
+                // If it has valid version then it is an update transaction
+                if (version && SoftwareUpdateUtils.isValidVersionNumber(version)) {
                   // Set update parameter
                   dispatch(SoftwareUpdatePrivateActions.setUpdateParameter(version, displayText));
-                  // Check if we need to add it to notification list
-                  const newVerNum = version.split('.');
-                  const currentVernNum = Config.version.split('.');
-                  const needSoftUpdate = ( newVerNum[0] ===  currentVernNum[0] ) && ( newVerNum[1] > currentVernNum[1] )
-                  if (needSoftUpdate) {
+                  const isNeedHardUpdate = SoftwareUpdateUtils.isNeedHardUpdate(version);
+                  const isNeedSoftUpdate = SoftwareUpdateUtils.isNeedSoftUpdate(version);
+                  // Show software update popup if needed
+                  if (isNeedHardUpdate || isNeedSoftUpdate) {
+                    dispatch(AppActions.showSoftwareUpdatePopupAction(true));
+                  }
+                  // Add notification if it is soft update
+                  if (isNeedSoftUpdate) {
                     dispatch(NotificationActions.addSoftUpdateNotification(version));
                   }
+                  log.trace('Check for software update succeed');
                   // Terminate early
                   return false;
                 }
-                log.debug('Check for software update succeed');
+
               }
             }
           });

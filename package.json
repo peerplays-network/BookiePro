@@ -95,7 +95,8 @@
     "redux-immutable": "~4.0.0",
     "redux-persist": "~4.4.2",
     "redux-persist-immutable": "~4.2.0",
-    "redux-thunk": "~2.2.0"
+    "redux-thunk": "~2.2.0",
+    "reselect": "~3.0.0"
   },
   "main": "src/electron-starter.js",
   "scripts": {

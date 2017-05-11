@@ -29,7 +29,31 @@ const { blockchainTimeStringToDate, getObjectIdPrefix, isRelevantObject } = Bloc
 class CommunicationService {
   static dispatch = null;
   static getState = null;
+  /**
+   * Updated blockchain objects in the following structure
+   * {
+   *   objectIdPrefix1: {
+   *     objectId1: object1,
+   *     objectId2: object2,
+   *     ....
+   *   },
+   *   objectIdPrefix2: {
+   *     objectId3: object3
+   *     objectId4: object4
+   *     ...
+   *   },
+   *   ...
+   * }
+   *
+   */
   static updatedObjectsByObjectIdByObjectIdPrefix = Immutable.Map();
+  /**
+   * Deleted blockchain object ids has the following structure
+   * {
+   *   objectIdPrefix1: [deletedObjectIds1],
+   *   objectIdPrefix2: [deletedObjectIds2],
+   *   ...
+   */
   static deletedObjectIdsByObjectIdPrefix = Immutable.Map();
   static syncReduxStoreWithBlockchainTime;
 
@@ -147,7 +171,7 @@ class CommunicationService {
               const updatedMostRecentOp = updatedObject.get('most_recent_op')
               const hasMadeNewTransaction = updatedMostRecentOp !== mostRecentOp;
               if (hasMadeNewTransaction) {
-                this.dispatch(NotificationActions.updateNotification());
+                this.dispatch(NotificationActions.checkForNewNotification());
               }
               // Set the newest statistic
               this.dispatch(AccountActions.setStatisticsAction(updatedObject));
@@ -398,6 +422,7 @@ class CommunicationService {
     stopTxHistoryId = stopTxHistoryId || currentTimeTransactionId;
 
     let result = Immutable.List();
+    // Note that startTxHistoryId is inclusive but stopTxHistoryId is not
     return this.callBlockchainHistoryApi('get_account_history',
                   [ accountId, stopTxHistoryId, adjustedLimit, startTxHistoryId]).then((history) => {
                     // Concat to the result
@@ -407,13 +432,14 @@ class CommunicationService {
                       // if we still haven't got all the data, do this again recursively
                       // Use the latest transaction id as new startTxHistoryId
                       const newStartTxHistoryId = history.last().get('id');
-                      return this.fetchTransactionHistory(accountId, newStartTxHistoryId, stopTxHistoryId, remainingLimit)
+                      return this.fetchTransactionHistory(accountId, newStartTxHistoryId, stopTxHistoryId, remainingLimit).then((nextHistory) => {
+                        // Append the result, don't forget to remove the first one since it's inclusive
+                        return result.concat(nextHistory.shift());
+                      })
                     } else {
                       return history;
                     }
-                  }).then((history) => {
-                    return result.concat(history);
-                  });
+                  })
   }
  /**
   * Fetch recent history of an account  given object id of the transaction

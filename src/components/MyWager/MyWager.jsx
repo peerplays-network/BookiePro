@@ -6,7 +6,7 @@ import ResolvedBets from './ResolvedBets';
 import { NavigateActions, BetActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getFormattedDate } from '../../utility/DateUtils';
+import { DateUtils } from '../../utility';
 import { mergeRelationData} from '../../utility/MergeObjectUtils';
 import _ from 'lodash';
 import { List, Map } from 'immutable';
@@ -14,6 +14,8 @@ import { LoadingStatus } from '../../constants';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { CurrencyUtils, BettingModuleUtils } from '../../utility';
+
+const { getFormattedDate } = DateUtils;
 
 const TabPane = Tabs.TabPane;
 var tabKey = 'unmatchedBets';

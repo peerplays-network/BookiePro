@@ -61,6 +61,16 @@ class NotificationPrivateActions {
  * Public actions
  */
 class NotificationActions {
+  // Mark notifications as read
+  static markNotificationsAsReadAction() {
+    return {
+      type: ActionTypes.NOTIFICATION_MARK_NOTIFICATIONS_AS_READ
+    }
+  }
+
+  /**
+   * Initialize notification (find the latest transaction history id)
+   */
   static initNotification(attempt=3) {
     return (dispatch, getState) => {
       const accountId = getState().getIn(['account', 'account', 'id']);
@@ -89,7 +99,7 @@ class NotificationActions {
         });
       } else {
         // If the pivot point already exists, update notification
-        dispatch(NotificationActions.updateNotification())
+        dispatch(NotificationActions.checkForNewNotification())
       }
 
     }
@@ -98,7 +108,7 @@ class NotificationActions {
   /**
    * Check for new transaction history and set notification accordingly
    */
-  static updateNotification(attempt=3) {
+  static checkForNewNotification(attempt=3) {
     return (dispatch, getState) => {
       const accountId = getState().getIn(['account', 'account', 'id']);
       const latestTxHistoryId = getState().getIn(['notification', 'latestTransactionHistoryIdByAccountId', accountId]);
@@ -114,7 +124,6 @@ class NotificationActions {
           // Filter history and extract relevant info
           relevantTransactions = NotificationService.filterRelevantTransactions(transactions, latestTxHistoryId);
           relevantAdditionalInfo = NotificationService.extractRelevantInfo(relevantTransactions)
-
           // Set reference to updated latest transaction history
           updatedLatestTxHistoryId = transactions && transactions.getIn([0, 'id']);
 
@@ -127,12 +136,16 @@ class NotificationActions {
         }).then((bettingMarkets) => {
           relevantBettingMarketsById = Immutable.Map(bettingMarkets.map( bettingMarket => [bettingMarket.get('id'), bettingMarket]));;
 
-          // Create notifications and store it
-          const notifications = NotificationService.convertTransactionsToNotifications(getState(),
-                                                                                        relevantTransactions,
-                                                                                        relevantAssetsById,
-                                                                                        relevantBettingMarketsById);
-          dispatch(NotificationPrivateActions.addNotificationsAction(notifications));
+          const isShowNotification = getState().getIn(['setting','settingByAccountId', accountId, 'notification']);
+          if (isShowNotification) {
+            // Create notifications and store it
+            const notifications = NotificationService.convertTransactionsToNotifications(getState(),
+                                                                                          relevantTransactions,
+                                                                                          relevantAssetsById,
+                                                                                          relevantBettingMarketsById);
+            dispatch(NotificationPrivateActions.addNotificationsAction(notifications));
+          }
+
           // Set latest tx history id
           dispatch(NotificationPrivateActions.setLatestTransactionHistoryId(updatedLatestTxHistoryId, accountId));
           log.debug('Update notification succeeds.');
@@ -140,7 +153,7 @@ class NotificationActions {
         }).catch((error) => {
           if (attempt > 0) {
             log.warn('Retry updating notification', error);
-            return dispatch(NotificationActions.updateNotification(attempt-1));
+            return dispatch(NotificationActions.checkForNewNotification(attempt-1));
           } else {
             log.error('Fail to update notification', error);
             dispatch(NotificationPrivateActions.setUpdateNotificationErrorAction(error));
@@ -156,11 +169,11 @@ class NotificationActions {
   static addSoftUpdateNotification(version) {
     return (dispatch) => {
       // Create notification object and add it
-      const notification = Immutable.Map({
-        type: NotificationTypes.SOFTWARE_UPDATE_AVAILABLE,
-        content: I18n.t('notification.software_update'),
-        date: new Date()
-      });
+      const type = NotificationTypes.SOFTWARE_UPDATE_AVAILABLE;
+      const content = I18n.t('notification.software_update');
+      const date = new Date();
+      // Create notification object and add it
+      const notification = NotificationService.createNotificationObject(type, content, date);
       const notifications = Immutable.List([notification]);
       dispatch(NotificationPrivateActions.addNotificationsAction(notifications));
     }
@@ -171,23 +184,23 @@ class NotificationActions {
    */
   static addTransactionHistoryExportNotification() {
     return (dispatch) => {
+      const type = NotificationTypes.TRANSACTION_HISTORY_DATA_EXPORTED;
+      const content = I18n.t('notification.transaction_history_data_exported');
+      const date = new Date();
       // Create notification object and add it
-      const notification = Immutable.Map({
-        type: NotificationTypes.TRANSACTION_HISTORY_DATA_EXPORTED,
-        content: I18n.t('notification.transaction_history_data_exported'),
-        date: new Date()
-      });
+      const notification = NotificationService.createNotificationObject(type, content, date);
       const notifications = Immutable.List([notification]);
       dispatch(NotificationPrivateActions.addNotificationsAction(notifications));
     }
   }
 
-  static removeNotificationsAction(notifications) {
+  static removeNotificationsAction(notificationIds) {
     return {
       type: ActionTypes.NOTIFICATION_REMOVE_NOTIFICATIONS,
-      notifications
+      notificationIds
     }
   }
+
 }
 
 export default NotificationActions;

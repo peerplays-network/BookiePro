@@ -5,11 +5,12 @@ import Withdraw from '../../MyAccount/Withdraw'
 import Amount from './AmountDropDown'
 import Notification from './Notification'
 import DropdownMenu from './DropdownMenu'
-import { BetActions, AuthActions, BalanceActions } from '../../../actions';
+import { BetActions, AuthActions, BalanceActions, NotificationActions, NavigateActions, AppActions } from '../../../actions';
+import { NotificationTypes } from '../../../constants';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import { NavigateActions } from '../../../actions';
 import { CurrencyUtils, BettingModuleUtils } from '../../../utility';
+import { createSelector } from 'reselect';
 
 class TopMenu extends Component {
   constructor(props) {
@@ -17,17 +18,65 @@ class TopMenu extends Component {
     this.state = {
       current: 'smile',
       withdrawAmount:'',
-      isSubMenuVisible: false
+      isSubMenuVisible: false,
+      isNotificationCardVisible: false
     };
 
     this.handleClick = this.handleClick.bind(this);
     this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
+    this.handleNotificationCardItemClick = this.handleNotificationCardItemClick.bind(this);
+    this.handleNotificationCardItemClickClose = this.handleNotificationCardItemClickClose.bind(this);
+    this.handleNotificationCardVisibleChange = this.handleNotificationCardVisibleChange.bind(this);
   }
 
   handleWithdrawSubmit(values){
     //track the withdraw amount to display in success message after successfull submit
     this.setState({withdrawAmount:values.get('withdrawAmount')});
     this.props.withdraw(values.get('withdrawAmount'), values.get('walletAddr'));
+  }
+
+  handleNotificationCardVisibleChange(visible) {
+    this.setState((prevState) => {
+      return { isNotificationCardVisible: visible }
+    })
+  }
+
+  handleNotificationCardItemClickClose(notification) {
+    const notificationId = notification && notification.get('id');
+    this.props.removeNotifications([notificationId]);
+  }
+
+  handleNotificationCardItemClick(notification) {
+    const notificationType = notification && notification.get('type');
+    switch (notificationType) {
+      case NotificationTypes.DEPOSIT: {
+        this.props.navigateTo('/my-account');
+        break;
+      }
+      case NotificationTypes.BET_RESOLVED: {
+        this.props.navigateTo('/my-wager');
+        break;
+      }
+      case NotificationTypes.EVENT_CANCELLED: {
+        this.props.navigateTo('/my-account');
+        break;
+      }
+      case NotificationTypes.SOFTWARE_UPDATE_AVAILABLE: {
+        this.props.showSoftwareUpdatePopup(true);
+        break;
+      }
+      case NotificationTypes.TRANSACTION_HISTORY_DATA_EXPORTED: {
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+    // Hide notification dropdown
+    this.setState((prevState) => {
+      return { isNotificationCardVisible: false }
+    })
+
   }
 
   componentDidMount(){
@@ -59,6 +108,9 @@ class TopMenu extends Component {
       case 'logout':
         this.props.logout();
         this.setState({ isSubMenuVisible: false });
+        break;
+      case 'notifications':
+        this.props.markNotificationsAsRead();
         break;
       default:
     }
@@ -93,9 +145,12 @@ class TopMenu extends Component {
       <DropdownMenu cardClass='menu-card' onSubmenuClick={ this.handleClick } />
     );
     const notificationCard = (
-      <Notification cardClass='notification-card' />
+      <Notification
+        notifications={ this.props.notifications }
+        onClickItem={ this.handleNotificationCardItemClick }
+        onClickCloseItem={ this.handleNotificationCardItemClickClose }
+      />
     );
-
     return (
       <Menu
         className='top-menu'
@@ -138,10 +193,16 @@ class TopMenu extends Component {
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='notifications' className='notification'>
-          <Dropdown trigger={ ['click'] } overlay={ notificationCard } placement='bottomRight'>
+          <Dropdown
+            trigger={ ['click'] }
+            overlay={ notificationCard }
+            placement='bottomRight'
+            visible={ this.state.isNotificationCardVisible }
+            onVisibleChange={ this.handleNotificationCardVisibleChange }
+          >
             <div className='icon-main notification-icon-main'>
               <a className='ant-dropdown-link' href='#'>
-              <Badge count={ 5 }>
+              <Badge count={ this.props.unreadNotificationNumber }>
                 <i className='notification-icon'></i>
               </Badge>
             </a>
@@ -168,7 +229,7 @@ class TopMenu extends Component {
 const mapStateToProps = (state) => {
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
-  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting']) ;
+  const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']) ;
   const precision = state.getIn(['asset', 'assetsById', '1.3.0']).get('precision');
   /*-1 will be used to check to display 'Not available' against the withdraw amount field
       when the asset '1.3.0' is not obtained for some reason
@@ -177,7 +238,7 @@ const mapStateToProps = (state) => {
   const convertedAvailableBalance = CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces);
   let availableBalance = balance !== undefined ? convertedAvailableBalance : -1;
 
-  //since we don't have any API to get inGameBalances, we summing unmatched and matched bets
+  // in game balances is gained by summing matched bets and unmatched bets
   let inGameAmount = 0;
   state.getIn(['bet','unmatchedBetsById'])
   .filter(row => !state.getIn(['bet','cancelBetsByIdsLoadingStatus']).get(row.get('id')))
@@ -189,6 +250,19 @@ const mapStateToProps = (state) => {
   });
   inGameAmount = CurrencyUtils.getFormattedCurrency(inGameAmount/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.stakePlaces)
 
+  const notificationsSelector = (state) => state.getIn(['notification', 'notifications']);
+  const notifications = notificationsSelector(state);
+  // Calculate unread notif
+  const unreadNotificationNumberSelector = createSelector(
+    notificationsSelector,
+    (notifications) => {
+      return notifications.reduce((acc, notification) => {
+        return acc + (notification.get('isRead') ? 0 : 1);
+      }, 0)
+    }
+  )
+  const unreadNotificationNumber = unreadNotificationNumberSelector(state);
+
   return {
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: state.getIn(['balance', 'getDepositAddressLoadingStatus']),
@@ -198,7 +272,9 @@ const mapStateToProps = (state) => {
     precision: precision,
     convertedAvailableBalance: convertedAvailableBalance,
     currencyFormat: setting.get('currencyFormat'),
-    inGameAmount: inGameAmount
+    inGameAmount: inGameAmount,
+    notifications,
+    unreadNotificationNumber
   }
 }
 
@@ -209,7 +285,10 @@ function mapDispatchToProps(dispatch) {
     //TODO: Wallet Address verification and error response pending.
     withdraw: BalanceActions.withdraw,
     logout: AuthActions.logoutAndShowPopupIfNeeded,
-    getOngoingBets: BetActions.getOngoingBets
+    getOngoingBets: BetActions.getOngoingBets,
+    markNotificationsAsRead: NotificationActions.markNotificationsAsReadAction,
+    removeNotifications: NotificationActions.removeNotificationsAction,
+    showSoftwareUpdatePopup: AppActions.showSoftwareUpdatePopupAction
   }, dispatch)
 }
 
