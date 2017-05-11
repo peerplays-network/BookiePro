@@ -43,7 +43,9 @@ class BettingMarketGroup extends Component {
           eventTime={ this.props.eventTime }
         />
         <ComplexBettingWidget
+          sportName={ this.props.sportName }
           eventName={ this.props.eventName }
+          eventTime={ this.props.eventTime }
           bettingMarketGroup={ this.props.bettingMarketGroup }
           bettingMarketGroupName={ this.props.bettingMarketGroupName }
           marketData={ this.props.marketData }
@@ -104,10 +106,10 @@ const createMarketData = (bettingMarkets, binnedOrderBooksByBettingMarketId,
     let offer = Immutable.Map({
       backIndex: 0,
       layIndex: 0,
-      betting_market_id: bettingMarket.get('id'),
+      bettingMarketId: bettingMarket.get('id'),
       backOrigin: aggregated_lay_bets.sort((a, b) => b.get('odds') - a.get('odds')),  //display in descending order, ensure best odd is in the first index
       layOrigin: aggregated_back_bets.sort((a, b) => a.get('odds') - b.get('odds')),  //display in ascending order, ensure best odd is in the first index
-
+      bettingMarketGroup: bettingMarketGroup,
     })
     data = data.set('offer', offer);
     marketData = marketData.push(data);
@@ -129,6 +131,7 @@ const mapStateToProps = (state, ownProps) => {
   const bettingMarketGroupsById = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
   const binnedOrderBooksByBettingMarketId = state.getIn(['binnedOrderBook', 'binnedOrderBooksByBettingMarketId']);
   const bettingMarketsById = state.getIn(['bettingMarket', 'bettingMarketsById']);
+  const sportsById = state.getIn(['sport', 'sportsById']);
   const eventsById = state.getIn(['event', 'eventsById']);
   const competitorsById = state.getIn(['competitor', 'competitorsById']);
 
@@ -157,12 +160,16 @@ const mapStateToProps = (state, ownProps) => {
   // Extract home name and away name ( competitors)
   let homeName = ''
   let awayName = ''
+  let sportName = ''
 
   if ( event){
     const homeCompetitorId = event.getIn(['scores', homeId, 'competitor_id']);
     const awayCompetitorId = event.getIn(['scores', awayId, 'competitor_id']);
     homeName = competitorsById.getIn([homeCompetitorId, 'name']);
     awayName = competitorsById.getIn([awayCompetitorId, 'name']);
+
+    const sportId = competitorsById.getIn([homeCompetitorId, 'sport_id']);
+    sportName = sportsById.getIn([sportId, 'name']);
   }
 
   // Extract betting markets related to the betting market group
@@ -194,6 +201,7 @@ const mapStateToProps = (state, ownProps) => {
   const marketDrawer = state.get('marketDrawer');
 
   return {
+    sportName,
     bettingMarketGroup,
     bettingMarkets: relatedBettingMarkets,
     marketData,

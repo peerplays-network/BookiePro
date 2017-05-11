@@ -8,6 +8,7 @@ import { Icon } from 'antd';
 import RulesModal from '../../Modal/RulesModal'
 import { I18n, Translate } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 const oddFloatPlaces = 2;
 const itemDisplay = 3;
@@ -77,7 +78,7 @@ class ComplexBettingWidget extends Component {
 
         //get Exposure
         let market_exposure = 0.00
-        const bettingMarketId = row.getIn(['offer', 'betting_market_id']);
+        const bettingMarketId = row.getIn(['offer', 'bettingMarketId']);
         const betslip_exposure = BettingModuleUtils.getExposure(bettingMarketId, unconfirmedBets);
 
         //update i th row
@@ -144,8 +145,10 @@ class ComplexBettingWidget extends Component {
     const offer = Immutable.fromJS(rowInfo.rowValues[column.id]);
     // Only need the odds value
     const odds = offer && offer.get('odds');
-    const betting_market_id = rowInfo.row.offer.betting_market_id;
-    this.props.createBet(competitor, betType, betting_market_id, odds);
+    const bettingMarketId = rowInfo.row.offer.bettingMarketId;
+    const bettingMarketGroup = Immutable.fromJS(rowInfo.row.offer.bettingMarketGroup);
+
+    this.props.createBet(competitor, betType, bettingMarketId, odds, bettingMarketGroup);
   }
 
   placeAllBestBets(event) {
@@ -156,8 +159,10 @@ class ComplexBettingWidget extends Component {
       const competitor =  row.get('name');
       const offer = row.getIn([ 'offer', betType + 'Origin', '0' ])
       const odds = offer && offer.get('odds');
-      const betting_market_id = row.getIn( ['offer', 'betting_market_id'])
-      this.props.createBet(competitor, betType, betting_market_id, odds);
+      const bettingMarketId = row.getIn( ['offer', 'bettingMarketId'])
+      const bettingMarketGroup = row.getIn( ['offer', 'bettingMarketGroup'])
+
+      this.props.createBet(competitor, betType, bettingMarketId, odds, bettingMarketGroup);
     });
 
 
@@ -175,7 +180,7 @@ class ComplexBettingWidget extends Component {
   }
 
   render() {
-    const { currencyFormat, bettingMarketGroupName, totalMatchedBetsAmount } = this.props;
+    const { currencyFormat, bettingMarketGroup, bettingMarketGroupName, totalMatchedBetsAmount, eventTime, sportName, eventName } = this.props;
 
     const minNameWidth = 200;
     const minOfferWidth = 50;
@@ -348,6 +353,13 @@ class ComplexBettingWidget extends Component {
       render: props => <div className='lay-offer'>{ '>' }</div>
     }]
 
+    //TODO using string for market_type_id instead of 1.xxxx.x
+    const ruleModalText =  ( bettingMarketGroup && sportName  &&
+      'rules_dialogue.' + sportName.replace(/\s/g,'') + '.' + bettingMarketGroup.get('market_type_id') + '.content' ) || 'rules_dialogue.content'
+
+    //retrieve system language when running in Electron app
+    const currentLocale = window.navigator.language || window.navigator.userLanguage;
+
     return (
 
       <div className='complex-betting'>
@@ -359,7 +371,11 @@ class ComplexBettingWidget extends Component {
             </span>
             {/* Rules Dialogue box */}
             <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
-              <Translate value='rules_dialogue.content' dangerousHTML/>
+              <Translate value={ ruleModalText }
+                datetime={ moment(eventTime).locale(currentLocale).format('LLL') }
+                eventName={ eventName }
+                marketName={ bettingMarketGroupName }
+                dangerousHTML/>
             </RulesModal>
           </div>
         </div>
