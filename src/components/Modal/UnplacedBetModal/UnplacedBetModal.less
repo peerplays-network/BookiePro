@@ -1,24 +1,71 @@
-/* use css to set position of modal */
+@import '../../App/Colors.less';
+@import '../../App/Common.less';
+
 .unplaced-bet-modal {
   text-align: center;
-  white-space: nowrap;
+  .ant-modal{
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    top: 0;
+    text-align: left;
+    .ant-modal-header{
+      border-bottom-color: @dialogue_header_border;
+      height: 48px;
+      line-height: 48px;
+      padding:0 15px;
+      .ant-modal-title{
+        color: @dialogue_blue_title;
+      }
+    }
+    .ant-modal-body{
+      padding: 10px 15px;
+    }
+    .ant-modal-footer{
+      border-top:0 none;
+      text-align: center;
+      margin-top: 5px;
+      padding:10px 25px;
+      display: flex;
+      .ant-btn{
+        width:100%;
+        &.ant-btn{
+          .btn-regular-disabled;
+          cursor: pointer !important;
+        }
+        &.ant-btn-primary{
+          .btn-regular;
+        }
+        &:hover{
+          color: inherit;
+        }
+      }
+    }
+  }
+  &:before{
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    width: 0;
+  }
 }
-
-.unplaced-bet-modal:before {
-  content: '';
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-  width: 0;
-}
-
-.unplaced-bet-modal .ant-modal {
-  display: inline-block;
-  vertical-align: middle;
-  top: 0;
-  text-align: left;
-}
-
-.unplaced-bet-modal .ant-modal-body {
-  color: black;
-}
+//
+// .unplaced-bet-modal:before {
+//   content: '';
+//   display: inline-block;
+//   height: 100%;
+//   vertical-align: middle;
+//   width: 0;
+// }
+//
+// .unplaced-bet-modal .ant-modal {
+//   display: inline-block;
+//   vertical-align: middle;
+//   top: 0;
+//   text-align: left;
+// }
+//
+// .unplaced-bet-modal .ant-modal-body {
+//   color: black;
+// }
