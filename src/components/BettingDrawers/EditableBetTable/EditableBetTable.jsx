@@ -30,8 +30,8 @@ const renderInput = (field, action) => {
             }
           }
         />
-        <a className='arrow-icon-main icon-up' href=''><i className='icon-arrow icon-up-arrow'></i></a>
-        <a className='arrow-icon-main icon-down' href=''><i className='icon-arrow icon-down-arrow'></i></a>
+        <a className='arrow-icon-main icon-up' onClick={ () => {} }><i className='icon-arrow icon-up-arrow'></i></a>
+        <a className='arrow-icon-main icon-down' onClick={ () => {} }><i className='icon-arrow icon-down-arrow'></i></a>
       </div>
     );
   }
