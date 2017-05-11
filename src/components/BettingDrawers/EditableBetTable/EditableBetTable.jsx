@@ -30,8 +30,8 @@ const renderInput = (field, action) => {
             }
           }
         />
-        <a className='up-arrow' href=''><i className='icon-up-down-arrow icon-up-arrow'></i></a>
-        <a className='down-arrow' href=''><i className='icon-up-down-arrow icon-down-arrow'></i></a>
+        <a className='arrow-icon-main icon-up' href=''><i className='icon-arrow icon-up-arrow'></i></a>
+        <a className='arrow-icon-main icon-down' href=''><i className='icon-arrow icon-down-arrow'></i></a>
       </div>
     );
   }
