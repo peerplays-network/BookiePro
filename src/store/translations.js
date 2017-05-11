@@ -334,7 +334,7 @@ export const translationsObject = {
 
       },
       //BasketBall
-      'BasketBall':{
+      'Basketball':{
         Moneyline:{
           content: '<p>%{eventName}</br>' +
           '%{marketName}</p>' +
@@ -380,7 +380,7 @@ export const translationsObject = {
 
       },
       //BaseBall
-      'BaseBall':{
+      'Baseball':{
         //dummy not yet definied in ACD_v1.0
         Moneyline:{
           content: '<p>%{eventName}</br>' +

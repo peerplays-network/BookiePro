@@ -352,7 +352,7 @@ class ComplexBettingWidget extends Component {
     //TODO using string for market_type_id instead of 1.xxxx.x
     const ruleModalText =  ( bettingMarketGroup && sportName  &&
       'rules_dialogue.' + sportName.replace(/\s/g,'') + '.' + bettingMarketGroup.get('market_type_id') + '.content' ) || 'rules_dialogue.content'
-
+      console.log( ruleModalText)
     //retrieve system language when running in Electron app
     const currentLocale = window.navigator.language || window.navigator.userLanguage;
 
