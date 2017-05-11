@@ -389,6 +389,12 @@ export const translationsObject = {
       confirm: 'Logout',
       cancel: 'Cancel'
     },
+    unplacedBetModal: {
+      title: 'Confirm navigation',
+      explanation: 'You have UNPLACED bets in your betslip. Your selections will be discarded when you leave this page. Are you sure you want to leave this page?',
+      confirm: 'Leave this page',
+      cancel: 'Stay on this page'
+    },
     bannerClock: {
       header: 'Time Remaining',
       days: 'DAYS',
