@@ -67,8 +67,8 @@ class ChangePassword extends PureComponent{
                 //Show the success message when the password has been changed successfully (DONE) and the form will be hidden
                 this.props.loadingStatus===LoadingStatus.DONE && this.props.errors.isEmpty()  ?
                 <div className='text-center'>
-                  <Icon type='lock big-icon'/>
-                  <p className='font16 margin-tb-20'>{ <Translate value='changePassword.successText' dangerousHTML/> }</p>
+                  <i className='icon-lock'></i>
+                  <p className='font16'>{ <Translate value='changePassword.successText' dangerousHTML/> }</p>
                     <button className='btn btn-regular grid-100 margin-top-25' type='button' onClick={ this.navigateToMyAccount }>
                       { I18n.t('changePassword.back_to_my_account') }
                     </button>
