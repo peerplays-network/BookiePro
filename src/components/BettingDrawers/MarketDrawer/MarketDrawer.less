@@ -1,11 +1,25 @@
+@import '../../App/Colors.less';
+@import '../../App/Common.less';
+
 @market-drawer-width: 400px;
 @market-drawer-title-height: 40px;
 @market-drawer-footer-height: 40px;
-@market-drawer-title-bg: #004378;
 
 #market-drawer {
   height: 100%;
-
+  .ant-tabs-nav-container{
+    height: auto;
+  }
+  .btn-regular{
+    &:hover, &:focus{
+      .btn-regular;
+      color: @white;
+    }
+  }
+  .ant-tabs-bar{
+    margin-bottom:0;
+    border:0 none;
+  }
   div.ant-tabs {
     height: 100%;
   }
@@ -15,21 +29,24 @@
     background: none;
 
     div.ant-tabs-tab {
-      color: #FFF;
+      color: @white;
       width: 50%;
-      background: none;
-      background-color: #004378;
+      background-color: @market_drawer_tab_bg;
       margin: 0px;
       border-radius: 0px;
-      border-color: transparent;
-      font-size: 18px;
-      font-weight: 500;
+      border: 0 none;
+      height:40px;
+      line-height:40px;
+      padding:0;
       text-align: center;
-
-      &.ant-tabs-tab-active {
-        background-color: #00BEF4;
+      font-size:18px;
+      font-weight:700;
+      box-shadow: @market_drawer_btn_shadow;
+      &.ant-tabs-tab-active{
+        background-color: @market_drawer_tab_active_bg;
       }
     }
+
   }
 
   div.content {
@@ -42,7 +59,7 @@
       margin: auto;
       text-align: center;
       margin-top: 20%;
-      color: #FFF;
+      color: @white;
 
       > div.my-bet-button {
         margin-top: 20%;
@@ -57,12 +74,11 @@
   div.footer {
     position: absolute;
     bottom: @market-drawer-footer-height;
-    background-color: @market-drawer-title-bg;
+    background-color: @market_drawer_title_bg;
     width: @market-drawer-width;
     padding: 5px;
 
     > button.place-bet {
-        background-color: #37C1FF;
         color: white;
         width: 100%;
       }

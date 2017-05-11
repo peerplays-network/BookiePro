@@ -15,20 +15,24 @@ const renderInput = (field, action) => {
     // we cannot use antd Input component here because we have problem
     // changing the value if user clicks on an offer from the same market
     return (
-      <input
-        type='text'
-        value={ text === undefined? '' : text }
-        className='ant-input'
-        onChange={
-          (event) => {
-            const delta = Immutable.Map()
-                            .set('id', record.id)
-                            .set('field', field)
-                            .set('value', event.target.value);
-            action(delta);
+      <div className='pos-rel'>
+        <input
+          type='text'
+          value={ text === undefined? '' : text }
+          className='ant-input'
+          onChange={
+            (event) => {
+              const delta = Immutable.Map()
+                .set('id', record.id)
+                .set('field', field)
+                .set('value', event.target.value);
+              action(delta);
+            }
           }
-        }
-      />
+        />
+        <a className='arrow-icon-main icon-up' onClick={ () => {} }><i className='icon-arrow icon-up-arrow'></i></a>
+        <a className='arrow-icon-main icon-down' onClick={ () => {} }><i className='icon-arrow icon-down-arrow'></i></a>
+      </div>
     );
   }
 }
@@ -39,9 +43,9 @@ const renderInputWithControl = renderInput;
 
 const renderDeleteButton = (deleteOne) => {
   return (text, record) => (
-    <Button
+    <Button className='btn'
       onClick={ () => deleteOne(Immutable.fromJS(record)) }
-    >X</Button>
+    ><Icon type='close'/></Button>
   );
 }
 
@@ -144,10 +148,7 @@ const EditableBetTable = (props) => {
       <div className='header'>
         <span className='title'>{ props.title }</span>
         <span className='icon'>
-          <Icon
-            type='close-circle'
-            onClick={ () => props.deleteMany(backBets.concat(layBets)) }
-          />
+          <i className='trash-icon' onClick={ () => props.deleteMany(backBets.concat(layBets)) }></i>
         </span>
       </div>
       <div className='bet-table'>

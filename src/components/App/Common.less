@@ -164,8 +164,7 @@
 .btn-regular-disabled {
   background: @disable_btn;
   box-shadow: @btn_shadow;
-  //TODO: will remove important once button:pointer style remove for whole application
-  cursor: not-allowed !important;
+  cursor: not-allowed;
 }
 .btn-download{
   background: @download_btn;
@@ -215,7 +214,7 @@ input, .ant-input, .ant-calendar-input {
   color: @breadcrumb_link;
   font-size:16px;
   text-transform: uppercase;
-  margin:20px 0 20px!important;
+  margin:20px 0 20px;
   a,.ant-breadcrumb-separator{
     color: @white;
     font-weight:normal;
@@ -640,6 +639,17 @@ input, .ant-input, .ant-calendar-input {
   margin-right:10px;
 }
 
+// Trash Icon
+//[Market Betslips]
+.trash-icon{
+  background: url("../../assets/icons/trash_icon.png") no-repeat;
+  display: inline-block;
+  width:11px;
+  height:13px;
+  vertical-align: middle;
+  background-size: 100%;
+}
+
 // Search Icon
 //Topbar Search Section
 .search-icon {
@@ -653,4 +663,19 @@ input, .ant-input, .ant-calendar-input {
 }
 .search-icon-white {
   background: url("../../assets/icons/search_icon_hover.png") no-repeat;
+}
+
+.icon-arrow{
+  display: inline-block;
+  width: 9px;
+  height: 5px;
+  vertical-align: middle;
+}
+.icon-up-arrow{
+  background: url("../../assets/icons/up_arrow_icon.png") no-repeat;
+  background-size: 100%;
+}
+.icon-down-arrow{
+  background: url("../../assets/icons/down_arrow_icon.png") no-repeat;
+  background-size: 100%;
 }
