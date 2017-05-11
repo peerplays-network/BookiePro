@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal } from 'antd';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 
 class UnplacedBetModal extends Component {
@@ -7,17 +8,17 @@ class UnplacedBetModal extends Component {
   render() {
     return (
       <Modal
-        title={ 'Confirm navigation' }
+        title={ I18n.t('unplacedBetModal.title') }
         wrapClassName={ 'unplaced-bet-modal' }
         closable={ true }
         maskClosable={ true }
         visible={ this.props.visible }
         onOk={ this.props.onLeave }
         onCancel={ this.props.onStay }
-        okText={ 'Leave this page' }
-        cancelText={ 'Stay on this page' }
+        okText={ I18n.t('unplacedBetModal.confirm') }
+        cancelText={ I18n.t('unplacedBetModal.cancel') }
       >
-        <p>You have UNPLACED bets in your betslip. Your selections will be discarded when you leave this page. Are you sure you want to leave this page?</p>
+        <p>{ I18n.t('unplacedBetModal.explanation') }</p>
       </Modal>
     );
   }
