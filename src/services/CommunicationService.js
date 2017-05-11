@@ -528,32 +528,85 @@ class CommunicationService {
     });
   }
 
-
   /**
    * Get any blockchain object given their id
    */
-  static getObjectsByIds(arrayOfObjectIds = [], fromBlockchain=false) {
-    // TODO: remove this separation later
-    if (fromBlockchain) {
-      return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]);
-    } else {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const filteredResult = [];
-          // Iterate every object in dummy data to find the matching object
-          let allObjects = [];
-          _.forEach(dummyData, (item) => {
-            allObjects = _.concat(allObjects, item);
-          })
-          _.forEach(allObjects, (item) => {
-            if (arrayOfObjectIds.includes(item.id)) {
-              filteredResult.push(item);
-            }
-          })
-          resolve(Immutable.fromJS(filteredResult));
-        }, TIMEOUT_LENGTH);
-      });
-    }
+  static getObjectsByIds(arrayOfObjectIds = []) {
+    return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]);
+  }
+
+  static getDummyObjectsByIds(arrayOfObjectIds = []) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = [];
+        // Iterate every object in dummy data to find the matching object
+        let allObjects = [];
+        _.forEach(dummyData, (item) => {
+          allObjects = _.concat(allObjects, item);
+        })
+        _.forEach(allObjects, (item) => {
+          if (arrayOfObjectIds.includes(item.id)) {
+            filteredResult.push(item);
+          }
+        })
+        resolve(Immutable.fromJS(filteredResult));
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get assets by id
+   */
+  static getAssetsByIds(assetIds) {
+    return this.getObjectsByIds(assetIds);
+  }
+
+  /**
+   * Get betting market by id
+   */
+  static getBettingMarketsByIds(bettingMarketIds) {
+    // TODO: Replace later
+    return this.getDummyObjectsByIds(bettingMarketIds);
+  }
+
+  /**
+   * Get betting market group by id
+   */
+  static getBettingMarketGroupsByIds(bettingMarketGroupIds) {
+    // TODO: Replace later
+    return this.getDummyObjectsByIds(bettingMarketGroupIds);
+  }
+
+  /**
+   * Get competitors by id
+   */
+  static getCompetitorsByIds(competitorIds) {
+    // TODO: Replace later
+    return this.getDummyObjectsByIds(competitorIds);
+  }
+
+  /**
+   * Get event by id
+   */
+  static getEventsByIds(eventIds) {
+    // TODO: Replace later
+    return this.getDummyObjectsByIds(eventIds);
+  }
+
+  /**
+   * Get event group by id
+   */
+  static getEventGroupsByIds(eventGroupIds) {
+    // TODO: Replace later
+    return this.getDummyObjectsByIds(eventGroupIds);
+  }
+
+  /**
+   * Get sport by id
+   */
+  static getSportsByIds(sportIds) {
+    // TODO: Replace later
+    return this.getDummyObjectsByIds(sportIds);
   }
 
   /**

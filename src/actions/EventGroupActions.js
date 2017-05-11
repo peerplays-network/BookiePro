@@ -63,7 +63,7 @@ class EventGroupActions {
       } else {
         // Set status
         dispatch(EventGroupPrivateActions.setGetEventGroupsByIdsLoadingStatusAction(idsOfEventGroupsToBeRetrieved, LoadingStatus.LOADING));
-        return CommunicationService.getObjectsByIds(idsOfEventGroupsToBeRetrieved).then((eventGroups) => {
+        return CommunicationService.getEventGroupsByIds(idsOfEventGroupsToBeRetrieved).then((eventGroups) => {
           // Add to redux store
           dispatch(EventGroupActions.addOrUpdateEventGroupsAction(eventGroups));
           // Set status
