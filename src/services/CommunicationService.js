@@ -411,7 +411,7 @@ class CommunicationService {
    * Fetch transaction history of an account given object id of the transaction
    * This function do the fetch recursively if there is more than 100 transactions between startTxHistoryId and stopTxHistoryId
    */
-  static fetchTransactionHistory(accountId, startTxHistoryId, stopTxHistoryId, limit=100) {
+  static fetchTransactionHistory(accountId, startTxHistoryId, stopTxHistoryId, limit=Number.MAX_SAFE_INTEGER) {
     // Upper limit for getting transaction is 100
     const fetchUpperLimit = 100;
       // If the limit given is higher than upper limit, we need to call the api recursively
@@ -444,7 +444,7 @@ class CommunicationService {
  /**
   * Fetch recent history of an account  given object id of the transaction
   */
-  static fetchRecentHistory(accountId, stopTxHistoryId, limit=100) {
+  static fetchRecentHistory(accountId, stopTxHistoryId, limit=Number.MAX_SAFE_INTEGER) {
     // 1.11.0 denotes the current time
     const currentTimeTransactionId = ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0';
     const startTxHistoryId = currentTimeTransactionId;
@@ -535,7 +535,11 @@ class CommunicationService {
     return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]);
   }
 
+  /**
+   * Get dummy blockchain objects given their ids
+   */
   static getDummyObjectsByIds(arrayOfObjectIds = []) {
+    // TODO: Remove later
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const filteredResult = [];

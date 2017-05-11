@@ -47,18 +47,18 @@ class SoftwareUpdateActions {
         return dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());
       } else {
         // Get latest 100 transaction history and parse it
-        return CommunicationService.fetchRecentHistory(referenceAccountId).then((history) => {
+        return CommunicationService.fetchRecentHistory(referenceAccountId, null, 100).then((history) => {
           history.forEach((transaction) => {
             const operationType = transaction.getIn(['op', 0]);
             // 0 is operation type for transfer
             if (operationType === ChainTypes.operations.transfer) {
               // Check memo
-              const memo = transaction.getIn(['op', 1, 'memo']);
-              if (memo && memo.get('message')) {
+              const memoMessage = transaction.getIn(['op', 1, 'memo', 'message']);
+              if (memoMessage) {
                 // Assuming that we dun need to decrypt the message to parse 'software update' memo message
                 let memoJson, version, displayText;
                 try {
-                  memoJson = JSON.parse(StringUtils.hex2a(memo.get('message')));
+                  memoJson = JSON.parse(StringUtils.hex2a(memoMessage));
                   version = memoJson.version;
                   displayText = memoJson.displayText;
                 } catch (error) {

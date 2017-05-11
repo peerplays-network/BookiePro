@@ -13,7 +13,6 @@ let initialState = Immutable.fromJS({
 
 export default function (state = initialState, action) {
   switch(action.type) {
-
     case ActionTypes.BALANCE_SET_GET_DEPOSIT_ADDRESS_LOADING_STATUS: {
       return state.merge({
         getDepositAddressLoadingStatus: action.loadingStatus

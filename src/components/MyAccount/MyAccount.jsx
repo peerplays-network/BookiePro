@@ -529,7 +529,7 @@ function mapDispatchToProps(dispatch) {
     updateSettingTimeZone: SettingActions.updateSettingTimeZone,
     updateSettingNotification: SettingActions.updateSettingNotification,
     updateCurrencyFormat: SettingActions.updateCurrencyFormat,
-    getTransactionHistory: HistoryActions.getTransactionHistory,
+    getTransactionHistory: HistoryActions.getTransactionHistoryGivenTimeRange,
     getTransactionHistoryExport: HistoryActions.getTransactionHistoryExport,
     resetTransactionHistoryExportLoadingStatus: HistoryActions.resetTransactionHistoryExportLoadingStatus,
     clearTransactionHistoryExport: HistoryActions.clearTransactionHistoryExport,
