@@ -64,17 +64,23 @@ div.simple-betting {
       }
 
       td {
-        padding: 3px 6px;
+        padding: 0;
         // To disable the default mouseover highlight
         background-color: transparent;
+        &>*{
+          padding-top:3px;
+          padding-bottom:3px;
+        }
 
         &.event-time {
           word-break: break-word;
           font-weight:bold;
+          padding:0 6px;
         }
         &.event-name {
           font-size: 14px;
           font-weight:500;
+          padding:0 6px;
         }
         &.back-offer {
           background-color: @simple_betting_back_bg;
@@ -91,7 +97,7 @@ div.simple-betting {
 
         > a {
           color: @simple_betting_label;
-
+          display: block;
           > div.offer {
             > div.odds {
               font-size: 16px;
