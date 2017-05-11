@@ -44,6 +44,7 @@ class LogoutModal extends Component {
         onCancel={ this.onClickCancel }
         okText={ I18n.t('logoutModal.confirm') }
         cancelText={ I18n.t('logoutModal.cancel') }
+        width={ 428 }
       >
         <p>{ I18n.t('logoutModal.explanation') }</p>
         <p>{ I18n.t('logoutModal.confirmation') }</p>
