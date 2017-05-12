@@ -49,12 +49,8 @@ class PlacedBets extends PureComponent {
     return (
       <div className='placed-bets'>
         <div className='content' ref='placedBets'>
-          { !this.props.isEmpty &&
-            <div>
-              <UnmatchedBets/>
-              <MatchedBets/>
-            </div>
-          }
+          { !this.props.isEmpty && <UnmatchedBets/> }
+          { !this.props.isEmpty && <MatchedBets/> }
           { this.props.showPlacedBetsConfirmation && renderOverlay(this.props, 'confirmation', 0.051) }
           { this.props.showPlacedBetsError && renderOverlay(this.props, 'error') }
           { // TODO: Replace this with an approved spinning icon.
