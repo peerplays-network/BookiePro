@@ -13,9 +13,9 @@ import { I18n } from 'react-redux-i18n';
  * Private actions
  */
 class NotificationPrivateActions {
-  static addNotificationsAction(notifications) {
+  static prependNotificationsAction(notifications) {
     return {
-      type: ActionTypes.NOTIFICATION_ADD_NOTIFICATIONS,
+      type: ActionTypes.NOTIFICATION_PREPEND_NOTIFICATIONS,
       notifications
     }
   }
@@ -143,7 +143,7 @@ class NotificationActions {
                                                                                           relevantTransactions,
                                                                                           relevantAssetsById,
                                                                                           relevantBettingMarketsById);
-            dispatch(NotificationPrivateActions.addNotificationsAction(notifications));
+            dispatch(NotificationPrivateActions.prependNotificationsAction(notifications));
           }
 
           // Set latest tx history id
@@ -175,7 +175,7 @@ class NotificationActions {
       // Create notification object and add it
       const notification = NotificationService.createNotificationObject(type, content, date);
       const notifications = Immutable.List([notification]);
-      dispatch(NotificationPrivateActions.addNotificationsAction(notifications));
+      dispatch(NotificationPrivateActions.prependNotificationsAction(notifications));
     }
   }
 
@@ -190,7 +190,7 @@ class NotificationActions {
       // Create notification object and add it
       const notification = NotificationService.createNotificationObject(type, content, date);
       const notifications = Immutable.List([notification]);
-      dispatch(NotificationPrivateActions.addNotificationsAction(notifications));
+      dispatch(NotificationPrivateActions.prependNotificationsAction(notifications));
     }
   }
 
