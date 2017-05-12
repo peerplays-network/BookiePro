@@ -12,10 +12,16 @@ const initialState = Immutable.fromJS({
   blockchainGlobalProperty: null,
   isShowLogoutPopup: false,
   isShowSoftwareUpdatePopup: false,
+  isShowNotificationCard: false,
 });
 
 export default function (state = initialState, action) {
   switch(action.type) {
+    case ActionTypes.APP_SHOW_NOTIFICATION_CARD: {
+      return state.merge({
+        isShowNotificationCard: action.isShowNotificationCard
+      });
+    }
     case ActionTypes.APP_SHOW_SOFTWARE_UPDATE_POPUP: {
       return state.merge({
         isShowSoftwareUpdatePopup: action.isShowSoftwareUpdatePopup

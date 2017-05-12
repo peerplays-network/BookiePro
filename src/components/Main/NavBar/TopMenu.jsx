@@ -36,9 +36,7 @@ class TopMenu extends Component {
   }
 
   handleNotificationCardVisibleChange(visible) {
-    this.setState((prevState) => {
-      return { isNotificationCardVisible: visible }
-    })
+    this.props.showNotificationCard(visible);
   }
 
   handleNotificationCardItemClickClose(notification) {
@@ -197,7 +195,7 @@ class TopMenu extends Component {
             trigger={ ['click'] }
             overlay={ notificationCard }
             placement='bottomRight'
-            visible={ this.state.isNotificationCardVisible }
+            visible={ this.props.isShowNotificationCard }
             onVisibleChange={ this.handleNotificationCardVisibleChange }
           >
             <div className='icon-main notification-icon-main'>
@@ -250,6 +248,7 @@ const mapStateToProps = (state) => {
   });
   inGameAmount = CurrencyUtils.getFormattedCurrency(inGameAmount/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.stakePlaces)
 
+  const isShowNotificationCard = state.getIn(['app', 'isShowNotificationCard']);
   const notificationsSelector = (state) => state.getIn(['notification', 'notifications']);
   const notifications = notificationsSelector(state);
   // Calculate unread notif
@@ -274,7 +273,8 @@ const mapStateToProps = (state) => {
     currencyFormat: setting.get('currencyFormat'),
     inGameAmount: inGameAmount,
     notifications,
-    unreadNotificationNumber
+    unreadNotificationNumber,
+    isShowNotificationCard
   }
 }
 
@@ -288,7 +288,8 @@ function mapDispatchToProps(dispatch) {
     getOngoingBets: BetActions.getOngoingBets,
     markNotificationsAsRead: NotificationActions.markNotificationsAsReadAction,
     removeNotifications: NotificationActions.removeNotificationsAction,
-    showSoftwareUpdatePopup: AppActions.showSoftwareUpdatePopupAction
+    showSoftwareUpdatePopup: AppActions.showSoftwareUpdatePopupAction,
+    showNotificationCard: AppActions.showNotificationCardAction
   }, dispatch)
 }
 

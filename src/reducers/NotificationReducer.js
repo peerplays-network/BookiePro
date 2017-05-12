@@ -14,8 +14,9 @@ let initialState = Immutable.fromJS({
 
 export default function (state = initialState, action) {
   switch(action.type) {
-    case ActionTypes.NOTIFICATION_ADD_NOTIFICATIONS: {
-      return state.update('notifications', notifications => notifications.concat(action.notifications));
+    case ActionTypes.NOTIFICATION_PREPEND_NOTIFICATIONS: {
+      const notificationsToBePrepended = action.notifications || Immutable.List();
+      return state.update('notifications', notifications => notificationsToBePrepended.concat(notifications));
     }
     case ActionTypes.NOTIFICATION_REMOVE_NOTIFICATIONS: {
       let nextState = state;

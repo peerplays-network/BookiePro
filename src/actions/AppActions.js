@@ -59,6 +59,16 @@ class AppActions {
   /**
    * Action to show logout popup
    */
+  static showNotificationCardAction(isShowNotificationCard) {
+    return {
+      type: ActionTypes.APP_SHOW_NOTIFICATION_CARD,
+      isShowNotificationCard
+    }
+  }
+
+  /**
+   * Action to show logout popup
+   */
   static showLogoutPopupAction(isShowLogoutPopup) {
     return {
       type: ActionTypes.APP_SHOW_LOGOUT_POPUP,
