@@ -47,8 +47,10 @@ class Notification extends PureComponent{
     }
 
     return(
-      <Card className='notification-card' ref='notification'>
-        { children }
+      <Card className='notification-card'>
+        <div  className='notification-card-content' ref='notification'>
+          { children }
+        </div>
       </Card>
     )
   }
