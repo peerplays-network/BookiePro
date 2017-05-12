@@ -28,6 +28,7 @@ import QuickBetDrawerReducer from './QuickBetDrawerReducer';
 import MarketDrawerReducer from './MarketDrawerReducer';
 import HistoryReducer from './HistoryReducer';
 import BalanceReducer from './BalanceReducer';
+import MywagerReducer from './MywagerReducer';
 
 
 const rootReducer = combineReducers({
@@ -45,6 +46,7 @@ const rootReducer = combineReducers({
   binnedOrderBook: BinnedOrderBookReducer,
   liquidity: LiquidityReducer,
   allSports: AllSportsReducer,
+  mywager: MywagerReducer,
   sportPage: SportPageReducer,
   eventGroupPage: EventGroupPageReducer,
   bettingMarketGroupPage: BettingMarketGroupPageReducer,
@@ -58,7 +60,7 @@ const rootReducer = combineReducers({
   marketDrawer: MarketDrawerReducer,
   routing: ImmutableRouterReducer,
   form: formReducer,
-  i18n: Immutablei18nReducer,
+  i18n: Immutablei18nReducer
 });
 
 export default rootReducer;

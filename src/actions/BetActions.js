@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import Immutable, { Map } from 'immutable';
 import { CommunicationService, WalletService } from '../services';
 import { LoadingStatus, ActionTypes } from '../constants';
 import BettingMarketActions from './BettingMarketActions';
@@ -8,6 +8,12 @@ import SportActions from './SportActions';
 import { TransactionBuilder } from 'graphenejs-lib';
 import _ from 'lodash';
 import log from 'loglevel';
+import DateUtils from '../utility/DateUtils';
+import moment from 'moment';
+import { CurrencyUtils, BettingModuleUtils } from '../utility';
+import { mergeRelationData, mergeBettingMarketGroup } from '../utility/MergeObjectUtils';
+
+const getFormattedDate = DateUtils.getFormattedDate;
 
 /**
  * Private actions
@@ -254,7 +260,7 @@ class BetActions {
   /**
    * Get resolved bets to export
    */
-  static getResolvedBetsToExport(startTime, stopTime) {
+  static getResolvedBetsToExport(targetCurrency, columns) {
     return (dispatch, getState) => {
       // const accountId = getState().getIn(['account', 'account', 'id']);
       //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
@@ -265,7 +271,7 @@ class BetActions {
       setTimeout(function(){
         // TODO: Replace with actual blockchain call
         let retrievedResolvedBets = [];
-        CommunicationService.getResolvedBets(accountId, startTime, stopTime).then((resolvedBets) => {
+        CommunicationService.getResolvedBets(accountId, getState().getIn(['mywager','startDate']), getState().getIn(['mywager','endDate'])).then((resolvedBets) => {
           if(getState().getIn(['bet', 'getResolvedBetsExportLoadingStatus'])===LoadingStatus.DEFAULT)
             return;
           retrievedResolvedBets = resolvedBets;
@@ -289,8 +295,71 @@ class BetActions {
           // Get the betting market groups
           return dispatch(SportActions.getSportsByIds(sportIds));
         }).then((sports) => {
+          let precision = getState().getIn(['asset', 'assetsById', '1.3.0']).get('precision');
+          let exportData = [];
+          retrievedResolvedBets.forEach(row =>
+          {
+            let rowObj = {
+              key: row.get('id'),
+              id: row.get('id'),
+              'betting_market_id': row.get('betting_market_id'),
+              'back_or_lay': row.get('back_or_lay'),
+              'amount_to_bet': row.get('amount_to_bet'),
+              'amount_to_win': row.get('amount_to_win')
+            }
+            exportData.push(Map(rowObj));
+          });
+
+          //merging betting market data for display and betting_market_group_id for reference
+          exportData = mergeRelationData(exportData, getState().getIn(['bettingMarket','bettingMarketsById']), 'betting_market_id',
+            {betting_market_group_id: 'betting_market_group_id' , payout_condition_string: 'payout_condition_string'});
+
+          //merging betting market group data for display and eventid for reference
+          exportData = mergeBettingMarketGroup(exportData,
+            getState().getIn(['bettingMarketGroup','bettingMarketGroupsById']), 'betting_market_group_id');
+
+          //merging evemt data for display and sport id for reference
+          exportData = mergeRelationData(exportData, getState().getIn(['event','eventsById']), 'event_id',
+            {'name': 'event_name' , 'start_time': 'event_time', 'sport_id': 'sport_id'});
+
+          //merging sport data for display
+          exportData = mergeRelationData(exportData, getState().getIn(['sport','sportsById']), 'sport_id',
+            {'name': 'sport_name'});
+
+          //showing past data as resolvedBets and future data as matchedBets unmatchedBets
+          exportData = exportData.filter(row => (moment(row.get('event_time')).isBetween(getState().getIn(['mywager','startDate']), getState().getIn(['mywager','endDate']))))
+          //check if this can be improved
+          //TODO: use .map() instead of foreach as suggested
+          exportData.forEach((row, index) => {
+            let rowObj = {
+              'event_time': getFormattedDate(row.get('event_time')),
+              'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
+              'odds' : (row.get('amount_to_win') / row.get('amount_to_bet')).toFixed(2),
+
+              //randomly changed win value to negative for liability display
+              'amount_to_bet' : CurrencyUtils.getFormattedCurrency(row.get('amount_to_bet')/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.stakePlaces),
+              'amount_to_win' : CurrencyUtils.getFormattedCurrency(row.get('amount_to_win')/ Math.pow(10, precision) * ( Math.floor(Math.random()*2) === 1 ? 1 : -1 ),
+                targetCurrency, BettingModuleUtils.exposurePlaces),
+            };
+            exportData[index] = row.merge(rowObj);
+          });
+          //Generated Resolved bets export object array using foreach to display properties in particular order in excel.
+          //TODO: Need to check if this can be improved
+          /*NOTE: Things to be taken care of for Resolved bet export data are listed below:-
+            1. Object property name change as per column configuration
+            2. Sequence of properties in Object as per column configuration
+            3. Removing unwanted columns from export data
+          */
+          exportData.forEach((row, index) => {
+            let formattedRow = {};
+            for (var i = 0; i < columns.length; i++) {
+              formattedRow[columns[i].title] = row.get(columns[i].key);
+            }
+            exportData[index] = formattedRow;
+          });
+
           // Add to redux store
-          dispatch(BetActions.addOrUpdateResolvedBetsExportAction(retrievedResolvedBets));
+          dispatch(BetActions.addOrUpdateResolvedBetsExportAction(exportData));
           // Set Resolved Bets Export Loadings tatus
           dispatch(BetPrivateActions.setGetResolvedBetsExportLoadingStatusAction(LoadingStatus.DONE));
           log.debug('Get resolved bets export succeed.');

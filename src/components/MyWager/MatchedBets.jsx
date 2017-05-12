@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table } from 'antd';
+import { Table, LocaleProvider } from 'antd';
 import { LoadingStatus } from '../../constants';
 import { I18n } from 'react-redux-i18n';
 import { List } from 'immutable';
@@ -13,14 +13,16 @@ class MatchedBets extends Component {
         <div className='filterComponent'>
           <div className='float-left'>
             <p className='card-title'>
-              { I18n.t('mybets.total') + ' : ' + (currencyFormat === 'BTC' ? 'Ƀ ' : 'm ') + (betsTotal ? betsTotal : 0) }
+              { I18n.t('mybets.total') + ' : ' + currencyFormat + (betsTotal ? betsTotal : 0) }
             </p>
           </div>
         </div>
-        <Table className='bookie-table' pagination={ { pageSize: 10 } } rowKey='id'
-          locale={ {emptyText: ( matchedBets && matchedBets.length === 0 &&
-            matchedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : matchedBetsLoadingStatus )} }
-            dataSource={ List(matchedBets).toJS() } columns={ columns } />
+        <LocaleProvider locale={ I18n.t('application.locale') }>
+          <Table className='bookie-table' pagination={ { pageSize: 10 } } rowKey='id'
+            locale={ {emptyText: ( matchedBets && matchedBets.length === 0 &&
+              matchedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : matchedBetsLoadingStatus )} }
+              dataSource={ List(matchedBets).toJS() } columns={ columns } />
+        </LocaleProvider>
       </div>
     )
   }
