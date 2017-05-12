@@ -77,7 +77,7 @@ class PlacedBets extends PureComponent {
                 }
               </div>
               <div className='my-bet-button'>
-                <Button onClick={ () => this.props.navigateTo('/my-wager/') }>
+                <Button className='btn btn-regular' onClick={ () => this.props.navigateTo('/my-wager/') }>
                   { I18n.t('market_drawer.placed_bets.empty.my_bet_button') }
                 </Button>
               </div>
