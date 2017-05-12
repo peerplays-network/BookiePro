@@ -9,21 +9,6 @@
 // App
 @base-font-size: 14px;
 
-
-
-@nav-bar-height: 64px;
-
-// SideBar
-@side-bar-bg: #1563A0;
-@side-bar-divider: #061F33;
-@side-bar-icon: #FFFFFF;
-@side-bar-icon-seleced: #00BEF4;
-@side-bar-selected: #061F33;
-@side-bar-width: 70px;
-
-// Tabular Data
-@table-bg: #065CB7;
-
 // Media Queries
 @desktop:     ~"only screen and (max-width: 1366px)";
 @desktop-xl:  ~"only screen and (min-width: 1366px)";
@@ -62,7 +47,7 @@
 .ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail,
 .ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail,
 .ps-container:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail  {
-  background-color: #1563A0;
+  background-color: @scroller_bg;
   opacity: 0.9;
 }
 .ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x,
@@ -71,7 +56,7 @@
 .ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y,
 .ps-container:hover > .ps-scrollbar-x-rail:hover > .ps-scrollbar-x,
 .ps-container:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y   {
-  background-color: #1563A0;
+  background-color: @scroller_bg
 }
 .ps-container > .ps-scrollbar-x-rail,
 .ps-container > .ps-scrollbar-y-rail {
@@ -80,9 +65,12 @@
   /* please don't change 'position' */
   -webkit-border-radius: 2px;
   border-radius: 2px;
-  opacity: 0;
+
   -webkit-transition: background-color .2s linear, opacity .2s linear;
   transition: background-color .2s linear, opacity .2s linear;
+}
+.ps-container > .ps-scrollbar-y-rail{
+  opacity: 1;
 }
 .ps-container > .ps-scrollbar-x-rail{
   bottom: 3px; /* there must be 'bottom' for ps-scrollbar-x-rail */
@@ -90,14 +78,14 @@
 }
 .ps-container > .ps-scrollbar-y-rail {
   right: 3px; /* there must be 'right' for ps-scrollbar-y-rail */
-  width: 5px; /* vertical scrollbar width */
+  width: 6px; /* vertical scrollbar width */
 }
 .ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x,
 .ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y {
   position: absolute;  /* please don't change 'position' */
-  background-color: #1563A0;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
+  background-color: @scroller_bg;
+  -webkit-border-radius: 12px;
+  border-radius: 12px;
   -webkit-transition: background-color .2s linear;
   transition: background-color .2s linear;
 }
@@ -107,13 +95,13 @@
 }
 .ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y {
   right: 0; /* there must be 'right' for ps-scrollbar-y */
-  width: 5px; /* vertical scrollbar width */
+  width: 6px; /* vertical scrollbar width */
 }
 .ps-container:hover.ps-in-scrolling {
   pointer-events: none;
 }
 .ps-container:hover > .ps-scrollbar-x-rail, .ps-container:hover > .ps-scrollbar-y-rail {
-  opacity: 0.6;
+  opacity: 1;
 }
 
 html {
