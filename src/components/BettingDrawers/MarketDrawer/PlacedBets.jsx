@@ -51,17 +51,6 @@ class PlacedBets extends PureComponent {
         <div className='content' ref='placedBets'>
           { !this.props.isEmpty && <UnmatchedBets/> }
           { !this.props.isEmpty && <MatchedBets/> }
-          { this.props.showPlacedBetsConfirmation && renderOverlay(this.props, 'confirmation', 0.051) }
-          { this.props.showPlacedBetsError && renderOverlay(this.props, 'error') }
-          { // TODO: Replace this with an approved spinning icon.
-            // The waiting text is just a placeholder
-            this.props.showPlacedBetsWaiting &&
-            <div className='waiting'>
-              <div className='instructions'>
-                Waiting...
-              </div>
-            </div>
-          }
           { this.props.isEmpty &&
             <div className='empty'>
               <div className='instructions'>
@@ -80,6 +69,17 @@ class PlacedBets extends PureComponent {
             </div>
           }
         </div>
+        { this.props.showPlacedBetsConfirmation && renderOverlay(this.props, 'confirmation', 0.051) }
+        { this.props.showPlacedBetsError && renderOverlay(this.props, 'error') }
+        { // TODO: Replace this with an approved spinning icon.
+          // The waiting text is just a placeholder
+          this.props.showPlacedBetsWaiting &&
+          <div className='waiting'>
+            <div className='instructions'>
+              Waiting...
+            </div>
+          </div>
+        }
       </div>
     )
   }
