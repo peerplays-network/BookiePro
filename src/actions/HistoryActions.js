@@ -23,9 +23,9 @@ class HistoryPrivateActions {
     }
   }
 
-  static appendTransactionsToTheHistoryAction(accountId, transactions) {
+  static prependTransactionsToTheHistoryAction(accountId, transactions) {
     return {
-      type: ActionTypes.HISTORY_APPEND_TRANSACTIONS_TO_THE_HISTORY,
+      type: ActionTypes.HISTORY_PREPEND_TRANSACTIONS_TO_THE_HISTORY,
       accountId,
       transactions
     }
@@ -108,8 +108,8 @@ class HistoryActions {
         // Set loading status
         dispatch(HistoryPrivateActions.setInitTransactionHistoryLoadingStatusAction(LoadingStatus.LOADING));
         CommunicationService.fetchRecentHistory(accountId, stopTxHistoryId).then((transactions) => {
-          // Append transaction history
-          dispatch(HistoryPrivateActions.appendTransactionsToTheHistoryAction(accountId, transactions));
+          // Prepend transaction history
+          dispatch(HistoryPrivateActions.prependTransactionsToTheHistoryAction(accountId, transactions));
           // Set loading status
           dispatch(HistoryPrivateActions.setInitTransactionHistoryLoadingStatusAction(LoadingStatus.DONE));
           log.debug('Init transaction history succeed.');
@@ -124,7 +124,7 @@ class HistoryActions {
   }
 
   /**
-   * Check for new transaction history and append it to the current list of transaction history
+   * Check for new transaction history and prepend it to the current list of transaction history
    */
   static checkForNewTransactionHistory() {
     return (dispatch, getState) => {
@@ -136,8 +136,8 @@ class HistoryActions {
         // Set loading status
         dispatch(HistoryPrivateActions.setCheckForNewTransactionHistoryLoadingStatusAction(LoadingStatus.LOADING));
         CommunicationService.fetchRecentHistory(accountId, stopTxHistoryId).then((transactions) => {
-          // Append transaction history
-          dispatch(HistoryPrivateActions.appendTransactionsToTheHistoryAction(accountId, transactions));
+          // Prepend transaction history
+          dispatch(HistoryPrivateActions.prependTransactionsToTheHistoryAction(accountId, transactions));
           // Set loading status
           dispatch(HistoryPrivateActions.setCheckForNewTransactionHistoryLoadingStatusAction(LoadingStatus.DONE));
           // Update notification

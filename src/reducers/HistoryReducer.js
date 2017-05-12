@@ -20,23 +20,23 @@ let initialState = Immutable.fromJS({
 
 export default function (state = initialState, action) {
   switch(action.type) {
-    case ActionTypes.HISTORY_APPEND_TRANSACTIONS_TO_THE_HISTORY: {
+    case ActionTypes.HISTORY_PREPEND_TRANSACTIONS_TO_THE_HISTORY: {
       let nextState = state;
       nextState = nextState.updateIn(['transactionHistoryByAccountId', action.accountId], (transactionHistory) => {
         // Create list if it doesnt exist yet
         if (!transactionHistory) transactionHistory = Immutable.List();
 
-        let transactionsToBeAppended = action.transactions || Immutable.List();
-        // Ensure that we don't append older (or duplicate) transactions to the history
+        let transactionsToBePrepended = action.transactions || Immutable.List();
+        // Ensure that we don't prepend older (or duplicate) transactions to the history
         const currentLatestTxHistoryId = transactionHistory.getIn([0, 'id']);
 
         if (currentLatestTxHistoryId) {
           const currentLatestTxHistoryInstanceNumber = getObjectIdInstanceNumber(currentLatestTxHistoryId);
-          transactionsToBeAppended = transactionsToBeAppended.filter((transaction) => {
+          transactionsToBePrepended = transactionsToBePrepended.filter((transaction) => {
             return getObjectIdInstanceNumber(transaction.get('id')) > currentLatestTxHistoryInstanceNumber;
           });
         }
-        return transactionsToBeAppended.concat(transactionHistory);
+        return transactionsToBePrepended.concat(transactionHistory);
       });
 
       return nextState;
