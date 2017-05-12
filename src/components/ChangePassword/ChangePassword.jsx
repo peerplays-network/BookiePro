@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Card,Breadcrumb,Icon,Form } from 'antd'
+import { Card,Breadcrumb,Form } from 'antd'
 import { I18n,Translate }  from 'react-redux-i18n';
 import ChangePasswordForm from './ChangePasswordForm'
 import { connect } from 'react-redux';
