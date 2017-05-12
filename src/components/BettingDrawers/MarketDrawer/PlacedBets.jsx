@@ -49,23 +49,8 @@ class PlacedBets extends PureComponent {
     return (
       <div className='placed-bets'>
         <div className='content' ref='placedBets'>
-          { !this.props.isEmpty &&
-            <div>
-              <UnmatchedBets/>
-              <MatchedBets/>
-            </div>
-          }
-          { this.props.showPlacedBetsConfirmation && renderOverlay(this.props, 'confirmation', 0.051) }
-          { this.props.showPlacedBetsError && renderOverlay(this.props, 'error') }
-          { // TODO: Replace this with an approved spinning icon.
-            // The waiting text is just a placeholder
-            this.props.showPlacedBetsWaiting &&
-            <div className='waiting'>
-              <div className='instructions'>
-                Waiting...
-              </div>
-            </div>
-          }
+          { !this.props.isEmpty && <UnmatchedBets/> }
+          { !this.props.isEmpty && <MatchedBets/> }
           { this.props.isEmpty &&
             <div className='empty'>
               <div className='instructions'>
@@ -77,13 +62,24 @@ class PlacedBets extends PureComponent {
                 }
               </div>
               <div className='my-bet-button'>
-                <Button onClick={ () => this.props.navigateTo('/my-wager/') }>
+                <Button className='btn btn-regular' onClick={ () => this.props.navigateTo('/my-wager/') }>
                   { I18n.t('market_drawer.placed_bets.empty.my_bet_button') }
                 </Button>
               </div>
             </div>
           }
         </div>
+        { this.props.showPlacedBetsConfirmation && renderOverlay(this.props, 'confirmation', 0.051) }
+        { this.props.showPlacedBetsError && renderOverlay(this.props, 'error') }
+        { // TODO: Replace this with an approved spinning icon.
+          // The waiting text is just a placeholder
+          this.props.showPlacedBetsWaiting &&
+          <div className='waiting'>
+            <div className='instructions'>
+              Waiting...
+            </div>
+          </div>
+        }
       </div>
     )
   }
