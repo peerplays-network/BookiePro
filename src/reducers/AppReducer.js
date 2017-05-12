@@ -13,7 +13,8 @@ const initialState = Immutable.fromJS({
   isShowLogoutPopup: false,
   isShowSoftwareUpdatePopup: false,
   isShowNotificationCard: false,
-  isTitleBarTransparent: true
+  isTitleBarTransparent: true,
+  gatewayAccount: {}
 });
 
 export default function (state = initialState, action) {
@@ -78,6 +79,11 @@ export default function (state = initialState, action) {
     case ActionTypes.APP_SHOW_LOGOUT_POPUP: {
       return state.merge({
         isShowLogoutPopup: action.isShowLogoutPopup
+      })
+    }
+    case ActionTypes.APP_SET_GATEWAY_ACCOUNT: {
+      return state.merge({
+        gatewayAccount: action.gatewayAccount
       })
     }
     default:

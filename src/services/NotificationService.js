@@ -2,7 +2,7 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 import { BlockchainUtils } from '../utility';
 import { NotificationTypes } from '../constants';
-const { getObjectIdInstanceNumber, calcBlockTime } = BlockchainUtils;
+const { calcBlockTime } = BlockchainUtils;
 import { I18n } from 'react-redux-i18n';
 import { ChainTypes } from 'graphenejs-lib';
 
@@ -14,30 +14,6 @@ const dummyOperationType = {
 class NotificationService {
   // Use this to generate notification id
   static nextNotificationId = 0;
-
-  /**
-   * Filter relevant transactions that are useful for notifications
-   */
-  static filterRelevantTransactions(transactions, prevLatestTxHistoryId) {
-    let relevantTransactions = Immutable.List();
-    const prevLatestTxHistoryInstanceNumber = getObjectIdInstanceNumber(prevLatestTxHistoryId);
-    transactions.forEach( (transaction) => {
-      const txHistoryInstanceNumber = getObjectIdInstanceNumber(transaction.get('id'));
-      // Add only new transactions to the notifications
-      if (txHistoryInstanceNumber > prevLatestTxHistoryInstanceNumber) {
-        const operationType = transaction.getIn(['op', 0]);
-        // Add transaction to the list if it satisfy the following requirements
-        if (operationType === ChainTypes.operations.transfer ||
-        operationType === dummyOperationType.betting_market_resolved) {
-          relevantTransactions = relevantTransactions.push(transaction);
-        }
-      } else {
-        // Terminate early
-        return false;
-      }
-    });
-    return relevantTransactions;
-  }
 
   /**
    * Extract relevant info (asset id and betting market id from  transactions)
@@ -81,6 +57,7 @@ class NotificationService {
     const dynamicGlobalProperty = state.getIn(['app', 'blockchainDynamicGlobalProperty']);
     const myAccountId = state.getIn(['account', 'account', 'id']);
     const isShowNotificationCard = state.getIn(['app', 'isShowNotificationCard']);
+
     const setting = state.getIn(['setting', 'settingByAccountId', myAccountId]) || state.getIn(['setting', 'defaultSetting']);
     const currency = setting.get('currencyFormat');
     let notifications = Immutable.List();
@@ -93,9 +70,8 @@ class NotificationService {
       switch (operationType) {
         case ChainTypes.operations.transfer: {
           // Only handle transfer from gateway
-          // TODO: check if it is from gateway
-          // const from = operationContent.get('from');
-          const isFromGateway = true;
+          const gatewayAccountId = state.getIn(['app', 'gatewayAccount', 'id']);
+          const isFromGateway = operationContent.get('from') === gatewayAccountId;
           const isForMe = operationContent.get('to') === myAccountId;
           if (isFromGateway && isForMe) {
             // Get amount and check

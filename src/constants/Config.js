@@ -14,5 +14,6 @@ export default {
     'wss://eu.openledger.info/ws',
     'ws://52.221.226.91:8090'
   ],
-  softwareUpdateReferenceAccountName: 'peerplays1'
+  softwareUpdateReferenceAccountName: 'peerplays1',
+  gatewayAccountName: 'gateway1'
 }

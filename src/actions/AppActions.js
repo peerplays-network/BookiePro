@@ -1,4 +1,4 @@
-import { ActionTypes, LoadingStatus } from '../constants';
+import { ActionTypes, LoadingStatus, Config } from '../constants';
 import { ConnectionService, CommunicationService } from '../services';
 import SoftwareUpdateActions from './SoftwareUpdateActions';
 import AuthActions from './AuthActions';
@@ -48,6 +48,13 @@ class AppPrivateActions {
     return {
       type: ActionTypes.APP_SET_CONNECTION_STATUS,
       connectionStatus
+    }
+  }
+
+  static setGatewayAccountAction(gatewayAccount) {
+    return {
+      type: ActionTypes.APP_SET_GATEWAY_ACCOUNT,
+      gatewayAccount
     }
   }
 }
@@ -128,6 +135,14 @@ class AppActions {
         // Listen to software update
         return dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());
       }).then(() => {
+        // Fetch gateway account
+        const gatewayAccountName = Config.gatewayAccountName;
+        return CommunicationService.getFullAccount(gatewayAccountName);
+      }).then((gatewayFullAccount) => {
+        if (gatewayFullAccount) {
+          const gatewayAccount = gatewayFullAccount.get('account');
+          dispatch(AppPrivateActions.setGatewayAccountAction(gatewayAccount));
+        }
         log.info('Connected to blockchain.');
         // Do auto login
         dispatch(AuthActions.autoLogin()).then(() => {

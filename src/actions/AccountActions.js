@@ -33,10 +33,6 @@ class AccountActions {
       const currentMostRecentOp = getState().getIn(['account', 'statistics', 'most_recent_op']);
       const updatedMostRecentOp = statistics.get('most_recent_op')
       const hasMadeNewTransaction = currentMostRecentOp && (updatedMostRecentOp !== currentMostRecentOp);
-      console.log('set statistics');
-      console.log(getState().getIn(['account', 'statistics']).toJS());
-      console.log(statistics.toJS());
-      console.log(updatedMostRecentOp, currentMostRecentOp);
       if (hasMadeNewTransaction) {
         dispatch(HistoryActions.checkForNewTransactionHistory());
       }
