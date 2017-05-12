@@ -80,8 +80,9 @@ class NotificationService {
     const globalProperty = state.getIn(['app', 'blockchainGlobalProperty']);
     const dynamicGlobalProperty = state.getIn(['app', 'blockchainDynamicGlobalProperty']);
     const myAccountId = state.getIn(['account', 'account', 'id']);
-    // TODO: get currency
-    const currency = 'BTC';
+    const isShowNotificationCard = state.getIn(['app', 'isShowNotificationCard']);
+    const setting = state.getIn(['setting', 'settingByAccountId', myAccountId]) || state.getIn(['setting', 'defaultSetting']);
+    const currency = setting.get('currencyFormat');
     let notifications = Immutable.List();
     transactions.forEach( transaction => {
       const operationType = transaction.getIn(['op',0]);
@@ -104,8 +105,10 @@ class NotificationService {
 
             const type = NotificationTypes.DEPOSIT;
             const content = I18n.t('notification.deposit', { amount, currency });
+            // Mark as read if notification card is shown
+            const isRead = isShowNotificationCard;
             // Create notification object and add it
-            const notification = NotificationService.createNotificationObject(type, content, date);
+            const notification = NotificationService.createNotificationObject(type, content, date, isRead);
             notifications = notifications.push(notification);
           }
           break;
@@ -113,8 +116,10 @@ class NotificationService {
         case dummyOperationType.betting_market_resolved: {
           const type = NotificationTypes.BET_RESOLVED;
           const content = I18n.t('notification.bet_resolved');
+          // Mark as read if notification card is shown
+          const isRead = isShowNotificationCard;
           // Create notification object and add it
-          const notification = NotificationService.createNotificationObject(type, content, date);
+          const notification = NotificationService.createNotificationObject(type, content, date, isRead);
             // Create notification object and add it
           notifications = notifications.push(notification);
           break;
@@ -127,7 +132,7 @@ class NotificationService {
   }
 
   // Create notification object
-  static createNotificationObject(type, content, date) {
+  static createNotificationObject(type, content, date, isRead=false) {
     const id = NotificationService.nextNotificationId;
     NotificationService.nextNotificationId += 1;
 
@@ -136,7 +141,7 @@ class NotificationService {
       type,
       content,
       date,
-      isRead: false
+      isRead
     });
   }
 }
