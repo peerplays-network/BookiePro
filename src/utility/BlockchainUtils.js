@@ -72,13 +72,13 @@ const Utils = {
   getObjectIdPrefix(objectId) {
     let regex = /^\d+\.\d+/;
     let matches = regex.exec(objectId);
-    return matches && matches[0];
+    return matches && matches[0] && parseInt(matches[0], 10);
   },
 
   getObjectIdInstanceNumber(objectId) {
     let regex = /\d+$/;
     let matches = regex.exec(objectId);
-    return matches && matches[0];
+    return matches && matches[0] && parseInt(matches[0], 10);
   },
 
   isRelevantObject(objectIdPrefix) {

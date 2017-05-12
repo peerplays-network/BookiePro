@@ -31,6 +31,21 @@ class HistoryPrivateActions {
     }
   }
 
+  static setCheckForNewTransactionHistoryLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.HISTORY_SET_CHECK_FOR_NEW_TRANSACTION_HISTORY_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
+  static setCheckForNewTransactionHistoryErrorAction(error) {
+    return {
+      type: ActionTypes.HISTORY_SET_CHECK_FOR_NEW_TRANSACTION_HISTORY_ERROR,
+      error
+    }
+  }
+
+
   static setGetTransactionHistoryLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.HISTORY_SET_GET_TRANSACTION_HISTORY_LOADING_STATUS,
@@ -107,6 +122,36 @@ class HistoryActions {
       }
     }
   }
+
+  /**
+   * Check for new transaction history and append it to the current list of transaction history
+   */
+  static checkForNewTransactionHistory() {
+    return (dispatch, getState) => {
+      const accountId = getState().getIn(['account', 'account', 'id']);
+      if (accountId) {
+        // Init history
+        const latestTransactionId = getState().getIn(['history', 'transactionHistoryByAccountId', accountId, 0, 'id']);
+        const stopTxHistoryId = latestTransactionId || (ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0');
+        // Set loading status
+        dispatch(HistoryPrivateActions.setCheckForNewTransactionHistoryLoadingStatusAction(LoadingStatus.LOADING));
+        CommunicationService.fetchRecentHistory(accountId, stopTxHistoryId).then((transactions) => {
+          // Append transaction history
+          dispatch(HistoryPrivateActions.appendTransactionsToTheHistoryAction(accountId, transactions));
+          // Set loading status
+          dispatch(HistoryPrivateActions.setCheckForNewTransactionHistoryLoadingStatusAction(LoadingStatus.DONE));
+          // Update notification
+          log.debug('Check for new transaction history succeed.');
+        }).catch((error) => {
+          // Set error
+          dispatch(HistoryPrivateActions.setCheckForNewTransactionHistoryErrorAction(error));
+          log.error('Check for transaction history error', error);
+        })
+
+      }
+    }
+  }
+
 
   /**
    * Get transaction history

@@ -8,6 +8,8 @@ let initialState = Immutable.fromJS({
   initTransactionHistoryError: null,
   initTransactionHistoryLoadingStatus: LoadingStatus.DEFAULT,
   transactionHistoryByAccountId: {},
+  checkForNewTransactionHistoryError: null,
+  checkForNewTransactionHistoryLoadingStatus: LoadingStatus.DEFAULT,
   getTransactionHistoryLoadingStatus: LoadingStatus.DEFAULT,
   transactionHistory: [],
   getTransactionHistoryError: null,
@@ -18,11 +20,6 @@ let initialState = Immutable.fromJS({
 
 export default function (state = initialState, action) {
   switch(action.type) {
-    case ActionTypes.HISTORY_SET_INIT_TRANSACTION_HISTORY_LOADING_STATUS: {
-      return state.merge({
-        initTransactionHistoryLoadingStatus: action.loadingStatus
-      });
-    }
     case ActionTypes.HISTORY_APPEND_TRANSACTIONS_TO_THE_HISTORY: {
       let nextState = state;
       nextState = nextState.updateIn(['transactionHistoryByAccountId', action.accountId], (transactionHistory) => {
@@ -32,16 +29,33 @@ export default function (state = initialState, action) {
         let transactionsToBeAppended = action.transactions || Immutable.List();
         // Ensure that we don't append older (or duplicate) transactions to the history
         const currentLatestTxHistoryId = transactionHistory.getIn([0, 'id']);
+
         if (currentLatestTxHistoryId) {
           const currentLatestTxHistoryInstanceNumber = getObjectIdInstanceNumber(currentLatestTxHistoryId);
           transactionsToBeAppended = transactionsToBeAppended.filter((transaction) => {
             return getObjectIdInstanceNumber(transaction.get('id')) > currentLatestTxHistoryInstanceNumber;
           });
         }
-
         return transactionsToBeAppended.concat(transactionHistory);
       });
+
       return nextState;
+    }
+    case ActionTypes.HISTORY_SET_INIT_TRANSACTION_HISTORY_LOADING_STATUS: {
+      return state.merge({
+        initTransactionHistoryLoadingStatus: action.loadingStatus
+      });
+    }
+    case ActionTypes.HISTORY_SET_CHECK_FOR_NEW_TRANSACTION_HISTORY_ERROR: {
+      return state.merge({
+        checkForNewTransactionHistoryError: action.error,
+        checkForNewTransactionHistoryLoadingStatus: LoadingStatus.ERROR
+      });
+    }
+    case ActionTypes.HISTORY_SET_CHECK_FOR_NEW_TRANSACTION_HISTORY_LOADING_STATUS: {
+      return state.merge({
+        checkForNewTransactionHistoryLoadingStatus: action.loadingStatus
+      });
     }
     case ActionTypes.HISTORY_SET_INIT_TRANSACTION_HISTORY_ERROR: {
       return state.merge({

@@ -14,7 +14,8 @@ import {
   BettingMarketGroupActions,
   BinnedOrderBookActions,
   BetActions,
-  BalanceActions
+  BalanceActions,
+  HistoryActions
 } from '../actions';
 import Immutable from 'immutable';
 import { ObjectPrefix } from '../constants';
@@ -172,6 +173,7 @@ class CommunicationService {
               const hasMadeNewTransaction = updatedMostRecentOp !== mostRecentOp;
               if (hasMadeNewTransaction) {
                 this.dispatch(NotificationActions.checkForNewNotification());
+                this.dispatch(HistoryActions.checkForNewTransactionHistory());
               }
               // Set the newest statistic
               this.dispatch(AccountActions.setStatisticsAction(updatedObject));
