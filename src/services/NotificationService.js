@@ -42,7 +42,7 @@ class NotificationService {
   /**
    * Extract relevant info (asset id and betting market id from  transactions)
    */
-  static extractRelevantInfo(transactions) {
+  static extractRelevantAdditionalInfo(transactions) {
     let relevantAssetIds = Immutable.Set();
     let relevantBettingMarketIds = Immutable.Set();
 

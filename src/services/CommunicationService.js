@@ -4,7 +4,6 @@ import {
   AssetActions,
   AppActions,
   AccountActions,
-  NotificationActions,
   SoftwareUpdateActions,
   SportActions,
   EventGroupActions,
@@ -15,7 +14,6 @@ import {
   BinnedOrderBookActions,
   BetActions,
   BalanceActions,
-  HistoryActions
 } from '../actions';
 import Immutable from 'immutable';
 import { ObjectPrefix } from '../constants';
@@ -167,26 +165,11 @@ class CommunicationService {
             const ownerId = updatedObject.get('owner');
             // Check if this statistic is related to my account or software update account
             if (ownerId === myAccountId) {
-              // Check if this account made new transaction, if that's the case update the notification
-              const mostRecentOp = this.getState().getIn(['account', 'statistics', 'most_recent_op']);
-              const updatedMostRecentOp = updatedObject.get('most_recent_op')
-              const hasMadeNewTransaction = updatedMostRecentOp !== mostRecentOp;
-              if (hasMadeNewTransaction) {
-                this.dispatch(NotificationActions.checkForNewNotification());
-                this.dispatch(HistoryActions.checkForNewTransactionHistory());
-              }
               // Set the newest statistic
-              this.dispatch(AccountActions.setStatisticsAction(updatedObject));
+              this.dispatch(AccountActions.setStatistics(updatedObject));
             } else if (ownerId === softwareUpdateRefAccId) {
-              // Check if this account made new transaction, if that's the case check for software update
-              const mostRecentOp = this.getState().getIn(['softwareUpdate', 'referenceAccountStatistics', 'most_recent_op']);
-              const updatedMostRecentOp = updatedObject.get('most_recent_op')
-              const hasMadeNewTransaction = updatedMostRecentOp !== mostRecentOp;
-              if (hasMadeNewTransaction) {
-                this.dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());
-              }
               // Set the newest statistic
-              this.dispatch(SoftwareUpdateActions.setReferenceAccountStatisticsAction(updatedObject));
+              this.dispatch(SoftwareUpdateActions.setReferenceAccountStatistics(updatedObject));
             }
           })
           break;

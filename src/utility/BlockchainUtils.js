@@ -68,13 +68,17 @@ const Utils = {
     }
     return new Date(timeString);
   },
-
+  /**
+   * Return the prefix in string
+   */
   getObjectIdPrefix(objectId) {
     let regex = /^\d+\.\d+/;
     let matches = regex.exec(objectId);
-    return matches && matches[0] && parseInt(matches[0], 10);
+    return matches && matches[0] && matches[0];
   },
-
+  /**
+   * Return an instance number in Integer
+   */
   getObjectIdInstanceNumber(objectId) {
     let regex = /\d+$/;
     let matches = regex.exec(objectId);

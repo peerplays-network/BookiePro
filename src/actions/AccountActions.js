@@ -2,9 +2,19 @@ import { ActionTypes } from '../constants';
 import { BlockchainUtils } from '../utility';
 import { WalletService, CommunicationService } from '../services';
 import { TransactionBuilder } from 'graphenejs-lib';
+import HistoryActions from './HistoryActions';
 import Immutable from 'immutable';
 import _ from 'lodash';
 
+class AccountPrivateActions {
+
+  static setStatisticsAction(statistics) {
+    return {
+      type: ActionTypes.ACCOUNT_SET_STATISTICS,
+      statistics
+    }
+  }
+}
 
 /**
  * Public actions
@@ -17,10 +27,21 @@ class AccountActions {
     }
   }
 
-  static setStatisticsAction(statistics) {
-    return {
-      type: ActionTypes.ACCOUNT_SET_STATISTICS,
-      statistics
+  static setStatistics(statistics) {
+    return (dispatch, getState) => {
+      // Check if this account made new transaction, if that's the case update the notification
+      const currentMostRecentOp = getState().getIn(['account', 'statistics', 'most_recent_op']);
+      const updatedMostRecentOp = statistics.get('most_recent_op')
+      const hasMadeNewTransaction = currentMostRecentOp && (updatedMostRecentOp !== currentMostRecentOp);
+      console.log('set statistics');
+      console.log(getState().getIn(['account', 'statistics']).toJS());
+      console.log(statistics.toJS());
+      console.log(updatedMostRecentOp, currentMostRecentOp);
+      if (hasMadeNewTransaction) {
+        dispatch(HistoryActions.checkForNewTransactionHistory());
+      }
+      // Set statistics
+      dispatch(AccountPrivateActions.setStatisticsAction(statistics));
     }
   }
 

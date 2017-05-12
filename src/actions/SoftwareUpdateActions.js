@@ -15,13 +15,12 @@ class SoftwareUpdatePrivateActions {
       displayText
     }
   }
-
-}
-
-/**
- * Public actions
- */
-class SoftwareUpdateActions {
+  static setReferenceAccountStatisticsAction(referenceAccountStatistics) {
+    return {
+      type: ActionTypes.SOFTWARE_UPDATE_SET_REFERENCE_ACCOUNT_STATISTICS,
+      referenceAccountStatistics
+    }
+  }
 
   static setReferenceAccountAction(referenceAccount) {
     return {
@@ -30,12 +29,27 @@ class SoftwareUpdateActions {
     }
   }
 
-  static setReferenceAccountStatisticsAction(referenceAccountStatistics) {
-    return {
-      type: ActionTypes.SOFTWARE_UPDATE_SET_REFERENCE_ACCOUNT_STATISTICS,
-      referenceAccountStatistics
+}
+
+/**
+ * Public actions
+ */
+class SoftwareUpdateActions {
+
+  static setReferenceAccountStatistics(referenceAccountStatistics) {
+    return (dispatch, getState) => {
+      // Check if this account made new transaction, if that's the case check for software update
+      const currentMostRecentOp = getState().getIn(['softwareUpdate', 'referenceAccountStatistics', 'most_recent_op']);
+      const updatedMostRecentOp = referenceAccountStatistics.get('most_recent_op')
+      const hasMadeNewTransaction = currentMostRecentOp && (updatedMostRecentOp !== currentMostRecentOp);
+      if (hasMadeNewTransaction) {
+        dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());
+      }
+      // Set the newest statistic
+      dispatch(SoftwareUpdatePrivateActions.setReferenceAccountStatisticsAction(referenceAccountStatistics));
     }
   }
+
   /**
    * Check for software update
    */
@@ -113,8 +127,8 @@ class SoftwareUpdateActions {
         if (fullAccount) {
           const account = fullAccount.get('account');
           const statistics = fullAccount.get('statistics');
-          dispatch(SoftwareUpdateActions.setReferenceAccountAction(account));
-          dispatch(SoftwareUpdateActions.setReferenceAccountStatisticsAction(statistics));
+          dispatch(SoftwareUpdatePrivateActions.setReferenceAccountAction(account));
+          dispatch(SoftwareUpdateActions.setReferenceAccountStatistics(statistics));
           log.debug('Listen to software update succeed.')
           // Check for software update
           return dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());

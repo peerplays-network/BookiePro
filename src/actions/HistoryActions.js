@@ -141,6 +141,7 @@ class HistoryActions {
           // Set loading status
           dispatch(HistoryPrivateActions.setCheckForNewTransactionHistoryLoadingStatusAction(LoadingStatus.DONE));
           // Update notification
+          dispatch(NotificationActions.updateNotifications(transactions));
           log.debug('Check for new transaction history succeed.');
         }).catch((error) => {
           // Set error
