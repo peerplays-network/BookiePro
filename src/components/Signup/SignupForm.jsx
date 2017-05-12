@@ -24,7 +24,7 @@ const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touch
 const renderPasswordField = ({ onClickCopy, tabIndex, errors, input, type, meta: { touched, error, value} }) => (
   <div>
       <input autoComplete='off' readOnly { ...input } type={ type } tabIndex={ tabIndex } />
-      <button className='btn btn-regular copy-btn' onClick={ onClickCopy.bind(this, input.value) }>{I18n.t('signup.copy_text')}</button>
+      <button className='btn btn-regular inputWithButton' onClick={ onClickCopy.bind(this, input.value) }>{I18n.t('signup.copy_text')}</button>
       { (touched) && error && <span className='errorText'>{ error }</span> }
   </div>
 );
@@ -38,10 +38,10 @@ const renderRetypePasswordField = ({ tabIndex, className, errors, input, type, m
 );
 
 //Component to render the checkboxes
-const renderCheckboxField = ({ pseudoText,tabIndex, errors, placeholder, input, label, type, meta: { touched, error, dirty } }) => (
+const renderCheckboxField = ({ id,pseudoText,tabIndex, errors, placeholder, input, label, type, meta: { touched, error, dirty } }) => (
   <div className='float-left width300 text-left align-checkbox'>
-    <input autoComplete='off' { ...input } type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
-    <label>{ pseudoText }</label>
+    <input id={ id } autoComplete='off' { ...input } type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
+    <label htmlFor={ id }> <span>{ pseudoText }</span></label>
   </div>
 );
 
@@ -50,7 +50,7 @@ const renderRecoveryButtonFields = (fields) => (
   <div>
     <div className='loginCreate__btnWrap'>
         <Button type='primary' htmlType='submit'
-          className={ 'btn ' + (fields.password.input.value!==fields.password_retype.input.value ? 'btn-regular-disabled':' btn-green') + ' grid-100' }
+          className={ 'btn ' + (fields.password.input.value!==fields.password_retype.input.value ? 'btn-regular-disabled':' btn-download') + ' grid-100' }
           onClick={ fields.onClick.bind(this, fields.password.input.value) }
           disabled={ fields.password.input.value!==fields.password_retype.input.value }>
           {I18n.t('signup.download_rec_text')}

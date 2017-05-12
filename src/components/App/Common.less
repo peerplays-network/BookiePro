@@ -5,10 +5,6 @@
 .font18 {
   font-size: 18px;
 }
-//TODO: will remove this class after optmizing deposit,change-password and myaccount pages
-.pos-relative {
-  position: relative;
-}
 .boldTextInMessage {
   font-weight: bold;
 }
@@ -176,15 +172,6 @@
   padding: 0;
   top:0;
   right:0;
-}
-//TODO: will remove this class after optimization done
-//[signup, deposit]
-.copy-btn{
-  padding:0 10px !important;
-}
-//TODO: Temporary fix, will remove this during my-wager fixes
-.my-wager .btn-regular-disabled{
-  width:106px;
 }
 
 input, .ant-input, .ant-calendar-input {
@@ -563,7 +550,7 @@ input, .ant-input, .ant-calendar-input {
       border:0 none;
     }
   }
-  .ant-calendar-last-month-cell{
+  .ant-calendar-last-month-cell, .ant-calendar-next-month-btn-day{
     .ant-calendar-date{
       color: @datepicker_day_label_disabled;
     }
@@ -625,6 +612,17 @@ input, .ant-input, .ant-calendar-input {
   .ant-checkbox-wrapper{
     margin-top:20px;
     font-size:14px;
+  }
+  .ant-checkbox-inner{
+    width:16px;
+    height:16px;
+  }
+  .ant-checkbox-checked .ant-checkbox-inner{
+    background-color: @checkbox;
+    border-color: @checkbox;
+    &:after{
+      height: 10px;
+    }
   }
 }
 
