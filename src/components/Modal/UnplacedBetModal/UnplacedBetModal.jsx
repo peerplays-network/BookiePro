@@ -17,6 +17,7 @@ class UnplacedBetModal extends Component {
         onCancel={ this.props.onStay }
         okText={ I18n.t('unplacedBetModal.confirm') }
         cancelText={ I18n.t('unplacedBetModal.cancel') }
+        width={ 428 }
       >
         <p>{ I18n.t('unplacedBetModal.explanation') }</p>
       </Modal>
