@@ -48,4 +48,24 @@
       }
     }
   }
+  .overlay{
+    .btn{
+      padding:0 20px !important;
+    }
+  }
+  .btn-cancel,.btn-reset{
+    .btn-regular-disabled;
+    cursor: pointer;
+    &:hover{
+      .btn-regular-disabled;
+      cursor: pointer;
+      color: @white;
+    }
+  }
+  .btn-regular{
+    &:hover{
+      color: @white;
+      .btn-regular;
+    }
+  }
 }
