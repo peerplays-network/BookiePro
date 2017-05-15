@@ -15,5 +15,6 @@ export default {
     'ws://52.221.226.91:8090'
   ],
   softwareUpdateReferenceAccountName: 'peerplays1',
-  gatewayAccountName: 'gateway1'
+  gatewayAccountName: 'gateway1',
+  dummyDataAccountId: '1.2.82' // TODO: remove this later, for the meantime we can use this to configure dummy data
 }

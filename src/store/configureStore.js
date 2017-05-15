@@ -80,7 +80,7 @@ export default function configureStore() {
         return inboundState;
       }
     },
-    (outboundState, key) => { return outboundState },
+    (outboundState, key) => { console.log('key', key, outboundState); return outboundState },
   );
 
   // Persist store

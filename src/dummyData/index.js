@@ -8,6 +8,7 @@ import binnedOrderBooks from './binnedOrderBooks';
 import globalBettingStatistics from './globalBettingStatistics';
 import bets from './bets';
 import transactionHistory from './transactionHistory';
+import history from './history';
 
 export default {
   sports,
@@ -19,5 +20,6 @@ export default {
   bettingMarkets,
   binnedOrderBooks,
   globalBettingStatistics,
-  transactionHistory
+  transactionHistory,
+  history
 }
