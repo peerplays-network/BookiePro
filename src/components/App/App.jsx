@@ -154,7 +154,7 @@ class App extends Component {
     return (
       <div className='app'>
         <TitleBar isWindowsPlatform={ isWindowsPlatform } style={ titleBarStyle } />
-        <div className='app-content'>
+        <div className='app-content' style={ appContentStyle }>
           { content }
         </div>
         { logoutModal }
