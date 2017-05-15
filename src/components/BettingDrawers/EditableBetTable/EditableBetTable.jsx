@@ -15,31 +15,35 @@ const renderInput = (field, action) => {
     // we cannot use antd Input component here because we have problem
     // changing the value if user clicks on an offer from the same market
     return (
-      <div className='pos-rel'>
-        <input
-          type='text'
-          value={ text === undefined? '' : text }
-          className='ant-input'
-          onChange={
-            (event) => {
-              const delta = Immutable.Map()
-                .set('id', record.id)
-                .set('field', field)
-                .set('value', event.target.value);
-              action(delta);
-            }
+      <input
+        type='text'
+        value={ text === undefined? '' : text }
+        className='ant-input'
+        onChange={
+          (event) => {
+            const delta = Immutable.Map()
+              .set('id', record.id)
+              .set('field', field)
+              .set('value', event.target.value);
+            action(delta);
           }
-        />
+        }
+      />
+    );
+  }
+}
+
+const renderInputWithControl = (field, action) => {
+  return (text, record) => {
+    return (
+      <div className='pos-rel'>
+        { renderInput(field, action)(text, record) }
         <a className='arrow-icon-main icon-up' onClick={ () => {} }><i className='icon-arrow icon-up-arrow'></i></a>
         <a className='arrow-icon-main icon-down' onClick={ () => {} }><i className='icon-arrow icon-down-arrow'></i></a>
       </div>
     );
   }
 }
-
-// TODO: Need styling work on the special buttons in the input box
-//       So we are just calling the same method right now
-const renderInputWithControl = renderInput;
 
 const renderDeleteButton = (deleteOne) => {
   return (text, record) => (
@@ -77,7 +81,7 @@ const getBackColumns = (deleteOne, updateOne) => (
       dataIndex: 'profit',
       key: 'profit',
       width: '24%',
-      className: 'numeric'
+      className: 'numeric readonly'
     }, {
       title: '',
       dataIndex: 'delete',
@@ -116,7 +120,7 @@ const getLayColumns = (deleteOne, updateOne) => (
       dataIndex: 'liability',
       key: 'liability',
       width: '24%',
-      className: 'numeric'
+      className: 'numeric readonly'
     }, {
       title: '',
       dataIndex: 'delete',
