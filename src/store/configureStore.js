@@ -86,7 +86,7 @@ export default function configureStore() {
   // Persist store
   persistStore(store, {
     storage: localforage,
-    whitelist: ['setting', 'notification', 'account', 'history'], // Only setting wants to be persisted
+    whitelist: ['setting', 'notification', 'account', /*'history'*/], // TODO: persist it only after we have find a way to optimize it
     transforms: [subsetFilterTransform],
   }, () => {
     log.debug('Auto Rehydrate completed');
