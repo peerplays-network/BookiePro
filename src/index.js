@@ -18,10 +18,11 @@ import BettingMarketGroup from './components/BettingMarketGroup';
 import Localize from './components/Localize';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
-import Deposit from './components/Deposit'
-import ChangePassword from './components/ChangePassword'
-import Welcome from './components/Welcome'
-import Landing from './components/Landing'
+import Deposit from './components/Deposit';
+import ChangePassword from './components/ChangePassword';
+import Welcome from './components/Welcome';
+import Landing from './components/Landing';
+import HelpAndSupport from './components/HelpAndSupport';
 import log from 'loglevel';
 
 // Configure store
@@ -43,7 +44,7 @@ log.setLevel(log.levels.INFO);
 // Add new page here
 const routes = (
   <Route path='/' component={ App }  >
-      <IndexRedirect to='login' />
+      <IndexRedirect to='landing' />
       <Route path='/login' component={ Login } />
       <Route path='/signup' component={ Signup } />
       <Route path='/welcome' component={ Welcome } />
@@ -52,13 +53,13 @@ const routes = (
       <Route component={ Main }>
         <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
         <Route path='/empty-page' component={ EmptyPage } />
+        <Route path='/help-and-support' component={ HelpAndSupport } />
         <Route path='/exchange' component={ Exchange } >
           <IndexRoute component={ AllSports }/>
           <Route path='Sport/:objectId' component={ Sport }/>
           <Route path='EventGroup/:objectId' component={ EventGroup }/>
           <Route path=':eventName/:eventId/BettingMarketGroup/:objectId/' component={ BettingMarketGroup }/>
           <Route path='BettingMarketGroup/:objectId' component={ BettingMarketGroup }/>
-
         </Route>
         <Route path='/my-account' component={ MyAccount } />
         <Route path='/change-password' component={ ChangePassword } />

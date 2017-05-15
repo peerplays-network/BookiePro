@@ -1,12 +1,15 @@
+@import (reference) '../../App.less';
+
 .mac-title-bar {
   -webkit-user-select: none;
   cursor: default;
   -webkit-app-region: drag;
   text-align: center;
-  position: absolute;
-  width: 100%;
-  top: 0;
-  z-index: 10;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  background-color: @title-bar-solid-bg;
   .left {
     left: 14px;
     top: 50%;

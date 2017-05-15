@@ -9,6 +9,24 @@
 // App
 @base-font-size: 14px;
 
+// Title Bar
+@title-bar-solid-bg: rgba(0, 35, 64, 1);
+
+
+@nav-bar-height: 64px;
+
+// SideBar
+@side-bar-bg: #1563A0;
+@side-bar-divider: #061F33;
+@side-bar-icon: #FFFFFF;
+@side-bar-icon-seleced: #00BEF4;
+@side-bar-selected: #061F33;
+@side-bar-width: 70px;
+
+// Tabular Data
+@table-bg: #065CB7;
+
+
 // Media Queries
 @desktop:     ~"only screen and (max-width: 1366px)";
 @desktop-xl:  ~"only screen and (min-width: 1366px)";
@@ -21,12 +39,16 @@
 
 .app {
   position: relative;
+  .sportsbg();
 }
 
 .app-content {
-  padding-top:40px;
-  .sportsbg();
-  height:100%;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+
 }
 
 //TODO: further optimize perfect scrollbar css

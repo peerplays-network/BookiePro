@@ -13,6 +13,7 @@ const initialState = Immutable.fromJS({
   isShowLogoutPopup: false,
   isShowSoftwareUpdatePopup: false,
   isShowNotificationCard: false,
+  isTitleBarTransparent: true
 });
 
 export default function (state = initialState, action) {
@@ -26,6 +27,11 @@ export default function (state = initialState, action) {
       return state.merge({
         isShowSoftwareUpdatePopup: action.isShowSoftwareUpdatePopup
       });
+    }
+    case ActionTypes.APP_SET_TITLE_BAR_TRANSPARENCY: {
+      return state.merge({
+        isTitleBarTransparent: action.isTitleBarTransparent
+      })
     }
     case ActionTypes.APP_SET_BLOCKCHAIN_DYNAMIC_GLOBAL_PROPERTY: {
       return state.merge({
