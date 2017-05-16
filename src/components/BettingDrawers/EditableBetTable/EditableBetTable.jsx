@@ -1,6 +1,18 @@
 import React from 'react';
 import { Button, Icon, Table } from 'antd';
 import Immutable from 'immutable';
+import CurrencyUtils from '../../../utility/CurrencyUtils';
+
+const fieldPrecisionMap = Immutable.fromJS({
+  profit : {
+    BTC: 5,
+    mBTC: 2
+  },
+  liability : {
+    BTC: 5,
+    mBTC: 2
+  },
+});
 
 const renderTeam = (text, record) => (
   <div>
@@ -53,7 +65,7 @@ const renderDeleteButton = (deleteOne) => {
   );
 }
 
-const getBackColumns = (deleteOne, updateOne) => (
+const getBackColumns = (deleteOne, updateOne, currencySymbol) => (
   [
     {
       title: 'BACK',
@@ -70,14 +82,14 @@ const getBackColumns = (deleteOne, updateOne) => (
       className: 'numeric',
       render: renderInputWithControl('odds', updateOne),
     }, {
-      title: 'STAKE(B)',
+      title: `STAKE(${currencySymbol})`,
       dataIndex: 'stake',
       key: 'stake',
       width: '24%',
       className: 'numeric',
       render: renderInput('stake', updateOne), // price is the original name
     }, {
-      title: 'PROFIT(B)',
+      title: `PROFIT(${currencySymbol})`,
       dataIndex: 'profit',
       key: 'profit',
       width: '24%',
@@ -92,7 +104,7 @@ const getBackColumns = (deleteOne, updateOne) => (
   ]
 );
 
-const getLayColumns = (deleteOne, updateOne) => (
+const getLayColumns = (deleteOne, updateOne, currencySymbol) => (
   [
     {
       title: 'LAY',
@@ -109,14 +121,14 @@ const getLayColumns = (deleteOne, updateOne) => (
       className: 'numeric',
       render: renderInputWithControl('odds', updateOne),
     }, {
-      title: "BACKER'S STAKE(B)",
+      title: `BACKER'S STAKE(${currencySymbol})`,
       dataIndex: 'stake',
       key: 'stake',
       width: '24%',
       className: 'numeric',
       render: renderInput('stake', updateOne),
     }, {
-      title: 'LIABILITY(B)',
+      title: `LIABILITY(${currencySymbol})`,
       dataIndex: 'liability',
       key: 'liability',
       width: '24%',
@@ -132,10 +144,18 @@ const getLayColumns = (deleteOne, updateOne) => (
 );
 
 // TODO: REVIEW This function applies to both Back and Lay bets for now.
-const buildBetTableData = (bets) => {
+const buildBetTableData = (bets, currencyFormat) => {
+  const formatting = (field, value) => {
+    const floatNumber = parseFloat(value);
+    return isNaN(floatNumber) ? value :
+      CurrencyUtils.getFormattedCurrency(floatNumber, currencyFormat, fieldPrecisionMap.getIn([field, currencyFormat]));
+  }
   return bets.map((bet, idx) => {
     // TODO: change hard-coded market type
-    return bet.set('key', idx).set('market_type', 'Moneyline');
+    return bet.set('key', idx)
+              .set('market_type', 'Moneyline')
+              .update('profit', profit => formatting('profit', profit))
+              .update('liability', liability => formatting('liability', liability))
   });
 }
 
@@ -144,15 +164,16 @@ const getRowClassName = (record, index) => (
 )
 
 const EditableBetTable = (props) => {
-  const { data } = props;
+  const { data, title, deleteOne, deleteMany, updateOne, dimmed, currencyFormat } = props;
   const backBets = data.get('back') || Immutable.List();
   const layBets = data.get('lay') || Immutable.List();
+  const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
   return (
-    <div className={ `editable-bet-table-wrapper ${props.dimmed ? 'dimmed' : '' }` }>
+    <div className={ `editable-bet-table-wrapper ${dimmed ? 'dimmed' : '' }` }>
       <div className='header'>
-        <span className='title'>{ props.title }</span>
+        <span className='title'>{ title }</span>
         <span className='icon'>
-          <i className='trash-icon' onClick={ () => props.deleteMany(backBets.concat(layBets)) }></i>
+          <i className='trash-icon' onClick={ () => deleteMany(backBets.concat(layBets)) }></i>
         </span>
       </div>
       <div className='bet-table'>
@@ -161,8 +182,8 @@ const EditableBetTable = (props) => {
           <div className='back'>
             <Table
               pagination={ false }
-              columns={ getBackColumns(props.deleteOne, props.updateOne) }
-              dataSource={ buildBetTableData(backBets).toJS() }
+              columns={ getBackColumns(deleteOne, updateOne, currencySymbol) }
+              dataSource={ buildBetTableData(backBets, currencyFormat).toJS() }
               rowClassName={ getRowClassName }
             />
           </div>
@@ -172,8 +193,8 @@ const EditableBetTable = (props) => {
           <div className='lay'>
             <Table
               pagination={ false }
-              columns={ getLayColumns(props.deleteOne, props.updateOne) }
-              dataSource={ buildBetTableData(layBets).toJS() }
+              columns={ getLayColumns(deleteOne, updateOne, currencySymbol) }
+              dataSource={ buildBetTableData(layBets, currencyFormat).toJS() }
               rowClassName={ getRowClassName }
             />
           </div>

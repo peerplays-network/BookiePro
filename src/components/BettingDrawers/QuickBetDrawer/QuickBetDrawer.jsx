@@ -56,6 +56,7 @@ const renderContent = (props) => (
           deleteMany={ props.deleteBets }
           updateOne={ props.updateBet }
           dimmed={ props.obscureContent }
+          currencyFormat={ props.currencyFormat }
         />
       ))
     }

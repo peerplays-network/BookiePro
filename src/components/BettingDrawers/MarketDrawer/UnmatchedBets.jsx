@@ -20,6 +20,7 @@ class UnmatchedBets extends PureComponent {
           deleteMany={ this.props.deleteUnmatchedBets }
           updateOne={ this.props.updateUnmatcedBet }
           dimmed={ this.props.obscureContent }
+          currencyFormat={ this.props.currencyFormat }
         />
         <div className={ `buttons ${this.props.obscureContent ? 'dimmed' : ''}` }>
           <Button className='btn btn-reset' onClick={ this.props.clickReset }>

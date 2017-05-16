@@ -6,14 +6,14 @@ import PlacedBets from './PlacedBets';
 
 const TabPane = Tabs.TabPane;
 
-const MarketDrawer = () => (
+const MarketDrawer = (props) => (
   <div id='market-drawer'>
     <Tabs defaultActiveKey='1' type='card'>
       <TabPane tab={ I18n.t('market_drawer.tab1') } key='1'>
-        <BetSlip/>
+        <BetSlip currencyFormat={ props.currencyFormat }/>
       </TabPane>
       <TabPane tab={ I18n.t('market_drawer.tab2') }  key='2'>
-        <PlacedBets />
+        <PlacedBets currencyFormat={ props.currencyFormat }/>
       </TabPane>
     </Tabs>
   </div>
