@@ -11,8 +11,9 @@ import { List, Map } from 'immutable';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { CurrencyUtils } from '../../utility';
-import { getBetData, getBetTotal, getCurrencyFormat } from '../../selectors/MywagerSelector';
+import { MyWagerSelector } from '../../selectors';
 
+const {  getBetData, getBetTotal, getCurrencyFormat } = MyWagerSelector;
 const TabPane = Tabs.TabPane;
 
 class MyWager extends PureComponent {
