@@ -14,7 +14,7 @@ class Export extends PureComponent{
 
   //Copy the contents from the store to an excel file and download it
   handleDownloadClick(){
-    let content = ExportUtils(this.props.exportData, null, { toBytes: true });
+    let content = ExportUtils.formatDataForExport(this.props.exportData, null, { toBytes: true });
     let blob = new Blob([content], { type: 'application/vnd.ms-excel;charset=charset=utf-8' });
     FileSaverUtils.saveAs(blob, this.props.screenName + moment().format("YYYY-MM-DD_HH-mm-ss") + '.xlsx');
     /*
