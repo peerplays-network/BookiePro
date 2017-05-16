@@ -4,6 +4,14 @@ import Immutable from 'immutable';
 import CurrencyUtils from '../../../utility/CurrencyUtils';
 
 const fieldPrecisionMap = Immutable.fromJS({
+  odds: {
+    BTC: 2,   // Odds precision has nothing to do with currency
+    mBTC: 2   // This is added for consistency purpose
+  },
+  stake: {
+    BTC: 3,
+    mBTC: 0
+  },
   profit : {
     BTC: 5,
     mBTC: 2
@@ -21,7 +29,7 @@ const renderTeam = (text, record) => (
   </div>
 );
 
-const renderInput = (field, action) => {
+const renderInput = (field, action, currencyFormat) => {
   return (text, record) => {
     // antd table records are vanilla JS objects
     // we cannot use antd Input component here because we have problem
@@ -43,16 +51,28 @@ const renderInput = (field, action) => {
             action(delta);
           }
         }
+        onBlur={
+          (event) => {
+            // Assume values have been vented already in onChange
+            const floatNumber = parseFloat(event.target.value);
+            const value = CurrencyUtils.getFormattedCurrency(floatNumber, currencyFormat, fieldPrecisionMap.getIn([field, currencyFormat]));
+            const delta = Immutable.Map()
+              .set('id', record.id)
+              .set('field', field)
+              .set('value', value);
+            action(delta);
+          }
+        }
       />
     );
   }
 }
 
-const renderInputWithControl = (field, action) => {
+const renderInputWithControl = (field, action, currencyFormat) => {
   return (text, record) => {
     return (
       <div className='pos-rel'>
-        { renderInput(field, action)(text, record) }
+        { renderInput(field, action, currencyFormat)(text, record) }
         <a className='arrow-icon-main icon-up' onClick={ () => {} }><i className='icon-arrow icon-up-arrow'></i></a>
         <a className='arrow-icon-main icon-down' onClick={ () => {} }><i className='icon-arrow icon-down-arrow'></i></a>
       </div>
@@ -68,8 +88,9 @@ const renderDeleteButton = (deleteOne) => {
   );
 }
 
-const getBackColumns = (deleteOne, updateOne, currencySymbol) => (
-  [
+const getBackColumns = (deleteOne, updateOne, currencyFormat) => {
+  const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
+  return [
     {
       title: 'BACK',
       dataIndex: 'back',
@@ -83,14 +104,14 @@ const getBackColumns = (deleteOne, updateOne, currencySymbol) => (
       key: 'odds',
       width: '23%',
       className: 'numeric',
-      render: renderInputWithControl('odds', updateOne),
+      render: renderInputWithControl('odds', updateOne, currencyFormat),
     }, {
       title: `STAKE(${currencySymbol})`,
       dataIndex: 'stake',
       key: 'stake',
       width: '24%',
       className: 'numeric',
-      render: renderInput('stake', updateOne), // price is the original name
+      render: renderInput('stake', updateOne, currencyFormat), // price is the original name
     }, {
       title: `PROFIT(${currencySymbol})`,
       dataIndex: 'profit',
@@ -104,11 +125,12 @@ const getBackColumns = (deleteOne, updateOne, currencySymbol) => (
       className: 'delete-button',
       render: renderDeleteButton(deleteOne),
     }
-  ]
-);
+  ];
+};
 
-const getLayColumns = (deleteOne, updateOne, currencySymbol) => (
-  [
+const getLayColumns = (deleteOne, updateOne, currencyFormat) => {
+  const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
+  return [
     {
       title: 'LAY',
       dataIndex: 'lay',
@@ -122,14 +144,14 @@ const getLayColumns = (deleteOne, updateOne, currencySymbol) => (
       key: 'odds',
       width: '23%',
       className: 'numeric',
-      render: renderInputWithControl('odds', updateOne),
+      render: renderInputWithControl('odds', updateOne, currencySymbol),
     }, {
       title: `BACKER'S STAKE(${currencySymbol})`,
       dataIndex: 'stake',
       key: 'stake',
       width: '24%',
       className: 'numeric',
-      render: renderInput('stake', updateOne),
+      render: renderInput('stake', updateOne, currencySymbol),
     }, {
       title: `LIABILITY(${currencySymbol})`,
       dataIndex: 'liability',
@@ -144,7 +166,8 @@ const getLayColumns = (deleteOne, updateOne, currencySymbol) => (
       render: renderDeleteButton(deleteOne),
     }
   ]
-);
+
+};
 
 // TODO: REVIEW This function applies to both Back and Lay bets for now.
 const buildBetTableData = (bets, currencyFormat) => {
@@ -170,7 +193,6 @@ const EditableBetTable = (props) => {
   const { data, title, deleteOne, deleteMany, updateOne, dimmed, currencyFormat } = props;
   const backBets = data.get('back') || Immutable.List();
   const layBets = data.get('lay') || Immutable.List();
-  const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
   return (
     <div className={ `editable-bet-table-wrapper ${dimmed ? 'dimmed' : '' }` }>
       <div className='header'>
@@ -185,7 +207,7 @@ const EditableBetTable = (props) => {
           <div className='back'>
             <Table
               pagination={ false }
-              columns={ getBackColumns(deleteOne, updateOne, currencySymbol) }
+              columns={ getBackColumns(deleteOne, updateOne, currencyFormat) }
               dataSource={ buildBetTableData(backBets, currencyFormat).toJS() }
               rowClassName={ getRowClassName }
             />
@@ -196,7 +218,7 @@ const EditableBetTable = (props) => {
           <div className='lay'>
             <Table
               pagination={ false }
-              columns={ getLayColumns(deleteOne, updateOne, currencySymbol) }
+              columns={ getLayColumns(deleteOne, updateOne, currencyFormat) }
               dataSource={ buildBetTableData(layBets, currencyFormat).toJS() }
               rowClassName={ getRowClassName }
             />
