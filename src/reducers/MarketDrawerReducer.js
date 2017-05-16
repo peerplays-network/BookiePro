@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 import { LoadingStatus, ActionTypes } from '../constants';
-import { BettingModuleUtils } from '../utility';
+import { BettingModuleUtils, CurrencyUtils } from '../utility';
 import { transformBetObject } from './dataUtils';
 
 let initialState = Immutable.fromJS({
@@ -110,17 +110,27 @@ export default function(state = initialState, action) {
     case ActionTypes.MARKET_DRAWER_GET_PLACED_BETS: {
       let unmatchedBets = Immutable.List();
       let matchedBets = Immutable.List();
+      // NOTE We need to format Odds and Stake values here as we CANNOT perform
+      // this in the mapStateToProps function of the components. In order to show
+      // the initial Odds and Stake values correctly before the components are displayed,
+      // this ONE-OFF action is the best place to perform the formatting.
       action.placedBets.forEach(bet => {
         let transformed = transformBetObject(bet);
         if (transformed.has('matched')) {
-          matchedBets = matchedBets.push(transformed.get('matched'));
+          let matchedBet = transformed.get('matched');
+          matchedBet = matchedBet
+                         .update('odds', odds => CurrencyUtils.getFormattedField('odds', odds, action.currencyFormat).toString())
+                         .update('stake', stake => CurrencyUtils.getFormattedField('stake', stake, action.currencyFormat).toString())
+          matchedBets = matchedBets.push(matchedBet);
         }
         if (transformed.has('unmatched')) {
           let unmatchedBet = transformed.get('unmatched');
           // store odds and stake values as String for easier comparison
           unmatchedBet = unmatchedBet
-                           .update('odds', odds => odds.toString())
-                           .update('stake', stake => stake.toString())
+                           .update('odds', odds => CurrencyUtils.getFormattedField('odds', odds, action.currencyFormat).toString())
+                           .update('stake', stake => CurrencyUtils.getFormattedField('stake', stake, action.currencyFormat).toString());
+          // NOTE: The old values MUST be based on the formatted values, not the original.
+          unmatchedBet = unmatchedBet
                            .set('updated', false)
                            .set('original_odds', unmatchedBet.get('odds').toString())
                            .set('original_stake', unmatchedBet.get('stake').toString());

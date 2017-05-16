@@ -3,17 +3,6 @@ import { Table } from 'antd';
 import Immutable from 'immutable';
 import CurrencyUtils from '../../../utility/CurrencyUtils';
 
-const fieldPrecisionMap = Immutable.fromJS({
-  profit : {
-    BTC: 5,
-    mBTC: 2
-  },
-  liability : {
-    BTC: 5,
-    mBTC: 2
-  },
-});
-
 const renderTeam = (text, record) => (
   <div>
     <div className='team'>{ record.team }</div>
@@ -86,7 +75,7 @@ const buildBetTableData = (bets, currencyFormat) => {
   const formatting = (field, value) => {
     const floatNumber = parseFloat(value);
     return isNaN(floatNumber) ? value :
-      CurrencyUtils.getFormattedCurrency(floatNumber, currencyFormat, fieldPrecisionMap.getIn([field, currencyFormat]));
+      CurrencyUtils.getFormattedField(field, floatNumber, currencyFormat);
   }
   return bets.map((bet, idx) => {
     // TODO: change hard-coded market type

@@ -3,25 +3,6 @@ import { Button, Icon, Table } from 'antd';
 import Immutable from 'immutable';
 import CurrencyUtils from '../../../utility/CurrencyUtils';
 
-const fieldPrecisionMap = Immutable.fromJS({
-  odds: {
-    BTC: 2,   // Odds precision has nothing to do with currency
-    mBTC: 2   // This is added for consistency purpose
-  },
-  stake: {
-    BTC: 3,
-    mBTC: 0
-  },
-  profit : {
-    BTC: 5,
-    mBTC: 2
-  },
-  liability : {
-    BTC: 5,
-    mBTC: 2
-  },
-});
-
 const renderTeam = (text, record) => (
   <div>
     <div className='team'>{ record.team }</div>
@@ -55,7 +36,7 @@ const renderInput = (field, action, currencyFormat) => {
           (event) => {
             // Assume values have been vented already in onChange
             const floatNumber = parseFloat(event.target.value);
-            const value = CurrencyUtils.getFormattedCurrency(floatNumber, currencyFormat, fieldPrecisionMap.getIn([field, currencyFormat]));
+            const value = CurrencyUtils.getFormattedField(field, floatNumber, currencyFormat);
             const delta = Immutable.Map()
               .set('id', record.id)
               .set('field', field)
@@ -144,14 +125,14 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat) => {
       key: 'odds',
       width: '23%',
       className: 'numeric',
-      render: renderInputWithControl('odds', updateOne, currencySymbol),
+      render: renderInputWithControl('odds', updateOne, currencyFormat),
     }, {
       title: `BACKER'S STAKE(${currencySymbol})`,
       dataIndex: 'stake',
       key: 'stake',
       width: '24%',
       className: 'numeric',
-      render: renderInput('stake', updateOne, currencySymbol),
+      render: renderInput('stake', updateOne, currencyFormat),
     }, {
       title: `LIABILITY(${currencySymbol})`,
       dataIndex: 'liability',
@@ -174,7 +155,7 @@ const buildBetTableData = (bets, currencyFormat) => {
   const formatting = (field, value) => {
     const floatNumber = parseFloat(value);
     return isNaN(floatNumber) ? value :
-      CurrencyUtils.getFormattedCurrency(floatNumber, currencyFormat, fieldPrecisionMap.getIn([field, currencyFormat]));
+      CurrencyUtils.getFormattedField(field, floatNumber, currencyFormat);
   }
   return bets.map((bet, idx) => {
     // TODO: change hard-coded market type

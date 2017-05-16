@@ -56,11 +56,12 @@ class MarketDrawerPrivateActions {
     }
   }
 
-  static getPlacedBets(placedBets, bettingMarketGroupId) {
+  static getPlacedBets(placedBets, bettingMarketGroupId, currencyFormat) {
     return {
       type: ActionTypes.MARKET_DRAWER_GET_PLACED_BETS,
       placedBets,
       bettingMarketGroupId,
+      currencyFormat
     }
   }
 
@@ -174,7 +175,10 @@ class MarketDrawerActions {
         const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
         const bettingMarketIds= bettingMarketGroup.get('betting_market_ids');
         const placedBets = bets.filter(bet => bettingMarketIds.includes(bet.get('betting_market_id')));
-        dispatch(MarketDrawerPrivateActions.getPlacedBets(placedBets, bettingMarketGroupId));
+        const account = getState().get('account');
+        const accountId = account.getIn(['account','id']);
+        const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting'])
+        dispatch(MarketDrawerPrivateActions.getPlacedBets(placedBets, bettingMarketGroupId, setting.get('currencyFormat')));
       })
     }
   }
