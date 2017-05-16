@@ -117,10 +117,13 @@ export default function(state = initialState, action) {
         }
         if (transformed.has('unmatched')) {
           let unmatchedBet = transformed.get('unmatched');
+          // store odds and stake values as String for easier comparison
           unmatchedBet = unmatchedBet
+                           .update('odds', odds => odds.toString())
+                           .update('stake', stake => stake.toString())
                            .set('updated', false)
-                           .set('original_odds', unmatchedBet.get('odds'))
-                           .set('original_stake', unmatchedBet.get('stake'));
+                           .set('original_odds', unmatchedBet.get('odds').toString())
+                           .set('original_stake', unmatchedBet.get('stake').toString());
           unmatchedBets = unmatchedBets.push(unmatchedBet);
         }
       });
