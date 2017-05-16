@@ -33,6 +33,9 @@ const renderInput = (field, action) => {
         className='ant-input'
         onChange={
           (event) => {
+            // REVIEW: One line Regular Expression error check
+            //         Reject any input that leads to invalid number
+            if (!/^\d*\.?\d*$/.test(event.target.value)) return false;
             const delta = Immutable.Map()
               .set('id', record.id)
               .set('field', field)
