@@ -14,7 +14,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
 import './MyAccount.less'
 import _ from 'lodash';
-import { BlockchainUtils } from '../../utility';
+import { BlockchainUtils, FileSaverUtils } from '../../utility';
 import { CommunicationService } from '../../services';
 import Deposit from './Deposit';
 //import Withdraw from './Withdraw';
@@ -22,7 +22,6 @@ import { MyAccountWithdraw } from '../Withdraw';
 import moment from 'moment';
 import { SettingActions, BalanceActions, NavigateActions, HistoryActions } from '../../actions';
 import { LoadingStatus } from '../../constants';
-import { saveAs } from '../../utility/fileSaver.js';
 import { BettingModuleUtils, CurrencyUtils } from '../../utility';
 
 

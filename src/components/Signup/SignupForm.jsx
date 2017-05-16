@@ -4,10 +4,12 @@ import { Button } from 'antd';
 import { ChainValidation } from 'graphenejs-lib';
 import copy from 'copy-to-clipboard';
 import RandomString from 'randomstring';
-import { saveAs } from '../../utility/fileSaver.js';
 import { AccountService } from '../../services';
+import { FileSaverUtils } from '../../utility';
 import { LoadingStatus } from '../../constants';
 import { I18n, Translate }  from 'react-redux-i18n';
+
+const { saveAs } = FileSaverUtils;
 
 //Component to render the plain fields
 const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touched, error } }) => (

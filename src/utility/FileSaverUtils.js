@@ -251,11 +251,8 @@ var saveAs = (function(view) {
 // while `this` is nsIContentFrameMessageManager
 // with an attribute `content` that corresponds to the window
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports.saveAs = saveAs;
+const FileSaverUtils = {
+  saveAs
 }
-/* else if ((typeof define !== 'undefined' && define !== null) && (define.amd !== null)) {
-define([], function() {
-return saveAs;
-});
-}*/
+
+export default FileSaverUtils;

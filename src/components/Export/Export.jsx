@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Card,Icon } from 'antd';
 import { I18n } from 'react-redux-i18n';
-import { ExportUtils, FileSaver } from '../../utility';
+import { ExportUtils, FileSaverUtils } from '../../utility';
 import moment from 'moment';
 import { LoadingStatus } from '../../constants';
 
@@ -16,7 +16,7 @@ class Export extends PureComponent{
   handleDownloadClick(){
     let content = ExportUtils(this.props.exportData, null, { toBytes: true });
     let blob = new Blob([content], { type: 'application/vnd.ms-excel;charset=charset=utf-8' });
-    FileSaver.saveAs(blob, this.props.screenName + moment().format("YYYY-MM-DD_HH-mm-ss") + '.xlsx');
+    FileSaverUtils.saveAs(blob, this.props.screenName + moment().format("YYYY-MM-DD_HH-mm-ss") + '.xlsx');
     /*
       - 'No results' has to be displayed if data is not available.
       - 'No results' gets displayed after successfull download as well since we are clearing the data store.
