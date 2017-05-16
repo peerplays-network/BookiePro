@@ -110,10 +110,11 @@ export default function(state = initialState, action) {
     case ActionTypes.MARKET_DRAWER_GET_PLACED_BETS: {
       let unmatchedBets = Immutable.List();
       let matchedBets = Immutable.List();
-      // NOTE We need to format Odds and Stake values here as we CANNOT perform
-      // this in the mapStateToProps function of the components. In order to show
-      // the initial Odds and Stake values correctly before the components are displayed,
-      // this ONE-OFF action is the best place to perform the formatting.
+      // NOTE In order to show the initial Odds and Stake values correctly before
+      // the components are displayed, this ONE-OFF action is the best place to
+      // perform the formatting. Doing this in mapStateToProps function of a React
+      // component will lead undesirable effects where user's input may be
+      // constantly modified on the fly (e.g. in the middle of an edit action)
       action.placedBets.forEach(bet => {
         let transformed = transformBetObject(bet);
         if (transformed.has('matched')) {
