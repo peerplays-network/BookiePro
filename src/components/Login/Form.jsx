@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form/immutable';
 import { ChainValidation } from 'graphenejs-lib';
 import { AccountService } from '../../services';
 import { I18n } from 'react-redux-i18n';
+import { LoadingStatus } from '../../constants';
 
 //Component for text field
 const renderField = ({  tabIndex, className, errors, placeholder, input, type,
@@ -13,6 +14,8 @@ const renderField = ({  tabIndex, className, errors, placeholder, input, type,
       placeholder={ placeholder } tabIndex={ tabIndex }
 			className={ (touched && error) ? (className + ' error') : className }/>
 		{ (touched) && error && <span className='errorText'>{ error }</span> }
+		{ !error && errors && errors.length ?
+			errors.map((currentError) => { return <span className='errorText' key={ currentError }>{ currentError }</span>}) : null }
 	</div>
 );
 
@@ -32,23 +35,25 @@ const normalizeAccount = (value, previousValue) => {
 
 const LoginForm = (props) => {
   const { handleSubmit, invalid, submitting, asyncValidating, onClickSignup, errors, status } = props;
-
   return (
     <form onSubmit={ handleSubmit }>
       <div className='form-fields'>
         <Field name='userName' component={ renderField } type='text' placeholder={ I18n.t('login.username') }
-          errors={ errors } normalize={ normalizeAccount } tabIndex='1'/>
+         normalize={ normalizeAccount } tabIndex='1'/>
       </div>
       <div className='form-fields'>
-        <Field name='password' component={ renderField } type='password' placeholder={ I18n.t('login.password') } tabIndex='2'/>
-				{ //show server errors on submit
-					errors.length && !invalid ? <span className='errorText' key={ errors }>{ errors }</span>  :	null }
+        <Field name='password' component={ renderField } type='password'
+					errors={ errors.toJS() } placeholder={ I18n.t('login.password') } tabIndex='2'/>
       </div>
       <div className='form-fields'>
-				<button className={ 'btn ' + ((invalid || submitting || asyncValidating) ? 'btn-regular-disabled' : 'btn-regular') + ' grid-100 margin-top-25' } type='submit'
-					disabled={ invalid || submitting || asyncValidating }>
+				<button
+					className={ 'btn ' + ((invalid || submitting || asyncValidating ||
+					status===LoadingStatus.LOADING)
+						? 'btn-regular-disabled' : 'btn-regular') + ' grid-100 margin-top-25' } type='submit'
+					disabled={ invalid || submitting || asyncValidating || status===LoadingStatus.LOADING }>
 					{ //set loadingstatus on submit
-						status !== 'default' ? status : I18n.t('login.title') }
+						status===LoadingStatus.LOADING ? I18n.t('application.loading') : I18n.t('login.title')
+					}
 				</button>
       </div>
 			<div className='form-fields signup-link'>
