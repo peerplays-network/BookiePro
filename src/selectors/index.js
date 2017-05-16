@@ -1,4 +1,4 @@
-import MyWagerSelector from './MyWagerSelector1';
+import MyWagerSelector from './MyWagerSelector';
 
 export {
   MyWagerSelector
