@@ -25,6 +25,7 @@ import HistoryActions from './HistoryActions';
 import AuthActions from './AuthActions';
 import BalanceActions from './BalanceActions';
 import MywagerActions from './MywagerActions';
+import MyAccountPageActions from './MyAccountPageActions';
 
 // Combine all the actions here for import shortcut
 export {
@@ -54,5 +55,6 @@ export {
   HistoryActions,
   AuthActions,
   NavigateActions,
+  MyAccountPageActions,
   MywagerActions
 }

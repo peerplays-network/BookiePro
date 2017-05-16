@@ -1,26 +1,41 @@
 import React, { PureComponent } from 'react';
-import { Table,DatePicker,Select,LocaleProvider } from 'antd';
+import { Table } from 'antd';
 import './MyAccount.less';
-import { LoadingStatus } from '../../constants';
+import { LoadingStatus, TimeRangePeriodTypes } from '../../constants';
 import { I18n } from 'react-redux-i18n';
 import Export from '../Export';
 import { CurrencyUtils } from '../../utility';
+import TimeRangePicker from '../TimeRangePicker';
+import PropTypes from 'prop-types';
 
-const Option = Select.Option;
 const paginationParams = { pageSize: 20 };
 
 class TransactionHistory extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      disableSearchAndExportButtons: false,
+    }
+    this.onPeriodChange = this.onPeriodChange.bind(this);
+  }
+
+  onPeriodChange(periodType, startDate, endDate) {
+    const disableSearchAndExportButtons = (periodType === TimeRangePeriodTypes.CUSTOM) && (!startDate|| !endDate);
+    this.setState({ disableSearchAndExportButtons })
+    // Call parent callback
+    this.onPeriodChange(periodType, startDate, endDate);
+  }
 
   render() {
     const { transactionHistory,transactionHistoryLoadingStatus,
       transactionHistoryExport,transactionHistoryExportLoadingStatus,
       exportButtonClicked,resetTransactionHistoryExportLoadingStatus,clearTransactionHistoryExport,
-      handleSearchClick,handleExportClick,periodChange,showDateFields,
-      onStartChange,onEndChange,disabledFromDate,disabledToDate,fromDate,toDate } = this.props;
+      handleSearchClick,handleExportClick, onPeriodChange } = this.props;
 
     const hasNoTransactionHistoryData = transactionHistory && transactionHistory.length === 0,
-      hasNoTransactionHistoryDataExport = transactionHistoryExport && transactionHistoryExport.length === 0,
-      disableButtons = showDateFields && (fromDate===null || toDate===null);
+      hasNoTransactionHistoryDataExport = transactionHistoryExport && transactionHistoryExport.length === 0;
+
+    const disableSearchAndExportButtons = this.state.disableSearchAndExportButtons;
 
     //Transaction History table Columns
     const columns = [
@@ -65,45 +80,15 @@ class TransactionHistory extends PureComponent {
               <div className='filter'>
                 <div
                   className='ant-form-inline'>
-                  <div
-                    className='ant-form-item'>
-                    <label>{ I18n.t('application.period') }</label>
-                    <Select className='bookie-select' defaultValue='last7Days' style={ {width: 150} } onChange={ periodChange }>
-                      <Option value='last7Days'>{ I18n.t('application.last_7_Days') }</Option>
-                      <Option value='last14Days'>{ I18n.t('application.last_14_Days') }</Option>
-                      <Option value='thisMonth'>{ I18n.t('application.this_Month') }</Option>
-                      <Option value='lastMonth'>{ I18n.t('application.last_Month') }</Option>
-                      <Option value='custom'>{ I18n.t('application.custom') }</Option>
-                    </Select>
-                  </div>
-                  { showDateFields ?
-                    <LocaleProvider locale={ I18n.t('application.locale') }>
-                      <div className='ant-form-item'>
-                        <label><i className='calendar-icon'></i></label>
-                          <DatePicker
-                           disabledDate={ disabledFromDate }
-                           allowClear={ false }
-                           format='YYYY/MM/DD'
-                           placeholder='From'
-                           onChange={ onStartChange } />
-                          <span className='margin-lr-10 font16'>  - </span>
-                          <DatePicker
-                            disabledDate={ disabledToDate }
-                            allowClear={ false }
-                            format='YYYY-MM-DD'
-                            placeholder='To'
-                            onChange={ onEndChange }/>
-                      </div>
-                    </LocaleProvider> : null
-                  }
+                  <TimeRangePicker className='ant-form-item' onPeriodChange={ onPeriodChange }/>
                   <div className='ant-form-item'>
                     <button
-                      className={ 'btn ' + (disableButtons ? 'btn-regular-disabled':' btn-regular') }
-                      disabled={ disableButtons }
+                      className={ 'btn ' + (disableSearchAndExportButtons ? 'btn-regular-disabled':' btn-regular') }
+                      disabled={ disableSearchAndExportButtons }
                       onClick={ handleSearchClick }>{ I18n.t('application.search') }</button>
                     <button
-                      className={ 'btn ' + ((disableButtons ? 'btn-regular-disabled':' btn-regular') + ' margin-left-10') }
-                      disabled={ disableButtons }
+                      className={ 'btn ' + ((disableSearchAndExportButtons ? 'btn-regular-disabled':' btn-regular') + ' margin-left-10') }
+                      disabled={ disableSearchAndExportButtons }
                       onClick={ handleExportClick }>
                       { I18n.t('application.export') }
                     </button>
@@ -112,16 +97,14 @@ class TransactionHistory extends PureComponent {
               </div>
             </div>
           </div>
-          <LocaleProvider locale={ I18n.t('application.locale') }>
-            <Table className='bookie-table'
-              locale={ { emptyText: (
-                (hasNoTransactionHistoryData && transactionHistoryLoadingStatus === LoadingStatus.DONE ?
-                I18n.t('mybets.nodata') : transactionHistoryLoadingStatus) ||
-                hasNoTransactionHistoryDataExport) } }
-              pagination={ transactionHistory.length > 20 ? paginationParams : false }
-              dataSource={ transactionHistory }
-              columns={ columns }/>
-          </LocaleProvider>
+          <Table className='bookie-table'
+            locale={ { emptyText: (
+              (hasNoTransactionHistoryData && transactionHistoryLoadingStatus === LoadingStatus.DONE ?
+              I18n.t('mybets.nodata') : transactionHistoryLoadingStatus) ||
+              hasNoTransactionHistoryDataExport) } }
+            pagination={ transactionHistory.length > 20 ? paginationParams : false }
+            dataSource={ transactionHistory }
+            columns={ columns }/>
         </div>
         { exportButtonClicked ?
         <Export
@@ -136,4 +119,11 @@ class TransactionHistory extends PureComponent {
   }
 }
 
+TransactionHistory.propTypes = {
+  onPeriodChange: PropTypes.func
+}
+
+TransactionHistory.defaultProps = {
+  onPeriodChange: () => {}
+}
 export default TransactionHistory;

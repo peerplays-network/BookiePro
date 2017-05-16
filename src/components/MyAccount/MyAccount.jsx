@@ -20,7 +20,7 @@ import Deposit from './Deposit';
 //import Withdraw from './Withdraw';
 import { MyAccountWithdraw } from '../Withdraw';
 import moment from 'moment';
-import { SettingActions, BalanceActions, NavigateActions, HistoryActions } from '../../actions';
+import { SettingActions, BalanceActions, NavigateActions, HistoryActions, MyAccountPageActions } from '../../actions';
 import { LoadingStatus } from '../../constants';
 import { BettingModuleUtils, CurrencyUtils } from '../../utility';
 
@@ -33,15 +33,7 @@ class MyAccount extends PureComponent {
     super(props);
 
     this.state = {
-      pagination: true,
-      size: 'default',
-      scroll: undefined,
-      txList: [],
       //Show/Hide date fields based on 'Period' selection
-      showDateFields: false,
-      //Since, the default period is 'Last 7 days', we set the initial 'From' and 'To' dates accordingly
-      fromDate: moment().subtract(6, 'days'),
-      toDate: moment(),
       withdrawAmount:'',
       exportButtonClicked: false
     }
@@ -53,9 +45,6 @@ class MyAccount extends PureComponent {
     this.handleNotificationChange = this.handleNotificationChange.bind(this);
     this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
 
-    this.periodChange = this.periodChange.bind(this);
-    this.onStartChange = this.onStartChange.bind(this);
-    this.onEndChange = this.onEndChange.bind(this);
     this.searchTransactionHistory = this.searchTransactionHistory.bind(this);
     this.exportTransactionHistory = this.exportTransactionHistory.bind(this);
     this.resetTransactionHistoryExportLoadingStatus = this.resetTransactionHistoryExportLoadingStatus.bind(this);
@@ -65,32 +54,11 @@ class MyAccount extends PureComponent {
     this.handleDownloadPasswordFile = this.handleDownloadPasswordFile.bind(this);
     this.handleNavigateToHome = this.handleNavigateToHome.bind(this);
 
+    this.onHistoryPeriodChange = this.onHistoryPeriodChange.bind(this);
+
   }
 
-
-  /*shouldComponentUpdate(nextProps) {
-    // TODO: change in currentformat wont trigger update in of currentformat in table below... still investigating
-    // TODO:  last_irreversible_block_num comparision to optimize  shouldComponentUpdate function
-    // let {block, dynGlobalObject} = this.props;
-    // let  last_irreversible_block_num = dynGlobalObject.get('last_irreversible_block_num' );
-
-    if (nextProps.currencyFormat === this.props.currencyFormat) {
-    } else {
-      return true;
-    }
-
-    if (nextProps.dynGlobalObject === this.props.dynGlobalObject) {
-      return false;
-    }
-
-    //this.fetchRecentTransactionHistory();
-
-    return true;
-  }*/
-
   componentDidMount() {
-    this.searchTransactionHistory();
-    // this.fetchRecentTransactionHistory();
     //Get the deposit address
     this.props.getDepositAddress();
   }
@@ -104,20 +72,11 @@ class MyAccount extends PureComponent {
     return fromValue.valueOf() > toValue.valueOf();
   }
 
-  //Disable out of range dates for 'To Date'
-  disabledToDate = (toValue) => {
-    const fromValue = this.state.fromDate;
-    if (!toValue || !fromValue) {
-      return false;
-    }
-    return toValue.valueOf() <= fromValue.valueOf();
-  }
-
   //Search transaction history with filters
   searchTransactionHistory(){
     //Format from date and to date in the required format and pass
-    this.props.getTransactionHistory(this.state.fromDate.format("YYYY-MM-DD HH:mm:ss"),
-               this.state.toDate.format("YYYY-MM-DD HH:mm:ss"));
+    this.props.getTransactionHistory(this.props.historyStartDate.format("YYYY-MM-DD HH:mm:ss"),
+               this.props.historyEndDate.format("YYYY-MM-DD HH:mm:ss"));
   }
 
   //Export transaction history
@@ -125,8 +84,8 @@ class MyAccount extends PureComponent {
     event.preventDefault();
     //To show export related status after the 'Export' button is clicked
     this.setState({ exportButtonClicked: true });
-    this.props.getTransactionHistoryExport(this.state.fromDate.format("YYYY-MM-DD HH:mm:ss"),
-               this.state.toDate.format("YYYY-MM-DD HH:mm:ss"));
+    this.props.getTransactionHistoryExport(this.props.historyStartDate.format("YYYY-MM-DD HH:mm:ss"),
+               this.props.historyEndDate.format("YYYY-MM-DD HH:mm:ss"));
   }
 
   //Cancel transaction history export - Resetting it's loading status to 'default'
@@ -139,6 +98,7 @@ class MyAccount extends PureComponent {
   clearTransactionHistoryExport(){
     this.props.clearTransactionHistoryExport();
   }
+
 
   //Update state for 'from date' whenever it is selected from the calender
   onStartChange = (value) => {
@@ -184,31 +144,8 @@ class MyAccount extends PureComponent {
     }
   }
 
-  //NOTE: Not removing this code as of now since I will need to refer it later when correct data is obtained
-  fetchRecentTransactionHistory() {
 
-    const account = this.props.account;
-    const accountId = account.get('id');
-    if (!accountId) {
-      console.log('No account');
-      return;
-    }
-    this.setState({fetchRecentHistoryInProgress: true});
-    CommunicationService.fetchRecentHistory(accountId)
-      .then((result) => {
-        this.setState({fetchRecentHistoryInProgress: false});
-
-        const txList = result.toJS();
-        this.setState({txList: txList});
-
-        const newTxList = [];
-        txList.forEach(order => {
-
-          order.tx_time = '' + BlockchainUtils.calcBlockTime(order.block_num, this.props.globalObject, this.props.dynGlobalObject)
-          order.history = 'history';
-          order.amount = order.op[1].fee.amount + ' ' + this.props.currencyFormat;
-          order.op_value = order.op[0] + ' op';
-
+<<<<<<< e5e22eb80e32ff9891619cbee623bb457c615c09
           let last_irreversible_block_num = this.props.dynGlobalObject.get('last_irreversible_block_num');
           let status = 'completed';
           if (order.block_num > last_irreversible_block_num) {
@@ -224,6 +161,8 @@ class MyAccount extends PureComponent {
 
       });
   }
+=======
+>>>>>>> move transaction history startDate/ endDate to redux store and pull out time range picker from my account page
 
   handleNotificationChange(value) {
     const {updateSettingNotification} = this.props
@@ -238,11 +177,6 @@ class MyAccount extends PureComponent {
   handleCurrFormatChange(value) {
     const {updateCurrencyFormat} = this.props
     updateCurrencyFormat(value)
-
-    // still fixing table reload
-    // this.setState({
-    //      txList: this.props.txList
-    // })
   }
 
   handleTimeZoneChange(value) {
@@ -251,9 +185,8 @@ class MyAccount extends PureComponent {
 
   }
 
-
   handleRedirectToChangePwd(){
-    this.props.redirectToChangePwd();
+    this.props.navigateTo('/change-password');
   }
 
   handleWithdrawSubmit(values){
@@ -431,10 +364,7 @@ class MyAccount extends PureComponent {
              handleExportClick={ this.exportTransactionHistory }
              resetTransactionHistoryExportLoadingStatus={ this.resetTransactionHistoryExportLoadingStatus }
              clearTransactionHistoryExport={ this.clearTransactionHistoryExport }
-             periodChange={ this.periodChange } showDateFields={ this.state.showDateFields }
-             onStartChange={ this.onStartChange } onEndChange={ this.onEndChange }
-             disabledFromDate={ this.disabledFromDate } disabledToDate={ this.disabledToDate }
-             fromDate={ this.state.fromDate } toDate={ this.state.toDate }
+             onPeriodChange={ this.onHistoryPeriodChange }
              currencyFormat={ this.props.currencyFormat }
            />
         </Row>
@@ -458,6 +388,8 @@ const mapStateToProps = (state) => {
 
   const precision = state.getIn(['asset', 'assetsById', '1.3.0']).get('precision');
   const currencyFormat = setting.get('currencyFormat');
+  const historyStartDate = state.getIn(['myAccountPage', 'startDate']);
+  const historyEndDate = state.getIn(['myAccountPage', 'endDate']);
 
   //Transaction History table Data (dummy data binding)
   let transactionHistoryData = [];
@@ -497,6 +429,8 @@ const mapStateToProps = (state) => {
   }
 
   return {
+    historyStartDate,
+    historyEndDate,
     dynGlobalObject: app.get('blockchainDynamicGlobalProperty'),
     globalObject: app.get('blockchainGlobalProperty'),
     account: account.get('account'),
@@ -531,10 +465,10 @@ function mapDispatchToProps(dispatch) {
     resetTransactionHistoryExportLoadingStatus: HistoryActions.resetTransactionHistoryExportLoadingStatus,
     clearTransactionHistoryExport: HistoryActions.clearTransactionHistoryExport,
     getDepositAddress: BalanceActions.getDepositAddress,
-    redirectToChangePwd: SettingActions.redirectToChangePwd,
     withdraw: BalanceActions.withdraw,
     resetWithdrawLoadingStatus: BalanceActions.resetWithdrawLoadingStatus,
     navigateTo: NavigateActions.navigateTo,
+    setHistoryTimeRange: MyAccountPageActions.setHistoryTimeRange
   }, dispatch)
 }
 
