@@ -11,31 +11,14 @@ import PropTypes from 'prop-types';
 const paginationParams = { pageSize: 20 };
 
 class TransactionHistory extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      disableSearchAndExportButtons: false,
-    }
-    this.onPeriodChange = this.onPeriodChange.bind(this);
-  }
-
-  onPeriodChange(periodType, startDate, endDate) {
-    const disableSearchAndExportButtons = (periodType === TimeRangePeriodTypes.CUSTOM) && (!startDate|| !endDate);
-    this.setState({ disableSearchAndExportButtons })
-    // Call parent callback
-    this.onPeriodChange(periodType, startDate, endDate);
-  }
-
   render() {
     const { transactionHistory,transactionHistoryLoadingStatus,
       transactionHistoryExport,transactionHistoryExportLoadingStatus,
       exportButtonClicked,resetTransactionHistoryExportLoadingStatus,clearTransactionHistoryExport,
-      handleSearchClick,handleExportClick, onPeriodChange } = this.props;
+      handleSearchClick,handleExportClick } = this.props;
 
     const hasNoTransactionHistoryData = transactionHistory && transactionHistory.length === 0,
       hasNoTransactionHistoryDataExport = transactionHistoryExport && transactionHistoryExport.length === 0;
-
-    const disableSearchAndExportButtons = this.state.disableSearchAndExportButtons;
 
     //Transaction History table Columns
     const columns = [
@@ -61,7 +44,7 @@ class TransactionHistory extends PureComponent {
       },
       {
         title: I18n.t('myAccount.amount') +
-                '(' + CurrencyUtils.getCurruencySymbol(this.props.currencyFormat) + ')',
+        '(' + CurrencyUtils.getCurruencySymbol(this.props.currencyFormat) + ')',
         dataIndex: 'amount',
         key: 'amount',
       }
@@ -78,52 +61,46 @@ class TransactionHistory extends PureComponent {
             </div>
             <div className='float-right'>
               <div className='filter'>
-                <div
-                  className='ant-form-inline'>
-                  <TimeRangePicker className='ant-form-item' onPeriodChange={ onPeriodChange }/>
+                <div className='ant-form-inline'>
+                  <TimeRangePicker onSearchClick={ handleSearchClick } />
                   <div className='ant-form-item'>
                     <button
-                      className={ 'btn ' + (disableSearchAndExportButtons ? 'btn-regular-disabled':' btn-regular') }
-                      disabled={ disableSearchAndExportButtons }
-                      onClick={ handleSearchClick }>{ I18n.t('application.search') }</button>
-                    <button
-                      className={ 'btn ' + ((disableSearchAndExportButtons ? 'btn-regular-disabled':' btn-regular') + ' margin-left-10') }
-                      disabled={ disableSearchAndExportButtons }
-                      onClick={ handleExportClick }>
+                      className={ 'btn btn-regular margin-left-10' }
+                      onClick={ this.onExportClick }>
                       { I18n.t('application.export') }
                     </button>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <Table className='bookie-table'
-            locale={ { emptyText: (
-              (hasNoTransactionHistoryData && transactionHistoryLoadingStatus === LoadingStatus.DONE ?
+        </div>
+        <Table className='bookie-table'
+          locale={ { emptyText: (
+            (hasNoTransactionHistoryData && transactionHistoryLoadingStatus === LoadingStatus.DONE ?
               I18n.t('mybets.nodata') : transactionHistoryLoadingStatus) ||
               hasNoTransactionHistoryDataExport) } }
-            pagination={ transactionHistory.length > 20 ? paginationParams : false }
-            dataSource={ transactionHistory }
-            columns={ columns }/>
-        </div>
-        { exportButtonClicked ?
-        <Export
-          exportData={ transactionHistoryExport }
-          exportLoadingStatus={ transactionHistoryExportLoadingStatus }
-          resetExportLoadingStatus={ resetTransactionHistoryExportLoadingStatus }
-          clearExportDataStore={ clearTransactionHistoryExport }
-          screenName={ I18n.t('myAccount.screenName') }
-          />: null }
-      </div>
-    )
+              pagination={ transactionHistory.length > 20 ? paginationParams : false }
+              dataSource={ transactionHistory }
+              columns={ columns }/>
+          </div>
+          { exportButtonClicked ?
+            <Export
+              exportData={ transactionHistoryExport }
+              exportLoadingStatus={ transactionHistoryExportLoadingStatus }
+              resetExportLoadingStatus={ resetTransactionHistoryExportLoadingStatus }
+              clearExportDataStore={ clearTransactionHistoryExport }
+              screenName={ I18n.t('myAccount.screenName') }
+              />: null }
+            </div>
+    );
   }
 }
 
 TransactionHistory.propTypes = {
-  onPeriodChange: PropTypes.func
+  onExportClick: PropTypes.func
 }
 
 TransactionHistory.defaultProps = {
-  onPeriodChange: () => {}
+  onExportClick: () => {}
 }
 export default TransactionHistory;

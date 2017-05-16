@@ -15,15 +15,17 @@ class TimeRangePicker extends PureComponent {
       endDate: moment(),
     }
     this.onChange = this.onChange.bind(this);
+    this.onSearchClick = this.onSearchClick.bind(this);
     this.renderCustomTimeRangePicker = this.renderCustomTimeRangePicker.bind(this);
     this.onCustomTimeRangePickerStartDateChange = this.onCustomTimeRangePickerStartDateChange.bind(this);
     this.onCustomTimeRangePickerEndDateChange = this.onCustomTimeRangePickerEndDateChange.bind(this);
   }
 
-  componentDidMount() {
-    // Ensure that the parent component has the updated state when this component is mounted
-    this.props.onPeriodChange(this.state.periodType, this.state.startDate, this.state.endDate);
+  onSearchClick(e) {
+    e.preventDefault();
+    this.props.onSearchClick(this.state.periodType, this.state.startDate, this.state.endDate);
   }
+
 
   onCustomTimeRangePickerStartDateChange(startDate) {
     this.setState({ startDate });
@@ -118,33 +120,38 @@ class TimeRangePicker extends PureComponent {
   }
 
   render() {
-    const className = this.props.className
+    const disableSearchAndExportButtons = (this.state.periodType === TimeRangePeriodTypes.CUSTOM) && (!this.state.startDate|| !this.state.endDate);
     return (
-      <div className={ className }>
-        <div className='ant-form-item'>
-          <label>{ I18n.t('application.period') }</label>
-          <Select className='bookie-select' defaultValue={ TimeRangePeriodTypes.LAST_7_DAYS } onChange={ this.onChange }>
-            <Option value={ TimeRangePeriodTypes.LAST_7_DAYS }>{ I18n.t('application.last_7_Days') }</Option>
-            <Option value={ TimeRangePeriodTypes.LAST_14_DAYS }>{ I18n.t('application.last_14_Days') }</Option>
-            <Option value={ TimeRangePeriodTypes.THIS_MONTH }>{ I18n.t('application.this_Month') }</Option>
-            <Option value={ TimeRangePeriodTypes.LAST_MONTH }>{ I18n.t('application.last_Month') }</Option>
-            <Option value={ TimeRangePeriodTypes.CUSTOM }>{ I18n.t('application.custom') }</Option>
-          </Select>
-        </div>
-        { this.renderCustomTimeRangePicker() }
+        <div className='ant-form-item' style={ { marginRight: '0px' } } >
+          <div className='ant-form-item'>
+            <label>{ I18n.t('application.period') }</label>
+            <Select className='bookie-select' defaultValue={ TimeRangePeriodTypes.LAST_7_DAYS } onChange={ this.onChange }>
+              <Option value={ TimeRangePeriodTypes.LAST_7_DAYS }>{ I18n.t('application.last_7_Days') }</Option>
+              <Option value={ TimeRangePeriodTypes.LAST_14_DAYS }>{ I18n.t('application.last_14_Days') }</Option>
+              <Option value={ TimeRangePeriodTypes.THIS_MONTH }>{ I18n.t('application.this_Month') }</Option>
+              <Option value={ TimeRangePeriodTypes.LAST_MONTH }>{ I18n.t('application.last_Month') }</Option>
+              <Option value={ TimeRangePeriodTypes.CUSTOM }>{ I18n.t('application.custom') }</Option>
+            </Select>
+          </div>
+          { this.renderCustomTimeRangePicker() }
+          <button
+            className={ 'btn ' + (disableSearchAndExportButtons ? 'btn-regular-disabled':' btn-regular') }
+            disabled={ disableSearchAndExportButtons }
+            onClick={ this.onSearchClick }>{ I18n.t('application.search') }</button>
       </div>
+
     )
   }
 }
 
 TimeRangePicker.propTypes = {
+  onSearchClick: PropTypes.func,
   onPeriodChange: PropTypes.func,
-  className: PropTypes.string
 }
 
 TimeRangePicker.defaultProps = {
+  onSearchClick: () => {},
   onPeriodChange: () => {},
-  className: ''
 }
 
 export default TimeRangePicker;

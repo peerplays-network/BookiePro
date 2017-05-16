@@ -45,8 +45,8 @@ class MyAccount extends PureComponent {
     this.handleNotificationChange = this.handleNotificationChange.bind(this);
     this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
 
-    this.searchTransactionHistory = this.searchTransactionHistory.bind(this);
-    this.exportTransactionHistory = this.exportTransactionHistory.bind(this);
+    this.handleSearchClick = this.handleSearchClick.bind(this);
+    this.handleExportClick = this.handleExportClick.bind(this);
     this.resetTransactionHistoryExportLoadingStatus = this.resetTransactionHistoryExportLoadingStatus.bind(this);
     this.clearTransactionHistoryExport = this.clearTransactionHistoryExport.bind(this);
     this.handleRedirectToChangePwd = this.handleRedirectToChangePwd.bind(this);
@@ -54,38 +54,31 @@ class MyAccount extends PureComponent {
     this.handleDownloadPasswordFile = this.handleDownloadPasswordFile.bind(this);
     this.handleNavigateToHome = this.handleNavigateToHome.bind(this);
 
-    this.onHistoryPeriodChange = this.onHistoryPeriodChange.bind(this);
-
   }
 
   componentDidMount() {
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
     //Get the deposit address
     this.props.getDepositAddress();
   }
 
-  //Disable out of range dates for 'From Date'
-  disabledFromDate = (fromValue) => {
-    const toValue = this.state.toDate;
-    if (!fromValue || !toValue) {
-      return false;
-    }
-    return fromValue.valueOf() > toValue.valueOf();
+  componentDidUpdate(prevProps, prevState){
+    Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
   }
 
   //Search transaction history with filters
-  searchTransactionHistory(){
+  handleSearchClick(periodType, startDate, endDate){
     //Format from date and to date in the required format and pass
-    this.props.getTransactionHistory(this.props.historyStartDate.format("YYYY-MM-DD HH:mm:ss"),
-               this.props.historyEndDate.format("YYYY-MM-DD HH:mm:ss"));
+    this.props.getTransactionHistory(startDate.format("YYYY-MM-DD HH:mm:ss"),
+               endDate.format("YYYY-MM-DD HH:mm:ss"));
   }
 
   //Export transaction history
-  exportTransactionHistory(event){
-    event.preventDefault();
+  handleExportClick(){
     //To show export related status after the 'Export' button is clicked
     this.setState({ exportButtonClicked: true });
-    this.props.getTransactionHistoryExport(this.props.historyStartDate.format("YYYY-MM-DD HH:mm:ss"),
-               this.props.historyEndDate.format("YYYY-MM-DD HH:mm:ss"));
+    // this.props.getTransactionHistory(startDate.format("YYYY-MM-DD HH:mm:ss"),
+    //            endDate.format("YYYY-MM-DD HH:mm:ss"));
   }
 
   //Cancel transaction history export - Resetting it's loading status to 'default'
@@ -193,14 +186,6 @@ class MyAccount extends PureComponent {
     //track the withdraw amount to display in success message after successful submit
     this.setState({ withdrawAmount:values.get('withdrawAmount') });
     this.props.withdraw(values.get('withdrawAmount'), values.get('walletAddr'));
-  }
-
-  //Download the password in a text file
-  handleDownloadPasswordFile() {
-    let blob = new Blob([ this.props.password ], {
-      type: 'text/plain'
-    });
-    saveAs(blob, 'account-recovery-file.txt');
   }
 
   //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
@@ -360,11 +345,10 @@ class MyAccount extends PureComponent {
              transactionHistoryExport={ this.props.transactionHistoryExport }
              transactionHistoryExportLoadingStatus={ this.props.transactionHistoryExportLoadingStatus }
              exportButtonClicked={ this.state.exportButtonClicked }
-             handleSearchClick={ this.searchTransactionHistory }
-             handleExportClick={ this.exportTransactionHistory }
+             handleSearchClick={ this.handleSearchClick }
+             handleExportClick={ this.handleExportClick }
              resetTransactionHistoryExportLoadingStatus={ this.resetTransactionHistoryExportLoadingStatus }
              clearTransactionHistoryExport={ this.clearTransactionHistoryExport }
-             onPeriodChange={ this.onHistoryPeriodChange }
              currencyFormat={ this.props.currencyFormat }
            />
         </Row>
