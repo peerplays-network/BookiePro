@@ -4,8 +4,8 @@ import NavigateActions from './NavigateActions';
 import AccountActions from './AccountActions';
 import SettingActions from './SettingActions';
 import BalanceActions from './BalanceActions';
+import HistoryActions from './HistoryActions';
 import AppActions from './AppActions';
-import NotificationActions from './NotificationActions';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
 import log from 'loglevel';
@@ -15,9 +15,10 @@ import { TransactionBuilder } from 'graphenejs-lib';
  * Private actions
  */
 class AuthPrivateActions {
-  static logoutAction() {
+  static logoutAction(accountId) {
     return {
-      type: ActionTypes.AUTH_LOGOUT
+      type: ActionTypes.AUTH_LOGOUT,
+      accountId
     }
   }
 
@@ -95,15 +96,15 @@ class AuthPrivateActions {
           // Save password
           dispatch(AccountActions.setPasswordAndKeysAction(password, keys));
           // Save account statistic
-          dispatch(AccountActions.setStatisticsAction(accountStatistics));
+          dispatch(AccountActions.setStatistics(accountStatistics));
           // Save account available balance
           dispatch(BalanceActions.addOrUpdateAvailableBalances(availableBalances));
           // Set initial setting (in case this is first time login)
           dispatch(SettingActions.setInitialSetting());
           // Set is logged in
           dispatch(AccountActions.setIsLoggedInAction(true));
-          // Init notification
-          dispatch(NotificationActions.initNotification());
+          // Init history
+          dispatch(HistoryActions.initTransactionHistory());
         } else {
           throw new Error(I18n.t('login.wrong_username_password'));
         }
@@ -279,7 +280,7 @@ class AuthActions {
         // Save in redux
         dispatch(SettingActions.markSkipLogoutPopupAction(accountId, skipLogoutPopupNextTime));
         // Dispatch logout action to clear data
-        dispatch(AuthPrivateActions.logoutAction());
+        dispatch(AuthPrivateActions.logoutAction(accountId));
         // Navigate to the login page of the app
         dispatch(NavigateActions.navigateTo('/login'));
         log.debug('Logout user succeed.');

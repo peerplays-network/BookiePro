@@ -4,7 +4,6 @@ import {
   AssetActions,
   AppActions,
   AccountActions,
-  NotificationActions,
   SoftwareUpdateActions,
   SportActions,
   EventGroupActions,
@@ -14,7 +13,7 @@ import {
   BettingMarketGroupActions,
   BinnedOrderBookActions,
   BetActions,
-  BalanceActions
+  BalanceActions,
 } from '../actions';
 import Immutable from 'immutable';
 import { ObjectPrefix } from '../constants';
@@ -166,25 +165,11 @@ class CommunicationService {
             const ownerId = updatedObject.get('owner');
             // Check if this statistic is related to my account or software update account
             if (ownerId === myAccountId) {
-              // Check if this account made new transaction, if that's the case update the notification
-              const mostRecentOp = this.getState().getIn(['account', 'statistics', 'most_recent_op']);
-              const updatedMostRecentOp = updatedObject.get('most_recent_op')
-              const hasMadeNewTransaction = updatedMostRecentOp !== mostRecentOp;
-              if (hasMadeNewTransaction) {
-                this.dispatch(NotificationActions.checkForNewNotification());
-              }
               // Set the newest statistic
-              this.dispatch(AccountActions.setStatisticsAction(updatedObject));
+              this.dispatch(AccountActions.setStatistics(updatedObject));
             } else if (ownerId === softwareUpdateRefAccId) {
-              // Check if this account made new transaction, if that's the case check for software update
-              const mostRecentOp = this.getState().getIn(['softwareUpdate', 'referenceAccountStatistics', 'most_recent_op']);
-              const updatedMostRecentOp = updatedObject.get('most_recent_op')
-              const hasMadeNewTransaction = updatedMostRecentOp !== mostRecentOp;
-              if (hasMadeNewTransaction) {
-                this.dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());
-              }
               // Set the newest statistic
-              this.dispatch(SoftwareUpdateActions.setReferenceAccountStatisticsAction(updatedObject));
+              this.dispatch(SoftwareUpdateActions.setReferenceAccountStatistics(updatedObject));
             }
           })
           break;
@@ -411,7 +396,7 @@ class CommunicationService {
    * Fetch transaction history of an account given object id of the transaction
    * This function do the fetch recursively if there is more than 100 transactions between startTxHistoryId and stopTxHistoryId
    */
-  static fetchTransactionHistory(accountId, startTxHistoryId, stopTxHistoryId, limit=100) {
+  static fetchTransactionHistory(accountId, startTxHistoryId, stopTxHistoryId, limit=Number.MAX_SAFE_INTEGER) {
     // Upper limit for getting transaction is 100
     const fetchUpperLimit = 100;
       // If the limit given is higher than upper limit, we need to call the api recursively
@@ -444,7 +429,7 @@ class CommunicationService {
  /**
   * Fetch recent history of an account  given object id of the transaction
   */
-  static fetchRecentHistory(accountId, stopTxHistoryId, limit=100) {
+  static fetchRecentHistory(accountId, stopTxHistoryId, limit=Number.MAX_SAFE_INTEGER) {
     // 1.11.0 denotes the current time
     const currentTimeTransactionId = ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0';
     const startTxHistoryId = currentTimeTransactionId;
@@ -528,32 +513,89 @@ class CommunicationService {
     });
   }
 
-
   /**
    * Get any blockchain object given their id
    */
-  static getObjectsByIds(arrayOfObjectIds = [], fromBlockchain=false) {
-    // TODO: remove this separation later
-    if (fromBlockchain) {
-      return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]);
-    } else {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const filteredResult = [];
-          // Iterate every object in dummy data to find the matching object
-          let allObjects = [];
-          _.forEach(dummyData, (item) => {
-            allObjects = _.concat(allObjects, item);
-          })
-          _.forEach(allObjects, (item) => {
-            if (arrayOfObjectIds.includes(item.id)) {
-              filteredResult.push(item);
-            }
-          })
-          resolve(Immutable.fromJS(filteredResult));
-        }, TIMEOUT_LENGTH);
-      });
-    }
+  static getObjectsByIds(arrayOfObjectIds = []) {
+    return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]);
+  }
+
+  /**
+   * Get dummy blockchain objects given their ids
+   */
+  static getDummyObjectsByIds(arrayOfObjectIds = []) {
+    // TODO: Remove later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredResult = [];
+        // Iterate every object in dummy data to find the matching object
+        let allObjects = [];
+        _.forEach(dummyData, (item) => {
+          allObjects = _.concat(allObjects, item);
+        })
+        _.forEach(allObjects, (item) => {
+          if (arrayOfObjectIds.includes(item.id)) {
+            filteredResult.push(item);
+          }
+        })
+        resolve(Immutable.fromJS(filteredResult));
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  /**
+   * Get assets by id
+   */
+  static getAssetsByIds(assetIds) {
+    return this.getObjectsByIds(assetIds);
+  }
+
+  /**
+   * Get betting market by id
+   */
+  static getBettingMarketsByIds(bettingMarketIds) {
+    // TODO: Replace later
+    return this.getDummyObjectsByIds(bettingMarketIds);
+  }
+
+  /**
+   * Get betting market group by id
+   */
+  static getBettingMarketGroupsByIds(bettingMarketGroupIds) {
+    // TODO: Replace later
+    return this.getDummyObjectsByIds(bettingMarketGroupIds);
+  }
+
+  /**
+   * Get competitors by id
+   */
+  static getCompetitorsByIds(competitorIds) {
+    // TODO: Replace later
+    return this.getDummyObjectsByIds(competitorIds);
+  }
+
+  /**
+   * Get event by id
+   */
+  static getEventsByIds(eventIds) {
+    // TODO: Replace later
+    return this.getDummyObjectsByIds(eventIds);
+  }
+
+  /**
+   * Get event group by id
+   */
+  static getEventGroupsByIds(eventGroupIds) {
+    // TODO: Replace later
+    return this.getDummyObjectsByIds(eventGroupIds);
+  }
+
+  /**
+   * Get sport by id
+   */
+  static getSportsByIds(sportIds) {
+    // TODO: Replace later
+    return this.getDummyObjectsByIds(sportIds);
   }
 
   /**

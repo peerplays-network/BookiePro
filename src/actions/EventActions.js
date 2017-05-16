@@ -143,7 +143,7 @@ class EventActions {
         // Retrieve from blockchain
         // Set status
         dispatch(EventPrivateActions.setGetEventsByIdsLoadingStatusAction(idsOfEventsToBeRetrieved, LoadingStatus.LOADING));
-        return CommunicationService.getObjectsByIds(idsOfEventsToBeRetrieved).then((events) => {
+        return CommunicationService.getEventsByIds(idsOfEventsToBeRetrieved).then((events) => {
           // Add to redux store
           dispatch(EventActions.addOrUpdateEventsAction(events));
           // Set status

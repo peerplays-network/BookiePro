@@ -122,7 +122,7 @@ class CompetitorActions {
         // Retrieve data from blockchain
         dispatch(CompetitorPrivateActions.setGetCompetitorsByIdsLoadingStatusAction(idsOfCompetitorsToBeRetrieved, LoadingStatus.LOADING));
 
-        return CommunicationService.getObjectsByIds(idsOfCompetitorsToBeRetrieved).then((competitors) => {
+        return CommunicationService.getCompetitorsByIds(idsOfCompetitorsToBeRetrieved).then((competitors) => {
           // Add to redux store
           dispatch(CompetitorActions.addOrUpdateCompetitorsAction(competitors));
           // Set status

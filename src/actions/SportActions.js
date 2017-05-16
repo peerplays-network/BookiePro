@@ -98,7 +98,7 @@ class SportActions {
         // Retrieve sports from blockchain
         // Set status
         dispatch(SportPrivateActions.setGetSportsByIdsLoadingStatusAction(idsOfSportsToBeRetrieved, LoadingStatus.LOADING));
-        return CommunicationService.getObjectsByIds(idsOfSportsToBeRetrieved).then((sports) => {
+        return CommunicationService.getSportsByIds(idsOfSportsToBeRetrieved).then((sports) => {
           // Add sports
           dispatch(SportActions.addOrUpdateSportsAction(sports));
           // Set status

@@ -59,7 +59,7 @@ class BettingMarketActions {
         // Some data is in the blockchain, retrieve from blockchain
         // Set status
         dispatch(BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(idsOfBettingMarketsToBeRetrieved, LoadingStatus.LOADING));
-        return CommunicationService.getObjectsByIds(idsOfBettingMarketsToBeRetrieved).then((bettingMarkets) => {
+        return CommunicationService.getBettingMarketsByIds(idsOfBettingMarketsToBeRetrieved).then((bettingMarkets) => {
           // Add to redux store
           dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(bettingMarkets));
           // Set status

@@ -1,4 +1,4 @@
-import { ActionTypes, LoadingStatus } from '../constants';
+import { ActionTypes, LoadingStatus, ObjectPrefix } from '../constants';
 import {  CommunicationService } from '../services';
 import NotificationActions from './NotificationActions';
 import log from 'loglevel';
@@ -8,6 +8,43 @@ import _ from 'lodash';
  * Private actions
  */
 class HistoryPrivateActions {
+
+  static setInitTransactionHistoryLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.HISTORY_SET_INIT_TRANSACTION_HISTORY_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
+  static setInitTransactionHistoryErrorAction(error) {
+    return {
+      type: ActionTypes.HISTORY_SET_INIT_TRANSACTION_HISTORY_ERROR,
+      error
+    }
+  }
+
+  static prependTransactionsToTheHistoryAction(accountId, transactions) {
+    return {
+      type: ActionTypes.HISTORY_PREPEND_TRANSACTIONS_TO_THE_HISTORY,
+      accountId,
+      transactions
+    }
+  }
+
+  static setCheckForNewTransactionHistoryLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.HISTORY_SET_CHECK_FOR_NEW_TRANSACTION_HISTORY_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
+  static setCheckForNewTransactionHistoryErrorAction(error) {
+    return {
+      type: ActionTypes.HISTORY_SET_CHECK_FOR_NEW_TRANSACTION_HISTORY_ERROR,
+      error
+    }
+  }
+
 
   static setGetTransactionHistoryLoadingStatusAction(loadingStatus) {
     return {
@@ -58,17 +95,69 @@ class HistoryPrivateActions {
  * Public actions
  */
 class HistoryActions {
+  /**
+   * Init transaction history when the user logs in (fetch the history of the user to the beginning of time)
+   */
+  static initTransactionHistory() {
+    return (dispatch, getState) => {
+      const accountId = getState().getIn(['account', 'account', 'id']);
+      if (accountId) {
+        // Init history
+        const latestTransactionId = getState().getIn(['history', 'transactionHistoryByAccountId', accountId, 0, 'id']);
+        const stopTxHistoryId = latestTransactionId || (ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0');
+        // Set loading status
+        dispatch(HistoryPrivateActions.setInitTransactionHistoryLoadingStatusAction(LoadingStatus.LOADING));
+        CommunicationService.fetchRecentHistory(accountId, stopTxHistoryId).then((transactions) => {
+          // Prepend transaction history
+          dispatch(HistoryPrivateActions.prependTransactionsToTheHistoryAction(accountId, transactions));
+          // Set loading status
+          dispatch(HistoryPrivateActions.setInitTransactionHistoryLoadingStatusAction(LoadingStatus.DONE));
+          log.debug('Init transaction history succeed.');
+        }).catch((error) => {
+          // Set error
+          dispatch(HistoryPrivateActions.setInitTransactionHistoryErrorAction(error));
+          log.error('Init transaction history error', error);
+        })
 
-  static resetChangePwdLoadingStatus(){
-    return HistoryPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DEFAULT);
+      }
+    }
   }
 
+  /**
+   * Check for new transaction history and prepend it to the current list of transaction history
+   */
+  static checkForNewTransactionHistory() {
+    return (dispatch, getState) => {
+      const accountId = getState().getIn(['account', 'account', 'id']);
+      if (accountId) {
+        // Init history
+        const latestTransactionId = getState().getIn(['history', 'transactionHistoryByAccountId', accountId, 0, 'id']);
+        const stopTxHistoryId = latestTransactionId || (ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0');
+        // Set loading status
+        dispatch(HistoryPrivateActions.setCheckForNewTransactionHistoryLoadingStatusAction(LoadingStatus.LOADING));
+        CommunicationService.fetchRecentHistory(accountId, stopTxHistoryId).then((transactions) => {
+          // Prepend transaction history
+          dispatch(HistoryPrivateActions.prependTransactionsToTheHistoryAction(accountId, transactions));
+          // Set loading status
+          dispatch(HistoryPrivateActions.setCheckForNewTransactionHistoryLoadingStatusAction(LoadingStatus.DONE));
+          // Update notification
+          dispatch(NotificationActions.updateNotifications(transactions));
+          log.debug('Check for new transaction history succeed.');
+        }).catch((error) => {
+          // Set error
+          dispatch(HistoryPrivateActions.setCheckForNewTransactionHistoryErrorAction(error));
+          log.error('Check for transaction history error', error);
+        })
+
+      }
+    }
+  }
 
 
   /**
    * Get transaction history
    */
-  static getTransactionHistory(startTime, stopTime) {
+  static getTransactionHistoryGivenTimeRange(startTime, stopTime) {
     return (dispatch, getState) => {
       const accountId = getState().getIn(['account', 'account', 'id']);
 
