@@ -140,11 +140,7 @@ export default function (state = initialState, action) {
       });
     }
     case ActionTypes.BET_ADD_OR_UPDATE_RESOLVED_BETS_EXPORT: {
-      let resolvedBetsExportById = Immutable.Map();
-      action.resolvedBetsExport.forEach((bet) => {
-        resolvedBetsExportById = resolvedBetsExportById.set(bet.get('id'), bet);
-      });
-      return state.mergeIn(['resolvedBetsExportById'], resolvedBetsExportById);
+      return state.merge({'resolvedBetsExportById': action.resolvedBetsExport});
     }
     case ActionTypes.BET_CLEAR_RESOLVED_BETS_EXPORT: {
       return state.merge({

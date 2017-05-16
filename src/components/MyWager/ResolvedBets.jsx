@@ -13,12 +13,15 @@ class ResolvedBets extends Component {
       startDate, endDate, onResolvedBetsExport, exportButtonClicked, resolvedBetsExport, resolvedBetsExportLoadingStatus,
       resetResolvedBetsExportLoadingStatus, clearResolvedBetsExport
       } = this.props;
+    const isValidDate = (period === 'custom' &&
+      ((startDate===null || (startDate !== null && !startDate.isValid()))
+      || ((endDate===null || (endDate !== null && !endDate.isValid())))));
     return (
       <div className='table-card'>
         <div>
           <div className='filterComponent clearfix'>
             <div className='float-left'>
-              <p className='card-title'>{ I18n.t('mybets.total') } : { (currencyFormat === 'BTC' ? 'Ƀ ' : 'm ') + (betsTotal ? betsTotal : 0) }</p>
+              <p className='card-title'>{ I18n.t('mybets.total') } : { currencyFormat + (betsTotal ? betsTotal : 0) }</p>
             </div>
             <div className='float-right'>
               <div className='filter'>
@@ -57,23 +60,24 @@ class ResolvedBets extends Component {
                   }
                   <div className='ant-form-item'>
                     <button
-                      className={ (period === 'custom' && (startDate===null || endDate===null) ? 'btn-regular-disabled':'btn-regular') + ' btn' }
-                      disabled={ period === 'custom' && (startDate===null || endDate===null) }
+                      className={ (isValidDate ? 'btn-regular-disabled':'btn-regular') + ' btn' }
+                      disabled={ isValidDate }
                       onClick={ onSearchClick }>{I18n.t('mybets.search') }</button>
                     <button
-                      className={ (period === 'custom' && (startDate===null || endDate===null) ? 'btn-regular-disabled':'btn-regular') + ' btn margin-left-10' }
-                      disabled={ (period === 'custom' && (startDate===null || endDate===null)) || exportButtonClicked }
+                      className={ (isValidDate ? 'btn-regular-disabled':'btn-regular') + ' btn margin-left-10' }
+                      disabled={ isValidDate || exportButtonClicked }
                       onClick={ onResolvedBetsExport }>{I18n.t('mybets.export') }</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
+        <LocaleProvider locale={ I18n.t('application.locale') }>
           <Table pagination={ {pageSize: 10} }
             locale={ {emptyText: ( resolvedBets && resolvedBets.length === 0 &&
               resolvedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : resolvedBetsLoadingStatus )} }
             className='bookie-table' dataSource={ List(resolvedBets).toJS() } columns={ columns }/>
+        </LocaleProvider>
         </div>
         { exportButtonClicked ?
           <Export

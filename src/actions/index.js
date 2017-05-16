@@ -24,6 +24,7 @@ import MarketDrawerActions from './MarketDrawerActions';
 import HistoryActions from './HistoryActions';
 import AuthActions from './AuthActions';
 import BalanceActions from './BalanceActions';
+import MywagerActions from './MywagerActions';
 
 // Combine all the actions here for import shortcut
 export {
@@ -52,5 +53,6 @@ export {
   SoftwareUpdateActions,
   HistoryActions,
   AuthActions,
-  NavigateActions
+  NavigateActions,
+  MywagerActions
 }
