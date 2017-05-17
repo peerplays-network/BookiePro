@@ -120,10 +120,10 @@ class Exchange extends Component {
     // Pick one of the 2 betting drawers based on the path
     let selectBettingDrawer = (pathTokens) => {
       if (pathTokens.length < 3 || pathTokens[2].toLowerCase() !== 'bettingmarketgroup') {
-        return ( <QuickBetDrawer /> );
+        return ( <QuickBetDrawer currencyFormat={ this.props.currencyFormat }/> );
       }
 
-      return ( <MarketDrawer /> );
+      return ( <MarketDrawer currencyFormat={ this.props.currencyFormat }/> );
     }
 
     return (

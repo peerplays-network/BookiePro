@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'antd';
 import Immutable from 'immutable';
+import CurrencyUtils from '../../../utility/CurrencyUtils';
 
 const renderTeam = (text, record) => (
   <div>
@@ -9,7 +10,7 @@ const renderTeam = (text, record) => (
   </div>
 );
 
-const getBackColumns = () => (
+const getBackColumns = (currencySymbol) => (
   [
     {
       title: 'BACK',
@@ -25,13 +26,13 @@ const getBackColumns = () => (
       width: '23%',
       className: 'numeric',
     }, {
-      title: 'STAKE(B)',
+      title: `STAKE(${currencySymbol})`,
       dataIndex: 'stake',
       key: 'stake',
       width: '24%',
       className: 'numeric',
     }, {
-      title: 'PROFIT(B)',
+      title: `PROFIT(${currencySymbol})`,
       dataIndex: 'profit',
       key: 'profit',
       className: 'numeric'
@@ -39,7 +40,7 @@ const getBackColumns = () => (
   ]
 );
 
-const getLayColumns = () => (
+const getLayColumns = (currencySymbol) => (
   [
     {
       title: 'LAY',
@@ -55,13 +56,13 @@ const getLayColumns = () => (
       width: '23%',
       className: 'numeric',
     }, {
-      title: "BACKER'S STAKE(B)",
+      title: `BACKER'S STAKE(${currencySymbol})`,
       dataIndex: 'stake',
       key: 'stake',
       width: '24%',
       className: 'numeric',
     }, {
-      title: 'LIABILITY(B)',
+      title: `LIABILITY(${currencySymbol})`,
       dataIndex: 'liability',
       key: 'liability',
       className: 'numeric'
@@ -70,21 +71,30 @@ const getLayColumns = () => (
 );
 
 // TODO: REVIEW This function applies to both Back and Lay bets for now.
-const buildBetTableData = (bets) => {
+const buildBetTableData = (bets, currencyFormat) => {
+  const formatting = (field, value) => {
+    const floatNumber = parseFloat(value);
+    return isNaN(floatNumber) ? value :
+      CurrencyUtils.getFormattedField(field, floatNumber, currencyFormat);
+  }
   return bets.map((bet, idx) => {
     // TODO: change hard-coded market type
-    return bet.set('key', idx).set('market_type', 'Moneyline');
+    return bet.set('key', idx)
+              .set('market_type', 'Moneyline')
+              .update('profit', profit => formatting('profit', profit))
+              .update('liability', liability => formatting('liability', liability))
   });
 }
 
 const ReadOnlyBetTable = (props) => {
-  const { data } = props;
+  const { data, title, dimmed, currencyFormat } = props;
   const backBets = data.get('back') || Immutable.List();
   const layBets = data.get('lay') || Immutable.List();
+  const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
   return (
-    <div className={ `readonly-bet-table-wrapper ${props.dimmed ? 'dimmed' : '' }` }>
+    <div className={ `readonly-bet-table-wrapper ${dimmed ? 'dimmed' : '' }` }>
       <div className='header'>
-        <span className='title'>{ props.title }</span>
+        <span className='title'>{ title }</span>
       </div>
       <div className='bet-table'>
         {
@@ -92,8 +102,8 @@ const ReadOnlyBetTable = (props) => {
           <div className='back'>
             <Table
               pagination={ false }
-              columns={ getBackColumns() }
-              dataSource={ buildBetTableData(backBets).toJS() }
+              columns={ getBackColumns(currencySymbol) }
+              dataSource={ buildBetTableData(backBets, currencyFormat).toJS() }
             />
           </div>
         }
@@ -102,8 +112,8 @@ const ReadOnlyBetTable = (props) => {
           <div className='lay'>
             <Table
               pagination={ false }
-              columns={ getLayColumns() }
-              dataSource={ buildBetTableData(layBets).toJS() }
+              columns={ getLayColumns(currencySymbol) }
+              dataSource={ buildBetTableData(layBets, currencyFormat).toJS() }
             />
           </div>
         }

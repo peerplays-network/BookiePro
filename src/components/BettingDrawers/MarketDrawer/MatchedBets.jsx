@@ -17,6 +17,7 @@ class MatchedBets extends PureComponent {
           data={ this.props.bets }
           title={ I18n.t('market_drawer.matched_bets.header') }
           dimmed={ this.props.obscureContent }
+          currencyFormat={ this.props.currencyFormat }
         />
         <div className={ `controls ${this.props.obscureContent ? 'dimmed' : ''}` }>
           <Checkbox onChange={ e => this.props.clickAverageOdds(e.target.checked) }>

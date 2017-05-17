@@ -49,8 +49,8 @@ class PlacedBets extends PureComponent {
     return (
       <div className='placed-bets'>
         <div className='content' ref='placedBets'>
-          { !this.props.isEmpty && <UnmatchedBets/> }
-          { !this.props.isEmpty && <MatchedBets/> }
+          { !this.props.isEmpty && <UnmatchedBets currencyFormat={ this.props.currencyFormat }/> }
+          { !this.props.isEmpty && <MatchedBets currencyFormat={ this.props.currencyFormat }/> }
           { this.props.isEmpty &&
             <div className='empty'>
               <div className='instructions'>

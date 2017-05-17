@@ -54,6 +54,7 @@ const renderContent = (props) => (
         deleteMany={ props.deleteUnconfirmedBets }
         updateOne={ props.updateUnconfirmedBet }
         dimmed={ props.obscureContent }
+        currencyFormat={ props.currencyFormat }
       />
     }
   </div>
