@@ -75,7 +75,7 @@ const buildBetTableData = (bets, currencyFormat) => {
   const formatting = (field, value) => {
     const floatNumber = parseFloat(value);
     return isNaN(floatNumber) ? value :
-      CurrencyUtils.getFormattedField(field, floatNumber, currencyFormat);
+      CurrencyUtils.formatByCurrencyAndPrecision(field, floatNumber, currencyFormat);
   }
   return bets.map((bet, idx) => {
     // TODO: change hard-coded market type

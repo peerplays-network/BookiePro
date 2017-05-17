@@ -36,7 +36,7 @@ const renderInput = (field, action, currencyFormat) => {
           (event) => {
             // Assume values have been vented already in onChange
             const floatNumber = parseFloat(event.target.value);
-            const value = CurrencyUtils.getFormattedField(field, floatNumber, currencyFormat);
+            const value = CurrencyUtils.formatByCurrencyAndPrecision(field, floatNumber, currencyFormat);
             const delta = Immutable.Map()
               .set('id', record.id)
               .set('field', field)
@@ -155,7 +155,7 @@ const buildBetTableData = (bets, currencyFormat) => {
   const formatting = (field, value) => {
     const floatNumber = parseFloat(value);
     return isNaN(floatNumber) ? value :
-      CurrencyUtils.getFormattedField(field, floatNumber, currencyFormat);
+      CurrencyUtils.formatByCurrencyAndPrecision(field, floatNumber, currencyFormat);
   }
   return bets.map((bet, idx) => {
     // TODO: change hard-coded market type
