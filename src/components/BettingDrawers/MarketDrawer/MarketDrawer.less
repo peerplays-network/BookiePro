@@ -1,7 +1,7 @@
 @import '../../App/Colors.less';
 @import '../../App/Common.less';
 
-@market-drawer-width: 400px;
+@market-drawer-width: 382px;
 @market-drawer-title-height: 40px;
 @market-drawer-footer-height: 40px;
 
@@ -46,6 +46,26 @@
       &.ant-tabs-tab-active{
         background-color: @market_drawer_tab_active_bg;
       }
+    }
+  }
+  .overlay{
+    .btn{
+      padding:0 20px !important;
+    }
+  }
+  .btn-cancel,.btn-reset{
+    .btn-regular-disabled;
+    cursor: pointer;
+    &:hover{
+      .btn-regular-disabled;
+      cursor: pointer;
+      color: @white;
+    }
+  }
+  .btn-regular{
+    &:hover{
+      color: @white;
+      .btn-regular;
     }
   }
 }

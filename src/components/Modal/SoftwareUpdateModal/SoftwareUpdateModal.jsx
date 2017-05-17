@@ -16,6 +16,7 @@ class SoftwareUpdateModal extends Component {
         onCancel={ this.props.onCancel }
         okText={ 'OK' }
         cancelText={ 'Ignore it' }
+        width={ 428 }
       >
         <p dangerouslySetInnerHTML={ { __html:this.props.modalTitle} } />
       </Modal>

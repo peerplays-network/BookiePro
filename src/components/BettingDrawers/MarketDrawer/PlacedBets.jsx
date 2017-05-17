@@ -16,10 +16,10 @@ const renderOverlay = (props, className, transactionFee=0) => (
       <Translate value={ `market_drawer.placed_bets.${ className }.instructions` } amount={ transactionFee } dangerousHTML/>
     </div>
     <div className='buttons'>
-      <Button onClick={ props.cancelUpdateBet }>
+      <Button className='btn btn-cancel' onClick={ props.cancelUpdateBet }>
         { I18n.t(`market_drawer.placed_bets.${ className }.cancel_button`) }
       </Button>
-      <Button onClick={ () => props.editBets(props.unmatchedBets) }>
+      <Button className='btn btn-regular' onClick={ () => props.editBets(props.unmatchedBets) }>
         { I18n.t(`market_drawer.placed_bets.${ className }.confirm_button`) }
       </Button>
     </div>

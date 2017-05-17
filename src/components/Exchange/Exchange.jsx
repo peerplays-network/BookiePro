@@ -101,7 +101,7 @@ class Exchange extends Component {
     //because it goes into splitpane component
     const styleLeftPane = { background: '#002440' };
     const sidebarWidth = 220;
-    const betslipWidth = 400;
+    const betslipWidth = 382;
 
     let transitionName = this.props.location.pathname.split("/");
     const splitPaneStyle = {
