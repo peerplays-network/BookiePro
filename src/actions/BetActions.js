@@ -1,6 +1,6 @@
 import Immutable, { Map } from 'immutable';
 import { CommunicationService, WalletService } from '../services';
-import { LoadingStatus, ActionTypes } from '../constants';
+import { LoadingStatus, ActionTypes, Config } from '../constants';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import EventActions from './EventActions';
@@ -165,7 +165,7 @@ class BetActions {
     return (dispatch, getState) => {
       // const accountId = getState().getIn(['account', 'account', 'id']);
       //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
-      const accountId = '1.2.48';
+      const accountId = Config.dummyDataAccountId;
 
       // Check if data is already in the redux store, if it has been retrieved, no need to fetch it again from blockchain
       const getOngoingBetsLoadingStatus = getState().getIn(['bet', 'getOngoingBetsLoadingStatus']);
@@ -217,7 +217,7 @@ class BetActions {
     return (dispatch, getState) => {
       // const accountId = getState().getIn(['account', 'account', 'id']);
       //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
-      const accountId = '1.2.48';
+      const accountId = Config.dummyDataAccountId;
 
       dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.LOADING));
       // TODO: Replace with actual blockchain call
@@ -264,7 +264,7 @@ class BetActions {
     return (dispatch, getState) => {
       // const accountId = getState().getIn(['account', 'account', 'id']);
       //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
-      const accountId = '1.2.48';
+      const accountId = Config.dummyDataAccountId;
 
       dispatch(BetPrivateActions.setGetResolvedBetsExportLoadingStatusAction(LoadingStatus.LOADING));
       //Included a 3 second timeout now, just to test the various states of export

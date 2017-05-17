@@ -16,7 +16,7 @@ import {
   BalanceActions,
 } from '../actions';
 import Immutable from 'immutable';
-import { ObjectPrefix } from '../constants';
+import { ObjectPrefix, Config } from '../constants';
 import { ChainValidation } from 'graphenejs-lib';
 import _ from 'lodash';
 import dummyData from '../dummyData';
@@ -434,6 +434,18 @@ class CommunicationService {
     const currentTimeTransactionId = ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0';
     const startTxHistoryId = currentTimeTransactionId;
     return this.fetchTransactionHistory(accountId, startTxHistoryId, stopTxHistoryId, limit);
+  }
+
+  /**
+   * Fetch dummy transaction history
+   */
+  static fetchDummyTransactionHistorySynchronously(accountId) {
+    // TODO: remove later
+    if (accountId === Config.dummyDataAccountId) {
+      return Immutable.fromJS(dummyData.history);
+    } else {
+      return Immutable.List();
+    }
   }
 
   /**

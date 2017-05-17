@@ -108,6 +108,10 @@ class HistoryActions {
         // Set loading status
         dispatch(HistoryPrivateActions.setInitTransactionHistoryLoadingStatusAction(LoadingStatus.LOADING));
         CommunicationService.fetchRecentHistory(accountId, stopTxHistoryId).then((transactions) => {
+          // TODO: remove dummy history later, prepend the dummy history before the original history (since it is supposed to appear at the end)
+          const dummyAdditionalTransactions = CommunicationService.fetchDummyTransactionHistorySynchronously(accountId);
+          dispatch(HistoryPrivateActions.prependTransactionsToTheHistoryAction(accountId, dummyAdditionalTransactions));
+
           // Prepend transaction history
           dispatch(HistoryPrivateActions.prependTransactionsToTheHistoryAction(accountId, transactions));
           // Set loading status
@@ -148,7 +152,6 @@ class HistoryActions {
           dispatch(HistoryPrivateActions.setCheckForNewTransactionHistoryErrorAction(error));
           log.error('Check for transaction history error', error);
         })
-
       }
     }
   }

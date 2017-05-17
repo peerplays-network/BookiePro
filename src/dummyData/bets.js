@@ -1,7 +1,10 @@
+// Modify the bettor id accordingly
+import { Config } from '../constants';
+const bettorId = Config.dummyDataAccountId;
 const bets = [
   {
     "id": "1.106.1",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.27",
     "amount_to_bet": 1000,
     "amount_to_win": 1250,
@@ -12,7 +15,7 @@ const bets = [
   },
   {
     "id": "1.106.2",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.12",
     "amount_to_bet": 2150,
     "amount_to_win": 5290,
@@ -23,7 +26,7 @@ const bets = [
   },
   {
     "id": "1.106.3",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.1",
     "amount_to_bet": 250,
     "amount_to_win": 450,
@@ -34,7 +37,7 @@ const bets = [
   },
   {
     "id": "1.106.3.1",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.1",
     "amount_to_bet": 100,
     "amount_to_win": 200,
@@ -45,7 +48,7 @@ const bets = [
   },
   {
     "id": "1.106.4",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.2",
     "amount_to_bet": 350,
     "amount_to_win": 650,
@@ -56,7 +59,7 @@ const bets = [
   },
   {
     "id": "1.106.4.1",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.2",
     "amount_to_bet": 1000,
     "amount_to_win": 1350,
@@ -67,7 +70,7 @@ const bets = [
   },
   {
     "id": "1.106.5",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.1",
     "amount_to_bet": 250,
     "amount_to_win": 450,
@@ -78,7 +81,7 @@ const bets = [
   },
   {
     "id": "1.106.6",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.2",
     "amount_to_bet": 250,
     "amount_to_win": 650,
@@ -89,7 +92,7 @@ const bets = [
   },
   {
     "id": "1.106.7",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.21",
     "amount_to_bet": 3140,
     "amount_to_win": 8400,
@@ -100,7 +103,7 @@ const bets = [
   },
   {
     "id": "1.106.8",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.55",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -111,7 +114,7 @@ const bets = [
   },
   {
     "id": "1.106.9",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.24",
     "amount_to_bet": 3500,
     "amount_to_win": 4800,
@@ -122,7 +125,7 @@ const bets = [
   },
   {
     "id": "1.106.10",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.61",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -133,7 +136,7 @@ const bets = [
   },
   {
     "id": "1.106.11",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.20",
     "amount_to_bet": 5500,
     "amount_to_win": 6800,
@@ -144,7 +147,7 @@ const bets = [
   },
   {
     "id": "1.106.12",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.25",
     "amount_to_bet": 1150,
     "amount_to_win": 4600,
@@ -155,7 +158,7 @@ const bets = [
   },
   {
     "id": "1.106.13",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.26",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
@@ -166,7 +169,7 @@ const bets = [
   },
   {
     "id": "1.106.14",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.66",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -177,7 +180,7 @@ const bets = [
   },
   {
     "id": "1.106.15",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.32",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
@@ -188,7 +191,7 @@ const bets = [
   },
   {
     "id": "1.106.16",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.37",
     "amount_to_bet": 230,
     "amount_to_win": 330,
@@ -199,7 +202,7 @@ const bets = [
   },
   {
     "id": "1.106.161",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.37",
     "amount_to_bet": 230,
     "amount_to_win": 330,
@@ -210,7 +213,7 @@ const bets = [
   },
   {
     "id": "1.106.17",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.38",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
@@ -221,7 +224,7 @@ const bets = [
   },
   {
     "id": "1.106.171",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.38",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
@@ -232,7 +235,7 @@ const bets = [
   },
   {
     "id": "1.106.18",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.43",
     "amount_to_bet": 6210,
     "amount_to_win": 22050,
@@ -243,7 +246,7 @@ const bets = [
   },
   {
     "id": "1.106.19",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.44",
     "amount_to_bet": 2500,
     "amount_to_win": 3800,
@@ -254,7 +257,7 @@ const bets = [
   },
   {
     "id": "1.106.20",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.72",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -265,7 +268,7 @@ const bets = [
   },
   {
     "id": "1.106.21",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.50",
     "amount_to_bet": 6500,
     "amount_to_win": 7800,
@@ -276,7 +279,7 @@ const bets = [
   },
   {
     "id": "1.106.22",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.21",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
@@ -287,7 +290,7 @@ const bets = [
   },
   {
     "id": "1.106.23",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.22",
     "amount_to_bet": 7500,
     "amount_to_win": 8800,
@@ -298,7 +301,7 @@ const bets = [
   },
   {
     "id": "1.106.24",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.27",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
@@ -309,7 +312,7 @@ const bets = [
   },
   {
     "id": "1.106.25",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.28",
     "amount_to_bet": 7500,
     "amount_to_win": 8800,
@@ -320,7 +323,7 @@ const bets = [
   },
   {
     "id": "1.106.26",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.33",
     "amount_to_bet": 2500,
     "amount_to_win": 3800,
@@ -331,7 +334,7 @@ const bets = [
   },
   {
     "id": "1.106.27",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.34",
     "amount_to_bet": 7500,
     "amount_to_win": 8800,
@@ -342,7 +345,7 @@ const bets = [
   },
   {
     "id": "1.106.28",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.39",
     "amount_to_bet": 3500,
     "amount_to_win": 4800,
@@ -353,7 +356,7 @@ const bets = [
   },
   {
     "id": "1.106.29",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.40",
     "amount_to_bet": 3500,
     "amount_to_win": 4800,
@@ -364,7 +367,7 @@ const bets = [
   },
   {
     "id": "1.106.30",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.45",
     "amount_to_bet": 7500,
     "amount_to_win": 8800,
@@ -375,7 +378,7 @@ const bets = [
   },
   {
     "id": "1.106.31",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.46",
     "amount_to_bet": 3500,
     "amount_to_win": 4800,
@@ -386,7 +389,7 @@ const bets = [
   },
   {
     "id": "1.106.32",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.51",
     "amount_to_bet": 5500,
     "amount_to_win": 6800,
@@ -397,7 +400,7 @@ const bets = [
   },
   {
     "id": "1.106.33",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.52",
     "amount_to_bet": 3500,
     "amount_to_win": 4800,
@@ -408,7 +411,7 @@ const bets = [
   },
   {
     "id": "1.106.34",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.15",
     "amount_to_bet": 430,
     "amount_to_win": 3400,
@@ -419,7 +422,7 @@ const bets = [
   },
   {
     "id": "1.106.35",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.24",
     "amount_to_bet": 2500,
     "amount_to_win": 3800,
@@ -430,7 +433,7 @@ const bets = [
   },
   {
     "id": "1.106.36",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.29",
     "amount_to_bet": 2500,
     "amount_to_win": 3800,
@@ -441,7 +444,7 @@ const bets = [
   },
   {
     "id": "1.106.37",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.30",
     "amount_to_bet": 5500,
     "amount_to_win": 6800,
@@ -452,7 +455,7 @@ const bets = [
   },
   {
     "id": "1.106.38",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.35",
     "amount_to_bet": 5500,
     "amount_to_win": 6800,
@@ -463,7 +466,7 @@ const bets = [
   },
   {
     "id": "1.106.39",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.36",
     "amount_to_bet": 6500,
     "amount_to_win": 7800,
@@ -474,7 +477,7 @@ const bets = [
   },
   {
     "id": "1.106.40",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.49",
     "amount_to_bet": 5500,
     "amount_to_win": 6800,
@@ -485,7 +488,7 @@ const bets = [
   },
   {
     "id": "1.106.41",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.42",
     "amount_to_bet": 2500,
     "amount_to_win": 3800,
@@ -496,7 +499,7 @@ const bets = [
   },
   {
     "id": "1.106.42",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.47",
     "amount_to_bet": 3500,
     "amount_to_win": 3800,
@@ -507,7 +510,7 @@ const bets = [
   },
   {
     "id": "1.106.43",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.48",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
@@ -518,7 +521,7 @@ const bets = [
   },
   {
     "id": "1.106.44",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.53",
     "amount_to_bet": 7500,
     "amount_to_win": 8800,
@@ -529,7 +532,7 @@ const bets = [
   },
   {
     "id": "1.106.45",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.54",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
@@ -540,7 +543,7 @@ const bets = [
   },
   {
     "id": "1.106.46",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.23",
     "amount_to_bet": 5500,
     "amount_to_win": 6800,
@@ -551,7 +554,7 @@ const bets = [
   },
   {
     "id": "1.106.47",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.56",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -562,7 +565,7 @@ const bets = [
   },
   {
     "id": "1.106.48",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.57",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -573,7 +576,7 @@ const bets = [
   },
   {
     "id": "1.106.49",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.58",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -584,7 +587,7 @@ const bets = [
   },
   {
     "id": "1.106.50",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.59",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -595,7 +598,7 @@ const bets = [
   },
   {
     "id": "1.106.51",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.60",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -606,7 +609,7 @@ const bets = [
   },
   {
     "id": "1.106.52",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.19",
     "amount_to_bet": 1310,
     "amount_to_win": 2910,
@@ -617,7 +620,7 @@ const bets = [
   },
   {
     "id": "1.106.53",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.62",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -628,7 +631,7 @@ const bets = [
   },
   {
     "id": "1.106.54",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.63",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -639,7 +642,7 @@ const bets = [
   },
   {
     "id": "1.106.55",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.64",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -650,7 +653,7 @@ const bets = [
   },
   {
     "id": "1.106.56",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.65",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -661,7 +664,7 @@ const bets = [
   },
   {
     "id": "1.106.57",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.31",
     "amount_to_bet": 2290,
     "amount_to_win": 3360,
@@ -672,7 +675,7 @@ const bets = [
   },
   {
     "id": "1.106.58",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.67",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -683,7 +686,7 @@ const bets = [
   },
   {
     "id": "1.106.59",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.68",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -694,7 +697,7 @@ const bets = [
   },
   {
     "id": "1.106.60",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.69",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -705,7 +708,7 @@ const bets = [
   },
   {
     "id": "1.106.61",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.70",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -716,7 +719,7 @@ const bets = [
   },
   {
     "id": "1.106.62",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.71",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -727,7 +730,7 @@ const bets = [
   },
   {
     "id": "1.106.63",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.41",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
@@ -738,7 +741,7 @@ const bets = [
   },
   {
     "id": "1.106.64",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.73",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -749,7 +752,7 @@ const bets = [
   },
   {
     "id": "1.106.65",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.74",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -760,7 +763,7 @@ const bets = [
   },
   {
     "id": "1.106.66",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.75",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -771,7 +774,7 @@ const bets = [
   },
   {
     "id": "1.106.67",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.76",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -782,7 +785,7 @@ const bets = [
   },
   {
     "id": "1.106.68",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.77",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -793,7 +796,7 @@ const bets = [
   },
   {
     "id": "1.106.69",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.78",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -804,7 +807,7 @@ const bets = [
   },
   {
     "id": "1.106.70",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.79",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -815,7 +818,7 @@ const bets = [
   },
   {
     "id": "1.106.71",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.80",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -826,7 +829,7 @@ const bets = [
   },
   {
     "id": "1.106.72",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.81",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -837,7 +840,7 @@ const bets = [
   },
   {
     "id": "1.106.73",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.82",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -848,7 +851,7 @@ const bets = [
   },
   {
     "id": "1.106.74",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.83",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -859,7 +862,7 @@ const bets = [
   },
   {
     "id": "1.106.75",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.84",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -870,7 +873,7 @@ const bets = [
   },
   {
     "id": "1.106.76",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.85",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -881,7 +884,7 @@ const bets = [
   },
   {
     "id": "1.106.77",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.86",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -892,7 +895,7 @@ const bets = [
   },
   {
     "id": "1.106.78",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.87",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -903,7 +906,7 @@ const bets = [
   },
   {
     "id": "1.106.79",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.88",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -914,7 +917,7 @@ const bets = [
   },
   {
     "id": "1.106.80",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.89",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -925,7 +928,7 @@ const bets = [
   },
   {
     "id": "1.106.81",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.90",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -936,7 +939,7 @@ const bets = [
   },
   {
     "id": "1.106.82",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.91",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -947,7 +950,7 @@ const bets = [
   },
   {
     "id": "1.106.83",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.92",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -958,7 +961,7 @@ const bets = [
   },
   {
     "id": "1.106.84",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.93",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -969,7 +972,7 @@ const bets = [
   },
   {
     "id": "1.106.85",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.94",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -980,7 +983,7 @@ const bets = [
   },
   {
     "id": "1.106.86",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.95",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -991,7 +994,7 @@ const bets = [
   },
   {
     "id": "1.106.87",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.96",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -1002,7 +1005,7 @@ const bets = [
   },
   {
     "id": "1.106.88",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.97",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -1013,7 +1016,7 @@ const bets = [
   },
   {
     "id": "1.106.89",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.98",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -1024,7 +1027,7 @@ const bets = [
   },
   {
     "id": "1.106.90",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.99",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -1035,7 +1038,7 @@ const bets = [
   },
   {
     "id": "1.106.91",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.100",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -1046,7 +1049,7 @@ const bets = [
   },
   {
     "id": "1.106.92",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.101",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -1057,7 +1060,7 @@ const bets = [
   },
   {
     "id": "1.106.93",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.102",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -1068,7 +1071,7 @@ const bets = [
   },
   {
     "id": "1.106.94",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.103",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -1079,7 +1082,7 @@ const bets = [
   },
   {
     "id": "1.106.95",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.104",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -1090,7 +1093,7 @@ const bets = [
   },
   {
     "id": "1.106.96",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.105",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -1101,7 +1104,7 @@ const bets = [
   },
   {
     "id": "1.106.97",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.106",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -1112,7 +1115,7 @@ const bets = [
   },
   {
     "id": "1.106.98",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.107",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -1123,7 +1126,7 @@ const bets = [
   },
   {
     "id": "1.106.99",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.108",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -1134,7 +1137,7 @@ const bets = [
   },
   {
     "id": "1.106.100",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.109",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -1145,7 +1148,7 @@ const bets = [
   },
   {
     "id": "1.106.101",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.110",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -1156,7 +1159,7 @@ const bets = [
   },
   {
     "id": "1.106.102",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.111",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -1167,7 +1170,7 @@ const bets = [
   },
   {
     "id": "1.106.103",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.112",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -1178,7 +1181,7 @@ const bets = [
   },
   {
     "id": "1.106.104",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.113",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -1189,7 +1192,7 @@ const bets = [
   },
   {
     "id": "1.106.105",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.114",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -1200,7 +1203,7 @@ const bets = [
   },
   {
     "id": "1.106.106",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.115",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -1211,7 +1214,7 @@ const bets = [
   },
   {
     "id": "1.106.107",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.116",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -1222,7 +1225,7 @@ const bets = [
   },
   {
     "id": "1.106.108",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.117",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -1233,7 +1236,7 @@ const bets = [
   },
   {
     "id": "1.106.109",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.118",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -1244,7 +1247,7 @@ const bets = [
   },
   {
     "id": "1.106.110",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.119",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -1255,7 +1258,7 @@ const bets = [
   },
   {
     "id": "1.106.111",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.120",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -1266,7 +1269,7 @@ const bets = [
   },
   {
     "id": "1.106.112",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.121",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -1277,7 +1280,7 @@ const bets = [
   },
   {
     "id": "1.106.113",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.122",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -1288,7 +1291,7 @@ const bets = [
   },
   {
     "id": "1.106.114",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.123",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -1299,7 +1302,7 @@ const bets = [
   },
   {
     "id": "1.106.115",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.124",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -1310,7 +1313,7 @@ const bets = [
   },
   {
     "id": "1.106.116",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.125",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -1321,7 +1324,7 @@ const bets = [
   },
   {
     "id": "1.106.117",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.126",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -1332,7 +1335,7 @@ const bets = [
   },
   {
     "id": "1.106.118",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.127",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -1343,7 +1346,7 @@ const bets = [
   },
   {
     "id": "1.106.119",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.128",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -1354,7 +1357,7 @@ const bets = [
   },
   {
     "id": "1.106.120",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.129",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -1365,7 +1368,7 @@ const bets = [
   },
   {
     "id": "1.106.121",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.130",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -1376,7 +1379,7 @@ const bets = [
   },
   {
     "id": "1.106.122",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.131",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -1387,7 +1390,7 @@ const bets = [
   },
   {
     "id": "1.106.123",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.132",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -1398,7 +1401,7 @@ const bets = [
   },
   {
     "id": "1.106.124",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.133",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -1409,7 +1412,7 @@ const bets = [
   },
   {
     "id": "1.106.125",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.134",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -1420,7 +1423,7 @@ const bets = [
   },
   {
     "id": "1.106.126",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.135",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -1431,7 +1434,7 @@ const bets = [
   },
   {
     "id": "1.106.127",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.136",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -1442,7 +1445,7 @@ const bets = [
   },
   {
     "id": "1.106.128",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.137",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -1453,7 +1456,7 @@ const bets = [
   },
   {
     "id": "1.106.129",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.138",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -1464,7 +1467,7 @@ const bets = [
   },
   {
     "id": "1.106.130",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.139",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -1475,7 +1478,7 @@ const bets = [
   },
   {
     "id": "1.106.131",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.140",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -1486,7 +1489,7 @@ const bets = [
   },
   {
     "id": "1.106.132",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.141",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -1497,7 +1500,7 @@ const bets = [
   },
   {
     "id": "1.106.133",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.142",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -1508,7 +1511,7 @@ const bets = [
   },
   {
     "id": "1.106.134",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.143",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -1519,7 +1522,7 @@ const bets = [
   },
   {
     "id": "1.106.135",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.144",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -1530,7 +1533,7 @@ const bets = [
   },
   {
     "id": "1.106.136",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.145",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -1541,7 +1544,7 @@ const bets = [
   },
   {
     "id": "1.106.137",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.146",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -1552,7 +1555,7 @@ const bets = [
   },
   {
     "id": "1.106.138",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.147",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -1563,7 +1566,7 @@ const bets = [
   },
   {
     "id": "1.106.139",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.148",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -1574,7 +1577,7 @@ const bets = [
   },
   {
     "id": "1.106.140",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.149",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -1585,7 +1588,7 @@ const bets = [
   },
   {
     "id": "1.106.141",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.150",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -1596,7 +1599,7 @@ const bets = [
   },
   {
     "id": "1.106.142",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.151",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -1607,7 +1610,7 @@ const bets = [
   },
   {
     "id": "1.106.143",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.152",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -1618,7 +1621,7 @@ const bets = [
   },
   {
     "id": "1.106.144",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.153",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -1629,7 +1632,7 @@ const bets = [
   },
   {
     "id": "1.106.145",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.154",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -1640,7 +1643,7 @@ const bets = [
   },
   {
     "id": "1.106.146",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.155",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -1651,7 +1654,7 @@ const bets = [
   },
   {
     "id": "1.106.147",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.156",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -1662,7 +1665,7 @@ const bets = [
   },
   {
     "id": "1.106.148",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.157",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -1673,7 +1676,7 @@ const bets = [
   },
   {
     "id": "1.106.149",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.158",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -1684,7 +1687,7 @@ const bets = [
   },
   {
     "id": "1.106.150",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.159",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -1695,7 +1698,7 @@ const bets = [
   },
   {
     "id": "1.106.151",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.160",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -1706,7 +1709,7 @@ const bets = [
   },
   {
     "id": "1.106.152",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.161",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -1717,7 +1720,7 @@ const bets = [
   },
   {
     "id": "1.106.153",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.162",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -1728,7 +1731,7 @@ const bets = [
   },
   {
     "id": "1.106.154",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.163",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -1739,7 +1742,7 @@ const bets = [
   },
   {
     "id": "1.106.155",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.164",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -1750,7 +1753,7 @@ const bets = [
   },
   {
     "id": "1.106.156",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.165",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -1761,7 +1764,7 @@ const bets = [
   },
   {
     "id": "1.106.157",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.166",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -1772,7 +1775,7 @@ const bets = [
   },
   {
     "id": "1.106.158",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.167",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -1783,7 +1786,7 @@ const bets = [
   },
   {
     "id": "1.106.159",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.168",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -1794,7 +1797,7 @@ const bets = [
   },
   {
     "id": "1.106.160",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.169",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -1805,7 +1808,7 @@ const bets = [
   },
   {
     "id": "1.106.161",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.170",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -1816,7 +1819,7 @@ const bets = [
   },
   {
     "id": "1.106.162",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.171",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -1827,7 +1830,7 @@ const bets = [
   },
   {
     "id": "1.106.163",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.172",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -1838,7 +1841,7 @@ const bets = [
   },
   {
     "id": "1.106.164",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.173",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -1849,7 +1852,7 @@ const bets = [
   },
   {
     "id": "1.106.165",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.174",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -1860,7 +1863,7 @@ const bets = [
   },
   {
     "id": "1.106.166",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.175",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -1871,7 +1874,7 @@ const bets = [
   },
   {
     "id": "1.106.167",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.176",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -1882,7 +1885,7 @@ const bets = [
   },
   {
     "id": "1.106.168",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.177",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -1893,7 +1896,7 @@ const bets = [
   },
   {
     "id": "1.106.169",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.178",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -1904,7 +1907,7 @@ const bets = [
   },
   {
     "id": "1.106.170",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.179",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -1915,7 +1918,7 @@ const bets = [
   },
   {
     "id": "1.106.171",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.180",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -1926,7 +1929,7 @@ const bets = [
   },
   {
     "id": "1.106.172",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.181",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -1937,7 +1940,7 @@ const bets = [
   },
   {
     "id": "1.106.173",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.182",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -1948,7 +1951,7 @@ const bets = [
   },
   {
     "id": "1.106.174",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.183",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -1959,7 +1962,7 @@ const bets = [
   },
   {
     "id": "1.106.175",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.184",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -1970,7 +1973,7 @@ const bets = [
   },
   {
     "id": "1.106.176",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.185",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -1981,7 +1984,7 @@ const bets = [
   },
   {
     "id": "1.106.177",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.186",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -1992,7 +1995,7 @@ const bets = [
   },
   {
     "id": "1.106.178",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.187",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -2003,7 +2006,7 @@ const bets = [
   },
   {
     "id": "1.106.179",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.188",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -2014,7 +2017,7 @@ const bets = [
   },
   {
     "id": "1.106.180",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.189",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -2025,7 +2028,7 @@ const bets = [
   },
   {
     "id": "1.106.181",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.190",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -2036,7 +2039,7 @@ const bets = [
   },
   {
     "id": "1.106.182",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.191",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -2047,7 +2050,7 @@ const bets = [
   },
   {
     "id": "1.106.183",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.192",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -2058,7 +2061,7 @@ const bets = [
   },
   {
     "id": "1.106.184",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.193",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -2069,7 +2072,7 @@ const bets = [
   },
   {
     "id": "1.106.185",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.194",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -2080,7 +2083,7 @@ const bets = [
   },
   {
     "id": "1.106.186",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.195",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -2091,7 +2094,7 @@ const bets = [
   },
   {
     "id": "1.106.187",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.196",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -2102,7 +2105,7 @@ const bets = [
   },
   {
     "id": "1.106.188",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.197",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -2113,7 +2116,7 @@ const bets = [
   },
   {
     "id": "1.106.189",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.198",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -2124,7 +2127,7 @@ const bets = [
   },
   {
     "id": "1.106.190",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.199",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -2135,7 +2138,7 @@ const bets = [
   },
   {
     "id": "1.106.191",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.200",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -2146,7 +2149,7 @@ const bets = [
   },
   {
     "id": "1.106.192",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.201",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -2157,7 +2160,7 @@ const bets = [
   },
   {
     "id": "1.106.193",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.202",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -2168,7 +2171,7 @@ const bets = [
   },
   {
     "id": "1.106.194",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.203",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -2179,7 +2182,7 @@ const bets = [
   },
   {
     "id": "1.106.195",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.204",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -2190,7 +2193,7 @@ const bets = [
   },
   {
     "id": "1.106.196",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.205",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -2201,7 +2204,7 @@ const bets = [
   },
   {
     "id": "1.106.197",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.206",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -2212,7 +2215,7 @@ const bets = [
   },
   {
     "id": "1.106.198",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.207",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -2223,7 +2226,7 @@ const bets = [
   },
   {
     "id": "1.106.199",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.208",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -2234,7 +2237,7 @@ const bets = [
   },
   {
     "id": "1.106.200",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.209",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -2245,7 +2248,7 @@ const bets = [
   },
   {
     "id": "1.106.201",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.210",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -2256,7 +2259,7 @@ const bets = [
   },
   {
     "id": "1.106.202",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.211",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -2267,7 +2270,7 @@ const bets = [
   },
   {
     "id": "1.106.203",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.212",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -2278,7 +2281,7 @@ const bets = [
   },
   {
     "id": "1.106.204",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.213",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -2289,7 +2292,7 @@ const bets = [
   },
   {
     "id": "1.106.205",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.214",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -2300,7 +2303,7 @@ const bets = [
   },
   {
     "id": "1.106.206",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.215",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -2311,7 +2314,7 @@ const bets = [
   },
   {
     "id": "1.106.207",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.216",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -2322,7 +2325,7 @@ const bets = [
   },
   {
     "id": "1.106.208",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.217",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -2333,7 +2336,7 @@ const bets = [
   },
   {
     "id": "1.106.209",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.218",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -2344,7 +2347,7 @@ const bets = [
   },
   {
     "id": "1.106.210",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.219",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -2355,7 +2358,7 @@ const bets = [
   },
   {
     "id": "1.106.211",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.220",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -2366,7 +2369,7 @@ const bets = [
   },
   {
     "id": "1.106.212",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.221",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -2377,7 +2380,7 @@ const bets = [
   },
   {
     "id": "1.106.213",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.222",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -2389,7 +2392,7 @@ const bets = [
   //Basketball Event group 2
   {
     "id": "1.106.214",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.457",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -2400,7 +2403,7 @@ const bets = [
   },
   {
     "id": "1.106.215",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.224",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -2411,7 +2414,7 @@ const bets = [
   },
   {
     "id": "1.106.216",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.225",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -2422,7 +2425,7 @@ const bets = [
   },
   {
     "id": "1.106.217",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.226",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -2433,7 +2436,7 @@ const bets = [
   },
   {
     "id": "1.106.218",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.227",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -2444,7 +2447,7 @@ const bets = [
   },
   {
     "id": "1.106.219",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.228",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -2455,7 +2458,7 @@ const bets = [
   },
   {
     "id": "1.106.220",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.229",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -2466,7 +2469,7 @@ const bets = [
   },
   {
     "id": "1.106.221",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.230",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -2477,7 +2480,7 @@ const bets = [
   },
   {
     "id": "1.106.222",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.231",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -2488,7 +2491,7 @@ const bets = [
   },
   {
     "id": "1.106.223",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.232",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -2499,7 +2502,7 @@ const bets = [
   },
   {
     "id": "1.106.224",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.233",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -2510,7 +2513,7 @@ const bets = [
   },
   {
     "id": "1.106.225",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.234",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -2521,7 +2524,7 @@ const bets = [
   },
   {
     "id": "1.106.226",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.235",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -2532,7 +2535,7 @@ const bets = [
   },
   {
     "id": "1.106.227",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.236",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -2543,7 +2546,7 @@ const bets = [
   },
   {
     "id": "1.106.228",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.237",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -2554,7 +2557,7 @@ const bets = [
   },
   {
     "id": "1.106.229",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.238",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -2565,7 +2568,7 @@ const bets = [
   },
   {
     "id": "1.106.230",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.239",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -2576,7 +2579,7 @@ const bets = [
   },
   {
     "id": "1.106.231",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.240",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -2587,7 +2590,7 @@ const bets = [
   },
   {
     "id": "1.106.232",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.241",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -2598,7 +2601,7 @@ const bets = [
   },
   {
     "id": "1.106.233",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.242",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -2609,7 +2612,7 @@ const bets = [
   },
   {
     "id": "1.106.234",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.243",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -2620,7 +2623,7 @@ const bets = [
   },
   {
     "id": "1.106.235",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.244",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -2631,7 +2634,7 @@ const bets = [
   },
   {
     "id": "1.106.236",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.245",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -2642,7 +2645,7 @@ const bets = [
   },
   {
     "id": "1.106.237",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.246",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -2653,7 +2656,7 @@ const bets = [
   },
   {
     "id": "1.106.238",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.247",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -2664,7 +2667,7 @@ const bets = [
   },
   {
     "id": "1.106.239",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.248",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -2675,7 +2678,7 @@ const bets = [
   },
   {
     "id": "1.106.240",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.249",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -2686,7 +2689,7 @@ const bets = [
   },
   {
     "id": "1.106.241",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.250",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -2697,7 +2700,7 @@ const bets = [
   },
   {
     "id": "1.106.242",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.251",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -2708,7 +2711,7 @@ const bets = [
   },
   {
     "id": "1.106.243",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.252",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -2720,7 +2723,7 @@ const bets = [
   //Basketball Event group 3
   {
     "id": "1.106.244",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.253",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -2731,7 +2734,7 @@ const bets = [
   },
   {
     "id": "1.106.245",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.254",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -2742,7 +2745,7 @@ const bets = [
   },
   {
     "id": "1.106.246",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.255",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -2753,7 +2756,7 @@ const bets = [
   },
   {
     "id": "1.106.247",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.256",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -2764,7 +2767,7 @@ const bets = [
   },
   {
     "id": "1.106.248",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.257",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -2775,7 +2778,7 @@ const bets = [
   },
   {
     "id": "1.106.249",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.258",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -2786,7 +2789,7 @@ const bets = [
   },
   {
     "id": "1.106.250",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.259",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -2797,7 +2800,7 @@ const bets = [
   },
   {
     "id": "1.106.251",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.260",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -2808,7 +2811,7 @@ const bets = [
   },
   {
     "id": "1.106.252",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.261",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -2819,7 +2822,7 @@ const bets = [
   },
   {
     "id": "1.106.253",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.262",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -2830,7 +2833,7 @@ const bets = [
   },
   {
     "id": "1.106.254",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.263",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -2841,7 +2844,7 @@ const bets = [
   },
   {
     "id": "1.106.255",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.264",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -2852,7 +2855,7 @@ const bets = [
   },
   {
     "id": "1.106.256",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.265",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -2863,7 +2866,7 @@ const bets = [
   },
   {
     "id": "1.106.257",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.266",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -2874,7 +2877,7 @@ const bets = [
   },
   {
     "id": "1.106.258",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.267",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -2885,7 +2888,7 @@ const bets = [
   },
   {
     "id": "1.106.259",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.268",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -2896,7 +2899,7 @@ const bets = [
   },
   {
     "id": "1.106.260",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.269",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -2907,7 +2910,7 @@ const bets = [
   },
   {
     "id": "1.106.261",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.270",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -2918,7 +2921,7 @@ const bets = [
   },
   {
     "id": "1.106.262",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.271",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -2929,7 +2932,7 @@ const bets = [
   },
   {
     "id": "1.106.263",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.272",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -2940,7 +2943,7 @@ const bets = [
   },
   {
     "id": "1.106.264",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.273",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -2951,7 +2954,7 @@ const bets = [
   },
   {
     "id": "1.106.265",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.274",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -2962,7 +2965,7 @@ const bets = [
   },
   {
     "id": "1.106.266",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.275",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -2973,7 +2976,7 @@ const bets = [
   },
   {
     "id": "1.106.267",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.276",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -2984,7 +2987,7 @@ const bets = [
   },
   {
     "id": "1.106.268",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.277",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -2995,7 +2998,7 @@ const bets = [
   },
   {
     "id": "1.106.269",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.278",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -3006,7 +3009,7 @@ const bets = [
   },
   {
     "id": "1.106.270",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.279",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -3017,7 +3020,7 @@ const bets = [
   },
   {
     "id": "1.106.271",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.280",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -3028,7 +3031,7 @@ const bets = [
   },
   {
     "id": "1.106.272",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.281",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -3039,7 +3042,7 @@ const bets = [
   },
   {
     "id": "1.106.273",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.282",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -3051,7 +3054,7 @@ const bets = [
   //Soccer Event Group 2
   {
     "id": "1.106.274",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.283",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -3062,7 +3065,7 @@ const bets = [
   },
   {
     "id": "1.106.275",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.284",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -3073,7 +3076,7 @@ const bets = [
   },
   {
     "id": "1.106.276",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.285",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -3084,7 +3087,7 @@ const bets = [
   },
   {
     "id": "1.106.277",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.286",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -3095,7 +3098,7 @@ const bets = [
   },
   {
     "id": "1.106.278",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.287",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -3106,7 +3109,7 @@ const bets = [
   },
   {
     "id": "1.106.279",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.288",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -3117,7 +3120,7 @@ const bets = [
   },
   {
     "id": "1.106.280",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.289",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -3128,7 +3131,7 @@ const bets = [
   },
   {
     "id": "1.106.281",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.290",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -3139,7 +3142,7 @@ const bets = [
   },
   {
     "id": "1.106.282",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.291",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -3150,7 +3153,7 @@ const bets = [
   },
   {
     "id": "1.106.283",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.292",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -3161,7 +3164,7 @@ const bets = [
   },
   {
     "id": "1.106.284",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.293",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -3172,7 +3175,7 @@ const bets = [
   },
   {
     "id": "1.106.285",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.294",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -3183,7 +3186,7 @@ const bets = [
   },
   {
     "id": "1.106.286",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.295",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -3194,7 +3197,7 @@ const bets = [
   },
   {
     "id": "1.106.287",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.296",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -3205,7 +3208,7 @@ const bets = [
   },
   {
     "id": "1.106.288",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.297",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -3216,7 +3219,7 @@ const bets = [
   },
   {
     "id": "1.106.289",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.298",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -3227,7 +3230,7 @@ const bets = [
   },
   {
     "id": "1.106.290",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.299",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -3238,7 +3241,7 @@ const bets = [
   },
   {
     "id": "1.106.291",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.300",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -3249,7 +3252,7 @@ const bets = [
   },
   {
     "id": "1.106.292",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.301",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -3260,7 +3263,7 @@ const bets = [
   },
   {
     "id": "1.106.293",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.302",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -3271,7 +3274,7 @@ const bets = [
   },
   {
     "id": "1.106.294",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.303",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -3282,7 +3285,7 @@ const bets = [
   },
   {
     "id": "1.106.295",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.304",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -3293,7 +3296,7 @@ const bets = [
   },
   {
     "id": "1.106.296",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.305",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -3304,7 +3307,7 @@ const bets = [
   },
   {
     "id": "1.106.297",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.306",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -3315,7 +3318,7 @@ const bets = [
   },
   {
     "id": "1.106.298",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.307",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -3326,7 +3329,7 @@ const bets = [
   },
   {
     "id": "1.106.299",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.308",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -3337,7 +3340,7 @@ const bets = [
   },
   {
     "id": "1.106.300",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.309",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -3348,7 +3351,7 @@ const bets = [
   },
   {
     "id": "1.106.301",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.310",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -3359,7 +3362,7 @@ const bets = [
   },
   {
     "id": "1.106.302",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.311",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -3370,7 +3373,7 @@ const bets = [
   },
   {
     "id": "1.106.303",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.312",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -3382,7 +3385,7 @@ const bets = [
   //Soccer Event group 3
   {
     "id": "1.106.304",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.313",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -3393,7 +3396,7 @@ const bets = [
   },
   {
     "id": "1.106.305",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.314",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -3404,7 +3407,7 @@ const bets = [
   },
   {
     "id": "1.106.306",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.315",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -3415,7 +3418,7 @@ const bets = [
   },
   {
     "id": "1.106.307",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.316",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -3426,7 +3429,7 @@ const bets = [
   },
   {
     "id": "1.106.308",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.317",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -3437,7 +3440,7 @@ const bets = [
   },
   {
     "id": "1.106.309",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.318",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -3448,7 +3451,7 @@ const bets = [
   },
   {
     "id": "1.106.310",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.319",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -3459,7 +3462,7 @@ const bets = [
   },
   {
     "id": "1.106.311",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.320",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -3470,7 +3473,7 @@ const bets = [
   },
   {
     "id": "1.106.312",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.321",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -3481,7 +3484,7 @@ const bets = [
   },
   {
     "id": "1.106.313",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.322",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -3492,7 +3495,7 @@ const bets = [
   },
   {
     "id": "1.106.314",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.323",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -3503,7 +3506,7 @@ const bets = [
   },
   {
     "id": "1.106.315",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.324",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -3514,7 +3517,7 @@ const bets = [
   },
   {
     "id": "1.106.316",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.325",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -3525,7 +3528,7 @@ const bets = [
   },
   {
     "id": "1.106.317",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.326",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -3536,7 +3539,7 @@ const bets = [
   },
   {
     "id": "1.106.318",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.327",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -3547,7 +3550,7 @@ const bets = [
   },
   {
     "id": "1.106.319",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.328",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -3558,7 +3561,7 @@ const bets = [
   },
   {
     "id": "1.106.320",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.329",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -3569,7 +3572,7 @@ const bets = [
   },
   {
     "id": "1.106.321",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.330",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -3580,7 +3583,7 @@ const bets = [
   },
   {
     "id": "1.106.322",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.331",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -3591,7 +3594,7 @@ const bets = [
   },
   {
     "id": "1.106.323",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.332",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -3602,7 +3605,7 @@ const bets = [
   },
   {
     "id": "1.106.324",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.333",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -3613,7 +3616,7 @@ const bets = [
   },
   {
     "id": "1.106.325",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.334",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -3624,7 +3627,7 @@ const bets = [
   },
   {
     "id": "1.106.326",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.335",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -3635,7 +3638,7 @@ const bets = [
   },
   {
     "id": "1.106.327",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.336",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -3646,7 +3649,7 @@ const bets = [
   },
   {
     "id": "1.106.328",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.337",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -3657,7 +3660,7 @@ const bets = [
   },
   {
     "id": "1.106.329",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.338",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -3668,7 +3671,7 @@ const bets = [
   },
   {
     "id": "1.106.330",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.339",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -3679,7 +3682,7 @@ const bets = [
   },
   {
     "id": "1.106.331",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.340",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -3690,7 +3693,7 @@ const bets = [
   },
   {
     "id": "1.106.332",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.341",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -3701,7 +3704,7 @@ const bets = [
   },
   {
     "id": "1.106.333",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.342",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -3713,7 +3716,7 @@ const bets = [
   //Baseball Event group 2
   {
     "id": "1.106.334",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.343",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -3724,7 +3727,7 @@ const bets = [
   },
   {
     "id": "1.106.335",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.344",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -3735,7 +3738,7 @@ const bets = [
   },
   {
     "id": "1.106.336",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.345",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -3746,7 +3749,7 @@ const bets = [
   },
   {
     "id": "1.106.337",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.346",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -3757,7 +3760,7 @@ const bets = [
   },
   {
     "id": "1.106.338",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.347",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -3768,7 +3771,7 @@ const bets = [
   },
   {
     "id": "1.106.339",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.348",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -3779,7 +3782,7 @@ const bets = [
   },
   {
     "id": "1.106.340",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.349",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -3790,7 +3793,7 @@ const bets = [
   },
   {
     "id": "1.106.341",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.350",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -3801,7 +3804,7 @@ const bets = [
   },
   {
     "id": "1.106.342",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.351",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -3812,7 +3815,7 @@ const bets = [
   },
   {
     "id": "1.106.343",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.352",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -3823,7 +3826,7 @@ const bets = [
   },
   {
     "id": "1.106.344",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.353",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -3834,7 +3837,7 @@ const bets = [
   },
   {
     "id": "1.106.345",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.354",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -3845,7 +3848,7 @@ const bets = [
   },
   {
     "id": "1.106.346",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.355",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -3856,7 +3859,7 @@ const bets = [
   },
   {
     "id": "1.106.347",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.356",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -3867,7 +3870,7 @@ const bets = [
   },
   {
     "id": "1.106.348",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.357",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -3878,7 +3881,7 @@ const bets = [
   },
   {
     "id": "1.106.349",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.358",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -3889,7 +3892,7 @@ const bets = [
   },
   {
     "id": "1.106.350",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.359",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -3900,7 +3903,7 @@ const bets = [
   },
   {
     "id": "1.106.351",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.360",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -3911,7 +3914,7 @@ const bets = [
   },
   {
     "id": "1.106.352",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.361",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -3922,7 +3925,7 @@ const bets = [
   },
   {
     "id": "1.106.353",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.362",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -3933,7 +3936,7 @@ const bets = [
   },
   {
     "id": "1.106.354",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.363",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -3944,7 +3947,7 @@ const bets = [
   },
   {
     "id": "1.106.355",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.364",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -3955,7 +3958,7 @@ const bets = [
   },
   {
     "id": "1.106.356",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.365",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -3966,7 +3969,7 @@ const bets = [
   },
   {
     "id": "1.106.357",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.366",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -3977,7 +3980,7 @@ const bets = [
   },
   {
     "id": "1.106.358",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.367",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -3988,7 +3991,7 @@ const bets = [
   },
   {
     "id": "1.106.359",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.368",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -3999,7 +4002,7 @@ const bets = [
   },
   {
     "id": "1.106.360",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.369",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -4010,7 +4013,7 @@ const bets = [
   },
   {
     "id": "1.106.361",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.370",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -4021,7 +4024,7 @@ const bets = [
   },
   {
     "id": "1.106.362",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.371",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -4032,7 +4035,7 @@ const bets = [
   },
   {
     "id": "1.106.363",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.372",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -4044,7 +4047,7 @@ const bets = [
   //Baseball Event group 3
   {
     "id": "1.106.364",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.373",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -4055,7 +4058,7 @@ const bets = [
   },
   {
     "id": "1.106.365",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.374",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -4066,7 +4069,7 @@ const bets = [
   },
   {
     "id": "1.106.366",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.375",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -4077,7 +4080,7 @@ const bets = [
   },
   {
     "id": "1.106.367",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.376",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -4088,7 +4091,7 @@ const bets = [
   },
   {
     "id": "1.106.368",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.377",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -4099,7 +4102,7 @@ const bets = [
   },
   {
     "id": "1.106.369",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.378",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -4110,7 +4113,7 @@ const bets = [
   },
   {
     "id": "1.106.370",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.379",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -4121,7 +4124,7 @@ const bets = [
   },
   {
     "id": "1.106.371",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.380",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -4132,7 +4135,7 @@ const bets = [
   },
   {
     "id": "1.106.372",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.381",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -4143,7 +4146,7 @@ const bets = [
   },
   {
     "id": "1.106.373",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.382",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -4154,7 +4157,7 @@ const bets = [
   },
   {
     "id": "1.106.374",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.383",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -4165,7 +4168,7 @@ const bets = [
   },
   {
     "id": "1.106.375",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.384",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -4176,7 +4179,7 @@ const bets = [
   },
   {
     "id": "1.106.376",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.385",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -4187,7 +4190,7 @@ const bets = [
   },
   {
     "id": "1.106.377",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.386",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -4198,7 +4201,7 @@ const bets = [
   },
   {
     "id": "1.106.378",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.387",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -4209,7 +4212,7 @@ const bets = [
   },
   {
     "id": "1.106.379",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.388",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -4220,7 +4223,7 @@ const bets = [
   },
   {
     "id": "1.106.380",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.389",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -4231,7 +4234,7 @@ const bets = [
   },
   {
     "id": "1.106.381",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.390",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -4242,7 +4245,7 @@ const bets = [
   },
   {
     "id": "1.106.382",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.391",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -4253,7 +4256,7 @@ const bets = [
   },
   {
     "id": "1.106.383",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.392",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -4264,7 +4267,7 @@ const bets = [
   },
   {
     "id": "1.106.384",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.393",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -4275,7 +4278,7 @@ const bets = [
   },
   {
     "id": "1.106.385",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.394",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -4286,7 +4289,7 @@ const bets = [
   },
   {
     "id": "1.106.386",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.395",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -4297,7 +4300,7 @@ const bets = [
   },
   {
     "id": "1.106.387",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.396",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -4308,7 +4311,7 @@ const bets = [
   },
   {
     "id": "1.106.388",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.397",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -4319,7 +4322,7 @@ const bets = [
   },
   {
     "id": "1.106.389",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.398",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -4330,7 +4333,7 @@ const bets = [
   },
   {
     "id": "1.106.390",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.399",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -4341,7 +4344,7 @@ const bets = [
   },
   {
     "id": "1.106.391",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.400",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -4352,7 +4355,7 @@ const bets = [
   },
   {
     "id": "1.106.392",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.401",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -4363,7 +4366,7 @@ const bets = [
   },
   {
     "id": "1.106.393",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.402",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -4376,7 +4379,7 @@ const bets = [
   //American Football
   {
     "id": "1.106.394",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.403",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -4387,7 +4390,7 @@ const bets = [
   },
   {
     "id": "1.106.395",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.404",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -4398,7 +4401,7 @@ const bets = [
   },
   {
     "id": "1.106.396",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.405",
     "amount_to_bet": 7800,
     "amount_to_win": 8500,
@@ -4409,7 +4412,7 @@ const bets = [
   },
   {
     "id": "1.106.397",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.406",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -4420,7 +4423,7 @@ const bets = [
   },
   {
     "id": "1.106.398",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.407",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -4431,7 +4434,7 @@ const bets = [
   },
   {
     "id": "1.106.399",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.408",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -4442,7 +4445,7 @@ const bets = [
   },
   {
     "id": "1.106.400",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.409",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -4453,7 +4456,7 @@ const bets = [
   },
   {
     "id": "1.106.401",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.410",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -4464,7 +4467,7 @@ const bets = [
   },
   {
     "id": "1.106.402",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.411",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -4475,7 +4478,7 @@ const bets = [
   },
   {
     "id": "1.106.403",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.412",
     "amount_to_bet": 8500,
     "amount_to_win": 9500,
@@ -4486,7 +4489,7 @@ const bets = [
   },
   {
     "id": "1.106.404",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.413",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -4497,7 +4500,7 @@ const bets = [
   },
   {
     "id": "1.106.405",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.414",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -4508,7 +4511,7 @@ const bets = [
   },
   {
     "id": "1.106.406",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.415",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -4519,7 +4522,7 @@ const bets = [
   },
   {
     "id": "1.106.407",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.416",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -4530,7 +4533,7 @@ const bets = [
   },
   {
     "id": "1.106.408",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.417",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -4541,7 +4544,7 @@ const bets = [
   },
   {
     "id": "1.106.409",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.418",
     "amount_to_bet": 4500,
     "amount_to_win": 5500,
@@ -4552,7 +4555,7 @@ const bets = [
   },
   {
     "id": "1.106.410",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.419",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -4563,7 +4566,7 @@ const bets = [
   },
   {
     "id": "1.106.411",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.420",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -4574,7 +4577,7 @@ const bets = [
   },
   {
     "id": "1.106.412",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.421",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -4585,7 +4588,7 @@ const bets = [
   },
   {
     "id": "1.106.413",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.422",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -4596,7 +4599,7 @@ const bets = [
   },
   {
     "id": "1.106.414",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.423",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -4607,7 +4610,7 @@ const bets = [
   },
   {
     "id": "1.106.415",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.424",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -4618,7 +4621,7 @@ const bets = [
   },
   {
     "id": "1.106.416",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.425",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -4629,7 +4632,7 @@ const bets = [
   },
   {
     "id": "1.106.417",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.426",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -4640,7 +4643,7 @@ const bets = [
   },
   {
     "id": "1.106.418",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.427",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -4651,7 +4654,7 @@ const bets = [
   },
   {
     "id": "1.106.419",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.428",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -4662,7 +4665,7 @@ const bets = [
   },
   {
     "id": "1.106.420",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.429",
     "amount_to_bet": 3500,
     "amount_to_win": 8500,
@@ -4673,7 +4676,7 @@ const bets = [
   },
   {
     "id": "1.106.421",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.430",
     "amount_to_bet": 4800,
     "amount_to_win": 8800,
@@ -4684,7 +4687,7 @@ const bets = [
   },
   {
     "id": "1.106.422",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.431",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -4695,7 +4698,7 @@ const bets = [
   },
   {
     "id": "1.106.423",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.432",
     "amount_to_bet": 2500,
     "amount_to_win": 3500,
@@ -4707,7 +4710,7 @@ const bets = [
   //Basketball
   {
     "id": "1.106.424",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.433",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -4718,7 +4721,7 @@ const bets = [
   },
   {
     "id": "1.106.425",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.434",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -4729,7 +4732,7 @@ const bets = [
   },
   {
     "id": "1.106.426",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.435",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -4740,7 +4743,7 @@ const bets = [
   },
   {
     "id": "1.106.427",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.436",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -4751,7 +4754,7 @@ const bets = [
   },
   {
     "id": "1.106.428",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.437",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -4762,7 +4765,7 @@ const bets = [
   },
   {
     "id": "1.106.429",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.438",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -4773,7 +4776,7 @@ const bets = [
   },
   {
     "id": "1.106.430",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.439",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -4784,7 +4787,7 @@ const bets = [
   },
   {
     "id": "1.106.431",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.440",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
@@ -4795,7 +4798,7 @@ const bets = [
   },
   {
     "id": "1.106.432",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.441",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -4806,7 +4809,7 @@ const bets = [
   },
   {
     "id": "1.106.433",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.442",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -4817,7 +4820,7 @@ const bets = [
   },
   {
     "id": "1.106.434",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.443",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -4828,7 +4831,7 @@ const bets = [
   },
   {
     "id": "1.106.435",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.444",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -4840,7 +4843,7 @@ const bets = [
   //Baseball
   {
     "id": "1.106.436",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.445",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -4851,7 +4854,7 @@ const bets = [
   },
   {
     "id": "1.106.437",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.446",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -4862,7 +4865,7 @@ const bets = [
   },
   {
     "id": "1.106.438",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.447",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -4873,7 +4876,7 @@ const bets = [
   },
   {
     "id": "1.106.439",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.448",
     "amount_to_bet": 3500,
     "amount_to_win": 9500,
@@ -4884,7 +4887,7 @@ const bets = [
   },
   {
     "id": "1.106.440",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.449",
     "amount_to_bet": 5800,
     "amount_to_win": 6800,
@@ -4895,7 +4898,7 @@ const bets = [
   },
   {
     "id": "1.106.441",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.450",
     "amount_to_bet": 4400,
     "amount_to_win": 9300,
@@ -4906,7 +4909,7 @@ const bets = [
   },
   {
     "id": "1.106.442",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.451",
     "amount_to_bet": 7500,
     "amount_to_win": 9500,
@@ -4917,7 +4920,7 @@ const bets = [
   },
   {
     "id": "1.106.443",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.452",
     "amount_to_bet": 5500,
     "amount_to_win": 6500,
@@ -4928,7 +4931,7 @@ const bets = [
   },
   {
     "id": "1.106.444",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.453",
     "amount_to_bet": 4800,
     "amount_to_win": 9500,
@@ -4939,7 +4942,7 @@ const bets = [
   },
   {
     "id": "1.106.445",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.454",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -4950,7 +4953,7 @@ const bets = [
   },
   {
     "id": "1.106.446",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.455",
     "amount_to_bet": 2800,
     "amount_to_win": 3800,
@@ -4961,7 +4964,7 @@ const bets = [
   },
   {
     "id": "1.106.447",
-    "bettor_id": "1.2.48",
+    "bettor_id": bettorId,
     "betting_market_id": "1.105.456",
     "amount_to_bet": 6800,
     "amount_to_win": 9500,
