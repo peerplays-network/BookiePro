@@ -35,9 +35,9 @@ const getColumns = (currencyFormat, lastIrreversibleBlockNum) => {
       render: (text, row) => {
         const blockNum = row.blockNum;
         if (lastIrreversibleBlockNum >= blockNum) {
-          return <span className='completed'>{'Completed'}</span>
+          return <span className='completed'>{ I18n.t('myAccount.transaction_status_complete') }</span>
         } else {
-          return <span className='processed'>{'Processing'}</span>
+          return <span className='processed'>{ I18n.t('myAccount.transaction_status_processing') }</span>
         }
       },
     },
@@ -57,14 +57,13 @@ class TransactionHistory extends PureComponent {
 
   render() {
     const { transactionHistoryLoadingStatus,
-      transactionHistoryExport,transactionHistoryExportLoadingStatus,
-      exportButtonClicked,resetTransactionHistoryExportLoadingStatus,clearTransactionHistoryExport,
+      generateTransactionHistoryExportDataLoadingStatus,
+      transactionHistoryExportData, exportButtonClicked, handleExportFinishDownload,
       handleSearchClick, handleExportClick, lastIrreversibleBlockNum, currencyFormat} = this.props;
 
     const transactionHistory = this.props.transactionHistory.toJS();
 
-    const hasNoTransactionHistoryData = transactionHistory && transactionHistory.length === 0,
-      hasNoTransactionHistoryDataExport = transactionHistoryExport && transactionHistoryExport.length === 0;
+    const hasNoTransactionHistoryData = transactionHistory && transactionHistory.length === 0;
 
     //Transaction History table Columns
     const columns = getColumns(currencyFormat, lastIrreversibleBlockNum);
@@ -84,19 +83,17 @@ class TransactionHistory extends PureComponent {
           </div>
           <Table className='bookie-table'
             locale={ { emptyText: (
-              (hasNoTransactionHistoryData && transactionHistoryLoadingStatus === LoadingStatus.DONE ?
-                I18n.t('mybets.nodata') : transactionHistoryLoadingStatus) ||
-                hasNoTransactionHistoryDataExport) } }
-                pagination={ transactionHistory.length > 20 ? paginationParams : false }
+                hasNoTransactionHistoryData && transactionHistoryLoadingStatus === LoadingStatus.DONE ?
+                I18n.t('mybets.nodata') : transactionHistoryLoadingStatus)  } }
+                pagination={ transactionHistory.length > paginationParams.pageSize ? paginationParams : false }
                 dataSource={ transactionHistory }
                 columns={ columns }/>
             </div>
           { exportButtonClicked ?
             <Export
-              exportData={ transactionHistoryExport }
-              exportLoadingStatus={ transactionHistoryExportLoadingStatus }
-              resetExportLoadingStatus={ resetTransactionHistoryExportLoadingStatus }
-              clearExportDataStore={ clearTransactionHistoryExport }
+              exportData={ transactionHistoryExportData.toJS() }
+              exportLoadingStatus={ generateTransactionHistoryExportDataLoadingStatus }
+              handleExportFinishDownload={ handleExportFinishDownload }
               screenName={ I18n.t('myAccount.screenName') }
               />: null }
             </div>

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
-import { TimeRangePeriodTypes} from '../constants';
-import { BettingModuleUtils, CurrencyUtils, DateUtils } from '../utility';
+import { BettingModuleUtils, CurrencyUtils } from '../utility';
+import { HistoryService } from '../services';
 
 const coreAssetPrecisionSelector = (state) => {
   return state.getIn(['asset', 'assetsById', '1.3.0']).get('precision');
@@ -56,22 +56,7 @@ const lastIrreversibleBlockNumSelector = (state) => {
 const filteredTransactionHistorySelector = createSelector(
     [transactionHistorySelector, periodTypeSelector, customTimeRangeStartDateSelector, customTimeRangeEndDateSelector],
     (transactionHistory, periodType, customTimeRangeStartDate, customTimeRangeEndDate) => {
-      const filteredTransactionHistory = transactionHistory.filter((transaction) => {
-        let startDate, endDate;
-        if (periodType === TimeRangePeriodTypes.CUSTOM) {
-          startDate = customTimeRangeStartDate;
-          endDate = customTimeRangeEndDate;
-        } else {
-          const timeRange = DateUtils.getTimeRangeGivenTimeRangePeriodType(periodType);
-          startDate = timeRange.startDate;
-          endDate = timeRange.endDate
-        }
-        const time = transaction.get('time');
-
-        return time.valueOf() <= endDate.valueOf() && time.valueOf() >= startDate.valueOf()
-      });
-
-      return filteredTransactionHistory;
+      return HistoryService.filterTransactionHistoryGivenTimeRange(transactionHistory, periodType, customTimeRangeStartDate, customTimeRangeEndDate);
     }
 );
 
@@ -108,6 +93,14 @@ const initTransactionHistoryLoadingStatusSelector = (state) => {
   return state.getIn(['history', 'initTransactionHistoryLoadingStatus']);
 }
 
+const generateTransactionHistoryExportDataLoadingStatusSelector = (state) => {
+  return state.getIn(['myAccountPage', 'generateTransactionHistoryExportDataLoadingStatus']);
+}
+
+const transactionHistoryExportDataSelector = (state) => {
+  return state.getIn(['myAccountPage', 'transactionHistoryExportData']);
+}
+
 
 const MyAccountSelector = {
   lastIrreversibleBlockNumSelector,
@@ -120,6 +113,8 @@ const MyAccountSelector = {
   currencyFormatSelector,
   filteredTransactionHistorySelector,
   availableBalanceSelector,
+  generateTransactionHistoryExportDataLoadingStatusSelector,
+  transactionHistoryExportDataSelector,
   formattedAvailableBalanceSelector
 }
 

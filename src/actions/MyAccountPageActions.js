@@ -1,4 +1,4 @@
-import { ActionTypes } from '../constants';
+import { ActionTypes, LoadingStatus } from '../constants';
 import { HistoryService } from '../services';
 
 class MyAccountPagePrivateActions {
@@ -8,9 +8,36 @@ class MyAccountPagePrivateActions {
       transactionHistory
     }
   }
+
+  static setGenerateTransactionHistoryExportDataLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.MY_ACCOUNT_PAGE_SET_GENERATE_TRANSACTION_HISTORY_EXPORT_DATA_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
+  static setTransactionHistoryExportDataAction(transactionHistoryExportData) {
+    return {
+      type: ActionTypes.MY_ACCOUNT_PAGE_SET_TRANSACTION_HISTORY_EXPORT_DATA,
+      transactionHistoryExportData
+    }
+  }
+
+  static setGenerateTransactionHistoryExportDataErrorAction(error) {
+    return {
+      type: ActionTypes.MY_ACCOUNT_PAGE_SET_GENERATE_TRANSACTION_HISTORY_EXPORT_DATA_ERROR,
+      error
+    }
+  }
+
 }
 
 class MyAccountPageActions {
+  static resetTransactionHistoryExportDataAction() {
+    return {
+      type: ActionTypes.MY_ACCOUNT_PAGE_RESET_TRANSACTION_HISTORY_EXPORT_DATA,
+    }
+  }
   static resetTimeRange() {
     return {
       type: ActionTypes.MY_ACCOUNT_PAGE_RESET_TIME_RANGE
@@ -24,12 +51,29 @@ class MyAccountPageActions {
       customTimeRangeEndDate
     }
   }
-  static setExportHistoryTimeRange(exportPeriodType, exportCustomTimeRangeStartDate, exportCustomTimeRangeEndDate) {
-    return {
-      type: ActionTypes.MY_ACCOUNT_PAGE_SET_EXPORT_HISTORY_TIME_RANGE,
-      exportPeriodType,
-      exportCustomTimeRangeStartDate,
-      exportCustomTimeRangeEndDate
+
+  static generateTransactionHistoryExportData(exportPeriodType, exportCustomTimeRangeStartDate, exportCustomTimeRangeEndDate) {
+    return (dispatch, getState) => {
+      const accountId = getState().getIn(['account', 'account', 'id']);
+      if (accountId) {
+        // Set loading status
+        dispatch(MyAccountPagePrivateActions.setGenerateTransactionHistoryExportDataLoadingStatusAction(LoadingStatus.LOADING));
+        const rawHistory = getState().getIn(['history', 'transactionHistoryByAccountId', accountId]);
+        // Create transaction history
+        const transactionHistory = HistoryService.convertRawHistoryToTransactionHistory(getState(), rawHistory);
+        // Filter
+        const filteredTransactionHistory = HistoryService.filterTransactionHistoryGivenTimeRange(transactionHistory,
+                                                                                                   exportPeriodType,
+                                                                                                   exportCustomTimeRangeStartDate,
+                                                                                                   exportCustomTimeRangeEndDate);
+        // Convert to export data
+        const transactionHistoryExportData = HistoryService.convertTransactionHistoryToTransactionHistoryExportData(getState(),
+                                                                                                                    filteredTransactionHistory);
+        // Set export data
+        dispatch(MyAccountPagePrivateActions.setTransactionHistoryExportDataAction(transactionHistoryExportData));
+        // Set loading status
+        dispatch(MyAccountPagePrivateActions.setGenerateTransactionHistoryExportDataLoadingStatusAction(LoadingStatus.DONE));
+      }
     }
   }
 

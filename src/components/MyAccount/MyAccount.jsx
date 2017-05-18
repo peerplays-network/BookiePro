@@ -17,12 +17,9 @@ import _ from 'lodash';
 import { BlockchainUtils, FileSaverUtils } from '../../utility';
 import { CommunicationService } from '../../services';
 import Deposit from './Deposit';
-//import Withdraw from './Withdraw';
 import { MyAccountWithdraw } from '../Withdraw';
 import moment from 'moment';
 import { SettingActions, BalanceActions, NavigateActions, HistoryActions, MyAccountPageActions, AccountActions } from '../../actions';
-import { LoadingStatus } from '../../constants';
-import { BettingModuleUtils, CurrencyUtils } from '../../utility';
 import { MyAccountPageSelector } from '../../selectors';
 
 
@@ -46,13 +43,15 @@ class MyAccount extends PureComponent {
 
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.handleExportClick = this.handleExportClick.bind(this);
+    this.handleExportFinishDownload = this.handleExportFinishDownload.bind(this);
+
     this.resetTransactionHistoryExportLoadingStatus = this.resetTransactionHistoryExportLoadingStatus.bind(this);
     this.clearTransactionHistoryExport = this.clearTransactionHistoryExport.bind(this);
-    this.handleRedirectToChangePwd = this.handleRedirectToChangePwd.bind(this);
+
     this.renderSettingCard = this.renderSettingCard.bind(this);
     this.handleDownloadPasswordFile = this.handleDownloadPasswordFile.bind(this);
     this.handleNavigateToHome = this.handleNavigateToHome.bind(this);
-
+    this.handleRedirectToChangePwd = this.handleRedirectToChangePwd.bind(this);
   }
 
   componentDidMount() {
@@ -69,18 +68,18 @@ class MyAccount extends PureComponent {
   handleSearchClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
     // Set time range
     this.props.setHistoryTimeRange(periodType, customTimeRangeStartDate, customTimeRangeStartDate);
-    //Format from date and to date in the required format and pass
-    // this.props.getTransactionHistory(startDate.format("YYYY-MM-DD HH:mm:ss"),
-    //            endDate.format("YYYY-MM-DD HH:mm:ss"));
   }
 
   //Export transaction history
   handleExportClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
-    this.props.setExportHistoryTimeRange(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
+    this.props.generateTransactionHistoryExportData(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
     //To show export related status after the 'Export' button is clicked
     this.setState({ exportButtonClicked: true });
-    // this.props.getTransactionHistory(startDate.format("YYYY-MM-DD HH:mm:ss"),
-    //            endDate.format("YYYY-MM-DD HH:mm:ss"));
+  }
+
+  handleExportFinishDownload() {
+    // Reset
+    this.props.resetTransactionHistoryExportData();
   }
 
   //Cancel transaction history export - Resetting it's loading status to 'default'
@@ -93,71 +92,6 @@ class MyAccount extends PureComponent {
   clearTransactionHistoryExport(){
     this.props.clearTransactionHistoryExport();
   }
-
-
-  //Update state for 'from date' whenever it is selected from the calender
-  onStartChange = (value) => {
-    this.setState({ fromDate:value });
-  }
-
-  //Update state for 'to date' whenever it is selected from the calender
-  onEndChange = (value) => {
-    this.setState({ toDate:value });
-  }
-
-  //Show the date fields of the user selects 'Custom' from the Period dropdown and update states of the dates accordingly
-  periodChange = (value) => {
-    if(value === 'custom'){
-      //Date would set set on selection from the datepicker
-      this.setState({ showDateFields: true,fromDate: null,toDate: null });
-    }
-    else {
-      let fromDate;
-      this.setState({ toDate: moment() });
-      switch(value){
-        case 'last7Days':default:
-          //Subtract 6 days from the current day
-          fromDate = moment().subtract(6, 'days');
-          break;
-        case 'last14Days':
-          //Subtract 14 days from the current day
-          fromDate = moment().subtract(13, 'days');
-          break;
-        case 'thisMonth':
-          //First of the current month, 12:00 am
-          fromDate = moment().startOf('month');
-          break;
-        case 'lastMonth':
-          //Last month's 1st day
-          fromDate = moment().subtract(1, 'months').startOf('month');
-          //Last month's last day
-          this.setState({toDate: moment().subtract(1, 'months').endOf('month')});
-          break;
-      }
-      this.setState({ fromDate: fromDate });
-      this.setState({ showDateFields: false });
-    }
-  }
-
-
-<<<<<<< e5e22eb80e32ff9891619cbee623bb457c615c09
-          let last_irreversible_block_num = this.props.dynGlobalObject.get('last_irreversible_block_num');
-          let status = 'completed';
-          if (order.block_num > last_irreversible_block_num) {
-            status = (order.block_num - last_irreversible_block_num) + 'imcomplete';
-          }
-          order.status = status;
-
-
-          newTxList.push(order);
-        });
-
-        this.setState({txList: newTxList});
-
-      });
-  }
-=======
->>>>>>> move transaction history startDate/ endDate to redux store and pull out time range picker from my account page
 
   handleNotificationChange(value) {
     const {updateSettingNotification} = this.props
@@ -339,13 +273,12 @@ class MyAccount extends PureComponent {
           <TransactionHistory
              transactionHistory={ this.props.transactionHistory }
              transactionHistoryLoadingStatus={ this.props.transactionHistoryLoadingStatus }
-             transactionHistoryExport={ this.props.transactionHistoryExport }
-             transactionHistoryExportLoadingStatus={ this.props.transactionHistoryExportLoadingStatus }
+             transactionHistoryExportData={ this.props.transactionHistoryExportData }
+             generateTransactionHistoryExportDataLoadingStatus={ this.props.generateTransactionHistoryExportDataLoadingStatus }
              exportButtonClicked={ this.state.exportButtonClicked }
+             handleExportFinishDownload={ this.handleExportFinishDownload }
              handleSearchClick={ this.handleSearchClick }
              handleExportClick={ this.handleExportClick }
-             resetTransactionHistoryExportLoadingStatus={ this.resetTransactionHistoryExportLoadingStatus }
-             clearTransactionHistoryExport={ this.clearTransactionHistoryExport }
              currencyFormat={ this.props.currencyFormat }
              lastIrreversibleBlockNum={ this.props.lastIrreversibleBlockNum }
            />
@@ -357,27 +290,6 @@ class MyAccount extends PureComponent {
 
 
 const mapStateToProps = (state) => {
-
-  const precision = state.getIn(['asset', 'assetsById', '1.3.0']).get('precision');
-  const currencyFormat = MyAccountPageSelector.currencyFormatSelector(state);
-
-  //Transaction History table Data (to export to Excel file)
-  let transactionHistoryExportData = [];
-  if(state.getIn(['history', 'getTransactionHistoryExportLoadingStatus']) === LoadingStatus.DONE)
-  {
-    transactionHistoryExportData = [];
-    state.getIn(['history', 'transactionHistoryExport']).forEach(row => {
-      let rowObj = {
-        Id: row.get('id'),
-        Time: moment(row.get('time')).format('DD/MM/YYYY HH:mm:ss'),
-        Description: row.get('description'),
-        Status: row.get('status'),
-        Amount: CurrencyUtils.getFormattedCurrency(row.getIn(['op',1,'fee', 'amount'])/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces)
-      };
-      transactionHistoryExportData.push(rowObj);
-    });
-  }
-
   return {
     lastIrreversibleBlockNum: MyAccountPageSelector.lastIrreversibleBlockNumSelector(state),
     notification: MyAccountPageSelector.notificationSelector(state),
@@ -385,8 +297,8 @@ const mapStateToProps = (state) => {
     precision: MyAccountPageSelector.coreAssetPrecisionSelector(state),
     transactionHistory: MyAccountPageSelector.filteredTransactionHistorySelector(state),
     transactionHistoryLoadingStatus: MyAccountPageSelector.initTransactionHistoryLoadingStatusSelector(state),
-    transactionHistoryExport: transactionHistoryExportData,
-    transactionHistoryExportLoadingStatus: state.getIn(['history', 'getTransactionHistoryExportLoadingStatus']),
+    transactionHistoryExportData: MyAccountPageSelector.transactionHistoryExportDataSelector(state),
+    generateTransactionHistoryExportDataLoadingStatus: MyAccountPageSelector.generateTransactionHistoryExportDataLoadingStatusSelector(state),
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: MyAccountPageSelector.getDepositAddressLoadingStatusSelector(state),
     depositAddress: MyAccountPageSelector.depositAddressSelector(state),
@@ -404,14 +316,13 @@ function mapDispatchToProps(dispatch) {
     updateCurrencyFormat: SettingActions.updateCurrencyFormat,
     getTransactionHistory: HistoryActions.getTransactionHistoryGivenTimeRange,
     getTransactionHistoryExport: HistoryActions.getTransactionHistoryExport,
-    resetTransactionHistoryExportLoadingStatus: HistoryActions.resetTransactionHistoryExportLoadingStatus,
-    clearTransactionHistoryExport: HistoryActions.clearTransactionHistoryExport,
+    resetTransactionHistoryExportData: MyAccountPageActions.resetTransactionHistoryExportDataAction,
     getDepositAddress: BalanceActions.getDepositAddress,
     withdraw: BalanceActions.withdraw,
     resetWithdrawLoadingStatus: BalanceActions.resetWithdrawLoadingStatus,
     navigateTo: NavigateActions.navigateTo,
     setHistoryTimeRange: MyAccountPageActions.setHistoryTimeRange,
-    setExportHistoryTimeRange: MyAccountPageActions.setExportHistoryTimeRange,
+    generateTransactionHistoryExportData: MyAccountPageActions.generateTransactionHistoryExportData,
     resetTimeRange: MyAccountPageActions.resetTimeRange,
     downloadPassword: AccountActions.downloadPassword,
   }, dispatch)

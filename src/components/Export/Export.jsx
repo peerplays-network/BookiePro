@@ -23,10 +23,9 @@ class Export extends PureComponent{
       - Hence, to display it only when data is not available, we reset the export status back to 'default'
         to diffrentiate the above 2 scenarios
     */
-    //Reset export loading status to 'default'
-    this.props.resetExportLoadingStatus();
-    //Clear data store
-    this.props.clearExportDataStore();
+
+    // Call callback
+    this.props.handleExportFinishDownload();
   }
 
   /*
@@ -35,6 +34,7 @@ class Export extends PureComponent{
     Display 'no results' card when there is no data
   */
   render(){
+
     return(
       <div className={ this.props.screenName === I18n.t('mybets.screenName') ? 'export-overlay-top export-overlay' : 'export-overlay' } >
       {

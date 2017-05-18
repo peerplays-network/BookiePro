@@ -59,6 +59,8 @@ export const translationsObject = {
       insuffBitcoinErr: 'You do not have sufficient bitcoin to withdraw, your current account balance is ',
       enter_withdrawAmt: 'Enter amount you want to withdraw',
       enter_wallet_addr: 'Enter Wallet Address',
+      transaction_status_complete: 'Completed',
+      transaction_status_processing: 'Processing',
       UTC12:'UTC+12:00',
       UTC_12:'UTC-12:00',
       UTC11:'UTC+11:00',
@@ -632,6 +634,15 @@ export const translationsObject = {
       hours: 'HOURS',
       minutes: 'MINS',
       seconds: 'SECS'
+    },
+    transaction: {
+      deposit: 'Deposit',
+      withdraw: 'Withdraw',
+      transfer: 'Transfer',
+      makeBet: 'Make Bet',
+      cancelBet: 'Cancel Bet',
+      betMatched: 'Bet Matched',
+      bettingMarketResolved: 'Betting Market Resolved',
     }
   }
 };

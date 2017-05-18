@@ -38,6 +38,12 @@ class MyWager extends PureComponent {
     this.onEndDateSelect = this.onEndDateSelect.bind(this);
     this.resetResolvedBetsExportLoadingStatus = this.resetResolvedBetsExportLoadingStatus.bind(this);
     this.clearResolvedBetsExport = this.clearResolvedBetsExport.bind(this);
+    this.handleExportFinishDownload = this.handleExportFinishDownload.bind(this);
+  }
+
+  handleExportFinishDownload() {
+    this.resetResolvedBetsExportLoadingStatus();
+    this.clearResolvedBetsExport();
   }
 
   onTabChange(key) {
@@ -198,6 +204,7 @@ class MyWager extends PureComponent {
               onStartDateSelect={ this.onStartDateSelect } onEndDateSelect={ this.onEndDateSelect }
               onPeriodSelect={ this.onPeriodSelect } onSearchClick={ this.onSearchClick }
               exportButtonClicked={ this.state.exportButtonClicked }
+              handleExportFinishDownload={ this.handleExportFinishDownload }
               onResolvedBetsExport={ this.onResolvedBetsExport }
               resolvedBetsExport={ this.props.resolvedBetsExportData }
               resolvedBetsExportLoadingStatus={ this.props.resolvedBetsExportLoadingStatus }

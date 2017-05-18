@@ -11,7 +11,7 @@ class ResolvedBets extends Component {
     const { columns, resolvedBets, resolvedBetsLoadingStatus, currencyFormat, betsTotal ,
       period, disabledStartDate, disabledEndDate, onStartDateSelect, onEndDateSelect, onPeriodSelect, onSearchClick,
       startDate, endDate, onResolvedBetsExport, exportButtonClicked, resolvedBetsExport, resolvedBetsExportLoadingStatus,
-      resetResolvedBetsExportLoadingStatus, clearResolvedBetsExport
+      handleExportFinishDownload
       } = this.props;
     const isValidDate = (period === 'custom' &&
       ((startDate===null || (startDate !== null && !startDate.isValid()))
@@ -79,8 +79,7 @@ class ResolvedBets extends Component {
           <Export
             exportData={ List(resolvedBetsExport).toJS() }
             exportLoadingStatus={ resolvedBetsExportLoadingStatus }
-            resetExportLoadingStatus={ resetResolvedBetsExportLoadingStatus }
-            clearExportDataStore={ clearResolvedBetsExport }
+            handleExportFinishDownload={ handleExportFinishDownload }
             screenName={ I18n.t('mybets.screenName') }
             />: null }
         </div>
