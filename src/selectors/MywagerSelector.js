@@ -61,7 +61,7 @@ class MywagerSelectorPrivateFunctions{
       //randomly changed win value to negative for liability display
       //applied class based on profit or loss
       if(activeTab === 'resolvedBets'){
-        rowObj.amount_to_win *= Math.floor(Math.random()*2) === 1 ? 1 : -1;
+        rowObj.amount_to_win = Math.floor(Math.random()*2) === 1 ? rowObj.amount_to_win : ('-' + rowObj.amount_to_win);
         rowObj.amount_to_win = <span className={ rowObj.amount_to_win > 0 ? 'profit' : 'loss' }>
           {(rowObj.amount_to_win > 0 ? '+' : '')}{ rowObj.amount_to_win }</span>;
       }

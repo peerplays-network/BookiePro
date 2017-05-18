@@ -18,7 +18,7 @@ class MatchedBets extends Component {
           </div>
         </div>
         <LocaleProvider locale={ I18n.t('application.locale') }>
-          <Table className='bookie-table' pagination={ { pageSize: 10 } } rowKey='id'
+          <Table className='bookie-table' pagination={ { pageSize: 20 } } rowKey='id'
             locale={ {emptyText: ( matchedBets && matchedBets.length === 0 &&
               matchedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : matchedBetsLoadingStatus )} }
               dataSource={ List(matchedBets).toJS() } columns={ columns } />
