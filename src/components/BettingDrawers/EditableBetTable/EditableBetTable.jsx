@@ -196,7 +196,7 @@ const EditableBetTable = (props) => {
       <div className='header'>
         <span className='title'>{ title }</span>
         <span className='icon'>
-          <i className='trash-icon' onClick={ () => deleteMany(backBets.concat(layBets)) }></i>
+          <i className='trash-icon' onClick={ () => deleteMany(backBets.concat(layBets), title) }></i>
         </span>
       </div>
       <div className='bet-table'>

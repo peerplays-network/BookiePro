@@ -237,6 +237,11 @@ export const translationsObject = {
           cancel_button: 'CANCEL',
           confirm_button: 'TRY AGAIN',
         },
+        delete_bets: {
+          instructions: 'Are you sure you want to delete<br/>the bets from this event?<br/>%{event}',
+          cancel_button: 'NO',
+          confirm_button: 'YES',
+        },
         success: {
           instructions: 'Your bets have been successfully placed.',
         },
