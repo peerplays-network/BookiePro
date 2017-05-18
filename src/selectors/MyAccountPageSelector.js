@@ -89,8 +89,8 @@ const withdrawLoadingStatusSelector = (state) => {
   return state.getIn(['balance', 'withdrawLoadingStatus']);
 }
 
-const initTransactionHistoryLoadingStatusSelector = (state) => {
-  return state.getIn(['history', 'initTransactionHistoryLoadingStatus']);
+const initRawHistoryLoadingStatusSelector = (state) => {
+  return state.getIn(['rawHistory', 'initRawHistoryLoadingStatus']);
 }
 
 const generateTransactionHistoryExportDataLoadingStatusSelector = (state) => {
@@ -107,7 +107,7 @@ const MyAccountSelector = {
   depositAddressSelector,
   getDepositAddressLoadingStatusSelector,
   withdrawLoadingStatusSelector,
-  initTransactionHistoryLoadingStatusSelector,
+  initRawHistoryLoadingStatusSelector,
   coreAssetPrecisionSelector,
   notificationSelector,
   currencyFormatSelector,

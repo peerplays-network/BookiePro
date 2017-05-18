@@ -14,12 +14,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
 import './MyAccount.less'
 import _ from 'lodash';
-import { BlockchainUtils, FileSaverUtils } from '../../utility';
-import { CommunicationService } from '../../services';
+import Ps from 'perfect-scrollbar';
 import Deposit from './Deposit';
 import { MyAccountWithdraw } from '../Withdraw';
-import moment from 'moment';
-import { SettingActions, BalanceActions, NavigateActions, HistoryActions, MyAccountPageActions, AccountActions } from '../../actions';
+import { SettingActions, BalanceActions, NavigateActions, MyAccountPageActions, AccountActions } from '../../actions';
 import { MyAccountPageSelector } from '../../selectors';
 
 
@@ -296,7 +294,7 @@ const mapStateToProps = (state) => {
     currencyFormat: MyAccountPageSelector.currencyFormatSelector(state),
     precision: MyAccountPageSelector.coreAssetPrecisionSelector(state),
     transactionHistory: MyAccountPageSelector.filteredTransactionHistorySelector(state),
-    transactionHistoryLoadingStatus: MyAccountPageSelector.initTransactionHistoryLoadingStatusSelector(state),
+    transactionHistoryLoadingStatus: MyAccountPageSelector.initRawHistoryLoadingStatusSelector(state),
     transactionHistoryExportData: MyAccountPageSelector.transactionHistoryExportDataSelector(state),
     generateTransactionHistoryExportDataLoadingStatus: MyAccountPageSelector.generateTransactionHistoryExportDataLoadingStatusSelector(state),
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
@@ -314,15 +312,13 @@ function mapDispatchToProps(dispatch) {
     updateSettingTimeZone: SettingActions.updateSettingTimeZone,
     updateSettingNotification: SettingActions.updateSettingNotification,
     updateCurrencyFormat: SettingActions.updateCurrencyFormat,
-    getTransactionHistory: HistoryActions.getTransactionHistoryGivenTimeRange,
-    getTransactionHistoryExport: HistoryActions.getTransactionHistoryExport,
-    resetTransactionHistoryExportData: MyAccountPageActions.resetTransactionHistoryExportDataAction,
     getDepositAddress: BalanceActions.getDepositAddress,
     withdraw: BalanceActions.withdraw,
     resetWithdrawLoadingStatus: BalanceActions.resetWithdrawLoadingStatus,
     navigateTo: NavigateActions.navigateTo,
     setHistoryTimeRange: MyAccountPageActions.setHistoryTimeRange,
     generateTransactionHistoryExportData: MyAccountPageActions.generateTransactionHistoryExportData,
+    resetTransactionHistoryExportData: MyAccountPageActions.resetTransactionHistoryExportDataAction,
     resetTimeRange: MyAccountPageActions.resetTimeRange,
     downloadPassword: AccountActions.downloadPassword,
   }, dispatch)

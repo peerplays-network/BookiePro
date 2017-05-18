@@ -21,7 +21,7 @@ import EventGroupPageActions from './EventGroupPageActions';
 import BettingMarketGroupPageActions from './BettingMarketGroupPageActions';
 import QuickBetDrawerActions from './QuickBetDrawerActions';
 import MarketDrawerActions from './MarketDrawerActions';
-import HistoryActions from './HistoryActions';
+import RawHistoryActions from './RawHistoryActions';
 import AuthActions from './AuthActions';
 import BalanceActions from './BalanceActions';
 import MywagerActions from './MywagerActions';
@@ -52,7 +52,7 @@ export {
   AccountActions,
   NotificationActions,
   SoftwareUpdateActions,
-  HistoryActions,
+  RawHistoryActions,
   AuthActions,
   NavigateActions,
   MyAccountPageActions,

@@ -16,5 +16,5 @@ export default {
   ],
   softwareUpdateReferenceAccountName: 'peerplays1',
   gatewayAccountName: 'gateway1',
-  dummyDataAccountId: '1.2.82' // TODO: remove this later, for the meantime we can use this to configure dummy data
+  dummyDataAccountId: '1.2.49' // TODO: remove this later, for the meantime we can use this to configure dummy data
 }

@@ -1,5 +1,4 @@
 import ActionTypes from '../constants/ActionTypes';
-import NavigateActions from '../actions/NavigateActions'
 
 /**
  * Private actions

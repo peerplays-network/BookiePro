@@ -9,11 +9,6 @@ import _ from 'lodash';
 
 // Modify this one depending on the account that you use to test
 const dummyAccountId = Config.dummyDataAccountId;
-// IMPORTANT, this instance number should be smaller than the instance number of earliest REAL transaction history of the account id
-// Otherwise, the real transactions are not going to be prepended on top of the dummy data
-const dummyTransactionHistoryMaxIdInstanceNumber = 420;
-const dummyMaxBlockNum = 67000;
-const dummyMaxVirtualOpId = 1000;
 
 // IMPORTANT, size of listOfOperations should be smaller than dummyTransactionHistoryMaxIdInstanceNumber
 const listOfOperations = [
@@ -510,6 +505,13 @@ const listOfOperations = [
   ]
 ];
 
+
+const dummyTransactionHistoryMaxIdInstanceNumber = listOfOperations.length + 100000;
+const dummyMaxBlockNum = listOfOperations.length * 3;
+const dummyMaxVirtualOpId = listOfOperations.length + 100000;
+
+
+
 /**
 * Function to generate history given the list of operations
 * This reduces the number of redundant and tedious job of creating dummy data (i.e. setting id, block_num, virtual_op for each transaction)
@@ -517,9 +519,9 @@ const listOfOperations = [
 const generateHistory = () => {
   const result = [];
 
-  // 1 transaction every 5 mins;
+  // 1 transaction every 3 seconds;
   // Note, if you want to modify this, make sure to modify the dummyMaxBlockNum accordingly, so it couldn't reach below zero
-  const transactionInterval =  5 * 60 / 3;
+  const transactionInterval =  3;
 
   let nextTransactionHistoryMaxIdInstanceNumber = dummyTransactionHistoryMaxIdInstanceNumber;
   let nextBlockNum = dummyMaxBlockNum;

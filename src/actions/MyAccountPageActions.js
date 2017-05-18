@@ -58,7 +58,7 @@ class MyAccountPageActions {
       if (accountId) {
         // Set loading status
         dispatch(MyAccountPagePrivateActions.setGenerateTransactionHistoryExportDataLoadingStatusAction(LoadingStatus.LOADING));
-        const rawHistory = getState().getIn(['history', 'transactionHistoryByAccountId', accountId]);
+        const rawHistory = getState().getIn(['rawHistory', 'rawHistoryByAccountId', accountId]);
         // Create transaction history
         const transactionHistory = HistoryService.convertRawHistoryToTransactionHistory(getState(), rawHistory);
         // Filter
@@ -91,7 +91,7 @@ class MyAccountPageActions {
     return (dispatch, getState) => {
       const accountId = getState().getIn(['account', 'account', 'id']);
       if (accountId) {
-        const rawHistory = getState().getIn(['history', 'transactionHistoryByAccountId', accountId]);
+        const rawHistory = getState().getIn(['rawHistory', 'rawHistoryByAccountId', accountId]);
         const transactionHistory = HistoryService.convertRawHistoryToTransactionHistory(getState(), rawHistory);
         dispatch(MyAccountPagePrivateActions.prependTransactionHistory(transactionHistory));
       }

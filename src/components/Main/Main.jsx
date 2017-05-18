@@ -39,7 +39,7 @@ class Main extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const initTransactionHistoryLoadingStatus = state.getIn(['history', 'initTransactionHistoryLoadingStatus']);
+  const initTransactionHistoryLoadingStatus = state.getIn(['rawHistory', 'initRawHistoryLoadingStatus']);
   const isInitAccountModalVisible = initTransactionHistoryLoadingStatus === LoadingStatus.LOADING;
   return {
     isInitAccountModalVisible

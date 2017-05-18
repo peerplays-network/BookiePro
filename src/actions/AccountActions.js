@@ -2,7 +2,7 @@ import { ActionTypes } from '../constants';
 import { BlockchainUtils, FileSaverUtils } from '../utility';
 import { WalletService, CommunicationService } from '../services';
 import { TransactionBuilder } from 'graphenejs-lib';
-import HistoryActions from './HistoryActions';
+import RawHistoryActions from './RawHistoryActions';
 import Immutable from 'immutable';
 import _ from 'lodash';
 
@@ -29,7 +29,7 @@ class AccountActions {
       FileSaverUtils.saveAs(blob, 'account-recovery-file.txt');
     }
   }
-  
+
   static setIsLoggedInAction(isLoggedIn) {
     return {
       type: ActionTypes.ACCOUNT_SET_IS_LOGGED_IN,
@@ -44,7 +44,7 @@ class AccountActions {
       const updatedMostRecentOp = statistics.get('most_recent_op')
       const hasMadeNewTransaction = currentMostRecentOp && (updatedMostRecentOp !== currentMostRecentOp);
       if (hasMadeNewTransaction) {
-        dispatch(HistoryActions.checkForNewTransactionHistory());
+        dispatch(RawHistoryActions.checkForNewRawHistory());
       }
       // Set statistics
       dispatch(AccountPrivateActions.setStatisticsAction(statistics));

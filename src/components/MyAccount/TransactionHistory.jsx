@@ -62,7 +62,6 @@ class TransactionHistory extends PureComponent {
       handleSearchClick, handleExportClick, lastIrreversibleBlockNum, currencyFormat} = this.props;
 
     const transactionHistory = this.props.transactionHistory.toJS();
-
     const hasNoTransactionHistoryData = transactionHistory && transactionHistory.length === 0;
 
     //Transaction History table Columns

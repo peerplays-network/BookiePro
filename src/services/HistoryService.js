@@ -29,7 +29,7 @@ class HistoryService {
       // Check the operation type to ensure it is relevant
       let isRelevant = false;
       const operationType = rawTransaction.getIn(['op', 0]);
-      isRelevant = isRelevant || ChainTypes.operations.transfer;
+      isRelevant = isRelevant || operationType === ChainTypes.operations.transfer;
       isRelevant = isRelevant || (operationType === DummyOperationTypes.MAKE_BET);
       isRelevant = isRelevant || (operationType === DummyOperationTypes.CANCEL_BET);
       isRelevant = isRelevant || (operationType === DummyOperationTypes.BET_MATCHED);
