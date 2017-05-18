@@ -28,7 +28,7 @@ class Main extends Component {
       <Layout className='layout'>
         <NavBar />
         <Layout>
-          <Content className='main-content'>
+          <Content className='main-cofntent'>
             { this.props.children }
           </Content>
         </Layout>
