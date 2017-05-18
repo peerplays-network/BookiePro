@@ -29,33 +29,25 @@ const groupMoneyLineBinnedOrderBooks = (event, bettingMarketGroups, binnedOrderB
   return groupedBinnedOrderBooks;
 }
 
-const resolveMarketType = (bettingMarketGroup, bettingMarketId) => {
+const resolveMarketTypeValue = (bettingMarketGroup, bettingMarketId) => {
   const isHomeTeam = bettingMarketGroup.get('betting_market_ids').keyOf(bettingMarketId) === 0;
   const marketTypeId = bettingMarketGroup.get('market_type_id');
 
-  let result = Immutable.Map().set('market_type_id', marketTypeId);
-
   if ( marketTypeId === 'Spread') {
     const margin = bettingMarketGroup.getIn(['options', 'margin']);
-    result = result.set('market_type_value',
-                          StringUtils.formatSignedNumber(isHomeTeam ? margin : margin*-1));
+    return StringUtils.formatSignedNumber(isHomeTeam ? margin : margin * -1);
   }
 
   if (marketTypeId === 'OverUnder') {
     const score = bettingMarketGroup.getIn(['options', 'score']);
-    result = result.set('market_type_value', isHomeTeam ?
-                          I18n.t('bettingMarketGroup.over') + score :
-                          I18n.t('bettingMarketGroup.under') + score);
+    return (isHomeTeam ? I18n.t('bettingMarketGroup.over') : I18n.t('bettingMarketGroup.under')) + score;
   }
 
-  if (marketTypeId === 'Moneyline') {
-    return result.set('market_type_value', marketTypeId);
-  }
-
-  return result;
+  //if (marketTypeId === 'Moneyline')
+  return marketTypeId;
 }
 
 export {
   groupMoneyLineBinnedOrderBooks,
-  resolveMarketType,
+  resolveMarketTypeValue,
 };
