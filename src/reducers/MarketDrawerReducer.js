@@ -120,16 +120,16 @@ export default function(state = initialState, action) {
         if (transformed.has('matched')) {
           let matchedBet = transformed.get('matched');
           matchedBet = matchedBet
-                         .update('odds', odds => CurrencyUtils.getFormattedField('odds', odds, action.currencyFormat).toString())
-                         .update('stake', stake => CurrencyUtils.getFormattedField('stake', stake, action.currencyFormat).toString())
+                         .update('odds', odds => CurrencyUtils.formatByCurrencyAndPrecision('odds', odds, action.currencyFormat).toString())
+                         .update('stake', stake => CurrencyUtils.formatByCurrencyAndPrecision('stake', stake, action.currencyFormat).toString())
           matchedBets = matchedBets.push(matchedBet);
         }
         if (transformed.has('unmatched')) {
           let unmatchedBet = transformed.get('unmatched');
           // store odds and stake values as String for easier comparison
           unmatchedBet = unmatchedBet
-                           .update('odds', odds => CurrencyUtils.getFormattedField('odds', odds, action.currencyFormat).toString())
-                           .update('stake', stake => CurrencyUtils.getFormattedField('stake', stake, action.currencyFormat).toString());
+                           .update('odds', odds => CurrencyUtils.formatByCurrencyAndPrecision('odds', odds, action.currencyFormat).toString())
+                           .update('stake', stake => CurrencyUtils.formatByCurrencyAndPrecision('stake', stake, action.currencyFormat).toString());
           // NOTE: The old values MUST be based on the formatted values, not the original.
           unmatchedBet = unmatchedBet
                            .set('updated', false)

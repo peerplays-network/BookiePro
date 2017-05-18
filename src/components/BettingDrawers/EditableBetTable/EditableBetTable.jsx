@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Icon, Table } from 'antd';
 import Immutable from 'immutable';
 import CurrencyUtils from '../../../utility/CurrencyUtils';
+import { incrementOdds, decrementOdds, adjustOdds } from './oddsIncrementUtils';
 
 const renderTeam = (text, record) => (
   <div>
@@ -36,7 +37,10 @@ const renderInput = (field, action, currencyFormat) => {
           (event) => {
             // Assume values have been vented already in onChange
             const floatNumber = parseFloat(event.target.value);
-            const value = CurrencyUtils.getFormattedField(field, floatNumber, currencyFormat);
+            if (isNaN(floatNumber)) return false; // fail fast if the value is undefined or bad
+
+            let value = CurrencyUtils.formatByCurrencyAndPrecision(field, floatNumber, currencyFormat);
+            if (field === 'odds') value = adjustOdds(value, record.bet_type);
             const delta = Immutable.Map()
               .set('id', record.id)
               .set('field', field)
@@ -49,13 +53,26 @@ const renderInput = (field, action, currencyFormat) => {
   }
 }
 
-const renderInputWithControl = (field, action, currencyFormat) => {
+const clickArrowButton = (record, action, updateOdds) => {
+  const odds = record.odds;
+  if (!odds) return;
+  // REVIEW the odds value is adjusted first because the dummy data may contain
+  //        incorrect odds values that could never happen in the real Blockchain
+  const newOdds = updateOdds(adjustOdds(odds, record.bet_type));
+  const delta = Immutable.Map()
+    .set('id', record.id)
+    .set('field', 'odds')
+    .set('value', newOdds);
+  action(delta);
+}
+
+const renderOdds = (action, currencyFormat) => {
   return (text, record) => {
     return (
       <div className='pos-rel'>
-        { renderInput(field, action, currencyFormat)(text, record) }
-        <a className='arrow-icon-main icon-up' onClick={ () => {} }><i className='icon-arrow icon-up-arrow'></i></a>
-        <a className='arrow-icon-main icon-down' onClick={ () => {} }><i className='icon-arrow icon-down-arrow'></i></a>
+        { renderInput('odds', action, currencyFormat)(text, record) }
+        <a className='arrow-icon-main icon-up' onClick={ () => clickArrowButton(record, action, incrementOdds) }><i className='icon-arrow icon-up-arrow'></i></a>
+        <a className='arrow-icon-main icon-down' onClick={ () => clickArrowButton(record, action, decrementOdds) }><i className='icon-arrow icon-down-arrow'></i></a>
       </div>
     );
   }
@@ -85,7 +102,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat) => {
       key: 'odds',
       width: '23%',
       className: 'numeric',
-      render: renderInputWithControl('odds', updateOne, currencyFormat),
+      render: renderOdds(updateOne, currencyFormat),
     }, {
       title: `STAKE(${currencySymbol})`,
       dataIndex: 'stake',
@@ -125,7 +142,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat) => {
       key: 'odds',
       width: '23%',
       className: 'numeric',
-      render: renderInputWithControl('odds', updateOne, currencyFormat),
+      render: renderOdds(updateOne, currencyFormat),
     }, {
       title: `BACKER'S STAKE(${currencySymbol})`,
       dataIndex: 'stake',
@@ -155,7 +172,7 @@ const buildBetTableData = (bets, currencyFormat) => {
   const formatting = (field, value) => {
     const floatNumber = parseFloat(value);
     return isNaN(floatNumber) ? value :
-      CurrencyUtils.getFormattedField(field, floatNumber, currencyFormat);
+      CurrencyUtils.formatByCurrencyAndPrecision(field, floatNumber, currencyFormat);
   }
   return bets.map((bet, idx) => {
     // TODO: change hard-coded market type
