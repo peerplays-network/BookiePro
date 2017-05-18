@@ -87,9 +87,45 @@ div.search-menu{
     border-top:0 none;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
-    box-shadow: @card_shadow;
-    opacity: 1;
+    // box-shadow: @card_shadow;
+    // opacity: 1;
   }
+
+
+  //scrollbar
+  .Select-menu::-webkit-scrollbar {
+    right: 0; /* there must be 'right' for ps-scrollbar-y */
+    width: 6px; /* vertical scrollbar width */
+  }
+  .Select-menu::-webkit-scrollbar-track {
+    display: none;
+    position: absolute;
+    /* please don't change 'position' */
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+
+    -webkit-transition: background-color .2s linear, opacity .2s linear;
+    transition: background-color .2s linear, opacity .2s linear;
+  }
+  .Select-menu::-webkit-scrollbar-thumb {
+    position: absolute;  /* please don't change 'position' */
+    background-color: @scroller_bg;
+    -webkit-border-radius: 12px;
+    border-radius: 12px;
+    -webkit-transition: background-color .2s linear;
+    transition: background-color .2s linear;
+  }
+  .Select-menu:hover::-webkit-scrollbar-thumb {
+    position: absolute;  /* please don't change 'position' */
+    background-color: @scroller_bg;
+    -webkit-border-radius: 12px;
+    border-radius: 12px;
+    -webkit-transition: background-color .2s linear;
+    transition: background-color .2s linear;
+  }
+
+
+
   &.is-focused{
     background-color: @topbar_more_menu_active;
   }
@@ -186,10 +222,3 @@ div.search-menu{
 .is-focused:not(.is-open) > .Select-control{
   box-shadow: none;
 }
-
-
-
-
-
-
-
