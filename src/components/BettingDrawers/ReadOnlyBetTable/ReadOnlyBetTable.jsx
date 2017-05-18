@@ -6,7 +6,7 @@ import CurrencyUtils from '../../../utility/CurrencyUtils';
 const renderTeam = (text, record) => (
   <div>
     <div className='team'>{ record.team }</div>
-    <div className='market_type'>{ record.market_type }</div>
+    <div className='market_type'>{ record.market_type_value }</div>
   </div>
 );
 

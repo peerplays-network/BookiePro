@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import Immutable from 'immutable';
+import { I18n } from 'react-redux-i18n';
+import { StringUtils } from '../utility';
 
 const groupMoneyLineBinnedOrderBooks = (event, bettingMarketGroups, binnedOrderBooksByBettingMarketId) => {
   // Get the Moneyline betting market group
@@ -27,6 +29,33 @@ const groupMoneyLineBinnedOrderBooks = (event, bettingMarketGroups, binnedOrderB
   return groupedBinnedOrderBooks;
 }
 
+const resolveMarketType = (bettingMarketGroup, bettingMarketId) => {
+  const isHomeTeam = bettingMarketGroup.get('betting_market_ids').keyOf(bettingMarketId) === 0;
+  const marketTypeId = bettingMarketGroup.get('market_type_id');
+
+  let result = Immutable.Map().set('market_type_id', marketTypeId);
+
+  if ( marketTypeId === 'Spread') {
+    const margin = bettingMarketGroup.getIn(['options', 'margin']);
+    result = result.set('market_type_value',
+                          StringUtils.formatSignedNumber(isHomeTeam ? margin : margin*-1));
+  }
+
+  if (marketTypeId === 'OverUnder') {
+    const score = bettingMarketGroup.getIn(['options', 'score']);
+    result = result.set('market_type_value', isHomeTeam ?
+                          I18n.t('bettingMarketGroup.over') + score :
+                          I18n.t('bettingMarketGroup.under') + score);
+  }
+
+  if (marketTypeId === 'Moneyline') {
+    return result.set('market_type_value', marketTypeId);
+  }
+
+  return result;
+}
+
 export {
-  groupMoneyLineBinnedOrderBooks
+  groupMoneyLineBinnedOrderBooks,
+  resolveMarketType,
 };

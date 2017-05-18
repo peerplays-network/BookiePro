@@ -2,6 +2,7 @@ import { ActionTypes } from '../constants';
 import Immutable from 'immutable';
 import moment from 'moment';
 import BetActions from './BetActions';
+import { resolveMarketType } from './dataUtils';
 
 class MarketDrawerPrivateActions {
   static addUnconfirmedBet(bet) {
@@ -176,7 +177,12 @@ class MarketDrawerActions {
       dispatch(BetActions.getOngoingBets()).then(bets => {
         const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
         const bettingMarketIds= bettingMarketGroup.get('betting_market_ids');
-        const placedBets = bets.filter(bet => bettingMarketIds.includes(bet.get('betting_market_id')));
+        const placedBets = bets.filter(bet => bettingMarketIds.includes(bet.get('betting_market_id')))
+                               .map(bet => {
+                                 const result = resolveMarketType(bettingMarketGroup, bet.get('betting_market_id'));
+                                 return bet.set('market_type_id', result.get('market_type_id'))
+                                           .set('market_type_value', result.get('market_type_value'));
+                               });
         const account = getState().get('account');
         const accountId = account.getIn(['account','id']);
         const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting'])
