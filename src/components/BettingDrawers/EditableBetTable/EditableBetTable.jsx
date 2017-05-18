@@ -3,8 +3,6 @@ import { Button, Icon, Table } from 'antd';
 import Immutable from 'immutable';
 import CurrencyUtils from '../../../utility/CurrencyUtils';
 
-// TODO: Check BetFair to see how Over/Under should be displayed
-// TODO: We need custom logic for each of the market type
 const renderTeam = (text, record) => (
   <div>
     <div className='team'>{ record.team }</div>
