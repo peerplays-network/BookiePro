@@ -126,12 +126,15 @@
   opacity: 1;
 }
 
-//gloable setting
-.ant-layout::-webkit-scrollbar {
+
+
+
+//global scrollbar
+::-webkit-scrollbar {
   right: 0; /* there must be 'right' for ps-scrollbar-y */
   width: 6px; /* vertical scrollbar width */
 }
-.ant-layout::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   display: none;
   position: absolute;
   /* please don't change 'position' */
@@ -141,7 +144,7 @@
   -webkit-transition: background-color .2s linear, opacity .2s linear;
   transition: background-color .2s linear, opacity .2s linear;
 }
-.ant-layout::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   position: absolute;  /* please don't change 'position' */
   background-color: @scroller_bg;
   -webkit-border-radius: 12px;
@@ -149,7 +152,7 @@
   -webkit-transition: background-color .2s linear;
   transition: background-color .2s linear;
 }
-.ant-layout:hover::-webkit-scrollbar-thumb {
+:hover::-webkit-scrollbar-thumb {
   position: absolute;  /* please don't change 'position' */
   background-color: @scroller_bg;
   -webkit-border-radius: 12px;
@@ -157,6 +160,7 @@
   -webkit-transition: background-color .2s linear;
   transition: background-color .2s linear;
 }
+
 
 html {
   height: 100%;
