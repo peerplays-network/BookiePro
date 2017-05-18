@@ -89,7 +89,7 @@ class MyAccount extends PureComponent {
   }*/
 
   componentDidMount() {
-    // Ps.initialize(ReactDOM.findDOMNode(this.refs.global));
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
     this.searchTransactionHistory();
     // this.fetchRecentTransactionHistory();
     //ps.initialize(this.refs.global);
@@ -100,7 +100,7 @@ class MyAccount extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState){
-    // Ps.update(ReactDOM.findDOMNode(this.refs.global));
+    Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
   }
 
   //Disable out of range dates for 'From Date'
