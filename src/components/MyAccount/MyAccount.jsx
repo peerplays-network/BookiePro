@@ -18,12 +18,14 @@ import { CommunicationService } from '../../services';
 import ps from 'perfect-scrollbar';
 import 'perfect-scrollbar';
 import Deposit from './Deposit';
-import Withdraw from './Withdraw';
+//import Withdraw from './Withdraw';
+import { MyAccountWithdraw } from '../Withdraw';
 import moment from 'moment';
 import { SettingActions, BalanceActions, NavigateActions, HistoryActions } from '../../actions';
 import { LoadingStatus } from '../../constants';
 import { saveAs } from '../../utility/fileSaver.js';
 import { BettingModuleUtils, CurrencyUtils } from '../../utility';
+
 
 const Option = Select.Option;
 
@@ -409,7 +411,7 @@ class MyAccount extends PureComponent {
             <Deposit cardClass='bookie-card depositCardComponent' depositAddress={ this.props.depositAddress }/>
           </Col>
           <Col span={ 8 }>
-            <Withdraw cardClass='bookie-card withdrawComponent'
+            <MyAccountWithdraw cardClass='bookie-card withdrawComponent'
               currencyFormat={ this.props.currencyFormat }
               precision={ this.props.precision }
               availableBalance={ this.props.availableBalance }
@@ -417,6 +419,7 @@ class MyAccount extends PureComponent {
               withdrawLoadingStatus={ this.props.withdrawLoadingStatus }
               withdrawAmount={ this.state.withdrawAmount }
               convertedAvailableBalance={ this.props.convertedAvailableBalance }
+              resetWithdrawLoadingStatus={ this.props.resetWithdrawLoadingStatus }
               />
           </Col>
           <Col span={ 8 }>
@@ -536,6 +539,7 @@ function mapDispatchToProps(dispatch) {
     getDepositAddress: BalanceActions.getDepositAddress,
     redirectToChangePwd: SettingActions.redirectToChangePwd,
     withdraw: BalanceActions.withdraw,
+    resetWithdrawLoadingStatus: BalanceActions.resetWithdrawLoadingStatus,
     navigateTo: NavigateActions.navigateTo,
   }, dispatch)
 }
