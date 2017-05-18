@@ -65,6 +65,8 @@ class QuickBetDrawerActions {
         team,
         bet_type,
         betting_market_id,
+        market_type_id: 'Moneyline',      // QuickBetDrawer only handles Moneyline
+        market_type_value: 'Moneyline',   // Moneyline does not require extra option
         odds,
         id: parseInt(moment().format('x'), 10)  // unix millisecond timestamp
       });

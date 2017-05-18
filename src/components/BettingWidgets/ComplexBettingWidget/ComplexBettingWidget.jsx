@@ -148,8 +148,10 @@ class ComplexBettingWidget extends Component {
     // Only need the odds value
     const odds = offer && offer.get('odds');
     const bettingMarketId = rowInfo.row.offer.bettingMarketId;
-    this.props.createBet(competitor, betType, bettingMarketId, odds,
-      { marketTypeId: rowInfo.rowValues.firstColumn.marketTypeId, marketTypeValue: rowInfo.rowValues.firstColumn.marketTypeValue}  );
+    this.props.createBet(competitor, betType, bettingMarketId,
+                         rowInfo.rowValues.firstColumn.marketTypeId,
+                         rowInfo.rowValues.firstColumn.marketTypeValue,
+                         odds);
   }
 
   placeAllBestBets(event) {
@@ -162,8 +164,8 @@ class ComplexBettingWidget extends Component {
       const odds = offer && offer.get('odds');
       const bettingMarketId = row.getIn( ['offer', 'bettingMarketId'])
 
-      this.props.createBet(competitor, betType, bettingMarketId, odds,
-        { marketTypeId: row.get('marketTypeId'), marketTypeValue: row.get('marketTypeValue')});
+      this.props.createBet(competitor, betType, bettingMarketId, row.get('marketTypeId'),
+                           row.get('marketTypeValue'), odds);
     });
 
 

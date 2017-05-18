@@ -71,7 +71,8 @@ const createMarketData = (bettingMarkets, binnedOrderBooksByBettingMarketId,
 
     const marketTypeId = bettingMarketGroup.get('market_type_id');
 
-    //using payout_condition_string in case of data integrity issue
+    // TODO: REMOVE this once we have the real Blockchain
+    // Using payout_condition_string as PLACEHOLDER in case of (dummy) data integrity issue
     let data = Immutable.Map().set('displayName', bettingMarket.get('payout_condition_string'))
       .set('name', bettingMarket.get('payout_condition_string'))
       .set('marketTypeId', marketTypeId)
@@ -84,13 +85,15 @@ const createMarketData = (bettingMarkets, binnedOrderBooksByBettingMarketId,
 
       const margin = bettingMarketGroup.getIn(['options', 'margin']);
       if ( i === homeId ){
-        data = data.set('displayedName', homeSelection + StringUtils.formatSignedNumber(margin) )
+        const signedMargin = StringUtils.formatSignedNumber(margin);
+        data = data.set('displayedName', homeSelection + signedMargin )
           .set('name', homeSelection)
-          .set('marketTypeValue', margin);
+          .set('marketTypeValue', signedMargin);
       } else if ( i === awayId ){
-        data = data.set('displayedName', awaySelection + StringUtils.formatSignedNumber(margin*-1))
+        const signedMargin = StringUtils.formatSignedNumber(margin*-1);
+        data = data.set('displayedName', awaySelection + signedMargin)
           .set('name', awaySelection)
-          .set('marketTypeValue', margin);
+          .set('marketTypeValue', signedMargin);
       }
 
     } else if ( marketTypeId === 'OverUnder'){
@@ -99,20 +102,21 @@ const createMarketData = (bettingMarkets, binnedOrderBooksByBettingMarketId,
       if ( i === 0 ){
         data = data.set('displayedName', I18n.t('bettingMarketGroup.over') + score )
           .set('name', homeSelection)
-          .set('marketTypeValue', score);
+          .set('marketTypeValue', I18n.t('bettingMarketGroup.over') + score);
       } else if ( i === 1 ){
         data = data.set('displayedName', I18n.t('bettingMarketGroup.under') + score )
           .set('name', awaySelection)
-          .set('marketTypeValue', score);
+          .set('marketTypeValue', I18n.t('bettingMarketGroup.under') + score );
       }
 
     } else if ( marketTypeId === 'Moneyline'){
+      data = data.set('marketTypeValue', marketTypeId); // Moneyline has no extra option 
       if ( i === homeId && homeName ){
         data = data.set('displayedName', homeSelection )
           .set('name', homeSelection);
       } else if ( i === awayId && awayName ){
         data = data.set('displayedName', awaySelection )
-          .set('name', awaySelection)
+          .set('name', awaySelection);
       }
 
     }

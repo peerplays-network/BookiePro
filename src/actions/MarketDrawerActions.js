@@ -119,12 +119,14 @@ class MarketDrawerPrivateActions {
 }
 
 class MarketDrawerActions {
-  static createBet(team, bet_type, betting_market_id, odds = '') {
+  static createBet(team, bet_type, betting_market_id, market_type_id, market_type_value, odds = '') {
     return (dispatch) => {
       const bet = Immutable.fromJS({
         team,
         bet_type,
         betting_market_id,
+        market_type_id,
+        market_type_value,
         odds,
         id: parseInt(moment().format('x'), 10)  // unix millisecond timestamp
       });
