@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
+import { TimeRangePeriodTypes } from '../constants';
 
 const days = [I18n.t('mybets.sun'), I18n.t('mybets.mon'),I18n.t('mybets.tue'), I18n.t('mybets.wed'),
   I18n.t('mybets.thu'),I18n.t('mybets.fri'),I18n.t('mybets.sat')];
@@ -18,6 +19,48 @@ const DateUtils = {
       return moment(new Date(dateToFormat)).format("MM-DD-YYYY HH:mm");
     }
   },
+  getTimeRangeGivenTimeRangePeriodType(timeRangePeriodType) {
+    let startDate, endDate = null;
+    switch (timeRangePeriodType) {
+      case TimeRangePeriodTypes.LAST_7_DAYS: {
+        //Subtract 6 days from the current day
+        startDate = moment().subtract(6, 'days');
+        endDate = moment();
+        break;
+      }
+      case TimeRangePeriodTypes.LAST_14_DAYS: {
+        //Subtract 14 days from the current day
+        startDate = moment().subtract(13, 'days');
+        endDate = moment();
+        break;
+      }
+      case TimeRangePeriodTypes.THIS_MONTH: {
+        //First of the current month, 12:00 am
+        startDate = moment().startOf('month');
+        endDate = moment();
+        break;
+      }
+      case TimeRangePeriodTypes.LAST_MONTH: {
+        //Last month's 1st day
+        startDate = moment().subtract(1, 'months').startOf('month');
+        //Last month's last day
+        endDate = moment().subtract(1, 'months').endOf('month');
+        break;
+      }
+      case TimeRangePeriodTypes.CUSTOM: {
+        startDate = null;
+        endDate = null;
+        break;
+      }
+      default:
+        break;
+    }
+    const timeRange = {
+      startDate,
+      endDate
+    };
+    return timeRange;
+  }
 
 }
 

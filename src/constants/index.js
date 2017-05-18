@@ -7,6 +7,7 @@ import ObjectPrefix from './ObjectPrefix';
 import BetTypes from './BetTypes';
 import CurrencyTypes from './CurrencyTypes';
 import TimeRangePeriodTypes from './TimeRangePeriodTypes';
+import DummyOperationTypes from './DummyOperationTypes';
 
 export {
   Config,
@@ -17,5 +18,6 @@ export {
   NotificationTypes,
   CurrencyTypes,
   TimeRangePeriodTypes,
+  DummyOperationTypes,
   ObjectPrefix
 }

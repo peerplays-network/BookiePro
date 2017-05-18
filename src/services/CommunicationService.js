@@ -343,7 +343,7 @@ class CommunicationService {
         const blockchainGlobalProperty = result.get(1);
         const coreAsset = result.get(2);
         const now = new Date().getTime();
-        const headTime = blockchainTimeStringToDate(blockchainDynamicGlobalProperty.get('time')).getTime();
+        const headTime = blockchainTimeStringToDate(blockchainDynamicGlobalProperty.get('time')).valueOf();
         const delta = (now - headTime)/1000;
         // Continue only if delta of computer current time and the blockchain time is less than a minute
         if (delta < 60) {

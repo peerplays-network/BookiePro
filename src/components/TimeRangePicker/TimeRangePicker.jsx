@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { Select, DatePicker } from 'antd';
 import { TimeRangePeriodTypes } from '../../constants';
 const Option = Select.Option;
@@ -11,11 +10,12 @@ class TimeRangePicker extends PureComponent {
     super(props);
     this.state = {
       periodType: TimeRangePeriodTypes.LAST_7_DAYS,
-      startDate: moment().subtract(6, 'days'),
-      endDate: moment(),
+      customTimeRangeStartDate: null,
+      customTimeRangeEndDate: null,
     }
     this.onChange = this.onChange.bind(this);
     this.onSearchClick = this.onSearchClick.bind(this);
+    this.onExportClick = this.onExportClick.bind(this);
     this.renderCustomTimeRangePicker = this.renderCustomTimeRangePicker.bind(this);
     this.onCustomTimeRangePickerStartDateChange = this.onCustomTimeRangePickerStartDateChange.bind(this);
     this.onCustomTimeRangePickerEndDateChange = this.onCustomTimeRangePickerEndDateChange.bind(this);
@@ -23,58 +23,31 @@ class TimeRangePicker extends PureComponent {
 
   onSearchClick(e) {
     e.preventDefault();
-    this.props.onSearchClick(this.state.periodType, this.state.startDate, this.state.endDate);
+    this.props.onSearchClick(this.state.periodType, this.state.customTimeRangeStartDate, this.state.customTimeRangeEndDate);
+  }
+
+  onExportClick(e) {
+    e.preventDefault();
+    this.props.onExportClick(this.state.periodType, this.state.customTimeRangeStartDate, this.state.customTimeRangeEndDate);
   }
 
 
-  onCustomTimeRangePickerStartDateChange(startDate) {
-    this.setState({ startDate });
-    this.props.onPeriodChange(this.state.periodType, startDate, this.state.endDate);
+  onCustomTimeRangePickerStartDateChange(customTimeRangeStartDate) {
+    this.setState({ customTimeRangeStartDate });
+    // Call callback
+    this.props.onPeriodChange(this.state.periodType, customTimeRangeStartDate, this.state.customTimeRangeEndDate);
   }
 
-  onCustomTimeRangePickerEndDateChange(endDate) {
-    this.setState({ endDate });
-    this.props.onPeriodChange(this.state.periodType, this.state.startDate, endDate);
+  onCustomTimeRangePickerEndDateChange(customTimeRangeEndDate) {
+    this.setState({ customTimeRangeEndDate });
+    // Call callback
+    this.props.onPeriodChange(this.state.periodType, this.state.customTimeRangeStartDate, customTimeRangeEndDate);
   }
 
   onChange(periodType) {
-    let startDate, endDate;
-    switch(periodType){
-      case TimeRangePeriodTypes.LAST_7_DAYS: {
-        //Subtract 6 days from the current day
-        startDate = moment().subtract(6, 'days');
-        endDate = moment();
-        break;
-      }
-      case TimeRangePeriodTypes.LAST_14_DAYS: {
-        //Subtract 14 days from the current day
-        startDate = moment().subtract(13, 'days');
-        endDate = moment();
-        break;
-      }
-      case TimeRangePeriodTypes.THIS_MONTH: {
-        //First of the current month, 12:00 am
-        startDate = moment().startOf('month');
-        endDate = moment();
-        break;
-      }
-      case TimeRangePeriodTypes.LAST_MONTH: {
-        //Last month's 1st day
-        startDate = moment().subtract(1, 'months').startOf('month');
-        //Last month's last day
-        endDate = moment().subtract(1, 'months').endOf('month');
-        break;
-      }
-      case TimeRangePeriodTypes.CUSTOM: {
-        startDate = null;
-        endDate = null;
-        break;
-      }
-      default: break;
-    }
-    this.setState({ periodType, startDate, endDate });
+    this.setState({ periodType, customTimeRangeStartDate: null, endDate: null });
     // Call callback
-    this.props.onPeriodChange(periodType, startDate, endDate);
+    this.props.onPeriodChange(periodType, null, null);
   }
 
   renderCustomTimeRangePicker() {
@@ -82,7 +55,7 @@ class TimeRangePicker extends PureComponent {
     if (this.state.periodType === TimeRangePeriodTypes.CUSTOM) {
       //Disable out of range dates for 'From Date'
       const disabledStartDate = (date) => {
-        const endDate = this.state.endDate;
+        const endDate = this.state.customTimeRangeEndDate;
         if (!date || !endDate) {
           return false;
         }
@@ -91,7 +64,7 @@ class TimeRangePicker extends PureComponent {
 
       //Disable out of range dates for 'To Date'
       const disabledEndDate = (date) => {
-        const startDate = this.state.startDate;
+        const startDate = this.state.customTimeRangeStartDate;
         if (!date || !startDate) {
           return false;
         }
@@ -120,25 +93,40 @@ class TimeRangePicker extends PureComponent {
   }
 
   render() {
-    const disableSearchAndExportButtons = (this.state.periodType === TimeRangePeriodTypes.CUSTOM) && (!this.state.startDate|| !this.state.endDate);
+    const disableButton = (this.state.periodType === TimeRangePeriodTypes.CUSTOM)
+                            && (!this.state.customTimeRangeStartDate|| !this.state.customTimeRangeEndDate);
     return (
-        <div className='ant-form-item' style={ { marginRight: '0px' } } >
-          <div className='ant-form-item'>
-            <label>{ I18n.t('application.period') }</label>
-            <Select className='bookie-select' defaultValue={ TimeRangePeriodTypes.LAST_7_DAYS } onChange={ this.onChange }>
-              <Option value={ TimeRangePeriodTypes.LAST_7_DAYS }>{ I18n.t('application.last_7_Days') }</Option>
-              <Option value={ TimeRangePeriodTypes.LAST_14_DAYS }>{ I18n.t('application.last_14_Days') }</Option>
-              <Option value={ TimeRangePeriodTypes.THIS_MONTH }>{ I18n.t('application.this_Month') }</Option>
-              <Option value={ TimeRangePeriodTypes.LAST_MONTH }>{ I18n.t('application.last_Month') }</Option>
-              <Option value={ TimeRangePeriodTypes.CUSTOM }>{ I18n.t('application.custom') }</Option>
-            </Select>
+      <div className='filter'>
+        <div className='ant-form-inline'>
+          <div className='ant-form-item' >
+            <div className='ant-form-item'>
+              <label>{ I18n.t('application.period') }</label>
+              <Select className='bookie-select' defaultValue={ TimeRangePeriodTypes.LAST_7_DAYS } onChange={ this.onChange }>
+                <Option value={ TimeRangePeriodTypes.LAST_7_DAYS }>{ I18n.t('application.last_7_Days') }</Option>
+                <Option value={ TimeRangePeriodTypes.LAST_14_DAYS }>{ I18n.t('application.last_14_Days') }</Option>
+                <Option value={ TimeRangePeriodTypes.THIS_MONTH }>{ I18n.t('application.this_Month') }</Option>
+                <Option value={ TimeRangePeriodTypes.LAST_MONTH }>{ I18n.t('application.last_Month') }</Option>
+                <Option value={ TimeRangePeriodTypes.CUSTOM }>{ I18n.t('application.custom') }</Option>
+              </Select>
+            </div>
+            { this.renderCustomTimeRangePicker() }
+            <div className='ant-form-item'>
+              <button
+                className={ 'btn ' + (disableButton ? 'btn-regular-disabled':' btn-regular') }
+                disabled={ disableButton }
+                onClick={ this.onSearchClick }>
+                { I18n.t('application.search') }
+              </button>
+              <button
+                className={ 'btn ' + (disableButton ? 'btn-regular-disabled':' btn-regular') + ' margin-left-10' }
+                onClick={ this.onExportClick }>
+                { I18n.t('application.export') }
+              </button>
+            </div>
           </div>
-          { this.renderCustomTimeRangePicker() }
-          <button
-            className={ 'btn ' + (disableSearchAndExportButtons ? 'btn-regular-disabled':' btn-regular') }
-            disabled={ disableSearchAndExportButtons }
-            onClick={ this.onSearchClick }>{ I18n.t('application.search') }</button>
+        </div>
       </div>
+
 
     )
   }
@@ -146,11 +134,13 @@ class TimeRangePicker extends PureComponent {
 
 TimeRangePicker.propTypes = {
   onSearchClick: PropTypes.func,
+  onExportClick: PropTypes.func,
   onPeriodChange: PropTypes.func,
 }
 
 TimeRangePicker.defaultProps = {
   onSearchClick: () => {},
+  onExportClick: () => {},
   onPeriodChange: () => {},
 }
 

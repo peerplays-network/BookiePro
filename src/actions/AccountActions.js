@@ -1,5 +1,5 @@
 import { ActionTypes } from '../constants';
-import { BlockchainUtils } from '../utility';
+import { BlockchainUtils, FileSaverUtils } from '../utility';
 import { WalletService, CommunicationService } from '../services';
 import { TransactionBuilder } from 'graphenejs-lib';
 import HistoryActions from './HistoryActions';
@@ -20,6 +20,16 @@ class AccountPrivateActions {
  * Public actions
  */
 class AccountActions {
+  static downloadPassword() {
+    return (dispatch, getState) => {
+      const password = getState().getIn(['account', 'password']);
+      let blob = new Blob([ password ], {
+        type: 'text/plain'
+      });
+      FileSaverUtils.saveAs(blob, 'account-recovery-file.txt');
+    }
+  }
+  
   static setIsLoggedInAction(isLoggedIn) {
     return {
       type: ActionTypes.ACCOUNT_SET_IS_LOGGED_IN,

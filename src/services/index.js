@@ -4,6 +4,7 @@ import NotificationService from './NotificationService';
 import WalletService from './WalletService';
 import ConnectionService from './ConnectionService';
 import CommunicationService from './CommunicationService';
+import HistoryService from './HistoryService';
 
 export {
   KeyGeneratorService,
@@ -11,5 +12,6 @@ export {
   NotificationService,
   WalletService,
   ConnectionService,
-  CommunicationService
+  CommunicationService,
+  HistoryService
 }

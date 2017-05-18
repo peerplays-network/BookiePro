@@ -1,6 +1,7 @@
 import { ActionTypes, LoadingStatus, ObjectPrefix } from '../constants';
 import {  CommunicationService } from '../services';
 import NotificationActions from './NotificationActions';
+import MyAccountPageActions from './MyAccountPageActions';
 import log from 'loglevel';
 import _ from 'lodash';
 
@@ -111,9 +112,10 @@ class HistoryActions {
           // TODO: remove dummy history later, prepend the dummy history before the original history (since it is supposed to appear at the end)
           const dummyAdditionalTransactions = CommunicationService.fetchDummyTransactionHistorySynchronously(accountId);
           dispatch(HistoryPrivateActions.prependTransactionsToTheHistoryAction(accountId, dummyAdditionalTransactions));
-
           // Prepend transaction history
           dispatch(HistoryPrivateActions.prependTransactionsToTheHistoryAction(accountId, transactions));
+          // Init transaction history
+          dispatch(MyAccountPageActions.initTransactionHistory());
           // Set loading status
           dispatch(HistoryPrivateActions.setInitTransactionHistoryLoadingStatusAction(LoadingStatus.DONE));
           log.debug('Init transaction history succeed.');
@@ -144,6 +146,8 @@ class HistoryActions {
           dispatch(HistoryPrivateActions.prependTransactionsToTheHistoryAction(accountId, transactions));
           // Set loading status
           dispatch(HistoryPrivateActions.setCheckForNewTransactionHistoryLoadingStatusAction(LoadingStatus.DONE));
+          // Update transaction history
+          dispatch(MyAccountPageActions.updateTransactionHistory(transactions));
           // Update notification
           dispatch(NotificationActions.updateNotifications(transactions));
           log.debug('Check for new transaction history succeed.');

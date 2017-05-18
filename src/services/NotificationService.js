@@ -1,15 +1,10 @@
 import _ from 'lodash';
 import Immutable from 'immutable';
 import { BlockchainUtils } from '../utility';
-import { NotificationTypes } from '../constants';
+import { NotificationTypes, DummyOperationTypes } from '../constants';
 const { calcBlockTime } = BlockchainUtils;
 import { I18n } from 'react-redux-i18n';
 import { ChainTypes } from 'graphenejs-lib';
-
-// TODO: dummy operation types, replace with valid operation type from ChainTypes graphenejs-lib later
-const dummyOperationType = {
-  betting_market_resolved: 10001,
-}
 
 class NotificationService {
   // Use this to generate notification id
@@ -30,7 +25,7 @@ class NotificationService {
         // Extract asset Id
         const assetId = operationContent.getIn(['amount', 'asset_id']);
         relevantAssetIds = relevantAssetIds.add(assetId);
-      } else if (operationType === dummyOperationType.betting_market_resolved) {
+      } else if (operationType === DummyOperationTypes.BETTING_MARKET_RESOLVED) {
         // Extract betting market Id
         const bettingMarketId = operationContent.get('betting_market_id');
         relevantBettingMarketIds = relevantBettingMarketIds.add(bettingMarketId);
@@ -89,7 +84,7 @@ class NotificationService {
           }
           break;
         }
-        case dummyOperationType.betting_market_resolved: {
+        case DummyOperationTypes.BETTING_MARKET_RESOLVED: {
           const type = NotificationTypes.BET_RESOLVED;
           const content = I18n.t('notification.bet_resolved');
           // Mark as read if notification card is shown
