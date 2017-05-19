@@ -743,30 +743,6 @@ class CommunicationService {
     });
   }
 
-  /**
-   * Get transaction history of an account given time range
-   */
-  static getTransactionHistoryGivenTimeRange(accountId, startDate, endDate) {
-    // TODO: Replace later
-    return new Promise((resolve, reject) => {
-      if(startDate !== undefined && endDate !== undefined){
-        const filteredHistory =  _.filter(dummyData.transactionHistory, (hist) => {
-          return (hist.time >= startDate && hist.time <= endDate)
-        });
-        resolve(Immutable.fromJS(_.orderBy(filteredHistory,
-          function(value) {
-            return (value.time +''
-          )}, 'desc'
-        )));
-      }
-      resolve(Immutable.fromJS(_.orderBy(dummyData.transactionHistory,
-        function(value) {
-          return (value.time +''
-        )}, 'desc'
-      )));
-    });
-
-  }
 
 
 
