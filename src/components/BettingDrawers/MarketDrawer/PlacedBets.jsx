@@ -26,6 +26,22 @@ const renderOverlay = (props, className, transactionFee=0) => (
   </div>
 )
 
+const renderDeleteBetsOverlay = (props) => (
+  <div className='overlay'>
+    <div className='instructions'>
+      <Translate value={ `market_drawer.unmatched_bets.delete_bets.instructions` } dangerousHTML/>
+    </div>
+    <div className='buttons'>
+      <Button className='btn btn-cancel' onClick={ props.cancelDeleteUnmatchedBets }>
+        { I18n.t(`market_drawer.unmatched_bets.delete_bets.cancel_button`) }
+      </Button>
+      <Button className='btn btn-regular' onClick={ () => props.deleteUnmatchedBets(props.unmatchedbetsToBeDeleted) }>
+        { I18n.t(`market_drawer.unmatched_bets.delete_bets.confirm_button`) }
+      </Button>
+    </div>
+  </div>
+)
+
 class PlacedBets extends PureComponent {
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.placedBets));
@@ -71,6 +87,7 @@ class PlacedBets extends PureComponent {
         </div>
         { this.props.showPlacedBetsConfirmation && renderOverlay(this.props, 'confirmation', 0.051) }
         { this.props.showPlacedBetsError && renderOverlay(this.props, 'error') }
+        { this.props.showDeleteUnmatchedBetsConfirmation && renderDeleteBetsOverlay(this.props) }
         { // TODO: Replace this with an approved spinning icon.
           // The waiting text is just a placeholder
           this.props.showPlacedBetsWaiting &&
@@ -92,6 +109,7 @@ const mapStateToProps = (state) => {
   const showPlacedBetsSuccess = state.getIn(['marketDrawer', 'showPlacedBetsSuccess']);
   const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);
   const showPlacedBetsError = state.getIn(['marketDrawer', 'showPlacedBetsError']);
+  const showDeleteUnmatchedBetsConfirmation = state.getIn(['marketDrawer', 'showDeleteUnmatchedBetsConfirmation']);
   return {
     unmatchedBets,
     isEmpty: unmatchedBets.isEmpty() && matchedBets.isEmpty(),
@@ -99,6 +117,8 @@ const mapStateToProps = (state) => {
     showPlacedBetsSuccess,
     showPlacedBetsWaiting,
     showPlacedBetsError,
+    showDeleteUnmatchedBetsConfirmation,
+    unmatchedbetsToBeDeleted: state.getIn(['marketDrawer', 'unmatchedbetsToBeDeleted']),
   }
 }
 
@@ -108,6 +128,8 @@ const mapDispatchToProps = (dispatch) => {
     getPlacedBets: MarketDrawerActions.getPlacedBets,
     cancelUpdateBet: MarketDrawerActions.cancelUpdateBet,
     editBets: BetActions.editBets,
+    deleteUnmatchedBets: MarketDrawerActions.deleteUnmatchedBets,
+    cancelDeleteUnmatchedBets: MarketDrawerActions.cancelDeleteUnmatchedBets,
   }, dispatch);
 }
 

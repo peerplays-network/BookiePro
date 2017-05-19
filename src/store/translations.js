@@ -306,7 +306,12 @@ export const translationsObject = {
         content: {
           update_button: 'UPDATE \u0243%{amount}',
           reset_button: 'RESET',
-        }
+        },
+        delete_bets: {
+          instructions: 'Are you sure you want to<br/>cancel all unmatched bets?',
+          cancel_button: 'NO',
+          confirm_button: 'YES',
+        },
       },
       matched_bets: {
         header: 'MATCHED BETS',

@@ -17,7 +17,7 @@ class UnmatchedBets extends PureComponent {
           data={ this.props.bets }
           title={ I18n.t('market_drawer.unmatched_bets.header') }
           deleteOne={ this.props.deleteUnmatchedBet }
-          deleteMany={ this.props.deleteUnmatchedBets }
+          deleteMany={ this.props.clickDeleteUnmatchedBets }
           updateOne={ this.props.updateUnmatcedBet }
           dimmed={ this.props.obscureContent }
           currencyFormat={ this.props.currencyFormat }
@@ -77,13 +77,14 @@ const mapStateToProps = (state, ownProps) => {
   const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);
   const showPlacedBetsError = state.getIn(['marketDrawer', 'showPlacedBetsError']);
   const showPlacedBetsSuccess = state.getIn(['marketDrawer', 'showPlacedBetsSuccess']);
+  const showDeleteUnmatchedBetsConfirmation = state.getIn(['marketDrawer', 'showDeleteUnmatchedBetsConfirmation']);
   return {
     bets: page,
     showPlacedBetsConfirmation,
     showPlacedBetsWaiting,
     showPlacedBetsError,
     showPlacedBetsSuccess,
-    obscureContent: showPlacedBetsConfirmation || showPlacedBetsWaiting || showPlacedBetsError,
+    obscureContent: showPlacedBetsConfirmation || showPlacedBetsWaiting || showPlacedBetsError || showDeleteUnmatchedBetsConfirmation,
   };
 }
 
@@ -91,7 +92,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     updateUnmatcedBet: MarketDrawerActions.updateUnmatchedBet,
     deleteUnmatchedBet: MarketDrawerActions.deleteUnmatchedBet,
-    deleteUnmatchedBets: MarketDrawerActions.deleteUnmatchedBets,
+    clickDeleteUnmatchedBets: MarketDrawerActions.clickDeleteUnmatchedBets,
     clickUpdateBet: MarketDrawerActions.clickUpdateBet,
     clickReset: MarketDrawerActions.clickReset,
   }, dispatch);
