@@ -119,6 +119,13 @@ class BetPrivateActions {
       myBets
     }
   }
+
+  static updateMyBetsAction(myBets) {
+    return {
+      type: ActionTypes.BET_UPDATE_MY_BETS,
+      myBets
+    }
+  }
   static setInitMyBetsLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.BET_INIT_MY_BETS_LOADING_STATUS,
@@ -214,14 +221,8 @@ class BetActions {
       if (accountId) {
         // Set status
         dispatch(BetPrivateActions.setCheckForNewMyBetsLoadingStatusAction(LoadingStatus.LOADING));
-        const existingUnmatchedBetsById = getState().getIn(['bet', 'newUnmatchedBetsById']);
-        const existingMatchedBetsById = getState().getIn(['bet', 'newMatchedBetsById']);
-        const existingResolvedBetsById = getState().getIn(['bet', 'newResolvedBetsById']);
         const myBets = HistoryService.convertRawHistoryToMyBets(getState(),
-                                                                rawHistoryDelta,
-                                                                existingUnmatchedBetsById,
-                                                                existingMatchedBetsById,
-                                                                existingResolvedBetsById);
+                                                                rawHistoryDelta);
 
         // Fetch related betting markets (use set to make the list unique)
         let bettingMarketIds = Immutable.Set();
@@ -252,7 +253,7 @@ class BetActions {
           return dispatch(SportActions.getSportsByIds(sportIds));
         }).then((sports) => {
           // Set my bets
-          dispatch(BetPrivateActions.setMyBetsAction(myBets));
+          dispatch(BetPrivateActions.updateMyBetsAction(myBets));
           // Setstatus
           dispatch(BetPrivateActions.setCheckForNewMyBetsLoadingStatusAction(LoadingStatus.DONE));
           log.debug('Check for new my bets succeed.');

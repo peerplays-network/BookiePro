@@ -111,7 +111,7 @@ class RawHistoryActions {
           // Update transaction history
           dispatch(MyAccountPageActions.updateTransactionHistory(transactions));
           // Update my bets
-          dispatch(BetActions.updateMyBets(transactions));
+          dispatch(BetActions.checkForNewMyBets(transactions));
           // Update notification
           dispatch(NotificationActions.updateNotifications(transactions));
           log.debug('Check for new transaction history succeed.');

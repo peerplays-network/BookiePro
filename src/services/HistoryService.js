@@ -133,13 +133,13 @@ class HistoryService {
    * amount_won
    * }
    */
-  static convertRawHistoryToMyBets(state, rawHistory, existingUnmatchedBetsById, existingMatchedBetsById, existingResolvedBetsById) {
+  static convertRawHistoryToMyBets(state, rawHistory) {
     const dynGlobalObject = state.getIn(['app', 'blockchainDynamicGlobalProperty']);
     const globalObject = state.getIn(['app', 'blockchainGlobalProperty']);
 
-    let unmatchedBetsById = existingUnmatchedBetsById || Immutable.Map();
-    let matchedBetsById = existingMatchedBetsById || Immutable.Map();
-    let resolvedBetsById = existingResolvedBetsById || Immutable.Map();
+    let unmatchedBetsById = Immutable.Map();
+    let matchedBetsById = Immutable.Map();
+    let resolvedBetsById = Immutable.Map();
 
     // Iterate from the beginning
     rawHistory.reverse().forEach((rawTransaction) => {
@@ -228,12 +228,19 @@ class HistoryService {
               resolvedBetsById = resolvedBetsById.set(betId, resolvedBet);
             }
           })
+          // Remove resolved bets from matchedbets list
+          matchedBetsById = matchedBetsById.filterNot((matchedBet) => {
+            return (matchedBet.get('betting_market_id') === bettingMarketId);
+          });
           break;
         }
         default: break;
       }
     })
 
+    console.log('unmacthd', unmatchedBetsById);
+    console.log('matched', matchedBetsById);
+    console.log('resolved', resolvedBetsById);
     return {
       unmatchedBetsById,
       matchedBetsById,
