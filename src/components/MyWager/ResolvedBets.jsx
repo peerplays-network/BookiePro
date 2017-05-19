@@ -73,7 +73,7 @@ class ResolvedBets extends Component {
             </div>
           </div>
         <LocaleProvider locale={ I18n.t('application.locale') }>
-          <Table pagination={ {pageSize: 10} }
+          <Table pagination={ {pageSize: 20} }
             locale={ {emptyText: ( resolvedBets && resolvedBets.length === 0 &&
               resolvedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : resolvedBetsLoadingStatus )} }
             className='bookie-table' dataSource={ List(resolvedBets).toJS() } columns={ columns }/>

@@ -74,7 +74,7 @@ class MyWager extends PureComponent {
 
   //cacel all bets and load unmatchedBets
   cancelAllBets(){
-    this.props.cancelBets(this.props.unmatchedBetsData);
+    this.props.cancelBets(this.props.betsData);
   }
 
   //Resolved Bets - set min date for End Date depending on the selection of Start Date

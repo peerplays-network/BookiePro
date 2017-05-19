@@ -33,7 +33,7 @@ class UnmatchedBets extends PureComponent {
             </div>
         </div>
         <LocaleProvider locale={ I18n.t('application.locale') }>
-          <Table className='bookie-table' pagination={ { pageSize: 10 } } rowKey='id'
+          <Table className='bookie-table' pagination={ { pageSize: 20 } } rowKey='id'
             locale={ {emptyText: ( unmatchedBets && unmatchedBets.size === 0 &&
               unmatchedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : unmatchedBetsLoadingStatus )} }
             dataSource={ List(unmatchedBets).toJS() } columns={ unmatchedBetsColumns } >
