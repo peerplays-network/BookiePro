@@ -306,6 +306,7 @@ class BetActions {
 
   // TODO: should be deprecated and replaced by initMyBets and checkForNewMyBets
   static getOngoingBets() {
+    console.warn('getOngoingBets should be deprecated soon')
     return (dispatch, getState) => {
       // const accountId = getState().getIn(['account', 'account', 'id']);
       //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
@@ -359,6 +360,7 @@ class BetActions {
 
   // TODO: should be deprecated and replaced by initMyBets and checkForNewMyBets
   static getResolvedBets(startTime, stopTime) {
+    console.warn('getResolvedBets should be deprecated soon')
     return (dispatch, getState) => {
       // const accountId = getState().getIn(['account', 'account', 'id']);
       //TODO: pick account id from logged in user. Currently hard coded to get the dummy data

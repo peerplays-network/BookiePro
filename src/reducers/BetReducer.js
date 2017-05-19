@@ -156,6 +156,7 @@ export default function (state = initialState, action) {
       });
     }
     case ActionTypes.BET_SET_GET_ONGOING_BETS_ERROR: {
+      console.warn('BET_SET_GET_ONGOING_BETS_ERROR should be deprecated')
         // TODO: should be deprecated
       return state.merge({
         getOngoingBetsError: action.error,
@@ -163,12 +164,14 @@ export default function (state = initialState, action) {
       });
     }
     case ActionTypes.BET_SET_GET_RESOLVED_BETS_LOADING_STATUS: {
+      console.warn('BET_SET_GET_RESOLVED_BETS_LOADING_STATUS should be deprecated')
         // TODO: should be deprecated
       return state.merge({
         getResolvedBetsLoadingStatus: action.loadingStatus
       });
     }
     case ActionTypes.BET_SET_GET_RESOLVED_BETS_ERROR: {
+      console.warn('BET_SET_GET_RESOLVED_BETS_ERROR should be deprecated')
         // TODO: should be deprecated
       return state.merge({
         getResolvedBetsError: action.error,
@@ -176,6 +179,7 @@ export default function (state = initialState, action) {
       });
     }
     case ActionTypes.BET_ADD_OR_UPDATE_ONGOING_BETS: {
+      console.warn('BET_ADD_OR_UPDATE_ONGOING_BETS should be deprecated')
         // TODO: should be deprecated
       let unmatchedBetsById = Immutable.Map();
       let matchedBetsById = Immutable.Map();
@@ -202,6 +206,7 @@ export default function (state = initialState, action) {
       return nextState;
     }
     case ActionTypes.BET_REMOVE_ONGOING_BETS: {
+      console.warn('BET_REMOVE_ONGOING_BETS should be deprecated')
         // TODO: should be deprecated
       let nextState = state;
       action.betIds.forEach((betId) => {
@@ -211,6 +216,7 @@ export default function (state = initialState, action) {
       return nextState;
     }
     case ActionTypes.BET_ADD_OR_UPDATE_RESOLVED_BETS: {
+      console.warn('BET_ADD_OR_UPDATE_RESOLVED_BETS should be deprecated')
         // TODO: should be deprecated
       let resolvedBetsById = Immutable.Map();
       action.resolvedBets.forEach((bet) => {
@@ -219,12 +225,14 @@ export default function (state = initialState, action) {
       return state.mergeIn(['resolvedBetsById'], resolvedBetsById);
     }
     case ActionTypes.BET_SET_GET_RESOLVED_BETS_EXPORT_LOADING_STATUS: {
+      console.warn('BET_SET_GET_RESOLVED_BETS_EXPORT_LOADING_STATUS should be deprecated')
         // TODO: should be deprecated
       return state.merge({
         getResolvedBetsExportLoadingStatus: action.loadingStatus
       });
     }
     case ActionTypes.BET_SET_GET_RESOLVED_BETS_EXPORT_ERROR: {
+      console.warn('BET_SET_GET_RESOLVED_BETS_EXPORT_ERROR should be deprecated')
         // TODO: should be deprecated
       return state.merge({
         getResolvedBetsExportError: action.error,
