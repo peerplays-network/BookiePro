@@ -7,7 +7,7 @@ import { incrementOdds, decrementOdds, adjustOdds } from './oddsIncrementUtils';
 const renderTeam = (text, record) => (
   <div>
     <div className='team'>{ record.team }</div>
-    <div className='market_type'>{ record.market_type }</div>
+    <div className='market_type'>{ record.market_type_value }</div>
   </div>
 );
 
@@ -175,9 +175,7 @@ const buildBetTableData = (bets, currencyFormat) => {
       CurrencyUtils.formatByCurrencyAndPrecision(field, floatNumber, currencyFormat);
   }
   return bets.map((bet, idx) => {
-    // TODO: change hard-coded market type
     return bet.set('key', idx)
-              .set('market_type', 'Moneyline')
               .update('profit', profit => formatting('profit', profit))
               .update('liability', liability => formatting('liability', liability))
   });

@@ -29,6 +29,9 @@ const transformBetObject = bet => {
     bet_type: bet.get('back_or_lay').toLowerCase(),
     odds: bet.get('amount_to_win') / bet.get('amount_to_bet'),
     betting_market_id: bet.get('betting_market_id'),
+    // REVIEW These 2 values are populated by the application
+    market_type_id: bet.get('market_type_id'),
+    market_type_value: bet.get('market_type_value'),
   });
 
   const unmatched = base.set('stake', bet.get('remaining_amount_to_bet'));

@@ -68,35 +68,55 @@ const createMarketData = (bettingMarkets, binnedOrderBooksByBettingMarketId,
   let marketData = Immutable.List();
   bettingMarkets.forEach((bettingMarket, i) => {
     const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarket.get('id'));
-    let data = Immutable.Map().set('name', bettingMarket.get('payout_condition_string'));
-    const homeSelection = homeName ? homeName : data.get('name')
-    const awaySelection = awayName ? awayName : data.get('name')
+
+    const marketTypeId = bettingMarketGroup.get('market_type_id');
+
+    // TODO: REMOVE this once we have the real Blockchain
+    // Using payout_condition_string as PLACEHOLDER in case of (dummy) data integrity issue
+    let data = Immutable.Map().set('displayName', bettingMarket.get('payout_condition_string'))
+      .set('name', bettingMarket.get('payout_condition_string'))
+      .set('marketTypeId', marketTypeId)
+
+    const homeSelection = homeName ? homeName : data.get('displayName')
+    const awaySelection = awayName ? awayName : data.get('displayName')
 
     //parse market type id to get team name ( for first column in complex betting widget)
-    const marketTypeId = bettingMarketGroup.get('market_type_id');
     if ( marketTypeId === 'Spread'){
 
       const margin = bettingMarketGroup.getIn(['options', 'margin']);
       if ( i === homeId ){
-        data = data.set('name', homeSelection + StringUtils.formatSignedNumber(margin) );
+        const signedMargin = StringUtils.formatSignedNumber(margin);
+        data = data.set('displayedName', homeSelection + signedMargin )
+          .set('name', homeSelection)
+          .set('marketTypeValue', signedMargin);
       } else if ( i === awayId ){
-        data = data.set('name', awaySelection + StringUtils.formatSignedNumber(margin*-1));
+        const signedMargin = StringUtils.formatSignedNumber(margin*-1);
+        data = data.set('displayedName', awaySelection + signedMargin)
+          .set('name', awaySelection)
+          .set('marketTypeValue', signedMargin);
       }
 
     } else if ( marketTypeId === 'OverUnder'){
 
       const score = bettingMarketGroup.getIn(['options', 'score']);
       if ( i === 0 ){
-        data = data.set('name', I18n.t('bettingMarketGroup.over') + score );
+        data = data.set('displayedName', I18n.t('bettingMarketGroup.over') + score )
+          .set('name', homeSelection)
+          .set('marketTypeValue', I18n.t('bettingMarketGroup.over') + score);
       } else if ( i === 1 ){
-        data = data.set('name', I18n.t('bettingMarketGroup.under') + score );
+        data = data.set('displayedName', I18n.t('bettingMarketGroup.under') + score )
+          .set('name', awaySelection)
+          .set('marketTypeValue', I18n.t('bettingMarketGroup.under') + score );
       }
 
     } else if ( marketTypeId === 'Moneyline'){
+      data = data.set('marketTypeValue', marketTypeId); // Moneyline has no extra option 
       if ( i === homeId && homeName ){
-        data = data.set('name', homeSelection );
+        data = data.set('displayedName', homeSelection )
+          .set('name', homeSelection);
       } else if ( i === awayId && awayName ){
-        data = data.set('name', awaySelection );
+        data = data.set('displayedName', awaySelection )
+          .set('name', awaySelection);
       }
 
     }

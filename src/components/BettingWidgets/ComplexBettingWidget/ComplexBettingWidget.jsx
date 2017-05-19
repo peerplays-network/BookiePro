@@ -56,7 +56,6 @@ class ComplexBettingWidget extends Component {
 
       let backBookPercent = BettingModuleUtils.getBookPercentage( this.getBestOfferOfEachmarket(tableData, BetTypes.BACK) );
       let layBookPercent = BettingModuleUtils.getBookPercentage( this.getBestOfferOfEachmarket(tableData, BetTypes.LAY) );
-
       tableData.forEach((row, i) => {
         //in i th row
 
@@ -89,6 +88,9 @@ class ComplexBettingWidget extends Component {
           .setIn([i, 'offer', 'layIndex'], layStartingIndex)
           .setIn([i, 'firstColumn'], {
             'name': tableData.getIn([i, 'name']),
+            'displayedName': tableData.getIn([i, 'displayedName']),
+            'marketTypeId': tableData.getIn([i, 'marketTypeId']),
+            'marketTypeValue': tableData.getIn([i, 'marketTypeValue']),
             'market_exposure': market_exposure,
             'betslip_exposure': parseFloat(betslip_exposure) !== 0 ?  betslip_exposure : undefined })
 
@@ -146,9 +148,10 @@ class ComplexBettingWidget extends Component {
     // Only need the odds value
     const odds = offer && offer.get('odds');
     const bettingMarketId = rowInfo.row.offer.bettingMarketId;
-    const bettingMarketGroup = Immutable.fromJS(rowInfo.row.offer.bettingMarketGroup);
-
-    this.props.createBet(competitor, betType, bettingMarketId, odds, bettingMarketGroup);
+    this.props.createBet(competitor, betType, bettingMarketId,
+                         rowInfo.rowValues.firstColumn.marketTypeId,
+                         rowInfo.rowValues.firstColumn.marketTypeValue,
+                         odds);
   }
 
   placeAllBestBets(event) {
@@ -160,9 +163,9 @@ class ComplexBettingWidget extends Component {
       const offer = row.getIn([ 'offer', betType + 'Origin', '0' ])
       const odds = offer && offer.get('odds');
       const bettingMarketId = row.getIn( ['offer', 'bettingMarketId'])
-      const bettingMarketGroup = row.getIn( ['offer', 'bettingMarketGroup'])
 
-      this.props.createBet(competitor, betType, bettingMarketId, odds, bettingMarketGroup);
+      this.props.createBet(competitor, betType, bettingMarketId, row.get('marketTypeId'),
+                           row.get('marketTypeValue'), odds);
     });
 
 
@@ -194,7 +197,6 @@ class ComplexBettingWidget extends Component {
       minWidth: minNameWidth,
       accessor: 'firstColumn' ,
       render: props => {
-
         const marketExposure = CurrencyUtils.getFormattedCurrency(
            parseFloat(props.value.market_exposure),
            currencyFormat,
@@ -212,7 +214,7 @@ class ComplexBettingWidget extends Component {
 
         return (
           <div className='competitor'>
-            <div className='name'>{props.value.name}</div>
+            <div className='name'>{props.value.displayedName}</div>
             { props.value.betslip_exposure &&
               <div className='exposure'>
                 {  props.value.market_exposure > 0 &&
