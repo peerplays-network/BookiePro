@@ -27,13 +27,12 @@ class HistoryService {
     let transactionHistory = Immutable.List();
     rawHistory.forEach((rawTransaction) => {
       // Check the operation type to ensure it is relevant
-      let isRelevant = false;
       const operationType = rawTransaction.getIn(['op', 0]);
-      isRelevant = isRelevant || operationType === ChainTypes.operations.transfer;
-      isRelevant = isRelevant || (operationType === DummyOperationTypes.MAKE_BET);
-      isRelevant = isRelevant || (operationType === DummyOperationTypes.CANCEL_BET);
-      isRelevant = isRelevant || (operationType === DummyOperationTypes.BET_MATCHED);
-      isRelevant = isRelevant || (operationType === DummyOperationTypes.BETTING_MARKET_RESOLVED);
+      const isRelevant = (operationType === ChainTypes.operations.transfer) ||
+                          (operationType === DummyOperationTypes.MAKE_BET) ||
+                          (operationType === DummyOperationTypes.CANCEL_BET) ||
+                          (operationType === DummyOperationTypes.BET_MATCHED) ||
+                          (operationType === DummyOperationTypes.BETTING_MARKET_RESOLVED);
 
       // Only process the transaction, if it is relevant
       if (isRelevant) {

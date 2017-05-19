@@ -77,7 +77,8 @@ class AccountServices {
   * account - account object from blockchain
   */
   static authenticateAccount(account, keys) {
-    // // For checking key
+    // NOTE: Uncomment this to check the key pairs of logged in account
+    // For checking key
     // const x = {
     //   ownerPublicKey: keys.owner.toPublicKey().toPublicKeyString(),
     //   activePublicKey: keys.active.toPublicKey().toPublicKeyString(),
