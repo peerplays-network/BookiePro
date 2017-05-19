@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Badge, Menu,Dropdown } from 'antd';
 import Deposit from '../../MyAccount/Deposit'
-import Withdraw from '../../MyAccount/Withdraw'
+//import Withdraw from '../../MyAccount/Withdraw'
+import { TopMenuWithdraw } from '../../Withdraw';
 import Amount from './AmountDropDown'
 import Notification from './Notification'
 import DropdownMenu from './DropdownMenu'
@@ -11,6 +12,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { CurrencyUtils, BettingModuleUtils } from '../../../utility';
 import { createSelector } from 'reselect';
+import { initialize } from 'redux-form';
 
 class TopMenu extends Component {
   constructor(props) {
@@ -31,8 +33,8 @@ class TopMenu extends Component {
 
   handleWithdrawSubmit(values){
     //track the withdraw amount to display in success message after successfull submit
-    this.setState({withdrawAmount:values.get('withdrawAmount')});
-    this.props.withdraw(values.get('withdrawAmount'), values.get('walletAddr'));
+    this.setState({withdrawAmount:values.get('topMenuWithdrawAmount')});
+    this.props.withdraw(values.get('topMenuWithdrawAmount'), values.get('topMenuWalletAddr'));
   }
 
   handleNotificationCardVisibleChange(visible) {
@@ -112,6 +114,9 @@ class TopMenu extends Component {
         break;
       default:
     }
+
+    this.props.resetWithdrawLoadingStatus();
+    this.props.initialize('topMenuWithdrawForm', {});
   }
 
   //Set sub menu visibility
@@ -129,7 +134,7 @@ class TopMenu extends Component {
       <Deposit cardClass='bookie-card deposit-card depositCardComponent' depositAddress={ depositAddress } />
     );
     const withdrawCard = (
-      <Withdraw cardClass='bookie-card withdraw-card withdrawComponent'
+      <TopMenuWithdraw cardClass='bookie-card withdraw-card withdrawComponent'
         currencyFormat={ this.props.currencyFormat }
         precision={ this.props.precision }
         availableBalance={ this.props.availableBalance }
@@ -137,6 +142,7 @@ class TopMenu extends Component {
         withdrawLoadingStatus={ this.props.withdrawLoadingStatus }
         withdrawAmount={ this.state.withdrawAmount }
         convertedAvailableBalance={ this.props.convertedAvailableBalance }
+        resetWithdrawLoadingStatus={ this.props.resetWithdrawLoadingStatus }
       />
     );
     const dropdownMenuCard = (
@@ -184,7 +190,7 @@ class TopMenu extends Component {
         <Menu.Item key='withdraw'>
           <Dropdown trigger={ ['click'] } overlay={ withdrawCard } placement='bottomRight'>
             <div className='icon-main withdraw-icon-main'>
-              <a className='ant-dropdown-link' href='#'>
+              <a className='ant-dropdown-link'>
                 <i className='withdraw-icon'></i>
               </a>
             </div>
@@ -267,14 +273,15 @@ const mapStateToProps = (state) => {
     loadingStatus: state.getIn(['balance', 'getDepositAddressLoadingStatus']),
     depositAddress: state.getIn(['balance', 'depositAddress']),
     availableBalance: availableBalance,
-    withdrawLoadingStatus: state.getIn(['balance', 'withdrawLoadingStatus']),
+    withdrawLoadingStatus: state.getIn(['balance', 'topMenuWithdrawLoadingStatus']),
     precision: precision,
     convertedAvailableBalance: convertedAvailableBalance,
     currencyFormat: setting.get('currencyFormat'),
     inGameAmount: inGameAmount,
     notifications,
     unreadNotificationNumber,
-    isShowNotificationCard
+    isShowNotificationCard,
+    routePath: state.getIn(['routing', 'locationBeforeTransitions','pathname'])
   }
 }
 
@@ -283,13 +290,15 @@ function mapDispatchToProps(dispatch) {
     getDepositAddress: BalanceActions.getDepositAddress,
     navigateTo: NavigateActions.navigateTo,
     //TODO: Wallet Address verification and error response pending.
-    withdraw: BalanceActions.withdraw,
+    withdraw: BalanceActions.topMenuWithdraw,
+    resetWithdrawLoadingStatus: BalanceActions.resetTopMenuWithdrawLoadingStatus,
     logout: AuthActions.logoutAndShowPopupIfNeeded,
     getOngoingBets: BetActions.getOngoingBets,
     markNotificationsAsRead: NotificationActions.markNotificationsAsReadAction,
     removeNotifications: NotificationActions.removeNotificationsAction,
     showSoftwareUpdatePopup: AppActions.showSoftwareUpdatePopupAction,
-    showNotificationCard: AppActions.showNotificationCardAction
+    showNotificationCard: AppActions.showNotificationCardAction,
+    initialize: initialize
   }, dispatch)
 }
 

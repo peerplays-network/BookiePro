@@ -4,9 +4,9 @@ import {
   Card
 } from 'antd';
 import { Field, reduxForm } from 'redux-form/immutable';
-import { LoadingStatus } from '../../constants';
-import './Withdraw.less';
-import { CurrencyUtils } from '../../utility';
+import { LoadingStatus } from '../../../constants';
+import './TopMenuWithdraw.less';
+import { CurrencyUtils } from '../../../utility';
 
 //Component to render fields
 const renderField = ({ className, errors, placeholder,hasWithdrawAmountErr, input, type,
@@ -35,7 +35,7 @@ const normalizeAmount = (value, previousValue) => {
   return value;
 };
 
-class Withdraw extends Component{
+class TopMenuWithdraw extends Component{
 
   constructor(props){
     super(props);
@@ -61,22 +61,23 @@ class Withdraw extends Component{
   }
 
   componentDidMount(){
-    this.props.reset();
+    this.props.resetWithdrawLoadingStatus();
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.currencyFormat !== this.props.currencyFormat) {
-      // Reset withdraw form when currency is changed
       this.props.reset();
+      this.props.resetWithdrawLoadingStatus();
     }
   }
 
   render(){
-    const { invalid,asyncValidating,submitting,
+    
+    const { invalid,asyncValidating,submitting,pristine,
             availableBalance,handleSubmit,withdrawLoadingStatus,currencyFormat,withdrawAmount } = this.props,
       isWithdrawLoadingStatusLoading = withdrawLoadingStatus===LoadingStatus.LOADING,
       isWithdrawLoadingStatusDone = withdrawLoadingStatus===LoadingStatus.DONE,
-      isDisabled = invalid || submitting || asyncValidating ||
+      isDisabled = invalid || submitting || asyncValidating || pristine ||
                        this.state.hasWithdrawAmountErr || isWithdrawLoadingStatusLoading,
       prefix = currencyFormat === 'BTC' ? 'icon-bitcoin' : ( currencyFormat === 'mBTC' ? 'icon-mbitcoin' : '');
 
@@ -100,7 +101,7 @@ class Withdraw extends Component{
 
               <form onSubmit={ handleSubmit } className='withdrawForm'>
                 <div className={ 'form-fields bookie-amount-field ' + prefix }>
-                  <Field name='withdrawAmount' id='withdrawAmount' className='bookie-input bookie-amount'
+                  <Field name='topMenuWithdrawAmount' id='topMenuWithdrawAmount' className='bookie-input bookie-amount'
                     onChange={ this.onWithdrawAmountChange }
                     onBlur={ this.onWithdrawAmountChange }
                     hasWithdrawAmountErr={ this.state.hasWithdrawAmountErr }
@@ -112,7 +113,7 @@ class Withdraw extends Component{
                 </div>
                 <div className='form-fields'>
                   <div className='card-footer'>
-                    <Field name='walletAddr' id='walletAddr' className='bookie-input walletAddr-input'
+                    <Field name='topMenuWalletAddr' id='topMenuWalletAddr' className='bookie-input walletAddr-input'
                            component={ renderField } placeholder={ I18n.t('myAccount.send_value') } type='text'/>
                     <button
                       className={ 'btn inputWithButton ' + (isDisabled ? 'btn-regular-disabled':' btn-regular')  }
@@ -131,18 +132,18 @@ class Withdraw extends Component{
 }
 
 export default reduxForm({
-  form: 'withdrawForm',  // a unique identifier for this form
-  fields: ['withdrawAmount', 'walletAddr'],
-  destroyOnUnmount:false,
+  form: 'topMenuWithdrawForm',  // a unique identifier for this form
+  fields: ['topMenuWithdrawAmount', 'topMenuWalletAddr'],
+  //destroyOnUnmount:false,
   //Form field validations
   validate: function submit(values) {
     let errors = {};
-    if (!values.get('withdrawAmount')) {
-      errors.withdrawAmount = I18n.t('myAccount.enter_withdrawAmount');
+    if (!values.get('topMenuWithdrawAmount')) {
+      errors.topMenuWithdrawAmount = I18n.t('myAccount.enter_withdrawAmount');
     }
-    if (!values.get('walletAddr')) {
-      errors.walletAddr = I18n.t('myAccount.enter_wallet_addr')
+    if (!values.get('topMenuWalletAddr')) {
+      errors.topMenuWalletAddr = I18n.t('myAccount.enter_wallet_addr')
     }
     return errors;
   }
-})(Withdraw)
+})(TopMenuWithdraw)

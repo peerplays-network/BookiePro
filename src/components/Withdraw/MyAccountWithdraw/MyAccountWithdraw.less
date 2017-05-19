@@ -1,5 +1,5 @@
-@import '../App/Colors.less';
-@import '../App/Common.less';
+@import '../../App/Colors.less';
+@import '../../App/Common.less';
 
 .withdrawComponent{
   .bookie-amount-field{
@@ -10,7 +10,7 @@
         position: absolute;
         left: 15px;
         content: '';
-        background-image: url('../../assets/icons/bitcoin_icon.png');
+        background-image: url('../../../assets/icons/bitcoin_icon.png');
         width:16px;
         height:16px;
         background-size: 16px 16px;
@@ -21,7 +21,7 @@
         position: absolute;
         left: 15px;
         content: '';
-        background-image: url('../../assets/icons/mbitcoin_icon.png');
+        background-image: url('../../../assets/icons/mbitcoin_icon.png');
         background-repeat: no-repeat;
         width:28px;
         height:15px;
@@ -54,21 +54,20 @@
     text-align: left;
     display: inline-block;
     .icon-bitcoin{
-      background: url('../../assets/icons/bitcoin_icon.png') no-repeat center;
+      background: url('../../../assets/icons/bitcoin_icon.png') no-repeat center;
       display: inline-block;
       width: 14px;
       height: 16px;
       background-size: 100%;
       vertical-align: -2px;
-      margin-right: -5px;
     }
-    .icon-m{
-      margin-right: -5px;
-      &::before{
-        color: @myaccount_blue_text;
-        font-size:20px;
-        content: 'm';
-      }
+    .icon-mbitcoin{
+      background: url('../../../assets/icons/mbitcoin_icon.png') no-repeat center;
+      display: inline-block;
+      width: 25px;
+      height: 20px;
+      background-size: 100%;
+      vertical-align: -3px;
     }
   }
   .withdraw-success-msg{

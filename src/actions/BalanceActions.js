@@ -37,6 +37,20 @@ class BalancePrivateActions {
     }
   }
 
+  static setTopMenuWithdrawLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.BALANCE_SET_TOPMENU_WITHDRAW_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+
+  static setTopMenuWithdrawErrorAction(error) {
+    return {
+      type: ActionTypes.BALANCE_SET_TOPMENU_WITHDRAW_ERROR,
+      error
+    }
+  }
+
   static setGetDepositAddressErrorAction(error) {
     return {
       type: ActionTypes.BALANCE_SET_GET_DEPOSIT_ADDRESS_ERROR,
@@ -116,6 +130,31 @@ class BalanceActions {
         dispatch(BalancePrivateActions.setWithdrawErrorAction(error));
       });
     };
+  }
+
+  //Reset withdraw status to default (my account)
+  static resetWithdrawLoadingStatus(){
+    return BalancePrivateActions.setWithdrawLoadingStatusAction(LoadingStatus.DEFAULT);
+  }
+
+
+  static topMenuWithdraw(withdrawAmt, walletAddress) {
+    return (dispatch) => {
+      dispatch(BalancePrivateActions.setTopMenuWithdrawLoadingStatusAction(LoadingStatus.LOADING));
+      CommunicationService.withdraw(walletAddress).then(() => {
+        log.debug('Withdraw succeed.');
+        dispatch(BalancePrivateActions.setTopMenuWithdrawLoadingStatusAction(LoadingStatus.DONE));
+      }).catch((error) => {
+        log.error('Withdraw error', error);
+        //Set password change error
+        dispatch(BalancePrivateActions.setTopMenuWithdrawErrorAction(error));
+      });
+    };
+  }
+
+  //Reset withdraw status to default (top menu)
+  static resetTopMenuWithdrawLoadingStatus(){
+    return BalancePrivateActions.setTopMenuWithdrawLoadingStatusAction(LoadingStatus.DEFAULT);
   }
 
 }

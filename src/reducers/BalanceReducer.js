@@ -8,6 +8,8 @@ let initialState = Immutable.fromJS({
   getDepositAddressError: null,
   withdrawLoadingStatus: LoadingStatus.DEFAULT,
   withdrawError: null,
+  topMenuWithdrawLoadingStatus: LoadingStatus.DEFAULT,
+  topMenuWithdrawError: null,
   availableBalancesByAssetId: {},
 });
 
@@ -27,6 +29,17 @@ export default function (state = initialState, action) {
       return state.merge({
         withdrawError: action.error,
         withdrawLoadingStatus: LoadingStatus.ERROR
+      });
+    }
+    case ActionTypes.BALANCE_SET_TOPMENU_WITHDRAW_LOADING_STATUS: {
+      return state.merge({
+        topMenuWithdrawLoadingStatus: action.loadingStatus
+      });
+    }
+    case ActionTypes.BALANCE_SET_TOPMENU_WITHDRAW_ERROR: {
+      return state.merge({
+        topMenuWithdrawError: action.error,
+        topMenuWithdrawLoadingStatus: LoadingStatus.ERROR
       });
     }
     case ActionTypes.BALANCE_SET_DEPOSIT_ADDRESS: {
