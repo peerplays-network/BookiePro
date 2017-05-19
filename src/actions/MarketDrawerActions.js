@@ -25,6 +25,19 @@ class MarketDrawerPrivateActions {
     };
   }
 
+  static showDeleteUnconfirmedBetsConfirmation(bets) {
+    return {
+      type: ActionTypes.MARKET_DRAWER_SHOW_DELETE_UNCONFIRMED_BETS_CONFIRMATION,
+      bets
+    }
+  }
+
+  static hideDeleteUnconfirmedBetsConfirmation() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_HIDE_DELETE_UNCONFIRMED_BETS_CONFIRMATION,
+    }
+  }
+
   static deleteManyUnconfirmedBets(listOfBetIds) {
     return {
       type: ActionTypes.MARKET_DRAWER_DELETE_MANY_UNCONFIRMED_BETS,
@@ -143,6 +156,19 @@ class MarketDrawerActions {
       dispatch(MarketDrawerPrivateActions.deleteOneUnconfirmedBet(bet.get('id')));
     }
   }
+
+  static clickDeleteUnconfirmedBets(bets) {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.showDeleteUnconfirmedBetsConfirmation(bets));
+    }
+  }
+
+  static cancelDeleteUnconfirmedBets() {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.hideDeleteUnconfirmedBetsConfirmation());
+    }
+  }
+
 
   static deleteUnconfirmedBets(bets) {
     return (dispatch) => {

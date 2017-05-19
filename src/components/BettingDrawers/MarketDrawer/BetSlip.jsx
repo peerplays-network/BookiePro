@@ -27,6 +27,22 @@ const renderOverlay = (props, className, transactionFee=0) => (
   </div>
 )
 
+const renderDeleteBetsOverlay = (props) => (
+  <div className='overlay'>
+    <div className='instructions'>
+      <Translate value={ `market_drawer.unconfirmed_bets.delete_bets.instructions` } dangerousHTML/>
+    </div>
+    <div className='buttons'>
+      <Button className='btn btn-cancel' onClick={ props.cancelDeleteUnconfirmedBets }>
+        { I18n.t(`market_drawer.unconfirmed_bets.delete_bets.cancel_button`) }
+      </Button>
+      <Button className='btn btn-regular' onClick={ () => props.deleteUnconfirmedBets(props.unconfirmedbetsToBeDeleted) }>
+        { I18n.t(`market_drawer.unconfirmed_bets.delete_bets.confirm_button`) }
+      </Button>
+    </div>
+  </div>
+)
+
 const renderContent = (props) => (
   <div className='content' ref='unconfirmedBets'>
     { props.bets.isEmpty() &&
@@ -51,7 +67,7 @@ const renderContent = (props) => (
         data={ props.bets }
         title={ I18n.t('market_drawer.unconfirmed_bets.header') }
         deleteOne={ props.deleteUnconfirmedBet }
-        deleteMany={ props.deleteUnconfirmedBets }
+        deleteMany={ props.clickDeleteUnconfirmedBets }
         updateOne={ props.updateUnconfirmedBet }
         dimmed={ props.obscureContent }
         currencyFormat={ props.currencyFormat }
@@ -92,6 +108,7 @@ class BetSlip extends PureComponent {
         </SplitPane>
         { this.props.showBetSlipConfirmation && renderOverlay(this.props, 'confirmation', 0.051) }
         { this.props.showBetSlipError && renderOverlay(this.props, 'error') }
+        { this.props.showDeleteUnconfirmedBetsConfirmation && renderDeleteBetsOverlay(this.props) }
         { // TODO: Replace this with an approved spinning icon.
           // The waiting text is just a placeholder
           this.props.showBetSlipWaiting &&
@@ -127,6 +144,7 @@ const mapStateToProps = (state) => {
   const showBetSlipWaiting = state.getIn(['marketDrawer', 'showBetSlipWaiting']);
   const showBetSlipError = state.getIn(['marketDrawer', 'showBetSlipError']);
   const showBetSlipSuccess = state.getIn(['marketDrawer', 'showBetSlipSuccess']);
+  const showDeleteUnconfirmedBetsConfirmation = state.getIn(['marketDrawer', 'showDeleteUnconfirmedBetsConfirmation']);
   return {
     originalBets,
     bets: page,
@@ -134,7 +152,9 @@ const mapStateToProps = (state) => {
     showBetSlipWaiting,
     showBetSlipError,
     showBetSlipSuccess,
-    obscureContent: showBetSlipConfirmation || showBetSlipWaiting || showBetSlipError,
+    showDeleteUnconfirmedBetsConfirmation,
+    obscureContent: showBetSlipConfirmation || showBetSlipWaiting || showBetSlipError || showDeleteUnconfirmedBetsConfirmation,
+    unconfirmedbetsToBeDeleted: state.getIn(['marketDrawer', 'unconfirmedbetsToBeDeleted']),
   };
 }
 
@@ -142,6 +162,8 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     deleteUnconfirmedBet: MarketDrawerActions.deleteUnconfirmedBet,
+    clickDeleteUnconfirmedBets: MarketDrawerActions.clickDeleteUnconfirmedBets,
+    cancelDeleteUnconfirmedBets: MarketDrawerActions.cancelDeleteUnconfirmedBets,
     deleteUnconfirmedBets: MarketDrawerActions.deleteUnconfirmedBets,
     updateUnconfirmedBet: MarketDrawerActions.updateUnconfirmedBet,
     clickPlaceBet: MarketDrawerActions.clickPlaceBet,
