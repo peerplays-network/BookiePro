@@ -2,6 +2,7 @@ import { ActionTypes, LoadingStatus, ObjectPrefix } from '../constants';
 import {  CommunicationService } from '../services';
 import NotificationActions from './NotificationActions';
 import MyAccountPageActions from './MyAccountPageActions';
+import BetActions from './BetActions';
 import log from 'loglevel';
 import _ from 'lodash';
 
@@ -75,6 +76,8 @@ class RawHistoryActions {
           dispatch(RawHistoryPrivateActions.prependRawTransactionsToRawHistoryAction(accountId, transactions));
           // Init transaction history
           dispatch(MyAccountPageActions.initTransactionHistory());
+          // Init my bets
+          dispatch(BetActions.initMyBets());
           // Set loading status
           dispatch(RawHistoryPrivateActions.setInitRawHistoryLoadingStatusAction(LoadingStatus.DONE));
           log.debug('Init transaction history succeed.');
@@ -107,6 +110,8 @@ class RawHistoryActions {
           dispatch(RawHistoryPrivateActions.setCheckForNewRawHistoryLoadingStatusAction(LoadingStatus.DONE));
           // Update transaction history
           dispatch(MyAccountPageActions.updateTransactionHistory(transactions));
+          // Update my bets
+          dispatch(BetActions.updateMyBets(transactions));
           // Update notification
           dispatch(NotificationActions.updateNotifications(transactions));
           log.debug('Check for new transaction history succeed.');

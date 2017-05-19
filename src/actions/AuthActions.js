@@ -85,7 +85,7 @@ class AuthPrivateActions {
   static loginWithKeys(accountName, password, keys) {
     return (dispatch) => {
       return CommunicationService.getFullAccount(accountName).then((fullAccount) => {
-        const account = fullAccount.get('account');
+        const account = fullAccount && fullAccount.get('account');
 
         const isAuthenticated = AccountService.authenticateAccount(account, keys);
         if (isAuthenticated) {

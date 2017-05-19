@@ -12,6 +12,7 @@ class UnmatchedBets extends PureComponent {
       cancelAllBets } = this.props;
     let unmatchedBetsColumns = _.clone(columns);
     //cancel column added here to attach bet cancel click event handler
+
     if(unmatchedBetsColumns)
       unmatchedBetsColumns.push(
         {

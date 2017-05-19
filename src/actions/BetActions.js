@@ -1,5 +1,5 @@
 import Immutable, { Map } from 'immutable';
-import { CommunicationService, WalletService } from '../services';
+import { CommunicationService, WalletService, HistoryService } from '../services';
 import { LoadingStatus, ActionTypes, Config } from '../constants';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
@@ -113,12 +113,157 @@ class BetPrivateActions {
     }
   }
 
+  static setMyBetsAction(myBets) {
+    return {
+      type: ActionTypes.BET_SET_MY_BETS,
+      myBets
+    }
+  }
+  static setInitMyBetsLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.BET_INIT_MY_BETS_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+  static setInitMyBetsErrorAction(error) {
+    return {
+      type: ActionTypes.BET_INIT_MY_BETS_ERROR,
+      error
+    }
+  }
+  static setCheckForNewMyBetsLoadingStatusAction(loadingStatus) {
+    return {
+      type: ActionTypes.BET_CHECK_FOR_NEW_MY_BETS_LOADING_STATUS,
+      loadingStatus
+    }
+  }
+  static setCheckForNewMyBetsErrorAction(error) {
+    return {
+      type: ActionTypes.BET_CHECK_FOR_NEW_MY_BETS_ERROR,
+      error
+    }
+  }
 }
 
 /**
  * Public actions
  */
 class BetActions {
+
+  /**
+   * Init my bets, i.e. derive unmatchedBets, matchedBets, and resolvedBets from transaction history
+   */
+  static initMyBets() {
+    return (dispatch, getState) => {
+      const accountId = getState().getIn(['account', 'account', 'id']);
+      if (accountId) {
+        // Set status
+        dispatch(BetPrivateActions.setInitMyBetsLoadingStatusAction(LoadingStatus.LOADING));
+
+        const rawHistory = getState().getIn(['rawHistory', 'rawHistoryByAccountId', accountId]);
+        const myBets = HistoryService.convertRawHistoryToMyBets(getState(), rawHistory);
+
+        // Fetch related betting markets (use set to make the list unique)
+        let bettingMarketIds = Immutable.Set();
+        myBets.unmatchedBetsById.forEach((bet) => {
+          bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
+        })
+        myBets.matchedBetsById.forEach((bet) => {
+          bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
+        })
+        myBets.resolvedBetsById.forEach((bet) => {
+          bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
+        })
+
+        dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)).then((bettingMarkets) => {
+          // Get unique betting market group ids
+          let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
+          // Get the betting market groups
+          return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
+        }).then((bettingMarketGroups) => {
+          // Get unique event ids
+          let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet();
+          // Get the betting market groups
+          return dispatch(EventActions.getEventsByIds(eventIds));
+        }).then((events) => {
+          // Get unique sport ids
+          let sportIds = events.map(event => event.get('sport_id')).toSet();
+          // Get the betting market groups
+          return dispatch(SportActions.getSportsByIds(sportIds));
+        }).then((sports) => {
+          // Set my bets
+          dispatch(BetPrivateActions.setMyBetsAction(myBets));
+          // Setstatus
+          dispatch(BetPrivateActions.setInitMyBetsLoadingStatusAction(LoadingStatus.DONE));
+          log.debug('Init my bets succeed.');
+        }).catch((error) => {
+          log.error('Fail to init my bets', error);
+          // Set error
+          dispatch(BetActions.setInitMyBetsErrorAction(error));
+        });
+      }
+    }
+  }
+
+  /**
+   * Update my bets whenever there is new history
+   */
+  static checkForNewMyBets(rawHistoryDelta) {
+    return (dispatch, getState) => {
+      const accountId = getState().getIn(['account', 'account', 'id']);
+      if (accountId) {
+        // Set status
+        dispatch(BetPrivateActions.setCheckForNewMyBetsLoadingStatusAction(LoadingStatus.LOADING));
+        const existingUnmatchedBetsById = getState().getIn(['bet', 'newUnmatchedBetsById']);
+        const existingMatchedBetsById = getState().getIn(['bet', 'newMatchedBetsById']);
+        const existingResolvedBetsById = getState().getIn(['bet', 'newResolvedBetsById']);
+        const myBets = HistoryService.convertRawHistoryToMyBets(getState(),
+                                                                rawHistoryDelta,
+                                                                existingUnmatchedBetsById,
+                                                                existingMatchedBetsById,
+                                                                existingResolvedBetsById);
+
+        // Fetch related betting markets (use set to make the list unique)
+        let bettingMarketIds = Immutable.Set();
+        myBets.unmatchedBetsById.forEach((bet) => {
+          bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
+        })
+        myBets.matchedBetsById.forEach((bet) => {
+          bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
+        })
+        myBets.resolvedBetsById.forEach((bet) => {
+          bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
+        })
+
+        dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)).then((bettingMarkets) => {
+          // Get unique betting market group ids
+          let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
+          // Get the betting market groups
+          return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
+        }).then((bettingMarketGroups) => {
+          // Get unique event ids
+          let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet();
+          // Get the betting market groups
+          return dispatch(EventActions.getEventsByIds(eventIds));
+        }).then((events) => {
+          // Get unique sport ids
+          let sportIds = events.map(event => event.get('sport_id')).toSet();
+          // Get the betting market groups
+          return dispatch(SportActions.getSportsByIds(sportIds));
+        }).then((sports) => {
+          // Set my bets
+          dispatch(BetPrivateActions.setMyBetsAction(myBets));
+          // Setstatus
+          dispatch(BetPrivateActions.setCheckForNewMyBetsLoadingStatusAction(LoadingStatus.DONE));
+          log.debug('Check for new my bets succeed.');
+        }).catch((error) => {
+          log.error('Fail to check for new my bets', error);
+          // Set error
+          dispatch(BetActions.setCheckForNewMyBetsErrorAction(error));
+        });
+      }
+    }
+  }
 
   static addOrUpdateOngoingBetsAction(ongoingBets) {
     return {
@@ -158,9 +303,7 @@ class BetActions {
     return BetPrivateActions.clearResolvedBetsExportAction();
   }
 
-  /**
-   * Get ongoing bets (unmatched and matched bets);
-   */
+  // TODO: should be deprecated and replaced by initMyBets and checkForNewMyBets
   static getOngoingBets() {
     return (dispatch, getState) => {
       // const accountId = getState().getIn(['account', 'account', 'id']);
@@ -213,6 +356,7 @@ class BetActions {
     };
   }
 
+  // TODO: should be deprecated and replaced by initMyBets and checkForNewMyBets
   static getResolvedBets(startTime, stopTime) {
     return (dispatch, getState) => {
       // const accountId = getState().getIn(['account', 'account', 'id']);
@@ -257,9 +401,7 @@ class BetActions {
     };
   }
 
-  /**
-   * Get resolved bets to export
-   */
+
   static getResolvedBetsToExport(targetCurrency, columns) {
     return (dispatch, getState) => {
       // const accountId = getState().getIn(['account', 'account', 'id']);

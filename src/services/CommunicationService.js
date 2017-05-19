@@ -207,18 +207,10 @@ class CommunicationService {
           break;
         }
         case ObjectPrefix.BET_PREFIX: {
-          const myAccountId = this.getState().getIn(['account', 'account', 'id']);
-          let bettingMarketIds = Immutable.List();
-          updatedObjects.forEach((updatedObject) => {
-            const bettorId = updatedObject.get('bettor_id');
-            const bettingMarketId = updatedObject.get('betting_market_id');
-            bettingMarketIds = bettingMarketIds.push(bettingMarketId);
-            // Check if this bet is related to me
-            if (bettorId === myAccountId) {
-              // Assume all bet to be ongoing for now, resolved bets should not be able to be deleted or updated
-              this.dispatch(BetActions.addOrUpdateOngoingBetsAction([updatedObject]));
-            }
-          });
+          // Use set
+          let bettingMarketIds = updatedObjects.map((updatedObject) => {
+            return updatedObject.get('betting_market_id')
+          }).toSet();
 
           // Update related binned order books
           this.dispatch(BinnedOrderBookActions.refreshBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
@@ -275,11 +267,6 @@ class CommunicationService {
         }
         case ObjectPrefix.BETTING_MARKET_PREFIX: {
           this.dispatch(BettingMarketActions.removeBettingMarketsByIdsAction(deletedObjectIds));
-          break;
-        }
-        case ObjectPrefix.BET_PREFIX: {
-          // Assume all bet to be ongoing for now, resolved bets should not be able to be deleted or updated
-          this.dispatch(BetActions.removeBetsByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.ACCOUNT_BALANCE_PREFIX: {
