@@ -16,7 +16,6 @@ import './MyAccount.less'
 import _ from 'lodash';
 import { BlockchainUtils } from '../../utility';
 import { CommunicationService } from '../../services';
-import Ps from 'perfect-scrollbar';
 import Deposit from './Deposit';
 //import Withdraw from './Withdraw';
 import { MyAccountWithdraw } from '../Withdraw';
@@ -91,18 +90,10 @@ class MyAccount extends PureComponent {
   }*/
 
   componentDidMount() {
-    Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
     this.searchTransactionHistory();
     // this.fetchRecentTransactionHistory();
-    //ps.initialize(this.refs.global);
-    //ps.update(this.refs.global);
-
     //Get the deposit address
     this.props.getDepositAddress();
-  }
-
-  componentDidUpdate(prevProps, prevState){
-    Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
   }
 
   //Disable out of range dates for 'From Date'
@@ -231,8 +222,6 @@ class MyAccount extends PureComponent {
         });
 
         this.setState({txList: newTxList});
-        // ps.update(this.refs.global);
-        Ps.update(ReactDOM.findDOMNode(this.refs.global));
 
       });
   }
