@@ -1,5 +1,6 @@
 import { ObjectPrefix } from '../constants';
 import _ from 'lodash';
+import moment from 'moment';
 
 const relevantObjectPrefixes = _.values(ObjectPrefix);
 
@@ -56,17 +57,18 @@ const Utils = {
     const head_block = dynGlobalObject.get('head_block_number');
     const head_block_time = new Date(dynGlobalObject.get('time') + '+00:00');
     const seconds_below = (head_block - block_number) * block_interval;
-    return new Date(head_block_time - seconds_below * 1000);
+
+    return moment(head_block_time - seconds_below * 1000);
   },
 
   blockchainTimeStringToDate(timeString) {
-    if( ! timeString) return new Date('1970-01-01T00:00:00.000Z');
+    if( ! timeString) return moment('1970-01-01T00:00:00.000Z');
     // does not end in Z
     // https://github.com/cryptonomex/graphene/issues/368
     if( ! /Z$/.test(timeString)) {
       timeString += 'Z';
     }
-    return new Date(timeString);
+    return moment(timeString);
   },
   /**
    * Return the prefix in string

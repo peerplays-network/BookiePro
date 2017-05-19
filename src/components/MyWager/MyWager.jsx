@@ -11,8 +11,9 @@ import { List, Map } from 'immutable';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { CurrencyUtils } from '../../utility';
-import { getBetData, getBetTotal, getCurrencyFormat } from '../../selectors/MywagerSelector';
+import { MyWagerSelector } from '../../selectors';
 
+const {  getBetData, getBetTotal, getCurrencyFormat } = MyWagerSelector;
 const TabPane = Tabs.TabPane;
 
 class MyWager extends PureComponent {
@@ -37,6 +38,12 @@ class MyWager extends PureComponent {
     this.onEndDateSelect = this.onEndDateSelect.bind(this);
     this.resetResolvedBetsExportLoadingStatus = this.resetResolvedBetsExportLoadingStatus.bind(this);
     this.clearResolvedBetsExport = this.clearResolvedBetsExport.bind(this);
+    this.handleExportFinishDownload = this.handleExportFinishDownload.bind(this);
+  }
+
+  handleExportFinishDownload() {
+    this.resetResolvedBetsExportLoadingStatus();
+    this.clearResolvedBetsExport();
   }
 
   onTabChange(key) {
@@ -197,6 +204,7 @@ class MyWager extends PureComponent {
               onStartDateSelect={ this.onStartDateSelect } onEndDateSelect={ this.onEndDateSelect }
               onPeriodSelect={ this.onPeriodSelect } onSearchClick={ this.onSearchClick }
               exportButtonClicked={ this.state.exportButtonClicked }
+              handleExportFinishDownload={ this.handleExportFinishDownload }
               onResolvedBetsExport={ this.onResolvedBetsExport }
               resolvedBetsExport={ this.props.resolvedBetsExportData }
               resolvedBetsExportLoadingStatus={ this.props.resolvedBetsExportLoadingStatus }

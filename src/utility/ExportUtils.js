@@ -83,7 +83,7 @@ var prepareTableRowsColumnsFromJSON = function(json, config) {
   return result;
 };
 
-export default function(json, type, config) {
+function formatDataForExport(json, type, config) {
   config = config || {};
   var result = json;
 
@@ -106,3 +106,8 @@ export default function(json, type, config) {
 
   return result;
 };
+
+const ExportUtils = {
+  formatDataForExport
+}
+export default ExportUtils;

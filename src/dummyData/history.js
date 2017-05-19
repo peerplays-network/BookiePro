@@ -1,4 +1,4 @@
-import { Config } from '../constants';
+import { Config, DummyOperationTypes } from '../constants';
 import _ from 'lodash';
 
 // Assume
@@ -9,16 +9,11 @@ import _ from 'lodash';
 
 // Modify this one depending on the account that you use to test
 const dummyAccountId = Config.dummyDataAccountId;
-// IMPORTANT, this instance number should be smaller than the instance number of earliest REAL transaction history of the account id
-// Otherwise, the real transactions are not going to be prepended on top of the dummy data
-// ALSO, list of operations should be smaller than this number
-const dummyTransactionHistoryMaxIdInstanceNumber = 420;
-const dummyMaxBlockNum = 67000;
-const dummyMaxVirtualOpId = 1000;
 
+// IMPORTANT, size of listOfOperations should be smaller than dummyTransactionHistoryMaxIdInstanceNumber
 const listOfOperations = [
   [
-    204,
+    DummyOperationTypes.BETTING_MARKET_RESOLVED,
     {
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.5",
@@ -26,7 +21,7 @@ const listOfOperations = [
     }
   ],
   [
-    204,
+    DummyOperationTypes.BETTING_MARKET_RESOLVED,
     {
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.4",
@@ -34,7 +29,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.20",
       "account_id": dummyAccountId,
@@ -45,7 +40,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.19",
       "account_id": dummyAccountId,
@@ -56,7 +51,40 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
+    {
+      "bet_id": "1.106.18",
+      "account_id": dummyAccountId,
+      "betting_market_id": "1.105.1",
+      "back_or_lay": "lay",
+      "backer_multiplier": "2.0",
+      "matched_bet_amount": 2000,
+    }
+  ],
+  [
+    DummyOperationTypes.BET_MATCHED,
+    {
+      "bet_id": "1.106.17",
+      "account_id": dummyAccountId,
+      "betting_market_id": "1.105.1",
+      "back_or_lay": "lay",
+      "backer_multiplier": "2.0",
+      "matched_bet_amount": 1000,
+    }
+  ],
+  [
+    DummyOperationTypes.BET_MATCHED,
+    {
+      "bet_id": "1.106.16",
+      "account_id": dummyAccountId,
+      "betting_market_id": "1.105.1",
+      "back_or_lay": "lay",
+      "backer_multiplier": "2.0",
+      "matched_bet_amount": 35000,
+    }
+  ],
+  [
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.18",
       "account_id": dummyAccountId,
@@ -67,7 +95,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.17",
       "account_id": dummyAccountId,
@@ -78,7 +106,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.16",
       "account_id": dummyAccountId,
@@ -89,40 +117,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
-    {
-      "bet_id": "1.106.18",
-      "account_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "lay",
-      "backer_multiplier": "2.0",
-      "original_bet_amount": 2000,
-    }
-  ],
-  [
-    201,
-    {
-      "bet_id": "1.106.17",
-      "account_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "lay",
-      "backer_multiplier": "2.0",
-      "original_bet_amount": 1000,
-    }
-  ],
-  [
-    201,
-    {
-      "bet_id": "1.106.16",
-      "account_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "lay",
-      "backer_multiplier": "2.0",
-      "original_bet_amount": 35000,
-    }
-  ],
-  [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.14",
       "account_id": dummyAccountId,
@@ -133,7 +128,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.15",
       "account_id": dummyAccountId,
@@ -144,7 +139,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.15",
       "account_id": dummyAccountId,
@@ -155,7 +150,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.14",
       "account_id": dummyAccountId,
@@ -166,7 +161,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.13",
       "account_id": dummyAccountId,
@@ -177,7 +172,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.12",
       "account_id": dummyAccountId,
@@ -188,7 +183,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.11",
       "account_id": dummyAccountId,
@@ -199,7 +194,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.10",
       "account_id": dummyAccountId,
@@ -210,7 +205,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.9",
       "account_id": dummyAccountId,
@@ -221,7 +216,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.5",
       "account_id": dummyAccountId,
@@ -232,7 +227,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.8",
       "account_id": dummyAccountId,
@@ -243,7 +238,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.8",
       "account_id": dummyAccountId,
@@ -254,7 +249,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.5",
       "account_id": dummyAccountId,
@@ -265,7 +260,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.8",
       "account_id": dummyAccountId,
@@ -276,7 +271,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.8",
       "account_id": dummyAccountId,
@@ -287,7 +282,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.5",
       "account_id": dummyAccountId,
@@ -298,7 +293,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.5",
       "account_id": dummyAccountId,
@@ -309,7 +304,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.5",
       "account_id": dummyAccountId,
@@ -320,7 +315,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.5",
       "account_id": dummyAccountId,
@@ -331,7 +326,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.5",
       "account_id": dummyAccountId,
@@ -342,7 +337,7 @@ const listOfOperations = [
     }
   ],
   [
-    202,
+    DummyOperationTypes.CANCEL_BET,
     {
       "bet_id": "1.106.4",
       "amount_refunded": 4000,
@@ -350,7 +345,7 @@ const listOfOperations = [
     }
   ],
   [
-    202,
+    DummyOperationTypes.CANCEL_BET,
     {
       "bet_id": "1.106.7",
       "amount_refunded": 1000,
@@ -358,7 +353,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.8",
       "account_id": dummyAccountId,
@@ -369,7 +364,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.7",
       "account_id": dummyAccountId,
@@ -380,7 +375,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.6",
       "account_id": dummyAccountId,
@@ -391,7 +386,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.5",
       "account_id": dummyAccountId,
@@ -402,7 +397,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.4",
       "account_id": dummyAccountId,
@@ -413,7 +408,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.3",
       "account_id": dummyAccountId,
@@ -424,7 +419,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.3",
       "account_id": dummyAccountId,
@@ -435,7 +430,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.3",
       "account_id": dummyAccountId,
@@ -446,7 +441,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.2",
       "account_id": dummyAccountId,
@@ -457,7 +452,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.2",
       "account_id": dummyAccountId,
@@ -468,7 +463,7 @@ const listOfOperations = [
     }
   ],
   [
-    203,
+    DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.2",
       "account_id": dummyAccountId,
@@ -479,7 +474,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.2",
       "account_id": dummyAccountId,
@@ -490,7 +485,7 @@ const listOfOperations = [
     }
   ],
   [
-    202,
+    DummyOperationTypes.CANCEL_BET,
     {
       "bet_id": "1.106.1",
       "amount_refunded": 10000,
@@ -498,7 +493,7 @@ const listOfOperations = [
     }
   ],
   [
-    201,
+    DummyOperationTypes.MAKE_BET,
     {
       "bet_id": "1.106.1",
       "account_id": dummyAccountId,
@@ -510,6 +505,13 @@ const listOfOperations = [
   ]
 ];
 
+
+const dummyTransactionHistoryMaxIdInstanceNumber = listOfOperations.length + 100000;
+const dummyMaxBlockNum = listOfOperations.length * 3;
+const dummyMaxVirtualOpId = listOfOperations.length + 100000;
+
+
+
 /**
 * Function to generate history given the list of operations
 * This reduces the number of redundant and tedious job of creating dummy data (i.e. setting id, block_num, virtual_op for each transaction)
@@ -517,9 +519,9 @@ const listOfOperations = [
 const generateHistory = () => {
   const result = [];
 
-  // 1 transaction every 5 mins;
-  // Note, if you want to modify this, make sure to modify the dummyMaxBlockNum accordingly
-  const transactionInterval =  5 * 60 / 3;
+  // 1 transaction every 3 seconds;
+  // Note, if you want to modify this, make sure to modify the dummyMaxBlockNum accordingly, so it couldn't reach below zero
+  const transactionInterval =  3;
 
   let nextTransactionHistoryMaxIdInstanceNumber = dummyTransactionHistoryMaxIdInstanceNumber;
   let nextBlockNum = dummyMaxBlockNum;

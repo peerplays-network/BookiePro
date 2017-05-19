@@ -5,11 +5,11 @@ import TreeUtils from './TreeUtils';
 import BettingModuleUtils from './BettingModuleUtils';
 import CurrencyUtils from './CurrencyUtils';
 import ExportUtils from './ExportUtils';
-import FileSaver from './fileSaver';
 import AppUtils from './AppUtils';
 import ColorUtils from './ColorUtils';
 import DateUtils from './DateUtils';
 import SoftwareUpdateUtils from './SoftwareUpdateUtils';
+import FileSaverUtils from './FileSaverUtils';
 
 export {
   AppUtils,
@@ -22,6 +22,6 @@ export {
   CurrencyUtils,
   ExportUtils,
   DateUtils,
-  FileSaver,
-  SoftwareUpdateUtils
+  SoftwareUpdateUtils,
+  FileSaverUtils
 };

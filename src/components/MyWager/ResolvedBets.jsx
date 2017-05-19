@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  Table,DatePicker,Select,LocaleProvider } from 'antd';
+import {  Table,DatePicker,Select } from 'antd';
 import { LoadingStatus } from '../../constants';
 import './MyWager.less';
 import { List } from 'immutable';
@@ -11,7 +11,7 @@ class ResolvedBets extends Component {
     const { columns, resolvedBets, resolvedBetsLoadingStatus, currencyFormat, betsTotal ,
       period, disabledStartDate, disabledEndDate, onStartDateSelect, onEndDateSelect, onPeriodSelect, onSearchClick,
       startDate, endDate, onResolvedBetsExport, exportButtonClicked, resolvedBetsExport, resolvedBetsExportLoadingStatus,
-      resetResolvedBetsExportLoadingStatus, clearResolvedBetsExport
+      handleExportFinishDownload
       } = this.props;
     const isValidDate = (period === 'custom' &&
       ((startDate===null || (startDate !== null && !startDate.isValid()))
@@ -39,7 +39,6 @@ class ResolvedBets extends Component {
                   </div>
                   {
                     period === 'custom' ?
-                    <LocaleProvider locale={ I18n.t('application.locale') }>
                       <div className='ant-form-item'>
                         <label>{ I18n.t('mybets.date') }</label>
                           <DatePicker
@@ -55,7 +54,6 @@ class ResolvedBets extends Component {
                             placeholder={ I18n.t('mybets.to') }
                             onChange={ onEndDateSelect }/>
                       </div>
-                    </LocaleProvider>
                     :null
                   }
                   <div className='ant-form-item'>
@@ -72,19 +70,16 @@ class ResolvedBets extends Component {
               </div>
             </div>
           </div>
-        <LocaleProvider locale={ I18n.t('application.locale') }>
           <Table pagination={ {pageSize: 20} }
             locale={ {emptyText: ( resolvedBets && resolvedBets.length === 0 &&
               resolvedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : resolvedBetsLoadingStatus )} }
             className='bookie-table' dataSource={ List(resolvedBets).toJS() } columns={ columns }/>
-        </LocaleProvider>
         </div>
         { exportButtonClicked ?
           <Export
             exportData={ List(resolvedBetsExport).toJS() }
             exportLoadingStatus={ resolvedBetsExportLoadingStatus }
-            resetExportLoadingStatus={ resetResolvedBetsExportLoadingStatus }
-            clearExportDataStore={ clearResolvedBetsExport }
+            handleExportFinishDownload={ handleExportFinishDownload }
             screenName={ I18n.t('mybets.screenName') }
             />: null }
         </div>

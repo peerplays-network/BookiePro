@@ -72,9 +72,9 @@ export default function configureStore() {
       if (key === 'notification') {
         const savedState = inboundState.filter((v, k) => k === 'latestTransactionHistoryIdByAccountId');
         return savedState;
-      } else if (key ==='history') {
-        // Only persist transactionHistoryByAccountId for history reducer
-        const savedState = inboundState.filter((v, k) => k === 'transactionHistoryByAccountId');
+      } else if (key ==='rawHistory') {
+        // Only persist rawHistoryByAccountId for history reducer
+        const savedState = inboundState.filter((v, k) => k === 'rawHistoryByAccountId');
         return savedState;
       } else {
         return inboundState;
@@ -86,7 +86,7 @@ export default function configureStore() {
   // Persist store
   persistStore(store, {
     storage: localforage,
-    whitelist: ['setting', 'notification', 'account', /*'history'*/], // TODO: persist it only after we have find a way to optimize it
+    whitelist: ['setting', 'notification', 'account', /*'rawHistory'*/], // TODO: persist it only after we have find a way to optimize it
     transforms: [subsetFilterTransform],
   }, () => {
     log.debug('Auto Rehydrate completed');

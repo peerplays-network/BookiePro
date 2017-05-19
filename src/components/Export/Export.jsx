@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Card,Icon } from 'antd';
 import { I18n } from 'react-redux-i18n';
-import { ExportUtils, FileSaver } from '../../utility';
+import { ExportUtils, FileSaverUtils } from '../../utility';
 import moment from 'moment';
 import { LoadingStatus } from '../../constants';
 
@@ -14,19 +14,18 @@ class Export extends PureComponent{
 
   //Copy the contents from the store to an excel file and download it
   handleDownloadClick(){
-    let content = ExportUtils(this.props.exportData, null, { toBytes: true });
+    let content = ExportUtils.formatDataForExport(this.props.exportData, null, { toBytes: true });
     let blob = new Blob([content], { type: 'application/vnd.ms-excel;charset=charset=utf-8' });
-    FileSaver.saveAs(blob, this.props.screenName + moment().format("YYYY-MM-DD_HH-mm-ss") + '.xlsx');
+    FileSaverUtils.saveAs(blob, this.props.screenName + moment().format("YYYY-MM-DD_HH-mm-ss") + '.xlsx');
     /*
       - 'No results' has to be displayed if data is not available.
       - 'No results' gets displayed after successfull download as well since we are clearing the data store.
       - Hence, to display it only when data is not available, we reset the export status back to 'default'
         to diffrentiate the above 2 scenarios
     */
-    //Reset export loading status to 'default'
-    this.props.resetExportLoadingStatus();
-    //Clear data store
-    this.props.clearExportDataStore();
+
+    // Call callback
+    this.props.handleExportFinishDownload();
   }
 
   /*
@@ -35,6 +34,7 @@ class Export extends PureComponent{
     Display 'no results' card when there is no data
   */
   render(){
+
     return(
       <div className={ this.props.screenName === I18n.t('mybets.screenName') ? 'export-overlay-top export-overlay' : 'export-overlay' } >
       {

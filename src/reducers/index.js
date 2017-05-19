@@ -26,9 +26,10 @@ import ImmutableRouterReducer from './ImmutableRouterReducer';
 import Immutablei18nReducer from './Immutablei18nReducer';
 import QuickBetDrawerReducer from './QuickBetDrawerReducer';
 import MarketDrawerReducer from './MarketDrawerReducer';
-import HistoryReducer from './HistoryReducer';
+import RawHistoryReducer from './RawHistoryReducer';
 import BalanceReducer from './BalanceReducer';
 import MywagerReducer from './MywagerReducer';
+import MyAccountPageReducer from './MyAccountPageReducer';
 
 
 const rootReducer = combineReducers({
@@ -52,12 +53,13 @@ const rootReducer = combineReducers({
   bettingMarketGroupPage: BettingMarketGroupPageReducer,
   account: AccountReducer,
   balance: BalanceReducer,
-  history: HistoryReducer,
+  rawHistory: RawHistoryReducer,
   notification: NotificationReducer,
   softwareUpdate: SoftwareUpdateReducer,
   sidebar: SidebarReducer,
   quickBetDrawer: QuickBetDrawerReducer,
   marketDrawer: MarketDrawerReducer,
+  myAccountPage: MyAccountPageReducer,
   routing: ImmutableRouterReducer,
   form: formReducer,
   i18n: Immutablei18nReducer

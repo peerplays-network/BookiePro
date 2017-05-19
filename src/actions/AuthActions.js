@@ -4,7 +4,7 @@ import NavigateActions from './NavigateActions';
 import AccountActions from './AccountActions';
 import SettingActions from './SettingActions';
 import BalanceActions from './BalanceActions';
-import HistoryActions from './HistoryActions';
+import RawHistoryActions from './RawHistoryActions';
 import AppActions from './AppActions';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
@@ -104,7 +104,7 @@ class AuthPrivateActions {
           // Set is logged in
           dispatch(AccountActions.setIsLoggedInAction(true));
           // Init history
-          dispatch(HistoryActions.initTransactionHistory());
+          dispatch(RawHistoryActions.initRawHistory());
         } else {
           throw new Error(I18n.t('login.wrong_username_password'));
         }

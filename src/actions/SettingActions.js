@@ -1,5 +1,4 @@
 import ActionTypes from '../constants/ActionTypes';
-import NavigateActions from '../actions/NavigateActions'
 
 /**
  * Private actions
@@ -111,12 +110,6 @@ class SettingActions {
     }
   }
 
-  static redirectToChangePwd(){
-    return (dispatch) => {
-     //Navigate to the 'Change Password' page when 'Change Password' button is clicked
-      dispatch(NavigateActions.navigateTo('/change-password'));
-    }
-  }
 
 }
 

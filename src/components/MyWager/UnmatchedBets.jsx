@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Table, LocaleProvider } from 'antd';
+import { Table } from 'antd';
 import { LoadingStatus } from '../../constants';
 import { I18n } from 'react-redux-i18n';
 import { List } from 'immutable';
@@ -32,13 +32,11 @@ class UnmatchedBets extends PureComponent {
                 disabled={ unmatchedBets && unmatchedBets.size === 0 }>{ I18n.t('mybets.cancel_all') }</button>
             </div>
         </div>
-        <LocaleProvider locale={ I18n.t('application.locale') }>
           <Table className='bookie-table' pagination={ { pageSize: 20 } } rowKey='id'
             locale={ {emptyText: ( unmatchedBets && unmatchedBets.size === 0 &&
               unmatchedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : unmatchedBetsLoadingStatus )} }
             dataSource={ List(unmatchedBets).toJS() } columns={ unmatchedBetsColumns } >
           </Table>
-        </LocaleProvider>
       </div>
     )
   }

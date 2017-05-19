@@ -23,6 +23,8 @@ import ChangePassword from './components/ChangePassword';
 import Welcome from './components/Welcome';
 import Landing from './components/Landing';
 import HelpAndSupport from './components/HelpAndSupport';
+import { LocaleProvider } from 'antd';
+import { I18n } from 'react-redux-i18n';
 import log from 'loglevel';
 
 // Configure store
@@ -72,8 +74,10 @@ const routes = (
 
 
 ReactDOM.render(
-  <Provider store={ store }>
-    <Router history={ history } routes={ routes } />
-  </Provider>,
+  <LocaleProvider locale={ I18n.t('application.locale') }>
+    <Provider store={ store }>
+        <Router history={ history } routes={ routes } />
+    </Provider>
+  </LocaleProvider>,
   document.getElementById('root')
 );

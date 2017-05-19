@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, LocaleProvider } from 'antd';
+import { Table } from 'antd';
 import { LoadingStatus } from '../../constants';
 import { I18n } from 'react-redux-i18n';
 import { List } from 'immutable';
@@ -17,12 +17,10 @@ class MatchedBets extends Component {
             </p>
           </div>
         </div>
-        <LocaleProvider locale={ I18n.t('application.locale') }>
           <Table className='bookie-table' pagination={ { pageSize: 20 } } rowKey='id'
             locale={ {emptyText: ( matchedBets && matchedBets.length === 0 &&
               matchedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : matchedBetsLoadingStatus )} }
               dataSource={ List(matchedBets).toJS() } columns={ columns } />
-        </LocaleProvider>
       </div>
     )
   }
