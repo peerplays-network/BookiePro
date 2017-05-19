@@ -238,7 +238,7 @@ export const translationsObject = {
           confirm_button: 'TRY AGAIN',
         },
         delete_bets: {
-          instructions: 'Are you sure you want to delete<br/>the bets from this event?<br/>%{event}',
+          instructions: 'Are you sure you want to<br/>delete the bets in the event<br/>%{event}?',
           cancel_button: 'NO',
           confirm_button: 'YES',
         },
