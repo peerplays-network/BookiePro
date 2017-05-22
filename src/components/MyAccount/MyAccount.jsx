@@ -53,13 +53,13 @@ class MyAccount extends PureComponent {
   }
 
   componentDidMount() {
-    Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
+    // Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
     //Get the deposit address
     this.props.getDepositAddress();
   }
 
   componentDidUpdate(prevProps, prevState){
-    Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
+    // Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
   }
 
   //Search transaction history with filters

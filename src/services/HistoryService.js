@@ -99,6 +99,160 @@ class HistoryService {
     return transactionHistory;
   }
 
+  /**
+   * Convert raw history into my bets which are unmatched bets, matched bets, and resolved bets
+   * unmatched bets {
+   * id,
+   * bettor_id,
+   * betting_market_id,
+   * original_bet_amount,
+   * backer_multiplier,
+   * back_or_lay,
+   * unmatched_bet_amount
+   * }
+   *
+   * matched bets {
+   * id,
+   * bettor_id,
+   * betting_market_id,
+   * original_bet_amount,
+   * backer_multiplier,
+   * back_or_lay,
+   * matched_bet_amount
+   * }
+   *
+   * resolved bets {
+   * id,
+   * bettor_id,
+   * betting_market_id,
+   * original_bet_amount,
+   * backer_multiplier,
+   * back_or_lay,
+   * resolved_time,
+   * matched_bet_amount,
+   * amount_won
+   * }
+   */
+  static convertRawHistoryToMyBets(state, rawHistory) {
+    const dynGlobalObject = state.getIn(['app', 'blockchainDynamicGlobalProperty']);
+    const globalObject = state.getIn(['app', 'blockchainGlobalProperty']);
+
+    let unmatchedBetsById = Immutable.Map();
+    let matchedBetsById = Immutable.Map();
+    let resolvedBetsById = Immutable.Map();
+
+    // Iterate from the beginning
+    rawHistory.reverse().forEach((rawTransaction) => {
+      const operationType = rawTransaction.getIn(['op', 0]);
+      const operationContent = rawTransaction.getIn(['op', 1]);
+      switch (operationType) {
+        case DummyOperationTypes.MAKE_BET: {
+          // Create unmatched bets object
+          const betId = operationContent.get('bet_id');
+          const unmatchedBet = Immutable.fromJS({
+            id: betId,
+            bettor_id: operationContent.get('account_id'),
+            betting_market_id: operationContent.get('betting_market_id'),
+            back_or_lay: operationContent.get('back_or_lay'),
+            backer_multiplier: operationContent.get('backer_multiplier'),
+            original_bet_amount: operationContent.get('original_bet_amount'),
+            unmatched_bet_amount: operationContent.get('original_bet_amount')
+          });
+          unmatchedBetsById = unmatchedBetsById.set(betId, unmatchedBet);
+          break;
+        }
+        case DummyOperationTypes.CANCEL_BET: {
+          const betId = operationContent.get('bet_id');
+          unmatchedBetsById = unmatchedBetsById.delete(betId);
+          break;
+        }
+        case DummyOperationTypes.BET_MATCHED: {
+          const betId = operationContent.get('bet_id');
+          // Get unmatched bet
+          let unmatchedBet = unmatchedBetsById.get(betId);
+          if (unmatchedBet && !unmatchedBet.isEmpty()) {
+            const originalAmount = unmatchedBet.get('original_bet_amount');
+            const unmatchedAmount = unmatchedBet.get('unmatched_bet_amount');
+            const matchedAmount = operationContent.get('matched_bet_amount');
+            const updatedUnmatchedAmount = unmatchedAmount - matchedAmount;
+            // Modify unmatched bet
+            // Remove it if it reaches 0
+            if (updatedUnmatchedAmount <= 0) {
+              unmatchedBetsById = unmatchedBetsById.delete(betId);
+            } else {
+              unmatchedBet = unmatchedBet.set('unmatched_bet_amount', updatedUnmatchedAmount);
+              unmatchedBetsById = unmatchedBetsById.set(betId, unmatchedBet);
+            }
+
+            // Check if there is existing matchedBet object
+            let matchedBet = matchedBetsById.get(betId);
+            // If it doesn't exist yet, create new one
+            if (!matchedBet || matchedBet.isEmpty()) {
+              matchedBet = Immutable.fromJS({
+                id: betId,
+                bettor_id: operationContent.get('account_id'),
+                betting_market_id: operationContent.get('betting_market_id'),
+                back_or_lay: operationContent.get('back_or_lay'),
+                backer_multiplier: operationContent.get('backer_multiplier'),
+                original_bet_amount: originalAmount,
+                matched_amount: matchedAmount
+              })
+            } else {
+              // update it if it exists
+              matchedBet = matchedBet.set('matched_bet_amount', matchedAmount);
+            }
+            // Update matched bets
+            matchedBetsById = matchedBetsById.set(betId, matchedBet);
+          }
+          break;
+        }
+        case DummyOperationTypes.BETTING_MARKET_RESOLVED: {
+          // Remove all related unmatched bets
+          const bettingMarketId = operationContent.get('betting_market_id');
+          unmatchedBetsById = unmatchedBetsById.filter((unmatchedBet) => {
+            return unmatchedBet.get('betting_market_id') !== bettingMarketId;
+          });
+          // Create resolved bets from related matched bets
+          matchedBetsById.forEach((matchedBet) => {
+            if (matchedBet.get('betting_market_id') === bettingMarketId) {
+              const betId = matchedBet.get('id');
+              let resolvedBet = matchedBet;
+              // Set resolved time
+              const blockNum  = rawTransaction.get('block_num');
+              const resolvedTime = BlockchainUtils.calcBlockTime(blockNum, globalObject, dynGlobalObject);
+              // Set amount won
+              // TODO: since we don't have a way to know which bet side is winning, always assume this bet is winning
+              const amountWon = matchedBet.get('matched_bet_amount') * (matchedBet.get('backer_multiplier') - 1);
+              resolvedBet = resolvedBet.set('resolved_time', resolvedTime)
+                                        .set('amount_won', amountWon);
+              resolvedBetsById = resolvedBetsById.set(betId, resolvedBet);
+            }
+          })
+          // Remove resolved bets from matchedbets list
+          matchedBetsById = matchedBetsById.filterNot((matchedBet) => {
+            return (matchedBet.get('betting_market_id') === bettingMarketId);
+          });
+          break;
+        }
+        default: break;
+      }
+    })
+
+    console.log('unmacthd', unmatchedBetsById);
+    console.log('matched', matchedBetsById);
+    console.log('resolved', resolvedBetsById);
+    return {
+      unmatchedBetsById,
+      matchedBetsById,
+      resolvedBetsById
+    }
+
+  }
+
+
+  /**
+   * Filter transaction history given the time range
+   */
   static filterTransactionHistoryGivenTimeRange(transactionHistory, periodType, customTimeRangeStartDate, customTimeRangeEndDate) {
     const filteredTransactionHistory = transactionHistory.filter((transaction) => {
       let startDate, endDate;
@@ -118,6 +272,16 @@ class HistoryService {
     return filteredTransactionHistory;
   }
 
+  /**
+   * Convert transaction history to export data
+   * {
+   *  Id,
+   *  Time,
+   *  Description,
+   *  Status,
+   *  Amount
+   * }
+   */
   static convertTransactionHistoryToTransactionHistoryExportData(state, transactionHistory) {
     const accountId = state.getIn(['account', 'account', 'id']);
     const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']);

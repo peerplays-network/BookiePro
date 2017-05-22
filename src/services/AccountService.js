@@ -77,6 +77,10 @@ class AccountServices {
   * account - account object from blockchain
   */
   static authenticateAccount(account, keys) {
+    // Invalid params
+    if (!account || !keys) {
+      return false;
+    }
     // NOTE: Uncomment this to check the key pairs of logged in account
     // For checking key
     // const x = {
@@ -93,32 +97,30 @@ class AccountServices {
     const ownerPublicKey = keys.owner.toPublicKey().toPublicKeyString();
 
     let isAuthenticated = false;
-    if (account) {
-      // Check the similarity of keys
-      const activeKeyAuths = account.getIn(['active', 'key_auths']);
-      const ownerKeyAuths = account.getIn(['owner', 'key_auths']);
-      // Check active keys
-      let activeKeyMatches = false;
-      if (activeKeyAuths) {
-        activeKeyAuths.forEach((keyArr) => {
-          if (keyArr.first() && keyArr.first() === activePublicKey) {
-            activeKeyMatches = true;
-            return false;
-          }
-        });
-      }
-      // Check owner keys
-      let ownerKeyMatches = false;
-      if (ownerKeyAuths) {
-        ownerKeyAuths.forEach((keyArr) => {
-          if (keyArr.first() && keyArr.first() === ownerPublicKey) {
-            ownerKeyMatches = true;
-            return false;
-          }
-        });
-      }
-      isAuthenticated = activeKeyMatches && ownerKeyMatches;
+    // Check the similarity of keys
+    const activeKeyAuths = account.getIn(['active', 'key_auths']);
+    const ownerKeyAuths = account.getIn(['owner', 'key_auths']);
+    // Check active keys
+    let activeKeyMatches = false;
+    if (activeKeyAuths) {
+      activeKeyAuths.forEach((keyArr) => {
+        if (keyArr.first() && keyArr.first() === activePublicKey) {
+          activeKeyMatches = true;
+          return false;
+        }
+      });
     }
+    // Check owner keys
+    let ownerKeyMatches = false;
+    if (ownerKeyAuths) {
+      ownerKeyAuths.forEach((keyArr) => {
+        if (keyArr.first() && keyArr.first() === ownerPublicKey) {
+          ownerKeyMatches = true;
+          return false;
+        }
+      });
+    }
+    isAuthenticated = activeKeyMatches && ownerKeyMatches;
     return isAuthenticated;
   }
   /**

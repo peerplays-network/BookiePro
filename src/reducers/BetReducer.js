@@ -5,47 +5,100 @@ import Immutable from 'immutable';
 import { isUnmatchedBet } from './dataUtils';
 
 let initialState = Immutable.fromJS({
-  getOngoingBetsLoadingStatus: LoadingStatus.DEFAULT,
-  getOngoingBetsError: null,
-  getResolvedBetsLoadingStatus: LoadingStatus.DEFAULT,
-  getResolvedBetsError: null,
-  getResolvedBetsExportLoadingStatus: LoadingStatus.DEFAULT,
-  getResolvedBetsExportError: null,
-  makeBetsLoadingStatus: LoadingStatus.DEFAULT,
-  makeBetsError: null,
   editBetsByIdsLoadingStatus: {},
   editBetsErrorByBetId: {},
   cancelBetsByIdsLoadingStatus: {},
   cancelBetsErrorByBetId: {},
-  unmatchedBetsById: {},
-  matchedBetsById: {},
+  makeBetsLoadingStatus: LoadingStatus.DEFAULT,
+  makeBetsError: null,
+
+  getResolvedBetsExportLoadingStatus: LoadingStatus.DEFAULT,
+  getResolvedBetsExportError: null,
+  resolvedBetsExportById: {},
+
+  newUnmatchedBetsById: {},
+  newMatchedBetsById: {},
+  newResolvedBetsById: {},
+  initMyBetsLoadingStatus: LoadingStatus.DEFAULT,
+  initMyBetsError: null,
+  checkForNewMyBetsLoadingStatus: LoadingStatus.DEFAULT,
+  checkForNewMyBetsError: null,
+
+  // TODO: The following should be deprecated and replaced with newUnmatchedBetsById, newMatchedBetsById, and newResolvedBetsById
+  getOngoingBetsLoadingStatus: LoadingStatus.DEFAULT,
+  getOngoingBetsError: null,
+  getResolvedBetsLoadingStatus: LoadingStatus.DEFAULT,
+  getResolvedBetsError: null,
   resolvedBetsById: {},
-  resolvedBetsExportById: {}
+  matchedBetsById: {},
+  unmatchedBetsById: {},
+
+
 });
 
 export default function (state = initialState, action) {
   switch(action.type) {
-    case ActionTypes.BET_SET_GET_ONGOING_BETS_LOADING_STATUS: {
+    case ActionTypes.BET_INIT_MY_BETS_LOADING_STATUS: {
       return state.merge({
-        getOngoingBetsLoadingStatus: action.loadingStatus
+        initMyBetsLoadingStatus: action.loadingStatus
       });
     }
-    case ActionTypes.BET_SET_GET_ONGOING_BETS_ERROR: {
+    case ActionTypes.BET_INIT_MY_BETS_ERROR: {
       return state.merge({
-        getOngoingBetsError: action.error,
-        getOngoingBetsLoadingStatus: LoadingStatus.ERROR
+        initMyBetsError: action.error,
+        initMyBetsLoadingStatus: LoadingStatus.ERROR
       });
     }
-    case ActionTypes.BET_SET_GET_RESOLVED_BETS_LOADING_STATUS: {
+    case ActionTypes.BET_CHECK_FOR_NEW_MY_BETS_LOADING_STATUS: {
       return state.merge({
-        getResolvedBetsLoadingStatus: action.loadingStatus
+        checkForNewMyBetsLoadingStatus: action.loadingStatus
       });
     }
-    case ActionTypes.BET_SET_GET_RESOLVED_BETS_ERROR: {
+    case ActionTypes.BET_CHECK_FOR_NEW_MY_BETS_ERROR: {
       return state.merge({
-        getResolvedBetsError: action.error,
-        getResolvedBetsLoadingStatus: LoadingStatus.ERROR
+        checkForNewMyBetsError: action.error,
+        checkForNewMyBetsLoadingStatus: LoadingStatus.ERROR
       });
+    }
+    case ActionTypes.BET_SET_MY_BETS: {
+      return state.merge({
+        newUnmatchedBetsById: action.myBets.unmatchedBetsById,
+        newMatchedBetsById: action.myBets.matchedBetsById,
+        newResolvedBetsById: action.myBets.resolvedBetsById
+      })
+    }
+
+    case ActionTypes.BET_UPDATE_MY_BETS: {
+      let unmatchedBetsById = state.newUnmatchedBetsById;
+      let matchedBetsById = state.matchedBetsById;
+      let resolvedBetsById = state.resolvedBetsById;
+
+      // Update the data
+      action.myBets.unmatchedBetsById.forEach((unmatchedBet, id) => {
+        unmatchedBetsById = unmatchedBetsById.set(id, unmatchedBet)
+      })
+      action.myBets.matchedBetsById.forEach((matchedBet, id) => {
+        const matchedAmount = matchedBet.get('matched_bet_amount');
+        // Update unmatched portion
+        let unmatchedBet = unmatchedBetsById.get(id);
+        if (unmatchedBet) {
+          const unmatchedAmount = unmatchedBet.get('unmatched_bet_amount');
+          const updatedUnmatchedAmount = unmatchedAmount - matchedAmount;
+          unmatchedBet = unmatchedBet.set('unmatched_bet_amount', updatedUnmatchedAmount);
+          unmatchedBetsById = unmatchedBetsById.set(id, unmatchedBet);
+        }
+        matchedBetsById = matchedBetsById.set(id, matchedBet);
+      })
+      action.myBets.resolvedBetsById.forEach((resolvedBet, id) => {
+        // Remove from resolved bets
+        matchedBetsById = matchedBetsById.delete(id);
+        resolvedBetsById = resolvedBetsById.set(id, resolvedBet)
+      })
+      return state.merge({
+        newUnmatchedBetsById: unmatchedBetsById,
+        newMatchedBetsById: matchedBetsById,
+        newResolvedBetsById: resolvedBetsById
+      })
     }
     case ActionTypes.BET_SET_MAKE_BETS_LOADING_STATUS: {
       return state.merge({
@@ -88,7 +141,46 @@ export default function (state = initialState, action) {
       })
       return nextState;
     }
+    case ActionTypes.BET_SET_GET_ONGOING_BETS_LOADING_STATUS: {
+      // TODO: should be deprecated
+      return state.merge({
+        getOngoingBetsLoadingStatus: action.loadingStatus
+      });
+    }
+    case ActionTypes.BET_ADD_OR_UPDATE_RESOLVED_BETS_EXPORT: {
+      return state.merge({'resolvedBetsExportById': action.resolvedBetsExport});
+    }
+    case ActionTypes.BET_CLEAR_RESOLVED_BETS_EXPORT: {
+      return state.merge({
+        resolvedBetsExportById: {}
+      });
+    }
+    case ActionTypes.BET_SET_GET_ONGOING_BETS_ERROR: {
+      console.warn('BET_SET_GET_ONGOING_BETS_ERROR should be deprecated')
+        // TODO: should be deprecated
+      return state.merge({
+        getOngoingBetsError: action.error,
+        getOngoingBetsLoadingStatus: LoadingStatus.ERROR
+      });
+    }
+    case ActionTypes.BET_SET_GET_RESOLVED_BETS_LOADING_STATUS: {
+      console.warn('BET_SET_GET_RESOLVED_BETS_LOADING_STATUS should be deprecated')
+        // TODO: should be deprecated
+      return state.merge({
+        getResolvedBetsLoadingStatus: action.loadingStatus
+      });
+    }
+    case ActionTypes.BET_SET_GET_RESOLVED_BETS_ERROR: {
+      console.warn('BET_SET_GET_RESOLVED_BETS_ERROR should be deprecated')
+        // TODO: should be deprecated
+      return state.merge({
+        getResolvedBetsError: action.error,
+        getResolvedBetsLoadingStatus: LoadingStatus.ERROR
+      });
+    }
     case ActionTypes.BET_ADD_OR_UPDATE_ONGOING_BETS: {
+      console.warn('BET_ADD_OR_UPDATE_ONGOING_BETS should be deprecated')
+        // TODO: should be deprecated
       let unmatchedBetsById = Immutable.Map();
       let matchedBetsById = Immutable.Map();
       // Split ongoing bets to unmatched and matched bets
@@ -114,6 +206,8 @@ export default function (state = initialState, action) {
       return nextState;
     }
     case ActionTypes.BET_REMOVE_ONGOING_BETS: {
+      console.warn('BET_REMOVE_ONGOING_BETS should be deprecated')
+        // TODO: should be deprecated
       let nextState = state;
       action.betIds.forEach((betId) => {
         nextState = nextState.deleteIn(['unmatchedBetsById', betId]);
@@ -122,6 +216,8 @@ export default function (state = initialState, action) {
       return nextState;
     }
     case ActionTypes.BET_ADD_OR_UPDATE_RESOLVED_BETS: {
+      console.warn('BET_ADD_OR_UPDATE_RESOLVED_BETS should be deprecated')
+        // TODO: should be deprecated
       let resolvedBetsById = Immutable.Map();
       action.resolvedBets.forEach((bet) => {
         resolvedBetsById = resolvedBetsById.set(bet.get('id'), bet);
@@ -129,24 +225,21 @@ export default function (state = initialState, action) {
       return state.mergeIn(['resolvedBetsById'], resolvedBetsById);
     }
     case ActionTypes.BET_SET_GET_RESOLVED_BETS_EXPORT_LOADING_STATUS: {
+      console.warn('BET_SET_GET_RESOLVED_BETS_EXPORT_LOADING_STATUS should be deprecated')
+        // TODO: should be deprecated
       return state.merge({
         getResolvedBetsExportLoadingStatus: action.loadingStatus
       });
     }
     case ActionTypes.BET_SET_GET_RESOLVED_BETS_EXPORT_ERROR: {
+      console.warn('BET_SET_GET_RESOLVED_BETS_EXPORT_ERROR should be deprecated')
+        // TODO: should be deprecated
       return state.merge({
         getResolvedBetsExportError: action.error,
         getResolvedBetsExportLoadingStatus: LoadingStatus.ERROR
       });
     }
-    case ActionTypes.BET_ADD_OR_UPDATE_RESOLVED_BETS_EXPORT: {
-      return state.merge({'resolvedBetsExportById': action.resolvedBetsExport});
-    }
-    case ActionTypes.BET_CLEAR_RESOLVED_BETS_EXPORT: {
-      return state.merge({
-        resolvedBetsExportById: {}
-      });
-    }
+
     case ActionTypes.AUTH_LOGOUT: {
       return initialState;
     }

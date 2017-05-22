@@ -216,6 +216,14 @@ const listOfOperations = [
     }
   ],
   [
+    DummyOperationTypes.BETTING_MARKET_RESOLVED,
+    {
+      "account_id": dummyAccountId,
+      "betting_market_id": "1.105.3",
+      "amount_paid": 100000,
+    }
+  ],
+  [
     DummyOperationTypes.BET_MATCHED,
     {
       "bet_id": "1.106.5",
