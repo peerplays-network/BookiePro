@@ -24,6 +24,20 @@ class QuickBetDrawerPrivateActions {
     }
   }
 
+  static showDeleteBetsConfirmation(bets, eventName) {
+    return {
+      type: ActionTypes.QUICK_BET_DRAWER_SHOW_DELETE_BETS_CONFIRMATION,
+      bets,
+      eventName
+    }
+  }
+
+  static hideDeleteBetsConfirmation() {
+    return {
+      type: ActionTypes.QUICK_BET_DRAWER_HIDE_DELETE_BETS_CONFIRMATION,
+    }
+  }
+
   static deleteManyBets(listOfBetIds) {
     return {
       type: ActionTypes.QUICK_BET_DRAWER_DELETE_MANY_BETS,
@@ -83,6 +97,18 @@ class QuickBetDrawerActions {
   static deleteBet(bet) {
     return (dispatch) => {
       dispatch(QuickBetDrawerPrivateActions.deleteOneBet(bet.get('id')));
+    }
+  }
+
+  static clickDeleteBets(bets, eventName) {
+    return (dispatch) => {
+      dispatch(QuickBetDrawerPrivateActions.showDeleteBetsConfirmation(bets, eventName));
+    }
+  }
+
+  static cancelDeleteBets() {
+    return (dispatch) => {
+      dispatch(QuickBetDrawerPrivateActions.hideDeleteBetsConfirmation());
     }
   }
 

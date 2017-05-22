@@ -16,6 +16,10 @@ let initialState = Immutable.fromJS({
   showPlacedBetsWaiting: false,
   showPlacedBetsSuccess: false,
   groupByAverageOdds: false,
+  unconfirmedbetsToBeDeleted: Immutable.List(),
+  showDeleteUnconfirmedBetsConfirmation: false,
+  unmatchedbetsToBeDeleted: Immutable.List(),
+  showDeleteUnmatchedBetsConfirmation: false,
 });
 
 export default function(state = initialState, action) {
@@ -49,16 +53,35 @@ export default function(state = initialState, action) {
         showBetSlipSuccess: false,
       });
     }
+    case ActionTypes.MARKET_DRAWER_SHOW_DELETE_UNCONFIRMED_BETS_CONFIRMATION: {
+      return state.merge({
+        unconfirmedbetsToBeDeleted: action.bets,
+        showDeleteUnconfirmedBetsConfirmation: true,
+      })
+    }
+    case ActionTypes.MARKET_DRAWER_HIDE_DELETE_UNCONFIRMED_BETS_CONFIRMATION: {
+      return state.merge({
+        unconfirmedbetsToBeDeleted: Immutable.List(),
+        showDeleteUnconfirmedBetsConfirmation: false,
+      })
+    }
     case ActionTypes.MARKET_DRAWER_DELETE_MANY_UNCONFIRMED_BETS: {
       return state.merge({
         unconfirmedBets: unconfirmedBets.filterNot(b => action.listOfBetIds.includes(b.get('id'))),
         showBetSlipSuccess: false,
+        unconfirmedbetsToBeDeleted: Immutable.List(),
+        showDeleteUnconfirmedBetsConfirmation: false,
       });
     }
     case ActionTypes.MARKET_DRAWER_DELETE_ALL_UNCONFIRMED_BETS: {
       return state.merge({
         unconfirmedBets: Immutable.List(),
+        showBetSlipConfirmation: false,
+        showBetSlipWaiting: false,
+        showBetSlipError: false,
         showBetSlipSuccess: false,
+        unconfirmedbetsToBeDeleted: Immutable.List(),
+        showDeleteUnconfirmedBetsConfirmation: false,
       });
     }
     case ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNCONFIRMED_BET: {
@@ -167,9 +190,23 @@ export default function(state = initialState, action) {
         unmatchedBets: unmatchedBets.filterNot(b => b.get('id') === action.betId),
       });
     }
+    case ActionTypes.MARKET_DRAWER_SHOW_DELETE_UNMATCHED_BETS_CONFIRMATION: {
+      return state.merge({
+        unmatchedbetsToBeDeleted: action.bets,
+        showDeleteUnmatchedBetsConfirmation: true,
+      })
+    }
+    case ActionTypes.MARKET_DRAWER_HIDE_DELETE_UNMATCHED_BETS_CONFIRMATION: {
+      return state.merge({
+        unmatchedbetsToBeDeleted: Immutable.List(),
+        showDeleteUnmatchedBetsConfirmation: false,
+      })
+    }
     case ActionTypes.MARKET_DRAWER_DELETE_MANY_UNMATCHED_BETS: {
       return state.merge({
         unmatchedBets: unmatchedBets.filterNot(b => action.listOfBetIds.includes(b.get('id'))),
+        unmatchedbetsToBeDeleted: Immutable.List(),
+        showDeleteUnmatchedBetsConfirmation: false,
       });
     }
     case ActionTypes.MARKET_DRAWER_SHOW_PLACED_BETS_CONFIRMATION: {

@@ -106,10 +106,11 @@ const mapStateToProps = (state, ownProps) => {
   const showPlacedBetsConfirmation = state.getIn(['marketDrawer', 'showPlacedBetsConfirmation']);
   const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);
   const showPlacedBetsError = state.getIn(['marketDrawer', 'showPlacedBetsError']);
+  const showDeleteUnmatchedBetsConfirmation = state.getIn(['marketDrawer', 'showDeleteUnmatchedBetsConfirmation']);
   return {
     originalBets,
     bets: page,
-    obscureContent: showPlacedBetsConfirmation || showPlacedBetsWaiting || showPlacedBetsError,
+    obscureContent: showPlacedBetsConfirmation || showPlacedBetsWaiting || showPlacedBetsError || showDeleteUnmatchedBetsConfirmation,
   };
 }
 

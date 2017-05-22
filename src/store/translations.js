@@ -239,6 +239,11 @@ export const translationsObject = {
           cancel_button: 'CANCEL',
           confirm_button: 'TRY AGAIN',
         },
+        delete_bets: {
+          instructions: 'Are you sure you want to<br/>delete the bets in the event<br/>%{event}?',
+          cancel_button: 'NO',
+          confirm_button: 'YES',
+        },
         success: {
           instructions: 'Your bets have been successfully placed.',
         },
@@ -265,6 +270,11 @@ export const translationsObject = {
           instructions: 'Sorry, we are unable to proceed<br/>with your request. Please try again!',
           cancel_button: 'CANCEL',
           confirm_button: 'TRY AGAIN',
+        },
+        delete_bets: {
+          instructions: 'Are you sure you want to<br/>delete all the bets?',
+          cancel_button: 'NO',
+          confirm_button: 'YES',
         },
         success: {
           instructions: 'Your bets have been successfully placed.',
@@ -298,7 +308,12 @@ export const translationsObject = {
         content: {
           update_button: 'UPDATE \u0243%{amount}',
           reset_button: 'RESET',
-        }
+        },
+        delete_bets: {
+          instructions: 'Are you sure you want to<br/>cancel all unmatched bets?',
+          cancel_button: 'NO',
+          confirm_button: 'YES',
+        },
       },
       matched_bets: {
         header: 'MATCHED BETS',

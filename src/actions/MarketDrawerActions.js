@@ -26,6 +26,19 @@ class MarketDrawerPrivateActions {
     };
   }
 
+  static showDeleteUnconfirmedBetsConfirmation(bets) {
+    return {
+      type: ActionTypes.MARKET_DRAWER_SHOW_DELETE_UNCONFIRMED_BETS_CONFIRMATION,
+      bets
+    }
+  }
+
+  static hideDeleteUnconfirmedBetsConfirmation() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_HIDE_DELETE_UNCONFIRMED_BETS_CONFIRMATION,
+    }
+  }
+
   static deleteManyUnconfirmedBets(listOfBetIds) {
     return {
       type: ActionTypes.MARKET_DRAWER_DELETE_MANY_UNCONFIRMED_BETS,
@@ -78,6 +91,19 @@ class MarketDrawerPrivateActions {
       type: ActionTypes.MARKET_DRAWER_DELETE_ONE_UNMATCHED_BET,
       betId
     };
+  }
+
+  static showDeleteUnmatchedBetsConfirmation(bets) {
+    return {
+      type: ActionTypes.MARKET_DRAWER_SHOW_DELETE_UNMATCHED_BETS_CONFIRMATION,
+      bets
+    }
+  }
+
+  static hideDeleteUnmatchedBetsConfirmation() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_HIDE_DELETE_UNMATCHED_BETS_CONFIRMATION,
+    }
   }
 
   static deleteManyUnmatchedBets(listOfBetIds) {
@@ -147,6 +173,18 @@ class MarketDrawerActions {
     }
   }
 
+  static clickDeleteUnconfirmedBets(bets) {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.showDeleteUnconfirmedBetsConfirmation(bets));
+    }
+  }
+
+  static cancelDeleteUnconfirmedBets() {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.hideDeleteUnconfirmedBetsConfirmation());
+    }
+  }
+
   static deleteUnconfirmedBets(bets) {
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.deleteManyUnconfirmedBets(bets.map(b => b.get('id'))));
@@ -202,6 +240,18 @@ class MarketDrawerActions {
       // TODO DEPRECATE: Once the Blockchain is ready we SHOULD NOT manually remove an unmatched bet
       console.warn("Warning    Manual removal of unmatched bets in UI should be prohibited once Bet cancellation is available in Blockchain");
       dispatch(MarketDrawerPrivateActions.deleteOneUnmatchedBet(bet.get('id')));
+    }
+  }
+
+  static clickDeleteUnmatchedBets(bets) {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.showDeleteUnmatchedBetsConfirmation(bets));
+    }
+  }
+
+  static cancelDeleteUnmatchedBets() {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.hideDeleteUnmatchedBetsConfirmation());
     }
   }
 

@@ -26,6 +26,26 @@ const renderOverlay = (props, className, transactionFee=0) => (
   </div>
 )
 
+const renderDeleteBetsOverlay = (props) => (
+  <div className='overlay'>
+    <div className='instructions'>
+      <Translate
+        value={ `quick_bet_drawer.unconfirmed_bets.delete_bets.instructions` }
+        event={ props.eventNameInDeleteBetsConfirmation }
+        dangerousHTML
+      />
+    </div>
+    <div className='buttons'>
+      <Button className='btn btn-cancel' onClick={ props.cancelDeleteBets }>
+        { I18n.t(`quick_bet_drawer.unconfirmed_bets.delete_bets.cancel_button`) }
+      </Button>
+      <Button className='btn btn-regular' onClick={ () => props.deleteBets(props.betsToBeDeleted) }>
+        { I18n.t(`quick_bet_drawer.unconfirmed_bets.delete_bets.confirm_button`) }
+      </Button>
+    </div>
+  </div>
+)
+
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
     { props.bets.isEmpty() &&
@@ -53,7 +73,7 @@ const renderContent = (props) => (
           data={ props.bets.get(eventId).get('unconfirmedBets') }
           title={ props.bets.get(eventId).get('event_name') }
           deleteOne={ props.deleteBet }
-          deleteMany={ props.deleteBets }
+          deleteMany={ props.clickDeleteBets }
           updateOne={ props.updateBet }
           dimmed={ props.obscureContent }
           currencyFormat={ props.currencyFormat }
@@ -101,6 +121,7 @@ class QuickBetDrawer extends Component {
         </SplitPane>
         { this.props.showBetSlipConfirmation && renderOverlay(this.props, 'confirmation', 0.051) }
         { this.props.showBetSlipError && renderOverlay(this.props, 'error') }
+        { this.props.showDeleteBetsConfirmation && renderDeleteBetsOverlay(this.props) }
         { // TODO: Replace this with an approved spinning icon.
           // The waiting text is just a placeholder
           this.props.showBetSlipWaiting &&
@@ -146,6 +167,7 @@ const mapStateToProps = (state) => {
   const showBetSlipWaiting = state.getIn(['quickBetDrawer', 'showBetSlipWaiting']);
   const showBetSlipError = state.getIn(['quickBetDrawer', 'showBetSlipError']);
   const showBetSlipSuccess = state.getIn(['quickBetDrawer', 'showBetSlipSuccess']);
+  const showDeleteBetsConfirmation = state.getIn(['quickBetDrawer', 'showDeleteBetsConfirmation']);
   return {
     originalBets,
     bets: page,
@@ -153,7 +175,10 @@ const mapStateToProps = (state) => {
     showBetSlipWaiting,
     showBetSlipError,
     showBetSlipSuccess,
-    obscureContent: showBetSlipConfirmation || showBetSlipWaiting || showBetSlipError,
+    showDeleteBetsConfirmation,
+    obscureContent: showBetSlipConfirmation || showBetSlipWaiting || showBetSlipError || showDeleteBetsConfirmation,
+    betsToBeDeleted: state.getIn(['quickBetDrawer', 'betsToBeDeleted']),
+    eventNameInDeleteBetsConfirmation: state.getIn(['quickBetDrawer', 'eventNameInDeleteBetsConfirmation'])
   };
 }
 
@@ -161,6 +186,8 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     deleteBet: QuickBetDrawerActions.deleteBet,
+    clickDeleteBets: QuickBetDrawerActions.clickDeleteBets,
+    cancelDeleteBets: QuickBetDrawerActions.cancelDeleteBets,
     deleteBets: QuickBetDrawerActions.deleteBets,
     updateBet: QuickBetDrawerActions.updateBet,
     clickPlaceBet: QuickBetDrawerActions.clickPlaceBet,

@@ -8,6 +8,9 @@ let initialState = Immutable.fromJS({
   showBetSlipWaiting: false,
   showBetSlipError: false,
   showBetSlipSuccess: false,
+  betsToBeDeleted: Immutable.List(),
+  showDeleteBetsConfirmation: false,
+  eventInDeleteBetsConfirmation: ''
 });
 
 export default function(state = initialState, action) {
@@ -40,16 +43,39 @@ export default function(state = initialState, action) {
         showBetSlipSuccess: false,
       });
     }
+    case ActionTypes.QUICK_BET_DRAWER_SHOW_DELETE_BETS_CONFIRMATION: {
+      return state.merge({
+        betsToBeDeleted: action.bets,
+        showDeleteBetsConfirmation: true,
+        eventNameInDeleteBetsConfirmation: action.eventName,
+      })
+    }
+    case ActionTypes.QUICK_BET_DRAWER_HIDE_DELETE_BETS_CONFIRMATION: {
+      return state.merge({
+        betsToBeDeleted: Immutable.List(),
+        showDeleteBetsConfirmation: false,
+        eventNameInDeleteBetsConfirmation: '',
+      })
+    }
     case ActionTypes.QUICK_BET_DRAWER_DELETE_MANY_BETS: {
       return state.merge({
         bets: oldBets.filterNot(b => action.listOfBetIds.includes(b.get('id'))),
         showBetSlipSuccess: false,
+        betsToBeDeleted: Immutable.List(),
+        showDeleteBetsConfirmation: false,
+        eventNameInDeleteBetsConfirmation: '',
       });
     }
     case ActionTypes.QUICK_BET_DRAWER_DELETE_ALL_BETS: {
       return state.merge({
         bets: Immutable.List(),
+        showBetSlipConfirmation: false,
+        showBetSlipWaiting: false,
+        showBetSlipError: false,
         showBetSlipSuccess: false,
+        betsToBeDeleted: Immutable.List(),
+        showDeleteBetsConfirmation: false,
+        eventInDeleteBetsConfirmation: ''
       });
     }
     case ActionTypes.QUICK_BET_DRAWER_UPDATE_ONE_BET: {
