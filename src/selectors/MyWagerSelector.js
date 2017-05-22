@@ -113,7 +113,7 @@ const formatBettingData = (data, activeTab, precision, targetCurrency, startDate
   //TODO: use .map() instead of foreach as suggested
   data.forEach((row, index) => {
     let rowObj = {
-      'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
+      'type' : (row.get('back_or_lay').toUpperCase() + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
       'odds' : (row.get('amount_to_win') / row.get('amount_to_bet')).toFixed(BettingModuleUtils.oddsPlaces),
       'amount_to_bet' : CurrencyUtils.getFormattedCurrency(row.get('amount_to_bet')/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.stakePlaces),
       'amount_to_win' : CurrencyUtils.getFormattedCurrency(row.get('amount_to_win')/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.exposurePlaces),
@@ -122,9 +122,9 @@ const formatBettingData = (data, activeTab, precision, targetCurrency, startDate
     //randomly changed win value to negative for liability display
     //applied class based on profit or loss
     if(activeTab === 'resolvedBets'){
-      rowObj.amount_to_win *= Math.floor(Math.random()*2) === 1 ? 1 : -1;
+      rowObj.amount_to_win = (Math.floor(Math.random()*2) === 1 ? '+' : '-') + rowObj.amount_to_win;
       rowObj.amount_to_win = <span className={ rowObj.amount_to_win > 0 ? 'profit' : 'loss' }>
-        {(rowObj.amount_to_win > 0 ? '+' : '')}{ rowObj.amount_to_win }</span>;
+        { rowObj.amount_to_win }</span>;
     }
     if(activeTab === 'unmatchedBets')
       rowObj.cancel = (row.get('cancelled') ? '' : <a className='btn cancel-btn' target='_self'>{ I18n.t('mybets.cancel') }</a>);
@@ -144,13 +144,13 @@ const getBetData = createSelector(
 
 //memoized selector - function totaling stake and liability
 const getBetTotal = createSelector(
-  [getBetData],
-  (bets)=>{
+  [getBetData, getCurrencyFormat, precision],
+  (bets, currencyFormat, precision)=>{
     let total = 0;
     bets.forEach((row, index) => {
       total += parseFloat(row.get('amount_to_bet') + row.get('amount_to_win'));
     });
-    return total;
+    return CurrencyUtils.getFormattedCurrency(total, currencyFormat, precision);
   }
 );
 
