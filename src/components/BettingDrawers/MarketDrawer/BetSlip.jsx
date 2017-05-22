@@ -10,38 +10,7 @@ import Ps from 'perfect-scrollbar';
 import { Button } from 'antd';
 import EditableBetTable from '../EditableBetTable';
 import './BetSlip.less';
-
-const renderOverlay = (props, className, transactionFee=0) => (
-  <div className='overlay'>
-    <div className='instructions'>
-      <Translate value={ `market_drawer.unconfirmed_bets.${ className }.instructions` } amount={ transactionFee } dangerousHTML/>
-    </div>
-    <div className='buttons'>
-      <Button className='btn btn-cancel' onClick={ props.cancelPlaceBet }>
-        { I18n.t(`market_drawer.unconfirmed_bets.${ className }.cancel_button`) }
-      </Button>
-      <Button className='btn btn-regular' onClick={ () => props.makeBets(props.originalBets) }>
-        { I18n.t(`market_drawer.unconfirmed_bets.${ className }.confirm_button`) }
-      </Button>
-    </div>
-  </div>
-)
-
-const renderDeleteBetsOverlay = (props) => (
-  <div className='overlay'>
-    <div className='instructions'>
-      <Translate value={ `market_drawer.unconfirmed_bets.delete_bets.instructions` } dangerousHTML/>
-    </div>
-    <div className='buttons'>
-      <Button className='btn btn-cancel' onClick={ props.cancelDeleteUnconfirmedBets }>
-        { I18n.t(`market_drawer.unconfirmed_bets.delete_bets.cancel_button`) }
-      </Button>
-      <Button className='btn btn-regular' onClick={ () => props.deleteUnconfirmedBets(props.unconfirmedbetsToBeDeleted) }>
-        { I18n.t(`market_drawer.unconfirmed_bets.delete_bets.confirm_button`) }
-      </Button>
-    </div>
-  </div>
-)
+import Overlay from '../Overlay';
 
 const renderContent = (props) => (
   <div className='content' ref='unconfirmedBets'>
@@ -106,9 +75,28 @@ class BetSlip extends PureComponent {
             </div>
           }
         </SplitPane>
-        { this.props.showBetSlipConfirmation && renderOverlay(this.props, 'confirmation', 0.051) }
-        { this.props.showBetSlipError && renderOverlay(this.props, 'error') }
-        { this.props.showDeleteUnconfirmedBetsConfirmation && renderDeleteBetsOverlay(this.props) }
+        { this.props.showBetSlipConfirmation &&
+          <Overlay
+            className='market_drawer.unconfirmed_bets.confirmation'
+            cancelAction={ this.props.cancelPlaceBet }
+            confirmAction={ () => this.props.makeBets(this.props.originalBets)  }
+            replacements={ { amount: 0.051 } }
+          />
+        }
+        { this.props.showBetSlipError &&
+          <Overlay
+            className='market_drawer.unconfirmed_bets.error'
+            cancelAction={ this.props.cancelPlaceBet }
+            confirmAction={ () => this.props.makeBets(this.props.originalBets) }
+          />
+        }
+        { this.props.showDeleteUnconfirmedBetsConfirmation &&
+          <Overlay
+            className='market_drawer.unconfirmed_bets.delete_bets'
+            cancelAction={ this.props.cancelDeleteUnconfirmedBets }
+            confirmAction={ () => this.props.deleteUnconfirmedBets(this.props.unconfirmedbetsToBeDeleted) }
+          />
+        }
         { // TODO: Replace this with an approved spinning icon.
           // The waiting text is just a placeholder
           this.props.showBetSlipWaiting &&
