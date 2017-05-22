@@ -14,7 +14,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
 import './MyAccount.less'
 import _ from 'lodash';
-import Ps from 'perfect-scrollbar';
 import Deposit from './Deposit';
 import { MyAccountWithdraw } from '../Withdraw';
 import { SettingActions, BalanceActions, NavigateActions, MyAccountPageActions, AccountActions } from '../../actions';
@@ -53,13 +52,8 @@ class MyAccount extends PureComponent {
   }
 
   componentDidMount() {
-    // Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
     //Get the deposit address
     this.props.getDepositAddress();
-  }
-
-  componentDidUpdate(prevProps, prevState){
-    // Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
   }
 
   //Search transaction history with filters
