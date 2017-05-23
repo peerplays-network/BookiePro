@@ -28,7 +28,7 @@ class Sport extends Component {
               <SimpleBettingWidget
                 key={ idx }                    // required by React to have unique key
                 title={ eventGroup.get('name') }
-                events={ events.slice(0, MAX_EVENTS_PER_WIDGET) }
+                events={ events.slice(0, MAX_EVENTS_PER_WIDGET) }  // No pagination, only show top records
                 currencyFormat={ currencyFormat }
                 showFooter={ events.size > MAX_EVENTS_PER_WIDGET }
                 footerLink={ `/exchange/eventgroup/${eventGroupId}` }
