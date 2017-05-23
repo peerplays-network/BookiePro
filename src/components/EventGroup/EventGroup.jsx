@@ -5,6 +5,7 @@ import { SimpleBettingWidget } from '../BettingWidgets';
 import { EventGroupPageActions } from '../../actions';
 import Immutable from 'immutable';
 
+const MAX_EVENT_PER_PAGE = 15;
 const { getData } = EventGroupPageActions;
 
 class EventGroup extends Component {
@@ -22,6 +23,9 @@ class EventGroup extends Component {
           title={ eventGroup }
           events={ events }
           currencyFormat={ currencyFormat }
+          showFooter={ false }
+          showPagination={ events.size > MAX_EVENT_PER_PAGE }
+          pageSize={ MAX_EVENT_PER_PAGE }
         />
       </div>
     )
