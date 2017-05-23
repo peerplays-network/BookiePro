@@ -9,38 +9,7 @@ import { BetActions, MarketDrawerActions, NavigateActions } from '../../../actio
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import './PlacedBets.less';
-
-const renderOverlay = (props, className, transactionFee=0) => (
-  <div className='overlay'>
-    <div className='instructions'>
-      <Translate value={ `market_drawer.placed_bets.${ className }.instructions` } amount={ transactionFee } dangerousHTML/>
-    </div>
-    <div className='buttons'>
-      <Button className='btn btn-cancel' onClick={ props.cancelUpdateBet }>
-        { I18n.t(`market_drawer.placed_bets.${ className }.cancel_button`) }
-      </Button>
-      <Button className='btn btn-regular' onClick={ () => props.editBets(props.unmatchedBets) }>
-        { I18n.t(`market_drawer.placed_bets.${ className }.confirm_button`) }
-      </Button>
-    </div>
-  </div>
-)
-
-const renderDeleteBetsOverlay = (props) => (
-  <div className='overlay'>
-    <div className='instructions'>
-      <Translate value={ `market_drawer.unmatched_bets.delete_bets.instructions` } dangerousHTML/>
-    </div>
-    <div className='buttons'>
-      <Button className='btn btn-cancel' onClick={ props.cancelDeleteUnmatchedBets }>
-        { I18n.t(`market_drawer.unmatched_bets.delete_bets.cancel_button`) }
-      </Button>
-      <Button className='btn btn-regular' onClick={ () => props.deleteUnmatchedBets(props.unmatchedbetsToBeDeleted) }>
-        { I18n.t(`market_drawer.unmatched_bets.delete_bets.confirm_button`) }
-      </Button>
-    </div>
-  </div>
-)
+import Overlay from '../Overlay';
 
 class PlacedBets extends PureComponent {
   componentDidMount() {
@@ -85,9 +54,28 @@ class PlacedBets extends PureComponent {
             </div>
           }
         </div>
-        { this.props.showPlacedBetsConfirmation && renderOverlay(this.props, 'confirmation', 0.051) }
-        { this.props.showPlacedBetsError && renderOverlay(this.props, 'error') }
-        { this.props.showDeleteUnmatchedBetsConfirmation && renderDeleteBetsOverlay(this.props) }
+        { this.props.showPlacedBetsConfirmation &&
+          <Overlay
+            className='market_drawer.placed_bets.confirmation'
+            cancelAction={ this.props.cancelUpdateBet }
+            confirmAction={ () => this.props.editBets(this.props.unmatchedBets) }
+            replacements={ { amount: 0.051 } }
+          />
+        }
+        { this.props.showPlacedBetsError &&
+          <Overlay
+            className='market_drawer.placed_bets.error'
+            cancelAction={ this.props.cancelUpdateBet }
+            confirmAction={ () => this.props.editBets(this.props.unmatchedBets) }
+          />
+        }
+        { this.props.showDeleteUnmatchedBetsConfirmation &&
+          <Overlay
+            className='market_drawer.unmatched_bets.delete_bets'
+            cancelAction={ this.props.cancelDeleteUnmatchedBets }
+            confirmAction={ () => this.props.deleteUnmatchedBets(this.props.unmatchedbetsToBeDeleted) }
+          />
+        }
         { // TODO: Replace this with an approved spinning icon.
           // The waiting text is just a placeholder
           this.props.showPlacedBetsWaiting &&
