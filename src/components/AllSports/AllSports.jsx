@@ -5,6 +5,7 @@ import { SimpleBettingWidget } from '../BettingWidgets';
 import { AllSportsActions } from '../../actions';
 import Immutable from 'immutable';
 
+const MAX_EVENTS_PER_WIDGET = 3;
 const { getData } = AllSportsActions;
 
 class AllSports extends Component {
@@ -22,14 +23,16 @@ class AllSports extends Component {
           // convert the list of keys into vanilla JS array so that I can grab the index
           sports.keySeq().toArray().map((sportId, idx) => {
             const sport = sports.get(sportId);
+            const events = sport.get('events');
             return (
               <SimpleBettingWidget
                 key={ idx }                   // required by React to have unique key
                 title={ sport.get('name') }
-                events={ sport.get('events') }
+                events={ events.slice(0, MAX_EVENTS_PER_WIDGET) }  // No pagination, only show top records
                 currencyFormat={ currencyFormat }
-                nodeId={ sportId }
-                nodeType='sport'              //'nodeId','nodeType' - required for navigation of 'more' link
+                showFooter={ events.size > MAX_EVENTS_PER_WIDGET }
+                footerLink={ `/exchange/sport/${sportId}` }
+                pagination={ false }
               />
             )
           })

@@ -4,6 +4,8 @@ import { SportBanner } from '../Banners';
 import { SimpleBettingWidget } from '../BettingWidgets';
 import { SportPageActions } from '../../actions';
 import Immutable from 'immutable';
+
+const MAX_EVENTS_PER_WIDGET = 10;
 const { getData } = SportPageActions;
 
 class Sport extends Component {
@@ -16,20 +18,21 @@ class Sport extends Component {
     const { sport, eventGroups, currencyFormat } = this.props;
     return (
       <div className='sport-wrapper'>
-
         <SportBanner sport={ sport }/>
         {
           // convert the list of keys into vanilla JS array so that I can grab the index
           eventGroups.keySeq().toArray().map((eventGroupId, idx) => {
             const eventGroup = eventGroups.get(eventGroupId);
+            const events = eventGroup.get('events');
             return (
               <SimpleBettingWidget
                 key={ idx }                    // required by React to have unique key
                 title={ eventGroup.get('name') }
-                events={ eventGroup.get('events') }
+                events={ events.slice(0, MAX_EVENTS_PER_WIDGET) }  // No pagination, only show top records
                 currencyFormat={ currencyFormat }
-                nodeId={ eventGroupId }
-                nodeType='eventgroup'          //'nodeId','nodeType' - required for navigation of 'more' link
+                showFooter={ events.size > MAX_EVENTS_PER_WIDGET }
+                footerLink={ `/exchange/eventgroup/${eventGroupId}` }
+                pagination={ false }
               />
             );
           })
