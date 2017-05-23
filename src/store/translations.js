@@ -176,7 +176,7 @@ export const translationsObject = {
       signup: 'Signup now',
       slogan: 'Slogan',
       copyright: 'Copyright',
-      terms: 'Terms & Conditions'
+      privacy_policy: 'Privacy Policy'
     },
     mybets:{
       screenName: 'myBets_',
@@ -558,7 +558,7 @@ export const translationsObject = {
       bannerText: 'In play of 100 open games',
       allSports: 'ALL SPORTS'
     },
-    terms_dialogue:{
+    privacy_dialogue:{
       content: '<p>BY USING THIS WEBSITE IN ANY MANNER WHATSOEVER OR BY CLICKING THE &ldquo;ACCEPT&rdquo; ICON ON OUR WEBSITE YOU ARE INDICATING ' +
       'THAT YOU ACCEPT AND AGREE TO BE BOUND BY THESE TERMS AND CONDITIONS OF USE, OUR RULES AND THE PRIVACY POLICY (AS EACH MAY BE AMENDED FROM ' +
       'TIME TO TIME) WHICH, TOGETHER WITH THE TERMS OF ANY CONTRACTS ENTERED INTO BY YOU WITH OTHER MEMBERS OF MATCHBOOK (&ldquo;THIS AGREEMENT&rdquo;) ' +
