@@ -33,9 +33,9 @@ class ChangePasswordForm extends PureComponent {
           <Field name='new_password_confirm' id='new_password_confirm' errors={ errors } maxLength='52'
             component={ renderPasswordField } placeholder={ I18n.t('changePassword.confirm_password') } type='password' tabIndex='3'/>
         </div>
-        <div className='form-fields'>
+        <div className='form-fields text-center'>
           <div>{ Field.old_password }</div>
-          <button type='button' onClick={ reset }
+          <button hidden type='button' onClick={ reset }
             disabled={ isLoading || pristine || submitting }
             className={ 'btn ' + ((isLoading || pristine || submitting) ?
                         'btn-regular-disabled':' cancel-btn') + ' grid-100 margin-top-25' }>
