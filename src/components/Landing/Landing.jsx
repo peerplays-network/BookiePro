@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import TermsModal from '../Modal/TermsModal'
+import PrivacyModal from '../Modal/PrivacyModal'
 import { I18n, Translate } from 'react-redux-i18n';
 class Landing extends Component{
   render(){
@@ -19,9 +19,9 @@ class Landing extends Component{
         <div className='footer clearfix'>
           <a href>{I18n.t('landing.copyright')}</a>
           <span className='padding-lr-5'> | </span>
-          <TermsModal title={ I18n.t('landing.terms') } parentClass='terms' buttonTitle={ I18n.t('landing.terms') } >
-              <Translate value='terms_dialogue.content' dangerousHTML/>
-          </TermsModal>
+          <PrivacyModal title={ I18n.t('landing.privacy_policy') } parentClass='privacy' buttonTitle={ I18n.t('landing.privacy_policy') } >
+              <Translate value='privacy_dialogue.content' dangerousHTML/>
+          </PrivacyModal>
         </div>
       </div>
     )

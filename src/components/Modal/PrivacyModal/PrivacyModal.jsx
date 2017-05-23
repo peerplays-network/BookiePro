@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Button } from 'antd';
 import Ps from 'perfect-scrollbar';
 import ReactDOM from 'react-dom'
-class TermsModal extends Component {
+class PrivacyModal extends Component {
   state = {
     visible: false
   };
@@ -41,4 +41,4 @@ class TermsModal extends Component {
 }
 
 
-export default TermsModal;
+export default PrivacyModal;
