@@ -11,7 +11,7 @@ const DropdownMenu = (props) => {
     <Card className={ props.cardClass }>
       <Menu onClick={ props.onSubmenuClick }>
         <Menu.Item key='myaccount'>
-          <Icon type='user' /> { I18n.t('topbar.myaccount') }
+          <i className='account-dropdown-icon'></i> { I18n.t('topbar.myaccount') }
         </Menu.Item>
         <Menu.Item key='help'>
           <Icon type='question-circle-o' /> { I18n.t('topbar.help') }

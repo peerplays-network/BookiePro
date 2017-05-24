@@ -1,0 +1,126 @@
+@import '../App/Colors.less';
+@import '../App/Common.less';
+
+.introductionComponent{
+  background: url('../../assets/icons/introduction_bg.png') no-repeat;
+  height: 100%;
+  background-size:cover;
+  position: relative;
+  text-align: center;
+  .btn-trans{
+    border: 1px solid @white;
+    &:hover{
+      color: @white;
+    }
+  }
+
+  .title{
+    font-size:26px;
+    font-weight:bold;
+    color: @introduction_title;
+    margin-top:45px;
+    margin-bottom:25px;
+  }
+  p{
+    font-size:24px;
+    color: @white;
+  }
+  .middleContent{
+    p{
+      margin-bottom:50px;
+    }
+    .btn-regular{
+      height:40px;
+      line-height: 40px;
+      width:250px;
+      margin:0 auto;
+      display: block;
+      font-size:18px;
+      box-shadow: @introduction_btn_shadow;
+      &:hover{
+        color: @white;
+      }
+    }
+    margin-bottom:100px;
+  }
+  .linksContent{
+    .wrapper{
+      text-align: left;
+      width:920px;
+      margin:0 auto;
+    }
+    h2,p{
+      font-size:26px;
+      color: @white;
+      font-weight:500;
+      font-weight:500;
+    }
+    p{
+      font-weight:300;
+    }
+    a{
+      display: flex;
+      align-items: center;
+    }
+    .content{
+      float: right;
+      margin-left:20px;
+      line-height: 34px;
+      p{
+        font-family: "Roboto-light";
+      }
+    }
+  }
+  .footer{
+    padding:20px 0;
+    position: absolute;
+    bottom:0;
+    width: 100%;
+    text-align: center;
+    a{
+      text-transform: uppercase;
+      color: @white;
+    }
+  }
+  .vertical-border{
+    height:37px;
+    border-right:1px solid #FFFFFF;
+  }
+  .deposit-icon{
+    background: url('../../assets/icons/deposit_icon_hover.png') no-repeat;
+    width:60px;
+    height:60px;
+    display: inline-block;
+    background-size:100%;
+  }
+  .account-icon{
+    background: url('../../assets/icons/account_icon.png') no-repeat;
+    width:42px;
+    height:39px;
+    display: inline-block;
+    background-size:100%;
+  }
+  .stack-icon{
+    background: url('../../assets/icons/stack_icon.png') no-repeat;
+    width:31px;
+    height:59px;
+    display: inline-block;
+    background-size:100%;
+  }
+  .modal-inline{
+    .ant-btn{
+      text-transform: uppercase;
+      font-size:14px;
+      background-color: transparent;
+      font-weight:400;
+      border:0 none;
+      padding:0;
+      color: @white;
+    }
+  }
+  .header{
+    .btn{
+      width:140px;
+    }
+  }
+}

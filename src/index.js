@@ -26,7 +26,7 @@ import HelpAndSupport from './components/HelpAndSupport';
 import { LocaleProvider } from 'antd';
 import { I18n } from 'react-redux-i18n';
 import log from 'loglevel';
-
+import Introduction from './components/Introduction'
 // Configure store
 const store = configureStore();
 // Configure history
@@ -47,6 +47,7 @@ log.setLevel(log.levels.INFO);
 const routes = (
   <Route path='/' component={ App }  >
       <IndexRedirect to='landing' />
+      <Route path='/introduction' component={ Introduction } />
       <Route path='/login' component={ Login } />
       <Route path='/signup' component={ Signup } />
       <Route path='/welcome' component={ Welcome } />
