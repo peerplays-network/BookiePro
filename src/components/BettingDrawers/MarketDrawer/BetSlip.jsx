@@ -8,7 +8,7 @@ import { BetActions, MarketDrawerActions, NavigateActions } from '../../../actio
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import { Button } from 'antd';
-import EditableBetTable from '../EditableBetTable';
+import BetTable from '../BetTable';
 import './BetSlip.less';
 import Overlay from '../Overlay';
 
@@ -32,7 +32,7 @@ const renderContent = (props) => (
       </div>
     }
     { !props.bets.isEmpty() &&
-      <EditableBetTable
+      <BetTable
         data={ props.bets }
         title={ I18n.t('market_drawer.unconfirmed_bets.header') }
         deleteOne={ props.deleteUnconfirmedBet }

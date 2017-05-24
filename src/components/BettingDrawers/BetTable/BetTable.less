@@ -1,0 +1,167 @@
+@import '../../App/Colors.less';
+@import '../../App/Common.less';
+
+div.bet-table-wrapper {
+  &.dimmed {
+    opacity: .1;
+  }
+
+  margin-right: 15px;
+  margin-top: 15px;
+  .ant-table{
+    border-radius:0;
+    table{
+      border-radius:inherit;
+    }
+  }
+  > div.header {
+    background-color: @betslip_header_bg;
+    color: @white;
+    padding: 5px 6px;
+    .title{
+      text-transform: uppercase;
+      font-weight:bold;
+    }
+    > span.icon {
+      float: right;
+      background-color: @betslip_delete_icon_bg;
+      display: inline-block;
+      width:18px;
+      height:19px;
+      line-height: 15px;
+      border-radius:2px;
+      text-align: center;
+      cursor: pointer;
+    }
+  }
+
+  div.bet-table {
+    // common table css for both back and lay sections
+    .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+      padding: 0 6px;
+    }
+    div.ant-table-body {
+      tr {
+        line-height: 12px;
+        font-size: 13px;
+        td{
+          height:50px;
+        }
+      }
+
+      thead.ant-table-thead {
+        tr{
+          height:37px;
+        }
+        tr > th.numeric {
+          font-weight: lighter;
+        }
+      }
+
+      tbody.ant-table-tbody > tr {
+        &.updated > td {
+          background-color: orange;
+        }
+        > td.team > div {
+          div.team {
+            font-size: 14px;
+            font-weight:bold;
+            margin-bottom: 3px;
+            word-break: break-word;
+            text-transform: uppercase;
+          }
+        }
+
+        > td.numeric {
+          padding-right: 0px;
+          padding-left: 0px;
+          .arrow-icon-main{
+            position: absolute;
+            right:5px;
+            line-height: 0;
+          }
+          .icon-up{
+            top: 5px;
+          }
+          .icon-down{
+            bottom:5px;
+          }
+          &.readonly {
+            font-size: 15px;
+          }
+        }
+        // Special override of the last cell
+        > td:nth-of-type(4) {
+          padding-left: 8px;
+          padding-right: 5px;
+        }
+
+        > td.delete-button {
+          padding: 0;
+          margin: 0;
+          margin-left: 5px;
+          height:100%;
+
+          button {
+            width:24px;
+            padding:0;
+            height: 100%;
+            i{
+              font-size:14px;
+              font-weight:bold;
+            }
+          }
+        }
+      }
+    }
+
+    > div.back {
+      table td.delete-button > button {
+        .btn-regular;
+      }
+
+      .ant-table-thead > tr > th {
+        background-color: @editable_table_header_bg;
+        color: white;
+      }
+
+      .ant-table-tbody > tr > td {
+        border-color: @editable_table_back_body_border;
+        background-color: @editable_table_back_body_bg;
+        color: white;
+
+        div.market_type {
+          color: @editable_table_back_market_type;
+          font-size: 10px;
+        }
+      }
+    }
+
+    > div.lay {
+      table td.delete-button > button {
+        .btn-download;
+        &:hover, &:focus{
+          .btn-download;
+          color: @white;
+        }
+      }
+
+      .ant-table-thead > tr > th {
+        background-color: @editable_table_lay_header_bg;
+        color: white;
+        word-break: break-word;
+      }
+      .ant-table-tbody > tr > td {
+        border-color: @editable_table_lay_body_border;
+        background-color:@editable_table_lay_body_bg;
+        color: white;
+
+        div.market_type {
+          color: @editable_table_lay_market_type;
+          font-size: 10px;
+        }
+      }
+    }
+  }
+
+}

@@ -6,14 +6,14 @@ import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
 import { BettingModuleUtils } from '../../../utility';
 import { MarketDrawerActions } from '../../../actions';
-import EditableBetTable from '../EditableBetTable';
+import BetTable from '../BetTable';
 import './UnmatchedBets.less';
 
 class UnmatchedBets extends PureComponent {
   render() {
     return (
       <div className='unmatched-bets'>
-        <EditableBetTable
+        <BetTable
           data={ this.props.bets }
           title={ I18n.t('market_drawer.unmatched_bets.header') }
           deleteOne={ this.props.deleteUnmatchedBet }

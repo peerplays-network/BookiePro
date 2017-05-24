@@ -6,14 +6,15 @@ import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
 import { BettingModuleUtils } from '../../../utility';
 import { MarketDrawerActions } from '../../../actions';
-import ReadOnlyBetTable from '../ReadOnlyBetTable';
+import BetTable from '../BetTable';
 import './MatchedBets.less';
 
 class MatchedBets extends PureComponent {
   render() {
     return (
       <div className='matched-bets'>
-        <ReadOnlyBetTable
+        <BetTable
+          readonly={ true }
           data={ this.props.bets }
           title={ I18n.t('market_drawer.matched_bets.header') }
           dimmed={ this.props.obscureContent }

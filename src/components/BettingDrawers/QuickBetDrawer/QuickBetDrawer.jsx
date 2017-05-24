@@ -8,7 +8,7 @@ import { I18n, Translate } from 'react-redux-i18n';
 import { BetActions, NavigateActions, QuickBetDrawerActions } from '../../../actions';
 import { Button } from 'antd';
 import { bindActionCreators } from 'redux';
-import EditableBetTable from '../EditableBetTable';
+import BetTable from '../BetTable';
 import Overlay from '../Overlay';
 
 const renderContent = (props) => (
@@ -33,7 +33,7 @@ const renderContent = (props) => (
     { !props.bets.isEmpty() &&
       // convert the list of keys into vanilla JS array for iterating
       props.bets.keySeq().toArray().map((eventId) => (
-        <EditableBetTable
+        <BetTable
           key={ eventId }
           data={ props.bets.get(eventId).get('unconfirmedBets') }
           title={ props.bets.get(eventId).get('event_name') }
