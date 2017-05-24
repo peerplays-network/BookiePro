@@ -86,85 +86,123 @@ const renderDeleteButton = (deleteOne) => {
   );
 }
 
-const getBackColumns = (deleteOne, updateOne, currencyFormat) => {
+const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => {
   const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
-  return [
-    {
-      title: 'BACK',
-      dataIndex: 'back',
-      key: 'back',
-      width: '23%',
-      className: 'team',
-      render: renderTeam,
-    }, {
-      title: 'ODDS',
-      dataIndex: 'odds',
-      key: 'odds',
-      width: '23%',
-      className: 'numeric',
-      render: renderOdds(updateOne, currencyFormat),
-    }, {
-      title: `STAKE(${currencySymbol})`,
-      dataIndex: 'stake',
-      key: 'stake',
-      width: '24%',
-      className: 'numeric',
-      render: renderInput('stake', updateOne, currencyFormat), // price is the original name
-    }, {
-      title: `PROFIT(${currencySymbol})`,
-      dataIndex: 'profit',
-      key: 'profit',
-      width: '24%',
-      className: 'numeric readonly'
-    }, {
+  const teamColumn = {
+    title: 'BACK',
+    dataIndex: 'back',
+    key: 'back',
+    width: '23%',
+    className: 'team',
+    render: renderTeam,
+  };
+
+  const oddsColumn = {
+    title: 'ODDS',
+    dataIndex: 'odds',
+    key: 'odds',
+    width: '23%',
+    className: 'numeric',
+  };
+  if (!readonly) {
+    oddsColumn['render'] = renderOdds(updateOne, currencyFormat);
+  }
+
+  const stakeColumn = {
+    title: `STAKE(${currencySymbol})`,
+    dataIndex: 'stake',
+    key: 'stake',
+    width: '24%',
+    className: 'numeric',
+  }
+  if (!readonly) {
+    stakeColumn['render'] = renderInput('stake', updateOne, currencyFormat);
+  }
+
+  const profitColumn = {
+    title: `PROFIT(${currencySymbol})`,
+    dataIndex: 'profit',
+    key: 'profit',
+    className: 'numeric'
+  }
+  if (!readonly) {
+    profitColumn['width'] = '24%';
+    profitColumn['className'] = 'numeric readonly'; // numeric class is usually editable
+  }
+
+  const columns = [teamColumn, oddsColumn, stakeColumn, profitColumn];
+  if (!readonly) {
+    // delete button
+    columns.push({
       title: '',
       dataIndex: 'delete',
       key: 'delete',
       className: 'delete-button',
       render: renderDeleteButton(deleteOne),
-    }
-  ];
+    })
+  }
+
+  return columns;
 };
 
-const getLayColumns = (deleteOne, updateOne, currencyFormat) => {
+const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => {
   const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
-  return [
-    {
-      title: 'LAY',
-      dataIndex: 'lay',
-      key: 'lay',
-      width: '23%',
-      className: 'team',
-      render: renderTeam,
-    }, {
-      title: 'ODDS',
-      dataIndex: 'odds',
-      key: 'odds',
-      width: '23%',
-      className: 'numeric',
-      render: renderOdds(updateOne, currencyFormat),
-    }, {
-      title: `BACKER'S STAKE(${currencySymbol})`,
-      dataIndex: 'stake',
-      key: 'stake',
-      width: '24%',
-      className: 'numeric',
-      render: renderInput('stake', updateOne, currencyFormat),
-    }, {
-      title: `LIABILITY(${currencySymbol})`,
-      dataIndex: 'liability',
-      key: 'liability',
-      width: '24%',
-      className: 'numeric readonly'
-    }, {
+  const teamColumn = {
+    title: 'LAY',
+    dataIndex: 'lay',
+    key: 'lay',
+    width: '23%',
+    className: 'team',
+    render: renderTeam,
+  };
+
+  const oddsColumn = {
+    title: 'ODDS',
+    dataIndex: 'odds',
+    key: 'odds',
+    width: '23%',
+    className: 'numeric',
+  }
+  if (!readonly) {
+    oddsColumn['render'] = renderOdds(updateOne, currencyFormat);
+  }
+
+  const stakeColumn = {
+    title: `BACKER'S STAKE(${currencySymbol})`,
+    dataIndex: 'stake',
+    key: 'stake',
+    width: '24%',
+    className: 'numeric',
+  }
+  if (!readonly) {
+    stakeColumn['render'] = renderInput('stake', updateOne, currencyFormat);
+  }
+
+  const liabilityColumn =  {
+    title: `LIABILITY(${currencySymbol})`,
+    dataIndex: 'liability',
+    key: 'liability',
+    width: '24%',
+    className: 'numeric'
+  }
+  if (!readonly) {
+    liabilityColumn['width'] = '24%';
+    liabilityColumn['className'] = 'numeric readonly'; // numeric class is usually editable
+  }
+
+  const columns = [teamColumn, oddsColumn, stakeColumn, liabilityColumn];
+  if (!readonly) {
+    // delete button
+    columns.push({
       title: '',
       dataIndex: 'delete',
       key: 'delete',
       className: 'delete-button',
       render: renderDeleteButton(deleteOne),
-    }
-  ]
+    })
+  }
 
+  return columns;
 };
 
 // TODO: REVIEW This function applies to both Back and Lay bets for now.
@@ -185,17 +223,19 @@ const getRowClassName = (record, index) => (
   record.updated ? 'updated' : ''
 )
 
-const EditableBetTable = (props) => {
-  const { data, title, deleteOne, deleteMany, updateOne, dimmed, currencyFormat } = props;
+const BetTable = (props) => {
+  const { readonly, data, title, deleteOne, deleteMany, updateOne, dimmed, currencyFormat } = props;
   const backBets = data.get('back') || Immutable.List();
   const layBets = data.get('lay') || Immutable.List();
   return (
-    <div className={ `editable-bet-table-wrapper ${dimmed ? 'dimmed' : '' }` }>
+    <div className={ `bet-table-wrapper ${dimmed ? 'dimmed' : '' }` }>
       <div className='header'>
         <span className='title'>{ title }</span>
-        <span className='icon'>
-          <i className='trash-icon' onClick={ () => deleteMany(backBets.concat(layBets), title) }></i>
-        </span>
+        { !readonly &&
+          <span className='icon'>
+            <i className='trash-icon' onClick={ () => deleteMany(backBets.concat(layBets), title) }></i>
+          </span>
+        }
       </div>
       <div className='bet-table'>
         {
@@ -203,7 +243,7 @@ const EditableBetTable = (props) => {
           <div className='back'>
             <Table
               pagination={ false }
-              columns={ getBackColumns(deleteOne, updateOne, currencyFormat) }
+              columns={ getBackColumns(deleteOne, updateOne, currencyFormat, readonly) }
               dataSource={ buildBetTableData(backBets, currencyFormat).toJS() }
               rowClassName={ getRowClassName }
             />
@@ -214,7 +254,7 @@ const EditableBetTable = (props) => {
           <div className='lay'>
             <Table
               pagination={ false }
-              columns={ getLayColumns(deleteOne, updateOne, currencyFormat) }
+              columns={ getLayColumns(deleteOne, updateOne, currencyFormat, readonly) }
               dataSource={ buildBetTableData(layBets, currencyFormat).toJS() }
               rowClassName={ getRowClassName }
             />
@@ -225,4 +265,4 @@ const EditableBetTable = (props) => {
   );
 }
 
-export default EditableBetTable;
+export default BetTable;
