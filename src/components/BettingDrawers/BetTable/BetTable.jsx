@@ -102,10 +102,11 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) =>
     dataIndex: 'odds',
     key: 'odds',
     width: '23%',
-    className: 'numeric',
+    className: 'numeric readonly',
   };
   if (!readonly) {
     oddsColumn['render'] = renderOdds(updateOne, currencyFormat);
+    oddsColumn['className'] = 'numeric';
   }
 
   const stakeColumn = {
@@ -113,21 +114,21 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) =>
     dataIndex: 'stake',
     key: 'stake',
     width: '24%',
-    className: 'numeric',
+    className: 'numeric readonly',
   }
   if (!readonly) {
     stakeColumn['render'] = renderInput('stake', updateOne, currencyFormat);
+    stakeColumn['className'] = 'numeric';
   }
 
   const profitColumn = {
     title: `PROFIT(${currencySymbol})`,
     dataIndex: 'profit',
     key: 'profit',
-    className: 'numeric'
+    className: 'numeric readonly' // this field is always readonly
   }
   if (!readonly) {
     profitColumn['width'] = '24%';
-    profitColumn['className'] = 'numeric readonly'; // numeric class is usually editable
   }
 
   const columns = [teamColumn, oddsColumn, stakeColumn, profitColumn];
@@ -161,10 +162,11 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => 
     dataIndex: 'odds',
     key: 'odds',
     width: '23%',
-    className: 'numeric',
+    className: 'numeric readonly',
   }
   if (!readonly) {
     oddsColumn['render'] = renderOdds(updateOne, currencyFormat);
+    oddsColumn['className'] = 'numeric';
   }
 
   const stakeColumn = {
@@ -172,22 +174,21 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => 
     dataIndex: 'stake',
     key: 'stake',
     width: '24%',
-    className: 'numeric',
+    className: 'numeric readonly',
   }
   if (!readonly) {
     stakeColumn['render'] = renderInput('stake', updateOne, currencyFormat);
+    stakeColumn['className'] = 'numeric';
   }
 
   const liabilityColumn =  {
     title: `LIABILITY(${currencySymbol})`,
     dataIndex: 'liability',
     key: 'liability',
-    width: '24%',
-    className: 'numeric'
+    className: 'numeric readonly' // this field is always readonly
   }
   if (!readonly) {
     liabilityColumn['width'] = '24%';
-    liabilityColumn['className'] = 'numeric readonly'; // numeric class is usually editable
   }
 
   const columns = [teamColumn, oddsColumn, stakeColumn, liabilityColumn];
