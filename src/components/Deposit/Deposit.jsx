@@ -28,9 +28,8 @@ class Deposit extends PureComponent {
   }
   render() {
     return (
-      <div className='onboardingSportsBackground' id='main-content'>
-        <div className='depositComponent'>
-          <div className='wrapper'>
+      <div className='onboardingSportsBackground depositComponent' id='main-content'>
+        <div className='wrapper'>
             <div className='text-center'>
               <i className='deposit-icon'></i>
               <h2>
@@ -67,7 +66,6 @@ class Deposit extends PureComponent {
               </div>
             </div>
           </div>
-        </div>
       </div>
     )
   }
