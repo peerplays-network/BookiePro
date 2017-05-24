@@ -2,6 +2,9 @@
 @import '../App/Common.less';
 .welcomeComponent {
   display: block !important;
+  @media screen and (max-height: 800px){
+    overflow: scroll;
+  }
   h3 {
     font-size: 20px;
     padding: 40px 0;
