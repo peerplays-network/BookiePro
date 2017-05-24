@@ -231,12 +231,12 @@ class ComplexBettingWidget extends Component {
       className: 'back-left',
       header: props => null,
       minWidth: minArrowWidth,
-      render: props => <div className='back-offer'>{ '<' }</div>
+      render: props => <div className='back-offer'><i className='icon-chevron-left'></i></div>
     }, {
       className: 'back-right',
       header: props => null,
       minWidth: minArrowWidth,
-      render: props => <div className='back-offer'>{ '>' }</div>
+      render: props => <div className='back-offer'><i className='icon-chevron-right'></i></div>
     }, {
       // TODO: width adjustment will do later because I
       // cant manipulate width of the th tag
@@ -347,12 +347,12 @@ class ComplexBettingWidget extends Component {
       className: 'lay-left',
       header: props => null,
       minWidth: minArrowWidth,
-      render: props => <div className='lay-offer'>{ '<' }</div>
+      render: props => <div className='lay-offer'><i className='icon-chevron-left'></i></div>
     }, {
       className: 'lay-right',
       header: props => null,
       minWidth: minArrowWidth,
-      render: props => <div className='lay-offer'>{ '>' }</div>
+      render: props => <div className='lay-offer'><i className='icon-chevron-right'></i></div>
     }]
 
     //TODO using string for market_type_id instead of 1.xxxx.x
