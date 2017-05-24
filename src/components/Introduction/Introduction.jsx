@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Row, Col, Icon } from 'antd'
-import TermsModal from '../Modal/TermsModal'
+import PrivacyModal from '../Modal/PrivacyModal'
 import { I18n, Translate } from 'react-redux-i18n';
 import logo from '../../assets/images/bookie_logo_login.png';
 
@@ -17,11 +17,11 @@ class Landing extends Component{
           <p> Sign-up and start betting in 2 <br/> minutes! </p>
           <a href='#signup' className='btn btn-regular'> Join Bookie Now </a>
         </div>
-        <div className='footerContent'>
+        <div className='linksContent'>
           <div className='wrapper'>
-            <Row className='align-center' type='flex' justify='space-around'>
+            <Row className='align-center' type='flex' justify='space-between'>
               <Col>
-                <a className='clearfix' href='#signp'>
+                <a className='clearfix' href='#signup'>
                   <i className='account-icon'></i>
                   <div className='content'>
                     <h2> Register </h2>
@@ -64,9 +64,9 @@ class Landing extends Component{
         <div className='footer clearfix'>
           <a href>{I18n.t('landing.copyright')}</a>
           <span className='padding-lr-5'> | </span>
-          <TermsModal title={ I18n.t('landing.terms') } parentClass='terms' buttonTitle={ I18n.t('landing.terms') } >
-            <Translate value='terms_dialogue.content' dangerousHTML/>
-          </TermsModal>
+          <PrivacyModal title={ I18n.t('landing.privacy_policy') } parentClass='privacy' buttonTitle={ I18n.t('landing.privacy_policy') } >
+            <Translate value='privacy_dialogue.content' dangerousHTML/>
+          </PrivacyModal>
         </div>
       </div>
     )
