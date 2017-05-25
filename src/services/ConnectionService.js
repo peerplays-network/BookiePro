@@ -105,7 +105,7 @@ class ConnectionService {
       // Print out which blockchain we are connecting to
       log.debug('Connected to:', res[0] ? res[0].network_name : 'Undefined Blockchain');
       // This is set to TEST since Peerplays Blockchain Testnet is currently using TEST prefix
-      ChainConfig.setPrefix("TEST");
+      ChainConfig.setPrefix("PPY");
     }).catch((error) => {
       log.error('Fail to connect to blockchain', error);
       // Close residue connection to blockchain
