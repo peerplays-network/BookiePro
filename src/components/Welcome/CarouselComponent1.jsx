@@ -40,25 +40,25 @@ class CarouselComponent1 extends Component {
                       <Col span={ 6 }
                            className='bg-lightblue'>
                         <p className='text-center'>
-                          1.81 <span>  0.185 </span>
+                          1.81 <span> <i className='icon-bitcoin-white'></i>  0.185 </span>
                         </p>
                       </Col>
                       <Col span={ 6 }
                            className='bg-lightgreen'>
                         <p className='text-center'>
-                          1.81 <span>  0.185 </span>
+                          1.81 <span>  <i className='icon-bitcoin-white'></i>  0.185 </span>
                         </p>
                       </Col>
                       <Col span={ 6 }
                            className='bg-lightblue'>
                         <p className='text-center'>
-                          1.81 <span>  0.185 </span>
+                          1.81 <span>  <i className='icon-bitcoin-white'></i>  0.185 </span>
                         </p>
                       </Col>
                       <Col span={ 6 }
                            className='bg-lightgreen'>
                         <p className='text-center'>
-                          1.81 <span>  0.185 </span>
+                          1.81 <span>  <i className='icon-bitcoin-white'></i>  0.185 </span>
                         </p>
                       </Col>
                     </Row>
