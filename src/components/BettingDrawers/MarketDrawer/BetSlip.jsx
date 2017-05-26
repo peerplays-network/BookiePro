@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import SplitPane from 'react-split-pane';
-import { I18n, Translate } from 'react-redux-i18n';
+import { I18n } from 'react-redux-i18n';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -11,25 +11,15 @@ import { Button } from 'antd';
 import BetTable from '../BetTable';
 import './BetSlip.less';
 import Overlay from '../Overlay';
+import { Empty } from '../Common';
 
 const renderContent = (props) => (
   <div className='content' ref='unconfirmedBets'>
     { props.bets.isEmpty() &&
-      <div className='empty'>
-        <div className='instructions'>
-          {  props.showBetSlipSuccess &&
-             I18n.t('market_drawer.unconfirmed_bets.success.instructions')
-          }
-          { !props.showBetSlipSuccess &&
-            <Translate value='market_drawer.unconfirmed_bets.empty.instructions' dangerousHTML/>
-          }
-        </div>
-        <div className='my-bet-button'>
-          <Button className='btn btn-regular' onClick={ () => props.navigateTo('/my-wager/') }>
-            { I18n.t('market_drawer.unconfirmed_bets.empty.my_bet_button') }
-          </Button>
-        </div>
-      </div>
+      <Empty
+        showSuccess={ props.showBetSlipSuccess }
+        className='market_drawer.unconfirmed_bets'
+      />
     }
     { !props.bets.isEmpty() &&
       <BetTable
