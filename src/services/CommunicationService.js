@@ -12,7 +12,6 @@ import {
   BettingMarketActions,
   BettingMarketGroupActions,
   BinnedOrderBookActions,
-  BetActions,
   BalanceActions,
 } from '../actions';
 import Immutable from 'immutable';
@@ -497,11 +496,33 @@ class CommunicationService {
    */
   static searchEvents(keyword) {
     // TODO: Replace Later
+    /**
+      Get upcoming events from store [the same events that are passed to SimpleBettingWidget
+        while filtering events].
+      Search will be performed on these events
+    **/
+    const eventsById = this.getState().getIn(['event', 'eventsById']);
+    let myEvents = eventsById.toArray()
+      .filter((event) => {
+        const eventTime = event.get('start_time');
+        const currentTime = new Date().getTime();
+        const isEventActive = (eventTime - currentTime) > 0;
+        return isEventActive
+      }).map((event) => {
+        const eventId = event.get('id');
+        return Immutable.fromJS({
+          event_id: eventId,
+          event_name: event.get('name'),
+          time: event.get('start_time')
+        })
+      });
+    let eventList = Immutable.List(myEvents);
+
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const filteredResult = _.filter(dummyData.events, (item) => {
-          const team1Name = item.name.split(' vs ')[0];
-          const team2Name = item.name.split(' vs ')[1];
+        const filteredResult = _.filter(eventList.toArray(), (item) => {
+          const team1Name = item.get('event_name').split(' vs ')[0];
+          const team2Name = item.get('event_name').split(' vs ')[1];
 
           const keywordLowerCase = keyword.toLowerCase();
 
