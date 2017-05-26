@@ -1,15 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { I18n, Translate } from 'react-redux-i18n';
 import ReactDOM from 'react-dom';
-import { Button } from 'antd';
 import Ps from 'perfect-scrollbar';
 import { BetActions, MarketDrawerActions, NavigateActions } from '../../../actions';
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import './PlacedBets.less';
-import Overlay from '../Overlay';
+import { Empty, Overlay, Waiting } from '../Common';
 
 class PlacedBets extends PureComponent {
   componentDidMount() {
@@ -37,21 +35,10 @@ class PlacedBets extends PureComponent {
           { !this.props.isEmpty && <UnmatchedBets currencyFormat={ this.props.currencyFormat }/> }
           { !this.props.isEmpty && <MatchedBets currencyFormat={ this.props.currencyFormat }/> }
           { this.props.isEmpty &&
-            <div className='empty'>
-              <div className='instructions'>
-                {  this.props.showPlacedBetsSuccess &&
-                   I18n.t('market_drawer.placed_bets.success.instructions')
-                }
-                { !this.props.showPlacedBetsSuccess &&
-                  <Translate value='market_drawer.placed_bets.empty.instructions' dangerousHTML/>
-                }
-              </div>
-              <div className='my-bet-button'>
-                <Button className='btn btn-regular' onClick={ () => this.props.navigateTo('/my-wager/') }>
-                  { I18n.t('market_drawer.placed_bets.empty.my_bet_button') }
-                </Button>
-              </div>
-            </div>
+            <Empty
+              showSuccess={ this.props.showPlacedBetsSuccess }
+              className='market_drawer.placed_bets'
+            />
           }
         </div>
         { this.props.showPlacedBetsConfirmation &&
@@ -76,15 +63,7 @@ class PlacedBets extends PureComponent {
             confirmAction={ () => this.props.deleteUnmatchedBets(this.props.unmatchedbetsToBeDeleted) }
           />
         }
-        { // TODO: Replace this with an approved spinning icon.
-          // The waiting text is just a placeholder
-          this.props.showPlacedBetsWaiting &&
-          <div className='waiting'>
-            <div className='instructions'>
-              Waiting...
-            </div>
-          </div>
-        }
+        { this.props.showPlacedBetsWaiting && <Waiting/> }
       </div>
     )
   }

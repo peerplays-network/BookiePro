@@ -4,31 +4,20 @@ import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import SplitPane from 'react-split-pane';
-import { I18n, Translate } from 'react-redux-i18n';
+import { I18n } from 'react-redux-i18n';
 import { BetActions, NavigateActions, QuickBetDrawerActions } from '../../../actions';
 import { Button } from 'antd';
 import { bindActionCreators } from 'redux';
 import BetTable from '../BetTable';
-import Overlay from '../Overlay';
+import { Empty, Overlay, Waiting } from '../Common';
 
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
     { props.bets.isEmpty() &&
-      <div className='empty'>
-        <div className='instructions'>
-          {  props.showBetSlipSuccess &&
-             I18n.t('quick_bet_drawer.unconfirmed_bets.success.instructions')
-          }
-          { !props.showBetSlipSuccess &&
-            <Translate value='quick_bet_drawer.unconfirmed_bets.empty.instructions' dangerousHTML/>
-          }
-        </div>
-        <div className='my-bet-button'>
-          <Button className='btn btn-regular' onClick={ () => props.navigateTo('/my-wager/') }>
-            { I18n.t('quick_bet_drawer.unconfirmed_bets.empty.my_bet_button') }
-          </Button>
-        </div>
-      </div>
+      <Empty
+        showSuccess={ props.showBetSlipSuccess }
+        className='quick_bet_drawer.unconfirmed_bets'
+      />
     }
     { !props.bets.isEmpty() &&
       // convert the list of keys into vanilla JS array for iterating
@@ -107,15 +96,7 @@ class QuickBetDrawer extends Component {
             replacements={ { event: this.props.eventNameInDeleteBetsConfirmation } }
           />
         }
-        { // TODO: Replace this with an approved spinning icon.
-          // The waiting text is just a placeholder
-          this.props.showBetSlipWaiting &&
-          <div className='waiting'>
-            <div className='instructions'>
-              Waiting...
-            </div>
-          </div>
-        }
+        { this.props.showBetSlipWaiting && <Waiting /> }
       </div>
     );
   }
