@@ -7,8 +7,7 @@ import { BetActions, MarketDrawerActions, NavigateActions } from '../../../actio
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import './PlacedBets.less';
-import Overlay from '../Overlay';
-import { Empty } from '../Common';
+import { Empty, Overlay } from '../Common';
 
 class PlacedBets extends PureComponent {
   componentDidMount() {

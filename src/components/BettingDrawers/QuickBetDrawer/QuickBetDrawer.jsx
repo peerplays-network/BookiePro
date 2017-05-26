@@ -9,8 +9,7 @@ import { BetActions, NavigateActions, QuickBetDrawerActions } from '../../../act
 import { Button } from 'antd';
 import { bindActionCreators } from 'redux';
 import BetTable from '../BetTable';
-import Overlay from '../Overlay';
-import { Empty } from '../Common';
+import { Empty, Overlay } from '../Common';
 
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>

@@ -10,8 +10,7 @@ import Ps from 'perfect-scrollbar';
 import { Button } from 'antd';
 import BetTable from '../BetTable';
 import './BetSlip.less';
-import Overlay from '../Overlay';
-import { Empty } from '../Common';
+import { Empty, Overlay } from '../Common';
 
 const renderContent = (props) => (
   <div className='content' ref='unconfirmedBets'>
