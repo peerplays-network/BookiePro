@@ -4,6 +4,7 @@ import BettingMarketActions from './BettingMarketActions';
 import EventActions from './EventActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
 import LiquidityActions from './LiquidityActions';
+import { resolveBettingMarketGroupDisplayName } from './dataUtils';
 import log from 'loglevel';
 
 class BettingMarketGroupPagePrivateActions {
@@ -24,6 +25,12 @@ class BettingMarketGroupPagePrivateActions {
     }
   }
 
+  static setWidgetTitle(title) {
+    return {
+      type: ActionTypes.BETTING_MARKET_GROUP_PAGE_SET_WIDGET_TITLE,
+      title
+    }
+  }
 }
 
 class BettingMarketGroupPageActions {
@@ -41,7 +48,8 @@ class BettingMarketGroupPageActions {
         return Promise.all([
           dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)),
           dispatch(EventActions.getEventsByIds([eventId])),
-          dispatch(LiquidityActions.getTotalMatchedBetsByBettingMarketGroupIds([bettingMktGrpId]))
+          dispatch(LiquidityActions.getTotalMatchedBetsByBettingMarketGroupIds([bettingMktGrpId])),
+          dispatch(BettingMarketGroupPagePrivateActions.setWidgetTitle(resolveBettingMarketGroupDisplayName(bettingMarketGroup)))
         ]);
       }).then((result) => {
         const bettingMarkets = result[0];

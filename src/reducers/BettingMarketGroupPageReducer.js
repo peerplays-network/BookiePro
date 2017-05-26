@@ -4,7 +4,8 @@ import _ from 'lodash';
 
 let initialState = Immutable.fromJS({
   errorByBettingMarketGroupId: {},
-  loadingStatusByBettingMarketGroupId: {}
+  loadingStatusByBettingMarketGroupId: {},
+  widgetTitle: '',
 });
 
 export default function(state = initialState, action) {
@@ -17,6 +18,9 @@ export default function(state = initialState, action) {
       nextState = state.setIn(['loadingStatusByBettingMarketGroupId', action.bettingMarketGroupId], LoadingStatus.ERROR);
       nextState = state.setIn(['errorByBettingMarketGroupId', action.bettingMarketGroupId], action.error);
       return nextState;
+    }
+    case ActionTypes.BETTING_MARKET_GROUP_PAGE_SET_WIDGET_TITLE: {
+      return state.set('widgetTitle', action.title);
     }
     default:
       return state;

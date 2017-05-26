@@ -183,7 +183,10 @@ class ComplexBettingWidget extends Component {
   }
 
   render() {
-    const { currencyFormat, bettingMarketGroup, bettingMarketGroupName, totalMatchedBetsAmount, eventTime, sportName, eventName } = this.props;
+    const { currencyFormat, bettingMarketGroup, bettingMarketGroupName,
+            totalMatchedBetsAmount, eventTime, sportName, eventName,
+            widgetTitle
+    } = this.props;
 
     const minNameWidth = 200;
     const minOfferWidth = 50;
@@ -366,7 +369,7 @@ class ComplexBettingWidget extends Component {
 
       <div className='complex-betting'>
         <div className='title'>
-          <div className='name'> { bettingMarketGroupName } </div>
+          <div className='name'> { widgetTitle } </div>
           <div className='rules'>
             <span>
               { I18n.t('complex_betting_widget.matched') }:{ this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
