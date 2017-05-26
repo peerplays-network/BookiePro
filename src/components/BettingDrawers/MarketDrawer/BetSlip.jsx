@@ -10,7 +10,7 @@ import Ps from 'perfect-scrollbar';
 import { Button } from 'antd';
 import BetTable from '../BetTable';
 import './BetSlip.less';
-import { Empty, Overlay } from '../Common';
+import { Empty, Overlay, Waiting } from '../Common';
 
 const renderContent = (props) => (
   <div className='content' ref='unconfirmedBets'>
@@ -86,15 +86,7 @@ class BetSlip extends PureComponent {
             confirmAction={ () => this.props.deleteUnconfirmedBets(this.props.unconfirmedbetsToBeDeleted) }
           />
         }
-        { // TODO: Replace this with an approved spinning icon.
-          // The waiting text is just a placeholder
-          this.props.showBetSlipWaiting &&
-          <div className='waiting'>
-            <div className='instructions'>
-              Waiting...
-            </div>
-          </div>
-        }
+        { this.props.showBetSlipWaiting && <Waiting/> }
       </div>
     )
   }

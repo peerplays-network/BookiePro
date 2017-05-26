@@ -7,7 +7,7 @@ import { BetActions, MarketDrawerActions, NavigateActions } from '../../../actio
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import './PlacedBets.less';
-import { Empty, Overlay } from '../Common';
+import { Empty, Overlay, Waiting } from '../Common';
 
 class PlacedBets extends PureComponent {
   componentDidMount() {
@@ -63,15 +63,7 @@ class PlacedBets extends PureComponent {
             confirmAction={ () => this.props.deleteUnmatchedBets(this.props.unmatchedbetsToBeDeleted) }
           />
         }
-        { // TODO: Replace this with an approved spinning icon.
-          // The waiting text is just a placeholder
-          this.props.showPlacedBetsWaiting &&
-          <div className='waiting'>
-            <div className='instructions'>
-              Waiting...
-            </div>
-          </div>
-        }
+        { this.props.showPlacedBetsWaiting && <Waiting/> }
       </div>
     )
   }

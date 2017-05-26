@@ -9,7 +9,7 @@ import { BetActions, NavigateActions, QuickBetDrawerActions } from '../../../act
 import { Button } from 'antd';
 import { bindActionCreators } from 'redux';
 import BetTable from '../BetTable';
-import { Empty, Overlay } from '../Common';
+import { Empty, Overlay, Waiting } from '../Common';
 
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
@@ -96,15 +96,7 @@ class QuickBetDrawer extends Component {
             replacements={ { event: this.props.eventNameInDeleteBetsConfirmation } }
           />
         }
-        { // TODO: Replace this with an approved spinning icon.
-          // The waiting text is just a placeholder
-          this.props.showBetSlipWaiting &&
-          <div className='waiting'>
-            <div className='instructions'>
-              Waiting...
-            </div>
-          </div>
-        }
+        { this.props.showBetSlipWaiting && <Waiting /> }
       </div>
     );
   }

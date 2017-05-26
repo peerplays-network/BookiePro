@@ -1,26 +1,28 @@
 @import '../../../App/Colors.less';
 @import '../../../App/Common.less';
 
-div.empty {
-  width: 80%;
-  margin: auto;
-  text-align: center;
-  color: @white;
+#quick-bet-drawer, #market-drawer {
+  div.empty {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    color: @white;
 
-  > div.instructions {
-    margin-top: 20%;
-    font-size:16px;
-    font-weight:500;
-  }
+    > div.instructions {
+      margin-top: 20%;
+      font-size:16px;
+      font-weight:500;
+    }
 
-  > div.my-bet-button {
-    margin-top: 20%;
+    > div.my-bet-button {
+      margin-top: 20%;
 
-    > button {
-      width: 100%;
-      &:hover, &:focus{
-        .btn-regular;
-        color: @white;
+      > button {
+        width: 100%;
+        &:hover, &:focus{
+          .btn-regular;
+          color: @white;
+        }
       }
     }
   }
