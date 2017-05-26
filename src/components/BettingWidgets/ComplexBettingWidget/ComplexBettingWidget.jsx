@@ -369,7 +369,7 @@ class ComplexBettingWidget extends Component {
           <div className='name'> { bettingMarketGroupName } </div>
           <div className='rules'>
             <span>
-              { I18n.t('complex_betting_widget.matched') }:{ this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
+              { I18n.t('complex_betting_widget.matched') }: { this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
             </span>
             {/* Rules Dialogue box */}
             <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
