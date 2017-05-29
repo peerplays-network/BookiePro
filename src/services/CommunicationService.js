@@ -333,7 +333,10 @@ class CommunicationService {
         const headTime = blockchainTimeStringToDate(blockchainDynamicGlobalProperty.get('time')).valueOf();
         const delta = (now - headTime)/1000;
         // Continue only if delta of computer current time and the blockchain time is less than a minute
-        if (delta < 60) {
+        // TODO: come back to this later after pixelplex fix the code
+        // const isBlockchainTimeDifferenceAcceptable = delta < 60;
+        const isBlockchainTimeDifferenceAcceptable = true;
+        if (isBlockchainTimeDifferenceAcceptable) {
           // Subscribe to blockchain callback so the store is always has the latest data
           const onUpdate = this.onUpdate.bind(this);
           return Apis.instance().db_api().exec( 'set_subscribe_callback', [ onUpdate, true ] ).then(() => {
