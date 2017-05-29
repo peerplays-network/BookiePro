@@ -1,18 +1,41 @@
 import React, { Component } from 'react';
 import { Tabs } from 'antd';
 import { I18n } from 'react-redux-i18n';
+import { connect } from 'react-redux';
 import BetSlip from './BetSlip';
 import PlacedBets from './PlacedBets';
 
 const TabPane = Tabs.TabPane;
+const BETSLIP = '1';
+const PLACEDBETS = '2';
 
 class MarketDrawer extends Component {
   constructor(props) {
     super(props);
-    this.state = { activeTab: '1' };
+    // Show BetSlip by default
+    this.state = { activeTab: BETSLIP };
     this.onTabClick = this.onTabClick.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    // Automatically switch to Placed Bets tab after a successful PlaceBet operation
+    if (nextProps.showBetSlipSuccess === true && this.props.showBetSlipSuccess === false) {
+      if (this.state.activeTab === BETSLIP) {
+        this.setState({ activeTab: PLACEDBETS });
+      }
+    }
+
+    // Automatically switch to BetSlip if the user adds a new bet from Betting Market Group page
+    if (nextProps.numberOfUnconfirmedBets > this.props.numberOfUnconfirmedBets) {
+      if (this.state.activeTab === PLACEDBETS) {
+        this.setState({ activeTab: BETSLIP });
+      }
+    }
+  }
+
+  // We forced the Tabs component to use the internal activeTab state as the activeKey.
+  // We do this so that we can have direct control of the tabs, i.e. we can now
+  // programmatically switch tab based on props
   onTabClick(key) {
     this.setState({ activeTab: key });
   }
@@ -33,5 +56,13 @@ class MarketDrawer extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  const showBetSlipSuccess = state.getIn(['marketDrawer', 'showBetSlipSuccess']);
+  const numberOfUnconfirmedBets = state.getIn(['marketDrawer', 'unconfirmedBets']).size;
+  return {
+    showBetSlipSuccess,
+    numberOfUnconfirmedBets,
+  }
+}
 
-export default MarketDrawer;
+export default connect(mapStateToProps)(MarketDrawer);
