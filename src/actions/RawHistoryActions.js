@@ -128,7 +128,7 @@ class RawHistoryActions {
           })
         }
         // Add to the queue
-        checkForNewRawHistoryQueue.add(doTheCheck).then(() => console.log('add queue')).catch((error) => console.log('no queue pls'));
+        checkForNewRawHistoryQueue.add(doTheCheck);
       }
     }
   }
