@@ -134,7 +134,7 @@ class Exchange extends Component {
           allowResize={ false }
           minSize={ sidebarWidth } defaultSize={ sidebarWidth }
           pane1Style={ styleLeftPane }>
-            <div style={ { 'height' : '100%', 'position' : 'relative' } }
+            <div className='sideBarMain' style={ { 'height' : '100%', 'position' : 'relative' } }
               ref='sidebar'>
               <SideBar
                  completeTree={ this.props.completeTree }
