@@ -18,6 +18,7 @@ import Deposit from './Deposit';
 import { MyAccountWithdraw } from '../Withdraw';
 import { SettingActions, BalanceActions, NavigateActions, MyAccountPageActions, AccountActions } from '../../actions';
 import { MyAccountPageSelector } from '../../selectors';
+import moment from 'moment'
 
 const Option = Select.Option;
 
@@ -57,8 +58,9 @@ class MyAccount extends PureComponent {
 
   //Search transaction history with filters
   handleSearchClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
-    // Set time range
-    this.props.setHistoryTimeRange(periodType,customTimeRangeStartDate, customTimeRangeEndDate);
+    // Set time range.
+    this.props.setHistoryTimeRange(periodType,
+      customTimeRangeStartDate.startOf('day'), customTimeRangeEndDate.endOf('day'));
   }
 
   //Export transaction history
