@@ -44,10 +44,10 @@ class MarketDrawer extends Component {
     return (
       <div id='market-drawer'>
         <Tabs activeKey={ this.state.activeTab } type='card' onTabClick={ this.onTabClick }>
-          <TabPane tab={ I18n.t('market_drawer.tab1') } key='1'>
+          <TabPane tab={ I18n.t('market_drawer.tab1') } key={ BETSLIP }>
             <BetSlip currencyFormat={ this.props.currencyFormat }/>
           </TabPane>
-          <TabPane tab={ I18n.t('market_drawer.tab2') }  key='2'>
+          <TabPane tab={ I18n.t('market_drawer.tab2') } key={ PLACEDBETS }>
             <PlacedBets currencyFormat={ this.props.currencyFormat }/>
           </TabPane>
         </Tabs>
