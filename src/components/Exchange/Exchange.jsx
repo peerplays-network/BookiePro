@@ -134,8 +134,7 @@ class Exchange extends Component {
           allowResize={ false }
           minSize={ sidebarWidth } defaultSize={ sidebarWidth }
           pane1Style={ styleLeftPane }>
-            <div style={ { 'height' : '100%', 'position' : 'relative' } }
-              ref='sidebar'>
+            <div className='sidebar-main' ref='sidebar'>
               <SideBar
                  completeTree={ this.props.completeTree }
                  level={ transitionName.length }
@@ -146,7 +145,7 @@ class Exchange extends Component {
                 allowResize={ false }
                 minSize={ betslipWidth } defaultSize={ betslipWidth }
                 primary='second'>
-                  <div style={ { 'height' : '100%', 'position' : 'relative' } }
+                  <div className='scrollbar-style-main'
                     ref='main'>
                      {React.cloneElement(this.props.children, {
                        currencyFormat: this.props.currencyFormat
