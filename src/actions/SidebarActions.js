@@ -8,6 +8,7 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 import log from 'loglevel';
 import { I18n } from 'react-redux-i18n';
+import { resolveBettingMarketGroupDisplayName } from './dataUtils'
 
 class SidebarActions{
 
@@ -127,17 +128,9 @@ class SidebarActions{
 
                   // update the name to be shown in sidebar based on market typd
                   // currently we have 'Spread', 'OverUnder' and 'Moneyline'
-                  mktGroupNode = mktGroupNode.update('name',
-                    (name) => {
-                      if ( marketTypeId === 'Spread'){
-                        return I18n.t('bettingMarketGroup.spread') +  ( mktGroup.get('options').get('margin') >= 0 ? '+' : '' )+ mktGroup.get('options').get('margin');
-                      } else if ( marketTypeId === 'OverUnder'){
-                        return I18n.t('bettingMarketGroup.overunder') + mktGroup.get('options').get('score');
-                      } else {
-                        return name;
-
-                      }
-                    });
+                  mktGroupNode = mktGroupNode.set('name',
+                    resolveBettingMarketGroupDisplayName(mktGroup)
+                  );
                 };
 
                 eventNode = eventNode.update('children',

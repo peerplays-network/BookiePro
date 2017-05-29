@@ -54,6 +54,7 @@ class BettingMarketGroup extends Component {
           unconfirmedBets={ this.props.unconfirmedBets }
           currencyFormat={ this.props.currencyFormat }
           loadingStatus={ this.props.loadingStatus }
+          widgetTitle={ this.props.widgetTitle }
         />
       </div>
     )
@@ -110,7 +111,7 @@ const createMarketData = (bettingMarkets, binnedOrderBooksByBettingMarketId,
       }
 
     } else if ( marketTypeId === 'Moneyline'){
-      data = data.set('marketTypeValue', marketTypeId); // Moneyline has no extra option 
+      data = data.set('marketTypeValue', marketTypeId); // Moneyline has no extra option
       if ( i === homeId && homeName ){
         data = data.set('displayedName', homeSelection )
           .set('name', homeSelection);
@@ -219,7 +220,7 @@ const mapStateToProps = (state, ownProps) => {
     true );
 
   const marketDrawer = state.get('marketDrawer');
-
+  const widgetTitle = state.getIn(['bettingMarketGroupPage', 'widgetTitle']);
   return {
     sportName,
     bettingMarketGroup,
@@ -231,6 +232,7 @@ const mapStateToProps = (state, ownProps) => {
     totalMatchedBetsAmount,
     unconfirmedBets: marketDrawer.get('unconfirmedBets'),
     loadingStatus,
+    widgetTitle,
   }
 };
 

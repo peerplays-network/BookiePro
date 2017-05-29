@@ -29,6 +29,9 @@ const groupMoneyLineBinnedOrderBooks = (event, bettingMarketGroups, binnedOrderB
   return groupedBinnedOrderBooks;
 }
 
+/*
+ * This function resolve the display name of a Betting Market (or Market Type Value)
+ */
 const resolveMarketTypeValue = (bettingMarketGroup, bettingMarketId) => {
   const isHomeTeam = bettingMarketGroup.get('betting_market_ids').keyOf(bettingMarketId) === 0;
   const marketTypeId = bettingMarketGroup.get('market_type_id');
@@ -47,7 +50,26 @@ const resolveMarketTypeValue = (bettingMarketGroup, bettingMarketId) => {
   return marketTypeId;
 }
 
+/*
+ * This function resolve the display name of a Betting Market Group
+ */
+const resolveBettingMarketGroupDisplayName = (bettingMarketGroup) => {
+  const marketTypeId = bettingMarketGroup.get('market_type_id');
+
+  if (marketTypeId === 'Spread'){
+    const margin = bettingMarketGroup.getIn(['options','margin']);
+    return I18n.t('bettingMarketGroup.spread') + (margin >= 0 ? '+' : '') + margin;
+  }
+
+  if (marketTypeId === 'OverUnder'){
+    return I18n.t('bettingMarketGroup.overunder') + bettingMarketGroup.getIn(['options', 'score']);
+  }
+
+  return marketTypeId;
+}
+
 export {
   groupMoneyLineBinnedOrderBooks,
   resolveMarketTypeValue,
+  resolveBettingMarketGroupDisplayName,
 };
