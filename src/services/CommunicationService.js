@@ -12,7 +12,6 @@ import {
   BettingMarketActions,
   BettingMarketGroupActions,
   BinnedOrderBookActions,
-  BetActions,
   BalanceActions,
 } from '../actions';
 import Immutable from 'immutable';
@@ -489,29 +488,6 @@ class CommunicationService {
     });
     return Promise.all(promises).then( result => {
       return Immutable.fromJS(_.flatten(result));
-    });
-  }
-
-  /**
-   * Search events given keyword
-   */
-  static searchEvents(keyword) {
-    // TODO: Replace Later
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const filteredResult = _.filter(dummyData.events, (item) => {
-          const team1Name = item.name.split(' vs ')[0];
-          const team2Name = item.name.split(' vs ')[1];
-
-          const keywordLowerCase = keyword.toLowerCase();
-
-          const team1FirstName = team1Name.split(' ')[0].toLowerCase();
-          const team2FirstName = team2Name.split(' ')[0].toLowerCase();
-          return team1FirstName.startsWith(keywordLowerCase) || team2FirstName.startsWith(keywordLowerCase);
-
-        });
-        resolve(Immutable.fromJS(filteredResult));
-      }, TIMEOUT_LENGTH);
     });
   }
 

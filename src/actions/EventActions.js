@@ -159,20 +159,47 @@ class EventActions {
    * Search events given keyword
    */
   static searchEvents(keyword) {
-    return (dispatch) => {
+    return (dispatch,getState) => {
+
       // Set status
       dispatch(EventPrivateActions.setSearchEventsLoadingStatusAction(LoadingStatus.LOADING));
-      // Ask blockchain
-      CommunicationService.searchEvents(keyword).then((result) => {
-        // Set data to redux store
-        dispatch(EventPrivateActions.setSearchResultAction(result));
-        // Set status
-        dispatch(EventPrivateActions.setSearchEventsLoadingStatusAction(LoadingStatus.DONE));
-        log.debug('Search events succeed.');
-      }).catch((error) => {
-        log.error('Fail to search events', error);
-        dispatch(EventPrivateActions.setSearchEventsErrorAction(error));
+
+      /**
+        Get upcoming events from store [the same events that are passed to SimpleBettingWidget
+          while filtering events].
+        Search will be performed on these events
+      **/
+      const eventsById = getState().getIn(['event', 'eventsById']);
+      let myEvents = eventsById.toArray()
+        .filter((event) => {
+          const eventTime = event.get('start_time');
+          const currentTime = new Date().getTime();
+          const isEventActive = (eventTime - currentTime) > 0;
+          return isEventActive
+        }).map((event) => {
+          const eventId = event.get('id');
+          return Immutable.fromJS({
+            event_id: eventId,
+            event_name: event.get('name'),
+            time: event.get('start_time')
+          })
+        });
+      let eventList = Immutable.List(myEvents);
+      const filteredResult = eventList.toArray().filter((item) => {
+        const team1Name = item.get('event_name').split(' vs ')[0];
+        const team2Name = item.get('event_name').split(' vs ')[1];
+        const keywordLowerCase = keyword.toLowerCase();
+        const team1FirstName = team1Name.split(' ')[0].toLowerCase();
+        const team2FirstName = team2Name.split(' ')[0].toLowerCase();
+        return team1FirstName.startsWith(keywordLowerCase) || team2FirstName.startsWith(keywordLowerCase);
       });
+
+      // Set data to redux store
+      dispatch(EventPrivateActions.setSearchResultAction(filteredResult));
+      // Set status
+      dispatch(EventPrivateActions.setSearchEventsLoadingStatusAction(LoadingStatus.DONE));
+      
+      log.debug('Search events succeed.');
     }
   }
 

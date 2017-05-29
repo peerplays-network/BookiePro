@@ -25,12 +25,10 @@ class SearchMenu extends Component {
   }
 
   onInputChange(searchText) {
-
     //TODO options shown still exist when search text is empty
     if ( searchText.length > 0){
       setTimeout(this.props.searchEvents(searchText), 2000)
     }
-
   }
   componentWillReceiveProps(nextProps) {
 
@@ -61,6 +59,10 @@ class SearchMenu extends Component {
 
   onChange (event) {
 
+    //Clear the search results when there is no search data
+    if(!event)
+      this.props.clearSearchResult();
+
     //to update the value props in Select component
     this.setState({
       value: event,
@@ -68,9 +70,9 @@ class SearchMenu extends Component {
 
     let isMoneyLineFound = false;
 
-    if ( this.props.completeTree){
+    if ( this.props.completeTree && event){
       const nested = Immutable.fromJS(this.props.completeTree);
-      const keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === event.id) );
+      const keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === event.event_id) );
       const moneyline = nested.getIn(keyPath).get('children').filter((mktGroup) =>
         //NOTE if type id is not in string format please change it
         mktGroup.get('market_type_id') === 'Moneyline'
@@ -84,8 +86,8 @@ class SearchMenu extends Component {
     }
 
     //NOTE navigateTo money line bettingmarketgroup instead
-    if ( isMoneyLineFound === false){
-      this.props.navigateTo('/exchange/event/' + event.id );
+    if ( isMoneyLineFound === false && event){
+      this.props.navigateTo('/exchange/event/' + event.event_id );
     }
 
   }
@@ -112,13 +114,14 @@ class SearchMenu extends Component {
                   value={ this.state.value }
                   onChange={ this.onChange }
                   onValueClick={ this.gotoEvent }
-                  valueKey='id'
-                  labelKey='name'
+                  valueKey='event_id'
+                  labelKey='event_name'
                   onInputChange={ this.onInputChange }
                   isLoading={ this.state.isLoading }
                   options={ this.props.searchResult === undefined ? [] : this.props.searchResult.toJS() }
                   backspaceRemoves={ this.state.backspaceRemoves }
                   placeholder='Search Team'
+                  deleteRemoves={ true }
                 />
 
             }
@@ -148,6 +151,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     searchEvents: EventActions.searchEvents,
+    clearSearchResult: EventActions.clearSearchResult
   }, dispatch);
 }
 
