@@ -238,9 +238,6 @@ class HistoryService {
       }
     })
 
-    console.log('unmacthd', unmatchedBetsById);
-    console.log('matched', matchedBetsById);
-    console.log('resolved', resolvedBetsById);
     return {
       unmatchedBetsById,
       matchedBetsById,

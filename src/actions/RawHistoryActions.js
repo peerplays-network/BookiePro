@@ -5,6 +5,10 @@ import MyAccountPageActions from './MyAccountPageActions';
 import BetActions from './BetActions';
 import log from 'loglevel';
 import _ from 'lodash';
+import Queue from 'promise-queue';
+
+// Create a check for new history queue with max concurrent 1 and max pending 1 (only 1 check can run at each time with 1 pending)
+const checkForNewRawHistoryQueue = new Queue(1, 1);
 
 /**
  * Private actions
@@ -80,11 +84,11 @@ class RawHistoryActions {
           dispatch(BetActions.initMyBets());
           // Set loading status
           dispatch(RawHistoryPrivateActions.setInitRawHistoryLoadingStatusAction(LoadingStatus.DONE));
-          log.debug('Init transaction history succeed.');
+          log.debug('Init raw history succeed.');
         }).catch((error) => {
           // Set error
           dispatch(RawHistoryPrivateActions.setInitRawHistoryErrorAction(error));
-          log.error('Init transaction history error', error);
+          log.error('Init raw history error', error);
         })
 
       }
@@ -98,28 +102,33 @@ class RawHistoryActions {
     return (dispatch, getState) => {
       const accountId = getState().getIn(['account', 'account', 'id']);
       if (accountId) {
-        // Init history
-        const latestTransactionId = getState().getIn(['rawHistory', 'rawHistoryByAccountId', accountId, 0, 'id']);
-        const stopTxHistoryId = latestTransactionId || (ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0');
-        // Set loading status
-        dispatch(RawHistoryPrivateActions.setCheckForNewRawHistoryLoadingStatusAction(LoadingStatus.LOADING));
-        CommunicationService.fetchRecentHistory(accountId, stopTxHistoryId).then((transactions) => {
-          // Prepend transaction history
-          dispatch(RawHistoryPrivateActions.prependRawTransactionsToRawHistoryAction(accountId, transactions));
+        // Create function to check new raw history so we can add it to the queue (to prevent duplicate, i.e running concurrently)
+        const doTheCheck = () => {
+          // Init history
+          const latestTransactionId = getState().getIn(['rawHistory', 'rawHistoryByAccountId', accountId, 0, 'id']);
+          const stopTxHistoryId = latestTransactionId || (ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0');
           // Set loading status
-          dispatch(RawHistoryPrivateActions.setCheckForNewRawHistoryLoadingStatusAction(LoadingStatus.DONE));
-          // Update transaction history
-          dispatch(MyAccountPageActions.updateTransactionHistory(transactions));
-          // Update my bets
-          dispatch(BetActions.checkForNewMyBets(transactions));
-          // Update notification
-          dispatch(NotificationActions.updateNotifications(transactions));
-          log.debug('Check for new transaction history succeed.');
-        }).catch((error) => {
-          // Set error
-          dispatch(RawHistoryPrivateActions.setCheckForNewRawHistoryLoadingStatusAction(error));
-          log.error('Check for transaction history error', error);
-        })
+          dispatch(RawHistoryPrivateActions.setCheckForNewRawHistoryLoadingStatusAction(LoadingStatus.LOADING));
+          return CommunicationService.fetchRecentHistory(accountId, stopTxHistoryId).then((transactions) => {
+            // Prepend transaction history
+            dispatch(RawHistoryPrivateActions.prependRawTransactionsToRawHistoryAction(accountId, transactions));
+            // Set loading status
+            dispatch(RawHistoryPrivateActions.setCheckForNewRawHistoryLoadingStatusAction(LoadingStatus.DONE));
+            // Update transaction history
+            dispatch(MyAccountPageActions.updateTransactionHistory(transactions));
+            // Update my bets
+            dispatch(BetActions.checkForNewMyBets(transactions));
+            // Update notification
+            dispatch(NotificationActions.updateNotifications(transactions));
+            log.debug('Check for new raw history succeed.');
+          }).catch((error) => {
+            // Set error
+            dispatch(RawHistoryPrivateActions.setCheckForNewRawHistoryLoadingStatusAction(error));
+            log.error('Check for raw history error', error);
+          })
+        }
+        // Add to the queue
+        checkForNewRawHistoryQueue.add(doTheCheck).then(() => console.log('add queue')).catch((error) => console.log('no queue pls'));
       }
     }
   }
