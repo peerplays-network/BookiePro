@@ -220,7 +220,7 @@ class MyWager extends PureComponent {
 
 const mapStateToProps = (state) => {
   let currencyVal = '(' + CurrencyUtils.getCurruencySymbol(getCurrencyFormat(state)) + ')';
-  let profit_libility  = state.getIn(['mywager','activeTab']) === 'resolvedBets' ?
+  let profit_liability  = state.getIn(['mywager','activeTab']) === 'resolvedBets' ?
     I18n.t('mybets.profit') + currencyVal : <Translate value='mybets.profit_liability' currency={ currencyVal } dangerousHTML/> ;
   const columns = [
     {
@@ -254,7 +254,7 @@ const mapStateToProps = (state) => {
       key: 'amount_to_bet',
     },
     {
-      title: profit_libility,
+      title: profit_liability,
       dataIndex: 'amount_to_win',
       key: 'amount_to_win'
     }
