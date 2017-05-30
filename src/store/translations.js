@@ -555,7 +555,7 @@ export const translationsObject = {
       }
     },
     AllSports:{
-      bannerText: 'In play of 100 open games',
+      bannerText: 'In-play in 100 open games',
       allSports: 'ALL SPORTS'
     },
     privacy_dialogue:{
