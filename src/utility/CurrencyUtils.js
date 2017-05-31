@@ -36,11 +36,7 @@ var CurrencyUtils = {
     if (!isNaN(amount)) {
       if (currency === 'mBTC') {
         // 1 BTC = 1 * 10^3 mBTC
-        let mPrecision = precision - 3;
-        if ( mPrecision < 0 ){
-          mPrecision = 0;
-        }
-
+        const mPrecision = precision < 3 ? 0 : precision - 3;
         return ( 1000 * amount ).toFixed(mPrecision);
       }
 
@@ -70,7 +66,10 @@ var CurrencyUtils = {
     const currencySymbol = this.getCurruencySymbol(currency);
 
     // Note: Math.abs can take a string of valid number as argument
-    return ( amount >= 0 ? '' : '-') + currencySymbol + (spaceAfterSymbol ? ' ' : '') + Math.abs(formatted);
+    if (currency === 'mBTC') {
+      precision = precision < 3 ? 0 : precision - 3;
+    }
+    return ( amount >= 0 ? '' : '-') + currencySymbol + (spaceAfterSymbol ? ' ' : '') + Math.abs(formatted).toFixed(precision);
   },
 
   /*
