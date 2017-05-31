@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
 import { List, Map } from 'immutable';
-import { I18n } from 'react-redux-i18n';
+import { I18n, Translate } from 'react-redux-i18n';
 import moment from 'moment';
 import { CurrencyUtils } from '../../utility';
 import { MyWagerSelector } from '../../selectors';
@@ -219,6 +219,9 @@ class MyWager extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
+  let currencyVal = '(' + CurrencyUtils.getCurruencySymbol(getCurrencyFormat(state)) + ')';
+  let profit_liability  = state.getIn(['mywager','activeTab']) === 'resolvedBets' ?
+    I18n.t('mybets.profit') + currencyVal : <Translate value='mybets.profit_liability' currency={ currencyVal } dangerousHTML/> ;
   const columns = [
     {
       title: (state.getIn(['mywager','activeTab']) === 'resolvedBets' ? I18n.t('resolved_time') : I18n.t('mybets.event_time') ),
@@ -251,8 +254,7 @@ const mapStateToProps = (state) => {
       key: 'amount_to_bet',
     },
     {
-      title: I18n.t('mybets.profit') + (state.getIn(['mywager','activeTab']) === 'resolvedBets' ? '' : '/' + I18n.t('mybets.liability') )
-        + '(' + CurrencyUtils.getCurruencySymbol(getCurrencyFormat(state)) + ')',
+      title: profit_liability,
       dataIndex: 'amount_to_win',
       key: 'amount_to_win'
     }
