@@ -53,7 +53,18 @@ var CurrencyUtils = {
     return amount.toString();
   },
 
-  // Format cryopto currency value with the specified currency and prepend the result with currency symbol
+  /*
+   * Format BTC or mBTC value with the specified currency and prepend the result with currency symbol
+   * Internally, this function calls getFormattedCurrency and use the same parameters except the last optional one.
+   *
+   * Parameters:
+   *   amount - BTC or mBTC value  to be formatted. Number is expected. String value may give unpredictable results.
+   *   currency - either 'BTC' or 'mBTC'
+   *   precision - integer value representing the desired precision of the formatted value
+   *   spaceAfterSymbol - true if a space should be added after the currency symbol in the formatted results
+   *
+   * Return formatted BTC or mBTC value with currency symbol prepended
+   */
   formatByCurrencyAndPrecisionWithSymbol: function(amount, currency, precision = 0, spaceAfterSymbol = false) {
     const formatted = this.getFormattedCurrency(amount, currency, precision);
     const currencySymbol = this.getCurruencySymbol(currency);
