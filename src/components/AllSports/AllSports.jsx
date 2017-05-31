@@ -45,6 +45,7 @@ class AllSports extends Component {
 const mapStateToProps = (state) => {
   const sportsById = state.getIn(['sport', 'sportsById']);
   const eventsById = state.getIn(['event', 'eventsById']);
+  const bettingMarketGroupsById = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
   const binnedOrderBooksByEvent = state.getIn(['allSports', 'binnedOrderBooksByEvent']);
 
   // Construct the page content
@@ -68,11 +69,16 @@ const mapStateToProps = (state) => {
       const eventId = event.get('id');
       const offers = binnedOrderBooksByEvent.has(eventId)? binnedOrderBooksByEvent.get(eventId) : Immutable.List() ;
       let eventList = page.getIn([eventSportId, 'events']);
+      // Find the MoneyLine Betting Market Group of this event
+      const moneyline = event.get('betting_market_group_ids').find((id) => {
+        return bettingMarketGroupsById.get(id).get('market_type_id') === 'Moneyline';
+      })
       eventList = eventList.push(Immutable.fromJS({
         event_id: event.get('id'),
         event_name: event.get('name'),
         time: event.get('start_time'),
-        offers: offers
+        offers,
+        moneyline,
       }));
       page = page.setIn([eventSportId, 'events'], eventList);
     }

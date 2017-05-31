@@ -25,7 +25,7 @@ const renderEventTime = (text, record) => {
   return eventTime.format('DD/MM/YYYY HH:mm');
 }
 
-const getColumns = (renderOffer, currencyFormat) => ([
+const getColumns = (renderOffer, navigateTo, currencyFormat) => ([
   {
     dataIndex: 'time',
     key: 'time',
@@ -38,7 +38,8 @@ const getColumns = (renderOffer, currencyFormat) => ([
     // Do not specify width so the column
     // will grow/shrink with the size of the table
     className: 'event-name',
-    render: (text, record) => record.get('event_name')
+    render: (text, record) => record.get('event_name'),
+    onCellClick: (record, event) => console.log(record.toJS()),
   }, {
     title: '1',
     children: [{
@@ -157,7 +158,7 @@ class SimpleBettingWidget extends Component {
       <div className='simple-betting'>
         <Table
           bordered
-          columns={ getColumns(this.renderOffer, this.props.currencyFormat) }
+          columns={ getColumns(this.renderOffer, this.props.navigateTo, this.props.currencyFormat) }
           dataSource={ events.toArray() }
           title={ () => renderTitle(this.props.title) }
           footer={ () => this.props.showFooter ? this.renderFooter(this.props) : null }
