@@ -53,7 +53,7 @@ class Deposit extends PureComponent {
                     <p>{ <Translate value='deposit.right_description' dangerousHTML /> }
                     </p>
                     <div className='text-center'>
-                      <div className='bookie-qr'><QRCode className='bookie-qr' size='165' value={ JSON.stringify(this.props.depositAddress) }/>
+                      <div className='bookie-qr'><QRCode className='bookie-qr' size={ 165 } value={ JSON.stringify(this.props.depositAddress) }/>
                       </div>
                     </div>
                   </Col>

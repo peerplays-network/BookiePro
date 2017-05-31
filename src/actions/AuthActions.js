@@ -290,6 +290,13 @@ class AuthActions {
     }
   }
 
+  //Clear any sign up related error from store
+  static clearSignupError(){
+    return (dispatch) => {
+      dispatch(AuthPrivateActions.setSignupErrorsAction([]));
+    }
+  }
+
 }
 
 export default AuthActions;
