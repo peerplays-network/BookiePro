@@ -206,7 +206,7 @@ class ComplexBettingWidget extends Component {
            BettingModuleUtils.exposurePlaces);
 
         const potentialExposure = CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
-           BettingModuleUtils.getPotentialExposure(props.value.market_exposure, props.value.betslip_exposure ),
+           parseFloat(BettingModuleUtils.getPotentialExposure(props.value.market_exposure, props.value.betslip_exposure )),
            currencyFormat,
            BettingModuleUtils.exposurePlaces);
 

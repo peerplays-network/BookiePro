@@ -33,18 +33,20 @@ var CurrencyUtils = {
   // precision : integer ( ***BTC*** base), either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
   // currency : string, display currency, 'BTC' or 'mBTC'
   getFormattedCurrency: function(amount, currency = 'BTC', precision = 0){
-    if (currency === 'mBTC') {
-      // 1 BTC = 1 * 10^3 mBTC
-      let mPrecision = precision - 3;
-      if ( mPrecision < 0 ){
-        mPrecision = 0;
+    if (!isNaN(amount)) {
+      if (currency === 'mBTC') {
+        // 1 BTC = 1 * 10^3 mBTC
+        let mPrecision = precision - 3;
+        if ( mPrecision < 0 ){
+          mPrecision = 0;
+        }
+
+        return ( 1000 * amount ).toFixed(mPrecision);
       }
 
-      return ( 1000 * amount ).toFixed(mPrecision);
-    }
-
-    if (currency === 'BTC') {
-      return (amount).toFixed(precision);
+      if (currency === 'BTC') {
+        return (amount).toFixed(precision);
+      }
     }
 
     // Return the original value in string
@@ -56,7 +58,8 @@ var CurrencyUtils = {
     const formatted = this.getFormattedCurrency(amount, currency, precision);
     const currencySymbol = this.getCurruencySymbol(currency);
 
-    return ( amount >= 0 ? '' : '-') + currencySymbol + (spaceAfterSymbol ? ' ' : '') + formatted;
+    // Note: Math.abs can take a string of valid number as argument
+    return ( amount >= 0 ? '' : '-') + currencySymbol + (spaceAfterSymbol ? ' ' : '') + Math.abs(formatted);
   },
 
   /*
