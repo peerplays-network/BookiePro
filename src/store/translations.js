@@ -180,7 +180,7 @@ export const translationsObject = {
     },
     mybets:{
       profit_liability: 'Profit / </br>Liability' +
-      ' %{currency}',
+      '%{currency}',
       screenName: 'myBets_',
       //Days of week - first three characters
       today: 'Today',
