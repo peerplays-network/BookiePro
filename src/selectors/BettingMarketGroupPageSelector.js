@@ -174,7 +174,7 @@ const getTotalMatchedBetsAmount = createSelector(
   (bettingMarketGroupId, assetsById, totalMatchedBetsByMarketGroupId, currencyFormat) => {
     const totalMatchedBetsAssetId = totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'asset_id']);
     const totalMatchedBetsAsset = assetsById.get(totalMatchedBetsAssetId)
-    const totalMatchedBetsAmount = CurrencyUtils.getFormattedCurrency(
+    const totalMatchedBetsAmount = CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
       totalMatchedBetsAsset ?
         totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'amount']) / Math.pow(10, totalMatchedBetsAsset.get('precision')) : 0,
       currencyFormat,
