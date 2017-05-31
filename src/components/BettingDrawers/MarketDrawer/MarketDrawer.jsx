@@ -1,22 +1,68 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Tabs } from 'antd';
 import { I18n } from 'react-redux-i18n';
+import { connect } from 'react-redux';
 import BetSlip from './BetSlip';
 import PlacedBets from './PlacedBets';
 
 const TabPane = Tabs.TabPane;
+const BETSLIP = '1';
+const PLACEDBETS = '2';
 
-const MarketDrawer = (props) => (
-  <div id='market-drawer'>
-    <Tabs defaultActiveKey='1' type='card'>
-      <TabPane tab={ I18n.t('market_drawer.tab1') } key='1'>
-        <BetSlip currencyFormat={ props.currencyFormat }/>
-      </TabPane>
-      <TabPane tab={ I18n.t('market_drawer.tab2') }  key='2'>
-        <PlacedBets currencyFormat={ props.currencyFormat }/>
-      </TabPane>
-    </Tabs>
-  </div>
-)
+class MarketDrawer extends Component {
+  constructor(props) {
+    super(props);
+    // Show BetSlip by default
+    this.state = { activeTab: BETSLIP };
+    this.onTabClick = this.onTabClick.bind(this);
+  }
 
-export default MarketDrawer;
+  componentWillReceiveProps(nextProps) {
+    // Automatically switch to Placed Bets tab after a successful PlaceBet operation
+    if (nextProps.showBetSlipSuccess === true && this.props.showBetSlipSuccess === false) {
+      if (this.state.activeTab === BETSLIP) {
+        this.setState({ activeTab: PLACEDBETS });
+      }
+    }
+
+    // Automatically switch to BetSlip if the user adds a new bet from Betting Market Group page
+    if (nextProps.numberOfUnconfirmedBets > this.props.numberOfUnconfirmedBets) {
+      if (this.state.activeTab === PLACEDBETS) {
+        this.setState({ activeTab: BETSLIP });
+      }
+    }
+  }
+
+  // We forced the Tabs component to use the internal activeTab state as the activeKey.
+  // We do this so that we can have direct control of the tabs, i.e. we can now
+  // programmatically switch tab based on props
+  onTabClick(key) {
+    this.setState({ activeTab: key });
+  }
+
+  render() {
+    return (
+      <div id='market-drawer'>
+        <Tabs activeKey={ this.state.activeTab } type='card' onTabClick={ this.onTabClick }>
+          <TabPane tab={ I18n.t('market_drawer.tab1') } key={ BETSLIP }>
+            <BetSlip currencyFormat={ this.props.currencyFormat }/>
+          </TabPane>
+          <TabPane tab={ I18n.t('market_drawer.tab2') } key={ PLACEDBETS }>
+            <PlacedBets currencyFormat={ this.props.currencyFormat }/>
+          </TabPane>
+        </Tabs>
+      </div>
+    )
+  }
+}
+
+const mapStateToProps = (state) => {
+  const showBetSlipSuccess = state.getIn(['marketDrawer', 'showBetSlipSuccess']);
+  const numberOfUnconfirmedBets = state.getIn(['marketDrawer', 'unconfirmedBets']).size;
+  return {
+    showBetSlipSuccess,
+    numberOfUnconfirmedBets,
+  }
+}
+
+export default connect(mapStateToProps)(MarketDrawer);
