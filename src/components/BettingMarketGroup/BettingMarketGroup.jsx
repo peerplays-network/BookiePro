@@ -212,12 +212,13 @@ const mapStateToProps = (state, ownProps) => {
   const totalMatchedBetsAssetId = totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'asset_id']);
   const totalMatchedBetsAsset = state.getIn(['asset','assetsById', totalMatchedBetsAssetId])
 
-  const totalMatchedBetsAmount = CurrencyUtils.getFormattedCurrency(
+  const totalMatchedBetsAmount = CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
     totalMatchedBetsAsset ?
       totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'amount']) / Math.pow(10, totalMatchedBetsAsset.get('precision')) : 0,
     ownProps.currencyFormat,
     totalMatchedBetsAsset ? totalMatchedBetsAsset.get('precision') : 0,
-    true );
+    true
+  )
 
   const marketDrawer = state.get('marketDrawer');
   const widgetTitle = state.getIn(['bettingMarketGroupPage', 'widgetTitle']);

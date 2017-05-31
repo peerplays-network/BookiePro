@@ -41,7 +41,7 @@ var BettingModuleUtils = {
       return;
     }
 
-    return CurrencyUtils.getFormattedCurrency( floatProfit / ( floatOdds - 1 ) , currency, stakePlaces, false);
+    return CurrencyUtils.getFormattedCurrency( floatProfit / ( floatOdds - 1 ) , currency, stakePlaces);
 
   },
 
@@ -59,7 +59,7 @@ var BettingModuleUtils = {
       return;
     }
 
-    return CurrencyUtils.getFormattedCurrency( floatStake * ( floatOdds - 1 ) , currency, exposurePlaces, false);
+    return CurrencyUtils.getFormattedCurrency( floatStake * ( floatOdds - 1 ) , currency, exposurePlaces);
 
   },
 
@@ -76,7 +76,7 @@ var BettingModuleUtils = {
       return;
     }
 
-    return CurrencyUtils.getFormattedCurrency( floatStake * floatOdds , currency, exposurePlaces, false);
+    return CurrencyUtils.getFormattedCurrency( floatStake * floatOdds , currency, exposurePlaces);
 
   },
 
@@ -134,7 +134,7 @@ var BettingModuleUtils = {
 
     });
 
-    return CurrencyUtils.getFormattedCurrency( exposure , currency, exposurePlaces, false);
+    return CurrencyUtils.getFormattedCurrency( exposure , currency, exposurePlaces);
   },
 
 
@@ -190,7 +190,7 @@ var BettingModuleUtils = {
      // this can be reused many times within the module
     let total = bets.reduce(accumulator, 0.0);
 
-    return CurrencyUtils.getFormattedCurrency( total , currency, exposurePlaces, false);
+    return CurrencyUtils.getFormattedCurrency( total , currency, exposurePlaces);
 
   },
   /*
@@ -236,8 +236,8 @@ var BettingModuleUtils = {
     const averageOdds = (groupedStake + groupedProfitOrLiability) / groupedStake;
     return Immutable.fromJS({
       averageOdds: averageOdds.toFixed(oddsPlaces),
-      groupedProfitOrLiability: CurrencyUtils.getFormattedCurrency( groupedProfitOrLiability, currency, exposurePlaces, false),
-      groupedStake: CurrencyUtils.getFormattedCurrency( groupedStake, currency, stakePlaces, false),
+      groupedProfitOrLiability: CurrencyUtils.getFormattedCurrency( groupedProfitOrLiability, currency, exposurePlaces),
+      groupedStake: CurrencyUtils.getFormattedCurrency( groupedStake, currency, stakePlaces),
     });
   }
 }

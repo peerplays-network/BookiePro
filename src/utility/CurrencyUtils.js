@@ -32,37 +32,45 @@ var CurrencyUtils = {
   // amount : float,  amount
   // precision : integer ( ***BTC*** base), either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
   // currency : string, display currency, 'BTC' or 'mBTC'
-  // showSymbol : boolean
-  getFormattedCurrency: function( amount, currency = 'BTC', precision = 0, showSymbol = false){
+  getFormattedCurrency: function(amount, currency = 'BTC', precision = 0){
+    if (!isNaN(amount)) {
+      if (currency === 'mBTC') {
+        // 1 BTC = 1 * 10^3 mBTC
+        let mPrecision = precision - 3;
+        if ( mPrecision < 0 ){
+          mPrecision = 0;
+        }
 
-    const currencySymbol = this.getCurruencySymbol(currency);
-
-    if (currency === 'mBTC'){
-      // 1 BTC = 1 * 10^3 mBTC
-      let mPrecision = precision -3;
-      if ( mPrecision < 0 ){
-        mPrecision = 0;
-      }
-
-      if ( showSymbol ){
-        return ( amount >= 0 ? '' : '-') + ( showSymbol ? currencySymbol : '' ) + (1000 * Math.abs(amount) ).toFixed(mPrecision);
-      } else {
         return ( 1000 * amount ).toFixed(mPrecision);
       }
 
-
-    } else if (currency === 'BTC'){
-
-      if ( showSymbol ){
-        return ( amount >= 0 ? '' : '-') + ( showSymbol ? currencySymbol : '' ) + Math.abs(amount).toFixed(precision);
-      } else {
+      if (currency === 'BTC') {
         return (amount).toFixed(precision);
       }
-
-    } else {
-      return
     }
 
+    // Return the original value in string
+    return amount.toString();
+  },
+
+  /*
+   * Format BTC or mBTC value with the specified currency and prepend the result with currency symbol
+   * Internally, this function calls getFormattedCurrency and use the same parameters except the last optional one.
+   *
+   * Parameters:
+   *   amount - BTC or mBTC value  to be formatted. Number is expected. String value may give unpredictable results.
+   *   currency - either 'BTC' or 'mBTC'
+   *   precision - integer value representing the desired precision of the formatted value
+   *   spaceAfterSymbol - true if a space should be added after the currency symbol in the formatted results
+   *
+   * Return formatted BTC or mBTC value with currency symbol prepended
+   */
+  formatByCurrencyAndPrecisionWithSymbol: function(amount, currency, precision = 0, spaceAfterSymbol = false) {
+    const formatted = this.getFormattedCurrency(amount, currency, precision);
+    const currencySymbol = this.getCurruencySymbol(currency);
+
+    // Note: Math.abs can take a string of valid number as argument
+    return ( amount >= 0 ? '' : '-') + currencySymbol + (spaceAfterSymbol ? ' ' : '') + Math.abs(formatted);
   },
 
   /*
@@ -73,14 +81,14 @@ var CurrencyUtils = {
    * This function is defined so that we don't need to do the field and precision
    * lookup in multiple places in the code.
    *
-   * Parameters: 
+   * Parameters:
    *   field - the name of a field (odds, stake, profit, liability)
    *   amount - a JS Number (not a string)
    *   currency - either BTC or mBTC, based on setting
    *
    * Return the field value (amount) as a formatted string
    */
-  formatByCurrencyAndPrecision: function(field, amount, currency) {
+  formatFieldByCurrencyAndPrecision: function(field, amount, currency) {
     // Odds values have no dependency on currency
     if (field === 'odds') return amount.toFixed(2);
     // DO NOT expect this but just in case...
