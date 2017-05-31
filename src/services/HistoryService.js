@@ -105,31 +105,31 @@ class HistoryService {
    * id,
    * bettor_id,
    * betting_market_id,
-   * original_bet_amount,
-   * backer_multiplier,
-   * back_or_lay,
-   * unmatched_bet_amount
+   * original_bet_amount, = stake for back bet; liability for lay bet
+   * backer_multiplier, = odds
+   * back_or_lay, = 'back' or 'lay'
+   * unmatched_bet_amount = stake for back bet; liability for lay bet
    * }
    *
    * matched bets {
    * id,
    * bettor_id,
    * betting_market_id,
-   * original_bet_amount,
-   * backer_multiplier,
-   * back_or_lay,
-   * matched_bet_amount
+   * original_bet_amount, = stake for back bet; liability for lay bet
+   * backer_multiplier, = odds
+   * back_or_lay, = 'back' or 'lay'
+   * matched_bet_amount = stake for back bet; liability for lay bet
    * }
    *
    * resolved bets {
    * id,
    * bettor_id,
    * betting_market_id,
-   * original_bet_amount,
-   * backer_multiplier,
-   * back_or_lay,
+   * original_bet_amount, = stake for back bet; liability for lay bet
+   * backer_multiplier, = odds
+   * back_or_lay, = 'back' or 'lay'
    * resolved_time,
-   * matched_bet_amount,
+   * matched_bet_amount, = stake for back bet; liability for lay bet
    * amount_won
    * }
    */

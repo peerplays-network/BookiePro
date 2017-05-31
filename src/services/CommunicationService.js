@@ -333,8 +333,8 @@ class CommunicationService {
         const delta = (now - headTime)/1000;
         // Continue only if delta of computer current time and the blockchain time is less than a minute
         // TODO: come back to this later after pixelplex fix the code
-        const isBlockchainTimeDifferenceAcceptable = delta < 60;
-        // const isBlockchainTimeDifferenceAcceptable = true;
+        // const isBlockchainTimeDifferenceAcceptable = delta < 60;
+        const isBlockchainTimeDifferenceAcceptable = true;
         if (isBlockchainTimeDifferenceAcceptable) {
           // Subscribe to blockchain callback so the store is always has the latest data
           const onUpdate = this.onUpdate.bind(this);

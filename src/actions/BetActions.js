@@ -5,6 +5,7 @@ import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import EventActions from './EventActions';
 import SportActions from './SportActions';
+import CompetitorActions from './CompetitorActions';
 import { TransactionBuilder } from 'graphenejs-lib';
 import _ from 'lodash';
 import log from 'loglevel';
@@ -244,14 +245,25 @@ class BetActions {
         }).then((bettingMarketGroups) => {
           // Get unique event ids
           let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet();
-          // Get the betting market groups
+          // Get the events
           return dispatch(EventActions.getEventsByIds(eventIds));
         }).then((events) => {
           // Get unique sport ids
           let sportIds = events.map(event => event.get('sport_id')).toSet();
-          // Get the betting market groups
-          return dispatch(SportActions.getSportsByIds(sportIds));
-        }).then((sports) => {
+          let competitorIds = Immutable.Set();
+          events.forEach((event) => {
+            const scores = event.get('scores') || Immutable.List();
+            scores.forEach((score) => {
+              const competitorId = score.get('competitor_id')
+              competitorIds = competitorIds.add(competitorId);
+            })
+          });
+          // Get related data
+          return Promise.all([
+            dispatch(CompetitorActions.getCompetitorsByIds(competitorIds)),
+            dispatch(SportActions.getSportsByIds(sportIds)),
+          ]);
+        }).then(() => {
           // Set my bets
           dispatch(BetPrivateActions.updateMyBetsAction(myBets));
           // Setstatus
