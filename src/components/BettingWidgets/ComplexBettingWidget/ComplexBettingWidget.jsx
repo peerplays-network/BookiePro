@@ -37,7 +37,7 @@ class ComplexBettingWidget extends Component {
 
   componentWillReceiveProps(nextProps) {
     //only perform calculation when there exists changes in related data
-    if (!this.props.marketData.equals( nextProps.marketData) ||
+    if (this.props.marketData !==  nextProps.marketData ||
       this.props.unconfirmedBets !== nextProps.unconfirmedBets){
       this.setTableData(nextProps.marketData, nextProps.unconfirmedBets, this.props.bettingMarketGroupName === nextProps.bettingMarketGroupName)
     }
