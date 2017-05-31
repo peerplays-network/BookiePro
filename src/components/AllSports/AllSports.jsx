@@ -28,9 +28,9 @@ class AllSports extends Component {
               <SimpleBettingWidget
                 key={ idx }                   // required by React to have unique key
                 title={ sport.get('name') }
-                events={ events.slice(0, MAX_EVENTS_PER_WIDGET) }  // No pagination, only show top records
+                events={ events }  // No pagination, only show top records
                 currencyFormat={ currencyFormat }
-                showFooter={ events.size > MAX_EVENTS_PER_WIDGET }
+                showFooter={ sport.get('showFooter') }
                 footerLink={ `/exchange/sport/${sportId}` }
                 pagination={ false }
               />
@@ -84,7 +84,9 @@ const mapStateToProps = (state) => {
         offers,
         moneyline,
       }));
-      page = page.setIn([eventSportId, 'events'], eventList);
+      page = page.setIn([eventSportId, 'events'], eventList.slice(0, MAX_EVENTS_PER_WIDGET))
+                 .setIn([eventSportId, 'showFooter'], eventList.size > MAX_EVENTS_PER_WIDGET);
+      console.log(page.getIn([eventSportId, 'events']).toJS());
     }
   });
 
