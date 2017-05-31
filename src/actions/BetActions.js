@@ -260,7 +260,7 @@ class BetActions {
         }).catch((error) => {
           log.error('Fail to check for new my bets', error);
           // Set error
-          dispatch(BetActions.setCheckForNewMyBetsErrorAction(error));
+          dispatch(BetPrivateActions.setCheckForNewMyBetsErrorAction(error));
         });
       }
     }

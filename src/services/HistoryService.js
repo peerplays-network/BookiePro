@@ -219,7 +219,7 @@ class HistoryService {
               let resolvedBet = matchedBet;
               // Set resolved time
               const blockNum  = rawTransaction.get('block_num');
-              const resolvedTime = BlockchainUtils.calcBlockTime(blockNum, globalObject, dynGlobalObject);
+              const resolvedTime = moment(BlockchainUtils.calcBlockTime(blockNum, globalObject, dynGlobalObject));
               // Set amount won
               // TODO: since we don't have a way to know which bet side is winning, always assume this bet is winning
               const amountWon = matchedBet.get('matched_bet_amount') * (matchedBet.get('backer_multiplier') - 1);
@@ -238,9 +238,6 @@ class HistoryService {
       }
     })
 
-    console.log('unmacthd', unmatchedBetsById);
-    console.log('matched', matchedBetsById);
-    console.log('resolved', resolvedBetsById);
     return {
       unmatchedBetsById,
       matchedBetsById,
