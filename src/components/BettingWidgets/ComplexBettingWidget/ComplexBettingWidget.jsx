@@ -256,7 +256,7 @@ class ComplexBettingWidget extends Component {
         className: classNameBack, // we must use 'back' here for actions. ie. this.props.createBet(record, competitor, 'back', offer);
         accessor: row => row.offer.back.length > 2 ? row.offer.back[2] : undefined,
         render: props => props.value ?
-         <div className='back-offer'>
+         <div className='back-offer back-bg'>
            <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price,
@@ -271,7 +271,7 @@ class ComplexBettingWidget extends Component {
         className: classNameBack,
         accessor: row => row.offer.back.length > 1 ? row.offer.back[1] : undefined,
         render: props => props.value ?
-         <div className='back-offer'>
+         <div className='back-offer back-bg'>
            <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
@@ -318,7 +318,7 @@ class ComplexBettingWidget extends Component {
         className: classNameLay,
         accessor: row => row.offer.lay.length > 1 ? row.offer.lay[1] : undefined,
         render: props => props.value ?
-         <div className='lay-offer'>
+         <div className='lay-offer lay-bg'>
            <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
@@ -335,7 +335,7 @@ class ComplexBettingWidget extends Component {
         className: classNameLay,
         accessor: row => row.offer.lay.length > 2 ? row.offer.lay[2] : undefined,
         render: props => props.value ?
-         <div className='lay-offer'>
+         <div className='lay-offer lay-bg'>
            <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>

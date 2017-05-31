@@ -1,7 +1,11 @@
 @complex-betting-bg: #065CB7;
 @complex-betting-header-border: #00BEF4;
-@complex-betting-back-bg: #004E9B;
-@complex-betting-lay-bg: #008487;
+@complex-betting-back-bg: #005CB8;
+@complex-betting-back-all-bg: #004e9b;
+@complex-betting-back-hover-bg: #197ADA;
+@complex-betting-lay-bg: #129CA0;
+@complex-betting-lay-all-bg: #008487;
+@complex-betting-lay-hover-bg: #45C7CB;
 @complex-betting-label: #FFFFFF;
 .rt-table > .-header{
   padding: 0;
@@ -99,22 +103,30 @@ div.complex-betting {
         font-size:16px;
       }
       .back-offer {
-        .odds, .price {
-          background-color: #005CB8;
+        &.back-bg{
+          background-color: @complex-betting-back-bg;
+          &:hover{
+            background-color: @complex-betting-back-hover-bg;
+          }
         }
         &.back-all-offer{
-          .odds, .price {
-            background-color: @complex-betting-back-bg;
+          background-color: @complex-betting-back-all-bg;
+          &:hover{
+            background-color: @complex-betting-back-hover-bg;
           }
         }
       }
       .lay-offer {
-        .odds, .price {
-          background-color: #129CA0;
+        &.lay-bg{
+          background-color: @complex-betting-lay-bg;
+          &:hover{
+            background-color: @complex-betting-lay-hover-bg;
+          }
         }
         &.lay-all-offer{
-          .odds, .price {
-            background-color: @complex-betting-lay-bg;
+          background-color: @complex-betting-lay-all-bg;
+          &:hover{
+            background-color: @complex-betting-lay-hover-bg;
           }
         }
       }
@@ -179,6 +191,10 @@ div.complex-betting {
           border-left:1px solid #FFFFFF;
           border-top:1px solid #FFFFFF;
           padding: 4px 3px;
+          background-color: @complex-betting-back-all-bg;
+          &:hover{
+            background-color: @complex-betting-back-hover-bg;
+          }
          }
       }
       &:nth-of-type(3){
@@ -186,7 +202,10 @@ div.complex-betting {
           border:1px solid #FFFFFF;
           border-bottom:none;
           padding: 4px 3px;
-          background-color: @complex-betting-lay-bg;
+          background-color: @complex-betting-lay-all-bg;
+          &:hover{
+            background-color: @complex-betting-lay-hover-bg;
+          }
         }
       }
     }
