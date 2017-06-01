@@ -49,7 +49,7 @@ const getBettingMarketGroup = createSelector(
 const getBettingMarketGroupName = createSelector([
   getBettingMarketGroup
 ], (bettingMarketGroup) => {
-  let bettingMarketGroupName = (bettingMarketGroup && bettingMarketGroup.get('market_type_id'));
+  let bettingMarketGroupName = (bettingMarketGroup && bettingMarketGroup.get('market_type_id')) || '';
   if ( bettingMarketGroupName === 'Spread'){
     bettingMarketGroupName = I18n.t('bettingMarketGroup.spread');
   } else if ( bettingMarketGroupName === 'OverUnder'){
