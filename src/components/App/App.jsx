@@ -9,6 +9,7 @@ import LogoutModal from '../Modal/LogoutModal';
 import { AppUtils, SoftwareUpdateUtils } from '../../utility';
 import TitleBar from './TitleBar';
 import { I18n } from 'react-redux-i18n';
+import Loading from '../Loading';
 
 const isWindowsPlatform = AppUtils.isWindowsPlatform();
 const titleBarHeight = isWindowsPlatform ? '32px' : '40px';
@@ -131,12 +132,9 @@ class App extends Component {
         break;
       }
       default: {
-        content = (
-          <span>{ 'Connecting to blockchain...' }</span>
-        );
+        content = <Loading />;
       }
     }
-
     // Use inline style to determine title bar height and top distance since they are depend on platform version
     const appContentStyle = {
       'top': titleBarHeight

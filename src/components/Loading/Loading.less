@@ -1,0 +1,35 @@
+.loading {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .loading-logo {
+    position: relative;
+    width: 76px;
+    height: 75px;
+    background-image: url(../../assets/images/bookie_logo_loading.png);
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;
+    animation: loading 3.5s infinite;
+    &::before, &::after {
+    	box-sizing: border-box;
+    }
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: perspective(1240px);
+  }
+  50% {
+    transform: perspective(1240px) rotateY(-180deg);
+  }
+  100% {
+    transform: perspective(1240px) rotateY(-360deg);
+  }
+}
