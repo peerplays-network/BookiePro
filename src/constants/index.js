@@ -8,6 +8,7 @@ import BetTypes from './BetTypes';
 import CurrencyTypes from './CurrencyTypes';
 import TimeRangePeriodTypes from './TimeRangePeriodTypes';
 import DummyOperationTypes from './DummyOperationTypes';
+import AppBackgroundTypes from './AppBackgroundTypes';
 
 export {
   Config,
@@ -19,5 +20,6 @@ export {
   CurrencyTypes,
   TimeRangePeriodTypes,
   DummyOperationTypes,
+  AppBackgroundTypes,
   ObjectPrefix
 }
