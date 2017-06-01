@@ -34,12 +34,11 @@ class Export extends PureComponent{
     Display 'no results' card when there is no data
   */
   render(){
-    console.log(this.props.exportLoadingStatus);
     return(
       <div className={
         this.props.exportLoadingStatus!== undefined ?
           (this.props.screenName === I18n.t('mybets.screenName') ?
-          'export-overlay-top export-overlay' : 'export-overlay') : '' 
+          'export-overlay-top export-overlay' : 'export-overlay') : ''
       }>
       {
         this.props.exportLoadingStatus===LoadingStatus.LOADING ?
