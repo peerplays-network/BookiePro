@@ -10,28 +10,32 @@
   width: 100%;
   z-index:999;
   box-shadow: @card_shadow;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  overflow: hidden;
+
   div.logo {
     border-right: solid 1px @topbar_divider;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 60px;
-    width: 220px;
+    width: 25%;
+    min-width: 174px;
+    max-width: 220px;
     padding:0 15px;
     cursor: pointer;
     img {
       width: 154px;
     }
   }
-  .top-menu-wrapper {
-    text-align: right;
-    // setting a height value can avoid overlapping with the betting drawer
-    height: 60px;
-  }
+
   .top-menu {
     background-color: @topbar_bg;
     line-height: inherit;
-    display: inline-block;
+    display: flex;
     border-bottom:0 none;
 
     li {
@@ -221,7 +225,7 @@
   }
   &.bitcoin-icon-main{
     padding:0;
-    width:194px;
+    width:178px;
     i{
       display: inline-block;
       margin-right:5px;

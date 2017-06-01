@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Row, Col } from 'antd';
+import { Layout } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { NavigateActions } from '../../../actions';
@@ -24,23 +24,11 @@ class NavBar extends React.Component {
   render(){
     return (
       <Header id='betex-header'>
-        <Row className='top-bar-row' type='flex'>
-          <Col>
-            <div className='logo' onClick={ this.handleNavigateToHome }>
-              <img alt='logo' src={ logo } />
-            </div>
-          </Col>
-          <Col>
-            <div className='search'>
-              <SearchMenu />
-            </div>
-          </Col>
-          <Col>
-            <div className='top-menu-wrapper'>
-              <TopMenu />
-            </div>
-          </Col>
-        </Row>
+        <div className='logo' onClick={ this.handleNavigateToHome }>
+          <img alt='logo' src={ logo } />
+        </div>
+        <SearchMenu />
+        <TopMenu />
       </Header>
     )
   }
