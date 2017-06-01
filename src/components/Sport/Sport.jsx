@@ -28,11 +28,11 @@ class Sport extends Component {
               <SimpleBettingWidget
                 key={ idx }                    // required by React to have unique key
                 title={ eventGroup.get('name') }
-                events={ events.slice(0, MAX_EVENTS_PER_WIDGET) }  // No pagination, only show top records
+                events={ events.slice(0, MAX_EVENTS_PER_WIDGET) }
                 currencyFormat={ currencyFormat }
                 showFooter={ events.size > MAX_EVENTS_PER_WIDGET }
                 footerLink={ `/exchange/eventgroup/${eventGroupId}` }
-                pagination={ false }
+                pagination={ false }          // No pagination, only show top records
               />
             );
           })
@@ -47,6 +47,7 @@ const mapStateToProps = (state, ownProps) => {
   const eventsById = state.getIn(['event', 'eventsById']);
   const sportPage = state.get('sportPage');
   const eventGroupsById = state.getIn(['eventGroup', 'eventGroupsById']);
+  const bettingMarketGroupsById = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
   const binnedOrderBooksByEvent = state.getIn(['sportPage', 'binnedOrderBooksByEvent']);
 
   // Determine the banner title
@@ -82,12 +83,17 @@ const mapStateToProps = (state, ownProps) => {
       const eventId = event.get('id');
       const offers = binnedOrderBooksByEvent.has(eventId)? binnedOrderBooksByEvent.get(eventId) : Immutable.List() ;
       let eventList = page.getIn([eventGroupId, 'events']);
+      // Find the MoneyLine Betting Market Group of this event
+      const moneyline = event.get('betting_market_group_ids').find((id) =>
+        bettingMarketGroupsById.get(id).get('market_type_id') === 'Moneyline'
+      );
       eventList = eventList.push(Immutable.fromJS({
         event_id: event.get('id'),
         event_name: event.get('name'),
         time: event.get('start_time'),
-        offers: offers
-      }))
+        offers,
+        moneyline,
+      }));
       page = page.setIn([eventGroupId, 'events'], eventList);
     }
   });
