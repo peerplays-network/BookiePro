@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import InitError from '../InitError';
 import { LoadingStatus, AppBackgroundTypes } from '../../constants';
 import { NavigateActions, AppActions, AuthActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
+import ConnectionErrorModal from '../Modal/ConnectionErrorModal';
 import LogoutModal from '../Modal/LogoutModal';
 import { AppUtils, SoftwareUpdateUtils } from '../../utility';
 import TitleBar from './TitleBar';
@@ -34,10 +34,15 @@ class App extends Component {
     this.onCancelLogout = this.onCancelLogout.bind(this);
     this.onConfirmSoftwareUpdate = this.onConfirmSoftwareUpdate.bind(this);
     this.onCancelSoftwareUpdate = this.onCancelSoftwareUpdate.bind(this);
+    this.onClickTryReconnecting = this.onClickTryReconnecting.bind(this);
   }
 
   componentWillMount() {
     // Connect to blockchain
+    this.props.connectToBlockchain();
+  }
+
+  onClickTryReconnecting() {
     this.props.connectToBlockchain();
   }
 
@@ -118,11 +123,18 @@ class App extends Component {
         />
     );
 
+    let connectionErrorModal = (
+      <ConnectionErrorModal
+        onClickTryAgain={ this.onClickTryReconnecting }
+        visible={ this.props.isShowConnectionErrorPopup }
+        />
+    );
+
     let content = null;
     // Show page based on blockchain connection loading status
     switch(this.props.connectToBlockchainLoadingStatus) {
-      case LoadingStatus.ERROR: {
-        content = <InitError/>
+      case LoadingStatus.LOADING: {
+        content = <Loading />;
         break;
       }
       case LoadingStatus.DONE: {
@@ -131,9 +143,7 @@ class App extends Component {
         )
         break;
       }
-      default: {
-        content = <Loading />;
-      }
+      default: break;
     }
     // Use inline style to determine title bar height and top distance since they are depend on platform version
     const appContentStyle = {
@@ -165,6 +175,7 @@ class App extends Component {
         </div>
         { logoutModal }
         { softwareUpdateModal }
+        { connectionErrorModal }
       </div>
     );
   }
@@ -181,6 +192,7 @@ const mapStateToProps = (state) => {
   const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');
   const isShowLogoutPopup = app.get('isShowLogoutPopup');
   const isShowSoftwareUpdatePopup = app.get('isShowSoftwareUpdatePopup');
+  const isShowConnectionErrorPopup = connectToBlockchainLoadingStatus === LoadingStatus.ERROR;
   const isNeedHardUpdate = SoftwareUpdateUtils.isNeedHardUpdate(version);
   const isTitleBarTransparent = app.get('isTitleBarTransparent');
   const appBackgroundType = app.get('appBackgroundType');
@@ -193,6 +205,7 @@ const mapStateToProps = (state) => {
     locale,
     isShowLogoutPopup,
     isShowSoftwareUpdatePopup,
+    isShowConnectionErrorPopup,
     isNeedHardUpdate,
     appBackgroundType,
     isTitleBarTransparent
@@ -205,7 +218,7 @@ const mapDispatchToProps = (dispatch) => {
     connectToBlockchain: AppActions.connectToBlockchain,
     showLogoutPopup: AppActions.showLogoutPopupAction,
     confirmLogout: AuthActions.confirmLogout,
-    showSoftwareUpdatePopup: AppActions.showSoftwareUpdatePopupAction
+    showSoftwareUpdatePopup: AppActions.showSoftwareUpdatePopupAction,
   }, dispatch);
 }
 
