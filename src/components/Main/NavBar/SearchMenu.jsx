@@ -14,7 +14,7 @@ import { findKeyPathOf } from '../../../utility/TreeUtils'
 import { LoadingStatus } from '../../../constants';
 import createClass from 'create-react-class';
 
-const RESULT_COUNT_ID = 0;
+const RESULT_COUNT_ID = '0';
 const SELECT_OPTION_STYLE = {
   display: 'inline-block',
 };
@@ -100,15 +100,15 @@ class SearchMenu extends Component {
 
   onChange (event) {
 
-    //do nothing when clicking on the result description text
-    if ( event.id === RESULT_COUNT_ID ){
-      return;
-    }
-
     //Clear the search results when there is no search data
-    if(!event)
+    if(!event){
       this.props.clearSearchResult();
-
+    } else {
+      //do nothing when clicking on the result description text
+      if ( event.event_id === RESULT_COUNT_ID ){
+        return;
+      }
+    }
     //to update the value props in Select component
     this.setState({
       value: event,
