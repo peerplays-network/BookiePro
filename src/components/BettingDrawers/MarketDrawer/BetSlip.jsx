@@ -18,6 +18,7 @@ const renderContent = (props) => (
       <Empty
         showSuccess={ props.showBetSlipSuccess }
         className='market_drawer.unconfirmed_bets'
+        navigateTo={ props.navigateTo }
       />
     }
     { !props.bets.isEmpty() &&

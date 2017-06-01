@@ -17,6 +17,7 @@ const renderContent = (props) => (
       <Empty
         showSuccess={ props.showBetSlipSuccess }
         className='quick_bet_drawer.unconfirmed_bets'
+        navigateTo={ props.navigateTo }
       />
     }
     { !props.bets.isEmpty() &&
