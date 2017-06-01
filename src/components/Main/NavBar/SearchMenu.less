@@ -33,6 +33,8 @@ div.search-menu{
 }
 .Select{
   .Select-control{
+    display: flex;
+    justify-content: flex-start;
     background-color: transparent;
     border:0 none;
     padding: 16px 16px 0 16px;
@@ -40,7 +42,11 @@ div.search-menu{
     color: @topbar_select_label;
     height: 60px;
     line-height: 22px;
-
+    .Select-multi-value-wrapper {
+      display: flex;
+      flex: 1;
+      max-width: 424px;
+    }
   }
   .Select-placeholder{
     color: @topbar_select_label;
@@ -52,8 +58,10 @@ div.search-menu{
     display: none;
   }
   .Select-input{
+    flex: 1;
     font-size:16px;
     padding-left:35px;
+    padding-right:35px;
     position: relative;
     border-bottom:1px solid @topbar_select_label;
     min-width: 260px;
@@ -124,8 +132,8 @@ div.search-menu{
   }
   .Select-clear-zone{
     vertical-align: baseline;
-    top: 0;
-    left: -15px;
+    top: 5px;
+    left: -25px;
     .Select-clear{
       display: inline-block;
       font-size: 22px;
@@ -180,7 +188,8 @@ div.search-menu{
   &.Select--single {
     >.Select-control {
       .Select-value {
-        max-width: 368px;
+        padding-right: 65px;
+        flex: 1;
       }
     }
   }
@@ -195,6 +204,7 @@ div.search-menu{
           font-size: 18px;
           color: @white;
           padding-left: 35px;
+          padding-right: 35px;
         }
       }
     }
