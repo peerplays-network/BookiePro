@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { AllSportsBanner } from '../Banners';
 import { SimpleBettingWidget } from '../BettingWidgets';
 import { AllSportsActions } from '../../actions';
+import { LoadingStatus } from '../../constants';
 import Immutable from 'immutable';
 
 const MAX_EVENTS_PER_WIDGET = 3;
@@ -60,6 +61,7 @@ const mapStateToProps = (state) => {
   });
 
   // For each event, generate data entry for the Simple Betting Widget
+  state.getIn(['allSports', 'loadingStatus']) === LoadingStatus.DONE &&
   eventsById.forEach((event) => {
     const eventSportId = event.get('sport_id');
     const eventTime = event.get('start_time');
