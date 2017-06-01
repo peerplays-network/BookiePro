@@ -13,6 +13,7 @@ import DateUtils from '../utility/DateUtils';
 import moment from 'moment';
 import { CurrencyUtils, BettingModuleUtils } from '../utility';
 import { mergeRelationData, mergeBettingMarketGroup } from '../utility/MergeObjectUtils';
+import { getStake } from '../selectors/MyWagerSelector';
 
 const getFormattedDate = DateUtils.getFormattedDate;
 
@@ -427,16 +428,14 @@ class BetActions {
       //Included a 3 second timeout now, just to test the various states of export
       setTimeout(function(){
         // TODO: Replace with actual blockchain call
-        let retrievedResolvedBets = [];
-        CommunicationService.getResolvedBets(accountId, getState().getIn(['mywager','startDate']), getState().getIn(['mywager','endDate'])).then((resolvedBets) => {
-          if(getState().getIn(['bet', 'getResolvedBetsExportLoadingStatus'])===LoadingStatus.DEFAULT)
-            return;
-          retrievedResolvedBets = resolvedBets;
-          // Get betting market ids
-          let bettingMarketIds = resolvedBets.map(bet => bet.get('betting_market_id')).toSet();
-          // Get betting market object
-          return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds));
-        }).then((bettingMarkets) => {
+        let retrievedResolvedBets = getState().getIn(['bet', 'newResolvedBetsById'])
+          .filter(row => (moment(row.get('resolved_time')).isBetween(getState().getIn(['mywager','startDate']), getState().getIn(['mywager','endDate']))));
+        if(getState().getIn(['bet', 'getResolvedBetsExportLoadingStatus'])===LoadingStatus.DEFAULT)
+          return;
+        // Get betting market ids
+        let bettingMarketIds = retrievedResolvedBets.map(bet => bet.get('betting_market_id')).toSet();
+
+        dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)).then((bettingMarkets) => {
           // Get unique betting market group ids
           let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
           // Get the betting market groups
@@ -456,15 +455,19 @@ class BetActions {
           let exportData = [];
           retrievedResolvedBets.forEach(row =>
           {
-            let rowObj = {
-              key: row.get('id'),
-              id: row.get('id'),
-              'betting_market_id': row.get('betting_market_id'),
-              'back_or_lay': row.get('back_or_lay'),
-              'amount_to_bet': row.get('amount_to_bet'),
-              'amount_to_win': row.get('amount_to_win')
+            if(moment(row.get('resolved_time')).isBetween(getState().getIn(['mywager','startDate']), getState().getIn(['mywager','endDate']))){
+              let rowObj = {
+                key: row.get('id'),
+                id: row.get('id'),
+                'betting_market_id': row.get('betting_market_id'),
+                'back_or_lay': row.get('back_or_lay'),
+                'stake': CurrencyUtils.getFormattedCurrency(getStake('resolvedBets', row)/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.stakePlaces),
+                'odds': row.get('backer_multiplier'),
+                'profit_liability': CurrencyUtils.getFormattedCurrency(row.get('amount_won')/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.exposurePlaces),
+                'resolved_time': getFormattedDate(row.get('resolved_time'))
+              }
+              exportData.push(Map(rowObj));
             }
-            exportData.push(Map(rowObj));
           });
 
           //merging betting market data for display and betting_market_group_id for reference
@@ -477,29 +480,12 @@ class BetActions {
 
           //merging evemt data for display and sport id for reference
           exportData = mergeRelationData(exportData, getState().getIn(['event','eventsById']), 'event_id',
-            {'name': 'event_name' , 'start_time': 'event_time', 'sport_id': 'sport_id'});
+            {'name': 'event_name' , 'sport_id': 'sport_id'});
 
           //merging sport data for display
           exportData = mergeRelationData(exportData, getState().getIn(['sport','sportsById']), 'sport_id',
             {'name': 'sport_name'});
 
-          //showing past data as resolvedBets and future data as matchedBets unmatchedBets
-          exportData = exportData.filter(row => (moment(row.get('event_time')).isBetween(getState().getIn(['mywager','startDate']), getState().getIn(['mywager','endDate']))))
-          //check if this can be improved
-          //TODO: use .map() instead of foreach as suggested
-          exportData.forEach((row, index) => {
-            let rowObj = {
-              'event_time': getFormattedDate(row.get('event_time')),
-              'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
-              'odds' : (row.get('amount_to_win') / row.get('amount_to_bet')).toFixed(2),
-
-              //randomly changed win value to negative for liability display
-              'amount_to_bet' : CurrencyUtils.getFormattedCurrency(row.get('amount_to_bet')/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.stakePlaces),
-              'amount_to_win' : CurrencyUtils.getFormattedCurrency(row.get('amount_to_win')/ Math.pow(10, precision) * ( Math.floor(Math.random()*2) === 1 ? 1 : -1 ),
-                targetCurrency, BettingModuleUtils.exposurePlaces),
-            };
-            exportData[index] = row.merge(rowObj);
-          });
           //Generated Resolved bets export object array using foreach to display properties in particular order in excel.
           //TODO: Need to check if this can be improved
           /*NOTE: Things to be taken care of for Resolved bet export data are listed below:-
@@ -508,6 +494,9 @@ class BetActions {
             3. Removing unwanted columns from export data
           */
           exportData.forEach((row, index) => {
+            row = row.merge({
+              'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
+            });
             let formattedRow = {};
             for (var i = 0; i < columns.length; i++) {
               formattedRow[columns[i].title] = row.get(columns[i].key);

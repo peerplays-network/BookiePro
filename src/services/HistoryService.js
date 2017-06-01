@@ -195,7 +195,7 @@ class HistoryService {
                 back_or_lay: operationContent.get('back_or_lay'),
                 backer_multiplier: operationContent.get('backer_multiplier'),
                 original_bet_amount: originalAmount,
-                matched_amount: matchedAmount
+                matched_bet_amount: matchedAmount
               })
             } else {
               // update it if it exists

@@ -35,32 +35,64 @@ const startDate = (state) => state.getIn(['mywager','startDate']);
 
 const endDate = (state) => state.getIn(['mywager','endDate']);
 
+const getStoreFieldName = (state) => {
+  switch (activeTab(state)) {
+    case 'matchedBets':
+      return 'newMatchedBetsById';
+    case 'resolvedBets':
+      return 'newResolvedBetsById';
+    default:
+      return 'newUnmatchedBetsById';
+  }
+}
+
+export const getStake = function(activeTab, bet){
+  let betAmount = (activeTab === 'unmatchedBets' ? bet.get('unmatched_bet_amount') : bet.get('matched_bet_amount'));
+  switch (bet.get('back_or_lay').toUpperCase()) {
+    case 'BACK':
+      return betAmount;
+    default:
+      return betAmount * (bet.get('backer_multiplier') - 1);
+  }
+};
+
+const getProfitLiability = function(activeTab, bet){
+  let betAmount = (activeTab === 'unmatchedBets' ? bet.get('unmatched_bet_amount') : bet.get('matched_bet_amount'));
+  switch (bet.get('back_or_lay').toUpperCase()) {
+    case 'BACK':
+      return betAmount / (bet.get('backer_multiplier') - 1);
+    default:
+      return betAmount;
+  }
+};
+
 //function to get rowdata on the basis of activeTab
-const rowData = (state) => state.getIn(['bet', activeTab(state) + 'ById'])
+const rowData = (state) => state.getIn(['bet', getStoreFieldName(state)])
   .filter(row => (activeTab(state) !== 'unmatchedBets' || !state.getIn(['bet','cancelBetsByIdsLoadingStatus']).get(row.get('id'))));
 
 //function to get initial collection with required values from rowData
 const betData = createSelector(
-  [activeTab, rowData],
-  (tab, bets)=>{
+  [activeTab, rowData, startDate, endDate, getCurrencyFormat, precision],
+  (tab, bets, startDate, endDate, currencyFormat, precision)=>{
     let newData = [];
     bets.forEach((bet) => {
-      if(tab === 'unmatchedBets'){
+      if(tab !== 'resolvedBets')
         newData.push(new Map({key: bet.get('id'),
           id: bet.get('id'),
           'betting_market_id': bet.get('betting_market_id'),
-          'back_or_lay': bet.get('back_or_lay'),
-          'amount_to_bet': bet.get('remaining_amount_to_bet'),
-          'amount_to_win': bet.get('remaining_amount_to_win'),
-          'cancelled': bet.get('cancelled')}));
-      }
-      else
+          'back_or_lay': bet.get('back_or_lay').toUpperCase(),
+          'stake': CurrencyUtils.getFormattedCurrency(getStake(tab, bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
+          'odds': bet.get('backer_multiplier'),
+          'profit_liability': CurrencyUtils.getFormattedCurrency(getProfitLiability(tab, bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces)}));
+      else if (tab === 'resolvedBets' && moment(bet.get('resolved_time')).isBetween(startDate, endDate))
         newData.push(new Map({key: bet.get('id'),
           id: bet.get('id'),
           'betting_market_id': bet.get('betting_market_id'),
-          'back_or_lay': bet.get('back_or_lay'),
-          'amount_to_bet': bet.get('amount_to_bet'),
-          'amount_to_win': bet.get('amount_to_win')}));
+          'back_or_lay': bet.get('back_or_lay').toUpperCase(),
+          'stake': CurrencyUtils.getFormattedCurrency(getStake(tab, bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
+          'odds': bet.get('backer_multiplier'),
+          'resolved_time': getFormattedDate(bet.get('resolved_time')),
+          'profit_liability': CurrencyUtils.getFormattedCurrency(bet.get('amount_won')/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces)}));
     });
     return newData;
   }
@@ -104,9 +136,7 @@ const mergeSportsData = createSelector(
 //formatting data after getting all reuired data merged
 const formatBettingData = (data, activeTab, precision, targetCurrency, startDate, endDate) => {
   //showing past data as resolvedBets and future data as matchedBets unmatchedBets
-  if(activeTab === 'resolvedBets')
-    data = data.filter(row => (moment(row.get('event_time')).isBetween(startDate, endDate)));
-  else
+  if(activeTab !== 'resolvedBets')
     data = data.filter(row => (((moment(row.get('event_time')).isAfter(moment().hour(0).minute(0))))));
 
   //check if this can be improved
@@ -114,18 +144,12 @@ const formatBettingData = (data, activeTab, precision, targetCurrency, startDate
   data.forEach((row, index) => {
     let rowObj = {
       'type' : (row.get('back_or_lay').toUpperCase() + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
-      'odds' : (row.get('amount_to_win') / row.get('amount_to_bet')).toFixed(BettingModuleUtils.oddsPlaces),
-      'amount_to_bet' : CurrencyUtils.getFormattedCurrency(row.get('amount_to_bet')/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.stakePlaces),
-      'amount_to_win' : CurrencyUtils.getFormattedCurrency(row.get('amount_to_win')/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.exposurePlaces),
-      'event_time': getFormattedDate(row.get('event_time'))
     };
     //randomly changed win value to negative for liability display
     //applied class based on profit or loss
-    if(activeTab === 'resolvedBets'){
-      rowObj.amount_to_win = (Math.floor(Math.random()*2) === 1 ? '+' : '-') + rowObj.amount_to_win;
-      rowObj.amount_to_win = <span className={ rowObj.amount_to_win > 0 ? 'profit' : 'loss' }>
-        { rowObj.amount_to_win }</span>;
-    }
+    if(activeTab !== 'resolvedBets')
+      rowObj.event_time = getFormattedDate(row.get('event_time'));
+
     if(activeTab === 'unmatchedBets')
       rowObj.cancel = (row.get('cancelled') ? '' : <a className='btn cancel-btn' target='_self'>{ I18n.t('mybets.cancel') }</a>);
     data[index] = row.merge(rowObj);
@@ -148,7 +172,7 @@ const getBetTotal = createSelector(
   (bets, currencyFormat, precision)=>{
     let total = 0;
     bets.forEach((row, index) => {
-      total += parseFloat(row.get('amount_to_bet') + row.get('amount_to_win'));
+      total += parseFloat(row.get('stake') + row.get('profit_liability'));
     });
     return CurrencyUtils.getFormattedCurrency(total, currencyFormat, precision);
   }
