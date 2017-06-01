@@ -26,6 +26,11 @@ export const translationsObject = {
       title: 'Bookie',
       clock: 'Local Time %{time}'
     },
+    searchMenu:{
+      no_of_result: '%{count} results for "%{searchText}"',
+      match_start_on: ' Thu, 10/01/2017 13:00',
+      search_place_holder: 'Search Team',
+    },
     myAccount:{
       screenName: 'myAccount_',
       home:'Home',
