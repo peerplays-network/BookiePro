@@ -5,13 +5,41 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import PropTypes from 'prop-types';
 import './SearchMenu.less';
-
+import { I18n } from 'react-redux-i18n';
 import { NavigateActions, EventActions } from '../../../actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 import Immutable from 'immutable';
 import { findKeyPathOf } from '../../../utility/TreeUtils'
 import { LoadingStatus } from '../../../constants';
+import createClass from 'create-react-class';
+
+const RESULT_COUNT_ID = '0';
+const SELECT_OPTION_STYLE = {
+  display: 'inline-block',
+};
+
+const SearchOption = createClass({
+
+  handleMouseDown (event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.onSelect(this.props.option, event);
+  },
+
+  render () {
+    return (
+      <div className='Select-option-holder' onClick={ this.handleMouseDown }>
+        <div className='Select-option' style={ SELECT_OPTION_STYLE }>
+          {this.props.option.event_name}
+        </div>
+        <div style={ SELECT_OPTION_STYLE }>
+          {this.props.option.matchStartOn}
+        </div>
+      </div>
+    );
+  }
+});
 
 class SearchMenu extends Component {
 
@@ -19,9 +47,12 @@ class SearchMenu extends Component {
     super(props);
     this.state = {
       isLoading: false,
+      isEmpty: true,
+
     };
     this.onChange = this.onChange.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
+    this.filterOptions = this.filterOptions.bind(this);
   }
 
   onInputChange(searchText) {
@@ -29,7 +60,17 @@ class SearchMenu extends Component {
     if ( searchText.length > 0){
       setTimeout(this.props.searchEvents(searchText), 2000)
     }
+
+    this.setState({
+      searchText: searchText,
+      isEmpty: searchText.length === 0
+    });
   }
+
+  filterOptions( options, filter, currentValues){
+    return options
+  }
+
   componentWillReceiveProps(nextProps) {
 
     if ( nextProps.getSearchEventsLoadingStatus !== this.props.getSearchEventsLoadingStatus){
@@ -60,9 +101,14 @@ class SearchMenu extends Component {
   onChange (event) {
 
     //Clear the search results when there is no search data
-    if(!event)
+    if(!event){
       this.props.clearSearchResult();
-
+    } else {
+      //do nothing when clicking on the result description text
+      if ( event.event_id === RESULT_COUNT_ID ){
+        return;
+      }
+    }
     //to update the value props in Select component
     this.setState({
       value: event,
@@ -98,6 +144,17 @@ class SearchMenu extends Component {
 
   render() {
 
+    //append match date time to each result
+    //appending 'number of search result text' into the first row
+    //TODO retrieve match date time from blocckchain once it is ready
+    const results = this.props.searchResult.map( item => {
+      return item.set('matchStartOn', I18n.t('searchMenu.match_start_on'))
+    }).splice( 0, 0,
+      { 'event_id': '0',
+        'event_name': I18n.t('searchMenu.no_of_result', {count: this.props.searchResult.size, searchText: this.state.searchText })
+      }
+    );
+
     //valueKey and labelKey are the keys in options: [] provieded to loadOptions
     // ref: https://github.com/JedWatson/react-select
     return (
@@ -113,17 +170,18 @@ class SearchMenu extends Component {
                 <Select
                   value={ this.state.value }
                   onChange={ this.onChange }
+                  optionComponent={ SearchOption }
                   onValueClick={ this.gotoEvent }
                   valueKey='event_id'
                   labelKey='event_name'
+                  cache={ false }
                   onInputChange={ this.onInputChange }
                   isLoading={ this.state.isLoading }
-                  options={ this.props.searchResult === undefined ? [] : this.props.searchResult.toJS() }
+                  options={ this.state.isEmpty? [] : results.toJS() }
                   backspaceRemoves={ this.state.backspaceRemoves }
-                  placeholder='Search Team'
-                  deleteRemoves={ true }
+                  placeholder={ I18n.t('searchMenu.search_place_holder') }
+                  filterOptions={ this.filterOptions }
                 />
-
             }
           </Menu.Item>
 
