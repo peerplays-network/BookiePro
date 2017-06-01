@@ -36,6 +36,7 @@ const mapStateToProps = (state) => {
   const eventGroupId = window.location.href.split('/').pop();
   const eventsById = state.getIn(['event', 'eventsById']);
   const eventIds = state.getIn(['eventGroupPage', 'eventIds']);
+  const bettingMarketGroupsById = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
   const binnedOrderBooksByEvent = state.getIn(['eventGroupPage', 'binnedOrderBooksByEvent']);
 
   // For each event, generate data entry for the Simple Betting Widget
@@ -48,11 +49,20 @@ const mapStateToProps = (state) => {
     }).map((event) => {
       const eventId = event.get('id');
       const offers = binnedOrderBooksByEvent.has(eventId)? binnedOrderBooksByEvent.get(eventId) : Immutable.List() ;
+      // Find the MoneyLine Betting Market Group of this event
+      const moneyline = event.get('betting_market_group_ids').find((id) => {
+        const bettingMarketGroup = bettingMarketGroupsById.get(id);
+        if (bettingMarketGroup) {
+          return bettingMarketGroup.get('market_type_id') === 'Moneyline';
+        }
+        return false;
+      });
       return Immutable.fromJS({
         event_id: eventId,
         event_name: event.get('name'),
         time: event.get('start_time'),
-        offers: offers
+        offers,
+        moneyline,
       })
     });
   // props attribute should all be ImmutableJS objects
