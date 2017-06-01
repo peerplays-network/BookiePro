@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import InitError from '../InitError';
-import { LoadingStatus } from '../../constants';
+import { LoadingStatus, AppBackgroundTypes } from '../../constants';
 import { NavigateActions, AppActions, AuthActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -149,8 +149,16 @@ class App extends Component {
       titleBarStyle['backgroundColor'] = 'transparent';
     }
 
+    // Determine app background
+    let appBackgroundClass = '';
+    if (this.props.appBackgroundType === AppBackgroundTypes.SPORTS_BG) {
+      appBackgroundClass = 'sportsbg';
+    } else if (this.props.appBackgroundType === AppBackgroundTypes.GRADIENT_BG) {
+      appBackgroundClass = 'gradientbg';
+    }
+
     return (
-      <div className='app'>
+      <div className={ 'app ' + appBackgroundClass }>
         <TitleBar isWindowsPlatform={ isWindowsPlatform } style={ titleBarStyle } />
         <div className='app-content' style={ appContentStyle }>
           { content }
@@ -175,6 +183,7 @@ const mapStateToProps = (state) => {
   const isShowSoftwareUpdatePopup = app.get('isShowSoftwareUpdatePopup');
   const isNeedHardUpdate = SoftwareUpdateUtils.isNeedHardUpdate(version);
   const isTitleBarTransparent = app.get('isTitleBarTransparent');
+  const appBackgroundType = app.get('appBackgroundType');
 
   return {
     connectToBlockchainLoadingStatus,
@@ -185,6 +194,7 @@ const mapStateToProps = (state) => {
     isShowLogoutPopup,
     isShowSoftwareUpdatePopup,
     isNeedHardUpdate,
+    appBackgroundType,
     isTitleBarTransparent
   }
 }

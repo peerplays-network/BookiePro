@@ -9,12 +9,7 @@ import log from 'loglevel';
  * Private actions
  */
 class AppPrivateActions {
-  static setAppBackgroundAction(appBackgroundType) {
-    return {
-      type: ActionTypes.APP_SET_APP_BACKGROUND,
-      appBackgroundType
-    }
-  }
+
   static setConnectToBlockchainLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.APP_SET_CONNECT_TO_BLOCKCHAIN_LOADING_STATUS,
@@ -69,6 +64,15 @@ class AppPrivateActions {
  * Public actions
  */
 class AppActions {
+  /**
+   * Set app background
+   */
+  static setAppBackgroundAction(appBackgroundType) {
+    return {
+      type: ActionTypes.APP_SET_APP_BACKGROUND,
+      appBackgroundType
+    }
+  }
   /**
    * Action to set title bar transparency
    */
