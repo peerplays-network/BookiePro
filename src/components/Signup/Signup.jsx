@@ -38,7 +38,8 @@ class Signup extends PureComponent {
                 loadingStatus={ this.props.loadingStatus }
                 onClickLogin={ this.onClickLogin }
                 onSubmit={ this.handleSubmit }
-                errors={ this.props.errors } />
+                errors={ this.props.errors }
+                clearSignupError={ this.props.clearSignupError }/>
             </div>
           </div>
         </div>
@@ -56,7 +57,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
-    signup: AuthActions.signup
+    signup: AuthActions.signup,
+    clearSignupError: AuthActions.clearSignupError
   }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(Signup))

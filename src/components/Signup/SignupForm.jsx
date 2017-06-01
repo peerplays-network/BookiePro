@@ -4,7 +4,6 @@ import { Button } from 'antd';
 import { ChainValidation } from 'graphenejs-lib';
 import copy from 'copy-to-clipboard';
 import RandomString from 'randomstring';
-import { AccountService } from '../../services';
 import { FileSaverUtils } from '../../utility';
 import { LoadingStatus } from '../../constants';
 import { I18n, Translate }  from 'react-redux-i18n';
@@ -17,7 +16,7 @@ const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touch
       <input autoFocus={ tabIndex === '1' } autoComplete='off'  { ...input }
          type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
        { (touched) && error && <span className='errorText'>{error}</span> }
-      { !error && errors && errors.length ?
+      { !error && errors && errors.size ?
         errors.map((currentError) => { return <span className='errorText' key={ currentError }>{ currentError }</span>}) : null }
   </div>
 );
@@ -93,14 +92,21 @@ class SignupForm extends PureComponent {
     copy(password);
   }
 
+  //Clear any API generated error from store whenever the account name is changed
+  onChangeAccountName(){
+    if(this.props.errors.size > 0)
+      this.props.clearSignupError();
+  }
+
   //Render the redux-form
   render() {
-    const { handleSubmit,onClickLogin,errors,loadingStatus,invalid,asyncValidating,submitting } = this.props;
+    const { handleSubmit,onClickLogin,errors,loadingStatus,invalid,submitting } = this.props;
     return (
         <form onSubmit={ handleSubmit }>
           <div className='form-fields'>
               <Field name='accountName' id='accountName' errors={ errors }
-                component={ renderField }  placeholder={ I18n.t('signup.acc_name') } type='text' tabIndex='1' />
+                component={ renderField }  placeholder={ I18n.t('signup.acc_name') } type='text' tabIndex='1'
+                onChange={ this.onChangeAccountName.bind(this) } />
           </div>
           <div className='form-fields pos-rel'>
           <Field name='password' errors={ errors } component={ renderPasswordField }
@@ -132,9 +138,9 @@ class SignupForm extends PureComponent {
           </div>
           <div className='form-fields margin-btm-20 '>
               <button type='submit'
-                className={ 'btn ' + (invalid || submitting || asyncValidating ||
+                className={ 'btn ' + (invalid || submitting ||
                 loadingStatus===LoadingStatus.LOADING ? 'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-18' }
-              disabled={ invalid || submitting || asyncValidating || loadingStatus===LoadingStatus.LOADING }
+              disabled={ invalid || submitting || loadingStatus===LoadingStatus.LOADING }
               >{ loadingStatus===LoadingStatus.LOADING ? I18n.t('application.loading') : I18n.t('signup.create_account') }</button>
           </div>
           <div className='form-fields'>
@@ -172,16 +178,5 @@ export default reduxForm({
       errors.secure = I18n.t('signup.field_req');
     }
     return errors;
-  },
-  //Async Validation to check if the account name is already taken
-  asyncValidate: (values) => {
-    return AccountService.lookupAccounts(values.get('accountName'), 1)
-        .then(result => {
-          let account = result.find(account => account.get(0) === values.get('accountName'));
-          if(account) {
-            throw { accountName: I18n.t('signup.acc_name_taken') };
-          }
-        });
-  },
-  asyncBlurFields: [ 'accountName' ]
+  }
 })(SignupForm)
