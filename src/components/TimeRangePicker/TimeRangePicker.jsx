@@ -12,6 +12,7 @@ class TimeRangePicker extends PureComponent {
       periodType: TimeRangePeriodTypes.LAST_7_DAYS,
       customTimeRangeStartDate: null,
       customTimeRangeEndDate: null,
+      disableExportButton: false
     }
     this.onChange = this.onChange.bind(this);
     this.onSearchClick = this.onSearchClick.bind(this);
@@ -24,6 +25,7 @@ class TimeRangePicker extends PureComponent {
   onSearchClick(e) {
     e.preventDefault();
     this.props.onSearchClick(this.state.periodType, this.state.customTimeRangeStartDate, this.state.customTimeRangeEndDate);
+    this.setState({ disableExportButton: false });
   }
 
   onExportClick(e) {
@@ -33,19 +35,19 @@ class TimeRangePicker extends PureComponent {
 
 
   onCustomTimeRangePickerStartDateChange(customTimeRangeStartDate) {
-    this.setState({ customTimeRangeStartDate });
+    this.setState({ customTimeRangeStartDate, disableExportButton: true });
     // Call callback
     this.props.onPeriodChange(this.state.periodType, customTimeRangeStartDate, this.state.customTimeRangeEndDate);
   }
 
   onCustomTimeRangePickerEndDateChange(customTimeRangeEndDate) {
-    this.setState({ customTimeRangeEndDate });
+    this.setState({ customTimeRangeEndDate, disableExportButton: true });
     // Call callback
     this.props.onPeriodChange(this.state.periodType, this.state.customTimeRangeStartDate, customTimeRangeEndDate);
   }
 
   onChange(periodType) {
-    this.setState({ periodType, customTimeRangeStartDate: null, endDate: null });
+    this.setState({ periodType, customTimeRangeStartDate: null, endDate: null, disableExportButton: true });
     // Call callback
     this.props.onPeriodChange(periodType, null, null);
   }
@@ -94,7 +96,8 @@ class TimeRangePicker extends PureComponent {
 
   render() {
     const disableButton = (this.state.periodType === TimeRangePeriodTypes.CUSTOM)
-                            && (!this.state.customTimeRangeStartDate|| !this.state.customTimeRangeEndDate);
+                            && (!this.state.customTimeRangeStartDate || !this.state.customTimeRangeEndDate);
+    const disableExportButton = disableButton || this.props.transactionHistoryResultsCount === 0 || this.state.disableExportButton
     return (
       <div className='filter'>
         <div className='ant-form-inline'>
@@ -118,7 +121,9 @@ class TimeRangePicker extends PureComponent {
                 { I18n.t('application.search') }
               </button>
               <button
-                className={ 'btn ' + (disableButton ? 'btn-regular-disabled':' btn-regular') + ' margin-left-10' }
+                className={ 'btn ' +
+                  (disableExportButton ? 'btn-regular-disabled':' btn-regular') + ' margin-left-10' }
+                  disabled={ disableExportButton }
                 onClick={ this.onExportClick }>
                 { I18n.t('application.export') }
               </button>
