@@ -2,8 +2,8 @@
 @import '../../App/Common.less';
 
 
-
 div.search-menu{
+  flex: 1;
   // assume there is one li only
   li {
     padding: 0 16px 0 14px;
@@ -40,7 +40,7 @@ div.search-menu{
     color: @topbar_select_label;
     height: 60px;
     line-height: 22px;
-    width:350px;
+
   }
   .Select-placeholder{
     color: @topbar_select_label;
@@ -56,7 +56,7 @@ div.search-menu{
     padding-left:35px;
     position: relative;
     border-bottom:1px solid @topbar_select_label;
-    width:380px;
+    min-width: 260px;
     &:before{
       position: absolute;
       content: '';
