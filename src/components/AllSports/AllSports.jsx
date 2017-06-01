@@ -70,13 +70,9 @@ const mapStateToProps = (state) => {
       const offers = binnedOrderBooksByEvent.has(eventId)? binnedOrderBooksByEvent.get(eventId) : Immutable.List() ;
       let eventList = page.getIn([eventSportId, 'events']);
       // Find the MoneyLine Betting Market Group of this event
-      const moneyline = event.get('betting_market_group_ids').find((id) => {
-        const bettingMarketGroup = bettingMarketGroupsById.get(id);
-        if (bettingMarketGroup) {
-          return bettingMarketGroup.get('market_type_id') === 'Moneyline';
-        }
-        return false;
-      });
+      const moneyline = event.get('betting_market_group_ids').find((id) =>
+        bettingMarketGroupsById.get(id).get('market_type_id') === 'Moneyline'
+      );
       eventList = eventList.push(Immutable.fromJS({
         event_id: event.get('id'),
         event_name: event.get('name'),
