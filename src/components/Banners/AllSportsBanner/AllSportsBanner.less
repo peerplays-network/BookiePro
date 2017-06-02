@@ -3,18 +3,21 @@
 div.all-sports-banner {
   position: relative;
   border:1px solid @banner_border;
-
-  @media @desktop {
-    background: url('../../../assets/home_banner_dark_small.png') no-repeat;
-    height: 150px;
-    background-size: cover;
-  }
-
-  @media @desktop-xl {
-    background: url('../../../assets/home_banner_dark_big.png') no-repeat;
-    height: 150px;
-    background-size: cover;
-  }
+  height: 150px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  //
+  // @media @desktop {
+  //   background: url('../../../assets/home_banner_dark_small.png') no-repeat;
+  //
+  // }
+  //
+  // @media @desktop-xl {
+  //   background: url('../../../assets/home_banner_dark_big.png') no-repeat;
+  //   height: 150px;
+  //   background-size: cover;
+  // }
 
   >div.statistics {
     position: absolute;

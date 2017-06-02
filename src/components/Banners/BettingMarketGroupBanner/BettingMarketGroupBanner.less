@@ -3,18 +3,10 @@
 div.betting-market-group-banner {
   position: relative;
   border:1px solid #A9A9A9;
-
-  @media @desktop {
-    background: url('../../../assets/footballevent_banner.png') no-repeat;
-    height: 120px;
-    background-size: cover;
-  }
-
-  @media @desktop-xl {
-    background: url('../../../assets/footballevent_banner_big.png') center no-repeat;
-    height: 120px;
-    background-size: cover;
-  }
+  background-size: cover;
+  height: 120px;
+  background-repeat: no-repeat;
+  background-position: center center;
 
   > div.event {
     padding:0 10px;

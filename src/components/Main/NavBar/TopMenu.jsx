@@ -234,7 +234,7 @@ const mapStateToProps = (state) => {
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']) ;
-  const precision = state.getIn(['asset', 'assetsById', '1.3.0']).get('precision');
+  const precision = state.getIn(['asset', 'assetsById', '1.3.0', 'precision']);
   /*-1 will be used to check to display 'Not available' against the withdraw amount field
       when the asset '1.3.0' is not obtained for some reason
   */
