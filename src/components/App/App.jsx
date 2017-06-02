@@ -26,10 +26,7 @@ if (isRunningInsideElectron) {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      needHardUpdate : false,
-      newVersionModalVisible: false
-    };
+
     this.onConfirmLogout = this.onConfirmLogout.bind(this);
     this.onCancelLogout = this.onCancelLogout.bind(this);
     this.onConfirmSoftwareUpdate = this.onConfirmSoftwareUpdate.bind(this);
@@ -71,25 +68,6 @@ class App extends Component {
     }
     // Hide popup
     this.props.showSoftwareUpdatePopup(false);
-  }
-
-  okWillCloseModal(modalVisible) {
-    this.setState({
-      newVersionModalVisible: modalVisible
-    });
-  }
-
-  okWillCloseApp(modalVisible) {
-    this.setState({
-      newVersionModalVisible: modalVisible
-    });
-
-    if ( this.state.needHardUpdate){
-      const remote = require('electron').remote;
-
-      var window = remote.getCurrentWindow();
-      window.close();
-    }
   }
 
   onConfirmLogout(skipLogoutPopupNextTime) {
