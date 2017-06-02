@@ -39,7 +39,7 @@ class App extends Component {
     this.props.connectToBlockchain();
   }
 
-  onClickTryReconnecting() {
+  onClickTryAgainConnectionError() {
     this.props.connectToBlockchain();
   }
 
