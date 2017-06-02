@@ -26,7 +26,7 @@ class UnmatchedBets extends PureComponent {
       <div className='table-card'>
         <div className='filterComponent clearfix'>
           <div className='float-left'>
-            <p className='card-title'>{ I18n.t('mybets.total') } : { currencyFormat + (betsTotal ? betsTotal : 0) }</p>
+            <p className='card-title'>{ I18n.t('mybets.total') } : <span>{ currencyFormat + (betsTotal ? betsTotal : 0) }</span> </p>
           </div>
             <div className='float-right'>
               <button className='btn cancel-btn' onClick={ cancelAllBets }
