@@ -3,7 +3,7 @@ import { BettingModuleUtils, CurrencyUtils } from '../utility';
 import { HistoryService } from '../services';
 
 const coreAssetPrecisionSelector = (state) => {
-  return state.getIn(['asset', 'assetsById', '1.3.0']).get('precision');
+  return state.getIn(['asset', 'assetsById', '1.3.0', 'precison']);
 }
 
 const accountIdSelector = (state) => {

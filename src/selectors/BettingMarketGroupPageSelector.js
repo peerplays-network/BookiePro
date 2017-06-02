@@ -174,11 +174,11 @@ const getTotalMatchedBetsAmount = createSelector(
   (bettingMarketGroupId, assetsById, totalMatchedBetsByMarketGroupId, currencyFormat) => {
     const totalMatchedBetsAssetId = totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'asset_id']);
     const totalMatchedBetsAsset = assetsById.get(totalMatchedBetsAssetId)
+    const totalMatchedBetsAssetPrecision = totalMatchedBetsAsset ? totalMatchedBetsAsset.get('precision') : 0;
     const totalMatchedBetsAmount = CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
-      totalMatchedBetsAsset ?
-        totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'amount']) / Math.pow(10, totalMatchedBetsAsset.get('precision')) : 0,
+      totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'amount']) / Math.pow(10, totalMatchedBetsAssetPrecision),
       currencyFormat,
-      totalMatchedBetsAsset ? totalMatchedBetsAsset.get('precision') : 0,
+      totalMatchedBetsAssetPrecision,
       true );
     return totalMatchedBetsAmount;
   }
