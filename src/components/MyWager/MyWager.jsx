@@ -52,19 +52,12 @@ class MyWager extends PureComponent {
     if (key === 'resolvedBets') {
       //set startDate and endDate in redux store
       this.props.setStartEndDate(this.state.startDate, this.state.endDate);
-      this.props.getResolvedBets(this.state.startDate, this.state.endDate);
-    }
-    else{
-      //get matched and unmatched bets
-      this.props.getOngoingBets();
     }
   }
 
   componentDidMount()
   {
     this.props.onTabChange('unmatchedBets');
-    //get data for default active tab unmatched Bets
-    this.props.getOngoingBets();
   }
 
   //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
@@ -155,7 +148,6 @@ class MyWager extends PureComponent {
     e.preventDefault();
     //set startDate and endDate in redux store
     this.props.setStartEndDate(this.state.startDate, this.state.endDate);
-    this.props.getResolvedBets(this.state.startDate, this.state.endDate);
     this.setState({ disableExportButton: false });
   }
 
@@ -280,8 +272,6 @@ const mapStateToProps = (state) => {
 function mapDispatchToProps(dispatch){
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
-    getOngoingBets: BetActions.getOngoingBets,
-    getResolvedBets: BetActions.getResolvedBets,
     getResolvedBetsToExport: BetActions.getResolvedBetsToExport,
     resetResolvedBetsExportLoadingStatus: BetActions.resetResolvedBetsExportLoadingStatus,
     clearResolvedBetsExport: BetActions.clearResolvedBetsExport,

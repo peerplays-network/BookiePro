@@ -70,10 +70,11 @@ class MarketDrawerPrivateActions {
     }
   }
 
-  static getPlacedBets(placedBets, bettingMarketGroupId, currencyFormat) {
+  static getPlacedBets(placedUnmatchedBets, placedMatchedBets, bettingMarketGroupId, currencyFormat) {
     return {
       type: ActionTypes.MARKET_DRAWER_GET_PLACED_BETS,
-      placedBets,
+      placedUnmatchedBets,
+      placedMatchedBets,
       bettingMarketGroupId,
       currencyFormat
     }
@@ -212,19 +213,24 @@ class MarketDrawerActions {
 
   static getPlacedBets(bettingMarketGroupId) {
     return (dispatch, getState) => {
-      dispatch(BetActions.getOngoingBets()).then(bets => {
-        const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
-        const bettingMarketIds= bettingMarketGroup.get('betting_market_ids');
-        const placedBets = bets.filter(bet => bettingMarketIds.includes(bet.get('betting_market_id')))
-                               .map(bet =>
-                                 bet.set('market_type_id', bettingMarketGroup.get('market_type_id'))
-                                    .set('market_type_value', resolveMarketTypeValue(bettingMarketGroup, bet.get('betting_market_id')))
-                               );
-        const account = getState().get('account');
-        const accountId = account.getIn(['account','id']);
-        const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting'])
-        dispatch(MarketDrawerPrivateActions.getPlacedBets(placedBets, bettingMarketGroupId, setting.get('currencyFormat')));
-      })
+      const unmatchedBetsById = getState().getIn(['bet', 'unmatchedBetsById']);
+      const matchedBetsById = getState().getIn(['bet', 'matchedBetsById']);
+      const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
+      const bettingMarketIds= bettingMarketGroup.get('betting_market_ids');
+
+      const placedUnmatchedBets = unmatchedBetsById.filter(bet => bettingMarketIds.includes(bet.get('betting_market_id'))).map(bet =>
+        bet.set('market_type_id', bettingMarketGroup.get('market_type_id'))
+           .set('market_type_value', resolveMarketTypeValue(bettingMarketGroup, bet.get('betting_market_id')))
+      );;
+      const placedMatchedBets = matchedBetsById.filter(bet => bettingMarketIds.includes(bet.get('betting_market_id'))).map(bet =>
+        bet.set('market_type_id', bettingMarketGroup.get('market_type_id'))
+           .set('market_type_value', resolveMarketTypeValue(bettingMarketGroup, bet.get('betting_market_id')))
+      );;
+
+      const account = getState().get('account');
+      const accountId = account.getIn(['account','id']);
+      const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting'])
+      dispatch(MarketDrawerPrivateActions.getPlacedBets(placedUnmatchedBets, placedMatchedBets, bettingMarketGroupId, setting.get('currencyFormat')));
     }
   }
 

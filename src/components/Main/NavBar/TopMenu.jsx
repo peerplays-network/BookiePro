@@ -82,8 +82,6 @@ class TopMenu extends Component {
   componentDidMount(){
     //Get the deposit address
     this.props.getDepositAddress();
-    //Get unmatched and matched bets to calculate inGameAmount
-    this.props.getOngoingBets();
   }
 
   handleClick(e) {
@@ -293,7 +291,6 @@ function mapDispatchToProps(dispatch) {
     withdraw: BalanceActions.topMenuWithdraw,
     resetWithdrawLoadingStatus: BalanceActions.resetTopMenuWithdrawLoadingStatus,
     logout: AuthActions.logoutAndShowPopupIfNeeded,
-    getOngoingBets: BetActions.getOngoingBets,
     markNotificationsAsRead: NotificationActions.markNotificationsAsReadAction,
     removeNotifications: NotificationActions.removeNotificationsAction,
     showSoftwareUpdatePopup: AppActions.showSoftwareUpdatePopupAction,

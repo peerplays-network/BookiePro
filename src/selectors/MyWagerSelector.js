@@ -38,11 +38,11 @@ const endDate = (state) => state.getIn(['mywager','endDate']);
 const getStoreFieldName = (state) => {
   switch (activeTab(state)) {
     case 'matchedBets':
-      return 'newMatchedBetsById';
+      return 'matchedBetsById';
     case 'resolvedBets':
-      return 'newResolvedBetsById';
+      return 'resolvedBetsById';
     default:
-      return 'newUnmatchedBetsById';
+      return 'unmatchedBetsById';
   }
 }
 

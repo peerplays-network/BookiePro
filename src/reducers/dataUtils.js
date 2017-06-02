@@ -21,31 +21,61 @@ const isMatchedBet = bet => bet.get('remaining_amount_to_bet') === 0
  * Return an immuatble map that may contain either or both the matched and unmatched
  * portion of the bet as newly created bet object(s) using the original Bet Id.
  */
-const transformBetObject = bet => {
-  const base = Immutable.fromJS({
+const transformUnmatchedBetObject = bet => {
+  let result = Immutable.fromJS({
     id: bet.get('id'),
     bettor_id: bet.get('bettor_id'),
     // TODO: may not need toLowerCase once we got the real data
     bet_type: bet.get('back_or_lay').toLowerCase(),
-    odds: bet.get('amount_to_win') / bet.get('amount_to_bet'),
+    odds: bet.get('backer_multiplier'),
     betting_market_id: bet.get('betting_market_id'),
     // REVIEW These 2 values are populated by the application
     market_type_id: bet.get('market_type_id'),
     market_type_value: bet.get('market_type_value'),
   });
 
-  const unmatched = base.set('stake', bet.get('remaining_amount_to_bet'));
-  // If remaining_amount_to_bet is 0, then this is a 100% Unmatched bet
-  const matched = base.set('stake', bet.get('amount_to_bet') - bet.get('remaining_amount_to_bet'));
-  let result = Immutable.Map();
+  if (bet.get('bet_type') === 'back') {
+    result = result.set('stake', bet.get('unmatched_bet_amount'));
+  } else if (result.get('bet_type') === 'lay') {
+    result = result.set('stake', (bet.get('backer_multiplier') - 1) * bet.get('unmatched_bet_amount'));
+  }
 
-  if (isMatchedBet(bet)) {
-    result = result.set('matched', matched);  // 100% matched
-  } else if (isUnmatchedBet(bet)) {
-    result = result.set('unmatched', unmatched); // 100% unmatched
-  } else {
-    result = result.set('matched', matched);    // the partially matched portion
-    result = result.set('unmatched', unmatched); // the remaining unmatched portion
+  return result;
+}
+
+
+/*
+ * Transform the source bet object into a normalized form for the app
+ * The function returns the matched (if available) and unmatched (if available)
+ * portions of a bet separately.
+ *
+ * NOTE: Currently odds and stake are stored as number in dummy data
+ *       Tney are converted to String here for easier comparsion with User Input
+ * TODO: REVIEW this again once we have real Blockchain data
+ *
+ * Parameters:
+ * bet - a bet object coming from the Blockchain (dummy data)
+ *
+ * Return an immuatble map that may contain either or both the matched and unmatched
+ * portion of the bet as newly created bet object(s) using the original Bet Id.
+ */
+const transformMatchedBetObject = bet => {
+  let result = Immutable.fromJS({
+    id: bet.get('id'),
+    bettor_id: bet.get('bettor_id'),
+    // TODO: may not need toLowerCase once we got the real data
+    bet_type: bet.get('back_or_lay').toLowerCase(),
+    odds: bet.get('backer_multiplier'),
+    betting_market_id: bet.get('betting_market_id'),
+    // REVIEW These 2 values are populated by the application
+    market_type_id: bet.get('market_type_id'),
+    market_type_value: bet.get('market_type_value'),
+  });
+
+  if (bet.get('bet_type') === 'back') {
+    result = result.set('stake', bet.get('matched_bet_amount'));
+  } else if (result.get('bet_type') === 'lay') {
+    result = result.set('stake', (bet.get('backer_multiplier') - 1) * bet.get('matched_bet_amount'));
   }
 
   return result;
@@ -54,5 +84,6 @@ const transformBetObject = bet => {
 export {
   isUnmatchedBet,
   isMatchedBet,
-  transformBetObject,
+  transformUnmatchedBetObject,
+  transformMatchedBetObject,
 }

@@ -21,33 +21,6 @@ const getFormattedDate = DateUtils.getFormattedDate;
  * Private actions
  */
 class BetPrivateActions {
-  static setGetOngoingBetsLoadingStatusAction(loadingStatus) {
-    return {
-      type: ActionTypes.BET_SET_GET_ONGOING_BETS_LOADING_STATUS,
-      loadingStatus
-    }
-  }
-
-  static setGetOngoingBetsErrorAction(error) {
-    return {
-      type: ActionTypes.BET_SET_GET_ONGOING_BETS_ERROR,
-      error
-    }
-  }
-
-  static setGetResolvedBetsLoadingStatusAction(loadingStatus) {
-    return {
-      type: ActionTypes.BET_SET_GET_RESOLVED_BETS_LOADING_STATUS,
-      loadingStatus
-    }
-  }
-
-  static setGetResolvedBetsErrorAction(error) {
-    return {
-      type: ActionTypes.BET_SET_GET_RESOLVED_BETS_ERROR,
-      error
-    }
-  }
 
   static setMakeBetsLoadingStatusAction(loadingStatus) {
     return {
@@ -317,107 +290,6 @@ class BetActions {
     return BetPrivateActions.clearResolvedBetsExportAction();
   }
 
-  // TODO: should be deprecated and replaced by initMyBets and checkForNewMyBets
-  static getOngoingBets() {
-    console.warn('getOngoingBets should be deprecated soon')
-    return (dispatch, getState) => {
-      // const accountId = getState().getIn(['account', 'account', 'id']);
-      //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
-      const accountId = Config.dummyDataAccountId;
-
-      // Check if data is already in the redux store, if it has been retrieved, no need to fetch it again from blockchain
-      const getOngoingBetsLoadingStatus = getState().getIn(['bet', 'getOngoingBetsLoadingStatus']);
-      if (getOngoingBetsLoadingStatus !== LoadingStatus.DONE) {
-        // It has been never been retrieved before, fetch from blockchain
-        dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.LOADING));
-        let retrievedOngoingBets = [];
-        return CommunicationService.getOngoingBets(accountId).then((ongoingBets) => {
-          retrievedOngoingBets = ongoingBets;
-          // Get betting market ids
-          let bettingMarketIds = ongoingBets.map(bet => bet.get('betting_market_id')).toSet();
-          // Get betting market object
-          return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds));
-        }).then((bettingMarkets) => {
-          // Get unique betting market group ids
-          let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
-          // Get the betting market groups
-          return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
-        }).then((bettingMarketGroups) => {
-          // Get unique event ids
-          let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet();
-          // Get the betting market groups
-          return dispatch(EventActions.getEventsByIds(eventIds));
-        }).then((events) => {
-          // Get unique sport ids
-          let sportIds = events.map(event => event.get('sport_id')).toSet();
-          // Get the betting market groups
-          return dispatch(SportActions.getSportsByIds(sportIds));
-        }).then((sports) => {
-          // Add ongoing bets to redux store
-          dispatch(BetActions.addOrUpdateOngoingBetsAction(retrievedOngoingBets));
-          // Set status
-          dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.DONE));
-          log.debug('Get matched and unmatched bets succeed.');
-          return retrievedOngoingBets;
-        }).catch((error) => {
-          log.error('Fail to get matched and unmatched bets', error);
-          // Set error
-          dispatch(BetActions.setGetOngoingBetsErrorAction(error));
-        });
-      } else {
-        return Promise.resolve(getState().getIn(['bet', 'unmatchedBetsById'])
-                                 .concat(getState().getIn(['bet', 'matchedBetsById'])));
-      }
-    };
-  }
-
-  // TODO: should be deprecated and replaced by initMyBets and checkForNewMyBets
-  static getResolvedBets(startTime, stopTime) {
-    console.warn('getResolvedBets should be deprecated soon')
-    return (dispatch, getState) => {
-      // const accountId = getState().getIn(['account', 'account', 'id']);
-      //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
-      const accountId = Config.dummyDataAccountId;
-
-      dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.LOADING));
-      // TODO: Replace with actual blockchain call
-      let retrievedResolvedBets = [];
-      CommunicationService.getResolvedBets(accountId, startTime, stopTime).then((resolvedBets) => {
-        retrievedResolvedBets = resolvedBets;
-        // Get betting market ids
-        let bettingMarketIds = resolvedBets.map(bet => bet.get('betting_market_id')).toSet();
-        // Get betting market object
-        return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds));
-      }).then((bettingMarkets) => {
-        // Get unique betting market group ids
-        let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
-        // Get the betting market groups
-        return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
-      }).then((bettingMarketGroups) => {
-        // Get unique event ids
-        let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet();
-        // Get the betting market groups
-        return dispatch(EventActions.getEventsByIds(eventIds));
-      }).then((events) => {
-        // Get unique sport ids
-        let sportIds = events.map(event => event.get('sport_id')).toSet();
-        // Get the betting market groups
-        return dispatch(SportActions.getSportsByIds(sportIds));
-      }).then((sports) => {
-        // Add to redux store
-        dispatch(BetActions.addOrUpdateResolvedBetsAction(retrievedResolvedBets));
-        // Set status
-        dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.DONE));
-        log.debug('Get resolved bets succeed.');
-      }).catch((error) => {
-        log.error('Fail to get resolved bets', error);
-        // Set error
-        dispatch(BetActions.setGetResolvedBetsErrorAction(error));
-      });
-    };
-  }
-
-
   static getResolvedBetsToExport(targetCurrency, columns) {
     return (dispatch, getState) => {
       // const accountId = getState().getIn(['account', 'account', 'id']);
@@ -428,7 +300,7 @@ class BetActions {
       //Included a 3 second timeout now, just to test the various states of export
       setTimeout(function(){
         // TODO: Replace with actual blockchain call
-        let retrievedResolvedBets = getState().getIn(['bet', 'newResolvedBetsById'])
+        let retrievedResolvedBets = getState().getIn(['bet', 'resolvedBetsById'])
           .filter(row => (moment(row.get('resolved_time')).isBetween(getState().getIn(['mywager','startDate']), getState().getIn(['mywager','endDate']))));
         if(getState().getIn(['bet', 'getResolvedBetsExportLoadingStatus'])===LoadingStatus.DEFAULT)
           return;
