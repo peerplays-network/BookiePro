@@ -35,38 +35,36 @@ class Export extends PureComponent{
   */
   render(){
     return(
-      <div className={
-        this.props.exportLoadingStatus!== undefined ?
-          (this.props.screenName === I18n.t('mybets.screenName') ?
-          'export-overlay-top export-overlay' : 'export-overlay') : ''
-      }>
-      {
         this.props.exportLoadingStatus===LoadingStatus.LOADING ?
-          <Card className='export-card' title={ I18n.t('application.exportLoadingHeader') }>
-            <p>{ I18n.t('application.exportDataFetchMsg') }</p>
-            <div className='loader-icon-main'>
-              {/* TODO: Loader icon change as per mockup */}
-              <Icon type='loading'></Icon>
-            </div>
-            <div className='card-footer'>
-              <button className='btn cancel-btn'
-                onClick={ () => { this.props.resetExportLoadingStatus() } }>{ I18n.t('mybets.cancel') }
-              </button>
-            </div>
-          </Card> :
+          <div className={ this.props.screenName === I18n.t('mybets.screenName') ?
+              'export-overlay-top export-overlay' : 'export-overlay' }>
+            <Card className='export-card' title={ I18n.t('application.exportLoadingHeader') }>
+              <p>{ I18n.t('application.exportDataFetchMsg') }</p>
+              <div className='loader-icon-main'>
+                {/* TODO: Loader icon change as per mockup */}
+                <Icon type='loading'></Icon>
+              </div>
+              <div className='card-footer'>
+                <button className='btn cancel-btn'
+                  onClick={ () => { this.props.resetExportLoadingStatus() } }>{ I18n.t('mybets.cancel') }
+                </button>
+              </div>
+            </Card>
+          </div> :
         this.props.exportData && this.props.exportData.length > 0
           && this.props.exportLoadingStatus===LoadingStatus.DONE ?
-          <Card className='export-card' title={ I18n.t('application.exportDownloadHeader') }>
-            <p>{ I18n.t('application.exportDataReadyMsg') }</p>
-            <div className='card-footer'>
-              <button className='btn btn-primary'
-                onClick={ () => { this.handleDownloadClick() } }>{ I18n.t('application.download') }
-              </button>
-            </div>
-          </Card>
-          :null
-      }
-      </div>
+          <div className={ this.props.screenName === I18n.t('mybets.screenName') ?
+              'export-overlay-top export-overlay' : 'export-overlay' }>
+            <Card className='export-card' title={ I18n.t('application.exportDownloadHeader') }>
+              <p>{ I18n.t('application.exportDataReadyMsg') }</p>
+              <div className='card-footer'>
+                <button className='btn btn-primary'
+                  onClick={ () => { this.handleDownloadClick() } }>{ I18n.t('application.download') }
+                </button>
+              </div>
+            </Card>
+          </div>
+        :null
     )
   }
 }
