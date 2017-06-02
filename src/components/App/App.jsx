@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import InitError from '../InitError';
-import { LoadingStatus } from '../../constants';
+import { LoadingStatus, AppBackgroundTypes } from '../../constants';
 import { NavigateActions, AppActions, AuthActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
+import ConnectionErrorModal from '../Modal/ConnectionErrorModal';
 import LogoutModal from '../Modal/LogoutModal';
 import { AppUtils, SoftwareUpdateUtils } from '../../utility';
 import TitleBar from './TitleBar';
 import { I18n } from 'react-redux-i18n';
+import Loading from '../Loading';
 
 const isWindowsPlatform = AppUtils.isWindowsPlatform();
 const titleBarHeight = isWindowsPlatform ? '32px' : '40px';
@@ -33,10 +34,15 @@ class App extends Component {
     this.onCancelLogout = this.onCancelLogout.bind(this);
     this.onConfirmSoftwareUpdate = this.onConfirmSoftwareUpdate.bind(this);
     this.onCancelSoftwareUpdate = this.onCancelSoftwareUpdate.bind(this);
+    this.onClickTryAgainConnectionError = this.onClickTryAgainConnectionError.bind(this);
   }
 
   componentWillMount() {
     // Connect to blockchain
+    this.props.connectToBlockchain();
+  }
+
+  onClickTryReconnecting() {
     this.props.connectToBlockchain();
   }
 
@@ -117,11 +123,18 @@ class App extends Component {
         />
     );
 
+    let connectionErrorModal = (
+      <ConnectionErrorModal
+        onClickTryAgain={ this.onClickTryAgainConnectionError }
+        visible={ this.props.isShowConnectionErrorPopup }
+        />
+    );
+
     let content = null;
     // Show page based on blockchain connection loading status
     switch(this.props.connectToBlockchainLoadingStatus) {
-      case LoadingStatus.ERROR: {
-        content = <InitError/>
+      case LoadingStatus.LOADING: {
+        content = <Loading />;
         break;
       }
       case LoadingStatus.DONE: {
@@ -130,13 +143,8 @@ class App extends Component {
         )
         break;
       }
-      default: {
-        content = (
-          <span>{ 'Connecting to blockchain...' }</span>
-        );
-      }
+      default: break;
     }
-
     // Use inline style to determine title bar height and top distance since they are depend on platform version
     const appContentStyle = {
       'top': titleBarHeight
@@ -151,14 +159,23 @@ class App extends Component {
       titleBarStyle['backgroundColor'] = 'transparent';
     }
 
+    // Determine app background
+    let appBackgroundClass = '';
+    if (this.props.appBackgroundType === AppBackgroundTypes.SPORTS_BG) {
+      appBackgroundClass = 'sportsbg';
+    } else if (this.props.appBackgroundType === AppBackgroundTypes.GRADIENT_BG) {
+      appBackgroundClass = 'gradientbg';
+    }
+
     return (
-      <div className='app'>
+      <div className={ 'app ' + appBackgroundClass }>
         <TitleBar isWindowsPlatform={ isWindowsPlatform } style={ titleBarStyle } />
         <div className='app-content' style={ appContentStyle }>
           { content }
         </div>
         { logoutModal }
         { softwareUpdateModal }
+        { connectionErrorModal }
       </div>
     );
   }
@@ -175,8 +192,10 @@ const mapStateToProps = (state) => {
   const connectToBlockchainLoadingStatus = LoadingStatus.DONE;
   const isShowLogoutPopup = app.get('isShowLogoutPopup');
   const isShowSoftwareUpdatePopup = app.get('isShowSoftwareUpdatePopup');
+  const isShowConnectionErrorPopup = connectToBlockchainLoadingStatus === LoadingStatus.ERROR;
   const isNeedHardUpdate = SoftwareUpdateUtils.isNeedHardUpdate(version);
   const isTitleBarTransparent = app.get('isTitleBarTransparent');
+  const appBackgroundType = app.get('appBackgroundType');
 
   return {
     connectToBlockchainLoadingStatus,
@@ -186,7 +205,9 @@ const mapStateToProps = (state) => {
     locale,
     isShowLogoutPopup,
     isShowSoftwareUpdatePopup,
+    isShowConnectionErrorPopup,
     isNeedHardUpdate,
+    appBackgroundType,
     isTitleBarTransparent
   }
 }
@@ -197,7 +218,7 @@ const mapDispatchToProps = (dispatch) => {
     connectToBlockchain: AppActions.connectToBlockchain,
     showLogoutPopup: AppActions.showLogoutPopupAction,
     confirmLogout: AuthActions.confirmLogout,
-    showSoftwareUpdatePopup: AppActions.showSoftwareUpdatePopupAction
+    showSoftwareUpdatePopup: AppActions.showSoftwareUpdatePopupAction,
   }, dispatch);
 }
 

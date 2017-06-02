@@ -2,10 +2,11 @@ import React, { PureComponent } from 'react';
 import { Row, Col, Input } from 'antd'
 import QRCode from 'qrcode.react';
 import { I18n, Translate } from 'react-redux-i18n';
-import { NavigateActions, BalanceActions } from '../../actions';
+import { NavigateActions, BalanceActions, AppActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import copy from 'copy-to-clipboard'
+import copy from 'copy-to-clipboard';
+import { AppBackgroundTypes } from '../../constants';
 
 class Deposit extends PureComponent {
   constructor(props) {
@@ -15,6 +16,12 @@ class Deposit extends PureComponent {
   componentDidMount() {
     //Get the deposit address
     this.props.getDepositAddress();
+    // Set app background to sports bg
+    this.props.setAppBackground(AppBackgroundTypes.SPORTS_BG);
+  }
+  componentWillUnmount() {
+    // Reset app background to gradient
+    this.props.setAppBackground(AppBackgroundTypes.GRADIENT_BG);
   }
   //Navigate to the 'Welcome' screen on 'Continue' button click
   onClickContinue(e) {
@@ -80,7 +87,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     getDepositAddress: BalanceActions.getDepositAddress,
-    navigateTo: NavigateActions.navigateTo
+    navigateTo: NavigateActions.navigateTo,
+    setAppBackground: AppActions.setAppBackgroundAction,
   }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Deposit)

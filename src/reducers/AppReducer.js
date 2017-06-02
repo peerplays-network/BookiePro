@@ -1,7 +1,8 @@
-import { ActionTypes, LoadingStatus, ConnectionStatus } from '../constants';
+import { ActionTypes, LoadingStatus, ConnectionStatus, AppBackgroundTypes } from '../constants';
 import Immutable from 'immutable';
 
 const initialState = Immutable.fromJS({
+  appBackgroundType: AppBackgroundTypes.GRADIENT_BG,
   getGlobalBettingStatisticsLoadingStatus: LoadingStatus.DEFAULT,
   getGlobalBettingStatisticsError: null,
   connectToBlockchainLoadingStatus: LoadingStatus.DEFAULT,
@@ -19,6 +20,11 @@ const initialState = Immutable.fromJS({
 
 export default function (state = initialState, action) {
   switch(action.type) {
+    case ActionTypes.APP_SET_APP_BACKGROUND: {
+      return state.merge({
+        appBackgroundType: action.appBackgroundType
+      });
+    }
     case ActionTypes.APP_SHOW_NOTIFICATION_CARD: {
       return state.merge({
         isShowNotificationCard: action.isShowNotificationCard

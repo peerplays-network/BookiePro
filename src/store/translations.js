@@ -644,6 +644,11 @@ export const translationsObject = {
       confirm: 'Logout',
       cancel: 'Cancel'
     },
+    connectionErrorModal: {
+      title: 'Connection Lost',
+      explanation: 'Unable to connect to blockchain',
+      confirm: 'Try Again',
+    },
     unplacedBetModal: {
       title: 'Confirm navigation',
       explanation: 'You have UNPLACED bets in your betslip. Your selections will be discarded when you leave this page. Are you sure you want to leave this page?',

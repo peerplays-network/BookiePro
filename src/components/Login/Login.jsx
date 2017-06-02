@@ -2,19 +2,30 @@ import React, { Component } from 'react';
 import logo from '../../assets/images/bookie_logo_login.png';
 import { Form } from 'antd';
 import LoginForm from './Form.jsx';
-import { NavigateActions, AuthActions } from '../../actions';
+import { NavigateActions, AuthActions, AppActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ChainValidation } from 'graphenejs-lib';
 import {SubmissionError} from 'redux-form'
 import { I18n } from 'react-redux-i18n';
 import { AccountService } from '../../services';
+import { AppBackgroundTypes } from '../../constants';
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.onClickSignup = this.onClickSignup.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    // Set app background to sports bg
+    this.props.setAppBackground(AppBackgroundTypes.SPORTS_BG);
+  }
+
+  componentWillUnmount() {
+    // Reset app background to gradient
+    this.props.setAppBackground(AppBackgroundTypes.GRADIENT_BG);
   }
 
   //Navigate to signup page
@@ -82,7 +93,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
-    login: AuthActions.login
+    login: AuthActions.login,
+    setAppBackground: AppActions.setAppBackgroundAction,
   }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(Login))

@@ -4,15 +4,27 @@ import CarouselComponent1 from './CarouselComponent1'
 import CarouselComponent2 from './CarouselComponent2'
 import CarouselComponent3 from './CarouselComponent3'
 var I18n = require('react-redux-i18n').I18n;
-import { NavigateActions } from '../../actions';
+import { NavigateActions, AppActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { AppBackgroundTypes } from '../../constants';
 
 class Welcome extends PureComponent{
   constructor(props){
     super(props);
     this.onClickStartBetting = this.onClickStartBetting.bind(this);
   }
+
+  componentDidMount() {
+    // Set app background to sports bg
+    this.props.setAppBackground(AppBackgroundTypes.SPORTS_BG);
+  }
+
+  componentWillUnmount() {
+    // Reset app background to gradient
+    this.props.setAppBackground(AppBackgroundTypes.GRADIENT_BG);
+  }
+
   //Navigate to the 'Home' screen after clicking on the 'Start Betting Now' button
   onClickStartBetting(e) {
     e.preventDefault();
@@ -43,7 +55,8 @@ class Welcome extends PureComponent{
 }
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    navigateTo: NavigateActions.navigateTo
+    navigateTo: NavigateActions.navigateTo,
+    setAppBackground: AppActions.setAppBackgroundAction,
   }, dispatch);
 }
 export default connect(null, mapDispatchToProps)(Welcome)

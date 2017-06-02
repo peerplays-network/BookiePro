@@ -2,10 +2,11 @@ import React, { PureComponent } from 'react';
 import logo from '../../assets/images/bookie_logo_signup.png';
 import { Form } from 'antd';
 import SignupForm from './SignupForm';
-import { NavigateActions, AuthActions } from '../../actions';
+import { NavigateActions, AuthActions, AppActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { I18n }  from 'react-redux-i18n'
+import { I18n }  from 'react-redux-i18n';
+import { AppBackgroundTypes } from '../../constants';
 
 class Signup extends PureComponent {
 
@@ -15,6 +16,16 @@ class Signup extends PureComponent {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    // Set app background to sports bg
+    this.props.setAppBackground(AppBackgroundTypes.SPORTS_BG);
+  }
+
+  componentWillUnmount() {
+    // Reset app background to gradient
+    this.props.setAppBackground(AppBackgroundTypes.GRADIENT_BG);
+  }
+  
   //Navigate to login page
   onClickLogin(event) {
     event.preventDefault();
@@ -58,7 +69,8 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     signup: AuthActions.signup,
-    clearSignupError: AuthActions.clearSignupError
+    clearSignupError: AuthActions.clearSignupError,
+    setAppBackground: AppActions.setAppBackgroundAction,
   }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(Signup))

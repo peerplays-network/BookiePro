@@ -363,9 +363,12 @@ class CommunicationService {
           log.info('Retry syncing with blockchain');
           return CommunicationService.syncWithBlockchain(dispatch, getState, attempt-1);
         } else {
-          // Give up, reject an error to be caught by the outer promise handler
-          reject(new Error('Fail to Sync with Blockchain.'));
+          // Give up, throw an error to be caught by the outer promise handler
+          throw new Error('Fail to Sync with Blockchain.');
         }
+      }).catch( error => {
+        // Caught any error thrown by the recursive promise and reject it
+        reject(error);
       });
     });
   }
