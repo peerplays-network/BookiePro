@@ -3,6 +3,7 @@ import WindowsControls from './WindowsControls';
 import PropTypes from 'prop-types';
 import Clock from '../Clock';
 import { I18n } from 'react-redux-i18n';
+import { Config } from '../../../../constants';
 
 class WindowsTitleBar extends Component {
 
@@ -20,7 +21,7 @@ class WindowsTitleBar extends Component {
 
     return (
       <div className='windows-title-bar' { ...props } >
-        <div className='title'>{ I18n.t('titleBar.title') }</div>
+        <div className='title'>{ I18n.t('titleBar.title') } { Config.version }</div>
         <div className='left'>
           <i className={ isConnected ? 'connection-status-online' : 'connection-status-offline' } />
           <Clock className='clock' />
