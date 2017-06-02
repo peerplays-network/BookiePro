@@ -320,6 +320,7 @@ export const translationsObject = {
           cancel_button: 'NO',
           confirm_button: 'YES',
         },
+        no_data: 'There is no bet to be displayed.'
       },
       matched_bets: {
         header: 'MATCHED BETS',

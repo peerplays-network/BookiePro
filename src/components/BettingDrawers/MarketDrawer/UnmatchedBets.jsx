@@ -22,14 +22,16 @@ class UnmatchedBets extends PureComponent {
           dimmed={ this.props.obscureContent }
           currencyFormat={ this.props.currencyFormat }
         />
-        <div className={ `buttons ${this.props.obscureContent ? 'dimmed' : ''}` }>
-          <Button className='btn btn-reset' onClick={ this.props.clickReset }>
-            { I18n.t('market_drawer.unmatched_bets.content.reset_button') }
-          </Button>
-          <Button className='btn btn-regular' onClick={ this.props.clickUpdateBet }>
-            { I18n.t('market_drawer.unmatched_bets.content.update_button', { amount : 0.295}) }
-          </Button>
-        </div>
+        { !this.props.bets.isEmpty() &&
+          <div className={ `buttons ${this.props.obscureContent ? 'dimmed' : ''}` }>
+            <Button className='btn btn-reset' onClick={ this.props.clickReset }>
+              { I18n.t('market_drawer.unmatched_bets.content.reset_button') }
+            </Button>
+            <Button className='btn btn-regular' onClick={ this.props.clickUpdateBet }>
+              { I18n.t('market_drawer.unmatched_bets.content.update_button', { amount : 0.295}) }
+            </Button>
+          </div>
+        }
       </div>
     )
   }

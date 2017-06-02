@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Icon, Table } from 'antd';
 import Immutable from 'immutable';
+import { I18n } from 'react-redux-i18n';
 import CurrencyUtils from '../../../utility/CurrencyUtils';
 import { incrementOdds, decrementOdds, adjustOdds } from './oddsIncrementUtils';
 
@@ -232,13 +233,21 @@ const BetTable = (props) => {
     <div className={ `bet-table-wrapper ${dimmed ? 'dimmed' : '' }` }>
       <div className='header'>
         <span className='title'>{ title }</span>
-        { !readonly &&
+        { !readonly && !(backBets.isEmpty() && layBets.isEmpty()) &&
           <span className='icon'>
             <i className='trash-icon' onClick={ () => deleteMany(backBets.concat(layBets), title) }></i>
           </span>
         }
       </div>
       <div className='bet-table'>
+        {
+          backBets.isEmpty() && layBets.isEmpty() &&
+          <div className='no-bets'>
+            <div className='message'>
+              { I18n.t('market_drawer.unmatched_bets.no_data') }
+            </div>
+          </div>
+        }
         {
           !backBets.isEmpty() &&
           <div className='back'>
