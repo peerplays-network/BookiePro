@@ -24,12 +24,16 @@ class UnmatchedBets extends PureComponent {
         />
         { !this.props.bets.isEmpty() &&
           <div className={ `buttons ${this.props.obscureContent ? 'dimmed' : ''}` }>
-            <Button className='btn btn-reset' onClick={ this.props.clickReset }>
+            <Button className='btn btn-regular' onClick={ this.props.clickReset }>
               { I18n.t('market_drawer.unmatched_bets.content.reset_button') }
             </Button>
-            <Button className='btn btn-regular' onClick={ this.props.clickUpdateBet }>
+            <button
+              className={ `btn btn-regular${this.props.hasUpdatedUnmatchedBets ? '' : '-disabled'}` }
+              onClick={ this.props.clickUpdateBet }
+              disabled={ !this.props.hasUpdatedUnmatchedBets }
+            >
               { I18n.t('market_drawer.unmatched_bets.content.update_button', { amount : 0.295}) }
-            </Button>
+            </button>
           </div>
         }
       </div>
@@ -87,6 +91,7 @@ const mapStateToProps = (state, ownProps) => {
     showPlacedBetsError,
     showPlacedBetsSuccess,
     obscureContent: showPlacedBetsConfirmation || showPlacedBetsWaiting || showPlacedBetsError || showDeleteUnmatchedBetsConfirmation,
+    hasUpdatedUnmatchedBets: originalBets.count(bet => bet.get('updated')) > 0
   };
 }
 
