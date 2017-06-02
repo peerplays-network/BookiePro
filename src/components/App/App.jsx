@@ -34,7 +34,7 @@ class App extends Component {
     this.onCancelLogout = this.onCancelLogout.bind(this);
     this.onConfirmSoftwareUpdate = this.onConfirmSoftwareUpdate.bind(this);
     this.onCancelSoftwareUpdate = this.onCancelSoftwareUpdate.bind(this);
-    this.onClickTryReconnecting = this.onClickTryReconnecting.bind(this);
+    this.onClickTryAgainConnectionError = this.onClickTryAgainConnectionError.bind(this);
   }
 
   componentWillMount() {
@@ -125,7 +125,7 @@ class App extends Component {
 
     let connectionErrorModal = (
       <ConnectionErrorModal
-        onClickTryAgain={ this.onClickTryReconnecting }
+        onClickTryAgain={ this.onClickTryAgainConnectionError }
         visible={ this.props.isShowConnectionErrorPopup }
         />
     );
