@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import ReactDOM from "react-dom";
 import { I18n } from 'react-redux-i18n';
 import TransactionHistory from './TransactionHistory'
 import {
@@ -18,7 +17,6 @@ import Deposit from './Deposit';
 import { MyAccountWithdraw } from '../Withdraw';
 import { SettingActions, BalanceActions, NavigateActions, MyAccountPageActions, AccountActions } from '../../actions';
 import { MyAccountPageSelector } from '../../selectors';
-import moment from 'moment'
 
 const Option = Select.Option;
 
@@ -60,7 +58,8 @@ class MyAccount extends PureComponent {
   handleSearchClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
     // Set time range.
     this.props.setHistoryTimeRange(periodType,
-      customTimeRangeStartDate.startOf('day'), customTimeRangeEndDate.endOf('day'));
+      customTimeRangeStartDate!=null ? customTimeRangeStartDate.startOf('day') : customTimeRangeStartDate,
+      customTimeRangeEndDate!=null ? customTimeRangeEndDate.endOf('day') : customTimeRangeEndDate);
   }
 
   //Export transaction history
