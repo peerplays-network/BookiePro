@@ -170,13 +170,15 @@ div.bet-table-wrapper {
     }
 
     div.no-bets {
+      background: @market_drawer_unmatched_bets_empty_bg;
       height: 50px;
+      position: relative;
 
       > div.message {
+        position: absolute;
+        top: 15px;
         color: white;
-        margin: auto;
-        margin-top: 20px;
-        width: 80%;
+        width: 100%;
         text-align: center;
       }
     }
