@@ -225,8 +225,8 @@ const mapStateToProps = (state) => {
   const columns = [
     {
       title: (state.getIn(['mywager','activeTab']) === 'resolvedBets' ? I18n.t('resolved_time') : I18n.t('mybets.event_time') ),
-      dataIndex: 'event_time',
-      key: 'event_time',
+      dataIndex: (state.getIn(['mywager','activeTab']) === 'resolvedBets' ? 'resolved_time' : 'event_time'),
+      key: (state.getIn(['mywager','activeTab']) === 'resolvedBets' ? 'resolved_time' : 'event_time'),
     },
     {
       title: I18n.t('mybets.event'),
@@ -250,13 +250,13 @@ const mapStateToProps = (state) => {
     },
     {
       title: I18n.t('mybets.stake') + '(' + CurrencyUtils.getCurruencySymbol(getCurrencyFormat(state)) + ')',
-      dataIndex: 'amount_to_bet',
-      key: 'amount_to_bet',
+      dataIndex: 'stake',
+      key: 'stake',
     },
     {
       title: profit_liability,
-      dataIndex: 'amount_to_win',
-      key: 'amount_to_win'
+      dataIndex: 'profit_liability',
+      key: 'profit_liability'
     }
   ];
 

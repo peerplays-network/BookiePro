@@ -2,7 +2,7 @@ const bettingMarkets = [
   {
     "id": "1.105.1",
     "betting_market_group_id": "1.104.1",
-    "payout_condition_string": null,
+    "payout_condition_string": "NY Giants",
     "bet_asset_type": "1.3.0"
   },
   {
@@ -14,7 +14,7 @@ const bettingMarkets = [
   {
     "id": "1.105.3",
     "betting_market_group_id": "1.104.2",
-    "payout_condition_string": null,
+    "payout_condition_string": "NY Giants",
     "bet_asset_type": "1.3.0"
   },
   {
