@@ -6,7 +6,7 @@ import { TopMenuWithdraw } from '../../Withdraw';
 import Amount from './AmountDropDown'
 import Notification from './Notification'
 import DropdownMenu from './DropdownMenu'
-import { BetActions, AuthActions, BalanceActions, NotificationActions, NavigateActions, AppActions } from '../../../actions';
+import { AuthActions, BalanceActions, NotificationActions, NavigateActions, AppActions } from '../../../actions';
 import { NotificationTypes } from '../../../constants';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
