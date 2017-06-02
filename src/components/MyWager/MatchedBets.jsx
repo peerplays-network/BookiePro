@@ -13,7 +13,7 @@ class MatchedBets extends Component {
         <div className='filterComponent'>
           <div className='float-left'>
             <p className='card-title'>
-              { I18n.t('mybets.total') + ' : ' + currencyFormat + (betsTotal ? betsTotal : 0) }
+              { I18n.t('mybets.total') } : <span>{ currencyFormat + (betsTotal ? betsTotal : 0) }</span>
             </p>
           </div>
         </div>
