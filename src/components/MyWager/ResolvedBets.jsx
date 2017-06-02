@@ -11,11 +11,13 @@ class ResolvedBets extends Component {
     const { columns, resolvedBets, resolvedBetsLoadingStatus, currencyFormat, betsTotal ,
       period, disabledStartDate, disabledEndDate, onStartDateSelect, onEndDateSelect, onPeriodSelect, onSearchClick,
       startDate, endDate, onResolvedBetsExport, exportButtonClicked, resolvedBetsExport, resolvedBetsExportLoadingStatus,
-      handleExportFinishDownload
+      handleExportFinishDownload, disableExportButton
       } = this.props;
     const isValidDate = (period === 'custom' &&
       ((startDate===null || (startDate !== null && !startDate.isValid()))
       || ((endDate===null || (endDate !== null && !endDate.isValid())))));
+    const isExportButtonDisabled = isValidDate || exportButtonClicked ||
+          disableExportButton || List(resolvedBets).toJS().length === 0;
     return (
       <div className='table-card'>
         <div>
@@ -62,8 +64,8 @@ class ResolvedBets extends Component {
                       disabled={ isValidDate }
                       onClick={ onSearchClick }>{I18n.t('mybets.search') }</button>
                     <button
-                      className={ (isValidDate ? 'btn-regular-disabled':'btn-regular') + ' btn margin-left-10' }
-                      disabled={ isValidDate || exportButtonClicked }
+                      className={ (isExportButtonDisabled ? 'btn-regular-disabled':'btn-regular') + ' btn margin-left-10' }
+                      disabled={ isExportButtonDisabled }
                       onClick={ onResolvedBetsExport }>{I18n.t('mybets.export') }</button>
                   </div>
                 </div>
