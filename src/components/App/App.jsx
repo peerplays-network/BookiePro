@@ -167,7 +167,7 @@ const mapStateToProps = (state) => {
   const locale = i18n.get('locale');
   const displayText = softwareUpdate.getIn(['displayText', locale]) || I18n.t('softwareUpdate.default');
   const isLoggedIn = state.getIn(['account','isLoggedIn']);
-  const connectToBlockchainLoadingStatus = LoadingStatus.DONE;
+  const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');
   const isShowLogoutPopup = app.get('isShowLogoutPopup');
   const isShowSoftwareUpdatePopup = app.get('isShowSoftwareUpdatePopup');
   const isShowConnectionErrorPopup = connectToBlockchainLoadingStatus === LoadingStatus.ERROR;
