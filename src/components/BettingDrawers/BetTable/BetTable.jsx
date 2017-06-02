@@ -233,7 +233,7 @@ const BetTable = (props) => {
     <div className={ `bet-table-wrapper ${dimmed ? 'dimmed' : '' }` }>
       <div className='header'>
         <span className='title'>{ title }</span>
-        { !readonly && !backBets.isEmpty() && !layBets.isEmpty() &&
+        { !readonly && !(backBets.isEmpty() && layBets.isEmpty()) &&
           <span className='icon'>
             <i className='trash-icon' onClick={ () => deleteMany(backBets.concat(layBets), title) }></i>
           </span>
