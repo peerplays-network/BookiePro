@@ -1,22 +1,40 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import BannerClock from '../BannerClock';
 import PropTypes from 'prop-types';
+import banner1 from '../../../assets/images/market_banner_1.png';
+import banner2 from '../../../assets/images/market_banner_2.png';
+import banner3 from '../../../assets/images/market_banner_3.png';
 
+const bannerUrls = [banner1, banner2, banner3];
+const generateBannerUrl = () => {
+  const indexOfBannerToBeUsed = Math.floor((Math.random() * bannerUrls.length));
+  return bannerUrls[indexOfBannerToBeUsed];
+}
 
-const BettingMarketGroupBanner = (props) => {
-  return (
-    <div className='betting-market-group-banner'>
-      <div className='event'>
-        <div className='time'>{ I18n.t('bettingMarketGroup.match_start_on') }</div>
-        <div className='name'>{ props.eventName }</div>
+class BettingMarketGroupBanner extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bannerUrl: generateBannerUrl()
+    }
+  }
+  render() {
+    const bannerSource = `url(${this.state.bannerUrl})`;
+    return (
+      <div className='betting-market-group-banner' style={ { backgroundImage: bannerSource } }>
+        <div className='event'>
+          <div className='time'>{ I18n.t('bettingMarketGroup.match_start_on') }</div>
+          <div className='name'>{ this.props.eventName }</div>
+        </div>
+        <div className='countdown'>
+          <BannerClock time={ this.props.eventTime }/>
+        </div>
       </div>
-      <div className='countdown'>
-        <BannerClock time={ props.eventTime }/>
-      </div>
-    </div>
-  )
-};
+    )
+  }
+}
+
 
 BettingMarketGroupBanner.propTypes = {
   eventTime: PropTypes.instanceOf(Date).isRequired,
