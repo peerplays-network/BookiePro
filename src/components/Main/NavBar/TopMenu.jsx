@@ -13,6 +13,7 @@ import { bindActionCreators } from 'redux'
 import { CurrencyUtils, BettingModuleUtils } from '../../../utility';
 import { createSelector } from 'reselect';
 import { initialize } from 'redux-form';
+import { getStake } from '../../../selectors/MyWagerSelector';
 
 class TopMenu extends Component {
   constructor(props) {
@@ -245,10 +246,10 @@ const mapStateToProps = (state) => {
   state.getIn(['bet','unmatchedBetsById'])
   .filter(row => !state.getIn(['bet','cancelBetsByIdsLoadingStatus']).get(row.get('id')))
   .forEach(row => {
-    inGameAmount += row.get('amount_to_bet');
+    inGameAmount += getStake( 'unmatchedBets', row);
   });
   state.getIn(['bet','matchedBetsById']).forEach(row => {
-    inGameAmount += row.get('amount_to_bet');
+    inGameAmount += getStake( 'matchedBets', row);
   });
   inGameAmount = CurrencyUtils.getFormattedCurrency(inGameAmount/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.stakePlaces)
 
