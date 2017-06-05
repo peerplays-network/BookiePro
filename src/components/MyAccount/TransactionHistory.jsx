@@ -78,8 +78,8 @@ class TransactionHistory extends PureComponent {
             </div>
             <div className='float-right'>
               <TimeRangePicker onSearchClick={ handleSearchClick }
-                onExportClick={ handleExportClick } 
-                transactionHistoryResultsCount={  transactionHistory.length }
+                onExportClick={ handleExportClick }
+                searchResultsCount={  transactionHistory.length }
                 />
             </div>
           </div>

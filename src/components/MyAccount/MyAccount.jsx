@@ -57,9 +57,7 @@ class MyAccount extends PureComponent {
   //Search transaction history with filters
   handleSearchClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
     // Set time range.
-    this.props.setHistoryTimeRange(periodType,
-      customTimeRangeStartDate!=null ? customTimeRangeStartDate.startOf('day') : customTimeRangeStartDate,
-      customTimeRangeEndDate!=null ? customTimeRangeEndDate.endOf('day') : customTimeRangeEndDate);
+    this.props.setHistoryTimeRange(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
   }
 
   //Export transaction history

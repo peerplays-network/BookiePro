@@ -3,51 +3,83 @@ import { I18n } from 'react-redux-i18n';
 import { createSelector } from 'reselect';
 import _ from 'lodash';
 import { Map } from 'immutable';
-import { mergeRelationData, mergeBettingMarketGroup } from '../utility/MergeObjectUtils';
 import moment from 'moment';
-import { CurrencyUtils, BettingModuleUtils } from '../utility';
-import DateUtils from '../utility/DateUtils';
+import { CurrencyUtils, BettingModuleUtils, DateUtils, MergeObjectUtils } from '../utility';
+import { TimeRangePeriodTypes, MyWagerTabTypes } from '../constants';
+import CommonSelector from './CommonSelector';
+
+const { mergeRelationData, mergeBettingMarketGroup } = MergeObjectUtils;
+
+const {
+  getBettingMarketGroupsById,
+  getEventsById,
+  getSportsById,
+  getAssetsById,
+  getCurrencyFormat
+} = CommonSelector;
 
 const getFormattedDate = DateUtils.getFormattedDate;
 
-const account = (state) => state.get('account');
-
-const accountId = (state) => account(state).getIn(['account','id']);
-
-const setting = (state) => state.getIn(['setting', 'settingByAccountId', accountId(state)])
-  || state.getIn(['setting', 'defaultSetting']);
-
-const getCurrencyFormat = (state) => setting(state).get('currencyFormat');
-
-const precision = (state) => state.getIn(['asset', 'assetsById', '1.3.0', 'precision']);
+const getPrecision = createSelector(
+  getAssetsById,
+  (assetsById) => {
+    return assetsById.getIn(['1.3.0', 'precision']);
+  }
+)
 
 const activeTab = (state) => state.getIn(['mywager','activeTab']);
 
 const bettingMarketData = (state) => state.getIn(['bettingMarket','bettingMarketsById']);
 
-const bettingMarketGroupsData = (state) => state.getIn(['bettingMarketGroup','bettingMarketGroupsById']);
 
-const eventsData = (state) => state.getIn(['event','eventsById']);
+const getResolvedBetsPeriodType = (state) => state.getIn(['mywager', 'periodType']);
+const getResolvedBetsCustomTimeRangeStartDate = (state) => state.getIn(['mywager', 'customTimeRangeStartDate']);
+const getResolvedBetsCustomTimeRangeEndDate = (state) => state.getIn(['mywager', 'customTimeRangeEndDate']);
 
-const sportsData = (state) => state.getIn(['sport','sportsById']);
+const startDate = createSelector(
+  [
+    getResolvedBetsPeriodType,
+    getResolvedBetsCustomTimeRangeStartDate
+  ],
+   (periodType, customTimeRangeStartDate) => {
+     if (periodType === TimeRangePeriodTypes.CUSTOM) {
+       return customTimeRangeStartDate;
+     } else {
+       const timeRange = DateUtils.getTimeRangeGivenTimeRangePeriodType(periodType);
+       return timeRange.startDate;
+     }
+   }
+ )
 
-const startDate = (state) => state.getIn(['mywager','startDate']);
+const endDate = createSelector(
+  [
+    getResolvedBetsPeriodType,
+    getResolvedBetsCustomTimeRangeEndDate
+  ],
+   (periodType, customTimeRangeEndDate) => {
+     if (periodType === TimeRangePeriodTypes.CUSTOM) {
+       return customTimeRangeEndDate;
+     } else {
+       const timeRange = DateUtils.getTimeRangeGivenTimeRangePeriodType(periodType);
+       return timeRange.endDate;
+     }
+   }
+ )
 
-const endDate = (state) => state.getIn(['mywager','endDate']);
 
 const getStoreFieldName = (state) => {
   switch (activeTab(state)) {
-    case 'matchedBets':
-      return 'matchedBetsById';
-    case 'resolvedBets':
-      return 'resolvedBetsById';
+    case MyWagerTabTypes.MATCHED_BETS:
+      return 'newMatchedBetsById';
+    case MyWagerTabTypes.RESOLVED_BETS:
+      return 'newResolvedBetsById';
     default:
       return 'unmatchedBetsById';
   }
 }
 
 export const getStake = function(activeTab, bet){
-  let betAmount = (activeTab === 'unmatchedBets' ? bet.get('unmatched_bet_amount') : bet.get('matched_bet_amount'));
+  let betAmount = (activeTab === MyWagerTabTypes.UNMATCHED_BETS ? bet.get('unmatched_bet_amount') : bet.get('matched_bet_amount'));
   switch (bet.get('back_or_lay').toUpperCase()) {
     case 'BACK':
       return betAmount;
@@ -57,7 +89,7 @@ export const getStake = function(activeTab, bet){
 };
 
 const getProfitLiability = function(activeTab, bet){
-  let betAmount = (activeTab === 'unmatchedBets' ? bet.get('unmatched_bet_amount') : bet.get('matched_bet_amount'));
+  let betAmount = (activeTab === MyWagerTabTypes.UNMATCHED_BETS ? bet.get('unmatched_bet_amount') : bet.get('matched_bet_amount'));
   switch (bet.get('back_or_lay').toUpperCase()) {
     case 'BACK':
       return betAmount / (bet.get('backer_multiplier') - 1);
@@ -68,15 +100,15 @@ const getProfitLiability = function(activeTab, bet){
 
 //function to get rowdata on the basis of activeTab
 const rowData = (state) => state.getIn(['bet', getStoreFieldName(state)])
-  .filter(row => (activeTab(state) !== 'unmatchedBets' || !state.getIn(['bet','cancelBetsByIdsLoadingStatus']).get(row.get('id'))));
+  .filter(row => (activeTab(state) !== MyWagerTabTypes.UNMATCHED_BETS || !state.getIn(['bet','cancelBetsByIdsLoadingStatus']).get(row.get('id'))));
 
 //function to get initial collection with required values from rowData
 const betData = createSelector(
-  [activeTab, rowData, startDate, endDate, getCurrencyFormat, precision],
+  [activeTab, rowData, startDate, endDate, getCurrencyFormat, getPrecision],
   (tab, bets, startDate, endDate, currencyFormat, precision)=>{
     let newData = [];
     bets.forEach((bet) => {
-      if(tab !== 'resolvedBets')
+      if(tab !== MyWagerTabTypes.RESOLVED_BETS)
         newData.push(new Map({key: bet.get('id'),
           id: bet.get('id'),
           'betting_market_id': bet.get('betting_market_id'),
@@ -84,7 +116,7 @@ const betData = createSelector(
           'stake': CurrencyUtils.getFormattedCurrency(getStake(tab, bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
           'odds': bet.get('backer_multiplier'),
           'profit_liability': CurrencyUtils.getFormattedCurrency(getProfitLiability(tab, bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces)}));
-      else if (tab === 'resolvedBets' && moment(bet.get('resolved_time')).isBetween(startDate, endDate))
+      else if (tab === MyWagerTabTypes.RESOLVED_BETS && moment(bet.get('resolved_time')).isBetween(startDate, endDate))
         newData.push(new Map({key: bet.get('id'),
           id: bet.get('id'),
           'betting_market_id': bet.get('betting_market_id'),
@@ -109,7 +141,7 @@ const mergeBettingMarketData = createSelector(
 
 //memoized selector - function for merging bettingMarketGroupsData to betData and return merged data
 const mergeBettingMarketGroupData = createSelector(
-  [mergeBettingMarketData, bettingMarketGroupsData],
+  [mergeBettingMarketData, getBettingMarketGroupsById],
   (bets, betMarketGroup)=>{
     return mergeBettingMarketGroup(bets, betMarketGroup, 'betting_market_group_id');
   }
@@ -117,7 +149,7 @@ const mergeBettingMarketGroupData = createSelector(
 
 //memoized selector - function for merging events to betData and return merged data
 const mergeEventsData = createSelector(
-  [mergeBettingMarketGroupData, eventsData],
+  [mergeBettingMarketGroupData, getEventsById],
   (bets, events)=>{
     return mergeRelationData(bets, events, 'event_id',
       {'name': 'event_name' , 'start_time': 'event_time', 'sport_id': 'sport_id'});
@@ -126,7 +158,7 @@ const mergeEventsData = createSelector(
 
 //memoized selector - function for merging sports to betData and return merged data
 const mergeSportsData = createSelector(
-  [mergeEventsData, sportsData],
+  [mergeEventsData, getSportsById],
   (bets, sports)=>{
     return mergeRelationData(bets, sports, 'sport_id',
       {'name': 'sport_name'});
@@ -136,7 +168,7 @@ const mergeSportsData = createSelector(
 //formatting data after getting all reuired data merged
 const formatBettingData = (data, activeTab, precision, targetCurrency, startDate, endDate) => {
   //showing past data as resolvedBets and future data as matchedBets unmatchedBets
-  if(activeTab !== 'resolvedBets')
+  if(activeTab !== MyWagerTabTypes.RESOLVED_BETS)
     data = data.filter(row => (((moment(row.get('event_time')).isAfter(moment().hour(0).minute(0))))));
 
   //check if this can be improved
@@ -147,10 +179,10 @@ const formatBettingData = (data, activeTab, precision, targetCurrency, startDate
     };
     //randomly changed win value to negative for liability display
     //applied class based on profit or loss
-    if(activeTab !== 'resolvedBets')
+    if(activeTab !== MyWagerTabTypes.RESOLVED_BETS)
       rowObj.event_time = getFormattedDate(row.get('event_time'));
 
-    if(activeTab === 'unmatchedBets')
+    if(activeTab === MyWagerTabTypes.UNMATCHED_BETS)
       rowObj.cancel = (row.get('cancelled') ? '' : <a className='btn cancel-btn' target='_self'>{ I18n.t('mybets.cancel') }</a>);
     data[index] = row.merge(rowObj);
   });
@@ -159,7 +191,7 @@ const formatBettingData = (data, activeTab, precision, targetCurrency, startDate
 
 //memoized selector - function for formatting merged data and return same
 const getBetData = createSelector(
-  [mergeSportsData, activeTab, getCurrencyFormat, precision, startDate, endDate],
+  [mergeSportsData, activeTab, getCurrencyFormat, getPrecision, startDate, endDate],
   (bets, activeTab, currencyFormat, precision, startDate, endDate) => {
     return formatBettingData(bets, activeTab,
     precision, currencyFormat, startDate, endDate);
@@ -168,7 +200,7 @@ const getBetData = createSelector(
 
 //memoized selector - function totaling stake and liability
 const getBetTotal = createSelector(
-  [getBetData, getCurrencyFormat, precision],
+  [getBetData, getCurrencyFormat, getPrecision],
   (bets, currencyFormat, precision)=>{
     let total = 0;
     bets.forEach((row, index) => {

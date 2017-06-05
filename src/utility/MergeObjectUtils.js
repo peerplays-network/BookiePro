@@ -3,7 +3,7 @@ import _ from 'lodash';
 //merge data from relationalCollection to collection by foreign key relationId
 //mergeColumns is key value pair in which key is new column name to be set collection
 //value represent source column of relationalCollection, value of which to be copied to collection
-export function mergeRelationData(collection, relationalCollection, relationId, mergeColumns){
+const mergeRelationData = (collection, relationalCollection, relationId, mergeColumns) => {
   collection.forEach((d, index) => {
     //get object from relationalCollection on the basis of foreign key value from collection
     var matchObj = relationalCollection.get(d.get(relationId));
@@ -20,7 +20,7 @@ export function mergeRelationData(collection, relationalCollection, relationId, 
 
 //merge betting market group data to bets for display
 //created seperate function otherwise column data with the same column name will be replaced in main data;
-export function mergeBettingMarketGroup(data, relData, col){
+const mergeBettingMarketGroup = (data, relData, col) => {
   data.forEach((row, index) => {
     var matchObj = relData.get(row.get(col));
     if(matchObj){
@@ -43,3 +43,10 @@ export function mergeBettingMarketGroup(data, relData, col){
   })
   return data;
 }
+
+const MergeObjectUtils = {
+  mergeRelationData,
+  mergeBettingMarketGroup
+}
+
+export default MergeObjectUtils;
