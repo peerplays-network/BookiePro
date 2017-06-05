@@ -191,29 +191,8 @@ class EventActions {
         const team2Name = item.get('event_name').split(' vs ')[1];
         const keywordLowerCase = keyword.toLowerCase();
 
-        let isFound = false;
-
-        if ( team1Name.toLowerCase().startsWith(keywordLowerCase)){
-          isFound = true;
-        }
-
-        if ( team2Name.toLowerCase().startsWith(keywordLowerCase)){
-          isFound = true;
-        }
-
-        team1Name.toLowerCase().split(' ').forEach( word => {
-          if ( word.startsWith(keywordLowerCase)){
-            isFound = true;
-          }
-        });
-
-        team2Name.toLowerCase().split(' ').forEach( word => {
-          if ( word.startsWith(keywordLowerCase)){
-            isFound = true;
-          }
-        });
-
-        return isFound;
+        return ( team1Name.toLowerCase().indexOf(keywordLowerCase) >= 0 ||
+          team2Name.toLowerCase().indexOf(keywordLowerCase) >= 0 )
       });
 
       // Set data to redux store
