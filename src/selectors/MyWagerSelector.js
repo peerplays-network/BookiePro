@@ -29,7 +29,40 @@ const getPrecision = createSelector(
 
 const activeTab = (state) => state.getIn(['mywager','activeTab']);
 
-const bettingMarketData = (state) => state.getIn(['bettingMarket','bettingMarketsById']);
+
+const getResolvedBetsPeriodType = (state) => state.getIn(['mywager', 'periodType']);
+const getResolvedBetsCustomTimeRangeStartDate = (state) => state.getIn(['mywager', 'customTimeRangeStartDate']);
+const getResolvedBetsCustomTimeRangeEndDate = (state) => state.getIn(['mywager', 'customTimeRangeEndDate']);
+
+const startDate = createSelector(
+  [
+    getResolvedBetsPeriodType,
+    getResolvedBetsCustomTimeRangeStartDate
+  ],
+   (periodType, customTimeRangeStartDate) => {
+     if (periodType === TimeRangePeriodTypes.CUSTOM) {
+       return customTimeRangeStartDate;
+     } else {
+       const timeRange = DateUtils.getTimeRangeGivenTimeRangePeriodType(periodType);
+       return timeRange.startDate;
+     }
+   }
+ )
+
+const endDate = createSelector(
+  [
+    getResolvedBetsPeriodType,
+    getResolvedBetsCustomTimeRangeEndDate
+  ],
+   (periodType, customTimeRangeEndDate) => {
+     if (periodType === TimeRangePeriodTypes.CUSTOM) {
+       return customTimeRangeEndDate;
+     } else {
+       const timeRange = DateUtils.getTimeRangeGivenTimeRangePeriodType(periodType);
+       return timeRange.endDate;
+     }
+   }
+ )
 
 
 const getResolvedBetsPeriodType = (state) => state.getIn(['mywager', 'periodType']);
