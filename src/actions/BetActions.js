@@ -310,8 +310,7 @@ class BetActions {
             endDate = timeRange.endDate
           }
 
-
-          let retrievedResolvedBets = getState().getIn(['bet', 'newResolvedBetsById'])
+          let retrievedResolvedBets = getState().getIn(['bet', 'resolvedBetsById'])
             .filter(row => (moment(row.get('resolved_time')).isBetween(startDate, endDate)));
 
           // Get betting market ids

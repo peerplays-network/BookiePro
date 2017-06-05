@@ -70,11 +70,11 @@ const endDate = createSelector(
 const getStoreFieldName = (state) => {
   switch (activeTab(state)) {
     case MyWagerTabTypes.MATCHED_BETS:
-      return 'newMatchedBetsById';
+      return 'matchedBetsById';
     case MyWagerTabTypes.RESOLVED_BETS:
-      return 'newResolvedBetsById';
+      return 'resolvedBetsById';
     default:
-      return 'unmatchedBetsById';
+      return 'matchedBetsById';
   }
 }
 

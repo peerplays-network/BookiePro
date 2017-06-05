@@ -13,6 +13,7 @@ class ResolvedBets extends PureComponent {
       exportButtonClicked, resolvedBetsExport, resolvedBetsExportLoadingStatus,
       handleExportFinishDownload, handleSearchClick, handleExportClick
       } = this.props;
+
     return (
       <div className='table-card'>
         <div>
