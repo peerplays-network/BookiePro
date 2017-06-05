@@ -185,20 +185,33 @@ class EventActions {
           })
         });
       let eventList = Immutable.List(myEvents);
+
       const filteredResult = eventList.toArray().filter((item) => {
         const team1Name = item.get('event_name').split(' vs ')[0];
         const team2Name = item.get('event_name').split(' vs ')[1];
         const keywordLowerCase = keyword.toLowerCase();
-        const team1FirstName = team1Name.split(' ')[0].toLowerCase();
-        const team2FirstName = team2Name.split(' ')[0].toLowerCase();
-        return team1FirstName.startsWith(keywordLowerCase) || team2FirstName.startsWith(keywordLowerCase);
+
+        let isFound = false;
+        team1Name.split(' ').forEach( word => {
+          if ( word.toLowerCase().startsWith(keywordLowerCase)){
+            isFound = true;
+          }
+        });
+
+        team2Name.split(' ').forEach( word => {
+          if ( word.toLowerCase().startsWith(keywordLowerCase)){
+            isFound = true;
+          }
+        });
+
+        return isFound;
       });
 
       // Set data to redux store
       dispatch(EventPrivateActions.setSearchResultAction(filteredResult));
       // Set status
       dispatch(EventPrivateActions.setSearchEventsLoadingStatusAction(LoadingStatus.DONE));
-      
+
       log.debug('Search events succeed.');
     }
   }
