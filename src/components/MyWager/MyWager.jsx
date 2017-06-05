@@ -23,7 +23,8 @@ class MyWager extends PureComponent {
       period: 'last7Days',
       startDate: moment().subtract(6, 'days'),
       endDate: moment(),
-      exportButtonClicked: false
+      exportButtonClicked: false,
+      disableExportButton: false
     };
     this.onTabChange = this.onTabChange.bind(this);
     this.onHomeLinkClick = this.onHomeLinkClick.bind(this);
@@ -106,7 +107,8 @@ class MyWager extends PureComponent {
   onPeriodSelect(value) {
 
     this.setState({
-      period: value
+      period: value,
+      disableExportButton: true
     });
 
     if (value !== 'custom') {
@@ -140,12 +142,12 @@ class MyWager extends PureComponent {
 
   //Resolved Bets - Start Date change handler
   onStartDateSelect(value) {
-    this.setState({startDate: moment(value).hour(0).minute(0)});
+    this.setState({startDate: moment(value).hour(0).minute(0), disableExportButton: true});
   }
 
   //Resolved Bets End Date change handler
   onEndDateSelect(value) {
-    this.setState({endDate: moment(value).hour(23).minute(59)});
+    this.setState({endDate: moment(value).hour(23).minute(59), disableExportButton: true});
   }
 
   //Resolved Bets Search handler
@@ -154,6 +156,7 @@ class MyWager extends PureComponent {
     //set startDate and endDate in redux store
     this.props.setStartEndDate(this.state.startDate, this.state.endDate);
     this.props.getResolvedBets(this.state.startDate, this.state.endDate);
+    this.setState({ disableExportButton: false });
   }
 
   //Export Resolved Bets
@@ -203,6 +206,7 @@ class MyWager extends PureComponent {
               disabledStartDate={ this.disabledStartDate } disabledEndDate={ this.disabledEndDate }
               onStartDateSelect={ this.onStartDateSelect } onEndDateSelect={ this.onEndDateSelect }
               onPeriodSelect={ this.onPeriodSelect } onSearchClick={ this.onSearchClick }
+              disableExportButton={ this.state.disableExportButton }
               exportButtonClicked={ this.state.exportButtonClicked }
               handleExportFinishDownload={ this.handleExportFinishDownload }
               onResolvedBetsExport={ this.onResolvedBetsExport }
