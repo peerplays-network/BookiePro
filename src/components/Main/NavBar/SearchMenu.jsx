@@ -151,7 +151,9 @@ class SearchMenu extends Component {
       return item.set('matchStartOn', I18n.t('searchMenu.match_start_on'))
     }).splice( 0, 0,
       { 'event_id': '0',
-        'event_name': I18n.t('searchMenu.no_of_result', {count: this.props.searchResult.size, searchText: this.state.searchText })
+        'event_name': ( this.props.searchResult.size === 0 ) ?
+          I18n.t('searchMenu.no_results_round') :
+          I18n.t('searchMenu.no_of_result', {count: this.props.searchResult.size, searchText: this.state.searchText })
       }
     );
 
