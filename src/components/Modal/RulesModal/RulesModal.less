@@ -2,11 +2,15 @@
 @import '../../App/Common.less';
 
 .rules-modal{
+  text-align: center;
   .ant-modal{
+    display: inline-block;
+    vertical-align: middle;
     overflow: hidden;
-    top:5%;
+    top:0;
     max-height: 90%;
     padding-bottom:0;
+    text-align: left;
   }
   .ant-modal-header{
     background-color: transparent;
@@ -28,5 +32,12 @@
     &:last-child{
       margin-bottom:0;
     }
+  }
+  &:before{
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    width: 0;
   }
 }
