@@ -252,6 +252,7 @@ export const translationsObject = {
         },
         success: {
           instructions: 'Your bets have been successfully placed.',
+          my_bet_button: 'GO TO MY BETS',
         },
         content: {
           place_bet_button: 'PLACE BET \u0243%{amount}'
@@ -284,6 +285,7 @@ export const translationsObject = {
         },
         success: {
           instructions: 'Your bets have been successfully placed.',
+          my_bet_button: 'GO TO MY BETS',
         },
         content: {
           place_bet_button: 'PLACE BET \u0243%{amount}'
