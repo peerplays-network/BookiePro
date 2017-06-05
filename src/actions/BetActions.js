@@ -1,5 +1,5 @@
 import Immutable, { Map } from 'immutable';
-import { CommunicationService, WalletService, HistoryService } from '../services';
+import { WalletService, HistoryService } from '../services';
 import { LoadingStatus, ActionTypes, Config } from '../constants';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
@@ -21,33 +21,6 @@ const getFormattedDate = DateUtils.getFormattedDate;
  * Private actions
  */
 class BetPrivateActions {
-  static setGetOngoingBetsLoadingStatusAction(loadingStatus) {
-    return {
-      type: ActionTypes.BET_SET_GET_ONGOING_BETS_LOADING_STATUS,
-      loadingStatus
-    }
-  }
-
-  static setGetOngoingBetsErrorAction(error) {
-    return {
-      type: ActionTypes.BET_SET_GET_ONGOING_BETS_ERROR,
-      error
-    }
-  }
-
-  static setGetResolvedBetsLoadingStatusAction(loadingStatus) {
-    return {
-      type: ActionTypes.BET_SET_GET_RESOLVED_BETS_LOADING_STATUS,
-      loadingStatus
-    }
-  }
-
-  static setGetResolvedBetsErrorAction(error) {
-    return {
-      type: ActionTypes.BET_SET_GET_RESOLVED_BETS_ERROR,
-      error
-    }
-  }
 
   static setMakeBetsLoadingStatusAction(loadingStatus) {
     return {
@@ -317,205 +290,104 @@ class BetActions {
     return BetPrivateActions.clearResolvedBetsExportAction();
   }
 
-  // TODO: should be deprecated and replaced by initMyBets and checkForNewMyBets
-  static getOngoingBets() {
-    console.warn('getOngoingBets should be deprecated soon')
-    return (dispatch, getState) => {
-      // const accountId = getState().getIn(['account', 'account', 'id']);
-      //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
-      const accountId = Config.dummyDataAccountId;
-
-      // Check if data is already in the redux store, if it has been retrieved, no need to fetch it again from blockchain
-      const getOngoingBetsLoadingStatus = getState().getIn(['bet', 'getOngoingBetsLoadingStatus']);
-      if (getOngoingBetsLoadingStatus !== LoadingStatus.DONE) {
-        // It has been never been retrieved before, fetch from blockchain
-        dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.LOADING));
-        let retrievedOngoingBets = [];
-        return CommunicationService.getOngoingBets(accountId).then((ongoingBets) => {
-          retrievedOngoingBets = ongoingBets;
-          // Get betting market ids
-          let bettingMarketIds = ongoingBets.map(bet => bet.get('betting_market_id')).toSet();
-          // Get betting market object
-          return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds));
-        }).then((bettingMarkets) => {
-          // Get unique betting market group ids
-          let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
-          // Get the betting market groups
-          return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
-        }).then((bettingMarketGroups) => {
-          // Get unique event ids
-          let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet();
-          // Get the betting market groups
-          return dispatch(EventActions.getEventsByIds(eventIds));
-        }).then((events) => {
-          // Get unique sport ids
-          let sportIds = events.map(event => event.get('sport_id')).toSet();
-          // Get the betting market groups
-          return dispatch(SportActions.getSportsByIds(sportIds));
-        }).then((sports) => {
-          // Add ongoing bets to redux store
-          dispatch(BetActions.addOrUpdateOngoingBetsAction(retrievedOngoingBets));
-          // Set status
-          dispatch(BetPrivateActions.setGetOngoingBetsLoadingStatusAction(LoadingStatus.DONE));
-          log.debug('Get matched and unmatched bets succeed.');
-          return retrievedOngoingBets;
-        }).catch((error) => {
-          log.error('Fail to get matched and unmatched bets', error);
-          // Set error
-          dispatch(BetActions.setGetOngoingBetsErrorAction(error));
-        });
-      } else {
-        return Promise.resolve(getState().getIn(['bet', 'unmatchedBetsById'])
-                                 .concat(getState().getIn(['bet', 'matchedBetsById'])));
-      }
-    };
-  }
-
-  // TODO: should be deprecated and replaced by initMyBets and checkForNewMyBets
-  static getResolvedBets(startTime, stopTime) {
-    console.warn('getResolvedBets should be deprecated soon')
-    return (dispatch, getState) => {
-      // const accountId = getState().getIn(['account', 'account', 'id']);
-      //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
-      const accountId = Config.dummyDataAccountId;
-
-      dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.LOADING));
-      // TODO: Replace with actual blockchain call
-      let retrievedResolvedBets = [];
-      CommunicationService.getResolvedBets(accountId, startTime, stopTime).then((resolvedBets) => {
-        retrievedResolvedBets = resolvedBets;
-        // Get betting market ids
-        let bettingMarketIds = resolvedBets.map(bet => bet.get('betting_market_id')).toSet();
-        // Get betting market object
-        return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds));
-      }).then((bettingMarkets) => {
-        // Get unique betting market group ids
-        let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
-        // Get the betting market groups
-        return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
-      }).then((bettingMarketGroups) => {
-        // Get unique event ids
-        let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet();
-        // Get the betting market groups
-        return dispatch(EventActions.getEventsByIds(eventIds));
-      }).then((events) => {
-        // Get unique sport ids
-        let sportIds = events.map(event => event.get('sport_id')).toSet();
-        // Get the betting market groups
-        return dispatch(SportActions.getSportsByIds(sportIds));
-      }).then((sports) => {
-        // Add to redux store
-        dispatch(BetActions.addOrUpdateResolvedBetsAction(retrievedResolvedBets));
-        // Set status
-        dispatch(BetPrivateActions.setGetResolvedBetsLoadingStatusAction(LoadingStatus.DONE));
-        log.debug('Get resolved bets succeed.');
-      }).catch((error) => {
-        log.error('Fail to get resolved bets', error);
-        // Set error
-        dispatch(BetActions.setGetResolvedBetsErrorAction(error));
-      });
-    };
-  }
-
-
   static getResolvedBetsToExport(targetCurrency, columns) {
     return (dispatch, getState) => {
-      // const accountId = getState().getIn(['account', 'account', 'id']);
-      //TODO: pick account id from logged in user. Currently hard coded to get the dummy data
-      const accountId = Config.dummyDataAccountId;
+      const accountId = getState().getIn(['account', 'account', 'id']);
+      if (accountId) {
+        dispatch(BetPrivateActions.setGetResolvedBetsExportLoadingStatusAction(LoadingStatus.LOADING));
+        //Included a 3 second timeout now, just to test the various states of export
+        setTimeout(function(){
+          // TODO: Replace with actual blockchain call
+          let retrievedResolvedBets = getState().getIn(['bet', 'resolvedBetsById'])
+            .filter(row => (moment(row.get('resolved_time')).isBetween(getState().getIn(['mywager','startDate']), getState().getIn(['mywager','endDate']))));
+          if(getState().getIn(['bet', 'getResolvedBetsExportLoadingStatus'])===LoadingStatus.DEFAULT)
+            return;
+          // Get betting market ids
+          let bettingMarketIds = retrievedResolvedBets.map(bet => bet.get('betting_market_id')).toSet();
 
-      dispatch(BetPrivateActions.setGetResolvedBetsExportLoadingStatusAction(LoadingStatus.LOADING));
-      //Included a 3 second timeout now, just to test the various states of export
-      setTimeout(function(){
-        // TODO: Replace with actual blockchain call
-        let retrievedResolvedBets = getState().getIn(['bet', 'newResolvedBetsById'])
-          .filter(row => (moment(row.get('resolved_time')).isBetween(getState().getIn(['mywager','startDate']), getState().getIn(['mywager','endDate']))));
-        if(getState().getIn(['bet', 'getResolvedBetsExportLoadingStatus'])===LoadingStatus.DEFAULT)
-          return;
-        // Get betting market ids
-        let bettingMarketIds = retrievedResolvedBets.map(bet => bet.get('betting_market_id')).toSet();
-
-        dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)).then((bettingMarkets) => {
-          // Get unique betting market group ids
-          let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
-          // Get the betting market groups
-          return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
-        }).then((bettingMarketGroups) => {
-          // Get unique event ids
-          let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet();
-          // Get the betting market groups
-          return dispatch(EventActions.getEventsByIds(eventIds));
-        }).then((events) => {
-          // Get unique sport ids
-          let sportIds = events.map(event => event.get('sport_id')).toSet();
-          // Get the betting market groups
-          return dispatch(SportActions.getSportsByIds(sportIds));
-        }).then((sports) => {
-          let precision = getState().getIn(['asset', 'assetsById', '1.3.0', 'precision']);
-          let exportData = [];
-          retrievedResolvedBets.forEach(row =>
-          {
-            if(moment(row.get('resolved_time')).isBetween(getState().getIn(['mywager','startDate']), getState().getIn(['mywager','endDate']))){
-              let rowObj = {
-                key: row.get('id'),
-                id: row.get('id'),
-                'betting_market_id': row.get('betting_market_id'),
-                'back_or_lay': row.get('back_or_lay'),
-                'stake': CurrencyUtils.getFormattedCurrency(getStake('resolvedBets', row)/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.stakePlaces),
-                'odds': row.get('backer_multiplier'),
-                'profit_liability': CurrencyUtils.getFormattedCurrency(row.get('amount_won')/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.exposurePlaces),
-                'resolved_time': getFormattedDate(row.get('resolved_time'))
+          dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)).then((bettingMarkets) => {
+            // Get unique betting market group ids
+            let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
+            // Get the betting market groups
+            return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
+          }).then((bettingMarketGroups) => {
+            // Get unique event ids
+            let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet();
+            // Get the betting market groups
+            return dispatch(EventActions.getEventsByIds(eventIds));
+          }).then((events) => {
+            // Get unique sport ids
+            let sportIds = events.map(event => event.get('sport_id')).toSet();
+            // Get the betting market groups
+            return dispatch(SportActions.getSportsByIds(sportIds));
+          }).then((sports) => {
+            let precision = getState().getIn(['asset', 'assetsById', '1.3.0', 'precision']);
+            let exportData = [];
+            retrievedResolvedBets.forEach(row =>
+            {
+              if(moment(row.get('resolved_time')).isBetween(getState().getIn(['mywager','startDate']), getState().getIn(['mywager','endDate']))){
+                let rowObj = {
+                  key: row.get('id'),
+                  id: row.get('id'),
+                  'betting_market_id': row.get('betting_market_id'),
+                  'back_or_lay': row.get('back_or_lay'),
+                  'stake': CurrencyUtils.getFormattedCurrency(getStake('resolvedBets', row)/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.stakePlaces),
+                  'odds': row.get('backer_multiplier'),
+                  'profit_liability': CurrencyUtils.getFormattedCurrency(row.get('amount_won')/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.exposurePlaces),
+                  'resolved_time': getFormattedDate(row.get('resolved_time'))
+                }
+                exportData.push(Map(rowObj));
               }
-              exportData.push(Map(rowObj));
-            }
-          });
-
-          //merging betting market data for display and betting_market_group_id for reference
-          exportData = mergeRelationData(exportData, getState().getIn(['bettingMarket','bettingMarketsById']), 'betting_market_id',
-            {betting_market_group_id: 'betting_market_group_id' , payout_condition_string: 'payout_condition_string'});
-
-          //merging betting market group data for display and eventid for reference
-          exportData = mergeBettingMarketGroup(exportData,
-            getState().getIn(['bettingMarketGroup','bettingMarketGroupsById']), 'betting_market_group_id');
-
-          //merging evemt data for display and sport id for reference
-          exportData = mergeRelationData(exportData, getState().getIn(['event','eventsById']), 'event_id',
-            {'name': 'event_name' , 'sport_id': 'sport_id'});
-
-          //merging sport data for display
-          exportData = mergeRelationData(exportData, getState().getIn(['sport','sportsById']), 'sport_id',
-            {'name': 'sport_name'});
-
-          //Generated Resolved bets export object array using foreach to display properties in particular order in excel.
-          //TODO: Need to check if this can be improved
-          /*NOTE: Things to be taken care of for Resolved bet export data are listed below:-
-            1. Object property name change as per column configuration
-            2. Sequence of properties in Object as per column configuration
-            3. Removing unwanted columns from export data
-          */
-          exportData.forEach((row, index) => {
-            row = row.merge({
-              'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
             });
-            let formattedRow = {};
-            for (var i = 0; i < columns.length; i++) {
-              formattedRow[columns[i].title] = row.get(columns[i].key);
-            }
-            exportData[index] = formattedRow;
-          });
 
-          // Add to redux store
-          dispatch(BetActions.addOrUpdateResolvedBetsExportAction(exportData));
-          // Set Resolved Bets Export Loadings tatus
-          dispatch(BetPrivateActions.setGetResolvedBetsExportLoadingStatusAction(LoadingStatus.DONE));
-          log.debug('Get resolved bets export succeed.');
-        }).catch((error) => {
-          log.error('Fail to get resolved bets export', error);
-          // Set error
-          dispatch(BetActions.setGetResolvedBetsExportErrorAction(error));
-        });
-      }, 3000);
-    };
+            //merging betting market data for display and betting_market_group_id for reference
+            exportData = mergeRelationData(exportData, getState().getIn(['bettingMarket','bettingMarketsById']), 'betting_market_id',
+              {betting_market_group_id: 'betting_market_group_id' , payout_condition_string: 'payout_condition_string'});
+
+            //merging betting market group data for display and eventid for reference
+            exportData = mergeBettingMarketGroup(exportData,
+              getState().getIn(['bettingMarketGroup','bettingMarketGroupsById']), 'betting_market_group_id');
+
+            //merging evemt data for display and sport id for reference
+            exportData = mergeRelationData(exportData, getState().getIn(['event','eventsById']), 'event_id',
+              {'name': 'event_name' , 'sport_id': 'sport_id'});
+
+            //merging sport data for display
+            exportData = mergeRelationData(exportData, getState().getIn(['sport','sportsById']), 'sport_id',
+              {'name': 'sport_name'});
+
+            //Generated Resolved bets export object array using foreach to display properties in particular order in excel.
+            //TODO: Need to check if this can be improved
+            /*NOTE: Things to be taken care of for Resolved bet export data are listed below:-
+              1. Object property name change as per column configuration
+              2. Sequence of properties in Object as per column configuration
+              3. Removing unwanted columns from export data
+            */
+            exportData.forEach((row, index) => {
+              row = row.merge({
+                'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
+              });
+              let formattedRow = {};
+              for (var i = 0; i < columns.length; i++) {
+                formattedRow[columns[i].title] = row.get(columns[i].key);
+              }
+              exportData[index] = formattedRow;
+            });
+
+            // Add to redux store
+            dispatch(BetActions.addOrUpdateResolvedBetsExportAction(exportData));
+            // Set Resolved Bets Export Loadings tatus
+            dispatch(BetPrivateActions.setGetResolvedBetsExportLoadingStatusAction(LoadingStatus.DONE));
+            log.debug('Get resolved bets export succeed.');
+          }).catch((error) => {
+            log.error('Fail to get resolved bets export', error);
+            // Set error
+            dispatch(BetActions.setGetResolvedBetsExportErrorAction(error));
+          });
+        }, 3000);
+      };
+    }
+
   }
 
   /**

@@ -580,37 +580,6 @@ class CommunicationService {
   }
 
   /**
-   * Get ongoing bets (unmatched and matched bets)
-   */
-  static getOngoingBets(accountId) {
-    // TODO: Replace later
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const filteredResult = _.filter(dummyData.bets, (item) => {
-          return item.bettor_id === accountId;
-        });
-        resolve(Immutable.fromJS(filteredResult));
-      }, TIMEOUT_LENGTH);
-    });
-  }
-
-  /**
-   * Get resolved bets
-   */
-  static getResolvedBets(accountId, startTime, stopTime) {
-    // TODO: Replace later
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const filteredResult = _.filter(dummyData.bets, (item) => {
-          return item.bettor_id === accountId;
-        });
-        // TODO: still pending the format of resolved bets
-        resolve(Immutable.fromJS(filteredResult));
-      }, TIMEOUT_LENGTH);
-    });
-  }
-
-  /**
    * Get binned order books
    */
   static getBinnedOrderBook(bettingMarketId, binning_precision) {

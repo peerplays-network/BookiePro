@@ -1,3 +1,4 @@
+// NOTE: THIS IS DEPRECATED, BETS ARE DERIVED FROM HISTORY.JS NOW!!!!
 // Modify the bettor id accordingly
 import { Config } from '../constants';
 const bettorId = Config.dummyDataAccountId;

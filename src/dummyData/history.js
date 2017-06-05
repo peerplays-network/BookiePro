@@ -2,16 +2,103 @@ import { Config, DummyOperationTypes } from '../constants';
 import _ from 'lodash';
 
 // Assume
-// 201 is operation type for make_bet
-// 202 is operation type for cancel_bet
-// 203 is operation type for fill_bet
-// 204 is operation type for betting_market_resolved
+// 201 is operation type for make_bet (DummyOperationTypes.MAKE_BET)
+// 202 is operation type for cancel_bet (DummyOperationTypes.CANCEL_BET)
+// 203 is operation type for fill_bet (DummyOperationTypes.FILL_BET)
+// 204 is operation type for betting_market_resolved (DummyOperationTypes.BETTING_MARKET_RESOLVED)
 
-// Modify this one depending on the account that you use to test
+// TODO: add more transaction history, especially to fill my wager page, for the following 5 types of bets
+// Fully unmatched bets, partially matched bets, fully matched bets, cancelled bets, and resolved bets across different markets
+//
+// To make fully unmatched bets:
+// - add MAKE_BET operation
+// - don't add any FILL_BET that with the same bet_id as the above MAKE_BET
+// - also don't add any CANCEL_BET that with the same bet_id as the above MAKE_BET
+// - also don't add any betting_market_group_id that with the same betting_market_id as the above MAKE_BET
+// To make partially matched bets (= partially unmatched bets):
+// - add MAKE_BET operation
+// - add one or more FILL_BET operation with the same bet_id as the above MAKE_BET
+// - however to ensure it is NOT FULLY MATCHED, this requirement should be satisfied
+//      -> (sum of matched_bet_amount < original_bet_amount * (backer_multiplier - 1))
+// - also don't add any CANCEL_BET that with the same bet_id as the above MAKE_BET
+// - also don't add any BETTING_MARKET_RESOLVED that with the same betting_market_id as the above MAKE_BET
+// To make fully matched bets:
+// - add MAKE_BET operation
+// - add one or more FILL_BET operation with the same bet_id as the above MAKE_BET
+// - however to ensure it is FULLY MATCHED, this requirement should be satisfied
+//      -> (sum of matched_bet_amount = original_bet_amount * (backer_multiplier - 1))
+// - also don't add any CANCEL_BET that with the same bet_id as the above MAKE_BET
+// - also don't add any BETTING_MARKET_RESOLVED that with the same betting_market_id as the above MAKE_BET
+// To make cancelled fully unmatched bets:
+// - add MAKE_BET operation
+// - add CANCEL_BET operation with amount_refunded = original_bet_amount
+// - don't add any FILL_BET that with the same bet_id as the above MAKE_BET
+// - also don't add any BETTING_MARKET_RESOLVED that with the same betting_market_id as the above MAKE_BET
+// To make cancelled partially unmatched bets:
+// - make partially unmatched bets
+// - add CANCEL_BET operation with amount_refunded = (original_bet_amount - sum of matched_bet_amount of related FILLED_BET)
+// - don't add any BETTING_MARKET_RESOLVED that with the same betting_market_id as the above MAKE_BET
+// To make resolved bets:
+// - make partially matched bets/ fully matched bets on a particular betting market
+// - add BETTING_MARKET_RESOLVED with betting_market_id equal to the above partially matched bets/ fully matched bets
+// - since amount_paid of BETTING_MARKET_RESOLVED is used as it is (we don't need to do calculation on it), we can just put arbitary number here to make our life easier
+
+// To help the developers and QA on testing (especially for checking placed bets),
+// the following list lists the related dummy betting_market and betting_market_group specified in this dummy data
+// - betting_market 1.105.13 (betting_market group 1.104.7 Carolina Panthers vs Denver Broncos Moneyline)
+// - betting_market 1.105.5 (betting_market group 1.104.3 NY Giants vs Green Bay OverUnder 8)
+// - betting_market 1.105.4 (betting_market group 1.104.2 NY Giants vs Green Bay Spread 5)
+// - betting_market 1.105.3 (betting_market group 1.104.2 NY Giants vs Green Bay Spread 5)
+// - betting_market 1.105.1 (betting_market group 1.104.1 NY Giants vs Green Bay Moneyline)
+// - TODO: extend this list if listOfOperations is extended
+
 const dummyAccountId = Config.dummyDataAccountId;
 
-// IMPORTANT, size of listOfOperations should be smaller than dummyTransactionHistoryMaxIdInstanceNumber
 const listOfOperations = [
+  [
+    DummyOperationTypes.MAKE_BET,
+    {
+      "bet_id": "1.106.24",
+      "account_id": dummyAccountId,
+      "betting_market_id": "1.105.13",
+      "back_or_lay": "back",
+      "backer_multiplier": 2.0,
+      "original_bet_amount": 5000,
+    }
+  ],
+  [
+    DummyOperationTypes.MAKE_BET,
+    {
+      "bet_id": "1.106.23",
+      "account_id": dummyAccountId,
+      "betting_market_id": "1.105.13",
+      "back_or_lay": "back",
+      "backer_multiplier": 2.0,
+      "original_bet_amount": 5000,
+    }
+  ],
+  [
+    DummyOperationTypes.MAKE_BET,
+    {
+      "bet_id": "1.106.22",
+      "account_id": dummyAccountId,
+      "betting_market_id": "1.105.13",
+      "back_or_lay": "lay",
+      "backer_multiplier": 3.0,
+      "original_bet_amount": 10000,
+    }
+  ],
+  [
+    DummyOperationTypes.MAKE_BET,
+    {
+      "bet_id": "1.106.21",
+      "account_id": dummyAccountId,
+      "betting_market_id": "1.105.13",
+      "back_or_lay": "back",
+      "backer_multiplier": 2.0,
+      "original_bet_amount": 5000,
+    }
+  ],
   [
     DummyOperationTypes.BETTING_MARKET_RESOLVED,
     {
@@ -35,7 +122,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.5",
       "back_or_lay": "lay",
-      "backer_multiplier": "2.0",
+      "backer_multiplier": 2.0,
       "original_bet_amount": 5000,
     }
   ],
@@ -46,7 +133,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.4",
       "back_or_lay": "back",
-      "backer_multiplier": "2.0",
+      "backer_multiplier": 2.0,
       "original_bet_amount": 5000,
     }
   ],
@@ -57,7 +144,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "lay",
-      "backer_multiplier": "2.0",
+      "backer_multiplier": 2.0,
       "matched_bet_amount": 2000,
     }
   ],
@@ -68,7 +155,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "lay",
-      "backer_multiplier": "2.0",
+      "backer_multiplier": 2.0,
       "matched_bet_amount": 1000,
     }
   ],
@@ -79,7 +166,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "lay",
-      "backer_multiplier": "2.0",
+      "backer_multiplier": 2.0,
       "matched_bet_amount": 35000,
     }
   ],
@@ -90,7 +177,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "lay",
-      "backer_multiplier": "2.0",
+      "backer_multiplier": 2.0,
       "original_bet_amount": 2000,
     }
   ],
@@ -101,7 +188,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "lay",
-      "backer_multiplier": "2.0",
+      "backer_multiplier": 2.0,
       "original_bet_amount": 1000,
     }
   ],
@@ -112,7 +199,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "lay",
-      "backer_multiplier": "2.0",
+      "backer_multiplier": 2.0,
       "original_bet_amount": 35000,
     }
   ],
@@ -123,7 +210,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "back",
-      "backer_multiplier": "2.0",
+      "backer_multiplier": 2.0,
       "matched_bet_amount": 25000,
     }
   ],
@@ -134,7 +221,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "back",
-      "backer_multiplier": "2.0",
+      "backer_multiplier": 2.0,
       "matched_bet_amount": 15000,
     }
   ],
@@ -145,7 +232,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "back",
-      "backer_multiplier": "2.0",
+      "backer_multiplier": 2.0,
       "original_bet_amount": 15000,
     }
   ],
@@ -156,7 +243,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "back",
-      "backer_multiplier": "2.0",
+      "backer_multiplier": 2.0,
       "original_bet_amount": 25000,
     }
   ],
@@ -167,7 +254,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "back",
-      "backer_multiplier": "1.5",
+      "backer_multiplier": 1.5,
       "original_bet_amount": 35000,
     }
   ],
@@ -178,7 +265,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "back",
-      "backer_multiplier": "2.8",
+      "backer_multiplier": 2.8,
       "original_bet_amount": 2500,
     }
   ],
@@ -189,7 +276,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "back",
-      "backer_multiplier": "3.5",
+      "backer_multiplier": 3.5,
       "original_bet_amount": 4000,
     }
   ],
@@ -200,7 +287,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "back",
-      "backer_multiplier": "2.5",
+      "backer_multiplier": 2.5,
       "original_bet_amount": 3000,
     }
   ],
@@ -211,7 +298,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "lay",
-      "backer_multiplier": "2.25",
+      "backer_multiplier": 2.25,
       "original_bet_amount": 50000,
     }
   ],
@@ -230,7 +317,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "back",
-      "backer_multiplier": "1.75",
+      "backer_multiplier": 1.75,
       "matched_bet_amount": 200,
     }
   ],
@@ -241,7 +328,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "lay",
-      "backer_multiplier": "2.5",
+      "backer_multiplier": 2.5,
       "matched_bet_amount": 300,
     }
   ],
@@ -252,7 +339,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "lay",
-      "backer_multiplier": "2.5",
+      "backer_multiplier": 2.5,
       "matched_bet_amount": 300,
     }
   ],
@@ -263,7 +350,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "back",
-      "backer_multiplier": "1.75",
+      "backer_multiplier": 1.75,
       "matched_bet_amount": 200,
     }
   ],
@@ -274,7 +361,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "lay",
-      "backer_multiplier": "2.5",
+      "backer_multiplier": 2.5,
       "matched_bet_amount": 300,
     }
   ],
@@ -285,7 +372,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "lay",
-      "backer_multiplier": "2.5",
+      "backer_multiplier": 2.5,
       "matched_bet_amount": 500,
     }
   ],
@@ -296,7 +383,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "back",
-      "backer_multiplier": "1.75",
+      "backer_multiplier": 1.75,
       "matched_bet_amount": 1000,
     }
   ],
@@ -307,7 +394,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "back",
-      "backer_multiplier": "1.75",
+      "backer_multiplier": 1.75,
       "matched_bet_amount": 400,
     }
   ],
@@ -318,7 +405,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "back",
-      "backer_multiplier": "1.75",
+      "backer_multiplier": 1.75,
       "matched_bet_amount": 300,
     }
   ],
@@ -329,7 +416,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "back",
-      "backer_multiplier": "1.75",
+      "backer_multiplier": 1.75,
       "matched_bet_amount": 200,
     }
   ],
@@ -340,7 +427,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "back",
-      "backer_multiplier": "1.75",
+      "backer_multiplier": 1.75,
       "matched_bet_amount": 1000,
     }
   ],
@@ -367,7 +454,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "lay",
-      "backer_multiplier": "2.5",
+      "backer_multiplier": 2.5,
       "original_bet_amount": 5000,
     }
   ],
@@ -378,7 +465,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "back",
-      "backer_multiplier": "2.25",
+      "backer_multiplier": 2.25,
       "original_bet_amount": 1000,
     }
   ],
@@ -389,7 +476,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "lay",
-      "backer_multiplier": "5.25",
+      "backer_multiplier": 5.25,
       "original_bet_amount": 2000,
     }
   ],
@@ -400,7 +487,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "back",
-      "backer_multiplier": "1.75",
+      "backer_multiplier": 1.75,
       "original_bet_amount": 3000,
     }
   ],
@@ -411,7 +498,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.3",
       "back_or_lay": "lay",
-      "backer_multiplier": "2.60",
+      "backer_multiplier": 2.60,
       "original_bet_amount": 4000,
     }
   ],
@@ -422,7 +509,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "lay",
-      "backer_multiplier": "1.5",
+      "backer_multiplier": 1.5,
       "matched_bet_amount": 300,
     }
   ],
@@ -433,7 +520,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "lay",
-      "backer_multiplier": "1.5",
+      "backer_multiplier": 1.5,
       "matched_bet_amount": 700,
     }
   ],
@@ -444,7 +531,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "lay",
-      "backer_multiplier": "2.25",
+      "backer_multiplier": 2.25,
       "original_bet_amount": 1000,
     }
   ],
@@ -455,7 +542,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "back",
-      "backer_multiplier": "1.5",
+      "backer_multiplier": 1.5,
       "matched_bet_amount": 700,
     }
   ],
@@ -466,7 +553,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "back",
-      "backer_multiplier": "1.5",
+      "backer_multiplier": 1.5,
       "matched_bet_amount": 300,
     }
   ],
@@ -477,7 +564,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "back",
-      "backer_multiplier": "1.5",
+      "backer_multiplier": 1.5,
       "matched_bet_amount": 200,
     }
   ],
@@ -488,7 +575,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "back",
-      "backer_multiplier": "1.5",
+      "backer_multiplier": 1.5,
       "original_bet_amount": 20000,
     }
   ],
@@ -507,7 +594,7 @@ const listOfOperations = [
       "account_id": dummyAccountId,
       "betting_market_id": "1.105.1",
       "back_or_lay": "back",
-      "backer_multiplier": "1.25",
+      "backer_multiplier": 1.25,
       "original_bet_amount": 10000,
     }
   ]
@@ -517,8 +604,6 @@ const listOfOperations = [
 const dummyTransactionHistoryMaxIdInstanceNumber = listOfOperations.length + 100000;
 const dummyMaxBlockNum = listOfOperations.length * 3;
 const dummyMaxVirtualOpId = listOfOperations.length + 100000;
-
-
 
 /**
 * Function to generate history given the list of operations

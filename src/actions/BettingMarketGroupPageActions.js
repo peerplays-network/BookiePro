@@ -3,6 +3,7 @@ import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import EventActions from './EventActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
+import MarketDrawerActions from './MarketDrawerActions';
 import LiquidityActions from './LiquidityActions';
 import { resolveBettingMarketGroupDisplayName } from './dataUtils';
 import log from 'loglevel';
@@ -41,6 +42,9 @@ class BettingMarketGroupPageActions {
 
       // get related betting market group object
       dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds([bettingMktGrpId])).then((bettingMarketGroups) => {
+        // Get placed bets for market drawer
+        dispatch(MarketDrawerActions.getPlacedBets(bettingMktGrpId));
+
         const bettingMarketGroup = bettingMarketGroups.get(0);
         const bettingMarketIds = bettingMarketGroup.get('betting_market_ids');
         const eventId = bettingMarketGroup.get('event_id');
@@ -52,6 +56,7 @@ class BettingMarketGroupPageActions {
           dispatch(BettingMarketGroupPagePrivateActions.setWidgetTitle(resolveBettingMarketGroupDisplayName(bettingMarketGroup)))
         ]);
       }).then((result) => {
+
         const bettingMarkets = result[0];
         const bettingMarketIds = bettingMarkets.map( bettingMarket => bettingMarket.get('id'));
         // Get binned order books

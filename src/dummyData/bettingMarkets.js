@@ -74,7 +74,7 @@ const bettingMarkets = [
   {
     "id": "1.105.13",
     "betting_market_group_id": "1.104.7",
-    "payout_condition_string": "CAarolina Panthers",
+    "payout_condition_string": "Carolina Panthers",
     "bet_asset_type": "1.3.0"
   },
   {

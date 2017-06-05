@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 

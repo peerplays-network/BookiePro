@@ -13,8 +13,7 @@ class BettingMarketGroup extends Component {
     super(props);
     // Get the data
     this.props.getData(this.props.params.objectId);
-    // Filter the data from all ongoing bets
-    this.props.getPlacedBets(this.props.params.objectId);
+
   }
 
   componentWillReceiveProps(nextProps){
@@ -23,8 +22,7 @@ class BettingMarketGroup extends Component {
     if (nextBettingMarketGroupId !== prevBettingMarketGroupId){
       // Get the data
       this.props.getData(nextBettingMarketGroupId);
-      // Filter the data from all ongoing bets
-      this.props.getPlacedBets(nextBettingMarketGroupId);
+
     }
   }
 

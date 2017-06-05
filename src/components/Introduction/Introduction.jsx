@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Icon } from 'antd'
+import { Row, Col } from 'antd'
 import PrivacyModal from '../Modal/PrivacyModal'
 import { I18n, Translate } from 'react-redux-i18n';
 import logo from '../../assets/images/bookie_logo_login.png';
