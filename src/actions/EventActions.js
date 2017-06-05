@@ -192,14 +192,23 @@ class EventActions {
         const keywordLowerCase = keyword.toLowerCase();
 
         let isFound = false;
-        team1Name.split(' ').forEach( word => {
-          if ( word.toLowerCase().startsWith(keywordLowerCase)){
+
+        if ( team1Name.toLowerCase().startsWith(keywordLowerCase)){
+          isFound = true;
+        }
+
+        if ( team2Name.toLowerCase().startsWith(keywordLowerCase)){
+          isFound = true;
+        }
+
+        team1Name.toLowerCase().split(' ').forEach( word => {
+          if ( word.startsWith(keywordLowerCase)){
             isFound = true;
           }
         });
 
-        team2Name.split(' ').forEach( word => {
-          if ( word.toLowerCase().startsWith(keywordLowerCase)){
+        team2Name.toLowerCase().split(' ').forEach( word => {
+          if ( word.startsWith(keywordLowerCase)){
             isFound = true;
           }
         });
