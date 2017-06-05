@@ -1,15 +1,7 @@
 import Immutable from 'immutable';
 
-// Take an ongoing bet and return if it is a 100% unmatched bet
-const isUnmatchedBet = bet => bet.get('remaining_amount_to_bet') === bet.get('amount_to_bet')
-
-// Take an ongoing bet and return if it is a 100% matched bet
-const isMatchedBet = bet => bet.get('remaining_amount_to_bet') === 0
-
 /*
  * Transform the source bet object into a normalized form for the app
- * The function returns the matched (if available) and unmatched (if available)
- * portions of a bet separately.
  *
  * NOTE: Currently odds and stake are stored as number in dummy data
  *       Tney are converted to String here for easier comparsion with User Input
@@ -34,7 +26,7 @@ const transformUnmatchedBetObject = bet => {
     market_type_value: bet.get('market_type_value'),
   });
 
-  if (bet.get('bet_type') === 'back') {
+  if (result.get('bet_type') === 'back') {
     result = result.set('stake', bet.get('unmatched_bet_amount'));
   } else if (result.get('bet_type') === 'lay') {
     result = result.set('stake', (bet.get('backer_multiplier') - 1) * bet.get('unmatched_bet_amount'));
@@ -46,8 +38,6 @@ const transformUnmatchedBetObject = bet => {
 
 /*
  * Transform the source bet object into a normalized form for the app
- * The function returns the matched (if available) and unmatched (if available)
- * portions of a bet separately.
  *
  * NOTE: Currently odds and stake are stored as number in dummy data
  *       Tney are converted to String here for easier comparsion with User Input
@@ -71,8 +61,7 @@ const transformMatchedBetObject = bet => {
     market_type_id: bet.get('market_type_id'),
     market_type_value: bet.get('market_type_value'),
   });
-
-  if (bet.get('bet_type') === 'back') {
+  if (result.get('bet_type') === 'back') {
     result = result.set('stake', bet.get('matched_bet_amount'));
   } else if (result.get('bet_type') === 'lay') {
     result = result.set('stake', (bet.get('backer_multiplier') - 1) * bet.get('matched_bet_amount'));
@@ -82,8 +71,6 @@ const transformMatchedBetObject = bet => {
 }
 
 export {
-  isUnmatchedBet,
-  isMatchedBet,
   transformUnmatchedBetObject,
   transformMatchedBetObject,
 }

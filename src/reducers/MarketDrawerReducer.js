@@ -140,6 +140,7 @@ export default function(state = initialState, action) {
       // constantly modified on the fly (e.g. in the middle of an edit action)
       action.placedUnmatchedBets.forEach(bet => {
         let unmatchedBet = transformUnmatchedBetObject(bet);
+
         // store odds and stake values as String for easier comparison
         unmatchedBet = unmatchedBet
                          .update('odds', odds => CurrencyUtils.formatFieldByCurrencyAndPrecision('odds', odds, action.currencyFormat).toString())
@@ -151,7 +152,7 @@ export default function(state = initialState, action) {
                          .set('original_stake', unmatchedBet.get('stake').toString());
         unmatchedBets = unmatchedBets.push(unmatchedBet);
       });
-      action.placedUnmatchedBets.forEach(bet => {
+      action.placedMatchedBets.forEach(bet => {
         let matchedBet = transformMatchedBetObject(bet);
         matchedBet = matchedBet
                        .update('odds', odds => CurrencyUtils.formatFieldByCurrencyAndPrecision('odds', odds, action.currencyFormat).toString())
