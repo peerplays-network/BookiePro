@@ -221,11 +221,11 @@ class MarketDrawerActions {
       const placedUnmatchedBets = unmatchedBetsById.filter(bet => bettingMarketIds.includes(bet.get('betting_market_id'))).map(bet =>
         bet.set('market_type_id', bettingMarketGroup.get('market_type_id'))
            .set('market_type_value', resolveMarketTypeValue(bettingMarketGroup, bet.get('betting_market_id')))
-      );;
+      );
       const placedMatchedBets = matchedBetsById.filter(bet => bettingMarketIds.includes(bet.get('betting_market_id'))).map(bet =>
         bet.set('market_type_id', bettingMarketGroup.get('market_type_id'))
            .set('market_type_value', resolveMarketTypeValue(bettingMarketGroup, bet.get('betting_market_id')))
-      );;
+      );
 
       const account = getState().get('account');
       const accountId = account.getIn(['account','id']);
