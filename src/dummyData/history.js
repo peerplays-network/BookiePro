@@ -42,6 +42,16 @@ import _ from 'lodash';
 // - make partially matched bets/ fully matched bets on a particular betting market
 // - add BETTING_MARKET_RESOLVED with betting_market_id equal to the above partially matched bets/ fully matched bets
 // - since amount_paid of BETTING_MARKET_RESOLVED is used as it is (we don't need to do calculation on it), we can just put arbitary number here to make our life easier
+
+// To help the developers and QA on testing (especially for checking placed bets),
+// the following list lists the related dummy betting_market and betting_market_group specified in this dummy data
+// - betting_market 1.105.13 (betting_market group 1.104.7 Carolina Panthers vs Denver Broncos Moneyline)
+// - betting_market 1.105.5 (betting_market group 1.104.3 NY Giants vs Green Bay OverUnder 8)
+// - betting_market 1.105.4 (betting_market group 1.104.2 NY Giants vs Green Bay Spread 5)
+// - betting_market 1.105.3 (betting_market group 1.104.2 NY Giants vs Green Bay Spread 5)
+// - betting_market 1.105.1 (betting_market group 1.104.1 NY Giants vs Green Bay Moneyline)
+// - TODO: extend this list if listOfOperations is extended
+
 const dummyAccountId = Config.dummyDataAccountId;
 
 const listOfOperations = [
