@@ -20,11 +20,13 @@ class MatchedBets extends PureComponent {
           dimmed={ this.props.obscureContent }
           currencyFormat={ this.props.currencyFormat }
         />
-        <div className={ `controls ${this.props.obscureContent ? 'dimmed' : ''}` }>
-          <Checkbox onChange={ e => this.props.clickAverageOdds(e.target.checked) }>
-            { I18n.t('market_drawer.matched_bets.average_odds') }
-          </Checkbox>
-        </div>
+        { !this.props.bets.isEmpty() &&
+          <div className={ `controls ${this.props.obscureContent ? 'dimmed' : ''}` }>
+            <Checkbox onChange={ e => this.props.clickAverageOdds(e.target.checked) }>
+              { I18n.t('market_drawer.matched_bets.average_odds') }
+            </Checkbox>
+          </div>
+        }
       </div>
     )
   }
