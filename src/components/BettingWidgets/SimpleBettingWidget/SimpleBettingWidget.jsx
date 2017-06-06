@@ -25,6 +25,16 @@ const renderEventTime = (text, record) => {
   return eventTime.format('DD/MM/YYYY HH:mm');
 }
 
+const formatName = (name) => {
+  let formatted = (<span>{ name }</span>);
+  // REVIEW Ensure this is the actual agreed format
+  if (name.includes('vs')) {
+    const index = name.indexOf('vs');
+    formatted = (<span>{ name.substring(0, index+3) }<br/>{ name.substring(index+3) }</span>);
+  }
+  return formatted;
+}
+
 const getColumns = (renderOffer, navigateTo, currencyFormat) => ([
   {
     dataIndex: 'time',
@@ -38,7 +48,7 @@ const getColumns = (renderOffer, navigateTo, currencyFormat) => ([
     // Do not specify width so the column
     // will grow/shrink with the size of the table
     className: 'event-name',
-    render: (text, record) => record.get('event_name'),
+    render: (text, record) => formatName(record.get('event_name')),
     onCellClick: (record, event) => navigateTo('/exchange/bettingmarketgroup/' + record.get('moneyline'))
   }, {
     title: '1',
