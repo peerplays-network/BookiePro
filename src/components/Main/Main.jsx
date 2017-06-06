@@ -5,7 +5,7 @@ import InitAccountModal from '../Modal/InitAccountModal';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router'
-import { SidebarActions, AppActions } from '../../actions';
+import { NavigateActions, SidebarActions, AppActions, EventActions } from '../../actions';
 import { LoadingStatus } from '../../constants';
 const { Content } = Layout;
 
@@ -14,6 +14,8 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.onRouteChange = this.onRouteChange.bind(this);
+    this.handleNavigateToHome = this.handleNavigateToHome.bind(this);
+
   }
 
   componentDidMount() {
@@ -21,11 +23,6 @@ class Main extends Component {
     this.props.getDataForSidebar();
     // Change title bar color to solid
     this.props.setTitleBarTransparency(false);
-    // this._navBar.navigateTo('/exchange')
-
-    // this._navBar.onRouteChangeHandle();
-    //http://andrewhfarmer.com/component-communication/
-    // console.log( this._navBar)
   }
 
   componentWillUnmount() {
@@ -33,25 +30,24 @@ class Main extends Component {
     this.props.setTitleBarTransparency(true);
   }
 
+  //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
+  handleNavigateToHome() {
+    this.props.navigateTo('/exchange');
+  }
+
   onRouteChange(){
-     console.log('onRouteChange')
-    //  console.log(this.refs.navBarRef);
-    // this._navBar.forceUpdate()
-    console.log(this._navBar)
-    // this._navBar.navigateTo('/exchange')
-
-
-    //  this._navBar.onRouteChangeHandle();
+     this._navBar.onRouteChangeHandle();
   }
 
   render() {
     return (
       <Layout className='layout'>
-        <NavBar ref={ (ref) => this._navBar = ref } sss='sss' onRouteChange={ this.onRouteChange }/>
-
+        <NavBar
+          ref={ (ref) => this._navBar = ref }
+          { ...this.props }
+        />
         <Layout>
           <Content className='main-content'>
-            {/* { this.props.children } */}
             {React.cloneElement(this.props.children, {
               onRouteChange: this.onRouteChange
             })}
@@ -68,14 +64,24 @@ class Main extends Component {
 const mapStateToProps = (state) => {
   const initTransactionHistoryLoadingStatus = state.getIn(['rawHistory', 'initRawHistoryLoadingStatus']);
   const isInitAccountModalVisible = initTransactionHistoryLoadingStatus === LoadingStatus.LOADING;
+
+  const sidebar = state.get('sidebar');
+  const event = state.get('event');
+
   return {
-    isInitAccountModalVisible
+    isInitAccountModalVisible,
+    completeTree: sidebar.get('complete_tree'),
+    searchResult: event.get('searchResult'),
+    getSearchEventsLoadingStatus: event.get('getSearchEventsLoadingStatus'),
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
+    navigateTo: NavigateActions.navigateTo,
     getDataForSidebar : SidebarActions.getData,
-    setTitleBarTransparency: AppActions.setTitleBarTransparency
+    setTitleBarTransparency: AppActions.setTitleBarTransparency,
+    searchEvents: EventActions.searchEvents,
+    clearSearchResult: EventActions.clearSearchResult
   }, dispatch);
 }
 

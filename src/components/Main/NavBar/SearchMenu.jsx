@@ -6,9 +6,6 @@ import 'react-select/dist/react-select.css';
 import PropTypes from 'prop-types';
 import './SearchMenu.less';
 import { I18n } from 'react-redux-i18n';
-import { NavigateActions, EventActions } from '../../../actions';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux'
 import Immutable from 'immutable';
 import { findKeyPathOf } from '../../../utility/TreeUtils'
 import { LoadingStatus } from '../../../constants';
@@ -53,6 +50,11 @@ class SearchMenu extends Component {
     this.onChange = this.onChange.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.filterOptions = this.filterOptions.bind(this);
+    this.onRouteChangeHandle = this.onRouteChangeHandle.bind(this);
+  }
+
+  onRouteChangeHandle(){
+    console.log( ' seach menu on rough change')
   }
 
   onInputChange(searchText) {
@@ -195,25 +197,4 @@ SearchMenu.propTypes = {
   label: PropTypes.string,
 };
 
-const mapStateToProps = (state) => {
-  const sidebar = state.get('sidebar');
-  const event = state.get('event');
-  return {
-    completeTree: sidebar.get('complete_tree'),
-    searchResult: event.get('searchResult'),
-    getSearchEventsLoadingStatus: event.get('getSearchEventsLoadingStatus'),
-  };
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    navigateTo: NavigateActions.navigateTo,
-    searchEvents: EventActions.searchEvents,
-    clearSearchResult: EventActions.clearSearchResult
-  }, dispatch);
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SearchMenu);
+export default SearchMenu
