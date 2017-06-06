@@ -101,7 +101,6 @@ class TimeRangePicker extends PureComponent {
   render() {
     const disableButton = (this.state.periodType === TimeRangePeriodTypes.CUSTOM)
                             && (!this.state.customTimeRangeStartDate || !this.state.customTimeRangeEndDate);
-    const disableExportButton = disableButton || this.props.searchResultsCount === 0 || this.state.disableExportButton
     return (
       <div className='filter'>
         <div className='ant-form-inline'>
@@ -126,8 +125,8 @@ class TimeRangePicker extends PureComponent {
               </button>
               <button
                 className={ 'btn ' +
-                  (disableExportButton ? 'btn-regular-disabled':' btn-regular') + ' margin-left-10' }
-                  disabled={ disableExportButton }
+                  (disableButton ? 'btn-regular-disabled':' btn-regular') + ' margin-left-10' }
+                  disabled={ disableButton }
                 onClick={ this.onExportClick }>
                 { I18n.t('application.export') }
               </button>

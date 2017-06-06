@@ -12,6 +12,7 @@ const { mergeRelationData, mergeBettingMarketGroup } = MergeObjectUtils;
 
 const {
   getBettingMarketGroupsById,
+  getBettingMarketsById,
   getEventsById,
   getSportsById,
   getAssetsById,
@@ -63,42 +64,6 @@ const endDate = createSelector(
      }
    }
  )
-
-
-const getResolvedBetsPeriodType = (state) => state.getIn(['mywager', 'periodType']);
-const getResolvedBetsCustomTimeRangeStartDate = (state) => state.getIn(['mywager', 'customTimeRangeStartDate']);
-const getResolvedBetsCustomTimeRangeEndDate = (state) => state.getIn(['mywager', 'customTimeRangeEndDate']);
-
-const startDate = createSelector(
-  [
-    getResolvedBetsPeriodType,
-    getResolvedBetsCustomTimeRangeStartDate
-  ],
-   (periodType, customTimeRangeStartDate) => {
-     if (periodType === TimeRangePeriodTypes.CUSTOM) {
-       return customTimeRangeStartDate;
-     } else {
-       const timeRange = DateUtils.getTimeRangeGivenTimeRangePeriodType(periodType);
-       return timeRange.startDate;
-     }
-   }
- )
-
-const endDate = createSelector(
-  [
-    getResolvedBetsPeriodType,
-    getResolvedBetsCustomTimeRangeEndDate
-  ],
-   (periodType, customTimeRangeEndDate) => {
-     if (periodType === TimeRangePeriodTypes.CUSTOM) {
-       return customTimeRangeEndDate;
-     } else {
-       const timeRange = DateUtils.getTimeRangeGivenTimeRangePeriodType(periodType);
-       return timeRange.endDate;
-     }
-   }
- )
-
 
 const getStoreFieldName = (state) => {
   switch (activeTab(state)) {
@@ -165,7 +130,7 @@ const betData = createSelector(
 
 //memoized selector - function for merging bettingMarketData to betData and return merged data
 const mergeBettingMarketData = createSelector(
-  [betData, bettingMarketData],
+  [betData, getBettingMarketsById],
   (bets, betMarket)=>{
     return mergeRelationData(bets, betMarket, 'betting_market_id',
       {betting_market_group_id: 'betting_market_group_id' , payout_condition_string: 'payout_condition_string'});

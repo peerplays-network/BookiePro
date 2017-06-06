@@ -17,8 +17,10 @@ export const translationsObject = {
       download: 'Download',
       exportDataFetchMsg: 'Please wait while we are processing your request',
       exportDataReadyMsg: 'Your exported file is ready! Please download the exported file now.',
+      exportNoDataMsg: 'No data to be exported',
       exportLoadingHeader: 'Exporting to .Xlsx',
       exportDownloadHeader: 'Export Completed',
+      exportNoDataHeader: 'No data',
       exportStatusHeader: 'Export Failed',
       close: 'Close'
     },

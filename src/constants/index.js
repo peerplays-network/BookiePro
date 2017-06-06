@@ -10,6 +10,7 @@ import TimeRangePeriodTypes from './TimeRangePeriodTypes';
 import DummyOperationTypes from './DummyOperationTypes';
 import AppBackgroundTypes from './AppBackgroundTypes';
 import MyWagerTabTypes from './MyWagerTabTypes';
+import ExportTypes from './ExportTypes';
 
 export {
   Config,
@@ -23,5 +24,6 @@ export {
   DummyOperationTypes,
   AppBackgroundTypes,
   MyWagerTabTypes,
-  ObjectPrefix
+  ExportTypes,
+  ObjectPrefix,
 }

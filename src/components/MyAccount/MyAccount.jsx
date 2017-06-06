@@ -26,20 +26,16 @@ class MyAccount extends PureComponent {
     super(props);
 
     this.state = {
-      //Show/Hide date fields based on 'Period' selection
       withdrawAmount:'',
-      exportButtonClicked: false
     }
 
-    // this.fetchRecentTransactionHistory = this.fetchRecentTransactionHistory.bind(this);
     this.handleCurrFormatChange = this.handleCurrFormatChange.bind(this);
     this.handleNotificationChange = this.handleNotificationChange.bind(this);
     this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
 
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.handleExportClick = this.handleExportClick.bind(this);
-    this.handleExportFinishDownload = this.handleExportFinishDownload.bind(this);
-    this.handleExportCancel = this.handleExportCancel.bind(this);
+    this.handleResetExport = this.handleResetExport.bind(this);
 
     this.renderSettingCard = this.renderSettingCard.bind(this);
     this.handleDownloadPasswordFile = this.handleDownloadPasswordFile.bind(this);
@@ -60,20 +56,15 @@ class MyAccount extends PureComponent {
 
   //Export transaction history
   handleExportClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
+    // First set the history time range, so the search result is re-filtered
+    this.props.setHistoryTimeRange(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
+    // Then generate export data
     this.props.generateTransactionHistoryExportData(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
-    //To show export related status after the 'Export' button is clicked
-    this.setState({ exportButtonClicked: true });
   }
 
-  handleExportFinishDownload() {
+  handleResetExport() {
     // Reset
     this.props.resetTransactionHistoryExportData();
-  }
-
-  //Cancel transaction history export - Resetting it's loading status to 'default'
-  handleExportCancel(){
-    this.props.resetTransactionHistoryExportData();
-    this.setState({ exportButtonClicked: false });
   }
 
   handleNotificationChange(value) {
@@ -123,71 +114,6 @@ class MyAccount extends PureComponent {
                     onChange={ this.handleNotificationChange }/>
           </Col>
         </Row>
-        {/*<Row className='margin-tb-15'>*/}
-          {/*<Col span={ 18 }>*/}
-            {/*<p*/}
-              {/*className='padding-tb-5'> { I18n.t('myAccount.time_zone') }</p>*/}
-          {/*</Col>*/}
-          {/*<Col span={ 6 }>*/}
-            {/*<div ref='global_object'>*/}
-              {/*<Select*/}
-                {/*className='bookie-select'*/}
-                {/*defaultValue={ this.props.timezone }*/}
-                {/*onChange={ this.handleTimeZoneChange }>*/}
-                {/*<Option*/}
-                  {/*value='UTC-12:00'>{ I18n.t('myAccount.UTC_12') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-11:00'>{ I18n.t('myAccount.UTC_11') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-10:00'>{ I18n.t('myAccount.UTC_10') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-09:00'>{ I18n.t('myAccount.UTC_9') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-08:00'>{ I18n.t('myAccount.UTC_8') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-07:00'>{ I18n.t('myAccount.UTC_7') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-06:00'>{ I18n.t('myAccount.UTC_6') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-05:00'>{ I18n.t('myAccount.UTC_5') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-04:00'>{ I18n.t('myAccount.UTC_4') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-03:00'>{ I18n.t('myAccount.UTC_3') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-02:00'>{ I18n.t('myAccount.UTC_2') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC-01:00'>{ I18n.t('myAccount.UTC_1') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+00:00'>{ I18n.t('myAccount.UTC0') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+01:00'>{ I18n.t('myAccount.UTC1') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+02:00'>{ I18n.t('myAccount.UTC2') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+03:00'>{ I18n.t('myAccount.UTC3') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+04:00'>{ I18n.t('myAccount.UTC4') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+05:00'>{ I18n.t('myAccount.UTC5') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+06:00'>{ I18n.t('myAccount.UTC6') }0</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+07:00'>{ I18n.t('myAccount.UTC7') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+08:00'>{ I18n.t('myAccount.UTC8') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+09:00'>{ I18n.t('myAccount.UTC9') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+10:00'>{ I18n.t('myAccount.UTC10') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+11:00'>{ I18n.t('myAccount.UTC11') }</Option>*/}
-                {/*<Option*/}
-                  {/*value='UTC+12:00'>{ I18n.t('myAccount.UTC12') }</Option>*/}
-              {/*</Select>*/}
-            {/*</div>*/}
-          {/*</Col>*/}
-        {/*</Row>*/}
         <Row className='margin-tb-25'>
           <Col span={ 18 }>
             <p
@@ -254,17 +180,15 @@ class MyAccount extends PureComponent {
         </Row>
         <Row>
           <TransactionHistory
-             transactionHistory={ this.props.transactionHistory }
-             transactionHistoryLoadingStatus={ this.props.transactionHistoryLoadingStatus }
-             transactionHistoryExportData={ this.props.transactionHistoryExportData }
-             generateTransactionHistoryExportDataLoadingStatus={ this.props.generateTransactionHistoryExportDataLoadingStatus }
-             exportButtonClicked={ this.state.exportButtonClicked }
-             handleExportFinishDownload={ this.handleExportFinishDownload }
-             handleSearchClick={ this.handleSearchClick }
-             handleExportClick={ this.handleExportClick }
              currencyFormat={ this.props.currencyFormat }
              lastIrreversibleBlockNum={ this.props.lastIrreversibleBlockNum }
-             resetExport={ this.handleExportCancel }
+             transactionHistory={ this.props.transactionHistory }
+             transactionHistoryLoadingStatus={ this.props.transactionHistoryLoadingStatus }
+             handleSearchClick={ this.handleSearchClick }
+             handleExportClick={ this.handleExportClick }
+             exportData={ this.props.transactionHistoryExportData }
+             exportLoadingStatus={ this.props.generateTransactionHistoryExportDataLoadingStatus }
+             handleResetExport={ this.handleResetExport }
            />
         </Row>
       </div>
