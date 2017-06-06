@@ -4,12 +4,12 @@ import { createSelector } from 'reselect';
 import _ from 'lodash';
 import { Map } from 'immutable';
 import moment from 'moment';
-import { CurrencyUtils, BettingModuleUtils, DateUtils, MergeObjectUtils, ObjectUtils } from '../utility';
+import { CurrencyUtils, BettingModuleUtils, DateUtils, MyWagerUtils, ObjectUtils } from '../utility';
 import { TimeRangePeriodTypes, MyWagerTabTypes } from '../constants';
 import CommonSelector from './CommonSelector';
 import Immutable from 'immutable';
 
-const { mergeRelationData, mergeBettingMarketGroup } = MergeObjectUtils;
+const { mergeRelationData, mergeBettingMarketGroup } = MyWagerUtils;
 const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
 
 const {
