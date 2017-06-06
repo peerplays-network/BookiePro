@@ -1,6 +1,6 @@
 import Immutable, { Map } from 'immutable';
 import { WalletService, HistoryService } from '../services';
-import { LoadingStatus, ActionTypes, Config } from '../constants';
+import { LoadingStatus, ActionTypes } from '../constants';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import EventActions from './EventActions';
