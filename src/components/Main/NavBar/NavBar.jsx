@@ -14,11 +14,19 @@ class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.handleNavigateToHome = this.handleNavigateToHome.bind(this);
+    this.onRouteChangeHandle = this.onRouteChangeHandle.bind(this);
   }
 
   //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
   handleNavigateToHome() {
     this.props.navigateTo('/exchange');
+  }
+
+  onRouteChangeHandle(){
+    console.log ( ' nav bar onroute change');
+  }
+  blur = () => {
+    console.log ( ' nav bar onroute change');
   }
 
   render(){
@@ -27,7 +35,7 @@ class NavBar extends React.Component {
         <div className='logo' onClick={ this.handleNavigateToHome }>
           <img alt='logo' src={ logo } />
         </div>
-        <SearchMenu />
+        <SearchMenu/>
         <TopMenu />
       </Header>
     )

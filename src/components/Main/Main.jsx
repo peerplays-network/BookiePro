@@ -11,11 +11,21 @@ const { Content } = Layout;
 
 class Main extends Component {
 
+  constructor(props) {
+    super(props);
+    this.onRouteChange = this.onRouteChange.bind(this);
+  }
+
   componentDidMount() {
     // Get sidebar data
     this.props.getDataForSidebar();
     // Change title bar color to solid
     this.props.setTitleBarTransparency(false);
+    // this._navBar.navigateTo('/exchange')
+
+    // this._navBar.onRouteChangeHandle();
+    //http://andrewhfarmer.com/component-communication/
+    // console.log( this._navBar)
   }
 
   componentWillUnmount() {
@@ -23,19 +33,36 @@ class Main extends Component {
     this.props.setTitleBarTransparency(true);
   }
 
+  onRouteChange(){
+     console.log('onRouteChange')
+    //  console.log(this.refs.navBarRef);
+    // this._navBar.forceUpdate()
+    console.log(this._navBar)
+    // this._navBar.navigateTo('/exchange')
+
+
+    //  this._navBar.onRouteChangeHandle();
+  }
+
   render() {
     return (
       <Layout className='layout'>
-        <NavBar />
+        <NavBar ref={ (ref) => this._navBar = ref } sss='sss' onRouteChange={ this.onRouteChange }/>
+
         <Layout>
           <Content className='main-content'>
-            { this.props.children }
+            {/* { this.props.children } */}
+            {React.cloneElement(this.props.children, {
+              onRouteChange: this.onRouteChange
+            })}
           </Content>
         </Layout>
         <InitAccountModal visible={ this.props.isInitAccountModalVisible } />
       </Layout>
     )
   }
+
+
 }
 
 const mapStateToProps = (state) => {
