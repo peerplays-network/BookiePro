@@ -75,7 +75,6 @@ class Exchange extends Component {
   }
 
   routerWillLeave(nextLocation){
-    this.props.onRouteChange();
 
     this.setState({
       nextLocation: nextLocation
@@ -88,6 +87,8 @@ class Exchange extends Component {
       // DO NOT remove
       // We still need to gracefully "leave" the page and reset the drawer
       this.handleLeave();
+      // Notify Search Menu(i.e. react-select) to remove focus
+      this.props.onRouteChange();
 
       return true;
     }
