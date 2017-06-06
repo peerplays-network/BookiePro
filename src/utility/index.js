@@ -13,6 +13,7 @@ import FileSaverUtils from './FileSaverUtils';
 import EventNameUtils from './EventNameUtils';
 import MergeObjectUtils from './MergeObjectUtils';
 import ObjectUtils from './ObjectUtils';
+import MyWagerUtils from './MyWagerUtils';
 
 export {
   AppUtils,
@@ -29,5 +30,6 @@ export {
   FileSaverUtils,
   EventNameUtils,
   MergeObjectUtils,
+  MyWagerUtils,
   ObjectUtils
 };

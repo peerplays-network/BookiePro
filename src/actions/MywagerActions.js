@@ -1,8 +1,9 @@
 import { ActionTypes, LoadingStatus, TimeRangePeriodTypes } from '../constants';
-import { CurrencyUtils, DateUtils, BettingModuleUtils, MergeObjectUtils, ObjectUtils } from '../utility';
+import { CurrencyUtils, DateUtils, BettingModuleUtils, MergeObjectUtils, ObjectUtils, MyWagerUtils } from '../utility';
 import moment from 'moment';
 import Immutable from 'immutable';
 const { mergeRelationData, mergeBettingMarketGroup } = MergeObjectUtils;
+const { getResolvedBetsColumns } = MyWagerUtils;
 const { getStakeFromBetObject } = ObjectUtils;
 
 const getFormattedDate = DateUtils.getFormattedDate;
@@ -61,7 +62,7 @@ class MywagerActions {
     }
   }
 
-  static generateResolvedBetsExportData(columns) {
+  static generateResolvedBetsExportData() {
     return (dispatch, getState) => {
       const accountId = getState().getIn(['account', 'account', 'id']);
       if (accountId) {
@@ -131,6 +132,7 @@ class MywagerActions {
           2. Sequence of properties in Object as per column configuration
           3. Removing unwanted columns from export data
         */
+        const columns = getResolvedBetsColumns(currencyFormat);
         exportData.forEach((row, index) => {
           row = row.merge({
             'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),

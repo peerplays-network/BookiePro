@@ -5,28 +5,38 @@ import './MyWager.less';
 import { I18n } from 'react-redux-i18n';
 import Export from '../Export';
 import TimeRangePicker from '../TimeRangePicker';
+import { MyWagerUtils, CurrencyUtils } from '../../utility';
+import { List } from 'immutable';
+import PropTypes from 'prop-types';
 
 class ResolvedBets extends PureComponent {
 
   constructor(props) {
     super(props);
+
+    const { resolvedBets, currencyFormat } = props;
     this.state = {
-      tableData: this.props.resolvedBets.toJS()
+      tableData: resolvedBets.toJS(),
+      columns: MyWagerUtils.getResolvedBetsColumns(currencyFormat)
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.resolvedBets !== nextProps.resolvedBets) {
-      // Update table data if transaction history is updated
+      // Update table data if resolved bets is updated
       this.setState({
         tableData: nextProps.resolvedBets.toJS()
+      })
+    }
+    if (this.props.currencyFormat !== nextProps.currencyFormat) {
+      this.setState({
+        columns: MyWagerUtils.getResolvedBetsColumns(nextProps.currencyFormat)
       })
     }
   }
 
   render() {
     const {
-      columns,
       resolvedBetsLoadingStatus,
       currencyFormat,
       betsTotal,
@@ -37,12 +47,14 @@ class ResolvedBets extends PureComponent {
       handleResetExport
     } = this.props;
 
+    const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
+
     return (
       <div className='table-card'>
         <div>
           <div className='filterComponent clearfix'>
             <div className='float-left'>
-              <p className='card-title'>{ I18n.t('mybets.total') } : <span>{ currencyFormat + (betsTotal ? betsTotal : 0) }</span> </p>
+              <p className='card-title'>{ I18n.t('mybets.total') } : <span>{ currencySymbol + (betsTotal ? betsTotal : 0) }</span> </p>
             </div>
             <div className='float-right'>
               <TimeRangePicker
@@ -52,9 +64,9 @@ class ResolvedBets extends PureComponent {
             </div>
           </div>
           <Table pagination={ { pageSize: 20 } }
-            locale={ { emptyText: ( this.state.tableData && this.state.tableData.length === 0 &&
+            locale={ { emptyText: ( this.state.tableData.length === 0 &&
               resolvedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : resolvedBetsLoadingStatus )} }
-            className='bookie-table' dataSource={ this.state.tableData } columns={ columns }/>
+            className='bookie-table' dataSource={ this.state.tableData } columns={ this.state.columns }/>
         </div>
         <Export
           type={ ExportTypes.RESOLVED_BETS }
@@ -65,6 +77,10 @@ class ResolvedBets extends PureComponent {
       </div>
     )
   }
+}
+
+ResolvedBets.propTypes = {
+  resolvedBets: PropTypes.instanceOf(List).isRequired
 }
 
 export default ResolvedBets;

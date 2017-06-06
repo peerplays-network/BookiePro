@@ -8,8 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
 import { List, Map } from 'immutable';
-import { I18n, Translate } from 'react-redux-i18n';
-import { CurrencyUtils } from '../../utility';
+import { I18n } from 'react-redux-i18n';
 import { MyWagerSelector } from '../../selectors';
 import { MyWagerTabTypes } from '../../constants';
 
@@ -107,20 +106,25 @@ class MyWager extends PureComponent {
 
         <Tabs className='content bookie-tab' defaultActiveKey={ MyWagerTabTypes.UNMATCHED_BETS } onChange={ this.onTabChange }>
           <TabPane tab={ I18n.t('mybets.unmatched_bets') } key={ MyWagerTabTypes.UNMATCHED_BETS }>
-            <UnmatchedBets columns={ this.props.betsColumns } unmatchedBets={ this.props.betsData }
+            <UnmatchedBets
+              unmatchedBets={ this.props.betsData }
               unmatchedBetsLoadingStatus={ this.props.betsLoadingStatus }
-              currencyFormat={ this.props.betsCurrencyFormat } betsTotal={ this.props.betsTotal }
-              cancelBet={ this.cancelBet } cancelAllBets={ this.cancelAllBets }
-              onEventClick={ this.handleUnmatchedEventClick }/>
+              onEventClick={ this.handleUnmatchedEventClick }
+              currencyFormat={ this.props.betsCurrencyFormat }
+              betsTotal={ this.props.betsTotal }
+              onCancelBetClick={ this.cancelBet }
+              onCancelAllBetsClick={ this.cancelAllBets }
+            />
           </TabPane>
           <TabPane tab={ I18n.t('mybets.matched_bets') } key={ MyWagerTabTypes.MATCHED_BETS }>
-            <MatchedBets columns={ this.props.betsColumns } matchedBets={ this.props.betsData }
+            <MatchedBets
+              matchedBets={ this.props.betsData }
               matchedBetsLoadingStatus={ this.props.betsLoadingStatus }
-              currencyFormat={ this.props.betsCurrencyFormat } betsTotal={ this.props.betsTotal }/>
+              currencyFormat={ this.props.betsCurrencyFormat }
+              betsTotal={ this.props.betsTotal }/>
           </TabPane>
           <TabPane tab={ I18n.t('mybets.resolved_bets') } key={ MyWagerTabTypes.RESOLVED_BETS }>
             <ResolvedBets
-              columns={ this.props.betsColumns }
               resolvedBets={ this.props.betsData }
               resolvedBetsLoadingStatus={ this.props.betsLoadingStatus }
               currencyFormat={ this.props.betsCurrencyFormat }
@@ -130,7 +134,6 @@ class MyWager extends PureComponent {
               exportData={ this.props.resolvedBetsExportData }
               exportLoadingStatus={ this.props.resolvedBetsExportLoadingStatus }
               handleResetExport={ this.handleResetExport }
-
             />
           </TabPane>
         </Tabs>
@@ -140,52 +143,10 @@ class MyWager extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  let currencyVal = '(' + CurrencyUtils.getCurruencySymbol(getCurrencyFormat(state)) + ')';
-  let profit_liability  = state.getIn(['mywager','activeTab']) === MyWagerTabTypes.RESOLVED_BETS ?
-    I18n.t('mybets.profit') + currencyVal : <Translate value='mybets.profit_liability' currency={ currencyVal } dangerousHTML/> ;
-  const columns = [
-    {
-      title: (state.getIn(['mywager','activeTab']) === MyWagerTabTypes.RESOLVED_BETS ? I18n.t('resolved_time') : I18n.t('mybets.event_time') ),
-      dataIndex: (state.getIn(['mywager','activeTab']) === MyWagerTabTypes.RESOLVED_BETS ? 'resolved_time' : 'event_time'),
-      key: (state.getIn(['mywager','activeTab']) === MyWagerTabTypes.RESOLVED_BETS ? 'resolved_time' : 'event_time'),
-    },
-    {
-      title: I18n.t('mybets.event'),
-      dataIndex: 'event_name',
-      key: 'event_name',
-    },
-    {
-      title: I18n.t('mybets.type'),
-      dataIndex: 'type',
-      key: 'type',
-    },
-    {
-      title: I18n.t('mybets.sport'),
-      dataIndex: 'sport_name',
-      key: 'sport_name',
-    },
-    {
-      title: I18n.t('mybets.odds'),
-      dataIndex: 'odds',
-      key: 'odds',
-    },
-    {
-      title: I18n.t('mybets.stake') + '(' + CurrencyUtils.getCurruencySymbol(getCurrencyFormat(state)) + ')',
-      dataIndex: 'stake',
-      key: 'stake',
-    },
-    {
-      title: profit_liability,
-      dataIndex: 'profit_liability',
-      key: 'profit_liability'
-    }
-  ];
-
   return {
-    betsColumns: columns,
     betsData: getBetData(state),
-    betsLoadingStatus: getBetsLoadingStatus,
-    betsCurrencyFormat: CurrencyUtils.getCurruencySymbol(getCurrencyFormat(state)),
+    betsLoadingStatus: getBetsLoadingStatus(state),
+    betsCurrencyFormat: getCurrencyFormat(state),
     targetCurrency: getCurrencyFormat(state),
     betsTotal: getBetTotal(state),
     resolvedBetsExportData: state.getIn(['mywager','resolvedBetsExportData']),
@@ -200,7 +161,8 @@ function mapDispatchToProps(dispatch){
     resetResolvedBetsExportDataAction: MywagerActions.resetResolvedBetsExportDataAction,
     cancelBets: BetActions.cancelBets,
     setActiveTab: MywagerActions.setMywagerActiveTab,
-    setResolvedBetsTimeRange: MywagerActions.setResolvedBetsTimeRangeAction
+    setResolvedBetsTimeRange: MywagerActions.setResolvedBetsTimeRangeAction,
+    resetTimeRange: MywagerActions.resetTimeRange
   }, dispatch);
 }
 
