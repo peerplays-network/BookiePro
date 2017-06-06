@@ -3,19 +3,12 @@ import './Sport.less';
 
 class Sport extends Component {
   render() {
+    const { id, onClick, data, name } = this.props;
     return (
-      <div className='sport-node-container'
-        key={ this.props.id }
-        onClick={ this.props.onClick  } >
-        { this.props.data.isSelected ?
-          <div className='sport-label-container-selected'>
-            <label> { this.props.name } </label>
-          </div>
-          :
-          <div className='sport-label-container'>
-            <label> { this.props.name } </label>
-          </div>
-         }
+      <div className='sport-node-container' key={ id } onClick={ onClick  }>
+        <div className={ `sport-label-container${data.isSelected ? '-selected' : ''}` }>
+          <label>{ name }</label>
+        </div>
       </div>
     );
   }
