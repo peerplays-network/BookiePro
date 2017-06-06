@@ -1,9 +1,9 @@
-import { ActionTypes, LoadingStatus, TimeRangePeriodTypes, MyWagerTabTypes } from '../constants';
-import { CurrencyUtils, DateUtils, BettingModuleUtils, MergeObjectUtils } from '../utility';
+import { ActionTypes, LoadingStatus, TimeRangePeriodTypes } from '../constants';
+import { CurrencyUtils, DateUtils, BettingModuleUtils, MergeObjectUtils, ObjectUtils } from '../utility';
 import moment from 'moment';
 import Immutable from 'immutable';
 const { mergeRelationData, mergeBettingMarketGroup } = MergeObjectUtils;
-import { getStake } from '../selectors/MyWagerSelector';
+const { getStakeFromBetObject } = ObjectUtils;
 
 const getFormattedDate = DateUtils.getFormattedDate;
 class MywagerPrivateActions {
@@ -100,7 +100,7 @@ class MywagerActions {
             'betting_market_id': bet.get('betting_market_id'),
             'back_or_lay': bet.get('back_or_lay'),
             // TODO: use betcategories instead of MyWagerTabTypes to avoid confusion
-            'stake': CurrencyUtils.getFormattedCurrency(getStake(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
+            'stake': CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
             'odds': bet.get('backer_multiplier'),
             'profit_liability': CurrencyUtils.getFormattedCurrency(bet.get('amount_won')/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces),
             'resolved_time': getFormattedDate(bet.get('resolved_time'))

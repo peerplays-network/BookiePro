@@ -9,10 +9,10 @@ import { AuthActions, BalanceActions, NotificationActions, NavigateActions, AppA
 import { NotificationTypes } from '../../../constants';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import { CurrencyUtils, BettingModuleUtils } from '../../../utility';
+import { CurrencyUtils, BettingModuleUtils, ObjectUtils } from '../../../utility';
 import { createSelector } from 'reselect';
 import { initialize } from 'redux-form';
-import { getStake } from '../../../selectors/MyWagerSelector';
+const { getStakeFromBetObject } = ObjectUtils;
 
 class TopMenu extends Component {
   constructor(props) {
@@ -245,11 +245,10 @@ const mapStateToProps = (state) => {
   state.getIn(['bet','unmatchedBetsById'])
   .filter(row => !state.getIn(['bet','cancelBetsByIdsLoadingStatus']).get(row.get('id')))
   .forEach(row => {
-    inGameAmount += getStake(row);
+    inGameAmount += getStakeFromBetObject(row);
   });
   state.getIn(['bet','matchedBetsById']).forEach(row => {
-      // TODO: use betcategories instead of MyWagerTabTypes to avoid confusion
-    inGameAmount += getStake(row);
+    inGameAmount += getStakeFromBetObject(row);
   });
   inGameAmount = CurrencyUtils.getFormattedCurrency(inGameAmount/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.stakePlaces)
 

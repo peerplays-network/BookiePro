@@ -12,6 +12,7 @@ import SoftwareUpdateUtils from './SoftwareUpdateUtils';
 import FileSaverUtils from './FileSaverUtils';
 import EventNameUtils from './EventNameUtils';
 import MergeObjectUtils from './MergeObjectUtils';
+import ObjectUtils from './ObjectUtils';
 
 export {
   AppUtils,
@@ -28,4 +29,5 @@ export {
   FileSaverUtils,
   EventNameUtils,
   MergeObjectUtils,
+  ObjectUtils
 };

@@ -4,12 +4,13 @@ import { createSelector } from 'reselect';
 import _ from 'lodash';
 import { Map } from 'immutable';
 import moment from 'moment';
-import { CurrencyUtils, BettingModuleUtils, DateUtils, MergeObjectUtils } from '../utility';
-import { TimeRangePeriodTypes, MyWagerTabTypes, BetCategories } from '../constants';
+import { CurrencyUtils, BettingModuleUtils, DateUtils, MergeObjectUtils, ObjectUtils } from '../utility';
+import { TimeRangePeriodTypes, MyWagerTabTypes } from '../constants';
 import CommonSelector from './CommonSelector';
 import Immutable from 'immutable';
 
 const { mergeRelationData, mergeBettingMarketGroup } = MergeObjectUtils;
+const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
 
 const {
   getBettingMarketGroupsById,
@@ -77,26 +78,6 @@ const getStoreFieldName = (state) => {
   }
 }
 
-export const getStake = function(bet){
-  let betAmount = (bet.get('category') === BetCategories.UNMATCHED_BET ? bet.get('unmatched_bet_amount') : bet.get('matched_bet_amount'));
-  switch (bet.get('back_or_lay').toUpperCase()) {
-    case 'BACK':
-      return betAmount;
-    default:
-      return betAmount * (bet.get('backer_multiplier') - 1);
-  }
-};
-
-const getProfitLiability = function(bet){
-  let betAmount = (bet.get('category') === BetCategories.UNMATCHED_BET ? bet.get('unmatched_bet_amount') : bet.get('matched_bet_amount'));
-  switch (bet.get('back_or_lay').toUpperCase()) {
-    case 'BACK':
-      return betAmount / (bet.get('backer_multiplier') - 1);
-    default:
-      return betAmount;
-  }
-};
-
 //function to get rowdata on the basis of activeTab
 const rowData = (state) => state.getIn(['bet', getStoreFieldName(state)])
   .filter(row => (activeTab(state) !== MyWagerTabTypes.UNMATCHED_BETS || !state.getIn(['bet','cancelBetsByIdsLoadingStatus']).get(row.get('id'))));
@@ -112,15 +93,15 @@ const betData = createSelector(
           id: bet.get('id'),
           'betting_market_id': bet.get('betting_market_id'),
           'back_or_lay': bet.get('back_or_lay').toUpperCase(),
-          'stake': CurrencyUtils.getFormattedCurrency(getStake(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
+          'stake': CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
           'odds': bet.get('backer_multiplier'),
-          'profit_liability': CurrencyUtils.getFormattedCurrency(getProfitLiability(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces)}));
+          'profit_liability': CurrencyUtils.getFormattedCurrency(getProfitLiabilityFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces)}));
       else if (tab === MyWagerTabTypes.RESOLVED_BETS && moment(bet.get('resolved_time')).isBetween(startDate, endDate))
         newData.push(new Map({key: bet.get('id'),
           id: bet.get('id'),
           'betting_market_id': bet.get('betting_market_id'),
           'back_or_lay': bet.get('back_or_lay').toUpperCase(),
-          'stake': CurrencyUtils.getFormattedCurrency(getStake(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
+          'stake': CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
           'odds': bet.get('backer_multiplier'),
           'resolved_time': getFormattedDate(bet.get('resolved_time')),
           'profit_liability': CurrencyUtils.getFormattedCurrency(bet.get('amount_won')/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces)}));
@@ -217,8 +198,7 @@ const MyWagerSelector = {
   getBetsLoadingStatus,
   getCurrencyFormat,
   getBetData,
-  getBetTotal,
-  getStake
+  getBetTotal
 };
 
 export default MyWagerSelector;
