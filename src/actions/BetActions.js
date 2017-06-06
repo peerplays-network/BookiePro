@@ -1,6 +1,6 @@
 import Immutable, { Map } from 'immutable';
 import { WalletService, HistoryService } from '../services';
-import { LoadingStatus, ActionTypes } from '../constants';
+import { LoadingStatus, ActionTypes, Config, TimeRangePeriodTypes } from '../constants';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import EventActions from './EventActions';
@@ -9,10 +9,9 @@ import CompetitorActions from './CompetitorActions';
 import { TransactionBuilder } from 'graphenejs-lib';
 import _ from 'lodash';
 import log from 'loglevel';
-import DateUtils from '../utility/DateUtils';
 import moment from 'moment';
-import { CurrencyUtils, BettingModuleUtils } from '../utility';
-import { mergeRelationData, mergeBettingMarketGroup } from '../utility/MergeObjectUtils';
+import { CurrencyUtils, BettingModuleUtils, DateUtils, MergeObjectUtils } from '../utility';
+const { mergeRelationData, mergeBettingMarketGroup } = MergeObjectUtils;
 import { getStake } from '../selectors/MyWagerSelector';
 
 const getFormattedDate = DateUtils.getFormattedDate;
@@ -298,13 +297,24 @@ class BetActions {
         //Included a 3 second timeout now, just to test the various states of export
         setTimeout(function(){
           // TODO: Replace with actual blockchain call
+          let startDate, endDate;
+          const periodType = getState().getIn(['mywager', 'periodType']);
+          const customTimeRangeStartDate = getState().getIn(['mywager', 'customTimeRangeStartDate']);
+          const customTimeRangeEndDate = getState().getIn(['mywager', 'customTimeRangeEndDate']);
+          if (periodType === TimeRangePeriodTypes.CUSTOM) {
+            startDate = customTimeRangeStartDate;
+            endDate = customTimeRangeEndDate;
+          } else {
+            const timeRange = DateUtils.getTimeRangeGivenTimeRangePeriodType(periodType);
+            startDate = timeRange.startDate;
+            endDate = timeRange.endDate
+          }
+
           let retrievedResolvedBets = getState().getIn(['bet', 'resolvedBetsById'])
-            .filter(row => (moment(row.get('resolved_time')).isBetween(getState().getIn(['mywager','startDate']), getState().getIn(['mywager','endDate']))));
-          if(getState().getIn(['bet', 'getResolvedBetsExportLoadingStatus'])===LoadingStatus.DEFAULT)
-            return;
+            .filter(row => (moment(row.get('resolved_time')).isBetween(startDate, endDate)));
+
           // Get betting market ids
           let bettingMarketIds = retrievedResolvedBets.map(bet => bet.get('betting_market_id')).toSet();
-
           dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)).then((bettingMarkets) => {
             // Get unique betting market group ids
             let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
@@ -325,19 +335,17 @@ class BetActions {
             let exportData = [];
             retrievedResolvedBets.forEach(row =>
             {
-              if(moment(row.get('resolved_time')).isBetween(getState().getIn(['mywager','startDate']), getState().getIn(['mywager','endDate']))){
-                let rowObj = {
-                  key: row.get('id'),
-                  id: row.get('id'),
-                  'betting_market_id': row.get('betting_market_id'),
-                  'back_or_lay': row.get('back_or_lay'),
-                  'stake': CurrencyUtils.getFormattedCurrency(getStake('resolvedBets', row)/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.stakePlaces),
-                  'odds': row.get('backer_multiplier'),
-                  'profit_liability': CurrencyUtils.getFormattedCurrency(row.get('amount_won')/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.exposurePlaces),
-                  'resolved_time': getFormattedDate(row.get('resolved_time'))
-                }
-                exportData.push(Map(rowObj));
+              let rowObj = {
+                key: row.get('id'),
+                id: row.get('id'),
+                'betting_market_id': row.get('betting_market_id'),
+                'back_or_lay': row.get('back_or_lay'),
+                'stake': CurrencyUtils.getFormattedCurrency(getStake('resolvedBets', row)/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.stakePlaces),
+                'odds': row.get('backer_multiplier'),
+                'profit_liability': CurrencyUtils.getFormattedCurrency(row.get('amount_won')/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.exposurePlaces),
+                'resolved_time': getFormattedDate(row.get('resolved_time'))
               }
+              exportData.push(Map(rowObj));
             });
 
             //merging betting market data for display and betting_market_group_id for reference
@@ -373,7 +381,6 @@ class BetActions {
               }
               exportData[index] = formattedRow;
             });
-
             // Add to redux store
             dispatch(BetActions.addOrUpdateResolvedBetsExportAction(exportData));
             // Set Resolved Bets Export Loadings tatus

@@ -56,7 +56,17 @@ export default function (state = initialState, action) {
         resolvedBetsById: action.myBets.resolvedBetsById
       })
     }
-
+    case ActionTypes.BET_SET_GET_RESOLVED_BETS_EXPORT_LOADING_STATUS: {
+      return state.merge({
+        getResolvedBetsExportLoadingStatus: action.loadingStatus
+      })
+    }
+    case ActionTypes.BET_SET_GET_RESOLVED_BETS_EXPORT_ERROR: {
+      return state.merge({
+        getResolvedBetsExportError: action.error,
+        getResolvedBetsExportLoadingStatus: LoadingStatus.ERROR
+      });
+    }
     case ActionTypes.BET_UPDATE_MY_BETS: {
       let unmatchedBetsById = state.unmatchedBetsById;
       let matchedBetsById = state.matchedBetsById;

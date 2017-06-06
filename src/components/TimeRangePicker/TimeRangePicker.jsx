@@ -35,12 +35,16 @@ class TimeRangePicker extends PureComponent {
 
 
   onCustomTimeRangePickerStartDateChange(customTimeRangeStartDate) {
+    // Get start of day
+    customTimeRangeStartDate = customTimeRangeStartDate.startOf('day');
     this.setState({ customTimeRangeStartDate, disableExportButton: true });
     // Call callback
     this.props.onPeriodChange(this.state.periodType, customTimeRangeStartDate, this.state.customTimeRangeEndDate);
   }
 
   onCustomTimeRangePickerEndDateChange(customTimeRangeEndDate) {
+    // Get end of day
+    customTimeRangeEndDate = customTimeRangeEndDate.endOf('day');
     this.setState({ customTimeRangeEndDate, disableExportButton: true });
     // Call callback
     this.props.onPeriodChange(this.state.periodType, this.state.customTimeRangeStartDate, customTimeRangeEndDate);
@@ -97,7 +101,7 @@ class TimeRangePicker extends PureComponent {
   render() {
     const disableButton = (this.state.periodType === TimeRangePeriodTypes.CUSTOM)
                             && (!this.state.customTimeRangeStartDate || !this.state.customTimeRangeEndDate);
-    const disableExportButton = disableButton || this.props.transactionHistoryResultsCount === 0 || this.state.disableExportButton
+    const disableExportButton = disableButton || this.props.searchResultsCount === 0 || this.state.disableExportButton
     return (
       <div className='filter'>
         <div className='ant-form-inline'>
@@ -141,12 +145,14 @@ TimeRangePicker.propTypes = {
   onSearchClick: PropTypes.func,
   onExportClick: PropTypes.func,
   onPeriodChange: PropTypes.func,
+  searchResultsCount: PropTypes.number,
 }
 
 TimeRangePicker.defaultProps = {
   onSearchClick: () => {},
   onExportClick: () => {},
   onPeriodChange: () => {},
+  searchResultsCount: 0,
 }
 
 export default TimeRangePicker;

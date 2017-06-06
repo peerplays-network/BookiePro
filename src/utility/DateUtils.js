@@ -19,18 +19,26 @@ const DateUtils = {
       return moment(new Date(dateToFormat)).format("MM-DD-YYYY HH:mm");
     }
   },
+  /**
+   * Return time range object, i.e.
+   * {
+   *  startDate,
+   *  endDate
+   * }
+   * given the timeRangePeriodType (defined in constants)
+   */
   getTimeRangeGivenTimeRangePeriodType(timeRangePeriodType) {
     let startDate, endDate = null;
     switch (timeRangePeriodType) {
       case TimeRangePeriodTypes.LAST_7_DAYS: {
         //Subtract 6 days from the current day
-        startDate = moment().subtract(6, 'days');
+        startDate = moment().subtract(6, 'days').startOf('day');
         endDate = moment();
         break;
       }
       case TimeRangePeriodTypes.LAST_14_DAYS: {
         //Subtract 14 days from the current day
-        startDate = moment().subtract(13, 'days');
+        startDate = moment().subtract(13, 'days').startOf('day');
         endDate = moment();
         break;
       }
