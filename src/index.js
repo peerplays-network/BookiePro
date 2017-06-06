@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { Router, Route, hashHistory, IndexRoute, IndexRedirect } from 'react-router';
 import App from './components/App';
 import BlockchainTestPage from './components/BlockchainTestPage';
-import EmptyPage from './components/EmptyPage';
 import MyAccount from './components/MyAccount';
 import MyWager from './components/MyWager';
 import Signup from './components/Signup';
@@ -15,7 +14,6 @@ import AllSports from './components/AllSports';
 import Sport from './components/Sport';
 import EventGroup from './components/EventGroup';
 import BettingMarketGroup from './components/BettingMarketGroup';
-import Localize from './components/Localize';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
 import Deposit from './components/Deposit';
@@ -55,7 +53,6 @@ const routes = (
       <Route path='/landing' component={ Landing } />
       <Route component={ Main }>
         <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
-        <Route path='/empty-page' component={ EmptyPage } />
         <Route path='/help-and-support' component={ HelpAndSupport } />
         <Route path='/exchange' component={ Exchange } >
           <IndexRoute component={ AllSports }/>
@@ -67,7 +64,6 @@ const routes = (
         <Route path='/my-account' component={ MyAccount } />
         <Route path='/change-password' component={ ChangePassword } />
         <Route path='/my-wager' component={ MyWager } />
-        <Route path='/localize' component={ Localize } />
       </Route>
     </Route>
 );
