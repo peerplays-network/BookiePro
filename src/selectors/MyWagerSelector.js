@@ -181,7 +181,8 @@ const getBetTotal = createSelector(
 const MyWagerSelector = {
   getCurrencyFormat,
   getBetData,
-  getBetTotal
+  getBetTotal,
+  getStake
 };
 
 export default MyWagerSelector;
