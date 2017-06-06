@@ -3,7 +3,7 @@ import { Button, Icon, Table } from 'antd';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
 import CurrencyUtils from '../../../utility/CurrencyUtils';
-import { incrementOdds, decrementOdds, adjustOdds } from './oddsIncrementUtils';
+import { incrementOdds, decrementOdds, adjustOdds, MIN_ODDS } from './oddsIncrementUtils';
 
 const renderTeam = (text, record) => (
   <div>
@@ -55,8 +55,8 @@ const renderInput = (field, action, currencyFormat) => {
 }
 
 const clickArrowButton = (record, action, updateOdds) => {
-  const odds = record.odds;
-  if (!odds) return;
+  let odds = record.odds;
+  if (!odds) odds = MIN_ODDS;
   // REVIEW the odds value is adjusted first because the dummy data may contain
   //        incorrect odds values that could never happen in the real Blockchain
   const newOdds = updateOdds(adjustOdds(odds, record.bet_type));
