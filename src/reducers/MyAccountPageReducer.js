@@ -28,9 +28,9 @@ export default function (state = initialState, action) {
     }
     case ActionTypes.MY_ACCOUNT_PAGE_RESET_TIME_RANGE: {
       return state.merge({
-        periodType: initialState.periodType,
-        customTimeRangeStartDate: initialState.customTimeRangeStartDate,
-        customTimeRangeEndDate: initialState.customTimeRangeEndDate,
+        periodType: initialState.get('periodType'),
+        customTimeRangeStartDate: initialState.get('customTimeRangeStartDate'),
+        customTimeRangeEndDate: initialState.get('customTimeRangeEndDate'),
       })
     }
     case ActionTypes.MY_ACCOUNT_PAGE_SET_GENERATE_TRANSACTION_HISTORY_EXPORT_DATA_ERROR: {
@@ -49,9 +49,9 @@ export default function (state = initialState, action) {
     }
     case ActionTypes.MY_ACCOUNT_PAGE_RESET_TRANSACTION_HISTORY_EXPORT_DATA: {
       return state.merge({
-        generateTransactionHistoryExportDataLoadingStatus: initialState.generateTransactionHistoryExportDataLoadingStatus,
-        generateTransactionHistoryExportDataError: initialState.generateTransactionHistoryExportDataLoadingStatus,
-        transactionHistoryExportData: Immutable.List()
+        generateTransactionHistoryExportDataLoadingStatus: initialState.get('generateTransactionHistoryExportDataLoadingStatus'),
+        generateTransactionHistoryExportDataError: initialState.get('generateTransactionHistoryExportDataLoadingStatus'),
+        transactionHistoryExportData: initialState.get('transactionHistoryExportData')
       })
     }
     default:

@@ -48,6 +48,11 @@ class MyAccount extends PureComponent {
     this.props.getDepositAddress();
   }
 
+  componentWillUnmount() {
+    // Reset time range
+    this.props.resetTimeRange();
+  }
+
   //Search transaction history with filters
   handleSearchClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
     // Set time range.
@@ -59,7 +64,7 @@ class MyAccount extends PureComponent {
     // First set the history time range, so the search result is re-filtered
     this.props.setHistoryTimeRange(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
     // Then generate export data
-    this.props.generateTransactionHistoryExportData(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
+    this.props.generateTransactionHistoryExportData();
   }
 
   handleResetExport() {

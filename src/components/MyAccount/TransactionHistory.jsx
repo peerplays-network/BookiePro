@@ -84,7 +84,7 @@ class TransactionHistory extends PureComponent {
       currencyFormat
      } = this.props;
 
-    const hasNoTransactionHistoryData = this.state.tableData.length === 0;
+    const hasNoTransactionHistoryData = this.state.tableData && this.state.tableData.length === 0;
 
     //Transaction History table Columns
     const columns = getColumns(currencyFormat, lastIrreversibleBlockNum);
@@ -101,7 +101,6 @@ class TransactionHistory extends PureComponent {
             <div className='float-right'>
               <TimeRangePicker onSearchClick={ handleSearchClick }
                 onExportClick={ handleExportClick }
-                searchResultsCount={  exportData.length }
                 />
             </div>
           </div>

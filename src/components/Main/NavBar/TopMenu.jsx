@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Badge, Menu,Dropdown } from 'antd';
 import Deposit from '../../MyAccount/Deposit'
-//import Withdraw from '../../MyAccount/Withdraw'
 import { TopMenuWithdraw } from '../../Withdraw';
 import Amount from './AmountDropDown'
 import Notification from './Notification'
@@ -246,10 +245,11 @@ const mapStateToProps = (state) => {
   state.getIn(['bet','unmatchedBetsById'])
   .filter(row => !state.getIn(['bet','cancelBetsByIdsLoadingStatus']).get(row.get('id')))
   .forEach(row => {
-    inGameAmount += getStake( 'unmatchedBets', row);
+    inGameAmount += getStake(row);
   });
   state.getIn(['bet','matchedBetsById']).forEach(row => {
-    inGameAmount += getStake( 'matchedBets', row);
+      // TODO: use betcategories instead of MyWagerTabTypes to avoid confusion
+    inGameAmount += getStake(row);
   });
   inGameAmount = CurrencyUtils.getFormattedCurrency(inGameAmount/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.stakePlaces)
 

@@ -13,26 +13,39 @@ import { CurrencyUtils } from '../../utility';
 import { MyWagerSelector } from '../../selectors';
 import { MyWagerTabTypes } from '../../constants';
 
-const {  getBetData, getBetTotal, getCurrencyFormat } = MyWagerSelector;
+const {  getBetData, getBetTotal, getCurrencyFormat, getBetsLoadingStatus } = MyWagerSelector;
 const TabPane = Tabs.TabPane;
 
 class MyWager extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      exportButtonClicked: false
-    };
 
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.handleExportClick = this.handleExportClick.bind(this);
-    this.handleExportFinishDownload = this.handleExportFinishDownload.bind(this);
+    this.handleResetExport = this.handleResetExport.bind(this);
 
     this.onHomeLinkClick = this.onHomeLinkClick.bind(this);
     this.handleUnmatchedEventClick = this.handleUnmatchedEventClick.bind(this);
     this.onTabChange = this.onTabChange.bind(this);
     this.cancelBet = this.cancelBet.bind(this);
     this.cancelAllBets = this.cancelAllBets.bind(this);
+  }
 
+  componentDidMount() {
+    // Set default to unmatched bets
+    this.props.setActiveTab(MyWagerTabTypes.UNMATCHED_BETS);
+  }
+
+  componentWillUnmount() {
+    // Reset time range
+    this.props.resetTimeRange();
+  }
+
+
+  //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
+  onHomeLinkClick(e){
+    e.preventDefault();
+    this.props.navigateTo('/exchange');
   }
 
   //Search transaction history with filters
@@ -43,9 +56,10 @@ class MyWager extends PureComponent {
 
   //Export transaction history
   handleExportClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
-    this.props.getResolvedBetsToExport(this.props.targetCurrency, this.props.betsColumns);
-    //To show export related status after the 'Export' button is clicked
-    this.setState({ exportButtonClicked: true });
+    // First set the history time range, so the search result is re-filtered
+    this.props.setResolvedBetsTimeRange(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
+    // Then generate export data
+    this.props.generateResolvedBetsExportData(this.props.betsColumns);
   }
 
   handleExportFinishDownload() {
@@ -53,23 +67,17 @@ class MyWager extends PureComponent {
     this.props.resetResolvedBetsExportLoadingStatus();
     this.props.clearResolvedBetsExport();
     this.setState({ exportButtonClicked: false });
+  }
 
+  handleResetExport() {
+    // Reset
+    this.props.resetResolvedBetsExportDataAction();
   }
 
   onTabChange(key) {
     this.props.setActiveTab(key);
   }
 
-  componentDidMount() {
-    // Set default to unmatched bets
-    this.props.setActiveTab(MyWagerTabTypes.UNMATCHED_BETS);
-  }
-
-  //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
-  onHomeLinkClick(e){
-    e.preventDefault();
-    this.props.navigateTo('/exchange');
-  }
 
   //Redirect to event market screen
   handleUnmatchedEventClick(record, event){
@@ -83,7 +91,7 @@ class MyWager extends PureComponent {
     this.props.cancelBets(List([Map(record)]));
   }
 
-  //cacel all bets and load unmatchedBets
+  //cancel all bets and load unmatchedBets
   cancelAllBets() {
     this.props.cancelBets(this.props.betsData);
   }
@@ -111,16 +119,18 @@ class MyWager extends PureComponent {
               currencyFormat={ this.props.betsCurrencyFormat } betsTotal={ this.props.betsTotal }/>
           </TabPane>
           <TabPane tab={ I18n.t('mybets.resolved_bets') } key={ MyWagerTabTypes.RESOLVED_BETS }>
-            <ResolvedBets columns={ this.props.betsColumns }
-              resolvedBets={ this.props.betsData } resolvedBetsLoadingStatus={ this.props.resolvedBetsLoadingStatus }
+            <ResolvedBets
+              columns={ this.props.betsColumns }
+              resolvedBets={ this.props.betsData }
+              resolvedBetsLoadingStatus={ this.props.betsLoadingStatus }
               currencyFormat={ this.props.betsCurrencyFormat }
               betsTotal={ this.props.betsTotal }
-              exportButtonClicked={ this.state.exportButtonClicked }
               handleSearchClick={ this.handleSearchClick }
               handleExportClick={ this.handleExportClick }
-              handleExportFinishDownload={ this.handleExportFinishDownload }
-              resolvedBetsExport={ this.props.resolvedBetsExportData }
-              resolvedBetsExportLoadingStatus={ this.props.resolvedBetsExportLoadingStatus }
+              exportData={ this.props.resolvedBetsExportData }
+              exportLoadingStatus={ this.props.resolvedBetsExportLoadingStatus }
+              handleResetExport={ this.handleResetExport }
+
             />
           </TabPane>
         </Tabs>
@@ -174,22 +184,20 @@ const mapStateToProps = (state) => {
   return {
     betsColumns: columns,
     betsData: getBetData(state),
-    betsLoadingStatus: state.getIn(['bet','getOngoingBetsLoadingStatus']),
-    resolvedBetsLoadingStatus: state.getIn(['bet','getResolvedBetsLoadingStatus']),
+    betsLoadingStatus: getBetsLoadingStatus,
     betsCurrencyFormat: CurrencyUtils.getCurruencySymbol(getCurrencyFormat(state)),
     targetCurrency: getCurrencyFormat(state),
     betsTotal: getBetTotal(state),
-    resolvedBetsExportData: state.getIn(['bet','resolvedBetsExportById']),
-    resolvedBetsExportLoadingStatus: state.getIn(['bet','getResolvedBetsExportLoadingStatus'])
+    resolvedBetsExportData: state.getIn(['mywager','resolvedBetsExportData']),
+    resolvedBetsExportLoadingStatus: state.getIn(['mywager','generateResolvedBetsExportDataLoadingStatus'])
   }
 }
 
 function mapDispatchToProps(dispatch){
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
-    getResolvedBetsToExport: BetActions.getResolvedBetsToExport,
-    resetResolvedBetsExportLoadingStatus: BetActions.resetResolvedBetsExportLoadingStatus,
-    clearResolvedBetsExport: BetActions.clearResolvedBetsExport,
+    generateResolvedBetsExportData: MywagerActions.generateResolvedBetsExportData,
+    resetResolvedBetsExportDataAction: MywagerActions.resetResolvedBetsExportDataAction,
     cancelBets: BetActions.cancelBets,
     setActiveTab: MywagerActions.setMywagerActiveTab,
     setResolvedBetsTimeRange: MywagerActions.setResolvedBetsTimeRangeAction

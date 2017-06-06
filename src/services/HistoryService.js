@@ -1,4 +1,4 @@
-import { DummyOperationTypes, TimeRangePeriodTypes } from '../constants';
+import { DummyOperationTypes, TimeRangePeriodTypes, BetCategories } from '../constants';
 import { BlockchainUtils, DateUtils, CurrencyUtils, BettingModuleUtils } from '../utility';
 import { ChainTypes } from 'graphenejs-lib';
 import { I18n } from 'react-redux-i18n';
@@ -103,6 +103,7 @@ class HistoryService {
    * Convert raw history into my bets which are unmatched bets, matched bets, and resolved bets
    * unmatched bets {
    * id,
+   * category, (MATCHED_BET/ UNMATCHED_BET/ RESOLVED_BET)
    * bettor_id,
    * betting_market_id,
    * original_bet_amount, = stake for back bet; liability for lay bet
@@ -113,6 +114,7 @@ class HistoryService {
    *
    * matched bets {
    * id,
+   * category, (MATCHED_BET/ UNMATCHED_BET/ RESOLVED_BET)
    * bettor_id,
    * betting_market_id,
    * original_bet_amount, = stake for back bet; liability for lay bet
@@ -123,6 +125,7 @@ class HistoryService {
    *
    * resolved bets {
    * id,
+   * category, (MATCHED_BET/ UNMATCHED_BET/ RESOLVED_BET)
    * bettor_id,
    * betting_market_id,
    * original_bet_amount, = stake for back bet; liability for lay bet
@@ -151,6 +154,7 @@ class HistoryService {
           const betId = operationContent.get('bet_id');
           const unmatchedBet = Immutable.fromJS({
             id: betId,
+            category: BetCategories.UNMATCHED_BET,
             bettor_id: operationContent.get('account_id'),
             betting_market_id: operationContent.get('betting_market_id'),
             back_or_lay: operationContent.get('back_or_lay'),
@@ -190,6 +194,7 @@ class HistoryService {
             if (!matchedBet || matchedBet.isEmpty()) {
               matchedBet = Immutable.fromJS({
                 id: betId,
+                category: BetCategories.MATCHED_BET,
                 bettor_id: operationContent.get('account_id'),
                 betting_market_id: operationContent.get('betting_market_id'),
                 back_or_lay: operationContent.get('back_or_lay'),
@@ -217,6 +222,7 @@ class HistoryService {
             if (matchedBet.get('betting_market_id') === bettingMarketId) {
               const betId = matchedBet.get('id');
               let resolvedBet = matchedBet;
+              resolvedBet = resolvedBet.set('category', BetCategories.RESOLVED_BET);
               // Set resolved time
               const blockNum  = rawTransaction.get('block_num');
               const resolvedTime = moment(BlockchainUtils.calcBlockTime(blockNum, globalObject, dynGlobalObject));
