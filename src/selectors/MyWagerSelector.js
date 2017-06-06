@@ -30,7 +30,7 @@ const getPrecision = createSelector(
   }
 )
 
-const activeTab = (state) => state.getIn(['mywager','activeTab']);
+const getActiveTab = (state) => state.getIn(['mywager','activeTab']);
 
 
 const getResolvedBetsPeriodType = (state) => state.getIn(['mywager', 'periodType']);
@@ -67,24 +67,50 @@ const endDate = createSelector(
    }
  )
 
-const getStoreFieldName = (state) => {
-  switch (activeTab(state)) {
-    case MyWagerTabTypes.MATCHED_BETS:
-      return 'matchedBetsById';
-    case MyWagerTabTypes.RESOLVED_BETS:
-      return 'resolvedBetsById';
-    default:
-      return 'unmatchedBetsById';
+const getMatchedBetsById = (state) => state.getIn(['bet', 'matchedBetsById']);
+const getUnmatchedBetsById = (state) => state.getIn(['bet', 'unmatchedBetsById']);
+const getResolvedBetsById = (state) => state.getIn(['bet', 'resolvedBetsById']);
+
+const getRelatedBetsCollection = createSelector(
+  [
+    getActiveTab,
+    getMatchedBetsById,
+    getUnmatchedBetsById,
+    getResolvedBetsById
+  ],
+  (activeTab, matchedBetsById, unmatchedBetsById, resolvedBetsById) => {
+    switch (activeTab) {
+      case MyWagerTabTypes.MATCHED_BETS:
+        return matchedBetsById;
+      case MyWagerTabTypes.RESOLVED_BETS:
+        return resolvedBetsById;
+      default:
+        return unmatchedBetsById;
+    }
   }
-}
+);
+
+
+const getCancelBetsByIdsLoadingStatus = (state) => state.getIn(['bet','cancelBetsByIdsLoadingStatus']);
 
 //function to get rowdata on the basis of activeTab
-const rowData = (state) => state.getIn(['bet', getStoreFieldName(state)])
-  .filter(row => (activeTab(state) !== MyWagerTabTypes.UNMATCHED_BETS || !state.getIn(['bet','cancelBetsByIdsLoadingStatus']).get(row.get('id'))));
+const rowData = createSelector(
+  [
+    getActiveTab,
+    getRelatedBetsCollection,
+    getCancelBetsByIdsLoadingStatus
+  ],
+  (activeTab, relatedBetsCollection, cancelBetsByIdsLoadingStatus) => {
+    if (activeTab ===  MyWagerTabTypes.UNMATCHED_BETS) {
+      return relatedBetsCollection.filter(row => !cancelBetsByIdsLoadingStatus.get(row.get('id')));
+    }
+    return relatedBetsCollection;
+  }
+)
 
 //function to get initial collection with required values from rowData
 const betData = createSelector(
-  [activeTab, rowData, startDate, endDate, getCurrencyFormat, getPrecision],
+  [getActiveTab, rowData, startDate, endDate, getCurrencyFormat, getPrecision],
   (tab, bets, startDate, endDate, currencyFormat, precision)=>{
     let newData = [];
     bets.forEach((bet) => {
@@ -173,7 +199,7 @@ const formatBettingData = (data, activeTab, precision, targetCurrency, startDate
 
 //memoized selector - function for formatting merged data and return same
 const getBetData = createSelector(
-  [mergeSportsData, activeTab, getCurrencyFormat, getPrecision, startDate, endDate],
+  [mergeSportsData, getActiveTab, getCurrencyFormat, getPrecision, startDate, endDate],
   (bets, activeTab, currencyFormat, precision, startDate, endDate) => {
     return formatBettingData(bets, activeTab,
     precision, currencyFormat, startDate, endDate);
