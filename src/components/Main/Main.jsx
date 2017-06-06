@@ -36,14 +36,14 @@ class Main extends Component {
   }
 
   onRouteChange(){
-     this._navBar.onRouteChangeHandle();
+     this.navBar.onRouteChangeHandle();
   }
 
   render() {
     return (
       <Layout className='layout'>
         <NavBar
-          ref={ (ref) => this._navBar = ref }
+          ref={ (ref) => this.navBar = ref }
           { ...this.props }
         />
         <Layout>

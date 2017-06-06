@@ -54,7 +54,7 @@ class SearchMenu extends Component {
   }
 
   onRouteChangeHandle(){
-    this._select.blurInput();
+    this.select.blurInput();
   }
 
   onInputChange(searchText) {
@@ -170,7 +170,7 @@ class SearchMenu extends Component {
                 this.props.completeTree.size === 0 ? null :
 
                 <Select
-                  ref={ (ref) => this._select = ref }
+                  ref={ (ref) => this.select = ref }
                   value={ this.state.value }
                   onChange={ this.onChange }
                   optionComponent={ SearchOption }
