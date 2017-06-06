@@ -9,11 +9,11 @@ import _ from 'lodash';
 class UnmatchedBets extends PureComponent {
   render() {
     const { columns, unmatchedBets, unmatchedBetsLoadingStatus, currencyFormat, betsTotal, cancelBet,
-      cancelAllBets } = this.props;
-    let unmatchedBetsColumns = _.clone(columns);
-    //cancel column added here to attach bet cancel click event handler
+      cancelAllBets, onEventClick } = this.props;
+    let unmatchedBetsColumns = _.cloneDeep(columns);
 
-    if(unmatchedBetsColumns)
+    //cancel column added here to attach bet cancel click event handler
+    if(unmatchedBetsColumns){
       unmatchedBetsColumns.push(
         {
           title: '',
@@ -22,6 +22,12 @@ class UnmatchedBets extends PureComponent {
           onCellClick: function(record, event){cancelBet(record, event);}
         }
       );
+      unmatchedBetsColumns.forEach( col => {
+        if(col.dataIndex === 'event_name'){
+          col.onCellClick = function(record, event){onEventClick(record, event);}
+        }
+      });
+    }
     return (
       <div className='table-card'>
         <div className='filterComponent clearfix'>
