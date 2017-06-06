@@ -56,14 +56,17 @@ const renderInput = (field, action, currencyFormat) => {
 
 const clickArrowButton = (record, action, updateOdds) => {
   let odds = record.odds;
-  if (!odds) odds = MIN_ODDS;
-  // REVIEW the odds value is adjusted first because the dummy data may contain
-  //        incorrect odds values that could never happen in the real Blockchain
-  const newOdds = updateOdds(adjustOdds(odds, record.bet_type));
+  if (!odds) {
+    odds = MIN_ODDS;
+  } else {
+    // REVIEW the odds value is adjusted first because the dummy data may contain
+    //        incorrect odds values that could never happen in the real Blockchain
+    odds = updateOdds(adjustOdds(odds, record.bet_type));
+  }
   const delta = Immutable.Map()
     .set('id', record.id)
     .set('field', 'odds')
-    .set('value', newOdds);
+    .set('value', odds);
   action(delta);
 }
 
