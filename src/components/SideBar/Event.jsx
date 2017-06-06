@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
+import { EventNameUtils } from '../../utility';
 import './Event.less';
-
-const formatName = (name) => {
-  let formatted = (<span>{ name }</span>);
-  // REVIEW Ensure this is the actual agreed format
-  if (name.includes('vs')) {
-    const index = name.indexOf('vs');
-    formatted = (<span>{ name.substring(0, index+3) }<br/>{ name.substring(index+3) }</span>);
-  }
-  return formatted;
-}
 
 class Event extends Component {
   render() {
@@ -17,7 +8,7 @@ class Event extends Component {
     return (
       <div className='event-node-container' key={ id } onClick={ onClick  }>
         <div className={ `event-label-container${data.isSelected ? '-selected' : ''}` }>
-          <label>{ formatName(name) }</label>
+          <label>{ EventNameUtils.breakAtVs(name) }</label>
         </div>
       </div>
     );

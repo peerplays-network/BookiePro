@@ -6,7 +6,7 @@ import {  Table } from 'antd';
 import RulesModal from '../../Modal/RulesModal'
 import { QuickBetDrawerActions,NavigateActions } from '../../../actions';
 import { I18n, Translate } from 'react-redux-i18n';
-import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
+import { BettingModuleUtils, CurrencyUtils, EventNameUtils } from '../../../utility';
 // We cannot use CSS to override antd Table column width using CSS
 // This can only be done via the code
 const eventTimeColumnWidth = 90;
@@ -38,7 +38,7 @@ const getColumns = (renderOffer, navigateTo, currencyFormat) => ([
     // Do not specify width so the column
     // will grow/shrink with the size of the table
     className: 'event-name',
-    render: (text, record) => record.get('event_name'),
+    render: (text, record) => EventNameUtils.breakAtVs(record.get('event_name')),
     onCellClick: (record, event) => navigateTo('/exchange/bettingmarketgroup/' + record.get('moneyline'))
   }, {
     title: '1',

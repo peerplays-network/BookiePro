@@ -10,6 +10,7 @@ import ColorUtils from './ColorUtils';
 import DateUtils from './DateUtils';
 import SoftwareUpdateUtils from './SoftwareUpdateUtils';
 import FileSaverUtils from './FileSaverUtils';
+import EventNameUtils from './EventNameUtils';
 
 export {
   AppUtils,
@@ -23,5 +24,6 @@ export {
   ExportUtils,
   DateUtils,
   SoftwareUpdateUtils,
-  FileSaverUtils
+  FileSaverUtils,
+  EventNameUtils,
 };
