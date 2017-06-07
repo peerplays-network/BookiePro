@@ -1,12 +1,5 @@
-@complex-betting-bg: #065CB7;
-@complex-betting-header-border: #00BEF4;
-@complex-betting-back-bg: #005CB8;
-@complex-betting-back-all-bg: #004e9b;
-@complex-betting-back-hover-bg: #197ADA;
-@complex-betting-lay-bg: #129CA0;
-@complex-betting-lay-all-bg: #008487;
-@complex-betting-lay-hover-bg: #45C7CB;
-@complex-betting-label: #FFFFFF;
+@import '../../App/Colors.less';
+
 .rt-table > .-header{
   padding: 0;
   height: 0;
@@ -115,6 +108,9 @@ div.complex-betting {
             background-color: @complex-betting-back-hover-bg;
           }
         }
+        &.empty-offer:hover{
+          background-color: @complex-betting-empty-offer-hover;
+        }
       }
       .lay-offer {
         &.lay-bg{
@@ -128,6 +124,9 @@ div.complex-betting {
           &:hover{
             background-color: @complex-betting-lay-hover-bg;
           }
+        }
+        &.empty-offer:hover{
+          background-color: @complex-betting-empty-offer-hover;
         }
       }
       .odds {
@@ -228,11 +227,15 @@ div.complex-betting {
     display: inline-block;
   }
   .icon-chevron-left{
-     background: url('../../../assets/icons/chevron_left_icon.png') no-repeat;
-      width: 9px;
-      height: 13px;
-     background-size: 100%;
-     display: inline-block;
+    background: url('../../../assets/icons/chevron_left_icon.png') no-repeat;
+    width: 9px;
+    height: 13px;
+    background-size: 100%;
+    display: inline-block;
+    &:hover {
+      background: url('../../../assets/icons/chevron_left_icon_blue.png') no-repeat;
+      background-size: 100%;
+    }
    }
   .icon-chevron-right{
     background: url('../../../assets/icons/chevron_right_icon.png') no-repeat;
@@ -240,5 +243,9 @@ div.complex-betting {
     height: 13px;
     background-size: 100%;
     display: inline-block;
+    &:hover {
+      background: url('../../../assets/icons/chevron_right_icon_blue.png') no-repeat;
+      background-size: 100%;
+    }
   }
 }
