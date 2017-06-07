@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router'
 import { NavigateActions, SidebarActions, AppActions, EventActions } from '../../actions';
 import { LoadingStatus } from '../../constants';
+import { SidebarSelector } from '../../selectors';
 const { Content } = Layout;
 
 class Main extends Component {
@@ -69,6 +70,7 @@ const mapStateToProps = (state) => {
 
   return {
     isInitAccountModalVisible,
+    completeTree: SidebarSelector.getSidebarCompleteTree(state),
     sidebarLoadingStatus: state.getIn(['sidebar', 'loadingStatus']),
     searchResult: event.get('searchResult'),
     getSearchEventsLoadingStatus: event.get('getSearchEventsLoadingStatus'),
