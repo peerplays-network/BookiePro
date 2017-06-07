@@ -7,10 +7,7 @@ import SplitPane from 'react-split-pane';
 import SideBar from '../SideBar';
 import { QuickBetDrawer, MarketDrawer } from '../BettingDrawers';
 import { QuickBetDrawerActions, MarketDrawerActions, NavigateActions } from '../../actions';
-import Immutable from 'immutable';
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
-import PropTypes from 'prop-types';
-
 import Ps from 'perfect-scrollbar';
 
 class Exchange extends Component {
@@ -140,7 +137,6 @@ class Exchange extends Component {
           pane1Style={ styleLeftPane }>
             <div className='sidebar-main' ref='sidebar'>
               <SideBar
-                 completeTree={ this.props.completeTree }
                  level={ transitionName.length }
                  objectId={ transitionName[transitionName.length -1] }/>
             </div>
@@ -178,9 +174,7 @@ const mapStateToProps = (state, ownProps) => {
     path = ['quickBetDrawer', 'bets'];
   }
 
-  const sidebar = state.get('sidebar');
   return {
-    completeTree: sidebar.get('complete_tree'),
     hasUnplacedBets: !state.getIn(path).isEmpty(),
     currencyFormat
   };
@@ -195,9 +189,6 @@ const mapDispatchToProps = (dispatch) => {
   }, dispatch);
 }
 
-Exchange.propTypes = {
-  completeTree: PropTypes.instanceOf(Immutable.List),
-};
 
 export default withRouter(connect(
   mapStateToProps,
