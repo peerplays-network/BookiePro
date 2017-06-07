@@ -18,6 +18,11 @@ const TabPane = Tabs.TabPane;
 class MyWager extends PureComponent {
   constructor(props) {
     super(props);
+    this.state = {
+      exportButtonClicked: false,
+      cancelAllBetsButtonClicked: false,
+      visible: false
+    };
 
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.handleExportClick = this.handleExportClick.bind(this);
@@ -90,9 +95,21 @@ class MyWager extends PureComponent {
     this.props.cancelBets(List([Map(record)]));
   }
 
-  //cancel all bets and load unmatchedBets
-  cancelAllBets() {
+
+  okModal = () => {
     this.props.cancelBets(this.props.betsData);
+    this.setState({ cancelAllBetsButtonClicked: false ,visible: false });
+  }
+  hideModal = () => {
+    this.setState({visible: false,});
+  }
+  // Confirmation pop-up for deleting all bets.
+  cancelAllBets(){
+
+    event.preventDefault();
+    //To show export related status after the 'Export' button is clicked
+    this.setState({ cancelAllBetsButtonClicked: true ,visible: true });
+    //this.props.cancelBets(this.props.betsData);
   }
 
 
@@ -109,12 +126,11 @@ class MyWager extends PureComponent {
             <UnmatchedBets
               unmatchedBets={ this.props.betsData }
               unmatchedBetsLoadingStatus={ this.props.betsLoadingStatus }
+              currencyFormat={ this.props.betsCurrencyFormat } betsTotal={ this.props.betsTotal }
+              onCancelBetClick={ this.cancelBet } onCancelAllBetsClick={ this.cancelAllBets }
               onEventClick={ this.handleUnmatchedEventClick }
-              currencyFormat={ this.props.betsCurrencyFormat }
-              betsTotal={ this.props.betsTotal }
-              onCancelBetClick={ this.cancelBet }
-              onCancelAllBetsClick={ this.cancelAllBets }
-            />
+              cancelAllBetsButtonClicked={ this.state.cancelAllBetsButtonClicked }
+              modalVisible={ this.state.visible } okModal={ this.okModal } hideModal={ this.hideModal }/>
           </TabPane>
           <TabPane tab={ I18n.t('mybets.matched_bets') } key={ MyWagerTabTypes.MATCHED_BETS }>
             <MatchedBets
