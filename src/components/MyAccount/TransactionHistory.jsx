@@ -119,7 +119,6 @@ class TransactionHistory extends PureComponent {
           exportLoadingStatus={ exportLoadingStatus }
           handleResetExport={ handleResetExport }
           type={ ExportTypes.TRANSACTION_HISTORY }
-          screenName={ I18n.t('myAccount.screenName') }
           />
       </div>
     );
