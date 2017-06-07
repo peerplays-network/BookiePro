@@ -60,9 +60,9 @@ class MyAccountPageActions {
         // Set loading status
         dispatch(MyAccountPagePrivateActions.setGenerateTransactionHistoryExportDataLoadingStatusAction(LoadingStatus.LOADING));
 
-        const periodType = getState().getIn(['mywager', 'periodType']);
-        const customTimeRangeStartDate = getState().getIn(['mywager', 'customTimeRangeStartDate']);
-        const customTimeRangeEndDate = getState().getIn(['mywager', 'customTimeRangeEndDate']);
+        const periodType = getState().getIn(['myAccountPage', 'periodType']);
+        const customTimeRangeStartDate = getState().getIn(['myAccountPage', 'customTimeRangeStartDate']);
+        const customTimeRangeEndDate = getState().getIn(['myAccountPage', 'customTimeRangeEndDate']);
 
         const rawHistory = getState().getIn(['rawHistory', 'rawHistoryByAccountId', accountId]);
         // Create transaction history
