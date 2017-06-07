@@ -103,7 +103,7 @@ class SideBar extends PureComponent {
         )
       }
       if (keyPath[0] !== 0){
-        newTree = newTree.filter((p) => p.id === '0' || p.get('isOpen'));
+        newTree = newTree.filter((p) => p.get('id') === '0' || p.get('isOpen'));
       }
       return newTree.toJS();
     } else {
