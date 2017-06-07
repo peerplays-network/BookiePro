@@ -7,7 +7,7 @@ import BettingMarketGroupActions from './BettingMarketGroupActions';
 import _ from 'lodash';
 import log from 'loglevel';
 
-class SidebarActions{
+class SidebarActions {
 
   static getData() {
     return (dispatch) => {
