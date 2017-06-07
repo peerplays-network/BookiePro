@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Table } from 'antd';
+import { Table, Modal } from 'antd';
 import { LoadingStatus } from '../../constants';
 import { MyWagerUtils, CurrencyUtils } from '../../utility';
 import { I18n } from 'react-redux-i18n';
@@ -37,7 +37,8 @@ class UnmatchedBets extends PureComponent {
   }
 
   render() {
-    const { unmatchedBetsLoadingStatus, currencyFormat, betsTotal, onCancelAllBetsClick } = this.props;
+    const { unmatchedBetsLoadingStatus, currencyFormat, betsTotal, onCancelAllBetsClick,
+      isCancelAllConfirmModalVisible, handleCancelAllBets, declineCancelAllBets } = this.props;
     const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
     return (
       <div className='table-card'>
@@ -45,16 +46,27 @@ class UnmatchedBets extends PureComponent {
           <div className='float-left'>
             <p className='card-title'>{ I18n.t('mybets.total') } : <span>{ currencySymbol + (betsTotal ? betsTotal : 0) }</span> </p>
           </div>
-            <div className='float-right'>
-              <button className='btn cancel-btn' onClick={ onCancelAllBetsClick }
-                disabled={ this.state.tableData.length === 0 }>{ I18n.t('mybets.cancel_all') }</button>
-            </div>
+          { this.state.tableData.length !== 0 ?
+          <div className='float-right'>
+            <button className='btn cancel-btn' onClick={ onCancelAllBetsClick }
+              disabled={ this.state.tableData && this.state.tableData.length === 0 }>{ I18n.t('mybets.cancel_all') }</button>
+          </div>
+          : null }
         </div>
-          <Table className='bookie-table' pagination={ { pageSize: 20 } } rowKey='id'
-            locale={ {emptyText: ( this.state.tableData.length === 0 &&
-              unmatchedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : unmatchedBetsLoadingStatus )} }
-            dataSource={ this.state.tableData } columns={ this.state.columns } >
-          </Table>
+        <Table className='bookie-table' pagination={ { pageSize: 20 } } rowKey='id'
+          locale={ {emptyText: ( this.state.tableData.length === 0 &&
+            unmatchedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : unmatchedBetsLoadingStatus )} }
+          dataSource={ this.state.tableData } columns={ this.state.columns } >
+        </Table>
+        <Modal
+          wrapClassName={ 'vertical-center-modal' }
+          title='You are about to remove [amount] bets, are you sure?'
+          visible={ isCancelAllConfirmModalVisible }
+          onOk={ handleCancelAllBets }
+          onCancel={ declineCancelAllBets }
+          okText='Confirm'
+          cancelText='Cancel'>
+        </Modal>
       </div>
     )
   }
