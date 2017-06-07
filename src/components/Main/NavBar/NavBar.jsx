@@ -26,7 +26,7 @@ class NavBar extends React.Component {
   render(){
     return (
       <Header id='betex-header'>
-        <div className='logo' onClick={ this.props.handleNavigateToHome }>
+        <div className='logo' onClick={ this.handleNavigateToHome }>
           <img alt='logo' src={ logo } />
         </div>
         <SearchMenu
