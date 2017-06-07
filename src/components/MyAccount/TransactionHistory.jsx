@@ -59,7 +59,8 @@ class TransactionHistory extends PureComponent {
     const { transactionHistoryLoadingStatus,
       generateTransactionHistoryExportDataLoadingStatus,
       transactionHistoryExportData, exportButtonClicked, handleExportFinishDownload,
-      handleSearchClick, handleExportClick, lastIrreversibleBlockNum, currencyFormat} = this.props;
+      handleSearchClick, handleExportClick, lastIrreversibleBlockNum, currencyFormat,
+      resetExport } = this.props;
 
     const transactionHistory = this.props.transactionHistory.toJS();
     const hasNoTransactionHistoryData = transactionHistory && transactionHistory.length === 0;
@@ -97,6 +98,7 @@ class TransactionHistory extends PureComponent {
               exportLoadingStatus={ generateTransactionHistoryExportDataLoadingStatus }
               handleExportFinishDownload={ handleExportFinishDownload }
               screenName={ I18n.t('myAccount.screenName') }
+              resetExport={ resetExport }
               />: null }
             </div>
     );

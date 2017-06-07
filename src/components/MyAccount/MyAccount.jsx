@@ -39,9 +39,7 @@ class MyAccount extends PureComponent {
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.handleExportClick = this.handleExportClick.bind(this);
     this.handleExportFinishDownload = this.handleExportFinishDownload.bind(this);
-
-    this.resetTransactionHistoryExportLoadingStatus = this.resetTransactionHistoryExportLoadingStatus.bind(this);
-    this.clearTransactionHistoryExport = this.clearTransactionHistoryExport.bind(this);
+    this.handleExportCancel = this.handleExportCancel.bind(this);
 
     this.renderSettingCard = this.renderSettingCard.bind(this);
     this.handleDownloadPasswordFile = this.handleDownloadPasswordFile.bind(this);
@@ -73,14 +71,9 @@ class MyAccount extends PureComponent {
   }
 
   //Cancel transaction history export - Resetting it's loading status to 'default'
-  resetTransactionHistoryExportLoadingStatus(){
-    this.props.resetTransactionHistoryExportLoadingStatus();
+  handleExportCancel(){
+    this.props.resetTransactionHistoryExportData();
     this.setState({ exportButtonClicked: false });
-  }
-
-  //Clear transaction history export data after downloading it to release memory
-  clearTransactionHistoryExport(){
-    this.props.clearTransactionHistoryExport();
   }
 
   handleNotificationChange(value) {
@@ -271,6 +264,7 @@ class MyAccount extends PureComponent {
              handleExportClick={ this.handleExportClick }
              currencyFormat={ this.props.currencyFormat }
              lastIrreversibleBlockNum={ this.props.lastIrreversibleBlockNum }
+             resetExport={ this.handleExportCancel }
            />
         </Row>
       </div>
