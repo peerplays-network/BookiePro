@@ -38,6 +38,7 @@ class MyAccountPageActions {
       type: ActionTypes.MY_ACCOUNT_PAGE_RESET_TRANSACTION_HISTORY_EXPORT_DATA,
     }
   }
+
   static resetTimeRange() {
     return {
       type: ActionTypes.MY_ACCOUNT_PAGE_RESET_TIME_RANGE
@@ -52,20 +53,25 @@ class MyAccountPageActions {
     }
   }
 
-  static generateTransactionHistoryExportData(exportPeriodType, exportCustomTimeRangeStartDate, exportCustomTimeRangeEndDate) {
+  static generateTransactionHistoryExportData() {
     return (dispatch, getState) => {
       const accountId = getState().getIn(['account', 'account', 'id']);
       if (accountId) {
         // Set loading status
         dispatch(MyAccountPagePrivateActions.setGenerateTransactionHistoryExportDataLoadingStatusAction(LoadingStatus.LOADING));
+
+        const periodType = getState().getIn(['mywager', 'periodType']);
+        const customTimeRangeStartDate = getState().getIn(['mywager', 'customTimeRangeStartDate']);
+        const customTimeRangeEndDate = getState().getIn(['mywager', 'customTimeRangeEndDate']);
+
         const rawHistory = getState().getIn(['rawHistory', 'rawHistoryByAccountId', accountId]);
         // Create transaction history
         const transactionHistory = HistoryService.convertRawHistoryToTransactionHistory(getState(), rawHistory);
         // Filter
         const filteredTransactionHistory = HistoryService.filterTransactionHistoryGivenTimeRange(transactionHistory,
-                                                                                                   exportPeriodType,
-                                                                                                   exportCustomTimeRangeStartDate,
-                                                                                                   exportCustomTimeRangeEndDate);
+                                                                                                   periodType,
+                                                                                                   customTimeRangeStartDate,
+                                                                                                   customTimeRangeEndDate);
         // Convert to export data
         const transactionHistoryExportData = HistoryService.convertTransactionHistoryToTransactionHistoryExportData(getState(),
                                                                                                                     filteredTransactionHistory);

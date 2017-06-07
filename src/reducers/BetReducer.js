@@ -11,10 +11,6 @@ let initialState = Immutable.fromJS({
   makeBetsLoadingStatus: LoadingStatus.DEFAULT,
   makeBetsError: null,
 
-  getResolvedBetsExportLoadingStatus: LoadingStatus.DEFAULT,
-  getResolvedBetsExportError: null,
-  resolvedBetsExportById: {},
-
   unmatchedBetsById: {},
   matchedBetsById: {},
   resolvedBetsById: {},
@@ -55,17 +51,6 @@ export default function (state = initialState, action) {
         matchedBetsById: action.myBets.matchedBetsById,
         resolvedBetsById: action.myBets.resolvedBetsById
       })
-    }
-    case ActionTypes.BET_SET_GET_RESOLVED_BETS_EXPORT_LOADING_STATUS: {
-      return state.merge({
-        getResolvedBetsExportLoadingStatus: action.loadingStatus
-      })
-    }
-    case ActionTypes.BET_SET_GET_RESOLVED_BETS_EXPORT_ERROR: {
-      return state.merge({
-        getResolvedBetsExportError: action.error,
-        getResolvedBetsExportLoadingStatus: LoadingStatus.ERROR
-      });
     }
     case ActionTypes.BET_UPDATE_MY_BETS: {
       let unmatchedBetsById = state.unmatchedBetsById;
@@ -139,15 +124,6 @@ export default function (state = initialState, action) {
         nextState = nextState.setIn(['editBetsByIdsLoadingStatus', betId], LoadingStatus.ERROR);
       })
       return nextState;
-    }
-
-    case ActionTypes.BET_ADD_OR_UPDATE_RESOLVED_BETS_EXPORT: {
-      return state.merge({'resolvedBetsExportById': action.resolvedBetsExport});
-    }
-    case ActionTypes.BET_CLEAR_RESOLVED_BETS_EXPORT: {
-      return state.merge({
-        resolvedBetsExportById: {}
-      });
     }
     case ActionTypes.AUTH_LOGOUT: {
       return initialState;

@@ -1,6 +1,6 @@
-import Immutable, { Map } from 'immutable';
+import Immutable from 'immutable';
 import { WalletService, HistoryService } from '../services';
-import { LoadingStatus, ActionTypes, Config, TimeRangePeriodTypes } from '../constants';
+import { LoadingStatus, ActionTypes } from '../constants';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import EventActions from './EventActions';
@@ -9,12 +9,6 @@ import CompetitorActions from './CompetitorActions';
 import { TransactionBuilder } from 'graphenejs-lib';
 import _ from 'lodash';
 import log from 'loglevel';
-import moment from 'moment';
-import { CurrencyUtils, BettingModuleUtils, DateUtils, MergeObjectUtils } from '../utility';
-const { mergeRelationData, mergeBettingMarketGroup } = MergeObjectUtils;
-import { getStake } from '../selectors/MyWagerSelector';
-
-const getFormattedDate = DateUtils.getFormattedDate;
 
 /**
  * Private actions
@@ -67,25 +61,6 @@ class BetPrivateActions {
     }
   }
 
-  static setGetResolvedBetsExportLoadingStatusAction(loadingStatus) {
-    return {
-      type: ActionTypes.BET_SET_GET_RESOLVED_BETS_EXPORT_LOADING_STATUS,
-      loadingStatus
-    }
-  }
-
-  static setGetResolvedBetsExportErrorAction(error) {
-    return {
-      type: ActionTypes.BET_SET_GET_RESOLVED_BETS_EXPORT_ERROR,
-      error
-    }
-  }
-
-  static clearResolvedBetsExportAction() {
-    return {
-      type: ActionTypes.BET_CLEAR_RESOLVED_BETS_EXPORT
-    }
-  }
 
   static setMyBetsAction(myBets) {
     return {
@@ -272,130 +247,7 @@ class BetActions {
     }
   }
 
-  static addOrUpdateResolvedBetsExportAction(resolvedBetsExport) {
-    return {
-      type: ActionTypes.BET_ADD_OR_UPDATE_RESOLVED_BETS_EXPORT,
-      resolvedBetsExport
-    }
-  }
 
-  //Reset Resolved bets export status to default when the export is cancelled
-  static resetResolvedBetsExportLoadingStatus(){
-    return BetPrivateActions.setGetResolvedBetsExportLoadingStatusAction(LoadingStatus.DEFAULT);
-  }
-
-  //Clear Resolved Bets export data after download to clean up memory
-  static clearResolvedBetsExport(){
-    return BetPrivateActions.clearResolvedBetsExportAction();
-  }
-
-  static getResolvedBetsToExport(targetCurrency, columns) {
-    return (dispatch, getState) => {
-      const accountId = getState().getIn(['account', 'account', 'id']);
-      if (accountId) {
-        dispatch(BetPrivateActions.setGetResolvedBetsExportLoadingStatusAction(LoadingStatus.LOADING));
-        //Included a 3 second timeout now, just to test the various states of export
-        setTimeout(function(){
-          // TODO: Replace with actual blockchain call
-          let startDate, endDate;
-          const periodType = getState().getIn(['mywager', 'periodType']);
-          const customTimeRangeStartDate = getState().getIn(['mywager', 'customTimeRangeStartDate']);
-          const customTimeRangeEndDate = getState().getIn(['mywager', 'customTimeRangeEndDate']);
-          if (periodType === TimeRangePeriodTypes.CUSTOM) {
-            startDate = customTimeRangeStartDate;
-            endDate = customTimeRangeEndDate;
-          } else {
-            const timeRange = DateUtils.getTimeRangeGivenTimeRangePeriodType(periodType);
-            startDate = timeRange.startDate;
-            endDate = timeRange.endDate
-          }
-
-          let retrievedResolvedBets = getState().getIn(['bet', 'resolvedBetsById'])
-            .filter(row => (moment(row.get('resolved_time')).isBetween(startDate, endDate)));
-
-          // Get betting market ids
-          let bettingMarketIds = retrievedResolvedBets.map(bet => bet.get('betting_market_id')).toSet();
-          dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)).then((bettingMarkets) => {
-            // Get unique betting market group ids
-            let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
-            // Get the betting market groups
-            return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
-          }).then((bettingMarketGroups) => {
-            // Get unique event ids
-            let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet();
-            // Get the betting market groups
-            return dispatch(EventActions.getEventsByIds(eventIds));
-          }).then((events) => {
-            // Get unique sport ids
-            let sportIds = events.map(event => event.get('sport_id')).toSet();
-            // Get the betting market groups
-            return dispatch(SportActions.getSportsByIds(sportIds));
-          }).then((sports) => {
-            let precision = getState().getIn(['asset', 'assetsById', '1.3.0', 'precision']);
-            let exportData = [];
-            retrievedResolvedBets.forEach(row =>
-            {
-              let rowObj = {
-                key: row.get('id'),
-                id: row.get('id'),
-                'betting_market_id': row.get('betting_market_id'),
-                'back_or_lay': row.get('back_or_lay'),
-                'stake': CurrencyUtils.getFormattedCurrency(getStake('resolvedBets', row)/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.stakePlaces),
-                'odds': row.get('backer_multiplier'),
-                'profit_liability': CurrencyUtils.getFormattedCurrency(row.get('amount_won')/ Math.pow(10, precision), targetCurrency, BettingModuleUtils.exposurePlaces),
-                'resolved_time': getFormattedDate(row.get('resolved_time'))
-              }
-              exportData.push(Map(rowObj));
-            });
-
-            //merging betting market data for display and betting_market_group_id for reference
-            exportData = mergeRelationData(exportData, getState().getIn(['bettingMarket','bettingMarketsById']), 'betting_market_id',
-              {betting_market_group_id: 'betting_market_group_id' , payout_condition_string: 'payout_condition_string'});
-
-            //merging betting market group data for display and eventid for reference
-            exportData = mergeBettingMarketGroup(exportData,
-              getState().getIn(['bettingMarketGroup','bettingMarketGroupsById']), 'betting_market_group_id');
-
-            //merging evemt data for display and sport id for reference
-            exportData = mergeRelationData(exportData, getState().getIn(['event','eventsById']), 'event_id',
-              {'name': 'event_name' , 'sport_id': 'sport_id'});
-
-            //merging sport data for display
-            exportData = mergeRelationData(exportData, getState().getIn(['sport','sportsById']), 'sport_id',
-              {'name': 'sport_name'});
-
-            //Generated Resolved bets export object array using foreach to display properties in particular order in excel.
-            //TODO: Need to check if this can be improved
-            /*NOTE: Things to be taken care of for Resolved bet export data are listed below:-
-              1. Object property name change as per column configuration
-              2. Sequence of properties in Object as per column configuration
-              3. Removing unwanted columns from export data
-            */
-            exportData.forEach((row, index) => {
-              row = row.merge({
-                'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
-              });
-              let formattedRow = {};
-              for (var i = 0; i < columns.length; i++) {
-                formattedRow[columns[i].title] = row.get(columns[i].key);
-              }
-              exportData[index] = formattedRow;
-            });
-            // Add to redux store
-            dispatch(BetActions.addOrUpdateResolvedBetsExportAction(exportData));
-            // Set Resolved Bets Export Loadings tatus
-            dispatch(BetPrivateActions.setGetResolvedBetsExportLoadingStatusAction(LoadingStatus.DONE));
-            log.debug('Get resolved bets export succeed.');
-          }).catch((error) => {
-            log.error('Fail to get resolved bets export', error);
-            // Set error
-            dispatch(BetActions.setGetResolvedBetsExportErrorAction(error));
-          });
-        }, 3000);
-      };
-    }
-
-  }
 
   /**
    * Make bets, (bets format in this parameter is not determined yet)

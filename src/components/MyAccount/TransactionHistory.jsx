@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
 import { Table } from 'antd';
 import './MyAccount.less';
-import { LoadingStatus } from '../../constants';
+import { LoadingStatus, ExportTypes } from '../../constants';
 import { I18n } from 'react-redux-i18n';
 import Export from '../Export';
 import { CurrencyUtils, BettingModuleUtils } from '../../utility';
 import TimeRangePicker from '../TimeRangePicker';
 import PropTypes from 'prop-types';
+import Immutable from 'immutable';
 
 const paginationParams = { pageSize: 20 };
 
@@ -55,15 +56,35 @@ const getColumns = (currencyFormat, lastIrreversibleBlockNum) => {
 
 class TransactionHistory extends PureComponent {
 
-  render() {
-    const { transactionHistoryLoadingStatus,
-      generateTransactionHistoryExportDataLoadingStatus,
-      transactionHistoryExportData, exportButtonClicked, handleExportFinishDownload,
-      handleSearchClick, handleExportClick, lastIrreversibleBlockNum, currencyFormat,
-      resetExport } = this.props;
+  constructor(props) {
+    super(props);
+    this.state = {
+      tableData: this.props.transactionHistory.toJS()
+    }
+  }
 
-    const transactionHistory = this.props.transactionHistory.toJS();
-    const hasNoTransactionHistoryData = transactionHistory && transactionHistory.length === 0;
+  componentWillReceiveProps(nextProps) {
+    if (this.props.transactionHistory !== nextProps.transactionHistory) {
+      // Update table data if transaction history is updated
+      this.setState({
+        tableData: nextProps.transactionHistory.toJS()
+      })
+    }
+  }
+
+  render() {
+    const {
+      transactionHistoryLoadingStatus,
+      handleSearchClick,
+      handleExportClick,
+      exportLoadingStatus,
+      exportData,
+      handleResetExport,
+      lastIrreversibleBlockNum,
+      currencyFormat
+     } = this.props;
+
+    const hasNoTransactionHistoryData = this.state.tableData && this.state.tableData.length === 0;
 
     //Transaction History table Columns
     const columns = getColumns(currencyFormat, lastIrreversibleBlockNum);
@@ -80,36 +101,38 @@ class TransactionHistory extends PureComponent {
             <div className='float-right'>
               <TimeRangePicker onSearchClick={ handleSearchClick }
                 onExportClick={ handleExportClick }
-                searchResultsCount={  transactionHistory.length }
                 />
             </div>
           </div>
-          <Table className='bookie-table'
+          <Table
+            className='bookie-table'
             locale={ { emptyText: (
                 hasNoTransactionHistoryData && transactionHistoryLoadingStatus === LoadingStatus.DONE ?
                 I18n.t('mybets.nodata') : transactionHistoryLoadingStatus)  } }
-                pagination={ transactionHistory.length > paginationParams.pageSize ? paginationParams : false }
-                dataSource={ transactionHistory }
-                columns={ columns }/>
-            </div>
-          { exportButtonClicked ?
-            <Export
-              exportData={ transactionHistoryExportData.toJS() }
-              exportLoadingStatus={ generateTransactionHistoryExportDataLoadingStatus }
-              handleExportFinishDownload={ handleExportFinishDownload }
-              screenName={ I18n.t('myAccount.screenName') }
-              resetExport={ resetExport }
-              />: null }
-            </div>
+            pagination={ this.state.tableData.length > paginationParams.pageSize ? paginationParams : false }
+            dataSource={ this.state.tableData }
+            columns={ columns }
+          />
+        </div>
+        <Export
+          exportData={ exportData }
+          exportLoadingStatus={ exportLoadingStatus }
+          handleResetExport={ handleResetExport }
+          type={ ExportTypes.TRANSACTION_HISTORY }
+          screenName={ I18n.t('myAccount.screenName') }
+          />
+      </div>
     );
   }
 }
 
 TransactionHistory.propTypes = {
-  onExportClick: PropTypes.func
+  onExportClick: PropTypes.func,
+  transactionHistory: PropTypes.instanceOf(Immutable.List)
 }
 
 TransactionHistory.defaultProps = {
-  onExportClick: () => {}
+  onExportClick: () => {},
+  transactionHistory: Immutable.List()
 }
 export default TransactionHistory;
