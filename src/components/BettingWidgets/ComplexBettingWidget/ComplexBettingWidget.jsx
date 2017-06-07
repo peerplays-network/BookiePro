@@ -263,7 +263,7 @@ class ComplexBettingWidget extends Component {
                currencyFormat,
                BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
-         <div className='back-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
+         <div className='back-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }, {
         id: 'back2',
         header: props => null,
@@ -276,7 +276,7 @@ class ComplexBettingWidget extends Component {
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
-         <div className='back-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
+         <div className='back-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }, {
         id: 'back1',
         header: props => null,
@@ -289,7 +289,7 @@ class ComplexBettingWidget extends Component {
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
-         <div className='back-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
+         <div className='back-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }]
     }, {
       // NOTE will be seperated comopent for header
@@ -310,7 +310,7 @@ class ComplexBettingWidget extends Component {
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
-         <div className='lay-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
+         <div className='lay-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }, {
         id: 'lay2',
         header: props => null,
@@ -323,7 +323,7 @@ class ComplexBettingWidget extends Component {
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
-         <div className='lay-offer'>
+         <div className='lay-offer empty-offer'>
            <div className='odds-offer'>
              <p>{I18n.t('complex_betting_widget.offer')}</p>
            </div>
@@ -340,7 +340,7 @@ class ComplexBettingWidget extends Component {
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
-         <div className='lay-offer'>
+         <div className='lay-offer empty-offer'>
            <div className='odds-offer'>
              <p>{I18n.t('complex_betting_widget.offer')}</p>
            </div>
