@@ -171,6 +171,7 @@ class SearchMenu extends Component {
 
                 <Select
                   ref={ (ref) => this.select = ref }
+                  autoBlur={ true }
                   value={ this.state.value }
                   onChange={ this.onChange }
                   optionComponent={ SearchOption }
