@@ -28,6 +28,7 @@ class MyWager extends PureComponent {
     this.handleExportFinishDownload = this.handleExportFinishDownload.bind(this);
 
     this.onHomeLinkClick = this.onHomeLinkClick.bind(this);
+    this.handleUnmatchedEventClick = this.handleUnmatchedEventClick.bind(this);
     this.onTabChange = this.onTabChange.bind(this);
     this.cancelBet = this.cancelBet.bind(this);
     this.cancelAllBets = this.cancelAllBets.bind(this);
@@ -70,6 +71,11 @@ class MyWager extends PureComponent {
     this.props.navigateTo('/exchange');
   }
 
+  //Redirect to event market screen
+  handleUnmatchedEventClick(record, event){
+    this.props.navigateTo('/exchange/bettingmarketgroup/' + record.betting_market_group_id);
+  }
+
   //cancel single bet
   //record is presentaional record not a blockchain bet object
   cancelBet(record, event) {
@@ -96,7 +102,8 @@ class MyWager extends PureComponent {
             <UnmatchedBets columns={ this.props.betsColumns } unmatchedBets={ this.props.betsData }
               unmatchedBetsLoadingStatus={ this.props.betsLoadingStatus }
               currencyFormat={ this.props.betsCurrencyFormat } betsTotal={ this.props.betsTotal }
-              cancelBet={ this.cancelBet } cancelAllBets={ this.cancelAllBets }/>
+              cancelBet={ this.cancelBet } cancelAllBets={ this.cancelAllBets }
+              onEventClick={ this.handleUnmatchedEventClick }/>
           </TabPane>
           <TabPane tab={ I18n.t('mybets.matched_bets') } key={ MyWagerTabTypes.MATCHED_BETS }>
             <MatchedBets columns={ this.props.betsColumns } matchedBets={ this.props.betsData }

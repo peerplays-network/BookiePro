@@ -74,7 +74,7 @@ const getStoreFieldName = (state) => {
     case MyWagerTabTypes.RESOLVED_BETS:
       return 'resolvedBetsById';
     default:
-      return 'matchedBetsById';
+      return 'unmatchedBetsById';
   }
 }
 
@@ -182,8 +182,10 @@ const formatBettingData = (data, activeTab, precision, targetCurrency, startDate
     if(activeTab !== MyWagerTabTypes.RESOLVED_BETS)
       rowObj.event_time = getFormattedDate(row.get('event_time'));
 
-    if(activeTab === MyWagerTabTypes.UNMATCHED_BETS)
+    if(activeTab === MyWagerTabTypes.UNMATCHED_BETS){
+      rowObj.event_name = <a target='_self'>{ row.get('event_name') }</a>;
       rowObj.cancel = (row.get('cancelled') ? '' : <a className='btn cancel-btn' target='_self'>{ I18n.t('mybets.cancel') }</a>);
+    }
     data[index] = row.merge(rowObj);
   });
   return data;
