@@ -10,6 +10,7 @@ import { QuickBetDrawerActions, MarketDrawerActions, NavigateActions } from '../
 import Immutable from 'immutable';
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
 import PropTypes from 'prop-types';
+import { SidebarSelector } from '../../selectors';
 
 import Ps from 'perfect-scrollbar';
 
@@ -178,9 +179,8 @@ const mapStateToProps = (state, ownProps) => {
     path = ['quickBetDrawer', 'bets'];
   }
 
-  const sidebar = state.get('sidebar');
   return {
-    completeTree: sidebar.get('complete_tree'),
+    completeTree: SidebarSelector.getSidebarCompleteTree(state),
     hasUnplacedBets: !state.getIn(path).isEmpty(),
     currencyFormat
   };

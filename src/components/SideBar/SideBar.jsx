@@ -10,7 +10,6 @@ import EventGroup from './EventGroup';
 import Sport from './Sport';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
 import { findKeyPathOf, differences } from '../../utility/TreeUtils'
 import PropTypes from 'prop-types';
 

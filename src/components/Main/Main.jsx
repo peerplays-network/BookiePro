@@ -36,7 +36,7 @@ class Main extends Component {
   }
 
   onRouteChange(){
-     this.navBar.onRouteChangeHandle();
+    this.navBar.onRouteChangeHandle();
   }
 
   render() {
@@ -65,12 +65,11 @@ const mapStateToProps = (state) => {
   const initTransactionHistoryLoadingStatus = state.getIn(['rawHistory', 'initRawHistoryLoadingStatus']);
   const isInitAccountModalVisible = initTransactionHistoryLoadingStatus === LoadingStatus.LOADING;
 
-  const sidebar = state.get('sidebar');
   const event = state.get('event');
 
   return {
     isInitAccountModalVisible,
-    completeTree: sidebar.get('complete_tree'),
+    sidebarLoadingStatus: state.getIn(['sidebar', 'loadingStatus']),
     searchResult: event.get('searchResult'),
     getSearchEventsLoadingStatus: event.get('getSearchEventsLoadingStatus'),
   }

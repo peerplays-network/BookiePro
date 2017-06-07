@@ -167,7 +167,7 @@ class SearchMenu extends Component {
         >
           <Menu.Item className='search-menu-item'>
             {
-                this.props.completeTree.size === 0 ? null :
+                this.props.sidebarLoadingStatus !== LoadingStatus.DONE ? null :
 
                 <Select
                   ref={ (ref) => this.select = ref }
