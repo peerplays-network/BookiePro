@@ -1,8 +1,5 @@
 import React from 'react';
 import { Layout } from 'antd';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
-import { NavigateActions } from '../../../actions';
 import SearchMenu from './SearchMenu';
 import TopMenu from './TopMenu';
 import logo from '../../../assets/images/bookie_logo_topnav.png';
@@ -14,6 +11,7 @@ class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.handleNavigateToHome = this.handleNavigateToHome.bind(this);
+    this.onRouteChangeHandle = this.onRouteChangeHandle.bind(this);
   }
 
   //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
@@ -21,13 +19,20 @@ class NavBar extends React.Component {
     this.props.navigateTo('/exchange');
   }
 
+  onRouteChangeHandle(){
+    this._searchMenu.onRouteChangeHandle();
+  }
+
   render(){
     return (
       <Header id='betex-header'>
-        <div className='logo' onClick={ this.handleNavigateToHome }>
+        <div className='logo' onClick={ this.props.handleNavigateToHome }>
           <img alt='logo' src={ logo } />
         </div>
-        <SearchMenu />
+        <SearchMenu
+          ref={ (ref) => this._searchMenu = ref }
+          { ...this.props }
+         />
         <TopMenu />
       </Header>
     )
@@ -35,10 +40,4 @@ class NavBar extends React.Component {
 
 };
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    navigateTo: NavigateActions.navigateTo,
-  }, dispatch)
-}
-
-export default connect(null, mapDispatchToProps)(NavBar);
+export default NavBar;
