@@ -86,6 +86,9 @@ class Export extends PureComponent {
             <button className='btn btn-primary download'
               onClick={ this.handleDownloadClick }>{ I18n.t('application.download') }
             </button>
+            <button className='btn cancel-btn'
+              onClick={ this.handleCancelClick }>{ I18n.t('mybets.cancel') }
+            </button>
           </div>
         </Card>
       )
