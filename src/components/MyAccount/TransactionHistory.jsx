@@ -105,10 +105,10 @@ class TransactionHistory extends PureComponent {
             </div>
           </div>
           <Table
-            className='bookie-table'
+            className={ `bookie-table ${hasNoTransactionHistoryData ? 'bookie-table-empty' : ''}` }
             locale={ { emptyText: (
                 hasNoTransactionHistoryData && transactionHistoryLoadingStatus === LoadingStatus.DONE ?
-                I18n.t('mybets.nodata') : transactionHistoryLoadingStatus)  } }
+                I18n.t('mybets.nodata') : I18n.t('mybets.no_transactions'))  } }
             pagination={ this.state.tableData.length > paginationParams.pageSize ? paginationParams : false }
             dataSource={ this.state.tableData }
             columns={ columns }
