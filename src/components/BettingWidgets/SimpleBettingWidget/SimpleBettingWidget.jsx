@@ -39,7 +39,9 @@ const getColumns = (renderOffer, navigateTo, currencyFormat) => ([
     // will grow/shrink with the size of the table
     className: 'event-name',
     render: (text, record) => EventNameUtils.breakAtVs(record.get('event_name')),
-    onCellClick: (record, event) => navigateTo('/exchange/bettingmarketgroup/' + record.get('moneyline'))
+    onCellClick: (record, event) => {
+      record.get('moneyline') && navigateTo('/exchange/bettingmarketgroup/' + record.get('moneyline'))
+    }
   }, {
     title: '1',
     children: [{
