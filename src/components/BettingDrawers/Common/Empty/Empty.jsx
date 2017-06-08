@@ -17,7 +17,7 @@ const Empty = (props) => {
         }
       </div>
       <div className='my-bet-button'>
-        <Button className='btn btn-regular' onClick={ () => props.navigateTo('/my-wager/') }>
+        <Button className={ `btn btn-regular ${showSuccess ? 'go-to-bets-btn' : '' }` } onClick={ () => props.navigateTo('/my-wager/') }>
           { buttonText }
         </Button>
       </div>
