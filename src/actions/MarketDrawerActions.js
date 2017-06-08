@@ -155,7 +155,6 @@ class MarketDrawerActions {
         betting_market_id,
         market_type_id,
         market_type_value,
-        //odds: odds !== '' ? odds.toFixed(2) : '',
         odds,
         id: parseInt(moment().format('x'), 10)  // unix millisecond timestamp
       });
