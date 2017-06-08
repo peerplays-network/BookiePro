@@ -1,23 +1,35 @@
 import CommonSelector from './CommonSelector';
 import { createSelector } from 'reselect';
 import Immutable from 'immutable';
-import { LoadingStatus } from '../constants';
 
 const {
   getBettingMarketsById,
   getSportsById,
-  getActiveEventsBySportId,
+  getEventGroupsBySportId,
+  getActiveEventsByEventGroupId,
   getSimpleBettingWidgetBinnedOrderBooksByEventId
 } = CommonSelector;
 
-const getAllSportsLoadingStatus = (state) => state.getIn(['allSports', 'loadingStatus']);
+const getRelatedSportId = (state, ownProps) => ownProps.params.objectId;
+
+const getSportName = createSelector(
+  [
+    getRelatedSportId,
+    getSportsById
+  ],
+  (sportId, sportsById) => {
+    return sportsById.getIn([sportId, 'name']) || '';
+  }
+)
+
+const getSportPageLoadingStatus = (state) => state.getIn(['sportPage', 'loadingStatus']);
 
 
-// All Sports Data is in the following format
+// Sport page data is in the following format
 // [
 //   {
-//     "name": "American Football",
-//     "sport_id": "1.100.1",
+//     "name": "NFL",
+//     "event_group_id": "1.101.1",
 //     "events": [
 //       {
 //         "event_id": "1.103.7",
@@ -55,30 +67,30 @@ const getAllSportsLoadingStatus = (state) => state.getIn(['allSports', 'loadingS
 //   },
 //   ...
 // ]
-const getAllSportsData = createSelector(
+const getSportPageData = createSelector(
   [
-    getAllSportsLoadingStatus,
-    getSportsById,
-    getActiveEventsBySportId,
+    getRelatedSportId,
+    getSportPageLoadingStatus,
+    getEventGroupsBySportId,
+    getActiveEventsByEventGroupId,
     getBettingMarketsById,
     getSimpleBettingWidgetBinnedOrderBooksByEventId
   ],
-  (allSportsLoadingStatus, sportsById, activeEventsBySportId, bettingMarketsById, simpleBettingWidgetBinnedOrderBooksByEventId) => {
+  (relatedSportId, sportPageLoadingStatus, eventGroupsBySportId, activeEventsByEventGroupId, bettingMarketsById, simpleBettingWidgetBinnedOrderBooksByEventId) => {
     // Process all sports data only if the necessary data has been finished loaded
     // NOTE if you do not want to see incremental update, re-enable this if clause
-    // if (allSportsLoadingStatus !== LoadingStatus.DONE) {
+    // if (sportPageLoadingStatus !== LoadingStatus.DONE) {
     //   return Immutable.List();
     // }
 
-    let allSportsData = Immutable.List();
-    // Iterate over all sports to create sport node
-    sportsById.forEach((sport) => {
-      // Initialize sport node
-      let sportNode = Immutable.Map().set('name', sport.get('name'))
-                                      .set('sport_id', sport.get('id'));
-
+    let sportPageData = Immutable.List();
+    const eventGroups = eventGroupsBySportId.get(relatedSportId) || Immutable.List();
+    eventGroups.forEach((eventGroup) => {
+      // Initialize event group node
+      let eventGroupNode = Immutable.Map().set('name', eventGroup.get('name'))
+                                      .set('event_group_id', eventGroup.get('id'));
       // Create event nodes based on active events
-      const activeEvents = activeEventsBySportId.get(sport.get('id')) || Immutable.List();
+      const activeEvents = activeEventsByEventGroupId.get(eventGroup.get('id')) || Immutable.List();
       const eventNodes = activeEvents.map((event) => {
         const offers = simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
         // Find the MoneyLine Betting Market Group of this event
@@ -93,18 +105,19 @@ const getAllSportsData = createSelector(
           moneyline: moneylineBettingMarketGroupId,
         });
       });
-      // Set events to the sport
-      sportNode = sportNode.set('events', eventNodes);
-      // Set sport to the all sports data
-      allSportsData = allSportsData.push(sportNode);
+      // Set events to the event group node
+      eventGroupNode = eventGroupNode.set('events', eventNodes);
+      // Set event group to the sport page data
+      sportPageData = sportPageData.push(eventGroupNode);
     });
 
-    return allSportsData;
+    return sportPageData;
   }
 )
 
-const AllSportsSelector = {
-  getAllSportsData
+const SportPageSelector = {
+  getSportPageData,
+  getSportName
 }
 
-export default AllSportsSelector;
+export default SportPageSelector;

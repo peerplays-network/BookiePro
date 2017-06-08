@@ -50,9 +50,35 @@ const getEventGroupsById = (state) => {
   return state.getIn(['eventGroup', 'eventGroupsById']);
 }
 
+const getEventGroupsBySportId = createSelector(
+  getEventGroupsById,
+  (eventGroupsById) => {
+    return eventGroupsById.toList().groupBy(eventGroup => eventGroup.get('sport_id'));
+  }
+)
+
 const getEventsById = (state) => {
   return state.getIn(['event', 'eventsById']);
 }
+
+const getActiveEventsBySportId = createSelector(
+  getEventsById,
+  (eventsById) => {
+    // Active event is event whose start time is
+    const isActiveEvent = (event) => (event.get('start_time') -  new Date()) > 0;
+    return eventsById.filter(isActiveEvent).toList().groupBy(event => event.get('sport_id'));
+  }
+)
+
+const getActiveEventsByEventGroupId = createSelector(
+  getEventsById,
+  (eventsById) => {
+    // Active event is event whose start time is
+    const isActiveEvent = (event) => (event.get('start_time') -  new Date()) > 0;
+    return eventsById.filter(isActiveEvent).toList().groupBy(event => event.get('event_group_id'));
+  }
+)
+
 
 const getCompetitorsById = (state) => {
   return state.getIn(['competitor', 'competitorsById']);
@@ -70,14 +96,7 @@ const getBinnedOrderBooksByBettingMarketId = (state) => {
   return state.getIn(['binnedOrderBook', 'binnedOrderBooksByBettingMarketId']);
 }
 
-const getActiveEventsBySportId = createSelector(
-  getEventsById,
-  (eventsById) => {
-    // Active event is event whose start time is
-    const isActiveEvent = (event) => (event.get('start_time') -  new Date()) > 0;
-    return eventsById.filter(isActiveEvent).toList().groupBy(event => event.get('sport_id'));
-  }
-)
+
 
 // The structure of the binned order book used for simple betting widget is as the following
 // {
@@ -142,8 +161,10 @@ const CommonSelector = {
   getAssetsById,
   getSportsById,
   getEventGroupsById,
+  getEventGroupsBySportId,
   getEventsById,
   getActiveEventsBySportId,
+  getActiveEventsByEventGroupId,
   getCompetitorsById,
   getBettingMarketGroupsById,
   getBettingMarketsById,
