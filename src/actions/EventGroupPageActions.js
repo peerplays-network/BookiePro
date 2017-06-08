@@ -31,7 +31,13 @@ class EventGroupPagePrivateActions {
 
 class EventGroupPageActions {
   static getData(eventGroupId) {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+      // No need to fetch again if it's already fetched
+      const eventGroupPageLoadingStatus = getState().getIn(['eventGroupPage', 'loadingStatusByEventGroupId', eventGroupId]);
+      if (eventGroupPageLoadingStatus === LoadingStatus.DONE) {
+        return;
+      }
+
       dispatch(EventGroupPagePrivateActions.setLoadingStatusAction(eventGroupId, LoadingStatus.LOADING));
 
       let retrievedEventGroup;
