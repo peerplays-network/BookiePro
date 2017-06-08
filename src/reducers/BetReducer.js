@@ -53,9 +53,9 @@ export default function (state = initialState, action) {
       })
     }
     case ActionTypes.BET_UPDATE_MY_BETS: {
-      let unmatchedBetsById = state.unmatchedBetsById;
-      let matchedBetsById = state.matchedBetsById;
-      let resolvedBetsById = state.resolvedBetsById;
+      let unmatchedBetsById = state.get('unmatchedBetsById');
+      let matchedBetsById = state.get('matchedBetsById');
+      let resolvedBetsById = state.get('resolvedBetsById');
 
       // Update the data
       action.myBets.unmatchedBetsById.forEach((unmatchedBet, id) => {
