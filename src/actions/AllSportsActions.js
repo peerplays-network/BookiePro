@@ -32,11 +32,16 @@ class AllSportsPrivateActions {
  */
 class AllSportsActions {
   static getData() {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+      // If all sports have ever been fetched, no need to fetch it again
+      const allSportsLoadingStatus = getState().getIn(['allSports', 'loadingStatus']);
+      if (allSportsLoadingStatus === LoadingStatus.DONE) {
+        return;
+      }
+
       dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
       let retrievedSportIds;
-
       // Get sports
       dispatch(SportActions.getAllSports()).then((sports) => {
         retrievedSportIds = sports.map( sport => sport.get('id'));
