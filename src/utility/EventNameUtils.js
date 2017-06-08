@@ -11,9 +11,9 @@ import React from 'react';
 const breakAtVs = (name) => {
   let formatted = (<span>{ name }</span>);
   // REVIEW Ensure this is the actual agreed format
-  if (name.includes('vs')) {
-    const index = name.indexOf('vs');
-    formatted = (<span>{ name.substring(0, index+3) }<br/>{ name.substring(index+3) }</span>);
+  const found = name.match(/^(.*)(\W+vs\W+)(.*)$/);
+  if (found !== null) {
+    formatted = (<span>{ found[1] }{ found[2] }<br/>{ found[3] }</span>);
   }
   return formatted;
 }
