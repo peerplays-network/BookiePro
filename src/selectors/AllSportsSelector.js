@@ -1,7 +1,6 @@
 import CommonSelector from './CommonSelector';
 import { createSelector } from 'reselect';
 import Immutable from 'immutable';
-import { LoadingStatus } from '../constants';
 
 const {
   getBettingMarketsById,

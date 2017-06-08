@@ -6,12 +6,8 @@ import EventGroupActions from './EventGroupActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import _ from 'lodash';
-import Immutable from 'immutable';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
 import log from 'loglevel';
-import {
-  groupMoneyLineBinnedOrderBooks
-} from './dataUtils';
 
 /**
  * Private actions
@@ -47,10 +43,6 @@ class SportPageActions {
       }
       dispatch(SportPagePrivateActions.setLoadingStatusAction(sportId, LoadingStatus.LOADING));
 
-      let retrievedEventGroups = Immutable.List();
-      let retrievedEvents = Immutable.List();
-      let retrievedBettingMarketGroups = Immutable.List();
-
       // Get sport detail
       dispatch(SportActions.getSportsByIds([sportId])).then( (sports) => {
         const sport = sports.get(0);
@@ -58,19 +50,16 @@ class SportPageActions {
         // Get event group
         return dispatch(EventGroupActions.getEventGroupsByIds(eventGroupIds));
       }).then( (eventGroups) => {
-        retrievedEventGroups = eventGroups;
         // Get competitiors related to the sports
         return dispatch(CompetitorActions.getCompetitorsBySportIds([sportId]));
       }).then((competitors) => {
         // Get events
         return dispatch(EventActions.getActiveEventsBySportIds([sportId]));
       }).then( (events) => {
-        retrievedEvents = events;
         // Get betting market groups
         const bettingMarketGroupIds = events.flatMap( event => event.get('betting_market_group_ids'));
         return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
       }).then((bettingMarketGroups) => {
-        retrievedBettingMarketGroups = bettingMarketGroups;
         // Get betting markets
         const bettingMarketIds = bettingMarketGroups.flatMap( bettingMarketGroup => bettingMarketGroup.get('betting_market_ids'));
         return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds));
