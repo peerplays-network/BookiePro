@@ -48,7 +48,8 @@ const getAllSportsLoadingStatus = (state) => state.getIn(['allSports', 'loadingS
 //             ]
 //           },
 //           ...
-//         ]
+//         ],
+//         "moneyline": "1.104.19"
 //       },
 //       ...
 //     ],

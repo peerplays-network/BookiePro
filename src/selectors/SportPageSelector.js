@@ -22,7 +22,16 @@ const getSportName = createSelector(
   }
 )
 
-const getSportPageLoadingStatus = (state) => state.getIn(['sportPage', 'loadingStatus']);
+const getSportPageLoadingStatusBySportId = (state) => state.getIn(['sportPage', 'loadingStatusBySportId']);
+const getSportPageLoadingStatus = createSelector(
+  [
+    getRelatedSportId,
+    getSportPageLoadingStatusBySportId
+  ],
+  (relatedSportId, sportPageLoadingStatusBySportId) => {
+    return sportPageLoadingStatusBySportId.get(relatedSportId)
+  }
+)
 
 
 // Sport page data is in the following format
