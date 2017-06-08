@@ -60,7 +60,7 @@ class UnmatchedBets extends PureComponent {
         </Table>
         <Modal
           wrapClassName={ 'vertical-center-modal' }
-          title='You are about to remove [amount] bets, are you sure?'
+          title={ I18n.t('mybets.cancel_all_confirm', {currencySymbol, betsTotal}) }
           visible={ isCancelAllConfirmModalVisible }
           onOk={ handleCancelAllBets }
           onCancel={ declineCancelAllBets }

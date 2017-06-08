@@ -220,7 +220,8 @@ export const translationsObject = {
       resolved_bets: 'RESOLVED BETS',
       date: 'Date',
       from: 'From',
-      to: 'To'
+      to: 'To',
+      cancel_all_confirm: 'You are about to remove %{currencySymbol}%{betsTotal} bets, are you sure?'
     },
     complex_betting_widget:{
       back_all: 'Back all',
