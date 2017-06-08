@@ -126,9 +126,11 @@ class MyWager extends PureComponent {
             <UnmatchedBets
               unmatchedBets={ this.props.betsData }
               unmatchedBetsLoadingStatus={ this.props.betsLoadingStatus }
-              currencyFormat={ this.props.betsCurrencyFormat } betsTotal={ this.props.betsTotal }
-              onCancelBetClick={ this.cancelBet } onCancelAllBetsClick={ this.cancelAllBets }
               onEventClick={ this.handleUnmatchedEventClick }
+              currencyFormat={ this.props.betsCurrencyFormat }
+              betsTotal={ this.props.betsTotal }
+              onCancelBetClick={ this.cancelBet }
+              onCancelAllBetsClick={ this.cancelAllBets }
               isCancelAllConfirmModalVisible={ this.state.isCancelAllConfirmModalVisible }
               handleCancelAllBets={ this.handleCancelAllBets }
               declineCancelAllBets={ this.declineCancelAllBets }/>
