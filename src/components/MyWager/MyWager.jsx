@@ -18,6 +18,10 @@ const TabPane = Tabs.TabPane;
 class MyWager extends PureComponent {
   constructor(props) {
     super(props);
+    this.state = {
+      exportButtonClicked: false,
+      isCancelAllConfirmModalVisible: false
+    };
 
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.handleExportClick = this.handleExportClick.bind(this);
@@ -90,9 +94,22 @@ class MyWager extends PureComponent {
     this.props.cancelBets(List([Map(record)]));
   }
 
-  //cancel all bets and load unmatchedBets
-  cancelAllBets() {
+  //cancel all bets on Confirmation and hide confirm modal
+  handleCancelAllBets = () => {
     this.props.cancelBets(this.props.betsData);
+    this.setState({ isCancelAllConfirmModalVisible: false });
+  }
+  //hide cancelAllConfirmModal on decline
+  declineCancelAllBets = () => {
+    this.setState({isCancelAllConfirmModalVisible: false,});
+  }
+  // Confirmation pop-up for deleting all bets.
+  cancelAllBets(){
+
+    event.preventDefault();
+    //To show export related status after the 'Export' button is clicked
+    this.setState({ isCancelAllConfirmModalVisible: true });
+    //this.props.cancelBets(this.props.betsData);
   }
 
 
@@ -114,7 +131,9 @@ class MyWager extends PureComponent {
               betsTotal={ this.props.betsTotal }
               onCancelBetClick={ this.cancelBet }
               onCancelAllBetsClick={ this.cancelAllBets }
-            />
+              isCancelAllConfirmModalVisible={ this.state.isCancelAllConfirmModalVisible }
+              handleCancelAllBets={ this.handleCancelAllBets }
+              declineCancelAllBets={ this.declineCancelAllBets }/>
           </TabPane>
           <TabPane tab={ I18n.t('mybets.matched_bets') } key={ MyWagerTabTypes.MATCHED_BETS }>
             <MatchedBets
