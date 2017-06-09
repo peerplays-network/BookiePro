@@ -215,6 +215,7 @@ export const translationsObject = {
       mybets: 'My Bets',
       nodata: 'Sorry, no results found.',
       no_transactions: 'No recent transactions.',
+      no_bets: 'No recent bets.',
       unmatched_bets: 'UNMATCHED BETS',
       matched_bets: 'MATCHED BETS',
       resolved_bets: 'RESOLVED BETS',

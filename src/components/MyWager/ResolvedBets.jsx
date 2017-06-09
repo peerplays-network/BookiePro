@@ -65,7 +65,7 @@ class ResolvedBets extends PureComponent {
           </div>
           <Table pagination={ { pageSize: 20 } }
             locale={ { emptyText: ( this.state.tableData.length === 0 &&
-              resolvedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : resolvedBetsLoadingStatus )} }
+              resolvedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : I18n.t('mybets.no_bets') )} }
             className='bookie-table' dataSource={ this.state.tableData } columns={ this.state.columns }/>
         </div>
         <Export
