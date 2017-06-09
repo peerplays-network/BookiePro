@@ -42,6 +42,9 @@ export default function (state = initialState, action) {
         statistics: action.statistics
       });
     }
+    case ActionTypes.AUTH_RESET_AUTO_LOGIN_INFO: {
+      return initialState;
+    }
     case ActionTypes.AUTH_LOGOUT: {
       return initialState;
     }
