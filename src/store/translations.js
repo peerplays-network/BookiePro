@@ -180,11 +180,18 @@ export const translationsObject = {
       signout: 'Sign Out'
     },
     landing:{
-      login: 'Login',
-      signup: 'Signup now',
-      slogan: 'Slogan',
-      copyright: 'Copyright',
-      privacy_policy: 'Privacy Policy'
+      login: 'LOGIN',
+      signup: 'JOIN BOOKIE NOW',
+      slogan: 'Bet from anywhere in the world',
+      intro: 'Sign-up and start betting in 2 minutes!',
+      copyright: 'COPYRIGHT',
+      privacy_policy: 'PRIVACY POLICY',
+      registerStepTitle: 'Register',
+      registerStepMessage: 'Create an account',
+      depositStepTitle: 'Deposit',
+      depositStepMessage: 'Add wallet',
+      betStepTitle: 'Bet',
+      betStepMessage: 'Easy Betting'
     },
     mybets:{
       profit_liability: 'Profit / </br>Liability' +

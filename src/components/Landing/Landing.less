@@ -1,68 +1,77 @@
 @import '../App/Colors.less';
 @import '../App/Common.less';
 
-.splashComponent{
-  background: @app-bg;
-  height: 100%;
-  position: relative;
-  .btn{
-    margin-bottom:30px;
-  }
-  .footer{
-    padding:20px 0;
-    position: absolute;
-    bottom:0;
-    width: 100%;
-    text-align: center;
-    a{
-      text-transform: uppercase;
-      color: @white;
+.landing {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+
+  display: flex;
+  flex-direction: column;
+
+  .content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+
+
+    .logo {
+      width: 140px;
+      height: 150px;
     }
-  }
-  .intro-banner{
-    height:386px;
-    background: url("../../assets/landing_banner.png") no-repeat 100% 10%;
-    .content{
-      top: 0;
-      bottom: 0;
-      left: initial;
-      right: 5%;
-      margin: auto;
-      height: 130px;
+    .slogan {
+      margin-top: 44px;
+      font-size: 26px;
+      color: @light_blue;
+      max-width: 400px;
+      font-weight: bold;
+    }
+    .intro {
+      margin-top: 23px;
+      font-size: 24px;
+      max-width: 400px;
       text-align: center;
-      p{
-        font-size:36px;
-        margin-bottom:30px;
-        text-transform: uppercase;
-      }
-      .btn{
-        width:250px;
-        display: inline-block;
-      }
+      color: white;
+    }
+    .signup-button {
+      margin-top: 23px;
+      font-size: 18px;
+      width: 250px;
+      height: 40px;
+      min-height: 40px;
+    }
+    .login-button {
+      margin-top: 11px;
+      font-size: 18px;
+      width: 250px;
+      height: 40px;
+      min-height: 40px;
+    }
+    .steps {
+      margin-top: 76px;
     }
   }
-  .modal-inline{
-    .ant-btn{
-      text-transform: uppercase;
-      font-size:14px;
-      background-color: transparent;
-      font-weight:400;
-      border:0 none;
-      padding:0;
-      color: @white;
+  .footer {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    .copyright {
+      color: white;
     }
-  }
-  .btn{
-    &:hover{
-      color: inherit;
+    .separator {
+      margin-left: 5px;
+
     }
-  }
-  .btn-trans{
-    border: 1px solid @white;
-  }
-  .header{
-    .btn{
-      width:170px;
+    .privacy-policy {
+      margin-left: 5px;
+      color: white;
+
     }
   }
 }

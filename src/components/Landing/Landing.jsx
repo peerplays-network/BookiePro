@@ -1,31 +1,110 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PrivacyModal from '../Modal/PrivacyModal'
-import { I18n, Translate } from 'react-redux-i18n';
-class Landing extends Component{
-  render(){
+import { I18n } from 'react-redux-i18n';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { NavigateActions, AppActions } from '../../actions';
+import logo from '../../assets/images/bookie_logo_signup.png';
+import { AppBackgroundTypes } from '../../constants';
+import LandingSteps from './LandingSteps';
+
+class Landing extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      privacyModalVisible: false
+    }
+    this.onLoginClick = this.onLoginClick.bind(this);
+    this.onSignupClick = this.onSignupClick.bind(this);
+    this.onPrivacyModalCancelClick = this.onPrivacyModalCancelClick.bind(this);
+    this.onPrivacyPolicyClick = this.onPrivacyPolicyClick.bind(this);
+    this.renderSteps = this.renderSteps.bind(this);
+  }
+
+  componentDidMount() {
+    // Set app background to sports bg
+    this.props.setAppBackground(AppBackgroundTypes.FIELD_BG);
+  }
+
+  componentWillUnmount() {
+    // Reset app background to gradient
+    this.props.setAppBackground(AppBackgroundTypes.GRADIENT_BG);
+  }
+
+  onLoginClick(event) {
+    event.preventDefault();
+    this.props.navigateTo('/login');
+  }
+
+  onSignupClick(event) {
+    event.preventDefault();
+    this.props.navigateTo('/signup');
+  }
+
+  onPrivacyPolicyClick(event) {
+    event.preventDefault();
+    this.setState( {
+      privacyModalVisible: true
+    })
+  }
+
+  onPrivacyModalCancelClick() {
+    this.setState( {
+      privacyModalVisible: false
+    })
+  }
+
+  renderSteps() {
+    return (
+      <div className='steps'>
+
+      </div>
+    )
+  }
+
+  render() {
     return(
-      <div className='splashComponent'>
-        <div className='wrapper'>
-          <div className='header padding-15 clearfix'>
-            <a href='#login' className='btn btn-trans float-right'> {I18n.t('landing.login')} </a>
-          </div>
-          <div className='intro-banner pos-rel'>
-            <div className='content pos-abs'>
-              <p> {I18n.t('landing.slogan')} </p>
-              <a href='#signup' className='btn btn-regular'> {I18n.t('landing.signup')} </a>
+      <div className='landing'>
+        <div className='content'>
+            <img className='logo' src={ logo } alt=''/>
+            <div className='slogan'>
+              { I18n.t('landing.slogan') }
             </div>
-          </div>
+            <div className='intro'>
+              { I18n.t('landing.intro') }
+            </div>
+            <button className='signup-button btn btn-regular'>
+                { I18n.t('landing.signup') }
+            </button>
+            <button className='login-button btn btn-regular'>
+                { I18n.t('landing.login') }
+            </button>
+            <LandingSteps className='steps' />
         </div>
-        <div className='footer clearfix'>
-          <a href>{I18n.t('landing.copyright')}</a>
-          <span className='padding-lr-5'> | </span>
-          <PrivacyModal title={ I18n.t('landing.privacy_policy') } parentClass='privacy' buttonTitle={ I18n.t('landing.privacy_policy') } >
-              <Translate value='privacy_dialogue.content' dangerousHTML/>
-          </PrivacyModal>
+        <div className='footer'>
+          <a className='copyright'>{ I18n.t('landing.copyright') }</a>
+          <span className='separator'> | </span>
+          <a className='privacy-policy' onClick={ this.onPrivacyPolicyClick }>{ I18n.t('landing.privacy_policy') }</a>
         </div>
+        <PrivacyModal
+          visible={ this.state.privacyModalVisible }
+          onCancelClick={ this.onPrivacyModalCancelClick }
+        />
       </div>
     )
   }
 }
 
-export default Landing;
+const mapStateToProps = (state) => {
+  return {
+
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    navigateTo: NavigateActions.navigateTo,
+    setAppBackground: AppActions.setAppBackgroundAction,
+  }, dispatch);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Landing);
