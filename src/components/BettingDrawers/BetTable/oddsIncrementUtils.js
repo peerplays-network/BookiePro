@@ -112,10 +112,10 @@ const adjustOdds = (odds, betType) => {
   let adjusted = floatNumber;
   if (fmod(floatNumber, increment) !== 0) {
     const ratio = fscale(floatNumber) / fscale(increment);
-    adjusted = (rounding(betType)(ratio) * increment).toFixed(ODDS_PRECISION);
+    adjusted = (rounding(betType)(ratio) * increment);
   }
 
-  return adjusted;
+  return adjusted.toFixed(ODDS_PRECISION);
 }
 
 export {
