@@ -6,11 +6,7 @@ import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
 import _ from 'lodash';
-import Immutable from 'immutable';
 import log from 'loglevel';
-import {
-  groupMoneyLineBinnedOrderBooks
-} from './dataUtils';
 
 /**
  * Private actions
@@ -23,13 +19,6 @@ class AllSportsPrivateActions {
     }
   }
 
-  static setDataAction(eventIds, binnedOrderBooksByEvent) {
-    return {
-      type: ActionTypes.ALL_SPORTS_SET_DATA,
-      eventIds,
-      binnedOrderBooksByEvent
-    }
-  }
   static setErrorAction(error) {
     return {
       type: ActionTypes.ALL_SPORTS_SET_ERROR,
@@ -43,13 +32,16 @@ class AllSportsPrivateActions {
  */
 class AllSportsActions {
   static getData() {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+      // If all sports have ever been fetched, no need to fetch it again
+      const allSportsLoadingStatus = getState().getIn(['allSports', 'loadingStatus']);
+      if (allSportsLoadingStatus === LoadingStatus.DONE) {
+        return;
+      }
+
       dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.LOADING));
 
       let retrievedSportIds;
-      let retrievedEvents;
-      let retrievedBettingMarketGroups;
-
       // Get sports
       dispatch(SportActions.getAllSports()).then((sports) => {
         retrievedSportIds = sports.map( sport => sport.get('id'));
@@ -59,12 +51,10 @@ class AllSportsActions {
         // Get events related to the sports
         return dispatch(EventActions.getActiveEventsBySportIds(retrievedSportIds));
       }).then((events) => {
-        retrievedEvents = events;
         // Get betting market groups
         const bettingMarketGroupIds = events.flatMap( event => event.get('betting_market_group_ids'));
         return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
       }).then((bettingMarketGroups) => {
-        retrievedBettingMarketGroups = bettingMarketGroups;
         // Get betting markets
         const bettingMarketIds = bettingMarketGroups.flatMap( bettingMarketGroup => bettingMarketGroup.get('betting_market_ids'));
         return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds));
@@ -73,19 +63,7 @@ class AllSportsActions {
         const bettingMarketIds = bettingMarkets.map( bettingMarket => bettingMarket.get('id'));
         return dispatch(BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
       }).then((binnedOrderBooksByBettingMarketId) => {
-        // Sort binned order book by event
-        let binnedOrderBooksByEvent = Immutable.Map();
-        retrievedEvents.forEach((event) => {
-          binnedOrderBooksByEvent = binnedOrderBooksByEvent.set(
-            event.get('id'), groupMoneyLineBinnedOrderBooks(event, retrievedBettingMarketGroups, binnedOrderBooksByBettingMarketId)
-          );
-        });
-
-        // Stored all retrieve data in the AllSports state in Redux store
-        const eventIds = retrievedEvents.map((event) => event.get('id'));
-        dispatch(AllSportsPrivateActions.setDataAction(eventIds, binnedOrderBooksByEvent));
-
-        // Finish loading (TODO: Are we sure this is really the last action dispatched?)
+        // Set loading status
         dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
         log.debug('All Sports get data succeed.');
       }).catch((error) => {

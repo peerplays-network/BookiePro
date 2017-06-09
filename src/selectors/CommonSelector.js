@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import Immutable from 'immutable';
 
 const getAccountId = (state) => {
   return state.getIn(['account', 'account','id'])
@@ -49,9 +50,35 @@ const getEventGroupsById = (state) => {
   return state.getIn(['eventGroup', 'eventGroupsById']);
 }
 
+const getEventGroupsBySportId = createSelector(
+  getEventGroupsById,
+  (eventGroupsById) => {
+    return eventGroupsById.toList().groupBy(eventGroup => eventGroup.get('sport_id'));
+  }
+)
+
 const getEventsById = (state) => {
   return state.getIn(['event', 'eventsById']);
 }
+
+const getActiveEventsBySportId = createSelector(
+  getEventsById,
+  (eventsById) => {
+    // Active event is event whose start time is
+    const isActiveEvent = (event) => (event.get('start_time') -  new Date()) > 0;
+    return eventsById.filter(isActiveEvent).toList().groupBy(event => event.get('sport_id'));
+  }
+)
+
+const getActiveEventsByEventGroupId = createSelector(
+  getEventsById,
+  (eventsById) => {
+    // Active event is event whose start time is
+    const isActiveEvent = (event) => (event.get('start_time') -  new Date()) > 0;
+    return eventsById.filter(isActiveEvent).toList().groupBy(event => event.get('event_group_id'));
+  }
+)
+
 
 const getCompetitorsById = (state) => {
   return state.getIn(['competitor', 'competitorsById']);
@@ -69,6 +96,64 @@ const getBinnedOrderBooksByBettingMarketId = (state) => {
   return state.getIn(['binnedOrderBook', 'binnedOrderBooksByBettingMarketId']);
 }
 
+
+
+// The structure of the binned order book used for simple betting widget is as the following
+// {
+//    "betting_market_id": "1.105.37",
+//      "back": [
+//       {
+//         "odds": 4.9,
+//         "price": 0.63
+//       },
+//       {
+//         "odds": 3.9,
+//         "price": 0.46
+//       }
+//     ],
+//     "lay": [
+//       {
+//         "odds": 4.13,
+//         "price": 0.8
+//       },
+//       {
+//         "odds": 3.6,
+//         "price": 0.72
+//       }
+//     ]
+//   },
+const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
+  [
+    getBinnedOrderBooksByBettingMarketId,
+    getBettingMarketsById,
+    getBettingMarketGroupsById
+  ],
+  (binnedOrderBooksByBettingMarketId, bettingMarketsById, bettingMarketGroupsById) => {
+    let simpleBettingWidgetBinnedOrderBooksByEventId = Immutable.Map();
+    binnedOrderBooksByBettingMarketId.forEach((binnedOrderBook, bettingMarketId) => {
+      const bettingMarket = bettingMarketsById.get(bettingMarketId);
+      const bettingMarketGroupId = bettingMarket && bettingMarket.get('betting_market_group_id');
+      const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
+      const eventId = bettingMarketGroup && bettingMarketGroup.get('event_id');
+      const isMoneyline = !!bettingMarketGroup && (bettingMarketGroup.get('market_type_id').toUpperCase() === 'MONEYLINE');
+      if (eventId && isMoneyline) {
+        // Implicit Rule: the first betting market is for the home team
+        let simpleBettingWidgetBinnedOrderBook = Immutable.Map().set('betting_market_id', bettingMarketId)
+                                                                .set('back', Immutable.List())
+                                                                .set('lay', Immutable.List());
+        simpleBettingWidgetBinnedOrderBook = simpleBettingWidgetBinnedOrderBook.set('back', binnedOrderBook.get('aggregated_back_bets'))
+                                                                               .set('lay', binnedOrderBook.get('aggregated_lay_bets'));
+        simpleBettingWidgetBinnedOrderBooksByEventId = simpleBettingWidgetBinnedOrderBooksByEventId.update(eventId, (simpleBettingWidgetBinnedOrderBooks) => {
+          if (!simpleBettingWidgetBinnedOrderBooks) simpleBettingWidgetBinnedOrderBooks = Immutable.List();
+          return simpleBettingWidgetBinnedOrderBooks.push(simpleBettingWidgetBinnedOrderBook);
+        })
+      }
+    })
+    return simpleBettingWidgetBinnedOrderBooksByEventId;
+  }
+)
+
+
 const CommonSelector = {
   getAccountId,
   getCurrencyFormat,
@@ -76,11 +161,15 @@ const CommonSelector = {
   getAssetsById,
   getSportsById,
   getEventGroupsById,
+  getEventGroupsBySportId,
   getEventsById,
+  getActiveEventsBySportId,
+  getActiveEventsByEventGroupId,
   getCompetitorsById,
   getBettingMarketGroupsById,
   getBettingMarketsById,
-  getBinnedOrderBooksByBettingMarketId
+  getBinnedOrderBooksByBettingMarketId,
+  getSimpleBettingWidgetBinnedOrderBooksByEventId
 
 }
 
