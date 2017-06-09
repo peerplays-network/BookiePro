@@ -53,7 +53,6 @@ class LandingSteps extends PureComponent {
             { message }
           </div>
         </div>
-
       </div>
     )
   }
