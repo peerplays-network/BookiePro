@@ -18,14 +18,14 @@ class Signup extends PureComponent {
 
   componentDidMount() {
     // Set app background to sports bg
-    this.props.setAppBackground(AppBackgroundTypes.SPORTS_BG);
+    this.props.setAppBackground(AppBackgroundTypes.FIELD_BG);
   }
 
   componentWillUnmount() {
     // Reset app background to gradient
     this.props.setAppBackground(AppBackgroundTypes.GRADIENT_BG);
   }
-  
+
   //Navigate to login page
   onClickLogin(event) {
     event.preventDefault();
