@@ -22,7 +22,8 @@ export const translationsObject = {
       exportDownloadHeader: 'Export Completed',
       exportNoDataHeader: 'No data',
       exportStatusHeader: 'Export Failed',
-      close: 'Close'
+      close: 'Close',
+      unknown_error: 'Unknown Error'
     },
     titleBar:{
       title: 'Bookie',

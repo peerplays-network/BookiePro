@@ -1,6 +1,7 @@
 import { Config } from '../constants';
 import log from 'loglevel';
 import CommunicationService from './CommunicationService';
+import { I18n } from 'react-redux-i18n';
 
 class AccountServices {
 
@@ -49,7 +50,7 @@ class AccountServices {
         if (responseJson.error) {
           const baseErrorMessage = responseJson.error.base && responseJson.error.base[0]
           const remoteIpErrorMessage = responseJson.error.remote_ip && responseJson.error.remote_ip[0]
-          const errorMessage = baseErrorMessage || remoteIpErrorMessage || 'Signup Fail';
+          const errorMessage = baseErrorMessage || remoteIpErrorMessage || I18n.t('unknown_error');
           const error = new Error(errorMessage);
           log.error('Fail to register for account by the faucet', error);
           reject(error);
