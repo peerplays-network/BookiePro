@@ -48,6 +48,7 @@ class AccountServices {
       }).then((responseJson) => {
         // Check if the registration is rejected by the faucet
         if (responseJson.error) {
+          log.error(responseJson.error)
           const baseErrorMessage = responseJson.error.base && responseJson.error.base[0]
           const remoteIpErrorMessage = responseJson.error.remote_ip && responseJson.error.remote_ip[0]
           const errorMessage = baseErrorMessage || remoteIpErrorMessage || I18n.t('unknown_error');

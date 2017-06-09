@@ -73,7 +73,7 @@ class Landing extends PureComponent {
             <div className='intro'>
               { I18n.t('landing.intro') }
             </div>
-            <button className='signup-button btn btn-regular' onClick={ this.onSignupClick }>
+            <button className='signup-button' onClick={ this.onSignupClick }>
                 { I18n.t('landing.signup') }
             </button>
             <button className='login-button btn btn-regular' onClick={ this.onLoginClick }>
