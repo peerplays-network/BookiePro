@@ -95,16 +95,10 @@ class Landing extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-
-  }
-}
-
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     setAppBackground: AppActions.setAppBackgroundAction,
   }, dispatch);
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Landing);
+export default connect(null, mapDispatchToProps)(Landing);
