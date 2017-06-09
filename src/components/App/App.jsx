@@ -173,7 +173,7 @@ const mapStateToProps = (state) => {
   const isNeedHardUpdate = SoftwareUpdateUtils.isNeedHardUpdate(version);
   const isTitleBarTransparent = app.get('isTitleBarTransparent');
   const appBackgroundType = app.get('appBackgroundType');
-  const isConnectedToBlockchain = state.getIn(['app, connectionStatus']) === ConnectionStatus.CONNECTED
+  const isConnectedToBlockchain = state.getIn(['app', 'connectionStatus']) === ConnectionStatus.CONNECTED
 
   return {
     connectToBlockchainLoadingStatus,
