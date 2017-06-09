@@ -231,15 +231,14 @@ class ComplexBettingWidget extends Component {
         )
       }
     }, {
-      className: 'back-left',
+      className: 'back-arrows-col',
       header: props => null,
       minWidth: minArrowWidth,
-      render: props => <div className='back-offer'><i className='icon-chevron-left'></i></div>
-    }, {
-      className: 'back-right',
-      header: props => null,
-      minWidth: minArrowWidth,
-      render: props => <div className='back-offer'><i className='icon-chevron-right'></i></div>
+      render: props =>
+        <div className='back-offer'>
+          <i className='icon-left-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'back', -1) }></i>
+          <i className='icon-right-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'back', 1) }></i>
+        </div>
     }, {
       // TODO: width adjustment will do later because I
       // cant manipulate width of the th tag
@@ -347,15 +346,14 @@ class ComplexBettingWidget extends Component {
          </div>
       }]
     }, {
-      className: 'lay-left',
+      className: 'lay-arrows-col',
       header: props => null,
       minWidth: minArrowWidth,
-      render: props => <div className='lay-offer'><i className='icon-chevron-left'></i></div>
-    }, {
-      className: 'lay-right',
-      header: props => null,
-      minWidth: minArrowWidth,
-      render: props => <div className='lay-offer'><i className='icon-chevron-right'></i></div>
+      render: props =>
+        <div className='lay-offer'>
+          <i className='icon-left-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'lay', -1) }></i>
+          <i className='icon-right-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'lay', 1) }></i>
+        </div>
     }]
 
     //TODO using string for market_type_id instead of 1.xxxx.x
@@ -396,19 +394,9 @@ class ComplexBettingWidget extends Component {
             getTdProps={ (state, rowInfo, column, instance) => {
               return {
                 onClick: (event) => {
-
-                  if ( column.className === 'lay-right'){
-                    this.shiftOfferDisplay(rowInfo.index, 'lay', 1)
-                  } else if ( column.className === 'lay-left'){
-                    this.shiftOfferDisplay(rowInfo.index, 'lay', -1)
-                  } else if ( column.className === 'back-right'){
-                    this.shiftOfferDisplay(rowInfo.index, 'back', 1)
-                  } else if ( column.className === 'back-left'){
-                    this.shiftOfferDisplay(rowInfo.index, 'back', -1)
-                  } else if ( column.className === BetTypes.LAY || column.className === BetTypes.BACK){
+                  if ( column.className === BetTypes.LAY || column.className === BetTypes.BACK){
                     this.onOfferClicked(rowInfo, column)
                   }
-
                 }
               }
             }
