@@ -47,7 +47,9 @@ class AccountServices {
       }).then((responseJson) => {
         // Check if the registration is rejected by the faucet
         if (responseJson.error) {
-          const errorMessage = responseJson.error.base ? responseJson.error.base[0] : 'Signup Fail';
+          const baseErrorMessage = responseJson.error.base && responseJson.error.base[0]
+          const remoteIpErrorMessage = responseJson.error.remote_ip && responseJson.error.remote_ip[0]
+          const errorMessage = baseErrorMessage || remoteIpErrorMessage || 'Signup Fail';
           const error = new Error(errorMessage);
           log.error('Fail to register for account by the faucet', error);
           reject(error);

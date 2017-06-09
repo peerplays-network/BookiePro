@@ -15,6 +15,11 @@ import { TransactionBuilder } from 'graphenejs-lib';
  * Private actions
  */
 class AuthPrivateActions {
+  static resetAutoLoginInfoAction() {
+    return {
+      type: ActionTypes.AUTH_RESET_AUTO_LOGIN_INFO
+    }
+  }
   static logoutAction(accountId) {
     return {
       type: ActionTypes.AUTH_LOGOUT,
@@ -140,6 +145,8 @@ class AuthActions {
           // Set login status to done
           dispatch(AuthPrivateActions.setAutoLoginLoadingStatusAction(LoadingStatus.DONE));
         }).catch((error) => {
+          // Auto login fails, very likely because the stored username and password is invalid, clear the data
+          dispatch(AuthPrivateActions.resetAutoLoginInfoAction());
           log.error('Auto login error', error);
           // Set error
           dispatch(AuthPrivateActions.setAutoLoginErrorsAction([I18n.t('login.wrong_username_password')]));
