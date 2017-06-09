@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LoadingStatus, AppBackgroundTypes } from '../../constants';
+import { LoadingStatus, AppBackgroundTypes, ConnectionStatus } from '../../constants';
 import { NavigateActions, AppActions, AuthActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -13,6 +13,11 @@ import Loading from '../Loading';
 
 const isWindowsPlatform = AppUtils.isWindowsPlatform();
 const titleBarHeight = isWindowsPlatform ? '32px' : '40px';
+
+// App content top depends on the title bar height
+const appContentStyle = {
+  'top': titleBarHeight
+}
 
 const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 
@@ -32,6 +37,9 @@ class App extends Component {
     this.onConfirmSoftwareUpdate = this.onConfirmSoftwareUpdate.bind(this);
     this.onCancelSoftwareUpdate = this.onCancelSoftwareUpdate.bind(this);
     this.onClickTryAgainConnectionError = this.onClickTryAgainConnectionError.bind(this);
+    this.renderSoftwareUpdateModal = this.renderSoftwareUpdateModal.bind(this);
+    this.renderLogoutModal = this.renderLogoutModal.bind(this);
+    this.renderConnectionErrorModal = this.renderConnectionErrorModal.bind(this);
   }
 
   componentWillMount() {
@@ -80,9 +88,8 @@ class App extends Component {
     this.props.showLogoutPopup(false);
   }
 
-  render() {
-
-    let softwareUpdateModal = (
+  renderSoftwareUpdateModal() {
+    return (
         <SoftwareUpdateModal
           modalTitle={ this.props.displayText }
           closable={ !this.props.isNeedHardUpdate }
@@ -92,68 +99,60 @@ class App extends Component {
           latestVersion={ this.props.version }
         />
     );
+  }
 
-    let logoutModal = (
+  renderConnectionErrorModal() {
+    return (
+      <ConnectionErrorModal
+        onClickTryAgain={ this.onClickTryAgainConnectionError }
+        visible={ this.props.isShowConnectionErrorPopup }
+        />
+    );
+  }
+
+  renderLogoutModal() {
+    return (
       <LogoutModal
         onConfirmLogout={ this.onConfirmLogout }
         onCancelLogout={ this.onCancelLogout }
         visible={ this.props.isShowLogoutPopup }
         />
     );
+  }
 
-    let connectionErrorModal = (
-      <ConnectionErrorModal
-        onClickTryAgain={ this.onClickTryAgainConnectionError }
-        visible={ this.props.isShowConnectionErrorPopup }
-        />
-    );
+  render() {
+    const { children, connectToBlockchainLoadingStatus, appBackgroundType, isConnectedToBlockchain, isTitleBarTransparent } = this.props;
 
     let content = null;
-    // Show page based on blockchain connection loading status
-    switch(this.props.connectToBlockchainLoadingStatus) {
-      case LoadingStatus.LOADING: {
-        content = <Loading />;
-        break;
-      }
-      case LoadingStatus.DONE: {
-        content = (
-          this.props.children
-        )
-        break;
-      }
-      default: break;
-    }
-    // Use inline style to determine title bar height and top distance since they are depend on platform version
-    const appContentStyle = {
-      'top': titleBarHeight
-    }
-
-    const titleBarStyle = {
-      'height': titleBarHeight,
-      'minHeight': titleBarHeight
-    }
-
-    if (this.props.isTitleBarTransparent) {
-      titleBarStyle['backgroundColor'] = 'transparent';
+    if (connectToBlockchainLoadingStatus === LoadingStatus.LOADING) {
+      content = <Loading />;
+    } else{
+      content = children;
     }
 
     // Determine app background
     let appBackgroundClass = '';
-    if (this.props.appBackgroundType === AppBackgroundTypes.SPORTS_BG) {
+    if (appBackgroundType === AppBackgroundTypes.SPORTS_BG) {
       appBackgroundClass = 'sportsbg';
-    } else if (this.props.appBackgroundType === AppBackgroundTypes.GRADIENT_BG) {
+    } else if (appBackgroundType === AppBackgroundTypes.FIELD_BG) {
+      appBackgroundClass = 'fieldbg';
+    } else {
       appBackgroundClass = 'gradientbg';
     }
 
     return (
       <div className={ 'app ' + appBackgroundClass }>
-        <TitleBar isWindowsPlatform={ isWindowsPlatform } style={ titleBarStyle } />
+        <TitleBar
+          isWindowsPlatform={ isWindowsPlatform }
+          isConnectedToBlockchain={ isConnectedToBlockchain }
+          isTransparent={ isTitleBarTransparent }
+          height={ titleBarHeight } />
         <div className='app-content' style={ appContentStyle }>
           { content }
         </div>
-        { logoutModal }
-        { softwareUpdateModal }
-        { connectionErrorModal }
+        { this.renderLogoutModal() }
+        { this.renderSoftwareUpdateModal() }
+        { this.renderConnectionErrorModal() }
       </div>
     );
   }
@@ -174,9 +173,11 @@ const mapStateToProps = (state) => {
   const isNeedHardUpdate = SoftwareUpdateUtils.isNeedHardUpdate(version);
   const isTitleBarTransparent = app.get('isTitleBarTransparent');
   const appBackgroundType = app.get('appBackgroundType');
+  const isConnectedToBlockchain = connectToBlockchainLoadingStatus === ConnectionStatus.CONNECTED
 
   return {
     connectToBlockchainLoadingStatus,
+    isConnectedToBlockchain,
     isLoggedIn,
     version,
     displayText,

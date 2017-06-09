@@ -130,7 +130,16 @@ class TitleBar extends Component {
   };
 
   render() {
-    const { isConnected, isWindowsPlatform, style } = this.props;
+    const { isConnectedToBlockchain, isWindowsPlatform, isTransparent, height } = this.props;
+
+    let style = {
+      height,
+      minHeight: height
+    };
+    if (isTransparent) {
+      style['backgroundColor'] = 'transparent';
+    }
+
     if (isWindowsPlatform) {
       return (
         <WindowsTitleBar
@@ -140,7 +149,7 @@ class TitleBar extends Component {
           onMinimizeClick={ this.onMinimizeClick }
           onCloseClick={ this.onCloseClick }
           isMaximized={ this.state.isMaximized }
-          isConnected={ isConnected }
+          isConnected={ isConnectedToBlockchain }
           style={ style }
         />
       );
@@ -154,7 +163,7 @@ class TitleBar extends Component {
           onResizeClick={ this.onResizeClick }
           onCloseClick={ this.onCloseClick }
           isFullscreen={ this.state.isFullscreen }
-          isConnected={ isConnected }
+          isConnected={ isConnectedToBlockchain }
           style={ style }
         />
       )
@@ -164,6 +173,8 @@ class TitleBar extends Component {
 
 TitleBar.propTypes = {
   isWindowsPlatform: PropTypes.bool,
+  isConnectedToBlockchain: PropTypes.bool,
+  isTitleBarTransparent: PropTypes.bool,
   height: PropTypes.string,
   style: PropTypes.object
 }

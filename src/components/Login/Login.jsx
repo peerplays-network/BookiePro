@@ -20,7 +20,7 @@ class Login extends Component {
 
   componentDidMount() {
     // Set app background to sports bg
-    this.props.setAppBackground(AppBackgroundTypes.SPORTS_BG);
+    this.props.setAppBackground(AppBackgroundTypes.FIELD_BG);
   }
 
   componentWillUnmount() {
