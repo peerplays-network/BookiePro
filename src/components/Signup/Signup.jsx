@@ -46,7 +46,7 @@ class Signup extends PureComponent {
             <p className='font18 margin-btm-24'>{I18n.t('signup.new_acc_req_text')}</p>
             <div className='center-ele'>
               <SignupForm
-                loadingStatus={ this.props.loadingStatus }
+                loadingStatus={ this.props.status }
                 onClickLogin={ this.onClickLogin }
                 onSubmit={ this.handleSubmit }
                 errors={ this.props.errors }
