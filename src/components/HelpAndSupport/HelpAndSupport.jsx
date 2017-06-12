@@ -53,8 +53,6 @@ class HelpAndSupport extends PureComponent {
           { this.renderQuestionAnswerPair(I18n.t('help.question11'), I18n.t('help.answer11')) }
           { this.renderQuestionAnswerPair(I18n.t('help.question12'), I18n.t('help.answer12')) }
           { this.renderQuestionAnswerPair(I18n.t('help.question13'), I18n.t('help.answer13')) }
-          { this.renderQuestionAnswerPair(I18n.t('help.question14'), I18n.t('help.answer14')) }
-          { this.renderQuestionAnswerPair(I18n.t('help.question15'), I18n.t('help.answer15')) }
         </div>
       </div>
     )
