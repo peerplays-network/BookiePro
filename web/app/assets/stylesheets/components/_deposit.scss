@@ -1,0 +1,28 @@
+.deposit__col{
+	margin-top: 20px;
+	padding: 10px 10% 30px 0;
+	min-height: 756px;
+	&.left{
+		border-right: 1px solid #2c3370;
+	}
+	&.right{
+		padding-left: 30px;
+	}
+	.title{
+		font-size: 24px;
+		font-weight: 500;
+		padding: 20px 0;
+		margin-bottom: 37px;
+	}
+	.label{
+
+	}
+	.label-lg{
+		font-size: 17px;
+		padding-bottom: 16px;
+		font-weight: 400;
+	}
+	.qr{
+		margin: 0 0 50px;
+	}
+}

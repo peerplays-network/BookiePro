@@ -1,0 +1,264 @@
+.pG{
+	&__section{
+		&Wrap{
+			@include clearfix;
+		}
+		padding: 20px;
+		&Link{
+			display: block;
+			@include transition();
+			&:hover{opacity: .8;}
+		}
+		&Pic{
+			display: block;
+			text-align: center;
+			overflow: hidden;
+			position: relative;
+			&.lg{
+				img{
+					height: 410px;
+				}
+			}
+			img{
+				width: auto;
+				height: 285px;
+				vertical-align: middle;
+				@include box-shadow($shadow);
+			}
+		}
+		&Text{
+			display: block;
+			font-size: 20px;
+			font-weight: 500;
+			color: $text-color-bg;
+			text-align: center;
+			padding: 15px 5px;
+		}
+	}
+	&__radio{
+		&Wrap{
+			padding: 0 0 20px;
+		}
+		&Item{
+			display: inline-block;
+			vertical-align: top;
+			margin-right: 120px;
+			&:last-child{
+				margin-right: 0;
+			}
+		}
+	}
+	&__fieldSearchWrap{
+		margin: 0 0 30px 17px;
+	}
+}
+.table-pg-find{
+	.tableCell{
+		//outline: 1px solid;
+		width: 20%;
+		height: 62px;
+	}
+}
+.table-pg-explore{
+	.tableCell{
+		//outline: 1px solid;
+		width: 11%;
+		height: 62px;
+		&:nth-child(3),
+		&:nth-child(4){
+			width: 16%;
+		}
+	}
+}
+.table-pg-db1{
+	.tableCell{
+		min-width: 80px;
+	}
+}
+.whiteList__title{
+	font-size: 20px;
+	margin-bottom: 15px;
+}
+.whiteList__text{
+	margin-bottom: 30px;
+	p{
+		font-size: 16px;
+		line-height: 1.25;
+		font-weight: 300;
+		margin-bottom: 6px;
+	}
+}
+.pGCur__dd{
+	&.dd{
+		position: absolute;
+		right: -40px;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+	}
+	.ddTrigger{
+		padding: 0;
+		height: 50px;
+		line-height: 46px;
+		&:hover{opacity: .6;}
+		&:after{
+			display: none;
+		}
+		&__text{
+			display: block;
+			height: auto;
+			text-align: center;
+			border: 2px solid $color-second;
+			color: $color-add;
+			font-weight: 600;
+			font-size: 16px;
+			text-transform: uppercase;
+			background: #fff;
+			margin-right: 40px;
+			min-width: 70px;
+			padding: 0 10px;
+			@include border-radius(0 3px 3px 0);
+		}
+		&__icon{
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 40px;
+			line-height: 50px;
+			text-align: right;
+			margin: 0;
+			vertical-align: middle;
+		}
+	}
+	.ddMenu{
+		width: 150px;
+		left: 100%;
+	}
+}
+.pGBtns{
+	.btn{
+		margin: 0 15px 15px 0;
+		&:last-child{
+			margin-right: 0;
+		}
+	}
+	.btn + .btn{
+		margin-left: 0;
+	}
+}
+.pGExplore__dd{
+	display: inline-block;
+	vertical-align: middle;
+	
+	.ddTrigger{
+		padding: 0;
+		height: 50px;
+		line-height: 46px;
+		&:hover{opacity: .6;}
+		&:after{
+			display: none;
+		}
+		&__text{
+			display: inline-block;
+			padding-right: 5px;
+			height: auto;
+			text-align: center;
+			color: #fff;
+			font-size: 16px;
+			@include border-radius(0 3px 3px 0);
+		}
+		&__icon{
+			position: static;
+			line-height: 50px;
+			margin: 0;
+			vertical-align: middle;
+		}
+	}
+	.ddMenu{
+		width: 150px;
+		left: 0;
+	}
+}
+
+.pG__section2{
+	&Title{
+		font-size: 64px;
+		color: #fff;
+		margin: 60px 0;
+	}
+	&Wrap{
+		margin-bottom: 80px;
+		text-align: center;
+		&In{
+			@include clearfix;
+			display: inline-block;
+		}
+	}
+	float: left;
+	margin-right: 20px;
+	&:last-child{
+		margin-right: 0;
+	}
+	&Link{
+		position: relative;
+		width: 500px;
+		height: 500px;
+		display: block;
+		background: #141734;
+		@include border-radius(20px);
+		@include va_middle_out;
+		text-align: center;
+		text-align-last: center;
+		@include transition();
+	}
+	&Pic{
+		@include va_middle_in;
+		img{
+			vertical-align: middle;
+		}
+	}
+	&Text{
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 80px;
+		font-size: 24px;
+		color: rgba(255,255,255,.4);
+	}
+}
+@media (max-width:1620px) {
+	.pG__section2Link{
+		width: 400px;
+		height: 400px;
+	}
+	.pG__section2Pic{
+		img{
+			max-width: 80%;
+		}
+	}
+}
+@media (max-width:1300px) {
+	.pG__section2Link{
+		width: 300px;
+		height: 300px;
+	}
+	.pG__section2Pic{
+		img{
+			max-width: 60%;
+		}
+	}
+	.pG__section2Text{
+		bottom: 40px;
+	}
+}
+@media (max-width:1024px) {
+	.pG__section2Link{
+		width: 250px;
+		height: 250px;
+	}
+	.pG__section2Pic{
+		img{
+			max-width: 60%;
+		}
+	}
+}

@@ -1,0 +1,71 @@
+/*!
+ *  Copyright (c) 2015 Cryptonomex, Inc., and contributors.
+ *
+ *  The MIT License
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *  THE SOFTWARE.
+ */
+
+.icon {
+  position: relative;
+  top: 1px;
+}
+
+
+
+.icon > svg, span.icon {
+  width: 1.12rem;
+  height: 1.12rem;
+}
+
+.icon-14px > svg, span.icon-14px {
+  width: 14px;
+  height: 14px;
+}
+
+.icon-2x > svg, span.icon-2x {
+  width: 2.30rem;
+  height: 2.30rem;
+}
+
+.icon-3x > svg, span.icon-3x {
+  width: 3.45rem;
+  height: 3.45rem;
+}
+
+.icon-4x > svg, span.icon-4x {
+  width: 4.60rem;
+  height: 4.60rem;
+}
+
+.icon-5x > svg, span.icon-5x {
+  width: 5.75rem;
+  height: 5.75rem;
+  margin: 24px 0 24px 0;
+}
+
+.icon-10x > svg, span.icon-10x {
+  width: 10rem;
+  height: 10rem;
+  margin: 24px 0 24px 0;
+}
+
+.icon.fill-black > svg > path {
+    fill:black;
+}

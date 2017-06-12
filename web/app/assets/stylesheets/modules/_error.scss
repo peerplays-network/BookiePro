@@ -1,0 +1,15 @@
+.error{
+	border: 1px solid $red;
+	&__hint{
+		color: $red;
+		font-size: 12px;
+		line-height: 1;
+		font-weight: 100;
+		font-style: italic;
+		&.abs{
+			position: absolute;
+			left: 0;
+			bottom: -15px;
+		}
+	}
+}

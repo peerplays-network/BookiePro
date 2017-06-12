@@ -1,0 +1,15 @@
+{
+  "name": "Peerplays-core",
+  "productName": "Peerplays core",
+  "identifier": "org.peerplays.peerplays",
+  "description": "Peerplays description",
+  "version": "0.0.3",
+  "author": "community@peerplays.org",
+  "main": "electron.js",
+  "config": {
+    "target": "development"
+  },
+  "dependencies": {
+    "electron-context-menu": "^0.9.0"
+  }
+}

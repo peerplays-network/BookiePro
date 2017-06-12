@@ -1,0 +1,30 @@
+.db__options{
+	&Wrap{
+		text-align: center;
+		padding: 150px 0 100px;
+	}
+	&List{
+		display: flex;
+		justify-content: space-around;
+		@include clearfix;
+	}
+	&Item{
+		float: left;
+	}
+	&Link{
+		display: block;
+		padding: 0 100px;
+		@include transition();
+		&:hover{opacity: .8;}
+	}
+	&Pic{}
+	&Title{
+		display: block;
+		font-size: 30px;
+		font-weight: 600;
+		color: $text-color-bg;
+		margin-top: 45px;
+		text-align: center;
+		text-transform: uppercase;
+	}
+}

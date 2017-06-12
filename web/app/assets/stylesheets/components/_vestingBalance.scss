@@ -1,0 +1,8 @@
+.table-vBalances{
+	.tableCell{
+		&:nth-child(6){
+			padding-left: 5%;
+			width: 18%;
+		}
+	}
+}

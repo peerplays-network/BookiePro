@@ -1,0 +1,11 @@
+.table-voting-proposals{
+	.tableCell{
+		min-width: 80px;
+	}
+	.tableCell:first-child{
+		min-width: 0;
+	}
+	.tableCell:nth-child(2){
+		//min-width: 200px;
+	}
+}

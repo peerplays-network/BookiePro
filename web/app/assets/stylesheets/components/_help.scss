@@ -1,0 +1,116 @@
+//$margin1: 20px;
+//$margin2: 36px;
+//$margin3: 45px;
+
+$margin1: 9px;
+$margin2: 25px;
+$margin3: 33px;
+
+
+.backdrop-help{
+	height: 100vh;
+	.modal-dialog {
+		width: 900px !important;
+		margin: 20px auto;
+		right: 0;
+		overflow: hidden;
+		bottom: auto;
+	}
+}
+
+
+.help__content{
+
+}
+.help__h3{
+	font-size: 20px;
+	font-weight: 600;
+	color: $text-color;
+	margin-bottom: $margin1;
+	text-transform: uppercase;
+}
+.help__h4{
+	font-size: 18px;
+	font-weight: 400;
+	font-style: italic;
+	color: $text-color;
+	margin-bottom: $margin1;
+}
+.help__h5{
+	font-size: 16px;
+	font-weight: 600;
+	color: $text-color;
+	margin-bottom: $margin1;
+}
+.help__section{
+	font-size: 16px;
+	line-height: 24px;
+	color: $text-color;
+	margin-bottom: $margin3;
+	max-width: 93%;
+}
+.help__important{
+	margin-bottom: $margin3;
+	&Title{
+		color: #ff3030;
+		font-size: 16px;
+		line-height: 24px;
+		text-transform: uppercase;
+		margin-top: $margin2;
+		margin-bottom: $margin1;
+	}
+	&Text{
+		font-size: 16px;
+		line-height: 24px;
+		color: $text-color;
+	}
+}
+.help__text{
+	margin-bottom: $margin2;
+}
+.help__link{
+	&List{
+		margin-bottom: $margin2;
+		margin-bottom: 31px;
+	}
+	&Li{
+		display: block;
+		margin-bottom: 16px;
+	}
+	font-size: 16px;
+	color: $new-blue15;
+	font-weight: 500;
+	text-transform: uppercase;
+	text-decoration: underline;
+	&.txt-low{
+		text-transform: none;
+	}
+
+	&:hover{
+		text-decoration: none;
+		cursor: pointer;
+	}
+}
+.help__sectionSub{
+	font-size: 14px;
+	line-height: 20px;
+	color: $text-color;
+	margin-bottom: $margin3;
+	.text{
+		margin-bottom: 12px;
+	}
+	ul{
+
+	}
+}
+.help__list{
+	list-style: disc;
+	list-style-position: outside;
+	padding-left: 20px;
+	margin-top: 25px;
+	color: $new-blue15;
+	li{
+		color: $text-color;
+		margin-bottom: 17px;
+	}
+}

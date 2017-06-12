@@ -1,0 +1,356 @@
+.dialog-login{
+	position: relative;
+	padding-bottom: 90px;
+	//min-height: 780px;
+	margin: 30px auto;
+
+	.h1{
+		font-weight: 900;
+		font-size: 36px;
+		text-transform: none;
+		padding-bottom: 18px;
+		.tm{
+			font-size: 12px;
+			text-transform: uppercase;
+			font-weight: 400;
+		}
+		&.h1-fsz-28{
+			font-size: 28px;
+			margin-bottom: 5px;
+		}
+	}
+	.h2{
+		font-size: 22px;
+		font-weight: 500;
+		margin: -33px auto 38px;
+		color: $h1-color;
+		text-align: center;
+	}
+	.form{
+		padding-bottom: 0;
+	}
+	.section__text{
+		padding: 0 75px 30px;
+		color: $text-color;
+		&Title{
+			text-align: center;
+			margin: -40px 0 40px;
+			font-size: 1.25rem;
+			font-weight: 600;
+		}
+		&Item{
+			margin-bottom: 20px;
+			&Head{
+				font-weight: 600;
+				margin-bottom: 10px;
+			}
+		}
+		p{
+			margin: 0 0 15px;
+		}
+	}
+
+}
+.forgot__link{
+	&Box{
+		font-size: 0;
+		text-align: right;
+	}
+	display: inline-block;
+	text-align: right;
+	font-size: 13px;
+	line-height: 10px;
+	padding-bottom: 6px;
+	font-weight: 500;
+	color: $mark-color;
+	&:hover, &:focus{opacity: .6;}
+}
+.login__text{
+	font-size: 13px;
+	line-height: 1.25;
+	font-weight: 500;
+	color: $text-color;
+	margin-bottom: 30px;
+	padding: 0 70px;
+	&.fsz-lg{
+		font-size: 16px;
+		p{
+			margin-bottom: 15px;
+		}
+	}
+	p{
+		margin: 0 0 10px;
+	}
+}
+.login__link{
+	font-weight: 600;
+	color: $mark-color;
+	text-decoration: underline;
+	&:hover{
+		text-decoration: none;
+	}
+}
+.login__options{
+	margin-top: 50px;
+	@include clearfix;
+}
+.login__footer{
+	padding: 60px 0 0;
+	text-align: center;
+	&Title{
+		font-weight: 500;
+		color: $text-color;
+		padding: 11px 15px 11px 0;
+	}
+}
+
+.ledger{
+	width: 340px;
+	margin: auto;
+	text-align: center;
+	&__item{
+		display: block;
+	}
+	&__link{
+		display: block;
+		margin: 0 auto 70px;
+		text-align: center;
+		@include transition();
+		&:hover{opacity: .6;}
+	}
+	&__pic{
+		display: inline-block;
+		vertical-align: middle;
+	}
+}
+.verify{
+	text-align: center;
+	&Icon{
+		font-size: 50px;
+		color: $color-second;
+		display: inline-block;
+		margin: 15px 0 25px;
+	}
+	&Text{
+		color: $faded-color;
+		font-size: 18px;
+		line-height: 26px;
+		padding: 0 0 30px;
+	}
+}
+.backup{
+	text-align: center;
+	padding: 0 80px;
+	&Text{
+		color: $faded-color;
+		font-size: 18px;
+		line-height: 26px;
+		padding: 15px 0;
+		p{
+			margin-bottom: 10px;
+		}
+		&-padLg{
+			padding: 50px 0 55px;
+		}
+	}
+	&__options{
+		@include clearfix;
+		padding: 0 0 40px;
+	}
+}
+
+.security{
+	text-align: center;
+	padding: 0 $inXPad;
+	&Icon{
+		font-size: 50px;
+		color: $color-second;
+		display: inline-block;
+		margin: 15px 0 25px;
+	}
+	&Text{
+		color: $faded-color;
+		font-size: 18px;
+		line-height: 26px;
+		padding: 0 0 43px;
+		margin: 0 -50px;
+	}
+	&__note{
+		color: $clear-color2;
+		font-size: 14px;
+		line-height: 20px;
+		text-align: center;
+		padding: 32px 0;
+	}
+	&__options{
+		text-align: center;
+		padding: 50px 0;
+	}
+}
+.recovered{
+	text-align: center;
+	padding: 0 60px;
+	&Icon{
+		font-size: 50px;
+		color: $color-second;
+		display: inline-block;
+		margin: 15px 0 25px;
+	}
+	&Text{
+		color: $faded-color;
+		font-size: 18px;
+		line-height: 26px;
+		padding: 0 0 30px;
+	}
+	&Link{
+		color: $color-second;
+		font-weight: 600;
+		font-size: 16px;
+		margin: 40px 0;
+		text-transform: uppercase;
+		text-decoration: underline;
+		&:hover{
+			text-decoration: none;
+		}
+	}
+	&-top{
+		.recoveredIcon{
+			margin-top: 0;
+		}
+		.recoveredText{
+
+		}
+	}
+	&Line{
+		height: 1px;
+		background: $gray-color2;
+		margin-bottom: 20px;
+	}
+
+}
+.passRecovery{
+	padding: 0 70px;
+	&Title{
+		font-weight: 600;
+		text-align: center;
+		font-size: 16px;
+		color: $text-color;
+		margin-bottom: 20px;
+	}
+	&Text{
+		font-size: 13px;
+		color: $faded-color;
+		p{
+			margin-bottom: 10px;
+		}
+	}
+	&Questions{
+		margin-top: 50px;
+		font-size: 14px;
+		color: $text-color;
+		&__item{
+			margin-bottom: 40px;
+		}
+		&__line{
+			margin-bottom: 7px;
+		}
+	}
+	&__warn{
+		max-width: 350px;
+		margin: 50px auto;
+		font-weight: 600;
+		font-size: 16px;
+		color: $red;
+	}
+	&__opt{
+		display: flex;
+		justify-content: space-around;
+	}
+}
+
+.loginCreate{
+	&__row{
+		display: block;
+		margin-bottom: 20px;
+	}
+	&__label{
+		display: block;
+		font-size: 13px;
+		font-weight: 500;
+		color: #787e83;
+		padding-left: 5px;
+		padding-bottom: 4px;
+	}
+	&__fieldWrap{
+		display: block;
+		position: relative;
+	}
+	&__note1{
+		margin: 24px 0 20px;
+		font-size: 18px;
+		font-weight: 500;
+		color: #000;
+		text-transform: uppercase;
+		text-align: center;
+	}
+	&__note2{
+		font-size: 24px;
+		font-weight: 500;
+		color: #000;
+		text-transform: uppercase;
+		margin-bottom: 17px;
+		text-align: center;
+	}
+	&__note3{
+		font-size: 13px;
+		font-weight: 400;
+		color: #000;
+		margin-bottom: 40px;
+		text-align: center;
+	}
+	&__note4{
+		font-size: 13px;
+		font-weight: 400;
+		color: #000;
+		padding: 20px 0 0;
+		text-align: center;
+	}
+	&__check{
+		.customCheck__labelPseudo{
+			font-size: 16px;
+			padding-top: 7px;
+		}
+	}
+	&__btnWrap{
+		text-align: center;
+		margin-bottom: 57px;
+		&-2{
+			text-align: center;
+			margin: 47px 0 0;
+		}
+	}
+	&__btn{
+		width: 240px;
+		text-align: center;
+	}
+	&__copy{
+		background: #818b95;
+
+	}
+}
+.login__footerLink{
+	display: inline-block;
+	font-weight: 500;
+	@include transition();
+	&:hover{opacity: .6;}
+	&Wrap{
+		text-align: center;
+		margin: 50px 0 20px;
+	}
+}
+.login__footerNote{
+	color: $text-color;
+	&Wrap{
+		margin: 20px 0;
+	}
+}

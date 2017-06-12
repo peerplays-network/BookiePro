@@ -1,0 +1,58 @@
+.ReactTabs{
+	padding-top: 10px;
+	&.pt40{padding-top: 40px;}
+
+	&__TabList{
+		@include clearfix;
+		overflow: hidden;
+		&.pt40{padding-top: 40px;}
+
+		&[role=tablist]{
+			margin: 0;
+			padding: 0;
+			border: none;
+		}
+	}
+	&__Tab{
+		&:first-letter{
+			text-transform: uppercase;
+		}
+		&[role=tab]{
+			border: none;
+			min-width: 13%;
+			float: left;
+			margin-right: 17px;
+			//width: 250px;
+			height: 52px;
+			display: block;
+			padding: 0 10px;
+			bottom: 0;
+			background: $tab-bg;
+			color: $tab-color;
+			font-size: 18px;
+			text-align: center;
+			font-weight: 500;
+			line-height: 52px;
+			border-radius: 5px 5px 0 0;
+			@include transition();
+			&:hover{opacity: .6;}
+
+			&[aria-selected=true]{
+				opacity: 1;
+				cursor: default;
+				background: $tab-bg-active;
+				color: $tab-color-active;
+				box-shadow: $table-shadow;
+			}
+		}
+
+
+		&Panel{}
+	}
+}
+
+
+
+.tab__deploy{
+	display: block;
+}

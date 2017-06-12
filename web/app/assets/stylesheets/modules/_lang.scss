@@ -1,0 +1,36 @@
+.lang{
+	&__wrap{
+		position: absolute;
+		top: 40px;
+		right: 50px;
+	}
+	&__list{}
+	&__item{
+		display: inline-block;
+		vertical-align: top;
+		margin-left: 15px;
+		opacity: .4;
+		@include transition();
+		&:hover{opacity: .8;}
+		&.us{
+			.lang__link{}
+		}
+		&.cn{
+			.lang__link{
+				background-position: 0 -20px;
+			}
+		}
+		&.active{
+			opacity: 1!important;
+		}
+	}
+	&__link{
+		display: block;
+		width: 30px;
+		height: 20px;
+		img{
+			vertical-align: middle;
+			display: block;
+		}
+	}
+}

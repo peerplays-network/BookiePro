@@ -1,0 +1,264 @@
+.ex_wrap{
+	@include clearfix;
+}
+.ex_content{
+	padding-right: 10px;
+}
+.ex_aside{
+	float: left;
+	padding-left: 10px;
+}
+.ex_tablePic{
+	height: 16px;
+	width: auto;
+	&__wrap{
+		display: inline-block;
+		width: 23px;
+		vertical-align: middle;
+		& ~ *{
+			vertical-align: middle;
+		}
+	}
+}
+//main .ex_chart0 1{}
+.ex-chart{
+	position: relative;
+	padding-bottom: 20px;
+	&:before, &:after{
+		position: absolute;
+		content: '';
+		left: 0;
+		right: 0;
+	}
+	&-01{
+		&:before{
+			bottom: 34px;
+			height: 45px;
+			background: linear-gradient(to right, #54feb8, #74b9f0);
+		}
+		&:after{
+			//bottom: 65px;
+			bottom: 80px;
+			height: 40px;
+			background: $color-prime;
+		}
+	}
+	&-02{
+		&:before{
+			top: 40px;
+			height: 60px;
+			background: $section-head-color;
+		}
+		&:after{
+			bottom: 20px;
+			height: 35px;
+			background: $color-prime;
+		}
+	}
+}
+
+.ex_chartStack{
+	position: relative;
+	z-index: 1;
+	min-height: 400px;
+}
+
+.ex_chartArea{
+	position: relative;
+	z-index: 1;
+	.highcharts-legend-item{
+		top: -2px!important;
+	}
+}
+
+.ex-buy-pp{
+	padding-right: 10px;
+	padding-bottom: 20px;
+	.label{
+		line-height: 30px;
+		white-space: nowrap;
+		padding: 0;
+	}
+	.field{
+		padding-right: 0;
+	}
+}
+.ex-sell-pp{
+	padding-left: 10px;
+	padding-bottom: 20px;
+	.label{
+		line-height: 30px;
+		white-space: nowrap;
+		padding: 0;
+	}
+	.field{
+		padding-right: 0;
+	}
+}
+.col-ex-label{
+	width: 16%;
+	white-space: nowrap;
+}
+.col-ex-field{
+	width: 64%;
+	.text{
+		font-weight: 600;
+		font-size: 14px;
+		color: $text-color-bg;
+		padding: 6px 0 6px 10px;
+	}
+}
+.col-ex-mark{
+	padding-left: 15px;
+	width: 20%;
+}
+
+.ex-buy-orders{
+	padding-right: 10px;
+	padding-bottom: 20px;
+	.label{
+		line-height: 36px;
+	}
+}
+.ex-sell-orders{
+	padding-left: 10px;
+	padding-bottom: 20px;
+}
+
+.ex-market-history{}
+//aside tables
+.ex-markets{
+	padding-bottom: 20px;
+	.tableCell{
+		float: left;
+		font-size: 13px;
+		b{
+			font-weight: 500;
+		}
+		&:first-child{
+			padding-left: 15px;
+			width: 34%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		&:nth-child(2){
+			width: 22%;
+		}
+		&:nth-child(3){
+			width: 22%;
+		}
+		&:last-child{
+			width: 22%;
+			padding-right: 15px;
+		}
+
+	}
+	.table__body{
+		.tableRow{
+			cursor: pointer;
+		}
+	}
+}
+.ex-search-markets{
+	padding-bottom: 20px;
+	.rowOptions{
+		padding-top: 10px;
+	}
+}
+.ex-trollbox{
+	padding-bottom: 20px;
+}
+.ex-my-open-orders{
+	padding-bottom: 20px;
+	.tableCell {
+		float: left;
+		&:first-child {
+			padding-left: 15px;
+			width: 22%;
+		}
+		&:nth-child(2) {
+			width: 18%;
+		}
+		&:nth-child(3) {
+			width: 17%;
+		}
+		&:last-child {
+			width: 43%;
+			padding-right: 15px;
+		}
+	}
+}
+
+.ex-chartNav{
+	padding-bottom: 20px;
+	.section{
+		background: $white-transp;
+		box-shadow: $table-shadow;
+		overflow: hidden;
+		@include border-radius(5px);
+	}
+	&__top{
+		padding: 16px 30px;
+		border-bottom: 1px solid $delimiter-bd-color;
+		@include box-shadow($delimiter-bd-shadow2);
+		display: flex;
+		justify-content: space-around;
+		height: 100%;
+		min-width: 450px;
+
+		&Item{
+			font-size: 16px;
+			color: $text-color-bg;
+			font-weight: 600;
+			padding-right: 30px;
+		}
+	}
+	&__label{
+		font-size: 18px;
+		color: $text-color-bg;
+		white-space: nowrap;
+		&.red{
+			color: $red2;
+
+		}
+		&.green{
+			color: $green3;
+		}
+	}
+	&__labeled{
+		font-size: 14px;
+		font-weight: 500;
+		color: $label-color;
+	}
+	&__arrow{
+		margin-right: -20px;
+		font-size: 20px;
+		display: inline-block;
+		vertical-align: middle;
+		&.down{
+			@include transform(rotate(180deg));
+		}
+	}
+}
+
+.ex-chart-01{
+	.section__title{
+		button{
+			margin: 5px 8px;
+			background: $color-prime!important;
+			height: 30px;
+			width: 44px;
+			text-align: center;
+			line-height: 26px;
+			font-size: 14px;
+			font-weight: 500;
+			color: $text-color-bg;
+			@include border-radius(5px);
+			border: 2px solid $border-color3;
+			@include transition();
+			&:hover{opacity: .6;}
+		}
+	}
+
+}
