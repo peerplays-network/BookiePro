@@ -12,7 +12,7 @@ import { bindActionCreators } from 'redux'
 import { CurrencyUtils, BettingModuleUtils, ObjectUtils } from '../../../utility';
 import { createSelector } from 'reselect';
 import { initialize } from 'redux-form';
-const { getStakeFromBetObject } = ObjectUtils;
+const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
 
 class TopMenu extends Component {
   constructor(props) {
@@ -246,9 +246,11 @@ const mapStateToProps = (state) => {
   .filter(row => !state.getIn(['bet','cancelBetsByIdsLoadingStatus']).get(row.get('id')))
   .forEach(row => {
     inGameAmount += getStakeFromBetObject(row);
+    inGameAmount += getProfitLiabilityFromBetObject(row);
   });
   state.getIn(['bet','matchedBetsById']).forEach(row => {
     inGameAmount += getStakeFromBetObject(row);
+    inGameAmount += getProfitLiabilityFromBetObject(row);
   });
   inGameAmount = CurrencyUtils.getFormattedCurrency(inGameAmount/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.stakePlaces)
 

@@ -212,9 +212,10 @@ const getBetTotal = createSelector(
   (bets, currencyFormat, precision)=>{
     let total = 0;
     bets.forEach((row, index) => {
-      total += parseFloat(row.get('stake') + row.get('profit_liability'));
+      //parsed stake and profit_liability otherwise it considers string and concatenate the values
+      total += parseFloat(row.get('stake')) + parseFloat(row.get('profit_liability'));
     });
-    return CurrencyUtils.getFormattedCurrency(total, currencyFormat, precision);
+    return total.toFixed(currencyFormat === 'mBTC' ? precision - 3 : precision);
   }
 );
 
