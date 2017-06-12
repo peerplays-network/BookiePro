@@ -36,7 +36,7 @@ class SideBar extends PureComponent {
 
   createCurrentStateTree(completeTree, targetObjectId) {
 
-    if (!targetObjectId){
+    if (!targetObjectId || targetObjectId === 'exchange'){
       // id of 'all sports'
       targetObjectId = '0'
     }

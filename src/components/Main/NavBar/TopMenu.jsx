@@ -102,6 +102,7 @@ class TopMenu extends Component {
         break;
       case 'help':
         this.props.navigateTo('/help-and-support');
+        this.setState({ isSubMenuVisible: false });
         break;
       case 'logout':
         this.props.logout();
