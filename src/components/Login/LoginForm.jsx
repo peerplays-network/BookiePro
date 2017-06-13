@@ -2,6 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form/immutable';
 import { I18n } from 'react-redux-i18n';
 import { LoadingStatus } from '../../constants';
+import { AuthUtils } from '../../utility';
 
 //Component for text field
 const renderField = ({  tabIndex, className, errors, placeholder, input, type,
@@ -17,27 +18,13 @@ const renderField = ({  tabIndex, className, errors, placeholder, input, type,
 	</div>
 );
 
-//disallow invalid text to be entered in accountName
-const normalizeAccount = (value, previousValue) => {
-
-  if(!value.length) {
-  	return value;
-  }
-
-  if(/[^a-z0-9-]/.test(value)) {
-  	return previousValue && previousValue.toLowerCase();
-  }
-
-  return value;
-};
-
 const LoginForm = (props) => {
   const { pristine, handleSubmit, invalid, submitting, asyncValidating, onClickSignup, errors, status } = props;
   return (
     <form onSubmit={ handleSubmit }>
       <div className='form-fields'>
         <Field name='userName' component={ renderField } type='text' placeholder={ I18n.t('login.username') }
-         normalize={ normalizeAccount } tabIndex='1'/>
+         normalize={ AuthUtils.normalizeAccountName } tabIndex='1'/>
       </div>
       <div className='form-fields'>
         <Field name='password' component={ renderField } type='password'

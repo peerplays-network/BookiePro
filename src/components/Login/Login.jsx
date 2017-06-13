@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../../assets/images/bookie_logo_login.png';
 import { Form } from 'antd';
-import LoginForm from './Form.jsx';
+import LoginForm from './LoginForm.jsx';
 import { NavigateActions, AuthActions, AppActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
