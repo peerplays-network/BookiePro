@@ -52,5 +52,5 @@ This will create a bundle in the /dist folder that can be hosted with the web se
 ```
 npm run electron
 cd ../electron
-npm run rlease
+npm run release
 ```
