@@ -13,6 +13,7 @@ import FileSaverUtils from './FileSaverUtils';
 import EventNameUtils from './EventNameUtils';
 import ObjectUtils from './ObjectUtils';
 import MyWagerUtils from './MyWagerUtils';
+import AuthUtils from './AuthUtils';
 
 export {
   AppUtils,
@@ -29,5 +30,6 @@ export {
   FileSaverUtils,
   EventNameUtils,
   MyWagerUtils,
-  ObjectUtils
+  ObjectUtils,
+  AuthUtils
 };

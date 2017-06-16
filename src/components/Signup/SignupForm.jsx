@@ -7,6 +7,7 @@ import RandomString from 'randomstring';
 import { FileSaverUtils } from '../../utility';
 import { LoadingStatus } from '../../constants';
 import { I18n, Translate }  from 'react-redux-i18n';
+import { AuthUtils } from '../../utility';
 
 const { saveAs } = FileSaverUtils;
 
@@ -105,6 +106,7 @@ class SignupForm extends PureComponent {
         <form onSubmit={ handleSubmit }>
           <div className='form-fields'>
               <Field name='accountName' id='accountName' errors={ errors }
+                normalize={ AuthUtils.normalizeAccountName }
                 component={ renderField }  placeholder={ I18n.t('signup.acc_name') } type='text' tabIndex='1'
                 onChange={ this.onChangeAccountName.bind(this) } />
           </div>
