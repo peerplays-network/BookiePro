@@ -1,22 +1,22 @@
 const bitcoinSymbol = '\u0243';
 const mBitcoinSymbol = 'm' + bitcoinSymbol;
 
-var fieldPrecisionMap = {
-  stake: {
-    BTC: 3,
-    mBTC: 0
-  },
-  profit : {
-    BTC: 5,
-    mBTC: 2
-  },
-  liability : {
-    BTC: 5,
-    mBTC: 2
-  }
-};
-
 var CurrencyUtils = {
+
+  fieldPrecisionMap: {
+    stake: {
+      BTC: 3,
+      mBTC: 0
+    },
+    profit : {
+      BTC: 5,
+      mBTC: 2
+    },
+    liability : {
+      BTC: 5,
+      mBTC: 2
+    }
+  },
 
   getCurruencySymbol: function( currency = 'BTC' ){
     if ( currency === 'mBTC'){
@@ -91,9 +91,9 @@ var CurrencyUtils = {
     // Odds values have no dependency on currency
     if (field === 'odds') return amount.toFixed(2);
     // DO NOT expect this but just in case...
-    if (!fieldPrecisionMap[field] || !fieldPrecisionMap[field][currency]) return amount;
+    if (!this.fieldPrecisionMap[field] || !this.fieldPrecisionMap[field][currency]) return amount;
 
-    return this.getFormattedCurrency(amount, currency, fieldPrecisionMap[field][currency]);
+    return this.getFormattedCurrency(amount, currency, this.fieldPrecisionMap[field][currency]);
   }
 }
 
