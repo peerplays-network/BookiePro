@@ -78,10 +78,11 @@ const mapStateToProps = (state, ownProps) => {
     // Put everything back in their rightful places
     page = page.set(betType, betListByBetType);
   });
-  // Total Bet amount
-  const totalAmount = originalBets.reduce((total, bet) => {
+  // Total Bet amount for updated bets ONLY
+  const totalAmount = originalBets.filter(bet => bet.get('updated')).reduce((total, bet) => {
     const stake = parseFloat(bet.get('stake'));
-    return total + (isNaN(stake) ? 0.0 : stake);
+    const originalStake = parseFloat(bet.get('original_stake'));
+    return total + (!isNaN(stake) && !isNaN(originalStake) ? stake - originalStake : 0.0);
   }, 0.0);
   // Other statuses
   const showPlacedBetsConfirmation = state.getIn(['marketDrawer', 'showPlacedBetsConfirmation']);
