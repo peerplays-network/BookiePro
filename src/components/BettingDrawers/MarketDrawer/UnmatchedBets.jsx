@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Button } from 'antd';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
-import { BettingModuleUtils } from '../../../utility';
+import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import { MarketDrawerActions } from '../../../actions';
 import BetTable from '../BetTable';
 import './UnmatchedBets.less';
@@ -32,7 +32,7 @@ class UnmatchedBets extends PureComponent {
               onClick={ this.props.clickUpdateBet }
               disabled={ !this.props.hasUpdatedBets }
             >
-              { I18n.t('market_drawer.unmatched_bets.content.update_button', { amount : 0.295}) }
+              { I18n.t('market_drawer.unmatched_bets.content.update_button', { amount : this.props.totalBetAmount }) }
             </button>
           </div>
         }
@@ -78,6 +78,11 @@ const mapStateToProps = (state, ownProps) => {
     // Put everything back in their rightful places
     page = page.set(betType, betListByBetType);
   });
+  // Total Bet amount
+  const totalAmount = originalBets.reduce((total, bet) => {
+    const stake = parseFloat(bet.get('stake'));
+    return total + (isNaN(stake) ? 0.0 : stake);
+  }, 0.0);
   // Other statuses
   const showPlacedBetsConfirmation = state.getIn(['marketDrawer', 'showPlacedBetsConfirmation']);
   const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);
@@ -91,7 +96,9 @@ const mapStateToProps = (state, ownProps) => {
     showPlacedBetsError,
     showPlacedBetsSuccess,
     obscureContent: showPlacedBetsConfirmation || showPlacedBetsWaiting || showPlacedBetsError || showDeleteUnmatchedBetsConfirmation,
-    hasUpdatedBets: originalBets.count(bet => bet.get('updated')) > 0
+    hasUpdatedBets: originalBets.count(bet => bet.get('updated')) > 0,
+    totalBetAmount: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
+                    CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', totalAmount, ownProps.currencyFormat),
   };
 }
 

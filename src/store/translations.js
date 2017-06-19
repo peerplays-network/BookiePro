@@ -329,7 +329,7 @@ export const translationsObject = {
       unmatched_bets: {
         header: 'UNMATCHED BETS',
         content: {
-          update_button: 'UPDATE \u0243%{amount}',
+          update_button: 'UPDATE %{amount}',
           reset_button: 'RESET',
         },
         delete_bets: {

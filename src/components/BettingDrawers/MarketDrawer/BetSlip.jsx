@@ -8,7 +8,7 @@ import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import { Button } from 'antd';
 import { BetActions, MarketDrawerActions, NavigateActions } from '../../../actions';
-import CurrencyUtils from '../../../utility/CurrencyUtils';
+import { CurrencyUtils } from '../../../utility';
 import BetTable from '../BetTable';
 import './BetSlip.less';
 import { Empty, Overlay, Waiting } from '../Common';

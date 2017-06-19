@@ -8,7 +8,7 @@ import { I18n } from 'react-redux-i18n';
 import { bindActionCreators } from 'redux';
 import { Button } from 'antd';
 import { BetActions, NavigateActions, QuickBetDrawerActions } from '../../../actions';
-import CurrencyUtils from '../../../utility/CurrencyUtils';
+import { CurrencyUtils } from '../../../utility';
 import BetTable from '../BetTable';
 import { Empty, Overlay, Waiting } from '../Common';
 
