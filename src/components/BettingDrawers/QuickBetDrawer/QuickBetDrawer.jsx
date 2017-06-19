@@ -68,7 +68,7 @@ class QuickBetDrawer extends Component {
               !this.props.bets.isEmpty() &&
               <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
                 <Button className='btn btn-regular place-bet' onClick={ this.props.clickPlaceBet }>
-                  { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button', { amount : 0.295}) }
+                  { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button', { amount : this.props.totalBetAmount }) }
                 </Button>
               </div>
             }
@@ -129,6 +129,11 @@ const mapStateToProps = (state) => {
     unconfirmedBets = unconfirmedBets.set(betType, betListBybetType);
     page = page.setIn([eventId, 'unconfirmedBets'], unconfirmedBets);
   });
+  // Total Bet amount
+  const totalAmount = originalBets.reduce((total, bet) => {
+    const stake = parseFloat(bet.get('stake'));
+    return total + (isNaN(stake) ? 0.0 : stake);
+  }, 0.0);
   // Other statuses
   const showBetSlipConfirmation = state.getIn(['quickBetDrawer', 'showBetSlipConfirmation']);
   const showBetSlipWaiting = state.getIn(['quickBetDrawer', 'showBetSlipWaiting']);
@@ -145,7 +150,8 @@ const mapStateToProps = (state) => {
     showDeleteBetsConfirmation,
     obscureContent: showBetSlipConfirmation || showBetSlipWaiting || showBetSlipError || showDeleteBetsConfirmation,
     betsToBeDeleted: state.getIn(['quickBetDrawer', 'betsToBeDeleted']),
-    eventNameInDeleteBetsConfirmation: state.getIn(['quickBetDrawer', 'eventNameInDeleteBetsConfirmation'])
+    eventNameInDeleteBetsConfirmation: state.getIn(['quickBetDrawer', 'eventNameInDeleteBetsConfirmation']),
+    totalBetAmount: totalAmount,
   };
 }
 
