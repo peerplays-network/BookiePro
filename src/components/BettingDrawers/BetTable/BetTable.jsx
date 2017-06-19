@@ -26,7 +26,18 @@ const renderInput = (field, action, currencyFormat) => {
           (event) => {
             // REVIEW: One line Regular Expression error check
             //         Reject any input that leads to invalid number
-            if (!/^\d*\.?\d*$/.test(event.target.value)) return false;
+            if ( event.target.value.length !== 0) {
+
+              const stakePrecision = CurrencyUtils.fieldPrecisionMap['stake'][currencyFormat];
+
+              if ( stakePrecision === 0){
+                // should only accept integers when precision is zero
+                if (!/^[-+]?[1-9]\d*$/.test((event.target.value))) return false;
+              } else {
+                if (!/^\d*\.?\d{0,3}$/.test(event.target.value)) return false;
+              }
+            }
+
             const delta = Immutable.Map()
               .set('id', record.id)
               .set('field', field)
