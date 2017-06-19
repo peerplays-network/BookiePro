@@ -270,7 +270,7 @@ export const translationsObject = {
           my_bet_button: 'GO TO MY BETS',
         },
         content: {
-          place_bet_button: 'PLACE BET \u0243%{amount}'
+          place_bet_button: 'PLACE BET %{amount}'
         }
       }
     },
@@ -303,7 +303,7 @@ export const translationsObject = {
           my_bet_button: 'GO TO MY BETS',
         },
         content: {
-          place_bet_button: 'PLACE BET \u0243%{amount}'
+          place_bet_button: 'PLACE BET %{amount}'
         }
       },
       placed_bets: {

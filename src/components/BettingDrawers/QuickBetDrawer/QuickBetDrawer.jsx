@@ -5,9 +5,10 @@ import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import SplitPane from 'react-split-pane';
 import { I18n } from 'react-redux-i18n';
-import { BetActions, NavigateActions, QuickBetDrawerActions } from '../../../actions';
-import { Button } from 'antd';
 import { bindActionCreators } from 'redux';
+import { Button } from 'antd';
+import { BetActions, NavigateActions, QuickBetDrawerActions } from '../../../actions';
+import CurrencyUtils from '../../../utility/CurrencyUtils';
 import BetTable from '../BetTable';
 import { Empty, Overlay, Waiting } from '../Common';
 
@@ -103,7 +104,7 @@ class QuickBetDrawer extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   const originalBets = state.getIn(['quickBetDrawer', 'bets']);
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
@@ -151,7 +152,8 @@ const mapStateToProps = (state) => {
     obscureContent: showBetSlipConfirmation || showBetSlipWaiting || showBetSlipError || showDeleteBetsConfirmation,
     betsToBeDeleted: state.getIn(['quickBetDrawer', 'betsToBeDeleted']),
     eventNameInDeleteBetsConfirmation: state.getIn(['quickBetDrawer', 'eventNameInDeleteBetsConfirmation']),
-    totalBetAmount: totalAmount,
+    totalBetAmount: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
+                    CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', totalAmount, ownProps.currencyFormat),
   };
 }
 
