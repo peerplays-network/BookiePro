@@ -251,7 +251,7 @@ export const translationsObject = {
           my_bet_button: 'VIEW YOUR BETS IN MY BETS'
         },
         confirmation: {
-          instructions: 'The transaction fee of this bet is \u0243%{amount}.<br/>Are you sure you want to place this bet?',
+          instructions: 'The transaction fee of this bet is %{amount}.<br/>Are you sure you want to place this bet?',
           cancel_button: 'CANCEL',
           confirm_button: 'CONFIRM BET',
         },
@@ -284,7 +284,7 @@ export const translationsObject = {
           my_bet_button: 'VIEW YOUR BETS IN MY BETS'
         },
         confirmation: {
-          instructions: 'The transaction fee of this bet is \u0243%{amount}.<br/>Are you sure you want to place this bet?',
+          instructions: 'The transaction fee of this bet is %{amount}.<br/>Are you sure you want to place this bet?',
           cancel_button: 'CANCEL',
           confirm_button: 'CONFIRM BET',
         },
@@ -313,7 +313,7 @@ export const translationsObject = {
           my_bet_button: 'VIEW YOUR BETS IN MY BETS'
         },
         confirmation: {
-          instructions: 'The transaction fee of this bet is \u0243%{amount}.<br/>Are you sure you want to place this bet?',
+          instructions: 'The transaction fee of this bet is %{amount}.<br/>Are you sure you want to place this bet?',
           cancel_button: 'CANCEL',
           confirm_button: 'CONFIRM BET',
         },

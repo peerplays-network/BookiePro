@@ -71,7 +71,7 @@ class BetSlip extends PureComponent {
             className='market_drawer.unconfirmed_bets.confirmation'
             cancelAction={ this.props.cancelPlaceBet }
             confirmAction={ () => this.props.makeBets(this.props.originalBets)  }
-            replacements={ { amount: 0.051 } }
+            replacements={ { amount: this.props.totalBetAmount } }
           />
         }
         { this.props.showBetSlipError &&
