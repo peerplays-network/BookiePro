@@ -25,8 +25,8 @@ class MarketDrawer extends Component {
       }
     }
 
-    // Automatically switch to BetSlip if the user adds a new bet from Betting Market Group page
-    if (nextProps.numberOfUnconfirmedBets > this.props.numberOfUnconfirmedBets) {
+    // Automatically switch to BetSlip if the user changes anything in the BetSlip
+    if (!nextProps.unconfirmedBets.equals(this.props.unconfirmedBets)) {
       if (this.state.activeTab === PLACEDBETS) {
         this.setState({ activeTab: BETSLIP });
       }
@@ -58,10 +58,10 @@ class MarketDrawer extends Component {
 
 const mapStateToProps = (state) => {
   const showBetSlipSuccess = state.getIn(['marketDrawer', 'showBetSlipSuccess']);
-  const numberOfUnconfirmedBets = state.getIn(['marketDrawer', 'unconfirmedBets']).size;
+  const unconfirmedBets = state.getIn(['marketDrawer', 'unconfirmedBets']);
   return {
     showBetSlipSuccess,
-    numberOfUnconfirmedBets,
+    unconfirmedBets,
   }
 }
 
