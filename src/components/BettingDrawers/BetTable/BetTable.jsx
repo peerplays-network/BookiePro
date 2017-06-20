@@ -27,14 +27,14 @@ const renderInput = (field, action, currencyFormat) => {
             // REVIEW: One line Regular Expression error check
             //         Reject any input that leads to invalid number
             if ( event.target.value.length !== 0) {
-
-              const stakePrecision = CurrencyUtils.fieldPrecisionMap['stake'][currencyFormat];
+              const stakePrecision = CurrencyUtils.fieldPrecisionMap[field][currencyFormat];
 
               if ( stakePrecision === 0){
                 // should only accept integers when precision is zero
                 if (!/^[-+]?[1-9]\d*$/.test((event.target.value))) return false;
               } else {
-                if (!/^\d*\.?\d{0,3}$/.test(event.target.value)) return false;
+                const regex = new RegExp(`^\\d*\\.?\\d{0,${stakePrecision}}$`);
+                if (!regex.test(event.target.value)) return false;
               }
             }
 

@@ -4,6 +4,10 @@ const mBitcoinSymbol = 'm' + bitcoinSymbol;
 var CurrencyUtils = {
 
   fieldPrecisionMap: {
+    odds: {
+      BTC: 2,
+      mBTC: 2
+    },
     stake: {
       BTC: 3,
       mBTC: 0
