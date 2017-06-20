@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import ReactDOM from 'react-dom';
 import Ps from 'perfect-scrollbar';
 import { BetActions, MarketDrawerActions, NavigateActions } from '../../../actions';
+import { CurrencyUtils } from '../../../utility';
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import './PlacedBets.less';
@@ -32,12 +33,18 @@ class PlacedBets extends PureComponent {
     return (
       <div className='placed-bets'>
         <div className='content' ref='placedBets'>
-          { !this.props.isEmpty && <UnmatchedBets currencyFormat={ this.props.currencyFormat }/> }
+          { !this.props.isEmpty &&
+            <UnmatchedBets
+               currencyFormat={ this.props.currencyFormat }
+               totalBetAmount={ this.props.totalBetAmount }
+            />
+          }
           { !this.props.isEmpty && <MatchedBets currencyFormat={ this.props.currencyFormat }/> }
           { this.props.isEmpty &&
             <Empty
               showSuccess={ this.props.showPlacedBetsSuccess }
               className='market_drawer.placed_bets'
+              navigateTo={ this.props.navigateTo }
             />
           }
         </div>
@@ -46,7 +53,7 @@ class PlacedBets extends PureComponent {
             className='market_drawer.placed_bets.confirmation'
             cancelAction={ this.props.cancelUpdateBet }
             confirmAction={ () => this.props.editBets(this.props.unmatchedBets) }
-            replacements={ { amount: 0.051 } }
+            replacements={ { amount: this.props.totalBetAmount } }
           />
         }
         { this.props.showPlacedBetsError &&
@@ -69,7 +76,7 @@ class PlacedBets extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   const showPlacedBetsConfirmation = state.getIn(['marketDrawer', 'showPlacedBetsConfirmation']);
@@ -77,6 +84,12 @@ const mapStateToProps = (state) => {
   const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);
   const showPlacedBetsError = state.getIn(['marketDrawer', 'showPlacedBetsError']);
   const showDeleteUnmatchedBetsConfirmation = state.getIn(['marketDrawer', 'showDeleteUnmatchedBetsConfirmation']);
+  // Total Bet amount for updated bets ONLY
+  const totalAmount = unmatchedBets.filter(bet => bet.get('updated')).reduce((total, bet) => {
+    const stake = parseFloat(bet.get('stake'));
+    const originalStake = parseFloat(bet.get('original_stake'));
+    return total + (!isNaN(stake) && !isNaN(originalStake) ? stake - originalStake : 0.0);
+  }, 0.0);
   return {
     unmatchedBets,
     isEmpty: unmatchedBets.isEmpty() && matchedBets.isEmpty(),
@@ -86,6 +99,8 @@ const mapStateToProps = (state) => {
     showPlacedBetsError,
     showDeleteUnmatchedBetsConfirmation,
     unmatchedbetsToBeDeleted: state.getIn(['marketDrawer', 'unmatchedbetsToBeDeleted']),
+    totalBetAmount: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
+                    CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', totalAmount, ownProps.currencyFormat),
   }
 }
 

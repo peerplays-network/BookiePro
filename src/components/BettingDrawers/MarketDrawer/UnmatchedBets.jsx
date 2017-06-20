@@ -32,7 +32,7 @@ class UnmatchedBets extends PureComponent {
               onClick={ this.props.clickUpdateBet }
               disabled={ !this.props.hasUpdatedBets }
             >
-              { I18n.t('market_drawer.unmatched_bets.content.update_button', { amount : 0.295}) }
+              { I18n.t('market_drawer.unmatched_bets.content.update_button', { amount : this.props.totalBetAmount }) }
             </button>
           </div>
         }
@@ -41,7 +41,7 @@ class UnmatchedBets extends PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const bettingMarketGroupId = state.getIn(['marketDrawer', 'bettingMarketGroupId']);
   const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
 
@@ -91,7 +91,7 @@ const mapStateToProps = (state, ownProps) => {
     showPlacedBetsError,
     showPlacedBetsSuccess,
     obscureContent: showPlacedBetsConfirmation || showPlacedBetsWaiting || showPlacedBetsError || showDeleteUnmatchedBetsConfirmation,
-    hasUpdatedBets: originalBets.count(bet => bet.get('updated')) > 0
+    hasUpdatedBets: originalBets.count(bet => bet.get('updated')) > 0,
   };
 }
 

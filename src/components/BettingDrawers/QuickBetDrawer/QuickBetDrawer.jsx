@@ -5,9 +5,10 @@ import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import SplitPane from 'react-split-pane';
 import { I18n } from 'react-redux-i18n';
-import { BetActions, NavigateActions, QuickBetDrawerActions } from '../../../actions';
-import { Button } from 'antd';
 import { bindActionCreators } from 'redux';
+import { Button } from 'antd';
+import { BetActions, NavigateActions, QuickBetDrawerActions } from '../../../actions';
+import { CurrencyUtils } from '../../../utility';
 import BetTable from '../BetTable';
 import { Empty, Overlay, Waiting } from '../Common';
 
@@ -68,7 +69,7 @@ class QuickBetDrawer extends Component {
               !this.props.bets.isEmpty() &&
               <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
                 <Button className='btn btn-regular place-bet' onClick={ this.props.clickPlaceBet }>
-                  { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button', { amount : 0.295}) }
+                  { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button', { amount : this.props.totalBetAmount }) }
                 </Button>
               </div>
             }
@@ -79,7 +80,7 @@ class QuickBetDrawer extends Component {
             className='quick_bet_drawer.unconfirmed_bets.confirmation'
             cancelAction={ this.props.cancelPlaceBet }
             confirmAction={ () => this.props.makeBets(this.props.originalBets) }
-            replacements={ { amount: 0.051 } }
+            replacements={ { amount: this.props.totalBetAmount } }
           />
         }
         { this.props.showBetSlipError &&
@@ -103,7 +104,7 @@ class QuickBetDrawer extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   const originalBets = state.getIn(['quickBetDrawer', 'bets']);
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
@@ -129,6 +130,11 @@ const mapStateToProps = (state) => {
     unconfirmedBets = unconfirmedBets.set(betType, betListBybetType);
     page = page.setIn([eventId, 'unconfirmedBets'], unconfirmedBets);
   });
+  // Total Bet amount
+  const totalAmount = originalBets.reduce((total, bet) => {
+    const stake = parseFloat(bet.get('stake'));
+    return total + (isNaN(stake) ? 0.0 : stake);
+  }, 0.0);
   // Other statuses
   const showBetSlipConfirmation = state.getIn(['quickBetDrawer', 'showBetSlipConfirmation']);
   const showBetSlipWaiting = state.getIn(['quickBetDrawer', 'showBetSlipWaiting']);
@@ -145,7 +151,9 @@ const mapStateToProps = (state) => {
     showDeleteBetsConfirmation,
     obscureContent: showBetSlipConfirmation || showBetSlipWaiting || showBetSlipError || showDeleteBetsConfirmation,
     betsToBeDeleted: state.getIn(['quickBetDrawer', 'betsToBeDeleted']),
-    eventNameInDeleteBetsConfirmation: state.getIn(['quickBetDrawer', 'eventNameInDeleteBetsConfirmation'])
+    eventNameInDeleteBetsConfirmation: state.getIn(['quickBetDrawer', 'eventNameInDeleteBetsConfirmation']),
+    totalBetAmount: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
+                    CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', totalAmount, ownProps.currencyFormat),
   };
 }
 
