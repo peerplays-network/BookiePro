@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Button } from 'antd';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
-import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
+import { BettingModuleUtils } from '../../../utility';
 import { MarketDrawerActions } from '../../../actions';
 import BetTable from '../BetTable';
 import './UnmatchedBets.less';
@@ -41,7 +41,7 @@ class UnmatchedBets extends PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const bettingMarketGroupId = state.getIn(['marketDrawer', 'bettingMarketGroupId']);
   const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
 
@@ -78,12 +78,6 @@ const mapStateToProps = (state, ownProps) => {
     // Put everything back in their rightful places
     page = page.set(betType, betListByBetType);
   });
-  // Total Bet amount for updated bets ONLY
-  const totalAmount = originalBets.filter(bet => bet.get('updated')).reduce((total, bet) => {
-    const stake = parseFloat(bet.get('stake'));
-    const originalStake = parseFloat(bet.get('original_stake'));
-    return total + (!isNaN(stake) && !isNaN(originalStake) ? stake - originalStake : 0.0);
-  }, 0.0);
   // Other statuses
   const showPlacedBetsConfirmation = state.getIn(['marketDrawer', 'showPlacedBetsConfirmation']);
   const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);
@@ -98,8 +92,6 @@ const mapStateToProps = (state, ownProps) => {
     showPlacedBetsSuccess,
     obscureContent: showPlacedBetsConfirmation || showPlacedBetsWaiting || showPlacedBetsError || showDeleteUnmatchedBetsConfirmation,
     hasUpdatedBets: originalBets.count(bet => bet.get('updated')) > 0,
-    totalBetAmount: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
-                    CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', totalAmount, ownProps.currencyFormat),
   };
 }
 
