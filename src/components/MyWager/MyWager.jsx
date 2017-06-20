@@ -117,7 +117,7 @@ class MyWager extends PureComponent {
     return (
       <div className='my-wager section-padding'>
         <Breadcrumb className='bookie-breadcrumb'>
-          <Breadcrumb.Item><a onClick={ this.onHomeLinkClick }>{ I18n.t('mybets.home') }</a></Breadcrumb.Item>
+          <Breadcrumb.Item><a onClick={ this.onHomeLinkClick }>{ I18n.t('mybets.home') } </a></Breadcrumb.Item>
           <Breadcrumb.Item> { I18n.t('mybets.mybets') } </Breadcrumb.Item>
         </Breadcrumb>
 
