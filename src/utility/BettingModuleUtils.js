@@ -239,6 +239,12 @@ var BettingModuleUtils = {
       groupedProfitOrLiability: CurrencyUtils.getFormattedCurrency( groupedProfitOrLiability, currency, exposurePlaces),
       groupedStake: CurrencyUtils.getFormattedCurrency( groupedStake, currency, stakePlaces),
     });
+  },
+  /*
+   * Return true if the argument is a valid bet ready for submitting to the Blockchain
+   */
+  isValidBet: function(bet) {
+    return !isFieldInvalid(bet, 'odds') && !isFieldInvalid(bet, 'stake');
   }
 }
 

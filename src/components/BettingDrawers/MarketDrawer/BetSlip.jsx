@@ -8,7 +8,7 @@ import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import { Button } from 'antd';
 import { BetActions, MarketDrawerActions, NavigateActions } from '../../../actions';
-import { CurrencyUtils } from '../../../utility';
+import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import BetTable from '../BetTable';
 import './BetSlip.less';
 import { Empty, Overlay, Waiting } from '../Common';
@@ -60,7 +60,11 @@ class BetSlip extends PureComponent {
           {
             !this.props.bets.isEmpty() &&
             <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
-              <Button className='btn btn-regular place-bet' onClick={ this.props.clickPlaceBet }>
+              <Button
+                className={ `btn place-bet btn-regular${this.props.numberOfGoodBets > 0 ? '' : '-disabled'}` }
+                onClick={ this.props.clickPlaceBet }
+                disabled={ this.props.numberOfGoodBets === 0  }
+              >
                 { I18n.t('market_drawer.unconfirmed_bets.content.place_bet_button', { amount : this.props.totalBetAmount }) }
               </Button>
             </div>
@@ -115,6 +119,10 @@ const mapStateToProps = (state, ownProps) => {
     const stake = parseFloat(bet.get('stake'));
     return total + (isNaN(stake) ? 0.0 : stake);
   }, 0.0);
+  // Number of Good bets
+  const numberOfGoodBets = originalBets.reduce((sum, bet) => {
+    return sum + (BettingModuleUtils.isValidBet(bet) | 0);
+  }, 0);
   // Other statuses
   const showBetSlipConfirmation = state.getIn(['marketDrawer', 'showBetSlipConfirmation']);
   const showBetSlipWaiting = state.getIn(['marketDrawer', 'showBetSlipWaiting']);
@@ -131,6 +139,7 @@ const mapStateToProps = (state, ownProps) => {
     showDeleteUnconfirmedBetsConfirmation,
     obscureContent: showBetSlipConfirmation || showBetSlipWaiting || showBetSlipError || showDeleteUnconfirmedBetsConfirmation,
     unconfirmedbetsToBeDeleted: state.getIn(['marketDrawer', 'unconfirmedbetsToBeDeleted']),
+    numberOfGoodBets,
     totalBetAmount: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
                     CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', totalAmount, ownProps.currencyFormat),
   };
