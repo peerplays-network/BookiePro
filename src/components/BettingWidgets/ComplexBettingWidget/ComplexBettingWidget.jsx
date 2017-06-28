@@ -10,7 +10,6 @@ import { I18n, Translate } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-const oddFloatPlaces = 2;
 const itemDisplay = 3;
 
 class ComplexBettingWidget extends Component {
@@ -256,7 +255,7 @@ class ComplexBettingWidget extends Component {
         accessor: row => row.offer.back.length > 2 ? row.offer.back[2] : undefined,
         render: props => props.value ?
          <div className='back-offer back-bg'>
-           <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
+           <div className='odds'>{ props.value.odds }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price,
                currencyFormat,
@@ -271,7 +270,7 @@ class ComplexBettingWidget extends Component {
         accessor: row => row.offer.back.length > 1 ? row.offer.back[1] : undefined,
         render: props => props.value ?
          <div className='back-offer back-bg'>
-           <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
+           <div className='odds'>{ props.value.odds }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
@@ -284,7 +283,7 @@ class ComplexBettingWidget extends Component {
         accessor: row => row.offer.back.length > 0 ? row.offer.back[0] : undefined,
         render: props => props.value ?
          <div className='back-offer back-all-offer'>
-           <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
+           <div className='odds'>{ props.value.odds }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
@@ -305,7 +304,7 @@ class ComplexBettingWidget extends Component {
         accessor: row => row.offer.lay.length > 0 ? row.offer.lay[0] : undefined,
         render: props => props.value ?
          <div className='lay-offer lay-all-offer'>
-           <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
+           <div className='odds'>{ props.value.odds }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
@@ -318,7 +317,7 @@ class ComplexBettingWidget extends Component {
         accessor: row => row.offer.lay.length > 1 ? row.offer.lay[1] : undefined,
         render: props => props.value ?
          <div className='lay-offer lay-bg'>
-           <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
+           <div className='odds'>{ props.value.odds }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
@@ -335,7 +334,7 @@ class ComplexBettingWidget extends Component {
         accessor: row => row.offer.lay.length > 2 ? row.offer.lay[2] : undefined,
         render: props => props.value ?
          <div className='lay-offer lay-bg'>
-           <div className='odds'>{ props.value.odds.toFixed(oddFloatPlaces) }</div>
+           <div className='odds'>{ props.value.odds }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
