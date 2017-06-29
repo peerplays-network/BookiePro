@@ -217,15 +217,19 @@ class MarketDrawerActions {
       const matchedBetsById = getState().getIn(['bet', 'matchedBetsById']);
       const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
       const bettingMarketIds= bettingMarketGroup.get('betting_market_ids');
+      const bettingMarketsById = getState().getIn(['bettingMarket', 'bettingMarketsById']);
+      const assetsById = getState().getIn(['asset', 'assetsById']);
+      const getBets = (collection) =>
+        collection.filter(bet => bettingMarketIds.includes(bet.get('betting_market_id'))).map(bet => {
+          const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
+          const precision = assetsById.get(bettingMarket.get('bet_asset_type')).get('precision');
+          return bet.set('market_type_id', bettingMarketGroup.get('market_type_id'))
+                    .set('market_type_value', resolveMarketTypeValue(bettingMarketGroup, bet.get('betting_market_id')))
+                    .set('asset_precision', precision);     // set this and use in reducer
+        });
 
-      const placedUnmatchedBets = unmatchedBetsById.filter(bet => bettingMarketIds.includes(bet.get('betting_market_id'))).map(bet =>
-        bet.set('market_type_id', bettingMarketGroup.get('market_type_id'))
-           .set('market_type_value', resolveMarketTypeValue(bettingMarketGroup, bet.get('betting_market_id')))
-      );
-      const placedMatchedBets = matchedBetsById.filter(bet => bettingMarketIds.includes(bet.get('betting_market_id'))).map(bet =>
-        bet.set('market_type_id', bettingMarketGroup.get('market_type_id'))
-           .set('market_type_value', resolveMarketTypeValue(bettingMarketGroup, bet.get('betting_market_id')))
-      );
+      const placedUnmatchedBets = getBets(unmatchedBetsById);
+      const placedMatchedBets = getBets(matchedBetsById);
 
       const account = getState().get('account');
       const accountId = account.getIn(['account','id']);

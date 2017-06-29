@@ -95,7 +95,7 @@ var CurrencyUtils = {
     // Odds values have no dependency on currency
     if (field === 'odds') return amount.toFixed(2);
     // DO NOT expect this but just in case...
-    if (!this.fieldPrecisionMap[field] || !this.fieldPrecisionMap[field][currency]) return amount;
+    if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
 
     return this.getFormattedCurrency(amount, currency, this.fieldPrecisionMap[field][currency]);
   }
