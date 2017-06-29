@@ -162,7 +162,7 @@ const mapStateToProps = (state, ownProps) => {
     eventNameInDeleteBetsConfirmation: state.getIn(['quickBetDrawer', 'eventNameInDeleteBetsConfirmation']),
     numberOfGoodBets,
     totalBetAmount: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
-                    CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', totalAmount, ownProps.currencyFormat),
+                    CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat),
   };
 }
 

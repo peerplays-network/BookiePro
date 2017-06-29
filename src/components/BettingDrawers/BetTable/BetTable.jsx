@@ -51,8 +51,15 @@ const renderInput = (field, action, currencyFormat) => {
             const floatNumber = parseFloat(event.target.value);
             if (isNaN(floatNumber)) return false; // fail fast if the value is undefined or bad
 
-            let value = CurrencyUtils.formatFieldByCurrencyAndPrecision(field, floatNumber, currencyFormat);
-            if (field === 'odds') value = adjustOdds(value, record.bet_type);
+            let value = event.target.value;
+            if (field === 'odds') {
+              value = adjustOdds(CurrencyUtils.formatFieldByCurrencyAndPrecision(
+                        field, floatNumber, currencyFormat
+                      ), record.bet_type);
+            }
+            if (field === 'stake') {
+              value = CurrencyUtils.toFixed('stake', floatNumber, currencyFormat);
+            }
             const delta = Immutable.Map()
               .set('id', record.id)
               .set('field', field)
@@ -225,8 +232,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => 
 const buildBetTableData = (bets, currencyFormat) => {
   const formatting = (field, value) => {
     const floatNumber = parseFloat(value);
-    return isNaN(floatNumber) ? value :
-      CurrencyUtils.formatFieldByCurrencyAndPrecision(field, floatNumber, currencyFormat);
+    return isNaN(floatNumber) ? value : CurrencyUtils.toFixed(floatNumber, field, currencyFormat);
   }
   return bets.map((bet, idx) => {
     return bet.set('key', idx)

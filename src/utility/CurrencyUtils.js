@@ -98,6 +98,22 @@ var CurrencyUtils = {
     if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
 
     return this.getFormattedCurrency(amount, currency, this.fieldPrecisionMap[field][currency]);
+  },
+
+  /*
+   * Call JavaScript's Number.toFixed with predefined precision value based on field name
+   *
+   * Parameters:
+   *   field - the name of a field (odds, stake, profit, liability)
+   *   amount - a JS Number (not a string)
+   *   currency - either BTC or mBTC, based on setting
+   *
+   * Return the field value (amount) as a formatted string
+   */
+  toFixed: function(field, amount, currency) {
+    // DO NOT expect this but just in case...
+    if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
+    return amount.toFixed(this.fieldPrecisionMap[field][currency]);
   }
 }
 

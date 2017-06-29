@@ -100,7 +100,7 @@ const mapStateToProps = (state, ownProps) => {
     showDeleteUnmatchedBetsConfirmation,
     unmatchedbetsToBeDeleted: state.getIn(['marketDrawer', 'unmatchedbetsToBeDeleted']),
     totalBetAmount: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
-                    CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', totalAmount, ownProps.currencyFormat),
+                    CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat),
   }
 }
 
