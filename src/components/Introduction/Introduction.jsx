@@ -15,7 +15,7 @@ class Landing extends Component{
           <img src={ logo } height='148' width='132' alt=''/>
           <h2 className='title'> Bet From Anywhere in The World  </h2>
           <p> Sign-up and start betting in 2 <br/> minutes! </p>
-          <a href='#signup' className='btn btn-regular'> Join Bookie Now </a>
+          <a href='#signup' className='btn btn-regular'> Join Bookie Pro Now </a>
         </div>
         <div className='linksContent'>
           <div className='wrapper'>
