@@ -232,7 +232,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => 
 const buildBetTableData = (bets, currencyFormat) => {
   const formatting = (field, value) => {
     const floatNumber = parseFloat(value);
-    return isNaN(floatNumber) ? value : CurrencyUtils.toFixed(floatNumber, field, currencyFormat);
+    return isNaN(floatNumber) ? value : CurrencyUtils.toFixed(field, floatNumber, currencyFormat);
   }
   return bets.map((bet, idx) => {
     return bet.set('key', idx)
