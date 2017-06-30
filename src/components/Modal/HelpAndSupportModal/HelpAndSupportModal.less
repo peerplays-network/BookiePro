@@ -1,0 +1,48 @@
+@import '../../App/Colors.less';
+@import '../../App/Common.less';
+
+.help-and-support-modal{
+  .ant-modal{
+    top:5%;
+    max-height: 90%;
+    padding-bottom:0;
+  }
+  .ant-modal-header{
+    border-bottom:0 none;
+    .ant-modal-title{
+      color: @white;
+    }
+  }
+  .ant-modal-body{
+    padding: 0 15px 15px 30px !important;
+    overflow: auto;
+    height: 473px;
+  }
+  p{
+    line-height:32px;
+    margin-bottom:30px;
+    &:last-child{
+      margin-bottom:0;
+    }
+  }
+  ul{
+    margin-bottom:30px;
+    padding-left:30px;
+    p{
+      margin-bottom:0;
+      margin-left:-30px;
+    }
+    li{
+      list-style: disc;
+      line-height:32px;
+      margin-bottom:0;
+    }
+  }
+  .ps-container:hover > .ps-scrollbar-y-rail:hover {
+    background-color: transparent;
+    opacity: 1;
+  }
+  .ps-container{
+    padding-right:30px;
+  }
+}
