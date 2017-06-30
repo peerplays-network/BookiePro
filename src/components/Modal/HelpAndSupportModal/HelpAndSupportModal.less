@@ -45,4 +45,30 @@
   .ps-container{
     padding-right:30px;
   }
+  .content {
+    padding: 20px;
+
+    .question-answer-pair {
+      .question {
+        color: white;
+        font-weight: bold;
+        font-size: 16px;
+      }
+      .answer {
+        color: white;
+        font-size: 16px;
+      }
+    }
+
+    .question-answer-pair:not(:first-child) {
+      margin-top: 20px;
+    }
+
+    .sample-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
 }

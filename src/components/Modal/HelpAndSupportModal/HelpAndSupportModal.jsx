@@ -2,9 +2,8 @@ import React, { PureComponent } from 'react';
 import { Modal } from 'antd';
 import Ps from 'perfect-scrollbar';
 import ReactDOM from 'react-dom';
-import { I18n, Translate } from 'react-redux-i18n';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
-import HelpAndSupport from '../../HelpAndSupport';
 
 class HelpAndSupportModalScrollableContent extends PureComponent {
   componentDidMount() {
@@ -17,7 +16,20 @@ class HelpAndSupportModalScrollableContent extends PureComponent {
   render() {
     return (
       <div style={ { 'height' : '100%', 'position' : 'relative' } } ref='scrollableSection'>
-          <HelpAndSupport />
+        <div className='content'>
+          {
+            [...Array(13)].map((x, i) => (
+              <div className='question-answer-pair'>
+                <div className='question'>
+                  { I18n.t('help.question' + (i+1)) }
+                </div>
+                <div className='answer'>
+                  { I18n.t('help.answer' + (i+1)) }
+                </div>
+              </div>
+            ))
+          }
+        </div>
       </div>
     )
   }
