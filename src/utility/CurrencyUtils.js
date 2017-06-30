@@ -1,6 +1,11 @@
 const bitcoinSymbol = '\u0243';
 const mBitcoinSymbol = 'm' + bitcoinSymbol;
 
+// REVIEW: Some functions here do auto conversion from BTC to mBTC.
+//         We need to be careful because sometimes the values we are handling
+//         could be in satoshi unit.
+//         The functions toFixed and toFixedWithSymbol are not performing this conversion.
+
 var CurrencyUtils = {
 
   fieldPrecisionMap: {
@@ -18,6 +23,10 @@ var CurrencyUtils = {
     },
     liability : {
       BTC: 5,
+      mBTC: 2
+    },
+    exposure: {
+      BTC: 2,
       mBTC: 2
     }
   },
@@ -114,6 +123,23 @@ var CurrencyUtils = {
     // DO NOT expect this but just in case...
     if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
     return amount.toFixed(this.fieldPrecisionMap[field][currency]);
+  },
+  /*
+   * Call JavaScript's Number.toFixed with predefined precision value based on field name
+   * A currency symbol with be prepended to the result.
+   * There is an option to insert an extra space after the symbol.
+   *
+   * Parameters:
+   *   field - the name of a field (odds, stake, profit, liability)
+   *   amount - a JS Number (not a string)
+   *   currency - either BTC or mBTC, based on setting
+   *   spaceAfterSymbol - true if a space should be added after the currency symbol in the formatted results
+   *
+   * Return the field value (amount) as a formatted string
+   */
+  toFixedWithSymbol: function(field, amount, currency, spaceAfterSymbol=false) {
+    return (amount >= 0 ? '' : '-') + this.getCurruencySymbol(currency) +
+           (spaceAfterSymbol ? ' ' : '') + this.toFixed(field, Math.abs(amount), currency);
   }
 }
 
