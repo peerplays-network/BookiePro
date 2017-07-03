@@ -69,7 +69,7 @@ class Export extends PureComponent {
     const { exportData } = this.props;
     if (exportData.size === 0) {
       return (
-        <Card className='export-card' title={ I18n.t('application.exportNoDataHeader') }>
+        <Card className='export-card export-empty-data' title={ I18n.t('application.exportNoDataHeader') }>
           <p>{ I18n.t('application.exportNoDataMsg') }</p>
           <div className='card-footer'>
             <button className='btn cancel-btn'
