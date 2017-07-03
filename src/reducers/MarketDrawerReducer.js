@@ -145,7 +145,10 @@ export default function(state = initialState, action) {
         // store odds and stake values as String for easier comparison
         unmatchedBet = unmatchedBet
                          .update('odds', odds => CurrencyUtils.formatFieldByCurrencyAndPrecision('odds', odds, action.currencyFormat).toString())
-                         .update('stake', stake => CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', stake, action.currencyFormat).toString());
+                         .update('stake', stake => {
+                           const normalized = stake / Math.pow(10, bet.get('asset_precision'));  // field only available in original bet
+                           return CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', normalized, action.currencyFormat).toString()
+                         });
         // NOTE: The old values MUST be based on the formatted values, not the original.
         unmatchedBet = unmatchedBet
                          .set('updated', false)
@@ -157,7 +160,10 @@ export default function(state = initialState, action) {
         let matchedBet = transformMatchedBetObject(bet);
         matchedBet = matchedBet
                        .update('odds', odds => CurrencyUtils.formatFieldByCurrencyAndPrecision('odds', odds, action.currencyFormat).toString())
-                       .update('stake', stake => CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', stake, action.currencyFormat).toString())
+                       .update('stake', stake => {
+                         const normalized = stake / Math.pow(10, bet.get('asset_precision'));  // field only available in original bet
+                         return CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', normalized, action.currencyFormat).toString()
+                       });
         matchedBets = matchedBets.push(matchedBet);
       });
       return state.merge({

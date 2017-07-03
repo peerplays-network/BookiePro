@@ -199,15 +199,13 @@ class ComplexBettingWidget extends Component {
       minWidth: minNameWidth,
       accessor: 'firstColumn' ,
       render: props => {
-        const marketExposure = CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
-           parseFloat(props.value.market_exposure),
-           currencyFormat,
-           BettingModuleUtils.exposurePlaces);
+        const marketExposure =
+          CurrencyUtils.toFixedWithSymbol('exposure', parseFloat(props.value.market_exposure), currencyFormat);
 
-        const potentialExposure = CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
+        const potentialExposure = CurrencyUtils.toFixedWithSymbol(
+           'exposure',
            parseFloat(BettingModuleUtils.getPotentialExposure(props.value.market_exposure, props.value.betslip_exposure )),
-           currencyFormat,
-           BettingModuleUtils.exposurePlaces);
+           currencyFormat);
 
         const marketExposureClass = props.value.market_exposure >= 0 ?
           'increased-value' : 'decreased-value';
