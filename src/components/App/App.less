@@ -78,7 +78,7 @@
 .ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail,
 .ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail,
 .ps-container:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail  {
-  // background-color: @scroller_bg;
+  // background-color: @scroller_bg_active;
   opacity: 0.9;
 }
 .ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x,
@@ -87,7 +87,7 @@
 .ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y,
 .ps-container:hover > .ps-scrollbar-x-rail:hover > .ps-scrollbar-x,
 .ps-container:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y   {
-  // background-color: @scroller_bg
+  background-color: @scroller_bg_active
 }
 .ps-container > .ps-scrollbar-x-rail,
 .ps-container > .ps-scrollbar-y-rail {
@@ -120,6 +120,12 @@
   -webkit-transition: background-color .2s linear;
   transition: background-color .2s linear;
 }
+
+:hover.ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x,
+:hover.ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+  background-color: @scroller_bg_active;
+}
+
 .ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x {
   bottom: 0; /* there must be 'bottom' for ps-scrollbar-x */
   height: 8px;
@@ -163,7 +169,7 @@
 }
 :hover::-webkit-scrollbar-thumb {
   position: absolute;  /* please don't change 'position' */
-  background-color: @scroller_bg;
+  background-color: @scroller_bg_active;
   -webkit-border-radius: 12px;
   border-radius: 12px;
   -webkit-transition: background-color .2s linear;
