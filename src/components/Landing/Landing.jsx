@@ -99,11 +99,13 @@ class Landing extends PureComponent {
             <LandingSteps className='steps' />
         </div>
         <div className='footer'>
-          <a className='copyright'>{ I18n.t('landing.copyright') }</a>
-          <span className='separator'> | </span>
-          <a className='privacy-policy' onClick={ this.onPrivacyPolicyClick }>{ I18n.t('landing.privacy_policy') }</a>
-          <span className='separator'> | </span>
-          <a className='help-and-support' onClick={ this.onHelpAndSupportClick }>{ I18n.t('landing.help_and_support') }</a>
+          <div className='links'>
+            <a className='copyright'>{ I18n.t('landing.copyright') }</a>
+            <span className='separator'> | </span>
+            <a className='privacy-policy' onClick={ this.onPrivacyPolicyClick }>{ I18n.t('landing.privacy_policy') }</a>
+            <span className='separator'> | </span>
+            <a className='help-and-support' onClick={ this.onHelpAndSupportClick }>{ I18n.t('landing.help_and_support') }</a>
+          </div>
         </div>
         <PrivacyModal
           visible={ this.state.privacyModalVisible }
