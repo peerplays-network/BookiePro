@@ -2,8 +2,6 @@ import _ from 'lodash';
 
 const blockchainUrls = [
   'wss://595-dev-blockchain.pixelplex.by/ws',
-  'wss://invalid1.pixelplex.by/ws', // INVALID, USED TO PROVE RETRYING WITH OTHER NODE FUNCTION
-  'wss://invalid2.pixelplex.by/ws', // INVALID, USED TO PROVE RETRYING WITH OTHER NODE FUNCTION
 ]
 
 const shuffledBlockhainUrls = _.shuffle(blockchainUrls)
