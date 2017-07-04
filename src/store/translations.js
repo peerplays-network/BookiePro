@@ -252,7 +252,7 @@ export const translationsObject = {
         },
         confirmation: {
           instructions: 'The transaction fee of this bet' +
-          ' is <span class="currency-label">%{amount}</span> .<br/>Are you' +
+          ' is <span class="currency-label">%{amount}</span>.<br/>Are you' +
           ' sure you want' +
           ' to place this bet?',
           cancel_button: 'CANCEL',
