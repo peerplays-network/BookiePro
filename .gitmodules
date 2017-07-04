@@ -1,6 +1,0 @@
-[submodule "lib/peerplaysjs-lib"]
-	path = lib/peerplaysjs-lib
-	url = git@github.com:PBSA/peerplaysjs-lib.git
-[submodule "lib/peerplaysjs-ws"]
-	path = lib/peerplaysjs-ws
-	url = git@github.com:PBSA/peerplaysjs-ws.git
