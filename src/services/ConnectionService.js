@@ -1,4 +1,4 @@
-import { Apis, ChainConfig } from 'graphenejs-ws';
+import { Apis, ChainConfig } from 'peerplaysjs-ws';
 import { Config, ConnectionStatus } from '../constants';
 import { ConnectionUtils } from '../utility';
 import log from 'loglevel';

@@ -1,4 +1,4 @@
-import { Apis } from 'graphenejs-ws';
+import { Apis } from 'peerplaysjs-ws';
 import { BlockchainUtils } from '../utility';
 import {
   AssetActions,
@@ -16,7 +16,7 @@ import {
 } from '../actions';
 import Immutable from 'immutable';
 import { ObjectPrefix, Config } from '../constants';
-import { ChainValidation } from 'graphenejs-lib';
+import { ChainValidation } from 'peerplaysjs-lib';
 import _ from 'lodash';
 import dummyData from '../dummyData';
 import log from 'loglevel';
@@ -319,7 +319,7 @@ class CommunicationService {
       // Check if db api is ready
       let db_api = Apis.instance().db_api();
       if (!db_api) {
-        return reject(new Error('Api not found, please ensure Apis from graphenejs-ws is initialized first'));
+        return reject(new Error('Api not found, please ensure Apis from peerplaysjs-ws is initialized first'));
       }
 
       // Get current blockchain data (dynamic global property and global property), to ensure blockchain time is in sync

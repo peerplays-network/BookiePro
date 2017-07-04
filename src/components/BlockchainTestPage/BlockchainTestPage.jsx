@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { Button } from 'antd';
-import { Apis } from 'graphenejs-ws';
+import { Apis } from 'peerplaysjs-ws';
 import { connect } from 'react-redux';
 import TestBookieAccount from './TestBookieAccount';
 import { AccountActions } from '../../actions';

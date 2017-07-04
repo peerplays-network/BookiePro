@@ -6,7 +6,7 @@ import BettingMarketGroupActions from './BettingMarketGroupActions';
 import EventActions from './EventActions';
 import SportActions from './SportActions';
 import CompetitorActions from './CompetitorActions';
-import { TransactionBuilder } from 'graphenejs-lib';
+import { TransactionBuilder } from 'peerplaysjs-lib';
 import _ from 'lodash';
 import log from 'loglevel';
 

@@ -1,7 +1,7 @@
 import { ActionTypes } from '../constants';
 import { BlockchainUtils, FileSaverUtils } from '../utility';
 import { WalletService, CommunicationService } from '../services';
-import { TransactionBuilder } from 'graphenejs-lib';
+import { TransactionBuilder } from 'peerplaysjs-lib';
 import RawHistoryActions from './RawHistoryActions';
 import Immutable from 'immutable';
 import _ from 'lodash';

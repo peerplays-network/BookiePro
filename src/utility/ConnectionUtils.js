@@ -1,4 +1,4 @@
-import { Apis } from 'graphenejs-ws';
+import { Apis } from 'peerplaysjs-ws';
 
 /**
  * Utility to check connection

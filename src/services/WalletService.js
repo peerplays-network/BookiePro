@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { PrivateKey } from 'graphenejs-lib';
+import { PrivateKey } from 'peerplaysjs-lib';
 import log from 'loglevel';
 import { I18n } from 'react-redux-i18n';
 

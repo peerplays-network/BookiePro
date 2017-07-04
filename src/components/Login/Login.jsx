@@ -5,7 +5,7 @@ import LoginForm from './LoginForm.jsx';
 import { NavigateActions, AuthActions, AppActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { ChainValidation } from 'graphenejs-lib';
+import { ChainValidation } from 'peerplaysjs-lib';
 import {SubmissionError} from 'redux-form'
 import { I18n } from 'react-redux-i18n';
 import { AccountService } from '../../services';

@@ -1,6 +1,6 @@
 import { DummyOperationTypes, TimeRangePeriodTypes, BetCategories } from '../constants';
 import { BlockchainUtils, DateUtils, CurrencyUtils, BettingModuleUtils } from '../utility';
-import { ChainTypes } from 'graphenejs-lib';
+import { ChainTypes } from 'peerplaysjs-lib';
 import { I18n } from 'react-redux-i18n';
 import Immutable from 'immutable';
 import moment from 'moment';

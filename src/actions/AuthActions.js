@@ -9,7 +9,7 @@ import AppActions from './AppActions';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
 import log from 'loglevel';
-import { TransactionBuilder } from 'graphenejs-lib';
+import { TransactionBuilder } from 'peerplaysjs-lib';
 
 /**
  * Private actions

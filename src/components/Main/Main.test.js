@@ -6,7 +6,7 @@ import Main from './Main';
 import SideBar from './SideBar';
 import NavBar from './NavBar';
 
-jest.mock('graphenejs-lib');
+jest.mock('peerplaysjs-lib');
 
 describe('The main app', () => {
   let testApp;
