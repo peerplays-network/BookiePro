@@ -12,6 +12,7 @@ div.bet-table-wrapper {
     border-radius:0;
     table{
       border-radius:inherit;
+      table-layout: fixed;
     }
   }
   > div.header {
@@ -158,7 +159,7 @@ div.bet-table-wrapper {
       .ant-table-thead > tr > th {
         background-color: @editable_table_lay_header_bg;
         color: white;
-        word-break: break-word;
+        word-break: normal;
       }
       .ant-table-tbody > tr > td {
         border-color: @editable_table_lay_body_border;
