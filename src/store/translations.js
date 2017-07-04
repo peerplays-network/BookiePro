@@ -97,7 +97,7 @@ export const translationsObject = {
       UTC0:'UTC+00:00'
     },
     signup: {
-      new_acc_req_text: 'Create a new Bookie Pro account',
+      new_acc_req_text: 'Create a new Bookie account',
       copy_text: 'Copy',
       download_rec_text: 'Save Password File',
       acc_name: 'Account Name',
