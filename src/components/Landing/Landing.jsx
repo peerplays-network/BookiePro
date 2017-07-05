@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigateActions, AppActions } from '../../actions';
 import logo from '../../assets/images/bookie_logo_signup.png';
+import helpIcon from '../../assets/icons/help_s.png';
 import { AppBackgroundTypes } from '../../constants';
 import LandingSteps from './LandingSteps';
 
@@ -99,13 +100,12 @@ class Landing extends PureComponent {
             <LandingSteps className='steps' />
         </div>
         <div className='footer'>
-          <div className='links'>
-            <a className='copyright'>{ I18n.t('landing.copyright') }</a>
-            <span className='separator'> | </span>
-            <a className='privacy-policy' onClick={ this.onPrivacyPolicyClick }>{ I18n.t('landing.privacy_policy') }</a>
-            <span className='separator'> | </span>
-            <a className='help-and-support' onClick={ this.onHelpAndSupportClick }>{ I18n.t('landing.help_and_support') }</a>
-          </div>
+          <a className='copyright'>{ I18n.t('landing.copyright') }</a>
+          <span className='separator'> | </span>
+          <a className='privacy-policy' onClick={ this.onPrivacyPolicyClick }>{ I18n.t('landing.privacy_policy') }</a>
+        </div>
+        <div className='help-station'>
+          <a onClick={ this.onHelpAndSupportClick }><img className='help-icon' src={ helpIcon } alt=''/></a>
         </div>
         <PrivacyModal
           visible={ this.state.privacyModalVisible }
