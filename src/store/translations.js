@@ -192,8 +192,8 @@ export const translationsObject = {
       depositStepTitle: 'Deposit',
       depositStepMessage: 'Add wallet',
       betStepTitle: 'Bet',
-      betStepMessage: 'Easy Betting'
-
+      betStepMessage: 'Easy Betting',
+      help_and_support: 'HELP'
     },
     mybets:{
       profit_liability: 'Profit / </br>Liability' +
