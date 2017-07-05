@@ -1,4 +1,4 @@
-import { ChainTypes } from 'graphenejs-lib';
+import { ChainTypes } from 'peerplaysjs-lib';
 const {
   reserved_spaces,
   object_type,

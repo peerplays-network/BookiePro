@@ -4,7 +4,7 @@ import { BlockchainUtils } from '../utility';
 import { NotificationTypes, DummyOperationTypes } from '../constants';
 const { calcBlockTime } = BlockchainUtils;
 import { I18n } from 'react-redux-i18n';
-import { ChainTypes } from 'graphenejs-lib';
+import { ChainTypes } from 'peerplaysjs-lib';
 
 class NotificationService {
   // Use this to generate notification id

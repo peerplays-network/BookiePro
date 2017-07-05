@@ -1,6 +1,0 @@
-[submodule "lib/graphenejs-lib"]
-	path = lib/graphenejs-lib
-	url = git@bitbucket.org:peerplaysblockchain/peerplays-graphenejs-lib.git
-[submodule "lib/graphenejs-ws"]
-	path = lib/graphenejs-ws
-	url = git@bitbucket.org:peerplaysblockchain/peerplays-graphenejs-ws.git

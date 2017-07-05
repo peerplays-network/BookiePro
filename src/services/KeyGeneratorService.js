@@ -1,4 +1,4 @@
-import {key, PrivateKey} from "graphenejs-lib";
+import {key, PrivateKey} from "peerplaysjs-lib";
 
 class KeyGeneratorService {
 

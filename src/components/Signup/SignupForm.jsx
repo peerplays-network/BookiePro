@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Field, Fields, reduxForm } from 'redux-form/immutable';
 import { Button } from 'antd';
-import { ChainValidation } from 'graphenejs-lib';
+import { ChainValidation } from 'peerplaysjs-lib';
 import copy from 'copy-to-clipboard';
 import RandomString from 'randomstring';
 import { FileSaverUtils } from '../../utility';

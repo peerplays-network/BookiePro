@@ -1,7 +1,7 @@
 import { ActionTypes, Config } from '../constants';
 import { CommunicationService } from '../services';
 import { SoftwareUpdateUtils } from '../utility';
-import { ChainTypes } from 'graphenejs-lib';
+import { ChainTypes } from 'peerplaysjs-lib';
 import { StringUtils } from '../utility';
 import log from 'loglevel';
 import NotificationActions from './NotificationActions';

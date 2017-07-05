@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { Button } from 'antd';
-import { TransactionHelper, TransactionBuilder, PrivateKey } from 'graphenejs-lib';
+import { TransactionHelper, TransactionBuilder, PrivateKey } from 'peerplaysjs-lib';
 
 import { BlockchainUtils, StringUtils } from '../../utility';
 
 import { acc } from '../../dummyData/accountInfo/acc';
 import { acc2 } from '../../dummyData/accountInfo/acc2';
-import { Apis } from 'graphenejs-ws';
+import { Apis } from 'peerplaysjs-ws';
 import Immutable from 'immutable';
 
 const accountPublicKeys = ['TEST5kpfGxMritUzRt9XB9vKjByZibGM9JMw915Twst1smFc8v9UYY', 'TEST7iHErQZYecgvWhC87NSkXJCxjert2wHyR7tiFhNrd4qkLcvXGN'];

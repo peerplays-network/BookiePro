@@ -1,4 +1,4 @@
-import { Apis } from 'graphenejs-ws';
+import { Apis } from 'peerplaysjs-ws';
 import { BlockchainUtils } from '../utility';
 import {
   AssetActions,
@@ -16,7 +16,7 @@ import {
 } from '../actions';
 import Immutable from 'immutable';
 import { ObjectPrefix, Config } from '../constants';
-import { ChainValidation } from 'graphenejs-lib';
+import { ChainValidation } from 'peerplaysjs-lib';
 import _ from 'lodash';
 import dummyData from '../dummyData';
 import log from 'loglevel';
@@ -283,7 +283,7 @@ class CommunicationService {
    * Route every call to blockchain db api through this function, so we can see the logging
    * Also ensure the returned data is immutable
    */
-  static callBlockchainDbApi(methodName, params) {
+  static callBlockchainDbApi(methodName, params=[]) {
     return Apis.instance().db_api().exec(methodName, params).then((result) => {
       // Intercept and log
       log.debug(`Call blockchain DB Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
@@ -299,7 +299,7 @@ class CommunicationService {
    * Call blokchain history api
    * Route every call to blockchain history api through this function, so we can see the logging
    */
-  static callBlockchainHistoryApi(methodName, params) {
+  static callBlockchainHistoryApi(methodName, params=[]) {
     return Apis.instance().history_api().exec(methodName, params).then((result) => {
       // Intercept and log
       log.debug(`Call blockchain History Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
@@ -319,7 +319,7 @@ class CommunicationService {
       // Check if db api is ready
       let db_api = Apis.instance().db_api();
       if (!db_api) {
-        return reject(new Error('Api not found, please ensure Apis from graphenejs-ws is initialized first'));
+        return reject(new Error('Api not found, please ensure Apis from peerplaysjs-ws is initialized first'));
       }
 
       // Get current blockchain data (dynamic global property and global property), to ensure blockchain time is in sync
