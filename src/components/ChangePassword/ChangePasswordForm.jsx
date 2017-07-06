@@ -1,7 +1,11 @@
 import React,{ PureComponent } from 'react';
-import { Field, reduxForm } from 'redux-form/immutable';
+import { Field, Fields, reduxForm } from 'redux-form/immutable';
+import { Button } from 'antd';
+
 import { I18n }  from 'react-redux-i18n';
 import { LoadingStatus } from '../../constants';
+import { FileSaverUtils } from '../../utility';
+const { saveAs } = FileSaverUtils;
 
 //Component to render the password field
 const renderPasswordField = ({ placeholder,tabIndex, errors, input, maxLength, type,
@@ -15,24 +19,73 @@ const renderPasswordField = ({ placeholder,tabIndex, errors, input, maxLength, t
   </div>
 );
 
+//Component to render the 'Copy' button
+const renderRecoveryButtonFields = (fields) =>{
+  const minimumLength = 22;
+
+  return (
+
+    <div>
+      <div className='loginCreate__btnWrap'>
+          <Button type='primary' htmlType='submit'
+            className={ 'btn ' + (fields.new_password.input.value !== fields.new_password_confirm.input.value ? 'btn-regular-disabled':' btn-download') + ' grid-100' }
+            onClick={ fields.onClick.bind(this, fields.new_password.input.value) }
+            disabled={ fields.new_password.input.value !== fields.new_password_confirm.input.value ||  fields.new_password_confirm.input.value.length < minimumLength }>
+            {I18n.t('signup.download_rec_text')}
+          </Button>
+      </div>
+    </div>
+  )
+}
+
+
 class ChangePasswordForm extends PureComponent {
+
+  //Download the password in a text file
+  onClickDownload(password,event) {
+    event.preventDefault();
+    let blob = new Blob([ password ], {
+      type: 'text/plain'
+    });
+    saveAs(blob, 'account-recovery-file.txt');
+  }
+
   render(){
     const { handleSubmit,reset,loadingStatus,invalid,asyncValidating,submitting,pristine } = this.props;
     const errors = this.props.errors.toJS(), isLoading = (loadingStatus===LoadingStatus.LOADING && errors.length===0)
     return (
       <form onSubmit={ handleSubmit }>
+
+        <div>{ I18n.t('changePassword.current_password') }</div>
         <div className='form-fields'>
           <Field name='old_password' id='old_password' errors={ errors } maxLength='52'
             component={ renderPasswordField }  placeholder={ I18n.t('changePassword.current_password') } type='password' tabIndex='1' />
         </div>
+
+        <div>{ I18n.t('changePassword.enter_new_password_hint') }</div>
         <div className='form-fields'>
           <Field name='new_password' id='new_password' errors={ errors } maxLength='52'
             component={ renderPasswordField } placeholder={ I18n.t('changePassword.new_password') } type='password' tabIndex='2' />
         </div>
+
+        <div>{ I18n.t('changePassword.confirm_new_password_hint') }</div>
         <div className='form-fields'>
           <Field name='new_password_confirm' id='new_password_confirm' errors={ errors } maxLength='52'
             component={ renderPasswordField } placeholder={ I18n.t('changePassword.confirm_password') } type='password' tabIndex='3'/>
         </div>
+
+
+        <div className='form-fields savePasswordBox'>
+          <div className='download-file'>
+            <p className='passwordMessage'>
+              { I18n.t('signup.password_warning_1') }<span className='boldTextInMessage'>{ I18n.t('signup.password_warning_2') }</span>{ I18n.t('signup.password_warning_3') }
+            </p>
+            <div className='text-center'>
+              <Fields names={ ['new_password','new_password_confirm'] } component={ renderRecoveryButtonFields } onClick={ this.onClickDownload.bind(this) }/>
+            </div>
+          </div>
+        </div>
+
         <div className='form-fields text-center'>
           <div>{ Field.old_password }</div>
           <button hidden type='button' onClick={ reset }
@@ -68,7 +121,7 @@ const validateChangePasswordFields = (password,blankFieldErrorMessage,minimumLen
 
 export default reduxForm({
   form: 'changePasswordForm',  // a unique identifier for this form
-  fields: ['old_password', 'new_password', 'new_password-confirm'],
+  fields: ['old_password', 'new_password', 'new_password_confirm'],
   validate: function submit(values) {
     let errors = {},
       new_password = values.get('new_password'),
