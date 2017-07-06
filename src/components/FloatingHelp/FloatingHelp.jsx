@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import HelpAndSupportModal from '../Modal/HelpAndSupportModal';
-import helpIcon from '../../assets/icons/help_s.png';
+import helpIcon from '../../assets/icons/help.png';
 
 class FloatingHelp extends PureComponent {
   constructor(props) {

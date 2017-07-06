@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { I18n }  from 'react-redux-i18n';
 import { AppBackgroundTypes } from '../../constants';
+import FloatingHelp from '../FloatingHelp';
 
 class Signup extends PureComponent {
 
@@ -54,6 +55,7 @@ class Signup extends PureComponent {
             </div>
           </div>
         </div>
+        <FloatingHelp />
       </div>
     );
   }
