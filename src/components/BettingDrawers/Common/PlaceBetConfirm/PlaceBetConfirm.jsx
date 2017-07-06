@@ -16,6 +16,7 @@ const renderInstructions = (className, goodBets, badBets, amount) => {
           amount={ amount }
           count={ badBets }
           dangerousHTML/>
+        <br/>
         <Translate
           value={ `${ className }.good_bets` }
           good_bets={ goodBets }

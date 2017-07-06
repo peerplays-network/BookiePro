@@ -281,8 +281,8 @@ export const translationsObject = {
             confirm_button: 'CONFIRM BET',
           },
           perfect: {
-            good_bets_1: 'You are about to place 1 bet for a total liability of <span class="currency-label">%{amount}</span>. Are you sure?',
-            good_bets: 'You are about to place %{good_bets} bets  for a total liability of <span class="currency-label">%{amount}</span>. Are you sure?',
+            good_bets_1: 'You are about to place 1 bet for a total liability of <span class="currency-label">%{amount}</span>.<br/> Are you sure?',
+            good_bets: 'You are about to place %{good_bets} bets  for a total liability of <span class="currency-label">%{amount}</span>.<br/> Are you sure?',
             cancel_button: 'CANCEL',
             confirm_button: 'CONFIRM BET',
           },
