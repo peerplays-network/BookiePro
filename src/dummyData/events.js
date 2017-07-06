@@ -157,7 +157,7 @@ const events = [
     "sport_id": "1.100.1",
     "name": "Cincinnati Bengals vs New York Jets",
     "seasons": "2017-2018",
-    "start_time": moment().add(6, 'days').unix() * 1000,
+    "start_time": moment().add(5, 'hours').unix() * 1000,
     "event_group_id": "1.101.1",
     "event_status_id": "Upcoming",
     "scores": [
