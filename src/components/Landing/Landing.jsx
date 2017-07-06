@@ -1,29 +1,25 @@
 import React, { PureComponent } from 'react';
 import PrivacyModal from '../Modal/PrivacyModal';
-import HelpAndSupportModal from '../Modal/HelpAndSupportModal';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigateActions, AppActions } from '../../actions';
 import logo from '../../assets/images/bookie_logo_signup.png';
-import helpIcon from '../../assets/icons/help_s.png';
 import { AppBackgroundTypes } from '../../constants';
 import LandingSteps from './LandingSteps';
+import FloatingHelp from '../FloatingHelp';
 
 class Landing extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      privacyModalVisible: false,
-      helpAndSupportModalVisible: false
+      privacyModalVisible: false
     }
     this.onLoginClick = this.onLoginClick.bind(this);
     this.onSignupClick = this.onSignupClick.bind(this);
     this.onPrivacyModalCancelClick = this.onPrivacyModalCancelClick.bind(this);
     this.onPrivacyPolicyClick = this.onPrivacyPolicyClick.bind(this);
     this.renderSteps = this.renderSteps.bind(this);
-    this.onHelpAndSupportClick = this.onHelpAndSupportClick.bind(this);
-    this.onHelpAndSupportCancelClick = this.onHelpAndSupportCancelClick.bind(this);
   }
 
   componentDidMount() {
@@ -59,19 +55,6 @@ class Landing extends PureComponent {
     })
   }
 
-  onHelpAndSupportClick(event) {
-    event.preventDefault();
-    this.setState( {
-      helpAndSupportModalVisible: true
-    });
-  }
-
-  onHelpAndSupportCancelClick() {
-    this.setState( {
-      helpAndSupportModalVisible: false
-    });
-  }
-
   renderSteps() {
     return (
       <div className='steps'>
@@ -104,16 +87,10 @@ class Landing extends PureComponent {
           <span className='separator'> | </span>
           <a className='privacy-policy' onClick={ this.onPrivacyPolicyClick }>{ I18n.t('landing.privacy_policy') }</a>
         </div>
-        <div className='help-station'>
-          <a onClick={ this.onHelpAndSupportClick }><img className='help-icon' src={ helpIcon } alt=''/></a>
-        </div>
+        <FloatingHelp />
         <PrivacyModal
           visible={ this.state.privacyModalVisible }
           onCancelClick={ this.onPrivacyModalCancelClick }
-        />
-        <HelpAndSupportModal
-          visible={ this.state.helpAndSupportModalVisible }
-          onCancelClick={ this.onHelpAndSupportCancelClick }
         />
       </div>
     )
