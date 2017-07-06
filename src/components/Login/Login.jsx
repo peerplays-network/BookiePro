@@ -10,6 +10,7 @@ import {SubmissionError} from 'redux-form'
 import { I18n } from 'react-redux-i18n';
 import { AccountService } from '../../services';
 import { AppBackgroundTypes } from '../../constants';
+import FloatingHelp from '../FloatingHelp';
 
 class Login extends Component {
   constructor(props) {
@@ -78,6 +79,7 @@ class Login extends Component {
             </div>
           </div>
         </div>
+        <FloatingHelp />
       </div>
     );
   }
