@@ -9,7 +9,7 @@ import { I18n, Translate } from 'react-redux-i18n';
 import { BettingModuleUtils, CurrencyUtils, EventNameUtils } from '../../../utility';
 // We cannot use CSS to override antd Table column width using CSS
 // This can only be done via the code
-const eventTimeColumnWidth = 80;
+const eventTimeColumnWidth = 65;
 const offerColumnWidth = 70;
 
 // TODO: Consider moving this to a utility library later
