@@ -16,14 +16,14 @@ const offerColumnWidth = 70;
 // TODO: The implementation below is for demo purpose. Will review this in future iterations.
 const renderEventTime = (text, record) => {
   const eventTime = moment(parseInt(record.get('time'), 10))
-  let dateString = eventTime.format('MMM DD');
+  let dateString = eventTime.format('MMM D');
   let timeString = eventTime.calendar();
   // TODO: Need a better way as this is NOT going to work once we have localization
   if (timeString.toLowerCase().includes('today')) {
     dateString = 'Today';
   }
 
-  return <span>{ dateString }<br/>{ eventTime.format('hh:mm a') }</span>;
+  return <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>;
 }
 
 const getColumns = (renderOffer, navigateTo, currencyFormat) => ([
