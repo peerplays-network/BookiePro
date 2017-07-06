@@ -10,7 +10,7 @@ import { Button } from 'antd';
 import { BetActions, NavigateActions, QuickBetDrawerActions } from '../../../actions';
 import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import BetTable from '../BetTable';
-import { Empty, Overlay, Waiting } from '../Common';
+import { Empty, Overlay, Waiting, PlaceBetConfirm } from '../Common';
 
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
@@ -80,11 +80,13 @@ class QuickBetDrawer extends PureComponent {
           </SplitPane>
         </SplitPane>
         { this.props.showBetSlipConfirmation &&
-          <Overlay
+          <PlaceBetConfirm
             className='quick_bet_drawer.unconfirmed_bets.confirmation'
+            goodBets={ this.props.numberOfGoodBets }
+            badBets={ this.props.numberOfBadBets }
+            amount={ this.props.totalBetAmount }
             cancelAction={ this.props.cancelPlaceBet }
             confirmAction={ () => this.props.makeBets(this.props.originalBets) }
-            replacements={ { amount: this.props.totalBetAmount } }
           />
         }
         { this.props.showBetSlipError &&
@@ -161,6 +163,7 @@ const mapStateToProps = (state, ownProps) => {
     betsToBeDeleted: state.getIn(['quickBetDrawer', 'betsToBeDeleted']),
     eventNameInDeleteBetsConfirmation: state.getIn(['quickBetDrawer', 'eventNameInDeleteBetsConfirmation']),
     numberOfGoodBets,
+    numberOfBadBets: originalBets.size - numberOfGoodBets,
     totalBetAmount: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
                     CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat),
   };
