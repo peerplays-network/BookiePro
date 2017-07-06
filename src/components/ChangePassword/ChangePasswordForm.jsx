@@ -22,15 +22,15 @@ const renderPasswordField = ({ placeholder,tabIndex, errors, input, maxLength, t
 //Component to render the 'Copy' button
 const renderRecoveryButtonFields = (fields) =>{
   const minimumLength = 22;
-
+  const disabled = fields.new_password.input.value !== fields.new_password_confirm.input.value ||  fields.new_password_confirm.input.value.length < minimumLength ;
   return (
 
     <div>
       <div className='loginCreate__btnWrap'>
           <Button type='primary' htmlType='submit'
-            className={ 'btn ' + (fields.new_password.input.value !== fields.new_password_confirm.input.value ? 'btn-regular-disabled':' btn-download') + ' grid-100' }
+            className={ 'btn ' + (disabled ? 'btn-regular-disabled':' btn-download') + ' grid-100' }
             onClick={ fields.onClick.bind(this, fields.new_password.input.value) }
-            disabled={ fields.new_password.input.value !== fields.new_password_confirm.input.value ||  fields.new_password_confirm.input.value.length < minimumLength }>
+            disabled={ disabled }>
             {I18n.t('signup.download_rec_text')}
           </Button>
       </div>
@@ -56,7 +56,7 @@ class ChangePasswordForm extends PureComponent {
     return (
       <form onSubmit={ handleSubmit }>
 
-        <div>{ I18n.t('changePassword.current_password') }</div>
+        <div>{ I18n.t('changePassword.enter_old_password_hint') }</div>
         <div className='form-fields'>
           <Field name='old_password' id='old_password' errors={ errors } maxLength='52'
             component={ renderPasswordField }  placeholder={ I18n.t('changePassword.current_password') } type='password' tabIndex='1' />
