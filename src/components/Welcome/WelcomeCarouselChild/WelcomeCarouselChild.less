@@ -1,0 +1,75 @@
+.welcomeCarouselChild {
+  height: 472px;
+  overflow: hidden;
+
+  .welcomeCarouselChildTwoColumn {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .welcomeCarouselChildLeftPart {
+      height: 100%;
+      width: 50%;
+      position: relative;
+
+      .welcomeCarouselChildImage {
+        position: absolute;
+        right: 100px;
+        top: 50%;
+        transform: translateY(-50%);
+        max-height: 300px;
+        max-width: 300px;
+      }
+    }
+
+    .welcomeCarouselChildRightPart {
+      padding-left: 56px;
+      padding-right: 150px;
+      padding-top: 13px;
+      width: 50%;
+      max-height:  100%;
+
+      .welcomeCarouselChildHeader {
+        font-weight: 500;
+        font-size: 18px;
+        width: 100%;
+      }
+
+      .welcomeCarouselChildSeparator {
+        margin-top: 9px;
+        height: 1px;
+        background-color: white;
+        width: 100%;
+      }
+
+      .welcomeCarouselChildContent {
+        font-size: 16px;
+        margin-top: 25px;
+        width: 100%;
+        overflow: ellipsis;
+        white-space: pre-wrap;
+
+      }
+    }
+  }
+
+  .welcomeCarouselChildSingleColumn {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .welcomeCarouselChildImage {
+      max-height: 300px;
+      max-width: 300px;
+    }
+
+    .welcomeCarouselChildContent {
+      margin-top: 37px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+
+}

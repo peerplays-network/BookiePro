@@ -156,6 +156,26 @@ export const translationsObject = {
       ' - for example betting that Oakland will not beat Houston. Your bet against Oakland will therefore win if the result is either a Houston win or a draw.' +
       ' The current odds will automatically be selected' +
       ' but you can alter these to your liking.',
+      headerText1: 'WELCOME TO BOOKIE!',
+      contentText1: 'Bookie is a global sports betting exchange.\n' +
+      '\n' +
+      'Bettors from all over the world use Bookie to place bets on a huge range of sporting events.\n' +
+      '\n' +
+      'Bookie matches different users\' bets against each other, a little like a stock exchange',
+      headerText2: 'DEPOSIT FUNDS',
+      contentText2: 'To get started, you will need to deposit funds with Bookie.\n' +
+      '\n' +
+      'Currently, Bookie allow you to bet with Bitcoin.\n' +
+      '\n' +
+      'To deposit Bitcoin, you simply click on the Deposit button. You will be shown the address to send your Bitcoin to - both as a QR Code and as a Bitcoin public address.' +
+      'Send funds from your chosen Bitcoin wallet to that address\n' +
+      '\n' +
+      'Withdrawing funds is just as simple - click on the Withdraw button, enter the public address of your Bitcoin wallet, and click SEND',
+      headerText3: 'HOW TO MAKE A BET?',
+      contentText3: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam leo augue, suscipit a purus at, ultricies tempor mi. Donec est turpis, viverra imperdiet venenatis sed,' +
+      ' venenatis non ipsum. Donec ultrices turpis magna, eget lacinia turpis sagittis et. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. ' +
+      'Aliquam faucibus arcu sit amet faucibus venenatis. Etiam id enim ac libero tempus molestie eu et ipsum. Phasellus convallis metus tellus, eget commodo purus mattis quis.',
+      contentText4: 'Now you\'re ready to bet with Bookie!',
       start_betting_now: 'Start Betting Now'
     },
     processTransaction: {

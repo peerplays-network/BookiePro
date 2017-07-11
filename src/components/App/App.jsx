@@ -136,6 +136,8 @@ class App extends Component {
       appBackgroundClass = 'sportsbg';
     } else if (appBackgroundType === AppBackgroundTypes.FIELD_BG) {
       appBackgroundClass = 'fieldbg';
+    } else if (appBackgroundType === AppBackgroundTypes.AUDIENCE_BG) {
+      appBackgroundClass = 'audiencebg';
     } else {
       appBackgroundClass = 'gradientbg';
     }
