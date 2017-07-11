@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import { Carousel } from 'antd';
-import CarouselComponent1 from './CarouselComponent1'
-import CarouselComponent2 from './CarouselComponent2'
-import CarouselComponent3 from './CarouselComponent3'
-var I18n = require('react-redux-i18n').I18n;
+import WelcomeCarouselChild from './WelcomeCarouselChild';
+import onboardDepositImage from '../../assets/images/onb_deposit.png';
+import onboardWelcomeImage from '../../assets/images/onb_welcome_logo.png';
+import onboardTickImage from '../../assets/images/onb_tick.png';
+import { I18n } from 'react-redux-i18n';
 import { NavigateActions, AppActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,7 +13,13 @@ import { AppBackgroundTypes } from '../../constants';
 class Welcome extends PureComponent{
   constructor(props){
     super(props);
+    this.state = {
+      currentCarouselIndex: 0
+    }
     this.onClickStartBetting = this.onClickStartBetting.bind(this);
+    this.onCarouselChange = this.onCarouselChange.bind(this);
+    this.onArrowLeftClick = this.onArrowLeftClick.bind(this);
+    this.onArrowRightClick = this.onArrowRightClick.bind(this);
   }
 
   componentDidMount() {
@@ -25,6 +32,71 @@ class Welcome extends PureComponent{
     this.props.setAppBackground(AppBackgroundTypes.GRADIENT_BG);
   }
 
+  onArrowLeftClick(event) {
+    event.preventDefault();
+    if (this.carousel) {
+      this.carousel.refs.slick.slickPrev();
+    }
+  }
+
+  onArrowRightClick(event) {
+    event.preventDefault();
+    event.preventDefault();
+    if (this.carousel) {
+      this.carousel.refs.slick.slickNext();
+    }
+  }
+
+  renderCarouselChild(index) {
+    let headerText, contentText, imageSource, imageWidth, imageHeight, type;
+    switch(index) {
+      case 0: {
+        headerText = I18n.t('welcome.headerText1');
+        contentText = I18n.t('welcome.contentText1');
+        imageWidth = 211;
+        imageHeight = 215;
+        imageSource = onboardWelcomeImage;
+        break;
+      }
+      case 1: {
+        headerText = I18n.t('welcome.headerText2');
+        contentText = I18n.t('welcome.contentText2');
+        imageWidth = 300;
+        imageHeight = 300;
+        imageSource = onboardDepositImage;
+        break;
+      }
+      case 2: {
+        headerText = I18n.t('welcome.headerText3');
+        contentText = I18n.t('welcome.contentText3');
+        break;
+      }
+      case 3: {
+        type = WelcomeCarouselChild.SINGLE_COLUMN_TYPE;
+        contentText = I18n.t('welcome.contentText4');
+        imageWidth = 92;
+        imageHeight = 92;
+        imageSource = onboardTickImage;
+        break;
+      }
+      default: break;
+    }
+    return (
+      <WelcomeCarouselChild
+        type={ type }
+        headerText={ headerText }
+        contentText={ contentText }
+        imageSource={ imageSource }
+        imageWidth={ imageWidth }
+        imageHeight={ imageHeight }
+      />
+    )
+  }
+
+  onCarouselChange(to) {
+    this.setState({ currentCarouselIndex: to})
+  }
+
   //Navigate to the 'Home' screen after clicking on the 'Start Betting Now' button
   onClickStartBetting(e) {
     e.preventDefault();
@@ -32,23 +104,31 @@ class Welcome extends PureComponent{
   }
   render() {
     return (
-      <div className='onboardingSportsBackground welcomeComponent wrapper'>
-        <div className='text-center'>
-          <h3
-            className='text-center'>{I18n.t('welcome.getting_started')}</h3>
-        </div>
-        <div className='welcomeCarousel'>
-          <Carousel className='bookie-carousel'>
-            <div> <CarouselComponent1/> </div>
-            <div> <CarouselComponent2/> </div>
-            <div> <CarouselComponent3/> </div>
+      <div className='welcomeComponent'>
+        <div className='welcomeHeader'>{I18n.t('welcome.getting_started')}</div>
+        <div className='welcomeContent'>
+          <Carousel
+            ref={ c => this.carousel = c }
+            className='bookieCarousel'
+            afterChange={ this.onCarouselChange }
+            >
+            <div>{ this.renderCarouselChild(0) }</div>
+            <div>{ this.renderCarouselChild(1) }</div>
+            <div>{ this.renderCarouselChild(2) }</div>
+            <div>{ this.renderCarouselChild(3) }</div>
           </Carousel>
+          {
+            this.state.currentCarouselIndex !== 0 &&
+            <a className='arrowLeft' onClick={ this.onArrowLeftClick }/>
+          }
+          {
+            this.state.currentCarouselIndex !== 3 &&
+            <a className='arrowRight' onClick={ this.onArrowRightClick }/>
+          }
         </div>
-        <div className='registerComponent text-center'>
-          <button className='btn btn-regular' onClick={ this.onClickStartBetting }>
-            {I18n.t('welcome.start_betting_now')}
-          </button>
-        </div>
+        <button className='btn btn-regular startButton' onClick={ this.onClickStartBetting }>
+          {I18n.t('welcome.start_betting_now')}
+        </button>
       </div>
     )
   }

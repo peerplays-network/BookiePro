@@ -1,107 +1,58 @@
 @import '../App/Colors.less';
 @import '../App/Common.less';
 .welcomeComponent {
-  display: block !important;
-  @media screen and (max-height: 800px){
-    overflow-y: scroll;
-  }
-  h3 {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .welcomeHeader {
+    font-weight: bold;
     font-size: 20px;
-    padding: 40px 0;
   }
-  .welcomeCarousel {
+
+  .welcomeContent {
     border: 1px solid @white;
-    background-color: @welcome_section_bg;
-    box-shadow: @welcome_section_shadow;
-    padding: 40px 30px;
-    margin-left: 85px;
-    margin-right: 85px;
-    @media screen and (min-width: 1024px) and (max-width: 1366px){
-      margin: 0 auto;
-      width: 980px;
+    width: 85%;
+    max-width: 1196px;
+    height: 472px;
+    margin-top: 40px;
+    position: relative;
+
+    .dots {
+      height: 20px;
+      width: 20px;
+      border-radius: 10px;
     }
-    h4 {
-      font-size: 18px;
-      font-weight: 500;
-      text-transform: uppercase;
-      padding-bottom: 10px;
-      border-bottom: 1px solid @white;
+
+    .arrowLeft {
+      position: absolute;
+      background: url('../../assets/icons/onb_arrow_left_icon.png') no-repeat center;
+      width: 41px;
+      height: 41px;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 15px;
+      border: none;
     }
-    .middle-content {
-      padding: 40px 0 0;
-      font-size: 16px;
-      line-height: 32px;
-    }
-  }
-  .btn {
-    width:420px;
-    margin: 40px 0;
-  }
-  .ant-carousel {
-    .bookie-carousel {
-      height: 392px;
-      @media screen and (min-width: 1024px) and (max-width: 1366px){
-        height: 472px;
-      }
-      .slick-dots {
-        li {
-          button {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: transparent;
-            border: 1px solid @welcome_carousel_dot;
-            opacity: 1;
-          }
-          &.slick-active {
-            button {
-              width: 10px;
-              background: @welcome_dot_active;
-              border: 1px solid transparent;
-            }
-          }
-        }
-      }
+
+    .arrowRight {
+      position: absolute;
+      background: url('../../assets/icons/onb_arrow_right_icon.png') no-repeat center;
+      right: 15px;
+      width: 41px;
+      height: 41px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
     }
   }
-  .simple-widget {
-    .ant-row-flex {
-      border: 1px solid @white;
-      border-left: 0 none;
-      & > div {
-        padding: 0 0 0 10px;
-        border-right: 1px solid @white;
-        display: flex;
-        align-items: center;
-        &:last-child {
-          display: block;
-          padding: 0;
-          border-right: 0 none;
-        }
-      }
-      .ant-row-flex {
-        border: 0 none;
-        & > div {
-          padding: 3px 0;
-          justify-content: center;
-          &:last-child {
-            border-right: 0 none;
-          }
-        }
-      }
-    }
-    p {
-      span {
-        display: block;
-      }
-    }
-  }
-  .icon-bitcoin-white{
-    background-image: url('../../assets/icons/bitcoin_icon_hover.png');
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background-repeat: no-repeat;
-    background-size: 100%;
+
+  .startButton {
+    width: 420px;
+    height: 30px;
+    margin-top: 44px;
   }
 }
