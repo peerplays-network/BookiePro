@@ -17,7 +17,7 @@ class Welcome extends PureComponent{
 
   componentDidMount() {
     // Set app background to sports bg
-    this.props.setAppBackground(AppBackgroundTypes.FIELD_BG);
+    this.props.setAppBackground(AppBackgroundTypes.AUDIENCE_BG);
   }
 
   componentWillUnmount() {
