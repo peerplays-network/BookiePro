@@ -2,9 +2,9 @@ import { Apis, ChainConfig } from 'peerplaysjs-ws';
 import { Config, ConnectionStatus } from '../constants';
 import { ConnectionUtils } from '../utility';
 import log from 'loglevel';
-const connectionString = Config.blockchainUrls[0];
 
 class ConnectionService {
+  static blockchainUrlIndex = 0; // Index of blockchain url to be used from the list
   static onlineStatusCallback = null;
   static offlineStatusCallback = null;
   static websocketStatusCallback = null;
@@ -101,13 +101,13 @@ class ConnectionService {
     // Set connection status to be connecting
     connectionStatusCallback(ConnectionStatus.CONNECTING);
     // Connecting to blockchain
+    const connectionString = Config.blockchainUrls[this.blockchainUrlIndex];
     return Apis.instance(connectionString, true).init_promise.then((res) => {
       // Print out which blockchain we are connecting to
       log.debug('Connected to:', res[0] ? res[0].network_name : 'Undefined Blockchain');
-      // This is set to TEST since Peerplays Blockchain Testnet is currently using TEST prefix
+      // This is set to PPY since Peerplays Blockchain Testnet is currently using PPY prefix
       ChainConfig.setPrefix("PPY");
     }).catch((error) => {
-      log.error('Fail to connect to blockchain', error);
       // Close residue connection to blockchain
       this.closeConnectionToBlockchain();
       // Retry if needed
@@ -116,8 +116,18 @@ class ConnectionService {
         log.info('Retry connecting to blockchain');
         return ConnectionService.connectToBlockchain(connectionStatusCallback, attempt-1);
       } else {
-        // Give up, throw the error to be caught by the outer promise handler
-        throw error;
+        // Max number of attempt is reached for this node, check if there is another node to be tried
+        if (this.blockchainUrlIndex < Config.blockchainUrls.length - 1) {
+          // Use next node and retry (also reset number of attempt)
+          log.error('Fail to connect to ' + connectionString + ' trying with other node')
+          this.blockchainUrlIndex += 1;
+          return ConnectionService.connectToBlockchain(connectionStatusCallback);
+        } else {
+          // No more node available for retry, reset the blockchainUrlIndex and throw error
+          log.error('Fail to connect to blockchain', error);
+          this.blockchainUrlIndex = 0;
+          throw error;
+        }
       }
     })
   }
