@@ -113,7 +113,7 @@ class ConnectionService {
       // Retry if needed
       if (attempt > 0) {
         // Retry to connect
-        log.warn('Retry connecting to blockchain');
+        log.info('Retry connecting to blockchain');
         return ConnectionService.connectToBlockchain(connectionStatusCallback, attempt-1);
       } else {
         // Max number of attempt is reached for this node, check if there is another node to be tried
