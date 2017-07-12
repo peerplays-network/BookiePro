@@ -1,112 +1,68 @@
-import { FaqTopics } from '../../constants';
-
+import { FaqTopics } from '../constants';
 import { I18n } from 'react-redux-i18n';
+import _ from 'lodash';
 
-const getOverviewQuestionAnswerPairs = () => {
-  let questionAnswerPairs = [];
-  questionAnswerPairs.push({
-    question: I18n.t('help.topicOverview.question1'),
-    answer: I18n.t('help.topicOverview.answer1')
-  })
-  questionAnswerPairs.push({
-    question: I18n.t('help.topicOverview.question2'),
-    answer: I18n.t('help.topicOverview.answer2')
-  })
-  questionAnswerPairs.push({
-    question: I18n.t('help.topicOverview.question3'),
-    answer: I18n.t('help.topicOverview.answer3')
-  })
-  questionAnswerPairs.push({
-    question: I18n.t('help.topicOverview.question4'),
-    answer: I18n.t('help.topicOverview.answer4')
-  })
-  questionAnswerPairs.push({
-    question: I18n.t('help.topicOverview.question4'),
-    answer: I18n.t('help.topicOverview.answer4')
-  })
-  questionAnswerPairs.push({
-    question: I18n.t('help.topicOverview.question5'),
-    answer: I18n.t('help.topicOverview.answer5')
-  })
-  questionAnswerPairs.push({
-    question: I18n.t('help.topicOverview.question6'),
-    answer: I18n.t('help.topicOverview.answer6')
-  })
-  questionAnswerPairs.push({
-    question: I18n.t('help.topicOverview.question7'),
-    answer: I18n.t('help.topicOverview.answer7')
-  })
-  questionAnswerPairs.push({
-    question: I18n.t('help.topicOverview.question8'),
-    answer: I18n.t('help.topicOverview.answer8')
-  })
-}
-
-
-
-const getQuestionAnswerPairs = (topic) => {
-  // TODO: find a better way to do this
+const getTopicTranslationKeyword = (topic) => {
+  let translationKeyword;
   switch(topic) {
     case FaqTopics.OVERVIEW: {
-      return getOverviewQuestionAnswerPairs();
+      translationKeyword = 'topicOverview';
+      break;
     }
     case FaqTopics.ACCOUNT: {
-      return getAccountQuestionAnswerPairs();
+      translationKeyword = 'topicAccount';
+      break;
     }
     case FaqTopics.FUNDS: {
-      return getFundsQuestionAnswerPairs();
+      translationKeyword = 'topicFunds';
+      break;
     }
     case FaqTopics.BETTING: {
-      return getBettingQuestionAnswerPairs();
+      translationKeyword = 'topicBetting';
+      break;
     }
     case FaqTopics.FEES: {
-      return getFeesQuestionAnswerPairs();
+      translationKeyword = 'topicFees';
+      break;
     }
     case FaqTopics.SPORTS: {
-      return getSportsQuestionAnswerPairs();
+      translationKeyword = 'topicSports';
+      break;
     }
     case FaqTopics.ABOUT: {
-      return getAboutQuestionAnswerPairs();
+      translationKeyword = 'topicAbout';
+      break;
     }
     case FaqTopics.MISC: {
-      return getMiscQuestionAnswerPairs();
+      translationKeyword = 'topicMisc';
+      break;
     }
     default: break;
   }
+  return translationKeyword;
+}
+
+const getQuestionAnswerPairs = (topic) => {
+  let questionAnswerPairs = [];
+  let translationKeyword = getTopicTranslationKeyword(topic);
+  if (translationKeyword) {
+    questionAnswerPairs = I18n.t('help.' + translationKeyword + '.questionAnswerPairs');
+  }
+  return questionAnswerPairs;
 }
 
 const getTopicHeader = (topic) => {
-  switch(topic) {
-    case FaqTopics.OVERVIEW: {
-      return I18n.t('help.topicOverview.header');
-    }
-    case FaqTopics.ACCOUNT: {
-      return I18n.t('help.topicOverview.header');
-    }
-    case FaqTopics.FUNDS: {
-      return I18n.t('help.topicOverview.header');
-    }
-    case FaqTopics.BETTING: {
-      return I18n.t('help.topicOverview.header');
-    }
-    case FaqTopics.FEES: {
-      return I18n.t('help.topicOverview.header');
-    }
-    case FaqTopics.SPORTS: {
-      return I18n.t('help.topicOverview.header');
-    }
-    case FaqTopics.ABOUT: {
-      return I18n.t('help.topicOverview.header');
-    }
-    case FaqTopics.MISC: {
-      return I18n.t('help.topicOverview.header');
-    }
-    default: break;
+  let translationKeyword = getTopicTranslationKeyword(topic);
+  let topicHeader = '';
+  if (translationKeyword) {
+    topicHeader = I18n.t('help.' + translationKeyword + '.header');
   }
+  return topicHeader;
 }
 
 const HelpAndSupportUtils = {
-  getQuestionAnswerPairs
+  getQuestionAnswerPairs,
+  getTopicHeader
 }
 
 export default HelpAndSupportUtils;

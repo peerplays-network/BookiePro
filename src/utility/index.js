@@ -14,6 +14,7 @@ import EventNameUtils from './EventNameUtils';
 import ObjectUtils from './ObjectUtils';
 import MyWagerUtils from './MyWagerUtils';
 import AuthUtils from './AuthUtils';
+import HelpAndSupportUtils from './HelpAndSupportUtils';
 
 export {
   AppUtils,
@@ -31,5 +32,6 @@ export {
   EventNameUtils,
   MyWagerUtils,
   ObjectUtils,
+  HelpAndSupportUtils,
   AuthUtils
 };

@@ -714,157 +714,250 @@ export const translationsObject = {
       header: 'FAQ',
       topicOverview: {
         header: 'Overview',
-        question1: 'question1',
-        answer1: 'answer1',
-        question2: 'question2',
-        answer2: 'answer2',
-        question3: 'question3',
-        answer3: 'answer3',
-        question4: 'question4',
-        answer4: 'answer4',
-        question5: 'question5',
-        answer5: 'answer5',
-        question6: 'question6',
-        answer6: 'answer6',
-        question7: 'question7',
-        answer7: 'answer7',
-        question8: 'question8',
-        answer8: 'answer8',
+        questionAnswerPairs: [
+          {
+            question: 'What is Bookie?',
+            answer: 'Bookie is a betting exchange where people from all over the world can bet on sports.'
+          },
+          {
+            question: 'How is Bookie different from a regular sportsbook?',
+            answer: 'When you bet with a sportsbook, your wager is matched by the “house” (the sportsbook operator). ' +
+                  'If you win this bet, this sportsbook operator pays you directly. ' +
+                  'Bookie has no house. Instead, Bookie matches your bet with other users who want to bet against you.'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+        ],
       },
       topicAccount: {
         header: 'Account management, security',
-        question1: 'question1',
-        answer1: 'answer1',
-        question2: 'question2',
-        answer2: 'answer2',
-        question3: 'question3',
-        answer3: 'answer3',
-        question4: 'question4',
-        answer4: 'answer4',
-        question5: 'question5',
-        answer5: 'answer5',
-        question6: 'question6',
-        answer6: 'answer6',
-        question7: 'question7',
-        answer7: 'answer7',
-        question8: 'question8',
-        answer8: 'answer8',
+        questionAnswerPairs: [
+          {
+            question: 'How do I sign up for a Bookie account?',
+            answer: 'Opening an account with Bookie is very quick and very simple. Click the SIGN UP button on the Bookie app front page and follow the on-screen instructions. \n' +
+            '\n' +
+            '1.\tChoose an Account Name. The Account Name should contain at least one number.\n' +
+            '2.\tA random 22-character password is automatically generated for you. Copy and paste this password into the password confirmation box. ' +
+            'It is IMPORTANT that you back up or save your password securely.\n' +
+            '3.\tDownload the file containing your password (this is one way of backing-up your password)\n' +
+            '4.\tTick the two boxes if you agree XXX\n' +
+            '5.\tClick the XXX button'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+        ],
       },
       topicFunds: {
         header: 'Funds',
-        question1: 'question1',
-        answer1: 'answer1',
-        question2: 'question2',
-        answer2: 'answer2',
-        question3: 'question3',
-        answer3: 'answer3',
-        question4: 'question4',
-        answer4: 'answer4',
-        question5: 'question5',
-        answer5: 'answer5',
-        question6: 'question6',
-        answer6: 'answer6',
-        question7: 'question7',
-        answer7: 'answer7',
-        question8: 'question8',
-        answer8: 'answer8',
+        questionAnswerPairs: [
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+        ],
       },
 
       topicBetting: {
         header: 'Betting',
-        question1: 'question1',
-        answer1: 'answer1',
-        question2: 'question2',
-        answer2: 'answer2',
-        question3: 'question3',
-        answer3: 'answer3',
-        question4: 'question4',
-        answer4: 'answer4',
-        question5: 'question5',
-        answer5: 'answer5',
-        question6: 'question6',
-        answer6: 'answer6',
-        question7: 'question7',
-        answer7: 'answer7',
-        question8: 'question8',
-        answer8: 'answer8',
+        questionAnswerPairs: [
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+        ],
       },
       topicFees: {
         header: 'Commision & Fees',
-        question1: 'question1',
-        answer1: 'answer1',
-        question2: 'question2',
-        answer2: 'answer2',
-        question3: 'question3',
-        answer3: 'answer3',
-        question4: 'question4',
-        answer4: 'answer4',
-        question5: 'question5',
-        answer5: 'answer5',
-        question6: 'question6',
-        answer6: 'answer6',
-        question7: 'question7',
-        answer7: 'answer7',
-        question8: 'question8',
-        answer8: 'answer8',
+        questionAnswerPairs: [
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+        ],
       },
       topicSports: {
         header: 'Sports / Markets',
-        question1: 'question1',
-        answer1: 'answer1',
-        question2: 'question2',
-        answer2: 'answer2',
-        question3: 'question3',
-        answer3: 'answer3',
-        question4: 'question4',
-        answer4: 'answer4',
-        question5: 'question5',
-        answer5: 'answer5',
-        question6: 'question6',
-        answer6: 'answer6',
-        question7: 'question7',
-        answer7: 'answer7',
-        question8: 'question8',
-        answer8: 'answer8',
+        questionAnswerPairs: [
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+        ],
       },
       topicAbout: {
         header: 'About Bookie',
-        question1: 'question1',
-        answer1: 'answer1',
-        question2: 'question2',
-        answer2: 'answer2',
-        question3: 'question3',
-        answer3: 'answer3',
-        question4: 'question4',
-        answer4: 'answer4',
-        question5: 'question5',
-        answer5: 'answer5',
-        question6: 'question6',
-        answer6: 'answer6',
-        question7: 'question7',
-        answer7: 'answer7',
-        question8: 'question8',
-        answer8: 'answer8',
+        questionAnswerPairs: [
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+        ],
       },
       topicMisc: {
         header: 'Miscellanous',
-        question1: 'question1',
-        answer1: 'answer1',
-        question2: 'question2',
-        answer2: 'answer2',
-        question3: 'question3',
-        answer3: 'answer3',
-        question4: 'question4',
-        answer4: 'answer4',
-        question5: 'question5',
-        answer5: 'answer5',
-        question6: 'question6',
-        answer6: 'answer6',
-        question7: 'question7',
-        answer7: 'answer7',
-        question8: 'question8',
-        answer8: 'answer8',
+        questionAnswerPairs: [
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+
+          {
+            question: 'question',
+            answer: 'answer'
+          },
+        ],
       },
+      // TODO: the following should be deprecated but floating help is still referring to these
+      // Revisit this after the floating help is revamped
       question1: 'What is Bookie Pro?',
       answer1: 'Bookie Pro is a betting exchange where people from all over the world can bet on sports.',
       question2: 'How is Bookie Pro different from a regular sportsbook?',
@@ -908,8 +1001,6 @@ export const translationsObject = {
       question13: 'Who is the team behind Bookie Pro?',
       answer13: 'The development of Bookie Pro has been supported by the Peerplays Blockchain Standards Association (PBSA), ' +
         'a non-profit organization based in Canada and dedicated to promoting transparent and fair gaming standards for the Peerplays blockchain.',
-
-
     }
   }
 };

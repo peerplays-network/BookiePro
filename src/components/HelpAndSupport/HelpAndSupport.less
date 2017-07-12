@@ -6,6 +6,7 @@
   margin-left: 60px;
   margin-right: 60px;
   margin-bottom: 20px;
+  min-height: 100%;
 
   .content {
     background-color: @content_bg;
@@ -16,7 +17,7 @@
     flex-direction: row;
 
 
-    .topicColumn {
+    .faqTopicColumn {
       width: 200px;
       padding-right: 20px;
       display: flex;
@@ -34,6 +35,10 @@
         &:not(:nth-child(2)) {
           margin-top: 21px;
         }
+
+        &:hover {
+          color: @light_blue;
+        }
       }
 
       .highlighted {
@@ -42,32 +47,10 @@
       }
     }
 
-    .faqColumn {
+    .faqContentColumn {
       flex: 1;
     }
 
-    .question-answer-pair {
-      .question {
-        color: white;
-        font-weight: bold;
-        font-size: 16px;
-      }
-      .answer {
-        color: white;
-        font-size: 16px;
-      }
-    }
-
-    .question-answer-pair:not(:first-child) {
-      margin-top: 20px;
-    }
-
-    .sample-box {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
   }
 
   .ant-breadcrumb a:hover {
