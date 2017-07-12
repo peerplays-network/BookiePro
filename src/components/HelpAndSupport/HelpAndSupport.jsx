@@ -4,18 +4,13 @@ import { Breadcrumb } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { NavigateActions } from '../../actions';
-import { FaqTopics } from '../../constants';
-import { HelpAndSupportUtils } from '../../utility';
-import FaqContent from './FaqContent';
+import Faq from './Faq';
 import _ from 'lodash';
 
 
 class HelpAndSupport extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      currentTopic: FaqTopics.OVERVIEW
-    }
     this.handleNavigateToHome = this.handleNavigateToHome.bind(this);
   }
 
@@ -24,28 +19,6 @@ class HelpAndSupport extends PureComponent {
     this.props.navigateTo('/exchange');
   }
 
-  renderTopics() {
-    const currentTopic = this.state.currentTopic;
-    return _.map(FaqTopics, (topic) => {
-      const topicHeader = HelpAndSupportUtils.getTopicHeader(topic);
-
-      const onClick = (event) => {
-        event.preventDefault();
-        this.setState({ currentTopic: topic })
-      }
-
-      const topicComponent = (
-        <a
-          key={ topic }
-          className={ 'topic' + (currentTopic === topic ? ' highlighted' : '') }
-          onClick={ onClick }
-          >
-          { topicHeader }
-        </a>
-      )
-      return topicComponent;
-    })
-  }
 
   render() {
     return (
@@ -56,15 +29,7 @@ class HelpAndSupport extends PureComponent {
           </Breadcrumb.Item>
           <Breadcrumb.Item>{ I18n.t('help.title') }</Breadcrumb.Item>
         </Breadcrumb>
-        <div className='content'>
-          <div className='faqTopicColumn'>
-            <div className='header'>{ I18n.t('help.header') }</div>
-            { this.renderTopics() }
-          </div>
-          <div className='faqContentColumn'>
-            <FaqContent topic={ this.state.currentTopic }/>
-          </div>
-        </div>
+        <Faq />
       </div>
     )
   }
