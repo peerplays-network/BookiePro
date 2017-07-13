@@ -1,6 +1,8 @@
-@flipColour: #fff;
+@import (reference) '../../App/Colors.less';
+
+@flipColour: @white;
 @flipColourDark: darken(@flipColour, 35%);
-@textColour: #333;
+@textColour: @dark_grey_1;
 @textColourDark: darken(@textColour, 35%);
 
 .banner-clock{
@@ -59,7 +61,7 @@
           left: 0px;
           right: 0px;
           height: 50%;
-          background-color: #0B293F;
+          background-color: @dark_blue_4;
           clip-path: polygon(0 0, 100% 0, 100% 95%, 95% 95%, 95% 100%, 5% 100%, 5% 95%, 0 95%);
         }
 
@@ -69,7 +71,7 @@
           left: 0px;
           right: 0px;
           height: 50%;
-          background-color: #0E324A;
+          background-color: @dark_blue_3;
           clip-path: polygon(0 5%, 5% 5%, 5% 0, 95% 0, 95% 5%, 100% 5%, 100% 100%, 0 100%);
         }
 
@@ -81,7 +83,7 @@
         	top: 50%;
         	left: 50%;
         	transform: translate(-50%, -50%);
-        	color: #fff;
+        	color: @white;
         }
       }
     }

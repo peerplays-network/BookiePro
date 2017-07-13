@@ -1,3 +1,5 @@
+@import (reference) '../../../App.less';
+
 .windows-controls {
   -webkit-user-select: none;
   user-select: none;
@@ -62,12 +64,12 @@
   .minimize-dark-background {
     .minimize();
     &:active {
-      background-color: rgba(255; 255; 255; .23);
+      background-color: fade(#FFFFFF, .23);
     }
 
     &:hover {
       transition: background-color 0.1s;
-      background-color: rgba(255; 255; 255; .13);
+      background-color: fade(#FFFFFF, .13);
     }
   }
 
@@ -102,12 +104,12 @@
   .maximize-dark-background {
     .maximize();
     &:active {
-      background-color: rgba(255; 255; 255; .23);
+      background-color: fade(#FFFFFF, .23);
     }
 
     &:hover {
       transition: background-color 0.1s;
-      background-color: rgba(255; 255; 255; .13);
+      background-color: fade(#FFFFFF, .13);
     }
   }
 
