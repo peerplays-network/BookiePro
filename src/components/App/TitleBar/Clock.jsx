@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 
-class Clock extends Component {
+class Clock extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

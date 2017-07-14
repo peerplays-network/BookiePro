@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { PureComponent } from 'react';
 let I18n = require('react-redux-i18n').I18n;
 import {
   Card,
@@ -7,7 +7,7 @@ import {
 import QRCode from 'qrcode.react';
 import copy from 'copy-to-clipboard'
 
-class Deposit extends Component{
+class Deposit extends PureComponent {
   //Copy the Deposit Address to clipboard
   onClickCopy(depAddr,e) {
     e.preventDefault();

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-class BannerClockDigit extends Component {
+class BannerClockDigit extends PureComponent {
   render() {
     const { value, ...props } = this.props;
     return (

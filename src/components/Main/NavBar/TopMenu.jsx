@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Badge, Menu,Dropdown } from 'antd';
 import Deposit from '../../MyAccount/Deposit'
 import { TopMenuWithdraw } from '../../Withdraw';
@@ -14,7 +14,7 @@ import { createSelector } from 'reselect';
 import { initialize } from 'redux-form';
 const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
 
-class TopMenu extends Component {
+class TopMenu extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import './Sport.less';
 
-class Sport extends Component {
+class Sport extends PureComponent {
   render() {
     const { id, onClick, data, name } = this.props;
     return (

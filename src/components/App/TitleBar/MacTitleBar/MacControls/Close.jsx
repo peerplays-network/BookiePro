@@ -2,10 +2,10 @@
  * Credit to react desktop for this component https://github.com/gabrielbull/react-desktop
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-class Close extends Component {
+class Close extends PureComponent {
   static propTypes = {
     style: PropTypes.object,
     showIcon: PropTypes.bool

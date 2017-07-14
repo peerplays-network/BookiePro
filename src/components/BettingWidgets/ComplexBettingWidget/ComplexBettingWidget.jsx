@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import { BetTypes, LoadingStatus } from '../../../constants';
 import ReactTable from 'react-table'
@@ -12,7 +12,7 @@ import moment from 'moment';
 
 const itemDisplay = 3;
 
-class ComplexBettingWidget extends Component {
+class ComplexBettingWidget extends PureComponent {
 
   constructor(props) {
     super(props);

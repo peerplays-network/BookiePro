@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Modal, Checkbox } from 'antd';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 
-class LogoutModal extends Component {
+class LogoutModal extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

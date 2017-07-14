@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Menu } from 'antd';
 import _ from 'lodash';
 import Select from 'react-select';
@@ -38,7 +38,7 @@ const SearchOption = createClass({
   }
 });
 
-class SearchMenu extends Component {
+class SearchMenu extends PureComponent {
 
   constructor(props) {
     super(props);

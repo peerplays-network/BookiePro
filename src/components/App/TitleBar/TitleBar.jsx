@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import MacTitleBar from './MacTitleBar';
 import WindowsTitleBar from './WindowsTitleBar';
 import { AppUtils } from '../../../utility';
@@ -14,7 +14,7 @@ if (isRunningInsideElectron) {
   electron = require('electron');
 }
 
-class TitleBar extends Component {
+class TitleBar extends PureComponent {
   constructor() {
     super();
 

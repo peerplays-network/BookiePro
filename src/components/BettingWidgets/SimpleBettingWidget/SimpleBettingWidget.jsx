@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
@@ -88,7 +88,7 @@ const renderTitle = (title) => (
   </div>
 );
 
-class SimpleBettingWidget extends Component {
+class SimpleBettingWidget extends PureComponent {
   constructor(props) {
     super(props);
     this.onOfferClicked = this.onOfferClicked.bind(this);

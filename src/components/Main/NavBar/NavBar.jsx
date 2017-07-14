@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Layout } from 'antd';
 import SearchMenu from './SearchMenu';
 import TopMenu from './TopMenu';
@@ -6,7 +6,7 @@ import logo from '../../../assets/images/bookie_logo_topnav.png';
 
 const { Header } = Layout;
 
-class NavBar extends React.Component {
+class NavBar extends PureComponent {
 
   constructor(props) {
     super(props);

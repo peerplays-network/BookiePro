@@ -2,12 +2,12 @@
  * Credit to react desktop for this component https://github.com/gabrielbull/react-desktop
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ColorUtils } from '../../../../../utility';
 const { isDarkColor } = ColorUtils;
 
-class Minimize extends Component {
+class Minimize extends PureComponent {
   static contextTypes = {
     theme: PropTypes.string,
     background: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])

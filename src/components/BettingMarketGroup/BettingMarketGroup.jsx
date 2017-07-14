@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { BettingMarketGroupBanner } from '../Banners';
 import { ComplexBettingWidget } from '../BettingWidgets/';
 import _ from 'lodash';
@@ -7,7 +7,7 @@ import { BettingMarketGroupPageActions, MarketDrawerActions } from '../../action
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-class BettingMarketGroup extends Component {
+class BettingMarketGroup extends PureComponent {
 
   constructor(props) {
     super(props);

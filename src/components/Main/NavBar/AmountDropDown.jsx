@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { PureComponent } from 'react';
 let I18n = require('react-redux-i18n').I18n;
 import {
   Card,
   Row,
   Col
 } from 'antd';
-class Amount extends Component{
+class Amount extends PureComponent{
   render(){
     return(
       <Card className={ this.props.cardClass }>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { LoadingStatus, AppBackgroundTypes, ConnectionStatus } from '../../constants';
 import { NavigateActions, AppActions, AuthActions } from '../../actions';
 import { connect } from 'react-redux';
@@ -28,7 +28,7 @@ if (isRunningInsideElectron) {
 }
 
 
-class App extends Component {
+class App extends PureComponent {
   constructor(props) {
     super(props);
 

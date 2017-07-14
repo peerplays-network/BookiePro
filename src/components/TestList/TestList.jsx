@@ -1,6 +1,6 @@
-import React,  {  Component  }  from 'react';
+import React,  {  PureComponent  }  from 'react';
 
-export class TestListContainer extends Component  {
+export class TestListContainer extends PureComponent  {
   constructor(props)  {
     super(props);
     this.state =  {
@@ -25,7 +25,7 @@ export class TestListContainer extends Component  {
   }
  }
 
-export class InputArea extends Component  {
+export class InputArea extends PureComponent  {
   constructor(props)  {
     super(props);
     this.state =  {
@@ -53,7 +53,7 @@ export class InputArea extends Component  {
   }
  }
 
-export class TestList extends Component  {
+export class TestList extends PureComponent  {
   render()  {
     return (
       <ul>

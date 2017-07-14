@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Modal, Button } from 'antd';
 
-class RulesModal extends Component {
+class RulesModal extends PureComponent {
   state = {
     visible: false
   };

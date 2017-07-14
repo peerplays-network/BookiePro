@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import WindowsControls from './WindowsControls';
 import PropTypes from 'prop-types';
 import Clock from '../Clock';
 import { I18n } from 'react-redux-i18n';
 import { Config } from '../../../../constants';
 
-class WindowsTitleBar extends Component {
+class WindowsTitleBar extends PureComponent {
 
   render() {
     const {

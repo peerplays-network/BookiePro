@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import _ from 'lodash';
 import { Button } from 'antd';
 import { TransactionHelper, TransactionBuilder, PrivateKey } from 'peerplaysjs-lib';
@@ -18,7 +18,7 @@ const accountPrivateKeys = {
 const makeOrderSellAsset = '1.3.0';
 const makeOrderBuyAsset = '1.3.1';
 
-class TestBookieAccount extends Component {
+class TestBookieAccount extends PureComponent {
 
   constructor(props) {
     super(props);
