@@ -54,6 +54,9 @@ export default function (state = initialState, action) {
         transactionHistoryExportData: initialState.get('transactionHistoryExportData')
       })
     }
+    case ActionTypes.AUTH_LOGOUT: {
+      return initialState;
+    }
     default:
       return state;
   }

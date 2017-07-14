@@ -55,6 +55,9 @@ export default function (state = initialState, action) {
         generateResolvedBetsExportDataError: action.error
       });
     }
+    case ActionTypes.AUTH_LOGOUT: {
+      return initialState;
+    }
     default:
       return state;
   }
