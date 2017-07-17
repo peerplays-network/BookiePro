@@ -125,7 +125,7 @@ class TopMenu extends PureComponent {
 
   render() {
     const amountCard = (
-      <Amount cardClass='bookie-amount-card'
+      <Amount cardClass='bookie-card bookie-amount-card'
         availableBalance={ this.props.availableBalance }
         inGameAmount={ this.props.inGameAmount }/>
     );
