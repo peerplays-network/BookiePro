@@ -21,13 +21,16 @@ class Exchange extends Component {
   }
 
   componentDidMount() {
-    Ps.initialize(ReactDOM.findDOMNode(this.refs.sidebar));
-    Ps.initialize(ReactDOM.findDOMNode(this.refs.main));
+    Ps.initialize(this.refs.sidebar);
+    Ps.initialize(this.refs.main);
   }
 
   componentDidUpdate(prevProps, prevState){
-    Ps.update(ReactDOM.findDOMNode(this.refs.sidebar));
-    Ps.update(ReactDOM.findDOMNode(this.refs.main));
+    //reset scroll area
+    this.refs.sidebar.scrollTop = 0;
+    Ps.update(this.refs.sidebar);
+    this.refs.main.scrollTop = 0;
+    Ps.update(this.refs.main);
 
     //confirming to ignore unplaced bet
     if (prevState.confirmToLeave === false && this.state.confirmToLeave === true){
