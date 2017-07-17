@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
@@ -39,7 +39,7 @@ const renderContent = (props) => (
   </div>
 )
 
-class QuickBetDrawer extends Component {
+class QuickBetDrawer extends PureComponent {
 
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.bettingtable));

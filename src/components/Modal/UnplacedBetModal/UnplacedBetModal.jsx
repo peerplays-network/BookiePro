@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Modal } from 'antd';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 
-class UnplacedBetModal extends Component {
+class UnplacedBetModal extends PureComponent {
 
   render() {
     return (

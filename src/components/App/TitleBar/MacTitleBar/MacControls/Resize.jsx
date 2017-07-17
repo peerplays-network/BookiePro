@@ -2,10 +2,10 @@
  * Credit to react desktop for this component https://github.com/gabrielbull/react-desktop
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-class Resize extends Component {
+class Resize extends PureComponent {
   static propTypes = {
     isFullscreen: PropTypes.bool,
     showIcon: PropTypes.bool

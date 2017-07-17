@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Close from './Close';
 import Minimize from './Minimize';
 import Maximize from './Maximize';
 
 
-class WindowsControls extends Component {
+class WindowsControls extends PureComponent {
   static childContextTypes = {
     theme: PropTypes.string,
     background: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])

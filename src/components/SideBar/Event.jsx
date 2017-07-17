@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { EventNameUtils } from '../../utility';
 import './Event.less';
 
-class Event extends Component {
+class Event extends PureComponent {
   render() {
     const { id, onClick, data, name } = this.props;
     return (

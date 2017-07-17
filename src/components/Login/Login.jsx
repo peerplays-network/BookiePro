@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import logo from '../../assets/images/bookie_logo_login.png';
 import { Form } from 'antd';
 import LoginForm from './LoginForm.jsx';
@@ -12,7 +12,7 @@ import { AccountService } from '../../services';
 import { AppBackgroundTypes } from '../../constants';
 import FloatingHelp from '../FloatingHelp';
 
-class Login extends Component {
+class Login extends PureComponent {
   constructor(props) {
     super(props);
     this.onClickSignup = this.onClickSignup.bind(this);

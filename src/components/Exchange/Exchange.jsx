@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import ReactDOM from "react-dom";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
@@ -10,7 +10,7 @@ import { QuickBetDrawerActions, MarketDrawerActions, NavigateActions } from '../
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
 import Ps from 'perfect-scrollbar';
 
-class Exchange extends Component {
+class Exchange extends PureComponent {
 
   constructor(props) {
     super(props);

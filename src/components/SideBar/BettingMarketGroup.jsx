@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import './BettingMarketGroup.less';
 
-class BettingMarketGroup extends Component {
+class BettingMarketGroup extends PureComponent {
   render() {
     const { id, onClick, data, name } = this.props;
     return (

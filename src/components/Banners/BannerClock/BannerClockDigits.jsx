@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import BannerClockDigit from './BannerClockDigit';
 import _ from 'lodash';
 
-class BannerClockDigits extends Component {
+class BannerClockDigits extends PureComponent {
   render() {
     const { value, footerText } = this.props;
     const numberOfDigit = value !== 0 ? (Math.floor(Math.log10(value)) + 1) : 1;

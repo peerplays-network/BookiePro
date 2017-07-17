@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Tabs } from 'antd';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
@@ -9,7 +9,7 @@ const TabPane = Tabs.TabPane;
 const BETSLIP = '1';
 const PLACEDBETS = '2';
 
-class MarketDrawer extends Component {
+class MarketDrawer extends PureComponent {
   constructor(props) {
     super(props);
     // Show BetSlip by default

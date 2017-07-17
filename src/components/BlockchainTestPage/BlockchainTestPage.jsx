@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import _ from 'lodash';
 import { Button } from 'antd';
 import { Apis } from 'peerplaysjs-ws';
@@ -7,7 +7,7 @@ import TestBookieAccount from './TestBookieAccount';
 import { AccountActions } from '../../actions';
 import BannerClock from '../Banners/BannerClock';
 
-class BlockchainTestPage extends Component {
+class BlockchainTestPage extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

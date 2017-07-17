@@ -3,41 +3,12 @@
  */
 
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ColorUtils } from '../../../../../utility';
 const { isDarkColor } = ColorUtils;
 
-// const styles = {
-//   button: {
-//     WebkitUserSelect: 'none',
-//     userSelect: 'none',
-//     WebkitAppRegion: 'no-drag',
-//     cursor: 'default',
-//     width: '46px',
-//     height: '100%',
-//     lineHeight: 0,
-//     display: 'flex',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//
-//     ':hover': {
-//       transition: 'background-color 0.1s',
-//       backgroundColor: '#e81123',
-//     },
-//
-//     ':active': {
-//       backgroundColor: '#f1707a',
-//     }
-//   },
-//
-//   icon: {
-//     width: '10px',
-//     height: '10px'
-//   }
-// };
-
-class Close extends Component {
+class Close extends PureComponent {
   static contextTypes = {
     theme: PropTypes.string,
     background: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])

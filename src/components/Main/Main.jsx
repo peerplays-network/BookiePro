@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Layout } from 'antd';
 import NavBar from './NavBar';
 import InitAccountModal from '../Modal/InitAccountModal';
@@ -10,7 +10,7 @@ import { LoadingStatus } from '../../constants';
 import { SidebarSelector } from '../../selectors';
 const { Content } = Layout;
 
-class Main extends Component {
+class Main extends PureComponent {
 
   constructor(props) {
     super(props);

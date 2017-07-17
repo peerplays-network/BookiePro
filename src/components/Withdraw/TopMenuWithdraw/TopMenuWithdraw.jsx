@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { PureComponent } from 'react';
 let I18n = require('react-redux-i18n').I18n;
 import {
   Card
@@ -35,7 +35,7 @@ const normalizeAmount = (value, previousValue) => {
   return value;
 };
 
-class TopMenuWithdraw extends Component{
+class TopMenuWithdraw extends PureComponent {
 
   constructor(props){
     super(props);
@@ -72,7 +72,7 @@ class TopMenuWithdraw extends Component{
   }
 
   render(){
-    
+
     const { invalid,asyncValidating,submitting,pristine,
             availableBalance,handleSubmit,withdrawLoadingStatus,currencyFormat,withdrawAmount } = this.props,
       isWithdrawLoadingStatusLoading = withdrawLoadingStatus===LoadingStatus.LOADING,

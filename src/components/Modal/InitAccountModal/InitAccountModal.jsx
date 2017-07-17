@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Modal, Spin } from 'antd';
 import PropTypes from 'prop-types';
 
-class InitAccountModal extends Component {
+class InitAccountModal extends PureComponent {
 
   render() {
     return (

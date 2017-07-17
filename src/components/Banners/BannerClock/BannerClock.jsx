@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import BannerClockDigits from './BannerClockDigits';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 
-class BannerClock extends Component {
+class BannerClock extends PureComponent {
   constructor(props) {
     super(props);
     const currentTime = new Date();

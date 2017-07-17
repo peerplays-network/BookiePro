@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import MacControls from './MacControls';
 import PropTypes from 'prop-types';
 import Clock from '../Clock';
 import { I18n } from 'react-redux-i18n';
 import { Config } from '../../../../constants';
 
-class MacTitleBar extends Component {
+class MacTitleBar extends PureComponent {
 
   render() {
     const {

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Modal } from 'antd';
 import PropTypes from 'prop-types';
 
-class SoftwareUpdateModal extends Component {
+class SoftwareUpdateModal extends PureComponent {
 
   render() {
     return (
