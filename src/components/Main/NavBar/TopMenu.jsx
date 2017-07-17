@@ -19,6 +19,10 @@ class TopMenu extends PureComponent {
     super(props);
     this.state = {
       current: 'smile',
+      isAmountComponentVisible: false,
+      isDepositComponentVisible: false,
+      isTopMenuWithdrawComponentVisible: false,
+      isNotificationComponentVisible: false,
       withdrawAmount:'',
       isSubMenuVisible: false,
       isNotificationCardVisible: false
@@ -29,6 +33,9 @@ class TopMenu extends PureComponent {
     this.handleNotificationCardItemClick = this.handleNotificationCardItemClick.bind(this);
     this.handleNotificationCardItemClickClose = this.handleNotificationCardItemClickClose.bind(this);
     this.handleNotificationCardVisibleChange = this.handleNotificationCardVisibleChange.bind(this);
+    this.handleAmountComponentVisibleChange = this.handleAmountComponentVisibleChange.bind(this);
+    this.handleDepositComponentVisibleChange = this.handleDepositComponentVisibleChange.bind(this);
+    this.handleTopMenuWithdrawComponentVisibleChange = this.handleTopMenuWithdrawComponentVisibleChange.bind(this);
   }
 
   handleWithdrawSubmit(values){
@@ -38,6 +45,7 @@ class TopMenu extends PureComponent {
   }
 
   handleNotificationCardVisibleChange(visible) {
+    this.setState({ isNotificationComponentVisible: visible });
     this.props.showNotificationCard(visible);
   }
 
@@ -123,6 +131,21 @@ class TopMenu extends PureComponent {
     this.setState({ isSubMenuVisible: flag });
   }
 
+  //Set Amount component visibility
+  handleAmountComponentVisibleChange = (isVisible) => {
+    this.setState({isAmountComponentVisible: isVisible});
+  };
+
+  //Set Deposit component visibility
+  handleDepositComponentVisibleChange = (isVisible) => {
+    this.setState({isDepositComponentVisible: isVisible});
+  };
+
+  //Set TopMenuWithdraw component visibility
+  handleTopMenuWithdrawComponentVisibleChange = (isVisible) => {
+    this.setState({isTopMenuWithdrawComponentVisible: isVisible});
+  };
+
   render() {
     const amountCard = (
       <Amount cardClass='bookie-amount-card'
@@ -163,10 +186,12 @@ class TopMenu extends PureComponent {
         mode='horizontal'
       >
         <Menu.Item key='balance' className='amount'>
-          <Dropdown trigger={ ['click'] } overlay={ amountCard } placement='bottomRight'>
+          <Dropdown trigger={ ['click'] } overlay={ amountCard } placement='bottomRight'
+            onVisibleChange={ this.handleAmountComponentVisibleChange }>
             <div className='icon-main bitcoin-icon-main'>
-              <a className='ant-dropdown-link' href='#'>
-                <i className={ this.props.currencyFormat === 'BTC' ? 'bitcoin-icon' : 'mbitcoin-icon' }></i>
+              <a className={ this.state.isAmountComponentVisible ? 'ant-dropdown-link-clicked ' : 'ant-dropdown-link' } href='#'>
+                <i className={ this.state.isAmountComponentVisible ? (this.props.currencyFormat === 'BTC' ? 'bitcoin-icon-selected' : 'mbitcoin-icon-selected') :
+                  (this.props.currencyFormat === 'BTC' ? 'bitcoin-icon' : 'mbitcoin-icon') }></i>
                 { this.props.availableBalance }
               </a>
             </div>
@@ -174,23 +199,25 @@ class TopMenu extends PureComponent {
         </Menu.Item>
         <Menu.Item key='mywager'>
           <div className='icon-main mywager-icon-main'>
-            <i className='mywager-icon'></i>
+            <i className={ this.props.routePath === '/my-wager' ? 'mywager-icon-selected' : 'mywager-icon' }></i>
           </div>
         </Menu.Item>
         <Menu.Item key='deposit'>
-          <Dropdown trigger={ ['click'] } overlay={ depositCard(this.props.depositAddress) } placement='bottomRight'>
+          <Dropdown trigger={ ['click'] } overlay={ depositCard(this.props.depositAddress) } placement='bottomRight'
+            onVisibleChange={ this.handleDepositComponentVisibleChange }>
             <div className='icon-main deposit-icon-main'>
               <a className='ant-dropdown-link' href='#'>
-                <i className='deposit-icon'></i>
+                <i className={ this.state.isDepositComponentVisible ? 'deposit-icon-selected' : 'deposit-icon' }></i>
               </a>
             </div>
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='withdraw'>
-          <Dropdown trigger={ ['click'] } overlay={ withdrawCard } placement='bottomRight'>
+          <Dropdown trigger={ ['click'] } overlay={ withdrawCard } placement='bottomRight'
+            onVisibleChange={ this.handleTopMenuWithdrawComponentVisibleChange }>
             <div className='icon-main withdraw-icon-main'>
               <a className='ant-dropdown-link'>
-                <i className='withdraw-icon'></i>
+                <i className={ this.state.isTopMenuWithdrawComponentVisible ? 'withdraw-icon-selected' : 'withdraw-icon' }></i>
               </a>
             </div>
           </Dropdown>
@@ -206,7 +233,7 @@ class TopMenu extends PureComponent {
             <div className='icon-main notification-icon-main'>
               <a className='ant-dropdown-link' href='#'>
               <Badge count={ this.props.unreadNotificationNumber }>
-                <i className='notification-icon'></i>
+                <i className={ this.state.isNotificationComponentVisible ? 'notification-icon-selected' : 'notification-icon' }></i>
               </Badge>
             </a>
             </div>
@@ -219,7 +246,7 @@ class TopMenu extends PureComponent {
             visible={ this.state.isSubMenuVisible }>
             <div className='icon-main dropdown-icon-main'>
               <a className='ant-dropdown-link' href='#'>
-                <i className='dropdown-icon'></i>
+                <i className={ this.state.current === 'drop-down' && this.state.isSubMenuVisible ? 'dropdown-icon-selected' : 'dropdown-icon' }></i>
               </a>
             </div>
           </Dropdown>
@@ -282,7 +309,7 @@ const mapStateToProps = (state) => {
     notifications,
     unreadNotificationNumber,
     isShowNotificationCard,
-    routePath: state.getIn(['routing', 'locationBeforeTransitions','pathname'])
+    routePath: state.getIn(['routing', 'locationBeforeTransitions']).pathname
   }
 }
 
