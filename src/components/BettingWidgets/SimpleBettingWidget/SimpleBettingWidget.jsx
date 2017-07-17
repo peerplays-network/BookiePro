@@ -29,7 +29,7 @@ const renderEventTime = (text, record) => {
 const getColumns = (renderOffer, navigateTo, currencyFormat, sportName) =>  {
 
 
-  ///
+  // 1 = home , 2 = away 3 = draw
   if ( sportName === 'American Football'){
     return ([
       {
@@ -67,13 +67,13 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName) =>  {
         title: 'X',
         children: [{
           dataIndex: 'back_offer_away',
-          key: 'back_offer_away',
+          key: 'back_offer_draw',
           width: offerColumnWidth,
           className: 'back-offer',
           render: renderOffer('back', 'lay', 2, currencyFormat)
         }, {
           dataIndex: 'lay_Offer_away',
-          key: 'lay_offer_away',
+          key: 'lay_offer_draw',
           width: offerColumnWidth,
           className: 'lay-offer',
           render: renderOffer('lay', 'back', 2, currencyFormat)
@@ -205,11 +205,6 @@ class SimpleBettingWidget extends PureComponent {
       // TODO: REVIEW This is temp solution. The better way is to use the Competitor data.
       const team = record.get('event_name').split('vs')[index-1].trim();
 
-      if (   offers.size === 3){
-        console.log ( team)
-      } else {
-          console.log ( offers.size )
-      }
       return (
         <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, offer.get('odds')) }>
           <div className='offer'>
