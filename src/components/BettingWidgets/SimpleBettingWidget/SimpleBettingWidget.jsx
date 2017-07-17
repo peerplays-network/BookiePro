@@ -26,56 +26,127 @@ const renderEventTime = (text, record) => {
   return <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>;
 }
 
-const getColumns = (renderOffer, navigateTo, currencyFormat) => ([
-  {
-    dataIndex: 'time',
-    key: 'time',
-    width: eventTimeColumnWidth,
-    className: 'event-time',
-    render: renderEventTime
-  }, {
-    dataIndex: 'event_name',
-    key: 'event_name',
-    // Do not specify width so the column
-    // will grow/shrink with the size of the table
-    className: 'event-name',
-    render: (text, record) => EventNameUtils.breakAtVs(record.get('event_name')),
-    onCellClick: (record, event) => {
-      record.get('moneyline') && navigateTo('/exchange/bettingmarketgroup/' + record.get('moneyline'))
-    }
-  }, {
-    title: '1',
-    children: [{
-      dataIndex: 'back_offer_home',
-      key: 'back_offer_home',
-      width: offerColumnWidth,
-      className: 'back-offer',
-      render: renderOffer('back', 'lay', 1, currencyFormat)
-    }, {
-      dataIndex: 'lay_offer_home',
-      key: 'lay_offer_home',
-      width: offerColumnWidth,
-      className: 'lay-offer',
-      render: renderOffer('lay', 'back', 1, currencyFormat)
-    }]
-  }, {
-    title: '2',
-    children: [{
-      dataIndex: 'back_offer_away',
-      key: 'back_offer_away',
-      width: offerColumnWidth,
-      className: 'back-offer',
-      render: renderOffer('back', 'lay', 2, currencyFormat)
-    }, {
-      dataIndex: 'lay_Offer_away',
-      key: 'lay_offer_away',
-      width: offerColumnWidth,
-      className: 'lay-offer',
-      render: renderOffer('lay', 'back', 2, currencyFormat)
-    }]
-  }
-]);
+const getColumns = (renderOffer, navigateTo, currencyFormat, sportName) =>  {
 
+
+  ///
+  if ( sportName === 'American Football'){
+    return ([
+      {
+        dataIndex: 'time',
+        key: 'time',
+        width: eventTimeColumnWidth,
+        className: 'event-time',
+        render: renderEventTime
+      }, {
+        dataIndex: 'event_name',
+        key: 'event_name',
+        // Do not specify width so the column
+        // will grow/shrink with the size of the table
+        className: 'event-name',
+        render: (text, record) => EventNameUtils.breakAtVs(record.get('event_name')),
+        onCellClick: (record, event) => {
+          record.get('moneyline') && navigateTo('/exchange/bettingmarketgroup/' + record.get('moneyline'))
+        }
+      }, {
+        title: '1',
+        children: [{
+          dataIndex: 'back_offer_home',
+          key: 'back_offer_home',
+          width: offerColumnWidth,
+          className: 'back-offer',
+          render: renderOffer('back', 'lay', 1, currencyFormat)
+        }, {
+          dataIndex: 'lay_offer_home',
+          key: 'lay_offer_home',
+          width: offerColumnWidth,
+          className: 'lay-offer',
+          render: renderOffer('lay', 'back', 1, currencyFormat)
+        }]
+      }, {
+        title: 'X',
+        children: [{
+          dataIndex: 'back_offer_away',
+          key: 'back_offer_away',
+          width: offerColumnWidth,
+          className: 'back-offer',
+          render: renderOffer('back', 'lay', 2, currencyFormat)
+        }, {
+          dataIndex: 'lay_Offer_away',
+          key: 'lay_offer_away',
+          width: offerColumnWidth,
+          className: 'lay-offer',
+          render: renderOffer('lay', 'back', 2, currencyFormat)
+        }]
+      }, {
+        title: '2',
+        children: [{
+          dataIndex: 'back_offer_away',
+          key: 'back_offer_away',
+          width: offerColumnWidth,
+          className: 'back-offer',
+          render: renderOffer('back', 'lay', 2, currencyFormat)
+        }, {
+          dataIndex: 'lay_Offer_away',
+          key: 'lay_offer_away',
+          width: offerColumnWidth,
+          className: 'lay-offer',
+          render: renderOffer('lay', 'back', 2, currencyFormat)
+        }]
+      }
+    ]);
+  }
+
+  return ([
+    {
+      dataIndex: 'time',
+      key: 'time',
+      width: eventTimeColumnWidth,
+      className: 'event-time',
+      render: renderEventTime
+    }, {
+      dataIndex: 'event_name',
+      key: 'event_name',
+      // Do not specify width so the column
+      // will grow/shrink with the size of the table
+      className: 'event-name',
+      render: (text, record) => EventNameUtils.breakAtVs(record.get('event_name')),
+      onCellClick: (record, event) => {
+        record.get('moneyline') && navigateTo('/exchange/bettingmarketgroup/' + record.get('moneyline'))
+      }
+    }, {
+      title: '1',
+      children: [{
+        dataIndex: 'back_offer_home',
+        key: 'back_offer_home',
+        width: offerColumnWidth,
+        className: 'back-offer',
+        render: renderOffer('back', 'lay', 1, currencyFormat)
+      }, {
+        dataIndex: 'lay_offer_home',
+        key: 'lay_offer_home',
+        width: offerColumnWidth,
+        className: 'lay-offer',
+        render: renderOffer('lay', 'back', 1, currencyFormat)
+      }]
+    }, {
+      title: '2',
+      children: [{
+        dataIndex: 'back_offer_away',
+        key: 'back_offer_away',
+        width: offerColumnWidth,
+        className: 'back-offer',
+        render: renderOffer('back', 'lay', 2, currencyFormat)
+      }, {
+        dataIndex: 'lay_Offer_away',
+        key: 'lay_offer_away',
+        width: offerColumnWidth,
+        className: 'lay-offer',
+        render: renderOffer('lay', 'back', 2, currencyFormat)
+      }]
+    }
+  ]);
+}
 const renderTitle = (title) => (
   <div className='title'>
     <div className='sport'>{ title }</div>
@@ -113,6 +184,10 @@ class SimpleBettingWidget extends PureComponent {
   // action: [ lay(ing) | back(ing) ]
   // betType: [ back | lay ]
   // index: [ 1 (Home Team) | 2 (Away Team)]
+
+  // sports.sportname: 'American Football' == American Football && bettingmarkgroup.market_type_id === "Moneyline"
+  // index: [ 1 (Home Team)| X (Draw Team) | 2 (Away Team)]
+
   renderOffer(action, typeOfBet, index, currencyFormat) {
     return (text, record) => {
       const offers = record.get('offers');
@@ -120,6 +195,8 @@ class SimpleBettingWidget extends PureComponent {
         return '';
       }
       // TODO: Exception handling
+
+
       const betting_market_id = offers.get(index-1).get('betting_market_id');
       const offer = offers.get(index-1).get(typeOfBet).get(0);
       if (offer === undefined) {
@@ -127,6 +204,12 @@ class SimpleBettingWidget extends PureComponent {
       }
       // TODO: REVIEW This is temp solution. The better way is to use the Competitor data.
       const team = record.get('event_name').split('vs')[index-1].trim();
+
+      if (   offers.size === 3){
+        console.log ( team)
+      } else {
+          console.log ( offers.size )
+      }
       return (
         <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, offer.get('odds')) }>
           <div className='offer'>
@@ -161,7 +244,7 @@ class SimpleBettingWidget extends PureComponent {
       <div className='simple-betting'>
         <Table
           bordered
-          columns={ getColumns(this.renderOffer, this.props.navigateTo, this.props.currencyFormat) }
+          columns={ getColumns(this.renderOffer, this.props.navigateTo, this.props.currencyFormat, this.props.sportName) }
           dataSource={ events.toArray() }
           title={ () => renderTitle(this.props.title) }
           footer={ () => this.props.showFooter ? this.renderFooter(this.props) : null }
