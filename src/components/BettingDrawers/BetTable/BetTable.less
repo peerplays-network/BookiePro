@@ -23,7 +23,7 @@ div.bet-table-wrapper {
       text-transform: uppercase;
       font-weight:bold;
       display: inline-block;
-      width:320px;
+      width:310px;
       overflow: hidden;
       text-overflow:ellipsis;
       white-space: nowrap;
@@ -111,13 +111,24 @@ div.bet-table-wrapper {
           margin: 0;
           margin-left: 5px;
           height:100%;
+          position: relative;
 
           button {
-            width:24px;
-            padding:0;
-            height: 100%;
+            position: absolute;
+            top: 7px;
+            right: 5px;
+            width: 15px;
+            height: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: none;
+            border: none;
+            box-shadow: none;
+
             i{
-              font-size:14px;
+              font-size: 10px;
               font-weight:bold;
             }
           }

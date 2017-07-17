@@ -114,7 +114,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) =>
     title: 'BACK',
     dataIndex: 'back',
     key: 'back',
-    width: '23%',
+    width: '26%',
     className: 'team',
     render: renderTeam,
   };
@@ -123,7 +123,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) =>
     title: 'ODDS',
     dataIndex: 'odds',
     key: 'odds',
-    width: '23%',
+    width: '21%',
     className: 'numeric readonly',
   };
   if (!readonly) {
@@ -135,7 +135,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) =>
     title: `STAKE(${currencySymbol})`,
     dataIndex: 'stake',
     key: 'stake',
-    width: '24%',
+    width: '21%',
     className: 'numeric readonly',
   }
   if (!readonly) {
@@ -150,7 +150,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) =>
     className: 'numeric readonly' // this field is always readonly
   }
   if (!readonly) {
-    profitColumn['width'] = '24%';
+    profitColumn['width'] = '28%';
   }
 
   const columns = [teamColumn, oddsColumn, stakeColumn, profitColumn];
@@ -174,7 +174,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => 
     title: 'LAY',
     dataIndex: 'lay',
     key: 'lay',
-    width: '23%',
+    width: '26%',
     className: 'team',
     render: renderTeam,
   };
@@ -183,7 +183,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => 
     title: 'ODDS',
     dataIndex: 'odds',
     key: 'odds',
-    width: '23%',
+    width: '21%',
     className: 'numeric readonly',
   }
   if (!readonly) {
@@ -195,7 +195,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => 
     title: `BACKER'S STAKE(${currencySymbol})`,
     dataIndex: 'stake',
     key: 'stake',
-    width: '24%',
+    width: '21%',
     className: 'numeric readonly',
   }
   if (!readonly) {
@@ -210,7 +210,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => 
     className: 'numeric readonly' // this field is always readonly
   }
   if (!readonly) {
-    liabilityColumn['width'] = '24%';
+    liabilityColumn['width'] = '28%';
   }
 
   const columns = [teamColumn, oddsColumn, stakeColumn, liabilityColumn];
