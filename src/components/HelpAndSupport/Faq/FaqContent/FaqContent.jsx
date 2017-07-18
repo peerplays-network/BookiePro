@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { HelpAndSupportUtils } from '../../../../utility';
 import _ from 'lodash';
 import ReactDOM from 'react-dom';
-var Scroll  = require('react-scroll');
-var scroll     = Scroll.animateScroll;
+import Scroll from 'react-scroll';
+
+const scroll = Scroll.animateScroll;
+
 class FaqContent extends PureComponent {
   constructor(props) {
     super(props);
@@ -35,9 +37,11 @@ class FaqContent extends PureComponent {
         // Get reference to the qa pair
         const qaPairRef = this.qaPairRefs[index];
         // Get the dom node
-        const domNode = ReactDOM.findDOMNode(qaPairRef).offsetTop;
-        // TODO: find a way to scroll to this dom node
-        scroll.scrollTo(domNode + 100);
+        const domNode = ReactDOM.findDOMNode(qaPairRef);
+        const domNodeOffsetTop = domNode.offsetTop;
+        scroll.scrollTo(domNodeOffsetTop, {
+          containerId: 'main-content-layout'
+        });
       }
       return (
         <a className='faqOverviewHeader' key={ index } onClick={ onClick }>

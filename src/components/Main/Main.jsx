@@ -47,7 +47,7 @@ class Main extends PureComponent {
           ref={ (ref) => this.navBar = ref }
           { ...this.props }
         />
-        <Layout>
+      <Layout id='main-content-layout'>
           <Content className='main-content'>
             {React.cloneElement(this.props.children, {
               onRouteChange: this.onRouteChange
