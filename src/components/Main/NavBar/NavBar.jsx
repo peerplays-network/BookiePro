@@ -23,12 +23,22 @@ class NavBar extends PureComponent {
     this._searchMenu.onRouteChangeHandle();
   }
 
+  renderLogo(){
+    //Hide cursor and deactivate click event of logo when on home page
+    const isHomeScreen = window.location.hash.includes('/exchange');
+    return(
+      <div
+        className={ 'logo' + (!isHomeScreen ? ' link' : '') }
+        onClick={ !isHomeScreen ? this.handleNavigateToHome : null }>
+        <img alt='logo' src={ logo } />
+      </div>
+    )
+  }
+
   render(){
     return (
       <Header id='betex-header'>
-        <div className='logo' onClick={ this.handleNavigateToHome }>
-          <img alt='logo' src={ logo } />
-        </div>
+        { this.renderLogo() }
         <SearchMenu
           ref={ (ref) => this._searchMenu = ref }
           { ...this.props }
