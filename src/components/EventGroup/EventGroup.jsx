@@ -20,6 +20,8 @@ class EventGroup extends PureComponent {
       <div className='event-group-wrapper'>
         <SportBanner sport={ sportName }/>
         <SimpleBettingWidget
+          sportName={ sportName }
+
           title={ eventGroupName }
           events={ events }
           currencyFormat={ currencyFormat }

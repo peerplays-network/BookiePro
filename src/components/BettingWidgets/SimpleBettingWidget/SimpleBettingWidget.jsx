@@ -66,17 +66,17 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName) =>  {
       }, {
         title: 'X',
         children: [{
-          dataIndex: 'back_offer_away',
+          dataIndex: 'back_offer_draw',
           key: 'back_offer_draw',
           width: offerColumnWidth,
           className: 'back-offer',
-          render: renderOffer('back', 'lay', 2, currencyFormat)
+          render: renderOffer('back', 'lay', 3, currencyFormat)
         }, {
           dataIndex: 'lay_Offer_away',
           key: 'lay_offer_draw',
           width: offerColumnWidth,
           className: 'lay-offer',
-          render: renderOffer('lay', 'back', 2, currencyFormat)
+          render: renderOffer('lay', 'back', 3, currencyFormat)
         }]
       }, {
         title: '2',
@@ -194,11 +194,19 @@ class SimpleBettingWidget extends PureComponent {
       if (offers.isEmpty()) {
         return '';
       }
+
+      const offerHolder = offers.get(index-1);
+      if (offerHolder === undefined) {
+        return '';
+      }
       // TODO: Exception handling
+      const betting_market_id = offerHolder.get('betting_market_id');
 
+      if ( betting_market_id === '1.105.223' || betting_market_id === '1.105.1' || betting_market_id === '1.105.2'  ){
+        console.log( 'betting_market_id ', betting_market_id)
 
-      const betting_market_id = offers.get(index-1).get('betting_market_id');
-      const offer = offers.get(index-1).get(typeOfBet).get(0);
+      }
+      const offer = offerHolder.get(typeOfBet).get(0);
       if (offer === undefined) {
         return '';
       }
