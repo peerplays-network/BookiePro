@@ -3,6 +3,7 @@ const bettingMarketGroups = [
     "id": "1.104.1",
     "event_id": "1.103.1",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": null,
     "betting_market_ids": [
       "1.105.1",
@@ -13,6 +14,7 @@ const bettingMarketGroups = [
     "id": "1.104.2",
     "event_id": "1.103.1",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": -5,
       "score": 0
@@ -26,6 +28,7 @@ const bettingMarketGroups = [
     "id": "1.104.3",
     "event_id": "1.103.1",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 8
@@ -39,6 +42,7 @@ const bettingMarketGroups = [
     "id": "1.104.4",
     "event_id": "1.103.2",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": null,
     "betting_market_ids": [
       "1.105.7",
@@ -49,6 +53,7 @@ const bettingMarketGroups = [
     "id": "1.104.5",
     "event_id": "1.103.2",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 15,
       "score": 0
@@ -62,6 +67,7 @@ const bettingMarketGroups = [
     "id": "1.104.6",
     "event_id": "1.103.2",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 15
@@ -75,6 +81,7 @@ const bettingMarketGroups = [
     "id": "1.104.7",
     "event_id": "1.103.3",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": null,
     "betting_market_ids": [
       "1.105.13",
@@ -85,6 +92,7 @@ const bettingMarketGroups = [
     "id": "1.104.8",
     "event_id": "1.103.3",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 5,
       "score": 0
@@ -98,6 +106,7 @@ const bettingMarketGroups = [
     "id": "1.104.9",
     "event_id": "1.103.3",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 6
@@ -111,6 +120,7 @@ const bettingMarketGroups = [
     "id": "1.104.10",
     "event_id": "1.103.4",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": null,
     "betting_market_ids": [
       "1.105.19",
@@ -121,6 +131,7 @@ const bettingMarketGroups = [
     "id": "1.104.11",
     "event_id": "1.103.4",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 5,
       "score": 0
@@ -134,6 +145,7 @@ const bettingMarketGroups = [
     "id": "1.104.12",
     "event_id": "1.103.4",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 10
@@ -147,6 +159,7 @@ const bettingMarketGroups = [
     "id": "1.104.13",
     "event_id": "1.103.5",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": null,
     "betting_market_ids": [
       "1.105.25",
@@ -157,6 +170,7 @@ const bettingMarketGroups = [
     "id": "1.104.14",
     "event_id": "1.103.5",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 5,
       "score": 0
@@ -170,6 +184,7 @@ const bettingMarketGroups = [
     "id": "1.104.15",
     "event_id": "1.103.5",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 6
@@ -183,6 +198,7 @@ const bettingMarketGroups = [
     "id": "1.104.16",
     "event_id": "1.103.6",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": null,
     "betting_market_ids": [
       "1.105.31",
@@ -193,6 +209,7 @@ const bettingMarketGroups = [
     "id": "1.104.17",
     "event_id": "1.103.6",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 5,
       "score": 0
@@ -206,6 +223,7 @@ const bettingMarketGroups = [
     "id": "1.104.18",
     "event_id": "1.103.6",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 4
@@ -219,6 +237,7 @@ const bettingMarketGroups = [
     "id": "1.104.19",
     "event_id": "1.103.7",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": null,
     "betting_market_ids": [
       "1.105.37",
@@ -229,6 +248,7 @@ const bettingMarketGroups = [
     "id": "1.104.20",
     "event_id": "1.103.7",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 5,
       "score": 0
@@ -242,6 +262,7 @@ const bettingMarketGroups = [
     "id": "1.104.21",
     "event_id": "1.103.7",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 9
@@ -255,6 +276,7 @@ const bettingMarketGroups = [
     "id": "1.104.22",
     "event_id": "1.103.8",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": null,
     "betting_market_ids": [
       "1.105.43",
@@ -265,6 +287,7 @@ const bettingMarketGroups = [
     "id": "1.104.23",
     "event_id": "1.103.8",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 5,
       "score": 0
@@ -278,6 +301,7 @@ const bettingMarketGroups = [
     "id": "1.104.24",
     "event_id": "1.103.8",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 10
@@ -291,6 +315,7 @@ const bettingMarketGroups = [
     "id": "1.104.25",
     "event_id": "1.103.9",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": null,
     "betting_market_ids": [
       "1.105.49",
@@ -301,6 +326,7 @@ const bettingMarketGroups = [
     "id": "1.104.26",
     "event_id": "1.103.9",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 5,
       "score": 0
@@ -314,6 +340,7 @@ const bettingMarketGroups = [
     "id": "1.104.27",
     "event_id": "1.103.9",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 12
@@ -327,6 +354,7 @@ const bettingMarketGroups = [
     "id": "1.104.28",
     "event_id": "1.103.10",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -340,6 +368,7 @@ const bettingMarketGroups = [
     "id": "1.104.29",
     "event_id": "1.103.10",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -353,6 +382,7 @@ const bettingMarketGroups = [
     "id": "1.104.30",
     "event_id": "1.103.10",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -366,6 +396,7 @@ const bettingMarketGroups = [
     "id": "1.104.31",
     "event_id": "1.103.11",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -379,6 +410,7 @@ const bettingMarketGroups = [
     "id": "1.104.32",
     "event_id": "1.103.11",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -392,6 +424,7 @@ const bettingMarketGroups = [
     "id": "1.104.33",
     "event_id": "1.103.11",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -405,6 +438,7 @@ const bettingMarketGroups = [
     "id": "1.104.34",
     "event_id": "1.103.12",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -418,6 +452,7 @@ const bettingMarketGroups = [
     "id": "1.104.35",
     "event_id": "1.103.12",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -431,6 +466,7 @@ const bettingMarketGroups = [
     "id": "1.104.36",
     "event_id": "1.103.12",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -444,6 +480,7 @@ const bettingMarketGroups = [
     "id": "1.104.37",
     "event_id": "1.103.13",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -457,6 +494,7 @@ const bettingMarketGroups = [
     "id": "1.104.38",
     "event_id": "1.103.13",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -470,6 +508,7 @@ const bettingMarketGroups = [
     "id": "1.104.39",
     "event_id": "1.103.13",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -483,6 +522,7 @@ const bettingMarketGroups = [
     "id": "1.104.40",
     "event_id": "1.103.14",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -496,6 +536,7 @@ const bettingMarketGroups = [
     "id": "1.104.41",
     "event_id": "1.103.14",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -509,6 +550,7 @@ const bettingMarketGroups = [
     "id": "1.104.42",
     "event_id": "1.103.14",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -522,6 +564,7 @@ const bettingMarketGroups = [
     "id": "1.104.43",
     "event_id": "1.103.15",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -536,6 +579,7 @@ const bettingMarketGroups = [
     "id": "1.104.44",
     "event_id": "1.103.15",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": -10,
       "score": 5
@@ -549,6 +593,7 @@ const bettingMarketGroups = [
     "id": "1.104.45",
     "event_id": "1.103.15",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -562,6 +607,7 @@ const bettingMarketGroups = [
     "id": "1.104.46",
     "event_id": "1.103.16",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -575,6 +621,7 @@ const bettingMarketGroups = [
     "id": "1.104.47",
     "event_id": "1.103.16",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -588,6 +635,7 @@ const bettingMarketGroups = [
     "id": "1.104.48",
     "event_id": "1.103.16",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -601,6 +649,7 @@ const bettingMarketGroups = [
     "id": "1.104.49",
     "event_id": "1.103.17",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -614,6 +663,7 @@ const bettingMarketGroups = [
     "id": "1.104.50",
     "event_id": "1.103.17",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -627,6 +677,7 @@ const bettingMarketGroups = [
     "id": "1.104.51",
     "event_id": "1.103.17",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -640,6 +691,7 @@ const bettingMarketGroups = [
     "id": "1.104.52",
     "event_id": "1.103.18",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -653,6 +705,7 @@ const bettingMarketGroups = [
     "id": "1.104.53",
     "event_id": "1.103.18",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -666,6 +719,7 @@ const bettingMarketGroups = [
     "id": "1.104.54",
     "event_id": "1.103.18",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -679,6 +733,7 @@ const bettingMarketGroups = [
     "id": "1.104.55",
     "event_id": "1.103.19",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -692,6 +747,7 @@ const bettingMarketGroups = [
     "id": "1.104.56",
     "event_id": "1.103.19",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -705,6 +761,7 @@ const bettingMarketGroups = [
     "id": "1.104.57",
     "event_id": "1.103.19",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -718,6 +775,7 @@ const bettingMarketGroups = [
     "id": "1.104.58",
     "event_id": "1.103.20",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -731,6 +789,7 @@ const bettingMarketGroups = [
     "id": "1.104.59",
     "event_id": "1.103.20",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -744,6 +803,7 @@ const bettingMarketGroups = [
     "id": "1.104.60",
     "event_id": "1.103.20",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -757,6 +817,7 @@ const bettingMarketGroups = [
     "id": "1.104.61",
     "event_id": "1.103.21",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -770,6 +831,7 @@ const bettingMarketGroups = [
     "id": "1.104.62",
     "event_id": "1.103.21",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -783,6 +845,7 @@ const bettingMarketGroups = [
     "id": "1.104.63",
     "event_id": "1.103.21",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -796,6 +859,7 @@ const bettingMarketGroups = [
     "id": "1.104.64",
     "event_id": "1.103.22",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -809,6 +873,7 @@ const bettingMarketGroups = [
     "id": "1.104.65",
     "event_id": "1.103.22",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -822,6 +887,7 @@ const bettingMarketGroups = [
     "id": "1.104.66",
     "event_id": "1.103.22",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -835,6 +901,7 @@ const bettingMarketGroups = [
     "id": "1.104.67",
     "event_id": "1.103.23",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -848,6 +915,7 @@ const bettingMarketGroups = [
     "id": "1.104.68",
     "event_id": "1.103.23",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -861,6 +929,7 @@ const bettingMarketGroups = [
     "id": "1.104.69",
     "event_id": "1.103.23",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -874,6 +943,7 @@ const bettingMarketGroups = [
     "id": "1.104.70",
     "event_id": "1.103.24",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -887,6 +957,7 @@ const bettingMarketGroups = [
     "id": "1.104.71",
     "event_id": "1.103.24",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -900,6 +971,7 @@ const bettingMarketGroups = [
     "id": "1.104.72",
     "event_id": "1.103.24",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -913,6 +985,7 @@ const bettingMarketGroups = [
     "id": "1.104.73",
     "event_id": "1.103.25",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -926,6 +999,7 @@ const bettingMarketGroups = [
     "id": "1.104.74",
     "event_id": "1.103.25",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -939,6 +1013,7 @@ const bettingMarketGroups = [
     "id": "1.104.75",
     "event_id": "1.103.25",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -952,6 +1027,7 @@ const bettingMarketGroups = [
     "id": "1.104.76",
     "event_id": "1.103.26",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -965,6 +1041,7 @@ const bettingMarketGroups = [
     "id": "1.104.77",
     "event_id": "1.103.26",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -978,6 +1055,7 @@ const bettingMarketGroups = [
     "id": "1.104.78",
     "event_id": "1.103.26",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -991,6 +1069,7 @@ const bettingMarketGroups = [
     "id": "1.104.79",
     "event_id": "1.103.27",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1004,6 +1083,7 @@ const bettingMarketGroups = [
     "id": "1.104.80",
     "event_id": "1.103.27",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1017,6 +1097,7 @@ const bettingMarketGroups = [
     "id": "1.104.81",
     "event_id": "1.103.27",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1030,6 +1111,7 @@ const bettingMarketGroups = [
     "id": "1.104.82",
     "event_id": "1.103.28",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1043,6 +1125,7 @@ const bettingMarketGroups = [
     "id": "1.104.83",
     "event_id": "1.103.28",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1056,6 +1139,7 @@ const bettingMarketGroups = [
     "id": "1.104.84",
     "event_id": "1.103.28",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1069,6 +1153,7 @@ const bettingMarketGroups = [
     "id": "1.104.85",
     "event_id": "1.103.29",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1082,6 +1167,7 @@ const bettingMarketGroups = [
     "id": "1.104.86",
     "event_id": "1.103.29",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1095,6 +1181,7 @@ const bettingMarketGroups = [
     "id": "1.104.87",
     "event_id": "1.103.29",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1108,6 +1195,7 @@ const bettingMarketGroups = [
     "id": "1.104.88",
     "event_id": "1.103.30",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1121,6 +1209,7 @@ const bettingMarketGroups = [
     "id": "1.104.89",
     "event_id": "1.103.30",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1134,6 +1223,7 @@ const bettingMarketGroups = [
     "id": "1.104.90",
     "event_id": "1.103.30",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1147,6 +1237,7 @@ const bettingMarketGroups = [
     "id": "1.104.91",
     "event_id": "1.103.31",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1160,6 +1251,7 @@ const bettingMarketGroups = [
     "id": "1.104.92",
     "event_id": "1.103.31",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1173,6 +1265,7 @@ const bettingMarketGroups = [
     "id": "1.104.93",
     "event_id": "1.103.31",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1186,6 +1279,7 @@ const bettingMarketGroups = [
     "id": "1.104.94",
     "event_id": "1.103.32",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1199,6 +1293,7 @@ const bettingMarketGroups = [
     "id": "1.104.95",
     "event_id": "1.103.32",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1212,6 +1307,7 @@ const bettingMarketGroups = [
     "id": "1.104.96",
     "event_id": "1.103.32",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1225,6 +1321,7 @@ const bettingMarketGroups = [
     "id": "1.104.97",
     "event_id": "1.103.33",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1238,6 +1335,7 @@ const bettingMarketGroups = [
     "id": "1.104.98",
     "event_id": "1.103.33",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1251,6 +1349,7 @@ const bettingMarketGroups = [
     "id": "1.104.99",
     "event_id": "1.103.33",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1264,6 +1363,7 @@ const bettingMarketGroups = [
     "id": "1.104.100",
     "event_id": "1.103.34",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1277,6 +1377,7 @@ const bettingMarketGroups = [
     "id": "1.104.101",
     "event_id": "1.103.34",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1290,6 +1391,7 @@ const bettingMarketGroups = [
     "id": "1.104.102",
     "event_id": "1.103.34",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1303,6 +1405,7 @@ const bettingMarketGroups = [
     "id": "1.104.103",
     "event_id": "1.103.35",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1316,6 +1419,7 @@ const bettingMarketGroups = [
     "id": "1.104.104",
     "event_id": "1.103.35",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1329,6 +1433,7 @@ const bettingMarketGroups = [
     "id": "1.104.105",
     "event_id": "1.103.35",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1342,6 +1447,7 @@ const bettingMarketGroups = [
     "id": "1.104.106",
     "event_id": "1.103.36",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1355,6 +1461,7 @@ const bettingMarketGroups = [
     "id": "1.104.107",
     "event_id": "1.103.36",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1368,6 +1475,7 @@ const bettingMarketGroups = [
     "id": "1.104.108",
     "event_id": "1.103.36",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1381,6 +1489,7 @@ const bettingMarketGroups = [
     "id": "1.104.109",
     "event_id": "1.103.37",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1394,6 +1503,7 @@ const bettingMarketGroups = [
     "id": "1.104.110",
     "event_id": "1.103.37",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1407,6 +1517,7 @@ const bettingMarketGroups = [
     "id": "1.104.111",
     "event_id": "1.103.37",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1421,6 +1532,7 @@ const bettingMarketGroups = [
     "id": "1.104.112",
     "event_id": "1.103.38",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1434,6 +1546,7 @@ const bettingMarketGroups = [
     "id": "1.104.113",
     "event_id": "1.103.38",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1447,6 +1560,7 @@ const bettingMarketGroups = [
     "id": "1.104.114",
     "event_id": "1.103.38",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1460,6 +1574,7 @@ const bettingMarketGroups = [
     "id": "1.104.115",
     "event_id": "1.103.39",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1473,6 +1588,7 @@ const bettingMarketGroups = [
     "id": "1.104.116",
     "event_id": "1.103.39",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1486,6 +1602,7 @@ const bettingMarketGroups = [
     "id": "1.104.117",
     "event_id": "1.103.39",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1499,6 +1616,7 @@ const bettingMarketGroups = [
     "id": "1.104.118",
     "event_id": "1.103.40",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1512,6 +1630,7 @@ const bettingMarketGroups = [
     "id": "1.104.119",
     "event_id": "1.103.40",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1525,6 +1644,7 @@ const bettingMarketGroups = [
     "id": "1.104.120",
     "event_id": "1.103.40",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1538,6 +1658,7 @@ const bettingMarketGroups = [
     "id": "1.104.121",
     "event_id": "1.103.41",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1551,6 +1672,7 @@ const bettingMarketGroups = [
     "id": "1.104.122",
     "event_id": "1.103.41",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1564,6 +1686,7 @@ const bettingMarketGroups = [
     "id": "1.104.123",
     "event_id": "1.103.41",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1577,6 +1700,7 @@ const bettingMarketGroups = [
     "id": "1.104.124",
     "event_id": "1.103.42",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1590,6 +1714,7 @@ const bettingMarketGroups = [
     "id": "1.104.125",
     "event_id": "1.103.42",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1603,6 +1728,7 @@ const bettingMarketGroups = [
     "id": "1.104.126",
     "event_id": "1.103.42",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1617,6 +1743,7 @@ const bettingMarketGroups = [
     "id": "1.104.127",
     "event_id": "1.103.43",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1630,6 +1757,7 @@ const bettingMarketGroups = [
     "id": "1.104.128",
     "event_id": "1.103.43",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1643,6 +1771,7 @@ const bettingMarketGroups = [
     "id": "1.104.129",
     "event_id": "1.103.43",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1656,6 +1785,7 @@ const bettingMarketGroups = [
     "id": "1.104.130",
     "event_id": "1.103.44",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1669,6 +1799,7 @@ const bettingMarketGroups = [
     "id": "1.104.131",
     "event_id": "1.103.44",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1682,6 +1813,7 @@ const bettingMarketGroups = [
     "id": "1.104.132",
     "event_id": "1.103.44",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1695,6 +1827,7 @@ const bettingMarketGroups = [
     "id": "1.104.133",
     "event_id": "1.103.45",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1708,6 +1841,7 @@ const bettingMarketGroups = [
     "id": "1.104.134",
     "event_id": "1.103.45",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1721,6 +1855,7 @@ const bettingMarketGroups = [
     "id": "1.104.135",
     "event_id": "1.103.45",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1734,6 +1869,7 @@ const bettingMarketGroups = [
     "id": "1.104.136",
     "event_id": "1.103.46",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1747,6 +1883,7 @@ const bettingMarketGroups = [
     "id": "1.104.137",
     "event_id": "1.103.46",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1760,6 +1897,7 @@ const bettingMarketGroups = [
     "id": "1.104.138",
     "event_id": "1.103.46",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1773,6 +1911,7 @@ const bettingMarketGroups = [
     "id": "1.104.139",
     "event_id": "1.103.47",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1786,6 +1925,7 @@ const bettingMarketGroups = [
     "id": "1.104.140",
     "event_id": "1.103.47",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1799,6 +1939,7 @@ const bettingMarketGroups = [
     "id": "1.104.141",
     "event_id": "1.103.47",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1813,6 +1954,7 @@ const bettingMarketGroups = [
     "id": "1.104.142",
     "event_id": "1.103.48",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1826,6 +1968,7 @@ const bettingMarketGroups = [
     "id": "1.104.143",
     "event_id": "1.103.48",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1839,6 +1982,7 @@ const bettingMarketGroups = [
     "id": "1.104.144",
     "event_id": "1.103.48",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1852,6 +1996,7 @@ const bettingMarketGroups = [
     "id": "1.104.145",
     "event_id": "1.103.49",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1865,6 +2010,7 @@ const bettingMarketGroups = [
     "id": "1.104.146",
     "event_id": "1.103.49",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1878,6 +2024,7 @@ const bettingMarketGroups = [
     "id": "1.104.147",
     "event_id": "1.103.49",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1891,6 +2038,7 @@ const bettingMarketGroups = [
     "id": "1.104.148",
     "event_id": "1.103.50",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1904,6 +2052,7 @@ const bettingMarketGroups = [
     "id": "1.104.149",
     "event_id": "1.103.50",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1917,6 +2066,7 @@ const bettingMarketGroups = [
     "id": "1.104.150",
     "event_id": "1.103.50",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1930,6 +2080,7 @@ const bettingMarketGroups = [
     "id": "1.104.151",
     "event_id": "1.103.51",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1943,6 +2094,7 @@ const bettingMarketGroups = [
     "id": "1.104.152",
     "event_id": "1.103.51",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1956,6 +2108,7 @@ const bettingMarketGroups = [
     "id": "1.104.153",
     "event_id": "1.103.51",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1969,6 +2122,7 @@ const bettingMarketGroups = [
     "id": "1.104.154",
     "event_id": "1.103.52",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -1982,6 +2136,7 @@ const bettingMarketGroups = [
     "id": "1.104.155",
     "event_id": "1.103.52",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -1995,6 +2150,7 @@ const bettingMarketGroups = [
     "id": "1.104.156",
     "event_id": "1.103.52",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2009,6 +2165,7 @@ const bettingMarketGroups = [
     "id": "1.104.157",
     "event_id": "1.103.53",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2022,6 +2179,7 @@ const bettingMarketGroups = [
     "id": "1.104.158",
     "event_id": "1.103.53",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2035,6 +2193,7 @@ const bettingMarketGroups = [
     "id": "1.104.159",
     "event_id": "1.103.53",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2048,6 +2207,7 @@ const bettingMarketGroups = [
     "id": "1.104.160",
     "event_id": "1.103.54",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2061,6 +2221,7 @@ const bettingMarketGroups = [
     "id": "1.104.161",
     "event_id": "1.103.54",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2074,6 +2235,7 @@ const bettingMarketGroups = [
     "id": "1.104.162",
     "event_id": "1.103.54",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2087,6 +2249,7 @@ const bettingMarketGroups = [
     "id": "1.104.163",
     "event_id": "1.103.55",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2100,6 +2263,7 @@ const bettingMarketGroups = [
     "id": "1.104.164",
     "event_id": "1.103.55",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2113,6 +2277,7 @@ const bettingMarketGroups = [
     "id": "1.104.165",
     "event_id": "1.103.55",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2126,6 +2291,7 @@ const bettingMarketGroups = [
     "id": "1.104.166",
     "event_id": "1.103.56",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2139,6 +2305,7 @@ const bettingMarketGroups = [
     "id": "1.104.167",
     "event_id": "1.103.56",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2152,6 +2319,7 @@ const bettingMarketGroups = [
     "id": "1.104.168",
     "event_id": "1.103.56",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2165,6 +2333,7 @@ const bettingMarketGroups = [
     "id": "1.104.169",
     "event_id": "1.103.57",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2178,6 +2347,7 @@ const bettingMarketGroups = [
     "id": "1.104.170",
     "event_id": "1.103.57",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2191,6 +2361,7 @@ const bettingMarketGroups = [
     "id": "1.104.171",
     "event_id": "1.103.57",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2205,6 +2376,7 @@ const bettingMarketGroups = [
     "id": "1.104.172",
     "event_id": "1.103.58",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2218,6 +2390,7 @@ const bettingMarketGroups = [
     "id": "1.104.173",
     "event_id": "1.103.58",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2231,6 +2404,7 @@ const bettingMarketGroups = [
     "id": "1.104.174",
     "event_id": "1.103.58",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2244,6 +2418,7 @@ const bettingMarketGroups = [
     "id": "1.104.175",
     "event_id": "1.103.59",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2257,6 +2432,7 @@ const bettingMarketGroups = [
     "id": "1.104.176",
     "event_id": "1.103.59",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": -10.5,
       "score": 5
@@ -2270,6 +2446,7 @@ const bettingMarketGroups = [
     "id": "1.104.177",
     "event_id": "1.103.59",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2283,6 +2460,7 @@ const bettingMarketGroups = [
     "id": "1.104.178",
     "event_id": "1.103.60",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2296,6 +2474,7 @@ const bettingMarketGroups = [
     "id": "1.104.179",
     "event_id": "1.103.60",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2309,6 +2488,7 @@ const bettingMarketGroups = [
     "id": "1.104.180",
     "event_id": "1.103.60",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2322,6 +2502,7 @@ const bettingMarketGroups = [
     "id": "1.104.181",
     "event_id": "1.103.61",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2335,6 +2516,7 @@ const bettingMarketGroups = [
     "id": "1.104.182",
     "event_id": "1.103.61",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2348,6 +2530,7 @@ const bettingMarketGroups = [
     "id": "1.104.183",
     "event_id": "1.103.61",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2361,6 +2544,7 @@ const bettingMarketGroups = [
     "id": "1.104.184",
     "event_id": "1.103.62",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2374,6 +2558,7 @@ const bettingMarketGroups = [
     "id": "1.104.185",
     "event_id": "1.103.62",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2387,6 +2572,7 @@ const bettingMarketGroups = [
     "id": "1.104.186",
     "event_id": "1.103.62",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2401,6 +2587,7 @@ const bettingMarketGroups = [
     "id": "1.104.187",
     "event_id": "1.103.63",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2414,6 +2601,7 @@ const bettingMarketGroups = [
     "id": "1.104.188",
     "event_id": "1.103.63",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2427,6 +2615,7 @@ const bettingMarketGroups = [
     "id": "1.104.189",
     "event_id": "1.103.63",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2440,6 +2629,7 @@ const bettingMarketGroups = [
     "id": "1.104.190",
     "event_id": "1.103.64",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2453,6 +2643,7 @@ const bettingMarketGroups = [
     "id": "1.104.191",
     "event_id": "1.103.64",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2466,6 +2657,7 @@ const bettingMarketGroups = [
     "id": "1.104.192",
     "event_id": "1.103.64",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2479,6 +2671,7 @@ const bettingMarketGroups = [
     "id": "1.104.193",
     "event_id": "1.103.65",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2492,6 +2685,7 @@ const bettingMarketGroups = [
     "id": "1.104.194",
     "event_id": "1.103.65",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2505,6 +2699,7 @@ const bettingMarketGroups = [
     "id": "1.104.195",
     "event_id": "1.103.65",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2518,6 +2713,7 @@ const bettingMarketGroups = [
     "id": "1.104.196",
     "event_id": "1.103.66",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2531,6 +2727,7 @@ const bettingMarketGroups = [
     "id": "1.104.197",
     "event_id": "1.103.66",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2544,6 +2741,7 @@ const bettingMarketGroups = [
     "id": "1.104.198",
     "event_id": "1.103.66",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2557,6 +2755,7 @@ const bettingMarketGroups = [
     "id": "1.104.199",
     "event_id": "1.103.67",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2570,6 +2769,7 @@ const bettingMarketGroups = [
     "id": "1.104.200",
     "event_id": "1.103.67",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2583,6 +2783,7 @@ const bettingMarketGroups = [
     "id": "1.104.201",
     "event_id": "1.103.67",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2598,6 +2799,7 @@ const bettingMarketGroups = [
     "id": "1.104.202",
     "event_id": "1.103.68",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2611,6 +2813,7 @@ const bettingMarketGroups = [
     "id": "1.104.203",
     "event_id": "1.103.68",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2624,6 +2827,7 @@ const bettingMarketGroups = [
     "id": "1.104.204",
     "event_id": "1.103.68",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2637,6 +2841,7 @@ const bettingMarketGroups = [
     "id": "1.104.205",
     "event_id": "1.103.69",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2650,6 +2855,7 @@ const bettingMarketGroups = [
     "id": "1.104.206",
     "event_id": "1.103.69",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2663,6 +2869,7 @@ const bettingMarketGroups = [
     "id": "1.104.207",
     "event_id": "1.103.69",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2676,6 +2883,7 @@ const bettingMarketGroups = [
     "id": "1.104.208",
     "event_id": "1.103.70",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2689,6 +2897,7 @@ const bettingMarketGroups = [
     "id": "1.104.209",
     "event_id": "1.103.70",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2702,6 +2911,7 @@ const bettingMarketGroups = [
     "id": "1.104.210",
     "event_id": "1.103.70",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2715,6 +2925,7 @@ const bettingMarketGroups = [
     "id": "1.104.211",
     "event_id": "1.103.71",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2728,6 +2939,7 @@ const bettingMarketGroups = [
     "id": "1.104.212",
     "event_id": "1.103.71",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2741,6 +2953,7 @@ const bettingMarketGroups = [
     "id": "1.104.213",
     "event_id": "1.103.71",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2754,6 +2967,7 @@ const bettingMarketGroups = [
     "id": "1.104.214",
     "event_id": "1.103.72",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2767,6 +2981,7 @@ const bettingMarketGroups = [
     "id": "1.104.215",
     "event_id": "1.103.72",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2780,6 +2995,7 @@ const bettingMarketGroups = [
     "id": "1.104.216",
     "event_id": "1.103.72",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2794,6 +3010,7 @@ const bettingMarketGroups = [
     "id": "1.104.217",
     "event_id": "1.103.73",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2807,6 +3024,7 @@ const bettingMarketGroups = [
     "id": "1.104.218",
     "event_id": "1.103.73",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2820,6 +3038,7 @@ const bettingMarketGroups = [
     "id": "1.104.219",
     "event_id": "1.103.73",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2833,6 +3052,7 @@ const bettingMarketGroups = [
     "id": "1.104.220",
     "event_id": "1.103.74",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2846,6 +3066,7 @@ const bettingMarketGroups = [
     "id": "1.104.221",
     "event_id": "1.103.74",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2859,6 +3080,7 @@ const bettingMarketGroups = [
     "id": "1.104.222",
     "event_id": "1.103.74",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2873,6 +3095,7 @@ const bettingMarketGroups = [
     "id": "1.104.223",
     "event_id": "1.103.75",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2886,6 +3109,7 @@ const bettingMarketGroups = [
     "id": "1.104.224",
     "event_id": "1.103.75",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2899,6 +3123,7 @@ const bettingMarketGroups = [
     "id": "1.104.225",
     "event_id": "1.103.75",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2912,6 +3137,7 @@ const bettingMarketGroups = [
     "id": "1.104.226",
     "event_id": "1.103.76",
     "market_type_id": "Moneyline",
+    "description": "Moneyline",
     "options": {
       "margin": 0,
       "score": 5
@@ -2925,6 +3151,7 @@ const bettingMarketGroups = [
     "id": "1.104.227",
     "event_id": "1.103.76",
     "market_type_id": "Spread",
+    "description": "Spread +/- 5",
     "options": {
       "margin": 0,
       "score": 5
@@ -2938,6 +3165,7 @@ const bettingMarketGroups = [
     "id": "1.104.228",
     "event_id": "1.103.76",
     "market_type_id": "OverUnder",
+    "description": "Over/ Under 5",
     "options": {
       "margin": 0,
       "score": 5
