@@ -12,6 +12,7 @@ const Config = {
   blockchainUrls: shuffledBlockhainUrls,
   softwareUpdateReferenceAccountName: 'peerplays1',
   gatewayAccountName: 'gateway1',
+  useDummyData: true,
   dummyDataAccountId: '1.2.240' // TODO: remove this later, for the meantime we can use this to configure dummy data
 }
 
