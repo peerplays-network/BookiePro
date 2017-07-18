@@ -8,7 +8,7 @@ import {
 class Amount extends PureComponent{
   render(){
     return(
-      <Card className={ this.props.cardClass }>
+      <Card className={ this.props.cardClass } title={ I18n.t('topbar.account_balance') }>
         <Row>
           <Col span={ 12 }>
             <p> { this.props.availableBalance } <span> { I18n.t('topbar.available') } </span> </p>

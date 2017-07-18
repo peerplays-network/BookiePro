@@ -194,6 +194,7 @@ export const translationsObject = {
       or: 'or'
     },
     topbar:{
+      account_balance: 'Account Balance',
       available: 'Available',
       in_game: 'In-game',
       myaccount:'My Account',
