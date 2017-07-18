@@ -70,10 +70,10 @@ class QuickBetDrawer extends PureComponent {
               <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
                 <Button
                   className={ `btn place-bet btn-regular${this.props.numberOfGoodBets > 0 ? '' : '-disabled'}` }
-                  onClick={ this.props.clickPlaceBet }
+                  onClick={ () => this.props.clickPlaceBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
                   disabled={ this.props.numberOfGoodBets === 0  }
                 >
-                  { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button', { amount : this.props.totalBetAmount }) }
+                  { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button', { amount : this.props.totalBetAmountString }) }
                 </Button>
               </div>
             }
@@ -84,7 +84,7 @@ class QuickBetDrawer extends PureComponent {
             className='quick_bet_drawer.unconfirmed_bets.confirmation'
             goodBets={ this.props.numberOfGoodBets }
             badBets={ this.props.numberOfBadBets }
-            amount={ this.props.totalBetAmount }
+            amount={ this.props.totalBetAmountString }
             cancelAction={ this.props.cancelPlaceBet }
             confirmAction={ () => this.props.makeBets(this.props.originalBets) }
           />
@@ -102,6 +102,18 @@ class QuickBetDrawer extends PureComponent {
             cancelAction={ this.props.cancelDeleteBets }
             confirmAction={ () => this.props.deleteBets(this.props.betsToBeDeleted) }
             replacements={ { event: this.props.eventNameInDeleteBetsConfirmation } }
+          />
+        }
+        { this.props.showInsufficientBalanceError &&
+          <Overlay
+            className='quick_bet_drawer.unconfirmed_bets.insufficient_balance'
+            confirmAction={ this.props.hideInsufficientBalanceError }
+          />
+        }
+        { this.props.showDisconnectedError &&
+          <Overlay
+            className='quick_bet_drawer.unconfirmed_bets.disconnected'
+            cancelAction={ this.props.hideDisconnectedError }
           />
         }
         { this.props.showBetSlipWaiting && <Waiting /> }
@@ -151,6 +163,8 @@ const mapStateToProps = (state, ownProps) => {
   const showBetSlipError = state.getIn(['quickBetDrawer', 'showBetSlipError']);
   const showBetSlipSuccess = state.getIn(['quickBetDrawer', 'showBetSlipSuccess']);
   const showDeleteBetsConfirmation = state.getIn(['quickBetDrawer', 'showDeleteBetsConfirmation']);
+  const showInsufficientBalanceError = state.getIn(['quickBetDrawer', 'showInsufficientBalanceError']);
+  const showDisconnectedError = state.getIn(['quickBetDrawer', 'showDisconnectedError']);
   return {
     originalBets,
     bets: page,
@@ -159,13 +173,17 @@ const mapStateToProps = (state, ownProps) => {
     showBetSlipError,
     showBetSlipSuccess,
     showDeleteBetsConfirmation,
-    obscureContent: showBetSlipConfirmation || showBetSlipWaiting || showBetSlipError || showDeleteBetsConfirmation,
+    showInsufficientBalanceError,
+    showDisconnectedError,
+    obscureContent: showBetSlipConfirmation || showBetSlipWaiting || showBetSlipError || showDeleteBetsConfirmation ||
+                    showInsufficientBalanceError || showDisconnectedError,
     betsToBeDeleted: state.getIn(['quickBetDrawer', 'betsToBeDeleted']),
     eventNameInDeleteBetsConfirmation: state.getIn(['quickBetDrawer', 'eventNameInDeleteBetsConfirmation']),
     numberOfGoodBets,
     numberOfBadBets: originalBets.size - numberOfGoodBets,
-    totalBetAmount: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
-                    CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat),
+    totalBetAmountFloat: totalAmount,
+    totalBetAmountString: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
+                          CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat),
   };
 }
 
@@ -180,6 +198,8 @@ const mapDispatchToProps = (dispatch) => {
     clickPlaceBet: QuickBetDrawerActions.clickPlaceBet,
     cancelPlaceBet: QuickBetDrawerActions.cancelPlaceBet,
     makeBets: BetActions.makeBets,
+    hideInsufficientBalanceError: QuickBetDrawerActions.hideInsufficientBalanceError,
+    hideDisconnectedError: QuickBetDrawerActions.hideDisconnectedError,
   }, dispatch);
 }
 

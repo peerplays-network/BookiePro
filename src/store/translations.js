@@ -301,6 +301,14 @@ export const translationsObject = {
           instructions: 'Your bets have been successfully placed.',
           my_bet_button: 'GO TO MY BETS',
         },
+        insufficient_balance: {
+          instructions: 'You do not have sufficient funds to place the bet/s. Please edit your bets or deposit more funds.',
+          confirm_button: 'OK',
+        },
+        disconnected: {
+          instructions: 'You are not connected to the blockchain. Pleaee make sure you have Internet access and try again.',
+          cancel_button: 'CANCEL',
+        },
         content: {
           place_bet_button: 'PLACE BET %{amount}'
         }
