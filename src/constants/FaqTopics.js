@@ -5,6 +5,7 @@ const FaqTopics = {
   BETTING: 'BETTING',
   FEES: 'FEES',
   SPORTS: 'SPORTS',
+  RULES: 'RULES',
   ABOUT: 'ABOUT',
   MISC: 'MISC',
 }

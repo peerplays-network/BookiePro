@@ -29,6 +29,10 @@ const getTopicTranslationKeyword = (topic) => {
       translationKeyword = 'topicSports';
       break;
     }
+    case FaqTopics.RULES: {
+      translationKeyword = 'topicRules';
+      break;
+    }
     case FaqTopics.ABOUT: {
       translationKeyword = 'topicAbout';
       break;
