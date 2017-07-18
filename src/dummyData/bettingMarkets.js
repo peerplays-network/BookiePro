@@ -100,15 +100,14 @@ const bettingMarkets = [
   {
     "id": "1.105.15",
     "betting_market_group_id": "1.104.8",
-    "payout_condition_string": "CAarolina Panthers",
-    "description": "CAarolina Panthers",
+    "payout_condition_string": "Carolina Panthers",
+    "description": "Carolina Panthers",
     "bet_asset_type": "1.3.0"
   },
   {
     "id": "1.105.16",
     "betting_market_group_id": "1.104.8",
     "payout_condition_string": "Denver Bancos",
-    "description": "Denver Bancos",
     "description": "Denver Bancos",
     "bet_asset_type": "1.3.0"
   },
