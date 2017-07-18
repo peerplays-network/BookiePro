@@ -19,28 +19,17 @@ const renderPasswordField = ({ placeholder,tabIndex, errors, input, maxLength, t
   </div>
 );
 
-//Component to render the 'Copy' button
-const renderRecoveryButtonFields = (fields) =>{
-  const minimumLength = 22;
-  const disabled = fields.new_password.input.value !== fields.new_password_confirm.input.value ||  fields.new_password_confirm.input.value.length < minimumLength ;
-  return (
 
-    <div>
-      <div className='loginCreate__btnWrap'>
-          <Button type='primary' htmlType='submit'
-            className={ 'btn ' + (disabled ? 'btn-regular-disabled':' btn-download') + ' grid-100' }
-            onClick={ fields.onClick.bind(this, fields.new_password.input.value) }
-            disabled={ disabled }>
-            {I18n.t('signup.download_rec_text')}
-          </Button>
-      </div>
-    </div>
-  )
-}
 
 
 class ChangePasswordForm extends PureComponent {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isPwDownloaded: false
+    };
+  }
   //Download the password in a text file
   onClickDownload(password,event) {
     event.preventDefault();
@@ -48,11 +37,37 @@ class ChangePasswordForm extends PureComponent {
       type: 'text/plain'
     });
     saveAs(blob, 'account-recovery-file.txt');
+    this.setState({ isPwDownloaded :true})
+  }
+
+  //Component to render the 'Copy' button
+  renderRecoveryButtonFields = (fields) =>{
+    const minimumLength = 22;
+    const disabled = fields.new_password.input.value !== fields.new_password_confirm.input.value
+      ||  fields.new_password_confirm.input.value.length < minimumLength;
+      //       || !this.state.isPwDownloaded;
+
+    return (
+
+      <div>
+        <div className='loginCreate__btnWrap'>
+            <Button type='primary' htmlType='submit'
+              className={ 'btn ' + (disabled ? 'btn-regular-disabled':' btn-download') + ' grid-100' }
+              onClick={ fields.onClick.bind(this, fields.new_password.input.value) }
+              disabled={ disabled }>
+              {I18n.t('signup.download_rec_text')}
+            </Button>
+        </div>
+      </div>
+    )
   }
 
   render(){
+    const { isPwDownloaded } = this.state;
     const { handleSubmit,reset,loadingStatus,invalid,asyncValidating,submitting,pristine } = this.props;
     const errors = this.props.errors.toJS(), isLoading = (loadingStatus===LoadingStatus.LOADING && errors.length===0)
+    const confirmBtnEnable = invalid || submitting || asyncValidating || isLoading || !isPwDownloaded ;
+    
     return (
       <form onSubmit={ handleSubmit }>
 
@@ -81,7 +96,7 @@ class ChangePasswordForm extends PureComponent {
               { I18n.t('signup.password_warning_1') }<span className='boldTextInMessage'>{ I18n.t('signup.password_warning_2') }</span>{ I18n.t('signup.password_warning_3') }
             </p>
             <div className='text-center'>
-              <Fields names={ ['new_password','new_password_confirm'] } component={ renderRecoveryButtonFields } onClick={ this.onClickDownload.bind(this) }/>
+              <Fields names={ ['new_password','new_password_confirm'] } component={ this.renderRecoveryButtonFields } onClick={ this.onClickDownload.bind(this) }/>
             </div>
           </div>
         </div>
@@ -95,9 +110,8 @@ class ChangePasswordForm extends PureComponent {
             { I18n.t('changePassword.cancel') }
           </button>
           <button type='submit'
-            className={ 'btn ' + (invalid || submitting || asyncValidating || isLoading ?
-                        'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-25' }
-            disabled={ invalid || submitting || asyncValidating || isLoading }>
+            className={ 'btn ' + ( confirmBtnEnable ? 'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-25' }
+            disabled={ confirmBtnEnable }>
             { isLoading ? I18n.t('application.loading') : I18n.t('changePassword.confirm') }
           </button>
         </div>
