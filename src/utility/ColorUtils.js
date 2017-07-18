@@ -24,7 +24,7 @@ const convertColor = (color) => {
     'darkblue':'#00008b',
     'darkcyan':'#008b8b',
     'darkgoldenrod':'#b8860b',
-    'darkgray':'#a9a9a9',
+    'darkgray':'@grey_1',
     'darkgreen':'#006400',
     'darkkhaki':'#bdb76b',
     'darkmagenta':'#8b008b',

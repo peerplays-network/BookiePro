@@ -1,3 +1,4 @@
+@import (reference) '../../../App/Colors.less';
 .notification-card{
 
   .ant-card-body {
@@ -7,7 +8,7 @@
   .notification-card-content {
     width:400px;
     max-height:400px;
-    background-color: #002440;
+    background-color: @dark_blue_2;
 
     .notification-item {
       display: flex;
@@ -18,7 +19,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: #2FA5E6;
+        background-color: @light_blue_3;
       }
 
       .content {
@@ -32,11 +33,11 @@
         .message {
           padding-top: 8px;
           font-size: 16px;
-          color: #ffffff;
+          color: @white;
         }
         .date {
           font-size: 12px;
-          color: #ffffff;
+          color: @white;
           margin-top: 5px;
           margin-bottom: 8px;
         }

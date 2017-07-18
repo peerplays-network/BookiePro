@@ -11,20 +11,20 @@ div.complex-betting {
   margin-top: 15px;
 
   .increased-value{
-    color: #02CB43;
+    color: @green_1;
   }
   .decreased-value{
-    color: #FF7788;
+    color: @pink_1;
   }
 }
 .complex-betting{
-  background-color: rgba(6, 92, 183, 0.35);
-  box-shadow: 0 2px 4px 0 #02070C;
+  background-color: fade(@blue_2, 35%);
+  box-shadow: 0 2px 4px 0 @dark_grey_2;
   margin-top: 20px;
   padding-bottom:20px;
   .title{
     padding:13px 15px;
-    border-bottom:1px solid #1563A0;
+    border-bottom:1px solid @blue_1;
     margin-bottom:25px;
   }
   .name{
@@ -51,7 +51,7 @@ div.complex-betting {
         padding:0;
         background-color: transparent;
         border:0 none;
-        color: #FFFFFF;
+        color: @white;
         border-radius:0;
         font-size:14px;
       }
@@ -153,12 +153,12 @@ div.complex-betting {
       }
     }
     .rt-tr-group{
-      border-top:1px solid #FFFFFF;
+      border-top:1px solid @white;
       &:last-child{
-        border-bottom:1px solid #FFFFFF;
+        border-bottom:1px solid @white;
       }
       .back, .lay, .back-arrows-col {
-        border-right:1px solid #FFFFFF;
+        border-right:1px solid @white;
       }
       .rt-td{
         &:first-child{
@@ -187,8 +187,8 @@ div.complex-betting {
       }
       &:nth-of-type(2){
         .alignright{
-          border-left:1px solid #FFFFFF;
-          border-top:1px solid #FFFFFF;
+          border-left:1px solid @white;
+          border-top:1px solid @white;
           padding: 4px 3px;
           background-color: @complex-betting-back-all-bg;
           &:hover{
@@ -198,7 +198,7 @@ div.complex-betting {
       }
       &:nth-of-type(3){
         .alignleft{
-          border:1px solid #FFFFFF;
+          border:1px solid @white;
           border-bottom:none;
           padding: 4px 3px;
           background-color: @complex-betting-lay-all-bg;
