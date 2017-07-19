@@ -72,7 +72,12 @@ class QuickBetDrawerPrivateActions {
 
 class QuickBetDrawerActions {
   static createBet(event_id, event_name, team, bet_type, betting_market_id, odds) {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+      const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', betting_market_id]);
+      const bettingMarketGroupId = bettingMarket && bettingMarket.get('betting_market_group_id');
+      const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
+      const bettingMarketDescription = bettingMarket && bettingMarket.get('description');
+      const bettingMarketGroupDescription = bettingMarketGroup && bettingMarketGroup.get('description');
       const bet = Immutable.fromJS({
         event_id,
         event_name,
@@ -82,6 +87,8 @@ class QuickBetDrawerActions {
         market_type_id: 'Moneyline',      // QuickBetDrawer only handles Moneyline
         market_type_value: 'Moneyline',   // Moneyline does not require extra option
         odds,
+        betting_market_description: bettingMarketDescription,
+        betting_market_group_description: bettingMarketGroupDescription,
         id: parseInt(moment().format('x'), 10)  // unix millisecond timestamp
       });
       dispatch(QuickBetDrawerPrivateActions.addOneBet(bet));
