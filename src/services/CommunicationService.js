@@ -429,6 +429,171 @@ class CommunicationService {
   }
 
   /**
+   * Get any blockchain object given their id
+   */
+  static getObjectsByIds(arrayOfObjectIds = []) {
+    return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]);
+  }
+
+  /**
+   * Get assets by id
+   */
+  static getAssetsByIds(assetIds) {
+    return this.getObjectsByIds(assetIds);
+  }
+
+
+  /**
+   * Get all sports
+   */
+  static getAllSports() {
+    if (Config.useDummyData) {
+      return this.getDummyAllSports();
+    } else {
+      // TODO: change later
+      return Promise.resolve(Immutable.List());
+    }
+  }
+
+  /**
+   * Get active events given array of sport ids (can be immutable)
+   */
+  static getActiveEventsBySportIds(sportIds) {
+    if (Config.useDummyData) {
+      return this.getDummyActiveEventsBySportIds(sportIds);
+    } else {
+      // TODO: change later
+      return Promise.resolve(Immutable.List());
+    }
+  }
+
+  /**
+   * Get comeptitors given array of sport ids (can be immutable)
+   */
+  static getCompetitorsBySportIds(sportIds) {
+    if (Config.useDummyData) {
+      return this.getDummyCompetitorsBySportIds(sportIds);
+    } else {
+      // TODO: change later
+      return Promise.resolve(Immutable.List());
+    }
+  }
+
+
+  /**
+   * Get binned order books
+   */
+  static getBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision) {
+    if (Config.useDummyData) {
+      return this.getDummyBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision);
+    } else {
+      // TODO: change later
+      return Promise.resolve(Immutable.Map());
+    }
+  }
+
+  /**
+   * Get total matched bets given array of betting market group ids (can be immutable)
+   */
+  static getTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds) {
+    if (Config.useDummyData) {
+      return this.getDummyTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds);
+    } else {
+      // TODO: change later
+      return Promise.resolve(Immutable.Map());
+    }
+  }
+
+  /**
+   * Get betting market by id
+   */
+  static getBettingMarketsByIds(bettingMarketIds) {
+    if (Config.useDummyData) {
+      return this.getDummyObjectsByIds(bettingMarketIds);
+    } else {
+      // TODO: Replace later
+      return Promise.resolve(Immutable.List());
+    }
+  }
+
+  /**
+   * Get betting market group by id
+   */
+  static getBettingMarketGroupsByIds(bettingMarketGroupIds) {
+    if (Config.useDummyData) {
+      return this.getDummyObjectsByIds(bettingMarketGroupIds);
+    } else {
+      // TODO: Replace later
+      return Promise.resolve(Immutable.List());
+    }
+  }
+
+  /**
+   * Get competitors by id
+   */
+  static getCompetitorsByIds(competitorIds) {
+    if (Config.useDummyData) {
+      return this.getDummyObjectsByIds(competitorIds);
+    } else {
+      // TODO: Replace later
+      return Promise.resolve(Immutable.List());
+    }
+  }
+
+  /**
+   * Get event by id
+   */
+  static getEventsByIds(eventIds) {
+    if (Config.useDummyData) {
+      return this.getDummyObjectsByIds(eventIds);
+    } else {
+      // TODO: Replace later
+      return Promise.resolve(Immutable.List());
+    }
+  }
+
+  /**
+   * Get event group by id
+   */
+  static getEventGroupsByIds(eventGroupIds) {
+    if (Config.useDummyData) {
+      return this.getDummyObjectsByIds(eventGroupIds);
+    } else {
+      // TODO: Replace later
+      return Promise.resolve(Immutable.List());
+    }
+  }
+
+  /**
+   * Get sport by id
+   */
+  static getSportsByIds(sportIds) {
+    if (Config.useDummyData) {
+      return this.getDummyObjectsByIds(sportIds);
+    } else {
+      // TODO: Replace later
+      return Promise.resolve(Immutable.List());
+    }
+  }
+
+  /**
+   * Get global betting statistics
+   */
+  static getGlobalBettingStatistics() {
+    if (Config.useDummyData) {
+      return this.getDummyGlobalBettingStatistics();
+    } else {
+      // TODO: Replace later
+      return Promise.resolve(Immutable.List());
+    }
+  }
+
+
+
+  //========================================================================
+  // FETCH DUMMY OBJECT IMPLEMENTATION  - BEGINNING
+  //========================================================================
+  /**
    * Fetch dummy transaction history
    */
   static fetchDummyTransactionHistorySynchronously(accountId) {
@@ -443,7 +608,7 @@ class CommunicationService {
   /**
    * Get all sports
    */
-  static getAllSports() {
+  static getDummyAllSports() {
     // TODO: Replace later
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -456,7 +621,7 @@ class CommunicationService {
   /**
    * Get active events given array of sport ids (can be immutable)
    */
-  static getActiveEventsBySportIds(sportIds) {
+  static getDummyActiveEventsBySportIds(sportIds) {
     // TODO: Replace later
     const promises = sportIds.map( (sportId) => {
       return new Promise((resolve, reject) => {
@@ -477,7 +642,7 @@ class CommunicationService {
   /**
    * Get comeptitors given array of sport ids (can be immutable)
    */
-  static getCompetitorsBySportIds(sportIds) {
+  static getDummyCompetitorsBySportIds(sportIds) {
     // TODO: Replace later
     const promises = sportIds.map( (sportId) => {
       return new Promise((resolve, reject) => {
@@ -494,12 +659,6 @@ class CommunicationService {
     });
   }
 
-  /**
-   * Get any blockchain object given their id
-   */
-  static getObjectsByIds(arrayOfObjectIds = []) {
-    return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]);
-  }
 
   /**
    * Get dummy blockchain objects given their ids
@@ -525,84 +684,9 @@ class CommunicationService {
   }
 
   /**
-   * Get assets by id
-   */
-  static getAssetsByIds(assetIds) {
-    return this.getObjectsByIds(assetIds);
-  }
-
-  /**
-   * Get betting market by id
-   */
-  static getBettingMarketsByIds(bettingMarketIds) {
-    // TODO: Replace later
-    return this.getDummyObjectsByIds(bettingMarketIds);
-  }
-
-  /**
-   * Get betting market group by id
-   */
-  static getBettingMarketGroupsByIds(bettingMarketGroupIds) {
-    // TODO: Replace later
-    return this.getDummyObjectsByIds(bettingMarketGroupIds);
-  }
-
-  /**
-   * Get competitors by id
-   */
-  static getCompetitorsByIds(competitorIds) {
-    // TODO: Replace later
-    return this.getDummyObjectsByIds(competitorIds);
-  }
-
-  /**
-   * Get event by id
-   */
-  static getEventsByIds(eventIds) {
-    // TODO: Replace later
-    return this.getDummyObjectsByIds(eventIds);
-  }
-
-  /**
-   * Get event group by id
-   */
-  static getEventGroupsByIds(eventGroupIds) {
-    // TODO: Replace later
-    return this.getDummyObjectsByIds(eventGroupIds);
-  }
-
-  /**
-   * Get sport by id
-   */
-  static getSportsByIds(sportIds) {
-    // TODO: Replace later
-    return this.getDummyObjectsByIds(sportIds);
-  }
-
-  /**
    * Get binned order books
    */
-  static getBinnedOrderBook(bettingMarketId, binning_precision) {
-    // TODO: Replace later
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        let result = null;
-        dummyData.binnedOrderBooks.forEach((orderBook) => {
-          if (orderBook.betting_market_id === bettingMarketId) {
-            result = orderBook;
-            return false;
-          }
-        });
-
-        resolve(Immutable.fromJS(result));
-      }, TIMEOUT_LENGTH);
-    })
-  }
-
-  /**
-   * Get binned order books
-   */
-  static getBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision) {
+  static getDummyBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision) {
     // TODO: Replace later
     // Create promises of getting binned order book for each betting market
     const promises = bettingMarketIds.map( (bettingMarketId) => {
@@ -633,7 +717,7 @@ class CommunicationService {
   /**
    * Get total matched bets given array of betting market group ids (can be immutable)
    */
-  static getTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds) {
+  static getDummyTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds) {
     // TODO: Replace later
     const promises = bettingMarketGroupIds.map( (bettingMarketGroupId) => {
       return new Promise((resolve, reject) => {
@@ -657,6 +741,21 @@ class CommunicationService {
     });
   }
 
+  /**
+   * Get global betting statistics
+   */
+  static getDummyGlobalBettingStatistics() {
+    // TODO: Replace later
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(Immutable.fromJS(dummyData.globalBettingStatistics));
+      }, TIMEOUT_LENGTH);
+    });
+  }
+
+  //========================================================================
+  // FETCH DUMMY OBJECT IMPLEMENTATION - END
+  //========================================================================
 
   /**
    * Withdraw money
@@ -681,20 +780,6 @@ class CommunicationService {
       }, TIMEOUT_LENGTH);
     });
   }
-
-  /**
-   * Get global betting statistics
-   */
-  static getGlobalBettingStatistics() {
-    // TODO: Replace later
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(Immutable.fromJS(dummyData.globalBettingStatistics));
-      }, TIMEOUT_LENGTH);
-    });
-  }
-
-
 
 
 }
