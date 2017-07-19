@@ -16,7 +16,7 @@ const bettingMarketGroups = [
     "market_type_id": "Spread",
     "description": "Spread +/- 5",
     "options": {
-      "margin": -5,
+      "margin": 5,
       "score": 0
     },
     "betting_market_ids": [
@@ -31,7 +31,7 @@ const bettingMarketGroups = [
     "description": "Over/ Under 5",
     "options": {
       "margin": 0,
-      "score": 8
+      "score": 5
     },
     "betting_market_ids": [
       "1.105.5",

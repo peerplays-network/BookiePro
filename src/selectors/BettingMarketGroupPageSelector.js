@@ -201,10 +201,8 @@ const getMarketData = createSelector(
 
       const marketTypeId = bettingMarketGroup.get('market_type_id');
 
-      // TODO: REMOVE this once we have the real Blockchain
-      // Using payout_condition_string as PLACEHOLDER in case of (dummy) data integrity issue
-      let data = Immutable.Map().set('displayName', bettingMarket.get('payout_condition_string'))
-        .set('name', bettingMarket.get('payout_condition_string'))
+      let data = Immutable.Map().set('displayName', bettingMarket.get('description'))
+        .set('name', bettingMarket.get('description'))
         .set('marketTypeId', marketTypeId)
 
       const homeSelection = homeName ? homeName : data.get('displayName')

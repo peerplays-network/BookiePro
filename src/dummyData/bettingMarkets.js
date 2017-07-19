@@ -17,28 +17,28 @@ const bettingMarkets = [
     "id": "1.105.3",
     "betting_market_group_id": "1.104.2",
     "payout_condition_string": "NY Giants",
-    "description": "NY Giants",
+    "description": "NY Giants +5",
     "bet_asset_type": "1.3.0"
   },
   {
     "id": "1.105.4",
     "betting_market_group_id": "1.104.2",
-    "payout_condition_string": "Green Bay",
+    "payout_condition_string": "Green Bay -5",
     "description": "Green Bay",
     "bet_asset_type": "1.3.0"
   },
   {
     "id": "1.105.5",
     "betting_market_group_id": "1.104.3",
-    "payout_condition_string": "Green Bay",
-    "description": "Green Bay",
+    "payout_condition_string": "Over",
+    "description": "Over",
     "bet_asset_type": "1.3.0"
   },
   {
     "id": "1.105.6",
     "betting_market_group_id": "1.104.2",
-    "payout_condition_string": "Green Bay",
-    "description": "Green Bay",
+    "payout_condition_string": "Under",
+    "description": "Under",
     "bet_asset_type": "1.3.0"
   },
   {

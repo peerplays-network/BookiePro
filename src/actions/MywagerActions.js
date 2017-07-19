@@ -110,11 +110,11 @@ class MywagerActions {
 
         //merging betting market data for display and betting_market_group_id for reference
         exportData = mergeRelationData(exportData, getState().getIn(['bettingMarket','bettingMarketsById']), 'betting_market_id',
-          {betting_market_group_id: 'betting_market_group_id' , payout_condition_string: 'payout_condition_string'});
+          {betting_market_group_id: 'betting_market_group_id' , description: 'betting_market_description'});
 
         //merging betting market group data for display and eventid for reference
-        exportData = mergeBettingMarketGroup(exportData,
-          getState().getIn(['bettingMarketGroup','bettingMarketGroupsById']), 'betting_market_group_id');
+        exportData = mergeRelationData(exportData, getState().getIn(['bettingMarketGroup','bettingMarketGroupsById']), 'betting_market_group_id',
+          {event_id: 'event_id' , description: 'betting_market_group_description'});
 
         //merging evemt data for display and sport id for reference
         exportData = mergeRelationData(exportData, getState().getIn(['event','eventsById']), 'event_id',
@@ -134,7 +134,7 @@ class MywagerActions {
         const columns = getResolvedBetsColumns(currencyFormat);
         exportData.forEach((row, index) => {
           row = row.merge({
-            'type' : (row.get('back_or_lay') + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
+            'type' : (row.get('back_or_lay') + ' | ' + row.get('betting_market_description') + ' | ' + row.get('betting_market_group_description')),
           });
           let formattedRow = {};
           for (var i = 0; i < columns.length; i++) {
