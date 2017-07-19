@@ -226,12 +226,16 @@ class MarketDrawerActions {
       const bettingMarketIds= bettingMarketGroup.get('betting_market_ids');
       const bettingMarketsById = getState().getIn(['bettingMarket', 'bettingMarketsById']);
       const assetsById = getState().getIn(['asset', 'assetsById']);
+      const bettingMarketGroupDescription = bettingMarketGroup && bettingMarketGroup.get('description');
       const getBets = (collection) =>
         collection.filter(bet => bettingMarketIds.includes(bet.get('betting_market_id'))).map(bet => {
           const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
+          const bettingMarketDescription = bettingMarket && bettingMarket.get('description');
           const precision = assetsById.get(bettingMarket.get('bet_asset_type')).get('precision');
           return bet.set('market_type_id', bettingMarketGroup.get('market_type_id'))
                     .set('market_type_value', resolveMarketTypeValue(bettingMarketGroup, bet.get('betting_market_id')))
+                    .set('betting_market_description', bettingMarketDescription)
+                    .set('betting_market_group_description', bettingMarketGroupDescription)
                     .set('asset_precision', precision);     // set this and use in reducer
         });
 
