@@ -8,7 +8,6 @@ const {
   getBettingMarketGroupsById,
 } = CommonSelector;
 import { I18n } from 'react-redux-i18n';
-import { resolveBettingMarketGroupDisplayName } from '../actions/dataUtils'
 import { LoadingStatus } from '../constants'
 
 const getSidebarLoadingStatus = (state) => state.getIn(['sidebar', 'loadingStatus']);

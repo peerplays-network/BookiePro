@@ -2,7 +2,7 @@ import { ActionTypes, LoadingStatus, TimeRangePeriodTypes } from '../constants';
 import { CurrencyUtils, DateUtils, BettingModuleUtils, ObjectUtils, MyWagerUtils } from '../utility';
 import moment from 'moment';
 import Immutable from 'immutable';
-const { mergeRelationData, mergeBettingMarketGroup, getResolvedBetsColumns } = MyWagerUtils;
+const { mergeRelationData, getResolvedBetsColumns } = MyWagerUtils;
 const { getStakeFromBetObject } = ObjectUtils;
 
 const getFormattedDate = DateUtils.getFormattedDate;

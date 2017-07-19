@@ -9,7 +9,7 @@ import { TimeRangePeriodTypes, MyWagerTabTypes } from '../constants';
 import CommonSelector from './CommonSelector';
 import Immutable from 'immutable';
 
-const { mergeRelationData, mergeBettingMarketGroup } = MyWagerUtils;
+const { mergeRelationData } = MyWagerUtils;
 const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
 
 const {
