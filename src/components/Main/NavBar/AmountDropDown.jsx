@@ -6,16 +6,25 @@ import {
   Col
 } from 'antd';
 class Amount extends PureComponent{
+
+  renderAmount(amountTypeText,amount){
+    return(
+      <Col span={ 12 }>
+        <div className='icon-main bitcoin-icon-main'>
+          <p>
+            { this.props.currencyFormat } { amount } <span> { I18n.t(amountTypeText) } </span>
+          </p>
+        </div>
+      </Col>
+    )
+  }
+
   render(){
     return(
       <Card className={ this.props.cardClass } title={ I18n.t('topbar.account_balance') }>
         <Row>
-          <Col span={ 12 }>
-            <p> { this.props.availableBalance } <span> { I18n.t('topbar.available') } </span> </p>
-          </Col>
-          <Col span={ 12 }>
-            <p> { this.props.inGameAmount } <span> { I18n.t('topbar.in_game') } </span> </p>
-          </Col>
+          { this.renderAmount('topbar.available',this.props.availableBalance) }
+          { this.renderAmount('topbar.in_game',this.props.inGameAmount) }
         </Row>
       </Card>
     )
