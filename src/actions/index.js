@@ -3,7 +3,6 @@ import SettingActions from './SettingActions';
 import AppActions from './AppActions';
 import SportActions from './SportActions';
 import EventGroupActions from './EventGroupActions';
-import CompetitorActions from './CompetitorActions';
 import EventActions from './EventActions';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
@@ -35,7 +34,6 @@ export {
   AppActions,
   SportActions,
   EventGroupActions,
-  CompetitorActions,
   EventActions,
   BettingMarketActions,
   BettingMarketGroupActions,

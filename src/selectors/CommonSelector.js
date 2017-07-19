@@ -80,10 +80,6 @@ const getActiveEventsByEventGroupId = createSelector(
 )
 
 
-const getCompetitorsById = (state) => {
-  return state.getIn(['competitor', 'competitorsById']);
-}
-
 const getBettingMarketGroupsById = (state) => {
   return state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
 }
@@ -165,7 +161,6 @@ const CommonSelector = {
   getEventsById,
   getActiveEventsBySportId,
   getActiveEventsByEventGroupId,
-  getCompetitorsById,
   getBettingMarketGroupsById,
   getBettingMarketsById,
   getBinnedOrderBooksByBettingMarketId,

@@ -1,7 +1,6 @@
 import { LoadingStatus, ActionTypes } from '../constants';
 import SportActions from './SportActions';
 import EventActions from './EventActions';
-import CompetitorActions from './CompetitorActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
@@ -45,9 +44,6 @@ class AllSportsActions {
       // Get sports
       dispatch(SportActions.getAllSports()).then((sports) => {
         retrievedSportIds = sports.map( sport => sport.get('id'));
-        // Get competitiors related to the sports
-        return dispatch(CompetitorActions.getCompetitorsBySportIds(retrievedSportIds));
-      }).then((competitors) => {
         // Get events related to the sports
         return dispatch(EventActions.getActiveEventsBySportIds(retrievedSportIds));
       }).then((events) => {

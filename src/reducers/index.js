@@ -8,7 +8,6 @@ import AuthReducer  from './AuthReducer';
 import SidebarReducer from './SidebarReducer';
 import SportReducer from './SportReducer';
 import EventGroupReducer from './EventGroupReducer';
-import CompetitorReducer from './CompetitorReducer';
 import EventReducer from './EventReducer';
 import BettingMarketGroupReducer from './BettingMarketGroupReducer';
 import BettingMarketReducer from './BettingMarketReducer';
@@ -40,7 +39,6 @@ const rootReducer = combineReducers({
   sport: SportReducer,
   eventGroup: EventGroupReducer,
   event: EventReducer,
-  competitor: CompetitorReducer,
   bettingMarketGroup: BettingMarketGroupReducer,
   bettingMarket: BettingMarketReducer,
   bet: BetReducer,

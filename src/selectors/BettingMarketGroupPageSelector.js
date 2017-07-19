@@ -7,7 +7,7 @@ import { CurrencyUtils, StringUtils } from '../utility';
 const {
   getBettingMarketGroupsById,
   getEventsById,
-  getCompetitorsById,
+  getEventGroupsById,
   getSportsById,
   getBettingMarketsById,
   getAssetsById,
@@ -79,49 +79,17 @@ const getEventTime = createSelector(
   }
 )
 
-
-
-const getHomeName = createSelector(
-  [
-    getEvent,
-    getCompetitorsById
-  ],
-  (event, competitorsById) => {
-    let homeName = '';
-    if (event){
-      const homeCompetitorId = event.getIn(['scores', homeId, 'competitor_id']);
-      homeName = competitorsById.getIn([homeCompetitorId, 'name']) || '';
-    }
-    return homeName;
-  }
-)
-
-const getAwayName = createSelector(
-  [
-    getEvent,
-    getCompetitorsById
-  ],
-  (event, competitorsById) => {
-    let awayName = '';
-    if (event){
-      const awayCompetitorId = event.getIn(['scores', awayId, 'competitor_id']);
-      awayName = competitorsById.getIn([awayCompetitorId, 'name']) || '';
-    }
-    return awayName;
-  }
-)
-
 const getSportName = createSelector(
   [
     getEvent,
-    getCompetitorsById,
+    getEventGroupsById,
     getSportsById
   ],
-  (event, competitorsById, sportsById) => {
+  (event, eventGroupsById, sportsById) => {
     let sportName = '';
     if (event){
-      const homeCompetitorId = event.getIn(['scores', homeId, 'competitor_id']);
-      const sportId = competitorsById.getIn([homeCompetitorId, 'sport_id']);
+      const eventGroupId = event.get('event_group_id');
+      const sportId = eventGroupsById.getIn([eventGroupId, 'sport_id']);
       sportName = sportsById.getIn([sportId, 'name']) || '';
     }
     return sportName;
@@ -191,10 +159,8 @@ const getMarketData = createSelector(
     getBettingMarkets,
     getBinnedOrderBooksByBettingMarketId,
     getBettingMarketGroup,
-    getHomeName,
-    getAwayName
   ],
-  (bettingMarkets, binnedOrderBooksByBettingMarketId, bettingMarketGroup, homeName, awayName) => {
+  (bettingMarkets, binnedOrderBooksByBettingMarketId, bettingMarketGroup) => {
     let marketData = Immutable.List();
     bettingMarkets.forEach((bettingMarket, i) => {
       const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarket.get('id'));
@@ -205,8 +171,6 @@ const getMarketData = createSelector(
         .set('name', bettingMarket.get('description'))
         .set('marketTypeId', marketTypeId)
 
-      const homeSelection = homeName ? homeName : data.get('displayName')
-      const awaySelection = awayName ? awayName : data.get('displayName')
 
       //parse market type id to get team name ( for first column in complex betting widget)
       if ( marketTypeId === 'Spread'){
@@ -215,12 +179,12 @@ const getMarketData = createSelector(
         if ( i === homeId ){
           const signedMargin = StringUtils.formatSignedNumber(margin);
           data = data.set('displayedName', bettingMarket.get('description') )
-            .set('name', homeSelection)
+            .set('name',  bettingMarket.get('description'))
             .set('marketTypeValue', signedMargin);
         } else if ( i === awayId ){
           const signedMargin = StringUtils.formatSignedNumber(margin*-1);
           data = data.set('displayedName', bettingMarket.get('description'))
-            .set('name', awaySelection)
+            .set('name',  bettingMarket.get('description'))
             .set('marketTypeValue', signedMargin);
         }
 
@@ -229,22 +193,22 @@ const getMarketData = createSelector(
         const score = bettingMarketGroup.getIn(['options', 'score']);
         if ( i === 0 ){
           data = data.set('displayedName', bettingMarket.get('description') )
-            .set('name', homeSelection)
+            .set('name',  bettingMarket.get('description'))
             .set('marketTypeValue', I18n.t('bettingMarketGroup.over') + score);
         } else if ( i === 1 ){
           data = data.set('displayedName',  bettingMarket.get('description') )
-            .set('name', awaySelection)
+            .set('name',  bettingMarket.get('description'))
             .set('marketTypeValue', I18n.t('bettingMarketGroup.under') + score );
         }
 
       } else if ( marketTypeId === 'Moneyline'){
         data = data.set('marketTypeValue', marketTypeId); // Moneyline has no extra option
-        if ( i === homeId && homeName ){
+        if ( i === homeId){
           data = data.set('displayedName',  bettingMarket.get('description') )
-            .set('name', homeSelection);
-        } else if ( i === awayId && awayName ){
+            .set('name', bettingMarket.get('description'));
+        } else if ( i === awayId){
           data = data.set('displayedName',  bettingMarket.get('description') )
-            .set('name', awaySelection);
+            .set('name', bettingMarket.get('description'));
         }
 
       }
