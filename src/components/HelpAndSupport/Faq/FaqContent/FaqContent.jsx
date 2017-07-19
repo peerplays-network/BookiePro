@@ -1,0 +1,108 @@
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { HelpAndSupportUtils } from '../../../../utility';
+import _ from 'lodash';
+import ReactDOM from 'react-dom';
+import Scroll from 'react-scroll';
+
+const scroll = Scroll.animateScroll;
+
+class FaqContent extends PureComponent {
+  constructor(props) {
+    super(props);
+    // Set initial question answer pairs
+    this.state = {
+      questionAnswerPairs: HelpAndSupportUtils.getQuestionAnswerPairs(props.topic)
+    }
+    // Set initial ref
+    this.qaPairRefs = {};
+    this.renderFaqOverviewPart = this.renderFaqOverviewPart.bind(this);
+    this.renderFaqDetailPart = this.renderFaqDetailPart.bind(this);
+    this.renderFaqTopicHeader = this.renderFaqTopicHeader.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.topic !== nextProps.topic) {
+      // Update question answer pairs
+      this.setState({
+        questionAnswerPairs: HelpAndSupportUtils.getQuestionAnswerPairs(nextProps.topic)
+      })
+    }
+  }
+
+  renderFaqOverviewPart() {
+    const faqOverview = _.map(this.state.questionAnswerPairs, (pair, index) => {
+      const onClick = (event) => {
+        event.preventDefault();
+        // Get reference to the qa pair
+        const qaPairRef = this.qaPairRefs[index];
+        // Get the dom node
+        const domNode = ReactDOM.findDOMNode(qaPairRef);
+        const domNodeOffsetTop = domNode.offsetTop;
+        scroll.scrollTo(domNodeOffsetTop, {
+          containerId: 'main-content-layout'
+        });
+      }
+      return (
+        <a className='faqOverviewHeader' key={ index } onClick={ onClick }>
+          { pair.question }
+        </a>
+      )
+    });
+
+    return (
+      <div className='faqOverviewPart'>
+        { faqOverview }
+      </div>
+    )
+  }
+
+  renderFaqDetailPart() {
+    const faqDetail = _.map(this.state.questionAnswerPairs, (pair, index) => {
+      return (
+        <div
+          className='questionAnswerPair'
+          key={ index }
+          ref={ element => this.qaPairRefs[index] = element /* Set reference for scrolling target */ }
+        >
+          <div key={ 'question' + index } className='question'>{ pair.question }</div>
+          <div key={ 'answer' + index }className='answer'>{ pair.answer }</div>
+        </div>
+      )
+    });
+    return (
+      <div className='faqDetailPart'>
+        { faqDetail }
+      </div>
+    )
+  }
+
+  renderFaqTopicHeader() {
+    const topicHeader = HelpAndSupportUtils.getTopicHeader(this.props.topic);
+    if (topicHeader) {
+      return (
+        <div className='faqTopicHeader'>
+          { topicHeader.toUpperCase() }
+        </div>
+      )
+    }
+  }
+
+  render() {
+    const { className } = this.props;
+    return (
+      <div className={ 'faqContent ' +  ( className || '') } >
+        { this.renderFaqTopicHeader() }
+        { this.renderFaqOverviewPart() }
+        <div className='faqSeparator' />
+        { this.renderFaqDetailPart() }
+      </div>
+    )
+  }
+}
+
+FaqContent.propTypes = {
+  topic: PropTypes.string
+}
+
+export default FaqContent;

@@ -12,6 +12,7 @@ import DummyOperationTypes from './DummyOperationTypes';
 import AppBackgroundTypes from './AppBackgroundTypes';
 import MyWagerTabTypes from './MyWagerTabTypes';
 import ExportTypes from './ExportTypes';
+import FaqTopics from './FaqTopics';
 
 export {
   Config,
@@ -28,4 +29,5 @@ export {
   MyWagerTabTypes,
   ExportTypes,
   ObjectPrefix,
+  FaqTopics
 }

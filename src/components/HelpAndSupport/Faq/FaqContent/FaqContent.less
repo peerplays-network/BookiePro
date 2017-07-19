@@ -1,0 +1,50 @@
+@import '../../../App/Colors.less';
+@import '../../../App/Common.less';
+.faqContent {
+  .faqTopicHeader {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .faqOverviewPart {
+    margin-top: 17px;
+    .faqOverviewHeader {
+      color: white;
+      display: block;
+      font-size: 14px;
+      line-height: 18px;
+      &:not(:first-child) {
+        margin-top: 12px;
+      }
+      &:hover {
+        color: @light_blue_1;
+      }
+    }
+  }
+  .faqSeparator {
+    margin-top: 17px;
+    background-color: @light_blue_1;
+    height: 1px;
+  }
+  .faqDetailPart {
+    margin-top: 17px;
+    .questionAnswerPair {
+      .question {
+        line-height: 18px;
+        color: white;
+        font-weight: bold;
+        font-size: 16px;
+        white-space: pre-wrap;
+      }
+      .answer {
+        margin-top: 20px;
+        line-height: 18px;
+        color: white;
+        font-size: 16px;
+        white-space: pre-wrap;
+      }
+      &:not(:first-child) {
+        margin-top: 20px;
+      }
+    }
+  }
+}

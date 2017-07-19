@@ -711,50 +711,449 @@ export const translationsObject = {
     },
     help: {
       title: 'HELP AND SUPPORT',
+      header: 'FAQ',
+      topicOverview: {
+        header: 'Overview',
+        questionAnswerPairs: [
+          {
+            question: 'What is Bookie?',
+            answer: 'Bookie is a betting exchange where people from all over the world can bet on sports.'
+          },
+          {
+            question: 'How is Bookie different from a regular sportsbook?',
+            answer: 'When you bet with a sportsbook, your wager is matched by the “house” (the sportsbook operator). ' +
+            'If you win this bet, this sportsbook operator pays you directly. ' +
+            'Bookie has no house. Instead, Bookie matches your bet with other users who want to bet against you.'
+          },
+          {
+            question: 'How does the Bookie betting exchange work?',
+            answer: 'A betting exchange is similar to a stock exchange. A stock exchange matches orders between anyone' +
+            ' who wants to buy and sell stocks. A betting exchange matches the orders between anyone who wants to place or take bets.'
+          },
+          {
+            question: 'How do I find someone to bet with?',
+            answer: 'Bookie automatically matches bets between you and other users from around the world. All you have to do is choose a sport and event to bet on, tell Bookie how ' +
+            'much you want to bet, and post the funds to cover your bet. Bookie takes care of the rest - matching your bet at best available price, holding all funds in escrow, and then releasing ' +
+            'the funds to the winner when the sports event is finished.'
+          },
+
+          {
+            question: 'How is Bookie different from other betting exchanges?',
+            answer: 'Traditional betting exchanges operate the software which matches your bets on a centralized server. On Bookie, the software that matches your bets operates ' +
+            'on a public blockchain. This makes Bookie transparent and accessible from every country on Earth.'
+          },
+          {
+            question: 'Is there a charge for me to bet with Bookie?',
+            answer: 'Yes. Bookie charges Commission on' +
+            ' all net winnings in a market. Bookie\'s Commission rate is the lowest in the industry. Bookie also charges a tiny Network Fee for each transaction users make. For more information ' +
+            'on Commission and Network Fee, please click here'
+          },
+          {
+            question: 'Will Bookie restrict my account if I win too much?',
+            answer: 'No. Bookie does not close or limit the accounts of users, unlike many sportsbooks and betting exchanges.'
+          },
+          {
+            question: 'What currencies can I bet with on Bookie?',
+            answer: 'Bookie is capable of accepting all digital currencies, but since Bitcoin is the most widely traded and liquid digital currency right now, ' +
+            'Bookie is a “Bitcoin-only” desktop application.'
+          }
+        ],
+      },
+      topicAccount: {
+        header: 'Account management, security',
+        questionAnswerPairs: [
+          {
+            question: 'How do I sign up for a Bookie account?',
+            answer: 'Opening an account with Bookie is very quick and very simple. Click the SIGN UP button on the Bookie app front page and follow the on-screen instructions. \n' +
+            '\n' +
+            '1.\tChoose an Account Name. The Account Name should contain at least one number.\n' +
+            '2.\tA random 22-character password is automatically generated for you. Copy and paste this password into the password confirmation box. ' +
+            'It is IMPORTANT that you back up or save your password securely.\n' +
+            '3.\tDownload the file containing your password (this is one way of backing-up your password)\n' +
+            '4.\tTick the two boxes if you agree XXX\n' +
+            '5.\tClick the XXX button'
+          },
+          {
+            question: 'Will I need to provide any ID, proof of address, or other personal documentation when signing up for a Bookie account?',
+            answer: 'No. Bookie does not require any personal information for Account creation.'
+          },
+          {
+            question: 'What personal information does Bookie hold about me?',
+            answer: 'Bookie does not store or hold any personal information about you whatsoever, not even your name.'
+          },
+          {
+            question: 'Is Bookie safe/secure?',
+            answer: 'answer'
+          },
+
+          {
+            question: 'Does Bookie track or store my IP address or any other such data?',
+            answer: 'Bookie does not store or track user IP addresses, mac addresses or any other such identifying information.'
+          },
+          {
+            question: 'What information do I need to log in to my Bookie account?',
+            answer: 'Only two items of information are' +
+            ' required to log in to Bookie: \n' +
+            '1.\t User name \n' +
+            '2.\t Password \n' +
+            'It is important that you save your Bookie' +
+            'password in a secure offline place. \n' +
+            'See below for more information regarding Bookie password.'
+          },
+          {
+            question: 'How do I recover my Bookie password?',
+            answer: 'There is no way to recover your Bookie password. If you lose your Bookie password you will not be able to log in to your Bookie account and you will lose access to ' +
+            'all funds in that account forever. When creating a Bookie account, every user is prompted to save a file containing the password to their hard drive. Users should also save ' +
+            'their password in a secure place offline. Never share your password with anyone.'
+          },
+          {
+            question: 'I’ve lost my Bookie password, what should I do?',
+            answer: 'If you lose your Bookie password, you will not be able to log in to your Bookie account again. Ever. All funds in that account will remain untouched but inaccessible.'
+          },
+          {
+            question: 'Who can I share my password with?',
+            answer: 'NEVER share your password with anyone. You are the ONLY person who knows your password - keep it that way! Only enter your password into the ' +
+            'Bookie application, never anywhere else.'
+          },
+          {
+            question: 'Can I change my password?',
+            answer: 'Yes. Go to My Account, which is accessible on the far right of the Menu bar. From there, click on CHANGE PASSWORD and follow the instructions. ' +
+            'Your new password must contain 22 characters. Characters can be letters (both upper- and lower-case) and numbers.'
+          },
+          {
+            question: 'Can I open more than one Bookie account?',
+            answer: 'Yes, this is allowed. This may be useful for users who are trying to separate different kinds of betting activity and/or strategies. ' +
+            'There is no cost for opening a new Bookie account.'
+          },
+          {
+            question: 'Can I open a Bookie account from anywhere in the world?',
+            answer: 'Bookie places no geographical restrictions on the location of its users. However XXXX all users are responsible for checking local laws etc XXXX'
+          },
+          {
+            question: 'Can I change my Account Name?',
+            answer: 'No, the Account Name cannot be changed after the account has been created. However, a new account can be created with a different ' +
+            'username and funds can then be transferred between the two accounts.'
+          },
+          {
+            question: 'Can I login to my account from multiple devices?',
+            answer: 'Yes. Simply download the Bookie app to a second device and log in using your Account Name and password. No further information is required to log in to your Bookie account.'
+          },
+          {
+            question: 'Why can’t I access my Bookie account?',
+            answer: 'answer'
+          },
+          {
+            question: 'Where can I view all my current bets?',
+            answer: 'answer'
+          },
+          {
+            question: 'Where can I view my bet history?',
+            answer: 'answer'
+          },
+          {
+            question: 'Where can I view all my Bookie transactions?',
+            answer: 'answer'
+          }
+        ],
+      },
+      topicFunds: {
+        header: 'Funds',
+        questionAnswerPairs: [
+          {
+            question: 'What currencies can I bet with on Bookie?',
+            answer: 'Bitcoin is the only currency that can be used on Bookie right now. Bookie is capable of accepting all digital currencies, but since Bitcoin is the ' +
+            'most widely traded and ' +
+            'liquid digital currency right now, Bookie is a “Bitcoin-only” desktop application at the current time. Other digital currencies may be enabled in the future. '
+          },
+          {
+            question: 'How do I get Bitcoin?',
+            answer: 'XX'
+          },
+          {
+            question: 'How do I deposit funds (Bitcoin) with Bookie?',
+            answer: 'answer'
+          },
+          {
+            question: 'How do I withdraw funds (Bitcoin) from Bookie?',
+            answer: 'answer'
+          },
+
+          {
+            question: 'Can I cancel my withdrawal request?',
+            answer: 'answer'
+          },
+          {
+            question: 'Can I set a daily withdrawal limit?',
+            answer: 'answer'
+          },
+          {
+            question: 'When I leave funds in Bookie, are they secure?',
+            answer: 'answer'
+          },
+          {
+            question: 'Does Bookie use encrypted, secure connections?',
+            answer: 'answer'
+          }
+        ],
+      },
+      topicBetting: {
+        header: 'Betting',
+        questionAnswerPairs: [
+          {
+            question: 'How do I place a bet on Bookie?',
+            answer: 'Normally, when you bet with a' +
+            ' sportsbook, you are backing something to' +
+            ' happen.For example, you are backing \n' +
+            'Bookie is a betting exchange. This means that you can back (like normal) AND you can lay (like a sportsbook).'
+          },
+          {
+            question: 'What is a Selection? What is a Market?',
+            answer: 'answer'
+          },
+          {
+            question: 'What is a ‘back’ bet?',
+            answer: 'answer'
+          },
+          {
+            question: 'What is a ‘lay’ bet?',
+            answer: 'answer'
+          },
+          {
+            question: 'What is a ‘matched’ or ‘unmatched’ bet?',
+            answer: 'answer'
+          },
+          {
+            question: 'What is “Market Exposure”?',
+            answer: 'answer'
+          },
+          {
+            question: 'What odds can I bet at?',
+            answer: 'answer'
+          },
+          {
+            question: 'Is there a minimum/maximum bet amount?',
+            answer: 'answer'
+          },
+          {
+            question: 'How do I cancel a bet?',
+            answer: 'A user can cancel ‘unmatched’ bets at any time. Simply browse to the market in question, selecting XXX tab in the Betting drawer? and simply clicking ‘X’ next to the unmatched ' +
+            'bet in question. Users can also cancel bets from the Unmatched Bets tab on the My Bets section.Please be aware: once a bet (or any part of a bet) is ‘matched’ it cannot be cancelled.'
+          },
+          {
+            question: 'What is Live betting?',
+            answer: 'Live betting is when you bet during the actual event/match/game. Bookie offers Live betting on many different Events. All bets placed ' +
+            'before a match goes live (turned In-Play XXXX terminology….) will be cancelled when the market goes in-play.'
+          },
+          {
+            question: 'Why is there a delay in submitting a new or edited bet in Live betting?',
+            answer: 'Bookie introduces a delay of between 3 and 10 seconds to all new and edited bets being submitted to a Live market. This is to minimize ' +
+            'the advantage that can be gained by certain user having more recent access to new events in a match or game (for example, if they are attending ' +
+            'the actual event in person). In this way, Bookie levels the playing field for everyone and ensures a proper balance in Live markets between functionality and fairness. \n' +
+            'Please note that there is no delay involved when cancelling a bet in a Live market.'
+          },
+          {
+            question: 'How does Bookie decide which bets are winners, and which are losers?',
+            answer: 'On Bookie, there are two processes' +
+            ' for deciding winning and losing bets: \n' +
+            '1. Grading\n ' +
+            'Grading is when each selection in a market is tagged either as a winner or a loser Grading happens typically within 30 minutes of a market closing.\n' +
+            'Bets can also be graded as “void bets” in' +
+            ' which case all stakes are returned. \n' +
+            '2. Settling\n' +
+            'Once grading'
+          },
+          {
+            question: 'How are Dead heat bets settled?',
+            answer: 'X'
+          },
+          {
+            question: 'I believe my bet has been graded incorrectly. What can I do?',
+            answer: 'After Grading - (Notification) Check and Escalate. Wait (another notification)'
+          },
+          {
+            question: 'I believe my bet has been settled incorrectly. What can I do?',
+            answer: 'A settled bet on Bookie (i.e. where funds have been paid out as winning bets) is final and irreversible. Funds cannot be reclaimed from accounts ' +
+            'once they have been settled (paid out) by Bookie. ' +
+            'Users have an opportunity to contest grading (see above) but not settlement.'
+          },
+          {
+            question: 'How long after an Event finishes do bets get settled?',
+            answer: 'Bets are normally settled within one hour of the event finishing.'
+          },
+          {
+            question: 'How long will it take to refund if the market is voided?',
+            answer: 'answer'
+          },
+          {
+            question: 'What is the source of the betting information on Bookie?',
+            answer: 'answer'
+          },
+          {
+            question: 'I don’t see the sport/event that I am interested on Bookie, why not?',
+            answer: 'answer'
+          },
+          {
+            question: 'Can I create a new market?',
+            answer: 'Nope'
+          },
+          {
+            question: 'Can I offer a new odds?',
+            answer: 'Yes'
+          }
+        ],
+      },
+      topicFees: {
+        header: 'Commision & Fees',
+        questionAnswerPairs: [
+          {
+            question: 'What charges does Bookie make on users?',
+            answer: 'Bookie has two different charges: \n' +
+            '1. Commission \n' +
+            '2. Network Fee'
+          },
+          {
+            question: 'What is Commission?',
+            answer: 'answer'
+          },
+          {
+            question: 'What is Network Fee?',
+            answer: 'Unlike Commission, the Network Fee is charged regardless of if you are Net winner in a Market. Network Fee is not refunded.'
+          },
+          {
+            question: 'Will I be charged Commission if my bet loses?',
+            answer: 'answer'
+          }
+        ],
+      },
+      topicSports: {
+        header: 'Sports / Markets',
+        questionAnswerPairs: [
+          {
+            question: 'Will Bookie include other type of sports in the future?',
+            answer: 'answer'
+          }
+        ],
+      },
+      topicRules: {
+        header: 'Rules',
+        questionAnswerPairs: [
+          {
+            question: 'question',
+            answer: 'answer'
+          }
+        ],
+      },
+      topicAbout: {
+        header: 'About Bookie',
+        questionAnswerPairs: [
+          {
+            question: 'Who owns Bookie?',
+            answer: 'No single person, company, or central authority owns Bookie. The Bookie betting exchange is an application that interfaces with the Peerplays ' +
+            'blockchain. The holders of Peerplays blockchain tokens (called ‘PPY’) are in charge of voting to maintain consensus about the management of the network.'
+          },
+          {
+            question: 'What is a blockchain?',
+            answer: 'A blockchain is a digital database managed by a decentralized collective of digital stakeholders.Blockchains use advanced cryptographic techniques ' +
+            'to securely record your transactions on a public network. Bookie runs on the Peerplays blockchain, which is custom-built to support online gambling.'
+          },
+          {
+            question: 'Where do Bookie’s revenues go?',
+            answer: 'All profits generated by Bookie (commission and network fees) are paid out at regular intervals to anyone who holds PPY tokens.'
+          },
+          {
+            question: 'How can I become a PPY Token holder and share in the profits from Bookie?',
+            answer: 'PPY tokens can be bought on a number of exchanges.'
+          },
+
+          {
+            question: 'Who is the team behind Bookie?',
+            answer: 'The development of Bookie has been supported by the Peerplays Blockchain Standards Association (PBSA), a non-profit organization based in Canada and dedicated to promoting ' +
+            'transparent and fair gaming standards for the Peerplays blockchain. For more information please visit www.pbsa.info.'
+          },
+        ],
+      },
+      topicMisc: {
+        header: 'Miscellanous',
+        questionAnswerPairs: [
+          {
+            question: 'Can I use Bookie on my mobile?',
+            answer: 'The Bookie mobile app (android) will launch in Q1 2018. Bookie will first be made available as a desktop application, launching in Q4 2017.'
+          },
+          {
+            question: 'Can I build a bot on Peerplays blockchain? ',
+            answer: 'answer'
+          },
+          {
+            question: 'Does Bookie have an API for integration with third party trading software?',
+            answer: 'answer'
+          },
+          {
+            question: 'Is it necessary to update Bookie when a new version is available?',
+            answer: '[milli-bitcoin, 1mB = 0.0001 bitcoin]'
+          },
+          {
+            question: 'What is mB?',
+            answer: 'answer'
+          },
+          {
+            question: 'What should I do if Bookie indicates an offline status?',
+            answer: 'answer'
+          },
+          {
+            question: 'What are the minimum system requirements for running the Bookie app?',
+            answer: 'answer'
+          },
+          {
+            question: 'Will there be new features added to Bookie?',
+            answer: '[e.g. Cash Out? Bet view?]'
+          }
+        ],
+      },
+      // TODO: the following should be deprecated but floating help is still referring to these
+      // Revisit this after the floating help is revamped
       question1: 'What is Bookie Pro?',
       answer1: 'Bookie Pro is a betting exchange where people from all over the world can bet on sports.',
       question2: 'How is Bookie Pro different from a regular sportsbook?',
       answer2: 'When you bet with a sportsbook, your wager is matched by the “house”' +
-       '(the sportsbook operator). If you win this bet, this sportsbook operator pays you directly.' +
-       'Bookie Pro has no house. Instead, Bookie Pro matches your bet with other users who want to bet against you.',
+      '(the sportsbook operator). If you win this bet, this sportsbook operator pays you directly.' +
+      'Bookie Pro has no house. Instead, Bookie Pro matches your bet with other users who want to bet against you.',
       question3: 'Who owns Bookie Pro?',
       answer3: 'No single person, company, or central authority owns Bookie Pro. The Bookie Pro betting exchange ' +
-        'is an application that interfaces with the Peerplays blockchain. The holders of Peerplays blockchain ' +
-        'tokens (called ‘PPY’) are in charge of voting to maintain consensus about the management of the network.',
+      'is an application that interfaces with the Peerplays blockchain. The holders of Peerplays blockchain ' +
+      'tokens (called ‘PPY’) are in charge of voting to maintain consensus about the management of the network.',
       question4: 'What is a blockchain?',
       answer4: 'A blockchain is a digital database managed by a decentralized collective of digital stakeholders. ' +
-        'Blockchains use advanced cryptographic techniques to securely record your transactions on a public network. ' +
-        'Bookie Pro runs on the Peerplays blockchain, which is custom-built to support online gambling.',
+      'Blockchains use advanced cryptographic techniques to securely record your transactions on a public network. ' +
+      'Bookie Pro runs on the Peerplays blockchain, which is custom-built to support online gambling.',
       question5: 'How does the Bookie Pro betting exchange work?',
       answer5: 'A betting exchange is similar to a stock exchange. A stock exchange matches orders between anyone who ' +
       'wants to buy and sell stocks. A betting exchange matches the orders between anyone who wants to place or take bets.',
       question6: 'How do I find someone to bet with?',
       answer6: 'Bookie Pro automatically matches bets between you and other users from around the world. ' +
-        'All you have to do is choose a sport and event to bet on, tell Bookie Pro how much you want to bet, ' +
-        'and post the funds to cover your bet. Bookie Pro takes care of the rest - matching your bet at best available price, ' +
-        'holding all funds in escrow, and then releasing the funds to the winner when the sports event is finished.',
+      'All you have to do is choose a sport and event to bet on, tell Bookie Pro how much you want to bet, ' +
+      'and post the funds to cover your bet. Bookie Pro takes care of the rest - matching your bet at best available price, ' +
+      'holding all funds in escrow, and then releasing the funds to the winner when the sports event is finished.',
       question7: 'How is Bookie Pro different from other betting exchanges?',
       answer7: 'Traditional betting exchanges operate the software which matches your bets on a centralized server. ' +
-        'On Bookie Pro, the software that matches your bets operates on a public blockchain. This makes Bookie Pro transparent ' +
-        'and accessible from every country on Earth.',
+      'On Bookie Pro, the software that matches your bets operates on a public blockchain. This makes Bookie Pro transparent ' +
+      'and accessible from every country on Earth.',
       question8: 'Will Bookie Pro take a cut or \'rake\' of my winnings?',
       answer8: 'No. In contrast to other betting exchanges, Bookie Pro does not take a commission on winning bets. ' +
-        'Instead, Bookie Pro charges a small commission on each bet when it is matched. This fee is calculated as a ' +
-        'percentage of the betting stake.',
+      'Instead, Bookie Pro charges a small commission on each bet when it is matched. This fee is calculated as a ' +
+      'percentage of the betting stake.',
       question9: 'Will Bookie Pro restrict my account if I win too much?',
       answer9: 'No. Bookie Pro does not close or limit the accounts of users, unlike many sportsbooks and betting exchanges. ' +
-        'Bookie Pro welcomes winners!',
+      'Bookie Pro welcomes winners!',
       question10: 'What currencies can I bet with on Bookie Pro?',
       answer10: 'Bookie Pro is capable of accepting all digital currencies, but since Bitcoin is the most widely traded and ' +
-        'liquid digital currency right now, Bookie Pro will be launched as a “Bitcoin-only” desktop application.',
+      'liquid digital currency right now, Bookie Pro will be launched as a “Bitcoin-only” desktop application.',
       question11: 'Where do Bookie Pro’s revenues go?',
       answer11: 'All profits generated by Bookie Pro are paid out at regular intervals to anyone who holds PPY tokens.',
       question12: 'Can I use Bookie Pro on my mobile?',
       answer12: 'The Bookie Pro mobile app will launch in Q1 2018. Bookie Pro will first be made available as a desktop application, launching in Q4 2017.',
       question13: 'Who is the team behind Bookie Pro?',
       answer13: 'The development of Bookie Pro has been supported by the Peerplays Blockchain Standards Association (PBSA), ' +
-        'a non-profit organization based in Canada and dedicated to promoting transparent and fair gaming standards for the Peerplays blockchain.',
-
+      'a non-profit organization based in Canada and dedicated to promoting transparent and fair gaming standards for the Peerplays blockchain.',
     }
   }
 };
