@@ -21,7 +21,6 @@ class EventGroup extends PureComponent {
         <SportBanner sport={ sportName }/>
         <SimpleBettingWidget
           sportName={ sportName }
-
           title={ eventGroupName }
           events={ events }
           currencyFormat={ currencyFormat }

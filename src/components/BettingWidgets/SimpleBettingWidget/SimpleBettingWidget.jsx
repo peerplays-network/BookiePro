@@ -27,77 +27,8 @@ const renderEventTime = (text, record) => {
 }
 
 const getColumns = (renderOffer, navigateTo, currencyFormat, sportName) =>  {
-
-
-  // 1 = home , 2 = away 3 = draw
-  if ( sportName === 'American Football'){
-    return ([
-      {
-        dataIndex: 'time',
-        key: 'time',
-        width: eventTimeColumnWidth,
-        className: 'event-time',
-        render: renderEventTime
-      }, {
-        dataIndex: 'event_name',
-        key: 'event_name',
-        // Do not specify width so the column
-        // will grow/shrink with the size of the table
-        className: 'event-name',
-        render: (text, record) => EventNameUtils.breakAtVs(record.get('event_name')),
-        onCellClick: (record, event) => {
-          record.get('moneyline') && navigateTo('/exchange/bettingmarketgroup/' + record.get('moneyline'))
-        }
-      }, {
-        title: '1',
-        children: [{
-          dataIndex: 'back_offer_home',
-          key: 'back_offer_home',
-          width: offerColumnWidth,
-          className: 'back-offer',
-          render: renderOffer('back', 'lay', 1, currencyFormat)
-        }, {
-          dataIndex: 'lay_offer_home',
-          key: 'lay_offer_home',
-          width: offerColumnWidth,
-          className: 'lay-offer',
-          render: renderOffer('lay', 'back', 1, currencyFormat)
-        }]
-      }, {
-        title: 'X',
-        children: [{
-          dataIndex: 'back_offer_draw',
-          key: 'back_offer_draw',
-          width: offerColumnWidth,
-          className: 'back-offer',
-          render: renderOffer('back', 'lay', 3, currencyFormat)
-        }, {
-          dataIndex: 'lay_Offer_away',
-          key: 'lay_offer_draw',
-          width: offerColumnWidth,
-          className: 'lay-offer',
-          render: renderOffer('lay', 'back', 3, currencyFormat)
-        }]
-      }, {
-        title: '2',
-        children: [{
-          dataIndex: 'back_offer_away',
-          key: 'back_offer_away',
-          width: offerColumnWidth,
-          className: 'back-offer',
-          render: renderOffer('back', 'lay', 2, currencyFormat)
-        }, {
-          dataIndex: 'lay_Offer_away',
-          key: 'lay_offer_away',
-          width: offerColumnWidth,
-          className: 'lay-offer',
-          render: renderOffer('lay', 'back', 2, currencyFormat)
-        }]
-      }
-    ]);
-  }
-
-  return ([
+  // 1 = home , 2 = away, 3 = draw
+  let columns = [
     {
       dataIndex: 'time',
       key: 'time',
@@ -130,6 +61,21 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName) =>  {
         render: renderOffer('lay', 'back', 1, currencyFormat)
       }]
     }, {
+      title: 'X',
+      children: [{
+        dataIndex: 'back_offer_draw',
+        key: 'back_offer_draw',
+        width: offerColumnWidth,
+        className: 'back-offer',
+        render: renderOffer('back', 'lay', 3, currencyFormat)
+      }, {
+        dataIndex: 'lay_Offer_away',
+        key: 'lay_offer_draw',
+        width: offerColumnWidth,
+        className: 'lay-offer',
+        render: renderOffer('lay', 'back', 3, currencyFormat)
+      }]
+    }, {
       title: '2',
       children: [{
         dataIndex: 'back_offer_away',
@@ -145,8 +91,15 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName) =>  {
         render: renderOffer('lay', 'back', 2, currencyFormat)
       }]
     }
-  ]);
+  ];
+
+  if (sportName.toUpperCase() !== 'SOCCER') {
+    columns.splice(3, 1);   // remove the X column group
+  }
+
+  return columns;
 }
+
 const renderTitle = (title) => (
   <div className='title'>
     <div className='sport'>{ title }</div>
