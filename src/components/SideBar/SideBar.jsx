@@ -119,7 +119,7 @@ class SideBar extends PureComponent {
       navigateTo('/exchange/');
     } else {
       if ( node.customComponent.toLowerCase() === 'event'){
-        const moneyline = node.children.filter((mktGroup) => mktGroup.market_type_id === 'Moneyline');
+        const moneyline = node.children.filter((mktGroup) => mktGroup.description.toUpperCase() === 'MONEYLINE');
         if ( moneyline.length > 0){
           navigateTo('/exchange/bettingmarketgroup/' + moneyline[0].id );
         } else {

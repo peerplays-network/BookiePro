@@ -123,7 +123,7 @@ class SearchMenu extends PureComponent {
       const keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === event.event_id) );
       const moneyline = nested.getIn(keyPath).get('children').filter((mktGroup) =>
         //NOTE if type id is not in string format please change it
-        mktGroup.get('market_type_id') === 'Moneyline'
+        mktGroup.get('description').toUpperCase() === 'MONEYLINE'
       )
 
       if ( moneyline.size > 0 ){

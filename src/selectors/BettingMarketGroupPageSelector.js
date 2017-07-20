@@ -1,8 +1,7 @@
 import { createSelector } from 'reselect';
-import { I18n } from 'react-redux-i18n';
 import Immutable from 'immutable';
 import CommonSelector from './CommonSelector';
-import { CurrencyUtils, StringUtils } from '../utility';
+import { CurrencyUtils } from '../utility';
 
 const {
   getBettingMarketGroupsById,
@@ -164,53 +163,15 @@ const getMarketData = createSelector(
     let marketData = Immutable.List();
     bettingMarkets.forEach((bettingMarket, i) => {
       const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarket.get('id'));
-
-      const marketTypeId = bettingMarketGroup.get('market_type_id');
-
       let data = Immutable.Map().set('displayName', bettingMarket.get('description'))
-        .set('name', bettingMarket.get('description'))
-        .set('marketTypeId', marketTypeId)
+        .set('name', bettingMarket.get('description'));
 
-
-      //parse market type id to get team name ( for first column in complex betting widget)
-      if ( marketTypeId === 'Spread'){
-
-        const margin = bettingMarketGroup.getIn(['options', 'margin']);
-        if ( i === homeId ){
-          const signedMargin = StringUtils.formatSignedNumber(margin);
-          data = data.set('displayedName', bettingMarket.get('description') )
-            .set('name',  bettingMarket.get('description'))
-            .set('marketTypeValue', signedMargin);
-        } else if ( i === awayId ){
-          const signedMargin = StringUtils.formatSignedNumber(margin*-1);
-          data = data.set('displayedName', bettingMarket.get('description'))
-            .set('name',  bettingMarket.get('description'))
-            .set('marketTypeValue', signedMargin);
-        }
-
-      } else if ( marketTypeId === 'OverUnder'){
-
-        const score = bettingMarketGroup.getIn(['options', 'score']);
-        if ( i === 0 ){
-          data = data.set('displayedName', bettingMarket.get('description') )
-            .set('name',  bettingMarket.get('description'))
-            .set('marketTypeValue', I18n.t('bettingMarketGroup.over') + score);
-        } else if ( i === 1 ){
-          data = data.set('displayedName',  bettingMarket.get('description') )
-            .set('name',  bettingMarket.get('description'))
-            .set('marketTypeValue', I18n.t('bettingMarketGroup.under') + score );
-        }
-
-      } else if ( marketTypeId === 'Moneyline'){
-        data = data.set('marketTypeValue', marketTypeId); // Moneyline has no extra option
-        if ( i === homeId){
-          data = data.set('displayedName',  bettingMarket.get('description') )
-            .set('name', bettingMarket.get('description'));
-        } else if ( i === awayId){
-          data = data.set('displayedName',  bettingMarket.get('description') )
-            .set('name', bettingMarket.get('description'));
-        }
-
+      if ( i === homeId){
+        data = data.set('displayedName',  bettingMarket.get('description') )
+          .set('name', bettingMarket.get('description'));
+      } else if ( i === awayId){
+        data = data.set('displayedName',  bettingMarket.get('description') )
+          .set('name', bettingMarket.get('description'));
       }
 
       const aggregated_lay_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();

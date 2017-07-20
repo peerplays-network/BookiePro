@@ -5,7 +5,6 @@ import EventActions from './EventActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
 import MarketDrawerActions from './MarketDrawerActions';
 import LiquidityActions from './LiquidityActions';
-import { resolveBettingMarketGroupDisplayName } from './dataUtils';
 import log from 'loglevel';
 
 class BettingMarketGroupPagePrivateActions {
@@ -53,7 +52,7 @@ class BettingMarketGroupPageActions {
           dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)),
           dispatch(EventActions.getEventsByIds([eventId])),
           dispatch(LiquidityActions.getTotalMatchedBetsByBettingMarketGroupIds([bettingMktGrpId])),
-          dispatch(BettingMarketGroupPagePrivateActions.setWidgetTitle(resolveBettingMarketGroupDisplayName(bettingMarketGroup)))
+          dispatch(BettingMarketGroupPagePrivateActions.setWidgetTitle(bettingMarketGroup.get('description')))
         ]);
       }).then((result) => {
 

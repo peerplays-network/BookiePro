@@ -2,7 +2,6 @@ import { ActionTypes, ConnectionStatus } from '../constants';
 import Immutable from 'immutable';
 import moment from 'moment';
 import BetActions from './BetActions';
-import { resolveMarketTypeValue } from './dataUtils';
 import { CurrencyUtils } from '../utility';
 
 class MarketDrawerPrivateActions {
@@ -172,7 +171,7 @@ class MarketDrawerPrivateActions {
 }
 
 class MarketDrawerActions {
-  static createBet(team, bet_type, betting_market_id, market_type_id, market_type_value, odds = '') {
+  static createBet(team, bet_type, betting_market_id, odds = '') {
     return (dispatch, getState) => {
       const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', betting_market_id]);
       const bettingMarketGroupId = bettingMarket && bettingMarket.get('betting_market_group_id');
@@ -183,8 +182,6 @@ class MarketDrawerActions {
         team,
         bet_type,
         betting_market_id,
-        market_type_id,
-        market_type_value,
         odds,
         betting_market_description: bettingMarketDescription,
         betting_market_group_description: bettingMarketGroupDescription,
@@ -283,9 +280,7 @@ class MarketDrawerActions {
           const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
           const bettingMarketDescription = bettingMarket && bettingMarket.get('description');
           const precision = assetsById.get(bettingMarket.get('bet_asset_type')).get('precision');
-          return bet.set('market_type_id', bettingMarketGroup.get('market_type_id'))
-                    .set('market_type_value', resolveMarketTypeValue(bettingMarketGroup, bet.get('betting_market_id')))
-                    .set('betting_market_description', bettingMarketDescription)
+          return bet.set('betting_market_description', bettingMarketDescription)
                     .set('betting_market_group_description', bettingMarketGroupDescription)
                     .set('asset_precision', precision);     // set this and use in reducer
         });

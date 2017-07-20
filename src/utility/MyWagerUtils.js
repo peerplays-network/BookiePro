@@ -20,33 +20,6 @@ const mergeRelationData = (collection, relationalCollection, relationId, mergeCo
   return collection;
 }
 
-//merge betting market group data to bets for display
-//created seperate function otherwise column data with the same column name will be replaced in main data;
-const mergeBettingMarketGroup = (data, relData, col) => {
-  data.forEach((row, index) => {
-    var matchObj = relData.get(row.get(col));
-    if(matchObj){
-      row = row.set('event_id', matchObj.get('event_id'));
-      row = row.set('market_type_id', matchObj.get('market_type_id'));
-      if(matchObj.get('market_type_id') === 'Moneyline'){
-        row = row.set('options', '');
-      }
-      else if(matchObj.get('market_type_id') === 'Spread'){
-        if(matchObj.get('options').get('margin') > 0)
-          row = row.set('options', ('+' + matchObj.get('options').get('margin')));
-        else
-          row = row.set('options', matchObj.get('options').get('margin'));
-      }
-      else{
-        row = row.set('options', matchObj.get('options').get('score'));
-      }
-      data[index] = row;
-    }
-  })
-  return data;
-}
-
-
 const getUnmatchedBetsColumns = (currencyFormat, onCancelBetClick, onEventClick) => {
   const currencySymbol = '(' + CurrencyUtils.getCurruencySymbol(currencyFormat) + ')';
   const profitLiabilityTitle  = <Translate value='mybets.profit_liability' currency={ currencySymbol } dangerousHTML/> ;
@@ -182,7 +155,6 @@ const getResolvedBetsColumns = (currencyFormat) => {
 
 const MyWagerUtils = {
   mergeRelationData,
-  mergeBettingMarketGroup,
   getUnmatchedBetsColumns,
   getMatchedBetsColumns,
   getResolvedBetsColumns

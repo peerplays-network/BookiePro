@@ -88,8 +88,6 @@ class ComplexBettingWidget extends PureComponent {
           .setIn([i, 'firstColumn'], {
             'name': tableData.getIn([i, 'name']),
             'displayedName': tableData.getIn([i, 'displayedName']),
-            'marketTypeId': tableData.getIn([i, 'marketTypeId']),
-            'marketTypeValue': tableData.getIn([i, 'marketTypeValue']),
             'market_exposure': market_exposure,
             'betslip_exposure': parseFloat(betslip_exposure) !== 0 ?  betslip_exposure : undefined })
 
@@ -147,10 +145,7 @@ class ComplexBettingWidget extends PureComponent {
     // Only need the odds value
     const odds = offer && offer.get('odds');
     const bettingMarketId = rowInfo.row.offer.bettingMarketId;
-    this.props.createBet(competitor, betType, bettingMarketId,
-                         rowInfo.rowValues.firstColumn.marketTypeId,
-                         rowInfo.rowValues.firstColumn.marketTypeValue,
-                         odds);
+    this.props.createBet(competitor, betType, bettingMarketId, odds);
   }
 
   placeAllBestBets(event) {
@@ -163,8 +158,7 @@ class ComplexBettingWidget extends PureComponent {
       const odds = offer && offer.get('odds');
       const bettingMarketId = row.getIn( ['offer', 'bettingMarketId'])
 
-      this.props.createBet(competitor, betType, bettingMarketId, row.get('marketTypeId'),
-                           row.get('marketTypeValue'), odds);
+      this.props.createBet(competitor, betType, bettingMarketId, odds);
     });
 
 
@@ -353,9 +347,19 @@ class ComplexBettingWidget extends PureComponent {
         </div>
     }]
 
-    //TODO using string for market_type_id instead of 1.xxxx.x
+    // TODO using string for market_type_id instead of 1.xxxx.x
+    // TODO: this is temporary solution to allow CR37 be implemented without breaking existing change, later, change this with rule object
+    const description = bettingMarketGroup.get('description').toUpperCase();
+    let marketType = '';
+    if (description.startsWith('MONEYLINE')) {
+      marketType = 'Moneyline';
+    } else if (description.startsWith('SPREAD')) {
+      marketType = 'Spread';
+    } else if (description.startsWith('OVER')) {
+      marketType = 'OverUnder';
+    }
     const ruleModalText =  ( bettingMarketGroup && sportName  &&
-      'rules_dialogue.' + sportName.replace(/\s/g,'') + '.' + bettingMarketGroup.get('market_type_id') + '.content' ) || 'rules_dialogue.content'
+      'rules_dialogue.' + sportName.replace(/\s/g,'') + '.' + marketType + '.content' ) || 'rules_dialogue.content'
 
     //retrieve system language when running in Electron app
     const currentLocale = window.navigator.language || window.navigator.userLanguage;
