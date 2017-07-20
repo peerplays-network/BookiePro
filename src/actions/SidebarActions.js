@@ -17,9 +17,8 @@ class SidebarActions {
       // Get sports
       dispatch(SportActions.getAllSports()).then((sports) => {
         retrievedSportIds = sports.map( sport => sport.get('id'));
-        const eventGroupIds = sports.flatMap( sport => sport.get('event_group_ids'));
         // Get event groups related to the sports
-        return dispatch(EventGroupActions.getEventGroupsByIds(eventGroupIds));
+        return dispatch(EventGroupActions.getEventGroupsBySportIds(retrievedSportIds));
       }).then((eventGroups) => {
         // Get events related to the sports (because we don't have get event based on event groups)
         return dispatch(EventActions.getActiveEventsBySportIds(retrievedSportIds));

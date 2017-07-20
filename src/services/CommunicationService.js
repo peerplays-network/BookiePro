@@ -447,6 +447,18 @@ class CommunicationService {
   }
 
   /**
+   * Get event group given sport ids
+   */
+  static getEventGroupsBySportIds(sportIds) {
+    if (Config.useDummyData) {
+      return this.getDummyEventGroupsBySportIds(sportIds);
+    } else {
+      // TODO: change later
+      return Promise.resolve(Immutable.List());
+    }
+  }
+
+  /**
    * Get active events given array of sport ids (can be immutable)
    */
   static getActiveEventsBySportIds(sportIds) {
@@ -597,6 +609,25 @@ class CommunicationService {
     });
   }
 
+  /**
+   * Get event groups given array of sport ids (can be immutable)
+   */
+  static getDummyEventGroupsBySportIds(sportIds) {
+    // TODO: Replace later
+    const promises = sportIds.map( (sportId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const filteredResult = _.filter(dummyData.eventGroups, (item) => {
+            return (item.sport_id === sportId);
+          });
+          resolve(filteredResult);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( result => {
+      return Immutable.fromJS(_.flatten(result));
+    });
+  }
 
   /**
    * Get active events given array of sport ids (can be immutable)
