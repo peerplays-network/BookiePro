@@ -395,6 +395,14 @@ export const translationsObject = {
         success: {
           instructions: 'Your bets have been successfully updated.',
         },
+        insufficient_balance: {
+          instructions: 'You do not have sufficient funds to update the bet/s. Please edit your bets or deposit more funds.',
+          confirm_button: 'OK',
+        },
+        disconnected: {
+          instructions: 'You are not connected to the blockchain. Pleaee make sure you have Internet access and try again.',
+          cancel_button: 'CANCEL',
+        },
       },
       unmatched_bets: {
         header: 'UNMATCHED BETS',

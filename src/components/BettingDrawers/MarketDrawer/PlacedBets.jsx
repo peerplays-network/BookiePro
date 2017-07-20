@@ -75,13 +75,13 @@ class PlacedBets extends PureComponent {
         }
         { this.props.showInsufficientBalanceError &&
           <Overlay
-            className='market_drawer.unconfirmed_bets.insufficient_balance'
+            className='market_drawer.placed_bets.insufficient_balance'
             confirmAction={ this.props.hideInsufficientBalanceError }
           />
         }
         { this.props.showDisconnectedError &&
           <Overlay
-            className='market_drawer.unconfirmed_bets.disconnected'
+            className='market_drawer.placed_bets.disconnected'
             cancelAction={ this.props.hideDisconnectedError }
           />
         }
