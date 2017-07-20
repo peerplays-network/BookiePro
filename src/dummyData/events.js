@@ -16,16 +16,7 @@ const events = [
     "start_time": moment().add(1, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
     "event_status_id": "Completed",
-    "scores": [
-      {
-        "competitor_id": "1.102.1",
-        "score": 36
-      },
-      {
-        "competitor_id": "1.102.2",
-        "score": 17
-      }
-    ],
+    "scores": ["36", "19"],
     "betting_market_group_ids": [
       "1.104.1",
       "1.104.2",
@@ -40,16 +31,7 @@ const events = [
     "start_time": moment().add(1, 'days').unix() * 1000,
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.4",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.4",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.4",
       "1.104.5",
@@ -64,16 +46,7 @@ const events = [
     "start_time": moment().add(2, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.7",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.8",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.7",
       "1.104.8",
@@ -88,16 +61,7 @@ const events = [
     "start_time": moment().add(3, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.9",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.10",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.10",
       "1.104.11",
@@ -112,16 +76,7 @@ const events = [
     "start_time": moment().add(4, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.11",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.12",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.13",
       "1.104.14",
@@ -136,16 +91,7 @@ const events = [
     "start_time": moment().add(5, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.13",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.14",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.16",
       "1.104.17",
@@ -160,16 +106,7 @@ const events = [
     "start_time": moment().add(5, 'hours').unix() * 1000,
     "event_group_id": "1.101.1",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.15",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.16",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.19",
       "1.104.20",
@@ -184,16 +121,7 @@ const events = [
     "start_time": moment().add(7, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.17",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.18",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.22",
       "1.104.23",
@@ -208,16 +136,7 @@ const events = [
     "start_time": moment().add(8, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.19",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.20",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.25",
       "1.104.26",
@@ -232,16 +151,7 @@ const events = [
     "start_time": moment().add(9, 'days').unix() * 1000,
     "event_group_id": "1.101.4",
     "event_status_id": "Completed",
-    "scores": [
-      {
-        "competitor_id": "1.102.21",
-        "score": 36
-      },
-      {
-        "competitor_id": "1.102.22",
-        "score": 17
-      }
-    ],
+    "scores": ["36", "19"],
     "betting_market_group_ids": [
       "1.104.28",
       "1.104.29",
@@ -256,16 +166,7 @@ const events = [
     "start_time": moment().add(9, 'days').unix() * 1000,
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.23",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.24",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.31",
       "1.104.32",
@@ -280,16 +181,7 @@ const events = [
     "start_time": moment().add(10, 'days').unix() * 1000,
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.25",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.26",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.34",
       "1.104.35",
@@ -304,16 +196,7 @@ const events = [
     "start_time": moment().add(11, 'days').unix() * 1000,
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.27",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.28",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.37",
       "1.104.38",
@@ -328,16 +211,7 @@ const events = [
     "start_time": moment().add(12, 'days').unix() * 1000,
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.29",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.30",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.40",
       "1.104.41",
@@ -352,16 +226,7 @@ const events = [
     "start_time": moment().add(13, 'days').unix() * 1000,
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.31",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.32",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.43",
       "1.104.44",
@@ -376,16 +241,7 @@ const events = [
     "start_time": moment().add(14, 'days').unix() * 1000,
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.33",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.34",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.46",
       "1.104.47",
@@ -400,16 +256,7 @@ const events = [
     "start_time": moment().add(15, 'days').unix() * 1000,
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.35",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.36",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.49",
       "1.104.50",
@@ -424,16 +271,7 @@ const events = [
     "start_time": moment().add(2, 'days').unix() * 1000,
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.21",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.22",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.52",
       "1.104.53",
@@ -448,16 +286,7 @@ const events = [
     "start_time": moment().add(4, 'days').unix() * 1000,
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.23",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.24",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.55",
       "1.104.56",
@@ -472,16 +301,7 @@ const events = [
     "start_time": moment().add(5, 'days').unix() * 1000,
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.25",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.26",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.58",
       "1.104.59",
@@ -496,16 +316,7 @@ const events = [
     "start_time": moment().add(6, 'days').unix() * 1000,
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.27",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.28",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.61",
       "1.104.62",
@@ -520,16 +331,7 @@ const events = [
     "start_time": moment().add(7, 'days').unix() * 1000,
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.29",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.30",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.64",
       "1.104.65",
@@ -544,16 +346,7 @@ const events = [
     "start_time": moment().add(7, 'days').unix() * 1000,
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.31",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.32",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.67",
       "1.104.68",
@@ -568,16 +361,7 @@ const events = [
     "start_time": moment().add(8, 'days').unix() * 1000,
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.33",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.34",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.70",
       "1.104.71",
@@ -592,16 +376,7 @@ const events = [
     "start_time": moment().add(8, 'days').unix() * 1000,
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.35",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.36",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.73",
       "1.104.74",
@@ -616,16 +391,7 @@ const events = [
     "start_time": moment().add(10, 'days').unix() * 1000,
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.37",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.38",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.76",
       "1.104.77",
@@ -640,16 +406,7 @@ const events = [
     "start_time": moment().add(12, 'days').unix() * 1000,
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.39",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.40",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.79",
       "1.104.80",
@@ -664,16 +421,7 @@ const events = [
     "start_time": moment().add(2, 'days').unix() * 1000,
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.41",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.42",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.82",
       "1.104.83",
@@ -688,16 +436,7 @@ const events = [
     "start_time": moment().add(3, 'days').unix() * 1000,
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.43",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.44",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.85",
       "1.104.86",
@@ -712,16 +451,7 @@ const events = [
     "start_time": moment().add(4, 'days').unix() * 1000,
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.45",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.46",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.88",
       "1.104.89",
@@ -736,16 +466,7 @@ const events = [
     "start_time": moment().add(5, 'days').unix() * 1000,
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.47",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.48",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.91",
       "1.104.92",
@@ -760,16 +481,7 @@ const events = [
     "start_time": moment().add(6, 'days').unix() * 1000,
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.49",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.50",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.94",
       "1.104.95",
@@ -784,16 +496,7 @@ const events = [
     "start_time": moment().add(7, 'days').unix() * 1000,
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.51",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.52",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.97",
       "1.104.98",
@@ -808,16 +511,7 @@ const events = [
     "start_time": moment().add(8, 'days').unix() * 1000,
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.53",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.54",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.100",
       "1.104.101",
@@ -832,16 +526,7 @@ const events = [
     "start_time": moment().add(8, 'days').unix() * 1000,
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.55",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.56",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.103",
       "1.104.104",
@@ -856,16 +541,7 @@ const events = [
     "start_time": moment().add(9, 'days').unix() * 1000,
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.57",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.58",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.106",
       "1.104.107",
@@ -880,16 +556,7 @@ const events = [
     "start_time": moment().add(12, 'days').unix() * 1000,
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.59",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.60",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.109",
       "1.104.110",
@@ -905,16 +572,7 @@ const events = [
     "start_time": moment().add(2, 'days').unix() * 1000,
     "event_group_id": "1.101.5",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.61",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.62",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.112",
       "1.104.113",
@@ -929,16 +587,7 @@ const events = [
     "start_time": moment().add(2, 'days').unix() * 1000,
     "event_group_id": "1.101.5",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.63",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.64",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.115",
       "1.104.116",
@@ -953,16 +602,7 @@ const events = [
     "start_time": moment().add(2, 'days').unix() * 1000,
     "event_group_id": "1.101.5",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.65",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.66",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.118",
       "1.104.119",
@@ -977,16 +617,7 @@ const events = [
     "start_time": moment().add(2, 'days').unix() * 1000,
     "event_group_id": "1.101.5",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.67",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.68",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.121",
       "1.104.122",
@@ -1001,16 +632,7 @@ const events = [
     "start_time": moment().add(2, 'days').unix() * 1000,
     "event_group_id": "1.101.5",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.69",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.70",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.124",
       "1.104.125",
@@ -1026,16 +648,7 @@ const events = [
     "start_time": moment().add(2, 'days').unix() * 1000,
     "event_group_id": "1.101.6",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.71",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.72",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.127",
       "1.104.128",
@@ -1050,16 +663,7 @@ const events = [
     "start_time": moment().add(2, 'days').unix() * 1000,
     "event_group_id": "1.101.6",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.73",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.74",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.130",
       "1.104.131",
@@ -1074,16 +678,7 @@ const events = [
     "start_time": moment().add(2, 'days').unix() * 1000,
     "event_group_id": "1.101.6",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.75",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.76",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.133",
       "1.104.134",
@@ -1098,16 +693,7 @@ const events = [
     "start_time": moment().add(2, 'days').unix() * 1000,
     "event_group_id": "1.101.6",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.77",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.78",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.136",
       "1.104.137",
@@ -1122,16 +708,7 @@ const events = [
     "start_time": moment().add(2, 'days').unix() * 1000,
     "event_group_id": "1.101.6",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.79",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.80",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.139",
       "1.104.140",
@@ -1147,16 +724,7 @@ const events = [
     "start_time": moment().add(7, 'days').unix() * 1000,
     "event_group_id": "1.101.11",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.81",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.82",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.142",
       "1.104.143",
@@ -1171,16 +739,7 @@ const events = [
     "start_time": moment().add(11, 'days').unix() * 1000,
     "event_group_id": "1.101.11",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.83",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.84",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.145",
       "1.104.146",
@@ -1195,16 +754,7 @@ const events = [
     "start_time": moment().add(14, 'days').unix() * 1000,
     "event_group_id": "1.101.11",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.85",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.86",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.148",
       "1.104.149",
@@ -1219,16 +769,7 @@ const events = [
     "start_time": moment().add(5, 'days').unix() * 1000,
     "event_group_id": "1.101.11",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.87",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.88",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.151",
       "1.104.152",
@@ -1243,16 +784,7 @@ const events = [
     "start_time": moment().add(8, 'days').unix() * 1000,
     "event_group_id": "1.101.11",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.89",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.90",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.154",
       "1.104.155",
@@ -1268,16 +800,7 @@ const events = [
     "start_time": moment().add(15, 'days').unix() * 1000,
     "event_group_id": "1.101.12",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.91",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.92",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.157",
       "1.104.158",
@@ -1292,16 +815,7 @@ const events = [
     "start_time": moment().add(11, 'days').unix() * 1000,
     "event_group_id": "1.101.12",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.93",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.94",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.160",
       "1.104.161",
@@ -1316,16 +830,7 @@ const events = [
     "start_time": moment().add(6, 'days').unix() * 1000,
     "event_group_id": "1.101.12",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.95",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.96",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.163",
       "1.104.164",
@@ -1340,16 +845,7 @@ const events = [
     "start_time": moment().add(14, 'days').unix() * 1000,
     "event_group_id": "1.101.12",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.97",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.98",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.166",
       "1.104.167",
@@ -1364,16 +860,7 @@ const events = [
     "start_time": moment().add(3, 'days').unix() * 1000,
     "event_group_id": "1.101.12",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.99",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.100",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.169",
       "1.104.170",
@@ -1389,16 +876,7 @@ const events = [
     "start_time": moment().add(10, 'days').unix() * 1000,
     "event_group_id": "1.101.8",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.101",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.102",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.172",
       "1.104.173",
@@ -1413,16 +891,7 @@ const events = [
     "start_time": moment().add(11, 'days').unix() * 1000,
     "event_group_id": "1.101.8",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.103",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.104",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.175",
       "1.104.176",
@@ -1437,16 +906,7 @@ const events = [
     "start_time": moment().add(4, 'days').unix() * 1000,
     "event_group_id": "1.101.8",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.105",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.106",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.178",
       "1.104.179",
@@ -1461,16 +921,7 @@ const events = [
     "start_time": moment().add(10, 'days').unix() * 1000,
     "event_group_id": "1.101.8",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.107",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.108",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.181",
       "1.104.182",
@@ -1485,16 +936,7 @@ const events = [
     "start_time": moment().add(13, 'days').unix() * 1000,
     "event_group_id": "1.101.8",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.109",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.110",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.184",
       "1.104.185",
@@ -1510,16 +952,7 @@ const events = [
     "start_time": moment().add(9, 'days').unix() * 1000,
     "event_group_id": "1.101.9",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.111",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.112",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.187",
       "1.104.188",
@@ -1534,16 +967,7 @@ const events = [
     "start_time": moment().add(12, 'days').unix() * 1000,
     "event_group_id": "1.101.9",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.113",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.114",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.190",
       "1.104.191",
@@ -1558,16 +982,7 @@ const events = [
     "start_time": moment().add(12, 'days').unix() * 1000,
     "event_group_id": "1.101.9",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.115",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.116",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.193",
       "1.104.194",
@@ -1582,16 +997,7 @@ const events = [
     "start_time": moment().add(5, 'days').unix() * 1000,
     "event_group_id": "1.101.9",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.117",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.118",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.196",
       "1.104.197",
@@ -1606,16 +1012,7 @@ const events = [
     "start_time": moment().add(7, 'days').unix() * 1000,
     "event_group_id": "1.101.9",
     "event_status_id": "Upcoming",
-    "scores": [
-      {
-        "competitor_id": "1.102.119",
-        "score": 0
-      },
-      {
-        "competitor_id": "1.102.120",
-        "score": 0
-      }
-    ],
+    "scores": ["0", "0"],
     "betting_market_group_ids": [
       "1.104.199",
       "1.104.200",
@@ -1632,16 +1029,7 @@ const events = [
     "start_time": moment().subtract(1, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
     "event_status_id": "Completed",
-    "scores": [
-      {
-        "competitor_id": "1.102.7",
-        "score": 202
-      },
-      {
-        "competitor_id": "1.102.8",
-        "score": 189
-      }
-    ],
+    "scores": ["36", "19"],
     "betting_market_group_ids": [
       "1.104.202",
       "1.104.203",
@@ -1656,16 +1044,7 @@ const events = [
     "start_time": moment().subtract(2, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
     "event_status_id": "Completed",
-    "scores": [
-      {
-        "competitor_id": "1.102.9",
-        "score": 249
-      },
-      {
-        "competitor_id": "1.102.10",
-        "score": 111
-      }
-    ],
+    "scores": ["36", "19"],
     "betting_market_group_ids": [
       "1.104.205",
       "1.104.206",
@@ -1680,16 +1059,7 @@ const events = [
     "start_time": moment().subtract(3, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
     "event_status_id": "Completed",
-    "scores": [
-      {
-        "competitor_id": "1.102.11",
-        "score": 242
-      },
-      {
-        "competitor_id": "1.102.12",
-        "score": 275
-      }
-    ],
+    "scores": ["36", "19"],
     "betting_market_group_ids": [
       "1.104.208",
       "1.104.209",
@@ -1704,16 +1074,7 @@ const events = [
     "start_time": moment().subtract(3, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
     "event_status_id": "Completed",
-    "scores": [
-      {
-        "competitor_id": "1.102.13",
-        "score": 195
-      },
-      {
-        "competitor_id": "1.102.14",
-        "score": 180
-      }
-    ],
+    "scores": ["36", "19"],
     "betting_market_group_ids": [
       "1.104.211",
       "1.104.212",
@@ -1728,16 +1089,7 @@ const events = [
     "start_time": moment().subtract(2, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
     "event_status_id": "Completed",
-    "scores": [
-      {
-        "competitor_id": "1.102.15",
-        "score": 158
-      },
-      {
-        "competitor_id": "1.102.16",
-        "score": 269
-      }
-    ],
+    "scores": ["36", "19"],
     "betting_market_group_ids": [
       "1.104.214",
       "1.104.215",
@@ -1753,16 +1105,7 @@ const events = [
     "start_time": moment().subtract(1, 'days').unix() * 1000,
     "event_group_id": "1.101.4",
     "event_status_id": "Completed",
-    "scores": [
-      {
-        "competitor_id": "1.102.64",
-        "score": 132
-      },
-      {
-        "competitor_id": "1.102.65",
-        "score": 162
-      }
-    ],
+    "scores": ["36", "19"],
     "betting_market_group_ids": [
       "1.104.217",
       "1.104.218",
@@ -1777,16 +1120,7 @@ const events = [
     "start_time": moment().subtract(2, 'days').unix() * 1000,
     "event_group_id": "1.101.4",
     "event_status_id": "Completed",
-    "scores": [
-      {
-        "competitor_id": "1.102.66",
-        "score": 144
-      },
-      {
-        "competitor_id": "1.102.67",
-        "score": 122
-      }
-    ],
+    "scores": ["36", "19"],
     "betting_market_group_ids": [
       "1.104.220",
       "1.104.221",
@@ -1802,16 +1136,7 @@ const events = [
     "start_time": moment().subtract(2, 'days').unix() * 1000,
     "event_group_id": "1.101.7",
     "event_status_id": "Completed",
-    "scores": [
-      {
-        "competitor_id": "1.102.22",
-        "score": 208
-      },
-      {
-        "competitor_id": "1.102.23",
-        "score": 244
-      }
-    ],
+    "scores": ["36", "19"],
     "betting_market_group_ids": [
       "1.104.223",
       "1.104.224",
@@ -1826,16 +1151,7 @@ const events = [
     "start_time": moment().subtract(1, 'days').unix() * 1000,
     "event_group_id": "1.101.7",
     "event_status_id": "Completed",
-    "scores": [
-      {
-        "competitor_id": "1.102.24",
-        "score": 101
-      },
-      {
-        "competitor_id": "1.102.25",
-        "score": 140
-      }
-    ],
+    "scores": ["36", "19"],
     "betting_market_group_ids": [
       "1.104.226",
       "1.104.227",

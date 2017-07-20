@@ -109,8 +109,6 @@ class QuickBetDrawerActions {
         team,
         bet_type,
         betting_market_id,
-        market_type_id: 'Moneyline',      // QuickBetDrawer only handles Moneyline
-        market_type_value: 'Moneyline',   // Moneyline does not require extra option
         odds,
         betting_market_description: bettingMarketDescription,
         betting_market_group_description: bettingMarketGroupDescription,

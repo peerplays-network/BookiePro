@@ -82,10 +82,8 @@ const getSidebarCompleteTree = createSelector(
             bettingMktGroupList = bettingMktGroupList.sort(sortById);
             // For each betting market group, create betting market group node
             const bettingMktGroupNodes = bettingMktGroupList.map((mktGroup) => {
-              const marketTypeId = mktGroup.get('market_type_id');
               let mktGroupNode = createNode(mktGroup, 'BettingMarketGroup');
-              mktGroupNode = mktGroupNode.set('market_type_id', marketTypeId )
-                                         .set('options', mktGroup.get('options') );
+              mktGroupNode = mktGroupNode.set('description', mktGroup.get('description') );
               mktGroupNode = mktGroupNode.set('name', mktGroup.get('description'));
               return mktGroupNode;
             });

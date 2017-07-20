@@ -1,6 +1,5 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import SportActions from './SportActions';
-import CompetitorActions from './CompetitorActions';
 import EventGroupActions from './EventGroupActions';
 import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
@@ -22,9 +21,6 @@ class SidebarActions {
         // Get event groups related to the sports
         return dispatch(EventGroupActions.getEventGroupsByIds(eventGroupIds));
       }).then((eventGroups) => {
-        // Get competitiors related to the sports
-        return dispatch(CompetitorActions.getCompetitorsBySportIds(retrievedSportIds));
-      }).then((competitors) => {
         // Get events related to the sports (because we don't have get event based on event groups)
         return dispatch(EventActions.getActiveEventsBySportIds(retrievedSportIds));
       }).then((events) => {

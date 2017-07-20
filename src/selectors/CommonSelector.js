@@ -80,10 +80,6 @@ const getActiveEventsByEventGroupId = createSelector(
 )
 
 
-const getCompetitorsById = (state) => {
-  return state.getIn(['competitor', 'competitorsById']);
-}
-
 const getBettingMarketGroupsById = (state) => {
   return state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
 }
@@ -126,16 +122,18 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
   [
     getBinnedOrderBooksByBettingMarketId,
     getBettingMarketsById,
-    getBettingMarketGroupsById
+    getBettingMarketGroupsById,
+    getEventsById,
   ],
-  (binnedOrderBooksByBettingMarketId, bettingMarketsById, bettingMarketGroupsById) => {
+  (binnedOrderBooksByBettingMarketId, bettingMarketsById, bettingMarketGroupsById, eventsById) => {
     let simpleBettingWidgetBinnedOrderBooksByEventId = Immutable.Map();
     binnedOrderBooksByBettingMarketId.forEach((binnedOrderBook, bettingMarketId) => {
       const bettingMarket = bettingMarketsById.get(bettingMarketId);
       const bettingMarketGroupId = bettingMarket && bettingMarket.get('betting_market_group_id');
       const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
       const eventId = bettingMarketGroup && bettingMarketGroup.get('event_id');
-      const isMoneyline = !!bettingMarketGroup && (bettingMarketGroup.get('market_type_id').toUpperCase() === 'MONEYLINE');
+      // NOTE: Assume description can be used as comparison
+      const isMoneyline = !!bettingMarketGroup && (bettingMarketGroup.get('description').toUpperCase() === 'MONEYLINE');
       if (eventId && isMoneyline) {
         // Implicit Rule: the first betting market is for the home team
         let simpleBettingWidgetBinnedOrderBook = Immutable.Map().set('betting_market_id', bettingMarketId)
@@ -165,7 +163,6 @@ const CommonSelector = {
   getEventsById,
   getActiveEventsBySportId,
   getActiveEventsByEventGroupId,
-  getCompetitorsById,
   getBettingMarketGroupsById,
   getBettingMarketsById,
   getBinnedOrderBooksByBettingMarketId,

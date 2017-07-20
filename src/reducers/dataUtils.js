@@ -21,9 +21,6 @@ const transformUnmatchedBetObject = bet => {
     bet_type: bet.get('back_or_lay').toLowerCase(),
     odds: bet.get('backer_multiplier'),
     betting_market_id: bet.get('betting_market_id'),
-    // REVIEW These 2 values are populated by the application
-    market_type_id: bet.get('market_type_id'),
-    market_type_value: bet.get('market_type_value'),
     betting_market_description: bet.get('betting_market_description'),
     betting_market_group_description: bet.get('betting_market_group_description'),
   });
@@ -59,9 +56,6 @@ const transformMatchedBetObject = bet => {
     bet_type: bet.get('back_or_lay').toLowerCase(),
     odds: bet.get('backer_multiplier'),
     betting_market_id: bet.get('betting_market_id'),
-    // REVIEW These 2 values are populated by the application
-    market_type_id: bet.get('market_type_id'),
-    market_type_value: bet.get('market_type_value'),
     betting_market_description: bet.get('betting_market_description'),
     betting_market_group_description: bet.get('betting_market_group_description'),
   });

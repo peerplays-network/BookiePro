@@ -7,7 +7,6 @@ import {
   SoftwareUpdateActions,
   SportActions,
   EventGroupActions,
-  CompetitorActions,
   EventActions,
   BettingMarketActions,
   BettingMarketGroupActions,
@@ -185,10 +184,6 @@ class CommunicationService {
           this.dispatch(SportActions.addOrUpdateSportsAction(updatedObjects));
           break;
         }
-        case ObjectPrefix.COMPETITOR_PREFIX: {
-          this.dispatch(CompetitorActions.addOrUpdateCompetitorsAction(updatedObjects));
-          break;
-        }
         case ObjectPrefix.EVENT_GROUP_PREFIX: {
           this.dispatch(EventGroupActions.addOrUpdateEventGroupsAction(updatedObjects));
           break;
@@ -246,10 +241,6 @@ class CommunicationService {
         }
         case ObjectPrefix.SPORT_PREFIX: {
           this.dispatch(SportActions.removeSportsByIdsAction(deletedObjectIds));
-          break;
-        }
-        case ObjectPrefix.COMPETITOR_PREFIX: {
-          this.dispatch(CompetitorActions.removeCompetitorsByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.EVENT_GROUP_PREFIX: {
@@ -467,18 +458,6 @@ class CommunicationService {
     }
   }
 
-  /**
-   * Get comeptitors given array of sport ids (can be immutable)
-   */
-  static getCompetitorsBySportIds(sportIds) {
-    if (Config.useDummyData) {
-      return this.getDummyCompetitorsBySportIds(sportIds);
-    } else {
-      // TODO: change later
-      return Promise.resolve(Immutable.List());
-    }
-  }
-
 
   /**
    * Get binned order books
@@ -528,17 +507,6 @@ class CommunicationService {
     }
   }
 
-  /**
-   * Get competitors by id
-   */
-  static getCompetitorsByIds(competitorIds) {
-    if (Config.useDummyData) {
-      return this.getDummyObjectsByIds(competitorIds);
-    } else {
-      // TODO: Replace later
-      return Promise.resolve(Immutable.List());
-    }
-  }
 
   /**
    * Get event by id
@@ -639,25 +607,6 @@ class CommunicationService {
     });
   }
 
-  /**
-   * Get comeptitors given array of sport ids (can be immutable)
-   */
-  static getDummyCompetitorsBySportIds(sportIds) {
-    // TODO: Replace later
-    const promises = sportIds.map( (sportId) => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const filteredResult = _.filter(dummyData.competitors, (item) => {
-            return item.sport_id === sportId;
-          });
-          resolve(filteredResult);
-        }, TIMEOUT_LENGTH);
-      });
-    });
-    return Promise.all(promises).then( result => {
-      return Immutable.fromJS(_.flatten(result));
-    });
-  }
 
 
   /**

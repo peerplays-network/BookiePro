@@ -9,7 +9,7 @@ const bets = [
     "betting_market_id": "1.105.27",
     "amount_to_bet": 1000,
     "amount_to_win": 1250,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 1000,
     "remaining_amount_to_win": 1250,
     "cancelled": false
@@ -20,7 +20,7 @@ const bets = [
     "betting_market_id": "1.105.12",
     "amount_to_bet": 2150,
     "amount_to_win": 5290,
-    "back_or_lay": "Lay",
+    "back_or_lay": "lay",
     "remaining_amount_to_bet": 2150,
     "remaining_amount_to_win": 5290,
     "cancelled": false
@@ -31,7 +31,7 @@ const bets = [
     "betting_market_id": "1.105.1",
     "amount_to_bet": 250,
     "amount_to_win": 450,
-    "back_or_lay": "Lay",
+    "back_or_lay": "lay",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 450,
     "cancelled": false
@@ -42,7 +42,7 @@ const bets = [
     "betting_market_id": "1.105.1",
     "amount_to_bet": 100,
     "amount_to_win": 200,
-    "back_or_lay": "Lay",
+    "back_or_lay": "lay",
     "remaining_amount_to_bet": 50,
     "remaining_amount_to_win": 200,
     "cancelled": false
@@ -53,7 +53,7 @@ const bets = [
     "betting_market_id": "1.105.2",
     "amount_to_bet": 350,
     "amount_to_win": 650,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 300,
     "remaining_amount_to_win": 650,
     "cancelled": false
@@ -64,7 +64,7 @@ const bets = [
     "betting_market_id": "1.105.2",
     "amount_to_bet": 1000,
     "amount_to_win": 1350,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 700,
     "remaining_amount_to_win": 1350,
     "cancelled": false
@@ -75,7 +75,7 @@ const bets = [
     "betting_market_id": "1.105.1",
     "amount_to_bet": 250,
     "amount_to_win": 450,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 70,
     "remaining_amount_to_win": 450,
     "cancelled": false
@@ -86,7 +86,7 @@ const bets = [
     "betting_market_id": "1.105.2",
     "amount_to_bet": 250,
     "amount_to_win": 650,
-    "back_or_lay": "Lay",
+    "back_or_lay": "lay",
     "remaining_amount_to_bet": 100,
     "remaining_amount_to_win": 650,
     "cancelled": false
@@ -97,7 +97,7 @@ const bets = [
     "betting_market_id": "1.105.21",
     "amount_to_bet": 3140,
     "amount_to_win": 8400,
-    "back_or_lay": "Lay",
+    "back_or_lay": "lay",
     "remaining_amount_to_bet": 3140,
     "remaining_amount_to_win": 8400,
     "cancelled": false
@@ -119,7 +119,7 @@ const bets = [
     "betting_market_id": "1.105.24",
     "amount_to_bet": 3500,
     "amount_to_win": 4800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -141,7 +141,7 @@ const bets = [
     "betting_market_id": "1.105.20",
     "amount_to_bet": 5500,
     "amount_to_win": 6800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -152,7 +152,7 @@ const bets = [
     "betting_market_id": "1.105.25",
     "amount_to_bet": 1150,
     "amount_to_win": 4600,
-    "back_or_lay": "Lay",
+    "back_or_lay": "lay",
     "remaining_amount_to_bet": 1150,
     "remaining_amount_to_win": 4600,
     "cancelled": false
@@ -163,7 +163,7 @@ const bets = [
     "betting_market_id": "1.105.26",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -185,7 +185,7 @@ const bets = [
     "betting_market_id": "1.105.32",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -196,7 +196,7 @@ const bets = [
     "betting_market_id": "1.105.37",
     "amount_to_bet": 230,
     "amount_to_win": 330,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 230,
     "remaining_amount_to_win": 330,
     "cancelled": false
@@ -207,7 +207,7 @@ const bets = [
     "betting_market_id": "1.105.37",
     "amount_to_bet": 230,
     "amount_to_win": 330,
-    "back_or_lay": "Lay",
+    "back_or_lay": "lay",
     "remaining_amount_to_bet": 230,
     "remaining_amount_to_win": 330,
     "cancelled": false
@@ -218,7 +218,7 @@ const bets = [
     "betting_market_id": "1.105.38",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -229,7 +229,7 @@ const bets = [
     "betting_market_id": "1.105.38",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
-    "back_or_lay": "Lay",
+    "back_or_lay": "lay",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -240,7 +240,7 @@ const bets = [
     "betting_market_id": "1.105.43",
     "amount_to_bet": 6210,
     "amount_to_win": 22050,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 6210,
     "remaining_amount_to_win": 22050,
     "cancelled": false
@@ -251,7 +251,7 @@ const bets = [
     "betting_market_id": "1.105.44",
     "amount_to_bet": 2500,
     "amount_to_win": 3800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -273,7 +273,7 @@ const bets = [
     "betting_market_id": "1.105.50",
     "amount_to_bet": 6500,
     "amount_to_win": 7800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -284,7 +284,7 @@ const bets = [
     "betting_market_id": "1.105.21",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 4500,
     "remaining_amount_to_win": 5800,
     "cancelled": false
@@ -295,7 +295,7 @@ const bets = [
     "betting_market_id": "1.105.22",
     "amount_to_bet": 7500,
     "amount_to_win": 8800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -306,7 +306,7 @@ const bets = [
     "betting_market_id": "1.105.27",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 4500,
     "remaining_amount_to_win": 5800,
     "cancelled": false
@@ -317,7 +317,7 @@ const bets = [
     "betting_market_id": "1.105.28",
     "amount_to_bet": 7500,
     "amount_to_win": 8800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -328,7 +328,7 @@ const bets = [
     "betting_market_id": "1.105.33",
     "amount_to_bet": 2500,
     "amount_to_win": 3800,
-    "back_or_lay": "Lay",
+    "back_or_lay": "lay",
     "remaining_amount_to_bet": 2500,
     "remaining_amount_to_win": 3800,
     "cancelled": false
@@ -339,7 +339,7 @@ const bets = [
     "betting_market_id": "1.105.34",
     "amount_to_bet": 7500,
     "amount_to_win": 8800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -350,7 +350,7 @@ const bets = [
     "betting_market_id": "1.105.39",
     "amount_to_bet": 3500,
     "amount_to_win": 4800,
-    "back_or_lay": "Lay",
+    "back_or_lay": "lay",
     "remaining_amount_to_bet": 3500,
     "remaining_amount_to_win": 4800,
     "cancelled": false
@@ -361,7 +361,7 @@ const bets = [
     "betting_market_id": "1.105.40",
     "amount_to_bet": 3500,
     "amount_to_win": 4800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -372,7 +372,7 @@ const bets = [
     "betting_market_id": "1.105.45",
     "amount_to_bet": 7500,
     "amount_to_win": 8800,
-    "back_or_lay": "Lay",
+    "back_or_lay": "lay",
     "remaining_amount_to_bet": 7500,
     "remaining_amount_to_win": 8800,
     "cancelled": false
@@ -383,7 +383,7 @@ const bets = [
     "betting_market_id": "1.105.46",
     "amount_to_bet": 3500,
     "amount_to_win": 4800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -394,7 +394,7 @@ const bets = [
     "betting_market_id": "1.105.51",
     "amount_to_bet": 5500,
     "amount_to_win": 6800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 5500,
     "remaining_amount_to_win": 6800,
     "cancelled": false
@@ -405,7 +405,7 @@ const bets = [
     "betting_market_id": "1.105.52",
     "amount_to_bet": 3500,
     "amount_to_win": 4800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -416,7 +416,7 @@ const bets = [
     "betting_market_id": "1.105.15",
     "amount_to_bet": 430,
     "amount_to_win": 3400,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 430,
     "remaining_amount_to_win": 3400,
     "cancelled": false
@@ -427,7 +427,7 @@ const bets = [
     "betting_market_id": "1.105.24",
     "amount_to_bet": 2500,
     "amount_to_win": 3800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -438,7 +438,7 @@ const bets = [
     "betting_market_id": "1.105.29",
     "amount_to_bet": 2500,
     "amount_to_win": 3800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 5500,
     "remaining_amount_to_win": 6800,
     "cancelled": false
@@ -449,7 +449,7 @@ const bets = [
     "betting_market_id": "1.105.30",
     "amount_to_bet": 5500,
     "amount_to_win": 6800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -460,7 +460,7 @@ const bets = [
     "betting_market_id": "1.105.35",
     "amount_to_bet": 5500,
     "amount_to_win": 6800,
-    "back_or_lay": "Lay",
+    "back_or_lay": "lay",
     "remaining_amount_to_bet": 5500,
     "remaining_amount_to_win": 6800,
     "cancelled": false
@@ -471,7 +471,7 @@ const bets = [
     "betting_market_id": "1.105.36",
     "amount_to_bet": 6500,
     "amount_to_win": 7800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -482,7 +482,7 @@ const bets = [
     "betting_market_id": "1.105.49",
     "amount_to_bet": 5500,
     "amount_to_win": 6800,
-    "back_or_lay": "Lay",
+    "back_or_lay": "lay",
     "remaining_amount_to_bet": 5500,
     "remaining_amount_to_win": 6800,
     "cancelled": false
@@ -493,7 +493,7 @@ const bets = [
     "betting_market_id": "1.105.42",
     "amount_to_bet": 2500,
     "amount_to_win": 3800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -504,7 +504,7 @@ const bets = [
     "betting_market_id": "1.105.47",
     "amount_to_bet": 3500,
     "amount_to_win": 3800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 3500,
     "remaining_amount_to_win": 4800,
     "cancelled": false
@@ -515,7 +515,7 @@ const bets = [
     "betting_market_id": "1.105.48",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -526,7 +526,7 @@ const bets = [
     "betting_market_id": "1.105.53",
     "amount_to_bet": 7500,
     "amount_to_win": 8800,
-    "back_or_lay": "Lay",
+    "back_or_lay": "lay",
     "remaining_amount_to_bet": 7500,
     "remaining_amount_to_win": 8800,
     "cancelled": false
@@ -537,7 +537,7 @@ const bets = [
     "betting_market_id": "1.105.54",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 0,
     "remaining_amount_to_win": 0,
     "cancelled": false
@@ -548,7 +548,7 @@ const bets = [
     "betting_market_id": "1.105.23",
     "amount_to_bet": 5500,
     "amount_to_win": 6800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 5500,
     "remaining_amount_to_win": 6800,
     "cancelled": false
@@ -614,7 +614,7 @@ const bets = [
     "betting_market_id": "1.105.19",
     "amount_to_bet": 1310,
     "amount_to_win": 2910,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 1310,
     "remaining_amount_to_win": 2910,
     "cancelled": false
@@ -669,7 +669,7 @@ const bets = [
     "betting_market_id": "1.105.31",
     "amount_to_bet": 2290,
     "amount_to_win": 3360,
-    "back_or_lay": "Lay",
+    "back_or_lay": "lay",
     "remaining_amount_to_bet": 2290,
     "remaining_amount_to_win": 3360,
     "cancelled": false
@@ -735,7 +735,7 @@ const bets = [
     "betting_market_id": "1.105.41",
     "amount_to_bet": 4500,
     "amount_to_win": 5800,
-    "back_or_lay": "Back",
+    "back_or_lay": "back",
     "remaining_amount_to_bet": 4500,
     "remaining_amount_to_win": 5800,
     "cancelled": false
