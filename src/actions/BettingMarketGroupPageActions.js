@@ -46,12 +46,11 @@ class BettingMarketGroupPageActions {
         dispatch(MarketDrawerActions.getPlacedBets(bettingMktGrpId));
 
         const bettingMarketGroup = bettingMarketGroups.get(0);
-        const bettingMarketIds = bettingMarketGroup && bettingMarketGroup.get('betting_market_ids');
         const eventId = bettingMarketGroup &&  bettingMarketGroup.get('event_id');
         const ruleId = bettingMarketGroup && bettingMarketGroup.get('rules_id');
         // get related betting markets objects, event object, and total matched bets in parallel (since they are mutually exclusive)
         return Promise.all([
-          dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)),
+          dispatch(BettingMarketActions.getBettingMarketsByBettingMarketGroupIds([bettingMktGrpId])),
           dispatch(EventActions.getEventsByIds([eventId])),
           dispatch(LiquidityActions.getTotalMatchedBetsByBettingMarketGroupIds([bettingMktGrpId])),
           dispatch(RuleActions.getRulesByIds([ruleId])),

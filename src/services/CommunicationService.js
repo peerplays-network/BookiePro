@@ -482,6 +482,18 @@ class CommunicationService {
     }
   }
 
+  /**
+   * Get betting market given betting market group ids
+   */
+  static getBettingMarketsByBettingMarketGroupIds(bettingMarketIds) {
+    if (Config.useDummyData) {
+      return this.getDummyBettingMarketsByBettingMarketGroupIds(bettingMarketIds);
+    } else {
+      // TODO: change later
+      return Promise.resolve(Immutable.List());
+    }
+  }
+
 
   /**
    * Get binned order books
@@ -672,6 +684,26 @@ class CommunicationService {
         setTimeout(() => {
           const filteredResult = _.filter(dummyData.bettingMarketGroups, (item) => {
             return (item.event_id === eventId);
+          });
+          resolve(filteredResult);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( result => {
+      return Immutable.fromJS(_.flatten(result));
+    });
+  }
+
+  /**
+   * Get betting markets given betting market group ids
+   */
+  static getDummyBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds) {
+    // TODO: Replace later
+    const promises = bettingMarketGroupIds.map( (bettingMarketGroupId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const filteredResult = _.filter(dummyData.bettingMarkets, (item) => {
+            return (item.betting_market_group_id === bettingMarketGroupId);
           });
           resolve(filteredResult);
         }, TIMEOUT_LENGTH);

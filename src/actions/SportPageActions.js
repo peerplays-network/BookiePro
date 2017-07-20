@@ -44,10 +44,8 @@ class SportPageActions {
 
       // Get sport detail
       dispatch(SportActions.getSportsByIds([sportId])).then( (sports) => {
-        const sport = sports.get(0);
-        const eventGroupIds = sport.get('event_group_ids');
         // Get event group
-        return dispatch(EventGroupActions.getEventGroupsByIds(eventGroupIds));
+        return dispatch(EventGroupActions.getEventGroupsBySportIds([sportId]));
       }).then( (eventGroups) => {
         // Get events
         return dispatch(EventActions.getActiveEventsBySportIds([sportId]));
@@ -57,8 +55,8 @@ class SportPageActions {
         return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByEventIds(eventIds));
       }).then((bettingMarketGroups) => {
         // Get betting markets
-        const bettingMarketIds = bettingMarketGroups.flatMap( bettingMarketGroup => bettingMarketGroup.get('betting_market_ids'));
-        return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds));
+        const bettingMarketGroupIds = bettingMarketGroups.map( bettingMarketGroup => bettingMarketGroup.get('id'));
+        return dispatch(BettingMarketActions.getBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds));
       }).then((bettingMarkets) => {
         // Get binned order books
         const bettingMarketIds = bettingMarkets.map( bettingMarket => bettingMarket.get('id'));

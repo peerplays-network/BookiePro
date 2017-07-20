@@ -4,7 +4,8 @@ import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
   bettingMarketsById: {},
-  getBettingMarketsByIdsLoadingStatus: {}
+  getBettingMarketsByIdsLoadingStatus: {},
+  getBettingMarketsByBettingMarketGroupIdsLoadingStatus: {}
 });
 
 export default function (state = initialState, action) {
@@ -29,6 +30,13 @@ export default function (state = initialState, action) {
         nextState = nextState.deleteIn(['bettingMarketsById', bettingMarketId]);
       });
       return nextState;
+    }
+    case ActionTypes.BETTING_MARKET_SET_GET_BETTING_MARKETS_BY_BETTING_MARKET_GROUP_IDS_LOADING_STATUS: {
+      let getBettingMarketsByBettingMarketGroupIdsLoadingStatus = Immutable.Map();
+      action.bettingMarketGroupIds.forEach( bettingMarketGroupId => {
+        getBettingMarketsByBettingMarketGroupIdsLoadingStatus = getBettingMarketsByBettingMarketGroupIdsLoadingStatus.set(bettingMarketGroupId, action.loadingStatus);
+      })
+      return state.mergeIn(['getBettingMarketsByBettingMarketGroupIdsLoadingStatus'], getBettingMarketsByBettingMarketGroupIdsLoadingStatus);
     }
     default:
       return state;
