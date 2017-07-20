@@ -1,8 +1,9 @@
-import { ActionTypes } from '../constants';
+import { ActionTypes, ConnectionStatus } from '../constants';
 import Immutable from 'immutable';
 import moment from 'moment';
 import BetActions from './BetActions';
 import { resolveMarketTypeValue } from './dataUtils';
+import { CurrencyUtils } from '../utility';
 
 class MarketDrawerPrivateActions {
   static addUnconfirmedBet(bet) {
@@ -67,6 +68,30 @@ class MarketDrawerPrivateActions {
   static hideBetSlipError() {
     return {
       type: ActionTypes.MARKET_DRAWER_HIDE_BETSLIP_ERROR,
+    }
+  }
+
+  static showInsufficientBalanceError() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_SHOW_INSUFFICIENT_BALANCE_ERROR,
+    }
+  }
+
+  static hideInsufficientBalanceError() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_HIDE_INSUFFICIENT_BALANCE_ERROR,
+    }
+  }
+
+  static showDisconnectedError() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_SNOW_DISCONNECTED_ERROR,
+    }
+  }
+
+  static hideDisconnectedError() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_HIDE_DISCONNECTED_ERROR,
     }
   }
 
@@ -205,9 +230,23 @@ class MarketDrawerActions {
     }
   }
 
-  static clickPlaceBet() {
-    return (dispatch) => {
-      dispatch(MarketDrawerPrivateActions.showBetSlipConfirmation());
+  static clickPlaceBet(totalBetAmount, currencyFormat) {
+    console.warn('The totalBetAmount is not the final version.')
+    return (dispatch, getState) => {
+      const isDisconnected = getState().getIn(['app', 'connectionStatus']) !== ConnectionStatus.CONNECTED;
+      if (isDisconnected) {
+        dispatch(MarketDrawerPrivateActions.showDisconnectedError());
+      } else {
+        const balance = getState().getIn(['balance', 'availableBalancesByAssetId', '1.3.0', 'balance']);
+        const precision = getState().getIn(['asset', 'assetsById', '1.3.0', 'precision']);
+        const normalizedBalance = balance / Math.pow(10, precision);
+        const formattedBalance = parseFloat(CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', normalizedBalance, currencyFormat));
+        if (formattedBalance < totalBetAmount) {
+          dispatch(MarketDrawerPrivateActions.showInsufficientBalanceError());
+        } else {
+          dispatch(MarketDrawerPrivateActions.showBetSlipConfirmation());
+        }
+      }
     }
   }
 
@@ -215,6 +254,18 @@ class MarketDrawerActions {
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.hideBetSlipConfirmation());
       dispatch(MarketDrawerPrivateActions.hideBetSlipError());
+    }
+  }
+
+  static hideInsufficientBalanceError() {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.hideInsufficientBalanceError());
+    }
+  }
+
+  static hideDisconnectedError() {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.hideDisconnectedError());
     }
   }
 

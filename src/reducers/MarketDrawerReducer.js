@@ -20,6 +20,8 @@ let initialState = Immutable.fromJS({
   showDeleteUnconfirmedBetsConfirmation: false,
   unmatchedbetsToBeDeleted: Immutable.List(),
   showDeleteUnmatchedBetsConfirmation: false,
+  showDisconnectedError: false,
+  showInsufficientBalanceError: false,
 });
 
 export default function(state = initialState, action) {
@@ -128,6 +130,26 @@ export default function(state = initialState, action) {
         showBetSlipError: true,
         showBetSlipConfirmation: false,
         showBetSlipSuccess: false,
+      })
+    }
+    case ActionTypes.MARKET_DRAWER_SHOW_INSUFFICIENT_BALANCE_ERROR: {
+      return state.merge({
+        showInsufficientBalanceError: true,
+      })
+    }
+    case ActionTypes.MARKET_DRAWER_HIDE_INSUFFICIENT_BALANCE_ERROR: {
+      return state.merge({
+        showInsufficientBalanceError: false,
+      })
+    }
+    case ActionTypes.MARKET_DRAWER_SNOW_DISCONNECTED_ERROR: {
+      return state.merge({
+        showDisconnectedError: true,
+      })
+    }
+    case ActionTypes.MARKET_DRAWER_HIDE_DISCONNECTED_ERROR: {
+      return state.merge({
+        showDisconnectedError: false,
       })
     }
     // TODO: Once the Blockchain is ready, we also need to listen to bet update events

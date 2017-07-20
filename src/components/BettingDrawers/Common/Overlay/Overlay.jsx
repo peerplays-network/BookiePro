@@ -19,12 +19,16 @@ const Overlay = (props) => {
         { renderInstructions(className, replacements) }
       </div>
       <div className='buttons'>
-        <Button className='btn btn-cancel' onClick={ cancelAction }>
-          { I18n.t(`${ className }.cancel_button`) }
-        </Button>
-        <Button className='btn btn-regular' onClick={ confirmAction }>
-          { I18n.t(`${ className }.confirm_button`) }
-        </Button>
+        { cancelAction !== undefined &&
+          <Button className='btn btn-cancel' onClick={ cancelAction }>
+            { I18n.t(`${ className }.cancel_button`) }
+          </Button>
+        }
+        { confirmAction !== undefined &&
+          <Button className='btn btn-regular' onClick={ confirmAction }>
+            { I18n.t(`${ className }.confirm_button`) }
+          </Button>
+        }
       </div>
     </div>
   )
