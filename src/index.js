@@ -24,6 +24,8 @@ import HelpAndSupport from './components/HelpAndSupport';
 import { LocaleProvider } from 'antd';
 import { I18n } from 'react-redux-i18n';
 import log from 'loglevel';
+import LicenseScreen from './components/LicenseScreen';
+
 // Configure store
 const store = configureStore();
 // Configure history
@@ -46,6 +48,7 @@ const routes = (
       <IndexRedirect to='landing' />
       <Route path='/login' component={ Login } />
       <Route path='/signup' component={ Signup } />
+    <Route path='/license' component={ LicenseScreen } />
       <Route path='/welcome' component={ Welcome } />
       <Route path='/deposit' component={ Deposit } />
       <Route path='/landing' component={ Landing } />

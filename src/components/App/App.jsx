@@ -138,6 +138,8 @@ class App extends PureComponent {
       appBackgroundClass = 'fieldbg';
     } else if (appBackgroundType === AppBackgroundTypes.AUDIENCE_BG) {
       appBackgroundClass = 'audiencebg';
+    } else if (appBackgroundType === AppBackgroundTypes.LICENSE_BG) {
+      appBackgroundClass = 'licensebg';
     } else {
       appBackgroundClass = 'gradientbg';
     }
