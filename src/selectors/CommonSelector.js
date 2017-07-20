@@ -65,11 +65,17 @@ const getEventsById = (state) => {
 }
 
 const getActiveEventsBySportId = createSelector(
-  getEventsById,
-  (eventsById) => {
+  [
+    getEventsById,
+    getEventGroupsById
+  ],
+  (eventsById, eventGroupsById) => {
     // Active event is event whose start time is
     const isActiveEvent = (event) => (event.get('start_time') -  new Date()) > 0;
-    return eventsById.filter(isActiveEvent).toList().groupBy(event => event.get('sport_id'));
+    return eventsById.filter(isActiveEvent).toList().groupBy(event => {
+      const eventGroup = eventGroupsById.get(event.get('event_group_id'));
+      return eventGroup && eventGroup.get('sport_id')
+    });
   }
 )
 

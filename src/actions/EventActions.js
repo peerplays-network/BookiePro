@@ -73,13 +73,18 @@ class EventActions {
 
       // Get eventIdsBySportId
       const eventsById = getState().getIn(['event', 'eventsById']);
+      const eventGroupsById = getState().getIn(['eventGroup', 'eventGroupsById']);
       let eventsBySportId = Immutable.Map();
       eventsById.forEach( (event, id) => {
-        const sportId = event.get('sport_id');
-        eventsBySportId = eventsBySportId.update(sportId, events => {
-          if (!events) events = Immutable.List();
-          return events.push(event);
-        })
+        const eventGroupId = event.get('event_group_id');
+        const eventGroup = eventGroupsById.get(eventGroupId);
+        const sportId = eventGroup && eventGroup.get('sport_id');
+        if (sportId) {
+          eventsBySportId = eventsBySportId.update(sportId, events => {
+            if (!events) events = Immutable.List();
+            return events.push(event);
+          })
+        }
       })
 
       // Check if the requested data is already inside redux store

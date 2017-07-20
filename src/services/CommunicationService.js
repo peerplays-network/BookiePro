@@ -662,8 +662,12 @@ class CommunicationService {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           const currentTime = new Date().getTime();
+          const eventGroupsById = _.keyBy(dummyData.eventGroups, (eventGroup) => eventGroup.id);
           const filteredResult = _.filter(dummyData.events, (item) => {
-            return (item.sport_id === sportId) && (item.start_time - currentTime > 0);
+            const isActive = (item.start_time - currentTime > 0);
+            const eventGroup = eventGroupsById[item.event_group_id];
+            const isSportRelated = eventGroup && eventGroup.sport_id === sportId;
+            return isActive && isSportRelated;
           });
           resolve(filteredResult);
         }, TIMEOUT_LENGTH);

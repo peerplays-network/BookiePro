@@ -4,6 +4,7 @@ import { LoadingStatus, ActionTypes } from '../constants';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import EventActions from './EventActions';
+import EventGroupActions from './EventGroupActions';
 import SportActions from './SportActions';
 import { TransactionBuilder } from 'peerplaysjs-lib';
 import _ from 'lodash';
@@ -141,8 +142,13 @@ class BetActions {
           // Get the betting market groups
           return dispatch(EventActions.getEventsByIds(eventIds));
         }).then((events) => {
+          // Get unique event group ids
+          let eventGroupIds = events.map(event => event.get('event_group_id')).toSet();
+          // Get the betting market groups
+          return dispatch(EventGroupActions.getEventGroupsByIds(eventGroupIds));
+        }).then((eventGroups) => {
           // Get unique sport ids
-          let sportIds = events.map(event => event.get('sport_id')).toSet();
+          let sportIds = eventGroups.map(eventGroup => eventGroup.get('sport_id')).toSet();
           // Get the betting market groups
           return dispatch(SportActions.getSportsByIds(sportIds));
         }).then((sports) => {
@@ -195,9 +201,14 @@ class BetActions {
           // Get the events
           return dispatch(EventActions.getEventsByIds(eventIds));
         }).then((events) => {
+          // Get unique event group ids
+          let eventGroupIds = events.map(event => event.get('event_group_id')).toSet();
+          // Get the betting market groups
+          return dispatch(EventGroupActions.getEventGroupsByIds(eventGroupIds));
+        }).then((eventGroups) => {
           // Get unique sport ids
-          let sportIds = events.map(event => event.get('sport_id')).toSet();
-          // Get related data
+          let sportIds = eventGroups.map(eventGroup => eventGroup.get('sport_id')).toSet();
+          // Get the betting market groups
           return dispatch(SportActions.getSportsByIds(sportIds));
         }).then(() => {
           // Set my bets
