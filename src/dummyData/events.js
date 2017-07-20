@@ -1,11 +1,11 @@
 import moment from 'moment';
 
 /**
- * Instructions
- *
- * You can use the moment.js library to create a timestamp in the future.
- * Please follow the examples already defined in this file. Thanks.
- */
+* Instructions
+*
+* You can use the moment.js library to create a timestamp in the future.
+* Please follow the examples already defined in this file. Thanks.
+*/
 
 const events = [
   {
@@ -17,11 +17,6 @@ const events = [
     "event_group_id": "1.101.1",
     "event_status_id": "Completed",
     "scores": ["36", "19"],
-    "betting_market_group_ids": [
-      "1.104.1",
-      "1.104.2",
-      "1.104.3"
-    ]
   },
   {
     "id": "1.103.2",
@@ -32,11 +27,6 @@ const events = [
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.4",
-      "1.104.5",
-      "1.104.6"
-    ]
   },
   {
     "id": "1.103.3",
@@ -47,11 +37,6 @@ const events = [
     "event_group_id": "1.101.1",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.7",
-      "1.104.8",
-      "1.104.9"
-    ]
   },
   {
     "id": "1.103.4",
@@ -62,11 +47,6 @@ const events = [
     "event_group_id": "1.101.1",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.10",
-      "1.104.11",
-      "1.104.12"
-    ]
   },
   {
     "id": "1.103.5",
@@ -77,11 +57,6 @@ const events = [
     "event_group_id": "1.101.1",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.13",
-      "1.104.14",
-      "1.104.15"
-    ]
   },
   {
     "id": "1.103.6",
@@ -92,11 +67,6 @@ const events = [
     "event_group_id": "1.101.1",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.16",
-      "1.104.17",
-      "1.104.18"
-    ]
   },
   {
     "id": "1.103.7",
@@ -107,11 +77,6 @@ const events = [
     "event_group_id": "1.101.1",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.19",
-      "1.104.20",
-      "1.104.21"
-    ]
   },
   {
     "id": "1.103.8",
@@ -122,11 +87,6 @@ const events = [
     "event_group_id": "1.101.1",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.22",
-      "1.104.23",
-      "1.104.24"
-    ]
   },
   {
     "id": "1.103.9",
@@ -137,11 +97,6 @@ const events = [
     "event_group_id": "1.101.1",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.25",
-      "1.104.26",
-      "1.104.27"
-    ]
   },
   {
     "id": "1.103.10",
@@ -152,11 +107,6 @@ const events = [
     "event_group_id": "1.101.4",
     "event_status_id": "Completed",
     "scores": ["36", "19"],
-    "betting_market_group_ids": [
-      "1.104.28",
-      "1.104.29",
-      "1.104.30"
-    ]
   },
   {
     "id": "1.103.11",
@@ -167,11 +117,6 @@ const events = [
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.31",
-      "1.104.32",
-      "1.104.33"
-    ]
   },
   {
     "id": "1.103.12",
@@ -182,11 +127,6 @@ const events = [
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.34",
-      "1.104.35",
-      "1.104.36"
-    ]
   },
   {
     "id": "1.103.13",
@@ -197,11 +137,6 @@ const events = [
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.37",
-      "1.104.38",
-      "1.104.39"
-    ]
   },
   {
     "id": "1.103.14",
@@ -212,11 +147,6 @@ const events = [
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.40",
-      "1.104.41",
-      "1.104.42"
-    ]
   },
   {
     "id": "1.103.15",
@@ -227,11 +157,6 @@ const events = [
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.43",
-      "1.104.44",
-      "1.104.45"
-    ]
   },
   {
     "id": "1.103.16",
@@ -242,11 +167,6 @@ const events = [
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.46",
-      "1.104.47",
-      "1.104.48"
-    ]
   },
   {
     "id": "1.103.17",
@@ -257,11 +177,6 @@ const events = [
     "event_group_id": "1.101.4",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.49",
-      "1.104.50",
-      "1.104.51"
-    ]
   },
   {
     "id": "1.103.18",
@@ -272,11 +187,6 @@ const events = [
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.52",
-      "1.104.53",
-      "1.104.54"
-    ]
   },
   {
     "id": "1.103.19",
@@ -287,11 +197,6 @@ const events = [
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.55",
-      "1.104.56",
-      "1.104.57"
-    ]
   },
   {
     "id": "1.103.20",
@@ -302,11 +207,6 @@ const events = [
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.58",
-      "1.104.59",
-      "1.104.60"
-    ]
   },
   {
     "id": "1.103.21",
@@ -317,11 +217,6 @@ const events = [
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.61",
-      "1.104.62",
-      "1.104.63"
-    ]
   },
   {
     "id": "1.103.22",
@@ -332,11 +227,6 @@ const events = [
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.64",
-      "1.104.65",
-      "1.104.66"
-    ]
   },
   {
     "id": "1.103.23",
@@ -347,11 +237,6 @@ const events = [
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.67",
-      "1.104.68",
-      "1.104.69"
-    ]
   },
   {
     "id": "1.103.24",
@@ -362,11 +247,6 @@ const events = [
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.70",
-      "1.104.71",
-      "1.104.72"
-    ]
   },
   {
     "id": "1.103.25",
@@ -377,11 +257,6 @@ const events = [
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.73",
-      "1.104.74",
-      "1.104.75"
-    ]
   },
   {
     "id": "1.103.26",
@@ -392,11 +267,6 @@ const events = [
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.76",
-      "1.104.77",
-      "1.104.78"
-    ]
   },
   {
     "id": "1.103.27",
@@ -407,11 +277,6 @@ const events = [
     "event_group_id": "1.101.7",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.79",
-      "1.104.80",
-      "1.104.81"
-    ]
   },
   {
     "id": "1.103.28",
@@ -422,11 +287,6 @@ const events = [
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.82",
-      "1.104.83",
-      "1.104.84"
-    ]
   },
   {
     "id": "1.103.29",
@@ -437,11 +297,6 @@ const events = [
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.85",
-      "1.104.86",
-      "1.104.87"
-    ]
   },
   {
     "id": "1.103.30",
@@ -452,11 +307,6 @@ const events = [
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.88",
-      "1.104.89",
-      "1.104.90"
-    ]
   },
   {
     "id": "1.103.31",
@@ -467,11 +317,6 @@ const events = [
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.91",
-      "1.104.92",
-      "1.104.93"
-    ]
   },
   {
     "id": "1.103.32",
@@ -482,11 +327,6 @@ const events = [
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.94",
-      "1.104.95",
-      "1.104.96"
-    ]
   },
   {
     "id": "1.103.33",
@@ -497,11 +337,6 @@ const events = [
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.97",
-      "1.104.98",
-      "1.104.99"
-    ]
   },
   {
     "id": "1.103.34",
@@ -512,11 +347,6 @@ const events = [
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.100",
-      "1.104.101",
-      "1.104.102"
-    ]
   },
   {
     "id": "1.103.35",
@@ -527,11 +357,6 @@ const events = [
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.103",
-      "1.104.104",
-      "1.104.105"
-    ]
   },
   {
     "id": "1.103.36",
@@ -542,11 +367,6 @@ const events = [
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.106",
-      "1.104.107",
-      "1.104.108"
-    ]
   },
   {
     "id": "1.103.37",
@@ -557,11 +377,6 @@ const events = [
     "event_group_id": "1.101.10",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.109",
-      "1.104.110",
-      "1.104.111"
-    ]
   },
   //basketball Group 1
   {
@@ -573,11 +388,6 @@ const events = [
     "event_group_id": "1.101.5",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.112",
-      "1.104.113",
-      "1.104.114"
-    ]
   },
   {
     "id": "1.103.39",
@@ -588,11 +398,6 @@ const events = [
     "event_group_id": "1.101.5",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.115",
-      "1.104.116",
-      "1.104.117"
-    ]
   },
   {
     "id": "1.103.40",
@@ -603,11 +408,6 @@ const events = [
     "event_group_id": "1.101.5",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.118",
-      "1.104.119",
-      "1.104.120"
-    ]
   },
   {
     "id": "1.103.41",
@@ -618,11 +418,6 @@ const events = [
     "event_group_id": "1.101.5",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.121",
-      "1.104.122",
-      "1.104.123"
-    ]
   },
   {
     "id": "1.103.42",
@@ -633,11 +428,6 @@ const events = [
     "event_group_id": "1.101.5",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.124",
-      "1.104.125",
-      "1.104.126"
-    ]
   },
   //Basketball event 3
   {
@@ -649,11 +439,6 @@ const events = [
     "event_group_id": "1.101.6",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.127",
-      "1.104.128",
-      "1.104.129"
-    ]
   },
   {
     "id": "1.103.44",
@@ -664,11 +449,6 @@ const events = [
     "event_group_id": "1.101.6",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.130",
-      "1.104.131",
-      "1.104.132"
-    ]
   },
   {
     "id": "1.103.45",
@@ -679,11 +459,6 @@ const events = [
     "event_group_id": "1.101.6",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.133",
-      "1.104.134",
-      "1.104.135"
-    ]
   },
   {
     "id": "1.103.46",
@@ -694,11 +469,6 @@ const events = [
     "event_group_id": "1.101.6",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.136",
-      "1.104.137",
-      "1.104.138"
-    ]
   },
   {
     "id": "1.103.47",
@@ -709,11 +479,6 @@ const events = [
     "event_group_id": "1.101.6",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.139",
-      "1.104.140",
-      "1.104.141"
-    ]
   },
   //Soccer Event Group 2
   {
@@ -725,11 +490,6 @@ const events = [
     "event_group_id": "1.101.11",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.142",
-      "1.104.143",
-      "1.104.144"
-    ]
   },
   {
     "id": "1.103.49",
@@ -740,11 +500,6 @@ const events = [
     "event_group_id": "1.101.11",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.145",
-      "1.104.146",
-      "1.104.147"
-    ]
   },
   {
     "id": "1.103.50",
@@ -755,11 +510,6 @@ const events = [
     "event_group_id": "1.101.11",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.148",
-      "1.104.149",
-      "1.104.150"
-    ]
   },
   {
     "id": "1.103.51",
@@ -770,11 +520,6 @@ const events = [
     "event_group_id": "1.101.11",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.151",
-      "1.104.152",
-      "1.104.153"
-    ]
   },
   {
     "id": "1.103.52",
@@ -785,11 +530,6 @@ const events = [
     "event_group_id": "1.101.11",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.154",
-      "1.104.155",
-      "1.104.156"
-    ]
   },
   //Soccer Event group 3
   {
@@ -801,11 +541,6 @@ const events = [
     "event_group_id": "1.101.12",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.157",
-      "1.104.158",
-      "1.104.159"
-    ]
   },
   {
     "id": "1.103.54",
@@ -816,11 +551,6 @@ const events = [
     "event_group_id": "1.101.12",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.160",
-      "1.104.161",
-      "1.104.162"
-    ]
   },
   {
     "id": "1.103.55",
@@ -831,11 +561,6 @@ const events = [
     "event_group_id": "1.101.12",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.163",
-      "1.104.164",
-      "1.104.165"
-    ]
   },
   {
     "id": "1.103.56",
@@ -846,11 +571,6 @@ const events = [
     "event_group_id": "1.101.12",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.166",
-      "1.104.167",
-      "1.104.168"
-    ]
   },
   {
     "id": "1.103.57",
@@ -861,11 +581,6 @@ const events = [
     "event_group_id": "1.101.12",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.169",
-      "1.104.170",
-      "1.104.171"
-    ]
   },
   //Baseball Group 2
   {
@@ -877,11 +592,6 @@ const events = [
     "event_group_id": "1.101.8",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.172",
-      "1.104.173",
-      "1.104.174"
-    ]
   },
   {
     "id": "1.103.59",
@@ -892,11 +602,6 @@ const events = [
     "event_group_id": "1.101.8",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.175",
-      "1.104.176",
-      "1.104.177"
-    ]
   },
   {
     "id": "1.103.60",
@@ -907,11 +612,6 @@ const events = [
     "event_group_id": "1.101.8",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.178",
-      "1.104.179",
-      "1.104.180"
-    ]
   },
   {
     "id": "1.103.61",
@@ -922,11 +622,6 @@ const events = [
     "event_group_id": "1.101.8",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.181",
-      "1.104.182",
-      "1.104.183"
-    ]
   },
   {
     "id": "1.103.62",
@@ -937,11 +632,6 @@ const events = [
     "event_group_id": "1.101.8",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.184",
-      "1.104.185",
-      "1.104.186"
-    ]
   },
   //Baseball Group 3
   {
@@ -953,11 +643,6 @@ const events = [
     "event_group_id": "1.101.9",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.187",
-      "1.104.188",
-      "1.104.189"
-    ]
   },
   {
     "id": "1.103.64",
@@ -968,11 +653,6 @@ const events = [
     "event_group_id": "1.101.9",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.190",
-      "1.104.191",
-      "1.104.192"
-    ]
   },
   {
     "id": "1.103.65",
@@ -983,11 +663,6 @@ const events = [
     "event_group_id": "1.101.9",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.193",
-      "1.104.194",
-      "1.104.195"
-    ]
   },
   {
     "id": "1.103.66",
@@ -998,11 +673,6 @@ const events = [
     "event_group_id": "1.101.9",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.196",
-      "1.104.197",
-      "1.104.198"
-    ]
   },
   {
     "id": "1.103.67",
@@ -1013,11 +683,6 @@ const events = [
     "event_group_id": "1.101.9",
     "event_status_id": "Upcoming",
     "scores": ["0", "0"],
-    "betting_market_group_ids": [
-      "1.104.199",
-      "1.104.200",
-      "1.104.201"
-    ]
   },
   //For Resolved Bets
   //American Football
@@ -1030,11 +695,6 @@ const events = [
     "event_group_id": "1.101.1",
     "event_status_id": "Completed",
     "scores": ["36", "19"],
-    "betting_market_group_ids": [
-      "1.104.202",
-      "1.104.203",
-      "1.104.204"
-    ]
   },
   {
     "id": "1.103.69",
@@ -1045,11 +705,6 @@ const events = [
     "event_group_id": "1.101.1",
     "event_status_id": "Completed",
     "scores": ["36", "19"],
-    "betting_market_group_ids": [
-      "1.104.205",
-      "1.104.206",
-      "1.104.207"
-    ]
   },
   {
     "id": "1.103.70",
@@ -1060,11 +715,6 @@ const events = [
     "event_group_id": "1.101.1",
     "event_status_id": "Completed",
     "scores": ["36", "19"],
-    "betting_market_group_ids": [
-      "1.104.208",
-      "1.104.209",
-      "1.104.210"
-    ]
   },
   {
     "id": "1.103.71",
@@ -1075,11 +725,6 @@ const events = [
     "event_group_id": "1.101.1",
     "event_status_id": "Completed",
     "scores": ["36", "19"],
-    "betting_market_group_ids": [
-      "1.104.211",
-      "1.104.212",
-      "1.104.213"
-    ]
   },
   {
     "id": "1.103.72",
@@ -1090,11 +735,6 @@ const events = [
     "event_group_id": "1.101.1",
     "event_status_id": "Completed",
     "scores": ["36", "19"],
-    "betting_market_group_ids": [
-      "1.104.214",
-      "1.104.215",
-      "1.104.216"
-    ]
   },
   //Basketball
   {
@@ -1106,11 +746,6 @@ const events = [
     "event_group_id": "1.101.4",
     "event_status_id": "Completed",
     "scores": ["36", "19"],
-    "betting_market_group_ids": [
-      "1.104.217",
-      "1.104.218",
-      "1.104.219"
-    ]
   },
   {
     "id": "1.103.74",
@@ -1121,11 +756,6 @@ const events = [
     "event_group_id": "1.101.4",
     "event_status_id": "Completed",
     "scores": ["36", "19"],
-    "betting_market_group_ids": [
-      "1.104.220",
-      "1.104.221",
-      "1.104.222"
-    ]
   },
   //Baseball
   {
@@ -1137,11 +767,6 @@ const events = [
     "event_group_id": "1.101.7",
     "event_status_id": "Completed",
     "scores": ["36", "19"],
-    "betting_market_group_ids": [
-      "1.104.223",
-      "1.104.224",
-      "1.104.225"
-    ]
   },
   {
     "id": "1.103.76",
@@ -1152,11 +777,6 @@ const events = [
     "event_group_id": "1.101.7",
     "event_status_id": "Completed",
     "scores": ["36", "19"],
-    "betting_market_group_ids": [
-      "1.104.226",
-      "1.104.227",
-      "1.104.228"
-    ]
   },
   //Resolved Bets Ends
 ];
