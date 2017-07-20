@@ -13,6 +13,10 @@ class LicenseScreen extends PureComponent {
     // Set app background to license bg
     this.props.setAppBackground(AppBackgroundTypes.LICENSE_BG);
   }
+  componentWillUnmount() {
+    // Reset app background to gradient
+    this.props.setAppBackground(AppBackgroundTypes.GRADIENT_BG);
+  }
   render() {
     return (
       <div className='licenseComponent'>
