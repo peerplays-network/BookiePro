@@ -254,6 +254,8 @@ class MarketDrawerActions {
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.hideBetSlipConfirmation());
       dispatch(MarketDrawerPrivateActions.hideBetSlipError());
+      dispatch(MarketDrawerPrivateActions.hideInsufficientBalanceError());
+      dispatch(MarketDrawerPrivateActions.hideDisconnectedError());
     }
   }
 
@@ -360,6 +362,8 @@ class MarketDrawerActions {
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.hidePlacedBetsConfirmation());
       dispatch(MarketDrawerPrivateActions.hidePlacedBetsError());
+      dispatch(MarketDrawerPrivateActions.hideInsufficientBalanceError());
+      dispatch(MarketDrawerPrivateActions.hideDisconnectedError());
     }
   }
 
