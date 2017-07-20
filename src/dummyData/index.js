@@ -7,6 +7,7 @@ import binnedOrderBooks from './binnedOrderBooks';
 import globalBettingStatistics from './globalBettingStatistics';
 import bets from './bets';
 import history from './history';
+import rules from './rules';
 
 export default {
   sports,

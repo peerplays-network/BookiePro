@@ -545,6 +545,18 @@ class CommunicationService {
   }
 
   /**
+   * Get rules
+   */
+  static getRules(ruleIds) {
+    if (Config.useDummyData) {
+      return this.getDummyRules(ruleIds);
+    } else {
+      // TODO: change later
+      return Promise.resolve(Immutable.List());
+    }
+  }
+
+  /**
    * Get global betting statistics
    */
   static getGlobalBettingStatistics() {
