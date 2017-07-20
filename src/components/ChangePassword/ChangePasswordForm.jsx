@@ -42,10 +42,11 @@ class ChangePasswordForm extends PureComponent {
 
   //Component to render the 'Copy' button
   renderRecoveryButtonFields = (fields) =>{
+
     const minimumLength = 22;
-    const disabled = fields.new_password.input.value !== fields.new_password_confirm.input.value
-      ||  fields.new_password_confirm.input.value.length < minimumLength;
-      //       || !this.state.isPwDownloaded;
+    const disabled = fields.recoveryDisabled
+      || fields.new_password.input.value !== fields.new_password_confirm.input.value
+      || fields.new_password_confirm.input.value.length < minimumLength;
 
     return (
 
@@ -66,8 +67,10 @@ class ChangePasswordForm extends PureComponent {
     const { isPwDownloaded } = this.state;
     const { handleSubmit,reset,loadingStatus,invalid,asyncValidating,submitting,pristine } = this.props;
     const errors = this.props.errors.toJS(), isLoading = (loadingStatus===LoadingStatus.LOADING && errors.length===0)
-    const confirmBtnEnable = invalid || submitting || asyncValidating || isLoading || !isPwDownloaded ;
-    
+    const recoveryDisabled = invalid || submitting || asyncValidating || isLoading;
+    const confirmBtnDisabled = recoveryDisabled || !isPwDownloaded;
+    const oldPasswordDisabled = isLoading || pristine || submitting;
+
     return (
       <form onSubmit={ handleSubmit }>
 
@@ -96,7 +99,11 @@ class ChangePasswordForm extends PureComponent {
               { I18n.t('signup.password_warning_1') }<span className='boldTextInMessage'>{ I18n.t('signup.password_warning_2') }</span>{ I18n.t('signup.password_warning_3') }
             </p>
             <div className='text-center'>
-              <Fields names={ ['new_password','new_password_confirm'] } component={ this.renderRecoveryButtonFields } onClick={ this.onClickDownload.bind(this) }/>
+              <Fields
+                props={ { recoveryDisabled } }
+                names={ ['new_password','new_password_confirm'] }
+                component={ this.renderRecoveryButtonFields }
+                onClick={ this.onClickDownload.bind(this) }/>
             </div>
           </div>
         </div>
@@ -104,14 +111,13 @@ class ChangePasswordForm extends PureComponent {
         <div className='form-fields text-center'>
           <div>{ Field.old_password }</div>
           <button hidden type='button' onClick={ reset }
-            disabled={ isLoading || pristine || submitting }
-            className={ 'btn ' + ((isLoading || pristine || submitting) ?
-                        'btn-regular-disabled':' cancel-btn') + ' grid-100 margin-top-25' }>
+            disabled={ oldPasswordDisabled }
+            className={ 'btn ' + ((oldPasswordDisabled) ? 'btn-regular-disabled':' cancel-btn') + ' grid-100 margin-top-25' }>
             { I18n.t('changePassword.cancel') }
           </button>
           <button type='submit'
-            className={ 'btn ' + ( confirmBtnEnable ? 'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-25' }
-            disabled={ confirmBtnEnable }>
+            className={ 'btn ' + ( confirmBtnDisabled ? 'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-25' }
+            disabled={ confirmBtnDisabled }>
             { isLoading ? I18n.t('application.loading') : I18n.t('changePassword.confirm') }
           </button>
         </div>
