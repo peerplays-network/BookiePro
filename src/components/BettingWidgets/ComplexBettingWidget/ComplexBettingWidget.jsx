@@ -349,7 +349,7 @@ class ComplexBettingWidget extends PureComponent {
 
     // TODO using string for market_type_id instead of 1.xxxx.x
     // TODO: this is temporary solution to allow CR37 be implemented without breaking existing change, later, change this with rule object
-    const description = bettingMarketGroup.get('description').toUpperCase();
+    const description = (bettingMarketGroup && bettingMarketGroup.get('description').toUpperCase()) || '';
     let marketType = '';
     if (description.startsWith('MONEYLINE')) {
       marketType = 'Moneyline';
