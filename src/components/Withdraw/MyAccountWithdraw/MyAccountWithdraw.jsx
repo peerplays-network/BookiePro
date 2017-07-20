@@ -81,9 +81,7 @@ class MyAccountWithdraw extends PureComponent{
                        this.state.hasWithdrawAmountErr || isWithdrawLoadingStatusLoading,
       prefix = currencyFormat === 'BTC' ? 'icon-bitcoin' : ( currencyFormat === 'mBTC' ? 'icon-mbitcoin' : '');
 
-    let withdrawCardTitle = '';
-    if(withdrawLoadingStatus === LoadingStatus.DEFAULT)
-      withdrawCardTitle = I18n.t('myAccount.withdraw');
+    let withdrawCardTitle = I18n.t('myAccount.withdraw');
     if(isWithdrawLoadingStatusDone)
       withdrawCardTitle = I18n.t('myAccount.withdraw_completed');
 
