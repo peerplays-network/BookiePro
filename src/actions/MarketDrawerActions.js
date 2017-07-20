@@ -148,7 +148,12 @@ class MarketDrawerPrivateActions {
 
 class MarketDrawerActions {
   static createBet(team, bet_type, betting_market_id, market_type_id, market_type_value, odds = '') {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+      const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', betting_market_id]);
+      const bettingMarketGroupId = bettingMarket && bettingMarket.get('betting_market_group_id');
+      const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
+      const bettingMarketDescription = bettingMarket && bettingMarket.get('description');
+      const bettingMarketGroupDescription = bettingMarketGroup && bettingMarketGroup.get('description');
       const bet = Immutable.fromJS({
         team,
         bet_type,
@@ -156,6 +161,8 @@ class MarketDrawerActions {
         market_type_id,
         market_type_value,
         odds,
+        betting_market_description: bettingMarketDescription,
+        betting_market_group_description: bettingMarketGroupDescription,
         id: parseInt(moment().format('x'), 10)  // unix millisecond timestamp
       });
       dispatch(MarketDrawerPrivateActions.addUnconfirmedBet(bet));
@@ -219,12 +226,16 @@ class MarketDrawerActions {
       const bettingMarketIds= bettingMarketGroup.get('betting_market_ids');
       const bettingMarketsById = getState().getIn(['bettingMarket', 'bettingMarketsById']);
       const assetsById = getState().getIn(['asset', 'assetsById']);
+      const bettingMarketGroupDescription = bettingMarketGroup && bettingMarketGroup.get('description');
       const getBets = (collection) =>
         collection.filter(bet => bettingMarketIds.includes(bet.get('betting_market_id'))).map(bet => {
           const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
+          const bettingMarketDescription = bettingMarket && bettingMarket.get('description');
           const precision = assetsById.get(bettingMarket.get('bet_asset_type')).get('precision');
           return bet.set('market_type_id', bettingMarketGroup.get('market_type_id'))
                     .set('market_type_value', resolveMarketTypeValue(bettingMarketGroup, bet.get('betting_market_id')))
+                    .set('betting_market_description', bettingMarketDescription)
+                    .set('betting_market_group_description', bettingMarketGroupDescription)
                     .set('asset_precision', precision);     // set this and use in reducer
         });
 

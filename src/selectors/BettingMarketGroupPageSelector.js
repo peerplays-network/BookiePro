@@ -49,15 +49,7 @@ const getBettingMarketGroup = createSelector(
 const getBettingMarketGroupName = createSelector([
   getBettingMarketGroup
 ], (bettingMarketGroup) => {
-  let bettingMarketGroupName = (bettingMarketGroup && bettingMarketGroup.get('market_type_id')) || '';
-  if ( bettingMarketGroupName === 'Spread'){
-    bettingMarketGroupName = I18n.t('bettingMarketGroup.spread');
-  } else if ( bettingMarketGroupName === 'OverUnder'){
-    bettingMarketGroupName = I18n.t('bettingMarketGroup.overunder');
-  } else if ( bettingMarketGroupName === 'Moneyline'){
-    bettingMarketGroupName = I18n.t('bettingMarketGroup.moneyline');
-  }
-  return bettingMarketGroupName;
+  return (bettingMarketGroup && bettingMarketGroup.get('description')) || '';
 })
 
 const getEvent = createSelector(
@@ -188,9 +180,11 @@ const getUnconfirmedBets = (state) => {
   return state.getIn(['marketDrawer', 'unconfirmedBets']);
 }
 
-const getWidgetTitle = (state) => {
-  return state.getIn(['bettingMarketGroupPage', 'widgetTitle']);
-}
+const getWidgetTitle = createSelector([
+  getBettingMarketGroup
+], (bettingMarketGroup) => {
+  return (bettingMarketGroup && bettingMarketGroup.get('description')) || '';
+})
 
 const getMarketData = createSelector(
   [
@@ -207,10 +201,8 @@ const getMarketData = createSelector(
 
       const marketTypeId = bettingMarketGroup.get('market_type_id');
 
-      // TODO: REMOVE this once we have the real Blockchain
-      // Using payout_condition_string as PLACEHOLDER in case of (dummy) data integrity issue
-      let data = Immutable.Map().set('displayName', bettingMarket.get('payout_condition_string'))
-        .set('name', bettingMarket.get('payout_condition_string'))
+      let data = Immutable.Map().set('displayName', bettingMarket.get('description'))
+        .set('name', bettingMarket.get('description'))
         .set('marketTypeId', marketTypeId)
 
       const homeSelection = homeName ? homeName : data.get('displayName')
@@ -222,12 +214,12 @@ const getMarketData = createSelector(
         const margin = bettingMarketGroup.getIn(['options', 'margin']);
         if ( i === homeId ){
           const signedMargin = StringUtils.formatSignedNumber(margin);
-          data = data.set('displayedName', homeSelection + signedMargin )
+          data = data.set('displayedName', bettingMarket.get('description') )
             .set('name', homeSelection)
             .set('marketTypeValue', signedMargin);
         } else if ( i === awayId ){
           const signedMargin = StringUtils.formatSignedNumber(margin*-1);
-          data = data.set('displayedName', awaySelection + signedMargin)
+          data = data.set('displayedName', bettingMarket.get('description'))
             .set('name', awaySelection)
             .set('marketTypeValue', signedMargin);
         }
@@ -236,11 +228,11 @@ const getMarketData = createSelector(
 
         const score = bettingMarketGroup.getIn(['options', 'score']);
         if ( i === 0 ){
-          data = data.set('displayedName', I18n.t('bettingMarketGroup.over') + score )
+          data = data.set('displayedName', bettingMarket.get('description') )
             .set('name', homeSelection)
             .set('marketTypeValue', I18n.t('bettingMarketGroup.over') + score);
         } else if ( i === 1 ){
-          data = data.set('displayedName', I18n.t('bettingMarketGroup.under') + score )
+          data = data.set('displayedName',  bettingMarket.get('description') )
             .set('name', awaySelection)
             .set('marketTypeValue', I18n.t('bettingMarketGroup.under') + score );
         }
@@ -248,10 +240,10 @@ const getMarketData = createSelector(
       } else if ( marketTypeId === 'Moneyline'){
         data = data.set('marketTypeValue', marketTypeId); // Moneyline has no extra option
         if ( i === homeId && homeName ){
-          data = data.set('displayedName', homeSelection )
+          data = data.set('displayedName',  bettingMarket.get('description') )
             .set('name', homeSelection);
         } else if ( i === awayId && awayName ){
-          data = data.set('displayedName', awaySelection )
+          data = data.set('displayedName',  bettingMarket.get('description') )
             .set('name', awaySelection);
         }
 

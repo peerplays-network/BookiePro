@@ -8,7 +8,6 @@ const {
   getBettingMarketGroupsById,
 } = CommonSelector;
 import { I18n } from 'react-redux-i18n';
-import { resolveBettingMarketGroupDisplayName } from '../actions/dataUtils'
 import { LoadingStatus } from '../constants'
 
 const getSidebarLoadingStatus = (state) => state.getIn(['sidebar', 'loadingStatus']);
@@ -86,13 +85,8 @@ const getSidebarCompleteTree = createSelector(
               const marketTypeId = mktGroup.get('market_type_id');
               let mktGroupNode = createNode(mktGroup, 'BettingMarketGroup');
               mktGroupNode = mktGroupNode.set('market_type_id', marketTypeId )
-                                         .set('options', mktGroup.get('options') )
-                                         .set('name', marketTypeId );
-              if ( mktGroup.has('options') ){
-                // update the name to be shown in sidebar based on market typd
-                // currently we have 'Spread', 'OverUnder' and 'Moneyline'
-                mktGroupNode = mktGroupNode.set('name', resolveBettingMarketGroupDisplayName(mktGroup));
-              };
+                                         .set('options', mktGroup.get('options') );
+              mktGroupNode = mktGroupNode.set('name', mktGroup.get('description'));
               return mktGroupNode;
             });
             // Append betting market group to event node

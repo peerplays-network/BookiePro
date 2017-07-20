@@ -24,6 +24,8 @@ const transformUnmatchedBetObject = bet => {
     // REVIEW These 2 values are populated by the application
     market_type_id: bet.get('market_type_id'),
     market_type_value: bet.get('market_type_value'),
+    betting_market_description: bet.get('betting_market_description'),
+    betting_market_group_description: bet.get('betting_market_group_description'),
   });
 
   if (result.get('bet_type') === 'back') {
@@ -60,6 +62,8 @@ const transformMatchedBetObject = bet => {
     // REVIEW These 2 values are populated by the application
     market_type_id: bet.get('market_type_id'),
     market_type_value: bet.get('market_type_value'),
+    betting_market_description: bet.get('betting_market_description'),
+    betting_market_group_description: bet.get('betting_market_group_description'),
   });
   if (result.get('bet_type') === 'back') {
     result = result.set('stake', bet.get('matched_bet_amount'));

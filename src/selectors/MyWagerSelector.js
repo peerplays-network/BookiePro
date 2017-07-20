@@ -9,7 +9,7 @@ import { TimeRangePeriodTypes, MyWagerTabTypes } from '../constants';
 import CommonSelector from './CommonSelector';
 import Immutable from 'immutable';
 
-const { mergeRelationData, mergeBettingMarketGroup } = MyWagerUtils;
+const { mergeRelationData } = MyWagerUtils;
 const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
 
 const {
@@ -141,7 +141,7 @@ const mergeBettingMarketData = createSelector(
   [betData, getBettingMarketsById],
   (bets, betMarket)=>{
     return mergeRelationData(bets, betMarket, 'betting_market_id',
-      {betting_market_group_id: 'betting_market_group_id' , payout_condition_string: 'payout_condition_string'});
+      {betting_market_group_id: 'betting_market_group_id', description: 'betting_market_description'});
   }
 );
 
@@ -149,7 +149,8 @@ const mergeBettingMarketData = createSelector(
 const mergeBettingMarketGroupData = createSelector(
   [mergeBettingMarketData, getBettingMarketGroupsById],
   (bets, betMarketGroup)=>{
-    return mergeBettingMarketGroup(bets, betMarketGroup, 'betting_market_group_id');
+    return mergeRelationData(bets, betMarketGroup, 'betting_market_group_id',
+      { event_id: 'event_id', description: 'betting_market_group_description' });
   }
 );
 
@@ -171,7 +172,28 @@ const mergeSportsData = createSelector(
   }
 );
 
+// TODO: revisit this later and simplify the logic
 //formatting data after getting all reuired data merged
+// Bet data currently looks like this
+/**
+back_or_lay:"LAY"
+betting_market_group_id:"1.104.1"
+betting_market_id:"1.105.1"
+cancel:Object
+event_id:"1.103.1"
+event_name:Object
+event_time:"Tomorrow, 14:54"
+id:"1.106.9"
+key:"1.106.9"
+betting_market_description: "NY Giants",
+betting_market_group_description: "Moneyline",
+odds:2.25
+profit_liability:"0.50000"
+sport_id:"1.100.1"
+sport_name:"American Football"
+stake:"0.625"
+type:"LAY | NY Giants  | Moneyline"
+ */
 const formatBettingData = (data, activeTab, precision, targetCurrency, startDate, endDate) => {
   //showing past data as resolvedBets and future data as matchedBets unmatchedBets
   if(activeTab !== MyWagerTabTypes.RESOLVED_BETS)
@@ -181,7 +203,7 @@ const formatBettingData = (data, activeTab, precision, targetCurrency, startDate
   //TODO: use .map() instead of foreach as suggested
   data.forEach((row, index) => {
     let rowObj = {
-      'type' : (row.get('back_or_lay').toUpperCase() + ' | ' + row.get('payout_condition_string') + ' ' + row.get('options') + ' | ' + row.get('market_type_id')),
+      'type' : (row.get('back_or_lay').toUpperCase() + ' | ' + row.get('betting_market_description') + ' | ' + row.get('betting_market_group_description')),
     };
     //randomly changed win value to negative for liability display
     //applied class based on profit or loss
@@ -194,6 +216,7 @@ const formatBettingData = (data, activeTab, precision, targetCurrency, startDate
     }
     data[index] = row.merge(rowObj);
   });
+
   return Immutable.fromJS(data);
 }
 

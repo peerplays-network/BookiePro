@@ -7,8 +7,8 @@ import { incrementOdds, decrementOdds, adjustOdds, MIN_ODDS } from './oddsIncrem
 
 const renderTeam = (text, record) => (
   <div>
-    <div className='team'>{ record.team }</div>
-    <div className='market_type'>{ record.market_type_value }</div>
+    <div className='team'>{ record.betting_market_description }</div>
+    <div className='market_type'>{ record.betting_market_group_description }</div>
   </div>
 );
 
