@@ -33,7 +33,6 @@ class LogoutModal extends PureComponent {
   }
 
   render() {
-    // TODO: Currently sharing SoftwareUpdateModal styling
     return (
       <Modal
         title={ I18n.t('logoutModal.title') }
