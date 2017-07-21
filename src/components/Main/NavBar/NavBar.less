@@ -44,11 +44,16 @@
       margin-top:0;
       color: @topbar_label;
       &.amount {
-        // Fogbugz-716: override the hovering highlight of the account balance button
+        // >> Fogbugz-716: override the hovering highlight of the account balance button
+        cursor: default;
         &:hover {
           background-color: transparent;
-          a { color: @topbar_label; }
+          a {
+            color: @topbar_label;
+            cursor: default;
+          }
         }
+        // << Fogbugz-716 end
         a{
           color: @topbar_label;
           font-size:18px;
