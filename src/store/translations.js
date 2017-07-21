@@ -749,7 +749,7 @@ export const translationsObject = {
     },
     help: {
       title: 'HELP AND SUPPORT',
-      header: 'FAQ',
+      header: 'FAQS',
       topicOverview: {
         header: 'Overview',
         questionAnswerPairs: [
