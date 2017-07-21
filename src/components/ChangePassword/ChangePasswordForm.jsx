@@ -51,14 +51,12 @@ class ChangePasswordForm extends PureComponent {
     return (
 
       <div>
-        <div className='loginCreate__btnWrap'>
-            <Button type='primary' htmlType='submit'
-              className={ 'btn ' + (disabled ? 'btn-regular-disabled':' btn-download') + ' grid-100' }
-              onClick={ fields.onClick.bind(this, fields.new_password.input.value) }
-              disabled={ disabled }>
-              {I18n.t('signup.download_rec_text')}
-            </Button>
-        </div>
+          <Button type='primary' htmlType='submit'
+            className={ 'btn ' + (disabled ? 'btn-regular-disabled':' btn-download') + ' grid-100' }
+            onClick={ fields.onClick.bind(this, fields.new_password.input.value) }
+            disabled={ disabled }>
+            {I18n.t('signup.download_rec_text')}
+          </Button>
       </div>
     )
   }
