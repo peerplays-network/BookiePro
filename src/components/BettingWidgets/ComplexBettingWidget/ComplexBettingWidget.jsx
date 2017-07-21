@@ -6,9 +6,8 @@ import 'react-table/react-table.css'
 import Immutable from 'immutable';
 import { Icon, Button } from 'antd';
 import RulesModal from '../../Modal/RulesModal'
-import { I18n, Translate } from 'react-redux-i18n';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 const itemDisplay = 3;
 
@@ -28,7 +27,8 @@ class ComplexBettingWidget extends PureComponent {
     this.setTableData = this.setTableData.bind(this);
     this.placeAllBestBets = this.placeAllBestBets.bind(this);
     this.getBestOfferOfEachmarket = this.getBestOfferOfEachmarket.bind(this);
-    this.showRulesModal = this.showRulesModal.bind(this);
+    this.onClickRulesButton = this.onClickRulesButton.bind(this);
+    this.onCancelRulesModal = this.onCancelRulesModal.bind(this);
   }
 
   componentDidMount(){
@@ -43,10 +43,16 @@ class ComplexBettingWidget extends PureComponent {
     }
   }
 
-  showRulesModal(event) {
+  onClickRulesButton(event) {
     event.preventDefault();
     this.setState({
       rulesModalVisible: true
+    })
+  }
+
+  onCancelRulesModal() {
+    this.setState({
+      rulesModalVisible: false
     })
   }
 
@@ -184,9 +190,10 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   render() {
-    const { currencyFormat, bettingMarketGroup, bettingMarketGroupName,
-            totalMatchedBetsAmount, eventTime, sportName, eventName,
-            widgetTitle
+    const { currencyFormat,
+            totalMatchedBetsAmount,
+            widgetTitle,
+            rules
     } = this.props;
 
     const minNameWidth = 200;
@@ -355,23 +362,6 @@ class ComplexBettingWidget extends PureComponent {
         </div>
     }]
 
-    // TODO using string for market_type_id instead of 1.xxxx.x
-    // TODO: this is temporary solution to allow CR37 be implemented without breaking existing change, later, change this with rule object
-    const description = (bettingMarketGroup && bettingMarketGroup.get('description').toUpperCase()) || '';
-    let marketType = '';
-    if (description.startsWith('MONEYLINE')) {
-      marketType = 'Moneyline';
-    } else if (description.startsWith('SPREAD')) {
-      marketType = 'Spread';
-    } else if (description.startsWith('OVER')) {
-      marketType = 'OverUnder';
-    }
-    const ruleModalText =  ( bettingMarketGroup && sportName  &&
-      'rules_dialogue.' + sportName.replace(/\s/g,'') + '.' + marketType + '.content' ) || 'rules_dialogue.content'
-
-    //retrieve system language when running in Electron app
-    const currentLocale = window.navigator.language || window.navigator.userLanguage;
-
     return (
 
       <div className='complex-betting'>
@@ -383,10 +373,12 @@ class ComplexBettingWidget extends PureComponent {
             </span>
             {/* Rules Dialogue box */}
             {
-              (this.props.rules && !this.props.rules.isEmpty()) &&
-              <RulesModal parentClass='rules' title={ this.props.rules.get('name') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
-                <div dangerouslySetInnerHTML={ { __html: this.props.rules.get('description') } } />;
-              </RulesModal>
+              (rules && !rules.isEmpty()) &&
+              <Button className='rules-button' onClick={ this.onClickRulesButton }>
+                <i className='info-icon'></i>
+                { I18n.t('rules_dialogue.buttonTitle') }
+                <RulesModal rules={ rules } visible={ this.state.rulesModalVisible } onCancel={ this.onCancelRulesModal } />
+              </Button>
             }
           </div>
         </div>
@@ -419,8 +411,6 @@ class ComplexBettingWidget extends PureComponent {
 }
 
 ComplexBettingWidget.propTypes = {
-  eventName: PropTypes.string.isRequired,
-  bettingMarketGroupName: PropTypes.string.isRequired,
   marketData: PropTypes.any.isRequired,
   totalMatchedBetsAmount: PropTypes.any.isRequired,
   createBet: PropTypes.func.isRequired,
