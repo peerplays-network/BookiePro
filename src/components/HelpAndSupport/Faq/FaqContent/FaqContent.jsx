@@ -27,7 +27,7 @@ class FaqContent extends PureComponent {
   renderFaqDetailPart() {
     const faqDetail = _.map(this.state.questionAnswerPairs, (pair, index) => {
       return (
-        <div className='questionAnswerPair'>
+        <div className='questionAnswerPair' key={ index }>
           <div key={ 'question' + index } className='question'>{ pair.question }</div>
           <div key={ 'answer' + index }className='answer'>{ pair.answer }</div>
         </div>
