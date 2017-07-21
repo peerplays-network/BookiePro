@@ -44,6 +44,8 @@
       margin-top:0;
       color: @topbar_label;
       &.amount {
+        // Fogbugz-716: Disable the hovering highlight of the account balance button
+        &:hover { background-color: transparent; }
         a{
           color: @topbar_label;
           font-size:18px;
