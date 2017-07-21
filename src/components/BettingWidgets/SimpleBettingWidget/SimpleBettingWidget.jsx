@@ -137,19 +137,17 @@ class SimpleBettingWidget extends PureComponent {
   // action: [ lay(ing) | back(ing) ]
   // betType: [ back | lay ]
   // index: [ 1 (Home Team) | 2 (Away Team)]
-
-  // sports.sportname: 'American Football' == American Football && bettingmarkgroup.market_type_id === "Moneyline"
-  // index: [ 1 (Home Team)| X (Draw Team) | 2 (Away Team)]
+  // index: [ 1 (Home Team)| 3 (Draw Team) | 2 (Away Team)]
 
   renderOffer(action, typeOfBet, index, currencyFormat) {
     return (text, record) => {
       let offers = record.get('offers');
-      //not understand why offers are not ordered by betting_market_id in record
 
-      if (offers.isEmpty() || offers === undefined || offers.getIn([index-1, 'betting_market_id']) === undefined ){
+      if ( offers === undefined || offers.isEmpty() || offers.getIn([index-1, 'betting_market_id']) === undefined ){
         return '';
       }
 
+      //dunno why offers are not ordered by betting_market_id in record
       offers = offers.sort( (a, b) => a.get('betting_market_id').localeCompare(b.get('betting_market_id')) )
       const betting_market_id = offers.getIn([index-1, 'betting_market_id']);
       const offer = offers.getIn([index-1, typeOfBet, 0]);
@@ -164,29 +162,29 @@ class SimpleBettingWidget extends PureComponent {
           team = 'The Draw'
           break;
         default:
-          team = undefined
+          team = ''
       }
 
       if ( offer === undefined){
         return (
           <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, '') }>
             <div className='offer'>
-              <div className='odds'>{I18n.t('complex_betting_widget.offer')}</div>
-            </div>
-          </a>
-        );
-      } else {
-        return (
-          <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, offer.get('odds')) }>
-            <div className='offer'>
-              <div className='odds'>{ offer.get('odds') }</div>
-              <div className='price'>
-                { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces, true)}
-              </div>
+              <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
             </div>
           </a>
         );
       }
+
+      return (
+        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, offer.get('odds')) }>
+          <div className='offer'>
+            <div className='odds'>{ offer.get('odds') }</div>
+            <div className='price'>
+              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces, true)}
+            </div>
+          </div>
+        </a>
+      );
 
     };
   };
@@ -206,7 +204,6 @@ class SimpleBettingWidget extends PureComponent {
         return 0;
       })
     }
-    console.log( events);
 
     return (
       // Note that we have to explicitly tell antd Table how to find the rowKey

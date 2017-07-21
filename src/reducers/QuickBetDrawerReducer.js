@@ -24,7 +24,6 @@ export default function(state = initialState, action) {
                      .set('profit', undefined)
                      .set('liability', undefined)
                      .update('odds', odds => odds !== '' ? odds.toFixed(2) : '');
-
       // If no match, returns -1
       const index = oldBets.findIndex(
         b => b.get('bet_type') === newBet.get('bet_type') &&
