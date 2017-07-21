@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { NavigateActions } from '../../actions';
 import Faq from './Faq';
+import FaqBanner from '../../assets/images/FAQ_banner@2x.png'
 import _ from 'lodash';
 
 
@@ -29,6 +30,9 @@ class HelpAndSupport extends PureComponent {
           </Breadcrumb.Item>
           <Breadcrumb.Item>{ I18n.t('help.title') }</Breadcrumb.Item>
         </Breadcrumb>
+        <div className='faqBanner'>
+          <img src={ FaqBanner } alt='faq-banner' />
+        </div>
         <Faq />
       </div>
     )
