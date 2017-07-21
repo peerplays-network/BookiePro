@@ -633,7 +633,6 @@ const bettingMarketGroups = [
     "id": "1.104.106",
     "event_id": "1.103.36",
     "description": "Moneyline",
-    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.107",

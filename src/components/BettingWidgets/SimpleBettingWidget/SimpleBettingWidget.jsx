@@ -144,27 +144,29 @@ class SimpleBettingWidget extends PureComponent {
   renderOffer(action, typeOfBet, index, currencyFormat) {
     return (text, record) => {
       const offers = record.get('offers');
-      if (offers.isEmpty()) {
+      if (offers.isEmpty()  ){
         return '';
       }
 
-      const offerHolder = offers.get(index-1);
-      if (offerHolder === undefined) {
-        return '';
+      const betting_market_id = offers.getIn([index-1, 'betting_market_id']);
+      const offer = offers.getIn([index-1, typeOfBet, 0]);
+
+      if ( offers === undefined || betting_market_id === undefined){
+        return (
+          <a href='#' onClick={ (event) => this.onOfferClicked(event, record, 'draw', action, betting_market_id, '') }>
+            <div className='offer'>
+              <p>{I18n.t('complex_betting_widget.offer')}</p>
+            </div>
+          </a>
+        );
       }
-      // TODO: Exception handling
-      const betting_market_id = offerHolder.get('betting_market_id');
+
+      const team = record.get('event_name').split('vs')[index-1].trim();
+
 
       if ( betting_market_id === '1.105.223' || betting_market_id === '1.105.1' || betting_market_id === '1.105.2'  ){
         console.log( 'betting_market_id ', betting_market_id)
-
       }
-      const offer = offerHolder.get(typeOfBet).get(0);
-      if (offer === undefined) {
-        return '';
-      }
-      // TODO: REVIEW This is temp solution. The better way is to use the Competitor data.
-      const team = record.get('event_name').split('vs')[index-1].trim();
 
       return (
         <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, offer.get('odds')) }>
