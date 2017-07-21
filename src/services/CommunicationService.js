@@ -471,6 +471,18 @@ class CommunicationService {
   }
 
   /**
+   * Get events given array of event group ids (can be immutable)
+   */
+  static getEventsByEventGroupIds(eventGroupIds) {
+    if (Config.useDummyData) {
+      return this.getDummyEventsByEventGroupIds(eventGroupIds);
+    } else {
+      // TODO: change later
+      return Promise.resolve(Immutable.List());
+    }
+  }
+
+  /**
    * Get betting market group given event ids
    */
   static getBettingMarketGroupsByEventIds(eventIds) {
@@ -677,6 +689,30 @@ class CommunicationService {
       return Immutable.fromJS(_.flatten(result));
     });
   }
+
+  /**
+   * Get events given array of event group ids (can be immutable)
+   */
+  static getDummyEventsByEventGroupIds(eventGroupIds) {
+    // TODO: Replace later
+    const promises = eventGroupIds.map( (eventGroupId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const currentTime = new Date().getTime();
+          const filteredResult = _.filter(dummyData.events, (item) => {
+            const isActive = (item.start_time - currentTime > 0);;
+            const isRelated = item.event_group_id === eventGroupId;
+            return isActive && isRelated;
+          });
+          resolve(filteredResult);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( result => {
+      return Immutable.fromJS(_.flatten(result));
+    });
+  }
+
 
   /**
    * Get betting market groups given event ids

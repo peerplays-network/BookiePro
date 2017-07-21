@@ -15,6 +15,14 @@ class EventPrivateActions {
     }
   }
 
+  static setGetEventsByEventGroupIdsLoadingStatusAction(eventGroupIds, loadingStatus) {
+    return {
+      type: ActionTypes.EVENT_SET_GET_EVENTS_BY_EVENT_GROUP_IDS_LOADING_STATUS,
+      eventGroupIds,
+      loadingStatus
+    }
+  }
+
   static setGetEventsByIdsLoadingStatusAction(eventIds, loadingStatus) {
     return {
       type: ActionTypes.EVENT_SET_GET_EVENTS_BY_IDS_LOADING_STATUS,
@@ -119,6 +127,61 @@ class EventActions {
       }
     };
   }
+
+  /**
+   * Get events given array of event group ids (can be immutable)
+   */
+  static getEventsByEventGroupIds(eventGroupIds) {
+    return (dispatch, getState) => {
+      let retrievedEvents = Immutable.List();
+      let eventGroupIdsOfEventsToBeRetrieved = Immutable.List();
+
+      // Get eventsByEventGroupId
+      const eventsById = getState().getIn(['event', 'eventsById']);
+      let eventsByEventGroupId = Immutable.Map();
+      eventsById.forEach( (event, id) => {
+        const eventGroupId = event.get('event_group_id');
+        if (eventGroupId) {
+          eventsByEventGroupId = eventsByEventGroupId.update(eventGroupId, events => {
+            if (!events) events = Immutable.List();
+            return events.push(event);
+          })
+        }
+      })
+
+      // Check if the requested data is already inside redux store
+      const getEventsByEventGroupIdsLoadingStatus = getState().getIn(['event', 'getEventsByEventGroupIdsLoadingStatus']);
+      eventGroupIds.forEach( eventGroupId => {
+        if (getEventsByEventGroupIdsLoadingStatus.get(eventGroupId) === LoadingStatus.DONE) {
+          if (eventsByEventGroupId.has(eventGroupId)) {
+            retrievedEvents = retrievedEvents.concat(eventsByEventGroupId.get(eventGroupId));
+          }
+        } else {
+          eventGroupIdsOfEventsToBeRetrieved = eventGroupIdsOfEventsToBeRetrieved.push(eventGroupId);
+        }
+      })
+
+      if (eventGroupIdsOfEventsToBeRetrieved.size === 0) {
+        // No events to be retrieved from blockchain, return retrieved data from redux store
+        return Promise.resolve(retrievedEvents);
+      } else {
+        // Retrieve data from blockchain
+        // Set status
+        dispatch(EventPrivateActions.setGetEventsByEventGroupIdsLoadingStatusAction(eventGroupIdsOfEventsToBeRetrieved, LoadingStatus.LOADING));
+        return CommunicationService.getEventsByEventGroupIds(eventGroupIdsOfEventsToBeRetrieved).then((events) => {
+          // Add data to redux store
+          dispatch(EventActions.addOrUpdateEventsAction(events));
+          // Set status
+          dispatch(EventPrivateActions.setGetEventsByEventGroupIdsLoadingStatusAction(eventGroupIdsOfEventsToBeRetrieved, LoadingStatus.DONE));
+          const eventIds = events.map( event => event.get('id'));
+          dispatch(EventPrivateActions.setGetEventsByIdsLoadingStatusAction(eventIds, LoadingStatus.DONE));
+          // Concat with retrieved data from redux store
+          return retrievedEvents.concat(events);
+        });
+      }
+    };
+  }
+
 
   /**
    * Get events given array of ids (can be immutable)

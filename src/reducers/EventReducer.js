@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 let initialState = Immutable.fromJS({
   eventsById: {},
   getEventsBySportIdsLoadingStatus: {},
+  getEventsByEventGroupIdsLoadingStatus: {},
   getEventsByIdsLoadingStatus: {},
 
   getSearchEventsLoadingStatus: LoadingStatus.DEFAULT,
@@ -21,7 +22,13 @@ export default function (state = initialState, action) {
       })
       return state.mergeIn(['getEventsBySportIdsLoadingStatus'], getEventsBySportIdsLoadingStatus);
     }
-
+    case ActionTypes.EVENT_SET_GET_EVENTS_BY_EVENT_GROUP_IDS_LOADING_STATUS: {
+      let getEventsByEventGroupIdsLoadingStatus = Immutable.Map();
+      action.eventGroupIds.forEach( eventGroupId => {
+        getEventsByEventGroupIdsLoadingStatus = getEventsByEventGroupIdsLoadingStatus.set(eventGroupId, action.loadingStatus);
+      })
+      return state.mergeIn(['getEventsByEventGroupIdsLoadingStatus'], getEventsByEventGroupIdsLoadingStatus);
+    }
     case ActionTypes.EVENT_SET_GET_EVENTS_BY_IDS_LOADING_STATUS: {
       let getEventsByIdsLoadingStatus = Immutable.Map();
       action.eventIds.forEach( eventId => {
