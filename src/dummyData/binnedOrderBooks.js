@@ -2185,12 +2185,12 @@ const binnedOrderBooks = [
   {
     "betting_market_id": "1.105.458",
     "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
-    "aggregated_lay_bets": [createOrderBookBin(4.2, 0)]
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
   },
   {
     "betting_market_id": "1.105.459",
     "aggregated_back_bets": [],
-    "aggregated_lay_bets": [createOrderBookBin(4.2, 0)]
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
   },
   {
     "betting_market_id": "1.105.460",
@@ -2205,32 +2205,32 @@ const binnedOrderBooks = [
   {
     "betting_market_id": "1.105.462",
     "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
-    "aggregated_lay_bets": [createOrderBookBin(4.2, 0)]
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
   },
   {
     "betting_market_id": "1.105.463",
     "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
-    "aggregated_lay_bets": [createOrderBookBin(4.2, 0)]
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
   },
   {
     "betting_market_id": "1.105.464",
     "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
-    "aggregated_lay_bets": [createOrderBookBin(4.2, 0)]
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
   },
   {
     "betting_market_id": "1.105.465",
     "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
-    "aggregated_lay_bets": [createOrderBookBin(4.2, 0)]
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
   },
   {
     "betting_market_id": "1.105.466",
     "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
-    "aggregated_lay_bets": [createOrderBookBin(4.2, 0)]
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
   },
   {
     "betting_market_id": "1.105.467",
     "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
-    "aggregated_lay_bets": [createOrderBookBin(4.2, 0)]
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
   }
   //Resolved Bets Ends
 ];

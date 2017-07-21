@@ -171,7 +171,7 @@ class SimpleBettingWidget extends PureComponent {
         return (
           <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, '') }>
             <div className='offer'>
-              <p>{I18n.t('complex_betting_widget.offer')}</p>
+              <div className='odds'>{I18n.t('complex_betting_widget.offer')}</div>
             </div>
           </a>
         );
