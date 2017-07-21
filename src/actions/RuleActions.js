@@ -53,15 +53,15 @@ class RuleActions {
         return Promise.resolve(retrievedRules);
       } else {
         // Retrieve data from blockchain
-        dispatch(RulePrivateActions.setGetAssetsByIdsLoadingStatusAction(idsOfRulesToBeRetrieved, LoadingStatus.LOADING));
+        dispatch(RulePrivateActions.setGetRulesByIdsLoadingStatusAction(idsOfRulesToBeRetrieved, LoadingStatus.LOADING));
         // TODO: mark later
-        return CommunicationService.getAssetsByIds(idsOfRulesToBeRetrieved).then((assets) => {
+        return CommunicationService.getRulesByIds(idsOfRulesToBeRetrieved).then((rules) => {
           // Add to redux store
-          dispatch(RuleActions.addOrUpdateAssetsAction(assets));
+          dispatch(RuleActions.addOrUpdateRulesAction(rules));
           // Set status
-          dispatch(RulePrivateActions.setGetAssetsByIdsLoadingStatusAction(idsOfRulesToBeRetrieved, LoadingStatus.DONE));
+          dispatch(RulePrivateActions.setGetRulesByIdsLoadingStatusAction(idsOfRulesToBeRetrieved, LoadingStatus.DONE));
           // Concat and return
-          return retrievedRules.concat(assets);
+          return retrievedRules.concat(rules);
         });
       }
     }

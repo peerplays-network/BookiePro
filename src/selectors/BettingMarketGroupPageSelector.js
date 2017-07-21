@@ -10,6 +10,7 @@ const {
   getSportsById,
   getBettingMarketsById,
   getAssetsById,
+  getRulesById,
   getBinnedOrderBooksByBettingMarketId,
   getCurrencyFormat
 } = CommonSelector;
@@ -191,6 +192,14 @@ const getMarketData = createSelector(
   }
 )
 
+const getRules = createSelector(
+  [getRulesById, getBettingMarketGroup],
+  (rulesById, bettingMarketGroup) => {
+    const ruleId = bettingMarketGroup && bettingMarketGroup.get('rules_id');
+    return rulesById.get(ruleId);
+  }
+)
+
 const BettingMarketGroupPageSelector = {
   getSportName,
   getBettingMarketGroup,
@@ -203,6 +212,7 @@ const BettingMarketGroupPageSelector = {
   getUnconfirmedBets,
   getLoadingStatus,
   getWidgetTitle,
+  getRules
 }
 
 export default BettingMarketGroupPageSelector;

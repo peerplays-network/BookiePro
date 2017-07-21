@@ -79,12 +79,15 @@ const getColumns = (renderOffer, navigateTo, currencyFormat) => ([
 const renderTitle = (title) => (
   <div className='title'>
     <div className='sport'>{ title }</div>
-    <div className='rules'>
-      {/* Rules Dialogue box */}
-      <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
-        <Translate value='rules_dialogue.content' dangerousHTML/>
-      </RulesModal>
-    </div>
+      {
+        /* Rules Dialogue box */
+        // <div className='rules'>
+        // <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
+        //   <Translate value='rules_dialogue.content' dangerousHTML/>
+        // </RulesModal>
+        // </div>
+      }
+
   </div>
 );
 

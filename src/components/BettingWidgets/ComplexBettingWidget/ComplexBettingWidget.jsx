@@ -4,7 +4,7 @@ import { BetTypes, LoadingStatus } from '../../../constants';
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 import Immutable from 'immutable';
-import { Icon } from 'antd';
+import { Icon, Button } from 'antd';
 import RulesModal from '../../Modal/RulesModal'
 import { I18n, Translate } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
@@ -28,6 +28,7 @@ class ComplexBettingWidget extends PureComponent {
     this.setTableData = this.setTableData.bind(this);
     this.placeAllBestBets = this.placeAllBestBets.bind(this);
     this.getBestOfferOfEachmarket = this.getBestOfferOfEachmarket.bind(this);
+    this.showRulesModal = this.showRulesModal.bind(this);
   }
 
   componentDidMount(){
@@ -40,6 +41,13 @@ class ComplexBettingWidget extends PureComponent {
       this.props.unconfirmedBets !== nextProps.unconfirmedBets){
       this.setTableData(nextProps.marketData, nextProps.unconfirmedBets, this.props.bettingMarketGroupName === nextProps.bettingMarketGroupName)
     }
+  }
+
+  showRulesModal(event) {
+    event.preventDefault();
+    this.setState({
+      rulesModalVisible: true
+    })
   }
 
   // betting widget full :
@@ -374,13 +382,12 @@ class ComplexBettingWidget extends PureComponent {
               { I18n.t('complex_betting_widget.matched') }: { this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
             </span>
             {/* Rules Dialogue box */}
-            <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
-              <Translate value={ ruleModalText }
-                datetime={ moment(eventTime).locale(currentLocale).format('LLL') }
-                eventName={ eventName }
-                marketName={ bettingMarketGroupName }
-                dangerousHTML/>
-            </RulesModal>
+            {
+              (this.props.rules && !this.props.rules.isEmpty()) &&
+              <RulesModal parentClass='rules' title={ this.props.rules.get('name') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
+                <div dangerouslySetInnerHTML={ { __html: this.props.rules.get('description') } } />;
+              </RulesModal>
+            }
           </div>
         </div>
         {

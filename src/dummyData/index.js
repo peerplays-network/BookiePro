@@ -10,6 +10,7 @@ import history from './history';
 import rules from './rules';
 
 export default {
+  rules,
   sports,
   bets,
   eventGroups,

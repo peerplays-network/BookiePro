@@ -6,7 +6,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.1",
       "1.105.2"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.2",
@@ -15,7 +16,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.3",
       "1.105.4"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.3",
@@ -24,7 +26,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.5",
       "1.105.6"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.4",
@@ -33,7 +36,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.7",
       "1.105.8"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.5",
@@ -42,7 +46,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.9",
       "1.105.10"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.6",
@@ -51,7 +56,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.11",
       "1.105.12"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.7",
@@ -60,7 +66,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.13",
       "1.105.14"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.8",
@@ -69,7 +76,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.3",
       "1.105.4"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.9",
@@ -78,7 +86,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.5",
       "1.105.6"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.10",
@@ -87,7 +96,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.19",
       "1.105.20"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.11",
@@ -96,7 +106,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.21",
       "1.105.22"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.12",
@@ -105,7 +116,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.23",
       "1.105.24"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.13",
@@ -114,7 +126,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.25",
       "1.105.26"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.14",
@@ -123,7 +136,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.27",
       "1.105.28"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.15",
@@ -132,7 +146,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.29",
       "1.105.30"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.16",
@@ -141,7 +156,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.31",
       "1.105.32"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.17",
@@ -150,7 +166,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.33",
       "1.105.34"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.18",
@@ -159,7 +176,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.35",
       "1.105.36"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.19",
@@ -168,7 +186,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.37",
       "1.105.38"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.20",
@@ -177,7 +196,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.39",
       "1.105.40"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.21",
@@ -186,7 +206,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.41",
       "1.105.42"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.22",
@@ -195,7 +216,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.43",
       "1.105.44"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.23",
@@ -204,7 +226,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.45",
       "1.105.46"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.24",
@@ -213,7 +236,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.47",
       "1.105.48"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.25",
@@ -222,7 +246,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.49",
       "1.105.50"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.26",
@@ -231,7 +256,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.51",
       "1.105.52"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.27",
@@ -240,7 +266,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.53",
       "1.105.54"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.28",
@@ -249,7 +276,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.55",
       "1.105.56"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.29",
@@ -258,7 +286,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.57",
       "1.105.58"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.30",
@@ -267,7 +296,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.59",
       "1.105.60"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.31",
@@ -276,7 +306,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.61",
       "1.105.62"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.32",
@@ -285,7 +316,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.63",
       "1.105.64"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.33",
@@ -294,7 +326,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.65",
       "1.105.66"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.34",
@@ -303,7 +336,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.67",
       "1.105.68"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.35",
@@ -312,7 +346,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.69",
       "1.105.70"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.36",
@@ -321,7 +356,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.71",
       "1.105.72"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.37",
@@ -330,7 +366,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.73",
       "1.105.74"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.38",
@@ -339,7 +376,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.75",
       "1.105.76"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.39",
@@ -348,7 +386,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.77",
       "1.105.78"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.40",
@@ -357,7 +396,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.79",
       "1.105.80"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.41",
@@ -366,7 +406,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.81",
       "1.105.82"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.42",
@@ -375,7 +416,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.83",
       "1.105.84"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.43",
@@ -385,7 +427,8 @@ const bettingMarketGroups = [
       "1.105.85",
       "1.105.86",
       "1.105.223"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.44",
@@ -394,7 +437,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.87",
       "1.105.88"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.45",
@@ -403,7 +447,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.89",
       "1.105.90"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.46",
@@ -412,7 +457,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.91",
       "1.105.92"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.47",
@@ -421,7 +467,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.93",
       "1.105.94"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.48",
@@ -430,7 +477,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.95",
       "1.105.96"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.49",
@@ -439,7 +487,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.97",
       "1.105.98"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.50",
@@ -448,7 +497,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.99",
       "1.105.100"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.51",
@@ -457,7 +507,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.101",
       "1.105.102"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.52",
@@ -466,7 +517,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.103",
       "1.105.104"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.53",
@@ -475,7 +527,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.105",
       "1.105.106"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.54",
@@ -484,7 +537,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.107",
       "1.105.108"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.55",
@@ -493,7 +547,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.109",
       "1.105.110"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.56",
@@ -502,7 +557,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.111",
       "1.105.112"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.57",
@@ -511,7 +567,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.113",
       "1.105.114"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.58",
@@ -520,7 +577,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.115",
       "1.105.116"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.59",
@@ -529,7 +587,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.117",
       "1.105.118"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.60",
@@ -538,7 +597,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.119",
       "1.105.120"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.61",
@@ -547,7 +607,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.121",
       "1.105.122"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.62",
@@ -556,7 +617,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.123",
       "1.105.124"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.63",
@@ -565,7 +627,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.125",
       "1.105.126"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.64",
@@ -574,7 +637,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.127",
       "1.105.128"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.65",
@@ -583,7 +647,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.129",
       "1.105.130"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.66",
@@ -592,7 +657,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.131",
       "1.105.132"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.67",
@@ -601,7 +667,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.133",
       "1.105.134"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.68",
@@ -610,7 +677,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.135",
       "1.105.136"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.69",
@@ -619,7 +687,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.137",
       "1.105.138"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.70",
@@ -628,7 +697,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.139",
       "1.105.140"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.71",
@@ -637,7 +707,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.141",
       "1.105.142"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.72",
@@ -646,7 +717,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.143",
       "1.105.144"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.73",
@@ -655,7 +727,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.145",
       "1.105.146"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.74",
@@ -664,7 +737,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.147",
       "1.105.148"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.75",
@@ -673,7 +747,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.149",
       "1.105.150"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.76",
@@ -682,7 +757,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.151",
       "1.105.152"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.77",
@@ -691,7 +767,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.153",
       "1.105.154"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.78",
@@ -700,7 +777,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.155",
       "1.105.156"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.79",
@@ -709,7 +787,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.157",
       "1.105.158"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.80",
@@ -718,7 +797,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.159",
       "1.105.160"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.81",
@@ -727,7 +807,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.161",
       "1.105.162"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.82",
@@ -736,7 +817,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.163",
       "1.105.164"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.83",
@@ -745,7 +827,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.165",
       "1.105.166"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.84",
@@ -754,7 +837,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.167",
       "1.105.168"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.85",
@@ -763,7 +847,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.169",
       "1.105.170"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.86",
@@ -772,7 +857,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.171",
       "1.105.172"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.87",
@@ -781,7 +867,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.173",
       "1.105.174"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.88",
@@ -790,7 +877,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.175",
       "1.105.176"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.89",
@@ -799,7 +887,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.177",
       "1.105.178"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.90",
@@ -808,7 +897,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.179",
       "1.105.180"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.91",
@@ -817,7 +907,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.181",
       "1.105.182"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.92",
@@ -826,7 +917,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.183",
       "1.105.184"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.93",
@@ -835,7 +927,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.185",
       "1.105.186"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.94",
@@ -844,7 +937,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.187",
       "1.105.188"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.95",
@@ -853,7 +947,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.189",
       "1.105.190"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.96",
@@ -862,7 +957,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.191",
       "1.105.192"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.97",
@@ -871,7 +967,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.193",
       "1.105.194"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.98",
@@ -880,7 +977,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.195",
       "1.105.196"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.99",
@@ -889,7 +987,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.197",
       "1.105.198"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.100",
@@ -898,7 +997,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.199",
       "1.105.200"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.101",
@@ -907,7 +1007,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.201",
       "1.105.202"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.102",
@@ -916,7 +1017,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.203",
       "1.105.204"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.103",
@@ -925,7 +1027,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.205",
       "1.105.206"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.104",
@@ -934,7 +1037,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.207",
       "1.105.208"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.105",
@@ -943,7 +1047,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.209",
       "1.105.210"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.106",
@@ -952,7 +1057,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.211",
       "1.105.212"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.107",
@@ -961,7 +1067,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.213",
       "1.105.214"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.108",
@@ -970,7 +1077,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.215",
       "1.105.216"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.109",
@@ -979,7 +1087,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.217",
       "1.105.218"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.110",
@@ -988,7 +1097,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.219",
       "1.105.220"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.111",
@@ -997,7 +1107,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.221",
       "1.105.222"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   //Basketball Event group 2
   {
@@ -1007,7 +1118,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.224",
       "1.105.457"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.113",
@@ -1016,7 +1128,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.225",
       "1.105.226"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.114",
@@ -1025,7 +1138,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.227",
       "1.105.228"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.115",
@@ -1034,7 +1148,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.229",
       "1.105.230"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.116",
@@ -1043,7 +1158,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.231",
       "1.105.232"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.117",
@@ -1052,7 +1168,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.233",
       "1.105.234"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.118",
@@ -1061,7 +1178,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.235",
       "1.105.236"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.119",
@@ -1070,7 +1188,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.237",
       "1.105.238"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.120",
@@ -1079,7 +1198,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.239",
       "1.105.240"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.121",
@@ -1088,7 +1208,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.241",
       "1.105.242"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.122",
@@ -1097,7 +1218,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.243",
       "1.105.244"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.123",
@@ -1106,7 +1228,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.245",
       "1.105.246"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.124",
@@ -1115,7 +1238,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.247",
       "1.105.248"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.125",
@@ -1124,7 +1248,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.249",
       "1.105.250"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.126",
@@ -1133,7 +1258,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.251",
       "1.105.252"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   //Basketball Event group 3
   {
@@ -1143,7 +1269,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.253",
       "1.105.254"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.128",
@@ -1152,7 +1279,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.255",
       "1.105.256"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.129",
@@ -1161,7 +1289,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.257",
       "1.105.258"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.130",
@@ -1170,7 +1299,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.259",
       "1.105.260"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.131",
@@ -1179,7 +1309,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.261",
       "1.105.262"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.132",
@@ -1188,7 +1319,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.263",
       "1.105.264"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.133",
@@ -1197,7 +1329,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.265",
       "1.105.266"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.134",
@@ -1206,7 +1339,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.267",
       "1.105.268"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.135",
@@ -1215,7 +1349,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.269",
       "1.105.270"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.136",
@@ -1224,7 +1359,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.271",
       "1.105.272"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.137",
@@ -1233,7 +1369,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.273",
       "1.105.274"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.138",
@@ -1242,7 +1379,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.275",
       "1.105.276"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.139",
@@ -1251,7 +1389,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.277",
       "1.105.278"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.140",
@@ -1260,7 +1399,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.279",
       "1.105.280"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.141",
@@ -1269,7 +1409,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.281",
       "1.105.282"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   //Soccer Event Group 2
   {
@@ -1279,7 +1420,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.283",
       "1.105.284"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.143",
@@ -1288,7 +1430,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.285",
       "1.105.286"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.144",
@@ -1297,7 +1440,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.287",
       "1.105.288"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.145",
@@ -1306,7 +1450,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.289",
       "1.105.290"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.146",
@@ -1315,7 +1460,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.291",
       "1.105.292"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.147",
@@ -1324,7 +1470,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.293",
       "1.105.294"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.148",
@@ -1333,7 +1480,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.295",
       "1.105.296"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.149",
@@ -1342,7 +1490,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.297",
       "1.105.298"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.150",
@@ -1351,7 +1500,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.299",
       "1.105.300"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.151",
@@ -1360,7 +1510,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.301",
       "1.105.302"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.152",
@@ -1369,7 +1520,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.303",
       "1.105.304"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.153",
@@ -1378,7 +1530,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.305",
       "1.105.306"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.154",
@@ -1387,7 +1540,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.307",
       "1.105.308"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.155",
@@ -1396,7 +1550,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.309",
       "1.105.310"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.156",
@@ -1405,7 +1560,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.311",
       "1.105.312"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   //Soccer Event group 3
   {
@@ -1415,7 +1571,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.313",
       "1.105.314"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.158",
@@ -1424,7 +1581,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.315",
       "1.105.316"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.159",
@@ -1433,7 +1591,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.317",
       "1.105.318"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.160",
@@ -1442,7 +1601,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.319",
       "1.105.320"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.161",
@@ -1451,7 +1611,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.321",
       "1.105.322"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.162",
@@ -1460,7 +1621,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.323",
       "1.105.324"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.163",
@@ -1469,7 +1631,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.325",
       "1.105.326"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.164",
@@ -1478,7 +1641,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.327",
       "1.105.328"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.165",
@@ -1487,7 +1651,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.329",
       "1.105.330"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.166",
@@ -1496,7 +1661,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.331",
       "1.105.332"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.167",
@@ -1505,7 +1671,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.333",
       "1.105.334"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.168",
@@ -1514,7 +1681,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.335",
       "1.105.336"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.169",
@@ -1523,7 +1691,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.337",
       "1.105.338"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.170",
@@ -1532,7 +1701,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.339",
       "1.105.340"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.171",
@@ -1541,7 +1711,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.341",
       "1.105.342"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   //Baseball Event group 2
   {
@@ -1551,7 +1722,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.343",
       "1.105.344"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.173",
@@ -1560,7 +1732,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.345",
       "1.105.346"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.174",
@@ -1569,7 +1742,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.347",
       "1.105.348"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.175",
@@ -1578,7 +1752,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.349",
       "1.105.350"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.176",
@@ -1587,7 +1762,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.351",
       "1.105.352"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.177",
@@ -1596,7 +1772,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.353",
       "1.105.354"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.178",
@@ -1605,7 +1782,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.355",
       "1.105.356"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.179",
@@ -1614,7 +1792,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.357",
       "1.105.358"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.180",
@@ -1623,7 +1802,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.359",
       "1.105.360"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.181",
@@ -1632,7 +1812,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.361",
       "1.105.362"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.182",
@@ -1641,7 +1822,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.363",
       "1.105.364"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.183",
@@ -1650,7 +1832,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.365",
       "1.105.366"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.184",
@@ -1659,7 +1842,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.367",
       "1.105.368"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.185",
@@ -1668,7 +1852,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.369",
       "1.105.370"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.186",
@@ -1677,7 +1862,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.371",
       "1.105.372"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   //Baseball Event group 3
   {
@@ -1687,7 +1873,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.373",
       "1.105.374"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.188",
@@ -1696,7 +1883,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.375",
       "1.105.376"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.189",
@@ -1705,7 +1893,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.377",
       "1.105.378"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.190",
@@ -1714,7 +1903,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.379",
       "1.105.380"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.191",
@@ -1723,7 +1913,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.381",
       "1.105.382"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.192",
@@ -1732,7 +1923,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.383",
       "1.105.384"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.193",
@@ -1741,7 +1933,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.385",
       "1.105.386"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.194",
@@ -1750,7 +1943,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.387",
       "1.105.388"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.195",
@@ -1759,7 +1953,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.389",
       "1.105.390"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.196",
@@ -1768,7 +1963,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.391",
       "1.105.392"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.197",
@@ -1777,7 +1973,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.393",
       "1.105.394"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.198",
@@ -1786,7 +1983,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.395",
       "1.105.396"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.199",
@@ -1795,7 +1993,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.397",
       "1.105.398"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.200",
@@ -1804,7 +2003,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.399",
       "1.105.400"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.201",
@@ -1813,7 +2013,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.401",
       "1.105.402"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   //For Resolved Bets
   //American Football
@@ -1824,7 +2025,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.403",
       "1.105.404"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.203",
@@ -1833,7 +2035,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.405",
       "1.105.406"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.204",
@@ -1842,7 +2045,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.407",
       "1.105.408"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.205",
@@ -1851,7 +2055,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.409",
       "1.105.410"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.206",
@@ -1860,7 +2065,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.411",
       "1.105.412"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.207",
@@ -1869,7 +2075,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.413",
       "1.105.414"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.208",
@@ -1878,7 +2085,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.415",
       "1.105.416"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.209",
@@ -1887,7 +2095,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.417",
       "1.105.418"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.210",
@@ -1896,7 +2105,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.419",
       "1.105.420"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.211",
@@ -1905,7 +2115,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.421",
       "1.105.422"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.212",
@@ -1914,7 +2125,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.423",
       "1.105.424"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.213",
@@ -1923,7 +2135,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.425",
       "1.105.426"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.214",
@@ -1932,7 +2145,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.427",
       "1.105.428"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.215",
@@ -1941,7 +2155,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.429",
       "1.105.430"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.216",
@@ -1950,7 +2165,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.431",
       "1.105.432"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   //Basketball
   {
@@ -1960,7 +2176,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.433",
       "1.105.434"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.218",
@@ -1969,7 +2186,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.435",
       "1.105.436"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.219",
@@ -1978,7 +2196,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.437",
       "1.105.438"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.220",
@@ -1987,7 +2206,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.439",
       "1.105.440"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.221",
@@ -1996,7 +2216,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.441",
       "1.105.442"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.222",
@@ -2005,7 +2226,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.443",
       "1.105.444"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   //Baseball
   {
@@ -2015,7 +2237,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.445",
       "1.105.446"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.224",
@@ -2024,7 +2247,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.447",
       "1.105.448"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.225",
@@ -2033,7 +2257,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.449",
       "1.105.450"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.226",
@@ -2042,7 +2267,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.451",
       "1.105.452"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.227",
@@ -2051,7 +2277,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.453",
       "1.105.454"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   {
     "id": "1.104.228",
@@ -2060,7 +2287,8 @@ const bettingMarketGroups = [
     "betting_market_ids": [
       "1.105.455",
       "1.105.456"
-    ]
+    ],
+    "rules_id": "1.107.1",
   },
   //Resolved Bets Ends
 ];

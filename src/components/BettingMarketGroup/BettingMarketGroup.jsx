@@ -47,6 +47,7 @@ class BettingMarketGroup extends PureComponent {
           currencyFormat={ this.props.currencyFormat }
           loadingStatus={ this.props.loadingStatus }
           widgetTitle={ this.props.widgetTitle }
+          rules={ this.props.rules }
         />
       </div>
     )
@@ -74,6 +75,7 @@ const mapStateToProps = (state, ownProps) => {
     unconfirmedBets: BettingMarketGroupPageSelector.getUnconfirmedBets(state, ownProps),
     loadingStatus: BettingMarketGroupPageSelector.getLoadingStatus(state, ownProps),
     widgetTitle: BettingMarketGroupPageSelector.getWidgetTitle(state, ownProps),
+    rules: BettingMarketGroupPageSelector.getRules(state, ownProps),
   }
 };
 

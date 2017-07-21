@@ -547,9 +547,9 @@ class CommunicationService {
   /**
    * Get rules
    */
-  static getRules(ruleIds) {
+  static getRulesByIds(ruleIds) {
     if (Config.useDummyData) {
-      return this.getDummyRules(ruleIds);
+      return this.getDummyObjectsByIds(ruleIds);
     } else {
       // TODO: change later
       return Promise.resolve(Immutable.List());
