@@ -66,6 +66,8 @@ class Exchange extends PureComponent {
       this.props.cancelQuickBets();
     } else {
       this.props.clearMarketDrawerBetslips();
+      this.props.cancelMarketBets();
+      this.props.cancelUpdateBets();
     }
     this.setModalVisible(false);
     this.setState({
@@ -188,6 +190,8 @@ const mapDispatchToProps = (dispatch) => {
     clearQuickBetDrawer: QuickBetDrawerActions.deleteAllBets,
     cancelQuickBets: QuickBetDrawerActions.cancelPlaceBet,
     clearMarketDrawerBetslips: MarketDrawerActions.deleteAllUnconfirmedBets,
+    cancelMarketBets: MarketDrawerActions.cancelPlaceBet,
+    cancelUpdateBets: MarketDrawerActions.cancelUpdateBet,
   }, dispatch);
 }
 

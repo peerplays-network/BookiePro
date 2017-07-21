@@ -372,9 +372,20 @@ export const translationsObject = {
           my_bet_button: 'VIEW YOUR BETS IN MY BETS'
         },
         confirmation: {
-          instructions: 'The transaction fee of this bet is <span class="currency-label">%{amount}</span>.<br/>Are you sure you want to place this bet?',
-          cancel_button: 'CANCEL',
-          confirm_button: 'CONFIRM BET',
+          imperfect: {
+            bad_bets_1: 'There is 1 incomplete bet that cannot be updated.',
+            bad_bets: 'There are %{bad_bets} incomplete bets that cannot be updated.',
+            good_bets_1: 'Would you like to continue to update 1 bet with <span class="currency-label">%{amount}</span>?',
+            good_bets: 'Would you like to continue to update %{good_bets} bets with <span class="currency-label">%{amount}</span>?',
+            cancel_button: 'CANCEL',
+            confirm_button: 'CONFIRM BET',
+          },
+          perfect: {
+            good_bets_1: 'You are about to update 1 bet for a total liability of <span class="currency-label">%{amount}</span>.<br/> Are you sure?',
+            good_bets: 'You are about to update %{good_bets} bets for a total liability of <span class="currency-label">%{amount}</span>.<br/> Are you sure?',
+            cancel_button: 'CANCEL',
+            confirm_button: 'CONFIRM BET',
+          },
         },
         error: {
           instructions: 'Sorry, we are unable to proceed<br/>with your request. Please try again!',
@@ -383,6 +394,14 @@ export const translationsObject = {
         },
         success: {
           instructions: 'Your bets have been successfully updated.',
+        },
+        insufficient_balance: {
+          instructions: 'You do not have sufficient funds to update the bet/s. Please edit your bets or deposit more funds.',
+          confirm_button: 'OK',
+        },
+        disconnected: {
+          instructions: 'You are not connected to the blockchain. Pleaee make sure you have Internet access and try again.',
+          cancel_button: 'CANCEL',
         },
       },
       unmatched_bets: {

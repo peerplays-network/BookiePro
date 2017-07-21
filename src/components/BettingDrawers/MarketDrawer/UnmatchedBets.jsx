@@ -29,10 +29,10 @@ class UnmatchedBets extends PureComponent {
             </Button>
             <button
               className={ `btn btn-regular${this.props.hasUpdatedBets ? '' : '-disabled'}` }
-              onClick={ this.props.clickUpdateBet }
+              onClick={ () => this.props.clickUpdateBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
               disabled={ !this.props.hasUpdatedBets }
             >
-              { I18n.t('market_drawer.unmatched_bets.content.update_button', { amount : this.props.totalBetAmount }) }
+              { I18n.t('market_drawer.unmatched_bets.content.update_button', { amount : this.props.totalBetAmountString }) }
             </button>
           </div>
         }
@@ -66,15 +66,13 @@ const mapStateToProps = (state) => {
   const showPlacedBetsConfirmation = state.getIn(['marketDrawer', 'showPlacedBetsConfirmation']);
   const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);
   const showPlacedBetsError = state.getIn(['marketDrawer', 'showPlacedBetsError']);
-  const showPlacedBetsSuccess = state.getIn(['marketDrawer', 'showPlacedBetsSuccess']);
   const showDeleteUnmatchedBetsConfirmation = state.getIn(['marketDrawer', 'showDeleteUnmatchedBetsConfirmation']);
+  const showInsufficientBalanceError = state.getIn(['marketDrawer', 'showInsufficientBalanceError']);
+  const showDisconnectedError = state.getIn(['marketDrawer', 'showDisconnectedError']);
   return {
     bets: page,
-    showPlacedBetsConfirmation,
-    showPlacedBetsWaiting,
-    showPlacedBetsError,
-    showPlacedBetsSuccess,
-    obscureContent: showPlacedBetsConfirmation || showPlacedBetsWaiting || showPlacedBetsError || showDeleteUnmatchedBetsConfirmation,
+    obscureContent: showPlacedBetsConfirmation || showPlacedBetsWaiting || showPlacedBetsError || showDeleteUnmatchedBetsConfirmation ||
+                    showInsufficientBalanceError || showDisconnectedError,
     hasUpdatedBets: originalBets.count(bet => bet.get('updated')) > 0,
   };
 }

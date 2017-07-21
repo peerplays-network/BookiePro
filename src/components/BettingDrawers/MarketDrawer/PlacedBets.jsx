@@ -4,11 +4,11 @@ import { bindActionCreators } from 'redux';
 import ReactDOM from 'react-dom';
 import Ps from 'perfect-scrollbar';
 import { BetActions, MarketDrawerActions, NavigateActions } from '../../../actions';
-import { CurrencyUtils } from '../../../utility';
+import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import './PlacedBets.less';
-import { Empty, Overlay, Waiting } from '../Common';
+import { Empty, Overlay, Waiting, PlaceBetConfirm } from '../Common';
 
 class PlacedBets extends PureComponent {
   componentDidMount() {
@@ -36,7 +36,8 @@ class PlacedBets extends PureComponent {
           { !this.props.isEmpty &&
             <UnmatchedBets
                currencyFormat={ this.props.currencyFormat }
-               totalBetAmount={ this.props.totalBetAmount }
+               totalBetAmountFloat={ this.props.totalBetAmountFloat }
+               totalBetAmountString={ this.props.totalBetAmountString }
             />
           }
           { !this.props.isEmpty && <MatchedBets currencyFormat={ this.props.currencyFormat }/> }
@@ -49,11 +50,13 @@ class PlacedBets extends PureComponent {
           }
         </div>
         { this.props.showPlacedBetsConfirmation &&
-          <Overlay
+          <PlaceBetConfirm
             className='market_drawer.placed_bets.confirmation'
+            goodBets={ this.props.numberOfGoodBets }
+            badBets={ this.props.numberOfBadBets }
+            amount={ this.props.totalBetAmountString }
             cancelAction={ this.props.cancelUpdateBet }
             confirmAction={ () => this.props.editBets(this.props.unmatchedBets) }
-            replacements={ { amount: this.props.totalBetAmount } }
           />
         }
         { this.props.showPlacedBetsError &&
@@ -70,6 +73,18 @@ class PlacedBets extends PureComponent {
             confirmAction={ () => this.props.deleteUnmatchedBets(this.props.unmatchedbetsToBeDeleted) }
           />
         }
+        { this.props.showInsufficientBalanceError &&
+          <Overlay
+            className='market_drawer.placed_bets.insufficient_balance'
+            confirmAction={ this.props.hideInsufficientBalanceError }
+          />
+        }
+        { this.props.showDisconnectedError &&
+          <Overlay
+            className='market_drawer.placed_bets.disconnected'
+            cancelAction={ this.props.hideDisconnectedError }
+          />
+        }
         { this.props.showPlacedBetsWaiting && <Waiting/> }
       </div>
     )
@@ -84,12 +99,19 @@ const mapStateToProps = (state, ownProps) => {
   const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);
   const showPlacedBetsError = state.getIn(['marketDrawer', 'showPlacedBetsError']);
   const showDeleteUnmatchedBetsConfirmation = state.getIn(['marketDrawer', 'showDeleteUnmatchedBetsConfirmation']);
+  const showInsufficientBalanceError = state.getIn(['marketDrawer', 'showInsufficientBalanceError']);
+  const showDisconnectedError = state.getIn(['marketDrawer', 'showDisconnectedError']);
   // Total Bet amount for updated bets ONLY
-  const totalAmount = unmatchedBets.filter(bet => bet.get('updated')).reduce((total, bet) => {
+  const updatedBets = unmatchedBets.filter(bet => bet.get('updated'));
+  const totalAmount = updatedBets.reduce((total, bet) => {
     const stake = parseFloat(bet.get('stake'));
     const originalStake = parseFloat(bet.get('original_stake'));
     return total + (!isNaN(stake) && !isNaN(originalStake) ? stake - originalStake : 0.0);
   }, 0.0);
+  // Number of Good bets
+  const numberOfGoodBets = updatedBets.reduce((sum, bet) => {
+    return sum + (BettingModuleUtils.isValidBet(bet) | 0);
+  }, 0);
   return {
     unmatchedBets,
     isEmpty: unmatchedBets.isEmpty() && matchedBets.isEmpty(),
@@ -98,9 +120,14 @@ const mapStateToProps = (state, ownProps) => {
     showPlacedBetsWaiting,
     showPlacedBetsError,
     showDeleteUnmatchedBetsConfirmation,
+    showInsufficientBalanceError,
+    showDisconnectedError,
     unmatchedbetsToBeDeleted: state.getIn(['marketDrawer', 'unmatchedbetsToBeDeleted']),
-    totalBetAmount: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
-                    CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat),
+    numberOfGoodBets,
+    numberOfBadBets: updatedBets.size - numberOfGoodBets,
+    totalBetAmountFloat: totalAmount,
+    totalBetAmountString: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
+                          CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat),
   }
 }
 
@@ -112,6 +139,8 @@ const mapDispatchToProps = (dispatch) => {
     editBets: BetActions.editBets,
     deleteUnmatchedBets: MarketDrawerActions.deleteUnmatchedBets,
     cancelDeleteUnmatchedBets: MarketDrawerActions.cancelDeleteUnmatchedBets,
+    hideInsufficientBalanceError: MarketDrawerActions.hideInsufficientBalanceError,
+    hideDisconnectedError: MarketDrawerActions.hideDisconnectedError,
   }, dispatch);
 }
 

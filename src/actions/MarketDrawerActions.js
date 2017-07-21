@@ -251,6 +251,8 @@ class MarketDrawerActions {
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.hideBetSlipConfirmation());
       dispatch(MarketDrawerPrivateActions.hideBetSlipError());
+      dispatch(MarketDrawerPrivateActions.hideInsufficientBalanceError());
+      dispatch(MarketDrawerPrivateActions.hideDisconnectedError());
     }
   }
 
@@ -331,9 +333,23 @@ class MarketDrawerActions {
     }
   }
 
-  static clickUpdateBet() {
-    return (dispatch) => {
-      dispatch(MarketDrawerPrivateActions.showPlacedBetsConfirmation());
+  static clickUpdateBet(totalBetAmount, currencyFormat) {
+    console.warn('The totalBetAmount is not the final version.')
+    return (dispatch, getState) => {
+      const isDisconnected = getState().getIn(['app', 'connectionStatus']) !== ConnectionStatus.CONNECTED;
+      if (isDisconnected) {
+        dispatch(MarketDrawerPrivateActions.showDisconnectedError());
+      } else {
+        const balance = getState().getIn(['balance', 'availableBalancesByAssetId', '1.3.0', 'balance']);
+        const precision = getState().getIn(['asset', 'assetsById', '1.3.0', 'precision']);
+        const normalizedBalance = balance / Math.pow(10, precision);
+        const formattedBalance = parseFloat(CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', normalizedBalance, currencyFormat));
+        if (formattedBalance < totalBetAmount) {
+          dispatch(MarketDrawerPrivateActions.showInsufficientBalanceError());
+        } else {
+          dispatch(MarketDrawerPrivateActions.showPlacedBetsConfirmation());
+        }
+      }
     }
   }
 
@@ -341,6 +357,8 @@ class MarketDrawerActions {
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.hidePlacedBetsConfirmation());
       dispatch(MarketDrawerPrivateActions.hidePlacedBetsError());
+      dispatch(MarketDrawerPrivateActions.hideInsufficientBalanceError());
+      dispatch(MarketDrawerPrivateActions.hideDisconnectedError());
     }
   }
 
