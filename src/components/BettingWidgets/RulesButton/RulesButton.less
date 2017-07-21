@@ -1,0 +1,19 @@
+@import '../../App/Colors.less';
+
+.rules-button{
+  padding:0;
+  background-color: transparent;
+  border:0 none;
+  color: @white;
+  border-radius:0;
+  font-size:14px;
+  &:hover {
+    background-color: transparent;
+    color: @white;
+  }
+
+}
+// overriding ant design default styling for left spacing  as per mockup
+.rules-button > .anticon + span, .ant-btn > span + .anticon{
+  margin-left:10px;
+}

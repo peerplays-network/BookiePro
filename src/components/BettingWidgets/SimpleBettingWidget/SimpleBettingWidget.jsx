@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import {  Table } from 'antd';
-import RulesModal from '../../Modal/RulesModal'
 import { QuickBetDrawerActions,NavigateActions } from '../../../actions';
-import { I18n, Translate } from 'react-redux-i18n';
+import { I18n } from 'react-redux-i18n';
 import { BettingModuleUtils, CurrencyUtils, EventNameUtils } from '../../../utility';
+
 // We cannot use CSS to override antd Table column width using CSS
 // This can only be done via the code
 const eventTimeColumnWidth = 65;
@@ -79,15 +79,12 @@ const getColumns = (renderOffer, navigateTo, currencyFormat) => ([
 const renderTitle = (title) => (
   <div className='title'>
     <div className='sport'>{ title }</div>
-      {
-        /* Rules Dialogue box */
-        // <div className='rules'>
-        // <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
-        //   <Translate value='rules_dialogue.content' dangerousHTML/>
-        // </RulesModal>
-        // </div>
-      }
-
+    {
+      // Hide rules
+      // <div className='rules'>
+      //   <RulesButton />
+      // </div>
+    }
   </div>
 );
 

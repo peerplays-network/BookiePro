@@ -4,8 +4,8 @@ import { BetTypes, LoadingStatus } from '../../../constants';
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 import Immutable from 'immutable';
-import { Icon, Button } from 'antd';
-import RulesModal from '../../Modal/RulesModal'
+import { Icon } from 'antd';
+import RulesButton from '../RulesButton'
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 
@@ -27,8 +27,7 @@ class ComplexBettingWidget extends PureComponent {
     this.setTableData = this.setTableData.bind(this);
     this.placeAllBestBets = this.placeAllBestBets.bind(this);
     this.getBestOfferOfEachmarket = this.getBestOfferOfEachmarket.bind(this);
-    this.onClickRulesButton = this.onClickRulesButton.bind(this);
-    this.onCancelRulesModal = this.onCancelRulesModal.bind(this);
+
   }
 
   componentDidMount(){
@@ -41,19 +40,6 @@ class ComplexBettingWidget extends PureComponent {
       this.props.unconfirmedBets !== nextProps.unconfirmedBets){
       this.setTableData(nextProps.marketData, nextProps.unconfirmedBets, this.props.bettingMarketGroupName === nextProps.bettingMarketGroupName)
     }
-  }
-
-  onClickRulesButton(event) {
-    event.preventDefault();
-    this.setState({
-      rulesModalVisible: true
-    })
-  }
-
-  onCancelRulesModal() {
-    this.setState({
-      rulesModalVisible: false
-    })
   }
 
   // betting widget full :
@@ -371,15 +357,7 @@ class ComplexBettingWidget extends PureComponent {
             <span>
               { I18n.t('complex_betting_widget.matched') }: { this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
             </span>
-            {/* Rules Dialogue box */}
-            {
-              (rules && !rules.isEmpty()) &&
-              <Button className='rules-button' onClick={ this.onClickRulesButton }>
-                <i className='info-icon'></i>
-                { I18n.t('rules_dialogue.buttonTitle') }
-                <RulesModal rules={ rules } visible={ this.state.rulesModalVisible } onCancel={ this.onCancelRulesModal } />
-              </Button>
-            }
+            <RulesButton rules={ rules } />
           </div>
         </div>
         {
