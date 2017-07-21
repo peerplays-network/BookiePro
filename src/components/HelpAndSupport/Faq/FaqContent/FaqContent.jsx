@@ -2,10 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { HelpAndSupportUtils } from '../../../../utility';
 import _ from 'lodash';
-import ReactDOM from 'react-dom';
-import Scroll from 'react-scroll';
-
-const scroll = Scroll.animateScroll;
 
 class FaqContent extends PureComponent {
   constructor(props) {
@@ -16,7 +12,6 @@ class FaqContent extends PureComponent {
     }
     // Set initial ref
     this.qaPairRefs = {};
-    this.renderFaqOverviewPart = this.renderFaqOverviewPart.bind(this);
     this.renderFaqDetailPart = this.renderFaqDetailPart.bind(this);
     this.renderFaqTopicHeader = this.renderFaqTopicHeader.bind(this);
   }
@@ -29,42 +24,10 @@ class FaqContent extends PureComponent {
       })
     }
   }
-
-  renderFaqOverviewPart() {
-    const faqOverview = _.map(this.state.questionAnswerPairs, (pair, index) => {
-      const onClick = (event) => {
-        event.preventDefault();
-        // Get reference to the qa pair
-        const qaPairRef = this.qaPairRefs[index];
-        // Get the dom node
-        const domNode = ReactDOM.findDOMNode(qaPairRef);
-        const domNodeOffsetTop = domNode.offsetTop;
-        scroll.scrollTo(domNodeOffsetTop, {
-          containerId: 'main-content-layout'
-        });
-      }
-      return (
-        <a className='faqOverviewHeader' key={ index } onClick={ onClick }>
-          { pair.question }
-        </a>
-      )
-    });
-
-    return (
-      <div className='faqOverviewPart'>
-        { faqOverview }
-      </div>
-    )
-  }
-
   renderFaqDetailPart() {
     const faqDetail = _.map(this.state.questionAnswerPairs, (pair, index) => {
       return (
-        <div
-          className='questionAnswerPair'
-          key={ index }
-          ref={ element => this.qaPairRefs[index] = element /* Set reference for scrolling target */ }
-        >
+        <div className='questionAnswerPair' key={ index }>
           <div key={ 'question' + index } className='question'>{ pair.question }</div>
           <div key={ 'answer' + index }className='answer'>{ pair.answer }</div>
         </div>
@@ -93,8 +56,6 @@ class FaqContent extends PureComponent {
     return (
       <div className={ 'faqContent ' +  ( className || '') } >
         { this.renderFaqTopicHeader() }
-        { this.renderFaqOverviewPart() }
-        <div className='faqSeparator' />
         { this.renderFaqDetailPart() }
       </div>
     )
