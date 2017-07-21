@@ -44,8 +44,11 @@
       margin-top:0;
       color: @topbar_label;
       &.amount {
-        // Fogbugz-716: Disable the hovering highlight of the account balance button
-        &:hover { background-color: transparent; }
+        // Fogbugz-716: override the hovering highlight of the account balance button
+        &:hover {
+          background-color: transparent;
+          a { color: @topbar_label; }
+        }
         a{
           color: @topbar_label;
           font-size:18px;
@@ -68,7 +71,7 @@
       &:hover{
         background-color: fade(@dark_blue_2, 95%);
         a, .anticon{
-          color: @white !important;
+          color: @white;
         }
       }
       a{
@@ -383,6 +386,7 @@
     background-size: 28px 15px;
     background-position: center;
   }
+  /* Fogbugz-716 - disable acccount balance icon hoving image change
   &:hover{
     .bitcoin-icon{
       background-image: url('../../../assets/icons/bitcoin_icon_hover.png');
@@ -391,6 +395,7 @@
       background-image: url('../../../assets/icons/mbitcoin_icon_hover.png');
     }
   }
+  */
   .bitcoin-icon-selected{
     background-image: url('../../../assets/icons/bitcoin_icon_hover.png');
     width:30px;
