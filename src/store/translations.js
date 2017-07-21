@@ -267,7 +267,8 @@ export const translationsObject = {
     },
     simple_betting_widget:{
       no_data: 'There is no event to be displayed.',
-      offer: 'OFFER'
+      offer: 'OFFER',
+      draw: 'The Draw'
     },
     quick_bet_drawer: {
       header: 'BETSLIP',

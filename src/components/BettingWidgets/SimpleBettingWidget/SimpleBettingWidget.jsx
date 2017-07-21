@@ -159,7 +159,7 @@ class SimpleBettingWidget extends PureComponent {
           team = record.get('event_name').split('vs')[index-1].trim();
           break;
         case 3:
-          team = 'The Draw'
+          team = I18n.t('simple_betting_widget.draw')
           break;
         default:
           team = ''
