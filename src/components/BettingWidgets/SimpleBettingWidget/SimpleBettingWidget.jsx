@@ -143,41 +143,51 @@ class SimpleBettingWidget extends PureComponent {
 
   renderOffer(action, typeOfBet, index, currencyFormat) {
     return (text, record) => {
-      const offers = record.get('offers');
-      if (offers.isEmpty()  ){
+      let offers = record.get('offers');
+      //not understand why offers are not ordered by betting_market_id in record
+
+      if (offers.isEmpty() || offers === undefined || offers.getIn([index-1, 'betting_market_id']) === undefined ){
         return '';
       }
 
+      offers = offers.sort( (a, b) => a.get('betting_market_id').localeCompare(b.get('betting_market_id')) )
       const betting_market_id = offers.getIn([index-1, 'betting_market_id']);
       const offer = offers.getIn([index-1, typeOfBet, 0]);
 
-      if ( offers === undefined || betting_market_id === undefined){
+      let team;
+      switch (index){
+        case 1:
+        case 2:
+          team = record.get('event_name').split('vs')[index-1].trim();
+          break;
+        case 3:
+          team = 'The Draw'
+          break;
+        default:
+          team = undefined
+      }
+
+      if ( offer === undefined){
         return (
-          <a href='#' onClick={ (event) => this.onOfferClicked(event, record, 'draw', action, betting_market_id, '') }>
+          <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, '') }>
             <div className='offer'>
               <p>{I18n.t('complex_betting_widget.offer')}</p>
             </div>
           </a>
         );
-      }
-
-      const team = record.get('event_name').split('vs')[index-1].trim();
-
-
-      if ( betting_market_id === '1.105.223' || betting_market_id === '1.105.1' || betting_market_id === '1.105.2'  ){
-        console.log( 'betting_market_id ', betting_market_id)
-      }
-
-      return (
-        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, offer.get('odds')) }>
-          <div className='offer'>
-            <div className='odds'>{ offer.get('odds') }</div>
-            <div className='price'>
-              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces, true)}
+      } else {
+        return (
+          <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, offer.get('odds')) }>
+            <div className='offer'>
+              <div className='odds'>{ offer.get('odds') }</div>
+              <div className='price'>
+                { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces, true)}
+              </div>
             </div>
-          </div>
-        </a>
-      );
+          </a>
+        );
+      }
+
     };
   };
 
@@ -196,6 +206,8 @@ class SimpleBettingWidget extends PureComponent {
         return 0;
       })
     }
+    console.log( events);
+
     return (
       // Note that we have to explicitly tell antd Table how to find the rowKey
       // because it is not compatible with Immutable JS
