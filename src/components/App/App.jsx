@@ -10,9 +10,11 @@ import { AppUtils, SoftwareUpdateUtils } from '../../utility';
 import TitleBar from './TitleBar';
 import { I18n } from 'react-redux-i18n';
 import Loading from '../Loading';
+import LicenseScreen from '../LicenseScreen';
 
 const isWindowsPlatform = AppUtils.isWindowsPlatform();
 const titleBarHeight = isWindowsPlatform ? '32px' : '40px';
+const LICENSE_SCREEN_DURATION = 2000; //2 seconds
 
 // App content top depends on the title bar height
 const appContentStyle = {
@@ -45,6 +47,11 @@ class App extends PureComponent {
   componentWillMount() {
     // Connect to blockchain
     this.props.connectToBlockchain();
+  }
+
+  componentDidMount() {
+    // REVIEW is clearTimeout() necessary?
+    setTimeout(this.props.hideLicenseScreen, LICENSE_SCREEN_DURATION);
   }
 
   onClickTryAgainConnectionError() {
@@ -121,10 +128,14 @@ class App extends PureComponent {
   }
 
   render() {
-    const { children, connectToBlockchainLoadingStatus, appBackgroundType, isConnectedToBlockchain, isTitleBarTransparent } = this.props;
+    const { children, connectToBlockchainLoadingStatus, appBackgroundType,
+            isConnectedToBlockchain, isTitleBarTransparent, showLicenseScreen } = this.props;
 
     let content = null;
-    if (connectToBlockchainLoadingStatus === LoadingStatus.LOADING) {
+    if (showLicenseScreen) {
+      content = <LicenseScreen />;
+    }
+    else if (connectToBlockchainLoadingStatus === LoadingStatus.LOADING) {
       content = <Loading />;
     } else{
       content = children;
@@ -178,6 +189,7 @@ const mapStateToProps = (state) => {
   const isTitleBarTransparent = app.get('isTitleBarTransparent');
   const appBackgroundType = app.get('appBackgroundType');
   const isConnectedToBlockchain = state.getIn(['app', 'connectionStatus']) === ConnectionStatus.CONNECTED
+  const showLicenseScreen = app.get('showLicenseScreen');
 
   return {
     connectToBlockchainLoadingStatus,
@@ -191,7 +203,8 @@ const mapStateToProps = (state) => {
     isShowConnectionErrorPopup,
     isNeedHardUpdate,
     appBackgroundType,
-    isTitleBarTransparent
+    isTitleBarTransparent,
+    showLicenseScreen,
   }
 }
 
@@ -202,6 +215,7 @@ const mapDispatchToProps = (dispatch) => {
     showLogoutPopup: AppActions.showLogoutPopupAction,
     confirmLogout: AuthActions.confirmLogout,
     showSoftwareUpdatePopup: AppActions.showSoftwareUpdatePopupAction,
+    hideLicenseScreen: AppActions.hideLicenseScreen,
   }, dispatch);
 }
 
