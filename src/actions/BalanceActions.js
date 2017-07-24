@@ -121,7 +121,7 @@ class BalanceActions {
   static withdraw(withdrawAmt, walletAddress) {
     return (dispatch) => {
       dispatch(BalancePrivateActions.setWithdrawLoadingStatusAction(LoadingStatus.LOADING));
-      CommunicationService.withdraw(walletAddress).then(() => {
+      CommunicationService.withdraw(withdrawAmt, walletAddress).then(() => {
         log.debug('Withdraw succeed.');
         dispatch(BalancePrivateActions.setWithdrawLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {

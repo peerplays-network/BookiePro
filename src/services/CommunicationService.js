@@ -441,8 +441,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyAllSports();
     } else {
-      // TODO: change later
-      return Promise.resolve(Immutable.List());
+      return this.callBlockchainDbApi('list_sports');
     }
   }
 
@@ -453,8 +452,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyEventGroupsBySportIds(sportIds);
     } else {
-      // TODO: change later
-      return Promise.resolve(Immutable.List());
+      return this.callBlockchainDbApi('list_event_groups', [sportIds]);
     }
   }
 
@@ -489,20 +487,18 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyBettingMarketGroupsByEventIds(eventIds);
     } else {
-      // TODO: change later
-      return Promise.resolve(Immutable.List());
+      return this.callBlockchainDbApi('list_betting_market_groups', [eventIds]);
     }
   }
 
   /**
    * Get betting market given betting market group ids
    */
-  static getBettingMarketsByBettingMarketGroupIds(bettingMarketIds) {
+  static getBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds) {
     if (Config.useDummyData) {
-      return this.getDummyBettingMarketsByBettingMarketGroupIds(bettingMarketIds);
+      return this.getDummyBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds);
     } else {
-      // TODO: change later
-      return Promise.resolve(Immutable.List());
+      return this.callBlockchainDbApi('list_betting_markets', [bettingMarketGroupIds]);
     }
   }
 
@@ -538,8 +534,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(bettingMarketIds);
     } else {
-      // TODO: Replace later
-      return Promise.resolve(Immutable.List());
+      return this.getObjectsByIds(bettingMarketIds);
     }
   }
 
@@ -550,8 +545,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(bettingMarketGroupIds);
     } else {
-      // TODO: Replace later
-      return Promise.resolve(Immutable.List());
+      return this.getObjectsByIds(bettingMarketGroupIds);
     }
   }
 
@@ -563,8 +557,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(eventIds);
     } else {
-      // TODO: Replace later
-      return Promise.resolve(Immutable.List());
+      return this.getObjectsByIds(eventIds);
     }
   }
 
@@ -575,8 +568,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(eventGroupIds);
     } else {
-      // TODO: Replace later
-      return Promise.resolve(Immutable.List());
+      return this.getObjectsByIds(eventGroupIds);
     }
   }
 
@@ -587,8 +579,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(sportIds);
     } else {
-      // TODO: Replace later
-      return Promise.resolve(Immutable.List());
+      return this.getObjectsByIds(sportIds);
     }
   }
 
@@ -611,8 +602,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyGlobalBettingStatistics();
     } else {
-      // TODO: Replace later
-      return Promise.resolve(Immutable.List());
+      return this.callBlockchainDbApi('get_global_betting_statistics');
     }
   }
 
@@ -669,7 +659,7 @@ class CommunicationService {
    * Get active events given array of sport ids (can be immutable)
    */
   static getDummyActiveEventsBySportIds(sportIds) {
-    // TODO: Replace later
+    // TODO: Remove later
     const promises = sportIds.map( (sportId) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -694,7 +684,7 @@ class CommunicationService {
    * Get events given array of event group ids (can be immutable)
    */
   static getDummyEventsByEventGroupIds(eventGroupIds) {
-    // TODO: Replace later
+    // TODO: Remove later
     const promises = eventGroupIds.map( (eventGroupId) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -718,7 +708,7 @@ class CommunicationService {
    * Get betting market groups given event ids
    */
   static getDummyBettingMarketGroupsByEventIds(eventIds) {
-    // TODO: Replace later
+    // TODO: Remove later
     const promises = eventIds.map( (eventId) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -738,7 +728,7 @@ class CommunicationService {
    * Get betting markets given betting market group ids
    */
   static getDummyBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds) {
-    // TODO: Replace later
+    // TODO: Remove later
     const promises = bettingMarketGroupIds.map( (bettingMarketGroupId) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -782,7 +772,7 @@ class CommunicationService {
    * Get binned order books
    */
   static getDummyBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision) {
-    // TODO: Replace later
+    // TODO: Remove later
     // Create promises of getting binned order book for each betting market
     const promises = bettingMarketIds.map( (bettingMarketId) => {
       return new Promise((resolve, reject) => {
@@ -813,7 +803,7 @@ class CommunicationService {
    * Get total matched bets given array of betting market group ids (can be immutable)
    */
   static getDummyTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds) {
-    // TODO: Replace later
+    // TODO: Remove later
     const promises = bettingMarketGroupIds.map( (bettingMarketGroupId) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -840,7 +830,7 @@ class CommunicationService {
    * Get global betting statistics
    */
   static getDummyGlobalBettingStatistics() {
-    // TODO: Replace later
+    // TODO: Remove later
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(Immutable.fromJS(dummyData.globalBettingStatistics));
@@ -855,7 +845,7 @@ class CommunicationService {
   /**
    * Withdraw money
    */
-  static withdraw(walletAddress) {
+  static withdraw(withdrawAmount, walletAddress) {
     // TODO: Replace later
     return new Promise((resolve, reject) => {
       setTimeout(() => {
