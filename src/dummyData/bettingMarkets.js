@@ -3277,6 +3277,76 @@ const bettingMarkets = [
     "description": "The Draw",
     "bet_asset_type": "1.3.0"
   },
+  {
+    "id": "1.105.468",
+    "betting_market_group_id": "1.104.151",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.469",
+    "betting_market_group_id": "1.104.142",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.470",
+    "betting_market_group_id": "1.104.154",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.471",
+    "betting_market_group_id": "1.104.145",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.472",
+    "betting_market_group_id": "1.104.148",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.473",
+    "betting_market_group_id": "1.104.169",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.474",
+    "betting_market_group_id": "1.104.163",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.475",
+    "betting_market_group_id": "1.104.160",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.476",
+    "betting_market_group_id": "1.104.166",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.477",
+    "betting_market_group_id": "1.104.157",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  }
 ];
 
 //TODO: add more in this list, pay attention on the relation with the betting_market_groups dummy data
