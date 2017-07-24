@@ -65,11 +65,17 @@ const getEventsById = (state) => {
 }
 
 const getActiveEventsBySportId = createSelector(
-  getEventsById,
-  (eventsById) => {
+  [
+    getEventsById,
+    getEventGroupsById
+  ],
+  (eventsById, eventGroupsById) => {
     // Active event is event whose start time is
     const isActiveEvent = (event) => (event.get('start_time') -  new Date()) > 0;
-    return eventsById.filter(isActiveEvent).toList().groupBy(event => event.get('sport_id'));
+    return eventsById.filter(isActiveEvent).toList().groupBy(event => {
+      const eventGroup = eventGroupsById.get(event.get('event_group_id'));
+      return eventGroup && eventGroup.get('sport_id')
+    });
   }
 )
 
@@ -132,7 +138,7 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
     let simpleBettingWidgetBinnedOrderBooksByEventId = Immutable.Map();
     binnedOrderBooksByBettingMarketId.forEach((binnedOrderBook, bettingMarketId) => {
       const bettingMarket = bettingMarketsById.get(bettingMarketId);
-      const bettingMarketGroupId = bettingMarket && bettingMarket.get('betting_market_group_id');
+      const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
       const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
       const eventId = bettingMarketGroup && bettingMarketGroup.get('event_id');
       // NOTE: Assume description can be used as comparison

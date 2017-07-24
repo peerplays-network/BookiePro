@@ -174,7 +174,7 @@ class MarketDrawerActions {
   static createBet(team, bet_type, betting_market_id, odds = '') {
     return (dispatch, getState) => {
       const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', betting_market_id]);
-      const bettingMarketGroupId = bettingMarket && bettingMarket.get('betting_market_group_id');
+      const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
       const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
       const bettingMarketDescription = bettingMarket && bettingMarket.get('description');
       const bettingMarketGroupDescription = bettingMarketGroup && bettingMarketGroup.get('description');
@@ -273,12 +273,14 @@ class MarketDrawerActions {
       const unmatchedBetsById = getState().getIn(['bet', 'unmatchedBetsById']);
       const matchedBetsById = getState().getIn(['bet', 'matchedBetsById']);
       const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
-      const bettingMarketIds= bettingMarketGroup.get('betting_market_ids');
       const bettingMarketsById = getState().getIn(['bettingMarket', 'bettingMarketsById']);
       const assetsById = getState().getIn(['asset', 'assetsById']);
       const bettingMarketGroupDescription = bettingMarketGroup && bettingMarketGroup.get('description');
       const getBets = (collection) =>
-        collection.filter(bet => bettingMarketIds.includes(bet.get('betting_market_id'))).map(bet => {
+        collection.filter(bet => {
+          const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
+          return bettingMarket && (bettingMarket.get('group_id') === bettingMarketGroupId);
+        }).map(bet => {
           const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
           const bettingMarketDescription = bettingMarket && bettingMarket.get('description');
           const precision = assetsById.get(bettingMarket.get('bet_asset_type')).get('precision');

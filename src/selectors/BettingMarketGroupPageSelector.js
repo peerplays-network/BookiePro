@@ -72,24 +72,17 @@ const getEventTime = createSelector(
 )
 
 
-const getBettingMarketIds = createSelector(
-  getBettingMarketGroup,
-  (bettingMarketGroup) => {
-    const bettingMarketIds = (bettingMarketGroup && bettingMarketGroup.get('betting_market_ids')) || Immutable.List();
-    return bettingMarketIds;
-  }
-)
-
 const getBettingMarkets = createSelector(
   [
-    getBettingMarketIds,
+    getBettingMarketGroupId,
     getBettingMarketsById
   ],
-  (bettingMarketIds, bettingMarketsById) => {
+  (bettingMarketGroupId, bettingMarketsById) => {
     let bettingMarkets = Immutable.List();
-    bettingMarketIds.forEach((bettingMarketId) => {
-      const bettingMarket = bettingMarketsById.get(bettingMarketId);
-      if (bettingMarket) bettingMarkets = bettingMarkets.push(bettingMarket);
+    bettingMarketsById.forEach((bettingMarket) => {
+      if (bettingMarket.get('group_id') === bettingMarketGroupId ) {
+        bettingMarkets = bettingMarkets.push(bettingMarket);
+      }
     });
     return bettingMarkets;
   }

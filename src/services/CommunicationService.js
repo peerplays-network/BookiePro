@@ -441,8 +441,18 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyAllSports();
     } else {
-      // TODO: change later
-      return Promise.resolve(Immutable.List());
+      return this.callBlockchainDbApi('list_sports');
+    }
+  }
+
+  /**
+   * Get event group given sport ids
+   */
+  static getEventGroupsBySportIds(sportIds) {
+    if (Config.useDummyData) {
+      return this.getDummyEventGroupsBySportIds(sportIds);
+    } else {
+      return this.callBlockchainDbApi('list_event_groups', [sportIds]);
     }
   }
 
@@ -455,6 +465,40 @@ class CommunicationService {
     } else {
       // TODO: change later
       return Promise.resolve(Immutable.List());
+    }
+  }
+
+  /**
+   * Get events given array of event group ids (can be immutable)
+   */
+  static getEventsByEventGroupIds(eventGroupIds) {
+    if (Config.useDummyData) {
+      return this.getDummyEventsByEventGroupIds(eventGroupIds);
+    } else {
+      // TODO: change later
+      return Promise.resolve(Immutable.List());
+    }
+  }
+
+  /**
+   * Get betting market group given event ids
+   */
+  static getBettingMarketGroupsByEventIds(eventIds) {
+    if (Config.useDummyData) {
+      return this.getDummyBettingMarketGroupsByEventIds(eventIds);
+    } else {
+      return this.callBlockchainDbApi('list_betting_market_groups', [eventIds]);
+    }
+  }
+
+  /**
+   * Get betting market given betting market group ids
+   */
+  static getBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds) {
+    if (Config.useDummyData) {
+      return this.getDummyBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds);
+    } else {
+      return this.callBlockchainDbApi('list_betting_markets', [bettingMarketGroupIds]);
     }
   }
 
@@ -490,8 +534,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(bettingMarketIds);
     } else {
-      // TODO: Replace later
-      return Promise.resolve(Immutable.List());
+      return this.getObjectsByIds(bettingMarketIds);
     }
   }
 
@@ -502,8 +545,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(bettingMarketGroupIds);
     } else {
-      // TODO: Replace later
-      return Promise.resolve(Immutable.List());
+      return this.getObjectsByIds(bettingMarketGroupIds);
     }
   }
 
@@ -515,8 +557,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(eventIds);
     } else {
-      // TODO: Replace later
-      return Promise.resolve(Immutable.List());
+      return this.getObjectsByIds(eventIds);
     }
   }
 
@@ -527,8 +568,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(eventGroupIds);
     } else {
-      // TODO: Replace later
-      return Promise.resolve(Immutable.List());
+      return this.getObjectsByIds(eventGroupIds);
     }
   }
 
@@ -539,8 +579,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(sportIds);
     } else {
-      // TODO: Replace later
-      return Promise.resolve(Immutable.List());
+      return this.getObjectsByIds(sportIds);
     }
   }
 
@@ -563,8 +602,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyGlobalBettingStatistics();
     } else {
-      // TODO: Replace later
-      return Promise.resolve(Immutable.List());
+      return this.callBlockchainDbApi('get_global_betting_statistics');
     }
   }
 
@@ -597,18 +635,16 @@ class CommunicationService {
     });
   }
 
-
   /**
-   * Get active events given array of sport ids (can be immutable)
+   * Get event groups given array of sport ids (can be immutable)
    */
-  static getDummyActiveEventsBySportIds(sportIds) {
+  static getDummyEventGroupsBySportIds(sportIds) {
     // TODO: Replace later
     const promises = sportIds.map( (sportId) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          const currentTime = new Date().getTime();
-          const filteredResult = _.filter(dummyData.events, (item) => {
-            return (item.sport_id === sportId) && (item.start_time - currentTime > 0);
+          const filteredResult = _.filter(dummyData.eventGroups, (item) => {
+            return (item.sport_id === sportId);
           });
           resolve(filteredResult);
         }, TIMEOUT_LENGTH);
@@ -619,6 +655,94 @@ class CommunicationService {
     });
   }
 
+  /**
+   * Get active events given array of sport ids (can be immutable)
+   */
+  static getDummyActiveEventsBySportIds(sportIds) {
+    // TODO: Remove later
+    const promises = sportIds.map( (sportId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const currentTime = new Date().getTime();
+          const eventGroupsById = _.keyBy(dummyData.eventGroups, (eventGroup) => eventGroup.id);
+          const filteredResult = _.filter(dummyData.events, (item) => {
+            const isActive = (item.start_time - currentTime > 0);
+            const eventGroup = eventGroupsById[item.event_group_id];
+            const isSportRelated = eventGroup && eventGroup.sport_id === sportId;
+            return isActive && isSportRelated;
+          });
+          resolve(filteredResult);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( result => {
+      return Immutable.fromJS(_.flatten(result));
+    });
+  }
+
+  /**
+   * Get events given array of event group ids (can be immutable)
+   */
+  static getDummyEventsByEventGroupIds(eventGroupIds) {
+    // TODO: Remove later
+    const promises = eventGroupIds.map( (eventGroupId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const currentTime = new Date().getTime();
+          const filteredResult = _.filter(dummyData.events, (item) => {
+            const isActive = (item.start_time - currentTime > 0);;
+            const isRelated = item.event_group_id === eventGroupId;
+            return isActive && isRelated;
+          });
+          resolve(filteredResult);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( result => {
+      return Immutable.fromJS(_.flatten(result));
+    });
+  }
+
+
+  /**
+   * Get betting market groups given event ids
+   */
+  static getDummyBettingMarketGroupsByEventIds(eventIds) {
+    // TODO: Remove later
+    const promises = eventIds.map( (eventId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const filteredResult = _.filter(dummyData.bettingMarketGroups, (item) => {
+            return (item.event_id === eventId);
+          });
+          resolve(filteredResult);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( result => {
+      return Immutable.fromJS(_.flatten(result));
+    });
+  }
+
+  /**
+   * Get betting markets given betting market group ids
+   */
+  static getDummyBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds) {
+    // TODO: Remove later
+    const promises = bettingMarketGroupIds.map( (bettingMarketGroupId) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const filteredResult = _.filter(dummyData.bettingMarkets, (item) => {
+            return (item.group_id === bettingMarketGroupId);
+          });
+          resolve(filteredResult);
+        }, TIMEOUT_LENGTH);
+      });
+    });
+    return Promise.all(promises).then( result => {
+      return Immutable.fromJS(_.flatten(result));
+    });
+  }
 
 
   /**
@@ -648,7 +772,7 @@ class CommunicationService {
    * Get binned order books
    */
   static getDummyBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision) {
-    // TODO: Replace later
+    // TODO: Remove later
     // Create promises of getting binned order book for each betting market
     const promises = bettingMarketIds.map( (bettingMarketId) => {
       return new Promise((resolve, reject) => {
@@ -679,7 +803,7 @@ class CommunicationService {
    * Get total matched bets given array of betting market group ids (can be immutable)
    */
   static getDummyTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds) {
-    // TODO: Replace later
+    // TODO: Remove later
     const promises = bettingMarketGroupIds.map( (bettingMarketGroupId) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -706,7 +830,7 @@ class CommunicationService {
    * Get global betting statistics
    */
   static getDummyGlobalBettingStatistics() {
-    // TODO: Replace later
+    // TODO: Remove later
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(Immutable.fromJS(dummyData.globalBettingStatistics));
@@ -721,7 +845,7 @@ class CommunicationService {
   /**
    * Withdraw money
    */
-  static withdraw(walletAddress) {
+  static withdraw(withdrawAmount, walletAddress) {
     // TODO: Replace later
     return new Promise((resolve, reject) => {
       setTimeout(() => {

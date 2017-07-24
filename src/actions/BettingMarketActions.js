@@ -10,6 +10,13 @@ class BettingMarketPrivateActions {
       loadingStatus
     }
   }
+  static setGetBettingMarketsByBettingMarketGroupIdsLoadingStatusAction(bettingMarketGroupIds, loadingStatus) {
+    return {
+      type: ActionTypes.BETTING_MARKET_SET_GET_BETTING_MARKETS_BY_BETTING_MARKET_GROUP_IDS_LOADING_STATUS,
+      bettingMarketGroupIds,
+      loadingStatus
+    }
+  }
 }
 
 /**
@@ -29,6 +36,58 @@ class BettingMarketActions {
       type: ActionTypes.BETTING_MARKET_REMOVE_BETTING_MARKETS_BY_IDS,
       bettingMarketIds
     }
+  }
+
+  /**
+   * Get betting market groups given event ids (can be immutable array)
+   */
+  static getBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds) {
+    return (dispatch, getState) => {
+      let retrievedBettingMarkets = Immutable.List();
+      let bettingMarketGroupIdsOfBettingMarketsToBeRetrieved = Immutable.List();
+
+      // Get bettingMarketsByBettingMarketGroupId
+      const bettingMarketsById = getState().getIn(['bettingMarket', 'bettingMarketsById']);
+      let bettingMarketsByBettingMarketGroupId = Immutable.Map();
+      bettingMarketsById.forEach( (bettingMarket, id) => {
+        const bettingMarketGroupId = bettingMarket.get('event_id');
+        bettingMarketsByBettingMarketGroupId = bettingMarketsByBettingMarketGroupId.update(bettingMarketGroupId, bettingMarkets => {
+          if (!bettingMarkets) bettingMarkets = Immutable.List();
+          return bettingMarkets.push(bettingMarket);
+        })
+      })
+
+      // Check if the requested data is already inside redux store
+      const getBettingMarketsByBettingMarketGroupIdsLoadingStatus = getState().getIn(['bettingMarket', 'getBettingMarketsByBettingMarketGroupIdsLoadingStatus']);
+      bettingMarketGroupIds.forEach( bettingMarketGroupId => {
+        if (getBettingMarketsByBettingMarketGroupIdsLoadingStatus.get(bettingMarketGroupId) === LoadingStatus.DONE) {
+          if (bettingMarketsByBettingMarketGroupId.has(bettingMarketGroupId)) {
+            retrievedBettingMarkets = retrievedBettingMarkets.concat(bettingMarketsByBettingMarketGroupId.get(bettingMarketGroupId));
+          }
+        } else {
+          bettingMarketGroupIdsOfBettingMarketsToBeRetrieved = bettingMarketGroupIdsOfBettingMarketsToBeRetrieved.push(bettingMarketGroupId);
+        }
+      })
+
+      if (bettingMarketGroupIdsOfBettingMarketsToBeRetrieved.size === 0) {
+        // No events to be retrieved from blockchain, return retrieved data from redux store
+        return Promise.resolve(retrievedBettingMarkets);
+      } else {
+        // Retrieve data from blockchain
+        // Set status
+        dispatch(BettingMarketPrivateActions.setGetBettingMarketsByBettingMarketGroupIdsLoadingStatusAction(bettingMarketGroupIdsOfBettingMarketsToBeRetrieved, LoadingStatus.LOADING));
+        return CommunicationService.getBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIdsOfBettingMarketsToBeRetrieved).then((events) => {
+          // Add data to redux store
+          dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(events));
+          // Set status
+          dispatch(BettingMarketPrivateActions.setGetBettingMarketsByBettingMarketGroupIdsLoadingStatusAction(bettingMarketGroupIdsOfBettingMarketsToBeRetrieved, LoadingStatus.DONE));
+          const bettingMarketGroupIds = events.map( event => event.get('id'));
+          dispatch(BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(bettingMarketGroupIds, LoadingStatus.DONE));
+          // Concat with retrieved data from redux store
+          return retrievedBettingMarkets.concat(events);
+        });
+      }
+    };
   }
 
   /**

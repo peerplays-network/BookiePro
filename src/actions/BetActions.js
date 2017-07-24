@@ -4,6 +4,7 @@ import { LoadingStatus, ActionTypes } from '../constants';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import EventActions from './EventActions';
+import EventGroupActions from './EventGroupActions';
 import SportActions from './SportActions';
 import { TransactionBuilder } from 'peerplaysjs-lib';
 import _ from 'lodash';
@@ -132,7 +133,7 @@ class BetActions {
 
         dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)).then((bettingMarkets) => {
           // Get unique betting market group ids
-          let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
+          let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('group_id')).toSet();
           // Get the betting market groups
           return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
         }).then((bettingMarketGroups) => {
@@ -141,8 +142,13 @@ class BetActions {
           // Get the betting market groups
           return dispatch(EventActions.getEventsByIds(eventIds));
         }).then((events) => {
+          // Get unique event group ids
+          let eventGroupIds = events.map(event => event.get('event_group_id')).toSet();
+          // Get the betting market groups
+          return dispatch(EventGroupActions.getEventGroupsByIds(eventGroupIds));
+        }).then((eventGroups) => {
           // Get unique sport ids
-          let sportIds = events.map(event => event.get('sport_id')).toSet();
+          let sportIds = eventGroups.map(eventGroup => eventGroup.get('sport_id')).toSet();
           // Get the betting market groups
           return dispatch(SportActions.getSportsByIds(sportIds));
         }).then((sports) => {
@@ -186,7 +192,7 @@ class BetActions {
 
         dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)).then((bettingMarkets) => {
           // Get unique betting market group ids
-          let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('betting_market_group_id')).toSet();
+          let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('group_id')).toSet();
           // Get the betting market groups
           return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
         }).then((bettingMarketGroups) => {
@@ -195,9 +201,14 @@ class BetActions {
           // Get the events
           return dispatch(EventActions.getEventsByIds(eventIds));
         }).then((events) => {
+          // Get unique event group ids
+          let eventGroupIds = events.map(event => event.get('event_group_id')).toSet();
+          // Get the betting market groups
+          return dispatch(EventGroupActions.getEventGroupsByIds(eventGroupIds));
+        }).then((eventGroups) => {
           // Get unique sport ids
-          let sportIds = events.map(event => event.get('sport_id')).toSet();
-          // Get related data
+          let sportIds = eventGroups.map(eventGroup => eventGroup.get('sport_id')).toSet();
+          // Get the betting market groups
           return dispatch(SportActions.getSportsByIds(sportIds));
         }).then(() => {
           // Set my bets

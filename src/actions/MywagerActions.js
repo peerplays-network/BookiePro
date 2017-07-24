@@ -110,15 +110,19 @@ class MywagerActions {
 
         //merging betting market data for display and betting_market_group_id for reference
         exportData = mergeRelationData(exportData, getState().getIn(['bettingMarket','bettingMarketsById']), 'betting_market_id',
-          {betting_market_group_id: 'betting_market_group_id' , description: 'betting_market_description'});
+          {group_id: 'group_id' , description: 'betting_market_description'});
 
         //merging betting market group data for display and eventid for reference
-        exportData = mergeRelationData(exportData, getState().getIn(['bettingMarketGroup','bettingMarketGroupsById']), 'betting_market_group_id',
+        exportData = mergeRelationData(exportData, getState().getIn(['bettingMarketGroup','bettingMarketGroupsById']), 'group_id',
           {event_id: 'event_id' , description: 'betting_market_group_description'});
 
         //merging evemt data for display and sport id for reference
         exportData = mergeRelationData(exportData, getState().getIn(['event','eventsById']), 'event_id',
-          {'name': 'event_name' , 'sport_id': 'sport_id'});
+          {'name': 'event_name'});
+
+        //merging evemt data for display and sport id for reference
+        exportData = mergeRelationData(exportData, getState().getIn(['eventGroup','eventGroupsById']), 'event_group_id',
+          {'sport_id': 'sport_id'});
 
         //merging sport data for display
         exportData = mergeRelationData(exportData, getState().getIn(['sport','sportsById']), 'sport_id',

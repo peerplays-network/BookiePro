@@ -48,12 +48,12 @@ class AllSportsActions {
         return dispatch(EventActions.getActiveEventsBySportIds(retrievedSportIds));
       }).then((events) => {
         // Get betting market groups
-        const bettingMarketGroupIds = events.flatMap( event => event.get('betting_market_group_ids'));
-        return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
+        const eventIds = events.map( event => event.get('id'));
+        return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByEventIds(eventIds));
       }).then((bettingMarketGroups) => {
         // Get betting markets
-        const bettingMarketIds = bettingMarketGroups.flatMap( bettingMarketGroup => bettingMarketGroup.get('betting_market_ids'));
-        return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds));
+        const bettingMarketGroupIds = bettingMarketGroups.map( bettingMarketGroup => bettingMarketGroup.get('id'));
+        return dispatch(BettingMarketActions.getBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds));
       }).then((bettingMarkets) => {
         // Get binned order books
         const bettingMarketIds = bettingMarkets.map( bettingMarket => bettingMarket.get('id'));
