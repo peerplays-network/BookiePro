@@ -80,7 +80,7 @@ const getBettingMarkets = createSelector(
   (bettingMarketGroupId, bettingMarketsById) => {
     let bettingMarkets = Immutable.List();
     bettingMarketsById.forEach((bettingMarket) => {
-      if (bettingMarket.get('betting_market_group_id') === bettingMarketGroupId ) {
+      if (bettingMarket.get('group_id') === bettingMarketGroupId ) {
         bettingMarkets = bettingMarkets.push(bettingMarket);
       }
     });

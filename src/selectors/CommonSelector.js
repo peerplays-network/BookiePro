@@ -138,7 +138,7 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
     let simpleBettingWidgetBinnedOrderBooksByEventId = Immutable.Map();
     binnedOrderBooksByBettingMarketId.forEach((binnedOrderBook, bettingMarketId) => {
       const bettingMarket = bettingMarketsById.get(bettingMarketId);
-      const bettingMarketGroupId = bettingMarket && bettingMarket.get('betting_market_group_id');
+      const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
       const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
       const eventId = bettingMarketGroup && bettingMarketGroup.get('event_id');
       // NOTE: Assume description can be used as comparison

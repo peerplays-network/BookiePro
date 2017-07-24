@@ -84,7 +84,7 @@ class MyWager extends PureComponent {
 
   //Redirect to event market screen
   handleUnmatchedEventClick(record, event){
-    this.props.navigateTo('/exchange/bettingmarketgroup/' + record.betting_market_group_id);
+    this.props.navigateTo('/exchange/bettingmarketgroup/' + record.group_id);
   }
 
   //cancel single bet

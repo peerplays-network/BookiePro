@@ -733,7 +733,7 @@ class CommunicationService {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           const filteredResult = _.filter(dummyData.bettingMarkets, (item) => {
-            return (item.betting_market_group_id === bettingMarketGroupId);
+            return (item.group_id === bettingMarketGroupId);
           });
           resolve(filteredResult);
         }, TIMEOUT_LENGTH);

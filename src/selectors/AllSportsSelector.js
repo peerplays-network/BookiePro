@@ -83,7 +83,7 @@ const getAllSportsData = createSelector(
         const offers = simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
         // Find the MoneyLine Betting Market Group of this event
         const moneylineBettingMarketId = offers.getIn(['0', 'betting_market_id']);
-        const moneylineBettingMarketGroupId = bettingMarketsById.getIn([moneylineBettingMarketId, 'betting_market_group_id']);
+        const moneylineBettingMarketGroupId = bettingMarketsById.getIn([moneylineBettingMarketId, 'group_id']);
         // Create event node
         return Immutable.fromJS({
           event_id: event.get('id'),

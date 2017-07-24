@@ -99,7 +99,7 @@ class QuickBetDrawerActions {
   static createBet(event_id, event_name, team, bet_type, betting_market_id, odds) {
     return (dispatch, getState) => {
       const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', betting_market_id]);
-      const bettingMarketGroupId = bettingMarket && bettingMarket.get('betting_market_group_id');
+      const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
       const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
       const bettingMarketDescription = bettingMarket && bettingMarket.get('description');
       const bettingMarketGroupDescription = bettingMarketGroup && bettingMarketGroup.get('description');

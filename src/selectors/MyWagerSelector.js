@@ -141,7 +141,7 @@ const mergeBettingMarketData = createSelector(
   [betData, getBettingMarketsById],
   (bets, betMarket)=>{
     return mergeRelationData(bets, betMarket, 'betting_market_id',
-      {betting_market_group_id: 'betting_market_group_id', description: 'betting_market_description'});
+      {group_id: 'group_id', description: 'betting_market_description'});
   }
 );
 
@@ -149,7 +149,7 @@ const mergeBettingMarketData = createSelector(
 const mergeBettingMarketGroupData = createSelector(
   [mergeBettingMarketData, getBettingMarketGroupsById],
   (bets, betMarketGroup)=>{
-    return mergeRelationData(bets, betMarketGroup, 'betting_market_group_id',
+    return mergeRelationData(bets, betMarketGroup, 'group_id',
       { event_id: 'event_id', description: 'betting_market_group_description' });
   }
 );
@@ -177,7 +177,7 @@ const mergeSportsData = createSelector(
 // Bet data currently looks like this
 /**
 back_or_lay:"LAY"
-betting_market_group_id:"1.104.1"
+group_id:"1.104.1"
 betting_market_id:"1.105.1"
 cancel:Object
 event_id:"1.103.1"
