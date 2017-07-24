@@ -29,7 +29,7 @@ import RawHistoryReducer from './RawHistoryReducer';
 import BalanceReducer from './BalanceReducer';
 import MywagerReducer from './MywagerReducer';
 import MyAccountPageReducer from './MyAccountPageReducer';
-
+import RuleReducer from './RuleReducer';
 
 const rootReducer = combineReducers({
   app: AppReducer,
@@ -58,6 +58,7 @@ const rootReducer = combineReducers({
   quickBetDrawer: QuickBetDrawerReducer,
   marketDrawer: MarketDrawerReducer,
   myAccountPage: MyAccountPageReducer,
+  rule: RuleReducer,
   routing: ImmutableRouterReducer,
   form: formReducer,
   i18n: Immutablei18nReducer

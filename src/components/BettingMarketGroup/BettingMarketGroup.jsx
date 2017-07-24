@@ -35,11 +35,6 @@ class BettingMarketGroup extends PureComponent {
           eventTime={ this.props.eventTime }
         />
         <ComplexBettingWidget
-          sportName={ this.props.sportName }
-          eventName={ this.props.eventName }
-          eventTime={ this.props.eventTime }
-          bettingMarketGroup={ this.props.bettingMarketGroup }
-          bettingMarketGroupName={ this.props.bettingMarketGroupName }
           marketData={ this.props.marketData }
           totalMatchedBetsAmount={ this.props.totalMatchedBetsAmount }
           createBet={ this.props.createBet }
@@ -47,6 +42,7 @@ class BettingMarketGroup extends PureComponent {
           currencyFormat={ this.props.currencyFormat }
           loadingStatus={ this.props.loadingStatus }
           widgetTitle={ this.props.widgetTitle }
+          rules={ this.props.rules }
         />
       </div>
     )
@@ -63,17 +59,14 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    sportName: BettingMarketGroupPageSelector.getSportName(state, ownProps),
-    bettingMarketGroup: BettingMarketGroupPageSelector.getBettingMarketGroup(state, ownProps),
-    bettingMarkets: BettingMarketGroupPageSelector.getBettingMarkets(state, ownProps),
     marketData: BettingMarketGroupPageSelector.getMarketData(state, ownProps),
     eventName: BettingMarketGroupPageSelector.getEventName(state, ownProps),
     eventTime: BettingMarketGroupPageSelector.getEventTime(state, ownProps),
-    bettingMarketGroupName: BettingMarketGroupPageSelector.getBettingMarketGroupName(state, ownProps),
     totalMatchedBetsAmount: BettingMarketGroupPageSelector.getTotalMatchedBetsAmount(state, ownProps),
     unconfirmedBets: BettingMarketGroupPageSelector.getUnconfirmedBets(state, ownProps),
     loadingStatus: BettingMarketGroupPageSelector.getLoadingStatus(state, ownProps),
     widgetTitle: BettingMarketGroupPageSelector.getWidgetTitle(state, ownProps),
+    rules: BettingMarketGroupPageSelector.getRules(state, ownProps),
   }
 };
 

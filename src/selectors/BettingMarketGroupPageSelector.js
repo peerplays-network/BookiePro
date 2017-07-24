@@ -6,10 +6,9 @@ import { CurrencyUtils } from '../utility';
 const {
   getBettingMarketGroupsById,
   getEventsById,
-  getEventGroupsById,
-  getSportsById,
   getBettingMarketsById,
   getAssetsById,
+  getRulesById,
   getBinnedOrderBooksByBettingMarketId,
   getCurrencyFormat
 } = CommonSelector;
@@ -45,12 +44,6 @@ const getBettingMarketGroup = createSelector(
   }
 )
 
-const getBettingMarketGroupName = createSelector([
-  getBettingMarketGroup
-], (bettingMarketGroup) => {
-  return (bettingMarketGroup && bettingMarketGroup.get('description')) || '';
-})
-
 const getEvent = createSelector(
   [
     getBettingMarketGroup,
@@ -78,22 +71,6 @@ const getEventTime = createSelector(
   }
 )
 
-const getSportName = createSelector(
-  [
-    getEvent,
-    getEventGroupsById,
-    getSportsById
-  ],
-  (event, eventGroupsById, sportsById) => {
-    let sportName = '';
-    if (event){
-      const eventGroupId = event.get('event_group_id');
-      const sportId = eventGroupsById.getIn([eventGroupId, 'sport_id']);
-      sportName = sportsById.getIn([sportId, 'name']) || '';
-    }
-    return sportName;
-  }
-)
 
 const getBettingMarketIds = createSelector(
   getBettingMarketGroup,
@@ -191,18 +168,25 @@ const getMarketData = createSelector(
   }
 )
 
+const getRules = createSelector(
+  [getRulesById, getBettingMarketGroup],
+  (rulesById, bettingMarketGroup) => {
+    const ruleId = bettingMarketGroup && bettingMarketGroup.get('rules_id');
+    return rulesById.get(ruleId);
+  }
+)
+
 const BettingMarketGroupPageSelector = {
-  getSportName,
   getBettingMarketGroup,
   getBettingMarkets,
   getMarketData,
   getEventName,
   getEventTime,
-  getBettingMarketGroupName,
   getTotalMatchedBetsAmount,
   getUnconfirmedBets,
   getLoadingStatus,
   getWidgetTitle,
+  getRules
 }
 
 export default BettingMarketGroupPageSelector;

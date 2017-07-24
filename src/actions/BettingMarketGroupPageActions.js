@@ -5,6 +5,7 @@ import EventActions from './EventActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
 import MarketDrawerActions from './MarketDrawerActions';
 import LiquidityActions from './LiquidityActions';
+import RuleActions from './RuleActions';
 import log from 'loglevel';
 
 class BettingMarketGroupPagePrivateActions {
@@ -45,17 +46,18 @@ class BettingMarketGroupPageActions {
         dispatch(MarketDrawerActions.getPlacedBets(bettingMktGrpId));
 
         const bettingMarketGroup = bettingMarketGroups.get(0);
-        const bettingMarketIds = bettingMarketGroup.get('betting_market_ids');
-        const eventId = bettingMarketGroup.get('event_id');
+        const bettingMarketIds = bettingMarketGroup && bettingMarketGroup.get('betting_market_ids');
+        const eventId = bettingMarketGroup &&  bettingMarketGroup.get('event_id');
+        const ruleId = bettingMarketGroup && bettingMarketGroup.get('rules_id');
         // get related betting markets objects, event object, and total matched bets in parallel (since they are mutually exclusive)
         return Promise.all([
           dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)),
           dispatch(EventActions.getEventsByIds([eventId])),
           dispatch(LiquidityActions.getTotalMatchedBetsByBettingMarketGroupIds([bettingMktGrpId])),
+          dispatch(RuleActions.getRulesByIds([ruleId])),
           dispatch(BettingMarketGroupPagePrivateActions.setWidgetTitle(bettingMarketGroup.get('description')))
         ]);
       }).then((result) => {
-
         const bettingMarkets = result[0];
         const bettingMarketIds = bettingMarkets.map( bettingMarket => bettingMarket.get('id'));
         // Get binned order books

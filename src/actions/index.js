@@ -25,6 +25,7 @@ import AuthActions from './AuthActions';
 import BalanceActions from './BalanceActions';
 import MywagerActions from './MywagerActions';
 import MyAccountPageActions from './MyAccountPageActions';
+import RuleActions from './RuleActions';
 
 // Combine all the actions here for import shortcut
 export {
@@ -32,6 +33,7 @@ export {
   BalanceActions,
   SettingActions,
   AppActions,
+  RuleActions,
   SportActions,
   EventGroupActions,
   EventActions,

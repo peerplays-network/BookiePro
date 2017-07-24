@@ -5,10 +5,9 @@ import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 import Immutable from 'immutable';
 import { Icon } from 'antd';
-import RulesModal from '../../Modal/RulesModal'
-import { I18n, Translate } from 'react-redux-i18n';
+import RulesButton from '../RulesButton'
+import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 const itemDisplay = 3;
 
@@ -28,6 +27,7 @@ class ComplexBettingWidget extends PureComponent {
     this.setTableData = this.setTableData.bind(this);
     this.placeAllBestBets = this.placeAllBestBets.bind(this);
     this.getBestOfferOfEachmarket = this.getBestOfferOfEachmarket.bind(this);
+
   }
 
   componentDidMount(){
@@ -176,9 +176,10 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   render() {
-    const { currencyFormat, bettingMarketGroup, bettingMarketGroupName,
-            totalMatchedBetsAmount, eventTime, sportName, eventName,
-            widgetTitle
+    const { currencyFormat,
+            totalMatchedBetsAmount,
+            widgetTitle,
+            rules
     } = this.props;
 
     const minNameWidth = 200;
@@ -347,23 +348,6 @@ class ComplexBettingWidget extends PureComponent {
         </div>
     }]
 
-    // TODO using string for market_type_id instead of 1.xxxx.x
-    // TODO: this is temporary solution to allow CR37 be implemented without breaking existing change, later, change this with rule object
-    const description = (bettingMarketGroup && bettingMarketGroup.get('description').toUpperCase()) || '';
-    let marketType = '';
-    if (description.startsWith('MONEYLINE')) {
-      marketType = 'Moneyline';
-    } else if (description.startsWith('SPREAD')) {
-      marketType = 'Spread';
-    } else if (description.startsWith('OVER')) {
-      marketType = 'OverUnder';
-    }
-    const ruleModalText =  ( bettingMarketGroup && sportName  &&
-      'rules_dialogue.' + sportName.replace(/\s/g,'') + '.' + marketType + '.content' ) || 'rules_dialogue.content'
-
-    //retrieve system language when running in Electron app
-    const currentLocale = window.navigator.language || window.navigator.userLanguage;
-
     return (
 
       <div className='complex-betting'>
@@ -373,14 +357,7 @@ class ComplexBettingWidget extends PureComponent {
             <span>
               { I18n.t('complex_betting_widget.matched') }: { this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
             </span>
-            {/* Rules Dialogue box */}
-            <RulesModal parentClass='rules' title={ I18n.t('rules_dialogue.title') } buttonTitle={ I18n.t('rules_dialogue.buttonTitle') } >
-              <Translate value={ ruleModalText }
-                datetime={ moment(eventTime).locale(currentLocale).format('LLL') }
-                eventName={ eventName }
-                marketName={ bettingMarketGroupName }
-                dangerousHTML/>
-            </RulesModal>
+            <RulesButton rules={ rules } />
           </div>
         </div>
         {
@@ -412,8 +389,6 @@ class ComplexBettingWidget extends PureComponent {
 }
 
 ComplexBettingWidget.propTypes = {
-  eventName: PropTypes.string.isRequired,
-  bettingMarketGroupName: PropTypes.string.isRequired,
   marketData: PropTypes.any.isRequired,
   totalMatchedBetsAmount: PropTypes.any.isRequired,
   createBet: PropTypes.func.isRequired,

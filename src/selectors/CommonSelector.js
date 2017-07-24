@@ -41,6 +41,9 @@ const getAssetsById = (state) => {
   return state.getIn(['asset', 'assetsById']);
 }
 
+const getRulesById = (state) => {
+  return state.getIn(['rule', 'rulesById']);
+}
 
 const getSportsById = (state) => {
   return state.getIn(['sport', 'sportsById']);
@@ -165,6 +168,7 @@ const CommonSelector = {
   getActiveEventsByEventGroupId,
   getBettingMarketGroupsById,
   getBettingMarketsById,
+  getRulesById,
   getBinnedOrderBooksByBettingMarketId,
   getSimpleBettingWidgetBinnedOrderBooksByEventId
 

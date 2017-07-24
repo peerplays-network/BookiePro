@@ -1,30 +1,26 @@
 @import '../../App/Colors.less';
 @import '../../App/Common.less';
 
-.rules-modal{
-  text-align: center;
+.rules-modal {
+  .rules-modal-content {
+    height: 100%;
+    position: relative;
+  }
   .ant-modal{
-    display: inline-block;
-    vertical-align: middle;
-    overflow: hidden;
-    top:0;
+    top:5%;
     max-height: 90%;
     padding-bottom:0;
-    text-align: left;
   }
   .ant-modal-header{
-    background-color: transparent;
-    border-radius: 0;
     border-bottom:0 none;
-    padding:25px 40px 15px !important;
     .ant-modal-title{
-      color: @dialogue_blue_title;
+      color: @light_blue_1;
     }
   }
   .ant-modal-body{
-    padding:0 40px 15px !important;
+    padding: 0 15px 15px 30px !important;
     overflow: auto;
-    height: 400px;
+    height: 473px;
   }
   p{
     line-height:32px;
@@ -33,11 +29,24 @@
       margin-bottom:0;
     }
   }
-  &:before{
-    content: '';
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-    width: 0;
+  ul{
+    margin-bottom:30px;
+    padding-left:30px;
+    p{
+      margin-bottom:0;
+      margin-left:-30px;
+    }
+    li{
+      list-style: disc;
+      line-height:32px;
+      margin-bottom:0;
+    }
+  }
+  .ps-container:hover > .ps-scrollbar-y-rail:hover {
+    background-color: transparent;
+    opacity: 1;
+  }
+  .ps-container{
+    padding-right:30px;
   }
 }
