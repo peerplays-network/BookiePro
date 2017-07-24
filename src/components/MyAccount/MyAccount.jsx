@@ -157,12 +157,21 @@ class MyAccount extends PureComponent {
   render() {
     return (
       <div className='my-account section-padding'>
-        <Breadcrumb className='bookie-breadcrumb'>
-          <Breadcrumb.Item>
-            <a onClick={ this.handleNavigateToHome }>  {I18n.t('myAccount.home')} </a>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>{I18n.t('myAccount.my_account')}</Breadcrumb.Item>
-        </Breadcrumb>
+        <Row>
+          <Col span={ 16 }>
+            <Breadcrumb className='bookie-breadcrumb'>
+              <Breadcrumb.Item>
+                <a onClick={ this.handleNavigateToHome }>  {I18n.t('myAccount.home')} </a>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>{I18n.t('myAccount.my_account')}</Breadcrumb.Item>
+            </Breadcrumb>
+          </Col>
+          <Col span={ 8 }>
+            <div className='welcome'>
+              { I18n.t('myAccount.welcome_back') }, <span className='account-name'>{ this.props.accountName }</span>
+            </div>
+          </Col>
+        </Row>
         <Row gutter={ 20 }>
           <Col span={ 8 }>
             <Deposit cardClass='bookie-card depositCardComponent' depositAddress={ this.props.depositAddress }/>
@@ -218,6 +227,7 @@ const mapStateToProps = (state) => {
     availableBalance: MyAccountPageSelector.availableBalanceSelector(state),
     withdrawLoadingStatus: MyAccountPageSelector.withdrawLoadingStatusSelector(state),
     convertedAvailableBalance : MyAccountPageSelector.formattedAvailableBalanceSelector(state),
+    accountName: MyAccountPageSelector.accountNameSelector(state),
   }
 }
 

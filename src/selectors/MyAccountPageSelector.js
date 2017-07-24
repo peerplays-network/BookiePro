@@ -101,6 +101,10 @@ const transactionHistoryExportDataSelector = (state) => {
   return state.getIn(['myAccountPage', 'transactionHistoryExportData']);
 }
 
+const accountNameSelector = (state) => {
+  return state.getIn(['account', 'account', 'name']);
+}
+
 
 const MyAccountSelector = {
   lastIrreversibleBlockNumSelector,
@@ -115,7 +119,8 @@ const MyAccountSelector = {
   availableBalanceSelector,
   generateTransactionHistoryExportDataLoadingStatusSelector,
   transactionHistoryExportDataSelector,
-  formattedAvailableBalanceSelector
+  formattedAvailableBalanceSelector,
+  accountNameSelector,
 }
 
 export default MyAccountSelector;

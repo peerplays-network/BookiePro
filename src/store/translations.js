@@ -39,6 +39,7 @@ export const translationsObject = {
       screenName: 'myAccount_',
       home:'Home',
       my_account: 'My Account',
+      welcome_back: 'Welcome Back',
       deposit: 'Deposit',
       deposit_desc: 'Please send your BTC to the address' +
       ' below',
