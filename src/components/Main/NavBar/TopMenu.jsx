@@ -133,7 +133,8 @@ class TopMenu extends PureComponent {
 
   //Set Amount component visibility
   handleAmountComponentVisibleChange = (isVisible) => {
-    this.setState({isAmountComponentVisible: isVisible});
+    // Fogbugz-716: Disable the account balance button text color change
+    this.setState({isAmountComponentVisible: false /*isVisible*/});
   };
 
   //Set Deposit component visibility
@@ -187,8 +188,10 @@ class TopMenu extends PureComponent {
         mode='horizontal'
       >
         <Menu.Item key='balance' className='amount'>
+          { // Fogbugz-716: Disable the account balance panel by setting visible={ false }
+          }
           <Dropdown trigger={ ['click'] } overlay={ amountCard } placement='bottomRight'
-            onVisibleChange={ this.handleAmountComponentVisibleChange }>
+            onVisibleChange={ this.handleAmountComponentVisibleChange } visible={ false }>
             <div className='icon-main bitcoin-icon-main'>
               <a className={ this.state.isAmountComponentVisible ? 'ant-dropdown-link-clicked ' : 'ant-dropdown-link' } href='#'>
                 <i className={ this.state.isAmountComponentVisible ? (this.props.currencyFormat === 'BTC' ? 'bitcoin-icon-selected' : 'mbitcoin-icon-selected') :
