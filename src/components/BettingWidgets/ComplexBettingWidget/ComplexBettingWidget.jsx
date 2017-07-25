@@ -184,7 +184,7 @@ class ComplexBettingWidget extends PureComponent {
 
     const minNameWidth = 200;
     const minOfferWidth = 50;
-    const minArrowWidth = 15;
+    const minArrowWidth = 25;
     // to match the back bet-type in placebet action dispatch
     const classNameBack = BetTypes.BACK;
     // to match the lay bet-type in placebet action dispatch
