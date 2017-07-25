@@ -7,7 +7,7 @@
 div.complex-betting {
   // Using fade (from LESS) can set opacity to background only
   // If we set opacity explicitly, it will affect the text (foreground) too
-  background-color: fade(@complex-betting-bg, 35%);
+  background-color: @complex-betting-bg;
   margin-top: 15px;
 
   .increased-value{
@@ -18,8 +18,8 @@ div.complex-betting {
   }
 }
 .complex-betting{
-  background-color: fade(@blue_2, 35%);
-  box-shadow: 0 2px 4px 0 @dark_grey_2;
+  background-color: @complex-betting-bg;
+  box-shadow: @complex-betting-bg-shadow;
   margin-top: 20px;
   padding-bottom:20px;
   .title{

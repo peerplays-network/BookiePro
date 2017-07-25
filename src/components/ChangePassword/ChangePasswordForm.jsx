@@ -110,7 +110,7 @@ class ChangePasswordForm extends PureComponent {
           <div>{ Field.old_password }</div>
           <button hidden type='button' onClick={ reset }
             disabled={ oldPasswordDisabled }
-            className={ 'btn ' + ((oldPasswordDisabled) ? 'btn-regular-disabled':' cancel-btn') + ' grid-100 margin-top-25' }>
+            className={ 'btn ' + ((oldPasswordDisabled) ? 'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-25' }>
             { I18n.t('changePassword.cancel') }
           </button>
           <button type='submit'
