@@ -59,7 +59,7 @@
             position: absolute;
             width: 1px;
             height: 10px;
-            border: solid @white;
+            border: solid @primary_label_border;
             border-width: 0 2px 2px 0;
             transform: rotate(45deg);
             -webkit-transform: rotate(45deg);
@@ -75,7 +75,7 @@
 
   }
   .download-file {
-    border: 1px solid @white;
+    border: 1px solid @primary_label_border;
     padding: 10px 21px 14px;
     text-align: left;
   }
@@ -106,11 +106,11 @@
   .btn-regular-disabled{
     background-color: initial;
     border:0 none;
-    color: @white;
+    color: @primary_label;
     transition: none;
     &:hover{
       background: @disable_btn;
-      color: @white;
+      color: @primary_label;
     }
   }
   .btn-download{
@@ -118,7 +118,7 @@
     transition: none;
     &:hover{
       background: @download_btn;
-      color: @white;
+      color: @primary_label;
     }
   }
 }

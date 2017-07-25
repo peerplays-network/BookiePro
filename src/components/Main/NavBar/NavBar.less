@@ -76,7 +76,7 @@
       &:hover{
         background-color: fade(@topbar_dropdown_card, 95%);
         a, .anticon{
-          color: @white;
+          color: @primary_label_border;
         }
       }
       a{
@@ -100,7 +100,7 @@
   .ant-card, .ant-dropdown-menu{
     background: @topbar_dropdown_card;
     box-shadow: @card_shadow;
-    color: @white;
+    color: @primary_label;
     font-size:14px;
     margin-top:-3px;
     border-radius: 0;
@@ -132,7 +132,7 @@
     .ant-row{
       &>div{
         &:last-child{
-          border-left:1px solid @white;
+          border-left:1px solid @primary_label_border;
         }
       }
     }
@@ -157,7 +157,7 @@
     }
     .ant-menu{
       background: transparent;
-      color: @white;
+      color: @primary_label;
       .ant-menu-item{
         padding:0 10px;
         font-size: 16px;
@@ -166,14 +166,14 @@
         transition: none;
         text-transform: uppercase;
         &>a{
-          color: @white;
+          color: @primary_label;
           font-size:18px;
           font-weight:500;
           text-transform: uppercase;
         }
         &.ant-menu-item-active,&.ant-menu-item-selected{
           background-color: @topbar_more_menu_active;
-          color: @white;
+          color: @primary_label;
         }
         &:hover{
           color: inherit;
@@ -200,7 +200,7 @@
   padding: 20px 48px 20px 16px !important;
   border:0 none;
   background-color: transparent;
-  color: @white;
+  color: @primary_label;
   font-size:14px;
   border-radius:0;
   .ant-alert-close-icon{
@@ -208,7 +208,7 @@
     height:auto;
   }
   .ant-alert-close-icon .anticon-cross{
-    color: @white;
+    color: @primary_label;
     font-size:11px;
   }
   &:hover{
