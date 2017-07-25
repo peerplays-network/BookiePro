@@ -11,12 +11,13 @@ import { BetActions, NavigateActions, QuickBetDrawerActions } from '../../../act
 import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import BetTable from '../BetTable';
 import { Empty, Overlay, Waiting, PlaceBetConfirm } from '../Common';
+import { BettingDrawerStates } from '../../../constants'
 
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
     { props.bets.isEmpty() &&
       <Empty
-        showSuccess={ props.showBetSlipSuccess }
+        showSuccess={ props.overlay === BettingDrawerStates.BET_SLIP_SUCCESS }
         className='quick_bet_drawer.unconfirmed_bets'
         navigateTo={ props.navigateTo }
       />
@@ -50,6 +51,7 @@ class QuickBetDrawer extends PureComponent {
   }
 
   render() {
+    const { overlay } = this.props;
     return (
       <div id='quick-bet-drawer' ref='drawer'>
         <SplitPane split='horizontal' defaultSize='40px' allowResize={ false }>
@@ -79,7 +81,7 @@ class QuickBetDrawer extends PureComponent {
             }
           </SplitPane>
         </SplitPane>
-        { this.props.showBetSlipConfirmation &&
+        { overlay === BettingDrawerStates.BET_SLIP_CONFIRMATION &&
           <PlaceBetConfirm
             className='quick_bet_drawer.unconfirmed_bets.confirmation'
             goodBets={ this.props.numberOfGoodBets }
@@ -89,14 +91,14 @@ class QuickBetDrawer extends PureComponent {
             confirmAction={ () => this.props.makeBets(this.props.originalBets) }
           />
         }
-        { this.props.showBetSlipError &&
+        { overlay === BettingDrawerStates.BET_SLIP_ERROR &&
           <Overlay
             className='quick_bet_drawer.unconfirmed_bets.error'
             cancelAction={ this.props.cancelPlaceBet }
             confirmAction={ () => this.props.makeBets(this.props.originalBets) }
           />
         }
-        { this.props.showDeleteBetsConfirmation &&
+        { overlay === BettingDrawerStates.DELETE_BETS_CONFIRMATION &&
           <Overlay
             className='quick_bet_drawer.unconfirmed_bets.delete_bets'
             cancelAction={ this.props.cancelDeleteBets }
@@ -104,19 +106,19 @@ class QuickBetDrawer extends PureComponent {
             replacements={ { event: this.props.eventNameInDeleteBetsConfirmation } }
           />
         }
-        { this.props.showInsufficientBalanceError &&
+        { overlay === BettingDrawerStates.INSUFFICIENT_BALANCE_ERROR &&
           <Overlay
             className='quick_bet_drawer.unconfirmed_bets.insufficient_balance'
             confirmAction={ this.props.hideInsufficientBalanceError }
           />
         }
-        { this.props.showDisconnectedError &&
+        { overlay === BettingDrawerStates.DISCONNECTED_ERROR &&
           <Overlay
             className='quick_bet_drawer.unconfirmed_bets.disconnected'
             cancelAction={ this.props.hideDisconnectedError }
           />
         }
-        { this.props.showBetSlipWaiting && <Waiting /> }
+        { overlay === BettingDrawerStates.BET_SLIP_WAITING && <Waiting /> }
       </div>
     );
   }
@@ -157,26 +159,15 @@ const mapStateToProps = (state, ownProps) => {
   const numberOfGoodBets = originalBets.reduce((sum, bet) => {
     return sum + (BettingModuleUtils.isValidBet(bet) | 0);
   }, 0);
-  // Other statuses
-  const showBetSlipConfirmation = state.getIn(['quickBetDrawer', 'showBetSlipConfirmation']);
-  const showBetSlipWaiting = state.getIn(['quickBetDrawer', 'showBetSlipWaiting']);
-  const showBetSlipError = state.getIn(['quickBetDrawer', 'showBetSlipError']);
-  const showBetSlipSuccess = state.getIn(['quickBetDrawer', 'showBetSlipSuccess']);
-  const showDeleteBetsConfirmation = state.getIn(['quickBetDrawer', 'showDeleteBetsConfirmation']);
-  const showInsufficientBalanceError = state.getIn(['quickBetDrawer', 'showInsufficientBalanceError']);
-  const showDisconnectedError = state.getIn(['quickBetDrawer', 'showDisconnectedError']);
+  // Overlay
+  const overlay = state.getIn(['quickBetDrawer', 'overlay']);
+  const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.BET_SLIP_SUCCESS;
+  console.log(overlay);
   return {
     originalBets,
     bets: page,
-    showBetSlipConfirmation,
-    showBetSlipWaiting,
-    showBetSlipError,
-    showBetSlipSuccess,
-    showDeleteBetsConfirmation,
-    showInsufficientBalanceError,
-    showDisconnectedError,
-    obscureContent: showBetSlipConfirmation || showBetSlipWaiting || showBetSlipError || showDeleteBetsConfirmation ||
-                    showInsufficientBalanceError || showDisconnectedError,
+    overlay,
+    obscureContent,
     betsToBeDeleted: state.getIn(['quickBetDrawer', 'betsToBeDeleted']),
     eventNameInDeleteBetsConfirmation: state.getIn(['quickBetDrawer', 'eventNameInDeleteBetsConfirmation']),
     numberOfGoodBets,
