@@ -37,7 +37,7 @@ export default function(state = initialState, action) {
     case ActionTypes.QUICK_BET_DRAWER_DELETE_ONE_BET: {
       return state.merge({
         bets: oldBets.filterNot(b => b.get('id') === action.betId),
-        // REVIEW: WHY?
+        // In case the sucess screen is on, we should turn it off after deleting a bet
         overlay: BettingDrawerStates.NO_OVERLAY,
       });
     }
@@ -58,6 +58,7 @@ export default function(state = initialState, action) {
     case ActionTypes.QUICK_BET_DRAWER_DELETE_MANY_BETS: {
       return state.merge({
         bets: oldBets.filterNot(b => action.listOfBetIds.includes(b.get('id'))),
+        // In case the success screen is on, we should turn it off after deleting bets
         overlay: BettingDrawerStates.NO_OVERLAY,
         betsToBeDeleted: Immutable.List(),
         eventNameInDeleteBetsConfirmation: '',
@@ -66,6 +67,7 @@ export default function(state = initialState, action) {
     case ActionTypes.QUICK_BET_DRAWER_DELETE_ALL_BETS: {
       return state.merge({
         bets: Immutable.List(),
+        // In case the success screen is on, we should turn it off after deleting bets
         overlay: BettingDrawerStates.NO_OVERLAY,
         betsToBeDeleted: Immutable.List(),
         eventInDeleteBetsConfirmation: ''
@@ -87,16 +89,6 @@ export default function(state = initialState, action) {
     case ActionTypes.QUICK_BET_DRAWER_SHOW_BETSLIP_CONFIRMATION: {
       return state.merge({
         overlay: BettingDrawerStates.BET_SLIP_CONFIRMATION,
-      });
-    }
-    case ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_CONFIRMATION: {
-      return state.merge({
-        overlay: BettingDrawerStates.NO_OVERLAY,
-      });
-    }
-    case ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_ERROR: {
-      return state.merge({
-        overlay: BettingDrawerStates.NO_OVERLAY,
       });
     }
     case ActionTypes.BET_SET_MAKE_BETS_LOADING_STATUS: {
@@ -121,16 +113,15 @@ export default function(state = initialState, action) {
         overlay: BettingDrawerStates.INSUFFICIENT_BALANCE_ERROR,
       })
     }
-    case ActionTypes.QUICK_BET_DRAWER_HIDE_INSUFFICIENT_BALANCE_ERROR: {
-      return state.merge({
-        overlay: BettingDrawerStates.NO_OVERLAY,
-      })
-    }
     case ActionTypes.QUICK_BET_DRAWER_SNOW_DISCONNECTED_ERROR: {
       return state.merge({
         overlay: BettingDrawerStates.DISCONNECTED_ERROR,
       })
     }
+    // All these state set the betting drawer to the initial state
+    case ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_CONFIRMATION:
+    case ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_ERROR:
+    case ActionTypes.QUICK_BET_DRAWER_HIDE_INSUFFICIENT_BALANCE_ERROR:
     case ActionTypes.QUICK_BET_DRAWER_HIDE_DISCONNECTED_ERROR: {
       return state.merge({
         overlay: BettingDrawerStates.NO_OVERLAY,
