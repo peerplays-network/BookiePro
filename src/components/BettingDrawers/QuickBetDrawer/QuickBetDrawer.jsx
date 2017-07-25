@@ -162,7 +162,6 @@ const mapStateToProps = (state, ownProps) => {
   // Overlay
   const overlay = state.getIn(['quickBetDrawer', 'overlay']);
   const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.BET_SLIP_SUCCESS;
-  console.log(overlay);
   return {
     originalBets,
     bets: page,
