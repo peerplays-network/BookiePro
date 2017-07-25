@@ -39,14 +39,14 @@
 
 @primary_shadow: @black;
 
-@profit_color: @green;
-@loss_color: @pink;
-@error_color: @pink;
+@profit: @green;
+@loss: @pink;
+@error: @pink;
 
-@back_highlight_color: @primary_label_highlight;
+@back_highlight: @primary_label_highlight;
 @back_bg_primary: @medium_electric_blue;
 @back_bg_secondary: @medium_teal_blue;
-@lay_highlight_color: @bright_turquoise;
+@lay_highlight: @bright_turquoise;
 @lay_bg_primary: @teal;
 @lay_bg_secondary: @blue_green;
 @lay_border: @jungle_green;
@@ -92,7 +92,7 @@
 @switch_border: @field_border;
 @switch_bg: @field;
 @switch_active: @third_bg;
-@field_error: @error_color;
+@field_error: @error;
 @field_shadow: fade(@primary_shadow, 50%);
 @checkbox: @primary_border;
 @field_selected_shadow: @primary_label_highlight;
@@ -119,8 +119,8 @@
 @simple_betting_header_border: @primary_border;
 @simple_betting_back_bg: @back_bg_primary;
 @simple_betting_lay_bg: @lay_bg_primary;
-@simple_betting_back_hover_bg: @back_highlight_color;
-@simple_betting_lay_hover_bg: fade(@lay_highlight_color,90%);;
+@simple_betting_back_hover_bg: @back_highlight;
+@simple_betting_lay_hover_bg: fade(@lay_highlight,90%);;
 @simple_betting_label: @primary_label;
 @simple_betting_table_header_border: @primary_border;
 @simple_betting_event_name_hover: fade(@primary_label, 27%);
@@ -129,13 +129,13 @@
 // Complex betting
 @complex-betting-bg: @card_bg;
 @complex-betting-bg-shadow: @card_shadow;
-@complex-betting-header-border: @back_highlight_color;
+@complex-betting-header-border: @back_highlight;
 @complex-betting-back-bg: @back_bg_secondary;
 @complex-betting-back-all-bg: @back_bg_primary;
-@complex-betting-back-hover-bg: @back_highlight_color;
+@complex-betting-back-hover-bg: @back_highlight;
 @complex-betting-lay-bg: @lay_bg_secondary;
 @complex-betting-lay-all-bg: @lay_bg_primary;
-@complex-betting-lay-hover-bg: fade(@lay_highlight_color,90%);
+@complex-betting-lay-hover-bg: fade(@lay_highlight,90%);
 @complex-betting-label: @primary_label;
 @complex-betting-empty-offer-hover: fade(@primary_label, 27%);
 
@@ -252,7 +252,7 @@
 @editable_table_lay_header_bg: @lay_header;
 @editable_table_lay_body_bg: @lay_bg_primary;
 @editable_table_lay_body_border: @lay_border;
-@editable_table_lay_market_type: @lay_highlight_color;
+@editable_table_lay_market_type: @lay_highlight;
 
 // Topbar Menu
 @topbar_notification_hover: @secondary_label;
