@@ -58,6 +58,12 @@ class AppPrivateActions {
       gatewayAccount
     }
   }
+
+  static hideLicenseScreen() {
+    return {
+      type: ActionTypes.APP_HIDE_LICENSE_SCREEN,
+    }
+  }
 }
 
 /**
@@ -185,6 +191,12 @@ class AppActions {
         log.error('Fail to get global betting statistics', error);
         dispatch(AppPrivateActions.setGetGlobalBettingStatisticsErrorAction(error));
       });
+    }
+  }
+
+  static hideLicenseScreen() {
+    return (dispatch) => {
+      dispatch(AppPrivateActions.hideLicenseScreen());
     }
   }
  }

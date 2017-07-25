@@ -15,7 +15,8 @@ const initialState = Immutable.fromJS({
   isShowSoftwareUpdatePopup: false,
   isShowNotificationCard: false,
   isTitleBarTransparent: true,
-  gatewayAccount: {}
+  gatewayAccount: {},
+  showLicenseScreen: true,
 });
 
 export default function (state = initialState, action) {
@@ -90,6 +91,11 @@ export default function (state = initialState, action) {
     case ActionTypes.APP_SET_GATEWAY_ACCOUNT: {
       return state.merge({
         gatewayAccount: action.gatewayAccount
+      })
+    }
+    case ActionTypes.APP_HIDE_LICENSE_SCREEN: {
+      return state.merge({
+        showLicenseScreen: false   // It is a one time thing
       })
     }
     default:
