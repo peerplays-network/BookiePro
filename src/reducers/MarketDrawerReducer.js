@@ -269,6 +269,11 @@ export default function(state = initialState, action) {
         groupByAverageOdds: action.groupByAverageOdds,
       })
     }
+    case ActionTypes.MARKET_DRAWER_HIDE_OVERLAY: {
+      return state.merge({
+        overlay: BettingDrawerStates.NO_OVERLAY,
+      })
+    }
     default:
       return state;
   }

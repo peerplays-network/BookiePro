@@ -78,34 +78,34 @@ class BetSlip extends PureComponent {
              goodBets={ this.props.numberOfGoodBets }
              badBets={ this.props.numberOfBadBets }
              amount={ this.props.totalBetAmountString }
-             cancelAction={ this.props.cancelPlaceBet }
+             cancelAction={ this.props.hideOverlay }
              confirmAction={ () => this.props.makeBets(this.props.originalBets) }
           />
         }
         { overlay === BettingDrawerStates.SUBMIT_BETS_ERROR &&
           <Overlay
             className='market_drawer.unconfirmed_bets.error'
-            cancelAction={ this.props.cancelPlaceBet }
+            cancelAction={ this.props.hideOverlay }
             confirmAction={ () => this.props.makeBets(this.props.originalBets) }
           />
         }
         { overlay === BettingDrawerStates.DELETE_BETS_CONFIRMATION &&
           <Overlay
             className='market_drawer.unconfirmed_bets.delete_bets'
-            cancelAction={ this.props.cancelDeleteUnconfirmedBets }
+            cancelAction={ this.props.hideOverlay }
             confirmAction={ () => this.props.deleteUnconfirmedBets(this.props.unconfirmedbetsToBeDeleted) }
           />
         }
         { overlay === BettingDrawerStates.INSUFFICIENT_BALANCE_ERROR &&
           <Overlay
             className='market_drawer.unconfirmed_bets.insufficient_balance'
-            confirmAction={ this.props.hideInsufficientBalanceError }
+            confirmAction={ this.props.hideOverlay }
           />
         }
         { overlay === BettingDrawerStates.DISCONNECTED_ERROR &&
           <Overlay
             className='market_drawer.unconfirmed_bets.disconnected'
-            cancelAction={ this.props.hideDisconnectedError }
+            cancelAction={ this.props.hideOverlay }
           />
         }
         { overlay === BettingDrawerStates.SUBMIT_BETS_WAITING && <Waiting/> }
@@ -161,14 +161,11 @@ const mapDispatchToProps = (dispatch) => {
     navigateTo: NavigateActions.navigateTo,
     deleteUnconfirmedBet: MarketDrawerActions.deleteUnconfirmedBet,
     clickDeleteUnconfirmedBets: MarketDrawerActions.clickDeleteUnconfirmedBets,
-    cancelDeleteUnconfirmedBets: MarketDrawerActions.cancelDeleteUnconfirmedBets,
     deleteUnconfirmedBets: MarketDrawerActions.deleteUnconfirmedBets,
     updateUnconfirmedBet: MarketDrawerActions.updateUnconfirmedBet,
     clickPlaceBet: MarketDrawerActions.clickPlaceBet,
-    cancelPlaceBet: MarketDrawerActions.cancelPlaceBet,
     makeBets: BetActions.makeBets,
-    hideInsufficientBalanceError: MarketDrawerActions.hideInsufficientBalanceError,
-    hideDisconnectedError: MarketDrawerActions.hideDisconnectedError,
+    hideOverlay: MarketDrawerActions.hideOverlay,
 
   }, dispatch);
 }

@@ -11,6 +11,56 @@ import './PlacedBets.less';
 import { Empty, Overlay, Waiting, PlaceBetConfirm } from '../Common';
 import { BettingDrawerStates } from '../../../constants'
 
+const renderOverlay = (props) => {
+  switch (props.overlay) {
+    case BettingDrawerStates.SUBMIT_BETS_CONFIRMATION:
+      return (
+        <PlaceBetConfirm
+          className='market_drawer.placed_bets.confirmation'
+          goodBets={ props.numberOfGoodBets }
+          badBets={ props.numberOfBadBets }
+          amount={ props.totalBetAmountString }
+          cancelAction={ props.hideOverlay }
+          confirmAction={ () => props.editBets(props.unmatchedBets) }
+        />
+      )
+    case BettingDrawerStates.SUBMIT_BETS_ERROR:
+      return (
+        <Overlay
+          className='market_drawer.placed_bets.error'
+          cancelAction={ props.hideOverlay }
+          confirmAction={ () => props.editBets(props.unmatchedBets) }
+        />
+      )
+    case BettingDrawerStates.DELETE_BETS_CONFIRMATION:
+      return (
+        <Overlay
+          className='market_drawer.unmatched_bets.delete_bets'
+          cancelAction={ props.hideOverlay }
+          confirmAction={ () => props.deleteUnmatchedBets(props.unmatchedbetsToBeDeleted) }
+        />
+      )
+    case BettingDrawerStates.INSUFFICIENT_BALANCE_ERROR:
+      return (
+        <Overlay
+          className='market_drawer.placed_bets.insufficient_balance'
+          confirmAction={ props.hideOverlay }
+        />
+      )
+    case BettingDrawerStates.DISCONNECTED_ERROR:
+      return (
+        <Overlay
+          className='market_drawer.placed_bets.disconnected'
+          cancelAction={ props.hideOverlay }
+        />
+      )
+    case BettingDrawerStates.SUBMIT_BETS_WAITING:
+      return <Waiting/>
+    default:
+      return;
+  }
+}
+
 class PlacedBets extends PureComponent {
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.placedBets));
@@ -31,7 +81,6 @@ class PlacedBets extends PureComponent {
   }
 
   render() {
-    const { overlay } = this.props;
     return (
       <div className='placed-bets'>
         <div className='content' ref='placedBets'>
@@ -51,43 +100,7 @@ class PlacedBets extends PureComponent {
             />
           }
         </div>
-        { overlay === BettingDrawerStates.SUBMIT_BETS_CONFIRMATION &&
-          <PlaceBetConfirm
-            className='market_drawer.placed_bets.confirmation'
-            goodBets={ this.props.numberOfGoodBets }
-            badBets={ this.props.numberOfBadBets }
-            amount={ this.props.totalBetAmountString }
-            cancelAction={ this.props.cancelUpdateBet }
-            confirmAction={ () => this.props.editBets(this.props.unmatchedBets) }
-          />
-        }
-        { overlay === BettingDrawerStates.SUBMIT_BETS_ERROR &&
-          <Overlay
-            className='market_drawer.placed_bets.error'
-            cancelAction={ this.props.cancelUpdateBet }
-            confirmAction={ () => this.props.editBets(this.props.unmatchedBets) }
-          />
-        }
-        { overlay === BettingDrawerStates.DELETE_BETS_CONFIRMATION &&
-          <Overlay
-            className='market_drawer.unmatched_bets.delete_bets'
-            cancelAction={ this.props.cancelDeleteUnmatchedBets }
-            confirmAction={ () => this.props.deleteUnmatchedBets(this.props.unmatchedbetsToBeDeleted) }
-          />
-        }
-        { overlay === BettingDrawerStates.INSUFFICIENT_BALANCE_ERROR &&
-          <Overlay
-            className='market_drawer.placed_bets.insufficient_balance'
-            confirmAction={ this.props.hideInsufficientBalanceError }
-          />
-        }
-        { overlay === BettingDrawerStates.DISCONNECTED_ERROR &&
-          <Overlay
-            className='market_drawer.placed_bets.disconnected'
-            cancelAction={ this.props.hideDisconnectedError }
-          />
-        }
-        { overlay === BettingDrawerStates.SUBMIT_BETS_WAITING && <Waiting/> }
+        { renderOverlay(this.props) }
       </div>
     )
   }
@@ -126,12 +139,9 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     getPlacedBets: MarketDrawerActions.getPlacedBets,
-    cancelUpdateBet: MarketDrawerActions.cancelUpdateBet,
     editBets: BetActions.editBets,
     deleteUnmatchedBets: MarketDrawerActions.deleteUnmatchedBets,
-    cancelDeleteUnmatchedBets: MarketDrawerActions.cancelDeleteUnmatchedBets,
-    hideInsufficientBalanceError: MarketDrawerActions.hideInsufficientBalanceError,
-    hideDisconnectedError: MarketDrawerActions.hideDisconnectedError,
+    hideOverlay: MarketDrawerActions.hideOverlay,
   }, dispatch);
 }
 
