@@ -8,6 +8,7 @@ import { QuickBetDrawer, MarketDrawer } from '../BettingDrawers';
 import { QuickBetDrawerActions, MarketDrawerActions, NavigateActions } from '../../actions';
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
 import Ps from 'perfect-scrollbar';
+import '../App/Colors.less';
 
 class Exchange extends PureComponent {
 

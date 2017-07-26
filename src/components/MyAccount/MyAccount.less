@@ -3,7 +3,7 @@
 .my-account{
   .bookie-switch{
     border:1px solid @switch_border;
-    box-shadow: 0 2px 4px 0 fade(@black, 50%);
+    box-shadow: 0 2px 4px 0 @btn_shadow_outset;
     background-color: @switch_bg;
     height: 24px;
     min-width: 45px;
@@ -83,7 +83,7 @@
   }
 
   .ant-breadcrumb a:hover {
-    color: @light_blue_1;
+    color: @primary_label_highlight;
   }
 
   .welcome {
@@ -91,7 +91,7 @@
     text-align: right;
     font-size: 16px;
     .account-name {
-      color: @light_blue_1;
+      color: @primary_label_highlight;
     }
   }
 }

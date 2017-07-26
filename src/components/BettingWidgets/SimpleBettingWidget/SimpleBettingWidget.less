@@ -3,9 +3,9 @@
 div.simple-betting {
   // Using fade (from LESS) can set opacity to background only
   // If we set opacity explicitly, it will affect the text (foreground) too
-  background-color: fade(@simple_betting_bg, 35%);
+  background-color: @simple_betting_bg;
   margin-top: 20px;
-  box-shadow: @card_shadow;
+  box-shadow: @simple_betting_bg_shadow;
   div.ant-table {
     color: @simple_betting_label;
 
@@ -44,7 +44,7 @@ div.simple-betting {
         background-color: transparent;
         border-right: none;
         padding: 3px 8px;
-        color: @white;
+        color: @primary_label;
         font-size:14px;
         font-weight:normal;
         &.back-offer { display: none; }
@@ -72,7 +72,7 @@ div.simple-betting {
           padding:0 6px;
           cursor: pointer;
           &:hover {
-            color: @light_blue_1;
+            color: @primary_label_highlight;
           }
         }
         &.back-offer {
@@ -143,10 +143,10 @@ div.simple-betting {
     }
   }
   .ant-pagination-item:hover a, .ant-pagination-next:hover a, .ant-pagination-prev:hover a{
-    color: @white;
+    color: @primary_label;
   }
   .ant-pagination-disabled a{
-    color: @white;
+    color: @primary_label;
     opacity:1;
   }
 }

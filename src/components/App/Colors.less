@@ -1,279 +1,274 @@
 // Main application
+
+//----------------COLOR SELECTION-------------------
 @app-bg: radial-gradient(circle, #094B88 0%, #00152A 60%);
-@license-bg: radial-gradient(circle, #073c6d 0%, #00152b 100%);
+@license-bg: radial-gradient(circle, #094B88 0%, #00152A 100%);
 @white: #FFFFFF;
 @black: #000000;
-@light_blue_1: #00BEF4;
-@light_blue_2: #37C0FF;
-@light_blue_3: #2FA5E6;
-@light_blue_4: #6398D6;
-@light_blue_5: #38C1FF;
-@light_blue_6: #7DB0D6;
-@light_blue_7: #197ADA;
-@blue_1: #1563A0;
-@blue_2: #065CB7;
-@blue_3: #084272;
-@blue_4: #1F6CB4;
-@blue_5: #005CB8;
-@blue_6: #1D7BE3;
-@blue_7: #166ABC;
-@blue_8: #1766A2;
-@dark_blue_1: #004E9B;
-@dark_blue_2: #002340;
-@dark_blue_3: #0E324A;
-@dark_blue_4: #0B293F;
-@dark_blue_5: #134E85;
-@dark_blue_6: #0D3B7B;
-@dark_blue_7: #004378;
-@dark_blue_8: #061F33;
-@dark_blue_11: #03294D;
-@dark_blue_12: #002F54;
-@dark_blue_13: #061F32;
-@dark_blue_14: #034A8E;
-@cyan_1: #45C7CB;
-@teal_1: #008487;
-@teal_2: #1ACBB4;
-@teal_3: #082639;
-@teal_4: #05696B;
-@teal_5: #359C9F;
-@teal_6: #0D162F;
-@teal_7: #129CA0;
-@teal_8: #03787B;
-@cream_1: #F8EBDA;
-@cream_2: #F9EBDB;
-@pink_1: #FF7788;
-@pink_2: #FF6477;
-@green_1: #02CB43;
-@green_2: #03CA44;
-@light_grey_1: #E1E1E1;
-@light_grey_2: #E0E7EE;
-@grey_1: #A9A9A9;
-@grey_2: #898B8F;
-@grey_3: #979797;
-@dark_grey_1: #333333;
-@dark_grey_2: #02070C;
-@dark_grey_3: #5E6063;
-@dark_grey_4: #494949;
-@dark_grey_5: #4A4A4A;
 
-//-------------------------------------------
+@deep_sky_blue: #00BEF4; // highlight+  primary button start
+@bright_cerulean: #2FA5E6;
+@oxford_blue: #002440; //primary_bg
+@dark_cerulean: #004378; //secondary_bg + disable btn start
+@medium_teal_blue: #005CB7;  //third_bg + primary button  end
+@lapis_lazuli: #1563A0; // primary border
+@medium_electric_blue: #004E9B; // back bg + disable btn end
 
-// Title Bar
-@title-bar-solid-bg: @dark_blue_2;
+@bright_turquoise: #20E7ED; // only used for lay hightly
+@teal: #008487; //lay btn bg  main
+@skobeloff: #05696B; // lay header bg only
+@jungle_green: #359C9F;  //lay border only
+@blue_green: #129CA0; //lay btn bg
+@green: #02CB43;
+
+@cream: #F8EBDA;
+@pink: #FF7788;
+
+@dark_gray: #A9A9A9;
+//----------------THEME-------------------
+//--- ONLY DEFINE USAGE OF COLOR SELECTION HERE---
+
+//GENERAL
+@primary_label:  @white;
+@primary_label_highlight: @deep_sky_blue;
+@primary_label_border: @white;
+@secondary_label: @bright_cerulean;
+
+@primary_shadow: @black;
+
+@profit: @green;
+@loss: @pink;
+@error: @pink;
+
+@back_highlight: @primary_label_highlight;
+@back_bg_primary: @medium_electric_blue;
+@back_bg_secondary: @medium_teal_blue;
+@lay_highlight: @bright_turquoise;
+@lay_bg_primary: @teal;
+@lay_bg_secondary: @blue_green;
+@lay_border: @jungle_green;
+@lay_header: @skobeloff;
+
+@primary_bg: @oxford_blue;
+@secondary_bg: @dark_cerulean;
+@third_bg: @medium_teal_blue;
+@primary_border: @lapis_lazuli;
+
+@btn_primary_start: @deep_sky_blue;
+@btn_primary_end: @medium_teal_blue;
+
+@banner_timer_top: @teal;
+@banner_timer_bottom: @skobeloff;
 
 // Form fields
 @field: @white;
-@field_shadow: fade(@black, 50%);
-@field_selected_shadow: @light_blue_4;
-@field: @dark_grey_5;
-@field_border: @grey_3;
-@field_selected_border: @light_blue_1;
-@field_error: @pink_1;
-@field_selected_shadow: @light_blue_4;
-@checkbox: @blue_1;
-@switch_border: @light_grey_1;
-@switch_bg: @white;
-@switch_active: @blue_6;
-@filter_table_header_border: @blue_1;
+@field_border: @dark_gray;
 
 // Buttons
-@primary_btn: linear-gradient(fade(@light_blue_5, 92%), @blue_4);
-@btn_label: @white;
-@btn_shadow_inset: fade(@cream_2, 43%);
+@btn_shadow_inset: fade(@cream, 43%);
 @btn_shadow_outset: fade(@black, 50%);
-@introduction_btn_shadow_outset: fade(@dark_blue_6, 100%);
+@introduction_btn_shadow_outset: fade(@black, 100%);
+@download_btn: linear-gradient(@bright_turquoise, @teal);
+@disable_button_start: @dark_cerulean;
+@disable_button_end: @medium_electric_blue;
+
+//Dialogue
+@dialogue_bg: fade(@black, 30%);
+
+@update_highlight: orange;
+
+//---------------END OF THEME-------------------
+
+// Buttons
+@btn_label: @primary_label;
+@primary_btn: linear-gradient(fade(@btn_primary_start, 92%), @btn_primary_end);
 @btn_shadow: 0 2px 3px 0 @btn_shadow_outset, inset 1px 2px 0 0 @btn_shadow_inset;
 @introduction_btn_shadow: 0 2px 3px 0 @introduction_btn_shadow_outset, inset 1px 2px 0 0 @btn_shadow_inset;
-@download_btn: linear-gradient(@teal_2, @teal_8);
-@disable_btn: linear-gradient(fade(@blue_8, 92%), @dark_blue_5);
-@btn_placed: @light_blue_5;
+@disable_btn: linear-gradient(fade(@disable_button_start, 92%), @disable_button_end);
+
+// Form fields
+@switch_border: @field_border;
+@switch_bg: @field;
+@switch_active: @third_bg;
+@field_error: @error;
+@field_shadow: fade(@primary_shadow, 50%);
+@checkbox: @primary_border;
+@field_selected_shadow: @primary_label_highlight;
+@field_selected_border: @primary_label_highlight;
+@filter_table_header_border: @primary_border;
+
+// Title Bar
+@title-bar-solid-bg: @primary_bg;
 
 // SideBar
-@side-bar-bg: @blue_1;
-@side-bar-divider: @dark_blue_8;
-@side-bar-icon: @white;
-@side-bar-icon-seleced: @light_blue_1;
-@side-bar-selected: @dark_blue_8;
+@side-bar-bg: @primary_border;
+@side-bar-divider: solid 1px @primary_border;
+@side-bar-icon: @primary_label;
+@side-bar-icon-seleced: @primary_label_highlight;
+@side-bar-selected: @primary_label_highlight;
 @side-bar-width: 70px;
 
 // Tabular Data
-@table-bg: @blue_2;
+@table-bg: @third_bg;
 
 // Simple betting
-@simple_betting_blue_bg: @dark_blue_1;
-@simple_betting_green_bg: @teal_1;
-@simple_betting_bg: @blue_2;
-@simple_betting_header_border: @blue_1;
-@simple_betting_back_bg: @dark_blue_1;
-@simple_betting_lay_bg: @teal_1;
-@simple_betting_back_hover_bg: @light_blue_7;
-@simple_betting_lay_hover_bg: @cyan_1;
-@simple_betting_label: @white;
-@simple_betting_table_header_border: @blue_1;
-@simple_betting_event_name_hover: fade(@white, 27%);
-@simple_betting_event_time_hover: fade(@white, 27%);
+@simple_betting_bg: @card_bg;
+@simple_betting_bg_shadow: @card_shadow;
+@simple_betting_header_border: @primary_border;
+@simple_betting_back_bg: @back_bg_primary;
+@simple_betting_lay_bg: @lay_bg_primary;
+@simple_betting_back_hover_bg: @back_highlight;
+@simple_betting_lay_hover_bg: fade(@lay_highlight,90%);;
+@simple_betting_label: @primary_label;
+@simple_betting_table_header_border: @primary_border;
+@simple_betting_event_name_hover: fade(@primary_label, 27%);
+@simple_betting_event_time_hover: fade(@primary_label, 27%);
 
 // Complex betting
-@complex-betting-bg: @blue_2;
-@complex-betting-header-border: @light_blue_1;
-@complex-betting-back-bg: @blue_5;
-@complex-betting-back-all-bg: @dark_blue_1;
-@complex-betting-back-hover-bg: @light_blue_7;
-@complex-betting-lay-bg: @teal_7;
-@complex-betting-lay-all-bg: @teal_1;
-@complex-betting-lay-hover-bg: @cyan_1;
-@complex-betting-label: @white;
-@complex-betting-empty-offer-hover: fade(@white, 27%);
+@complex-betting-bg: @card_bg;
+@complex-betting-bg-shadow: @card_shadow;
+@complex-betting-header-border: @back_highlight;
+@complex-betting-back-bg: @back_bg_secondary;
+@complex-betting-back-all-bg: @back_bg_primary;
+@complex-betting-back-hover-bg: @back_highlight;
+@complex-betting-lay-bg: @lay_bg_secondary;
+@complex-betting-lay-all-bg: @lay_bg_primary;
+@complex-betting-lay-hover-bg: fade(@lay_highlight,90%);
+@complex-betting-label: @primary_label;
+@complex-betting-empty-offer-hover: fade(@primary_label, 27%);
 
 // On Boarding - Getting Started
-@welcome_section_bg: fade(@light_blue_3, 10%);
-@welcome_section_shadow: 0 2px 4px 0 fade(@black, 50%);
-@welcome_carousel_dot: @white;
-@welcome_dot_active: @light_blue_3;
-
+@welcome_section_bg: fade(@secondary_label, 10%);
+@welcome_section_shadow: 0 2px 4px 0 @btn_shadow_outset;
+@welcome_carousel_dot: @primary_label;
+@welcome_dot_active: @secondary_label;
 
 // Deposit
-@qr_code_border: @light_blue_3;
+@qr_code_border: @secondary_label;
 
 // Signup
-@login_link: @light_blue_3;
+@login_link: @secondary_label;
 
 // Breadcrumb
-@breadcrumb_link: @white;
-@breadcrumb_link_current: @light_blue_1;
+@breadcrumb_link: @primary_label;
+@breadcrumb_link_current: @primary_label_highlight;
 
 // MyAccount
-@status_completed: @white;
-@myaccount_blue_text: @light_blue_1;
-@withdraw_amount: @dark_blue_7;
-
+@status_completed: @primary_label;
+@myaccount_blue_text: @primary_label_highlight;
+@withdraw_amount: @secondary_bg;
 
 // Card
-@card_bg: fade(@blue_5, 35%);
-@card_shadow:  0 2px 10px 0 @teal_6;
-@card_header_border: @blue_1;
-@card_blue_title: @light_blue_1;
+@card_bg: fade(@third_bg, 35%);
+@card_shadow:  0 2px 4px 0 @primary_shadow;
+@card_header_border: @primary_border;
+@card_blue_title: @primary_label_highlight;
 
 // Content
-@content_bg: fade(#005CB7, 35%);
+@content_bg: fade(@secondary_bg, 35%);
 @content_shadow:  0 2px 4px 0 #0E162F;
 
 //Pagination
-@pagination_label: @white;
-@pagination_active_bg:@blue_1;
+@pagination_label: @primary_label;
+@pagination_active_bg:@primary_border;
 
 // Export Popup
-@overlay_bg: fade(@dark_blue_7, 90%);
-@export_card_bg: fade(@dark_blue_13, 95%);
-@export_card_border: @white;
+@overlay_bg: fade(@secondary_bg, 90%);
+@export_card_bg: fade(@primary_shadow, 30%);
+@export_card_border: @primary_label_border;
 
 //Datepicker
-@datepicker_bg: fade(@dark_blue_11, 95%);
-@datepicker_month_label: @white;
-@datepicker_year_label: @white;
-@datepicker_week_label: @blue_7;
-@datepicker_day_label: @white;
-@datepicker_day_selected: @light_blue_1;
-@datepicker_day_label_disabled: fade(@light_blue_3, 35%);
-@datepicker_header_border: @dark_blue_14;
-@datepicker_footer_border: fade(@light_blue_6, 20%);
-@datepicker_year_panel_bg: @dark_blue_11;
+@datepicker_bg: @primary_bg;
+@datepicker_month_label: @primary_label;
+@datepicker_year_label: @primary_label;
+@datepicker_week_label: @third_bg;
+@datepicker_day_label: @primary_label;
+@datepicker_day_selected: @primary_label_highlight;
+@datepicker_day_label_disabled: fade(@secondary_label, 35%);
+@datepicker_header_border: @secondary_bg;
+@datepicker_footer_border: @secondary_bg;
 
 //Dropdown
-@dropdown_shadow: @light_grey_2;
-@dropdown_hover:fade(@dark_blue_1, 40%);
+@dropdown_shadow: @card_shadow;
+@dropdown_hover: @secondary_bg;
 
 //MyBets
-@profit_color: @green_2;
-@loss_color: @pink_2;
-@mybets_tabs_border_bottom: @grey_1;
-@mybets_tabs_selected: @white;
-@mybets_tabs_label: @grey_1;
-@mybets_tabs_border_bottom_selected: @blue_5;
-@mybets_tabs_selected_shadow: 0 2px 4px 0 fade(@black, 50%);
+
+@mybets_tabs_border_bottom: @field_border;
+@mybets_tabs_selected: @primary_label;
+@mybets_tabs_label: @field_border;
+@mybets_tabs_border_bottom_selected: @third_bg;
+@mybets_tabs_selected_shadow: 0 2px 4px 0 @btn_shadow_outset;
 
 // Dialogue box
-@dialogue_bg: fade(@dark_blue_13, 95%);
-@dialogue_shadow: 0 2px 4px 0 fade(@black, 50%);
-@dialogue_blue_title: @light_blue_1;
-@dialogue_overlay_bg: fade(@dark_blue_2, 95%);
-@dialogue_header_border: @blue_1;
+@dialogue_shadow: 0 2px 4px 0 @btn_shadow_outset;
+@dialogue_blue_title: @primary_label_highlight;
+@dialogue_overlay_bg: fade(@primary_bg, 95%);
+@dialogue_header_border: @primary_border;
 
 //Infinite Menu
-@sports_label: @white;
-@sports_label_selected: @light_blue_1;
-@sports_label_border: @blue_3;
-@infinite_menu_white_label: @white;
-@infinite_menu_bg: @grey_2;
-@infinite_menu_hover_bg: @grey_2;
-@infinite_menu_border: @dark_grey_4;
-@infinite_menu_leaf_bg: @dark_grey_3;
-@infinite_menu_leaf_hover_bg: @dark_grey_3;
-@infinite_menu_leaf_border: @dark_grey_4;
-@infinite_menu_load_more_label: @dark_grey_3;
-@infinite_menu_load_more_hover_bg: @dark_grey_3;
-
+@sports_label_selected: @primary_label_highlight;
+@infinite_menu_white_label: @primary_label;
+@infinite_menu_bg: @primary_bg;
+@infinite_menu_hover_bg: @primary_bg;
 //QuickBet drawer
-@quick_bet_drawer_title_bg: @dark_blue_7;
+@quick_bet_drawer_title_bg: @secondary_bg;
 
 //Banner
-@banner_border: @grey_1;
-@banner_timer_top_half: @teal_3;
-@banner_timer_bottom_half: @dark_blue_3;
+@banner_border: @field_border;
+@banner_timer_top_half: @banner_timer_top;
+@banner_timer_bottom_half: @banner_timer_bottom;
 
 //Split Pane
-@split_pane_horizontal_border: @white;
-@split_pane_horizontal_hover_border: fade(@white, 50%);
-@split_pane_vertical_border: @white;
-@split_pane_vertical_hover_border: fade(@white, 50%);
-@split_pane_vertical_header_bg: @white;
-@split_pane_vertical_footer_bg: @white;
-@split_pane_horizontal_header_bg: @white;
-@split_pane_horizontal_footer_bg: @white;
+@split_pane_horizontal_border: @primary_label_border;
+@split_pane_horizontal_hover_border: fade(@primary_label_border, 50%);
+@split_pane_vertical_border: @primary_label_border;
+@split_pane_vertical_hover_border: fade(@primary_label_border, 50%);
+@split_pane_vertical_header_bg: @primary_label_border;
+@split_pane_vertical_footer_bg: @primary_label_border;
+@split_pane_horizontal_header_bg: @primary_label_border;
+@split_pane_horizontal_footer_bg: @primary_label_border;
 
 //Market Drawer
-@market_drawer_tab_bg: @dark_blue_7;
-@market_drawer_tab_active_bg: @blue_1;
-@market_drawer_btn_shadow: 0 2px 4px 0 fade(@black, 50%);
-@market_drawer_title_bg: @dark_blue_7;
-@market_drawer_unmatched_bets_empty_bg: @dark_blue_7;
-
+@market_drawer_tab_bg: @secondary_bg;
+@market_drawer_tab_active_bg: @primary_border;
+@market_drawer_btn_shadow: 0 2px 4px 0 @btn_shadow_outset;
+@market_drawer_title_bg: @secondary_bg;
+@market_drawer_unmatched_bets_empty_bg: @secondary_bg;
+@bet_table_updated_bet_bg: @update_highlight;
 //Betslips
-@betslip_bg: @dark_blue_7;
-@betslip_delete_icon_bg: @dark_blue_11;
-@betslip_header_bg: @blue_1;
-@betslip_confirmation_amount: @light_blue_1;
+@betslip_bg: @secondary_bg;
+@betslip_delete_icon_bg: @primary_bg;
+@betslip_header_bg: @primary_border;
+@betslip_confirmation_amount: @primary_label_highlight;
 
 //Editable BetTable
-@editable_table_header_bg: @dark_blue_7;
-@editable_table_back_body_bg: @dark_blue_1;
-@editable_table_back_body_border: @blue_7;
-@editable_table_back_market_type: @light_blue_5;
-@editable_table_lay_header_bg: @teal_4;
-@editable_table_lay_body_bg: @teal_1;
-@editable_table_lay_body_border: @teal_5;
-@editable_table_lay_market_type: @teal_2;
+@editable_table_header_bg: @secondary_bg;
+@editable_table_back_body_bg: @back_bg_primary;
+@editable_table_back_body_border: @third_bg;
+@editable_table_back_market_type: @btn_primary_start;
+@editable_table_lay_header_bg: @lay_header;
+@editable_table_lay_body_bg: @lay_bg_primary;
+@editable_table_lay_body_border: @lay_border;
+@editable_table_lay_market_type: @lay_highlight;
 
 // Topbar Menu
-@topbar_notification_hover: @light_blue_3;
-@topbar_dropdown_card: @dark_blue_2;
-@topbar_more_menu_active: @dark_blue_12;
-@topbar_label: @light_blue_1;
-@topbar_bg: @dark_blue_7;
-@topbar_divider: @dark_blue_8;
-@topbar_badge_count: @light_blue_1;
-@topbar_select_label: @light_blue_1;
-@topbar_search_result_bg: @dark_blue_2;
+@topbar_notification_hover: @secondary_label;
+@topbar_dropdown_card: @primary_bg;
+@topbar_more_menu_active: @primary_bg;
+@topbar_label: @primary_label_highlight;
+@topbar_bg: @secondary_bg;
+@topbar_divider: @primary_bg;
+@topbar_badge_count: @primary_label_highlight;
+@topbar_select_label: @primary_label_highlight;
+@topbar_search_result_bg: @primary_bg;
 
 //Scroller
-@scroller_bg: @blue_1;
-@scroller_bg_active: @light_blue_1;
+@scroller_bg: @primary_border;
+@scroller_bg_active: @primary_label_highlight;
 
 //Right Drawer
-@drawer_main_bg: fade(@dark_blue_2,80%);
-
+@drawer_main_bg: fade(@primary_bg,80%);
 
 //Reset Password
-@box_shadow: 0 2px 3px 0 @dark_blue_6, inset 1px 2px 0 0 @cream_1;
-@register_component: @grey_1;
-@btn_cancel: linear-gradient(-180deg, @blue_8 4%, @dark_blue_5 97%);
+@register_component: @field_border;

@@ -78,7 +78,7 @@ div.search-menu{
       background-size: 100%;
     }
     input{
-      color: @white;
+      color: @primary_label;
       height:auto;
       padding:0;
       font-size:18px;
@@ -92,7 +92,7 @@ div.search-menu{
   }
   .Select-menu-outer{
     background-color: @topbar_search_result_bg;
-    color: @white;
+    color: @primary_label;
     border:0 none;
     position: absolute;
     left:0;
@@ -112,10 +112,10 @@ div.search-menu{
   }
   &.is-focus, &.is-open, &.has-value{
     .Select-input{
-      border-bottom-color: @white;
+      border-bottom-color: @primary_label_border;
     }
     .Select-input,.Select-placeholder{
-      color: @white;
+      color: @primary_label;
     }
     .Select-input{
       &:before{
@@ -139,21 +139,21 @@ div.search-menu{
     .Select-clear{
       display: inline-block;
       font-size: 22px;
-      color: @white;
+      color: @primary_label;
       line-height: 11px;
     }
   }
   .Select-option{
-    color: @white;
+    color: @primary_label;
     background-color: transparent;
     font-size:16px;
     padding-left:50px;
     &.is-focused,&.is-pseudo-focused, &.is-selected{
-      color: @white;
+      color: @primary_label;
       background-color: @topbar_more_menu_active;
     }
     &:hover{
-      color: @white;
+      color: @primary_label;
       background-color: @topbar_more_menu_active;
     }
   }
@@ -168,7 +168,7 @@ div.search-menu{
    }
 
   .Select-noresults{
-    color: @white;
+    color: @primary_label;
     font-size:16px;
     padding-left:50px;
   }
@@ -180,8 +180,8 @@ div.search-menu{
   // selected result input box styling
   &.has-value{
     .Select-input{
-      color: @white;
-      border-bottom-color: @white;
+      color: @primary_label;
+      border-bottom-color: @primary_label_border;
     }
   }
   .Select-placeholder {
@@ -204,7 +204,7 @@ div.search-menu{
       .Select-value {
         .Select-value-label {
           font-size: 18px;
-          color: @white;
+          color: @primary_label;
           padding-left: 35px;
           padding-right: 35px;
         }
