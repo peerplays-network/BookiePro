@@ -12,6 +12,7 @@ import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import BetTable from '../BetTable';
 import './BetSlip.less';
 import { Empty, Overlay, Waiting, PlaceBetConfirm } from '../Common';
+import { BettingDrawerStates } from '../../../constants';
 
 const renderContent = (props) => (
   <div className='content' ref='unconfirmedBets'>
@@ -46,6 +47,7 @@ class BetSlip extends PureComponent {
   }
 
   render() {
+    const { overlay } = this.props;
     return (
       <div className='betslip'>
         <SplitPane
@@ -70,7 +72,7 @@ class BetSlip extends PureComponent {
             </div>
           }
         </SplitPane>
-        { this.props.showBetSlipConfirmation &&
+        { overlay === BettingDrawerStates.SUBMIT_BETS_CONFIRMATION &&
           <PlaceBetConfirm
              className='market_drawer.unconfirmed_bets.confirmation'
              goodBets={ this.props.numberOfGoodBets }
@@ -80,33 +82,33 @@ class BetSlip extends PureComponent {
              confirmAction={ () => this.props.makeBets(this.props.originalBets) }
           />
         }
-        { this.props.showBetSlipError &&
+        { overlay === BettingDrawerStates.SUBMIT_BETS_ERROR &&
           <Overlay
             className='market_drawer.unconfirmed_bets.error'
             cancelAction={ this.props.cancelPlaceBet }
             confirmAction={ () => this.props.makeBets(this.props.originalBets) }
           />
         }
-        { this.props.showDeleteUnconfirmedBetsConfirmation &&
+        { overlay === BettingDrawerStates.DELETE_BETS_CONFIRMATION &&
           <Overlay
             className='market_drawer.unconfirmed_bets.delete_bets'
             cancelAction={ this.props.cancelDeleteUnconfirmedBets }
             confirmAction={ () => this.props.deleteUnconfirmedBets(this.props.unconfirmedbetsToBeDeleted) }
           />
         }
-        { this.props.showInsufficientBalanceError &&
+        { overlay === BettingDrawerStates.INSUFFICIENT_BALANCE_ERROR &&
           <Overlay
             className='market_drawer.unconfirmed_bets.insufficient_balance'
             confirmAction={ this.props.hideInsufficientBalanceError }
           />
         }
-        { this.props.showDisconnectedError &&
+        { overlay === BettingDrawerStates.DISCONNECTED_ERROR &&
           <Overlay
             className='market_drawer.unconfirmed_bets.disconnected'
             cancelAction={ this.props.hideDisconnectedError }
           />
         }
-        { this.props.showBetSlipWaiting && <Waiting/> }
+        { overlay === BettingDrawerStates.SUBMIT_BETS_WAITING && <Waiting/> }
       </div>
     )
   }
@@ -137,26 +139,14 @@ const mapStateToProps = (state, ownProps) => {
   const numberOfGoodBets = originalBets.reduce((sum, bet) => {
     return sum + (BettingModuleUtils.isValidBet(bet) | 0);
   }, 0);
-  // Other statuses
-  const showBetSlipConfirmation = state.getIn(['marketDrawer', 'showBetSlipConfirmation']);
-  const showBetSlipWaiting = state.getIn(['marketDrawer', 'showBetSlipWaiting']);
-  const showBetSlipError = state.getIn(['marketDrawer', 'showBetSlipError']);
-  const showBetSlipSuccess = state.getIn(['marketDrawer', 'showBetSlipSuccess']);
-  const showDeleteUnconfirmedBetsConfirmation = state.getIn(['marketDrawer', 'showDeleteUnconfirmedBetsConfirmation']);
-  const showInsufficientBalanceError = state.getIn(['marketDrawer', 'showInsufficientBalanceError']);
-  const showDisconnectedError = state.getIn(['marketDrawer', 'showDisconnectedError']);
+  // Overlay
+  const overlay = state.getIn(['marketDrawer', 'overlay']);
+  const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
   return {
     originalBets,
     bets: page,
-    showBetSlipConfirmation,
-    showBetSlipWaiting,
-    showBetSlipError,
-    showBetSlipSuccess,
-    showDeleteUnconfirmedBetsConfirmation,
-    showInsufficientBalanceError,
-    showDisconnectedError,
-    obscureContent: showBetSlipConfirmation || showBetSlipWaiting || showBetSlipError || showDeleteUnconfirmedBetsConfirmation ||
-                    showInsufficientBalanceError || showDisconnectedError,
+    overlay,
+    obscureContent,
     unconfirmedbetsToBeDeleted: state.getIn(['marketDrawer', 'unconfirmedbetsToBeDeleted']),
     numberOfGoodBets,
     numberOfBadBets: originalBets.size - numberOfGoodBets,

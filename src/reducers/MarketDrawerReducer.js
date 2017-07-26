@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import { LoadingStatus, ActionTypes } from '../constants';
+import { LoadingStatus, ActionTypes, BettingDrawerStates } from '../constants';
 import { BettingModuleUtils, CurrencyUtils } from '../utility';
 import { transformUnmatchedBetObject, transformMatchedBetObject } from './dataUtils';
 
@@ -7,21 +7,10 @@ let initialState = Immutable.fromJS({
   unconfirmedBets: Immutable.List(),
   unmatchedBets: Immutable.List(),
   matchedBets: Immutable.List(),
-  showBetSlipConfirmation: false,
-  showBetSlipWaiting: false,
-  showBetSlipError: false,
-  showBetSlipSuccess: false,
-  showPlacedBetsConfirmation: false,
-  showPlacedBetsError: false,
-  showPlacedBetsWaiting: false,
-  showPlacedBetsSuccess: false,
+  overlay: BettingDrawerStates.NO_OVERLAY,
   groupByAverageOdds: false,
   unconfirmedbetsToBeDeleted: Immutable.List(),
-  showDeleteUnconfirmedBetsConfirmation: false,
   unmatchedbetsToBeDeleted: Immutable.List(),
-  showDeleteUnmatchedBetsConfirmation: false,
-  showDisconnectedError: false,
-  showInsufficientBalanceError: false,
 });
 
 export default function(state = initialState, action) {
@@ -53,38 +42,33 @@ export default function(state = initialState, action) {
     case ActionTypes.MARKET_DRAWER_DELETE_ONE_UNCONFIRMED_BET: {
       return state.merge({
         unconfirmedBets: unconfirmedBets.filterNot(b => b.get('id') === action.betId),
-        showBetSlipSuccess: false,
+        overlay: BettingDrawerStates.NO_OVERLAY,
       });
     }
     case ActionTypes.MARKET_DRAWER_SHOW_DELETE_UNCONFIRMED_BETS_CONFIRMATION: {
       return state.merge({
         unconfirmedbetsToBeDeleted: action.bets,
-        showDeleteUnconfirmedBetsConfirmation: true,
+        overlay: BettingDrawerStates.DELETE_BETS_CONFIRMATION,
       })
     }
     case ActionTypes.MARKET_DRAWER_HIDE_DELETE_UNCONFIRMED_BETS_CONFIRMATION: {
       return state.merge({
         unconfirmedbetsToBeDeleted: Immutable.List(),
-        showDeleteUnconfirmedBetsConfirmation: false,
+        overlay: BettingDrawerStates.NO_OVERLAY,
       })
     }
     case ActionTypes.MARKET_DRAWER_DELETE_MANY_UNCONFIRMED_BETS: {
       return state.merge({
         unconfirmedBets: unconfirmedBets.filterNot(b => action.listOfBetIds.includes(b.get('id'))),
-        showBetSlipSuccess: false,
+        overlay: BettingDrawerStates.NO_OVERLAY,
         unconfirmedbetsToBeDeleted: Immutable.List(),
-        showDeleteUnconfirmedBetsConfirmation: false,
       });
     }
     case ActionTypes.MARKET_DRAWER_DELETE_ALL_UNCONFIRMED_BETS: {
       return state.merge({
         unconfirmedBets: Immutable.List(),
-        showBetSlipConfirmation: false,
-        showBetSlipWaiting: false,
-        showBetSlipError: false,
-        showBetSlipSuccess: false,
+        overlay: BettingDrawerStates.NO_OVERLAY,
         unconfirmedbetsToBeDeleted: Immutable.List(),
-        showDeleteUnconfirmedBetsConfirmation: false,
       });
     }
     case ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNCONFIRMED_BET: {
@@ -102,54 +86,54 @@ export default function(state = initialState, action) {
     }
     case ActionTypes.MARKET_DRAWER_SHOW_BETSLIP_CONFIRMATION: {
       return state.merge({
-        showBetSlipConfirmation: true
+        overlay: BettingDrawerStates.SUBMIT_BETS_CONFIRMATION,
       });
     }
     case ActionTypes.MARKET_DRAWER_HIDE_BETSLIP_CONFIRMATION: {
       return state.merge({
-        showBetSlipConfirmation: false
+        overlay: BettingDrawerStates.NO_OVERLAY,
       });
     }
     case ActionTypes.MARKET_DRAWER_HIDE_BETSLIP_ERROR: {
       return state.merge({
-        showBetSlipError: false
+        overlay: BettingDrawerStates.NO_OVERLAY,
       });
     }
     case ActionTypes.BET_SET_MAKE_BETS_LOADING_STATUS: {
+      let overlay = state.overlay;
+      if (action.loadingStatus === LoadingStatus.LOADING) {
+        overlay = BettingDrawerStates.SUBMIT_BETS_WAITING;
+      } else if (action.loadingStatus === LoadingStatus.DONE) {
+        overlay = BettingDrawerStates.SUBMIT_BETS_SUCCESS;
+      }
       return state.merge({
         unconfirmedBets: action.loadingStatus === LoadingStatus.DONE ? Immutable.List() : unconfirmedBets,
-        showBetSlipWaiting: action.loadingStatus === LoadingStatus.LOADING,
-        showBetSlipError: false,
-        showBetSlipConfirmation: false,
-        showBetSlipSuccess: action.loadingStatus === LoadingStatus.DONE,
+        overlay,
       })
     }
     case ActionTypes.BET_SET_MAKE_BETS_ERROR: {
       return state.merge({
-        showBetSlipWaiting: false,
-        showBetSlipError: true,
-        showBetSlipConfirmation: false,
-        showBetSlipSuccess: false,
+        overlay: BettingDrawerStates.SUBMIT_BETS_ERROR,
       })
     }
     case ActionTypes.MARKET_DRAWER_SHOW_INSUFFICIENT_BALANCE_ERROR: {
       return state.merge({
-        showInsufficientBalanceError: true,
+        overlay: BettingDrawerStates.INSUFFICIENT_BALANCE_ERROR,
       })
     }
     case ActionTypes.MARKET_DRAWER_HIDE_INSUFFICIENT_BALANCE_ERROR: {
       return state.merge({
-        showInsufficientBalanceError: false,
+        overlay: BettingDrawerStates.NO_OVERLAY,
       })
     }
     case ActionTypes.MARKET_DRAWER_SNOW_DISCONNECTED_ERROR: {
       return state.merge({
-        showDisconnectedError: true,
+        overlay: BettingDrawerStates.DISCONNECTED_ERROR,
       })
     }
     case ActionTypes.MARKET_DRAWER_HIDE_DISCONNECTED_ERROR: {
       return state.merge({
-        showDisconnectedError: false,
+        overlay: BettingDrawerStates.NO_OVERLAY,
       })
     }
     // TODO: Once the Blockchain is ready, we also need to listen to bet update events
@@ -220,51 +204,52 @@ export default function(state = initialState, action) {
     case ActionTypes.MARKET_DRAWER_SHOW_DELETE_UNMATCHED_BETS_CONFIRMATION: {
       return state.merge({
         unmatchedbetsToBeDeleted: action.bets,
-        showDeleteUnmatchedBetsConfirmation: true,
+        overlay: BettingDrawerStates.DELETE_BETS_CONFIRMATION,
       })
     }
     case ActionTypes.MARKET_DRAWER_HIDE_DELETE_UNMATCHED_BETS_CONFIRMATION: {
       return state.merge({
         unmatchedbetsToBeDeleted: Immutable.List(),
-        showDeleteUnmatchedBetsConfirmation: false,
+        overlay: BettingDrawerStates.NO_OVERLAY,
       })
     }
     case ActionTypes.MARKET_DRAWER_DELETE_MANY_UNMATCHED_BETS: {
       return state.merge({
         unmatchedBets: unmatchedBets.filterNot(b => action.listOfBetIds.includes(b.get('id'))),
         unmatchedbetsToBeDeleted: Immutable.List(),
-        showDeleteUnmatchedBetsConfirmation: false,
+        overlay: BettingDrawerStates.NO_OVERLAY,
       });
     }
     case ActionTypes.MARKET_DRAWER_SHOW_PLACED_BETS_CONFIRMATION: {
       return state.merge({
+        overlay: BettingDrawerStates.SUBMIT_BETS_CONFIRMATION,
         showPlacedBetsConfirmation: true
       });
     }
     case ActionTypes.MARKET_DRAWER_HIDE_PLACED_BETS_CONFIRMATION: {
       return state.merge({
-        showPlacedBetsConfirmation: false
+        overlay: BettingDrawerStates.NO_OVERLAY,
       });
     }
     case ActionTypes.MARKET_DRAWER_HIDE_PLACED_BETS_ERROR: {
       return state.merge({
-        showPlacedBetsError: false
+        overlay: BettingDrawerStates.NO_OVERLAY,
       });
     }
     case ActionTypes.BET_SET_EDIT_BETS_BY_IDS_LOADING_STATUS: {
+      let overlay = state.overlay;
+      if (action.loadingStatus === LoadingStatus.LOADING) {
+        overlay = BettingDrawerStates.SUBMIT_BETS_WAITING;
+      } else if (action.loadingStatus === LoadingStatus.DONE) {
+        overlay = BettingDrawerStates.SUBMIT_BETS_SUCCESS;
+      }
       return state.merge({
-        showPlacedBetsWaiting: action.loadingStatus === LoadingStatus.LOADING,
-        showPlacedBetsError: false,
-        showPlacedBetsConfirmation: false,
-        showPlacedBetsSuccess: action.loadingStatus === LoadingStatus.DONE,
+        overlay,
       })
     }
     case ActionTypes.BET_SET_EDIT_BETS_ERROR_BY_BET_ID: {
       return state.merge({
-        showPlacedBetsWaiting: false,
-        showPlacedBetsError: true,
-        showPlacedBetsConfirmation: false,
-        showPlacedBetsSuccess: false,
+        overlay: BettingDrawerStates.SUBMIT_BETS_ERROR,
       })
     }
     case ActionTypes.MARKET_DRAWER_RESET_UNMATCHED_BETS: {

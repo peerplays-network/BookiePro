@@ -17,7 +17,7 @@ const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
     { props.bets.isEmpty() &&
       <Empty
-        showSuccess={ props.overlay === BettingDrawerStates.BET_SLIP_SUCCESS }
+        showSuccess={ props.overlay === BettingDrawerStates.SUBMIT_BETS_SUCCESS }
         className='quick_bet_drawer.unconfirmed_bets'
         navigateTo={ props.navigateTo }
       />
@@ -81,7 +81,7 @@ class QuickBetDrawer extends PureComponent {
             }
           </SplitPane>
         </SplitPane>
-        { overlay === BettingDrawerStates.BET_SLIP_CONFIRMATION &&
+        { overlay === BettingDrawerStates.SUBMIT_BETS_CONFIRMATION &&
           <PlaceBetConfirm
             className='quick_bet_drawer.unconfirmed_bets.confirmation'
             goodBets={ this.props.numberOfGoodBets }
@@ -91,7 +91,7 @@ class QuickBetDrawer extends PureComponent {
             confirmAction={ () => this.props.makeBets(this.props.originalBets) }
           />
         }
-        { overlay === BettingDrawerStates.BET_SLIP_ERROR &&
+        { overlay === BettingDrawerStates.SUBMIT_BETS_ERROR &&
           <Overlay
             className='quick_bet_drawer.unconfirmed_bets.error'
             cancelAction={ this.props.cancelPlaceBet }
@@ -118,7 +118,7 @@ class QuickBetDrawer extends PureComponent {
             cancelAction={ this.props.hideDisconnectedError }
           />
         }
-        { overlay === BettingDrawerStates.BET_SLIP_WAITING && <Waiting /> }
+        { overlay === BettingDrawerStates.SUBMIT_BETS_WAITING && <Waiting /> }
       </div>
     );
   }
@@ -161,7 +161,7 @@ const mapStateToProps = (state, ownProps) => {
   }, 0);
   // Overlay
   const overlay = state.getIn(['quickBetDrawer', 'overlay']);
-  const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.BET_SLIP_SUCCESS;
+  const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
   return {
     originalBets,
     bets: page,
