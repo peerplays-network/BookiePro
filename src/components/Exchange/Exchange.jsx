@@ -60,11 +60,8 @@ class Exchange extends PureComponent {
   handleLeave(){
     const transitionName = this.props.location.pathname.split("/");
     if (transitionName.length < 3 || transitionName[2].toLowerCase() !== 'bettingmarketgroup') {
-      // This will remove all bet slips
       this.props.clearQuickBetDrawer();
-      // This has the same effect of clicking any cancel button
-      // in order to hide any overlay on the betting drawer
-      this.props.cancelQuickBets();
+      this.props.clearQuickBetsOverlay();
     } else {
       this.props.clearMarketDrawerBetslips();
       this.props.cancelMarketBets();
@@ -189,7 +186,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     clearQuickBetDrawer: QuickBetDrawerActions.deleteAllBets,
-    cancelQuickBets: QuickBetDrawerActions.cancelPlaceBet,
+    clearQuickBetsOverlay: QuickBetDrawerActions.hideOverlay,
     clearMarketDrawerBetslips: MarketDrawerActions.deleteAllUnconfirmedBets,
     cancelMarketBets: MarketDrawerActions.cancelPlaceBet,
     cancelUpdateBets: MarketDrawerActions.cancelUpdateBet,

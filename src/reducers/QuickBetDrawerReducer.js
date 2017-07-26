@@ -118,11 +118,7 @@ export default function(state = initialState, action) {
         overlay: BettingDrawerStates.DISCONNECTED_ERROR,
       })
     }
-    // All these actions set the betting drawer to the initial state
-    case ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_CONFIRMATION:
-    case ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_ERROR:
-    case ActionTypes.QUICK_BET_DRAWER_HIDE_INSUFFICIENT_BALANCE_ERROR:
-    case ActionTypes.QUICK_BET_DRAWER_HIDE_DISCONNECTED_ERROR: {
+    case ActionTypes.QUICK_BET_DRAWER_HIDE_OVERLAY: {
       return state.merge({
         overlay: BettingDrawerStates.NO_OVERLAY,
       })

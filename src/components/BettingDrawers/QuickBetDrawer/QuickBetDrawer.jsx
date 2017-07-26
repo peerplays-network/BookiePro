@@ -40,6 +40,57 @@ const renderContent = (props) => (
   </div>
 )
 
+const renderOverlay = (props) => {
+  switch (props.overlay) {
+    case BettingDrawerStates.SUBMIT_BETS_CONFIRMATION:
+      return (
+        <PlaceBetConfirm
+          className='quick_bet_drawer.unconfirmed_bets.confirmation'
+          goodBets={ props.numberOfGoodBets }
+          badBets={ props.numberOfBadBets }
+          amount={ props.totalBetAmountString }
+          cancelAction={ props.hideOverlay }
+          confirmAction={ () => props.makeBets(props.originalBets) }
+        />
+      )
+    case BettingDrawerStates.SUBMIT_BETS_ERROR:
+      return (
+        <Overlay
+          className='quick_bet_drawer.unconfirmed_bets.error'
+          cancelAction={ props.hideOverlay }
+          confirmAction={ () => props.makeBets(props.originalBets) }
+        />
+      )
+    case BettingDrawerStates.DELETE_BETS_CONFIRMATION:
+      return (
+        <Overlay
+          className='quick_bet_drawer.unconfirmed_bets.delete_bets'
+          cancelAction={ props.hideOverlay }
+          confirmAction={ () => props.deleteBets(props.betsToBeDeleted) }
+          replacements={ { event: props.eventNameInDeleteBetsConfirmation } }
+        />
+      )
+    case BettingDrawerStates.INSUFFICIENT_BALANCE_ERROR:
+      return (
+        <Overlay
+          className='quick_bet_drawer.unconfirmed_bets.insufficient_balance'
+          confirmAction={ props.hideOverlay }
+        />
+      )
+    case BettingDrawerStates.DISCONNECTED_ERROR:
+      return (
+        <Overlay
+          className='quick_bet_drawer.unconfirmed_bets.disconnected'
+          cancelAction={ props.hideOverlay }
+        />
+      )
+    case BettingDrawerStates.SUBMIT_BETS_WAITING:
+      return <Waiting />
+    default:
+      return;
+  }
+}
+
 class QuickBetDrawer extends PureComponent {
 
   componentDidMount() {
@@ -51,7 +102,6 @@ class QuickBetDrawer extends PureComponent {
   }
 
   render() {
-    const { overlay } = this.props;
     return (
       <div id='quick-bet-drawer' ref='drawer'>
         <SplitPane split='horizontal' defaultSize='40px' allowResize={ false }>
@@ -81,44 +131,7 @@ class QuickBetDrawer extends PureComponent {
             }
           </SplitPane>
         </SplitPane>
-        { overlay === BettingDrawerStates.SUBMIT_BETS_CONFIRMATION &&
-          <PlaceBetConfirm
-            className='quick_bet_drawer.unconfirmed_bets.confirmation'
-            goodBets={ this.props.numberOfGoodBets }
-            badBets={ this.props.numberOfBadBets }
-            amount={ this.props.totalBetAmountString }
-            cancelAction={ this.props.cancelPlaceBet }
-            confirmAction={ () => this.props.makeBets(this.props.originalBets) }
-          />
-        }
-        { overlay === BettingDrawerStates.SUBMIT_BETS_ERROR &&
-          <Overlay
-            className='quick_bet_drawer.unconfirmed_bets.error'
-            cancelAction={ this.props.cancelPlaceBet }
-            confirmAction={ () => this.props.makeBets(this.props.originalBets) }
-          />
-        }
-        { overlay === BettingDrawerStates.DELETE_BETS_CONFIRMATION &&
-          <Overlay
-            className='quick_bet_drawer.unconfirmed_bets.delete_bets'
-            cancelAction={ this.props.cancelDeleteBets }
-            confirmAction={ () => this.props.deleteBets(this.props.betsToBeDeleted) }
-            replacements={ { event: this.props.eventNameInDeleteBetsConfirmation } }
-          />
-        }
-        { overlay === BettingDrawerStates.INSUFFICIENT_BALANCE_ERROR &&
-          <Overlay
-            className='quick_bet_drawer.unconfirmed_bets.insufficient_balance'
-            confirmAction={ this.props.hideInsufficientBalanceError }
-          />
-        }
-        { overlay === BettingDrawerStates.DISCONNECTED_ERROR &&
-          <Overlay
-            className='quick_bet_drawer.unconfirmed_bets.disconnected'
-            cancelAction={ this.props.hideDisconnectedError }
-          />
-        }
-        { overlay === BettingDrawerStates.SUBMIT_BETS_WAITING && <Waiting /> }
+        { renderOverlay(this.props) }
       </div>
     );
   }
@@ -182,14 +195,11 @@ const mapDispatchToProps = (dispatch) => {
     navigateTo: NavigateActions.navigateTo,
     deleteBet: QuickBetDrawerActions.deleteBet,
     clickDeleteBets: QuickBetDrawerActions.clickDeleteBets,
-    cancelDeleteBets: QuickBetDrawerActions.cancelDeleteBets,
     deleteBets: QuickBetDrawerActions.deleteBets,
     updateBet: QuickBetDrawerActions.updateBet,
     clickPlaceBet: QuickBetDrawerActions.clickPlaceBet,
-    cancelPlaceBet: QuickBetDrawerActions.cancelPlaceBet,
     makeBets: BetActions.makeBets,
-    hideInsufficientBalanceError: QuickBetDrawerActions.hideInsufficientBalanceError,
-    hideDisconnectedError: QuickBetDrawerActions.hideDisconnectedError,
+    hideOverlay: QuickBetDrawerActions.hideOverlay,
   }, dispatch);
 }
 
