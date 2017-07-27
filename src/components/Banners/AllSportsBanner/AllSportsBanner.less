@@ -3,6 +3,13 @@
 
 div.all-sports-banner {
   position: relative;
+  border:1px solid @banner_border;
+  height: 150px;
+
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+
   &:before {
     content: '';
   	position: absolute;
@@ -13,12 +20,6 @@ div.all-sports-banner {
   	background-image: @banner_overlay;
   	opacity: .6;
   }
-  border:1px solid @banner_border;
-  height: 150px;
-
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
 
   >div.statistics {
     position: absolute;
