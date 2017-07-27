@@ -26,55 +26,79 @@ const renderEventTime = (text, record) => {
   return <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>;
 }
 
-const getColumns = (renderOffer, navigateTo, currencyFormat) => ([
-  {
-    dataIndex: 'time',
-    key: 'time',
-    width: eventTimeColumnWidth,
-    className: 'event-time',
-    render: renderEventTime
-  }, {
-    dataIndex: 'event_name',
-    key: 'event_name',
-    // Do not specify width so the column
-    // will grow/shrink with the size of the table
-    className: 'event-name',
-    render: (text, record) => EventNameUtils.breakAtVs(record.get('event_name')),
-    onCellClick: (record, event) => {
-      record.get('moneyline') && navigateTo('/exchange/bettingmarketgroup/' + record.get('moneyline'))
+const getColumns = (renderOffer, navigateTo, currencyFormat, sportName) =>  {
+  // 1 = home , 2 = away, 3 = draw
+  let columns = [
+    {
+      dataIndex: 'time',
+      key: 'time',
+      width: eventTimeColumnWidth,
+      className: 'event-time',
+      render: renderEventTime
+    }, {
+      dataIndex: 'event_name',
+      key: 'event_name',
+      // Do not specify width so the column
+      // will grow/shrink with the size of the table
+      className: 'event-name',
+      render: (text, record) => EventNameUtils.breakAtVs(record.get('event_name')),
+      onCellClick: (record, event) => {
+        record.get('moneyline') && navigateTo('/exchange/bettingmarketgroup/' + record.get('moneyline'))
+      }
+    }, {
+      title: '1',
+      children: [{
+        dataIndex: 'back_offer_home',
+        key: 'back_offer_home',
+        width: offerColumnWidth,
+        className: 'back-offer',
+        render: renderOffer('back', 'lay', 1, currencyFormat)
+      }, {
+        dataIndex: 'lay_offer_home',
+        key: 'lay_offer_home',
+        width: offerColumnWidth,
+        className: 'lay-offer',
+        render: renderOffer('lay', 'back', 1, currencyFormat)
+      }]
+    }, {
+      title: 'X',
+      children: [{
+        dataIndex: 'back_offer_draw',
+        key: 'back_offer_draw',
+        width: offerColumnWidth,
+        className: 'back-offer',
+        render: renderOffer('back', 'lay', 3, currencyFormat)
+      }, {
+        dataIndex: 'lay_Offer_away',
+        key: 'lay_offer_draw',
+        width: offerColumnWidth,
+        className: 'lay-offer',
+        render: renderOffer('lay', 'back', 3, currencyFormat)
+      }]
+    }, {
+      title: '2',
+      children: [{
+        dataIndex: 'back_offer_away',
+        key: 'back_offer_away',
+        width: offerColumnWidth,
+        className: 'back-offer',
+        render: renderOffer('back', 'lay', 2, currencyFormat)
+      }, {
+        dataIndex: 'lay_Offer_away',
+        key: 'lay_offer_away',
+        width: offerColumnWidth,
+        className: 'lay-offer',
+        render: renderOffer('lay', 'back', 2, currencyFormat)
+      }]
     }
-  }, {
-    title: '1',
-    children: [{
-      dataIndex: 'back_offer_home',
-      key: 'back_offer_home',
-      width: offerColumnWidth,
-      className: 'back-offer',
-      render: renderOffer('back', 'lay', 1, currencyFormat)
-    }, {
-      dataIndex: 'lay_offer_home',
-      key: 'lay_offer_home',
-      width: offerColumnWidth,
-      className: 'lay-offer',
-      render: renderOffer('lay', 'back', 1, currencyFormat)
-    }]
-  }, {
-    title: '2',
-    children: [{
-      dataIndex: 'back_offer_away',
-      key: 'back_offer_away',
-      width: offerColumnWidth,
-      className: 'back-offer',
-      render: renderOffer('back', 'lay', 2, currencyFormat)
-    }, {
-      dataIndex: 'lay_Offer_away',
-      key: 'lay_offer_away',
-      width: offerColumnWidth,
-      className: 'lay-offer',
-      render: renderOffer('lay', 'back', 2, currencyFormat)
-    }]
+  ];
+
+  if (sportName.toUpperCase() !== 'SOCCER') {
+    columns.splice(3, 1);   // remove the X column group
   }
-]);
+
+  return columns;
+}
 
 const renderTitle = (title) => (
   <div className='title'>
@@ -113,20 +137,44 @@ class SimpleBettingWidget extends PureComponent {
   // action: [ lay(ing) | back(ing) ]
   // betType: [ back | lay ]
   // index: [ 1 (Home Team) | 2 (Away Team)]
+  // index: [ 1 (Home Team)| 3 (Draw Team) | 2 (Away Team)]
+
   renderOffer(action, typeOfBet, index, currencyFormat) {
     return (text, record) => {
-      const offers = record.get('offers');
-      if (offers.isEmpty()) {
+      let offers = record.get('offers');
+
+      if ( offers === undefined || offers.isEmpty() || offers.getIn([index-1, 'betting_market_id']) === undefined ){
         return '';
       }
-      // TODO: Exception handling
-      const betting_market_id = offers.get(index-1).get('betting_market_id');
-      const offer = offers.get(index-1).get(typeOfBet).get(0);
-      if (offer === undefined) {
-        return '';
+
+      //dunno why offers are not ordered by betting_market_id in record
+      offers = offers.sort( (a, b) => a.get('betting_market_id').localeCompare(b.get('betting_market_id')) )
+      const betting_market_id = offers.getIn([index-1, 'betting_market_id']);
+      const offer = offers.getIn([index-1, typeOfBet, 0]);
+
+      let team;
+      switch (index){
+        case 1:
+        case 2:
+          team = record.get('event_name').split('vs')[index-1].trim();
+          break;
+        case 3:
+          team = I18n.t('simple_betting_widget.draw')
+          break;
+        default:
+          team = ''
       }
-      // TODO: REVIEW This is temp solution. The better way is to use the Competitor data.
-      const team = record.get('event_name').split('vs')[index-1].trim();
+
+      if ( offer === undefined){
+        return (
+          <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, '') }>
+            <div className='offer'>
+              <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
+            </div>
+          </a>
+        );
+      }
+
       return (
         <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, offer.get('odds')) }>
           <div className='offer'>
@@ -137,6 +185,7 @@ class SimpleBettingWidget extends PureComponent {
           </div>
         </a>
       );
+
     };
   };
 
@@ -155,13 +204,14 @@ class SimpleBettingWidget extends PureComponent {
         return 0;
       })
     }
+
     return (
       // Note that we have to explicitly tell antd Table how to find the rowKey
       // because it is not compatible with Immutable JS
       <div className='simple-betting'>
         <Table
           bordered
-          columns={ getColumns(this.renderOffer, this.props.navigateTo, this.props.currencyFormat) }
+          columns={ getColumns(this.renderOffer, this.props.navigateTo, this.props.currencyFormat, this.props.sportName) }
           dataSource={ events.toArray() }
           title={ () => renderTitle(this.props.title) }
           footer={ () => this.props.showFooter ? this.renderFooter(this.props) : null }

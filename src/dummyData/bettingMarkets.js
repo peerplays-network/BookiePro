@@ -3207,6 +3207,146 @@ const bettingMarkets = [
     "description": "Le Havre",
     "bet_asset_type": "1.3.0"
   },
+  {
+    "id": "1.105.458",
+    "group_id": "1.104.82",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.459",
+    "group_id": "1.104.85",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.460",
+    "group_id": "1.104.88",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.461",
+    "group_id": "1.104.91",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.462",
+    "group_id": "1.104.94",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.463",
+    "group_id": "1.104.97",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.464",
+    "group_id": "1.104.100",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.465",
+    "group_id": "1.104.103",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.466",
+    "group_id": "1.104.106",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.467",
+    "group_id": "1.104.109",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.468",
+    "group_id": "1.104.151",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.469",
+    "group_id": "1.104.142",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.470",
+    "group_id": "1.104.154",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.471",
+    "group_id": "1.104.145",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.472",
+    "group_id": "1.104.148",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.473",
+    "group_id": "1.104.169",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.474",
+    "group_id": "1.104.163",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.475",
+    "group_id": "1.104.160",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.476",
+    "group_id": "1.104.166",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  },
+  {
+    "id": "1.105.477",
+    "group_id": "1.104.157",
+    "payout_condition_string": "The Draw",
+    "description": "The Draw",
+    "bet_asset_type": "1.3.0"
+  }
 ];
 
 //TODO: add more in this list, pay attention on the relation with the betting_market_groups dummy data

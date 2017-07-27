@@ -23,8 +23,10 @@ class AllSports extends PureComponent {
           allSportsData.map((sportData) => {
             const sportId = sportData.get('sport_id');
             const events = sportData.get('events');
+            const sportName = sportData.get('name');
             return (
               <SimpleBettingWidget
+                sportName={ sportName }
                 key={ sportId }                   // required by React to have unique key
                 title={ sportData.get('name') }
                 events={ events.slice(0, MAX_EVENTS_PER_WIDGET) }

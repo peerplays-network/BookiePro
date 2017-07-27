@@ -2181,6 +2181,106 @@ const binnedOrderBooks = [
     "betting_market_id": "1.105.457",
     "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
     "aggregated_lay_bets": [createOrderBookBin(2.6, 0.29), createOrderBookBin(4.2, 0)]
+  },
+  {
+    "betting_market_id": "1.105.458",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.459",
+    "aggregated_back_bets": [],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.460",
+    "aggregated_back_bets": [],
+    "aggregated_lay_bets": []
+  },
+  {
+    "betting_market_id": "1.105.461",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": []
+  },
+  {
+    "betting_market_id": "1.105.462",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.463",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.464",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.465",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.466",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.467",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.468",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.469",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.470",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.471",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.472",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.473",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.474",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.475",
+    "aggregated_back_bets": [createOrderBookBin(3.32, 0.59), createOrderBookBin(5.21, 0.28)],
+    "aggregated_lay_bets": [createOrderBookBin(4.2, 0.97)]
+  },
+  {
+    "betting_market_id": "1.105.476",
+    "aggregated_back_bets": [],
+    "aggregated_lay_bets": []
+  },
+  {
+    "betting_market_id": "1.105.477",
+    "aggregated_back_bets": [],
+    "aggregated_lay_bets": []
   }
   //Resolved Bets Ends
 ];
