@@ -1,9 +1,21 @@
 @import (reference) '../../Main/Main.less';
+@import '../../App/Colors.less';
 
 div.all-sports-banner {
   position: relative;
+  &:before {
+    content: '';
+  	position: absolute;
+  	top: 0;
+  	right: 0;
+  	bottom: 0;
+  	left: 0;
+  	background-image: @banner_overlay;
+  	opacity: .6;
+  }
   border:1px solid @banner_border;
   height: 150px;
+
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;

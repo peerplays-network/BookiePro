@@ -22,6 +22,7 @@ class HelpAndSupport extends PureComponent {
 
 
   render() {
+    const bannerSource = `url(${FaqBanner})`;
     return (
       <div className='help-and-support'>
         <Breadcrumb className='bookie-breadcrumb'>
@@ -30,8 +31,7 @@ class HelpAndSupport extends PureComponent {
           </Breadcrumb.Item>
           <Breadcrumb.Item>{ I18n.t('help.title') }</Breadcrumb.Item>
         </Breadcrumb>
-        <div className='faqBanner'>
-          <img src={ FaqBanner } alt='faq-banner' />
+        <div className='faqBanner' style={ { backgroundImage: bannerSource } }>
         </div>
         <Faq />
       </div>
