@@ -722,7 +722,7 @@ export const translationsObject = {
       '/p>'
     },
     bettingMarketGroup :{
-      match_start_on: 'Pre-Live! Starts on 10/01/2017' +
+      match_start_on: 'Pre-Live! Starts on %{time}' +
       ' 13:00',
       title: 'Levski Sofia vs Academic' +
       ' Plovdiv',

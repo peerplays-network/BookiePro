@@ -15,7 +15,8 @@ const offerColumnWidth = 70;
 // TODO: Consider moving this to a utility library later
 // TODO: The implementation below is for demo purpose. Will review this in future iterations.
 const renderEventTime = (text, record) => {
-  const eventTime = moment(parseInt(record.get('time'), 10))
+  const eventTime = moment(record.get('time'))
+  console.log(record.get('time'))
   let dateString = eventTime.format('MMM D');
   let timeString = eventTime.calendar();
   // TODO: Need a better way as this is NOT going to work once we have localization
@@ -197,10 +198,10 @@ class SimpleBettingWidget extends PureComponent {
 
       // Sort by event time
       events = events.sort((a, b) => {
-        let timeA = a.get('time');
-        let timeB = b.get('time');
-        if (timeA < timeB) { return -1; }
-        if (timeA > timeB) { return 1; }
+        let timeA = moment(a.get('time'));
+        let timeB = moment(b.get('time'));
+        if (timeA.isBefore(timeB)) { return -1; }
+        if (timeA.isAfter(timeB)) { return 1; }
         return 0;
       })
     }
