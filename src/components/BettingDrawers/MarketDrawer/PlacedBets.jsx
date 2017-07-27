@@ -35,7 +35,7 @@ const renderOverlay = (props) => {
     case BettingDrawerStates.DELETE_BETS_CONFIRMATION:
       return (
         <Overlay
-          className='market_drawer.unmatched_bets.delete_bets'
+          className='market_drawer.placed_bets.delete_bets'
           cancelAction={ props.hideOverlay }
           confirmAction={ () => props.deleteUnmatchedBets(props.unmatchedbetsToBeDeleted) }
         />
