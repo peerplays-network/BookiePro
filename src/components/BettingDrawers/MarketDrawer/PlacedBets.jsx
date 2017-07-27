@@ -8,58 +8,8 @@ import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import './PlacedBets.less';
-import { Empty, Overlay, Waiting, PlaceBetConfirm } from '../Common';
+import { Empty, OverlayUtils } from '../Common';
 import { BettingDrawerStates } from '../../../constants'
-
-const renderOverlay = (props) => {
-  switch (props.overlay) {
-    case BettingDrawerStates.SUBMIT_BETS_CONFIRMATION:
-      return (
-        <PlaceBetConfirm
-          className='market_drawer.placed_bets.confirmation'
-          goodBets={ props.numberOfGoodBets }
-          badBets={ props.numberOfBadBets }
-          amount={ props.totalBetAmountString }
-          cancelAction={ props.hideOverlay }
-          confirmAction={ () => props.editBets(props.unmatchedBets) }
-        />
-      )
-    case BettingDrawerStates.SUBMIT_BETS_ERROR:
-      return (
-        <Overlay
-          className='market_drawer.placed_bets.error'
-          cancelAction={ props.hideOverlay }
-          confirmAction={ () => props.editBets(props.unmatchedBets) }
-        />
-      )
-    case BettingDrawerStates.DELETE_BETS_CONFIRMATION:
-      return (
-        <Overlay
-          className='market_drawer.placed_bets.delete_bets'
-          cancelAction={ props.hideOverlay }
-          confirmAction={ () => props.deleteUnmatchedBets(props.unmatchedbetsToBeDeleted) }
-        />
-      )
-    case BettingDrawerStates.INSUFFICIENT_BALANCE_ERROR:
-      return (
-        <Overlay
-          className='market_drawer.placed_bets.insufficient_balance'
-          confirmAction={ props.hideOverlay }
-        />
-      )
-    case BettingDrawerStates.DISCONNECTED_ERROR:
-      return (
-        <Overlay
-          className='market_drawer.placed_bets.disconnected'
-          cancelAction={ props.hideOverlay }
-        />
-      )
-    case BettingDrawerStates.SUBMIT_BETS_WAITING:
-      return <Waiting/>
-    default:
-      return;
-  }
-}
 
 class PlacedBets extends PureComponent {
   componentDidMount() {
@@ -100,7 +50,11 @@ class PlacedBets extends PureComponent {
             />
           }
         </div>
-        { renderOverlay(this.props) }
+        {
+          OverlayUtils.render('market_drawer.placed_bets', this.props,
+                              () => this.props.editBets(this.props.unmatchedBets),
+                              () => this.props.deleteUnmatchedBets(this.props.unmatchedbetsToBeDeleted))
+        }
       </div>
     )
   }
