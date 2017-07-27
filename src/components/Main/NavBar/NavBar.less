@@ -36,7 +36,7 @@
     line-height: inherit;
     display: flex;
     border-bottom:0 none;
-    overflow: hidden;
+    //overflow: hidden;
 
     li {
       padding:0;
@@ -439,7 +439,7 @@
 }
 .bookie-tooltip{
   font-size:14px;
-  margin-top: -25px;
+  //margin-top: 20px;
   .ant-tooltip-inner{
     max-width: 148px;
     background-color: @tooltip_bg;
@@ -449,16 +449,19 @@
     border-radius:0;
     padding: 4px 10px;
     min-height: auto;
+    margin-top:-20px;
   }
   .ant-tooltip-placement-bottom .ant-tooltip-arrow, .ant-tooltip-placement-bottomLeft .ant-tooltip-arrow, .ant-tooltip-placement-bottomRight .ant-tooltip-arrow{
     border-bottom-color: @tooltip_bg;
   }
   .ant-tooltip-inner{
     border: 1px solid @tooltip_border;
+    white-space: normal;
+    font-style: normal;
     &:before{
       content: '';
       position: absolute;
-      top: 5px;
+      top: -15px;
       left: 50%;
       margin-left: -5px;
       width: 0; height: 0;
@@ -473,12 +476,25 @@
       border-bottom: 2px solid @tooltip_bg;
       border-right: 2px solid transparent;
       border-left: 2px solid transparent;
-      top: 7px;
+      top: -13px;
       left: 50%;
       margin-left: -3px;
     }
   }
   .ant-tooltip-arrow{
     display: none;
+  }
+  &.bookie-tooltip-amount{
+    .ant-tooltip-inner{
+      margin-top: -25px;
+      &:before{
+        top: -20px;
+        margin-left: -5px;
+      }
+      &:after{
+        top: -18px;
+        margin-left: -3px;
+      }
+    }
   }
 }
