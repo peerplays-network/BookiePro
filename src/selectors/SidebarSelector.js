@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import CommonSelector from './CommonSelector';
 import Immutable from 'immutable';
+import moment from 'moment';
 const {
   getSportsById,
   getEventGroupsById,
@@ -71,7 +72,7 @@ const getSidebarCompleteTree = createSelector(
         const eventGroupNodes = eventGroupList.map((eventGroup) => {
           let eventGroupNode = createNode(eventGroup, 'EventGroup');
           // Filter active event and sort event group by id
-          const isActiveEvent = (event) => (event.get('start_time') -  new Date()) > 0;
+          const isActiveEvent = (event) => (moment(event.get('start_time')) -  new Date()) > 0;
           let eventList = eventsByEventGroupId.get(eventGroup.get('id')) || Immutable.List();
           eventList = eventList.filter(isActiveEvent).sort(sortById);
           // For each active event, create event node

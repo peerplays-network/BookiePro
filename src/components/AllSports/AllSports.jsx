@@ -9,8 +9,7 @@ const MAX_EVENTS_PER_WIDGET = 3;
 const { getData } = AllSportsActions;
 
 class AllSports extends PureComponent {
-  constructor(props) {
-    super(props);
+  componentDidMount() {
     this.props.dispatch(getData());
   }
 

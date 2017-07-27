@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import Immutable from 'immutable';
+import moment from 'moment';
 
 const getAccountId = (state) => {
   return state.getIn(['account', 'account','id'])
@@ -71,7 +72,7 @@ const getActiveEventsBySportId = createSelector(
   ],
   (eventsById, eventGroupsById) => {
     // Active event is event whose start time is
-    const isActiveEvent = (event) => (event.get('start_time') -  new Date()) > 0;
+    const isActiveEvent = (event) => (moment(event.get('start_time')) -  new Date()) > 0;
     return eventsById.filter(isActiveEvent).toList().groupBy(event => {
       const eventGroup = eventGroupsById.get(event.get('event_group_id'));
       return eventGroup && eventGroup.get('sport_id')
@@ -83,7 +84,7 @@ const getActiveEventsByEventGroupId = createSelector(
   getEventsById,
   (eventsById) => {
     // Active event is event whose start time is
-    const isActiveEvent = (event) => (event.get('start_time') -  new Date()) > 0;
+    const isActiveEvent = (event) => (moment(event.get('start_time')) -  new Date()) > 0;
     return eventsById.filter(isActiveEvent).toList().groupBy(event => event.get('event_group_id'));
   }
 )
