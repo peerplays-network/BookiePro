@@ -37,6 +37,56 @@ const renderContent = (props) => (
   </div>
 );
 
+const renderOverlay = (props) => {
+  switch (props.overlay) {
+    case BettingDrawerStates.SUBMIT_BETS_CONFIRMATION:
+      return (
+        <PlaceBetConfirm
+           className='market_drawer.unconfirmed_bets.confirmation'
+           goodBets={ props.numberOfGoodBets }
+           badBets={ props.numberOfBadBets }
+           amount={ props.totalBetAmountString }
+           cancelAction={ props.hideOverlay }
+           confirmAction={ () => props.makeBets(props.originalBets) }
+        />
+      )
+    case BettingDrawerStates.SUBMIT_BETS_ERROR:
+      return (
+        <Overlay
+          className='market_drawer.unconfirmed_bets.error'
+          cancelAction={ props.hideOverlay }
+          confirmAction={ () => props.makeBets(this.props.originalBets) }
+        />
+      )
+    case BettingDrawerStates.DELETE_BETS_CONFIRMATION:
+      return (
+        <Overlay
+          className='market_drawer.unconfirmed_bets.delete_bets'
+          cancelAction={ props.hideOverlay }
+          confirmAction={ () => props.deleteUnconfirmedBets(props.unconfirmedbetsToBeDeleted) }
+        />
+      )
+    case BettingDrawerStates.INSUFFICIENT_BALANCE_ERROR:
+      return (
+        <Overlay
+          className='market_drawer.unconfirmed_bets.insufficient_balance'
+          confirmAction={ props.hideOverlay }
+        />
+      )
+    case BettingDrawerStates.DISCONNECTED_ERROR:
+      return (
+        <Overlay
+          className='market_drawer.unconfirmed_bets.disconnected'
+          cancelAction={ props.hideOverlay }
+        />
+      )
+    case BettingDrawerStates.SUBMIT_BETS_WAITING:
+      return <Waiting/>
+    default:
+      return;
+  }
+}
+
 class BetSlip extends PureComponent {
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.unconfirmedBets));
@@ -47,7 +97,6 @@ class BetSlip extends PureComponent {
   }
 
   render() {
-    const { overlay } = this.props;
     return (
       <div className='betslip'>
         <SplitPane
@@ -72,43 +121,7 @@ class BetSlip extends PureComponent {
             </div>
           }
         </SplitPane>
-        { overlay === BettingDrawerStates.SUBMIT_BETS_CONFIRMATION &&
-          <PlaceBetConfirm
-             className='market_drawer.unconfirmed_bets.confirmation'
-             goodBets={ this.props.numberOfGoodBets }
-             badBets={ this.props.numberOfBadBets }
-             amount={ this.props.totalBetAmountString }
-             cancelAction={ this.props.hideOverlay }
-             confirmAction={ () => this.props.makeBets(this.props.originalBets) }
-          />
-        }
-        { overlay === BettingDrawerStates.SUBMIT_BETS_ERROR &&
-          <Overlay
-            className='market_drawer.unconfirmed_bets.error'
-            cancelAction={ this.props.hideOverlay }
-            confirmAction={ () => this.props.makeBets(this.props.originalBets) }
-          />
-        }
-        { overlay === BettingDrawerStates.DELETE_BETS_CONFIRMATION &&
-          <Overlay
-            className='market_drawer.unconfirmed_bets.delete_bets'
-            cancelAction={ this.props.hideOverlay }
-            confirmAction={ () => this.props.deleteUnconfirmedBets(this.props.unconfirmedbetsToBeDeleted) }
-          />
-        }
-        { overlay === BettingDrawerStates.INSUFFICIENT_BALANCE_ERROR &&
-          <Overlay
-            className='market_drawer.unconfirmed_bets.insufficient_balance'
-            confirmAction={ this.props.hideOverlay }
-          />
-        }
-        { overlay === BettingDrawerStates.DISCONNECTED_ERROR &&
-          <Overlay
-            className='market_drawer.unconfirmed_bets.disconnected'
-            cancelAction={ this.props.hideOverlay }
-          />
-        }
-        { overlay === BettingDrawerStates.SUBMIT_BETS_WAITING && <Waiting/> }
+        { renderOverlay(this.props) }
       </div>
     )
   }
