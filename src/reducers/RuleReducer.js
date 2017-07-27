@@ -16,6 +16,13 @@ export default function (state = initialState, action) {
       })
       return newState;
     }
+    case ActionTypes.RULE_REMOVE_RULES_BY_IDS: {
+      let nextState = state;
+      action.ruleIds.forEach((ruleId) => {
+        nextState = nextState.deleteIn(['rulesById', ruleId]);
+      });
+      return nextState;
+    }
     case ActionTypes.RULE_SET_GET_RULES_BY_IDS_LOADING_STATUS: {
       let getRulesByIdsLoadingStatus = Immutable.Map();
       action.ruleIds.forEach( ruleId => {

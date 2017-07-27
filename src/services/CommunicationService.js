@@ -12,6 +12,7 @@ import {
   BettingMarketGroupActions,
   BinnedOrderBookActions,
   BalanceActions,
+  RuleActions
 } from '../actions';
 import Immutable from 'immutable';
 import { ObjectPrefix, Config } from '../constants';
@@ -181,23 +182,53 @@ class CommunicationService {
           break;
         }
         case ObjectPrefix.SPORT_PREFIX: {
-          this.dispatch(SportActions.addOrUpdateSportsAction(updatedObjects));
+          // Localize name
+          const localizedUpdatedObject = updatedObjects.map(object => {
+            return ObjectUtils.localizeStringOfObject(object, ['name']);
+          })
+          this.dispatch(SportActions.addOrUpdateSportsAction(localizedUpdatedObject));
           break;
         }
         case ObjectPrefix.EVENT_GROUP_PREFIX: {
-          this.dispatch(EventGroupActions.addOrUpdateEventGroupsAction(updatedObjects));
+          // Localize name
+          const localizedUpdatedObject = updatedObjects.map(object => {
+            return ObjectUtils.localizeStringOfObject(object, ['name']);
+          })
+          this.dispatch(EventGroupActions.addOrUpdateEventGroupsAction(localizedUpdatedObject));
           break;
         }
         case ObjectPrefix.EVENT_PREFIX: {
-          this.dispatch(EventActions.addOrUpdateEventsAction(updatedObjects));
+          // Localize name
+          const localizedUpdatedObject = updatedObjects.map(object => {
+            return ObjectUtils.localizeStringOfObject(object, ['name']);
+          })
+          this.dispatch(EventActions.addOrUpdateEventsAction(localizedUpdatedObject));
+          break;
+        }
+        case ObjectPrefix.RULE_PREFIX: {
+          // Localize name
+          const localizedUpdatedObject = updatedObjects.map(object => {
+            return ObjectUtils.localizeStringOfObject(object, ['name']);
+          })
+          this.dispatch(RuleActions.addOrUpdateRulesAction(localizedUpdatedObject));
           break;
         }
         case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {
-          this.dispatch(BettingMarketGroupActions.addOrUpdateBettingMarketGroupsAction(updatedObjects));
+          // Localize name
+          const localizedUpdatedObject = updatedObjects.map(object => {
+            return ObjectUtils.localizeStringOfObject(object, ['name']);
+          })
+          this.dispatch(BettingMarketGroupActions.addOrUpdateBettingMarketGroupsAction(localizedUpdatedObject));
           break;
         }
         case ObjectPrefix.BETTING_MARKET_PREFIX: {
-          this.dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(updatedObjects));
+          // Localize name
+          const localizedUpdatedObject = updatedObjects.map(object => {
+            // TODO: remove this later, replciate payout condition as description
+            object = object.set('description', object.get('payout_condition'));
+            return ObjectUtils.localizeStringOfObject(object, ['description', 'payout_condition']);
+          })
+          this.dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(localizedUpdatedObject));
           break;
         }
         case ObjectPrefix.BET_PREFIX: {
@@ -249,6 +280,10 @@ class CommunicationService {
         }
         case ObjectPrefix.EVENT_PREFIX: {
           this.dispatch(EventActions.removeEventsByIdsAction(deletedObjectIds));
+          break;
+        }
+        case ObjectPrefix.RULE_PREFIX: {
+          this.dispatch(RuleActions.removeEventsByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {

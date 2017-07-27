@@ -1,8 +1,9 @@
 import _ from 'lodash';
 
 const blockchainUrls = [
-  'wss://595-dev-blockchain.pixelplex.by/ws',
-  // 'wss://peerplays-dev.blocktrades.info/ws'
+  // 'wss://595-dev-blockchain.pixelplex.by/ws',
+  'wss://peerplays-dev.blocktrades.info/ws',
+  // 'wss://ppy-node.bitshares.eu'
 ]
 
 const shuffledBlockhainUrls = _.shuffle(blockchainUrls)
@@ -13,7 +14,7 @@ const Config = {
   blockchainUrls: shuffledBlockhainUrls,
   softwareUpdateReferenceAccountName: 'peerplays1',
   gatewayAccountName: 'gateway1',
-  useDummyData: true,
+  useDummyData: false,
   dummyDataAccountId: '1.2.240' // TODO: remove this later, for the meantime we can use this to configure dummy data
 }
 

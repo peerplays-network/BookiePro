@@ -26,6 +26,13 @@ class RuleActions {
       rules
     }
   }
+  static removeRulesByIdsAction(ruleIds) {
+    return {
+      type: ActionTypes.RULE_REMOVE_RULES_BY_IDS,
+      ruleIds
+    }
+  }
+
 
   /**
    * Get assets given their ids (can be immutable array)
