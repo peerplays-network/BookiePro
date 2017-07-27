@@ -9,20 +9,23 @@ import { I18n } from 'react-redux-i18n';
 import Immutable from 'immutable';
 import { findKeyPathOf } from '../../../utility/TreeUtils'
 import { LoadingStatus } from '../../../constants';
-import createClass from 'create-react-class';
 
 const RESULT_COUNT_ID = '0';
 const SELECT_OPTION_STYLE = {
   display: 'inline-block',
 };
 
-const SearchOption = createClass({
+class SearchOption extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+  }
 
-  handleMouseDown (event){
+  handleMouseDown (event) {
     event.preventDefault();
     event.stopPropagation();
     this.props.onSelect(this.props.option, event);
-  },
+  }
 
   render () {
     return (
@@ -36,7 +39,8 @@ const SearchOption = createClass({
       </div>
     );
   }
-});
+
+}
 
 class SearchMenu extends PureComponent {
 
