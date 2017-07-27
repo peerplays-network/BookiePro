@@ -16,7 +16,6 @@ const offerColumnWidth = 70;
 // TODO: The implementation below is for demo purpose. Will review this in future iterations.
 const renderEventTime = (text, record) => {
   const eventTime = moment(record.get('time'))
-  console.log(record.get('time'))
   let dateString = eventTime.format('MMM D');
   let timeString = eventTime.calendar();
   // TODO: Need a better way as this is NOT going to work once we have localization

@@ -737,8 +737,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(ruleIds);
     } else {
-      // TODO: change later
-      return Promise.resolve(Immutable.List()).then(result => {
+      return this.getObjectsByIds(ruleIds).then(result => {
         return result.map(item => {
           // Localize string
           return ObjectUtils.localizeStringOfObject(item, ['description', 'name']);
