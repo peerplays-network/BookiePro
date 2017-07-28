@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Badge, Menu,Dropdown } from 'antd';
+import { Badge, Menu,Dropdown, Tooltip } from 'antd';
 import Deposit from '../../MyAccount/Deposit'
 import { TopMenuWithdraw } from '../../Withdraw';
 import Amount from './AmountDropDown'
@@ -13,6 +13,7 @@ import { CurrencyUtils, BettingModuleUtils, ObjectUtils } from '../../../utility
 import { createSelector } from 'reselect';
 import { initialize } from 'redux-form';
 const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
+import { I18n } from 'react-redux-i18n';
 
 class TopMenu extends PureComponent {
   constructor(props) {
@@ -192,38 +193,49 @@ class TopMenu extends PureComponent {
           }
           <Dropdown trigger={ ['click'] } overlay={ amountCard } placement='bottomRight'
             onVisibleChange={ this.handleAmountComponentVisibleChange } visible={ false }>
+            <Tooltip getPopupContainer={ () => document.getElementsByClassName("bitcoin-icon")[0] }
+                     overlayClassName='bookie-tooltip bookie-tooltip-amount' placement='bottom' title={ I18n.t('topbar_tooltip.account_balance') }>
             <div className='icon-main bitcoin-icon-main'>
               <a className={ this.state.isAmountComponentVisible ? 'ant-dropdown-link-clicked ' : 'ant-dropdown-link' } href='#'>
-                <i className={ this.state.isAmountComponentVisible ? (this.props.currencyFormat === 'BTC' ? 'bitcoin-icon-selected' : 'mbitcoin-icon-selected') :
-                  (this.props.currencyFormat === 'BTC' ? 'bitcoin-icon' : 'mbitcoin-icon') }></i>
-                { this.props.availableBalance }
+                <div>
+                  <i className={ this.state.isAmountComponentVisible ? (this.props.currencyFormat === 'BTC' ? 'bitcoin-icon-selected' : 'mbitcoin-icon-selected') :
+                      (this.props.currencyFormat === 'BTC' ? 'bitcoin-icon' : 'mbitcoin-icon') }></i>
+                    { this.props.availableBalance }
+                </div>
               </a>
             </div>
+            </Tooltip>
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='mywager'>
-          <div className='icon-main mywager-icon-main'>
-            <i className={ this.props.routePath === '/my-wager' ? 'mywager-icon-selected' : 'mywager-icon' }></i>
-          </div>
+          <Tooltip overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.my_bets') }>
+            <div className='icon-main mywager-icon-main'>
+              <i className={ this.props.routePath === '/my-wager' ? 'mywager-icon-selected' : 'mywager-icon' }></i>
+            </div>
+          </Tooltip>
         </Menu.Item>
         <Menu.Item key='deposit'>
           <Dropdown trigger={ ['click'] } overlay={ depositCard(this.props.depositAddress) } placement='bottomRight'
             onVisibleChange={ this.handleDepositComponentVisibleChange }>
-            <div className='icon-main deposit-icon-main'>
-              <a className='ant-dropdown-link' href='#'>
-                <i className={ this.state.isDepositComponentVisible ? 'deposit-icon-selected' : 'deposit-icon' }></i>
-              </a>
-            </div>
+            <Tooltip overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.deposit') }>
+              <div className='icon-main deposit-icon-main'>
+                <a className='ant-dropdown-link' href='#'>
+                  <i className={ this.state.isDepositComponentVisible ? 'deposit-icon-selected' : 'deposit-icon' }></i>
+                </a>
+              </div>
+            </Tooltip>
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='withdraw'>
           <Dropdown trigger={ ['click'] } overlay={ withdrawCard } placement='bottomRight'
             onVisibleChange={ this.handleTopMenuWithdrawComponentVisibleChange }>
-            <div className='icon-main withdraw-icon-main'>
-              <a className='ant-dropdown-link'>
-                <i className={ this.state.isTopMenuWithdrawComponentVisible ? 'withdraw-icon-selected' : 'withdraw-icon' }></i>
-              </a>
-            </div>
+            <Tooltip  overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.withdrawal') }>
+              <div className='icon-main withdraw-icon-main'>
+                <a className='ant-dropdown-link'>
+                  <i className={ this.state.isTopMenuWithdrawComponentVisible ? 'withdraw-icon-selected' : 'withdraw-icon' }></i>
+                </a>
+              </div>
+            </Tooltip>
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='notifications' className='notification'>
@@ -234,13 +246,15 @@ class TopMenu extends PureComponent {
             visible={ this.props.isShowNotificationCard }
             onVisibleChange={ this.handleNotificationCardVisibleChange }
           >
+            <Tooltip overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.notification') }>
             <div className='icon-main notification-icon-main'>
-              <a className='ant-dropdown-link' href='#'>
-              <Badge count={ this.props.unreadNotificationNumber }>
-                <i className={ this.state.isNotificationComponentVisible ? 'notification-icon-selected' : 'notification-icon' }></i>
-              </Badge>
-            </a>
-            </div>
+                <a className='ant-dropdown-link' href='#'>
+                <Badge count={ this.props.unreadNotificationNumber }>
+                  <i className={ this.state.isNotificationComponentVisible ? 'notification-icon-selected' : 'notification-icon' }></i>
+                </Badge>
+              </a>
+              </div>
+            </Tooltip>
           </Dropdown>
         </Menu.Item>
         <Menu.Item key='drop-down'>
@@ -248,11 +262,13 @@ class TopMenu extends PureComponent {
             overlay={ dropdownMenuCard } placement='bottomRight'
             onVisibleChange={ this.handleSubMenuVisibleChange }
             visible={ this.state.isSubMenuVisible }>
-            <div className='icon-main dropdown-icon-main'>
-              <a className='ant-dropdown-link' href='#'>
-                <i className={ this.state.current === 'drop-down' && this.state.isSubMenuVisible ? 'dropdown-icon-selected' : 'dropdown-icon' }></i>
-              </a>
-            </div>
+            <Tooltip overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.menu_more') }>
+              <div className='icon-main dropdown-icon-main'>
+                <a className='ant-dropdown-link' href='#'>
+                  <i className={ this.state.current === 'drop-down' && this.state.isSubMenuVisible ? 'dropdown-icon-selected' : 'dropdown-icon' }></i>
+                </a>
+              </div>
+            </Tooltip>
           </Dropdown>
         </Menu.Item>
       </Menu>
