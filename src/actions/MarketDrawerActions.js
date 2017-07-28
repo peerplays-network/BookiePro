@@ -33,12 +33,6 @@ class MarketDrawerPrivateActions {
     }
   }
 
-  static hideDeleteUnconfirmedBetsConfirmation() {
-    return {
-      type: ActionTypes.MARKET_DRAWER_HIDE_DELETE_UNCONFIRMED_BETS_CONFIRMATION,
-    }
-  }
-
   static deleteManyUnconfirmedBets(listOfBetIds) {
     return {
       type: ActionTypes.MARKET_DRAWER_DELETE_MANY_UNCONFIRMED_BETS,
@@ -58,39 +52,15 @@ class MarketDrawerPrivateActions {
     }
   }
 
-  static hideBetSlipConfirmation() {
-    return {
-      type: ActionTypes.MARKET_DRAWER_HIDE_BETSLIP_CONFIRMATION,
-    }
-  }
-
-  static hideBetSlipError() {
-    return {
-      type: ActionTypes.MARKET_DRAWER_HIDE_BETSLIP_ERROR,
-    }
-  }
-
   static showInsufficientBalanceError() {
     return {
       type: ActionTypes.MARKET_DRAWER_SHOW_INSUFFICIENT_BALANCE_ERROR,
     }
   }
 
-  static hideInsufficientBalanceError() {
-    return {
-      type: ActionTypes.MARKET_DRAWER_HIDE_INSUFFICIENT_BALANCE_ERROR,
-    }
-  }
-
   static showDisconnectedError() {
     return {
       type: ActionTypes.MARKET_DRAWER_SNOW_DISCONNECTED_ERROR,
-    }
-  }
-
-  static hideDisconnectedError() {
-    return {
-      type: ActionTypes.MARKET_DRAWER_HIDE_DISCONNECTED_ERROR,
     }
   }
 
@@ -125,12 +95,6 @@ class MarketDrawerPrivateActions {
     }
   }
 
-  static hideDeleteUnmatchedBetsConfirmation() {
-    return {
-      type: ActionTypes.MARKET_DRAWER_HIDE_DELETE_UNMATCHED_BETS_CONFIRMATION,
-    }
-  }
-
   static deleteManyUnmatchedBets(listOfBetIds) {
     return {
       type: ActionTypes.MARKET_DRAWER_DELETE_MANY_UNMATCHED_BETS,
@@ -144,18 +108,6 @@ class MarketDrawerPrivateActions {
     }
   }
 
-  static hidePlacedBetsConfirmation() {
-    return {
-      type: ActionTypes.MARKET_DRAWER_HIDE_PLACED_BETS_CONFIRMATION,
-    }
-  }
-
-  static hidePlacedBetsError() {
-    return {
-      type: ActionTypes.MARKET_DRAWER_HIDE_PLACED_BETS_ERROR,
-    }
-  }
-
   static resetUnmatchedBets() {
     return {
       type: ActionTypes.MARKET_DRAWER_RESET_UNMATCHED_BETS,
@@ -166,6 +118,12 @@ class MarketDrawerPrivateActions {
     return {
       type: ActionTypes.MARKET_DRAWER_SET_GROUP_BY_AVERAGE_ODDS,
       groupByAverageOdds
+    }
+  }
+
+  static hideOverlay() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_HIDE_OVERLAY,
     }
   }
 }
@@ -209,12 +167,6 @@ class MarketDrawerActions {
     }
   }
 
-  static cancelDeleteUnconfirmedBets() {
-    return (dispatch) => {
-      dispatch(MarketDrawerPrivateActions.hideDeleteUnconfirmedBetsConfirmation());
-    }
-  }
-
   static deleteUnconfirmedBets(bets) {
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.deleteManyUnconfirmedBets(bets.map(b => b.get('id'))));
@@ -244,27 +196,6 @@ class MarketDrawerActions {
           dispatch(MarketDrawerPrivateActions.showBetSlipConfirmation());
         }
       }
-    }
-  }
-
-  static cancelPlaceBet() {
-    return (dispatch) => {
-      dispatch(MarketDrawerPrivateActions.hideBetSlipConfirmation());
-      dispatch(MarketDrawerPrivateActions.hideBetSlipError());
-      dispatch(MarketDrawerPrivateActions.hideInsufficientBalanceError());
-      dispatch(MarketDrawerPrivateActions.hideDisconnectedError());
-    }
-  }
-
-  static hideInsufficientBalanceError() {
-    return (dispatch) => {
-      dispatch(MarketDrawerPrivateActions.hideInsufficientBalanceError());
-    }
-  }
-
-  static hideDisconnectedError() {
-    return (dispatch) => {
-      dispatch(MarketDrawerPrivateActions.hideDisconnectedError());
     }
   }
 
@@ -320,12 +251,6 @@ class MarketDrawerActions {
     }
   }
 
-  static cancelDeleteUnmatchedBets() {
-    return (dispatch) => {
-      dispatch(MarketDrawerPrivateActions.hideDeleteUnmatchedBetsConfirmation());
-    }
-  }
-
   static deleteUnmatchedBets(bets) {
     return (dispatch) => {
       dispatch(BetActions.cancelBets(Immutable.List(bets)));
@@ -355,15 +280,6 @@ class MarketDrawerActions {
     }
   }
 
-  static cancelUpdateBet() {
-    return (dispatch) => {
-      dispatch(MarketDrawerPrivateActions.hidePlacedBetsConfirmation());
-      dispatch(MarketDrawerPrivateActions.hidePlacedBetsError());
-      dispatch(MarketDrawerPrivateActions.hideInsufficientBalanceError());
-      dispatch(MarketDrawerPrivateActions.hideDisconnectedError());
-    }
-  }
-
   static clickReset() {
     return (dispatch)  => {
       dispatch(MarketDrawerPrivateActions.resetUnmatchedBets());
@@ -373,6 +289,12 @@ class MarketDrawerActions {
   static clickAverageOdds(groupByAverageOdds) {
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.setGroupByAverageOdds(groupByAverageOdds));
+    }
+  }
+
+  static hideOverlay() {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.hideOverlay());
     }
   }
 }

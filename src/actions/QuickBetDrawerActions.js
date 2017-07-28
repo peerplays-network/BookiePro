@@ -33,12 +33,6 @@ class QuickBetDrawerPrivateActions {
     }
   }
 
-  static hideDeleteBetsConfirmation() {
-    return {
-      type: ActionTypes.QUICK_BET_DRAWER_HIDE_DELETE_BETS_CONFIRMATION,
-    }
-  }
-
   static deleteManyBets(listOfBetIds) {
     return {
       type: ActionTypes.QUICK_BET_DRAWER_DELETE_MANY_BETS,
@@ -58,27 +52,9 @@ class QuickBetDrawerPrivateActions {
     }
   }
 
-  static hideBetSlipConfirmation() {
-    return {
-      type: ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_CONFIRMATION,
-    }
-  }
-
-  static hideBetSlipError() {
-    return {
-      type: ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_ERROR,
-    }
-  }
-
   static showInsufficientBalanceError() {
     return {
       type: ActionTypes.QUICK_BET_DRAWER_SHOW_INSUFFICIENT_BALANCE_ERROR,
-    }
-  }
-
-  static hideInsufficientBalanceError() {
-    return {
-      type: ActionTypes.QUICK_BET_DRAWER_HIDE_INSUFFICIENT_BALANCE_ERROR,
     }
   }
 
@@ -88,9 +64,9 @@ class QuickBetDrawerPrivateActions {
     }
   }
 
-  static hideDisconnectedError() {
+  static hideOverlay() {
     return {
-      type: ActionTypes.QUICK_BET_DRAWER_HIDE_DISCONNECTED_ERROR,
+      type: ActionTypes.QUICK_BET_DRAWER_HIDE_OVERLAY,
     }
   }
 }
@@ -136,12 +112,6 @@ class QuickBetDrawerActions {
     }
   }
 
-  static cancelDeleteBets() {
-    return (dispatch) => {
-      dispatch(QuickBetDrawerPrivateActions.hideDeleteBetsConfirmation());
-    }
-  }
-
   static deleteBets(bets) {
     return (dispatch) => {
       dispatch(QuickBetDrawerPrivateActions.deleteManyBets(bets.map(b => b.get('id'))));
@@ -174,22 +144,9 @@ class QuickBetDrawerActions {
     }
   }
 
-  static cancelPlaceBet() {
+  static hideOverlay() {
     return (dispatch) => {
-      dispatch(QuickBetDrawerPrivateActions.hideBetSlipConfirmation());
-      dispatch(QuickBetDrawerPrivateActions.hideBetSlipError());
-    }
-  }
-
-  static hideInsufficientBalanceError() {
-    return (dispatch) => {
-      dispatch(QuickBetDrawerPrivateActions.hideInsufficientBalanceError());
-    }
-  }
-
-  static hideDisconnectedError() {
-    return (dispatch) => {
-      dispatch(QuickBetDrawerPrivateActions.hideDisconnectedError());
+      dispatch(QuickBetDrawerPrivateActions.hideOverlay());
     }
   }
 }

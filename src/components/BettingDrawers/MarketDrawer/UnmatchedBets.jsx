@@ -8,6 +8,7 @@ import { BettingModuleUtils } from '../../../utility';
 import { MarketDrawerActions } from '../../../actions';
 import BetTable from '../BetTable';
 import './UnmatchedBets.less';
+import { BettingDrawerStates } from '../../../constants'
 
 class UnmatchedBets extends PureComponent {
   render() {
@@ -62,17 +63,12 @@ const mapStateToProps = (state) => {
     // Put everything back in their rightful places
     page = page.set(betType, betListByBetType);
   });
-  // Other statuses
-  const showPlacedBetsConfirmation = state.getIn(['marketDrawer', 'showPlacedBetsConfirmation']);
-  const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);
-  const showPlacedBetsError = state.getIn(['marketDrawer', 'showPlacedBetsError']);
-  const showDeleteUnmatchedBetsConfirmation = state.getIn(['marketDrawer', 'showDeleteUnmatchedBetsConfirmation']);
-  const showInsufficientBalanceError = state.getIn(['marketDrawer', 'showInsufficientBalanceError']);
-  const showDisconnectedError = state.getIn(['marketDrawer', 'showDisconnectedError']);
+  // Overlay
+  const overlay = state.getIn(['marketDrawer', 'overlay']);
+  const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
   return {
     bets: page,
-    obscureContent: showPlacedBetsConfirmation || showPlacedBetsWaiting || showPlacedBetsError || showDeleteUnmatchedBetsConfirmation ||
-                    showInsufficientBalanceError || showDisconnectedError,
+    obscureContent,
     hasUpdatedBets: originalBets.count(bet => bet.get('updated')) > 0,
   };
 }

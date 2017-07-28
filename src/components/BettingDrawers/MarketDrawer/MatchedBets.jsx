@@ -8,6 +8,7 @@ import { BettingModuleUtils } from '../../../utility';
 import { MarketDrawerActions } from '../../../actions';
 import BetTable from '../BetTable';
 import './MatchedBets.less';
+import { BettingDrawerStates } from '../../../constants'
 
 class MatchedBets extends PureComponent {
   render() {
@@ -88,15 +89,13 @@ const mapStateToProps = (state, ownProps) => {
       page = page.update('lay', bets => groupBetsByAverageOdds(bets));
     }
   }
-  // Other statuses
-  const showPlacedBetsConfirmation = state.getIn(['marketDrawer', 'showPlacedBetsConfirmation']);
-  const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);
-  const showPlacedBetsError = state.getIn(['marketDrawer', 'showPlacedBetsError']);
-  const showDeleteUnmatchedBetsConfirmation = state.getIn(['marketDrawer', 'showDeleteUnmatchedBetsConfirmation']);
+  // Overlay
+  const overlay = state.getIn(['marketDrawer', 'overlay']);
+  const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
   return {
     originalBets,
     bets: page,
-    obscureContent: showPlacedBetsConfirmation || showPlacedBetsWaiting || showPlacedBetsError || showDeleteUnmatchedBetsConfirmation,
+    obscureContent,
   };
 }
 

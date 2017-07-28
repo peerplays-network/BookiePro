@@ -11,7 +11,8 @@ import { BetActions, MarketDrawerActions, NavigateActions } from '../../../actio
 import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import BetTable from '../BetTable';
 import './BetSlip.less';
-import { Empty, Overlay, Waiting, PlaceBetConfirm } from '../Common';
+import { Empty, OverlayUtils } from '../Common';
+import { BettingDrawerStates } from '../../../constants';
 
 const renderContent = (props) => (
   <div className='content' ref='unconfirmedBets'>
@@ -70,43 +71,11 @@ class BetSlip extends PureComponent {
             </div>
           }
         </SplitPane>
-        { this.props.showBetSlipConfirmation &&
-          <PlaceBetConfirm
-             className='market_drawer.unconfirmed_bets.confirmation'
-             goodBets={ this.props.numberOfGoodBets }
-             badBets={ this.props.numberOfBadBets }
-             amount={ this.props.totalBetAmountString }
-             cancelAction={ this.props.cancelPlaceBet }
-             confirmAction={ () => this.props.makeBets(this.props.originalBets) }
-          />
+        {
+          OverlayUtils.render('market_drawer.unconfirmed_bets', this.props,
+                              () => this.props.makeBets(this.props.originalBets),
+                              () => this.props.deleteUnconfirmedBets(this.props.unconfirmedbetsToBeDeleted))
         }
-        { this.props.showBetSlipError &&
-          <Overlay
-            className='market_drawer.unconfirmed_bets.error'
-            cancelAction={ this.props.cancelPlaceBet }
-            confirmAction={ () => this.props.makeBets(this.props.originalBets) }
-          />
-        }
-        { this.props.showDeleteUnconfirmedBetsConfirmation &&
-          <Overlay
-            className='market_drawer.unconfirmed_bets.delete_bets'
-            cancelAction={ this.props.cancelDeleteUnconfirmedBets }
-            confirmAction={ () => this.props.deleteUnconfirmedBets(this.props.unconfirmedbetsToBeDeleted) }
-          />
-        }
-        { this.props.showInsufficientBalanceError &&
-          <Overlay
-            className='market_drawer.unconfirmed_bets.insufficient_balance'
-            confirmAction={ this.props.hideInsufficientBalanceError }
-          />
-        }
-        { this.props.showDisconnectedError &&
-          <Overlay
-            className='market_drawer.unconfirmed_bets.disconnected'
-            cancelAction={ this.props.hideDisconnectedError }
-          />
-        }
-        { this.props.showBetSlipWaiting && <Waiting/> }
       </div>
     )
   }
@@ -137,26 +106,14 @@ const mapStateToProps = (state, ownProps) => {
   const numberOfGoodBets = originalBets.reduce((sum, bet) => {
     return sum + (BettingModuleUtils.isValidBet(bet) | 0);
   }, 0);
-  // Other statuses
-  const showBetSlipConfirmation = state.getIn(['marketDrawer', 'showBetSlipConfirmation']);
-  const showBetSlipWaiting = state.getIn(['marketDrawer', 'showBetSlipWaiting']);
-  const showBetSlipError = state.getIn(['marketDrawer', 'showBetSlipError']);
-  const showBetSlipSuccess = state.getIn(['marketDrawer', 'showBetSlipSuccess']);
-  const showDeleteUnconfirmedBetsConfirmation = state.getIn(['marketDrawer', 'showDeleteUnconfirmedBetsConfirmation']);
-  const showInsufficientBalanceError = state.getIn(['marketDrawer', 'showInsufficientBalanceError']);
-  const showDisconnectedError = state.getIn(['marketDrawer', 'showDisconnectedError']);
+  // Overlay
+  const overlay = state.getIn(['marketDrawer', 'overlay']);
+  const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
   return {
     originalBets,
     bets: page,
-    showBetSlipConfirmation,
-    showBetSlipWaiting,
-    showBetSlipError,
-    showBetSlipSuccess,
-    showDeleteUnconfirmedBetsConfirmation,
-    showInsufficientBalanceError,
-    showDisconnectedError,
-    obscureContent: showBetSlipConfirmation || showBetSlipWaiting || showBetSlipError || showDeleteUnconfirmedBetsConfirmation ||
-                    showInsufficientBalanceError || showDisconnectedError,
+    overlay,
+    obscureContent,
     unconfirmedbetsToBeDeleted: state.getIn(['marketDrawer', 'unconfirmedbetsToBeDeleted']),
     numberOfGoodBets,
     numberOfBadBets: originalBets.size - numberOfGoodBets,
@@ -171,14 +128,11 @@ const mapDispatchToProps = (dispatch) => {
     navigateTo: NavigateActions.navigateTo,
     deleteUnconfirmedBet: MarketDrawerActions.deleteUnconfirmedBet,
     clickDeleteUnconfirmedBets: MarketDrawerActions.clickDeleteUnconfirmedBets,
-    cancelDeleteUnconfirmedBets: MarketDrawerActions.cancelDeleteUnconfirmedBets,
     deleteUnconfirmedBets: MarketDrawerActions.deleteUnconfirmedBets,
     updateUnconfirmedBet: MarketDrawerActions.updateUnconfirmedBet,
     clickPlaceBet: MarketDrawerActions.clickPlaceBet,
-    cancelPlaceBet: MarketDrawerActions.cancelPlaceBet,
     makeBets: BetActions.makeBets,
-    hideInsufficientBalanceError: MarketDrawerActions.hideInsufficientBalanceError,
-    hideDisconnectedError: MarketDrawerActions.hideDisconnectedError,
+    hideOverlay: MarketDrawerActions.hideOverlay,
 
   }, dispatch);
 }

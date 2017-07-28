@@ -1,18 +1,12 @@
 import Immutable from 'immutable';
-import { LoadingStatus, ActionTypes } from '../constants';
+import { LoadingStatus, ActionTypes, BettingDrawerStates } from '../constants';
 import { BettingModuleUtils } from '../utility';
 
 let initialState = Immutable.fromJS({
   bets: Immutable.List(),
-  showBetSlipConfirmation: false,
-  showBetSlipWaiting: false,
-  showBetSlipError: false,
-  showBetSlipSuccess: false,
+  overlay: BettingDrawerStates.NO_OVERLAY,
   betsToBeDeleted: Immutable.List(),
-  showDeleteBetsConfirmation: false,
   eventInDeleteBetsConfirmation: '',
-  showDisconnectedError: false,
-  showInsufficientBalanceError: false,
 });
 
 export default function(state = initialState, action) {
@@ -43,41 +37,39 @@ export default function(state = initialState, action) {
     case ActionTypes.QUICK_BET_DRAWER_DELETE_ONE_BET: {
       return state.merge({
         bets: oldBets.filterNot(b => b.get('id') === action.betId),
-        showBetSlipSuccess: false,
+        // In case the sucess screen is on, we should turn it off after deleting a bet
+        overlay: BettingDrawerStates.NO_OVERLAY,
       });
     }
     case ActionTypes.QUICK_BET_DRAWER_SHOW_DELETE_BETS_CONFIRMATION: {
       return state.merge({
         betsToBeDeleted: action.bets,
-        showDeleteBetsConfirmation: true,
+        overlay: BettingDrawerStates.DELETE_BETS_CONFIRMATION,
         eventNameInDeleteBetsConfirmation: action.eventName,
       })
     }
     case ActionTypes.QUICK_BET_DRAWER_HIDE_DELETE_BETS_CONFIRMATION: {
       return state.merge({
         betsToBeDeleted: Immutable.List(),
-        showDeleteBetsConfirmation: false,
+        overlay: BettingDrawerStates.NO_OVERLAY,
         eventNameInDeleteBetsConfirmation: '',
       })
     }
     case ActionTypes.QUICK_BET_DRAWER_DELETE_MANY_BETS: {
       return state.merge({
         bets: oldBets.filterNot(b => action.listOfBetIds.includes(b.get('id'))),
-        showBetSlipSuccess: false,
+        // In case the success screen is on, we should turn it off after deleting bets
+        overlay: BettingDrawerStates.NO_OVERLAY,
         betsToBeDeleted: Immutable.List(),
-        showDeleteBetsConfirmation: false,
         eventNameInDeleteBetsConfirmation: '',
       });
     }
     case ActionTypes.QUICK_BET_DRAWER_DELETE_ALL_BETS: {
       return state.merge({
         bets: Immutable.List(),
-        showBetSlipConfirmation: false,
-        showBetSlipWaiting: false,
-        showBetSlipError: false,
-        showBetSlipSuccess: false,
+        // In case the success screen is on, we should turn it off after deleting bets
+        overlay: BettingDrawerStates.NO_OVERLAY,
         betsToBeDeleted: Immutable.List(),
-        showDeleteBetsConfirmation: false,
         eventInDeleteBetsConfirmation: ''
       });
     }
@@ -96,54 +88,39 @@ export default function(state = initialState, action) {
     }
     case ActionTypes.QUICK_BET_DRAWER_SHOW_BETSLIP_CONFIRMATION: {
       return state.merge({
-        showBetSlipConfirmation: true
-      });
-    }
-    case ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_CONFIRMATION: {
-      return state.merge({
-        showBetSlipConfirmation: false
-      });
-    }
-    case ActionTypes.QUICK_BET_DRAWER_HIDE_BETSLIP_ERROR: {
-      return state.merge({
-        showBetSlipError: false
+        overlay: BettingDrawerStates.SUBMIT_BETS_CONFIRMATION,
       });
     }
     case ActionTypes.BET_SET_MAKE_BETS_LOADING_STATUS: {
+      let overlay = state.overlay;
+      if (action.loadingStatus === LoadingStatus.LOADING) {
+        overlay = BettingDrawerStates.SUBMIT_BETS_WAITING;
+      } else if (action.loadingStatus === LoadingStatus.DONE) {
+        overlay = BettingDrawerStates.SUBMIT_BETS_SUCCESS;
+      }
       return state.merge({
         bets: action.loadingStatus === LoadingStatus.DONE ? Immutable.List() : oldBets,
-        showBetSlipWaiting: action.loadingStatus === LoadingStatus.LOADING,
-        showBetSlipError: false,
-        showBetSlipConfirmation: false,
-        showBetSlipSuccess: action.loadingStatus === LoadingStatus.DONE,
+        overlay,
       })
     }
     case ActionTypes.BET_SET_MAKE_BETS_ERROR: {
       return state.merge({
-        showBetSlipWaiting: false,
-        showBetSlipError: true,
-        showBetSlipConfirmation: false,
-        showBetSlipSuccess: false,
+        overlay: BettingDrawerStates.SUBMIT_BETS_ERROR,
       })
     }
     case ActionTypes.QUICK_BET_DRAWER_SHOW_INSUFFICIENT_BALANCE_ERROR: {
       return state.merge({
-        showInsufficientBalanceError: true,
-      })
-    }
-    case ActionTypes.QUICK_BET_DRAWER_HIDE_INSUFFICIENT_BALANCE_ERROR: {
-      return state.merge({
-        showInsufficientBalanceError: false,
+        overlay: BettingDrawerStates.INSUFFICIENT_BALANCE_ERROR,
       })
     }
     case ActionTypes.QUICK_BET_DRAWER_SNOW_DISCONNECTED_ERROR: {
       return state.merge({
-        showDisconnectedError: true,
+        overlay: BettingDrawerStates.DISCONNECTED_ERROR,
       })
     }
-    case ActionTypes.QUICK_BET_DRAWER_HIDE_DISCONNECTED_ERROR: {
+    case ActionTypes.QUICK_BET_DRAWER_HIDE_OVERLAY: {
       return state.merge({
-        showDisconnectedError: false,
+        overlay: BettingDrawerStates.NO_OVERLAY,
       })
     }
     default:

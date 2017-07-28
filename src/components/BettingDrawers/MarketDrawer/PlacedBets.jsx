@@ -8,7 +8,8 @@ import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import './PlacedBets.less';
-import { Empty, Overlay, Waiting, PlaceBetConfirm } from '../Common';
+import { Empty, OverlayUtils } from '../Common';
+import { BettingDrawerStates } from '../../../constants'
 
 class PlacedBets extends PureComponent {
   componentDidMount() {
@@ -43,49 +44,17 @@ class PlacedBets extends PureComponent {
           { !this.props.isEmpty && <MatchedBets currencyFormat={ this.props.currencyFormat }/> }
           { this.props.isEmpty &&
             <Empty
-              showSuccess={ this.props.showPlacedBetsSuccess }
+              showSuccess={ this.props.overlay === BettingDrawerStates.SUBMIT_BETS_SUCCESS }
               className='market_drawer.placed_bets'
               navigateTo={ this.props.navigateTo }
             />
           }
         </div>
-        { this.props.showPlacedBetsConfirmation &&
-          <PlaceBetConfirm
-            className='market_drawer.placed_bets.confirmation'
-            goodBets={ this.props.numberOfGoodBets }
-            badBets={ this.props.numberOfBadBets }
-            amount={ this.props.totalBetAmountString }
-            cancelAction={ this.props.cancelUpdateBet }
-            confirmAction={ () => this.props.editBets(this.props.unmatchedBets) }
-          />
+        {
+          OverlayUtils.render('market_drawer.placed_bets', this.props,
+                              () => this.props.editBets(this.props.unmatchedBets),
+                              () => this.props.deleteUnmatchedBets(this.props.unmatchedbetsToBeDeleted))
         }
-        { this.props.showPlacedBetsError &&
-          <Overlay
-            className='market_drawer.placed_bets.error'
-            cancelAction={ this.props.cancelUpdateBet }
-            confirmAction={ () => this.props.editBets(this.props.unmatchedBets) }
-          />
-        }
-        { this.props.showDeleteUnmatchedBetsConfirmation &&
-          <Overlay
-            className='market_drawer.unmatched_bets.delete_bets'
-            cancelAction={ this.props.cancelDeleteUnmatchedBets }
-            confirmAction={ () => this.props.deleteUnmatchedBets(this.props.unmatchedbetsToBeDeleted) }
-          />
-        }
-        { this.props.showInsufficientBalanceError &&
-          <Overlay
-            className='market_drawer.placed_bets.insufficient_balance'
-            confirmAction={ this.props.hideInsufficientBalanceError }
-          />
-        }
-        { this.props.showDisconnectedError &&
-          <Overlay
-            className='market_drawer.placed_bets.disconnected'
-            cancelAction={ this.props.hideDisconnectedError }
-          />
-        }
-        { this.props.showPlacedBetsWaiting && <Waiting/> }
       </div>
     )
   }
@@ -94,13 +63,6 @@ class PlacedBets extends PureComponent {
 const mapStateToProps = (state, ownProps) => {
   const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
-  const showPlacedBetsConfirmation = state.getIn(['marketDrawer', 'showPlacedBetsConfirmation']);
-  const showPlacedBetsSuccess = state.getIn(['marketDrawer', 'showPlacedBetsSuccess']);
-  const showPlacedBetsWaiting = state.getIn(['marketDrawer', 'showPlacedBetsWaiting']);
-  const showPlacedBetsError = state.getIn(['marketDrawer', 'showPlacedBetsError']);
-  const showDeleteUnmatchedBetsConfirmation = state.getIn(['marketDrawer', 'showDeleteUnmatchedBetsConfirmation']);
-  const showInsufficientBalanceError = state.getIn(['marketDrawer', 'showInsufficientBalanceError']);
-  const showDisconnectedError = state.getIn(['marketDrawer', 'showDisconnectedError']);
   // Total Bet amount for updated bets ONLY
   const updatedBets = unmatchedBets.filter(bet => bet.get('updated'));
   const totalAmount = updatedBets.reduce((total, bet) => {
@@ -112,16 +74,12 @@ const mapStateToProps = (state, ownProps) => {
   const numberOfGoodBets = updatedBets.reduce((sum, bet) => {
     return sum + (BettingModuleUtils.isValidBet(bet) | 0);
   }, 0);
+  // Overlay
+  const overlay = state.getIn(['marketDrawer', 'overlay']);
   return {
     unmatchedBets,
     isEmpty: unmatchedBets.isEmpty() && matchedBets.isEmpty(),
-    showPlacedBetsConfirmation,
-    showPlacedBetsSuccess,
-    showPlacedBetsWaiting,
-    showPlacedBetsError,
-    showDeleteUnmatchedBetsConfirmation,
-    showInsufficientBalanceError,
-    showDisconnectedError,
+    overlay,
     unmatchedbetsToBeDeleted: state.getIn(['marketDrawer', 'unmatchedbetsToBeDeleted']),
     numberOfGoodBets,
     numberOfBadBets: updatedBets.size - numberOfGoodBets,
@@ -135,12 +93,9 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     getPlacedBets: MarketDrawerActions.getPlacedBets,
-    cancelUpdateBet: MarketDrawerActions.cancelUpdateBet,
     editBets: BetActions.editBets,
     deleteUnmatchedBets: MarketDrawerActions.deleteUnmatchedBets,
-    cancelDeleteUnmatchedBets: MarketDrawerActions.cancelDeleteUnmatchedBets,
-    hideInsufficientBalanceError: MarketDrawerActions.hideInsufficientBalanceError,
-    hideDisconnectedError: MarketDrawerActions.hideDisconnectedError,
+    hideOverlay: MarketDrawerActions.hideOverlay,
   }, dispatch);
 }
 

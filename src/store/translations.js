@@ -409,17 +409,17 @@ export const translationsObject = {
           instructions: 'You are not connected to the blockchain. Pleaee make sure you have Internet access and try again.',
           cancel_button: 'CANCEL',
         },
+        delete_bets: {
+          instructions: 'Are you sure you want to<br/>cancel all unmatched bets?',
+          cancel_button: 'NO',
+          confirm_button: 'YES',
+        },
       },
       unmatched_bets: {
         header: 'UNMATCHED BETS',
         content: {
           update_button: 'UPDATE %{amount}',
           reset_button: 'RESET',
-        },
-        delete_bets: {
-          instructions: 'Are you sure you want to<br/>cancel all unmatched bets?',
-          cancel_button: 'NO',
-          confirm_button: 'YES',
         },
         no_data: 'There is no bet to be displayed.'
       },
