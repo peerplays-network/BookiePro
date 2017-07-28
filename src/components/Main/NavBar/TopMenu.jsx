@@ -220,8 +220,7 @@ class TopMenu extends PureComponent {
             <Tooltip overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.deposit') }>
               <div className='icon-main deposit-icon-main'>
                 <a className='ant-dropdown-link' href='#'>
-
-                    <i className={ this.state.isDepositComponentVisible ? 'deposit-icon-selected' : 'deposit-icon' }></i>
+                  <i className={ this.state.isDepositComponentVisible ? 'deposit-icon-selected' : 'deposit-icon' }></i>
                 </a>
               </div>
             </Tooltip>
@@ -233,7 +232,6 @@ class TopMenu extends PureComponent {
             <Tooltip  overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.withdrawal') }>
               <div className='icon-main withdraw-icon-main'>
                 <a className='ant-dropdown-link'>
-
                   <i className={ this.state.isTopMenuWithdrawComponentVisible ? 'withdraw-icon-selected' : 'withdraw-icon' }></i>
                 </a>
               </div>
@@ -252,9 +250,7 @@ class TopMenu extends PureComponent {
             <div className='icon-main notification-icon-main'>
                 <a className='ant-dropdown-link' href='#'>
                 <Badge count={ this.props.unreadNotificationNumber }>
-
-                    <i className={ this.state.isNotificationComponentVisible ? 'notification-icon-selected' : 'notification-icon' }></i>
-
+                  <i className={ this.state.isNotificationComponentVisible ? 'notification-icon-selected' : 'notification-icon' }></i>
                 </Badge>
               </a>
               </div>
@@ -269,9 +265,7 @@ class TopMenu extends PureComponent {
             <Tooltip overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.menu_more') }>
               <div className='icon-main dropdown-icon-main'>
                 <a className='ant-dropdown-link' href='#'>
-
                   <i className={ this.state.current === 'drop-down' && this.state.isSubMenuVisible ? 'dropdown-icon-selected' : 'dropdown-icon' }></i>
-
                 </a>
               </div>
             </Tooltip>
