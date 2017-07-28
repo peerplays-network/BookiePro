@@ -13,9 +13,6 @@ const {
   getCurrencyFormat
 } = CommonSelector;
 
-const homeId = 0;
-const awayId = 1;
-
 const getBettingMarketGroupId = (state, props) => {
   return props.params.objectId;
 }
