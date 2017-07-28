@@ -23,18 +23,9 @@ export default function (state = initialState, action) {
         account: action.account
       });
     }
-    case ActionTypes.ACCOUNT_SET_PASSWORD_AND_KEYS: {
-      let privateKeyWifsByRole = Immutable.Map();
-      let publicKeyStringsByRole = Immutable.Map();
-      _.forEach(action.keys, (privateKey, role) => {
-        privateKeyWifsByRole = privateKeyWifsByRole.set(role, privateKey.toWif());
-        publicKeyStringsByRole = publicKeyStringsByRole.set(role, privateKey.toPublicKey().toPublicKeyString());
-      });
-
+    case ActionTypes.ACCOUNT_SET_PASSWORD: {
       return state.merge({
         password: action.password,
-        privateKeyWifsByRole,
-        publicKeyStringsByRole
       });
     }
     case ActionTypes.ACCOUNT_SET_STATISTICS: {

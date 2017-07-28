@@ -87,11 +87,11 @@ class AuthPrivateActions {
    * Log the user in given account name and password
    * This is internal action that is used for the exposed login and signup function
    */
-  static loginWithKeys(accountName, password, keys) {
+  static processLogin(accountName, password) {
     return (dispatch) => {
       return CommunicationService.getFullAccount(accountName).then((fullAccount) => {
         const account = fullAccount && fullAccount.get('account');
-
+        const keys = KeyGeneratorService.generateKeys(accountName, password);
         const isAuthenticated = AccountService.authenticateAccount(account, keys);
         if (isAuthenticated) {
           const accountStatistics = fullAccount.get('statistics');
@@ -99,7 +99,7 @@ class AuthPrivateActions {
           // Save account information
           dispatch(AccountActions.setAccountAction(account));
           // Save password
-          dispatch(AccountActions.setPasswordAndKeysAction(password, keys));
+          dispatch(AccountActions.setPasswordAction(password));
           // Save account statistic
           dispatch(AccountActions.setStatistics(accountStatistics));
           // Save account available balance
@@ -136,9 +136,8 @@ class AuthActions {
         log.info('No auto login information');
         return Promise.reject();
       } else {
-        const keys = KeyGeneratorService.generateKeys(accountName, password);
         dispatch(AuthPrivateActions.setAutoLoginLoadingStatusAction(LoadingStatus.LOADING));
-        return dispatch(AuthPrivateActions.loginWithKeys(accountName, password, keys)).then(() => {
+        return dispatch(AuthPrivateActions.processLogin(accountName, password)).then(() => {
           log.debug('Auto login succeed.')
           // Navigate to home page
           dispatch(NavigateActions.navigateTo('/exchange'));
@@ -163,8 +162,7 @@ class AuthActions {
     return (dispatch) => {
       // Set register status to loading
       dispatch(AuthPrivateActions.setLoginLoadingStatusAction(LoadingStatus.LOADING));
-      const keys = KeyGeneratorService.generateKeys(accountName, password);
-      return dispatch(AuthPrivateActions.loginWithKeys(accountName, password, keys)).then(() => {
+      return dispatch(AuthPrivateActions.processLogin(accountName, password)).then(() => {
         log.debug('Login succeed.')
         // Navigate to home page
         dispatch(NavigateActions.navigateTo('/exchange'));
@@ -187,7 +185,7 @@ class AuthActions {
       const keys = KeyGeneratorService.generateKeys(accountName, password);
       AccountService.registerThroughFaucet(1, accountName, keys).then(() => {
         // Log the user in
-        return dispatch(AuthPrivateActions.loginWithKeys(accountName, password, keys));
+        return dispatch(AuthPrivateActions.processLogin(accountName, password));
       }).then(() => {
         log.debug('Signup succeed.');
         // Navigate to home page
@@ -238,11 +236,11 @@ class AuthActions {
         };
         tr.add_type_operation('account_update', operationParams);
         // Process transaction
-        return WalletService.processTransaction(getState(), tr);
+        return WalletService.processTransaction(oldKeys, tr);
       }).then(() => {
         log.debug('Change Password succeed.');
         // Set new password
-        dispatch(AccountActions.setPasswordAndKeysAction(newPassword, newKeys));
+        dispatch(AccountActions.setPasswordAction(newPassword));
         //To display the success message
         dispatch(AuthPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
