@@ -1,4 +1,4 @@
-import { BetCategories, TemporaryEventStatus } from '../constants';
+import { BetCategories } from '../constants';
 import moment from 'moment';
 
 const getStakeFromBetObject = (bet) => {
