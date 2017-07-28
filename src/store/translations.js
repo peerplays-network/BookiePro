@@ -1151,11 +1151,11 @@ export const translationsObject = {
           },
           {
             question: 'Is it necessary to update Bookie when a new version is available?',
-            answer: '[milli-bitcoin, 1mB = 0.0001 bitcoin]'
+            answer: 'answer'
           },
           {
             question: 'What is mB?',
-            answer: 'answer'
+            answer: '[milli-bitcoin, 1mB = 0.0001 bitcoin]'
           },
           {
             question: 'What should I do if Bookie indicates an offline status?',
