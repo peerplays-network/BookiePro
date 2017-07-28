@@ -807,7 +807,8 @@ export const translationsObject = {
             question: 'Is there a charge for me to bet with Bookie?',
             answer: 'Yes. Bookie charges Commission on' +
             ' all net winnings in a market. Bookie\'s Commission rate is the lowest in the industry. Bookie also charges a tiny Network Fee for each transaction users make. For more information ' +
-            'on Commission and Network Fee, please click here'
+            'on Commission and Network Fee, please <a href="#" class="fees-scroll">click' +
+            ' here</a>'
           },
           {
             question: 'Will Bookie restrict my account if I win too much?',

@@ -26,6 +26,14 @@ class FaqContent extends PureComponent {
       })
     }
   }
+  componentDidUpdate(){
+    let getAnchor = document.getElementsByClassName("fees-scroll")[0];
+    getAnchor.addEventListener("click", this.props.handleOverviewFeesClick);
+  }
+  componentDidMount(){
+    let getAnchor = document.getElementsByClassName("fees-scroll")[0];
+    getAnchor.addEventListener("click", this.props.handleOverviewFeesClick);
+  }
   renderFaqDetailPart() {
     const faqDetail = _.map(this.state.questionAnswerPairs, (pair, index) => {
       return (
