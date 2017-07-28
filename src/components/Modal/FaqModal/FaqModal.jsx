@@ -37,11 +37,11 @@ class FaqModal extends PureComponent {
   render() {
     return (
       <Modal
-        title={ <img className='banner' src={ faqBanner } alt=''></img> }
+        title={ <div className='banner'>Frequently Asked Questions</div> }
         wrapClassName={ 'faq-modal' }
         visible={ this.props.visible }
         footer={ null }
-        width={ 747 }
+        width={ 947 }
         onCancel={ this.onCancel }
       >
         <FaqModalScrollableContent />
