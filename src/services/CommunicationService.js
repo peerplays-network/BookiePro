@@ -969,7 +969,7 @@ class CommunicationService {
     };
     const createRandomOrderBookBin = () => {
       return {
-        odds: Number((1 + Math.round(Math.random() * 100) / 100).toFixed(2)),
+        odds: Number((1.01 + Math.round(Math.random() * 100) / 100).toFixed(2)),
         price: Number((Math.round(Math.random() * 100) / 100).toFixed(2)),
       };
     }

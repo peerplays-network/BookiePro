@@ -134,15 +134,8 @@ const getMarketData = createSelector(
     bettingMarkets.forEach((bettingMarket, i) => {
       const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarket.get('id'));
       let data = Immutable.Map().set('displayName', bettingMarket.get('description'))
-        .set('name', bettingMarket.get('description'));
-
-      if ( i === homeId){
-        data = data.set('displayedName',  bettingMarket.get('description') )
-          .set('name', bettingMarket.get('description'));
-      } else if ( i === awayId){
-        data = data.set('displayedName',  bettingMarket.get('description') )
-          .set('name', bettingMarket.get('description'));
-      }
+        .set('name', bettingMarket.get('description'))
+        .set('displayedName',  bettingMarket.get('description'));
 
       const aggregated_lay_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
       const aggregated_back_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
