@@ -2,6 +2,8 @@ import _ from 'lodash';
 
 const blockchainUrls = [
   'wss://595-dev-blockchain.pixelplex.by/ws',
+  // 'wss://peerplays-dev.blocktrades.info/ws',
+  // 'wss://ppy-node.bitshares.eu'
 ]
 
 const shuffledBlockhainUrls = _.shuffle(blockchainUrls)

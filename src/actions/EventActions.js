@@ -2,6 +2,7 @@ import { CommunicationService } from '../services';
 import { LoadingStatus, ActionTypes } from '../constants';
 import Immutable from 'immutable';
 import log from 'loglevel';
+import moment from 'moment';
 
 /**
  * Private actions
@@ -240,10 +241,9 @@ class EventActions {
       const eventsById = getState().getIn(['event', 'eventsById']);
       let myEvents = eventsById.toArray()
         .filter((event) => {
-          const eventTime = event.get('start_time');
-          const currentTime = new Date().getTime();
-          const isEventActive = (eventTime - currentTime) > 0;
-          return isEventActive
+          const eventTime = moment(event.get('start_time'));
+          const isActiveEvent = eventTime.isAfter();
+          return isActiveEvent
         }).map((event) => {
           const eventId = event.get('id');
           return Immutable.fromJS({

@@ -36,9 +36,25 @@ const getProfitLiabilityFromBetObject = (bet) => {
   }
 }
 
+const localizeStringOfObject = (object, fieldsToLocalize=[], lang='en') => {
+  let result = object;
+  fieldsToLocalize.forEach(field => {
+    const intlStringArrays = object.get(field);
+    let targetString = '';
+    intlStringArrays.forEach(intlStringArray => {
+      if (intlStringArray.get(0) === lang) {
+        targetString = intlStringArray.get(1) || '';
+      }
+    })
+    result = result.set(field, targetString);
+  })
+  return result;
+}
+
 const ObjectUtils = {
   getStakeFromBetObject,
-  getProfitLiabilityFromBetObject
+  getProfitLiabilityFromBetObject,
+  localizeStringOfObject
 }
 
 export default ObjectUtils;
