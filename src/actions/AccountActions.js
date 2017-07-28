@@ -1,9 +1,6 @@
 import { ActionTypes } from '../constants';
-import { BlockchainUtils, FileSaverUtils } from '../utility';
-import { WalletService, CommunicationService, KeyGeneratorService } from '../services';
-import { TransactionBuilder } from 'peerplaysjs-lib';
+import { FileSaverUtils } from '../utility';
 import RawHistoryActions from './RawHistoryActions';
-import Immutable from 'immutable';
 import _ from 'lodash';
 
 class AccountPrivateActions {

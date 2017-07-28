@@ -1,4 +1,4 @@
-import { LoadingStatus, ActionTypes } from '../constants';
+import { LoadingStatus, ActionTypes, Config } from '../constants';
 import { CommunicationService, KeyGeneratorService, AccountService, WalletService } from '../services';
 import NavigateActions from './NavigateActions';
 import AccountActions from './AccountActions';
@@ -183,7 +183,14 @@ class AuthActions {
       dispatch(AuthPrivateActions.setSignupLoadingStatusAction(LoadingStatus.LOADING));
 
       const keys = KeyGeneratorService.generateKeys(accountName, password);
-      AccountService.registerThroughFaucet(1, accountName, keys).then(() => {
+      // Determine which way to register
+      let register;
+      if (Config.registerThroughRegistrar) {
+        register = AccountService.registerThroughRegistrar(accountName, keys);
+      } else {
+        register = AccountService.registerThroughFaucet(1, accountName, keys);
+      }
+      register.then(() => {
         // Log the user in
         return dispatch(AuthPrivateActions.processLogin(accountName, password));
       }).then(() => {

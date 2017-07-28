@@ -1,7 +1,9 @@
 import { Config } from '../constants';
 import log from 'loglevel';
 import CommunicationService from './CommunicationService';
+import WalletService from './WalletService';
 import { I18n } from 'react-redux-i18n';
+import { TransactionBuilder } from 'peerplaysjs-lib';
 
 class AccountServices {
 
@@ -71,6 +73,48 @@ class AccountServices {
           return AccountServices.registerThroughFaucet(attempt, accountName, keys).then(res => resolve(res)).catch(err => reject(err));
         }
       })
+    })
+  }
+
+  /**
+   * Register through registrar
+   */
+
+  static registerThroughRegistrar(accountName, keys) {
+    return CommunicationService.getFullAccount(Config.accountRegistar.name).then((registrarAccount) => {
+      const tr = new TransactionBuilder();
+      tr.add_type_operation('account_create', {
+        fee: {
+          amount: 0,
+          asset_id: 0
+        },
+        registrar: registrarAccount.getIn(['account', 'id']),
+        referrer: registrarAccount.getIn(['account', 'id']),
+        referrer_percent: 0,
+        name: accountName,
+        owner: {
+          weight_threshold: 1,
+          account_auths: [],
+          key_auths: [[ keys.owner.toPublicKey().toPublicKeyString(), 1 ]],
+          address_auths: []
+        },
+        active: {
+          weight_threshold: 1,
+          account_auths: [],
+          key_auths: [[ keys.active.toPublicKey().toPublicKeyString(), 1 ]],
+          address_auths: []
+        },
+        options: {
+          memo_key: keys.active.toPublicKey().toPublicKeyString(),
+          voting_account: '1.2.5',
+          num_witness: 0,
+          num_committee: 0,
+          votes: [],
+        },
+      })
+      return WalletService.processTransaction(Config.accountRegistar.keys, tr);
+    }).catch(error => {
+      log.error('Fail to register for account by other account', error);
     })
   }
 
