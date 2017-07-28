@@ -1,4 +1,6 @@
 import { ChainTypes } from 'peerplaysjs-lib';
+import Config from './Config';
+
 const {
   reserved_spaces,
   object_type,
@@ -36,6 +38,17 @@ const ObjectPrefix = {
   BETTING_MARKET_GROUP_PREFIX : protocol_ids + '.' + temporaryObjectType.bmg ,
   BETTING_MARKET_PREFIX : protocol_ids + '.' + temporaryObjectType.bm ,
   BET_PREFIX : protocol_ids + '.' + temporaryObjectType.bet ,
+}
+
+// If using dummy data, use the following prefix to avoid conflict
+if (Config.DummyData) {
+  ObjectPrefix['SPORT_PREFIX'] = 'SPORT_PREFIX'
+  ObjectPrefix['EVENT_GROUP_PREFIX'] = 'EVENT_GROUP_PREFIX'
+  ObjectPrefix['EVENT_PREFIX'] = 'EVENT_PREFIX'
+  ObjectPrefix['RULE_PREFIX'] = 'RULE_PREFIX'
+  ObjectPrefix['BETTING_MARKET_GROUP_PREFIX'] = 'BETTING_MARKET_GROUP_PREFIX'
+  ObjectPrefix['BETTING_MARKET_PREFIX'] = 'BETTING_MARKET_PREFIX'
+  ObjectPrefix['BET_PREFIX'] = 'BET_PREFIX'
 }
 
 
