@@ -15,7 +15,9 @@ class FaqContent extends PureComponent {
     this.renderFaqDetailPart = this.renderFaqDetailPart.bind(this);
     this.renderFaqTopicHeader = this.renderFaqTopicHeader.bind(this);
   }
-
+  createHTMLMarkup(data){
+    return {__html: data };
+  }
   componentWillReceiveProps(nextProps) {
     if (this.props.topic !== nextProps.topic) {
       // Update question answer pairs
@@ -24,12 +26,20 @@ class FaqContent extends PureComponent {
       })
     }
   }
+  componentDidUpdate(){
+    let getAnchor = document.getElementsByClassName("fees-scroll")[0];
+    getAnchor.addEventListener("click", this.props.handleOverviewFeesClick);
+  }
+  componentDidMount(){
+    let getAnchor = document.getElementsByClassName("fees-scroll")[0];
+    getAnchor.addEventListener("click", this.props.handleOverviewFeesClick);
+  }
   renderFaqDetailPart() {
     const faqDetail = _.map(this.state.questionAnswerPairs, (pair, index) => {
       return (
         <div className='questionAnswerPair' key={ index }>
           <div key={ 'question' + index } className='question'>{ pair.question }</div>
-          <div key={ 'answer' + index }className='answer'>{ pair.answer }</div>
+          <div dangerouslySetInnerHTML={ this.createHTMLMarkup(pair.answer) } className='answer' />
         </div>
       )
     });

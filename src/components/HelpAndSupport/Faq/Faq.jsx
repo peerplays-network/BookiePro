@@ -12,6 +12,12 @@ class Faq extends PureComponent {
     this.state = {
       currentTopic: FaqTopics.OVERVIEW
     }
+    this.handleOverviewFeesClick = this.handleOverviewFeesClick.bind(this);
+  }
+
+  handleOverviewFeesClick(e){
+    e.preventDefault();
+    this.setState({ currentTopic: FaqTopics.FEES })
   }
 
   renderTopics() {
@@ -45,7 +51,7 @@ class Faq extends PureComponent {
           { this.renderTopics() }
         </div>
         <div className='faqContentColumn'>
-          <FaqContent topic={ this.state.currentTopic }/>
+          <FaqContent topic={ this.state.currentTopic } handleOverviewFeesClick={ this.handleOverviewFeesClick }/>
         </div>
       </div>
     )

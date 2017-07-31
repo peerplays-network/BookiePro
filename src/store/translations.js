@@ -809,7 +809,8 @@ export const translationsObject = {
             question: 'Is there a charge for me to bet with Bookie?',
             answer: 'Yes. Bookie charges Commission on' +
             ' all net winnings in a market. Bookie\'s Commission rate is the lowest in the industry. Bookie also charges a tiny Network Fee for each transaction users make. For more information ' +
-            'on Commission and Network Fee, please click here'
+            'on Commission and Network Fee, please <a href="#" class="fees-scroll">click' +
+            ' here</a>'
           },
           {
             question: 'Will Bookie restrict my account if I win too much?',
@@ -859,7 +860,7 @@ export const translationsObject = {
             ' required to log in to Bookie: \n' +
             '1.\t User name \n' +
             '2.\t Password \n' +
-            'It is important that you save your Bookie' +
+            'It is important that you save your Bookie ' +
             'password in a secure offline place. \n' +
             'See below for more information regarding Bookie password.'
           },
@@ -967,7 +968,7 @@ export const translationsObject = {
             answer: 'Normally, when you bet with a' +
             ' sportsbook, you are backing something to' +
             ' happen.For example, you are backing \n' +
-            'Bookie is a betting exchange. This means that you can back (like normal) AND you can lay (like a sportsbook).'
+            'Bookie is a <i>betting exchange</i>. This means that you can <b> back </b> (like normal) AND you can <b>lay</b>  (like a sportsbook).'
           },
           {
             question: 'What is a Selection? What is a Market?',
@@ -1152,11 +1153,11 @@ export const translationsObject = {
           },
           {
             question: 'Is it necessary to update Bookie when a new version is available?',
-            answer: '[milli-bitcoin, 1mB = 0.0001 bitcoin]'
+            answer: 'answer'
           },
           {
             question: 'What is mB?',
-            answer: 'answer'
+            answer: '[milli-bitcoin, 1mB = 0.0001 bitcoin]'
           },
           {
             question: 'What should I do if Bookie indicates an offline status?',
