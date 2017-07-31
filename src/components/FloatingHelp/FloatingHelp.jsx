@@ -1,27 +1,27 @@
 import React, { PureComponent } from 'react';
-import HelpAndSupportModal from '../Modal/HelpAndSupportModal';
-import helpIcon from '../../assets/icons/help.png';
+import FaqModal from '../Modal/FaqModal';
+import helpIcon from '../../assets/icons/landing_help_icon.png';
 
 class FloatingHelp extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      helpAndSupportModalVisible: false
+      modalVisible: false
     }
-    this.onHelpAndSupportClick = this.onHelpAndSupportClick.bind(this);
-    this.onHelpAndSupportCancelClick = this.onHelpAndSupportCancelClick.bind(this);
+    this.onIconClick = this.onIconClick.bind(this);
+    this.onCancelClick = this.onCancelClick.bind(this);
   }
 
-  onHelpAndSupportClick(event) {
+  onIconClick(event) {
     event.preventDefault();
     this.setState( {
-      helpAndSupportModalVisible: true
+      modalVisible: true
     });
   }
 
-  onHelpAndSupportCancelClick() {
+  onCancelClick() {
     this.setState( {
-      helpAndSupportModalVisible: false
+      modalVisible: false
     });
   }
 
@@ -29,11 +29,11 @@ class FloatingHelp extends PureComponent {
     return (
       <div>
         <div className='floating-help'>
-          <a onClick={ this.onHelpAndSupportClick }><img className='help-icon' src={ helpIcon } alt=''/></a>
+          <a onClick={ this.onIconClick }><img className='help-icon' src={ helpIcon } alt=''/></a>
         </div>
-        <HelpAndSupportModal
-          visible={ this.state.helpAndSupportModalVisible }
-          onCancelClick={ this.onHelpAndSupportCancelClick }
+        <FaqModal
+          visible={ this.state.modalVisible }
+          onCancelClick={ this.onCancelClick }
         />
       </div>
     )
