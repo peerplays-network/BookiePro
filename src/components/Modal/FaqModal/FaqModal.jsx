@@ -4,7 +4,6 @@ import Ps from 'perfect-scrollbar';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import Faq from '../../HelpAndSupport/Faq';
-import faqBanner from '../../../assets/images/home_banner_1.png';
 
 class FaqModalScrollableContent extends PureComponent {
   componentDidMount() {
@@ -37,15 +36,11 @@ class FaqModal extends PureComponent {
   render() {
     return (
       <Modal
-        //title={ <div className='banner'>Frequently Asked Questions</div> }
-        title={ <div className='bannerWrapper'>
-                  <img className='banner' alt='' src={ faqBanner }></img>
-                  <span className='text'>Frequently Asked Questions</span>
-                </div> }
+        title={ <div className='banner'></div> }
         wrapClassName={ 'faq-modal' }
         visible={ this.props.visible }
         footer={ null }
-        width={ 947 }
+        width={ 1200 }
         onCancel={ this.onCancel }
       >
         <FaqModalScrollableContent />
