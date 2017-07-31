@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import copy from 'copy-to-clipboard';
 import { AppBackgroundTypes } from '../../constants';
+import FloatingHelp from '../FloatingHelp';
 
 class Deposit extends PureComponent {
   constructor(props) {
@@ -73,6 +74,7 @@ class Deposit extends PureComponent {
               </div>
             </div>
           </div>
+          <FloatingHelp />
       </div>
     )
   }

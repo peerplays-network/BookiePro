@@ -9,6 +9,7 @@ import { NavigateActions, AppActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { AppBackgroundTypes } from '../../constants';
+import FloatingHelp from '../FloatingHelp';
 
 class Welcome extends PureComponent{
   constructor(props){
@@ -129,6 +130,7 @@ class Welcome extends PureComponent{
         <button className='btn btn-regular startButton' onClick={ this.onClickStartBetting }>
           {I18n.t('welcome.start_betting_now')}
         </button>
+        <FloatingHelp />
       </div>
     )
   }
