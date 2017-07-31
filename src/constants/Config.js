@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { PrivateKey } from 'peerplaysjs-lib';
 
 const blockchainUrls = [
   'wss://595-dev-blockchain.pixelplex.by/ws',
@@ -15,6 +16,15 @@ const Config = {
   softwareUpdateReferenceAccountName: 'peerplays1',
   gatewayAccountName: 'gateway1',
   useDummyData: true,
+  registerThroughRegistrar: false, // Set this to false to register through faucet
+  accountRegistar: {
+    name: 'init0',
+    keys: {
+      owner: PrivateKey.fromWif('5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3'),
+      active: PrivateKey.fromWif('5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3'),
+      memo: PrivateKey.fromWif('5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3')
+    },
+  },
   dummyDataAccountId: '1.2.240' // TODO: remove this later, for the meantime we can use this to configure dummy data
 }
 

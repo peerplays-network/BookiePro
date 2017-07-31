@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { PrivateKey } from 'peerplaysjs-lib';
 import log from 'loglevel';
 import { I18n } from 'react-redux-i18n';
+import Immutable from 'immutable';
 
 class WalletService {
   // Process fake transaction (for testing)
@@ -15,11 +16,17 @@ class WalletService {
 
   /**
    * Process the given transaction
+   * Keys are not immutable object
    */
-  static processTransaction(state, transaction) {
+  static processTransaction(keys, transaction) {
     // Get stored private keys and public keys
-    const storedPrivateKeys = state.getIn(['account','privateKeyWifsByRole']);
-    const storedPublicKeys = state.getIn(['account', 'publicKeyStringsByRole']);
+    let privateKeyWifsByRole = Immutable.Map();
+    let publicKeyStringsByRole = Immutable.Map();
+
+    _.forEach(keys, (privateKey, role) => {
+      privateKeyWifsByRole = privateKeyWifsByRole.set(role, privateKey.toWif());
+      publicKeyStringsByRole = publicKeyStringsByRole.set(role, privateKey.toPublicKey().toPublicKeyString());
+    });
 
     // Set required fees
     return transaction.set_required_fees().then(() => {
@@ -29,7 +36,7 @@ class WalletService {
     }).then(( result ) => {
       const potentialPublicKeys = result.pubkeys;
       // Check if none of the potential public keys is equal to our public keys
-      const myPubKeys = storedPublicKeys.filter(publicKey => _.includes(potentialPublicKeys, publicKey)).toArray();
+      const myPubKeys = publicKeyStringsByRole.filter(publicKey => _.includes(potentialPublicKeys, publicKey)).toArray();
       if (_.isEmpty(myPubKeys)) {
         throw new Error(I18n.t('processTransaction.no_valid_signatures'));
       }
@@ -38,9 +45,9 @@ class WalletService {
     }).then((requiredPublicKeys) => {
       // Add required keys to the transaction
       _.forEach(requiredPublicKeys, (requiredPublicKey) => {
-        const role = storedPublicKeys.findKey((publicKey) => publicKey === requiredPublicKey);
+        const role = publicKeyStringsByRole.findKey((publicKey) => publicKey === requiredPublicKey);
         // Get private key pair
-        const requiredPrivateKey = PrivateKey.fromWif(storedPrivateKeys.get(role));
+        const requiredPrivateKey = PrivateKey.fromWif(privateKeyWifsByRole.get(role));
         // Add signature
         transaction.add_signer(requiredPrivateKey, requiredPublicKey);
       });
