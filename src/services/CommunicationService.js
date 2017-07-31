@@ -208,7 +208,7 @@ class CommunicationService {
         case ObjectPrefix.RULE_PREFIX: {
           // Localize name
           const localizedUpdatedObject = updatedObjects.map(object => {
-            return ObjectUtils.localizeStringOfObject(object, ['name']);
+            return ObjectUtils.localizeStringOfObject(object, ['name', 'description']);
           })
           this.dispatch(RuleActions.addOrUpdateRulesAction(localizedUpdatedObject));
           break;
@@ -216,7 +216,7 @@ class CommunicationService {
         case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {
           // Localize name
           const localizedUpdatedObject = updatedObjects.map(object => {
-            return ObjectUtils.localizeStringOfObject(object, ['name']);
+            return ObjectUtils.localizeStringOfObject(object, ['description']);
           })
           this.dispatch(BettingMarketGroupActions.addOrUpdateBettingMarketGroupsAction(localizedUpdatedObject));
           break;
@@ -229,6 +229,10 @@ class CommunicationService {
             return ObjectUtils.localizeStringOfObject(object, ['description', 'payout_condition']);
           })
           this.dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(localizedUpdatedObject));
+          // Get betting market id
+          const bettingMarketIds = localizedUpdatedObject.map(object => object.get('id'));
+          // Get related binned order books
+          this.dispatch(BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
           break;
         }
         case ObjectPrefix.BET_PREFIX: {
@@ -965,7 +969,7 @@ class CommunicationService {
     };
     const createRandomOrderBookBin = () => {
       return {
-        odds: Number((1 + Math.round(Math.random() * 100) / 100).toFixed(2)),
+        odds: Number((1.01 + Math.round(Math.random() * 100) / 100).toFixed(2)),
         price: Number((Math.round(Math.random() * 100) / 100).toFixed(2)),
       };
     }
