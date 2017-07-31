@@ -2,9 +2,10 @@
 
 //----------------COLOR SELECTION-------------------
 @app-bg: radial-gradient(circle, #094B88 0%, #00152A 60%);
-@license-bg: radial-gradient(circle, #094B88 0%, #00152A 100%);
+
 @white: #FFFFFF;
 @black: #000000;
+@overlay_oxford_blue: rgba(0, 38, 66, 0.7);
 
 @deep_sky_blue: #00BEF4; // highlight+  primary button start
 @bright_cerulean: #2FA5E6;
@@ -76,6 +77,8 @@
 
 //Dialogue
 @dialogue_bg: fade(@black, 30%);
+
+@banner_overlay: linear-gradient(0deg,@overlay_oxford_blue,@overlay_oxford_blue);
 
 @update_highlight: orange;
 
@@ -193,6 +196,7 @@
 //Dropdown
 @dropdown_shadow: @card_shadow;
 @dropdown_hover: @secondary_bg;
+@dropdown_selected: @card_bg;
 
 //MyBets
 
@@ -213,6 +217,7 @@
 @infinite_menu_white_label: @primary_label;
 @infinite_menu_bg: @primary_bg;
 @infinite_menu_hover_bg: @primary_bg;
+
 //QuickBet drawer
 @quick_bet_drawer_title_bg: @secondary_bg;
 

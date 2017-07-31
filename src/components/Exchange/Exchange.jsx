@@ -8,7 +8,6 @@ import { QuickBetDrawer, MarketDrawer } from '../BettingDrawers';
 import { QuickBetDrawerActions, MarketDrawerActions, NavigateActions } from '../../actions';
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
 import Ps from 'perfect-scrollbar';
-import '../App/Colors.less';
 
 class Exchange extends PureComponent {
 
@@ -101,7 +100,6 @@ class Exchange extends PureComponent {
 
     //pane width and style is required here
     //because it goes into splitpane component
-    const styleLeftPane = { background: '#002440' };
     const sidebarWidth = 220;
     const betslipWidth = 360;
 
@@ -134,8 +132,7 @@ class Exchange extends PureComponent {
           style={ splitPaneStyle }
           split='vertical'
           allowResize={ false }
-          minSize={ sidebarWidth } defaultSize={ sidebarWidth }
-          pane1Style={ styleLeftPane }>
+          minSize={ sidebarWidth } defaultSize={ sidebarWidth }>
             <div className='sidebar-main' ref='sidebar'>
               <SideBar
                  level={ transitionName.length }

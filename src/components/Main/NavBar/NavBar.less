@@ -171,15 +171,13 @@
           font-weight:500;
           text-transform: uppercase;
         }
-        &.ant-menu-item-active,&.ant-menu-item-selected{
+        &.ant-menu-item-selected{
           background-color: @topbar_more_menu_active;
-          color: @primary_label;
+          color: @primary_label_highlight;
         }
         &:hover{
-          color: inherit;
-        }
-        &.ant-menu-item-default{
-          background-color: transparent !important;
+          color: @primary_label;
+          background-color: @dropdown_hover;
         }
       }
     }

@@ -409,6 +409,9 @@ input, .ant-input, .ant-calendar-input {
 .ant-select-dropdown{
   border-radius: 1.5px;
   box-shadow: 0 0 0 1px @dropdown_shadow;
+  .ant-select-dropdown-menu-item-selected{
+    background-color: @dropdown_selected;
+  }
   .ant-select-dropdown-menu-item{
     color: @field;
     font-size:16px;
@@ -416,6 +419,7 @@ input, .ant-input, .ant-calendar-input {
     text-align: center;
     font-weight:500;
     &:hover{
+      color: @primary_label;
       background-color: @dropdown_hover;
     }
   }
