@@ -1,0 +1,4 @@
+[submodule "lib/peerplaysjs-lib"]
+	path = lib/peerplaysjs-lib
+	url = https://bitbucket.org/peerplaysblockchain/peerplays-graphenejs-lib
+	branch = betting
