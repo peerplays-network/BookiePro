@@ -48,7 +48,7 @@ class SportPageActions {
         return dispatch(EventGroupActions.getEventGroupsBySportIds([sportId]));
       }).then( (eventGroups) => {
         // Get events
-        return dispatch(EventActions.getActiveEventsBySportIds([sportId]));
+        return dispatch(EventActions.getEventsBySportIds([sportId]));
       }).then( (events) => {
         // Get betting market groups
         const eventIds = events.map( event => event.get('id'));

@@ -21,7 +21,7 @@ class SidebarActions {
         return dispatch(EventGroupActions.getEventGroupsBySportIds(retrievedSportIds));
       }).then((eventGroups) => {
         // Get events related to the sports (because we don't have get event based on event groups)
-        return dispatch(EventActions.getActiveEventsBySportIds(retrievedSportIds));
+        return dispatch(EventActions.getEventsBySportIds(retrievedSportIds));
       }).then((events) => {
         // Get betting market groups
         const eventIds = events.map( event => event.get('id'));

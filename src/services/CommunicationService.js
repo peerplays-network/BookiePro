@@ -567,7 +567,7 @@ class CommunicationService {
   /**
    * Get active events given array of sport ids (can be immutable)
    */
-  static getActiveEventsBySportIds(sportIds) {
+  static getEventsBySportIds(sportIds) {
     if (Config.useDummyData) {
       return this.getDummyActiveEventsBySportIds(sportIds);
     } else {

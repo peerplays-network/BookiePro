@@ -1,4 +1,6 @@
 import { BetCategories } from '../constants';
+import moment from 'moment';
+
 const getStakeFromBetObject = (bet) => {
   let betAmount;
   if (bet.get('category') === BetCategories.UNMATCHED_BET) {
@@ -51,10 +53,19 @@ const localizeStringOfObject = (object, fieldsToLocalize=[], lang='en') => {
   return result;
 }
 
+const isActiveEvent = (event) => {
+  let isActive = false;
+  // TODO: should use event status instead, revisit this when the enum code for event_status is known
+  const eventTime = event.get('start_time');
+  isActive = moment(eventTime).isAfter();
+  return isActive;
+}
+
 const ObjectUtils = {
   getStakeFromBetObject,
   getProfitLiabilityFromBetObject,
-  localizeStringOfObject
+  localizeStringOfObject,
+  isActiveEvent
 }
 
 export default ObjectUtils;

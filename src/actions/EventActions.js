@@ -1,8 +1,8 @@
 import { CommunicationService } from '../services';
 import { LoadingStatus, ActionTypes } from '../constants';
+import { ObjectUtils } from '../utility';
 import Immutable from 'immutable';
 import log from 'loglevel';
-import moment from 'moment';
 
 /**
  * Private actions
@@ -75,7 +75,7 @@ class EventActions {
   /**
    * Get events given array of sport ids (can be immutable)
    */
-  static getActiveEventsBySportIds(sportIds) {
+  static getEventsBySportIds(sportIds) {
     return (dispatch, getState) => {
       let retrievedEvents = Immutable.List();
       let sportIdsOfEventsToBeRetrieved = Immutable.List();
@@ -115,7 +115,7 @@ class EventActions {
         // Retrieve data from blockchain
         // Set status
         dispatch(EventPrivateActions.setGetEventsBySportIdsLoadingStatusAction(sportIdsOfEventsToBeRetrieved, LoadingStatus.LOADING));
-        return CommunicationService.getActiveEventsBySportIds(sportIdsOfEventsToBeRetrieved).then((events) => {
+        return CommunicationService.getEventsBySportIds(sportIdsOfEventsToBeRetrieved).then((events) => {
           // Add data to redux store
           dispatch(EventActions.addOrUpdateEventsAction(events));
           // Set status
@@ -241,9 +241,7 @@ class EventActions {
       const eventsById = getState().getIn(['event', 'eventsById']);
       let myEvents = eventsById.toArray()
         .filter((event) => {
-          const eventTime = moment(event.get('start_time'));
-          const isActiveEvent = eventTime.isAfter();
-          return isActiveEvent
+          return ObjectUtils.isActiveEvent(event);
         }).map((event) => {
           const eventId = event.get('id');
           return Immutable.fromJS({

@@ -45,7 +45,7 @@ class AllSportsActions {
       dispatch(SportActions.getAllSports()).then((sports) => {
         retrievedSportIds = sports.map( sport => sport.get('id'));
         // Get events related to the sports
-        return dispatch(EventActions.getActiveEventsBySportIds(retrievedSportIds));
+        return dispatch(EventActions.getEventsBySportIds(retrievedSportIds));
       }).then((events) => {
         // Get betting market groups
         const eventIds = events.map( event => event.get('id'));

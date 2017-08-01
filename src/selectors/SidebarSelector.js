@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
 import CommonSelector from './CommonSelector';
 import Immutable from 'immutable';
-import moment from 'moment';
+
 const {
   getSportsById,
   getEventGroupsById,
-  getEventsById,
+  getActiveEventsById,
   getBettingMarketGroupsById,
 } = CommonSelector;
 import { I18n } from 'react-redux-i18n';
@@ -33,10 +33,10 @@ const getSidebarCompleteTree = createSelector(
     getSidebarLoadingStatus,
     getSportsById,
     getEventGroupsById,
-    getEventsById,
+    getActiveEventsById,
     getBettingMarketGroupsById
   ],
-  (sidebarLoadingStatus, sportsById, eventGroupsById, eventsById, bettingMarketGroupsById) => {
+  (sidebarLoadingStatus, sportsById, eventGroupsById, activeEventsById, bettingMarketGroupsById) => {
 
     let completeTree = Immutable.List();
 
@@ -45,7 +45,7 @@ const getSidebarCompleteTree = createSelector(
 
       // Map each item according to its parent id
       const eventGroupsBySportId = eventGroupsById.toList().groupBy((eventGroup) => eventGroup.get('sport_id'));
-      const eventsByEventGroupId = eventsById.toList().groupBy((event) => event.get('event_group_id'));
+      const activeEventsByEventGroupId = activeEventsById.toList().groupBy((event) => event.get('event_group_id'));
       const bettingMktGroupByEventId = bettingMarketGroupsById.toList().groupBy((bettingMktGroup) => bettingMktGroup.get('event_id'));
       // Add hard code header "all sports"
       const allSportsHeader = Immutable.fromJS({
@@ -71,10 +71,9 @@ const getSidebarCompleteTree = createSelector(
         // For each event group, create event group node
         const eventGroupNodes = eventGroupList.map((eventGroup) => {
           let eventGroupNode = createNode(eventGroup, 'EventGroup');
-          // Filter active event and sort event group by id
-          const isActiveEvent = (event) => (moment(event.get('start_time')) -  new Date()) > 0;
-          let eventList = eventsByEventGroupId.get(eventGroup.get('id')) || Immutable.List();
-          eventList = eventList.filter(isActiveEvent).sort(sortById);
+          // Sort event by id
+          let eventList = activeEventsByEventGroupId.get(eventGroup.get('id')) || Immutable.List();
+          eventList = eventList.sort(sortById);
           // For each active event, create event node
           const eventNodes = eventList.map((event) => {
             let eventNode = createNode(event, 'Event');

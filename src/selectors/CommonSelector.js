@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { ObjectUtils } from '../utility';
 import Immutable from 'immutable';
 import moment from 'moment';
 
@@ -65,30 +66,55 @@ const getEventsById = (state) => {
   return state.getIn(['event', 'eventsById']);
 }
 
-const getActiveEventsBySportId = createSelector(
+const getActiveEventsById = createSelector(
+  [
+    getEventsById
+  ],
+  (eventsById) => {
+    const isActiveEvent = (event) => (ObjectUtils.isActiveEvent(event));
+    return eventsById.filter(isActiveEvent);
+  }
+);
+
+const getEventsBySportId = createSelector(
   [
     getEventsById,
     getEventGroupsById
   ],
   (eventsById, eventGroupsById) => {
-    // Active event is event whose start time is
-    const isActiveEvent = (event) => (moment(event.get('start_time')) -  new Date()) > 0;
-    return eventsById.filter(isActiveEvent).toList().groupBy(event => {
+    return eventsById.toList().groupBy(event => {
       const eventGroup = eventGroupsById.get(event.get('event_group_id'));
       return eventGroup && eventGroup.get('sport_id')
     });
   }
 )
 
-const getActiveEventsByEventGroupId = createSelector(
-  getEventsById,
-  (eventsById) => {
-    // Active event is event whose start time is
-    const isActiveEvent = (event) => (moment(event.get('start_time')) -  new Date()) > 0;
-    return eventsById.filter(isActiveEvent).toList().groupBy(event => event.get('event_group_id'));
+const getActiveEventsBySportId = createSelector(
+  [
+    getActiveEventsById,
+    getEventGroupsById
+  ],
+  (activeEventsById, eventGroupsById) => {
+    return activeEventsById.toList().groupBy(event => {
+      const eventGroup = eventGroupsById.get(event.get('event_group_id'));
+      return eventGroup && eventGroup.get('sport_id')
+    });
   }
 )
 
+const getEventsByEventGroupId = createSelector(
+  getEventsById,
+  (eventsById) => {
+    return eventsById.toList().groupBy(event => event.get('event_group_id'));
+  }
+)
+
+const getActiveEventsByEventGroupId = createSelector(
+  getActiveEventsById,
+  (activeEventsById) => {
+    return activeEventsById.toList().groupBy(event => event.get('event_group_id'));
+  }
+)
 
 const getBettingMarketGroupsById = (state) => {
   return state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
@@ -171,7 +197,10 @@ const CommonSelector = {
   getEventGroupsById,
   getEventGroupsBySportId,
   getEventsById,
+  getActiveEventsById,
+  getEventsBySportId,
   getActiveEventsBySportId,
+  getEventsByEventGroupId,
   getActiveEventsByEventGroupId,
   getBettingMarketGroupsById,
   getBettingMarketsById,
