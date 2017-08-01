@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import { WalletService, HistoryService } from '../services';
+import { WalletService, HistoryService, KeyGeneratorService } from '../services';
 import { LoadingStatus, ActionTypes, Config, BetTypes } from '../constants';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
@@ -270,15 +270,26 @@ class BetActions {
       dispatch(BetPrivateActions.setMakeBetsLoadingStatusAction(LoadingStatus.LOADING));
 
       if (Config.useDummyData) {
+        // NOTE: Temporarily disabled until we have the real blockchain ready
+        console.warn('warning   BetActions.makeBets is currently disabled.');
+        // TODO: remove later
+        const tr = new TransactionBuilder();
+        WalletService.processFakeTransaction(getState(), tr).then(() => {
+          log.debug('Make bets succeed.');
+          dispatch(BetPrivateActions.setMakeBetsLoadingStatusAction(LoadingStatus.DONE));
+        }).catch((error) => {
+          log.error('Fail to get make bets', error);
+          // Set error
+          dispatch(BetPrivateActions.setMakeBetsErrorAction(error));
+        });
+      } else {
         const accountId = getState().getIn(['account', 'account', 'id']);
 
         const tr = new TransactionBuilder();
         bets.forEach((bet) => {
-          // NOTE: Temporarily disabled until we have the real blockchain ready
-          console.warn('warning   BetActions.makeBets is currently disabled.');
           // Create operation for each bet and attach it to the transaction
           const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', bet.get('betting_market_id')]);
-          const betAssetType = bettingMarket && bettingMarket.get('bet_asset_type');
+          const betAssetType = (bettingMarket && bettingMarket.get('bet_asset_type')) || '1.3.0';
           const betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
 
           let amountToBet = 0;
@@ -290,38 +301,34 @@ class BetActions {
           const operationParams = {
             fee: {
               amount: 0,
-              asset_id: '1.3.0'
+              asset_id: 0
             },
             bettor_id: accountId,
             betting_market_id: bet.get('betting_market_id'),
-            amount_to_bet: amountToBet,
+            amount_to_bet: {
+              amount: amountToBet,
+              asset_id: betAssetType
+            },
             backer_multiplier: parseFloat(bet.get('odds')) * 10000,
-            amount_reserved_for_fees: 0,
+            amount_reserved_for_fees: Math.floor(amountToBet * 0.01),
             back_or_lay: bet.get('bet_type')
           };
           const operationType = 'bet_place';
+
           tr.add_type_operation(operationType, operationParams);
         });
+        const accountName = getState().getIn(['account', 'account', 'name']);
+        const password = getState().getIn(['account', 'password']);
+        const keys = KeyGeneratorService.generateKeys(accountName, password);
+        WalletService.processTransaction(keys, tr).then(() => {
+          log.debug('Make bets succeed.');
+          dispatch(BetPrivateActions.setMakeBetsLoadingStatusAction(LoadingStatus.DONE));
+        }).catch((error) => {
+          log.error('Fail to get make bets', error);
+          // Set error
+          dispatch(BetPrivateActions.setMakeBetsErrorAction(error));
+        });
 
-        WalletService.processTransaction(getState(), tr).then(() => {
-          log.debug('Make bets succeed.');
-          dispatch(BetPrivateActions.setMakeBetsLoadingStatusAction(LoadingStatus.DONE));
-        }).catch((error) => {
-          log.error('Fail to get make bets', error);
-          // Set error
-          dispatch(BetPrivateActions.setMakeBetsErrorAction(error));
-        });
-      } else {
-        // TODO: remove later
-        const tr = new TransactionBuilder();
-        WalletService.processTransaction(getState(), tr).then(() => {
-          log.debug('Make bets succeed.');
-          dispatch(BetPrivateActions.setMakeBetsLoadingStatusAction(LoadingStatus.DONE));
-        }).catch((error) => {
-          log.error('Fail to get make bets', error);
-          // Set error
-          dispatch(BetPrivateActions.setMakeBetsErrorAction(error));
-        });
       }
     }
   }

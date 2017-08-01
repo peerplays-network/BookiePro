@@ -134,7 +134,7 @@ class AccountServices {
     // const x = {
     //   ownerPublicKey: keys.owner.toPublicKey().toPublicKeyString(),
     //   activePublicKey: keys.active.toPublicKey().toPublicKeyString(),
-    //   memoPublicKey: keys.active.toPublicKey().toPublicKeyString(),
+    //   memoPublicKey: keys.memo.toPublicKey().toPublicKeyString(),
     //   ownerPrivateKey: keys.owner.toWif(),
     //   activePrivateKey: keys.active.toWif(),
     //   memoPrivateKey: keys.memo.toWif()
