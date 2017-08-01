@@ -33,6 +33,7 @@ class BettingMarketGroup extends PureComponent {
         <BettingMarketGroupBanner
           eventName={ this.props.eventName }
           eventTime={ this.props.eventTime }
+          isLiveMarket={ this.props.isLiveMarket }
         />
         <ComplexBettingWidget
           marketData={ this.props.marketData }
@@ -63,6 +64,7 @@ const mapStateToProps = (state, ownProps) => {
     marketData: BettingMarketGroupPageSelector.getMarketData(state, ownProps),
     eventName: BettingMarketGroupPageSelector.getEventName(state, ownProps),
     eventTime: BettingMarketGroupPageSelector.getEventTime(state, ownProps),
+    isLiveMarket: BettingMarketGroupPageSelector.getIsLiveMarket(state, ownProps),
     totalMatchedBetsAmount: BettingMarketGroupPageSelector.getTotalMatchedBetsAmount(state, ownProps),
     unconfirmedBets: BettingMarketGroupPageSelector.getUnconfirmedBets(state, ownProps),
     loadingStatus: BettingMarketGroupPageSelector.getLoadingStatus(state, ownProps),

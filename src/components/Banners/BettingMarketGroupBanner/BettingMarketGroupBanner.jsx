@@ -19,7 +19,32 @@ class BettingMarketGroupBanner extends PureComponent {
     this.state = {
       bannerUrl: generateBannerUrl()
     }
+    this.renderCountdown = this.renderCountdown.bind(this);
+    this.renderLive = this.renderLive.bind(this);
   }
+
+  renderCountdown() {
+    const isCountdownEnd = !moment(this.props.eventTime).isAfter();
+    if (isCountdownEnd && this.props.isLiveMarket) {
+      return this.renderLive();
+    } else {
+      return (
+        <div className='countdown'>
+          <BannerClock time={ this.props.eventTime }/>
+        </div>
+      )
+    }
+  }
+
+  renderLive() {
+    // TODO: waiting for the style
+    return (
+      <div className='live'>
+        { 'LIVE' }
+      </div>
+    )
+  }
+
   render() {
     const bannerSource = `url(${this.state.bannerUrl})`;
     const formattedEventTime = moment(this.props.eventTime).format('DD/MM/YYYY');
@@ -29,9 +54,9 @@ class BettingMarketGroupBanner extends PureComponent {
           <div className='time'>{ I18n.t('bettingMarketGroup.match_start_on', { time: formattedEventTime }) }</div>
           <div className='name'>{ this.props.eventName }</div>
         </div>
-        <div className='countdown'>
-          <BannerClock time={ this.props.eventTime }/>
-        </div>
+        {
+          this.renderCountdown()
+        }
       </div>
     )
   }
@@ -40,7 +65,8 @@ class BettingMarketGroupBanner extends PureComponent {
 
 BettingMarketGroupBanner.propTypes = {
   eventTime: PropTypes.instanceOf(Date).isRequired,
-  eventName: PropTypes.string.isRequired
+  eventName: PropTypes.string.isRequired,
+  isLiveMarket: PropTypes.bool
 }
 
 export default BettingMarketGroupBanner;
