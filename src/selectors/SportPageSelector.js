@@ -44,6 +44,7 @@ const getSportPageLoadingStatus = createSelector(
 //         "event_id": "1.103.7",
 //         "event_name": "Cincinnati Bengals vs New York Jets",
 //         "time": 1497428288000,
+//         "isLiveMarket": true,
 //         "offers": [
 //           {
 //             "betting_market_id": "1.105.37",
@@ -110,6 +111,7 @@ const getSportPageData = createSelector(
           event_id: event.get('id'),
           event_name: event.get('name'),
           time: event.get('start_time'),
+          isLiveMarket: event.get('isLiveMarket'),
           offers,
           moneyline: moneylineBettingMarketGroupId,
         });
