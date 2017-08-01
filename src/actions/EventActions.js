@@ -239,22 +239,14 @@ class EventActions {
         Search will be performed on these events
       **/
       const eventsById = getState().getIn(['event', 'eventsById']);
-      let myEvents = eventsById.toArray()
-        .filter((event) => {
-          return ObjectUtils.isActiveEvent(event);
-        }).map((event) => {
-          const eventId = event.get('id');
-          return Immutable.fromJS({
-            event_id: eventId,
-            event_name: event.get('name'),
-            time: event.get('start_time')
-          })
-        });
+      let myEvents = eventsById.toArray().filter((event) => {
+        return ObjectUtils.isActiveEvent(event);
+      });
       let eventList = Immutable.List(myEvents);
 
       const filteredResult = eventList.toArray().filter((item) => {
-        const team1Name = item.get('event_name').split(' vs ')[0];
-        const team2Name = item.get('event_name').split(' vs ')[1];
+        const team1Name = item.get('name').split(' vs ')[0];
+        const team2Name = item.get('name').split(' vs ')[1];
         const keywordLowerCase = keyword.toLowerCase();
 
         return ( team1Name.toLowerCase().indexOf(keywordLowerCase) >= 0 ||
