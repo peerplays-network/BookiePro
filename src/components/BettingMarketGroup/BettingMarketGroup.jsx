@@ -36,6 +36,7 @@ class BettingMarketGroup extends PureComponent {
           isLiveMarket={ this.props.isLiveMarket }
         />
         <ComplexBettingWidget
+          isLiveMarket={ this.props.isLiveMarket }
           marketData={ this.props.marketData }
           totalMatchedBetsAmount={ this.props.totalMatchedBetsAmount }
           createBet={ this.props.createBet }

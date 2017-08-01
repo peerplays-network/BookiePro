@@ -263,7 +263,8 @@ export const translationsObject = {
       lay_all: 'Lay all',
       offer: 'OFFER',
       matched: 'Matched',
-      moneyline: 'Moneyline'
+      moneyline: 'Moneyline',
+      live: 'LIVE'
     },
     simple_betting_widget:{
       no_data: 'There is no event to be displayed.',
