@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { BettingMarketGroupBanner } from '../Banners';
 import { ComplexBettingWidget } from '../BettingWidgets/';
 import _ from 'lodash';
-import { BettingMarketGroupPageSelector } from '../../selectors';
+import { BettingMarketGroupPageSelector, MarketDrawerSelector } from '../../selectors';
 import { BettingMarketGroupPageActions, MarketDrawerActions } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -43,6 +43,7 @@ class BettingMarketGroup extends PureComponent {
           loadingStatus={ this.props.loadingStatus }
           widgetTitle={ this.props.widgetTitle }
           rules={ this.props.rules }
+          canCreateBet={ this.props.canCreateBet }
         />
       </div>
     )
@@ -67,6 +68,7 @@ const mapStateToProps = (state, ownProps) => {
     loadingStatus: BettingMarketGroupPageSelector.getLoadingStatus(state, ownProps),
     widgetTitle: BettingMarketGroupPageSelector.getWidgetTitle(state, ownProps),
     rules: BettingMarketGroupPageSelector.getRules(state, ownProps),
+    canCreateBet: MarketDrawerSelector.canAcceptBet(state, ownProps),
   }
 };
 

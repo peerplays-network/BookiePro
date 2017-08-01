@@ -22,10 +22,19 @@ class ComplexBettingWidget extends PureComponent {
       layAllPercent: 0,
     }
 
-    this.onOfferClicked = this.onOfferClicked.bind(this);
-    this.shiftOfferDisplay = this.shiftOfferDisplay.bind(this);
+    /*
+     * Only call the function argument if the Market Drawer is ready for new bet (i.e. no overlay)
+     * This allows us to control the various event handler's behavior without modifying the
+     * actual handler code. Otherwise, we need to add an if-statement in every handler function.
+     */
+    const callIfMarketDrawerIsReady = (fn) => {
+      return (...args) => { if (this.props.canCreateBet === true) fn(...args) }
+    };
+
+    this.onOfferClicked = callIfMarketDrawerIsReady(this.onOfferClicked.bind(this));
+    this.shiftOfferDisplay = callIfMarketDrawerIsReady(this.shiftOfferDisplay.bind(this));
     this.setTableData = this.setTableData.bind(this);
-    this.placeAllBestBets = this.placeAllBestBets.bind(this);
+    this.placeAllBestBets = callIfMarketDrawerIsReady(this.placeAllBestBets.bind(this));
     this.getBestOfferOfEachmarket = this.getBestOfferOfEachmarket.bind(this);
 
   }
@@ -394,6 +403,7 @@ ComplexBettingWidget.propTypes = {
   createBet: PropTypes.func.isRequired,
   unconfirmedBets: PropTypes.any,
   currencyFormat: PropTypes.string.isRequired,
+  canCreateBet: PropTypes.any.isRequired,
 };
 
 export default ComplexBettingWidget;

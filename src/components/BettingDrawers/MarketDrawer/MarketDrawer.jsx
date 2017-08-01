@@ -5,10 +5,12 @@ import { connect } from 'react-redux';
 import BetSlip from './BetSlip';
 import PlacedBets from './PlacedBets';
 import { BettingDrawerStates } from '../../../constants';
+import { MarketDrawerSelector } from '../../../selectors';
 
 const TabPane = Tabs.TabPane;
 const BETSLIP = '1';
 const PLACEDBETS = '2';
+const { SUBMIT_BETS_SUCCESS } = BettingDrawerStates;
 
 class MarketDrawer extends PureComponent {
   constructor(props) {
@@ -20,8 +22,8 @@ class MarketDrawer extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     // Automatically switch to Placed Bets tab after a successful PlaceBet operation
-    if (nextProps.overlay === BettingDrawerStates.SUBMIT_BETS_SUCCESS &&
-        this.props.overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS) {
+    if (nextProps.overlay === SUBMIT_BETS_SUCCESS &&
+        this.props.overlay !== SUBMIT_BETS_SUCCESS) {
       if (this.state.activeTab === BETSLIP) {
         this.setState({ activeTab: PLACEDBETS });
       }
@@ -39,8 +41,7 @@ class MarketDrawer extends PureComponent {
   // We do this so that we can have direct control of the tabs, i.e. we can now
   // programmatically switch tab based on props
   onTabClick(key) {
-    if (this.props.overlay === BettingDrawerStates.NO_OVERLAY ||
-        this.props.overlay === BettingDrawerStates.SUBMIT_BETS_SUCCESS) {
+    if (this.props.canSwitchTab === true) {
       this.setState({ activeTab: key });
     }
   }
@@ -62,11 +63,10 @@ class MarketDrawer extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  const overlay = state.getIn(['marketDrawer', 'overlay']);
-  const unconfirmedBets = state.getIn(['marketDrawer', 'unconfirmedBets']);
   return {
-    overlay,
-    unconfirmedBets,
+    overlay: MarketDrawerSelector.getOverlayState(state),
+    unconfirmedBets: MarketDrawerSelector.getUnconfirmedBets(state),
+    canSwitchTab: MarketDrawerSelector.canAcceptBet(state),
   }
 }
 

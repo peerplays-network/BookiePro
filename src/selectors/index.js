@@ -5,6 +5,7 @@ import BettingMarketGroupPageSelector from './BettingMarketGroupPageSelector';
 import AllSportsSelector from './AllSportsSelector';
 import SportPageSelector from './SportPageSelector';
 import EventGroupPageSelector from './EventGroupPageSelector';
+import MarketDrawerSelector from './MarketDrawerSelector';
 
 export {
   EventGroupPageSelector,
@@ -14,4 +15,5 @@ export {
   MyAccountPageSelector,
   BettingMarketGroupPageSelector,
   AllSportsSelector,
+  MarketDrawerSelector,
 }
