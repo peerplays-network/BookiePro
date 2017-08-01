@@ -22,10 +22,11 @@ class ComplexBettingWidget extends PureComponent {
       layAllPercent: 0,
     }
 
-    this.onOfferClicked = this.onOfferClicked.bind(this);
-    this.shiftOfferDisplay = this.shiftOfferDisplay.bind(this);
+    this.callIfMarketDrawerIsReady = this.callIfMarketDrawerIsReady.bind(this);
+    this.onOfferClicked = this.callIfMarketDrawerIsReady(this.onOfferClicked.bind(this));
+    this.shiftOfferDisplay = this.callIfMarketDrawerIsReady(this.shiftOfferDisplay.bind(this));
     this.setTableData = this.setTableData.bind(this);
-    this.placeAllBestBets = this.placeAllBestBets.bind(this);
+    this.placeAllBestBets = this.callIfMarketDrawerIsReady(this.placeAllBestBets.bind(this));
     this.getBestOfferOfEachmarket = this.getBestOfferOfEachmarket.bind(this);
 
   }
@@ -40,6 +41,10 @@ class ComplexBettingWidget extends PureComponent {
       this.props.unconfirmedBets !== nextProps.unconfirmedBets){
       this.setTableData(nextProps.marketData, nextProps.unconfirmedBets, this.props.bettingMarketGroupName === nextProps.bettingMarketGroupName)
     }
+  }
+
+  callIfMarketDrawerIsReady(fn) {
+    return (...args) => { if (this.props.canCreateBet === true) fn(...args) }
   }
 
   // betting widget full :
@@ -108,7 +113,6 @@ class ComplexBettingWidget extends PureComponent {
 
   //the arrow onclick funciton
   shiftOfferDisplay(index, type, change){
-    if (this.props.canCreateBet === false) return;
     let updatedTableData = this.state.tableData;
     let offerIndex = updatedTableData.getIn([index, 'offer', type + 'Index'])
     let layList = updatedTableData.getIn([index, 'offer', type + 'Origin'])
@@ -137,7 +141,6 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   onOfferClicked(rowInfo, column) {
-    if (this.props.canCreateBet === false) return;
     const competitor =  rowInfo.rowValues.firstColumn.name;
     const betType = column.className;
 
@@ -150,7 +153,6 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   placeAllBestBets(event) {
-    if (this.props.canCreateBet === false) return;
     const {id} = event.target;
     const betType = id
     this.state.tableData.filter( item => item.hasIn([ 'offer', betType + 'Origin', '0' ]) )
