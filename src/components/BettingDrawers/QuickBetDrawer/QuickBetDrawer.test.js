@@ -5,6 +5,7 @@ import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux';
 import Immutable from 'immutable';
 import { Empty } from '../Common';
+import { expect } from 'chai';
 
 jest.mock('peerplaysjs-lib');
 
@@ -21,7 +22,11 @@ describe('<QuickBetDrawer />', () => {
 
   })
 
-  it('should render a <Empty/> message if it is empty', function() {
-    expect(wrapper.dive(Empty).length).toEqual(1);
+  test('should render a <Empty/> message if it is empty', function() {
+    // expect(wrapper.find('div.empty').length).toEqual(1);
+    const wrapper = shallow(<QuickBetDrawer bets={ Immutable.Map() }/>);
+
+    expect(wrapper.find(Empty)).to.have.length(1);
+
   });
 });
