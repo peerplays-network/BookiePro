@@ -108,7 +108,7 @@ class ComplexBettingWidget extends PureComponent {
 
   //the arrow onclick funciton
   shiftOfferDisplay(index, type, change){
-
+    if (this.props.canCreateBet === false) return;
     let updatedTableData = this.state.tableData;
     let offerIndex = updatedTableData.getIn([index, 'offer', type + 'Index'])
     let layList = updatedTableData.getIn([index, 'offer', type + 'Origin'])
@@ -137,6 +137,7 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   onOfferClicked(rowInfo, column) {
+    if (this.props.canCreateBet === false) return;
     const competitor =  rowInfo.rowValues.firstColumn.name;
     const betType = column.className;
 
@@ -149,6 +150,7 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   placeAllBestBets(event) {
+    if (this.props.canCreateBet === false) return;
     const {id} = event.target;
     const betType = id
     this.state.tableData.filter( item => item.hasIn([ 'offer', betType + 'Origin', '0' ]) )
@@ -394,6 +396,7 @@ ComplexBettingWidget.propTypes = {
   createBet: PropTypes.func.isRequired,
   unconfirmedBets: PropTypes.any,
   currencyFormat: PropTypes.string.isRequired,
+  canCreateBet: PropTypes.any.isRequired,
 };
 
 export default ComplexBettingWidget;
