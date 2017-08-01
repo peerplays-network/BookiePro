@@ -59,7 +59,7 @@ const renderContent = (props) => (
   </div>
 )
 
-class QuickBetDrawer extends PureComponent {
+export class QuickBetDrawer extends PureComponent {
 
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.bettingtable));
