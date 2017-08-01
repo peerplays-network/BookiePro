@@ -43,6 +43,11 @@ class ComplexBettingWidget extends PureComponent {
     }
   }
 
+  /*
+   * Only call the function argument if the Market Drawer is ready for new bet (i.e. no overlay)
+   * This allows us to control the various event handler's behavior without modifying the
+   * actual handler code. Otherwise, we need to add an if-statement in every handler function.
+   */
   callIfMarketDrawerIsReady(fn) {
     return (...args) => { if (this.props.canCreateBet === true) fn(...args) }
   }
