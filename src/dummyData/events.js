@@ -16,6 +16,7 @@ const events = [
     "event_group_id": "1.101.1",
     "status": "Completed",
     "scores": ["36", "19"],
+    "isLiveMarket": true
   },
   {
     "id": "1.103.2",
@@ -25,6 +26,7 @@ const events = [
     "event_group_id": "1.101.4",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": true
   },
   {
     "id": "1.103.3",
@@ -34,6 +36,7 @@ const events = [
     "event_group_id": "1.101.1",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.4",
@@ -43,6 +46,7 @@ const events = [
     "event_group_id": "1.101.1",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.5",
@@ -52,6 +56,7 @@ const events = [
     "event_group_id": "1.101.1",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.6",
@@ -61,6 +66,7 @@ const events = [
     "event_group_id": "1.101.1",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.7",
@@ -70,6 +76,7 @@ const events = [
     "event_group_id": "1.101.1",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.8",
@@ -79,6 +86,7 @@ const events = [
     "event_group_id": "1.101.1",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.9",
@@ -88,6 +96,7 @@ const events = [
     "event_group_id": "1.101.1",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.10",
@@ -97,6 +106,7 @@ const events = [
     "event_group_id": "1.101.4",
     "status": "Completed",
     "scores": ["36", "19"],
+    "isLiveMarket": true
   },
   {
     "id": "1.103.11",
@@ -106,6 +116,7 @@ const events = [
     "event_group_id": "1.101.4",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": true
   },
   {
     "id": "1.103.12",
@@ -115,6 +126,7 @@ const events = [
     "event_group_id": "1.101.4",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.13",
@@ -124,6 +136,7 @@ const events = [
     "event_group_id": "1.101.4",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.14",
@@ -133,6 +146,7 @@ const events = [
     "event_group_id": "1.101.4",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.15",
@@ -142,6 +156,7 @@ const events = [
     "event_group_id": "1.101.4",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.16",
@@ -151,6 +166,7 @@ const events = [
     "event_group_id": "1.101.4",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.17",
@@ -160,6 +176,7 @@ const events = [
     "event_group_id": "1.101.4",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.18",
@@ -169,6 +186,7 @@ const events = [
     "event_group_id": "1.101.7",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": true
   },
   {
     "id": "1.103.19",
@@ -178,6 +196,7 @@ const events = [
     "event_group_id": "1.101.7",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": true
   },
   {
     "id": "1.103.20",
@@ -187,6 +206,7 @@ const events = [
     "event_group_id": "1.101.7",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.21",
@@ -196,6 +216,7 @@ const events = [
     "event_group_id": "1.101.7",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.22",
@@ -205,6 +226,7 @@ const events = [
     "event_group_id": "1.101.7",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.23",
@@ -214,6 +236,7 @@ const events = [
     "event_group_id": "1.101.7",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.24",
@@ -223,6 +246,7 @@ const events = [
     "event_group_id": "1.101.7",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.25",
@@ -232,6 +256,7 @@ const events = [
     "event_group_id": "1.101.7",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.26",
@@ -241,6 +266,7 @@ const events = [
     "event_group_id": "1.101.7",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.27",
@@ -250,6 +276,7 @@ const events = [
     "event_group_id": "1.101.7",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.28",
@@ -259,6 +286,7 @@ const events = [
     "event_group_id": "1.101.10",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": true
   },
   {
     "id": "1.103.29",
@@ -268,6 +296,7 @@ const events = [
     "event_group_id": "1.101.10",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": true
   },
   {
     "id": "1.103.30",
@@ -277,6 +306,7 @@ const events = [
     "event_group_id": "1.101.10",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.31",
@@ -286,6 +316,7 @@ const events = [
     "event_group_id": "1.101.10",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.32",
@@ -295,6 +326,7 @@ const events = [
     "event_group_id": "1.101.10",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.33",
@@ -304,6 +336,7 @@ const events = [
     "event_group_id": "1.101.10",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.34",
@@ -313,6 +346,7 @@ const events = [
     "event_group_id": "1.101.10",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.35",
@@ -322,6 +356,7 @@ const events = [
     "event_group_id": "1.101.10",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.36",
@@ -331,6 +366,7 @@ const events = [
     "event_group_id": "1.101.10",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.37",
@@ -340,6 +376,7 @@ const events = [
     "event_group_id": "1.101.10",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   //basketball Group 1
   {
@@ -350,6 +387,7 @@ const events = [
     "event_group_id": "1.101.5",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.39",
@@ -359,6 +397,7 @@ const events = [
     "event_group_id": "1.101.5",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.40",
@@ -368,6 +407,7 @@ const events = [
     "event_group_id": "1.101.5",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.41",
@@ -377,6 +417,7 @@ const events = [
     "event_group_id": "1.101.5",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.42",
@@ -386,6 +427,7 @@ const events = [
     "event_group_id": "1.101.5",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   //Basketball event 3
   {
@@ -396,6 +438,7 @@ const events = [
     "event_group_id": "1.101.6",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.44",
@@ -405,6 +448,7 @@ const events = [
     "event_group_id": "1.101.6",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.45",
@@ -414,6 +458,7 @@ const events = [
     "event_group_id": "1.101.6",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.46",
@@ -423,6 +468,7 @@ const events = [
     "event_group_id": "1.101.6",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.47",
@@ -432,6 +478,7 @@ const events = [
     "event_group_id": "1.101.6",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   //Soccer Event Group 2
   {
@@ -442,6 +489,7 @@ const events = [
     "event_group_id": "1.101.11",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.49",
@@ -451,6 +499,7 @@ const events = [
     "event_group_id": "1.101.11",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.50",
@@ -460,6 +509,7 @@ const events = [
     "event_group_id": "1.101.11",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.51",
@@ -469,6 +519,7 @@ const events = [
     "event_group_id": "1.101.11",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.52",
@@ -478,6 +529,7 @@ const events = [
     "event_group_id": "1.101.11",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   //Soccer Event group 3
   {
@@ -488,6 +540,7 @@ const events = [
     "event_group_id": "1.101.12",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.54",
@@ -497,6 +550,7 @@ const events = [
     "event_group_id": "1.101.12",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.55",
@@ -506,6 +560,7 @@ const events = [
     "event_group_id": "1.101.12",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.56",
@@ -515,6 +570,7 @@ const events = [
     "event_group_id": "1.101.12",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.57",
@@ -524,6 +580,7 @@ const events = [
     "event_group_id": "1.101.12",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   //Baseball Group 2
   {
@@ -534,6 +591,7 @@ const events = [
     "event_group_id": "1.101.8",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.59",
@@ -543,6 +601,7 @@ const events = [
     "event_group_id": "1.101.8",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.60",
@@ -552,6 +611,7 @@ const events = [
     "event_group_id": "1.101.8",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.61",
@@ -561,6 +621,7 @@ const events = [
     "event_group_id": "1.101.8",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.62",
@@ -570,6 +631,7 @@ const events = [
     "event_group_id": "1.101.8",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   //Baseball Group 3
   {
@@ -580,6 +642,7 @@ const events = [
     "event_group_id": "1.101.9",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.64",
@@ -589,6 +652,7 @@ const events = [
     "event_group_id": "1.101.9",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.65",
@@ -598,6 +662,7 @@ const events = [
     "event_group_id": "1.101.9",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.66",
@@ -607,6 +672,7 @@ const events = [
     "event_group_id": "1.101.9",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.67",
@@ -616,6 +682,7 @@ const events = [
     "event_group_id": "1.101.9",
     "status": "Upcoming",
     "scores": ["0", "0"],
+    "isLiveMarket": false
   },
   //For Resolved Bets
   //American Football
@@ -627,6 +694,7 @@ const events = [
     "event_group_id": "1.101.1",
     "status": "Completed",
     "scores": ["36", "19"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.69",
@@ -636,6 +704,7 @@ const events = [
     "event_group_id": "1.101.1",
     "status": "Completed",
     "scores": ["36", "19"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.70",
@@ -645,6 +714,7 @@ const events = [
     "event_group_id": "1.101.1",
     "status": "Completed",
     "scores": ["36", "19"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.71",
@@ -654,6 +724,7 @@ const events = [
     "event_group_id": "1.101.1",
     "status": "Completed",
     "scores": ["36", "19"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.72",
@@ -663,6 +734,7 @@ const events = [
     "event_group_id": "1.101.1",
     "status": "Completed",
     "scores": ["36", "19"],
+    "isLiveMarket": false
   },
   //Basketball
   {
@@ -673,6 +745,7 @@ const events = [
     "event_group_id": "1.101.4",
     "status": "Completed",
     "scores": ["36", "19"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.74",
@@ -682,6 +755,7 @@ const events = [
     "event_group_id": "1.101.4",
     "status": "Completed",
     "scores": ["36", "19"],
+    "isLiveMarket": false
   },
   //Baseball
   {
@@ -692,6 +766,7 @@ const events = [
     "event_group_id": "1.101.7",
     "status": "Completed",
     "scores": ["36", "19"],
+    "isLiveMarket": false
   },
   {
     "id": "1.103.76",
@@ -701,6 +776,7 @@ const events = [
     "event_group_id": "1.101.7",
     "status": "Completed",
     "scores": ["36", "19"],
+    "isLiveMarket": false
   },
   //Resolved Bets Ends
 ];
