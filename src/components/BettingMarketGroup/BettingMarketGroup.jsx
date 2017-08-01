@@ -68,7 +68,7 @@ const mapStateToProps = (state, ownProps) => {
     loadingStatus: BettingMarketGroupPageSelector.getLoadingStatus(state, ownProps),
     widgetTitle: BettingMarketGroupPageSelector.getWidgetTitle(state, ownProps),
     rules: BettingMarketGroupPageSelector.getRules(state, ownProps),
-    canCreateBet: MarketDrawerSelector.canMarketDrawerAcceptBet(state, ownProps),
+    canCreateBet: MarketDrawerSelector.canAcceptBet(state, ownProps),
   }
 };
 
