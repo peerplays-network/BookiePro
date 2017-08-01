@@ -77,6 +77,8 @@ const getSidebarCompleteTree = createSelector(
           // For each active event, create event node
           const eventNodes = eventList.map((event) => {
             let eventNode = createNode(event, 'Event');
+            // Set isLiveMarket
+            eventNode = eventNode.set('isLiveMarket', event.get('isLiveMarket'));
             // Sort betting market group by id
             let bettingMktGroupList = bettingMktGroupByEventId.get(event.get('id')) || Immutable.List();
             bettingMktGroupList = bettingMktGroupList.sort(sortById);

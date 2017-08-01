@@ -66,7 +66,7 @@ const events = [
     "event_group_id": "1.101.1",
     "status": "Upcoming",
     "scores": ["0", "0"],
-    "isLiveMarket": false
+    "isLiveMarket": true
   },
   {
     "id": "1.103.7",
