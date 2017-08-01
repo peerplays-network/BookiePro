@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { SportBanner } from '../Banners';
 import { SimpleBettingWidget } from '../BettingWidgets';
 import { SportPageActions } from '../../actions';
-import { SportPageSelector } from '../../selectors';
+import { SportPageSelector, QuickBetDrawerSelector } from '../../selectors';
 
 const MAX_EVENTS_PER_WIDGET = 10;
 const { getData } = SportPageActions;
@@ -34,6 +34,7 @@ class Sport extends PureComponent {
                 showFooter={ events.size > MAX_EVENTS_PER_WIDGET }
                 footerLink={ `/exchange/eventgroup/${eventGroupId}` }
                 pagination={ false }          // No pagination, only show top records
+                canCreateBet={ this.props.canCreateBet }
               />
             );
           })
@@ -46,7 +47,8 @@ class Sport extends PureComponent {
 const mapStateToProps = (state, ownProps) => {
   return {
     sportName: SportPageSelector.getSportName(state, ownProps),
-    sportPageData: SportPageSelector.getSportPageData(state, ownProps)
+    sportPageData: SportPageSelector.getSportPageData(state, ownProps),
+    canCreateBet: QuickBetDrawerSelector.canAcceptBet(state, ownProps),
   };
 }
 

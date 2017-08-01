@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { SportBanner } from '../Banners';
 import { SimpleBettingWidget } from '../BettingWidgets';
 import { EventGroupPageActions } from '../../actions';
-import { EventGroupPageSelector } from '../../selectors';
+import { EventGroupPageSelector, QuickBetDrawerSelector } from '../../selectors';
 
 const MAX_EVENT_PER_PAGE = 15;
 const { getData } = EventGroupPageActions;
@@ -27,6 +27,7 @@ class EventGroup extends PureComponent {
           showFooter={ false }
           showPagination={ events.size > MAX_EVENT_PER_PAGE }
           pageSize={ MAX_EVENT_PER_PAGE }
+          canCreateBet={ this.props.canCreateBet }
         />
       </div>
     )
@@ -37,7 +38,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     sportName: EventGroupPageSelector.getSportName(state, ownProps),
     eventGroupName: EventGroupPageSelector.getEventGroupName(state, ownProps),
-    events: EventGroupPageSelector.getEventGroupPageData(state, ownProps)
+    events: EventGroupPageSelector.getEventGroupPageData(state, ownProps),
+    canCreateBet: QuickBetDrawerSelector.canAcceptBet(state, ownProps),
   };
 };
 

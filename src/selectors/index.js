@@ -6,6 +6,7 @@ import AllSportsSelector from './AllSportsSelector';
 import SportPageSelector from './SportPageSelector';
 import EventGroupPageSelector from './EventGroupPageSelector';
 import MarketDrawerSelector from './MarketDrawerSelector';
+import QuickBetDrawerSelector from './QuickBetDrawerSelector';
 
 export {
   EventGroupPageSelector,
@@ -16,4 +17,5 @@ export {
   BettingMarketGroupPageSelector,
   AllSportsSelector,
   MarketDrawerSelector,
+  QuickBetDrawerSelector,
 }
