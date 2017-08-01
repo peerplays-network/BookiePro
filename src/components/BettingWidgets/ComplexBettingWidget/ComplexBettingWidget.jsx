@@ -22,11 +22,19 @@ class ComplexBettingWidget extends PureComponent {
       layAllPercent: 0,
     }
 
-    this.callIfMarketDrawerIsReady = this.callIfMarketDrawerIsReady.bind(this);
-    this.onOfferClicked = this.callIfMarketDrawerIsReady(this.onOfferClicked.bind(this));
-    this.shiftOfferDisplay = this.callIfMarketDrawerIsReady(this.shiftOfferDisplay.bind(this));
+    /*
+     * Only call the function argument if the Market Drawer is ready for new bet (i.e. no overlay)
+     * This allows us to control the various event handler's behavior without modifying the
+     * actual handler code. Otherwise, we need to add an if-statement in every handler function.
+     */
+    const callIfMarketDrawerIsReady = (fn) => {
+      return (...args) => { if (this.props.canCreateBet === true) fn(...args) }
+    };
+
+    this.onOfferClicked = callIfMarketDrawerIsReady(this.onOfferClicked.bind(this));
+    this.shiftOfferDisplay = callIfMarketDrawerIsReady(this.shiftOfferDisplay.bind(this));
     this.setTableData = this.setTableData.bind(this);
-    this.placeAllBestBets = this.callIfMarketDrawerIsReady(this.placeAllBestBets.bind(this));
+    this.placeAllBestBets = callIfMarketDrawerIsReady(this.placeAllBestBets.bind(this));
     this.getBestOfferOfEachmarket = this.getBestOfferOfEachmarket.bind(this);
 
   }
@@ -41,15 +49,6 @@ class ComplexBettingWidget extends PureComponent {
       this.props.unconfirmedBets !== nextProps.unconfirmedBets){
       this.setTableData(nextProps.marketData, nextProps.unconfirmedBets, this.props.bettingMarketGroupName === nextProps.bettingMarketGroupName)
     }
-  }
-
-  /*
-   * Only call the function argument if the Market Drawer is ready for new bet (i.e. no overlay)
-   * This allows us to control the various event handler's behavior without modifying the
-   * actual handler code. Otherwise, we need to add an if-statement in every handler function.
-   */
-  callIfMarketDrawerIsReady(fn) {
-    return (...args) => { if (this.props.canCreateBet === true) fn(...args) }
   }
 
   // betting widget full :
@@ -118,6 +117,7 @@ class ComplexBettingWidget extends PureComponent {
 
   //the arrow onclick funciton
   shiftOfferDisplay(index, type, change){
+
     let updatedTableData = this.state.tableData;
     let offerIndex = updatedTableData.getIn([index, 'offer', type + 'Index'])
     let layList = updatedTableData.getIn([index, 'offer', type + 'Origin'])
