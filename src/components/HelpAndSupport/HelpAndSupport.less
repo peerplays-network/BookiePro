@@ -58,16 +58,9 @@
   }
   .faqBanner{
     position: relative;
-    &:before {
-      content: '';
-    	position: absolute;
-    	top: 0;
-    	right: 0;
-    	bottom: 0;
-    	left: 0;
-    	background-image: @banner_overlay;
-    	opacity: .6;
-    }
+    background-color: @overlay_banner;
+    background-blend-mode: multiply;
+
     border:1px solid @banner_border;
     height: 150px;
 

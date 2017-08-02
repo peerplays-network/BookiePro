@@ -8,17 +8,8 @@ div.sport-banner {
   height: 120px;
   background-repeat: no-repeat;
   background-position: center center;
-
-  &:before {
-    content: '';
-  	position: absolute;
-  	top: 0;
-  	right: 0;
-  	bottom: 0;
-  	left: 0;
-  	background-image: @banner_overlay;
-  	opacity: .6;
-  }
+  background-color: @overlay_banner;
+  background-blend-mode: multiply;
 
   > div.sport-name {
     position: absolute;
