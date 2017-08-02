@@ -32,7 +32,8 @@ class HistoryService {
                           (operationType === DummyOperationTypes.MAKE_BET) ||
                           (operationType === DummyOperationTypes.CANCEL_BET) ||
                           (operationType === DummyOperationTypes.BET_MATCHED) ||
-                          (operationType === DummyOperationTypes.BETTING_MARKET_RESOLVED);
+                          (operationType === DummyOperationTypes.BETTING_MARKET_RESOLVED) ||
+                          (operationType === DummyOperationTypes.BET_CANCELLED);
 
       // Only process the transaction, if it is relevant
       if (isRelevant) {
@@ -68,9 +69,9 @@ class HistoryService {
           }
           case DummyOperationTypes.BET_CANCELLED: {
             description = I18n.t('transaction.betCancelled');
-            const stakeRefunded = rawTransaction.getIn(['op', 1, 'stake_refunded']);
-            amount = stakeRefunded.get('amount');
-            precision = assetsById.getIn([stakeRefunded.get('asset_id'), 'precision']);
+            const stakeReturned = rawTransaction.getIn(['op', 1, 'stake_returned']);
+            amount = stakeReturned.get('amount');
+            precision = assetsById.getIn([stakeReturned.get('asset_id'), 'precision']);
             break;
           }
           case DummyOperationTypes.BET_MATCHED: {
