@@ -171,7 +171,7 @@ class TopMenu extends PureComponent {
       />
     );
     const dropdownMenuCard = (
-      <DropdownMenu cardClass='menu-card' onSubmenuClick={ this.handleClick } />
+      <DropdownMenu cardClass='menu-card' onSubmenuClick={ this.handleClick } currentKey={ this.state.current } />
     );
     const notificationCard = (
       <Notification
