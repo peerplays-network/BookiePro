@@ -110,27 +110,35 @@ const rowData = createSelector(
 
 //function to get initial collection with required values from rowData
 const betData = createSelector(
-  [getActiveTab, rowData, startDate, endDate, getCurrencyFormat, getPrecision],
+  [
+    getActiveTab,
+    rowData,
+    startDate,
+    endDate,
+    getCurrencyFormat,
+    getPrecision
+  ],
   (tab, bets, startDate, endDate, currencyFormat, precision)=>{
     let newData = [];
     bets.forEach((bet) => {
-      if(tab !== MyWagerTabTypes.RESOLVED_BETS)
+      if(tab !== MyWagerTabTypes.RESOLVED_BETS) {
         newData.push(new Map({key: bet.get('id'),
           id: bet.get('id'),
           'betting_market_id': bet.get('betting_market_id'),
-          'back_or_lay': bet.get('back_or_lay').toUpperCase(),
+          'back_or_lay': bet.get('back_or_lay'),
           'stake': CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
           'odds': bet.get('backer_multiplier'),
           'profit_liability': CurrencyUtils.getFormattedCurrency(getProfitLiabilityFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces)}));
-      else if (tab === MyWagerTabTypes.RESOLVED_BETS && moment(bet.get('resolved_time')).isBetween(startDate, endDate))
+      } else if (tab === MyWagerTabTypes.RESOLVED_BETS && moment(bet.get('resolved_time')).isBetween(startDate, endDate)) {
         newData.push(new Map({key: bet.get('id'),
           id: bet.get('id'),
           'betting_market_id': bet.get('betting_market_id'),
-          'back_or_lay': bet.get('back_or_lay').toUpperCase(),
+          'back_or_lay': bet.get('back_or_lay'),
           'stake': CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
           'odds': bet.get('backer_multiplier'),
           'resolved_time': getFormattedDate(bet.get('resolved_time')),
           'profit_liability': CurrencyUtils.getFormattedCurrency(bet.get('amount_won')/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces)}));
+      }
     });
     return newData;
   }

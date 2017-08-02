@@ -55,8 +55,9 @@ class HistoryService {
           }
           case DummyOperationTypes.MAKE_BET: {
             description = I18n.t('transaction.makeBet');
-            amount = rawTransaction.getIn(['op', 1, 'original_bet_amount']);
-            precision = assetsById.getIn(['1.3.0', 'precision']);
+            const amountToBet = rawTransaction.getIn(['op', 1, 'amount_to_bet']);
+            amount = amountToBet.get('amount');
+            precision = assetsById.getIn([amountToBet.get('asset_id'), 'precision']);
             break;
           }
           case DummyOperationTypes.CANCEL_BET: {
@@ -65,10 +66,18 @@ class HistoryService {
             precision = assetsById.getIn(['1.3.0', 'precision']);
             break;
           }
+          case DummyOperationTypes.BET_CANCELLED: {
+            description = I18n.t('transaction.betCancelled');
+            const stakeRefunded = rawTransaction.getIn(['op', 1, 'stake_refunded']);
+            amount = stakeRefunded.get('amount');
+            precision = assetsById.getIn([stakeRefunded.get('asset_id'), 'precision']);
+            break;
+          }
           case DummyOperationTypes.BET_MATCHED: {
             description = I18n.t('transaction.betMatched');
-            amount = rawTransaction.getIn(['op', 1, 'matched_bet_amount']);
-            precision = assetsById.getIn(['1.3.0', 'precision']);
+            const amountBet = rawTransaction.getIn(['op', 1, 'amount_bet']);
+            amount = amountBet.get('amount');
+            precision = assetsById.getIn([amountBet.get('asset_id'), 'precision']);
             break;
           }
           case DummyOperationTypes.BETTING_MARKET_RESOLVED: {
@@ -106,6 +115,7 @@ class HistoryService {
    * category, (MATCHED_BET/ UNMATCHED_BET/ RESOLVED_BET)
    * bettor_id,
    * betting_market_id,
+   * asset_id,
    * original_bet_amount, = stake for back bet; liability for lay bet
    * backer_multiplier, = odds
    * back_or_lay, = 'back' or 'lay'
@@ -116,6 +126,7 @@ class HistoryService {
    * id,
    * category, (MATCHED_BET/ UNMATCHED_BET/ RESOLVED_BET)
    * bettor_id,
+   * asset_id,
    * betting_market_id,
    * original_bet_amount, = stake for back bet; liability for lay bet
    * backer_multiplier, = odds
@@ -127,6 +138,7 @@ class HistoryService {
    * id,
    * category, (MATCHED_BET/ UNMATCHED_BET/ RESOLVED_BET)
    * bettor_id,
+   * asset_id,
    * betting_market_id,
    * original_bet_amount, = stake for back bet; liability for lay bet
    * backer_multiplier, = odds
@@ -136,7 +148,10 @@ class HistoryService {
    * amount_won
    * }
    */
+
   static convertRawHistoryToMyBets(state, rawHistory) {
+    // TODO: find better place to put odds precision (this one should be returned by blockchain anyway)
+    const oddsPrecision = 10000;
     const dynGlobalObject = state.getIn(['app', 'blockchainDynamicGlobalProperty']);
     const globalObject = state.getIn(['app', 'blockchainGlobalProperty']);
 
@@ -148,19 +163,21 @@ class HistoryService {
     rawHistory.reverse().forEach((rawTransaction) => {
       const operationType = rawTransaction.getIn(['op', 0]);
       const operationContent = rawTransaction.getIn(['op', 1]);
+      const operationResult = rawTransaction.getIn(['result', 1]);
       switch (operationType) {
         case DummyOperationTypes.MAKE_BET: {
           // Create unmatched bets object
-          const betId = operationContent.get('bet_id');
+          const betId = operationResult
           const unmatchedBet = Immutable.fromJS({
             id: betId,
             category: BetCategories.UNMATCHED_BET,
-            bettor_id: operationContent.get('account_id'),
+            bettor_id: operationContent.get('bettor_id'),
             betting_market_id: operationContent.get('betting_market_id'),
             back_or_lay: operationContent.get('back_or_lay'),
-            backer_multiplier: operationContent.get('backer_multiplier'),
-            original_bet_amount: operationContent.get('original_bet_amount'),
-            unmatched_bet_amount: operationContent.get('original_bet_amount')
+            backer_multiplier: operationContent.get('backer_multiplier') / oddsPrecision,
+            asset_id: operationContent.getIn(['amount_to_bet', 'asset_id']),
+            original_bet_amount: operationContent.getIn(['amount_to_bet', 'amount']),
+            unmatched_bet_amount: operationContent.getIn(['amount_to_bet', 'amount'])
           });
           unmatchedBetsById = unmatchedBetsById.set(betId, unmatchedBet);
           break;
@@ -177,7 +194,7 @@ class HistoryService {
           if (unmatchedBet && !unmatchedBet.isEmpty()) {
             const originalAmount = unmatchedBet.get('original_bet_amount');
             const unmatchedAmount = unmatchedBet.get('unmatched_bet_amount');
-            const matchedAmount = operationContent.get('matched_bet_amount');
+            const matchedAmount = operationContent.getIn(['amount_bet', 'amount']);
             const updatedUnmatchedAmount = unmatchedAmount - matchedAmount;
             // Modify unmatched bet
             // Remove it if it reaches 0
@@ -195,10 +212,11 @@ class HistoryService {
               matchedBet = Immutable.fromJS({
                 id: betId,
                 category: BetCategories.MATCHED_BET,
-                bettor_id: operationContent.get('account_id'),
-                betting_market_id: operationContent.get('betting_market_id'),
-                back_or_lay: operationContent.get('back_or_lay'),
-                backer_multiplier: operationContent.get('backer_multiplier'),
+                bettor_id: unmatchedBet.get('bettor_id'),
+                betting_market_id: unmatchedBet.get('betting_market_id'),
+                back_or_lay: unmatchedBet.get('back_or_lay'),
+                backer_multiplier: unmatchedBet.get('backer_multiplier'),
+                asset_id: unmatchedBet.get('asset_id'),
                 original_bet_amount: originalAmount,
                 matched_bet_amount: matchedAmount
               })
