@@ -92,11 +92,11 @@ const getSidebarCompleteTree = createSelector(
             // Append betting market group to event node
             eventNode = eventNode.set('children', bettingMktGroupNodes);
             return eventNode.get('children').size > 0 ? eventNode : null;
-          }).filter( node => node !== null);;
+          }).filter( node => node !== null);
           // Append event to event group
           eventGroupNode = eventGroupNode.set('children', eventNodes);
           return eventGroupNode.get('children').size > 0 ? eventGroupNode : null;
-        }).filter( node => node !== null);;
+        }).filter( node => node !== null);
         // Append event group to sport
         sportNode = sportNode.set('children', eventGroupNodes);
         return  sportNode.get('children').size > 0 ? sportNode : null;
