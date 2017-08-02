@@ -15,15 +15,19 @@ const offerColumnWidth = 70;
 // TODO: Consider moving this to a utility library later
 // TODO: The implementation below is for demo purpose. Will review this in future iterations.
 const renderEventTime = (text, record) => {
-  const eventTime = moment(record.get('time'))
-  let dateString = eventTime.format('MMM D');
-  let timeString = eventTime.calendar();
-  // TODO: Need a better way as this is NOT going to work once we have localization
-  if (timeString.toLowerCase().includes('today')) {
-    dateString = 'Today';
+  const isLiveMarket= record.get('isLiveMarket');
+  if (isLiveMarket) {
+    return <span>{ I18n.t('simple_betting_widget.live') }</span>;
+  } else {
+    const eventTime = moment(record.get('time'))
+    let dateString = eventTime.format('MMM D');
+    let timeString = eventTime.calendar();
+    // TODO: Need a better way as this is NOT going to work once we have localization
+    if (timeString.toLowerCase().includes('today')) {
+      dateString = 'Today';
+    }
+    return <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>;
   }
-
-  return <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>;
 }
 
 const getColumns = (renderOffer, navigateTo, currencyFormat, sportName) =>  {

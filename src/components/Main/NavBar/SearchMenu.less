@@ -143,20 +143,6 @@ div.search-menu{
       line-height: 11px;
     }
   }
-  .Select-option{
-    color: @primary_label;
-    background-color: transparent;
-    font-size:16px;
-    padding-left:50px;
-    &.is-focused,&.is-pseudo-focused, &.is-selected{
-      color: @primary_label;
-      background-color: @topbar_more_menu_active;
-    }
-    &:hover{
-      color: @primary_label;
-      background-color: @topbar_more_menu_active;
-    }
-  }
 
   .Select-option-holder{
      &.is-focused,&.is-pseudo-focused, &.is-selected{
@@ -164,6 +150,36 @@ div.search-menu{
      }
      &:hover{
        background-color: @topbar_more_menu_active;
+     }
+     padding-left: 50px;
+
+     .badge {
+       display: inline-block;
+       width: 10px;
+       height: 10px;
+       border-radius: 5px;
+       margin-right: 10px;
+       background-color: @live_market_marker;
+     }
+
+     .match-start-on {
+       display: inline-block;
+     }
+
+     .Select-option{
+       padding-left: 0px;
+       color: @primary_label;
+       background-color: transparent;
+       font-size:16px;
+       display: inline-block;
+       &.is-focused,&.is-pseudo-focused, &.is-selected{
+         color: @primary_label;
+         background-color: @topbar_more_menu_active;
+       }
+       &:hover{
+         color: @primary_label;
+         background-color: @topbar_more_menu_active;
+       }
      }
    }
 

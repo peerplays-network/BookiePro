@@ -9,11 +9,9 @@ import { I18n } from 'react-redux-i18n';
 import Immutable from 'immutable';
 import { findKeyPathOf } from '../../../utility/TreeUtils'
 import { LoadingStatus } from '../../../constants';
+import moment from 'moment';
 
 const RESULT_COUNT_ID = '0';
-const SELECT_OPTION_STYLE = {
-  display: 'inline-block',
-};
 
 class SearchOption extends PureComponent {
   constructor(props) {
@@ -30,11 +28,15 @@ class SearchOption extends PureComponent {
   render () {
     return (
       <div className='Select-option-holder' onClick={ this.handleMouseDown }>
-        <div className='Select-option' style={ SELECT_OPTION_STYLE }>
-          {this.props.option.event_name}
+        {
+          this.props.option.isLiveMarket &&
+          <span className='badge' />
+        }
+        <div className='Select-option'>
+          {this.props.option.name}
         </div>
-        <div style={ SELECT_OPTION_STYLE }>
-          {this.props.option.matchStartOn}
+        <div className='match-start-on'>
+          { moment(this.props.option.start_time).format('ddd, DD/MM/YYYY HH:mm') }
         </div>
       </div>
     );
@@ -111,7 +113,7 @@ class SearchMenu extends PureComponent {
       this.props.clearSearchResult();
     } else {
       //do nothing when clicking on the result description text
-      if ( event.event_id === RESULT_COUNT_ID ){
+      if ( event.id === RESULT_COUNT_ID ){
         return;
       }
     }
@@ -144,20 +146,14 @@ class SearchMenu extends PureComponent {
 
   }
 
-  //onClick of the event shown in Search Menu
-  gotoEvent (value, event) {
-  }
 
   render() {
 
     //append match date time to each result
     //appending 'number of search result text' into the first row
-    //TODO retrieve match date time from blocckchain once it is ready
-    const results = this.props.searchResult.map( item => {
-      return item.set('matchStartOn', I18n.t('searchMenu.match_start_on'))
-    }).splice( 0, 0,
-      { 'event_id': '0',
-        'event_name': I18n.t('searchMenu.no_of_result', {count: this.props.searchResult.size, searchText: this.state.searchText })
+    const results = this.props.searchResult.splice( 0, 0,
+      { 'id': '0',
+        'name': I18n.t('searchMenu.no_of_result', {count: this.props.searchResult.size, searchText: this.state.searchText })
       }
     );
 
@@ -179,9 +175,6 @@ class SearchMenu extends PureComponent {
                   value={ this.state.value }
                   onChange={ this.onChange }
                   optionComponent={ SearchOption }
-                  onValueClick={ this.gotoEvent }
-                  valueKey='event_id'
-                  labelKey='event_name'
                   cache={ false }
                   onInputChange={ this.onInputChange }
                   isLoading={ this.state.isLoading }

@@ -68,6 +68,13 @@ const getEventTime = createSelector(
   }
 )
 
+const getIsLiveMarket = createSelector(
+  getEvent,
+  (event) => {
+    return event && event.get('isLiveMarket');
+  }
+)
+
 
 const getBettingMarkets = createSelector(
   [
@@ -165,6 +172,7 @@ const BettingMarketGroupPageSelector = {
   getMarketData,
   getEventName,
   getEventTime,
+  getIsLiveMarket,
   getTotalMatchedBetsAmount,
   getUnconfirmedBets,
   getLoadingStatus,

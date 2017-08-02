@@ -36,7 +36,7 @@ class ComplexBettingWidget extends PureComponent {
     this.setTableData = this.setTableData.bind(this);
     this.placeAllBestBets = callIfMarketDrawerIsReady(this.placeAllBestBets.bind(this));
     this.getBestOfferOfEachmarket = this.getBestOfferOfEachmarket.bind(this);
-
+    this.renderLiveMarker = this.renderLiveMarker.bind(this);
   }
 
   componentDidMount(){
@@ -182,6 +182,14 @@ class ComplexBettingWidget extends PureComponent {
     }).filter( item => {
       return item !== undefined
     });
+  }
+
+  renderLiveMarker() {
+    if (this.props.isLiveMarket) {
+      return (
+        <span className='live'>{ I18n.t('complex_betting_widget.live') }</span>
+      )
+    }
   }
 
   render() {
@@ -361,7 +369,10 @@ class ComplexBettingWidget extends PureComponent {
 
       <div className='complex-betting'>
         <div className='title'>
-          <div className='name'> { widgetTitle } </div>
+          <div className='name'>
+            { widgetTitle }
+            { this.renderLiveMarker() }
+          </div>
           <div className='rules'>
             <span>
               { I18n.t('complex_betting_widget.matched') }: { this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
@@ -404,6 +415,7 @@ ComplexBettingWidget.propTypes = {
   unconfirmedBets: PropTypes.any,
   currencyFormat: PropTypes.string.isRequired,
   canCreateBet: PropTypes.any.isRequired,
+  isLiveMarket: PropTypes.bool,
 };
 
 export default ComplexBettingWidget;

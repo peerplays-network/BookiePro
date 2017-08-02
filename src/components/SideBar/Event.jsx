@@ -9,6 +9,10 @@ class Event extends PureComponent {
       <div className='event-node-container' key={ id } onClick={ onClick  }>
         <div className={ `event-label-container${data.isSelected ? '-selected' : ''}` }>
           <label>{ EventNameUtils.breakAtVs(name) }</label>
+          {
+            data.isLiveMarket &&
+            <span className='badge' />
+          }
         </div>
       </div>
     );
