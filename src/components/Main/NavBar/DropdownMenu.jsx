@@ -7,7 +7,6 @@ import {
 } from 'antd';
 
 const DropdownMenu = (props) => {
-  console.log(props.currentKey);
   return(
     <Card className={ props.cardClass }>
       <Menu onClick={ props.onSubmenuClick }
