@@ -183,7 +183,7 @@ class HistoryService {
           unmatchedBetsById = unmatchedBetsById.set(betId, unmatchedBet);
           break;
         }
-        case DummyOperationTypes.CANCEL_BET: {
+        case DummyOperationTypes.BET_CANCELLED: {
           const betId = operationContent.get('bet_id');
           unmatchedBetsById = unmatchedBetsById.delete(betId);
           break;
@@ -231,14 +231,17 @@ class HistoryService {
           break;
         }
         case DummyOperationTypes.BETTING_MARKET_RESOLVED: {
+          const resolutions = operationContent.get('resolutions');
+          const bettingMarketIds = resolutions.map(resolution =>  resolution.get(0));
+          let gameResultByBettingMarketId = Immutable.Map(resolutions);
           // Remove all related unmatched bets
-          const bettingMarketId = operationContent.get('betting_market_id');
           unmatchedBetsById = unmatchedBetsById.filter((unmatchedBet) => {
-            return unmatchedBet.get('betting_market_id') !== bettingMarketId;
+            return bettingMarketIds.includes(unmatchedBet.get('betting_market_id'));
           });
           // Create resolved bets from related matched bets
           matchedBetsById.forEach((matchedBet) => {
-            if (matchedBet.get('betting_market_id') === bettingMarketId) {
+            const bettingMarketId = matchedBet.get('betting_market_id');
+            if (bettingMarketIds.includes(bettingMarketId)) {
               const betId = matchedBet.get('id');
               let resolvedBet = matchedBet;
               resolvedBet = resolvedBet.set('category', BetCategories.RESOLVED_BET);
@@ -246,8 +249,31 @@ class HistoryService {
               const blockNum  = rawTransaction.get('block_num');
               const resolvedTime = moment(BlockchainUtils.calcBlockTime(blockNum, globalObject, dynGlobalObject));
               // Set amount won
-              // TODO: since we don't have a way to know which bet side is winning, always assume this bet is winning
-              const amountWon = matchedBet.get('matched_bet_amount') * (matchedBet.get('backer_multiplier') - 1);
+              const gameResult = gameResultByBettingMarketId.get(bettingMarketId);
+              let amountWon = 0;
+              switch (gameResult) {
+                case 'win': {
+                  if (matchedBet.get('back_or_lay') === 'back') {
+                    amountWon = matchedBet.get('matched_bet_amount') * (matchedBet.get('backer_multiplier') - 1);
+                  } else if (matchedBet.get('back_or_lay') === 'lay') {
+                    amountWon = (-1) * matchedBet.get('matched_bet_amount');
+                  }
+                  break;
+                }
+                case 'not_win': {
+                  if (matchedBet.get('back_or_lay') === 'back') {
+                    amountWon = (-1) * matchedBet.get('matched_bet_amount');
+                  } else if (matchedBet.get('back_or_lay') === 'lay') {
+                    amountWon = matchedBet.get('matched_bet_amount') * (matchedBet.get('backer_multiplier') - 1);
+                  }
+                  break;
+                }
+                case 'cancel': {
+                  amountWon = 0;
+                  break;
+                }
+                default: break;
+              }
               resolvedBet = resolvedBet.set('resolved_time', resolvedTime)
                                         .set('amount_won', amountWon);
               resolvedBetsById = resolvedBetsById.set(betId, resolvedBet);
@@ -255,7 +281,7 @@ class HistoryService {
           })
           // Remove resolved bets from matchedbets list
           matchedBetsById = matchedBetsById.filterNot((matchedBet) => {
-            return (matchedBet.get('betting_market_id') === bettingMarketId);
+            return bettingMarketIds.includes(matchedBet.get('betting_market_id'));
           });
           break;
         }
