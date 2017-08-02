@@ -126,7 +126,7 @@ class SearchMenu extends PureComponent {
 
     if ( this.props.completeTree && event){
       const nested = Immutable.fromJS(this.props.completeTree);
-      const keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === event.event_id) );
+      const keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === event.id) );
       const moneyline = nested.getIn(keyPath).get('children').filter((mktGroup) =>
         //NOTE if type id is not in string format please change it
         mktGroup.get('description').toUpperCase() === 'MONEYLINE'
