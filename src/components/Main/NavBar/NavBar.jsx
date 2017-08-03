@@ -25,7 +25,7 @@ class NavBar extends PureComponent {
 
   renderLogo(){
     //Hide cursor and deactivate click event of logo when on home page
-    const isHomeScreen = window.location.hash.includes('/exchange');
+    const isHomeScreen = window.location.hash.endsWith('/exchange');
     return(
       <div
         className={ 'logo' + (!isHomeScreen ? ' link' : '') }
