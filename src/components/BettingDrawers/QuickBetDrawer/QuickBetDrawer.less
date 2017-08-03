@@ -39,9 +39,8 @@
       color: white;
       width: 100%;
       text-transform: none;  // for displaying mB properly
-      &:hover{
-        color: @primary_label;
-        .btn-regular;
+      &:disabled{
+        .btn-regular-disabled;
       }
     }
   }
@@ -50,5 +49,11 @@
   .Resizer {
     cursor: auto;
     display: none;
+  }
+  .btn-regular{
+    &:hover{
+      color: @primary_label;
+      .btn-regular;
+    }
   }
 }
