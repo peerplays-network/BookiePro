@@ -123,8 +123,7 @@ const getSportPageData = createSelector(
       eventGroupNode = eventGroupNode.set('events', eventNodes);
       // Set event group to the sport page data
       sportPageData = sportPageData.push(eventGroupNode);
-
-    })
+    });
 
     return sportPageData;
   }

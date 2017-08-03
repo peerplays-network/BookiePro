@@ -100,7 +100,7 @@ const getEventGroupPageData = createSelector(
 
     // Create event nodes (= event group page data) based on active events
     const activeEvents = activeEventsByEventGroupId.get(relatedEventGroupId) || Immutable.List();
-    let eventGroupPageData = activeEvents.map((event) => {
+    const eventGroupPageData = activeEvents.map((event) => {
       const offers = simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
       // Find the MoneyLine Betting Market Group of this event
       const moneylineBettingMarketId = offers.getIn(['0', 'betting_market_id']);
