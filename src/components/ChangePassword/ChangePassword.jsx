@@ -45,8 +45,8 @@ class ChangePassword extends PureComponent{
     return(
       <div className='change-password section-padding'>
         <Breadcrumb className='bookie-breadcrumb'>
-          <Breadcrumb.Item><a onClick={ this.navigateToHome }>{ I18n.t('myAccount.home') }</a></Breadcrumb.Item>
-          <Breadcrumb.Item><a onClick={ this.navigateToMyAccount }>{ I18n.t('myAccount.my_account') }</a></Breadcrumb.Item>
+          <Breadcrumb.Item><a onClick={ this.navigateToHome }>{ I18n.t('myAccount.home') } </a></Breadcrumb.Item>
+          <Breadcrumb.Item><a onClick={ this.navigateToMyAccount }>{ I18n.t('myAccount.my_account') } </a></Breadcrumb.Item>
           <Breadcrumb.Item>{ I18n.t('myAccount.change_password') }</Breadcrumb.Item>
         </Breadcrumb>
         <Card className='bookie-card'
