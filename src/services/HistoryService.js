@@ -223,7 +223,9 @@ class HistoryService {
               })
             } else {
               // update it if it exists
-              matchedBet = matchedBet.set('matched_bet_amount', matchedAmount);
+              const prevMatchedAmount = matchedBet.get('matched_bet_amount');
+              const updatedMatchedAmount = prevMatchedAmount + matchedAmount;
+              matchedBet = matchedBet.set('matched_bet_amount', updatedMatchedAmount);
             }
             // Update matched bets
             matchedBetsById = matchedBetsById.set(betId, matchedBet);
