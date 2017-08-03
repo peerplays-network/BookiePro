@@ -23,7 +23,8 @@ export const translationsObject = {
       exportNoDataHeader: 'No data',
       exportStatusHeader: 'Export Failed',
       close: 'Close',
-      unknown_error: 'Unknown Error'
+      unknown_error: 'Unknown Error',
+      peerplays_logo_title: 'Powered by Peerplays'
     },
     titleBar:{
       title: 'Bookie Pro',

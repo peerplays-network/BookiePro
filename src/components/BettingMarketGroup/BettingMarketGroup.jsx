@@ -6,6 +6,7 @@ import { BettingMarketGroupPageSelector, MarketDrawerSelector } from '../../sele
 import { BettingMarketGroupPageActions, MarketDrawerActions } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import PeerPlaysLogo from '../PeerPlaysLogo';
 
 class BettingMarketGroup extends PureComponent {
 
@@ -47,6 +48,9 @@ class BettingMarketGroup extends PureComponent {
           rules={ this.props.rules }
           canCreateBet={ this.props.canCreateBet }
         />
+        <div className='margin-top-18'>
+          <PeerPlaysLogo />
+        </div>
       </div>
     )
   }

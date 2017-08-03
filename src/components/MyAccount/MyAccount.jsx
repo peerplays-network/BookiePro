@@ -17,6 +17,7 @@ import Deposit from './Deposit';
 import { MyAccountWithdraw } from '../Withdraw';
 import { SettingActions, BalanceActions, NavigateActions, MyAccountPageActions, AccountActions } from '../../actions';
 import { MyAccountPageSelector } from '../../selectors';
+import PeerPlaysLogo from '../PeerPlaysLogo';
 
 const Option = Select.Option;
 
@@ -204,6 +205,9 @@ class MyAccount extends PureComponent {
              exportLoadingStatus={ this.props.generateTransactionHistoryExportDataLoadingStatus }
              handleResetExport={ this.handleResetExport }
            />
+        </Row>
+        <Row>
+          <PeerPlaysLogo />
         </Row>
       </div>
     )
