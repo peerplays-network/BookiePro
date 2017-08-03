@@ -94,7 +94,10 @@ const getAllSportsData = createSelector(
           offers,
           moneyline: moneylineBettingMarketGroupId,
         });
+      }).filter( eventNode => {
+        return eventNode.get('moneyline') !== undefined
       });
+
       // Set events to the sport
       sportNode = sportNode.set('events', eventNodes);
       // Set sport to the all sports data
