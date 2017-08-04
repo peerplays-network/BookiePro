@@ -5,6 +5,7 @@
 
 @white: #FFFFFF;
 @black: #000000;
+@overlay_oxford_blue: rgba(0, 38, 66, 0.7);
 
 @deep_sky_blue: #00BEF4; // highlight+  primary button start
 @bright_cerulean: #2FA5E6;
@@ -60,6 +61,9 @@
 @btn_primary_start: @deep_sky_blue;
 @btn_primary_end: @medium_teal_blue;
 
+@btn_secondary_start: @medium_electric_blue;
+@btn_secondary_end: @dark_cerulean;;
+
 @banner_timer_top: @teal;
 @banner_timer_bottom: @skobeloff;
 
@@ -74,8 +78,8 @@
 @btn_shadow_outset: fade(@black, 50%);
 @introduction_btn_shadow_outset: fade(@black, 100%);
 @download_btn: linear-gradient(@bright_turquoise, @teal);
-@disable_button_start: @dark_cerulean;
-@disable_button_end: @medium_electric_blue;
+@disable_button_start: @dark_gray;
+@disable_button_end: @outer_space;
 @transparent_btn:@white;
 @transparent_btn_blue:@deep_sky_blue;
 
@@ -89,6 +93,7 @@
 // Buttons
 @btn_label: @primary_label;
 @primary_btn: linear-gradient(fade(@btn_primary_start, 92%), @btn_primary_end);
+@secondary_btn: linear-gradient(fade(@btn_secondary_start, 92%), @btn_secondary_end);
 @btn_shadow: 0 2px 3px 0 @btn_shadow_outset, inset 1px 2px 0 0 @btn_shadow_inset;
 @introduction_btn_shadow: 0 2px 3px 0 @introduction_btn_shadow_outset, inset 1px 2px 0 0 @btn_shadow_inset;
 @disable_btn: linear-gradient(fade(@disable_button_start, 92%), @disable_button_end);
