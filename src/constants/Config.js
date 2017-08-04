@@ -2,8 +2,8 @@ import _ from 'lodash';
 import { PrivateKey } from 'peerplaysjs-lib';
 
 const blockchainUrls = [
-  // 'wss://595-dev-blockchain.pixelplex.by/ws',
-  'wss://peerplays-dev.blocktrades.info/ws',
+  'wss://595-dev-blockchain.pixelplex.by/ws',
+  // 'wss://peerplays-dev.blocktrades.info/ws',
   // 'wss://ppy-node.bitshares.eu'
 ]
 
@@ -15,7 +15,7 @@ const Config = {
   blockchainUrls: shuffledBlockhainUrls,
   softwareUpdateReferenceAccountName: 'peerplays1',
   gatewayAccountName: 'gateway1',
-  useDummyData: false,
+  useDummyData: true,
   registerThroughRegistrar: false, // Set this to false to register through faucet
   accountRegistar: {
     name: 'init0',
