@@ -7,16 +7,18 @@ import {
 } from 'antd';
 
 const DropdownMenu = (props) => {
+  const isOnMyAccount = window.location.hash === '#/my-account' || window.location.hash === '#/change-password';
   return(
     <Card className={ props.cardClass }>
-      <Menu onClick={ props.onSubmenuClick }>
-        <Menu.Item key='myaccount' className={ window.location.hash === '#/my-account' ? '' : 'ant-menu-item-default' }>
+      <Menu onClick={ props.onSubmenuClick }
+        selectedKeys={ [props.currentKey] }>
+        <Menu.Item key='myaccount' className={ isOnMyAccount ? 'ant-menu-item-selected' : '' }>
           <i className='account-dropdown-icon'></i> { I18n.t('topbar.myaccount') }
         </Menu.Item>
-        <Menu.Item key='help' className={ window.location.hash === '#/help-and-support' ? '' : 'ant-menu-item-default' }>
+        <Menu.Item key='help' className={ window.location.hash === '#/help-and-support' ? 'ant-menu-item-selected' : '' }>
           <Icon type='question-circle-o' /> { I18n.t('topbar.help') }
         </Menu.Item>
-        <Menu.Item key='logout' className='ant-menu-item-default'>
+        <Menu.Item key='logout'>
           <Icon type='logout' /> { I18n.t('topbar.signout') }
         </Menu.Item>
       </Menu>
