@@ -402,6 +402,7 @@ export const translationsObject = {
         },
         success: {
           instructions: 'Your bets have been successfully updated.',
+          my_bet_button: 'GO TO MY BETS'
         },
         insufficient_balance: {
           instructions: 'You do not have sufficient funds to update the bet/s. Please edit your bets or deposit more funds.',
