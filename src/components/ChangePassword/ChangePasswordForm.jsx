@@ -52,7 +52,7 @@ class ChangePasswordForm extends PureComponent {
 
       <div>
           <Button type='primary' htmlType='submit'
-            className={ 'btn ' + (disabled ? 'btn-regular-disabled':' btn-download') + ' grid-100' }
+            className={ 'btn ' + (disabled ? 'btn-disabled':' btn-download') + ' grid-100' }
             onClick={ fields.onClick.bind(this, fields.new_password.input.value) }
             disabled={ disabled }>
             {I18n.t('signup.download_rec_text')}
@@ -110,11 +110,11 @@ class ChangePasswordForm extends PureComponent {
           <div>{ Field.old_password }</div>
           <button hidden type='button' onClick={ reset }
             disabled={ oldPasswordDisabled }
-            className={ 'btn ' + ((oldPasswordDisabled) ? 'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-25' }>
+            className={ 'btn ' + ((oldPasswordDisabled) ? 'btn-disabled':' btn-regular') + ' grid-100 margin-top-25' }>
             { I18n.t('changePassword.cancel') }
           </button>
           <button type='submit'
-            className={ 'btn ' + ( confirmBtnDisabled ? 'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-25' }
+            className={ 'btn ' + ( confirmBtnDisabled ? 'btn-disabled':' btn-regular') + ' grid-100 margin-top-25' }
             disabled={ confirmBtnDisabled }>
             { isLoading ? I18n.t('application.loading') : I18n.t('changePassword.confirm') }
           </button>

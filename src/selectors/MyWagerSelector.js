@@ -249,7 +249,7 @@ const formatBettingData = (data, activeTab, precision, targetCurrency, startDate
 
     if(activeTab === MyWagerTabTypes.UNMATCHED_BETS){
       rowObj.event_name = <a target='_self'>{ row.get('event_name') }</a>;
-      rowObj.cancel = (row.get('cancelled') ? '' : <a className='btn cancel-btn' target='_self'>{ I18n.t('mybets.cancel') }</a>);
+      rowObj.cancel = (row.get('cancelled') ? '' : <a className='btn btn-cancel' target='_self'>{ I18n.t('mybets.cancel') }</a>);
     }
     data[index] = row.merge(rowObj);
   });
