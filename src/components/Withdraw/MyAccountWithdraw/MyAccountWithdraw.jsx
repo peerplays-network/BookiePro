@@ -114,7 +114,7 @@ class MyAccountWithdraw extends PureComponent{
                     <Field name='walletAddr' id='walletAddr' className='bookie-input walletAddr-input'
                            component={ renderField } placeholder={ I18n.t('myAccount.send_value') } type='text'/>
                     <button
-                      className={ 'btn inputWithButton ' + (isDisabled ? 'btn-regular-disabled':' btn-regular')  }
+                      className={ 'btn inputWithButton ' + (isDisabled ? 'btn-disabled':' btn-regular')  }
                       type='submit'
                       disabled={ isDisabled }>
                       { I18n.t('myAccount.send') }

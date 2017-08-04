@@ -11,12 +11,6 @@
   .ant-tabs-nav-container{
     height: auto;
   }
-  .btn-regular{
-    &:hover, &:focus{
-      .btn-regular;
-      color: @primary_label;
-    }
-  }
   .ant-tabs-bar{
     margin-bottom:0;
     border:0 none;
@@ -46,21 +40,6 @@
       &.ant-tabs-tab-active{
         background-color: @market_drawer_tab_active_bg;
       }
-    }
-  }
-  .btn-cancel,.btn-reset{
-    .btn-regular-disabled;
-    cursor: pointer;
-    &:hover{
-      .btn-regular-disabled;
-      cursor: pointer;
-      color: @primary_label;
-    }
-  }
-  .btn-regular{
-    &:hover{
-      color: @primary_label;
-      .btn-regular;
     }
   }
 }
