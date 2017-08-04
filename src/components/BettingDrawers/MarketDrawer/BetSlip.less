@@ -28,13 +28,12 @@ div.betslip {
     }
 
     > button.place-bet {
-        color: @primary_label;
+      .btn-regular;
         width: 100%;
         text-transform: none;  // for displaying mB properly
-        &:hover{
-          color: @primary_label;
-          .btn-regular;
-        }
+      &:disabled{
+        .btn-disabled;
       }
+    }
   }
 }

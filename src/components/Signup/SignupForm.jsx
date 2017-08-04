@@ -51,7 +51,7 @@ const renderCheckboxField = ({ id,pseudoText,tabIndex, errors, placeholder, inpu
 const renderRecoveryButtonFields = (fields) => (
   <div>
     <Button type='primary' htmlType='submit'
-      className={ 'btn ' + (fields.password.input.value!==fields.password_retype.input.value ? 'btn-regular-disabled':' btn-download') + ' grid-100' }
+      className={ 'btn ' + (fields.password.input.value!==fields.password_retype.input.value ? 'btn-disabled':' btn-download') + ' grid-100' }
       onClick={ fields.onClick.bind(this, fields.password.input.value) }
       disabled={ fields.password.input.value!==fields.password_retype.input.value }>
       {I18n.t('signup.download_rec_text')}
@@ -139,7 +139,7 @@ class SignupForm extends PureComponent {
           <div className='form-fields margin-btm-20 '>
               <button type='submit'
                 className={ 'btn ' + (invalid || submitting ||
-                loadingStatus===LoadingStatus.LOADING ? 'btn-regular-disabled':' btn-regular') + ' grid-100 margin-top-18' }
+                loadingStatus===LoadingStatus.LOADING ? 'btn-disabled':' btn-regular') + ' grid-100 margin-top-18' }
               disabled={ invalid || submitting || loadingStatus===LoadingStatus.LOADING }
               >{ loadingStatus===LoadingStatus.LOADING ? I18n.t('application.loading') : I18n.t('signup.create_account') }</button>
           </div>
