@@ -18,6 +18,7 @@ const {
   getEventsById,
   getSportsById,
   getAssetsById,
+  getEventGroupsById,
   getCurrencyFormat
 } = CommonSelector;
 
@@ -108,29 +109,65 @@ const rowData = createSelector(
   }
 )
 
+const getSportNameByBettingMarketId = createSelector(
+  [
+    getBettingMarketsById,
+    getBettingMarketGroupsById,
+    getEventsById,
+    getEventGroupsById,
+    getSportsById,
+  ],
+  (bettingMarketsById, bettingMarketGroupsById, eventsById, eventGroupsById, sportsById) => {
+    let sportNameByBettingMarketId = Immutable.Map();
+    bettingMarketsById.forEach( bettingMarket => {
+      const bettingMarketId = bettingMarket.get('id');
+      const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarket.get('group_id'));
+      const event = bettingMarketGroup && eventsById.get(bettingMarketGroup.get('event_id'));
+      const eventGroup = event && eventGroupsById.get(event.get('event_group_id'));
+      const sport = eventGroup && sportsById.get(eventGroup.get('sport_id'));
+      const sportName = (sport && sport.get('name')) || '';
+      sportNameByBettingMarketId = sportNameByBettingMarketId.set(bettingMarketId, sportName);
+    });
+    return sportNameByBettingMarketId;
+  }
+);
+
 //function to get initial collection with required values from rowData
 const betData = createSelector(
-  [getActiveTab, rowData, startDate, endDate, getCurrencyFormat, getPrecision],
-  (tab, bets, startDate, endDate, currencyFormat, precision)=>{
+  [
+    getActiveTab,
+    rowData,
+    startDate,
+    endDate,
+    getCurrencyFormat,
+    getPrecision,
+    getAssetsById,
+    getSportNameByBettingMarketId
+  ],
+  (tab, bets, startDate, endDate, currencyFormat, precision, assetsById, sportNameByBettingMarketId)=>{
     let newData = [];
     bets.forEach((bet) => {
-      if(tab !== MyWagerTabTypes.RESOLVED_BETS)
+
+      if(tab !== MyWagerTabTypes.RESOLVED_BETS) {
         newData.push(new Map({key: bet.get('id'),
           id: bet.get('id'),
           'betting_market_id': bet.get('betting_market_id'),
-          'back_or_lay': bet.get('back_or_lay').toUpperCase(),
+          'back_or_lay': bet.get('back_or_lay'),
           'stake': CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
           'odds': bet.get('backer_multiplier'),
+          'sport_name': sportNameByBettingMarketId.get(bet.get('betting_market_id')),
           'profit_liability': CurrencyUtils.getFormattedCurrency(getProfitLiabilityFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces)}));
-      else if (tab === MyWagerTabTypes.RESOLVED_BETS && moment(bet.get('resolved_time')).isBetween(startDate, endDate))
+      } else if (tab === MyWagerTabTypes.RESOLVED_BETS && moment(bet.get('resolved_time')).isBetween(startDate, endDate)) {
         newData.push(new Map({key: bet.get('id'),
           id: bet.get('id'),
           'betting_market_id': bet.get('betting_market_id'),
-          'back_or_lay': bet.get('back_or_lay').toUpperCase(),
+          'back_or_lay': bet.get('back_or_lay'),
           'stake': CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
           'odds': bet.get('backer_multiplier'),
+          'sport_name': sportNameByBettingMarketId.get(bet.get('betting_market_id')),
           'resolved_time': getFormattedDate(bet.get('resolved_time')),
           'profit_liability': CurrencyUtils.getFormattedCurrency(bet.get('amount_won')/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces)}));
+      }
     });
     return newData;
   }

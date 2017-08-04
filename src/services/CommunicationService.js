@@ -485,7 +485,10 @@ class CommunicationService {
    * Get any blockchain object given their id
    */
   static getObjectsByIds(arrayOfObjectIds = []) {
-    return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]);
+    return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]).then(result => {
+      // Remove empty object
+      return result.filter(object => !!object);
+    });
   }
 
   /**

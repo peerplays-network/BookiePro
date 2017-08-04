@@ -118,7 +118,6 @@ class BetActions {
 
         const rawHistory = getState().getIn(['rawHistory', 'rawHistoryByAccountId', accountId]);
         const myBets = HistoryService.convertRawHistoryToMyBets(getState(), rawHistory);
-
         // Fetch related betting markets (use set to make the list unique)
         let bettingMarketIds = Immutable.Set();
         myBets.unmatchedBetsById.forEach((bet) => {

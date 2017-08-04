@@ -772,6 +772,7 @@ export const translationsObject = {
       makeBet: 'Make Bet',
       cancelBet: 'Cancel Bet',
       betMatched: 'Bet Matched',
+      betCancelled: 'Bet Cancelled',
       bettingMarketResolved: 'Betting Market Resolved',
     },
     help: {

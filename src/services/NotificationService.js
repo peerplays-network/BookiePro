@@ -27,8 +27,9 @@ class NotificationService {
         relevantAssetIds = relevantAssetIds.add(assetId);
       } else if (operationType === DummyOperationTypes.BETTING_MARKET_RESOLVED) {
         // Extract betting market Id
-        const bettingMarketId = operationContent.get('betting_market_id');
-        relevantBettingMarketIds = relevantBettingMarketIds.add(bettingMarketId);
+        const resolutions = operationContent.get('resolutions');
+        const bettingMarketIds = resolutions.map(resolution => resolution.get(0));
+        relevantBettingMarketIds = relevantBettingMarketIds.concat(bettingMarketIds);
       }
     });
     return {
