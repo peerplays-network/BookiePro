@@ -1,10 +1,10 @@
 const bettingMarketGroups = [
-  {
-    "id": "1.104.1",
-    "event_id": "1.103.1",
-    "description": "Moneyline",
-    "rules_id": "1.107.1",
-  },
+  // {
+  //   "id": "1.104.1",
+  //   "event_id": "1.103.1",
+  //   "description": "Moneyline",
+  //   "rules_id": "1.107.1",
+  // },
   {
     "id": "1.104.2",
     "event_id": "1.103.1",
