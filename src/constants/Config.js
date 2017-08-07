@@ -25,7 +25,8 @@ const Config = {
       memo: PrivateKey.fromWif('5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3')
     },
   },
-  dummyDataAccountId: '1.2.240' // TODO: remove this later, for the meantime we can use this to configure dummy data
+  dummyDataAccountId: '1.2.243' // TODO: remove this
+  // later, for the meantime we can use this to configure dummy data
 }
 
 export default Config
