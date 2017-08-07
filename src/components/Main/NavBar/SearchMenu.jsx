@@ -65,7 +65,7 @@ class SearchMenu extends PureComponent {
   }
 
   onInputChange(searchText) {
-    //TODO options shown still exist when search text is empty
+    //TODO should use debounce for searching
     if ( searchText.length > 0){
       setTimeout(this.props.searchEvents(searchText), 2000)
     }
@@ -122,7 +122,7 @@ class SearchMenu extends PureComponent {
     }
     //to update the value props in Select component
     this.setState({
-      value: event,
+      value: event.id,
     });
 
     let isMoneyLineFound = false;
@@ -160,8 +160,11 @@ class SearchMenu extends PureComponent {
       }
     );
 
-    //valueKey and labelKey are the keys in options: [] provieded to loadOptions
-    // ref: https://github.com/JedWatson/react-select
+    //NOTE about valueKey and labelKey
+    // ref: https://github.com/JedWatson/react-select#further-options
+    // valueKey and labelKey are the keys in options: [] provieded to loadOptions
+    // removing either one in Select props may BREAK the value of search menu
+
     return (
 
       <div className='search-menu'>
@@ -180,6 +183,8 @@ class SearchMenu extends PureComponent {
                   onClose={ this.onClose }
                   optionComponent={ SearchOption }
                   cache={ false }
+                  valueKey='id'
+                  labelKey='name'
                   onInputChange={ this.onInputChange }
                   isLoading={ this.state.isLoading }
                   options={ this.state.isEmpty? [] : results.toJS() }
