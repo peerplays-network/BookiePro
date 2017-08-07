@@ -39,7 +39,7 @@ class RulesModal extends PureComponent {
     return (
       <Modal
         title={ this.props.rules.get('name') }
-        wrapClassName='rules-modal'
+        wrapClassName={ 'vertical-center-modal rules-modal' }
         visible={ this.props.visible }
         footer=''
         width={ 747 }
