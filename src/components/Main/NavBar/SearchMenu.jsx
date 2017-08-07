@@ -138,6 +138,9 @@ class SearchMenu extends PureComponent {
       if ( moneyline.size > 0 ){
         isMoneyLineFound =  true;
         this.props.navigateTo('/exchange/bettingmarketgroup/' + moneyline.get(0).get('id') );
+      } else {
+        this.props.navigateTo('/exchange/bettingmarketgroup/' + nested.getIn(keyPath).getIn(['children', 0 , 'id']) );
+
       }
 
     }
