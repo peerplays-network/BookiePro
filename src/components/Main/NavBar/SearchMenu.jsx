@@ -125,8 +125,6 @@ class SearchMenu extends PureComponent {
       value: event.id,
     });
 
-    let isMoneyLineFound = false;
-
     if ( this.props.completeTree && event){
       const nested = Immutable.fromJS(this.props.completeTree);
       const keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === event.id) );
@@ -136,7 +134,6 @@ class SearchMenu extends PureComponent {
       )
 
       if ( moneyline.size > 0 ){
-        isMoneyLineFound =  true;
         this.props.navigateTo('/exchange/bettingmarketgroup/' + moneyline.get(0).get('id') );
       } else {
         this.props.navigateTo('/exchange/bettingmarketgroup/' + nested.getIn(keyPath).getIn(['children', 0 , 'id']) );
@@ -145,10 +142,6 @@ class SearchMenu extends PureComponent {
 
     }
 
-    //NOTE navigateTo money line bettingmarketgroup instead
-    if ( isMoneyLineFound === false && event){
-      this.props.navigateTo('/exchange/event/' + event.event_id );
-    }
 
   }
 
