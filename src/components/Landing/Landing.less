@@ -7,10 +7,8 @@
   bottom: 0px;
   left: 0px;
   right: 0px;
-
   display: flex;
   flex-direction: column;
-
   .content {
     flex: 1;
     display: flex;
@@ -24,7 +22,7 @@
     }
     .slogan {
       margin-top: 44px;
-      font-size: 24px;
+      font-size: 26px;
       color: @primary_label_highlight;
       max-width: 400px;
       font-weight: bold;
@@ -36,24 +34,20 @@
       text-align: center;
       color: white;
     }
-    .signup-button {
-      margin-top: 23px;
-      font-size: 18px;
-      border-color: white;
-      border-style: solid;
-      border-width: 2px;
-      background-color: transparent;
-      cursor: pointer;
-      width: 250px;
+    .btn-transparent{
+      border: 1px solid @transparent_btn;
+      background: transparent;
       height: 40px;
       min-height: 40px;
-    }
-    .login-button {
-      margin-top: 11px;
-      font-size: 18px;
+      line-height: 40px;
       width: 250px;
-      height: 40px;
-      min-height: 40px;
+      margin-top: 10px;
+      font-size:18px;
+      &.is-blue-border{
+        margin-top: 35px;
+        color: @transparent_btn_blue;
+        border: 1px solid @transparent_btn_blue;
+      }
     }
     .steps {
       margin-top: 76px;
