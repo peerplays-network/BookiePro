@@ -51,7 +51,6 @@ class SearchMenu extends PureComponent {
     super(props);
     this.state = {
       isLoading: false,
-      isEmpty: true,
       search: '',
       debounced: '',
     };
@@ -119,7 +118,6 @@ class SearchMenu extends PureComponent {
 
     this.setState({
       searchText: searchText,
-      isEmpty: searchText.length === 0
     });
   }
 
@@ -140,7 +138,7 @@ class SearchMenu extends PureComponent {
     }
     //to update the value props in Select component
     this.setState({
-      value: event.id,
+      value: event && event.id !== RESULT_COUNT_ID ?  event.id : null
     });
 
     if ( this.props.completeTree && event){
@@ -170,6 +168,10 @@ class SearchMenu extends PureComponent {
         'name': I18n.t('searchMenu.no_of_result', {count: this.props.searchResult.size, searchText: this.state.searchText })
       }
     );
+    const shouldShowOptions = this.state.searchText && this.state.searchText.length > 0 && results.size > 1 ? results.toJS() : [] ;
+    console.log( shouldShowOptions)
+    console.log( this.state.value)
+
 
     //NOTE about valueKey and labelKey
     // ref: https://github.com/JedWatson/react-select#further-options
@@ -198,11 +200,12 @@ class SearchMenu extends PureComponent {
                   labelKey='name'
                   onInputChange={ this.onInputChange }
                   isLoading={ this.state.isLoading }
-                  options={ this.state.isEmpty? [] : results.toJS() }
+                  options={ shouldShowOptions }
                   backspaceRemoves={ this.state.backspaceRemoves }
                   placeholder={ I18n.t('searchMenu.search_place_holder') }
                   filterOptions={ this.filterOptions }
                   autofocus
+                  noResultsText={ null }
                 />
             }
           </Menu.Item>
