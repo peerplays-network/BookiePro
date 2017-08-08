@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import { NavigateActions, AuthActions } from '../../actions';
 import { LoadingStatus } from '../../constants';
 import Immutable from 'immutable';
+import PeerPlaysLogo from '../PeerPlaysLogo';
 
 class ChangePassword extends PureComponent{
 
@@ -77,6 +78,9 @@ class ChangePassword extends PureComponent{
             </div>
           </div>
         </Card>
+        <div>
+          <PeerPlaysLogo />
+        </div>
       </div>
     )
   }
