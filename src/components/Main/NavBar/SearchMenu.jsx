@@ -36,7 +36,8 @@ class SearchOption extends PureComponent {
           {this.props.option.name}
         </div>
         <div className='match-start-on'>
-          { moment(this.props.option.start_time).format('ddd, DD/MM/YYYY HH:mm') }
+          { this.props.option.id !== '0' ?
+            moment(this.props.option.start_time).format('ddd, DD/MM/YYYY HH:mm') : '' }
         </div>
       </div>
     );
