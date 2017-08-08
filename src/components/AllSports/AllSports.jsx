@@ -4,6 +4,7 @@ import { AllSportsBanner } from '../Banners';
 import { SimpleBettingWidget } from '../BettingWidgets';
 import { AllSportsActions } from '../../actions';
 import { AllSportsSelector, QuickBetDrawerSelector } from '../../selectors';
+import PeerPlaysLogo from '../PeerPlaysLogo';
 
 const MAX_EVENTS_PER_WIDGET = 3;
 const { getData } = AllSportsActions;
@@ -38,6 +39,9 @@ class AllSports extends PureComponent {
             )
           })
         }
+        <div className='margin-top-18'>
+          <PeerPlaysLogo />
+        </div>
       </div>
     );
   }

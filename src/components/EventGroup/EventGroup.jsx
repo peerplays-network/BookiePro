@@ -4,6 +4,7 @@ import { SportBanner } from '../Banners';
 import { SimpleBettingWidget } from '../BettingWidgets';
 import { EventGroupPageActions } from '../../actions';
 import { EventGroupPageSelector, QuickBetDrawerSelector } from '../../selectors';
+import PeerPlaysLogo from '../PeerPlaysLogo';
 
 const MAX_EVENT_PER_PAGE = 15;
 const { getData } = EventGroupPageActions;
@@ -29,6 +30,9 @@ class EventGroup extends PureComponent {
           pageSize={ MAX_EVENT_PER_PAGE }
           canCreateBet={ this.props.canCreateBet }
         />
+        <div className='margin-top-18'>
+          <PeerPlaysLogo />
+        </div>
       </div>
     )
   }

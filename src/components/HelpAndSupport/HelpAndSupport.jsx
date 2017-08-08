@@ -7,7 +7,7 @@ import { NavigateActions } from '../../actions';
 import Faq from './Faq';
 import FaqBanner from '../../assets/images/FAQ_banner@2x.png'
 import _ from 'lodash';
-
+import PeerPlaysLogo from '../PeerPlaysLogo';
 
 class HelpAndSupport extends PureComponent {
   constructor(props) {
@@ -34,6 +34,9 @@ class HelpAndSupport extends PureComponent {
         <div className='faqBanner' style={ { backgroundImage: bannerSource } }>
         </div>
         <Faq />
+        <div className='margin-top-18'>
+          <PeerPlaysLogo />
+        </div>
       </div>
     )
   }

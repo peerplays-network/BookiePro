@@ -11,6 +11,7 @@ import { List, Map } from 'immutable';
 import { I18n } from 'react-redux-i18n';
 import { MyWagerSelector } from '../../selectors';
 import { MyWagerTabTypes } from '../../constants';
+import PeerPlaysLogo from '../PeerPlaysLogo';
 
 const {  getBetData, getBetTotal, getCurrencyFormat, getBetsLoadingStatus } = MyWagerSelector;
 const TabPane = Tabs.TabPane;
@@ -156,6 +157,9 @@ class MyWager extends PureComponent {
             />
           </TabPane>
         </Tabs>
+        <div className='margin-top-18'>
+          <PeerPlaysLogo />
+        </div>
       </div>
     );
   }
