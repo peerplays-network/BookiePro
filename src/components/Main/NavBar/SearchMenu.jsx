@@ -54,6 +54,7 @@ class SearchMenu extends PureComponent {
 
     };
     this.onChange = this.onChange.bind(this);
+    this.onClose = this.onClose.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.filterOptions = this.filterOptions.bind(this);
     this.onRouteChangeHandle = this.onRouteChangeHandle.bind(this);
@@ -105,7 +106,9 @@ class SearchMenu extends PureComponent {
 
   }
 
-
+  onClose (){
+    this.props.clearSearchResult();
+  }
   onChange (event) {
 
     //Clear the search results when there is no search data
@@ -174,6 +177,7 @@ class SearchMenu extends PureComponent {
                   autoBlur={ true }
                   value={ this.state.value }
                   onChange={ this.onChange }
+                  onClose={ this.onClose }
                   optionComponent={ SearchOption }
                   cache={ false }
                   onInputChange={ this.onInputChange }
@@ -182,6 +186,7 @@ class SearchMenu extends PureComponent {
                   backspaceRemoves={ this.state.backspaceRemoves }
                   placeholder={ I18n.t('searchMenu.search_place_holder') }
                   filterOptions={ this.filterOptions }
+                  autofocus
                 />
             }
           </Menu.Item>
