@@ -208,7 +208,7 @@ export const translationsObject = {
     landing:{
       login: 'LOGIN',
       signup: 'JOIN BOOKIE PRO NOW',
-      slogan: 'Bet from anywhere in the world',
+      slogan: 'Bet From Anywhere in The World',
       intro: 'Sign-up and start betting in 2 minutes!',
       copyright: 'COPYRIGHT',
       privacy_policy: 'PRIVACY POLICY',
