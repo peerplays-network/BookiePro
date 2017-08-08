@@ -165,9 +165,6 @@ class SearchMenu extends PureComponent {
     );
     const shouldShowOptions = this.state.searchText && this.state.searchText.length > 0 && results.size > 1 ? results.toJS() : [] ;
 
-    console.log( shouldShowOptions)
-    console.log( this.state.value)
-
     //NOTE about valueKey and labelKey
     // ref: https://github.com/JedWatson/react-select#further-options
     // valueKey and labelKey are the keys in options definied in props:
