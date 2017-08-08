@@ -28,7 +28,7 @@ class SearchOption extends PureComponent {
 
   render () {
     return (
-      <div className='Select-option-holder' onClick={ this.handleMouseDown }>
+      <div className='Select-option-holder' onClick={ this.props.option.id !== '0' ? this.handleMouseDown : null }>
         {
           this.props.option.isLiveMarket &&
           <span className='badge' />
