@@ -51,7 +51,6 @@ class SearchMenu extends PureComponent {
     super(props);
     this.state = {
       isLoading: false,
-      search: '',
       debounced: '',
     };
     this.onChange = this.onChange.bind(this);
