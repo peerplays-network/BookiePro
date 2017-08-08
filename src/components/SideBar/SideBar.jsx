@@ -123,7 +123,7 @@ class SideBar extends PureComponent {
         if ( moneyline.length > 0){
           navigateTo('/exchange/bettingmarketgroup/' + moneyline[0].id );
         } else {
-          navigateTo('/exchange/' + node.customComponent.toLowerCase() + '/' + node.id);
+          navigateTo('/exchange/bettingmarketgroup/' + node.children[0].id );
         }
       } else {
         navigateTo('/exchange/' + node.customComponent.toLowerCase() + '/' + node.id);
