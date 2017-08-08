@@ -115,7 +115,10 @@ const getSportPageData = createSelector(
           offers,
           moneyline: moneylineBettingMarketGroupId,
         });
+      }).filter( eventNode => {
+        return eventNode.get('moneyline') !== undefined
       });
+
       // Set events to the event group node
       eventGroupNode = eventGroupNode.set('events', eventNodes);
       // Set event group to the sport page data

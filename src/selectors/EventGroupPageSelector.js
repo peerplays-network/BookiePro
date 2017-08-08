@@ -114,6 +114,8 @@ const getEventGroupPageData = createSelector(
         offers,
         moneyline: moneylineBettingMarketGroupId,
       });
+    }).filter( eventNode => {
+      return eventNode.get('moneyline') !== undefined
     });
 
     return eventGroupPageData;
