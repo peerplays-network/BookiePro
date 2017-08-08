@@ -10,6 +10,7 @@ import Immutable from 'immutable';
 import { findKeyPathOf } from '../../../utility/TreeUtils'
 import { LoadingStatus } from '../../../constants';
 import moment from 'moment';
+import Rx from 'rxjs/Rx';
 
 const RESULT_COUNT_ID = '0';
 
@@ -51,33 +52,30 @@ class SearchMenu extends PureComponent {
     this.state = {
       isLoading: false,
       isEmpty: true,
-
+      search: '',
+      debounced: '',
     };
     this.onChange = this.onChange.bind(this);
     this.onClose = this.onClose.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.filterOptions = this.filterOptions.bind(this);
     this.onRouteChangeHandle = this.onRouteChangeHandle.bind(this);
+    this.onSearch$ = new Rx.Subject();
   }
 
-  onRouteChangeHandle(){
-    this.select.blurInput();
+  componentDidMount(){
+    this.subscription = this.onSearch$
+      .debounceTime(300)
+      .subscribe(debounced => {
+        this.props.searchEvents(debounced)
+        this.setState({ debounced })
+      });
   }
 
-  onInputChange(searchText) {
-    //TODO should use debounce for searching
-    if ( searchText.length > 0){
-      setTimeout(this.props.searchEvents(searchText), 2000)
+  componentWillUnmount() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
-
-    this.setState({
-      searchText: searchText,
-      isEmpty: searchText.length === 0
-    });
-  }
-
-  filterOptions( options, filter, currentValues){
-    return options
   }
 
   componentWillReceiveProps(nextProps) {
@@ -109,6 +107,26 @@ class SearchMenu extends PureComponent {
   onClose (){
     this.props.clearSearchResult();
   }
+
+  onRouteChangeHandle(){
+    this.select.blurInput();
+  }
+
+  onInputChange(searchText) {
+    if ( searchText.length > 0){
+      this.onSearch$.next(searchText);
+    }
+
+    this.setState({
+      searchText: searchText,
+      isEmpty: searchText.length === 0
+    });
+  }
+
+  filterOptions( options, filter, currentValues){
+    return options
+  }
+
   onChange (event) {
 
     //Clear the search results when there is no search data
@@ -137,14 +155,11 @@ class SearchMenu extends PureComponent {
         this.props.navigateTo('/exchange/bettingmarketgroup/' + moneyline.get(0).get('id') );
       } else {
         this.props.navigateTo('/exchange/bettingmarketgroup/' + nested.getIn(keyPath).getIn(['children', 0 , 'id']) );
-
       }
 
     }
 
-
   }
-
 
   render() {
 
@@ -158,8 +173,8 @@ class SearchMenu extends PureComponent {
 
     //NOTE about valueKey and labelKey
     // ref: https://github.com/JedWatson/react-select#further-options
-    // valueKey and labelKey are the keys in options: [] provieded to loadOptions
-    // removing either one in Select props may BREAK the value of search menu
+    // valueKey and labelKey are the keys in options definied in props:
+    // removing either one in Select props may BREAK the selected options shown in search menu
 
     return (
 
