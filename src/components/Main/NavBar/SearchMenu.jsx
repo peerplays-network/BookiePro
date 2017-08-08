@@ -55,7 +55,6 @@ class SearchMenu extends PureComponent {
       debounced: '',
     };
     this.onChange = this.onChange.bind(this);
-    this.onClose = this.onClose.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.filterOptions = this.filterOptions.bind(this);
     this.onRouteChangeHandle = this.onRouteChangeHandle.bind(this);
@@ -101,10 +100,6 @@ class SearchMenu extends PureComponent {
       }
     }
 
-  }
-
-  onClose (){
-    this.props.clearSearchResult();
   }
 
   onRouteChangeHandle(){
@@ -170,6 +165,9 @@ class SearchMenu extends PureComponent {
     );
     const shouldShowOptions = this.state.searchText && this.state.searchText.length > 0 && results.size > 1 ? results.toJS() : [] ;
 
+    console.log( shouldShowOptions)
+    console.log( this.state.value)
+
     //NOTE about valueKey and labelKey
     // ref: https://github.com/JedWatson/react-select#further-options
     // valueKey and labelKey are the keys in options definied in props:
@@ -190,7 +188,6 @@ class SearchMenu extends PureComponent {
                   autoBlur={ true }
                   value={ this.state.value }
                   onChange={ this.onChange }
-                  onClose={ this.onClose }
                   optionComponent={ SearchOption }
                   cache={ false }
                   valueKey='id'
