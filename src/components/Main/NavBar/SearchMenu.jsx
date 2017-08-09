@@ -54,7 +54,6 @@ class SearchMenu extends PureComponent {
       debounced: '',
     };
     this.onChange = this.onChange.bind(this);
-    this.onValueClick = this.onValueClick.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.filterOptions = this.filterOptions.bind(this);
     this.onRouteChangeHandle = this.onRouteChangeHandle.bind(this);
@@ -120,10 +119,6 @@ class SearchMenu extends PureComponent {
     return options
   }
 
-  onValueClick ( value, event){
-
-  }
-
   onChange (event) {
     //Clear the search results when there is no search data
     if(!event){
@@ -173,12 +168,6 @@ class SearchMenu extends PureComponent {
     // valueKey and labelKey are the keys in options definied in props:
     // removing either one in Select props may BREAK the selected options shown in search menu
 
-    if ( searchText){
-      console.log ( searchText + ' '+ searchText.length )
-    } else {
-    }
-
-    console.log (results.size)
     return (
 
       <div className='search-menu'>
@@ -194,7 +183,6 @@ class SearchMenu extends PureComponent {
                   autoBlur={ true }
                   value={ this.state.value }
                   onChange={ this.onChange }
-                  onValueClick={ this.onValueClick }
                   optionComponent={ SearchOption }
                   cache={ false }
                   valueKey='id'
