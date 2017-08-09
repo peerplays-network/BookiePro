@@ -54,6 +54,7 @@ class SearchMenu extends PureComponent {
       debounced: '',
     };
     this.onChange = this.onChange.bind(this);
+    this.onClose = this.onClose.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.filterOptions = this.filterOptions.bind(this);
     this.onRouteChangeHandle = this.onRouteChangeHandle.bind(this);
@@ -117,6 +118,14 @@ class SearchMenu extends PureComponent {
 
   filterOptions( options, filter, currentValues){
     return options
+  }
+
+  onClose (){
+    setTimeout( () => {
+      if (!this.state.value){
+        this.props.clearSearchResult();
+      }
+    }, 500);
   }
 
   onChange (event) {
@@ -183,6 +192,7 @@ class SearchMenu extends PureComponent {
                   autoBlur={ true }
                   value={ this.state.value }
                   onChange={ this.onChange }
+                  onClose={ this.onClose }
                   optionComponent={ SearchOption }
                   cache={ false }
                   valueKey='id'

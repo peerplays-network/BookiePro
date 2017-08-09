@@ -2,8 +2,8 @@ import _ from 'lodash';
 import { PrivateKey } from 'peerplaysjs-lib';
 
 const blockchainUrls = [
-  'wss://595-dev-blockchain.pixelplex.by/ws',
-  // 'wss://peerplays-dev.blocktrades.info/ws',
+  // 'wss://595-dev-blockchain.pixelplex.by/ws',
+  'wss://peerplays-dev.blocktrades.info/ws',
   // 'wss://ppy-node.bitshares.eu'
 ]
 
