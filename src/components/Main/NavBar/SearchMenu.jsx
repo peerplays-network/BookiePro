@@ -27,18 +27,17 @@ class SearchOption extends PureComponent {
   }
 
   render () {
+    const { option } = this.props;
+
     return (
-      <div className='Select-option-holder' onClick={ this.props.option.id !== '0' ? this.handleMouseDown : null }>
-        {
-          this.props.option.isLiveMarket &&
-          <span className='badge' />
-        }
-        <div className='Select-option'>
-          {this.props.option.name}
+      <div className='Select-option-holder' onClick={ option.id !== '0' ? this.handleMouseDown : null }>
+        {  option.isLiveMarket &&  <span className='badge' />  }
+        <div className={ option.id !== '0' ? 'Select-option' : 'Select-option Select-result' }>
+          { option.name }
         </div>
         <div className='match-start-on'>
-          { this.props.option.id !== '0' ?
-            moment(this.props.option.start_time).format('ddd, DD/MM/YYYY HH:mm') : '' }
+          { option.id !== '0' ?
+            moment(option.start_time).format('ddd, DD/MM/YYYY HH:mm') : '' }
         </div>
       </div>
     );
@@ -55,6 +54,7 @@ class SearchMenu extends PureComponent {
       debounced: '',
     };
     this.onChange = this.onChange.bind(this);
+    this.onValueClick = this.onValueClick.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.filterOptions = this.filterOptions.bind(this);
     this.onRouteChangeHandle = this.onRouteChangeHandle.bind(this);
@@ -120,8 +120,11 @@ class SearchMenu extends PureComponent {
     return options
   }
 
-  onChange (event) {
+  onValueClick ( value, event){
 
+  }
+
+  onChange (event) {
     //Clear the search results when there is no search data
     if(!event){
       this.props.clearSearchResult();
@@ -149,22 +152,22 @@ class SearchMenu extends PureComponent {
       } else {
         this.props.navigateTo('/exchange/bettingmarketgroup/' + nested.getIn(keyPath).getIn(['children', 0 , 'id']) );
       }
-
     }
 
   }
 
   render() {
 
+    const { searchText } = this.state;
+
     //append match date time to each result
     //appending 'number of search result text' into the first row
     const results = this.props.searchResult.splice( 0, 0,
       { 'id': '0',
-        'name': I18n.t('searchMenu.no_of_result', {count: this.props.searchResult.size, searchText: this.state.searchText })
+        'name': I18n.t('searchMenu.no_of_result', {count: this.props.searchResult.size, searchText: searchText })
       }
     );
-    const shouldShowOptions = this.state.searchText && this.state.searchText.length > 0 && results.size > 1 ? results.toJS() : [] ;
-
+    const shouldShowOptions = searchText && searchText.length > 0 && results.size > 1 ? results.toJS() : [] ;
     //NOTE about valueKey and labelKey
     // ref: https://github.com/JedWatson/react-select#further-options
     // valueKey and labelKey are the keys in options definied in props:
@@ -185,6 +188,7 @@ class SearchMenu extends PureComponent {
                   autoBlur={ true }
                   value={ this.state.value }
                   onChange={ this.onChange }
+                  onValueClick={ this.onValueClick }
                   optionComponent={ SearchOption }
                   cache={ false }
                   valueKey='id'
@@ -196,7 +200,7 @@ class SearchMenu extends PureComponent {
                   placeholder={ I18n.t('searchMenu.search_place_holder') }
                   filterOptions={ this.filterOptions }
                   autofocus
-                  noResultsText={ null }
+                  noResultsText={ searchText && results.size !== 1 ? I18n.t('searchMenu.no_of_result_0') : null }
                 />
             }
           </Menu.Item>
