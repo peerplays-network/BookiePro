@@ -173,6 +173,12 @@ class SearchMenu extends PureComponent {
     // valueKey and labelKey are the keys in options definied in props:
     // removing either one in Select props may BREAK the selected options shown in search menu
 
+    if ( searchText){
+      console.log ( searchText + ' '+ searchText.length )
+    } else {
+    }
+
+    console.log (results.size)
     return (
 
       <div className='search-menu'>
@@ -200,7 +206,7 @@ class SearchMenu extends PureComponent {
                   placeholder={ I18n.t('searchMenu.search_place_holder') }
                   filterOptions={ this.filterOptions }
                   autofocus
-                  noResultsText={ searchText && results.size !== 1 ? I18n.t('searchMenu.no_of_result_0') : null }
+                  noResultsText={ searchText ? I18n.t('searchMenu.no_of_result_0') : null }
                 />
             }
           </Menu.Item>
