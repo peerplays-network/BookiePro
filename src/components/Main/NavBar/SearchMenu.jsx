@@ -124,6 +124,10 @@ class SearchMenu extends PureComponent {
     setTimeout( () => {
       if (!this.state.value){
         this.props.clearSearchResult();
+        console.log(this.state)
+        // this.setState({
+        //   searchText: '',
+        // });
       }
     }, 500);
   }
@@ -177,6 +181,7 @@ class SearchMenu extends PureComponent {
     // valueKey and labelKey are the keys in options definied in props:
     // removing either one in Select props may BREAK the selected options shown in search menu
 
+    console.log(searchText )
     return (
 
       <div className='search-menu'>
