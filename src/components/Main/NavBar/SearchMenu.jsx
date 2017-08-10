@@ -107,6 +107,7 @@ class SearchMenu extends PureComponent {
   }
 
   onInputChange(searchText) {
+
     if ( searchText.length > 0){
       this.onSearch$.next(searchText);
     }
@@ -124,10 +125,9 @@ class SearchMenu extends PureComponent {
     setTimeout( () => {
       if (!this.state.value){
         this.props.clearSearchResult();
-        console.log(this.state)
-        // this.setState({
-        //   searchText: '',
-        // });
+        this.setState({
+          searchText: '',
+        });
       }
     }, 500);
   }
@@ -175,13 +175,17 @@ class SearchMenu extends PureComponent {
         'name': I18n.t('searchMenu.no_of_result', {count: this.props.searchResult.size, searchText: searchText })
       }
     );
-    const shouldShowOptions = searchText && searchText.length > 0 && results.size > 1 ? results.toJS() : [] ;
+    const shouldShowOptions = searchText && searchText.length > 0 && results.size > 1 ? results.toJS() :
+      searchText && searchText.length > 0 ? [
+        { 'id': '0',
+          'name': I18n.t('searchMenu.no_of_result_0')
+        }
+      ] :  [] ;
     //NOTE about valueKey and labelKey
     // ref: https://github.com/JedWatson/react-select#further-options
     // valueKey and labelKey are the keys in options definied in props:
     // removing either one in Select props may BREAK the selected options shown in search menu
 
-    console.log(searchText )
     return (
 
       <div className='search-menu'>
@@ -209,7 +213,7 @@ class SearchMenu extends PureComponent {
                   placeholder={ I18n.t('searchMenu.search_place_holder') }
                   filterOptions={ this.filterOptions }
                   autofocus
-                  noResultsText={ searchText ? I18n.t('searchMenu.no_of_result_0') : null }
+                  noResultsText={ null }
                 />
             }
           </Menu.Item>
