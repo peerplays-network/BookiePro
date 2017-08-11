@@ -33,11 +33,11 @@ class RulesButton extends PureComponent {
     const { rules } = this.props;
     if (rules && !rules.isEmpty()) {
       return (
-        <Button className='rules-button' onClick={ this.onClick }>
-          <i className='info-icon'></i>
-          { I18n.t('rules_dialogue.buttonTitle') }
-          <RulesModal rules={ rules } visible={ this.state.rulesModalVisible } onCancel={ this.onCancelRulesModal } />
-        </Button>
+          <Button className='rules-button' onClick={ this.onClick }>
+            <i className='info-icon'></i>
+            { I18n.t('rules_dialogue.buttonTitle') }
+            <RulesModal rules={ rules } visible={ this.state.rulesModalVisible } onCancel={ this.onCancelRulesModal } />
+          </Button>
       )
     } else {
       return null;
