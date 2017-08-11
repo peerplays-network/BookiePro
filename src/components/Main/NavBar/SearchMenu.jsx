@@ -107,13 +107,15 @@ class SearchMenu extends PureComponent {
 
   onInputChange(searchText) {
 
-    if ( searchText.length > 0){
+    if ( searchText){
       this.onSearch$.next(searchText);
     }
 
     this.setState({
       searchText: searchText,
     });
+
+    return searchText
   }
 
   filterOptions( options, filter, currentValues){
@@ -121,6 +123,9 @@ class SearchMenu extends PureComponent {
   }
 
   onClose (){
+    //100 is succificent such that
+    // 1: the result wont be cleaered after choosing an option. i.e. time > 0
+    // 2: time between user clicking elsewhere and focusing on search input again is small enough to update the < <100ms
     setTimeout( () => {
       if (!this.state.value){
         this.props.clearSearchResult();
@@ -128,25 +133,36 @@ class SearchMenu extends PureComponent {
           searchText: '',
         });
       }
-    }, 500);
+    }, 50);
   }
 
   onChange (event) {
     //Clear the search results when there is no search data
-    if(!event){
+    if(!event ){
       this.props.clearSearchResult();
-    } else {
+      this.setState({
+        searchText: '',
+      });
+    } else if (event === RESULT_COUNT_ID ){
+      //  event === RESULT_COUNT_ID when resetValue is trigerred i.e. cross button is clicked
+      this.props.clearSearchResult();
+      this.setState({
+        searchText: '',
+      });
+      return;
+    } else if ( event.id === RESULT_COUNT_ID ){
       //do nothing when clicking on the result description text
-      if ( event.id === RESULT_COUNT_ID ){
-        return;
-      }
+      return;
     }
+
+
+
     //to update the value props in Select component
     this.setState({
       value: event && event.id !== RESULT_COUNT_ID ?  event.id : null
     });
 
-    if ( this.props.completeTree && event){
+    if ( this.props.completeTree && event ){
       const nested = Immutable.fromJS(this.props.completeTree);
       const keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === event.id) );
       const moneyline = nested.getIn(keyPath).get('children').filter((mktGroup) =>
@@ -164,7 +180,6 @@ class SearchMenu extends PureComponent {
   }
 
   render() {
-
     const { searchText } = this.state;
 
     //append match date time to each result
@@ -174,6 +189,7 @@ class SearchMenu extends PureComponent {
         'name': I18n.t('searchMenu.no_of_result', {count: this.props.searchResult.size, searchText: searchText })
       }
     );
+
     const shouldShowOptions = searchText && searchText.length > 0 && results.size > 1 ? results.toJS() :
       searchText && searchText.length > 0 ? [
         { 'id': '0',
@@ -212,6 +228,7 @@ class SearchMenu extends PureComponent {
                   placeholder={ I18n.t('searchMenu.search_place_holder') }
                   filterOptions={ this.filterOptions }
                   autofocus
+                  resetValue={ RESULT_COUNT_ID }
                   noResultsText={ null }
                 />
             }
