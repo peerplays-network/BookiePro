@@ -132,7 +132,7 @@ class SearchMenu extends PureComponent {
           searchText: '',
         });
       }
-    }, 50);
+    }, 100);
   }
 
   onChange (event) {
@@ -147,6 +147,7 @@ class SearchMenu extends PureComponent {
       this.props.clearSearchResult();
       this.setState({
         searchText: '',
+        value: null
       });
       return;
     } else if ( event.id === RESULT_COUNT_ID ){
