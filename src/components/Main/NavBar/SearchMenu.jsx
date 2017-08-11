@@ -123,9 +123,8 @@ class SearchMenu extends PureComponent {
   }
 
   onClose (){
-    //100 is succificent such that
     // 1: the result wont be cleaered after choosing an option. i.e. time > 0
-    // 2: time between user clicking elsewhere and focusing on search input again is small enough to update the < <100ms
+    // 2: time between user clicking elsewhere and focusing on search input again is small enough to update the time < 100ms
     setTimeout( () => {
       if (!this.state.value){
         this.props.clearSearchResult();
