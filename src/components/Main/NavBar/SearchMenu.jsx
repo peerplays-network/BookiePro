@@ -109,6 +109,11 @@ class SearchMenu extends PureComponent {
 
     if ( searchText){
       this.onSearch$.next(searchText);
+    } else {
+      this.setState({
+        debounced: searchText,
+      });
+
     }
 
     this.setState({
@@ -130,6 +135,7 @@ class SearchMenu extends PureComponent {
         this.props.clearSearchResult();
         this.setState({
           searchText: '',
+          debounced: ''
         });
       }
     }, 100);
@@ -141,12 +147,14 @@ class SearchMenu extends PureComponent {
       this.props.clearSearchResult();
       this.setState({
         searchText: '',
+        debounced: '',
       });
     } else if (event === RESULT_COUNT_ID ){
       //  event === RESULT_COUNT_ID when resetValue is trigerred i.e. cross button is clicked
       this.props.clearSearchResult();
       this.setState({
         searchText: '',
+        debounced: '',
         value: null
       });
       return;
@@ -180,7 +188,7 @@ class SearchMenu extends PureComponent {
   }
 
   render() {
-    const { searchText } = this.state;
+    const { searchText, debounced, value } = this.state;
 
     //append match date time to each result
     //appending 'number of search result text' into the first row
@@ -190,12 +198,21 @@ class SearchMenu extends PureComponent {
       }
     );
 
-    const shouldShowOptions = searchText && searchText.length > 0 && results.size > 1 ? results.toJS() :
-      searchText && searchText.length > 0 ? [
+    const shouldShowOptions =
+
+    //dun show any result when no input in search / cross button is clicked
+    ( this.state.isLoading && this.props.searchResult.size === 0 ) || ( value === RESULT_COUNT_ID ) || ( searchText && searchText.length === 0 ) ? [] :
+
+      //show search result when there is search result
+      debounced && debounced.length > 0 && results.size > 1 ? results.toJS() :
+
+      //show 'no result' when debounce text is not empty and there is no search result
+      debounced && debounced.length > 0 ? [
         { 'id': '0',
           'name': I18n.t('searchMenu.no_of_result_0')
         }
       ] :  [] ;
+
     //NOTE about valueKey and labelKey
     // ref: https://github.com/JedWatson/react-select#further-options
     // valueKey and labelKey are the keys in options definied in props:
