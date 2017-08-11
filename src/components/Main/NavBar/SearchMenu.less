@@ -65,7 +65,7 @@ div.search-menu{
     padding-left:35px;
     padding-right:35px;
     position: relative;
-    border-bottom:1px solid @topbar_select_label;
+    border-bottom:1px solid @primary_label;
     min-width: 260px;
     &:before{
       position: absolute;
@@ -73,7 +73,7 @@ div.search-menu{
       left:0;
       top:0;
       .search-icon;
-      .search-icon-blue;
+      .search-icon-white;
       //Background size should be applied only after background property otherwise it would not work
       background-size: 100%;
     }
@@ -143,8 +143,11 @@ div.search-menu{
       line-height: 11px;
     }
   }
-
+  .Select-result{
+    cursor:default;
+  }
   .Select-option-holder{
+
      &.is-focused,&.is-pseudo-focused, &.is-selected{
        background-color: @topbar_more_menu_active;
      }
@@ -165,6 +168,8 @@ div.search-menu{
      .match-start-on {
        display: inline-block;
      }
+
+
 
      .Select-option{
        padding-left: 0px;
@@ -201,6 +206,7 @@ div.search-menu{
     }
   }
   .Select-placeholder {
+    color: @primary_label;
     max-width: 368px;
   }
   &.Select--single {
