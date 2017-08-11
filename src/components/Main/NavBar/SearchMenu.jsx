@@ -107,13 +107,20 @@ class SearchMenu extends PureComponent {
 
   onInputChange(searchText) {
 
-    if ( searchText.length > 0){
+    if ( searchText){
       this.onSearch$.next(searchText);
+    } else {
+      this.setState({
+        debounced: searchText,
+      });
+
     }
 
     this.setState({
       searchText: searchText,
     });
+
+    return searchText
   }
 
   filterOptions( options, filter, currentValues){
@@ -121,32 +128,49 @@ class SearchMenu extends PureComponent {
   }
 
   onClose (){
+    // 1: the result wont be cleaered after choosing an option. i.e. time > 0
+    // 2: time between user clicking elsewhere and focusing on search input again is small enough to update the time < 100ms
     setTimeout( () => {
       if (!this.state.value){
         this.props.clearSearchResult();
         this.setState({
           searchText: '',
+          debounced: ''
         });
       }
-    }, 500);
+    }, 100);
   }
 
   onChange (event) {
     //Clear the search results when there is no search data
-    if(!event){
+    if(!event ){
       this.props.clearSearchResult();
-    } else {
+      this.setState({
+        searchText: '',
+        debounced: '',
+      });
+    } else if (event === RESULT_COUNT_ID ){
+      //  event === RESULT_COUNT_ID when resetValue is trigerred i.e. cross button is clicked
+      this.props.clearSearchResult();
+      this.setState({
+        searchText: '',
+        debounced: '',
+        value: null
+      });
+      return;
+    } else if ( event.id === RESULT_COUNT_ID ){
       //do nothing when clicking on the result description text
-      if ( event.id === RESULT_COUNT_ID ){
-        return;
-      }
+      return;
     }
+
+
+
     //to update the value props in Select component
     this.setState({
       value: event && event.id !== RESULT_COUNT_ID ?  event.id : null
     });
 
-    if ( this.props.completeTree && event){
+    if ( this.props.completeTree && event ){
       const nested = Immutable.fromJS(this.props.completeTree);
       const keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === event.id) );
       const moneyline = nested.getIn(keyPath).get('children').filter((mktGroup) =>
@@ -164,8 +188,7 @@ class SearchMenu extends PureComponent {
   }
 
   render() {
-
-    const { searchText } = this.state;
+    const { searchText, debounced, value } = this.state;
 
     //append match date time to each result
     //appending 'number of search result text' into the first row
@@ -174,12 +197,22 @@ class SearchMenu extends PureComponent {
         'name': I18n.t('searchMenu.no_of_result', {count: this.props.searchResult.size, searchText: searchText })
       }
     );
-    const shouldShowOptions = searchText && searchText.length > 0 && results.size > 1 ? results.toJS() :
-      searchText && searchText.length > 0 ? [
+
+    const shouldShowOptions =
+
+    //dun show any result when no input in search / cross button is clicked
+    ( this.state.isLoading && this.props.searchResult.size === 0 ) || ( value === RESULT_COUNT_ID ) || ( searchText && searchText.length === 0 ) ? [] :
+
+      //show search result when there is search result
+      debounced && debounced.length > 0 && results.size > 1 ? results.toJS() :
+
+      //show 'no result' when debounce text is not empty and there is no search result
+      debounced && debounced.length > 0 ? [
         { 'id': '0',
           'name': I18n.t('searchMenu.no_of_result_0')
         }
       ] :  [] ;
+
     //NOTE about valueKey and labelKey
     // ref: https://github.com/JedWatson/react-select#further-options
     // valueKey and labelKey are the keys in options definied in props:
@@ -212,6 +245,7 @@ class SearchMenu extends PureComponent {
                   placeholder={ I18n.t('searchMenu.search_place_holder') }
                   filterOptions={ this.filterOptions }
                   autofocus
+                  resetValue={ RESULT_COUNT_ID }
                   noResultsText={ null }
                 />
             }
