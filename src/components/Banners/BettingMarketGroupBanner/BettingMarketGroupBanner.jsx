@@ -47,12 +47,13 @@ class BettingMarketGroupBanner extends PureComponent {
 
   render() {
     const bannerSource = `url(${this.state.bannerUrl})`;
-    const formattedEventTime = moment(this.props.eventTime).format('DD/MM/YYYY');
+    const formattedEventTime = moment(this.props.eventTime).format('MMM DD, YYYY');
     return (
       <div className='betting-market-group-banner' style={ { backgroundImage: bannerSource } }>
         <div className='event'>
-          <div className='time'>{ I18n.t('bettingMarketGroup.match_start_on', { time: formattedEventTime }) }</div>
           <div className='name'>{ this.props.eventName }</div>
+          <div className='time'>{ I18n.t('bettingMarketGroup.match_start_on', { time: formattedEventTime }) }</div>
+
         </div>
         {
           this.renderCountdown()
