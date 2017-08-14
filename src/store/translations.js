@@ -265,7 +265,8 @@ export const translationsObject = {
       offer: 'OFFER',
       matched: 'Matched',
       moneyline: 'Moneyline',
-      live: 'LIVE'
+      in_play: 'IN-PLAY',
+      going_in_play: 'GOING IN-PLAY'
     },
     simple_betting_widget:{
       no_data: 'There is no event to be displayed.',
