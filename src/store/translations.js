@@ -761,7 +761,7 @@ export const translationsObject = {
       cancel: 'Stay on this page'
     },
     bannerClock: {
-      header: 'Time Remaining',
+      header: 'Going in-play in:',
       days: 'DAYS',
       hours: 'HOURS',
       minutes: 'MINS',
