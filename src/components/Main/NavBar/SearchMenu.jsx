@@ -30,10 +30,15 @@ class SearchOption extends PureComponent {
     const { option } = this.props;
 
     return (
+
       <div className={ option.id !== '0' ? 'Select-option-holder' : 'Select-option-holder Select-result' } onClick={ option.id !== '0' ? this.handleMouseDown : null }>
-        {  option.isLiveMarket &&  <span className='badge' />  }
+
         <div className={ option.id !== '0' ? 'Select-option' : 'Select-option Select-result' }>
-          { option.name }
+          {
+            this.props.option.isLiveMarket &&
+            <span className='indicator' />
+          }
+          {this.props.option.name}
         </div>
         <div className='match-start-on'>
           { option.id !== '0' ? moment(option.start_time).format('ddd, DD/MM/YYYY HH:mm') : '' }

@@ -272,7 +272,7 @@ export const translationsObject = {
       no_data: 'There is no event to be displayed.',
       offer: 'OFFER',
       draw: 'The Draw',
-      live: 'LIVE'
+      in_play: 'IN-PLAY'
     },
     quick_bet_drawer: {
       header: 'BETSLIP',

@@ -17,7 +17,7 @@ const offerColumnWidth = 70;
 const renderEventTime = (text, record) => {
   const isLiveMarket= record.get('isLiveMarket');
   if (isLiveMarket) {
-    return <span>{ I18n.t('simple_betting_widget.live') }</span>;
+    return <span className='live'><span className='indicator'/>{ I18n.t('simple_betting_widget.in_play') }</span>;
   } else {
     const eventTime = moment(record.get('time'))
     let dateString = eventTime.format('MMM D');
