@@ -201,7 +201,8 @@ class ComplexBettingWidget extends PureComponent {
 
     const minNameWidth = 200;
     const minOfferWidth = 50;
-    const minArrowWidth = 15;
+    const minBackArrowWidth = 25;
+    const minLayArrowWidth = 15;
     // to match the back bet-type in placebet action dispatch
     const classNameBack = BetTypes.BACK;
     // to match the lay bet-type in placebet action dispatch
@@ -242,7 +243,7 @@ class ComplexBettingWidget extends PureComponent {
     }, {
       className: 'back-arrows-col',
       header: props => null,
-      minWidth: minArrowWidth,
+      minWidth: minBackArrowWidth,
       render: props =>
         <div className='back-offer'>
           <i className='icon-left-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'back', -1) }></i>
@@ -357,7 +358,7 @@ class ComplexBettingWidget extends PureComponent {
     }, {
       className: 'lay-arrows-col',
       header: props => null,
-      minWidth: minArrowWidth,
+      minWidth: minLayArrowWidth,
       render: props =>
         <div className='lay-offer'>
           <i className='icon-left-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'lay', -1) }></i>

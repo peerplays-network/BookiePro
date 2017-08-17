@@ -71,10 +71,16 @@ div.complex-betting {
       .back-offer, .lay-offer{
         display: flex;
         height:100%;
-        align-items: center;
+
         flex-direction: column;
         justify-content: center;
         cursor: pointer;
+      }
+      .back-offer{
+        align-items: flex-end;
+      }
+      .empty-offer{
+        align-items: center;
       }
       .name {
         font-size: 14px;
@@ -148,6 +154,7 @@ div.complex-betting {
       }
       &.lay-arrows-col {
         padding: 0 5px;
+        min-width: 20px;
       }
       &.back-arrows-col {
         padding:0 5px 0 2px;
