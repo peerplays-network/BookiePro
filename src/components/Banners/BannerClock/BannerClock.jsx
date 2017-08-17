@@ -51,11 +51,7 @@ class BannerClock extends PureComponent {
             value={  Math.floor(this.state.remainingTime / (60 * 1000)) % 60 }
             footerText={ I18n.t('bannerClock.minutes') }
           />
-          <div className='colon'>{ ':' }</div>
-          <BannerClockDigits
-            value={  Math.floor(this.state.remainingTime / 1000) % 60 }
-            footerText={ I18n.t('bannerClock.seconds') }
-          />
+          
         </div>
       </div>
 
