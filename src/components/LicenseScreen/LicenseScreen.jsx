@@ -6,9 +6,7 @@ import { AppActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 class LicenseScreen extends PureComponent {
-  constructor(props) {
-    super(props);
-  }
+
   componentDidMount() {
     // Set app background to license bg
     this.props.setAppBackground(AppBackgroundTypes.LICENSE_BG);

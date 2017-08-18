@@ -6,7 +6,6 @@
 import { createSelector } from 'reselect';
 import { ObjectUtils } from '../utility';
 import Immutable from 'immutable';
-import moment from 'moment';
 
 const getAccountId = (state) => {
   return state.getIn(['account', 'account','id'])
