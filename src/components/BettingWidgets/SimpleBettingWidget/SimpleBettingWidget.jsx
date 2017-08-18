@@ -149,10 +149,10 @@ class SimpleBettingWidget extends PureComponent {
    *
    * Parameter definition are omitted as they are self explanatory.
    */
-  onOfferClicked(event, record, team, betType, betting_market_id, odds) {
+  onOfferClicked(event, record, betType, betting_market_id, odds) {
     event.preventDefault();
     if (this.props.canCreateBet === true) {
-      this.props.createBet(record.get('event_id'), record.get('event_name'), team, betType, betting_market_id, odds);
+      this.props.createBet(record.get('event_id'), record.get('event_name'), betType, betting_market_id, odds);
     }
   }
 
@@ -203,22 +203,9 @@ class SimpleBettingWidget extends PureComponent {
       const betting_market_id = offers.getIn([index-1, 'betting_market_id']);
       const offer = offers.getIn([index-1, typeOfBet, 0]);
 
-      let team;
-      switch (index){
-        case 1:
-        case 2:
-          team = record.get('event_name').split('vs')[index-1].trim();
-          break;
-        case 3:
-          team = I18n.t('simple_betting_widget.draw')
-          break;
-        default:
-          team = ''
-      }
-
       if ( offer === undefined){
         return (
-          <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, '') }>
+          <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, '') }>
             <div className='offer'>
               <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
             </div>
@@ -227,7 +214,7 @@ class SimpleBettingWidget extends PureComponent {
       }
 
       return (
-        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, team, action, betting_market_id, offer.get('odds')) }>
+        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds')) }>
           <div className='offer'>
             <div className='odds'>{ offer.get('odds') }</div>
             <div className='price'>
@@ -241,6 +228,7 @@ class SimpleBettingWidget extends PureComponent {
   };
 
   render() {
+    console.log(this.props.events.toJS())
     let events = [];
     if (this.props.events !== undefined) {
       // Introduce the key attribute to suppress the React warning

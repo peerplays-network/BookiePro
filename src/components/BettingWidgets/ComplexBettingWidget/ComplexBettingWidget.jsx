@@ -194,7 +194,6 @@ class ComplexBettingWidget extends PureComponent {
    * @param {object} column - built-in param in func props of react-table   getTdProps={(state, rowInfo, column, instance)
    */
   onOfferClicked(rowInfo, column) {
-    const competitor =  rowInfo.rowValues.firstColumn.name;
     const betType = column.className;
 
     // for 'null OFFER' case in which we only see 'OFFER' in item, offer will be empty
@@ -202,7 +201,7 @@ class ComplexBettingWidget extends PureComponent {
     // Only need the odds value
     const odds = offer && offer.get('odds');
     const bettingMarketId = rowInfo.row.offer.bettingMarketId;
-    this.props.createBet(competitor, betType, bettingMarketId, odds);
+    this.props.createBet(betType, bettingMarketId, odds);
   }
 
   /**
@@ -217,12 +216,11 @@ class ComplexBettingWidget extends PureComponent {
     const betType = id
     this.state.tableData.filter( item => item.hasIn([ 'offer', betType + 'Origin', '0' ]) )
     .forEach( row => {
-      const competitor =  row.get('name');
       const offer = row.getIn([ 'offer', betType + 'Origin', '0' ])
       const odds = offer && offer.get('odds');
       const bettingMarketId = row.getIn( ['offer', 'bettingMarketId'])
 
-      this.props.createBet(competitor, betType, bettingMarketId, odds);
+      this.props.createBet(betType, bettingMarketId, odds);
     });
 
 

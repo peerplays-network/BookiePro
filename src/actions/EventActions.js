@@ -245,8 +245,9 @@ class EventActions {
       let eventList = Immutable.List(myEvents);
 
       const filteredResult = eventList.toArray().filter((item) => {
-        const team1Name = item.get('name').split(' vs ')[0];
-        const team2Name = item.get('name').split(' vs ')[1];
+        const teamNameArray = item.get('name').split(' vs ') || item.get('name').split('/') || [];
+        const team1Name = teamNameArray[0];
+        const team2Name = teamNameArray[1];
         const keywordLowerCase = keyword.toLowerCase();
 
         return ( team1Name.toLowerCase().indexOf(keywordLowerCase) >= 0 ||

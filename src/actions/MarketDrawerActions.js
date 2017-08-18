@@ -129,7 +129,7 @@ class MarketDrawerPrivateActions {
 }
 
 class MarketDrawerActions {
-  static createBet(team, bet_type, betting_market_id, odds = '') {
+  static createBet(bet_type, betting_market_id, odds = '') {
     return (dispatch, getState) => {
       const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', betting_market_id]);
       const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
@@ -137,7 +137,6 @@ class MarketDrawerActions {
       const bettingMarketDescription = bettingMarket && bettingMarket.get('description');
       const bettingMarketGroupDescription = bettingMarketGroup && bettingMarketGroup.get('description');
       const bet = Immutable.fromJS({
-        team,
         bet_type,
         betting_market_id,
         odds,
