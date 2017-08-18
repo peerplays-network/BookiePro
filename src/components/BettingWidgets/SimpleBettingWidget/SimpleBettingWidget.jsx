@@ -228,7 +228,6 @@ class SimpleBettingWidget extends PureComponent {
   };
 
   render() {
-    console.log(this.props.events.toJS())
     let events = [];
     if (this.props.events !== undefined) {
       // Introduce the key attribute to suppress the React warning

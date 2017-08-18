@@ -10,11 +10,9 @@ import PeerPlaysLogo from '../PeerPlaysLogo';
 
 class BettingMarketGroup extends PureComponent {
 
-  constructor(props) {
-    super(props);
+  componentWillMount() {
     // Get the data
     this.props.getData(this.props.params.objectId);
-
   }
 
   componentWillReceiveProps(nextProps){
