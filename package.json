@@ -90,7 +90,7 @@
     "react-router-redux": "~4.0.8",
     "react-scroll": "^1.5.4",
     "react-select": "~1.0.0-rc.3",
-    "react-split-pane": "0.1.63",
+    "react-split-pane": "~0.1.59",
     "react-table": "~5.5.0",
     "redux": "~3.6.0",
     "redux-form": "~6.5.0",
