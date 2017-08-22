@@ -24,8 +24,10 @@ import { QuickBetDrawerActions,NavigateActions } from '../../../actions';
 import { I18n } from 'react-redux-i18n';
 import { BettingModuleUtils, CurrencyUtils, EventNameUtils } from '../../../utility';
 
-// We cannot use CSS to override antd Table column width using CSS
-// This can only be done via the code
+/**
+ * We cannot use CSS to override antd Table column width using CSS
+ * This can only be done via the code
+ */
 const eventTimeColumnWidth = 65;
 const offerColumnWidth = 70;
 
@@ -157,11 +159,25 @@ class SimpleBettingWidget extends PureComponent {
     )
   }
 
-  // action: [ lay(ing) | back(ing) ]
-  // betType: [ back | lay ]
-  // index: [ 1 (Home Team) | 2 (Away Team)]
-  // index: [ 1 (Home Team)| 3 (Draw Team) | 2 (Away Team)]
-
+  /**
+   * This function returns a function that will be used by the Ant-Design table
+   * for cell rendering.
+   *
+   * By default, the antd Table render each element from the dataSource prop as
+   * text. To override this behavior, we need to supply a function with the following
+   * signature:
+   *   Function(text, record, index) {}
+   *
+   * TBD - data is not simple object and we have to assign the offer to the correct back and lay columns
+   *
+   * @param {string} action - either 'lay' (laying a bet) or 'back' (backing a bet)
+   * @param {string} typeOfBet - either 'lay' bet or 'back' bet. This value is always
+   * the opposite of `action`. The idea is to perform an `action` to a `typeOfBet`.
+   * For example, 'laying a back bet' or 'backing a lay bet'.
+   * @param {integer} index - 1: Home Team, 2: Away Team, 3: Draw (for some sports only)
+   * @param {string} currencyFormat - 'BTC' or 'mBTC'
+   * @returns {Function} - the actual cell rendering function used by antd Table
+   */
   renderOffer(action, typeOfBet, index, currencyFormat) {
     return (text, record) => {
       let offers = record.get('offers');
@@ -170,7 +186,7 @@ class SimpleBettingWidget extends PureComponent {
         return '';
       }
 
-      //dunno why offers are not ordered by betting_market_id in record
+      // TODO: Shall we sort the list of offers first before we pass it to the betting widget?
       offers = offers.sort( (a, b) => a.get('betting_market_id').localeCompare(b.get('betting_market_id')) )
       const betting_market_id = offers.getIn([index-1, 'betting_market_id']);
       const offer = offers.getIn([index-1, typeOfBet, 0]);
