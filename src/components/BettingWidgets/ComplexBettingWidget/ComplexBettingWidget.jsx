@@ -1,3 +1,23 @@
+/**
+ * The ComplexBettingWidget, also known as Full Market Betting Widget, is used in
+ * the Sport component only. It displays 6 best odds from each selection, 3 in Back
+ * and 3 in Lay.
+ *
+ * The main underlying component is a ReactTable object. Each table cell displays
+ * the Odds and the associated Liquidity value. If there is no available odds in
+ * one of the selection, an "offer" cell which will be displayed instead (with
+ * the word OFFER inside).
+ *
+ * User can also use the arrow buttons < and > to view the full book to look at
+ * the rest of the avaialble odds. Only the best 6 of both selections are shown
+ * initially.
+ *
+ * When a user clicks on a cell, a Betslip will be added with the odds value (if
+ * available) in the Market Drawer.
+ *
+ * This component does not rely on any state in the Redux store. All data displayed
+ * are provided by outer component as props.
+ */
 import React, { PureComponent } from 'react';
 import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import { BetTypes, LoadingStatus } from '../../../constants';

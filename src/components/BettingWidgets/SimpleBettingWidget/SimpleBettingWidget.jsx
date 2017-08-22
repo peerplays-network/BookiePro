@@ -5,10 +5,15 @@
  * market.
  *
  * The main underlying component of the SimpleBettingWidget is a Table component
- * from the Ant-Design library.
+ * from the Ant-Design library. Each table cell displays the Odds and the associated
+ * Liquidity value. If there is no available odds in one of the selection, an "offer"
+ * cell which will be displayed instead (with the word OFFER inside).
  *
- * This component is directly connect to the Redux store and uses the state values
- * stored under 'quickBetDrawer'.
+ * When a user clicks on a cell, a Betslip will be added with the odds value (if
+ * available) in the Quick Bet Drawer.
+ *
+ * This component does not rely on any state in the Redux store. All data displayed
+ * are provided by outer component as props.
  */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
