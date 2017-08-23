@@ -1,7 +1,7 @@
 /**
-This is the component used for the sign up process
-It is connected to the redux store and it's corresponding state values are stored in 'auth'
-*/
+ * This is the component used for the sign up process
+ * It is connected to the redux store and it's corresponding state values are stored in 'auth'
+ */
 import React, { PureComponent } from 'react';
 import logo from '../../assets/images/bookie_logo_signup.png';
 import { Form } from 'antd';
@@ -32,16 +32,16 @@ class Signup extends PureComponent {
     this.props.setAppBackground(AppBackgroundTypes.GRADIENT_BG);
   }
 
-  /* Navigate to login page */
+  /** Navigate to login page */
   onClickLogin(event) {
     event.preventDefault();
     this.props.navigateTo('/login')
   }
 
   /**
-  Submit user account information
-  @param {object} values - The sign up form field values
-  */
+   * Submit user account information
+   * @param {object} values - The sign up form field values
+   */
   handleSubmit(values) {
     this.props.signup(values.get('accountName'), values.get('password'));
   }

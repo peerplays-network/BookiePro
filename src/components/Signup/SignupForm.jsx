@@ -1,8 +1,8 @@
 /**
-This component represents the Sign Up form.
-It uses 'redux-form' library to generate form fields and perform field validations
-It is used in the Signup component
-*/
+ * This component represents the Sign Up form.
+ * It uses 'redux-form' library to generate form fields and perform field validations
+ * It is used in the Signup component
+ */
 import React, { PureComponent } from 'react';
 import { Field, Fields, reduxForm } from 'redux-form/immutable';
 import { Button } from 'antd';
@@ -16,7 +16,7 @@ import { AuthUtils } from '../../utility';
 
 const { saveAs } = FileSaverUtils;
 
-/**Component to render the plain fields */
+/** Component to render the plain fields */
 const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touched, error } }) => (
   <div>
       <input autoFocus={ tabIndex === '1' } autoComplete='off'  { ...input }
@@ -27,7 +27,7 @@ const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touch
   </div>
 );
 
-/**Component to render the password field */
+/** Component to render the password field */
 const renderPasswordField = ({ onClickCopy, tabIndex, errors, input, type, meta: { touched, error, value} }) => (
   <div>
       <input autoComplete='off' readOnly { ...input } type={ type } tabIndex={ tabIndex } />
@@ -36,7 +36,7 @@ const renderPasswordField = ({ onClickCopy, tabIndex, errors, input, type, meta:
   </div>
 );
 
-/**Component to render the retype-password field */
+/** Component to render the retype-password field */
 const renderRetypePasswordField = ({ tabIndex, className, errors, input, type, meta: { touched, error } }) => (
   <div>
       <input autoComplete='off' type={ type } { ...input } tabIndex={ tabIndex } />
@@ -44,7 +44,7 @@ const renderRetypePasswordField = ({ tabIndex, className, errors, input, type, m
   </div>
 );
 
-/**Component to render the checkboxes */
+/** Component to render the checkboxes */
 const renderCheckboxField = ({ id,pseudoText,tabIndex, errors, placeholder, input, label, type, meta: { touched, error, dirty } }) => (
   <div className='float-left width300 text-left align-checkbox'>
     <input id={ id } autoComplete='off' { ...input } type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
@@ -52,7 +52,7 @@ const renderCheckboxField = ({ id,pseudoText,tabIndex, errors, placeholder, inpu
   </div>
 );
 
-/**Component to render the 'Copy' button */
+/** Component to render the 'Copy' button */
 const renderRecoveryButtonFields = (fields) => (
   <div>
     <Button type='primary' htmlType='submit'
@@ -72,7 +72,7 @@ class SignupForm extends PureComponent {
     this.initializePassword();
   }
 
-  /**Initialize the password field with a 52 character long random string */
+  /** Initialize the password field with a 52 character long random string */
   initializePassword() {
     this.props.initialize({
       password: RandomString.generate({
@@ -83,9 +83,9 @@ class SignupForm extends PureComponent {
   }
 
   /**
-  Download the password in a text file
-  @param {string} password - The password to download
-  */
+   * Download the password in a text file
+   * @param {string} password - The password to download in text file
+   */
   onClickDownload(password,event) {
     event.preventDefault();
     let blob = new Blob([ password ], {
@@ -95,9 +95,9 @@ class SignupForm extends PureComponent {
   }
 
   /**
-  Copy the password to clipboard
-  @param {string} password - The password to copy
-  */
+   * Copy the password to clipboard
+   * @param {string} password - The password to copy
+   */
   onClickCopy(password,event) {
     event.preventDefault();
     copy(password);
