@@ -1,3 +1,9 @@
+/**
+ * This component represents the Withdraw form in top menu
+ * It uses 'redux-form' library to generate form fields and perform field validations
+ * It is used in the TopMenu component
+ */
+
 import React, { PureComponent } from 'react';
 let I18n = require('react-redux-i18n').I18n;
 import {
@@ -8,7 +14,7 @@ import { LoadingStatus } from '../../../constants';
 import './TopMenuWithdraw.less';
 import { CurrencyUtils } from '../../../utility';
 
-//Component to render fields
+/** Component to render fields */
 const renderField = ({ className, errors, placeholder,hasWithdrawAmountErr, input, type,
   withdrawAmountErrMsg,
   meta: { touched, error } }) => (
@@ -23,7 +29,7 @@ const renderField = ({ className, errors, placeholder,hasWithdrawAmountErr, inpu
   </div>
 );
 
-//Allow decimal numbers
+/** Allow decimal numbers */
 const normalizeAmount = (value, previousValue) => {
   if(!value.length) {
     return value;
@@ -35,6 +41,7 @@ const normalizeAmount = (value, previousValue) => {
   return value;
 };
 
+/** Withdraw component in top menu */
 class TopMenuWithdraw extends PureComponent {
 
   constructor(props){
@@ -45,7 +52,7 @@ class TopMenuWithdraw extends PureComponent {
     this.onWithdrawAmountChange = this.onWithdrawAmountChange.bind(this);
   }
 
-  //Check entered amount with user's available balance
+  /** Check entered amount with user's available balance */
   onWithdrawAmountChange(event){
     let withdrawAmount = event.target.value;
     if(!isNaN(withdrawAmount)){
