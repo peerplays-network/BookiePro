@@ -22,7 +22,10 @@ const renderField = ({  tabIndex, className, errors, placeholder, input, type,
 	</div>
 );
 
-/** Loginform component */
+/**
+ * accountname validation - restrict user to enter invalid characters
+ * signup button disabled if username or password not entered
+ */
 const LoginForm = (props) => {
   const { pristine, handleSubmit, invalid, submitting, asyncValidating, onClickSignup, errors, status } = props;
   return (

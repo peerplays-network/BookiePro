@@ -42,6 +42,9 @@ class Login extends PureComponent {
 
   /**
    * validates accountName password and navigate to home page
+   * accountName - show error if username format is incorrect or such user exists
+   * password - length should be greater than 22
+   * navigate to home page if valid credentials entered
    * @param {object} e - The sign up form field values
    */
   handleSubmit(e) {
