@@ -1,3 +1,8 @@
+/**
+ * This is the component used for the change password process
+ * It is connected to the redux store and it's corresponding state values are stored in 'auth'
+ */
+
 import React, { PureComponent } from 'react';
 import { Card,Breadcrumb,Form } from 'antd'
 import { I18n,Translate }  from 'react-redux-i18n';
@@ -9,6 +14,7 @@ import { LoadingStatus } from '../../constants';
 import Immutable from 'immutable';
 import PeerPlaysLogo from '../PeerPlaysLogo';
 
+/** The Change password component */
 class ChangePassword extends PureComponent{
 
   constructor(props){
@@ -18,26 +24,32 @@ class ChangePassword extends PureComponent{
     this.navigateToHome = this.navigateToHome.bind(this);
   }
 
+  /**
+   * Submit user old and new password details
+   * @param {object} values - The sign up form field values
+   */
   handleSubmit(values) {
     //Change password
     this.props.changePassword(values.get('old_password'), values.get('new_password'));
   }
 
-  //Navigate to the required location
+  /** Navigate to required location */
   navigateToLocation(event, targetLocation){
     event.preventDefault();
     this.props.navigateTo(targetLocation);
     this.props.resetChangePwdLoadingStatus();
   }
 
-  /* Redirect to 'My Account' screen when clicked on
-  --'Back to My Account' button (after successful password change)
-  --'My Account' link on the Breadcrumb */
+  /**
+   * Redirect to 'My Account' screen when clicked on
+   * 'Back to My Account' button (after successful password change)
+   * 'My Account' link on the Breadcrumb
+   */
   navigateToMyAccount(event) {
     this.navigateToLocation(event, '/my-account');
   }
 
-  //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
+  /** Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb */
   navigateToHome(event){
     this.navigateToLocation(event, '/exchange');
   }

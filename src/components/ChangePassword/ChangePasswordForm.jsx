@@ -1,13 +1,18 @@
+/**
+ * This component represents the Change Password form.
+ * It uses 'redux-form' library to generate form fields and perform field validations
+ * It is used in the ChangePassword component
+ */
+
 import React,{ PureComponent } from 'react';
 import { Field, Fields, reduxForm } from 'redux-form/immutable';
 import { Button } from 'antd';
-
 import { I18n }  from 'react-redux-i18n';
 import { LoadingStatus } from '../../constants';
 import { FileSaverUtils } from '../../utility';
 const { saveAs } = FileSaverUtils;
 
-//Component to render the password field
+/** Component to render the password field */
 const renderPasswordField = ({ placeholder,tabIndex, errors, input, maxLength, type,
   meta: { touched, error, value} }) => (
   <div>
@@ -19,9 +24,7 @@ const renderPasswordField = ({ placeholder,tabIndex, errors, input, maxLength, t
   </div>
 );
 
-
-
-
+/** The Change Password form component */
 class ChangePasswordForm extends PureComponent {
 
   constructor(props) {
@@ -30,7 +33,10 @@ class ChangePasswordForm extends PureComponent {
       isPwDownloaded: false
     };
   }
-  //Download the password in a text file
+
+  /** Download the password in a text file
+   * @param {string} password - The password to download in text file
+   */
   onClickDownload(password,event) {
     event.preventDefault();
     let blob = new Blob([ password ], {
@@ -40,7 +46,7 @@ class ChangePasswordForm extends PureComponent {
     this.setState({ isPwDownloaded :true})
   }
 
-  //Component to render the 'Copy' button
+  /** Component to render the 'Copy' button */
   renderRecoveryButtonFields = (fields) =>{
 
     const minimumLength = 22;
@@ -90,7 +96,6 @@ class ChangePasswordForm extends PureComponent {
             component={ renderPasswordField } placeholder={ I18n.t('changePassword.confirm_password') } type='password' tabIndex='3'/>
         </div>
 
-
         <div className='form-fields savePasswordBox'>
           <div className='download-file'>
             <p className='passwordMessage'>
@@ -124,10 +129,10 @@ class ChangePasswordForm extends PureComponent {
   }
 };
 
-/* Change Password field validations:
- -- Minimum 22 characters required on each field
- -- All fields are mandatory
-*/
+/** Change Password field validations:
+ * Minimum 22 characters required on each field
+ * All fields are mandatory
+ */
 const validateChangePasswordFields = (password,blankFieldErrorMessage,minimumLengthErrorMessage) => {
   const minimumLength = 22;
   if (!password || password.trim() === '') {
