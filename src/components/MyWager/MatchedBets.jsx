@@ -1,3 +1,7 @@
+/**
+ * Matchedbets component to list Matched bets
+ * This component is child to Mywager component
+ */
 import React, { PureComponent } from 'react';
 import { Table } from 'antd';
 import { LoadingStatus } from '../../constants';
@@ -7,6 +11,7 @@ import { MyWagerUtils, CurrencyUtils } from '../../utility';
 import './MyWager.less';
 import PropTypes from 'prop-types';
 
+/** Matchedbets component used in mybets tabbed list */
 class MatchedBets extends PureComponent {
   constructor(props) {
     super(props);
@@ -31,7 +36,7 @@ class MatchedBets extends PureComponent {
       })
     }
   }
-  
+
   render() {
     const {  matchedBetsLoadingStatus, currencyFormat, betsTotal } = this.props;
     const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
