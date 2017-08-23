@@ -1,3 +1,7 @@
+/**
+ * This is mywager component with tabbed view of Unmatched, Matched and Resolved bets
+ * MyWagerSelector is the source of bets listing
+ */
 import React, { PureComponent } from 'react';
 import { Tabs, Breadcrumb } from 'antd';
 import UnmatchedBets from './UnmatchedBets';
@@ -16,6 +20,7 @@ import PeerPlaysLogo from '../PeerPlaysLogo';
 const {  getBetData, getBetTotal, getCurrencyFormat, getBetsLoadingStatus } = MyWagerSelector;
 const TabPane = Tabs.TabPane;
 
+//* Mywager component */
 class MyWager extends PureComponent {
   constructor(props) {
     super(props);
@@ -46,19 +51,29 @@ class MyWager extends PureComponent {
   }
 
 
-  //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
+  /** Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb */
   onHomeLinkClick(e){
     e.preventDefault();
     this.props.navigateTo('/exchange');
   }
 
-  //Search transaction history with filters
+  /**
+   * Search transaction history with filters
+   * @param {string} periodType - date filter selection
+   * @param {moment} customTimeRangeStartDate - start date of time rance
+   * @param {moment} customTimeRangeEndDate - end date of time range
+   */
   handleSearchClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
     // Set time range.
     this.props.setResolvedBetsTimeRange(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
   }
 
-  //Export transaction history
+  /**
+   * Export resolved bets
+   * @param {string} periodType - date filter selection
+   * @param {moment} customTimeRangeStartDate - start date of time rance
+   * @param {moment} customTimeRangeEndDate - end date of time range
+   */
   handleExportClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
     // First set the history time range, so the search result is re-filtered
     this.props.setResolvedBetsTimeRange(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
@@ -66,45 +81,49 @@ class MyWager extends PureComponent {
     this.props.generateResolvedBetsExportData(this.props.betsColumns);
   }
 
-  handleExportFinishDownload() {
-    // Reset
-    this.props.resetResolvedBetsExportLoadingStatus();
-    this.props.clearResolvedBetsExport();
-    this.setState({ exportButtonClicked: false });
-  }
-
+  /** Reset export data and export loading status in redux state */
   handleResetExport() {
     // Reset
     this.props.resetResolvedBetsExportDataAction();
   }
 
+  /**
+   * switch tabs - UnmatchedBets, MatchedBets and ResolvedBets
+   * @param {string} key - active tab key
+   */
   onTabChange(key) {
     this.props.setActiveTab(key);
   }
 
 
-  //Redirect to event market screen
+  /**
+   * Unmatched bets event click - Redirect to event market screen
+   * @param {object} record - bet object
+   */
   handleUnmatchedEventClick(record, event){
     this.props.navigateTo('/exchange/bettingmarketgroup/' + record.group_id);
   }
 
-  //cancel single bet
-  //record is presentaional record not a blockchain bet object
+  /**
+   * Cancel single bet
+   * UnmatchedBet cancelled is presentaional record not a blockchain bet object
+   * @param {object} record - bet object to cancel
+   */
   cancelBet(record, event) {
     //cancelBets expects array of blockchain bet objects so passing single bet object in array
     this.props.cancelBets(List([Map(record)]));
   }
 
-  //cancel all bets on Confirmation and hide confirm modal
+  /** cancel all bets on Confirmation and hide confirm modal */
   handleCancelAllBets = () => {
     this.props.cancelBets(this.props.betsData);
     this.setState({ isCancelAllConfirmModalVisible: false });
   }
-  //hide cancelAllConfirmModal on decline
+  /** set local state isCancelAllConfirmModalVisible to false - hide cancelAllConfirmModal on decline */
   declineCancelAllBets = () => {
     this.setState({isCancelAllConfirmModalVisible: false,});
   }
-  // Confirmation pop-up for deleting all bets.
+  /** Confirmation pop-up for deleting all bets. */
   cancelAllBets(){
 
     event.preventDefault();

@@ -1,3 +1,7 @@
+/**
+ * Unmatchedbets component to list Unmatched bets with cancel bet and cancell all unmatched bets functionality
+ * This component is child to Mywager component
+ */
 import React, { PureComponent } from 'react';
 import { Table, Modal } from 'antd';
 import { LoadingStatus } from '../../constants';
@@ -8,6 +12,7 @@ import './MyWager.less';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 
+/** Unmatchedbets component used in mybets tabbed list */
 class UnmatchedBets extends PureComponent {
 
   constructor(props) {
