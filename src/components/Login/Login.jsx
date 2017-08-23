@@ -1,6 +1,8 @@
 /**
- * This is login react component to sign-in in to the system
- * If the user authenticated then account information is stored in redux state 'account.account'
+ * The component contains the {@link LoginForm} which allows user to
+ * sign-in in to the system.
+ *
+ * The states of the component are maintained in the Redux store under 'account.account'.
  */
 import React, { PureComponent } from 'react';
 import logo from '../../assets/images/bookie_logo_login.png';
@@ -16,7 +18,6 @@ import { AccountService } from '../../services';
 import { AppBackgroundTypes } from '../../constants';
 import FloatingHelp from '../FloatingHelp';
 
-/** Login component */
 class Login extends PureComponent {
   constructor(props) {
     super(props);
@@ -41,8 +42,13 @@ class Login extends PureComponent {
   }
 
   /**
+   * Invoke the {@link AuthActions#login} action
    * validates accountName password and navigate to home page
-   * @param {object} e - The sign up form field values
+   * accountName - show error if username format is incorrect or such user doesn't exist
+   * password - length should be greater than 22
+   * navigate to home page if valid credentials entered
+   *
+   * @param {object} e - data obtained from the {@link LoginForm}
    */
   handleSubmit(e) {
     const errors = {};
