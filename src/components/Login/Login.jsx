@@ -1,3 +1,7 @@
+/**
+ * This is login react component to sign-in in to the system
+ * If the user authenticated then account information is stored in redux state 'account.account'
+ */
 import React, { PureComponent } from 'react';
 import logo from '../../assets/images/bookie_logo_login.png';
 import { Form } from 'antd';
@@ -12,6 +16,7 @@ import { AccountService } from '../../services';
 import { AppBackgroundTypes } from '../../constants';
 import FloatingHelp from '../FloatingHelp';
 
+/** Login component */
 class Login extends PureComponent {
   constructor(props) {
     super(props);
@@ -35,7 +40,10 @@ class Login extends PureComponent {
     this.props.navigateTo('/signup');
   }
 
-  //validates accountName password and navigate to home page
+  /**
+   * validates accountName password and navigate to home page
+   * @param {object} e - The sign up form field values
+   */
   handleSubmit(e) {
     const errors = {};
   	let accountError = ChainValidation.is_account_name_error(e.get('userName'));

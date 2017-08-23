@@ -1,10 +1,14 @@
+/**
+ * This component is the login form
+ * This component is child to Login component
+ */
 import React from 'react';
 import { Field, reduxForm } from 'redux-form/immutable';
 import { I18n } from 'react-redux-i18n';
 import { LoadingStatus } from '../../constants';
 import { AuthUtils } from '../../utility';
 
-//Component for text field
+/** text field Component for username and password */
 const renderField = ({  tabIndex, className, errors, placeholder, input, type,
 	meta: {  touched, error, dirty }  }) => (
 
@@ -18,6 +22,7 @@ const renderField = ({  tabIndex, className, errors, placeholder, input, type,
 	</div>
 );
 
+/** Loginform component */
 const LoginForm = (props) => {
   const { pristine, handleSubmit, invalid, submitting, asyncValidating, onClickSignup, errors, status } = props;
   return (
