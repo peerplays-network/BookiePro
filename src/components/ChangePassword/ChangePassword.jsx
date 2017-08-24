@@ -14,7 +14,6 @@ import { LoadingStatus } from '../../constants';
 import Immutable from 'immutable';
 import PeerPlaysLogo from '../PeerPlaysLogo';
 
-/** The Change password component */
 class ChangePassword extends PureComponent{
 
   constructor(props){
@@ -29,11 +28,14 @@ class ChangePassword extends PureComponent{
    * @param {object} values - The sign up form field values
    */
   handleSubmit(values) {
-    //Change password
     this.props.changePassword(values.get('old_password'), values.get('new_password'));
   }
 
-  /** Navigate to required location */
+  /**
+   * Navigate to the required location
+   * @param {object} event - The click event
+   * @param {string} targetLocation - The target location to navigate to
+   */
   navigateToLocation(event, targetLocation){
     event.preventDefault();
     this.props.navigateTo(targetLocation);
@@ -42,14 +44,19 @@ class ChangePassword extends PureComponent{
 
   /**
    * Redirect to 'My Account' screen when clicked on
-   * 'Back to My Account' button (after successful password change)
-   * 'My Account' link on the Breadcrumb
+   * -- 'Back to My Account' button (after successful password change)
+   * -- 'My Account' link on the Breadcrumb
+   * @param {object} event - The event associated with clicking
+   * on the 'Back to My Account' button or 'My Account' link on breadcrumb
    */
   navigateToMyAccount(event) {
     this.navigateToLocation(event, '/my-account');
   }
 
-  /** Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb */
+  /**
+   * Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
+   * @param {object} event - The 'Home' link click event
+   */
   navigateToHome(event){
     this.navigateToLocation(event, '/exchange');
   }

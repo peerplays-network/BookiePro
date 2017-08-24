@@ -12,7 +12,25 @@ import { LoadingStatus } from '../../constants';
 import { FileSaverUtils } from '../../utility';
 const { saveAs } = FileSaverUtils;
 
-/** Component to render the password field */
+/**
+ * Following is the stateless function that is passed as the 'component' prop to
+ * redux-form's 'Field' components. It is used for generating all the password field input controls.
+ * @param {object} - other custom props passed to the 'Field' component.
+ * The above object contains the following:
+ * It is used to display the error text below the input field generated
+ * - placeholder - the placeholder text for the input control
+ * - tabIndex - the tab index of the input control
+ * - errors - an object containing errors obtained after peforming validations
+ * - input - interally used by 'redux-form' to connect the input component to Redux
+ * - maxLength - the maximum number of characters allowed on the field
+ * - type - the type of input control
+ * - meta - contains metadata about the state of this field that redux-form is tracking.
+ *   Some of the props that are used under meta prop are:
+ *   - touched: true if the field has been touched. By default this will be set when the field is blurred.
+ *   - error: The error for this field if its value is not passing validation.
+ *     Both synchronous, asynchronous, and submit validation errors will be reported here.
+ *   - value: the input value
+ */
 const renderPasswordField = ({ placeholder,tabIndex, errors, input, maxLength, type,
   meta: { touched, error, value} }) => (
   <div>
@@ -24,7 +42,6 @@ const renderPasswordField = ({ placeholder,tabIndex, errors, input, maxLength, t
   </div>
 );
 
-/** The Change Password form component */
 class ChangePasswordForm extends PureComponent {
 
   constructor(props) {
@@ -36,6 +53,7 @@ class ChangePasswordForm extends PureComponent {
 
   /** Download the password in a text file
    * @param {string} password - The password to download in text file
+   * @param {object} event - The 'Save Password File' click event
    */
   onClickDownload(password,event) {
     event.preventDefault();
@@ -46,16 +64,20 @@ class ChangePasswordForm extends PureComponent {
     this.setState({ isPwDownloaded :true})
   }
 
-  /** Component to render the 'Copy' button */
+  /**
+   * Generate the 'Save Password File' button
+   * @param {array} fields - to access the form field's values. Used to:
+   * - enable/disable 'Save Password File' button based on whether both the new password fields
+   *   are entered or not or matched or not or has less than minimum characters permitted
+   * - pass the password value to the onClick handler of the button
+   *   so that it can be copied to a text file and downloaded
+   */
   renderRecoveryButtonFields = (fields) =>{
-
     const minimumLength = 22;
     const disabled = fields.recoveryDisabled
       || fields.new_password.input.value !== fields.new_password_confirm.input.value
       || fields.new_password_confirm.input.value.length < minimumLength;
-
     return (
-
       <div>
           <Button type='primary' htmlType='submit'
             className={ 'btn ' + (disabled ? 'btn-regular-disabled':' btn-download') + ' grid-100' }
@@ -130,8 +152,13 @@ class ChangePasswordForm extends PureComponent {
 };
 
 /** Change Password field validations:
- * Minimum 22 characters required on each field
- * All fields are mandatory
+ * -- Minimum 22 characters required on each field
+ * -- All fields are mandatory
+ * @param {string} password - The password field value to validate
+ * @param {string} blankFieldErrorMessage - The error message to display
+ * when the password value is empty
+ * @param {string} minimumLengthErrorMessage - The error message to display
+ * when the password value has less than the minimum characters permitted
  */
 const validateChangePasswordFields = (password,blankFieldErrorMessage,minimumLengthErrorMessage) => {
   const minimumLength = 22;
