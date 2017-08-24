@@ -1,8 +1,8 @@
 /**
  * The SimpleBettingWidget, also known as Quick Market Betting Widget, is used in
- * AllSports (Home) and EventGroup components. It displays the best back / lay odds
- * available in 2 or 3 (depends on the type of sport) selections in the Moneyline
- * market.
+ * AllSports (Home), Sport and EventGroup (Division) components. It displays the
+ * best back / lay odds available in 2 or 3 (depends on the type of sport) selections
+ * in the Moneyline market.
  *
  * The main underlying component of the SimpleBettingWidget is a Table component
  * from the Ant-Design library. Each table cell displays the Odds and the associated

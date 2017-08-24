@@ -1,7 +1,7 @@
 /**
  * The ComplexBettingWidget, also known as Full Market Betting Widget, is used in
- * the Sport component only. It displays 6 best odds from each selection, 3 in Back
- * and 3 in Lay.
+ * the BettingMarketGroup (Market) component only. It displays 6 best odds from
+ * each selection, 3 in Back and 3 in Lay.
  *
  * The main underlying component is a ReactTable object. Each table cell displays
  * the Odds and the associated Liquidity value. If there is no available odds in
