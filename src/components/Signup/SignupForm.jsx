@@ -77,7 +77,7 @@ const renderRetypePasswordField = ({ tabIndex, errors, input, type, meta: { touc
 /**
  * Generate the acknowledgement checkboxes
  * @param {object} - other custom props passed to the 'Field' component.
- * - id: id if the checkbox
+ * - id: id of the checkbox
  * - pseudoText: the text for the label appearing besides the checkbox
  */
 const renderCheckboxField = ({ id,pseudoText,tabIndex, errors, placeholder, input, label, type, meta: { touched, error } }) => (
@@ -126,7 +126,7 @@ class SignupForm extends PureComponent {
   /**
    * Download the password in a text file
    * @param {string} password - The password to download in text file
-   * @param {object} event - The 'Save Password File' click click event
+   * @param {object} event - The 'Save Password File' button click event
    */
   onClickDownload(password,event) {
     event.preventDefault();
