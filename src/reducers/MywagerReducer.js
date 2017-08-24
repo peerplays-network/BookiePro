@@ -35,7 +35,7 @@ export default function (state = initialState, action) {
     case ActionTypes.MY_WAGER_RESET_RESOLVED_BETS_EXPORT_DATA: {
       return state.merge({
         resolvedBetsExportData: initialState.get('resolvedBetsExportData'),
-        generateTransactionHistoryExportDataError: initialState.get('generateTransactionHistoryExportDataLoadingStatus'),
+        generateResolvedBetsExportDataError: initialState.get('generateResolvedBetsExportDataLoadingStatus'),
         generateResolvedBetsExportDataLoadingStatus: initialState.get('generateResolvedBetsExportDataLoadingStatus'),
       });
     }

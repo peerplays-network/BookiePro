@@ -1,6 +1,11 @@
 /**
- * Unmatchedbets component to list Unmatched bets with cancel bet and cancell all unmatched bets functionality
- * This component is child to Mywager component
+ * Unmatchedbets to list Unmatched bets. sum of back bet’s stack + sum of lay bet’s liability displayed at top.
+ * 'Cancel All' button to cancel all bets at top right side
+ * bets displayed in chronological order, nearest to oldest, 20 records per screen, with pagination at the bottom of the screen.
+ * eventname clickable which will redirect to event full market screen. user can edit unmatched bet via the market drawer.
+ * cancel button next to every bet record - cancel relevant
+ * Unmatchedbets is child to Mywager
+ * Unmatchedbets used in mybets tabbed list
  */
 import React, { PureComponent } from 'react';
 import { Table, Modal } from 'antd';
@@ -12,7 +17,6 @@ import './MyWager.less';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 
-/** Unmatchedbets component used in mybets tabbed list */
 class UnmatchedBets extends PureComponent {
 
   constructor(props) {
