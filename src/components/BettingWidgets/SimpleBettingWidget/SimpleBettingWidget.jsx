@@ -31,8 +31,6 @@ import { BettingModuleUtils, CurrencyUtils, EventNameUtils } from '../../../util
 const eventTimeColumnWidth = 65;
 const offerColumnWidth = 70;
 
-// TODO: Consider moving this to a utility library later
-// TODO: The implementation below is for demo purpose. Will review this in future iterations.
 const renderEventTime = (text, record) => {
   const isLiveMarket= record.get('isLiveMarket');
   if (isLiveMarket) {
@@ -128,12 +126,6 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName) =>  {
 const renderTitle = (title) => (
   <div className='title'>
     <div className='sport'>{ title }</div>
-    {
-      // Hide rules
-      // <div className='rules'>
-      //   <RulesButton />
-      // </div>
-    }
   </div>
 );
 

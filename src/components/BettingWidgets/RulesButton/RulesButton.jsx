@@ -1,3 +1,10 @@
+/**
+ * This component is a button that is used to trigger a popup dialog. It is designed
+ * to be used either SimpleBettingWidget or ComplexBettingWidget.
+ *
+ * The popup dialog contains rule information of sport games that are provided
+ * as props by the parent component.
+ */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
