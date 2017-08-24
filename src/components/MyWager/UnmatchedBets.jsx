@@ -1,10 +1,17 @@
 /**
- * Unmatchedbets to list Unmatched bets. sum of back bet’s stack + sum of lay bet’s liability displayed at top.
+ * Unmatchedbets to list Unmatched transactions.
+ * sum of back bet’s stack + sum of lay bet’s liability displayed at top.
+ * display Total in format depending on Setting – Bitcoin units
+ *
  * 'Cancel All' button to cancel all bets at top right side
- * bets displayed in chronological order, nearest to oldest, 20 records per screen, with pagination at the bottom of the screen.
- * eventname clickable which will redirect to event full market screen. user can edit unmatched bet via the market drawer.
- * cancel button next to every bet record - cancel relevant
- * Unmatchedbets is child to Mywager
+ *
+ * Transactions displayed in chronological order, nearest to oldest, 20 records per screen,
+ * with pagination at the bottom of the screen.
+ *
+ * eventname clickable which will redirect to event full market screen.
+ * user can edit unmatched bet from the market drawer.
+ *
+ * cancel button next to every bet record - cancel relevant transaction
  * Unmatchedbets used in mybets tabbed list
  */
 import React, { PureComponent } from 'react';

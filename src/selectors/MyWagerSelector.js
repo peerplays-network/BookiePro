@@ -1,3 +1,8 @@
+/**
+ * This selector is used to fetch bets data on the basis of activeTab and store minimal possible state in redux.
+ * This data is not recomputed unless one of its arguments changes
+ * This selectors are composable. They can be used as input to other selectors
+ */
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import { createSelector } from 'reselect';
@@ -72,6 +77,7 @@ const getMatchedBetsById = (state) => state.getIn(['bet', 'matchedBetsById']);
 const getUnmatchedBetsById = (state) => state.getIn(['bet', 'unmatchedBetsById']);
 const getResolvedBetsById = (state) => state.getIn(['bet', 'resolvedBetsById']);
 
+/** This function extracts bet transactions on the basis of activeTab */
 const getRelatedBetsCollection = createSelector(
   [
     getActiveTab,
@@ -94,7 +100,7 @@ const getRelatedBetsCollection = createSelector(
 
 const getCancelBetsByIdsLoadingStatus = (state) => state.getIn(['bet','cancelBetsByIdsLoadingStatus']);
 
-//function to get rowdata on the basis of activeTab
+//function to filter bet transactions
 const rowData = createSelector(
   [
     getActiveTab,
@@ -109,6 +115,7 @@ const rowData = createSelector(
   }
 )
 
+/** This function extracts sports name list */
 const getSportNameByBettingMarketId = createSelector(
   [
     getBettingMarketsById,
@@ -132,7 +139,7 @@ const getSportNameByBettingMarketId = createSelector(
   }
 );
 
-//function to get initial collection with required values from rowData
+/** This function generate new bet transaction object list with required properties */
 const betData = createSelector(
   [
     getActiveTab,

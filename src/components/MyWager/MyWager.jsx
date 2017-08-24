@@ -1,9 +1,28 @@
 /**
  * This is mywager component with tabbed view of Unmatched, Matched and Resolved bets
- * Bets listed in mybets are dummy bet objects. This are not fetched from blockchain.
- * Unmatched bets - Placed bets that are pending for someone to make an opposite bet with same odds to match on
- * Matched bets - Bets that are matched with certain opposite bets, pending for the market to end and get resolved
- * Resolved bets - When a market with the user’s bet is ended and bets resolved
+ * Bets listed in mybets are dummy bet objects. This are not blockchain objects.
+ *
+ * following are sub-components used in MyWager
+ *   {@link UnmatchedBets} - This component list unmatched bet transactions
+ *   Unmatched bets - Placed bets that are pending for someone to make an opposite bet with same odds to match on
+ *
+ *   {@link MatchedBets} - This component list Matched bet transactions
+ *   Matched bets - Bets that are matched with certain opposite bets, pending for the market to end and get resolved
+ *
+ *   {@link ResolvedBets} - This component list Resolved bet transactions
+ *   Resolved bets - When a market with the user’s bet is ended and bets resolved
+ *
+ * The states of this component are maintained in a number of Redux stores
+ * which are encapsulated in 'MyWager'
+ *
+ * Following are the actions dispatched for various purposes in this component:
+ *   {@link MywagerActions#setResolvedBetsTimeRangeAction}
+ *   {@link MywagerActions#generateResolvedBetsExportData}
+ *   {@link MywagerActions#resetResolvedBetsExportDataAction}
+ *   {@link MywagerActions#setMywagerActiveTab}
+ *   {@link NavigateActions#navigateTo}
+ *   {@link BetActions#cancelBets}
+ *
  * MyWagerSelector is the source of bets listing
  */
 import React, { PureComponent } from 'react';
@@ -56,7 +75,6 @@ class MyWager extends PureComponent {
 
   /**
    * Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
-   * @param {synthetic_event} e - React defines these synthetic events according to the W3C spec, so you don't need to worry about cross-browser compatibility.
    */
   onHomeLinkClick(e){
     e.preventDefault();
@@ -64,10 +82,14 @@ class MyWager extends PureComponent {
   }
 
   /**
-   * Search transaction history with filters
+   * Called when 'Search' button clicked in Resolved bets screen
    * @param {string} periodType - date filter selection
    * @param {object} customTimeRangeStartDate - start date of time range
    * @param {object} customTimeRangeEndDate - end date of time range
+   *
+   * Dispatched action: {@link MywagerActions#setResolvedBetsTimeRangeAction}
+   *    the state 'periodType','customTimeRangeStartDate','customTimeRangeEndDate'
+   *    is updated under the 'MyWager' store when Resolved bets are searched
    */
   handleSearchClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
     // Set time range.
@@ -75,10 +97,17 @@ class MyWager extends PureComponent {
   }
 
   /**
-   * Export resolved bets
+   * Called when 'Export' button clicked in Resolved bets screen
    * @param {string} periodType - date filter selection
    * @param {object} customTimeRangeStartDate - start date of time range
    * @param {object} customTimeRangeEndDate - end date of time range
+   *
+   * Dispatched action: {@link MywagerActions#setResolvedBetsTimeRangeAction}
+   *    the state 'periodType','customTimeRangeStartDate','customTimeRangeEndDate'
+   *    is updated under the 'MyWager' store
+   * Dispatched action: {@link MywagerActions#generateResolvedBetsExportData}
+   *    the state 'resolvedBetsExportData','generateResolvedBetsExportDataLoadingStatus' ,
+   *    'generateResolvedBetsExportDataError' are updated under the 'MyWager' store
    */
   handleExportClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
     // First set the history time range, so the search result is re-filtered
@@ -88,20 +117,26 @@ class MyWager extends PureComponent {
   }
 
   /**
-   * Reset export data to empty list
-   * set export loading status to default and error to null
-   * This will called on export data downloaded or on export process cancel
+   * Called when 'Export' process is cancelled or download of exported data file is completed
+   * export state in redux store set to default
+   *
+   * Dispatched action: {@link MywagerActions#resetResolvedBetsExportDataAction}
+   *    the state 'resolvedBetsExportData','generateResolvedBetsExportDataLoadingStatus' ,
+   *    'generateResolvedBetsExportDataError' are updated under the 'MyWager' store
+   *
    * Export modal popup hides on reset
    */
   handleResetExport() {
-    // Reset
     this.props.resetResolvedBetsExportDataAction();
   }
 
   /**
-   * switch tabs - UnmatchedBets, MatchedBets and ResolvedBets
+   * Called on tab click - Unmatched Bets, Matched Bets, Resolved Bets
    * @param {string} key - active tab key
-   * This will set activeTab key in redux state. change in state will trigger to load data for active tab
+   *
+   * Dispatched action: {@link MywagerActions#setMywagerActiveTab}
+   *    the state 'activeTab' is  updated under the 'MyWager' store
+   *    change in state will trigger to load data for active tab
    */
   onTabChange(key) {
     this.props.setActiveTab(key);
@@ -109,18 +144,27 @@ class MyWager extends PureComponent {
 
 
   /**
-   * UnmatchedBets tab lists bets with event link. this link navigat user to  event full market screen
+   * Called on 'event name' click in Unmatched bets list {@link UnmatchedBets}
    * @param {object} record - bet object
+   * @param {object} event - the click event
+   *
+   * Dispatched action: {@link NavigateActions#navigateTo}
+   *    This will navigat user to event full market screen
    */
   handleUnmatchedEventClick(record, event){
     this.props.navigateTo('/exchange/bettingmarketgroup/' + record.group_id);
   }
 
   /**
-   * Cancel single bet
-   * cancelled bet ids stored in redux store under 'bets.cancelBetsByIdsLoadingStatus' with status. This is temporary cancel. This doesn't have any effect on blockchain data yet.
-   * UnmatchedBets avoid listing of the bets which are marked cancelled
-   * @param {object} record - bet  object to cancel. This are dummy bet objects. This are not fetched from blockchain
+   * Called on 'Cancel' click in {@link UnmatchedBets}
+   * This is not actual cancel of transaction in blockchain.
+   * @param {object} record - bet object to cancel. This are dummy bet objects. This are not fetched from blockchain
+   * @param {object} event - the click event
+   *
+   * Dispatched action: {@link BetActions#cancelBets}
+   *    the state 'cancelBetsByIdsLoadingStatus' is  updated under the 'Bet' store
+   *    change in state will trigger to load Unmatched Transactions
+   *    This is temporary cancel. This doesn't have any effect on blockchain data yet.
    */
   cancelBet(record, event) {
     //cancelBets expects array of immutable bet objects. converting simple object to immutable list
@@ -128,18 +172,29 @@ class MyWager extends PureComponent {
   }
 
   /**
-   * bets data sent to cancel bets which will mark all bets cancelled in redx store 'bets.cancelBetsByIdsLoadingStatus'
-   * component state 'isCancelAllConfirmModalVisible' value set to false. this will hide cancel bets confirmation modal
+   * Called on 'Confirm' click in Cancel all confirm modal popup {@link UnmatchedBets}
+   *
+   * Dispatched action: {@link BetActions#cancelBets}
+   *    the state 'cancelBetsByIdsLoadingStatus' is  updated under the 'Bet' store
+   *    change in state will trigger to load Unmatched Transactions
+   *    This is temporary cancel. This doesn't have any effect on blockchain data yet.
    */
   handleCancelAllBets = () => {
     this.props.cancelBets(this.props.betsData);
     this.setState({ isCancelAllConfirmModalVisible: false });
   }
-  /** set local state isCancelAllConfirmModalVisible to false - hide cancelAllConfirmModal on decline */
+
+  /** set local state isCancelAllConfirmModalVisible to false - This will hide cancelAllConfirmModal on decline */
   declineCancelAllBets = () => {
     this.setState({isCancelAllConfirmModalVisible: false,});
   }
-  /** Confirmation pop-up for deleting all unmatched bets. */
+
+  /**
+   * Called on 'Cancel All' click in {@link UnmatchedBets}
+   * set local state isCancelAllConfirmModalVisible to true
+   * isCancelAllConfirmModalVisible value true will trigger to show Confirmation pop-up
+   * for deleting all Unmatched bets.
+   */
   cancelAllBets(){
 
     event.preventDefault();

@@ -1,8 +1,9 @@
 /**
- * ResolvedBets to list Resolved bets.
- * Data filtering achieved using TimeRangePicker component
- * Export resolved bets achieved using export component
- * ResolvedBets is child to Mywager
+ * ResolvedBets to list Resolved transactions.
+ * This includes following sub-components
+ *   {@link TimeRangePicker} - Allows user to select period for which transactions can be seached or exported
+ *   {@link Export} - Allows user to Export resolved transactions in excel
+ *
  * ResolvedBets used in mybets tabbed list
  */
 import React, { PureComponent } from 'react';
