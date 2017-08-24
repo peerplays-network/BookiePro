@@ -13,7 +13,6 @@ import { I18n }  from 'react-redux-i18n';
 import { AppBackgroundTypes } from '../../constants';
 import FloatingHelp from '../FloatingHelp';
 
-/** The Sign up component */
 class Signup extends PureComponent {
 
   constructor(props){

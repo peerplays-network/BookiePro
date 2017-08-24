@@ -16,7 +16,32 @@ import { AuthUtils } from '../../utility';
 
 const { saveAs } = FileSaverUtils;
 
-/** Component to render the plain fields */
+/**
+ * Following are stateless functions that are passed as the 'component' prop to
+ * redux-form's 'Field/Fields' components. They are used for generating input and button controls.
+ * - renderField - to generate field for account name
+ * - renderPasswordField - to generate field for password. It also generates the 'Copy' button
+ * - renderRetypePasswordField - to generate field for retype password
+ * - renderCheckboxField - generate the 2 acknowledgement checkboxes and their labels
+ * - renderRecoveryButtonFields - generate the 'Save Password File' button
+ * @param {object} - other custom props passed to the 'Field' component.
+ * The above object contains the following (used in most of the input field generating functions):
+ * - tabIndex - the tab index of the input control
+ * - errors - an object containing errors obtained after peforming validations
+ *   It is used to display the error text below the input field generated
+ * - placeholder - the placeholder text for the input control
+ * - input - interally used by 'redux-form' to connect the input component to Redux
+ * - type - the type of input control
+ * - meta - contains metadata about the state of this field that redux-form is tracking.
+ *   Some of the props that are used under meta prop are:
+ *   - touched: true if the field has been touched. By default this will be set when the field is blurred.
+ *   - error: The error for this field if its value is not passing validation.
+ *     Both synchronous, asynchronous, and submit validation errors will be reported here.
+ *   - value: the input value
+ */
+
+
+/** Generate the acccount name field */
 const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touched, error } }) => (
   <div>
       <input autoFocus={ tabIndex === '1' } autoComplete='off'  { ...input }
@@ -27,7 +52,12 @@ const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touch
   </div>
 );
 
-/** Component to render the password field */
+/**
+ * Generate the password field along with Copy button
+ * @param {object} - other custom props passed to the 'Field' component.
+ * - onClickCopy: used to bind to the click event of the 'Copy' button generated.
+ *   Clicking on the button will copy the password to clipboard
+ */
 const renderPasswordField = ({ onClickCopy, tabIndex, errors, input, type, meta: { touched, error, value} }) => (
   <div>
       <input autoComplete='off' readOnly { ...input } type={ type } tabIndex={ tabIndex } />
@@ -36,23 +66,36 @@ const renderPasswordField = ({ onClickCopy, tabIndex, errors, input, type, meta:
   </div>
 );
 
-/** Component to render the retype-password field */
-const renderRetypePasswordField = ({ tabIndex, className, errors, input, type, meta: { touched, error } }) => (
+/** Generate the re type password field */
+const renderRetypePasswordField = ({ tabIndex, errors, input, type, meta: { touched, error } }) => (
   <div>
       <input autoComplete='off' type={ type } { ...input } tabIndex={ tabIndex } />
       { (touched) && error && <span className='errorText'>{ error }</span> }
   </div>
 );
 
-/** Component to render the checkboxes */
-const renderCheckboxField = ({ id,pseudoText,tabIndex, errors, placeholder, input, label, type, meta: { touched, error, dirty } }) => (
+/**
+ * Generate the acknowledgement checkboxes
+ * @param {object} - other custom props passed to the 'Field' component.
+ * - id: id if the checkbox
+ * - pseudoText: the text for the label appearing besides the checkbox
+ */
+const renderCheckboxField = ({ id,pseudoText,tabIndex, errors, placeholder, input, label, type, meta: { touched, error } }) => (
   <div className='float-left width300 text-left align-checkbox'>
     <input id={ id } autoComplete='off' { ...input } type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
     <label htmlFor={ id }> <span>{ pseudoText }</span></label>
   </div>
 );
 
-/** Component to render the 'Copy' button */
+/**
+ * Generate the 'Save Password File' button
+ * @param {array} fields - to access the form field's values. Used to:
+ * - enable/disable 'Save Password File' button based on whether both the password fields
+ *   are entered or not or matched or not
+ * - apply css for the 'Save Password File' button whenever it is enabled/disabled
+ * - pass the password value to the onClick handler of the button
+ *   so that it can be copied to a text file and downloaded
+ */
 const renderRecoveryButtonFields = (fields) => (
   <div>
     <Button type='primary' htmlType='submit'
@@ -64,11 +107,9 @@ const renderRecoveryButtonFields = (fields) => (
   </div>
 )
 
-/** The Sign up form component */
 class SignupForm extends PureComponent {
 
   componentWillMount() {
-    //Auto-generate the password before the component mounts
     this.initializePassword();
   }
 
@@ -85,6 +126,7 @@ class SignupForm extends PureComponent {
   /**
    * Download the password in a text file
    * @param {string} password - The password to download in text file
+   * @param {object} event - The 'Save Password File' click click event
    */
   onClickDownload(password,event) {
     event.preventDefault();
@@ -97,6 +139,7 @@ class SignupForm extends PureComponent {
   /**
    * Copy the password to clipboard
    * @param {string} password - The password to copy
+   * @param {object} event - The 'Copy' button click event
    */
   onClickCopy(password,event) {
     event.preventDefault();
