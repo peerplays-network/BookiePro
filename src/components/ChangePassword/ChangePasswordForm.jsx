@@ -17,10 +17,10 @@ const { saveAs } = FileSaverUtils;
  * redux-form's 'Field' components. It is used for generating all the password field input controls.
  * @param {object} - other custom props passed to the 'Field' component.
  * The above object contains the following:
- * It is used to display the error text below the input field generated
  * - placeholder - the placeholder text for the input control
  * - tabIndex - the tab index of the input control
  * - errors - an object containing errors obtained after peforming validations
+ *   It is used to display the error text below the input field generated
  * - input - interally used by 'redux-form' to connect the input component to Redux
  * - maxLength - the maximum number of characters allowed on the field
  * - type - the type of input control
