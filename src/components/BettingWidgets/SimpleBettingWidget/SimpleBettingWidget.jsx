@@ -116,6 +116,8 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName) =>  {
     }
   ];
 
+  // TODO: This is an ad-hoc method to decide whether we need to display the
+  //       3rd selection for DRAW
   if (sportName.toUpperCase() !== 'SOCCER') {
     columns.splice(3, 1);   // remove the X column group
   }
@@ -142,6 +144,19 @@ class SimpleBettingWidget extends PureComponent {
     this.renderOffer = this.renderOffer.bind(this);
   }
 
+  /**
+   * Cick handler of the offer cells
+   *
+   * Once a user has clicked on a cell (with or without Odds), this function will
+   * be triggered and fired a `createBet` event via the QuickBetDrawerAction.
+   *
+   * This function will not fire any event if the props `canCreateBet` is true.
+   * This value set by the parent component when the Quick Bet Drawer cannot accept
+   * new bet, such as a Confirmation overlay has popped up and user has not responded
+   * to it yet.
+   *
+   * Parameter definition are omitted as they are self explanatory.
+   */
   onOfferClicked(event, record, team, betType, betting_market_id, odds) {
     event.preventDefault();
     if (this.props.canCreateBet === true) {
@@ -161,14 +176,18 @@ class SimpleBettingWidget extends PureComponent {
 
   /**
    * This function returns a function that will be used by the Ant-Design table
-   * for cell rendering.
+   * for cell rendering the betting offers in the widget.
    *
    * By default, the antd Table render each element from the dataSource prop as
    * text. To override this behavior, we need to supply a function with the following
    * signature:
    *   Function(text, record, index) {}
    *
-   * TBD - data is not simple object and we have to assign the offer to the correct back and lay columns
+   * We need to generate the render function mostly because antd Table expects
+   * the data records to be Simple JavaScriot Objects. However, we are using
+   * Immutable JS objects. Another reason is that the offers/bets data are stored
+   * as nested attributes, which the antd Table default cell rendering function
+   * is not designed to handle.
    *
    * @param {string} action - either 'lay' (laying a bet) or 'back' (backing a bet)
    * @param {string} typeOfBet - either 'lay' bet or 'back' bet. This value is always
@@ -180,6 +199,7 @@ class SimpleBettingWidget extends PureComponent {
    */
   renderOffer(action, typeOfBet, index, currencyFormat) {
     return (text, record) => {
+      // Retrieve the nested offers data from the data record
       let offers = record.get('offers');
 
       if ( offers === undefined || offers.isEmpty() || offers.getIn([index-1, 'betting_market_id']) === undefined ){
