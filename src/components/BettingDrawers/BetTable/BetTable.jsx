@@ -150,6 +150,7 @@ const clickArrowButton = (record, action, updateOdds) => {
  * the Input field.
  * @param {string} currencyFormat - a string representing the currency format to
  * be used to format the Odds or Stake values on screen
+* @returns {Function} - the actual cell rendering function used by antd Table
  */
 const renderOdds = (action, currencyFormat) => {
   return (text, record) => {
@@ -163,6 +164,19 @@ const renderOdds = (action, currencyFormat) => {
   }
 }
 
+/**
+ * Returns a function that renders the delete button for each row in the BetTable.
+ *
+ * The callback function in the paremeters will trigger an action to delete the
+ * bet (represented as the #record argument) in the actual rendering function.
+ * This function encapulates the actual details of the operation: it could be
+ * deleting a bet slip from the Redux store or requesting the Blockchain to
+ * cancel a bet.
+ *
+ * @param {Function} deleteOne - a callback function that triggers event to delete
+ * the bet. This callback accepts an ImmutableJS object as its sole argument.
+ * @returns {Function} - the actual cell rendering function used by antd Table
+ */
 const renderDeleteButton = (deleteOne) => {
   return (text, record) => (
     <Button className='btn'
@@ -171,6 +185,22 @@ const renderDeleteButton = (deleteOne) => {
   );
 }
 
+/**
+ * Returns an array of column definition objects of the Back Bet Table.
+ *
+ * In READONLY mode:
+ * - the column that contains the Delete Button is NOT available
+ * - all field value are rendered as text in READONLY mode
+ *
+ * @param {Function} deleteOne - the callback function used to delete/cancel a bet
+ * @param {Function} updateOne - the callback function triggered after a bet has
+ * been udpated
+ * @param {string} currencyFormat - a string representing the currency format to
+ * be used to format the Odds or Stake values on screen
+ * @param {boolean} [readonly=false] - set to true if the BetTable is in READONLY
+ * mode, and false otherwise
+ * @returns {Array.object} - an array of column definition objects
+ */
 const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => {
   const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
   const teamColumn = {
@@ -231,6 +261,22 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) =>
   return columns;
 };
 
+/**
+ * Returns an array of column definition objects of the Lay Bet Table.
+ *
+ * In READONLY mode:
+ * - the column that contains the Delete Button is NOT available
+ * - all field value are rendered as text in READONLY mode
+ *
+ * @param {Function} deleteOne - the callback function used to delete/cancel a bet
+ * @param {Function} updateOne - the callback function triggered after a bet has
+ * been udpated
+ * @param {string} currencyFormat - a string representing the currency format to
+ * be used to format the Odds or Stake values on screen
+ * @param {boolean} [readonly=false] - set to true if the BetTable is in READONLY
+ * mode, and false otherwise
+ * @returns {Array.object} - an array of column definition objects
+ */
 const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => {
   const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
   const teamColumn = {
@@ -291,7 +337,6 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => 
   return columns;
 };
 
-// TODO: REVIEW This function applies to both Back and Lay bets for now.
 const buildBetTableData = (bets, currencyFormat) => {
   const formatting = (field, value) => {
     const floatNumber = parseFloat(value);
