@@ -2,11 +2,10 @@
  * Betting Drawer is where the users place and manage their bets in the Bookie
  * application. There are two types of Betting Drawer:
  *
- * The Quick Bet Drawer is available for screens where more than one market is
- * presented in the main area, i.e. the Home (AllSports), Sport and Division (
- * EventGroup) pages.
+ * The QuickBetDrawer is used in the Home (AllSports), Sport and Division (
+ * EventGroup) components where more than one market are presented.
  *
- * The MArket Drawer is only applicable for the Market (Event) Screen.
+ * The MarketDrawer is only applicable in the BettingMarketGroup (Market) component.
  */
 import QuickBetDrawer from './QuickBetDrawer';
 import MarketDrawer from './MarketDrawer';
