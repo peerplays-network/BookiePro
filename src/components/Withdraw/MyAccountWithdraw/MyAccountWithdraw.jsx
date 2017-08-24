@@ -14,7 +14,26 @@ import { LoadingStatus } from '../../../constants';
 import './MyAccountWithdraw.less';
 import { CurrencyUtils } from '../../../utility';
 
-/** Component to render fields */
+/**
+ * Following is the stateless function that is passed as the 'component' prop to
+ * redux-form's 'Field' components. It is used for generating all the field input controls.
+ * @param {object} - other custom props passed to the 'Field' component.
+ * The above object contains the following:
+ * - className - the css class name to apply to the control
+ * - errors - an object containing errors obtained after performing validations
+ *   It is used to display the error text below the input field generated
+ * - placeholder - the placeholder text for the input control
+ * - hasWithdrawAmountErr - boolean to track if there are any custom errors in the withdraw amount field
+ *   They include insufficant balance or balance not available error
+ * - input - interally used by 'redux-form' to connect the input component to Redux
+ * - type - the type of input control
+ * - withdrawAmountErrMsg - the error text to display if there is any custom validation error on withdraw amount
+ * - meta - contains metadata about the state of this field that redux-form is tracking.
+ *   Some of the props that are used under meta prop are:
+ *   - touched: true if the field has been touched. By default this will be set when the field is blurred.
+ *   - error: The error for this field if its value is not passing validation.
+ *     Both synchronous, asynchronous, and submit validation errors will be reported here.
+ */
 const renderField = ({ className, errors, placeholder,hasWithdrawAmountErr, input, type,
   withdrawAmountErrMsg,
   meta: { touched, error } }) => (
@@ -29,7 +48,15 @@ const renderField = ({ className, errors, placeholder,hasWithdrawAmountErr, inpu
   </div>
 );
 
-/** Allow decimal numbers */
+/**
+ * This is a 'redux-form' normalizer function.
+ * It is executed every time the field on which the normalizer is placed, is changed.
+ * It is used here to check the format of the withdraw amount field.
+ * The function allows the user to type only numbers and a dot symbol (for decimal numbers)
+ * @param {string} value - the value of the field on which the normalizer is placed
+ * @param {string} previousValue - the value of the field on which the normalizer is placed
+ * before the most recent change
+ */
 const normalizeAmount = (value, previousValue) => {
   if(!value.length) {
     return value;
@@ -41,7 +68,6 @@ const normalizeAmount = (value, previousValue) => {
   return value;
 };
 
-/** Withdraw component in My Account screen */
 class MyAccountWithdraw extends PureComponent{
 
   constructor(props){
@@ -52,7 +78,11 @@ class MyAccountWithdraw extends PureComponent{
     this.onWithdrawAmountChange = this.onWithdrawAmountChange.bind(this);
   }
 
-  /** Check entered amount with user's available balance */
+  /**
+   * This function checks if the amount to withdraw entered by the user is less than
+   * the user's wallet balance. It also checks if the user's balance is available
+   * @param {object} event - the onChange or onBlur event of the withdraw amount field
+   */
   onWithdrawAmountChange(event){
     let withdrawAmount = event.target.value;
     if(!isNaN(withdrawAmount)){
