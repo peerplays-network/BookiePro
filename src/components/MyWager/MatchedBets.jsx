@@ -1,6 +1,9 @@
 /**
- * Matchedbets component to list Matched bets
- * This component is child to Mywager component
+ * MatchedBets to list Matched bets, a bet may have been matched with more than one bet
+ * sum of back bet’s stack + sum of lay bet’s liability displayed at top.
+ * bets displayed in chronological order, nearest to oldest, 20 records per screen, with pagination at the bottom of the screen.
+ * MatchedBets is child to Mywager
+ * MatchedBets used in mybets tabbed list
  */
 import React, { PureComponent } from 'react';
 import { Table } from 'antd';
@@ -11,7 +14,6 @@ import { MyWagerUtils, CurrencyUtils } from '../../utility';
 import './MyWager.less';
 import PropTypes from 'prop-types';
 
-/** Matchedbets component used in mybets tabbed list */
 class MatchedBets extends PureComponent {
   constructor(props) {
     super(props);

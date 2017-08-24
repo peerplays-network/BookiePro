@@ -1,8 +1,9 @@
 /**
- * ResolvedBets component to list Resolved bets with date range filter and export bets to excel functionality
- * daterange filter achieved using TimeRangePicker component
+ * ResolvedBets to list Resolved bets.
+ * Data filtering achieved using TimeRangePicker component
  * Export resolved bets achieved using export component
- * This component is child to Mywager component
+ * ResolvedBets is child to Mywager
+ * ResolvedBets used in mybets tabbed list
  */
 import React, { PureComponent } from 'react';
 import {  Table } from 'antd';
@@ -15,7 +16,6 @@ import { MyWagerUtils, CurrencyUtils } from '../../utility';
 import { List } from 'immutable';
 import PropTypes from 'prop-types';
 
-/** ResolvedBets component used in mybets tabbed list */
 class ResolvedBets extends PureComponent {
 
   constructor(props) {

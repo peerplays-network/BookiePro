@@ -1,5 +1,9 @@
 /**
  * This is mywager component with tabbed view of Unmatched, Matched and Resolved bets
+ * Bets listed in mybets are dummy bet objects. This are not fetched from blockchain.
+ * Unmatched bets - Placed bets that are pending for someone to make an opposite bet with same odds to match on
+ * Matched bets - Bets that are matched with certain opposite bets, pending for the market to end and get resolved
+ * Resolved bets - When a market with the user’s bet is ended and bets resolved
  * MyWagerSelector is the source of bets listing
  */
 import React, { PureComponent } from 'react';
@@ -20,7 +24,6 @@ import PeerPlaysLogo from '../PeerPlaysLogo';
 const {  getBetData, getBetTotal, getCurrencyFormat, getBetsLoadingStatus } = MyWagerSelector;
 const TabPane = Tabs.TabPane;
 
-//* Mywager component */
 class MyWager extends PureComponent {
   constructor(props) {
     super(props);
@@ -51,7 +54,10 @@ class MyWager extends PureComponent {
   }
 
 
-  /** Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb */
+  /**
+   * Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
+   * @param {synthetic_event} e - React defines these synthetic events according to the W3C spec, so you don't need to worry about cross-browser compatibility.
+   */
   onHomeLinkClick(e){
     e.preventDefault();
     this.props.navigateTo('/exchange');
@@ -60,8 +66,8 @@ class MyWager extends PureComponent {
   /**
    * Search transaction history with filters
    * @param {string} periodType - date filter selection
-   * @param {moment} customTimeRangeStartDate - start date of time rance
-   * @param {moment} customTimeRangeEndDate - end date of time range
+   * @param {object} customTimeRangeStartDate - start date of time range
+   * @param {object} customTimeRangeEndDate - end date of time range
    */
   handleSearchClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
     // Set time range.
@@ -71,8 +77,8 @@ class MyWager extends PureComponent {
   /**
    * Export resolved bets
    * @param {string} periodType - date filter selection
-   * @param {moment} customTimeRangeStartDate - start date of time rance
-   * @param {moment} customTimeRangeEndDate - end date of time range
+   * @param {object} customTimeRangeStartDate - start date of time range
+   * @param {object} customTimeRangeEndDate - end date of time range
    */
   handleExportClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
     // First set the history time range, so the search result is re-filtered
@@ -81,7 +87,12 @@ class MyWager extends PureComponent {
     this.props.generateResolvedBetsExportData(this.props.betsColumns);
   }
 
-  /** Reset export data and export loading status in redux state */
+  /**
+   * Reset export data to empty list
+   * set export loading status to default and error to null
+   * This will called on export data downloaded or on export process cancel
+   * Export modal popup hides on reset
+   */
   handleResetExport() {
     // Reset
     this.props.resetResolvedBetsExportDataAction();
@@ -90,6 +101,7 @@ class MyWager extends PureComponent {
   /**
    * switch tabs - UnmatchedBets, MatchedBets and ResolvedBets
    * @param {string} key - active tab key
+   * This will set activeTab key in redux state. change in state will trigger to load data for active tab
    */
   onTabChange(key) {
     this.props.setActiveTab(key);
@@ -97,7 +109,7 @@ class MyWager extends PureComponent {
 
 
   /**
-   * Unmatched bets event click - Redirect to event market screen
+   * UnmatchedBets tab lists bets with event link. this link navigat user to  event full market screen
    * @param {object} record - bet object
    */
   handleUnmatchedEventClick(record, event){
@@ -106,15 +118,19 @@ class MyWager extends PureComponent {
 
   /**
    * Cancel single bet
-   * UnmatchedBet cancelled is presentaional record not a blockchain bet object
-   * @param {object} record - bet object to cancel
+   * cancelled bet ids stored in redux store under 'bets.cancelBetsByIdsLoadingStatus' with status. This is temporary cancel. This doesn't have any effect on blockchain data yet.
+   * UnmatchedBets avoid listing of the bets which are marked cancelled
+   * @param {object} record - bet  object to cancel. This are dummy bet objects. This are not fetched from blockchain
    */
   cancelBet(record, event) {
-    //cancelBets expects array of blockchain bet objects so passing single bet object in array
+    //cancelBets expects array of immutable bet objects. converting simple object to immutable list
     this.props.cancelBets(List([Map(record)]));
   }
 
-  /** cancel all bets on Confirmation and hide confirm modal */
+  /**
+   * bets data sent to cancel bets which will mark all bets cancelled in redx store 'bets.cancelBetsByIdsLoadingStatus'
+   * component state 'isCancelAllConfirmModalVisible' value set to false. this will hide cancel bets confirmation modal
+   */
   handleCancelAllBets = () => {
     this.props.cancelBets(this.props.betsData);
     this.setState({ isCancelAllConfirmModalVisible: false });
@@ -123,7 +139,7 @@ class MyWager extends PureComponent {
   declineCancelAllBets = () => {
     this.setState({isCancelAllConfirmModalVisible: false,});
   }
-  /** Confirmation pop-up for deleting all bets. */
+  /** Confirmation pop-up for deleting all unmatched bets. */
   cancelAllBets(){
 
     event.preventDefault();
