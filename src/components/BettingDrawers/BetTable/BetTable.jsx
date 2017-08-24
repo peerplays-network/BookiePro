@@ -337,6 +337,21 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => 
   return columns;
 };
 
+/**
+ * Preprocess the bets data before passing them to the antd Table. This is written
+ * as a function because the same procedures need to be applied to both Back
+ * and Lay bets.
+ *
+ * Two key operations are performed:
+ * - initialize empty `profit` and `liability` field
+ * - set a unique key to every record so that React will not complain
+ *
+ * @param {object} bets - a ImmutableJS List of ImmutableJS Map objects
+ * @param {string} currencyFormat - a string representing the currency format to
+ * be used to format the Odds or Stake values on screen
+ * @returns {object} - a ImmutableJS List of ImmutableJS Map objects representing
+ * the bets data
+ */
 const buildBetTableData = (bets, currencyFormat) => {
   const formatting = (field, value) => {
     const floatNumber = parseFloat(value);
@@ -349,6 +364,17 @@ const buildBetTableData = (bets, currencyFormat) => {
   });
 }
 
+/**
+ * Return the css class of a row. The css class `updated` will cause the entire
+ * row to be highlighted in a different color which indicated there is an updated
+ * field in this row.
+ *
+ * The function signature is defined by Ant-Design.
+ *
+ * @param {object} record - the bet data represented as a vanilla JS object
+ * @param {number} index - unclear this is not clearly explained in the antd API
+ * @returns {string} - either `updated` or empty string
+ */
 const getRowClassName = (record, index) => (
   record.updated ? 'updated' : ''
 )
