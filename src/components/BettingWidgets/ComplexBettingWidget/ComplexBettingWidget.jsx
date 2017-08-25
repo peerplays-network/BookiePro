@@ -230,10 +230,11 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   /**
-    * used for calculation with the best back odds/ lay odds of all the selecitons in the market.
+    * get the best back/lay odds in tableData.
     *
     * @param {object} tableData - a ImmutableJS List of ImmutableJS Map objects representing, existing tableData used by react-table
     * @param {string} type - BetTypes.BACK or BetTypes.LAY
+    * @return {Immutable.List} list of best odds
     */
   getBestOfferOfEachmarket(tableData, betType){
     return tableData.map( item => {
