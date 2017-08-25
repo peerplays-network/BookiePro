@@ -1,6 +1,6 @@
 /**
  * The Exchange component is available in all the Sport, EventGroup, Event and BettingMarketGroup Pages.
- * It contains Sidebar, Betting Widgets and Betting Drawers, sepecreated by {@link https://github.com/tomkp/react-split-pane} react-split-pane.
+ * It contains Sidebar, Betting Widgets and Betting Drawers, separated by {@link https://github.com/tomkp/react-split-pane} react-split-pane.
  *
  *
  * If there exists unplaced bets in betting drawer when leaving current route,
