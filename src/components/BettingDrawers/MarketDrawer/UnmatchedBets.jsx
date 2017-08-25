@@ -1,3 +1,14 @@
+/**
+ * The UnmatchedBets component contains bets that are NOT 100% matched. In the other
+ * words, it contains a mixture of 0% matched bets or partially matched bets.
+ *
+ * The UnmatchedBets component has a similar appearance as the Betslip and in fact
+ * they both use the {@link BetTable} to display the bets. The unmatched bets can
+ * be edited and cancelled at any time. An updated bet will be highlighted with a
+ * special background color.
+ *
+ * The unmatched bets are stored in the Redux store under `marketDrawer`->`unmatchedBets`.
+ */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';

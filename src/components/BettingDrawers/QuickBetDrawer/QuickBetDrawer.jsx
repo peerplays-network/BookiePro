@@ -1,3 +1,22 @@
+/**
+ * The QuickBetDrawer is used for placing bets. Its only component is called
+ * Betslip where collection of items, betslips, are stored. When a user clicks on
+ * an offer from the SimpleBettingWidget (Quick Market Betting Widget), a betslip
+ * with the Odds indicated in the offet will be created in the QuickBetDrawer.
+ *
+ * The betslips are only stored in the Bookie application. Once a betslip has been
+ * submitted to the Blockchain (placed a bet), the betslip will be deleted. If
+ * the user navigates to other pages in the application while there are some betslips
+ * sitting in the QuickBetDrawer, the user will be prompted to cancel the page
+ * navigation or delete all betslips and move on.
+ *
+ * The QuickBetDrawer groups betslips by sport event. All betslips associated to
+ * the same sports event are stored in one {@link BetTable}. However when the user
+ * places the bets, all of the betslips will be submitted to the Blockchain and
+ * are removed from the QuickBetDrawer.
+ *
+ * The state of the QuickBetDrawer is maintained in the Redux store as `quickBetDrawer`.
+ */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';

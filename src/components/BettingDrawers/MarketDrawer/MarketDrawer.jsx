@@ -1,3 +1,9 @@
+/**
+ * The Market Drawer is only used when the user is viewing the BettingMarketGroup
+ * (Market) page. The Market Drawer is consisted of two components: {@link Betslip}
+ * and {@link PlacedBets}. These two components are shown in tabs. The Betslip
+ * tab is displaye by default.
+ */
 import React, { PureComponent } from 'react';
 import { Tabs } from 'antd';
 import { I18n } from 'react-redux-i18n';
@@ -37,9 +43,17 @@ class MarketDrawer extends PureComponent {
     }
   }
 
-  // We forced the Tabs component to use the internal activeTab state as the activeKey.
-  // We do this so that we can have direct control of the tabs, i.e. we can now
-  // programmatically switch tab based on props
+  /**
+   * Callback function that overrides the default behavior of the antd Tab component.
+   *
+   * We override the click handler so that whenever a user clicks on the tab,
+   * we force the tab component to update our own internal state `activeTab` instead.
+   * We are doing this because we need to forcibly switch the tab based on some
+   * user actions, see #componentWillReceiveProps above for more details.
+   *
+   * @param {string} key - the key defined in the TabPane component. See the
+   * #render function below. It indicates which tab the user has clicked on.
+   */
   onTabClick(key) {
     if (this.props.canSwitchTab === true) {
       this.setState({ activeTab: key });

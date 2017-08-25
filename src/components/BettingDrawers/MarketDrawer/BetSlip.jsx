@@ -1,3 +1,11 @@
+/**
+ * The Betslip component contains all the pending bets a user has selected but
+ * not yet placed. Its behaviors are almost identical to the Betslip in QuickBetDrawer.
+ * The only difference is that this Betslip only contains betslips associated with
+ * one sport event so they are all displayed in one {@link BetTable}.
+ *
+ * The betslips are stored in the Redux store under `marketDrawer`->`unconfirmedBets`.
+ */
 import React, { PureComponent } from 'react';
 import SplitPane from 'react-split-pane';
 import { I18n } from 'react-redux-i18n';
