@@ -1,3 +1,8 @@
+/**
+ * This component represents the Sign Up form.
+ * It uses 'redux-form' library to generate form fields and perform field validations.
+ * It is used in the Signup component.
+ */
 import React, { PureComponent } from 'react';
 import { Field, Fields, reduxForm } from 'redux-form/immutable';
 import { Button } from 'antd';
@@ -11,7 +16,26 @@ import { AuthUtils } from '../../utility';
 
 const { saveAs } = FileSaverUtils;
 
-//Component to render the plain fields
+/**
+ * This statless function generates the Account Nanem field. It is passed as the
+ * `component` prop to the redux-form's 'Field/Fields' components.
+ *
+ * @param {object} - other custom props passed to the 'Field' component.
+ *
+ * The parameter `object` contains the following:
+ *   tabIndex    : the tab index of the input control
+ *   errors      : an object containing errors obtained after peforming validations
+ *                 It is used to display the error text below the input field generated
+ *   placeholder : the placeholder text for the input control
+ *   input       : interally used by 'redux-form' to connect the input component to Redux
+ *   type        : the type of input control
+ *   meta        : contains metadata about the state of this field that redux-form is tracking.
+ *     Some of the props that are used under meta prop are:
+ *       touched : true if the field has been touched. By default this will be set when the field is blurred.
+ *       error   : The error for this field if its value is not passing validation.
+ *                 Both synchronous, asynchronous, and submit validation errors will be reported here.
+ *       value   : the input value
+ */
 const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touched, error } }) => (
   <div>
       <input autoFocus={ tabIndex === '1' } autoComplete='off'  { ...input }
@@ -22,7 +46,27 @@ const renderField = ({ tabIndex, errors, placeholder, input, type, meta: { touch
   </div>
 );
 
-//Component to render the password field
+ /**
+  * This statless function generates the password field along with the Copy button.
+  * It is passed as the `component` prop to the redux-form's 'Field/Fields' components.
+  *
+  * @param {object} - other custom props passed to the 'Field' component.
+  *
+  * The parameter `object` contains the following:
+  *   onClickCopy : used to bind to the click event of the 'Copy' button generated.
+  *                 Clicking on the button will copy the password to clipboard
+  *   tabIndex    : the tab index of the input control
+  *   errors      : an object containing errors obtained after peforming validations
+  *                 It is used to display the error text below the input field generated
+  *   input       : interally used by 'redux-form' to connect the input component to Redux
+  *   type        : the type of input control
+  *   meta        : contains metadata about the state of this field that redux-form is tracking.
+  *     Some of the props that are used under meta prop are:
+  *       touched : true if the field has been touched. By default this will be set when the field is blurred.
+  *       error   : The error for this field if its value is not passing validation.
+  *                 Both synchronous, asynchronous, and submit validation errors will be reported here.
+  *       value   : the input value
+  */
 const renderPasswordField = ({ onClickCopy, tabIndex, errors, input, type, meta: { touched, error, value} }) => (
   <div>
       <input autoComplete='off' readOnly { ...input } type={ type } tabIndex={ tabIndex } />
@@ -31,23 +75,74 @@ const renderPasswordField = ({ onClickCopy, tabIndex, errors, input, type, meta:
   </div>
 );
 
-//Component to render the retype-password field
-const renderRetypePasswordField = ({ tabIndex, className, errors, input, type, meta: { touched, error } }) => (
+/**
+ * This statless function generates the ReType Password field. It is passed as the
+ * `component` prop to the redux-form's 'Field/Fields' components.
+ *
+ * @param {object} - other custom props passed to the 'Field' component.
+ *
+ * The parameter `object` contains the following:
+ *   tabIndex    : the tab index of the input control
+ *   errors      : an object containing errors obtained after peforming validations
+ *                 It is used to display the error text below the input field generated
+ *   input       : interally used by 'redux-form' to connect the input component to Redux
+ *   type        : the type of input control
+ *   meta        : contains metadata about the state of this field that redux-form is tracking.
+ *     Some of the props that are used under meta prop are:
+ *       touched : true if the field has been touched. By default this will be set when the field is blurred.
+ *       error   : The error for this field if its value is not passing validation.
+ *                 Both synchronous, asynchronous, and submit validation errors will be reported here.
+ */
+const renderRetypePasswordField = ({ tabIndex, errors, input, type, meta: { touched, error } }) => (
   <div>
       <input autoComplete='off' type={ type } { ...input } tabIndex={ tabIndex } />
       { (touched) && error && <span className='errorText'>{ error }</span> }
   </div>
 );
 
-//Component to render the checkboxes
-const renderCheckboxField = ({ id,pseudoText,tabIndex, errors, placeholder, input, label, type, meta: { touched, error, dirty } }) => (
+ /**
+  * This statless function generates the Acknowledgement checkboxes. It is passed
+  * as the `component` prop to the redux-form's 'Field/Fields' components.
+  *
+  * @param {object} - other custom props passed to the 'Field' component.
+  *
+  * The parameter `object` contains the following:
+  *   id          : id of the checkbox
+  *   pseudoText  : the text for the label appearing besides the checkbox
+  *   tabIndex    : the tab index of the input control
+  *   errors      : an object containing errors obtained after peforming validations
+  *                 It is used to display the error text below the input field generated
+  *   placeholder : the placeholder text for the input control
+  *   input       : interally used by 'redux-form' to connect the input component to Redux
+  *   label       : ??
+  *   type        : the type of input control
+  *   meta        : contains metadata about the state of this field that redux-form is tracking.
+  *     Some of the props that are used under meta prop are:
+  *       touched : true if the field has been touched. By default this will be set when the field is blurred.
+  *       error   : The error for this field if its value is not passing validation.
+  *                 Both synchronous, asynchronous, and submit validation errors will be reported here.
+  *       value   : the input value
+  */
+const renderCheckboxField = ({ id,pseudoText,tabIndex, errors, placeholder, input, label, type, meta: { touched, error } }) => (
   <div className='float-left width300 text-left align-checkbox'>
     <input id={ id } autoComplete='off' { ...input } type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
     <label htmlFor={ id }> <span>{ pseudoText }</span></label>
   </div>
 );
 
-//Component to render the 'Copy' button
+ /**
+  * Render the 'Save Password File' button based on the form's data
+  *
+  * The button will be rendered as `disabled` if either of the following conditions
+  * is true:
+  *   - any of the 2 password fields is/are empty
+  *   - the 2 password fields do not match
+  *
+  * A new function is created a the click handler by binding the password value
+  * to it.
+  *
+  * @param {object} fields - a JS object that contains the form's data
+  */
 const renderRecoveryButtonFields = (fields) => (
   <div>
     <Button type='primary' htmlType='submit'
@@ -62,11 +157,10 @@ const renderRecoveryButtonFields = (fields) => (
 class SignupForm extends PureComponent {
 
   componentWillMount() {
-    //Auto-generate the password before the component mounts
     this.initializePassword();
   }
 
-  //Initialize the password field with a 52 character long random string
+  /** Initialize the password field with a 52 character long random string */
   initializePassword() {
     this.props.initialize({
       password: RandomString.generate({
@@ -76,7 +170,12 @@ class SignupForm extends PureComponent {
     });
   }
 
-  //Download the password in a text file
+  /**
+   * Download the password in a text file
+   *
+   * @param {string} password - the password to be downloaded in text file
+   * @param {object} event - the 'Save Password File' button click event
+   */
   onClickDownload(password,event) {
     event.preventDefault();
     let blob = new Blob([ password ], {
@@ -85,19 +184,23 @@ class SignupForm extends PureComponent {
     saveAs(blob, 'account-recovery-file.txt');
   }
 
-  //Copy the password to clipboard
+  /**
+   * Copy the password to clipboard
+   *
+   * @param {string} password - the password to be copied
+   * @param {object} event - the 'Copy' button click event
+   */
   onClickCopy(password,event) {
     event.preventDefault();
     copy(password);
   }
 
-  //Clear any API generated error from store whenever the account name is changed
+  /** Clear any API generated error from store whenever the account name is changed */
   onChangeAccountName(){
     if(this.props.errors.size > 0)
       this.props.clearSignupError();
   }
 
-  //Render the redux-form
   render() {
     const { handleSubmit,onClickLogin,errors,loadingStatus,invalid,submitting } = this.props;
     return (
@@ -147,7 +250,7 @@ class SignupForm extends PureComponent {
             <p> { I18n.t('signup.already_account') } <a className='text-underline blue-text' href='#' onClick={ onClickLogin }> { I18n.t('signup.log_in') } </a> </p>
           </div>
         </form>
-      )
+    )
   }
 }
 
