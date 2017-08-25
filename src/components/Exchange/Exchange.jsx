@@ -75,13 +75,13 @@ class Exchange extends PureComponent {
   }
 
   /**
-   * function being called just before leaving current page.
+   * called just before leaving current page.
+   *
    * Situations could be
    *   - leaving without unconfirmed bets.
    *   - leaving after clicking confirm button in modal when there is unconfirmed bets.
    *
-   * It attempts to reset the state as well as UI the current screen.
-   * I.e. clear all the unconfirmed bets stored in state and resetting modal visibliity / overlay effect.
+   * It attempts to reset the store about unconfirmed bets as well as state of UI like modal visibliity and overlay.
    */
   handleLeave(){
     const transitionName = this.props.location.pathname.split("/");
@@ -99,14 +99,13 @@ class Exchange extends PureComponent {
   }
 
   /**
-   * function being called when user 'attempt' to navigate to new page
-   * return true to follow the new route
-   * return false to block the new route
+   * Callback function when user 'attempt' to navigate to new page
    *
    * When there exists unplaced bets in betting drawer, confrimation modal will be shown and new route will be temporiaily blocked.
-   * New route will be stored in state, so router can follow the new route after user confirm to leave current route with unplaced bets.
+   * New route will be stored in state, new route will be navigated to after clicking confirm button in confirmation modal.
    *
    * @param {string} nextLocation - the route location user attempt to navigate to
+   * @returns {boolean} whether to follow the new route
    */
   routerWillLeave(nextLocation){
 
