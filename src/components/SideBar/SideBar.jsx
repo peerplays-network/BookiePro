@@ -41,9 +41,7 @@ class SideBar extends PureComponent {
     this.onNodeMouseClick = this.onNodeMouseClick.bind(this);
   }
 
-  /**
-   *  only re-render sidebar component when there is change
-   */
+  //  only re-render sidebar component when there is change
   componentWillReceiveProps(nextProps) {
     if (this.props.completeTree !== nextProps.completeTree || this.props.objectId !== nextProps.objectId) {
       this.setState({
@@ -201,7 +199,7 @@ class SideBar extends PureComponent {
 
 SideBar.propTypes = {
   /**
-   * Data : dataRetrival:
+   * completeTree served as the base tree and sidebar get the tree data to be dispalyed after filtering based on current navigation
    * Action : Main.jsx -> componentDidMount -> getDataForSidebar();
    * Store  : Main.jsx -> mapStateToProps -> completeTree
    */
