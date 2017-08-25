@@ -1,3 +1,7 @@
+/**
+ * The Exchange component is available in all the Sport, EventGroup, Event and BettingMarketGroup Pages.
+ * It contains Sidebar, Betting Widgets and Betting Drawers, separated by {@link https://github.com/tomkp/react-split-pane} react-split-pane.
+ */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
@@ -14,7 +18,9 @@ class Exchange extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      // whether user has clicked 'confirm' button in the UnplacedBetModal.
       confirmToLeave: false,
+      // whether the UnplacedBetModal is shown
       unplacedBetModalVisible: false,
     }
   }
@@ -25,13 +31,14 @@ class Exchange extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState){
-    //reset scroll area
+    //reset scroll area in sidebar and betting widget upon route change.
     this.refs.sidebar.scrollTop = 0;
     Ps.update(this.refs.sidebar);
     this.refs.main.scrollTop = 0;
     Ps.update(this.refs.main);
 
-    //confirming to ignore unplaced bet
+
+    // navigate to new route after clicking confirm button in confirmation modal.
     if (prevState.confirmToLeave === false && this.state.confirmToLeave === true){
       this.props.navigateTo(this.state.nextLocation);
       this.setState({
@@ -40,12 +47,17 @@ class Exchange extends PureComponent {
     }
   }
 
+  /**
+   * The #componentWillReceiveProps function is overriden here in order to update the routeLeaveHook upon route change.
+   *
+   * Normally setRouteLeaveHook is placed in componentDidMount yet Exchange component is being reused when new route is triggered by sidebar.
+   * So we need to call setRouteLeaveHook for every change in routes and router props.
+   */
   componentWillReceiveProps(nextProps) {
     const { router, routes } = nextProps;
-    //route change from /exchange/xxxxx to /exchange/yyyyy wont trigger unmount in Exchange.jsx,
-    //so setRouteLeaveHook is placed in componentWillReceiveProps instead of componentDidMount
 
-    // hook CURRENT route leave. current route is retrieved from nextProps
+    // second last item in routes in nextProps  is equivalant to last item in routes in currentProps
+    // which means route in current page before leaving
     const currentRoute = routes[nextProps.routes.length - 1];
     router.setRouteLeaveHook(currentRoute, this.routerWillLeave.bind(this));
   }
@@ -56,6 +68,15 @@ class Exchange extends PureComponent {
     });
   }
 
+  /**
+   * called just before leaving current page.
+   *
+   * Situations could be
+   *   - leaving without unconfirmed bets.
+   *   - leaving after clicking confirm button in modal when there is unconfirmed bets.
+   *
+   * Attempts to reset the store about unconfirmed bets as well as state of UI like modal visibliity and overlay.
+   */
   handleLeave(){
     const transitionName = this.props.location.pathname.split("/");
     if (transitionName.length < 3 || transitionName[2].toLowerCase() !== 'bettingmarketgroup') {
@@ -71,6 +92,15 @@ class Exchange extends PureComponent {
     });
   }
 
+  /**
+   * Callback function when user 'attempt' to navigate to new page
+   *
+   * When there exists unplaced bets in betting drawer store, confrimation modal will be shown and new route will be temporiaily blocked.
+   * New route will be stored in state, being navigated to after clicking confirm button in confirmation modal.
+   *
+   * @param {string} nextLocation - the route location user attempt to navigate to
+   * @returns {boolean} whether to follow the new route
+   */
   routerWillLeave(nextLocation){
 
     this.setState({
@@ -91,15 +121,9 @@ class Exchange extends PureComponent {
     }
 
   }
-  //end of route hooking
 
   render() {
-     //setting width of sider as 220
-     //primary = second , defaultSize =  400 = setting betslip width as 400
-     // remove css of splitpane in Exchange.less to disable resizing
 
-    //pane width and style is required here
-    //because it goes into splitpane component
     const sidebarWidth = 220;
     const betslipWidth = 360;
 
@@ -109,6 +133,7 @@ class Exchange extends PureComponent {
       'position': 'fixed'
     };
 
+    //confirmation modal about leaving current route.
     let unplacedBetModal = (
       <UnplacedBetModal
         visible={ this.state.unplacedBetModalVisible }

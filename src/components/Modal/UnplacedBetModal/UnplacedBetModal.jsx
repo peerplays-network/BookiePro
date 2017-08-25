@@ -1,3 +1,7 @@
+/**
+ * If there exists unplaced bets in betting drawer when leaving current route,
+ * UnplacedBetModal will appear and ask for user confirmation wether to leave without placing unplaced bets
+ */
 import React, { PureComponent } from 'react';
 import { Modal } from 'antd';
 import { I18n } from 'react-redux-i18n';
