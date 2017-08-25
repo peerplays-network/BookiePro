@@ -1,8 +1,12 @@
 /**
- * This is the component used for the change password process
- * It is connected to the redux store and it's corresponding state values are stored in 'auth'
+ * The ChangePassword component is available in MyAccount. It contains the
+ * {@link ChangePasswordForm} which allows user to complete the password change
+ * process.
+ *
+ * The updated password will be submitted to the blockchain via the
+ * {@link AuthActions#changePassword} action. The new password will be updated
+ * under the `auth` in the Redux store if the operation was successful.
  */
-
 import React, { PureComponent } from 'react';
 import { Card,Breadcrumb,Form } from 'antd'
 import { I18n,Translate }  from 'react-redux-i18n';
@@ -24,17 +28,20 @@ class ChangePassword extends PureComponent{
   }
 
   /**
-   * Submit user old and new password details
-   * @param {object} values - The sign up form field values
+   * Invoke the {@link AuthActions#changePassword} action
+   *
+   * @param {object} values - data obtained from the {@link ChangePasswordForm}
    */
   handleSubmit(values) {
     this.props.changePassword(values.get('old_password'), values.get('new_password'));
   }
 
   /**
-   * Navigate to the required location
-   * @param {object} event - The click event
-   * @param {string} targetLocation - The target location to navigate to
+   * Navigate to the `targetLocation` and reset the page loading status back to
+   * DEFAULT.
+   *
+   * @param {object} event - the click event
+   * @param {string} targetLocation - the target location to navigate to
    */
   navigateToLocation(event, targetLocation){
     event.preventDefault();
@@ -43,10 +50,11 @@ class ChangePassword extends PureComponent{
   }
 
   /**
-   * Redirect to 'My Account' screen when clicked on
-   * -- 'Back to My Account' button (after successful password change)
-   * -- 'My Account' link on the Breadcrumb
-   * @param {object} event - The event associated with clicking
+   * Redirect to 'My Account' screen when a user clicks on the following:
+   * - 'Back to My Account' button (after successful password change)
+   * - 'My Account' link on the Breadcrumb
+   *
+   * @param {object} event - the event associated with clicking
    * on the 'Back to My Account' button or 'My Account' link on breadcrumb
    */
   navigateToMyAccount(event) {
@@ -54,8 +62,9 @@ class ChangePassword extends PureComponent{
   }
 
   /**
-   * Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
-   * @param {object} event - The 'Home' link click event
+   * Redirect to 'Home' screen when a user clicks on the 'Home' link on the breadcrumb
+   *
+   * @param {object} event - the 'Home' link click event
    */
   navigateToHome(event){
     this.navigateToLocation(event, '/exchange');
