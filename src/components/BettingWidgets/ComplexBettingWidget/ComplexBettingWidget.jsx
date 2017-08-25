@@ -144,9 +144,9 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   /**
-   * This function returns a function that will be used by arrow buttons in both back and lay sides.
+   * This function is used by arrow buttons in both back and lay sides.
    *
-   * For user to go through the back/lay odds from best available to worst available and the Offer option,
+   * Arrow buttons are for user to go through the back/lay odds from best available to worst available and the Offer option,
    * it will be disabled when it reaches the end of available odds and the Offer cell.
    *
    * @param {integer} index - rowIndex / viewIndex, the index of the row relative to the current view https://github.com/react-tools/react-table#renderers
@@ -185,7 +185,7 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   /**
-   * This function returns a function that will be used by odds cell in both back and lay
+   * This function is used by odds cell in both back and lay sides
    *
    * A new betslip will be created in the betting drawer, with the odds pre-filled.
    *
@@ -206,7 +206,7 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   /**
-    * This function returns a function that will be used by 'back all' and 'lay all' buttons
+    * This function is used by 'back all' and 'lay all' buttons
     *
     * It will create betslips for all team's best back odds/ best lay odds, if offer exist.
     *
