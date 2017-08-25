@@ -1,6 +1,10 @@
 /**
- * This is login react component to sign-in in to the system
- * If the user authenticated then account information is stored in redux state 'account.account'
+ * The Login component contains the {@link LoginForm} which allows user to
+ * sign in to the Bookie application.
+ *
+ * The states of the component are maintained in the Redux store under 'auth'.
+ * The user account information are maintained in the Redux store under
+ * 'account.account'.
  */
 import React, { PureComponent } from 'react';
 import logo from '../../assets/images/bookie_logo_login.png';
@@ -16,7 +20,6 @@ import { AccountService } from '../../services';
 import { AppBackgroundTypes } from '../../constants';
 import FloatingHelp from '../FloatingHelp';
 
-/** Login component */
 class Login extends PureComponent {
   constructor(props) {
     super(props);
@@ -34,18 +37,21 @@ class Login extends PureComponent {
     this.props.setAppBackground(AppBackgroundTypes.GRADIENT_BG);
   }
 
-  //Navigate to signup page
   onClickSignup(e) {
     e.preventDefault();
     this.props.navigateTo('/signup');
   }
 
   /**
-   * validates accountName password and navigate to home page
-   * accountName - show error if username format is incorrect or such user exists
-   * password - length should be greater than 22
-   * navigate to home page if valid credentials entered
-   * @param {object} e - The sign up form field values
+   * Handle the {@link LoginForm} submission.
+   * Validate accountName and password and if valid credentials are entered,
+   * navigate to the Home page.
+   *
+   * The Validations include:
+   *   accountName : show error if username format is incorrect or such user exists
+   *   password    : length should be greater than 22
+   *
+   * @param {object} e - the sign up form field values
    */
   handleSubmit(e) {
     const errors = {};
