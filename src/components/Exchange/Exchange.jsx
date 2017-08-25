@@ -1,6 +1,7 @@
 /**
  * The Exchange component is available in all the Sport, EventGroup, Event and BettingMarketGroup Pages.
- * It contains Sidebar, Betting Widgets and Betting Drawers
+ * It contains Sidebar, Betting Widgets and Betting Drawers, sepecreated by {@link https://github.com/tomkp/react-split-pane} react-split-pane.
+ *
  *
  * If there exists unplaced bets in betting drawer when leaving current route,
  * a confirmation modal {@link UnplacedBetModal} which ask for user confirmation of leaving the route without saving any unplaced bets
@@ -102,7 +103,7 @@ class Exchange extends PureComponent {
    * return true to follow the new route
    * return false to block the new route
    *
-   * When there exists unplaced bets, confrimation modal will be shown and new route will be temporiaily blocked.
+   * When there exists unplaced bets in betting drawer, confrimation modal will be shown and new route will be temporiaily blocked.
    * New route will be stored in state, so router can follow the new route after user confirm to leave current route with unplaced bets.
    *
    * @param {string} nextLocation - the route location user attempt to navigate to
@@ -139,6 +140,7 @@ class Exchange extends PureComponent {
       'position': 'fixed'
     };
 
+    //confirmation modal about leaving current route.
     let unplacedBetModal = (
       <UnplacedBetModal
         visible={ this.state.unplacedBetModalVisible }
