@@ -27,7 +27,18 @@ const createNode = (item, componentClass) => {
 }
 
 
-
+/**
+ * to construct Tree Structure for sport, event, event groups and betting market groups
+ *
+ * tree nodes only visible if and only if
+ * i) the node is active
+ * ii) more than one descendant node is active
+ *
+ * ordering:
+ * Currently nodes in same level are other by "object id"
+ *
+ * completeTree data is shared by BOTH components/Sidbar as well as components/SearchMenu.
+ */
 const getSidebarCompleteTree = createSelector(
   [
     getSidebarLoadingStatus,
