@@ -78,8 +78,8 @@ class ComplexBettingWidget extends PureComponent {
    * updating the tableData consumed by react-table
    *
    *                 ---------------------|-------------------  BACK ALL (row.back)   --------|     LAY ALL (row.lay) -------------------------|
-   * COMPTETITOR 1 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
-   * COMPTETITOR 2 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
+   * ROW 1 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
+   * ROW 2 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
    *
    * @param {object} tableData - a ImmutableJS List of ImmutableJS Map objects representing, existing tableData used by react-table
    * @param {object} unconfirmedBets - a ImmutableJS List of ImmutableJS Map objects representing, unconfirmed bets in bet table
@@ -185,9 +185,9 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   /**
-   * This function is used by odds cell in both back and lay sides
+   * This callback function is used by odds cell in both back and lay sides
    *
-   * A new betslip will be created in the betting drawer, with the odds pre-filled.
+   * Create a new betslip in the betting drawer, with the odds pre-filled.
    *
    * please refer to https://github.com/react-tools/react-table#custom-props for rowInfo and column
    * @param {object} rowInfo - built-in param in func props of react-table   getTdProps={(state, rowInfo, column, instance)
