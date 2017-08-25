@@ -63,6 +63,7 @@ class Exchange extends PureComponent {
     const { router, routes } = nextProps;
 
     // second last item in routes in nextProps  is equivalant to last item in routes in currentProps
+    // which means route in current page before leaving
     const currentRoute = routes[nextProps.routes.length - 1];
     router.setRouteLeaveHook(currentRoute, this.routerWillLeave.bind(this));
   }
