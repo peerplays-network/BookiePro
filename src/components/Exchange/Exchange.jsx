@@ -37,15 +37,14 @@ class Exchange extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState){
-    //reset scroll area in sidebar and betting widget upon route change when they are being reused.
+    //reset scroll area in sidebar and betting widget upon route change.
     this.refs.sidebar.scrollTop = 0;
     Ps.update(this.refs.sidebar);
     this.refs.main.scrollTop = 0;
     Ps.update(this.refs.main);
 
-    /*
-     * navigate to new route after clicking confirm button in confirmation modal.
-     */
+
+    // navigate to new route after clicking confirm button in confirmation modal.
     if (prevState.confirmToLeave === false && this.state.confirmToLeave === true){
       this.props.navigateTo(this.state.nextLocation);
       this.setState({
