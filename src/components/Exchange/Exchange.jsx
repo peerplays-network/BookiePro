@@ -1,12 +1,6 @@
 /**
  * The Exchange component is available in all the Sport, EventGroup, Event and BettingMarketGroup Pages.
  * It contains Sidebar, Betting Widgets and Betting Drawers, separated by {@link https://github.com/tomkp/react-split-pane} react-split-pane.
- *
- *
- * If there exists unplaced bets in betting drawer when leaving current route,
- * a confirmation modal {@link UnplacedBetModal} which ask for user confirmation of leaving the route without saving any unplaced bets
- * will be shown.
- *
  */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
@@ -81,7 +75,7 @@ class Exchange extends PureComponent {
    *   - leaving without unconfirmed bets.
    *   - leaving after clicking confirm button in modal when there is unconfirmed bets.
    *
-   * It attempts to reset the store about unconfirmed bets as well as state of UI like modal visibliity and overlay.
+   * Attempts to reset the store about unconfirmed bets as well as state of UI like modal visibliity and overlay.
    */
   handleLeave(){
     const transitionName = this.props.location.pathname.split("/");
@@ -101,8 +95,8 @@ class Exchange extends PureComponent {
   /**
    * Callback function when user 'attempt' to navigate to new page
    *
-   * When there exists unplaced bets in betting drawer, confrimation modal will be shown and new route will be temporiaily blocked.
-   * New route will be stored in state, new route will be navigated to after clicking confirm button in confirmation modal.
+   * When there exists unplaced bets in betting drawer store, confrimation modal will be shown and new route will be temporiaily blocked.
+   * New route will be stored in state, being navigated to after clicking confirm button in confirmation modal.
    *
    * @param {string} nextLocation - the route location user attempt to navigate to
    * @returns {boolean} whether to follow the new route
