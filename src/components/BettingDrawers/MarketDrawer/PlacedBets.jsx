@@ -1,3 +1,10 @@
+/**
+ * The PlacedBets component contains bets that have been submitted to the blockchain.
+ * The bets are further grouped by their statues, Unmatched and Matched, and are
+ * stored in two different components.
+ *
+ * See {@link UnmatchedBets} and {@link MatchedBets} for more details.
+ */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -20,8 +27,17 @@ class PlacedBets extends PureComponent {
     Ps.update(ReactDOM.findDOMNode(this.refs.placedBets));
   }
 
-  // TODO We only need this when the user refresh the browser in web mode
-  //      However, this should not happen in the actual desktop app
+  /**
+   * The #componentWillMount function is overriden here in order to retrieve the
+   * placed bets from the Blockchain. Normally, this operation is done during the
+   * startup process of the Bookie app. However we are doing this EXPLICITLY here
+   * because during development time, developers who woork on this page may manually
+   * refresh this page to do changes and sometimes the data did not get loaded
+   * properly. So this is the temporary solution to that problem.
+   *
+   * REVIEW: We only need this when the user refresh the browser in web mode
+   *         However, this should not happen in the actual desktop app
+   */
   componentWillMount() {
     // Extract the current Betting Market Group Id the user is viewing
     // This is required to filter the data from all ongoing bets

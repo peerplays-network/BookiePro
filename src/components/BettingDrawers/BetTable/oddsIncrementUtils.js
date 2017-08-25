@@ -1,10 +1,14 @@
+/**
+ * This utility module contains functions that handle the increment and decrement
+ * of Odds value in the {@link BetTable}.
+ */
 import _ from 'lodash';
 
 const ODDS_PRECISION = 2;
 const MIN_ODDS = 1.01;
 const MAX_ODDS = 1000;
 
-/*
+/**
  * Return the increment based on which range does the Odds value fall into
  * -1 is returned if the Odds value is out of range
  */
@@ -24,14 +28,14 @@ const getOddsIncrement = (odds) => {
   return -1;
 }
 
-/*
+/**
  * Scale a floating number by the default precision value
  * This is an internal utility function used in calculating the floating point remainder.
  */
 const fscale = (number, precision=ODDS_PRECISION) => number.toFixed(precision) * Math.pow(10, precision);
 
 
-/*
+/**
  * A very loose implementation of fmod (floating point modulo)
  *
  * We cannot use the modulo operator on floating point nubmers directly so we need

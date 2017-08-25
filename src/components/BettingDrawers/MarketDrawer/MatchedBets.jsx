@@ -1,3 +1,12 @@
+/**
+ * The MatchedBets component contains only the bets that have been completely
+ * matched. All the bets displayed here are READONLY. This is also the only
+ * occasion where the {@link BetTable} is used in its READONLY mode.
+ *
+ * User can group all matched bets by the average odds.
+ *
+ * The matched bets are stored in the Redux store under `marketDrawer`->`matchedBets`.
+ */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
