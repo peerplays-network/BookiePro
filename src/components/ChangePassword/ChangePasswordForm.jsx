@@ -16,7 +16,8 @@ const { saveAs } = FileSaverUtils;
  * redux-form's 'Field' components. It is used for generating all the password field input controls.
  *
  * @param {object} - other custom props passed to the 'Field' component.
- * The above object contains the following:
+ *
+ * The parameter `object` contains the following:
  *   placeholder : the placeholder text for the input control
  *   tabIndex    : the tab index of the input control
  *   errors      : an object containing errors obtained after peforming validations
@@ -69,7 +70,7 @@ class ChangePasswordForm extends PureComponent {
   /**
    * Render the 'Save Password File' button based on the form's data
    *
-   * The button will be rendered as `disabled` if either of the following conditions
+   * The button will be rendered as `disabled` if any of the following conditions
    * is true:
    *   - any of the 3 fields is/are empty
    *   - any of the password fields is/are less than the minimum length

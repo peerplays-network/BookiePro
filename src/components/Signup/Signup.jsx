@@ -1,6 +1,8 @@
 /**
- * This is the component used for the sign up process
- * It is connected to the redux store and it's corresponding state values are stored in 'auth'
+ * The Signup component contains the {@link SignupForm} which allows user to
+ * register a new Bookie account.
+ *
+ * The states of the component are maintained in the Redux store under 'auth'.
  */
 import React, { PureComponent } from 'react';
 import logo from '../../assets/images/bookie_logo_signup.png';
@@ -31,15 +33,15 @@ class Signup extends PureComponent {
     this.props.setAppBackground(AppBackgroundTypes.GRADIENT_BG);
   }
 
-  /** Navigate to login page */
   onClickLogin(event) {
     event.preventDefault();
     this.props.navigateTo('/login')
   }
 
   /**
-   * Submit user account information
-   * @param {object} values - The sign up form field values
+   * Invoke the {@link AuthActions#signup} action
+   *
+   * @param {object} values - data obtained from the {@link SignupForm}
    */
   handleSubmit(values) {
     this.props.signup(values.get('accountName'), values.get('password'));
