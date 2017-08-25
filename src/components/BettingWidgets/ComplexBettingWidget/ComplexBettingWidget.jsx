@@ -29,6 +29,7 @@ import RulesButton from '../RulesButton'
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 
+// number of best odds to be shown in each market ( Back and Lay )
 const itemDisplay = 3;
 
 class ComplexBettingWidget extends PureComponent {
@@ -37,6 +38,7 @@ class ComplexBettingWidget extends PureComponent {
     super(props);
 
     this.state = {
+      // tableData used in data props in react-table
       tableData:  Immutable.fromJS([]),
       backAllPercent: 0,
       layAllPercent: 0,
@@ -63,6 +65,7 @@ class ComplexBettingWidget extends PureComponent {
     this.setTableData(this.props.marketData, this.props.unconfirmedBets, false)
   }
 
+  // re-render when there is update in bets or navigation
   componentWillReceiveProps(nextProps) {
     //only perform calculation when there exists changes in related data
     if (this.props.marketData !==  nextProps.marketData ||
@@ -71,13 +74,17 @@ class ComplexBettingWidget extends PureComponent {
     }
   }
 
-  // betting widget full :
-  //                 ---------------------|-------------------  BACK ALL (row.back)   --------|     LAY ALL (row.lay) -------------------------|
-  // COMPTETITOR 1 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
-  // COMPTETITOR 2 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
-  //
-  // genereate firstColumn + layTableData + backTableData for Display
-  // among which firstColumn contains team name + exposure caluclation
+  /**
+   * updating the tableData consumed by react-table
+   *
+   *                 ---------------------|-------------------  BACK ALL (row.back)   --------|     LAY ALL (row.lay) -------------------------|
+   * COMPTETITOR 1 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
+   * COMPTETITOR 2 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
+   *
+   * @param {object} tableData - a ImmutableJS List of ImmutableJS Map objects representing, existing tableData used by react-table
+   * @param {object} unconfirmedBets - a ImmutableJS List of ImmutableJS Map objects representing, unconfirmed bets in bet table
+   * @param {integer} reserveIndex - whether to reset the paging to zero. false => reset, true => no reset
+   */
   setTableData(tableData, unconfirmedBets, reserveIndex){
 
     if ( !tableData.isEmpty()){
@@ -87,19 +94,21 @@ class ComplexBettingWidget extends PureComponent {
       tableData.forEach((row, i) => {
         //in i th row
 
-        //get backTableData
+        //retrieve paging Index from previous state
         let backStartingIndex = 0
         if ( reserveIndex && this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'backIndex']) ){
           backStartingIndex = this.state.tableData.getIn([i, 'offer', 'backIndex']) //retrieve scrolling Index from previous state
         }
+        //get back offer data
         const backTableData = tableData.getIn([i, 'offer', 'backOrigin'])
           .slice(backStartingIndex, backStartingIndex + itemDisplay);
 
-        //get layTableData
+        //retrieve paging Index from previous state
         let layStartingIndex = 0
         if ( reserveIndex && this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'layIndex']) ){
           layStartingIndex = this.state.tableData.getIn([i, 'offer', 'layIndex']) //retrieve scrolling Index from previous state
         }
+        //get lay offer data
         const layTableData = tableData.getIn([i, 'offer', 'layOrigin'])
           .slice(layStartingIndex, layStartingIndex + itemDisplay)
 
@@ -108,8 +117,7 @@ class ComplexBettingWidget extends PureComponent {
         const bettingMarketId = row.getIn(['offer', 'bettingMarketId']);
         const betslip_exposure = BettingModuleUtils.getExposure(bettingMarketId, unconfirmedBets);
 
-        //update i th row
-        // equivalant to  rowInfo.row in function onOfferClicked(rowInfo, column)
+        // get data for 'firstColumn' in which exposure and team name reside in .
         tableData = tableData.setIn([i, 'offer', 'back'], backTableData)
           .setIn([i, 'offer', 'lay'], layTableData)
           .setIn([i, 'offer', 'backIndex'], backStartingIndex)
@@ -135,20 +143,31 @@ class ComplexBettingWidget extends PureComponent {
 
   }
 
-  //the arrow onclick funciton
+  /**
+   * This function returns a function that will be used by arrow buttons in both back and lay sides.
+   *
+   * For user to go through the back/lay odds from best available to worst available and the Offer option,
+   * it will be disabled when it reaches the end of available odds and the Offer cell.
+   *
+   * @param {integer} index - rowIndex / viewIndex, the index of the row relative to the current view https://github.com/react-tools/react-table#renderers
+   * @param {string} type - BetTypes.BACK or BetTypes.LAY
+   * @param {integer} change - position shift upon clicking the arrow, use positive value for forward, use negative value for backword
+   */
   shiftOfferDisplay(index, type, change){
 
     let updatedTableData = this.state.tableData;
     let offerIndex = updatedTableData.getIn([index, 'offer', type + 'Index'])
     let layList = updatedTableData.getIn([index, 'offer', type + 'Origin'])
 
+    // in UI back odds and lay odds are in different orders in
+    // so the arror button with same direction in back and lay are of difference shifting direction.
     if ( type === BetTypes.BACK){
 
       change *= -1
 
     }
 
-    // marginal case checking.
+     // marginal case checking : reaching the end of available odds.
     if ( layList.size < itemDisplay ||
       ( change === -1 && offerIndex === 0) ||
       ( change === 1 && offerIndex + itemDisplay  > layList.size)){
@@ -165,6 +184,15 @@ class ComplexBettingWidget extends PureComponent {
 
   }
 
+  /**
+   * This function returns a function that will be used by odds cell in both back and lay
+   *
+   * A new betslip will be created in the betting drawer, with the odds pre-filled.
+   *
+   * please refer to https://github.com/react-tools/react-table#custom-props for rowInfo and column
+   * @param {object} rowInfo - built-in param in func props of react-table   getTdProps={(state, rowInfo, column, instance)
+   * @param {object} column - built-in param in func props of react-table   getTdProps={(state, rowInfo, column, instance)
+   */
   onOfferClicked(rowInfo, column) {
     const competitor =  rowInfo.rowValues.firstColumn.name;
     const betType = column.className;
@@ -177,6 +205,13 @@ class ComplexBettingWidget extends PureComponent {
     this.props.createBet(competitor, betType, bettingMarketId, odds);
   }
 
+  /**
+    * This function returns a function that will be used by 'back all' and 'lay all' buttons
+    *
+    * It will create betslips for all team's best back odds/ best lay odds, if offer exist.
+    *
+    * @param {object} event - onclick event
+    */
   placeAllBestBets(event) {
     const {id} = event.target;
     const betType = id
@@ -194,6 +229,12 @@ class ComplexBettingWidget extends PureComponent {
 
   }
 
+  /**
+    * used for calculation with the best back odds/ lay odds of all the selecitons in the market.
+    *
+    * @param {object} tableData - a ImmutableJS List of ImmutableJS Map objects representing, existing tableData used by react-table
+    * @param {string} type - BetTypes.BACK or BetTypes.LAY
+    */
   getBestOfferOfEachmarket(tableData, betType){
     return tableData.map( item => {
 
@@ -433,6 +474,7 @@ ComplexBettingWidget.propTypes = {
   marketData: PropTypes.any.isRequired,
   totalMatchedBetsAmount: PropTypes.any.isRequired,
   createBet: PropTypes.func.isRequired,
+  // unconfirmedBets data in bet table
   unconfirmedBets: PropTypes.any,
   currencyFormat: PropTypes.string.isRequired,
   canCreateBet: PropTypes.any.isRequired,
