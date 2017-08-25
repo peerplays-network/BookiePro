@@ -1,3 +1,19 @@
+/**
+ * The Sidebar allow users to navigate to different active sports and events
+ *
+ * AllSport -> Sport -> Event Group -> Event -> Betting MarketGroup.
+ * InfinityMenu widget : https://github.com/JedWatson/react-select
+ * customComponent in InfinityMenu : https://www.bountysource.com/issues/30555786-having-trouble-with-search
+ *
+ * - Under different level
+ * landed on home screen / click on all sports -> display sports
+ * click on sport name -> show divisions under the selected sport
+ * click on division -> show events under the selected division
+ * click on event -> show markets under the selected, go to moneyline if moneyline exist, else go to first market based on default ordering
+ * click on market -> no change in menu item, only highlight selected market
+ *
+ * Selector : selectors/SidebarSelector.js
+ */
 import React, { PureComponent } from 'react';
 import InfinityMenu from 'react-infinity-menu';
 import 'react-infinity-menu/src/infinity-menu.css';
@@ -14,7 +30,6 @@ import PropTypes from 'prop-types';
 import { SidebarSelector } from '../../selectors';
 import log from 'loglevel';
 
-// for customComponent in InfinityMenu : https://www.bountysource.com/issues/30555786-having-trouble-with-search
 class SideBar extends PureComponent {
 
   constructor(props) {
@@ -26,6 +41,9 @@ class SideBar extends PureComponent {
     this.onNodeMouseClick = this.onNodeMouseClick.bind(this);
   }
 
+  /**
+   *  only re-render sidebar component when there is change
+   */
   componentWillReceiveProps(nextProps) {
     if (this.props.completeTree !== nextProps.completeTree || this.props.objectId !== nextProps.objectId) {
       this.setState({
@@ -34,10 +52,19 @@ class SideBar extends PureComponent {
     }
   }
 
+  /**
+    * update tree based on current navigation
+    * idea is to reuse a base completeTree and contrucut the base tree based on currrent navigation.
+    * i.e. removing nodes from completeTree
+    *
+    * for findKeyPathOf() and differences(), please refer to
+    * https://stackoverflow.com/questions/41298577/how-to-get-altered-tree-from-immutable-tree-maximising-reuse-of-nodes
+    * for detailed explanation.
+    */
   createCurrentStateTree(completeTree, targetObjectId) {
 
     if (!targetObjectId || targetObjectId === 'exchange'){
-      // id of 'all sports'
+       //hardcode id for all-sports node,
       targetObjectId = '0'
     }
 
@@ -86,7 +113,7 @@ class SideBar extends PureComponent {
       }
 
       // Compare all nodes to see which ones were altered:
-      // TODO: please put more explanation on the logic here
+      // find the 'id' path of the newTree
       const altered = differences(completeTree, newTree, 'children').map(x => x.get('id'));
       if ( keyPath.length >= 5){
         newTree = newTree.setIn(keyPath.slice(0,4),
@@ -103,6 +130,7 @@ class SideBar extends PureComponent {
         )
       }
       if (keyPath[0] !== 0){
+        // '0' is hardcode id for all-sports node,
         newTree = newTree.filter((p) => p.get('id') === '0' || p.get('isOpen'));
       }
       return newTree.toJS();
@@ -112,9 +140,26 @@ class SideBar extends PureComponent {
     }
   }
 
+  /**
+  * onClick function to be cosumed by props in react-infinity-menu
+  * https://github.com/socialtables/react-infinity-menu#properties
+  *
+  * i) Event  -> show Moneyline if ACTITVE Moneyline exists. Else it will show the first descendant ACTIVE BMG
+  * ii) BMG -> show corresponding BMG
+  * iii) SPORT / Event Group -> show ACTIVE descendants
+  *
+  *  navgiation path name is related to value of customComponentMappings props provided to InfinityMenu
+  *
+  * @param event - is the mouse click event.
+  * @param tree -  is the updated tree, you should update your own tree accordingly.
+  * @param node -  is the folder(node) the user clicked on. Including the id, name, isOpen and children.
+  * @param level - is the distance from the root.
+  * @param keyPath - is the path from root to current node
+  */
   onNodeMouseClick(event, tree, node, level, keyPath) {
     const { navigateTo } = this.props;
 
+    // '0' is hardcode id for all-sports node,
     if (node.id === '0') {
       navigateTo('/exchange/');
     } else {
@@ -131,6 +176,12 @@ class SideBar extends PureComponent {
     }
   }
 
+  /**
+   *
+   *  customComponentMappings is related to navigation path name.
+   *  key in mapping inherits to customComponent value definied in selector/SidebarSelector
+   *  value in mapping corresponds to customComponent class
+   */
   render() {
     return (
       <InfinityMenu
@@ -149,6 +200,11 @@ class SideBar extends PureComponent {
 }
 
 SideBar.propTypes = {
+  /**
+   * Data : dataRetrival:
+   * Action : Main.jsx -> componentDidMount -> getDataForSidebar();
+   * Store  : Main.jsx -> mapStateToProps -> completeTree
+   */
   completeTree: PropTypes.instanceOf(Immutable.List).isRequired,
   objectId: PropTypes.string.isRequired,
   level: PropTypes.number.isRequired,

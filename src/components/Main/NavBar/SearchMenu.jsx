@@ -1,3 +1,20 @@
+
+/**
+ * The Search Box is used to search for active betting market group using team names
+ *
+ * The main component is React-Select. https://github.com/JedWatson/react-select
+ *
+ *  User can click 'X' icon to clear the input text. It only appears when there is character inputted
+ *
+ *  Typing any character in input box will trigger debonunce ( see onChange() ),
+ *  which will trim any empty space and conduct search.
+ *  Result is not case sensitive.
+ *
+ *  Result lists:
+ *  i. show nothing(no option shown) in idle state
+ *  ii. when there exists result, it will displays result counter and list of events founded
+ *  iii. when there doesnt exist any result, it will display 'no result found' text
+ */
 import React, { PureComponent } from 'react';
 import { Menu } from 'antd';
 import _ from 'lodash';
@@ -12,8 +29,16 @@ import { LoadingStatus } from '../../../constants';
 import moment from 'moment';
 import Rx from 'rxjs/Rx';
 
+// hardcode id in option object
 const RESULT_COUNT_ID = '0';
 
+
+/**
+ * Custom component for option widget  ( optionComponent props used in react-select )
+ *
+ * i) displaying result counter or no results, and it is not clickable
+ * ii) displaying Betting Market Group option,  triggering onChange upon clicking
+ */
 class SearchOption extends PureComponent {
   constructor(props) {
     super(props);
@@ -44,6 +69,11 @@ class SearchOption extends PureComponent {
 
 }
 
+/**
+ * SearchMenu
+ *
+ * Selector : selectors/SidebarSelector.js
+ */
 class SearchMenu extends PureComponent {
 
   constructor(props) {
@@ -61,6 +91,7 @@ class SearchMenu extends PureComponent {
   }
 
   componentDidMount(){
+    //subscribe input box debonunce
     this.subscription = this.onSearch$
       .debounceTime(300)
       .subscribe(debounced => {
@@ -70,6 +101,7 @@ class SearchMenu extends PureComponent {
   }
 
   componentWillUnmount() {
+    //unsubscribe input box debounce
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -101,10 +133,12 @@ class SearchMenu extends PureComponent {
 
   }
 
+  // To clear text input after route change and reusing Search Menu component
   onRouteChangeHandle(){
     this.select.blurInput();
   }
 
+  // Trigger debounce on input change
   onInputChange(searchText) {
 
     if ( searchText){
@@ -123,13 +157,22 @@ class SearchMenu extends PureComponent {
     return searchText
   }
 
+  /**
+   * overriding the filterOptions in react-select components.
+   *
+   * Make sure the filterOptions 'does nothing'
+   * i.e. list all the options no matter what
+   *
+   * This is done in purpose to include result text in first option.
+   */
   filterOptions( options, filter, currentValues){
     return options
   }
 
+  //reset the searchText when leaving focus of searchmenu.
   onClose (){
-    // 1: the result wont be cleaered after choosing an option. i.e. time > 0
-    // 2: time between user clicking elsewhere and focusing on search input again is small enough to update the time < 100ms
+
+    // 100ms is good enough to reset stuff after leaving the search box and before human interation.
     setTimeout( () => {
       if (!this.state.value){
         this.props.clearSearchResult();
@@ -141,6 +184,14 @@ class SearchMenu extends PureComponent {
     }, 100);
   }
 
+  /**
+   * Called upon selecting option shown below Select-menu
+   *
+   * Perform route navigation and updating the selected option in state.
+   *
+   * Navigation is same as navigation in sidebar
+   * I.e. show MONEYLINE if moneyline exist, else show the first descendent in selected betting market group
+   */
   onChange (event) {
     //Clear the search results when there is no search data
     if(!event ){
@@ -187,6 +238,18 @@ class SearchMenu extends PureComponent {
 
   }
 
+   /**
+    *  Rendering reach-select widget
+    *
+    *  Overriding the options props in reach-select widget
+    *  as we need to clear the options when focus is removed from react-select.
+    *
+    *  With Results : display the result counter ( index 0 in options[]) and list of active events found ( index >= 1 in options[]).
+    *     for option attribute, please refer to valueKey and in labelKey in react-select props.
+    *
+    *  No Result: display no result text ( index 0 in options[])
+    *            noResultsText in props is set as null as overriding the display condition of noResultsText is needed
+    */
   render() {
     const { searchText, debounced, value } = this.state;
 
@@ -212,11 +275,6 @@ class SearchMenu extends PureComponent {
           'name': I18n.t('searchMenu.no_of_result_0')
         }
       ] :  [] ;
-
-    //NOTE about valueKey and labelKey
-    // ref: https://github.com/JedWatson/react-select#further-options
-    // valueKey and labelKey are the keys in options definied in props:
-    // removing either one in Select props may BREAK the selected options shown in search menu
 
     return (
 
