@@ -1,8 +1,10 @@
 /**
- * The component contains the {@link LoginForm} which allows user to
- * sign-in in to the system.
+ * The Login component contains the {@link LoginForm} which allows user to
+ * sign in to the Bookie application.
  *
- * The states of the component are maintained in the Redux store under 'account.account'.
+ * The states of the component are maintained in the Redux store under 'auth'.
+ * The user account information are maintained in the Redux store under
+ * 'account.account'.
  */
 import React, { PureComponent } from 'react';
 import logo from '../../assets/images/bookie_logo_login.png';
@@ -35,48 +37,48 @@ class Login extends PureComponent {
     this.props.setAppBackground(AppBackgroundTypes.GRADIENT_BG);
   }
 
-  //Navigate to signup page
   onClickSignup(e) {
     e.preventDefault();
     this.props.navigateTo('/signup');
   }
 
   /**
-   * Invoke the {@link AuthActions#login} action
-   * validates accountName password and navigate to home page
-   * accountName - show error if username format is incorrect or such user doesn't exist
-   * password - length should be greater than 22
-   * navigate to home page if valid credentials entered
+   * Handle the {@link LoginForm} submission.
+   * Validate accountName and password and if valid credentials are entered,
+   * navigate to the Home page.
    *
-   * @param {object} e - data obtained from the {@link LoginForm}
+   * The Validations include:
+   *   accountName : show error if username format is incorrect or such user exists
+   *   password    : length should be greater than 22
+   *
+   * @param {object} e - the sign up form field values
    */
   handleSubmit(e) {
     const errors = {};
   	let accountError = ChainValidation.is_account_name_error(e.get('userName'));
-    if(!e.get('password') || e.get('password').length < 22){
+    if (!e.get('password') || e.get('password').length < 22) {
       errors.password = I18n.t('login.password_short');
     }
-  	if(accountError){
+    if (accountError) {
       //overriding blockchain error with general error
-			//Note: even if the username format is incorrect it will show this generic error
-			//TODO: confirm if we really need to show generic error for these errors
-  		errors.userName = I18n.t('login.username_notfound');
-    throw new SubmissionError(errors);
+      //Note: even if the username format is incorrect it will show this generic error
+      //TODO: confirm if we really need to show generic error for these errors
+      errors.userName = I18n.t('login.username_notfound');
+      throw new SubmissionError(errors);
 	  }
-    else{
+    else {
       //getting username search result and checking whether such user exists
-  	  return AccountService.lookupAccounts(e.get('userName'), 1).then(result =>
-      {
-  		  let account = result.find(a => a.get(0) === e.get('userName'));
+      return AccountService.lookupAccounts(e.get('userName'), 1).then(result => {
+        let account = result.find(a => a.get(0) === e.get('userName'));
   	    if(!account)
   			  errors.userName = I18n.t('login.username_notfound');
 
-      if(Object.keys(errors).length !== 0 )
-        throw new SubmissionError(errors);
-      else
-        this.props.login(e.get('userName'), e.get('password'));
+        if (Object.keys(errors).length !== 0)
+          throw new SubmissionError(errors);
+        else
+          this.props.login(e.get('userName'), e.get('password'));
 	    });
-  }
+    }
   }
 
   render() {
