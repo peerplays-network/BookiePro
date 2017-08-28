@@ -56,6 +56,9 @@ const getAllSportsLoadingStatus = (state) => state.getIn(['allSports', 'loadingS
 //   },
 //   ...
 // ]
+
+// This functions extract the various part of all sport details.
+// Including events, betting markets, binned order books, sports
 const getAllSportsData = createSelector(
   [
     getAllSportsLoadingStatus,

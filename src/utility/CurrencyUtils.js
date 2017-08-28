@@ -41,10 +41,14 @@ var CurrencyUtils = {
     }
   },
 
-  // return formatted string to support negative bitcoin curruency values
-  // amount : float,  amount
-  // precision : integer ( ***BTC*** base), either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
-  // currency : string, display currency, 'BTC' or 'mBTC'
+  /**
+   * Get converted amount based on input currency and precision
+   *
+   * @param {float} amount - amount to be formatted, in terms of 'BTC'
+   * @param {string} currency -  display currency, 'BTC' or 'mBTC'
+   * @param {integer} precision - ( ***BTC*** base), either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
+   * @returns {string} - formatted string to support negative bitcoin curruency values
+   */
   getFormattedCurrency: function(amount, currency = 'BTC', precision = 0){
     if (!isNaN(amount)) {
       if (currency === 'mBTC') {

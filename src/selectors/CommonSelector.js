@@ -1,3 +1,8 @@
+/**
+ * In simply, Reselect is useful preventing unnecessary rerenders and recalculations, through memorization.
+ * For reference, http://blog.rangle.io/react-and-redux-performance-with-reselect/
+ * and https://docs.mobify.com/progressive-web/0.15.0/guides/reselect/
+ */
 import { createSelector } from 'reselect';
 import { ObjectUtils } from '../utility';
 import Immutable from 'immutable';
@@ -76,6 +81,8 @@ const getActiveEventsById = createSelector(
   }
 );
 
+// These functions access the branch of the `Sport` object
+// corresponding to the current path (which is presumed to be a product page)
 const getEventsBySportId = createSelector(
   [
     getEventsById,
