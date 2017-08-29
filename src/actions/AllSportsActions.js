@@ -4,6 +4,7 @@ import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
+import AppActions from './AppActions';
 import _ from 'lodash';
 import log from 'loglevel';
 
@@ -59,6 +60,9 @@ class AllSportsActions {
         const bettingMarketIds = bettingMarkets.map( bettingMarket => bettingMarket.get('id'));
         return dispatch(BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
       }).then((binnedOrderBooksByBettingMarketId) => {
+        // Get global betting statistic
+        return dispatch(AppActions.getGlobalBettingStatistics());
+      }).then(() => {
         // Set loading status
         dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
         log.debug('All Sports get data succeed.');

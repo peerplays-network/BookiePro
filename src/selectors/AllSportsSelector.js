@@ -111,8 +111,13 @@ const getAllSportsData = createSelector(
   }
 )
 
+const getGlobalBettingStatistics = (state) => {
+  return state.getIn(['app', 'globalBettingStatistics']);
+}
+
 const AllSportsSelector = {
-  getAllSportsData
+  getAllSportsData,
+  getGlobalBettingStatistics
 }
 
 export default AllSportsSelector;

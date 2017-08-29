@@ -183,7 +183,9 @@ class AppActions {
   static getGlobalBettingStatistics() {
     return (dispatch) => {
       dispatch(AppPrivateActions.setGetGlobalBettingStatisticsLoadingStatusAction(LoadingStatus.LOADING));
-      CommunicationService.getGlobalBettingStatistics().then((globalBettingStatistics) => {
+        console.log('getGlobalBettingStatistics')
+      return CommunicationService.getGlobalBettingStatistics().then((globalBettingStatistics) => {
+        console.log('getGlobalBettingStatistics')
         log.debug('Get global betting statistics succeed.');
         dispatch(AppPrivateActions.setGlobalBettingStatisticsAction(globalBettingStatistics));
         dispatch(AppPrivateActions.setGetGlobalBettingStatisticsLoadingStatusAction(LoadingStatus.DONE));
