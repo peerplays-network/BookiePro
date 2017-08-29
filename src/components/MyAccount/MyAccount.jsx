@@ -1,3 +1,35 @@
+/**
+ * This component is used on the My Account screen.
+ * It's sub-components include:
+ *   {@link Deposit}            : Allow user to use deposit address to make deposit
+ *   {@link MyAccountWithdraw}  : Allow user to withdraw amount from his wallet
+ *   Settings                   : Allow user to change the following settings:
+ *                                  - Enable/Disable notifications
+ *                                  - Change currency format (BTC or mBTC) :
+ *                                    change will be refected throughout the application
+ *                                  - Change password of the user
+ *                                  - Save and download the user's password in a text file
+ *   {@link TransactionHistory} : Allow user to view his transaction history data
+ *                                along with data filtering and export to excel
+ *
+ * The states of this component are maintained in a number of Redux stores
+ * which are encapsulated in the 'MyAccountPageSelector'
+ *
+ * Following are the actions dispatched for various purposes in this component:
+ *    {@link SettingActions#updateSettingNotification}
+ *    {@link SettingActions#updateCurrencyFormat}
+ *    {@link BalanceActions#getDepositAddress}
+ *    {@link BalanceActions#withdraw}
+ *    {@link BalanceActions#resetWithdrawLoadingStatus}
+ *    {@link NavigateActions#navigateTo} : navigates to specified location
+ *    {@link MyAccountPageActions#setHistoryTimeRange}
+ *    {@link MyAccountPageActions#generateTransactionHistoryExportData}
+ *    {@link MyAccountPageActions#resetTransactionHistoryExportDataAction}
+ *    {@link MyAccountPageActions#resetTimeRange}
+ *    {@link AccountActions#downloadPassword}
+ * Effects of the above actions on the Redux stores are explained furthur
+ *
+ */
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import TransactionHistory from './TransactionHistory'
@@ -44,23 +76,56 @@ class MyAccount extends PureComponent {
     this.handleRedirectToChangePwd = this.handleRedirectToChangePwd.bind(this);
   }
 
+  /**
+   * Fetches the deposit address of the user when the component mounts
+   *
+   * Dispatched action: {@link BalanceActions#getDepositAddress}
+   *   the state 'depositAddress','getDepositAddressLoadingStatus' is updated under the 'balance' store
+   */
   componentDidMount() {
-    //Get the deposit address
     this.props.getDepositAddress();
   }
 
+  /**
+   * Resets the search filter data to it's initial values when the component unmounts
+   *
+   * Dispatched action: {@link MyAccountPageActions#resetTimeRange}
+   *   the states 'periodType','customTimeRangeStartDate','customTimeRangeEndDate'
+   *   is reset to it's initial values under the 'myAccountPage' store
+   */
   componentWillUnmount() {
-    // Reset time range
     this.props.resetTimeRange();
   }
 
-  //Search transaction history with filters
+  /**
+   * Called when the 'Search' button is clicked
+   * @param {string} periodType - the selected period from the dropdown
+   * @param {string} customTimeRangeStartDate - the start date selected (if custom date selected)
+   * @param {string} customTimeRangeEndDate - the end date selected (if custom date selected)
+   *
+   * Dispatched action: {@link MyAccountPageActions#setHistoryTimeRange}
+   *    the states 'periodType','customTimeRangeStartDate','customTimeRangeEndDate'
+   *    is updated under the 'myAccountPage' store
+   */
   handleSearchClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
-    // Set time range.
     this.props.setHistoryTimeRange(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
   }
 
-  //Export transaction history
+  /**
+   * Called when the 'Export' button is clicked
+   * @param {string} periodType - the selected period from the dropdown
+   * @param {string} customTimeRangeStartDate - the start date selected (if custom date selected)
+   * @param {string} customTimeRangeEndDate - the end date selected (if custom date selected)
+   *
+   * Dispatched actions:
+   *   {@link MyAccountPageActions#setHistoryTimeRange} :
+   *      the states 'periodType','customTimeRangeStartDate','customTimeRangeEndDate'
+   *      is updated under the 'myAccountPage' store
+   *   {@link MyAccountPageActions#generateTransactionHistoryExportData} :
+   *      the states 'transactionHistoryExportData','generateTransactionHistoryExportDataLoadingStatus'
+   *      is updated under the 'myAccountPage' store
+   *
+   */
   handleExportClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
     // First set the history time range, so the search result is re-filtered
     this.props.setHistoryTimeRange(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
@@ -68,42 +133,80 @@ class MyAccount extends PureComponent {
     this.props.generateTransactionHistoryExportData();
   }
 
+  /**
+   * Resets the transaction history export data to it's initial value
+   *
+   * Dispatched action: {@link MyAccountPageActions#resetTransactionHistoryExportData}
+   *   the state 'transactionHistoryExportData' is reset to it's initial state
+   *   under the 'myAccountPage' store
+   */
   handleResetExport() {
-    // Reset
     this.props.resetTransactionHistoryExportData();
   }
 
+  /**
+   * Called when the user's notification setting is changed
+   *
+   * Dispatched action: {@link SettingActions#updateSettingNotification}
+   *   the state 'notification' is updated under the 'setting' store
+   */
   handleNotificationChange(value) {
     const {updateSettingNotification} = this.props
     updateSettingNotification(value)
   }
 
+  /**
+   * Called when the user's currency setting is changed
+   *
+   * Dispatched action: {@link SettingActions#updateCurrencyFormat}
+   *   the state 'currencyFormat' is updated under the 'setting' store
+   */
   handleCurrFormatChange(value) {
     const {updateCurrencyFormat} = this.props
     updateCurrencyFormat(value)
   }
 
-
+  /**
+   * Navigate to the 'Change Password' screen
+   */
   handleRedirectToChangePwd(){
     this.props.navigateTo('/change-password');
   }
 
+  /**
+   * Called when the 'Send' button is clicked on the withdraw component
+   * @param {object} values - data obtained from the {@link MyAccountWithdraw}
+   *
+   * Dispatched action: {@link BalanceActions#withdraw}
+   *   the state 'withdrawLoadingStatus' is updated under the 'balance' store after withdraw process
+   */
   handleWithdrawSubmit(values){
     //track the withdraw amount to display in success message after successful submit
     this.setState({ withdrawAmount:values.get('withdrawAmount') });
     this.props.withdraw(values.get('withdrawAmount'), values.get('walletAddr'));
   }
 
-  //Download the password in a text file
+  /**
+   * Called when the 'Download Password' button is clicked on the settings component
+   *
+   * Dispatched action: {@link AccountActions#downloadPassword}
+   *   state data 'password' is fetched from 'account' store to download in file
+   */
   handleDownloadPasswordFile() {
     this.props.downloadPassword();
   }
 
-  //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
+  /**
+   * Navigate to the 'Home' screen when clicked on 'Home' link on the Breadcrumb
+   */
   handleNavigateToHome(){
     this.props.navigateTo('/exchange');
   }
 
+ /**
+  * This method generates 'antd' card to create the markup for 'Settings' section
+  * on the My Account screen
+  */
   renderSettingCard() {
     return (
       <Card className='bookie-card settingComponent'

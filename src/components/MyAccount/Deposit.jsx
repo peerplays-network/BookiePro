@@ -1,3 +1,13 @@
+/**
+ * This is the component used for fetching deposit information of the user in order to make a deposit
+ * The user can make a deposit by
+ *    Scanning the QR code version of the deposit address
+ *    Entering the deposit address and copying it to the clipboard
+ * It uses the
+ *   'qrcode.react' library to generate the QR code from the deposit address
+ *   'copy-to-clipboard' module to copy text to clipboard
+ * It is used in the MyAccount and TopMenu components
+ */
 import React, { PureComponent } from 'react';
 let I18n = require('react-redux-i18n').I18n;
 import {
@@ -8,7 +18,12 @@ import QRCode from 'qrcode.react';
 import copy from 'copy-to-clipboard'
 
 class Deposit extends PureComponent {
-  //Copy the Deposit Address to clipboard
+
+  /**
+   * Copy the Deposit Address to clipboard
+   * @param {string} depAddr - The deposit address that is to be copied to clipboard
+   * @param {object} e - the 'Copy' button click event
+   */
   onClickCopy(depAddr,e) {
     e.preventDefault();
     copy(depAddr);

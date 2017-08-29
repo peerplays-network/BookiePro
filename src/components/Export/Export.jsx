@@ -1,3 +1,12 @@
+/**
+ * This component is used to export transaction history(My Account screen)
+ * and resolved bets(My Wager screen -> Resolved Bets tab) data to an excel file and download it.
+ * It is used in the TransactionHistory and ResolvedBets components.
+ * It uses 'antd' cards to display the various statuses of export i.e Loading,No data and Ready.
+ * It uses the following 2 utility files:
+ *    ExportUtils: to format the data is tabular form so that it can be copied to excel file
+ *    FileSaverUtils: to name the excel file and download it on the user's computer
+ */
 import React, { PureComponent } from 'react';
 import { Card,Icon } from 'antd';
 import { I18n } from 'react-redux-i18n';
@@ -17,7 +26,12 @@ class Export extends PureComponent {
     this.renderExportReady = this.renderExportReady.bind(this);
   }
 
-  //Copy the contents from the store to an excel file and download it
+  /**
+   * This function is called when user clicks on the 'Download' button of the ready status card.
+   * It copies the data into an excel file (xlsx).
+   * The excel file is named in the format : <screen_name>_<YYYY-MM-DD_HH-mm-ss>.xlsx
+   * The file is then downloaded into the user's computer
+   */
   handleDownloadClick(){
     const exportData = this.props.exportData.toJS();
     let content = ExportUtils.formatDataForExport(exportData, null, { toBytes: true });
@@ -42,12 +56,17 @@ class Export extends PureComponent {
     this.props.handleResetExport();
   }
 
+  /** This function is used to cancel the export process */
   handleCancelClick(event) {
     event.preventDefault();
     // Reset export
     this.props.handleResetExport();
   }
 
+  /**
+   * This 'antd' card will be rendered when the data fetching is in the 'loading' phase.
+   * It contains the 'Cancel' button for user to cancel the export during this phase.
+   */
   renderExportLoading() {
     return (
       <Card className='export-card' title={ I18n.t('application.exportLoadingHeader') }>
@@ -65,6 +84,10 @@ class Export extends PureComponent {
     )
   }
 
+  /**
+   * This function is used to render data when it is in the 'ready' phase
+   * It will display the appropriate card based on the availability of the data.
+   */
   renderExportReady() {
     const { exportData } = this.props;
     if (exportData.size === 0) {
@@ -95,12 +118,6 @@ class Export extends PureComponent {
     }
   }
 
-
-  /*
-    Display 'loading' card when data is being fetched to exportData
-    Display 'download' card when the data is ready to be downloaded
-    Display 'no results' card when there is no data
-  */
   render(){
     const { exportLoadingStatus, type } = this.props;
     if (exportLoadingStatus === LoadingStatus.LOADING ||  exportLoadingStatus === LoadingStatus.DONE) {
