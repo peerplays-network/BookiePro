@@ -100,7 +100,7 @@ const getRelatedBetsCollection = createSelector(
 
 const getCancelBetsByIdsLoadingStatus = (state) => state.getIn(['bet','cancelBetsByIdsLoadingStatus']);
 
-//function to filter bet transactions
+/** function to filter bet transactions */
 const rowData = createSelector(
   [
     getActiveTab,
@@ -180,7 +180,7 @@ const betData = createSelector(
   }
 );
 
-//memoized selector - function for merging bettingMarketData to betData and return merged data
+/** memoized selector - function for merging bettingMarketData to betData and return merged data */
 const mergeBettingMarketData = createSelector(
   [betData, getBettingMarketsById],
   (bets, betMarket)=>{
@@ -189,7 +189,7 @@ const mergeBettingMarketData = createSelector(
   }
 );
 
-//memoized selector - function for merging bettingMarketGroupsData to betData and return merged data
+/** memoized selector - function for merging bettingMarketGroupsData to betData and return merged data */
 const mergeBettingMarketGroupData = createSelector(
   [mergeBettingMarketData, getBettingMarketGroupsById],
   (bets, betMarketGroup)=>{
@@ -198,7 +198,7 @@ const mergeBettingMarketGroupData = createSelector(
   }
 );
 
-//memoized selector - function for merging events to betData and return merged data
+/** memoized selector - function for merging events to betData and return merged data */
 const mergeEventsData = createSelector(
   [mergeBettingMarketGroupData, getEventsById],
   (bets, events)=>{
@@ -207,7 +207,7 @@ const mergeEventsData = createSelector(
   }
 );
 
-//memoized selector - function for merging sports to betData and return merged data
+/** memoized selector - function for merging sports to betData and return merged data */
 const mergeSportsData = createSelector(
   [mergeEventsData, getSportsById],
   (bets, sports)=>{
@@ -264,7 +264,7 @@ const formatBettingData = (data, activeTab, precision, targetCurrency, startDate
   return Immutable.fromJS(data);
 }
 
-//memoized selector - function for formatting merged data and return same
+/** memoized selector - function for formatting merged data and return same */
 const getBetData = createSelector(
   [mergeSportsData, getActiveTab, getCurrencyFormat, getPrecision, startDate, endDate],
   (bets, activeTab, currencyFormat, precision, startDate, endDate) => {
@@ -273,7 +273,7 @@ const getBetData = createSelector(
   }
 );
 
-//memoized selector - function totaling stake and liability
+/** memoized selector - function totaling stake and liability */
 const getBetTotal = createSelector(
   [getBetData, getCurrencyFormat, getPrecision],
   (bets, currencyFormat, precision)=>{
