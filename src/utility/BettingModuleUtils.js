@@ -83,22 +83,25 @@ var BettingModuleUtils = {
 
   //  =========== Exposure ===========
 
-  // Matched Exposure (Pending Change Request)
-  // Case    Exposure of the selection that the bet originates from    All other selection’s exposure
-  // A back bet is matched    + Profit(BTC)   - Stake(BTC)
-  // A lay bet is matched    - Liability(BTC)    + Backer’s Stake(BTC)
-  //
-  // Betslip Exposure (Pending Change Request)
-  // Case    Exposure of the selection that the bet originates from    All other selection’s exposure
-  // A full back bet betslip is filled    + Profit(BTC)   - Stake(BTC)
-  // A full lay bet betslip is filled    - Liability(BTC)   + Backer’s Stake(BTC)
-  //
-  // Parameters:
-  //  bettingMarketId, String : id of the betting market for which expsoure calculation specified
-  //  bets: unconfirmedBets, Immutable.List : marketDrawer.unconfirmedBets stored in redux
-
-  // Returns:
-  //  exposure of the target betting market
+  /**
+   *  Calculate Matched exposure based on betting market data and bets
+   *  NOTE :  Matched Exposure is not ready yet
+   *
+   *  Matched Exposure (Pending Change Request)
+   *  Case    Exposure of the selection that the bet originates from    All other selection’s exposure
+   *  A back bet is matched    + Profit(BTC)   - Stake(BTC)
+   *  A lay bet is matched    - Liability(BTC)    + Backer’s Stake(BTC)
+   *
+   *  Betslip Exposure (Pending Change Request)
+   *  Case    Exposure of the selection that the bet originates from    All other selection’s exposure
+   *  A full back bet betslip is filled    + Profit(BTC)   - Stake(BTC)
+   *  A full lay bet betslip is filled    - Liability(BTC)   + Backer’s Stake(BTC)
+   *
+   * @param {bettingMarketId} String : id of the betting market for which expsoure calculation specified
+   * @param {bets} unconfirmedBets, Immutable.List : marketDrawer.unconfirmedBets stored in redux
+   * @param {currency} - display currency, 'BTC' or 'mBTC'
+   * @returns {string} - exposure of the target betting market, either BTC or mBTC, based on currency param
+   */
   getExposure: function(bettingMarketId, bets , currency = 'BTC'){
     let exposure = 0.0
 
