@@ -156,9 +156,9 @@ class HistoryService {
     const dynGlobalObject = state.getIn(['app', 'blockchainDynamicGlobalProperty']);
     const globalObject = state.getIn(['app', 'blockchainGlobalProperty']);
 
-    let unmatchedBetsById = Immutable.Map();
-    let matchedBetsById = Immutable.Map();
-    let resolvedBetsById = Immutable.Map();
+    let unmatchedBetsById = state.getIn(['bet', 'unmatchedBetsById']);
+    let matchedBetsById = state.getIn(['bet', 'matchedBetsById']);
+    let resolvedBetsById = state.getIn(['bet', 'resolvedBetsById']);
 
     // Iterate from the beginning
     rawHistory.reverse().forEach((rawTransaction) => {

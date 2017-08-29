@@ -25,7 +25,7 @@ const getStakeFromBetObject = (bet) => {
     case 'BACK':
       return betAmount;
     default:
-      return betAmount * (bet.get('backer_multiplier') - 1);
+      return betAmount / (bet.get('backer_multiplier') - 1);
   }
 }
 
@@ -49,7 +49,7 @@ const getProfitLiabilityFromBetObject = (bet) => {
     }
     switch (bet.get('back_or_lay').toUpperCase()) {
       case 'BACK':
-        return betAmount / (bet.get('backer_multiplier') - 1);
+        return betAmount * (bet.get('backer_multiplier') - 1);
       default:
         return betAmount;
     }
