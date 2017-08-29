@@ -6,7 +6,7 @@
  *   Settings                   : Allow user to change the following settings:
  *                                  - Enable/Disable notifications
  *                                  - Change currency format (BTC or mBTC) :
- *                                    change will be refected throughout the application
+ *                                    change will be reflected throughout the application
  *                                  - Change password of the user
  *                                  - Save and download the user's password in a text file
  *   {@link TransactionHistory} : Allow user to view his transaction history data
@@ -77,6 +77,7 @@ class MyAccount extends PureComponent {
   }
 
   /**
+   * Deposit component: {@link Deposit}
    * Fetches the deposit address of the user when the component mounts
    *
    * Dispatched action: {@link BalanceActions#getDepositAddress}
@@ -87,6 +88,7 @@ class MyAccount extends PureComponent {
   }
 
   /**
+   * Filter component: {@link TimeRangePicker}
    * Resets the search filter data to it's initial values when the component unmounts
    *
    * Dispatched action: {@link MyAccountPageActions#resetTimeRange}
@@ -98,7 +100,7 @@ class MyAccount extends PureComponent {
   }
 
   /**
-   * Called when the 'Search' button is clicked
+   * Called when the 'Search' button is clicked - {@link TimeRangePicker}
    * @param {string} periodType - the selected period from the dropdown
    * @param {string} customTimeRangeStartDate - the start date selected (if custom date selected)
    * @param {string} customTimeRangeEndDate - the end date selected (if custom date selected)
@@ -112,7 +114,7 @@ class MyAccount extends PureComponent {
   }
 
   /**
-   * Called when the 'Export' button is clicked
+   * Called when the 'Export' button is clicked- {@link TimeRangePicker}
    * @param {string} periodType - the selected period from the dropdown
    * @param {string} customTimeRangeStartDate - the start date selected (if custom date selected)
    * @param {string} customTimeRangeEndDate - the end date selected (if custom date selected)
@@ -134,7 +136,7 @@ class MyAccount extends PureComponent {
   }
 
   /**
-   * Resets the transaction history export data to it's initial value
+   * Resets the transaction history export data to it's initial value - {@link Export}
    *
    * Dispatched action: {@link MyAccountPageActions#resetTransactionHistoryExportData}
    *   the state 'transactionHistoryExportData' is reset to it's initial state
@@ -167,7 +169,7 @@ class MyAccount extends PureComponent {
   }
 
   /**
-   * Navigate to the 'Change Password' screen
+   * Navigate to the 'Change Password' screen - - {@link ChangePassword}
    */
   handleRedirectToChangePwd(){
     this.props.navigateTo('/change-password');
@@ -187,7 +189,7 @@ class MyAccount extends PureComponent {
   }
 
   /**
-   * Called when the 'Download Password' button is clicked on the settings component
+   * Called when the 'Download Password' button is clicked on the settings section
    *
    * Dispatched action: {@link AccountActions#downloadPassword}
    *   state data 'password' is fetched from 'account' store to download in file
@@ -197,7 +199,8 @@ class MyAccount extends PureComponent {
   }
 
   /**
-   * Navigate to the 'Home' screen when clicked on 'Home' link on the Breadcrumb
+   * Navigate to the 'Home' screen when clicked on 'Home'
+   * link on the Breadcrumb - {@link Exchange}
    */
   handleNavigateToHome(){
     this.props.navigateTo('/exchange');
