@@ -309,31 +309,64 @@ class CommunicationService {
   }
 
   /**
-   * Call blokchain db api
-   * Route every call to blockchain db api through this function, so we can see the logging
+   * Call blokchain api
+   * Route every call to blockchain api through this function, so we can see the logging
    * Also ensure the returned data is immutable
    */
-  static callBlockchainDbApi(methodName, params=[]) {
-    let db_api = Apis.instance().db_api();
-    // Check if db api is ready (is connected to blockchain)
-    if (db_api) {
-      return db_api.exec(methodName, params).then((result) => {
+  static callBlockchainApi(apiPluginName, methodName, params=[]) {
+    let apiPlugin;
+    switch (apiPluginName) {
+      case 'bookie_api': {
+        apiPlugin = Apis.instance().bookie_api();
+        break;
+      }
+      case 'history_api': {
+        apiPlugin = Apis.instance().history_api();
+        break;
+      }
+      case 'db_api': {
+        apiPlugin = Apis.instance().db_api();
+        break;
+      }
+      default: break;
+    }
+    if (apiPlugin) {
+      return apiPlugin.exec(methodName, params).then((result) => {
         // Intercept and log
-        log.debug(`Call blockchain DB Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
+        log.debug(`Call blockchain Bookie Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
         return Immutable.fromJS(result);
       }).catch((error) => {
         // Intercept and log
-        log.error(`Error in calling DB Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nError: `, error);
+        log.error(`Error in calling Bookie Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nError: `, error);
         throw error;
       })
     } else {
       // If it is not yet connected to blockchain, retry again after 3 seconds
       return new Promise((resolve, reject) => {
         setTimeout(() =>{
-          resolve(this.callBlockchainDbApi(methodName, params))
+          resolve(this.callBlockchainApi(apiPluginName, methodName, params))
         }, 3000)
       })
     }
+  }
+
+  /**
+   * Call blokchain bookie api
+   * Route every call to blockchain bookie api through this function, so we can see the logging
+   * Also ensure the returned data is immutable
+   */
+  static callBlockchainBookieApi(methodName, params=[]) {
+    return this.callBlockchainApi('bookie_api', methodName, params);
+  }
+
+
+  /**
+   * Call blokchain db api
+   * Route every call to blockchain db api through this function, so we can see the logging
+   * Also ensure the returned data is immutable
+   */
+  static callBlockchainDbApi(methodName, params=[]) {
+    return this.callBlockchainApi('db_api', methodName, params);
   }
 
   /**
@@ -341,27 +374,7 @@ class CommunicationService {
    * Route every call to blockchain history api through this function, so we can see the logging
    */
   static callBlockchainHistoryApi(methodName, params=[]) {
-    let history_api = Apis.instance().history_api();
-    // Check if history api is ready (is connected to blockchain)
-    if (history_api) {
-      return history_api.exec(methodName, params).then((result) => {
-        // Intercept and log
-        log.debug(`Call blockchain History Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
-        return Immutable.fromJS(result);
-      }).catch((error) => {
-        // Intercept and log
-        log.error(`Error in calling History Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nError: `, error);
-        throw error;
-      })
-    } else {
-      // If it is not yet connected to blockchain, retry again after 3 seconds
-      return new Promise((resolve, reject) => {
-        setTimeout(() =>{
-          resolve(this.callBlockchainHistoryApi(methodName, params))
-        }, 3000)
-      })
-    }
-
+    return this.callBlockchainApi('history_api', methodName, params);
   }
 
   /**
@@ -683,8 +696,22 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds);
     } else {
-      // TODO: change later
-      return this.getDummyTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds);
+      if (bettingMarketGroupIds instanceof Immutable.List) bettingMarketGroupIds = bettingMarketGroupIds.toJS();
+      let promises = bettingMarketGroupIds.map((bettingMarketGroupId) => {
+        return this.callBlockchainBookieApi('get_total_matched_bet_amount_for_betting_market_group', [bettingMarketGroupId]);
+      })
+
+      return Promise.all(promises).then((result) => {
+        // Map the result with betting market groupIds
+        let totalMatchedBetsByMarketGroupId = Immutable.Map();
+        _.forEach(result, (totalMatchedBet, index) => {
+          if (totalMatchedBet) {
+            const bettingMarketGroupId = bettingMarketGroupIds[index];
+            totalMatchedBetsByMarketGroupId = totalMatchedBetsByMarketGroupId.set(bettingMarketGroupId, totalMatchedBet);
+          }
+        })
+        return totalMatchedBetsByMarketGroupId;
+      })
     }
   }
 

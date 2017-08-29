@@ -289,7 +289,9 @@ class BetActions {
         bets.forEach((bet) => {
           // Create operation for each bet and attach it to the transaction
           const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', bet.get('betting_market_id')]);
-          const betAssetType = (bettingMarket && bettingMarket.get('bet_asset_type')) || '1.3.0';
+          const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
+          const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
+          const betAssetType = (bettingMarketGroup && bettingMarketGroup.get('asset_id')) || '1.3.0';
           const betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
 
           let amountToBet = 0;

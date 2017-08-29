@@ -93,7 +93,9 @@ class MywagerActions {
 
         filteredResolvedBets.forEach(bet => {
           const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
-          const precision = assetsById.getIn([bettingMarket.get('bet_asset_type'), 'precision']) || 0;
+          const bettingMarketGroupId = bettingMarket.get('group_id');
+          const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]) || Immutable.Map();
+          const precision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']) || 0;
           let rowObj = {
             key: bet.get('id'),
             id: bet.get('id'),

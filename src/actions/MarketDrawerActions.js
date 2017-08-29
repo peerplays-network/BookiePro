@@ -213,7 +213,7 @@ class MarketDrawerActions {
         }).map(bet => {
           const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
           const bettingMarketDescription = bettingMarket && bettingMarket.get('description');
-          const precision = assetsById.get(bettingMarket.get('bet_asset_type')).get('precision');
+          const precision = assetsById.get(bettingMarketGroup.get('asset_id')).get('precision');
           return bet.set('betting_market_description', bettingMarketDescription)
                     .set('betting_market_group_description', bettingMarketGroupDescription)
                     .set('asset_precision', precision);     // set this and use in reducer
