@@ -1,3 +1,12 @@
+/**
+ * The Top bar is static and is visible in all screens after user has logined,
+ * providing quick access to the commonly used functions including:
+ *  - Search Team
+ *  - Go to my wager, my bets, my account and help & support
+ *  - Display Account Balance
+ *  - Show deposit dropdown
+ *  - Display notifications.
+ */
 import React, { PureComponent } from 'react';
 import { Layout } from 'antd';
 import SearchMenu from './SearchMenu';
@@ -19,6 +28,7 @@ class NavBar extends PureComponent {
     this.props.navigateTo('/exchange');
   }
 
+  //Called by parent component Main
   onRouteChangeHandle(){
     this._searchMenu.onRouteChangeHandle();
   }
@@ -35,6 +45,7 @@ class NavBar extends PureComponent {
     )
   }
 
+  //pass all props from Main.jsx parent component to SearchMenu
   render(){
     return (
       <Header id='betex-header'>
