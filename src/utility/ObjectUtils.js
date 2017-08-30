@@ -76,6 +76,12 @@ const localizeStringOfObject = (object, fieldsToLocalize=[], lang='en') => {
   return result;
 }
 
+/**
+ * report if the event is active by comparing with current time and event start time
+ *
+ * @param {event} event Immutable.JSobject in Immutable.JS
+ * @returns {boolean} - if the event active.
+ */
 const isActiveEvent = (event) => {
   let isActive = false;
   // TODO: should use event status instead, revisit this when the enum code for event_status is known

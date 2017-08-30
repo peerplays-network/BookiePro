@@ -26,9 +26,17 @@ var BettingModuleUtils = {
 
   //  =========== Bet Calculations ===========
 
-  //Appendix I – Summary of Formulas
-  // Stake = Profit / (Odds – 1)
-  // Backer's Stake = Liability / (Odds – 1)
+  /**
+   *  Calculate stake or liability based on odds, profit/liability
+   *
+   *  Stake = Profit / (Odds – 1)
+   *  Backer's Stake = Liability / (Odds – 1)
+   *
+   * @param {odds} String : odds
+   * @param {profit} String : profit or liability
+   * @param {currency} - display currency, 'BTC' or 'mBTC'
+   * @returns {string} - stake, based on either BTC or mBTC
+   */
   getStake: function(odds, profit, currency = 'BTC') {
     const floatProfit = parseFloat(profit);
     const floatOdds = parseFloat(odds);
@@ -45,8 +53,17 @@ var BettingModuleUtils = {
 
   },
 
-  // Profit = Stake * (Odds – 1)
-  // Liability = Backer's Stake * (Odds – 1)
+  /**
+   *  Calculate profit or liability based on stake and odds
+   *
+   *  Profit = Stake * (Odds – 1)
+   *  Liability = Backer's Stake * (Odds – 1)
+   *
+   * @param {stake} String : stake
+   * @param {odds} String : odds
+   * @param {currency} - display currency, 'BTC' or 'mBTC'
+   * @returns {string} - profit of liability, based on either BTC or mBTC
+   */
   getProfitOrLiability: function(stake, odds, currency = 'BTC') {
     const floatStake = parseFloat(stake);
     const floatOdds = parseFloat(odds);
@@ -63,7 +80,16 @@ var BettingModuleUtils = {
 
   },
 
-  //Payout = Backer’s Stake * Odds
+  /**
+   *  Calculate payout based on stake and odds
+   *
+   *  Payout = Backer’s Stake * Odds
+   *
+   * @param {odds} String : odds
+   * @param {stake} String : stake
+   * @param {currency} - display currency, 'BTC' or 'mBTC'
+   * @returns {string} - payout, based on either BTC or mBTC
+   */
   getPayout: function(stake, odds, currency = 'BTC') {
     const floatStake = parseFloat(stake);
     const floatOdds = parseFloat(odds);
@@ -147,13 +173,15 @@ var BettingModuleUtils = {
 
   //  =========== Book Percentage  ===========
 
-  // Back Book Percentage: (100% / Best Back Odds of Selection 1) + … + (100% / Best Back Odds of Selection n)
-  // Lay Book Percentage: (100% / Best Lay Odds of Selection 1) + … + (100% / Best Lay Odds of Selection n)
-
-  // Parameters:
-  //  bestOfferList : BestBackOddsPerMarket  Immutable.List : the best grouped back odds of each selection
-  // Returns:
-  //  BackBookPercentage: the back book percentage of the market
+  /**
+   *  Calculate book percentage with provided best back/lay odds of selection. Formula is as follow:
+   *
+   *  Back Book Percentage: (100% / Best Back Odds of Selection 1) + … + (100% / Best Back Odds of Selection n)
+   *  Lay Book Percentage: (100% / Best Lay Odds of Selection 1) + … + (100% / Best Lay Odds of Selection n)
+   *
+   * @param {bestOfferList} - Immutable List,  bets which have the best offer among the bets in same market.
+   * @returns {integer} - book percentage in a certain market, rounded to nearest integer
+   */
   getBookPercentage: function( bestOfferList){
 
     const backBookPercent = bestOfferList.reduce( (total, offer) => total + ( 100 / offer.get('odds') ) , 0.0);
