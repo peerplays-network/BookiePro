@@ -1,4 +1,4 @@
-import { DummyOperationTypes, TimeRangePeriodTypes, BetCategories } from '../constants';
+import { DummyOperationTypes, TimeRangePeriodTypes, BetCategories, Config } from '../constants';
 import { BlockchainUtils, DateUtils, CurrencyUtils, BettingModuleUtils } from '../utility';
 import { ChainTypes } from 'peerplaysjs-lib';
 import { I18n } from 'react-redux-i18n';
@@ -152,7 +152,7 @@ class HistoryService {
 
   static convertRawHistoryToMyBets(state, rawHistory) {
     // TODO: find better place to put odds precision (this one should be returned by blockchain anyway)
-    const oddsPrecision = 10000;
+    const oddsPrecision = Config.oddsPrecision;
     const dynGlobalObject = state.getIn(['app', 'blockchainDynamicGlobalProperty']);
     const globalObject = state.getIn(['app', 'blockchainGlobalProperty']);
 

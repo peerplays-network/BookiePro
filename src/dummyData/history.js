@@ -54,7 +54,7 @@ import _ from 'lodash';
 
 const dummyAccountId = Config.dummyDataAccountId;
 
-const oddsPrecision = 10000;
+const oddsPrecision = Config.oddsPrecision;
 const listOfOperations = [
   [
     DummyOperationTypes.MAKE_BET,

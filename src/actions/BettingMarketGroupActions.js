@@ -1,5 +1,6 @@
 import { ActionTypes, LoadingStatus } from '../constants';
 import Immutable from 'immutable';
+import AssetActions from './AssetActions';
 import { CommunicationService } from '../services';
 
 class BettingMarketGroupPrivateActions {
@@ -72,9 +73,15 @@ class BettingMarketGroupActions {
           dispatch(BettingMarketGroupActions.addOrUpdateBettingMarketGroupsAction(bettingMarketGroups));
           // Set status
           dispatch(BettingMarketGroupPrivateActions.setGetBettingMarketGroupsByIdsLoadingStatusAction(idsOfBettingMarketGroupsToBeRetrieved, LoadingStatus.DONE));
-          // Concat and return
-          return retrievedBettingMarketGroups.concat(bettingMarketGroups);
-        });
+          // Concat
+          retrievedBettingMarketGroups = retrievedBettingMarketGroups.concat(bettingMarketGroups);
+          // Get assets related to betting market groups
+          const assetIds = retrievedBettingMarketGroups.map( bettingMktGrp => bettingMktGrp.get('asset_id'));
+          return dispatch(AssetActions.getAssetsByIds(assetIds));
+        }).then(() => {
+          // Return retrieved betting market groups
+          return retrievedBettingMarketGroups;
+        })
       }
     }
   }
