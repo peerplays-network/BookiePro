@@ -191,14 +191,15 @@ var BettingModuleUtils = {
 
   //  =========== Betting Drawer =========== CR-036 page 2
 
-  // Total (Betslip) = ∑ Back Bet’s Stake(BTC) & Lay Bet’s Liability(BTC) in the Betslip section
-  //
-  // Parameters:
-  // bets : unconfirmedBets, Immutable.List : marketDrawer.unconfirmedBets stored in redux
-  // currency : display currency
-  //
-  // Returns:
-  //  total
+  /**
+   *  calculate total vale of betslip,
+   *
+   *  Total (Betslip) = ∑ Back Bet’s Stake(BTC) & Lay Bet’s Liability(BTC) in the Betslip section
+   *
+   * @param {bets} - Immutable List,  unconfirmedBets in betslip, marketDrawer.unconfirmedBets stored in redux
+   * @param {currency} - display currency, 'BTC' or 'mBTC'
+   * @returns {total} - total value of betslip
+   */
   getBetslipTotal: function( bets, currency = 'BTC'){
 
     const accumulator = (total, bet) => {
@@ -224,7 +225,8 @@ var BettingModuleUtils = {
     return CurrencyUtils.getFormattedCurrency( total , currency, exposurePlaces);
 
   },
-  /*
+
+  /**
    *  =========== Average Odds (CR-036) ===========
    *  Matched Back Bets
    *  Grouped Profit = ∑ Profit
@@ -236,17 +238,6 @@ var BettingModuleUtils = {
    *  Grouped Backer’s Stake = ∑ Backer’s Stake
    *  Average Odds (round to 2 decimal places) = (∑ Backer’s Stake + ∑ Liability) / ∑ Backer’s Stake
    *
-   *  Parameters:
-   *  matchedBets - list of matched bets with the same bet type, i.e. all back or all lay
-   *  currency - string representing the currency used in the final calculated values
-   *  precision - by default the average odds shpuld be rounded to 2 decimal places
-   *
-   *  Return:
-   *  Immuatable object that has the following fields:
-   *    - averageOdds
-   *    - groupedProfitOrLiability
-   *    - groupedStake
-   *
    *  There is no clear distinction between profit and liability. They are
    *  essentially calculated in the same way using odds and stake (back) or
    *  backer's stake (lay) but are presented using different labels.
@@ -257,6 +248,13 @@ var BettingModuleUtils = {
    *  should be transformed into the normalized format at the Reducer level using
    *  the following common function: /src/reducers/dataUtils.js
    *
+   * @param {matchedBets} - Immutable List, list of matched bets with the same bet type, i.e. all back or all lay
+   * @param {currency} - display currency, 'BTC' or 'mBTC'
+   * @param {integer} precision - ( ***BTC*** base), either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
+   * @returns {Immutable Object} - total valu object which has the following fields:
+   *    - averageOdds
+   *    - groupedProfitOrLiability
+   *    - groupedStake
    */
   calculateAverageOddsFromMatchedBets: function(matchedBets, currency = 'BTC', precision = 2) {
     // Assume all the bets are of the same bet type so we can just sample from the first bet
@@ -271,8 +269,12 @@ var BettingModuleUtils = {
       groupedStake: CurrencyUtils.getFormattedCurrency( groupedStake, currency, stakePlaces),
     });
   },
-  /*
-   * Return true if the argument is a valid bet ready for submitting to the Blockchain
+
+  /**
+   * check if the bet valud to submit to the Blockchain
+   *
+   * @param {bet} - Immutable Object, bet
+   * @returns {boolean} - if the bet valid
    */
   isValidBet: function(bet) {
     return !isFieldInvalid(bet, 'odds') && !isFieldInvalid(bet, 'stake');
