@@ -2,22 +2,41 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { HelpAndSupportUtils } from '../../../../utility';
 import _ from 'lodash';
+import Modal from 'react-modal';
+import LicenseScreen from '../../../LicenseScreen';
 
 class FaqContent extends PureComponent {
   constructor(props) {
     super(props);
     // Set initial question answer pairs
     this.state = {
-      questionAnswerPairs: HelpAndSupportUtils.getQuestionAnswerPairs(props.topic)
+      questionAnswerPairs: HelpAndSupportUtils.getQuestionAnswerPairs(props.topic),
+      modalIsOpen: false
     }
     // Set initial ref
     this.qaPairRefs = {};
     this.renderFaqDetailPart = this.renderFaqDetailPart.bind(this);
     this.renderFaqTopicHeader = this.renderFaqTopicHeader.bind(this);
+    this.handleMITClick = this.handleMITClick.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
   createHTMLMarkup(data){
     return {__html: data };
   }
+
+  handleMITClick(e) {
+    e.preventDefault();
+    this.setState({
+      modalIsOpen: true
+    });
+  }
+
+  closeModal(e) {
+    this.setState({
+      modalIsOpen: false
+    })
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.topic !== nextProps.topic) {
       // Update question answer pairs
@@ -28,11 +47,17 @@ class FaqContent extends PureComponent {
   }
   componentDidUpdate(){
     let getAnchor = document.getElementsByClassName("fees-scroll")[0];
-    getAnchor.addEventListener("click", this.props.handleOverviewFeesClick);
+    if (getAnchor) getAnchor.addEventListener("click", this.props.handleOverviewFeesClick);
+
+    let MITAnchor = document.getElementsByClassName('mit-license-anchor')[0];
+    if (MITAnchor) MITAnchor.addEventListener('click', this.handleMITClick);
   }
   componentDidMount(){
     let getAnchor = document.getElementsByClassName("fees-scroll")[0];
-    getAnchor.addEventListener("click", this.props.handleOverviewFeesClick);
+    if (getAnchor) getAnchor.addEventListener("click", this.props.handleOverviewFeesClick);
+
+    let MITAnchor = document.getElementsByClassName('mit-license-anchor')[0];
+    if (MITAnchor) MITAnchor.addEventListener('click', this.handleMITClick);
   }
   renderFaqDetailPart() {
     const faqDetail = _.map(this.state.questionAnswerPairs, (pair, index) => {
@@ -67,6 +92,15 @@ class FaqContent extends PureComponent {
       <div className={ 'faqContent ' +  ( className || '') } >
         { this.renderFaqTopicHeader() }
         { this.renderFaqDetailPart() }
+        <Modal
+          className='bg-dialog'
+          isOpen={ this.state.modalIsOpen }
+          onRequestClose={ this.closeModal }
+          contentLabel='MIT License'
+          shouldCloseOnOverlayClick={ true }
+        >
+          <LicenseScreen />
+        </Modal>
       </div>
     )
   }
