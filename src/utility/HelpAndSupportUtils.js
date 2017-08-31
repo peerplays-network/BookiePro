@@ -1,3 +1,6 @@
+/**
+ * The HelpAndSupportUtils contains all the functions related to content generation
+ */
 import { FaqTopics } from '../constants';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';

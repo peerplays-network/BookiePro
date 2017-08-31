@@ -4,6 +4,7 @@
 import { Apis } from 'peerplaysjs-ws';
 
 const ConnectionUtils = {
+  
   /**
    * Check if the app is connected to internet through Navigator object
    * @returns {boolean} - if window.navigator currrently connected to network

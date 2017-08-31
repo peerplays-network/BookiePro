@@ -1,3 +1,6 @@
+/**
+ * The MyWagerUtils contains all the functions shared within My Wager component
+ */
 import React from 'react';
 import { I18n, Translate } from 'react-redux-i18n';
 import CurrencyUtils from './CurrencyUtils';
