@@ -37,6 +37,12 @@ class TopMenu extends PureComponent {
     this.handleAmountComponentVisibleChange = this.handleAmountComponentVisibleChange.bind(this);
     this.handleDepositComponentVisibleChange = this.handleDepositComponentVisibleChange.bind(this);
     this.handleTopMenuWithdrawComponentVisibleChange = this.handleTopMenuWithdrawComponentVisibleChange.bind(this);
+    this.gotoMyAccount = this.gotoMyAccount.bind(this);
+  }
+
+  gotoMyAccount() {
+      this.props.navigateTo('/my-account');
+      this.setState({ isSubMenuVisible: false });
   }
 
   handleWithdrawSubmit(values){
@@ -191,21 +197,26 @@ class TopMenu extends PureComponent {
         <Menu.Item key='balance' className='amount'>
           { // Fogbugz-716: Disable the account balance panel by setting visible={ false }
           }
-          <Dropdown trigger={ ['click'] } overlay={ amountCard } placement='bottomRight'
-            onVisibleChange={ this.handleAmountComponentVisibleChange } visible={ false }>
-            <Tooltip getPopupContainer={ () => document.getElementsByClassName("bitcoin-icon")[0] }
-                     overlayClassName='bookie-tooltip bookie-tooltip-amount' placement='bottom' title={ I18n.t('topbar_tooltip.account_balance') }>
-            <div className='icon-main bitcoin-icon-main'>
-              <a className={ this.state.isAmountComponentVisible ? 'ant-dropdown-link-clicked ' : 'ant-dropdown-link' } href='#'>
-                <div>
-                  <i className={ this.state.isAmountComponentVisible ? (this.props.currencyFormat === 'BTC' ? 'bitcoin-icon-selected' : 'mbitcoin-icon-selected') :
-                      (this.props.currencyFormat === 'BTC' ? 'bitcoin-icon' : 'mbitcoin-icon') }></i>
-                    { this.props.availableBalance }
-                </div>
+          <div className='account-balance-item'>
+              <a className='account-name' key='myaccount' onClick={ this.gotoMyAccount }>
+                  { this.props.accountName.length < 15 ? this.props.accountName : this.props.accountName.substring(0, 15).concat('...') }
               </a>
-            </div>
-            </Tooltip>
-          </Dropdown>
+              <Dropdown trigger={ ['click'] } overlay={ amountCard } placement='bottomRight'
+                onVisibleChange={ this.handleAmountComponentVisibleChange } visible={ false }>
+                <Tooltip getPopupContainer={ () => document.getElementsByClassName("bitcoin-icon")[0] }
+                         overlayClassName='bookie-tooltip bookie-tooltip-amount' placement='bottom' title={ I18n.t('topbar_tooltip.account_balance') }>
+                <div className='icon-main bitcoin-icon-main'>
+                  <a className={ this.state.isAmountComponentVisible ? 'ant-dropdown-link-clicked ' : 'ant-dropdown-link' } href='#'>
+                    <div>
+                      <i className={ this.state.isAmountComponentVisible ? (this.props.currencyFormat === 'BTC' ? 'bitcoin-icon-selected' : 'mbitcoin-icon-selected') :
+                          (this.props.currencyFormat === 'BTC' ? 'bitcoin-icon' : 'mbitcoin-icon') }></i>
+                        { this.props.availableBalance }
+                    </div>
+                  </a>
+                </div>
+                </Tooltip>
+              </Dropdown>
+          </div>
         </Menu.Item>
         <Menu.Item key='mywager'>
           <Tooltip overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.my_bets') }>
@@ -318,6 +329,7 @@ const mapStateToProps = (state) => {
 
   return {
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
+    accountName: state.getIn(['account', 'account', 'name']),
     loadingStatus: state.getIn(['balance', 'getDepositAddressLoadingStatus']),
     depositAddress: state.getIn(['balance', 'depositAddress']),
     availableBalance: availableBalance,
