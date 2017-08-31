@@ -1,3 +1,8 @@
+/**
+ * This component display list of new notifications
+ * Sub-component used in Notification
+ *   {@link NotificationItem} - used to render individual notification
+ */
 import React, { PureComponent } from 'react';
 import NotificationItem from './NotificationItem';
 import Ps from 'perfect-scrollbar';

@@ -1,3 +1,7 @@
+/**
+ * This component display notification with cancel button
+ * NotificationItem is used in {@link Notification}
+ */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -11,17 +15,26 @@ class NotificationItem extends PureComponent{
     this.renderContent = this.renderContent.bind(this);
   }
 
+  /**
+   * Click is handled in {@link TopMenu} - handleNotificationCardItemClick
+   * It will navigate user to respective screen on the basis of notification type
+   */
   onClick(e) {
     e.preventDefault();
     this.props.onClick();
   }
 
+  /**
+   * Click is handled in {@link TopMenu} - handleNotificationCardItemClickClose
+   * This will remove notification from state 'notifications' under 'notification' store
+   */
   onClickClose(e) {
     e.preventDefault();
     e.stopPropagation();
     this.props.onClickClose();
   }
 
+  /** This will render close button next to notification content */
   renderCloseButton() {
     if (this.props.isCloseButtonVisible) {
       return (
@@ -30,6 +43,7 @@ class NotificationItem extends PureComponent{
     }
   }
 
+  /** This will render notification content with date */
   renderContent() {
     let date, messageStyle;
     if (this.props.isDateVisible) {
