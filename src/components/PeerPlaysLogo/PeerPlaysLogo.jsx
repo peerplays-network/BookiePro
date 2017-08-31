@@ -1,3 +1,15 @@
+/**
+ * This component is used to create the peerplays logo image.
+ * It is used in the following components:
+ *   {@link AllSports}
+ *   {@link BettingMarketGroup}
+ *   {@link ChangePassword}
+ *   {@link EventGroup}
+ *   {@link HelpAndSupport}
+ *   {@link MyAccount}
+ *   {@link MyWager}
+ *   {@link Sport}
+ */
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PoweredByPPLogoPath from '../../assets/images/powerbypp.png';
