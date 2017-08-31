@@ -1,3 +1,21 @@
+/**
+ * This is the transaction history table component
+ * It uses 'antd' table to render and display transaction history data
+ * It is used in the MyAccount component
+ * The table contains transactions that affects the balance of the user account
+ * Paging is also added for navigation (20 records per page)
+ *
+ * This component contains the following sub-components:
+ *   {@link TimeRangePicker} : allows user to perform filtering of data based on:
+ *                             1)Last 7 days 2)Last 14 days 3)This month 4)Last month 5)custom date
+ *                             Last 7 days record is loaded by default on the table
+ *   {@link Export}          : allows user to export data to excel file and download it
+
+ * It uses the following 2 utility files:
+ *    CurrencyUtils      : to get user's currency symbol
+ *    BettingModuleUtils : to get the precision to be applied on the transaction amounts
+ */
+
 import React, { PureComponent } from 'react';
 import { Table } from 'antd';
 import './MyAccount.less';
@@ -9,8 +27,18 @@ import TimeRangePicker from '../TimeRangePicker';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 
+/** default page size = 20 */
 const paginationParams = { pageSize: 20 };
 
+/**
+ * Generate the transaction history table columns and their keys
+ * It will be provided as 'columns' to the 'antd' table
+ *
+ * @param {string} currencyFormat - the user's selected currency
+ * @param {integer} lastIrreversibleBlockNum - Obtained from blockchain to find the status
+ *                                             (processing or completed) of every transaction history data.
+ *                                             It will be displayed on the 'Status' column
+ */
 const getColumns = (currencyFormat, lastIrreversibleBlockNum) => {
   return [
     {
