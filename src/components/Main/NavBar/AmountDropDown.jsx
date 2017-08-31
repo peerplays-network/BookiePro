@@ -1,3 +1,7 @@
+/**
+ * AmountDropDown used to display available balance and in-game balance
+ * AmountDropDown was used in TopBar but not now it is hidden
+ */
 import React, { PureComponent } from 'react';
 let I18n = require('react-redux-i18n').I18n;
 import {
@@ -7,6 +11,10 @@ import {
 } from 'antd';
 class Amount extends PureComponent{
 
+  /**
+   * This function renders card column for amount balance display
+   * amount displayed with currency prefix
+   */
   renderAmount(amountTypeText,amount){
     return(
       <Col span={ 12 }>
