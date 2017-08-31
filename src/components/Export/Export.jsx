@@ -4,7 +4,7 @@
  * It is used in the TransactionHistory and ResolvedBets components.
  * It uses 'antd' cards to display the various statuses of export i.e Loading,No data and Ready.
  * It uses the following 2 utility files:
- *    ExportUtils: to format the data is tabular form so that it can be copied to excel file
+ *    ExportUtils: to format the data in tabular form so that it can be copied to excel file
  *    FileSaverUtils: to name the excel file and download it on the user's computer
  */
 import React, { PureComponent } from 'react';
