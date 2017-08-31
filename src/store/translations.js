@@ -315,7 +315,7 @@ export const translationsObject = {
           confirm_button: 'OK',
         },
         disconnected: {
-          instructions: 'You are not connected to the blockchain. Pleaee make sure you have Internet access and try again.',
+          instructions: 'You are not connected to the blockchain. Please make sure you have Internet access and try again.',
           cancel_button: 'CANCEL',
         },
         content: {
@@ -367,7 +367,7 @@ export const translationsObject = {
           confirm_button: 'OK',
         },
         disconnected: {
-          instructions: 'You are not connected to the blockchain. Pleaee make sure you have Internet access and try again.',
+          instructions: 'You are not connected to the blockchain. Please make sure you have Internet access and try again.',
           cancel_button: 'CANCEL',
         },
         content: {
@@ -410,7 +410,7 @@ export const translationsObject = {
           confirm_button: 'OK',
         },
         disconnected: {
-          instructions: 'You are not connected to the blockchain. Pleaee make sure you have Internet access and try again.',
+          instructions: 'You are not connected to the blockchain. Please make sure you have Internet access and try again.',
           cancel_button: 'CANCEL',
         },
         delete_bets: {
