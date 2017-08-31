@@ -1,7 +1,7 @@
 /**
  * This component generates the search filter controls as well as the 'Search' and 'Export' buttons
  * It uses 'antd' Select and DatePicker controls to generate
- * the 'Period' dropdown and 'State and End date' fields respectively
+ * the 'Period' dropdown and 'From and To date' fields respectively
  * Constants used in this component are defined in 'TimeRangePeriodTypes'
  * This component is used in the following 2 components:
  *   {@link TransactionHistory}
@@ -57,11 +57,11 @@ class TimeRangePicker extends PureComponent {
   }
 
   /**
-   * This function is bound to the 'onChange' callback function of the 'Start Date' datepicker control (antd)
-   * It will be called everytime the start date value is changed
-   * It tracks the selected start date
+   * This function is bound to the 'onChange' callback function of the 'From Date' datepicker control (antd)
+   * It will be called everytime the 'from' date value is changed
+   * It tracks the selected 'from' date
    *
-   * @param {string} customTimeRangeStartDate - The selected Start Date
+   * @param {string} customTimeRangeStartDate - The selected 'From' Date
    */
   onCustomTimeRangePickerStartDateChange(customTimeRangeStartDate) {
     // Get start of day
@@ -72,11 +72,11 @@ class TimeRangePicker extends PureComponent {
   }
 
   /**
-   * This function is bound to the 'onChange' callback function of the 'End Date' datepicker control (antd)
-   * It will be called everytime the end date value is changed
-   * It tracks the selected end date
+   * This function is bound to the 'onChange' callback function of the 'To Date' datepicker control (antd)
+   * It will be called everytime the 'To' date value is changed
+   * It tracks the selected 'To' date
    *
-   * @param {string} customTimeRangeEndDate - The selected End Date
+   * @param {string} customTimeRangeEndDate - The selected 'To' Date
    */
   onCustomTimeRangePickerEndDateChange(customTimeRangeEndDate) {
     // Get end of day
@@ -100,7 +100,7 @@ class TimeRangePicker extends PureComponent {
   }
 
   /**
-   * This function renders 'antd' datepicker controls for Start and End dates
+   * This function renders 'antd' datepicker controls for From and To dates
    * when the 'Custom' period type is selected.
    * It performs validations to disable out of range dates for 'From' and 'To' dates :
    *   If the a 'From' Date is selected :
