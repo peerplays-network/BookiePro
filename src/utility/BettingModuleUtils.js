@@ -1,3 +1,10 @@
+/**
+ * The BettingModuleUtils contains all the common calculation related to betting.
+ *
+ * Ranging from odds/stake/exposure to payout/book percentage/ calculation
+ *
+ * Those utility functions are mostly used in betslips, betting widgets and betting drawers components.
+ */
 import { BetTypes } from '../constants';
 import _ from 'lodash';
 import Immutable from 'immutable';
@@ -32,9 +39,9 @@ var BettingModuleUtils = {
    *  Stake = Profit / (Odds – 1)
    *  Backer's Stake = Liability / (Odds – 1)
    *
-   * @param {odds} String : odds
-   * @param {profit} String : profit or liability
-   * @param {currency} - display currency, 'BTC' or 'mBTC'
+   * @param {string} odds
+   * @param {string} profit - profit or liability
+   * @param {string} currency - display currency, 'BTC' or 'mBTC'
    * @returns {string} - stake, based on either BTC or mBTC
    */
   getStake: function(odds, profit, currency = 'BTC') {
@@ -59,9 +66,9 @@ var BettingModuleUtils = {
    *  Profit = Stake * (Odds – 1)
    *  Liability = Backer's Stake * (Odds – 1)
    *
-   * @param {stake} String : stake
-   * @param {odds} String : odds
-   * @param {currency} - display currency, 'BTC' or 'mBTC'
+   * @param {string} stake
+   * @param {string} odds
+   * @param {string} currency - display currency, 'BTC' or 'mBTC'
    * @returns {string} - profit of liability, based on either BTC or mBTC
    */
   getProfitOrLiability: function(stake, odds, currency = 'BTC') {
@@ -85,9 +92,9 @@ var BettingModuleUtils = {
    *
    *  Payout = Backer’s Stake * Odds
    *
-   * @param {odds} String : odds
-   * @param {stake} String : stake
-   * @param {currency} - display currency, 'BTC' or 'mBTC'
+   * @param {string} odds : odds
+   * @param {string} stake : stake
+   * @param {string} currency - display currency, 'BTC' or 'mBTC'
    * @returns {string} - payout, based on either BTC or mBTC
    */
   getPayout: function(stake, odds, currency = 'BTC') {
@@ -114,18 +121,20 @@ var BettingModuleUtils = {
    *  NOTE :  Matched Exposure is not ready yet
    *
    *  Matched Exposure (Pending Change Request)
-   *  Case    Exposure of the selection that the bet originates from    All other selection’s exposure
-   *  A back bet is matched    + Profit(BTC)   - Stake(BTC)
-   *  A lay bet is matched    - Liability(BTC)    + Backer’s Stake(BTC)
+   *  Case                   |  Exposure of the selection that   | All other selection’s exposure
+   *                         |  the bet originates from          |
+   * ------------------------+-----------------------------------+---------------------------------
+   *  A back bet is matched  |      + Profit(BTC)                | - Stake(BTC)
+   *  A lay bet is matched   |      - Liability(BTC)             | + Backer’s Stake(BTC)
    *
    *  Betslip Exposure (Pending Change Request)
    *  Case    Exposure of the selection that the bet originates from    All other selection’s exposure
    *  A full back bet betslip is filled    + Profit(BTC)   - Stake(BTC)
    *  A full lay bet betslip is filled    - Liability(BTC)   + Backer’s Stake(BTC)
    *
-   * @param {bettingMarketId} String : id of the betting market for which expsoure calculation specified
-   * @param {bets} unconfirmedBets, Immutable.List : marketDrawer.unconfirmedBets stored in redux
-   * @param {currency} - display currency, 'BTC' or 'mBTC'
+   * @param {string} bettingMarketId : id of the betting market for which expsoure calculation specified
+   * @param {Immutable.List} bets - unconfirmedBets, marketDrawer.unconfirmedBets stored in redux
+   * @param {string} currency - display currency, 'BTC' or 'mBTC'
    * @returns {string} - exposure of the target betting market, either BTC or mBTC, based on currency param
    */
   getExposure: function(bettingMarketId, bets , currency = 'BTC'){
@@ -179,7 +188,7 @@ var BettingModuleUtils = {
    *  Back Book Percentage: (100% / Best Back Odds of Selection 1) + … + (100% / Best Back Odds of Selection n)
    *  Lay Book Percentage: (100% / Best Lay Odds of Selection 1) + … + (100% / Best Lay Odds of Selection n)
    *
-   * @param {bestOfferList} - Immutable List,  bets which have the best offer among the bets in same market.
+   * @param {Immutable.List} - bestOfferList-  bets which have the best offer among the bets in same market.
    * @returns {integer} - book percentage in a certain market, rounded to nearest integer
    */
   getBookPercentage: function( bestOfferList){
@@ -196,9 +205,9 @@ var BettingModuleUtils = {
    *
    *  Total (Betslip) = ∑ Back Bet’s Stake(BTC) & Lay Bet’s Liability(BTC) in the Betslip section
    *
-   * @param {bets} - Immutable List,  unconfirmedBets in betslip, marketDrawer.unconfirmedBets stored in redux
-   * @param {currency} - display currency, 'BTC' or 'mBTC'
-   * @returns {total} - total value of betslip
+   * @param {Immutable.List} bets - unconfirmedBets in betslip, marketDrawer.unconfirmedBets stored in redux
+   * @param {string} currency - display currency, 'BTC' or 'mBTC'
+   * @returns {double} - total: total value of betslip
    */
   getBetslipTotal: function( bets, currency = 'BTC'){
 
@@ -248,10 +257,10 @@ var BettingModuleUtils = {
    *  should be transformed into the normalized format at the Reducer level using
    *  the following common function: /src/reducers/dataUtils.js
    *
-   * @param {matchedBets} - Immutable List, list of matched bets with the same bet type, i.e. all back or all lay
-   * @param {currency} - display currency, 'BTC' or 'mBTC'
+   * @param {Immutable.List} matchedBets - list of matched bets with the same bet type, i.e. all back or all lay
+   * @param {string} currency - display currency, 'BTC' or 'mBTC'
    * @param {integer} precision - ( ***BTC*** base), either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
-   * @returns {Immutable Object} - total valu object which has the following fields:
+   * @returns {Immutable.Maps} - total valu object which has the following fields:
    *    - averageOdds
    *    - groupedProfitOrLiability
    *    - groupedStake
@@ -273,7 +282,7 @@ var BettingModuleUtils = {
   /**
    * check if the bet valud to submit to the Blockchain
    *
-   * @param {bet} - Immutable Object, bet
+   * @param { Immutable.Maps} - bet
    * @returns {boolean} - if the bet valid
    */
   isValidBet: function(bet) {
