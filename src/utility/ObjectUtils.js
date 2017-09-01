@@ -1,3 +1,9 @@
+/**
+ * The ObjectUtils contains all the functions related to blockchain-objects such as
+ * event, bet etc.
+ *
+ * For the list of supported blockchain-objects, please refer to https://bitbucket.org/ii5/bookie/wiki/blockchain-objects/index
+ */
 import { BetCategories } from '../constants';
 import moment from 'moment';
 

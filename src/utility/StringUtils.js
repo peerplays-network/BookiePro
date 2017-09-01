@@ -1,4 +1,10 @@
-var Utils = {
+/**
+ * The StringUtils contains all the functions related to string, byte and hexa transformation.
+ *
+ * Memo data in blockchain transaction is in bytes
+ */
+
+ var Utils = {
   //http://stackoverflow.com/questions/17720394/javascript-string-to-byte-to-string
   string2Bin : function(str) {
     var result = [];
