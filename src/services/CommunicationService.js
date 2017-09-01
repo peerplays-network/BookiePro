@@ -616,13 +616,18 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyEventsByEventGroupIds(eventGroupIds);
     } else {
-      // TODO: change later
-      return this.fetchAllEventsFromBlockchainWithWorkaroundTemporarySolution().then(events => {
-        const filteredEvents = events.filter(event => {
-          const eventGroupId = event.get('event_group_id');
-          return eventGroupIds.includes(eventGroupId);
-        })
-        return filteredEvents;
+      if (eventGroupIds instanceof Immutable.List || eventGroupIds instanceof Immutable.Set) eventGroupIds = eventGroupIds.toJS();
+      let promises = eventGroupIds.map((eventGroupId) => {
+        return this.callBlockchainDbApi('list_events_in_group', [eventGroupId]).then(events => {
+          // Replace name with english name
+          return events.map(event => {
+            return ObjectUtils.localizeStringOfObject(event, ['name', 'season']);
+          })
+        });
+      })
+      return Promise.all(promises).then((result) => {
+        // Return in immutable format
+        return Immutable.fromJS(result).flatten(true);
       })
     }
   }
