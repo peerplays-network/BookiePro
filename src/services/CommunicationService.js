@@ -579,36 +579,7 @@ class CommunicationService {
     }
 
   }
-  /**
-   * Get active events given array of sport ids (can be immutable)
-   */
-  static getEventsBySportIds(sportIds) {
-    if (Config.useDummyData) {
-      return this.getDummyActiveEventsBySportIds(sportIds);
-    } else {
-      // TODO: change later
-      let fetchedEvents = Immutable.List();
-      return this.fetchAllEventsFromBlockchainWithWorkaroundTemporarySolution().then(events => {
-        fetchedEvents = events;
-        const eventGroupIds = events.map(event => {
-          return event.get('event_group_id');
-        })
-        return this.getObjectsByIds(eventGroupIds);
-      }).then(eventGroups => {
-        let eventGroupByIds = Immutable.Map();
-        eventGroups.forEach(eventGroup => {
-          eventGroupByIds = eventGroupByIds.set(eventGroup.get('id'), eventGroup);
-        })
-        const filteredEvents = fetchedEvents.filter(event => {
-          const eventGroup = eventGroupByIds.get(event.get('event_group_id'))
-          const sportId = eventGroup && eventGroup.get('sport_id');
-          return sportIds.includes(sportId);
-        })
-        return filteredEvents;
-      })
-    }
-  }
-
+  
   /**
    * Get events given array of event group ids (can be immutable)
    */

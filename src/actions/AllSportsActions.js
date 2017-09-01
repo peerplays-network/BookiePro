@@ -4,6 +4,7 @@ import EventActions from './EventActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
+import EventGroupActions from './EventGroupActions';
 import AppActions from './AppActions';
 import _ from 'lodash';
 import log from 'loglevel';
@@ -45,8 +46,12 @@ class AllSportsActions {
       // Get sports
       dispatch(SportActions.getAllSports()).then((sports) => {
         retrievedSportIds = sports.map( sport => sport.get('id'));
-        // Get events related to the sports
-        return dispatch(EventActions.getEventsBySportIds(retrievedSportIds));
+        // Get related event group
+        return dispatch(EventGroupActions.getEventGroupsBySportIds(retrievedSportIds));
+      }).then((eventGroups) => {
+        // Get related events
+        const eventGroupIds = eventGroups.map( eventGroup => eventGroup.get('id'));
+        return dispatch(EventActions.getEventsByEventGroupIds(eventGroupIds));
       }).then((events) => {
         // Get betting market groups
         const eventIds = events.map( event => event.get('id'));

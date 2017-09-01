@@ -13,15 +13,15 @@ class SidebarActions {
 
       // Loading status
       dispatch(SidebarActions.setLoadingStatusAction(LoadingStatus.LOADING));
-      let retrievedSportIds;
       // Get sports
       dispatch(SportActions.getAllSports()).then((sports) => {
-        retrievedSportIds = sports.map( sport => sport.get('id'));
+        const sportIds = sports.map( sport => sport.get('id'));
         // Get event groups related to the sports
-        return dispatch(EventGroupActions.getEventGroupsBySportIds(retrievedSportIds));
+        return dispatch(EventGroupActions.getEventGroupsBySportIds(sportIds));
       }).then((eventGroups) => {
+        const eventGroupIds = eventGroups.map( eventGroup => eventGroup.get('id'));
         // Get events related to the sports (because we don't have get event based on event groups)
-        return dispatch(EventActions.getEventsBySportIds(retrievedSportIds));
+        return dispatch(EventActions.getEventsByEventGroupIds(eventGroupIds));
       }).then((events) => {
         // Get betting market groups
         const eventIds = events.map( event => event.get('id'));

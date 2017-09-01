@@ -8,13 +8,6 @@ import log from 'loglevel';
  * Private actions
  */
 class EventPrivateActions {
-  static setGetEventsBySportIdsLoadingStatusAction(sportIds, loadingStatus) {
-    return {
-      type: ActionTypes.EVENT_SET_GET_EVENTS_BY_SPORT_IDS_LOADING_STATUS,
-      sportIds,
-      loadingStatus
-    }
-  }
 
   static setGetEventsByEventGroupIdsLoadingStatusAction(eventGroupIds, loadingStatus) {
     return {
@@ -72,62 +65,6 @@ class EventActions {
     }
   }
 
-  /**
-   * Get events given array of sport ids (can be immutable)
-   */
-  static getEventsBySportIds(sportIds) {
-    return (dispatch, getState) => {
-      let retrievedEvents = Immutable.List();
-      let sportIdsOfEventsToBeRetrieved = Immutable.List();
-
-      // Get eventIdsBySportId
-      const eventsById = getState().getIn(['event', 'eventsById']);
-      const eventGroupsById = getState().getIn(['eventGroup', 'eventGroupsById']);
-      let eventsBySportId = Immutable.Map();
-      eventsById.forEach( (event, id) => {
-        const eventGroupId = event.get('event_group_id');
-        const eventGroup = eventGroupsById.get(eventGroupId);
-        const sportId = eventGroup && eventGroup.get('sport_id');
-        if (sportId) {
-          eventsBySportId = eventsBySportId.update(sportId, events => {
-            if (!events) events = Immutable.List();
-            return events.push(event);
-          })
-        }
-      })
-
-      // Check if the requested data is already inside redux store
-      const getEventsBySportIdsLoadingStatus = getState().getIn(['event', 'getEventsBySportIdsLoadingStatus']);
-      sportIds.forEach( sportId => {
-        if (getEventsBySportIdsLoadingStatus.get(sportId) === LoadingStatus.DONE) {
-          if (eventsBySportId.has(sportId)) {
-            retrievedEvents = retrievedEvents.concat(eventsBySportId.get(sportId));
-          }
-        } else {
-          sportIdsOfEventsToBeRetrieved = sportIdsOfEventsToBeRetrieved.push(sportId);
-        }
-      })
-
-      if (sportIdsOfEventsToBeRetrieved.size === 0) {
-        // No events to be retrieved from blockchain, return retrieved data from redux store
-        return Promise.resolve(retrievedEvents);
-      } else {
-        // Retrieve data from blockchain
-        // Set status
-        dispatch(EventPrivateActions.setGetEventsBySportIdsLoadingStatusAction(sportIdsOfEventsToBeRetrieved, LoadingStatus.LOADING));
-        return CommunicationService.getEventsBySportIds(sportIdsOfEventsToBeRetrieved).then((events) => {
-          // Add data to redux store
-          dispatch(EventActions.addOrUpdateEventsAction(events));
-          // Set status
-          dispatch(EventPrivateActions.setGetEventsBySportIdsLoadingStatusAction(sportIdsOfEventsToBeRetrieved, LoadingStatus.DONE));
-          const eventIds = events.map( event => event.get('id'));
-          dispatch(EventPrivateActions.setGetEventsByIdsLoadingStatusAction(eventIds, LoadingStatus.DONE));
-          // Concat with retrieved data from redux store
-          return retrievedEvents.concat(events);
-        });
-      }
-    };
-  }
 
   /**
    * Get events given array of event group ids (can be immutable)
