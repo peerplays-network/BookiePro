@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { HelpAndSupportUtils } from '../../../../utility';
 import _ from 'lodash';
-import Modal from 'react-modal';
+import { Modal } from 'antd';
 import LicenseScreen from '../../../LicenseScreen';
 
 class FaqContent extends PureComponent {
@@ -88,18 +88,20 @@ class FaqContent extends PureComponent {
 
   render() {
     const { className } = this.props;
+    const licenseStyle = {
+      'padding-top': '75px'
+    }
+
     return (
-      <div className={ 'faqContent ' +  ( className || '') } >
+      <div className={ 'faqContent ' + ( className || '') }>
         { this.renderFaqTopicHeader() }
         { this.renderFaqDetailPart() }
         <Modal
-          className='bg-dialog'
-          isOpen={ this.state.modalIsOpen }
-          onRequestClose={ this.closeModal }
-          contentLabel='MIT License'
-          shouldCloseOnOverlayClick={ true }
-        >
-          <LicenseScreen />
+          visible={ this.state.modalIsOpen }
+          footer={ null }
+          onCancel={ this.closeModal }
+          >
+          <LicenseScreen style={ licenseStyle }/>
         </Modal>
       </div>
     )

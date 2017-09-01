@@ -19,7 +19,7 @@ class LicenseScreen extends PureComponent {
   }
   render() {
     return (
-      <div className='licenseComponent'>
+      <div className='licenseComponent' style={ this.props.style }>
         <div className='container'>
           <h2> { I18n.t('license_screen.title') } </h2>
           <p><Translate value='license_screen.content' dangerousHTML/></p>
