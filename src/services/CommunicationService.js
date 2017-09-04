@@ -271,35 +271,32 @@ class CommunicationService {
           });
           break;
         }
-        case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
+        case ObjectPrefix.ACCOUNT_BALANCE_PREFIX: {
+          this.dispatch(BalanceActions.removeAvailableBalancesByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.SPORT_PREFIX: {
-          this.dispatch(SportActions.removeSportsByIdsAction(deletedObjectIds));
+          // We want bookie objects to be persisted, so don't delete the object here
           break;
         }
         case ObjectPrefix.EVENT_GROUP_PREFIX: {
-          this.dispatch(EventGroupActions.removeEventGroupsByIdsAction(deletedObjectIds));
+          // We want bookie objects to be persisted, so don't delete the object here
           break;
         }
         case ObjectPrefix.EVENT_PREFIX: {
-          this.dispatch(EventActions.removeEventsByIdsAction(deletedObjectIds));
+          // We want bookie objects to be persisted, so don't delete the object here
           break;
         }
         case ObjectPrefix.RULE_PREFIX: {
-          this.dispatch(RuleActions.removeEventsByIdsAction(deletedObjectIds));
+          // We want bookie objects to be persisted, so don't delete the object here
           break;
         }
         case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {
-          this.dispatch(BettingMarketGroupActions.removeBettingMarketGroupsByIdsAction(deletedObjectIds));
+          // We want bookie objects to be persisted, so don't delete the object here
           break;
         }
         case ObjectPrefix.BETTING_MARKET_PREFIX: {
-          this.dispatch(BettingMarketActions.removeBettingMarketsByIdsAction(deletedObjectIds));
-          break;
-        }
-        case ObjectPrefix.ACCOUNT_BALANCE_PREFIX: {
-          this.dispatch(BalanceActions.removeAvailableBalancesByIdsAction(deletedObjectIds));
+          // We want bookie objects to be persisted, so don't delete the object here
           break;
         }
         default: break;
