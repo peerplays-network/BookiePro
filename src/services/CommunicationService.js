@@ -333,11 +333,11 @@ class CommunicationService {
     if (apiPlugin) {
       return apiPlugin.exec(methodName, params).then((result) => {
         // Intercept and log
-        log.debug(`Call blockchain Bookie Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
+        log.debug(`Call blockchain ${apiPlugin}\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
         return Immutable.fromJS(result);
       }).catch((error) => {
         // Intercept and log
-        log.error(`Error in calling Bookie Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nError: `, error);
+        log.error(`Error in calling ${apiPlugin}\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nError: `, error);
         throw error;
       })
     } else {
@@ -504,6 +504,17 @@ class CommunicationService {
   }
 
   /**
+   * Get persisted bookie objects given their ids
+   * This applies to event, betting market group, betting market, and bet
+   */
+  static getPersistedBookieObjectsByIds(arrayOfObjectIds = []) {
+    return this.callBlockchainBookieApi('get_objects', [arrayOfObjectIds]).then(result => {
+      // Remove empty object
+      return result.filter(object => !!object);
+    });
+  }
+
+  /**
    * Get assets by id
    */
   static getAssetsByIds(assetIds) {
@@ -550,36 +561,6 @@ class CommunicationService {
     }
   }
 
-  /**
-   * This is temporary solution to fetch events from blockchain using their id
-   * NOTE: Remove this later when list_events is implemented
-   */
-  static allEventsFromBlockchain = null;
-  static fetchAllEventsFromBlockchainWithWorkaroundTemporarySolution() {
-    if (!this.allEventsFromBlockchain) {
-      const eventIdPrefix = "1.18.";
-      let eventIds = [];
-      // Get 100 events
-      for (let i=0; i < 100; i++) {
-        const eventId = eventIdPrefix + i;
-        eventIds.push(eventId);
-      }
-      return this.getObjectsByIds(eventIds).then(result => {
-        // Filter empty objects
-        const filteredResult = result.filter((item) => !!item);
-        // Replace name with english name
-        const modifiedResult = filteredResult.map(event => {
-          return ObjectUtils.localizeStringOfObject(event, ['name']);
-        })
-        this.allEventsFromBlockchain = modifiedResult;
-        return this.allEventsFromBlockchain
-      });
-    } else {
-      return Promise.resolve(this.allEventsFromBlockchain);
-    }
-
-  }
-  
   /**
    * Get events given array of event group ids (can be immutable)
    */
@@ -714,7 +695,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(bettingMarketIds);
     } else {
-      return this.getObjectsByIds(bettingMarketIds).then(result => {
+      return this.getPersistedBookieObjectsByIds(bettingMarketIds).then(result => {
         return result.map(item => {
           // TODO: remove this when description field is added
           let modifiedItem = item.set('description', item.get('payout_condition'));
@@ -732,7 +713,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(bettingMarketGroupIds);
     } else {
-      return this.getObjectsByIds(bettingMarketGroupIds).then(result => {
+      return this.getPersistedBookieObjectsByIds(bettingMarketGroupIds).then(result => {
         return result.map(item => {
           // Localize string
           return ObjectUtils.localizeStringOfObject(item, ['description']);
@@ -749,7 +730,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(eventIds);
     } else {
-      return this.getObjectsByIds(eventIds).then(result => {
+      return this.getPersistedBookieObjectsByIds(eventIds).then(result => {
         return result.map(item => {
           // Localize string
           return ObjectUtils.localizeStringOfObject(item, ['name']);

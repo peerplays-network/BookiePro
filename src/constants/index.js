@@ -13,6 +13,7 @@ import AppBackgroundTypes from './AppBackgroundTypes';
 import MyWagerTabTypes from './MyWagerTabTypes';
 import ExportTypes from './ExportTypes';
 import FaqTopics from './FaqTopics';
+import EventStatus from './EventStatus';
 import BettingDrawerStates from './BettingDrawerStates';
 
 export {
@@ -32,4 +33,5 @@ export {
   ObjectPrefix,
   FaqTopics,
   BettingDrawerStates,
+  EventStatus
 }

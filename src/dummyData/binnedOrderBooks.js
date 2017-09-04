@@ -1,9 +1,8 @@
+import { Config } from '../constants';
 
-// TODO: Replace this with the real definition of order_book_bin
-//       with amount_to_bet and amount_to_win
 const createOrderBookBin = (odds, price) => ({
-  odds: odds,
-  price: price
+  backer_multiplier: odds * Config.oddsPrecision,
+  amount_to_bet: price * Math.pow(10, 5)
 });
 
 // We don't have a unique key for these as they are NOT Blockchain object

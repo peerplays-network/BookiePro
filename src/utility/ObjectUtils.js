@@ -1,10 +1,11 @@
+
 /**
  * The ObjectUtils contains all the functions related to blockchain-objects such as
  * event, bet etc.
  *
  * For the list of supported blockchain-objects, please refer to https://bitbucket.org/ii5/bookie/wiki/blockchain-objects/index
  */
-import { BetCategories } from '../constants';
+import { BetCategories, EventStatus } from '../constants';
 import moment from 'moment';
 
 /**
@@ -89,11 +90,9 @@ const localizeStringOfObject = (object, fieldsToLocalize=[], lang='en') => {
  * @returns {boolean} - if the event active.
  */
 const isActiveEvent = (event) => {
-  let isActive = false;
-  // TODO: should use event status instead, revisit this when the enum code for event_status is known
-  const eventTime = event.get('start_time');
-  isActive = moment(eventTime).isAfter();
-  return isActive;
+  const eventStatus = event.get('status');
+  // Event is active if it is not completed or canceled
+  return eventStatus !== EventStatus.COMPLETED && eventStatus !== EventStatus.CANCELED;
 }
 
 const ObjectUtils = {
