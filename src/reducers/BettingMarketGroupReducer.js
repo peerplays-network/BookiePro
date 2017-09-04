@@ -28,6 +28,7 @@ export default function (state = initialState, action) {
       let nextState = state;
       action.bettingMarketGroupIds.forEach((bettingMarketGroupId) => {
         nextState = nextState.deleteIn(['bettingMarketGroupsById', bettingMarketGroupId]);
+        nextState = nextState.deleteIn(['getBettingMarketGroupsByIdsLoadingStatus', bettingMarketGroupId]);
       });
       return nextState;
     }

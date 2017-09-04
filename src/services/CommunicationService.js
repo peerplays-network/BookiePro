@@ -333,11 +333,11 @@ class CommunicationService {
     if (apiPlugin) {
       return apiPlugin.exec(methodName, params).then((result) => {
         // Intercept and log
-        log.debug(`Call blockchain ${apiPlugin}\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
+        log.debug(`Call blockchain ${apiPluginName}\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
         return Immutable.fromJS(result);
       }).catch((error) => {
         // Intercept and log
-        log.error(`Error in calling ${apiPlugin}\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nError: `, error);
+        log.error(`Error in calling ${apiPluginName}\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nError: `, error);
         throw error;
       })
     } else {

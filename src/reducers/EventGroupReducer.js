@@ -28,6 +28,7 @@ export default function (state = initialState, action) {
       let nextState = state;
       action.eventGroupIds.forEach((eventGroupId) => {
         nextState = nextState.deleteIn(['eventGroupsById', eventGroupId]);
+        nextState = nextState.deleteIn(['getEventGroupsByIdsLoadingStatus', eventGroupId]);
       })
       return nextState;
     }

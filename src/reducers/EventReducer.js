@@ -49,6 +49,7 @@ export default function (state = initialState, action) {
       action.eventIds.forEach((eventId) => {
         // Remove from eventsById
         nextState = nextState.deleteIn(['eventsById', eventId]);
+        nextState = nextState.deleteIn(['getEventsByIdsLoadingStatus', eventId]);
       });
       return nextState;
     }
