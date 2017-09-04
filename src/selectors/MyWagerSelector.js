@@ -2,10 +2,9 @@ import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import { createSelector } from 'reselect';
 import _ from 'lodash';
-import { Map } from 'immutable';
 import moment from 'moment';
 import { CurrencyUtils, BettingModuleUtils, DateUtils, MyWagerUtils, ObjectUtils } from '../utility';
-import { TimeRangePeriodTypes, MyWagerTabTypes } from '../constants';
+import { TimeRangePeriodTypes, MyWagerTabTypes, LoadingStatus } from '../constants';
 import CommonSelector from './CommonSelector';
 import Immutable from 'immutable';
 
@@ -91,24 +90,6 @@ const getRelatedBetsCollection = createSelector(
   }
 );
 
-
-const getCancelBetsByIdsLoadingStatus = (state) => state.getIn(['bet','cancelBetsByIdsLoadingStatus']);
-
-//function to get rowdata on the basis of activeTab
-const rowData = createSelector(
-  [
-    getActiveTab,
-    getRelatedBetsCollection,
-    getCancelBetsByIdsLoadingStatus
-  ],
-  (activeTab, relatedBetsCollection, cancelBetsByIdsLoadingStatus) => {
-    if (activeTab ===  MyWagerTabTypes.UNMATCHED_BETS) {
-      return relatedBetsCollection.filter(row => !cancelBetsByIdsLoadingStatus.get(row.get('id')));
-    }
-    return relatedBetsCollection;
-  }
-)
-
 const getSportNameByBettingMarketId = createSelector(
   [
     getBettingMarketsById,
@@ -132,44 +113,50 @@ const getSportNameByBettingMarketId = createSelector(
   }
 );
 
+const getCancelBetsByIdsLoadingStatus = (state) => state.getIn(['bet','cancelBetsByIdsLoadingStatus']);
+
 //function to get initial collection with required values from rowData
 const betData = createSelector(
   [
     getActiveTab,
-    rowData,
+    getRelatedBetsCollection,
     startDate,
     endDate,
     getCurrencyFormat,
     getPrecision,
     getAssetsById,
-    getSportNameByBettingMarketId
+    getSportNameByBettingMarketId,
+    getCancelBetsByIdsLoadingStatus
   ],
-  (tab, bets, startDate, endDate, currencyFormat, precision, assetsById, sportNameByBettingMarketId)=>{
-    let newData = [];
+  (tab, bets, startDate, endDate, currencyFormat, precision, assetsById, sportNameByBettingMarketId, cancelBetsByIdsLoadingStatus)=>{
+    let betData = [];
     bets.forEach((bet) => {
-
-      if(tab !== MyWagerTabTypes.RESOLVED_BETS) {
-        newData.push(new Map({key: bet.get('id'),
-          id: bet.get('id'),
-          'betting_market_id': bet.get('betting_market_id'),
-          'back_or_lay': bet.get('back_or_lay'),
-          'stake': CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
-          'odds': bet.get('backer_multiplier'),
-          'sport_name': sportNameByBettingMarketId.get(bet.get('betting_market_id')),
-          'profit_liability': CurrencyUtils.getFormattedCurrency(getProfitLiabilityFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces)}));
-      } else if (tab === MyWagerTabTypes.RESOLVED_BETS && moment(bet.get('resolved_time')).isBetween(startDate, endDate)) {
-        newData.push(new Map({key: bet.get('id'),
-          id: bet.get('id'),
-          'betting_market_id': bet.get('betting_market_id'),
-          'back_or_lay': bet.get('back_or_lay'),
-          'stake': CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
-          'odds': bet.get('backer_multiplier'),
-          'sport_name': sportNameByBettingMarketId.get(bet.get('betting_market_id')),
-          'resolved_time': getFormattedDate(bet.get('resolved_time')),
-          'profit_liability': CurrencyUtils.getFormattedCurrency(bet.get('amount_won')/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces)}));
+      let betObject = Immutable.fromJS({
+        key: bet.get('id'),
+        id: bet.get('id'),
+        betting_market_id: bet.get('betting_market_id'),
+        back_or_lay: bet.get('back_or_lay'),
+        stake: CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
+        odds: bet.get('backer_multiplier'),
+        sport_name: sportNameByBettingMarketId.get(bet.get('betting_market_id')),
+      });
+      if (tab === MyWagerTabTypes.RESOLVED_BETS)  {
+        const profit_liability = CurrencyUtils.getFormattedCurrency(bet.get('amount_won')/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces);
+        const resolved_time = getFormattedDate(bet.get('resolved_time'));
+        betObject = betObject.set('profit_liability', profit_liability);
+        betObject = betObject.set('resolved_time', resolved_time);
+      } else {
+        const profit_liability = CurrencyUtils.getFormattedCurrency(getProfitLiabilityFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces);
+        betObject = betObject.set('profit_liability', profit_liability);
+        // Set cancel bet loading status
+        if (tab === MyWagerTabTypes.UNMATCHED_BETS || tab === MyWagerTabTypes.MATCHED_BETS) {
+          const cancelLoadingStatus = cancelBetsByIdsLoadingStatus.get(bet.get('id')) || LoadingStatus.DEFAULT;
+          betObject = betObject.set('cancel_loading_status', cancelLoadingStatus);
+        }
       }
+      betData.push(betObject);
     });
-    return newData;
+    return betData;
   }
 );
 
@@ -249,7 +236,8 @@ const formatBettingData = (data, activeTab, precision, targetCurrency, startDate
 
     if(activeTab === MyWagerTabTypes.UNMATCHED_BETS){
       rowObj.event_name = <a target='_self'>{ row.get('event_name') }</a>;
-      rowObj.cancel = (row.get('cancelled') ? '' : <a className='btn cancel-btn' target='_self'>{ I18n.t('mybets.cancel') }</a>);
+      rowObj.cancel = (row.get('cancel_loading_status') === LoadingStatus.DEFAULT || row.get('cancel_loading_status') === LoadingStatus.ERROR)
+                        &&  (<a className='btn cancel-btn' target='_self'>{ I18n.t('mybets.cancel') }</a>);
     }
     data[index] = row.merge(rowObj);
   });

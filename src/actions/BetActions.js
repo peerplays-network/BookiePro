@@ -270,7 +270,7 @@ class BetActions {
       dispatch(BetPrivateActions.setMakeBetsLoadingStatusAction(LoadingStatus.LOADING));
 
       if (Config.useDummyData) {
-        // NOTE: Temporarily disabled until we have the real blockchain ready
+        // Dummy Implementation
         console.warn('warning   BetActions.makeBets is currently disabled.');
         // TODO: remove later
         const tr = new TransactionBuilder();
@@ -341,29 +341,55 @@ class BetActions {
    */
   static cancelBets(bets) {
     return (dispatch, getState) => {
-      let betIds = Immutable.List();
-      // Build transaction
-      const tr = new TransactionBuilder();
-      bets.forEach((bet) => {
-        betIds = betIds.push(bet.get('id'));
-        //NOTE:commented as transaction add operation not doing anything
-        console.warn('warning   BetActions.cancelBets is currently disabled.');
-        // Create operation for each bet and attach it to the transaction
-        // const operationParams = {};
-        // const operationType = 'cancel_bet_operation';
-        // tr.add_type_operation(operationType, operationParams);
-      });
 
-      dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
-      // TODO: replace this with valid wallet service process transaction later on
-      WalletService.processFakeTransaction(getState(), tr).then(() => {
-        log.debug('Cancel bets succeed.');
-        dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds,LoadingStatus.DONE));
-      }).catch((error) => {
-        log.error('Fail to cancel bets', error);
-        // Set error
-        dispatch(BetActions.setCancelBetsErrorByBetIdAction(betIds, error));
-      });
+      if (Config.useDummyData) {
+        // Dummy implementation
+        // TODO: remove later
+        let betIds = Immutable.List();
+        const tr = new TransactionBuilder();
+        dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
+        // TODO: replace this with valid wallet service process transaction later on
+        WalletService.processFakeTransaction(getState(), tr).then(() => {
+          log.debug('Cancel bets succeed.');
+          dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds,LoadingStatus.DONE));
+        }).catch((error) => {
+          log.error('Fail to cancel bets', error);
+          // Set error
+          dispatch(BetPrivateActions.setCancelBetsErrorByBetIdAction(betIds, error));
+        });
+      } else {
+        const bettorId = getState().getIn(['account', 'account', 'id']);
+        let betIds = Immutable.List();
+        // Build transaction
+        const tr = new TransactionBuilder();
+        bets.forEach((bet) => {
+          const betId = bet.get('id');
+          betIds = betIds.push(betId);
+          console.warn('warning   BetActions.cancelBets is currently disabled.');
+          // Create operation for each bet and attach it to the transaction
+          const operationParams = {
+            bettor_id: bettorId,
+            bet_to_cancel: betId
+          };
+          const operationType = 'bet_cancel';
+          tr.add_type_operation(operationType, operationParams);
+        });
+
+        dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
+        const accountName = getState().getIn(['account', 'account', 'name']);
+        const password = getState().getIn(['account', 'password']);
+        const keys = KeyGeneratorService.generateKeys(accountName, password);
+        console.log('transaction', tr);
+        WalletService.processTransaction(keys, tr).then(() => {
+          log.debug('Cancel bets succeed.');
+          dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds,LoadingStatus.DONE));
+        }).catch((error) => {
+          log.error('Fail to cancel bets', error);
+          // Set error
+          dispatch(BetPrivateActions.setCancelBetsErrorByBetIdAction(betIds, error));
+        });
+      }
+
     }
   }
 

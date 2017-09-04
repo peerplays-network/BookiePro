@@ -92,7 +92,7 @@ class MyWager extends PureComponent {
   //record is presentaional record not a blockchain bet object
   cancelBet(record, event) {
     //cancelBets expects array of blockchain bet objects so passing single bet object in array
-    this.props.cancelBets(List([Map(record)]));
+    this.props.cancelBets([Map(record)]);
   }
 
   //cancel all bets on Confirmation and hide confirm modal

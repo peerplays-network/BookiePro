@@ -1,4 +1,4 @@
-import { ActionTypes, ConnectionStatus } from '../constants';
+import { ActionTypes, ConnectionStatus, Config } from '../constants';
 import Immutable from 'immutable';
 import moment from 'moment';
 import BetActions from './BetActions';
@@ -254,8 +254,10 @@ class MarketDrawerActions {
     return (dispatch) => {
       dispatch(BetActions.cancelBets(Immutable.List(bets)));
       // TODO DEPRECATE: Once the Blockchain is ready we SHOULD NOT manually remove an unmatched bet
-      console.warn("Warning    Manual removal of unmatched bets in UI should be prohibited once Bet cancellation is available in Blockchain");
-      dispatch(MarketDrawerPrivateActions.deleteManyUnmatchedBets(bets.map(b => b.get('id'))));
+      if (Config.useDummyData) {
+        console.warn("Warning    Manual removal of unmatched bets in UI should be prohibited once Bet cancellation is available in Blockchain");
+        dispatch(MarketDrawerPrivateActions.deleteManyUnmatchedBets(bets.map(b => b.get('id'))));
+      }
     }
   }
 
