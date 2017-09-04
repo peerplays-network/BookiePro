@@ -6,6 +6,7 @@ import BettingMarketGroupActions from './BettingMarketGroupActions';
 import EventActions from './EventActions';
 import EventGroupActions from './EventGroupActions';
 import SportActions from './SportActions';
+import MarketDrawerActions from './MarketDrawerActions';
 import { TransactionBuilder } from 'peerplaysjs-lib';
 import _ from 'lodash';
 import log from 'loglevel';
@@ -301,17 +302,13 @@ class BetActions {
             amountToBet = parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision);
           }
           const operationParams = {
-            fee: {
-              amount: 0,
-              asset_id: 0
-            },
             bettor_id: accountId,
             betting_market_id: bet.get('betting_market_id'),
             amount_to_bet: {
               amount: amountToBet,
               asset_id: betAssetType
             },
-            backer_multiplier: parseFloat(bet.get('odds')) * 10000,
+            backer_multiplier: parseFloat(bet.get('odds')) * Config.oddsPrecision,
             amount_reserved_for_fees: Math.floor(amountToBet * 0.01),
             back_or_lay: bet.get('bet_type')
           };
@@ -345,8 +342,8 @@ class BetActions {
       if (Config.useDummyData) {
         // Dummy implementation
         // TODO: remove later
-        let betIds = Immutable.List();
         const tr = new TransactionBuilder();
+        const betIds = bets.map(bet => bet.get('id'));
         dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
         // TODO: replace this with valid wallet service process transaction later on
         WalletService.processFakeTransaction(getState(), tr).then(() => {
@@ -359,27 +356,22 @@ class BetActions {
         });
       } else {
         const bettorId = getState().getIn(['account', 'account', 'id']);
-        let betIds = Immutable.List();
         // Build transaction
         const tr = new TransactionBuilder();
         bets.forEach((bet) => {
-          const betId = bet.get('id');
-          betIds = betIds.push(betId);
-          console.warn('warning   BetActions.cancelBets is currently disabled.');
           // Create operation for each bet and attach it to the transaction
           const operationParams = {
             bettor_id: bettorId,
-            bet_to_cancel: betId
+            bet_to_cancel: bet.get('id')
           };
           const operationType = 'bet_cancel';
           tr.add_type_operation(operationType, operationParams);
         });
-
+        const betIds = bets.map(bet => bet.get('id'));
         dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
         const accountName = getState().getIn(['account', 'account', 'name']);
         const password = getState().getIn(['account', 'password']);
         const keys = KeyGeneratorService.generateKeys(accountName, password);
-        console.log('transaction', tr);
         WalletService.processTransaction(keys, tr).then(() => {
           log.debug('Cancel bets succeed.');
           dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds,LoadingStatus.DONE));
@@ -396,34 +388,95 @@ class BetActions {
   /**
    * Edit bets
    * bets - array of edited blockchain bet objects
+   * e.g.
+   * [{
+   * "odds": "2.00",
+   * "profit": "3.00000",
+   * "bet_type": "back",
+   * "original_stake": "2.000",
+   * "liability": "3.00000",
+   * "original_odds": "2.00",
+   * "bettor_id": "1.2.28",
+   * "betting_market_description": "Dallas Mavericks",
+   * "betting_market_group_description": "Moneyline",
+   * "stake": "3.000",
+   * "updated": true,
+   * "id": "1.22.54",
+   * "betting_market_id": "1.21.3"
+   * }]
    */
   static editBets(bets) {
     return (dispatch, getState) => {
-      let betIds = Immutable.List();
-      const tr = new TransactionBuilder();
-      bets.forEach((bet) => {
-        betIds = betIds.push(bet.get('id'));
-        // NOTE: This will be commented out until we have the actual Blockchain
-        console.warn('warning   BetActions.editBets is currently disabled.');
-        // Create operation for each bet and attach it to the transaction
-        //const cancelOperationParams = {};
-        //const cancelOperationType = 'cancel_bet_operation';
-        // Add cancel operation
-        //tr.add_type_operation(cancelOperationType, cancelOperationParams);
-        // Add create operation
-        //const createOperationParams = {};
-        //const createOperationType = 'bet_operation';
-        //tr.add_type_operation(createOperationType, createOperationParams);
-      });
-      dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
-      // TODO: replace this with valid wallet service process transaction later on
-      WalletService.processFakeTransaction(getState(), tr).then(() => {
-        dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.DONE));
-      }).catch((error) => {
-        log.error('Fail to edit bets', error);
-        // Set error
-        dispatch(BetPrivateActions.setEditBetsErrorByBetIdAction(betIds, error));
-      });
+      if (Config.useDummyData) {
+        // TODO: remove later
+        const tr = new TransactionBuilder();
+        bets.forEach((bet) => {
+          // NOTE: This will be commented out until we have the actual Blockchain
+          console.warn('warning   BetActions.editBets is currently disabled.');
+        });
+        const betIds = bets.map(bet => bet.get('id'));
+        dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
+        WalletService.processFakeTransaction(getState(), tr).then(() => {
+          dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.DONE));
+        }).catch((error) => {
+          log.error('Fail to edit bets', error);
+          // Set error
+          dispatch(BetPrivateActions.setEditBetsErrorByBetIdAction(betIds, error));
+        });
+      } else {
+        const tr = new TransactionBuilder();
+        bets.forEach((bet) => {
+          // Add cancel bet operation
+          const cancelBetOperationParams = {
+            bettor_id: bet.get('bettor_id'),
+            bet_to_cancel: bet.get('id')
+          };
+          const cancelBetOperationType = 'bet_cancel';
+          tr.add_type_operation(cancelBetOperationType, cancelBetOperationParams);
+
+          // Followed up with add bet operation with the new parameter
+          const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', bet.get('betting_market_id')]);
+          const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
+          const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
+          const betAssetType = (bettingMarketGroup && bettingMarketGroup.get('asset_id')) || '1.3.0';
+          const betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
+          let amountToBet = 0;
+          if (bet.get('bet_type') === BetTypes.BACK) {
+            amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
+          } else if (bet.get('bet_type') === BetTypes.LAY) {
+            amountToBet = parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision);
+          }
+          const betPlaceOperationParams = {
+            bettor_id: bet.get('bettor_id'),
+            betting_market_id: bet.get('betting_market_id'),
+            amount_to_bet: {
+              amount: amountToBet,
+              asset_id: betAssetType
+            },
+            backer_multiplier: parseFloat(bet.get('odds')) * Config.oddsPrecision,
+            amount_reserved_for_fees: Math.floor(amountToBet * 0.01),
+            back_or_lay: bet.get('bet_type')
+          };
+          const betPlaceOperationType = 'bet_place';
+          tr.add_type_operation(betPlaceOperationType, betPlaceOperationParams);
+        });
+
+        const betIds = bets.map(bet => bet.get('id'));
+        dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
+        // Process transactions
+        const accountName = getState().getIn(['account', 'account', 'name']);
+        const password = getState().getIn(['account', 'password']);
+        const keys = KeyGeneratorService.generateKeys(accountName, password);
+        WalletService.processTransaction(keys, tr).then(() => {
+          // Update status
+          dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.DONE));
+        }).catch((error) => {
+          log.error('Fail to edit bets', error);
+          // Set error
+          dispatch(BetPrivateActions.setEditBetsErrorByBetIdAction(betIds, error));
+        });
+      }
+
     }
   }
 }
