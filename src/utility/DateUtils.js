@@ -7,7 +7,12 @@ const days = [I18n.t('mybets.sun'), I18n.t('mybets.mon'),I18n.t('mybets.tue'), I
 
 
 const DateUtils = {
-  //dateToFormat is unixformat date
+  /**
+   * calculate start date and end date given time range period data
+   *
+   * @param {date} - dateToFormat, date to be formated, assumed to be in unixformat date
+   * @returns {string} - formatted string
+   */
   getFormattedDate(dateToFormat){
     if(moment(new Date(dateToFormat)).format("MM-DD-YYYY") === moment().format("MM-DD-YYYY"))
       return I18n.t('mybets.today') + ', ' + moment(new Date(dateToFormat)).format("HH:mm");
@@ -19,14 +24,17 @@ const DateUtils = {
       return moment(new Date(dateToFormat)).format("MM-DD-YYYY HH:mm");
     }
   },
-  /**
-   * Return time range object, i.e.
-   * {
-   *  startDate,
-   *  endDate
-   * }
-   * given the timeRangePeriodType (defined in constants)
-   */
+
+   /**
+    * calculate start date and end date given time range period data
+    *
+    * @param {string} - timeRangePeriodType, defined in constants
+    * @returns {object} - time range object, i.e.
+    * {
+    *  startDate,
+    *  endDate
+    * }
+    */
   getTimeRangeGivenTimeRangePeriodType(timeRangePeriodType) {
     let startDate, endDate = null;
     switch (timeRangePeriodType) {

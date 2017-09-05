@@ -1,3 +1,6 @@
+/**
+ * The MyWagerUtils contains all the functions shared within My Wager component.
+ */
 import React from 'react';
 import { I18n, Translate } from 'react-redux-i18n';
 import CurrencyUtils from './CurrencyUtils';
@@ -20,6 +23,14 @@ const mergeRelationData = (collection, relationalCollection, relationId, mergeCo
   return collection;
 }
 
+/**
+ *  get list of unmatched bets to be served as data in unmatched bets columns
+ *
+ * @param {string} currency - display currency, 'BTC' or 'mBTC'
+ * @param {callback} onCancelBetClick - callback funciton upon clicking on cancel bet button
+ * @param {callback} onEventClick - callback funciton upon clicking on event cell
+ * @returns {list} - list of objects with 'title', 'dataIndex', 'key' and 'onCellClick'(optional)
+ */
 const getUnmatchedBetsColumns = (currencyFormat, onCancelBetClick, onEventClick) => {
   const currencySymbol = '(' + CurrencyUtils.getCurruencySymbol(currencyFormat) + ')';
   const profitLiabilityTitle  = <Translate value='mybets.profit_liability' currency={ currencySymbol } dangerousHTML/> ;
@@ -69,6 +80,12 @@ const getUnmatchedBetsColumns = (currencyFormat, onCancelBetClick, onEventClick)
   ];
 }
 
+/**
+ *  get list of matched bets to be served as data in matched bets columns
+ *
+ * @param {string} currency - display currency, 'BTC' or 'mBTC'
+ * @returns {list} - list of objects with 'title', 'dataIndex', 'key' and 'onCellClick'(optional)
+ */
 const getMatchedBetsColumns = (currencyFormat) => {
   const currencySymbol = '(' + CurrencyUtils.getCurruencySymbol(currencyFormat) + ')';
   const profitLiabilityTitle  = <Translate value='mybets.profit_liability' currency={ currencySymbol } dangerousHTML/> ;
@@ -111,6 +128,12 @@ const getMatchedBetsColumns = (currencyFormat) => {
   ];
 }
 
+/**
+ *  get list of resolved bets to be served as data in resolved bets columns
+ *
+ * @param {string} currency - display currency, 'BTC' or 'mBTC'
+ * @returns {list} - list of objects with 'title', 'dataIndex', 'key' and 'onCellClick'(optional)
+ */
 const getResolvedBetsColumns = (currencyFormat) => {
   const currencySymbol = '(' + CurrencyUtils.getCurruencySymbol(currencyFormat) + ')';
   return [

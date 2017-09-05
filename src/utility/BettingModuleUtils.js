@@ -1,3 +1,10 @@
+/**
+ * The BettingModuleUtils contains all the common calculation related to betting.
+ *
+ * Ranging from odds/stake/exposure to payout/book percentage/ calculation
+ *
+ * Those utility functions are mostly used in betslips, betting widgets and betting drawers components.
+ */
 import { BetTypes } from '../constants';
 import _ from 'lodash';
 import Immutable from 'immutable';
@@ -26,9 +33,17 @@ var BettingModuleUtils = {
 
   //  =========== Bet Calculations ===========
 
-  //Appendix I – Summary of Formulas
-  // Stake = Profit / (Odds – 1)
-  // Backer's Stake = Liability / (Odds – 1)
+  /**
+   *  Calculate stake or liability based on odds, profit/liability
+   *
+   *  Stake = Profit / (Odds – 1)
+   *  Backer's Stake = Liability / (Odds – 1)
+   *
+   * @param {string} odds
+   * @param {string} profit - profit or liability
+   * @param {string} currency - display currency, 'BTC' or 'mBTC'
+   * @returns {string} - stake, based on either BTC or mBTC
+   */
   getStake: function(odds, profit, currency = 'BTC') {
     const floatProfit = parseFloat(profit);
     const floatOdds = parseFloat(odds);
@@ -45,8 +60,17 @@ var BettingModuleUtils = {
 
   },
 
-  // Profit = Stake * (Odds – 1)
-  // Liability = Backer's Stake * (Odds – 1)
+  /**
+   *  Calculate profit or liability based on stake and odds
+   *
+   *  Profit = Stake * (Odds – 1)
+   *  Liability = Backer's Stake * (Odds – 1)
+   *
+   * @param {string} stake
+   * @param {string} odds
+   * @param {string} currency - display currency, 'BTC' or 'mBTC'
+   * @returns {string} - profit of liability, based on either BTC or mBTC
+   */
   getProfitOrLiability: function(stake, odds, currency = 'BTC') {
     const floatStake = parseFloat(stake);
     const floatOdds = parseFloat(odds);
@@ -63,7 +87,16 @@ var BettingModuleUtils = {
 
   },
 
-  //Payout = Backer’s Stake * Odds
+  /**
+   *  Calculate payout based on stake and odds
+   *
+   *  Payout = Backer’s Stake * Odds
+   *
+   * @param {string} odds : odds
+   * @param {string} stake : stake
+   * @param {string} currency - display currency, 'BTC' or 'mBTC'
+   * @returns {string} - payout, based on either BTC or mBTC
+   */
   getPayout: function(stake, odds, currency = 'BTC') {
     const floatStake = parseFloat(stake);
     const floatOdds = parseFloat(odds);
@@ -83,22 +116,27 @@ var BettingModuleUtils = {
 
   //  =========== Exposure ===========
 
-  // Matched Exposure (Pending Change Request)
-  // Case    Exposure of the selection that the bet originates from    All other selection’s exposure
-  // A back bet is matched    + Profit(BTC)   - Stake(BTC)
-  // A lay bet is matched    - Liability(BTC)    + Backer’s Stake(BTC)
-  //
-  // Betslip Exposure (Pending Change Request)
-  // Case    Exposure of the selection that the bet originates from    All other selection’s exposure
-  // A full back bet betslip is filled    + Profit(BTC)   - Stake(BTC)
-  // A full lay bet betslip is filled    - Liability(BTC)   + Backer’s Stake(BTC)
-  //
-  // Parameters:
-  //  bettingMarketId, String : id of the betting market for which expsoure calculation specified
-  //  bets: unconfirmedBets, Immutable.List : marketDrawer.unconfirmedBets stored in redux
-
-  // Returns:
-  //  exposure of the target betting market
+  /**
+   *  Calculate Matched exposure based on betting market data and bets
+   *  NOTE :  Matched Exposure is not ready yet
+   *
+   *  Matched Exposure (Pending Change Request)
+   *  Case                   |  Exposure of the selection that   | All other selection’s exposure
+   *                         |  the bet originates from          |
+   * ------------------------+-----------------------------------+---------------------------------
+   *  A back bet is matched  |      + Profit(BTC)                | - Stake(BTC)
+   *  A lay bet is matched   |      - Liability(BTC)             | + Backer’s Stake(BTC)
+   *
+   *  Betslip Exposure (Pending Change Request)
+   *  Case    Exposure of the selection that the bet originates from    All other selection’s exposure
+   *  A full back bet betslip is filled    + Profit(BTC)   - Stake(BTC)
+   *  A full lay bet betslip is filled    - Liability(BTC)   + Backer’s Stake(BTC)
+   *
+   * @param {string} bettingMarketId : id of the betting market for which expsoure calculation specified
+   * @param {Immutable.List} bets - unconfirmedBets, marketDrawer.unconfirmedBets stored in redux
+   * @param {string} currency - display currency, 'BTC' or 'mBTC'
+   * @returns {string} - exposure of the target betting market, either BTC or mBTC, based on currency param
+   */
   getExposure: function(bettingMarketId, bets , currency = 'BTC'){
     let exposure = 0.0
 
@@ -144,13 +182,15 @@ var BettingModuleUtils = {
 
   //  =========== Book Percentage  ===========
 
-  // Back Book Percentage: (100% / Best Back Odds of Selection 1) + … + (100% / Best Back Odds of Selection n)
-  // Lay Book Percentage: (100% / Best Lay Odds of Selection 1) + … + (100% / Best Lay Odds of Selection n)
-
-  // Parameters:
-  //  bestOfferList : BestBackOddsPerMarket  Immutable.List : the best grouped back odds of each selection
-  // Returns:
-  //  BackBookPercentage: the back book percentage of the market
+  /**
+   *  Calculate book percentage with provided best back/lay odds of selection. Formula is as follow:
+   *
+   *  Back Book Percentage: (100% / Best Back Odds of Selection 1) + … + (100% / Best Back Odds of Selection n)
+   *  Lay Book Percentage: (100% / Best Lay Odds of Selection 1) + … + (100% / Best Lay Odds of Selection n)
+   *
+   * @param {Immutable.List} - bestOfferList-  bets which have the best offer among the bets in same market.
+   * @returns {integer} - book percentage in a certain market, rounded to nearest integer
+   */
   getBookPercentage: function( bestOfferList){
 
     const backBookPercent = bestOfferList.reduce( (total, offer) => total + ( 100 / offer.get('odds') ) , 0.0);
@@ -160,14 +200,15 @@ var BettingModuleUtils = {
 
   //  =========== Betting Drawer =========== CR-036 page 2
 
-  // Total (Betslip) = ∑ Back Bet’s Stake(BTC) & Lay Bet’s Liability(BTC) in the Betslip section
-  //
-  // Parameters:
-  // bets : unconfirmedBets, Immutable.List : marketDrawer.unconfirmedBets stored in redux
-  // currency : display currency
-  //
-  // Returns:
-  //  total
+  /**
+   *  calculate total vale of betslip,
+   *
+   *  Total (Betslip) = ∑ Back Bet’s Stake(BTC) & Lay Bet’s Liability(BTC) in the Betslip section
+   *
+   * @param {Immutable.List} bets - unconfirmedBets in betslip, marketDrawer.unconfirmedBets stored in redux
+   * @param {string} currency - display currency, 'BTC' or 'mBTC'
+   * @returns {double} - total: total value of betslip
+   */
   getBetslipTotal: function( bets, currency = 'BTC'){
 
     const accumulator = (total, bet) => {
@@ -193,7 +234,8 @@ var BettingModuleUtils = {
     return CurrencyUtils.getFormattedCurrency( total , currency, exposurePlaces);
 
   },
-  /*
+
+  /**
    *  =========== Average Odds (CR-036) ===========
    *  Matched Back Bets
    *  Grouped Profit = ∑ Profit
@@ -205,17 +247,6 @@ var BettingModuleUtils = {
    *  Grouped Backer’s Stake = ∑ Backer’s Stake
    *  Average Odds (round to 2 decimal places) = (∑ Backer’s Stake + ∑ Liability) / ∑ Backer’s Stake
    *
-   *  Parameters:
-   *  matchedBets - list of matched bets with the same bet type, i.e. all back or all lay
-   *  currency - string representing the currency used in the final calculated values
-   *  precision - by default the average odds shpuld be rounded to 2 decimal places
-   *
-   *  Return:
-   *  Immuatable object that has the following fields:
-   *    - averageOdds
-   *    - groupedProfitOrLiability
-   *    - groupedStake
-   *
    *  There is no clear distinction between profit and liability. They are
    *  essentially calculated in the same way using odds and stake (back) or
    *  backer's stake (lay) but are presented using different labels.
@@ -226,6 +257,13 @@ var BettingModuleUtils = {
    *  should be transformed into the normalized format at the Reducer level using
    *  the following common function: /src/reducers/dataUtils.js
    *
+   * @param {Immutable.List} matchedBets - list of matched bets with the same bet type, i.e. all back or all lay
+   * @param {string} currency - display currency, 'BTC' or 'mBTC'
+   * @param {integer} precision - ( ***BTC*** base), either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
+   * @returns {Immutable.Maps} - total valu object which has the following fields:
+   *    - averageOdds
+   *    - groupedProfitOrLiability
+   *    - groupedStake
    */
   calculateAverageOddsFromMatchedBets: function(matchedBets, currency = 'BTC', precision = 2) {
     // Assume all the bets are of the same bet type so we can just sample from the first bet
@@ -240,8 +278,12 @@ var BettingModuleUtils = {
       groupedStake: CurrencyUtils.getFormattedCurrency( groupedStake, currency, stakePlaces),
     });
   },
-  /*
-   * Return true if the argument is a valid bet ready for submitting to the Blockchain
+
+  /**
+   * check if the bet valud to submit to the Blockchain
+   *
+   * @param { Immutable.Maps} - bet
+   * @returns {boolean} - if the bet valid
    */
   isValidBet: function(bet) {
     return !isFieldInvalid(bet, 'odds') && !isFieldInvalid(bet, 'stake');

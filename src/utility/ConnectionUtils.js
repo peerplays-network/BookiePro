@@ -1,11 +1,13 @@
+/**
+ * The ConnectionUtils contains all the network connection checking functions.
+ */
 import { Apis } from 'peerplaysjs-ws';
 
-/**
- * Utility to check connection
- */
 const ConnectionUtils = {
+  
   /**
    * Check if the app is connected to internet through Navigator object
+   * @returns {boolean} - if window.navigator currrently connected to network
    */
   isConnectedToInternet() {
     return !!(window.navigator && window.navigator.onLine);
@@ -13,6 +15,7 @@ const ConnectionUtils = {
 
   /**
    * Check if websocket is open through websocket ready state
+   * @returns {boolean} - if websocket connnecting to peerplaysjs-ws ready.
    */
   isWebsocketOpen() {
     const websocketReadyState = Apis.instance() && Apis.instance().ws_rpc && Apis.instance().ws_rpc.ws && Apis.instance().ws_rpc.ws.readyState;

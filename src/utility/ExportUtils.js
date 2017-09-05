@@ -1,6 +1,15 @@
+/**
+ * The ExportUtils contains all the functions related to excel export.
+ */
 import Excel from 'excel-export';
 
-//get a xls type based on js type
+/**
+ * get a xls type based on js type
+ *
+ * @param {object} object, js object
+ * @param {string} type, js type
+ * @returns {string} - xls type
+ */
 function getType(object, type) {
   if (type) {
     return type;
@@ -17,7 +26,13 @@ function getType(object, type) {
   }
 }
 
-//get a nested property from a JSON object given its key, i.e 'a.b.c'
+/**
+ * get a nested property from a JSON object given its key path
+ *
+ * @param {object} object, js object
+ * @param {string} path, i.e 'a.b.c'
+ * @returns {object} - retrieved nested object
+ */
 function getByString(object, path) {
   path = path.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
   path = path.replace(/^\./, ''); // strip a leading dot
@@ -33,7 +48,13 @@ function getByString(object, path) {
   return object;
 }
 
-//convert binary content to bytes
+
+/**
+ * //convert binary content to bytes
+ *
+ * @param {string} binary contents
+ * @returns {array} - bytes array in uint 8 
+ */
 function convertStringToBytes (str) {
   var bytes = new Uint8Array(str.length);
   for (var i=0; i<str.length; i++) {
@@ -42,7 +63,13 @@ function convertStringToBytes (str) {
   return bytes;
 }
 
-//prepare rows and columns from JSON
+/**
+ * prepare rows and columns from JSON based on config input
+ *
+ * @param {object} json, js object
+ * @param {object} config
+ * @returns {object} - json object via rows and columns lists
+ */
 var prepareTableRowsColumnsFromJSON = function(json, config) {
   var result = {};
   var conf = config || {};

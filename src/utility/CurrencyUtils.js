@@ -1,3 +1,6 @@
+/**
+ * The CurrencyUtils contains all the functions related to currency conversion function
+ */
 const bitcoinSymbol = '\u0243';
 const mBitcoinSymbol = 'm' + bitcoinSymbol;
 
