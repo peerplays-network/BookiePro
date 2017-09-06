@@ -1,10 +1,34 @@
+/**
+ * This component represents the login form
+ * It uses 'redux-form' library to generate form fields and perform field validations.
+ * It is used in Login component
+ */
 import React from 'react';
 import { Field, reduxForm } from 'redux-form/immutable';
 import { I18n } from 'react-redux-i18n';
 import { LoadingStatus } from '../../constants';
 import { AuthUtils } from '../../utility';
 
-//Component for text field
+/**
+ * This statless function generates the username and password field. It is passed as the
+ * `component` prop to the redux-form's 'Field/Fields' components.
+ *
+ * @param {object} - other custom props passed to the 'Field' component.
+ *
+ * The parameter `object` contains the following:
+ *   tabIndex    : the tab index of the input control
+ *   errors      : an object containing errors obtained after peforming validations
+ *                 It is used to display the error text below the input field generated
+ *   placeholder : the placeholder text for the input control
+ *   input       : interally used by 'redux-form' to connect the input component to Redux
+ *   type        : the type of input control
+ *   meta        : contains metadata about the state of this field that redux-form is tracking.
+ *     Some of the props that are used under meta prop are:
+ *       touched : true if the field has been touched. By default this will be set when the field is blurred.
+ *       error   : The error for this field if its value is not passing validation.
+ *                 Both synchronous, asynchronous, and submit validation errors will be reported here.
+ *       value   : the input value
+ */
 const renderField = ({  tabIndex, className, errors, placeholder, input, type,
 	meta: {  touched, error, dirty }  }) => (
 
@@ -18,6 +42,10 @@ const renderField = ({  tabIndex, className, errors, placeholder, input, type,
 	</div>
 );
 
+/**
+ * accountname validation - normalize - restrict user to enter invalid characters
+ * signup button disabled if username or password not entered
+ */
 const LoginForm = (props) => {
   const { pristine, handleSubmit, invalid, submitting, asyncValidating, onClickSignup, errors, status } = props;
   return (
