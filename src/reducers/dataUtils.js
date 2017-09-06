@@ -1,16 +1,15 @@
 import Immutable from 'immutable';
 
-/*
+/**
  * Transform the source bet object into a normalized form for the app
  *
  * NOTE: Currently odds and stake are stored as number in dummy data
  *       Tney are converted to String here for easier comparsion with User Input
  * TODO: REVIEW this again once we have real Blockchain data
  *
- * Parameters:
- * bet - a bet object coming from the Blockchain (dummy data)
+ * @param {object} bet - a bet object coming from the Blockchain
  *
- * Return an immuatble map that may contain either or both the matched and unmatched
+ * @return {object} - an immuatble map that contains the unmatched
  * portion of the bet as newly created bet object(s) using the original Bet Id.
  */
 const transformUnmatchedBetObject = bet => {
@@ -42,10 +41,9 @@ const transformUnmatchedBetObject = bet => {
  *       Tney are converted to String here for easier comparsion with User Input
  * TODO: REVIEW this again once we have real Blockchain data
  *
- * Parameters:
- * bet - a bet object coming from the Blockchain (dummy data)
+ * @param {object} bet - a bet object coming from the Blockchain
  *
- * Return an immuatble map that may contain either or both the matched and unmatched
+ * @return {object} - an immuatble map that contains the matched
  * portion of the bet as newly created bet object(s) using the original Bet Id.
  */
 const transformMatchedBetObject = bet => {
