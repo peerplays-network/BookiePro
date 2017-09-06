@@ -33,7 +33,7 @@ class TimeRangePicker extends PureComponent {
 
   /**
    * Called when the 'Search' button is clicked
-   * All selected filter option data and the result data is saved in their respective stores
+   * All selected filter option data and the result data are saved in their respective stores
    * and displayed on the transaction history or resolved bets table
    *
    * @param {object} e - The 'Search' button click event
@@ -46,7 +46,7 @@ class TimeRangePicker extends PureComponent {
 
   /**
    * Called when the 'Export' button is clicked
-   * All selected filter option data and the result data is saved in their respective stores
+   * All selected filter option data and the result data are saved in their respective stores
    * and made ready to be exported to an excel file, which will be downloaded
    *
    * @param {object} e - The 'Export' button click event
@@ -103,9 +103,9 @@ class TimeRangePicker extends PureComponent {
    * This function renders 'antd' datepicker controls for From and To dates
    * when the 'Custom' period type is selected.
    * It performs validations to disable out of range dates for 'From' and 'To' dates :
-   *   If the a 'From' Date is selected :
+   *   If the 'From' Date is selected :
    *    all dates before the selected 'From' date will be disabled in 'To' date control
-   *   If the a 'To' Date is selected :
+   *   If the 'To' Date is selected :
    *    all dates after the selected 'To' date will be disabled in 'From' date controm
    * The format of the dates selected would be in 'YYYY-MM-DD' format
    */
