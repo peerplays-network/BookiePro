@@ -8,8 +8,8 @@ import React from 'react';
  * If the event name does not contains `vs`, it will be returned as a JSX component too.
  * But the name will be unchanged.
  *
- * @param {string} - name, date to be formated, assumed to be in unixformat date
- * @returns {JSX component} - component displaying event name
+ * @param {string} name - event name to be formatted
+ * @returns {object} - JSX component displaying event name either formatted or not
  */
 const breakAtVs = (name) => {
   let formatted = (<span>{ name }</span>);
