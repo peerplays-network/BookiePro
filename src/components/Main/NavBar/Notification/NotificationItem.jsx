@@ -1,5 +1,5 @@
 /**
- * This component display notification with cancel button
+ * This component displays notification with cancel button.
  * NotificationItem is used in {@link Notification}
  */
 import React, { PureComponent } from 'react';
@@ -39,7 +39,7 @@ class NotificationItem extends PureComponent{
     if (this.props.isCloseButtonVisible) {
       return (
        <i className='close-button' onClick={ this.onClickClose } />
-     );
+      );
     }
   }
 

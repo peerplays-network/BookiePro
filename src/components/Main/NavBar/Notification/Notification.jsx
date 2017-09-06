@@ -1,5 +1,5 @@
 /**
- * This component display list of new notifications
+ * This component displays list of new notifications.
  * Sub-component used in Notification
  *   {@link NotificationItem} - used to render individual notification
  */
