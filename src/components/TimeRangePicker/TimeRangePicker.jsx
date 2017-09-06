@@ -1,3 +1,12 @@
+/**
+ * This component generates the search filter controls as well as the 'Search' and 'Export' buttons
+ * It uses 'antd' Select and DatePicker controls to generate
+ * the 'Period' dropdown and 'From and To date' fields respectively
+ * Constants used in this component are defined in 'TimeRangePeriodTypes'
+ * This component is used in the following 2 components:
+ *   {@link TransactionHistory}
+ *   {@link ResolvedBets}
+ */
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
@@ -22,18 +31,38 @@ class TimeRangePicker extends PureComponent {
     this.onCustomTimeRangePickerEndDateChange = this.onCustomTimeRangePickerEndDateChange.bind(this);
   }
 
+  /**
+   * Called when the 'Search' button is clicked
+   * All selected filter option data and the result data are saved in their respective stores
+   * and displayed on the transaction history or resolved bets table
+   *
+   * @param {object} e - The 'Search' button click event
+   */
   onSearchClick(e) {
     e.preventDefault();
     this.props.onSearchClick(this.state.periodType, this.state.customTimeRangeStartDate, this.state.customTimeRangeEndDate);
     this.setState({ disableExportButton: false });
   }
 
+  /**
+   * Called when the 'Export' button is clicked
+   * All selected filter option data and the result data are saved in their respective stores
+   * and made ready to be exported to an excel file, which will be downloaded
+   *
+   * @param {object} e - The 'Export' button click event
+   */
   onExportClick(e) {
     e.preventDefault();
     this.props.onExportClick(this.state.periodType, this.state.customTimeRangeStartDate, this.state.customTimeRangeEndDate);
   }
 
-
+  /**
+   * This function is bound to the 'onChange' callback function of the 'From Date' datepicker control (antd)
+   * It will be called everytime the 'from' date value is changed
+   * It tracks the selected 'from' date
+   *
+   * @param {string} customTimeRangeStartDate - The selected 'From' Date
+   */
   onCustomTimeRangePickerStartDateChange(customTimeRangeStartDate) {
     // Get start of day
     customTimeRangeStartDate = customTimeRangeStartDate.startOf('day');
@@ -42,6 +71,13 @@ class TimeRangePicker extends PureComponent {
     this.props.onPeriodChange(this.state.periodType, customTimeRangeStartDate, this.state.customTimeRangeEndDate);
   }
 
+  /**
+   * This function is bound to the 'onChange' callback function of the 'To Date' datepicker control (antd)
+   * It will be called everytime the 'To' date value is changed
+   * It tracks the selected 'To' date
+   *
+   * @param {string} customTimeRangeEndDate - The selected 'To' Date
+   */
   onCustomTimeRangePickerEndDateChange(customTimeRangeEndDate) {
     // Get end of day
     customTimeRangeEndDate = customTimeRangeEndDate.endOf('day');
@@ -50,12 +86,29 @@ class TimeRangePicker extends PureComponent {
     this.props.onPeriodChange(this.state.periodType, this.state.customTimeRangeStartDate, customTimeRangeEndDate);
   }
 
+  /**
+   * This function is bound to the 'onChange' callback function of the 'Period' dropdown control (antd)
+   * It will be called everytime the period type is changed
+   * It tracks the selected period type
+   *
+   * @param {string} periodType - The selected period type
+   */
   onChange(periodType) {
     this.setState({ periodType, customTimeRangeStartDate: null, endDate: null, disableExportButton: true });
     // Call callback
     this.props.onPeriodChange(periodType, null, null);
   }
 
+  /**
+   * This function renders 'antd' datepicker controls for From and To dates
+   * when the 'Custom' period type is selected.
+   * It performs validations to disable out of range dates for 'From' and 'To' dates :
+   *   If the 'From' Date is selected :
+   *    all dates before the selected 'From' date will be disabled in 'To' date control
+   *   If the 'To' Date is selected :
+   *    all dates after the selected 'To' date will be disabled in 'From' date controm
+   * The format of the dates selected would be in 'YYYY-MM-DD' format
+   */
   renderCustomTimeRangePicker() {
     // Only shows when period type is custom
     if (this.state.periodType === TimeRangePeriodTypes.CUSTOM) {
