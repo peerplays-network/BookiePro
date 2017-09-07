@@ -6,7 +6,6 @@
  * For the list of supported blockchain-objects, please refer to https://bitbucket.org/ii5/bookie/wiki/blockchain-objects/index
  */
 import { BetCategories, EventStatus } from '../constants';
-import moment from 'moment';
 
 /**
  * caluclate the stake from be object, supporting categories including unmatched bets and matched bets, and bet type including both back and lay.
