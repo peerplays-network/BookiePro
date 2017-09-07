@@ -1,4 +1,5 @@
 import Config from './Config';
+import { ChainTypes } from 'peerplaysjs-lib';
 
 // TODO: when js library is ready, remove this and use ChainTypes
 let DummyOperationTypes;
@@ -12,11 +13,11 @@ if (Config.useDummyData) {
   }
 } else {
   DummyOperationTypes = {
-    MAKE_BET: 57,
-    CANCEL_BET: 63,
-    BET_MATCHED: 62,
-    BETTING_MARKET_RESOLVED: 59,
-    BET_CANCELLED: 64,
+    MAKE_BET: ChainTypes.operations.bet_place,
+    CANCEL_BET: ChainTypes.operations.bet_cancel,
+    BET_MATCHED: ChainTypes.operations.bet_matched,
+    BETTING_MARKET_RESOLVED: ChainTypes.operations.betting_market_group_resolved,
+    BET_CANCELLED: ChainTypes.operations.bet_canceled,
   }
 }
 
