@@ -11,6 +11,7 @@ let initialState = Immutable.fromJS({
   groupByAverageOdds: false,
   unconfirmedbetsToBeDeleted: Immutable.List(),
   unmatchedbetsToBeDeleted: Immutable.List(),
+  bettingMarketGroupId: null
 });
 
 export default function(state = initialState, action) {

@@ -213,6 +213,8 @@ class BetActions {
         }).then(() => {
           // Set my bets
           dispatch(BetPrivateActions.updateMyBetsAction(myBets));
+          // Update market drawer placed bets
+          dispatch(MarketDrawerActions.updatePlacedBets());
           // Setstatus
           dispatch(BetPrivateActions.setCheckForNewMyBetsLoadingStatusAction(LoadingStatus.DONE));
           log.debug('Check for new my bets succeed.');

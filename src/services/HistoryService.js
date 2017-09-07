@@ -168,9 +168,11 @@ class HistoryService {
       switch (operationType) {
         case DummyOperationTypes.MAKE_BET: {
           // Create unmatched bets object
-          const betId = operationResult
+          const betId = operationResult;
+          const id =  rawTransaction.get('id');
           const unmatchedBet = Immutable.fromJS({
-            id: betId,
+            id,
+            original_bet_id: betId,
             category: BetCategories.UNMATCHED_BET,
             bettor_id: operationContent.get('bettor_id'),
             betting_market_id: operationContent.get('betting_market_id'),
@@ -180,55 +182,51 @@ class HistoryService {
             original_bet_amount: operationContent.getIn(['amount_to_bet', 'amount']),
             unmatched_bet_amount: operationContent.getIn(['amount_to_bet', 'amount'])
           });
-          unmatchedBetsById = unmatchedBetsById.set(betId, unmatchedBet);
+          unmatchedBetsById = unmatchedBetsById.set(id, unmatchedBet);
           break;
         }
         case DummyOperationTypes.BET_CANCELLED: {
           const betId = operationContent.get('bet_id');
-          unmatchedBetsById = unmatchedBetsById.delete(betId);
+          unmatchedBetsById = unmatchedBetsById.filterNot( bet => {
+            return bet.get('original_bet_id') === betId;
+          });
           break;
         }
         case DummyOperationTypes.BET_MATCHED: {
           const betId = operationContent.get('bet_id');
           // Get unmatched bet
-          let unmatchedBet = unmatchedBetsById.get(betId);
+          let unmatchedBet = unmatchedBetsById.find(bet => bet.get('original_bet_id') === betId);
           if (unmatchedBet && !unmatchedBet.isEmpty()) {
             const originalAmount = unmatchedBet.get('original_bet_amount');
             const unmatchedAmount = unmatchedBet.get('unmatched_bet_amount');
             const matchedAmount = operationContent.getIn(['amount_bet', 'amount']);
+            const matchedBackerMultiplier = operationContent.get('backer_multiplier') / oddsPrecision;
             const updatedUnmatchedAmount = unmatchedAmount - matchedAmount;
             // Modify unmatched bet
             // Remove it if it reaches 0
             if (updatedUnmatchedAmount <= 0) {
-              unmatchedBetsById = unmatchedBetsById.delete(betId);
+              unmatchedBetsById = unmatchedBetsById.delete(unmatchedBet.get('id'));
             } else {
               unmatchedBet = unmatchedBet.set('unmatched_bet_amount', updatedUnmatchedAmount);
-              unmatchedBetsById = unmatchedBetsById.set(betId, unmatchedBet);
+              unmatchedBetsById = unmatchedBetsById.set(unmatchedBet.get('id'), unmatchedBet);
             }
 
+            const id =  rawTransaction.get('id');
             // Check if there is existing matchedBet object
-            let matchedBet = matchedBetsById.get(betId);
-            // If it doesn't exist yet, create new one
-            if (!matchedBet || matchedBet.isEmpty()) {
-              matchedBet = Immutable.fromJS({
-                id: betId,
-                category: BetCategories.MATCHED_BET,
-                bettor_id: unmatchedBet.get('bettor_id'),
-                betting_market_id: unmatchedBet.get('betting_market_id'),
-                back_or_lay: unmatchedBet.get('back_or_lay'),
-                backer_multiplier: unmatchedBet.get('backer_multiplier'),
-                asset_id: unmatchedBet.get('asset_id'),
-                original_bet_amount: originalAmount,
-                matched_bet_amount: matchedAmount
-              })
-            } else {
-              // update it if it exists
-              const prevMatchedAmount = matchedBet.get('matched_bet_amount');
-              const updatedMatchedAmount = prevMatchedAmount + matchedAmount;
-              matchedBet = matchedBet.set('matched_bet_amount', updatedMatchedAmount);
-            }
+            const matchedBet = Immutable.fromJS({
+              id,
+              original_bet_id: betId,
+              category: BetCategories.MATCHED_BET,
+              bettor_id: unmatchedBet.get('bettor_id'),
+              betting_market_id: unmatchedBet.get('betting_market_id'),
+              back_or_lay: unmatchedBet.get('back_or_lay'),
+              backer_multiplier: matchedBackerMultiplier,
+              asset_id: unmatchedBet.get('asset_id'),
+              original_bet_amount: originalAmount,
+              matched_bet_amount: matchedAmount
+            });
             // Update matched bets
-            matchedBetsById = matchedBetsById.set(betId, matchedBet);
+            matchedBetsById = matchedBetsById.set(id, matchedBet);
           }
           break;
         }

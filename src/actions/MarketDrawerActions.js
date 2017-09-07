@@ -198,6 +198,14 @@ class MarketDrawerActions {
     }
   }
 
+  static updatePlacedBets() {
+    return (dispatch, getState) => {
+      const currentPlacedBetsBettingMarketGroupId = getState().getIn(['marketDrawer', 'bettingMarketGroupId']);
+      if (currentPlacedBetsBettingMarketGroupId) {
+        dispatch(MarketDrawerActions.getPlacedBets(currentPlacedBetsBettingMarketGroupId));
+      }
+    }
+  }
   static getPlacedBets(bettingMarketGroupId) {
     return (dispatch, getState) => {
       const unmatchedBetsById = getState().getIn(['bet', 'unmatchedBetsById']);
