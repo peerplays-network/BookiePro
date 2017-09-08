@@ -183,51 +183,37 @@ class CommunicationService {
         }
         case ObjectPrefix.SPORT_PREFIX: {
           // Localize name
-          const localizedUpdatedObject = updatedObjects.map(object => {
-            return ObjectUtils.localizeStringOfObject(object, ['name']);
-          })
+          const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['name']);
           this.dispatch(SportActions.addOrUpdateSportsAction(localizedUpdatedObject));
           break;
         }
         case ObjectPrefix.EVENT_GROUP_PREFIX: {
           // Localize name
-          const localizedUpdatedObject = updatedObjects.map(object => {
-            return ObjectUtils.localizeStringOfObject(object, ['name']);
-          })
+          const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['name']);
           this.dispatch(EventGroupActions.addOrUpdateEventGroupsAction(localizedUpdatedObject));
           break;
         }
         case ObjectPrefix.EVENT_PREFIX: {
           // Localize name
-          const localizedUpdatedObject = updatedObjects.map(object => {
-            return ObjectUtils.localizeStringOfObject(object, ['name']);
-          })
+          const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['name']);
           this.dispatch(EventActions.addOrUpdateEventsAction(localizedUpdatedObject));
           break;
         }
         case ObjectPrefix.RULE_PREFIX: {
           // Localize name
-          const localizedUpdatedObject = updatedObjects.map(object => {
-            return ObjectUtils.localizeStringOfObject(object, ['name', 'description']);
-          })
+          const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['name', 'description']);
           this.dispatch(RuleActions.addOrUpdateRulesAction(localizedUpdatedObject));
           break;
         }
         case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {
           // Localize name
-          const localizedUpdatedObject = updatedObjects.map(object => {
-            return ObjectUtils.localizeStringOfObject(object, ['description']);
-          })
+          const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['description']);
           this.dispatch(BettingMarketGroupActions.addOrUpdateBettingMarketGroupsAction(localizedUpdatedObject));
           break;
         }
         case ObjectPrefix.BETTING_MARKET_PREFIX: {
           // Localize name
-          const localizedUpdatedObject = updatedObjects.map(object => {
-            // TODO: remove this later, replciate payout condition as description
-            object = object.set('description', object.get('payout_condition'));
-            return ObjectUtils.localizeStringOfObject(object, ['description', 'payout_condition']);
-          })
+          const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['description', 'payout_condition']);
           this.dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(localizedUpdatedObject));
           // Get betting market id
           const bettingMarketIds = localizedUpdatedObject.map(object => object.get('id'));
@@ -528,9 +514,7 @@ class CommunicationService {
     } else {
       return this.callBlockchainDbApi('list_sports').then((sports) => {
         // Replace name with english name
-        return sports.map(sport => {
-          return ObjectUtils.localizeStringOfObject(sport, ['name']);
-        });
+        return ObjectUtils.localizeArrayOfObjects(sports, ['name']);
       });
     }
   }
@@ -546,9 +530,7 @@ class CommunicationService {
       let promises = sportIds.map((sportId) => {
         return this.callBlockchainDbApi('list_event_groups', [sportId]).then(eventGroups => {
           // Replace name with english name
-          return eventGroups.map(eventGroup => {
-            return ObjectUtils.localizeStringOfObject(eventGroup, ['name']);
-          })
+          return ObjectUtils.localizeArrayOfObjects(eventGroups, ['name']);
         });
       })
       return Promise.all(promises).then((result) => {
@@ -569,9 +551,7 @@ class CommunicationService {
       let promises = eventGroupIds.map((eventGroupId) => {
         return this.callBlockchainDbApi('list_events_in_group', [eventGroupId]).then(events => {
           // Replace name with english name
-          return events.map(event => {
-            return ObjectUtils.localizeStringOfObject(event, ['name', 'season']);
-          })
+          return ObjectUtils.localizeArrayOfObjects(events, ['name', 'season']);
         });
       })
       return Promise.all(promises).then((result) => {
@@ -592,9 +572,7 @@ class CommunicationService {
       let promises = eventIds.map((eventId) => {
         return this.callBlockchainDbApi('list_betting_market_groups', [eventId]).then(bettingMarketGroups => {
           // Replace name with english name
-          return bettingMarketGroups.map(bettingMarketGroup => {
-            return ObjectUtils.localizeStringOfObject(bettingMarketGroup, ['description']);
-          })
+          return ObjectUtils.localizeArrayOfObjects(bettingMarketGroups, ['description']);
         });
       })
       return Promise.all(promises).then((result) => {
@@ -615,9 +593,7 @@ class CommunicationService {
       let promises = bettingMarketGroupIds.map((bettingMarketGroupId) => {
         return this.callBlockchainDbApi('list_betting_markets', [bettingMarketGroupId]).then(bettingMarkets => {
           // Replace name with english name
-          return bettingMarkets.map(bettingMarket => {
-            return ObjectUtils.localizeStringOfObject(bettingMarket, ['description', 'payout_condition']);
-          })
+          return ObjectUtils.localizeArrayOfObjects(bettingMarkets, ['description', 'payout_condition']);
         });
       })
       return Promise.all(promises).then((result) => {
@@ -690,10 +666,8 @@ class CommunicationService {
       return this.getDummyObjectsByIds(bettingMarketIds);
     } else {
       return this.getObjectsByIds(bettingMarketIds).then(result => {
-        return result.map(item => {
-          // Localize string
-          return ObjectUtils.localizeStringOfObject(item, ['description', 'payout_condition']);
-        })
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition']);
       });
     }
   }
@@ -706,10 +680,8 @@ class CommunicationService {
       return this.getDummyObjectsByIds(bettingMarketIds);
     } else {
       return this.getPersistedBookieObjectsByIds(bettingMarketIds).then(result => {
-        return result.map(item => {
-          // Localize string
-          return ObjectUtils.localizeStringOfObject(item, ['description', 'payout_condition']);
-        })
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition']);
       });
     }
   }
@@ -722,10 +694,8 @@ class CommunicationService {
       return this.getDummyObjectsByIds(bettingMarketGroupIds);
     } else {
       return this.getObjectsByIds(bettingMarketGroupIds).then(result => {
-        return result.map(item => {
-          // Localize string
-          return ObjectUtils.localizeStringOfObject(item, ['description']);
-        })
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['description']);
       });
     }
   }
@@ -738,10 +708,8 @@ class CommunicationService {
       return this.getDummyObjectsByIds(bettingMarketGroupIds);
     } else {
       return this.getPersistedBookieObjectsByIds(bettingMarketGroupIds).then(result => {
-        return result.map(item => {
-          // Localize string
-          return ObjectUtils.localizeStringOfObject(item, ['description']);
-        })
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['description']);
       });
     }
   }
@@ -755,10 +723,8 @@ class CommunicationService {
       return this.getDummyObjectsByIds(eventIds);
     } else {
       return this.getObjectsByIds(eventIds).then(result => {
-        return result.map(item => {
-          // Localize string
-          return ObjectUtils.localizeStringOfObject(item, ['name']);
-        })
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['name']);
       });
     }
   }
@@ -772,10 +738,8 @@ class CommunicationService {
       return this.getDummyObjectsByIds(eventIds);
     } else {
       return this.getPersistedBookieObjectsByIds(eventIds).then(result => {
-        return result.map(item => {
-          // Localize string
-          return ObjectUtils.localizeStringOfObject(item, ['name']);
-        })
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['name']);
       });
     }
   }
@@ -788,10 +752,8 @@ class CommunicationService {
       return this.getDummyObjectsByIds(eventGroupIds);
     } else {
       return this.getObjectsByIds(eventGroupIds).then(result => {
-        return result.map(item => {
-          // Localize string
-          return ObjectUtils.localizeStringOfObject(item, ['name']);
-        })
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['name']);
       });
     }
   }
@@ -804,10 +766,8 @@ class CommunicationService {
       return this.getDummyObjectsByIds(sportIds);
     } else {
       return this.getObjectsByIds(sportIds).then(result => {
-        return result.map(item => {
-          // Localize string
-          return ObjectUtils.localizeStringOfObject(item, ['name']);
-        })
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['name']);
       });
     }
   }
@@ -820,10 +780,8 @@ class CommunicationService {
       return this.getDummyObjectsByIds(ruleIds);
     } else {
       return this.getObjectsByIds(ruleIds).then(result => {
-        return result.map(item => {
-          // Localize string
-          return ObjectUtils.localizeStringOfObject(item, ['description', 'name']);
-        })
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['description', 'name']);
       });
     }
   }

@@ -67,7 +67,7 @@ const getProfitLiabilityFromBetObject = (bet) => {
  * @param {fieldsToLocalize} string array, in which key names mean the object in param need to be translated
  * @returns {object} - object with internationalized string fields updated based on fieldsToLocalize.
  */
-const localizeStringOfObject = (object, fieldsToLocalize=[], lang='en') => {
+const localizeObject = (object, fieldsToLocalize=[], lang='en') => {
   let result = object;
   fieldsToLocalize.forEach(field => {
     const intlStringArrays = object.get(field);
@@ -80,6 +80,19 @@ const localizeStringOfObject = (object, fieldsToLocalize=[], lang='en') => {
     result = result.set(field, targetString);
   })
   return result;
+}
+
+/**
+ * Extend localizeObject for an array of objects
+ *
+ * @param {Immutable JS} Immutable JS array of objects, blockchain objects contain localised string fields and they need to be updated with related string value.
+ * @param {fieldsToLocalize} string array, in which key names mean the object in param need to be translated
+ * @returns {object} - object with internationalized string fields updated based on fieldsToLocalize.
+ */
+const localizeArrayOfObjects = (arrayOfObjects, fieldsToLocalize=[], lang='en') => {
+  return arrayOfObjects.map(object => {
+    return localizeObject(object, fieldsToLocalize, lang);
+  })
 }
 
 /**
@@ -97,7 +110,8 @@ const isActiveEvent = (event) => {
 const ObjectUtils = {
   getStakeFromBetObject,
   getProfitLiabilityFromBetObject,
-  localizeStringOfObject,
+  localizeObject,
+  localizeArrayOfObjects,
   isActiveEvent
 }
 
