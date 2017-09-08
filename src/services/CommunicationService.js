@@ -616,10 +616,7 @@ class CommunicationService {
         return this.callBlockchainDbApi('list_betting_markets', [bettingMarketGroupId]).then(bettingMarkets => {
           // Replace name with english name
           return bettingMarkets.map(bettingMarket => {
-            // Temporarily use payout condition as description
-            // TODO: remove this when description field is added
-            const modifiedBm = bettingMarket.set('description', bettingMarket.get('payout_condition'));
-            return ObjectUtils.localizeStringOfObject(modifiedBm, ['description', 'payout_condition']);
+            return ObjectUtils.localizeStringOfObject(bettingMarket, ['description', 'payout_condition']);
           })
         });
       })
@@ -692,12 +689,26 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(bettingMarketIds);
     } else {
+      return this.getObjectsByIds(bettingMarketIds).then(result => {
+        return result.map(item => {
+          // Localize string
+          return ObjectUtils.localizeStringOfObject(item, ['description', 'payout_condition']);
+        })
+      });
+    }
+  }
+
+  /**
+   * Get persisted betting market by id
+   */
+  static getPersistedBettingMarketsByIds(bettingMarketIds) {
+    if (Config.useDummyData) {
+      return this.getDummyObjectsByIds(bettingMarketIds);
+    } else {
       return this.getPersistedBookieObjectsByIds(bettingMarketIds).then(result => {
         return result.map(item => {
-          // TODO: remove this when description field is added
-          let modifiedItem = item.set('description', item.get('payout_condition'));
           // Localize string
-          return ObjectUtils.localizeStringOfObject(modifiedItem, ['description', 'payout_condition']);
+          return ObjectUtils.localizeStringOfObject(item, ['description', 'payout_condition']);
         })
       });
     }
@@ -707,6 +718,22 @@ class CommunicationService {
    * Get betting market group by id
    */
   static getBettingMarketGroupsByIds(bettingMarketGroupIds) {
+    if (Config.useDummyData) {
+      return this.getDummyObjectsByIds(bettingMarketGroupIds);
+    } else {
+      return this.getObjectsByIds(bettingMarketGroupIds).then(result => {
+        return result.map(item => {
+          // Localize string
+          return ObjectUtils.localizeStringOfObject(item, ['description']);
+        })
+      });
+    }
+  }
+
+  /**
+   * Get persisted betting market group by id
+   */
+  static getPersistedBettingMarketGroupsByIds(bettingMarketGroupIds) {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(bettingMarketGroupIds);
     } else {
@@ -724,6 +751,23 @@ class CommunicationService {
    * Get event by id
    */
   static getEventsByIds(eventIds) {
+    if (Config.useDummyData) {
+      return this.getDummyObjectsByIds(eventIds);
+    } else {
+      return this.getObjectsByIds(eventIds).then(result => {
+        return result.map(item => {
+          // Localize string
+          return ObjectUtils.localizeStringOfObject(item, ['name']);
+        })
+      });
+    }
+  }
+
+
+  /**
+   * Get event by id
+   */
+  static getPersistedEventsByIds(eventIds) {
     if (Config.useDummyData) {
       return this.getDummyObjectsByIds(eventIds);
     } else {
