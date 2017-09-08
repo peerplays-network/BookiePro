@@ -169,8 +169,8 @@ const getResolvedBetsColumns = (currencyFormat) => {
     },
     {
       title: I18n.t('mybets.profit') + currencySymbol,
-      dataIndex: 'profit_liability',
-      key: 'profit_liability'
+      dataIndex: 'amount_won',
+      key: 'amount_won'
     }
   ];
 

@@ -139,20 +139,17 @@ const betData = createSelector(
         stake: CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
         odds: bet.get('backer_multiplier'),
         sport_name: sportNameByBettingMarketId.get(bet.get('betting_market_id')),
+        profit_liability:  CurrencyUtils.getFormattedCurrency(getProfitLiabilityFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces),
       });
       if (tab === MyWagerTabTypes.RESOLVED_BETS)  {
-        const profit_liability = CurrencyUtils.getFormattedCurrency(bet.get('amount_won')/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces);
+        const amountWon = CurrencyUtils.getFormattedCurrency(bet.get('amount_won')/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces);
         const resolved_time = getFormattedDate(bet.get('resolved_time'));
-        betObject = betObject.set('profit_liability', profit_liability);
+        betObject = betObject.set('amount_won', amountWon);
         betObject = betObject.set('resolved_time', resolved_time);
-      } else {
-        const profit_liability = CurrencyUtils.getFormattedCurrency(getProfitLiabilityFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces);
-        betObject = betObject.set('profit_liability', profit_liability);
-        // Set cancel bet loading status
-        if (tab === MyWagerTabTypes.UNMATCHED_BETS || tab === MyWagerTabTypes.MATCHED_BETS) {
-          const cancelLoadingStatus = cancelBetsByIdsLoadingStatus.get(bet.get('id')) || LoadingStatus.DEFAULT;
-          betObject = betObject.set('cancel_loading_status', cancelLoadingStatus);
-        }
+      } else if (tab === MyWagerTabTypes.UNMATCHED_BETS) {
+          // Set cancel bet loading status
+        const cancelLoadingStatus = cancelBetsByIdsLoadingStatus.get(bet.get('id')) || LoadingStatus.DEFAULT;
+        betObject = betObject.set('cancel_loading_status', cancelLoadingStatus);
       }
       betData.push(betObject);
     });
