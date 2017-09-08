@@ -253,9 +253,7 @@ var BettingModuleUtils = {
    *
    *  Notes:
    *  This function expects a `normalized` bet objects. This `normalized` format
-   *  is only used within the betting application. Bet objects from Blockchain
-   *  should be transformed into the normalized format at the Reducer level using
-   *  the following common function: /src/reducers/dataUtils.js
+   *  is only used within the betting application. 
    *
    * @param {Immutable.List} matchedBets - list of matched bets with the same bet type, i.e. all back or all lay
    * @param {string} currency - display currency, 'BTC' or 'mBTC'

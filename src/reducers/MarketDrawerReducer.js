@@ -1,7 +1,6 @@
 import Immutable from 'immutable';
 import { LoadingStatus, ActionTypes, BettingDrawerStates } from '../constants';
-import { BettingModuleUtils, CurrencyUtils } from '../utility';
-import { transformUnmatchedBetObject, transformMatchedBetObject } from './dataUtils';
+import { BettingModuleUtils } from '../utility';
 
 let initialState = Immutable.fromJS({
   unconfirmedBets: Immutable.List(),
@@ -137,45 +136,10 @@ export default function(state = initialState, action) {
         overlay: BettingDrawerStates.NO_OVERLAY,
       })
     }
-    // TODO: Once the Blockchain is ready, we also need to listen to bet update events
     case ActionTypes.MARKET_DRAWER_GET_PLACED_BETS: {
-      let unmatchedBets = Immutable.List();
-      let matchedBets = Immutable.List();
-      // NOTE In order to show the initial Odds and Stake values correctly before
-      // the components are displayed, this ONE-OFF action is the best place to
-      // perform the formatting. Doing this in mapStateToProps function of a React
-      // component will lead undesirable effects where user's input may be
-      // constantly modified on the fly (e.g. in the middle of an edit action)
-      action.placedUnmatchedBets.forEach(bet => {
-        let unmatchedBet = transformUnmatchedBetObject(bet);
-
-        // store odds and stake values as String for easier comparison
-        unmatchedBet = unmatchedBet
-                         .update('odds', odds => CurrencyUtils.formatFieldByCurrencyAndPrecision('odds', odds, action.currencyFormat).toString())
-                         .update('stake', stake => {
-                           const normalized = stake / Math.pow(10, bet.get('asset_precision'));  // field only available in original bet
-                           return CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', normalized, action.currencyFormat).toString()
-                         });
-        // NOTE: The old values MUST be based on the formatted values, not the original.
-        unmatchedBet = unmatchedBet
-                         .set('updated', false)
-                         .set('original_odds', unmatchedBet.get('odds').toString())
-                         .set('original_stake', unmatchedBet.get('stake').toString());
-        unmatchedBets = unmatchedBets.push(unmatchedBet);
-      });
-      action.placedMatchedBets.forEach(bet => {
-        let matchedBet = transformMatchedBetObject(bet);
-        matchedBet = matchedBet
-                       .update('odds', odds => CurrencyUtils.formatFieldByCurrencyAndPrecision('odds', odds, action.currencyFormat).toString())
-                       .update('stake', stake => {
-                         const normalized = stake / Math.pow(10, bet.get('asset_precision'));  // field only available in original bet
-                         return CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', normalized, action.currencyFormat).toString()
-                       });
-        matchedBets = matchedBets.push(matchedBet);
-      });
       return state.merge({
-        unmatchedBets,
-        matchedBets,
+        unmatchedBets: action.placedUnmatchedBets,
+        matchedBets: action.placedMatchedBets,
         bettingMarketGroupId: action.bettingMarketGroupId,
       });
     }
