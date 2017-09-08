@@ -1,4 +1,4 @@
-import { ActionTypes, ConnectionStatus, Config, BetTypes, BetCategories } from '../constants';
+import { ActionTypes, ConnectionStatus, Config, BetCategories } from '../constants';
 import Immutable from 'immutable';
 import moment from 'moment';
 import BetActions from './BetActions';
