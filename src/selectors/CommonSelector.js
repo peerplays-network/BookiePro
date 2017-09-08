@@ -71,6 +71,17 @@ const getEventsById = (state) => {
   return state.getIn(['event', 'eventsById']);
 }
 
+const getPersistedEventsById = (state) => {
+  return state.getIn(['event', 'persistedEventsById']);
+}
+
+const getAggregatedEventsById = createSelector([
+  getEventsById,
+  getPersistedEventsById
+], (eventsById, persistedEventsById) => {
+  return eventsById.concat(persistedEventsById);
+});
+
 const getActiveEventsById = createSelector(
   [
     getEventsById
@@ -80,21 +91,6 @@ const getActiveEventsById = createSelector(
     return eventsById.filter(isActiveEvent);
   }
 );
-
-// These functions access the branch of the `Sport` object
-// corresponding to the current path (which is presumed to be a product page)
-const getEventsBySportId = createSelector(
-  [
-    getEventsById,
-    getEventGroupsById
-  ],
-  (eventsById, eventGroupsById) => {
-    return eventsById.toList().groupBy(event => {
-      const eventGroup = eventGroupsById.get(event.get('event_group_id'));
-      return eventGroup && eventGroup.get('sport_id')
-    });
-  }
-)
 
 const getActiveEventsBySportId = createSelector(
   [
@@ -127,9 +123,31 @@ const getBettingMarketGroupsById = (state) => {
   return state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
 }
 
+const getPersistedBettingMarketGroupsById = (state) => {
+  return state.getIn(['bettingMarketGroup', 'persistedBettingMarketGroupsById']);
+}
+
+const getAggregatedBettingMarketGroupsById = createSelector([
+  getBettingMarketGroupsById,
+  getPersistedBettingMarketGroupsById
+], (bettingMarketGroupsById, persistedBettingMarketGroupsById) => {
+  return bettingMarketGroupsById.concat(persistedBettingMarketGroupsById);
+});
+
 const getBettingMarketsById = (state) => {
   return state.getIn(['bettingMarket', 'bettingMarketsById']);
 }
+
+const getPersistedBettingMarketsById = (state) => {
+  return state.getIn(['bettingMarket', 'persistedBettingMarketsById']);
+}
+
+const getAggregatedBettingMarketsById = createSelector([
+  getBettingMarketsById,
+  getPersistedBettingMarketsById
+], (bettingMarketsById, persistedBettingMarketsById) => {
+  return bettingMarketsById.concat(persistedBettingMarketsById);
+});
 
 const getBinnedOrderBooksByBettingMarketId = (state) => {
   return state.getIn(['binnedOrderBook', 'binnedOrderBooksByBettingMarketId']);
@@ -220,12 +238,17 @@ const CommonSelector = {
   getEventGroupsById,
   getEventGroupsBySportId,
   getEventsById,
+  getPersistedEventsById,
+  getAggregatedEventsById,
   getActiveEventsById,
-  getEventsBySportId,
   getActiveEventsBySportId,
   getEventsByEventGroupId,
   getActiveEventsByEventGroupId,
+  getPersistedBettingMarketGroupsById,
+  getAggregatedBettingMarketGroupsById,
   getBettingMarketGroupsById,
+  getPersistedBettingMarketsById,
+  getAggregatedBettingMarketsById,
   getBettingMarketsById,
   getRulesById,
   getBinnedOrderBooksByBettingMarketId,

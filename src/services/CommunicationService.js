@@ -262,27 +262,27 @@ class CommunicationService {
           break;
         }
         case ObjectPrefix.SPORT_PREFIX: {
-          // We want bookie objects to be persisted, so don't delete the object here
+          this.dispatch(SportActions.removeSportsByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.EVENT_GROUP_PREFIX: {
-          // We want bookie objects to be persisted, so don't delete the object here
+          this.dispatch(EventGroupActions.removeEventGroupsByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.EVENT_PREFIX: {
-          // We want bookie objects to be persisted, so don't delete the object here
+          this.dispatch(EventActions.removeEventsByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.RULE_PREFIX: {
-          // We want bookie objects to be persisted, so don't delete the object here
+          this.dispatch(RuleActions.removeRulesByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {
-          // We want bookie objects to be persisted, so don't delete the object here
+          this.dispatch(BettingMarketGroupActions.removeBettingMarketGroupsByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.BETTING_MARKET_PREFIX: {
-          // We want bookie objects to be persisted, so don't delete the object here
+          this.dispatch(BettingMarketActions.removeBettingMarketsByIdsAction(deletedObjectIds));
           break;
         }
         default: break;

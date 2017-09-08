@@ -58,6 +58,13 @@ class EventActions {
     }
   }
 
+  static addPersistedEventsAction(events) {
+    return {
+      type: ActionTypes.EVENT_ADD_PERSISTED_EVENTS,
+      events
+    }
+  }
+
   static removeEventsByIdsAction(eventIds) {
     return {
       type: ActionTypes.EVENT_REMOVE_EVENTS_BY_IDS,
@@ -130,7 +137,9 @@ class EventActions {
       let idsOfEventsToBeRetrieved = Immutable.List();
 
       // Check if the requested data is already inside redux store
-      const eventsById = getState().getIn(['event', 'eventsById']);;
+      let eventsById = getState().getIn(['event', 'eventsById']);
+      const persistedEventsById = getState().getIn(['event', 'persistedEventsById']);
+      eventsById = eventsById.concat(persistedEventsById);
       const getEventsByIdsLoadingStatus = getState().getIn(['event', 'getEventsByIdsLoadingStatus']);
       eventIds.forEach( eventId => {
         if (getEventsByIdsLoadingStatus.get(eventId) === LoadingStatus.DONE) {
@@ -150,12 +159,33 @@ class EventActions {
         // Set status
         dispatch(EventPrivateActions.setGetEventsByIdsLoadingStatusAction(idsOfEventsToBeRetrieved, LoadingStatus.LOADING));
         return CommunicationService.getEventsByIds(idsOfEventsToBeRetrieved).then((events) => {
-          // Add to redux store
-          dispatch(EventActions.addOrUpdateEventsAction(events));
-          // Set status
-          dispatch(EventPrivateActions.setGetEventsByIdsLoadingStatusAction(idsOfEventsToBeRetrieved, LoadingStatus.DONE));
-          // Concat with retrieved data from redux store
-          return retrievedEvents.concat(events);
+          retrievedEvents = retrievedEvents.concat(events);
+
+          // Check if we have retrieved all events
+          if (idsOfEventsToBeRetrieved.size === events.size) {
+            // All fetched
+            // Add to redux store
+            dispatch(EventActions.addOrUpdateEventsAction(events));
+            // Set status
+            dispatch(EventPrivateActions.setGetEventsByIdsLoadingStatusAction(idsOfEventsToBeRetrieved, LoadingStatus.DONE));
+            // Return result
+            return retrievedEvents;
+          } else {
+            // Some of them are not fetched, use persistent api to fetch it
+            const retrievedEventIds = events.map(event => event.get('id'));
+            const filteredIdsOfEventsToBeRetrieved = idsOfEventsToBeRetrieved.filterNot(id => retrievedEventIds.includes(id));
+            return CommunicationService.getPersistedEventsByIds(filteredIdsOfEventsToBeRetrieved).then((persistedEvents) => {
+              retrievedEvents = retrievedEvents.concat(persistedEvents);
+              // Add to redux store
+              dispatch(EventActions.addOrUpdateEventsAction(events));
+              dispatch(EventActions.addPersistedEventsAction(persistedEvents));
+              // All fetched, set status
+              dispatch(EventPrivateActions.setGetEventsByIdsLoadingStatusAction(idsOfEventsToBeRetrieved, LoadingStatus.DONE));
+              // Return result
+              return retrievedEvents;
+            });
+          }
+
         });
       }
     };

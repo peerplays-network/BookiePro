@@ -4,9 +4,9 @@ import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
   eventsById: {},
+  persistedEventsById: {},
   getEventsByEventGroupIdsLoadingStatus: {},
   getEventsByIdsLoadingStatus: {},
-
   getSearchEventsLoadingStatus: LoadingStatus.DEFAULT,
   searchResult: [],
   searchEventsError: null
@@ -44,12 +44,22 @@ export default function (state = initialState, action) {
       })
       return nextState;
     }
+    case ActionTypes.EVENT_ADD_PERSISTED_EVENTS: {
+      let nextState = state;
+      action.events.forEach( event => {
+        const eventId = event.get('id');
+        // Update event ids by ids
+        nextState = nextState.setIn(['persistedEventsById', eventId], event);
+      })
+      return nextState;
+    }
     case ActionTypes.EVENT_REMOVE_EVENTS_BY_IDS: {
       let nextState = state;
       action.eventIds.forEach((eventId) => {
-        // Remove from eventsById
+        // Since we want to have persistent event list
+        // Move event from eventsById to persistedEventsById
+        nextState = nextState.setIn(['persistedEventsById', eventId], state.getIn(['eventsById', eventId]));
         nextState = nextState.deleteIn(['eventsById', eventId]);
-        nextState = nextState.deleteIn(['getEventsByIdsLoadingStatus', eventId]);
       });
       return nextState;
     }

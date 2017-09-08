@@ -12,9 +12,9 @@ const { mergeRelationData } = MyWagerUtils;
 const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
 
 const {
-  getBettingMarketGroupsById,
-  getBettingMarketsById,
-  getEventsById,
+  getAggregatedBettingMarketGroupsById,
+  getAggregatedBettingMarketsById,
+  getAggregatedEventsById,
   getSportsById,
   getAssetsById,
   getEventGroupsById,
@@ -92,9 +92,9 @@ const getRelatedBetsCollection = createSelector(
 
 const getSportNameByBettingMarketId = createSelector(
   [
-    getBettingMarketsById,
-    getBettingMarketGroupsById,
-    getEventsById,
+    getAggregatedBettingMarketsById,
+    getAggregatedBettingMarketGroupsById,
+    getAggregatedEventsById,
     getEventGroupsById,
     getSportsById,
   ],
@@ -159,7 +159,7 @@ const betData = createSelector(
 
 //memoized selector - function for merging bettingMarketData to betData and return merged data
 const mergeBettingMarketData = createSelector(
-  [betData, getBettingMarketsById],
+  [betData, getAggregatedBettingMarketsById],
   (bets, betMarket)=>{
     return mergeRelationData(bets, betMarket, 'betting_market_id',
       {group_id: 'group_id', description: 'betting_market_description'});
@@ -168,7 +168,7 @@ const mergeBettingMarketData = createSelector(
 
 //memoized selector - function for merging bettingMarketGroupsData to betData and return merged data
 const mergeBettingMarketGroupData = createSelector(
-  [mergeBettingMarketData, getBettingMarketGroupsById],
+  [mergeBettingMarketData, getAggregatedBettingMarketGroupsById],
   (bets, betMarketGroup)=>{
     return mergeRelationData(bets, betMarketGroup, 'group_id',
       { event_id: 'event_id', description: 'betting_market_group_description' });
@@ -177,7 +177,7 @@ const mergeBettingMarketGroupData = createSelector(
 
 //memoized selector - function for merging events to betData and return merged data
 const mergeEventsData = createSelector(
-  [mergeBettingMarketGroupData, getEventsById],
+  [mergeBettingMarketGroupData, getAggregatedEventsById],
   (bets, events)=>{
     return mergeRelationData(bets, events, 'event_id',
       {'name': 'event_name' , 'start_time': 'event_time', 'sport_id': 'sport_id'});
