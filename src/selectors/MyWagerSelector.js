@@ -134,6 +134,7 @@ const betData = createSelector(
       let betObject = Immutable.fromJS({
         key: bet.get('id'),
         id: bet.get('id'),
+        original_bet_id: bet.get('original_bet_id'),
         betting_market_id: bet.get('betting_market_id'),
         back_or_lay: bet.get('back_or_lay'),
         stake: CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
