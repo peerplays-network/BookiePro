@@ -14,8 +14,8 @@ class NotificationService {
    * Extract relevant info (asset id and betting market id from  transactions)
    */
   static extractRelevantAdditionalInfo(transactions) {
-    let relevantAssetIds = Immutable.Set();
-    let relevantBettingMarketIds = Immutable.Set();
+    let relevantAssetIds = Immutable.List();
+    let relevantBettingMarketIds = Immutable.List();
 
     transactions.forEach( (transaction) => {
       const operationType = transaction.getIn(['op',0]);
@@ -32,6 +32,10 @@ class NotificationService {
         relevantBettingMarketIds = relevantBettingMarketIds.concat(bettingMarketIds);
       }
     });
+
+    // Unique
+    relevantAssetIds = relevantAssetIds.toSet().toList();
+    relevantBettingMarketIds = relevantBettingMarketIds.toSet().toList();
     return {
       relevantAssetIds,
       relevantBettingMarketIds

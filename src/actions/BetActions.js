@@ -119,8 +119,8 @@ class BetActions {
 
         const rawHistory = getState().getIn(['rawHistory', 'rawHistoryByAccountId', accountId]);
         const myBets = HistoryService.convertRawHistoryToMyBets(getState(), rawHistory);
-        // Fetch related betting markets (use set to make the list unique)
-        let bettingMarketIds = Immutable.Set();
+        // Fetch related betting markets
+        let bettingMarketIds = Immutable.List();
         myBets.unmatchedBetsById.forEach((bet) => {
           bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
         })
@@ -130,25 +130,27 @@ class BetActions {
         myBets.resolvedBetsById.forEach((bet) => {
           bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
         })
+        // Unique betting market ids
+        bettingMarketIds = bettingMarketIds.toSet().toList();
 
         return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)).then((bettingMarkets) => {
           // Get unique betting market group ids
-          let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('group_id')).toSet();
+          let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('group_id')).toSet().toList();
           // Get the betting market groups
           return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
         }).then((bettingMarketGroups) => {
           // Get unique event ids
-          let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet();
+          let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet().toList();
           // Get the betting market groups
           return dispatch(EventActions.getEventsByIds(eventIds));
         }).then((events) => {
           // Get unique event group ids
-          let eventGroupIds = events.map(event => event.get('event_group_id')).toSet();
+          let eventGroupIds = events.map(event => event.get('event_group_id')).toSet().toList();
           // Get the betting market groups
           return dispatch(EventGroupActions.getEventGroupsByIds(eventGroupIds));
         }).then((eventGroups) => {
           // Get unique sport ids
-          let sportIds = eventGroups.map(eventGroup => eventGroup.get('sport_id')).toSet();
+          let sportIds = eventGroups.map(eventGroup => eventGroup.get('sport_id')).toSet().toList();
           // Get the betting market groups
           return dispatch(SportActions.getSportsByIds(sportIds));
         }).then((sports) => {
@@ -178,8 +180,8 @@ class BetActions {
         const myBets = HistoryService.convertRawHistoryToMyBets(getState(),
                                                                 rawHistoryDelta);
 
-        // Fetch related betting markets (use set to make the list unique)
-        let bettingMarketIds = Immutable.Set();
+        // Fetch related betting markets
+        let bettingMarketIds = Immutable.List();
         myBets.unmatchedBetsById.forEach((bet) => {
           bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
         })
@@ -189,25 +191,27 @@ class BetActions {
         myBets.resolvedBetsById.forEach((bet) => {
           bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
         })
+        // Unique betting market ids
+        bettingMarketIds = bettingMarketIds.toSet().toList();
 
         return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)).then((bettingMarkets) => {
           // Get unique betting market group ids
-          let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('group_id')).toSet();
+          let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('group_id')).toSet().toList();
           // Get the betting market groups
           return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds));
         }).then((bettingMarketGroups) => {
           // Get unique event ids
-          let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet();
+          let eventIds = bettingMarketGroups.map(bettingMarketGroup => bettingMarketGroup.get('event_id')).toSet().toList();
           // Get the events
           return dispatch(EventActions.getEventsByIds(eventIds));
         }).then((events) => {
           // Get unique event group ids
-          let eventGroupIds = events.map(event => event.get('event_group_id')).toSet();
+          let eventGroupIds = events.map(event => event.get('event_group_id')).toSet().toList();
           // Get the betting market groups
           return dispatch(EventGroupActions.getEventGroupsByIds(eventGroupIds));
         }).then((eventGroups) => {
           // Get unique sport ids
-          let sportIds = eventGroups.map(eventGroup => eventGroup.get('sport_id')).toSet();
+          let sportIds = eventGroups.map(eventGroup => eventGroup.get('sport_id')).toSet().toList();
           // Get the betting market groups
           return dispatch(SportActions.getSportsByIds(sportIds));
         }).then(() => {

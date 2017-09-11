@@ -239,7 +239,7 @@ class CommunicationService {
           // Use set
           let bettingMarketIds = updatedObjects.map((updatedObject) => {
             return updatedObject.get('betting_market_id')
-          }).toSet();
+          }).toSet().toList();
 
           // Update related binned order books
           this.dispatch(BinnedOrderBookActions.refreshBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
@@ -540,7 +540,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyEventGroupsBySportIds(sportIds);
     } else {
-      if (sportIds instanceof Immutable.List || sportIds instanceof Immutable.Set) sportIds = sportIds.toJS();
+      if (sportIds instanceof Immutable.List) sportIds = sportIds.toJS();
       let promises = sportIds.map((sportId) => {
         return this.callBlockchainDbApi('list_event_groups', [sportId]).then(eventGroups => {
           // Replace name with english name
@@ -561,7 +561,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyEventsByEventGroupIds(eventGroupIds);
     } else {
-      if (eventGroupIds instanceof Immutable.List || eventGroupIds instanceof Immutable.Set) eventGroupIds = eventGroupIds.toJS();
+      if (eventGroupIds instanceof Immutable.List) eventGroupIds = eventGroupIds.toJS();
       let promises = eventGroupIds.map((eventGroupId) => {
         return this.callBlockchainDbApi('list_events_in_group', [eventGroupId]).then(events => {
           // Replace name with english name
@@ -582,7 +582,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyBettingMarketGroupsByEventIds(eventIds);
     } else {
-      if (eventIds instanceof Immutable.List || eventIds instanceof Immutable.Set) eventIds = eventIds.toJS();
+      if (eventIds instanceof Immutable.List) eventIds = eventIds.toJS();
       let promises = eventIds.map((eventId) => {
         return this.callBlockchainDbApi('list_betting_market_groups', [eventId]).then(bettingMarketGroups => {
           // Replace name with english name
@@ -603,7 +603,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds);
     } else {
-      if (bettingMarketGroupIds instanceof Immutable.List || bettingMarketGroupIds instanceof Immutable.Set) bettingMarketGroupIds = bettingMarketGroupIds.toJS();
+      if (bettingMarketGroupIds instanceof Immutable.List) bettingMarketGroupIds = bettingMarketGroupIds.toJS();
       let promises = bettingMarketGroupIds.map((bettingMarketGroupId) => {
         return this.callBlockchainDbApi('list_betting_markets', [bettingMarketGroupId]).then(bettingMarkets => {
           // Replace name with english name
@@ -626,7 +626,7 @@ class CommunicationService {
       return this.getDummyBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision);
     } else {
       // return this.getGeneratedBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision);
-      if (bettingMarketIds instanceof Immutable.List || bettingMarketIds instanceof Immutable.Set) bettingMarketIds = bettingMarketIds.toJS();
+      if (bettingMarketIds instanceof Immutable.List) bettingMarketIds = bettingMarketIds.toJS();
       // Create promises of getting binned order book for each betting market
       const promises = bettingMarketIds.map( (bettingMarketId) => {
         return this.callBlockchainBookieApi('get_binned_order_book', [bettingMarketId, binningPrecision]);
@@ -653,7 +653,7 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds);
     } else {
-      if (bettingMarketGroupIds instanceof Immutable.List || bettingMarketGroupIds instanceof Immutable.Set) bettingMarketGroupIds = bettingMarketGroupIds.toJS();
+      if (bettingMarketGroupIds instanceof Immutable.List) bettingMarketGroupIds = bettingMarketGroupIds.toJS();
       let promises = bettingMarketGroupIds.map((bettingMarketGroupId) => {
         return this.callBlockchainBookieApi('get_total_matched_bet_amount_for_betting_market_group', [bettingMarketGroupId]);
       })
