@@ -15,7 +15,7 @@ import {
   RuleActions
 } from '../actions';
 import Immutable from 'immutable';
-import { ObjectPrefix, Config } from '../constants';
+import { ObjectPrefix, Config, DummyOperationTypes } from '../constants';
 import { ChainValidation } from 'peerplaysjs-lib';
 import _ from 'lodash';
 import dummyData from '../dummyData';
@@ -142,7 +142,21 @@ class CommunicationService {
           break;
         }
         case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
-          // TODO:
+          // For each bet matched happened on a betting market, refresh the binned order book
+          let bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = Immutable.List();
+          let matchedBetIds = Immutable.List();
+          updatedObjects.forEach(updatedObject => {
+            const operationType = updatedObject.getIn(['op', 0]);
+            if (operationType === DummyOperationTypes.BET_MATCHED) {
+              const betId = updatedObject.getIn(['op', 1, 'bet_id']);
+              matchedBetIds = matchedBetIds.push(betId);
+            }
+          })
+          this.getPersistedBookieObjectsByIds(matchedBetIds).then(bets => {
+            bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bets.map(bet => bet.get('betting_market_id').toSet().toList());
+            // Refresh binned order books
+            this.dispatch(BinnedOrderBookActions.refreshBinnedOrderBooksByBettingMarketIds(bettingMarketIdsOfBinnedOrderBooksToBeRefreshed));
+          });
           break;
         }
         case ObjectPrefix.GLOBAL_PROPERTY_PREFIX: {
