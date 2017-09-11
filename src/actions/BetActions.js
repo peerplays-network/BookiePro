@@ -368,7 +368,7 @@ class BetActions {
           // Create operation for each bet and attach it to the transaction
           const operationParams = {
             bettor_id: bettorId,
-            bet_to_cancel: bet.get('id')
+            bet_to_cancel: bet.get('original_bet_id')
           };
           const operationType = 'bet_cancel';
           tr.add_type_operation(operationType, operationParams);
@@ -435,7 +435,7 @@ class BetActions {
           // Add cancel bet operation
           const cancelBetOperationParams = {
             bettor_id: bet.get('bettor_id'),
-            bet_to_cancel: bet.get('id')
+            bet_to_cancel: bet.get('original_bet_id')
           };
           const cancelBetOperationType = 'bet_cancel';
           tr.add_type_operation(cancelBetOperationType, cancelBetOperationParams);

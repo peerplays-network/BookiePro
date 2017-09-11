@@ -291,8 +291,10 @@ class MarketDrawerActions {
     return (dispatch) => {
       dispatch(BetActions.cancelBets(Immutable.List([bet])));
       // TODO DEPRECATE: Once the Blockchain is ready we SHOULD NOT manually remove an unmatched bet
-      console.warn("Warning    Manual removal of unmatched bets in UI should be prohibited once Bet cancellation is available in Blockchain");
-      dispatch(MarketDrawerPrivateActions.deleteOneUnmatchedBet(bet.get('id')));
+      if (Config.useDummyData) {
+        console.warn("Warning    Manual removal of unmatched bets in UI should be prohibited once Bet cancellation is available in Blockchain");
+        dispatch(MarketDrawerPrivateActions.deleteOneUnmatchedBet(bet.get('id')));
+      }
     }
   }
 
