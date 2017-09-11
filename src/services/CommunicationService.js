@@ -153,7 +153,7 @@ class CommunicationService {
             }
           })
           this.getPersistedBookieObjectsByIds(matchedBetIds).then(bets => {
-            bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bets.map(bet => bet.get('betting_market_id').toSet().toList());
+            bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bets.map(bet => bet.get('betting_market_id')).toSet().toList();
             // Refresh binned order books
             this.dispatch(BinnedOrderBookActions.refreshBinnedOrderBooksByBettingMarketIds(bettingMarketIdsOfBinnedOrderBooksToBeRefreshed));
           });

@@ -122,13 +122,13 @@ class BetActions {
         // Fetch related betting markets
         let bettingMarketIds = Immutable.List();
         myBets.unmatchedBetsById.forEach((bet) => {
-          bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
+          bettingMarketIds = bettingMarketIds.push(bet.get('betting_market_id'));
         })
         myBets.matchedBetsById.forEach((bet) => {
-          bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
+          bettingMarketIds = bettingMarketIds.push(bet.get('betting_market_id'));
         })
         myBets.resolvedBetsById.forEach((bet) => {
-          bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
+          bettingMarketIds = bettingMarketIds.push(bet.get('betting_market_id'));
         })
         // Unique betting market ids
         bettingMarketIds = bettingMarketIds.toSet().toList();
@@ -183,13 +183,13 @@ class BetActions {
         // Fetch related betting markets
         let bettingMarketIds = Immutable.List();
         myBets.unmatchedBetsById.forEach((bet) => {
-          bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
+          bettingMarketIds = bettingMarketIds.push(bet.get('betting_market_id'));
         })
         myBets.matchedBetsById.forEach((bet) => {
-          bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
+          bettingMarketIds = bettingMarketIds.push(bet.get('betting_market_id'));
         })
         myBets.resolvedBetsById.forEach((bet) => {
-          bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
+          bettingMarketIds = bettingMarketIds.push(bet.get('betting_market_id'));
         })
         // Unique betting market ids
         bettingMarketIds = bettingMarketIds.toSet().toList();

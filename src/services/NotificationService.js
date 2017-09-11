@@ -24,7 +24,7 @@ class NotificationService {
       if (operationType === ChainTypes.operations.transfer) {
         // Extract asset Id
         const assetId = operationContent.getIn(['amount', 'asset_id']);
-        relevantAssetIds = relevantAssetIds.add(assetId);
+        relevantAssetIds = relevantAssetIds.push(assetId);
       } else if (operationType === DummyOperationTypes.BETTING_MARKET_RESOLVED) {
         // Extract betting market Id
         const resolutions = operationContent.get('resolutions');
