@@ -1,3 +1,8 @@
+/**
+ * This component displays list of new notifications.
+ * Sub-component used in Notification
+ *   {@link NotificationItem} - used to render individual notification
+ */
 import React, { PureComponent } from 'react';
 import NotificationItem from './NotificationItem';
 import Ps from 'perfect-scrollbar';
@@ -7,7 +12,7 @@ import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
 import {
   Card
-} from 'antd/lib/card';
+} from 'antd';
 
 export class Notification extends PureComponent{
 
