@@ -1,5 +1,5 @@
 import { DummyOperationTypes, TimeRangePeriodTypes, BetCategories, Config } from '../constants';
-import { BlockchainUtils, DateUtils, CurrencyUtils, BettingModuleUtils } from '../utility';
+import { BlockchainUtils, DateUtils, CurrencyUtils, BettingModuleUtils, ObjectUtils } from '../utility';
 import { ChainTypes } from 'peerplaysjs-lib';
 import { I18n } from 'react-redux-i18n';
 import Immutable from 'immutable';
@@ -30,7 +30,6 @@ class HistoryService {
       const operationType = rawTransaction.getIn(['op', 0]);
       const isRelevant = (operationType === ChainTypes.operations.transfer) ||
                           (operationType === DummyOperationTypes.MAKE_BET) ||
-                          (operationType === DummyOperationTypes.CANCEL_BET) ||
                           (operationType === DummyOperationTypes.BET_MATCHED) ||
                           (operationType === DummyOperationTypes.BETTING_MARKET_RESOLVED) ||
                           (operationType === DummyOperationTypes.BET_CANCELLED);
@@ -61,12 +60,6 @@ class HistoryService {
             precision = assetsById.getIn([amountToBet.get('asset_id'), 'precision']);
             break;
           }
-          case DummyOperationTypes.CANCEL_BET: {
-            description = I18n.t('transaction.cancelBet');
-            amount = rawTransaction.getIn(['op', 1, 'amount_refunded']);
-            precision = assetsById.getIn(['1.3.0', 'precision']);
-            break;
-          }
           case DummyOperationTypes.BET_CANCELLED: {
             description = I18n.t('transaction.betCancelled');
             const stakeReturned = rawTransaction.getIn(['op', 1, 'stake_returned']);
@@ -82,8 +75,18 @@ class HistoryService {
             break;
           }
           case DummyOperationTypes.BETTING_MARKET_RESOLVED: {
+            const resolvedBetsById = state.getIn(['bet', 'resolvedBetsById']);
+            let totalAmountWon = 0
+            const resolutions = rawTransaction.getIn(['op', 1, 'resolutions']);
+            const gameResultByBettingMarketId = Immutable.Map(resolutions);
+            resolvedBetsById.forEach((resolvedBet) => {
+              const bettingMarketId = resolvedBet.get('betting_market_id');
+              if (gameResultByBettingMarketId.has(bettingMarketId)) {
+                totalAmountWon += resolvedBet.get('amount_won')
+              }
+            })
             description = I18n.t('transaction.bettingMarketResolved');
-            amount = rawTransaction.getIn(['op', 1, 'amount_paid']);
+            amount = totalAmountWon;
             precision = assetsById.getIn(['1.3.0', 'precision']);
             break;
           }
@@ -250,30 +253,7 @@ class HistoryService {
               const resolvedTime = moment(BlockchainUtils.calcBlockTime(blockNum, globalObject, dynGlobalObject));
               // Set amount won
               const gameResult = gameResultByBettingMarketId.get(bettingMarketId);
-              let amountWon = 0;
-              switch (gameResult) {
-                case 'win': {
-                  if (matchedBet.get('back_or_lay') === 'back') {
-                    amountWon = matchedBet.get('matched_bet_amount') * (matchedBet.get('backer_multiplier') - 1);
-                  } else if (matchedBet.get('back_or_lay') === 'lay') {
-                    amountWon = (-1) * matchedBet.get('matched_bet_amount');
-                  }
-                  break;
-                }
-                case 'not_win': {
-                  if (matchedBet.get('back_or_lay') === 'back') {
-                    amountWon = (-1) * matchedBet.get('matched_bet_amount');
-                  } else if (matchedBet.get('back_or_lay') === 'lay') {
-                    amountWon = matchedBet.get('matched_bet_amount') * (matchedBet.get('backer_multiplier') - 1);
-                  }
-                  break;
-                }
-                case 'cancel': {
-                  amountWon = 0;
-                  break;
-                }
-                default: break;
-              }
+              const amountWon = ObjectUtils.getAmountWonFromBetObject(matchedBet, gameResult);
               resolvedBet = resolvedBet.set('resolved_time', resolvedTime)
                                         .set('amount_won', amountWon);
               resolvedBetsById = resolvedBetsById.set(betId, resolvedBet);

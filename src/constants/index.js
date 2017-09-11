@@ -15,6 +15,7 @@ import ExportTypes from './ExportTypes';
 import FaqTopics from './FaqTopics';
 import EventStatus from './EventStatus';
 import BettingDrawerStates from './BettingDrawerStates';
+import BettingMarketResolutionTypes from './BettingMarketResolutionTypes';
 
 export {
   Config,
@@ -33,5 +34,6 @@ export {
   ObjectPrefix,
   FaqTopics,
   BettingDrawerStates,
-  EventStatus
+  EventStatus,
+  BettingMarketResolutionTypes
 }

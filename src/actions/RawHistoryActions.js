@@ -1,4 +1,4 @@
-import { ActionTypes, LoadingStatus, ObjectPrefix } from '../constants';
+import { ActionTypes, LoadingStatus, ObjectPrefix, Config } from '../constants';
 import {  CommunicationService } from '../services';
 import NotificationActions from './NotificationActions';
 import MyAccountPageActions from './MyAccountPageActions';
@@ -74,14 +74,15 @@ class RawHistoryActions {
           const isBeginningOfHistory = !persistedRawHistory || persistedRawHistory.size === 0;
           if (isBeginningOfHistory) {
             const dummyAdditionalTransactions = CommunicationService.fetchDummyTransactionHistorySynchronously(accountId);
-            dispatch(RawHistoryPrivateActions.prependRawTransactionsToRawHistoryAction(accountId, dummyAdditionalTransactions));
+            transactions = transactions.concat(dummyAdditionalTransactions);
           }
           // Prepend transaction history
           dispatch(RawHistoryPrivateActions.prependRawTransactionsToRawHistoryAction(accountId, transactions));
+          // Init my bets
+          return dispatch(BetActions.initMyBets());
+        }).then(() => {
           // Init transaction history
           dispatch(MyAccountPageActions.initTransactionHistory());
-          // Init my bets
-          dispatch(BetActions.initMyBets());
           // Set loading status
           dispatch(RawHistoryPrivateActions.setInitRawHistoryLoadingStatusAction(LoadingStatus.DONE));
           log.debug('Init raw history succeed.');
@@ -109,17 +110,20 @@ class RawHistoryActions {
           const stopTxHistoryId = latestTransactionId || (ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0');
           // Set loading status
           dispatch(RawHistoryPrivateActions.setCheckForNewRawHistoryLoadingStatusAction(LoadingStatus.LOADING));
+          let fetchedTransactions;
           return CommunicationService.fetchRecentHistory(accountId, stopTxHistoryId).then((transactions) => {
+            fetchedTransactions = transactions;
             // Prepend transaction history
             dispatch(RawHistoryPrivateActions.prependRawTransactionsToRawHistoryAction(accountId, transactions));
+            // Update my bets
+            return dispatch(BetActions.checkForNewMyBets(transactions));
+          }).then(() => {
+            // Update transaction history
+            dispatch(MyAccountPageActions.updateTransactionHistory(fetchedTransactions));
+            // Update notification
+            dispatch(NotificationActions.updateNotifications(fetchedTransactions));
             // Set loading status
             dispatch(RawHistoryPrivateActions.setCheckForNewRawHistoryLoadingStatusAction(LoadingStatus.DONE));
-            // Update transaction history
-            dispatch(MyAccountPageActions.updateTransactionHistory(transactions));
-            // Update my bets
-            dispatch(BetActions.checkForNewMyBets(transactions));
-            // Update notification
-            dispatch(NotificationActions.updateNotifications(transactions));
             log.debug('Check for new raw history succeed.');
           }).catch((error) => {
             // Set error

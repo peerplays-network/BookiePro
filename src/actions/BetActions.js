@@ -131,7 +131,7 @@ class BetActions {
           bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
         })
 
-        dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)).then((bettingMarkets) => {
+        return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)).then((bettingMarkets) => {
           // Get unique betting market group ids
           let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('group_id')).toSet();
           // Get the betting market groups
@@ -160,7 +160,7 @@ class BetActions {
         }).catch((error) => {
           log.error('Fail to init my bets', error);
           // Set error
-          dispatch(BetActions.setInitMyBetsErrorAction(error));
+          dispatch(BetPrivateActions.setInitMyBetsErrorAction(error));
         });
       }
     }
@@ -190,7 +190,7 @@ class BetActions {
           bettingMarketIds = bettingMarketIds.add(bet.get('betting_market_id'));
         })
 
-        dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)).then((bettingMarkets) => {
+        return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds)).then((bettingMarkets) => {
           // Get unique betting market group ids
           let bettingMarketGroupIds = bettingMarkets.map(bettingMarket => bettingMarket.get('group_id')).toSet();
           // Get the betting market groups

@@ -41,8 +41,8 @@ class TopMenu extends PureComponent {
   }
 
   gotoMyAccount() {
-      this.props.navigateTo('/my-account');
-      this.setState({ isSubMenuVisible: false });
+    this.props.navigateTo('/my-account');
+    this.setState({ isSubMenuVisible: false });
   }
 
   handleWithdrawSubmit(values){

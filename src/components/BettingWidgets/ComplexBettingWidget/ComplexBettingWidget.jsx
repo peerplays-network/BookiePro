@@ -87,7 +87,7 @@ class ComplexBettingWidget extends PureComponent {
    */
   setTableData(tableData, unconfirmedBets, reserveIndex){
 
-    if ( !tableData.isEmpty()){
+    if ( tableData && !tableData.isEmpty()){
 
       let backBookPercent = BettingModuleUtils.getBookPercentage( this.getBestOfferOfEachmarket(tableData, BetTypes.BACK) );
       let layBookPercent = BettingModuleUtils.getBookPercentage( this.getBestOfferOfEachmarket(tableData, BetTypes.LAY) );

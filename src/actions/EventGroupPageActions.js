@@ -6,7 +6,6 @@ import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
 import _ from 'lodash';
-import Immutable from 'immutable';
 import log from 'loglevel';
 
 class EventGroupPagePrivateActions {
