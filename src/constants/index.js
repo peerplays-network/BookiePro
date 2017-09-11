@@ -8,7 +8,7 @@ import BetTypes from './BetTypes';
 import BetCategories from './BetCategories';
 import CurrencyTypes from './CurrencyTypes';
 import TimeRangePeriodTypes from './TimeRangePeriodTypes';
-import DummyOperationTypes from './DummyOperationTypes';
+import ChainTypes from './ChainTypes';
 import AppBackgroundTypes from './AppBackgroundTypes';
 import MyWagerTabTypes from './MyWagerTabTypes';
 import ExportTypes from './ExportTypes';
@@ -27,7 +27,7 @@ export {
   NotificationTypes,
   CurrencyTypes,
   TimeRangePeriodTypes,
-  DummyOperationTypes,
+  ChainTypes,
   AppBackgroundTypes,
   MyWagerTabTypes,
   ExportTypes,

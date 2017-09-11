@@ -1,10 +1,9 @@
 import _ from 'lodash';
 import Immutable from 'immutable';
 import { BlockchainUtils } from '../utility';
-import { NotificationTypes, DummyOperationTypes } from '../constants';
+import { NotificationTypes, ChainTypes } from '../constants';
 const { calcBlockTime } = BlockchainUtils;
 import { I18n } from 'react-redux-i18n';
-import { ChainTypes } from 'peerplaysjs-lib';
 
 class NotificationService {
   // Use this to generate notification id
@@ -25,7 +24,7 @@ class NotificationService {
         // Extract asset Id
         const assetId = operationContent.getIn(['amount', 'asset_id']);
         relevantAssetIds = relevantAssetIds.push(assetId);
-      } else if (operationType === DummyOperationTypes.BETTING_MARKET_RESOLVED) {
+      } else if (operationType === ChainTypes.operations.betting_market_group_resolved) {
         // Extract betting market Id
         const resolutions = operationContent.get('resolutions');
         const bettingMarketIds = resolutions.map(resolution => resolution.get(0));
@@ -89,7 +88,7 @@ class NotificationService {
           }
           break;
         }
-        case DummyOperationTypes.BETTING_MARKET_RESOLVED: {
+        case ChainTypes.operations.betting_market_group_resolved: {
           const type = NotificationTypes.BET_RESOLVED;
           const content = I18n.t('notification.bet_resolved');
           // Mark as read if notification card is shown

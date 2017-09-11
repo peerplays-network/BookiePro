@@ -15,7 +15,7 @@ import {
   RuleActions
 } from '../actions';
 import Immutable from 'immutable';
-import { ObjectPrefix, Config, DummyOperationTypes } from '../constants';
+import { ObjectPrefix, Config, ChainTypes } from '../constants';
 import { ChainValidation } from 'peerplaysjs-lib';
 import _ from 'lodash';
 import dummyData from '../dummyData';
@@ -147,7 +147,7 @@ class CommunicationService {
           let matchedBetIds = Immutable.List();
           updatedObjects.forEach(updatedObject => {
             const operationType = updatedObject.getIn(['op', 0]);
-            if (operationType === DummyOperationTypes.BET_MATCHED) {
+            if (operationType === ChainTypes.operations.bet_matched) {
               const betId = updatedObject.getIn(['op', 1, 'bet_id']);
               matchedBetIds = matchedBetIds.push(betId);
             }

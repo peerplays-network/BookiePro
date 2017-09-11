@@ -1,6 +1,5 @@
-import { DummyOperationTypes, TimeRangePeriodTypes, BetCategories, Config } from '../constants';
+import { ChainTypes, TimeRangePeriodTypes, BetCategories, Config } from '../constants';
 import { BlockchainUtils, DateUtils, CurrencyUtils, BettingModuleUtils, ObjectUtils } from '../utility';
-import { ChainTypes } from 'peerplaysjs-lib';
 import { I18n } from 'react-redux-i18n';
 import Immutable from 'immutable';
 import moment from 'moment';
@@ -29,10 +28,10 @@ class HistoryService {
       // Check the operation type to ensure it is relevant
       const operationType = rawTransaction.getIn(['op', 0]);
       const isRelevant = (operationType === ChainTypes.operations.transfer) ||
-                          (operationType === DummyOperationTypes.MAKE_BET) ||
-                          (operationType === DummyOperationTypes.BET_MATCHED) ||
-                          (operationType === DummyOperationTypes.BETTING_MARKET_RESOLVED) ||
-                          (operationType === DummyOperationTypes.BET_CANCELLED);
+                          (operationType === ChainTypes.operations.bet_place) ||
+                          (operationType === ChainTypes.operations.bet_matched) ||
+                          (operationType === ChainTypes.operations.betting_market_group_resolved) ||
+                          (operationType === ChainTypes.operations.bet_canceled);
 
       // Only process the transaction, if it is relevant
       if (isRelevant) {
@@ -53,28 +52,28 @@ class HistoryService {
             precision = assetsById.getIn([assetId, 'precision']);
             break;
           }
-          case DummyOperationTypes.MAKE_BET: {
+          case ChainTypes.operations.bet_place: {
             description = I18n.t('transaction.makeBet');
             const amountToBet = rawTransaction.getIn(['op', 1, 'amount_to_bet']);
             amount = amountToBet.get('amount');
             precision = assetsById.getIn([amountToBet.get('asset_id'), 'precision']);
             break;
           }
-          case DummyOperationTypes.BET_CANCELLED: {
+          case ChainTypes.operations.bet_canceled: {
             description = I18n.t('transaction.betCancelled');
             const stakeReturned = rawTransaction.getIn(['op', 1, 'stake_returned']);
             amount = stakeReturned.get('amount');
             precision = assetsById.getIn([stakeReturned.get('asset_id'), 'precision']);
             break;
           }
-          case DummyOperationTypes.BET_MATCHED: {
+          case ChainTypes.operations.bet_matched: {
             description = I18n.t('transaction.betMatched');
             const amountBet = rawTransaction.getIn(['op', 1, 'amount_bet']);
             amount = amountBet.get('amount');
             precision = assetsById.getIn([amountBet.get('asset_id'), 'precision']);
             break;
           }
-          case DummyOperationTypes.BETTING_MARKET_RESOLVED: {
+          case ChainTypes.operations.betting_market_group_resolved: {
             const resolvedBetsById = state.getIn(['bet', 'resolvedBetsById']);
             let totalAmountWon = 0
             const resolutions = rawTransaction.getIn(['op', 1, 'resolutions']);
@@ -169,7 +168,7 @@ class HistoryService {
       const operationContent = rawTransaction.getIn(['op', 1]);
       const operationResult = rawTransaction.getIn(['result', 1]);
       switch (operationType) {
-        case DummyOperationTypes.MAKE_BET: {
+        case ChainTypes.operations.bet_place: {
           // Create unmatched bets object
           const betId = operationResult;
           const id =  rawTransaction.get('id');
@@ -188,14 +187,14 @@ class HistoryService {
           unmatchedBetsById = unmatchedBetsById.set(id, unmatchedBet);
           break;
         }
-        case DummyOperationTypes.BET_CANCELLED: {
+        case ChainTypes.operations.bet_canceled: {
           const betId = operationContent.get('bet_id');
           unmatchedBetsById = unmatchedBetsById.filterNot( bet => {
             return bet.get('original_bet_id') === betId;
           });
           break;
         }
-        case DummyOperationTypes.BET_MATCHED: {
+        case ChainTypes.operations.bet_matched: {
           const betId = operationContent.get('bet_id');
           // Get unmatched bet
           let unmatchedBet = unmatchedBetsById.find(bet => bet.get('original_bet_id') === betId);
@@ -233,7 +232,7 @@ class HistoryService {
           }
           break;
         }
-        case DummyOperationTypes.BETTING_MARKET_RESOLVED: {
+        case ChainTypes.operations.betting_market_group_resolved: {
           const resolutions = operationContent.get('resolutions');
           const bettingMarketIds = resolutions.map(resolution =>  resolution.get(0));
           let gameResultByBettingMarketId = Immutable.Map(resolutions);
