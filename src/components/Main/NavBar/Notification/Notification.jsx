@@ -12,9 +12,9 @@ import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
 import {
   Card
-} from 'antd';
+} from 'antd/lib/card';
 
-class Notification extends PureComponent{
+export class Notification extends PureComponent{
 
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.notification));
