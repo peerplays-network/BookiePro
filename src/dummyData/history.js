@@ -3,9 +3,10 @@ import _ from 'lodash';
 
 // Assume
 // 201 is operation type for make_bet (DummyOperationTypes.MAKE_BET)
-// 202 is operation type for cancel_bet (DummyOperationTypes.CANCEL_BET)
+// 202 is operation type for cancel_bet (DummyOperationTypes.CANCEL_BET) // For display, we don't use this and use 205 BET_CANCELLED instead
 // 203 is operation type for fill_bet (DummyOperationTypes.FILL_BET)
 // 204 is operation type for betting_market_resolved (DummyOperationTypes.BETTING_MARKET_RESOLVED)
+// 205 is operation type for bet_cancelled (DummyOperationTypes.BET_CANCELLED)
 
 // TODO: add more transaction history, especially to fill my wager page, for the following 5 types of bets
 // Fully unmatched bets, partially matched bets, fully matched bets, cancelled bets, and resolved bets across different markets
@@ -31,17 +32,16 @@ import _ from 'lodash';
 // - also don't add any BETTING_MARKET_RESOLVED that with the same betting_market_id as the above MAKE_BET
 // To make cancelled fully unmatched bets:
 // - add MAKE_BET operation
-// - add CANCEL_BET operation with amount_refunded = original_bet_amount
+// - add BET_CANCELLED operation with stake_returned = original_bet_amount
 // - don't add any FILL_BET that with the same bet_id as the above MAKE_BET
 // - also don't add any BETTING_MARKET_RESOLVED that with the same betting_market_id as the above MAKE_BET
 // To make cancelled partially unmatched bets:
 // - make partially unmatched bets
-// - add CANCEL_BET operation with amount_refunded = (original_bet_amount - sum of matched_bet_amount of related FILLED_BET)
+// - add BET_CANCELLED operation with stake_returned = (original_bet_amount - sum of matched_bet_amount of related FILLED_BET)
 // - don't add any BETTING_MARKET_RESOLVED that with the same betting_market_id as the above MAKE_BET
 // To make resolved bets:
 // - make partially matched bets/ fully matched bets on a particular betting market
 // - add BETTING_MARKET_RESOLVED with betting_market_id equal to the above partially matched bets/ fully matched bets
-// - since amount_paid of BETTING_MARKET_RESOLVED is used as it is (we don't need to do calculation on it), we can just put arbitary number here to make our life easier
 
 // To help the developers and QA on testing (especially for checking placed bets),
 // the following list lists the related dummy betting_market and betting_market_group specified in this dummy data
@@ -117,7 +117,6 @@ const listOfOperations = [
     {
       "bettor_id": dummyAccountId,
       "betting_market_group_id": "1.104.3",
-      "winnings": 10000,
       "resolutions": [
         ["1.105.5", "win"]
       ]
@@ -128,7 +127,6 @@ const listOfOperations = [
     {
       "bettor_id": dummyAccountId,
       "betting_market_id": "1.104.2",
-      "winnings": 10000,
       "resolutions": [
         ["1.105.4", "win"]
       ]
@@ -377,7 +375,6 @@ const listOfOperations = [
     {
       "bettor_id": dummyAccountId,
       "betting_market_group_id": "1.104.2",
-      "winnings": 100000,
       "resolutions": [
         ["1.105.3", "win"]
       ]
@@ -541,19 +538,25 @@ const listOfOperations = [
     }
   ],
   [
-    DummyOperationTypes.CANCEL_BET,
+    DummyOperationTypes.BET_CANCELLED,
     {
       "bet_id": "1.106.4",
-      "amount_refunded": 4000,
-      "asset_type": "1.3.0",
+      "bettor_id": dummyAccountId,
+      "stake_returned": {
+        "amount":4000,
+        "asset_id": "1.3.0"
+      }
     }
   ],
   [
-    DummyOperationTypes.CANCEL_BET,
+    DummyOperationTypes.BET_CANCELLED,
     {
       "bet_id": "1.106.7",
-      "amount_refunded": 1000,
-      "asset_type": "1.3.0",
+      "bettor_id": dummyAccountId,
+      "stake_returned": {
+        "amount":1000,
+        "asset_id": "1.3.0"
+      }
     }
   ],
   [
@@ -727,11 +730,14 @@ const listOfOperations = [
     }
   ],
   [
-    DummyOperationTypes.CANCEL_BET,
+    DummyOperationTypes.BET_CANCELLED,
     {
       "bet_id": "1.106.1",
-      "amount_refunded": 10000,
-      "asset_type": "1.3.0",
+      "bettor_id": dummyAccountId,
+      "stake_returned": {
+        "amount": 10000,
+        "asset_id": "1.3.0"
+      }
     }
   ],
   [
