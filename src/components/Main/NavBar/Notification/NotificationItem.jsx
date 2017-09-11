@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-class NotificationItem extends PureComponent{
+export class NotificationItem extends PureComponent{
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
