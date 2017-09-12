@@ -12,7 +12,8 @@ import {
   BettingMarketGroupActions,
   BinnedOrderBookActions,
   BalanceActions,
-  RuleActions
+  RuleActions,
+  LiquidityActions
 } from '../actions';
 import Immutable from 'immutable';
 import { ObjectPrefix, Config, ChainTypes } from '../constants';
@@ -174,27 +175,34 @@ class CommunicationService {
           break;
         }
         case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
-          // For each bet matched/ bet placed/ canceled happened on a betting market, refresh the binned order book
+          // For each bet matched/ bet placed/ canceled happened on a betting market, refresh the binned order book and total matched bets
           let bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = Immutable.List();
-          let betIds = Immutable.List();
+          let matchedBetIds = Immutable.List();
+          let canceledBetIds = Immutable.List();
           updatedObjects.forEach(updatedObject => {
             const operationType = updatedObject.getIn(['op', 0]);
             if (operationType === ChainTypes.operations.bet_matched) {
               const betId = updatedObject.getIn(['op', 1, 'bet_id']);
-              betIds = betIds.push(betId);
+              matchedBetIds = matchedBetIds.push(betId);
             } else if (operationType === ChainTypes.operations.bet_canceled) {
               const betId = updatedObject.getIn(['op', 1, 'bet_id']);
-              betIds = betIds.push(betId);
+              canceledBetIds = canceledBetIds.push(betId);
             } else if (operationType === ChainTypes.operations.bet_place) {
               const bettingMarketId = updatedObject.getIn(['op', 1, 'betting_market_id']);
               bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bettingMarketIdsOfBinnedOrderBooksToBeRefreshed.push(bettingMarketId);
             }
           })
+
+          const betIds = matchedBetIds.concat(canceledBetIds);
           this.getPersistedBookieObjectsByIds(betIds).then(bets => {
             const bettingMarketIds = bets.map(bet => bet.get('betting_market_id'));
             bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bettingMarketIdsOfBinnedOrderBooksToBeRefreshed.concat(bettingMarketIds).toSet().toList();
             // Refresh binned order books
             this.dispatch(BinnedOrderBookActions.refreshBinnedOrderBooksByBettingMarketIds(bettingMarketIdsOfBinnedOrderBooksToBeRefreshed));
+
+            const bettingMarketIdsOfMatchedBets = bets.filter(bet => matchedBetIds.contains(bet.get('id'))).map(bet => bet.get('betting_market_id'));
+            // Update total matched bets
+            this.dispatch(LiquidityActions.updateTotalMatchedBetsGivenBettingMarketIds(bettingMarketIdsOfMatchedBets))
           });
           break;
         }

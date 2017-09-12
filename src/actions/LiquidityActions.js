@@ -20,27 +20,32 @@ class LiquidityPrivateActions {
 }
 
 class LiquidityActions {
+
   /**
    * Get total matched bets for each betting market group, provided the array of betting market group ids (can be immutable)
    * Return a map of total matched bets with betting market group id
    */
-  static getTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds) {
+  static getTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds, force=false) {
     return (dispatch, getState) => {
       let retrievedTotalMatchedBetsByBettingMarketGroupId = Immutable.Map();
       let bettingMarketGroupIdsOfTotalMatchedBetsToBeRetrieved = Immutable.List();
 
-      // Check if the requested data is already inside redux store
-      const getTotalMatchedBetsByBettingMarketGroupIdsLoadingStatus = getState().getIn(['liquidity', 'getTotalMatchedBetsByBettingMarketGroupIdsLoadingStatus']);
-      const totalMatchedBetsByBettingMarketGroupId = getState().getIn(['liquidity', 'totalMatchedBetsByBettingMarketGroupId']);
-      bettingMarketGroupIds.forEach( bettingMarketGroupId => {
-        if (getTotalMatchedBetsByBettingMarketGroupIdsLoadingStatus.get(bettingMarketGroupId) === LoadingStatus.DONE) {
-          if (totalMatchedBetsByBettingMarketGroupId.has(bettingMarketGroupId)) {
-            retrievedTotalMatchedBetsByBettingMarketGroupId = retrievedTotalMatchedBetsByBettingMarketGroupId.concat(totalMatchedBetsByBettingMarketGroupId.get(bettingMarketGroupId));
+      if (force) {
+        bettingMarketGroupIdsOfTotalMatchedBetsToBeRetrieved = bettingMarketGroupIds;
+      } else {
+        // Check if the requested data is already inside redux store
+        const getTotalMatchedBetsByBettingMarketGroupIdsLoadingStatus = getState().getIn(['liquidity', 'getTotalMatchedBetsByBettingMarketGroupIdsLoadingStatus']);
+        const totalMatchedBetsByBettingMarketGroupId = getState().getIn(['liquidity', 'totalMatchedBetsByBettingMarketGroupId']);
+        bettingMarketGroupIds.forEach( bettingMarketGroupId => {
+          if (getTotalMatchedBetsByBettingMarketGroupIdsLoadingStatus.get(bettingMarketGroupId) === LoadingStatus.DONE) {
+            if (totalMatchedBetsByBettingMarketGroupId.has(bettingMarketGroupId)) {
+              retrievedTotalMatchedBetsByBettingMarketGroupId = retrievedTotalMatchedBetsByBettingMarketGroupId.concat(totalMatchedBetsByBettingMarketGroupId.get(bettingMarketGroupId));
+            }
+          } else {
+            bettingMarketGroupIdsOfTotalMatchedBetsToBeRetrieved = bettingMarketGroupIdsOfTotalMatchedBetsToBeRetrieved.push(bettingMarketGroupId);
           }
-        } else {
-          bettingMarketGroupIdsOfTotalMatchedBetsToBeRetrieved = bettingMarketGroupIdsOfTotalMatchedBetsToBeRetrieved.push(bettingMarketGroupId);
-        }
-      })
+        })
+      }
 
       if (bettingMarketGroupIdsOfTotalMatchedBetsToBeRetrieved.size === 0) {
         // No data to be retrieved from blockchain, return retrieved data from redux store
@@ -57,6 +62,28 @@ class LiquidityActions {
           dispatch(LiquidityPrivateActions.setGetTotalMatchedBetsByBettingMarketGroupIdsLoadingStatus(bettingMarketGroupIdsOfTotalMatchedBetsToBeRetrieved, LoadingStatus.DONE));
         }));
       }
+    }
+  }
+
+  /**
+   * Update total matched bets given betting market ids
+   */
+  static updateTotalMatchedBetsGivenBettingMarketIds(bettingMarketIds) {
+    return (dispatch, getState) => {
+      // Only update existing total matched bets
+      let bmgIdsOfTotalMatchedBetsToBeUpdated =  Immutable.List();
+      bettingMarketIds.forEach(bettingMarketId => {
+        // If it is existing total matched bets, we must have its betting market object locally
+        const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', bettingMarketId]);
+        const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
+
+        const totalMatchedBetsByBettingMarketGroupId = getState().getIn(['liquidity', 'totalMatchedBetsByBettingMarketGroupId']);
+        // Check if the related betting market group exist (which means it needs update)
+        if (totalMatchedBetsByBettingMarketGroupId.has(bettingMarketGroupId)) {
+          bmgIdsOfTotalMatchedBetsToBeUpdated = bmgIdsOfTotalMatchedBetsToBeUpdated.concat(bettingMarketGroupId);
+        }
+      });
+      return dispatch(LiquidityActions.getTotalMatchedBetsByBettingMarketGroupIds(bmgIdsOfTotalMatchedBetsToBeUpdated, true));
     }
   }
 }
