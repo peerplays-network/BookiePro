@@ -174,18 +174,25 @@ class CommunicationService {
           break;
         }
         case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
-          // For each bet matched happened on a betting market, refresh the binned order book
+          // For each bet matched/ bet placed/ canceled happened on a betting market, refresh the binned order book
           let bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = Immutable.List();
-          let matchedBetIds = Immutable.List();
+          let betIds = Immutable.List();
           updatedObjects.forEach(updatedObject => {
             const operationType = updatedObject.getIn(['op', 0]);
             if (operationType === ChainTypes.operations.bet_matched) {
               const betId = updatedObject.getIn(['op', 1, 'bet_id']);
-              matchedBetIds = matchedBetIds.push(betId);
+              betIds = betIds.push(betId);
+            } else if (operationType === ChainTypes.operations.bet_canceled) {
+              const betId = updatedObject.getIn(['op', 1, 'bet_id']);
+              betIds = betIds.push(betId);
+            } else if (operationType === ChainTypes.operations.bet_place) {
+              const bettingMarketId = updatedObject.getIn(['op', 1, 'betting_market_id']);
+              bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bettingMarketIdsOfBinnedOrderBooksToBeRefreshed.push(bettingMarketId);
             }
           })
-          this.getPersistedBookieObjectsByIds(matchedBetIds).then(bets => {
-            bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bets.map(bet => bet.get('betting_market_id')).toSet().toList();
+          this.getPersistedBookieObjectsByIds(betIds).then(bets => {
+            const bettingMarketIds = bets.map(bet => bet.get('betting_market_id'));
+            bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bettingMarketIdsOfBinnedOrderBooksToBeRefreshed.concat(bettingMarketIds).toSet().toList();
             // Refresh binned order books
             this.dispatch(BinnedOrderBookActions.refreshBinnedOrderBooksByBettingMarketIds(bettingMarketIdsOfBinnedOrderBooksToBeRefreshed));
           });
@@ -265,16 +272,6 @@ class CommunicationService {
           const bettingMarketIds = localizedUpdatedObject.map(object => object.get('id'));
           // Get related binned order books
           this.dispatch(BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
-          break;
-        }
-        case ObjectPrefix.BET_PREFIX: {
-          // Use set
-          let bettingMarketIds = updatedObjects.map((updatedObject) => {
-            return updatedObject.get('betting_market_id')
-          }).toSet().toList();
-
-          // Update related binned order books
-          this.dispatch(BinnedOrderBookActions.refreshBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
           break;
         }
         default: break;
