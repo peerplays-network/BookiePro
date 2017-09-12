@@ -1,4 +1,4 @@
-import { ActionTypes, LoadingStatus, ObjectPrefix, Config } from '../constants';
+import { ActionTypes, LoadingStatus, ObjectPrefix } from '../constants';
 import {  CommunicationService } from '../services';
 import NotificationActions from './NotificationActions';
 import MyAccountPageActions from './MyAccountPageActions';

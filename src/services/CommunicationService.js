@@ -59,12 +59,6 @@ class CommunicationService {
    * Callback for change in the blockchain
    */
   static onUpdate(data) {
-    // TODO: remove dummy data later
-    if (Config.useDummyData) {
-      // If we are using dummy data, ignore any real time update from blockchain
-      // Coz it will generate conflict
-      return;
-    }
     // Split and categorize updated data from blockchain
     // We flatten it since the updatd data from blockchain is an array of array
     this.categorizeUpdatedDataFromBlockchain(_.flatten(data));
@@ -97,6 +91,22 @@ class CommunicationService {
       if (ChainValidation.is_object_id(object)) {
         const deletedObjectId = object;
         const objectIdPrefix = getObjectIdPrefix(deletedObjectId);
+
+        // TODO: remove dummy data later
+        if (Config.useDummyData) {
+          // If we are using dummy data, ignore any real time update for dummy data object
+          // which is sport, event_group, event, rule, bmg, bm
+          // Coz it will generate conflict
+          if (objectIdPrefix === ObjectPrefix.SPORT_PREFIX ||
+              objectIdPrefix === ObjectPrefix.EVENT_GROUP_PREFIX ||
+              objectIdPrefix === ObjectPrefix.EVENT_PREFIX ||
+              objectIdPrefix === ObjectPrefix.RULE_PREFIX ||
+              objectIdPrefix === ObjectPrefix.BETTING_MARKET_GROUP_PREFIX ||
+              objectIdPrefix === ObjectPrefix.BETTING_MARKET_PREFIX) {
+            return true;
+          }
+        }
+
         // Add this to the list if it is relevant
         if (isRelevantObject(objectIdPrefix)) {
           this.deletedObjectIdsByObjectIdPrefix = this.deletedObjectIdsByObjectIdPrefix.update(objectIdPrefix, list => {
@@ -108,6 +118,22 @@ class CommunicationService {
       } else {
         const updatedObjectId = object.id;
         const objectIdPrefix = getObjectIdPrefix(updatedObjectId);
+
+        // TODO: remove dummy data later
+        if (Config.useDummyData) {
+          // If we are using dummy data, ignore any real time update for dummy data object
+          // which is sport, event_group, event, rule, bmg, bm
+          // Coz it will generate conflict
+          if (objectIdPrefix === ObjectPrefix.SPORT_PREFIX ||
+              objectIdPrefix === ObjectPrefix.EVENT_GROUP_PREFIX ||
+              objectIdPrefix === ObjectPrefix.EVENT_PREFIX ||
+              objectIdPrefix === ObjectPrefix.RULE_PREFIX ||
+              objectIdPrefix === ObjectPrefix.BETTING_MARKET_GROUP_PREFIX ||
+              objectIdPrefix === ObjectPrefix.BETTING_MARKET_PREFIX) {
+            return true;
+          }
+        }
+
         // Add this to the list if it is relevant
         if (isRelevantObject(objectIdPrefix)) {
           this.updatedObjectsByObjectIdByObjectIdPrefix = this.updatedObjectsByObjectIdByObjectIdPrefix.update(objectIdPrefix, map => {
