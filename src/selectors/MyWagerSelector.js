@@ -102,8 +102,6 @@ const getBetTotal = createSelector(
     let total = 0;
     if (activeTab === MyWagerTabTypes.RESOLVED_BETS) {
       total = bets.reduce( (reduction, bet) => {
-        console.log(bet.get('amount_won'))
-        console.log('reduction', reduction)
         return reduction + bet.get('amount_won')
       }, 0);
     } else {
@@ -127,6 +125,7 @@ const getBetTotal = createSelector(
 
 const getCancelBetsByIdsLoadingStatus = (state) => state.getIn(['bet','cancelBetsByIdsLoadingStatus']);
 
+// Extend bet objects with necessary fields
 const getExtendedBets = createSelector(
   [
     getRelatedBetsCollection,
@@ -166,6 +165,7 @@ const getExtendedBets = createSelector(
   }
 )
 
+// Sort bet objects according to natural order
 const getSortedBets = createSelector(
   [
     getActiveTab,
@@ -181,6 +181,7 @@ const getSortedBets = createSelector(
 
 )
 
+// Format the currency in a bet's field (stake, profit/ liability, and amount won)
 const getBetsWithFormattedCurrency = createSelector(
   [
     getSortedBets,
@@ -204,25 +205,22 @@ const getBetsWithFormattedCurrency = createSelector(
   }
 )
 
-//formatting data after getting all reuired data merged
 // Bet data currently looks like this
-/**
-back_or_lay:"back"
-betting_market_id:"1.105.1"
-cancel:Object
-event_id:"1.103.1"
-event_name:Object
-event_time:"Tomorrow, 14:54"
-id:"1.106.9"
-key:"1.106.9"
-betting_market_description: "NY Giants",
-betting_market_group_description: "Moneyline",
-backer_multiplier:2.25
-profit_liability:"0.50000"
-sport_name:"American Football"
-stake:"0.625"
-type:"LAY | NY Giants  | Moneyline"
- */
+// back_or_lay:"back"
+// betting_market_id:"1.105.1"
+// cancel:Object
+// event_id:"1.103.1"
+// event_name:Object
+// event_time:"Tomorrow, 14:54"
+// id:"1.106.9"
+// key:"1.106.9"
+// betting_market_description: "NY Giants",
+// betting_market_group_description: "Moneyline",
+// backer_multiplier:2.25
+// profit_liability:"0.50000"
+// sport_name:"American Football"
+// stake:"0.625"
+// type:"LAY | NY Giants  | Moneyline"
 
 // Format bet objects to be shown on table
 const getBetData = createSelector(

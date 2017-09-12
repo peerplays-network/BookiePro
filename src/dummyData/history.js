@@ -52,725 +52,729 @@ import _ from 'lodash';
 // - betting_market 1.105.1 (betting_market group 1.104.1 NY Giants vs Green Bay Moneyline)
 // - TODO: extend this list if listOfOperations is extended
 
-const dummyAccountId = Config.dummyDataAccountId;
 
 const oddsPrecision = Config.oddsPrecision;
-const listOfOperations = [
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.24",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.13",
-      "back_or_lay": "back",
-      "backer_multiplier": 2.0 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 5000,
-        "asset_id": "1.3.0"
+const generateListOfOperations = (dummyAccountId) => {
+  return [
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.24",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.13",
+        "back_or_lay": "back",
+        "backer_multiplier": 2.0 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 5000,
+          "asset_id": "1.3.0"
+        }
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.23",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.13",
-      "back_or_lay": "back",
-      "backer_multiplier": 2.0 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 5000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.23",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.13",
+        "back_or_lay": "back",
+        "backer_multiplier": 2.0 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 5000,
+          "asset_id": "1.3.0"
+        }
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.22",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.13",
-      "back_or_lay": "lay",
-      "backer_multiplier": 3.0 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 10000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.22",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.13",
+        "back_or_lay": "lay",
+        "backer_multiplier": 3.0 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 10000,
+          "asset_id": "1.3.0"
+        }
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.21",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.13",
-      "back_or_lay": "back",
-      "backer_multiplier": 2.0 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 5000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.21",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.13",
+        "back_or_lay": "back",
+        "backer_multiplier": 2.0 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 5000,
+          "asset_id": "1.3.0"
+        }
       }
-    }
-  ],
-  [
-    ChainTypes.operations.betting_market_group_resolved,
-    {
-      "bettor_id": dummyAccountId,
-      "betting_market_group_id": "1.104.3",
-      "resolutions": [
-        ["1.105.5", "win"]
-      ]
-    }
-  ],
-  [
-    ChainTypes.operations.betting_market_group_resolved,
-    {
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.104.2",
-      "resolutions": [
-        ["1.105.4", "win"]
-      ]
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.20",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.5",
-      "back_or_lay": "lay",
-      "backer_multiplier": 2.0 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 5000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.betting_market_group_resolved,
+      {
+        "bettor_id": dummyAccountId,
+        "betting_market_group_id": "1.104.3",
+        "resolutions": [
+          ["1.105.5", "win"]
+        ]
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.19",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.4",
-      "back_or_lay": "back",
-      "backer_multiplier": 2.0 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 5000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.betting_market_group_resolved,
+      {
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.104.2",
+        "resolutions": [
+          ["1.105.4", "win"]
+        ]
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.18",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "lay",
-      "backer_multiplier": 2.0 * oddsPrecision,
-      "amount_bet": {
-        "amount": 2000,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.17",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "lay",
-      "backer_multiplier": 2.0 * oddsPrecision,
-      "amount_bet": {
-        "amount": 1000,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.16",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "lay",
-      "backer_multiplier": 2.0 * oddsPrecision,
-      "amount_bet": {
-        "amount": 35000,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.18",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "lay",
-      "backer_multiplier": 2.0 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 2000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.20",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.5",
+        "back_or_lay": "lay",
+        "backer_multiplier": 2.0 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 5000,
+          "asset_id": "1.3.0"
+        }
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.17",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "lay",
-      "backer_multiplier": 2.0 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 1000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.19",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.4",
+        "back_or_lay": "back",
+        "backer_multiplier": 2.0 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 5000,
+          "asset_id": "1.3.0"
+        }
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.16",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "lay",
-      "backer_multiplier": 2.0 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 1000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.18",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "lay",
+        "backer_multiplier": 2.0 * oddsPrecision,
+        "amount_bet": {
+          "amount": 2000,
+          "asset_id": "1.3.0"
+        },
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.14",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "back",
-      "backer_multiplier": 2.0 * oddsPrecision,
-      "amount_bet": {
-        "amount": 25000,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.15",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "back",
-      "backer_multiplier": 2.0 * oddsPrecision,
-      "amount_bet": {
-        "amount": 15000,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.15",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "back",
-      "backer_multiplier": 2.0 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 15000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.17",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "lay",
+        "backer_multiplier": 2.0 * oddsPrecision,
+        "amount_bet": {
+          "amount": 1000,
+          "asset_id": "1.3.0"
+        },
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.14",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "back",
-      "backer_multiplier": 2.0 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 25000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.16",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "lay",
+        "backer_multiplier": 2.0 * oddsPrecision,
+        "amount_bet": {
+          "amount": 35000,
+          "asset_id": "1.3.0"
+        },
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.13",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "back",
-      "backer_multiplier": 1.5 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 35000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.18",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "lay",
+        "backer_multiplier": 2.0 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 2000,
+          "asset_id": "1.3.0"
+        }
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.12",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "back",
-      "backer_multiplier": 2.8 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 2500,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.17",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "lay",
+        "backer_multiplier": 2.0 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 1000,
+          "asset_id": "1.3.0"
+        }
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.11",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "back",
-      "backer_multiplier": 3.5 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 4000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.16",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "lay",
+        "backer_multiplier": 2.0 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 1000,
+          "asset_id": "1.3.0"
+        }
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.10",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "back",
-      "backer_multiplier": 2.5 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 3000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.14",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "back",
+        "backer_multiplier": 2.0 * oddsPrecision,
+        "amount_bet": {
+          "amount": 25000,
+          "asset_id": "1.3.0"
+        },
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.9",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "lay",
-      "backer_multiplier": 2.25 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 50000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.15",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "back",
+        "backer_multiplier": 2.0 * oddsPrecision,
+        "amount_bet": {
+          "amount": 15000,
+          "asset_id": "1.3.0"
+        },
       }
-    }
-  ],
-  [
-    ChainTypes.operations.betting_market_group_resolved,
-    {
-      "bettor_id": dummyAccountId,
-      "betting_market_group_id": "1.104.2",
-      "resolutions": [
-        ["1.105.3", "win"]
-      ]
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.5",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "back",
-      "backer_multiplier": 1.75 * oddsPrecision,
-      "amount_bet": {
-        "amount": 200,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.8",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "lay",
-      "backer_multiplier": 2.5 * oddsPrecision,
-      "amount_bet": {
-        "amount": 300,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.8",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "lay",
-      "backer_multiplier": 2.5 * oddsPrecision,
-      "amount_bet": {
-        "amount": 300,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.5",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "back",
-      "backer_multiplier": 1.75 * oddsPrecision,
-      "matched_bet_amount": 200,
-      "amount_bet": {
-        "amount": 200,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.8",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "lay",
-      "backer_multiplier": 2.5 * oddsPrecision,
-      "amount_bet": {
-        "amount": 300,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.8",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "lay",
-      "backer_multiplier": 2.5 * oddsPrecision,
-      "matched_bet_amount": 500,
-      "amount_bet": {
-        "amount": 500,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.5",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "back",
-      "backer_multiplier": 1.75 * oddsPrecision,
-      "amount_bet": {
-        "amount": 1000,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.5",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "back",
-      "backer_multiplier": 1.75 * oddsPrecision,
-      "amount_bet": {
-        "amount": 400,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.5",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "back",
-      "backer_multiplier": 1.75 * oddsPrecision,
-      "matched_bet_amount": 300,
-      "amount_bet": {
-        "amount": 300,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.5",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "back",
-      "backer_multiplier": 1.75 * oddsPrecision,
-      "amount_bet": {
-        "amount": 200,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.5",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "back",
-      "backer_multiplier": 1.75 * oddsPrecision,
-      "amount_bet": {
-        "amount": 1000,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_canceled,
-    {
-      "bet_id": "1.106.4",
-      "bettor_id": dummyAccountId,
-      "stake_returned": {
-        "amount":4000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.15",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "back",
+        "backer_multiplier": 2.0 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 15000,
+          "asset_id": "1.3.0"
+        }
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_canceled,
-    {
-      "bet_id": "1.106.7",
-      "bettor_id": dummyAccountId,
-      "stake_returned": {
-        "amount":1000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.14",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "back",
+        "backer_multiplier": 2.0 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 25000,
+          "asset_id": "1.3.0"
+        }
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.8",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "lay",
-      "backer_multiplier": 2.5 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 5000,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.7",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "back",
-      "backer_multiplier": 2.25 * oddsPrecision,
-      "original_bet_amount": 1000,
-      "amount_to_bet": {
-        "amount": 1000,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.6",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "lay",
-      "backer_multiplier": 5.25 * oddsPrecision,
-      "original_bet_amount": 2000,
-      "amount_to_bet": {
-        "amount": 2000,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.5",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "back",
-      "backer_multiplier": 1.75 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 3000,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.4",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.3",
-      "back_or_lay": "lay",
-      "backer_multiplier": 2.60 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 4000,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.3",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "lay",
-      "backer_multiplier": 1.5 * oddsPrecision,
-      "amount_bet": {
-        "amount": 300,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.3",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "lay",
-      "backer_multiplier": 1.5 * oddsPrecision,
-      "amount_bet": {
-        "amount": 700,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.3",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "lay",
-      "backer_multiplier": 2.25 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 1000,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.2",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "back",
-      "backer_multiplier": 1.5 * oddsPrecision,
-      "amount_bet": {
-        "amount": 700,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.2",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "back",
-      "backer_multiplier": 1.5 * oddsPrecision,
-      "amount_bet": {
-        "amount": 300,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_matched,
-    {
-      "bet_id": "1.106.2",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "back",
-      "backer_multiplier": 1.5 * oddsPrecision,
-      "amount_bet": {
-        "amount": 200,
-        "asset_id": "1.3.0"
-      },
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.2",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "back",
-      "backer_multiplier": 1.5 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 20000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.13",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "back",
+        "backer_multiplier": 1.5 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 35000,
+          "asset_id": "1.3.0"
+        }
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_canceled,
-    {
-      "bet_id": "1.106.1",
-      "bettor_id": dummyAccountId,
-      "stake_returned": {
-        "amount": 10000,
-        "asset_id": "1.3.0"
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.12",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "back",
+        "backer_multiplier": 2.8 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 2500,
+          "asset_id": "1.3.0"
+        }
       }
-    }
-  ],
-  [
-    ChainTypes.operations.bet_place,
-    {
-      "bet_id": "1.106.1",
-      "bettor_id": dummyAccountId,
-      "betting_market_id": "1.105.1",
-      "back_or_lay": "back",
-      "backer_multiplier": 1.25 * oddsPrecision,
-      "amount_to_bet": {
-        "amount": 10000,
-        "asset_id": "1.3.0"
-      },
-    }
-  ]
-];
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.11",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "back",
+        "backer_multiplier": 3.5 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 4000,
+          "asset_id": "1.3.0"
+        }
+      }
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.10",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "back",
+        "backer_multiplier": 2.5 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 3000,
+          "asset_id": "1.3.0"
+        }
+      }
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.9",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "lay",
+        "backer_multiplier": 2.25 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 50000,
+          "asset_id": "1.3.0"
+        }
+      }
+    ],
+    [
+      ChainTypes.operations.betting_market_group_resolved,
+      {
+        "bettor_id": dummyAccountId,
+        "betting_market_group_id": "1.104.2",
+        "resolutions": [
+          ["1.105.3", "win"]
+        ]
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.5",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "back",
+        "backer_multiplier": 1.75 * oddsPrecision,
+        "amount_bet": {
+          "amount": 200,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.8",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "lay",
+        "backer_multiplier": 2.5 * oddsPrecision,
+        "amount_bet": {
+          "amount": 300,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.8",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "lay",
+        "backer_multiplier": 2.5 * oddsPrecision,
+        "amount_bet": {
+          "amount": 300,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.5",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "back",
+        "backer_multiplier": 1.75 * oddsPrecision,
+        "matched_bet_amount": 200,
+        "amount_bet": {
+          "amount": 200,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.8",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "lay",
+        "backer_multiplier": 2.5 * oddsPrecision,
+        "amount_bet": {
+          "amount": 300,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.8",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "lay",
+        "backer_multiplier": 2.5 * oddsPrecision,
+        "matched_bet_amount": 500,
+        "amount_bet": {
+          "amount": 500,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.5",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "back",
+        "backer_multiplier": 1.75 * oddsPrecision,
+        "amount_bet": {
+          "amount": 1000,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.5",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "back",
+        "backer_multiplier": 1.75 * oddsPrecision,
+        "amount_bet": {
+          "amount": 400,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.5",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "back",
+        "backer_multiplier": 1.75 * oddsPrecision,
+        "matched_bet_amount": 300,
+        "amount_bet": {
+          "amount": 300,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.5",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "back",
+        "backer_multiplier": 1.75 * oddsPrecision,
+        "amount_bet": {
+          "amount": 200,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.5",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "back",
+        "backer_multiplier": 1.75 * oddsPrecision,
+        "amount_bet": {
+          "amount": 1000,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_canceled,
+      {
+        "bet_id": "1.106.4",
+        "bettor_id": dummyAccountId,
+        "stake_returned": {
+          "amount":4000,
+          "asset_id": "1.3.0"
+        }
+      }
+    ],
+    [
+      ChainTypes.operations.bet_canceled,
+      {
+        "bet_id": "1.106.7",
+        "bettor_id": dummyAccountId,
+        "stake_returned": {
+          "amount":1000,
+          "asset_id": "1.3.0"
+        }
+      }
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.8",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "lay",
+        "backer_multiplier": 2.5 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 5000,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.7",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "back",
+        "backer_multiplier": 2.25 * oddsPrecision,
+        "original_bet_amount": 1000,
+        "amount_to_bet": {
+          "amount": 1000,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.6",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "lay",
+        "backer_multiplier": 5.25 * oddsPrecision,
+        "original_bet_amount": 2000,
+        "amount_to_bet": {
+          "amount": 2000,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.5",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "back",
+        "backer_multiplier": 1.75 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 3000,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.4",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.3",
+        "back_or_lay": "lay",
+        "backer_multiplier": 2.60 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 4000,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.3",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "lay",
+        "backer_multiplier": 1.5 * oddsPrecision,
+        "amount_bet": {
+          "amount": 300,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.3",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "lay",
+        "backer_multiplier": 1.5 * oddsPrecision,
+        "amount_bet": {
+          "amount": 700,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.3",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "lay",
+        "backer_multiplier": 2.25 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 1000,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.2",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "back",
+        "backer_multiplier": 1.5 * oddsPrecision,
+        "amount_bet": {
+          "amount": 700,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.2",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "back",
+        "backer_multiplier": 1.5 * oddsPrecision,
+        "amount_bet": {
+          "amount": 300,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_matched,
+      {
+        "bet_id": "1.106.2",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "back",
+        "backer_multiplier": 1.5 * oddsPrecision,
+        "amount_bet": {
+          "amount": 200,
+          "asset_id": "1.3.0"
+        },
+      }
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.2",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "back",
+        "backer_multiplier": 1.5 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 20000,
+          "asset_id": "1.3.0"
+        }
+      }
+    ],
+    [
+      ChainTypes.operations.bet_canceled,
+      {
+        "bet_id": "1.106.1",
+        "bettor_id": dummyAccountId,
+        "stake_returned": {
+          "amount": 10000,
+          "asset_id": "1.3.0"
+        }
+      }
+    ],
+    [
+      ChainTypes.operations.bet_place,
+      {
+        "bet_id": "1.106.1",
+        "bettor_id": dummyAccountId,
+        "betting_market_id": "1.105.1",
+        "back_or_lay": "back",
+        "backer_multiplier": 1.25 * oddsPrecision,
+        "amount_to_bet": {
+          "amount": 10000,
+          "asset_id": "1.3.0"
+        },
+      }
+    ]
+  ];
+}
 
 
-const dummyTransactionHistoryMaxIdInstanceNumber = listOfOperations.length + 100000;
-const dummyMaxBlockNum = listOfOperations.length * 3;
-const dummyMaxVirtualOpId = listOfOperations.length + 100000;
 
 /**
 * Function to generate history given the list of operations
 * This reduces the number of redundant and tedious job of creating dummy data (i.e. setting id, block_num, virtual_op for each transaction)
 */
-const generateHistory = () => {
+const generateHistory = (accountId) => {
   const result = [];
 
   // 1 transaction every 3 seconds;
   // Note, if you want to modify this, make sure to modify the dummyMaxBlockNum accordingly, so it couldn't reach below zero
   const transactionInterval =  3;
+
+  const listOfOperations = generateListOfOperations(accountId);
+
+  const dummyTransactionHistoryMaxIdInstanceNumber = listOfOperations.length + 100000;
+  const dummyMaxBlockNum = listOfOperations.length * 3;
+  const dummyMaxVirtualOpId = listOfOperations.length + 100000;
 
   let nextTransactionHistoryMaxIdInstanceNumber = dummyTransactionHistoryMaxIdInstanceNumber;
   let nextBlockNum = dummyMaxBlockNum;
@@ -813,6 +817,8 @@ const generateHistory = () => {
   return result;
 }
 
-const history = generateHistory();
+const history = {
+  generateHistory
+};
 
 export default history;

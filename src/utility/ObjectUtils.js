@@ -131,13 +131,14 @@ const localizeArrayOfObjects = (arrayOfObjects, fieldsToLocalize=[], lang='en') 
 }
 
 /**
- * report if the event is active by comparing with current time and event start time
+ * Report if the event is active by checking its status
  *
  * @param {event} event Immutable.JSobject in Immutable.JS
  * @returns {boolean} - if the event active.
  */
 const isActiveEvent = (event) => {
   const eventStatus = event.get('status');
+
   // Event is active if it is not completed or canceled
   return eventStatus !== EventStatus.COMPLETED && eventStatus !== EventStatus.CANCELED;
 }

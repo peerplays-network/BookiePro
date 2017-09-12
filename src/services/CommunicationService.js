@@ -22,7 +22,7 @@ import dummyData from '../dummyData';
 import log from 'loglevel';
 const TIMEOUT_LENGTH = 500;
 const SYNC_MIN_INTERVAL = 1000; // 1 seconds
-const { blockchainTimeStringToDate, getObjectIdPrefix, isRelevantObject } = BlockchainUtils;
+const { blockchainTimeStringToDate, getObjectIdPrefix, isRelevantObject, getObjectIdInstanceNumber } = BlockchainUtils;
 
 class CommunicationService {
   static dispatch = null;
@@ -59,6 +59,12 @@ class CommunicationService {
    * Callback for change in the blockchain
    */
   static onUpdate(data) {
+    // TODO: remove dummy data later
+    if (Config.useDummyData) {
+      // If we are using dummy data, ignore any real time update from blockchain
+      // Coz it will generate conflict
+      return;
+    }
     // Split and categorize updated data from blockchain
     // We flatten it since the updatd data from blockchain is an array of array
     this.categorizeUpdatedDataFromBlockchain(_.flatten(data));
@@ -484,10 +490,16 @@ class CommunicationService {
   * Fetch recent history of an account  given object id of the transaction
   */
   static fetchRecentHistory(accountId, stopTxHistoryId, limit=Number.MAX_SAFE_INTEGER) {
-    // 1.11.0 denotes the current time
-    const currentTimeTransactionId = ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0';
-    const startTxHistoryId = currentTimeTransactionId;
-    return this.fetchTransactionHistory(accountId, startTxHistoryId, stopTxHistoryId, limit);
+    // TODO: remove dummy data later
+    if (Config.useDummyData) {
+      return this.fetchDummyTransactionHistory(accountId, stopTxHistoryId);
+    } else {
+      // 1.11.0 denotes the current time
+      const currentTimeTransactionId = ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0';
+      const startTxHistoryId = currentTimeTransactionId;
+      return this.fetchTransactionHistory(accountId, startTxHistoryId, stopTxHistoryId, limit);
+    }
+
   }
 
   /**
@@ -819,13 +831,21 @@ class CommunicationService {
   /**
    * Fetch dummy transaction history
    */
-  static fetchDummyTransactionHistorySynchronously(accountId) {
+  static fetchDummyTransactionHistory(accountId, stopTxHistoryId) {
     // TODO: remove later
-    if (accountId === Config.dummyDataAccountId) {
-      return Immutable.fromJS(dummyData.history);
-    } else {
-      return Immutable.List();
-    }
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        let history = Immutable.fromJS(dummyData.history.generateHistory(accountId));
+        if (stopTxHistoryId) {
+          history = history.filter((transaction) => {
+            const transactionIdInstanceNumber = getObjectIdInstanceNumber(transaction.get('id'));
+            const stopTxHistoryIdInstanceNumber = getObjectIdInstanceNumber(stopTxHistoryId);
+            return transactionIdInstanceNumber > stopTxHistoryIdInstanceNumber;
+          })
+        }
+        resolve(history);
+      }, TIMEOUT_LENGTH);
+    });
   }
 
   /**

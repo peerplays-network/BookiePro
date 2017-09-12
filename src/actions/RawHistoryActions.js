@@ -69,13 +69,6 @@ class RawHistoryActions {
         // Set loading status
         dispatch(RawHistoryPrivateActions.setInitRawHistoryLoadingStatusAction(LoadingStatus.LOADING));
         CommunicationService.fetchRecentHistory(accountId, stopTxHistoryId).then((transactions) => {
-          // TODO: remove dummy history later
-          const persistedRawHistory = getState().getIn(['rawHistory', 'rawHistoryByAccountId', accountId]);
-          const isBeginningOfHistory = !persistedRawHistory || persistedRawHistory.size === 0;
-          if (isBeginningOfHistory) {
-            const dummyAdditionalTransactions = CommunicationService.fetchDummyTransactionHistorySynchronously(accountId);
-            transactions = transactions.concat(dummyAdditionalTransactions);
-          }
           // Prepend transaction history
           dispatch(RawHistoryPrivateActions.prependRawTransactionsToRawHistoryAction(accountId, transactions));
           // Init my bets
@@ -91,7 +84,6 @@ class RawHistoryActions {
           dispatch(RawHistoryPrivateActions.setInitRawHistoryErrorAction(error));
           log.error('Init raw history error', error);
         })
-
       }
     }
   }
@@ -105,7 +97,7 @@ class RawHistoryActions {
       if (accountId) {
         // Create function to check new raw history so we can add it to the queue (to prevent duplicate, i.e running concurrently)
         const doTheCheck = () => {
-          // Init history
+          // Check for new history
           const latestTransactionId = getState().getIn(['rawHistory', 'rawHistoryByAccountId', accountId, 0, 'id']);
           const stopTxHistoryId = latestTransactionId || (ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0');
           // Set loading status
@@ -131,6 +123,7 @@ class RawHistoryActions {
             log.error('Check for raw history error', error);
           })
         }
+
         // Add to the queue
         checkForNewRawHistoryQueue.add(doTheCheck);
       }
