@@ -12,6 +12,16 @@ const {
 
 const getRelatedSportId = (state, ownProps) => ownProps.params.objectId;
 
+const getSport = createSelector(
+  [
+    getSportsById,
+    getRelatedSportId
+  ],
+  (sportsById, relatedSportId) => {
+    return sportsById.get(relatedSportId);
+  }
+);
+
 const getSportName = createSelector(
   [
     getRelatedSportId,
@@ -130,6 +140,7 @@ const getSportPageData = createSelector(
 )
 
 const SportPageSelector = {
+  getSport,
   getSportPageData,
   getSportName
 }

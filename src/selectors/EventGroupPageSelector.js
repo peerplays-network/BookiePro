@@ -12,6 +12,16 @@ const {
 
 const getRelatedEventGroupId = (state, ownProps) => ownProps.params.objectId;
 
+const getEventGroup = createSelector(
+  [
+    getEventGroupsById,
+    getRelatedEventGroupId
+  ],
+  (eventGroupsById, relatedEventGroupId) => {
+    return eventGroupsById.get(getEventGroupsById);
+  }
+);
+
 const getEventGroupName = createSelector(
   [
     getRelatedEventGroupId,
@@ -123,6 +133,7 @@ const getEventGroupPageData = createSelector(
 )
 
 const EventGroupPageSelector = {
+  getEventGroup,
   getEventGroupPageData,
   getEventGroupName,
   getSportName

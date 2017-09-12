@@ -32,31 +32,36 @@ class BettingMarketGroup extends PureComponent {
   }
 
   render() {
-
-    return (
-      <div className='betting-market-group-wrapper'>
-        <BettingMarketGroupBanner
-          eventName={ this.props.eventName }
-          eventTime={ this.props.eventTime }
-          isLiveMarket={ this.props.isLiveMarket }
-        />
-        <ComplexBettingWidget
-          isLiveMarket={ this.props.isLiveMarket }
-          marketData={ this.props.marketData }
-          totalMatchedBetsAmount={ this.props.totalMatchedBetsAmount }
-          createBet={ this.props.createBet }
-          unconfirmedBets={ this.props.unconfirmedBets }
-          currencyFormat={ this.props.currencyFormat }
-          loadingStatus={ this.props.loadingStatus }
-          widgetTitle={ this.props.widgetTitle }
-          rules={ this.props.rules }
-          canCreateBet={ this.props.canCreateBet }
-        />
-        <div className='margin-top-18'>
-          <PeerPlaysLogo />
+    const { bettingMarketGroup } = this.props;
+    // Return nothing if betting market group doesn't exist
+    if (!bettingMarketGroup | bettingMarketGroup.isEmpty()) {
+      return null;
+    } else {
+      return (
+        <div className='betting-market-group-wrapper'>
+          <BettingMarketGroupBanner
+            eventName={ this.props.eventName }
+            eventTime={ this.props.eventTime }
+            isLiveMarket={ this.props.isLiveMarket }
+          />
+          <ComplexBettingWidget
+            isLiveMarket={ this.props.isLiveMarket }
+            marketData={ this.props.marketData }
+            totalMatchedBetsAmount={ this.props.totalMatchedBetsAmount }
+            createBet={ this.props.createBet }
+            unconfirmedBets={ this.props.unconfirmedBets }
+            currencyFormat={ this.props.currencyFormat }
+            loadingStatus={ this.props.loadingStatus }
+            widgetTitle={ this.props.widgetTitle }
+            rules={ this.props.rules }
+            canCreateBet={ this.props.canCreateBet }
+          />
+          <div className='margin-top-18'>
+            <PeerPlaysLogo />
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 }
 
