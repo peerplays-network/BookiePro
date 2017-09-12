@@ -19,13 +19,6 @@ class NotificationPrivateActions {
     }
   }
 
-  static setLatestTransactionHistoryId(latestTransactionHistoryId, accountId) {
-    return {
-      type: ActionTypes.NOTIFICATION_SET_LATEST_TRANSACTION_HISTORY_ID,
-      latestTransactionHistoryId,
-      accountId
-    }
-  }
 
   static setInitNotificationErrorAction(error) {
     return {

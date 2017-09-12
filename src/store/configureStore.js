@@ -10,6 +10,7 @@ import { I18n } from 'react-redux-i18n';
 import { translationsObject } from './translations';
 import Immutable from 'immutable';
 import rootReducer from '../reducers';
+import { Config } from '../constants';
 import log from 'loglevel';
 
 const syncImmutableTranslationWithStore = (store) => {
@@ -68,25 +69,36 @@ export default function configureStore() {
   // Create filter to whitelist only subset of the redux store
   const subsetFilterTransform = createTransform(
     (inboundState, key) => {
-      // Only persist latestTransactionHistoryIdByAccountId for notification reducer
-      if (key === 'notification') {
-        const savedState = inboundState.filter((v, k) => k === 'latestTransactionHistoryIdByAccountId');
-        return savedState;
-      } else if (key ==='rawHistory') {
+      if (key ==='rawHistory') {
         // Only persist rawHistoryByAccountId for history reducer
-        const savedState = inboundState.filter((v, k) => k === 'rawHistoryByAccountId');
-        return savedState;
+        // TODO: remove dummy data later
+        if (Config.useDummyData) {
+          // Don't persist dummy data history
+          return Immutable.Map();
+        } else {
+          const savedState = inboundState.filter((v, k) => k === 'rawHistoryByAccountId');
+          return savedState;
+        }
       } else {
         return inboundState;
       }
     },
-    (outboundState, key) => { return outboundState },
+    (outboundState, key) => {
+      // Don't get back dummy data persisted history, because it will cause conflict
+      // TODO: remove dummy data later
+      if (Config.useDummyData && key ==='rawHistory') {
+        return Immutable.Map();
+      } else {
+        return outboundState
+      }
+    },
   );
 
+  let persistedStoreWhiteList = ['setting', 'account', 'rawHistory'];
   // Persist store
   persistStore(store, {
     storage: localforage,
-    whitelist: ['setting', 'notification', 'account', /*'rawHistory'*/], // TODO: persist it only after we have find a way to optimize it
+    whitelist: persistedStoreWhiteList,
     transforms: [subsetFilterTransform],
   }, () => {
     log.debug('Auto Rehydrate completed');
