@@ -3,7 +3,7 @@ import { I18n } from 'react-redux-i18n';
 import { createSelector } from 'reselect';
 import _ from 'lodash';
 import { CurrencyUtils, BettingModuleUtils, DateUtils, ObjectUtils } from '../utility';
-import { TimeRangePeriodTypes, MyWagerTabTypes, LoadingStatus, BetCategories } from '../constants';
+import { TimeRangePeriodTypes, MyWagerTabTypes, LoadingStatus, BetCategories, BetTypes } from '../constants';
 import CommonSelector from './CommonSelector';
 
 const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
@@ -93,6 +93,38 @@ const getRelatedBetsCollection = createSelector(
   }
 );
 
+// memoized selector - function totaling stake and liability
+// The following functionality only applies if all bets are under the same currency format
+// TODO: modify the logic and the UI if we support multiple currency
+const getBetTotal = createSelector(
+  [getActiveTab, getRelatedBetsCollection, getCurrencyFormat, getAssetsById],
+  (activeTab, bets, currencyFormat, assetsById) => {
+    let total = 0;
+    if (activeTab === MyWagerTabTypes.RESOLVED_BETS) {
+      total = bets.reduce( (reduction, bet) => {
+        console.log(bet.get('amount_won'))
+        console.log('reduction', reduction)
+        return reduction + bet.get('amount_won')
+      }, 0);
+    } else {
+      total = bets.reduce( (reduction, bet) => {
+        const backOrLay = bet.get('back_or_lay');
+        let amount = 0;
+        if (backOrLay === BetTypes.BACK) {
+          amount = getStakeFromBetObject(bet);
+        } else if (backOrLay === BetTypes.LAY) {
+          amount = getProfitLiabilityFromBetObject(bet);
+        }
+        return reduction + amount;
+      }, 0);
+    }
+
+    const precision = assetsById.getIn(['1.3.0', 'precision']);
+    const formattedTotal = CurrencyUtils.getFormattedCurrency(total/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces);
+    return formattedTotal;
+  }
+);
+
 const getCancelBetsByIdsLoadingStatus = (state) => state.getIn(['bet','cancelBetsByIdsLoadingStatus']);
 
 const getExtendedBets = createSelector(
@@ -143,7 +175,7 @@ const getSortedBets = createSelector(
     if (activeTab === MyWagerTabTypes.RESOLVED_BETS) {
       return extendedBets.sortBy(bet => bet.get('resolved_time')).reverse();
     } else {
-      return extendedBets.sortBy(bet => bet.get('event_time')).reverse(); 
+      return extendedBets.sortBy(bet => bet.get('event_time')).reverse();
     }
   }
 
@@ -219,19 +251,6 @@ const getBetData = createSelector(
       }
       return bet;
     });
-  }
-);
-
-//memoized selector - function totaling stake and liability
-const getBetTotal = createSelector(
-  [getBetData, getCurrencyFormat],
-  (bets, currencyFormat) => {
-    let total = 0;
-    bets.forEach((row, index) => {
-      //parsed stake and profit_liability otherwise it considers string and concatenate the values
-      total += parseFloat(row.get('stake')) + parseFloat(row.get('profit_liability'));
-    });
-    return total.toFixed(currencyFormat === 'mBTC' ? 5 : 2);
   }
 );
 
