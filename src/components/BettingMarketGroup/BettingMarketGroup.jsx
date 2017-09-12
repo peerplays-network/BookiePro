@@ -34,7 +34,7 @@ class BettingMarketGroup extends PureComponent {
   render() {
     const { bettingMarketGroup } = this.props;
     // Return nothing if betting market group doesn't exist
-    if (!bettingMarketGroup | bettingMarketGroup.isEmpty()) {
+    if (!bettingMarketGroup || bettingMarketGroup.isEmpty()) {
       return null;
     } else {
       return (

@@ -18,7 +18,7 @@ class EventGroup extends PureComponent {
 
   componentWillReceiveProps(nextProps){
     if (!nextProps.eventGroup || nextProps.eventGroup.isEmpty()) {
-      // Sport doesn't exist,
+      // Event group doesn't exist,
       // Go back to home page
       this.props.navigateTo('/exchange');
     } else {

@@ -18,7 +18,7 @@ const getEventGroup = createSelector(
     getRelatedEventGroupId
   ],
   (eventGroupsById, relatedEventGroupId) => {
-    return eventGroupsById.get(getEventGroupsById);
+    return eventGroupsById.get(relatedEventGroupId);
   }
 );
 
