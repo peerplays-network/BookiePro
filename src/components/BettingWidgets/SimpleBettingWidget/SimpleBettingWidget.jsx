@@ -32,7 +32,7 @@ const eventTimeColumnWidth = 65;
 const offerColumnWidth = 70;
 
 const renderEventTime = (text, record) => {
-  const isLiveMarket= record.get('isLiveMarket');
+  const isLiveMarket= record.get('is_live_market');
   if (isLiveMarket) {
     return <span>{ I18n.t('simple_betting_widget.live') }</span>;
   } else {

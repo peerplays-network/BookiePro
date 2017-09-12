@@ -56,7 +56,7 @@ class SearchOption extends PureComponent {
 
     return (
       <div className={ option.id !== '0' ? 'Select-option-holder' : 'Select-option-holder Select-result' } onClick={ option.id !== '0' ? this.handleMouseDown : null }>
-        {  option.isLiveMarket &&  <span className='badge' />  }
+        {  option.is_live_market &&  <span className='badge' />  }
         <div className={ option.id !== '0' ? 'Select-option' : 'Select-option Select-result' }>
           { option.name }
         </div>

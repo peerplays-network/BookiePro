@@ -72,7 +72,7 @@ const getEventTime = createSelector(
 const getIsLiveMarket = createSelector(
   getEvent,
   (event) => {
-    return event && event.get('isLiveMarket');
+    return event && event.get('is_live_market');
   }
 )
 
