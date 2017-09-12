@@ -30,10 +30,23 @@ describe('Test cases on "Deposit" component',()=>{
     expect(depositWrapper.find('QRCode').length).toEqual(1)
   });
 
+  it('Check if qrcode "QRCode" component has the supplied value', () => {
+    const strToCompare = JSON.stringify('aaa')
+    expect(depositWrapper.find('QRCode').prop('value')).toEqual(strToCompare)
+  });
+
   it('Check rendering of the antd "Input" component in the "Deposit" component', () => {
     expect(depositWrapper.find('Input').length).toEqual(1)
   });
 
+  it('Check if antd "Input" component has the supplied value', () => {
+    expect(depositWrapper.find('Input').prop('value')).toEqual('aaa')
+  });
+
+  it('Check if antd "Input" has disabled property', () => {
+    expect(depositWrapper.find('Input').prop('readOnly')).toBe(true)
+  });
+  
   it('Check rendering of html button in the "Deposit" component', () => {
     expect(depositWrapper.find('button').length).toEqual(1)
   });
