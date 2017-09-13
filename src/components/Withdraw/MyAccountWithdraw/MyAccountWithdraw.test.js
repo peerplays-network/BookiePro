@@ -4,18 +4,19 @@ import React from 'react';
 import { shallow , mount  }  from 'enzyme';
 import sinon from 'sinon'
 
-import { reducer as formReducer } from 'redux-form'
+import { reducer as formReducer } from 'redux-form/immutable'
 import { createStore, combineReducers } from 'redux'
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
+import Immutable from 'immutable'
 
 describe('<MyAccountWithdrawContainer />', () => {     
- let store;
-        let onSave;
-	    let withdrawWrapper;
-    const props = {onSave,
-      resetWithdrawLoadingStatus:()=>{}
-    }
-beforeEach(() => {
+  let store;
+  let onSave;
+  let withdrawWrapper;
+  const props = {values: Immutable.List(), onSave,
+    resetWithdrawLoadingStatus:()=>{}
+  }
+  beforeEach(() => {
 		store = createStore(combineReducers({ form: formReducer }))
 		onSave = sinon.stub().returns(Promise.resolve())
 		// With redux-form v5, we could do <ContactFormContainer store={store}/>.
@@ -30,22 +31,22 @@ beforeEach(() => {
     expect(tree).toMatchSnapshot();
   });
 
+  //Check error message display if withdraw amount is not entered on blur
   it('check if withdraw amount is not entered on blur',() => {
     const input = withdrawWrapper.find('input').first();         
-    input.simulate('blur');    
-    
-    const firstNameHelpBlock = withdrawWrapper.find('.errorText');
+    input.simulate('blur');
 
+    const firstNameHelpBlock = withdrawWrapper.find('.errorText');
     expect(firstNameHelpBlock.text()).toEqual('Enter Withdraw Amount');
   });
 
-  // it('check if withdraw amount is entered on blur',() => {
-  //   withdrawWrapper.find('input').first().value = '123';
-  //   withdrawWrapper.find('input').first().simulate('change');
+  //Check error message not displayed if withdraw amount is entered on blur
+  it('check if withdraw amount is entered on blur',() => {
+    let input = withdrawWrapper.find('input').first();
+    input.node.value = '123'
+    input.simulate('change', input)
+    input.simulate('blur');
 
-  //   withdrawWrapper.find('input').first().simulate('blur');
-  //   console.log(withdrawWrapper.find('.errorText').at(0).text());
-
-  //   expect(withdrawWrapper.find('.errorText').length).toBe(0);
-  // });
+    expect(withdrawWrapper.find('.errorText').length).toBe(0);
+  });
 });
