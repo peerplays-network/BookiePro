@@ -50,7 +50,7 @@ export default function (state = initialState, action) {
       // Set next state to initial state
       let nextState = initialState;
       // However, keep the transaction history by account id (since we want to persist it)
-      const rawHistoryByAccountId = state.rawHistoryByAccountId.filter( (v, k) => k === action.accountId) || Immutable.Map();
+      const rawHistoryByAccountId = state.get('rawHistoryByAccountId').filter( (v, k) => k === action.accountId) || Immutable.Map();
       nextState = nextState.set('rawHistoryByAccountId', rawHistoryByAccountId);
       return nextState;
     }
