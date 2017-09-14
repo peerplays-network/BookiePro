@@ -217,8 +217,8 @@ class EventActions {
         const team2Name = teamNameArray[1];
         const keywordLowerCase = keyword.toLowerCase();
 
-        return ( team1Name.toLowerCase().indexOf(keywordLowerCase) >= 0 ||
-          team2Name.toLowerCase().indexOf(keywordLowerCase) >= 0 )
+        return ( ( !(team1Name === undefined) && team1Name.toLowerCase().indexOf(keywordLowerCase) >= 0  ) ||
+          ( !(team2Name === undefined) && team2Name.toLowerCase().indexOf(keywordLowerCase) >= 0 ) )
       });
 
       // Set data to redux store
