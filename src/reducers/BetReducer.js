@@ -53,36 +53,12 @@ export default function (state = initialState, action) {
       })
     }
     case ActionTypes.BET_UPDATE_MY_BETS: {
-      let unmatchedBetsById = state.get('unmatchedBetsById');
-      let matchedBetsById = state.get('matchedBetsById');
-      let resolvedBetsById = state.get('resolvedBetsById');
-
-      // Update the data
-      action.myBets.unmatchedBetsById.forEach((unmatchedBet, id) => {
-        unmatchedBetsById = unmatchedBetsById.set(id, unmatchedBet)
-      })
-      action.myBets.matchedBetsById.forEach((matchedBet, id) => {
-        const matchedAmount = matchedBet.get('matched_bet_amount');
-        // Update unmatched portion
-        let unmatchedBet = unmatchedBetsById.get(id);
-        if (unmatchedBet) {
-          const unmatchedAmount = unmatchedBet.get('unmatched_bet_amount');
-          const updatedUnmatchedAmount = unmatchedAmount - matchedAmount;
-          unmatchedBet = unmatchedBet.set('unmatched_bet_amount', updatedUnmatchedAmount);
-          unmatchedBetsById = unmatchedBetsById.set(id, unmatchedBet);
-        }
-        matchedBetsById = matchedBetsById.set(id, matchedBet);
-      })
-      action.myBets.resolvedBetsById.forEach((resolvedBet, id) => {
-        // Remove from resolved bets
-        matchedBetsById = matchedBetsById.delete(id);
-        resolvedBetsById = resolvedBetsById.set(id, resolvedBet)
-      })
       return state.merge({
-        unmatchedBetsById: unmatchedBetsById,
-        matchedBetsById: matchedBetsById,
-        resolvedBetsById: resolvedBetsById
-      })
+        unmatchedBetsById: action.myBets.unmatchedBetsById,
+        matchedBetsById: action.myBets.matchedBetsById,
+        resolvedBetsById: action.myBets.resolvedBetsById
+      });
+    
     }
     case ActionTypes.BET_SET_MAKE_BETS_LOADING_STATUS: {
       return state.merge({

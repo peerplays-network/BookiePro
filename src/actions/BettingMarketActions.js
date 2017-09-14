@@ -31,6 +31,13 @@ class BettingMarketActions {
     }
   }
 
+  static addPersistedBettingMarketsAction(bettingMarkets) {
+    return {
+      type: ActionTypes.BETTING_MARKET_ADD_PERSISTED_BETTING_MARKETS,
+      bettingMarkets
+    }
+  }
+
   static removeBettingMarketsByIdsAction(bettingMarketIds) {
     return {
       type: ActionTypes.BETTING_MARKET_REMOVE_BETTING_MARKETS_BY_IDS,
@@ -47,7 +54,9 @@ class BettingMarketActions {
       let bettingMarketGroupIdsOfBettingMarketsToBeRetrieved = Immutable.List();
 
       // Get bettingMarketsByBettingMarketGroupId
-      const bettingMarketsById = getState().getIn(['bettingMarket', 'bettingMarketsById']);
+      let bettingMarketsById = getState().getIn(['bettingMarket', 'bettingMarketsById']);
+      const persistedBettingMarketsById = getState().getIn(['bettingMarket', 'persistedBettingMarketsById']);
+      bettingMarketsById = bettingMarketsById.concat(persistedBettingMarketsById);
       let bettingMarketsByBettingMarketGroupId = Immutable.Map();
       bettingMarketsById.forEach( (bettingMarket, id) => {
         const bettingMarketGroupId = bettingMarket.get('event_id');
@@ -119,12 +128,31 @@ class BettingMarketActions {
         // Set status
         dispatch(BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(idsOfBettingMarketsToBeRetrieved, LoadingStatus.LOADING));
         return CommunicationService.getBettingMarketsByIds(idsOfBettingMarketsToBeRetrieved).then((bettingMarkets) => {
-          // Add to redux store
-          dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(bettingMarkets));
-          // Set status
-          dispatch(BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(idsOfBettingMarketsToBeRetrieved, LoadingStatus.DONE));
-          // Concat and return
-          return retrievedBettingMarkets.concat(bettingMarkets);
+          // Concat
+          retrievedBettingMarkets = retrievedBettingMarkets.concat(bettingMarkets);
+
+          // Check if we have retrieved all events
+          if (idsOfBettingMarketsToBeRetrieved.size === bettingMarkets.size) {
+            // All fetched
+            // Add to redux store
+            dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(bettingMarkets));
+            // Set status
+            dispatch(BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(idsOfBettingMarketsToBeRetrieved, LoadingStatus.DONE));
+            return retrievedBettingMarkets;
+          } else {
+            // Some of them are not fetched, use persistent api to fetch it
+            const retrievedBettingMarketIds = bettingMarkets.map(bettingMarket => bettingMarket.get('id'));
+            const filteredIdsOfBMsToBeRetrieved = idsOfBettingMarketsToBeRetrieved.filterNot(id => retrievedBettingMarketIds.includes(id));
+            return CommunicationService.getPersistedBettingMarketsByIds(filteredIdsOfBMsToBeRetrieved).then((persistedBMs) => {
+              retrievedBettingMarkets = retrievedBettingMarkets.concat(persistedBMs);
+              // Add to redux store
+              dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(bettingMarkets));
+              dispatch(BettingMarketActions.addPersistedBettingMarketsAction(persistedBMs));
+              // All fetched, set status
+              dispatch(BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(idsOfBettingMarketsToBeRetrieved, LoadingStatus.DONE));
+              return retrievedBettingMarkets;
+            });
+          }
         });
       }
     }

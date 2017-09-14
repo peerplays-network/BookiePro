@@ -12,6 +12,16 @@ const {
 
 const getRelatedSportId = (state, ownProps) => ownProps.params.objectId;
 
+const getSport = createSelector(
+  [
+    getSportsById,
+    getRelatedSportId
+  ],
+  (sportsById, relatedSportId) => {
+    return sportsById.get(relatedSportId);
+  }
+);
+
 const getSportName = createSelector(
   [
     getRelatedSportId,
@@ -111,7 +121,7 @@ const getSportPageData = createSelector(
           event_id: event.get('id'),
           event_name: event.get('name'),
           time: event.get('start_time'),
-          isLiveMarket: event.get('isLiveMarket'),
+          isLiveMarket: event.get('is_live_market'),
           offers,
           moneyline: moneylineBettingMarketGroupId,
         });
@@ -130,6 +140,7 @@ const getSportPageData = createSelector(
 )
 
 const SportPageSelector = {
+  getSport,
   getSportPageData,
   getSportName
 }

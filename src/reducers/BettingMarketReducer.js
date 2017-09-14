@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
   bettingMarketsById: {},
+  persistedBettingMarketsById: {},
   getBettingMarketsByIdsLoadingStatus: {},
   getBettingMarketsByBettingMarketGroupIdsLoadingStatus: {}
 });
@@ -17,6 +18,13 @@ export default function (state = initialState, action) {
       })
       return state.mergeIn(['bettingMarketsById'], bettingMarketsById);
     }
+    case ActionTypes.BETTING_MARKET_ADD_PERSISTED_BETTING_MARKETS: {
+      let bettingMarketsById = Immutable.Map();
+      action.bettingMarkets.forEach( bettingMarket => {
+        bettingMarketsById = bettingMarketsById.set(bettingMarket.get('id'), bettingMarket);
+      })
+      return state.mergeIn(['persistedBettingMarketsById'], bettingMarketsById);
+    }
     case ActionTypes.BETTING_MARKET_SET_GET_BETTING_MARKETS_BY_IDS_LOADING_STATUS: {
       let getBettingMarketsByIdsLoadingStatus = Immutable.Map();
       action.bettingMarketIds.forEach( id => {
@@ -27,6 +35,10 @@ export default function (state = initialState, action) {
     case ActionTypes.BETTING_MARKET_REMOVE_BETTING_MARKETS_BY_IDS: {
       let nextState = state;
       action.bettingMarketIds.forEach((bettingMarketId) => {
+        // Since we want to have persistent bm list
+        // Move bettingMarket from bettingMarketsById to persistedBettingMarketsById
+        const bettingMarket = state.getIn(['bettingMarketsById', bettingMarketId]);
+        nextState = nextState.setIn(['persistedBettingMarketsById', bettingMarketId], bettingMarket);
         nextState = nextState.deleteIn(['bettingMarketsById', bettingMarketId]);
       });
       return nextState;

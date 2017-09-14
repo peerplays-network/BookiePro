@@ -5,8 +5,8 @@
  */
 import { createSelector } from 'reselect';
 import { ObjectUtils } from '../utility';
+import { Config } from '../constants';
 import Immutable from 'immutable';
-import moment from 'moment';
 
 const getAccountId = (state) => {
   return state.getIn(['account', 'account','id'])
@@ -71,6 +71,17 @@ const getEventsById = (state) => {
   return state.getIn(['event', 'eventsById']);
 }
 
+const getPersistedEventsById = (state) => {
+  return state.getIn(['event', 'persistedEventsById']);
+}
+
+const getAggregatedEventsById = createSelector([
+  getEventsById,
+  getPersistedEventsById
+], (eventsById, persistedEventsById) => {
+  return eventsById.concat(persistedEventsById);
+});
+
 const getActiveEventsById = createSelector(
   [
     getEventsById
@@ -80,21 +91,6 @@ const getActiveEventsById = createSelector(
     return eventsById.filter(isActiveEvent);
   }
 );
-
-// These functions access the branch of the `Sport` object
-// corresponding to the current path (which is presumed to be a product page)
-const getEventsBySportId = createSelector(
-  [
-    getEventsById,
-    getEventGroupsById
-  ],
-  (eventsById, eventGroupsById) => {
-    return eventsById.toList().groupBy(event => {
-      const eventGroup = eventGroupsById.get(event.get('event_group_id'));
-      return eventGroup && eventGroup.get('sport_id')
-    });
-  }
-)
 
 const getActiveEventsBySportId = createSelector(
   [
@@ -127,15 +123,35 @@ const getBettingMarketGroupsById = (state) => {
   return state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
 }
 
+const getPersistedBettingMarketGroupsById = (state) => {
+  return state.getIn(['bettingMarketGroup', 'persistedBettingMarketGroupsById']);
+}
+
+const getAggregatedBettingMarketGroupsById = createSelector([
+  getBettingMarketGroupsById,
+  getPersistedBettingMarketGroupsById
+], (bettingMarketGroupsById, persistedBettingMarketGroupsById) => {
+  return bettingMarketGroupsById.concat(persistedBettingMarketGroupsById);
+});
+
 const getBettingMarketsById = (state) => {
   return state.getIn(['bettingMarket', 'bettingMarketsById']);
 }
 
+const getPersistedBettingMarketsById = (state) => {
+  return state.getIn(['bettingMarket', 'persistedBettingMarketsById']);
+}
+
+const getAggregatedBettingMarketsById = createSelector([
+  getBettingMarketsById,
+  getPersistedBettingMarketsById
+], (bettingMarketsById, persistedBettingMarketsById) => {
+  return bettingMarketsById.concat(persistedBettingMarketsById);
+});
+
 const getBinnedOrderBooksByBettingMarketId = (state) => {
   return state.getIn(['binnedOrderBook', 'binnedOrderBooksByBettingMarketId']);
 }
-
-
 
 // The structure of the binned order book used for simple betting widget is as the following
 // {
@@ -167,8 +183,9 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
     getBettingMarketsById,
     getBettingMarketGroupsById,
     getEventsById,
+    getAssetsById
   ],
-  (binnedOrderBooksByBettingMarketId, bettingMarketsById, bettingMarketGroupsById, eventsById) => {
+  (binnedOrderBooksByBettingMarketId, bettingMarketsById, bettingMarketGroupsById, eventsById, assetsById) => {
     let simpleBettingWidgetBinnedOrderBooksByEventId = Immutable.Map();
     binnedOrderBooksByBettingMarketId.forEach((binnedOrderBook, bettingMarketId) => {
       const bettingMarket = bettingMarketsById.get(bettingMarketId);
@@ -182,8 +199,25 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
         let simpleBettingWidgetBinnedOrderBook = Immutable.Map().set('betting_market_id', bettingMarketId)
                                                                 .set('back', Immutable.List())
                                                                 .set('lay', Immutable.List());
-        simpleBettingWidgetBinnedOrderBook = simpleBettingWidgetBinnedOrderBook.set('back', binnedOrderBook.get('aggregated_back_bets'))
-                                                                               .set('lay', binnedOrderBook.get('aggregated_lay_bets'));
+
+        // Normalize aggregated_lay_bets and aggregated_back_bets
+        const assetPrecision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']);
+        let aggregated_lay_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
+        aggregated_lay_bets = aggregated_lay_bets.map(aggregated_lay_bet => {
+          const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
+          const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
+          return aggregated_lay_bet.set('odds', odds)
+                                   .set('price', price);
+        });
+        let aggregated_back_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
+        aggregated_back_bets = aggregated_back_bets.map(aggregated_back_bet => {
+          const odds = aggregated_back_bet.get('backer_multiplier') / Config.oddsPrecision;
+          const price = aggregated_back_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
+          return aggregated_back_bet.set('odds', odds)
+                                    .set('price', price);
+        });
+        simpleBettingWidgetBinnedOrderBook = simpleBettingWidgetBinnedOrderBook.set('back', aggregated_back_bets)
+                                                                               .set('lay', aggregated_lay_bets);
         simpleBettingWidgetBinnedOrderBooksByEventId = simpleBettingWidgetBinnedOrderBooksByEventId.update(eventId, (simpleBettingWidgetBinnedOrderBooks) => {
           if (!simpleBettingWidgetBinnedOrderBooks) simpleBettingWidgetBinnedOrderBooks = Immutable.List();
           return simpleBettingWidgetBinnedOrderBooks.push(simpleBettingWidgetBinnedOrderBook);
@@ -204,12 +238,17 @@ const CommonSelector = {
   getEventGroupsById,
   getEventGroupsBySportId,
   getEventsById,
+  getPersistedEventsById,
+  getAggregatedEventsById,
   getActiveEventsById,
-  getEventsBySportId,
   getActiveEventsBySportId,
   getEventsByEventGroupId,
   getActiveEventsByEventGroupId,
+  getPersistedBettingMarketGroupsById,
+  getAggregatedBettingMarketGroupsById,
   getBettingMarketGroupsById,
+  getPersistedBettingMarketsById,
+  getAggregatedBettingMarketsById,
   getBettingMarketsById,
   getRulesById,
   getBinnedOrderBooksByBettingMarketId,

@@ -93,7 +93,7 @@ const getAllSportsData = createSelector(
           event_id: event.get('id'),
           event_name: event.get('name'),
           time: event.get('start_time'),
-          isLiveMarket: event.get('isLiveMarket'),
+          isLiveMarket: event.get('is_live_market'),
           offers,
           moneyline: moneylineBettingMarketGroupId,
         });
@@ -111,8 +111,13 @@ const getAllSportsData = createSelector(
   }
 )
 
+const getGlobalBettingStatistics = (state) => {
+  return state.getIn(['app', 'globalBettingStatistics']);
+}
+
 const AllSportsSelector = {
-  getAllSportsData
+  getAllSportsData,
+  getGlobalBettingStatistics
 }
 
 export default AllSportsSelector;

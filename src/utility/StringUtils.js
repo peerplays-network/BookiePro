@@ -1,10 +1,10 @@
 /**
- * The StringUtils contains all the functions related to string, byte and hexa transformation.
- *
- * Memo data in blockchain transaction is in bytes
- */
+* The StringUtils contains all the functions related to string, byte and hexa transformation.
+*
+* Memo data in blockchain transaction is in bytes
+*/
 
- var Utils = {
+var Utils = {
   //http://stackoverflow.com/questions/17720394/javascript-string-to-byte-to-string
   string2Bin : function(str) {
     var result = [];
@@ -29,23 +29,23 @@
   },
 
   /**
-   * Compare two software version numbers (e.g. 1.7.1)
-   * Returns:
-   *
-   *  0 if they're identical
-   *  negative if v1 < v2
-   *  positive if v1 > v2
-   *  Nan if they in the wrong format
-   *
-   *  E.g.:
-   *
-   *  assert(version_number_compare("1.7.1", "1.6.10") > 0);
-   *  assert(version_number_compare("1.7.1", "1.7.10") < 0);
-   *
-   *  "Unit tests": http://jsfiddle.net/ripper234/Xv9WL/28/
-   *
-   *  Taken from http://stackoverflow.com/a/6832721/11236
-   */
+  * Compare two software version numbers (e.g. 1.7.1)
+  * Returns:
+  *
+  *  0 if they're identical
+  *  negative if v1 < v2
+  *  positive if v1 > v2
+  *  Nan if they in the wrong format
+  *
+  *  E.g.:
+  *
+  *  assert(version_number_compare("1.7.1", "1.6.10") > 0);
+  *  assert(version_number_compare("1.7.1", "1.7.10") < 0);
+  *
+  *  "Unit tests": http://jsfiddle.net/ripper234/Xv9WL/28/
+  *
+  *  Taken from http://stackoverflow.com/a/6832721/11236
+  */
   compareVersionNumbers: function(v1, v2){
     var v1parts = v1.split('.');
     var v2parts = v2.split('.');

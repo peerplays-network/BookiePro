@@ -12,17 +12,18 @@ import {
   BettingMarketGroupActions,
   BinnedOrderBookActions,
   BalanceActions,
-  RuleActions
+  RuleActions,
+  LiquidityActions
 } from '../actions';
 import Immutable from 'immutable';
-import { ObjectPrefix, Config } from '../constants';
+import { ObjectPrefix, Config, ChainTypes } from '../constants';
 import { ChainValidation } from 'peerplaysjs-lib';
 import _ from 'lodash';
 import dummyData from '../dummyData';
 import log from 'loglevel';
 const TIMEOUT_LENGTH = 500;
 const SYNC_MIN_INTERVAL = 1000; // 1 seconds
-const { blockchainTimeStringToDate, getObjectIdPrefix, isRelevantObject } = BlockchainUtils;
+const { blockchainTimeStringToDate, getObjectIdPrefix, isRelevantObject, getObjectIdInstanceNumber } = BlockchainUtils;
 
 class CommunicationService {
   static dispatch = null;
@@ -91,6 +92,22 @@ class CommunicationService {
       if (ChainValidation.is_object_id(object)) {
         const deletedObjectId = object;
         const objectIdPrefix = getObjectIdPrefix(deletedObjectId);
+
+        // TODO: remove dummy data later
+        if (Config.useDummyData) {
+          // If we are using dummy data, ignore any real time update for dummy data object
+          // which is sport, event_group, event, rule, bmg, bm
+          // Coz it will generate conflict
+          if (objectIdPrefix === ObjectPrefix.SPORT_PREFIX ||
+              objectIdPrefix === ObjectPrefix.EVENT_GROUP_PREFIX ||
+              objectIdPrefix === ObjectPrefix.EVENT_PREFIX ||
+              objectIdPrefix === ObjectPrefix.RULE_PREFIX ||
+              objectIdPrefix === ObjectPrefix.BETTING_MARKET_GROUP_PREFIX ||
+              objectIdPrefix === ObjectPrefix.BETTING_MARKET_PREFIX) {
+            return true;
+          }
+        }
+
         // Add this to the list if it is relevant
         if (isRelevantObject(objectIdPrefix)) {
           this.deletedObjectIdsByObjectIdPrefix = this.deletedObjectIdsByObjectIdPrefix.update(objectIdPrefix, list => {
@@ -102,6 +119,22 @@ class CommunicationService {
       } else {
         const updatedObjectId = object.id;
         const objectIdPrefix = getObjectIdPrefix(updatedObjectId);
+
+        // TODO: remove dummy data later
+        if (Config.useDummyData) {
+          // If we are using dummy data, ignore any real time update for dummy data object
+          // which is sport, event_group, event, rule, bmg, bm
+          // Coz it will generate conflict
+          if (objectIdPrefix === ObjectPrefix.SPORT_PREFIX ||
+              objectIdPrefix === ObjectPrefix.EVENT_GROUP_PREFIX ||
+              objectIdPrefix === ObjectPrefix.EVENT_PREFIX ||
+              objectIdPrefix === ObjectPrefix.RULE_PREFIX ||
+              objectIdPrefix === ObjectPrefix.BETTING_MARKET_GROUP_PREFIX ||
+              objectIdPrefix === ObjectPrefix.BETTING_MARKET_PREFIX) {
+            return true;
+          }
+        }
+
         // Add this to the list if it is relevant
         if (isRelevantObject(objectIdPrefix)) {
           this.updatedObjectsByObjectIdByObjectIdPrefix = this.updatedObjectsByObjectIdByObjectIdPrefix.update(objectIdPrefix, map => {
@@ -142,7 +175,35 @@ class CommunicationService {
           break;
         }
         case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
-          // TODO:
+          // For each bet matched/ bet placed/ canceled happened on a betting market, refresh the binned order book and total matched bets
+          let bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = Immutable.List();
+          let matchedBetIds = Immutable.List();
+          let canceledBetIds = Immutable.List();
+          updatedObjects.forEach(updatedObject => {
+            const operationType = updatedObject.getIn(['op', 0]);
+            if (operationType === ChainTypes.operations.bet_matched) {
+              const betId = updatedObject.getIn(['op', 1, 'bet_id']);
+              matchedBetIds = matchedBetIds.push(betId);
+            } else if (operationType === ChainTypes.operations.bet_canceled) {
+              const betId = updatedObject.getIn(['op', 1, 'bet_id']);
+              canceledBetIds = canceledBetIds.push(betId);
+            } else if (operationType === ChainTypes.operations.bet_place) {
+              const bettingMarketId = updatedObject.getIn(['op', 1, 'betting_market_id']);
+              bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bettingMarketIdsOfBinnedOrderBooksToBeRefreshed.push(bettingMarketId);
+            }
+          })
+
+          const betIds = matchedBetIds.concat(canceledBetIds);
+          this.getPersistedBookieObjectsByIds(betIds).then(bets => {
+            const bettingMarketIds = bets.map(bet => bet.get('betting_market_id'));
+            bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bettingMarketIdsOfBinnedOrderBooksToBeRefreshed.concat(bettingMarketIds).toSet().toList();
+            // Refresh binned order books
+            this.dispatch(BinnedOrderBookActions.refreshBinnedOrderBooksByBettingMarketIds(bettingMarketIdsOfBinnedOrderBooksToBeRefreshed));
+
+            const bettingMarketIdsOfMatchedBets = bets.filter(bet => matchedBetIds.contains(bet.get('id'))).map(bet => bet.get('betting_market_id'));
+            // Update total matched bets
+            this.dispatch(LiquidityActions.updateTotalMatchedBetsGivenBettingMarketIds(bettingMarketIdsOfMatchedBets))
+          });
           break;
         }
         case ObjectPrefix.GLOBAL_PROPERTY_PREFIX: {
@@ -183,66 +244,42 @@ class CommunicationService {
         }
         case ObjectPrefix.SPORT_PREFIX: {
           // Localize name
-          const localizedUpdatedObject = updatedObjects.map(object => {
-            return ObjectUtils.localizeStringOfObject(object, ['name']);
-          })
+          const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['name']);
           this.dispatch(SportActions.addOrUpdateSportsAction(localizedUpdatedObject));
           break;
         }
         case ObjectPrefix.EVENT_GROUP_PREFIX: {
           // Localize name
-          const localizedUpdatedObject = updatedObjects.map(object => {
-            return ObjectUtils.localizeStringOfObject(object, ['name']);
-          })
+          const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['name']);
           this.dispatch(EventGroupActions.addOrUpdateEventGroupsAction(localizedUpdatedObject));
           break;
         }
         case ObjectPrefix.EVENT_PREFIX: {
           // Localize name
-          const localizedUpdatedObject = updatedObjects.map(object => {
-            return ObjectUtils.localizeStringOfObject(object, ['name']);
-          })
+          const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['name']);
           this.dispatch(EventActions.addOrUpdateEventsAction(localizedUpdatedObject));
           break;
         }
         case ObjectPrefix.RULE_PREFIX: {
           // Localize name
-          const localizedUpdatedObject = updatedObjects.map(object => {
-            return ObjectUtils.localizeStringOfObject(object, ['name', 'description']);
-          })
+          const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['name', 'description']);
           this.dispatch(RuleActions.addOrUpdateRulesAction(localizedUpdatedObject));
           break;
         }
         case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {
           // Localize name
-          const localizedUpdatedObject = updatedObjects.map(object => {
-            return ObjectUtils.localizeStringOfObject(object, ['description']);
-          })
+          const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['description']);
           this.dispatch(BettingMarketGroupActions.addOrUpdateBettingMarketGroupsAction(localizedUpdatedObject));
           break;
         }
         case ObjectPrefix.BETTING_MARKET_PREFIX: {
           // Localize name
-          const localizedUpdatedObject = updatedObjects.map(object => {
-            // TODO: remove this later, replciate payout condition as description
-            object = object.set('description', object.get('payout_condition'));
-            return ObjectUtils.localizeStringOfObject(object, ['description', 'payout_condition']);
-          })
+          const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['description', 'payout_condition']);
           this.dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(localizedUpdatedObject));
           // Get betting market id
           const bettingMarketIds = localizedUpdatedObject.map(object => object.get('id'));
           // Get related binned order books
           this.dispatch(BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
-          break;
-        }
-        case ObjectPrefix.BET_PREFIX: {
-          // Use set
-          let bettingMarketIds = updatedObjects.map((updatedObject) => {
-            return updatedObject.get('betting_market_id')
-          }).toSet();
-
-          // Update related binned order books
-          this.dispatch(BinnedOrderBookActions.refreshBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
           break;
         }
         default: break;
@@ -271,7 +308,8 @@ class CommunicationService {
           });
           break;
         }
-        case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
+        case ObjectPrefix.ACCOUNT_BALANCE_PREFIX: {
+          this.dispatch(BalanceActions.removeAvailableBalancesByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.SPORT_PREFIX: {
@@ -287,7 +325,7 @@ class CommunicationService {
           break;
         }
         case ObjectPrefix.RULE_PREFIX: {
-          this.dispatch(RuleActions.removeEventsByIdsAction(deletedObjectIds));
+          this.dispatch(RuleActions.removeRulesByIdsAction(deletedObjectIds));
           break;
         }
         case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {
@@ -298,10 +336,6 @@ class CommunicationService {
           this.dispatch(BettingMarketActions.removeBettingMarketsByIdsAction(deletedObjectIds));
           break;
         }
-        case ObjectPrefix.ACCOUNT_BALANCE_PREFIX: {
-          this.dispatch(BalanceActions.removeAvailableBalancesByIdsAction(deletedObjectIds));
-          break;
-        }
         default: break;
       }
 
@@ -309,31 +343,64 @@ class CommunicationService {
   }
 
   /**
-   * Call blokchain db api
-   * Route every call to blockchain db api through this function, so we can see the logging
+   * Call blokchain api
+   * Route every call to blockchain api through this function, so we can see the logging
    * Also ensure the returned data is immutable
    */
-  static callBlockchainDbApi(methodName, params=[]) {
-    let db_api = Apis.instance().db_api();
-    // Check if db api is ready (is connected to blockchain)
-    if (db_api) {
-      return db_api.exec(methodName, params).then((result) => {
+  static callBlockchainApi(apiPluginName, methodName, params=[]) {
+    let apiPlugin;
+    switch (apiPluginName) {
+      case 'bookie_api': {
+        apiPlugin = Apis.instance().bookie_api();
+        break;
+      }
+      case 'history_api': {
+        apiPlugin = Apis.instance().history_api();
+        break;
+      }
+      case 'db_api': {
+        apiPlugin = Apis.instance().db_api();
+        break;
+      }
+      default: break;
+    }
+    if (apiPlugin) {
+      return apiPlugin.exec(methodName, params).then((result) => {
         // Intercept and log
-        log.debug(`Call blockchain DB Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
+        log.debug(`Call blockchain ${apiPluginName}\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
         return Immutable.fromJS(result);
       }).catch((error) => {
         // Intercept and log
-        log.error(`Error in calling DB Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nError: `, error);
+        log.error(`Error in calling ${apiPluginName}\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nError: `, error);
         throw error;
       })
     } else {
       // If it is not yet connected to blockchain, retry again after 3 seconds
       return new Promise((resolve, reject) => {
         setTimeout(() =>{
-          resolve(this.callBlockchainDbApi(methodName, params))
+          resolve(this.callBlockchainApi(apiPluginName, methodName, params))
         }, 3000)
       })
     }
+  }
+
+  /**
+   * Call blokchain bookie api
+   * Route every call to blockchain bookie api through this function, so we can see the logging
+   * Also ensure the returned data is immutable
+   */
+  static callBlockchainBookieApi(methodName, params=[]) {
+    return this.callBlockchainApi('bookie_api', methodName, params);
+  }
+
+
+  /**
+   * Call blokchain db api
+   * Route every call to blockchain db api through this function, so we can see the logging
+   * Also ensure the returned data is immutable
+   */
+  static callBlockchainDbApi(methodName, params=[]) {
+    return this.callBlockchainApi('db_api', methodName, params);
   }
 
   /**
@@ -341,27 +408,7 @@ class CommunicationService {
    * Route every call to blockchain history api through this function, so we can see the logging
    */
   static callBlockchainHistoryApi(methodName, params=[]) {
-    let history_api = Apis.instance().history_api();
-    // Check if history api is ready (is connected to blockchain)
-    if (history_api) {
-      return history_api.exec(methodName, params).then((result) => {
-        // Intercept and log
-        log.debug(`Call blockchain History Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
-        return Immutable.fromJS(result);
-      }).catch((error) => {
-        // Intercept and log
-        log.error(`Error in calling History Api\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nError: `, error);
-        throw error;
-      })
-    } else {
-      // If it is not yet connected to blockchain, retry again after 3 seconds
-      return new Promise((resolve, reject) => {
-        setTimeout(() =>{
-          resolve(this.callBlockchainHistoryApi(methodName, params))
-        }, 3000)
-      })
-    }
-
+    return this.callBlockchainApi('history_api', methodName, params);
   }
 
   /**
@@ -385,9 +432,8 @@ class CommunicationService {
         const headTime = blockchainTimeStringToDate(blockchainDynamicGlobalProperty.get('time')).getTime();
         const delta = (now - headTime)/1000;
         // Continue only if delta of computer current time and the blockchain time is less than a minute
-        // TODO: come back to this later after pixelplex fix the code
-        // const isBlockchainTimeDifferenceAcceptable = delta < 60;
-        const isBlockchainTimeDifferenceAcceptable = true;
+        const isBlockchainTimeDifferenceAcceptable = delta < 60;
+        // const isBlockchainTimeDifferenceAcceptable = true;
         if (isBlockchainTimeDifferenceAcceptable) {
           // Subscribe to blockchain callback so the store is always has the latest data
           const onUpdate = this.onUpdate.bind(this);
@@ -475,10 +521,16 @@ class CommunicationService {
   * Fetch recent history of an account  given object id of the transaction
   */
   static fetchRecentHistory(accountId, stopTxHistoryId, limit=Number.MAX_SAFE_INTEGER) {
-    // 1.11.0 denotes the current time
-    const currentTimeTransactionId = ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0';
-    const startTxHistoryId = currentTimeTransactionId;
-    return this.fetchTransactionHistory(accountId, startTxHistoryId, stopTxHistoryId, limit);
+    // TODO: remove dummy data later
+    if (Config.useDummyData) {
+      return this.fetchDummyTransactionHistory(accountId, stopTxHistoryId);
+    } else {
+      // 1.11.0 denotes the current time
+      const currentTimeTransactionId = ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0';
+      const startTxHistoryId = currentTimeTransactionId;
+      return this.fetchTransactionHistory(accountId, startTxHistoryId, stopTxHistoryId, limit);
+    }
+
   }
 
   /**
@@ -486,6 +538,17 @@ class CommunicationService {
    */
   static getObjectsByIds(arrayOfObjectIds = []) {
     return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]).then(result => {
+      // Remove empty object
+      return result.filter(object => !!object);
+    });
+  }
+
+  /**
+   * Get persisted bookie objects given their ids
+   * This applies to event, betting market group, betting market, and bet
+   */
+  static getPersistedBookieObjectsByIds(arrayOfObjectIds = []) {
+    return this.callBlockchainBookieApi('get_objects', [arrayOfObjectIds]).then(result => {
       // Remove empty object
       return result.filter(object => !!object);
     });
@@ -508,9 +571,7 @@ class CommunicationService {
     } else {
       return this.callBlockchainDbApi('list_sports').then((sports) => {
         // Replace name with english name
-        return sports.map(sport => {
-          return ObjectUtils.localizeStringOfObject(sport, ['name']);
-        });
+        return ObjectUtils.localizeArrayOfObjects(sports, ['name']);
       });
     }
   }
@@ -526,73 +587,12 @@ class CommunicationService {
       let promises = sportIds.map((sportId) => {
         return this.callBlockchainDbApi('list_event_groups', [sportId]).then(eventGroups => {
           // Replace name with english name
-          return eventGroups.map(eventGroup => {
-            return ObjectUtils.localizeStringOfObject(eventGroup, ['name']);
-          })
+          return ObjectUtils.localizeArrayOfObjects(eventGroups, ['name']);
         });
       })
       return Promise.all(promises).then((result) => {
         // Return in immutable format
         return Immutable.fromJS(result).flatten(true);
-      })
-    }
-  }
-
-  /**
-   * This is temporary solution to fetch events from blockchain using their id
-   * NOTE: Remove this later when list_events is implemented
-   */
-  static allEventsFromBlockchain = null;
-  static fetchAllEventsFromBlockchainWithWorkaroundTemporarySolution() {
-    if (!this.allEventsFromBlockchain) {
-      const eventIdPrefix = "1.18.";
-      let eventIds = [];
-      // Get 100 events
-      for (let i=0; i < 100; i++) {
-        const eventId = eventIdPrefix + i;
-        eventIds.push(eventId);
-      }
-      return this.getObjectsByIds(eventIds).then(result => {
-        // Filter empty objects
-        const filteredResult = result.filter((item) => !!item);
-        // Replace name with english name
-        const modifiedResult = filteredResult.map(event => {
-          return ObjectUtils.localizeStringOfObject(event, ['name']);
-        })
-        this.allEventsFromBlockchain = modifiedResult;
-        return this.allEventsFromBlockchain
-      });
-    } else {
-      return Promise.resolve(this.allEventsFromBlockchain);
-    }
-
-  }
-  /**
-   * Get active events given array of sport ids (can be immutable)
-   */
-  static getEventsBySportIds(sportIds) {
-    if (Config.useDummyData) {
-      return this.getDummyActiveEventsBySportIds(sportIds);
-    } else {
-      // TODO: change later
-      let fetchedEvents = Immutable.List();
-      return this.fetchAllEventsFromBlockchainWithWorkaroundTemporarySolution().then(events => {
-        fetchedEvents = events;
-        const eventGroupIds = events.map(event => {
-          return event.get('event_group_id');
-        })
-        return this.getObjectsByIds(eventGroupIds);
-      }).then(eventGroups => {
-        let eventGroupByIds = Immutable.Map();
-        eventGroups.forEach(eventGroup => {
-          eventGroupByIds = eventGroupByIds.set(eventGroup.get('id'), eventGroup);
-        })
-        const filteredEvents = fetchedEvents.filter(event => {
-          const eventGroup = eventGroupByIds.get(event.get('event_group_id'))
-          const sportId = eventGroup && eventGroup.get('sport_id');
-          return sportIds.includes(sportId);
-        })
-        return filteredEvents;
       })
     }
   }
@@ -604,13 +604,16 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyEventsByEventGroupIds(eventGroupIds);
     } else {
-      // TODO: change later
-      return this.fetchAllEventsFromBlockchainWithWorkaroundTemporarySolution().then(events => {
-        const filteredEvents = events.filter(event => {
-          const eventGroupId = event.get('event_group_id');
-          return eventGroupIds.includes(eventGroupId);
-        })
-        return filteredEvents;
+      if (eventGroupIds instanceof Immutable.List) eventGroupIds = eventGroupIds.toJS();
+      let promises = eventGroupIds.map((eventGroupId) => {
+        return this.callBlockchainDbApi('list_events_in_group', [eventGroupId]).then(events => {
+          // Replace name with english name
+          return ObjectUtils.localizeArrayOfObjects(events, ['name', 'season']);
+        });
+      })
+      return Promise.all(promises).then((result) => {
+        // Return in immutable format
+        return Immutable.fromJS(result).flatten(true);
       })
     }
   }
@@ -626,9 +629,7 @@ class CommunicationService {
       let promises = eventIds.map((eventId) => {
         return this.callBlockchainDbApi('list_betting_market_groups', [eventId]).then(bettingMarketGroups => {
           // Replace name with english name
-          return bettingMarketGroups.map(bettingMarketGroup => {
-            return ObjectUtils.localizeStringOfObject(bettingMarketGroup, ['description']);
-          })
+          return ObjectUtils.localizeArrayOfObjects(bettingMarketGroups, ['description']);
         });
       })
       return Promise.all(promises).then((result) => {
@@ -649,12 +650,7 @@ class CommunicationService {
       let promises = bettingMarketGroupIds.map((bettingMarketGroupId) => {
         return this.callBlockchainDbApi('list_betting_markets', [bettingMarketGroupId]).then(bettingMarkets => {
           // Replace name with english name
-          return bettingMarkets.map(bettingMarket => {
-            // Temporarily use payout condition as description
-            // TODO: remove this when description field is added
-            const modifiedBm = bettingMarket.set('description', bettingMarket.get('payout_condition'));
-            return ObjectUtils.localizeStringOfObject(modifiedBm, ['description', 'payout_condition']);
-          })
+          return ObjectUtils.localizeArrayOfObjects(bettingMarkets, ['description', 'payout_condition']);
         });
       })
       return Promise.all(promises).then((result) => {
@@ -672,8 +668,24 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision);
     } else {
-      // TODO: change later
-      return this.getGeneratedBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision);
+      // return this.getGeneratedBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision);
+      if (bettingMarketIds instanceof Immutable.List) bettingMarketIds = bettingMarketIds.toJS();
+      // Create promises of getting binned order book for each betting market
+      const promises = bettingMarketIds.map( (bettingMarketId) => {
+        return this.callBlockchainBookieApi('get_binned_order_book', [bettingMarketId, binningPrecision]);
+      });
+      return Promise.all(promises).then( (result) => {
+        let finalResult = Immutable.Map();
+        // Modify the data structure of return objects, from list of binnedOrderBooks into dictionary of binnedOrderBooks with betting market id as the key
+        _.forEach(result, (binnedOrderBook, index) => {
+          if (binnedOrderBook) {
+            const bettingMarketId = bettingMarketIds[index];
+            binnedOrderBook = binnedOrderBook.set('betting_market_id', bettingMarketId);
+            finalResult = finalResult.set(bettingMarketId, binnedOrderBook);
+          }
+        });
+        return Immutable.fromJS(finalResult);
+      });
     }
   }
 
@@ -684,8 +696,22 @@ class CommunicationService {
     if (Config.useDummyData) {
       return this.getDummyTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds);
     } else {
-      // TODO: change later
-      return this.getDummyTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds);
+      if (bettingMarketGroupIds instanceof Immutable.List) bettingMarketGroupIds = bettingMarketGroupIds.toJS();
+      let promises = bettingMarketGroupIds.map((bettingMarketGroupId) => {
+        return this.callBlockchainBookieApi('get_total_matched_bet_amount_for_betting_market_group', [bettingMarketGroupId]);
+      })
+
+      return Promise.all(promises).then((result) => {
+        // Map the result with betting market groupIds
+        let totalMatchedBetsByMarketGroupId = Immutable.Map();
+        _.forEach(result, (totalMatchedBet, index) => {
+          if (totalMatchedBet) {
+            const bettingMarketGroupId = bettingMarketGroupIds[index];
+            totalMatchedBetsByMarketGroupId = totalMatchedBetsByMarketGroupId.set(bettingMarketGroupId, totalMatchedBet);
+          }
+        })
+        return totalMatchedBetsByMarketGroupId;
+      })
     }
   }
 
@@ -697,12 +723,22 @@ class CommunicationService {
       return this.getDummyObjectsByIds(bettingMarketIds);
     } else {
       return this.getObjectsByIds(bettingMarketIds).then(result => {
-        return result.map(item => {
-          // TODO: remove this when description field is added
-          let modifiedItem = item.set('description', item.get('payout_condition'));
-          // Localize string
-          return ObjectUtils.localizeStringOfObject(modifiedItem, ['description', 'payout_condition']);
-        })
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition']);
+      });
+    }
+  }
+
+  /**
+   * Get persisted betting market by id
+   */
+  static getPersistedBettingMarketsByIds(bettingMarketIds) {
+    if (Config.useDummyData) {
+      return this.getDummyObjectsByIds(bettingMarketIds);
+    } else {
+      return this.getPersistedBookieObjectsByIds(bettingMarketIds).then(result => {
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition']);
       });
     }
   }
@@ -715,10 +751,22 @@ class CommunicationService {
       return this.getDummyObjectsByIds(bettingMarketGroupIds);
     } else {
       return this.getObjectsByIds(bettingMarketGroupIds).then(result => {
-        return result.map(item => {
-          // Localize string
-          return ObjectUtils.localizeStringOfObject(item, ['description']);
-        })
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['description']);
+      });
+    }
+  }
+
+  /**
+   * Get persisted betting market group by id
+   */
+  static getPersistedBettingMarketGroupsByIds(bettingMarketGroupIds) {
+    if (Config.useDummyData) {
+      return this.getDummyObjectsByIds(bettingMarketGroupIds);
+    } else {
+      return this.getPersistedBookieObjectsByIds(bettingMarketGroupIds).then(result => {
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['description']);
       });
     }
   }
@@ -732,10 +780,23 @@ class CommunicationService {
       return this.getDummyObjectsByIds(eventIds);
     } else {
       return this.getObjectsByIds(eventIds).then(result => {
-        return result.map(item => {
-          // Localize string
-          return ObjectUtils.localizeStringOfObject(item, ['name']);
-        })
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['name']);
+      });
+    }
+  }
+
+
+  /**
+   * Get event by id
+   */
+  static getPersistedEventsByIds(eventIds) {
+    if (Config.useDummyData) {
+      return this.getDummyObjectsByIds(eventIds);
+    } else {
+      return this.getPersistedBookieObjectsByIds(eventIds).then(result => {
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['name']);
       });
     }
   }
@@ -748,10 +809,8 @@ class CommunicationService {
       return this.getDummyObjectsByIds(eventGroupIds);
     } else {
       return this.getObjectsByIds(eventGroupIds).then(result => {
-        return result.map(item => {
-          // Localize string
-          return ObjectUtils.localizeStringOfObject(item, ['name']);
-        })
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['name']);
       });
     }
   }
@@ -764,10 +823,8 @@ class CommunicationService {
       return this.getDummyObjectsByIds(sportIds);
     } else {
       return this.getObjectsByIds(sportIds).then(result => {
-        return result.map(item => {
-          // Localize string
-          return ObjectUtils.localizeStringOfObject(item, ['name']);
-        })
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['name']);
       });
     }
   }
@@ -780,10 +837,8 @@ class CommunicationService {
       return this.getDummyObjectsByIds(ruleIds);
     } else {
       return this.getObjectsByIds(ruleIds).then(result => {
-        return result.map(item => {
-          // Localize string
-          return ObjectUtils.localizeStringOfObject(item, ['description', 'name']);
-        })
+        // Localize string
+        return ObjectUtils.localizeArrayOfObjects(result, ['description', 'name']);
       });
     }
   }
@@ -807,13 +862,21 @@ class CommunicationService {
   /**
    * Fetch dummy transaction history
    */
-  static fetchDummyTransactionHistorySynchronously(accountId) {
+  static fetchDummyTransactionHistory(accountId, stopTxHistoryId) {
     // TODO: remove later
-    if (accountId === Config.dummyDataAccountId) {
-      return Immutable.fromJS(dummyData.history);
-    } else {
-      return Immutable.List();
-    }
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        let history = Immutable.fromJS(dummyData.history.generateHistory(accountId));
+        if (stopTxHistoryId) {
+          history = history.filter((transaction) => {
+            const transactionIdInstanceNumber = getObjectIdInstanceNumber(transaction.get('id'));
+            const stopTxHistoryIdInstanceNumber = getObjectIdInstanceNumber(stopTxHistoryId);
+            return transactionIdInstanceNumber > stopTxHistoryIdInstanceNumber;
+          })
+        }
+        resolve(history);
+      }, TIMEOUT_LENGTH);
+    });
   }
 
   /**

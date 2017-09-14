@@ -26,6 +26,10 @@ export const translationsObject = {
       unknown_error: 'Unknown Error',
       peerplays_logo_title: 'Powered by Peerplays'
     },
+    initAccountModal: {
+      line_1: 'Setting up your account for the first time... ',
+      line_2: 'This might take few minutes.'
+    },
     titleBar:{
       title: 'Bookie Pro',
       clock: 'Local Time %{time}'
@@ -667,7 +671,7 @@ export const translationsObject = {
       }
     },
     AllSports:{
-      bannerText: 'In-play in 100 open games',
+      bannerText: 'In-play in %{numberOfActiveEvents} open games',
       allSports: 'ALL SPORTS'
     },
     privacy_dialogue:{

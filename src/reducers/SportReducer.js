@@ -34,6 +34,7 @@ export default function (state = initialState, action) {
       let nextState = state;
       action.sportIds.forEach((sportId) => {
         nextState = nextState.deleteIn(['sportsById', sportId]);
+        nextState = nextState.deleteIn(['getSportsByIdsLoadingStatus', sportId]);
       })
       return nextState;
     }

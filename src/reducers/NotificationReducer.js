@@ -4,12 +4,10 @@ import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
   notifications: [],
-  latestTransactionHistoryIdByAccountId: {},
   initNotificationLoadingStatus: LoadingStatus.DEFAULT,
   initNotificationError: null,
   updateNotificationLoadingStatus: LoadingStatus.DEFAULT,
-  updateNotificationError: null,
-  lastNotificationCheckTime: new Date()
+  updateNotificationError: null
 });
 
 export default function (state = initialState, action) {
@@ -24,9 +22,6 @@ export default function (state = initialState, action) {
         return notifications.filterNot(notification => action.notificationIds.includes(notification.get('id')));
       });
       return nextState;
-    }
-    case ActionTypes.NOTIFICATION_SET_LATEST_TRANSACTION_HISTORY_ID: {
-      return state.setIn(['latestTransactionHistoryIdByAccountId', action.accountId], action.latestTransactionHistoryId);
     }
     case ActionTypes.NOTIFICATION_SET_INIT_NOTIFICATION_ERROR: {
       return state.merge({

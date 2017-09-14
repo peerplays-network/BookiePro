@@ -1,35 +1,35 @@
 /**
- * The SoftwareUpdateutils contains all the functions related to software update/ application update
- *
- * version format is expected to be "a.b.c" in which
- * 'a' represents major number - hard update indicator
- * 'b' represents minor number - soft update indicator provided that major number is the same during comparsion
- */
- import { Config } from '../constants';
+* The SoftwareUpdateutils contains all the functions related to software update/ application update
+*
+* version format is expected to be "a.b.c" in which
+* 'a' represents major number - hard update indicator
+* 'b' represents minor number - soft update indicator provided that major number is the same during comparsion
+*/
+import { Config } from '../constants';
 
 const SoftwareUpdateUtils = {
 
   /**
-   * check if version string is in valid format. I.e. "a.b.c"
-   *
-   * @param {string} version - expected to be in a.b.c format
-   * @returns {boolean} - if the string is in valid format.
-   */
+  * check if version string is in valid format. I.e. "a.b.c"
+  *
+  * @param {string} version - expected to be in a.b.c format
+  * @returns {boolean} - if the string is in valid format.
+  */
   isValidVersionNumber: (version) => {
     const regex = /^(\d+\.)(\d+\.)(\d+.*)$/;
     return regex.test(version);
   },
 
   /**
-   * check if hard update action is necessary based on version string is in valid format. I.e. "a.b.c"
-   * first item ("a") in splitted array [ a,b,c], from version string, represents major number.
-   *
-   * if the major number in current version is smaller than that in new version,
-   * action for hard update is needed.
-   *
-   * @param {string} newVersion - expected to be in a.b.c format
-   * @returns {boolean} - if hard update is needed.
-   */
+  * check if hard update action is necessary based on version string is in valid format. I.e. "a.b.c"
+  * first item ("a") in splitted array [ a,b,c], from version string, represents major number.
+  *
+  * if the major number in current version is smaller than that in new version,
+  * action for hard update is needed.
+  *
+  * @param {string} newVersion - expected to be in a.b.c format
+  * @returns {boolean} - if hard update is needed.
+  */
   isNeedHardUpdate: (newVersion) => {
     const newVersionMajorNumber =  newVersion.split('.')[0];
     const currentVersionMajorNumber = Config.version.split('.')[0];
@@ -38,15 +38,15 @@ const SoftwareUpdateUtils = {
   },
 
   /**
-   * check if soft update action is necessary based on version string is in valid format. I.e. "a.b.c"
-   * second item ("b") in splitted array [ a,b,c], from version string, represents minor number.
-   *
-   * if the minor number in current version is smaller than that in new version, and if both version strings have the same major number,
-   * actio for soft update is needed.
-   *
-   * @param {string} newVersion - expected to be in a.b.c format
-   * @returns {boolean} - if hard update is needed.
-   */
+  * check if soft update action is necessary based on version string is in valid format. I.e. "a.b.c"
+  * second item ("b") in splitted array [ a,b,c], from version string, represents minor number.
+  *
+  * if the minor number in current version is smaller than that in new version, and if both version strings have the same major number,
+  * actio for soft update is needed.
+  *
+  * @param {string} newVersion - expected to be in a.b.c format
+  * @returns {boolean} - if hard update is needed.
+  */
   isNeedSoftUpdate: (newVersion) => {
     const newVersionSplitted =  newVersion.split('.');
     const currentVersionSplitted = Config.version.split('.');
@@ -58,7 +58,7 @@ const SoftwareUpdateUtils = {
     const currentVersionMinorNumber = currentVersionSplitted[1];
 
     return (newVersionMajorNumber === currentVersionMajorNumber &&
-            newVersionMinorNumber > currentVersionMinorNumber);
+      newVersionMinorNumber > currentVersionMinorNumber);
   }
 }
 

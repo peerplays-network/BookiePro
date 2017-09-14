@@ -11,8 +11,9 @@ export default function (state = initialState, action) {
   switch(action.type) {
     case ActionTypes.LIQUIDITY_SET_GET_TOTAL_MATCHED_BETS_BY_BETTING_MARKET_GROUP_IDS_LOADING_STATUS: {
       let nextState = state;
+
       action.bettingMarketGroupIds.forEach((bettingMarketGroupId) => {
-        nextState = nextState.setIn(['getTotalMatchedBetsByBettingMarketGroupIdsLoadingStatus', bettingMarketGroupId, action.loadingStatus]);
+        nextState = nextState.setIn(['getTotalMatchedBetsByBettingMarketGroupIdsLoadingStatus', bettingMarketGroupId], action.loadingStatus);
       });
       return nextState;
     }

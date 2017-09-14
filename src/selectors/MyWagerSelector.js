@@ -2,20 +2,16 @@ import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import { createSelector } from 'reselect';
 import _ from 'lodash';
-import { Map } from 'immutable';
-import moment from 'moment';
-import { CurrencyUtils, BettingModuleUtils, DateUtils, MyWagerUtils, ObjectUtils } from '../utility';
-import { TimeRangePeriodTypes, MyWagerTabTypes } from '../constants';
+import { CurrencyUtils, BettingModuleUtils, DateUtils, ObjectUtils } from '../utility';
+import { TimeRangePeriodTypes, MyWagerTabTypes, LoadingStatus, BetCategories, BetTypes } from '../constants';
 import CommonSelector from './CommonSelector';
-import Immutable from 'immutable';
 
-const { mergeRelationData } = MyWagerUtils;
 const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
 
 const {
-  getBettingMarketGroupsById,
-  getBettingMarketsById,
-  getEventsById,
+  getAggregatedBettingMarketGroupsById,
+  getAggregatedBettingMarketsById,
+  getAggregatedEventsById,
   getSportsById,
   getAssetsById,
   getEventGroupsById,
@@ -23,13 +19,6 @@ const {
 } = CommonSelector;
 
 const getFormattedDate = DateUtils.getFormattedDate;
-
-const getPrecision = createSelector(
-  getAssetsById,
-  (assetsById) => {
-    return assetsById.getIn(['1.3.0', 'precision']);
-  }
-)
 
 const getActiveTab = (state) => state.getIn(['mywager','activeTab']);
 
@@ -72,210 +61,194 @@ const getMatchedBetsById = (state) => state.getIn(['bet', 'matchedBetsById']);
 const getUnmatchedBetsById = (state) => state.getIn(['bet', 'unmatchedBetsById']);
 const getResolvedBetsById = (state) => state.getIn(['bet', 'resolvedBetsById']);
 
+const getFilteredResolvedBetsById = createSelector(
+  [
+    getResolvedBetsById,
+    startDate,
+    endDate
+  ],
+  (resolvedBetsById, startDate, endDate) => {
+    return resolvedBetsById.filter(bet => {
+      const resolvedTime = bet.get('resolved_time');
+      return resolvedTime.valueOf() <= endDate.valueOf() && resolvedTime.valueOf() >= startDate.valueOf()
+    });
+  }
+)
 const getRelatedBetsCollection = createSelector(
   [
     getActiveTab,
     getMatchedBetsById,
     getUnmatchedBetsById,
-    getResolvedBetsById
+    getFilteredResolvedBetsById
   ],
-  (activeTab, matchedBetsById, unmatchedBetsById, resolvedBetsById) => {
+  (activeTab, matchedBetsById, unmatchedBetsById, filteredResolvedBetsById) => {
     switch (activeTab) {
       case MyWagerTabTypes.MATCHED_BETS:
-        return matchedBetsById;
+        return matchedBetsById.toList();
       case MyWagerTabTypes.RESOLVED_BETS:
-        return resolvedBetsById;
+        return filteredResolvedBetsById.toList();
       default:
-        return unmatchedBetsById;
+        return unmatchedBetsById.toList();
     }
   }
 );
 
+// memoized selector - function totaling stake and liability
+// The following functionality only applies if all bets are under the same currency format
+// TODO: modify the logic and the UI if we support multiple currency
+const getBetTotal = createSelector(
+  [getActiveTab, getRelatedBetsCollection, getCurrencyFormat, getAssetsById],
+  (activeTab, bets, currencyFormat, assetsById) => {
+    let total = 0;
+    if (activeTab === MyWagerTabTypes.RESOLVED_BETS) {
+      total = bets.reduce( (reduction, bet) => {
+        return reduction + bet.get('amount_won')
+      }, 0);
+    } else {
+      total = bets.reduce( (reduction, bet) => {
+        const backOrLay = bet.get('back_or_lay');
+        let amount = 0;
+        if (backOrLay === BetTypes.BACK) {
+          amount = getStakeFromBetObject(bet);
+        } else if (backOrLay === BetTypes.LAY) {
+          amount = getProfitLiabilityFromBetObject(bet);
+        }
+        return reduction + amount;
+      }, 0);
+    }
+
+    const precision = assetsById.getIn(['1.3.0', 'precision']);
+    const formattedTotal = CurrencyUtils.getFormattedCurrency(total/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces);
+    return formattedTotal;
+  }
+);
 
 const getCancelBetsByIdsLoadingStatus = (state) => state.getIn(['bet','cancelBetsByIdsLoadingStatus']);
 
-//function to get rowdata on the basis of activeTab
-const rowData = createSelector(
+// Extend bet objects with necessary fields
+const getExtendedBets = createSelector(
   [
-    getActiveTab,
     getRelatedBetsCollection,
-    getCancelBetsByIdsLoadingStatus
+    getAggregatedBettingMarketsById,
+    getAggregatedBettingMarketGroupsById,
+    getAggregatedEventsById,
+    getEventGroupsById,
+    getSportsById
   ],
-  (activeTab, relatedBetsCollection, cancelBetsByIdsLoadingStatus) => {
-    if (activeTab ===  MyWagerTabTypes.UNMATCHED_BETS) {
-      return relatedBetsCollection.filter(row => !cancelBetsByIdsLoadingStatus.get(row.get('id')));
-    }
-    return relatedBetsCollection;
+  (bets, bettingMarketsById, bettingMarketGroupsById, eventsById, eventGroupsById, sportsById) => {
+    return bets.map((bet) => {
+      const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
+      const bettingMarketDescription = (bettingMarket && bettingMarket.get('description')) || '';
+
+      const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
+      const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
+      const bettingMarketGroupDescription = (bettingMarketGroup && bettingMarketGroup.get('description')) || '';
+
+      const eventId = bettingMarketGroup && bettingMarketGroup.get('event_id');
+      const event = eventsById.get(eventId);
+      const eventName = (event && event.get('name')) || '';
+      const eventTime = event && getFormattedDate(event.get('start_time'));
+
+      const eventGroupId = event && event.get('event_group_id');
+      const eventGroup = eventGroupsById.get(eventGroupId);
+
+      const sportId = eventGroup && eventGroup.get('sport_id');
+      const sport = sportsById.get(sportId);
+      const sportName = sport && sport.get('name');
+
+      return bet.set('betting_market_description', bettingMarketDescription)
+                .set('betting_market_group_description', bettingMarketGroupDescription)
+                .set('event_name', eventName)
+                .set('event_time', eventTime)
+                .set('sport_name', sportName)
+    })
   }
 )
 
-const getSportNameByBettingMarketId = createSelector(
-  [
-    getBettingMarketsById,
-    getBettingMarketGroupsById,
-    getEventsById,
-    getEventGroupsById,
-    getSportsById,
-  ],
-  (bettingMarketsById, bettingMarketGroupsById, eventsById, eventGroupsById, sportsById) => {
-    let sportNameByBettingMarketId = Immutable.Map();
-    bettingMarketsById.forEach( bettingMarket => {
-      const bettingMarketId = bettingMarket.get('id');
-      const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarket.get('group_id'));
-      const event = bettingMarketGroup && eventsById.get(bettingMarketGroup.get('event_id'));
-      const eventGroup = event && eventGroupsById.get(event.get('event_group_id'));
-      const sport = eventGroup && sportsById.get(eventGroup.get('sport_id'));
-      const sportName = (sport && sport.get('name')) || '';
-      sportNameByBettingMarketId = sportNameByBettingMarketId.set(bettingMarketId, sportName);
-    });
-    return sportNameByBettingMarketId;
-  }
-);
-
-//function to get initial collection with required values from rowData
-const betData = createSelector(
+// Sort bet objects according to natural order
+const getSortedBets = createSelector(
   [
     getActiveTab,
-    rowData,
-    startDate,
-    endDate,
-    getCurrencyFormat,
-    getPrecision,
-    getAssetsById,
-    getSportNameByBettingMarketId
+    getExtendedBets
   ],
-  (tab, bets, startDate, endDate, currencyFormat, precision, assetsById, sportNameByBettingMarketId)=>{
-    let newData = [];
-    bets.forEach((bet) => {
-
-      if(tab !== MyWagerTabTypes.RESOLVED_BETS) {
-        newData.push(new Map({key: bet.get('id'),
-          id: bet.get('id'),
-          'betting_market_id': bet.get('betting_market_id'),
-          'back_or_lay': bet.get('back_or_lay'),
-          'stake': CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
-          'odds': bet.get('backer_multiplier'),
-          'sport_name': sportNameByBettingMarketId.get(bet.get('betting_market_id')),
-          'profit_liability': CurrencyUtils.getFormattedCurrency(getProfitLiabilityFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces)}));
-      } else if (tab === MyWagerTabTypes.RESOLVED_BETS && moment(bet.get('resolved_time')).isBetween(startDate, endDate)) {
-        newData.push(new Map({key: bet.get('id'),
-          id: bet.get('id'),
-          'betting_market_id': bet.get('betting_market_id'),
-          'back_or_lay': bet.get('back_or_lay'),
-          'stake': CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
-          'odds': bet.get('backer_multiplier'),
-          'sport_name': sportNameByBettingMarketId.get(bet.get('betting_market_id')),
-          'resolved_time': getFormattedDate(bet.get('resolved_time')),
-          'profit_liability': CurrencyUtils.getFormattedCurrency(bet.get('amount_won')/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces)}));
-      }
-    });
-    return newData;
-  }
-);
-
-//memoized selector - function for merging bettingMarketData to betData and return merged data
-const mergeBettingMarketData = createSelector(
-  [betData, getBettingMarketsById],
-  (bets, betMarket)=>{
-    return mergeRelationData(bets, betMarket, 'betting_market_id',
-      {group_id: 'group_id', description: 'betting_market_description'});
-  }
-);
-
-//memoized selector - function for merging bettingMarketGroupsData to betData and return merged data
-const mergeBettingMarketGroupData = createSelector(
-  [mergeBettingMarketData, getBettingMarketGroupsById],
-  (bets, betMarketGroup)=>{
-    return mergeRelationData(bets, betMarketGroup, 'group_id',
-      { event_id: 'event_id', description: 'betting_market_group_description' });
-  }
-);
-
-//memoized selector - function for merging events to betData and return merged data
-const mergeEventsData = createSelector(
-  [mergeBettingMarketGroupData, getEventsById],
-  (bets, events)=>{
-    return mergeRelationData(bets, events, 'event_id',
-      {'name': 'event_name' , 'start_time': 'event_time', 'sport_id': 'sport_id'});
-  }
-);
-
-//memoized selector - function for merging sports to betData and return merged data
-const mergeSportsData = createSelector(
-  [mergeEventsData, getSportsById],
-  (bets, sports)=>{
-    return mergeRelationData(bets, sports, 'sport_id',
-      {'name': 'sport_name'});
-  }
-);
-
-// TODO: revisit this later and simplify the logic
-//formatting data after getting all reuired data merged
-// Bet data currently looks like this
-/**
-back_or_lay:"LAY"
-group_id:"1.104.1"
-betting_market_id:"1.105.1"
-cancel:Object
-event_id:"1.103.1"
-event_name:Object
-event_time:"Tomorrow, 14:54"
-id:"1.106.9"
-key:"1.106.9"
-betting_market_description: "NY Giants",
-betting_market_group_description: "Moneyline",
-odds:2.25
-profit_liability:"0.50000"
-sport_id:"1.100.1"
-sport_name:"American Football"
-stake:"0.625"
-type:"LAY | NY Giants  | Moneyline"
- */
-const formatBettingData = (data, activeTab, precision, targetCurrency, startDate, endDate) => {
-  //showing past data as resolvedBets and future data as matchedBets unmatchedBets
-  if(activeTab !== MyWagerTabTypes.RESOLVED_BETS)
-    data = data.filter(row => (((moment(row.get('event_time')).isAfter(moment().hour(0).minute(0))))));
-
-  //check if this can be improved
-  //TODO: use .map() instead of foreach as suggested
-  data.forEach((row, index) => {
-    let rowObj = {
-      'type' : (row.get('back_or_lay').toUpperCase() + ' | ' + row.get('betting_market_description') + ' | ' + row.get('betting_market_group_description')),
-    };
-    //randomly changed win value to negative for liability display
-    //applied class based on profit or loss
-    if(activeTab !== MyWagerTabTypes.RESOLVED_BETS)
-      rowObj.event_time = getFormattedDate(row.get('event_time'));
-
-    if(activeTab === MyWagerTabTypes.UNMATCHED_BETS){
-      rowObj.event_name = <a target='_self'>{ row.get('event_name') }</a>;
-      rowObj.cancel = (row.get('cancelled') ? '' : <a className='btn cancel-btn' target='_self'>{ I18n.t('mybets.cancel') }</a>);
+  (activeTab, extendedBets) => {
+    if (activeTab === MyWagerTabTypes.RESOLVED_BETS) {
+      return extendedBets.sortBy(bet => bet.get('resolved_time')).reverse();
+    } else {
+      return extendedBets.sortBy(bet => bet.get('event_time')).reverse();
     }
-    data[index] = row.merge(rowObj);
-  });
-
-  return Immutable.fromJS(data);
-}
-
-//memoized selector - function for formatting merged data and return same
-const getBetData = createSelector(
-  [mergeSportsData, getActiveTab, getCurrencyFormat, getPrecision, startDate, endDate],
-  (bets, activeTab, currencyFormat, precision, startDate, endDate) => {
-    return formatBettingData(bets, activeTab,
-    precision, currencyFormat, startDate, endDate);
   }
-);
 
-//memoized selector - function totaling stake and liability
-const getBetTotal = createSelector(
-  [getBetData, getCurrencyFormat, getPrecision],
-  (bets, currencyFormat, precision)=>{
-    let total = 0;
-    bets.forEach((row, index) => {
-      //parsed stake and profit_liability otherwise it considers string and concatenate the values
-      total += parseFloat(row.get('stake')) + parseFloat(row.get('profit_liability'));
+)
+
+// Format the currency in a bet's field (stake, profit/ liability, and amount won)
+const getBetsWithFormattedCurrency = createSelector(
+  [
+    getSortedBets,
+    getCurrencyFormat,
+    getAssetsById
+  ],
+  (bets, currencyFormat, assetsById) => {
+    return bets.map(bet => {
+      const precision = assetsById.getIn([bet.get('asset_id'), 'precision']) || 0;
+      const formattedStake =  CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces);
+      const formattedProfitLiability = CurrencyUtils.getFormattedCurrency(getProfitLiabilityFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces);
+      bet = bet.set('stake', formattedStake);
+      bet = bet.set('profit_liability', formattedProfitLiability);
+      if (bet.get('category') === BetCategories.RESOLVED_BET) {
+        const formattedAmountWon = CurrencyUtils.getFormattedCurrency(bet.get('amount_won')/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces);
+        bet = bet.set('amount_won', formattedAmountWon);
+      }
+      return bet;
+    })
+
+  }
+)
+
+// Bet data currently looks like this
+// back_or_lay:"back"
+// betting_market_id:"1.105.1"
+// cancel:Object
+// event_id:"1.103.1"
+// event_name:Object
+// event_time:"Tomorrow, 14:54"
+// id:"1.106.9"
+// key:"1.106.9"
+// betting_market_description: "NY Giants",
+// betting_market_group_description: "Moneyline",
+// backer_multiplier:2.25
+// profit_liability:"0.50000"
+// sport_name:"American Football"
+// stake:"0.625"
+// type:"LAY | NY Giants  | Moneyline"
+
+// Format bet objects to be shown on table
+const getBetData = createSelector(
+  [
+    getBetsWithFormattedCurrency,
+    getCancelBetsByIdsLoadingStatus
+  ],
+  (
+    bets,
+    cancelBetsByIdsLoadingStatus
+  ) => {
+    return bets.map((bet) => {
+      bet = bet.set('key', bet.get('id'));
+      bet = bet.set('type', bet.get('back_or_lay').toUpperCase() + ' | ' + bet.get('betting_market_description') + ' | ' + bet.get('betting_market_group_description'))
+
+      if (bet.get('category') === BetCategories.RESOLVED_BET) {
+        const resolvedTime = getFormattedDate(bet.get('resolved_time'));
+        bet = bet.set('resolved_time', resolvedTime)
+      } else if (bet.get('category') === BetCategories.UNMATCHED_BET) {
+        const linkedEventName = <a target='_self'>{ bet.get('event_name') }</a>;
+        bet = bet.set('event_name', linkedEventName);
+        const cancelLoadingStatus = cancelBetsByIdsLoadingStatus.get(bet.get('id')) || LoadingStatus.DEFAULT;
+        const cancelButton = (cancelLoadingStatus === LoadingStatus.DEFAULT || cancelLoadingStatus === LoadingStatus.ERROR)
+                            && (<a className='btn cancel-btn' target='_self'>{ I18n.t('mybets.cancel') }</a>);
+        bet = bet.set('cancel', cancelButton);
+      }
+      return bet;
     });
-    return total.toFixed(currencyFormat === 'mBTC' ? precision - 3 : precision);
   }
 );
 

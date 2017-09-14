@@ -1,14 +1,14 @@
+
 /**
  * The ObjectUtils contains all the functions related to blockchain-objects such as
  * event, bet etc.
  *
  * For the list of supported blockchain-objects, please refer to https://bitbucket.org/ii5/bookie/wiki/blockchain-objects/index
  */
-import { BetCategories } from '../constants';
-import moment from 'moment';
+import { BetCategories, EventStatus, BettingMarketResolutionTypes, BetTypes } from '../constants';
 
 /**
- * caluclate the stake from be object, supporting categories including unmatched bets and matched bets, and bet type including both back and lay.
+ * calculate the stake from bet object, supporting categories including unmatched bets and matched bets, and bet type including both back and lay.
  *
  * @param {bet} Immutable Object, bet object
  * @returns {integer} - stake of the bet object, in terms of 'BTC'
@@ -21,16 +21,16 @@ const getStakeFromBetObject = (bet) => {
     betAmount = bet.get('matched_bet_amount');
   }
 
-  switch (bet.get('back_or_lay').toUpperCase()) {
-    case 'BACK':
+  switch (bet.get('back_or_lay')) {
+    case BetTypes.BACK:
       return betAmount;
     default:
-      return betAmount * (bet.get('backer_multiplier') - 1);
+      return betAmount / (bet.get('backer_multiplier') - 1);
   }
 }
 
 /**
- * caluclate the profitability of bet, supporting cases including resolved bets, unmatched bets and matched bets.
+ * calculate the profitability of bet, supporting cases including resolved bets, unmatched bets and matched bets.
  *
  * @param {bet} Immutable Object, bet object
  * @returns {integer} - bet amount, in terms of 'BTC', calculated based on bet type and bet category
@@ -47,13 +47,48 @@ const getProfitLiabilityFromBetObject = (bet) => {
     } else if (bet.get('category') === BetCategories.MATCHED_BET) {
       betAmount = bet.get('matched_bet_amount');
     }
-    switch (bet.get('back_or_lay').toUpperCase()) {
-      case 'BACK':
-        return betAmount / (bet.get('backer_multiplier') - 1);
+    switch (bet.get('back_or_lay')) {
+      case BetTypes.BACK:
+        return betAmount * (bet.get('backer_multiplier') - 1);
       default:
         return betAmount;
     }
   }
+}
+
+/**
+ * calculate amount won of a bet given the game result
+ *
+ * @param {bet} Immutable Object, bet object
+ * @param {BettingMarketResolutionTypes} game result
+ * @returns {BetTypes} - amount won
+ */
+const getAmountWonFromBetObject = (bet, bettingMarketResolutionType) => {
+  let amountWon = 0;
+  switch (bettingMarketResolutionType) {
+    case BettingMarketResolutionTypes.WIN: {
+      if (bet.get('back_or_lay') === BetTypes.BACK) {
+        amountWon = Math.round(bet.get('matched_bet_amount') * (bet.get('backer_multiplier') - 1));
+      } else if (bet.get('back_or_lay') === BetTypes.LAY) {
+        amountWon = (-1) * bet.get('matched_bet_amount');
+      }
+      break;
+    }
+    case BettingMarketResolutionTypes.NOT_WIN: {
+      if (bet.get('back_or_lay') === BetTypes.BACK) {
+        amountWon = (-1) * bet.get('matched_bet_amount');
+      } else if (bet.get('back_or_lay') === BetTypes.LAY) {
+        amountWon = Math.round(bet.get('matched_bet_amount') * (bet.get('backer_multiplier') - 1));
+      }
+      break;
+    }
+    case BettingMarketResolutionTypes.CANCEL: {
+      amountWon = 0;
+      break;
+    }
+    default: break;
+  }
+  return amountWon;
 }
 
 /**
@@ -67,7 +102,7 @@ const getProfitLiabilityFromBetObject = (bet) => {
  * @param {fieldsToLocalize} string array, in which key names mean the object in param need to be translated
  * @returns {object} - object with internationalized string fields updated based on fieldsToLocalize.
  */
-const localizeStringOfObject = (object, fieldsToLocalize=[], lang='en') => {
+const localizeObject = (object, fieldsToLocalize=[], lang='en') => {
   let result = object;
   fieldsToLocalize.forEach(field => {
     const intlStringArrays = object.get(field);
@@ -83,23 +118,37 @@ const localizeStringOfObject = (object, fieldsToLocalize=[], lang='en') => {
 }
 
 /**
- * report if the event is active by comparing with current time and event start time
+ * Extend localizeObject for an array of objects
+ *
+ * @param {Immutable JS} Immutable JS array of objects, blockchain objects contain localised string fields and they need to be updated with related string value.
+ * @param {fieldsToLocalize} string array, in which key names mean the object in param need to be translated
+ * @returns {object} - object with internationalized string fields updated based on fieldsToLocalize.
+ */
+const localizeArrayOfObjects = (arrayOfObjects, fieldsToLocalize=[], lang='en') => {
+  return arrayOfObjects.map(object => {
+    return localizeObject(object, fieldsToLocalize, lang);
+  })
+}
+
+/**
+ * Report if the event is active by checking its status
  *
  * @param {event} event Immutable.JSobject in Immutable.JS
  * @returns {boolean} - if the event active.
  */
 const isActiveEvent = (event) => {
-  let isActive = false;
-  // TODO: should use event status instead, revisit this when the enum code for event_status is known
-  const eventTime = event.get('start_time');
-  isActive = moment(eventTime).isAfter();
-  return isActive;
+  const eventStatus = event.get('status');
+
+  // Event is active if it is not completed or canceled
+  return eventStatus !== EventStatus.COMPLETED && eventStatus !== EventStatus.CANCELED;
 }
 
 const ObjectUtils = {
   getStakeFromBetObject,
   getProfitLiabilityFromBetObject,
-  localizeStringOfObject,
+  getAmountWonFromBetObject,
+  localizeObject,
+  localizeArrayOfObjects,
   isActiveEvent
 }
 

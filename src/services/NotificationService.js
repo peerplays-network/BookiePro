@@ -1,10 +1,9 @@
 import _ from 'lodash';
 import Immutable from 'immutable';
 import { BlockchainUtils } from '../utility';
-import { NotificationTypes, DummyOperationTypes } from '../constants';
+import { NotificationTypes, ChainTypes } from '../constants';
 const { calcBlockTime } = BlockchainUtils;
 import { I18n } from 'react-redux-i18n';
-import { ChainTypes } from 'peerplaysjs-lib';
 
 class NotificationService {
   // Use this to generate notification id
@@ -14,8 +13,8 @@ class NotificationService {
    * Extract relevant info (asset id and betting market id from  transactions)
    */
   static extractRelevantAdditionalInfo(transactions) {
-    let relevantAssetIds = Immutable.Set();
-    let relevantBettingMarketIds = Immutable.Set();
+    let relevantAssetIds = Immutable.List();
+    let relevantBettingMarketIds = Immutable.List();
 
     transactions.forEach( (transaction) => {
       const operationType = transaction.getIn(['op',0]);
@@ -24,14 +23,18 @@ class NotificationService {
       if (operationType === ChainTypes.operations.transfer) {
         // Extract asset Id
         const assetId = operationContent.getIn(['amount', 'asset_id']);
-        relevantAssetIds = relevantAssetIds.add(assetId);
-      } else if (operationType === DummyOperationTypes.BETTING_MARKET_RESOLVED) {
+        relevantAssetIds = relevantAssetIds.push(assetId);
+      } else if (operationType === ChainTypes.operations.betting_market_group_resolved) {
         // Extract betting market Id
         const resolutions = operationContent.get('resolutions');
         const bettingMarketIds = resolutions.map(resolution => resolution.get(0));
         relevantBettingMarketIds = relevantBettingMarketIds.concat(bettingMarketIds);
       }
     });
+
+    // Unique
+    relevantAssetIds = relevantAssetIds.toSet().toList();
+    relevantBettingMarketIds = relevantBettingMarketIds.toSet().toList();
     return {
       relevantAssetIds,
       relevantBettingMarketIds
@@ -85,7 +88,7 @@ class NotificationService {
           }
           break;
         }
-        case DummyOperationTypes.BETTING_MARKET_RESOLVED: {
+        case ChainTypes.operations.betting_market_group_resolved: {
           const type = NotificationTypes.BET_RESOLVED;
           const content = I18n.t('notification.bet_resolved');
           // Mark as read if notification card is shown

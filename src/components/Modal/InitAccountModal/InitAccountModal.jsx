@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Modal, Spin } from 'antd';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 
 class InitAccountModal extends PureComponent {
 
@@ -12,8 +13,8 @@ class InitAccountModal extends PureComponent {
         footer={ null }
         closable={ false }
       >
-        <p>{ 'Setting up your account for the first time... ' }</p>
-        <p>{ 'This might take few minutes. Please be patient.' }</p>
+        <p>{ I18n.t('initAccountModal.line_1') }</p>
+        <p>{ I18n.t('initAccountModal.line_2') }</p>
         <div style={ { display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '20px', paddingBottom: '20px' } }>
           <Spin size='large'/>
         </div>

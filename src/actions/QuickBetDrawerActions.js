@@ -72,7 +72,7 @@ class QuickBetDrawerPrivateActions {
 }
 
 class QuickBetDrawerActions {
-  static createBet(event_id, event_name, team, bet_type, betting_market_id, odds) {
+  static createBet(event_id, event_name, bet_type, betting_market_id, odds) {
     return (dispatch, getState) => {
       const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', betting_market_id]);
       const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
@@ -82,7 +82,6 @@ class QuickBetDrawerActions {
       const bet = Immutable.fromJS({
         event_id,
         event_name,
-        team,
         bet_type,
         betting_market_id,
         odds,

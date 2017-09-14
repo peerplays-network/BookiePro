@@ -1,8 +1,8 @@
-import { ActionTypes, ConnectionStatus } from '../constants';
+import { ActionTypes, ConnectionStatus, Config, BetCategories } from '../constants';
 import Immutable from 'immutable';
 import moment from 'moment';
 import BetActions from './BetActions';
-import { CurrencyUtils } from '../utility';
+import { CurrencyUtils, ObjectUtils } from '../utility';
 
 class MarketDrawerPrivateActions {
   static addUnconfirmedBet(bet) {
@@ -64,13 +64,12 @@ class MarketDrawerPrivateActions {
     }
   }
 
-  static getPlacedBets(placedUnmatchedBets, placedMatchedBets, bettingMarketGroupId, currencyFormat) {
+  static getPlacedBets(placedUnmatchedBets, placedMatchedBets, bettingMarketGroupId) {
     return {
       type: ActionTypes.MARKET_DRAWER_GET_PLACED_BETS,
       placedUnmatchedBets,
       placedMatchedBets,
-      bettingMarketGroupId,
-      currencyFormat
+      bettingMarketGroupId
     }
   }
 
@@ -129,7 +128,7 @@ class MarketDrawerPrivateActions {
 }
 
 class MarketDrawerActions {
-  static createBet(team, bet_type, betting_market_id, odds = '') {
+  static createBet(bet_type, betting_market_id, odds = '') {
     return (dispatch, getState) => {
       const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', betting_market_id]);
       const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
@@ -137,7 +136,6 @@ class MarketDrawerActions {
       const bettingMarketDescription = bettingMarket && bettingMarket.get('description');
       const bettingMarketGroupDescription = bettingMarketGroup && bettingMarketGroup.get('description');
       const bet = Immutable.fromJS({
-        team,
         bet_type,
         betting_market_id,
         odds,
@@ -199,34 +197,86 @@ class MarketDrawerActions {
     }
   }
 
+  static updatePlacedBets() {
+    return (dispatch, getState) => {
+      const currentPlacedBetsBettingMarketGroupId = getState().getIn(['marketDrawer', 'bettingMarketGroupId']);
+      if (currentPlacedBetsBettingMarketGroupId) {
+        dispatch(MarketDrawerActions.getPlacedBets(currentPlacedBetsBettingMarketGroupId));
+      }
+    }
+  }
+
   static getPlacedBets(bettingMarketGroupId) {
     return (dispatch, getState) => {
-      const unmatchedBetsById = getState().getIn(['bet', 'unmatchedBetsById']);
-      const matchedBetsById = getState().getIn(['bet', 'matchedBetsById']);
       const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
-      const bettingMarketsById = getState().getIn(['bettingMarket', 'bettingMarketsById']);
-      const assetsById = getState().getIn(['asset', 'assetsById']);
-      const bettingMarketGroupDescription = bettingMarketGroup && bettingMarketGroup.get('description');
-      const getBets = (collection) =>
-        collection.filter(bet => {
+
+      if (!bettingMarketGroup || bettingMarketGroup.isEmpty()) {
+        // If betting market group doesn't exist, clear placed bets
+        dispatch(MarketDrawerActions.clearPlacedBets());
+      } else {
+        const unmatchedBetsById = getState().getIn(['bet', 'unmatchedBetsById']);
+        const matchedBetsById = getState().getIn(['bet', 'matchedBetsById']);
+
+        const bettingMarketsById = getState().getIn(['bettingMarket', 'bettingMarketsById']);
+        const assetsById = getState().getIn(['asset', 'assetsById']);
+        const bettingMarketGroupDescription = bettingMarketGroup && bettingMarketGroup.get('description');
+
+        // Helper function to filter related bet
+        const filterRelatedBet = (bet) => {
+          // Only get bet that belongs to this betting market group
           const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
           return bettingMarket && (bettingMarket.get('group_id') === bettingMarketGroupId);
-        }).map(bet => {
+        };
+
+        // Helper function to format bets to market drawer bet object structure
+        const formatBet = (bet) => {
           const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
           const bettingMarketDescription = bettingMarket && bettingMarket.get('description');
-          const precision = assetsById.get(bettingMarket.get('bet_asset_type')).get('precision');
-          return bet.set('betting_market_description', bettingMarketDescription)
-                    .set('betting_market_group_description', bettingMarketGroupDescription)
-                    .set('asset_precision', precision);     // set this and use in reducer
-        });
+          const precision = assetsById.get(bettingMarketGroup.get('asset_id')).get('precision') || 0;
+          const odds = bet.get('backer_multiplier');
+          const stake = ObjectUtils.getStakeFromBetObject(bet) / Math.pow(10, precision);
 
-      const placedUnmatchedBets = getBets(unmatchedBetsById);
-      const placedMatchedBets = getBets(matchedBetsById);
+          const accountId = getState().getIn(['account','account','id']);
+          const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting']);
+          const currencyFormat = setting.get('currencyFormat');
 
-      const account = getState().get('account');
-      const accountId = account.getIn(['account','id']);
-      const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting'])
-      dispatch(MarketDrawerPrivateActions.getPlacedBets(placedUnmatchedBets, placedMatchedBets, bettingMarketGroupId, setting.get('currencyFormat')));
+          // store odds and stake values as String for easier comparison
+          const oddsAsString = CurrencyUtils.formatFieldByCurrencyAndPrecision('odds', odds, currencyFormat).toString();
+          const stakeAsString = CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', stake, currencyFormat).toString();
+
+          let formattedBet = Immutable.fromJS({
+            id: bet.get('id'),
+            original_bet_id: bet.get('original_bet_id'),
+            bet_type: bet.get('back_or_lay'),
+            bettor_id: bet.get('bettor_id'),
+            betting_market_id: bet.get('betting_market_id'),
+            betting_market_description: bettingMarketDescription,
+            betting_market_group_description: bettingMarketGroupDescription,
+            odds: oddsAsString,
+            stake: stakeAsString,
+          });
+
+          if (bet.get('category') === BetCategories.UNMATCHED_BET) {
+            // Additional field for unmatched bets
+            formattedBet = formattedBet.set('original_odds', oddsAsString)
+                                       .set('original_stake', stakeAsString)
+                                       .set('updated', false);
+          }
+          return formattedBet;
+        };
+
+        const placedUnmatchedBets = unmatchedBetsById.filter(filterRelatedBet).map(formatBet).toList();
+        const placedMatchedBets =  matchedBetsById.filter(filterRelatedBet).map(formatBet).toList();
+
+        dispatch(MarketDrawerPrivateActions.getPlacedBets(placedUnmatchedBets, placedMatchedBets, bettingMarketGroupId));
+      }
+
+    }
+  }
+
+  static clearPlacedBets() {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.getPlacedBets(Immutable.List(), Immutable.List(), null));
     }
   }
 
@@ -236,12 +286,15 @@ class MarketDrawerActions {
     }
   }
 
+
   static deleteUnmatchedBet(bet) {
     return (dispatch) => {
       dispatch(BetActions.cancelBets(Immutable.List([bet])));
       // TODO DEPRECATE: Once the Blockchain is ready we SHOULD NOT manually remove an unmatched bet
-      console.warn("Warning    Manual removal of unmatched bets in UI should be prohibited once Bet cancellation is available in Blockchain");
-      dispatch(MarketDrawerPrivateActions.deleteOneUnmatchedBet(bet.get('id')));
+      if (Config.useDummyData) {
+        console.warn("Warning    Manual removal of unmatched bets in UI should be prohibited once Bet cancellation is available in Blockchain");
+        dispatch(MarketDrawerPrivateActions.deleteOneUnmatchedBet(bet.get('id')));
+      }
     }
   }
 
@@ -255,8 +308,10 @@ class MarketDrawerActions {
     return (dispatch) => {
       dispatch(BetActions.cancelBets(Immutable.List(bets)));
       // TODO DEPRECATE: Once the Blockchain is ready we SHOULD NOT manually remove an unmatched bet
-      console.warn("Warning    Manual removal of unmatched bets in UI should be prohibited once Bet cancellation is available in Blockchain");
-      dispatch(MarketDrawerPrivateActions.deleteManyUnmatchedBets(bets.map(b => b.get('id'))));
+      if (Config.useDummyData) {
+        console.warn("Warning    Manual removal of unmatched bets in UI should be prohibited once Bet cancellation is available in Blockchain");
+        dispatch(MarketDrawerPrivateActions.deleteManyUnmatchedBets(bets.map(b => b.get('id'))));
+      }
     }
   }
 

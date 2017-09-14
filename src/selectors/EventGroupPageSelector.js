@@ -12,6 +12,16 @@ const {
 
 const getRelatedEventGroupId = (state, ownProps) => ownProps.params.objectId;
 
+const getEventGroup = createSelector(
+  [
+    getEventGroupsById,
+    getRelatedEventGroupId
+  ],
+  (eventGroupsById, relatedEventGroupId) => {
+    return eventGroupsById.get(relatedEventGroupId);
+  }
+);
+
 const getEventGroupName = createSelector(
   [
     getRelatedEventGroupId,
@@ -110,7 +120,7 @@ const getEventGroupPageData = createSelector(
         event_id: event.get('id'),
         event_name: event.get('name'),
         time: event.get('start_time'),
-        isLiveMarket: event.get('isLiveMarket'),
+        isLiveMarket: event.get('is_live_market'),
         offers,
         moneyline: moneylineBettingMarketGroupId,
       });
@@ -123,6 +133,7 @@ const getEventGroupPageData = createSelector(
 )
 
 const EventGroupPageSelector = {
+  getEventGroup,
   getEventGroupPageData,
   getEventGroupName,
   getSportName

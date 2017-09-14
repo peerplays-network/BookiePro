@@ -2,58 +2,97 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { SportBanner } from '../Banners';
 import { SimpleBettingWidget } from '../BettingWidgets';
-import { SportPageActions } from '../../actions';
+import { SportPageActions, NavigateActions } from '../../actions';
 import { SportPageSelector, QuickBetDrawerSelector } from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
+import { bindActionCreators } from 'redux';
+import _ from 'lodash';
 
 const MAX_EVENTS_PER_WIDGET = 10;
-const { getData } = SportPageActions;
 
 class Sport extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.props.dispatch(getData(props.params.objectId));
+  componentWillMount() {
+    // Get the data
+    this.props.getData(this.props.params.objectId);
+  }
+
+  componentWillReceiveProps(nextProps){
+    if (!nextProps.sport ||nextProps.sport.isEmpty()) {
+      // Sport doesn't exist,
+      // Go back to home page
+      this.props.navigateTo('/exchange');
+    } else {
+      const prevSportId = this.props.params.objectId;
+      const nextSportId = nextProps.params.objectId;
+      if (nextSportId !== prevSportId){
+        // Get the data
+        this.props.getData(nextSportId);
+      }
+    }
   }
 
   render() {
-    const { sportName, sportPageData, currencyFormat } = this.props;
-    return (
-      <div className='sport-wrapper'>
-        <SportBanner sport={ sportName }/>
-        {
-          // convert the list of keys into vanilla JS array so that I can grab the index
-          sportPageData.map((eventGroupData) => {
-            const eventGroupId = eventGroupData.get('event_group_id');
-            const events = eventGroupData.get('events');
-            return (
-              <SimpleBettingWidget
-                sportName={ sportName }
-                key={ eventGroupId }                    // required by React to have unique key
-                title={ eventGroupData.get('name') }
-                events={ events.slice(0, MAX_EVENTS_PER_WIDGET) }
-                currencyFormat={ currencyFormat }
-                showFooter={ events.size > MAX_EVENTS_PER_WIDGET }
-                footerLink={ `/exchange/eventgroup/${eventGroupId}` }
-                pagination={ false }          // No pagination, only show top records
-                canCreateBet={ this.props.canCreateBet }
-              />
-            );
-          })
-        }
-        <div className='margin-top-18'>
-          <PeerPlaysLogo />
+    const { sport, sportName, sportPageData, currencyFormat } = this.props;
+    // Return nothing if sport doesn't exist
+    if (!sport || sport.isEmpty()) {
+      return null;
+    } else {
+      return (
+        <div className='sport-wrapper'>
+          <SportBanner sport={ sportName }/>
+          {
+            // convert the list of keys into vanilla JS array so that I can grab the index
+            sportPageData.map((eventGroupData) => {
+              const eventGroupId = eventGroupData.get('event_group_id');
+              const events = eventGroupData.get('events');
+              return (
+                <SimpleBettingWidget
+                  sportName={ sportName }
+                  key={ eventGroupId }                    // required by React to have unique key
+                  title={ eventGroupData.get('name') }
+                  events={ events.slice(0, MAX_EVENTS_PER_WIDGET) }
+                  currencyFormat={ currencyFormat }
+                  showFooter={ events.size > MAX_EVENTS_PER_WIDGET }
+                  footerLink={ `/exchange/eventgroup/${eventGroupId}` }
+                  pagination={ false }          // No pagination, only show top records
+                  canCreateBet={ this.props.canCreateBet }
+                />
+              );
+            })
+          }
+          <div className='margin-top-18'>
+            <PeerPlaysLogo />
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-    sportName: SportPageSelector.getSportName(state, ownProps),
-    sportPageData: SportPageSelector.getSportPageData(state, ownProps),
-    canCreateBet: QuickBetDrawerSelector.canAcceptBet(state, ownProps),
-  };
+  const sport = SportPageSelector.getSport(state, ownProps);
+
+  let props = {
+    sport
+  }
+
+  // Populate other properties if sport exists
+  if (sport && !sport.isEmpty()) {
+    _.assign(props, {
+      sportName: SportPageSelector.getSportName(state, ownProps),
+      sportPageData: SportPageSelector.getSportPageData(state, ownProps),
+      canCreateBet: QuickBetDrawerSelector.canAcceptBet(state, ownProps),
+    });
+  }
+
+  return props;
 }
 
-export default connect(mapStateToProps)(Sport);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    navigateTo: NavigateActions.navigateTo,
+    getData: SportPageActions.getData,
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sport);

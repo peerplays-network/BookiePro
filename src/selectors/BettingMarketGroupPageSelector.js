@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import Immutable from 'immutable';
 import CommonSelector from './CommonSelector';
 import { CurrencyUtils } from '../utility';
+import { Config } from '../constants';
 
 const {
   getBettingMarketGroupsById,
@@ -71,7 +72,7 @@ const getEventTime = createSelector(
 const getIsLiveMarket = createSelector(
   getEvent,
   (event) => {
-    return event && event.get('isLiveMarket');
+    return event && event.get('is_live_market');
   }
 )
 
@@ -132,8 +133,9 @@ const getMarketData = createSelector(
     getBettingMarkets,
     getBinnedOrderBooksByBettingMarketId,
     getBettingMarketGroup,
+    getAssetsById
   ],
-  (bettingMarkets, binnedOrderBooksByBettingMarketId, bettingMarketGroup) => {
+  (bettingMarkets, binnedOrderBooksByBettingMarketId, bettingMarketGroup, assetsById) => {
     let marketData = Immutable.List();
     bettingMarkets.forEach((bettingMarket, i) => {
       const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarket.get('id'));
@@ -141,8 +143,23 @@ const getMarketData = createSelector(
         .set('name', bettingMarket.get('description'))
         .set('displayedName',  bettingMarket.get('description'));
 
-      const aggregated_lay_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
-      const aggregated_back_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
+      // Normalize aggregated_lay_bets and aggregated_back_bets
+      const assetPrecision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']);
+      let aggregated_lay_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
+      aggregated_lay_bets = aggregated_lay_bets.map(aggregated_lay_bet => {
+        const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
+        const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
+        return aggregated_lay_bet.set('odds', odds)
+                                 .set('price', price);
+      });
+      let aggregated_back_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
+      aggregated_back_bets = aggregated_back_bets.map(aggregated_back_bet => {
+        const odds = aggregated_back_bet.get('backer_multiplier') / Config.oddsPrecision;
+        const price = aggregated_back_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
+        return aggregated_back_bet.set('odds', odds)
+                                  .set('price', price);
+      });
+
       let offer = Immutable.Map({
         backIndex: 0,
         layIndex: 0,

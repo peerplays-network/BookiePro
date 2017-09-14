@@ -15,10 +15,10 @@ class AllSports extends PureComponent {
   }
 
   render() {
-    const { allSportsData, currencyFormat } = this.props;
+    const { allSportsData, currencyFormat, globalBettingStatistics } = this.props;
     return (
       <div id='all-sports-wrapper'>
-        <AllSportsBanner />
+        <AllSportsBanner globalBettingStatistics={ globalBettingStatistics } />
         {
           allSportsData.map((sportData) => {
             const sportId = sportData.get('sport_id');
@@ -50,6 +50,7 @@ class AllSports extends PureComponent {
 const mapStateToProps = (state) => {
   return {
     allSportsData: AllSportsSelector.getAllSportsData(state),
+    globalBettingStatistics: AllSportsSelector.getGlobalBettingStatistics(state),
     canCreateBet: QuickBetDrawerSelector.canAcceptBet(state),
   }
 }

@@ -6,7 +6,6 @@ import BettingMarketGroupActions from './BettingMarketGroupActions';
 import BettingMarketActions from './BettingMarketActions';
 import BinnedOrderBookActions from './BinnedOrderBookActions';
 import _ from 'lodash';
-import Immutable from 'immutable';
 import log from 'loglevel';
 
 class EventGroupPagePrivateActions {
@@ -39,22 +38,17 @@ class EventGroupPageActions {
 
       dispatch(EventGroupPagePrivateActions.setLoadingStatusAction(eventGroupId, LoadingStatus.LOADING));
 
-      let retrievedEventGroup;
-      let retrievedSport;
-      let retrievedEvents = Immutable.List();
-
       // Get event group
       dispatch(EventGroupActions.getEventGroupsByIds([eventGroupId])).then( eventGroups => {
-        retrievedEventGroup = eventGroups.get(0);
+        const retrievedEventGroup = eventGroups.get(0);
         const sportId = retrievedEventGroup.get('sport_id');
-        // Get sport
-        return dispatch(SportActions.getSportsByIds([sportId]));
-      }).then((sports) => {
-        retrievedSport = sports.get(0);
-        // Get events
-        return dispatch(EventActions.getEventsBySportIds([retrievedSport.get('id')]));
-      }).then((events) => {
-        retrievedEvents = events;
+        // Get sport and events
+        return Promise.all([
+          dispatch(SportActions.getSportsByIds([sportId])),
+          dispatch(EventActions.getEventsByEventGroupIds([eventGroupId]))
+        ]);
+      }).then((result) => {
+        const retrievedEvents = result[1];
         // Get betting market groups
         const eventIds = retrievedEvents.map( event => event.get('id'));
         return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByEventIds(eventIds));
@@ -70,7 +64,7 @@ class EventGroupPageActions {
         // Set status
         dispatch(EventGroupPagePrivateActions.setLoadingStatusAction(eventGroupId, LoadingStatus.DONE));
       }).catch((error) => {
-        log.error('Event sport page get data error', eventGroupId, error);
+        log.error('Event group page get data error', eventGroupId, error);
         dispatch(EventGroupPagePrivateActions.setErrorAction(eventGroupId, error));
       });
     }
