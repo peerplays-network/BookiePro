@@ -12,7 +12,7 @@ import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
 import {
   Card
-} from 'antd/lib/card';
+} from 'antd';
 
 export class Notification extends PureComponent{
 
