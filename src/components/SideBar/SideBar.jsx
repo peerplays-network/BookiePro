@@ -174,6 +174,45 @@ class SideBar extends PureComponent {
     }
   }
 
+  sortEventTree() {
+    // console.log("Event Tree");
+    // console.log(this.state.tree);
+
+    var tree = this.state.tree;
+
+    for (var i = 0; i < tree.length; i++) { // Iterate through the tree
+      // console.log("Index: ", i);
+      var branch = this.state.tree[i]
+
+      for (var b = 0; b < branch.children.length; b++) {
+        var node = branch.children[b]
+        // console.log("Branch Node: ", node);
+
+        console.log("Before: ", node.children);
+        node.children = sortByDate(node.children);
+        console.log("After: ", node.children);
+
+        // this.state.tree[i].childre[b].children[n].children = sortByDate(node)
+
+
+        // for (var n = 0; n < branch.children[b].children.length; n++) {
+        //   var leaf = branch.children[b].children[n];
+        //   console.log("Leaf Node: ", leaf);
+        // }
+      }
+    }
+
+    function sortByDate(events) {
+      console.log("---- Sorting By Date");
+      console.log(events);
+
+      return events.sort(function(a, b) {
+        return a.start_date - b.start_date;
+      })
+
+    }
+  }
+
   /**
    *
    *  customComponentMappings is related to navigation path name.
@@ -181,6 +220,7 @@ class SideBar extends PureComponent {
    *  value in mapping corresponds to customComponent class
    */
   render() {
+    this.sortEventTree()
     return (
       <InfinityMenu
         disableDefaultHeaderContent={ true }
