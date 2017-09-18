@@ -1,3 +1,8 @@
+/**
+ * This selector is used to fetch bets data on the basis of activeTab and store minimal possible state in redux.
+ * This data is not recomputed unless one of its arguments changes
+ * This selectors are composable. They can be used as input to other selectors
+ */
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import { createSelector } from 'reselect';
@@ -74,6 +79,7 @@ const getFilteredResolvedBetsById = createSelector(
     });
   }
 )
+/** This function extracts bet transactions on the basis of activeTab */
 const getRelatedBetsCollection = createSelector(
   [
     getActiveTab,

@@ -1,6 +1,20 @@
 /**
- * Unmatchedbets component to list Unmatched bets with cancel bet and cancell all unmatched bets functionality
- * This component is child to Mywager component
+ * This component displays the list of unmatched transactions of the user. Unmatched bets are bets
+ * that are pending for someone to make an opposite bet with same odds to match on
+ *
+ * It uses 'antd' table to render and display matched bets data
+ * The list contains 'Event Name' which will allow the user to redirect to event full market screen.
+ * The user can edit unmatched bet from the market drawer.
+ *
+ * This component displays:
+ *   i.   Total : sum of back bet’s stack + sum of lay bet’s liability displayed at top.
+ *                display Total in format depending on Setting – Bitcoin units
+ *   ii.  bets displayed in chronological order, nearest to oldest, 20 records per screen,
+ *        with pagination at the bottom of the screen.
+ *   iii. 'Cancel All' button : to cancel all bets at top right side
+ *   iv.  'Cancel' button : next to every bet record - cancel relevant transaction
+ *
+ * This component is used in {@link MyBets}
  */
 import React, { PureComponent } from 'react';
 import { Table, Modal } from 'antd';

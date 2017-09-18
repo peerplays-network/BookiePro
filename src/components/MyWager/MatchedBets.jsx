@@ -1,6 +1,20 @@
 /**
- * Matchedbets component to list Matched bets
- * This component is child to Mywager component
+ * This component displays the list of matched transactions of the user. Matched bets are bets
+ * which are matched with certain opposite bets, pending for the market to end and get resolved
+ *
+ * It uses 'antd' table to render and display matched bets data
+ *
+ * This component displays:
+ *   i. Total - sum of back bet’s stack + sum of lay bet’s liability displayed at top.
+ *              display Total in format depending on Setting – Bitcoin units
+ *   ii. bets displayed in chronological order, nearest to oldest, 20 records per screen,
+ *       with pagination at the bottom of the screen.
+ *
+ * It uses the following utility files:
+ *   MyWagerUtils : to generate matched bets table columns and their indexes
+ *   CurrencyUtils: to get user's currency symbol
+ *
+ * This component is used in {@link MyBets}
  */
 import React, { PureComponent } from 'react';
 import { Table } from 'antd';
@@ -15,7 +29,6 @@ import PropTypes from 'prop-types';
 class MatchedBets extends PureComponent {
   constructor(props) {
     super(props);
-
     const { matchedBets, currencyFormat } = props;
 
     this.state = {
