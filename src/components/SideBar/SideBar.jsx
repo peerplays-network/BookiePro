@@ -207,7 +207,7 @@ class SideBar extends PureComponent {
       console.log(events);
 
       return events.sort(function(a, b) {
-        return a.start_date - b.start_date;
+        return a.start_time - b.start_time;
       })
 
     }
