@@ -89,7 +89,7 @@ class QuickBetDrawer extends PureComponent {
               !this.props.bets.isEmpty() &&
               <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
                 <Button
-                  className={ `btn place-bet btn-regular${this.props.numberOfGoodBets > 0 ? '' : '-disabled'}` }
+                  className={ `btn place-bet btn${this.props.numberOfGoodBets > 0 ? '-regular' : '-disabled'}` }
                   onClick={ () => this.props.clickPlaceBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
                   disabled={ this.props.numberOfGoodBets === 0  }
                 >

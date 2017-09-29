@@ -228,7 +228,28 @@ const getBetsWithFormattedCurrency = createSelector(
 // stake:"0.625"
 // type:"LAY | NY Giants  | Moneyline"
 
-// Format bet objects to be shown on table
+  //check if this can be improved
+  //TODO: use .map() instead of foreach as suggested
+  data.forEach((row, index) => {
+    let rowObj = {
+      'type' : (row.get('back_or_lay').toUpperCase() + ' | ' + row.get('betting_market_description') + ' | ' + row.get('betting_market_group_description')),
+    };
+    //randomly changed win value to negative for liability display
+    //applied class based on profit or loss
+    if(activeTab !== MyWagerTabTypes.RESOLVED_BETS)
+      rowObj.event_time = getFormattedDate(row.get('event_time'));
+
+    if(activeTab === MyWagerTabTypes.UNMATCHED_BETS){
+      rowObj.event_name = <a target='_self'>{ row.get('event_name') }</a>;
+      rowObj.cancel = (row.get('cancelled') ? '' : <a className='btn btn-cancel' target='_self'>{ I18n.t('mybets.cancel') }</a>);
+    }
+    data[index] = row.merge(rowObj);
+  });
+
+  return Immutable.fromJS(data);
+}
+
+//memoized selector - function for formatting merged data and return same
 const getBetData = createSelector(
   [
     getBetsWithFormattedCurrency,

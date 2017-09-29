@@ -151,33 +151,57 @@
   border-radius: 0;
   height: 30px;
   line-height: 30px;
-  border: 0 none;
   text-align: center;
   cursor: pointer;
   transition: none;
+  border:0 none;
   //TODO: will remove important after optimizing the On Boarding Landing page
-  padding:0 !important;
-  &:focus{
-    outline:none;
-  }
+  padding:2px;
 }
 .btn-regular {
   background: @primary_btn;
   box-shadow: @btn_shadow;
+  &:hover, &:focus{
+    padding:0;
+    color: @btn_label;;
+    background: @primary_btn;
+    outline:none;
+    border: 2px solid @primary_label_highlight;
+  }
 }
-.btn-regular-disabled {
+.btn-cancel{
+  background: @secondary_btn;
+  box-shadow: @btn_shadow;
+  &:hover, &:focus{
+    padding:0;
+    color: @btn_label;;
+    background: @secondary_btn;
+    outline:none;
+    border: 2px solid @primary_label_highlight;
+  }
+}
+.btn-disabled, .btn:disabled{
   background: @disable_btn;
   box-shadow: @btn_shadow;
   cursor: not-allowed;
+  color: @btn_label;
+  &:hover, &:focus{
+    color: @btn_label;
+    padding:2px;
+    background: @disable_btn;
+    border:inherit;
+  }
 }
 .btn-download{
   background: @download_btn;
   box-shadow: @btn_shadow;
+  &:hover, :focus{
+    background: @download_btn;
+  }
 }
 .inputWithButton{
   width:54px;
   position: absolute;
-  padding: 0;
   top:0;
   right:0;
 }
@@ -680,11 +704,11 @@ input, .ant-input, .ant-calendar-input {
       margin-top: 5px;
       padding:10px 20px;
       display: flex;
+      justify-content: space-around;
       .ant-btn{
-        width:100%;
+        width: 45%;
         &.ant-btn{
-          .btn-regular-disabled;
-          cursor: pointer !important;
+          .btn-cancel;
         }
         &.ant-btn-primary{
           .btn-regular;
@@ -694,7 +718,7 @@ input, .ant-input, .ant-calendar-input {
         }
       }
       button + button{
-        margin-left:20px;
+        margin:initial;
       }
     }
   }
@@ -760,6 +784,5 @@ input, .ant-input, .ant-calendar-input {
 }
 
 .btn-primary {
-  background-image: @primary_btn;
-  box-shadow: @btn_shadow;
+  .btn-regular;
 }
