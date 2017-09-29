@@ -76,7 +76,7 @@ class Export extends PureComponent {
           <Icon type='loading'></Icon>
         </div>
         <div className='card-footer'>
-          <button className='btn cancel-btn'
+          <button className='btn btn-cancel'
             onClick={ this.handleCancelClick }>{ I18n.t('mybets.cancel') }
           </button>
         </div>
@@ -95,7 +95,7 @@ class Export extends PureComponent {
         <Card className='export-card export-empty-data' title={ I18n.t('application.exportNoDataHeader') }>
           <p>{ I18n.t('application.exportNoDataMsg') }</p>
           <div className='card-footer'>
-            <button className='btn cancel-btn'
+            <button className='btn btn-cancel'
               onClick={ this.handleCancelClick }>{ I18n.t('mybets.cancel') }
             </button>
           </div>
@@ -106,7 +106,7 @@ class Export extends PureComponent {
         <Card className='export-card' title={ I18n.t('application.exportDownloadHeader') }>
           <p>{ I18n.t('application.exportDataReadyMsg') }</p>
           <div className='card-footer'>
-            <button className='btn cancel-btn'
+            <button className='btn btn-cancel'
                     onClick={ this.handleCancelClick }>{ I18n.t('mybets.cancel') }
             </button>
             <button className='btn btn-primary download'

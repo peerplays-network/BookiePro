@@ -67,7 +67,7 @@ class UnmatchedBets extends PureComponent {
           </div>
           { this.state.tableData.length !== 0 ?
           <div className='float-right'>
-            <button className='btn cancel-btn' onClick={ onCancelAllBetsClick }
+            <button className='btn btn-cancel' onClick={ onCancelAllBetsClick }
               disabled={ this.state.tableData && this.state.tableData.length === 0 }>{ I18n.t('mybets.cancel_all') }</button>
           </div>
           : null }

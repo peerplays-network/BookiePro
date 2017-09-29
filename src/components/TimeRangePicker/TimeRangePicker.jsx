@@ -171,14 +171,14 @@ class TimeRangePicker extends PureComponent {
             { this.renderCustomTimeRangePicker() }
             <div className='ant-form-item'>
               <button
-                className={ 'btn ' + (disableButton ? 'btn-regular-disabled':' btn-regular') }
+                className={ 'btn ' + (disableButton ? 'btn-disabled':' btn-regular') }
                 disabled={ disableButton }
                 onClick={ this.onSearchClick }>
                 { I18n.t('application.search') }
               </button>
               <button
                 className={ 'btn ' +
-                  (disableButton ? 'btn-regular-disabled':' btn-regular') + ' margin-left-10' }
+                  (disableButton ? 'btn-disabled':' btn-regular') + ' margin-left-10' }
                   disabled={ disableButton }
                 onClick={ this.onExportClick }>
                 { I18n.t('application.export') }

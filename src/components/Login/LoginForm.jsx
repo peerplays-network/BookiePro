@@ -62,7 +62,7 @@ const LoginForm = (props) => {
 				<button
 					className={ 'btn ' + ((pristine || invalid || submitting || asyncValidating ||
 					status===LoadingStatus.LOADING)
-						? 'btn-regular-disabled' : 'btn-regular') + ' grid-100 margin-top-25' } type='submit'
+						? 'btn-disabled' : 'btn-regular') + ' grid-100 margin-top-25' } type='submit'
 					disabled={ pristine || invalid || submitting || asyncValidating || status===LoadingStatus.LOADING }>
 					{ //set loadingstatus on submit
 						status===LoadingStatus.LOADING ? I18n.t('application.loading') : I18n.t('login.title')
