@@ -14,7 +14,7 @@ import {
   Card
 } from 'antd';
 
-class Notification extends PureComponent{
+export class Notification extends PureComponent{
 
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.notification));
