@@ -17,7 +17,7 @@ import {
 import QRCode from 'qrcode.react';
 import copy from 'copy-to-clipboard'
 
-class Deposit extends PureComponent {
+export class Deposit extends PureComponent {
 
   /**
    * Copy the Deposit Address to clipboard
