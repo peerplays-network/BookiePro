@@ -1,3 +1,11 @@
+/**
+ * ResolvedBets to list Resolved transactions.
+ * This includes following sub-components
+ *   {@link TimeRangePicker} - Allows user to select period for which transactions can be seached or exported
+ *   {@link Export} - Allows user to Export resolved transactions in excel
+ *
+ * ResolvedBets used in mybets tabbed list
+ */
 import React, { PureComponent } from 'react';
 import {  Table } from 'antd';
 import { LoadingStatus, ExportTypes } from '../../constants';
@@ -9,6 +17,7 @@ import { MyWagerUtils, CurrencyUtils } from '../../utility';
 import { List } from 'immutable';
 import PropTypes from 'prop-types';
 
+/** ResolvedBets component used in mybets tabbed list */
 class ResolvedBets extends PureComponent {
 
   constructor(props) {
