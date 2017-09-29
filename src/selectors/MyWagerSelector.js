@@ -211,44 +211,6 @@ const getBetsWithFormattedCurrency = createSelector(
   }
 )
 
-// Bet data currently looks like this
-// back_or_lay:"back"
-// betting_market_id:"1.105.1"
-// cancel:Object
-// event_id:"1.103.1"
-// event_name:Object
-// event_time:"Tomorrow, 14:54"
-// id:"1.106.9"
-// key:"1.106.9"
-// betting_market_description: "NY Giants",
-// betting_market_group_description: "Moneyline",
-// backer_multiplier:2.25
-// profit_liability:"0.50000"
-// sport_name:"American Football"
-// stake:"0.625"
-// type:"LAY | NY Giants  | Moneyline"
-
-  //check if this can be improved
-  //TODO: use .map() instead of foreach as suggested
-  data.forEach((row, index) => {
-    let rowObj = {
-      'type' : (row.get('back_or_lay').toUpperCase() + ' | ' + row.get('betting_market_description') + ' | ' + row.get('betting_market_group_description')),
-    };
-    //randomly changed win value to negative for liability display
-    //applied class based on profit or loss
-    if(activeTab !== MyWagerTabTypes.RESOLVED_BETS)
-      rowObj.event_time = getFormattedDate(row.get('event_time'));
-
-    if(activeTab === MyWagerTabTypes.UNMATCHED_BETS){
-      rowObj.event_name = <a target='_self'>{ row.get('event_name') }</a>;
-      rowObj.cancel = (row.get('cancelled') ? '' : <a className='btn btn-cancel' target='_self'>{ I18n.t('mybets.cancel') }</a>);
-    }
-    data[index] = row.merge(rowObj);
-  });
-
-  return Immutable.fromJS(data);
-}
-
 //memoized selector - function for formatting merged data and return same
 const getBetData = createSelector(
   [
