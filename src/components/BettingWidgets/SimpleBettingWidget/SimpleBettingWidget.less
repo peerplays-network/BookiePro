@@ -6,6 +6,23 @@ div.simple-betting {
   background-color: @simple_betting_bg;
   margin-top: 20px;
   box-shadow: @simple_betting_bg_shadow;
+
+  .live {
+    display: inline-flex;
+    align-items: center;
+    color: @live_market_marker;
+    font-weight: bold;
+    font-size: 12px;
+    .indicator{
+      background: url("../../../assets/icons/live_indicator.png") no-repeat;
+      display: inline-block;
+      width:12px;
+      height:12px;
+      vertical-align: middle;
+      background-size: 100%;
+      margin-right:2px;
+    }
+  }
   div.ant-table {
     color: @simple_betting_label;
 
@@ -64,7 +81,6 @@ div.simple-betting {
           text-align: center;
           word-break: break-word;
           font-weight:bold;
-          padding:0 6px;
         }
         &.event-name {
           font-size: 14px;
