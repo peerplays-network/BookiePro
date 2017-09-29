@@ -245,9 +245,15 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   renderLiveMarker() {
+    //NOTE: in current structure it is either 'in-play' or 'going in-play'.
+    // there will be more types, depending on the change in blockchain objects future
     if (this.props.isLiveMarket) {
       return (
-        <span className='live'>{ I18n.t('complex_betting_widget.live') }</span>
+        <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.in_play') }</span>
+      )
+    } else {
+      return (
+        <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.going_in_play') }</span>
       )
     }
   }
