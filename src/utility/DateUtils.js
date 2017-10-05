@@ -25,6 +25,23 @@ const DateUtils = {
     }
   },
 
+
+
+  /*
+   * takes a unix time and returns the month and day MMM D
+   *  if date === today, then returns "today"
+   *
+   * @param {date} - date
+   * @returns {string} - formatted date
+   */
+  getMonthAndDay(date) {
+
+    let today = new Date();
+    let targetDate = new Date(date);
+
+    return new Date().getDate() === new Date(date).getDate(date) ? "today" : moment(new Date(date)).format('MMM D');
+  },
+
    /**
     * calculate start date and end date given time range period data
     *
