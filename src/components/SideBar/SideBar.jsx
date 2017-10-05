@@ -29,6 +29,7 @@ import { findKeyPathOf, differences } from '../../utility/TreeUtils'
 import PropTypes from 'prop-types';
 import { SidebarSelector } from '../../selectors';
 import log from 'loglevel';
+import { DateUtils } from '../../utility';
 
 class SideBar extends PureComponent {
 
@@ -174,6 +175,31 @@ class SideBar extends PureComponent {
     }
   }
 
+  sortEventTree() {
+    var tree = this.state.tree;
+    for (var i = 0; i < tree.length; i++) {
+      var branch = this.state.tree[i]
+      for (var b = 0; b < branch.children.length; b++) {
+        var node = branch.children[b]
+        node.children = sortByDate(node.children);
+        let currentDate = node.children[0].start_time;
+        for (var i = 1; i < node.children.length; i++) {
+          if (DateUtils.getMonthAndDay(currentDate) === DateUtils.getMonthAndDay(node.children[i].start_time)) {
+            node.children[i].start_time = null;
+          } else {
+            currentDate = node.children[i].start_time;
+          }
+        }
+      }
+    }
+
+    function sortByDate(events) {
+      return events.sort(function(a, b) {
+        return a.start_time - b.start_time;
+      })
+    }
+  }
+
   /**
    *
    *  customComponentMappings is related to navigation path name.
@@ -181,6 +207,7 @@ class SideBar extends PureComponent {
    *  value in mapping corresponds to customComponent class
    */
   render() {
+    this.sortEventTree()
     return (
       <InfinityMenu
         disableDefaultHeaderContent={ true }
