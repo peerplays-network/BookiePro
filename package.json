@@ -130,6 +130,7 @@
     }
   },
   "jest": {
+    "verbose" : true,
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
     ],

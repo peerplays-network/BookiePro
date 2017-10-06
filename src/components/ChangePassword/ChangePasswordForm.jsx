@@ -98,7 +98,7 @@ class ChangePasswordForm extends PureComponent {
   render(){
     const { isPwDownloaded } = this.state;
     const { handleSubmit,reset,loadingStatus,invalid,asyncValidating,submitting,pristine } = this.props;
-    const errors = this.props.errors.toJS(), isLoading = (loadingStatus===LoadingStatus.LOADING && errors.length===0)
+    const errors = this.props.errors ? this.props.errors.toJS() : {}, isLoading = (loadingStatus===LoadingStatus.LOADING && errors.length===0)
     const recoveryDisabled = invalid || submitting || asyncValidating || isLoading;
     const confirmBtnDisabled = recoveryDisabled || !isPwDownloaded;
     const oldPasswordDisabled = isLoading || pristine || submitting;
