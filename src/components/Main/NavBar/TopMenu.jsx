@@ -297,7 +297,7 @@ const mapStateToProps = (state) => {
   */
   const balance = state.getIn(['balance', 'availableBalancesByAssetId', '1.3.0', 'balance']);
   const convertedAvailableBalance = CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces);
-  let availableBalance = balance !== undefined ? convertedAvailableBalance : -1;
+  let availableBalance = balance !== undefined ? convertedAvailableBalance : 0;
 
   // in game balances is gained by summing matched bets and unmatched bets
   let inGameAmount = 0;
