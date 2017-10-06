@@ -51,7 +51,10 @@ class Faq extends PureComponent {
           { this.renderTopics() }
         </div>
         <div className='faqContentColumn'>
-          <FaqContent topic={ this.state.currentTopic } handleOverviewFeesClick={ this.handleOverviewFeesClick }/>
+          <FaqContent
+            topic={ this.state.currentTopic }
+            handleOverviewFeesClick={ this.handleOverviewFeesClick }
+          />
         </div>
       </div>
     )

@@ -1180,6 +1180,10 @@ export const translationsObject = {
           {
             question: 'Will there be new features added to Bookie?',
             answer: '[e.g. Cash Out? Bet view?]'
+          },
+          {
+            question: 'Do you have an MIT lisence for the Bookie Application?',
+            answer: 'Click <a href="#" class="mit-license-anchor">here</a> to view the MIT license'
           }
         ],
       },
