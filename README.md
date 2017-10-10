@@ -1,7 +1,5 @@
-Peerplays-Core-UI
+Peerplays-UI
 ============
-
-Peerplays Core Graphical Interface
 
 ### Getting started
 
@@ -26,8 +24,6 @@ cd peerplays-ui
 Before launching the GUI you will need to install the npm packages for each subdirectory:
 ```
 cd dl; npm install
-cd ../electron/build; npm install
-cd ../; npm install
 cd ../web; npm install
 ```
 
@@ -46,11 +42,3 @@ If you'd like to host your own wallet somewhere, you should create a production 
 npm run build
 ```
 This will create a bundle in the /dist folder that can be hosted with the web server of your choice.
-
-## Build electron app
-
-```
-npm run electron
-cd ../electron
-npm run release
-```
