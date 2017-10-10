@@ -45,7 +45,7 @@
       "available_balances": "Available Balances:",
       "deposit_withdraw": "Deposit/Withdraw",
       "vesting_balances": "Vesting Balances (Witness Pay)",
-      "claim_balances": "Claim Witness Pay",
+      "claim_balances": "Claim Balances",
       "total": "Total:",
       "claimable": "Claimable:",
       "logout": "Logout"
@@ -403,20 +403,7 @@
     "proxy_known": "Known proxies",
     "expired": "Expired workers",
     "remove": "Remove",
-    "none": "NONE",
-    "proxy_tab": {
-      "help_note": "After adding or removing a Proxy, you must Publish Changes to confirm",
-      "question_mark_note": "As a PPY holder, you can proxy your voting stake to whatever Peerplays account you choose. If you wish to support the network but are unable to keep up with the day to day activities, simply proxy your vote to another trusted Peerplays account holder. By proxying your vote, this means your votes will be cast for the same Witness and Advisor candidates as the account to which you have proxied. You can add or remove a proxy account at any time."
-    },
-    "witnesses_tab": {
-      "help_note_1": "Standby witnesses are not shown in this wallet, but they still need your votes!",
-      "help_note_2": "Please search <a onclick=\"window.open('http://peerplaysdb.com/witnesses', 'witnesswin', 'width=500, height=400'); return false;\" href='http://peerplaysdb.com/witnesses' class='title__sm mark'>www.peerplaysdb.com/witnesses</a> to discover your favorites, and then vote for them by typing <br/> their Witness name and clicking the “ADD” button. After adding or removing witnesses from your list, please<br/> select “PUBLISH CHANGES” to confirm your vote.",
-      "question_mark_note": "Witnesses are elected network node operators who verify the validity of transactions on the Peerplays network and bundle them into blocks. Witnesses must operate a node with enough bandwidth to support current network activities, and must analyze and make decisions about potential code forks. Witnesses are also responsible for publishing data feeds with the results of sports games and wagering events. As a PPY holder, you are in charge of voting for Witnesses to perform these tasks, and removing your vote if they fail to perform."
-    },
-    "advisors_tab": {
-      "help_note": "After adding or removing Advisors, you must Publish Changes to confirm",
-      "question_mark_note": "Advisors are elected Peerplays account holders who can adjust certain fees and global parameters of the blockchain by consensus vote. As a PPY holder, you are in charge of voting for Advisors to perform these tasks, and removing your vote if they fail to perform."
-    }
+    "none": "NONE"
   },
   "account": {
     "name": "账户名",
@@ -818,14 +805,12 @@
       },
       "claim": {
         "header": "Balance Claim",
-        "note": "%(link)s from the Peerplays genesis block.",
-        "link": "This tab is where PPY token holders can claim their balances"
+        "note": "This tab is where PPY token holders can claim their balances from the Peerplays genesis block."
       }
     },
     "help": {
       "title": "Help",
-      "note": "This is where you are right now!",
-      "link_pdf": "How to claim your PPY Tokens"
+      "note": "This is where you are right now!"
     },
     "notifications": {
       "title": "NOTIFICATIONS",

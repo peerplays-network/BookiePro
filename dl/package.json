@@ -4,7 +4,7 @@
   "homepage": "https://github.com/PBSA/peerplays-ui",
   "author": "Cryptonomex, Inc.",
   "license": "LicenseRef-LICENSE",
-  "version": "0.0.1",
+  "version": "0.1.2",
   "engines": {
     "node": ">=5.0.0",
     "npm": ">=3.0.0"
