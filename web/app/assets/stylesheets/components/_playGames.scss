@@ -149,7 +149,7 @@
 .pGExplore__dd{
 	display: inline-block;
 	vertical-align: middle;
-	
+
 	.ddTrigger{
 		padding: 0;
 		height: 50px;
@@ -195,7 +195,7 @@
 		}
 	}
 	float: left;
-	margin-right: 20px;
+	margin: 20px 20px 20px 0px;
 	&:last-child{
 		margin-right: 0;
 	}
@@ -217,6 +217,19 @@
 			vertical-align: middle;
 		}
 	}
+
+  &LinkText {
+    position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 40px;
+		font-size: 24px;
+		color: rgba(255,255,255,.6);
+    &:hover {
+      color: white;
+    }
+  }
+
 	&Text{
 		position: absolute;
 		left: 0;
@@ -226,6 +239,13 @@
 		color: rgba(255,255,255,.4);
 	}
 }
+
+.gamesHR {
+  border: 1px solid black;
+  margin: 10px 0px 10px 0px;
+  width: 100%;
+}
+
 @media (max-width:1620px) {
 	.pG__section2Link{
 		width: 400px;
