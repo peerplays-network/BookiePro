@@ -35,11 +35,9 @@ const DateUtils = {
    * @returns {string} - formatted date
    */
   getMonthAndDay(date) {
-
     let today = new Date();
     let targetDate = new Date(date);
-
-    return new Date().getDate() === new Date(date).getDate(date) ? "today" : moment(new Date(date)).format('MMM D');
+    return today === targetDate ? "today" : moment(targetDate).format('MMM D');
   },
 
    /**
