@@ -198,9 +198,12 @@ class TopMenu extends PureComponent {
           { // Fogbugz-716: Disable the account balance panel by setting visible={ false }
           }
           <div className='account-balance-item'>
+            <Tooltip getPopupContainer={ () => document.getElementsByClassName("bitcoin-icon")[0] }
+                     overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.account_name') }>
               <a className='account-name' key='myaccount' onClick={ this.gotoMyAccount }>
                   { this.props.accountName ? this.props.accountName.length < 15 ? this.props.accountName : this.props.accountName.substring(0, 15).concat('...') : ''}
               </a>
+            </Tooltip>
               <Dropdown trigger={ ['click'] } overlay={ amountCard } placement='bottomRight'
                 onVisibleChange={ this.handleAmountComponentVisibleChange } visible={ false }>
                 <Tooltip getPopupContainer={ () => document.getElementsByClassName("bitcoin-icon")[0] }

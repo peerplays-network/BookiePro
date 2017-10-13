@@ -1251,6 +1251,7 @@ export const translationsObject = {
     },
     topbar_tooltip:{
       account_balance:"Available balance for betting ",
+      account_name: "Account Name",
       my_bets: "My Bets",
       deposit: "Deposit",
       withdrawal: "Withdrawal",
