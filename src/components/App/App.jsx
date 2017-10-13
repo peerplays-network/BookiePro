@@ -50,7 +50,6 @@ class App extends PureComponent {
   }
 
   componentDidMount() {
-    // REVIEW is clearTimeout() necessary?
     setTimeout(this.props.hideLicenseScreen, LICENSE_SCREEN_DURATION);
   }
 

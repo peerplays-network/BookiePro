@@ -199,7 +199,7 @@ class TopMenu extends PureComponent {
           }
           <div className='account-balance-item'>
               <a className='account-name' key='myaccount' onClick={ this.gotoMyAccount }>
-                  { this.props.accountName.length < 15 ? this.props.accountName : this.props.accountName.substring(0, 15).concat('...') }
+                  { this.props.accountName ? this.props.accountName.length < 15 ? this.props.accountName : this.props.accountName.substring(0, 15).concat('...') : ''}
               </a>
               <Dropdown trigger={ ['click'] } overlay={ amountCard } placement='bottomRight'
                 onVisibleChange={ this.handleAmountComponentVisibleChange } visible={ false }>

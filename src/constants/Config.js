@@ -3,7 +3,8 @@ import { PrivateKey } from 'peerplaysjs-lib';
 
 const blockchainUrls = [
   // 'wss://595-dev-blockchain.pixelplex.by/ws',
-  'wss://peerplays-dev.blocktrades.info/ws',
+  'wss://peerplays-dev.blocktrades.info/ws'
+  // 'wss://api.ppytest.blckchnd.com'
 ]
 
 // Shuffle list of blockchain nodes
@@ -16,7 +17,7 @@ const Config = {
   blockchainUrls: shuffledBlockhainUrls,
   softwareUpdateReferenceAccountName: 'peerplays1', // We listen to a particular account's transaction history for software update
   gatewayAccountName: 'gateway1', // Any transfer from this account is marked as deposit/ withdraw with gateway
-  useDummyData: true, // Set to true if you want to use dummy data
+  useDummyData: false, // Set to true if you want to use dummy data
   // Set this to false to register through faucet
   // Remember to set the faucet urls properly beforehand
   // We don't have faucet for blocktrades testnet

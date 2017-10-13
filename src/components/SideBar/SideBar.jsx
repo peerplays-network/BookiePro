@@ -68,6 +68,7 @@ class SideBar extends PureComponent {
     }
 
     const keyPath = findKeyPathOf(completeTree, 'children', (node => node.get('id') === targetObjectId) );
+
     // Found path?
     if (keyPath) {
       let newTree = completeTree;
@@ -183,11 +184,11 @@ class SideBar extends PureComponent {
         var node = branch.children[b]
         node.children = sortByDate(node.children);
         let currentDate = node.children[0].start_time;
-        for (var i = 1; i < node.children.length; i++) {
-          if (DateUtils.getMonthAndDay(currentDate) === DateUtils.getMonthAndDay(node.children[i].start_time)) {
-            node.children[i].start_time = null;
+        for (var c = 1; c < node.children.length; c++) { // This for loop removes the start_date property from the object if the previous element has the same date
+          if (DateUtils.getMonthAndDay(currentDate) === DateUtils.getMonthAndDay(node.children[c].start_time)) {
+            node.children[c].start_time = null;
           } else {
-            currentDate = node.children[i].start_time;
+            currentDate = node.children[c].start_time;
           }
         }
       }
@@ -195,7 +196,7 @@ class SideBar extends PureComponent {
 
     function sortByDate(events) {
       return events.sort(function(a, b) {
-        return a.start_time - b.start_time;
+        return new Date(a.start_time) - new Date(b.start_time);
       })
     }
   }
