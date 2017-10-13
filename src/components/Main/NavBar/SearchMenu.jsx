@@ -307,7 +307,6 @@ class SearchMenu extends PureComponent {
                   backspaceRemoves={ this.state.backspaceRemoves }
                   placeholder={ I18n.t('searchMenu.search_place_holder') }
                   filterOptions={ this.filterOptions }
-                  autofocus
                   resetValue={ RESULT_COUNT_ID }
                   noResultsText={ null }
                 />
