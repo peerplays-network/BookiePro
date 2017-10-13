@@ -121,13 +121,13 @@ export const translationsObject = {
       acc_name_taken: 'Account name is already taken'
     },
     login: {
-      username: 'Username',
+      username: 'Account Name',
       password: 'Password',
       title: 'LOGIN',
       signup: 'SIGN UP',
-      username_notfound: 'username not found',
+      username_notfound: 'account name not found',
       password_short: 'password too short',
-      wrong_username_password: 'wrong username or password'
+      wrong_username_password: 'wrong account name or password'
     },
     changePassword:{
       title: 'Change Your Password',
@@ -906,7 +906,7 @@ export const translationsObject = {
           {
             question: 'Can I change my Account Name?',
             answer: 'No, the Account Name cannot be changed after the account has been created. However, a new account can be created with a different ' +
-            'username and funds can then be transferred between the two accounts.'
+            'account name and funds can then be transferred between the two accounts.'
           },
           {
             question: 'Can I login to my account from multiple devices?',
