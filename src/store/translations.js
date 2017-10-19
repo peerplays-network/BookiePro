@@ -266,7 +266,7 @@ export const translationsObject = {
     complex_betting_widget:{
       back_all: 'Back all',
       lay_all: 'Lay all',
-      offer: 'OFFER',
+      offer: '--',
       matched: 'Matched',
       moneyline: 'Moneyline',
       in_play: 'IN-PLAY',
@@ -274,7 +274,7 @@ export const translationsObject = {
     },
     simple_betting_widget:{
       no_data: 'There is no event to be displayed.',
-      offer: 'OFFER',
+      offer: '--',
       draw: 'The Draw',
       in_play: 'IN-PLAY'
     },
