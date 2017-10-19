@@ -226,8 +226,9 @@ export const translationsObject = {
       help_and_support: 'HELP'
     },
     mybets:{
-      profit_liability: 'Profit / </br>Liability' +
-      '%{currency}',
+      // profit_liability: 'Profit / </br>Liability' +
+      // '%{currency}',
+      profit_liability: 'Profit / Liability',
       screenName: 'myBets_',
       //Days of week - first three characters
       today: 'Today',
@@ -248,6 +249,7 @@ export const translationsObject = {
       odds: 'Odds',
       stake: 'Stake',
       profit: 'Profit',
+      balance: 'Balance',
       cancel: 'Cancel',
       cancel_all: 'Cancel All',
       home: 'home',
