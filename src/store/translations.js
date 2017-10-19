@@ -118,16 +118,16 @@ export const translationsObject = {
       premium_acc_text: 'This is a premium name. Please enter a regular name containing least one dash, a number or no vowels.',
       password_no_match: 'The password you entered does not match',
       field_req: 'Field is required',
-      acc_name_taken: 'Account name is already taken'
+      acc_name_taken: 'Account Name is already taken'
     },
     login: {
       username: 'Account Name',
       password: 'Password',
       title: 'LOGIN',
       signup: 'SIGN UP',
-      username_notfound: 'account name not found',
+      username_notfound: 'Account Name not found',
       password_short: 'password too short',
-      wrong_username_password: 'wrong account name or password'
+      wrong_username_password: 'wrong Account Name or password'
     },
     changePassword:{
       title: 'Change Your Password',
