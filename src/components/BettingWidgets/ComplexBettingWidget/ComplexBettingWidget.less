@@ -103,7 +103,7 @@ div.complex-betting {
       height: 42px;
       padding:0;
       border-right:0 none;
-      .back-offer, .lay-offer{
+      .back-offer, .lay-offer {
         display: flex;
         height:100%;
 
@@ -111,8 +111,17 @@ div.complex-betting {
         justify-content: center;
         cursor: pointer;
       }
-      .back-offer{
+
+      .back-offer {
         align-items: flex-end;
+      }
+
+      .back-offer.empty-offer{
+        background-color: @simple_betting_back_bg;
+      }
+
+      .lay-offer.empty-offer {
+        background-color: @simple_betting_lay_bg;
       }
       .empty-offer{
         align-items: center;
