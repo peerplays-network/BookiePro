@@ -8,7 +8,7 @@ import { I18n } from 'react-redux-i18n';
 import { createSelector } from 'reselect';
 import _ from 'lodash';
 import { CurrencyUtils, BettingModuleUtils, DateUtils, ObjectUtils } from '../utility';
-import { TimeRangePeriodTypes, MyWagerTabTypes, LoadingStatus, BetCategories, BetTypes } from '../constants';
+import { TimeRangePeriodTypes, MyWagerTabTypes, LoadingStatus, BetCategories, BetTypes, Config } from '../constants';
 import CommonSelector from './CommonSelector';
 
 const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
@@ -123,7 +123,7 @@ const getBetTotal = createSelector(
       }, 0);
     }
 
-    const precision = assetsById.getIn(['1.3.0', 'precision']);
+    const precision = assetsById.getIn([Config.coreAsset, 'precision']);
     const formattedTotal = CurrencyUtils.getFormattedCurrency(total/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces);
     return formattedTotal;
   }

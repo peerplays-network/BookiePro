@@ -6,7 +6,7 @@ import Amount from './AmountDropDown'
 import Notification from './Notification'
 import DropdownMenu from './DropdownMenu'
 import { AuthActions, BalanceActions, NotificationActions, NavigateActions, AppActions } from '../../../actions';
-import { NotificationTypes } from '../../../constants';
+import { NotificationTypes, Config } from '../../../constants';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { CurrencyUtils, BettingModuleUtils, ObjectUtils } from '../../../utility';
@@ -97,6 +97,8 @@ class TopMenu extends PureComponent {
   componentDidMount(){
     //Get the deposit address
     this.props.getDepositAddress();
+    console.log("----- TopMenu Mounted");
+    console.log(Config.coreAsset);
   }
 
   handleClick(e) {
@@ -294,11 +296,8 @@ const mapStateToProps = (state) => {
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']) ;
-  const precision = state.getIn(['asset', 'assetsById', '1.3.0', 'precision']);
-  /*-1 will be used to check to display 'Not available' against the withdraw amount field
-      when the asset '1.3.0' is not obtained for some reason
-  */
-  const balance = state.getIn(['balance', 'availableBalancesByAssetId', '1.3.0', 'balance']);
+  const precision = state.getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
+  const balance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
   const convertedAvailableBalance = CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces);
   let availableBalance = balance !== undefined ? convertedAvailableBalance : 0;
 

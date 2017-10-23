@@ -1,4 +1,4 @@
-import { ActionTypes, ConnectionStatus } from '../constants';
+import { ActionTypes, ConnectionStatus, Config } from '../constants';
 import Immutable from 'immutable';
 import moment from 'moment';
 import { CurrencyUtils } from '../utility';
@@ -130,8 +130,8 @@ class QuickBetDrawerActions {
       if (isDisconnected) {
         dispatch(QuickBetDrawerPrivateActions.showDisconnectedError());
       } else {
-        const balance = getState().getIn(['balance', 'availableBalancesByAssetId', '1.3.0', 'balance']);
-        const precision = getState().getIn(['asset', 'assetsById', '1.3.0', 'precision']);
+        const balance = getState().getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
+        const precision = getState().getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
         const normalizedBalance = balance / Math.pow(10, precision);
         const formattedBalance = parseFloat(CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', normalizedBalance, currencyFormat));
         if (formattedBalance < totalBetAmount) {

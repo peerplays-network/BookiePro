@@ -234,7 +234,7 @@ class AuthActions {
         const operationParams = {
           fee: {
             amount: 0,
-            asset_id: '1.3.0'
+            asset_id: Config.coreAsset
           },
           account: account.get('id'),
           owner: Object.assign({}, account.get('owner').toJS(), {key_auths: [[newOwnerPublicKey, 1]]}),

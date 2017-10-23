@@ -66,7 +66,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.0 * oddsPrecision,
         "amount_to_bet": {
           "amount": 5000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -80,7 +80,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.0 * oddsPrecision,
         "amount_to_bet": {
           "amount": 5000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -94,7 +94,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 3.0 * oddsPrecision,
         "amount_to_bet": {
           "amount": 10000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -108,7 +108,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.0 * oddsPrecision,
         "amount_to_bet": {
           "amount": 5000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -142,7 +142,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.0 * oddsPrecision,
         "amount_to_bet": {
           "amount": 5000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -156,7 +156,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.0 * oddsPrecision,
         "amount_to_bet": {
           "amount": 5000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -170,7 +170,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.0 * oddsPrecision,
         "amount_bet": {
           "amount": 2000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -184,7 +184,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.0 * oddsPrecision,
         "amount_bet": {
           "amount": 1000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -198,7 +198,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.0 * oddsPrecision,
         "amount_bet": {
           "amount": 35000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -212,7 +212,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.0 * oddsPrecision,
         "amount_to_bet": {
           "amount": 2000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -226,7 +226,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.0 * oddsPrecision,
         "amount_to_bet": {
           "amount": 1000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -240,7 +240,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.0 * oddsPrecision,
         "amount_to_bet": {
           "amount": 1000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -254,7 +254,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.0 * oddsPrecision,
         "amount_bet": {
           "amount": 25000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -268,7 +268,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.0 * oddsPrecision,
         "amount_bet": {
           "amount": 15000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -282,7 +282,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.0 * oddsPrecision,
         "amount_to_bet": {
           "amount": 15000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -296,7 +296,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.0 * oddsPrecision,
         "amount_to_bet": {
           "amount": 25000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -310,7 +310,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 1.5 * oddsPrecision,
         "amount_to_bet": {
           "amount": 35000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -324,7 +324,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.8 * oddsPrecision,
         "amount_to_bet": {
           "amount": 2500,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -338,7 +338,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 3.5 * oddsPrecision,
         "amount_to_bet": {
           "amount": 4000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -352,7 +352,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.5 * oddsPrecision,
         "amount_to_bet": {
           "amount": 3000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -366,7 +366,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.25 * oddsPrecision,
         "amount_to_bet": {
           "amount": 50000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -390,7 +390,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 1.75 * oddsPrecision,
         "amount_bet": {
           "amount": 200,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -404,7 +404,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.5 * oddsPrecision,
         "amount_bet": {
           "amount": 300,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -418,7 +418,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.5 * oddsPrecision,
         "amount_bet": {
           "amount": 300,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -433,7 +433,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "matched_bet_amount": 200,
         "amount_bet": {
           "amount": 200,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -447,7 +447,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.5 * oddsPrecision,
         "amount_bet": {
           "amount": 300,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -462,7 +462,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "matched_bet_amount": 500,
         "amount_bet": {
           "amount": 500,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -476,7 +476,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 1.75 * oddsPrecision,
         "amount_bet": {
           "amount": 1000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -490,7 +490,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 1.75 * oddsPrecision,
         "amount_bet": {
           "amount": 400,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -505,7 +505,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "matched_bet_amount": 300,
         "amount_bet": {
           "amount": 300,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -519,7 +519,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 1.75 * oddsPrecision,
         "amount_bet": {
           "amount": 200,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -533,7 +533,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 1.75 * oddsPrecision,
         "amount_bet": {
           "amount": 1000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -544,7 +544,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "bettor_id": dummyAccountId,
         "stake_returned": {
           "amount":4000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -555,7 +555,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "bettor_id": dummyAccountId,
         "stake_returned": {
           "amount":1000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -569,7 +569,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.5 * oddsPrecision,
         "amount_to_bet": {
           "amount": 5000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -584,7 +584,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "original_bet_amount": 1000,
         "amount_to_bet": {
           "amount": 1000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -599,7 +599,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "original_bet_amount": 2000,
         "amount_to_bet": {
           "amount": 2000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -613,7 +613,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 1.75 * oddsPrecision,
         "amount_to_bet": {
           "amount": 3000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -627,7 +627,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.60 * oddsPrecision,
         "amount_to_bet": {
           "amount": 4000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -641,7 +641,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 1.5 * oddsPrecision,
         "amount_bet": {
           "amount": 300,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -655,7 +655,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 1.5 * oddsPrecision,
         "amount_bet": {
           "amount": 700,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -669,7 +669,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 2.25 * oddsPrecision,
         "amount_to_bet": {
           "amount": 1000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -683,7 +683,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 1.5 * oddsPrecision,
         "amount_bet": {
           "amount": 700,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -697,7 +697,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 1.5 * oddsPrecision,
         "amount_bet": {
           "amount": 300,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -711,7 +711,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 1.5 * oddsPrecision,
         "amount_bet": {
           "amount": 200,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ],
@@ -725,7 +725,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 1.5 * oddsPrecision,
         "amount_to_bet": {
           "amount": 20000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -736,7 +736,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "bettor_id": dummyAccountId,
         "stake_returned": {
           "amount": 10000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         }
       }
     ],
@@ -750,7 +750,7 @@ const generateListOfOperations = (dummyAccountId) => {
         "backer_multiplier": 1.25 * oddsPrecision,
         "amount_to_bet": {
           "amount": 10000,
-          "asset_id": "1.3.0"
+          "asset_id": Config.coreAsset
         },
       }
     ]
@@ -786,7 +786,7 @@ const generateHistory = (accountId) => {
       let modifiedOperation = operation;
       modifiedOperation[1]["fee"] =  {
         "amount": 200,
-        "asset_id": "1.3.0"
+        "asset_id": Config.coreAsset
       };
       modifiedOperation[1]["extensions"] = [];
 

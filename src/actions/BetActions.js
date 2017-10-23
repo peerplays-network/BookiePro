@@ -298,7 +298,7 @@ class BetActions {
           const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', bet.get('betting_market_id')]);
           const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
           const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
-          const betAssetType = (bettingMarketGroup && bettingMarketGroup.get('asset_id')) || '1.3.0';
+          const betAssetType = (bettingMarketGroup && bettingMarketGroup.get('asset_id')) || Config.coreAsset;
           const betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
 
           let amountToBet = 0;
@@ -444,7 +444,7 @@ class BetActions {
           const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', bet.get('betting_market_id')]);
           const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
           const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
-          const betAssetType = (bettingMarketGroup && bettingMarketGroup.get('asset_id')) || '1.3.0';
+          const betAssetType = (bettingMarketGroup && bettingMarketGroup.get('asset_id')) || Config.coreAsset;
           const betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
           let amountToBet = 0;
           if (bet.get('bet_type') === BetTypes.BACK) {

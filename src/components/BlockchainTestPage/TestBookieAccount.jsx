@@ -10,12 +10,14 @@ import { acc2 } from '../../dummyData/accountInfo/acc2';
 import { Apis } from 'peerplaysjs-ws';
 import Immutable from 'immutable';
 
+import { Config } from '../../constants'
+
 const accountPublicKeys = ['TEST5kpfGxMritUzRt9XB9vKjByZibGM9JMw915Twst1smFc8v9UYY', 'TEST7iHErQZYecgvWhC87NSkXJCxjert2wHyR7tiFhNrd4qkLcvXGN'];
 const accountPrivateKeys = {
   'TEST5kpfGxMritUzRt9XB9vKjByZibGM9JMw915Twst1smFc8v9UYY': PrivateKey.fromWif('5JQWne7vqF2tAvo9DHUFquMKkNHrK8717ZBgaSBfndLzRPR13t3'),
   'TEST7iHErQZYecgvWhC87NSkXJCxjert2wHyR7tiFhNrd4qkLcvXGN': PrivateKey.fromWif('5Jk1PKGQY8bwFNsVmcNxCXpGjdeaSUeBjJ6VcA6Mk4LA6C6dqj1')
 };
-const makeOrderSellAsset = '1.3.0';
+const makeOrderSellAsset = Config.coreAsset;
 const makeOrderBuyAsset = '1.3.1';
 
 class TestBookieAccount extends PureComponent {
@@ -169,7 +171,7 @@ class TestBookieAccount extends PureComponent {
       const expiration = new Date();
       expiration.setYear(expiration.getFullYear() + 5);
       const fillOrKill = false; // Don't know what this one is used for, but from the wallet, "false" value is always used
-      const feeId = '1.3.0'; // Just use core token to pay the fee
+      const feeId = Config.coreAsset; // Just use core token to pay the fee
 
       // Create transaction and add operation
       const tr = new TransactionBuilder();
@@ -214,7 +216,7 @@ class TestBookieAccount extends PureComponent {
     const account = Immutable.fromJS(acc); // dummy account
     const accountId = account.get('id');
 
-    const feeId = '1.3.0'; // this is core asset (BTS)
+    const feeId = Config.coreAsset; // this is core asset (BTS)
 
     // Create transaction and add operation
     const tr = new TransactionBuilder();
@@ -253,7 +255,7 @@ class TestBookieAccount extends PureComponent {
     const memo_from_public = acc.options.memo_key
     const memo_to_public = acc2.options.memo_key
 
-    const coreAssetIdFrom = '1.3.0';
+    const coreAssetIdFrom = Config.coreAsset;
 
     // Create transaction and add operation
     const tr = new TransactionBuilder();
