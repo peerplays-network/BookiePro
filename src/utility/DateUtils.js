@@ -37,7 +37,7 @@ const DateUtils = {
   getMonthAndDay(date) {
     let today = new Date();
     let targetDate = new Date(date);
-    return today === targetDate ? "today" : moment(targetDate).format('MMM D');
+    return moment(new Date(targetDate)).format("MM-DD-YYYY") === moment().format("MM-DD-YYYY") ? I18n.t('mybets.today') : moment(targetDate).format('MMM D');
   },
 
    /**
