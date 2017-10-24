@@ -7,7 +7,7 @@ const initialState = Immutable.fromJS({
     lang: 'en-us',
     timezone: 'UTC+08:00',
     notification: true,
-    currencyFormat: 'BTC',
+    currencyFormat: 'mBTC',
     skipLogoutPopup: false
   }
 });
