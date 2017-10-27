@@ -409,7 +409,7 @@ export const translationsObject = {
           confirm_button: 'TRY AGAIN',
         },
         success: {
-          instructions: 'Your bets have been successfully updated.',
+          instructions: 'Your bets have been successfully placed.',
           my_bet_button: 'GO TO MY BETS'
         },
         insufficient_balance: {
