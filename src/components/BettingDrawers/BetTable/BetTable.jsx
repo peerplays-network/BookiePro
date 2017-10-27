@@ -207,7 +207,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) =>
     title: 'BACK',
     dataIndex: 'back',
     key: 'back',
-    width: '26%',
+    width: '25%',
     className: 'team',
     render: renderTeam,
   };
@@ -216,7 +216,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) =>
     title: 'ODDS',
     dataIndex: 'odds',
     key: 'odds',
-    width: '21%',
+    width: '20%',
     className: 'numeric readonly',
   };
   if (!readonly) {
@@ -228,7 +228,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) =>
     title: `STAKE(${currencySymbol})`,
     dataIndex: 'stake',
     key: 'stake',
-    width: '21%',
+    width: '25%',
     className: 'numeric readonly',
   }
   if (!readonly) {
@@ -243,7 +243,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) =>
     className: 'numeric readonly' // this field is always readonly
   }
   if (!readonly) {
-    profitColumn['width'] = '28%';
+    profitColumn['width'] = '25%';
   }
 
   const columns = [teamColumn, oddsColumn, stakeColumn, profitColumn];
@@ -304,12 +304,12 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => 
     title: `BACKER'S STAKE(${currencySymbol})`,
     dataIndex: 'stake',
     key: 'stake',
-    width: '21%',
+    width: '26%',
     className: 'numeric readonly',
   }
   if (!readonly) {
     stakeColumn['render'] = renderInput('stake', updateOne, currencyFormat);
-    stakeColumn['className'] = 'numeric';
+    stakeColumn['className'] = 'numeric tableSymbol';
   }
 
   const liabilityColumn =  {
@@ -319,7 +319,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => 
     className: 'numeric readonly' // this field is always readonly
   }
   if (!readonly) {
-    liabilityColumn['width'] = '28%';
+    liabilityColumn['width'] = '22%';
   }
 
   const columns = [teamColumn, oddsColumn, stakeColumn, liabilityColumn];
