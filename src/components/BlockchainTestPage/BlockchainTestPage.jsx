@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import TestBookieAccount from './TestBookieAccount';
 import { AccountActions } from '../../actions';
 import BannerClock from '../Banners/BannerClock';
+import { Config } from '../../constants'
 
 class BlockchainTestPage extends PureComponent {
   constructor(props) {
@@ -55,8 +56,8 @@ class BlockchainTestPage extends PureComponent {
     // Demonstrate the speed of fetching 10 market orders in parallel
     this.setState( { fetchMarketLimitOrdersInParallelInProgress: true });
     Promise.all([
-      Apis.instance().db_api().exec('get_limit_orders', ['1.3.0', '1.3.1', 20]),
-      Apis.instance().db_api().exec('get_limit_orders', ['1.3.0', '1.3.2', 10]),
+      Apis.instance().db_api().exec('get_limit_orders', [Config.coreAsset, '1.3.1', 20]),
+      Apis.instance().db_api().exec('get_limit_orders', [Config.coreAsset, '1.3.2', 10]),
     ]).then((values) => {
       let marketLimitOrders = [];
       for(let i = 0; i < values.length; i++) {

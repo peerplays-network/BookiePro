@@ -86,7 +86,7 @@ class HistoryService {
             })
             description = I18n.t('transaction.bettingMarketResolved');
             amount = totalAmountWon;
-            precision = assetsById.getIn(['1.3.0', 'precision']);
+            precision = assetsById.getIn([Config.coreAsset, 'precision']);
             break;
           }
           default: break;

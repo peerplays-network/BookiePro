@@ -11,10 +11,13 @@ const blockchainUrls = [
 // So every bookie app will not always connect to the first node in the list
 const shuffledBlockhainUrls = _.shuffle(blockchainUrls)
 
+const ASSET_ID = '1.3.0'
+
 const Config = {
   version: '1.0.0', // TODO: this one should be in sync with version in package.json
   oddsPrecision: 10000, // NOTE: I think this should be inside blockchain global objects, but it's not there yet so put it here temporarily
   blockchainUrls: shuffledBlockhainUrls,
+  coreAsset: ASSET_ID,
   softwareUpdateReferenceAccountName: 'peerplays1', // We listen to a particular account's transaction history for software update
   gatewayAccountName: 'gateway1', // Any transfer from this account is marked as deposit/ withdraw with gateway
   useDummyData: false, // Set to true if you want to use dummy data
@@ -33,5 +36,6 @@ const Config = {
   },
   dummyDataAccountId: '1.2.243' // TODO: remove this
 }
+
 
 export default Config

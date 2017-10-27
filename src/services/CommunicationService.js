@@ -424,7 +424,7 @@ class CommunicationService {
 
       // Get current blockchain data (dynamic global property and global property), to ensure blockchain time is in sync
       // Also ask for core asset here
-      this.callBlockchainDbApi('get_objects', [['2.1.0', '2.0.0', '1.3.0']]).then( result => {
+      this.callBlockchainDbApi('get_objects', [['2.1.0', '2.0.0', Config.coreAsset]]).then( result => {
         const blockchainDynamicGlobalProperty = result.get(0);
         const blockchainGlobalProperty = result.get(1);
         const coreAsset = result.get(2);
@@ -1111,7 +1111,7 @@ class CommunicationService {
         setTimeout(() => {
           const amountObject = {
             amount: Math.floor((Math.random() * 1000000) + 100000),
-            asset_id: '1.3.0'
+            asset_id: Config.coreAsset
           }
           resolve(amountObject);
         }, TIMEOUT_LENGTH);

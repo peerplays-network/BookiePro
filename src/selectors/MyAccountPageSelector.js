@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect';
 import { BettingModuleUtils, CurrencyUtils } from '../utility';
 import { HistoryService } from '../services';
+import { Config } from '../constants'
 
 const coreAssetPrecisionSelector = (state) => {
-  return state.getIn(['asset', 'assetsById', '1.3.0', 'precision']);
+  return state.getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
 }
 
 const accountIdSelector = (state) => {
@@ -62,16 +63,16 @@ const filteredTransactionHistorySelector = createSelector(
 
 const availableBalanceSelector = (state) => {
   /*-1 will be used to check to display 'Not available' against the withdraw amount field
-      when the asset '1.3.0' is not obtained for some reason
+      when the asset Config.coreAsset is not obtained for some reason
   */
-  const balance = state.getIn(['balance', 'availableBalancesByAssetId','1.3.0','balance']);
+  const balance = state.getIn(['balance', 'availableBalancesByAssetId',Config.coreAsset,'balance']);
   return balance || -1;
 }
 
 const formattedAvailableBalanceSelector = createSelector(
   [availableBalanceSelector, assetsByIdSelector, currencyFormatSelector],
   (availableBalance, assetsById, currencyFormat) => {
-    const precision = assetsById.getIn(['1.3.0', 'precision']);
+    const precision = assetsById.getIn([Config.coreAsset, 'precision']);
     return CurrencyUtils.getFormattedCurrency(availableBalance/ Math.pow(10, precision),
      currencyFormat, BettingModuleUtils.exposurePlaces);
   }
