@@ -242,14 +242,13 @@ class SimpleBettingWidget extends PureComponent {
         return 0;
       })
     }
-
     return (
       // Note that we have to explicitly tell antd Table how to find the rowKey
       // because it is not compatible with Immutable JS
       <div className='simple-betting'>
         <Table
           bordered
-          columns={ getColumns(this.renderOffer, this.props.navigateTo, this.props.currencyFormat, this.props.sportName) }
+          columns={ getColumns(this.renderOffer, this.props.navigateTo, "BTC", this.props.sportName) }
           dataSource={ events.toArray() }
           title={ () => renderTitle(this.props.title) }
           footer={ () => this.props.showFooter ? this.renderFooter(this.props) : null }
