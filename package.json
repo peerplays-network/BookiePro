@@ -2,7 +2,7 @@
   "name": "bookie",
   "author": "ii-5",
   "description": "Electron app powered by CRA",
-  "version": "1.0.0",
+  "version": "0.18.0",
   "private": true,
   "homepage": "./",
   "devDependencies": {

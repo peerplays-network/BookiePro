@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { PrivateKey } from 'peerplaysjs-lib';
+import { version } from '../../package.json'
 
 const blockchainUrls = [
   // 'wss://595-dev-blockchain.pixelplex.by/ws',
@@ -14,7 +15,7 @@ const shuffledBlockhainUrls = _.shuffle(blockchainUrls)
 const ASSET_ID = '1.3.0'
 
 const Config = {
-  version: '1.0.0', // TODO: this one should be in sync with version in package.json
+  version: version, // TODO: this one should be in sync with version in package.json
   oddsPrecision: 10000, // NOTE: I think this should be inside blockchain global objects, but it's not there yet so put it here temporarily
   blockchainUrls: shuffledBlockhainUrls,
   coreAsset: ASSET_ID,
