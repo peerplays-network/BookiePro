@@ -76,11 +76,10 @@ class Landing extends PureComponent {
             </div>
             <button className='btn btn-transparent is-blue-border' onClick={ this.onSignupClick }>
                 { I18n.t('landing.signup') }
-            </button>            
+            </button>
             <button className='btn btn-transparent' onClick={ this.onLoginClick }>
                 { I18n.t('landing.login') }
             </button>
-            <p className='helperText'>{ I18n.t('landing.loginWithAccount') }</p>
             <LandingSteps className='steps' />
         </div>
         <div className='footer'>
