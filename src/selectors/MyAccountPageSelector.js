@@ -38,6 +38,13 @@ const currencyFormatSelector = createSelector(
   }
 )
 
+const oddsFormatSelector = createSelector(
+  [settingSelector],
+  (setting) => {
+    return setting.get('oddsFormat')
+  }
+)
+
 const notificationSelector = createSelector(
   [settingSelector],
   (setting) => {
@@ -116,6 +123,7 @@ const MyAccountSelector = {
   coreAssetPrecisionSelector,
   notificationSelector,
   currencyFormatSelector,
+  oddsFormatSelector,
   filteredTransactionHistorySelector,
   availableBalanceSelector,
   generateTransactionHistoryExportDataLoadingStatusSelector,

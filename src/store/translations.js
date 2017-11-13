@@ -61,6 +61,7 @@ export const translationsObject = {
       notifications: 'Notifications',
       time_zone: 'Choose Time Zone',
       format: 'Choose Format',
+      oddsFormat: 'Choose Odds Format',
       change_password: 'Change Password',
       create_recovery_file: 'Download Password File',
       transaction_history: 'Transaction History',

@@ -253,7 +253,7 @@ var BettingModuleUtils = {
    *
    *  Notes:
    *  This function expects a `normalized` bet objects. This `normalized` format
-   *  is only used within the betting application. 
+   *  is only used within the betting application.
    *
    * @param {Immutable.List} matchedBets - list of matched bets with the same bet type, i.e. all back or all lay
    * @param {string} currency - display currency, 'BTC' or 'mBTC'
@@ -285,6 +285,24 @@ var BettingModuleUtils = {
    */
   isValidBet: function(bet) {
     return !isFieldInvalid(bet, 'odds') && !isFieldInvalid(bet, 'stake');
+  },
+
+  /**
+   * Changes the odds to the selected format (decimal, american)
+   * @param  { double } odds   The Odds in the current format
+   * @param  { string } format The required format
+   * @return { string }        The formatted odds
+   */
+  oddsFormatFilter: function(odds, format = 'decimal') {
+    if (odds === undefined || odds === null || format === null) return;
+
+    if (format === 'decimal') return odds;
+
+    if (odds >= 2.0) {
+      return ((odds - 1) * 100).toFixed(0);
+    } else {
+      return (-100 / (odds - 1)).toFixed(0)
+    }
   }
 }
 

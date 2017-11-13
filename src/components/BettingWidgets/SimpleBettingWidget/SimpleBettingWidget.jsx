@@ -23,6 +23,7 @@ import {  Table } from 'antd';
 import { QuickBetDrawerActions,NavigateActions } from '../../../actions';
 import { I18n } from 'react-redux-i18n';
 import { BettingModuleUtils, CurrencyUtils, EventNameUtils } from '../../../utility';
+import { MyAccountPageSelector } from '../../../selectors';
 
 /**
  * We cannot use CSS to override antd Table column width using CSS
@@ -47,7 +48,7 @@ const renderEventTime = (text, record) => {
   }
 }
 
-const getColumns = (renderOffer, navigateTo, currencyFormat, sportName) =>  {
+const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsFormat) =>  {
   // 1 = home , 2 = away, 3 = draw
   let columns = [
     {
@@ -73,13 +74,13 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName) =>  {
         key: 'back_offer_home',
         width: offerColumnWidth,
         className: 'back-offer',
-        render: renderOffer('back', 'lay', 1, currencyFormat)
+        render: renderOffer('back', 'lay', 1, currencyFormat, oddsFormat)
       }, {
         dataIndex: 'lay_offer_home',
         key: 'lay_offer_home',
         width: offerColumnWidth,
         className: 'lay-offer',
-        render: renderOffer('lay', 'back', 1, currencyFormat)
+        render: renderOffer('lay', 'back', 1, currencyFormat, oddsFormat)
       }]
     }, {
       title: 'X',
@@ -88,13 +89,13 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName) =>  {
         key: 'back_offer_draw',
         width: offerColumnWidth,
         className: 'back-offer',
-        render: renderOffer('back', 'lay', 3, currencyFormat)
+        render: renderOffer('back', 'lay', 3, currencyFormat, oddsFormat)
       }, {
         dataIndex: 'lay_Offer_away',
         key: 'lay_offer_draw',
         width: offerColumnWidth,
         className: 'lay-offer',
-        render: renderOffer('lay', 'back', 3, currencyFormat)
+        render: renderOffer('lay', 'back', 3, currencyFormat, oddsFormat)
       }]
     }, {
       title: '2',
@@ -103,13 +104,13 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName) =>  {
         key: 'back_offer_away',
         width: offerColumnWidth,
         className: 'back-offer',
-        render: renderOffer('back', 'lay', 2, currencyFormat)
+        render: renderOffer('back', 'lay', 2, currencyFormat, oddsFormat)
       }, {
         dataIndex: 'lay_Offer_away',
         key: 'lay_offer_away',
         width: offerColumnWidth,
         className: 'lay-offer',
-        render: renderOffer('lay', 'back', 2, currencyFormat)
+        render: renderOffer('lay', 'back', 2, currencyFormat, oddsFormat)
       }]
     }
   ];
@@ -189,10 +190,13 @@ class SimpleBettingWidget extends PureComponent {
    * @param {string} currencyFormat - 'BTC' or 'mBTC'
    * @returns {Function} - the actual cell rendering function used by antd Table
    */
-  renderOffer(action, typeOfBet, index, currencyFormat) {
+  renderOffer(action, typeOfBet, index, currencyFormat, oddsFormat) {
     return (text, record) => {
+
+
+
       // Retrieve the nested offers data from the data record
-      let offers = record.get('offers');
+      let offers = record.get('offers')
 
       if ( offers === undefined || offers.isEmpty() || offers.getIn([index-1, 'betting_market_id']) === undefined ){
         return '';
@@ -216,7 +220,7 @@ class SimpleBettingWidget extends PureComponent {
       return (
         <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds')) }>
           <div className='offer'>
-            <div className='odds'>{ offer.get('odds') }</div>
+            <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat) }</div>
             <div className='price'>
               { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces, true)}
             </div>
@@ -248,7 +252,7 @@ class SimpleBettingWidget extends PureComponent {
       <div className='simple-betting'>
         <Table
           bordered
-          columns={ getColumns(this.renderOffer, this.props.navigateTo, "BTC", this.props.sportName) }
+          columns={ getColumns(this.renderOffer, this.props.navigateTo, "BTC", this.props.sportName, this.props.oddsFormat) }
           dataSource={ events.toArray() }
           title={ () => renderTitle(this.props.title) }
           footer={ () => this.props.showFooter ? this.renderFooter(this.props) : null }
@@ -261,6 +265,12 @@ class SimpleBettingWidget extends PureComponent {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state)
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     createBet: QuickBetDrawerActions.createBet,
@@ -268,4 +278,4 @@ const mapDispatchToProps = (dispatch) => {
   }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(SimpleBettingWidget);
+export default connect(mapStateToProps, mapDispatchToProps)(SimpleBettingWidget);

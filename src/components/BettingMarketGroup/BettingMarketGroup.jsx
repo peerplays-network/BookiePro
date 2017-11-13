@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { BettingMarketGroupBanner } from '../Banners';
 import { ComplexBettingWidget } from '../BettingWidgets/';
 import _ from 'lodash';
-import { BettingMarketGroupPageSelector, MarketDrawerSelector } from '../../selectors';
+import { BettingMarketGroupPageSelector, MarketDrawerSelector, MyAccountPageSelector } from '../../selectors';
 import { BettingMarketGroupPageActions, MarketDrawerActions, NavigateActions } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -51,6 +51,7 @@ class BettingMarketGroup extends PureComponent {
             createBet={ this.props.createBet }
             unconfirmedBets={ this.props.unconfirmedBets }
             currencyFormat={ this.props.currencyFormat }
+            oddsFormat={ this.props.oddsFormat }
             loadingStatus={ this.props.loadingStatus }
             widgetTitle={ this.props.widgetTitle }
             rules={ this.props.rules }
@@ -78,7 +79,8 @@ const mapStateToProps = (state, ownProps) => {
   const bettingMarketGroup = BettingMarketGroupPageSelector.getBettingMarketGroup(state, ownProps);
 
   let props = {
-    bettingMarketGroup
+    bettingMarketGroup,
+    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state)
   }
 
   // Populate other properties if betting market group exists
