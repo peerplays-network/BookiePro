@@ -9,6 +9,7 @@ import { BetTypes } from '../constants';
 import _ from 'lodash';
 import Immutable from 'immutable';
 import { CurrencyUtils } from './';
+
 const oddsPlaces = 2;
 const stakePlaces = 3; //minimum stake = 0.001 BTC
 const exposurePlaces = oddsPlaces + stakePlaces;
@@ -290,18 +291,31 @@ var BettingModuleUtils = {
   /**
    * Changes the odds to the selected format (decimal, american)
    * @param  { double } odds   The Odds in the current format
-   * @param  { string } format The required format
+   * @param  { string } toFormat The requested format
+   * @param  { string } fromFormat The current format
    * @return { string }        The formatted odds
    */
-  oddsFormatFilter: function(odds, format = 'decimal') {
-    if (odds === undefined || odds === null || format === null) return;
+  oddsFormatFilter: function(odds, toFormat, fromFormat = 'decimal') {
+    if ((odds === undefined || odds === null || odds === '') && toFormat === 'decimal') return '';
+    if ((odds === undefined || odds === null || odds === '') && toFormat === 'american') return '';
 
-    if (format === 'decimal') return odds;
+    let parsedOdds = parseFloat(odds)
 
-    if (odds >= 2.0) {
-      return ((odds - 1) * 100).toFixed(0);
-    } else {
-      return (-100 / (odds - 1)).toFixed(0)
+    if (toFormat === fromFormat) return parsedOdds
+
+    if (fromFormat === 'decimal') {
+      if (toFormat === 'american') {
+        if (parsedOdds >= 2.0) return ((parsedOdds - 1) * 100).toFixed(0);
+        else return (-100 / (parsedOdds - 1)).toFixed(0)
+      }
+    }
+
+    if (fromFormat === 'american') {
+      if (toFormat === 'decimal') {
+        if (parsedOdds >= 100) return (parsedOdds / 100) + 1
+        else if (parsedOdds < 100 && parsedOdds >= 0) return ''
+        else return (-100 / parsedOdds) + 1
+      }
     }
   }
 }

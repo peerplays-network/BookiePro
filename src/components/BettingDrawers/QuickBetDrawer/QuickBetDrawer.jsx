@@ -31,6 +31,7 @@ import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import BetTable from '../BetTable';
 import { Empty, OverlayUtils } from '../Common';
 import { BettingDrawerStates } from '../../../constants'
+import { MyAccountPageSelector } from '../../../selectors';
 
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
@@ -53,6 +54,7 @@ const renderContent = (props) => (
           updateOne={ props.updateBet }
           dimmed={ props.obscureContent }
           currencyFormat={ props.currencyFormat }
+          oddsFormat={ props.oddsFormat }
         />
       ))
     }
@@ -157,6 +159,7 @@ const mapStateToProps = (state, ownProps) => {
     numberOfGoodBets,
     numberOfBadBets: originalBets.size - numberOfGoodBets,
     totalBetAmountFloat: totalAmount,
+    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
     totalBetAmountString: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
                           CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat),
   };

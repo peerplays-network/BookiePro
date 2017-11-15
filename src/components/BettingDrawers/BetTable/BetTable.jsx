@@ -15,8 +15,9 @@ import React from 'react';
 import { Button, Icon, Table } from 'antd';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
-import CurrencyUtils from '../../../utility/CurrencyUtils';
+import { BettingModuleUtils, CurrencyUtils } from '../../../utility'
 import { incrementOdds, decrementOdds, adjustOdds, MIN_ODDS } from './oddsIncrementUtils';
+
 
 /**
  * Render the team name and the market group of the associated bet. This is used
@@ -50,20 +51,19 @@ const renderTeam = (text, record) => (
  * be used to format the Odds or Stake values on screen
  * @returns {Function} - the actual cell rendering function used by antd Table
  */
-const renderInput = (field, action, currencyFormat) => {
+const renderInput = (field, action, currencyFormat, oddsFormat) => {
   return (text, record) => {
     // antd table records are vanilla JS objects
     // we cannot use antd Input component here because we have problem
     // changing the value if user clicks on an offer from the same market
+
     return (
       <input
         type='text'
-        value={ text === undefined? '' : text }
+        defaultValue={ field === 'odds' ? BettingModuleUtils.oddsFormatFilter(text, oddsFormat) : text === undefined ? '' : text }
         className='ant-input'
-        onChange={
+        onBlur={
           (event) => {
-            // REVIEW: One line Regular Expression error check
-            //         Reject any input that leads to invalid number
             if ( event.target.value.length !== 0) {
               const stakePrecision = CurrencyUtils.fieldPrecisionMap[field][currencyFormat];
 
@@ -76,33 +76,35 @@ const renderInput = (field, action, currencyFormat) => {
               }
             }
 
-            const delta = Immutable.Map()
-              .set('id', record.id)
-              .set('field', field)
-              .set('value', event.target.value);
-            action(delta);
-          }
-        }
-        onBlur={
-          (event) => {
-            // Assume values have been vented already in onChange
-            const floatNumber = parseFloat(event.target.value);
-            if (isNaN(floatNumber)) return false; // fail fast if the value is undefined or bad
+            let value
+            let failed
 
-            let value = event.target.value;
             if (field === 'odds') {
-              value = adjustOdds(CurrencyUtils.formatFieldByCurrencyAndPrecision(
-                        field, floatNumber, currencyFormat
-                      ), record.bet_type);
+              value = BettingModuleUtils.oddsFormatFilter(event.target.value, 'decimal', oddsFormat);
+              failed = value
+              if (value !== '') {
+                value = adjustOdds(CurrencyUtils.formatFieldByCurrencyAndPrecision(
+                          field, value, currencyFormat
+                        ), record.bet_type);
+              } else {
+                value = record.odds
+              }
             }
+
             if (field === 'stake') {
+              const floatNumber = parseFloat(event.target.value);
+              if (isNaN(floatNumber)) return false; // fail fast if the value is undefined or bad
               value = CurrencyUtils.toFixed('stake', floatNumber, currencyFormat);
             }
+
             const delta = Immutable.Map()
               .set('id', record.id)
               .set('field', field)
               .set('value', value);
             action(delta);
+
+            if (failed === '' && field === 'odds') event.target.value = BettingModuleUtils.oddsFormatFilter(record.odds, oddsFormat)
+
           }
         }
       />
@@ -152,11 +154,11 @@ const clickArrowButton = (record, action, updateOdds) => {
  * be used to format the Odds or Stake values on screen
 * @returns {Function} - the actual cell rendering function used by antd Table
  */
-const renderOdds = (action, currencyFormat) => {
+const renderOdds = (action, currencyFormat, oddsFormat) => {
   return (text, record) => {
     return (
       <div className='pos-rel'>
-        { renderInput('odds', action, currencyFormat)(text, record) }
+        { renderInput('odds', action, currencyFormat, oddsFormat)(text, record) }
         <a className='arrow-icon-main icon-up' onClick={ () => clickArrowButton(record, action, incrementOdds) }><i className='icon-arrow icon-up-arrow'></i></a>
         <a className='arrow-icon-main icon-down' onClick={ () => clickArrowButton(record, action, decrementOdds) }><i className='icon-arrow icon-down-arrow'></i></a>
       </div>
@@ -201,7 +203,7 @@ const renderDeleteButton = (deleteOne) => {
  * mode, and false otherwise
  * @returns {Array.object} - an array of column definition objects
  */
-const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => {
+const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false, oddsFormat) => {
   const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
   const teamColumn = {
     title: 'BACK',
@@ -220,7 +222,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) =>
     className: 'numeric readonly',
   };
   if (!readonly) {
-    oddsColumn['render'] = renderOdds(updateOne, currencyFormat);
+    oddsColumn['render'] = renderOdds(updateOne, currencyFormat, oddsFormat);
     oddsColumn['className'] = 'numeric';
   }
 
@@ -232,7 +234,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) =>
     className: 'numeric readonly',
   }
   if (!readonly) {
-    stakeColumn['render'] = renderInput('stake', updateOne, currencyFormat);
+    stakeColumn['render'] = renderInput('stake', updateOne, currencyFormat, oddsFormat);
     stakeColumn['className'] = 'numeric';
   }
 
@@ -277,7 +279,8 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false) =>
  * mode, and false otherwise
  * @returns {Array.object} - an array of column definition objects
  */
-const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => {
+const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false, oddsFormat) => {
+
   const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
   const teamColumn = {
     title: 'LAY',
@@ -296,7 +299,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => 
     className: 'numeric readonly',
   }
   if (!readonly) {
-    oddsColumn['render'] = renderOdds(updateOne, currencyFormat);
+    oddsColumn['render'] = renderOdds(updateOne, currencyFormat, oddsFormat);
     oddsColumn['className'] = 'numeric';
   }
 
@@ -308,7 +311,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false) => 
     className: 'numeric readonly',
   }
   if (!readonly) {
-    stakeColumn['render'] = renderInput('stake', updateOne, currencyFormat);
+    stakeColumn['render'] = renderInput('stake', updateOne, currencyFormat, oddsFormat);
     stakeColumn['className'] = 'numeric tableSymbol';
   }
 
@@ -380,7 +383,7 @@ const getRowClassName = (record, index) => (
 )
 
 const BetTable = (props) => {
-  const { readonly, data, title, deleteOne, deleteMany, updateOne, dimmed, currencyFormat } = props;
+  const { readonly, data, title, deleteOne, deleteMany, updateOne, dimmed, currencyFormat, oddsFormat } = props;
   const backBets = data.get('back') || Immutable.List();
   const layBets = data.get('lay') || Immutable.List();
   return (
@@ -407,7 +410,7 @@ const BetTable = (props) => {
           <div className='back'>
             <Table
               pagination={ false }
-              columns={ getBackColumns(deleteOne, updateOne, currencyFormat, readonly) }
+              columns={ getBackColumns(deleteOne, updateOne, currencyFormat, readonly, oddsFormat) }
               dataSource={ buildBetTableData(backBets, currencyFormat).toJS() }
               rowClassName={ getRowClassName }
             />
@@ -418,7 +421,7 @@ const BetTable = (props) => {
           <div className='lay'>
             <Table
               pagination={ false }
-              columns={ getLayColumns(deleteOne, updateOne, currencyFormat, readonly) }
+              columns={ getLayColumns(deleteOne, updateOne, currencyFormat, readonly, oddsFormat) }
               dataSource={ buildBetTableData(layBets, currencyFormat).toJS() }
               rowClassName={ getRowClassName }
             />
