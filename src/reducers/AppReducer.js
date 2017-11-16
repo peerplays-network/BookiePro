@@ -16,7 +16,7 @@ const initialState = Immutable.fromJS({
   isShowNotificationCard: false,
   isTitleBarTransparent: true,
   gatewayAccount: {},
-  showLicenseScreen: true,
+  showLicenseScreen: false,
 });
 
 export default function (state = initialState, action) {
