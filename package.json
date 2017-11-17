@@ -1,8 +1,8 @@
 {
   "name": "bookie",
-  "author": "ii-5",
+  "author": "Peerplays Blockchain Standards Association",
   "description": "Electron app powered by CRA",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "private": true,
   "homepage": "./",
   "devDependencies": {
