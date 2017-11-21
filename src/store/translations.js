@@ -209,7 +209,7 @@ export const translationsObject = {
       in_game: 'In-game',
       myaccount:'My Account',
       help: 'Help & Support',
-      signout: 'Sign Out'
+      signout: 'Logout'
     },
     landing:{
       login: 'LOGIN',
