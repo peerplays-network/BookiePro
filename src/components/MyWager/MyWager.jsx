@@ -31,12 +31,13 @@ import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import ResolvedBets from './ResolvedBets';
 import { NavigateActions, BetActions, MywagerActions } from '../../actions';
+import { BettingModuleUtils } from '../../utility';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
 import { Map } from 'immutable';
 import { I18n } from 'react-redux-i18n';
-import { MyWagerSelector } from '../../selectors';
+import { MyWagerSelector, MyAccountPageSelector } from '../../selectors';
 import { MyWagerTabTypes } from '../../constants';
 import PeerPlaysLogo from '../PeerPlaysLogo';
 
@@ -228,7 +229,7 @@ class MyWager extends PureComponent {
         <Tabs className='content bookie-tab' defaultActiveKey={ MyWagerTabTypes.UNMATCHED_BETS } onChange={ this.onTabChange }>
           <TabPane tab={ I18n.t('mybets.unmatched_bets') } key={ MyWagerTabTypes.UNMATCHED_BETS }>
             <UnmatchedBets
-              unmatchedBets={ this.props.betsData }
+              unmatchedBets={ filterOdds(this.props.betsData.toJS(), this.props.oddsFormat) }
               unmatchedBetsLoadingStatus={ this.props.betsLoadingStatus }
               onEventClick={ this.handleUnmatchedEventClick }
               currencyFormat={ this.props.betsCurrencyFormat }
@@ -237,18 +238,21 @@ class MyWager extends PureComponent {
               onCancelAllBetsClick={ this.cancelAllBets }
               isCancelAllConfirmModalVisible={ this.state.isCancelAllConfirmModalVisible }
               handleCancelAllBets={ this.handleCancelAllBets }
-              declineCancelAllBets={ this.declineCancelAllBets }/>
+              declineCancelAllBets={ this.declineCancelAllBets }
+              />
           </TabPane>
           <TabPane tab={ I18n.t('mybets.matched_bets') } key={ MyWagerTabTypes.MATCHED_BETS }>
             <MatchedBets
-              matchedBets={ this.props.betsData }
+              matchedBets={ filterOdds(this.props.betsData.toJS(), this.props.oddsFormat) }
               matchedBetsLoadingStatus={ this.props.betsLoadingStatus }
               currencyFormat={ this.props.betsCurrencyFormat }
-              betsTotal={ this.props.betsTotal }/>
+              betsTotal={ this.props.betsTotal }
+              oddsFormat={ this.props.oddsFormat }
+              />
           </TabPane>
           <TabPane tab={ I18n.t('mybets.resolved_bets') } key={ MyWagerTabTypes.RESOLVED_BETS }>
             <ResolvedBets
-              resolvedBets={ this.props.betsData }
+              resolvedBets={ filterOdds(this.props.betsData.toJS(), this.props.oddsFormat) }
               resolvedBetsLoadingStatus={ this.props.betsLoadingStatus }
               currencyFormat={ this.props.betsCurrencyFormat }
               betsTotal={ this.props.betsTotal }
@@ -257,6 +261,7 @@ class MyWager extends PureComponent {
               exportData={ this.props.resolvedBetsExportData }
               exportLoadingStatus={ this.props.resolvedBetsExportLoadingStatus }
               handleResetExport={ this.handleResetExport }
+              oddsFormat={ this.props.oddsFormat }
             />
           </TabPane>
         </Tabs>
@@ -268,6 +273,15 @@ class MyWager extends PureComponent {
   }
 }
 
+function filterOdds(tableData, oddsFormat) {
+  if (tableData) {
+    for (let row in tableData) {
+      tableData[row].backer_multiplier = BettingModuleUtils.oddsFormatFilter(tableData[row].backer_multiplier, oddsFormat)
+    }
+  }
+  return tableData
+}
+
 const mapStateToProps = (state) => {
   return {
     betsData: getBetData(state),
@@ -275,6 +289,7 @@ const mapStateToProps = (state) => {
     betsCurrencyFormat: getCurrencyFormat(state),
     targetCurrency: getCurrencyFormat(state),
     betsTotal: getBetTotal(state),
+    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
     resolvedBetsExportData: state.getIn(['mywager','resolvedBetsExportData']),
     resolvedBetsExportLoadingStatus: state.getIn(['mywager','generateResolvedBetsExportDataLoadingStatus'])
   }

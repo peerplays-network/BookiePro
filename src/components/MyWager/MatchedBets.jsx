@@ -20,7 +20,6 @@ import React, { PureComponent } from 'react';
 import { Table } from 'antd';
 import { LoadingStatus } from '../../constants';
 import { I18n } from 'react-redux-i18n';
-import { List } from 'immutable';
 import { MyWagerUtils, CurrencyUtils } from '../../utility';
 import './MyWager.less';
 import PropTypes from 'prop-types';
@@ -32,7 +31,7 @@ class MatchedBets extends PureComponent {
     const { matchedBets, currencyFormat } = props;
 
     this.state = {
-      tableData: matchedBets.toJS(),
+      tableData: matchedBets,
       columns: MyWagerUtils.getMatchedBetsColumns(currencyFormat)
     }
   }
@@ -40,7 +39,7 @@ class MatchedBets extends PureComponent {
   componentWillReceiveProps(nextProps) {
     if (this.props.matchedBets !== nextProps.matchedBets) {
       this.setState({
-        tableData: nextProps.matchedBets.toJS()
+        tableData: nextProps.matchedBets
       })
     }
     if (this.props.currencyFormat !== nextProps.currencyFormat) {
@@ -71,6 +70,6 @@ class MatchedBets extends PureComponent {
   }
 }
 MatchedBets.propTypes = {
-  matchedBets: PropTypes.instanceOf(List).isRequired
+  matchedBets: PropTypes.instanceOf(Array).isRequired
 }
 export default MatchedBets;

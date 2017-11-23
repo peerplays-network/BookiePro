@@ -21,7 +21,6 @@ import { Table, Modal } from 'antd';
 import { LoadingStatus } from '../../constants';
 import { MyWagerUtils, CurrencyUtils } from '../../utility';
 import { I18n } from 'react-redux-i18n';
-import { List } from 'immutable';
 import './MyWager.less';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -35,7 +34,7 @@ class UnmatchedBets extends PureComponent {
     const { unmatchedBets, currencyFormat, onCancelBetClick, onEventClick } = props;
 
     this.state = {
-      tableData: unmatchedBets.toJS(),
+      tableData: unmatchedBets,
       columns: MyWagerUtils.getUnmatchedBetsColumns(currencyFormat, onCancelBetClick, onEventClick)
     }
   }
@@ -43,7 +42,7 @@ class UnmatchedBets extends PureComponent {
   componentWillReceiveProps(nextProps) {
     if (this.props.unmatchedBets !== nextProps.unmatchedBets) {
       this.setState({
-        tableData: nextProps.unmatchedBets.toJS()
+        tableData: nextProps.unmatchedBets
       })
     }
     if (this.props.currencyFormat !== nextProps.currencyFormat ||
@@ -92,6 +91,6 @@ class UnmatchedBets extends PureComponent {
 }
 
 UnmatchedBets.propTypes = {
-  unmatchedBets: PropTypes.instanceOf(List).isRequired
+  unmatchedBets: PropTypes.instanceOf(Array).isRequired
 }
 export default UnmatchedBets;

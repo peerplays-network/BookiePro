@@ -14,7 +14,6 @@ import { I18n } from 'react-redux-i18n';
 import Export from '../Export';
 import TimeRangePicker from '../TimeRangePicker';
 import { MyWagerUtils, CurrencyUtils } from '../../utility';
-import { List } from 'immutable';
 import PropTypes from 'prop-types';
 
 /** ResolvedBets component used in mybets tabbed list */
@@ -25,7 +24,7 @@ class ResolvedBets extends PureComponent {
 
     const { resolvedBets, currencyFormat } = props;
     this.state = {
-      tableData: resolvedBets.toJS(),
+      tableData: resolvedBets,
       columns: MyWagerUtils.getResolvedBetsColumns(currencyFormat)
     }
   }
@@ -34,7 +33,7 @@ class ResolvedBets extends PureComponent {
     if (this.props.resolvedBets !== nextProps.resolvedBets) {
       // Update table data if resolved bets is updated
       this.setState({
-        tableData: nextProps.resolvedBets.toJS()
+        tableData: nextProps.resolvedBets
       })
     }
     if (this.props.currencyFormat !== nextProps.currencyFormat) {
@@ -89,7 +88,7 @@ class ResolvedBets extends PureComponent {
 }
 
 ResolvedBets.propTypes = {
-  resolvedBets: PropTypes.instanceOf(List).isRequired
+  resolvedBets: PropTypes.instanceOf(Array).isRequired
 }
 
 export default ResolvedBets;

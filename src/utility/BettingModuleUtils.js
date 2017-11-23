@@ -305,7 +305,7 @@ var BettingModuleUtils = {
 
     if (fromFormat === 'decimal') {
       if (toFormat === 'american') {
-        if (parsedOdds >= 2.0) return ((parsedOdds - 1) * 100).toFixed(0);
+        if (parsedOdds > 2.0) return ((parsedOdds - 1) * 100).toFixed(0)
         else return (-100 / (parsedOdds - 1)).toFixed(0)
       }
     }
