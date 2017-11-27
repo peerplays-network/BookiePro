@@ -62,7 +62,9 @@ var CurrencyUtils = {
       }
 
       if (currency === 'BTC') {
-        return (amount).toFixed(precision);
+        // Sometimes amount is a string type which will throw an
+        // error unless its cast as a number. Add (1 * amount)
+        return (1 * amount).toFixed(precision);
       }
     }
 
