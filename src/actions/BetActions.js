@@ -302,11 +302,13 @@ class BetActions {
           const betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
 
           let amountToBet = 0;
-          if (bet.get('bet_type') === BetTypes.BACK) {
-            amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
-          } else if (bet.get('bet_type') === BetTypes.LAY) {
-            amountToBet = parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision);
-          }
+
+          // 2017-11-27 : KLF : BOOK-235
+          // Below line has replaced an conditional logic that sets the amountToBet
+          //  differently depending on if the bet is a BACK or a LAY. The amount to
+          //  bet should be the same regardless of if it is a back or a lay.
+          amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
+
           const operationParams = {
             bettor_id: accountId,
             betting_market_id: bet.get('betting_market_id'),
@@ -447,11 +449,13 @@ class BetActions {
           const betAssetType = (bettingMarketGroup && bettingMarketGroup.get('asset_id')) || Config.coreAsset;
           const betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
           let amountToBet = 0;
-          if (bet.get('bet_type') === BetTypes.BACK) {
-            amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
-          } else if (bet.get('bet_type') === BetTypes.LAY) {
-            amountToBet = parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision);
-          }
+
+          // 2017-11-27 : KLF : BOOK-235
+          // Below line has replaced an conditional logic that sets the amountToBet
+          //  differently depending on if the bet is a BACK or a LAY. The amount to
+          //  bet should be the same regardless of if it is a back or a lay.
+          amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
+          
           const betPlaceOperationParams = {
             bettor_id: bet.get('bettor_id'),
             betting_market_id: bet.get('betting_market_id'),
