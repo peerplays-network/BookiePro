@@ -7,6 +7,7 @@ import EventActions from './EventActions';
 import EventGroupActions from './EventGroupActions';
 import SportActions from './SportActions';
 import MarketDrawerActions from './MarketDrawerActions';
+import { CurrencyUtils } from '../utility';
 import { TransactionBuilder } from 'peerplaysjs-lib';
 import _ from 'lodash';
 import log from 'loglevel';
@@ -299,14 +300,36 @@ class BetActions {
           const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
           const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
           const betAssetType = (bettingMarketGroup && bettingMarketGroup.get('asset_id')) || Config.coreAsset;
-          const betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
 
-          let amountToBet = 0;
+          // 2017-11-27 : JIG : BOOK-232 : Betslip says mBTC but is actually denominated in BTC!
+          // The variable amountToBet should be sent to the blockchain based
+          // on betAssetPrecision. For example, if betAssetPrecision is 5,
+          // then the amountToBet should be expressed as bet x 10^5 asset tokens.
+
+          // Make betAssetPrecision a variable so it can be adjusted as needed.
+          let betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
+
+
+
+          // We need to adjust the betAssetPrecision if the Better
+          // is working with mBTC instead of BTC (is, reducet the
+          // betAssetPrecision by 1000).
+
+          // Get the currencyFormat from the State object
+          const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting']);
+          const currencyFormat = setting.get('currencyFormat');
+
+          // If the Better's currency format is set to 'mBTC' ...
+          if (currencyFormat === 'mBTC') {
+            // ... reduce the precision by 3.
+            betAssetPrecision = Math.max(betAssetPrecision - 3, 0);
+          };
 
           // 2017-11-27 : KLF : BOOK-235
           // Below line has replaced an conditional logic that sets the amountToBet
           //  differently depending on if the bet is a BACK or a LAY. The amount to
           //  bet should be the same regardless of if it is a back or a lay.
+          let amountToBet = 0;
           amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
 
           const operationParams = {
@@ -327,6 +350,7 @@ class BetActions {
         const accountName = getState().getIn(['account', 'account', 'name']);
         const password = getState().getIn(['account', 'password']);
         const keys = KeyGeneratorService.generateKeys(accountName, password);
+
         WalletService.processTransaction(keys, tr).then(() => {
           log.debug('Make bets succeed.');
           dispatch(BetPrivateActions.setMakeBetsLoadingStatusAction(LoadingStatus.DONE));
@@ -447,15 +471,44 @@ class BetActions {
           const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
           const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
           const betAssetType = (bettingMarketGroup && bettingMarketGroup.get('asset_id')) || Config.coreAsset;
-          const betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
-          let amountToBet = 0;
+
+          // 2017-11-27 JIG
+          // BOOK-232: Betslip says mBTC but is actually denominated in BTC!
+          // The variable amountToBet should be sent to the blockchain based
+          // on betAssetPrecision. For example, if betAssetPrecision is 5,
+          // then the amountToBet should be expressed as bet x 10^5 asset tokens.
+
+          // Make betAssetPrecision a variable so it can be adjusted as needed.
+          let betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
+
+          // We need to adjust the betAssetPrecision if the Better
+          // is working with mBTC instead of BTC (is, reducet the
+          // betAssetPrecision by 1000).
+
+          // Get the currencyFormat from the State object
+          const accountId = getState().getIn(['account', 'account', 'id']);
+          const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting']);
+          const currencyFormat = setting.get('currencyFormat');
+
+          // If the Better's currency format is set to 'mBTC' ...
+          if (currencyFormat === 'mBTC') {
+            // ... reduce the precision by 3
+            betAssetPrecision = Math.max(betAssetPrecision - 3, 0);
+          };
 
           // 2017-11-27 : KLF : BOOK-235
           // Below line has replaced an conditional logic that sets the amountToBet
           //  differently depending on if the bet is a BACK or a LAY. The amount to
           //  bet should be the same regardless of if it is a back or a lay.
+          let amountToBet = 0;
           amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
-          
+
+          // if (bet.get('bet_type') === BetTypes.BACK) {
+          //   amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
+          // } else if (bet.get('bet_type') === BetTypes.LAY) {
+          //   amountToBet = parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision);
+          // }
+
           const betPlaceOperationParams = {
             bettor_id: bet.get('bettor_id'),
             betting_market_id: bet.get('betting_market_id'),

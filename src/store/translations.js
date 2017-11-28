@@ -31,7 +31,7 @@ export const translationsObject = {
       line_2: 'This might take few minutes.'
     },
     titleBar:{
-      title: 'Bookie Pro',
+      title: 'BookiePro',
       clock: 'Local Time %{time}'
     },
     searchMenu:{
@@ -209,11 +209,11 @@ export const translationsObject = {
       in_game: 'In-game',
       myaccount:'My Account',
       help: 'Help & Support',
-      signout: 'Sign Out'
+      signout: 'Logout'
     },
     landing:{
       login: 'LOGIN',
-      signup: 'JOIN BOOKIE PRO NOW',
+      signup: 'JOIN BOOKIEPRO NOW',
       slogan: 'Bet From Anywhere in The World',
       intro: 'Sign-up and start betting in 2 minutes!',
       loginWithAccount: 'Login with your existing Peerplays Account',
@@ -465,7 +465,7 @@ export const translationsObject = {
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
-          '<p>For further information please see Bookie Pro Rules.</p>' +
+          '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Who will win this match? This market INCLUDES any overtime that may be played. IN THE EVENT OF A TIE AFTER OVERTIME ALL BETS PLACED ON THIS MARKET WILL BE VOID. ' +
           'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -479,7 +479,7 @@ export const translationsObject = {
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
-          '<p>For further information please see Bookie Pro Rules.</p>' +
+          '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Which team will win this match with the stated handicap applied? This market INCLUDES any overtime that may be played. ' +
           'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -493,7 +493,7 @@ export const translationsObject = {
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
-          '<p>For further information please see Bookie Pro Rules.</p>' +
+          '<p>For further information please see BookiePro Rules.</p>' +
           '<p>How many points in total will be scored in this game  - more or less than the stated number? This market INCLUDES any overtime that may be played. ' +
           'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -511,7 +511,7 @@ export const translationsObject = {
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
-          '<p>For further information please see Bookie Pro Rules.</p>' +
+          '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
           'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -525,7 +525,7 @@ export const translationsObject = {
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
-          '<p>For further information please see Bookie Pro Rules.</p>' +
+          '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Which team will win this match with the stated handicap applied? This market INCLUDES any overtime that may be played. ' +
           'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -539,7 +539,7 @@ export const translationsObject = {
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
-          '<p>For further information please see Bookie Pro Rules.</p>' +
+          '<p>For further information please see BookiePro Rules.</p>' +
           '<p>How many points in total will be scored in this game - more or less than the stated number? This market INCLUDES any overtime that may be played. ' +
           'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -558,7 +558,7 @@ export const translationsObject = {
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
-          '<p>For further information please see Bookie Pro Rules.</p>' +
+          '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
           'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -573,7 +573,7 @@ export const translationsObject = {
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
-          '<p>For further information please see Bookie Pro Rules.</p>' +
+          '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
           'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -588,7 +588,7 @@ export const translationsObject = {
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
-          '<p>For further information please see Bookie Pro Rules.</p>' +
+          '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
           'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -607,7 +607,7 @@ export const translationsObject = {
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
-          '<p>For further information please see Bookie Pro Rules.</p>' +
+          '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
           'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -622,7 +622,7 @@ export const translationsObject = {
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
-          '<p>For further information please see Bookie Pro Rules.</p>' +
+          '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
           'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -636,7 +636,7 @@ export const translationsObject = {
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
-          '<p>For further information please see Bookie Pro Rules.</p>' +
+          '<p>For further information please see BookiePro Rules.</p>' +
           '<p>How many goals in total will be scored in this match - more or less than the stated number? ' +
           'All bets apply to Full Time according to the match officials, plus any stoppage time. ' +
           'Extra-time/penalty shoot-outs are not included. At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
@@ -651,7 +651,7 @@ export const translationsObject = {
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
-          '<p>For further information please see Bookie Pro Rules.</p>' +
+          '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Predict the result of this match. All bets apply to Full Time according to the match officials, plus any stoppage time. ' +
           'Extra-time/penalty shoot-outs are not included. At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -665,7 +665,7 @@ export const translationsObject = {
           '%{datetime}</br>' +
           'Win Only Market</p>' +
           '<p>MARKET INFORMATION</p>' +
-          '<p>For further information please see Bookie Pro Rules.</p>' +
+          '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Predict the score of this match. All bets apply to Full Time according to the match officials, plus any stoppage time. ' +
           'Extra-time/penalty shoot-outs are not included. At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -1193,48 +1193,48 @@ export const translationsObject = {
       },
       // TODO: the following should be deprecated but floating help is still referring to these
       // Revisit this after the floating help is revamped
-      question1: 'What is Bookie Pro?',
-      answer1: 'Bookie Pro is a betting exchange where people from all over the world can bet on sports.',
-      question2: 'How is Bookie Pro different from a regular sportsbook?',
+      question1: 'What is BookiePro?',
+      answer1: 'BookiePro is a betting exchange where people from all over the world can bet on sports.',
+      question2: 'How is BookiePro different from a regular sportsbook?',
       answer2: 'When you bet with a sportsbook, your wager is matched by the “house”' +
       '(the sportsbook operator). If you win this bet, this sportsbook operator pays you directly.' +
-      'Bookie Pro has no house. Instead, Bookie Pro matches your bet with other users who want to bet against you.',
-      question3: 'Who owns Bookie Pro?',
-      answer3: 'No single person, company, or central authority owns Bookie Pro. The Bookie Pro betting exchange ' +
+      'BookiePro has no house. Instead, BookiePro matches your bet with other users who want to bet against you.',
+      question3: 'Who owns BookiePro?',
+      answer3: 'No single person, company, or central authority owns BookiePro. The BookiePro betting exchange ' +
       'is an application that interfaces with the Peerplays blockchain. The holders of Peerplays blockchain ' +
       'tokens (called ‘PPY’) are in charge of voting to maintain consensus about the management of the network.',
       question4: 'What is a blockchain?',
       answer4: 'A blockchain is a digital database managed by a decentralized collective of digital stakeholders. ' +
       'Blockchains use advanced cryptographic techniques to securely record your transactions on a public network. ' +
-      'Bookie Pro runs on the Peerplays blockchain, which is custom-built to support online gambling.',
-      question5: 'How does the Bookie Pro betting exchange work?',
+      'BookiePro runs on the Peerplays blockchain, which is custom-built to support online gambling.',
+      question5: 'How does the BookiePro betting exchange work?',
       answer5: 'A betting exchange is similar to a stock exchange. A stock exchange matches orders between anyone who ' +
       'wants to buy and sell stocks. A betting exchange matches the orders between anyone who wants to place or take bets.',
       question6: 'How do I find someone to bet with?',
-      answer6: 'Bookie Pro automatically matches bets between you and other users from around the world. ' +
-      'All you have to do is choose a sport and event to bet on, tell Bookie Pro how much you want to bet, ' +
-      'and post the funds to cover your bet. Bookie Pro takes care of the rest - matching your bet at best available price, ' +
+      answer6: 'BookiePro automatically matches bets between you and other users from around the world. ' +
+      'All you have to do is choose a sport and event to bet on, tell BookiePro how much you want to bet, ' +
+      'and post the funds to cover your bet. BookiePro takes care of the rest - matching your bet at best available price, ' +
       'holding all funds in escrow, and then releasing the funds to the winner when the sports event is finished.',
-      question7: 'How is Bookie Pro different from other betting exchanges?',
+      question7: 'How is BookiePro different from other betting exchanges?',
       answer7: 'Traditional betting exchanges operate the software which matches your bets on a centralized server. ' +
-      'On Bookie Pro, the software that matches your bets operates on a public blockchain. This makes Bookie Pro transparent ' +
+      'On BookiePro, the software that matches your bets operates on a public blockchain. This makes BookiePro transparent ' +
       'and accessible from every country on Earth.',
-      question8: 'Will Bookie Pro take a cut or \'rake\' of my winnings?',
-      answer8: 'No. In contrast to other betting exchanges, Bookie Pro does not take a commission on winning bets. ' +
-      'Instead, Bookie Pro charges a small commission on each bet when it is matched. This fee is calculated as a ' +
+      question8: 'Will BookiePro take a cut or \'rake\' of my winnings?',
+      answer8: 'No. In contrast to other betting exchanges, BookiePro does not take a commission on winning bets. ' +
+      'Instead, BookiePro charges a small commission on each bet when it is matched. This fee is calculated as a ' +
       'percentage of the betting stake.',
-      question9: 'Will Bookie Pro restrict my account if I win too much?',
-      answer9: 'No. Bookie Pro does not close or limit the accounts of users, unlike many sportsbooks and betting exchanges. ' +
-      'Bookie Pro welcomes winners!',
-      question10: 'What currencies can I bet with on Bookie Pro?',
-      answer10: 'Bookie Pro is capable of accepting all digital currencies, but since Bitcoin is the most widely traded and ' +
-      'liquid digital currency right now, Bookie Pro will be launched as a “Bitcoin-only” desktop application.',
-      question11: 'Where do Bookie Pro’s revenues go?',
-      answer11: 'All profits generated by Bookie Pro are paid out at regular intervals to anyone who holds PPY tokens.',
-      question12: 'Can I use Bookie Pro on my mobile?',
-      answer12: 'The Bookie Pro mobile app will launch in Q1 2018. Bookie Pro will first be made available as a desktop application, launching in Q4 2017.',
-      question13: 'Who is the team behind Bookie Pro?',
-      answer13: 'The development of Bookie Pro has been supported by the Peerplays Blockchain Standards Association (PBSA), ' +
+      question9: 'Will BookiePro restrict my account if I win too much?',
+      answer9: 'No. BookiePro does not close or limit the accounts of users, unlike many sportsbooks and betting exchanges. ' +
+      'BookiePro welcomes winners!',
+      question10: 'What currencies can I bet with on BookiePro?',
+      answer10: 'BookiePro is capable of accepting all digital currencies, but since Bitcoin is the most widely traded and ' +
+      'liquid digital currency right now, BookiePro will be launched as a “Bitcoin-only” desktop application.',
+      question11: 'Where do BookiePro’s revenues go?',
+      answer11: 'All profits generated by BookiePro are paid out at regular intervals to anyone who holds PPY tokens.',
+      question12: 'Can I use BookiePro on my mobile?',
+      answer12: 'The BookiePro mobile app will launch in Q1 2018. BookiePro will first be made available as a desktop application, launching in Q4 2017.',
+      question13: 'Who is the team behind BookiePro?',
+      answer13: 'The development of BookiePro has been supported by the Peerplays Blockchain Standards Association (PBSA), ' +
       'a non-profit organization based in Canada and dedicated to promoting transparent and fair gaming standards for the Peerplays blockchain.',
     },
     license_screen:{
