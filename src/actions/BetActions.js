@@ -309,7 +309,7 @@ class BetActions {
           // Make betAssetPrecision a variable so it can be adjusted as needed.
           let betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
 
-          let amountToBet = 0;
+
 
           // We need to adjust the betAssetPrecision if the Better
           // is working with mBTC instead of BTC (is, reducet the
@@ -325,13 +325,12 @@ class BetActions {
             betAssetPrecision = Math.max(betAssetPrecision - 3, 0);
           };
 
+          // 2017-11-27 : KLF : BOOK-235
+          // Below line has replaced an conditional logic that sets the amountToBet
+          //  differently depending on if the bet is a BACK or a LAY. The amount to
+          //  bet should be the same regardless of if it is a back or a lay.
+          let amountToBet = 0;
           amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
-
-          // if (bet.get('bet_type') === BetTypes.BACK) {
-          //   amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
-          // } else if (bet.get('bet_type') === BetTypes.LAY) {
-          //   amountToBet = parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision);
-          // }
 
           const operationParams = {
             bettor_id: accountId,
@@ -482,8 +481,6 @@ class BetActions {
           // Make betAssetPrecision a variable so it can be adjusted as needed.
           let betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
 
-          let amountToBet = 0;
-
           // We need to adjust the betAssetPrecision if the Better
           // is working with mBTC instead of BTC (is, reducet the
           // betAssetPrecision by 1000).
@@ -499,6 +496,11 @@ class BetActions {
             betAssetPrecision = Math.max(betAssetPrecision - 3, 0);
           };
 
+          // 2017-11-27 : KLF : BOOK-235
+          // Below line has replaced an conditional logic that sets the amountToBet
+          //  differently depending on if the bet is a BACK or a LAY. The amount to
+          //  bet should be the same regardless of if it is a back or a lay.
+          let amountToBet = 0;
           amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
 
           // if (bet.get('bet_type') === BetTypes.BACK) {
