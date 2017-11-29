@@ -36,6 +36,14 @@ class SettingPrivateActions {
     }
   }
 
+  static updateOddsFormatAction(oddsFormat, accountId) {
+    return {
+      type: ActionTypes.SETTING_UPDATE_ODDS_FORMAT,
+      oddsFormat,
+      accountId
+    }
+  }
+
   static setInitialSettingAction(accountId) {
     return {
       type: ActionTypes.SETTING_SET_INITIAL_SETTING,
@@ -96,6 +104,15 @@ class SettingActions {
       const accountId = getState().getIn(['account', 'account', 'id']);
       if (accountId) {
         dispatch(SettingPrivateActions.updateCurrencyFormatAction(currencyFormat, accountId));
+      }
+    }
+  }
+
+  static updateOddsFormat(oddsFormat) {
+    return (dispatch, getState) => {
+      const accountId = getState().getIn(['account', 'account', 'id'])
+      if (accountId) {
+        dispatch(SettingPrivateActions.updateOddsFormatAction(oddsFormat, accountId))
       }
     }
   }

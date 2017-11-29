@@ -12,7 +12,7 @@ const MAX_ODDS = 1000;
  * Return the increment based on which range does the Odds value fall into
  * -1 is returned if the Odds value is out of range
  */
-const getOddsIncrement = (odds) => {
+const getOddsIncrement = (odds, oddsFormat) => {
   if (_.inRange(odds, 1.01, 2)) return 0.01;
   if (_.inRange(odds, 2, 3)) return 0.02;
   if (_.inRange(odds, 3, 4)) return 0.05;
@@ -102,9 +102,9 @@ const decrementOdds = (odds) => {
  * The Odds value will be rounded (up for Back bets / down for Lay bets) to the nearest
  * multiple of the designated increment value
  */
-const adjustOdds = (odds, betType) => {
+const adjustOdds = (odds, betType, oddsFormat) => {
   const floatNumber = parseFloat(odds);
-  const increment = getOddsIncrement(floatNumber);
+  const increment = getOddsIncrement(floatNumber, oddsFormat);
   if (increment === -1) {
     // If the odds does not fall into any valid range, we either return the smallest
     // or the largest odds.

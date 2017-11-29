@@ -18,6 +18,7 @@
  * Following are the actions dispatched for various purposes in this component:
  *    {@link SettingActions#updateSettingNotification}
  *    {@link SettingActions#updateCurrencyFormat}
+ *    {@link SettingActions#updateOddsFormat}
  *    {@link BalanceActions#getDepositAddress}
  *    {@link BalanceActions#withdraw}
  *    {@link BalanceActions#resetWithdrawLoadingStatus}
@@ -63,6 +64,7 @@ class MyAccount extends PureComponent {
     }
 
     this.handleCurrFormatChange = this.handleCurrFormatChange.bind(this);
+    this.handleOddsFormatChange = this.handleOddsFormatChange.bind(this);
     this.handleNotificationChange = this.handleNotificationChange.bind(this);
     this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
 
@@ -169,6 +171,17 @@ class MyAccount extends PureComponent {
   }
 
   /**
+   * Called when the user's odds format setting is changed
+   *
+   * Dispatched action: {@link SettingActions#updateOddsFormat}
+   *   the state 'oddsFormat' is updated under the 'setting' store
+   */
+  handleOddsFormatChange(value) {
+    const { updateOddsFormat } = this.props
+    updateOddsFormat(value)
+  }
+
+  /**
    * Navigate to the 'Change Password' screen - - {@link ChangePassword}
    */
   handleRedirectToChangePwd(){
@@ -226,6 +239,8 @@ class MyAccount extends PureComponent {
                     onChange={ this.handleNotificationChange }/>
           </Col>
         </Row>
+
+
         <Row className='margin-tb-25'>
           <Col span={ 18 }>
             <p
@@ -243,6 +258,26 @@ class MyAccount extends PureComponent {
             </div>
           </Col>
         </Row>
+
+        <Row className='margin-tb-25'>
+          <Col span={ 18 }>
+            <p
+              className='padding-tb-5'>{ I18n.t('myAccount.oddsFormat') }</p>
+          </Col>
+          <Col span={ 6 }>
+            <div ref='global_object'>
+              <Select
+                className='bookie-select'
+                defaultValue={ this.props.oddsFormat }
+                onChange={ this.handleOddsFormatChange }>
+                <Option value='decimal'>Decimal</Option>
+                <Option value='american'>American</Option>
+              </Select>
+            </div>
+          </Col>
+        </Row>
+
+
         <div className='card-footer'>
           <Row
             className='registerComponent'>
@@ -326,6 +361,7 @@ const mapStateToProps = (state) => {
     lastIrreversibleBlockNum: MyAccountPageSelector.lastIrreversibleBlockNumSelector(state),
     notification: MyAccountPageSelector.notificationSelector(state),
     currencyFormat: MyAccountPageSelector.currencyFormatSelector(state),
+    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
     precision: MyAccountPageSelector.coreAssetPrecisionSelector(state),
     transactionHistory: MyAccountPageSelector.filteredTransactionHistorySelector(state),
     transactionHistoryLoadingStatus: MyAccountPageSelector.initRawHistoryLoadingStatusSelector(state),
@@ -347,6 +383,7 @@ function mapDispatchToProps(dispatch) {
     updateSettingTimeZone: SettingActions.updateSettingTimeZone,
     updateSettingNotification: SettingActions.updateSettingNotification,
     updateCurrencyFormat: SettingActions.updateCurrencyFormat,
+    updateOddsFormat: SettingActions.updateOddsFormat,
     getDepositAddress: BalanceActions.getDepositAddress,
     withdraw: BalanceActions.withdraw,
     resetWithdrawLoadingStatus: BalanceActions.resetWithdrawLoadingStatus,

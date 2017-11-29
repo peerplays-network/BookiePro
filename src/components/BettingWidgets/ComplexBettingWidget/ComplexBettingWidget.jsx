@@ -262,7 +262,8 @@ class ComplexBettingWidget extends PureComponent {
     const { currencyFormat,
             totalMatchedBetsAmount,
             widgetTitle,
-            rules
+            rules,
+            oddsFormat
     } = this.props;
 
     const minNameWidth = 200;
@@ -332,7 +333,7 @@ class ComplexBettingWidget extends PureComponent {
         accessor: row => row.offer.back.length > 2 ? row.offer.back[2] : undefined,
         render: props => props.value ?
          <div className='back-offer back-bg'>
-           <div className='odds'>{ props.value.odds }</div>
+           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price,
                currencyFormat,
@@ -347,7 +348,7 @@ class ComplexBettingWidget extends PureComponent {
         accessor: row => row.offer.back.length > 1 ? row.offer.back[1] : undefined,
         render: props => props.value ?
          <div className='back-offer back-bg'>
-           <div className='odds'>{ props.value.odds }</div>
+           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
@@ -360,7 +361,7 @@ class ComplexBettingWidget extends PureComponent {
         accessor: row => row.offer.back.length > 0 ? row.offer.back[0] : undefined,
         render: props => props.value ?
          <div className='back-offer back-all-offer'>
-           <div className='odds'>{ props.value.odds }</div>
+           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
@@ -381,7 +382,7 @@ class ComplexBettingWidget extends PureComponent {
         accessor: row => row.offer.lay.length > 0 ? row.offer.lay[0] : undefined,
         render: props => props.value ?
          <div className='lay-offer lay-all-offer'>
-           <div className='odds'>{ props.value.odds }</div>
+           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
@@ -394,7 +395,7 @@ class ComplexBettingWidget extends PureComponent {
         accessor: row => row.offer.lay.length > 1 ? row.offer.lay[1] : undefined,
         render: props => props.value ?
          <div className='lay-offer lay-bg'>
-           <div className='odds'>{ props.value.odds }</div>
+           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
@@ -411,7 +412,7 @@ class ComplexBettingWidget extends PureComponent {
         accessor: row => row.offer.lay.length > 2 ? row.offer.lay[2] : undefined,
         render: props => props.value ?
          <div className='lay-offer lay-bg'>
-           <div className='odds'>{ props.value.odds }</div>
+           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
@@ -482,6 +483,7 @@ ComplexBettingWidget.propTypes = {
   // unconfirmedBets data in bet table
   unconfirmedBets: PropTypes.any,
   currencyFormat: PropTypes.string.isRequired,
+  oddsFormat: PropTypes.string.isRequired,
   canCreateBet: PropTypes.any.isRequired,
   isLiveMarket: PropTypes.bool,
 };
