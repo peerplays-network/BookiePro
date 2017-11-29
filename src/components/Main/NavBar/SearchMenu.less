@@ -2,6 +2,18 @@
 @import '../../App/Common.less';
 
 
+.ant-modal{
+  padding:20px 10px 20px 10px;
+  .ant-modal-body {
+    font-size: 18px !important;
+  }
+
+  .ant-modal-close {
+    top: -10px !important;
+    right: 5px !important;
+  }
+}
+
 div.search-menu{
   flex: 1;
   // assume there is one li only
@@ -102,10 +114,6 @@ div.search-menu{
     box-shadow: @card_shadow;
     opacity: 1;
   }
-
-
-
-
 
   &.is-focused{
     // background-color: @topbar_more_menu_active;
@@ -236,6 +244,7 @@ div.search-menu{
     }
   }
 }
+
 .is-focused:not(.is-open) > .Select-control{
   box-shadow: none;
 }
