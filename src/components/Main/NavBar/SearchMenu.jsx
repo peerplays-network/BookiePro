@@ -16,7 +16,7 @@
  *  iii. when there doesnt exist any result, it will display 'no result found' text
  */
 import React, { PureComponent } from 'react';
-import { Menu } from 'antd';
+import { Menu, Modal } from 'antd';
 import _ from 'lodash';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
@@ -86,7 +86,9 @@ class SearchMenu extends PureComponent {
     this.state = {
       isLoading: false,
       debounced: '',
+      modalIsOpen: false
     };
+    this.closeModal = this.closeModal.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onClose = this.onClose.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
@@ -162,6 +164,12 @@ class SearchMenu extends PureComponent {
     return searchText
   }
 
+  closeModal() {
+    this.setState({
+      modalIsOpen: false
+    })
+  }
+
   /**
    * overriding the filterOptions in react-select components.
    *
@@ -199,6 +207,7 @@ class SearchMenu extends PureComponent {
    */
   onChange (event) {
     //Clear the search results when there is no search data
+
     if(!event ){
       this.props.clearSearchResult();
       this.setState({
@@ -229,6 +238,15 @@ class SearchMenu extends PureComponent {
     if ( this.props.completeTree && event ){
       const nested = Immutable.fromJS(this.props.completeTree);
       const keyPath = findKeyPathOf(nested, 'children', (node => node.get('id') === event.id) );
+
+      if (!keyPath) {
+        this.setState({
+          modalIsOpen: true,
+          eventName: event.name
+        })
+        return
+      }
+
       const moneyline = nested.getIn(keyPath).get('children').filter((mktGroup) =>
         //NOTE if type id is not in string format please change it
         mktGroup.get('description').toUpperCase() === 'MONEYLINE'
@@ -256,7 +274,7 @@ class SearchMenu extends PureComponent {
     *            noResultsText in props is set as null as overriding the display condition of noResultsText is needed
     */
   render() {
-    const { searchText, debounced, value } = this.state;
+    const { searchText, debounced, value, eventName } = this.state;
 
     //append match date time to each result
     //appending 'number of search result text' into the first row
@@ -284,6 +302,14 @@ class SearchMenu extends PureComponent {
     return (
 
       <div className='search-menu'>
+        <Modal
+          visible={ this.state.modalIsOpen }
+          footer={ null }
+          onCancel={ this.closeModal }
+          >
+          <p>{ I18n.t('searchMenu.search_error', { event: eventName } ) }</p>
+        </Modal>
+
         <Menu
           theme='dark'
         >

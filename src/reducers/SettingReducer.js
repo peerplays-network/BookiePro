@@ -8,6 +8,7 @@ const initialState = Immutable.fromJS({
     timezone: 'UTC+08:00',
     notification: true,
     currencyFormat: 'mBTC',
+    oddsFormat: 'decimal',
     skipLogoutPopup: false
   }
 });
@@ -35,6 +36,11 @@ export default function (state = initialState, action) {
     case ActionTypes.SETTING_UPDATE_CURRENCY_FORMAT: {
       return state.mergeIn(['settingByAccountId', action.accountId], {
         currencyFormat: action.currencyFormat,
+      })
+    }
+    case ActionTypes.SETTING_UPDATE_ODDS_FORMAT: {
+      return state.mergeIn(['settingByAccountId', action.accountId], {
+        oddsFormat: action.oddsFormat,
       })
     }
     case ActionTypes.SETTING_MARK_SKIP_LOGOUT_POPUP: {
