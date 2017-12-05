@@ -17,15 +17,16 @@ class BetTableInput extends PureComponent {
       }
     }
 
-
     this.handleChange = this.handleChange.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
     this.clickArrowButton = this.clickArrowButton.bind(this)
   }
 
   handleChange(e) {
+    let value = e.target.value.replace(/[A-z]/g, '').trim()
+
     this.setState({
-      value: e.target.value
+      value
     })
   }
 
