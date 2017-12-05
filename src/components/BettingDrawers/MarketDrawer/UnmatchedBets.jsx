@@ -20,6 +20,7 @@ import { MarketDrawerActions } from '../../../actions';
 import BetTable from '../BetTable';
 import './UnmatchedBets.less';
 import { BettingDrawerStates } from '../../../constants'
+import { MyAccountPageSelector } from '../../../selectors'
 
 class UnmatchedBets extends PureComponent {
   render() {
@@ -33,6 +34,7 @@ class UnmatchedBets extends PureComponent {
           updateOne={ this.props.updateUnmatcedBet }
           dimmed={ this.props.obscureContent }
           currencyFormat={ this.props.currencyFormat }
+          oddsFormat={ this.props.oddsFormat }
         />
         { !this.props.bets.isEmpty() &&
           <div className={ `buttons ${this.props.obscureContent ? 'dimmed' : ''}` }>
@@ -81,6 +83,7 @@ const mapStateToProps = (state) => {
     bets: page,
     obscureContent,
     hasUpdatedBets: originalBets.count(bet => bet.get('updated')) > 0,
+    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state)
   };
 }
 
