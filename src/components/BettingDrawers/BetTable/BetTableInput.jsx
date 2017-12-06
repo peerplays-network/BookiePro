@@ -23,7 +23,7 @@ class BetTableInput extends PureComponent {
   }
 
   handleChange(e) {
-    let value = e.target.value.replace(/[A-z]/g, '').trim()
+    let value = e.target.value.replace(/[A-z*&^%$#@!(){};:'"?><,|+=_/~]/g, '').trim()
 
     this.setState({
       value
