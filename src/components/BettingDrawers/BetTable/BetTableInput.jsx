@@ -96,10 +96,12 @@ class BetTableInput extends PureComponent {
     return (
       <div>
         <input
+          className='betTableInput'          
           type='text'
           value={ this.state.value }
           onChange={ e => this.handleChange(e) }
           onBlur={ e => this.handleBlur(e) }
+          placeholder={ this.props.field === 'odds' ? 'Odds' : 'Stake' }
           />
         { this.props.field === 'odds' ?
           <div>
