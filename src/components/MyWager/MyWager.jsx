@@ -166,7 +166,7 @@ class MyWager extends PureComponent {
    *    This will navigat user to event full market screen
    */
   handleUnmatchedEventClick(record, event){
-    this.props.navigateTo('/exchange/bettingmarketgroup/' + record.group_id);
+    this.props.navigateTo(`/exchange/bettingmarketgroup/${record.group_id}`);
   }
 
   /**
