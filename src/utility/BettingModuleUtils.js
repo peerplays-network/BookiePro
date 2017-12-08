@@ -313,7 +313,7 @@ var BettingModuleUtils = {
     if (fromFormat === 'american') {
       if (toFormat === 'decimal') {
         if (parsedOdds >= 100) return (parsedOdds / 100) + 1
-        else if (parsedOdds < 100 && parsedOdds >= 0) return ''
+        else if (parsedOdds < 100 && parsedOdds >= 0) return 1.01
         else return (-100 / parsedOdds) + 1
       }
     }

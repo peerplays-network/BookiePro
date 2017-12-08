@@ -123,8 +123,8 @@ const adjustOdds = (odds, betType, oddsFormat) => {
     // If the odds does not fall into any valid range, we either return the smallest
     // or the largest odds.
     // 100 is the lower limit of the last defined range (with the highest odds value)
-    if (floatNumber > 100) return MAX_ODDS;
-    return MIN_ODDS;
+    if (floatNumber > 100) return ODDS_BOUNDS[oddsFormat].max
+    return ODDS_BOUNDS[oddsFormat].min
   }
 
   let adjusted = floatNumber;

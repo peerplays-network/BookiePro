@@ -73,7 +73,7 @@ class BetTableInput extends PureComponent {
   }
 
   handleBlur(e) {
-    if ( e.target.value.length !== 0 && this.props.field === 'stake') {
+    if (e.target.value.length !== 0 && this.props.field === 'stake') {
       const stakePrecision = CurrencyUtils.fieldPrecisionMap[this.props.field][this.props.currencyFormat];
       if ( stakePrecision === 0) {
         // should only accept integers when precision is zero
@@ -84,27 +84,29 @@ class BetTableInput extends PureComponent {
       }
     }
 
-    let value
-
+    let value = parseFloat(e.target.value)
     if (this.props.field === 'odds') {
-      value = BettingModuleUtils.oddsFormatFilter(e.target.value, 'decimal', this.props.oddsFormat);
       if (value !== '') {
         value = adjustOdds(CurrencyUtils.formatFieldByCurrencyAndPrecision(
                   this.props.field, value, this.props.currencyFormat
-                ), this.props.record.bet_type);
+                ), this.props.record.bet_type, this.props.oddsFormat);
+        this.setState({
+          value: value
+        })
+        value = BettingModuleUtils.oddsFormatFilter(value, 'decimal', this.props.oddsFormat);
       } else {
         value = this.props.record.odds
       }
     }
 
     if (this.props.field === 'stake') {
-      const floatNumber = parseFloat(e.target.value);
-      if (isNaN(floatNumber)) return false; // fail fast if the value is undefined or bad
-      value = CurrencyUtils.toFixed('stake', floatNumber, this.props.currencyFormat);
+      if (isNaN(value)) return false; // fail fast if the value is undefined or bad
+      value = CurrencyUtils.toFixed('stake', value, this.props.currencyFormat);
       this.setState({
         value: value
       })
     }
+
 
     const delta = Immutable.Map()
       .set('id', this.props.record.id)
