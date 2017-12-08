@@ -3,10 +3,24 @@
  * of Odds value in the {@link BetTable}.
  */
 import _ from 'lodash';
+import { BettingModuleUtils } from '../../../utility'
 
 const ODDS_PRECISION = 2;
 const MIN_ODDS = 1.01;
 const MAX_ODDS = 1000;
+
+const ODDS_BOUNDS = {
+  'decimal': {
+    min: MIN_ODDS,
+    max: MAX_ODDS
+  },
+  'american': {
+    min: BettingModuleUtils.oddsFormatFilter(MIN_ODDS, 'american'),
+    max: BettingModuleUtils.oddsFormatFilter(MAX_ODDS, 'american')
+  }
+}
+
+
 
 /**
  * Return the increment based on which range does the Odds value fall into
@@ -127,4 +141,6 @@ export {
   decrementOdds,
   adjustOdds,
   MIN_ODDS,
+  MAX_ODDS,
+  ODDS_BOUNDS
 }

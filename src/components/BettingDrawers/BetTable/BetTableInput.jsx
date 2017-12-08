@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { BettingModuleUtils, CurrencyUtils } from '../../../utility'
 import Immutable from 'immutable';
-import { incrementOdds, decrementOdds, adjustOdds, MIN_ODDS } from './oddsIncrementUtils';
+import { incrementOdds, decrementOdds, adjustOdds, ODDS_BOUNDS } from './oddsIncrementUtils';
 
 class BetTableInput extends PureComponent {
   constructor(props) {
@@ -23,17 +23,40 @@ class BetTableInput extends PureComponent {
   }
 
   handleChange(e) {
+    let props = this.props
     let value = e.target.value.replace(/[A-z*&^%$#@!(){};:'"?><,|+=_/~]/g, '').trim()
+
+    if (value.length > 1) value = deepClean(value)
+    if (value.length > 1 && this.props.field === 'odds') value = cleanOdds(value)
 
     this.setState({
       value
     })
+
+    function deepClean(str) {
+      let charCount = {}, cleanStr = str.split('')
+      for (let i = 0; i < cleanStr.length; i++) {
+        charCount[cleanStr[i]] = charCount[cleanStr[i]] ? charCount[cleanStr[i]] + 1 : 1
+        if (cleanStr[i] === '.' && charCount['.'] > 1) cleanStr[i] = ''
+        if (cleanStr[i] === '-' && i > 0) cleanStr[i] = ''
+      }
+      return cleanStr.join().replace(/[,]/g, '')
+    }
+
+    function cleanOdds(str) {
+      let cleanStr = parseFloat(str)
+      if (isNaN(cleanStr)) return ''
+      if (props.oddsFormat === 'decimal' && cleanStr < ODDS_BOUNDS.decimal.min) return ODDS_BOUNDS.decimal.min
+      if (props.oddsFormat === 'decimal' && cleanStr > ODDS_BOUNDS.decimal.max) return ODDS_BOUNDS.decimal.max
+      if (props.oddsFormat === 'american' && cleanStr < ODDS_BOUNDS.american.min) return ODDS_BOUNDS.american.min
+      if (props.oddsFormat === 'american' && cleanStr > ODDS_BOUNDS.american.max) return ODDS_BOUNDS.american.max
+    }
   }
 
   clickArrowButton(record, action, updateOdds) {
     let odds = record.odds;
     if (!odds) {
-      odds = MIN_ODDS;
+      odds = ODDS_BOUNDS.decimal.min;
     } else {
       // REVIEW the odds value is adjusted first because the dummy data may contain
       //        incorrect odds values that could never happen in the real Blockchain
@@ -96,7 +119,7 @@ class BetTableInput extends PureComponent {
     return (
       <div>
         <input
-          className='betTableInput'          
+          className='betTableInput'
           type='text'
           value={ this.state.value }
           onChange={ e => this.handleChange(e) }
