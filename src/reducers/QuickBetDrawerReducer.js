@@ -129,6 +129,9 @@ export default function(state = initialState, action) {
         overlay: BettingDrawerStates.NO_OVERLAY,
       })
     }
+    case ActionTypes.AUTH_LOGOUT: {
+      return initialState;
+    }
     default:
       return state;
   }
