@@ -12,6 +12,7 @@ import { TimeRangePeriodTypes, MyWagerTabTypes, LoadingStatus, BetCategories, Be
 import CommonSelector from './CommonSelector';
 
 const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
+const { getBettingMarketsById } = CommonSelector
 
 const {
   getAggregatedBettingMarketGroupsById,
@@ -215,14 +216,17 @@ const getBetsWithFormattedCurrency = createSelector(
 const getBetData = createSelector(
   [
     getBetsWithFormattedCurrency,
-    getCancelBetsByIdsLoadingStatus
+    getCancelBetsByIdsLoadingStatus,
+    getBettingMarketsById
   ],
   (
     bets,
-    cancelBetsByIdsLoadingStatus
+    cancelBetsByIdsLoadingStatus,
+    bettingMarkets
   ) => {
     return bets.map((bet) => {
       bet = bet.set('key', bet.get('id'));
+      bet = bet.set('group_id', bettingMarkets.getIn([bet.get('betting_market_id')]).get('group_id'))
       bet = bet.set('type', bet.get('back_or_lay').toUpperCase() + ' | ' + bet.get('betting_market_description') + ' | ' + bet.get('betting_market_group_description'))
 
       if (bet.get('category') === BetCategories.RESOLVED_BET) {
