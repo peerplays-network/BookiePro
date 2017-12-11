@@ -737,8 +737,7 @@ export const translationsObject = {
       '/p>'
     },
     bettingMarketGroup :{
-      match_start_on: '%{time}' +
-      ' - 1:00PM',
+      match_start_on: '%{time}',
       title: 'Levski Sofia vs Academic' +
       ' Plovdiv',
       time_remaining: 'Time Remaining',
