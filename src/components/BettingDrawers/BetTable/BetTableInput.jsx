@@ -78,6 +78,18 @@ class BetTableInput extends PureComponent {
     action(delta);
   }
 
+  /*
+   * Function :   handleBlur()
+   * Author   :   Keegan Francis - k.francis@pbsa.info
+   * Tickets  :   BOOK-246, BOOK-256, BOOK-262, BOOK-264,
+   * Summary  :   It is useful to understand the flow of how ODDS is processed
+   *              1. Odds Adjustment
+   *                - Increment is applied
+   *                - Odds is adjusted if not within the valid range
+   *                - After this process, 'value' contains valid odds in decimal format
+   *              2. Input field is upated to display the odds in the currently selected format
+   *              3. Odds are sent to Redux for storage in decimal odds
+   */
   handleBlur(e) {
     if (e.target.value.length !== 0 && this.props.field === 'stake') {
       const stakePrecision = CurrencyUtils.fieldPrecisionMap[this.props.field][this.props.currencyFormat];
