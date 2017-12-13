@@ -26,6 +26,7 @@ class BetTableInput extends PureComponent {
     let props = this.props
     let value = e.target.value.replace(/[A-z*&^%$#@!(){};:'"?><,|+=_/~]/g, '').trim()
 
+    if (value.length > 0 && value.charAt(0) === '-' && props.oddsFormat === 'decimal') return ''
     if (value.length > 1) value = deepClean(value)
     if (value.length > 1 && this.props.field === 'odds') value = cleanOdds(value)
 
@@ -33,6 +34,10 @@ class BetTableInput extends PureComponent {
       value
     })
 
+    /*
+     * deepClean will strip any '.' or '-' that appear further in the string
+     *  Anytime the string '.' or '-' is found passed the 1st position in the string, the character will be replaced
+     */
     function deepClean(str) {
       let charCount = {}, cleanStr = str.split('')
       for (let i = 0; i < cleanStr.length; i++) {
@@ -44,6 +49,7 @@ class BetTableInput extends PureComponent {
     }
 
     function cleanOdds(str) {
+      if (value.length > 1 && value.charAt(1) === '.' && props.oddsFormat === 'decimal') return str
       let cleanStr = parseFloat(str)
       if (isNaN(cleanStr)) return ''
       if (props.oddsFormat === 'decimal' && cleanStr < ODDS_BOUNDS.decimal.min) return ODDS_BOUNDS.decimal.min
@@ -86,14 +92,13 @@ class BetTableInput extends PureComponent {
 
     let value = parseFloat(e.target.value)
     if (this.props.field === 'odds') {
-      if (value !== '') {
+      if (value !== '' && !isNaN(value)) {
         value = adjustOdds(CurrencyUtils.formatFieldByCurrencyAndPrecision(
                   this.props.field, value, this.props.currencyFormat
                 ), this.props.record.bet_type, this.props.oddsFormat);
         this.setState({
-          value: value
+          value: BettingModuleUtils.oddsFormatFilter(value, this.props.oddsFormat)
         })
-        value = BettingModuleUtils.oddsFormatFilter(value, 'decimal', this.props.oddsFormat);
       } else {
         value = this.props.record.odds
       }
@@ -113,8 +118,6 @@ class BetTableInput extends PureComponent {
       .set('field', this.props.field)
       .set('value', value);
     this.props.action(delta);
-
-    // if (failed === '' && this.props.field === 'odds') e.target.value = BettingModuleUtils.oddsFormatFilter(this.props.record.odds, this.props.oddsFormat)
   }
 
   render() {
