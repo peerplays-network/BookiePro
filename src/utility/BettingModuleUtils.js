@@ -305,7 +305,7 @@ var BettingModuleUtils = {
 
     if (fromFormat === 'decimal') {
       if (toFormat === 'american') {
-        if (parsedOdds > 2.0) return ((parsedOdds - 1) * 100).toFixed(0)
+        if (parsedOdds >= 2.0) return ((parsedOdds - 1) * 100).toFixed(0)
         else return (-100 / (parsedOdds - 1)).toFixed(0)
       }
     }
@@ -313,8 +313,10 @@ var BettingModuleUtils = {
     if (fromFormat === 'american') {
       if (toFormat === 'decimal') {
         if (parsedOdds >= 100) return (parsedOdds / 100) + 1
-        else if (parsedOdds < 100 && parsedOdds >= 0) return ''
-        else return (-100 / parsedOdds) + 1
+        else if (parsedOdds < 100 && parsedOdds >= 0) return 2.0
+        else if (parsedOdds < 0 && parsedOdds >= -100) return 1.99
+        else if (parsedOdds < -100) return (-100 / parsedOdds) + 1
+        else return 1.01
       }
     }
   }

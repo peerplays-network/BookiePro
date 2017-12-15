@@ -21,6 +21,7 @@ import BetTable from '../BetTable';
 import './BetSlip.less';
 import { Empty, OverlayUtils } from '../Common';
 import { BettingDrawerStates } from '../../../constants';
+import { MyAccountPageSelector } from '../../../selectors';
 
 const renderContent = (props) => (
   <div className='content' ref='unconfirmedBets'>
@@ -40,6 +41,7 @@ const renderContent = (props) => (
         updateOne={ props.updateUnconfirmedBet }
         dimmed={ props.obscureContent }
         currencyFormat={ props.currencyFormat }
+        oddsFormat={ props.oddsFormat }
       />
     }
   </div>
@@ -126,6 +128,7 @@ const mapStateToProps = (state, ownProps) => {
     numberOfGoodBets,
     numberOfBadBets: originalBets.size - numberOfGoodBets,
     totalBetAmountFloat: totalAmount,
+    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
     totalBetAmountString: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
                           CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat),
   };
@@ -141,7 +144,6 @@ const mapDispatchToProps = (dispatch) => {
     clickPlaceBet: MarketDrawerActions.clickPlaceBet,
     makeBets: BetActions.makeBets,
     hideOverlay: MarketDrawerActions.hideOverlay,
-
   }, dispatch);
 }
 

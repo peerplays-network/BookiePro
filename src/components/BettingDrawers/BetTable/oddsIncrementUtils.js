@@ -3,14 +3,34 @@
  * of Odds value in the {@link BetTable}.
  */
 import _ from 'lodash';
+import { BettingModuleUtils } from '../../../utility'
 
 const ODDS_PRECISION = 2;
 const MIN_ODDS = 1.01;
 const MAX_ODDS = 1000;
+const AMERICAN_MID_LOWER_BOUND = -100
+const AMERICAN_MID_UPPER_BOUND = 100
+
+
+const ODDS_BOUNDS = {
+  'decimal': {
+    min: MIN_ODDS,
+    max: MAX_ODDS
+  },
+  'american': {
+    mid_lower: AMERICAN_MID_LOWER_BOUND,
+    mid_upper: AMERICAN_MID_UPPER_BOUND,
+    min: BettingModuleUtils.oddsFormatFilter(MIN_ODDS, 'american'),
+    max: BettingModuleUtils.oddsFormatFilter(MAX_ODDS, 'american')
+  }
+}
+
+
 
 /**
  * Return the increment based on which range does the Odds value fall into
  * -1 is returned if the Odds value is out of range
+ * THIS FUNCTION MUST TAKE THE ODDS IN DECIMAL FORMAT
  */
 const getOddsIncrement = (odds, oddsFormat) => {
   if (_.inRange(odds, 1.01, 2)) return 0.01;
@@ -103,14 +123,14 @@ const decrementOdds = (odds) => {
  * multiple of the designated increment value
  */
 const adjustOdds = (odds, betType, oddsFormat) => {
-  const floatNumber = parseFloat(odds);
+  const floatNumber = BettingModuleUtils.oddsFormatFilter(odds, 'decimal', oddsFormat)
   const increment = getOddsIncrement(floatNumber, oddsFormat);
   if (increment === -1) {
     // If the odds does not fall into any valid range, we either return the smallest
     // or the largest odds.
     // 100 is the lower limit of the last defined range (with the highest odds value)
-    if (floatNumber > 100) return MAX_ODDS;
-    return MIN_ODDS;
+    if (floatNumber > 100) return ODDS_BOUNDS['decimal'].max
+    return ODDS_BOUNDS['decimal'].min
   }
 
   let adjusted = floatNumber;
@@ -127,4 +147,6 @@ export {
   decrementOdds,
   adjustOdds,
   MIN_ODDS,
+  MAX_ODDS,
+  ODDS_BOUNDS
 }

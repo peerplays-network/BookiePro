@@ -15,8 +15,9 @@ import React from 'react';
 import { Button, Icon, Table } from 'antd';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
-import { BettingModuleUtils, CurrencyUtils } from '../../../utility'
-import { incrementOdds, decrementOdds, adjustOdds, MIN_ODDS } from './oddsIncrementUtils';
+import { CurrencyUtils } from '../../../utility'
+import { adjustOdds, MIN_ODDS } from './oddsIncrementUtils';
+import BetTableInput from './BetTableInput'
 
 
 /**
@@ -51,63 +52,19 @@ const renderTeam = (text, record) => (
  * be used to format the Odds or Stake values on screen
  * @returns {Function} - the actual cell rendering function used by antd Table
  */
+
 const renderInput = (field, action, currencyFormat, oddsFormat) => {
   return (text, record) => {
-    // antd table records are vanilla JS objects
-    // we cannot use antd Input component here because we have problem
-    // changing the value if user clicks on an offer from the same market
-
     return (
-      <input
-        type='text'
-        defaultValue={ field === 'odds' ? BettingModuleUtils.oddsFormatFilter(text, oddsFormat) : text === undefined ? '' : text }
-        className='ant-input'
-        onBlur={
-          (event) => {
-            if ( event.target.value.length !== 0) {
-              const stakePrecision = CurrencyUtils.fieldPrecisionMap[field][currencyFormat];
-
-              if ( stakePrecision === 0){
-                // should only accept integers when precision is zero
-                if (!/^[-+]?[1-9]\d*$/.test((event.target.value))) return false;
-              } else {
-                const regex = new RegExp(`^\\d*\\.?\\d{0,${stakePrecision}}$`);
-                if (!regex.test(event.target.value)) return false;
-              }
-            }
-
-            let value
-            let failed
-
-            if (field === 'odds') {
-              value = BettingModuleUtils.oddsFormatFilter(event.target.value, 'decimal', oddsFormat);
-              failed = value
-              if (value !== '') {
-                value = adjustOdds(CurrencyUtils.formatFieldByCurrencyAndPrecision(
-                          field, value, currencyFormat
-                        ), record.bet_type);
-              } else {
-                value = record.odds
-              }
-            }
-
-            if (field === 'stake') {
-              const floatNumber = parseFloat(event.target.value);
-              if (isNaN(floatNumber)) return false; // fail fast if the value is undefined or bad
-              value = CurrencyUtils.toFixed('stake', floatNumber, currencyFormat);
-            }
-
-            const delta = Immutable.Map()
-              .set('id', record.id)
-              .set('field', field)
-              .set('value', value);
-            action(delta);
-
-            if (failed === '' && field === 'odds') event.target.value = BettingModuleUtils.oddsFormatFilter(record.odds, oddsFormat)
-
-          }
-        }
-      />
+      <BetTableInput
+        field={ field }
+        action={ action }
+        currencyFormat={ currencyFormat }
+        oddsFormat={ oddsFormat }
+        text={ text }
+        record={ record }
+      >
+      </BetTableInput>
     );
   }
 }
@@ -159,8 +116,6 @@ const renderOdds = (action, currencyFormat, oddsFormat) => {
     return (
       <div className='pos-rel'>
         { renderInput('odds', action, currencyFormat, oddsFormat)(text, record) }
-        <a className='arrow-icon-main icon-up' onClick={ () => clickArrowButton(record, action, incrementOdds) }><i className='icon-arrow icon-up-arrow'></i></a>
-        <a className='arrow-icon-main icon-down' onClick={ () => clickArrowButton(record, action, decrementOdds) }><i className='icon-arrow icon-down-arrow'></i></a>
       </div>
     );
   }
