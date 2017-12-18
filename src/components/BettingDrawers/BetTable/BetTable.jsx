@@ -250,7 +250,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false, odd
     title: 'ODDS',
     dataIndex: 'odds',
     key: 'odds',
-    width: '21%',
+    width: '25%',
     className: 'numeric readonly',
   }
   if (!readonly) {
@@ -262,7 +262,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false, odd
     title: `BACKER'S STAKE(${currencySymbol})`,
     dataIndex: 'stake',
     key: 'stake',
-    width: '26%',
+    width: '22.5%',
     className: 'numeric readonly',
   }
   if (!readonly) {
