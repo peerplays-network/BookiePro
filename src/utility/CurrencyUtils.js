@@ -98,8 +98,8 @@ var CurrencyUtils = {
   adjustCurrencyString: function(string) {
     const LOWER_BOUND = 0
     const MID_BOUND = 1
-    const UPPER_BOUND = 99999    
-    const NUM_ALLOWED_CHARS = 5;
+    const UPPER_BOUND = 99999
+    const NUM_ALLOWED_CHARS = 4;
     const stringValue = parseFloat(string)
 
     if (string.length >= NUM_ALLOWED_CHARS) {
