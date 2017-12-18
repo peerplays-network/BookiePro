@@ -21,12 +21,20 @@ const getStakeFromBetObject = (bet) => {
     betAmount = bet.get('matched_bet_amount');
   }
 
-  switch (bet.get('back_or_lay')) {
-    case BetTypes.BACK:
-      return betAmount;
-    default:
-      return betAmount / (bet.get('backer_multiplier') - 1);
-  }
+  return betAmount
+
+  // Author   :   Keegan Francis - k.francis@pbsa.info
+  // Tickets  :   BOOK-341,
+  // Summary  :   The below code returns a different Bet amount depending on if the betType
+  //              is BACK or LAY. I changed this so that the function always returns the
+  //              betAmount.
+  //
+  // switch (bet.get('back_or_lay')) {
+  //   case BetTypes.BACK:
+  //     return betAmount;
+  //   default:
+  //     return betAmount / (bet.get('backer_multiplier') - 1);
+  // }
 }
 
 /**
