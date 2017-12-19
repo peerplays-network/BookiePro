@@ -84,14 +84,38 @@ var CurrencyUtils = {
     * @returns {string} - formatted BTC or mBTC value with currency symbol prepended
     */
   formatByCurrencyAndPrecisionWithSymbol: function(amount, currency, precision = 0, spaceAfterSymbol = false) {
-    const formatted = this.getFormattedCurrency(amount, currency, precision);
+    let formatted = this.getFormattedCurrency(amount, currency, precision);
     const currencySymbol = this.getCurruencySymbol(currency);
 
     // Note: Math.abs can take a string of valid number as argument
     if (currency === 'mBTC') {
       precision = precision < 3 ? 0 : precision - 3;
     }
-    return ( amount >= 0 ? '' : '-') + currencySymbol + (spaceAfterSymbol ? ' ' : '') + Math.abs(formatted).toFixed(precision);
+
+    return ( amount >= 0 ? '' : '-') + currencySymbol + (spaceAfterSymbol ? ' ' : '') + this.adjustCurrencyString(formatted);
+  },
+
+  adjustCurrencyString: function(string) {
+    const LOWER_BOUND = 0
+    const MID_BOUND = 1
+    const UPPER_BOUND = 99999
+    const NUM_ALLOWED_CHARS = 4;
+    const stringValue = parseFloat(string)
+
+    if (string.length >= NUM_ALLOWED_CHARS) {
+      if (stringValue > LOWER_BOUND &&
+          stringValue < MID_BOUND) {
+        return stringValue.toFixed(NUM_ALLOWED_CHARS - 1) // If between 0 and 1, keep the 0. and 4 additional digits
+      } else if (stringValue > LOWER_BOUND &&
+          stringValue < UPPER_BOUND) {
+        return stringValue.toPrecision(NUM_ALLOWED_CHARS) // If between 0 and 99999 keep 5 characters of the string
+      } else if (stringValue > UPPER_BOUND) {
+        return (stringValue / 1000) + ' k' // If larger than 100k, divide by 1000 and add a 'k'
+      } else {
+        return stringValue.toPrecision(NUM_ALLOWED_CHARS) // All else fails, return 5 most significant digits
+      }
+    }
+    return string // Return the string as it is if it is not larger than 5 characters
   },
 
    /**

@@ -336,7 +336,7 @@ class ComplexBettingWidget extends PureComponent {
            <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price,
-               currencyFormat,
+               'BTC',
                BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
          <div className='back-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
@@ -350,7 +350,7 @@ class ComplexBettingWidget extends PureComponent {
          <div className='back-offer back-bg'>
            <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
-             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
+             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
          <div className='back-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }, {
@@ -363,7 +363,7 @@ class ComplexBettingWidget extends PureComponent {
          <div className='back-offer back-all-offer'>
            <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
-             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
+             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
          <div className='back-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }]
@@ -384,7 +384,7 @@ class ComplexBettingWidget extends PureComponent {
          <div className='lay-offer lay-all-offer'>
            <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
-             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
+             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
          <div className='lay-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }, {
@@ -397,7 +397,7 @@ class ComplexBettingWidget extends PureComponent {
          <div className='lay-offer lay-bg'>
            <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
-             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
+             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
          <div className='lay-offer empty-offer'>
            <div className='odds-offer'>
@@ -414,7 +414,7 @@ class ComplexBettingWidget extends PureComponent {
          <div className='lay-offer lay-bg'>
            <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
-             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, currencyFormat, BettingModuleUtils.stakePlaces, true)}</div>
+             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
          <div className='lay-offer empty-offer'>
            <div className='odds-offer'>
