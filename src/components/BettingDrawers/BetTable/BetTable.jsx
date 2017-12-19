@@ -173,7 +173,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false, od
     title: 'ODDS',
     dataIndex: 'odds',
     key: 'odds',
-    width: '20%',
+    width: '25%',
     className: 'numeric readonly',
   };
   if (!readonly) {
@@ -241,7 +241,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false, odd
     title: 'LAY',
     dataIndex: 'lay',
     key: 'lay',
-    width: '26%',
+    width: '25%',
     className: 'team',
     render: renderTeam,
   };
@@ -262,7 +262,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false, odd
     title: `BACKER'S STAKE(${currencySymbol})`,
     dataIndex: 'stake',
     key: 'stake',
-    width: '22.5%',
+    width: '25%',
     className: 'numeric readonly',
   }
   if (!readonly) {
@@ -277,7 +277,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false, odd
     className: 'numeric readonly' // this field is always readonly
   }
   if (!readonly) {
-    liabilityColumn['width'] = '22%';
+    liabilityColumn['width'] = '25%';
   }
 
   const columns = [teamColumn, oddsColumn, stakeColumn, liabilityColumn];
