@@ -1,13 +1,12 @@
 import Immutable from 'immutable';
 import { WalletService, HistoryService, KeyGeneratorService } from '../services';
-import { LoadingStatus, ActionTypes, Config, BetTypes } from '../constants';
+import { LoadingStatus, ActionTypes, Config } from '../constants';
 import BettingMarketActions from './BettingMarketActions';
 import BettingMarketGroupActions from './BettingMarketGroupActions';
 import EventActions from './EventActions';
 import EventGroupActions from './EventGroupActions';
 import SportActions from './SportActions';
 import MarketDrawerActions from './MarketDrawerActions';
-import { CurrencyUtils } from '../utility';
 import { TransactionBuilder } from 'peerplaysjs-lib';
 import _ from 'lodash';
 import log from 'loglevel';
@@ -407,6 +406,7 @@ class BetActions {
         WalletService.processTransaction(keys, tr).then(() => {
           log.debug('Cancel bets succeed.');
           dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds,LoadingStatus.DONE));
+          dispatch(MarketDrawerActions.hideOverlay())
         }).catch((error) => {
           log.error('Fail to cancel bets', error);
           // Set error
