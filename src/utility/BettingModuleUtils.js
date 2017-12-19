@@ -295,7 +295,7 @@ var BettingModuleUtils = {
    * @param  { string } fromFormat The current format
    * @return { string }        The formatted odds
    */
-  oddsFormatFilter: function(odds, toFormat, fromFormat = 'decimal') {
+  oddsFormatFilter: function(odds, toFormat = 'decimal', fromFormat = 'decimal') {
     if ((odds === undefined || odds === null || odds === '') && toFormat === 'decimal') return '';
     if ((odds === undefined || odds === null || odds === '') && toFormat === 'american') return '';
 
