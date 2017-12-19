@@ -63,6 +63,7 @@ const renderInput = (field, action, currencyFormat, oddsFormat) => {
         oddsFormat={ oddsFormat }
         text={ text }
         record={ record }
+        key={ record.id }
       >
       </BetTableInput>
     );
