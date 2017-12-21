@@ -339,7 +339,7 @@ class BetActions {
               amount: amountToBet,
               asset_id: betAssetType
             },
-            backer_multiplier: parseFloat(bet.get('odds')) * Config.oddsPrecision,
+            backer_multiplier: Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision),
             amount_reserved_for_fees: Math.floor(amountToBet * 0.01),
             back_or_lay: bet.get('bet_type')
           };
