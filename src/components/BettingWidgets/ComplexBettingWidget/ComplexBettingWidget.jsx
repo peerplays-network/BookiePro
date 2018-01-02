@@ -86,7 +86,7 @@ class ComplexBettingWidget extends PureComponent {
    * @param {integer} reserveIndex - whether to reset the paging to zero. false => reset, true => no reset
    */
   setTableData(tableData, unconfirmedBets, reserveIndex){
-    let bmgs = tableData.size
+    let bmgs = tableData ? tableData.size : -1
     let backs = 0, lays = 0
 
     if ( tableData && !tableData.isEmpty()){
