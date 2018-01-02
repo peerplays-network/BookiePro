@@ -45,7 +45,7 @@
         tr {
           td {
             &:nth-of-type(8) {
-              text-align: right;
+              text-align: center;
             }
           }
         }
@@ -103,6 +103,31 @@
   .ant-breadcrumb a:hover {
     color: @primary_label_highlight;
   }
+
+  .loading {
+    position: relative;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .loading-logo {
+      position: relative;
+      width: 25px;
+      height: 25px;
+      background-image: url(../../assets/images/bookie_logo_loading.png);
+      background-size:     cover;
+      background-repeat:   no-repeat;
+      background-position: center center;
+      animation: loading 3.5s infinite;
+      &::before, &::after {
+      	box-sizing: border-box;
+      }
+    }
+  }
+
 }
 
 

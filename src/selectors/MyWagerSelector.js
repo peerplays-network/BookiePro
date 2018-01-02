@@ -10,6 +10,7 @@ import _ from 'lodash';
 import { CurrencyUtils, BettingModuleUtils, DateUtils, ObjectUtils } from '../utility';
 import { TimeRangePeriodTypes, MyWagerTabTypes, LoadingStatus, BetCategories, BetTypes, Config } from '../constants';
 import CommonSelector from './CommonSelector';
+import Loading from '../components/Loading'
 
 const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
 const { getBettingMarketsById } = CommonSelector
@@ -237,7 +238,7 @@ const getBetData = createSelector(
         bet = bet.set('event_name', linkedEventName);
         const cancelLoadingStatus = cancelBetsByIdsLoadingStatus.get(bet.get('id')) || LoadingStatus.DEFAULT;
         const cancelButton = (cancelLoadingStatus === LoadingStatus.DEFAULT || cancelLoadingStatus === LoadingStatus.ERROR)
-                            && (<a className='btn cancel-btn' target='_self'>{ I18n.t('mybets.cancel') }</a>);
+                            ? <a className='btn cancel-btn' target='_self'>{ I18n.t('mybets.cancel') }</a> : <Loading/>;
         bet = bet.set('cancel', cancelButton);
       }
       return bet;
