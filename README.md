@@ -17,8 +17,8 @@ nvm use v5
 
 Once you have Node installed, you can clone the repo:
 ```
-git clone https://github.com/PBSA/peerplays-ui.git
-cd peerplays-ui
+git clone https://github.com/PBSA/peerplays-core-gui
+cd peerplays-core-gui
 ```
 
 Before launching the GUI you will need to install the npm packages for each subdirectory:
