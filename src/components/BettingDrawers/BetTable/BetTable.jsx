@@ -137,9 +137,11 @@ const renderOdds = (action, currencyFormat, oddsFormat) => {
  */
 const renderDeleteButton = (deleteOne) => {
   return (text, record) => (
-    <Button className='btn'
-      onClick={ () => deleteOne(Immutable.fromJS(record)) }
-    ><Icon type='close'/></Button>
+    <Button className='btn' tabIndex='-1' onClick={
+      () => deleteOne(Immutable.fromJS(record)) }
+    >
+      <Icon type='close'/>
+    </Button>
   );
 }
 

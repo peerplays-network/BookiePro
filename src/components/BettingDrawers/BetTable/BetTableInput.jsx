@@ -30,9 +30,32 @@ class BetTableInput extends PureComponent {
     if (value.length > 1) value = deepClean(value)
     if (value.length > 1 && this.props.field === 'odds') value = cleanOdds(value)
 
+
+    if (e.target.value.length !== 0 && this.props.field === 'stake') {
+      const stakePrecision = CurrencyUtils.fieldPrecisionMap[this.props.field][this.props.currencyFormat];
+      if ( stakePrecision === 0) {
+        // should only accept integers when precision is zero
+        if (!/^[-+]?[1-9]\d*$/.test((e.target.value))) return false;
+      } else {
+        const regex = new RegExp(`^\\d*\\.?\\d{0,${stakePrecision}}$`);
+        if (!regex.test(e.target.value)) return false;
+      }
+    }
+
+    console.log(`Value: ${value}`)
+
+    if (this.props.field === 'stake') {
+      const delta = Immutable.Map()
+        .set('id', this.props.record.id)
+        .set('field', this.props.field)
+        .set('value', value);
+      this.props.action(delta);
+    }
+        
     this.setState({
       value
     })
+
 
     /*
      * deepClean will strip any '.' or '-' that appear further in the string
@@ -91,17 +114,6 @@ class BetTableInput extends PureComponent {
    *              3. Odds are sent to Redux for storage in decimal odds
    */
   handleBlur(e) {
-    if (e.target.value.length !== 0 && this.props.field === 'stake') {
-      const stakePrecision = CurrencyUtils.fieldPrecisionMap[this.props.field][this.props.currencyFormat];
-      if ( stakePrecision === 0) {
-        // should only accept integers when precision is zero
-        if (!/^[-+]?[1-9]\d*$/.test((e.target.value))) return false;
-      } else {
-        const regex = new RegExp(`^\\d*\\.?\\d{0,${stakePrecision}}$`);
-        if (!regex.test(e.target.value)) return false;
-      }
-    }
-
     let value = parseFloat(e.target.value)
     if (this.props.field === 'odds') {
       if (value !== '' && !isNaN(value)) {
@@ -123,7 +135,6 @@ class BetTableInput extends PureComponent {
         value: value
       })
     }
-
 
     const delta = Immutable.Map()
       .set('id', this.props.record.id)
