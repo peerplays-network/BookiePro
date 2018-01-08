@@ -21,17 +21,17 @@
 	global.guid = mainWindowState.guid;
 	global.version = JSON.parse(fs.readFileSync(__dirname + "/package.json")).version;
 	
-	require('electron-context-menu')({
-		showInspectElement: false,
-		labels: {
+//	require('electron-context-menu')({
+//		showInspectElement: false,
+//		labels: {
 			// cut: 'Cut',
 			// copy: 'Configured Copy',
 			// paste: 'Configured Paste',
 			// save: 'Configured Save Image',
 			// copyLink: 'Configured Copy Link',
 			// inspect: 'Configured Inspect'
-		},
-	});
+//		},
+//	});
 	
 	app.on('ready', function() {
 		
