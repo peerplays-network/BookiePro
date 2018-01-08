@@ -86,6 +86,8 @@ class ComplexBettingWidget extends PureComponent {
    * @param {integer} reserveIndex - whether to reset the paging to zero. false => reset, true => no reset
    */
   setTableData(tableData, unconfirmedBets, reserveIndex){
+    let bmgs = tableData ? tableData.size : -1
+    let backs = 0, lays = 0
 
     if ( tableData && !tableData.isEmpty()){
 
@@ -103,6 +105,8 @@ class ComplexBettingWidget extends PureComponent {
         const backTableData = tableData.getIn([i, 'offer', 'backOrigin'])
           .slice(backStartingIndex, backStartingIndex + itemDisplay);
 
+        if (backTableData.size > 0) backs++
+
         //retrieve paging Index from previous state
         let layStartingIndex = 0
         if ( reserveIndex && this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'layIndex']) ){
@@ -111,6 +115,8 @@ class ComplexBettingWidget extends PureComponent {
         //get lay offer data
         const layTableData = tableData.getIn([i, 'offer', 'layOrigin'])
           .slice(layStartingIndex, layStartingIndex + itemDisplay)
+
+        if (layTableData.size > 0) lays++
 
         //get Exposure
         let market_exposure = 0.00
@@ -132,8 +138,8 @@ class ComplexBettingWidget extends PureComponent {
 
       this.setState({
         tableData,
-        backBookPercent,
-        layBookPercent
+        backBookPercent: backs === bmgs ? backBookPercent : 0,
+        layBookPercent: lays === bmgs ? layBookPercent : 0
       })
     } else {
       this.setState({
@@ -322,7 +328,7 @@ class ComplexBettingWidget extends PureComponent {
       header:  props =>
       // NOTE will be seperated comopent for header
         <div className='offer-header clearfix'>
-          <p className='alignleft'>{ this.state.backBookPercent }%</p>
+          { this.state.backBookPercent > 0 ? (<p className='alignleft'>{ this.state.backBookPercent }%</p>) : '' }
           <p className='alignright' id={ BetTypes.BACK } onClick={ this.placeAllBestBets } >{I18n.t('complex_betting_widget.back_all')}</p>
         </div>,
       columns: [{
@@ -372,7 +378,7 @@ class ComplexBettingWidget extends PureComponent {
       header:  props =>
         <div className='offer-header'>
           <p className='alignleft' id={ BetTypes.LAY } onClick={ this.placeAllBestBets } >{I18n.t('complex_betting_widget.lay_all')}</p>
-          <p className='alignright'>{ this.state.layBookPercent }%</p>
+          { this.state.layBookPercent > 0 ? (<p className='alignright'>{ this.state.layBookPercent }%</p>) : '' }
         </div>,
       columns: [{
         id: 'lay1',
