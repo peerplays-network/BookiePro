@@ -192,9 +192,6 @@ class SimpleBettingWidget extends PureComponent {
    */
   renderOffer(action, typeOfBet, index, currencyFormat, oddsFormat) {
     return (text, record) => {
-
-
-
       // Retrieve the nested offers data from the data record
       let offers = record.get('offers')
 
@@ -205,7 +202,15 @@ class SimpleBettingWidget extends PureComponent {
       // TODO: Shall we sort the list of offers first before we pass it to the betting widget?
       offers = offers.sort( (a, b) => a.get('betting_market_id').localeCompare(b.get('betting_market_id')) )
       const betting_market_id = offers.getIn([index-1, 'betting_market_id']);
-      const offer = offers.getIn([index-1, typeOfBet, 0]);
+      let offer = offers.getIn([index-1, typeOfBet, 0]);
+
+      if (typeOfBet === 'lay') {
+        if (offer) {
+          let odds = offer.get('odds')
+          let price = offer.get('price')
+          offer = offer.set('price', price / (odds - 1))
+        }
+      }
 
       if ( offer === undefined){
         return (

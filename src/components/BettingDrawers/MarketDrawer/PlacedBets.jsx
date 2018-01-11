@@ -100,8 +100,7 @@ const mapStateToProps = (state, ownProps) => {
     numberOfGoodBets,
     numberOfBadBets: updatedBets.size - numberOfGoodBets,
     totalBetAmountFloat: totalAmount,
-    totalBetAmountString: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
-                          CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat),
+    totalBetAmountString: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat)
   }
 }
 

@@ -2,7 +2,7 @@ import { ActionTypes, ConnectionStatus, Config, BetCategories } from '../constan
 import Immutable from 'immutable';
 import moment from 'moment';
 import BetActions from './BetActions';
-import { CurrencyUtils, ObjectUtils } from '../utility';
+import { CurrencyUtils, ObjectUtils, BettingModuleUtils } from '../utility';
 
 class MarketDrawerPrivateActions {
   static addUnconfirmedBet(bet) {
@@ -234,7 +234,7 @@ class MarketDrawerActions {
           const bettingMarketDescription = bettingMarket && bettingMarket.get('description');
           const precision = assetsById.get(bettingMarketGroup.get('asset_id')).get('precision') || 0;
           const odds = bet.get('backer_multiplier');
-          const stake = ObjectUtils.getStakeFromBetObject(bet) / Math.pow(10, precision);
+          let stake = ObjectUtils.getStakeFromBetObject(bet) / Math.pow(10, precision);
 
           const accountId = getState().getIn(['account','account','id']);
           const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting']);
@@ -242,7 +242,16 @@ class MarketDrawerActions {
 
           // store odds and stake values as String for easier comparison
           const oddsAsString = CurrencyUtils.formatFieldByCurrencyAndPrecision('odds', odds, currencyFormat).toString();
-          const stakeAsString = CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', stake, currencyFormat).toString();
+
+          stake = bet.get('back_or_lay') === 'lay' ?
+                            CurrencyUtils.layBetStakeModifier(stake, odds) :
+                            stake
+
+
+          const stakeAsString = CurrencyUtils.formatFieldByCurrencyAndPrecision('stake',
+                                  stake,
+                                  currencyFormat).toString();
+
 
           let formattedBet = Immutable.fromJS({
             id: bet.get('id'),
@@ -261,7 +270,13 @@ class MarketDrawerActions {
             formattedBet = formattedBet.set('original_odds', oddsAsString)
                                        .set('original_stake', stakeAsString)
                                        .set('updated', false);
+
+            if (bet.get('back_or_lay') === 'lay') {
+              const profit = BettingModuleUtils.getProfitOrLiability(formattedBet.get('original_stake'), formattedBet.get('original_odds'));
+              formattedBet = formattedBet.set('profit', profit).set('liability', profit)
+            }
           }
+
           return formattedBet;
         };
 

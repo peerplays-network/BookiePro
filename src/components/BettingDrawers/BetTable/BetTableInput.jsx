@@ -6,7 +6,6 @@ import { incrementOdds, decrementOdds, adjustOdds, ODDS_BOUNDS } from './oddsInc
 class BetTableInput extends PureComponent {
   constructor(props) {
     super(props)
-
     if (props.field === 'odds') {
       this.state = {
         value: props.text ? BettingModuleUtils.oddsFormatFilter(props.text, props.oddsFormat) : ''
@@ -42,8 +41,6 @@ class BetTableInput extends PureComponent {
       }
     }
 
-    console.log(`Value: ${value}`)
-
     if (this.props.field === 'stake') {
       const delta = Immutable.Map()
         .set('id', this.props.record.id)
@@ -51,7 +48,7 @@ class BetTableInput extends PureComponent {
         .set('value', value);
       this.props.action(delta);
     }
-        
+
     this.setState({
       value
     })
