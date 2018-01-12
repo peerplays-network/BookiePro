@@ -71,34 +71,6 @@ const renderInput = (field, action, currencyFormat, oddsFormat) => {
 }
 
 /**
- * Handles click events from the arrow buttons for incrementing or decrementing
- * Odds values.
- *
- * If the Odds value is not available, this function will set a minimum odds value.
- * The updated Odds value is updated in the Redux store via executing an action.
- *
- * @param {object} record - the raw data record, which is a vanilla JS object
- * @param {Function} action - a callback function which handles value change in the
- * @param {Function} updateOdds - a callback function that adjust the Odds value
- * to make sure it falls into one of the predefined value ranges
- */
-const clickArrowButton = (record, action, updateOdds) => {
-  let odds = record.odds;
-  if (!odds) {
-    odds = MIN_ODDS;
-  } else {
-    // REVIEW the odds value is adjusted first because the dummy data may contain
-    //        incorrect odds values that could never happen in the real Blockchain
-    odds = updateOdds(adjustOdds(odds, record.bet_type));
-  }
-  const delta = Immutable.Map()
-    .set('id', record.id)
-    .set('field', 'odds')
-    .set('value', odds);
-  action(delta);
-}
-
-/**
  * Returns a function that renders the Odds cells in the BetTable.
  *
  * This function executes #renderInput to render the Input field and then renders
