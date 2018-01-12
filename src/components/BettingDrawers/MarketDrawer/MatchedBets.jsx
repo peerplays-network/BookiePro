@@ -13,7 +13,7 @@ import { bindActionCreators } from 'redux';
 import { Checkbox } from 'antd';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
-import { BettingModuleUtils } from '../../../utility';
+import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import { MarketDrawerActions } from '../../../actions';
 import BetTable from '../BetTable';
 import './MatchedBets.less';
@@ -77,19 +77,32 @@ const mapStateToProps = (state, ownProps) => {
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
     const betType = bet.get('bet_type');
-
     // Page content are grouped by market type (back or lay)
     if (!page.has(betType)) {
       page = page.set(betType, Immutable.List());
     }
     // Add the bet to the list of bets with the same market type
     let betListByBetType = page.get(betType);
-    const profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
-    bet = bet.set('profit', profit).set('liability', profit);
+    let profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
+    let stake = 0
+
+
+
+    if (betType === 'lay') {
+      stake = CurrencyUtils.layBetStakeModifier(bet.get("stake"), bet.get('odds')).toFixed(5)
+      profit = bet.get('stake')
+      bet = bet.set('stake', stake);
+    }
+
+    bet = bet.set('profit', profit).set('liability', profit)
+
     betListByBetType = betListByBetType.push(bet);
     // Put everything back in their rightful places
     page = page.set(betType, betListByBetType);
   });
+
+
+
   if (groupByAverageOdds) {
     if (page.has('back')) {
       page = page.update('back', bets => groupBetsByAverageOdds(bets));

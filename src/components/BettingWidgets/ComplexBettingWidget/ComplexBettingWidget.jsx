@@ -102,8 +102,18 @@ class ComplexBettingWidget extends PureComponent {
           backStartingIndex = this.state.tableData.getIn([i, 'offer', 'backIndex']) //retrieve scrolling Index from previous state
         }
         //get back offer data
-        const backTableData = tableData.getIn([i, 'offer', 'backOrigin'])
+        let backTableData = tableData.getIn([i, 'offer', 'backOrigin'])
           .slice(backStartingIndex, backStartingIndex + itemDisplay);
+
+        // BOOK-384
+        // Author: Keegan Francis   :   k.francis@pbsa.info
+        // This forEach loop on the backTable will correct the price of each cell
+        //  so that the amount of money sitting in the bettingMarket is correct.
+        backTableData.forEach((item, index) => {
+          let newPrice = backTableData.getIn([index, 'price']) / (backTableData.getIn([index, 'odds']) - 1)
+          backTableData = backTableData.setIn([index, 'price'], newPrice )
+        })
+
 
         if (backTableData.size > 0) backs++
 

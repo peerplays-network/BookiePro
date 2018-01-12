@@ -18,7 +18,7 @@ var CurrencyUtils = {
       mBTC: 2
     },
     stake: {
-      BTC: 3,
+      BTC: 5,
       mBTC: 0
     },
     profit : {
@@ -134,7 +134,6 @@ var CurrencyUtils = {
     if (field === 'odds') return amount.toFixed(2);
     // DO NOT expect this but just in case...
     if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
-
     return this.getFormattedCurrency(amount, currency, this.fieldPrecisionMap[field][currency]);
   },
 
@@ -169,6 +168,13 @@ var CurrencyUtils = {
   toFixedWithSymbol: function(field, amount, currency, spaceAfterSymbol=false) {
     return (amount >= 0 ? '' : '-') + this.getCurruencySymbol(currency) +
            (spaceAfterSymbol ? ' ' : '') + this.toFixed(field, Math.abs(amount), currency);
+  },
+
+  // BOOK-384
+  // Author: Keegan Francis : k.francis@pbsa.rowInfo
+  // This function will convert lay stake to the correct value
+  layBetStakeModifier: function(stake, odds) {
+    return stake / (odds - 1)
   }
 }
 
