@@ -1152,7 +1152,7 @@ export const translationsObject = {
         ],
       },
       topicMisc: {
-        header: 'Miscellanous',
+        header: 'Miscellaneous',
         questionAnswerPairs: [
           {
             question: 'Can I use Bookie on my mobile?',
