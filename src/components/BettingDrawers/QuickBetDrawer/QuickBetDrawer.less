@@ -21,6 +21,21 @@
     }
   }
 
+  .Pane2 {
+    .SplitPane {
+      overflow: scroll !important;
+    }
+  }
+
+  .Pane1 {
+    .content {
+      overflow: unset !important;
+      .ps-scrollbar-y-rail {
+        display: none !important;
+      }
+    }    
+  }
+
   div.content {
     position: relative;
     height: 100%;
