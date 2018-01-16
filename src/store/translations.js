@@ -289,7 +289,7 @@ export const translationsObject = {
       unconfirmed_bets: {
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
-          my_bet_button: 'VIEW YOUR BETS IN MY BETS'
+          my_bet_button: 'VIEW MY BETS'
         },
         confirmation: {
           imperfect: {
@@ -341,7 +341,7 @@ export const translationsObject = {
         header: 'Betslip',
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
-          my_bet_button: 'VIEW YOUR BETS IN MY BETS'
+          my_bet_button: 'VIEW MY BETS'
         },
         confirmation: {
           imperfect: {
@@ -389,7 +389,7 @@ export const translationsObject = {
         header: 'PLACED BETS',
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
-          my_bet_button: 'VIEW YOUR BETS IN MY BETS'
+          my_bet_button: 'VIEW MY BETS'
         },
         confirmation: {
           imperfect: {
