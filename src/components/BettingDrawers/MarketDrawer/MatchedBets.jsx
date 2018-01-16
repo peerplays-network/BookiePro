@@ -18,6 +18,7 @@ import { MarketDrawerActions } from '../../../actions';
 import BetTable from '../BetTable';
 import './MatchedBets.less';
 import { BettingDrawerStates } from '../../../constants'
+import { MyAccountPageSelector } from '../../../selectors';
 
 class MatchedBets extends PureComponent {
   render() {
@@ -29,6 +30,7 @@ class MatchedBets extends PureComponent {
           title={ I18n.t('market_drawer.matched_bets.header') }
           dimmed={ this.props.obscureContent }
           currencyFormat={ this.props.currencyFormat }
+          oddsFormat={ this.props.oddsFormat }
         />
         { !this.props.bets.isEmpty() &&
           <div className={ `controls ${this.props.obscureContent ? 'dimmed' : ''}` }>
@@ -118,6 +120,7 @@ const mapStateToProps = (state, ownProps) => {
     originalBets,
     bets: page,
     obscureContent,
+    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
   };
 }
 
