@@ -145,7 +145,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false, od
   };
 
   const oddsColumn = {
-    title: 'ODDS',
+    title: `ODDS(${oddsFormat.substring(0,3).toUpperCase()})`,
     dataIndex: 'odds',
     key: 'odds',
     width: '25%',
