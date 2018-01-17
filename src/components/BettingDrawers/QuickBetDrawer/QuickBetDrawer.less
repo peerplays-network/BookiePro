@@ -21,6 +21,21 @@
     }
   }
 
+  .Pane2 {
+    .SplitPane {
+      overflow: scroll !important;
+    }
+  }
+
+  .Pane1 {
+    .content {
+      overflow: unset !important;
+      .ps-scrollbar-y-rail {
+        display: none !important;
+      }
+    }    
+  }
+
   div.content {
     position: relative;
     height: 100%;
@@ -30,6 +45,7 @@
     background-color: @quick_bet_drawer_title_bg;
     width: @quick-bet-drawer-width;
     padding: 5px;
+    margin: 0px 5px 0px 5px;
 
     &.dimmed {
       opacity: .1;
