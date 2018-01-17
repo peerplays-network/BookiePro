@@ -73,6 +73,7 @@ const groupBetsByAverageOdds = (matchedBets) => {
 const mapStateToProps = (state, ownProps) => {
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   const groupByAverageOdds = state.getIn(['marketDrawer', 'groupByAverageOdds']);
+  const oddsFormat = MyAccountPageSelector.oddsFormatSelector(state)
   // Transform the raw bet data into a specific format for the EditableBetTable
   const originalBets = matchedBets;
   // This is essentially the same procedure used in BetSlip
@@ -88,7 +89,7 @@ const mapStateToProps = (state, ownProps) => {
     let profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
     let stake = 0
 
-
+    let odds = BettingModuleUtils.oddsFormatFilter(bet.get('odds'), oddsFormat, 'decimal')
 
     if (betType === 'lay') {
       stake = CurrencyUtils.layBetStakeModifier(bet.get("stake"), bet.get('odds')).toFixed(5)
@@ -96,7 +97,7 @@ const mapStateToProps = (state, ownProps) => {
       bet = bet.set('stake', stake);
     }
 
-    bet = bet.set('profit', profit).set('liability', profit)
+    bet = bet.set('profit', profit).set('liability', profit).set('odds', odds)
 
     betListByBetType = betListByBetType.push(bet);
     // Put everything back in their rightful places
@@ -120,7 +121,7 @@ const mapStateToProps = (state, ownProps) => {
     originalBets,
     bets: page,
     obscureContent,
-    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
+    oddsFormat
   };
 }
 
