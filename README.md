@@ -1,4 +1,4 @@
-Peerplays-UI
+Peerplays-Core-GUI
 ============
 
 ### Getting started
@@ -42,3 +42,65 @@ If you'd like to host your own wallet somewhere, you should create a production 
 npm run build
 ```
 This will create a bundle in the /dist folder that can be hosted with the web server of your choice.
+
+
+# How to Build the Executables of the Core GUI Wallet for Linux, MacOS, and Windows
+
+## Requirements
+Building the executables for a particular operating system should be performed from that particular operating system (e.g. build the Windows executable on Windows; build the MacOS exectuable on MacOS; build the Linux executable on Linux)
+
+The requirements assume that certain tools are already available on the system. These include Node.js and Node Package Manager (NPM) and certain build tools for your operating system including Python 2.7+.
+
+
+### Build Tools for Linux and MacOS
+Node.js, NPM, and python may be obtained from your operating system's typical package manager such as "apt" for Ubuntu.
+
+
+### Build Tools for Windows 10
+.NET Framework 4.5.1 is required and is already installed on Windows 10.
+
+Node.js and NPM may be downloaded from https://nodejs.org/en/download.  **You must use Node v.6.7.0 or earlier else errors will occur when downloading the dependencies of the "web" sub-directory.**
+
+The remaining build tools for Windows (see https://www.npmjs.com/package/windows-build-tools) may be obtained with the following steps:
+
+Open a new cmd as Administrator (Run as Administrator) and run ...
+```
+npm install --global --production windows-build-tools
+```
+
+... and then ...
+```
+npm config set msvs_version 2015 --global
+```
+
+
+## Obtain the Source Code of the Core GUI Wallet
+```
+git clone https://github.com/PBSA/peerplays-core-gui.git
+cd peerplays-core-gui
+```
+
+Before building the GUI you will need to install the various dependencies that are unique for each subdirectory "module":
+```
+cd dl; npm install
+cd ../web; npm install
+cd ../electron; npm install
+```
+
+## Building the Executable
+### Building the executable for Linux or MacOS
+```
+cd ../web; npm run electron
+cd ../electron; npm run release
+```
+
+The exectuable will appear within the "releases" folder within the "electron" folder.
+
+
+### Building the executable for Windows
+```
+cd ../web; npm run build-electron-win
+cd ../electron; npm run release
+```
+
+The exectuable will appear within the "releases" folder within the "electron" folder.
