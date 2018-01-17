@@ -41,13 +41,11 @@ class BetTableInput extends PureComponent {
       }
     }
 
-    if (this.props.field === 'stake') {
-      const delta = Immutable.Map()
-        .set('id', this.props.record.id)
-        .set('field', this.props.field)
-        .set('value', value);
-      this.props.action(delta);
-    }
+    const delta = Immutable.Map()
+      .set('id', this.props.record.id)
+      .set('field', this.props.field)
+      .set('value', value);
+    this.props.action(delta);
 
     this.setState({
       value
@@ -96,6 +94,20 @@ class BetTableInput extends PureComponent {
       .set('field', 'odds')
       .set('value', odds);
     action(delta);
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (!nextProps.record.updated) {
+      if (nextProps.field === 'stake') {
+        this.setState({
+          value: nextProps.record.original_stake
+        })
+      } else if (nextProps.field === 'odds') {
+        this.setState({
+          value: nextProps.record.original_odds
+        })
+      }
+    }
   }
 
   /*
