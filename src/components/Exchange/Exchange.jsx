@@ -32,9 +32,7 @@ class Exchange extends PureComponent {
 
   componentDidUpdate(prevProps, prevState){
     //reset scroll area in sidebar and betting widget upon route change.
-    this.refs.sidebar.scrollTop = 0;
     Ps.update(this.refs.sidebar);
-    this.refs.main.scrollTop = 0;
     Ps.update(this.refs.main);
 
 
