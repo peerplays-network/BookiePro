@@ -8,7 +8,7 @@ class BetaModal extends PureComponent {
 
   constructor(props) {
     super(props)
-    this.closeDate = moment(new Date(Date.UTC(2018, 1, 8))).format('MM-DD-YYYY')
+    this.closeDate = moment(new Date(Date.UTC(2018, 1, 8))).format('MMMM, Do, YYYY')
   }
 
   render() {
