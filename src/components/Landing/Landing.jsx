@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import PrivacyModal from '../Modal/PrivacyModal';
+import BetaModal from '../Modal/BetaModal';
 import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -13,11 +13,12 @@ class Landing extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      privacyModalVisible: false
+      betaModalVisible: true
     }
     this.onLoginClick = this.onLoginClick.bind(this);
     this.onSignupClick = this.onSignupClick.bind(this);
     this.onPrivacyModalCancelClick = this.onPrivacyModalCancelClick.bind(this);
+    this.onBetaModalCancelClick = this.onBetaModalCancelClick.bind(this);
     this.onPrivacyPolicyClick = this.onPrivacyPolicyClick.bind(this);
     this.renderSteps = this.renderSteps.bind(this);
   }
@@ -55,6 +56,12 @@ class Landing extends PureComponent {
     })
   }
 
+  onBetaModalCancelClick() {
+    this.setState({
+      betaModalVisible: false
+    })
+  }
+
   renderSteps() {
     return (
       <div className='steps'>
@@ -76,7 +83,7 @@ class Landing extends PureComponent {
             </div>
             <button className='btn btn-transparent is-blue-border' onClick={ this.onSignupClick }>
                 { I18n.t('landing.signup') }
-            </button>            
+            </button>
             <button className='btn btn-transparent' onClick={ this.onLoginClick }>
                 { I18n.t('landing.login') }
             </button>
@@ -89,9 +96,9 @@ class Landing extends PureComponent {
           <a className='privacy-policy' onClick={ this.onPrivacyPolicyClick }>{ I18n.t('landing.privacy_policy') }</a>
         </div>
         <FloatingHelp />
-        <PrivacyModal
-          visible={ this.state.privacyModalVisible }
-          onCancelClick={ this.onPrivacyModalCancelClick }
+        <BetaModal
+          visible={ this.state.betaModalVisible }
+          onCancelClick={ this.onBetaModalCancelClick }
         />
       </div>
     )

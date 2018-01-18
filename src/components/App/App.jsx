@@ -11,6 +11,7 @@ import TitleBar from './TitleBar';
 import { I18n } from 'react-redux-i18n';
 import Loading from '../Loading';
 import LicenseScreen from '../LicenseScreen';
+import moment from 'moment'
 
 const isWindowsPlatform = AppUtils.isWindowsPlatform();
 const titleBarHeight = isWindowsPlatform ? '32px' : '40px';
@@ -33,6 +34,8 @@ if (isRunningInsideElectron) {
 class App extends PureComponent {
   constructor(props) {
     super(props);
+
+    this.closeDate = moment("2018-02-07")
 
     this.onConfirmLogout = this.onConfirmLogout.bind(this);
     this.onCancelLogout = this.onCancelLogout.bind(this);
@@ -154,21 +157,41 @@ class App extends PureComponent {
       appBackgroundClass = 'gradientbg';
     }
 
-    return (
-      <div className={ 'app ' + appBackgroundClass }>
-        <TitleBar
-          isWindowsPlatform={ isWindowsPlatform }
-          isConnectedToBlockchain={ isConnectedToBlockchain }
-          isTransparent={ isTitleBarTransparent }
-          height={ titleBarHeight } />
-        <div className='app-content' style={ appContentStyle }>
-          { content }
+    let betaShutDownStyle = {
+      "text-align": 'center',
+      "width": "100%",
+      "height": "100%",
+      "background": "url(/static/media/field_background.ed7fc8f4.png)"
+    }
+
+    let betaTextStyle = {
+      "font-size": "2.5em",
+      "font-weight": "bold",
+      "color": "white",
+      "padding-top": "20%"
+    }
+
+    if (moment() > this.closeDate) {
+      return (
+        <div style={ betaShutDownStyle }><h2 style={ betaTextStyle }>{ I18n.t('bookieBetaModal.thankYou') }</h2><Loading /></div>
+      )
+    }  else {
+      return (
+        <div className={ 'app ' + appBackgroundClass }>
+          <TitleBar
+            isWindowsPlatform={ isWindowsPlatform }
+            isConnectedToBlockchain={ isConnectedToBlockchain }
+            isTransparent={ isTitleBarTransparent }
+            height={ titleBarHeight } />
+          <div className='app-content' style={ appContentStyle }>
+            { content }
+          </div>
+          { this.renderLogoutModal() }
+          { this.renderSoftwareUpdateModal() }
+          { this.renderConnectionErrorModal() }
         </div>
-        { this.renderLogoutModal() }
-        { this.renderSoftwareUpdateModal() }
-        { this.renderConnectionErrorModal() }
-      </div>
-    );
+      );
+    }
   }
 }
 
