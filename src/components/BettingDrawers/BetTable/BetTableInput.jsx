@@ -19,6 +19,10 @@ class BetTableInput extends PureComponent {
     this.handleChange = this.handleChange.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
     this.clickArrowButton = this.clickArrowButton.bind(this)
+
+    this.clickAndHoldIncrement = this.clickAndHoldIncrement.bind(this)
+    this.clickAndHoldDecrement = this.clickAndHoldDecrement.bind(this)
+    this.mouseUp = this.mouseUp.bind(this)
   }
 
   handleChange(e) {
@@ -140,6 +144,20 @@ class BetTableInput extends PureComponent {
     this.props.action(delta);
   }
 
+  clickAndHoldIncrement() {
+    this.clickArrowButton(this.props.record, this.props.action, incrementOdds)
+    this.t = setTimeout(this.clickAndHoldIncrement, 100)
+  }
+
+  clickAndHoldDecrement() {
+    this.clickArrowButton(this.props.record, this.props.action, decrementOdds)
+    this.t = setTimeout(this.clickAndHoldDecrement, 100)
+  }
+
+  mouseUp() {
+    clearTimeout(this.t)
+  }
+
   render() {
     return (
       <div>
@@ -153,8 +171,14 @@ class BetTableInput extends PureComponent {
           />
         { this.props.field === 'odds' ?
           <div>
-            <a className='arrow-icon-main icon-up' onClick={ () => this.clickArrowButton(this.props.record, this.props.action, incrementOdds) }><i className='icon-arrow icon-up-arrow'></i></a>
-            <a className='arrow-icon-main icon-down' onClick={ () => this.clickArrowButton(this.props.record, this.props.action, decrementOdds) }><i className='icon-arrow icon-down-arrow'></i></a>
+            <a className='arrow-icon-main icon-up'
+                onMouseDown={ this.clickAndHoldIncrement }
+                onMouseUp={ this.mouseUp }>
+                <i className='icon-arrow icon-up-arrow'></i></a>
+            <a className='arrow-icon-main icon-down'
+                onMouseDown={ this.clickAndHoldDecrement }
+                onMouseUp={ this.mouseUp }>
+                <i className='icon-arrow icon-down-arrow'></i></a>
           </div>
           : ''
         }
