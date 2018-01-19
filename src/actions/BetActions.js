@@ -337,6 +337,8 @@ class BetActions {
             amountToBet = parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision);
           }
 
+          let backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision)
+
           amountToBet = Math.floor(amountToBet)
 
           const operationParams = {
@@ -346,7 +348,7 @@ class BetActions {
               amount: amountToBet,
               asset_id: betAssetType
             },
-            backer_multiplier: Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision),
+            backer_multiplier: backerMultiplier,
             amount_reserved_for_fees: Math.floor(amountToBet * 0.01),
             back_or_lay: bet.get('bet_type')
           };
@@ -517,6 +519,8 @@ class BetActions {
             amountToBet = parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision);
           }
 
+          let backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision)
+
           amountToBet = Math.floor(amountToBet)
 
           const betPlaceOperationParams = {
@@ -526,7 +530,7 @@ class BetActions {
               amount: amountToBet,
               asset_id: betAssetType
             },
-            backer_multiplier: parseFloat(bet.get('odds')) * Config.oddsPrecision,
+            backer_multiplier: backerMultiplier,
             amount_reserved_for_fees: Math.floor(amountToBet * 0.01),
             back_or_lay: bet.get('bet_type')
           };
