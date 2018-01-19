@@ -219,6 +219,7 @@ class BetActions {
           dispatch(BetPrivateActions.updateMyBetsAction(myBets));
           // Update market drawer placed bets
           dispatch(MarketDrawerActions.updatePlacedBets());
+          dispatch(MarketDrawerActions.hideOverlay())
           // Setstatus
           dispatch(BetPrivateActions.setCheckForNewMyBetsLoadingStatusAction(LoadingStatus.DONE));
           log.debug('Check for new my bets succeed.');
@@ -546,7 +547,7 @@ class BetActions {
         const keys = KeyGeneratorService.generateKeys(accountName, password);
         WalletService.processTransaction(keys, tr).then(() => {
           // Update status
-          dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.DONE));
+          dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
         }).catch((error) => {
           log.error('Fail to edit bets', error);
           // Set error
