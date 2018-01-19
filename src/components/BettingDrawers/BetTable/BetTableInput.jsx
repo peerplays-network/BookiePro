@@ -16,9 +16,21 @@ class BetTableInput extends PureComponent {
       }
     }
 
+    this.delayAccelerator = 8
+
+    this.baseDelay = 250
+    this.modCounter = 0
+    this.delay = this.baseDelay
+
+    this.minDelay = 50
+
     this.handleChange = this.handleChange.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
     this.clickArrowButton = this.clickArrowButton.bind(this)
+
+    this.clickAndHoldIncrement = this.clickAndHoldIncrement.bind(this)
+    this.clickAndHoldDecrement = this.clickAndHoldDecrement.bind(this)
+    this.mouseUp = this.mouseUp.bind(this)
   }
 
   handleChange(e) {
@@ -152,6 +164,32 @@ class BetTableInput extends PureComponent {
     this.props.action(delta);
   }
 
+  clickAndHoldIncrement() {
+    if (++this.modCounter % this.delayAccelerator === 0) this.delay = this.delay / 2
+    if (this.delay <= this.minDelay) this.delay = this.minDelay
+    this.clickArrowButton(this.props.record, this.props.action, incrementOdds)
+    this.t = setTimeout(this.clickAndHoldIncrement, this.delay)
+  }
+
+  clickAndHoldDecrement() {
+    if (++this.modCounter % this.delayAccelerator === 0) this.delay = this.delay / 2
+    if (this.delay <= this.minDelay) this.delay = this.minDelay
+
+    console.log('decrement()')
+    console.log(`Delay: ${this.delay}`)
+
+    this.clickArrowButton(this.props.record, this.props.action, decrementOdds)
+    this.t = setTimeout(this.clickAndHoldDecrement, this.delay)
+  }
+
+  mouseUp() {
+    console.log("MouseUp")
+    this.modCounter = 0
+    this.delay = this.baseDelay
+    console.log(this)
+    clearTimeout(this.t)
+  }
+
   render() {
     return (
       <div>
@@ -165,8 +203,14 @@ class BetTableInput extends PureComponent {
           />
         { this.props.field === 'odds' ?
           <div>
-            <a className='arrow-icon-main icon-up' onClick={ () => this.clickArrowButton(this.props.record, this.props.action, incrementOdds) }><i className='icon-arrow icon-up-arrow'></i></a>
-            <a className='arrow-icon-main icon-down' onClick={ () => this.clickArrowButton(this.props.record, this.props.action, decrementOdds) }><i className='icon-arrow icon-down-arrow'></i></a>
+            <a className='arrow-icon-main icon-up'
+                onMouseDown={ this.clickAndHoldIncrement }
+                onMouseUp={ this.mouseUp }>
+                <i className='icon-arrow icon-up-arrow'></i></a>
+            <a className='arrow-icon-main icon-down'
+                onMouseDown={ this.clickAndHoldDecrement }
+                onMouseUp={ this.mouseUp }>
+                <i className='icon-arrow icon-down-arrow'></i></a>
           </div>
           : ''
         }
