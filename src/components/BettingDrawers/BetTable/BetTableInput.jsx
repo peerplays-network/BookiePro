@@ -16,6 +16,14 @@ class BetTableInput extends PureComponent {
       }
     }
 
+    this.delayAccelerator = 8
+
+    this.baseDelay = 250
+    this.modCounter = 0
+    this.delay = this.baseDelay
+
+    this.minDelay = 50
+
     this.handleChange = this.handleChange.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
     this.clickArrowButton = this.clickArrowButton.bind(this)
@@ -145,16 +153,28 @@ class BetTableInput extends PureComponent {
   }
 
   clickAndHoldIncrement() {
+    if (++this.modCounter % this.delayAccelerator === 0) this.delay = this.delay / 2
+    if (this.delay <= this.minDelay) this.delay = this.minDelay
     this.clickArrowButton(this.props.record, this.props.action, incrementOdds)
-    this.t = setTimeout(this.clickAndHoldIncrement, 100)
+    this.t = setTimeout(this.clickAndHoldIncrement, this.delay)
   }
 
   clickAndHoldDecrement() {
+    if (++this.modCounter % this.delayAccelerator === 0) this.delay = this.delay / 2
+    if (this.delay <= this.minDelay) this.delay = this.minDelay
+
+    console.log('decrement()')
+    console.log(`Delay: ${this.delay}`)
+
     this.clickArrowButton(this.props.record, this.props.action, decrementOdds)
-    this.t = setTimeout(this.clickAndHoldDecrement, 100)
+    this.t = setTimeout(this.clickAndHoldDecrement, this.delay)
   }
 
   mouseUp() {
+    console.log("MouseUp")
+    this.modCounter = 0
+    this.delay = this.baseDelay
+    console.log(this)
     clearTimeout(this.t)
   }
 
