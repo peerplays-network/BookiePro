@@ -106,7 +106,7 @@ var CurrencyUtils = {
     if (string.length >= NUM_ALLOWED_CHARS) {
       if (stringValue > LOWER_BOUND &&
           stringValue < MID_BOUND) {
-        return stringValue.toFixed(NUM_ALLOWED_CHARS - 1) // If between 0 and 1, keep the 0. and 4 additional digits
+        return stringValue.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0] // If between 0 and 1, keep the 0. and 4 additional digits
       } else if (stringValue > LOWER_BOUND &&
           stringValue < UPPER_BOUND) {
         return string.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0] // If between 0 and 99999 keep 4 characters of the string
