@@ -215,7 +215,7 @@ export const translationsObject = {
     },
     landing:{
       login: 'LOGIN',
-      signup: 'JOIN BOOKIEPRO NOW',
+      signup: 'JOIN BOOKIE NOW',
       slogan: 'Bet From Anywhere in The World',
       intro: 'Sign-up and start betting in 2 minutes!',
       loginWithAccount: 'Login with your existing Peerplays account',
