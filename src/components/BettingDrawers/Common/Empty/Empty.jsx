@@ -16,11 +16,7 @@ const Empty = (props) => {
           <Translate value={ `${className}.empty.instructions` } dangerousHTML/>
         }
       </div>
-      <div className='my-bet-button'>
-        <Button className={ `btn btn-regular ${showSuccess ? 'go-to-bets-btn' : '' }` } onClick={ () => props.navigateTo('/my-wager/') }>
-          { buttonText }
-        </Button>
-      </div>
+      
     </div>
   );
 }
