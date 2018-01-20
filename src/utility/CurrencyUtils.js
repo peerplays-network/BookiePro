@@ -58,13 +58,13 @@ var CurrencyUtils = {
       if (currency === 'mBTC') {
         // 1 BTC = 1 * 10^3 mBTC
         const mPrecision = precision < 3 ? 0 : precision - 3;
-        return ( 1000 * amount ).toFixed(mPrecision);
+        return ( 1000 * amount ).toFixed(mPrecision + 1);
       }
 
       if (currency === 'BTC') {
         // Sometimes amount is a string type which will throw an
         // error unless its cast as a number. Add (1 * amount)
-        return (1 * amount).toFixed(precision);
+        return (1 * amount).toFixed(precision + 1);
       }
     }
 
@@ -85,6 +85,7 @@ var CurrencyUtils = {
     */
   formatByCurrencyAndPrecisionWithSymbol: function(amount, currency, precision = 0, spaceAfterSymbol = false) {
     let formatted = this.getFormattedCurrency(amount, currency, precision);
+    if (isNaN(formatted)) return 0
     const currencySymbol = this.getCurruencySymbol(currency);
 
     // Note: Math.abs can take a string of valid number as argument
@@ -105,14 +106,14 @@ var CurrencyUtils = {
     if (string.length >= NUM_ALLOWED_CHARS) {
       if (stringValue > LOWER_BOUND &&
           stringValue < MID_BOUND) {
-        return stringValue.toFixed(NUM_ALLOWED_CHARS - 1) // If between 0 and 1, keep the 0. and 4 additional digits
+        return stringValue.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0] // If between 0 and 1, keep the 0. and 4 additional digits
       } else if (stringValue > LOWER_BOUND &&
           stringValue < UPPER_BOUND) {
-        return stringValue.toPrecision(NUM_ALLOWED_CHARS) // If between 0 and 99999 keep 5 characters of the string
+        return string.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0] // If between 0 and 99999 keep 4 characters of the string
       } else if (stringValue > UPPER_BOUND) {
         return (stringValue / 1000) + ' k' // If larger than 100k, divide by 1000 and add a 'k'
       } else {
-        return stringValue.toPrecision(NUM_ALLOWED_CHARS) // All else fails, return 5 most significant digits
+        return string.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0] // All else fails, return 5 most significant digits
       }
     }
     return string // Return the string as it is if it is not larger than 5 characters
