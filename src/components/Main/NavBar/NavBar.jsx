@@ -11,7 +11,7 @@ import React, { PureComponent } from 'react';
 import { Layout } from 'antd';
 import SearchMenu from './SearchMenu';
 import TopMenu from './TopMenu';
-import logo from '../../../assets/images/bookie_logo_topnav.png';
+import logo from '../../../assets/Bookie_new.svg';
 
 const { Header } = Layout;
 

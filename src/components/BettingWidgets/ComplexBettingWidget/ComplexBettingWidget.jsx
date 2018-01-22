@@ -455,7 +455,6 @@ class ComplexBettingWidget extends PureComponent {
         <div className='title'>
           <div className='name'>
             { widgetTitle }
-            { this.renderLiveMarker() }
           </div>
           <div className='rules'>
             <span>

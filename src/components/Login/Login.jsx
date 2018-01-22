@@ -7,7 +7,7 @@
  * 'account.account'.
  */
 import React, { PureComponent } from 'react';
-import logo from '../../assets/images/bookie_logo_login.png';
+import logo from '../../assets/Bookie_new.svg';
 import { Form } from 'antd';
 import LoginForm from './LoginForm.jsx';
 import { NavigateActions, AuthActions, AppActions } from '../../actions';
@@ -87,7 +87,7 @@ class Login extends PureComponent {
         <div className='loginComponent' >
           <div className='wrapper'>
             <div className='text-center'>
-              <img src={ logo } height='148' width='132' alt=''/>
+              <img src={ logo } height='200' width='400' alt=''/>
               <div className='center-ele'>
                 <p className='helperText'>{ I18n.t('landing.loginWithAccount') }</p>
                 <LoginForm onClickSignup={ this.onClickSignup }

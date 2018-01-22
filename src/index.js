@@ -6,7 +6,6 @@ import App from './components/App';
 import BlockchainTestPage from './components/BlockchainTestPage';
 import MyAccount from './components/MyAccount';
 import MyWager from './components/MyWager';
-import Signup from './components/Signup';
 import Login from './components/Login';
 import Main from './components/Main';
 import Exchange from './components/Exchange';
@@ -47,7 +46,6 @@ const routes = (
   <Route path='/' component={ App }  >
       <IndexRedirect to='landing' />
       <Route path='/login' component={ Login } />
-      <Route path='/signup' component={ Signup } />
     <Route path='/license' component={ LicenseScreen } />
       <Route path='/welcome' component={ Welcome } />
       <Route path='/deposit' component={ Deposit } />
