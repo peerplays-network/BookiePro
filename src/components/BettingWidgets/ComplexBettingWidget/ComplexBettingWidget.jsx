@@ -381,7 +381,7 @@ class ComplexBettingWidget extends PureComponent {
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
-         <div className='back-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
+         <div className='back-offer empty-offer best-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }]
     }, {
       // NOTE will be seperated comopent for header
@@ -402,7 +402,7 @@ class ComplexBettingWidget extends PureComponent {
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
-         <div className='lay-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
+         <div className='lay-offer empty-offer best-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
       }, {
         id: 'lay2',
         header: props => null,
