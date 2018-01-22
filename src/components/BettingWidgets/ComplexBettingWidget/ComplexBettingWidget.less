@@ -117,11 +117,27 @@ div.complex-betting {
       }
 
       .back-offer.empty-offer{
-        background-color: @simple_betting_back_bg;
+        background-color: transparent;
+      }
+
+      .back-offer, .lay-offer {
+        &.best-offer {
+          &:hover {
+            background-color: @primary_label_highlight !important;
+          }
+        }
+      }
+
+      .back-offer.best-offer {
+        background-color: @simple_betting_back_bg !important;
+      }
+
+      .lay-offer.best-offer {
+        background-color: @lay_bg_primary !important;
       }
 
       .lay-offer.empty-offer {
-        background-color: @simple_betting_lay_bg;
+        background-color: transparent;
       }
       .empty-offer{
         align-items: center;
@@ -148,36 +164,36 @@ div.complex-betting {
       }
       .back-offer {
         &.back-bg{
-          background-color: @complex-betting-back-bg;
+          background-color: transparent;
           &:hover{
-            background-color: @complex-betting-back-hover-bg;
+            background-color: @primary_label_highlight;
           }
         }
         &.back-all-offer{
           background-color: @complex-betting-back-bg;
           &:hover{
-            background-color: @complex-betting-back-hover-bg;
+            background-color: @primary_label_highlight;
           }
         }
         &.empty-offer:hover{
-          background-color: @complex-betting-empty-offer-hover;
+          background-color: @primary_label_highlight;
         }
       }
       .lay-offer {
         &.lay-bg{
-          background-color: @complex-betting-lay-bg;
+          background-color: transparent;
           &:hover{
-            background-color: @complex-betting-lay-hover-bg;
+            background-color: @primary_label_highlight;
           }
         }
         &.lay-all-offer{
           background-color: @complex-betting-lay-bg;
           &:hover{
-            background-color: @complex-betting-lay-hover-bg;
+            background-color: @primary_label_highlight;
           }
         }
         &.empty-offer:hover{
-          background-color: @complex-betting-empty-offer-hover;
+          background-color: @primary_label_highlight;
         }
       }
       .odds {
@@ -242,7 +258,7 @@ div.complex-betting {
           border-left:1px solid @primary_label_border;
           border-top:1px solid @primary_label_border;
           padding: 4px 3px;
-          background-color: @complex-betting-back-all-bg;
+          background-color: @simple_betting_back_bg;
           &:hover{
             background-color: @complex-betting-back-hover-bg;
           }
