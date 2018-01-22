@@ -25,6 +25,7 @@ class AllSports extends PureComponent {
             const events = sportData.get('events');
             const sportName = sportData.get('name');
             return (
+              events.size > 0 &&
               <SimpleBettingWidget
                 sportName={ sportName }
                 key={ sportId }                   // required by React to have unique key
