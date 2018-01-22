@@ -219,6 +219,7 @@ class BetActions {
           dispatch(BetPrivateActions.updateMyBetsAction(myBets));
           // Update market drawer placed bets
           dispatch(MarketDrawerActions.updatePlacedBets());
+          dispatch(MarketDrawerActions.hideOverlay())
           // Setstatus
           dispatch(BetPrivateActions.setCheckForNewMyBetsLoadingStatusAction(LoadingStatus.DONE));
           log.debug('Check for new my bets succeed.');
@@ -337,6 +338,8 @@ class BetActions {
             amountToBet = parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision);
           }
 
+          let backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision)
+
           amountToBet = Math.floor(amountToBet)
 
           const operationParams = {
@@ -346,7 +349,7 @@ class BetActions {
               amount: amountToBet,
               asset_id: betAssetType
             },
-            backer_multiplier: Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision),
+            backer_multiplier: backerMultiplier,
             amount_reserved_for_fees: Math.floor(amountToBet * 0.01),
             back_or_lay: bet.get('bet_type')
           };
@@ -517,6 +520,8 @@ class BetActions {
             amountToBet = parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision);
           }
 
+          let backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision)
+
           amountToBet = Math.floor(amountToBet)
 
           const betPlaceOperationParams = {
@@ -526,7 +531,7 @@ class BetActions {
               amount: amountToBet,
               asset_id: betAssetType
             },
-            backer_multiplier: parseFloat(bet.get('odds')) * Config.oddsPrecision,
+            backer_multiplier: backerMultiplier,
             amount_reserved_for_fees: Math.floor(amountToBet * 0.01),
             back_or_lay: bet.get('bet_type')
           };
@@ -542,7 +547,7 @@ class BetActions {
         const keys = KeyGeneratorService.generateKeys(accountName, password);
         WalletService.processTransaction(keys, tr).then(() => {
           // Update status
-          dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.DONE));
+          dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
         }).catch((error) => {
           log.error('Fail to edit bets', error);
           // Set error
