@@ -59,6 +59,8 @@ const groupBetsByAverageOdds = (matchedBets) => {
     const first = bets.get(0);
     return Immutable.fromJS({
       bet_type: first.get('bet_type'),
+      betting_market_description: first.get('betting_market_description'),
+      betting_market_group_description: first.get('betting_market_group_description'),
       betting_market_id: first.get('betting_market_id'),
       bettor_id: first.get('bettor_id'),
       id: first.get('id'),
