@@ -2,8 +2,7 @@
   "name": "bookie",
   "author": "Peerplays Blockchain Standards Association",
   "description": "Electron app powered by CRA",
-  "version": "0.23.0",
-  "version": "0.24.0-beta",
+  "version": "0.24.1-beta",
   "private": true,
   "homepage": "./",
   "devDependencies": {
@@ -26,7 +25,7 @@
     "detect-port": "1.0.1",
     "dotenv": "2.0.0",
     "electron": "~1.4.15",
-    "electron-builder": "~14.4.0",
+    "electron-builder": "^14.4.2",
     "enzyme": "~2.7.1",
     "eslint": "3.8.1",
     "eslint-config-react-app": "~0.5.1",

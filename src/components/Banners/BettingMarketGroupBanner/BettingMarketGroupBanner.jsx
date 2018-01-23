@@ -38,11 +38,11 @@ class BettingMarketGroupBanner extends PureComponent {
 
   renderLive() {
     // TODO: waiting for the style
-    return (
-      <div className='live'>
-        { 'LIVE' }
-      </div>
-    )
+    // return (
+    //   <div className='live'>
+    //     { 'LIVE' }
+    //   </div>
+    // )
   }
 
   render() {
