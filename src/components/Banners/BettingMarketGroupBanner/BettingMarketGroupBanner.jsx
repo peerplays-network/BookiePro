@@ -38,11 +38,11 @@ class BettingMarketGroupBanner extends PureComponent {
 
   renderLive() {
     // TODO: waiting for the style
-    // return (
-    //   <div className='live'>
-    //     { 'LIVE' }
-    //   </div>
-    // )
+    return (
+      <div className='live'>
+        { 'LIVE' }
+      </div>
+    )
   }
 
   render() {
@@ -55,9 +55,6 @@ class BettingMarketGroupBanner extends PureComponent {
           <div className='time'>{ I18n.t('bettingMarketGroup.match_start_on', { time: formattedEventTime }) }</div>
 
         </div>
-        {
-          this.renderCountdown()
-        }
       </div>
     )
   }
