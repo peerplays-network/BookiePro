@@ -79,19 +79,6 @@ class AllSportsBanner extends PureComponent {
       <div className='all-sports-banner' style={ { backgroundImage: bannerSource } }>
         <div className='statistics'>
           <div className='float-right'>
-            <div className='bitcoin-icon-main'>
-              <i className='icon-bitcoin-white'></i>
-            </div>
-            <div className='flip-amount'>
-              { this.renderTotalAmountStakedIntegerPart(totalAmountStaked) }
-              <div className='digit-delimiter'>.</div>
-              { this.renderTotalAmountStakedFractionalPart(totalAmountStaked) }
-            </div>
-          </div>
-          <div className='text'>
-            <span className='text'>
-              { I18n.t('AllSports.bannerText', { numberOfActiveEvents }) }
-            </span>
           </div>
         </div>
       </div>

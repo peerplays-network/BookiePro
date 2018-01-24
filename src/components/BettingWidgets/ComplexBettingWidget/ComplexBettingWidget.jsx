@@ -310,16 +310,7 @@ class ComplexBettingWidget extends PureComponent {
 
         return (
           <div className='competitor'>
-            <div className='name'>{props.value.displayedName}</div>
-            { props.value.betslip_exposure &&
-              <div className='exposure'>
-                {  props.value.market_exposure > 0 &&
-                  <span className={ marketExposureClass }>{ marketExposure }</span>
-                }
-                <Icon type='caret-right'></Icon>
-                <span className={ potentialExposureClass  }>{ potentialExposure }</span>
-              </div>
-            }
+            <div className='name'>{props.value.displayedName}</div>            
           </div>
         )
       }
