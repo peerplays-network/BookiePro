@@ -227,13 +227,19 @@ const getBetData = createSelector(
   ) => {
     return bets.map((bet) => {
       bet = bet.set('key', bet.get('id'));
+
       bet = bet.set('type', bet.get('back_or_lay').toUpperCase() + ' | ' + bet.get('betting_market_description') + ' | ' + bet.get('betting_market_group_description'))
 
       if (bet.get('category') === BetCategories.RESOLVED_BET) {
         const resolvedTime = getFormattedDate(bet.get('resolved_time'));
         bet = bet.set('resolved_time', resolvedTime)
       } else if (bet.get('category') === BetCategories.UNMATCHED_BET) {
-        bet = bet.set('group_id', bettingMarkets.getIn([bet.get('betting_market_id')]).get('group_id'))
+
+        let bettingMarketId = bettingMarkets.getIn([bet.get('betting_market_id')])
+        
+        if (bettingMarketId)
+          bet = bet.set('group_id', bettingMarkets.getIn([bet.get('betting_market_id')]).get('group_id'))
+
         const linkedEventName = <a target='_self'>{ bet.get('event_name') }</a>;
         bet = bet.set('event_name', linkedEventName);
         const cancelLoadingStatus = cancelBetsByIdsLoadingStatus.get(bet.get('id')) || LoadingStatus.DEFAULT;
