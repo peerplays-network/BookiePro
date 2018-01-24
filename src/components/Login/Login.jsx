@@ -88,8 +88,7 @@ class Login extends PureComponent {
           <div className='wrapper'>
             <div className='text-center'>
               <img src={ logo } height='200' width='400' alt=''/>
-              <div className='center-ele'>
-                <p className='helperText'>{ I18n.t('landing.loginWithAccount') }</p>
+              <div className='center-ele'>                
                 <LoginForm onClickSignup={ this.onClickSignup }
                   onSubmit={ this.handleSubmit } errors={ this.props.errors } status={ this.props.status } />
               </div>
