@@ -270,6 +270,7 @@ var BettingModuleUtils = {
     // profit and liability are consider the same thing with different label
     const groupedProfitOrLiability = matchedBets.reduce((sum, bet) => sum + parseFloat(bet.get(profitOrLiability)), 0.0);
     const groupedStake = matchedBets.reduce((sum, bet) => sum = parseFloat(bet.get('stake')), 0.0);
+    const groupedStake = matchedBets.reduce((sum, bet) => sum + parseFloat(bet.get('stake')), 0.0);
     const averageOdds = (groupedStake + groupedProfitOrLiability) / groupedStake;
     return Immutable.fromJS({
       averageOdds: averageOdds.toFixed(oddsPlaces),
