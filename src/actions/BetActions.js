@@ -469,6 +469,8 @@ class BetActions {
       } else {
         const tr = new TransactionBuilder();
         bets.forEach((bet) => {
+          if (!bet.get('updated')) return // Exit early if the bet has not been updated
+
           // Add cancel bet operation
           const cancelBetOperationParams = {
             bettor_id: bet.get('bettor_id'),
