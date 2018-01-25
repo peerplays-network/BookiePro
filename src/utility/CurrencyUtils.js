@@ -151,8 +151,13 @@ var CurrencyUtils = {
   toFixed: function(field, amount, currency) {
     // DO NOT expect this but just in case...
     if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
-    let ret = parseFloat(amount).toFixed(this.fieldPrecisionMap[field][currency]);
-    return (field === 'stake' && parseFloat(ret) === 0) ? .001 : ret
+    let floatAmount = parseFloat(amount)
+    if (field === 'stake') {
+      if (floatAmount < 1 && currency === 'mBTC') return 1
+      if (floatAmount < .001 && currency === 'BTC') return .001
+    }
+
+    return floatAmount.toFixed(this.fieldPrecisionMap[field][currency]);
   },
   /*
    * Call JavaScript's Number.toFixed with predefined precision value based on field name

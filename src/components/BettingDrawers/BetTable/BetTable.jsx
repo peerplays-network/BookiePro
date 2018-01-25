@@ -16,7 +16,6 @@ import { Button, Icon, Table } from 'antd';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
 import { CurrencyUtils } from '../../../utility'
-import { adjustOdds, MIN_ODDS } from './oddsIncrementUtils';
 import BetTableInput from './BetTableInput'
 
 
