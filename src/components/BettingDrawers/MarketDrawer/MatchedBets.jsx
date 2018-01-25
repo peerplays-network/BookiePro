@@ -89,15 +89,7 @@ const mapStateToProps = (state, ownProps) => {
     // Add the bet to the list of bets with the same market type
     let betListByBetType = page.get(betType);
     let profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
-    let stake = 0
-
     let odds = BettingModuleUtils.oddsFormatFilter(bet.get('odds'), oddsFormat, 'decimal')
-
-    if (betType === 'lay') {
-      stake = CurrencyUtils.layBetStakeModifier(bet.get("stake"), bet.get('odds')).toFixed(5)
-      profit = bet.get('stake')
-      bet = bet.set('stake', stake);
-    }
 
     bet = bet.set('profit', profit).set('liability', profit).set('odds', odds)
 
