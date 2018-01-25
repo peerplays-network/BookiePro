@@ -276,7 +276,9 @@ class MyWager extends PureComponent {
 function filterOdds(tableData, oddsFormat) {
   if (tableData) {
     for (let row in tableData) {
-      tableData[row].backer_multiplier = BettingModuleUtils.oddsFormatFilter(tableData[row].backer_multiplier, oddsFormat)
+      if (tableData[row]) {
+        tableData[row].backer_multiplier = BettingModuleUtils.oddsFormatFilter(tableData[row].backer_multiplier, oddsFormat)
+      }
     }
   }
   return tableData
