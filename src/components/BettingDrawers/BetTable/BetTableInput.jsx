@@ -174,19 +174,13 @@ class BetTableInput extends PureComponent {
   clickAndHoldDecrement() {
     if (++this.modCounter % this.delayAccelerator === 0) this.delay = this.delay / 2
     if (this.delay <= this.minDelay) this.delay = this.minDelay
-
-    console.log('decrement()')
-    console.log(`Delay: ${this.delay}`)
-
     this.clickArrowButton(this.props.record, this.props.action, decrementOdds)
     this.t = setTimeout(this.clickAndHoldDecrement, this.delay)
   }
 
   mouseUp() {
-    console.log("MouseUp")
     this.modCounter = 0
     this.delay = this.baseDelay
-    console.log(this)
     clearTimeout(this.t)
   }
 
