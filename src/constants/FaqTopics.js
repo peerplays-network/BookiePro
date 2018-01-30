@@ -4,10 +4,10 @@ const FaqTopics = {
   FUNDS: 'FUNDS',
   BETTING: 'BETTING',
   FEES: 'FEES',
-  SPORTS: 'SPORTS',
-  RULES: 'RULES',
+  //SPORTS: 'SPORTS',
+  //RULES: 'RULES',
   ABOUT: 'ABOUT',
-  MISC: 'MISC',
+  //MISC: 'MISC',
 }
 
 export default FaqTopics;
