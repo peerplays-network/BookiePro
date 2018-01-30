@@ -46,6 +46,7 @@ class Sport extends PureComponent {
               const eventGroupId = eventGroupData.get('event_group_id');
               const events = eventGroupData.get('events');
               return (
+                events.size > 0 && 
                 <SimpleBettingWidget
                   sportName={ sportName }
                   key={ eventGroupId }                    // required by React to have unique key
