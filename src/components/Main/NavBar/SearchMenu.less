@@ -14,9 +14,25 @@
   }
 }
 
+.is-focused:not(.is-open) > .Select-control{
+  box-shadow: none;
+  background: transparent !important;
+}
+
+.is-focused > .Select-control {
+  background: transparent !important;
+}
+
 div.search-menu{
   flex: 1;
   // assume there is one li only
+
+  .ant-menu-item-selected {
+    .Select.is-focused {
+      background-color: transparent;
+    }
+  }
+
   li {
     padding: 0 16px 0 14px;
     input[type="text"] {
@@ -243,8 +259,4 @@ div.search-menu{
       }
     }
   }
-}
-
-.is-focused:not(.is-open) > .Select-control{
-  box-shadow: none;
 }
