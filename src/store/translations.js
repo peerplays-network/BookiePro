@@ -822,10 +822,7 @@ export const translationsObject = {
           },
           {
             question: 'Is there a charge for me to bet with Bookie?',
-            answer: 'Yes. Bookie charges Commission on' +
-            ' all net winnings in a market. Bookie\'s Commission rate is the lowest in the industry. Bookie also charges a tiny Network Fee for each transaction users make. For more information ' +
-            'on Commission and Network Fee, please <a href="#" class="fees-scroll">click' +
-            ' here</a>'
+            answer: 'Yes. Bookie charges an industry-low commission of X% on all net winnings in a betting market.'
           },
           {
             question: 'Will Bookie restrict my account if I win too much?',
@@ -839,9 +836,13 @@ export const translationsObject = {
         ],
       },
       topicAccount: {
-        header: 'Account management, security',
+        header: 'Account Management & Security',
         questionAnswerPairs: [
           {
+            question: '',
+            answer: 'This section has been disabled for Beta Phase 1 period'
+          }
+          /*{
             question: 'How do I sign up for a Bookie account?',
             answer: 'Opening an account with Bookie is very quick and very simple. Click the SIGN UP button on the Bookie app front page and follow the on-screen instructions. \n' +
             '\n' +
@@ -932,13 +933,17 @@ export const translationsObject = {
           {
             question: 'Where can I view all my Bookie transactions?',
             answer: 'answer'
-          }
+          }*/
         ],
       },
       topicFunds: {
         header: 'Funds',
         questionAnswerPairs: [
           {
+            question: '',
+            answer: 'This section has been disabled for Beta Phase 1 period'
+          }
+          /*{
             question: 'What currencies can I bet with on Bookie?',
             answer: 'Bitcoin is the only currency that can be used on Bookie right now. Bookie is capable of accepting all digital currencies, but since Bitcoin is the ' +
             'most widely traded and ' +
@@ -972,7 +977,7 @@ export const translationsObject = {
           {
             question: 'Does Bookie use encrypted, secure connections?',
             answer: 'answer'
-          }
+          }*/
         ],
       },
       topicBetting: {
@@ -980,43 +985,90 @@ export const translationsObject = {
         questionAnswerPairs: [
           {
             question: 'How do I place a bet on Bookie?',
-            answer: 'Normally, when you bet with a' +
-            ' sportsbook, you are backing something to' +
-            ' happen.For example, you are backing \n' +
-            'Bookie is a <i>betting exchange</i>. This means that you can <b> back </b> (like normal) AND you can <b>lay</b>  (like a sportsbook).'
+            answer: 'Bookie is a betting exchange, which allows you to place a bet by either ' + '<b>Backing</b> (as bettors normally do) or <b>Laying</b> a bet (like a sportsbook would do).' + 
+            'Bookie has no ‘house’, so all bets you place will be matched by other ' +
+            'Bookie users, who want to take the opposite side of your bet.\n\n' +
+            'To get started:\n' + 
+            '&nbsp;&nbsp;&nbsp;&nbsp;1. Choose a sport from the menu on the left\n' + 
+            '&nbsp;&nbsp;&nbsp;&nbsp;2. Select the apropriate League (NFL, EPL, etc)\n' + 
+            '&nbsp;&nbsp;&nbsp;&nbsp;3. Select the game or match you wish to place a bet on (e.g. NY ' +
+            'Jets v NY Giants)\n' + 
+            '&nbsp;&nbsp;&nbsp;&nbsp;4. Select the market you wish to bet on (e.g. Moneyline)\n' +
+            '&nbsp;&nbsp;&nbsp;&nbsp;5. Place the bet\n\n' + 
+            'Read on for further explanation on placing your bet.'
           },
           {
-            question: 'What is a Selection? What is a Market?',
-            answer: 'answer'
+            question: 'What is a Betting Market?',
+            answer: 'A betting market can be seen as a question and a list of possible answers ' +
+            'to that question. For example, in a Moneyline betting market, the question is, ' +
+            '“Which team is going to win this game?” The list of answers to that question would, ' +
+            'for example, be, 1) New England Patriots, or 2) New York Giants. By making a bet, ' +
+            'the bettor is effectively choosing an answer to the question.'
+          },
+          {
+            question: 'What is a Selection?',
+            answer: 'A selection is simply one particular “answer” within a betting market. ' +
+            'For example, “New England Patriots” is a selection in the above Moneyline ' +
+            'betting market. “New York Giants” is the other selection.'
           },
           {
             question: 'What is a ‘back’ bet?',
-            answer: 'answer'
+            answer: 'Simply put, to ‘back’ a selection is to bet on that particular result ' +
+            'happening. For example, ‘backing’ New England in a game is betting on New England ' + 
+            'to win that game.'
           },
           {
             question: 'What is a ‘lay’ bet?',
-            answer: 'answer'
+            answer: 'To ‘lay’ a selection is to bet on a particular result NOT happening. ' +
+            'Put another way, it is betting AGAINST a particular result. So, ‘laying’ New ' +
+            'England in a game is placing a bet for them NOT to win.'
           },
           {
             question: 'What is a ‘matched’ or ‘unmatched’ bet?',
-            answer: 'answer'
+            answer: 'Once a bet is taken by someone on the opposing side, it is matched and ' +
+            'cannot be cancelled or changed. The bet is active and must wait until the event ' +
+            'is finished and the results are determined.\n\nUnmatched bets have not been taken ' +
+            'by someone on the opposing side. Unmatched bets can be cancelled or changed until ' +
+            'they are matched.'
           },
           {
-            question: 'What is “Market Exposure”?',
-            answer: 'answer'
+            question: 'What are Stake and Liability?',
+            answer: 'In a back bet, your stake is the monetary amount placed on the bet. If the ' +
+            'outcome does NOT win, you lose on this amount.\n\nIn a lay bet, your liability is ' +
+            'the amount of money you stand to lose. For example, laying a 10 mBTC bet at 2.32 ' +
+            'odds, your liability is 13.20. That is, you stand to lose 13.20.'
           },
           {
             question: 'What odds can I bet at?',
-            answer: 'answer'
+            answer: 'Bookie uses a Decimal odds system at its core. Bookie allows you to bet ' +
+            'using the Decimal odds increments specified in the table below. Bookie also allows ' +
+            'users to display odds in both Decimal and American formats.\n\n' +
+            '<table><tbody><tr><td><b>Price</b></td><td style="padding-left:15px;"><b>Increment</b></td></tr>' +
+            '<tr><td>1.01 → 2</td><td style="padding-left:15px;">0.01</td></tr>' +
+            '<tr><td>2 → 3</td><td style="padding-left:15px;">0.02</td></tr>' +
+            '<tr><td>3 → 4</td><td style="padding-left:15px;">0.05</td></tr>' +
+            '<tr><td>4 → 6</td><td style="padding-left:15px;">0.1</td></tr>' +
+            '<tr><td>6 → 10</td><td style="padding-left:15px;">0.2</td></tr>' +
+            '<tr><td>10 → 20</td><td style="padding-left:15px;">0.5</td></tr>' +
+            '<tr><td>20 → 30</td><td style="padding-left:15px;">1</td></tr>' +
+            '<tr><td>30 → 50</td><td style="padding-left:15px;">2</td></tr>' +
+            '<tr><td>50 → 100</td><td style="padding-left:15px;">5</td></tr>' +
+            '<tr><td>100 → 1000</td><td style="padding-left:15px;">10</td></tr></tbody></table>'
           },
           {
             question: 'Is there a minimum/maximum bet amount?',
-            answer: 'answer'
+            answer: 'The minimum backer’s stake is 1 mBTC. The minimum layer’s liability is 0.01 ' +
+            'mBTC.\nThere is no maximum bet amount.'
           },
           {
             question: 'How do I cancel a bet?',
-            answer: 'A user can cancel ‘unmatched’ bets at any time. Simply browse to the market in question, selecting XXX tab in the Betting drawer? and simply clicking ‘X’ next to the unmatched ' +
-            'bet in question. Users can also cancel bets from the Unmatched Bets tab on the My Bets section.Please be aware: once a bet (or any part of a bet) is ‘matched’ it cannot be cancelled.'
+            answer: 'Matched bets cannot be canceled.\n\n' +
+            'You may cancel an unmatched bet at any time by either:\n' +
+            '(i) Navigating to ‘My Bets’ using the icon on the top bar. ' +
+            'From there you can choose to view all unmatched bets and cancel by clicking “Cancel”.\n' +
+            'or\n(ii)  Navigating to the betting market where you placed the bet, clicking on ' +
+            '“Placed Bets” in the betslip on the right, where you will be able to view and cancel ' +
+            'any unmatched bets you have in that market.'
           },
           {
             question: 'What is Live betting?',
@@ -1042,10 +1094,6 @@ export const translationsObject = {
             'Once grading'
           },
           {
-            question: 'How are Dead heat bets settled?',
-            answer: 'X'
-          },
-          {
             question: 'I believe my bet has been graded incorrectly. What can I do?',
             answer: 'After Grading - (Notification) Check and Escalate. Wait (another notification)'
           },
@@ -1060,24 +1108,9 @@ export const translationsObject = {
             answer: 'Bets are normally settled within one hour of the event finishing.'
           },
           {
-            question: 'How long will it take to refund if the market is voided?',
-            answer: 'answer'
-          },
-          {
             question: 'What is the source of the betting information on Bookie?',
-            answer: 'answer'
-          },
-          {
-            question: 'I don’t see the sport/event that I am interested on Bookie, why not?',
-            answer: 'answer'
-          },
-          {
-            question: 'Can I create a new market?',
-            answer: 'Nope'
-          },
-          {
-            question: 'Can I offer a new odds?',
-            answer: 'Yes'
+            answer: 'Bookie is populated with sports betting data using a decentralized ' +
+            'Oracle system that is connected to multiple third party sports data feeds.'
           }
         ],
       },
@@ -1085,6 +1118,10 @@ export const translationsObject = {
         header: 'Commision & Fees',
         questionAnswerPairs: [
           {
+            question: '',
+            answer: 'This section has been disabled for Beta Phase 1 period'
+          }
+          /*{
             question: 'What charges does Bookie make on users?',
             answer: 'Bookie has two different charges: \n' +
             '1. Commission \n' +
@@ -1101,10 +1138,10 @@ export const translationsObject = {
           {
             question: 'Will I be charged Commission if my bet loses?',
             answer: 'answer'
-          }
+          }*/
         ],
       },
-      topicSports: {
+      /*topicSports: {
         header: 'Sports / Markets',
         questionAnswerPairs: [
           {
@@ -1121,7 +1158,7 @@ export const translationsObject = {
             answer: 'answer'
           }
         ],
-      },
+      },*/
       topicAbout: {
         header: 'About Bookie',
         questionAnswerPairs: [
@@ -1150,7 +1187,7 @@ export const translationsObject = {
             'transparent and fair gaming standards for the Peerplays blockchain. For more information please visit www.pbsa.info.'
           },
         ],
-      },
+      }/*,
       topicMisc: {
         header: 'Miscellaneous',
         questionAnswerPairs: [
@@ -1191,7 +1228,7 @@ export const translationsObject = {
             answer: 'Click <a href="#" class="mit-license-anchor">here</a> to view the MIT license'
           }
         ],
-      },
+    }*/,
       // TODO: the following should be deprecated but floating help is still referring to these
       // Revisit this after the floating help is revamped
       question1: 'What is BookiePro?',
