@@ -67,7 +67,13 @@ class SettingActions {
         const hasNeverSetInitialSetting = !settingByAccountId.has(accountId);
         if (hasNeverSetInitialSetting) {
           dispatch(SettingPrivateActions.setInitialSettingAction(accountId));
+        } else {
+          const hasOddsFormatSetting = settingByAccountId.has('oddsFormat')
+          if (!hasOddsFormatSetting) {
+            dispatch(SettingPrivateActions.updateOddsFormatAction('decimal', accountId))
+          }
         }
+
       }
     }
   }

@@ -144,7 +144,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false, od
   };
 
   const oddsColumn = {
-    title: `ODDS(${oddsFormat.substring(0,3).toUpperCase()})`,
+    title: `ODDS(${oddsFormat ? oddsFormat.substring(0,3).toUpperCase() : '' })`,
     dataIndex: 'odds',
     key: 'odds',
     width: '25%',
@@ -221,7 +221,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false, odd
   };
 
   const oddsColumn = {
-    title: 'ODDS',
+    title: `ODDS(${oddsFormat ? oddsFormat.substring(0,3).toUpperCase() : '' })`,
     dataIndex: 'odds',
     key: 'odds',
     width: '25%',
