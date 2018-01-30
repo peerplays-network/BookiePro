@@ -112,7 +112,8 @@ class App extends PureComponent {
       <ConnectionErrorModal
         onClickTryAgain={ this.onClickTryAgainConnectionError }
         visible={ this.props.isShowConnectionErrorPopup }
-        />
+        isConnectedToBlockchain={ this.props.isConnectedToBlockchain }
+      />
     );
   }
 
@@ -214,7 +215,7 @@ const mapDispatchToProps = (dispatch) => {
     showLogoutPopup: AppActions.showLogoutPopupAction,
     confirmLogout: AuthActions.confirmLogout,
     showSoftwareUpdatePopup: AppActions.showSoftwareUpdatePopupAction,
-    hideLicenseScreen: AppActions.hideLicenseScreen,
+    hideLicenseScreen: AppActions.hideLicenseScreen
   }, dispatch);
 }
 

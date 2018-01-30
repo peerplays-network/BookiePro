@@ -27,7 +27,8 @@ class ConnectionErrorModal extends PureComponent {
         cancelText={ null }
         width={ 428 }
       >
-        <p>{ I18n.t('connectionErrorModal.explanation') }</p>
+        <p>{this.props.isConnectedToBlockchain && I18n.t('connectionErrorModal.explanation') }</p>
+        <p>{ !this.props.isConnectedToBlockchain && I18n.t('connectionErrorModal.noInternet') }</p>
         <button className='btn btn-regular try-again' onClick={ this.onClickTryAgain }>
           { I18n.t('connectionErrorModal.confirm') }
         </button>

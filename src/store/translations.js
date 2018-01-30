@@ -760,8 +760,9 @@ export const translationsObject = {
       cancel: 'Cancel'
     },
     connectionErrorModal: {
-      title: 'Connection Lost',
-      explanation: 'Unable to connect to blockchain',
+      title: 'Connection Error',
+      explanation: 'Could not connect to the Blockchain',
+      noInternet: 'Could not connect to the internet',
       confirm: 'Try Again',
     },
     unplacedBetModal: {
