@@ -154,7 +154,7 @@ export const translationsObject = {
     notification: {
       empty: 'No notification',
       deposit: 'The deposit of %{amount} %{currency} is confirmed',
-      bet_resolved: 'A market you’ve bet on is ended and bets are resolved',
+      bet_resolved: 'An event you bet on has recently finished and your bet(s) on this event are now settled.',
       software_update: 'New version available, update now',
       transaction_history_data_exported: 'Transaction History Data is exported'
     },
