@@ -218,17 +218,25 @@ const getBetData = createSelector(
   [
     getBetsWithFormattedCurrency,
     getCancelBetsByIdsLoadingStatus,
-    getBettingMarketsById
+    getBettingMarketsById,
+    getCurrencyFormat
   ],
   (
     bets,
     cancelBetsByIdsLoadingStatus,
-    bettingMarkets
+    bettingMarkets,
+    currencyFormat
   ) => {
     return bets.map((bet) => {
       bet = bet.set('key', bet.get('id'));
 
       bet = bet.set('type', bet.get('back_or_lay').toUpperCase() + ' | ' + bet.get('betting_market_description') + ' | ' + bet.get('betting_market_group_description'))
+
+
+      if (bet.get('back_or_lay') === 'lay') {
+        bet = bet.set('stake', CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', (bet.get('stake') / (bet.get('backer_multiplier') - 1)), currencyFormat))
+          .set('profit_liability', CurrencyUtils.formatFieldByCurrencyAndPrecision('profit', bet.get('stake'), currencyFormat))
+      }
 
       if (bet.get('category') === BetCategories.RESOLVED_BET) {
         const resolvedTime = getFormattedDate(bet.get('resolved_time'));
@@ -236,7 +244,7 @@ const getBetData = createSelector(
       } else if (bet.get('category') === BetCategories.UNMATCHED_BET) {
 
         let bettingMarketId = bettingMarkets.getIn([bet.get('betting_market_id')])
-        
+
         if (bettingMarketId)
           bet = bet.set('group_id', bettingMarkets.getIn([bet.get('betting_market_id')]).get('group_id'))
 
