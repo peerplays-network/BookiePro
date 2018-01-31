@@ -107,9 +107,17 @@ const mapStateToProps = (state, ownProps) => {
     // Put everything back in their rightful places
     page = page.set(betType, betListByBetType);
   });
-  // Total Bet amount
+
+
+
+  // Name   : totalAmount Calculation
+  // Author : Keegan Francis : k.francis@pbsa.info
+  // Ticket : BOOK-430
+  // Purpose: totalAmount is calculated by iterating over the bet objects and
+  //           taking either the stake (back) or the profit (lay). The result
+  //           will be the amount subtracted from your account when a bet is placed.
   const totalAmount = originalBets.reduce((total, bet) => {
-    const stake = parseFloat(bet.get('stake'));
+    const stake = bet.get('bet_type') === 'back' ? parseFloat(bet.get('stake')) : parseFloat(bet.get('profit'));
     return total + (isNaN(stake) ? 0.0 : stake);
   }, 0.0);
   // Number of Good bets
@@ -130,7 +138,7 @@ const mapStateToProps = (state, ownProps) => {
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
     totalBetAmountString: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
-                          CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat),
+                          totalAmount.toFixed(2),
   };
 }
 
