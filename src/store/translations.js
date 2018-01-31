@@ -112,7 +112,7 @@ export const translationsObject = {
       password_warning_1: 'If you lose your password, you will lose all of your funds!',
       password_warning_2: ' Keep your password safe!',
       password_warning_3: ' To download a text file of your password, click the save button below:',
-      loginWithAccount: 'Or login with your existing Peerlays account',
+      loginWithAccount: 'Or log in with your existing Peerlays account',
       cannot_recover_password_warning: 'I understand that PBSA <span class="mediumMessageInText">cannot recover my password.</span>',
       securely_saved_password_warning: 'I have securely saved my password recovery file.',
       create_account: 'Create Account',
@@ -126,7 +126,7 @@ export const translationsObject = {
     login: {
       username: 'Account Name',
       password: 'Password',
-      title: 'LOGIN',
+      title: 'LOG IN',
       signup: 'SIGN UP',
       username_notfound: 'Account Name not found',
       password_short: 'password too short',
@@ -211,14 +211,14 @@ export const translationsObject = {
       in_game: 'In-game',
       myaccount:'My Account',
       help: 'Help & Support',
-      signout: 'Logout'
+      signout: 'Log Out'
     },
     landing:{
-      login: 'LOGIN',
+      login: 'LOG IN',
       signup: 'JOIN BOOKIEPRO NOW',
       slogan: 'Bet From Anywhere in The World',
-      intro: 'Sign-up and start betting in 2 minutes!',
-      loginWithAccount: 'Login with your existing Peerplays account',
+      intro: 'Sign up and start betting in 2 minutes!',
+      loginWithAccount: 'Log in with your existing Peerplays account',
       copyright: 'COPYRIGHT',
       privacy_policy: 'PRIVACY POLICY',
       registerStepTitle: 'Register',
@@ -752,11 +752,11 @@ export const translationsObject = {
       under: 'Under '
     },
     logoutModal: {
-      title: 'Logout',
-      explanation: 'Your password is required to login. Please make sure you have stored your password in a safe place.',
-      confirmation: 'Are you sure you want to logout?',
+      title: 'Log Out',
+      explanation: 'Your password is required to log in. Please make sure you have stored your password in a safe place.',
+      confirmation: 'Are you sure you want to log out?',
       skipLogoutPopupNextTime: 'Do not show me this message again',
-      confirm: 'Logout',
+      confirm: 'Log Out',
       cancel: 'Cancel'
     },
     connectionErrorModal: {
@@ -916,7 +916,7 @@ export const translationsObject = {
             'account name and funds can then be transferred between the two accounts.'
           },
           {
-            question: 'Can I login to my account from multiple devices?',
+            question: 'Can I log in to my account from multiple devices?',
             answer: 'Yes. Simply download the Bookie app to a second device and log in using your Account Name and password. No further information is required to log in to your Bookie account.'
           },
           {
