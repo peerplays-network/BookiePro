@@ -1071,19 +1071,19 @@ export const translationsObject = {
             '“Placed Bets” in the betslip on the right, where you will be able to view and cancel ' +
             'any unmatched bets you have in that market.'
           },
-          {
+          /*{
             question: 'What is Live betting?',
             answer: 'Live betting is when you bet during the actual event/match/game. Bookie offers Live betting on many different Events. All bets placed ' +
             'before a match goes live (turned In-Play XXXX terminology….) will be cancelled when the market goes in-play.'
-          },
-          {
+          },*/
+          /*{
             question: 'Why is there a delay in submitting a new or edited bet in Live betting?',
             answer: 'Bookie introduces a delay of between 3 and 10 seconds to all new and edited bets being submitted to a Live market. This is to minimize ' +
             'the advantage that can be gained by certain user having more recent access to new events in a match or game (for example, if they are attending ' +
             'the actual event in person). In this way, Bookie levels the playing field for everyone and ensures a proper balance in Live markets between functionality and fairness. \n' +
             'Please note that there is no delay involved when cancelling a bet in a Live market.'
-          },
-          {
+          },*/
+          /*{
             question: 'How does Bookie decide which bets are winners, and which are losers?',
             answer: 'On Bookie, there are two processes' +
             ' for deciding winning and losing bets: \n' +
@@ -1093,17 +1093,17 @@ export const translationsObject = {
             ' which case all stakes are returned. \n' +
             '2. Settling\n' +
             'Once grading'
-          },
-          {
+          },*/
+          /*{
             question: 'I believe my bet has been graded incorrectly. What can I do?',
             answer: 'After Grading - (Notification) Check and Escalate. Wait (another notification)'
-          },
-          {
+          },*/
+          /*{
             question: 'I believe my bet has been settled incorrectly. What can I do?',
             answer: 'A settled bet on Bookie (i.e. where funds have been paid out as winning bets) is final and irreversible. Funds cannot be reclaimed from accounts ' +
             'once they have been settled (paid out) by Bookie. ' +
             'Users have an opportunity to contest grading (see above) but not settlement.'
-          },
+          },*/
           {
             question: 'How long after an Event finishes do bets get settled?',
             answer: 'Bets are normally settled within one hour of the event finishing.'
