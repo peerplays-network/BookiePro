@@ -8,7 +8,8 @@
 import { BetCategories, EventStatus, BettingMarketResolutionTypes, BetTypes } from '../constants';
 
 /**
- * calculate the stake from bet object, supporting categories including unmatched bets and matched bets, and bet type including both back and lay.
+ * Function   :     getStakeFromBetObject()
+ * Purpose    :     Return the stake of the Bet Object depending on matched/Unmatched and Back/Lay
  *
  * @param {bet} Immutable Object, bet object
  * @returns {integer} - stake of the bet object, in terms of 'BTC'
@@ -21,20 +22,18 @@ const getStakeFromBetObject = (bet) => {
     betAmount = bet.get('matched_bet_amount');
   }
 
-  return betAmount
-
   // Author   :   Keegan Francis - k.francis@pbsa.info
   // Tickets  :   BOOK-341,
   // Summary  :   The below code returns a different Bet amount depending on if the betType
-  //              is BACK or LAY. I changed this so that the function always returns the
-  //              betAmount.
-  //
-  // switch (bet.get('back_or_lay')) {
-  //   case BetTypes.BACK:
-  //     return betAmount;
-  //   default:
-  //     return betAmount / (bet.get('backer_multiplier') - 1);
-  // }
+  //              is BACK or LAY.
+  switch (bet.get('back_or_lay')) {
+    case BetTypes.BACK:
+      return betAmount;
+    case BetTypes.LAY:
+      return Math.round(betAmount / (bet.get('backer_multiplier') - 1));
+    default:
+      return betAmount;
+  }
 }
 
 /**
