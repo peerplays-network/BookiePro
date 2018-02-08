@@ -54,12 +54,9 @@ const getProfitLiabilityFromBetObject = (bet) => {
     } else if (bet.get('category') === BetCategories.MATCHED_BET) {
       betAmount = bet.get('matched_bet_amount');
     }
-
     switch (bet.get('back_or_lay')) {
       case BetTypes.BACK:
-        return betAmount * (bet.get('backer_multiplier') - 1)
-      case BetTypes.LAY:
-        return betAmount * (bet.get('backer_multiplier') - 1)
+        return betAmount * (bet.get('backer_multiplier') - 1);
       default:
         return betAmount;
     }
