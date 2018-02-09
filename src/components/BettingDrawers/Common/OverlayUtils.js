@@ -3,7 +3,7 @@ import { Overlay, PlaceBetConfirm, Waiting } from './';
 import { BettingDrawerStates } from '../../../constants'
 
 const Utils = {
-  render(classPrefix, props, submitBets, deleteBets) {
+  render(classPrefix, props, submitBets, deleteBets, deleteBet) {
     switch (props.overlay) {
       case BettingDrawerStates.SUBMIT_BETS_CONFIRMATION:
         return (
@@ -30,6 +30,15 @@ const Utils = {
             className={ `${classPrefix}.delete_bets` }
             cancelAction={ props.hideOverlay }
             confirmAction={ deleteBets }
+            replacements={ { event: props.eventNameInDeleteBetsConfirmation } }
+          />
+        )
+      case BettingDrawerStates.DELETE_BET_CONFIRMATION:
+        return (
+          <Overlay
+            className={ `${classPrefix}.delete_bet` }
+            cancelAction={ props.hideOverlay }
+            confirmAction={ deleteBet }
             replacements={ { event: props.eventNameInDeleteBetsConfirmation } }
           />
         )

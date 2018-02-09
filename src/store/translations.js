@@ -429,6 +429,11 @@ export const translationsObject = {
           cancel_button: 'NO',
           confirm_button: 'YES',
         },
+        delete_bet: {
+          instructions: 'Are you sure you want to<br />cancel this unmatched bet?',
+          cancel_button: 'NO',
+          confirm_button: 'YES'
+        }
       },
       unmatched_bets: {
         header: 'UNMATCHED BETS',

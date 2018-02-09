@@ -69,7 +69,8 @@ class PlacedBets extends PureComponent {
         {
           OverlayUtils.render('market_drawer.placed_bets', this.props,
                               () => this.props.editBets(this.props.unmatchedBets),
-                              () => this.props.deleteUnmatchedBets(this.props.unmatchedbetsToBeDeleted))
+                              () => this.props.deleteUnmatchedBets(this.props.unmatchedbetsToBeDeleted),
+                              () => this.props.deleteUnmatchedBet(this.props.unmatchedBetToBeDeleted))
         }
       </div>
     )
@@ -97,6 +98,7 @@ const mapStateToProps = (state, ownProps) => {
     isEmpty: unmatchedBets.isEmpty() && matchedBets.isEmpty(),
     overlay,
     unmatchedbetsToBeDeleted: state.getIn(['marketDrawer', 'unmatchedbetsToBeDeleted']),
+    unmatchedBetToBeDeleted: state.getIn(['marketDrawer', 'unmatchedBetToBeDeleted']),
     numberOfGoodBets,
     numberOfBadBets: updatedBets.size - numberOfGoodBets,
     totalBetAmountFloat: totalAmount,
@@ -111,6 +113,7 @@ const mapDispatchToProps = (dispatch) => {
     getPlacedBets: MarketDrawerActions.getPlacedBets,
     editBets: BetActions.editBets,
     deleteUnmatchedBets: MarketDrawerActions.deleteUnmatchedBets,
+    deleteUnmatchedBet: MarketDrawerActions.deleteUnmatchedBet,
     hideOverlay: MarketDrawerActions.hideOverlay,
   }, dispatch);
 }
