@@ -230,10 +230,12 @@ class MarketDrawerActions {
 
         // Helper function to format bets to market drawer bet object structure
         const formatBet = (bet) => {
+
           const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
           const bettingMarketDescription = bettingMarket && bettingMarket.get('description');
           const precision = assetsById.get(bettingMarketGroup.get('asset_id')).get('precision') || 0;
           const odds = bet.get('backer_multiplier');
+          
           let stake = ObjectUtils.getStakeFromBetObject(bet) / Math.pow(10, precision);
 
           const accountId = getState().getIn(['account','account','id']);
@@ -242,16 +244,7 @@ class MarketDrawerActions {
 
           // store odds and stake values as String for easier comparison
           const oddsAsString = CurrencyUtils.formatFieldByCurrencyAndPrecision('odds', odds, currencyFormat).toString();
-
-          stake = bet.get('back_or_lay') === 'lay' ?
-                            CurrencyUtils.layBetStakeModifier(stake, odds) :
-                            stake
-
-
-          const stakeAsString = CurrencyUtils.formatFieldByCurrencyAndPrecision('stake',
-                                  stake,
-                                  currencyFormat).toString();
-
+          const stakeAsString = CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', stake, currencyFormat).toString();
 
           let formattedBet = Immutable.fromJS({
             id: bet.get('id'),
@@ -270,9 +263,11 @@ class MarketDrawerActions {
             formattedBet = formattedBet.set('original_odds', oddsAsString)
                                        .set('original_stake', stakeAsString)
                                        .set('updated', false);
+          }
 
+          if (bet.get('category') === BetCategories.MATCHED_BET || bet.get('category') === BetCategories.RESOLVED_BET) {
             if (bet.get('back_or_lay') === 'lay') {
-              const profit = BettingModuleUtils.getProfitOrLiability(formattedBet.get('original_stake'), formattedBet.get('original_odds'));
+              const profit = BettingModuleUtils.getProfitOrLiability(stake, odds);
               formattedBet = formattedBet.set('profit', profit).set('liability', profit)
             }
           }

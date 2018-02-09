@@ -197,16 +197,38 @@ const getBetsWithFormattedCurrency = createSelector(
     getAssetsById
   ],
   (bets, currencyFormat, assetsById) => {
+    let count = 0
     return bets.map(bet => {
+
+      const betType = bet.get('back_or_lay')
+
       const precision = assetsById.getIn([bet.get('asset_id'), 'precision']) || 0;
-      const formattedStake =  CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces);
-      const formattedProfitLiability = CurrencyUtils.getFormattedCurrency(getProfitLiabilityFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces);
+
+      let formattedStake, formattedProfitLiability, formattedAmountWon
+
+      formattedProfitLiability = CurrencyUtils.getFormattedCurrency(getProfitLiabilityFromBetObject(bet)/ Math.pow(10, precision),
+                                                  currencyFormat,
+                                                  BettingModuleUtils.exposurePlaces,
+                                                  betType);
+                                                  
+      formattedStake = CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet) / Math.pow(10, precision),
+                                      currencyFormat,
+                                      BettingModuleUtils.stakePlaces,
+                                      betType);
+
       bet = bet.set('stake', formattedStake);
       bet = bet.set('profit_liability', formattedProfitLiability);
+
       if (bet.get('category') === BetCategories.RESOLVED_BET) {
-        const formattedAmountWon = CurrencyUtils.getFormattedCurrency(bet.get('amount_won')/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces);
+        formattedAmountWon = CurrencyUtils.getFormattedCurrency(
+                                              bet.get('amount_won') / Math.pow(10, precision),
+                                              currencyFormat,
+                                              BettingModuleUtils.exposurePlaces,
+                                              betType
+                                            );
         bet = bet.set('amount_won', formattedAmountWon);
       }
+
       return bet;
     })
 
@@ -218,25 +240,17 @@ const getBetData = createSelector(
   [
     getBetsWithFormattedCurrency,
     getCancelBetsByIdsLoadingStatus,
-    getBettingMarketsById,
-    getCurrencyFormat
+    getBettingMarketsById
   ],
   (
     bets,
     cancelBetsByIdsLoadingStatus,
-    bettingMarkets,
-    currencyFormat
+    bettingMarkets
   ) => {
     return bets.map((bet) => {
       bet = bet.set('key', bet.get('id'));
 
       bet = bet.set('type', bet.get('back_or_lay').toUpperCase() + ' | ' + bet.get('betting_market_description') + ' | ' + bet.get('betting_market_group_description'))
-
-
-      if (bet.get('back_or_lay') === 'lay') {
-        bet = bet.set('stake', CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', (bet.get('stake') / (bet.get('backer_multiplier') - 1)), currencyFormat))
-          .set('profit_liability', CurrencyUtils.formatFieldByCurrencyAndPrecision('profit', bet.get('stake'), currencyFormat))
-      }
 
       if (bet.get('category') === BetCategories.RESOLVED_BET) {
         const resolvedTime = getFormattedDate(bet.get('resolved_time'));
