@@ -94,6 +94,13 @@ class MarketDrawerPrivateActions {
     }
   }
 
+  static showDeleteUnmatchedBetConfirmation(bet) {
+    return {
+      type: ActionTypes.MARKET_DRAWER_SHOW_DELETE_UNMATCHED_BET_CONFIRMATION,
+      bet
+    }
+  }
+
   static deleteManyUnmatchedBets(listOfBetIds) {
     return {
       type: ActionTypes.MARKET_DRAWER_DELETE_MANY_UNMATCHED_BETS,
@@ -308,9 +315,15 @@ class MarketDrawerActions {
     }
   }
 
-  static clickDeleteUnmatchedBets(bets) {
+  static clickDeleteUnmatchedBets(bets) {    
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.showDeleteUnmatchedBetsConfirmation(bets));
+    }
+  }
+
+  static clickDeleteUnmatchedBet(bet) {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.showDeleteUnmatchedBetConfirmation(bet))
     }
   }
 

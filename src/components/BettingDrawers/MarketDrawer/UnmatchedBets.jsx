@@ -29,7 +29,7 @@ class UnmatchedBets extends PureComponent {
         <BetTable
           data={ this.props.bets }
           title={ I18n.t('market_drawer.unmatched_bets.header') }
-          deleteOne={ this.props.deleteUnmatchedBet }
+          deleteOne={ this.props.clickDeleteUnmatchedBet }
           deleteMany={ this.props.clickDeleteUnmatchedBets }
           updateOne={ this.props.updateUnmatcedBet }
           dimmed={ this.props.obscureContent }
@@ -46,7 +46,7 @@ class UnmatchedBets extends PureComponent {
               onClick={ () => this.props.clickUpdateBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
               disabled={ !this.props.hasUpdatedBets }
             >
-              { I18n.t('market_drawer.unmatched_bets.content.update_button', { amount : this.props.totalBetAmountString }) }
+              { I18n.t('market_drawer.unmatched_bets.content.update_button', { amount : this.props.totalBetAmountString } ) }
             </button>
           </div>
         }
@@ -92,6 +92,7 @@ const mapDispatchToProps = (dispatch) => {
     updateUnmatcedBet: MarketDrawerActions.updateUnmatchedBet,
     deleteUnmatchedBet: MarketDrawerActions.deleteUnmatchedBet,
     clickDeleteUnmatchedBets: MarketDrawerActions.clickDeleteUnmatchedBets,
+    clickDeleteUnmatchedBet: MarketDrawerActions.clickDeleteUnmatchedBet,
     clickUpdateBet: MarketDrawerActions.clickUpdateBet,
     clickReset: MarketDrawerActions.clickReset,
   }, dispatch);

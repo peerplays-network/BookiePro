@@ -50,7 +50,7 @@ export default function(state = initialState, action) {
         unconfirmedbetsToBeDeleted: action.bets,
         overlay: BettingDrawerStates.DELETE_BETS_CONFIRMATION,
       })
-    }
+    }    
     case ActionTypes.MARKET_DRAWER_HIDE_DELETE_UNCONFIRMED_BETS_CONFIRMATION: {
       return state.merge({
         unconfirmedbetsToBeDeleted: Immutable.List(),
@@ -170,6 +170,12 @@ export default function(state = initialState, action) {
       return state.merge({
         unmatchedbetsToBeDeleted: action.bets,
         overlay: BettingDrawerStates.DELETE_BETS_CONFIRMATION,
+      })
+    }
+    case ActionTypes.MARKET_DRAWER_SHOW_DELETE_UNMATCHED_BET_CONFIRMATION: {
+      return state.merge({
+        unmatchedBetToBeDeleted: action.bet,
+        overlay: BettingDrawerStates.DELETE_BET_CONFIRMATION
       })
     }
     case ActionTypes.MARKET_DRAWER_HIDE_DELETE_UNMATCHED_BETS_CONFIRMATION: {
