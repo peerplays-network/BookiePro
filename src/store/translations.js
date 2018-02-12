@@ -1121,7 +1121,7 @@ export const translationsObject = {
         ],
       },
       topicFees: {
-        header: 'Commision & Fees',
+        header: 'Commission & Fees',
         questionAnswerPairs: [
           {
             question: '',
