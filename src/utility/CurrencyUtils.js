@@ -18,8 +18,8 @@ var CurrencyUtils = {
       mBTC: 2
     },
     stake: {
-      BTC: 3,
-      mBTC: 0
+      BTC: 5,
+      mBTC: 2
     },
     profit : {
       BTC: 5,
