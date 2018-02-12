@@ -7,8 +7,17 @@ import { BettingMarketGroupPageActions, MarketDrawerActions, NavigateActions } f
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PeerPlaysLogo from '../PeerPlaysLogo';
+import $ from 'jquery';
 
 class BettingMarketGroup extends PureComponent {
+  componentDidMount() {
+    $('html body').css('min-width', '1210px');
+    $('html body').css('overflow', 'overlay');
+  }
+
+  componentWillUnmount() {
+    $('html body').css('min-width', '1002px');
+  }
 
   componentWillMount() {
     // Get the data
