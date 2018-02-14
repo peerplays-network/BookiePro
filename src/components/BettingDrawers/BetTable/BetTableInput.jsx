@@ -199,13 +199,11 @@ class BetTableInput extends PureComponent {
           <div>
             <a className='arrow-icon-main icon-up'
                 onMouseDown={ this.clickAndHoldIncrement }
-                onMouseUp={ this.mouseUp }
-                onMouseLeave={ this.mouseUp }>
+                onMouseUp={ this.mouseUp }>
                 <i className='icon-arrow icon-up-arrow'></i></a>
             <a className='arrow-icon-main icon-down'
                 onMouseDown={ this.clickAndHoldDecrement }
-                onMouseUp={ this.mouseUp }
-                onMouseLeave={ this.mouseUp }>
+                onMouseUp={ this.mouseUp }>
                 <i className='icon-arrow icon-down-arrow'></i></a>
           </div>
           : ''
