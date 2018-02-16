@@ -128,12 +128,47 @@ class AuthActions {
    */
   static autoLogin() {
     return (dispatch, getState) => {
-      const isLoggedIn = getState().getIn(['account', 'isLoggedIn']);
-      const accountName = getState().getIn(['account', 'account', 'name']);
-      const password = getState().getIn(['account', 'password']);
-      if (!isLoggedIn || !accountName || !password ) {
+      const accountId = getState().getIn(['account', 'account', 'id']);
+      if(!accountId){
         // No auto login information
         log.info('No auto login information');
+        // Dispatch logout action to clear data
+        dispatch(AuthPrivateActions.logoutAction(accountId));
+        // Navigate to the login page of the app
+        dispatch(NavigateActions.navigateTo('/login'));
+        log.debug('Logout user succeed.');
+        
+        return Promise.reject();
+      } else{
+        if (accountId){
+            // Dispatch logout action to clear data
+          dispatch(AuthPrivateActions.logoutAction(accountId));
+          // Navigate to the login page of the app
+          dispatch(NavigateActions.navigateTo('/login'));
+          log.debug('Logout user succeed.');
+          return Promise.reject();
+        }else {
+          log.error('No user is logged in');
+          return Promise.reject();
+        }
+        
+      }
+      
+      /*const isLoggedIn = getState().getIn(['account', 'isLoggedIn']);
+      const accountName = getState().getIn(['account', 'account', 'name']);
+      const password = getState().getIn(['account', 'password']);*/
+      /*const isLoggedIn = null;
+      const accountName = null; 
+      const password = null;*/
+      /*if (!isLoggedIn || !accountName || !password ) {
+        // No auto login information
+        log.info('No auto login information');
+        // Dispatch logout action to clear data
+        dispatch(AuthPrivateActions.logoutAction(accountId));
+        // Navigate to the login page of the app
+        dispatch(NavigateActions.navigateTo('/login'));
+        log.debug('Logout user succeed.');
+        
         return Promise.reject();
       } else {
         dispatch(AuthPrivateActions.setAutoLoginLoadingStatusAction(LoadingStatus.LOADING));
@@ -151,7 +186,7 @@ class AuthActions {
           dispatch(AuthPrivateActions.setAutoLoginErrorsAction([I18n.t('login.wrong_username_password')]));
           throw error;
         })
-      }
+      }*/
 
     }
   }

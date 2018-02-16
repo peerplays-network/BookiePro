@@ -135,6 +135,7 @@ class AppActions {
   }
 
   static connectToBlockchain() {
+    
     return (dispatch, getState) => {
       dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.LOADING));
       // Define callback whenever connection change
@@ -163,7 +164,7 @@ class AppActions {
         // Do auto login
         dispatch(AuthActions.autoLogin()).then(() => {
           // Redirect the user to exchange page
-          dispatch(NavigateActions.navigateTo('/exchange'));
+          //dispatch(NavigateActions.navigateTo('/exchange'));
         }).catch(() => {
           // Fail to do auto login, do nothing
         }).then(() => {
