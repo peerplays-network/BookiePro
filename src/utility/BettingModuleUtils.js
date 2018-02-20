@@ -10,9 +10,19 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 import { CurrencyUtils } from './';
 
+/*
+If current currency is BTC: 
+  odds precision             -> 2
+  stake precision            -> 5
+  profit/liability precision -> 5
+If current currency is mBTC: 
+  odds precision             -> 2
+  stake precision            -> 2
+  profit/liability precision -> 2
+*/
 const oddsPlaces = 2;
-const stakePlaces = 3; //minimum stake = 0.001 BTC
-const exposurePlaces = oddsPlaces + stakePlaces;
+const stakePlaces = 5; // BTC -> 5 mBTC -> 2 //minimum stake = 0.001 BTC
+const exposurePlaces = 5;
 
 var isFieldInvalid = function(object, field) {
   if (!object.has(field)) return true;

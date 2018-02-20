@@ -18,8 +18,8 @@ var CurrencyUtils = {
       mBTC: 2
     },
     stake: {
-      BTC: 3,
-      mBTC: 0
+      BTC: 5,
+      mBTC: 2
     },
     profit : {
       BTC: 5,
@@ -58,13 +58,13 @@ var CurrencyUtils = {
       if (currency === 'mBTC') {
         // 1 BTC = 1 * 10^3 mBTC
         const mPrecision = precision < 3 ? 0 : precision - 3;
-        return ( 1000 * amount ).toFixed(mPrecision + 1);
+        return ( 1000 * amount ).toFixed(mPrecision);
       }
 
       if (currency === 'BTC') {
         // Sometimes amount is a string type which will throw an
         // error unless its cast as a number. Add (1 * amount)
-        return (1 * amount).toFixed(precision + 1);
+        return (1 * amount).toFixed(precision);
       }
     }
 
