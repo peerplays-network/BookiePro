@@ -119,7 +119,7 @@ const getMatchedBetsColumns = (currencyFormat) => {
  */
 const getResolvedBetsColumns = (currencyFormat) => {
   const currencySymbol = '(' + CurrencyUtils.getCurruencySymbol(currencyFormat) + ')';
-  const profitLiabilityTitle  = <Translate value='mybets.profit_liability' currency={ currencySymbol } dangerousHTML/> ;
+  
   return [
     {
       title:  I18n.t('resolved_time'),
@@ -152,7 +152,7 @@ const getResolvedBetsColumns = (currencyFormat) => {
       key: 'stake',
     },
     {
-      title: profitLiabilityTitle,
+      title: I18n.t('mybets.profit_liability') + currencySymbol,
       dataIndex: 'profit_liability',
       key: 'profit_liability'
     },
