@@ -165,7 +165,26 @@ const getResolvedBetsColumns = (currencyFormat) => {
 
 }
 
+//merge data from relationalCollection to collection by foreign key relationId
+//mergeColumns is key value pair in which key is new column name to be set collection
+//value represent source column of relationalCollection, value of which to be copied to collection
+const mergeRelationData = (collection, relationalCollection, relationId, mergeColumns) => {
+  collection.forEach((d, index) => {
+    //get object from relationalCollection on the basis of foreign key value from collection
+    var matchObj = relationalCollection.get(d.get(relationId));
+    //iterate through mergeColumns to set value from relational object to specific object in collection
+    matchObj && Object.keys(mergeColumns).forEach(function(r){
+      //set column value
+      d = d.set(mergeColumns[r], matchObj.get(r));
+    });
+    //replacing updated object in collection
+    collection[index] = d;
+  });
+  return collection;
+}
+
 const MyWagerUtils = {
+  mergeRelationData,
   getUnmatchedBetsColumns,
   getMatchedBetsColumns,
   getResolvedBetsColumns
