@@ -84,7 +84,7 @@ class MywagerActions {
         const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting']);
         const currencyFormat = setting.getIn(['currencyFormat']);
         const assetsById = getState().getIn(['asset', 'assetsById']);
-        const bettingMarketsById = getState().getIn(['bettingMarket', 'bettingMarketsById']);
+        const bettingMarketsById = getState().getIn(['bettingMarket', 'persistedBettingMarketsById']);
 
         let exportData = [];
 
