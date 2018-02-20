@@ -128,31 +128,31 @@ class AuthActions {
    */
   static autoLogin() {
     return (dispatch, getState) => {
-      const isLoggedIn = getState().getIn(['account', 'isLoggedIn']);
-      const accountName = getState().getIn(['account', 'account', 'name']);
-      const password = getState().getIn(['account', 'password']);
-      if (!isLoggedIn || !accountName || !password ) {
+      const accountId = getState().getIn(['account', 'account', 'id']);
+      if(!accountId){
         // No auto login information
         log.info('No auto login information');
+        // Dispatch logout action to clear data
+        dispatch(AuthPrivateActions.logoutAction(accountId));
+        // Navigate to the login page of the app
+        dispatch(NavigateActions.navigateTo('/login'));
+        log.debug('Logout user succeed.');
+        
         return Promise.reject();
-      } else {
-        dispatch(AuthPrivateActions.setAutoLoginLoadingStatusAction(LoadingStatus.LOADING));
-        return dispatch(AuthPrivateActions.processLogin(accountName, password)).then(() => {
-          log.debug('Auto login succeed.')
-          // Navigate to home page
-          dispatch(NavigateActions.navigateTo('/exchange'));
-          // Set login status to done
-          dispatch(AuthPrivateActions.setAutoLoginLoadingStatusAction(LoadingStatus.DONE));
-        }).catch((error) => {
-          // Auto login fails, very likely because the stored username and password is invalid, clear the data
-          dispatch(AuthPrivateActions.resetAutoLoginInfoAction());
-          log.error('Auto login error', error);
-          // Set error
-          dispatch(AuthPrivateActions.setAutoLoginErrorsAction([I18n.t('login.wrong_username_password')]));
-          throw error;
-        })
+      } else{
+        if (accountId){
+            // Dispatch logout action to clear data
+          dispatch(AuthPrivateActions.logoutAction(accountId));
+          // Navigate to the login page of the app
+          dispatch(NavigateActions.navigateTo('/login'));
+          log.debug('Logout user succeed.');
+          return Promise.reject();
+        }else {
+          log.error('No user is logged in');
+          return Promise.reject();
+        }
+        
       }
-
     }
   }
   /**
