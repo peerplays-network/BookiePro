@@ -55,7 +55,7 @@ class ResolvedBets extends PureComponent {
       handleResetExport
     } = this.props;
 
-    const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat);
+    const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
 
     return (
       <div className='table-card'>

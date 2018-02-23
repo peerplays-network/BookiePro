@@ -15,7 +15,7 @@ import CurrencyUtils from './CurrencyUtils';
  * @returns {list} - list of objects with 'title', 'dataIndex', 'key' and 'onCellClick'(optional)
  */
 const getUnmatchedBetsColumns = (currencyFormat, onCancelBetClick, onEventClick) => {
-  const currencySymbol = '(' + CurrencyUtils.getCurrencySymbol(currencyFormat) + ')';
+  const currencySymbol = '(' + CurrencyUtils.getCurruencySymbol(currencyFormat) + ')';
   const profitLiabilityTitle  = <Translate value='mybets.profit_liability' currency={ currencySymbol } dangerousHTML/> ;
   return [
     {
@@ -70,7 +70,7 @@ const getUnmatchedBetsColumns = (currencyFormat, onCancelBetClick, onEventClick)
  * @returns {list} - list of objects with 'title', 'dataIndex', 'key' and 'onCellClick'(optional)
  */
 const getMatchedBetsColumns = (currencyFormat) => {
-  const currencySymbol = '(' + CurrencyUtils.getCurrencySymbol(currencyFormat) + ')';
+  const currencySymbol = '(' + CurrencyUtils.getCurruencySymbol(currencyFormat) + ')';
   const profitLiabilityTitle  = <Translate value='mybets.profit_liability' currency={ currencySymbol } dangerousHTML/> ;
   return [
     {
@@ -118,7 +118,7 @@ const getMatchedBetsColumns = (currencyFormat) => {
  * @returns {list} - list of objects with 'title', 'dataIndex', 'key' and 'onCellClick'(optional)
  */
 const getResolvedBetsColumns = (currencyFormat) => {
-  const currencySymbol = '(' + CurrencyUtils.getCurrencySymbol(currencyFormat) + ')';
+  const currencySymbol = '(' + CurrencyUtils.getCurruencySymbol(currencyFormat) + ')';
   const profitLiabilityTitle  = <Translate value='mybets.profit_liability' currency={ currencySymbol } dangerousHTML/> ;
   return [
     {

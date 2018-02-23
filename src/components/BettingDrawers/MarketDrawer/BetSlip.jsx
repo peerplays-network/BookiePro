@@ -137,7 +137,7 @@ const mapStateToProps = (state, ownProps) => {
     numberOfBadBets: originalBets.size - numberOfGoodBets,
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
-    totalBetAmountString: CurrencyUtils.getCurrencySymbol(ownProps.currencyFormat) +
+    totalBetAmountString: CurrencyUtils.getCurruencySymbol(ownProps.currencyFormat) +
                           totalAmount.toFixed(2),
   };
 }
