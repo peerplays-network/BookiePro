@@ -296,7 +296,6 @@ const mapStateToProps = (state) => {
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']) ;
   const precision = state.getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
   const balance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
-  const convertedAvailableBalance = CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces);
   let availableBalance = balance !== undefined ? convertedAvailableBalance : 0;
 
   // in game balances is gained by summing matched bets and unmatched bets
