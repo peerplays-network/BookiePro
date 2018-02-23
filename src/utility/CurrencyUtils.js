@@ -87,12 +87,11 @@ var CurrencyUtils = {
     let formatted = this.getFormattedCurrency(amount, currency, precision);
     if (isNaN(formatted)) return 0
     const currencySymbol = this.getCurruencySymbol(currency);
-
     // Note: Math.abs can take a string of valid number as argument
     if (currency === 'mBTC') {
       precision = precision < 3 ? 0 : precision - 3;
     }
-
+    console.log(( amount >= 0 ? '' : '-') + currencySymbol + (spaceAfterSymbol ? ' ' : '') + this.adjustCurrencyString(formatted), typeof(this.adjustCurrencyString(formatted)));
     return ( amount >= 0 ? '' : '-') + currencySymbol + (spaceAfterSymbol ? ' ' : '') + this.adjustCurrencyString(formatted);
   },
 
@@ -101,19 +100,19 @@ var CurrencyUtils = {
     const MID_BOUND = 1
     const UPPER_BOUND = 99999
     const NUM_ALLOWED_CHARS = 4;
-    const stringValue = parseFloat(string)
+    const stringValue = parseFloat(string).toFixed(5);
 
     if (string.length >= NUM_ALLOWED_CHARS) {
       if (stringValue > LOWER_BOUND &&
           stringValue < MID_BOUND) {
-        return stringValue.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0] // If between 0 and 1, keep the 0. and 4 additional digits
+        return stringValue.toString().match(/^-?\d+(?:\.\d{0,6})?/)[0] // If between 0 and 1, keep the 0. and 4 additional digits
       } else if (stringValue > LOWER_BOUND &&
           stringValue < UPPER_BOUND) {
-        return string.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0] // If between 0 and 99999 keep 4 characters of the string
+        return string.toString().match(/^-?\d+(?:\.\d{0,6})?/)[0] // If between 0 and 99999 keep 4 characters of the string
       } else if (stringValue > UPPER_BOUND) {
         return (stringValue / 1000) + ' k' // If larger than 100k, divide by 1000 and add a 'k'
       } else {
-        return string.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0] // All else fails, return 5 most significant digits
+        return string.toString().match(/^-?\d+(?:\.\d{0,6})?/)[0] // All else fails, return 5 most significant digits
       }
     }
     return string // Return the string as it is if it is not larger than 5 characters
