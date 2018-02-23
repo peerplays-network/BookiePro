@@ -159,7 +159,7 @@ class TopMenu extends PureComponent {
   render() {
     const amountCard = (
       <Amount cardClass='bookie-card bookie-amount-card'
-        currencyFormat={ CurrencyUtils.getCurruencySymbol(this.props.currencyFormat) }
+        currencyFormat={ CurrencyUtils.getCurrencySymbol(this.props.currencyFormat) }
         availableBalance={ this.props.availableBalance }
         inGameAmount={ this.props.inGameAmount }/>
     );

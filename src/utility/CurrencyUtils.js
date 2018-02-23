@@ -35,7 +35,7 @@ var CurrencyUtils = {
     }
   },
 
-  getCurruencySymbol: function( currency = 'BTC' ){
+  getCurrencySymbol: function( currency = 'BTC' ){
     if ( currency === 'mBTC'){
       return mBitcoinSymbol;
     } else if ( currency === 'BTC'){
@@ -51,7 +51,7 @@ var CurrencyUtils = {
    * @param {float} amount - amount to be formatted, in terms of 'BTC'
    * @param {string} currency -  display currency, 'BTC' or 'mBTC'
    * @param {integer} precision - ( ***BTC*** base), either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
-   * @returns {string} - formatted string to support negative bitcoin curruency values
+   * @returns {string} - formatted string to support negative bitcoin currency values
    */
   getFormattedCurrency: function(amount, currency = 'BTC', precision = 0){
     if (!isNaN(amount)) {
@@ -86,38 +86,13 @@ var CurrencyUtils = {
   formatByCurrencyAndPrecisionWithSymbol: function(amount, currency, precision = 0, spaceAfterSymbol = false) {
     let formatted = this.getFormattedCurrency(amount, currency, precision);
     if (isNaN(formatted)) return 0
-    const currencySymbol = this.getCurruencySymbol(currency);
+    const currencySymbol = this.getCurrencySymbol(currency);
     // Note: Math.abs can take a string of valid number as argument
     if (currency === 'mBTC') {
       precision = precision < 3 ? 0 : precision - 3;
     }
-    console.log(( amount >= 0 ? '' : '-') + currencySymbol + (spaceAfterSymbol ? ' ' : '') + this.adjustCurrencyString(formatted), typeof(this.adjustCurrencyString(formatted)));
-    return ( amount >= 0 ? '' : '-') + currencySymbol + (spaceAfterSymbol ? ' ' : '') + this.adjustCurrencyString(formatted);
+    return ( amount >= 0 ? '' : '-') + currencySymbol + (spaceAfterSymbol ? ' ' : '') + formatted;
   },
-
-  adjustCurrencyString: function(string) {
-    const LOWER_BOUND = 0
-    const MID_BOUND = 1
-    const UPPER_BOUND = 99999
-    const NUM_ALLOWED_CHARS = 4;
-    const stringValue = parseFloat(string).toFixed(5);
-
-    if (string.length >= NUM_ALLOWED_CHARS) {
-      if (stringValue > LOWER_BOUND &&
-          stringValue < MID_BOUND) {
-        return stringValue.toString().match(/^-?\d+(?:\.\d{0,6})?/)[0] // If between 0 and 1, keep the 0. and 4 additional digits
-      } else if (stringValue > LOWER_BOUND &&
-          stringValue < UPPER_BOUND) {
-        return string.toString().match(/^-?\d+(?:\.\d{0,6})?/)[0] // If between 0 and 99999 keep 4 characters of the string
-      } else if (stringValue > UPPER_BOUND) {
-        return (stringValue / 1000) + ' k' // If larger than 100k, divide by 1000 and add a 'k'
-      } else {
-        return string.toString().match(/^-?\d+(?:\.\d{0,6})?/)[0] // All else fails, return 5 most significant digits
-      }
-    }
-    return string // Return the string as it is if it is not larger than 5 characters
-  },
-
    /**
     * Format Odds, Stake, Profit and Liability based on currency and precision.
     * The precision of each field is defined in requirements.
@@ -172,7 +147,7 @@ var CurrencyUtils = {
    * Return the field value (amount) as a formatted string
    */
   toFixedWithSymbol: function(field, amount, currency, spaceAfterSymbol=false) {
-    return (amount >= 0 ? '' : '-') + this.getCurruencySymbol(currency) +
+    return (amount >= 0 ? '' : '-') + this.getCurrencySymbol(currency) +
            (spaceAfterSymbol ? ' ' : '') + this.toFixed(field, Math.abs(amount), currency);
   },
 
