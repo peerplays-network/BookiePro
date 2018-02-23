@@ -35,7 +35,7 @@ var CurrencyUtils = {
     }
   },
 
-  getCurruencySymbol: function( currency = 'BTC' ){
+  getCurrencySymbol: function( currency = 'BTC' ){
     if ( currency === 'mBTC'){
       return mBitcoinSymbol;
     } else if ( currency === 'BTC'){
@@ -86,37 +86,14 @@ var CurrencyUtils = {
   formatByCurrencyAndPrecisionWithSymbol: function(amount, currency, precision = 0, spaceAfterSymbol = false) {
     let formatted = this.getFormattedCurrency(amount, currency, precision);
     if (isNaN(formatted)) return 0
-    const currencySymbol = this.getCurruencySymbol(currency);
+    const currencySymbol = this.getCurrencySymbol(currency);
 
     // Note: Math.abs can take a string of valid number as argument
     if (currency === 'mBTC') {
       precision = precision < 3 ? 0 : precision - 3;
     }
 
-    return ( amount >= 0 ? '' : '-') + currencySymbol + (spaceAfterSymbol ? ' ' : '') + this.adjustCurrencyString(formatted);
-  },
-
-  adjustCurrencyString: function(string) {
-    const LOWER_BOUND = 0
-    const MID_BOUND = 1
-    const UPPER_BOUND = 99999
-    const NUM_ALLOWED_CHARS = 4;
-    const stringValue = parseFloat(string)
-
-    if (string.length >= NUM_ALLOWED_CHARS) {
-      if (stringValue > LOWER_BOUND &&
-          stringValue < MID_BOUND) {
-        return stringValue.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0] // If between 0 and 1, keep the 0. and 4 additional digits
-      } else if (stringValue > LOWER_BOUND &&
-          stringValue < UPPER_BOUND) {
-        return string.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0] // If between 0 and 99999 keep 4 characters of the string
-      } else if (stringValue > UPPER_BOUND) {
-        return (stringValue / 1000) + ' k' // If larger than 100k, divide by 1000 and add a 'k'
-      } else {
-        return string.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0] // All else fails, return 5 most significant digits
-      }
-    }
-    return string // Return the string as it is if it is not larger than 5 characters
+    return ( amount >= 0 ? '' : '-') + currencySymbol + (spaceAfterSymbol ? ' ' : '') + formatted;
   },
 
    /**
@@ -153,8 +130,8 @@ var CurrencyUtils = {
     if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
     let floatAmount = parseFloat(amount)
     if (field === 'stake') {
-      if (floatAmount < 1 && currency === 'mBTC') return 1
-      if (floatAmount < .001 && currency === 'BTC') return .001
+      if (floatAmount < 1 && currency === 'mBTC') return '1.00'
+      if (floatAmount < .001 && currency === 'BTC') return '0.00100'
     }
 
     return floatAmount.toFixed(this.fieldPrecisionMap[field][currency]);
@@ -173,7 +150,7 @@ var CurrencyUtils = {
    * Return the field value (amount) as a formatted string
    */
   toFixedWithSymbol: function(field, amount, currency, spaceAfterSymbol=false) {
-    return (amount >= 0 ? '' : '-') + this.getCurruencySymbol(currency) +
+    return (amount >= 0 ? '' : '-') + this.getCurrencySymbol(currency) +
            (spaceAfterSymbol ? ' ' : '') + this.toFixed(field, Math.abs(amount), currency);
   },
 

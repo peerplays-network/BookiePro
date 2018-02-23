@@ -146,7 +146,7 @@ class TopMenuWithdraw extends PureComponent {
                     hasWithdrawAmountErr={ this.state.hasWithdrawAmountErr }
                     withdrawAmountErrMsg={ availableBalance!==-1 ? (I18n.t('myAccount.insuffBitcoinErr')
                                 + this.props.convertedAvailableBalance
-                                + ' ' + CurrencyUtils.getCurruencySymbol(currencyFormat))
+                                + ' ' + CurrencyUtils.getCurrencySymbol(currencyFormat))
                                 : I18n.t('application.notAvailableErr') }
                     component={ renderField }  type='text' normalize={ normalizeAmount }/>
                 </div>

@@ -21,7 +21,7 @@ If current currency is mBTC:
   profit/liability precision -> 2
 */
 const oddsPlaces = 2;
-const stakePlaces = 5; // BTC -> 5 mBTC -> 2 //minimum stake = 0.001 BTC
+const stakePlaces = 5;//minimum stake = 0.001 BTC
 const exposurePlaces = 5;
 
 var isFieldInvalid = function(object, field) {
