@@ -18,8 +18,8 @@ var CurrencyUtils = {
       mBTC: 2
     },
     stake: {
-      BTC: 3,
-      mBTC: 0
+      BTC: 5,
+      mBTC: 2
     },
     profit : {
       BTC: 5,
@@ -153,8 +153,8 @@ var CurrencyUtils = {
     if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
     let floatAmount = parseFloat(amount)
     if (field === 'stake') {
-      if (floatAmount < 1 && currency === 'mBTC') return 1
-      if (floatAmount < .001 && currency === 'BTC') return .001
+      if (floatAmount < 1 && currency === 'mBTC') return '1.00'
+      if (floatAmount < .001 && currency === 'BTC') return '0.00100'
     }
 
     return floatAmount.toFixed(this.fieldPrecisionMap[field][currency]);
