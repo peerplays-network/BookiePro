@@ -84,7 +84,7 @@ class MywagerActions {
         const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting']);
         const currencyFormat = setting.getIn(['currencyFormat']);
         const assetsById = getState().getIn(['asset', 'assetsById']);
-        const bettingMarketsById = getState().getIn(['bettingMarket', 'bettingMarketsById']);
+        const bettingMarketsById = getState().getIn(['bettingMarket', 'persistedBettingMarketsById']);
 
         let exportData = [];
 
@@ -94,7 +94,7 @@ class MywagerActions {
         filteredResolvedBets.forEach(bet => {
           const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
           const bettingMarketGroupId = bettingMarket.get('group_id');
-          const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]) || Immutable.Map();
+          const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'persistedBettingMarketGroupsById', bettingMarketGroupId]) || Immutable.Map();
           const precision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']) || 0;
           let rowObj = {
             key: bet.get('id'),
@@ -102,29 +102,31 @@ class MywagerActions {
             'betting_market_id': bet.get('betting_market_id'),
             'back_or_lay': bet.get('back_or_lay'),
             // TODO: use betcategories instead of MyWagerTabTypes to avoid confusion
-            'stake': CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet)/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
-            'odds': bet.get('backer_multiplier'),
-            'profit_liability': CurrencyUtils.getFormattedCurrency(bet.get('amount_won')/ Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces),
+            'stake': CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet) / Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
+            'backer_multiplier': bet.get('backer_multiplier'),
+            'profit_liability': CurrencyUtils.getFormattedCurrency(bet.get('amount_won') / Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces),
+            'amount_won': CurrencyUtils.getFormattedCurrency(bet.get('amount_won') / Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces),
             'resolved_time': getFormattedDate(bet.get('resolved_time'))
           }
+
           exportData.push(Immutable.Map(rowObj));
         });
 
         //merging betting market data for display and betting_market_group_id for reference
-        exportData = mergeRelationData(exportData, getState().getIn(['bettingMarket','bettingMarketsById']), 'betting_market_id',
-          {group_id: 'group_id' , description: 'betting_market_description'});
+        exportData = mergeRelationData(exportData, getState().getIn(['bettingMarket','persistedBettingMarketsById']), 'betting_market_id',
+          {group_id: 'group_id', description: 'betting_market_description'});
 
         //merging betting market group data for display and eventid for reference
-        exportData = mergeRelationData(exportData, getState().getIn(['bettingMarketGroup','bettingMarketGroupsById']), 'group_id',
-          {event_id: 'event_id' , description: 'betting_market_group_description'});
+        exportData = mergeRelationData(exportData, getState().getIn(['bettingMarketGroup','persistedBettingMarketGroupsById']), 'group_id',
+          {event_id: 'event_id', description: 'betting_market_group_description'});
 
-        //merging evemt data for display and sport id for reference
+        //merging event data for display and sport id for reference
         exportData = mergeRelationData(exportData, getState().getIn(['event','eventsById']), 'event_id',
-          {'name': 'event_name'});
+          {name: 'event_name', event_group_id: 'event_group_id'});
 
-        //merging evemt data for display and sport id for reference
+        //merging event data for display and sport id for reference
         exportData = mergeRelationData(exportData, getState().getIn(['eventGroup','eventGroupsById']), 'event_group_id',
-          {'sport_id': 'sport_id'});
+          {sport_id: 'sport_id'});
 
         //merging sport data for display
         exportData = mergeRelationData(exportData, getState().getIn(['sport','sportsById']), 'sport_id',

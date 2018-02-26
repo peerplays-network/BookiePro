@@ -337,7 +337,7 @@ class ComplexBettingWidget extends PureComponent {
       // cant manipulate width of the th tag
       header:  props =>
       // NOTE will be seperated comopent for header
-        <div className='offer-header clearfix'>
+        <div className='offer-header clearfix back'>
           { this.state.backBookPercent > 0 ? (<p className='alignleft'>{ this.state.backBookPercent }%</p>) : '' }
           <p className='alignright' id={ BetTypes.BACK } onClick={ this.placeAllBestBets } >{I18n.t('complex_betting_widget.back_all')}</p>
         </div>,
@@ -386,7 +386,7 @@ class ComplexBettingWidget extends PureComponent {
     }, {
       // NOTE will be seperated comopent for header
       header:  props =>
-        <div className='offer-header'>
+        <div className='offer-header lay'>
           <p className='alignleft' id={ BetTypes.LAY } onClick={ this.placeAllBestBets } >{I18n.t('complex_betting_widget.lay_all')}</p>
           { this.state.layBookPercent > 0 ? (<p className='alignright'>{ this.state.layBookPercent }%</p>) : '' }
         </div>,
