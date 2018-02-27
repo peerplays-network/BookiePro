@@ -1,0 +1,25 @@
+{
+  "name": "peerplays-electron-template",
+  "version": "0.0.1",
+  "description": "The intent of this project is to provide a starting point for building electron applications that connect to the Peerplays BlockChain.",
+  "main": "build/electron.js",
+  "scripts": {
+    "start": "electron .",
+    "clean": "rm -rf build && rm -rf dist",
+    "copy:contents": "mkdir build && cp -r contents/build/* build/",
+    "copy:app": "cp app/electron.js build/",
+    "compile": "npm run clean && npm run copy:contents && npm run copy:app",
+    "dist": "electron-builder -wml",
+    "live": "npm run copy:app && ELECTRON_IS_DEV=1 electron .",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "electron-is-dev": "0.3.0"
+  },
+  "devDependencies": {
+    "electron": "1.8.2",
+    "electron-builder": "20.2.0"
+  }
+}

@@ -1,0 +1,15 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.peerplays.EXAMPLE
+mac:
+  category: public.app-category.productivity
+  icon: ./build/icon.icns
+win:
+  target:
+    - nsis
+  icon: ./build/icon.ico
+files:
+  - build/**/*
+  - node_modules/**/*
+electronVersion: 1.8.2
