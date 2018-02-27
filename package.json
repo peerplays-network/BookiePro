@@ -4,7 +4,6 @@
   "description": "Electron app powered by CRA",
   "version": "0.25.1",
   "private": true,
-  "homepage": "./",
   "devDependencies": {
     "autoprefixer": "6.7.2",
     "babel-core": "6.22.1",
@@ -24,8 +23,6 @@
     "dateformat": "~2.0.0",
     "detect-port": "1.0.1",
     "dotenv": "2.0.0",
-    "electron": "~1.4.15",
-    "electron-builder": "~14.4.0",
     "enzyme": "~2.7.1",
     "eslint": "3.8.1",
     "eslint-config-react-app": "~0.5.1",
@@ -71,7 +68,7 @@
   },
   "dependencies": {
     "antd": "~2.7.2",
-    "electron-titlebar-windows": "~2.1.0",
+    "electron": "^1.8.2",
     "excel-export": "~0.5.1",
     "fs": "0.0.1-security",
     "immutable": "~3.8.1",
@@ -109,33 +106,12 @@
     "reselect": "~3.0.0",
     "rxjs": "^5.4.2"
   },
-  "main": "src/electron-starter.js",
+  "main": "src/index.js",
   "scripts": {
-    "dev": "nf start",
     "start": "node scripts/start.js",
-    "build": "node scripts/build-electron.js",
-    "electron": "electron ./src/electron-starter.js",
+    "build": "node scripts/build.js",
     "test": "jest",
-    "updateSnapshot": "jest --updateSnapshot",
-    "pack": "build --dir",
-    "pack:all": "build -mw",
-    "dist": "build"
-  },
-  "build": {
-    "appId": "com.peerplays.bookie",
-    "mac": {
-      "category": "public.app-category.productivity",
-      "icon": "./build/icon.icns"
-    },
-    "win": {
-      "target": [
-        "nsis"
-      ],
-      "icon": "./build/icon.ico"
-    },
-    "directories": {
-      "buildResources": "public"
-    }
+    "updateSnapshot": "jest --updateSnapshot"
   },
   "jest": {
     "verbose": true,
@@ -167,8 +143,5 @@
     "presets": [
       "react-app"
     ]
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   }
 }
