@@ -9,10 +9,7 @@ folder over and inject it as the contents for the electron app.
 // Install the dependencies
 $ npm install 
 
-// This will add the repo as a submodule with its contents under the contents folder.
-$ git submodule add REPO_URL contents
-
-// If compile for linux the gettext package is required.
+// If compiling for linux the gettext package is required.
 $ brew install gettext
 
 // Compile the electron app.
