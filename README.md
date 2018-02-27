@@ -5,17 +5,24 @@ folder over and inject it as the contents for the electron app.
 
 ### Setup
 
-1) ``` $ npm install ```
+``` 
+// Install the dependencies
+$ npm install 
 
-2) ``` $ git submodule add REPO_URL contents ``` This will add the repo as a submodule with its contents
-under the contents folder.
-    
-    a) If compiling for Linux the gettext package is required. ```$ brew insatll gettext ```
+// This will add the repo as a submodule with its contents under the contents folder.
+$ git submodule add REPO_URL contents
 
-3)
-    a) Build the electron app: ``` $ npm run compile && npm run dist ```
+// If compile for linux the gettext package is required.
+$ brew install gettext
 
-    b) Launch electron pointing at the development server. ```$ npm run live ```
+// Compile the electron app.
+$ npm run compile && npm run dist
+
+// or
+// Launch electron pointing at the development server.
+$ npm run live
+
+```
 
 ##TODO
 - Update category for Linux for the build node under package.json to remove the warning.
