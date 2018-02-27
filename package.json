@@ -11,7 +11,7 @@
     "compile": "npm run clean && npm run copy:contents && npm run copy:app",
     "dist": "electron-builder -wml",
     "live": "npm run copy:app && ELECTRON_IS_DEV=1 electron .",
-    "add-submodules": "git submodule add --force git@bitbucket.org:peerplaysblockchain/bookie.git contents",
+    "add-submodules": "git submodule update --init",
     "postinstall": "electron-builder install-app-deps && npm run add-submodules"
   },
   "author": "",
