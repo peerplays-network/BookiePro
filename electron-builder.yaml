@@ -3,6 +3,13 @@ directories:
   buildResources: build
 appId: com.peerplays.bookie
 productName: Bookie
+extraMetadata:
+  name: Bookie
+  homepage: http://bookie.exchange/
+  description: Bookie is the first truly global betting exchange. Using a decentralized blockchain foundation, Bookie has been built to address three key challenges in sports betting today.
+  author: 
+    name: Bookie
+    email: bookie@peerplays.com
 mac:
   category: public.app-category.productivity
   icon: ./build/icon.icns
@@ -10,6 +17,9 @@ win:
   target:
     - nsis
   icon: ./build/icon.ico
+linux: 
+  target:
+    - deb
 files:
   - build/**/*
   - node_modules/**/*

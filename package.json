@@ -9,7 +9,7 @@
     "copy:contents": "mkdir build && cp -r contents/build/* build/",
     "copy:app": "cp app/electron.js build/",
     "compile": "npm run clean && npm run copy:contents && npm run copy:app",
-    "dist": "electron-builder -wml",
+    "dist": "npm run clean && npm run compile && electron-builder -wml",
     "live": "npm run copy:app && ELECTRON_IS_DEV=1 electron .",
     "update-submodules": "git submodule update --init --remote",
     "postinstall": "electron-builder install-app-deps && npm run update-submodules",
