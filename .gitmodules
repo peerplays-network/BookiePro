@@ -1,3 +1,4 @@
 [submodule "contents"]
 	path = contents
 	url = git@bitbucket.org:peerplaysblockchain/bookie.git
+	branch = develop

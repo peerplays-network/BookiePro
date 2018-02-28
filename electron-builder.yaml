@@ -1,7 +1,8 @@
 directories:
   output: dist
   buildResources: build
-appId: com.peerplays.EXAMPLE
+appId: com.peerplays.bookie
+productName: Bookie
 mac:
   category: public.app-category.productivity
   icon: ./build/icon.icns
