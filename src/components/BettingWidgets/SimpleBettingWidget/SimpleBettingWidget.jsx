@@ -37,14 +37,9 @@ const renderEventTime = (text, record) => {
   if (isLiveMarket) {
     return <span className='live'><span className='indicator'/>{ I18n.t('simple_betting_widget.in_play') }</span>;
   } else {
-    const eventTime = moment(record.get('time'))
-    let dateString = eventTime.format('MMM D');
-    let timeString = eventTime.calendar();
-    // TODO: Need a better way as this is NOT going to work once we have localization
-    if (timeString.toLowerCase().includes('today')) {
-      dateString = 'Today';
-    }
-    return <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>;
+    const eventD = moment.parseZone(record.get('time')).local().format('MMM D');
+    const eventT = moment.parseZone(record.get('time')).local().format('h:mm a');
+    return <span>{ eventD }<br/>{ eventT }</span>  
   }
 }
 
