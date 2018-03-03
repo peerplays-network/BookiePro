@@ -37,13 +37,9 @@ const renderEventTime = (text, record) => {
   if (isLiveMarket) {
     return <span className='live'><span className='indicator'/>{ I18n.t('simple_betting_widget.in_play') }</span>;
   } else {
-    const eventTime = moment(record.get('time'));
-    let dateString = eventTime.format('MMM D');
-    //Check if event is running today.
-    let timeString = eventTime.calendar();
-    dateString = timeString.toLowerCase().includes('today') ? 'Today' : dateString;
-
-    return <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>;
+    const eventD = moment.parseZone(record.get('time')).local().format('MMM D');
+    const eventT = moment.parseZone(record.get('time')).local().format('h:mm a');
+    return <span>{ eventD }<br/>{ eventT }</span>  
   }
 }
 
