@@ -4,8 +4,8 @@ import { version } from '../../package.json'
 
 const blockchainUrls = [
   // 'wss://595-dev-blockchain.pixelplex.by/ws',
-  'wss://peerplays-dev.blocktrades.info/ws',
-  // "wss://peerplays-dev.blocktrades.info/alpha/ws"
+  //'wss://peerplays-dev.blocktrades.info/ws',
+   "wss://peerplays-dev.blocktrades.info/alpha/ws"
   // 'wss://api.ppytest.blckchnd.com'
 ]
 
