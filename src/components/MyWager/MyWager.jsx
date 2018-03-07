@@ -26,6 +26,7 @@
  * MyWagerSelector is the source of bets listing
  */
 import React, { PureComponent } from 'react';
+import { CurrencyUtils } from '../../utility'
 import { Tabs, Breadcrumb } from 'antd';
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
@@ -278,6 +279,7 @@ function filterOdds(tableData, oddsFormat) {
     for (let row in tableData) {
       if (tableData[row]) {
         tableData[row].backer_multiplier = BettingModuleUtils.oddsFormatFilter(tableData[row].backer_multiplier, oddsFormat)
+        .toFixed(CurrencyUtils.fieldPrecisionMap['odds']['BTC']);
       }
     }
   }

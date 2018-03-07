@@ -159,7 +159,7 @@ class TopMenu extends PureComponent {
   render() {
     const amountCard = (
       <Amount cardClass='bookie-card bookie-amount-card'
-        currencyFormat={ CurrencyUtils.getCurruencySymbol(this.props.currencyFormat) }
+        currencyFormat={ CurrencyUtils.getCurrencySymbol(this.props.currencyFormat) }
         availableBalance={ this.props.availableBalance }
         inGameAmount={ this.props.inGameAmount }/>
     );
@@ -296,10 +296,7 @@ const mapStateToProps = (state) => {
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']) ;
   const precision = state.getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
   const balance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
-  const convertedAvailableBalance = setting.get('currencyFormat') == 'BTC' ? parseFloat(CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), 
-  setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces)).toFixed(5) : 
-  parseFloat(CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces)).toFixed(2);
-
+  const convertedAvailableBalance = CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces);
   let availableBalance = balance !== undefined ? convertedAvailableBalance : 0;
 
   // in game balances is gained by summing matched bets and unmatched bets
