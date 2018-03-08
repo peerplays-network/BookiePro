@@ -120,6 +120,7 @@ export const translationsObject = {
       log_in: 'Log In',
       premium_acc_text: 'This is a premium name. Please enter a regular name containing least one dash, a number or no vowels.',
       password_no_match: 'The password you entered does not match',
+      repeat_password: 'Repeat your Password',
       field_req: 'Field is required',
       acc_name_taken: 'Account Name is already taken'
     },

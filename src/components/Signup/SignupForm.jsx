@@ -95,7 +95,7 @@ const renderPasswordField = ({ onClickCopy, tabIndex, errors, input, type, meta:
  */
 const renderRetypePasswordField = ({ tabIndex, errors, input, type, meta: { touched, error } }) => (
   <div>
-      <input autoComplete='off' type={ type } { ...input } tabIndex={ tabIndex } />
+      <input autoComplete='off' placeholder={ I18n.t('signup.repeat_password') } type={ type } { ...input } tabIndex={ tabIndex } />
       { (touched) && error && <span className='errorText'>{ error }</span> }
   </div>
 );
