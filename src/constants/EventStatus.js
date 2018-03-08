@@ -3,6 +3,7 @@ const EventStatus = {
   IN_PROGRESS: 'in_progress',
   FROZEN: 'frozen',
   COMPLETED: 'completed',
+  SETTLED: 'settled',
   CANCELED: 'canceled'
 }
 

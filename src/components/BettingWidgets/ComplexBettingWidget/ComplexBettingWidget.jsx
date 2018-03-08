@@ -262,16 +262,45 @@ class ComplexBettingWidget extends PureComponent {
 
   renderLiveMarker() {
     //NOTE: in current structure it is either 'in-play' or 'going in-play'.
-    // there will be more types, depending on the change in blockchain objects future
-    if (this.props.isLiveMarket) {
-      return (
-        <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.in_play') }</span>
-      )
-    } else {
-      return (
-        <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.going_in_play') }</span>
-      )
-    }
+    // there will be more types, depending on the change in blockchain objects future. See lib/peerplaysjs-lib/lib/serializer/src/operations.js
+    debugger;
+    switch (this.props.eventStatus){
+      case "upcoming":
+        return (
+          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.upcoming') }</span>        
+        )
+        break;
+      case "in_progress":
+        return (
+          <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.in_play') }</span>
+        )
+        break;
+      case "frozen":
+        return (
+          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.frozen') }</span>        
+        )
+        break;
+      case "finished":
+        return (
+          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.finished') }</span>        
+        )
+        break;
+      case "settled":
+        return (
+          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.settled') }</span>        
+        )
+        break;
+      case "canceled":
+        return (
+          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.cancelled') }</span>        
+        )
+        break;
+      default:
+        console.log(this.props.eventStatus);
+        return (
+          <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.upcoming') }</span>
+        )
+    } 
   }
 
   render() {
@@ -482,7 +511,7 @@ class ComplexBettingWidget extends PureComponent {
                 }
               }
             }
-           }
+            }
           />
         }
 
@@ -497,6 +526,7 @@ ComplexBettingWidget.propTypes = {
   totalMatchedBetsAmount: PropTypes.any.isRequired,
   createBet: PropTypes.func.isRequired,
   // unconfirmedBets data in bet table
+  eventStatus: PropTypes.string,
   unconfirmedBets: PropTypes.any,
   currencyFormat: PropTypes.string.isRequired,
   oddsFormat: PropTypes.string.isRequired,

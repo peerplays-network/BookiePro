@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import Immutable from 'immutable';
 import CommonSelector from './CommonSelector';
-import { CurrencyUtils } from '../utility';
+import { CurrencyUtils, ObjectUtils } from '../utility';
 import { Config } from '../constants';
 
 const {
@@ -76,6 +76,13 @@ const getIsLiveMarket = createSelector(
   }
 )
 
+const getEventStatus = createSelector(
+  getEvent,
+  (event) => {
+    console.log(event)
+    return ObjectUtils.eventStatus(event);
+  }
+)
 
 const getBettingMarkets = createSelector(
   [
@@ -189,6 +196,7 @@ const BettingMarketGroupPageSelector = {
   getMarketData,
   getEventName,
   getEventTime,
+  getEventStatus,
   getIsLiveMarket,
   getTotalMatchedBetsAmount,
   getUnconfirmedBets,

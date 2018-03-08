@@ -5,7 +5,7 @@
  *
  * For the list of supported blockchain-objects, please refer to https://bitbucket.org/ii5/bookie/wiki/blockchain-objects/index
  */
-import { BetCategories, EventStatus, BettingMarketResolutionTypes, BetTypes } from '../constants';
+import { BetCategories, EventStatus, BettingMarketStatus, BettingMarketGroupStatus, BettingMarketResolutionTypes, BetTypes } from '../constants';
 
 /**
  * Function   :     getStakeFromBetObject()
@@ -145,9 +145,12 @@ const localizeArrayOfObjects = (arrayOfObjects, fieldsToLocalize=[], lang='en') 
  */
 const isActiveEvent = (event) => {
   const eventStatus = event.get('status');
-
   // Event is active if it is not completed or canceled
   return eventStatus !== EventStatus.COMPLETED && eventStatus !== EventStatus.CANCELED;
+}
+const eventStatus = (event) => {
+  const eventStatus = event.get('status');
+  return eventStatus;  
 }
 
 const ObjectUtils = {
@@ -156,7 +159,8 @@ const ObjectUtils = {
   getAmountWonFromBetObject,
   localizeObject,
   localizeArrayOfObjects,
-  isActiveEvent
+  isActiveEvent,
+  eventStatus,
 }
 
 export default ObjectUtils;

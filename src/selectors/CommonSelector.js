@@ -82,6 +82,18 @@ const getAggregatedEventsById = createSelector([
   return eventsById.concat(persistedEventsById);
 });
 
+const getEventStatusById = createSelector(
+  [
+    getEventsById
+  ],
+  (eventsById) => {
+    //debugger;
+    const eventStatus = (event) => (ObjectUtils.eventStatus(event));
+    console.log(eventsById.filter(eventStatus));
+    return eventsById.filter(eventStatus);
+  }
+)
+
 const getActiveEventsById = createSelector(
   [
     getEventsById
@@ -240,6 +252,7 @@ const CommonSelector = {
   getEventsById,
   getPersistedEventsById,
   getAggregatedEventsById,
+  getEventStatusById,
   getActiveEventsById,
   getActiveEventsBySportId,
   getEventsByEventGroupId,

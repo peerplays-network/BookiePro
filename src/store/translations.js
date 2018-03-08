@@ -275,6 +275,12 @@ export const translationsObject = {
       offer: '--',
       matched: 'Matched',
       moneyline: 'Moneyline',
+      upcoming: "UPCOMING",
+      in_progress: "IN PROGRESS",
+      frozen: "FROZEN",
+      finished: "FINISHED",
+      settled: "SETTLED",
+      cancelled: "CANCELLED",
       in_play: 'IN-PLAY',
       going_in_play: 'GOING IN-PLAY'
     },

@@ -372,8 +372,9 @@ class CommunicationService {
       }).catch((error) => {
         // Intercept and log
         log.error(`Error in calling ${apiPluginName}\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nError: `, error);
-        throw error;
-      })
+        // Return an empty response rather than throwing an error.
+        return Immutable.fromJS({});
+      });
     } else {
       // If it is not yet connected to blockchain, retry again after 3 seconds
       return new Promise((resolve, reject) => {
