@@ -2,9 +2,10 @@ const EventStatus = {
   UPCOMING: 'upcoming',
   IN_PROGRESS: 'in_progress',
   FROZEN: 'frozen',
-  COMPLETED: 'completed',
+  FINISHED: 'finished',
+  CANCELED: 'canceled',
   SETTLED: 'settled',
-  CANCELED: 'canceled'
+  COMPLETED: 'completed',
 }
 
 export default EventStatus;

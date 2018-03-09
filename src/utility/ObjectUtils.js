@@ -150,7 +150,18 @@ const isActiveEvent = (event) => {
 }
 const eventStatus = (event) => {
   const eventStatus = event.get('status');
+  console.log("event STATUS: ", eventStatus);
   return eventStatus;  
+}
+const bettingMarketStatus = (betting_market) => {
+  const bettingMarketStatus = betting_market.get('status');
+  console.log("betting_market STATUS: ", bettingMarketStatus);
+  return bettingMarketStatus;
+}
+const bettingMarketGroupStatus = (betting_market_group) => {
+  const bettingMarketGroupStatus = betting_market_group.get('status');
+  console.log("betting_market_group STATUS: ", bettingMarketGroupStatus)
+  return bettingMarketGroupStatus;
 }
 
 const ObjectUtils = {
@@ -161,6 +172,8 @@ const ObjectUtils = {
   localizeArrayOfObjects,
   isActiveEvent,
   eventStatus,
+  bettingMarketStatus,
+  bettingMarketGroupStatus,
 }
 
 export default ObjectUtils;

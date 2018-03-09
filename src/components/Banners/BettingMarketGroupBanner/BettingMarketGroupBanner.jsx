@@ -39,7 +39,6 @@ class BettingMarketGroupBanner extends PureComponent {
   renderLiveMarker() {
     // Event status enumerators. 
     // there will be more types, depending on the change in blockchain objects future. See lib/peerplaysjs-lib/lib/serializer/src/operations.js
-    debugger;
     switch (this.props.eventStatus){
       case "upcoming":
         return (
@@ -48,7 +47,7 @@ class BettingMarketGroupBanner extends PureComponent {
         break;
       case "in_progress":
         return (
-          <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.in_play') }</span>
+          <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.in_progress') }</span>
         )
         break;
       case "frozen":
@@ -68,13 +67,13 @@ class BettingMarketGroupBanner extends PureComponent {
         break;
       case "canceled":
         return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.cancelled') }</span>        
+          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.canceled') }</span>        
         )
         break;
       default:
         console.log(this.props.eventStatus);
         return (
-          <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.upcoming') }</span>
+          <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.error') }</span>
         )
     }
   } 

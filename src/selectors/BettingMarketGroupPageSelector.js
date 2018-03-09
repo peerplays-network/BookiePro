@@ -79,8 +79,21 @@ const getIsLiveMarket = createSelector(
 const getEventStatus = createSelector(
   getEvent,
   (event) => {
-    console.log(event)
     return ObjectUtils.eventStatus(event);
+  }
+)
+const getBettingMarketStatus = createSelector(
+  getEvent,
+  (bettingMarketStatus) => {
+    //console.log('bettingMarketStatus', bettingMarketStatus)
+    return ObjectUtils.bettingMarketStatus(bettingMarketStatus);
+  }
+)
+const getBettingMarketGroupStatus = createSelector(
+  getBettingMarketGroup,
+  (bettingMarketGroup) => {
+    //console.log('bettingMarketGroup', bettingMarketGroup)
+    return ObjectUtils.bettingMarketGroupStatus(bettingMarketGroup);
   }
 )
 
@@ -197,6 +210,8 @@ const BettingMarketGroupPageSelector = {
   getEventName,
   getEventTime,
   getEventStatus,
+  getBettingMarketStatus,
+  getBettingMarketGroupStatus,
   getIsLiveMarket,
   getTotalMatchedBetsAmount,
   getUnconfirmedBets,

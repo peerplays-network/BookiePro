@@ -1,11 +1,11 @@
 const BettingMarketGroupStatus = {
     UPCOMING: 'upcoming',
-    INPLAY: 'inplay',
-    FROZEN: 'frozen',
+    INPLAY: 'in_play',
     CLOSED: 'closed',
     GRADED: 'graded',
-    REGRADING: 'regrading',
+    REGRADING: 're_grading',
     SETTLED: 'settled',
+    FROZEN: 'frozen',
     CANCELED: 'canceled'
 }
 
