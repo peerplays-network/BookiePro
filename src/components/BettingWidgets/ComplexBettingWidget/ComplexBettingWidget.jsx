@@ -263,6 +263,7 @@ class ComplexBettingWidget extends PureComponent {
   renderLiveMarker() {
     //NOTE: in current structure it is either 'in-play' or 'going in-play'.
     // there will be more types, depending on the change in blockchain objects future. See lib/peerplaysjs-lib/lib/serializer/src/operations.js
+    /* TODO: This is still using the event_status enumerators from the lib. Update to betting market group enums when they are added to the lib. */
     debugger;
     switch (this.props.eventStatus){
       case "upcoming":
