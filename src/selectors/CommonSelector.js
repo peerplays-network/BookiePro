@@ -89,7 +89,6 @@ const getEventStatusById = createSelector(
   (eventsById) => {
     //debugger;
     const eventStatus = (event) => (ObjectUtils.eventStatus(event));
-    console.log(eventsById.filter(eventStatus));
     return eventsById.filter(eventStatus);
   }
 )

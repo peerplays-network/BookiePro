@@ -123,13 +123,6 @@ class MyWager extends PureComponent {
     this.setState({ exportButtonClicked: false });
   }
 
-  handleExportFinishDownload() {
-    // Reset
-    this.props.resetResolvedBetsExportLoadingStatus();
-    this.props.clearResolvedBetsExport();
-    this.setState({ exportButtonClicked: false });
-  }
-
   /**
    * Called when 'Export' process is cancelled or download of exported data file is completed
    * export state in redux store set to default

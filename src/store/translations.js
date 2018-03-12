@@ -277,6 +277,7 @@ export const translationsObject = {
       matched: 'Matched',
       moneyline: 'Moneyline',
       upcoming: "UPCOMING",
+      unresolved: "UNRESOLVED",
       in_progress: "IN PROGRESS",
       frozen: "FROZEN",
       finished: "FINISHED",
@@ -1001,7 +1002,8 @@ export const translationsObject = {
         questionAnswerPairs: [
           {
             question: 'How do I place a bet on Bookie?',
-            answer: 'Bookie is a betting exchange, which allows you to place a bet by either ' + '<b>Backing</b> (as bettors normally do) or <b>Laying</b> a bet (like a sportsbook would do). ' + 
+            answer: 'Bookie is a betting exchange, which allows you to place a bet by either ' + 
+            '<b>Backing</b> (as bettors normally do) or <b>Laying</b> a bet (like a sportsbook would do). ' + 
             'Bookie has no ‘house’, so all bets you place will be matched by other ' +
             'Bookie users, who want to take the opposite side of your bet.\n\n' +
             'To get started:\n' + 

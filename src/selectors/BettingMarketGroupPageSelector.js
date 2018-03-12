@@ -32,6 +32,23 @@ const getLoadingStatus = createSelector(
   }
 )
 
+const getBettingMarkets = createSelector(
+  [
+    getBettingMarketGroupId,
+    getBettingMarketsById
+  ],
+  (bettingMarketGroupId, bettingMarketsById) => {
+    let bettingMarkets = Immutable.List();
+    bettingMarketsById.forEach((bettingMarket) => {
+      if (bettingMarket.get('group_id') === bettingMarketGroupId ) {
+        bettingMarkets = bettingMarkets.push(bettingMarket);
+      }
+    });
+    return bettingMarkets;
+  }
+)
+
+// Main selector forBettingMarketGroup.jsx
 const getBettingMarketGroup = createSelector(
   [
     getBettingMarketGroupId,
@@ -39,6 +56,12 @@ const getBettingMarketGroup = createSelector(
   ],
   (bettingMarketGroupId, bettingMarketGroupsById) => {
     return bettingMarketGroupsById.get(bettingMarketGroupId);
+  }
+)
+const getBettingMarketGroupStatus = createSelector(
+  getBettingMarketGroup,
+  (bettingMarketGroup) => {
+    return ObjectUtils.bettingMarketGroupStatus(bettingMarketGroup);
   }
 )
 
@@ -51,7 +74,13 @@ const getEvent = createSelector(
     const event = bettingMarketGroup && eventsById.get(bettingMarketGroup.get('event_id'));
     return event;
   }
-);
+)
+const getEventStatus = createSelector(
+  getEvent,
+  (event) => {
+    return ObjectUtils.eventStatus(event);
+  }
+)
 
 const getEventName = createSelector(
   getEvent,
@@ -76,47 +105,9 @@ const getIsLiveMarket = createSelector(
   }
 )
 
-const getEventStatus = createSelector(
-  getEvent,
-  (event) => {
-    return ObjectUtils.eventStatus(event);
-  }
-)
-const getBettingMarketStatus = createSelector(
-  getEvent,
-  (bettingMarketStatus) => {
-    //console.log('bettingMarketStatus', bettingMarketStatus)
-    return ObjectUtils.bettingMarketStatus(bettingMarketStatus);
-  }
-)
-const getBettingMarketGroupStatus = createSelector(
-  getBettingMarketGroup,
-  (bettingMarketGroup) => {
-    //console.log('bettingMarketGroup', bettingMarketGroup)
-    return ObjectUtils.bettingMarketGroupStatus(bettingMarketGroup);
-  }
-)
-
-const getBettingMarkets = createSelector(
-  [
-    getBettingMarketGroupId,
-    getBettingMarketsById
-  ],
-  (bettingMarketGroupId, bettingMarketsById) => {
-    let bettingMarkets = Immutable.List();
-    bettingMarketsById.forEach((bettingMarket) => {
-      if (bettingMarket.get('group_id') === bettingMarketGroupId ) {
-        bettingMarkets = bettingMarkets.push(bettingMarket);
-      }
-    });
-    return bettingMarkets;
-  }
-)
-
 const getTotalMatchedBetsByMarketGroupId = (state) => {
   return state.getIn(['liquidity', 'totalMatchedBetsByBettingMarketGroupId']);
 }
-
 
 const getTotalMatchedBetsAmount = createSelector(
   [
@@ -161,7 +152,8 @@ const getMarketData = createSelector(
       const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarket.get('id'));
       let data = Immutable.Map().set('displayName', bettingMarket.get('description'))
         .set('name', bettingMarket.get('description'))
-        .set('displayedName',  bettingMarket.get('description'));
+        .set('displayedName',  bettingMarket.get('description'))
+        .set('bettingMarket_status', bettingMarket.get('status'));
 
       // Normalize aggregated_lay_bets and aggregated_back_bets
       const assetPrecision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']);
@@ -184,6 +176,7 @@ const getMarketData = createSelector(
         backIndex: 0,
         layIndex: 0,
         bettingMarketId: bettingMarket.get('id'),
+        bettingMarketStatus: bettingMarket.get('status'),
         backOrigin: aggregated_lay_bets.sort((a, b) => b.get('odds') - a.get('odds')),  //display in descending order, ensure best odd is in the first index
         layOrigin: aggregated_back_bets.sort((a, b) => a.get('odds') - b.get('odds')),  //display in ascending order, ensure best odd is in the first index
         bettingMarketGroup: bettingMarketGroup,
@@ -210,7 +203,6 @@ const BettingMarketGroupPageSelector = {
   getEventName,
   getEventTime,
   getEventStatus,
-  getBettingMarketStatus,
   getBettingMarketGroupStatus,
   getIsLiveMarket,
   getTotalMatchedBetsAmount,

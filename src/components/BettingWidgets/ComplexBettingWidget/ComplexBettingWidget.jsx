@@ -58,12 +58,12 @@ class ComplexBettingWidget extends PureComponent {
     this.setTableData = this.setTableData.bind(this);
     this.placeAllBestBets = callIfMarketDrawerIsReady(this.placeAllBestBets.bind(this));
     this.getBestOfferOfEachmarket = this.getBestOfferOfEachmarket.bind(this);
-    this.renderBMGLiveMarker = this.renderBMGLiveMarker.bind(this);
-    this.rederBMLiveMarker = this.renderBMLiveMarker.bind(this);
+    this.renderEnumerator = this.renderEnumerator.bind(this);
   }
 
   componentDidMount(){
     this.setTableData(this.props.marketData, this.props.unconfirmedBets, false)
+    console.log(this.props.marketData);
   }
 
   // re-render when there is update in bets or navigation
@@ -133,7 +133,7 @@ class ComplexBettingWidget extends PureComponent {
         let market_exposure = 0.00
         const bettingMarketId = row.getIn(['offer', 'bettingMarketId']);
         const betslip_exposure = BettingModuleUtils.getExposure(bettingMarketId, unconfirmedBets);
-
+        
         // get data for 'firstColumn' in which exposure and team name reside in .
         tableData = tableData.setIn([i, 'offer', 'back'], backTableData)
           .setIn([i, 'offer', 'lay'], layTableData)
@@ -143,8 +143,9 @@ class ComplexBettingWidget extends PureComponent {
             'name': tableData.getIn([i, 'name']),
             'displayedName': tableData.getIn([i, 'displayedName']),
             'market_exposure': market_exposure,
+            'bettingMarket_status': tableData.getIn([i, 'bettingMarket_status']),
             'betslip_exposure': parseFloat(betslip_exposure) !== 0 ?  betslip_exposure : undefined })
-
+          
       });
 
       this.setState({
@@ -261,106 +262,45 @@ class ComplexBettingWidget extends PureComponent {
     });
   }
 
-  renderBMGLiveMarker() {
-    //NOTE: in current structure it is either 'in-play' or 'going in-play'.
-    // there will be more types, depending on the change in blockchain objects future. See lib/peerplaysjs-lib/lib/serializer/src/operations.js
-    /* TODO: This is still using the event_status enumerators from the lib. Update to betting market group enums when they are added to the lib. */
-    switch (this.props.bettingMarketGroupStatus){
-      case "upcoming":
+  renderEnumerator(enumStatus){
+    switch (enumStatus){
+      case "unresolved":
         return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.upcoming') }</span>        
+          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.unresolved') }</span>        
         )
-        break;
-      case "in_play":
-        return (
-          <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.in_play') }</span>
-        )
-        break;
-      case "closed":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.closed') }</span>        
-        )
-        break;
       case "graded":
         return (
           <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.graded') }</span>        
         )
-        break;
-      case "re_grading":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.re_grading') }</span>        
-        )
-        break;
       case "settled":
         return (
           <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.settled') }</span>        
         )
-        break;
       case "frozen":
         return (
           <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.frozen') }</span>        
         )
-        break;
       case "canceled":
         return (
           <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.canceled') }</span>        
         )
-        break;
-      default:
-        console.log(this.props.eventStatus);
-        return (
-          <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.error') }</span>
-        )
-    } 
-  }
-  
-  renderBMLiveMarker() {
-    //NOTE: in current structure it is either 'in-play' or 'going in-play'.
-    // there will be more types, depending on the change in blockchain objects future. See lib/peerplaysjs-lib/lib/serializer/src/operations.js
-    /* TODO: This is still using the event_status enumerators from the lib. Update to betting market group enums when they are added to the lib. */
-    switch (this.props.bettingMarketStatus){
       case "upcoming":
         return (
           <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.upcoming') }</span>        
         )
-        break;
       case "in_play":
         return (
           <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.in_play') }</span>
         )
-        break;
       case "closed":
         return (
           <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.closed') }</span>        
         )
-        break;
-      case "graded":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.graded') }</span>        
-        )
-        break;
       case "re_grading":
         return (
           <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.re_grading') }</span>        
         )
-        break;
-      case "settled":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.settled') }</span>        
-        )
-        break;
-      case "frozen":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.frozen') }</span>        
-        )
-        break;
-      case "canceled":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.canceled') }</span>        
-        )
-        break;
       default:
-        console.log(this.props.eventStatus);
         return (
           <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.error') }</span>
         )
@@ -403,7 +343,7 @@ class ComplexBettingWidget extends PureComponent {
 
         return (
           <div className='competitor'>
-            <div className='name'>{props.value.displayedName}</div>
+            <div className='name'>{props.value.displayedName} { this.renderEnumerator(props.value.bettingMarket_status) } </div>
             { props.value.betslip_exposure &&
               <div className='exposure'>
                 {  props.value.market_exposure > 0 &&
@@ -548,7 +488,7 @@ class ComplexBettingWidget extends PureComponent {
         <div className='title'>
           <div className='name'>
             { widgetTitle }
-            { this.renderBMGLiveMarker() }
+            { this.renderEnumerator(this.props.bettingMarketGroupStatus) }
           </div>
           <div className='rules'>
             <span>
@@ -592,7 +532,6 @@ ComplexBettingWidget.propTypes = {
   // unconfirmedBets data in bet table
   eventStatus: PropTypes.string,
   bettingMarketGroupStatus: PropTypes.string,
-  bettingMarketStatus: PropTypes.string,
   unconfirmedBets: PropTypes.any,
   currencyFormat: PropTypes.string.isRequired,
   oddsFormat: PropTypes.string.isRequired,
