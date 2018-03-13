@@ -51,7 +51,7 @@ class MatchedBets extends PureComponent {
 
   render() {
     const {  matchedBetsLoadingStatus, currencyFormat, betsTotal } = this.props;
-    const currencySymbol = CurrencyUtils.getCurruencySymbol(currencyFormat);
+    const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat);
     return (
       <div className='table-card'>
         <div className='filterComponent'>

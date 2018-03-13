@@ -72,7 +72,7 @@ const getColumns = (currencyFormat, lastIrreversibleBlockNum) => {
     },
     {
       title: I18n.t('myAccount.amount') +
-      '(' + CurrencyUtils.getCurruencySymbol(currencyFormat) + ')',
+      '(' + CurrencyUtils.getCurrencySymbol(currencyFormat) + ')',
       render: (text, row) => {
         const amount = row.amount;
         return CurrencyUtils.getFormattedCurrency(amount, currencyFormat, BettingModuleUtils.stakePlaces);

@@ -120,6 +120,7 @@ export const translationsObject = {
       log_in: 'Log In',
       premium_acc_text: 'This is a premium name. Please enter a regular name containing least one dash, a number or no vowels.',
       password_no_match: 'The password you entered does not match',
+      repeat_password: 'Repeat your Password',
       field_req: 'Field is required',
       acc_name_taken: 'Account Name is already taken'
     },
@@ -216,15 +217,15 @@ export const translationsObject = {
     landing:{
       login: 'LOG IN',
       signup: 'JOIN BOOKIEPRO NOW',
-      slogan: 'Bet From Anywhere in The World',
-      intro: 'Sign up and start betting in 2 minutes!',
+      slogan: 'Bet from Anywhere in the World',
+      intro: 'Sign-Up and Start Betting in 2 Minutes!',
       loginWithAccount: 'Log in with your existing Peerplays account',
       copyright: 'COPYRIGHT',
       privacy_policy: 'PRIVACY POLICY',
       registerStepTitle: 'Register',
-      registerStepMessage: 'Create an account',
+      registerStepMessage: 'Create an Account',
       depositStepTitle: 'Deposit',
-      depositStepMessage: 'Add wallet',
+      depositStepMessage: 'Add Wallet',
       betStepTitle: 'Bet',
       betStepMessage: 'Easy Betting',
       help_and_support: 'HELP'
