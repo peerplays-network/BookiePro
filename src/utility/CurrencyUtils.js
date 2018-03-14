@@ -35,6 +35,17 @@ var CurrencyUtils = {
     }
   },
 
+  substringPrecision(amount, precision){
+    let split = amount.toString().split('.');
+    if (split[1].length > 5){
+      let splitSel = split[1].substring(0, 5);
+      let newAmount = split[0] + '.' + splitSel;
+      return newAmount;
+    } else {
+      return amount.toFixed(precision);
+    }
+  },
+
   getCurrencySymbol: function( currency = 'BTC' ){
     if ( currency === 'mBTC'){
       return mBitcoinSymbol;
@@ -44,7 +55,7 @@ var CurrencyUtils = {
       return
     }
   },
-
+  
   /**
    * Get converted amount based on input currency and precision
    *
@@ -63,10 +74,7 @@ var CurrencyUtils = {
 
       if (currency === 'BTC') {
         if(amount % 1 !== 0){
-          let split = amount.toString().split('.');
-          let splitSel = split[1].substring(0,5);
-          let newAmount = split[0]+'.'+splitSel;
-          return newAmount;
+          return this.substringPrecision(amount, precision);
         }
         else{
           // Sometimes amount is a string type which will throw an
@@ -142,15 +150,7 @@ var CurrencyUtils = {
       if (floatAmount < .001 && currency === 'BTC') return '0.00100'
     }
     if(amount % 1 !== 0 && !isNaN(amount)){
-      let split = amount.toString().split('.');
-      if (split[1].length > 5 && currency === "BTC"){
-        let split = amount.toString().split('.');
-        let splitSel = split[1].substring(0,5);
-        let newFloatAmount = split[0]+'.'+splitSel;
-        return newFloatAmount;
-      } else{
-        return floatAmount.toFixed(this.fieldPrecisionMap[field][currency]);
-      }
+      return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency]);
     } else{
       return floatAmount.toFixed(this.fieldPrecisionMap[field][currency]);
     }
