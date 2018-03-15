@@ -36,7 +36,6 @@ class ComplexBettingWidget extends PureComponent {
 
   constructor(props) {
     super(props);
-
     this.state = {
       // tableData used in data props in react-table
       tableData:  Immutable.fromJS([]),
@@ -58,12 +57,10 @@ class ComplexBettingWidget extends PureComponent {
     this.setTableData = this.setTableData.bind(this);
     this.placeAllBestBets = callIfMarketDrawerIsReady(this.placeAllBestBets.bind(this));
     this.getBestOfferOfEachmarket = this.getBestOfferOfEachmarket.bind(this);
-    this.renderEnumerator = this.renderEnumerator.bind(this);
   }
 
   componentDidMount(){
     this.setTableData(this.props.marketData, this.props.unconfirmedBets, false)
-    console.log(this.props.marketData);
   }
 
   // re-render when there is update in bets or navigation
@@ -262,51 +259,6 @@ class ComplexBettingWidget extends PureComponent {
     });
   }
 
-  renderEnumerator(enumStatus){
-    switch (enumStatus){
-      case "unresolved":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.unresolved') }</span>        
-        )
-      case "graded":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.graded') }</span>        
-        )
-      case "settled":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.settled') }</span>        
-        )
-      case "frozen":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.frozen') }</span>        
-        )
-      case "canceled":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.canceled') }</span>        
-        )
-      case "upcoming":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.upcoming') }</span>        
-        )
-      case "in_play":
-        return (
-          <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.in_play') }</span>
-        )
-      case "closed":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.closed') }</span>        
-        )
-      case "re_grading":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.re_grading') }</span>        
-        )
-      default:
-        return (
-          <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.error') }</span>
-        )
-    } 
-  }
-
   render() {
     const { currencyFormat,
             totalMatchedBetsAmount,
@@ -340,10 +292,12 @@ class ComplexBettingWidget extends PureComponent {
           'increased-value' : 'decreased-value';
         const potentialExposureClass = props.value.betslip_exposure + props.value.market_exposure >= 0 ?
           'increased-value' : 'decreased-value';
-
         return (
           <div className='competitor'>
-            <div className='name'>{props.value.displayedName} { this.renderEnumerator(props.value.bettingMarket_status) } </div>
+            <div className='name'>{props.value.displayedName} 
+              <span className={ props.value.bettingMarket_status[0] }>
+                <span className='indicator'/>{ props.value.bettingMarket_status[1] }</span> 
+            </div>
             { props.value.betslip_exposure &&
               <div className='exposure'>
                 {  props.value.market_exposure > 0 &&
@@ -488,7 +442,8 @@ class ComplexBettingWidget extends PureComponent {
         <div className='title'>
           <div className='name'>
             { widgetTitle }
-            { this.renderEnumerator(this.props.bettingMarketGroupStatus) }
+            <span className={ this.props.bettingMarketGroupStatus[0] }>
+            <span className='indicator'/>{ this.props.bettingMarketGroupStatus[1] }</span>
           </div>
           <div className='rules'>
             <span>
@@ -531,7 +486,7 @@ ComplexBettingWidget.propTypes = {
   createBet: PropTypes.func.isRequired,
   // unconfirmedBets data in bet table
   eventStatus: PropTypes.string,
-  bettingMarketGroupStatus: PropTypes.string,
+  bettingMarketGroupStatus: PropTypes.any,
   unconfirmedBets: PropTypes.any,
   currencyFormat: PropTypes.string.isRequired,
   oddsFormat: PropTypes.string.isRequired,

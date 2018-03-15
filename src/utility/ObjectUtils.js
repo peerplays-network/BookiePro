@@ -148,13 +148,26 @@ const isActiveEvent = (event) => {
   // Event is active if it is not completed or canceled
   return eventStatus !== EventStatus.COMPLETED && eventStatus !== EventStatus.CANCELED;
 }
+
+const determineStatusResult = (enumStatus) => {
+  if (enumStatus === "in_play" || enumStatus === "in_progress"){
+    return ['live', enumStatus];
+  }
+  else{
+    return ['going-live', enumStatus];
+  }
+}
+
 const eventStatus = (event) => {
   const eventStatus = event.get('status');
-  return eventStatus;  
+  return determineStatusResult(eventStatus);  
+}
+const bettingMarketStatus = (bettingMarket) => {
+  return determineStatusResult(bettingMarket);
 }
 const bettingMarketGroupStatus = (betting_market_group) => {
   const bettingMarketGroupStatus = betting_market_group.get('status');
-  return bettingMarketGroupStatus;
+  return determineStatusResult(bettingMarketGroupStatus);
 }
 
 const ObjectUtils = {
@@ -165,6 +178,7 @@ const ObjectUtils = {
   localizeArrayOfObjects,
   isActiveEvent,
   eventStatus,
+  bettingMarketStatus,
   bettingMarketGroupStatus,
 }
 

@@ -32,6 +32,15 @@ const getLoadingStatus = createSelector(
   }
 )
 
+const determineStatusResult = (enumStatus) => {
+  if (enumStatus === "in_play" || enumStatus === "in_progress"){
+    return ['live', enumStatus];
+  }
+  else{
+    return ['going-live', enumStatus];
+  }
+}
+
 const getBettingMarkets = createSelector(
   [
     getBettingMarketGroupId,
@@ -153,7 +162,7 @@ const getMarketData = createSelector(
       let data = Immutable.Map().set('displayName', bettingMarket.get('description'))
         .set('name', bettingMarket.get('description'))
         .set('displayedName',  bettingMarket.get('description'))
-        .set('bettingMarket_status', bettingMarket.get('status'));
+        .set('bettingMarket_status', ObjectUtils.bettingMarketStatus(bettingMarket.get('status')));
 
       // Normalize aggregated_lay_bets and aggregated_back_bets
       const assetPrecision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']);

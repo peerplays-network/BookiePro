@@ -21,7 +21,6 @@ class BettingMarketGroupBanner extends PureComponent {
     }
     this.renderCountdown = this.renderCountdown.bind(this);
     this.renderLive = this.renderLive.bind(this);
-    this.renderLiveMarker = this.renderLiveMarker.bind(this);
   }
 
   renderCountdown() {
@@ -36,41 +35,6 @@ class BettingMarketGroupBanner extends PureComponent {
       )
     }
   }
-  renderLiveMarker() {
-    // Event status enumerators. 
-    // there will be more types, depending on the change in blockchain objects future. See lib/peerplaysjs-lib/lib/serializer/src/operations.js
-    switch (this.props.eventStatus){
-      case "upcoming":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.upcoming') }</span>        
-        )
-      case "in_progress":
-        return (
-          <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.in_progress') }</span>
-        )
-      case "frozen":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.frozen') }</span>        
-        )
-      case "finished":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.finished') }</span>        
-        )
-      case "settled":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.settled') }</span>        
-        )
-      case "canceled":
-        return (
-          <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.canceled') }</span>        
-        )
-      default:
-        console.log(this.props.eventStatus);
-        return (
-          <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.error') }</span>
-        )
-    }
-  } 
   
   renderLive() {
     // TODO: waiting for the style
@@ -87,7 +51,10 @@ class BettingMarketGroupBanner extends PureComponent {
     return (
       <div className='betting-market-group-banner' style={ { backgroundImage: bannerSource } }>
         <div className='event'>
-          <div className='name'>{ this.props.eventName } { this.renderLiveMarker() } </div>
+          <div className='name'>{ this.props.eventName } 
+            <span className={ this.props.eventStatus[0] }>
+            <span className='indicator'/>{ this.props.eventStatus[1] }</span> 
+          </div>
           <div className='time'>{ I18n.t('bettingMarketGroup.match_start_on', { time: formattedEventTime }) }</div>
 
         </div>
