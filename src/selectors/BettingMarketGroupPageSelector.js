@@ -32,15 +32,6 @@ const getLoadingStatus = createSelector(
   }
 )
 
-const determineStatusResult = (enumStatus) => {
-  if (enumStatus === "in_play" || enumStatus === "in_progress"){
-    return ['live', enumStatus];
-  }
-  else{
-    return ['going-live', enumStatus];
-  }
-}
-
 const getBettingMarkets = createSelector(
   [
     getBettingMarketGroupId,

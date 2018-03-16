@@ -150,24 +150,27 @@ const isActiveEvent = (event) => {
 }
 
 const determineStatusResult = (enumStatus) => {
-  if (enumStatus === "in_play" || enumStatus === "in_progress"){
-    return ['live', enumStatus];
+  var className = 'going-live';
+  var status = 'error';
+  
+  if (enumStatus === "in_play" || enumStatus === "in_progress") {
+    className = 'live';
+    status = enumStatus;
+  } else {
+    status = enumStatus;
   }
-  else{
-    return ['going-live', enumStatus];
-  }
+
+  return [className, status];
 }
 
 const eventStatus = (event) => {
-  const eventStatus = event.get('status');
-  return determineStatusResult(eventStatus);  
+  return determineStatusResult(event.get('status'));  
 }
 const bettingMarketStatus = (bettingMarket) => {
   return determineStatusResult(bettingMarket);
 }
 const bettingMarketGroupStatus = (betting_market_group) => {
-  const bettingMarketGroupStatus = betting_market_group.get('status');
-  return determineStatusResult(bettingMarketGroupStatus);
+  return determineStatusResult(betting_market_group.get('status'));
 }
 
 const ObjectUtils = {

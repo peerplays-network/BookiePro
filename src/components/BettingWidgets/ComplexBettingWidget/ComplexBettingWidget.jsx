@@ -296,7 +296,7 @@ class ComplexBettingWidget extends PureComponent {
           <div className='competitor'>
             <div className='name'>{props.value.displayedName} 
               <span className={ props.value.bettingMarket_status[0] }>
-                <span className='indicator'/>{ props.value.bettingMarket_status[1] }</span> 
+                <span className='indicator'/>{I18n.t('complex_betting_widget.' + props.value.bettingMarket_status[1])}</span> 
             </div>
             { props.value.betslip_exposure &&
               <div className='exposure'>
@@ -442,8 +442,8 @@ class ComplexBettingWidget extends PureComponent {
         <div className='title'>
           <div className='name'>
             { widgetTitle }
-            <span className={ this.props.bettingMarketGroupStatus[0] }>
-            <span className='indicator'/>{ this.props.bettingMarketGroupStatus[1] }</span>
+            <span className={ this.props.bettingMarketGroupStatus }>
+            <span className='indicator'/>{I18n.t('complex_betting_widget.' + this.props.bettingMarketGroupStatusClassName)}</span>
           </div>
           <div className='rules'>
             <span>
@@ -485,8 +485,9 @@ ComplexBettingWidget.propTypes = {
   totalMatchedBetsAmount: PropTypes.any.isRequired,
   createBet: PropTypes.func.isRequired,
   // unconfirmedBets data in bet table
-  eventStatus: PropTypes.string,
-  bettingMarketGroupStatus: PropTypes.any,
+  eventStatus: PropTypes.any,
+  bettingMarketGroupStatus: PropTypes.string,
+  bettingMarketGroupStatusClassName: PropTypes.string,
   unconfirmedBets: PropTypes.any,
   currencyFormat: PropTypes.string.isRequired,
   oddsFormat: PropTypes.string.isRequired,
