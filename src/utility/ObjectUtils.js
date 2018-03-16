@@ -156,7 +156,7 @@ const determineStatusResult = (enumStatus) => {
   if (enumStatus === "in_play" || enumStatus === "in_progress") {
     className = 'live';
     status = enumStatus;
-  } else {
+  } else if (enumStatus) {
     status = enumStatus;
   }
 
