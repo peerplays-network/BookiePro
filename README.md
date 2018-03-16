@@ -13,11 +13,14 @@ $ npm install
 $ brew install gettext
 
 // Compile the electron app.
-$ npm run compile && npm run dist
+$ npm run dist
 
 // or
 // Launch electron pointing at the development server.
 $ npm run live
+
+// To Update the submodule with the latest code in develop.
+$ npm run update-submodules
 
 ```
 

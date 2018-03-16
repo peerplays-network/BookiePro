@@ -1,7 +1,7 @@
 {
-  "name": "peerplays-electron-template",
+  "name": "peerplays-electron-build-bookie",
   "version": "0.0.1",
-  "description": "The intent of this project is to provide a starting point for building electron applications that connect to the Peerplays BlockChain.",
+  "description": "The intent of this project is to wrap bookie in electron.",
   "main": "build/electron.js",
   "scripts": {
     "start": "electron .",
