@@ -37,12 +37,12 @@ var CurrencyUtils = {
 
   substringPrecision(amount, precision){
     let split = amount.toString().split('.');
-    if (split[1].length > 5){
+    if (split[1].length > precision){
       let splitSel = split[1].substring(0, 5);
       let newAmount = split[0] + '.' + splitSel;
       return newAmount;
     } else {
-      return amount.toFixed(precision);
+      return amount;
     }
   },
 
