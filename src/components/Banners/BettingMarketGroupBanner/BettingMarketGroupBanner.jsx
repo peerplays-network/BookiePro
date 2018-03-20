@@ -30,7 +30,7 @@ class BettingMarketGroupBanner extends PureComponent {
     } else {
       return (
         <div className='countdown'>
-          <BannerClock time={ this.props.eventTime }/>
+          <BannerClock time={ new Date(this.props.eventTime) }/>
         </div>
       )
     }
@@ -65,7 +65,7 @@ class BettingMarketGroupBanner extends PureComponent {
 
 
 BettingMarketGroupBanner.propTypes = {
-  eventTime: PropTypes.instanceOf(Date).isRequired,
+  eventTime: PropTypes.string.isRequired,
   eventName: PropTypes.string.isRequired,
   isLiveMarket: PropTypes.bool
 }
