@@ -219,10 +219,6 @@ const getBetsWithFormattedCurrency = createSelector(
       bet = bet.set('stake', CurrencyUtils.isZero(formattedStake));
       bet = bet.set('profit_liability', CurrencyUtils.isZero(formattedProfitLiability));
 
-/*
-      bet = bet.set('stake', formattedStake);
-      bet = bet.set('profit_liability', formattedProfitLiability);
-*/
       if (bet.get('category') === BetCategories.RESOLVED_BET) {
         formattedAmountWon = CurrencyUtils.getFormattedCurrency(
                                               bet.get('amount_won') / Math.pow(10, precision),
