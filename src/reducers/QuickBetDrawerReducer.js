@@ -79,11 +79,6 @@ export default function(state = initialState, action) {
 
       let bet = oldBets.get(index).set(delta.get('field'), delta.get('value'));
       // Calculate the profit/liability of a bet based on the latest odds and stake value
-
-      console.log("----- QuickBetDrawerUpdateOneBet");
-      console.log(delta.get('field'));
-      console.log(delta.get('value'));
-
       if (bet.has('stake')) {
         const profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
         bet = bet.set('profit', profit).set('liability', profit);
