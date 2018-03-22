@@ -197,7 +197,6 @@ const getBetsWithFormattedCurrency = createSelector(
     getAssetsById
   ],
   (bets, currencyFormat, assetsById) => {
-    let count = 0
     return bets.map(bet => {
 
       const betType = bet.get('back_or_lay')
