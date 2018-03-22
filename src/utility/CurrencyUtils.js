@@ -35,6 +35,13 @@ var CurrencyUtils = {
     }
   },
 
+  isZero: function(num) {
+    if (parseFloat(num) === 0 || num === 0)
+      return '0'
+    else
+      return num;
+  },
+
   getCurrencySymbol: function( currency = 'BTC' ){
     if ( currency === 'mBTC'){
       return mBitcoinSymbol;
@@ -55,6 +62,10 @@ var CurrencyUtils = {
    */
   getFormattedCurrency: function(amount, currency = 'BTC', precision = 0){
     if (!isNaN(amount)) {
+      if (amount === 0){
+        return amount;
+      }
+      
       if (currency === 'mBTC') {
         // 1 BTC = 1 * 10^3 mBTC
         const mPrecision = precision < 3 ? 0 : precision - 3;
