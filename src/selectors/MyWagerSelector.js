@@ -188,7 +188,12 @@ const getSortedBets = createSelector(
   }
 
 )
-
+function isZero(num) {
+  if (parseFloat(num) === 0)
+    return '0'
+  else
+    return num;
+}
 // Format the currency in a bet's field (stake, profit/ liability, and amount won)
 const getBetsWithFormattedCurrency = createSelector(
   [
@@ -215,10 +220,14 @@ const getBetsWithFormattedCurrency = createSelector(
                                       currencyFormat,
                                       BettingModuleUtils.stakePlaces,
                                       betType);
+      // Check for zero's
+      bet = bet.set('stake', isZero(formattedStake));
+      bet = bet.set('profit_liability', isZero(formattedProfitLiability));
 
+/*
       bet = bet.set('stake', formattedStake);
       bet = bet.set('profit_liability', formattedProfitLiability);
-
+*/
       if (bet.get('category') === BetCategories.RESOLVED_BET) {
         formattedAmountWon = CurrencyUtils.getFormattedCurrency(
                                               bet.get('amount_won') / Math.pow(10, precision),
@@ -226,9 +235,8 @@ const getBetsWithFormattedCurrency = createSelector(
                                               BettingModuleUtils.exposurePlaces,
                                               betType
                                             );
-        bet = bet.set('amount_won', formattedAmountWon);
+          bet = bet.set('amount_won', isZero(formattedAmountWon));
       }
-
       return bet;
     })
 
