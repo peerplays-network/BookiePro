@@ -215,9 +215,9 @@ const getBetsWithFormattedCurrency = createSelector(
                                       currencyFormat,
                                       BettingModuleUtils.stakePlaces,
                                       betType);
-
-      bet = bet.set('stake', formattedStake);
-      bet = bet.set('profit_liability', formattedProfitLiability);
+      // Check for zero's
+      bet = bet.set('stake', CurrencyUtils.isZero(formattedStake));
+      bet = bet.set('profit_liability', CurrencyUtils.isZero(formattedProfitLiability));
 
       if (bet.get('category') === BetCategories.RESOLVED_BET) {
         formattedAmountWon = CurrencyUtils.getFormattedCurrency(
@@ -226,9 +226,8 @@ const getBetsWithFormattedCurrency = createSelector(
                                               BettingModuleUtils.exposurePlaces,
                                               betType
                                             );
-        bet = bet.set('amount_won', formattedAmountWon);
+          bet = bet.set('amount_won', CurrencyUtils.isZero(formattedAmountWon));
       }
-
       return bet;
     })
 
