@@ -42,6 +42,17 @@ var CurrencyUtils = {
       return num;
   },
 
+  substringPrecision(amount, precision){
+    let split = amount.toString().split('.');
+    if (split[1].length > precision){
+      let splitSel = split[1].substring(0, 5);
+      let newAmount = split[0] + '.' + splitSel;
+      return newAmount;
+    } else {
+      return amount;
+    }
+  },
+
   getCurrencySymbol: function( currency = 'BTC' ){
     if ( currency === 'mBTC'){
       return mBitcoinSymbol;
@@ -51,7 +62,7 @@ var CurrencyUtils = {
       return
     }
   },
-
+  
   /**
    * Get converted amount based on input currency and precision
    *
@@ -73,9 +84,14 @@ var CurrencyUtils = {
       }
 
       if (currency === 'BTC') {
-        // Sometimes amount is a string type which will throw an
-        // error unless its cast as a number. Add (1 * amount)
-        return (1 * amount).toFixed(precision);
+        if(amount % 1 !== 0){
+          return this.substringPrecision(amount, precision);
+        }
+        else{
+          // Sometimes amount is a string type which will throw an
+          // error unless its cast as a number. Add (1 * amount)
+          return (1 * amount).toFixed(precision);
+        }
       }
     }
 
@@ -144,8 +160,11 @@ var CurrencyUtils = {
       if (floatAmount < 1 && currency === 'mBTC') return '1.00'
       if (floatAmount < .001 && currency === 'BTC') return '0.00100'
     }
-
-    return floatAmount.toFixed(this.fieldPrecisionMap[field][currency]);
+    if(amount % 1 !== 0 && !isNaN(amount)){
+      return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency]);
+    } else{
+      return floatAmount.toFixed(this.fieldPrecisionMap[field][currency]);
+    }
   },
   /*
    * Call JavaScript's Number.toFixed with predefined precision value based on field name
