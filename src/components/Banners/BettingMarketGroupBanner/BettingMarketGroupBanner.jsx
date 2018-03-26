@@ -47,7 +47,6 @@ class BettingMarketGroupBanner extends PureComponent {
 
   render() {
     const bannerSource = `url(${this.state.bannerUrl})`;
-    debugger;
     const formattedEventTime = moment(this.props.eventTime).format('LLL');
     return (
       <div className='betting-market-group-banner' style={ { backgroundImage: bannerSource } }>
@@ -66,7 +65,7 @@ class BettingMarketGroupBanner extends PureComponent {
 
 
 BettingMarketGroupBanner.propTypes = {
-  eventTime: PropTypes.string.isRequired,
+  eventTime: PropTypes.object.isRequired,
   eventName: PropTypes.string.isRequired,
   isLiveMarket: PropTypes.bool
 }

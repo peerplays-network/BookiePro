@@ -32,12 +32,9 @@ const DateUtils = {
    * @returns localized date by pulling the users local timezone.
    */
   getLocalDate(dateToLocalize){
-    //debugger;
     // Ensure the date has been parsed into a date object.
-    //var da = moment(dateToLocalize + 'Z');
-    //return mTZ.tz(da.toISOString(), mTZ.tz.guess());
-    //return da;
-    return moment(dateToLocalize);
+    var da = new Date(dateToLocalize);
+    return mTZ.tz(da.toISOString(), mTZ.tz.guess());
   },
 
   /*
