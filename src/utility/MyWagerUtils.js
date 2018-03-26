@@ -122,7 +122,7 @@ const getResolvedBetsColumns = (currencyFormat) => {
 
   return [
     {
-      title:  I18n.t('resolved_time'),
+      title:  I18n.t('mybets.resolved_time'),
       dataIndex: 'resolved_time' ,
       key: 'resolved_time',
     },
