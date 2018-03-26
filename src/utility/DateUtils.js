@@ -33,7 +33,7 @@ const DateUtils = {
    */
   getLocalDate(dateToLocalize){
     // Ensure the date has been parsed into a date object.
-    var da = new Date(dateToLocalize);
+    var da = new Date(dateToLocalize + 'Z');
     return mTZ.tz(da.toISOString(), mTZ.tz.guess());
   },
 
