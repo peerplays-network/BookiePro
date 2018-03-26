@@ -1,8 +1,9 @@
 import { createSelector } from 'reselect';
 import Immutable from 'immutable';
 import CommonSelector from './CommonSelector';
-import { CurrencyUtils } from '../utility';
+import { CurrencyUtils, DateUtils } from '../utility';
 import { Config } from '../constants';
+import mTZ from 'moment-timezone';
 
 const {
   getBettingMarketGroupsById,
@@ -64,8 +65,12 @@ const getEventName = createSelector(
 const getEventTime = createSelector(
   getEvent,
   (event) => {
+    //const eventTime = (event && event.get('start_time') && new Date(event.get('start_time'))).toISOString() || new Date().toISOString();
     const eventTime = (event && event.get('start_time') && new Date(event.get('start_time'))) || new Date();
-    return eventTime;
+    console.log(event.get('start_time'), ' | ', new Date(event.get('start_time')).toISOString());
+    return eventTime.toISOString();
+    //return mTZ.tz(eventTime.toISOString(), mTZ.tz.guess());
+    
   }
 )
 

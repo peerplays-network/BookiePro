@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import { TimeRangePeriodTypes } from '../constants';
+import mTZ from 'moment-timezone';
 
 const days = [I18n.t('mybets.sun'), I18n.t('mybets.mon'),I18n.t('mybets.tue'), I18n.t('mybets.wed'),
   I18n.t('mybets.thu'),I18n.t('mybets.fri'),I18n.t('mybets.sat')];
@@ -24,8 +25,20 @@ const DateUtils = {
       return moment(new Date(dateToFormat)).format("MM-DD-YYYY HH:mm");
     }
   },
-
-
+  /**
+   * 
+   * 
+   * @param {any} date to convert to local.
+   * @returns localized date by pulling the users local timezone.
+   */
+  getLocalDate(dateToLocalize){
+    //debugger;
+    // Ensure the date has been parsed into a date object.
+    //var da = moment(dateToLocalize + 'Z');
+    //return mTZ.tz(da.toISOString(), mTZ.tz.guess());
+    //return da;
+    return moment(dateToLocalize);
+  },
 
   /*
    * takes a unix time and returns the month and day MMM D

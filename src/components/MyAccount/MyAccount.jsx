@@ -380,7 +380,6 @@ const mapStateToProps = (state) => {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     updateSettingLang: SettingActions.updateSettingLang,
-    updateSettingTimeZone: SettingActions.updateSettingTimeZone,
     updateSettingNotification: SettingActions.updateSettingNotification,
     updateCurrencyFormat: SettingActions.updateCurrencyFormat,
     updateOddsFormat: SettingActions.updateOddsFormat,
