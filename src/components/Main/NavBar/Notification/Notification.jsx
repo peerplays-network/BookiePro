@@ -32,6 +32,7 @@ export class Notification extends PureComponent{
           <NotificationItem
             key={ index }
             message={ notification.get('content') }
+            hasNotification={ 'has-' }
             date={ notification.get('date') }
             onClick={ () => { this.props.onClickItem(notification) } }
             onClickClose={ () => { this.props.onClickCloseItem(notification) } }
@@ -41,9 +42,11 @@ export class Notification extends PureComponent{
       });
     } else {
       const child = (
+        // TODO: If setting message to notification.empty, set styles to non-clickable.
         <NotificationItem
           key='placeholder'
           message={ I18n.t('notification.empty') }
+          hasNotification={ '' }
           isDateVisible={ false }
           isCloseButtonVisible={ false }
         />

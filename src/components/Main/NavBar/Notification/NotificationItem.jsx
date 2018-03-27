@@ -67,8 +67,9 @@ export class NotificationItem extends PureComponent{
   }
 
   render(){
+    var className = this.props.hasNotification + 'notification-item'
     return(
-      <div className='notification-item' onClick={ this.onClick }>
+      <div className={ className } onClick={ this.onClick }>
         { this.renderContent() }
         { this.renderCloseButton() }
       </div>
@@ -78,6 +79,7 @@ export class NotificationItem extends PureComponent{
 
 NotificationItem.propTypes = {
   message: PropTypes.string,
+  hasNotification: PropTypes.string,
   date: PropTypes.instanceOf(Date),
   onClick: PropTypes.func,
   onClickClose: PropTypes.func,
