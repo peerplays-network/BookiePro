@@ -21,7 +21,9 @@ export class NotificationItem extends PureComponent{
    */
   onClick(e) {
     e.preventDefault();
-    this.props.onClick();
+    if (typeof this.props.onClick === 'function') {
+      this.props.onClick();
+    }
   }
 
   /**
@@ -67,9 +69,9 @@ export class NotificationItem extends PureComponent{
   }
 
   render(){
-    var className = this.props.hasNotification + 'notification-item'
+    console.log(this.onClick)
     return(
-      <div className={ className } onClick={ this.onClick }>
+      <div className={ `notification-item ${!this.props.onClick ? 'disabled' : ''}` } onClick={ this.onClick }>
         { this.renderContent() }
         { this.renderCloseButton() }
       </div>
@@ -79,7 +81,6 @@ export class NotificationItem extends PureComponent{
 
 NotificationItem.propTypes = {
   message: PropTypes.string,
-  hasNotification: PropTypes.string,
   date: PropTypes.instanceOf(Date),
   onClick: PropTypes.func,
   onClickClose: PropTypes.func,
@@ -90,8 +91,8 @@ NotificationItem.propTypes = {
 NotificationItem.defaultProps = {
   message: '',
   date: new Date(),
-  onClick: () => { },
-  onClickClose: () => { },
+  onClick: null,
+  onClickClose: null,
   isDateVisible: true,
   isCloseButtonVisible: true
 }
