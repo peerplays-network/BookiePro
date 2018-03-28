@@ -48,7 +48,7 @@ const routes = (
       <IndexRedirect to='landing' />
       <Route path='/login' component={ Login } />
       <Route path='/signup' component={ Signup } />
-    <Route path='/license' component={ LicenseScreen } />
+      <Route path='/license' component={ LicenseScreen } />
       <Route path='/welcome' component={ Welcome } />
       <Route path='/deposit' component={ Deposit } />
       <Route path='/landing' component={ Landing } />
