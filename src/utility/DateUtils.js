@@ -1,7 +1,6 @@
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import { TimeRangePeriodTypes } from '../constants';
-import mTZ from 'moment-timezone';
 
 const days = [I18n.t('mybets.sun'), I18n.t('mybets.mon'),I18n.t('mybets.tue'), I18n.t('mybets.wed'),
   I18n.t('mybets.thu'),I18n.t('mybets.fri'),I18n.t('mybets.sat')];
@@ -33,8 +32,7 @@ const DateUtils = {
    */
   getLocalDate(dateToLocalize){
     // Ensure the date has been parsed into a date object.
-    var da = dateToLocalize.indexOf('Z') === -1 ? new Date(dateToLocalize + 'Z') : new Date(dateToLocalize);
-    return mTZ.tz(da.toISOString(), mTZ.tz.guess());
+    return dateToLocalize.toString().indexOf('Z') === -1 ? new Date(dateToLocalize + 'Z') : new Date(dateToLocalize);
   },
 
   /*
