@@ -3,9 +3,29 @@ Desktop betting exchange application for the PeerPlays blockchain
 
 ## Install and Run
 Clone this repo and do the following:
+
 ```
+// Initialize the Peerplays submodules
+$ git submodule init
+$ git submodule update
+
+// Install node dependencies 
 $ npm install
-$ npm run dev
+
+// Change to the submodules director
+$ cd lib
+
+// Link the local modules
+$ npm link peerplaysjs-lib peerplaysjs-ws
+
+// Change into the peerplaysjs-lib directory so that we can link the peerplaysjs-ws library
+$ cd peerplaysjs-lib
+
+// Link the peerplaysjs-ws library for this submodule
+$ npm link peerplaysjs-ws
+
+// Start the dev server
+$ npm start
 ```
 
 The application will be opened as a web app (in a browser instance) and an Electron app.
