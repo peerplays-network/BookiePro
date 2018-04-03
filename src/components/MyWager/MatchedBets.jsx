@@ -42,8 +42,7 @@ class MatchedBets extends PureComponent {
         tableData: nextProps.matchedBets
       })
     }
-    if (this.props.currencyFormat !== nextProps.currencyFormat ||
-        this.props.onEventClick !== nextProps.onEventClick) {
+    if (this.props.currencyFormat !== nextProps.currencyFormat) {
       this.setState({
         columns: MyWagerUtils.getMatchedBetsColumns(nextProps.currencyFormat, nextProps.onEventClick)
       })
