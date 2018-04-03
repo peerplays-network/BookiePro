@@ -69,7 +69,7 @@ const getUnmatchedBetsColumns = (currencyFormat, onCancelBetClick, onEventClick)
  * @param {string} currency - display currency, 'BTC' or 'mBTC'
  * @returns {list} - list of objects with 'title', 'dataIndex', 'key' and 'onCellClick'(optional)
  */
-const getMatchedBetsColumns = (currencyFormat) => {
+const getMatchedBetsColumns = (currencyFormat, onEventClick) => {
   const currencySymbol = '(' + CurrencyUtils.getCurrencySymbol(currencyFormat) + ')';
   const profitLiabilityTitle  = <Translate value='mybets.profit_liability' currency={ currencySymbol } dangerousHTML/> ;
   return [
@@ -82,6 +82,7 @@ const getMatchedBetsColumns = (currencyFormat) => {
       title: I18n.t('mybets.event'),
       dataIndex: 'event_name',
       key: 'event_name',
+      onCellClick: (record, event) => { onEventClick(record, event); }
     },
     {
       title: I18n.t('mybets.type'),
