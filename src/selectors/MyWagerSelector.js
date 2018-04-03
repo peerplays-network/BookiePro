@@ -270,9 +270,9 @@ const getBetData = createSelector(
       } else if (bet.get('category') === BetCategories.MATCHED_BET) {
         let bettingMarketId = bettingMarkets.getIn([bet.get('betting_market_id')])
 
-        if (bettingMarketId)
+        if (bettingMarketId){
           bet = bet.set('group_id', bettingMarkets.getIn([bet.get('betting_market_id')]).get('group_id'))
-
+        }
         const linkedEventName = <a target='_self'>{ bet.get('event_name') }</a>;
         bet = bet.set('event_name', linkedEventName);
       }
