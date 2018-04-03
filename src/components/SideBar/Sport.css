@@ -1,0 +1,21 @@
+.sport-node-container:hover {
+  color: #fbae16;
+  cursor: pointer;
+}
+.sport-node-container {
+  color: #FFFFFF;
+  margin-left: 15px;
+  padding: 10px 0;
+  border-bottom: solid 1px #273642;
+  font-weight: 500;
+}
+.sport-label-container-selected {
+  font-weight: bold;
+  color: #fbae16;
+}
+.sport-label-container-selected label {
+  font-weight: 700;
+}
+.sport-node-container label {
+  text-transform: uppercase;
+}

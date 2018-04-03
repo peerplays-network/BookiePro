@@ -1,0 +1,14 @@
+.betting-market-node-container:hover {
+  color: #fbae16;
+  cursor: pointer;
+}
+.betting-market-node-container {
+  color: #FFFFFF;
+  margin-left: 30px;
+  padding: 10px 0;
+  border-bottom: solid 1px #273642;
+}
+.betting-market-label-container-selected {
+  color: #fbae16;
+  font-weight: 500;
+}

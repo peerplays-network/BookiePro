@@ -1,0 +1,16 @@
+div.matched-bets div.controls {
+  margin: 0px 5px 0px 5px;
+  color: #FFFFFF;
+  border: 1px solid #fbae16;
+}
+div.matched-bets div.controls.dimmed {
+  opacity: .1;
+}
+div.matched-bets div.controls .ant-checkbox-wrapper {
+  margin-left: 5px;
+  margin-bottom: 3px;
+}
+div.matched-bets div.controls .ant-checkbox-wrapper .ant-checkbox-inner {
+  border: none;
+  background-color: #171c20;
+}

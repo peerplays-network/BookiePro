@@ -1,0 +1,18 @@
+div.sport-banner {
+  position: relative;
+  border: 1px solid #273642;
+  background-size: cover;
+  height: 120px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #fbae16;
+  background-blend-mode: multiply;
+}
+div.sport-banner > div.sport-name {
+  position: absolute;
+  font-size: 18px;
+  left: 27px;
+  bottom: 15px;
+  text-transform: uppercase;
+  font-weight: 500;
+}

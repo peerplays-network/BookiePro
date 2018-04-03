@@ -1,0 +1,15 @@
+.eventgroup-node-container:hover {
+  color: #fbae16;
+  cursor: pointer;
+}
+.eventgroup-node-container {
+  color: #FFFFFF;
+  margin-left: 15px;
+  padding: 10px 0;
+  border-bottom: solid 1px #273642;
+  font-weight: 500;
+}
+.eventgroup-label-container-selected {
+  color: #fbae16;
+  font-weight: bold;
+}
