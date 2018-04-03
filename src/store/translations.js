@@ -150,7 +150,9 @@ export const translationsObject = {
       confirm: 'Confirm',
       back_to_my_account: 'Back to My Account',
       successText: 'Congratulations! You have successfully<br/>' +
-      ' changed your password.'
+      ' changed your password.',
+      change_password_error: 'You do not have the sufficient funds required to change your password. ' + 
+      'Please deposit additional funds and try again.'
     },
     notification: {
       empty: 'No notification',
