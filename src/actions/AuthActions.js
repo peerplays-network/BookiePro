@@ -254,9 +254,9 @@ class AuthActions {
         dispatch(AuthPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
         
-        // Get the available balance for the core asset.
-        const balance = getState().getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
-        
+        // Get the available balance for the core asset. Default to 0 if the balance is undefined.
+        const balance = getState().getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']) || 0;
+
         // Check the balance to determine if that was the error
         return CommunicationService.getOperationFee(ACCOUNT_UPDATE, Config.coreAsset)
           .then((fees) => {
