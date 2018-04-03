@@ -31,8 +31,12 @@ const DateUtils = {
    * @returns localized date by pulling the users local timezone.
    */
   getLocalDate(dateToLocalize){
+    var workingDate = dateToLocalize.toString();
     // Ensure the date has been parsed into a date object.
-    return dateToLocalize.toString().indexOf('Z') === -1 ? new Date(dateToLocalize + 'Z') : new Date(dateToLocalize);
+    if (workingDate.indexOf('Z') === -1){
+      workingDate += 'Z';
+    }
+    return new Date(workingDate);
   },
 
   /*
