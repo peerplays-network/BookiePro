@@ -65,7 +65,7 @@ class BettingMarketGroupBanner extends PureComponent {
 
 
 BettingMarketGroupBanner.propTypes = {
-  eventTime: PropTypes.object.isRequired,
+  eventTime: PropTypes.instanceOf(Date).isRequired,
   eventName: PropTypes.string.isRequired,
   isLiveMarket: PropTypes.bool
 }
