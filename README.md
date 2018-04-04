@@ -12,9 +12,6 @@ $ git submodule update
 // Install node dependencies 
 $ npm install
 
-// Change to the submodules director
-$ cd lib
-
 // Link the local modules
 $ npm link peerplaysjs-lib peerplaysjs-ws
 
@@ -22,7 +19,7 @@ $ npm link peerplaysjs-lib peerplaysjs-ws
 $ cd peerplaysjs-lib
 
 // Link the peerplaysjs-ws library for this submodule
-$ npm link peerplaysjs-ws
+$ npm link ../peerplaysjs-ws
 
 // Start the dev server
 $ npm start
