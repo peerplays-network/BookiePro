@@ -30,7 +30,7 @@ class BettingMarketGroupBanner extends PureComponent {
     } else {
       return (
         <div className='countdown'>
-          <BannerClock time={ new Date(this.props.eventTime) }/>
+          <BannerClock time={ this.props.eventTime }/>
         </div>
       )
     }
