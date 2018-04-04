@@ -13,10 +13,10 @@ $ git submodule update
 $ npm install
 
 // Link the local modules
-$ npm link peerplaysjs-lib peerplaysjs-ws
+$ npm link lib/peerplaysjs-lib lib/peerplaysjs-ws
 
 // Change into the peerplaysjs-lib directory so that we can link the peerplaysjs-ws library
-$ cd peerplaysjs-lib
+$ cd lib/peerplaysjs-lib
 
 // Link the peerplaysjs-ws library for this submodule
 $ npm link ../peerplaysjs-ws
