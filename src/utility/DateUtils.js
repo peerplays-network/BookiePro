@@ -27,7 +27,7 @@ const DateUtils = {
   /**
    * 
    * 
-   * @param {any} date to convert to local.
+   * @param {Date} date to convert to local.
    * @returns localized date by pulling the users local timezone.
    */
   getLocalDate(dateToLocalize){
