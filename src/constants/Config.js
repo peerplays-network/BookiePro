@@ -13,7 +13,7 @@ const blockchainUrls = [
 // So every bookie app will not always connect to the first node in the list
 const shuffledBlockhainUrls = _.shuffle(blockchainUrls)
 
-const ASSET_ID = '1.3.0'
+const ASSET_ID = '1.3.3'
 
 const Config = {
   version: version,
@@ -36,7 +36,11 @@ const Config = {
       memo: PrivateKey.fromWif('5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3')
     },
   },
-  dummyDataAccountId: '1.2.243' // TODO: remove this
+  dummyDataAccountId: '1.2.243', // TODO: remove this
+  features: {
+    withdrawels: false,
+    deposits: false
+  }
 }
 
 

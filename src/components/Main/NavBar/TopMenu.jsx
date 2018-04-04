@@ -228,30 +228,35 @@ class TopMenu extends PureComponent {
             </div>
           </Tooltip>
         </Menu.Item>
-        <Menu.Item key='deposit'>
-          <Dropdown trigger={ ['click'] } overlay={ depositCard(this.props.depositAddress) } placement='bottomRight'
-            onVisibleChange={ this.handleDepositComponentVisibleChange }>
-            <Tooltip overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.deposit') }>
-              <div className='icon-main deposit-icon-main'>
-                <a className='ant-dropdown-link' href='#'>
-                  <i className={ this.state.isDepositComponentVisible ? 'deposit-icon-selected' : 'deposit-icon' }></i>
-                </a>
-              </div>
-            </Tooltip>
-          </Dropdown>
-        </Menu.Item>
-        <Menu.Item key='withdraw'>
-          <Dropdown trigger={ ['click'] } overlay={ withdrawCard } placement='bottomRight'
-            onVisibleChange={ this.handleTopMenuWithdrawComponentVisibleChange }>
-            <Tooltip  overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.withdrawal') }>
-              <div className='icon-main withdraw-icon-main'>
-                <a className='ant-dropdown-link'>
-                  <i className={ this.state.isTopMenuWithdrawComponentVisible ? 'withdraw-icon-selected' : 'withdraw-icon' }></i>
-                </a>
-              </div>
-            </Tooltip>
-          </Dropdown>
-        </Menu.Item>
+        { this.props.depositsEnabled ? 
+          <Menu.Item key='deposit'>
+            <Dropdown trigger={ ['click'] } overlay={ depositCard(this.props.depositAddress) } placement='bottomRight'
+              onVisibleChange={ this.handleDepositComponentVisibleChange }>
+              <Tooltip overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.deposit') }>
+                <div className='icon-main deposit-icon-main'>
+                  <a className='ant-dropdown-link' href='#'>
+                    <i className={ this.state.isDepositComponentVisible ? 'deposit-icon-selected' : 'deposit-icon' }></i>
+                  </a>
+                </div>
+              </Tooltip>
+            </Dropdown>
+          </Menu.Item> 
+        : null }
+        { this.props.withdrawalsEnabled ? 
+          <Menu.Item key='withdraw'>
+            <Dropdown trigger={ ['click'] } overlay={ withdrawCard } placement='bottomRight'
+              onVisibleChange={ this.handleTopMenuWithdrawComponentVisibleChange }>
+              <Tooltip  overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.withdrawal') }>
+                <div className='icon-main withdraw-icon-main'>
+                  <a className='ant-dropdown-link'>
+                    <i className={ this.state.isTopMenuWithdrawComponentVisible ? 'withdraw-icon-selected' : 'withdraw-icon' }></i>
+                  </a>
+                </div>
+              </Tooltip>
+            </Dropdown>
+          </Menu.Item> 
+        : null }
+        
         <Menu.Item key='notifications' className='notification'>
           <Dropdown
             trigger={ ['click'] }
@@ -291,6 +296,9 @@ class TopMenu extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
+  // Check and assign features
+  const depositsEnabled = Config.features.deposits;
+  const withdrawalsEnabled = Config.features.withdrawels;
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']) ;
@@ -332,8 +340,10 @@ const mapStateToProps = (state) => {
     accountName: state.getIn(['account', 'account', 'name']),
     loadingStatus: state.getIn(['balance', 'getDepositAddressLoadingStatus']),
     depositAddress: state.getIn(['balance', 'depositAddress']),
+    depositsEnabled: depositsEnabled,
     availableBalance: availableBalance,
     withdrawLoadingStatus: state.getIn(['balance', 'topMenuWithdrawLoadingStatus']),
+    withdrawalsEnabled: withdrawalsEnabled,
     precision: precision,
     convertedAvailableBalance: convertedAvailableBalance,
     currencyFormat: setting.get('currencyFormat'),
