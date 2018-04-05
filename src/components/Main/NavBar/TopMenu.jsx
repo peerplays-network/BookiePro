@@ -295,10 +295,13 @@ class TopMenu extends PureComponent {
   }
 }
 
+TopMenu.defaultProps = {
+  depositsEnabled: Config.features.deposits,
+  withdrawalsEnabled: Config.features.withdrawels
+};
+
 const mapStateToProps = (state) => {
   // Check and assign features
-  const depositsEnabled = Config.features.deposits;
-  const withdrawalsEnabled = Config.features.withdrawels;
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']) ;
@@ -340,10 +343,8 @@ const mapStateToProps = (state) => {
     accountName: state.getIn(['account', 'account', 'name']),
     loadingStatus: state.getIn(['balance', 'getDepositAddressLoadingStatus']),
     depositAddress: state.getIn(['balance', 'depositAddress']),
-    depositsEnabled: depositsEnabled,
     availableBalance: availableBalance,
     withdrawLoadingStatus: state.getIn(['balance', 'topMenuWithdrawLoadingStatus']),
-    withdrawalsEnabled: withdrawalsEnabled,
     precision: precision,
     convertedAvailableBalance: convertedAvailableBalance,
     currencyFormat: setting.get('currencyFormat'),
@@ -351,7 +352,10 @@ const mapStateToProps = (state) => {
     notifications,
     unreadNotificationNumber,
     isShowNotificationCard,
-    routePath: state.getIn(['routing', 'locationBeforeTransitions']).pathname
+    routePath: state.getIn(['routing', 'locationBeforeTransitions']).pathname,
+    // Manual Feature Ovverides
+    /*depositsEnabled: true,
+    withdrawalsEnabled: true*/
   }
 }
 

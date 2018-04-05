@@ -360,6 +360,10 @@ class MyAccount extends PureComponent {
   }
 }
 
+MyAccount.defaultProps = {
+  depositsEnabled: Config.features.deposits,
+  withdrawalsEnabled: Config.features.withdrawels
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -375,12 +379,13 @@ const mapStateToProps = (state) => {
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: MyAccountPageSelector.getDepositAddressLoadingStatusSelector(state),
     depositAddress: MyAccountPageSelector.depositAddressSelector(state),
-    depositsEnabled: Config.features.deposits,
     availableBalance: MyAccountPageSelector.availableBalanceSelector(state),
     withdrawLoadingStatus: MyAccountPageSelector.withdrawLoadingStatusSelector(state),
-    withdawalsEnabled: Config.features.withdrawels,
     convertedAvailableBalance : MyAccountPageSelector.formattedAvailableBalanceSelector(state),
     accountName: MyAccountPageSelector.accountNameSelector(state),
+    // Manual Feature Overrides
+    /*depositsEnabled: true,
+    withdawalsEnabled: true*/
   }
 }
 
