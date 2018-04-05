@@ -17,6 +17,8 @@
   },
   "scripts": {
     "release": "./node_modules/.bin/gulp release --env=production",
+    "release-windows": "./node_modules/.bin/gulp release-windows --env=production",
+    "release-linux": "./node_modules/.bin/gulp release-linux --env=production",
     "start": "node ./tasks/start"
   },
   "dependencies": {

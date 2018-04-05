@@ -55,9 +55,11 @@ var finalize = function () {
             'FileDescription': manifest.description,
         }
     }, function (err) {
-        if (!err) {
-            deferred.resolve();
+        if (err) {
+            deferred.reject(err);
         }
+        
+        deferred.resolve();
     });
 
     return deferred.promise;
@@ -117,11 +119,14 @@ var cleanClutter = function () {
 
 module.exports = function () {
     return init()
-    .then(copyRuntime)
-    .then(cleanupRuntime)
-    .then(packageBuiltApp)
-    .then(finalize)
-    .then(renameApp)
-    .then(createInstaller)
-    .then(cleanClutter);
+        .then(copyRuntime)
+        .then(cleanupRuntime)
+        .then(packageBuiltApp)
+        .then(finalize)
+        .then(renameApp)
+        .then(createInstaller)
+        .then(cleanClutter)
+        .catch((error) => {
+            console.error('Error : ', error);
+        });
 };

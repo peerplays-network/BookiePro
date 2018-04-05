@@ -28,15 +28,15 @@ module.exports = function(options) {
     var outputPath = path.join(root_dir, "assets");
 
     var define = {
-	    APP_PACKAGE_VERSION: JSON.stringify(packageJSON.version),
-	    SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME: JSON.stringify(options.SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME || "ppcoreupdates"),
-	    APP_VERSION: JSON.stringify(git.tag()),
-	    __ELECTRON__: !!options.electron,
-	    CORE_ASSET: JSON.stringify('PPY'),
-	    BLOCKCHAIN_URL: JSON.stringify(options.blockchain || 'wss://api1.peerplays.download/ws'),
-	    FAUCET_URL: JSON.stringify(options.faucet || "https://api1.peerplays.download/faucet"),
-	    FAUCET_FILE: JSON.stringify(options.faucetFile || "faucetUrls"),
-	    BITSHARES_WS: JSON.stringify(options.BITSHARES_WS || 'wss://bitshares.openledger.info/ws'),
+        APP_PACKAGE_VERSION: JSON.stringify(packageJSON.version),
+        SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME: JSON.stringify(options.SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME || "ppcoreupdates"),
+        APP_VERSION: JSON.stringify(git.tag()),
+        __ELECTRON__: !!options.electron,
+        CORE_ASSET: JSON.stringify('PPY'),
+        BLOCKCHAIN_URL: JSON.stringify(options.blockchain || 'wss://pma.blockveritas.co:8089/'),
+        FAUCET_URL: JSON.stringify(options.faucet || "https://api1.peerplays.download/faucet"),
+        FAUCET_FILE: JSON.stringify(options.faucetFile || "faucetUrls"),
+        BITSHARES_WS: JSON.stringify(options.BITSHARES_WS || 'wss://bitshares.openledger.info/ws'),
     };
     console.log(define);
     // COMMON PLUGINS
