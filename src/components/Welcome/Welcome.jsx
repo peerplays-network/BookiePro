@@ -137,8 +137,7 @@ class Welcome extends PureComponent{
 }
 
 Welcome.defaultProps = {
-  depositsEnabled: Config.features.deposits,
-  withdrawalsEnabled: Config.features.withdrawels
+  depositsEnabled: Config.features.deposits
 };
 
 const mapStateToProps = (state) => {
@@ -154,4 +153,4 @@ const mapDispatchToProps = (dispatch) => {
     setAppBackground: AppActions.setAppBackgroundAction,
   }, dispatch);
 }
-export default connect(null, mapStateToProps, mapDispatchToProps)(Welcome)
+export default connect(mapStateToProps, mapDispatchToProps)(Welcome)
