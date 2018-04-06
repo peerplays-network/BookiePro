@@ -8,7 +8,7 @@ import { I18n } from 'react-redux-i18n';
 import { NavigateActions, AppActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { AppBackgroundTypes } from '../../constants';
+import { AppBackgroundTypes, Config } from '../../constants';
 import FloatingHelp from '../FloatingHelp';
 
 class Welcome extends PureComponent{
@@ -114,7 +114,7 @@ class Welcome extends PureComponent{
             afterChange={ this.onCarouselChange }
             >
             <div>{ this.renderCarouselChild(0) }</div>
-            <div>{ this.renderCarouselChild(1) }</div>
+            { this.props.depositsEnabled ? <div>{ this.renderCarouselChild(1) }</div> : null }            
             <div>{ this.renderCarouselChild(2) }</div>
             <div>{ this.renderCarouselChild(3) }</div>
           </Carousel>
@@ -135,10 +135,23 @@ class Welcome extends PureComponent{
     )
   }
 }
+
+Welcome.defaultProps = {
+  depositsEnabled: Config.features.deposits,
+  withdrawalsEnabled: Config.features.withdrawels
+};
+
+const mapStateToProps = (state) => {
+  return {
+    // Manual Feature Overrides
+    /*depositsEnabled: true*/
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     setAppBackground: AppActions.setAppBackgroundAction,
   }, dispatch);
 }
-export default connect(null, mapDispatchToProps)(Welcome)
+export default connect(null, mapStateToProps, mapDispatchToProps)(Welcome)
