@@ -32,7 +32,7 @@ export const translationsObject = {
     },
     titleBar:{
       title: 'BookiePro',
-      clock: 'Local Time %{time}'
+      clock: 'Local Time <span>%{time}</span>'
     },
     searchMenu:{
       no_of_result_0: 'No results found',
