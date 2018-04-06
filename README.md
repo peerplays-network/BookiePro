@@ -88,19 +88,35 @@ cd ../electron; npm install
 ```
 
 ## Building the Executable
-### Building the executable for Linux or MacOS
+### Building the executable for MacOS
 ```
-cd ../web; npm run electron
-cd ../electron; npm run release
+cd web; npm run electron
+cd ../electron/node_modules/electron-prebuilt; rm -rf dist
+npm_config_platform=darwin npm run postinstall
+cd ../../
+npm run release
 ```
 
 The exectuable will appear within the "releases" folder within the "electron" folder.
 
-
-### Building the executable for Windows
+### Building the Executable for Linux
 ```
-cd ../web; npm run build-electron-win
-cd ../electron; npm run release
+cd web; npm run electron
+cd ../electron/node_modules/electron-prebuilt; rm -rf dist
+npm_config_platform=linux npm run postinstall
+cd ../../
+npm run release-linux
+```
+
+The exectuable will appear within the "releases" folder within the "electron" folder.
+
+### Building the Executable for Windows
+```
+cd web; npm run electron
+cd ../electron/node_modules/electron-prebuilt; rm -rf dist
+npm_config_platform=win32 npm run postinstall
+cd ../../
+npm run release-windows
 ```
 
 The exectuable will appear within the "releases" folder within the "electron" folder.

@@ -19,3 +19,5 @@ babel-cache/*
 \!documents
 !babel-cache/.gitkeep
 web/build/
+electron/build
+electron/tmp
