@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import Immutable from 'immutable';
 import CommonSelector from './CommonSelector';
-import { CurrencyUtils } from '../utility';
+import { CurrencyUtils, ObjectUtils } from '../utility';
 import { Config } from '../constants';
 
 const {
@@ -32,51 +32,6 @@ const getLoadingStatus = createSelector(
   }
 )
 
-const getBettingMarketGroup = createSelector(
-  [
-    getBettingMarketGroupId,
-    getBettingMarketGroupsById
-  ],
-  (bettingMarketGroupId, bettingMarketGroupsById) => {
-    return bettingMarketGroupsById.get(bettingMarketGroupId);
-  }
-)
-
-const getEvent = createSelector(
-  [
-    getBettingMarketGroup,
-    getEventsById
-  ],
-  (bettingMarketGroup, eventsById) => {
-    const event = bettingMarketGroup && eventsById.get(bettingMarketGroup.get('event_id'));
-    return event;
-  }
-);
-
-const getEventName = createSelector(
-  getEvent,
-  (event) => {
-    const eventName = (event && event.get('name')) || '';
-    return eventName;
-  }
-)
-
-const getEventTime = createSelector(
-  getEvent,
-  (event) => {
-    const eventTime = (event && event.get('start_time') && new Date(event.get('start_time'))) || new Date();
-    return eventTime;
-  }
-)
-
-const getIsLiveMarket = createSelector(
-  getEvent,
-  (event) => {
-    return event && event.get('is_live_market');
-  }
-)
-
-
 const getBettingMarkets = createSelector(
   [
     getBettingMarketGroupId,
@@ -93,10 +48,66 @@ const getBettingMarkets = createSelector(
   }
 )
 
+// Main selector forBettingMarketGroup.jsx
+const getBettingMarketGroup = createSelector(
+  [
+    getBettingMarketGroupId,
+    getBettingMarketGroupsById
+  ],
+  (bettingMarketGroupId, bettingMarketGroupsById) => {
+    return bettingMarketGroupsById.get(bettingMarketGroupId);
+  }
+)
+const getBettingMarketGroupStatus = createSelector(
+  getBettingMarketGroup,
+  (bettingMarketGroup) => {
+    return ObjectUtils.bettingMarketGroupStatus(bettingMarketGroup);
+  }
+)
+
+const getEvent = createSelector(
+  [
+    getBettingMarketGroup,
+    getEventsById
+  ],
+  (bettingMarketGroup, eventsById) => {
+    const event = bettingMarketGroup && eventsById.get(bettingMarketGroup.get('event_id'));
+    return event;
+  }
+)
+const getEventStatus = createSelector(
+  getEvent,
+  (event) => {
+    return ObjectUtils.eventStatus(event);
+  }
+)
+
+const getEventName = createSelector(
+  getEvent,
+  (event) => {
+    const eventName = (event && event.get('name')) || '';
+    return eventName;
+  }
+)
+
+const getEventTime = createSelector(
+  getEvent,
+  (event) => {
+    const eventTime = (event && event.get('start_time')) || new Date();
+    return eventTime;
+  }
+)
+
+const getIsLiveMarket = createSelector(
+  getEvent,
+  (event) => {
+    return event && event.get('is_live_market');
+  }
+)
+
 const getTotalMatchedBetsByMarketGroupId = (state) => {
   return state.getIn(['liquidity', 'totalMatchedBetsByBettingMarketGroupId']);
 }
-
 
 const getTotalMatchedBetsAmount = createSelector(
   [
@@ -141,7 +152,8 @@ const getMarketData = createSelector(
       const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarket.get('id'));
       let data = Immutable.Map().set('displayName', bettingMarket.get('description'))
         .set('name', bettingMarket.get('description'))
-        .set('displayedName',  bettingMarket.get('description'));
+        .set('displayedName',  bettingMarket.get('description'))
+        .set('bettingMarket_status', ObjectUtils.bettingMarketStatus(bettingMarket.get('status')));
 
       // Normalize aggregated_lay_bets and aggregated_back_bets
       const assetPrecision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']);
@@ -164,6 +176,7 @@ const getMarketData = createSelector(
         backIndex: 0,
         layIndex: 0,
         bettingMarketId: bettingMarket.get('id'),
+        bettingMarketStatus: bettingMarket.get('status'),
         backOrigin: aggregated_lay_bets.sort((a, b) => b.get('odds') - a.get('odds')),  //display in descending order, ensure best odd is in the first index
         layOrigin: aggregated_back_bets.sort((a, b) => a.get('odds') - b.get('odds')),  //display in ascending order, ensure best odd is in the first index
         bettingMarketGroup: bettingMarketGroup,
@@ -189,6 +202,8 @@ const BettingMarketGroupPageSelector = {
   getMarketData,
   getEventName,
   getEventTime,
+  getEventStatus,
+  getBettingMarketGroupStatus,
   getIsLiveMarket,
   getTotalMatchedBetsAmount,
   getUnconfirmedBets,

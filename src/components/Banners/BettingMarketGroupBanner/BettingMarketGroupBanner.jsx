@@ -30,12 +30,12 @@ class BettingMarketGroupBanner extends PureComponent {
     } else {
       return (
         <div className='countdown'>
-          <BannerClock time={ this.props.eventTime }/>
+          <BannerClock time={ new Date(this.props.eventTime) }/>
         </div>
       )
     }
   }
-
+  
   renderLive() {
     // TODO: waiting for the style
     return (
@@ -51,7 +51,10 @@ class BettingMarketGroupBanner extends PureComponent {
     return (
       <div className='betting-market-group-banner' style={ { backgroundImage: bannerSource } }>
         <div className='event'>
-          <div className='name'>{ this.props.eventName }</div>
+          <div className='name'>{ this.props.eventName } 
+            <span className={ this.props.eventStatus }>
+            <span className='indicator'/>{I18n.t('complex_betting_widget.' + this.props.eventStatusClassName)}</span> 
+          </div>
           <div className='time'>{ I18n.t('bettingMarketGroup.match_start_on', { time: formattedEventTime }) }</div>
 
         </div>
@@ -65,8 +68,10 @@ class BettingMarketGroupBanner extends PureComponent {
 
 
 BettingMarketGroupBanner.propTypes = {
-  eventTime: PropTypes.instanceOf(Date).isRequired,
+  eventTime: PropTypes.string.isRequired,  
   eventName: PropTypes.string.isRequired,
+  eventStatus: PropTypes.any,
+  eventStatusClassName: PropTypes.any,
   isLiveMarket: PropTypes.bool
 }
 
