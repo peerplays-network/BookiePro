@@ -121,7 +121,11 @@ module.exports = {
         test: /\.(js|jsx)$/,
         include: paths.appSrc,
         loader: 'babel',
-
+        query: {
+          plugins: [
+            ['import', [{ libraryName: "antd", style: true }]],  // import less
+          ]
+        }
       },
       // The notation here is somewhat confusing.
       // "postcss" loader applies autoprefixer to our CSS.
@@ -223,8 +227,6 @@ module.exports = {
         screw_ie8: true
       }
     }),
-    // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
-    new ExtractTextPlugin(cssFilename),
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
