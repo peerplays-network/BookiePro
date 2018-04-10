@@ -131,6 +131,22 @@ class ComplexBettingWidget extends PureComponent {
         const bettingMarketId = row.getIn(['offer', 'bettingMarketId']);
         const betslip_exposure = BettingModuleUtils.getExposure(bettingMarketId, unconfirmedBets);
         
+        // TODO:
+        // Only dispaly the name if the event, betting market group, or betting market are any of the following status':
+        /* 
+            Event               settled
+            BettingMarketGroup  graded, re-grading, settled
+            BettingMarket       win, not_win
+        */  
+        if (this.props.value.bettingMarket_status[1] === 'win' || this.props.value.bettingMarket_status[1] === 'not_win' || this.props.value.eventStatus === 'settled'
+          || this.props.bettingMarketGroupStatus[1] === 'graded' || this.props.bettingMarketGroupStatus[1] === 're-grading' || this.props.bettingMarketGroupStatus[1] === 'settled'){
+        // Get betting market status' and if graded, re-grading, or settled, display gray table.
+        // TODO: Build gray disabled table. 
+        //  - empty and change style
+        // https://react-table.js.org/#/story/readme
+          const disableTable = true;
+        }
+
         // get data for 'firstColumn' in which exposure and team name reside in .
         tableData = tableData.setIn([i, 'offer', 'back'], backTableData)
           .setIn([i, 'offer', 'lay'], layTableData)
@@ -456,12 +472,12 @@ class ComplexBettingWidget extends PureComponent {
           this.state.tableData.isEmpty() ?
           <div/>
           :
-          <ReactTable
+          <ReactTable // TODO: add className and modify styles
             pageSize={ this.state.tableData.size }
-            data={ this.state.tableData.toJS() }
+            data={ this.disableTable ? undefined : this.state.tableData.toJS() } // set no data but retain table structure
             columns={ columns }
             showPagination={ false }
-            getTdProps={ (state, rowInfo, column, instance) => {
+            getTdProps={ this.disableTable ? undefined : (state, rowInfo, column, instance) => { // set no data but retain table structure
               return {
                 onClick: (event) => {
                   if ( column.className === BetTypes.LAY || column.className === BetTypes.BACK){

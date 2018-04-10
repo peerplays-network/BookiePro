@@ -153,7 +153,7 @@ const determineStatusResult = (enumStatus) => {
   var className = 'going-live';
   var status = 'error';
   
-  if (enumStatus === "in_play" || enumStatus === "in_progress") {
+  if (enumStatus === "in_play" || enumStatus === "in_progress") { // Only BMG and BM status' can fulfill this.
     className = 'live';
     status = enumStatus;
   } else if (enumStatus) {
