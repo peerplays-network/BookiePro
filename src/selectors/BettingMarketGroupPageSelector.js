@@ -36,14 +36,14 @@ const getLoadingStatus = createSelector(
 const getBettingMarketGroup = createSelector(
   [
     getBettingMarketGroupId,
-    getBettingMarketGroupsById
+    getBettingMarketGroupsById // List of betting market groups
   ],
   (bettingMarketGroupId, bettingMarketGroupsById) => {
     return bettingMarketGroupsById.get(bettingMarketGroupId);
   }
 )
 const getBettingMarketGroupStatus = createSelector(
-  getBettingMarketGroup,
+  getBettingMarketGroup, // Id of current betting market group
   (bettingMarketGroup) => {
     debugger;
     return ObjectUtils.bettingMarketGroupStatus(bettingMarketGroup);
@@ -52,10 +52,11 @@ const getBettingMarketGroupStatus = createSelector(
 
 const getBettingMarkets = createSelector(
   [
-    getBettingMarketGroupId,
-    getBettingMarketsById
+    getBettingMarketGroupId, 
+    getBettingMarketsById // list of betting markets
   ],
   (bettingMarketGroupId, bettingMarketsById) => {
+    // Filter all the betting markets by those that have the same BMG Id as the current BMG.
     let bettingMarkets = Immutable.List();
     bettingMarketsById.forEach((bettingMarket) => {
       if (bettingMarket.get('group_id') === bettingMarketGroupId ) {
@@ -68,13 +69,11 @@ const getBettingMarkets = createSelector(
 
 const getBettingMarket = createSelector (
   [
-    getBettingMarketGroup,
-    getBettingMarketsById
+    getBettingMarkets // Immutable list of filtered betting markets for current bmg
   ],
-  (bettingMarketGroupId, bettingMarketsById) => {
+  (bettingMarkets, ) => {
     debugger;
-    console.log(bettingMarketsById.get(bettingMarketGroupId));
-    return bettingMarketsById.get(bettingMarketGroupId);
+    return bettingMarkets.getIn(['result', '0', 'id']);
   }
 )
 
@@ -83,7 +82,6 @@ const getBettingMarketStatus = createSelector (
     getBettingMarket    
   ],
   (bettingMarket) => {
-    //debugger;    
     return ObjectUtils.bettingMarketStatus(bettingMarket);
   }
 )
