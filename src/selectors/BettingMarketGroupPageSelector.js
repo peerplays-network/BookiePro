@@ -32,6 +32,24 @@ const getLoadingStatus = createSelector(
   }
 )
 
+// Main selector forBettingMarketGroup.jsx
+const getBettingMarketGroup = createSelector(
+  [
+    getBettingMarketGroupId,
+    getBettingMarketGroupsById
+  ],
+  (bettingMarketGroupId, bettingMarketGroupsById) => {
+    return bettingMarketGroupsById.get(bettingMarketGroupId);
+  }
+)
+const getBettingMarketGroupStatus = createSelector(
+  getBettingMarketGroup,
+  (bettingMarketGroup) => {
+    debugger;
+    return ObjectUtils.bettingMarketGroupStatus(bettingMarketGroup);
+  }
+)
+
 const getBettingMarkets = createSelector(
   [
     getBettingMarketGroupId,
@@ -48,20 +66,25 @@ const getBettingMarkets = createSelector(
   }
 )
 
-// Main selector forBettingMarketGroup.jsx
-const getBettingMarketGroup = createSelector(
+const getBettingMarket = createSelector (
   [
-    getBettingMarketGroupId,
-    getBettingMarketGroupsById
+    getBettingMarketGroup,
+    getBettingMarketsById
   ],
-  (bettingMarketGroupId, bettingMarketGroupsById) => {
-    return bettingMarketGroupsById.get(bettingMarketGroupId);
+  (bettingMarketGroupId, bettingMarketsById) => {
+    debugger;
+    console.log(bettingMarketsById.get(bettingMarketGroupId));
+    return bettingMarketsById.get(bettingMarketGroupId);
   }
 )
-const getBettingMarketGroupStatus = createSelector(
-  getBettingMarketGroup,
-  (bettingMarketGroup) => {
-    return ObjectUtils.bettingMarketGroupStatus(bettingMarketGroup);
+
+const getBettingMarketStatus = createSelector (
+  [
+    getBettingMarket    
+  ],
+  (bettingMarket) => {
+    //debugger;    
+    return ObjectUtils.bettingMarketStatus(bettingMarket);
   }
 )
 
@@ -204,6 +227,7 @@ const BettingMarketGroupPageSelector = {
   getEventTime,
   getEventStatus,
   getBettingMarketGroupStatus,
+  getBettingMarketStatus,
   getIsLiveMarket,
   getTotalMatchedBetsAmount,
   getUnconfirmedBets,

@@ -167,7 +167,10 @@ const eventStatus = (event) => {
   return determineStatusResult(event.get('status'));  
 }
 const bettingMarketStatus = (bettingMarket) => {
-  return determineStatusResult(bettingMarket);
+  debugger;
+  if(bettingMarket !== undefined){
+    return determineStatusResult(bettingMarket);
+  }
 }
 const bettingMarketGroupStatus = (betting_market_group) => {
   return determineStatusResult(betting_market_group.get('status'));
