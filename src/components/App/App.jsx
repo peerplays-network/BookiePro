@@ -194,7 +194,7 @@ const mapStateToProps = (state) => {
   return {
     connectToBlockchainLoadingStatus,
     isConnectedToBlockchain,
-    isLoggedIn,
+    //isLoggedIn, //enforces login
     version,
     displayText,
     locale,

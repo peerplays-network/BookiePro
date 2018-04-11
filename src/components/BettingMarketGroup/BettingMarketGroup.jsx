@@ -106,7 +106,7 @@ const mapStateToProps = (state, ownProps) => {
       isLiveMarket: BettingMarketGroupPageSelector.getIsLiveMarket(state, ownProps),
       eventStatus: BettingMarketGroupPageSelector.getEventStatus(state, ownProps),
       bettingMarketGroupStatus: BettingMarketGroupPageSelector.getBettingMarketGroupStatus(state, ownProps),
-      bettingMarketStatus: BettingMarketGroupPageSelector.getBettingMarketStatus(state, ownProps),
+      //bettingMarketStatus: BettingMarketGroupPageSelector.getBettingMarketStatus(state, ownProps),
       totalMatchedBetsAmount: BettingMarketGroupPageSelector.getTotalMatchedBetsAmount(state, ownProps),
       unconfirmedBets: BettingMarketGroupPageSelector.getUnconfirmedBets(state, ownProps),
       loadingStatus: BettingMarketGroupPageSelector.getLoadingStatus(state, ownProps),

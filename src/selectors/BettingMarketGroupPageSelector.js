@@ -45,7 +45,6 @@ const getBettingMarketGroup = createSelector(
 const getBettingMarketGroupStatus = createSelector(
   getBettingMarketGroup, // Id of current betting market group
   (bettingMarketGroup) => {
-    debugger;
     return ObjectUtils.bettingMarketGroupStatus(bettingMarketGroup);
   }
 )
@@ -67,7 +66,7 @@ const getBettingMarkets = createSelector(
   }
 )
 
-const getBettingMarket = createSelector (
+/*const getBettingMarket = createSelector (
   [
     getBettingMarkets // Immutable list of filtered betting markets for current bmg
   ],
@@ -84,7 +83,7 @@ const getBettingMarketStatus = createSelector (
   (bettingMarket) => {
     return ObjectUtils.bettingMarketStatus(bettingMarket);
   }
-)
+)*/
 
 const getEvent = createSelector(
   [
@@ -176,33 +175,56 @@ const getMarketData = createSelector(
         .set('displayedName',  bettingMarket.get('description'))
         .set('bettingMarket_status', ObjectUtils.bettingMarketStatus(bettingMarket.get('status')));
 
-      // Normalize aggregated_lay_bets and aggregated_back_bets
-      const assetPrecision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']);
-      let aggregated_lay_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
-      aggregated_lay_bets = aggregated_lay_bets.map(aggregated_lay_bet => {
-        const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
-        const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
-        return aggregated_lay_bet.set('odds', odds)
-                                 .set('price', price);
-      });
-      let aggregated_back_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
-      aggregated_back_bets = aggregated_back_bets.map(aggregated_back_bet => {
-        const odds = aggregated_back_bet.get('backer_multiplier') / Config.oddsPrecision;
-        const price = aggregated_back_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
-        return aggregated_back_bet.set('odds', odds)
+      var bmStatus = ObjectUtils.bettingMarketStatus(bettingMarket.get('status'));
+      if(bmStatus[1] === "win" && bmStatus[1] === "not_win"){
+        // Normalize aggregated_lay_bets and aggregated_back_bets
+        const assetPrecision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']);
+        let aggregated_lay_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
+        aggregated_lay_bets = aggregated_lay_bets.map(aggregated_lay_bet => {
+          const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
+          const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
+          return aggregated_lay_bet.set('odds', odds)
                                   .set('price', price);
-      });
+        });
+        let aggregated_back_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
+        aggregated_back_bets = aggregated_back_bets.map(aggregated_back_bet => {
+          const odds = aggregated_back_bet.get('backer_multiplier') / Config.oddsPrecision;
+          const price = aggregated_back_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
+          return aggregated_back_bet.set('odds', odds)
+                                    .set('price', price);
+        });
 
-      let offer = Immutable.Map({
-        backIndex: 0,
-        layIndex: 0,
-        bettingMarketId: bettingMarket.get('id'),
-        bettingMarketStatus: bettingMarket.get('status'),
-        backOrigin: aggregated_lay_bets.sort((a, b) => b.get('odds') - a.get('odds')),  //display in descending order, ensure best odd is in the first index
-        layOrigin: aggregated_back_bets.sort((a, b) => a.get('odds') - b.get('odds')),  //display in ascending order, ensure best odd is in the first index
-        bettingMarketGroup: bettingMarketGroup,
-      })
-      data = data.set('offer', offer);
+        let offer = Immutable.Map({
+          backIndex: 0,
+          layIndex: 0,
+          bettingMarketId: bettingMarket.get('id'),
+          bettingMarketStatus: bettingMarket.get('status'),
+          backOrigin: aggregated_lay_bets.sort((a, b) => b.get('odds') - a.get('odds')),  //display in descending order, ensure best odd is in the first index
+          layOrigin: aggregated_back_bets.sort((a, b) => a.get('odds') - b.get('odds')),  //display in ascending order, ensure best odd is in the first index
+          bettingMarketGroup: bettingMarketGroup,
+        })
+        data = data.set('offer', offer);
+      } else {
+        debugger; // discover what empty aggregated_lay_bets type and appearance is
+        // BOOK-560
+        // Return null data so that we can properly 'fill' table(s) whilst not displaying the true results.
+        // Normalize aggregated_lay_bets and aggregated_back_bets
+        /* TODO: Set the following data to null or empty. */
+        const assetPrecision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']);
+        let aggregated_lay_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
+        let aggregated_back_bets = Immutable.List();
+
+        let offer = Immutable.Map({
+          backIndex: 0,
+          layIndex: 0,
+          bettingMarketId: bettingMarket.get('id'),
+          bettingMarketStatus: bettingMarket.get('status'),
+          backOrigin: aggregated_lay_bets.sort((a, b) => b.get('odds') - a.get('odds')),  //display in descending order, ensure best odd is in the first index
+          layOrigin: aggregated_back_bets.sort((a, b) => a.get('odds') - b.get('odds')),  //display in ascending order, ensure best odd is in the first index
+          bettingMarketGroup: bettingMarketGroup,
+        })
+        data = data.set('offer', offer);
+      }
       marketData = marketData.push(data);
     });
     return marketData;
@@ -225,7 +247,7 @@ const BettingMarketGroupPageSelector = {
   getEventTime,
   getEventStatus,
   getBettingMarketGroupStatus,
-  getBettingMarketStatus,
+  //getBettingMarketStatus,
   getIsLiveMarket,
   getTotalMatchedBetsAmount,
   getUnconfirmedBets,

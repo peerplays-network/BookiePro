@@ -138,14 +138,17 @@ class ComplexBettingWidget extends PureComponent {
             BettingMarketGroup  graded, re-grading, settled
             BettingMarket       win, not_win
         */  
-        if (this.props.value.bettingMarket_status[1] === 'win' || this.props.value.bettingMarket_status[1] === 'not_win' || this.props.value.eventStatus === 'settled'
+       // bettingMarketStatus can be pulled from marketData
+       //const bmStatus = tableData.getIn();
+       //console.log(tableData.getIn([i, 'bettingMarket_status'])); 
+       /*if (this.props.value.bettingMarket_status[1] === 'win' || this.props.value.bettingMarket_status[1] === 'not_win' || this.props.value.eventStatus === 'settled'
           || this.props.bettingMarketGroupStatus[1] === 'graded' || this.props.bettingMarketGroupStatus[1] === 're-grading' || this.props.bettingMarketGroupStatus[1] === 'settled'){
         // Get betting market status' and if graded, re-grading, or settled, display gray table.
         // TODO: Build gray disabled table. 
         //  - empty and change style
         // https://react-table.js.org/#/story/readme
           const disableTable = true;
-        }
+        }*/
 
         // get data for 'firstColumn' in which exposure and team name reside in .
         tableData = tableData.setIn([i, 'offer', 'back'], backTableData)
