@@ -27,9 +27,10 @@ class LandingSteps extends PureComponent {
         break;
       }
       case LandingStepTypes.DEPOSIT: {
-        iconSource = depositIcon;
-        title = I18n.t('landing.depositStepTitle');
-        message = I18n.t('landing.depositStepMessage');
+        if(this.props.depositsEnabled)
+          iconSource = depositIcon;
+          title = I18n.t('landing.depositStepTitle');
+          message = I18n.t('landing.depositStepMessage');
         break;
       }
       case LandingStepTypes.BET: {
@@ -62,8 +63,12 @@ class LandingSteps extends PureComponent {
     return (
       <div className={ className  + ' landing-steps' }>
         { this.renderStep(LandingStepTypes.REGISTER) }
-        <div className='separator' />
-        { this.renderStep(LandingStepTypes.DEPOSIT) }
+        { this.props.depositsEnabled ?
+          <div>
+            <div className='separator' />
+              { this.renderStep(LandingStepTypes.DEPOSIT) }
+          </div>
+        : null }
         <div className='separator' />
         { this.renderStep(LandingStepTypes.BET) }
       </div>
