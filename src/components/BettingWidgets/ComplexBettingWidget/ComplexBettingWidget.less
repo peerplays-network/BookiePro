@@ -5,7 +5,7 @@
   height: 0;
 }
 .offer-header.lay{
-  float: left;
+  float: left;  
 }
 .offer-header.back{
   float: right;
@@ -144,17 +144,17 @@ div.complex-betting {
       .back-offer, .lay-offer {
         &.best-offer {
           &:hover {
-            background-color: @primary_label_highlight !important;
+            background-color: @primary_label_highlight;
           }
         }
       }
 
       .back-offer.best-offer {
-        background-color: @simple_betting_back_bg !important;
+        background-color: @simple_betting_back_bg;
       }
 
       .lay-offer.best-offer {
-        background-color: @lay_bg_primary !important;
+        background-color: @lay_bg_primary;
       }
 
       .lay-offer.empty-offer {
@@ -186,7 +186,7 @@ div.complex-betting {
       .back-offer {
         &.back-bg{
           background-color: transparent;
-          &:hover{
+          &:hover{            
             background-color: @primary_label_highlight;
           }
         }
@@ -198,6 +198,13 @@ div.complex-betting {
         }
         &.empty-offer:hover{
           background-color: @primary_label_highlight;
+        }
+        &.disabled {
+          cursor: default;
+          background-color: transparent;
+          &:hover{
+            background-color: transparent;
+          }
         }
       }
       .lay-offer {
@@ -215,6 +222,13 @@ div.complex-betting {
         }
         &.empty-offer:hover{
           background-color: @primary_label_highlight;
+        }
+        &.disabled {
+          cursor: default;
+          background-color: transparent;
+          &:hover{
+            background-color: transparent;
+          }
         }
       }
       .odds {
@@ -259,9 +273,9 @@ div.complex-betting {
       font-weight:500;
       padding:0;
       border-right:none;
-      #back, #lay {
-        cursor: pointer;
-      }
+      // #back, #lay {
+      //   cursor: pointer;
+      // }
       #lay {
         padding: 4px 7px;
       }
@@ -281,7 +295,15 @@ div.complex-betting {
           padding: 4px 3px;
           background-color: @simple_betting_back_bg;
           &:hover{
+            cursor: pointer;
             background-color: @complex-betting-back-hover-bg;
+          }
+          &.disabled{
+            background-color: @complex-betting-disabled;
+            cursor: default;
+            &:hover{
+              background-color: @complex-betting-disabled;
+            }
           }
          }
       }
@@ -292,7 +314,15 @@ div.complex-betting {
           padding: 4px 3px;
           background-color: @complex-betting-lay-all-bg;
           &:hover{
+            cursor: pointer;
             background-color: @complex-betting-lay-hover-bg;
+          }
+          &.disabled{
+            background-color: @complex-betting-disabled;
+            cursor: default;
+            &:hover{
+              background-color: @complex-betting-disabled;
+            }
           }
         }
       }

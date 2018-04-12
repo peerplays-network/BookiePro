@@ -66,25 +66,6 @@ const getBettingMarkets = createSelector(
   }
 )
 
-/*const getBettingMarket = createSelector (
-  [
-    getBettingMarkets // Immutable list of filtered betting markets for current bmg
-  ],
-  (bettingMarkets, ) => {
-    debugger;
-    return bettingMarkets.getIn(['result', '0', 'id']);
-  }
-)
-
-const getBettingMarketStatus = createSelector (
-  [
-    getBettingMarket    
-  ],
-  (bettingMarket) => {
-    return ObjectUtils.bettingMarketStatus(bettingMarket);
-  }
-)*/
-
 const getEvent = createSelector(
   [
     getBettingMarketGroup,
@@ -170,13 +151,21 @@ const getMarketData = createSelector(
     let marketData = Immutable.List();
     bettingMarkets.forEach((bettingMarket, i) => {
       const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarket.get('id'));
+      const bmStat = (status) => {
+        if(status !== 'win' || status !== 'not_win'){
+          return true;
+        } else {
+          return false;
+        }
+      };
       let data = Immutable.Map().set('displayName', bettingMarket.get('description'))
         .set('name', bettingMarket.get('description'))
         .set('displayedName',  bettingMarket.get('description'))
-        .set('bettingMarket_status', ObjectUtils.bettingMarketStatus(bettingMarket.get('status')));
+        .set('bettingMarket_status', ObjectUtils.bettingMarketStatus(bettingMarket.get('status')))
+        .set('bmWinLose', bmStat(ObjectUtils.bettingMarketStatus(bettingMarket.get('status'))[1]));
 
       var bmStatus = ObjectUtils.bettingMarketStatus(bettingMarket.get('status'));
-      if(bmStatus[1] === "win" && bmStatus[1] === "not_win"){
+      if(bmStatus[1] !== "win" && bmStatus[1] !== "not_win"){
         // Normalize aggregated_lay_bets and aggregated_back_bets
         const assetPrecision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']);
         let aggregated_lay_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
@@ -205,11 +194,6 @@ const getMarketData = createSelector(
         })
         data = data.set('offer', offer);
       } else {
-        debugger; // discover what empty aggregated_lay_bets type and appearance is
-        // BOOK-560
-        // Return null data so that we can properly 'fill' table(s) whilst not displaying the true results.
-        // Normalize aggregated_lay_bets and aggregated_back_bets
-        /* TODO: Set the following data to null or empty. */
         const assetPrecision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']);
         let aggregated_lay_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
         let aggregated_back_bets = Immutable.List();
@@ -247,7 +231,6 @@ const BettingMarketGroupPageSelector = {
   getEventTime,
   getEventStatus,
   getBettingMarketGroupStatus,
-  //getBettingMarketStatus,
   getIsLiveMarket,
   getTotalMatchedBetsAmount,
   getUnconfirmedBets,
