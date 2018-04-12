@@ -27,10 +27,9 @@ class LandingSteps extends PureComponent {
         break;
       }
       case LandingStepTypes.DEPOSIT: {
-        if(this.props.depositsEnabled)
-          iconSource = depositIcon;
-          title = I18n.t('landing.depositStepTitle');
-          message = I18n.t('landing.depositStepMessage');
+        iconSource = depositIcon;
+        title = I18n.t('landing.depositStepTitle');
+        message = I18n.t('landing.depositStepMessage');
         break;
       }
       case LandingStepTypes.BET: {
