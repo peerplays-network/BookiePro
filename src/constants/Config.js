@@ -7,7 +7,6 @@ const blockchainUrls = [
   //'wss://peerplays-dev.blocktrades.info/ws',
   "wss://peerplays-dev.blocktrades.info/alpha/ws"
   // 'wss://api.ppytest.blckchnd.com'
-
 ]
 
 // Shuffle list of blockchain nodes
