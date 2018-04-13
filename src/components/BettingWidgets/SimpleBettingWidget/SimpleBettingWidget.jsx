@@ -33,6 +33,7 @@ const eventTimeColumnWidth = 65;
 const offerColumnWidth = 70;
 
 const renderEventTime = (text, record) => {
+  // TODO: Check what is available via record
   const isLiveMarket= record.get('is_live_market');
   if (isLiveMarket) {
     return <span className='live'><span className='indicator'/>{ I18n.t('simple_betting_widget.in_play') }</span>;
@@ -48,6 +49,8 @@ const renderEventTime = (text, record) => {
 }
 
 const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsFormat) =>  {
+  // TODO: Add OSE 
+  // TODO: Check against OSE for allowing various activities  
   // 1 = home , 2 = away, 3 = draw
   let columns = [
     {

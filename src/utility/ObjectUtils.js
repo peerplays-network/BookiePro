@@ -150,6 +150,7 @@ const isActiveEvent = (event) => {
 }
 
 const determineStatusResult = (enumStatus) => {
+  // TODO: Optimize to use similar checks as isActiveEvent (EventStatus.COMPLETED, etc...)
   var className = 'going-live';
   var status = 'error';
   
