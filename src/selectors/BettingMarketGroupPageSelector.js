@@ -152,9 +152,9 @@ const getMarketData = createSelector(
     bettingMarkets.forEach((bettingMarket, i) => {
       const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarket.get('id'));
       const bmStat = (status) => {
-        if(status === 'win' || status === 'not_win'){ // Determine if either a winner or loser exists and merge into a single variable for simpler use.
+        if(status === 'win' || status === 'not_win' || status === 'graded' || status === 'settled'){ // Determine if either a winner or loser exists and merge into a single variable for simpler use.
           return true;
-        } else {
+        } else { // returns undefined if not declared
           return false;
         }
       };
@@ -162,7 +162,7 @@ const getMarketData = createSelector(
         .set('name', bettingMarket.get('description'))
         .set('displayedName',  bettingMarket.get('description'))
         .set('bettingMarket_status', ObjectUtils.bettingMarketStatus(bettingMarket.get('status')))
-        .set('bmWinLose', bmStat(ObjectUtils.bettingMarketStatus(bettingMarket.get('status'))[1]));
+        .set('bmStatus', bmStat(ObjectUtils.bettingMarketStatus(bettingMarket.get('status'))[1]));
 
       const assetPrecision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']);
       let aggregated_lay_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();

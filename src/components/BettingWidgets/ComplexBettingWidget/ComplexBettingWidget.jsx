@@ -94,7 +94,7 @@ class ComplexBettingWidget extends PureComponent {
       var winOrLose = false;
       tableData.forEach((row, i) => {
         //in i th row
-        if(tableData.getIn([i, 'bmWinLose'])){
+        if(tableData.getIn([i, 'bmStatus'])){
           winOrLose = true;
         }
         //retrieve paging Index from previous state
@@ -144,7 +144,7 @@ class ComplexBettingWidget extends PureComponent {
             'displayedName': tableData.getIn([i, 'displayedName']),
             'market_exposure': market_exposure,
             'bettingMarket_status': tableData.getIn([i, 'bettingMarket_status']),
-            'bmWinLose': tableData.getIn([i, 'bmWinLose']),
+            'bmStatus': tableData.getIn([i, 'bmStatus']),
             'betslip_exposure': parseFloat(betslip_exposure) !== 0 ?  betslip_exposure : undefined })
       });
 
@@ -296,8 +296,15 @@ class ComplexBettingWidget extends PureComponent {
           'increased-value' : 'decreased-value';
         const potentialExposureClass = props.value.betslip_exposure + props.value.market_exposure >= 0 ?
           'increased-value' : 'decreased-value';
+        const outcomeDisplay = (state) => {
+          if(state === 'win' || state === 'not_win' || state === 'unresolved'){
+            return I18n.t('complex_betting_widget.' + state);            
+          }
+        }
+
         return (
           <div className='competitor'>
+            { this.state.winOrLose ? <div className='complex-outcome'>{ outcomeDisplay(props.value.bettingMarket_status[1]) }</div> : null }
             <div className='name'>{props.value.displayedName} 
               <span className={ props.value.bettingMarket_status[0] }>
                 <span className='indicator'/>{I18n.t('complex_betting_widget.' + props.value.bettingMarket_status[1])}</span> 
@@ -341,15 +348,15 @@ class ComplexBettingWidget extends PureComponent {
         className: classNameBack, // we must use 'back' here for actions. ie. this.props.createBet(record, competitor, 'back', offer);
         accessor: row => row.offer.back.length > 2 ? row.offer.back[2] : undefined,
         render: props => props.value ?
-         <div className={ props.row.bmWinLose ? 'back-offer back-bg disabled' : 'back-offer back-bg' }>
-           <div className='odds'>{ props.row.bmWinLose ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+         <div className={ props.row.bmStatus ? 'back-offer back-bg disabled' : 'back-offer back-bg' }>
+           <div className='odds'>{ props.row.bmStatus ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
-             { props.row.bmWinLose ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price,
+             { props.row.bmStatus ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price,
                'BTC',
                BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
-         <div className={ props.row.bmWinLose ? 'back-offer empty-offer disabled' : 'back-offer empty-offer' }>
-         <div className='odds-offer'><p>{ props.row.bmWinLose ? null : I18n.t('complex_betting_widget.offer')}</p></div></div>
+         <div className={ props.row.bmStatus ? 'back-offer empty-offer disabled' : 'back-offer empty-offer' }>
+         <div className='odds-offer'><p>{ props.row.bmStatus ? null : I18n.t('complex_betting_widget.offer')}</p></div></div>
       }, {
         id: 'back2',
         header: props => null,
@@ -357,13 +364,13 @@ class ComplexBettingWidget extends PureComponent {
         className: classNameBack,
         accessor: row => row.offer.back.length > 1 ? row.offer.back[1] : undefined,
         render: props => props.value ?
-         <div className={ props.row.bmWinLose ? 'back-offer back-bg disabled' : 'back-offer back-bg' }>
+         <div className={ props.row.bmStatus ? 'back-offer back-bg disabled' : 'back-offer back-bg' }>
            <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
-         <div className={ props.row.bmWinLose ? 'back-offer empty-offer disabled' : 'back-offer empty-offer' }>
-         <div className='odds-offer'><p>{ props.row.bmWinLose ? null : I18n.t('complex_betting_widget.offer')}</p></div></div>
+         <div className={ props.row.bmStatus ? 'back-offer empty-offer disabled' : 'back-offer empty-offer' }>
+         <div className='odds-offer'><p>{ props.row.bmStatus ? null : I18n.t('complex_betting_widget.offer')}</p></div></div>
       }, {
         id: 'back1',
         header: props => null,
@@ -371,16 +378,16 @@ class ComplexBettingWidget extends PureComponent {
         className: classNameBack,
         accessor: row => row.offer.back.length > 0 ? row.offer.back[0] : undefined,
         render: props => props.value ?
-         <div className={ props.row.bmWinLose ? 'back-offer back-all-offer best-offer disabled' : 'back-offer back-all-offer best-offer' }>
-           <div className='odds'>{ props.row.bmWinLose ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat)}</div>
+         <div className={ props.row.bmStatus ? 'back-offer back-all-offer best-offer disabled' : 'back-offer back-all-offer best-offer' }>
+           <div className='odds'>{ props.row.bmStatus ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat)}</div>
            <div className='price'>
-             { props.row.bmWinLose ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
+             { props.row.bmStatus ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
-         <div className={ props.row.bmWinLose ? 'back-offer empty-offer disabled' : 'back-offer empty-offer best-offer' }>
-         <div className='odds-offer'><p>{ props.row.bmWinLose ? null : I18n.t('complex_betting_widget.offer')}</p></div></div>
+         <div className={ props.row.bmStatus ? 'back-offer empty-offer disabled' : 'back-offer empty-offer best-offer' }>
+         <div className='odds-offer'><p>{ props.row.bmStatus ? null : I18n.t('complex_betting_widget.offer')}</p></div></div>
       }]
     }, {
-      // NOTE will be seperated comopent for header
+      // NOTE will be seperated component for header
       header:  props =>
         <div className='offer-header lay'>
           <p className={ this.state.winOrLose ? 'alignleft disabled' : 'alignleft' } 
@@ -395,13 +402,13 @@ class ComplexBettingWidget extends PureComponent {
         className: classNameLay,
         accessor: row => row.offer.lay.length > 0 ? row.offer.lay[0] : undefined,
         render: props => props.value ?
-         <div className={ props.row.bmWinLose ? 'lay-offer lay-all-offer best-offer disabled' : 'lay-offer lay-all-offer best-offer' }>
-           <div className='odds'>{ props.row.bmWinLose ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+         <div className={ props.row.bmStatus ? 'lay-offer lay-all-offer best-offer disabled' : 'lay-offer lay-all-offer best-offer' }>
+           <div className='odds'>{ props.row.bmStatus ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
-             { props.row.bmWinLose ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
+             { props.row.bmStatus ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
-         <div className={ props.row.bmWinLose ? 'lay-offer empty-offer disabled' : 'lay-offer empty-offer best-offer' }>
-         <div className='odds-offer'><p>{ props.row.bmWinLose ? null : I18n.t('complex_betting_widget.offer')}</p></div></div>
+         <div className={ props.row.bmStatus ? 'lay-offer empty-offer disabled' : 'lay-offer empty-offer best-offer' }>
+         <div className='odds-offer'><p>{ props.row.bmStatus ? null : I18n.t('complex_betting_widget.offer')}</p></div></div>
       }, {
         id: 'lay2',
         header: props => null,
@@ -409,14 +416,14 @@ class ComplexBettingWidget extends PureComponent {
         className: classNameLay,
         accessor: row => row.offer.lay.length > 1 ? row.offer.lay[1] : undefined,
         render: props => props.value ?
-         <div className={ props.row.bmWinLose ? 'lay-offer lay-bg disabled' : 'lay-offer lay-bg' }>
-           <div className='odds'>{ props.row.bmWinLose ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+         <div className={ props.row.bmStatus ? 'lay-offer lay-bg disabled' : 'lay-offer lay-bg' }>
+           <div className='odds'>{ props.row.bmStatus ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
-             { props.row.bmWinLose ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 
+             { props.row.bmStatus ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 
               "BTC", BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
-         <div className={ props.row.bmWinLose ? 'lay-offer empty-offer disabled' : 'lay-offer empty-offer' }>
-         <div className='odds-offer'><p>{ props.row.bmWinLose ? null : I18n.t('complex_betting_widget.offer')}</p></div></div>
+         <div className={ props.row.bmStatus ? 'lay-offer empty-offer disabled' : 'lay-offer empty-offer' }>
+         <div className='odds-offer'><p>{ props.row.bmStatus ? null : I18n.t('complex_betting_widget.offer')}</p></div></div>
       }, {
         id: 'lay3',
         header: props => null,
@@ -424,14 +431,14 @@ class ComplexBettingWidget extends PureComponent {
         className: classNameLay,
         accessor: row => row.offer.lay.length > 2 ? row.offer.lay[2] : undefined,
         render: props => props.value ?
-         <div className={ props.row.bmWinLose ? 'lay-offer lay-bg disabled' : 'lay-offer lay-bg' }>
-           <div className='odds'>{ props.row.bmWinLose ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+         <div className={ props.row.bmStatus ? 'lay-offer lay-bg disabled' : 'lay-offer lay-bg' }>
+           <div className='odds'>{ props.row.bmStatus ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
            <div className='price'>
-             { props.row.bmWinLose ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 
+             { props.row.bmStatus ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 
               "BTC", BettingModuleUtils.stakePlaces, true)}</div>
          </div> :
-         <div className={ props.row.bmWinLose ? 'lay-offer empty-offer disabled' : 'lay-offer empty-offer' }>
-         <div className='odds-offer'><p>{ props.row.bmWinLose ? null : I18n.t('complex_betting_widget.offer')}</p></div>
+         <div className={ props.row.bmStatus ? 'lay-offer empty-offer disabled' : 'lay-offer empty-offer' }>
+         <div className='odds-offer'><p>{ props.row.bmStatus ? null : I18n.t('complex_betting_widget.offer')}</p></div>
          </div>
       }]
     }, {
@@ -473,7 +480,7 @@ class ComplexBettingWidget extends PureComponent {
             getTrProps={ (state, rowInfo, column) => {
               return {
                 style: {
-                  background: rowInfo.row.bmWinLose ? 'lightSlateGray' : null, 
+                  background: rowInfo.row.bmStatus ? 'lightSlateGray' : null, 
                 }
               }
             }
@@ -482,7 +489,7 @@ class ComplexBettingWidget extends PureComponent {
               return {
                 onClick: (event) => {
                   if ( column.className === BetTypes.LAY || column.className === BetTypes.BACK){
-                    if(!rowInfo.row.bmWinLose){
+                    if(!rowInfo.row.bmStatus){
                       this.onOfferClicked(rowInfo, column)
                     }
                   }

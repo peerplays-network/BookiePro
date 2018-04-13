@@ -290,7 +290,9 @@ export const translationsObject = {
       going_in_play: 'GOING IN-PLAY',
       closed: 'CLOSED',
       graded: 'GRADED',
-      re_grading: 'RE-GRADING'
+      re_grading: 'RE-GRADING',
+      win: 'WINNER',
+      not_win: 'LOSER'
     },
     simple_betting_widget:{
       no_data: 'There is no event to be displayed.',
