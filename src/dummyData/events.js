@@ -84,7 +84,7 @@ const events = [
     "seasons": "2017-2018",
     "start_time": moment().add(7, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
-    "status": "Upcoming",
+    "status": "Settled",
     "scores": ["0", "0"],
     "is_live_market": false
   },

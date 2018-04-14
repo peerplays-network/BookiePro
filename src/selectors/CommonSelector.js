@@ -9,7 +9,7 @@ import { Config } from '../constants';
 import Immutable from 'immutable';
 
 const getAccountId = (state) => {
-  return state.getIn(['account', 'account','id'])
+  return state.getIn(['account', 'account', 'id'])
 }
 
 const getSettingByAccountId = (state) => {
@@ -207,8 +207,8 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
       if (eventId && isMoneyline) {
         // Implicit Rule: the first betting market is for the home team
         let simpleBettingWidgetBinnedOrderBook = Immutable.Map().set('betting_market_id', bettingMarketId)
-                                                                .set('back', Immutable.List())
-                                                                .set('lay', Immutable.List());
+          .set('back', Immutable.List())
+          .set('lay', Immutable.List());
 
         // Normalize aggregated_lay_bets and aggregated_back_bets
         const assetPrecision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']);
@@ -217,17 +217,17 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
           const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
           const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
           return aggregated_lay_bet.set('odds', odds)
-                                   .set('price', price);
+            .set('price', price);
         });
         let aggregated_back_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
         aggregated_back_bets = aggregated_back_bets.map(aggregated_back_bet => {
           const odds = aggregated_back_bet.get('backer_multiplier') / Config.oddsPrecision;
           const price = aggregated_back_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
           return aggregated_back_bet.set('odds', odds)
-                                    .set('price', price);
+            .set('price', price);
         });
         simpleBettingWidgetBinnedOrderBook = simpleBettingWidgetBinnedOrderBook.set('back', aggregated_back_bets)
-                                                                               .set('lay', aggregated_lay_bets);
+          .set('lay', aggregated_lay_bets);
         simpleBettingWidgetBinnedOrderBooksByEventId = simpleBettingWidgetBinnedOrderBooksByEventId.update(eventId, (simpleBettingWidgetBinnedOrderBooks) => {
           if (!simpleBettingWidgetBinnedOrderBooks) simpleBettingWidgetBinnedOrderBooks = Immutable.List();
           return simpleBettingWidgetBinnedOrderBooks.push(simpleBettingWidgetBinnedOrderBook);

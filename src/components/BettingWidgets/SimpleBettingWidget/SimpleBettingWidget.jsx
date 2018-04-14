@@ -49,8 +49,6 @@ const renderEventTime = (text, record) => {
 }
 
 const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsFormat) =>  {
-  // TODO: Add OSE 
-  // TODO: Check against OSE for allowing various activities  
   // 1 = home , 2 = away, 3 = draw
   let columns = [
     {
@@ -195,9 +193,10 @@ class SimpleBettingWidget extends PureComponent {
   renderOffer(action, typeOfBet, index, currencyFormat, oddsFormat) {
     return (text, record) => {
       // Retrieve the nested offers data from the data record
-      let offers = record.get('offers')
-
-      if ( offers === undefined || offers.isEmpty() || offers.getIn([index-1, 'betting_market_id']) === undefined ){
+      let offers = record.get('offers');
+      var canBet = record.get('eventStatus') !== 'settled';
+      
+      if ( offers === undefined || offers.isEmpty() || offers.getIn([index-1, 'betting_market_id']) === undefined || !canBet ){
         return '';
       }
 

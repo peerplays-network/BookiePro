@@ -1,12 +1,16 @@
 import _ from 'lodash';
-import { PrivateKey } from 'peerplaysjs-lib';
-import { version } from '../../package.json'
+import {
+  PrivateKey
+} from 'peerplaysjs-lib';
+import {
+  version
+} from '../../package.json'
 
 const blockchainUrls = [
   // 'wss://595-dev-blockchain.pixelplex.by/ws',
   //'wss://peerplays-dev.blocktrades.info/ws',
-  "wss://peerplays-dev.blocktrades.info/alpha/ws"
-  //'ws://ec2-35-183-30-229.ca-central-1.compute.amazonaws.com:8090'
+  //"wss://peerplays-dev.blocktrades.info/alpha/ws"
+  'ws://ec2-35-183-30-229.ca-central-1.compute.amazonaws.com:8090'
   // 'wss://api.ppytest.blckchnd.com'
 ]
 
@@ -23,7 +27,7 @@ const Config = {
   coreAsset: ASSET_ID,
   softwareUpdateReferenceAccountName: 'peerplays1', // We listen to a particular account's transaction history for software update
   gatewayAccountName: 'gateway1', // Any transfer from this account is marked as deposit/ withdraw with gateway
-  useDummyData: false, // Set to true if you want to use dummy data
+  useDummyData: true, // Set to true if you want to use dummy data
   // Set this to false to register through faucet
   // Remember to set the faucet urls properly beforehand
   // We don't have faucet for blocktrades testnet

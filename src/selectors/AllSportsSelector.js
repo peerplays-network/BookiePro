@@ -94,6 +94,7 @@ const getAllSportsData = createSelector(
           event_name: event.get('name'),
           time: event.get('start_time'),
           isLiveMarket: event.get('is_live_market'),
+          eventStatus: event.get('status').toLowerCase(),
           offers,
           moneyline: moneylineBettingMarketGroupId,
         });
