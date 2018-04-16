@@ -177,9 +177,58 @@ div.simple-betting {
       }
 }
 .simple-outcome{
-  position: absolute;
+  /*position: absolute;
   text-align: -webkit-center;
   font-size: xx-large;
   left: 50%;
+  margin-top: -4px;*/
+  position: absolute;
+  font-size: xx-large;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
   margin-top: -4px;
+}
+.back-offer {
+  background-color: @simple_betting_back_bg;
+  &:hover {
+    background-color: @simple_betting_back_hover_bg;
+  }
+  > a {
+    color: @simple_betting_label;
+    display: block;
+    > div.offer {
+      > div.odds {
+        font-size: 16px;
+        text-align: center;
+      }
+      > div.price {
+        font-size: 12px;
+        text-align: center;
+        font-weight:500;
+      }
+    }
+  }
+}
+
+.lay-offer {
+  background-color: @simple_betting_lay_bg;
+  &:hover {
+    background-color: @simple_betting_lay_hover_bg;
+  }
+  > a {
+    color: @simple_betting_label;
+    display: block;
+    > div.offer {
+      > div.odds {
+        font-size: 16px;
+        text-align: center;
+      }
+      > div.price {
+        font-size: 12px;
+        text-align: center;
+        font-weight:500;
+      }
+    }
+  }
 }

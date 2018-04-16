@@ -131,13 +131,21 @@ div.complex-betting {
         flex-direction: column;
         justify-content: center;
         cursor: pointer;
+        &.disabled{
+          background-color: transparent;
+        }
       }
 
       .complex-outcome{
-        position: absolute;
+        /*position: absolute;
         width: 100%;
         text-align: -webkit-center;
+        font-size: xx-large;*/
+        position: absolute;
         font-size: xx-large;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%)
       }
 
       .back-offer {

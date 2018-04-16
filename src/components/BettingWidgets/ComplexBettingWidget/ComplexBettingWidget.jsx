@@ -326,7 +326,7 @@ class ComplexBettingWidget extends PureComponent {
       header: props => null,
       minWidth: minBackArrowWidth,
       render: props =>
-        <div className='back-offer'>
+        <div className={ this.state.winOrLose ? 'back-offer disabled' : 'back-offer' }>
           <i className='icon-left-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'back', -1) }></i>
           <i className='icon-right-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'back', 1) }></i>
         </div>
@@ -447,7 +447,7 @@ class ComplexBettingWidget extends PureComponent {
       header: props => null,
       minWidth: minLayArrowWidth,
       render: props =>
-        <div className='lay-offer'>
+        <div className={ this.state.winOrLose ? 'lay-offer disabled' : 'lay-offer' }>
           <i className='icon-left-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'lay', -1) }></i>
           <i className='icon-right-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'lay', 1) }></i>
         </div>

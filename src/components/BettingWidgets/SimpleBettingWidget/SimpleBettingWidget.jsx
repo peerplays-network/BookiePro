@@ -47,7 +47,7 @@ const renderEventTime = (text, record) => {
     
     return (
       <div>
-        <div className='simple-outcome'>{ record.get('eventStatus').toUpperCase() }</div>
+        <div className='simple-outcome' align='cenet'>{ I18n.t('object_status_enumerator.' + record.get('eventStatus')) }</div>
         <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>   
       </div>
     ); 
@@ -217,10 +217,15 @@ class SimpleBettingWidget extends PureComponent {
     return (text, record) => {
       // Retrieve the nested offers data from the data record
       let offers = record.get('offers');
-      var canBet;
+      var canBet, cn;
       if (record.get('eventStatus') !== 'settled' && record.get('eventStatus') !== 'graded'){
         canBet = true;
-      }
+        if(typeOfBet === 'back'){
+          cn = 'back-offer';
+        } else {
+          cn = 'lay-offer';
+        }
+      } 
       
       if ( offers === undefined || offers.isEmpty() || offers.getIn([index-1, 'betting_market_id']) === undefined || !canBet ){
         return '';
@@ -241,23 +246,27 @@ class SimpleBettingWidget extends PureComponent {
 
       if ( offer === undefined){
         return (
-          <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, '') }>
-            <div className='offer'>
-              <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
-            </div>
-          </a>
+          <div className={ cn }>
+            <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, '') }>
+              <div className='offer'>
+                <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
+              </div>
+            </a>
+          </div>
         );
       }
 
       return (
-        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds')) }>
-          <div className='offer'>
-            <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat) }</div>
-            <div className='price'>
-              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces, true)}
+        <div className={ cn }>
+          <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds')) }>
+            <div className='offer'>
+              <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat) }</div>
+              <div className='price'>
+                { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces, true)}
+              </div>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
       );
 
     };
