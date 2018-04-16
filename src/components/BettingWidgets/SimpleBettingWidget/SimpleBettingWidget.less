@@ -177,11 +177,6 @@ div.simple-betting {
       }
 }
 .simple-outcome{
-  /*position: absolute;
-  text-align: -webkit-center;
-  font-size: xx-large;
-  left: 50%;
-  margin-top: -4px;*/
   position: absolute;
   font-size: xx-large;
   left: 50%;
@@ -198,6 +193,10 @@ div.simple-betting {
     color: @simple_betting_label;
     display: block;
     > div.offer {
+      &.empty{
+        padding-top: 8px;
+        padding-bottom: 9px;
+      }
       > div.odds {
         font-size: 16px;
         text-align: center;
@@ -220,6 +219,10 @@ div.simple-betting {
     color: @simple_betting_label;
     display: block;
     > div.offer {
+      &.empty{
+        padding-top: 8px;
+        padding-bottom: 9px;
+      }
       > div.odds {
         font-size: 16px;
         text-align: center;

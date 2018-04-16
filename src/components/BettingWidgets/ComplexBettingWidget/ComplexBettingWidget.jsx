@@ -297,8 +297,18 @@ class ComplexBettingWidget extends PureComponent {
         const potentialExposureClass = props.value.betslip_exposure + props.value.market_exposure >= 0 ?
           'increased-value' : 'decreased-value';
         const outcomeDisplay = (state) => {
-          if(state === 'win' || state === 'not_win' || state === 'unresolved'){
+          if(state === 'win' || state === 'not_win'){
             return I18n.t('object_status_enumerator.' + state);            
+          }
+        }
+        const indicatorDisplay = (bettingMarketStatus) => {
+          if(bettingMarketStatus[1] !== 'win' && bettingMarketStatus[1] !== 'not_win'){
+            return (
+              <span className={ props.value.bettingMarket_status[0] }>
+              <span className='indicator'/>{ I18n.t('object_status_enumerator.' + props.value.bettingMarket_status[1]) }</span>      
+            )      
+          } else {
+            return null;
           }
         }
 
@@ -306,8 +316,7 @@ class ComplexBettingWidget extends PureComponent {
           <div className='competitor'>
             { this.state.winOrLose ? <div className='complex-outcome'>{ outcomeDisplay(props.value.bettingMarket_status[1]) }</div> : null }
             <div className='name'>{props.value.displayedName} 
-              <span className={ props.value.bettingMarket_status[0] }>
-                <span className='indicator'/>{I18n.t('object_status_enumerator.' + props.value.bettingMarket_status[1])}</span> 
+              { indicatorDisplay(props.value.bettingMarket_status) }
             </div>
             { props.value.betslip_exposure &&
               <div className='exposure'>
