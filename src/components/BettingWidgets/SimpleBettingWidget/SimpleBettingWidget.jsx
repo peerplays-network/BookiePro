@@ -35,7 +35,11 @@ const offerColumnWidth = 70;
 const renderEventTime = (text, record) => {
   // TODO: Check what is available via record
   //const isLiveMarket= record.get('is_live_market');
-  const isLiveMarket = record.get('eventStatus') === 'upcoming';
+  var isLiveMarket = record.get('eventStatus') === 'upcoming';
+  if (record.get('eventStatus') === 'upcoming' || record.get('eventStatus') === 'in_progress'){
+    isLiveMarket = true;
+  }
+
   if (isLiveMarket) {
     return <span className='live'><span className='indicator'/>{ I18n.t('object_status_enumerator.' + record.get('eventStatus')) }</span>;
   } else {
