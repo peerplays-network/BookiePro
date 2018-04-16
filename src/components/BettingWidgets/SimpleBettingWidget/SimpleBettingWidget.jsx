@@ -34,9 +34,10 @@ const offerColumnWidth = 70;
 
 const renderEventTime = (text, record) => {
   // TODO: Check what is available via record
-  const isLiveMarket= record.get('is_live_market');
+  //const isLiveMarket= record.get('is_live_market');
+  const isLiveMarket = record.get('eventStatus') === 'upcoming';
   if (isLiveMarket) {
-    return <span className='live'><span className='indicator'/>{ I18n.t('simple_betting_widget.in_play') }</span>;
+    return <span className='live'><span className='indicator'/>{ I18n.t('object_status_enumerator.' + record.get('eventStatus')) }</span>;
   } else {
     const eventTime = moment(record.get('time'));
     let dateString = eventTime.format('MMM D');
@@ -44,8 +45,30 @@ const renderEventTime = (text, record) => {
     let timeString = eventTime.calendar();
     dateString = timeString.toLowerCase().includes('today') ? 'Today' : dateString;
     
-    return <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>  
+    return (
+      <div>
+        <div className='simple-outcome'>{ record.get('eventStatus').toUpperCase() }</div>
+        <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>   
+      </div>
+    ); 
   }
+}
+
+const renderClass = (record, action) => {
+  let cn;
+  var validToChange;
+  if(record.get('eventStatus') !== 'settled' && record.get('eventStatus') !== 'graded'){
+    validToChange = true;
+  }
+  if(action === 'back'){
+    cn = 'back-offer';
+  } else {
+    cn = 'lay-offer';
+  } 
+  if(validToChange){
+    cn += '-disabled';
+  }
+  return cn;
 }
 
 const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsFormat) =>  {
@@ -73,13 +96,13 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
         dataIndex: 'back_offer_home',
         key: 'back_offer_home',
         width: offerColumnWidth,
-        className: 'back-offer',
+        className: (text, record) => { renderClass(record, 'back') },
         render: renderOffer('back', 'lay', 1, currencyFormat, oddsFormat)
       }, {
         dataIndex: 'lay_offer_home',
         key: 'lay_offer_home',
         width: offerColumnWidth,
-        className: 'lay-offer',
+        className: (text, record) => { renderClass(record, 'lay') },
         render: renderOffer('lay', 'back', 1, currencyFormat, oddsFormat)
       }]
     }, {
@@ -88,13 +111,13 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
         dataIndex: 'back_offer_draw',
         key: 'back_offer_draw',
         width: offerColumnWidth,
-        className: 'back-offer',
+        className: (text, record) => { renderClass(record, 'back') },
         render: renderOffer('back', 'lay', 3, currencyFormat, oddsFormat)
       }, {
         dataIndex: 'lay_Offer_away',
         key: 'lay_offer_draw',
         width: offerColumnWidth,
-        className: 'lay-offer',
+        className: (text, record) => { renderClass(record, 'lay') },
         render: renderOffer('lay', 'back', 3, currencyFormat, oddsFormat)
       }]
     }, {
@@ -103,13 +126,13 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
         dataIndex: 'back_offer_away',
         key: 'back_offer_away',
         width: offerColumnWidth,
-        className: 'back-offer',
+        className: (text, record) => { renderClass(record, 'back') },
         render: renderOffer('back', 'lay', 2, currencyFormat, oddsFormat)
       }, {
         dataIndex: 'lay_Offer_away',
         key: 'lay_offer_away',
         width: offerColumnWidth,
-        className: 'lay-offer',
+        className: (text, record) => { renderClass(record, 'lay') },
         render: renderOffer('lay', 'back', 2, currencyFormat, oddsFormat)
       }]
     }
@@ -194,7 +217,10 @@ class SimpleBettingWidget extends PureComponent {
     return (text, record) => {
       // Retrieve the nested offers data from the data record
       let offers = record.get('offers');
-      var canBet = record.get('eventStatus') !== 'settled';
+      var canBet;
+      if (record.get('eventStatus') !== 'settled' && record.get('eventStatus') !== 'graded'){
+        canBet = true;
+      }
       
       if ( offers === undefined || offers.isEmpty() || offers.getIn([index-1, 'betting_market_id']) === undefined || !canBet ){
         return '';
@@ -265,6 +291,11 @@ class SimpleBettingWidget extends PureComponent {
           pagination={ this.props.showPagination ? { pageSize: this.props.pageSize } : false }
           locale={ {emptyText: I18n.t('simple_betting_widget.no_data')} }
           rowKey={ (record) => record.get('key') }
+          rowClassName={ (record, index) => { 
+            if(record.get('eventStatus') === 'settled' || record.get('eventStatus') === 'graded'){
+              return 'simple-betting-disabled';
+            }
+          } }
         />
       </div>
     );

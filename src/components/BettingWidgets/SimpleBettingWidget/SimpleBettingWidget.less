@@ -94,15 +94,15 @@ div.simple-betting {
         }
         &.back-offer {
           background-color: @simple_betting_back_bg;
-        }
-        &.back-offer:hover {
-          background-color: @simple_betting_back_hover_bg;
+          &:hover {
+            background-color: @simple_betting_back_hover_bg;
+          }
         }
         &.lay-offer {
           background-color: @simple_betting_lay_bg;
-        }
-        &.lay-offer:hover {
-          background-color: @simple_betting_lay_hover_bg;
+          &:hover {
+            background-color: @simple_betting_lay_hover_bg;
+          }
         }
 
         > a {
@@ -169,4 +169,17 @@ div.simple-betting {
     color: @primary_label;
     opacity:1;
   }
+}
+.simple-betting-disabled{
+  background-color: @simple_betting_disabled;
+      &:hover{
+        background-color: @simple_betting_disabled!important;
+      }
+}
+.simple-outcome{
+  position: absolute;
+  text-align: -webkit-center;
+  font-size: xx-large;
+  left: 50%;
+  margin-top: -4px;
 }

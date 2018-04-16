@@ -256,13 +256,13 @@ const bettingMarkets = [
     "group_id": "1.104.22",
     "payout_condition_string": "Oakland Raiders",
     "description": "Oakland Raiders",
-    "status": "unresolved"
+    "status": "win"
   }, {
     "id": "1.105.44",
     "group_id": "1.104.22",
     "payout_condition_string": "New Orleans Saints",
     "description": "New Orleans Saints",
-    "status": "unresolved"
+    "status": "not_win"
   }, {
     "id": "1.105.45",
     "group_id": "1.104.23",

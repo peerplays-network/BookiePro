@@ -4642,7 +4642,7 @@ const bets = [
     "remaining_amount_to_win": 8800,
     "cancelled": false
   },
-  /*{
+  {
     "id": "1.106.418",
     "bettor_id": bettorId,
     "betting_market_id": "1.105.427",
@@ -4652,7 +4652,7 @@ const bets = [
     "remaining_amount_to_bet": 3500,
     "remaining_amount_to_win": 9500,
     "cancelled": false
-  },*/
+  },
   {
     "id": "1.106.419",
     "bettor_id": bettorId,
