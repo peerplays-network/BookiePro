@@ -14,7 +14,7 @@ const events = [
     "seasons": "2016-2017",
     "start_time": moment().add(1, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
-    "status": "Completed",
+    "status": "Settled",
     "scores": ["36", "19"],
     "is_live_market": true
   },
@@ -104,7 +104,7 @@ const events = [
     "seasons": "2016-2017",
     "start_time": moment().add(9, 'days').unix() * 1000,
     "event_group_id": "1.101.4",
-    "status": "Completed",
+    "status": "Settled",
     "scores": ["36", "19"],
     "is_live_market": true
   },
@@ -692,7 +692,7 @@ const events = [
     "seasons": "2017-2018",
     "start_time": moment().subtract(1, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
-    "status": "Completed",
+    "status": "Settled",
     "scores": ["36", "19"],
     "is_live_market": false
   },
@@ -702,7 +702,7 @@ const events = [
     "seasons": "2017-2018",
     "start_time": moment().subtract(2, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
-    "status": "Completed",
+    "status": "Settled",
     "scores": ["36", "19"],
     "is_live_market": false
   },
@@ -712,7 +712,7 @@ const events = [
     "seasons": "2017-2018",
     "start_time": moment().subtract(3, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
-    "status": "Completed",
+    "status": "Settled",
     "scores": ["36", "19"],
     "is_live_market": false
   },
@@ -722,7 +722,7 @@ const events = [
     "seasons": "2017-2018",
     "start_time": moment().subtract(3, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
-    "status": "Completed",
+    "status": "Settled",
     "scores": ["36", "19"],
     "is_live_market": false
   },
@@ -732,7 +732,7 @@ const events = [
     "seasons": "2017-2018",
     "start_time": moment().subtract(2, 'days').unix() * 1000,
     "event_group_id": "1.101.1",
-    "status": "Completed",
+    "status": "Settled",
     "scores": ["36", "19"],
     "is_live_market": false
   },
@@ -743,7 +743,7 @@ const events = [
     "seasons": "2017-2018",
     "start_time": moment().subtract(1, 'days').unix() * 1000,
     "event_group_id": "1.101.4",
-    "status": "Completed",
+    "status": "Settled",
     "scores": ["36", "19"],
     "is_live_market": false
   },
@@ -753,7 +753,7 @@ const events = [
     "seasons": "2017-2018",
     "start_time": moment().subtract(2, 'days').unix() * 1000,
     "event_group_id": "1.101.4",
-    "status": "Completed",
+    "status": "Settled",
     "scores": ["36", "19"],
     "is_live_market": false
   },
@@ -764,7 +764,7 @@ const events = [
     "seasons": "2017-2018",
     "start_time": moment().subtract(2, 'days').unix() * 1000,
     "event_group_id": "1.101.7",
-    "status": "Completed",
+    "status": "Settled",
     "scores": ["36", "19"],
     "is_live_market": false
   },
@@ -774,7 +774,7 @@ const events = [
     "seasons": "2017-2018",
     "start_time": moment().subtract(1, 'days').unix() * 1000,
     "event_group_id": "1.101.7",
-    "status": "Completed",
+    "status": "Settled",
     "scores": ["36", "19"],
     "is_live_market": false
   },
