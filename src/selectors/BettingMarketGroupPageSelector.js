@@ -157,7 +157,7 @@ const disabledStatus = (bmgStatus, bmStatus, eStatus) => {
       1 // used to identify which status enumerator passed the conditional
     ]
   }
-  if(bmgStatus === 'frozen' || bmgStatus === 'graded' || bmgStatus === 're_grading' || bmgStatus === 'settled'){
+  if(bmgStatus === 'frozen' || bmgStatus === 'graded' || bmgStatus === 're_grading' || bmgStatus === 'settled' || bmgStatus === 'closed'){
     results = [
       true,
       eStatus,

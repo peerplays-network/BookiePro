@@ -46,7 +46,7 @@ class App extends PureComponent {
 
   componentWillMount() {
     // Connect to blockchain
-    this.props.connectToBlockchain();
+    //this.props.connectToBlockchain();
   }
 
   componentDidMount() {
@@ -54,7 +54,7 @@ class App extends PureComponent {
   }
 
   onClickTryAgainConnectionError() {
-    this.props.connectToBlockchain();
+    //this.props.connectToBlockchain();
   }
 
   onConfirmSoftwareUpdate() {

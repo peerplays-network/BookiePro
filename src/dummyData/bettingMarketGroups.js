@@ -146,7 +146,7 @@ const bettingMarketGroups = [
     "event_id": "1.103.7",
     "description": "Over/ Under 5",
     "rules_id": "1.107.1",
-    "asset_id": Config.coreAsset, "status": "in_play"
+    "asset_id": Config.coreAsset, "status": "closed"
   },
   {
     "id": "1.104.22",
