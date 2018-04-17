@@ -140,29 +140,64 @@ const getWidgetTitle = createSelector([
   return (bettingMarketGroup && bettingMarketGroup.get('description')) || '';
 })
 
+const disabledStatus = (bmgStatus, bmStatus, eStatus) => {
+  var results = [
+    false,
+    eStatus,
+    bmgStatus,
+    bmStatus,
+    -1
+  ]
+  if(eStatus === 'frozen' || eStatus === 'finished' || eStatus === 'settled'){
+    results = [
+      true,
+      eStatus,
+      bmgStatus,
+      bmStatus,
+      1 // used to identify which status enumerator passed the conditional
+    ]
+  }
+  if(bmgStatus === 'frozen' || bmgStatus === 'graded' || bmgStatus === 're_grading' || bmgStatus === 'settled'){
+    results = [
+      true,
+      eStatus,
+      bmgStatus,
+      bmStatus,
+      2 // used to identify which status enumerator passed the conditional
+    ]
+  }
+  if(bmStatus[1] === 'win' || bmStatus[1] === 'not_win' || bmStatus[1] === 'frozen'){
+    results = [
+      true,
+      eStatus,
+      bmgStatus,
+      bmStatus,
+      3 // used to identify which status enumerator passed the conditional
+    ]
+  }
+  return results;
+}
+
+
 const getMarketData = createSelector(
   [
     getBettingMarkets,
     getBinnedOrderBooksByBettingMarketId,
     getBettingMarketGroup,
-    getAssetsById
+    getAssetsById,
+    getEventStatus
   ],
-  (bettingMarkets, binnedOrderBooksByBettingMarketId, bettingMarketGroup, assetsById) => {
+  (bettingMarkets, binnedOrderBooksByBettingMarketId, bettingMarketGroup, assetsById, eventStatus) => {
     let marketData = Immutable.List();
     bettingMarkets.forEach((bettingMarket, i) => {
       const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarket.get('id'));
-      const bmStat = (status) => {
-        if(status === 'win' || status === 'not_win' || status === 'graded' || status === 'settled'){ // Determine if either a winner or loser exists and merge into a single variable for simpler use.
-          return true;
-        } else { // returns undefined if not declared
-          return false;
-        }
-      };
+
+      const bmgStatus = bettingMarketGroup.get('status');
       let data = Immutable.Map().set('displayName', bettingMarket.get('description'))
         .set('name', bettingMarket.get('description'))
         .set('displayedName',  bettingMarket.get('description'))
         .set('bettingMarket_status', ObjectUtils.bettingMarketStatus(bettingMarket.get('status')))
-        .set('bmStatus', bmStat(ObjectUtils.bettingMarketStatus(bettingMarket.get('status'))[1]));
+        .set('bmStatus', disabledStatus(bmgStatus, ObjectUtils.bettingMarketStatus(bettingMarket.get('status')), eventStatus[1].toLowerCase()));        
 
       const assetPrecision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']);
       let aggregated_lay_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
