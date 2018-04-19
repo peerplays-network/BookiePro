@@ -31,6 +31,7 @@ class Exchange extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState){
+    //debugger;
     //reset scroll area in sidebar and betting widget upon route change.
     Ps.update(this.refs.sidebar);
     Ps.update(this.refs.main);
@@ -43,6 +44,7 @@ class Exchange extends PureComponent {
         confirmToLeave: false
       })
     }
+
   }
 
   /**
@@ -106,8 +108,12 @@ class Exchange extends PureComponent {
     })
 
     if (!this.state.confirmToLeave && this.props.hasUnplacedBets){
-      this.setModalVisible(true);
-      return false;
+      debugger;
+      // Check logged in state before displaying
+      if(this.props.isLoggedIn){
+        this.setModalVisible(true);
+        return false;
+      }
     } else {
       // DO NOT remove
       // We still need to gracefully "leave" the page and reset the drawer
@@ -182,7 +188,7 @@ class Exchange extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-
+  const isLoggedIn = state.getIn(['account','isLoggedIn']);  
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting'])
@@ -197,7 +203,8 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     hasUnplacedBets: !state.getIn(path).isEmpty(),
-    currencyFormat
+    currencyFormat,
+    isLoggedIn
   };
 }
 
