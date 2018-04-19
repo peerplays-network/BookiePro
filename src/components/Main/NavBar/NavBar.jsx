@@ -1,7 +1,7 @@
 /**
  * The Top bar is static and is visible in all screens after user has logined,
  * providing quick access to the commonly used functions including:
- *  - Search Team
+ *  - Search Terms
  *  - Go to my wager, my bets, my account and help & support
  *  - Display Account Balance
  *  - Show deposit dropdown

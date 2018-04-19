@@ -264,7 +264,9 @@ class TopMenu extends PureComponent {
             <div className='icon-main notification-icon-main'>
                 <a className='ant-dropdown-link' href='#'>
                 <Badge count={ this.props.unreadNotificationNumber }>
-                  <i className={ this.state.isNotificationComponentVisible ? 'notification-icon-selected' : 'notification-icon' }></i>
+                  <i className={ this.state.isNotificationComponentVisible ? 'notification-icon-selected' : 'notification-icon' }>
+                    <span className='count-number'>{ this.props.unreadNotificationNumber }</span>
+                  </i>
                 </Badge>
               </a>
               </div>

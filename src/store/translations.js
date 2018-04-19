@@ -38,7 +38,7 @@ export const translationsObject = {
       no_of_result_0: 'No results found',
       no_of_result: '%{count} results for "%{searchText}"',
       match_start_on: ' Thu, 10/01/2017 13:00',
-      search_place_holder: 'Search Team',
+      search_place_holder: 'Search Terms',
       search_error: 'There are currently no betting markets for %{event}'
     },
     myAccount:{
