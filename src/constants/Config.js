@@ -36,7 +36,11 @@ const Config = {
       memo: PrivateKey.fromWif('5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3')
     },
   },
-  dummyDataAccountId: '1.2.243' // TODO: remove this
+  dummyDataAccountId: '1.2.243', // TODO: remove this
+  features: {
+    withdrawels: false,
+    deposits: false
+  }
 }
 
 

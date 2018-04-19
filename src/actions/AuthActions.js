@@ -178,7 +178,7 @@ class AuthActions {
     }
   }
 
-  static signup(accountName, password) {
+  static signup(accountName, password, depositsEnabled) {
     return (dispatch) => {
 
       // Set register status to loading
@@ -198,7 +198,11 @@ class AuthActions {
       }).then(() => {
         log.debug('Signup succeed.');
         // Navigate to home page
-        dispatch(NavigateActions.navigateTo('/deposit'));
+        if (depositsEnabled) {
+          dispatch(NavigateActions.navigateTo('/deposit'));
+        } else {
+          dispatch(NavigateActions.navigateTo('/welcome'));
+        }
         // Set register status to done
         dispatch(AuthPrivateActions.setSignupLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
