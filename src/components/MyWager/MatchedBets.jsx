@@ -28,11 +28,11 @@ import PropTypes from 'prop-types';
 class MatchedBets extends PureComponent {
   constructor(props) {
     super(props);
-    const { matchedBets, currencyFormat } = props;
+    const { matchedBets, currencyFormat, onEventClick } = props;
 
     this.state = {
       tableData: matchedBets,
-      columns: MyWagerUtils.getMatchedBetsColumns(currencyFormat)
+      columns: MyWagerUtils.getMatchedBetsColumns(currencyFormat, onEventClick)
     }
   }
 
@@ -44,7 +44,7 @@ class MatchedBets extends PureComponent {
     }
     if (this.props.currencyFormat !== nextProps.currencyFormat) {
       this.setState({
-        columns: MyWagerUtils.getMatchedBetsColumns(nextProps.currencyFormat)
+        columns: MyWagerUtils.getMatchedBetsColumns(nextProps.currencyFormat, nextProps.onEventClick)
       })
     }
   }

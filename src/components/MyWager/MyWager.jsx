@@ -59,7 +59,7 @@ class MyWager extends PureComponent {
     this.handleResetExport = this.handleResetExport.bind(this);
 
     this.onHomeLinkClick = this.onHomeLinkClick.bind(this);
-    this.handleUnmatchedEventClick = this.handleUnmatchedEventClick.bind(this);
+    this.handleEventClick = this.handleEventClick.bind(this);
     this.onTabChange = this.onTabChange.bind(this);
     this.cancelBet = this.cancelBet.bind(this);
     this.cancelAllBets = this.cancelAllBets.bind(this);
@@ -159,7 +159,7 @@ class MyWager extends PureComponent {
    * Dispatched action: {@link NavigateActions#navigateTo}
    *    This will navigat user to event full market screen
    */
-  handleUnmatchedEventClick(record, event){
+  handleEventClick(record, event){
     this.props.navigateTo(`/exchange/bettingmarketgroup/${record.group_id}`);
   }
 
@@ -225,7 +225,7 @@ class MyWager extends PureComponent {
             <UnmatchedBets
               unmatchedBets={ filterOdds(this.props.betsData.toJS(), this.props.oddsFormat) }
               unmatchedBetsLoadingStatus={ this.props.betsLoadingStatus }
-              onEventClick={ this.handleUnmatchedEventClick }
+              onEventClick={ this.handleEventClick }
               currencyFormat={ this.props.betsCurrencyFormat }
               betsTotal={ this.props.betsTotal }
               onCancelBetClick={ this.cancelBet }
@@ -238,6 +238,7 @@ class MyWager extends PureComponent {
           <TabPane tab={ I18n.t('mybets.matched_bets') } key={ MyWagerTabTypes.MATCHED_BETS }>
             <MatchedBets
               matchedBets={ filterOdds(this.props.betsData.toJS(), this.props.oddsFormat) }
+              onEventClick={ this.handleEventClick }
               matchedBetsLoadingStatus={ this.props.betsLoadingStatus }
               currencyFormat={ this.props.betsCurrencyFormat }
               betsTotal={ this.props.betsTotal }

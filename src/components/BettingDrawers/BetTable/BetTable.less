@@ -48,6 +48,7 @@ div.bet-table-wrapper {
     // common table css for both back and lay sections
     .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
       padding: 0 6px;
+      word-break: break-word;
     }
     div.ant-table-body {
       tr {
@@ -77,6 +78,11 @@ div.bet-table-wrapper {
             font-weight:bold;
             margin-bottom: 3px;
             word-break: break-word;
+            hyphens: auto;
+          }
+          div.market_type {
+            word-break: break-word;
+            hyphens: auto;
           }
         }
 
@@ -172,7 +178,7 @@ div.bet-table-wrapper {
       .ant-table-thead > tr > th {
         background-color: @editable_table_lay_header_bg;
         color: white;
-        word-break: normal;
+        word-break: break-word;
       }
       .ant-table-tbody > tr > td {
         border-color: @editable_table_lay_body_border;
