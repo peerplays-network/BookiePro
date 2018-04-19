@@ -107,13 +107,10 @@ class Exchange extends PureComponent {
       nextLocation: nextLocation
     })
 
-    if (!this.state.confirmToLeave && this.props.hasUnplacedBets){
-      debugger;
-      // Check logged in state before displaying
-      if(this.props.isLoggedIn){
-        this.setModalVisible(true);
-        return false;
-      }
+    if (!this.props.isShowLogoutPopup && !this.state.confirmToLeave && this.props.hasUnplacedBets){
+      this.setModalVisible(true);
+      return false;
+
     } else {
       // DO NOT remove
       // We still need to gracefully "leave" the page and reset the drawer
@@ -188,7 +185,8 @@ class Exchange extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const isLoggedIn = state.getIn(['account','isLoggedIn']);  
+  const app = state.get('app');  
+  const isShowLogoutPopup = app.get('isShowLogoutPopup');  
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting'])
@@ -204,7 +202,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     hasUnplacedBets: !state.getIn(path).isEmpty(),
     currencyFormat,
-    isLoggedIn
+    isShowLogoutPopup
   };
 }
 
