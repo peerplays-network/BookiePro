@@ -85,6 +85,10 @@ var packToDebFile = function () {
     });
     packDir.write('DEBIAN/control', control);
 
+    // If building on mac.
+    // brew install fakeroot
+    // brew install dpkg
+
     // Build the package...
     childProcess.exec('fakeroot dpkg-deb -Zxz --build ' + packDir.path().replace(/\s/g, '\\ ') + ' ' + debPath.replace(/\s/g, '\\ '),
         function (error, stdout, stderr) {

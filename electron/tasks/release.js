@@ -10,5 +10,13 @@ var releaseForOs = {
 };
 
 gulp.task('release', [], function () {
-    return releaseForOs[utils.os()]();
+    return releaseForOs['osx']();
 });
+
+gulp.task('release-windows', [], function () {
+    return releaseForOs['windows']();
+});
+
+gulp.task('release-linux', [], function () {
+    return releaseForOs['linux']();
+}); 
