@@ -17,22 +17,30 @@ div.betslip {
   }
 
   div.footer {
-    bottom: @betslip-footer-height;
+    align-self: flex-end;
     background-color: @betslip_bg;
     width: @betslip-width;
-    padding: 5px;
-    margin: 0px 5px 0px 5px;
+    padding: 6px;
+    margin: 0px 0px 40px 0px;
 
     &.dimmed {
       opacity: .1;
     }
 
     > button.place-bet {
+      color: @black_pearl_dark;
+      font-size: 18px;
+      font-weight: 400;
+      height: 40px;
       .btn-regular;
         width: 100%;
         text-transform: none;  // for displaying mB properly
       &:disabled{
         .btn-disabled;
+      }
+      span {
+        display: inline-block;
+        // margin: 5px 0;
       }
     }
   }
@@ -40,4 +48,8 @@ div.betslip {
 
 .Pane1.horizontal.Pane {
   flex: none !important;
+}
+
+.Pane.horizontal.Pane2 {
+  flex: auto !important;
 }
