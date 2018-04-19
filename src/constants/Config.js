@@ -4,9 +4,9 @@ import { version } from '../../package.json'
 
 const blockchainUrls = [
   // 'wss://595-dev-blockchain.pixelplex.by/ws',
-  //'wss://peerplays-dev.blocktrades.info/ws',
-  "wss://peerplays-dev.blocktrades.info/alpha/ws"
-  // 'wss://api.ppytest.blckchnd.com'
+  //'wss://peerplays-dev.blocktrades.info/',  
+  'ws://ec2-35-183-21-190.ca-central-1.compute.amazonaws.com:8090'  
+// 'wss://api.ppytest.blckchnd.com'
 ]
 
 // Shuffle list of blockchain nodes
