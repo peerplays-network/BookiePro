@@ -13,7 +13,7 @@ const blockchainUrls = [
 // So every bookie app will not always connect to the first node in the list
 const shuffledBlockhainUrls = _.shuffle(blockchainUrls)
 
-const ASSET_ID = '1.3.3'
+const ASSET_ID = '1.3.0'
 
 const Config = {
   version: version,
