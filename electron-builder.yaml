@@ -1,6 +1,5 @@
 directories:
   output: dist
-  buildResources: build
 appId: com.peerplays.bookie
 productName: Bookie
 extraMetadata:
@@ -22,5 +21,4 @@ linux:
     - deb
 files:
   - build/**/*
-  - node_modules/**/*
 electronVersion: 1.8.2
