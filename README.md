@@ -12,6 +12,9 @@ $ npm install
 // If compiling for linux the gettext package is required.
 $ brew install gettext
 
+// To Update the submodule with the latest code in develop.
+$ npm run update-submodules
+
 // Compile the electron app.
 $ npm run dist
 
@@ -19,12 +22,4 @@ $ npm run dist
 // Launch electron pointing at the development server.
 $ npm run live
 
-// To Update the submodule with the latest code in develop.
-$ npm run update-submodules
-
 ```
-
-##TODO
-- Update category for Linux for the build node under package.json to remove the warning.
-- Code signing for compiled applications.
-- Update the live build to include the proper react extensions in the dev tools.
