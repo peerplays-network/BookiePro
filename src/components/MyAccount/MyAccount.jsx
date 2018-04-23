@@ -321,7 +321,7 @@ class MyAccount extends PureComponent {
               <Deposit cardClass='bookie-card depositCardComponent' depositAddress={ this.props.depositAddress }/>
             </Col> 
           : null }
-          { this.props.withdawalsEnabled ? 
+          { this.props.withdrawalsEnabled ? 
             <Col span={ 8 }>
               <MyAccountWithdraw cardClass='bookie-card withdrawComponent'
                 currencyFormat={ this.props.currencyFormat }
