@@ -1,0 +1,23 @@
+.infinity-menu-container {
+  min-height: 100%;
+  background: #14181c;
+  border-right: 1px solid #495967;
+}
+.infinity-menu-container label {
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+  width: 170px;
+}
+.sidebar-main {
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.4);
+}
+.sidebar-main,
+.scrollbar-style-main {
+  height: 100%;
+  position: relative;
+}
+.sidebar-main .ps-scrollbar-y-rail {
+  right: 0 !important;
+  z-index: 9;
+}
