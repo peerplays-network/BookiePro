@@ -3,10 +3,7 @@ import { PrivateKey } from 'peerplaysjs-lib';
 import { version } from '../../package.json'
 
 const blockchainUrls = [
-  // 'wss://595-dev-blockchain.pixelplex.by/ws',
-  //'wss://peerplays-dev.blocktrades.info/ws',
-  "wss://peerplays-dev.blocktrades.info/alpha/ws"
-  // 'wss://api.ppytest.blckchnd.com'
+  'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090'  
 ]
 
 // Shuffle list of blockchain nodes
