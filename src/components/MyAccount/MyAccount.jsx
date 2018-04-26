@@ -51,6 +51,7 @@ import { MyAccountWithdraw } from '../Withdraw';
 import { SettingActions, BalanceActions, NavigateActions, MyAccountPageActions, AccountActions } from '../../actions';
 import { MyAccountPageSelector } from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
+import { Config } from '../../constants';
 
 const Option = Select.Option;
 
@@ -315,21 +316,25 @@ class MyAccount extends PureComponent {
           </Col>
         </Row>
         <Row gutter={ 20 }>
-          <Col span={ 8 }>
-            <Deposit cardClass='bookie-card depositCardComponent' depositAddress={ this.props.depositAddress }/>
-          </Col>
-          <Col span={ 8 }>
-            <MyAccountWithdraw cardClass='bookie-card withdrawComponent'
-              currencyFormat={ this.props.currencyFormat }
-              precision={ this.props.precision }
-              availableBalance={ this.props.availableBalance }
-              onSubmit={ this.handleWithdrawSubmit }
-              withdrawLoadingStatus={ this.props.withdrawLoadingStatus }
-              withdrawAmount={ this.state.withdrawAmount }
-              convertedAvailableBalance={ this.props.convertedAvailableBalance }
-              resetWithdrawLoadingStatus={ this.props.resetWithdrawLoadingStatus }
-              />
-          </Col>
+          { this.props.depositsEnabled ? 
+            <Col span={ 8 }>
+              <Deposit cardClass='bookie-card depositCardComponent' depositAddress={ this.props.depositAddress }/>
+            </Col> 
+          : null }
+          { this.props.withdawalsEnabled ? 
+            <Col span={ 8 }>
+              <MyAccountWithdraw cardClass='bookie-card withdrawComponent'
+                currencyFormat={ this.props.currencyFormat }
+                precision={ this.props.precision }
+                availableBalance={ this.props.availableBalance }
+                onSubmit={ this.handleWithdrawSubmit }
+                withdrawLoadingStatus={ this.props.withdrawLoadingStatus }
+                withdrawAmount={ this.state.withdrawAmount }
+                convertedAvailableBalance={ this.props.convertedAvailableBalance }
+                resetWithdrawLoadingStatus={ this.props.resetWithdrawLoadingStatus }
+                />
+            </Col> 
+          : null }
           <Col span={ 8 }>
             { this.renderSettingCard() }
           </Col>
@@ -355,6 +360,10 @@ class MyAccount extends PureComponent {
   }
 }
 
+MyAccount.defaultProps = {
+  depositsEnabled: Config.features.deposits,
+  withdrawalsEnabled: Config.features.withdrawels
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -374,6 +383,9 @@ const mapStateToProps = (state) => {
     withdrawLoadingStatus: MyAccountPageSelector.withdrawLoadingStatusSelector(state),
     convertedAvailableBalance : MyAccountPageSelector.formattedAvailableBalanceSelector(state),
     accountName: MyAccountPageSelector.accountNameSelector(state),
+    // Manual Feature Overrides
+    /*depositsEnabled: true,
+    withdawalsEnabled: true*/
   }
 }
 

@@ -62,8 +62,12 @@ class LandingSteps extends PureComponent {
     return (
       <div className={ className  + ' landing-steps' }>
         { this.renderStep(LandingStepTypes.REGISTER) }
-        <div className='separator' />
-        { this.renderStep(LandingStepTypes.DEPOSIT) }
+        { this.props.depositsEnabled ?
+          <div>
+            <div className='separator' />
+              { this.renderStep(LandingStepTypes.DEPOSIT) }
+          </div>
+        : null }
         <div className='separator' />
         { this.renderStep(LandingStepTypes.BET) }
       </div>
