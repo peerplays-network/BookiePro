@@ -6,7 +6,7 @@ const blockchainUrls = [
   // 'wss://595-dev-blockchain.pixelplex.by/ws',
   //'wss://peerplays-dev.blocktrades.info/ws',
   //"wss://peerplays-dev.blocktrades.info/alpha/ws"
-  'ws://ec2-35-183-21.ca-central-1.compute.amazonaws.com:8090/'
+  'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090'  
   // 'wss://api.ppytest.blckchnd.com'
 ]
 

@@ -273,7 +273,6 @@ export const translationsObject = {
       cancel_all_confirm: 'You are about to remove %{currencySymbol}%{betsTotal} bets, are you sure?'
     },
     object_status_enumerator:{
-      moneyline: 'Moneyline',
       upcoming: "UPCOMING",
       unresolved: "UNRESOLVED",
       in_progress: "IN PROGRESS",

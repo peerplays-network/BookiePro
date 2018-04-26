@@ -94,6 +94,7 @@ class ComplexBettingWidget extends PureComponent {
       var winOrLose = false;
       tableData.forEach((row, i) => {
         //in i th row
+        // Retrieve the status of the betting market from the table data. A value of true means that the betting market has a status that is equivalent to resolved.
         var stat = tableData.getIn([i, 'bmStatus']);
         if(stat[0]){
           winOrLose = true;
@@ -299,18 +300,6 @@ class ComplexBettingWidget extends PureComponent {
           'increased-value' : 'decreased-value';
 
         const displayStatus = (status, typeOfDisplay) => {
-          /* status def.
-            status = [
-              true/false,
-              "event status", // frozen, finished, settled
-              "betting market group status", //frozen, closed, graded, re_grading, settled
-              [ // betting market array
-                "class name",
-                "betting market status" // win, not_win, frozen
-              ],
-              index // 0, 1, or 2. event, bmg, and bm. Indicates which OSE passed the conditional to make a read only table.
-            ]
-          */
           if(typeOfDisplay === 'indicator'){
             return (
               <span className={ status[3][0] }>
@@ -496,7 +485,7 @@ class ComplexBettingWidget extends PureComponent {
           this.state.tableData.isEmpty() ?
           <div/>
           :
-          <ReactTable // TODO: add className and modify styles
+          <ReactTable 
             pageSize={ this.state.tableData.size }
             data={ this.state.tableData.toJS() }
             columns={ columns }
