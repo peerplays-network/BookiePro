@@ -13,7 +13,7 @@ const blockchainUrls = [
 // So every bookie app will not always connect to the first node in the list
 const shuffledBlockhainUrls = _.shuffle(blockchainUrls)
 
-const ASSET_ID = '1.3.3'
+const ASSET_ID = '1.3.0'
 
 const Config = {
   version: version,
@@ -22,7 +22,7 @@ const Config = {
   coreAsset: ASSET_ID,
   softwareUpdateReferenceAccountName: 'peerplays1', // We listen to a particular account's transaction history for software update
   gatewayAccountName: 'gateway1', // Any transfer from this account is marked as deposit/ withdraw with gateway
-  useDummyData: true, // Set to true if you want to use dummy data
+  useDummyData: false, // Set to true if you want to use dummy data
   // Set this to false to register through faucet
   // Remember to set the faucet urls properly beforehand
   // We don't have faucet for blocktrades testnet
