@@ -43,7 +43,6 @@ class Exchange extends PureComponent {
         confirmToLeave: false
       })
     }
-
   }
 
   /**
@@ -109,7 +108,6 @@ class Exchange extends PureComponent {
     if (!this.props.isShowLogoutPopup && !this.state.confirmToLeave && this.props.hasUnplacedBets){
       this.setModalVisible(true);
       return false;
-
     } else {
       // DO NOT remove
       // We still need to gracefully "leave" the page and reset the drawer
@@ -119,11 +117,9 @@ class Exchange extends PureComponent {
 
       return true;
     }
-
   }
 
   render() {
-
     const sidebarWidth = 220;
     const betslipWidth = 360;
 

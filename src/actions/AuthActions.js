@@ -32,7 +32,6 @@ class AuthPrivateActions {
     }
   }
   static logoutAction(accountId) {
-    //debugger;
     return {
       type: ActionTypes.AUTH_LOGOUT,
       accountId,
