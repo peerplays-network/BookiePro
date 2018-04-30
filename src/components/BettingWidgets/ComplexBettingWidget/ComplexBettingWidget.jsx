@@ -57,6 +57,7 @@ class ComplexBettingWidget extends PureComponent {
     this.setTableData = this.setTableData.bind(this);
     this.placeAllBestBets = callIfMarketDrawerIsReady(this.placeAllBestBets.bind(this));
     this.getBestOfferOfEachmarket = this.getBestOfferOfEachmarket.bind(this);
+    this.displayStatus = this.displayStatus.bind(this);
   }
 
   componentDidMount(){
@@ -247,7 +248,6 @@ class ComplexBettingWidget extends PureComponent {
 
 
   }
-
   /**
     * get the best back/lay odds in tableData.
     *
@@ -263,6 +263,21 @@ class ComplexBettingWidget extends PureComponent {
     }).filter( item => {
       return item !== undefined
     });
+  }
+  displayStatus(status, typeOfDisplay){
+    if(typeOfDisplay === 'indicator'){
+      return (
+        <span className={ status[3][0] }>
+        <span className='indicator'/>{ I18n.t('object_status_enumerator.' + status[3][1]) }</span>
+      )     
+    } else{ // complex-outcome overlay
+      let i = status[4];
+      if(i === 3){ // result needed is in child array.
+        return I18n.t('object_status_enumerator.' + status[3][1]);
+      } else{
+        return I18n.t('object_status_enumerator.' + status[i]);
+      }
+    }
   }
 
   render() {
@@ -297,29 +312,13 @@ class ComplexBettingWidget extends PureComponent {
         const marketExposureClass = props.value.market_exposure >= 0 ?
           'increased-value' : 'decreased-value';
         const potentialExposureClass = props.value.betslip_exposure + props.value.market_exposure >= 0 ?
-          'increased-value' : 'decreased-value';
-
-        const displayStatus = (status, typeOfDisplay) => {
-          if(typeOfDisplay === 'indicator'){
-            return (
-              <span className={ status[3][0] }>
-              <span className='indicator'/>{ I18n.t('object_status_enumerator.' + status[3][1]) }</span>
-            )     
-          } else{ // complex-outcome overlay
-            let i = status[4];
-            if(i === 3){ // result needed is in child array.
-              return I18n.t('object_status_enumerator.' + status[3][1]);
-            } else{
-              return I18n.t('object_status_enumerator.' + status[i]);
-            }
-          }
-        }  
+          'increased-value' : 'decreased-value';  
 
         return (
           <div className='competitor'>
-            { this.state.winOrLose ? <div className='complex-outcome'>{ displayStatus(props.value.bmStatus, 'compelx-outcome') }</div> : null }
+            { this.state.winOrLose ? <div className='complex-outcome'>{ this.displayStatus(props.value.bmStatus, 'compelx-outcome') }</div> : null }
             <div className='name'>{props.value.displayedName} 
-              { this.state.winOrLose ? null : displayStatus(props.value.bmStatus, 'indicator') }
+              { this.state.winOrLose ? null : this.displayStatus(props.value.bmStatus, 'indicator') }
             </div>
             { props.value.betslip_exposure &&
               <div className='exposure'>
