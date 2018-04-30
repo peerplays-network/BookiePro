@@ -1,0 +1,316 @@
+.rt-table > .-header {
+  padding: 0;
+  height: 0;
+}
+.offer-header.lay {
+  float: left;
+}
+.offer-header.back {
+  float: right;
+}
+div.complex-betting {
+  background-color: #1f262c;
+  margin-top: 15px;
+}
+div.complex-betting .increased-value {
+  color: #64d951;
+}
+div.complex-betting .decreased-value {
+  color: #d60d2e;
+}
+.complex-betting {
+  background-color: #1f262c;
+  margin-top: 20px;
+}
+.complex-betting .title {
+  color: #fbae16;
+  padding: 13px 15px;
+  margin-bottom: 25px;
+}
+.complex-betting .name {
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+}
+.complex-betting .name .live {
+  display: inline-flex;
+  align-items: center;
+  color: #FFFFFF;
+  margin-left: 10px;
+  padding-right: 6px;
+  padding-left: 12px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #d60d2e;
+  font-size: 12px;
+  font-weight: bold;
+}
+.complex-betting .name .live .indicator {
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 4px;
+  margin-bottom: 1px;
+}
+.complex-betting .name .going-live {
+  display: inline-flex;
+  align-items: center;
+  color: #1f262c;
+  margin-left: 10px;
+  padding-right: 6px;
+  padding-left: 12px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #536066;
+  font-size: 12px;
+  font-weight: bold;
+}
+.complex-betting .name .going-live .indicator {
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 4px;
+  margin-bottom: 1px;
+}
+.complex-betting div.rules {
+  color: #fbae16;
+  font-size: 14px;
+  float: right;
+  display: inline-block;
+  font-weight: 500;
+}
+.complex-betting div.rules span {
+  color: #FFFFFF;
+}
+.complex-betting div.rules span:first-child {
+  margin-right: 6px;
+}
+.complex-betting div.rules i {
+  font-size: 18px;
+  margin-left: 0;
+  vertical-align: middle;
+}
+.complex-betting .ReactTable {
+  border: 0 none;
+}
+.complex-betting .ReactTable .rt-tbody {
+  background-color: #14181c;
+  padding-bottom: 20px;
+}
+.complex-betting .ReactTable .rt-td {
+  height: 42px;
+  padding: 0;
+  border-right: 0 none;
+}
+.complex-betting .ReactTable .rt-td .back-offer,
+.complex-betting .ReactTable .rt-td .lay-offer {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+}
+.complex-betting .ReactTable .rt-td .back-offer {
+  align-items: flex-end;
+}
+.complex-betting .ReactTable .rt-td .back-offer.empty-offer {
+  background-color: transparent;
+}
+.complex-betting .ReactTable .rt-td .back-offer.best-offer:hover {
+  background-color: rgba(164, 207, 225, 0.9) !important;
+}
+.complex-betting .ReactTable .rt-td .lay-offer {
+  color: #000000;
+}
+.complex-betting .ReactTable .rt-td .lay-offer.best-offer:hover {
+  background-color: rgba(252, 227, 228, 0.9) !important;
+}
+.complex-betting .ReactTable .rt-td .back-offer.best-offer {
+  background-color: #a4cfe1 !important;
+  color: #000000;
+}
+.complex-betting .ReactTable .rt-td .lay-offer.best-offer {
+  background-color: #fce3e4 !important;
+  color: #000000;
+}
+.complex-betting .ReactTable .rt-td .lay-offer.empty-offer {
+  background-color: transparent;
+}
+.complex-betting .ReactTable .rt-td .empty-offer {
+  align-items: center;
+}
+.complex-betting .ReactTable .rt-td .name {
+  font-size: 14px;
+  text-align: left;
+  padding-top: 3px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+.complex-betting .ReactTable .rt-td .exposure {
+  font-size: 12px;
+  text-align: left;
+}
+.complex-betting .ReactTable .rt-td .exposure span {
+  margin-left: 4px;
+}
+.complex-betting .ReactTable .rt-td .exposure span:first-child {
+  margin-left: 0;
+}
+.complex-betting .ReactTable .rt-td .odds-offer {
+  color: #000000;
+  font-size: 16px;
+}
+.complex-betting .ReactTable .rt-td .back-offer.back-bg {
+  background-color: transparent;
+}
+.complex-betting .ReactTable .rt-td .back-offer.back-bg:hover {
+  background-color: #fbae16;
+}
+.complex-betting .ReactTable .rt-td .back-offer.back-all-offer {
+  background-color: #a4cfe1;
+}
+.complex-betting .ReactTable .rt-td .back-offer.back-all-offer:hover {
+  background-color: transparent;
+}
+.complex-betting .ReactTable .rt-td .back-offer.empty-offer:hover {
+  background-color: transparent;
+}
+.complex-betting .ReactTable .rt-td .lay-offer.lay-bg {
+  background-color: transparent;
+}
+.complex-betting .ReactTable .rt-td .lay-offer.lay-bg:hover {
+  background-color: #fbae16;
+}
+.complex-betting .ReactTable .rt-td .lay-offer.lay-all-offer {
+  background-color: #8dd3f1;
+}
+.complex-betting .ReactTable .rt-td .lay-offer.lay-all-offer:hover {
+  background-color: #fbae16;
+}
+.complex-betting .ReactTable .rt-td .lay-offer.empty-offer:hover {
+  background-color: #fbae16;
+}
+.complex-betting .ReactTable .rt-td .odds {
+  font-size: 16px;
+  text-align: center;
+  padding-top: 3px;
+}
+.complex-betting .ReactTable .rt-td .price {
+  font-size: 12px;
+  text-align: center;
+  padding-bottom: 3px;
+}
+.complex-betting .ReactTable .rt-td .odds,
+.complex-betting .ReactTable .rt-td .price {
+  width: 100%;
+}
+.complex-betting .ReactTable .rt-td:first-child {
+  padding: 0 10px;
+}
+.complex-betting .ReactTable .rt-td.lay-arrows-col {
+  padding: 0 5px;
+  min-width: 25px !important;
+}
+.complex-betting .ReactTable .rt-td.back-arrows-col {
+  padding: 0 5px 0 2px;
+}
+.complex-betting .ReactTable .rt-tr-group {
+  border-top: 1px solid #495967;
+}
+.complex-betting .ReactTable .rt-tr-group:last-child {
+  border-bottom: 1px solid #495967;
+}
+.complex-betting .ReactTable .rt-tr-group .back,
+.complex-betting .ReactTable .rt-tr-group .lay,
+.complex-betting .ReactTable .rt-tr-group .back-arrows-col {
+  border-right: 1px solid #495967;
+}
+.complex-betting .ReactTable .rt-tr-group .rt-td:first-child {
+  text-align: left;
+}
+.complex-betting .ReactTable .rt-th {
+  font-weight: 500;
+  padding: 0;
+  border-right: none;
+}
+.complex-betting .ReactTable .rt-th #back,
+.complex-betting .ReactTable .rt-th #lay {
+  cursor: pointer;
+}
+.complex-betting .ReactTable .rt-th #lay {
+  padding: 4px 7px;
+}
+.complex-betting .ReactTable .rt-th .alignleft {
+  float: left;
+}
+.complex-betting .ReactTable .rt-th .alignright {
+  float: right;
+}
+.complex-betting .ReactTable .rt-th p {
+  padding: 4px 10px;
+}
+.complex-betting .ReactTable .rt-th:nth-of-type(2) .alignright {
+  border-left: 1px solid #495967;
+  border-top: 1px solid #495967;
+  color: #000000;
+  padding: 4px 3px;
+  background-color: #a4cfe1;
+}
+.complex-betting .ReactTable .rt-th:nth-of-type(2) .alignright:hover {
+  background-color: rgba(164, 207, 225, 0.9);
+}
+.complex-betting .ReactTable .rt-th:nth-of-type(3) .alignleft {
+  border: 1px solid #495967;
+  border-bottom: none;
+  color: #000000;
+  padding: 4px 3px;
+  background-color: #fce3e4;
+}
+.complex-betting .ReactTable .rt-th:nth-of-type(3) .alignleft:hover {
+  background-color: rgba(252, 227, 228, 0.9);
+}
+.complex-betting .ReactTable .rt-thead.-headerGroups {
+  background: transparent;
+  border-bottom: 0 none;
+}
+.complex-betting .ReactTable .rt-thead.-headerGroups .rt-tr .rt-th:nth-child(2) {
+  width: 148px !important;
+}
+.complex-betting .icon-bitcoin {
+  background-image: url('../../../assets/icons/bitcoin_icon_hover.png');
+  width: 12px;
+  height: 14px;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  display: inline-block;
+}
+.complex-betting .icon-left-arrow {
+  background: url('../../../assets/icons/left_arrow_grey.png') no-repeat;
+  width: 15px;
+  height: 15px;
+  background-size: 100%;
+  display: inline-block;
+  margin-bottom: 3px;
+}
+.complex-betting .icon-left-arrow:hover {
+  background: url('../../../assets/icons/left_arrow_white.png') no-repeat;
+  background-size: 100%;
+}
+.complex-betting .icon-right-arrow {
+  background: url('../../../assets/icons/right_arrow_grey.png') no-repeat;
+  width: 15px;
+  height: 15px;
+  background-size: 100%;
+  display: inline-block;
+}
+.complex-betting .icon-right-arrow:hover {
+  background: url('../../../assets/icons/right_arrow_white.png') no-repeat;
+  background-size: 100%;
+}

@@ -5,8 +5,7 @@ div.simple-betting {
   // If we set opacity explicitly, it will affect the text (foreground) too
   background-color: @simple_betting_bg;
   margin-top: 20px;
-  box-shadow: @simple_betting_bg_shadow;
-
+  
   .live {
     display: inline-flex;
     align-items: center;
@@ -28,8 +27,8 @@ div.simple-betting {
 
     div.ant-table-title {
       border:0 none;
-      border-bottom: 1px solid @simple_betting_table_header_border;
-      padding:13px 15px;
+      color: @dark_tangerine;
+      padding:20px 20px;
       div.title {
         div.sport {
           font-size: 16px;
@@ -51,6 +50,8 @@ div.simple-betting {
       border: none;
       border-radius: 0;
       .ant-table-tbody{
+        background-color: @black_pearl_dark;
+        border-bottom: 1px solid @domino;
         tr{
           &:hover{
             background: transparent;
@@ -60,6 +61,7 @@ div.simple-betting {
       th {
         background-color: transparent;
         border-right: none;
+        border-bottom: 1px solid @domino;
         padding: 3px 8px;
         color: @primary_label;
         font-size:14px;
@@ -69,6 +71,7 @@ div.simple-betting {
       }
 
       td {
+        border-color: @domino;
         padding: 0;
         // To disable the default mouseover highlight
         background-color: transparent;
@@ -96,7 +99,7 @@ div.simple-betting {
           background-color: @simple_betting_back_bg;
         }
         &.back-offer:hover {
-          background-color: @simple_betting_back_hover_bg;
+          background-color: fade(@french_pass,90%);
         }
         &.lay-offer {
           background-color: @simple_betting_lay_bg;
@@ -110,6 +113,7 @@ div.simple-betting {
           display: block;
           > div.offer {
             > div.odds {
+              color: @black;
               font-size: 16px;
               text-align: center;
             }
@@ -129,8 +133,14 @@ div.simple-betting {
     }
 
     div.ant-table-footer {
-      background-color: transparent;
+      background-color: @black_pearl_dark;
       border: none;
+      border-radius: 0;
+
+      &:before {
+        background: @domino !important;
+        height: 0px;
+      }
 
       div.footer {
         text-align: right;
@@ -156,7 +166,7 @@ div.simple-betting {
       font-weight: 500;
     }
     .ant-table-footer:before {
-      background-color: transparent;
+      background: @domino !important;
     }
     .ant-table-thead {
       display: none;

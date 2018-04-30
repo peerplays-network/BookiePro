@@ -1,5 +1,3 @@
-@import (reference) '../App/App.less';
-
 .main-content {
   background-image: url('../../assets/images/tile_bg.png');
   background-repeat: repeat;

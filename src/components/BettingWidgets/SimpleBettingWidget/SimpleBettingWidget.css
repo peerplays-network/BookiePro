@@ -1,0 +1,163 @@
+div.simple-betting {
+  background-color: #1f262c;
+  margin-top: 20px;
+}
+div.simple-betting .live {
+  display: inline-flex;
+  align-items: center;
+  color: #d60d2e;
+  font-weight: bold;
+  font-size: 12px;
+}
+div.simple-betting .live .indicator {
+  background: url("../../../assets/icons/live_indicator.png") no-repeat;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  vertical-align: middle;
+  background-size: 100%;
+  margin-right: 2px;
+}
+div.simple-betting div.ant-table {
+  color: #FFFFFF;
+}
+div.simple-betting div.ant-table div.ant-table-title {
+  border: 0 none;
+  color: #fbae16;
+  padding: 20px 20px;
+}
+div.simple-betting div.ant-table div.ant-table-title div.title div.sport {
+  font-size: 16px;
+  text-transform: uppercase;
+  display: inline-block;
+  font-weight: bold;
+}
+div.simple-betting div.ant-table div.ant-table-title div.title div.rules {
+  font-size: 14px;
+  float: right;
+  display: inline-block;
+  font-weight: 500;
+}
+div.simple-betting div.ant-table table {
+  border: none;
+  border-radius: 0;
+}
+div.simple-betting div.ant-table table .ant-table-tbody {
+  background-color: #14181c;
+  border-bottom: 1px solid #495967;
+}
+div.simple-betting div.ant-table table .ant-table-tbody tr:hover {
+  background: transparent;
+}
+div.simple-betting div.ant-table table th {
+  background-color: transparent;
+  border-right: none;
+  border-bottom: 1px solid #495967;
+  padding: 3px 8px;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: normal;
+}
+div.simple-betting div.ant-table table th.back-offer {
+  display: none;
+}
+div.simple-betting div.ant-table table th.lay-offer {
+  display: none;
+}
+div.simple-betting div.ant-table table td {
+  border-color: #495967;
+  padding: 0;
+  background-color: transparent;
+}
+div.simple-betting div.ant-table table td > * {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+div.simple-betting div.ant-table table td.event-time {
+  text-align: center;
+  word-break: normal;
+  font-weight: bold;
+}
+div.simple-betting div.ant-table table td.event-name {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0 6px;
+  word-break: normal;
+  cursor: pointer;
+}
+div.simple-betting div.ant-table table td.event-name:hover {
+  color: #fbae16;
+}
+div.simple-betting div.ant-table table td.back-offer {
+  background-color: #a4cfe1;
+}
+div.simple-betting div.ant-table table td.back-offer:hover {
+  background-color: rgba(164, 207, 225, 0.9);
+}
+div.simple-betting div.ant-table table td.lay-offer {
+  background-color: #8dd3f1;
+}
+div.simple-betting div.ant-table table td.lay-offer:hover {
+  background-color: rgba(141, 211, 241, 0.9);
+}
+div.simple-betting div.ant-table table td > a {
+  color: #FFFFFF;
+  display: block;
+}
+div.simple-betting div.ant-table table td > a > div.offer > div.odds {
+  color: #000000;
+  font-size: 16px;
+  text-align: center;
+}
+div.simple-betting div.ant-table table td > a > div.offer > div.price {
+  font-size: 12px;
+  text-align: center;
+  font-weight: 500;
+}
+div.simple-betting div.ant-table div.ant-table-placeholder {
+  background: transparent;
+  color: #FFFFFF;
+}
+div.simple-betting div.ant-table div.ant-table-footer {
+  background-color: #14181c;
+  border: none;
+  border-radius: 0;
+}
+div.simple-betting div.ant-table div.ant-table-footer:before {
+  background: #495967 !important;
+  height: 0px;
+}
+div.simple-betting div.ant-table div.ant-table-footer div.footer {
+  text-align: right;
+  font-size: 14px;
+}
+div.simple-betting div.ant-table div.ant-table-footer div.footer a {
+  color: #FFFFFF;
+  text-decoration: underline;
+  text-transform: capitalize;
+  font-size: 14px;
+  font-weight: 500;
+}
+div.simple-betting div.ant-table div.ant-table-footer div.footer a:hover {
+  color: #fbae16;
+}
+div.simple-betting .ant-table-empty .ant-table-placeholder {
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+div.simple-betting .ant-table-empty .ant-table-footer:before {
+  background: #495967 !important;
+}
+div.simple-betting .ant-table-empty .ant-table-thead {
+  display: none;
+}
+div.simple-betting .ant-pagination-item:hover a,
+div.simple-betting .ant-pagination-next:hover a,
+div.simple-betting .ant-pagination-prev:hover a {
+  color: #FFFFFF;
+}
+div.simple-betting .ant-pagination-disabled a {
+  color: #FFFFFF;
+  opacity: 1;
+}

@@ -25,12 +25,10 @@ div.complex-betting {
 }
 .complex-betting{
   background-color: @complex-betting-bg;
-  box-shadow: @complex-betting-bg-shadow;
   margin-top: 20px;
-  padding-bottom:20px;
   .title{
+    color: @dark_tangerine;
     padding:13px 15px;
-    border-bottom:1px solid @primary_border;
     margin-bottom:25px;
   }
   .name{
@@ -46,55 +44,56 @@ div.complex-betting {
       color: @primary_label;
       margin-left: 10px;
       padding-right: 6px;
-      padding-left: 5px;
-      padding-top: 2px;
-      padding-bottom: 2px;
+      padding-left: 12px;
+      padding-top: 5px;
+      padding-bottom: 5px;
       background-color: @live_market_marker;
       font-size: 12px;
       font-weight: bold;
-      border-radius: 4px;
       .indicator{
-        background: url("../../../assets/icons/live_indicator_white.png") no-repeat;
+        background-color: @white;
+        border-radius: 50%;
         display: inline-block;
-        width:16px;
-        height:16px;
-        vertical-align: middle;
-        background-size: 100%;
+        width:8px;
+        height:8px;
         margin-right:4px;
+        margin-bottom: 1px;
       }
     }
     .going-live {
       display: inline-flex;
       align-items: center;
-      color: @field_border;
+      color: @cinder;
       margin-left: 10px;
       padding-right: 6px;
-      padding-left: 5px;
-      padding-top: 2px;
-      padding-bottom: 2px;
+      padding-left: 12px;
+      padding-top: 5px;
+      padding-bottom: 5px;
       background-color: @going_live_market_marker;
       font-size: 12px;
       font-weight: bold;
-      border-radius: 4px;
       .indicator{
-        background-image: url("../../../assets/icons/live_indicator_black.png");
-        background-repeat: no-repeat;
+        background-color: @white;
+        border-radius: 50%;
         display: inline-block;
-        width:16px;
-        height:16px;
-        vertical-align: middle;
-        background-size: 100%;
+        width:8px;
+        height:8px;
         margin-right:4px;
+        margin-bottom: 1px;
       }
     }
   }
   div.rules {
+    color: @dark_tangerine;
     font-size: 14px;
     float: right;
     display: inline-block;
     font-weight:500;
-    span:first-child{
-      margin-right:15px;
+    span {
+      color: @white;
+      &:first-child{
+        margin-right:6px;
+      }
     }
     i{
       font-size:18px;
@@ -105,6 +104,10 @@ div.complex-betting {
   }
   .ReactTable{
     border:0 none;
+    .rt-tbody{
+      background-color: @black_pearl_dark;
+      padding-bottom: 20px;
+    }
     .rt-td{
       height: 42px;
       padding:0;
@@ -126,20 +129,31 @@ div.complex-betting {
         background-color: transparent;
       }
 
-      .back-offer, .lay-offer {
+      .back-offer {
         &.best-offer {
           &:hover {
-            background-color: @primary_label_highlight !important;
+            background-color: fade(@french_pass,90%) !important;
+          }
+        }
+      }
+
+      .lay-offer {
+        color: @black;
+        &.best-offer {
+          &:hover {
+            background-color: fade(@pale_pink,90%) !important;
           }
         }
       }
 
       .back-offer.best-offer {
         background-color: @simple_betting_back_bg !important;
+        color: @black;
       }
 
       .lay-offer.best-offer {
         background-color: @lay_bg_primary !important;
+        color: @black;
       }
 
       .lay-offer.empty-offer {
@@ -166,6 +180,7 @@ div.complex-betting {
         }
       }
       .odds-offer {
+        color: @black;
         font-size:16px;
       }
       .back-offer {
@@ -178,11 +193,11 @@ div.complex-betting {
         &.back-all-offer{
           background-color: @complex-betting-back-bg;
           &:hover{
-            background-color: @primary_label_highlight;
+            background-color: transparent;
           }
         }
         &.empty-offer:hover{
-          background-color: @primary_label_highlight;
+          background-color: transparent;
         }
       }
       .lay-offer {
@@ -220,19 +235,19 @@ div.complex-betting {
       }
       &.lay-arrows-col {
         padding: 0 5px;
-        min-width: 20px;
+        min-width: 25px !important;
       }
       &.back-arrows-col {
         padding:0 5px 0 2px;
       }
     }
     .rt-tr-group{
-      border-top:1px solid @primary_label_border;
+      border-top:1px solid @domino;
       &:last-child{
-        border-bottom:1px solid @primary_label_border;
+        border-bottom:1px solid @domino;
       }
       .back, .lay, .back-arrows-col {
-        border-right:1px solid @primary_label_border;
+        border-right:1px solid @domino;
       }
       .rt-td{
         &:first-child{
@@ -261,8 +276,9 @@ div.complex-betting {
       }
       &:nth-of-type(2){
         .alignright{
-          border-left:1px solid @primary_label_border;
-          border-top:1px solid @primary_label_border;
+          border-left:1px solid @domino;
+          border-top:1px solid @domino;
+          color: @black;
           padding: 4px 3px;
           background-color: @simple_betting_back_bg;
           &:hover{
@@ -272,12 +288,13 @@ div.complex-betting {
       }
       &:nth-of-type(3){
         .alignleft{
-          border:1px solid @primary_label_border;
+          border:1px solid @domino;
           border-bottom:none;
+          color: @black;
           padding: 4px 3px;
           background-color: @complex-betting-lay-all-bg;
           &:hover{
-            background-color: @complex-betting-lay-hover-bg;
+            background-color: fade(@pale_pink,90%);
           }
         }
       }
@@ -301,25 +318,25 @@ div.complex-betting {
     display: inline-block;
   }
   .icon-left-arrow{
-    background: url('../../../assets/icons/left_arrow_white.png') no-repeat;
+    background: url('../../../assets/icons/left_arrow_grey.png') no-repeat;
     width: 15px;
     height: 15px;
     background-size: 100%;
     display: inline-block;
     margin-bottom: 3px;
     &:hover {
-      background: url('../../../assets/icons/left_arrow_blue.png') no-repeat;
+      background: url('../../../assets/icons/left_arrow_white.png') no-repeat;
       background-size: 100%;
     }
    }
   .icon-right-arrow{
-    background: url('../../../assets/icons/right_arrow_white.png') no-repeat;
+    background: url('../../../assets/icons/right_arrow_grey.png') no-repeat;
     width: 15px;
     height: 15px;
     background-size: 100%;
     display: inline-block;
     &:hover {
-      background: url('../../../assets/icons/right_arrow_blue.png') no-repeat;
+      background: url('../../../assets/icons/right_arrow_white.png') no-repeat;
       background-size: 100%;
     }
   }
