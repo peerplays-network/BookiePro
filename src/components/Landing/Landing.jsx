@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigateActions, AppActions } from '../../actions';
 import logo from '../../assets/images/bookie_logo_signup.png';
-import { AppBackgroundTypes } from '../../constants';
+import { AppBackgroundTypes, Config } from '../../constants';
 import LandingSteps from './LandingSteps';
 import FloatingHelp from '../FloatingHelp';
 
@@ -81,7 +81,10 @@ class Landing extends PureComponent {
                 { I18n.t('landing.login') }
             </button>
             <p className='helperText'>{ I18n.t('landing.loginWithAccount') }</p>
-            <LandingSteps className='steps' />
+            <LandingSteps 
+              className='steps' 
+              depositsEnabled={ this.props.depositsEnabled }
+            />
         </div>
         <div className='footer'>
           <a className='copyright'>{ I18n.t('landing.copyright') }</a>
@@ -97,11 +100,16 @@ class Landing extends PureComponent {
     )
   }
 }
+Landing.defaultProps = {
+  depositsEnabled: Config.features.deposits
+};
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     setAppBackground: AppActions.setAppBackgroundAction,
+    // Manual Feature Overrides
+    /*depositsEnabled: true*/
   }, dispatch);
 }
 export default connect(null, mapDispatchToProps)(Landing);

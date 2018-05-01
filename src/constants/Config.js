@@ -4,10 +4,9 @@ import { version } from '../../package.json'
 
 const blockchainUrls = [
   // 'wss://595-dev-blockchain.pixelplex.by/ws',
-  //'wss://peerplays-dev.blocktrades.info/ws',
-  // "wss://peerplays-dev.blocktrades.info/alpha/ws"
-  // 'wss://api.ppytest.blckchnd.com'
-  'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090'
+  //'wss://peerplays-dev.blocktrades.info/',  
+  'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090'  
+// 'wss://api.ppytest.blckchnd.com'
 ]
 
 // Shuffle list of blockchain nodes
@@ -37,7 +36,11 @@ const Config = {
       memo: PrivateKey.fromWif('5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3')
     },
   },
-  dummyDataAccountId: '1.2.243' // TODO: remove this
+  dummyDataAccountId: '1.2.243', // TODO: remove this
+  features: {
+    withdrawels: false,
+    deposits: false
+  }
 }
 
 
