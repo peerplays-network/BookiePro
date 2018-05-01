@@ -34,7 +34,11 @@ const SoftwareUpdateUtils = {
     const newVersionMajorNumber =  newVersion.split('.')[0];
     const currentVersionMajorNumber = Config.version.split('.')[0];
 
-    return (newVersionMajorNumber > currentVersionMajorNumber);
+    const newVersionMinorNumber =  newVersion.split('.')[1];
+    const currentVersionMinorNumber = Config.version.split('.')[1];
+
+    return (newVersionMajorNumber > currentVersionMajorNumber ||
+            newVersionMinorNumber > currentVersionMinorNumber);
   },
 
   /**
