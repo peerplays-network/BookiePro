@@ -1,17 +1,19 @@
 import { ActionTypes, Config, ChainTypes } from '../constants';
 import { CommunicationService } from '../services';
 import { SoftwareUpdateUtils } from '../utility';
-import { StringUtils } from '../utility';
 import log from 'loglevel';
 import NotificationActions from './NotificationActions';
 import AppActions from './AppActions';
+import { Aes } from 'peerplaysjs-lib';
 
 class SoftwareUpdatePrivateActions {
-  static setUpdateParameter(version, displayText) {
+  static setUpdateParameter(version, displayText, date, link) {
     return {
       type: ActionTypes.SOFTWARE_UPDATE_SET_UPDATE_PARAMETER,
       version,
-      displayText
+      displayText,
+      link, 
+      date
     }
   }
   static setReferenceAccountStatisticsAction(referenceAccountStatistics) {
@@ -65,38 +67,57 @@ class SoftwareUpdateActions {
             const operationType = transaction.getIn(['op', 0]);
             // 0 is operation type for transfer
             if (operationType === ChainTypes.operations.transfer) {
-              // Check memo
-              const memoMessage = transaction.getIn(['op', 1, 'memo', 'message']);
+              // The encrypted message
+              const memoMessage = transaction.getIn(['op', 1, 'memo', 'message']);               
+              // The nonce included in the message
+              const memoNonce = transaction.getIn(['op', 1, 'memo', 'nonce']);
+              
               if (memoMessage) {
-                // Assuming that we dun need to decrypt the message to parse 'software update' memo message
-                let memoJson, version, displayText;
+                const { broadcastAccount, updateAccount } = Config;
+                
+                // The public active key of the broadcast account
+                let sendingPublic = broadcastAccount.keys.active; 
+
+                // The private memo key of the receiving account
+                let receivingPrivate = updateAccount.keys.memo;
+
+                // Use the decrypt_with_checksum function
+                let decryptedMessage = Aes.decrypt_with_checksum(receivingPrivate, sendingPublic, memoNonce, memoMessage);             
+                
+                // We need to decode the array into plain text
+                let decoder = new TextDecoder('utf-8')
+                
+                // If everything went well, we can turn the decrypted message as a JSON object and get the variables we want from the object
+                let message, version, displayText, date, link;
                 try {
-                  memoJson = JSON.parse(StringUtils.hex2a(memoMessage));
-                  version = memoJson.version;
-                  displayText = memoJson.displayText;
+                  message = JSON.parse(decoder.decode(decryptedMessage)) // Parse the resulting plain text into a JSON object
+                  version = message.version; // The version
+                  date = message.date;
+                  link = message.link;
+                  displayText = message.displayText; // The text
                 } catch (error) {
                   log.warn('Invalid memo, most likely this is not software update transaction');
-                }
+                }                                          
 
                 // If it has valid version then it is an update transaction
                 if (version && SoftwareUpdateUtils.isValidVersionNumber(version)) {
                   // Set update parameter
-                  dispatch(SoftwareUpdatePrivateActions.setUpdateParameter(version, displayText));
+                  dispatch(SoftwareUpdatePrivateActions.setUpdateParameter(version, displayText, date, link));
                   const isNeedHardUpdate = SoftwareUpdateUtils.isNeedHardUpdate(version);
                   const isNeedSoftUpdate = SoftwareUpdateUtils.isNeedSoftUpdate(version);
+                  
                   // Show software update popup if needed
                   if (isNeedHardUpdate || isNeedSoftUpdate) {
                     dispatch(AppActions.showSoftwareUpdatePopupAction(true));
                   }
                   // Add notification if it is soft update
                   if (isNeedSoftUpdate) {
-                    dispatch(NotificationActions.addSoftUpdateNotification(version));
+                    dispatch(NotificationActions.addSoftUpdateNotification(version, date, link));
                   }
                   log.trace('Check for software update succeed');
                   // Terminate early
                   return false;
                 }
-
               }
             }
           });
@@ -120,9 +141,8 @@ class SoftwareUpdateActions {
    */
   static listenToSoftwareUpdate(attempt=3) {
     return (dispatch) => {
-      const accountName = Config.softwareUpdateReferenceAccountName;
       // Fetch reference account in async manner
-      return CommunicationService.getFullAccount(accountName).then( (fullAccount) => {
+      return CommunicationService.getFullAccount(Config.broadcastAccount.name).then( (fullAccount) => {
         if (fullAccount) {
           const account = fullAccount.get('account');
           const statistics = fullAccount.get('statistics');

@@ -5,6 +5,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
 
 export class NotificationItem extends PureComponent{
   constructor(props) {
@@ -47,7 +48,7 @@ export class NotificationItem extends PureComponent{
 
   /** This will render notification content with date */
   renderContent() {
-    let date, messageStyle;
+    let date, messageStyle, link;
     if (this.props.isDateVisible) {
       date = (
         <div className='date'>
@@ -58,18 +59,31 @@ export class NotificationItem extends PureComponent{
       messageStyle = { 'paddingTop': '0px' };
     }
 
+    if (this.props.link) {
+      link = (
+        <div>
+          <p>{ I18n.t('notification.version')} : </p>
+          <a target='_blank' href={ this.props.link }>{ this.props.version }</a>
+        </div>
+      )
+    }
+
     return (
       <div className='content'>
         <div className='message' style={ messageStyle }>
           { this.props.message }
         </div>
+
+        <div className='link'>
+          { link }
+        </div>
+        
         { date }
       </div>
     )
   }
 
   render(){
-    console.log(this.onClick)
     return(
       <div className={ `notification-item ${!this.props.onClick ? 'disabled' : ''}` } onClick={ this.onClick }>
         { this.renderContent() }

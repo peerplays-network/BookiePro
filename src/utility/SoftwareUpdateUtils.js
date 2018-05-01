@@ -57,8 +57,11 @@ const SoftwareUpdateUtils = {
     const newVersionMinorNumber =  newVersionSplitted[1];
     const currentVersionMinorNumber = currentVersionSplitted[1];
 
+    const newVersionPatchNumber = newVersionSplitted[2];
+    const currentVersionPatchNumber = currentVersionSplitted[2];
+
     return (newVersionMajorNumber === currentVersionMajorNumber &&
-      newVersionMinorNumber > currentVersionMinorNumber);
+      newVersionMinorNumber === currentVersionMinorNumber && newVersionPatchNumber > currentVersionPatchNumber);
   }
 }
 

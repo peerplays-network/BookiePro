@@ -24,7 +24,9 @@ export default function (state = initialState, action) {
     case ActionTypes.SOFTWARE_UPDATE_SET_UPDATE_PARAMETER: {
       return state.merge({
         version: action.version,
-        displayText: action.displayText
+        displayText: action.displayText,
+        date: action.date,
+        link: action.link
       });
     }
     default:

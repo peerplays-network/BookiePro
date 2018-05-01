@@ -1,11 +1,11 @@
 import _ from 'lodash';
-import { PrivateKey } from 'peerplaysjs-lib';
+import { PrivateKey, PublicKey } from 'peerplaysjs-lib';
 import { version } from '../../package.json'
 
 const blockchainUrls = [
   // 'wss://595-dev-blockchain.pixelplex.by/ws',
   //'wss://peerplays-dev.blocktrades.info/',  
-  'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090'  
+  "ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090"
 // 'wss://api.ppytest.blckchnd.com'
 ]
 
@@ -13,14 +13,25 @@ const blockchainUrls = [
 // So every bookie app will not always connect to the first node in the list
 const shuffledBlockhainUrls = _.shuffle(blockchainUrls)
 
-const ASSET_ID = '1.3.0'
+const ASSET_ID = '1.3.1'
 
 const Config = {
   version: version,
   oddsPrecision: 10000, // NOTE: I think this should be inside blockchain global objects, but it's not there yet so put it here temporarily
   blockchainUrls: shuffledBlockhainUrls,
   coreAsset: ASSET_ID,
-  softwareUpdateReferenceAccountName: 'peerplays1', // We listen to a particular account's transaction history for software update
+  broadcastAccount: {
+    name: 'pbsa-broadcasts',
+    keys: {
+      active: PublicKey.fromPublicKeyString("PPY56dsY8gV5PKe2iHcVQrusUuEcCR2hXfxz7598MJiotWNefqt4X")
+    }
+  },
+  updateAccount: {
+    name: 'bookie-updates',
+    keys: {
+      memo: PrivateKey.fromWif("5Hqs4vhUPQRjsyVm2e26ajF4W3UvY9Ah7T3Lmiqa2kqkyE7vukQ") 
+    }
+  },
   gatewayAccountName: 'gateway1', // Any transfer from this account is marked as deposit/ withdraw with gateway
   useDummyData: false, // Set to true if you want to use dummy data
   // Set this to false to register through faucet

@@ -98,11 +98,13 @@ class App extends PureComponent {
     return (
         <SoftwareUpdateModal
           modalTitle={ this.props.displayText }
+          version={ this.props.version }
+          date={ this.props.updateDate }
+          link={ this.props.updateLink }
           closable={ !this.props.isNeedHardUpdate }
           visible={ this.props.isShowSoftwareUpdatePopup }
           onOk={ this.onConfirmSoftwareUpdate }
           onCancel={ this.onCancelSoftwareUpdate }
-          latestVersion={ this.props.version }
         />
     );
   }
@@ -179,7 +181,9 @@ const mapStateToProps = (state) => {
   const i18n = state.get('i18n');
   const version = softwareUpdate.get('version');
   const locale = i18n.get('locale');
-  const displayText = softwareUpdate.getIn(['displayText', locale]) || I18n.t('softwareUpdate.default');
+  const displayText = I18n.t('softwareUpdate.default');
+  const updateLink = softwareUpdate.get('link');
+  const updateDate = softwareUpdate.get('date');
   const isLoggedIn = state.getIn(['account','isLoggedIn']);
   const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');
   const isShowLogoutPopup = app.get('isShowLogoutPopup');
@@ -205,6 +209,8 @@ const mapStateToProps = (state) => {
     appBackgroundType,
     isTitleBarTransparent,
     showLicenseScreen,
+    updateLink,
+    updateDate
   }
 }
 
