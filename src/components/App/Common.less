@@ -153,8 +153,8 @@
   font-weight: 500;
   text-transform: uppercase;
   border-radius: 0;
-  height: 30px;
-  line-height: 30px;
+  height: 40px;
+  line-height: 40px;
   text-align: center;
   cursor: pointer;
   transition: none;
@@ -164,29 +164,28 @@
 }
 .btn-regular {
   background: @primary_btn;
-  box-shadow: @btn_shadow;
+  box-shadow: none;
+  color: @black_pearl_mid;
   &:hover, &:focus{
-    padding:0;
-    color: @btn_label;;
-    background: @primary_btn;
+    padding:2px;
+    color: @black_pearl_mid;
+    background: @primary_btn_hover;
     outline:none;
-    border: 2px solid @primary_label_highlight;
   }
 }
 .btn-cancel{
   background: @secondary_btn;
-  box-shadow: @btn_shadow;
+  box-shadow: none;
   &:hover, &:focus{
-    padding:0;
-    color: @btn_label;;
-    background: @secondary_btn;
+    background: @secondary_btn_hover;
+    color: @white;
+    padding:2px;
     outline:none;
-    border: 2px solid @primary_label_highlight;
   }
 }
 .btn-disabled, .btn:disabled{
   background: @disable_btn;
-  box-shadow: @btn_shadow;
+  box-shadow: none;
   cursor: not-allowed;
   color: @btn_label;
   &:hover, &:focus{
@@ -198,7 +197,6 @@
 }
 .btn-download{
   background: @download_btn;
-  box-shadow: @btn_shadow;
   &:hover, :focus{
     background: @download_btn;
   }

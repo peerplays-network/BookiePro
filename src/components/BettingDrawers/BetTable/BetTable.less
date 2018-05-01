@@ -6,7 +6,7 @@ div.bet-table-wrapper {
     opacity: .1;
   }
 
-  margin: 10px 5px 0px 5px;
+  margin: 10px 5px 0px 0px;
 
   .ant-table{
     border-radius:0;
@@ -18,7 +18,7 @@ div.bet-table-wrapper {
   > div.header {
     background-color: @betslip_header_bg;
     color: @primary_label;
-    padding: 5px 6px;
+    padding: 5px 6px 0;
     .title{
       text-transform: uppercase;
       font-weight:bold;
@@ -32,10 +32,10 @@ div.bet-table-wrapper {
       float: right;
       background-color: @betslip_delete_icon_bg;
       display: inline-block;
-      width:16px;
-      height:18px;
+      width:20px;
+      height:20px;
       line-height: 15px;
-      border-radius:2px;
+      border-radius:3px;
       text-align: center;
       cursor: pointer;
       &:hover{
@@ -47,6 +47,7 @@ div.bet-table-wrapper {
   div.bet-table {
     // common table css for both back and lay sections
     .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+      font-weight:normal;
       padding: 0 6px;
     }
     div.ant-table-body {
@@ -63,7 +64,9 @@ div.bet-table-wrapper {
           height:37px;
         }
         tr > th.numeric {
-          font-weight: lighter;
+          font-size: 14px;
+          font-weight:normal;
+          text-transform: uppercase;
         }
       }
 
@@ -73,39 +76,57 @@ div.bet-table-wrapper {
         }
         > td.team > div {
           div.team {
-            font-size: 12px;
-            font-weight:bold;
-            margin-bottom: 3px;
+            color: @black;
+            font-size: 11px;
+            font-weight:normal;
+            margin-bottom: 1px;
             word-break: break-word;
             hyphens: auto;
           }
           div.market_type {
+            font-size: 9px;
             word-break: break-word;
             hyphens: auto;
+          }
+          .ant-table-row-level-0 td:nth-of-type(3) div {
+            margin-left: 1px;
           }
         }
 
         > td.numeric {
           padding-right: 0px;
-          padding-left: 0px;
+          padding-left: 0px;       
           .arrow-icon-main{
             position: absolute;
             right:5px;
             line-height: 0;
           }
           .icon-up{
+            color: @black;
             top: 5px;
           }
           .icon-down{
+            color: @black;
             bottom:5px;
           }
           &.readonly {
-            font-size: 14px;
+            color: @black;
+            font-size: 13px;
+            line-height: 18px;
             padding: 0 6px;
           }
           .ant-input {
             font-size: 16px;
             height: 34px;
+          }
+          input {
+            border: none;
+            border-radius: 0px;
+            box-shadow: 0px 0px 0px;
+            font-size: 13px;
+            height: 28px;
+            line-height: 28px;
+            padding: 5px;
           }
         }
         // Special override of the last cell
@@ -123,7 +144,7 @@ div.bet-table-wrapper {
 
           button {
             position: absolute;
-            top: 7px;
+            margin-top: -8px;
             right: 5px;
             width: 15px;
             height: 15px;
@@ -136,11 +157,17 @@ div.bet-table-wrapper {
             box-shadow: none;
 
             i{
-              font-size: 10px;
+              background-color: @shuttle_grey;
+              border: 1px solid @white;
+              font-size: 13px;
               font-weight:bold;
+              padding: 2px;
+
+              &:hover,
+              &:focus {
+              background-color: @midnight;
+              color: @white;
             }
-            &:hover{
-              color: @primary_label_highlight;
             }
           }
         }
@@ -150,6 +177,7 @@ div.bet-table-wrapper {
     > div.back {
       table td.delete-button > button {
         .btn-regular;
+        color: @white;
       }
 
       .ant-table-thead > tr > th {
@@ -161,33 +189,48 @@ div.bet-table-wrapper {
         border-color: @editable_table_back_body_border;
         background-color: @editable_table_back_body_bg;
         color: white;
+        padding: 10px 15px 10px 10px;
 
         div.market_type {
           color: @editable_table_back_market_type;
           font-size: 10px;
         }
       }
+      input {
+        background: @french_pass;
+      }
+      .ant-table-row-level-0 td:nth-of-type(3) div {
+        margin-left: 1px;
+      }
     }
 
     > div.lay {
       table td.delete-button > button {
         .btn-regular;
+        color: @white;
       }
 
       .ant-table-thead > tr > th {
         background-color: @editable_table_lay_header_bg;
         color: white;
-        word-break: normal;
+        word-break: break-word;
       }
       .ant-table-tbody > tr > td {
         border-color: @editable_table_lay_body_border;
         background-color:@editable_table_lay_body_bg;
         color: white;
+        padding: 10px 15px 10px 10px;
 
         div.market_type {
           color: @editable_table_lay_market_type;
           font-size: 10px;
         }
+        input {
+          background: @azalea;
+        }
+      }
+      .ant-table-row-level-0 td:nth-of-type(3) div {
+        margin-left: 1px;
       }
     }
 
