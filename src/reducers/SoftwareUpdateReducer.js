@@ -22,6 +22,8 @@ export default function (state = initialState, action) {
       });
     }
     case ActionTypes.SOFTWARE_UPDATE_SET_UPDATE_PARAMETER: {
+      console.log('----- SOFTWARE_UPDATE_SET_UPDATE_PARAMETER')
+      console.log(action)
       return state.merge({
         version: action.version,
         displayText: action.displayText,

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { PrivateKey, PublicKey } from 'peerplaysjs-lib';
+import { ChainConfig } from 'peerplaysjs-ws';
 import { version } from '../../package.json'
 
 const blockchainUrls = [
@@ -14,6 +15,14 @@ const blockchainUrls = [
 const shuffledBlockhainUrls = _.shuffle(blockchainUrls)
 
 const ASSET_ID = '1.3.1'
+
+console.log('----- CONFIG -----')
+console.log(PrivateKey)
+console.log(PublicKey)
+console.log(PublicKey.fromPublicKeyString)
+console.log(PrivateKey.fromWif)
+
+ChainConfig.setPrefix('PPY');
 
 const Config = {
   version: version,
