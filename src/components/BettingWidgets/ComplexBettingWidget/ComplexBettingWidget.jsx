@@ -458,9 +458,8 @@ class ComplexBettingWidget extends PureComponent {
             { this.renderLiveMarker() }
           </div>
           <div className='rules'>
-            <span>
-              { I18n.t('complex_betting_widget.matched') }: { this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
-            </span>
+            <span>{ I18n.t('complex_betting_widget.matched') }</span>
+            { this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
             <RulesButton rules={ rules } />
           </div>
         </div>
