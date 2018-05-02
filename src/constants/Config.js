@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { PrivateKey, PublicKey } from 'peerplaysjs-lib';
-import { version } from '../../package.json'
 import { ChainConfig } from 'peerplaysjs-ws';
+import { version } from '../../package.json'
 
 const blockchainUrls = [
   // 'wss://595-dev-blockchain.pixelplex.by/ws',
