@@ -241,7 +241,7 @@ class MyAccount extends PureComponent {
         </Row>
 
 
-        <Row className='margin-tb-25'>
+        <Row className='margin-tb-15'>
           <Col span={ 18 }>
             <p
               className='padding-tb-5'>{ I18n.t('myAccount.format') }</p>
@@ -259,7 +259,7 @@ class MyAccount extends PureComponent {
           </Col>
         </Row>
 
-        <Row className='margin-tb-25'>
+        <Row className='margin-tb-15'>
           <Col span={ 18 }>
             <p
               className='padding-tb-5'>{ I18n.t('myAccount.oddsFormat') }</p>
@@ -283,7 +283,7 @@ class MyAccount extends PureComponent {
             className='registerComponent'>
             <button
               onClick={ this.handleRedirectToChangePwd }
-              className='btn btn-primary margin-tb-30'>
+              className='btn btn-primary margin-tb-15'>
               { I18n.t('myAccount.change_password') }
             </button>
             <button className='btn btn-primary'
