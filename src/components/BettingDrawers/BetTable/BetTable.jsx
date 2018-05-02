@@ -144,7 +144,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false, od
   };
 
   const oddsColumn = {
-    title: `ODDS(${oddsFormat ? oddsFormat.substring(0,3).toUpperCase() : '' })`,
+    title: `ODDS (${oddsFormat ? oddsFormat.substring(0,3).toUpperCase() : '' })`,
     dataIndex: 'odds',
     key: 'odds',
     width: '25%',
@@ -156,7 +156,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false, od
   }
 
   const stakeColumn = {
-    title: `STAKE(${currencySymbol})`,
+    title: `STAKE (${currencySymbol})`,
     dataIndex: 'stake',
     key: 'stake',
     width: '25%',
@@ -168,7 +168,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false, od
   }
 
   const profitColumn = {
-    title: `PROFIT(${currencySymbol})`,
+    title: `PROFIT (${currencySymbol})`,
     dataIndex: 'profit',
     key: 'profit',
     className: 'numeric readonly' // this field is always readonly
@@ -221,7 +221,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false, odd
   };
 
   const oddsColumn = {
-    title: `ODDS(${oddsFormat ? oddsFormat.substring(0,3).toUpperCase() : '' })`,
+    title: `ODDS (${oddsFormat ? oddsFormat.substring(0,3).toUpperCase() : '' })`,
     dataIndex: 'odds',
     key: 'odds',
     width: '25%',
@@ -233,7 +233,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false, odd
   }
 
   const stakeColumn = {
-    title: `BACKER'S STAKE(${currencySymbol})`,
+    title: `BACKER'S STAKE (${currencySymbol})`,
     dataIndex: 'stake',
     key: 'stake',
     width: '25%',
@@ -245,7 +245,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false, odd
   }
 
   const liabilityColumn =  {
-    title: `LIABILITY(${currencySymbol})`,
+    title: `LIABILITY (${currencySymbol})`,
     dataIndex: 'liability',
     key: 'liability',
     className: 'numeric readonly' // this field is always readonly

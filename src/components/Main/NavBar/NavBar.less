@@ -9,14 +9,12 @@
   background-color: @topbar_bg;
   width: 100%;
   z-index:999;
-  box-shadow: @card_shadow;
   height: 60px;
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap;
 
   div.logo {
-    border-right: solid 1px @topbar_divider;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -27,7 +25,7 @@
     padding:0 15px;
     &.link{ cursor: pointer; }
     img {
-      width: 154px;
+      width: 197px;
     }
   }
 
@@ -43,6 +41,9 @@
       border-left: solid 1px @topbar_divider;
       margin-top:0;
       color: @topbar_label;
+      &:first-of-type {
+        border-left-width: 0px;
+      }
       &.amount {
         // >> Fogbugz-716: override the hovering highlight of the account balance button
         line-height: initial;
@@ -56,8 +57,8 @@
         }
         // << Fogbugz-716 end
         a{
-          color: @topbar_label;
-          font-size:18px;
+          color: @white;
+          font-size:24px;
           transition: 0s color;
         }
 
@@ -65,13 +66,22 @@
             display: flex;
             flex-direction: column;
             height: 100%;
-            text-align: center;
+            padding: 10px 20px;
+            text-align: left;
 
             .account-name {
-                padding: 3px 0px 3px 0px;
+                background-image: url('../../../assets/icons/account_name_icon.png');
+                background-size: 15px;
+                background-repeat: no-repeat;
+                background-position: left;
+                color: @dark_tangerine;
+                font-size: 13px;
+                height:15px;
+                padding-top: 3px;
+                text-indent: 20px;
+                width:100%;
 
                 &:hover {
-                    color: white;
                     cursor: pointer;
                 }
             }
@@ -110,6 +120,16 @@
     line-height: 15px;
     padding: 0;
     margin-left: 1px;
+  }
+  .count-number{
+    color: @black_pearl_mid;
+    display: inline-block;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: bold;
+    margin-top: 5px;
+    text-align: center;
+    width: 100%;
   }
 }
 .ant-dropdown{
@@ -193,8 +213,8 @@
           color: @primary_label_highlight;
         }
         &:hover{
-          color: @primary_label;
-          background-color: @dropdown_hover;
+          color: @dark_tangerine;
+          background-color: fade(@topbar_dropdown_card, 95%);
         }
       }
     }
@@ -253,7 +273,7 @@
   }
   &.bitcoin-icon-main{
     padding:0;
-    width:178px;
+    width:100%;
     i{
       display: inline-block;
       margin-right:5px;
@@ -262,7 +282,8 @@
     }
     .ant-dropdown-link{
       &>div{
-        display: inline;
+        display: inline-block;
+        margin-top: 12px;
       }
     }
     .ant-dropdown-link-clicked{
@@ -350,9 +371,9 @@
 .notification-icon-main{
   .notification-icon{
     background-image: url('../../../assets/icons/notifications_icon.png');
-    width:18px;
-    height:22px;
-    background-size: 18px 22px;
+    width:33px;
+    height:29px;
+    background-size: 33px 29px;
     background-repeat: no-repeat;
     background-position: center;
   }
@@ -455,7 +476,6 @@
 }
 .bookie-tooltip{
   font-size:14px;
-  //margin-top: 20px;
   .ant-tooltip-inner{
     max-width: 148px;
     background-color: @tooltip_bg;
@@ -465,7 +485,9 @@
     border-radius:0;
     padding: 4px 10px;
     min-height: auto;
-    margin-top:-20px;
+    margin-left:-30px;
+    margin-top:-10px;
+    top: 70px !important;
   }
   .ant-tooltip-placement-bottom .ant-tooltip-arrow, .ant-tooltip-placement-bottomLeft .ant-tooltip-arrow, .ant-tooltip-placement-bottomRight .ant-tooltip-arrow{
     border-bottom-color: @tooltip_bg;
@@ -477,24 +499,13 @@
     &:before{
       content: '';
       position: absolute;
-      top: -15px;
-      left: 50%;
-      margin-left: -5px;
+      top: -5px;
+      left: 25%;
+      margin-left: -4px;
       width: 0; height: 0;
       border-bottom: 4px solid @tooltip_border;
       border-right: 4px solid transparent;
       border-left: 4px solid transparent;
-    }
-    &:after{
-      content: '';
-      position: absolute;
-      width: 0; height: 0;
-      border-bottom: 2px solid @tooltip_bg;
-      border-right: 2px solid transparent;
-      border-left: 2px solid transparent;
-      top: -13px;
-      left: 50%;
-      margin-left: -3px;
     }
   }
   .ant-tooltip-arrow{
@@ -502,17 +513,19 @@
   }
   &.bookie-tooltip-amount{
     width: 200px;
-    margin-left: -27px;
+    margin-left: -7px;
+    margin-top: 40px;
+    top: 73px !important;
     .ant-tooltip-inner{
       margin-top: -25px;
       max-width: inherit;
       &:before{
         top: -20px;
-        margin-left: -5px;
+        margin-left: 25px;
       }
       &:after{
         top: -18px;
-        margin-left: -3px;
+        margin-left: -13px;
       }
     }
   }

@@ -228,30 +228,35 @@ class TopMenu extends PureComponent {
             </div>
           </Tooltip>
         </Menu.Item>
-        <Menu.Item key='deposit'>
-          <Dropdown trigger={ ['click'] } overlay={ depositCard(this.props.depositAddress) } placement='bottomRight'
-            onVisibleChange={ this.handleDepositComponentVisibleChange }>
-            <Tooltip overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.deposit') }>
-              <div className='icon-main deposit-icon-main'>
-                <a className='ant-dropdown-link' href='#'>
-                  <i className={ this.state.isDepositComponentVisible ? 'deposit-icon-selected' : 'deposit-icon' }></i>
-                </a>
-              </div>
-            </Tooltip>
-          </Dropdown>
-        </Menu.Item>
-        <Menu.Item key='withdraw'>
-          <Dropdown trigger={ ['click'] } overlay={ withdrawCard } placement='bottomRight'
-            onVisibleChange={ this.handleTopMenuWithdrawComponentVisibleChange }>
-            <Tooltip  overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.withdrawal') }>
-              <div className='icon-main withdraw-icon-main'>
-                <a className='ant-dropdown-link'>
-                  <i className={ this.state.isTopMenuWithdrawComponentVisible ? 'withdraw-icon-selected' : 'withdraw-icon' }></i>
-                </a>
-              </div>
-            </Tooltip>
-          </Dropdown>
-        </Menu.Item>
+        { this.props.depositsEnabled ? 
+          <Menu.Item key='deposit'>
+            <Dropdown trigger={ ['click'] } overlay={ depositCard(this.props.depositAddress) } placement='bottomRight'
+              onVisibleChange={ this.handleDepositComponentVisibleChange }>
+              <Tooltip overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.deposit') }>
+                <div className='icon-main deposit-icon-main'>
+                  <a className='ant-dropdown-link' href='#'>
+                    <i className={ this.state.isDepositComponentVisible ? 'deposit-icon-selected' : 'deposit-icon' }></i>
+                  </a>
+                </div>
+              </Tooltip>
+            </Dropdown>
+          </Menu.Item> 
+        : null }
+        { this.props.withdrawalsEnabled ? 
+          <Menu.Item key='withdraw'>
+            <Dropdown trigger={ ['click'] } overlay={ withdrawCard } placement='bottomRight'
+              onVisibleChange={ this.handleTopMenuWithdrawComponentVisibleChange }>
+              <Tooltip  overlayClassName='bookie-tooltip' placement='bottom' title={ I18n.t('topbar_tooltip.withdrawal') }>
+                <div className='icon-main withdraw-icon-main'>
+                  <a className='ant-dropdown-link'>
+                    <i className={ this.state.isTopMenuWithdrawComponentVisible ? 'withdraw-icon-selected' : 'withdraw-icon' }></i>
+                  </a>
+                </div>
+              </Tooltip>
+            </Dropdown>
+          </Menu.Item> 
+        : null }
+        
         <Menu.Item key='notifications' className='notification'>
           <Dropdown
             trigger={ ['click'] }
@@ -264,7 +269,9 @@ class TopMenu extends PureComponent {
             <div className='icon-main notification-icon-main'>
                 <a className='ant-dropdown-link' href='#'>
                 <Badge count={ this.props.unreadNotificationNumber }>
-                  <i className={ this.state.isNotificationComponentVisible ? 'notification-icon-selected' : 'notification-icon' }></i>
+                  <i className={ this.state.isNotificationComponentVisible ? 'notification-icon-selected' : 'notification-icon' }>
+                    <span className='count-number'>{ this.props.unreadNotificationNumber }</span>
+                  </i>
                 </Badge>
               </a>
               </div>
@@ -290,7 +297,13 @@ class TopMenu extends PureComponent {
   }
 }
 
+TopMenu.defaultProps = {
+  depositsEnabled: Config.features.deposits,
+  withdrawalsEnabled: Config.features.withdrawels
+};
+
 const mapStateToProps = (state) => {
+  // Check and assign features
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']) ;
@@ -341,7 +354,10 @@ const mapStateToProps = (state) => {
     notifications,
     unreadNotificationNumber,
     isShowNotificationCard,
-    routePath: state.getIn(['routing', 'locationBeforeTransitions']).pathname
+    routePath: state.getIn(['routing', 'locationBeforeTransitions']).pathname,
+    // Manual Feature Ovverides
+    /*depositsEnabled: true,
+    withdrawalsEnabled: true*/
   }
 }
 
