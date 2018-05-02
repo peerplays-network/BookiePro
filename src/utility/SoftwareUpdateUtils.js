@@ -6,6 +6,7 @@
 * 'b' represents minor number - soft update indicator provided that major number is the same during comparsion
 */
 import { Config } from '../constants';
+import moment from 'moment';
 
 const SoftwareUpdateUtils = {
 
@@ -66,6 +67,14 @@ const SoftwareUpdateUtils = {
 
     return (newVersionMajorNumber === currentVersionMajorNumber &&
       newVersionMinorNumber === currentVersionMinorNumber && newVersionPatchNumber > currentVersionPatchNumber);
+  },
+
+  checkHardUpdateGracePeriod: (updateDate, gracePeriod)  => {
+    let now = moment();
+    let updateTime = moment.unix(updateDate);
+    let difference = moment.duration(now.diff(updateTime)).asSeconds();
+    // Close the application if the user is outside the hard update grace period
+    return difference > gracePeriod;
   }
 }
 

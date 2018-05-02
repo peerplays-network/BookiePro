@@ -52,7 +52,7 @@ export class NotificationItem extends PureComponent{
     if (this.props.isDateVisible) {
       date = (
         <div className='date'>
-          { moment(this.props.date).fromNow() }
+          { moment.unix(this.props.date).fromNow() }
         </div>
       );
     } else {

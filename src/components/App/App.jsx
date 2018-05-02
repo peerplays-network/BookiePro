@@ -26,7 +26,7 @@ const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 // Import electron only if we are running inside electron (otherwise it will throw exception)
 let electron;
 if (isRunningInsideElectron) {
-  electron = require('electron');
+  electron = window.require('electron');
 }
 
 
@@ -58,31 +58,31 @@ class App extends PureComponent {
   }
 
   onConfirmSoftwareUpdate() {
-    if (this.props.isNeedHardUpdate) {
-      // Close the app if it is hard update
-      if (electron) {
-        // Case of electron
-        const electronWindow = electron.remote.getCurrentWindow();
-        electronWindow.close();
+    // Case of electron
+    if (electron) {
+      electron.shell.openExternal(this.props.updateLink);
+      if (this.props.isNeedHardUpdate) {
+      // Close the app if it is hard update              
+        const electronWindow = electron.remote.getCurrentWindow();        
+        if (SoftwareUpdateUtils.checkHardUpdateGracePeriod(this.props.updateDate, this.props.hardUpdateGracePeriod)) electronWindow.close();
       }
     }
     // Hide popup
     this.props.showSoftwareUpdatePopup(false);
-
   }
 
   onCancelSoftwareUpdate() {
-    if (this.props.isNeedHardUpdate) {
+    // Case of electron
+    if (electron) {      
       // Close the app if it is hard update
-      if (electron) {
-        // Case of electron
-        const electronWindow = electron.remote.getCurrentWindow();
-        electronWindow.close();
+      if (this.props.isNeedHardUpdate) {                   
+        const electronWindow = electron.remote.getCurrentWindow();        
+        if (SoftwareUpdateUtils.checkHardUpdateGracePeriod(this.props.updateDate, this.props.hardUpdateGracePeriod)) electronWindow.close();
       }
     }
     // Hide popup
     this.props.showSoftwareUpdatePopup(false);
-  }
+  }  
 
   onConfirmLogout(skipLogoutPopupNextTime) {
     // Logout
@@ -180,6 +180,7 @@ const mapStateToProps = (state) => {
   const softwareUpdate = state.get('softwareUpdate');
   const i18n = state.get('i18n');
   const version = softwareUpdate.get('version');
+  const hardUpdateGracePeriod = softwareUpdate.get('hardUpdateGracePeriod');
   const locale = i18n.get('locale');
   const displayText = I18n.t('softwareUpdate.default');
   const updateLink = softwareUpdate.get('link');
@@ -198,6 +199,7 @@ const mapStateToProps = (state) => {
   return {
     connectToBlockchainLoadingStatus,
     isConnectedToBlockchain,
+    hardUpdateGracePeriod,
     isLoggedIn,
     version,
     displayText,

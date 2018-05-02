@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { PrivateKey, PublicKey } from 'peerplaysjs-lib';
 import { version } from '../../package.json'
+import { ChainConfig } from 'peerplaysjs-ws';
 
 const blockchainUrls = [
   // 'wss://595-dev-blockchain.pixelplex.by/ws',
@@ -15,11 +16,14 @@ const shuffledBlockhainUrls = _.shuffle(blockchainUrls)
 
 const ASSET_ID = '1.3.1'
 
+ChainConfig.setPrefix('PPY');
+
 const Config = {
   version: version,
   oddsPrecision: 10000, // NOTE: I think this should be inside blockchain global objects, but it's not there yet so put it here temporarily
   blockchainUrls: shuffledBlockhainUrls,
   coreAsset: ASSET_ID,
+  hardUpdateGracePeriod: 43200, // 12 Hour Hard-Update Grace Period
   broadcastAccount: {
     name: 'pbsa-broadcasts',
     keys: {
@@ -53,6 +57,5 @@ const Config = {
     deposits: false
   }
 }
-
 
 export default Config

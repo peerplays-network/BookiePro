@@ -109,6 +109,8 @@ class SoftwareUpdateActions {
                   // Show software update popup if needed
                   if (isNeedHardUpdate || isNeedSoftUpdate) {
                     dispatch(AppActions.showSoftwareUpdatePopupAction(true));
+                    dispatch(NotificationActions.addSoftUpdateNotification(version, date, link));
+                    return false;
                   }
                   // Add notification if it is soft update
                   if (isNeedSoftUpdate) {

@@ -7,8 +7,6 @@ import { I18n } from 'react-redux-i18n';
 class SoftwareUpdateModal extends PureComponent {
 
   render() {
-    console.log('---- SoftwareUpdateModal()')
-    console.log(this.props)
     return (
       <Modal
         title={ 'New Version : ' + this.props.version }
@@ -24,7 +22,7 @@ class SoftwareUpdateModal extends PureComponent {
       >
         <p dangerouslySetInnerHTML={ { __html:this.props.modalTitle} } />
         <p>{ I18n.t('notification.version')} : <a target='_blank' href={ this.props.link }>{ this.props.version }</a></p>
-        <p>{ moment(Number.parseInt(this.props.date,10)).fromNow() }</p>
+        <p>{ moment.unix(this.props.date).fromNow() }</p>
       </Modal>
     );
   }
