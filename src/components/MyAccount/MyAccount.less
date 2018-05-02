@@ -27,7 +27,12 @@
     line-height: 30px;
   }
   .bookie-card{
-    height:312px;
+    height:auto;
+  }
+  .card-footer {
+    bottom: auto;
+    padding: 0;
+    position: relative;
   }
   .bookie-table {
     margin-bottom: 20px;
@@ -66,8 +71,14 @@
     }
   }
   .settingComponent{
+    .ant-card-body{
+      padding: 10px 15px 0;
+    }
     .btn{
-      width:100%;
+      width:49%;
+      &:first-of-type{
+        margin-right: 2%;
+      }
     }
     .bookie-select{
       display: block;

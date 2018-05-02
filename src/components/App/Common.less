@@ -136,7 +136,6 @@
 // [myAccount]
 .table-card{
   background-color: @card_bg;
-  box-shadow: @card_shadow;
 }
 
 // Common class for Sports banner background
@@ -371,7 +370,7 @@ input, .ant-input, .ant-calendar-input {
 // Filter Component
 // [myAccount]
 .filterComponent{
-  padding: 0 16px;
+  padding: 0 8px;
   color: @primary_label;
   height:45px;
   line-height: 43px;
@@ -398,6 +397,8 @@ input, .ant-input, .ant-calendar-input {
   }
 
   .btn{
+    height: 30px;
+    line-height: 1;
     width:106px;
     vertical-align: middle;
   }
@@ -814,4 +815,16 @@ input, .ant-input, .ant-calendar-input {
 
 .btn-primary {
   .btn-regular;
+}
+.btn-secondary {
+  .btn-regular;
+  background: @secondary_btn;
+  box-shadow: none;
+  color: @white;
+  &:hover, &:focus{
+    padding:2px;
+    color: @white;
+    background: @secondary_btn_hover;
+    outline:none;
+  }
 }
