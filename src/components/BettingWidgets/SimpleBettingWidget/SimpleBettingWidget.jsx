@@ -40,10 +40,7 @@ const renderEventTime = (text, record) => {
     const eventTime = moment(record.get('time'))
     let dateString = eventTime.format('MMM D');
     let timeString = eventTime.calendar();
-    // TODO: Need a better way as this is NOT going to work once we have localization
-    if (timeString.toLowerCase().includes('today')) {
-      dateString = 'Today';
-    }
+    dateString = timeString.toLowerCase().includes('today') ? 'Today' : dateString;
     return <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>;
   }
 }
