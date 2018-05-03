@@ -215,9 +215,9 @@ const getBetsWithFormattedCurrency = createSelector(
                                       currencyFormat,
                                       BettingModuleUtils.stakePlaces,
                                       betType);
-
-      bet = bet.set('stake', formattedStake);
-      bet = bet.set('profit_liability', formattedProfitLiability);
+      // Check for zero's
+      bet = bet.set('stake', CurrencyUtils.isZero(formattedStake));
+      bet = bet.set('profit_liability', CurrencyUtils.isZero(formattedProfitLiability));
 
       if (bet.get('category') === BetCategories.RESOLVED_BET) {
         formattedAmountWon = CurrencyUtils.getFormattedCurrency(
@@ -226,9 +226,8 @@ const getBetsWithFormattedCurrency = createSelector(
                                               BettingModuleUtils.exposurePlaces,
                                               betType
                                             );
-        bet = bet.set('amount_won', formattedAmountWon);
+          bet = bet.set('amount_won', CurrencyUtils.isZero(formattedAmountWon));
       }
-
       return bet;
     })
 
@@ -268,6 +267,14 @@ const getBetData = createSelector(
         const cancelButton = (cancelLoadingStatus === LoadingStatus.DEFAULT || cancelLoadingStatus === LoadingStatus.ERROR)
                             ? <a className='btn cancel-btn' target='_self'>{ I18n.t('mybets.cancel') }</a> : <Loading/>;
         bet = bet.set('cancel', cancelButton);
+      } else if (bet.get('category') === BetCategories.MATCHED_BET) {
+        let bettingMarketId = bettingMarkets.getIn([bet.get('betting_market_id')])
+
+        if (bettingMarketId){
+          bet = bet.set('group_id', bettingMarkets.getIn([bet.get('betting_market_id')]).get('group_id'))
+        }
+        const linkedEventName = <a target='_self'>{ bet.get('event_name') }</a>;
+        bet = bet.set('event_name', linkedEventName);
       }
       return bet;
     });

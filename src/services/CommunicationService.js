@@ -855,7 +855,23 @@ class CommunicationService {
     }
   }
 
+  /**
+   * Get the transaction free for the provided operation 
+   * 
+   * @static
+   * @param {string} operation ID of the operation
+   * @param {string} asset ID of the asset to describe the fee with
+   * @memberof CommunicationService
+   */
+  static getOperationFee (operation, asset) {
 
+    // Default to PPY.
+    if (!asset) {
+      asset = Config.coreAsset;
+    }
+
+    return this.callBlockchainDbApi('get_required_fees', [[[operation]], asset]);
+  }
 
   //========================================================================
   // FETCH DUMMY OBJECT IMPLEMENTATION  - BEGINNING

@@ -107,7 +107,8 @@ module.exports = {
           /\.(js|jsx)$/,
           /\.css$/,
           /\.json$/,
-          /\.svg$/
+          /\.svg$/,
+          /\.less$/
         ],
         loader: 'url',
         query: {
@@ -120,7 +121,11 @@ module.exports = {
         test: /\.(js|jsx)$/,
         include: paths.appSrc,
         loader: 'babel',
-
+        query: {
+          plugins: [
+            ['import', [{ libraryName: "antd", style: true }]],  // import less
+          ]
+        }
       },
       // The notation here is somewhat confusing.
       // "postcss" loader applies autoprefixer to our CSS.
@@ -136,12 +141,7 @@ module.exports = {
       // in the main CSS file.
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract(
-          'style',
-          'css?importLoaders=1!postcss',
-          extractTextPluginOptions
-        )
-        // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+        loader: 'style!css?importLoaders=1!postcss'
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
@@ -156,7 +156,12 @@ module.exports = {
         query: {
           name: 'static/media/[name].[hash:8].[ext]'
         }
-      }
+      },
+      // Parse less files and modify variables
+      {
+        test: /\.less$/,
+        loader: 'style!css!postcss!less'
+      },
       // ** STOP ** Are you adding a new loader?
       // Remember to add the new extension(s) to the "url" loader exclusion list.
     ]
@@ -222,8 +227,6 @@ module.exports = {
         screw_ie8: true
       }
     }),
-    // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
-    new ExtractTextPlugin(cssFilename),
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.

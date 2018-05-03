@@ -27,8 +27,8 @@ export const translationsObject = {
       peerplays_logo_title: 'Powered by Peerplays'
     },
     initAccountModal: {
-      line_1: 'Setting up your account for the first time... ',
-      line_2: 'This might take few minutes.'
+      line_1: 'Loading your transaction history, ',
+      line_2: 'this may take a moment.'
     },
     titleBar:{
       title: 'BookiePro',
@@ -112,7 +112,7 @@ export const translationsObject = {
       password_warning_1: 'If you lose your password, you will lose all of your funds!',
       password_warning_2: ' Keep your password safe!',
       password_warning_3: ' To download a text file of your password, click the save button below:',
-      loginWithAccount: 'Or log in with your existing Peerlays account',
+      loginWithAccount: 'Or log in with your existing PeerPlays account',
       cannot_recover_password_warning: 'I understand that PBSA <span class="mediumMessageInText">cannot recover my password.</span>',
       securely_saved_password_warning: 'I have securely saved my password recovery file.',
       create_account: 'Create Account',
@@ -150,7 +150,9 @@ export const translationsObject = {
       confirm: 'Confirm',
       back_to_my_account: 'Back to My Account',
       successText: 'Congratulations! You have successfully<br/>' +
-      ' changed your password.'
+      ' changed your password.',
+      change_password_error: 'You do not have the sufficient funds required to change your password. ' + 
+      'Please deposit additional funds and try again.'
     },
     notification: {
       empty: 'No notification',
@@ -247,7 +249,7 @@ export const translationsObject = {
       sat: 'Sat',
       total: 'TOTAL',
       event_time: 'Event Time',
-      resolved_time: 'Resolved Time',
+      resolved_time: 'Settled Time',
       time: 'Time',
       type: 'Type',
       sport: 'Sport',
@@ -264,7 +266,7 @@ export const translationsObject = {
       no_bets: 'No recent bets.',
       unmatched_bets: 'UNMATCHED BETS',
       matched_bets: 'MATCHED BETS',
-      resolved_bets: 'RESOLVED BETS',
+      resolved_bets: 'SETTLED BETS',
       date: 'Date',
       from: 'From',
       to: 'To',
@@ -455,8 +457,8 @@ export const translationsObject = {
       title: 'Rules',
       buttonTitle:'Rules',
       content: '<p>Predict the result of this match including any overtime that may be played. IN THE EVENT OF A TIE ' +
-      'AFTER OVERTIME ALL BETS PLACED ON THIS MARKET WILL BE VOID. At kick off all unmatched bets will be cancelled ' +
-      'and the market turned in-play, whereafter unmatched bets will not be cancelled at any time. It is the' +
+      'AFTER OVERTIME ALL BETS PLACED ON THIS MARKET WILL BE VOID. At kick off all unmatched bets will be canceled ' +
+      'and the market turned in-play, whereafter unmatched bets will not be canceled at any time. It is the' +
       ' users own responsibility to manage their own' +
       ' positions. </p><p>Customers should be aware' +
       ' that: </br> Transmissions described as live by' +
@@ -475,7 +477,7 @@ export const translationsObject = {
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Who will win this match? This market INCLUDES any overtime that may be played. IN THE EVENT OF A TIE AFTER OVERTIME ALL BETS PLACED ON THIS MARKET WILL BE VOID. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
+          'At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised. </p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -489,7 +491,7 @@ export const translationsObject = {
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Which team will win this match with the stated handicap applied? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
+          'At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -503,7 +505,7 @@ export const translationsObject = {
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see BookiePro Rules.</p>' +
           '<p>How many points in total will be scored in this game  - more or less than the stated number? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
+          'At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -521,7 +523,7 @@ export const translationsObject = {
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
+          'At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -535,7 +537,7 @@ export const translationsObject = {
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Which team will win this match with the stated handicap applied? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
+          'At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -549,7 +551,7 @@ export const translationsObject = {
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see BookiePro Rules.</p>' +
           '<p>How many points in total will be scored in this game - more or less than the stated number? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
+          'At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -568,7 +570,7 @@ export const translationsObject = {
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          'At the start of play all unmatched bets will be canceled and the market turned in-play</p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -583,7 +585,7 @@ export const translationsObject = {
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          'At the start of play all unmatched bets will be canceled and the market turned in-play</p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -598,7 +600,7 @@ export const translationsObject = {
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          'At the start of play all unmatched bets will be canceled and the market turned in-play</p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -617,7 +619,7 @@ export const translationsObject = {
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          'At the start of play all unmatched bets will be canceled and the market turned in-play</p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -632,7 +634,7 @@ export const translationsObject = {
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
-          'At the start of play all unmatched bets will be cancelled and the market turned in-play</p>' +
+          'At the start of play all unmatched bets will be canceled and the market turned in-play</p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -647,7 +649,7 @@ export const translationsObject = {
           '<p>For further information please see BookiePro Rules.</p>' +
           '<p>How many goals in total will be scored in this match - more or less than the stated number? ' +
           'All bets apply to Full Time according to the match officials, plus any stoppage time. ' +
-          'Extra-time/penalty shoot-outs are not included. At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
+          'Extra-time/penalty shoot-outs are not included. At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -661,7 +663,7 @@ export const translationsObject = {
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Predict the result of this match. All bets apply to Full Time according to the match officials, plus any stoppage time. ' +
-          'Extra-time/penalty shoot-outs are not included. At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
+          'Extra-time/penalty shoot-outs are not included. At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -675,7 +677,7 @@ export const translationsObject = {
           '<p>MARKET INFORMATION</p>' +
           '<p>For further information please see BookiePro Rules.</p>' +
           '<p>Predict the score of this match. All bets apply to Full Time according to the match officials, plus any stoppage time. ' +
-          'Extra-time/penalty shoot-outs are not included. At the start of play all unmatched bets will be cancelled and the market turned in-play. </p>' +
+          'Extra-time/penalty shoot-outs are not included. At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
           '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
@@ -791,7 +793,7 @@ export const translationsObject = {
       makeBet: 'Make Bet',
       cancelBet: 'Cancel Bet',
       betMatched: 'Bet Matched',
-      betCancelled: 'Bet Cancelled',
+      betCancelled: 'Bet Canceled',
       bettingMarketResolved: 'Betting Market Resolved',
     },
     help: {
@@ -1033,9 +1035,9 @@ export const translationsObject = {
           {
             question: 'What is a ‘matched’ or ‘unmatched’ bet?',
             answer: 'Once a bet is taken by someone on the opposing side, it is matched and ' +
-            'cannot be cancelled or changed. The bet is active and must wait until the event ' +
+            'cannot be canceled or changed. The bet is active and must wait until the event ' +
             'is finished and the results are determined.\n\nUnmatched bets have not been taken ' +
-            'by someone on the opposing side. Unmatched bets can be cancelled or changed until ' +
+            'by someone on the opposing side. Unmatched bets can be canceled or changed until ' +
             'they are matched.'
           },
           {
@@ -1080,7 +1082,7 @@ export const translationsObject = {
           /*{
             question: 'What is Live betting?',
             answer: 'Live betting is when you bet during the actual event/match/game. Bookie offers Live betting on many different Events. All bets placed ' +
-            'before a match goes live (turned In-Play XXXX terminology….) will be cancelled when the market goes in-play.'
+            'before a match goes live (turned In-Play XXXX terminology….) will be canceled when the market goes in-play.'
           },*/
           /*{
             question: 'Why is there a delay in submitting a new or edited bet in Live betting?',

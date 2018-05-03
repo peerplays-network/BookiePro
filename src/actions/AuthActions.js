@@ -9,7 +9,9 @@ import AppActions from './AppActions';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
 import log from 'loglevel';
-import { TransactionBuilder } from 'peerplaysjs-lib';
+import { TransactionBuilder, ChainTypes } from 'peerplaysjs-lib';
+
+const ACCOUNT_UPDATE = `${ChainTypes.reserved_spaces.protocol_ids}.${ChainTypes.operations.account_update}`;
 
 /**
  * Private actions
@@ -176,7 +178,7 @@ class AuthActions {
     }
   }
 
-  static signup(accountName, password) {
+  static signup(accountName, password, depositsEnabled) {
     return (dispatch) => {
 
       // Set register status to loading
@@ -196,7 +198,11 @@ class AuthActions {
       }).then(() => {
         log.debug('Signup succeed.');
         // Navigate to home page
-        dispatch(NavigateActions.navigateTo('/deposit'));
+        if (depositsEnabled) {
+          dispatch(NavigateActions.navigateTo('/deposit'));
+        } else {
+          dispatch(NavigateActions.navigateTo('/welcome'));
+        }
         // Set register status to done
         dispatch(AuthPrivateActions.setSignupLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
@@ -251,9 +257,29 @@ class AuthActions {
         //To display the success message
         dispatch(AuthPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
-        log.error('Change Password error', error);
-        //Set password change error
-        dispatch(AuthPrivateActions.setChangePasswordErrorsAction([error.message ? error.message : 'Error Occured']));
+        
+        // Get the available balance for the core asset. Default to 0 if the balance is undefined.
+        const balance = getState().getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']) || 0;
+
+        // Check the balance to determine if that was the error
+        return CommunicationService.getOperationFee(ACCOUNT_UPDATE, Config.coreAsset)
+          .then((fees) => {
+            
+            // Grab the amount for the account update operation
+            const fee = fees.get(0).get('amount');
+
+            // Update the error message if we can validate that its insufficient funds.
+            if (balance < fee) {
+              error.message = I18n.t('changePassword.change_password_error');
+            } else {
+              // Only log the error when its not one that specifically handle.
+              log.error('Change Password error', error);
+            }
+
+            //Set password change error
+            dispatch(AuthPrivateActions.setChangePasswordErrorsAction([error.message ? error.message : 'Error Occured']));
+          });
+        
       });
     };
   }

@@ -9,7 +9,6 @@
     width:400px;
     max-height:400px;
     background-color: @topbar_dropdown_card;
-
     .notification-item {
       display: flex;
       min-height: 80px;
@@ -20,6 +19,13 @@
 
       &:hover {
         background-color: @secondary_label;
+      }
+
+      &.disabled {
+        cursor: default;
+        &:hover{
+          background-color: @topbar_dropdown_card;
+        }
       }
 
       .content {

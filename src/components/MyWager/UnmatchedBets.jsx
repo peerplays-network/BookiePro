@@ -46,8 +46,7 @@ class UnmatchedBets extends PureComponent {
       })
     }
     if (this.props.currencyFormat !== nextProps.currencyFormat ||
-        this.props.onCancelBetClick !== nextProps.onCancelBetClick ||
-        this.props.onEventClick !== nextProps.onEventClick) {
+        this.props.onCancelBetClick !== nextProps.onCancelBetClick) {
       this.setState({
         columns: MyWagerUtils.getUnmatchedBetsColumns(nextProps.currencyFormat, nextProps.onCancelBetClick, nextProps.onEventClick)
       })
