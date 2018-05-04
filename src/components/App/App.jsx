@@ -26,7 +26,7 @@ const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 // Import electron only if we are running inside electron (otherwise it will throw exception)
 let electron;
 if (isRunningInsideElectron) {
-  electron = require('electron');
+  electron = window.require('electron');
 }
 
 
