@@ -6,8 +6,9 @@
   "scripts": {
     "start": "electron .",
     "clean": "rm -rf build && rm -rf dist",
-    "copy:contents": "mkdir build && cp -r contents/build/* build/",
-    "copy:app": "cp app/electron.js build/",
+    "make-build": "mkdir -p build",
+    "copy:contents": "npm run make-build && cp -R contents/build/* build/",
+    "copy:app": "npm run make-build && cp app/electron.js build/",
     "compile": "npm run clean && npm run copy:contents && npm run copy:app",
     "dist": "npm run compile && electron-builder -wml",
     "live": "npm run copy:app && ELECTRON_IS_DEV=1 electron .",
