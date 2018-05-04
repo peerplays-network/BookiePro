@@ -68,17 +68,23 @@
       line-height: 30px;
     }
     .ant-tabs-nav .ant-tabs-tab-active{
-      color: @mybets_tabs_selected;
+      background: @black_pearl;
+      color: @dark_tangerine;
       font-weight:700;
     }
     .ant-tabs-tab{
-      color: @mybets_tabs_label;
+      background-color: @black_pearl_mid;
+      border-right: 1px solid @midnight;
+      color: @white;
       font-size: 16px;
       width: 100%;
       margin-right:0;
-      padding: 0 30px 10px;
+      padding: 10px 30px;
       text-align: center;
       text-transform: uppercase;
+      &:last-of-type{
+        border-right-width: 0;
+      }
     }
     .ant-tabs-bar{
       border-bottom-color:@mybets_tabs_border_bottom;
@@ -91,8 +97,7 @@
       align-items:center;
     }
     .ant-tabs-ink-bar{
-      background: @mybets_tabs_border_bottom_selected;
-      box-shadow: @mybets_tabs_selected_shadow;
+      background: @white;
     }
   }
   .btn{
@@ -105,7 +110,9 @@
     }
   }
   .filterComponent{
+    padding-right: 8px;
     .btn{
+      height: 30px;
       width:130px;
     }
   }
