@@ -96,7 +96,6 @@ const getEventTime = createSelector(
     const eventTime = (event && new Date(event.get('start_time'))) || new Date();
     
     return DateUtils.getLocalDate(eventTime);    
-    //return eventTime;
   }
 )
 
