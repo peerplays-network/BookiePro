@@ -2,7 +2,7 @@
   "name": "bookie",
   "author": "Peerplays Blockchain Standards Association",
   "description": "Electron app powered by CRA",
-  "version": "0.27.1",
+  "version": "0.27.2",
   "private": true,
   "homepage": "./",
   "devDependencies": {
