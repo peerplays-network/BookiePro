@@ -93,7 +93,7 @@ const getEventName = createSelector(
 const getEventTime = createSelector(
   getEvent,
   (event) => {
-    const eventTime = (event && event.get('start_time')) || new Date();
+    const eventTime = (event && new Date(event.get('start_time'))) || new Date();
     return eventTime;
   }
 )
