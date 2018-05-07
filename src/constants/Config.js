@@ -3,7 +3,7 @@ import { PrivateKey } from 'peerplaysjs-lib';
 import { version } from '../../package.json'
 
 const blockchainUrls = [
-  'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090' 
+  'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090'  
 ]
 
 // Shuffle list of blockchain nodes
@@ -33,7 +33,11 @@ const Config = {
       memo: PrivateKey.fromWif('5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3')
     },
   },
-  dummyDataAccountId: '1.2.243' // TODO: remove this
+  dummyDataAccountId: '1.2.243', // TODO: remove this
+  features: {
+    withdrawels: false,
+    deposits: false
+  }
 }
 
 

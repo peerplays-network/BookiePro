@@ -12,7 +12,7 @@ import { NavigateActions, AuthActions, AppActions } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { I18n }  from 'react-redux-i18n';
-import { AppBackgroundTypes } from '../../constants';
+import { AppBackgroundTypes, Config } from '../../constants';
 import FloatingHelp from '../FloatingHelp';
 
 class Signup extends PureComponent {
@@ -44,7 +44,7 @@ class Signup extends PureComponent {
    * @param {object} values - data obtained from the {@link SignupForm}
    */
   handleSubmit(values) {
-    this.props.signup(values.get('accountName'), values.get('password'));
+    this.props.signup(values.get('accountName'), values.get('password'), this.props.depositsEnabled);
   }
 
   render() {
@@ -71,10 +71,16 @@ class Signup extends PureComponent {
   }
 }
 
+Signup.defaultProps = {
+  depositsEnabled: Config.features.deposits,
+};
+
 const mapStateToProps = (state) => {
   return {
     errors: state.getIn(['auth','signupErrors']),
-    status: state.getIn(['auth','signupLoadingStatus'])
+    status: state.getIn(['auth','signupLoadingStatus']),
+    // Manual Feature Overrides
+    /*depositsEnabled: true*/
   }
 }
 const mapDispatchToProps = (dispatch) => {

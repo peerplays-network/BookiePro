@@ -10,9 +10,18 @@ import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
 import log from 'loglevel';
 import { TransactionBuilder, ChainTypes } from 'peerplaysjs-lib';
+import Immutable from 'immutable';
 
 const ACCOUNT_UPDATE = `${ChainTypes.reserved_spaces.protocol_ids}.${ChainTypes.operations.account_update}`;
 
+let initialState = Immutable.fromJS({
+  isLoggedIn: false,
+  account: {},
+  password: null,
+  privateKeyWifsByRole: {},
+  publicKeyStringsByRole: {},
+  statistics: {},
+});
 /**
  * Private actions
  */
@@ -25,7 +34,8 @@ class AuthPrivateActions {
   static logoutAction(accountId) {
     return {
       type: ActionTypes.AUTH_LOGOUT,
-      accountId
+      accountId,
+      initialState
     }
   }
 
@@ -178,7 +188,7 @@ class AuthActions {
     }
   }
 
-  static signup(accountName, password) {
+  static signup(accountName, password, depositsEnabled) {
     return (dispatch) => {
 
       // Set register status to loading
@@ -198,7 +208,11 @@ class AuthActions {
       }).then(() => {
         log.debug('Signup succeed.');
         // Navigate to home page
-        dispatch(NavigateActions.navigateTo('/deposit'));
+        if (depositsEnabled) {
+          dispatch(NavigateActions.navigateTo('/deposit'));
+        } else {
+          dispatch(NavigateActions.navigateTo('/welcome'));
+        }
         // Set register status to done
         dispatch(AuthPrivateActions.setSignupLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {

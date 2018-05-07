@@ -42,8 +42,8 @@ const renderEventTime = (text, record) => {
     //Check if event is running today.
     let timeString = eventTime.calendar();
     dateString = timeString.toLowerCase().includes('today') ? 'Today' : dateString;
-    
-    return <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>  
+
+    return <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>;
   }
 }
 

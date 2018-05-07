@@ -25,8 +25,6 @@ const DateUtils = {
     }
   },
 
-
-
   /*
    * takes a unix time and returns the month and day MMM D
    *  if date === today, then returns "today"
