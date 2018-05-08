@@ -140,44 +140,55 @@ const getWidgetTitle = createSelector([
   return (bettingMarketGroup && bettingMarketGroup.get('description')) || '';
 })
 
-const disabledStatus = (bmgStatus, bmStatus, eStatus) => {
-  var results = [
-    false,
-    eStatus,
-    bmgStatus,
-    bmStatus,
-    -1
-  ]
-  if(eStatus === 'frozen' || eStatus === 'finished' || eStatus === 'settled'){
-    results = [
-      true,
-      eStatus,
-      bmgStatus,
-      bmStatus,
-      1 // used to identify which status enumerator passed the conditional
-    ]
-  }
-  if(bmgStatus === 'frozen' || bmgStatus === 'graded' || bmgStatus === 're_grading' || bmgStatus === 'settled' || bmgStatus === 'closed'){
-    results = [
-      true,
-      eStatus,
-      bmgStatus,
-      bmStatus,
-      2 // used to identify which status enumerator passed the conditional
-    ]
-  }
-  if(bmStatus[1] === 'win' || bmStatus[1] === 'not_win' || bmStatus[1] === 'frozen'){
-    results = [
-      true,
-      eStatus,
-      bmgStatus,
-      bmStatus,
-      3 // used to identify which status enumerator passed the conditional
-    ]
-  }
-  return results;
-}
+const disabledStatus = (bettingMarketGroupStatus, bettingMarketStatus, eventStatus) => {
+  let results = {
+    disabled: false,
+    eventStatus,
+    bettingMarketGroupStatus,
+    bettingMarketStatus,
+    statusEnumerator: -1
+  };
 
+  // Check to see if the BMG passed the conditional
+  switch (eventStatus) {
+    case 'frozen':
+    case 'finished':
+    case 'settled':
+      results.statusEnumerator = 1;
+      break;
+    default:
+      break;
+  }
+
+  switch (bettingMarketGroupStatus) {
+    case 'frozen':
+    case 'graded':
+    case 're_grading':
+    case 'settled':
+    case 'closed':
+      results.statusEnumerator = 2;
+      break;
+    default:
+      break;
+  }
+
+  switch (bettingMarketStatus) {
+    case 'win':
+    case 'not_win':
+    case 'frozen':
+      results.statusEnumerator = 3;
+      break;
+    default:
+      break;
+  }
+
+  // If we've matched a case set the disabled flag.
+  if (results.statusEnumerator > 0) {
+    results.disabled = true;
+  }
+
+  return Object.values(results);
+}
 
 const getMarketData = createSelector(
   [

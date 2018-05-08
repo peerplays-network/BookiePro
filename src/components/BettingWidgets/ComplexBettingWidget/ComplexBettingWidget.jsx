@@ -316,7 +316,7 @@ class ComplexBettingWidget extends PureComponent {
 
         return (
           <div className='competitor'>
-            { this.state.winOrLose ? <div className='complex-outcome'>{ this.displayStatus(props.value.bmStatus, 'compelx-outcome') }</div> : null }
+            { this.state.winOrLose ? <div className='complex-outcome'>{ this.displayStatus(props.value.bmStatus, 'complex-outcome') }</div> : null }
             <div className='name'>{props.value.displayedName} 
               { this.state.winOrLose ? null : this.displayStatus(props.value.bmStatus, 'indicator') }
             </div>
