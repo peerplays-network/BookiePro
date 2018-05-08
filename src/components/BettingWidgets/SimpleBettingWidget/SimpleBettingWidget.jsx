@@ -45,8 +45,7 @@ const renderEventTime = (text, record) => {
     let dateString = eventTime.format('MMM D');
     //Check if event is running today.
     let timeString = eventTime.calendar();
-    dateString = timeString.toLowerCase().includes('today') ? 'Today' : dateString;
-        
+    dateString = timeString.toLowerCase().includes('today') ? 'Today' : dateString;       
     return (
       <div>
         <div className='simple-outcome'>{ I18n.t('object_status_enumerator.' + record.get('eventStatus')) }</div>

@@ -1,6 +1,7 @@
 import CommonSelector from './CommonSelector';
 import { createSelector } from 'reselect';
 import Immutable from 'immutable';
+import { DateUtils } from '../utility';
 
 const {
   getBettingMarketsById,
@@ -92,7 +93,7 @@ const getAllSportsData = createSelector(
         return Immutable.fromJS({
           event_id: event.get('id'),
           event_name: event.get('name'),
-          time: event.get('start_time'),
+          time: DateUtils.getLocalDate(event.get('start_time')),
           isLiveMarket: event.get('is_live_market'),
           eventStatus: event.get('status').toLowerCase(),
           offers,
