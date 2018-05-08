@@ -136,7 +136,6 @@
 // [myAccount]
 .table-card{
   background-color: @card_bg;
-  box-shadow: @card_shadow;
 }
 
 // Common class for Sports banner background
@@ -210,7 +209,6 @@
 
 input, .ant-input, .ant-calendar-input {
   border: 1px solid @field_border;
-  box-shadow: 0 2px 4px 0 @field_shadow;
   border-radius: 1.5px;
   height: 36px;
   line-height: 36px;
@@ -263,7 +261,6 @@ input, .ant-input, .ant-calendar-input {
 .bookie-card{
   //TODO: Will remove !important after fixing change password fixes
   background: @card_bg;
-  box-shadow: @card_shadow !important;
   border-radius:0;
   border:0 none;
   font-size:14px;
@@ -275,7 +272,7 @@ input, .ant-input, .ant-calendar-input {
   }
   .ant-card-head{
     padding:0 15px;
-    border-bottom-color: @card_header_border;
+    border-bottom-color: @black_pearl_mid;
     background: transparent;
   }
   .ant-card-head-title{
@@ -283,9 +280,6 @@ input, .ant-input, .ant-calendar-input {
     color: @primary_label;
     font-weight:700 !important;
     text-transform: uppercase;
-  }
-  &:hover{
-    box-shadow: @card_shadow;
   }
 }
 
@@ -376,7 +370,7 @@ input, .ant-input, .ant-calendar-input {
 // Filter Component
 // [myAccount]
 .filterComponent{
-  padding: 0 16px;
+  padding: 0 8px;
   color: @primary_label;
   height:45px;
   line-height: 43px;
@@ -403,6 +397,8 @@ input, .ant-input, .ant-calendar-input {
   }
 
   .btn{
+    height: 30px;
+    line-height: 1;
     width:106px;
     vertical-align: middle;
   }
@@ -434,19 +430,20 @@ input, .ant-input, .ant-calendar-input {
   }
   .ant-select-selection--single{
     height:30px;
-    border-radius: 1.5px;
+    border-radius: 0;
     border: 0 none;
-    box-shadow: 0 2px 4px 0 @field_shadow;
+    box-shadow: none;
   }
 }
 .ant-select-dropdown{
-  border-radius: 1.5px;
-  box-shadow: 0 0 0 1px @dropdown_shadow;
+  border-radius: 0;
+  box-shadow: none;
   .ant-select-dropdown-menu-item-selected{
     background-color: @dropdown_selected;
   }
   .ant-select-dropdown-menu-item{
-    color: @field;
+    background: @midnight;
+    color: @white;
     font-size:16px;
     padding:8px 0;
     text-align: center;
@@ -818,4 +815,16 @@ input, .ant-input, .ant-calendar-input {
 
 .btn-primary {
   .btn-regular;
+}
+.btn-secondary {
+  .btn-regular;
+  background: @secondary_btn;
+  box-shadow: none;
+  color: @white;
+  &:hover, &:focus{
+    padding:2px;
+    color: @white;
+    background: @secondary_btn_hover;
+    outline:none;
+  }
 }
