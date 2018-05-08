@@ -64,7 +64,9 @@ class App extends PureComponent {
       if (this.props.isNeedHardUpdate) {
       // Close the app if it is hard update              
         const electronWindow = electron.remote.getCurrentWindow();        
-        if (SoftwareUpdateUtils.checkHardUpdateGracePeriod(this.props.updateDate, this.props.hardUpdateGracePeriod)) electronWindow.close();
+        if (SoftwareUpdateUtils.checkHardUpdateGracePeriod(this.props.updateDate, this.props.hardUpdateGracePeriod)) {
+          electronWindow.close();
+        }
       }
     }
     // Hide popup
@@ -77,7 +79,9 @@ class App extends PureComponent {
       // Close the app if it is hard update
       if (this.props.isNeedHardUpdate) {                   
         const electronWindow = electron.remote.getCurrentWindow();        
-        if (SoftwareUpdateUtils.checkHardUpdateGracePeriod(this.props.updateDate, this.props.hardUpdateGracePeriod)) electronWindow.close();
+        if (SoftwareUpdateUtils.checkHardUpdateGracePeriod(this.props.updateDate, this.props.hardUpdateGracePeriod)) {
+          electronWindow.close();
+        }
       }
     }
     // Hide popup
