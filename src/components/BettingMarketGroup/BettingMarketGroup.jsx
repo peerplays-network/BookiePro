@@ -25,7 +25,7 @@ class BettingMarketGroup extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps){
-    if (!nextProps.bettingMarketGroup || nextProps.bettingMarketGroup.isEmpty()) {
+    if (!nextProps.bettingMarketGroup || nextProps.bettingMarketGroup.isEmpty() || nextProps.eventStatus === "null") {
       // Betting market group doesn't exist,
       // Go back to home page
       this.props.navigateTo('/exchange');

@@ -164,7 +164,11 @@ const determineStatusResult = (enumStatus) => {
 }
 
 const eventStatus = (event) => {
-  return determineStatusResult(event.get('status'));  
+  if(event){
+    return determineStatusResult(event.get('status'));  
+  } else {
+    return "null";
+  }
 }
 const bettingMarketStatus = (bettingMarket) => {
   return determineStatusResult(bettingMarket);
