@@ -27,8 +27,8 @@ export const translationsObject = {
       peerplays_logo_title: 'Powered by Peerplays'
     },
     initAccountModal: {
-      line_1: 'Setting up your account for the first time... ',
-      line_2: 'This might take few minutes.'
+      line_1: 'Loading your transaction history, ',
+      line_2: 'this may take a moment.'
     },
     titleBar:{
       title: 'BookiePro',

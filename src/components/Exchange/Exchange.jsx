@@ -105,7 +105,7 @@ class Exchange extends PureComponent {
       nextLocation: nextLocation
     })
 
-    if (!this.state.confirmToLeave && this.props.hasUnplacedBets){
+    if (!this.props.isShowLogoutPopup && !this.state.confirmToLeave && this.props.hasUnplacedBets){
       this.setModalVisible(true);
       return false;
     } else {
@@ -117,11 +117,9 @@ class Exchange extends PureComponent {
 
       return true;
     }
-
   }
 
   render() {
-
     const sidebarWidth = 220;
     const betslipWidth = 360;
 
@@ -182,7 +180,8 @@ class Exchange extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-
+  const app = state.get('app');  
+  const isShowLogoutPopup = app.get('isShowLogoutPopup');  
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting'])
@@ -197,7 +196,8 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     hasUnplacedBets: !state.getIn(path).isEmpty(),
-    currencyFormat
+    currencyFormat,
+    isShowLogoutPopup
   };
 }
 

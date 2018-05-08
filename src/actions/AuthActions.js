@@ -11,9 +11,18 @@ import _ from 'lodash';
 import log from 'loglevel';
 import { TransactionBuilder, ChainTypes } from 'peerplaysjs-lib';
 import { SoftwareUpdateActions } from '.';
+import Immutable from 'immutable';
 
 const ACCOUNT_UPDATE = `${ChainTypes.reserved_spaces.protocol_ids}.${ChainTypes.operations.account_update}`;
 
+let initialState = Immutable.fromJS({
+  isLoggedIn: false,
+  account: {},
+  password: null,
+  privateKeyWifsByRole: {},
+  publicKeyStringsByRole: {},
+  statistics: {},
+});
 /**
  * Private actions
  */
@@ -26,7 +35,8 @@ class AuthPrivateActions {
   static logoutAction(accountId) {
     return {
       type: ActionTypes.AUTH_LOGOUT,
-      accountId
+      accountId,
+      initialState
     }
   }
 

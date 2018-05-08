@@ -94,7 +94,7 @@ var BettingModuleUtils = {
       return;
     }
 
-    return CurrencyUtils.getFormattedCurrency( floatStake * ( floatOdds - 1 ) , currency, exposurePlaces);
+    return CurrencyUtils.getFormattedCurrency( floatStake * ( floatOdds - 1 ).toFixed(exposurePlaces) , currency, exposurePlaces);
 
   },
 

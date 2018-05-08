@@ -4,10 +4,7 @@ import { ChainConfig } from 'peerplaysjs-ws';
 import { version } from '../../package.json'
 
 const blockchainUrls = [
-  // 'wss://595-dev-blockchain.pixelplex.by/ws',
-  //'wss://peerplays-dev.blocktrades.info/',  
   'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090'
-// 'wss://api.ppytest.blckchnd.com'
 ]
 
 // Shuffle list of blockchain nodes

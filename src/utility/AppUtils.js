@@ -13,7 +13,7 @@ const AppUtils = {
   },
   // Check if the app is running inside electron
   isRunningInsideElectron() {
-    return window && window.process && window.process.type === 'renderer'
+    return window && window.process && window.process.type === 'renderer';
   }
 }
 
