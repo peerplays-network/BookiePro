@@ -57,21 +57,21 @@ const renderEventTime = (text, record) => {
 }
 
 const renderClass = (record, action) => {
-  let cn;
+  let className;
   let eventStatus = record.get('eventStatus');
   var validToChange;
   if(eventStatus !== 'settled' && eventStatus !== 'graded' && eventStatus !== 'finished' && eventStatus !== 'frozen'){
     validToChange = true;
   }
   if(action === 'back'){
-    cn = 'back-offer';
+    className = 'back-offer';
   } else {
-    cn = 'lay-offer';
+    className = 'lay-offer';
   } 
   if(validToChange){
-    cn += '-disabled';
+    className += '-disabled';
   }
-  return cn;
+  return className;
 }
 
 const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsFormat) =>  {
