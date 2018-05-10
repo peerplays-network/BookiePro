@@ -36,7 +36,8 @@ const Config = {
   dummyDataAccountId: '1.2.243', // TODO: remove this
   features: {
     withdrawels: false,
-    deposits: false
+    deposits: false,
+    moneylineFilter: false
   }
 }
 

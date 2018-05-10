@@ -2,6 +2,7 @@ import CommonSelector from './CommonSelector';
 import { createSelector } from 'reselect';
 import Immutable from 'immutable';
 import { DateUtils } from '../utility';
+import { Config } from '../constants';
 
 const {
   getBettingMarketsById,
@@ -99,7 +100,9 @@ const getAllSportsData = createSelector(
           moneyline: moneylineBettingMarketGroupId,
         });
       }).filter( eventNode => {
-        return eventNode.get('moneyline') !== undefined
+        // Feature check, is Moneyline filter enabled/disabled?        
+        let filt = Config.features.moneylineFilter;
+        return filt ? eventNode.get('moneyline') !== undefined : eventNode;
       });
 
       // Set events to the sport
