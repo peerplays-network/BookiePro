@@ -152,11 +152,7 @@ const disabledStatus = (bettingMarketGroupStatus, bettingMarketStatus, eventStat
   // Check to see if the BMG passed the conditional
   switch (eventStatus) {
     case 'frozen':
-      results.statusEnumerator = 1;
-      break;
     case 'finished':
-      results.statusEnumerator = 1;
-      break;
     case 'settled':
       results.statusEnumerator = 1;
       break;
@@ -166,17 +162,9 @@ const disabledStatus = (bettingMarketGroupStatus, bettingMarketStatus, eventStat
 
   switch (bettingMarketGroupStatus) {
     case 'frozen':
-      results.statusEnumerator = 2;
-      break;
     case 'graded':
-      results.statusEnumerator = 2;
-      break;
     case 're_grading':
-      results.statusEnumerator = 2;
-      break;
     case 'settled':
-      results.statusEnumerator = 2;
-      break;
     case 'closed':
       results.statusEnumerator = 2;
       break;
@@ -186,11 +174,7 @@ const disabledStatus = (bettingMarketGroupStatus, bettingMarketStatus, eventStat
 
   switch (bettingMarketStatus[1]) {
     case 'win':
-      results.statusEnumerator = 3;
-      break;
     case 'not_win':
-      results.statusEnumerator = 3;
-      break;
     case 'frozen':
       results.statusEnumerator = 3;
       break;
