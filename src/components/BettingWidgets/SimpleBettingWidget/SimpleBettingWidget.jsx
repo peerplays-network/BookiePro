@@ -57,8 +57,9 @@ const renderEventTime = (text, record) => {
 
 const renderClass = (record, action) => {
   let cn;
+  let rcd = record.get('eventStatus');
   var validToChange;
-  if(record.get('eventStatus') !== 'settled' && record.get('eventStatus') !== 'graded' && record.get('eventStatus') !== 'finished' && record.get('eventStatus') !== 'frozen'){
+  if(rcd !== 'settled' && rcd !== 'graded' && rcd !== 'finished' && rcd !== 'frozen'){
     validToChange = true;
   }
   if(action === 'back'){
@@ -218,8 +219,9 @@ class SimpleBettingWidget extends PureComponent {
     return (text, record) => {
       // Retrieve the nested offers data from the data record
       let offers = record.get('offers');
+      let rcd = record.get('eventStatus'); 
       var canBet, cn;
-      if (record.get('eventStatus') !== 'settled' && record.get('eventStatus') !== 'graded' && record.get('eventStatus') !== 'finished' && record.get('eventStatus') !== 'frozen'){
+      if (rcd !== 'settled' && rcd !== 'graded' && rcd !== 'finished' && rcd !== 'frozen'){
         canBet = true;
         if(typeOfBet === 'back'){
           cn = 'back-offer';
@@ -302,8 +304,11 @@ class SimpleBettingWidget extends PureComponent {
           locale={ {emptyText: I18n.t('simple_betting_widget.no_data')} }
           rowKey={ (record) => record.get('key') }
           rowClassName={ (record, index) => { 
-            if(record.get('eventStatus') === 'settled' || record.get('eventStatus') === 'graded' || record.get('eventStatus') === 'finished' || record.get('eventStatus') === 'frozen'){
+            let rcd = record.get('eventStatus');
+            if(rcd === 'settled' || rcd === 'graded' || rcd === 'finished' || rcd === 'frozen'){
               return 'simple-betting-disabled';
+            } else {
+              return null;
             }
           } }
         />
