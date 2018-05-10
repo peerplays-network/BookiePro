@@ -118,7 +118,7 @@ export const translationsObject = {
       create_account: 'Create Account',
       already_account: 'Already have an account?',
       log_in: 'Log In',
-      premium_acc_text: 'This is a premium name. Please enter a regular name containing least one dash, a number or no vowels.',
+      premium_acc_text: 'This is a premium name. Please enter a regular name containing at least one dash, a number or no vowels.',
       password_no_match: 'The password you entered does not match',
       repeat_password: 'Repeat your Password',
       field_req: 'Field is required',
@@ -131,7 +131,7 @@ export const translationsObject = {
       signup: 'SIGN UP',
       username_notfound: 'Account Name not found',
       password_short: 'password too short',
-      wrong_username_password: 'wrong Account Name or password'
+      wrong_username_password: 'Wrong account name or password'
     },
     changePassword:{
       title: 'Change Your Password',
