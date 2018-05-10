@@ -34,7 +34,8 @@ const offerColumnWidth = 70;
 
 const renderEventTime = (text, record) => {
   var isLiveMarket;
-  if (record.get('eventStatus') === 'upcoming' || record.get('eventStatus') === 'in_progress'){
+  let rcd = record.get('eventStatus');
+  if (rcd === 'upcoming' || rcd === 'in_progress'){
     isLiveMarket = true;
   }
 
