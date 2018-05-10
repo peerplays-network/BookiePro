@@ -1,15 +1,5 @@
 @import '../../App/Colors.less';
 
-.rt-table > .-header{
-  padding: 0;
-  height: 0;
-}
-.offer-header.lay{
-  float: left;
-}
-.offer-header.back{
-  float: right;
-}
 div.complex-betting {
   // Using fade (from LESS) can set opacity to background only
   // If we set opacity explicitly, it will affect the text (foreground) too
@@ -102,27 +92,27 @@ div.complex-betting {
     }
 
   }
-  .ReactTable{
+  .ReactTable {
     border:0 none;
-    .rt-tbody{
+    box-shadow: none;
+    
+    .rt-tbody {
       background-color: @black_pearl_dark;
-      padding-bottom: 20px;
+      margin-bottom: 20px;
     }
-    .rt-td{
+
+    .rt-td {
       height: 42px;
       padding:0;
       border-right:0 none;
-      .back-offer, .lay-offer {
-        display: flex;
-        height:100%;
+      font-weight: bold;
 
+      .back-offer, .lay-offer {
+        height:100%;
+        cursor: pointer;
+        display: flex;
         flex-direction: column;
         justify-content: center;
-        cursor: pointer;
-      }
-
-      .back-offer {
-        align-items: flex-end;
       }
 
       .back-offer.empty-offer{
@@ -219,12 +209,12 @@ div.complex-betting {
         }
       }
       .odds {
-        font-size: 16px;
+        font-size: 15px;
         text-align: center;
-        padding-top:3px;
+        padding-top: 3px;
       }
       .price {
-        font-size: 12px;
+        font-size: 9px;
         text-align: center;
         padding-bottom:3px;
       }
@@ -236,19 +226,26 @@ div.complex-betting {
       }
       &.lay-arrows-col {
         padding: 0 5px;
-        min-width: 25px !important;
       }
       &.back-arrows-col {
         padding:0 5px 0 2px;
       }
     }
-    .rt-tr-group{
+
+    .rt-tr-group {
       border-top:1px solid @domino;
-      &:last-child{
-        border-bottom:1px solid @domino;
+      border-bottom:1px solid @domino;
+
+      &:first-child {
+        border-top: 2px solid @domino;
       }
+
+      &:last-child {
+        border-bottom:2px solid @domino;
+      }
+
       .back, .lay, .back-arrows-col {
-        border-right:1px solid @domino;
+        border-right:2px solid @domino;
       }
       .rt-td{
         &:first-child{
@@ -256,59 +253,49 @@ div.complex-betting {
         }
       }
     }
-    .rt-th{
+
+    .rt-th {
       font-weight:500;
       padding:0;
       border-right:none;
-      #back, #lay {
+
+      &.rt-resizable-header {
+        box-shadow: none;
+      }
+
+      .back-all-offer,
+      .lay-all-offer {
         cursor: pointer;
+        color: @black;
+        border-top: 2px solid @domino;
+        border-right: 2px solid @domino;
+        font-size: 12px;
       }
-      #lay {
-        padding: 4px 7px;
-      }
-      .alignleft {
-        float: left;
-      }
-      .alignright {
-        float: right;
-      }
-      p{
-        padding:4px 10px;
-      }
-      &:nth-of-type(2){
-        .alignright{
-          border-left:1px solid @domino;
-          border-top:1px solid @domino;
-          color: @black;
-          padding: 4px 3px;
-          background-color: @simple_betting_back_bg;
-          &:hover{
-            background-color: @complex-betting-back-hover-bg;
-          }
-         }
-      }
-      &:nth-of-type(3){
-        .alignleft{
-          border:1px solid @domino;
-          border-bottom:none;
-          color: @black;
-          padding: 4px 3px;
-          background-color: @light_pink;
-          &:hover{
-            background-color: fade(@light_pink,90%);
-          }
+
+      .back-all-offer {
+        background-color: @simple_betting_back_bg;
+        &:hover {
+          background-color: @complex-betting-back-hover-bg;
         }
       }
-    }
-   .rt-thead.-headerGroups{
-      background: transparent;
-      border-bottom:0 none;
-      .rt-tr{
-        .rt-th:nth-child(2){
-          width:148px !important;
+
+      .lay-all-offer {
+        background-color: @light_pink;
+        &:hover{
+          background-color: fade(@light_pink,90%);
         }
       }
+
+      &.back-all-offer-border {
+        border-right: 2px solid @domino;
+      }
+
+      p {
+        padding:4px 0;
+      }
+
     }
+
   }
   .icon-bitcoin{
     background-image: url('../../../assets/icons/bitcoin_icon_hover.png');
