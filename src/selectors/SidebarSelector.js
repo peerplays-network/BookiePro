@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import CommonSelector from './CommonSelector';
 import Immutable from 'immutable';
+import { Config } from '../constants';
 
 const {
   getSportsById,
@@ -53,6 +54,7 @@ const getSidebarCompleteTree = createSelector(
 
     // Create the tree only when the sidebar loading is done
     if (sidebarLoadingStatus === LoadingStatus.DONE) {
+      var assetId = Config.coreAsset;
 
       // Map each item according to its parent id
       const eventGroupsBySportId = eventGroupsById.toList().groupBy((eventGroup) => eventGroup.get('sport_id'));
@@ -91,8 +93,12 @@ const getSidebarCompleteTree = createSelector(
             // Set isLiveMarket
             eventNode = eventNode.set('start_time', event.get('start_time'));
             eventNode = eventNode.set('isLiveMarket', event.get('is_live_market'));
-            // Sort betting market group by id
+            // Sort & filter betting market group by id and core asset.
             let bettingMktGroupList = bettingMktGroupByEventId.get(event.get('id')) || Immutable.List();
+            bettingMktGroupList = bettingMktGroupList.filter(( bmg ) => {
+              return bmg.get('asset_id') === assetId;
+            });
+
             bettingMktGroupList = bettingMktGroupList.sort(sortById);
             // For each betting market group, create betting market group node
             const bettingMktGroupNodes = bettingMktGroupList.map((mktGroup) => {
