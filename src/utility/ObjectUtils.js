@@ -155,7 +155,6 @@ const determineStatusResult = (enumStatus) => {
 
   if (enumStatus === "in_play" || enumStatus === "in_progress") { // Only BMG and BM status' can fulfill this.
     className = 'live';
-    status = enumStatus;
   }
 
   return [className, status];
