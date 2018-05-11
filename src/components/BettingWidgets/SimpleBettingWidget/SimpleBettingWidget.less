@@ -22,27 +22,30 @@ div.simple-betting {
       margin-right:2px;
     }
   }
-  div.ant-table {
+  .ant-table {
     color: @simple_betting_label;
 
-    div.ant-table-title {
+    .ant-table-title {
       border:0 none;
       color: @dark_tangerine;
-      padding:20px 20px;
-      div.title {
-        div.sport {
+      padding:6px 20px 0 8px;
+      margin-bottom: -22px;
+
+      .title {
+        
+        .sport {
           font-size: 16px;
           text-transform: uppercase;
           display: inline-block;
           font-weight:bold;
         }
 
-        div.rules {
+        .rules {
           font-size: 14px;
           float: right;
-          display: inline-block;
           font-weight:500;
         }
+
       }
     }
 
@@ -138,15 +141,16 @@ div.simple-betting {
       }
     }
 
-    div.ant-table-placeholder {
+    .ant-table-placeholder {
       background: transparent;
       color: @simple_betting_label;
     }
 
-    div.ant-table-footer {
+    .ant-table-footer {
       background-color: @black_pearl_dark;
       border: none;
       border-radius: 0;
+      padding: 6px 8px;
 
       &:before {
         background: @domino !important;
