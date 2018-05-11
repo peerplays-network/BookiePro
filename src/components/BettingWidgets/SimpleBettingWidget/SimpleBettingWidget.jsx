@@ -221,13 +221,13 @@ class SimpleBettingWidget extends PureComponent {
       // Retrieve the nested offers data from the data record
       let offers = record.get('offers');
       let eventStatus = record.get('eventStatus'); 
-      var canBet, cn;
+      var canBet, className;
       if (eventStatus !== 'settled' && eventStatus !== 'graded' && eventStatus !== 'finished' && eventStatus !== 'frozen'){
         canBet = true;
         if(typeOfBet === 'back'){
-          cn = 'back-offer';
+          className = 'back-offer';
         } else {
-          cn = 'lay-offer';
+          className = 'lay-offer';
         }
       } 
       
@@ -250,7 +250,7 @@ class SimpleBettingWidget extends PureComponent {
 
       if ( offer === undefined){
         return (
-          <div className={ cn }>
+          <div className={ className }>
             <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, '') }>
               <div className='offer empty'>
                 <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
@@ -261,7 +261,7 @@ class SimpleBettingWidget extends PureComponent {
       }
 
       return (
-        <div className={ cn }>
+        <div className={ className }>
           <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds')) }>
             <div className='offer'>
               <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat) }</div>
