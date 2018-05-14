@@ -42,7 +42,10 @@ class BettingMarketGroupBanner extends PureComponent {
     const parts = expr.exec(this.props.eventName);
 
     // default event name layout, overriden if we can parse out the two pieces.
-    let eventName = <div className='name'>{ this.props.eventName }</div>;
+    let eventName = 
+      <div className='name'>
+        { this.props.eventName }
+      </div>;
 
     // The regex has matched.
     if (parts && parts.length === 4) {
@@ -50,6 +53,8 @@ class BettingMarketGroupBanner extends PureComponent {
         <span className='team-one'>{parts[1]}</span>
         <span className='versus'>{parts[2]}</span>
         <span className='team-two'>{parts[3]}</span>
+        <span className={ this.props.eventStatus }>
+        <span className='indicator'/>{I18n.t('complex_betting_widget.' + this.props.eventStatusClassName)}</span>
       </div>;
     }
 
