@@ -360,12 +360,16 @@ class ComplexBettingWidget extends PureComponent {
           { this.state.backBookPercent > 0 ? (<p>{ this.state.backBookPercent }%</p>) : '' }
         </div>,
       render: props => props.value ?
-        <div className='back-offer back-bg'>
+        <div className={ props.row.bmStatus[0] ? 'back-offer back-bg disabled' : 'back-offer back-bg' }>                
           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
           <div className='price'>
-            { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', BettingModuleUtils.stakePlaces, true)}</div>
+            {  props.row.bmStatus[0] ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', BettingModuleUtils.stakePlaces, true)}</div>
         </div> :
-        <div className='back-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
+        <div className={ props.row.bmStatus[0] ? 'back-offer empty-offer disabled' : 'back-offer empty-offer' }>                
+          <div className='odds-offer'>
+            <p>{props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
+          </div>
+        </div>
     };
 
     const backOfferTwo = {
@@ -377,12 +381,16 @@ class ComplexBettingWidget extends PureComponent {
       header: props => null,
       headerClassName: 'back-all-offer-border',
       render: props => props.value ?
-        <div className='back-offer back-bg'>
+        <div className={ props.row.bmStatus[0] ? 'back-offer back-bg disabled' : 'back-offer back-bg' }>        
           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
           <div className='price'>
-            { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', BettingModuleUtils.stakePlaces, true)}</div>
+            { props.row.bmStatus[0] ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', BettingModuleUtils.stakePlaces, true)}</div>
         </div> :
-        <div className='back-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
+        <div className={ props.row.bmStatus[0] ? 'back-offer empty-offer disabled' : 'back-offer empty-offer' }>        
+          <div className='odds-offer'>
+            <p>{props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
+          </div>
+        </div>
     };
 
     const backOfferThree = {
@@ -393,7 +401,7 @@ class ComplexBettingWidget extends PureComponent {
       accessor: row => row.offer.back.length > 0 ? row.offer.back[0] : undefined,
       header:  props =>
         <div className='offer-header back-all-offer'>
-          <p id={ BetTypes.BACK } onClick={ this.placeAllBestBets } >{I18n.t('complex_betting_widget.back_all')}</p>
+          <p id={ BetTypes.BACK } onClick={ this.placeAllBestBets } >{ props.data[0].__original.bmStatus[0] ? null : I18n.t('complex_betting_widget.back_all')}</p>
         </div>,
       render: props => props.value ?
       <div className={ props.row.bmStatus[0] ? 'back-offer back-all-offer best-offer disabled' : 'back-offer back-all-offer best-offer' }>
@@ -402,7 +410,10 @@ class ComplexBettingWidget extends PureComponent {
             { props.row.bmStatus[0] ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
         </div> :
         <div className={ props.row.bmStatus[0] ? 'back-offer empty-offer disabled' : 'back-offer empty-offer best-offer' }>
-        <div className='odds-offer'><p>{ props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p></div></div>
+          <div className='odds-offer'>
+            <p>{ props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
+          </div>
+        </div>
     };
 
     const layOfferOne = {
@@ -411,9 +422,9 @@ class ComplexBettingWidget extends PureComponent {
       className: classNameLay,
       sortable: false,
       accessor: row => row.offer.lay.length > 0 ? row.offer.lay[0] : undefined,
-      header:  props =>
+      header:  props => 
         <div className='offer-header lay-all-offer'>
-          <p id={ BetTypes.LAY } onClick={ this.placeAllBestBets } >{I18n.t('complex_betting_widget.lay_all')}</p>
+          <p id={ BetTypes.LAY } onClick={ this.placeAllBestBets } >{ props.data[0].__original.bmStatus[0] ? null : I18n.t('complex_betting_widget.lay_all')}</p>
         </div>,
       render: props => props.value ?
         <div className='lay-offer lay-all-offer best-offer'>
@@ -421,7 +432,11 @@ class ComplexBettingWidget extends PureComponent {
           <div className='price'>
             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', BettingModuleUtils.stakePlaces, true)}</div>
         </div> :
-        <div className='lay-offer empty-offer best-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
+        <div className={ props.row.bmStatus[0] ? 'lay-offer empty-offer best-offer disabled' : 'lay-offer empty-offer best-offer' }>
+          <div className='odds-offer'>
+            <p>{I18n.t('complex_betting_widget.offer')}</p>
+          </div>
+        </div>
     };
 
     const layOfferTwo = {
@@ -432,14 +447,14 @@ class ComplexBettingWidget extends PureComponent {
       accessor: row => row.offer.lay.length > 1 ? row.offer.lay[1] : undefined,
       header: props => null,
       render: props => props.value ?
-        <div className='lay-offer lay-bg'>
-          <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+      <div className={ props.row.bmStatus[0] ? 'lay-offer lay-bg disabled' : 'lay-offer lay-bg' }>      
+          <div className='odds'>{  props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
           <div className='price'>
-            { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', BettingModuleUtils.stakePlaces, true)}</div>
+            {  props.row.bmStatus[0] ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', BettingModuleUtils.stakePlaces, true)}</div>
         </div> :
-        <div className='lay-offer empty-offer'>
+        <div className={ props.row.bmStatus[0] ? 'lay-offer empty-offer disabled' : 'lay-offer empty-offer' }>
           <div className='odds-offer'>
-            <p>{I18n.t('complex_betting_widget.offer')}</p>
+            <p>{ props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
           </div>
         </div>
     };
@@ -462,7 +477,9 @@ class ComplexBettingWidget extends PureComponent {
             "BTC", BettingModuleUtils.stakePlaces, true)}</div>
       </div> :
       <div className={ props.row.bmStatus[0] ? 'lay-offer empty-offer disabled' : 'lay-offer empty-offer' }>
-      <div className='odds-offer'><p>{ props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p></div>
+        <div className='odds-offer'>
+          <p>{ props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
+        </div>
       </div>
     };
 
