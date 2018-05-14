@@ -36,6 +36,7 @@ class ComplexBettingWidget extends PureComponent {
 
   constructor(props) {
     super(props);
+
     this.state = {
       // tableData used in data props in react-table
       tableData:  Immutable.fromJS([]),
@@ -136,7 +137,7 @@ class ComplexBettingWidget extends PureComponent {
         let market_exposure = 0.00
         const bettingMarketId = row.getIn(['offer', 'bettingMarketId']);
         const betslip_exposure = BettingModuleUtils.getExposure(bettingMarketId, unconfirmedBets);
-        
+
         // get data for 'firstColumn' in which exposure and team name reside in .
         tableData = tableData.setIn([i, 'offer', 'back'], backTableData)
           .setIn([i, 'offer', 'lay'], layTableData)
