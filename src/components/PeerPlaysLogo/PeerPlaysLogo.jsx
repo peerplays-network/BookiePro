@@ -18,8 +18,10 @@ import "./PeerPlaysLogo.less"
 class PeerPlaysLogo extends PureComponent {
   render() {
     return (
-      <img id='poweredByPPLogo' alt={ I18n.t('application.peerplays_logo_title') } src={ PoweredByPPLogoPath }
-        width={ 130 } height={ 22 }></img>
+      <div className='peerplays-logo'>
+        <img alt={ I18n.t('application.peerplays_logo_title') } src={ PoweredByPPLogoPath }
+          width={ 130 } height={ 22 }></img>
+      </div>
     )
   }
 }

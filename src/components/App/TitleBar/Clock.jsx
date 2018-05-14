@@ -30,7 +30,7 @@ class Clock extends PureComponent {
   render() {
     return (
       <div { ...this.props } >
-        { I18n.t('titleBar.clock', { time: this.state.time.format('HH:mm') }) }
+        { I18n.t('titleBar.clock') } <span>{this.state.time.format('HH:mm')}</span>
       </div>
     );
   }

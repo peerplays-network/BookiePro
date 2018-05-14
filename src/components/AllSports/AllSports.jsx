@@ -18,7 +18,7 @@ class AllSports extends PureComponent {
     const { allSportsData, currencyFormat, globalBettingStatistics } = this.props;
     return (
       <div id='all-sports-wrapper'>
-        <AllSportsBanner globalBettingStatistics={ globalBettingStatistics } />
+        {/* <AllSportsBanner globalBettingStatistics={ globalBettingStatistics } /> */}
         {
           allSportsData.map((sportData) => {
             const sportId = sportData.get('sport_id');
