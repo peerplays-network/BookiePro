@@ -1,15 +1,5 @@
 @import '../../App/Colors.less';
 
-.rt-table > .-header{
-  padding: 0;
-  height: 0;
-}
-.offer-header.lay{
-  float: left;
-}
-.offer-header.back{
-  float: right;
-}
 div.complex-betting {
   // Using fade (from LESS) can set opacity to background only
   // If we set opacity explicitly, it will affect the text (foreground) too
@@ -25,12 +15,10 @@ div.complex-betting {
 }
 .complex-betting{
   background-color: @complex-betting-bg;
-  box-shadow: @complex-betting-bg-shadow;
   margin-top: 20px;
-  padding-bottom:20px;
   .title{
+    color: @white;
     padding:13px 15px;
-    border-bottom:1px solid @primary_border;
     margin-bottom:25px;
   }
   .name{
@@ -45,25 +33,24 @@ div.complex-betting {
       align-items: center;
       color: @primary_label;
       margin-left: 10px;
-      padding: 2px 6px 2px 5px;
+      padding: 5px 6px 5px 12px;
       background-color: @live_market_marker;
       font-size: 12px;
       font-weight: bold;
-      border-radius: 4px;
       .indicator{
-        background: url("../../../assets/icons/live_indicator_white.png") no-repeat;
+        background-color: @white;
+        border-radius: 50%;
         display: inline-block;
-        width:16px;
-        height:16px;
-        vertical-align: middle;
-        background-size: 100%;
+        width:8px;
+        height:8px;
         margin-right:4px;
+        margin-bottom: 1px;
       }
     }
     .going-live {
       display: inline-flex;
       align-items: center;
-      color: @field_border;
+      color: @cinder;
       margin-left: 10px;
       padding: 2px 6px 2px 5px;
       background-color: @going_live_market_marker;
@@ -87,29 +74,34 @@ div.complex-betting {
       color: @field_error;
       margin-left: 10px;
       padding: 2px 6px 2px 5px;
+      padding-right: 6px;
+      padding-left: 12px;
+      padding-top: 5px;
+      padding-bottom: 5px;
       background-color: @going_live_market_marker;
       font-size: 12px;
       font-weight: bold;
-      border-radius: 4px;
       .indicator{
-        background-image: url("../../../assets/icons/live_indicator_black.png");
-        background-repeat: no-repeat;
+        background-color: @white;
+        border-radius: 50%;
         display: inline-block;
-        width:16px;
-        height:16px;
-        vertical-align: middle;
-        background-size: 100%;
+        width:8px;
+        height:8px;
         margin-right:4px;
+        margin-bottom: 1px;
       }
     }
   }
   div.rules {
+    color: @dark_tangerine;
     font-size: 14px;
     float: right;
-    display: inline-block;
     font-weight:500;
-    span:first-child{
-      margin-right:15px;
+    span {
+      color: @white;
+      &:first-child{
+        margin-right:6px;
+      }
     }
     i{
       font-size:18px;
@@ -118,50 +110,66 @@ div.complex-betting {
     }
 
   }
-  .ReactTable{
+  .ReactTable {
     border:0 none;
-    .rt-td{
+    box-shadow: none;
+    
+    .rt-tbody {
+      background-color: @black_pearl_dark;
+      margin-bottom: 20px;
+    }
+
+    .rt-td {
       height: 42px;
       padding:0;
       border-right:0 none;
-      .back-offer, .lay-offer {
-        display: flex;
-        height:100%;
+      font-weight: bold;
 
+      .back-offer, .lay-offer {
+        height:100%;
+        cursor: pointer;
+        display: flex;
         flex-direction: column;
         justify-content: center;
-        cursor: pointer;
-      }
-
-      .back-offer {
-        align-items: flex-end;
       }
 
       .back-offer.empty-offer{
-        background-color: transparent;
+        background-color: @pattens_blue;
       }
 
-      .back-offer, .lay-offer {
+      .back-offer {
         &.best-offer {
           &:hover {
-            background-color: @primary_label_highlight !important;
+            background-color: fade(@anakiwa,90%) !important;
+          }
+        }
+      }
+
+      .lay-offer {
+        color: @black;
+        &.best-offer {
+          &:hover {
+            background-color: fade(@light_pink,90%) !important;
           }
         }
       }
 
       .back-offer.best-offer {
         background-color: @simple_betting_back_bg !important;
+        color: @black;
       }
 
       .lay-offer.best-offer {
-        background-color: @lay_bg_primary !important;
+        background-color: @light_pink !important;
+        color: @black;
       }
 
       .lay-offer.empty-offer {
-        background-color: transparent;
+        background-color: @pale_pink;
       }
       .empty-offer{
         align-items: center;
+        font-weight: normal;
       }
       .name {
         font-size: 14px;
@@ -181,30 +189,32 @@ div.complex-betting {
         }
       }
       .odds-offer {
+        color: @black;
         font-size:16px;
       }
       .back-offer {
+        color: @black;
         &.back-bg{
-          background-color: transparent;
+          background-color: @pattens_blue;
           &:hover{
-            background-color: @primary_label_highlight;
+            background-color: fade(@pattens_blue,90%);
           }
         }
         &.back-all-offer{
           background-color: @complex-betting-back-bg;
           &:hover{
-            background-color: @primary_label_highlight;
+            background-color: transparent;
           }
         }
         &.empty-offer:hover{
-          background-color: @primary_label_highlight;
+          background-color: fade(@pattens_blue,90%);
         }
       }
       .lay-offer {
         &.lay-bg{
-          background-color: transparent;
+          background-color: @pale_pink;
           &:hover{
-            background-color: @primary_label_highlight;
+            background-color: fade(@pale_pink,90%);
           }
         }
         &.lay-all-offer{
@@ -214,16 +224,16 @@ div.complex-betting {
           }
         }
         &.empty-offer:hover{
-          background-color: @primary_label_highlight;
+          background-color: fade(@pale_pink,90%);
         }
       }
       .odds {
-        font-size: 16px;
+        font-size: 15px;
         text-align: center;
-        padding-top:3px;
+        padding-top: 3px;
       }
       .price {
-        font-size: 12px;
+        font-size: 9px;
         text-align: center;
         padding-bottom:3px;
       }
@@ -235,19 +245,26 @@ div.complex-betting {
       }
       &.lay-arrows-col {
         padding: 0 5px;
-        min-width: 20px;
       }
       &.back-arrows-col {
         padding:0 5px 0 2px;
       }
     }
-    .rt-tr-group{
-      border-top:1px solid @primary_label_border;
-      &:last-child{
-        border-bottom:1px solid @primary_label_border;
+
+    .rt-tr-group {
+      border-top:1px solid @domino;
+      border-bottom:1px solid @domino;
+
+      &:first-child {
+        border-top: 2px solid @domino;
       }
+
+      &:last-child {
+        border-bottom:2px solid @domino;
+      }
+
       .back, .lay, .back-arrows-col {
-        border-right:1px solid @primary_label_border;
+        border-right:2px solid @domino;
       }
       .rt-td{
         &:first-child{
@@ -255,57 +272,49 @@ div.complex-betting {
         }
       }
     }
-    .rt-th{
+
+    .rt-th {
       font-weight:500;
       padding:0;
       border-right:none;
-      #back, #lay {
+
+      &.rt-resizable-header {
+        box-shadow: none;
+      }
+
+      .back-all-offer,
+      .lay-all-offer {
         cursor: pointer;
+        color: @black;
+        border-top: 2px solid @domino;
+        border-right: 2px solid @domino;
+        font-size: 12px;
       }
-      #lay {
-        padding: 4px 7px;
-      }
-      .alignleft {
-        float: left;
-      }
-      .alignright {
-        float: right;
-      }
-      p{
-        padding:4px 10px;
-      }
-      &:nth-of-type(2){
-        .alignright{
-          border-left:1px solid @primary_label_border;
-          border-top:1px solid @primary_label_border;
-          padding: 4px 3px;
-          background-color: @simple_betting_back_bg;
-          &:hover{
-            background-color: @complex-betting-back-hover-bg;
-          }
-         }
-      }
-      &:nth-of-type(3){
-        .alignleft{
-          border:1px solid @primary_label_border;
-          border-bottom:none;
-          padding: 4px 3px;
-          background-color: @complex-betting-lay-all-bg;
-          &:hover{
-            background-color: @complex-betting-lay-hover-bg;
-          }
+
+      .back-all-offer {
+        background-color: @simple_betting_back_bg;
+        &:hover {
+          background-color: @complex-betting-back-hover-bg;
         }
       }
-    }
-   .rt-thead.-headerGroups{
-      background: transparent;
-      border-bottom:0 none;
-      .rt-tr{
-        .rt-th:nth-child(2){
-          width:148px !important;
+
+      .lay-all-offer {
+        background-color: @light_pink;
+        &:hover{
+          background-color: fade(@light_pink,90%);
         }
       }
+
+      &.back-all-offer-border {
+        border-right: 2px solid @domino;
+      }
+
+      p {
+        padding:4px 0;
+      }
+
     }
+
   }
   .icon-bitcoin{
     background-image: url('../../../assets/icons/bitcoin_icon_hover.png');
@@ -316,25 +325,25 @@ div.complex-betting {
     display: inline-block;
   }
   .icon-left-arrow{
-    background: url('../../../assets/icons/left_arrow_white.png') no-repeat;
+    background: url('../../../assets/icons/left_arrow_grey.png') no-repeat;
     width: 15px;
     height: 15px;
     background-size: 100%;
     display: inline-block;
     margin-bottom: 3px;
     &:hover {
-      background: url('../../../assets/icons/left_arrow_blue.png') no-repeat;
+      background: url('../../../assets/icons/left_arrow_white.png') no-repeat;
       background-size: 100%;
     }
    }
   .icon-right-arrow{
-    background: url('../../../assets/icons/right_arrow_white.png') no-repeat;
+    background: url('../../../assets/icons/right_arrow_grey.png') no-repeat;
     width: 15px;
     height: 15px;
     background-size: 100%;
     display: inline-block;
     &:hover {
-      background: url('../../../assets/icons/right_arrow_blue.png') no-repeat;
+      background: url('../../../assets/icons/right_arrow_white.png') no-repeat;
       background-size: 100%;
     }
   }

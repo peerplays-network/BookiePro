@@ -8,6 +8,7 @@
 #market-drawer {
   height: 100%;
   background-color: @drawer_main_bg;
+  border-left: 1px solid @domino;
   .ant-tabs-nav-container{
     height: auto;
   }
@@ -24,7 +25,7 @@
     background: none;
 
     div.ant-tabs-tab {
-      color: @primary_label;
+      color: @primary_label_highlight;
       width: 50%;
       background-color: @market_drawer_tab_bg;
       margin: 0px;
@@ -36,7 +37,6 @@
       text-align: center;
       font-size:18px;
       font-weight:700;
-      box-shadow: @market_drawer_btn_shadow;
       &.ant-tabs-tab-active{
         background-color: @market_drawer_tab_active_bg;
       }

@@ -63,7 +63,7 @@ div.search-menu{
   .Select-control{
     display: flex;
     justify-content: flex-start;
-    background-color: transparent;
+    background-color: @black_pearl_extra_dark;
     border:0 none;
     padding: 16px 16px 0 16px;
     border-radius: 0;
@@ -80,26 +80,26 @@ div.search-menu{
   }
   .Select-placeholder{
     color: @topbar_select_label;
-    font-size:18px;
-    padding-top: 5px;
-    padding-left:50px;
+    font-size:19px;
+    padding-top: 8px;
+    padding-left:44px;
   }
   .Select-arrow-zone{
     display: none;
   }
   .Select-input{
     flex: 1;
-    font-size:16px;
-    padding-left:35px;
+    font-size:19px;
+    padding-left:29px;
     padding-right:35px;
     position: relative;
-    border-bottom:1px solid @primary_label;
+    border-bottom:1px solid @domino;
     min-width: 260px;
     &:before{
       position: absolute;
       content: '';
       left:0;
-      top:0;
+      top:4px;
       .search-icon;
       .search-icon-white;
       //Background size should be applied only after background property otherwise it would not work
@@ -108,8 +108,8 @@ div.search-menu{
     input{
       color: @primary_label;
       height:auto;
-      padding:0;
-      font-size:18px;
+      padding:5px 0 0 0;
+      font-size:19px;
       //overriding plugin style for preventing text cut
       width:100% !important;
       &:focus{
@@ -136,7 +136,7 @@ div.search-menu{
   }
   &.is-focus, &.is-open, &.has-value{
     .Select-input{
-      border-bottom-color: @primary_label_border;
+      border-bottom-color: @dark_tangerine;
     }
     .Select-input,.Select-placeholder{
       color: @primary_label;

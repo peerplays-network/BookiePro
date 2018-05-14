@@ -1,115 +1,120 @@
 // Main application
 
 //----------------COLOR SELECTION-------------------
-@app-bg: radial-gradient(circle, #094B88 0%, #00152A 60%);
+@app-bg: radial-gradient(circle, #3e5262 0%, #1a2127 60%);
 
 @white: #FFFFFF;
 @black: #000000;
-@overlay_oxford_blue: rgba(0, 38, 66, 0.7);
+@overlay_midnight: rgba(44, 54, 63, 0.7);
 
-@deep_sky_blue: #00BEF4; // highlight+  primary button start
-@bright_cerulean: #2FA5E6;
-@oxford_blue: #002440; //primary_bg
-@dark_cerulean: #004378; //secondary_bg + disable btn start
-@medium_teal_blue: #005CB7;  //third_bg + primary button  end
-@lapis_lazuli: #1563A0; // primary border
-@medium_electric_blue: #005CB7; // back bg + disable btn end
-@true_blue: #0774de;
-@midnight_blue: #003769;
-@midnight_blue_border: #064b88;
-@teamname_blue: #6f8ba3;
+@black_pearl: #1a2127;
+@black_pearl_mid: #171c20;
+@black_pearl_dark: #14181c;
+@black_pearl_extra_dark: #101316;
 
-@bright_turquoise: #20E7ED; // only used for lay hightly
-@teal: #008487; //lay btn bg  main
-@skobeloff: #05696B; // lay header bg only
-@jungle_green: #359C9F;  //lay border only
-@blue_green: #129CA0;
-@dark_cyan: #00a48b; // lay btn bg
-@green: #02CB43;
+@cinder: #1f262c;
+@cello: #3e5262;
+@elephant: #273642;
+@midnight: #2c363f;
+@domino: #495967;
+@shuttle_grey: #536066;
 
-@cream: #F8EBDA;
-@pink: #FF7788;
+@dark_tangerine: #fbae16;
+@buttercup: #d19319;
 
-@dark_gray: #A9A9A9;
-@outer_space: #4A4A4A;
-@teamname_grey: #bfbfbf;
+@crimson: #d60d2e;
+@apple: #64d951;
+
+@pattens_blue: #cff1ff;
+@french_pass: #a4cfe1;
+@anakiwa: #8dd3f1;
+@matisse: #34657d;
+@domino: #495967;
+
+@pale_pink: #fce3e4;
+@azalea: #ecc0c2;
+@light_pink: #fdaeb2;
+@camelot: #7c4250;
+
 
 //----------------THEME-------------------
 //--- ONLY DEFINE USAGE OF COLOR SELECTION HERE---
 
 //GENERAL
 @primary_label:  @white;
-@primary_label_highlight: @deep_sky_blue;
+@primary_label_highlight: @dark_tangerine;
 @primary_label_border: @white;
-@secondary_label: @bright_cerulean;
+@secondary_label: @dark_tangerine;
 
 @primary_shadow: @black;
-@overlay_banner: @medium_teal_blue;
+@overlay_banner: @midnight;
 
-@profit: @green;
-@loss: @pink;
-@error: @pink;
+@profit: @apple;
+@loss: @crimson;
+@error: @crimson;
 
 @back_highlight: @primary_label_highlight;
-@back_bg_primary: @medium_electric_blue;
-@back_bg_secondary: @medium_teal_blue;
-@lay_highlight: @bright_turquoise;
-@lay_bg_primary: @blue_green;
-@lay_bg_secondary: @teal;
-@lay_border: @jungle_green;
-@lay_header: @skobeloff;
+@back_bg_primary: @pattens_blue;
+@back_bg_secondary: @black_pearl_dark;
+@lay_highlight: @camelot;
+@lay_bg_primary: @pale_pink;
+@lay_bg_secondary: @azalea;
+@lay_border: @black_pearl_dark;
+@lay_header: @black_pearl_dark;
 
-@primary_bg: @oxford_blue;
-@secondary_bg: @dark_cerulean;
-@third_bg: @medium_teal_blue;
-@primary_border: @lapis_lazuli;
+@primary_bg: @midnight;
+@secondary_bg: @black_pearl_dark;
+@third_bg: @black_pearl_mid;
+@primary_border: @cello;
 
-@btn_primary_start: @deep_sky_blue;
-@btn_primary_end: @medium_teal_blue;
+@btn_primary_start: @dark_tangerine;
+@btn_primary_end: @buttercup;
 
-@banner_timer_top: @oxford_blue;
-@banner_timer_bottom: @dark_cerulean;
-@btn_secondary_start: @medium_electric_blue;
-@btn_secondary_end: @dark_cerulean;;
+@banner_timer_top: @midnight;
+@banner_timer_bottom: @black_pearl_dark;
+@btn_secondary_start: @black_pearl;
+@btn_secondary_end: @black_pearl_dark;
 
-@live_market_marker: @green;
-@going_live_market_marker: @outer_space;
+@live_market_marker: @crimson;
+@going_live_market_marker: @shuttle_grey;
 
 // Form fields
-@field: @outer_space;
-@field_border: @dark_gray;
+@field: @black;
+@field_border: @elephant;
 
 // Buttons
-@btn_shadow_inset: fade(@cream, 43%);
+@btn_shadow_inset: fade(@white, 43%);
 @btn_shadow_outset: fade(@black, 50%);
 @introduction_btn_shadow_outset: fade(@black, 100%);
-@download_btn: linear-gradient(@bright_turquoise, @teal);
-@disable_button_start: @dark_gray;
-@disable_button_end: @outer_space;
+@download_btn: linear-gradient(@dark_tangerine, @buttercup);
+@disable_button_start: @midnight;
+@disable_button_end: @cinder;
 @transparent_btn:@white;
-@transparent_btn_blue:@deep_sky_blue;
+@transparent_btn_blue:@dark_tangerine;
 //Dialogue
 @dialogue_bg: fade(@black, 30%);
 
-@banner_overlay: linear-gradient(0deg,@overlay_oxford_blue,@overlay_oxford_blue);
+@banner_overlay: linear-gradient(0deg,@overlay_midnight,@overlay_midnight);
 
-@update_highlight: orange;
+@update_highlight: @dark_tangerine;
 
 //---------------END OF THEME-------------------
 
 // Buttons
 @btn_label: @primary_label;
-@primary_btn: linear-gradient(fade(@btn_primary_start, 92%), @btn_primary_end);
-@secondary_btn: linear-gradient(fade(@btn_secondary_start, 92%), @btn_secondary_end);
+@primary_btn: linear-gradient(@btn_primary_start, @btn_primary_end);
+@primary_btn_hover: linear-gradient(@btn_primary_end, @btn_primary_start);
+@secondary_btn: linear-gradient(@btn_secondary_start, @btn_secondary_end);
+@secondary_btn_hover: linear-gradient(@btn_secondary_end, @btn_secondary_start);
 @btn_shadow: 0 2px 3px 0 @btn_shadow_outset, inset 1px 2px 0 0 @btn_shadow_inset;
 @introduction_btn_shadow: 0 2px 3px 0 @introduction_btn_shadow_outset, inset 1px 2px 0 0 @btn_shadow_inset;
-@disable_btn: linear-gradient(fade(@disable_button_start, 92%), @disable_button_end);
+@disable_btn: @midnight;
 
 // Form fields
 @switch_border: @field_border;
 @switch_bg: @primary_label_border;
 @switch_active: @third_bg;
-@switch_disabled: @dark_gray;
+@switch_disabled: @elephant;
 @field_error: @error;
 @field_shadow: fade(@primary_shadow, 50%);
 @checkbox: @primary_border;
@@ -118,11 +123,11 @@
 @filter_table_header_border: @primary_border;
 
 // Title Bar
-@title-bar-solid-bg: @primary_bg;
+@title-bar-solid-bg: @black_pearl;
 
 // SideBar
 @side-bar-bg: @primary_border;
-@side-bar-divider: solid 1px @primary_border;
+@side-bar-divider: solid 1px @black_pearl_mid;
 @side-bar-icon: @primary_label;
 @side-bar-icon-seleced: @primary_label_highlight;
 @side-bar-selected: @primary_label_highlight;
@@ -135,10 +140,10 @@
 @simple_betting_bg: @card_bg;
 @simple_betting_bg_shadow: @card_shadow;
 @simple_betting_header_border: @primary_border;
-@simple_betting_back_bg: @true_blue;
-@simple_betting_lay_bg: @dark_cyan;
-@simple_betting_back_hover_bg: @back_highlight;
-@simple_betting_lay_hover_bg: fade(@lay_highlight,90%);;
+@simple_betting_back_bg: @anakiwa;
+@simple_betting_lay_bg: @anakiwa;
+@simple_betting_back_hover_bg: fade(@french_pass,90%);
+@simple_betting_lay_hover_bg: fade(@anakiwa,90%);
 @simple_betting_label: @primary_label;
 @simple_betting_table_header_border: @primary_border;
 @simple_betting_event_name_hover: fade(@primary_label, 27%);
@@ -148,12 +153,12 @@
 @complex-betting-bg: @card_bg;
 @complex-betting-bg-shadow: @card_shadow;
 @complex-betting-header-border: @back_highlight;
-@complex-betting-back-bg: @true_blue;
+@complex-betting-back-bg: @french_pass;
 @complex-betting-back-all-bg: @back_bg_primary;
-@complex-betting-back-hover-bg: @back_highlight;
-@complex-betting-lay-bg: @dark_cyan;
+@complex-betting-back-hover-bg: fade(@french_pass,90%);
+@complex-betting-lay-bg: @anakiwa;
 @complex-betting-lay-all-bg: @lay_bg_primary;
-@complex-betting-lay-hover-bg: fade(@lay_highlight,90%);
+@complex-betting-lay-hover-bg: fade(@anakiwa,90%);
 @complex-betting-label: @primary_label;
 @complex-betting-empty-offer-hover: fade(@primary_label, 27%);
 
@@ -179,7 +184,7 @@
 @withdraw_amount: @secondary_bg;
 
 // Card
-@card_bg: fade(@third_bg, 35%);
+@card_bg: @cinder;
 @card_shadow:  0 2px 4px 0 @primary_shadow;
 @card_header_border: @primary_border;
 @card_blue_title: @primary_label_highlight;
@@ -210,8 +215,8 @@
 
 //Dropdown
 @dropdown_shadow: @card_shadow;
-@dropdown_hover: @secondary_bg;
-@dropdown_selected: @card_bg;
+@dropdown_hover: @black_pearl;
+@dropdown_selected: @black_pearl;
 
 //MyBets
 
@@ -252,24 +257,24 @@
 @split_pane_horizontal_footer_bg: @primary_label_border;
 
 //Market Drawer
-@market_drawer_tab_bg: @secondary_bg;
-@market_drawer_tab_active_bg: @primary_border;
+@market_drawer_tab_bg: @cello;
+@market_drawer_tab_active_bg: @cinder;
 @market_drawer_btn_shadow: 0 2px 4px 0 @btn_shadow_outset;
 @market_drawer_title_bg: @secondary_bg;
 @market_drawer_unmatched_bets_empty_bg: @secondary_bg;
 @bet_table_updated_bet_bg: @update_highlight;
 //Betslips
 @betslip_bg: @secondary_bg;
-@betslip_delete_icon_bg: @primary_bg;
-@betslip_delete_icon_hover_bg: @deep_sky_blue;
-@betslip_header_bg: @primary_border;
+@betslip_delete_icon_bg: @cinder;
+@betslip_delete_icon_hover_bg: @midnight;
+@betslip_header_bg: @cello;
 @betslip_confirmation_amount: @primary_label_highlight;
 
 //Editable BetTable
 @editable_table_header_bg: @secondary_bg;
 @editable_table_back_body_bg: @back_bg_primary;
 @editable_table_back_body_border: @third_bg;
-@editable_table_back_market_type: @btn_primary_start;
+@editable_table_back_market_type: @matisse;
 @editable_table_lay_header_bg: @lay_header;
 @editable_table_lay_body_bg: @lay_bg_primary;
 @editable_table_lay_body_border: @lay_border;
@@ -280,7 +285,7 @@
 @topbar_dropdown_card: @primary_bg;
 @topbar_more_menu_active: @primary_bg;
 @topbar_label: @primary_label_highlight;
-@topbar_bg: @secondary_bg;
+@topbar_bg: @black_pearl_mid;
 @topbar_divider: @primary_bg;
 @topbar_badge_count: @primary_label_highlight;
 @topbar_select_label: @primary_label_highlight;
@@ -291,15 +296,12 @@
 @scroller_bg_active: @primary_label_highlight;
 
 //Right Drawer
-@drawer_main_bg: fade(@primary_bg,80%);
+@drawer_main_bg: @black_pearl_dark;
 
 //Reset Password
 @register_component: @field_border;
 
 //topbar tooltips
-@tooltip_bg: @oxford_blue;
-@tooltip_border: @lapis_lazuli;
+@tooltip_bg: @cinder;
+@tooltip_border: @white;
 @tooltip_shadow: 0 2px 4px 0 @black;
-
-//Override default colour scheme with new ProTheme
-@import (reference) './ProThemeColors.less';
