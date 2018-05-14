@@ -5,8 +5,7 @@ div.simple-betting {
   // If we set opacity explicitly, it will affect the text (foreground) too
   background-color: @simple_betting_bg;
   margin-top: 20px;
-  box-shadow: @simple_betting_bg_shadow;
-
+  
   .live {
     display: inline-flex;
     align-items: center;
@@ -23,27 +22,30 @@ div.simple-betting {
       margin-right:2px;
     }
   }
-  div.ant-table {
+  .ant-table {
     color: @simple_betting_label;
 
-    div.ant-table-title {
+    .ant-table-title {
       border:0 none;
-      border-bottom: 1px solid @simple_betting_table_header_border;
-      padding:13px 15px;
-      div.title {
-        div.sport {
+      color: @dark_tangerine;
+      padding:6px 20px 0 8px;
+      margin-bottom: -22px;
+
+      .title {
+        
+        .sport {
           font-size: 16px;
           text-transform: uppercase;
           display: inline-block;
           font-weight:bold;
         }
 
-        div.rules {
+        .rules {
           font-size: 14px;
           float: right;
-          display: inline-block;
           font-weight:500;
         }
+
       }
     }
 
@@ -51,6 +53,8 @@ div.simple-betting {
       border: none;
       border-radius: 0;
       .ant-table-tbody{
+        background-color: @black_pearl_dark;
+        border-bottom: 2px solid @domino;
         tr{
           &:hover{
             background: transparent;
@@ -60,6 +64,7 @@ div.simple-betting {
       th {
         background-color: transparent;
         border-right: none;
+        border-bottom: 2px solid @domino;
         padding: 3px 8px;
         color: @primary_label;
         font-size:14px;
@@ -69,9 +74,12 @@ div.simple-betting {
       }
 
       td {
+        border-bottom: 2px solid @domino;
+        border-right: 2px solid @domino;
         padding: 0;
         // To disable the default mouseover highlight
         background-color: transparent;
+
         &>*{
           padding-top:3px;
           padding-bottom:3px;
@@ -96,41 +104,58 @@ div.simple-betting {
           background-color: @simple_betting_back_bg;
         }
         &.back-offer:hover {
-          background-color: @simple_betting_back_hover_bg;
+          background-color: fade(@simple_betting_back_bg, 90%);
         }
         &.lay-offer {
-          background-color: @simple_betting_lay_bg;
+          background-color: @light_pink;
         }
         &.lay-offer:hover {
-          background-color: @simple_betting_lay_hover_bg;
+          background-color: fade(@light_pink, 90%);
         }
 
-        > a {
-          color: @simple_betting_label;
+        a {
+          color: @black;
           display: block;
-          > div.offer {
-            > div.odds {
-              font-size: 16px;
+          font-weight: bold;
+
+          .offer {
+            
+            &.empty {
+              font-weight: normal;
+            }
+
+            .odds {
+              color: @black;
+              font-size: 15px;
               text-align: center;
             }
-            > div.price {
-              font-size: 12px;
+            
+            .price {
+              font-size: 9px;
               text-align: center;
-              font-weight:500;
             }
+
           }
+
         }
       }
     }
 
-    div.ant-table-placeholder {
+    .ant-table-placeholder {
       background: transparent;
       color: @simple_betting_label;
     }
 
-    div.ant-table-footer {
-      background-color: transparent;
+    .ant-table-footer {
+      background-color: @black_pearl_dark;
       border: none;
+      border-radius: 0;
+      padding: 6px 8px;
+
+      &:before {
+        background: @domino !important;
+        height: 0px;
+      }
 
       div.footer {
         text-align: right;
@@ -138,7 +163,6 @@ div.simple-betting {
 
         a {
           color: @simple_betting_label;
-          text-decoration: underline;
           text-transform: capitalize;
           font-size:14px;
           font-weight:500;
@@ -156,7 +180,7 @@ div.simple-betting {
       font-weight: 500;
     }
     .ant-table-footer:before {
-      background-color: transparent;
+      background: @domino !important;
     }
     .ant-table-thead {
       display: none;

@@ -8,9 +8,9 @@ const blockchainUrls = [
 
 // Shuffle list of blockchain nodes
 // So every bookie app will not always connect to the first node in the list
-const shuffledBlockhainUrls = _.shuffle(blockchainUrls)
+const shuffledBlockhainUrls = _.shuffle(blockchainUrls);
 
-const ASSET_ID = '1.3.0'
+const ASSET_ID = '1.3.1';
 
 const Config = {
   version: version,
@@ -39,7 +39,6 @@ const Config = {
     deposits: false,
     moneylineFilter: false
   }
-}
-
+};
 
 export default Config

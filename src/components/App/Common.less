@@ -136,7 +136,6 @@
 // [myAccount]
 .table-card{
   background-color: @card_bg;
-  box-shadow: @card_shadow;
 }
 
 // Common class for Sports banner background
@@ -153,8 +152,8 @@
   font-weight: 500;
   text-transform: uppercase;
   border-radius: 0;
-  height: 30px;
-  line-height: 30px;
+  height: 40px;
+  line-height: 40px;
   text-align: center;
   cursor: pointer;
   transition: none;
@@ -164,29 +163,28 @@
 }
 .btn-regular {
   background: @primary_btn;
-  box-shadow: @btn_shadow;
+  box-shadow: none;
+  color: @black_pearl_mid;
   &:hover, &:focus{
-    padding:0;
-    color: @btn_label;;
-    background: @primary_btn;
+    padding:2px;
+    color: @black_pearl_mid;
+    background: @primary_btn_hover;
     outline:none;
-    border: 2px solid @primary_label_highlight;
   }
 }
 .btn-cancel{
   background: @secondary_btn;
-  box-shadow: @btn_shadow;
+  box-shadow: none;
   &:hover, &:focus{
-    padding:0;
-    color: @btn_label;;
-    background: @secondary_btn;
+    background: @secondary_btn_hover;
+    color: @white;
+    padding:2px;
     outline:none;
-    border: 2px solid @primary_label_highlight;
   }
 }
 .btn-disabled, .btn:disabled{
   background: @disable_btn;
-  box-shadow: @btn_shadow;
+  box-shadow: none;
   cursor: not-allowed;
   color: @btn_label;
   &:hover, &:focus{
@@ -198,7 +196,6 @@
 }
 .btn-download{
   background: @download_btn;
-  box-shadow: @btn_shadow;
   &:hover, :focus{
     background: @download_btn;
   }
@@ -210,9 +207,15 @@
   right:0;
 }
 
+a {
+  color: @dark_tangerine;
+  &:hover{
+    color: @buttercup;
+  }
+}
+
 input, .ant-input, .ant-calendar-input {
   border: 1px solid @field_border;
-  box-shadow: 0 2px 4px 0 @field_shadow;
   border-radius: 1.5px;
   height: 36px;
   line-height: 36px;
@@ -224,7 +227,6 @@ input, .ant-input, .ant-calendar-input {
   &:focus {
     outline: none;
     border-color: @field_selected_border;
-    box-shadow: 0 2px 4px @field_selected_shadow;
   }
 }
 .rw-input,
@@ -265,7 +267,6 @@ input, .ant-input, .ant-calendar-input {
 .bookie-card{
   //TODO: Will remove !important after fixing change password fixes
   background: @card_bg;
-  box-shadow: @card_shadow !important;
   border-radius:0;
   border:0 none;
   font-size:14px;
@@ -277,7 +278,7 @@ input, .ant-input, .ant-calendar-input {
   }
   .ant-card-head{
     padding:0 15px;
-    border-bottom-color: @card_header_border;
+    border-bottom-color: @black_pearl_mid;
     background: transparent;
   }
   .ant-card-head-title{
@@ -285,9 +286,6 @@ input, .ant-input, .ant-calendar-input {
     color: @primary_label;
     font-weight:700 !important;
     text-transform: uppercase;
-  }
-  &:hover{
-    box-shadow: @card_shadow;
   }
 }
 
@@ -329,6 +327,7 @@ input, .ant-input, .ant-calendar-input {
 .bookie-table{
   padding: 0 16px;
   .ant-table{
+    border-radius: 0;
     overflow: visible;
   }
   .ant-table-content{
@@ -377,7 +376,7 @@ input, .ant-input, .ant-calendar-input {
 // Filter Component
 // [myAccount]
 .filterComponent{
-  padding: 0 16px;
+  padding: 0 8px;
   color: @primary_label;
   height:45px;
   line-height: 43px;
@@ -404,6 +403,8 @@ input, .ant-input, .ant-calendar-input {
   }
 
   .btn{
+    height: 30px;
+    line-height: 1;
     width:106px;
     vertical-align: middle;
   }
@@ -435,19 +436,20 @@ input, .ant-input, .ant-calendar-input {
   }
   .ant-select-selection--single{
     height:30px;
-    border-radius: 1.5px;
+    border-radius: 0;
     border: 0 none;
-    box-shadow: 0 2px 4px 0 @field_shadow;
+    box-shadow: none;
   }
 }
 .ant-select-dropdown{
-  border-radius: 1.5px;
-  box-shadow: 0 0 0 1px @dropdown_shadow;
+  border-radius: 0;
+  box-shadow: none;
   .ant-select-dropdown-menu-item-selected{
     background-color: @dropdown_selected;
   }
   .ant-select-dropdown-menu-item{
-    color: @field;
+    background: @midnight;
+    color: @white;
     font-size:16px;
     padding:8px 0;
     text-align: center;
@@ -819,4 +821,16 @@ input, .ant-input, .ant-calendar-input {
 
 .btn-primary {
   .btn-regular;
+}
+.btn-secondary {
+  .btn-regular;
+  background: @secondary_btn;
+  box-shadow: none;
+  color: @white;
+  &:hover, &:focus{
+    padding:2px;
+    color: @white;
+    background: @secondary_btn_hover;
+    outline:none;
+  }
 }

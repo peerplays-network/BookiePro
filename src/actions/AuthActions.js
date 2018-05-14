@@ -211,7 +211,7 @@ class AuthActions {
         if (depositsEnabled) {
           dispatch(NavigateActions.navigateTo('/deposit'));
         } else {
-          dispatch(NavigateActions.navigateTo('/welcome'));
+          dispatch(NavigateActions.navigateTo('/exchange'));
         }
         // Set register status to done
         dispatch(AuthPrivateActions.setSignupLoadingStatusAction(LoadingStatus.DONE));

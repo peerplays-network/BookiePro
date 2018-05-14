@@ -6,16 +6,30 @@
 }
 
 .sport-node-container {
+  background: @cinder;
   color: @infinite_menu_white_label;
-  margin-left: 15px;
-  padding: 10px 0;
+  padding: 15px;
   border-bottom: @side-bar-divider;
   font-weight: 500;//for roboto-medium
+  &:first-of-type {
+      .sport-label-container,
+      .sport-label-container-selected {
+        background-image: none;
+      }
+    }
+  }
+
+.sport-label-container,
+.sport-label-container-selected {
+  background: url('../../assets/icons/right_arrow__thin_white.png') no-repeat right;
+  background-size: 8px;
 }
 
 .sport-label-container-selected {
-  font-weight: bold;
+  background: url('../../assets/icons/down_arrow_thin_white.png') no-repeat right;
+  background-size: 12px;
   color: @primary_label_highlight;
+  font-weight: bold;
 }
 .sport-label-container-selected label{
   font-weight:700;
