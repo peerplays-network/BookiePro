@@ -268,18 +268,20 @@ class ComplexBettingWidget extends PureComponent {
             oddsFormat
     } = this.props;
 
-    const minNameWidth = 200;
-    const minOfferWidth = 50;
-    const minBackArrowWidth = 25;
-    const minLayArrowWidth = 15;
+    const minNameWidth = 194;
+    const minOfferWidth = 52;
+    const minArrowWidth = 22;
     // to match the back bet-type in placebet action dispatch
     const classNameBack = BetTypes.BACK;
     // to match the lay bet-type in placebet action dispatch
     const classNameLay = BetTypes.LAY;
-    const columns = [{
+
+    // Column names;
+    const competitorColumn = {
       header: props => null,
       minWidth: minNameWidth,
-      accessor: 'firstColumn' ,
+      accessor: 'firstColumn',
+      sortable: false,
       render: props => {
         const marketExposure =
           CurrencyUtils.toFixedWithSymbol('exposure', parseFloat(props.value.market_exposure), currencyFormat);
@@ -311,131 +313,160 @@ class ComplexBettingWidget extends PureComponent {
           </div>
         )
       }
-    }, {
+    };
+
+    const backArrowsColumn = {
       className: 'back-arrows-col',
       header: props => null,
-      minWidth: minBackArrowWidth,
+      minWidth: minArrowWidth,
+      sortable: false,
       render: props =>
         <div className='back-offer'>
           <i className='icon-left-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'back', -1) }></i>
           <i className='icon-right-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'back', 1) }></i>
         </div>
-    }, {
-      // TODO: width adjustment will do later because I
-      // cant manipulate width of the th tag
+    };
+
+    const backOfferOne = {
+      id: 'back3',
+      minWidth: minOfferWidth,
+      className: classNameBack,
+      sortable: false,
+      accessor: row => row.offer.back.length > 2 ? row.offer.back[2] : undefined,
       header:  props =>
-      // NOTE will be seperated comopent for header
-        <div className='offer-header clearfix back'>
-          { this.state.backBookPercent > 0 ? (<p className='alignleft'>{ this.state.backBookPercent }%</p>) : '' }
-          <p className='alignright' id={ BetTypes.BACK } onClick={ this.placeAllBestBets } >{I18n.t('complex_betting_widget.back_all')}</p>
+        <div className='offer-header back'>
+          { this.state.backBookPercent > 0 ? (<p>{ this.state.backBookPercent }%</p>) : '' }
         </div>,
-      columns: [{
-        id: 'back3',
-        header: props => null,
-        minWidth: minOfferWidth,
-        className: classNameBack, // we must use 'back' here for actions. ie. this.props.createBet(record, competitor, 'back', offer);
-        accessor: row => row.offer.back.length > 2 ? row.offer.back[2] : undefined,
-        render: props => props.value ?
-         <div className='back-offer back-bg'>
-           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
-           <div className='price'>
-             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price,
-               'BTC',
-               BettingModuleUtils.stakePlaces, true)}</div>
-         </div> :
-         <div className='back-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
-      }, {
-        id: 'back2',
-        header: props => null,
-        minWidth: minOfferWidth,
-        className: classNameBack,
-        accessor: row => row.offer.back.length > 1 ? row.offer.back[1] : undefined,
-        render: props => props.value ?
-         <div className='back-offer back-bg'>
-           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
-           <div className='price'>
-             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
-         </div> :
-         <div className='back-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
-      }, {
-        id: 'back1',
-        header: props => null,
-        minWidth: minOfferWidth,
-        className: classNameBack,
-        accessor: row => row.offer.back.length > 0 ? row.offer.back[0] : undefined,
-        render: props => props.value ?
-         <div className='back-offer back-all-offer best-offer'>
-           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
-           <div className='price'>
-             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
-         </div> :
-         <div className='back-offer empty-offer best-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
-      }]
-    }, {
-      // NOTE will be seperated comopent for header
+      render: props => props.value ?
+        <div className='back-offer back-bg'>
+          <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+          <div className='price'>
+            { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', BettingModuleUtils.stakePlaces, true)}</div>
+        </div> :
+        <div className='back-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
+    };
+
+    const backOfferTwo = {
+      id: 'back2',
+      minWidth: minOfferWidth,
+      className: classNameBack,
+      sortable: false,
+      accessor: row => row.offer.back.length > 1 ? row.offer.back[1] : undefined,
+      header: props => null,
+      headerClassName: 'back-all-offer-border',
+      render: props => props.value ?
+        <div className='back-offer back-bg'>
+          <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+          <div className='price'>
+            { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', BettingModuleUtils.stakePlaces, true)}</div>
+        </div> :
+        <div className='back-offer empty-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
+    };
+
+    const backOfferThree = {
+      id: 'back1',
+      minWidth: minOfferWidth,
+      className: classNameBack,
+      sortable: false,
+      accessor: row => row.offer.back.length > 0 ? row.offer.back[0] : undefined,
       header:  props =>
+        <div className='offer-header back-all-offer'>
+          <p id={ BetTypes.BACK } onClick={ this.placeAllBestBets } >{I18n.t('complex_betting_widget.back_all')}</p>
+        </div>,
+      render: props => props.value ?
+        <div className='back-offer back-all-offer best-offer'>
+          <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+          <div className='price'>
+            { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', BettingModuleUtils.stakePlaces, true)}</div>
+        </div> :
+        <div className='back-offer empty-offer best-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
+    };
+
+    const layOfferOne = {
+      id: 'lay1',
+      minWidth: minOfferWidth,
+      className: classNameLay,
+      sortable: false,
+      accessor: row => row.offer.lay.length > 0 ? row.offer.lay[0] : undefined,
+      header:  props =>
+        <div className='offer-header lay-all-offer'>
+          <p id={ BetTypes.LAY } onClick={ this.placeAllBestBets } >{I18n.t('complex_betting_widget.lay_all')}</p>
+        </div>,
+      render: props => props.value ?
+        <div className='lay-offer lay-all-offer best-offer'>
+          <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+          <div className='price'>
+            { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', BettingModuleUtils.stakePlaces, true)}</div>
+        </div> :
+        <div className='lay-offer empty-offer best-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
+    };
+
+    const layOfferTwo = {
+      id: 'lay2',
+      minWidth: minOfferWidth,
+      className: classNameLay,
+      sortable: false,
+      accessor: row => row.offer.lay.length > 1 ? row.offer.lay[1] : undefined,
+      header: props => null,
+      render: props => props.value ?
+        <div className='lay-offer lay-bg'>
+          <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+          <div className='price'>
+            { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', BettingModuleUtils.stakePlaces, true)}</div>
+        </div> :
+        <div className='lay-offer empty-offer'>
+          <div className='odds-offer'>
+            <p>{I18n.t('complex_betting_widget.offer')}</p>
+          </div>
+        </div>
+    };
+
+    const layOfferThree = {
+      id: 'lay3',
+      minWidth: minOfferWidth,
+      className: classNameLay,
+      sortable: false,
+      accessor: row => row.offer.lay.length > 2 ? row.offer.lay[2] : undefined,
+      header: props =>
         <div className='offer-header lay'>
-          <p className='alignleft' id={ BetTypes.LAY } onClick={ this.placeAllBestBets } >{I18n.t('complex_betting_widget.lay_all')}</p>
-          { this.state.layBookPercent > 0 ? (<p className='alignright'>{ this.state.layBookPercent }%</p>) : '' }
+          { this.state.layBookPercent > 0 ? (<p>{ this.state.layBookPercent }%</p>) : '' }
         </div>,
-      columns: [{
-        id: 'lay1',
-        header: props => null,
-        minWidth: minOfferWidth,
-        className: classNameLay,
-        accessor: row => row.offer.lay.length > 0 ? row.offer.lay[0] : undefined,
-        render: props => props.value ?
-         <div className='lay-offer lay-all-offer best-offer'>
-           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
-           <div className='price'>
-             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
-         </div> :
-         <div className='lay-offer empty-offer best-offer'><div className='odds-offer'><p>{I18n.t('complex_betting_widget.offer')}</p></div></div>
-      }, {
-        id: 'lay2',
-        header: props => null,
-        minWidth: minOfferWidth,
-        className: classNameLay,
-        accessor: row => row.offer.lay.length > 1 ? row.offer.lay[1] : undefined,
-        render: props => props.value ?
-         <div className='lay-offer lay-bg'>
-           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
-           <div className='price'>
-             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
-         </div> :
-         <div className='lay-offer empty-offer'>
-           <div className='odds-offer'>
-             <p>{I18n.t('complex_betting_widget.offer')}</p>
-           </div>
-         </div>
-      }, {
-        id: 'lay3',
-        header: props => null,
-        minWidth: minOfferWidth,
-        className: classNameLay,
-        accessor: row => row.offer.lay.length > 2 ? row.offer.lay[2] : undefined,
-        render: props => props.value ?
-         <div className='lay-offer lay-bg'>
-           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
-           <div className='price'>
-             { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", BettingModuleUtils.stakePlaces, true)}</div>
-         </div> :
-         <div className='lay-offer empty-offer'>
-           <div className='odds-offer'>
-             <p>{I18n.t('complex_betting_widget.offer')}</p>
-           </div>
-         </div>
-      }]
-    }, {
+      render: props => props.value ?
+        <div className='lay-offer lay-bg'>
+          <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+          <div className='price'>
+            { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', BettingModuleUtils.stakePlaces, true)}</div>
+        </div> :
+        <div className='lay-offer empty-offer'>
+          <div className='odds-offer'>
+            <p>{I18n.t('complex_betting_widget.offer')}</p>
+          </div>
+        </div>
+    };
+
+    const layArrowsColumn = {
       className: 'lay-arrows-col',
       header: props => null,
-      minWidth: minLayArrowWidth,
+      minWidth: minArrowWidth,
+      sortable: false,
       render: props =>
         <div className='lay-offer'>
           <i className='icon-left-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'lay', -1) }></i>
           <i className='icon-right-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'lay', 1) }></i>
         </div>
-    }]
+    };
+
+    const columns = [
+      competitorColumn,
+      backArrowsColumn,
+      backOfferOne,
+      backOfferTwo,
+      backOfferThree,
+      layOfferOne,
+      layOfferTwo,
+      layOfferThree,
+      layArrowsColumn
+    ];
 
     return (
 
@@ -447,9 +478,8 @@ class ComplexBettingWidget extends PureComponent {
             <span className='indicator'/>{I18n.t('complex_betting_widget.' + this.props.bettingMarketGroupStatusClassName)}</span>
           </div>
           <div className='rules'>
-            <span>
-              { I18n.t('complex_betting_widget.matched') }: { this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
-            </span>
+            <span>{ I18n.t('complex_betting_widget.matched') }</span>
+            { this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
             <RulesButton rules={ rules } />
           </div>
         </div>
@@ -461,6 +491,9 @@ class ComplexBettingWidget extends PureComponent {
             pageSize={ this.state.tableData.size }
             data={ this.state.tableData.toJS() }
             columns={ columns }
+            resizable={ false }
+            multiSort={ false }
+            sortable={ false }
             showPagination={ false }
             getTdProps={ (state, rowInfo, column, instance) => {
               return {

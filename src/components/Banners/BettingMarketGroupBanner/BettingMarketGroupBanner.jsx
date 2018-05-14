@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
-import BannerClock from '../BannerClock';
 import PropTypes from 'prop-types';
 import banner1 from '../../../assets/images/market_banner_1.png';
 import banner2 from '../../../assets/images/market_banner_2.png';
@@ -19,48 +18,48 @@ class BettingMarketGroupBanner extends PureComponent {
     this.state = {
       bannerUrl: generateBannerUrl()
     }
-    this.renderCountdown = this.renderCountdown.bind(this);
     this.renderLive = this.renderLive.bind(this);
   }
 
-  renderCountdown() {
-    const isCountdownEnd = !moment(this.props.eventTime).isAfter();
-    if (isCountdownEnd && this.props.isLiveMarket) {
-      return this.renderLive();
-    } else {
-      return (
-        <div className='countdown'>
-          <BannerClock time={ new Date(this.props.eventTime) }/>
-        </div>
-      )
-    }
-  }
-
   renderLive() {
-    // TODO: waiting for the style
+    if (!this.props.isLiveMarket) {
+      return;
+    }
+    
     return (
       <div className='live'>
-        { 'LIVE' }
+        <span className='indicator' /> { 'LIVE' }
       </div>
     )
   }
 
   render() {
     const bannerSource = `url(${this.state.bannerUrl})`;
-    const formattedEventTime = moment.parseZone(this.props.eventTime).local().format('LLL'); //TODO
+    const formattedEventTime = moment(this.props.eventTime).format('MMM D, YYYY - h:mma');
+
+    // Regular expression to break out the team names
+    const expr = /(.+)\s(@|VS){1}\s(.+)/gi;
+    const parts = expr.exec(this.props.eventName);
+
+    // default event name layout, overriden if we can parse out the two pieces.
+    let eventName = <div className='name'>{ this.props.eventName }</div>;
+
+    // The regex has matched.
+    if (parts && parts.length === 4) {
+      eventName = <div className='name'>
+        <span className='team-one'>{parts[1]}</span>
+        <span className='versus'>{parts[2]}</span>
+        <span className='team-two'>{parts[3]}</span>
+      </div>;
+    }
+
     return (
       <div className='betting-market-group-banner' style={ { backgroundImage: bannerSource } }>
         <div className='event'>
-          <div className='name'>{ this.props.eventName } 
-            <span className={ this.props.eventStatus }>
-            <span className='indicator'/>{I18n.t('complex_betting_widget.' + this.props.eventStatusClassName)}</span> 
-          </div>
+          {eventName}
           <div className='time'>{ I18n.t('bettingMarketGroup.match_start_on', { time: formattedEventTime }) }</div>
-
+          { this.renderLive() }
         </div>
-        {
-          this.renderCountdown()
-        }
       </div>
     )
   }

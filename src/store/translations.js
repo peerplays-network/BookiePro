@@ -32,13 +32,13 @@ export const translationsObject = {
     },
     titleBar:{
       title: 'BookiePro',
-      clock: 'Local Time %{time}'
+      clock: 'Local Time'
     },
     searchMenu:{
       no_of_result_0: 'No results found',
       no_of_result: '%{count} results for "%{searchText}"',
       match_start_on: ' Thu, 10/01/2017 13:00',
-      search_place_holder: 'Search Team',
+      search_place_holder: 'Search Terms',
       search_error: 'There are currently no betting markets for %{event}'
     },
     myAccount:{
@@ -118,7 +118,7 @@ export const translationsObject = {
       create_account: 'Create Account',
       already_account: 'Already have an account?',
       log_in: 'Log In',
-      premium_acc_text: 'This is a premium name. Please enter a regular name containing least one dash, a number or no vowels.',
+      premium_acc_text: 'This is a premium name. Please enter a regular name containing at least one dash, a number or no vowels.',
       password_no_match: 'The password you entered does not match',
       repeat_password: 'Repeat your Password',
       field_req: 'Field is required',
@@ -131,7 +131,7 @@ export const translationsObject = {
       signup: 'SIGN UP',
       username_notfound: 'Account Name not found',
       password_short: 'password too short',
-      wrong_username_password: 'wrong Account Name or password'
+      wrong_username_password: 'Wrong account name or password'
     },
     changePassword:{
       title: 'Change Your Password',
