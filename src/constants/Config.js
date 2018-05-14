@@ -1,7 +1,11 @@
 import _ from 'lodash';
 import { PrivateKey, PublicKey } from 'peerplaysjs-lib';
+import { version } from '../../package.json';
 import { ChainConfig } from 'peerplaysjs-ws';
-import { version } from '../../package.json'
+
+// This sets the prefx of the supporting libraries to the PPY prefix
+// This line needs to be edited for connecting to chains with a different core asset
+ChainConfig.setPrefix('PPY');
 
 const blockchainUrls = [
   'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090'
@@ -9,11 +13,9 @@ const blockchainUrls = [
 
 // Shuffle list of blockchain nodes
 // So every bookie app will not always connect to the first node in the list
-const shuffledBlockhainUrls = _.shuffle(blockchainUrls)
+const shuffledBlockhainUrls = _.shuffle(blockchainUrls);
 
-const ASSET_ID = '1.3.1'
-
-ChainConfig.setPrefix('PPY');
+const ASSET_ID = '1.3.1';
 
 const Config = {
   version: version,
@@ -53,6 +55,6 @@ const Config = {
     withdrawels: false,
     deposits: false
   }
-}
+};
 
 export default Config
