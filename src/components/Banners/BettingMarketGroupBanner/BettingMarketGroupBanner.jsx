@@ -45,6 +45,8 @@ class BettingMarketGroupBanner extends PureComponent {
     let eventName = 
       <div className='name'>
         { this.props.eventName }
+        <span className={ this.props.eventStatus }>
+        <span className='indicator'/>{I18n.t('complex_betting_widget.' + this.props.eventStatusClassName)}</span>
       </div>;
 
     // The regex has matched.
