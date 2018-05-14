@@ -45,8 +45,6 @@ class BettingMarketGroupBanner extends PureComponent {
     let eventName = 
       <div className='name'>
         { this.props.eventName }
-        <span className={ this.props.eventStatus }>
-        <span className='indicator'/>{I18n.t('complex_betting_widget.' + this.props.eventStatusClassName)}</span>
       </div>;
 
     // The regex has matched.
@@ -55,8 +53,6 @@ class BettingMarketGroupBanner extends PureComponent {
         <span className='team-one'>{parts[1]}</span>
         <span className='versus'>{parts[2]}</span>
         <span className='team-two'>{parts[3]}</span>
-        <span className={ this.props.eventStatus }>
-        <span className='indicator'/>{I18n.t('complex_betting_widget.' + this.props.eventStatusClassName)}</span>
       </div>;
     }
 
@@ -66,6 +62,10 @@ class BettingMarketGroupBanner extends PureComponent {
           {eventName}
           <div className='time'>{ I18n.t('bettingMarketGroup.match_start_on', { time: formattedEventTime }) }</div>
           { this.renderLive() }
+          <div className='name'>
+            <span className={ this.props.eventStatus }>
+            <span className='indicator'/>{I18n.t('complex_betting_widget.' + this.props.eventStatusClassName)}</span>
+          </div>
         </div>
       </div>
     )
