@@ -127,8 +127,8 @@ const getEventGroupPageData = createSelector(
       });
     }).filter( eventNode => {
       // Feature check, is Moneyline filter enabled/disabled?
-      let filt = Config.features.moneylineFilter;
-      return filt ? eventNode.get('moneyline') !== undefined : eventNode;
+      let moneylineFilterEnabled = Config.features.moneylineFilter;
+      return moneylineFilterEnabled ? eventNode.get('moneyline') !== undefined : eventNode;
     });
 
     return eventGroupPageData;

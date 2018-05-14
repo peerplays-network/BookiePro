@@ -193,11 +193,11 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
       const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
       const eventId = bettingMarketGroup && bettingMarketGroup.get('event_id');
       // NOTE: Assume description can be used as comparison
-      let filt = Config.features.moneylineFilter;
+      let moneylineFilterEnabled = Config.features.moneylineFilter;
       var isMoneyline = !!bettingMarketGroup && (bettingMarketGroup.get('description').toUpperCase() === 'MONEYLINE');
       
       // If the moneyline filter is disabled, flip the isMoneyline bool so that bets can still be viewed and placed.
-      if (!filt){
+      if (!moneylineFilterEnabled){
         isMoneyline = true;
       }
       if (eventId && isMoneyline) {
