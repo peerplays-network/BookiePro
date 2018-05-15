@@ -63,8 +63,6 @@ div.simple-betting {
             border-bottom: 2px solid @domino;
             border-right: 2px solid @domino;
             padding: 0;
-            // To disable the default mouseover highlight
-            background-color: transparent;
     
             &>*{
               padding-top:3px;
@@ -189,9 +187,9 @@ div.simple-betting {
   margin-top: -4px;
 }
 .back-offer {
-  background-color: @simple_betting_lay_bg!important;
+  background-color: @simple_betting_lay_bg;
   &:hover {
-    background-color: fade(@simple_betting_back_bg, 90%)!important;
+    background-color: fade(@simple_betting_back_bg, 90%);
   }
   > a {
     color: @simple_betting_label;
@@ -211,9 +209,9 @@ div.simple-betting {
 }
 
 .lay-offer {
-  background-color: @light_pink!important;
+  background-color: @light_pink;
   &:hover {
-    background-color: fade(@light_pink, 90%)!important;
+    background-color: fade(@light_pink, 90%);
   }
   > a {
     color: @simple_betting_label;
@@ -232,11 +230,11 @@ div.simple-betting {
   }
 }
 .simple-betting-disabled{
-  background-color: @simple_betting_disabled!important;
+  background-color: @simple_betting_disabled;
     &:hover{
-      background-color: @simple_betting_disabled!important;
+      background-color: @simple_betting_disabled;
     }
   .lay-offer, .back-offer{
-    background-color: transparent!important;
+    background-color: transparent;
   }
 }
