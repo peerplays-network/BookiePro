@@ -56,25 +56,6 @@ const renderEventTime = (text, record) => {
   }
 }
 
-const renderClass = (record, action) => {
-  // let className;
-  // let eventStatus = record.get('eventStatus');
-  // var validToChange;
-  // if(eventStatus !== 'settled' && eventStatus !== 'graded' && eventStatus !== 'finished' && eventStatus !== 'frozen'){
-  //   validToChange = true;
-  // }
-  // if(action === 'back'){
-  //   className = 'back-offer';
-  // } else {
-  //   className = 'lay-offer';
-  // } 
-  // if(validToChange){
-  //   className += '-disabled';
-  // }
-  // return className;
-  return '';
-  }
-
 const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsFormat) =>  {
   // 1 = home , 2 = away, 3 = draw
   let columns = [
@@ -193,7 +174,6 @@ class SimpleBettingWidget extends PureComponent {
       </div>
     )
   }
-
   /**
    * This function returns a function that will be used by the Ant-Design table
    * for cell rendering the betting offers in the widget.
@@ -226,16 +206,6 @@ class SimpleBettingWidget extends PureComponent {
       if (eventStatus !== 'settled' && eventStatus !== 'graded' && eventStatus !== 'finished' && eventStatus !== 'frozen'){
         canBet = true;
       }
-        if(typeOfBet === 'back'){
-          className = 'back-offer';
-        } else {
-          className = 'lay-offer';
-        }
-      if(!canBet){
-        className += '-disabled';
-      } 
-      
-      //let className;
       
       if ( offers === undefined || offers.isEmpty() || offers.getIn([index-1, 'betting_market_id']) === undefined || !canBet ){
         return '';
@@ -303,7 +273,7 @@ class SimpleBettingWidget extends PureComponent {
       <div className='simple-betting'>
         <Table
           bordered
-          columns={ getColumns(this.renderOffer, this.props.navigateTo, "BTC", this.props.sportName, this.props.oddsFormat) }
+          columns={ getColumns(this.renderOffer, this.props.navigateTo, "BTC", this.props.sportName, this.props.oddsFormat, this.renderClass) }
           dataSource={ events.toArray() }
           title={ () => renderTitle(this.props.title) }
           footer={ () => this.props.showFooter ? this.renderFooter(this.props) : null }

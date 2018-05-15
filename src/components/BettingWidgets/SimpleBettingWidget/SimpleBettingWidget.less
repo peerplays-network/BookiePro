@@ -59,20 +59,6 @@ div.simple-betting {
           &:hover{
             background: transparent;
           }
-          // td:nth-of-type(3), td:nth-of-type(5), td:nth-of-type(7){ // Lay Bet Cells
-          //   //& .lay-offer{ 
-          //   background: @light_pink;
-          //     &:hover{
-          //       background-color: fade(@light_pink, 90%);
-          //     }
-          // }
-          // td:nth-of-type(4), td:nth-of-type(6), td:nth-of-type(8){ // Back Bet Cells
-          //   //& .back-offer{  
-          //   background: @simple_betting_back_bg;
-          //   &:hover{
-          //     background-color: fade(@simple_betting_back_bg, 90%);              
-          //   }
-          // } 
           td {
             border-bottom: 2px solid @domino;
             border-right: 2px solid @domino;
@@ -100,19 +86,6 @@ div.simple-betting {
                 color: @primary_label_highlight;
               }
             }
-            // FIX
-            .back-offer {
-              background-color: @simple_betting_back_bg;
-            }
-            & .back-offer:hover {
-              background-color: fade(@simple_betting_back_bg, 90%);
-            }
-            & .lay-offer {
-              background-color: @light_pink;
-            }
-            & .lay-offer:hover {
-              background-color: fade(@light_pink, 90%);
-            }
     
             a {
               color: @black;
@@ -123,6 +96,7 @@ div.simple-betting {
                 
                 &.empty {
                   font-weight: normal;
+                  height: 100%;
                 }
     
                 .odds {
@@ -207,12 +181,6 @@ div.simple-betting {
     opacity:1;
   }
 }
-.simple-betting-disabled{
-  background-color: @simple_betting_disabled;
-      &:hover{
-        background-color: @simple_betting_disabled!important;
-      }
-}
 .simple-outcome{
   position: absolute;
   font-size: xx-large;
@@ -221,10 +189,10 @@ div.simple-betting {
   margin-top: -4px;
 }
 .back-offer {
-  // background-color: @simple_betting_lay_bg;
-  // &:hover {
-  //   background-color: fade(@simple_betting_back_bg, 90%);
-  // }
+  background-color: @simple_betting_lay_bg!important;
+  &:hover {
+    background-color: fade(@simple_betting_back_bg, 90%)!important;
+  }
   > a {
     color: @simple_betting_label;
     display: block;
@@ -243,10 +211,10 @@ div.simple-betting {
 }
 
 .lay-offer {
-  // background-color: @light_pink;
-  // &:hover {
-  //   background-color: fade(@light_pink, 90%);
-  // }
+  background-color: @light_pink!important;
+  &:hover {
+    background-color: fade(@light_pink, 90%)!important;
+  }
   > a {
     color: @simple_betting_label;
     display: block;
@@ -261,5 +229,14 @@ div.simple-betting {
         font-weight:500;
       }
     }
+  }
+}
+.simple-betting-disabled{
+  background-color: @simple_betting_disabled!important;
+    &:hover{
+      background-color: @simple_betting_disabled!important;
+    }
+  .lay-offer, .back-offer{
+    background-color: transparent!important;
   }
 }
