@@ -57,22 +57,23 @@ const renderEventTime = (text, record) => {
 }
 
 const renderClass = (record, action) => {
-  let className;
-  let eventStatus = record.get('eventStatus');
-  var validToChange;
-  if(eventStatus !== 'settled' && eventStatus !== 'graded' && eventStatus !== 'finished' && eventStatus !== 'frozen'){
-    validToChange = true;
+  // let className;
+  // let eventStatus = record.get('eventStatus');
+  // var validToChange;
+  // if(eventStatus !== 'settled' && eventStatus !== 'graded' && eventStatus !== 'finished' && eventStatus !== 'frozen'){
+  //   validToChange = true;
+  // }
+  // if(action === 'back'){
+  //   className = 'back-offer';
+  // } else {
+  //   className = 'lay-offer';
+  // } 
+  // if(validToChange){
+  //   className += '-disabled';
+  // }
+  // return className;
+  return '';
   }
-  if(action === 'back'){
-    className = 'back-offer';
-  } else {
-    className = 'lay-offer';
-  } 
-  if(validToChange){
-    className += '-disabled';
-  }
-  return className;
-}
 
 const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsFormat) =>  {
   // 1 = home , 2 = away, 3 = draw
@@ -99,13 +100,13 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
         dataIndex: 'back_offer_home',
         key: 'back_offer_home',
         width: offerColumnWidth,
-        className: (text, record) => { renderClass(record, 'back') },
+        className: 'back-offer',
         render: renderOffer('back', 'lay', 1, currencyFormat, oddsFormat)
       }, {
         dataIndex: 'lay_offer_home',
         key: 'lay_offer_home',
         width: offerColumnWidth,
-        className: (text, record) => { renderClass(record, 'lay') },
+        className: 'lay-offer',
         render: renderOffer('lay', 'back', 1, currencyFormat, oddsFormat)
       }]
     }, {
@@ -114,13 +115,13 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
         dataIndex: 'back_offer_draw',
         key: 'back_offer_draw',
         width: offerColumnWidth,
-        className: (text, record) => { renderClass(record, 'back') },
+        className: 'back-offer',
         render: renderOffer('back', 'lay', 3, currencyFormat, oddsFormat)
       }, {
         dataIndex: 'lay_Offer_away',
         key: 'lay_offer_draw',
         width: offerColumnWidth,
-        className: (text, record) => { renderClass(record, 'lay') },
+        className: 'lay-offer',
         render: renderOffer('lay', 'back', 3, currencyFormat, oddsFormat)
       }]
     }, {
@@ -129,13 +130,13 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
         dataIndex: 'back_offer_away',
         key: 'back_offer_away',
         width: offerColumnWidth,
-        className: (text, record) => { renderClass(record, 'back') },
+        className: 'back-offer',
         render: renderOffer('back', 'lay', 2, currencyFormat, oddsFormat)
       }, {
         dataIndex: 'lay_Offer_away',
         key: 'lay_offer_away',
         width: offerColumnWidth,
-        className: (text, record) => { renderClass(record, 'lay') },
+        className: 'lay-offer',
         render: renderOffer('lay', 'back', 2, currencyFormat, oddsFormat)
       }]
     }
@@ -224,12 +225,17 @@ class SimpleBettingWidget extends PureComponent {
       var canBet, className;
       if (eventStatus !== 'settled' && eventStatus !== 'graded' && eventStatus !== 'finished' && eventStatus !== 'frozen'){
         canBet = true;
+      }
         if(typeOfBet === 'back'){
           className = 'back-offer';
         } else {
           className = 'lay-offer';
         }
+      if(!canBet){
+        className += '-disabled';
       } 
+      
+      //let className;
       
       if ( offers === undefined || offers.isEmpty() || offers.getIn([index-1, 'betting_market_id']) === undefined || !canBet ){
         return '';
