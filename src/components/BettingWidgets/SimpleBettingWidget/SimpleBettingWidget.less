@@ -59,6 +59,9 @@ div.simple-betting {
           &:hover{
             background: transparent;
           }
+          td:nth-of-type(3), td:nth-of-type(4), td:nth-of-type(5), td:nth-of-type(6), td:nth-of-type(7){
+            background: @anakiwa;
+          }
         }
       }
       th {
@@ -216,10 +219,6 @@ div.simple-betting {
     color: @simple_betting_label;
     display: block;
     > div.offer {
-      &.empty{
-        padding-top: 8px;
-        padding-bottom: 9px;
-      }
       > div.odds {
         font-size: 16px;
         text-align: center;
@@ -242,10 +241,6 @@ div.simple-betting {
     color: @simple_betting_label;
     display: block;
     > div.offer {
-      &.empty{
-        padding-top: 8px;
-        padding-bottom: 9px;
-      }
       > div.odds {
         font-size: 16px;
         text-align: center;
