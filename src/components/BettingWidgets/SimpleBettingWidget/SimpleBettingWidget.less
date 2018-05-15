@@ -60,17 +60,85 @@ div.simple-betting {
             background: transparent;
           }
           td:nth-of-type(3), td:nth-of-type(5), td:nth-of-type(7){ // Lay Bet Cells
-            background: @anakiwa;
+            //& .lay-offer{ 
+            background: @light_pink;
+              &:hover{
+                background-color: fade(@light_pink, 90%);
+              }
+          }
+          td:nth-of-type(4), td:nth-of-type(6), td:nth-of-type(8){ // Back Bet Cells
+            //& .back-offer{  
+            background: @simple_betting_back_bg;
             &:hover{
+              background-color: fade(@simple_betting_back_bg, 90%);              
+            }
+          } 
+          td {
+            border-bottom: 2px solid @domino;
+            border-right: 2px solid @domino;
+            padding: 0;
+            // To disable the default mouseover highlight
+            background-color: transparent;
+    
+            &>*{
+              padding-top:3px;
+              padding-bottom:3px;
+            }
+    
+            &.event-time {
+              text-align: center;
+              word-break: normal;
+              font-weight:bold;
+            }
+            &.event-name {
+              font-size: 14px;
+              font-weight:500;
+              padding:0 6px;
+              word-break: normal;
+              cursor: pointer;
+              &:hover {
+                color: @primary_label_highlight;
+              }
+            }
+            // FIX
+            .back-offer {
+              background-color: @simple_betting_back_bg;
+            }
+            & .back-offer:hover {
               background-color: fade(@simple_betting_back_bg, 90%);
             }
-          }
-          td:nth-of-type(4), td:nth-of-type(6){ // Back Bet Cells
-            background: @light_pink;
-            &:hover{
-              background-color: fade(@light_pink, 90%);              
+            & .lay-offer {
+              background-color: @light_pink;
             }
-          }          
+            & .lay-offer:hover {
+              background-color: fade(@light_pink, 90%);
+            }
+    
+            a {
+              color: @black;
+              display: block;
+              font-weight: bold;
+    
+              .offer {
+                
+                &.empty {
+                  font-weight: normal;
+                }
+    
+                .odds {
+                  color: @black;
+                  font-size: 15px;
+                  text-align: center;
+                }
+                
+                .price {
+                  font-size: 9px;
+                  text-align: center;
+                }
+    
+              }
+            }
+          }         
         }
       }
       th {
@@ -83,61 +151,6 @@ div.simple-betting {
         font-weight:normal;
         &.back-offer { display: none; }
         &.lay-offer { display: none; }
-      }
-
-      td {
-        border-bottom: 2px solid @domino;
-        border-right: 2px solid @domino;
-        padding: 0;
-        // To disable the default mouseover highlight
-        background-color: transparent;
-
-        &>*{
-          padding-top:3px;
-          padding-bottom:3px;
-        }
-
-        &.event-time {
-          text-align: center;
-          word-break: normal;
-          font-weight:bold;
-        }
-        &.event-name {
-          font-size: 14px;
-          font-weight:500;
-          padding:0 6px;
-          word-break: normal;
-          cursor: pointer;
-          &:hover {
-            color: @primary_label_highlight;
-          }
-        }
-
-        a {
-          color: @black;
-          display: block;
-          font-weight: bold;
-
-          .offer {
-            
-            &.empty {
-              font-weight: normal;
-            }
-
-            .odds {
-              color: @black;
-              font-size: 15px;
-              text-align: center;
-            }
-            
-            .price {
-              font-size: 9px;
-              text-align: center;
-            }
-
-          }
-
-        }
       }
     }
 
@@ -208,6 +221,10 @@ div.simple-betting {
   margin-top: -4px;
 }
 .back-offer {
+  // background-color: @simple_betting_lay_bg;
+  // &:hover {
+  //   background-color: fade(@simple_betting_back_bg, 90%);
+  // }
   > a {
     color: @simple_betting_label;
     display: block;
@@ -226,6 +243,10 @@ div.simple-betting {
 }
 
 .lay-offer {
+  // background-color: @light_pink;
+  // &:hover {
+  //   background-color: fade(@light_pink, 90%);
+  // }
   > a {
     color: @simple_betting_label;
     display: block;
