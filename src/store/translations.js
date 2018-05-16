@@ -803,44 +803,71 @@ export const translationsObject = {
         header: 'Overview',
         questionAnswerPairs: [
           {
-            question: 'What is Bookie?',
-            answer: 'Bookie is a betting exchange where people from all over the world can bet on sports.'
+            question: 'What is BookiePro.fun',
+            answer: 'BookiePro.fun is a betting exchange where people from all over the world can bet with “play” tokens on a wide range of sports events.'
           },
           {
-            question: 'How is Bookie different from a regular sportsbook?',
+            question: 'What currencies can I bet with on BookiePro.fun?',
+            answer: 'BookiePro.fun uses only the “play” token BitFun (BTF). BitFun holds no actual value and should not be considered a currency of any kind.'
+          },
+          {
+            question: 'How is BookiePro.fun different from a regular sportsbook?',
             answer: 'When you bet with a sportsbook, your wager is matched by the “house” (the sportsbook operator). ' +
-            'If you win this bet, this sportsbook operator pays you directly. ' +
-            'Bookie has no house. Instead, Bookie matches your bet with other users who want to bet against you.'
+            'If you win this bet, this sportsbook operator pays you directly. BookiePro.fun is a betting exchange - so there is no house. ' +
+            'Instead, the platform matches your bet with those of other users who want to take the opposite side of your bet.'
           },
           {
-            question: 'How does the Bookie betting exchange work?',
-            answer: 'A betting exchange is similar to a stock exchange. A stock exchange matches orders between anyone' +
-            ' who wants to buy and sell stocks. A betting exchange matches the orders between anyone who wants to place or take bets.'
-          },
-          {
-            question: 'How do I find someone to bet with?',
-            answer: 'Bookie automatically matches bets between you and other users from around the world. All you have to do is choose a sport and event to bet on, tell Bookie how ' +
-            'much you want to bet, and post the funds to cover your bet. Bookie takes care of the rest - matching your bet at best available price, holding all funds in escrow, and then releasing ' +
-            'the funds to the winner when the sports event is finished.'
+            question: 'How does the BookiePro.fun betting exchange work?',
+            answer: 'A betting exchange is similar to a stock exchange. A stock exchange matches orders between anyone who wants to buy ' +
+            'and sell a particular stock. A betting exchange matches the orders between anyone who wants to back (bet ‘for’) or lay (bet ' +
+            '‘against’) a particular result in a sports event.'
           },
 
           {
-            question: 'How is Bookie different from other betting exchanges?',
-            answer: 'Traditional betting exchanges operate the software which matches your bets on a centralized server. On Bookie, the software that matches your bets operates ' +
-            'on a public blockchain. This makes Bookie transparent and accessible from every country on Earth.'
+            question: 'How do I find someone to bet with on BookiePro.fun?',
+            answer: 'BookiePro.fun automatically matches bets between you and other users from around the world. All you have to do is ' +
+            'choose a sport and event to bet on, and decide how much you want to bet and at what price. BookiePro.fun takes care of the rest ' +
+            '- matching your bet at the best available price, holding all funds in escrow, and then releasing the funds to the winner when the sports event is finished.'
           },
           {
-            question: 'Is there a charge for me to bet with Bookie?',
-            answer: 'Yes. Bookie charges an industry-low commission of X% on all net winnings in a betting market.'
+            question: 'How is BookiePro.fun different from other betting exchanges?',
+            answer: 'Traditional betting exchanges operate the software which matches your bets on a centralized server. On BookiePro.fun, ' +
+            'the software that matches your bets operates on a public blockchain. This makes BookiePro.fun transparent and accessible ' +
+            'from every country on Earth. Read more about how blockchain can move betting exchanges on to the next level here and here.'
           },
           {
-            question: 'Will Bookie restrict my account if I win too much?',
-            answer: 'No. Bookie does not close or limit the accounts of users, unlike many sportsbooks and betting exchanges.'
+            question: 'Who owns BookiePro.fun?',
+            answer: 'No single person, company, or central authority owns or operates BookiePro.fun. The BookiePro.fun app is an ' +
+            'application that interfaces with the Peerplays blockchain. As the Racing Post puts it: “...because of the way blockchains ' +
+            'work, Peerplays is largely automated and self-sustaining. No one owns it, no single person or organisation is responsible for it…'
           },
           {
-            question: 'What currencies can I bet with on Bookie?',
-            answer: 'Bookie is capable of accepting all digital currencies, but since Bitcoin is the most widely traded and liquid digital currency right now, ' +
-            'Bookie is a “Bitcoin-only” desktop application.'
+            question: 'What is a blockchain?',
+            answer: 'A blockchain is a digital database managed by a decentralized collective of digital stakeholders. Blockchains use ' +
+            'advanced cryptographic techniques to securely record your transactions on a public network. BookiePro.fun runs on a Peerplays ' +
+            'blockchain, which is custom-built to support online gambling.'
+          },
+          {
+            question: 'How does BookiePro.fun’s decentralized approach benefit bettors, compared to a traditional centralized sportsbook?',
+            answer: 'Decentralized sports betting provides the following benefits for bettors:' +
+            '<ul><li>provably fair (traditional sportsbooks don’t publish their back-end code and business logic)</li>' +
+            '<li>real-time transparency of bet placement (traditional sportsbooks never publish their database)</li>' +
+            '<li>no slow payment no possibility of funds being stolen by an unethical operator</li></ul>'
+          },
+          {
+            question: 'How does a betting exchange benefit bettors, compared to a traditional sportsbook?',
+            answer: 'Betting exchanges offer the following benefits for bettors:' +
+            '<ul><li>never have your bets refused</li>' +
+            '<li>never have your account limited</li>' +
+            '<li>never have your account shut down</li>' +
+            '<li>multiple market makers (not just the sportsbook \'house\') = huge price competition = better prices than any single sportsbook</li>' +
+            '<li>ability to BACK and LAY (not just BACK as per a sportsbook)</li>' +
+            '<li>ability to trade back and forth in markets</li></ul>'
+          },
+          {
+            question: 'Who is the team behind BookiePro.fun?',
+            answer: 'The development of BookiePro.fun has been supported by the Peerplays Blockchain Standards Association (PBSA), ' +
+            'a non-profit organization based in Canada and dedicated to promoting transparent and fair gaming standards for the Peerplays blockchain.'
           }
         ],
       },
@@ -848,101 +875,80 @@ export const translationsObject = {
         header: 'Account Management & Security',
         questionAnswerPairs: [
           {
-            question: '',
-            answer: 'This section has been disabled for Beta Phase 1 period'
-          }
-          /*{
-            question: 'How do I sign up for a Bookie account?',
-            answer: 'Opening an account with Bookie is very quick and very simple. Click the SIGN UP button on the Bookie app front page and follow the on-screen instructions. \n' +
-            '\n' +
-            '1.\tChoose an Account Name. The Account Name should contain at least one number.\n' +
-            '2.\tA random 22-character password is automatically generated for you. Copy and paste this password into the password confirmation box. ' +
-            'It is IMPORTANT that you back up or save your password securely.\n' +
-            '3.\tDownload the file containing your password (this is one way of backing-up your password)\n' +
-            '4.\tTick the two boxes if you agree XXX\n' +
-            '5.\tClick the XXX button'
+            question: 'How do I sign up for a BookiePro.fun account?',
+            answer: 'OOpening an account with BookiePro.fun is quick and simple. First, download and install the app. ' +
+            'Then, click the SIGN UP button on the BookiePro.fun app front page and follow the on-screen instructions.'
           },
           {
-            question: 'Will I need to provide any ID, proof of address, or other personal documentation when signing up for a Bookie account?',
+            question: 'Will I need to provide any ID, proof of address, or other personal documentation when signing up for a BookiePro.fun account?',
             answer: 'No. Bookie does not require any personal information for Account creation.'
           },
           {
-            question: 'What personal information does Bookie hold about me?',
-            answer: 'Bookie does not store or hold any personal information about you whatsoever, not even your name.'
+            question: 'What personal information does BookiePro.fun hold about me?',
+            answer: 'BookiePro.fun does not store or hold any personal information about you whatsoever, not even your name.'
           },
           {
-            question: 'Is Bookie safe/secure?',
-            answer: 'answer'
-          },
-
-          {
-            question: 'Does Bookie track or store my IP address or any other such data?',
-            answer: 'Bookie does not store or track user IP addresses, mac addresses or any other such identifying information.'
+            question: 'Does BookiePro.fun track or store my IP address or any other such data?',
+            answer: 'BookiePro.fun does not store or track user IP addresses, mac addresses or any other such identifying information.'
           },
           {
-            question: 'What information do I need to log in to my Bookie account?',
-            answer: 'Only two items of information are' +
-            ' required to log in to Bookie: \n' +
+            question: 'What information do I need to log in to my BookiePro.fun account?',
+            answer: 'Only two items of information are required to log in to BookiePro.fun:\n' +
             '1.\t User name \n' +
             '2.\t Password \n' +
-            'It is important that you save your Bookie ' +
-            'password in a secure offline place. \n' +
-            'See below for more information regarding Bookie password.'
+            'It is important that you save your BookiePro.fun password in multiple secure offline places.'
           },
           {
-            question: 'How do I recover my Bookie password?',
-            answer: 'There is no way to recover your Bookie password. If you lose your Bookie password you will not be able to log in to your Bookie account and you will lose access to ' +
-            'all funds in that account forever. When creating a Bookie account, every user is prompted to save a file containing the password to their hard drive. Users should also save ' +
-            'their password in a secure place offline. Never share your password with anyone.'
+            question: 'How do I recover my BookiePro.fun password',
+            answer: 'There is no way to recover your BookiePro.fun password. If you lose your password you will not be able to log in to your account ' +
+            'and you will lose access to all funds in that account forever. When creating your account, every user is prompted to save a file containing ' +
+            'the password to their hard drive. Users should also save their password in a secure place offline. Never share your password with anyone.'
           },
           {
-            question: 'I’ve lost my Bookie password, what should I do?',
-            answer: 'If you lose your Bookie password, you will not be able to log in to your Bookie account again. Ever. All funds in that account will remain untouched but inaccessible.'
+            question: 'I’ve lost my BookiePro.fun password, what should I do?',
+            answer: 'If you lose your password, you will not be able to log in to your BookiePro.fun account again. Ever. All funds in that account will remain untouched but inaccessible.'
           },
           {
             question: 'Who can I share my password with?',
-            answer: 'NEVER share your password with anyone. You are the ONLY person who knows your password - keep it that way! Only enter your password into the ' +
-            'Bookie application, never anywhere else.'
+            answer: 'NEVER share your password with anyone. You are the ONLY person who knows your password - keep it that way! ' +
+            'Only enter your password into the BookiePro.fun application, never anywhere else.'
           },
           {
             question: 'Can I change my password?',
-            answer: 'Yes. Go to My Account, which is accessible on the far right of the Menu bar. From there, click on CHANGE PASSWORD and follow the instructions. ' +
-            'Your new password must contain 22 characters. Characters can be letters (both upper- and lower-case) and numbers.'
+            answer: 'Yes. Go to My Account, which is accessible on the far right of the Menu bar. From there, click on CHANGE PASSWORD ' +
+            'and follow the instructions. Your new password must contain 22 characters. Characters can be letters (both upper- and lower-case) and numbers.'
           },
           {
-            question: 'Can I open more than one Bookie account?',
-            answer: 'Yes, this is allowed. This may be useful for users who are trying to separate different kinds of betting activity and/or strategies. ' +
-            'There is no cost for opening a new Bookie account.'
+            question: 'Can I open more than one BookiePro.fun account?',
+            answer: 'No. Having multiple BookiePro.fun accounts is not allowed while Competitions are running.'
           },
           {
-            question: 'Can I open a Bookie account from anywhere in the world?',
-            answer: 'Bookie places no geographical restrictions on the location of its users. However XXXX all users are responsible for checking local laws etc XXXX'
+            question: 'Can I open a BookiePro.fun account from anywhere in the world?',
+            answer: 'BookiePro.fun places no geographical restrictions on the location of its users. However, it is the bettor’s ' +
+            'responsibility to adhere to local laws at all times, as laid out in the BookiePro.fun EULA XXXX.'
           },
           {
             question: 'Can I change my Account Name?',
-            answer: 'No, the Account Name cannot be changed after the account has been created. However, a new account can be created with a different ' +
-            'account name and funds can then be transferred between the two accounts.'
+            answer: 'No, a BookiePro.fun Account Name cannot be changed after the account has been created.'
           },
           {
-            question: 'Can I log in to my account from multiple devices?',
-            answer: 'Yes. Simply download the Bookie app to a second device and log in using your Account Name and password. No further information is required to log in to your Bookie account.'
-          },
-          {
-            question: 'Why can’t I access my Bookie account?',
-            answer: 'answer'
+            question: 'Can I login to my account from multiple devices',
+            answer: 'YYes. Simply download the BookiePro.fun app to a second device and log in using your account name and password. ' +
+            'No further information is required to log in to your BookiePro.fun account.'
           },
           {
             question: 'Where can I view all my current bets?',
-            answer: 'answer'
+            answer: 'From within the BookiePro.fun app, click on the “My Bets” icon. Here, you can see your Matched Bets, Unmatched, and Settled Bets.'
           },
           {
             question: 'Where can I view my bet history?',
-            answer: 'answer'
+            answer: 'From within the BookiePro.fun app, click on the “My Bets” icon. Here, you can see your Matched Bets, Unmatched, and Settled Bets.'
           },
           {
-            question: 'Where can I view all my Bookie transactions?',
-            answer: 'answer'
-          }*/
+            question: 'Where can I view all my BookiePro.fun transactions?',
+            answer: 'From within the BookiePro.fun app, click on the “My Bets” icon. Here, you can see your Matched Bets, ' +
+            'Unmatched, and Settled Bets. You can also Export this list as a .xls spreadsheet.'
+          }
         ],
       },
       topicFunds: {
