@@ -66,7 +66,7 @@ class BettingMarketGroup extends PureComponent {
             rules={ this.props.rules }
             canCreateBet={ this.props.canCreateBet }
           />
-          <div className='margin-top-18'>
+          <div className='margin-top-18 logo-container'>
             <PeerPlaysLogo />
           </div>
         </div>
