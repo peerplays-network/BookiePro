@@ -104,6 +104,9 @@ export const translationsObject = {
       UTC_1:'UTC-01:00',
       UTC0:'UTC+00:00'
     },
+    registration: {
+      eulaAgree: 'I accept the terms of the BookiePro <a href="">End User License Agreement</a>',
+    },
     signup: {
       new_acc_req_text: 'Create a new Bookie account',
       copy_text: 'Copy',
@@ -114,7 +117,7 @@ export const translationsObject = {
       password_warning_3: ' To download a text file of your password, click the save button below:',
       loginWithAccount: 'Or log in with your existing PeerPlays account',
       cannot_recover_password_warning: 'I understand that PBSA <span class="mediumMessageInText">cannot recover my password.</span>',
-      securely_saved_password_warning: 'I have securely saved my password recovery file.',
+      securely_saved_password_warning: 'I understand that BookiePro passwords cannot be recovered if lost, and that I have securely saved my password recovery file.',      
       create_account: 'Create Account',
       already_account: 'Already have an account?',
       log_in: 'Log In',
@@ -131,7 +134,7 @@ export const translationsObject = {
       signup: 'SIGN UP',
       username_notfound: 'Account Name not found',
       password_short: 'password too short',
-      wrong_username_password: 'Wrong account name or password'
+      wrong_username_password: 'wrong Account Name or password',
     },
     changePassword:{
       title: 'Change Your Password',

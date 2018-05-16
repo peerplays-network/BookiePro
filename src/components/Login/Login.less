@@ -35,4 +35,23 @@
   .signup-link {
     margin-top: 50px;
   }
+  .eulaAgree *{
+    font-size: 14px;
+    //position: relative;
+    &.eulaMsg{
+      padding-left: 20px;
+    }
+    &.eulaCheckbox{
+      transform: translateY(-17px);
+    }
+    a{
+      border: none;
+      padding: 0;
+      color: @login_link;
+      font-size: 14px;
+      &:hover{
+        color: @deep_sky_blue;
+      }
+    }
+  }
 }
