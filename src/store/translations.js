@@ -949,8 +949,22 @@ export const translationsObject = {
         header: 'Funds',
         questionAnswerPairs: [
           {
-            question: '',
-            answer: 'This section has been disabled for Beta Phase 1 period'
+            question: 'What currencies can I bet with on BookiePro.fun?',
+            answer: 'The play token BitFun has been created specifically for BookiePro.fun and is the only crypto asset that can be used in the app. ' +
+            'Do not attempt to move any real fiat or crypto currencies to your BookiePro.fun account - it will not work and you risk losing those funds.'
+          },
+          {
+            question: 'How do I get BitFun?',
+            answer: 'You can earn BitFun top-ups to your BookiePro.fun account. Visit the official Bitcointalk thread XXXX for more information.'
+          },
+          {
+            question: 'How do I deposit funds with BookiePro.fun?',
+            answer: 'You cannot deposit BitFun into your BookiePro.fun account. If you are eligible for top-ups, this will be handled by PBSA ' +
+            'within the time frames indicated on the main Bitcointalk thread, as above.'
+          },
+          {
+            question: 'How do I withdraw funds (BitFun) from BookiePro.fun?',
+            answer: 'You cannot withdraw BitFun from your BookiePro.fun account at any time for any reason.'
           }
           /*{
             question: 'What currencies can I bet with on Bookie?',
@@ -993,9 +1007,9 @@ export const translationsObject = {
         header: 'Betting',
         questionAnswerPairs: [
           {
-            question: 'How do I place a bet on Bookie?',
+            question: 'How do I place a bet on BookiePro.fun?',
             answer: 'Bookie is a betting exchange, which allows you to place a bet by either ' + '<b>Backing</b> (as bettors normally do) or <b>Laying</b> a bet (like a sportsbook would do). ' + 
-            'Bookie has no ‘house’, so all bets you place will be matched by other ' +
+            'BookiePro.fun has no ‘house’, so all bets you place will be matched by other ' +
             'Bookie users, who want to take the opposite side of your bet.\n\n' +
             'To get started:\n' + 
             '&nbsp;&nbsp;&nbsp;&nbsp;1. Choose a sport from the menu on the left\n' + 
@@ -1022,36 +1036,32 @@ export const translationsObject = {
           },
           {
             question: 'What is a ‘back’ bet?',
-            answer: 'Simply put, to ‘back’ a selection is to bet on that particular result ' +
-            'happening. For example, ‘backing’ New England in a game is betting on New England ' + 
-            'to win that game.'
+            answer: 'Simply put, to ‘back’ a selection is to bet on that particular result happening. For example, ‘backing’ ' +
+            'New England in a Moneyline market is betting that New England WILL win that game.'
           },
           {
             question: 'What is a ‘lay’ bet?',
-            answer: 'To ‘lay’ a selection is to bet on a particular result NOT happening. ' +
-            'Put another way, it is betting AGAINST a particular result. So, ‘laying’ New ' +
-            'England in a game is placing a bet for them NOT to win.'
+            answer: 'To ‘lay’ a selection is to bet on a particular result NOT happening. Put another way, it is betting AGAINST a ' +
+            'particular result. So, ‘laying’ New England in a Moneyline market is betting for them NOT to win that game.'
           },
           {
             question: 'What is a ‘matched’ or ‘unmatched’ bet?',
             answer: 'Once a bet is taken by someone on the opposing side, it is matched and ' +
-            'cannot be canceled or changed. The bet is active and must wait until the event ' +
-            'is finished and the results are determined.\n\nUnmatched bets have not been taken ' +
-            'by someone on the opposing side. Unmatched bets can be canceled or changed until ' +
-            'they are matched.'
+            'cannot be cancelled or changed. The bet is active and must wait until the event is finished and the results are determined.\n\nUnmatched bets have <i>not</i> been taken ' +
+            'by someone on the opposing side. Unmatched bets sit on the orderbook and are ' +
+            'visible to all other users. Unmatched bets that have been submitted by different ' +
+            'users but have the same price or odds are aggregated and shown as a single total sum on the orderbook. Unmatched bets can be cancelled or edited until they are matched.'
           },
           {
             question: 'What are Stake and Liability?',
-            answer: 'In a back bet, your stake is the monetary amount placed on the bet. If the ' +
-            'outcome does NOT win, you lose on this amount.\n\nIn a lay bet, your liability is ' +
-            'the amount of money you stand to lose. For example, laying a 10 mBTC bet at 2.32 ' +
-            'odds, your liability is 13.20. That is, you stand to lose 13.20.'
+            answer: 'In a back bet, your stake is the monetary amount placed on the bet. If the outcome does NOT win, you lose on this amount.\n\n' +
+            'In a lay bet, your liability is the amount of money you stand to lose. ' +
+            'For example, laying a 10 mBTF bet at 2.32 odds, your liability is 13.20 mBTF. That is, you stand to lose 13.20 mBTF.'
           },
           {
             question: 'What odds can I bet at?',
-            answer: 'Bookie uses a Decimal odds system at its core. Bookie allows you to bet ' +
-            'using the Decimal odds increments specified in the table below. Bookie also allows ' +
-            'users to display odds in both Decimal and American formats.\n\n' +
+            answer: 'BookiePro.fun uses a Decimal odds system at its core. It allows you to bet using the Decimal odds increments specified in the table below. ' +
+            'BookiePro.fun also allows users to display all odds using the American format. This can be toggled in My Account.\n\n' +
             '<table><tbody><tr><td><b>Price</b></td><td style="padding-left:15px;"><b>Increment</b></td></tr>' +
             '<tr><td>1.01 → 2</td><td style="padding-left:15px;">0.01</td></tr>' +
             '<tr><td>2 → 3</td><td style="padding-left:15px;">0.02</td></tr>' +
@@ -1066,8 +1076,7 @@ export const translationsObject = {
           },
           {
             question: 'Is there a minimum/maximum bet amount?',
-            answer: 'The minimum backer’s stake is 1 mBTC. The minimum layer’s liability is 0.01 ' +
-            'mBTC.\nThere is no maximum bet amount.'
+            answer: 'The minimum backer’s stake is 1 mBTF. The minimum layer’s liability is 0.01 mBTF. \nThere is no maximum bet amount.'
           },
           {
             question: 'How do I cancel a bet?',
@@ -1079,11 +1088,47 @@ export const translationsObject = {
             '“Placed Bets” in the betslip on the right, where you will be able to view and cancel ' +
             'any unmatched bets you have in that market.'
           },
-          /*{
+          {
             question: 'What is Live betting?',
-            answer: 'Live betting is when you bet during the actual event/match/game. Bookie offers Live betting on many different Events. All bets placed ' +
-            'before a match goes live (turned In-Play XXXX terminology….) will be canceled when the market goes in-play.'
-          },*/
+            answer: 'Live betting is when you bet during the actual event/match/game. BookiePro.fun offers Live betting on many different Events. ' +
+            'All bets placed before a match goes live will be cancelled when the market goes in-play.'
+          },
+          {
+            question: 'I believe my bet has been settled incorrectly. What can I do?',
+            answer: 'A <i>settled bet</i> (i.e. where funds have been paid out as winning bets) is final and irreversible. ' +
+            'Funds cannot be reclaimed from accounts once they have been settled (paid out) by BookiePro.fun.'
+          },
+          {
+            question: 'How long after an Event finishes do bets get settled?',
+            answer: 'Bets are normally settled within approximately 15 minutes of the event finishing though often much sooner. ' +
+            'Exceptions can occur if there are delays in reporting final results by the third party data feeds that BookiePro.fun uses.'
+          },
+          {
+            question: 'What happens if the sporting event is abandoned or does not start? ',
+            answer: 'In the rare case an event has no definitive end or conclusive result, the bet is canceled and rendered moot. ' +
+            'Any wagered funds will be returned to all parties. '
+          },
+          {
+            question: 'What is the source of the betting information on BookiePro.fun?',
+            answer: 'BookiePro.fun is populated with sports betting data using a decentralized Oracle system that is connected to multiple third party sports data feeds.'
+          },
+          {
+            question: 'I don’t see the sport/event that I am interested in on BookiePro.fun, why not?',
+            answer: 'Sporting events appear on BookiePro.fun a certain number of days before they begin - typically a lead time of between ' +
+            'two to six days is used. In other cases, such as the Group Stage of big tournaments like the World Cup, events show several weeks in advance.\n\n' +
+            'If the sport you’re looking for is not covered on BookiePro.fun, don’t fret. The app is constantly updating and expanding ' +
+            'its offerings and the sport or league you are interested in may be included in the future.'
+          },
+          {
+            question: 'Can I create a new market?',
+            answer: 'No. New markets cannot be created by users of BookiePro.fun. Markets are created by the Witnesses who run the ' +
+            'Peerplays blockchain that BookiePro.fun is built on. '
+          },
+          {
+            question: 'Can I offer new odds?',
+            answer: 'Yes! Placing bets at odds that suit *you* is at the core of the BookiePro.fun experience! If you are not happy ' +
+            'with the odds being offered at any time - back your own judgement and submit your own.'
+          }
           /*{
             question: 'Why is there a delay in submitting a new or edited bet in Live betting?',
             answer: 'Bookie introduces a delay of between 3 and 10 seconds to all new and edited bets being submitted to a Live market. This is to minimize ' +
@@ -1112,42 +1157,50 @@ export const translationsObject = {
             'once they have been settled (paid out) by Bookie. ' +
             'Users have an opportunity to contest grading (see above) but not settlement.'
           },*/
-          {
+          /*{
             question: 'How long after an Event finishes do bets get settled?',
             answer: 'Bets are normally settled within one hour of the event finishing.'
-          },
-          {
+          },*/
+          /*{
             question: 'What is the source of the betting information on Bookie?',
             answer: 'Bookie is populated with sports betting data using a decentralized ' +
             'Oracle system that is connected to multiple third party sports data feeds.'
-          }
+          }*/
         ],
       },
       topicFees: {
         header: 'Commission & Fees',
         questionAnswerPairs: [
           {
-            question: '',
-            answer: 'This section has been disabled for Beta Phase 1 period'
-          }
-          /*{
-            question: 'What charges does Bookie make on users?',
-            answer: 'Bookie has two different charges: \n' +
-            '1. Commission \n' +
-            '2. Network Fee'
+            question: 'Is there a charge or a fee for me to bet with BookiePro.fun?',
+            answer: 'Yes. There are two charges made to users of BookiePro.fun - Commission and Transaction Fees.'
           },
           {
-            question: 'What is Commission?',
-            answer: 'answer'
-          },
-          {
-            question: 'What is Network Fee?',
-            answer: 'Unlike Commission, the Network Fee is charged regardless of if you are Net winner in a Market. Network Fee is not refunded.'
+            question: 'How does Commission work?',
+            answer: 'BookiePro.fun charges a Commission on any net winnings in a particular market. So if, for example, you have net winnings ' +
+            'of 10 BitFun in the Moneyline market on the Jets @ 49ers game, Commission will be charged on that 10 BitFun. BookiePro.fun\'s ' + 
+            'Commission rate is 1%. We talk about “net winnings” because users can have multiple bets (back and lay) in a single ' +
+            'market - it is the net profit across all those bets that is liable to have Commission paid on it. If a user makes a net ' +
+            'loss in a market (or zero profit, neither plus nor minus) then no Commission is due.\n\n' +
+            'Commission fees are calculated and deducted from net winnings after the Event is finished.'
           },
           {
             question: 'Will I be charged Commission if my bet loses?',
-            answer: 'answer'
-          }*/
+            answer: 'No, not if that was your only bet in this market. Commission is only paid by users who have net winnings in a ' +
+            'particular market. If you had a second bet in that market that won more than your first bet, then you would pay Commission, on your net winnings (net winnings = winnings - losses).'
+          },
+          {
+            question: 'How does the Transaction Fee work?',
+            answer: 'BookiePro.fun also charges a tiny Transaction Fee for every new bet you place. This Transaction Fee is set at XXXX. ' +
+            'It is only charged when you make the following actions:<ul><li>place a bet</li><li>edit a bet</li><li>change your password</li></ul>' +
+            'The Transaction Fee is charged when you are making a new bet and is shown in your betslip as an additional fee on top of your ' + 
+            'bet stake. Transaction Fees are paid regardless of whether you are net winner in a market (unlike Commission).'
+          },
+          {
+            question: 'Why have fees for a play money product?',
+            answer: 'BookiePro.fun uses “play” tokens (‘BitFun’) which means Commission and Transaction Fees have no real-world value, ' +
+            'but they have been included in the app so that this functionality can be properly tested in a live deployment.'
+          }
         ],
       },
       /*topicSports: {
@@ -1196,26 +1249,33 @@ export const translationsObject = {
             'transparent and fair gaming standards for the Peerplays blockchain. For more information please visit www.pbsa.info.'
           },
         ],
-      }/*,
+      },
       topicMisc: {
         header: 'Miscellaneous',
         questionAnswerPairs: [
           {
-            question: 'Can I use Bookie on my mobile?',
-            answer: 'The Bookie mobile app (android) will launch in Q1 2018. Bookie will first be made available as a desktop application, launching in Q4 2017.'
+            question: 'Can I use BookiePro.fun on my mobile?',
+            answer: 'Not yet. For now BookiePro.fun is a desktop/laptop-only application. Development on mobile versions is proceeding through 2018. Watch this space!'
           },
           {
-            question: 'Can I build a bot on Peerplays blockchain? ',
-            answer: 'answer'
+            question: 'Does BookiePro.fun have an API for integration with third party trading software',
+            answer: 'BookiePro.fun runs on top of Peerplays, a fully public blockchain to which anyone can connect. ' + 
+            'The app itself connects to the blockchain using an API. However, this API is not yet appropriate for general purpose use by third parties - ' + 
+            'it requires productizing and documenting, a process that is currently underway. Expect the first publicly documented BookiePro.fun API to be released later in 2018!'
           },
           {
-            question: 'Does Bookie have an API for integration with third party trading software?',
-            answer: 'answer'
+            question: 'Can I build a bot on Peerplays blockchain?',
+            answer: 'Absolutely. PBSA is committed to seeing BookiePro.fun support users who wish to automate their interaction with the sports betting exchange. ' +
+            'The release of a user-friendly, well-documented API later this year will be a huge positive step in this direction.'
           },
           {
-            question: 'Is it necessary to update Bookie when a new version is available?',
-            answer: 'answer'
-          },
+            question: 'Is it necessary to update BookiePro.fun when a new version is available?',
+            answer: 'There are two sorts of BookiePro.fun updates - hard and soft updates. All updates are made by downloading and installing ' + 
+            'the latest version of the app from the BookiePro.fun website.\n\n' +
+            'A hard update is a required update - you will not be able to use BookiePro.fun without making this update. ' +
+            'The app will tell you if a hard update is required when you log in and will not allow you to use the app until you make the update.\n\n' + 
+            'A soft update is optional for users to make - it is likely to provide some small functional improvements or minor bug fixes, but the app can be used without making the update. '
+          }/*,
           {
             question: 'What is mB?',
             answer: '[milli-bitcoin, 1mB = 0.0001 bitcoin]'
@@ -1235,9 +1295,9 @@ export const translationsObject = {
           {
             question: 'Do you have an MIT lisence for the Bookie Application?',
             answer: 'Click <a href="#" class="mit-license-anchor">here</a> to view the MIT license'
-          }
+          }*/
         ],
-    }*/,
+      },
       // TODO: the following should be deprecated but floating help is still referring to these
       // Revisit this after the floating help is revamped
       question1: 'What is BookiePro?',
