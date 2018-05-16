@@ -4,10 +4,16 @@
 	height: 0;
 }
 .offer-header.lay {
-	float: left;
+  float: left;
+  &.disabled{
+    display: none;
+  }
 }
 .offer-header.back {
-	float: right;
+  float: right;
+  &.disabled{
+    display: none;
+  }
 }
 div.complex-betting {
 	// Using fade (from LESS) can set opacity to background only

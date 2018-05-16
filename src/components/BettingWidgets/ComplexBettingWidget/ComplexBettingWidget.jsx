@@ -356,7 +356,7 @@ class ComplexBettingWidget extends PureComponent {
       sortable: false,
       accessor: row => row.offer.back.length > 2 ? row.offer.back[2] : undefined,
       header:  props =>
-        <div className='offer-header back'>
+        <div className={ props.data[0].__original.bmStatus[0] ? 'offer-header back disabled' : 'offer-header back disabled' }>
           { this.state.backBookPercent > 0 ? (<p>{ this.state.backBookPercent }%</p>) : '' }
         </div>,
       render: props => props.value ?
@@ -427,14 +427,14 @@ class ComplexBettingWidget extends PureComponent {
           <p id={ BetTypes.LAY } onClick={ this.placeAllBestBets } >{ props.data[0].__original.bmStatus[0] ? null : I18n.t('complex_betting_widget.lay_all')}</p>
         </div>,
       render: props => props.value ?
-        <div className='lay-offer lay-all-offer best-offer'>
+        <div className={ props.row.bmStatus[0] ? 'lay-offer lay-all-offer best-offer disabled' : 'lay-offer lay-all-offer best-offer' }>
           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
           <div className='price'>
-            { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', BettingModuleUtils.stakePlaces, true)}</div>
+            {  props.row.bmStatus[0] ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', BettingModuleUtils.stakePlaces, true)}</div>
         </div> :
         <div className={ props.row.bmStatus[0] ? 'lay-offer empty-offer best-offer disabled' : 'lay-offer empty-offer best-offer' }>
           <div className='odds-offer'>
-            <p>{I18n.t('complex_betting_widget.offer')}</p>
+            <p>{ props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
           </div>
         </div>
     };
@@ -466,7 +466,7 @@ class ComplexBettingWidget extends PureComponent {
       sortable: false,
       accessor: row => row.offer.lay.length > 2 ? row.offer.lay[2] : undefined,
       header: props =>
-        <div className='offer-header lay'>
+        <div className={ props.data[0].__original.bmStatus[0] ? 'offer-header lay disabled' : 'offer-header lay' }>
           { this.state.layBookPercent > 0 ? (<p>{ this.state.layBookPercent }%</p>) : '' }
         </div>,
       render: props => props.value ?
