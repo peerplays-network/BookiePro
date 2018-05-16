@@ -105,7 +105,7 @@ export const translationsObject = {
       UTC0:'UTC+00:00'
     },
     registration: {
-      eulaAgree: 'I accept the terms of the BookiePro <a href="">End User License Agreement</a>',
+      eulaAgree: 'I accept the terms of the BookiePro End User License Agreement',
     },
     signup: {
       new_acc_req_text: 'Create a new Bookie account',

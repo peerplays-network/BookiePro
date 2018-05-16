@@ -102,13 +102,13 @@ let form = reduxForm({form: 'login'})(LoginForm);
 const selector = formValueSelector('login');
 form = connect(
 	state => {
-		const hasUserName = selector(state, 'userName');
-		const hasPassword = selector(state, 'password');
-		const hasEulaChecked = selector(state, 'eulaAgree');
+	  const hasUserName = selector(state, 'userName');
+	  const hasPassword = selector(state, 'password');
+	  const hasEulaChecked = selector(state, 'eulaAgree');
 	  return{
-			hasUserName: !!hasUserName,
-			hasPassword: !!hasPassword,
-			hasEulaChecked: !!hasEulaChecked
+		  hasUserName: !!hasUserName,
+		  hasPassword: !!hasPassword,
+		  hasEulaChecked: !!hasEulaChecked
 	  }
 }
 )(form)
