@@ -14,13 +14,6 @@ const AppUtils = {
   // Check if the app is running inside electron
   isRunningInsideElectron() {
     return window && window.process && window.process.type === 'renderer';
-  },
-  // Open a link in a browser from Bookie
-  openExternalLink(link){
-    if(this.isRunningInsideElectron){
-      let electron = window.require('electron');
-      electron.shell.openExternal(link);
-    }
   }
 }
 

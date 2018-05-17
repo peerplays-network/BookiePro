@@ -25,9 +25,12 @@ import { LocaleProvider } from 'antd';
 import { I18n } from 'react-redux-i18n';
 import log from 'loglevel';
 import LicenseScreen from './components/LicenseScreen';
+import $ from 'jquery';
+import { AppUtils } from './utility';
 
 // Configure store
 const store = configureStore();
+const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 // Configure history
 const history = syncHistoryWithStore(hashHistory, store, {
   selectLocationState (state) {
@@ -42,6 +45,16 @@ const history = syncHistoryWithStore(hashHistory, store, {
 // Use log.levels.DEBUG to see most of the API communication logging
 // We should turn this off in the production build.
 log.setLevel(log.levels.SILENT);
+
+let electron;
+//open links externally by default
+$(document).on('click', 'a[href^="http"]', (event) => {
+  event.preventDefault();
+  if (isRunningInsideElectron){
+    electron = window.require('electron');
+    electron.shell.openExternal(this.href);
+  }
+});
 
 // Add new page here
 const routes = (

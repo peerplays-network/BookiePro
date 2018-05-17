@@ -50,25 +50,10 @@ const getTopicTranslationKeyword = (topic) => {
 }
 
 const getQuestionAnswerPairs = (topic) => {
-  var questionAnswerPairs = [];
+  let questionAnswerPairs = [];
   let translationKeyword = getTopicTranslationKeyword(topic);
   if (translationKeyword) {
-    // TODO: If contains link in 'questionAnswerPairs...', pull link and apply AppUtils.openExternalLink({extracted link})
-    debugger;
-    
     questionAnswerPairs = I18n.t('help.' + translationKeyword + '.questionAnswerPairs');
-    var matches = [];
-    var split, match;
-    for(let i=0; i<questionAnswerPairs.length;i++){
-      split = questionAnswerPairs[i].answer.split('<a href="');
-      for(let j=0; j<split.length; j++){
-        match = split[j].match(/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/);
-        if(match !== null){
-          matches.push(match[0]);
-        }
-      }
-    }
-    console.log(matches);    
   }
   return questionAnswerPairs;
 }
