@@ -32,7 +32,13 @@ class BettingMarketGroup extends PureComponent {
     } else {
       const prevBettingMarketGroupId = this.props.params.objectId;
       const nextBettingMarketGroupId = nextProps.params.objectId;
-      if (nextBettingMarketGroupId !== prevBettingMarketGroupId){
+      //if (nextBettingMarketGroupId !== prevBettingMarketGroupId){
+      if (nextBettingMarketGroupId !== prevBettingMarketGroupId ||
+        nextProps.bettingMarketGroup !== this.props.bettingMarketGroup || 
+        nextProps.marketData !== this.props.marketData || 
+        nextProps.eventName !== this.props.eventName ||
+        nextProps.eventStatus !== this.props.eventStatus ||
+        nextProps.bettingMarketGroupStatus !== this.props.bettingMarketGroupStatus){  
         // Get the data
         this.props.getData(nextBettingMarketGroupId);
       }

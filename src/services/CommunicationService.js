@@ -60,6 +60,7 @@ class CommunicationService {
    * Callback for change in the blockchain
    */
   static onUpdate(data) {
+    console.log(data);
     // Split and categorize updated data from blockchain
     // We flatten it since the updatd data from blockchain is an array of array
     this.categorizeUpdatedDataFromBlockchain(_.flatten(data));
@@ -67,6 +68,7 @@ class CommunicationService {
     if (!this.syncReduxStoreWithBlockchainTime || (new Date().getTime() - this.syncReduxStoreWithBlockchainTime) > SYNC_MIN_INTERVAL ) {
       // Update and delete objects
       if (!this.updatedObjectsByObjectIdByObjectIdPrefix.isEmpty()) {
+        console.log(this.updatedObjectsByObjectIdByObjectIdPrefix.toJS());
         this.updateObjects(this.updatedObjectsByObjectIdByObjectIdPrefix);
       }
       if (!this.deletedObjectIdsByObjectIdPrefix.isEmpty()) {
@@ -252,34 +254,40 @@ class CommunicationService {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['name']);
           this.dispatch(EventGroupActions.addOrUpdateEventGroupsAction(localizedUpdatedObject));
+          console.log('event group update',localizedUpdatedObject)
           break;
         }
         case ObjectPrefix.EVENT_PREFIX: {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['name']);
           this.dispatch(EventActions.addOrUpdateEventsAction(localizedUpdatedObject));
+          console.log('event update',localizedUpdatedObject)
           break;
         }
         case ObjectPrefix.RULE_PREFIX: {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['name', 'description']);
           this.dispatch(RuleActions.addOrUpdateRulesAction(localizedUpdatedObject));
+          console.log('rule update',localizedUpdatedObject)
           break;
         }
         case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['description']);
           this.dispatch(BettingMarketGroupActions.addOrUpdateBettingMarketGroupsAction(localizedUpdatedObject));
+          console.log('BMG update',localizedUpdatedObject)
           break;
         }
         case ObjectPrefix.BETTING_MARKET_PREFIX: {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, ['description', 'payout_condition']);
           this.dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(localizedUpdatedObject));
+          console.log('BM update',localizedUpdatedObject)
           // Get betting market id
           const bettingMarketIds = localizedUpdatedObject.map(object => object.get('id'));
           // Get related binned order books
           this.dispatch(BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
+          console.log('related binned order books',localizedUpdatedObject)
           break;
         }
         default: break;
@@ -367,7 +375,9 @@ class CommunicationService {
     if (apiPlugin) {
       return apiPlugin.exec(methodName, params).then((result) => {
         // Intercept and log
-        log.debug(`Call blockchain ${apiPluginName}\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
+        /*if(methodName !== 'get_binned_order_book' && methodName !== "list_betting_market_groups" && methodName !== "list_betting_markets" ){ //&& JSON.stringify(params[0]) === "1.20.1688"){
+          log.debug(`Call blockchain ${apiPluginName}\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
+        }*/
         return Immutable.fromJS(result);
       }).catch((error) => {
         // Intercept and log
