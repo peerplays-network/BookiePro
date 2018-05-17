@@ -15,12 +15,12 @@ export const translationsObject = {
       search: 'Search',
       export: 'Export',
       download: 'Download',
-      exportDataFetchMsg: 'Please wait while we are processing your request',
+      exportDataFetchMsg: 'Please wait while we process your request',
       exportDataReadyMsg: 'Your exported file is ready! Please download the exported file now.',
       exportNoDataMsg: 'No data to be exported',
-      exportLoadingHeader: 'Exporting to .Xlsx',
+      exportLoadingHeader: 'Exporting to .xlsx',
       exportDownloadHeader: 'Export Completed',
-      exportNoDataHeader: 'No data',
+      exportNoDataHeader: 'No Data',
       exportStatusHeader: 'Export Failed',
       close: 'Close',
       unknown_error: 'Unknown Error',
@@ -55,7 +55,7 @@ export const translationsObject = {
       withdraw_completed: 'Withdraw Completed',
       withdraw_failed: 'Withdraw Failied',
       withdraw_completed_msg_1: 'You have successfully withdrawn ',
-      withdraw_completed_msg_2: ' from your account and transferred it to your wallet.',
+      withdraw_completed_msg_2: ' from your account and transferred funds to your wallet.',
       send: 'send',
       send_value: 'Your Wallet Address',
       settings: 'settings',
@@ -73,9 +73,9 @@ export const translationsObject = {
       description: 'Description',
       status: 'Status',
       amount: 'Amount',
-      insuffBitcoinErr: 'You do not have sufficient bitcoin to withdraw, your current account balance is ',
+      insuffBitcoinErr: 'You do not have sufficient funds to withdraw, your current account balance is ',
       enter_withdrawAmt: 'Enter amount you want to withdraw',
-      enter_wallet_addr: 'Enter Wallet Address',
+      enter_wallet_addr: 'Enter wallet address',
       transaction_status_complete: 'Completed',
       transaction_status_processing: 'Processing',
       UTC12:'UTC+12:00',
@@ -119,18 +119,18 @@ export const translationsObject = {
       already_account: 'Already have an account?',
       log_in: 'Log In',
       premium_acc_text: 'This is a premium name. Please enter a regular name containing at least one dash, a number or no vowels.',
-      password_no_match: 'The password you entered does not match',
-      repeat_password: 'Repeat your Password',
+      password_no_match: 'The passwords do not match',
+      repeat_password: 'Repeat your password',
       field_req: 'Field is required',
-      acc_name_taken: 'Account Name is already taken'
+      acc_name_taken: 'Account name is already taken'
     },
     login: {
       username: 'Account Name',
       password: 'Password',
       title: 'LOG IN',
       signup: 'SIGN UP',
-      username_notfound: 'Account Name not found',
-      password_short: 'password too short',
+      username_notfound: 'Account name not found',
+      password_short: 'Password too short',
       wrong_username_password: 'Wrong account name or password'
     },
     changePassword:{
@@ -138,9 +138,9 @@ export const translationsObject = {
       enter_old_password: 'Enter your current password',
       enter_new_password: 'Enter your new password',
       confirm_new_password: 'Confirm your new password',
-      enter_old_password_hint: 'Please enter the Current Password.',
-      enter_new_password_hint: 'The New Password must be at least 22 characters long.',
-      confirm_new_password_hint: 'Please enter the New Password again.',
+      enter_old_password_hint: 'Please enter the current password.',
+      enter_new_password_hint: 'The new password must be at least 22 characters long.',
+      confirm_new_password_hint: 'Please enter the new password again.',
       old_password_does_not_match: 'Old password doesn\'t match',
       current_password: 'Current Password',
       new_password: 'New Password',
@@ -151,8 +151,10 @@ export const translationsObject = {
       back_to_my_account: 'Back to My Account',
       successText: 'Congratulations! You have successfully<br/>' +
       ' changed your password.',
-      change_password_error: 'You do not have the sufficient funds required to change your password. ' + 
-      'Please deposit additional funds and try again.'
+      change_password_error: 'You do not have the sufficient funds to change your password. ' + 
+      'To deposit Bitcoin, simply click on the deposit button. You will be shown the address to send your Bitcoin to - both as a QR Code and as a Bitcoin public address.' +
+      'Send funds from your Bitcoin wallet to that address\n' +
+      'Lorem ipsum dolor'
     },
     notification: {
       empty: 'No notification',
@@ -298,20 +300,20 @@ export const translationsObject = {
           imperfect: {
             bad_bets_1: 'There is 1 incomplete bet that cannot be placed.',
             bad_bets: 'There are %{bad_bets} incomplete bets that cannot be placed.',
-            good_bets_1: 'Would you like to continue to place 1 bet with <span class="currency-label">%{amount}</span>?',
+            good_bets_1: 'Would you like to place 1 bet with <span class="currency-label">%{amount}</span>?',
             good_bets: 'Would you like to continue to place %{good_bets} bets with <span class="currency-label">%{amount}</span>?',
             cancel_button: 'CANCEL',
             confirm_button: 'CONFIRM BET',
           },
           perfect: {
             good_bets_1: 'You are about to place 1 bet for a total liability of <span class="currency-label">%{amount}</span>.<br/> Are you sure?',
-            good_bets: 'You are about to place %{good_bets} bets  for a total liability of <span class="currency-label">%{amount}</span>.<br/> Are you sure?',
+            good_bets: 'You are about to place %{good_bets} bets for a total liability of <span class="currency-label">%{amount}</span>.<br/> Are you sure?',
             cancel_button: 'CANCEL',
             confirm_button: 'CONFIRM BET',
           },
         },
         error: {
-          instructions: 'Sorry, we are unable to proceed<br/>with your request. Please try again!',
+          instructions: 'Sorry, we are unable to process<br/> your request. Please try again!',
           cancel_button: 'CANCEL',
           confirm_button: 'TRY AGAIN',
         },
@@ -321,7 +323,7 @@ export const translationsObject = {
           confirm_button: 'YES',
         },
         success: {
-          instructions: 'Your bets have been successfully placed.',
+          instructions: 'Your bets have been placed.',
           my_bet_button: 'GO TO MY BETS',
         },
         insufficient_balance: {
@@ -329,7 +331,7 @@ export const translationsObject = {
           confirm_button: 'OK',
         },
         disconnected: {
-          instructions: 'You are not connected to the blockchain. Please make sure you have Internet access and try again.',
+          instructions: 'You are not connected to the blockchain. Please make sure you have internet access and try again.',
           cancel_button: 'CANCEL',
         },
         content: {
@@ -350,8 +352,8 @@ export const translationsObject = {
           imperfect: {
             bad_bets_1: 'There is 1 incomplete bet that cannot be placed.',
             bad_bets: 'There are %{bad_bets} incomplete bets that cannot be placed.',
-            good_bets_1: 'Would you like to continue to place 1 bet with <span class="currency-label">%{amount}</span>?',
-            good_bets: 'Would you like to continue to place %{good_bets} bets with <span class="currency-label">%{amount}</span>?',
+            good_bets_1: 'Would you like to place 1 bet with <span class="currency-label">%{amount}</span>?',
+            good_bets: 'Would you like to place %{good_bets} bets with <span class="currency-label">%{amount}</span>?',
             cancel_button: 'CANCEL',
             confirm_button: 'CONFIRM BET',
           },
@@ -363,7 +365,7 @@ export const translationsObject = {
           },
         },
         error: {
-          instructions: 'Sorry, we are unable to proceed<br/>with your request. Please try again!',
+          instructions: 'Sorry, we are unable to process<br/> your request. Please try again!',
           cancel_button: 'CANCEL',
           confirm_button: 'TRY AGAIN',
         },
@@ -373,7 +375,7 @@ export const translationsObject = {
           confirm_button: 'YES',
         },
         success: {
-          instructions: 'Your bets have been successfully placed.',
+          instructions: 'Your bets have been placed.',
           my_bet_button: 'GO TO MY BETS',
         },
         insufficient_balance: {
@@ -381,7 +383,7 @@ export const translationsObject = {
           confirm_button: 'OK',
         },
         disconnected: {
-          instructions: 'You are not connected to the blockchain. Please make sure you have Internet access and try again.',
+          instructions: 'You are not connected to the blockchain. Please make sure you have internet access and try again.',
           cancel_button: 'CANCEL',
         },
         content: {
@@ -398,8 +400,8 @@ export const translationsObject = {
           imperfect: {
             bad_bets_1: 'There is 1 incomplete bet that cannot be updated.',
             bad_bets: 'There are %{bad_bets} incomplete bets that cannot be updated.',
-            good_bets_1: 'Would you like to continue to update 1 bet with <span class="currency-label">%{amount}</span>?',
-            good_bets: 'Would you like to continue to update %{good_bets} bets with <span class="currency-label">%{amount}</span>?',
+            good_bets_1: 'Would you like to update 1 bet with <span class="currency-label">%{amount}</span>?',
+            good_bets: 'Would you like to update %{good_bets} bets with <span class="currency-label">%{amount}</span>?',
             cancel_button: 'CANCEL',
             confirm_button: 'CONFIRM BET',
           },
@@ -411,12 +413,12 @@ export const translationsObject = {
           },
         },
         error: {
-          instructions: 'Sorry, we are unable to proceed<br/>with your request. Please try again!',
+          instructions: 'Sorry, we are unable to process<br/>your request. Please try again!',
           cancel_button: 'CANCEL',
           confirm_button: 'TRY AGAIN',
         },
         success: {
-          instructions: 'Your bets have been successfully placed.',
+          instructions: 'Your bets have been placed.',
           my_bet_button: 'GO TO MY BETS'
         },
         insufficient_balance: {
@@ -424,7 +426,7 @@ export const translationsObject = {
           confirm_button: 'OK',
         },
         disconnected: {
-          instructions: 'You are not connected to the blockchain. Please make sure you have Internet access and try again.',
+          instructions: 'You are not connected to the blockchain. Please make sure you have internet access and try again.',
           cancel_button: 'CANCEL',
         },
         delete_bets: {
@@ -928,8 +930,8 @@ export const translationsObject = {
             'responsibility to adhere to local laws at all times, as laid out in the BookiePro.fun EULA XXXX.'
           },
           {
-            question: 'Can I change my Account Name?',
-            answer: 'No, a BookiePro.fun Account Name cannot be changed after the account has been created.'
+            question: 'Can I change my account name?',
+            answer: 'No, a BookiePro.fun account name cannot be changed after the account has been created.'
           },
           {
             question: 'Can I login to my account from multiple devices',
@@ -1337,15 +1339,15 @@ export const translationsObject = {
       'Instead, BookiePro charges a small commission on each bet when it is matched. This fee is calculated as a ' +
       'percentage of the betting stake.',
       question9: 'Will BookiePro restrict my account if I win too much?',
-      answer9: 'No. BookiePro does not close or limit the accounts of users, unlike many sportsbooks and betting exchanges. ' +
-      'BookiePro welcomes winners!',
+      answer9: 'No. Bookie will not close or limit the account of any user, unlike many sportsbooks and betting exchanges. ' +
+            'BookiePro welcomes winners!',
       question10: 'What currencies can I bet with on BookiePro?',
       answer10: 'BookiePro is capable of accepting all digital currencies, but since Bitcoin is the most widely traded and ' +
       'liquid digital currency right now, BookiePro will be launched as a “Bitcoin-only” desktop application.',
       question11: 'Where do BookiePro’s revenues go?',
       answer11: 'All profits generated by BookiePro are paid out at regular intervals to anyone who holds PPY tokens.',
       question12: 'Can I use BookiePro on my mobile?',
-      answer12: 'The BookiePro mobile app will launch in Q1 2018. BookiePro will first be made available as a desktop application, launching in Q4 2017.',
+      answer12: 'The Bookie mobile app (Android) will launch in Q1 2018. Bookie will first be made available as a desktop application, launching in Q4 2017.',
       question13: 'Who is the team behind BookiePro?',
       answer13: 'The development of BookiePro has been supported by the Peerplays Blockchain Standards Association (PBSA), ' +
       'a non-profit organization based in Canada and dedicated to promoting transparent and fair gaming standards for the Peerplays blockchain.',
