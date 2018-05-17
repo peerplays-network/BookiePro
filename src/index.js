@@ -52,7 +52,7 @@ $(document).on('click', 'a[href^="http"]', (event) => {
   event.preventDefault();
   if (isRunningInsideElectron){
     electron = window.require('electron');
-    electron.shell.openExternal(this.href);
+    electron.shell.openExternal(event.currentTarget.href);
   }
 });
 
