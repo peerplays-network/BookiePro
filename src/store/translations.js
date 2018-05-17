@@ -835,7 +835,9 @@ export const translationsObject = {
             question: 'How is BookiePro.fun different from other betting exchanges?',
             answer: 'Traditional betting exchanges operate the software which matches your bets on a centralized server. On BookiePro.fun, ' +
             'the software that matches your bets operates on a public blockchain. This makes BookiePro.fun transparent and accessible ' +
-            'from every country on Earth. Read more about how blockchain can move betting exchanges on to the next level here and here.'
+            'from every country on Earth. Read more about how blockchain can move betting exchanges on to the next level ' +
+            '<a href="https://www.peerplays.com/reinventing-betting-exchange-egr/">here</a> ' +
+            'and <a href="https://www.peerplays.com/return-exchange-igb/">here</a>.'
           },
           {
             question: 'Who owns BookiePro.fun?',
