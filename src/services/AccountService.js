@@ -141,8 +141,8 @@ class AccountServices {
 
     let isAuthenticated = false;
     // Check the similarity of keys
-    const activeKeyAuths = account.getIn(['owner', 'key_auths']);
-    const ownerKeyAuths = account.getIn(['active', 'key_auths']);
+    const activeKeyAuths = account.getIn(['active', 'key_auths']);
+    const ownerKeyAuths = account.getIn(['owner', 'key_auths']);
     // Check active keys
     let activeKeyMatches = false;
     if (activeKeyAuths) {
