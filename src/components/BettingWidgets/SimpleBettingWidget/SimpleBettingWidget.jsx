@@ -40,10 +40,7 @@ const renderEventTime = (text, record) => {
     const eventTime = moment(record.get('time'))
     let dateString = eventTime.format('MMM D');
     let timeString = eventTime.calendar();
-    // TODO: Need a better way as this is NOT going to work once we have localization
-    if (timeString.toLowerCase().includes('today')) {
-      dateString = 'Today';
-    }
+    dateString = timeString.toLowerCase().includes('today') ? 'Today' : dateString;
     return <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>;
   }
 }
@@ -215,7 +212,7 @@ class SimpleBettingWidget extends PureComponent {
       if ( offer === undefined){
         return (
           <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, '') }>
-            <div className='offer'>
+            <div className='offer empty'>
               <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
             </div>
           </a>

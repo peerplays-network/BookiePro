@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import Immutable from 'immutable';
 import CommonSelector from './CommonSelector';
-import { CurrencyUtils } from '../utility';
+import { CurrencyUtils, DateUtils } from '../utility';
 import { Config } from '../constants';
 
 const {
@@ -65,7 +65,8 @@ const getEventTime = createSelector(
   getEvent,
   (event) => {
     const eventTime = (event && event.get('start_time') && new Date(event.get('start_time'))) || new Date();
-    return eventTime;
+    
+    return DateUtils.getLocalDate(eventTime);    
   }
 )
 

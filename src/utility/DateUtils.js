@@ -24,8 +24,20 @@ const DateUtils = {
       return moment(new Date(dateToFormat)).format("MM-DD-YYYY HH:mm");
     }
   },
-
-
+  /**
+   * 
+   * 
+   * @param {Date} date to convert to local.
+   * @returns localized date by pulling the users local timezone.
+   */
+  getLocalDate(dateToLocalize){
+    var workingDate = dateToLocalize.toString();
+    // Ensure the date has been parsed into a date object.
+    if (workingDate.indexOf('Z') === -1){
+      workingDate += 'Z';
+    }
+    return new Date(workingDate);
+  },
 
   /*
    * takes a unix time and returns the month and day MMM D

@@ -331,11 +331,10 @@ class BetActions {
           //  bet should be the same regardless of if it is a back or a lay.
           let amountToBet = 0;
           // amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
-
           if (bet.get('bet_type') === BetTypes.BACK) {
-            amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
+            amountToBet = (parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision)).toFixed(betAssetPrecision);
           } else if (bet.get('bet_type') === BetTypes.LAY) {
-            amountToBet = parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision);
+            amountToBet = (parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision)).toFixed(betAssetPrecision);
           }
 
           let backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision)

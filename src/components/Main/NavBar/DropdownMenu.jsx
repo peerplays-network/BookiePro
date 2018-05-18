@@ -13,7 +13,7 @@ const DropdownMenu = (props) => {
       <Menu onClick={ props.onSubmenuClick }
         selectedKeys={ [props.currentKey] }>
         <Menu.Item key='myaccount' className={ isOnMyAccount ? 'ant-menu-item-selected' : '' }>
-          <i className='account-dropdown-icon'></i> { I18n.t('topbar.myaccount') }
+        <Icon type='user' /> { I18n.t('topbar.myaccount') }
         </Menu.Item>
         <Menu.Item key='help' className={ window.location.hash === '#/help-and-support' ? 'ant-menu-item-selected' : '' }>
           <Icon type='question-circle-o' /> { I18n.t('topbar.help') }

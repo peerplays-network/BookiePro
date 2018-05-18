@@ -3,17 +3,14 @@ import { PrivateKey } from 'peerplaysjs-lib';
 import { version } from '../../package.json'
 
 const blockchainUrls = [
-  // 'wss://595-dev-blockchain.pixelplex.by/ws',
-  //'wss://peerplays-dev.blocktrades.info/',  
-  'ws://ec2-35-183-21-190.ca-central-1.compute.amazonaws.com:8090'  
-// 'wss://api.ppytest.blckchnd.com'
+  'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090'  
 ]
 
 // Shuffle list of blockchain nodes
 // So every bookie app will not always connect to the first node in the list
-const shuffledBlockhainUrls = _.shuffle(blockchainUrls)
+const shuffledBlockhainUrls = _.shuffle(blockchainUrls);
 
-const ASSET_ID = '1.3.0'
+const ASSET_ID = '1.3.1';
 
 const Config = {
   version: version,
@@ -41,7 +38,6 @@ const Config = {
     withdrawels: false,
     deposits: false
   }
-}
-
+};
 
 export default Config
