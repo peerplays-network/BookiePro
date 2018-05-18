@@ -197,7 +197,8 @@ class AuthActions {
       const keys = KeyGeneratorService.generateKeys(accountName, password);
       // Determine which way to register
       let register;
-      if (Config.registerThroughRegistrar) {
+      let registerThroughRegistrar = Config.registerThroughRegistrar;
+      if (registerThroughRegistrar) {
         register = AccountService.registerThroughRegistrar(accountName, keys);
       } else {
         register = AccountService.registerThroughFaucet(1, accountName, keys);
