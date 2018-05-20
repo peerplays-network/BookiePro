@@ -538,8 +538,6 @@ class CommunicationService {
    * Get any blockchain object given their id
    */
   static getObjectsByIds(arrayOfObjectIds = []) {
-    if (arrayOfObjectIds.length <= 0) console.log((new Error()).stack);
-    console.log('Subscribing : ', arrayOfObjectIds.join(' , '));
     return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]).then(result => {
       // Remove empty object
       return result.filter(object => !!object);
