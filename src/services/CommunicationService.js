@@ -438,7 +438,7 @@ class CommunicationService {
         if (isBlockchainTimeDifferenceAcceptable) {
           // Subscribe to blockchain callback so the store is always has the latest data
           const onUpdate = this.onUpdate.bind(this);
-          return Apis.instance().db_api().exec( 'set_subscribe_callback', [ onUpdate, true ] ).then(() => {
+          return Apis.instance().db_api().exec( 'set_subscribe_callback', [ onUpdate, true ] ).then(() => {            
             // Sync success
             log.debug('Sync with Blockchain Success');
             // Set reference to dispatch and getState
@@ -538,6 +538,8 @@ class CommunicationService {
    * Get any blockchain object given their id
    */
   static getObjectsByIds(arrayOfObjectIds = []) {
+    if (arrayOfObjectIds.length <= 0) console.log((new Error()).stack);
+    console.log('Subscribing : ', arrayOfObjectIds.join(' , '));
     return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]).then(result => {
       // Remove empty object
       return result.filter(object => !!object);
@@ -608,8 +610,19 @@ class CommunicationService {
       if (eventGroupIds instanceof Immutable.List) eventGroupIds = eventGroupIds.toJS();
       let promises = eventGroupIds.map((eventGroupId) => {
         return this.callBlockchainDbApi('list_events_in_group', [eventGroupId]).then(events => {
-          // Replace name with english name
-          return ObjectUtils.localizeArrayOfObjects(events, ['name', 'season']);
+          const ids = events.toJS().map(event => event.id);
+          const localizedEvents = ObjectUtils.localizeArrayOfObjects(events, ['name', 'season']);
+          
+          // If there are no events, returned an empty object
+          if (ids.length <= 0) {
+            return localizedEvents;
+          }
+
+          // Subscribe to changes on the blockchain.
+          return this.getEventsByIds(ids).then(() => {
+            // Replace name with english name
+            return localizedEvents;
+          })
         });
       })
       return Promise.all(promises).then((result) => {
@@ -629,8 +642,19 @@ class CommunicationService {
       if (eventIds instanceof Immutable.List) eventIds = eventIds.toJS();
       let promises = eventIds.map((eventId) => {
         return this.callBlockchainDbApi('list_betting_market_groups', [eventId]).then(bettingMarketGroups => {
-          // Replace name with english name
-          return ObjectUtils.localizeArrayOfObjects(bettingMarketGroups, ['description']);
+          const ids = bettingMarketGroups.toJS().map(bmg => bmg.id);
+          const localizedMarketGroups = ObjectUtils.localizeArrayOfObjects(bettingMarketGroups, ['description']);
+
+          // If there are no events, returned an empty object
+          if (ids.length <= 0) {
+            return localizedMarketGroups;
+          }
+
+          // Subscribe to changes on the blockchain.
+          return this.getBettingMarketGroupsByIds(ids).then(() => {
+            // Replace name with english name
+            return localizedMarketGroups;
+          });
         });
       })
       return Promise.all(promises).then((result) => {
@@ -650,8 +674,20 @@ class CommunicationService {
       if (bettingMarketGroupIds instanceof Immutable.List) bettingMarketGroupIds = bettingMarketGroupIds.toJS();
       let promises = bettingMarketGroupIds.map((bettingMarketGroupId) => {
         return this.callBlockchainDbApi('list_betting_markets', [bettingMarketGroupId]).then(bettingMarkets => {
-          // Replace name with english name
-          return ObjectUtils.localizeArrayOfObjects(bettingMarkets, ['description', 'payout_condition']);
+          // Call get_objects here so that we can subscribe to updates
+          const ids = bettingMarkets.toJS().map(market => market.id);
+          const localizedBettingMarkets = ObjectUtils.localizeArrayOfObjects(bettingMarkets, ['description', 'payout_condition']);
+
+          // If there are no events, returned an empty object
+          if (ids.length <= 0) {
+            return localizedBettingMarkets;
+          }
+
+          // Subscribe to changes on the blockchain.
+          return this.getBettingMarketsByIds(ids).then(() => {
+            // Replace name with english name
+            return localizedBettingMarkets;
+          })
         });
       })
       return Promise.all(promises).then((result) => {
