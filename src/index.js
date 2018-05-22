@@ -41,7 +41,7 @@ const history = syncHistoryWithStore(hashHistory, store, {
 // (i.e. if you set it to INFO, you won't logging for TRACE and DEBUG)
 // Use log.levels.DEBUG to see most of the API communication logging
 // We should turn this off in the production build.
-log.setLevel(log.levels.TRACE);
+log.setLevel(log.levels.SILENT);
 
 // Add new page here
 const routes = (
