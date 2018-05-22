@@ -164,7 +164,6 @@ const eventStatus = (event) => {
   if(event){
     return determineStatusResult(event.get('status'));  
   } else {
-    debugger;
     return "null";
   }
 }
