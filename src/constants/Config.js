@@ -3,7 +3,7 @@ import { PrivateKey } from 'peerplaysjs-lib';
 import { version } from '../../package.json'
 
 const blockchainUrls = [
-  'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090'  
+  'ws://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:8090'  
 ]
 
 // Shuffle list of blockchain nodes

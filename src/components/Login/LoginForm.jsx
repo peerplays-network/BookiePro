@@ -50,11 +50,6 @@ const renderField = ({  tabIndex, className, errors, placeholder, input, type,
 const LoginForm = (props) => {
   const { pristine, handleSubmit, invalid, submitting, asyncValidating, onClickSignup, errors, status } = props;
   var eulaChecked;
-  const handleEulaCheck = (e) => {
-		const target = e.target;
-	  var value = target.type === 'checkbox' ? target.checked : target.value;
-		eulaChecked = value;
-	}
   return (
     <form onSubmit={ handleSubmit }>
       <div className='form-fields'>
@@ -75,7 +70,6 @@ const LoginForm = (props) => {
 							type='checkbox'
 							className='eulaCheckbox'
 							checked={ eulaChecked }
-							onChange={ handleEulaCheck }
 							tabIndex='3'
 						/>
 					</label>
