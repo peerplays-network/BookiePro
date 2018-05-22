@@ -643,7 +643,7 @@ class CommunicationService {
           const ids = bettingMarketGroups.toJS().map(bmg => bmg.id);
           const localizedMarketGroups = ObjectUtils.localizeArrayOfObjects(bettingMarketGroups, ['description']);
 
-          // If there are no events, returned an empty object
+          // If there are no Betting Market Groups, returned an empty object
           if (ids.length <= 0) {
             return localizedMarketGroups;
           }
@@ -676,7 +676,7 @@ class CommunicationService {
           const ids = bettingMarkets.toJS().map(market => market.id);
           const localizedBettingMarkets = ObjectUtils.localizeArrayOfObjects(bettingMarkets, ['description', 'payout_condition']);
 
-          // If there are no events, returned an empty object
+          // If there are no betting markets, returned an empty object
           if (ids.length <= 0) {
             return localizedBettingMarkets;
           }
