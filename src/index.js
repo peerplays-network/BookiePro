@@ -46,15 +46,15 @@ const history = syncHistoryWithStore(hashHistory, store, {
 // We should turn this off in the production build.
 log.setLevel(log.levels.SILENT);
 
-let electron;
-//open links externally by default
-$(document).on('click', 'a[href^="http"]', (event) => {
-  event.preventDefault();
-  if (isRunningInsideElectron){
+if (isRunningInsideElectron){
+  let electron;
+  //open links externally by default
+  $(document).on('click', 'a[href^="http"]', (event) => {
+    event.preventDefault();
     electron = window.require('electron');
     electron.shell.openExternal(event.currentTarget.href);
-  }
-});
+  })
+}
 
 // Add new page here
 const routes = (
