@@ -25,7 +25,7 @@ class BettingMarketGroup extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps){
-    if (!nextProps.bettingMarketGroup || nextProps.bettingMarketGroup.isEmpty() || nextProps.eventStatus === "null") {
+    if (!nextProps.bettingMarketGroup || nextProps.bettingMarketGroup.isEmpty() || nextProps.eventStatus === null) {
       // Betting market group doesn't exist,
       // Go back to home page
       this.props.navigateTo('/exchange');
@@ -43,7 +43,7 @@ class BettingMarketGroup extends PureComponent {
   render() {
     const { bettingMarketGroup } = this.props;
     // Return nothing if betting market group doesn't exist
-    if (!bettingMarketGroup || bettingMarketGroup.isEmpty()) {
+    if (!bettingMarketGroup || bettingMarketGroup.isEmpty() || bettingMarketGroup.eventStatus === null) {
       return null;
     } else {
       return (
