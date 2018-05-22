@@ -3,6 +3,104 @@
 	padding: 0;
 	height: 0;
 }
+.complex-betting{
+  background-color: @complex-betting-bg;
+  margin-top: 20px;
+  .title{
+    color: @white;
+    padding:13px 15px;
+    margin-bottom:25px;
+  }
+  .name{
+    font-size:16px;
+    font-weight:bold;
+    text-transform: uppercase;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    .live {
+      display: inline-flex;
+      align-items: center;
+      color: @primary_label;
+      margin-left: 10px;
+      padding: 5px 6px 5px 12px;
+      background-color: @live_market_marker;
+      font-size: 12px;
+      font-weight: bold;
+      .indicator{
+        background-color: @white;
+        border-radius: 50%;
+        display: inline-block;
+        width:8px;
+        height:8px;
+        margin-right:4px;
+        margin-bottom: 1px;
+      }
+    }
+    .going-live {
+      display: inline-flex;
+      align-items: center;
+      color: @cinder;
+      margin-left: 10px;
+      padding: 2px 6px 2px 5px;
+      background-color: @going_live_market_marker;
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 4px;
+      .indicator{
+        background-image: url("../../../assets/icons/live_indicator_black.png");
+        background-repeat: no-repeat;
+        display: inline-block;
+        width:16px;
+        height:16px;
+        vertical-align: middle;
+        background-size: 100%;
+        margin-right:4px;
+      }
+    }
+    .error {
+      display: inline-flex;
+      align-items: center;
+      color: @field_error;
+      margin-left: 10px;
+      padding: 2px 6px 2px 5px;
+      padding-right: 6px;
+      padding-left: 12px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      background-color: @going_live_market_marker;
+      font-size: 12px;
+      font-weight: bold;
+      .indicator{
+        background-color: @white;
+        border-radius: 50%;
+        display: inline-block;
+        width:8px;
+        height:8px;
+        margin-right:4px;
+        margin-bottom: 1px;
+      }
+    }
+  }
+  div.rules {
+    color: @dark_tangerine;
+    font-size: 14px;
+    float: right;
+    font-weight:500;
+    span {
+      color: @white;
+      &:first-child{
+        margin-right:6px;
+      }
+    }
+    i{
+      font-size:18px;
+      margin-left:0;
+      vertical-align: middle;
+    }
+
+  }
+}
 .offer-header.lay {
   float: left;
   &.disabled{

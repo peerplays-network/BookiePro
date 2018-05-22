@@ -59,12 +59,12 @@ class BettingMarketGroupBanner extends PureComponent {
     return (
       <div className='betting-market-group-banner' style={ { backgroundImage: bannerSource } }>
         <div className='event'>
-          {eventName}
+          <div className='name'>{ this.props.eventName } </div>
           <div className='time'>{ I18n.t('bettingMarketGroup.match_start_on', { time: formattedEventTime }) }</div>
           { this.renderLive() }
-          <div className='name'>
+          <div className='name'>  
             <span className={ this.props.eventStatus }>
-            <span className='indicator'/>{I18n.t('complex_betting_widget.' + this.props.eventStatusClassName)}</span>
+            <span className='indicator'/>{I18n.t('complex_betting_widget.' + this.props.eventStatusClassName)}</span> 
           </div>
         </div>
       </div>
