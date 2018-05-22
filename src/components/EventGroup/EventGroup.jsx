@@ -51,7 +51,7 @@ class EventGroup extends PureComponent {
            pageSize={ MAX_EVENT_PER_PAGE }
            canCreateBet={ this.props.canCreateBet }
          />
-         <div className='margin-top-18'>
+         <div className='margin-top-18 logo-container'>
            <PeerPlaysLogo />
          </div>
        </div>
