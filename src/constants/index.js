@@ -14,6 +14,8 @@ import MyWagerTabTypes from './MyWagerTabTypes';
 import ExportTypes from './ExportTypes';
 import FaqTopics from './FaqTopics';
 import EventStatus from './EventStatus';
+import BettingMarketStatus from './BettingMarketStatus';
+import BettingMarketGroupStatus from './BettingMarketGroupStatus';
 import BettingDrawerStates from './BettingDrawerStates';
 import BettingMarketResolutionTypes from './BettingMarketResolutionTypes';
 
@@ -35,5 +37,7 @@ export {
   FaqTopics,
   BettingDrawerStates,
   EventStatus,
+  BettingMarketStatus,
+  BettingMarketGroupStatus,
   BettingMarketResolutionTypes
 }
