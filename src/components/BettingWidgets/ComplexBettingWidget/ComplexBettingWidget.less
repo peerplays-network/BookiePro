@@ -1,21 +1,16 @@
 @import '../../App/Colors.less';
 
-div.complex-betting {
-  // Using fade (from LESS) can set opacity to background only
-  // If we set opacity explicitly, it will affect the text (foreground) too
+.complex-betting{
   background-color: @complex-betting-bg;
-  margin-top: 15px;
-
+  margin-top: 20px;
+  
   .increased-value{
     color: @profit;
   }
   .decreased-value{
     color: @loss;
   }
-}
-.complex-betting{
-  background-color: @complex-betting-bg;
-  margin-top: 20px;
+  
   .title{
     color: @dark_tangerine;
     padding:13px 15px;
