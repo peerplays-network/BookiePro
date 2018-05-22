@@ -58,7 +58,6 @@ class ComplexBettingWidget extends PureComponent {
     this.setTableData = this.setTableData.bind(this);
     this.placeAllBestBets = callIfMarketDrawerIsReady(this.placeAllBestBets.bind(this));
     this.getBestOfferOfEachmarket = this.getBestOfferOfEachmarket.bind(this);
-    this.renderLiveMarker = this.renderLiveMarker.bind(this);
   }
 
   componentDidMount(){
@@ -142,8 +141,9 @@ class ComplexBettingWidget extends PureComponent {
             'name': tableData.getIn([i, 'name']),
             'displayedName': tableData.getIn([i, 'displayedName']),
             'market_exposure': market_exposure,
+            'bettingMarket_status': tableData.getIn([i, 'bettingMarket_status']),
             'betslip_exposure': parseFloat(betslip_exposure) !== 0 ?  betslip_exposure : undefined })
-
+          
       });
 
       this.setState({
@@ -260,20 +260,6 @@ class ComplexBettingWidget extends PureComponent {
     });
   }
 
-  renderLiveMarker() {
-    //NOTE: in current structure it is either 'in-play' or 'going in-play'.
-    // there will be more types, depending on the change in blockchain objects future
-    if (this.props.isLiveMarket) {
-      return (
-        <span className='live'><span className='indicator'/>{ I18n.t('complex_betting_widget.in_play') }</span>
-      )
-    } else {
-      return (
-        <span className='going-live'><span className='indicator'/>{ I18n.t('complex_betting_widget.going_in_play') }</span>
-      )
-    }
-  }
-
   render() {
     const { currencyFormat,
             totalMatchedBetsAmount,
@@ -309,10 +295,12 @@ class ComplexBettingWidget extends PureComponent {
           'increased-value' : 'decreased-value';
         const potentialExposureClass = props.value.betslip_exposure + props.value.market_exposure >= 0 ?
           'increased-value' : 'decreased-value';
-
         return (
           <div className='competitor'>
-            <div className='name'>{props.value.displayedName}</div>
+            <div className='name'>{props.value.displayedName} 
+              <span className={ props.value.bettingMarket_status[0] }>
+                <span className='indicator'/>{I18n.t('complex_betting_widget.' + props.value.bettingMarket_status[1])}</span> 
+            </div>
             { props.value.betslip_exposure &&
               <div className='exposure'>
                 {  props.value.market_exposure > 0 &&
@@ -486,7 +474,8 @@ class ComplexBettingWidget extends PureComponent {
         <div className='title'>
           <div className='name'>
             { widgetTitle }
-            { this.renderLiveMarker() }
+            <span className={ this.props.bettingMarketGroupStatus }>
+            <span className='indicator'/>{I18n.t('complex_betting_widget.' + this.props.bettingMarketGroupStatusClassName)}</span>
           </div>
           <div className='rules'>
             <span>{ I18n.t('complex_betting_widget.matched') }</span>
@@ -515,7 +504,7 @@ class ComplexBettingWidget extends PureComponent {
                 }
               }
             }
-           }
+            }
           />
         }
 
@@ -530,6 +519,9 @@ ComplexBettingWidget.propTypes = {
   totalMatchedBetsAmount: PropTypes.any.isRequired,
   createBet: PropTypes.func.isRequired,
   // unconfirmedBets data in bet table
+  eventStatus: PropTypes.any,
+  bettingMarketGroupStatus: PropTypes.string,
+  bettingMarketGroupStatusClassName: PropTypes.string,
   unconfirmedBets: PropTypes.any,
   currencyFormat: PropTypes.string.isRequired,
   oddsFormat: PropTypes.string.isRequired,
