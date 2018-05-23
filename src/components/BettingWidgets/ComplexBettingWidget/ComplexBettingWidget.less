@@ -128,31 +128,6 @@
         font-size:16px;
       }
 
-      .back-offer, .lay-offer {
-        color: @black;
-        height:100%;
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-
-        &.best-offer {
-          color: @black;
-        }
-
-        &.best-offer.disabled,
-        &.empty-offer.disabled,
-        &.disabled {
-          cursor: default;
-          background-color: transparent;
-          
-          &:hover {
-            background-color: transparent;
-          }
-        }
-
-      }
-
       .back-offer {
 
         &.best-offer, &.empty-offer.best-offer {
@@ -168,12 +143,7 @@
             background-color: fade(@pattens_blue,90%);
           }
         }
-        &.back-all-offer{
-          background-color: @complex-betting-back-bg;
-          &:hover{
-            background-color: transparent;
-          }
-        }
+
         &.empty-offer {
           background-color: @pattens_blue;
           &:hover {
@@ -199,13 +169,6 @@
           }
         }
 
-        &.lay-all-offer{
-          background-color: @complex-betting-lay-bg;
-          &:hover{
-            background-color: @primary_label_highlight;
-          }
-        }
-
         &.empty-offer {
           background-color: @pale_pink;
           &:hover {
@@ -213,6 +176,30 @@
           }
         }
 
+      }
+
+      .back-offer, .lay-offer {
+        color: @black;
+        height:100%;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &.best-offer {
+          color: @black;
+        }
+
+        &.best-offer.disabled,
+        &.empty-offer.disabled,
+        &.disabled {
+          cursor: default;
+          background-color: transparent;
+          
+          &:hover {
+            background-color: transparent;
+          }
+        }
       }
 
       .complex-outcome {
