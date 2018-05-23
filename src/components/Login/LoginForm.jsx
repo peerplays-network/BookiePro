@@ -48,8 +48,7 @@ const renderField = ({  tabIndex, className, errors, placeholder, input, type,
  * signup button disabled if username or password not entered
  */
 const LoginForm = (props) => {
-  const { pristine, handleSubmit, invalid, submitting, asyncValidating, onClickSignup, errors, status } = props;
-  var eulaChecked;
+  const { handleSubmit, invalid, submitting, asyncValidating, onClickSignup, errors, status } = props;
   return (
     <form onSubmit={ handleSubmit }>
       <div className='form-fields'>
@@ -69,7 +68,6 @@ const LoginForm = (props) => {
 							component='input'
 							type='checkbox'
 							className='eulaCheckbox'
-							checked={ eulaChecked }
 							tabIndex='3'
 						/>
 					</label>
