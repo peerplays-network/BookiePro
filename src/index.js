@@ -30,7 +30,6 @@ import { AppUtils } from './utility';
 
 // Configure store
 const store = configureStore();
-const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 // Configure history
 const history = syncHistoryWithStore(hashHistory, store, {
   selectLocationState (state) {
@@ -46,6 +45,7 @@ const history = syncHistoryWithStore(hashHistory, store, {
 // We should turn this off in the production build.
 log.setLevel(log.levels.SILENT);
 
+const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 if (isRunningInsideElectron){
   let electron;
   //open links externally by default
