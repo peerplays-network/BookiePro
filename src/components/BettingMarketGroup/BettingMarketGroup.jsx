@@ -7,16 +7,16 @@ import { BettingMarketGroupPageActions, MarketDrawerActions, NavigateActions } f
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PeerPlaysLogo from '../PeerPlaysLogo';
-import $ from 'jquery';
 
 class BettingMarketGroup extends PureComponent {
   componentDidMount() {
-    $('html body').css('min-width', '1210px');
-    $('html body').css('overflow', 'overlay');
+    const doc = document.querySelector('body');
+    doc.style.minWidth = '1210px';
+    doc.style.overflow = 'overlay';
   }
 
   componentWillUnmount() {
-    $('html body').css('min-width', '1002px');
+    document.querySelector('body').style.minWidth = '1002px';
   }
 
   componentWillMount() {
@@ -25,7 +25,7 @@ class BettingMarketGroup extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps){
-    if (!nextProps.bettingMarketGroup || nextProps.bettingMarketGroup.isEmpty() || nextProps.eventStatus === "null") {
+    if (!nextProps.bettingMarketGroup || nextProps.bettingMarketGroup.isEmpty() || nextProps.eventStatus === null) {
       // Betting market group doesn't exist,
       // Go back to home page
       this.props.navigateTo('/exchange');
@@ -49,7 +49,7 @@ class BettingMarketGroup extends PureComponent {
   render() {
     const { bettingMarketGroup } = this.props;
     // Return nothing if betting market group doesn't exist
-    if (!bettingMarketGroup || bettingMarketGroup.isEmpty()) {
+    if (!bettingMarketGroup || bettingMarketGroup.isEmpty()  || this.props.eventStatus === null) {
       return null;
     } else {
       return (

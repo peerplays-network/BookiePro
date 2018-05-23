@@ -206,6 +206,7 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
         const isCoreAsset = bettingMarketGroup.get('asset_id') === Config.coreAsset;
         if(isCoreAsset){
           // NOTE: Assume description can be used as comparison
+          let moneylineFilterEnabled = Config.features.moneylineFilter;          
           const isMoneyline = !!bettingMarketGroup && (bettingMarketGroup.get('description').toUpperCase() === 'MONEYLINE');
           if (eventId && isMoneyline) {
             // Implicit Rule: the first betting market is for the home team
