@@ -124,12 +124,12 @@ const getEventGroupPageData = createSelector(
         isLiveMarket: event.get('is_live_market'),
         eventStatus: event.get('status').toLowerCase(),
         offers,
-        moneyline: moneylineBettingMarketGroupId,
+        bettingMarketGroupId: moneylineBettingMarketGroupId,
       });
     }).filter( eventNode => {
       // Feature check, is Moneyline filter enabled/disabled?
       let moneylineFilterEnabled = Config.features.moneylineFilter;
-      return moneylineFilterEnabled ? eventNode.get('moneyline') !== undefined : eventNode;
+      return moneylineFilterEnabled ? eventNode.get('bettingMarketGroupId') !== undefined : eventNode;
     });
 
     return eventGroupPageData;

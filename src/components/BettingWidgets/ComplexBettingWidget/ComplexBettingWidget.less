@@ -155,12 +155,8 @@
 
       .back-offer {
 
-        &.empty-offer{
-          background-color: @pattens_blue;
-        }
-
-        &.best-offer {
-          background-color: @simple_betting_back_bg;
+        &.best-offer, &.empty-offer.best-offer {
+          background-color: @anakiwa;
           &:hover {
             background-color: fade(@anakiwa,90%);
           }
@@ -189,7 +185,7 @@
 
       .lay-offer {
 
-        &.best-offer {
+        &.best-offer, &.empty-offer.best-offer {
           background-color: @light_pink;
           &:hover {
             background-color: fade(@light_pink,90%);
