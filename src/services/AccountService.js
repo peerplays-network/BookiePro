@@ -32,13 +32,8 @@ class AccountServices {
         body: JSON.stringify({
           'account': {
             'name': accountName,
-             //NOTE: there is sth strange in the faucet api here where owner_key is assigned to account.active.key_auths
-             //NOTE: and active_key is assigned to account.owner.key_auths for the resulting created account,
-             //NOTE: that's why owner_key is assigned with activePublicKey here and active_key is assigned with ownerPublicKey here
-             //NOTE: this is also the current implementation in peerplays-redux-ui
-             //TODO: change to the right place if the faucet api is changed
-            'owner_key': activePublicKey,
-            'active_key': ownerPublicKey,
+            'owner_key': ownerPublicKey,
+            'active_key': activePublicKey,
             'memo_key': memoPublicKey,
             'refcode': '',
             'referrer': ''

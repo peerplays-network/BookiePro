@@ -202,11 +202,16 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
       const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
       const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
       const eventId = bettingMarketGroup && bettingMarketGroup.get('event_id');
-      if (bettingMarketGroup){
+      if(bettingMarketGroup !== undefined){
         const isCoreAsset = bettingMarketGroup.get('asset_id') === Config.coreAsset;
         if(isCoreAsset){
           // NOTE: Assume description can be used as comparison
-          const isMoneyline = !!bettingMarketGroup && (bettingMarketGroup.get('description').toUpperCase() === 'MONEYLINE');
+          let moneylineFilterEnabled = Config.features.moneylineFilter;          
+          var isMoneyline = !!bettingMarketGroup && (bettingMarketGroup.get('description').toUpperCase() === 'MONEYLINE');
+          // If the moneyline filter is disabled, flip the isMoneyline bool so that bets can still be viewed and placed.
+          if (!moneylineFilterEnabled){
+            isMoneyline = true;
+          }
           if (eventId && isMoneyline) {
             // Implicit Rule: the first betting market is for the home team
             let simpleBettingWidgetBinnedOrderBook = Immutable.Map().set('betting_market_id', bettingMarketId)
@@ -242,7 +247,6 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
     return simpleBettingWidgetBinnedOrderBooksByEventId;
   }
 )
-
 
 const CommonSelector = {
   getAccountId,
