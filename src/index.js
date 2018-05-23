@@ -50,8 +50,8 @@ if (isRunningInsideElectron){
   let electron;
   //open links externally by default
   document.addEventListener("click", (e) => {
-    if(e.target.tagName.toLowerCase() === "a" && e.currentTarget.href.indexOf() > 0){
-      event.preventDefault();
+    event.preventDefault();
+    if(e.target.tagName.toLowerCase() === "a" && e.target.href.indexOf("http") >= 0){
       electron = window.require('electron');
       electron.shell.openExternal(e.target.href);
     }
