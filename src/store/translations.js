@@ -152,9 +152,7 @@ export const translationsObject = {
       successText: 'Congratulations! You have successfully<br/>' +
       ' changed your password.',
       change_password_error: 'You do not have the sufficient funds to change your password. ' + 
-      'To deposit Bitcoin, simply click on the deposit button. You will be shown the address to send your Bitcoin to - both as a QR Code and as a Bitcoin public address.' +
-      'Send funds from your Bitcoin wallet to that address\n' +
-      'Lorem ipsum dolor'
+      'Please deposit additional funds and try again.'
     },
     notification: {
       empty: 'No notification',
@@ -184,8 +182,8 @@ export const translationsObject = {
       '\n' +
       'Currently, Bookie allow you to bet with Bitcoin.\n' +
       '\n' +
-      'To deposit Bitcoin, you simply click on the Deposit button. You will be shown the address to send your Bitcoin to - both as a QR Code and as a Bitcoin public address.' +
-      'Send funds from your chosen Bitcoin wallet to that address\n' +
+      'To deposit Bitcoin, simply click on the deposit button. You will be shown the address to send your Bitcoin to - both as a QR Code and as a Bitcoin public address.' +
+      'Send funds from your Bitcoin wallet to that address\n' +
       '\n' +
       'Withdrawing funds is just as simple - click on the Withdraw button, enter the public address of your Bitcoin wallet, and click SEND',
       headerText3: 'HOW TO MAKE A BET?',
