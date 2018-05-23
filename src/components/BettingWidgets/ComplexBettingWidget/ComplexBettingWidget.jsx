@@ -338,12 +338,11 @@ class ComplexBettingWidget extends PureComponent {
     };
 
     const backArrowsColumn = {
-      className: 'back-arrows-col',
       header: props => null,
       minWidth: minArrowWidth,
       sortable: false,
       render: props =>
-        <div className={ this.state.winOrLose ? 'back-offer disabled' : 'back-offer' }>
+        <div className={ `back-arrows-col arrows-col${this.state.winOrLose ? ' disabled' : '' }` }>
           <i className='icon-left-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'back', -1) }></i>
           <i className='icon-right-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'back', 1) }></i>
         </div>
@@ -356,7 +355,7 @@ class ComplexBettingWidget extends PureComponent {
       sortable: false,
       accessor: row => row.offer.back.length > 2 ? row.offer.back[2] : undefined,
       header:  props =>
-        <div className={ props.data[0].__original.bmStatus[0] ? 'offer-header back disabled' : 'offer-header back disabled' }>
+        <div className={ props.data[0].firstColumn.bmStatus[0] ? 'offer-header back disabled' : 'offer-header back disabled' }>
           { this.state.backBookPercent > 0 ? (<p>{ this.state.backBookPercent }%</p>) : '' }
         </div>,
       render: props => props.value ?
@@ -399,10 +398,13 @@ class ComplexBettingWidget extends PureComponent {
       className: classNameBack,
       sortable: false,
       accessor: row => row.offer.back.length > 0 ? row.offer.back[0] : undefined,
-      header:  props =>
-        <div className='offer-header back-all-offer'>
-          <p id={ BetTypes.BACK } onClick={ this.placeAllBestBets } >{ props.data[0].__original.bmStatus[0] ? null : I18n.t('complex_betting_widget.back_all')}</p>
-        </div>,
+      header: (props) => {
+        const isDisabled = props.data[0].firstColumn.bmStatus[0];
+
+        return (<div className={ `offer-header back-all-offer${isDisabled ? ' disabled' : ''}` }>
+          <p id={ BetTypes.BACK } onClick={ this.placeAllBestBets } >{ !isDisabled ? I18n.t('complex_betting_widget.back_all') : null }</p>
+        </div>)
+      },
       render: props => props.value ?
       <div className={ props.row.bmStatus[0] ? 'back-offer back-all-offer best-offer disabled' : 'back-offer back-all-offer best-offer' }>
         <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
@@ -422,10 +424,13 @@ class ComplexBettingWidget extends PureComponent {
       className: classNameLay,
       sortable: false,
       accessor: row => row.offer.lay.length > 0 ? row.offer.lay[0] : undefined,
-      header:  props => 
-        <div className='offer-header lay-all-offer'>
-          <p id={ BetTypes.LAY } onClick={ this.placeAllBestBets } >{ props.data[0].__original.bmStatus[0] ? null : I18n.t('complex_betting_widget.lay_all')}</p>
-        </div>,
+      header:  (props) => {   
+        const isDisabled = props.data[0].firstColumn.bmStatus[0];
+
+        return (<div className={ `offer-header lay-all-offer${isDisabled ? ' disabled' : ''}` }>
+          <p id={ BetTypes.LAY } onClick={ this.placeAllBestBets } >{ !isDisabled ? I18n.t('complex_betting_widget.lay_all') : null }</p>
+        </div>);
+      },
       render: props => props.value ?
         <div className={ props.row.bmStatus[0] ? 'lay-offer lay-all-offer best-offer disabled' : 'lay-offer lay-all-offer best-offer' }>
           <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
@@ -465,10 +470,10 @@ class ComplexBettingWidget extends PureComponent {
       className: classNameLay,
       sortable: false,
       accessor: row => row.offer.lay.length > 2 ? row.offer.lay[2] : undefined,
-      header: props =>
-        <div className={ props.data[0].__original.bmStatus[0] ? 'offer-header lay disabled' : 'offer-header lay' }>
+      header: props => 
+       <div className={ props.data[0].firstColumn.bmStatus[0] ? 'offer-header lay disabled' : 'offer-header lay' }>
           { this.state.layBookPercent > 0 ? (<p>{ this.state.layBookPercent }%</p>) : '' }
-        </div>,
+       </div>,
       render: props => props.value ?
         <div className={ props.row.bmStatus[0] ? 'lay-offer lay-bg disabled' : 'lay-offer lay-bg' }>
           <div className='odds'>{ props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
@@ -484,12 +489,11 @@ class ComplexBettingWidget extends PureComponent {
     };
 
     const layArrowsColumn = {
-      className: 'lay-arrows-col',
       header: props => null,
       minWidth: minArrowWidth,
       sortable: false,
       render: props =>
-        <div className={ this.state.winOrLose ? 'lay-offer disabled' : 'lay-offer' }>
+        <div className={ `lay-arrows-col arrows-col${this.state.winOrLose ? ' disabled' : '' }` }>
           <i className='icon-left-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'lay', -1) }></i>
           <i className='icon-right-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'lay', 1) }></i>
         </div>
