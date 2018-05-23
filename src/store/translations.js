@@ -273,13 +273,24 @@ export const translationsObject = {
       cancel_all_confirm: 'You are about to remove %{currencySymbol}%{betsTotal} bets, are you sure?'
     },
     complex_betting_widget:{
+      error: 'ERROR',
       back_all: 'Back all',
       lay_all: 'Lay all',
       offer: '--',
       matched: 'Matched',
       moneyline: 'Moneyline',
+      upcoming: "UPCOMING",
+      unresolved: "UNRESOLVED",
+      in_progress: "IN PROGRESS",
+      frozen: "FROZEN",
+      finished: "FINISHED",
+      settled: "SETTLED",
+      canceled: "CANCELLED",
       in_play: 'IN-PLAY',
-      going_in_play: 'GOING IN-PLAY'
+      going_in_play: 'GOING IN-PLAY',
+      closed: 'CLOSED',
+      graded: 'GRADED',
+      re_grading: 'RE-GRADING'
     },
     simple_betting_widget:{
       no_data: 'There is no event to be displayed.',
@@ -1016,7 +1027,8 @@ export const translationsObject = {
         questionAnswerPairs: [
           {
             question: 'How do I place a bet on BookiePro.fun?',
-            answer: 'Bookie is a betting exchange, which allows you to place a bet by either ' + '<b>Backing</b> (as bettors normally do) or <b>Laying</b> a bet (like a sportsbook would do). ' + 
+            answer: 'Bookie is a betting exchange, which allows you to place a bet by either ' + 
+            '<b>Backing</b> (as bettors normally do) or <b>Laying</b> a bet (like a sportsbook would do). ' + 
             'BookiePro.fun has no ‘house’, so all bets you place will be matched by other ' +
             'Bookie users, who want to take the opposite side of your bet.\n\n' +
             'To get started:\n' + 
