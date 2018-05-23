@@ -3,7 +3,7 @@ import { PrivateKey } from 'peerplaysjs-lib';
 import { version } from '../../package.json'
 
 const blockchainUrls = [
-  'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090'  
+  'ws://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:8090'  
 ]
 
 // Shuffle list of blockchain nodes
@@ -23,8 +23,8 @@ const Config = {
   // Set this to false to register through faucet
   // Remember to set the faucet urls properly beforehand
   // We don't have faucet for blocktrades testnet
-  registerThroughRegistrar: true,
-  faucetUrls: ['https://595-dev-faucet.pixelplex.by'],
+  registerThroughRegistrar: false,
+  faucetUrls: ['http://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:5050'],
   accountRegistar: {
     name: 'nathan',
     keys: {
@@ -36,7 +36,8 @@ const Config = {
   dummyDataAccountId: '1.2.243', // TODO: remove this
   features: {
     withdrawels: false,
-    deposits: false
+    deposits: false,
+    moneylineFilter: false
   }
 };
 

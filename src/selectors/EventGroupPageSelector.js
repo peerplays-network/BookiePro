@@ -1,6 +1,7 @@
 import CommonSelector from './CommonSelector';
 import { createSelector } from 'reselect';
 import Immutable from 'immutable';
+import { Config } from '../constants';
 
 const {
   getBettingMarketsById,
@@ -125,7 +126,9 @@ const getEventGroupPageData = createSelector(
         moneyline: moneylineBettingMarketGroupId,
       });
     }).filter( eventNode => {
-      return eventNode.get('moneyline') !== undefined
+      // Feature check, is Moneyline filter enabled/disabled?
+      let moneylineFilterEnabled = Config.features.moneylineFilter;
+      return moneylineFilterEnabled ? eventNode.get('moneyline') !== undefined : eventNode;
     });
 
     return eventGroupPageData;
