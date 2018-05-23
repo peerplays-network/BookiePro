@@ -49,11 +49,18 @@ const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 if (isRunningInsideElectron){
   let electron;
   //open links externally by default
-  $(document).on('click', 'a[href^="http"]', (event) => {
+  document.addEventListener("click", (e) => {
+    if(e.target.tagName.toLowerCase() === "a" && e.currentTarget.href.indexOf() > 0){
+      event.preventDefault();
+      electron = window.require('electron');
+      electron.shell.openExternal(e.target.href);
+    }
+  });
+  /*$(document).on('click', 'a[href^="http"]', (event) => {
     event.preventDefault();
     electron = window.require('electron');
     electron.shell.openExternal(event.currentTarget.href);
-  })
+  })*/
 }
 
 // Add new page here
