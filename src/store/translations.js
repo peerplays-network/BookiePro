@@ -158,6 +158,7 @@ export const translationsObject = {
       deposit: 'The deposit of %{amount} %{currency} is confirmed',
       bet_resolved: 'An event you bet on has recently finished and your bet(s) on this event are now settled.',
       software_update: 'New version available, update now',
+      version: 'Version',
       transaction_history_data_exported: 'Transaction History Data is exported'
     },
     softwareUpdate: {
