@@ -1,6 +1,12 @@
 import _ from 'lodash';
-import {PrivateKey} from 'peerplaysjs-lib';
-import {version} from '../../package.json'
+
+import { PrivateKey, PublicKey } from 'peerplaysjs-lib';
+import { version } from '../../package.json';
+import { ChainConfig } from 'peerplaysjs-ws';
+
+// This sets the prefx of the supporting libraries to the PPY prefix
+// This line needs to be edited for connecting to chains with a different core asset
+ChainConfig.setPrefix('PPY');
 
 const blockchainUrls = [
   //'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090' // Charlie
@@ -18,7 +24,19 @@ const Config = {
   oddsPrecision: 10000, // NOTE: I think this should be inside blockchain global objects, but it's not there yet so put it here temporarily
   blockchainUrls: shuffledBlockhainUrls,
   coreAsset: ASSET_ID,
-  softwareUpdateReferenceAccountName: 'peerplays1', // We listen to a particular account's transaction history for software update
+  hardUpdateGracePeriod: 43200, // 12 Hour Hard-Update Grace Period
+  broadcastAccount: {
+    name: 'pbsa-broadcasts',
+    keys: {
+      active: PublicKey.fromPublicKeyString("PPY4vR89Z4TiqxbcDDuv5BV7XRgxhfYquYvC8ciiDnRZanPCLcQJ4")
+    }
+  },
+  updateAccount: {
+    name: 'peerplays-updates',
+    keys: {
+      memo: PrivateKey.fromWif("5JnR1XHTj2BQtM4gf4tDkayfB4TQf15zBAwgSEMQcpyED21bNnv") 
+    }
+  },
   gatewayAccountName: 'gateway1', // Any transfer from this account is marked as deposit/ withdraw with gateway
   useDummyData: false, // Set to true if you want to use dummy data
   // Set this to false to register through faucet

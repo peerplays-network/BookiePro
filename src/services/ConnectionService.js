@@ -105,8 +105,6 @@ class ConnectionService {
     return Apis.instance(connectionString, true).init_promise.then((res) => {
       // Print out which blockchain we are connecting to
       log.debug('Connected to:', res[0] ? res[0].network_name : 'Undefined Blockchain');
-      // This is set to PPY since Peerplays Blockchain Testnet is currently using PPY prefix
-      ChainConfig.setPrefix("PPY");
     }).catch((error) => {
       // Close residue connection to blockchain
       this.closeConnectionToBlockchain();
