@@ -173,10 +173,10 @@
   }
 }
 .btn-cancel{
-  background: @secondary_btn;
+  background: @cancel_btn;
   box-shadow: none;
   &:hover, &:focus{
-    background: @secondary_btn_hover;
+    background: @cancel_btn_hover;
     color: @white;
     padding:2px;
     outline:none;
@@ -828,9 +828,22 @@ input, .ant-input, .ant-calendar-input {
   box-shadow: none;
   color: @white;
   &:hover, &:focus{
-    padding:2px;
     color: @white;
     background: @secondary_btn_hover;
     outline:none;
+  }
+}
+
+.btn-tertiary {
+  .btn-regular;
+  background: @cello;
+  box-shadow: none;
+  color: @white;
+  padding: 10px 30px;
+  &:hover, &:focus{
+    color: @white;
+    background: @domino;
+    outline:none;
+    padding: 10px 30px;
   }
 }
