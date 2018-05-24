@@ -863,7 +863,7 @@ export const translationsObject = {
             answer: 'Decentralized sports betting provides the following benefits for bettors:' +
             '<ul><li>provably fair (traditional sportsbooks don’t publish their back-end code and business logic)</li>' +
             '<li>real-time transparency of bet placement (traditional sportsbooks never publish their database)</li>' +
-            '<li>no slow payment no possibility of funds being stolen by an unethical operator</li></ul>'
+            '<li>no slow payment</li><li>no possibility of funds being stolen by an unethical operator</li></ul>'
           },
           {
             question: 'How does a betting exchange benefit bettors, compared to a traditional sportsbook?',
@@ -887,12 +887,12 @@ export const translationsObject = {
         questionAnswerPairs: [
           {
             question: 'How do I sign up for a BookiePro.fun account?',
-            answer: 'OOpening an account with BookiePro.fun is quick and simple. First, download and install the app. ' +
+            answer: 'Opening an account with BookiePro.fun is quick and simple. First, download and install the app. ' +
             'Then, click the SIGN UP button on the BookiePro.fun app front page and follow the on-screen instructions.'
           },
           {
             question: 'Will I need to provide any ID, proof of address, or other personal documentation when signing up for a BookiePro.fun account?',
-            answer: 'No. Bookie does not require any personal information for Account creation.'
+            answer: 'No. Bookie does not require any personal information for account creation.'
           },
           {
             question: 'What personal information does BookiePro.fun hold about me?',
@@ -903,21 +903,21 @@ export const translationsObject = {
             answer: 'BookiePro.fun does not store or track user IP addresses, mac addresses or any other such identifying information.'
           },
           {
-            question: 'What information do I need to log in to my BookiePro.fun account?',
-            answer: 'Only two items of information are required to log in to BookiePro.fun:\n' +
-            '1.\t User name \n' +
+            question: 'What information do I need to log into my BookiePro.fun account?',
+            answer: 'Only two items of information are required to log into BookiePro.fun:\n' +
+            '1.\t Username \n' +
             '2.\t Password \n' +
             'It is important that you save your BookiePro.fun password in multiple secure offline places.'
           },
           {
             question: 'How do I recover my BookiePro.fun password',
-            answer: 'There is no way to recover your BookiePro.fun password. If you lose your password you will not be able to log in to your account ' +
+            answer: 'There is no way to recover your BookiePro.fun password. If you lose your password you will not be able to log into your account ' +
             'and you will lose access to all funds in that account forever. When creating your account, every user is prompted to save a file containing ' +
             'the password to their hard drive. Users should also save their password in a secure place offline. Never share your password with anyone.'
           },
           {
             question: 'I’ve lost my BookiePro.fun password, what should I do?',
-            answer: 'If you lose your password, you will not be able to log in to your BookiePro.fun account again. Ever. All funds in that account will remain untouched but inaccessible.'
+            answer: 'If you lose your password, you will not be able to log into your BookiePro.fun account again. Ever. All funds in that account will remain untouched but inaccessible.'
           },
           {
             question: 'Who can I share my password with?',
@@ -936,29 +936,21 @@ export const translationsObject = {
           {
             question: 'Can I open a BookiePro.fun account from anywhere in the world?',
             answer: 'BookiePro.fun places no geographical restrictions on the location of its users. However, it is the bettor’s ' +
-            'responsibility to adhere to local laws at all times, as laid out in the BookiePro.fun EULA XXXX.'
+            'responsibility to adhere to local laws at all times, as laid out in the BookiePro.fun <a href="http://www.bookiepro.fun/eula/">EULA</a>.'
           },
           {
             question: 'Can I change my account name?',
             answer: 'No, a BookiePro.fun account name cannot be changed after the account has been created.'
           },
           {
-            question: 'Can I login to my account from multiple devices',
-            answer: 'YYes. Simply download the BookiePro.fun app to a second device and log in using your account name and password. ' +
-            'No further information is required to log in to your BookiePro.fun account.'
+            question: 'Can I login to my account from multiple devices?',
+            answer: 'Yes. Simply download the BookiePro.fun app to a second device and log in using your account name and password. ' +
+            'No further information is required to log into your BookiePro.fun account.'
           },
           {
-            question: 'Where can I view all my current bets?',
-            answer: 'From within the BookiePro.fun app, click on the “My Bets” icon. Here, you can see your Matched Bets, Unmatched, and Settled Bets.'
-          },
-          {
-            question: 'Where can I view my bet history?',
-            answer: 'From within the BookiePro.fun app, click on the “My Bets” icon. Here, you can see your Matched Bets, Unmatched, and Settled Bets.'
-          },
-          {
-            question: 'Where can I view all my BookiePro.fun transactions?',
-            answer: 'From within the BookiePro.fun app, click on the “My Bets” icon. Here, you can see your Matched Bets, ' +
-            'Unmatched, and Settled Bets. You can also Export this list as a .xls spreadsheet.'
+            question: 'Where can I view my current bets/bet history/all transactions?',
+            answer: 'From within the BookiePro.fun app, click on the “My Bets” icon. Here, you can see your Matched Bets, '
+            + 'Unmatched, and Settled Bets. You can also export this list as a spreadsheet.'
           }
         ],
       },
@@ -972,7 +964,8 @@ export const translationsObject = {
           },
           {
             question: 'How do I get BitFun?',
-            answer: 'You can earn BitFun top-ups to your BookiePro.fun account. Visit the official Bitcointalk thread XXXX for more information.'
+            answer: 'You can earn BitFun top-ups to your BookiePro.fun account. Visit the <a href="http://www.bookiepro.fun/CompetitionCommunity/"'
+            +'>official Bitcointalk thread</a> for more information.'
           },
           {
             question: 'How do I deposit funds with BookiePro.fun?',
@@ -1025,10 +1018,10 @@ export const translationsObject = {
         questionAnswerPairs: [
           {
             question: 'How do I place a bet on BookiePro.fun?',
-            answer: 'Bookie is a betting exchange, which allows you to place a bet by either ' + 
-            '<b>Backing</b> (as bettors normally do) or <b>Laying</b> a bet (like a sportsbook would do). ' + 
-            'BookiePro.fun has no ‘house’, so all bets you place will be matched by other ' +
-            'Bookie users, who want to take the opposite side of your bet.\n\n' +
+            answer: 'Bookie is a betting exchange, which allows you to place a bet by either Backing '
+            + '(as bettors normally do) or Laying a bet (like a sportsbook would do). BookiePro.fun has '
+            + 'no ‘house’, so all bets you place will be matched by other users who want to take '
+            + 'the opposite side of your bet.\n\n' +
             'To get started:\n' + 
             '&nbsp;&nbsp;&nbsp;&nbsp;1. Choose a sport from the menu on the left\n' + 
             '&nbsp;&nbsp;&nbsp;&nbsp;2. Select the apropriate League (NFL, EPL, etc)\n' + 
@@ -1072,7 +1065,7 @@ export const translationsObject = {
           },
           {
             question: 'What are Stake and Liability?',
-            answer: 'In a back bet, your stake is the monetary amount placed on the bet. If the outcome does NOT win, you lose on this amount.\n\n' +
+            answer: 'In a back bet, your stake is the monetary amount placed on the bet. If the outcome does NOT win, you lose this amount.\n\n' +
             'In a lay bet, your liability is the amount of money you stand to lose. ' +
             'For example, laying a 10 mBTF bet at 2.32 odds, your liability is 13.20 mBTF. That is, you stand to lose 13.20 mBTF.'
           },
@@ -1094,13 +1087,13 @@ export const translationsObject = {
           },
           {
             question: 'Is there a minimum/maximum bet amount?',
-            answer: 'The minimum backer’s stake is 1 mBTF. The minimum layer’s liability is 0.01 mBTF. \nThere is no maximum bet amount.'
+            answer: 'The minimum backer’s stake is 1 mBTF. The minimum layer’s liability is 0.01 mBTF. There is no maximum bet amount.'
           },
           {
             question: 'How do I cancel a bet?',
             answer: 'Matched bets cannot be canceled.\n\n' +
             'You may cancel an unmatched bet at any time by either:\n' +
-            '(i) Navigating to ‘My Bets’ using the icon on the top bar. ' +
+            '(i) Navigating to "My Bets" using the icon on the top bar. ' +
             'From there you can choose to view all unmatched bets and cancel by clicking “Cancel”.\n' +
             'or\n(ii)  Navigating to the betting market where you placed the bet, clicking on ' +
             '“Placed Bets” in the betslip on the right, where you will be able to view and cancel ' +
@@ -1205,11 +1198,11 @@ export const translationsObject = {
           {
             question: 'Will I be charged Commission if my bet loses?',
             answer: 'No, not if that was your only bet in this market. Commission is only paid by users who have net winnings in a ' +
-            'particular market. If you had a second bet in that market that won more than your first bet, then you would pay Commission, on your net winnings (net winnings = winnings - losses).'
+            'particular market. If you had a second bet in that market that won more than your first bet, then you would pay Commission on your net winnings (net winnings = winnings - losses).'
           },
           {
             question: 'How does the Transaction Fee work?',
-            answer: 'BookiePro.fun also charges a tiny Transaction Fee for every new bet you place. This Transaction Fee is set at XXXX. ' +
+            answer: 'BookiePro.fun also charges a tiny Transaction Fee for every new bet you place. This Transaction Fee is set at mBTF. ' +
             'It is only charged when you make the following actions:<ul><li>place a bet</li><li>edit a bet</li><li>change your password</li></ul>' +
             'The Transaction Fee is charged when you are making a new bet and is shown in your betslip as an additional fee on top of your ' + 
             'bet stake. Transaction Fees are paid regardless of whether you are net winner in a market (unlike Commission).'
@@ -1276,7 +1269,7 @@ export const translationsObject = {
             answer: 'Not yet. For now BookiePro.fun is a desktop/laptop-only application. Development on mobile versions is proceeding through 2018. Watch this space!'
           },
           {
-            question: 'Does BookiePro.fun have an API for integration with third party trading software',
+            question: 'Does BookiePro.fun have an API for integration with third party trading software?',
             answer: 'BookiePro.fun runs on top of Peerplays, a fully public blockchain to which anyone can connect. ' + 
             'The app itself connects to the blockchain using an API. However, this API is not yet appropriate for general purpose use by third parties - ' + 
             'it requires productizing and documenting, a process that is currently underway. Expect the first publicly documented BookiePro.fun API to be released later in 2018!'
