@@ -3,6 +3,7 @@ import { PrivateKey } from 'peerplaysjs-lib';
 import log from 'loglevel';
 import { I18n } from 'react-redux-i18n';
 import Immutable from 'immutable';
+import { Config } from '../constants';
 
 class WalletService {
   // Process fake transaction (for testing)
@@ -29,7 +30,7 @@ class WalletService {
     });
 
     // Set required fees
-    return transaction.set_required_fees().then(() => {
+    return transaction.set_required_fees(Config.coreAsset).then(() => {
       // Get potential signatures
       // Inside, it's trying to ask the blockchain based on the seller account id attached in the transaction
       return transaction.get_potential_signatures();
