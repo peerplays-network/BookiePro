@@ -47,8 +47,8 @@ export const translationsObject = {
       my_account: 'My Account',
       welcome_back: 'Welcome Back',
       deposit: 'Deposit',
-      deposit_desc: 'Please send your BTC to the address' +
-      ' below',
+      deposit_desc_1: 'Please send your ',
+      deposit_desc_2: ' to the address below',
       copy: 'copy',
       withdraw: 'withdraw',
       withdraw_desc: 'Please select your amount',

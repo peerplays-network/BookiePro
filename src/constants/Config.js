@@ -35,9 +35,10 @@ const Config = {
   },
   dummyDataAccountId: '1.2.243', // TODO: remove this
   features: {
-    withdrawels: false,
-    deposits: false,
-    moneylineFilter: false
+    withdrawels: true,
+    deposits: true,
+    moneylineFilter: false,
+    currency: 'BTF'
   }
 };
 

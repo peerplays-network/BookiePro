@@ -1,8 +1,11 @@
+import { Config } from '../constants';
+
 /**
  * The CurrencyUtils contains all the functions related to currency conversion function
  */
-const bitcoinSymbol = '\u0243';
-const mBitcoinSymbol = 'm' + bitcoinSymbol;
+//const currencySymbol = '\u0243';
+const currencySymbol = Config.features.currency;
+const mCurrencySymbol = 'm' + currencySymbol;
 
 // REVIEW: Some functions here do auto conversion from BTC to mBTC.
 //         We need to be careful because sometimes the values we are handling
@@ -54,10 +57,10 @@ var CurrencyUtils = {
   },
 
   getCurrencySymbol: function( currency = 'BTC' ){
-    if ( currency === 'mBTC'){
-      return mBitcoinSymbol;
-    } else if ( currency === 'BTC'){
-      return bitcoinSymbol;
+    if ( currency === 'mBTC' || currency === mCurrencySymbol){
+      return mCurrencySymbol;
+    } else if ( currency === 'BTC' || currency === currencySymbol){
+      return currencySymbol;
     } else{
       return
     }
