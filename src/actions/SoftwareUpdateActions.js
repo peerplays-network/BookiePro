@@ -107,7 +107,7 @@ class SoftwareUpdateActions {
                   const isNeedSoftUpdate = SoftwareUpdateUtils.isNeedSoftUpdate(version);
                   
                   // Show software update popup if needed
-                  if (isNeedHardUpdate || isNeedSoftUpdate) {
+                  if (isNeedHardUpdate) {
                     dispatch(AppActions.showSoftwareUpdatePopupAction(true));
                     dispatch(NotificationActions.addSoftUpdateNotification(version, date, link));
                     return false;
