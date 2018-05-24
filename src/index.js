@@ -25,12 +25,10 @@ import { LocaleProvider } from 'antd';
 import { I18n } from 'react-redux-i18n';
 import log from 'loglevel';
 import LicenseScreen from './components/LicenseScreen';
-import $ from 'jquery';
 import { AppUtils } from './utility';
 
 // Configure store
 const store = configureStore();
-const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 // Configure history
 const history = syncHistoryWithStore(hashHistory, store, {
   selectLocationState (state) {
@@ -46,14 +44,20 @@ const history = syncHistoryWithStore(hashHistory, store, {
 // We should turn this off in the production build.
 log.setLevel(log.levels.SILENT);
 
+//open links externally by default
+// are we in an electron window?
+const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 if (isRunningInsideElectron){
   let electron;
-  //open links externally by default
-  $(document).on('click', 'a[href^="http"]', (event) => {
+  // add a listener to handle all clicks
+  document.addEventListener("click", (e) => {
     event.preventDefault();
-    electron = window.require('electron');
-    electron.shell.openExternal(event.currentTarget.href);
-  })
+    // act on any clicks that are hyperlinks preceeded by http
+    if(e.target.tagName.toLowerCase() === "a" && e.target.href.indexOf("http") >= 0){
+      electron = window.require('electron');
+      electron.shell.openExternal(e.target.href);
+    }
+  });
 }
 
 // Add new page here
