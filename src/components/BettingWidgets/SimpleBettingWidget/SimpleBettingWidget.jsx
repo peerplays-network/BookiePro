@@ -37,10 +37,12 @@ const renderEventTime = (text, record) => {
   if (isLiveMarket) {
     return <span className='live'><span className='indicator'/>{ I18n.t('simple_betting_widget.in_play') }</span>;
   } else {
-    const eventTime = moment(record.get('time'))
+    const eventTime = moment(record.get('time'));
     let dateString = eventTime.format('MMM D');
+    //Check if event is running today.
     let timeString = eventTime.calendar();
     dateString = timeString.toLowerCase().includes('today') ? 'Today' : dateString;
+
     return <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>;
   }
 }
@@ -212,7 +214,7 @@ class SimpleBettingWidget extends PureComponent {
       if ( offer === undefined){
         return (
           <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, '') }>
-            <div className='offer'>
+            <div className='offer empty'>
               <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
             </div>
           </a>

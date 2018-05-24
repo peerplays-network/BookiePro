@@ -200,7 +200,8 @@ class AuthActions {
       const keys = KeyGeneratorService.generateKeys(accountName, password);
       // Determine which way to register
       let register;
-      if (Config.registerThroughRegistrar) {
+      let registerThroughRegistrar = Config.registerThroughRegistrar;
+      if (registerThroughRegistrar) {
         register = AccountService.registerThroughRegistrar(accountName, keys);
       } else {
         register = AccountService.registerThroughFaucet(1, accountName, keys);
@@ -214,7 +215,7 @@ class AuthActions {
         if (depositsEnabled) {
           dispatch(NavigateActions.navigateTo('/deposit'));
         } else {
-          dispatch(NavigateActions.navigateTo('/welcome'));
+          dispatch(NavigateActions.navigateTo('/exchange'));
         }
         // Set register status to done
         dispatch(AuthPrivateActions.setSignupLoadingStatusAction(LoadingStatus.DONE));

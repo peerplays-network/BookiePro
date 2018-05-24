@@ -5,13 +5,23 @@
 }
 
 .betting-market-node-container  {
+  background-color: @black_pearl_extra_dark;
   color: @primary_label_border;
-  margin-left: 30px;
-  padding: 10px 0;
-  border-bottom: @side-bar-divider;
+  padding: 10px 10px 10px 30px;
+  border-bottom: 1px solid @midnight;
+  text-transform: uppercase;
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+
+  .label {
+    font-weight: normal;
+  }
+
 }
 
 .betting-market-label-container-selected {
-  color: @primary_label_highlight;
-  font-weight: 500;//for roboto-medium
+  color: @white;
+  font-weight: bold;//for roboto-medium
 }

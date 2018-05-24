@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import ReactDOM from 'react-dom';
+import { I18n } from 'react-redux-i18n';
 
 class RulesModalScrollableContent extends PureComponent {
   componentDidMount() {
@@ -14,12 +15,35 @@ class RulesModalScrollableContent extends PureComponent {
   }
 
   render() {
+    
+    const rules = this.props.rules.get('description');
+    const pattern = /([A-Z]+\s[A-Z]+(?=\s))\s([^\.]+\.)\s(.+)\s(?=Please note)(.+)/g;
+    const parts = pattern.exec(rules);
+
+    let output = rules;
+
+    // If we've matched all the pieces that we are expecting.
+    if (parts.length === 5) {
+      output = <div>
+        <p>
+          {parts[1]}
+        </p>
+        <p>
+          {parts[2]}
+        </p>
+        <p>
+          {parts[3]}
+        </p>
+        <p>
+          {parts[4]}
+        </p>
+      </div>;
+    }
+
     return (
-      <div
-        className='rules-modal-content'
-        ref='scrollableSection'
-        dangerouslySetInnerHTML={ { __html: this.props.rules.get('description') } }
-      />
+      <div className='rules-modal-content' ref='scrollableSection'>
+        { output }
+      </div>
     )
   }
 }
@@ -38,7 +62,7 @@ class RulesModal extends PureComponent {
   render() {
     return (
       <Modal
-        title={ this.props.rules.get('name') }
+        title={ I18n.t('rules_dialogue.buttonTitle') }
         wrapClassName={ 'vertical-center-modal rules-modal' }
         visible={ this.props.visible }
         footer=''

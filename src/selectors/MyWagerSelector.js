@@ -197,7 +197,6 @@ const getBetsWithFormattedCurrency = createSelector(
     getAssetsById
   ],
   (bets, currencyFormat, assetsById) => {
-    let count = 0
     return bets.map(bet => {
 
       const betType = bet.get('back_or_lay')
@@ -265,7 +264,7 @@ const getBetData = createSelector(
         bet = bet.set('event_name', linkedEventName);
         const cancelLoadingStatus = cancelBetsByIdsLoadingStatus.get(bet.get('id')) || LoadingStatus.DEFAULT;
         const cancelButton = (cancelLoadingStatus === LoadingStatus.DEFAULT || cancelLoadingStatus === LoadingStatus.ERROR)
-                            ? <a className='btn cancel-btn' target='_self'>{ I18n.t('mybets.cancel') }</a> : <Loading/>;
+                            ? <a className='btn btn-cancel' target='_self'>{ I18n.t('mybets.cancel') }</a> : <Loading/>;
         bet = bet.set('cancel', cancelButton);
       } else if (bet.get('category') === BetCategories.MATCHED_BET) {
         let bettingMarketId = bettingMarkets.getIn([bet.get('betting_market_id')])

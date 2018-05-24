@@ -18,7 +18,7 @@
     &.ant-switch-checked{
       &:after{
         margin-left: -22px;
-        background-color: @switch_active;
+        background-color: @dark_tangerine;
       }
     }
   }
@@ -27,7 +27,12 @@
     line-height: 30px;
   }
   .bookie-card{
-    height:312px;
+    height:auto;
+  }
+  .card-footer {
+    bottom: auto;
+    padding: 0;
+    position: relative;
   }
   .bookie-table {
     margin-bottom: 20px;
@@ -66,8 +71,14 @@
     }
   }
   .settingComponent{
+    .ant-card-body{
+      padding: 10px 15px 0;
+    }
     .btn{
-      width:100%;
+      width:49%;
+      &:first-of-type{
+        margin-right: 2%;
+      }
     }
     .bookie-select{
       display: block;
@@ -110,6 +121,14 @@
   .btn, input, .ant-input{
     height:30px;
     line-height: 30px;
+  }
+  .ant-input {
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    &:focus {
+      box-shadow: 0 0 0 1px @primary_label_highlight;
+    }
   }
   .bookie-qr {
     width: 130px;

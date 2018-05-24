@@ -32,13 +32,13 @@ export const translationsObject = {
     },
     titleBar:{
       title: 'BookiePro',
-      clock: 'Local Time %{time}'
+      clock: 'Local Time'
     },
     searchMenu:{
       no_of_result_0: 'No results found',
       no_of_result: '%{count} results for "%{searchText}"',
       match_start_on: ' Thu, 10/01/2017 13:00',
-      search_place_holder: 'Search Team',
+      search_place_holder: 'Search events',
       search_error: 'There are currently no betting markets for %{event}'
     },
     myAccount:{
@@ -112,13 +112,12 @@ export const translationsObject = {
       password_warning_1: 'If you lose your password, you will lose all of your funds!',
       password_warning_2: ' Keep your password safe!',
       password_warning_3: ' To download a text file of your password, click the save button below:',
-      loginWithAccount: 'Or log in with your existing PeerPlays account',
       cannot_recover_password_warning: 'I understand that PBSA <span class="mediumMessageInText">cannot recover my password.</span>',
       securely_saved_password_warning: 'I have securely saved my password recovery file.',
       create_account: 'Create Account',
       already_account: 'Already have an account?',
       log_in: 'Log In',
-      premium_acc_text: 'This is a premium name. Please enter a regular name containing least one dash, a number or no vowels.',
+      premium_acc_text: 'This is a premium name. Please enter a regular name containing at least one dash, a number or no vowels.',
       password_no_match: 'The password you entered does not match',
       repeat_password: 'Repeat your Password',
       field_req: 'Field is required',
@@ -131,7 +130,7 @@ export const translationsObject = {
       signup: 'SIGN UP',
       username_notfound: 'Account Name not found',
       password_short: 'password too short',
-      wrong_username_password: 'wrong Account Name or password'
+      wrong_username_password: 'Wrong account name or password'
     },
     changePassword:{
       title: 'Change Your Password',
@@ -222,7 +221,6 @@ export const translationsObject = {
       signup: 'JOIN BOOKIEPRO NOW',
       slogan: 'Bet from Anywhere in the World',
       intro: 'Sign-Up and Start Betting in 2 Minutes!',
-      loginWithAccount: 'Log in with your existing Peerplays account',
       copyright: 'COPYRIGHT',
       privacy_policy: 'PRIVACY POLICY',
       registerStepTitle: 'Register',
@@ -274,13 +272,24 @@ export const translationsObject = {
       cancel_all_confirm: 'You are about to remove %{currencySymbol}%{betsTotal} bets, are you sure?'
     },
     complex_betting_widget:{
+      error: 'ERROR',
       back_all: 'Back all',
       lay_all: 'Lay all',
       offer: '--',
       matched: 'Matched',
       moneyline: 'Moneyline',
+      upcoming: "UPCOMING",
+      unresolved: "UNRESOLVED",
+      in_progress: "IN PROGRESS",
+      frozen: "FROZEN",
+      finished: "FINISHED",
+      settled: "SETTLED",
+      canceled: "CANCELLED",
       in_play: 'IN-PLAY',
-      going_in_play: 'GOING IN-PLAY'
+      going_in_play: 'GOING IN-PLAY',
+      closed: 'CLOSED',
+      graded: 'GRADED',
+      re_grading: 'RE-GRADING'
     },
     simple_betting_widget:{
       no_data: 'There is no event to be displayed.',
@@ -995,7 +1004,8 @@ export const translationsObject = {
         questionAnswerPairs: [
           {
             question: 'How do I place a bet on Bookie?',
-            answer: 'Bookie is a betting exchange, which allows you to place a bet by either ' + '<b>Backing</b> (as bettors normally do) or <b>Laying</b> a bet (like a sportsbook would do). ' + 
+            answer: 'Bookie is a betting exchange, which allows you to place a bet by either ' + 
+            '<b>Backing</b> (as bettors normally do) or <b>Laying</b> a bet (like a sportsbook would do). ' + 
             'Bookie has no ‘house’, so all bets you place will be matched by other ' +
             'Bookie users, who want to take the opposite side of your bet.\n\n' +
             'To get started:\n' + 

@@ -1,0 +1,307 @@
+// Main application
+
+//----------------COLOR SELECTION-------------------
+@app-bg: radial-gradient(circle, #3e5262 0%, #1a2127 60%);
+
+@white: #FFFFFF;
+@black: #000000;
+@overlay_midnight: rgba(44, 54, 63, 0.7);
+
+@black_pearl: #1a2127;
+@black_pearl_mid: #171c20;
+@black_pearl_dark: #14181c;
+@black_pearl_extra_dark: #101316;
+
+@cinder: #1f262c;
+@cello: #3e5262;
+@elephant: #273642;
+@midnight: #2c363f;
+@domino: #495967;
+@shuttle_grey: #536066;
+
+@dark_tangerine: #fbae16;
+@buttercup: #d19319;
+
+@crimson: #d60d2e;
+@apple: #64d951;
+
+@pattens_blue: #cff1ff;
+@french_pass: #a4cfe1;
+@anakiwa: #8dd3f1;
+@matisse: #34657d;
+@domino: #495967;
+
+@pale_pink: #fce3e4;
+@azalea: #ecc0c2;
+@light_pink: #fdaeb2;
+@camelot: #7c4250;
+
+
+//----------------THEME-------------------
+//--- ONLY DEFINE USAGE OF COLOR SELECTION HERE---
+
+//GENERAL
+@primary_label:  @white;
+@primary_label_highlight: @dark_tangerine;
+@primary_label_border: @white;
+@secondary_label: @dark_tangerine;
+
+@primary_shadow: @black;
+@overlay_banner: @midnight;
+
+@profit: @apple;
+@loss: @crimson;
+@error: @crimson;
+
+@back_highlight: @primary_label_highlight;
+@back_bg_primary: @pattens_blue;
+@back_bg_secondary: @black_pearl_dark;
+@lay_highlight: @camelot;
+@lay_bg_primary: @pale_pink;
+@lay_bg_secondary: @azalea;
+@lay_border: @black_pearl_dark;
+@lay_header: @black_pearl_dark;
+
+@primary_bg: @midnight;
+@secondary_bg: @black_pearl_dark;
+@third_bg: @black_pearl_mid;
+@primary_border: @cello;
+
+@btn_primary_start: @dark_tangerine;
+@btn_primary_end: @buttercup;
+
+@banner_timer_top: @midnight;
+@banner_timer_bottom: @black_pearl_dark;
+@btn_secondary_start: @black_pearl;
+@btn_secondary_end: @black_pearl_dark;
+
+@live_market_marker: @crimson;
+@going_live_market_marker: @shuttle_grey;
+
+// Form fields
+@field: @black;
+@field_border: @elephant;
+
+// Buttons
+@btn_shadow_inset: fade(@white, 43%);
+@btn_shadow_outset: fade(@black, 50%);
+@introduction_btn_shadow_outset: fade(@black, 100%);
+@download_btn: linear-gradient(@dark_tangerine, @buttercup);
+@disable_button_start: @midnight;
+@disable_button_end: @cinder;
+@transparent_btn:@white;
+@transparent_btn_blue:@dark_tangerine;
+//Dialogue
+@dialogue_bg: fade(@black, 30%);
+
+@banner_overlay: linear-gradient(0deg,@overlay_midnight,@overlay_midnight);
+
+@update_highlight: @dark_tangerine;
+
+//---------------END OF THEME-------------------
+
+// Buttons
+@btn_label: @primary_label;
+@primary_btn: linear-gradient(@btn_primary_start, @btn_primary_end);
+@primary_btn_hover: linear-gradient(@btn_primary_end, @btn_primary_start);
+@secondary_btn: linear-gradient(@btn_secondary_start, @btn_secondary_end);
+@secondary_btn_hover: linear-gradient(@btn_secondary_end, @btn_secondary_start);
+@btn_shadow: 0 2px 3px 0 @btn_shadow_outset, inset 1px 2px 0 0 @btn_shadow_inset;
+@introduction_btn_shadow: 0 2px 3px 0 @introduction_btn_shadow_outset, inset 1px 2px 0 0 @btn_shadow_inset;
+@disable_btn: @midnight;
+
+// Form fields
+@switch_border: @field_border;
+@switch_bg: @primary_label_border;
+@switch_active: @third_bg;
+@switch_disabled: @elephant;
+@field_error: @error;
+@field_shadow: fade(@primary_shadow, 50%);
+@checkbox: @primary_border;
+@field_selected_shadow: @primary_label_highlight;
+@field_selected_border: @primary_label_highlight;
+@filter_table_header_border: @primary_border;
+
+// Title Bar
+@title-bar-solid-bg: @black_pearl;
+
+// SideBar
+@side-bar-bg: @primary_border;
+@side-bar-divider: solid 1px @black_pearl_mid;
+@side-bar-icon: @primary_label;
+@side-bar-icon-seleced: @primary_label_highlight;
+@side-bar-selected: @primary_label_highlight;
+@side-bar-width: 70px;
+
+// Tabular Data
+@table-bg: @third_bg;
+
+// Simple betting
+@simple_betting_bg: @card_bg;
+@simple_betting_bg_shadow: @card_shadow;
+@simple_betting_header_border: @primary_border;
+@simple_betting_back_bg: @anakiwa;
+@simple_betting_lay_bg: @anakiwa;
+@simple_betting_back_hover_bg: fade(@french_pass,90%);
+@simple_betting_lay_hover_bg: fade(@anakiwa,90%);
+@simple_betting_label: @primary_label;
+@simple_betting_table_header_border: @primary_border;
+@simple_betting_event_name_hover: fade(@primary_label, 27%);
+@simple_betting_event_time_hover: fade(@primary_label, 27%);
+
+// Complex betting
+@complex-betting-bg: @card_bg;
+@complex-betting-bg-shadow: @card_shadow;
+@complex-betting-header-border: @back_highlight;
+@complex-betting-back-bg: @french_pass;
+@complex-betting-back-all-bg: @back_bg_primary;
+@complex-betting-back-hover-bg: fade(@french_pass,90%);
+@complex-betting-lay-bg: @anakiwa;
+@complex-betting-lay-all-bg: @lay_bg_primary;
+@complex-betting-lay-hover-bg: fade(@anakiwa,90%);
+@complex-betting-label: @primary_label;
+@complex-betting-empty-offer-hover: fade(@primary_label, 27%);
+
+// On Boarding - Getting Started
+@welcome_section_bg: fade(@secondary_label, 10%);
+@welcome_section_shadow: 0 2px 4px 0 @btn_shadow_outset;
+@welcome_carousel_dot: @primary_label;
+@welcome_dot_active: @secondary_label;
+
+// Deposit
+@qr_code_border: @secondary_label;
+
+// Signup
+@login_link: @secondary_label;
+
+// Breadcrumb
+@breadcrumb_link: @primary_label;
+@breadcrumb_link_current: @primary_label_highlight;
+
+// MyAccount
+@status_completed: @primary_label;
+@myaccount_blue_text: @primary_label_highlight;
+@withdraw_amount: @secondary_bg;
+
+// Card
+@card_bg: @cinder;
+@card_shadow:  0 2px 4px 0 @primary_shadow;
+@card_header_border: @primary_border;
+@card_blue_title: @primary_label_highlight;
+
+// Content
+@content_bg: fade(@secondary_bg, 35%);
+@content_shadow:  0 2px 4px 0 #0E162F;
+
+//Pagination
+@pagination_label: @primary_label;
+@pagination_active_bg:@primary_border;
+
+// Export Popup
+@overlay_bg: fade(@secondary_bg, 90%);
+@export_card_bg: fade(@primary_shadow, 30%);
+@export_card_border: @primary_label_border;
+
+//Datepicker
+@datepicker_bg: @primary_bg;
+@datepicker_month_label: @primary_label;
+@datepicker_year_label: @primary_label;
+@datepicker_week_label: @third_bg;
+@datepicker_day_label: @primary_label;
+@datepicker_day_selected: @primary_label_highlight;
+@datepicker_day_label_disabled: fade(@secondary_label, 35%);
+@datepicker_header_border: @secondary_bg;
+@datepicker_footer_border: @secondary_bg;
+
+//Dropdown
+@dropdown_shadow: @card_shadow;
+@dropdown_hover: @black_pearl;
+@dropdown_selected: @black_pearl;
+
+//MyBets
+
+@mybets_tabs_border_bottom: @field_border;
+@mybets_tabs_selected: @primary_label;
+@mybets_tabs_label: @field_border;
+@mybets_tabs_border_bottom_selected: @third_bg;
+@mybets_tabs_selected_shadow: 0 2px 4px 0 @btn_shadow_outset;
+
+// Dialogue box
+@dialogue_shadow: 0 2px 4px 0 @btn_shadow_outset;
+@dialogue_blue_title: @primary_label_highlight;
+@dialogue_overlay_bg: fade(@primary_bg, 95%);
+@dialogue_header_border: @primary_border;
+
+//Infinite Menu
+@sports_label_selected: @primary_label_highlight;
+@infinite_menu_white_label: @primary_label;
+@infinite_menu_bg: @primary_bg;
+@infinite_menu_hover_bg: @primary_bg;
+
+//QuickBet drawer
+@quick_bet_drawer_title_bg: @secondary_bg;
+
+//Banner
+@banner_border: @field_border;
+@banner_timer_top_half: @banner_timer_top;
+@banner_timer_bottom_half: @banner_timer_bottom;
+
+//Split Pane
+@split_pane_horizontal_border: @primary_label_border;
+@split_pane_horizontal_hover_border: fade(@primary_label_border, 50%);
+@split_pane_vertical_border: @primary_label_border;
+@split_pane_vertical_hover_border: fade(@primary_label_border, 50%);
+@split_pane_vertical_header_bg: @primary_label_border;
+@split_pane_vertical_footer_bg: @primary_label_border;
+@split_pane_horizontal_header_bg: @primary_label_border;
+@split_pane_horizontal_footer_bg: @primary_label_border;
+
+//Market Drawer
+@market_drawer_tab_bg: @cello;
+@market_drawer_tab_active_bg: @cinder;
+@market_drawer_btn_shadow: 0 2px 4px 0 @btn_shadow_outset;
+@market_drawer_title_bg: @secondary_bg;
+@market_drawer_unmatched_bets_empty_bg: @secondary_bg;
+@bet_table_updated_bet_bg: @update_highlight;
+//Betslips
+@betslip_bg: @secondary_bg;
+@betslip_delete_icon_bg: @cinder;
+@betslip_delete_icon_hover_bg: @midnight;
+@betslip_header_bg: @cello;
+@betslip_confirmation_amount: @primary_label_highlight;
+
+//Editable BetTable
+@editable_table_header_bg: @secondary_bg;
+@editable_table_back_body_bg: @back_bg_primary;
+@editable_table_back_body_border: @third_bg;
+@editable_table_back_market_type: @matisse;
+@editable_table_lay_header_bg: @lay_header;
+@editable_table_lay_body_bg: @lay_bg_primary;
+@editable_table_lay_body_border: @lay_border;
+@editable_table_lay_market_type: @lay_highlight;
+
+// Topbar Menu
+@topbar_notification_hover: @secondary_label;
+@topbar_dropdown_card: @primary_bg;
+@topbar_more_menu_active: @outer_space;
+@topbar_label: @primary_label_highlight;
+@topbar_bg: @black_pearl_mid;
+@topbar_divider: @primary_bg;
+@topbar_badge_count: @primary_label_highlight;
+@topbar_select_label: @primary_label_highlight;
+@topbar_search_result_bg: @primary_bg;
+
+//Scroller
+@scroller_bg: @primary_border;
+@scroller_bg_active: @primary_label_highlight;
+
+//Right Drawer
+@drawer_main_bg: @black_pearl_dark;
+
+//Reset Password
+@register_component: @field_border;
+
+//topbar tooltips
+@tooltip_bg: @cinder;
+@tooltip_border: @white;
+@tooltip_shadow: 0 2px 4px 0 @black;

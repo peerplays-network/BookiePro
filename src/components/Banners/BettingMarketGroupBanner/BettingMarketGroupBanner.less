@@ -1,7 +1,6 @@
-@import (reference) '../../Main/Main.less';
 @import '../../App/Colors.less';
 
-div.betting-market-group-banner {
+.betting-market-group-banner {
   position: relative;
   border:1px solid @field_border;
   background-size: cover;
@@ -11,82 +10,136 @@ div.betting-market-group-banner {
   background-color: @overlay_banner;
   background-blend-mode: multiply;
 
-  > div.event {
-    padding:0 10px;
+  .event {
+
+    padding:20px 10px 0;
     position: relative;
-    > div.time {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .time {
       font-size: 16px;
-      padding-top: 8px;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: @dark_tangerine;
+      line-height: 16px;
     }
-    > div.name {
-      font-size: 26px;
+
+    .name {
+      font-size: 24px;
       padding-top: 8px;
       font-weight:500;
       text-transform: uppercase;
-    }
-  }
-
-  > div.countdown {
-    position: absolute;
-    right: 12px;
-    bottom: 10px;
-  }
-
-  > div.live {
-    position: absolute;
-    right: 12px;
-    bottom: 10px;
-    padding-right: 10px;
-    padding-left: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    background-color: @live_market_marker;
-    font-size: 24px;
-    font-weight: bold;
-    border-radius: 5px;
-  }
-
-}
-@media screen and (max-width: 1336px){
-  div.betting-market-group-banner {
-    >div.countdown {
-      position: absolute;
-      right: 12px;
-      bottom: 10px;
-    }
-  }
-}
-@media screen and (max-width: 1600px){
-  div.betting-market-group-banner {
-    >div.event {
-      >div.name {
-        width: 520px;
-      }
-    }
-  }
-}
-@media screen  and (max-width: 1220px){
-  div.betting-market-group-banner {
-    >div.event {
-      >div.name {
-        font-size: 16px;
-      }
-      >div.time {
-        font-size: 14px;
-      }
-    }
-  }
-  .banner-clock {
-    .banner-clock-content {
-      .banner-clock-digits {
-        .banner-clock-digit {
-          width: 25px;
-          height: 34px;
-          .base {
-            font-size: 22px;
-          }
+      .live {
+        display: inline-flex;
+        align-items: center;
+        color: @primary_label;
+        margin-left: 10px;
+        padding: 2px 6px 2px 5px;
+        background-color: @live_market_marker;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 4px;
+        .indicator{
+          background: url("../../../assets/icons/live_indicator_white.png") no-repeat;
+          display: inline-block;
+          width:16px;
+          height:16px;
+          vertical-align: middle;
+          background-size: 100%;
+          margin-right:4px;
         }
       }
+      .going-live {
+        display: inline-flex;
+        align-items: center;
+        color: @field_border;
+        margin-left: 10px;
+        padding: 2px 6px 2px 5px;
+        background-color: @going_live_market_marker;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 4px;
+        .indicator{
+          background-image: url("../../../assets/icons/live_indicator_black.png");
+          background-repeat: no-repeat;
+          display: inline-block;
+          width:16px;
+          height:16px;
+          vertical-align: middle;
+          background-size: 100%;
+          margin-right:4px;
+        }
+      }
+      line-height: 18px;
     }
+
+    .versus {
+      padding: 0 6px;
+      color: @teamname_blue;
+    }
+    
+    .team-one {
+      color: @teamname_blue;
+    }
+
+    .team-two {
+      color: @teamname_grey;
+    }
+
+  }
+    
+  .live {
+    right: 12px;
+    bottom: 10px;
+    padding: 5px 10px;
+    background-color: @live_market_marker;
+    padding: 6px 12px;
+    margin-top: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 12px;
+
+    .indicator {
+      border-radius: 50%;
+      background-color: @white;
+      height: 8px;
+      width: 8px;
+      display: inline-flex;
+      margin: 0 5px 0 0;
+    }
+  }
+
+}
+
+@media screen  and (max-width: 1220px){
+  .betting-market-group-banner {
+
+    .event {
+
+      .name {
+        font-size: 16px;
+      }
+
+      .time {
+        font-size: 14px;
+      }
+
+    }
+
+  }
+  .banner-clock .banner-clock-content .banner-clock-digits {
+
+    .banner-clock-digit {
+      width: 25px;
+      height: 34px;
+
+      .base {
+        font-size: 22px;
+      }
+    }
+
   }
 }
