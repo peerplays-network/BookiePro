@@ -26,13 +26,13 @@ const Config = {
   broadcastAccount: {
     name: 'pbsa-broadcasts',
     keys: {
-      active: PublicKey.fromPublicKeyString("PPY56dsY8gV5PKe2iHcVQrusUuEcCR2hXfxz7598MJiotWNefqt4X")
+      active: PublicKey.fromPublicKeyString("PPY4vR89Z4TiqxbcDDuv5BV7XRgxhfYquYvC8ciiDnRZanPCLcQJ4")
     }
   },
   updateAccount: {
-    name: 'bookie-updates',
+    name: 'peerplays-updates',
     keys: {
-      memo: PrivateKey.fromWif("5Hqs4vhUPQRjsyVm2e26ajF4W3UvY9Ah7T3Lmiqa2kqkyE7vukQ") 
+      memo: PrivateKey.fromWif("5JnR1XHTj2BQtM4gf4tDkayfB4TQf15zBAwgSEMQcpyED21bNnv") 
     }
   },
   gatewayAccountName: 'gateway1', // Any transfer from this account is marked as deposit/ withdraw with gateway
