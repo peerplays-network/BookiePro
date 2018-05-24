@@ -251,7 +251,7 @@ class MyAccount extends PureComponent {
             <div ref='global_object'>
               <Select
                 className='bookie-select'
-                defaultValue={ this.props.currencyFormat }
+                defaultValue={ this.props.currencySymbol === 'BTC' ? this.props.currencyFormat : this.props.currencySymbol }
                 onChange={ this.handleCurrFormatChange }>
                 <Option value={ this.props.currencySymbol }> {this.props.currencySymbol}</Option>
                 <Option value={ 'm' + this.props.currencySymbol }>{'m' + this.props.currencySymbol}</Option>

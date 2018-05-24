@@ -188,6 +188,32 @@ class TopMenu extends PureComponent {
         onClickCloseItem={ this.handleNotificationCardItemClickClose }
       />
     );
+    const iconCurrencyClass = (isAmountComponentVisible, curr) => {
+      let configCurr = Config.features.currency;
+      if (curr !== configCurr && curr !== 'm' + configCurr){
+        curr = Config.features.currency;
+      }
+      switch (curr){
+        case 'BTC':
+          return isAmountComponentVisible ? 'bitcoin-icon-selected' : 'bitcoin-icon';
+        case 'mBTC':
+          return isAmountComponentVisible ? 'mbitcoin-icon-selected' : 'mbitcoin-icon';
+        case 'BTF':
+          return isAmountComponentVisible ? 'bitfun-icon-selected' : 'bitfun-icon';
+        case 'mBTF':
+          return isAmountComponentVisible ? 'mbitfun-icon-selected' : 'mbitfun-icon';
+        default:
+          break;
+      }
+    }
+    const parentIconCurrencyClass = () => {
+      let configCurr = Config.features.currency;      
+      if(configCurr === 'BTC'){
+        return 'icon-main bitcoin-icon-main';
+      } else if (configCurr === 'BTF'){
+        return 'icon-main bitfun-icon-main';
+      }
+    }
     return (
       <Menu
         className='top-menu'
@@ -208,12 +234,11 @@ class TopMenu extends PureComponent {
               <Dropdown trigger={ ['click'] } overlay={ amountCard } placement='bottomRight'
                 onVisibleChange={ this.handleAmountComponentVisibleChange } visible={ false }>
                 <Tooltip overlayClassName='bookie-tooltip bookie-tooltip-amount' placement='bottom' title={ I18n.t('topbar_tooltip.account_balance') }>
-                <div className='icon-main bitcoin-icon-main'>
+                <div className={ parentIconCurrencyClass() }>
                   <a className={ this.state.isAmountComponentVisible ? 'ant-dropdown-link-clicked ' : 'ant-dropdown-link' } href='#'>
                     <div>
-                      <i className={ this.state.isAmountComponentVisible ? (this.props.currencyFormat === 'BTC' ? 'bitcoin-icon-selected' : 'mbitcoin-icon-selected') :
-                          (this.props.currencyFormat === 'BTC' ? 'bitcoin-icon' : 'mbitcoin-icon') }></i>
-                        { this.props.availableBalance }
+                      <i className={ iconCurrencyClass(this.state.isAmountComponentVisible, this.props.currencyFormat) }></i>
+                      { this.props.availableBalance }
                     </div>
                   </a>
                 </div>
@@ -299,7 +324,7 @@ class TopMenu extends PureComponent {
 
 TopMenu.defaultProps = {
   depositsEnabled: Config.features.deposits,
-  withdrawalsEnabled: Config.features.withdrawels
+  withdrawalsEnabled: Config.features.withdrawels,
 };
 
 const mapStateToProps = (state) => {

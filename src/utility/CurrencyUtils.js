@@ -1,4 +1,5 @@
 import { Config } from '../constants';
+import React from 'react';
 
 /**
  * The CurrencyUtils contains all the functions related to currency conversion function
@@ -46,6 +47,9 @@ var CurrencyUtils = {
   },
 
   substringPrecision(amount, precision){
+    if (amount < 0 || amount === undefined){
+      amount = "0.0";
+    }
     let split = amount.toString().split('.');
     if (split[1].length > precision){
       let splitSel = split[1].substring(0, precision);
@@ -57,12 +61,57 @@ var CurrencyUtils = {
   },
 
   getCurrencySymbol: function( currency = 'BTC' ){
-    if ( currency === 'mBTC' || currency === mCurrencySymbol){
-      return mCurrencySymbol;
-    } else if ( currency === 'BTC' || currency === currencySymbol){
-      return currencySymbol;
-    } else{
-      return
+    // if ( currency === 'mBTC' || currency === mCurrencySymbol){
+    //   return mCurrencySymbol;
+    // } else if ( currency === 'BTC' || currency === currencySymbol){
+    //   return currencySymbol;
+    // } else{
+    //   return
+    // }
+    switch(currency){
+      case 'BTC':
+        return <img src='../../../assets/icons/bitcoin_icon_hover.svg' alt='BTC'/>;
+      case 'mBTC':
+        return <img src='../../../assets/icons/mbitcoin_icon_hover.svg' alt='mBTC'/>;
+      case 'BTF':
+        //return <span dangerouslySetInnerHTML={{__html: "<svg>...</svg>"}} />;
+        //return <img src='../../../assets/icons/bitfun_icon_hover.svg' alt='BTF'/>;
+        /*const btf_svg = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" '
+        +'xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 27.7 27.7" '
+        +'style="enable-background:new 0 0 27.7 27.7;" xml:space="preserve"><style type="text/css">'
+        +'.st0{display:none;}</style><rect className="st0" width="27.7" height="27.7"/><polygon '
+        +'points="25.1,6.5 25.1,1.6 15.5,1.6 8.5,1.6 8.5,6.5 8.5,10.8 2.6,10.8 2.6,14.2 8.5,14.2 '
+        +'8.5,16 2.6,16 2.6,19.4 8.5,19.4 8.5,26.2 15.5,26.2 15.5,19.4 21.5,19.4 21.5,16 15.5,16 '
+        +'15.5,14.2 21.5,14.2 21.5,10.8 15.5,10.8 15.5,6.5 "/></svg>'*/
+        //return <div>{btf_svg}</div>
+        return <span dangerouslySetInnerHTML={ { _html: '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" '
+        +'xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 27.7 27.7" '
+        +'style="enable-background:new 0 0 27.7 27.7;" xml:space="preserve"><style type="text/css">'
+        +'.st0{display:none;}</style><rect className="st0" width="27.7" height="27.7"/><polygon '
+        +'points="25.1,6.5 25.1,1.6 15.5,1.6 8.5,1.6 8.5,6.5 8.5,10.8 2.6,10.8 2.6,14.2 8.5,14.2 '
+        +'8.5,16 2.6,16 2.6,19.4 8.5,19.4 8.5,26.2 15.5,26.2 15.5,19.4 21.5,19.4 21.5,16 15.5,16 '
+        +'15.5,14.2 21.5,14.2 21.5,10.8 15.5,10.8 15.5,6.5 "/></svg>' } } />
+      case 'mBTF':
+        /*const mbtf_svg = '<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 30">'
+        +'<title>Artboard 1</title><path d="M3.25,9.92l.09,2.23a7.42,7.42,0,0,1,6-2.6q4.2,0,5.73,3.23a7.47'
+        +',7.47,0,0,1,6.4-3.23q6.6,0,6.72,7V30H24.72V16.75a4.6,4.6,0,0,0-1-3.22,4.33,4.33,0,0,0-3.3-1.06,'
+        +'4.54,4.54,0,0,0-3.17,1.14,4.6,4.6,0,0,0-1.47,3.07V30H12.34V16.84q0-4.36-4.29-4.37a4.59,4.59,0,0'
+        +',0-4.62,2.87V30H0V9.92Z"/><polygon points="52.4 10.25 52.4 5.31 42.8 5.31 35.8 5.31 35.8 10.25 '
+        +'35.8 14.5 29.86 14.5 29.86 17.99 35.8 17.99 35.8 19.7 29.86 19.7 29.86 23.19 35.8 23.19 35.8 '
+        +'29.93 42.8 29.93 42.8 23.19 48.74 23.19 48.74 19.7 42.8 19.7 42.8 17.99 48.74 17.99 48.74 14.5'
+        +' 42.8 14.5 42.8 10.25 52.4 10.25"/></svg>';*/
+        //return <div>{mbtf_svg}</div>
+        return "<span dangerouslySetInnerHTML={ { _html: '<svg id=\"Layer_2\" data-name=\"Layer 2\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 56 30\">'
+        +'<title>Artboard 1</title><path d=\"M3.25,9.92l.09,2.23a7.42,7.42,0,0,1,6-2.6q4.2,0,5.73,3.23a7.47'
+        +',7.47,0,0,1,6.4-3.23q6.6,0,6.72,7V30H24.72V16.75a4.6,4.6,0,0,0-1-3.22,4.33,4.33,0,0,0-3.3-1.06,'
+        +'4.54,4.54,0,0,0-3.17,1.14,4.6,4.6,0,0,0-1.47,3.07V30H12.34V16.84q0-4.36-4.29-4.37a4.59,4.59,0,0'
+        +',0-4.62,2.87V30H0V9.92Z\"/><polygon points=\"52.4 10.25 52.4 5.31 42.8 5.31 35.8 5.31 35.8 10.25 '
+        +'35.8 14.5 29.86 14.5 29.86 17.99 35.8 17.99 35.8 19.7 29.86 19.7 29.86 23.19 35.8 23.19 35.8 '
+        +'29.93 42.8 29.93 42.8 23.19 48.74 23.19 48.74 19.7 42.8 19.7 42.8 17.99 48.74 17.99 48.74 14.5'
+        +' 42.8 14.5 42.8 10.25 52.4 10.25\"/></svg>' } } />""
+        //return <img src='../../../assets/icons/mbitfun_icon_hover.svg' alt='mBTF'/>;      
+      default:
+        break;
     }
   },
   
@@ -80,13 +129,13 @@ var CurrencyUtils = {
         return amount;
       }
       
-      if (currency === 'mBTC') {
+      if (currency === 'mBTC' || currency === mCurrencySymbol) {
         // 1 BTC = 1 * 10^3 mBTC
         const mPrecision = precision < 3 ? 0 : precision - 3;
         return ( 1000 * amount ).toFixed(mPrecision);
       }
 
-      if (currency === 'BTC') {
+      if (currency === 'BTC' || currency === currencySymbol) {
         if(amount % 1 !== 0){
           return this.substringPrecision(amount, precision);
         }
@@ -119,7 +168,7 @@ var CurrencyUtils = {
     const currencySymbol = this.getCurrencySymbol(currency);
 
     // Note: Math.abs can take a string of valid number as argument
-    if (currency === 'mBTC') {
+    if (currency === 'mBTC' || currency === mCurrencySymbol) {
       precision = precision < 3 ? 0 : precision - 3;
     }
 
@@ -160,8 +209,8 @@ var CurrencyUtils = {
     if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
     let floatAmount = parseFloat(amount)
     if (field === 'stake') {
-      if (floatAmount < 1 && currency === 'mBTC') return '1.00'
-      if (floatAmount < .001 && currency === 'BTC') return '0.00100'
+      if ((floatAmount < 1 && currency === 'mBTC') || (floatAmount < 1 && currency === mCurrencySymbol)) return '1.00'
+      if ((floatAmount < .001 && currency === 'BTC') || (floatAmount < .001 && currency === currencySymbol)) return '0.00100'
     }
     if(amount % 1 !== 0 && !isNaN(amount)){
       return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency]);

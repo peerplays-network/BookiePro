@@ -40,7 +40,6 @@ const paginationParams = { pageSize: 20 };
  *                                             It will be displayed on the 'Status' column
  */
 const getColumns = (currencyFormat, lastIrreversibleBlockNum) => {
-  debugger;
   return [
     {
       title: I18n.t('myAccount.id'),

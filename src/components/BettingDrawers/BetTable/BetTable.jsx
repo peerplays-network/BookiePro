@@ -133,7 +133,10 @@ const renderDeleteButton = (deleteOne) => {
  * @returns {Array.object} - an array of column definition objects
  */
 const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false, oddsFormat) => {
-  const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat);
+  
+  //const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat);
+  const currencySymbol = currencyFormat;
+  
   const teamColumn = {
     title: 'BACK',
     dataIndex: 'back',
@@ -210,7 +213,9 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false, od
  */
 const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false, oddsFormat) => {
 
-  const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat);
+  //const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat);
+  const currencySymbol = currencyFormat;
+  
   const teamColumn = {
     title: 'LAY',
     dataIndex: 'lay',
