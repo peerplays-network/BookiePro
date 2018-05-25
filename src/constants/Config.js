@@ -29,13 +29,13 @@ const Config = {
   broadcastAccount: {
     name: 'pbsa-broadcasts',
     keys: {
-      active: PublicKey.fromPublicKeyString("PPY4vR89Z4TiqxbcDDuv5BV7XRgxhfYquYvC8ciiDnRZanPCLcQJ4")
+      active: PublicKey.fromPublicKeyString("PPY7P6k3Ywvxf7SsWSFYcKo2NpbXnQpJtwmvyq2bTs4EhKEBNxq8g")
     }
   },
   updateAccount: {
-    name: 'peerplays-updates',
+    name: 'bookie-updates',
     keys: {
-      memo: PrivateKey.fromWif("5JnR1XHTj2BQtM4gf4tDkayfB4TQf15zBAwgSEMQcpyED21bNnv") 
+      memo: PrivateKey.fromWif("5KQngfWphVtvSguHdoCitRmcuM7xJU18qYvVX15R7MfNfx2Bp29") 
     }
   },
   gatewayAccountName: 'gateway1', // Any transfer from this account is marked as deposit/ withdraw with gateway
@@ -44,7 +44,7 @@ const Config = {
   // Remember to set the faucet urls properly beforehand
   // We don't have faucet for blocktrades testnet
   registerThroughRegistrar: false,
-  faucetUrls: ['http://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:5000'],
+  faucetUrls: ['http://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:5000'], // E-Chain
   accountRegistar: {
     name: 'nathan',
     keys: {
