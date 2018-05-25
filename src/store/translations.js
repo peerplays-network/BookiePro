@@ -813,7 +813,7 @@ export const translationsObject = {
         header: 'Overview',
         questionAnswerPairs: [
           {
-            question: 'What is BookiePro.fun',
+            question: 'What is BookiePro.fun?',
             answer: 'BookiePro.fun is a betting exchange where people from all over the world can bet with “play” tokens on a wide range of sports events.'
           },
           {
@@ -851,7 +851,7 @@ export const translationsObject = {
             question: 'Who owns BookiePro.fun?',
             answer: 'No single person, company, or central authority owns or operates BookiePro.fun. The BookiePro.fun app is an ' +
             'application that interfaces with the Peerplays blockchain. As the Racing Post puts it: “...because of the way blockchains ' +
-            'work, Peerplays is largely automated and self-sustaining. No one owns it, no single person or organisation is responsible for it…'
+            'work, Peerplays is largely automated and self-sustaining. No one owns it, no single person or organisation is responsible for it…"'
           },
           {
             question: 'What is a blockchain?',
@@ -1203,7 +1203,7 @@ export const translationsObject = {
           },
           {
             question: 'How does the Transaction Fee work?',
-            answer: 'BookiePro.fun also charges a tiny Transaction Fee for every new bet you place. This Transaction Fee is set at mBTF. ' +
+            answer: 'BookiePro.fun also charges a tiny Transaction Fee for every new bet you place. This Transaction Fee is set at 0.001 mBTF. ' +
             'It is only charged when you make the following actions:<ul><li>place a bet</li><li>edit a bet</li><li>change your password</li></ul>' +
             'The Transaction Fee is charged when you are making a new bet and is shown in your betslip as an additional fee on top of your ' + 
             'bet stake. Transaction Fees are paid regardless of whether you are net winner in a market (unlike Commission).'
