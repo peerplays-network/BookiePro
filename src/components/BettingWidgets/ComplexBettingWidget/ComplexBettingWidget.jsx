@@ -266,7 +266,8 @@ class ComplexBettingWidget extends PureComponent {
     });
   }
   displayStatus(status, typeOfDisplay){
-    if(status === 'unresolved'){
+    debugger;
+    if(status === 'unresolved' || status[3][1] === 'unresolved'){ // [3][1] <- references the betting market information in the status array
       return null;
     }
     if(typeOfDisplay === 'indicator'){
