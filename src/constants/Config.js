@@ -9,15 +9,16 @@ import { ChainConfig } from 'peerplaysjs-ws';
 ChainConfig.setPrefix('PPY');
 
 const blockchainUrls = [
-  //'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090' // Charlie
-  'ws://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:8090' // DChain
+  'ws://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:8090', // Canada
+  'ws://ec2-18-195-242-233.eu-central-1.compute.amazonaws.com:8090',// Frankfurt
+  'ws://ec2-54-252-182-8.ap-southeast-2.compute.amazonaws.com:8090' // Sydney
 ]
 
 // Shuffle list of blockchain nodes
 // So every bookie app will not always connect to the first node in the list
 const shuffledBlockhainUrls = _.shuffle(blockchainUrls);
 
-const ASSET_ID = '1.3.0';
+const ASSET_ID = '1.3.1';
 
 const Config = {
   version: version,
@@ -43,7 +44,7 @@ const Config = {
   // Remember to set the faucet urls properly beforehand
   // We don't have faucet for blocktrades testnet
   registerThroughRegistrar: false,
-  faucetUrls: ['http://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:5050'],
+  faucetUrls: ['http://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:5000'],
   accountRegistar: {
     name: 'nathan',
     keys: {
