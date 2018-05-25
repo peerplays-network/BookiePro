@@ -35,7 +35,7 @@ const offerColumnWidth = 70;
 const renderEventTime = (text, record) => {
   var isLiveMarket;
   let eventStatus = record.get('eventStatus');
-  if (eventStatus === 'upcoming' || eventStatus === 'in_progress'){
+  if (eventStatus === 'in_progress'){
     isLiveMarket = true;
   }
 
@@ -49,7 +49,7 @@ const renderEventTime = (text, record) => {
     dateString = timeString.toLowerCase().includes('today') ? 'Today' : dateString;       
     return (
       <div>
-        <div className='simple-outcome'>{ I18n.t('object_status_enumerator.' + record.get('eventStatus')) }</div>
+        { eventStatus !== 'upcoming' ? <div className='simple-outcome'>{ I18n.t('object_status_enumerator.' + record.get('eventStatus')) }</div> : null }
         <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>   
       </div>
     ); 
