@@ -9,9 +9,8 @@ import { ChainConfig } from 'peerplaysjs-ws';
 ChainConfig.setPrefix('PPY');
 
 const blockchainUrls = [
-  'ws://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:8090', // Canada
-  'ws://ec2-18-195-242-233.eu-central-1.compute.amazonaws.com:8090',// Frankfurt
-  'ws://ec2-54-252-182-8.ap-southeast-2.compute.amazonaws.com:8090' // Sydney
+  //'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090' // Charlie
+  'ws://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:8090' // DChain
 ]
 
 // Shuffle list of blockchain nodes
@@ -29,13 +28,13 @@ const Config = {
   broadcastAccount: {
     name: 'pbsa-broadcasts',
     keys: {
-      active: PublicKey.fromPublicKeyString("PPY7P6k3Ywvxf7SsWSFYcKo2NpbXnQpJtwmvyq2bTs4EhKEBNxq8g")
+      active: PublicKey.fromPublicKeyString("PPY4vR89Z4TiqxbcDDuv5BV7XRgxhfYquYvC8ciiDnRZanPCLcQJ4")
     }
   },
   updateAccount: {
-    name: 'bookie-updates',
+    name: 'peerplays-updates',
     keys: {
-      memo: PrivateKey.fromWif("5KQngfWphVtvSguHdoCitRmcuM7xJU18qYvVX15R7MfNfx2Bp29") 
+      memo: PrivateKey.fromWif("5JnR1XHTj2BQtM4gf4tDkayfB4TQf15zBAwgSEMQcpyED21bNnv") 
     }
   },
   gatewayAccountName: 'gateway1', // Any transfer from this account is marked as deposit/ withdraw with gateway
@@ -44,7 +43,7 @@ const Config = {
   // Remember to set the faucet urls properly beforehand
   // We don't have faucet for blocktrades testnet
   registerThroughRegistrar: false,
-  faucetUrls: ['http://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:5000'], // E-Chain
+  faucetUrls: ['http://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:5050'],
   accountRegistar: {
     name: 'nathan',
     keys: {
