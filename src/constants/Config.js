@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { PrivateKey, PublicKey } from 'peerplaysjs-lib';
 import { version } from '../../package.json';
 import { ChainConfig } from 'peerplaysjs-ws';
@@ -8,14 +9,15 @@ import { ChainConfig } from 'peerplaysjs-ws';
 ChainConfig.setPrefix('PPY');
 
 const blockchainUrls = [
-  'ws://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:8090'  
+  //'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090' // Charlie
+  'ws://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:8090' // DChain
 ]
 
 // Shuffle list of blockchain nodes
 // So every bookie app will not always connect to the first node in the list
 const shuffledBlockhainUrls = _.shuffle(blockchainUrls);
 
-const ASSET_ID = '1.3.1';
+const ASSET_ID = '1.3.0';
 
 const Config = {
   version: version,
