@@ -40,7 +40,7 @@ class AllSports extends PureComponent {
             )
           })
         }
-        <div className='margin-top-18'>
+        <div className='margin-top-18 logo-container'>
           <PeerPlaysLogo />
         </div>
       </div>

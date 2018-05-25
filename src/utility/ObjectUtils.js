@@ -145,9 +145,35 @@ const localizeArrayOfObjects = (arrayOfObjects, fieldsToLocalize=[], lang='en') 
  */
 const isActiveEvent = (event) => {
   const eventStatus = event.get('status');
-
   // Event is active if it is not completed or canceled
   return eventStatus !== EventStatus.COMPLETED && eventStatus !== EventStatus.CANCELED;
+}
+
+const determineStatusResult = (enumStatus) => {
+  var className = 'going-live';
+  var status = enumStatus || 'error';
+
+  if (enumStatus === "in_play" || enumStatus === "in_progress") { // Only BMG and BM status' can fulfill this.
+    className = 'live';
+  }
+
+  return [className, status];
+}
+
+const eventStatus = (event) => {
+  if(event){
+    return determineStatusResult(event.get('status'));  
+  } else {
+    return "null";
+  }
+}
+const bettingMarketStatus = (bettingMarket) => {
+  if(bettingMarket !== undefined){
+    return determineStatusResult(bettingMarket);
+  }
+}
+const bettingMarketGroupStatus = (betting_market_group) => {
+  return determineStatusResult(betting_market_group.get('status'));
 }
 
 const ObjectUtils = {
@@ -156,7 +182,10 @@ const ObjectUtils = {
   getAmountWonFromBetObject,
   localizeObject,
   localizeArrayOfObjects,
-  isActiveEvent
+  isActiveEvent,
+  eventStatus,
+  bettingMarketStatus,
+  bettingMarketGroupStatus,
 }
 
 export default ObjectUtils;

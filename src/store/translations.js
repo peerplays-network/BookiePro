@@ -38,7 +38,7 @@ export const translationsObject = {
       no_of_result_0: 'No results found',
       no_of_result: '%{count} results for "%{searchText}"',
       match_start_on: ' Thu, 10/01/2017 13:00',
-      search_place_holder: 'Search Terms',
+      search_place_holder: 'Search events',
       search_error: 'There are currently no betting markets for %{event}'
     },
     myAccount:{
@@ -115,7 +115,6 @@ export const translationsObject = {
       password_warning_1: 'If you lose your password, you will lose all of your funds!',
       password_warning_2: ' Keep your password safe!',
       password_warning_3: ' To download a text file of your password, click the save button below:',
-      loginWithAccount: 'Or log in with your existing PeerPlays account',
       cannot_recover_password_warning: 'I understand that PBSA <span class="mediumMessageInText">cannot recover my password.</span>',
       securely_saved_password_warning: 'I understand that BookiePro passwords cannot be recovered if lost, and that I have securely saved my password recovery file.',      
       create_account: 'Create Account',
@@ -162,6 +161,7 @@ export const translationsObject = {
       deposit: 'The deposit of %{amount} %{currency} is confirmed',
       bet_resolved: 'An event you bet on has recently finished and your bet(s) on this event are now settled.',
       software_update: 'New version available, update now',
+      version: 'Version',
       transaction_history_data_exported: 'Transaction History Data is exported'
     },
     softwareUpdate: {
@@ -224,7 +224,6 @@ export const translationsObject = {
       signup: 'JOIN BOOKIEPRO NOW',
       slogan: 'Bet from Anywhere in the World',
       intro: 'Sign-Up and Start Betting in 2 Minutes!',
-      loginWithAccount: 'Log in with your existing Peerplays account',
       copyright: 'COPYRIGHT',
       privacy_policy: 'PRIVACY POLICY',
       registerStepTitle: 'Register',
@@ -275,14 +274,28 @@ export const translationsObject = {
       to: 'To',
       cancel_all_confirm: 'You are about to remove %{currencySymbol}%{betsTotal} bets, are you sure?'
     },
+    object_status_enumerator:{
+      upcoming: "UPCOMING",
+      unresolved: "UNRESOLVED",
+      in_progress: "IN PROGRESS",
+      frozen: "FROZEN",
+      finished: "FINISHED",
+      settled: "SETTLED",
+      canceled: "CANCELLED",
+      in_play: 'IN-PLAY',
+      going_in_play: 'GOING IN-PLAY',
+      closed: 'CLOSED',
+      graded: 'GRADED',
+      re_grading: 'RE-GRADING',
+      win: 'WINNER',
+      not_win: 'LOSER'
+    },
     complex_betting_widget:{
+      error: 'ERROR',
       back_all: 'Back all',
       lay_all: 'Lay all',
       offer: '--',
       matched: 'Matched',
-      moneyline: 'Moneyline',
-      in_play: 'IN-PLAY',
-      going_in_play: 'GOING IN-PLAY'
     },
     simple_betting_widget:{
       no_data: 'There is no event to be displayed.',
@@ -997,7 +1010,8 @@ export const translationsObject = {
         questionAnswerPairs: [
           {
             question: 'How do I place a bet on Bookie?',
-            answer: 'Bookie is a betting exchange, which allows you to place a bet by either ' + '<b>Backing</b> (as bettors normally do) or <b>Laying</b> a bet (like a sportsbook would do). ' + 
+            answer: 'Bookie is a betting exchange, which allows you to place a bet by either ' + 
+            '<b>Backing</b> (as bettors normally do) or <b>Laying</b> a bet (like a sportsbook would do). ' + 
             'Bookie has no ‘house’, so all bets you place will be matched by other ' +
             'Bookie users, who want to take the opposite side of your bet.\n\n' +
             'To get started:\n' + 

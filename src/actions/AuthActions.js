@@ -10,6 +10,7 @@ import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
 import log from 'loglevel';
 import { TransactionBuilder, ChainTypes } from 'peerplaysjs-lib';
+import { SoftwareUpdateActions } from '.';
 import Immutable from 'immutable';
 
 const ACCOUNT_UPDATE = `${ChainTypes.reserved_spaces.protocol_ids}.${ChainTypes.operations.account_update}`;
@@ -122,6 +123,8 @@ class AuthPrivateActions {
           dispatch(AccountActions.setIsLoggedInAction(true));
           // Init history
           dispatch(RawHistoryActions.initRawHistory());
+          // Init Software Update Notifications
+          dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());
         } else {
           throw new Error(I18n.t('login.wrong_username_password'));
         }
@@ -197,7 +200,8 @@ class AuthActions {
       const keys = KeyGeneratorService.generateKeys(accountName, password);
       // Determine which way to register
       let register;
-      if (Config.registerThroughRegistrar) {
+      let registerThroughRegistrar = Config.registerThroughRegistrar;
+      if (registerThroughRegistrar) {
         register = AccountService.registerThroughRegistrar(accountName, keys);
       } else {
         register = AccountService.registerThroughFaucet(1, accountName, keys);

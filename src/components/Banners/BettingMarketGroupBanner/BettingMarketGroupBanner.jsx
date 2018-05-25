@@ -38,11 +38,14 @@ class BettingMarketGroupBanner extends PureComponent {
     const formattedEventTime = moment(this.props.eventTime).format('MMM D, YYYY - h:mma');
 
     // Regular expression to break out the team names
-    const expr = /(.+)\s(@|VS){1}\s(.+)/gi;
+    const expr = /(.+)\s(@|VS|V){1}\s(.+)/gi;
     const parts = expr.exec(this.props.eventName);
 
     // default event name layout, overriden if we can parse out the two pieces.
-    let eventName = <div className='name'>{ this.props.eventName }</div>;
+    let eventName = 
+      <div className='name'>
+        { this.props.eventName }
+      </div>;
 
     // The regex has matched.
     if (parts && parts.length === 4) {
@@ -56,9 +59,13 @@ class BettingMarketGroupBanner extends PureComponent {
     return (
       <div className='betting-market-group-banner' style={ { backgroundImage: bannerSource } }>
         <div className='event'>
-          {eventName}
+          <div className='name'>{ this.props.eventName } </div>
           <div className='time'>{ I18n.t('bettingMarketGroup.match_start_on', { time: formattedEventTime }) }</div>
           { this.renderLive() }
+          <div className='name'>  
+            <span className={ this.props.eventStatus }>
+            <span className='indicator'/>{I18n.t('complex_betting_widget.' + this.props.eventStatusClassName)}</span> 
+          </div>
         </div>
       </div>
     )
@@ -69,6 +76,8 @@ class BettingMarketGroupBanner extends PureComponent {
 BettingMarketGroupBanner.propTypes = {
   eventTime: PropTypes.instanceOf(Date).isRequired,
   eventName: PropTypes.string.isRequired,
+  eventStatus: PropTypes.any,
+  eventStatusClassName: PropTypes.any,
   isLiveMarket: PropTypes.bool
 }
 

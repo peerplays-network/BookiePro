@@ -9,7 +9,7 @@ import { Config } from '../constants';
 import Immutable from 'immutable';
 
 const getAccountId = (state) => {
-  return state.getIn(['account', 'account','id'])
+  return state.getIn(['account', 'account', 'id'])
 }
 
 const getSettingByAccountId = (state) => {
@@ -81,6 +81,16 @@ const getAggregatedEventsById = createSelector([
 ], (eventsById, persistedEventsById) => {
   return eventsById.concat(persistedEventsById);
 });
+
+const getEventStatusById = createSelector(
+  [
+    getEventsById
+  ],
+  (eventsById) => {
+    const eventStatus = (event) => (ObjectUtils.eventStatus(event));
+    return eventsById.filter(eventStatus);
+  }
+)
 
 const getActiveEventsById = createSelector(
   [
@@ -192,10 +202,14 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
       const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
       const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
       const eventId = bettingMarketGroup && bettingMarketGroup.get('event_id');
-      const isCoreAsset = bettingMarketGroup.get('asset_id') === Config.coreAsset;
-      if(isCoreAsset){
+      if(bettingMarketGroup !== undefined){
         // NOTE: Assume description can be used as comparison
-        const isMoneyline = !!bettingMarketGroup && (bettingMarketGroup.get('description').toUpperCase() === 'MONEYLINE');
+        let moneylineFilterEnabled = Config.features.moneylineFilter;          
+        var isMoneyline = !!bettingMarketGroup && (bettingMarketGroup.get('description').toUpperCase() === 'MONEYLINE');
+        // If the moneyline filter is disabled, flip the isMoneyline bool so that bets can still be viewed and placed.
+        if (!moneylineFilterEnabled){
+          isMoneyline = true;
+        }
         if (eventId && isMoneyline) {
           // Implicit Rule: the first betting market is for the home team
           let simpleBettingWidgetBinnedOrderBook = Immutable.Map().set('betting_market_id', bettingMarketId)
@@ -243,6 +257,7 @@ const CommonSelector = {
   getEventsById,
   getPersistedEventsById,
   getAggregatedEventsById,
+  getEventStatusById,
   getActiveEventsById,
   getActiveEventsBySportId,
   getEventsByEventGroupId,

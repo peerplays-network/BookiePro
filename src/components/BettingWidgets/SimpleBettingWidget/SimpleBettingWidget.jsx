@@ -33,15 +33,26 @@ const eventTimeColumnWidth = 65;
 const offerColumnWidth = 70;
 
 const renderEventTime = (text, record) => {
-  const isLiveMarket= record.get('is_live_market');
+  var isLiveMarket;
+  let eventStatus = record.get('eventStatus');
+  if (eventStatus === 'in_progress'){
+    isLiveMarket = true;
+  }
+
   if (isLiveMarket) {
-    return <span className='live'><span className='indicator'/>{ I18n.t('simple_betting_widget.in_play') }</span>;
+    return <span className='live'><span className='indicator'/>{ I18n.t('object_status_enumerator.' + record.get('eventStatus')) }</span>;
   } else {
-    const eventTime = moment(record.get('time'))
-    let dateString = eventTime.format('MMM D');
+    const eventTime = moment(record.get('time'));
+    let dateString = moment.parseZone(record.get('time')).local().format('MMM D');
+    //Check if event is running today.
     let timeString = eventTime.calendar();
-    dateString = timeString.toLowerCase().includes('today') ? 'Today' : dateString;
-    return <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>;
+    dateString = timeString.toLowerCase().includes('today') ? 'Today' : dateString;       
+    return (
+      <div>
+        { eventStatus !== 'upcoming' ? <div className='simple-outcome'>{ I18n.t('object_status_enumerator.' + record.get('eventStatus')) }</div> : null }
+        <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>   
+      </div>
+    ); 
   }
 }
 
@@ -62,7 +73,7 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
       className: 'event-name',
       render: (text, record) => EventNameUtils.breakAtVs(record.get('event_name')),
       onCellClick: (record, event) => {
-        record.get('moneyline') && navigateTo('/exchange/bettingmarketgroup/' + record.get('moneyline'))
+        record.get('bettingMarketGroupId') && navigateTo('/exchange/bettingmarketgroup/' + record.get('bettingMarketGroupId'))
       }
     }, {
       title: '1',
@@ -163,7 +174,6 @@ class SimpleBettingWidget extends PureComponent {
       </div>
     )
   }
-
   /**
    * This function returns a function that will be used by the Ant-Design table
    * for cell rendering the betting offers in the widget.
@@ -190,9 +200,14 @@ class SimpleBettingWidget extends PureComponent {
   renderOffer(action, typeOfBet, index, currencyFormat, oddsFormat) {
     return (text, record) => {
       // Retrieve the nested offers data from the data record
-      let offers = record.get('offers')
-
-      if ( offers === undefined || offers.isEmpty() || offers.getIn([index-1, 'betting_market_id']) === undefined ){
+      let offers = record.get('offers');
+      let eventStatus = record.get('eventStatus'); 
+      var canBet, className;
+      if (eventStatus !== 'settled' && eventStatus !== 'graded' && eventStatus !== 'finished' && eventStatus !== 'frozen'){
+        canBet = true;
+      }
+      
+      if ( offers === undefined || offers.isEmpty() || offers.getIn([index-1, 'betting_market_id']) === undefined || !canBet ){
         return '';
       }
 
@@ -211,23 +226,27 @@ class SimpleBettingWidget extends PureComponent {
 
       if ( offer === undefined){
         return (
-          <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, '') }>
-            <div className='offer empty'>
-              <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
-            </div>
-          </a>
+          <div className={ className }>
+            <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, '') }>
+              <div className='offer empty'>
+                <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
+              </div>
+            </a>
+          </div>
         );
       }
 
       return (
-        <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds')) }>
-          <div className='offer'>
-            <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat) }</div>
-            <div className='price'>
-              { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces, true)}
+        <div className={ className }>
+          <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds')) }>
+            <div className='offer'>
+              <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat) }</div>
+              <div className='price'>
+                { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces, true)}
+              </div>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
       );
 
     };
@@ -254,13 +273,21 @@ class SimpleBettingWidget extends PureComponent {
       <div className='simple-betting'>
         <Table
           bordered
-          columns={ getColumns(this.renderOffer, this.props.navigateTo, "BTC", this.props.sportName, this.props.oddsFormat) }
+          columns={ getColumns(this.renderOffer, this.props.navigateTo, "BTC", this.props.sportName, this.props.oddsFormat, this.renderClass) }
           dataSource={ events.toArray() }
           title={ () => renderTitle(this.props.title) }
           footer={ () => this.props.showFooter ? this.renderFooter(this.props) : null }
           pagination={ this.props.showPagination ? { pageSize: this.props.pageSize } : false }
           locale={ {emptyText: I18n.t('simple_betting_widget.no_data')} }
           rowKey={ (record) => record.get('key') }
+          rowClassName={ (record, index) => { 
+            let eventStatus = record.get('eventStatus');
+            if(eventStatus === 'settled' || eventStatus === 'graded' || eventStatus === 'finished' || eventStatus === 'frozen'){
+              return 'simple-betting-disabled';
+            } else {
+              return null;
+            }
+          } }
         />
       </div>
     );
