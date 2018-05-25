@@ -54,8 +54,8 @@ class Welcome extends PureComponent{
       case 0: {
         headerText = I18n.t('welcome.headerText1');
         contentText = I18n.t('welcome.contentText1');
-        imageWidth = 211;
-        imageHeight = 215;
+        imageWidth = 300;
+        imageHeight = 141;
         imageSource = onboardWelcomeImage;
         break;
       }
