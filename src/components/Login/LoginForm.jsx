@@ -83,7 +83,7 @@ const LoginForm = (props) => {
 				</button>
       </div>
 			<div className='form-fields signup-link'>
-        <a className='font16' href='#' onClick={ onClickSignup }> { I18n.t('login.signup') } </a>
+        <a className='font16 btn btn-tertiary' href='#' onClick={ onClickSignup }> { I18n.t('login.signup') } </a>
       </div>
     </form>
   )
