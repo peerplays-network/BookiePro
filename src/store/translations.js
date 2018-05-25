@@ -271,13 +271,7 @@ export const translationsObject = {
       to: 'To',
       cancel_all_confirm: 'You are about to remove %{currencySymbol}%{betsTotal} bets, are you sure?'
     },
-    complex_betting_widget:{
-      error: 'ERROR',
-      back_all: 'Back all',
-      lay_all: 'Lay all',
-      offer: '--',
-      matched: 'Matched',
-      moneyline: 'Moneyline',
+    object_status_enumerator:{
       upcoming: "UPCOMING",
       unresolved: "UNRESOLVED",
       in_progress: "IN PROGRESS",
@@ -289,7 +283,16 @@ export const translationsObject = {
       going_in_play: 'GOING IN-PLAY',
       closed: 'CLOSED',
       graded: 'GRADED',
-      re_grading: 'RE-GRADING'
+      re_grading: 'RE-GRADING',
+      win: 'WINNER',
+      not_win: 'LOSER'
+    },
+    complex_betting_widget:{
+      error: 'ERROR',
+      back_all: 'Back all',
+      lay_all: 'Lay all',
+      offer: '--',
+      matched: 'Matched',
     },
     simple_betting_widget:{
       no_data: 'There is no event to be displayed.',
