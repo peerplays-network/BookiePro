@@ -187,7 +187,8 @@ class HistoryService {
           unmatchedBetsById = unmatchedBetsById.set(id, unmatchedBet);
           break;
         }
-        case ChainTypes.operations.bet_canceled: {
+        case ChainTypes.operations.bet_canceled:
+        case ChainTypes.operations.bet_adjusted: {
           const betId = operationContent.get('bet_id');
           unmatchedBetsById = unmatchedBetsById.filterNot( bet => {
             return bet.get('original_bet_id') === betId;
