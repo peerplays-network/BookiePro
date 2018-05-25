@@ -266,6 +266,9 @@ class ComplexBettingWidget extends PureComponent {
     });
   }
   displayStatus(status, typeOfDisplay){
+    if(status === 'unresolved'){
+      return null;
+    }
     if(typeOfDisplay === 'indicator'){
       return (
         <span className={ status[3][0] }>
