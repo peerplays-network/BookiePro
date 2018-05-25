@@ -33,6 +33,8 @@ export class Notification extends PureComponent{
             key={ index }
             message={ notification.get('content') }
             date={ notification.get('date') }
+            link={ notification.get('link') }
+            version={ notification.get('version') }
             onClick={ () => { this.props.onClickItem(notification) } }
             onClickClose={ () => { this.props.onClickCloseItem(notification) } }
           />

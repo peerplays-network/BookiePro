@@ -4,8 +4,9 @@
  * It is used in Login component
  */
 import React from 'react';
-import { Field, reduxForm } from 'redux-form/immutable';
-import { I18n } from 'react-redux-i18n';
+import { connect } from 'react-redux';
+import { Field, reduxForm, formValueSelector } from 'redux-form/immutable';
+import { I18n, Translate } from 'react-redux-i18n';
 import { LoadingStatus } from '../../constants';
 import { AuthUtils } from '../../utility';
 
@@ -47,7 +48,7 @@ const renderField = ({  tabIndex, className, errors, placeholder, input, type,
  * signup button disabled if username or password not entered
  */
 const LoginForm = (props) => {
-  const { pristine, handleSubmit, invalid, submitting, asyncValidating, onClickSignup, errors, status } = props;
+  const { handleSubmit, invalid, submitting, asyncValidating, onClickSignup, errors, status } = props;
   return (
     <form onSubmit={ handleSubmit }>
       <div className='form-fields'>
@@ -59,14 +60,26 @@ const LoginForm = (props) => {
 					errors={ errors.toJS() } placeholder={ I18n.t('login.password') } tabIndex='2'/>
       </div>
       <div className='form-fields'>
+				<div className='eulaAgree clearfix center-object'>
+					<label><Translate className='eulaMsg' value='registration.eulaAgree' dangerousHTML/>
+						<Field
+							name='eulaAgree'
+							id='eulaAgree'
+							component='input'
+							type='checkbox'
+							className='eulaCheckbox'
+							tabIndex='3'
+						/>
+					</label>
+				</div>
 				<button
-					className={ 'btn ' + ((pristine || invalid || submitting || asyncValidating ||
-					status===LoadingStatus.LOADING)
-						? 'btn-disabled' : 'btn-regular') + ' grid-100 margin-top-25' } type='submit'
-					disabled={ pristine || invalid || submitting || asyncValidating || status===LoadingStatus.LOADING }>
-					{ //set loadingstatus on submit
-						status===LoadingStatus.LOADING ? I18n.t('application.loading') : I18n.t('login.title')
-					}
+						className={ 'btn ' + ((!props.hasEulaChecked || !props.hasPassword || invalid || submitting || asyncValidating ||
+						status===LoadingStatus.LOADING)
+							? 'btn-disabled' : 'btn-regular') + ' grid-100 margin-top-25' } type='submit'
+						disabled={ (!props.hasEulaChecked || !props.hasPassword || invalid || submitting || asyncValidating || status===LoadingStatus.LOADING) }>
+						{ //set loadingstatus on submit
+							status===LoadingStatus.LOADING ? I18n.t('application.loading') : I18n.t('login.title')
+						}
 				</button>
       </div>
 			<div className='form-fields signup-link'>
@@ -76,4 +89,20 @@ const LoginForm = (props) => {
   )
 };
 
-export default reduxForm({form: 'login'})(LoginForm)
+let form = reduxForm({form: 'login'})(LoginForm);
+
+const selector = formValueSelector('login');
+form = connect(
+	state => {
+	  const hasUserName = selector(state, 'userName');
+	  const hasPassword = selector(state, 'password');
+	  const hasEulaChecked = selector(state, 'eulaAgree');
+	  return{
+		  hasUserName: !!hasUserName,
+		  hasPassword: !!hasPassword,
+		  hasEulaChecked: !!hasEulaChecked
+	  }
+}
+)(form)
+
+export default form;

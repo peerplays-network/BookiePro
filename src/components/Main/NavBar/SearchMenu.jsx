@@ -53,12 +53,16 @@ class SearchOption extends PureComponent {
 
   render () {
     const { option } = this.props;
+    let focus = '';
+
+    if (this.props.isFocused) {
+      focus = 'is-focused';
+    }
 
     return (
-
-      <div className={ option.id !== '0' ? 'Select-option-holder' : 'Select-option-holder Select-result' } onClick={ option.id !== '0' ? this.handleMouseDown : null }>
+      <div className={ option.id !== '0' ? `Select-option-holder ${focus}` : 'Select-option-holder Select-result' } onClick={ option.id !== '0' ? this.handleMouseDown : null }>
         {  option.is_live_market &&  <span className='badge' />  }
-        <div className={ option.id !== '0' ? 'Select-option' : 'Select-option Select-result' }>
+        <div className={ option.id !== '0' ? this.props.className : 'Select-option Select-result' }>
           {
             this.props.option.isLiveMarket &&
             <span className='indicator' />

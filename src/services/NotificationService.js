@@ -83,7 +83,7 @@ class NotificationService {
             // Mark as read if notification card is shown
             const isRead = isShowNotificationCard;
             // Create notification object and add it
-            const notification = NotificationService.createNotificationObject(type, content, date, isRead);
+            const notification = NotificationService.createNotificationObject(type, content, date, null, null, isRead);
             notifications = notifications.push(notification);
           }
           break;
@@ -94,7 +94,7 @@ class NotificationService {
           // Mark as read if notification card is shown
           const isRead = isShowNotificationCard;
           // Create notification object and add it
-          const notification = NotificationService.createNotificationObject(type, content, date, isRead);
+          const notification = NotificationService.createNotificationObject(type, content, date, null, null, isRead);
             // Create notification object and add it
           notifications = notifications.push(notification);
           break;
@@ -107,7 +107,7 @@ class NotificationService {
   }
 
   // Create notification object
-  static createNotificationObject(type, content, date, isRead=false) {
+  static createNotificationObject(type, content, date, link=null, version=null, isRead=false) {
     const id = NotificationService.nextNotificationId;
     NotificationService.nextNotificationId += 1;
 
@@ -116,6 +116,8 @@ class NotificationService {
       type,
       content,
       date,
+      link,
+      version,
       isRead
     });
   }

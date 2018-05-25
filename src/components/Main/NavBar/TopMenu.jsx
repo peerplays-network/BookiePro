@@ -15,6 +15,15 @@ import { initialize } from 'redux-form';
 const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
 import { I18n } from 'react-redux-i18n';
 
+import { AppUtils } from '../../../utility';
+
+const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
+
+let electron;
+if (isRunningInsideElectron) {
+  electron = window.require('electron');
+}
+
 class TopMenu extends PureComponent {
   constructor(props) {
     super(props);
@@ -27,7 +36,7 @@ class TopMenu extends PureComponent {
       withdrawAmount:'',
       isSubMenuVisible: false,
       isNotificationCardVisible: false
-    };
+    };    
 
     this.handleClick = this.handleClick.bind(this);
     this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
@@ -76,8 +85,11 @@ class TopMenu extends PureComponent {
         this.props.navigateTo('/my-account');
         break;
       }
-      case NotificationTypes.SOFTWARE_UPDATE_AVAILABLE: {
-        this.props.showSoftwareUpdatePopup(true);
+      case NotificationTypes.SOFTWARE_UPDATE_AVAILABLE: {      
+        if (electron) {
+          // Case of electron
+          electron.shell.openExternal(notification.get('link'))
+        }
         break;
       }
       case NotificationTypes.TRANSACTION_HISTORY_DATA_EXPORTED: {
@@ -97,8 +109,6 @@ class TopMenu extends PureComponent {
   componentDidMount(){
     //Get the deposit address
     this.props.getDepositAddress();
-    console.log("----- TopMenu Mounted");
-    console.log(Config.coreAsset);
   }
 
   handleClick(e) {

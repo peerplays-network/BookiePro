@@ -33,7 +33,6 @@ class MacTitleBar extends PureComponent {
           />
         </div>
         <div className='right'>
-          <i className={ isConnected ? 'connection-status-online' : 'connection-status-offline' } />
           <Clock className='clock' />
         </div>
 
