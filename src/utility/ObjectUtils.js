@@ -164,7 +164,7 @@ const eventStatus = (event) => {
   if(event){
     return determineStatusResult(event.get('status'));  
   } else {
-    return "null";
+    return null;
   }
 }
 const bettingMarketStatus = (bettingMarket) => {

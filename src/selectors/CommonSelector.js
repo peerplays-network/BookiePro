@@ -240,8 +240,12 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
           })
         }
       }
-    })
+
+    });
+
     return simpleBettingWidgetBinnedOrderBooksByEventId;
+
+    
   }
 )
 
