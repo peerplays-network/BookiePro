@@ -120,6 +120,17 @@ const mapStateToProps = (state, ownProps) => {
     const stake = bet.get('bet_type') === 'back' ? parseFloat(bet.get('stake')) : parseFloat(bet.get('profit'));
     return total + (isNaN(stake) ? 0.0 : stake);
   }, 0.0);
+  const transactionFee = () => {
+    switch(ownProps.currencyFormat){
+      case 'BTC':
+        return 0.01;
+      case 'mBTC':
+        return 0.00001;
+      default:
+        break;
+    }
+  }
+  const preTotalAmountString = totalAmount + transactionFee();
   // Number of Good bets
   const numberOfGoodBets = originalBets.reduce((sum, bet) => {
     return sum + (BettingModuleUtils.isValidBet(bet) | 0);
@@ -138,7 +149,7 @@ const mapStateToProps = (state, ownProps) => {
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
     totalBetAmountString: CurrencyUtils.getCurrencySymbol(ownProps.currencyFormat) +
-        CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat),
+        CurrencyUtils.toFixed('stake', totalAmount + preTotalAmountString, ownProps.currencyFormat),
   };
 }
 
