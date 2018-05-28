@@ -53,15 +53,23 @@ class UnmatchedBets extends PureComponent {
     }
   }
 
+  getModalTitle(textA, textB, value, currencySymbol) {
+    return (
+      <div>
+        { textA } {currencySymbol } { value } { textB }
+      </div>
+    )
+  }
+
   render() {
     const { unmatchedBetsLoadingStatus, currencyFormat, betsTotal, onCancelAllBetsClick,
       isCancelAllConfirmModalVisible, handleCancelAllBets, declineCancelAllBets } = this.props;
-    const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat);
+    const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
     return (
       <div className='table-card'>
         <div className='filterComponent clearfix'>
           <div className='float-left'>
-            <p className='card-title'>{ I18n.t('mybets.total') } : <span>{ currencySymbol + (betsTotal ? betsTotal : 0) }</span> </p>
+            <p className='card-title'>{ I18n.t('mybets.total') } { (betsTotal ? betsTotal : 0) } { currencySymbol }</p>
           </div>
           { this.state.tableData.length !== 0 ?
           <div className='float-right'>
@@ -77,7 +85,7 @@ class UnmatchedBets extends PureComponent {
         </Table>
         <Modal
           wrapClassName={ 'vertical-center-modal' }
-          title={ I18n.t('mybets.cancel_all_confirm', {currencySymbol, betsTotal}) }
+          title={ this.getModalTitle(I18n.t('mybets.cancel_all_confirm_part_a'), I18n.t('mybets.cancel_all_confirm_part_b'), betsTotal, currencySymbol) }
           visible={ isCancelAllConfirmModalVisible }
           onOk={ handleCancelAllBets }
           onCancel={ declineCancelAllBets }

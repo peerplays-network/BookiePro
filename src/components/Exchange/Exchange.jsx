@@ -184,9 +184,7 @@ const mapStateToProps = (state, ownProps) => {
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting'])
-  const configCurr = Config.features.currency;
-  const equalCurr = configCurr === setting.get('currencyFormat') || 'm'+configCurr === setting.get('currencyFormat');
-  const currencyFormat = equalCurr ? setting.get('currencyFormat') : configCurr;
+  const currencyFormat = setting.get('currencyFormat');
   // Determine which betting drawer we should check
   let path = ['marketDrawer', 'unconfirmedBets'];
   const transitionName = ownProps.location.pathname.split("/");

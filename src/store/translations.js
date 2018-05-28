@@ -268,7 +268,8 @@ export const translationsObject = {
       date: 'Date',
       from: 'From',
       to: 'To',
-      cancel_all_confirm: 'You are about to remove %{currencySymbol}%{betsTotal} bets, are you sure?'
+      cancel_all_confirm_part_a: 'You are about to remove ',
+      cancel_all_confirm_part_b: ' bets, are you sure?'
     },
     complex_betting_widget:{
       error: 'ERROR',
@@ -342,7 +343,7 @@ export const translationsObject = {
           cancel_button: 'CANCEL',
         },
         content: {
-          place_bet_button: 'PLACE BET %{amount}'
+          place_bet_button: 'PLACE BET '
         }
       }
     },
@@ -394,7 +395,7 @@ export const translationsObject = {
           cancel_button: 'CANCEL',
         },
         content: {
-          place_bet_button: 'PLACE BET %{amount}'
+          place_bet_button: 'PLACE BET '
         }
       },
       placed_bets: {

@@ -36,6 +36,15 @@ const renderTeam = (text, record) => (
   </div>
 );
 
+const renderTitle = (text, currencySymbol) => {
+  return (
+    <div>
+      <p>{ text }</p>
+      { currencySymbol }
+    </div>
+  )     
+}
+
 /**
  * Returns a function that renders an Input field.
  *
@@ -134,8 +143,7 @@ const renderDeleteButton = (deleteOne) => {
  */
 const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false, oddsFormat) => {
   
-  //const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat);
-  const currencySymbol = currencyFormat;
+  const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
   
   const teamColumn = {
     title: 'BACK',
@@ -156,10 +164,10 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false, od
   if (!readonly) {
     oddsColumn['render'] = renderOdds(updateOne, currencyFormat, oddsFormat);
     oddsColumn['className'] = 'numeric';
-  }
+  }  
 
   const stakeColumn = {
-    title: `STAKE (${currencySymbol})`,
+    title: renderTitle('Stake', currencySymbol),
     dataIndex: 'stake',
     key: 'stake',
     width: '25%',
@@ -171,7 +179,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false, od
   }
 
   const profitColumn = {
-    title: `PROFIT (${currencySymbol})`,
+    title: renderTitle('Profit', currencySymbol),
     dataIndex: 'profit',
     key: 'profit',
     className: 'numeric readonly' // this field is always readonly
@@ -213,8 +221,7 @@ const getBackColumns = (deleteOne, updateOne, currencyFormat, readonly=false, od
  */
 const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false, oddsFormat) => {
 
-  //const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat);
-  const currencySymbol = currencyFormat;
+  const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
   
   const teamColumn = {
     title: 'LAY',
@@ -238,7 +245,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false, odd
   }
 
   const stakeColumn = {
-    title: `BACKER'S STAKE (${currencySymbol})`,
+    title: renderTitle('Backers Stake', currencySymbol),
     dataIndex: 'stake',
     key: 'stake',
     width: '25%',
@@ -250,7 +257,7 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false, odd
   }
 
   const liabilityColumn =  {
-    title: `LIABILITY (${currencySymbol})`,
+    title: renderTitle('Liability', currencySymbol),
     dataIndex: 'liability',
     key: 'liability',
     className: 'numeric readonly' // this field is always readonly

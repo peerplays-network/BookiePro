@@ -51,13 +51,13 @@ class MatchedBets extends PureComponent {
 
   render() {
     const {  matchedBetsLoadingStatus, currencyFormat, betsTotal } = this.props;
-    const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat);
+    const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
     return (
       <div className='table-card'>
         <div className='filterComponent'>
           <div className='float-left'>
             <p className='card-title'>
-              { I18n.t('mybets.total') } : <span>{ currencySymbol + (betsTotal ? betsTotal : 0) }</span>
+              { I18n.t('mybets.total') } { (betsTotal ? betsTotal : 0) } { currencySymbol }
             </p>
           </div>
         </div>
