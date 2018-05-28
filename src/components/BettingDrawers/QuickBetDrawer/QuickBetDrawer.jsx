@@ -142,6 +142,10 @@ const mapStateToProps = (state, ownProps) => {
     const stake = parseFloat(bet.get('stake'));
     return total + (isNaN(stake) ? 0.0 : stake);
   }, 0.0);
+  // Add the transaction fee to the place bet button. 
+  /*Precision value will affect whether or not the full number will be displayed, regardless of it being added. */
+  const transactionFee = ownProps.currencyFormat === 'BTC' ? 0.01 : 0.00001;
+  const preTotalAmountString = totalAmount + transactionFee;
   // Number of Good bets
   const numberOfGoodBets = originalBets.reduce((sum, bet) => {
     return sum + (BettingModuleUtils.isValidBet(bet) | 0);
@@ -161,7 +165,7 @@ const mapStateToProps = (state, ownProps) => {
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
     totalBetAmountString: CurrencyUtils.getCurrencySymbol(ownProps.currencyFormat) +
-                          CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat),
+                          CurrencyUtils.toFixed('stake', totalAmount + preTotalAmountString, ownProps.currencyFormat),
   };
 }
 
