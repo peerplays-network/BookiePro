@@ -106,14 +106,17 @@ class NotificationActions {
   /**
    * Add soft update notification
    */
-  static addSoftUpdateNotification(version) {
+  static addSoftUpdateNotification(version, versionPublishDate, updateLink) {
     return (dispatch) => {
       // Create notification object and add it
       const type = NotificationTypes.SOFTWARE_UPDATE_AVAILABLE;
-      const content = I18n.t('notification.software_update');
-      const date = new Date();
+      const content = `${I18n.t('notification.software_update')}`;
+      const date = new Date(Number.parseInt(versionPublishDate, 10));
+      const link = updateLink;
+
       // Create notification object and add it
-      const notification = NotificationService.createNotificationObject(type, content, date);
+      const notification = NotificationService.createNotificationObject(type, content, date, link, version);
+
       const notifications = Immutable.List([notification]);
       dispatch(NotificationPrivateActions.prependNotificationsAction(notifications));
     }

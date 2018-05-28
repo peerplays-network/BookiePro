@@ -1,5 +1,6 @@
 import CommonSelector from './CommonSelector';
 import { createSelector } from 'reselect';
+import { DateUtils } from '../utility';
 import Immutable from 'immutable';
 import { Config } from '../constants';
 
@@ -120,15 +121,16 @@ const getEventGroupPageData = createSelector(
       return Immutable.fromJS({
         event_id: event.get('id'),
         event_name: event.get('name'),
-        time: event.get('start_time'),
+        time: DateUtils.getLocalDate(event.get('start_time')),
         isLiveMarket: event.get('is_live_market'),
+        eventStatus: event.get('status').toLowerCase(),
         offers,
-        moneyline: moneylineBettingMarketGroupId,
+        bettingMarketGroupId: moneylineBettingMarketGroupId,
       });
     }).filter( eventNode => {
       // Feature check, is Moneyline filter enabled/disabled?
       let moneylineFilterEnabled = Config.features.moneylineFilter;
-      return moneylineFilterEnabled ? eventNode.get('moneyline') !== undefined : eventNode;
+      return moneylineFilterEnabled ? eventNode.get('bettingMarketGroupId') !== undefined : eventNode;
     });
 
     return eventGroupPageData;

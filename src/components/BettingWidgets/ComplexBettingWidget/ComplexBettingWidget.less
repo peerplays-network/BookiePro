@@ -1,23 +1,18 @@
 @import '../../App/Colors.less';
 
-div.complex-betting {
-  // Using fade (from LESS) can set opacity to background only
-  // If we set opacity explicitly, it will affect the text (foreground) too
+.complex-betting{
   background-color: @complex-betting-bg;
-  margin-top: 15px;
-
+  margin-top: 20px;
+  
   .increased-value{
     color: @profit;
   }
   .decreased-value{
     color: @loss;
   }
-}
-.complex-betting{
-  background-color: @complex-betting-bg;
-  margin-top: 20px;
+  
   .title{
-    color: @white;
+    color: @dark_tangerine;
     padding:13px 15px;
     margin-bottom:25px;
   }
@@ -33,7 +28,10 @@ div.complex-betting {
       align-items: center;
       color: @primary_label;
       margin-left: 10px;
-      padding: 5px 6px 5px 12px;
+      padding-right: 6px;
+      padding-left: 12px;
+      padding-top: 5px;
+      padding-bottom: 5px;
       background-color: @live_market_marker;
       font-size: 12px;
       font-weight: bold;
@@ -52,28 +50,6 @@ div.complex-betting {
       align-items: center;
       color: @cinder;
       margin-left: 10px;
-      padding: 2px 6px 2px 5px;
-      background-color: @going_live_market_marker;
-      font-size: 12px;
-      font-weight: bold;
-      border-radius: 4px;
-      .indicator{
-        background-image: url("../../../assets/icons/live_indicator_black.png");
-        background-repeat: no-repeat;
-        display: inline-block;
-        width:16px;
-        height:16px;
-        vertical-align: middle;
-        background-size: 100%;
-        margin-right:4px;
-      }
-    }
-    .error {
-      display: inline-flex;
-      align-items: center;
-      color: @field_error;
-      margin-left: 10px;
-      padding: 2px 6px 2px 5px;
       padding-right: 6px;
       padding-left: 12px;
       padding-top: 5px;
@@ -96,6 +72,7 @@ div.complex-betting {
     color: @dark_tangerine;
     font-size: 14px;
     float: right;
+    display: inline-block;
     font-weight:500;
     span {
       color: @white;
@@ -125,51 +102,8 @@ div.complex-betting {
       border-right:0 none;
       font-weight: bold;
 
-      .back-offer, .lay-offer {
-        height:100%;
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      .back-offer.empty-offer{
-        background-color: @pattens_blue;
-      }
-
-      .back-offer {
-        &.best-offer {
-          &:hover {
-            background-color: fade(@anakiwa,90%) !important;
-          }
-        }
-      }
-
-      .lay-offer {
-        color: @black;
-        &.best-offer {
-          &:hover {
-            background-color: fade(@light_pink,90%) !important;
-          }
-        }
-      }
-
-      .back-offer.best-offer {
-        background-color: @simple_betting_back_bg !important;
-        color: @black;
-      }
-
-      .lay-offer.best-offer {
-        background-color: @light_pink !important;
-        color: @black;
-      }
-
-      .lay-offer.empty-offer {
-        background-color: @pale_pink;
-      }
       .empty-offer{
         align-items: center;
-        font-weight: normal;
       }
       .name {
         font-size: 14px;
@@ -188,45 +122,96 @@ div.complex-betting {
           }
         }
       }
+
       .odds-offer {
         color: @black;
         font-size:16px;
       }
+
       .back-offer {
-        color: @black;
+
+        &.best-offer, &.empty-offer.best-offer {
+          background-color: @anakiwa;
+          &:hover {
+            background-color: fade(@anakiwa,90%);
+          }
+        }
+
         &.back-bg{
           background-color: @pattens_blue;
           &:hover{
             background-color: fade(@pattens_blue,90%);
           }
         }
-        &.back-all-offer{
-          background-color: @complex-betting-back-bg;
-          &:hover{
-            background-color: transparent;
+
+        &.empty-offer {
+          background-color: @pattens_blue;
+          &:hover {
+            background-color: fade(@pattens_blue,90%);
           }
         }
-        &.empty-offer:hover{
-          background-color: fade(@pattens_blue,90%);
-        }
+      
       }
+
       .lay-offer {
+
+        &.best-offer, &.empty-offer.best-offer {
+          background-color: @light_pink;
+          &:hover {
+            background-color: fade(@light_pink,90%);
+          }
+        }
+
         &.lay-bg{
           background-color: @pale_pink;
           &:hover{
             background-color: fade(@pale_pink,90%);
           }
         }
-        &.lay-all-offer{
-          background-color: @complex-betting-lay-bg;
-          &:hover{
-            background-color: @primary_label_highlight;
+
+        &.empty-offer {
+          background-color: @pale_pink;
+          &:hover {
+            background-color: fade(@pale_pink,90%);
           }
         }
-        &.empty-offer:hover{
-          background-color: fade(@pale_pink,90%);
+
+      }
+
+      .back-offer, .lay-offer {
+        color: @black;
+        height:100%;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &.best-offer {
+          color: @black;
+        }
+
+        &.best-offer.disabled,
+        &.empty-offer.disabled,
+        &.disabled {
+          cursor: default;
+          background-color: transparent;
+          
+          &:hover {
+            background-color: transparent;
+          }
         }
       }
+
+      .complex-outcome {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        font-size: 32px;
+        left: 50%;
+        transform: translateX(-50%);
+        pointer-events: none;
+      }
+
       .odds {
         font-size: 15px;
         text-align: center;
@@ -240,17 +225,34 @@ div.complex-betting {
       .odds, .price{
         width:100%;
       }
+
       &:first-child{
         padding:0 10px;
       }
-      &.lay-arrows-col {
+
+      .arrows-col {
+        align-items: center;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &.disabled {
+          display: none;
+        }
+      }
+
+      .lay-arrows-col {
         padding: 0 5px;
       }
-      &.back-arrows-col {
+
+      .back-arrows-col {
         padding:0 5px 0 2px;
       }
     }
-
+    .offer-header.lay.disabled{
+      display: none;
+    }
     .rt-tr-group {
       border-top:1px solid @domino;
       border-bottom:1px solid @domino;
@@ -289,6 +291,10 @@ div.complex-betting {
         border-top: 2px solid @domino;
         border-right: 2px solid @domino;
         font-size: 12px;
+
+        &.disabled {
+          display: none;
+        }
       }
 
       .back-all-offer {

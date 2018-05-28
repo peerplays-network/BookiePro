@@ -37,40 +37,43 @@
         align-items: center;
         color: @primary_label;
         margin-left: 10px;
-        padding: 2px 6px 2px 5px;
+        padding-right: 6px;
+        padding-left: 12px;
+        padding-top: 5px;
+        padding-bottom: 5px;
         background-color: @live_market_marker;
         font-size: 12px;
         font-weight: bold;
-        border-radius: 4px;
         .indicator{
-          background: url("../../../assets/icons/live_indicator_white.png") no-repeat;
+          background-color: @white;
+          border-radius: 50%;
           display: inline-block;
-          width:16px;
-          height:16px;
-          vertical-align: middle;
-          background-size: 100%;
+          width:8px;
+          height:8px;
           margin-right:4px;
+          margin-bottom: 1px;
         }
       }
       .going-live {
         display: inline-flex;
         align-items: center;
-        color: @field_border;
+        color: @cinder;
         margin-left: 10px;
-        padding: 2px 6px 2px 5px;
+        padding-right: 6px;
+        padding-left: 12px;
+        padding-top: 5px;
+        padding-bottom: 5px;
         background-color: @going_live_market_marker;
         font-size: 12px;
         font-weight: bold;
-        border-radius: 4px;
         .indicator{
-          background-image: url("../../../assets/icons/live_indicator_black.png");
-          background-repeat: no-repeat;
+          background-color: @white;
+          border-radius: 50%;
           display: inline-block;
-          width:16px;
-          height:16px;
-          vertical-align: middle;
-          background-size: 100%;
+          width:8px;
+          height:8px;
           margin-right:4px;
+          margin-bottom: 1px;
         }
       }
       line-height: 18px;
@@ -96,6 +99,8 @@
     bottom: 10px;
     padding: 5px 10px;
     background-color: @live_market_marker;
+    right: 12px;
+    bottom: 10px;
     padding: 6px 12px;
     margin-top: 12px;
     font-size: 12px;
