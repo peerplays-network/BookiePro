@@ -78,12 +78,12 @@ var CurrencyUtils = {
         return <img src='../../../assets/icons/mbitcoin_icon_hover.svg' alt='mBTC'/>;
       case 'BTF':
         if (color === 'white')
-          return <img src={ bitFunWhite } height='8px' width='8px' alt='BTF'/>;
-        return <img src={ bitFunBlack } height='8px' width='8px' alt='BTF'/>;
+          return <img src={ bitFunWhite } className='currency-symbol' alt='BTF'/>;
+        return <img src={ bitFunBlack } className='currency-symbol' alt='BTF'/>;
       case 'mBTF':
         if (color === 'white')
-          return <img src={ mBitFunWhite } height='8px' width='8px' alt='mBTF'/>;
-        return <img src={ mBitFunBlack } height='8px' width='8px' alt='mBTF'/>;
+          return <img src={ mBitFunWhite } className='currency-symbol' alt='mBTF'/>;
+        return <img src={ mBitFunBlack } className='currency-symbol' alt='mBTF'/>;
       default:
         break;
     }

@@ -35,6 +35,8 @@ import { MyAccountPageSelector } from '../../../selectors';
 
 import bitFunWhite from '../../../assets/icons/bitfun_icon_white.svg';
 import millBitFunWhite from '../../../assets/icons/mbitfun_icon_white.svg';
+import bitFunBlack from '../../../assets/icons/bitfun_icon_black.svg';
+import millBitFunBlack from '../../../assets/icons/mbitfun_icon_black.svg';
 
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>

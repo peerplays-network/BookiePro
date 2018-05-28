@@ -56,11 +56,13 @@ const getUnmatchedBetsColumns = (currencyFormat, onCancelBetClick, onEventClick)
       title: renderTitle(I18n.t('mybets.stake'), currencySymbol),
       dataIndex: 'stake',
       key: 'stake',
+      className: 'value_text_label',
     },
     {
       title: renderTitle(I18n.t('mybets.profit_liability'), currencySymbol),
       dataIndex: 'profit_liability',
-      key: 'profit_liability'
+      key: 'profit_liability',
+      className: 'value_text_label',
     },
     {
       title: '',
@@ -110,11 +112,13 @@ const getMatchedBetsColumns = (currencyFormat, onEventClick) => {
       title: renderTitle(I18n.t('mybets.stake'), currencySymbol),
       dataIndex: 'stake',
       key: 'stake',
+      className: 'value_text_label',
     },
     {
       title: renderTitle(I18n.t('mybets.profit_liability'), currencySymbol),
       dataIndex: 'profit_liability',
-      key: 'profit_liability'
+      key: 'profit_liability',
+      className: 'value_text_label',
     },
   ];
 }
@@ -158,16 +162,19 @@ const getResolvedBetsColumns = (currencyFormat) => {
       title: renderTitle(I18n.t('mybets.stake'), currencySymbol),
       dataIndex: 'stake',
       key: 'stake',
+      className: 'value_text_label',
     },
     {
       title: renderTitle(I18n.t('mybets.profit_liability'), currencySymbol),
       dataIndex: 'profit_liability',
-      key: 'profit_liability'
+      key: 'profit_liability',
+      className: 'value_text_label',
     },
     {
       title: renderTitle(I18n.t('mybets.balance'), currencySymbol),
       dataIndex: 'amount_won',
-      key: 'amount_won'
+      key: 'amount_won',
+      className: 'value_text_label',
     }
   ];
 
