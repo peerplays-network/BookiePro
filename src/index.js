@@ -51,9 +51,9 @@ if (isRunningInsideElectron){
   let electron;
   // add a listener to handle all clicks
   document.addEventListener("click", (e) => {
-    event.preventDefault();
     // act on any clicks that are hyperlinks preceeded by http
     if(e.target.tagName.toLowerCase() === "a" && e.target.href.indexOf("http") >= 0){
+      event.preventDefault();
       electron = window.require('electron');
       electron.shell.openExternal(e.target.href);
     }
