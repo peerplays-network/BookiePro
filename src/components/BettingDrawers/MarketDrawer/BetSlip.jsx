@@ -120,6 +120,8 @@ const mapStateToProps = (state, ownProps) => {
     const stake = bet.get('bet_type') === 'back' ? parseFloat(bet.get('stake')) : parseFloat(bet.get('profit'));
     return total + (isNaN(stake) ? 0.0 : stake);
   }, 0.0);
+  // Add the transaction fee to the place bet button. 
+  /*Precision value will affect whether or not the full number will be displayed, regardless of it being added. */
   const transactionFee = () => {
     switch(ownProps.currencyFormat){
       case 'BTC':
