@@ -1,3 +1,4 @@
+import {Config} from '../constants';
 /**
  * The CurrencyUtils contains all the functions related to currency conversion function
  */
@@ -157,8 +158,8 @@ var CurrencyUtils = {
     if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
     let floatAmount = parseFloat(amount)
     if (field === 'stake') {
-      if (floatAmount < 1 && currency === 'mBTC') return '0.01000'
-      if (floatAmount < .001 && currency === 'BTC') return '0.00001'
+      if (floatAmount < 1 && currency === 'mBTC') return Config.mbtfTransactionFee.toString()
+      if (floatAmount < .001 && currency === 'BTC') return Config.btfTransactionFee.toString()
     }
     if(amount % 1 !== 0 && !isNaN(amount)){
       return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency]);
