@@ -122,17 +122,8 @@ const mapStateToProps = (state, ownProps) => {
   }, 0.0);
   // Add the transaction fee to the place bet button. 
   /*Precision value will affect whether or not the full number will be displayed, regardless of it being added. */
-  const transactionFee = () => {
-    switch(ownProps.currencyFormat){
-      case 'BTC':
-        return 0.01;
-      case 'mBTC':
-        return 0.00001;
-      default:
-        break;
-    }
-  }
-  const preTotalAmountString = totalAmount + transactionFee();
+  const transactionFee = ownProps.currencyFormat === 'BTC' ? 0.01 : 0.00001;
+  const preTotalAmountString = totalAmount + transactionFee;
   // Number of Good bets
   const numberOfGoodBets = originalBets.reduce((sum, bet) => {
     return sum + (BettingModuleUtils.isValidBet(bet) | 0);
