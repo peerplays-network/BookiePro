@@ -33,11 +33,6 @@ import { Empty, OverlayUtils } from '../Common';
 import { BettingDrawerStates } from '../../../constants'
 import { MyAccountPageSelector } from '../../../selectors';
 
-import bitFunWhite from '../../../assets/icons/bitfun_icon_white.svg';
-import millBitFunWhite from '../../../assets/icons/mbitfun_icon_white.svg';
-import bitFunBlack from '../../../assets/icons/bitfun_icon_black.svg';
-import millBitFunBlack from '../../../assets/icons/mbitfun_icon_black.svg';
-
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
     { props.bets.isEmpty() &&
@@ -168,7 +163,7 @@ const mapStateToProps = (state, ownProps) => {
     numberOfBadBets: originalBets.size - numberOfGoodBets,
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),    
-    currencySymbol: CurrencyUtils.getCurrencySymbol(currencyFormat, 'white'),
+    currencySymbol: CurrencyUtils.getCurrencySymbol(currencyFormat, numberOfGoodBets === 0 ? 'white' : 'black'),
     totalBetAmountString: CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat)
   };
 }
