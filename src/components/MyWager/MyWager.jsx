@@ -286,7 +286,6 @@ const mapStateToProps = (state) => {
     targetCurrency: getCurrencyFormat(state),
     betsTotal: getBetTotal(state),
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
-    transactionHistory: MyAccountPageSelector.filteredTransactionHistorySelector(state),
     resolvedBetsExportData: state.getIn(['mywager','resolvedBetsExportData']),
     resolvedBetsExportLoadingStatus: state.getIn(['mywager','generateResolvedBetsExportDataLoadingStatus'])
   }
