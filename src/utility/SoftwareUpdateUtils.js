@@ -6,6 +6,7 @@
 * 'b' represents minor number - soft update indicator provided that major number is the same during comparsion
 */
 import { Config } from '../constants';
+import moment from 'moment';
 
 const SoftwareUpdateUtils = {
 
@@ -34,7 +35,11 @@ const SoftwareUpdateUtils = {
     const newVersionMajorNumber =  newVersion.split('.')[0];
     const currentVersionMajorNumber = Config.version.split('.')[0];
 
-    return (newVersionMajorNumber > currentVersionMajorNumber);
+    const newVersionMinorNumber =  newVersion.split('.')[1];
+    const currentVersionMinorNumber = Config.version.split('.')[1];
+
+    return (newVersionMajorNumber > currentVersionMajorNumber ||
+            newVersionMinorNumber > currentVersionMinorNumber);
   },
 
   /**
@@ -57,8 +62,19 @@ const SoftwareUpdateUtils = {
     const newVersionMinorNumber =  newVersionSplitted[1];
     const currentVersionMinorNumber = currentVersionSplitted[1];
 
+    const newVersionPatchNumber = newVersionSplitted[2];
+    const currentVersionPatchNumber = currentVersionSplitted[2];
+
     return (newVersionMajorNumber === currentVersionMajorNumber &&
-      newVersionMinorNumber > currentVersionMinorNumber);
+      newVersionMinorNumber === currentVersionMinorNumber && newVersionPatchNumber > currentVersionPatchNumber);
+  },
+
+  checkHardUpdateGracePeriod: (updateDate, gracePeriod)  => {
+    let now = moment();
+    let updateTime = moment.unix(updateDate);
+    let difference = moment.duration(now.diff(updateTime)).asSeconds();
+    // Close the application if the user is outside the hard update grace period
+    return difference > gracePeriod;
   }
 }
 

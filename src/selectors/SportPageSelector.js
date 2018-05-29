@@ -1,6 +1,7 @@
 import CommonSelector from './CommonSelector';
 import { createSelector } from 'reselect';
 import Immutable from 'immutable';
+import { DateUtils } from '../utility';
 import { Config } from '../constants';
 
 const {
@@ -8,7 +9,8 @@ const {
   getSportsById,
   getEventGroupsBySportId,
   getActiveEventsByEventGroupId,
-  getSimpleBettingWidgetBinnedOrderBooksByEventId
+  getSimpleBettingWidgetBinnedOrderBooksByEventId,
+  getBettingMarketGroupsById
 } = CommonSelector;
 
 const getRelatedSportId = (state, ownProps) => ownProps.params.objectId;
@@ -95,9 +97,10 @@ const getSportPageData = createSelector(
     getEventGroupsBySportId,
     getActiveEventsByEventGroupId,
     getBettingMarketsById,
-    getSimpleBettingWidgetBinnedOrderBooksByEventId
+    getSimpleBettingWidgetBinnedOrderBooksByEventId,
+    getBettingMarketGroupsById
   ],
-  (relatedSportId, sportPageLoadingStatus, eventGroupsBySportId, activeEventsByEventGroupId, bettingMarketsById, simpleBettingWidgetBinnedOrderBooksByEventId) => {
+  (relatedSportId, sportPageLoadingStatus, eventGroupsBySportId, activeEventsByEventGroupId, bettingMarketsById, simpleBettingWidgetBinnedOrderBooksByEventId, bettingMarketGroupsById) => {
     // Process all sports data only if the necessary data has been finished loaded
     // NOTE if you do not want to see incremental update, re-enable this if clause
     // if (sportPageLoadingStatus !== LoadingStatus.DONE) {
@@ -105,6 +108,7 @@ const getSportPageData = createSelector(
     // }
     let sportPageData = Immutable.List();
     const eventGroups = eventGroupsBySportId.get(relatedSportId) || Immutable.List();
+    let coreAsset = Config.coreAsset;
     eventGroups.forEach((eventGroup) => {
       // Initialize event group node
       let eventGroupNode = Immutable.Map().set('name', eventGroup.get('name'))
@@ -113,22 +117,28 @@ const getSportPageData = createSelector(
       const activeEvents = activeEventsByEventGroupId.get(eventGroup.get('id')) || Immutable.List();
       const eventNodes = activeEvents.map((event) => {
         const offers = simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
-        // Find the MoneyLine Betting Market Group of this event
-        const moneylineBettingMarketId = offers.getIn(['0', 'betting_market_id']);
-        const moneylineBettingMarketGroupId = bettingMarketsById.getIn([moneylineBettingMarketId, 'group_id']);
+        // Find the Betting Market Group of this event
+        const bettingMarketId = offers.getIn(['0', 'betting_market_id']);
+        const bettingMarketGroupId = bettingMarketsById.getIn([bettingMarketId, 'group_id']);
+        const bettingMarketGroupAsset = bettingMarketGroupsById.getIn([bettingMarketGroupId, 'asset_id']);        
         // Create event node
         return Immutable.fromJS({
           event_id: event.get('id'),
           event_name: event.get('name'),
-          time: event.get('start_time'),
+          time: DateUtils.getLocalDate(event.get('start_time')),
           isLiveMarket: event.get('is_live_market'),
+          eventStatus: event.get('status').toLowerCase(),
           offers,
-          moneyline: moneylineBettingMarketGroupId,
+          bettingMarketGroupId: bettingMarketGroupId,
+          bmgAsset: bettingMarketGroupAsset          
         });
       }).filter( eventNode => {
-        // Feature check, is Moneyline filter enabled/disabled?        
-        let moneylineFilterEnabled = Config.features.moneylineFilter;
-        return moneylineFilterEnabled ? eventNode.get('moneyline') !== undefined : eventNode;
+        // // Feature check, is Moneyline filter enabled/disabled?        
+        // let moneylineFilterEnabled = Config.features.moneylineFilter;
+        // return moneylineFilterEnabled ? eventNode.get('bettingMarketGroupId') !== undefined : eventNode;
+        // Feature check       
+        const isCoreAsset = eventNode.get('bmgAsset') === coreAsset;
+        return isCoreAsset ? eventNode : null;
       });
 
       // Set events to the event group node

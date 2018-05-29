@@ -23,7 +23,7 @@ class RulesModalScrollableContent extends PureComponent {
     let output = rules;
 
     // If we've matched all the pieces that we are expecting.
-    if (parts.length === 5) {
+    if (parts && parts.length === 5) {
       output = <div>
         <p>
           {parts[1]}

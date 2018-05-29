@@ -58,31 +58,35 @@ class App extends PureComponent {
   }
 
   onConfirmSoftwareUpdate() {
-    if (this.props.isNeedHardUpdate) {
-      // Close the app if it is hard update
-      if (electron) {
-        // Case of electron
-        const electronWindow = electron.remote.getCurrentWindow();
-        electronWindow.close();
+    // Case of electron
+    if (electron) {
+      electron.shell.openExternal(this.props.updateLink);
+      if (this.props.isNeedHardUpdate) {
+      // Close the app if it is hard update              
+        const electronWindow = electron.remote.getCurrentWindow();        
+        if (SoftwareUpdateUtils.checkHardUpdateGracePeriod(this.props.updateDate, this.props.hardUpdateGracePeriod)) {
+          electronWindow.close();
+        }
       }
     }
     // Hide popup
     this.props.showSoftwareUpdatePopup(false);
-
   }
 
   onCancelSoftwareUpdate() {
-    if (this.props.isNeedHardUpdate) {
+    // Case of electron
+    if (electron) {      
       // Close the app if it is hard update
-      if (electron) {
-        // Case of electron
-        const electronWindow = electron.remote.getCurrentWindow();
-        electronWindow.close();
+      if (this.props.isNeedHardUpdate) {                   
+        const electronWindow = electron.remote.getCurrentWindow();        
+        if (SoftwareUpdateUtils.checkHardUpdateGracePeriod(this.props.updateDate, this.props.hardUpdateGracePeriod)) {
+          electronWindow.close();
+        }
       }
     }
     // Hide popup
     this.props.showSoftwareUpdatePopup(false);
-  }
+  }  
 
   onConfirmLogout(skipLogoutPopupNextTime) {
     // Logout
@@ -98,11 +102,13 @@ class App extends PureComponent {
     return (
         <SoftwareUpdateModal
           modalTitle={ this.props.displayText }
+          version={ this.props.version }
+          date={ this.props.updateDate }
+          link={ this.props.updateLink }
           closable={ !this.props.isNeedHardUpdate }
           visible={ this.props.isShowSoftwareUpdatePopup }
           onOk={ this.onConfirmSoftwareUpdate }
           onCancel={ this.onCancelSoftwareUpdate }
-          latestVersion={ this.props.version }
         />
     );
   }
@@ -178,8 +184,12 @@ const mapStateToProps = (state) => {
   const softwareUpdate = state.get('softwareUpdate');
   const i18n = state.get('i18n');
   const version = softwareUpdate.get('version');
+  const hardUpdateGracePeriod = softwareUpdate.get('hardUpdateGracePeriod');
   const locale = i18n.get('locale');
-  const displayText = softwareUpdate.getIn(['displayText', locale]) || I18n.t('softwareUpdate.default');
+  const displayText = I18n.t('softwareUpdate.default');
+  const updateLink = softwareUpdate.get('link');
+  const updateDate = softwareUpdate.get('date');
+  const isLoggedIn = state.getIn(['account','isLoggedIn']);
   const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');
   const isShowLogoutPopup = app.get('isShowLogoutPopup');
   const isShowSoftwareUpdatePopup = app.get('isShowSoftwareUpdatePopup');
@@ -193,6 +203,8 @@ const mapStateToProps = (state) => {
   return {
     connectToBlockchainLoadingStatus,
     isConnectedToBlockchain,
+    hardUpdateGracePeriod,
+    isLoggedIn,
     version,
     displayText,
     locale,
@@ -203,6 +215,8 @@ const mapStateToProps = (state) => {
     appBackgroundType,
     isTitleBarTransparent,
     showLicenseScreen,
+    updateLink,
+    updateDate
   }
 }
 

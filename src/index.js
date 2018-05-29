@@ -25,6 +25,7 @@ import { LocaleProvider } from 'antd';
 import { I18n } from 'react-redux-i18n';
 import log from 'loglevel';
 import LicenseScreen from './components/LicenseScreen';
+import { AppUtils } from './utility';
 
 // Configure store
 const store = configureStore();
@@ -42,6 +43,22 @@ const history = syncHistoryWithStore(hashHistory, store, {
 // Use log.levels.DEBUG to see most of the API communication logging
 // We should turn this off in the production build.
 log.setLevel(log.levels.SILENT);
+
+//open links externally by default
+// are we in an electron window?
+const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
+if (isRunningInsideElectron){
+  let electron;
+  // add a listener to handle all clicks
+  document.addEventListener("click", (e) => {
+    // act on any clicks that are hyperlinks preceeded by http
+    if(e.target.tagName.toLowerCase() === "a" && e.target.href.indexOf("http") >= 0){
+      event.preventDefault();
+      electron = window.require('electron');
+      electron.shell.openExternal(e.target.href);
+    }
+  });
+}
 
 // Add new page here
 const routes = (
