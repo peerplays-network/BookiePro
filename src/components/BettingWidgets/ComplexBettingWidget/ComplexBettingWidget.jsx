@@ -319,7 +319,6 @@ class ComplexBettingWidget extends PureComponent {
            'exposure',
            parseFloat(BettingModuleUtils.getPotentialExposure(props.value.market_exposure, props.value.betslip_exposure )),
            currencyFormat);
-console.log(props.value.bmStatus);
         const marketExposureClass = props.value.market_exposure >= 0 ?
           'increased-value' : 'decreased-value';
         const potentialExposureClass = props.value.betslip_exposure + props.value.market_exposure >= 0 ?
@@ -328,7 +327,7 @@ console.log(props.value.bmStatus);
           <div className='competitor'>
             { this.state.winOrLose ? <div className='complex-outcome'>{ this.displayStatus(props.value.bmStatus, 'complex-outcome') }</div> : null }
             <div className='name'>{props.value.displayedName} 
-              { this.state.winOrLose ? null : this.displayStatus(props.value.bmStatus[2], 'indicator') }
+              { this.state.winOrLose ? null : this.displayStatus(props.value.bmStatus, 'indicator') }
             </div>
             { props.value.betslip_exposure &&
               <div className='exposure'>
