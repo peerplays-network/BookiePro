@@ -113,7 +113,7 @@ div.complex-betting {
   .ReactTable {
     border:0 none;
     box-shadow: none;
-    
+      
     .rt-tbody {
       background-color: @black_pearl_dark;
       margin-bottom: 20px;
@@ -124,13 +124,21 @@ div.complex-betting {
       padding:0;
       border-right:0 none;
       font-weight: bold;
-
+      
       .back-offer, .lay-offer {
         height:100%;
         cursor: pointer;
         display: flex;
         flex-direction: column;
         justify-content: center;
+          
+        .price {
+          font-size: 9px;
+          text-align: center;
+          img {
+            width: 8px;
+          }
+        }          
       }
 
       .back-offer.empty-offer{
@@ -312,9 +320,7 @@ div.complex-betting {
       p {
         padding:4px 0;
       }
-
     }
-
   }
   .icon-bitcoin{
     background-image: url('../../../assets/icons/bitcoin_icon_hover.png');
