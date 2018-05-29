@@ -59,7 +59,8 @@ const Config = {
     withdrawels: false,
     deposits: false,
     moneylineFilter: false,
-    currency: 'BTF'
+    currency: 'BTF',
+    americanOdds: false
   }
 };
 
