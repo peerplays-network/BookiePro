@@ -56,7 +56,8 @@ const Config = {
   features: {
     withdrawels: false,
     deposits: false,
-    moneylineFilter: false
+    moneylineFilter: false,
+    americanOdds: false
   }
 };
 
