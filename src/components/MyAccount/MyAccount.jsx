@@ -251,10 +251,10 @@ class MyAccount extends PureComponent {
             <div ref='global_object'>
               <Select
                 className='bookie-select'
-                defaultValue={ this.props.currencySymbol === 'BTF' ? this.props.currencyFormat : this.props.currencySymbol }
+                defaultValue={ 'mBTC' }
                 onChange={ this.handleCurrFormatChange }>
-                <Option value={ this.props.currencySymbol }> {this.props.currencySymbol}</Option>
-                <Option value={ 'm' + this.props.currencySymbol }>{'m' + this.props.currencySymbol}</Option>
+                <Option value='BTC'> BTC</Option>
+                <Option value='mBTC'>mBTC</Option>
               </Select>
             </div>
           </Col>
@@ -366,8 +366,7 @@ class MyAccount extends PureComponent {
 MyAccount.defaultProps = {
   depositsEnabled: Config.features.deposits,
   withdrawalsEnabled: Config.features.withdrawels,
-  americanOddsEnabled: Config.features.americanOdds,
-  currencySymbol: Config.features.currency
+  americanOddsEnabled: Config.features.americanOdds
 };
 
 const mapStateToProps = (state) => {
