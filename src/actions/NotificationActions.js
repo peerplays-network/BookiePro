@@ -69,9 +69,7 @@ class NotificationActions {
     return (dispatch, getState) => {
       const accountId = getState().getIn(['account', 'account', 'id']);
       if (accountId) {
-        debugger;
         const isShowNotification = getState().getIn(['setting','settingByAccountId', accountId, 'notification']);
-        
         if (isShowNotification && !DISABLE_NOTIFICATIONS) {
           // Filter history and extract relevant info
           const { relevantAssetIds, relevantBettingMarketIds } = NotificationService.extractRelevantAdditionalInfo(transactions);
