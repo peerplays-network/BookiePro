@@ -76,7 +76,10 @@ class MyWager extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.betsData !== nextProps.betsData) {
+    if (this.props.transactionHistory !== nextProps.transactionHistory && nextProps.activeTab === 'RESOLVED_BETS'){
+      // Alter the date range such that the new transaction(s) will not be filtered out of the resolved bets tab table.
+      this.handleSearchClick('LAST_14_DAYS', null, null);
+      // Reset the date range to 7 days, the default.
       this.props.resetTimeRange();
     }
   }
@@ -154,7 +157,6 @@ class MyWager extends PureComponent {
   onTabChange(key) {
     this.props.setActiveTab(key);
   }
-
 
   /**
    * Called on 'event name' click in Unmatched bets list {@link UnmatchedBets}
@@ -286,13 +288,16 @@ function filterOdds(tableData, oddsFormat) {
 }
 
 const mapStateToProps = (state) => {
+  const activeTab = state.getIn(['mywager', 'activeTab']);
   return {
+    activeTab: activeTab,
     betsData: getBetData(state),
     betsLoadingStatus: getBetsLoadingStatus(state),
     betsCurrencyFormat: getCurrencyFormat(state),
     targetCurrency: getCurrencyFormat(state),
     betsTotal: getBetTotal(state),
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
+    transactionHistory: MyAccountPageSelector.filteredTransactionHistorySelector(state),
     resolvedBetsExportData: state.getIn(['mywager','resolvedBetsExportData']),
     resolvedBetsExportLoadingStatus: state.getIn(['mywager','generateResolvedBetsExportDataLoadingStatus'])
   }
