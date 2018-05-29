@@ -1,8 +1,7 @@
-import { ActionTypes, LoadingStatus, Config } from '../constants';
+import { ActionTypes, LoadingStatus, Config, ConnectionStatus } from '../constants';
 import { ConnectionService, CommunicationService } from '../services';
 import SoftwareUpdateActions from './SoftwareUpdateActions';
 import AuthActions from './AuthActions';
-import NavigateActions from './NavigateActions';
 import log from 'loglevel';
 
 /**
@@ -144,6 +143,13 @@ class AppActions {
         if (getState().getIn(['app', 'connectionStatus']) !== connectionStatus) {
           dispatch(AppPrivateActions.setConnectionStatusAction(connectionStatus));
         }
+
+        // If we are offline, logout the user.
+        if (connectionStatus === ConnectionStatus.DISCONNECTED) {
+          // To force a resubscription to all the required information, push the user to the start of the app again.  
+          dispatch(AuthActions.confirmLogout());
+        }
+
       };
       ConnectionService.connectToBlockchain(connectionStatusCallback).then(() => {
         // Sync with blockchain
