@@ -59,6 +59,7 @@ const Config = {
     withdrawels: false,
     deposits: false,
     moneylineFilter: false,
+    americanOdds: false
   }
 };
 
