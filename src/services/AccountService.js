@@ -134,8 +134,6 @@ class AccountServices {
     //   activePrivateKey: keys.active.toWif(),
     //   memoPrivateKey: keys.memo.toWif()
     // };
-    // console.log(x);
-    // console.log('account', account.toJS())
     const activePublicKey = keys.active.toPublicKey().toPublicKeyString();
     const ownerPublicKey = keys.owner.toPublicKey().toPublicKeyString();
 

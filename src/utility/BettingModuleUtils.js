@@ -82,9 +82,9 @@ var BettingModuleUtils = {
    * @param {string} currency - display currency, 'BTC' or 'mBTC'
    * @returns {string} - profit of liability, based on either BTC or mBTC
    */
-  getProfitOrLiability: function(stake, odds, currency = 'BTC') {
-    const floatStake = parseFloat(stake);
-    const floatOdds = parseFloat(odds);
+  getProfitOrLiability: function(stake, odds, currencyFormat = 'BTC', profitOrLiability) {
+    let floatStake = parseFloat(stake);
+    let floatOdds = parseFloat(odds);    
 
     //check invalid input
     if (isNaN(floatStake) || isNaN(floatOdds) ) {
@@ -94,7 +94,16 @@ var BettingModuleUtils = {
       return;
     }
 
-    return CurrencyUtils.getFormattedCurrency( floatStake * ( floatOdds - 1 ).toFixed(exposurePlaces) , currency, exposurePlaces);
+    // Any mBTC passed into this function will be 1000 times larger than it needs to be.
+    //  The return function will multiply the mBTC value by 1000.
+    if (currencyFormat === 'mBTC') {
+      floatStake /= 1000;
+    }
+      
+    return CurrencyUtils.getFormattedCurrency(floatStake * ( floatOdds - 1 ),
+                                              currencyFormat,
+                                              CurrencyUtils.fieldPrecisionMap[profitOrLiability][currencyFormat]
+);
 
   },
 

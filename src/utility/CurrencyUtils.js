@@ -18,8 +18,8 @@ var CurrencyUtils = {
       mBTC: 2
     },
     stake: {
-      BTC: 5,
-      mBTC: 2
+      BTC: 3,
+      mBTC: 0
     },
     profit : {
       BTC: 5,
@@ -27,7 +27,7 @@ var CurrencyUtils = {
     },
     liability : {
       BTC: 5,
-      mBTC: 2
+      mBTC: 5
     },
     exposure: {
       BTC: 2,
@@ -42,14 +42,26 @@ var CurrencyUtils = {
       return num;
   },
 
-  substringPrecision(amount, precision){
+  
+  /**
+   * substringPrecision()
+   * This function uses string manipulation to manipulate the value of amount depending on the precision value 
+   *  and whether or not accuracy is preferred
+   * @param {any} amount - The amount to round/truncate
+   * @param {any} precision - The amount of decimal places to keep
+   * @param {boolean} [accuracy=true] - Whether or not to round to precision decimal places. 
+   *        True will round to precision decimal places
+   *        False will truncate to precision decimal places
+   * @returns - amount rounded/truncated to precision decimal places
+   */
+  substringPrecision(amount, precision, accuracy=true){
     let split = amount.toString().split('.');
     if (split[1].length > precision){
-      let splitSel = split[1].substring(0, precision);
+      let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0)); // Conditionally take the value one past the accpeted precision ,,.
       let newAmount = split[0] + '.' + splitSel;
-      return newAmount;
+      return parseFloat(newAmount).toFixed(precision); // Then execute toFixed on the resulting amount. This keeps more accuracy. 
     } else {
-      return amount;
+      return amount.toFixed(precision);
     }
   },
 
@@ -69,23 +81,25 @@ var CurrencyUtils = {
    * @param {float} amount - amount to be formatted, in terms of 'BTC'
    * @param {string} currency -  display currency, 'BTC' or 'mBTC'
    * @param {integer} precision - ( ***BTC*** base), either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
+   * @param {boolan} accuracy - This value defaults to true as accuracy is typically preferred. This parameter if set to false, 
+   *                              will truncate to the number of decimal places equal to precision (thus, less accuracy)
    * @returns {string} - formatted string to support negative bitcoin curruency values
    */
-  getFormattedCurrency: function(amount, currency = 'BTC', precision = 0){
+  getFormattedCurrency: function(amount, currencyFormat = 'BTC', precision = 0, accuracy=true){
     if (!isNaN(amount)) {
       if (amount === 0){
         return amount;
       }
       
-      if (currency === 'mBTC') {
+      if (currencyFormat === 'mBTC') {
         // 1 BTC = 1 * 10^3 mBTC
         const mPrecision = precision < 3 ? 0 : precision - 3;
         return ( 1000 * amount ).toFixed(mPrecision);
       }
 
-      if (currency === 'BTC') {
+      if (currencyFormat === 'BTC') {
         if(amount % 1 !== 0){
-          return this.substringPrecision(amount, precision);
+          return this.substringPrecision(amount, precision, accuracy);
         }
         else{
           // Sometimes amount is a string type which will throw an
@@ -96,7 +110,7 @@ var CurrencyUtils = {
     }
 
     // Return the original value in string
-    return amount.toString();
+    return amount.toFixed(precision).toString();
   },
 
 
@@ -111,7 +125,8 @@ var CurrencyUtils = {
     * @returns {string} - formatted BTC or mBTC value with currency symbol prepended
     */
   formatByCurrencyAndPrecisionWithSymbol: function(amount, currency, precision = 0, spaceAfterSymbol = false) {
-    let formatted = this.getFormattedCurrency(amount, currency, precision);
+    let formatted = this.getFormattedCurrency(amount, currency, precision, false);
+    // let formatted = this.substringPrecision(amount, currency, precision, false)
     if (isNaN(formatted)) return 0
     const currencySymbol = this.getCurrencySymbol(currency);
 

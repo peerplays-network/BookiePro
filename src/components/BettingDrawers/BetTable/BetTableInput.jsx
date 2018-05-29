@@ -52,12 +52,11 @@ class BetTableInput extends PureComponent {
         if (!regex.test(e.target.value)) return false;
       }
     }
-
     const delta = Immutable.Map()
       .set('id', this.props.record.id)
       .set('field', this.props.field)
       .set('value', value);
-    this.props.action(delta);
+    this.props.action(delta, this.props.currencyFormat);
 
     this.setState({
       value
@@ -94,8 +93,6 @@ class BetTableInput extends PureComponent {
     if (!odds) {
       odds = ODDS_BOUNDS.decimal.min;
     } else {
-      // REVIEW the odds value is adjusted first because the dummy data may contain
-      //        incorrect odds values that could never happen in the real Blockchain
       odds = updateOdds(adjustOdds(odds, record.bet_type));
       this.setState({
         value: BettingModuleUtils.oddsFormatFilter(odds, this.props.oddsFormat)
@@ -105,18 +102,18 @@ class BetTableInput extends PureComponent {
       .set('id', record.id)
       .set('field', 'odds')
       .set('value', odds);
-    action(delta);
+    action(delta, this.props.currencyFormat);
   }
 
   componentWillUpdate(nextProps, nextState) {
     if (!nextProps.record.updated) {
       if (nextProps.field === 'stake') {
         this.setState({
-          value: nextProps.record.original_stake
+          value: nextProps.record.stake
         })
       } else if (nextProps.field === 'odds') {
         this.setState({
-          value: nextProps.record.original_odds
+          value: nextProps.record.odds
         })
       }
     }
@@ -152,8 +149,12 @@ class BetTableInput extends PureComponent {
     if (this.props.field === 'stake') {
       if (isNaN(value)) return false; // fail fast if the value is undefined or bad
       value = CurrencyUtils.toFixed('stake', value, this.props.currencyFormat);
+      // Final clean of the string
+      if (value.toString().slice(-1) === '.') {
+        value = value.toString().slice(0, -1);
+      }
       this.setState({
-        value: value
+        value
       })
     }
 
@@ -161,7 +162,7 @@ class BetTableInput extends PureComponent {
       .set('id', this.props.record.id)
       .set('field', this.props.field)
       .set('value', value);
-    this.props.action(delta);
+    this.props.action(delta, this.props.currencyFormat);
   }
 
   clickAndHoldIncrement() {

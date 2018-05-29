@@ -32,6 +32,8 @@ import { MyAccountPageSelector } from '../../../selectors';
 const eventTimeColumnWidth = 65;
 const offerColumnWidth = 70;
 
+const OFFER_PRECISION = 3;
+
 const renderEventTime = (text, record) => {
   var isLiveMarket;
   let eventStatus = record.get('eventStatus');
@@ -242,7 +244,7 @@ class SimpleBettingWidget extends PureComponent {
             <div className='offer'>
               <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat) }</div>
               <div className='price'>
-                { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces, true)}
+                { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol( offer.get('price'), currencyFormat, OFFER_PRECISION, true)}
               </div>
             </div>
           </a>
