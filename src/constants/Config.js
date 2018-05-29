@@ -25,6 +25,8 @@ const Config = {
   blockchainUrls: shuffledBlockhainUrls,
   coreAsset: ASSET_ID,
   hardUpdateGracePeriod: 43200, // 12 Hour Hard-Update Grace Period
+  btfTransactionFee: 0.00001,
+  mbtfTransactionFee: 0.01,
   broadcastAccount: {
     name: 'pbsa-broadcasts',
     keys: {
