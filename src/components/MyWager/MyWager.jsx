@@ -75,6 +75,11 @@ class MyWager extends PureComponent {
     this.props.resetTimeRange();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.betsData !== nextProps.betsData) {
+      this.props.resetTimeRange();
+    }
+  }
 
   /** Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb */
   onHomeLinkClick(e){
