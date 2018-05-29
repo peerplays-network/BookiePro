@@ -451,7 +451,7 @@ export const translationsObject = {
       unmatched_bets: {
         header: 'UNMATCHED BETS',
         content: {
-          update_button: 'UPDATE %{amount}',
+          update_button: 'UPDATE',
           reset_button: 'RESET',
         },
         no_data: 'There is no bet to be displayed.'
