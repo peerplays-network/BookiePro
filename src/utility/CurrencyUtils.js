@@ -125,7 +125,7 @@ var CurrencyUtils = {
     * @returns {string} - formatted BTC or mBTC value with currency symbol prepended
     */
   formatByCurrencyAndPrecisionWithSymbol: function(amount, currency, precision = 0, spaceAfterSymbol = false) {
-    let formatted = this.getFormattedCurrency(amount, currency, precision, false);
+    let formatted = this.getFormattedCurrency(amount, currency, precision, true);
     // let formatted = this.substringPrecision(amount, currency, precision, false)
     if (isNaN(formatted)) return 0
     const currencySymbol = this.getCurrencySymbol(currency);

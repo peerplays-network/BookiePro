@@ -120,6 +120,8 @@ class ComplexBettingWidget extends PureComponent {
           backTableData = backTableData.setIn([index, 'price'], newPrice )
         })
 
+        
+
 
         if (backTableData.size > 0) backs++
 
@@ -366,7 +368,7 @@ class ComplexBettingWidget extends PureComponent {
         <div className={ props.row.bmStatus[0] ? 'back-offer back-bg disabled' : 'back-offer back-bg' }>                
           <div className='odds'>{ props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
           <div className='price'>
-            {  props.row.bmStatus[0] ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', OFFER_PRECISION, true)}</div>
+            {  props.row.bmStatus[0] ? null : CurrencyUtils.getFormattedCurrency( props.value.price, currencyFormat, OFFER_PRECISION, true)}</div>
         </div> :
         <div className={ props.row.bmStatus[0] ? 'back-offer empty-offer disabled' : 'back-offer empty-offer' }>                
           <div className='odds-offer'>
