@@ -9,8 +9,8 @@ import { ChainConfig } from 'peerplaysjs-ws';
 ChainConfig.setPrefix('PPY');
 
 const blockchainUrls = [
-  'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090' // Charlie
-  // 'ws://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:8090' // DChain
+  //'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090' // Charlie
+  'ws://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:8090' // DChain
 ]
 
 // Shuffle list of blockchain nodes
@@ -25,6 +25,8 @@ const Config = {
   blockchainUrls: shuffledBlockhainUrls,
   coreAsset: ASSET_ID,
   hardUpdateGracePeriod: 43200, // 12 Hour Hard-Update Grace Period
+  btfTransactionFee: 0.00001,
+  mbtfTransactionFee: 0.01,
   broadcastAccount: {
     name: 'pbsa-broadcasts',
     keys: {
@@ -43,7 +45,7 @@ const Config = {
   // Remember to set the faucet urls properly beforehand
   // We don't have faucet for blocktrades testnet
   registerThroughRegistrar: false,
-  faucetUrls: ['http://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:5000'],
+  faucetUrls: ['http://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:5050'],
   accountRegistar: {
     name: 'nathan',
     keys: {
@@ -56,7 +58,7 @@ const Config = {
   features: {
     withdrawels: false,
     deposits: false,
-    moneylineFilter: false
+    moneylineFilter: false,
   }
 };
 
