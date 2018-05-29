@@ -76,7 +76,9 @@ class BetSlip extends PureComponent {
                 onClick={ () => this.props.clickPlaceBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
                 disabled={ this.props.numberOfGoodBets === 0  }
               >
-                { I18n.t('market_drawer.unconfirmed_bets.content.place_bet_button', { amount : this.props.totalBetAmountString }) }
+                { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button')}
+                { this.props.currencySymbol }
+                { this.props.totalBetAmountString }
               </Button>
             </div>
           }
@@ -137,8 +139,8 @@ const mapStateToProps = (state, ownProps) => {
     numberOfBadBets: originalBets.size - numberOfGoodBets,
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
-    totalBetAmountString: CurrencyUtils.getCurrencySymbol(ownProps.currencyFormat) +
-        CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat),
+    currencySymbol: CurrencyUtils.getCurrencySymbol(ownProps.currencyFormat, numberOfGoodBets === 0 ? 'white' : 'black'),
+    totalBetAmountString: CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat)
   };
 }
 
