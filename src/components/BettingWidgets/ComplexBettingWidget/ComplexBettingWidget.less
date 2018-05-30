@@ -90,10 +90,10 @@
   .ReactTable {
     border:0 none;
     box-shadow: none;
-    
+      
     .rt-tbody {
       background-color: @black_pearl_dark;
-      margin-bottom: 20px;
+      border-bottom: 12px inset @cinder;
     }
 
     .rt-td {
@@ -204,10 +204,9 @@
 
       .complex-outcome {
         position: absolute;
-        width: 100%;
         text-align: center;
         font-size: 32px;
-        left: 50%;
+        right: 0;
         transform: translateX(-50%);
         pointer-events: none;
       }
@@ -318,9 +317,7 @@
       p {
         padding:4px 0;
       }
-
     }
-
   }
   .icon-bitcoin{
     background-image: url('../../../assets/icons/bitcoin_icon_hover.png');

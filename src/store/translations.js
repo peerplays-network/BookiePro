@@ -105,7 +105,7 @@ export const translationsObject = {
       UTC0:'UTC+00:00'
     },
     registration: {
-      eulaAgree: 'I accept the terms of the BookiePro <a href="http://www.bookiepro.fun/eula">End User License Agreement</a>',
+      eulaAgree: 'I accept the terms of the BookiePro.fun <a href="http://www.bookiepro.fun/eula">End User License Agreement</a>',
     },
     signup: {
       new_acc_req_text: 'Create a new Bookie account',
@@ -116,7 +116,7 @@ export const translationsObject = {
       password_warning_2: ' Keep your password safe!',
       password_warning_3: ' To download a text file of your password, click the save button below:',
       cannot_recover_password_warning: 'I understand that PBSA <span class="mediumMessageInText">cannot recover my password.</span>',
-      securely_saved_password_warning: 'I understand that BookiePro passwords cannot be recovered if lost, and that I have securely saved my password recovery file.',      
+      securely_saved_password_warning: 'I understand that BookiePro.fun passwords cannot be recovered if lost, and that I have securely saved my password recovery file.',      
       create_account: 'Create Account',
       already_account: 'Already have an account?',
       log_in: 'Log In',

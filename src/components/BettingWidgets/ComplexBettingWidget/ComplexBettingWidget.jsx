@@ -257,10 +257,15 @@ class ComplexBettingWidget extends PureComponent {
     });
   }
   displayStatus(status, typeOfDisplay){
-    if(status === 'unresolved' || status[3][1] === 'unresolved'){ // [3][1] <- references the betting market information in the status array
+    if(status === 'unresolved'){
       return null;
     }
     if(typeOfDisplay === 'indicator'){
+
+      if (status[3][1] === 'unresolved') {
+        return null;
+      }
+
       return (
         <span className={ status[3][0] }>
         <span className='indicator'/>{ I18n.t('object_status_enumerator.' + status[3][1]) }</span>
@@ -305,28 +310,17 @@ class ComplexBettingWidget extends PureComponent {
            'exposure',
            parseFloat(BettingModuleUtils.getPotentialExposure(props.value.market_exposure, props.value.betslip_exposure )),
            currencyFormat);
-
         const marketExposureClass = props.value.market_exposure >= 0 ?
           'increased-value' : 'decreased-value';
         const potentialExposureClass = props.value.betslip_exposure + props.value.market_exposure >= 0 ?
           'increased-value' : 'decreased-value';  
-
         return (
           <div className='competitor'>
             { this.state.winOrLose ? <div className='complex-outcome'>{ this.displayStatus(props.value.bmStatus, 'complex-outcome') }</div> : null }
             <div className='name'>{props.value.displayedName} 
               { this.state.winOrLose ? null : this.displayStatus(props.value.bmStatus, 'indicator') }
             </div>
-            { props.value.betslip_exposure &&
-              <div className='exposure'>
-                {  props.value.market_exposure > 0 &&
-                  <span className={ marketExposureClass }>{ marketExposure }</span>
-                }
-                <Icon type='caret-right'></Icon>
-                <span className={ potentialExposureClass  }>{ potentialExposure }</span>
               </div>
-            }
-          </div>
         )
       }
     };

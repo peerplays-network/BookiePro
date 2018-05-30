@@ -3,6 +3,7 @@ import { BlockchainUtils, ObjectUtils } from '../utility';
 import {
   AssetActions,
   AppActions,
+  AuthActions,
   AccountActions,
   SoftwareUpdateActions,
   SportActions,
@@ -28,6 +29,7 @@ const { blockchainTimeStringToDate, getObjectIdPrefix, isRelevantObject, getObje
 class CommunicationService {
   static dispatch = null;
   static getState = null;
+  static PING_TIMEOUT = null;
   /**
    * Updated blockchain objects in the following structure
    * {
@@ -226,10 +228,10 @@ class CommunicationService {
             // Check if this statistic is related to my account or software update account
             if (ownerId === myAccountId) {
               // Set the newest statistic
-              this.dispatch(AccountActions.setStatistics(updatedObject));
+              this.dispatch(AccountActions.setStatistics(updatedObject)); // Retrieves new raw history
             } else if (ownerId === softwareUpdateRefAccId) {
               // Set the newest statistic
-              this.dispatch(SoftwareUpdateActions.setReferenceAccountStatistics(updatedObject));
+              this.dispatch(SoftwareUpdateActions.setReferenceAccountStatistics(updatedObject)); // Retrieves new raw history
             }
           })
           break;
@@ -415,6 +417,19 @@ class CommunicationService {
   }
 
   /**
+   * Recursive timer to monitor the connection to the blockchain.
+   */
+  static ping() {
+    // Clear the timeout, this will help prevent zombie timeout loops.
+    if (CommunicationService.PING_TIMEOUT) {
+      clearTimeout(CommunicationService.PING_TIMEOUT);
+    }
+
+    CommunicationService.PING_TIMEOUT = setTimeout(CommunicationService.ping, Config.pingInterval)
+    CommunicationService.callBlockchainDbApi('get_objects', [['2.1.0']]);
+  } 
+
+  /**
    * Sync communication service with blockchain, so it always has the latest data
    */
   static syncWithBlockchain(dispatch, getState, attempt=3) {
@@ -452,6 +467,13 @@ class CommunicationService {
             dispatch(AppActions.setBlockchainGlobalPropertyAction(blockchainGlobalProperty));
             // Save core asset
             dispatch(AssetActions.addOrUpdateAssetsAction([coreAsset]));
+
+            // Set the ping up.
+            CommunicationService.ping();
+
+            // Attach an error handler to the socket.
+            CommunicationService.addSocketCloseListener();
+
             resolve();
           });
         } else {
@@ -473,6 +495,36 @@ class CommunicationService {
         reject(error);
       });
     });
+  }
+
+  /**
+   * Attach an event listener to the socket so we can listen for it to close the connection.
+   * 
+   * @static
+   * @memberof CommunicationService
+   */
+  static addSocketCloseListener () {
+    let api = Apis.instance();
+
+    // Make sure it has an instance of chainsocket, and a websocket attached to it.
+    if (api && api.ws_rpc && api.ws_rpc.ws) {
+      let socket = api.ws_rpc.ws;
+      // Remove it first to make sure there is only ever one listener firing on close.
+      socket.removeEventListener('close', CommunicationService.onSocketClose);
+      socket.addEventListener('close', CommunicationService.onSocketClose);
+    }
+  }
+
+  /**
+   * Handle the closure of the socket connection.
+   * 
+   * @static
+   * @param {any} error 
+   * @memberof CommunicationService
+   */
+  static onSocketClose (error) {
+    // Call the action to redirect the user to the logged out screen.
+    CommunicationService.dispatch(AuthActions.confirmLogout());
   }
 
   /**
@@ -1220,7 +1272,6 @@ class CommunicationService {
       }, TIMEOUT_LENGTH);
     });
   }
-
 
 }
 

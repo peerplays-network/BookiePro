@@ -249,7 +249,6 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
   }
 )
 
-
 const CommonSelector = {
   getAccountId,
   getCurrencyFormat,
