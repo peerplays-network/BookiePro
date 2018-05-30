@@ -35,6 +35,8 @@ var CurrencyUtils = {
     }
   },
 
+  OFFER_PRECISION: 3,
+
   isZero: function(num) {
     if (parseFloat(num) === 0 || num === 0)
       return '0'
@@ -126,7 +128,6 @@ var CurrencyUtils = {
     */
   formatByCurrencyAndPrecisionWithSymbol: function(amount, currency, precision = 0, spaceAfterSymbol = false) {
     let formatted = this.getFormattedCurrency(amount, currency, precision, true);
-    // let formatted = this.substringPrecision(amount, currency, precision, false)
     if (isNaN(formatted)) return 0
     const currencySymbol = this.getCurrencySymbol(currency);
 

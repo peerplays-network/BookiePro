@@ -97,7 +97,7 @@ var BettingModuleUtils = {
     // Any mBTC passed into this function will be 1000 times larger than it needs to be.
     //  The return function will multiply the mBTC value by 1000.
     if (currencyFormat === 'mBTC') {
-      floatStake /= 1000;
+      floatStake = floatStake / 1000;
     }
       
     return CurrencyUtils.getFormattedCurrency(floatStake * ( floatOdds - 1 ),

@@ -31,7 +31,7 @@ import PropTypes from 'prop-types';
 
 // number of best odds to be shown in each market ( Back and Lay )
 const itemDisplay = 3;
-const OFFER_PRECISION = 3
+const { OFFER_PRECISION } = CurrencyUtils;
 
 class ComplexBettingWidget extends PureComponent {
 
@@ -63,7 +63,6 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   componentDidMount(){
-    console.log('----- ComponentDidMount()')
     this.setTableData(this.props.marketData, this.props.unconfirmedBets, false)
   }
 

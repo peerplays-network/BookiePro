@@ -32,7 +32,7 @@ import { MyAccountPageSelector } from '../../../selectors';
 const eventTimeColumnWidth = 65;
 const offerColumnWidth = 70;
 
-const OFFER_PRECISION = 3;
+const { OFFER_PRECISION } = CurrencyUtils;
 
 const renderEventTime = (text, record) => {
   var isLiveMarket;
