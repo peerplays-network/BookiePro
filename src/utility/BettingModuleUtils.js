@@ -11,17 +11,17 @@ import Immutable from 'immutable';
 import { CurrencyUtils } from './';
 
 /*
-If current currency is BTC: 
+If current currency is BTF: 
   odds precision             -> 2
   stake precision            -> 5
   profit/liability precision -> 5
-If current currency is mBTC: 
+If current currency is mBTF: 
   odds precision             -> 2
   stake precision            -> 2
   profit/liability precision -> 2
 */
 const oddsPlaces = 2;
-const stakePlaces = 5;//minimum stake = 0.001 BTC
+const stakePlaces = 5;//minimum stake = 0.001 BTF
 const exposurePlaces = 5;
 
 var isFieldInvalid = function(object, field) {
@@ -34,11 +34,11 @@ var isFieldInvalid = function(object, field) {
 
 var BettingModuleUtils = {
 
-  //eodds percision (BTC)
+  //eodds percision (BTF)
   oddsPlaces:oddsPlaces,
-  //stake / backers' stake percision (BTC)
+  //stake / backers' stake percision (BTF)
   stakePlaces:stakePlaces,
-  //exposure / profit / liability percision (BTC)
+  //exposure / profit / liability percision (BTF)
   exposurePlaces:exposurePlaces,
 
 
@@ -52,10 +52,10 @@ var BettingModuleUtils = {
    *
    * @param {string} odds
    * @param {string} profit - profit or liability
-   * @param {string} currency - display currency, 'BTC' or 'mBTC'
-   * @returns {string} - stake, based on either BTC or mBTC
+   * @param {string} currency - display currency, 'BTF' or 'mBTF'
+   * @returns {string} - stake, based on either BTF or mBTF
    */
-  getStake: function(odds, profit, currency = 'BTC') {
+  getStake: function(odds, profit, currency = 'BTF') {
     const floatProfit = parseFloat(profit);
     const floatOdds = parseFloat(odds);
 
@@ -79,10 +79,10 @@ var BettingModuleUtils = {
    *
    * @param {string} stake
    * @param {string} odds
-   * @param {string} currency - display currency, 'BTC' or 'mBTC'
-   * @returns {string} - profit of liability, based on either BTC or mBTC
+   * @param {string} currency - display currency, 'BTF' or 'mBTF'
+   * @returns {string} - profit of liability, based on either BTF or mBTF
    */
-  getProfitOrLiability: function(stake, odds, currencyFormat = 'BTC', profitOrLiability) {
+  getProfitOrLiability: function(stake, odds, currencyFormat = 'BTF', profitOrLiability) {
     let floatStake = parseFloat(stake);
     let floatOdds = parseFloat(odds);    
 
@@ -94,9 +94,9 @@ var BettingModuleUtils = {
       return;
     }
 
-    // Any mBTC passed into this function will be 1000 times larger than it needs to be.
-    //  The return function will multiply the mBTC value by 1000.
-    if (currencyFormat === 'mBTC') {
+    // Any mBTF passed into this function will be 1000 times larger than it needs to be.
+    //  The return function will multiply the mBTF value by 1000.
+    if (currencyFormat === 'mBTF') {
       floatStake = floatStake / 1000;
     }
       
@@ -114,10 +114,10 @@ var BettingModuleUtils = {
    *
    * @param {string} odds : odds
    * @param {string} stake : stake
-   * @param {string} currency - display currency, 'BTC' or 'mBTC'
-   * @returns {string} - payout, based on either BTC or mBTC
+   * @param {string} currency - display currency, 'BTF' or 'mBTF'
+   * @returns {string} - payout, based on either BTF or mBTF
    */
-  getPayout: function(stake, odds, currency = 'BTC') {
+  getPayout: function(stake, odds, currency = 'BTF') {
     const floatStake = parseFloat(stake);
     const floatOdds = parseFloat(odds);
 
@@ -144,20 +144,20 @@ var BettingModuleUtils = {
    *  Case                   |  Exposure of the selection that   | All other selection’s exposure
    *                         |  the bet originates from          |
    * ------------------------+-----------------------------------+---------------------------------
-   *  A back bet is matched  |      + Profit(BTC)                | - Stake(BTC)
-   *  A lay bet is matched   |      - Liability(BTC)             | + Backer’s Stake(BTC)
+   *  A back bet is matched  |      + Profit(BTF)                | - Stake(BTF)
+   *  A lay bet is matched   |      - Liability(BTF)             | + Backer’s Stake(BTF)
    *
    *  Betslip Exposure (Pending Change Request)
    *  Case    Exposure of the selection that the bet originates from    All other selection’s exposure
-   *  A full back bet betslip is filled    + Profit(BTC)   - Stake(BTC)
-   *  A full lay bet betslip is filled    - Liability(BTC)   + Backer’s Stake(BTC)
+   *  A full back bet betslip is filled    + Profit(BTF)   - Stake(BTF)
+   *  A full lay bet betslip is filled    - Liability(BTF)   + Backer’s Stake(BTF)
    *
    * @param {string} bettingMarketId : id of the betting market for which expsoure calculation specified
    * @param {Immutable.List} bets - unconfirmedBets, marketDrawer.unconfirmedBets stored in redux
-   * @param {string} currency - display currency, 'BTC' or 'mBTC'
-   * @returns {string} - exposure of the target betting market, either BTC or mBTC, based on currency param
+   * @param {string} currency - display currency, 'BTF' or 'mBTF'
+   * @returns {string} - exposure of the target betting market, either BTF or mBTF, based on currency param
    */
-  getExposure: function(bettingMarketId, bets , currency = 'BTC'){
+  getExposure: function(bettingMarketId, bets , currency = 'BTF'){
     let exposure = 0.0
 
     bets.forEach((bet, i) => {
@@ -223,13 +223,13 @@ var BettingModuleUtils = {
   /**
    *  calculate total vale of betslip,
    *
-   *  Total (Betslip) = ∑ Back Bet’s Stake(BTC) & Lay Bet’s Liability(BTC) in the Betslip section
+   *  Total (Betslip) = ∑ Back Bet’s Stake(BTF) & Lay Bet’s Liability(BTF) in the Betslip section
    *
    * @param {Immutable.List} bets - unconfirmedBets in betslip, marketDrawer.unconfirmedBets stored in redux
-   * @param {string} currency - display currency, 'BTC' or 'mBTC'
+   * @param {string} currency - display currency, 'BTF' or 'mBTF'
    * @returns {double} - total: total value of betslip
    */
-  getBetslipTotal: function( bets, currency = 'BTC'){
+  getBetslipTotal: function( bets, currency = 'BTF'){
 
     const accumulator = (total, bet) => {
 
@@ -239,10 +239,10 @@ var BettingModuleUtils = {
       }
 
       if ( bet.get('bet_type') === BetTypes.BACK){
-        // + Back Bet’s Stake(BTC)
+        // + Back Bet’s Stake(BTF)
         return total + parseFloat( bet.get('stake') );
       } else if ( bet.get('bet_type') === BetTypes.LAY){
-        // + Lay Bet’s Liability(BTC)
+        // + Lay Bet’s Liability(BTF)
         return total + parseFloat( bet.get('liability') );
       } else {
         return total;
@@ -276,14 +276,14 @@ var BettingModuleUtils = {
    *  is only used within the betting application.
    *
    * @param {Immutable.List} matchedBets - list of matched bets with the same bet type, i.e. all back or all lay
-   * @param {string} currency - display currency, 'BTC' or 'mBTC'
-   * @param {integer} precision - ( ***BTC*** base), either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
+   * @param {string} currency - display currency, 'BTF' or 'mBTF'
+   * @param {integer} precision - ( ***BTF*** base), either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
    * @returns {Immutable.Maps} - total valu object which has the following fields:
    *    - averageOdds
    *    - groupedProfitOrLiability
    *    - groupedStake
    */
-  calculateAverageOddsFromMatchedBets: function(matchedBets, currency = 'BTC', precision = 2) {
+  calculateAverageOddsFromMatchedBets: function(matchedBets, currency = 'BTF', precision = 2) {
     // Assume all the bets are of the same bet type so we can just sample from the first bet
     const profitOrLiability = matchedBets.get(0).get('bet_type').toLowerCase() === 'back' ? 'profit' : 'liability';
     // profit and liability are consider the same thing with different label

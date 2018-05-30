@@ -95,7 +95,9 @@ class QuickBetDrawer extends PureComponent {
                   onClick={ () => this.props.clickPlaceBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
                   disabled={ this.props.numberOfGoodBets === 0  }
                 >
-                  { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button', { amount : this.props.totalBetAmountString }) }
+                  { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button')}
+                  { this.props.currencySymbol }
+                  { this.props.totalBetAmountString }
                 </Button>
               </div>
             }
@@ -144,12 +146,12 @@ const mapStateToProps = (state, ownProps) => {
   }, 0.0);
   // Add the transaction fee to the place bet button. 
   /*Precision value will affect whether or not the full number will be displayed, regardless of it being added. */
-  const transactionFee = ownProps.currencyFormat === 'BTC' ? Config.btfTransactionFee : Config.mbtfTransactionFee;
-  const preTotalAmountString = originalBets.reduce((total, bet) => {
-    //return totalAmount + transactionFee;
-    const stake = bet.get('bet_type') === 'back' ? parseFloat(bet.get('stake')) : parseFloat(bet.get('profit'));
-    return total + (isNaN(stake) ? 0.0 : stake) + transactionFee;
-  }, 0.0); 
+  const transactionFee = ownProps.currencyFormat === 'BTF' ? Config.btfTransactionFee : Config.mbtfTransactionFee;
+
+  // const preTotalAmountString = originalBets.reduce((total, bet) => {
+  //   //const stake = bet.get('bet_type') === 'back' ? parseFloat(bet.get('stake')) : parseFloat(bet.get('profit'));
+  //   return totalAmount + transactionFee;
+  // }, 0.0); 
   // Number of Good bets
   const numberOfGoodBets = originalBets.reduce((sum, bet) => {
     return sum + (BettingModuleUtils.isValidBet(bet) | 0);
@@ -157,6 +159,8 @@ const mapStateToProps = (state, ownProps) => {
   // Overlay
   const overlay = state.getIn(['quickBetDrawer', 'overlay']);
   const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
+  const currencyFormat =  MyAccountPageSelector.currencyFormatSelector(state);
+  
   return {
     originalBets,
     bets: page,
@@ -167,9 +171,9 @@ const mapStateToProps = (state, ownProps) => {
     numberOfGoodBets,
     numberOfBadBets: originalBets.size - numberOfGoodBets,
     totalBetAmountFloat: totalAmount,
-    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
-    totalBetAmountString: CurrencyUtils.getCurrencySymbol(ownProps.currencyFormat) +
-                          CurrencyUtils.toFixed('stake', totalAmount + preTotalAmountString, ownProps.currencyFormat),
+    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),    
+    currencySymbol: CurrencyUtils.getCurrencySymbol(currencyFormat, numberOfGoodBets === 0 ? 'white' : 'black'),
+    totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat)
   };
 }
 

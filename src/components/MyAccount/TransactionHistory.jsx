@@ -30,6 +30,14 @@ import Immutable from 'immutable';
 /** default page size = 20 */
 const paginationParams = { pageSize: 20 };
 
+const getTitle = (text, currencySymbol) => {
+  return (
+    <div>
+      { text } {currencySymbol }
+    </div>
+  )
+}
+
 /**
  * Generate the transaction history table columns and their keys
  * It will be provided as 'columns' to the 'antd' table
@@ -40,6 +48,7 @@ const paginationParams = { pageSize: 20 };
  *                                             It will be displayed on the 'Status' column
  */
 const getColumns = (currencyFormat, lastIrreversibleBlockNum) => {
+  const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white')
   return [
     {
       title: I18n.t('myAccount.id'),
@@ -71,8 +80,7 @@ const getColumns = (currencyFormat, lastIrreversibleBlockNum) => {
       },
     },
     {
-      title: I18n.t('myAccount.amount') +
-      '(' + CurrencyUtils.getCurrencySymbol(currencyFormat) + ')',
+      title: getTitle(I18n.t('myAccount.amount'), currencySymbol),
       render: (text, row) => {
         const amount = row.amount;
         return CurrencyUtils.getFormattedCurrency(amount, currencyFormat, BettingModuleUtils.stakePlaces);

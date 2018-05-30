@@ -2,9 +2,17 @@
  * The MyWagerUtils contains all the functions shared within My Wager component.
  */
 import React from 'react';
-import { I18n, Translate } from 'react-redux-i18n';
+import { I18n } from 'react-redux-i18n';
 import CurrencyUtils from './CurrencyUtils';
 
+
+const renderTitle = (text, currencySymbol) => {
+  return (
+    <div>
+      <p>{ text } ({ currencySymbol })</p>      
+    </div>
+  )     
+}
 
 /**
  *  get list of unmatched bets to be served as data in unmatched bets columns
@@ -15,8 +23,7 @@ import CurrencyUtils from './CurrencyUtils';
  * @returns {list} - list of objects with 'title', 'dataIndex', 'key' and 'onCellClick'(optional)
  */
 const getUnmatchedBetsColumns = (currencyFormat, onCancelBetClick, onEventClick) => {
-  const currencySymbol = '(' + CurrencyUtils.getCurrencySymbol(currencyFormat) + ')';
-  const profitLiabilityTitle  = <Translate value='mybets.profit_liability' currency={ currencySymbol } dangerousHTML/> ;
+  const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
   return [
     {
       title: I18n.t('mybets.event_time') ,
@@ -45,14 +52,16 @@ const getUnmatchedBetsColumns = (currencyFormat, onCancelBetClick, onEventClick)
       key: 'backer_multiplier',
     },
     {
-      title: I18n.t('mybets.stake') + currencySymbol,
+      title: renderTitle(I18n.t('mybets.stake'), currencySymbol),
       dataIndex: 'stake',
       key: 'stake',
+      className: 'value_text_label',
     },
     {
-      title: profitLiabilityTitle,
+      title: renderTitle(I18n.t('mybets.profit_liability'), currencySymbol),
       dataIndex: 'profit_liability',
-      key: 'profit_liability'
+      key: 'profit_liability',
+      className: 'value_text_label',
     },
     {
       title: '',
@@ -70,8 +79,7 @@ const getUnmatchedBetsColumns = (currencyFormat, onCancelBetClick, onEventClick)
  * @returns {list} - list of objects with 'title', 'dataIndex', 'key' and 'onCellClick'(optional)
  */
 const getMatchedBetsColumns = (currencyFormat, onEventClick) => {
-  const currencySymbol = '(' + CurrencyUtils.getCurrencySymbol(currencyFormat) + ')';
-  const profitLiabilityTitle  = <Translate value='mybets.profit_liability' currency={ currencySymbol } dangerousHTML/> ;
+  const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
   return [
     {
       title: I18n.t('mybets.event_time') ,
@@ -100,14 +108,16 @@ const getMatchedBetsColumns = (currencyFormat, onEventClick) => {
       key: 'backer_multiplier',
     },
     {
-      title: I18n.t('mybets.stake') + currencySymbol,
+      title: renderTitle(I18n.t('mybets.stake'), currencySymbol),
       dataIndex: 'stake',
       key: 'stake',
+      className: 'value_text_label',
     },
     {
-      title: profitLiabilityTitle,
+      title: renderTitle(I18n.t('mybets.profit_liability'), currencySymbol),
       dataIndex: 'profit_liability',
-      key: 'profit_liability'
+      key: 'profit_liability',
+      className: 'value_text_label',
     },
   ];
 }
@@ -119,7 +129,7 @@ const getMatchedBetsColumns = (currencyFormat, onEventClick) => {
  * @returns {list} - list of objects with 'title', 'dataIndex', 'key' and 'onCellClick'(optional)
  */
 const getResolvedBetsColumns = (currencyFormat) => {
-  const currencySymbol = '(' + CurrencyUtils.getCurrencySymbol(currencyFormat) + ')';
+  const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
 
   return [
     {
@@ -148,19 +158,22 @@ const getResolvedBetsColumns = (currencyFormat) => {
       key: 'backer_multiplier',
     },
     {
-      title: I18n.t('mybets.stake') + currencySymbol,
+      title: renderTitle(I18n.t('mybets.stake'), currencySymbol),
       dataIndex: 'stake',
       key: 'stake',
+      className: 'value_text_label',
     },
     {
-      title: I18n.t('mybets.profit_liability') + currencySymbol,
+      title: renderTitle(I18n.t('mybets.profit_liability'), currencySymbol),
       dataIndex: 'profit_liability',
-      key: 'profit_liability'
+      key: 'profit_liability',
+      className: 'value_text_label',
     },
     {
-      title: I18n.t('mybets.balance') + currencySymbol,
+      title: renderTitle(I18n.t('mybets.balance'), currencySymbol),
       dataIndex: 'amount_won',
-      key: 'amount_won'
+      key: 'amount_won',
+      className: 'value_text_label',
     }
   ];
 

@@ -12,7 +12,7 @@ import { QuickBetDrawer, MarketDrawer } from '../BettingDrawers';
 import { QuickBetDrawerActions, MarketDrawerActions, NavigateActions } from '../../actions';
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
 import Ps from 'perfect-scrollbar';
-
+import { Config } from '../../constants'
 class Exchange extends PureComponent {
 
   constructor(props) {
@@ -146,7 +146,6 @@ class Exchange extends PureComponent {
 
       return ( <MarketDrawer currencyFormat={ this.props.currencyFormat }/> );
     }
-
     return (
     <div>
       <SplitPane
@@ -185,7 +184,6 @@ const mapStateToProps = (state, ownProps) => {
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting'])
-
   const currencyFormat = setting.get('currencyFormat');
   // Determine which betting drawer we should check
   let path = ['marketDrawer', 'unconfirmedBets'];
