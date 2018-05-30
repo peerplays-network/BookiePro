@@ -303,15 +303,6 @@ class ComplexBettingWidget extends PureComponent {
               <span className={ props.value.bettingMarket_status[0] }>
                 <span className='indicator'/>{I18n.t('complex_betting_widget.' + props.value.bettingMarket_status[1])}</span> 
             </div>
-            { props.value.betslip_exposure &&
-              <div className='exposure'>
-                {  props.value.market_exposure > 0 &&
-                  <span className={ marketExposureClass }>{ marketExposure }</span>
-                }
-                <Icon type='caret-right'></Icon>
-                <span className={ potentialExposureClass  }>{ potentialExposure }</span>
-              </div>
-            }
           </div>
         )
       }
