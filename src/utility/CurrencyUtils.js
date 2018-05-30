@@ -24,7 +24,7 @@ var CurrencyUtils = {
     },
     profit : {
       BTC: 5,
-      mBTC: 2
+      mBTC: 5
     },
     liability : {
       BTC: 5,
