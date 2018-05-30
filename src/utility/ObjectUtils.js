@@ -151,23 +151,26 @@ const isActiveEvent = (event) => {
 
 const determineStatusResult = (enumStatus) => {
   var className = 'going-live';
-  var status = 'error';
-  
-  if (enumStatus === "in_play" || enumStatus === "in_progress") {
+  var status = enumStatus || 'error';
+
+  if (enumStatus === "in_play" || enumStatus === "in_progress") { // Only BMG and BM status' can fulfill this.
     className = 'live';
-    status = enumStatus;
-  } else if (enumStatus) {
-    status = enumStatus;
   }
 
   return [className, status];
 }
 
 const eventStatus = (event) => {
-  return determineStatusResult(event.get('status'));  
+  if(event){
+    return determineStatusResult(event.get('status'));  
+  } else {
+    return null;
+  }
 }
 const bettingMarketStatus = (bettingMarket) => {
-  return determineStatusResult(bettingMarket);
+  if(bettingMarket !== undefined){
+    return determineStatusResult(bettingMarket);
+  }
 }
 const bettingMarketGroupStatus = (betting_market_group) => {
   return determineStatusResult(betting_market_group.get('status'));

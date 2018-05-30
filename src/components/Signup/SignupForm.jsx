@@ -181,7 +181,7 @@ class SignupForm extends PureComponent {
     let blob = new Blob([ password ], {
       type: 'text/plain'
     });
-    saveAs(blob, 'account-recovery-file.txt');
+    saveAs(blob, 'BookiePro.fun_Password.txt');
   }
 
   /**
@@ -234,7 +234,7 @@ class SignupForm extends PureComponent {
             {/*TODO: bold text inside warning*/}
             <Field name='understand' id='understand'
                 component={ renderCheckboxField } type='checkbox'
-                  pseudoText={ <Translate value='signup.cannot_recover_password_warning' dangerousHTML/> }  tabIndex='4'/>
+                pseudoText={ <Translate value='registration.eulaAgree' dangerousHTML/> }  tabIndex='4'/>
             <Field name='secure' id='secure'
                 component={ renderCheckboxField } type='checkbox'
                 pseudoText={ I18n.t('signup.securely_saved_password_warning') }  tabIndex='5'/>

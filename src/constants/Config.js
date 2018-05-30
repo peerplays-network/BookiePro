@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { PrivateKey, PublicKey } from 'peerplaysjs-lib';
 import { version } from '../../package.json';
 import { ChainConfig } from 'peerplaysjs-ws';
@@ -8,7 +9,8 @@ import { ChainConfig } from 'peerplaysjs-ws';
 ChainConfig.setPrefix('PPY');
 
 const blockchainUrls = [
-  'ws://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:8090'  
+  //'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090' // Charlie
+  'ws://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:8090' // DChain
 ]
 
 // Shuffle list of blockchain nodes
@@ -23,6 +25,8 @@ const Config = {
   blockchainUrls: shuffledBlockhainUrls,
   coreAsset: ASSET_ID,
   hardUpdateGracePeriod: 43200, // 12 Hour Hard-Update Grace Period
+  btfTransactionFee: 0.00001,
+  mbtfTransactionFee: 0.01,
   broadcastAccount: {
     name: 'pbsa-broadcasts',
     keys: {
@@ -54,7 +58,8 @@ const Config = {
   features: {
     withdrawels: false,
     deposits: false,
-    moneylineFilter: false
+    moneylineFilter: false,
+    americanOdds: false
   }
 };
 
