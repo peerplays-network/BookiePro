@@ -65,13 +65,6 @@ var CurrencyUtils = {
   },
 
   getCurrencySymbol: function( currency = 'BTC', color = 'black'){
-    // if ( currency === 'mBTC' || currency === mCurrencySymbol){
-    //   return mCurrencySymbol;
-    // } else if ( currency === 'BTC' || currency === currencySymbol){
-    //   return currencySymbol;
-    // } else{
-    //   return
-    // }
     switch(currency){
       case 'BTC':
         return <img src='../../../assets/icons/bitcoin_icon_hover.svg' alt='BTC'/>;
