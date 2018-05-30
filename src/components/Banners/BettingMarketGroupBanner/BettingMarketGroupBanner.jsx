@@ -35,7 +35,12 @@ class BettingMarketGroupBanner extends PureComponent {
 
   render() {
     const bannerSource = `url(${this.state.bannerUrl})`;
-    const formattedEventTime = moment(this.props.eventTime).format('MMM D, YYYY - h:mma');
+    const eventDate = moment(this.props.eventTime);
+    let formattedEventTime = eventDate.format('MMM D, YYYY - H:mm');
+    
+    if (eventDate.calendar().toLowerCase().indexOf('today') !== -1) {
+      formattedEventTime = I18n.t('mybets.today') + ' - ' + eventDate.format('H:mm');
+    }
 
     // Regular expression to break out the team names
     const expr = /(.+)\s(@|VS|V){1}\s(.+)/gi;
