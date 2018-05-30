@@ -24,7 +24,6 @@ import { BetTypes, LoadingStatus } from '../../../constants';
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 import Immutable from 'immutable';
-import { Icon } from 'antd';
 import RulesButton from '../RulesButton'
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
@@ -99,30 +98,42 @@ class ComplexBettingWidget extends PureComponent {
         //in i th row
         // Retrieve the status of the betting market from the table data. A value of true means that the betting market has a status that is equivalent to resolved.
         var stat = tableData.getIn([i, 'bmStatus']);
-        if(stat[0]){
+        
+        if(stat[0]) {
           winOrLose = true;
         }
+
         //retrieve paging Index from previous state
-        let backStartingIndex = 0
-        if ( reserveIndex && this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'backIndex']) ){
-          backStartingIndex = this.state.tableData.getIn([i, 'offer', 'backIndex']) //retrieve scrolling Index from previous state
+        let backStartingIndex = 0;
+
+        if ( reserveIndex && this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'backIndex']) ) {
+          //retrieve scrolling Index from previous state
+          backStartingIndex = this.state.tableData.getIn([i, 'offer', 'backIndex']) 
         }
         //get back offer data
         let backTableData = tableData.getIn([i, 'offer', 'backOrigin'])
           .slice(backStartingIndex, backStartingIndex + itemDisplay);
         
-        if (backTableData.size > 0) backs++
+        if (backTableData.size > 0) {
+          backs++;
+        }
 
         //retrieve paging Index from previous state
-        let layStartingIndex = 0
-        if ( reserveIndex && this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'layIndex']) ){
-          layStartingIndex = this.state.tableData.getIn([i, 'offer', 'layIndex']) //retrieve scrolling Index from previous state
-        }
-        //get lay offer data
-        const layTableData = tableData.getIn([i, 'offer', 'layOrigin'])
-          .slice(layStartingIndex, layStartingIndex + itemDisplay)
+        let layStartingIndex = 0;
 
-        if (layTableData.size > 0) lays++
+        if ( reserveIndex && this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'layIndex']) ) {
+          //retrieve scrolling Index from previous state
+          layStartingIndex = this.state.tableData.getIn([i, 'offer', 'layIndex']); 
+        }
+
+        //get lay offer data
+        const layTableData = tableData
+          .getIn([i, 'offer', 'layOrigin'])
+          .slice(layStartingIndex, layStartingIndex + itemDisplay);
+
+        if (layTableData.size > 0) {
+          lays++;
+        }
 
         //get Exposure
         let market_exposure = 0.00
@@ -130,7 +141,8 @@ class ComplexBettingWidget extends PureComponent {
         const betslip_exposure = BettingModuleUtils.getExposure(bettingMarketId, unconfirmedBets);
 
         // get data for 'firstColumn' in which exposure and team name reside in .
-        tableData = tableData.setIn([i, 'offer', 'back'], backTableData)
+        tableData = tableData
+          .setIn([i, 'offer', 'back'], backTableData)
           .setIn([i, 'offer', 'lay'], layTableData)
           .setIn([i, 'offer', 'backIndex'], backStartingIndex)
           .setIn([i, 'offer', 'layIndex'], layStartingIndex)
@@ -140,19 +152,26 @@ class ComplexBettingWidget extends PureComponent {
             'market_exposure': market_exposure,
             'bettingMarket_status': tableData.getIn([i, 'bettingMarket_status']),
             'bmStatus': tableData.getIn([i, 'bmStatus']),
-            'betslip_exposure': parseFloat(betslip_exposure) !== 0 ?  betslip_exposure : undefined })
+            'betslip_exposure': parseFloat(betslip_exposure) !== 0 ?  betslip_exposure : undefined 
+          });
       });
 
+      // Sort the betting markets by their id.
+      tableData = tableData.sortBy(row => row.get('id'));
+      
       this.setState({
         tableData,
         backBookPercent: backs === bmgs ? backBookPercent : 0,
         layBookPercent: lays === bmgs ? layBookPercent : 0,
         winOrLose
-      })
+      });
+
     } else {
+
       this.setState({
         tableData: Immutable.List()
-      })
+      });
+
     }
 
   }
@@ -281,8 +300,7 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   render() {
-    const { currencyFormat,
-            totalMatchedBetsAmount,
+    const { totalMatchedBetsAmount,
             widgetTitle,
             rules,
             oddsFormat
@@ -306,17 +324,6 @@ class ComplexBettingWidget extends PureComponent {
       accessor: 'firstColumn',
       sortable: false,
       render: props => {
-        const marketExposure =
-          CurrencyUtils.toFixedWithSymbol('exposure', parseFloat(props.value.market_exposure), currencyFormat);
-
-        const potentialExposure = CurrencyUtils.toFixedWithSymbol(
-           'exposure',
-           parseFloat(BettingModuleUtils.getPotentialExposure(props.value.market_exposure, props.value.betslip_exposure )),
-           currencyFormat);
-        const marketExposureClass = props.value.market_exposure >= 0 ?
-          'increased-value' : 'decreased-value';
-        const potentialExposureClass = props.value.betslip_exposure + props.value.market_exposure >= 0 ?
-          'increased-value' : 'decreased-value';  
         return (
           <div className='competitor'>
             { this.state.winOrLose ? <div className='complex-outcome'>{ this.displayStatus(props.value.bmStatus, 'complex-outcome') }</div> : null }
