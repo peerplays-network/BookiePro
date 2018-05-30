@@ -30,7 +30,7 @@ import { BetActions, NavigateActions, QuickBetDrawerActions } from '../../../act
 import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import BetTable from '../BetTable';
 import { Empty, OverlayUtils } from '../Common';
-import { BettingDrawerStates } from '../../../constants'
+import { BettingDrawerStates, Config } from '../../../constants'
 import { MyAccountPageSelector } from '../../../selectors';
 
 const renderContent = (props) => (
@@ -142,6 +142,14 @@ const mapStateToProps = (state, ownProps) => {
     const stake = parseFloat(bet.get('stake'));
     return total + (isNaN(stake) ? 0.0 : stake);
   }, 0.0);
+  // Add the transaction fee to the place bet button. 
+  /*Precision value will affect whether or not the full number will be displayed, regardless of it being added. */
+  const transactionFee = ownProps.currencyFormat === 'BTC' ? Config.btfTransactionFee : Config.mbtfTransactionFee;
+  const preTotalAmountString = originalBets.reduce((total, bet) => {
+    //return totalAmount + transactionFee;
+    const stake = bet.get('bet_type') === 'back' ? parseFloat(bet.get('stake')) : parseFloat(bet.get('profit'));
+    return total + (isNaN(stake) ? 0.0 : stake) + transactionFee;
+  }, 0.0); 
   // Number of Good bets
   const numberOfGoodBets = originalBets.reduce((sum, bet) => {
     return sum + (BettingModuleUtils.isValidBet(bet) | 0);
@@ -161,7 +169,7 @@ const mapStateToProps = (state, ownProps) => {
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
     totalBetAmountString: CurrencyUtils.getCurrencySymbol(ownProps.currencyFormat) +
-                          CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat),
+                          CurrencyUtils.toFixed('stake', totalAmount + preTotalAmountString, ownProps.currencyFormat),
   };
 }
 

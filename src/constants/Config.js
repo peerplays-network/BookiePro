@@ -59,7 +59,9 @@ const Config = {
     withdrawels: false,
     deposits: false,
     moneylineFilter: false,
-  }
+    americanOdds: false
+  },
+  pingInterval: 9000 // Interval in seconds to ping the BlockChain.
 };
 
 export default Config
