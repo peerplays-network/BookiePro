@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { AllSportsBanner } from '../Banners';
 import { SimpleBettingWidget } from '../BettingWidgets';
 import { AllSportsActions } from '../../actions';
 import { AllSportsSelector, QuickBetDrawerSelector } from '../../selectors';
@@ -15,10 +14,9 @@ class AllSports extends PureComponent {
   }
 
   render() {
-    const { allSportsData, currencyFormat, globalBettingStatistics } = this.props;
+    const { allSportsData, currencyFormat } = this.props;
     return (
       <div id='all-sports-wrapper'>
-        {/* <AllSportsBanner globalBettingStatistics={ globalBettingStatistics } /> */}
         {
           allSportsData.map((sportData) => {
             const sportId = sportData.get('sport_id');
@@ -51,7 +49,6 @@ class AllSports extends PureComponent {
 const mapStateToProps = (state) => {
   return {
     allSportsData: AllSportsSelector.getAllSportsData(state),
-    globalBettingStatistics: AllSportsSelector.getGlobalBettingStatistics(state),
     canCreateBet: QuickBetDrawerSelector.canAcceptBet(state),
   }
 }
