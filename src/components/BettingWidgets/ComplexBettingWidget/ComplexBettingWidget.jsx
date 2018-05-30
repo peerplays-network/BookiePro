@@ -166,8 +166,8 @@ class ComplexBettingWidget extends PureComponent {
       });
 
       // Sort the betting markets by their id.
-      tableData = tableData.sortBy(row => row.id);
-
+      tableData = tableData.sortBy(row => row.get('id'));
+      
       this.setState({
         tableData,
         backBookPercent: backs === bmgs ? backBookPercent : 0,
