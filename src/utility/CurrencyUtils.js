@@ -4,6 +4,7 @@ import bitFunBlack from '../assets/icons/bitfun_icon_black.svg';
 import bitFunWhite from '../assets/icons/bitfun_icon_white.svg';
 import mBitFunWhite from '../assets/icons/mbitfun_icon_white.svg';
 import mBitFunBlack from '../assets/icons/mbitfun_icon_black.svg';
+
 /**
  * The CurrencyUtils contains all the functions related to currency conversion function
  */
@@ -182,8 +183,8 @@ var CurrencyUtils = {
     if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
     let floatAmount = parseFloat(amount)
     if (field === 'stake') {
-      if ((floatAmount < 1 && currency === 'mBTC') || (floatAmount < 1 && currency === mCurrencySymbol)) return '1.00'
-      if ((floatAmount < .001 && currency === 'BTC') || (floatAmount < .001 && currency === currencySymbol)) return '0.00100'
+      if ((floatAmount < 1 && currency === 'mBTC') || (floatAmount < 1 && currency === mCurrencySymbol)) return Config.mbtfTransactionFee.toString()
+      if ((floatAmount < .001 && currency === 'BTC') || (floatAmount < .001 && currency === currencySymbol)) return Config.btfTransactionFee.toString()
     }
     if(amount % 1 !== 0 && !isNaN(amount)){
       return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency]);

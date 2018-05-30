@@ -68,19 +68,19 @@ const DateUtils = {
       case TimeRangePeriodTypes.LAST_7_DAYS: {
         //Subtract 6 days from the current day
         startDate = moment().subtract(6, 'days').startOf('day');
-        endDate = moment();
+        endDate = moment().endOf('day');
         break;
       }
       case TimeRangePeriodTypes.LAST_14_DAYS: {
         //Subtract 14 days from the current day
         startDate = moment().subtract(13, 'days').startOf('day');
-        endDate = moment();
+        endDate = moment().endOf('day');
         break;
       }
       case TimeRangePeriodTypes.THIS_MONTH: {
         //First of the current month, 12:00 am
         startDate = moment().startOf('month');
-        endDate = moment();
+        endDate = moment().endOf('month');
         break;
       }
       case TimeRangePeriodTypes.LAST_MONTH: {

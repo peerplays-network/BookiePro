@@ -6,8 +6,8 @@ const FaqTopics = {
   FEES: 'FEES',
   //SPORTS: 'SPORTS',
   //RULES: 'RULES',
-  ABOUT: 'ABOUT',
-  //MISC: 'MISC',
+  //ABOUT: 'ABOUT',
+  MISC: 'MISCELLANEOUS',
 }
 
 export default FaqTopics;

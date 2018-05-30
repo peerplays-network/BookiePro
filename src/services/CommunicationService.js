@@ -226,10 +226,10 @@ class CommunicationService {
             // Check if this statistic is related to my account or software update account
             if (ownerId === myAccountId) {
               // Set the newest statistic
-              this.dispatch(AccountActions.setStatistics(updatedObject));
+              this.dispatch(AccountActions.setStatistics(updatedObject)); // Retrieves new raw history
             } else if (ownerId === softwareUpdateRefAccId) {
               // Set the newest statistic
-              this.dispatch(SoftwareUpdateActions.setReferenceAccountStatistics(updatedObject));
+              this.dispatch(SoftwareUpdateActions.setReferenceAccountStatistics(updatedObject)); // Retrieves new raw history
             }
           })
           break;
@@ -367,7 +367,9 @@ class CommunicationService {
     if (apiPlugin) {
       return apiPlugin.exec(methodName, params).then((result) => {
         // Intercept and log
-        log.debug(`Call blockchain ${apiPluginName}\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
+        if(methodName !== 'get_binned_order_book' && methodName !== "list_betting_market_groups" && methodName !== "list_betting_markets" ){ //&& JSON.stringify(params[0]) === "1.20.1688"){
+          log.debug(`Call blockchain ${apiPluginName}\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
+        }
         return Immutable.fromJS(result);
       }).catch((error) => {
         // Intercept and log
