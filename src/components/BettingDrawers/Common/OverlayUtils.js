@@ -1,9 +1,11 @@
 import React from 'react';
 import { Overlay, PlaceBetConfirm, Waiting } from './';
-import { BettingDrawerStates } from '../../../constants'
+import { BettingDrawerStates } from '../../../constants';
+import { CurrencyUtils } from '../../../utility';
 
 const Utils = {
   render(classPrefix, props, submitBets, deleteBets, deleteBet) {
+    const currencySymbol = CurrencyUtils.getCurrencySymbol(props.currencyFormat, 'white');
     switch (props.overlay) {
       case BettingDrawerStates.SUBMIT_BETS_CONFIRMATION:
         return (
@@ -14,6 +16,7 @@ const Utils = {
             amount={ props.totalBetAmountString }
             cancelAction={ props.hideOverlay }
             confirmAction={ submitBets }
+            currencySymbol={ currencySymbol }
           />
         )
       case BettingDrawerStates.SUBMIT_BETS_ERROR:

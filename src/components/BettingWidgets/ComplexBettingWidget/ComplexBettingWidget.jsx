@@ -306,6 +306,7 @@ class ComplexBettingWidget extends PureComponent {
     const classNameLay = BetTypes.LAY;
 
     const currencySymbol = CurrencyUtils.getCurrencySymbol('BTF');
+    const currencySymbolWhite = CurrencyUtils.getCurrencySymbol('BTF', 'white');
 
     // Column names;
     const competitorColumn = {
@@ -541,7 +542,7 @@ class ComplexBettingWidget extends PureComponent {
           </div>
           <div className='rules'>
             <span>{ I18n.t('complex_betting_widget.matched') }</span>
-            { this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
+            { this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }{ currencySymbolWhite }
             <RulesButton rules={ rules } />
           </div>
         </div>

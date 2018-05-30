@@ -9,8 +9,7 @@ import CurrencyUtils from './CurrencyUtils';
 const renderTitle = (text, currencySymbol) => {
   return (
     <div>
-      <p>{ text }</p>
-      { currencySymbol }
+      <p>{ text } ({ currencySymbol })</p>      
     </div>
   )     
 }
