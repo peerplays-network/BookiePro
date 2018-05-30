@@ -226,10 +226,10 @@ class CommunicationService {
             // Check if this statistic is related to my account or software update account
             if (ownerId === myAccountId) {
               // Set the newest statistic
-              this.dispatch(AccountActions.setStatistics(updatedObject));
+              this.dispatch(AccountActions.setStatistics(updatedObject)); // Retrieves new raw history
             } else if (ownerId === softwareUpdateRefAccId) {
               // Set the newest statistic
-              this.dispatch(SoftwareUpdateActions.setReferenceAccountStatistics(updatedObject));
+              this.dispatch(SoftwareUpdateActions.setReferenceAccountStatistics(updatedObject)); // Retrieves new raw history
             }
           })
           break;

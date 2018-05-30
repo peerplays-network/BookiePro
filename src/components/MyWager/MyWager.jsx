@@ -75,7 +75,6 @@ class MyWager extends PureComponent {
     this.props.resetTimeRange();
   }
 
-
   /** Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb */
   onHomeLinkClick(e){
     e.preventDefault();
@@ -149,7 +148,6 @@ class MyWager extends PureComponent {
   onTabChange(key) {
     this.props.setActiveTab(key);
   }
-
 
   /**
    * Called on 'event name' click in Unmatched bets list {@link UnmatchedBets}
