@@ -41,9 +41,9 @@ const PlaceBetConfirm = (props) => {
     <div className='overlay'>
       <div className='instructions'>
         { renderInstructions(extendedClassName, goodBets, badBets) }
-        { amount }
         { currencySymbol }
-        { I18n.t(`${extendedClassName}.are_you_sure`)}
+        { amount }        
+        <p>{ I18n.t(`${extendedClassName}.are_you_sure`)}</p>
       </div>
       <div className='buttons'>
         <Button className='btn btn-cancel' onClick={ cancelAction }>

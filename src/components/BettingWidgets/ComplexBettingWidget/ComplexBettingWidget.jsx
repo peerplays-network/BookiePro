@@ -542,7 +542,7 @@ class ComplexBettingWidget extends PureComponent {
           </div>
           <div className='rules'>
             <span>{ I18n.t('complex_betting_widget.matched') }</span>
-            { this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }{ currencySymbolWhite }
+            { currencySymbolWhite } { this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
             <RulesButton rules={ rules } />
           </div>
         </div>
