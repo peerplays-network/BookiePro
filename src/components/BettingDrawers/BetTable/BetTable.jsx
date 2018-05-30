@@ -37,9 +37,16 @@ const renderTeam = (text, record) => (
 );
 
 const renderTitle = (text, currencySymbol) => {
+  
+  let split = false;
+
+  if (text.toLowerCase().indexOf('liability') !== -1) {
+    split = true;
+  }
+  
   return (
     <div>
-      <p>{ text } ({ currencySymbol })</p>      
+      <p>{ text } {split ? <br/> : null} ({ currencySymbol })</p>
     </div>
   )     
 }

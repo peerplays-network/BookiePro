@@ -15,11 +15,27 @@
     line-height: @quick-bet-drawer-title-height;
     > div.label {
       text-transform: uppercase;
-      font-size: 18px;
       font-weight: bold;
       text-align: center;
     }
   }
+
+  .place-bet {
+    font-size: 18px;
+    width: 100%;
+    text-transform: none;  // for displaying mB properly
+
+    span {
+      padding-right: 2px;
+    }
+
+    .currency-symbol {
+      height: 16px;
+      width: auto;
+      padding: 0 2px;
+    }
+
+  } 
 
   .Pane2 {
     .SplitPane {
@@ -42,6 +58,7 @@
   }
 
   div.footer {
+    font-size: 18px;
     align-self: flex-end;
     background-color: @quick_bet_drawer_title_bg;
     width: @quick-bet-drawer-width;
@@ -52,13 +69,6 @@
       opacity: .1;
     }
 
-    > button.place-bet {
-      width: 100%;
-      text-transform: none;  // for displaying mB properly
-      img {
-        width: 20px;
-      }
-    }
   }
 
   // DO NOT use resize cursor as resizing has been disabled

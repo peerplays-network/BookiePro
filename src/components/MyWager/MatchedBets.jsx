@@ -57,7 +57,7 @@ class MatchedBets extends PureComponent {
         <div className='filterComponent'>
           <div className='float-left'>
             <p className='card-title'>
-              { I18n.t('mybets.total') } { (betsTotal ? betsTotal : 0) } { currencySymbol }
+              { I18n.t('mybets.total') } { currencySymbol } { (betsTotal ? betsTotal : 0) }
             </p>
           </div>
         </div>

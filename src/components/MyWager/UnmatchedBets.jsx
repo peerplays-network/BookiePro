@@ -69,7 +69,7 @@ class UnmatchedBets extends PureComponent {
       <div className='table-card'>
         <div className='filterComponent clearfix'>
           <div className='float-left'>
-            <p className='card-title'>{ I18n.t('mybets.total') } { (betsTotal ? betsTotal : 0) } { currencySymbol }</p>
+            <p className='card-title'>{ I18n.t('mybets.total') } { currencySymbol } { (betsTotal ? betsTotal : 0) }</p>
           </div>
           { this.state.tableData.length !== 0 ?
           <div className='float-right'>
