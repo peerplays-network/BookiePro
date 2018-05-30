@@ -217,12 +217,12 @@ const getMarketData = createSelector(
         const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
         const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
         return aggregated_lay_bet.set('odds', odds)
-                                .set('price', price);
+                                .set('price', price / (odds - 1));
       });
       let aggregated_back_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
       aggregated_back_bets = aggregated_back_bets.map(aggregated_back_bet => {
         const odds = aggregated_back_bet.get('backer_multiplier') / Config.oddsPrecision;
-        const price = aggregated_back_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
+        const price = aggregated_back_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);        
         return aggregated_back_bet.set('odds', odds)
                                   .set('price', price);
       });

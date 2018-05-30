@@ -35,7 +35,7 @@ const OFFER_PRECISION = 3
 
 class ComplexBettingWidget extends PureComponent {
 
-  constructor(props) {
+  constructor(props) {    
     super(props);
 
     this.state = {
@@ -63,6 +63,7 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   componentDidMount(){
+    console.log('----- ComponentDidMount()')
     this.setTableData(this.props.marketData, this.props.unconfirmedBets, false)
   }
 
@@ -110,19 +111,7 @@ class ComplexBettingWidget extends PureComponent {
         //get back offer data
         let backTableData = tableData.getIn([i, 'offer', 'backOrigin'])
           .slice(backStartingIndex, backStartingIndex + itemDisplay);
-
-        // BOOK-384
-        // Author: Keegan Francis   :   k.francis@pbsa.info
-        // This forEach loop on the backTable will correct the price of each cell
-        //  so that the amount of money sitting in the bettingMarket is correct.
-        backTableData.forEach((item, index) => {
-          let newPrice = backTableData.getIn([index, 'price']) / (backTableData.getIn([index, 'odds']) - 1)
-          backTableData = backTableData.setIn([index, 'price'], newPrice )
-        })
-
         
-
-
         if (backTableData.size > 0) backs++
 
         //retrieve paging Index from previous state
@@ -181,7 +170,7 @@ class ComplexBettingWidget extends PureComponent {
    */
   shiftOfferDisplay(index, type, change){
 
-    let updatedTableData = this.state.tableData;
+    let updatedTableData = this.state.tableData;    
     let offerIndex = updatedTableData.getIn([index, 'offer', type + 'Index'])
     let layList = updatedTableData.getIn([index, 'offer', type + 'Origin'])
 
@@ -366,9 +355,12 @@ class ComplexBettingWidget extends PureComponent {
         </div>,
       render: props => props.value ?
         <div className={ props.row.bmStatus[0] ? 'back-offer back-bg disabled' : 'back-offer back-bg' }>                
-          <div className='odds'>{ props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+          <div className='odds'>
+            { props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }
+          </div>
           <div className='price'>
-            {  props.row.bmStatus[0] ? null : CurrencyUtils.getFormattedCurrency( props.value.price, currencyFormat, OFFER_PRECISION, true)}</div>
+            {  props.row.bmStatus[0] ? null : CurrencyUtils.getFormattedCurrency( props.value.price, currencyFormat, OFFER_PRECISION, true) }
+          </div>
         </div> :
         <div className={ props.row.bmStatus[0] ? 'back-offer empty-offer disabled' : 'back-offer empty-offer' }>                
           <div className='odds-offer'>
@@ -387,10 +379,13 @@ class ComplexBettingWidget extends PureComponent {
       headerClassName: 'back-all-offer-border',
       render: props => props.value ?
         <div className={ props.row.bmStatus[0] ? 'back-offer back-bg disabled' : 'back-offer back-bg' }>        
-          <div className='odds'>{ props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+          <div className='odds'>
+            { props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }
+          </div>
           <div className='price'>
-            { props.row.bmStatus[0] ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', OFFER_PRECISION, true)}</div>
-        </div> :
+            {  props.row.bmStatus[0] ? null : CurrencyUtils.getFormattedCurrency( props.value.price, currencyFormat, OFFER_PRECISION, true) }
+          </div>
+      </div> :
         <div className={ props.row.bmStatus[0] ? 'back-offer empty-offer disabled' : 'back-offer empty-offer' }>        
           <div className='odds-offer'>
             <p>{props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
@@ -412,11 +407,14 @@ class ComplexBettingWidget extends PureComponent {
         </div>)
       },
       render: props => props.value ?
-      <div className={ props.row.bmStatus[0] ? 'back-offer back-all-offer best-offer disabled' : 'back-offer back-all-offer best-offer' }>
-        <div className='odds'>{ props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
-        <div className='price'>
-            { props.row.bmStatus[0] ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, "BTC", OFFER_PRECISION, true)}</div>
-        </div> :
+          <div className={ props.row.bmStatus[0] ? 'back-offer back-all-offer best-offer disabled' : 'back-offer back-all-offer best-offer' }>
+            <div className='odds'>
+              { props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }
+            </div>
+            <div className='price'>
+              { props.row.bmStatus[0] ? null : CurrencyUtils.getFormattedCurrency( props.value.price, currencyFormat, OFFER_PRECISION, true) }
+            </div>
+          </div> :
         <div className={ props.row.bmStatus[0] ? 'back-offer empty-offer disabled' : 'back-offer empty-offer best-offer' }>
           <div className='odds-offer'>
             <p>{ props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
@@ -439,9 +437,12 @@ class ComplexBettingWidget extends PureComponent {
       },
       render: props => props.value ?
         <div className={ props.row.bmStatus[0] ? 'lay-offer lay-all-offer best-offer disabled' : 'lay-offer lay-all-offer best-offer' }>
-          <div className='odds'>{ props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+          <div className='odds'>
+            { props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }
+          </div>
           <div className='price'>
-            {  props.row.bmStatus[0] ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', OFFER_PRECISION, true)}</div>
+            { props.row.bmStatus[0] ? null : CurrencyUtils.getFormattedCurrency( props.value.price, currencyFormat, OFFER_PRECISION, true) }
+          </div>
         </div> :
         <div className={ props.row.bmStatus[0] ? 'lay-offer empty-offer best-offer disabled' : 'lay-offer empty-offer best-offer' }>
           <div className='odds-offer'>
@@ -459,9 +460,12 @@ class ComplexBettingWidget extends PureComponent {
       header: props => null,
       render: props => props.value ?
       <div className={ props.row.bmStatus[0] ? 'lay-offer lay-bg disabled' : 'lay-offer lay-bg' }>      
-          <div className='odds'>{  props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+          <div className='odds'>
+            {  props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }
+          </div>
           <div className='price'>
-            {  props.row.bmStatus[0] ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 'BTC', OFFER_PRECISION, true)}</div>
+            { props.row.bmStatus[0] ? null : CurrencyUtils.getFormattedCurrency( props.value.price, currencyFormat, OFFER_PRECISION, true) }
+          </div>
         </div> :
         <div className={ props.row.bmStatus[0] ? 'lay-offer empty-offer disabled' : 'lay-offer empty-offer' }>
           <div className='odds-offer'>
@@ -482,10 +486,12 @@ class ComplexBettingWidget extends PureComponent {
        </div>,
       render: props => props.value ?
         <div className={ props.row.bmStatus[0] ? 'lay-offer lay-bg disabled' : 'lay-offer lay-bg' }>
-          <div className='odds'>{ props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
+          <div className='odds'>
+            { props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }
+          </div>
           <div className='price'>
-            { props.row.bmStatus[0] ? null : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(props.value.price, 
-            "BTC", OFFER_PRECISION, true)}</div>
+            { props.row.bmStatus[0] ? null : CurrencyUtils.getFormattedCurrency( props.value.price, currencyFormat, OFFER_PRECISION, true) }
+          </div>
       </div> :
       <div className={ props.row.bmStatus[0] ? 'lay-offer empty-offer disabled' : 'lay-offer empty-offer' }>
         <div className='odds-offer'>
