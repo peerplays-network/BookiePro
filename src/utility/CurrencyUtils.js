@@ -69,8 +69,11 @@ var CurrencyUtils = {
    * @returns - amount rounded/truncated to precision decimal places
    */
   substringPrecision(amount, precision, accuracy=true){
+    if (amount < 0 || amount === undefined){
+      amount = 0.0;
+    }
     let split = amount.toString().split('.');
-    if (split[1].length > precision){
+    if (split[1] && split[1].length > precision){
       let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0)); // Conditionally take the value one past the accpeted precision ,,.
       let newAmount = split[0] + '.' + splitSel;
       return parseFloat(newAmount).toFixed(precision); // Then execute toFixed on the resulting amount. This keeps more accuracy. 
@@ -79,7 +82,7 @@ var CurrencyUtils = {
     }
   },
 
-  getCurrencySymbol: function( currency = 'BTF', color = 'black'){
+  getCurrencySymbol: function(currency='BTF', color = 'black'){
     switch(currency){
       case 'BTC':
         return <img src='../../../assets/icons/bitcoin_icon_hover.svg' alt='BTF'/>;
