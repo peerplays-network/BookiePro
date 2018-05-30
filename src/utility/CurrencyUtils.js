@@ -1,9 +1,16 @@
-import {Config} from '../constants';
+import { Config } from '../constants';
+import React from 'react';
+import bitFunBlack from '../assets/icons/bitfun_icon_black.svg';
+import bitFunWhite from '../assets/icons/bitfun_icon_white.svg';
+import mBitFunWhite from '../assets/icons/mbitfun_icon_white.svg';
+import mBitFunBlack from '../assets/icons/mbitfun_icon_black.svg';
+
 /**
  * The CurrencyUtils contains all the functions related to currency conversion function
  */
-const bitcoinSymbol = '\u0243';
-const mBitcoinSymbol = 'm' + bitcoinSymbol;
+//const currencySymbol = '\u0243';
+const currencySymbol = Config.features.currency;
+const mCurrencySymbol = 'm' + currencySymbol;
 
 // REVIEW: Some functions here do auto conversion from BTC to mBTC.
 //         We need to be careful because sometimes the values we are handling
@@ -44,6 +51,9 @@ var CurrencyUtils = {
   },
 
   substringPrecision(amount, precision){
+    if (amount < 0 || amount === undefined){
+      amount = "0.0";
+    }
     let split = amount.toString().split('.');
     if (split[1].length > precision){
       let splitSel = split[1].substring(0, precision);
@@ -54,13 +64,22 @@ var CurrencyUtils = {
     }
   },
 
-  getCurrencySymbol: function( currency = 'BTC' ){
-    if ( currency === 'mBTC'){
-      return mBitcoinSymbol;
-    } else if ( currency === 'BTC'){
-      return bitcoinSymbol;
-    } else{
-      return
+  getCurrencySymbol: function( currency = 'BTC', color = 'black'){
+    switch(currency){
+      case 'BTC':
+        return <img src='../../../assets/icons/bitcoin_icon_hover.svg' alt='BTC'/>;
+      case 'mBTC':
+        return <img src='../../../assets/icons/mbitcoin_icon_hover.svg' alt='mBTC'/>;
+      case 'BTF':
+        if (color === 'white')
+          return <img src={ bitFunWhite } className='currency-symbol' alt='BTF'/>;
+        return <img src={ bitFunBlack } className='currency-symbol' alt='BTF'/>;
+      case 'mBTF':
+        if (color === 'white')
+          return <img src={ mBitFunWhite } className='currency-symbol' alt='mBTF'/>;
+        return <img src={ mBitFunBlack } className='currency-symbol' alt='mBTF'/>;
+      default:
+        break;
     }
   },
   
@@ -78,13 +97,13 @@ var CurrencyUtils = {
         return amount;
       }
       
-      if (currency === 'mBTC') {
+      if (currency === 'mBTC' || currency === mCurrencySymbol) {
         // 1 BTC = 1 * 10^3 mBTC
         const mPrecision = precision < 3 ? 0 : precision - 3;
         return ( 1000 * amount ).toFixed(mPrecision);
       }
 
-      if (currency === 'BTC') {
+      if (currency === 'BTC' || currency === currencySymbol) {
         if(amount % 1 !== 0){
           return this.substringPrecision(amount, precision);
         }
@@ -114,14 +133,13 @@ var CurrencyUtils = {
   formatByCurrencyAndPrecisionWithSymbol: function(amount, currency, precision = 0, spaceAfterSymbol = false) {
     let formatted = this.getFormattedCurrency(amount, currency, precision);
     if (isNaN(formatted)) return 0
-    const currencySymbol = this.getCurrencySymbol(currency);
 
     // Note: Math.abs can take a string of valid number as argument
-    if (currency === 'mBTC') {
+    if (currency === 'mBTC' || currency === mCurrencySymbol) {
       precision = precision < 3 ? 0 : precision - 3;
     }
 
-    return ( amount >= 0 ? '' : '-') + currencySymbol + (spaceAfterSymbol ? ' ' : '') + formatted;
+    return ( amount >= 0 ? '' : '-') + (spaceAfterSymbol ? ' ' : '') + formatted;
   },
 
    /**
@@ -158,8 +176,8 @@ var CurrencyUtils = {
     if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
     let floatAmount = parseFloat(amount)
     if (field === 'stake') {
-      if (floatAmount < 1 && currency === 'mBTC') return Config.mbtfTransactionFee.toString()
-      if (floatAmount < .001 && currency === 'BTC') return Config.btfTransactionFee.toString()
+      if ((floatAmount < 1 && currency === 'mBTC') || (floatAmount < 1 && currency === mCurrencySymbol)) return Config.mbtfTransactionFee.toString()
+      if ((floatAmount < .001 && currency === 'BTC') || (floatAmount < .001 && currency === currencySymbol)) return Config.btfTransactionFee.toString()
     }
     if(amount % 1 !== 0 && !isNaN(amount)){
       return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency]);

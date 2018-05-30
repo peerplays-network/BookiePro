@@ -253,8 +253,8 @@ class MyAccount extends PureComponent {
                 className='bookie-select'
                 defaultValue={ 'mBTC' }
                 onChange={ this.handleCurrFormatChange }>
-                <Option value='BTC'> BTC</Option>
-                <Option value='mBTC'>mBTC</Option>
+                <Option value={ this.props.currencySymbol }> {this.props.currencySymbol}</Option>
+                <Option value={ 'm' + this.props.currencySymbol }>{'m' + this.props.currencySymbol}</Option>
               </Select>
             </div>
           </Col>
@@ -366,6 +366,7 @@ class MyAccount extends PureComponent {
 MyAccount.defaultProps = {
   depositsEnabled: Config.features.deposits,
   withdrawalsEnabled: Config.features.withdrawels,
+  currencySymbol: Config.features.currency,
   americanOddsEnabled: Config.features.americanOdds
 };
 
