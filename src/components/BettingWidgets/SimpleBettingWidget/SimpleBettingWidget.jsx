@@ -42,7 +42,7 @@ const renderEventTime = (text, record) => {
   if (isLiveMarket) {
     return <span className='live'><span className='indicator'/>{ I18n.t('object_status_enumerator.' + record.get('eventStatus')) }</span>;
   } else {
-    const eventTime = moment(record.get('time')).format('h:mm a');
+    const eventTime = moment(record.get('time')).format('H:mm a');
     let dateString = DateUtils.getMonthAndDay(record.get('time'));
     
     return (
