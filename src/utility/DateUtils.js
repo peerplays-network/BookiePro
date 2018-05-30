@@ -46,9 +46,15 @@ const DateUtils = {
    * @param {date} - date
    * @returns {string} - formatted date
    */
-  getMonthAndDay(date) {
-    let targetDate = new Date(date);
-    return moment(new Date(targetDate)).format("MM-DD-YYYY") === moment().format("MM-DD-YYYY") ? I18n.t('mybets.today') : moment(targetDate).format('MMM D');
+  getMonthAndDay(date) {    
+    let wrappedDate = moment(date);
+    let formatted = wrappedDate.format('MMM D');
+    
+    if (wrappedDate.calendar().toLowerCase().indexOf('today') !== -1) {
+      formatted = I18n.t('mybets.today');
+    }
+    
+    return formatted;
   },
 
    /**

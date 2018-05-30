@@ -47,8 +47,8 @@ export const translationsObject = {
       my_account: 'My Account',
       welcome_back: 'Welcome Back',
       deposit: 'Deposit',
-      deposit_desc: 'Please send your BTC to the address' +
-      ' below',
+      deposit_desc_1: 'Please send your ',
+      deposit_desc_2: ' to the address below',
       copy: 'copy',
       withdraw: 'withdraw',
       withdraw_desc: 'Please select your amount',
@@ -272,7 +272,8 @@ export const translationsObject = {
       date: 'Date',
       from: 'From',
       to: 'To',
-      cancel_all_confirm: 'You are about to remove %{currencySymbol}%{betsTotal} bets, are you sure?'
+      cancel_all_confirm_part_a: 'You are about to remove ',
+      cancel_all_confirm_part_b: ' bets, are you sure?'
     },
     object_status_enumerator:{
       upcoming: "UPCOMING",
@@ -314,15 +315,17 @@ export const translationsObject = {
           imperfect: {
             bad_bets_1: 'There is 1 incomplete bet that cannot be placed.',
             bad_bets: 'There are %{bad_bets} incomplete bets that cannot be placed.',
-            good_bets_1: 'Would you like to place 1 bet with <span class="currency-label">%{amount}</span>?',
-            good_bets: 'Would you like to continue to place %{good_bets} bets with <span class="currency-label">%{amount}</span>?',
+            good_bets_1: 'Would you like to place 1 bet with ',
+            good_bets: 'Would you like to continue to place %{good_bets} bets with ',
+            are_you_sure: 'Are you sure?',
             cancel_button: 'CANCEL',
             confirm_button: 'CONFIRM BET',
           },
           perfect: {
-            good_bets_1: 'You are about to place 1 bet for a total liability of <span class="currency-label">%{amount}</span>.<br/> Are you sure?',
-            good_bets: 'You are about to place %{good_bets} bets for a total liability of <span class="currency-label">%{amount}</span>.<br/> Are you sure?',
+            good_bets_1: 'You are about to place 1 bet for a total liability of ',
+            good_bets: 'You are about to place %{good_bets} bets for a total liability of ',
             cancel_button: 'CANCEL',
+            are_you_sure: 'Are you sure?',
             confirm_button: 'CONFIRM BET',
           },
         },
@@ -349,7 +352,7 @@ export const translationsObject = {
           cancel_button: 'CANCEL',
         },
         content: {
-          place_bet_button: 'PLACE BET %{amount}'
+          place_bet_button: 'PLACE BET '
         }
       }
     },
@@ -366,14 +369,14 @@ export const translationsObject = {
           imperfect: {
             bad_bets_1: 'There is 1 incomplete bet that cannot be placed.',
             bad_bets: 'There are %{bad_bets} incomplete bets that cannot be placed.',
-            good_bets_1: 'Would you like to place 1 bet with <span class="currency-label">%{amount}</span>?',
-            good_bets: 'Would you like to place %{good_bets} bets with <span class="currency-label">%{amount}</span>?',
+            good_bets_1: 'Would you like to place 1 bet with ',
+            good_bets: 'Would you like to place %{good_bets} bets with ?',
             cancel_button: 'CANCEL',
             confirm_button: 'CONFIRM BET',
           },
           perfect: {
-            good_bets_1: 'You are about to place 1 bet for a total liability of <span class="currency-label">%{amount}</span>.<br/> Are you sure?',
-            good_bets: 'You are about to place %{good_bets} bets  for a total liability of <span class="currency-label">%{amount}</span>.<br/> Are you sure?',
+            good_bets_1: 'You are about to place 1 bet for a total liability of ',
+            good_bets: 'You are about to place %{good_bets} bets  for a total liability of ',
             cancel_button: 'CANCEL',
             confirm_button: 'CONFIRM BET',
           },
@@ -401,7 +404,7 @@ export const translationsObject = {
           cancel_button: 'CANCEL',
         },
         content: {
-          place_bet_button: 'PLACE BET %{amount}'
+          place_bet_button: 'PLACE BET '
         }
       },
       placed_bets: {
@@ -457,7 +460,7 @@ export const translationsObject = {
       unmatched_bets: {
         header: 'UNMATCHED BETS',
         content: {
-          update_button: 'UPDATE %{amount}',
+          update_button: 'UPDATE',
           reset_button: 'RESET',
         },
         no_data: 'There is no bet to be displayed.'
