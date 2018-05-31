@@ -133,10 +133,7 @@ const getSportPageData = createSelector(
           bmgAsset: bettingMarketGroupAsset          
         });
       }).filter( eventNode => {
-        // // Feature check, is Moneyline filter enabled/disabled?        
-        // let moneylineFilterEnabled = Config.features.moneylineFilter;
-        // return moneylineFilterEnabled ? eventNode.get('bettingMarketGroupId') !== undefined : eventNode;
-        // Feature check       
+        // Filter out results that do not have betting market group UIA matching the configured UIA in Config.js
         const isCoreAsset = eventNode.get('bmgAsset') === coreAsset;
         return isCoreAsset ? eventNode : null;
       });
