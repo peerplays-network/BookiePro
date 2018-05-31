@@ -220,12 +220,13 @@ const getBetsWithFormattedCurrency = createSelector(
 
       if (bet.get('category') === BetCategories.RESOLVED_BET) {
         formattedAmountWon = CurrencyUtils.getFormattedCurrency(
-                                              bet.get('amount_won') / Math.pow(10, precision),
-                                              currencyFormat,
-                                              BettingModuleUtils.exposurePlaces,
-                                              betType
-                                            );
-          bet = bet.set('amount_won', CurrencyUtils.isZero(formattedAmountWon));
+          bet.get('amount_won') / Math.pow(10, precision),
+          currencyFormat,
+          BettingModuleUtils.exposurePlaces,
+          betType
+        );
+        
+        bet = bet.set('amount_won', CurrencyUtils.isZero(formattedAmountWon));
       }
       return bet;
     })

@@ -95,7 +95,9 @@ class QuickBetDrawer extends PureComponent {
                   onClick={ () => this.props.clickPlaceBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
                   disabled={ this.props.numberOfGoodBets === 0  }
                 >
-                  { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button', { amount : this.props.totalBetAmountString }) }
+                  { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button')}
+                  { this.props.currencySymbol }
+                  { this.props.totalBetAmountString }
                 </Button>
               </div>
             }
@@ -157,6 +159,7 @@ const mapStateToProps = (state, ownProps) => {
   // Overlay
   const overlay = state.getIn(['quickBetDrawer', 'overlay']);
   const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
+  const currencyFormat =  MyAccountPageSelector.currencyFormatSelector(state);
   return {
     originalBets,
     bets: page,
@@ -167,9 +170,9 @@ const mapStateToProps = (state, ownProps) => {
     numberOfGoodBets,
     numberOfBadBets: originalBets.size - numberOfGoodBets,
     totalBetAmountFloat: totalAmount,
-    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
-    totalBetAmountString: CurrencyUtils.getCurrencySymbol(ownProps.currencyFormat) +
-                          CurrencyUtils.toFixed('stake', totalAmount + preTotalAmountString, ownProps.currencyFormat),
+    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),    
+    currencySymbol: CurrencyUtils.getCurrencySymbol(currencyFormat, numberOfGoodBets === 0 ? 'white' : 'black'),
+    totalBetAmountString: CurrencyUtils.toFixed('stake', totalAmount + preTotalAmountString, ownProps.currencyFormat)
   };
 }
 

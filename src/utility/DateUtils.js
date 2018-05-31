@@ -46,10 +46,15 @@ const DateUtils = {
    * @param {date} - date
    * @returns {string} - formatted date
    */
-  getMonthAndDay(date) {
-    let today = new Date();
-    let targetDate = new Date(date);
-    return moment(new Date(targetDate)).format("MM-DD-YYYY") === moment().format("MM-DD-YYYY") ? I18n.t('mybets.today') : moment(targetDate).format('MMM D');
+  getMonthAndDay(date) {    
+    let wrappedDate = moment(date);
+    let formatted = wrappedDate.format('MMM D');
+    
+    if (wrappedDate.calendar().toLowerCase().indexOf('today') !== -1) {
+      formatted = I18n.t('mybets.today');
+    }
+    
+    return formatted;
   },
 
    /**
@@ -68,19 +73,19 @@ const DateUtils = {
       case TimeRangePeriodTypes.LAST_7_DAYS: {
         //Subtract 6 days from the current day
         startDate = moment().subtract(6, 'days').startOf('day');
-        endDate = moment();
+        endDate = moment().endOf('day');
         break;
       }
       case TimeRangePeriodTypes.LAST_14_DAYS: {
         //Subtract 14 days from the current day
         startDate = moment().subtract(13, 'days').startOf('day');
-        endDate = moment();
+        endDate = moment().endOf('day');
         break;
       }
       case TimeRangePeriodTypes.THIS_MONTH: {
         //First of the current month, 12:00 am
         startDate = moment().startOf('month');
-        endDate = moment();
+        endDate = moment().endOf('month');
         break;
       }
       case TimeRangePeriodTypes.LAST_MONTH: {

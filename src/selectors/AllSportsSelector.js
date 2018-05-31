@@ -3,7 +3,6 @@ import { createSelector } from 'reselect';
 import Immutable from 'immutable';
 import { DateUtils } from '../utility';
 import { Config } from '../constants';
-import bettingMarketGroups from '../dummyData/bettingMarketGroups';
 
 const {
   getBettingMarketsById,

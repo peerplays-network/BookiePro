@@ -134,8 +134,13 @@ class App extends PureComponent {
   }
 
   render() {
-    const { children, connectToBlockchainLoadingStatus, appBackgroundType,
-            isConnectedToBlockchain, isTitleBarTransparent, showLicenseScreen } = this.props;
+    const { 
+      children, 
+      connectToBlockchainLoadingStatus, 
+      appBackgroundType,
+      isTitleBarTransparent, 
+      showLicenseScreen 
+    } = this.props;
 
     let content = null;
     if (showLicenseScreen) {
@@ -165,7 +170,6 @@ class App extends PureComponent {
       <div className={ 'app ' + appBackgroundClass }>
         <TitleBar
           isWindowsPlatform={ isWindowsPlatform }
-          isConnectedToBlockchain={ isConnectedToBlockchain }
           isTransparent={ isTitleBarTransparent }
           height={ titleBarHeight } />
         <div className='app-content' style={ appContentStyle }>

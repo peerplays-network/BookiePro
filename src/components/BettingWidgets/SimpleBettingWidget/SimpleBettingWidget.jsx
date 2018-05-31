@@ -22,7 +22,7 @@ import moment from 'moment';
 import {  Table } from 'antd';
 import { QuickBetDrawerActions,NavigateActions } from '../../../actions';
 import { I18n } from 'react-redux-i18n';
-import { BettingModuleUtils, CurrencyUtils, EventNameUtils } from '../../../utility';
+import { BettingModuleUtils, CurrencyUtils, EventNameUtils, DateUtils } from '../../../utility';
 import { MyAccountPageSelector } from '../../../selectors';
 
 /**
@@ -42,15 +42,13 @@ const renderEventTime = (text, record) => {
   if (isLiveMarket) {
     return <span className='live'><span className='indicator'/>{ I18n.t('object_status_enumerator.' + record.get('eventStatus')) }</span>;
   } else {
-    const eventTime = moment(record.get('time'));
-    let dateString = moment.parseZone(record.get('time')).local().format('MMM D');
-    //Check if event is running today.
-    let timeString = eventTime.calendar();
-    dateString = timeString.toLowerCase().includes('today') ? 'Today' : dateString;       
+    const eventTime = moment(record.get('time')).format('H:mm');
+    let dateString = DateUtils.getMonthAndDay(record.get('time'));
+    
     return (
       <div>
         { eventStatus !== 'upcoming' ? <div className='simple-outcome'>{ I18n.t('object_status_enumerator.' + record.get('eventStatus')) }</div> : null }
-        <span>{ dateString }<br/>{ eventTime.format('h:mm a') }</span>   
+        <span>{ dateString }<br/>{ eventTime }</span>
       </div>
     ); 
   }
@@ -236,12 +234,14 @@ class SimpleBettingWidget extends PureComponent {
         );
       }
 
+      let currencySymbol = CurrencyUtils.getCurrencySymbol('BTF')
       return (
         <div className={ className }>
           <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds')) }>
             <div className='offer'>
               <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat) }</div>
               <div className='price'>
+                { currencySymbol }
                 { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces, true)}
               </div>
             </div>
