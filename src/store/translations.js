@@ -1079,10 +1079,10 @@ export const translationsObject = {
             'In a lay bet, your liability is the amount of money you stand to lose. ' +
             'For example, laying a 10 mBTF bet at 2.32 odds, your liability is 13.20 mBTF. That is, you stand to lose 13.20 mBTF.'
           },
-          /*{
+          {
             question: 'What odds can I bet at?',
-            answer: 'BookiePro.fun uses a Decimal odds system at its core. It allows you to bet using the Decimal odds increments specified in the table below. ' +
-            'BookiePro.fun also allows users to display all odds using the American format. This can be toggled in My Account.\n\n' +
+            answer: 'BookiePro.fun uses a Decimal odds system at its core. It allows you to bet using the Decimal odds increments specified in the table below.\n ' +
+            //'BookiePro.fun also allows users to display all odds using the American format. This can be toggled in My Account.\n\n' +
             '<table><tbody><tr><td><b>Price</b></td><td style="padding-left:15px;"><b>Increment</b></td></tr>' +
             '<tr><td>1.01 → 2</td><td style="padding-left:15px;">0.01</td></tr>' +
             '<tr><td>2 → 3</td><td style="padding-left:15px;">0.02</td></tr>' +
@@ -1094,10 +1094,6 @@ export const translationsObject = {
             '<tr><td>30 → 50</td><td style="padding-left:15px;">2</td></tr>' +
             '<tr><td>50 → 100</td><td style="padding-left:15px;">5</td></tr>' +
             '<tr><td>100 → 1000</td><td style="padding-left:15px;">10</td></tr></tbody></table>'
-          },*/
-          {
-            question: 'What odds can I bet at?',
-            answer: 'BookiePro.fun uses a Decimal odds system at its core. It allows you to bet using the Decimal odds increments specified in the table below. '
           },
           {
             question: 'Is there a minimum/maximum bet amount?',
