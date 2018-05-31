@@ -9,7 +9,6 @@ class WindowsTitleBar extends PureComponent {
 
   render() {
     const {
-        isConnected,
         isWindowFocused,
         onMaximizeClick,
         onMinimizeClick,
@@ -47,8 +46,7 @@ WindowsTitleBar.propTypes = {
   onRestoreDownClick: PropTypes.func,
   onMinimizeClick: PropTypes.func,
   onCloseClick: PropTypes.func,
-  isMaximized: PropTypes.bool,
-  isConnected: PropTypes.bool
+  isMaximized: PropTypes.bool
 };
 
 export default WindowsTitleBar;

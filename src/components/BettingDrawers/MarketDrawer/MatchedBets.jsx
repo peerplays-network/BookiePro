@@ -13,11 +13,11 @@ import { bindActionCreators } from 'redux';
 import { Checkbox } from 'antd';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
-import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
+import { BettingModuleUtils } from '../../../utility';
 import { MarketDrawerActions } from '../../../actions';
 import BetTable from '../BetTable';
 import './MatchedBets.less';
-import { BettingDrawerStates } from '../../../constants'
+import { BettingDrawerStates, BetTypes } from '../../../constants'
 import { MyAccountPageSelector } from '../../../selectors';
 
 class MatchedBets extends PureComponent {
@@ -76,6 +76,7 @@ const mapStateToProps = (state, ownProps) => {
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   const groupByAverageOdds = state.getIn(['marketDrawer', 'groupByAverageOdds']);
   const oddsFormat = MyAccountPageSelector.oddsFormatSelector(state)
+  const currencyFormat = MyAccountPageSelector.currencyFormatSelector(state)
   // Transform the raw bet data into a specific format for the EditableBetTable
   const originalBets = matchedBets;
   // This is essentially the same procedure used in BetSlip
@@ -88,7 +89,8 @@ const mapStateToProps = (state, ownProps) => {
     }
     // Add the bet to the list of bets with the same market type
     let betListByBetType = page.get(betType);
-    let profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
+
+    let profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'), currencyFormat, betType === BetTypes.BACK ? 'profit' : 'liability');
     let odds = BettingModuleUtils.oddsFormatFilter(bet.get('odds'), oddsFormat, 'decimal')
 
     bet = bet.set('profit', profit).set('liability', profit).set('odds', odds)

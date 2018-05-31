@@ -11,10 +11,10 @@ class QuickBetDrawerPrivateActions {
     };
   }
 
-  static updateOneBet(delta) {
+  static updateOneBet(delta, currencyFormat) {
     return {
       type: ActionTypes.QUICK_BET_DRAWER_UPDATE_ONE_BET,
-      delta
+      delta, currencyFormat
     };
   }
 
@@ -93,9 +93,9 @@ class QuickBetDrawerActions {
     };
   }
 
-  static updateBet(delta) {
+  static updateBet(delta, currencyFormat) {
     return (dispatch) => {
-      dispatch(QuickBetDrawerPrivateActions.updateOneBet(delta));
+      dispatch(QuickBetDrawerPrivateActions.updateOneBet(delta, currencyFormat));
     }
   }
 

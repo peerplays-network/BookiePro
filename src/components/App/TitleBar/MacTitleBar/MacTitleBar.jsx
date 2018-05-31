@@ -9,7 +9,6 @@ class MacTitleBar extends PureComponent {
 
   render() {
     const {
-        isConnected,
         isWindowFocused,
         onMaximizeClick,
         onMinimizeClick,
@@ -48,8 +47,7 @@ MacTitleBar.propTypes = {
   onResizeClick: PropTypes.func,
   onMinimizeClick: PropTypes.func,
   onCloseClick: PropTypes.func,
-  isFullscreen: PropTypes.bool,
-  isConnected: PropTypes.bool
+  isFullscreen: PropTypes.bool
 };
 
 export default MacTitleBar;

@@ -8,6 +8,7 @@ const FaqTopics = {
   //RULES: 'RULES',
   //ABOUT: 'ABOUT',
   MISC: 'MISCELLANEOUS',
+  RULES: 'RULES'
 }
 
 export default FaqTopics;

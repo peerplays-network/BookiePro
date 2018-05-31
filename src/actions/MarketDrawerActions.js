@@ -1,8 +1,8 @@
-import { ActionTypes, ConnectionStatus, Config, BetCategories } from '../constants';
+import { ActionTypes, ConnectionStatus, Config, BetCategories, BetTypes } from '../constants';
 import Immutable from 'immutable';
 import moment from 'moment';
 import BetActions from './BetActions';
-import { CurrencyUtils, ObjectUtils, BettingModuleUtils } from '../utility';
+import { CurrencyUtils, ObjectUtils } from '../utility';
 
 class MarketDrawerPrivateActions {
   static addUnconfirmedBet(bet) {
@@ -12,10 +12,11 @@ class MarketDrawerPrivateActions {
     };
   }
 
-  static updateOneUnconfirmedBet(delta) {
+  static updateOneUnconfirmedBet(delta, currencyFormat) {
     return {
       type: ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNCONFIRMED_BET,
-      delta
+      delta,
+      currencyFormat
     };
   }
 
@@ -73,10 +74,10 @@ class MarketDrawerPrivateActions {
     }
   }
 
-  static updateOneUnmatchedBet(delta) {
+  static updateOneUnmatchedBet(delta, currencyFormat) {
     return {
       type: ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNMATCHED_BET,
-      delta
+      delta, currencyFormat
     };
   }
 
@@ -154,9 +155,9 @@ class MarketDrawerActions {
     };
   }
 
-  static updateUnconfirmedBet(delta) {
+  static updateUnconfirmedBet(delta, currencyFormat) {
     return (dispatch) => {
-      dispatch(MarketDrawerPrivateActions.updateOneUnconfirmedBet(delta));
+      dispatch(MarketDrawerPrivateActions.updateOneUnconfirmedBet(delta, currencyFormat));
     }
   }
 
@@ -238,17 +239,38 @@ class MarketDrawerActions {
         // Helper function to format bets to market drawer bet object structure
         const formatBet = (bet) => {
 
+          const accountId = getState().getIn(['account','account','id']);
+          const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting']);
           const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
           const bettingMarketDescription = bettingMarket && bettingMarket.get('description');
           const precision = assetsById.get(bettingMarketGroup.get('asset_id')).get('precision') || 0;
           const odds = bet.get('backer_multiplier');
-          
-          let stake = ObjectUtils.getStakeFromBetObject(bet) / Math.pow(10, precision);
-
-          const accountId = getState().getIn(['account','account','id']);
-          const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting']);
+          const betType = bet.get('back_or_lay');          
           const currencyFormat = setting.get('currencyFormat');
 
+          // Get the stake from the bet object
+          // BACK: The stake is present in a back bet by default
+          // LAY: The backer's stake needs to be calculated from the values recorded in the lay bet on the blockchain
+          let stake = ObjectUtils.getStakeFromBetObject(bet) / Math.pow(10, precision);
+
+
+
+          // This if statement sets the profit/liability according to the kind of bet it is. 
+          // Values are then converted to string format for consistent comparison
+          // BACK: ALWAYS have a liability of 0, profit to be calculated
+          // LAY: ALWAYS have a profit of 0, profit to be calculated
+          let profit = 0, profitAsString = "0"
+          let liability = 0, liabilityAsString = "0"
+          if (betType === BetTypes.BACK) {
+            profit = bet.get('original_profit') / Math.pow(10, precision) // Get the raw value of the profit
+            profitAsString = CurrencyUtils.formatFieldByCurrencyAndPrecision('profit', profit, currencyFormat).toString(); // Record it as a string
+          } else if (betType === BetTypes.LAY) {
+            liability = bet.get('original_liability') / Math.pow(10, precision)
+            liabilityAsString = CurrencyUtils.formatFieldByCurrencyAndPrecision('liability', liability, currencyFormat).toString();
+          } else {
+            console.error('Serious Error - Bet with no type has been detected')
+          }    
+                                        
           // store odds and stake values as String for easier comparison
           const oddsAsString = CurrencyUtils.formatFieldByCurrencyAndPrecision('odds', odds, currencyFormat).toString();
           const stakeAsString = CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', stake, currencyFormat).toString();
@@ -263,22 +285,18 @@ class MarketDrawerActions {
             betting_market_group_description: bettingMarketGroupDescription,
             odds: oddsAsString,
             stake: stakeAsString,
+            profit: profitAsString,
+            liability: liabilityAsString
           });
 
           if (bet.get('category') === BetCategories.UNMATCHED_BET) {
-            // Additional field for unmatched bets
+            // Keep all of the original values for precision and accuracy in future calculations
             formattedBet = formattedBet.set('original_odds', oddsAsString)
                                        .set('original_stake', stakeAsString)
+                                       .set('original_profit', profitAsString)
+                                       .set('original_liability', liabilityAsString)
                                        .set('updated', false);
           }
-
-          if (bet.get('category') === BetCategories.MATCHED_BET || bet.get('category') === BetCategories.RESOLVED_BET) {
-            if (bet.get('back_or_lay') === 'lay') {
-              const profit = BettingModuleUtils.getProfitOrLiability(stake, odds);
-              formattedBet = formattedBet.set('profit', profit).set('liability', profit)
-            }
-          }
-
           return formattedBet;
         };
 
@@ -297,9 +315,9 @@ class MarketDrawerActions {
     }
   }
 
-  static updateUnmatchedBet(delta) {
+  static updateUnmatchedBet(delta, currencyFormat) {
     return (dispatch) => {
-      dispatch(MarketDrawerPrivateActions.updateOneUnmatchedBet(delta));
+      dispatch(MarketDrawerPrivateActions.updateOneUnmatchedBet(delta, currencyFormat));
     }
   }
 

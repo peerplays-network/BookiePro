@@ -115,8 +115,8 @@ const getEventGroupPageData = createSelector(
     const eventGroupPageData = activeEvents.map((event) => {
       const offers = simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
       // Find the MoneyLine Betting Market Group of this event
-      const moneylineBettingMarketId = offers.getIn(['0', 'betting_market_id']);
-      const moneylineBettingMarketGroupId = bettingMarketsById.getIn([moneylineBettingMarketId, 'group_id']);
+      const bettingMarketId = offers.getIn(['0', 'betting_market_id']);
+      const bettingMarketGroupId = bettingMarketsById.getIn([bettingMarketId, 'group_id']);
       // Create event node
       return Immutable.fromJS({
         event_id: event.get('id'),
@@ -125,12 +125,10 @@ const getEventGroupPageData = createSelector(
         isLiveMarket: event.get('is_live_market'),
         eventStatus: event.get('status').toLowerCase(),
         offers,
-        bettingMarketGroupId: moneylineBettingMarketGroupId,
+        bettingMarketGroupId: bettingMarketGroupId,
       });
     }).filter( eventNode => {
-      // Feature check, is Moneyline filter enabled/disabled?
-      let moneylineFilterEnabled = Config.features.moneylineFilter;
-      return moneylineFilterEnabled ? eventNode.get('bettingMarketGroupId') !== undefined : eventNode;
+      return eventNode.get('bettingMarketGroupId') !== undefined
     });
 
     return eventGroupPageData;
