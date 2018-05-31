@@ -119,12 +119,16 @@ const mapStateToProps = (state, ownProps) => {
   //           taking either the stake (back) or the profit (lay). The result
   //           will be the amount subtracted from your account when a bet is placed.
   const totalAmount = originalBets.reduce((total, bet) => {
-    const stake = bet.get('bet_type') === 'back' ? parseFloat(bet.get('stake')) : parseFloat(bet.get('profit'));
+    const stake = bet.get('bet_type') === 'back' ? parseFloat(bet.get('stake')) : parseFloat(bet.get('liability'));
     return total + (isNaN(stake) ? 0.0 : stake);
   }, 0.0);
   // Add the transaction fee to the place bet button. 
   /*Precision value will affect whether or not the full number will be displayed, regardless of it being added. */
-  const transactionFee = ownProps.currencyFormat === 'BTF' ? Config.btfTransactionFee : Config.mbtfTransactionFee;
+  let transactionFee = ownProps.currencyFormat === 'BTF' ? Config.btfTransactionFee : Config.mbtfTransactionFee;
+  
+  // Add a transaction action fee for each bet.
+  transactionFee = originalBets.size * transactionFee;
+  
   // Number of Good bets
   const numberOfGoodBets = originalBets.reduce((sum, bet) => {
     return sum + (BettingModuleUtils.isValidBet(bet) | 0);

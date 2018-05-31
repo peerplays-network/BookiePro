@@ -41,12 +41,28 @@ class BetTableInput extends PureComponent {
     if (value.length > 1) value = deepClean(value)
     if (value.length > 1 && this.props.field === 'odds') value = cleanOdds(value)
 
-
-    if (e.target.value.length !== 0 && this.props.field === 'stake') {
+    if (this.props.field === 'stake') {
       const stakePrecision = CurrencyUtils.fieldPrecisionMap[this.props.field][this.props.currencyFormat];
+
       if ( stakePrecision === 0) {
-        // should only accept integers when precision is zero
-        if (!/^[-+]?[1-9]\d*$/.test((e.target.value))) return false;
+
+        // should only accept integers greater than zero when precision is zero
+        if (!/^[-+]?[1-9]\d*$/.test((e.target.value))) {
+
+          // If the input data is invalid, reset the input to empty
+          // It appears to the user like their input never happens.
+          // Invalid = less than one or non-numeric characters
+          this.setState({
+            value: ''
+          });
+          
+          // Allow us to set it back to an empty input
+          if (e.target.value !== '') {
+            return false
+          }
+
+        }
+
       } else {
         const regex = new RegExp(`^\\d*\\.?\\d{0,${stakePrecision}}$`);
         if (!regex.test(e.target.value)) return false;
