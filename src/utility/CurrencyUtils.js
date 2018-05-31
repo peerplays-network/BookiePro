@@ -82,7 +82,7 @@ var CurrencyUtils = {
     }
   },
 
-  getCurrencySymbol: function(currency='BTF', color = 'black'){
+  getCurrencySymbol: function(currency='mBTF', color = 'black'){
     switch(currency){
       case 'BTC':
         return <img src='../../../assets/icons/bitcoin_icon_hover.svg' alt='BTF'/>;
@@ -111,7 +111,7 @@ var CurrencyUtils = {
    *                              will truncate to the number of decimal places equal to precision (thus, less accuracy)
    * @returns {string} - formatted string to support negative bitcoin curruency values
    */
-  getFormattedCurrency: function(amount, currencyFormat = 'BTF', precision = 0, accuracy=true){
+  getFormattedCurrency: function(amount, currencyFormat = 'mBTF', precision = 0, accuracy=true){
     if (!isNaN(amount)) {
       if (amount === 0){
         return amount;
@@ -150,7 +150,7 @@ var CurrencyUtils = {
     * @param {boolean} spaceAfterSymbol -  if space needed to seperate currency symbole and amount.
     * @returns {string} - formatted BTF or mBTF value with currency symbol prepended
     */
-  formatByCurrencyAndPrecisionWithSymbol: function(amount, currency, precision = 0, spaceAfterSymbol = false) {
+  formatByCurrencyAndPrecisionWithSymbol: function(amount, currency='mBTF', precision = 0, spaceAfterSymbol = false) {
     let formatted = this.getFormattedCurrency(amount, currency, precision, true);
     if (isNaN(formatted)) return 0
 
@@ -173,7 +173,7 @@ var CurrencyUtils = {
     * @param {string} currency -  display currency, 'BTF' or 'mBTF'
     * @returns {string} - formatted BTF or mBTF value
     */
-  formatFieldByCurrencyAndPrecision: function(field, amount, currency) {
+  formatFieldByCurrencyAndPrecision: function(field, amount, currency='mBTF') {
     // Odds values have no dependency on currency
     if (field === 'odds') return amount.toFixed(2);
     // DO NOT expect this but just in case...
@@ -191,7 +191,7 @@ var CurrencyUtils = {
    *
    * Return the field value (amount) as a formatted string
    */
-  toFixed: function(field, amount, currency) {
+  toFixed: function(field, amount, currency='mBTF') {
     // DO NOT expect this but just in case...
     if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
     let floatAmount = parseFloat(amount)
@@ -218,7 +218,7 @@ var CurrencyUtils = {
    *
    * Return the field value (amount) as a formatted string
    */
-  toFixedWithSymbol: function(field, amount, currency, spaceAfterSymbol=false) {
+  toFixedWithSymbol: function(field, amount, currency='mBTF', spaceAfterSymbol=false) {
     return (amount >= 0 ? '' : '-') + this.getCurrencySymbol(currency) +
            (spaceAfterSymbol ? ' ' : '') + this.toFixed(field, Math.abs(amount), currency);
   },
