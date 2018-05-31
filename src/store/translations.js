@@ -363,7 +363,7 @@ export const translationsObject = {
         header: 'Betslip',
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
-          my_bet_button: 'VIEW MY BETS'
+          my_bet_button: 'View My Bets'
         },
         confirmation: {
           imperfect: {
