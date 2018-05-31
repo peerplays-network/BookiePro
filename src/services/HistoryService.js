@@ -187,12 +187,35 @@ class HistoryService {
           unmatchedBetsById = unmatchedBetsById.set(id, unmatchedBet);
           break;
         }
-        case ChainTypes.operations.bet_canceled:
-        case ChainTypes.operations.bet_adjusted: {
+        case ChainTypes.operations.bet_canceled: {
           const betId = operationContent.get('bet_id');
           unmatchedBetsById = unmatchedBetsById.filterNot( bet => {
             return bet.get('original_bet_id') === betId;
           });
+          break;
+        }
+        case ChainTypes.operations.bet_adjusted: {
+          
+          const betId = operationContent.get('bet_id');
+          let unmatchedBet = unmatchedBetsById.find(bet => bet.get('original_bet_id') === betId);
+
+          if (unmatchedBet && !unmatchedBet.isEmpty()) {
+            const unmatchedAmount = unmatchedBet.get('unmatched_bet_amount');
+            const refund = operationContent.getIn(['stake_returned', 'amount']);
+            
+            // Deduct the refund from the unmatched bets bet amount.
+            const updatedUnmatchedAmount = unmatchedAmount - refund;
+
+            // If this refund returned the remainder of the unmatched value, remove it from the unmatched bets.
+            if (updatedUnmatchedAmount <= 0) {
+              unmatchedBetsById = unmatchedBetsById.delete(unmatchedBet.get('id'));
+            } else {
+              unmatchedBet = unmatchedBet.set('unmatched_bet_amount', updatedUnmatchedAmount);
+              unmatchedBetsById = unmatchedBetsById.set(unmatchedBet.get('id'), unmatchedBet);
+            }
+
+          }
+
           break;
         }
         case ChainTypes.operations.bet_matched: {
