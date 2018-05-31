@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import CommonSelector from './CommonSelector';
 import Immutable from 'immutable';
+import { DateUtils } from '../utility';
 import { Config } from '../constants';
 
 const {
@@ -91,7 +92,7 @@ const getSidebarCompleteTree = createSelector(
           const eventNodes = eventList.map((event) => {
             let eventNode = createNode(event, 'Event');
             // Set isLiveMarket
-            eventNode = eventNode.set('start_time', event.get('start_time'));
+            eventNode = eventNode.set('start_time', DateUtils.getLocalDate(event.get('start_time')));
             eventNode = eventNode.set('isLiveMarket', event.get('is_live_market'));
             // Sort & filter betting market group by id and core asset.
             let bettingMktGroupList = bettingMktGroupByEventId.get(event.get('id')) || Immutable.List();
