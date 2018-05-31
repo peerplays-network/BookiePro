@@ -1081,8 +1081,8 @@ export const translationsObject = {
           },
           {
             question: 'What odds can I bet at?',
-            answer: 'BookiePro.fun uses a Decimal odds system at its core. It allows you to bet using the Decimal odds increments specified in the table below. ' +
-            'BookiePro.fun also allows users to display all odds using the American format. This can be toggled in My Account.\n\n' +
+            answer: 'BookiePro.fun uses a Decimal odds system at its core. It allows you to bet using the Decimal odds increments specified in the table below.\n ' +
+            //'BookiePro.fun also allows users to display all odds using the American format. This can be toggled in My Account.\n\n' +
             '<table><tbody><tr><td><b>Price</b></td><td style="padding-left:15px;"><b>Increment</b></td></tr>' +
             '<tr><td>1.01 → 2</td><td style="padding-left:15px;">0.01</td></tr>' +
             '<tr><td>2 → 3</td><td style="padding-left:15px;">0.02</td></tr>' +
