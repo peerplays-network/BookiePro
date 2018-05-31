@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux';
 import { Button } from 'antd';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
-import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
+import { CurrencyUtils } from '../../../utility';
 import { MarketDrawerActions } from '../../../actions';
 import BetTable from '../BetTable';
 import './UnmatchedBets.less';
@@ -31,7 +31,7 @@ class UnmatchedBets extends PureComponent {
           title={ I18n.t('market_drawer.unmatched_bets.header') }
           deleteOne={ this.props.clickDeleteUnmatchedBet }
           deleteMany={ this.props.clickDeleteUnmatchedBets }
-          updateOne={ this.props.updateUnmatcedBet }
+          updateOne={ this.props.updateUnmatchedBet }
           dimmed={ this.props.obscureContent }
           currencyFormat={ this.props.currencyFormat }
           oddsFormat={ this.props.oddsFormat }
@@ -71,9 +71,7 @@ const mapStateToProps = (state, props) => {
       page = page.set(betType, Immutable.List());
     }
     // Add the bet to the list of bets with the same market type
-    let betListByBetType = page.get(betType);
-    const profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
-    bet = bet.set('profit', profit).set('liability', profit);
+    let betListByBetType = page.get(betType);    
     betListByBetType = betListByBetType.push(bet);
     // Put everything back in their rightful places
     page = page.set(betType, betListByBetType);
@@ -93,7 +91,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    updateUnmatcedBet: MarketDrawerActions.updateUnmatchedBet,
+    updateUnmatchedBet: MarketDrawerActions.updateUnmatchedBet,
     deleteUnmatchedBet: MarketDrawerActions.deleteUnmatchedBet,
     clickDeleteUnmatchedBets: MarketDrawerActions.clickDeleteUnmatchedBets,
     clickDeleteUnmatchedBet: MarketDrawerActions.clickDeleteUnmatchedBet,

@@ -1,4 +1,4 @@
-import { ChainTypes, TimeRangePeriodTypes, BetCategories, Config } from '../constants';
+import { ChainTypes, TimeRangePeriodTypes, BetCategories, Config, BetTypes } from '../constants';
 import { BlockchainUtils, DateUtils, CurrencyUtils, BettingModuleUtils, ObjectUtils } from '../utility';
 import { I18n } from 'react-redux-i18n';
 import Immutable from 'immutable';
@@ -172,18 +172,23 @@ class HistoryService {
           // Create unmatched bets object
           const betId = operationResult;
           const id =  rawTransaction.get('id');
-          const unmatchedBet = Immutable.fromJS({
+          const betType = operationContent.get('back_or_lay')
+
+          let unmatchedBet = Immutable.fromJS({
             id,
             original_bet_id: betId,
             category: BetCategories.UNMATCHED_BET,
             bettor_id: operationContent.get('bettor_id'),
             betting_market_id: operationContent.get('betting_market_id'),
-            back_or_lay: operationContent.get('back_or_lay'),
+            back_or_lay: betType,
             backer_multiplier: operationContent.get('backer_multiplier') / oddsPrecision,
             asset_id: operationContent.getIn(['amount_to_bet', 'asset_id']),
             original_bet_amount: operationContent.getIn(['amount_to_bet', 'amount']),
-            unmatched_bet_amount: operationContent.getIn(['amount_to_bet', 'amount'])
+            unmatched_bet_amount: operationContent.getIn(['amount_to_bet', 'amount'])                        
           });
+
+          unmatchedBet = unmatchedBet.set('original_profit', betType === BetTypes.BACK ? ObjectUtils.getProfitLiabilityFromBetObject(unmatchedBet) : 0)
+          unmatchedBet = unmatchedBet.set('original_liability', betType === BetTypes.LAY ? ObjectUtils.getProfitLiabilityFromBetObject(unmatchedBet) : 0)
           unmatchedBetsById = unmatchedBetsById.set(id, unmatchedBet);
           break;
         }
@@ -225,6 +230,7 @@ class HistoryService {
           if (unmatchedBet && !unmatchedBet.isEmpty()) {
             const originalAmount = unmatchedBet.get('original_bet_amount');
             const unmatchedAmount = unmatchedBet.get('unmatched_bet_amount');
+            const betType = unmatchedBet.get('back_or_lay');
             const matchedAmount = operationContent.getIn(['amount_bet', 'amount']);
             const matchedBackerMultiplier = operationContent.get('backer_multiplier') / oddsPrecision;
             const updatedUnmatchedAmount = unmatchedAmount - matchedAmount;
@@ -239,18 +245,21 @@ class HistoryService {
 
             const id =  rawTransaction.get('id');
             // Check if there is existing matchedBet object
-            const matchedBet = Immutable.fromJS({
+            let matchedBet = Immutable.fromJS({
               id,
               original_bet_id: betId,
               category: BetCategories.MATCHED_BET,
               bettor_id: unmatchedBet.get('bettor_id'),
               betting_market_id: unmatchedBet.get('betting_market_id'),
-              back_or_lay: unmatchedBet.get('back_or_lay'),
+              back_or_lay: betType,
               backer_multiplier: matchedBackerMultiplier,
               asset_id: unmatchedBet.get('asset_id'),
               original_bet_amount: originalAmount,
               matched_bet_amount: matchedAmount
             });
+
+            matchedBet = matchedBet.set('original_profit', betType === BetTypes.BACK ? ObjectUtils.getProfitLiabilityFromBetObject(unmatchedBet) : 0)
+            matchedBet = matchedBet.set('original_liability', betType === BetTypes.LAY ? ObjectUtils.getProfitLiabilityFromBetObject(unmatchedBet) : 0)
             // Update matched bets
             matchedBetsById = matchedBetsById.set(id, matchedBet);
           }

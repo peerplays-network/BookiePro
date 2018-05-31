@@ -32,6 +32,8 @@ import { MyAccountPageSelector } from '../../../selectors';
 const eventTimeColumnWidth = 65;
 const offerColumnWidth = 70;
 
+const { OFFER_PRECISION } = CurrencyUtils;
+
 const renderEventTime = (text, record) => {
   var isLiveMarket;
   let eventStatus = record.get('eventStatus');
@@ -242,7 +244,7 @@ class SimpleBettingWidget extends PureComponent {
               <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat) }</div>
               <div className='price'>
                 { currencySymbol }
-                { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces, true)}
+                { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol( offer.get('price'), currencyFormat, OFFER_PRECISION, true)}
               </div>
             </div>
           </a>
@@ -273,7 +275,7 @@ class SimpleBettingWidget extends PureComponent {
       <div className='simple-betting'>
         <Table
           bordered
-          columns={ getColumns(this.renderOffer, this.props.navigateTo, "BTC", this.props.sportName, this.props.oddsFormat, this.renderClass) }
+          columns={ getColumns(this.renderOffer, this.props.navigateTo, "BTF", this.props.sportName, this.props.oddsFormat, this.renderClass) }
           dataSource={ events.toArray() }
           title={ () => renderTitle(this.props.title) }
           footer={ () => this.props.showFooter ? this.renderFooter(this.props) : null }

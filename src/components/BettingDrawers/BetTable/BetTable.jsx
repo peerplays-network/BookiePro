@@ -303,14 +303,8 @@ const getLayColumns = (deleteOne, updateOne, currencyFormat, readonly=false, odd
  * the bets data
  */
 const buildBetTableData = (bets, currencyFormat) => {
-  const formatting = (field, value) => {
-    const floatNumber = parseFloat(value);
-    return isNaN(floatNumber) ? value : CurrencyUtils.toFixed(field, floatNumber, currencyFormat);
-  }
   return bets.map((bet, idx) => {
     return bet.set('key', idx)
-              .update('profit', profit => formatting('profit', profit))
-              .update('liability', liability => formatting('liability', liability))
   });
 }
 
