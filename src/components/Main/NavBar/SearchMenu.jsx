@@ -253,7 +253,7 @@ class SearchMenu extends PureComponent {
 
       const moneyline = nested.getIn(keyPath).get('children').filter((mktGroup) =>
         //NOTE if type id is not in string format please change it
-        mktGroup.get('description').toUpperCase() === 'MONEYLINE'
+        mktGroup.get('description').toUpperCase() === 'MONEYLINE' || mktGroup.get('description').toUpperCase() === 'MATCH ODDS'
       )
 
       if ( moneyline.size > 0 ){
