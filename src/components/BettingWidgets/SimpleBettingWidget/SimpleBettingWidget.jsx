@@ -234,12 +234,14 @@ class SimpleBettingWidget extends PureComponent {
         );
       }
 
+      let currencySymbol = CurrencyUtils.getCurrencySymbol('BTF')
       return (
         <div className={ className }>
           <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds')) }>
             <div className='offer'>
               <div className='odds'>{ BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat) }</div>
               <div className='price'>
+                { currencySymbol }
                 { CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol( offer.get('price'), currencyFormat, BettingModuleUtils.stakePlaces, true)}
               </div>
             </div>

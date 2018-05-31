@@ -13,7 +13,7 @@ import { bindActionCreators } from 'redux';
 import { Checkbox } from 'antd';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
-import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
+import { BettingModuleUtils } from '../../../utility';
 import { MarketDrawerActions } from '../../../actions';
 import BetTable from '../BetTable';
 import './MatchedBets.less';

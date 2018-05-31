@@ -32,7 +32,7 @@ export class Deposit extends PureComponent {
     return(
       <Card className={ this.props.cardClass }
             title={ I18n.t('myAccount.deposit') }>
-        <p>{ I18n.t('myAccount.deposit_desc') }</p>
+        <p>{ I18n.t('myAccount.deposit_desc_1') + this.props.currency + I18n.t('myAccount.deposit_desc_2') }</p>
         <p className='text-center margin-tb-25'>
           <span className='bookie-qr'>
             <QRCode value={ JSON.stringify(this.props.depositAddress) }/>

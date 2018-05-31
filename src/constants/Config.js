@@ -10,7 +10,7 @@ ChainConfig.setPrefix('PPY');
 
 const blockchainUrls = [
   //'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090' // Charlie
-  'ws://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:8090' // DChain
+  'ws://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:8090' // DChain 
 ]
 
 // Shuffle list of blockchain nodes
@@ -45,7 +45,7 @@ const Config = {
   // Remember to set the faucet urls properly beforehand
   // We don't have faucet for blocktrades testnet
   registerThroughRegistrar: false,
-  faucetUrls: ['http://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:5050'],
+  faucetUrls: ['http://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:5000'],
   accountRegistar: {
     name: 'nathan',
     keys: {
@@ -59,6 +59,7 @@ const Config = {
     withdrawels: false,
     deposits: false,
     moneylineFilter: false,
+    currency: 'BTF',
     americanOdds: false
   },
   pingInterval: 9000 // Interval in seconds to ping the BlockChain.

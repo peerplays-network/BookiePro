@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux';
 import { Button } from 'antd';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
-import { BettingModuleUtils } from '../../../utility';
+import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import { MarketDrawerActions } from '../../../actions';
 import BetTable from '../BetTable';
 import './UnmatchedBets.less';
@@ -46,7 +46,9 @@ class UnmatchedBets extends PureComponent {
               onClick={ () => this.props.clickUpdateBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
               disabled={ !this.props.hasUpdatedBets }
             >
-              { I18n.t('market_drawer.unmatched_bets.content.update_button', { amount : this.props.totalBetAmountString } ) }
+              { I18n.t('market_drawer.unmatched_bets.content.update_button') }
+              { this.props.currencySymbol }
+              { this.props.totalBetAmountString }
             </button>
           </div>
         }
@@ -55,7 +57,7 @@ class UnmatchedBets extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
   const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
   // Transform the raw bet data into a specific format for the EditableBetTable
   const originalBets = unmatchedBets;
@@ -79,9 +81,11 @@ const mapStateToProps = (state) => {
   // Overlay
   const overlay = state.getIn(['marketDrawer', 'overlay']);
   const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
+  const currencySymbol = CurrencyUtils.getCurrencySymbol(props.currencyFormat, originalBets.count(bet => bet.get('updated')) > 0 ? 'black' : 'white')
   return {
     bets: page,
     obscureContent,
+    currencySymbol,
     hasUpdatedBets: originalBets.count(bet => bet.get('updated')) > 0,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state)
   };
