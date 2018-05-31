@@ -1212,7 +1212,7 @@ export const translationsObject = {
           },
           {
             question: 'How does the Transaction Fee work?',
-            answer: 'BookiePro.fun also charges a tiny Transaction Fee for every new bet you place. This Transaction Fee is set at 0.001 mBTF. ' +
+            answer: 'BookiePro.fun also charges a tiny Transaction Fee for every new bet you place. This Transaction Fee is set at 0.01 mBTF. ' +
             'It is only charged when you make the following actions:<ul><li>place a bet</li><li>edit a bet</li><li>change your password</li></ul>' +
             'The Transaction Fee is charged when you are making a new bet and is shown in your betslip as an additional fee on top of your ' + 
             'bet stake. Transaction Fees are paid regardless of whether you are net winner in a market (unlike Commission).'
@@ -1318,6 +1318,98 @@ export const translationsObject = {
             answer: 'Click <a href="#" class="mit-license-anchor">here</a> to view the MIT license'
           }*/
         ],
+      },
+      topicRules: {
+        header: 'BookiePro.fun Rules',
+        questionAnswerPairs: [
+          {
+            question: '',
+            answer: 'BookiePro.fun is a fully decentralized sports betting exchange. ' 
+            + 'As such, there is no single centralized authority that enforces or implements BookiePro.fun rules. '
+            + 'Instead, rules are implemented when consensus is reached amongst the block producers (“Witnesses”) of '
+            + 'the Peerplays blockchain on which BookiePro.fun is built. These Witnesses are, together, the final '
+            + 'arbiters for BookiePro.fun and their judgement on the acceptance and settlement of bets, and any other '
+            + 'ruling decision on BookiePro.fun, is final.\n\n'
+            + 'The following is a list of BookiePro.fun rules which are to be read in conjunction with the market-specific rules provided for each market.'
+          },
+          {
+            question: 'Placing bets',
+            answer: 'Users are solely responsible for all transactions they make on BookiePro.fun. Users are solely responsible for managing their bets at all times.\n\n'
+            + 'Users are responsible for their own account transactions. Please be sure to review your bets for any mistakes '
+            + 'prior to submitting bets. Once a transaction is complete, it cannot be modified or refunded (notwithstanding that '
+            + 'unmatched bets can be cancelled, as per normal betting exchange functionality).'
+          },
+          {
+            question: 'Grading of bets',
+            answer: 'Bets are graded (settled) only after the event is final. Grading usually occurs shortly after the event has finished.\n\n'
+            + 'Markets will be graded based on the market-specific rules and the result that Witnesses come to consensus as '
+            + 'being the correct result with regard to that market.\n\n'            
+            + 'In the event of any uncertainty about any result, Witnesses will take any measures they believe are reasonable '
+            + 'and appropriate to resolve and/or the affected markets in a fair and impartial manner. '
+            + 'Markets may be voided, and all bets refunded, if uncertainty regarding grading cannot reasonably be resolved in any other way.'
+          },
+          {
+            question: 'Overturned decisions',
+            answer: 'The winner of an event, and any subsequent grading, will be determined on the initially reported result of the event, '
+            + 'on the date of the event’s conclusion. "Overturned" decisions or results modified at a later date will not be recognized.'
+          },
+          {
+            question: 'Event information on BookiePro.fun',
+            answer: 'Witnesses on the Peerplays blockchain aim to provide timely and correct information regarding to events and markets offered on Bookiepro.fun, '
+            + 'including but not limited to  dates, times, participants and status of events and markets. '
+            + 'However, the provision of this information is dependent upon timely and correct reporting of sporting '
+            + 'events from third party data providers, over which Witnesses have no control. As such, there is no '
+            + 'guarantee that events and markets will be turned in-play and closed at the correct time.'
+          },
+          {
+            question: 'Currency on BookiePro.fun (BitFun)',
+            answer: 'BookiePro.fun uses play money called BitFun. BitFun has no real world value and is purely '
+            + 'used for the purposes of allowing users to test the BookiePro.fun product. '
+            + 'Any BitFun that are transferred to a BookiePro.fun account are not the property of the user of that account. '
+            + 'Users have no claim whatsoever over any BitFun that may accrue or exist in their account. '
+            + 'BitFun may be debited from any account without the account owner’s permission and/or cease to exist at a future date.\n\n'
+            + 'One Bitfun (BTF) play money token is equal to a thousand milli-BitFun (mBTF).'
+          },
+          {
+            question: 'Precision',
+            answer: 'When a market is graded (settled), amounts relating to winnings/losses on bets and '
+            + 'any commission charges or fees will be rounded up or down to the nearest two decimal mBTF places '
+            + '(i.e. to to 0.01mBTF or 0.00001 BTF)'
+          },
+          {
+            question: 'In-Play betting',
+            answer: 'In-Play betting is offered on many markets in BookiePro.fun - '
+            + 'please check individual market-specific rules for details. There is currently '
+            + 'no in-play bet placement delay in BookiePro.fun.\n\n'
+            +'Markets that are scheduled to be turned in-play but which do not turn in-play for '
+            + 'any reason will be settled as if they had turned in-play. In-play markets are unmanaged, '
+            + 'which means they are not paused for any so-called significant events, including but not '
+            + 'limited to teams scoring, players being ejected, or stoppages in play.\n\n'            
+            + 'Users of BookiePro.fun should be aware that any broadcast described as ‘live’ '
+            + 'is always subject to some transmission delay and may even be pre-recorded. '
+            + 'The delay between a sporting event happening in real-life and the report of this event '
+            + 'via a ‘live’ broadcast will vary depending on the particularities of that broadcast.'
+          },
+          {
+            question: 'Suspensions',
+            answer: 'Betting on BookiePro.fun may be suspended at any time if Witnesses reach consensus agreement to do so.'
+          },
+          {
+            question: 'Market-specific rules',
+            answer: 'If a market-specific rule (as shown on the market page) contradicts a rule provided here, '
+            + 'then the market-specific rule will take precedence. The reason for this is that market rules are '
+            + 'stored on the blockchain (which is not the case for the rules on this page) and are thereby treated as being primary.'
+          },
+          {
+            question: 'Postponements & Cancellations',
+            answer: 'If an event is postponed or cancelled, all markets related to that event will be voided and '
+            + 'all bets refunded. This will happen within a reasonable time period after postponement has been officially announced.'
+          },
+          {
+            question: 'Absence of explicit rule',
+            answer: 'Witnesses will use common sense and basic principles of fair play to resolve any issues not explicitly covered by these rules.'
+          }
+        ]
       },
       // TODO: the following should be deprecated but floating help is still referring to these
       // Revisit this after the floating help is revamped
