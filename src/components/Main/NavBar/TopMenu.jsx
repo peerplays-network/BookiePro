@@ -343,7 +343,7 @@ const mapStateToProps = (state) => {
   const accountId = account.getIn(['account','id']);
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']) ;
   const precision = state.getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
-  const balance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
+  let balance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
   // Make Sure the balance is 0
   if (!balance || balance < 0) {
     balance = 0;
