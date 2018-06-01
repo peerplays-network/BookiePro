@@ -38,6 +38,24 @@ const DateUtils = {
     }
     return new Date(workingDate);
   },
+  /**
+   * 
+   * 
+   * @param {array} events 
+   * @returns 
+   */
+  sortEventsByDate(events) {
+    let sortedEvents = [];
+      // Sort by event time
+    sortedEvents = events.sort((a, b) => {
+      let timeA = moment(a.get('time'));
+      let timeB = moment(b.get('time'));
+      if (timeA.isBefore(timeB)) { return -1; }
+      if (timeA.isAfter(timeB)) { return 1; }
+      return 0;
+    });
+    return sortedEvents;
+  },
 
   /*
    * takes a unix time and returns the month and day MMM D
