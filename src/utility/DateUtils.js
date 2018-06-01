@@ -48,8 +48,8 @@ const DateUtils = {
     let sortedEvents = [];
       // Sort by event time
     sortedEvents = events.sort((a, b) => {
-      let timeA = new Date(a.get('time'));
-      let timeB = new Date(b.get('time'));
+      let timeA = this.getLocalDate(new Date(a.get('time')));
+      let timeB = this.getLocalDate(new Date(b.get('time')));
       if (timeA - timeB < 0) { return -1; }
       if (timeA - timeB > 0) { return 1; }
       return 0;
