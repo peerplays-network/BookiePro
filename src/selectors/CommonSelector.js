@@ -196,6 +196,7 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
     getAssetsById,
     getEventGroupsById
   ],
+  // TO DO: FIX ME. .map with .filter
   (binnedOrderBooksByBettingMarketId, bettingMarketsById, bettingMarketGroupsById, eventsById, assetsById, eventGroupsById) => {
     let simpleBettingWidgetBinnedOrderBooksByEventId = Immutable.Map();
     binnedOrderBooksByBettingMarketId.forEach((binnedOrderBook, bettingMarketId) => {
