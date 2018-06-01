@@ -238,6 +238,8 @@ export const translationsObject = {
       // profit_liability: 'Profit / </br>Liability' +
       // '%{currency}',
       profit_liability: 'Profit / Liability',
+      winnings: 'Win / Loss',
+      bet_amount: 'Bet Amount',
       screenName: 'myBets_',
       //Days of week - first three characters
       today: 'Today',
@@ -813,7 +815,7 @@ export const translationsObject = {
       cancelBet: 'Cancel Bet',
       betMatched: 'Bet Matched',
       betCancelled: 'Bet Canceled',
-      bettingMarketResolved: 'Betting Market Resolved',
+      bettingMarketResolved: 'Betting Market Group Resolved',
     },
     help: {
       title: 'HELP AND SUPPORT',

@@ -158,23 +158,23 @@ const getResolvedBetsColumns = (currencyFormat) => {
       key: 'backer_multiplier',
     },
     {
-      title: renderTitle(I18n.t('mybets.stake'), currencySymbol),
+      title: renderTitle(I18n.t('mybets.bet_amount'), currencySymbol),
       dataIndex: 'stake',
       key: 'stake',
       className: 'value_text_label',
     },
     {
-      title: renderTitle(I18n.t('mybets.profit_liability'), currencySymbol),
+      title: renderTitle(I18n.t('mybets.winnings'), currencySymbol),
       dataIndex: 'profit_liability',
       key: 'profit_liability',
       className: 'value_text_label',
-    },
-    {
-      title: renderTitle(I18n.t('mybets.balance'), currencySymbol),
-      dataIndex: 'amount_won',
-      key: 'amount_won',
-      className: 'value_text_label resolved align-right',
     }
+    // {
+    //   title: renderTitle(I18n.t('mybets.balance'), currencySymbol),
+    //   dataIndex: 'amount_won',
+    //   key: 'amount_won',
+    //   className: 'value_text_label',
+    // }
   ];
 
 }

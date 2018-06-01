@@ -19,8 +19,12 @@ const getStakeFromBetObject = (bet) => {
   if (bet.get('category') === BetCategories.UNMATCHED_BET) {
     betAmount = bet.get('unmatched_bet_amount')
   } else {
-    betAmount = bet.get('matched_bet_amount');
+    betAmount = bet.get('matched_bet_amount');    
   }
+
+  // Resolved bets are handled a little bit differently, no need to format depending on back/lay
+  if (bet.get('category') === BetCategories.RESOLVED_BET) return betAmount;
+  
 
   // Author   :   Keegan Francis - k.francis@pbsa.info
   // Tickets  :   BOOK-341,
@@ -29,7 +33,7 @@ const getStakeFromBetObject = (bet) => {
   switch (bet.get('back_or_lay')) {
     case BetTypes.BACK:
       return betAmount;
-    case BetTypes.LAY:
+    case BetTypes.LAY:      
       return Math.round(betAmount / (bet.get('backer_multiplier') - 1));
     default:
       return betAmount;
@@ -71,21 +75,22 @@ const getProfitLiabilityFromBetObject = (bet) => {
  * @returns {BetTypes} - amount won
  */
 const getAmountWonFromBetObject = (bet, bettingMarketResolutionType) => {
+
   let amountWon = 0;
   switch (bettingMarketResolutionType) {
-    case BettingMarketResolutionTypes.WIN: {
-      if (bet.get('back_or_lay') === BetTypes.BACK) {
-        amountWon = Math.round(bet.get('matched_bet_amount') * (bet.get('backer_multiplier') - 1));
-      } else if (bet.get('back_or_lay') === BetTypes.LAY) {
-        amountWon = (-1) * bet.get('matched_bet_amount');
+    case BettingMarketResolutionTypes.WIN: { // If the betting market was one
+      if (bet.get('back_or_lay') === BetTypes.BACK) { // if the bet we have is a back
+        amountWon = Math.round(bet.get('matched_bet_amount') * (bet.get('backer_multiplier') - 1)); // The bet was won
+      } else if (bet.get('back_or_lay') === BetTypes.LAY) { // if the bet we have is a lay
+        amountWon = (-1) * bet.get('matched_bet_amount'); // The bet was lost (-1)
       }
       break;
     }
-    case BettingMarketResolutionTypes.NOT_WIN: {
-      if (bet.get('back_or_lay') === BetTypes.BACK) {
-        amountWon = (-1) * bet.get('matched_bet_amount');
-      } else if (bet.get('back_or_lay') === BetTypes.LAY) {
-        amountWon = Math.round(bet.get('matched_bet_amount') * (bet.get('backer_multiplier') - 1));
+    case BettingMarketResolutionTypes.NOT_WIN: { // If the BMG was not won 
+      if (bet.get('back_or_lay') === BetTypes.BACK) { // If the bet is a back
+        amountWon = (-1) * bet.get('matched_bet_amount'); // The back was a loss
+      } else if (bet.get('back_or_lay') === BetTypes.LAY) { // If the bet is a lay
+        amountWon = Math.round(bet.get('matched_bet_amount') / (bet.get('backer_multiplier') - 1)); // The lay is win
       }
       break;
     }
