@@ -5,6 +5,7 @@ import { SimpleBettingWidget } from '../BettingWidgets';
 import { SportPageActions, NavigateActions } from '../../actions';
 import { SportPageSelector, QuickBetDrawerSelector } from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
+import { DateUtils } from '../../utility';
 import moment from 'moment';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
@@ -48,13 +49,7 @@ class Sport extends PureComponent {
               const events = eventGroupData.get('events');
               let sortedEvents = [];
               // Sort by event time
-              sortedEvents = events.sort((a, b) => {
-                let timeA = moment(a.get('time'));
-                let timeB = moment(b.get('time'));
-                if (timeA.isBefore(timeB)) { return -1; }
-                if (timeA.isAfter(timeB)) { return 1; }
-                return 0;
-              })
+              sortedEvents = DateUtils.sortEventsByDate(events);
               return (
                 events.size > 0 && 
                 <SimpleBettingWidget

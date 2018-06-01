@@ -4,6 +4,7 @@ import { SimpleBettingWidget } from '../BettingWidgets';
 import { AllSportsActions } from '../../actions';
 import { AllSportsSelector, QuickBetDrawerSelector } from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
+import { DateUtils } from '../../utility';
 import moment from 'moment';
 
 const MAX_EVENTS_PER_WIDGET = 3;
@@ -25,13 +26,7 @@ class AllSports extends PureComponent {
             const sportName = sportData.get('name');
             let sortedEvents = [];
             // Sort by event time
-            sortedEvents = events.sort((a, b) => {
-              let timeA = moment(a.get('time'));
-              let timeB = moment(b.get('time'));
-              if (timeA.isBefore(timeB)) { return -1; }
-              if (timeA.isAfter(timeB)) { return 1; }
-              return 0;
-            })
+            sortedEvents = DateUtils.sortEventsByDate(events);
             return (
               events.size > 0 &&
               <SimpleBettingWidget
