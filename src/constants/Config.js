@@ -6,13 +6,18 @@ import { ChainConfig } from 'peerplaysjs-ws';
 
 // This sets the prefx of the supporting libraries to the PPY prefix
 // This line needs to be edited for connecting to chains with a different core asset
-ChainConfig.setPrefix('PPY');
+ChainConfig.setPrefix('PPYTEST');
 
-const blockchainUrls = [ // E-Chain
-  'ws://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:8090',  // Canada
-  'ws://ec2-18-195-242-233.eu-central-1.compute.amazonaws.com:8090', // Frankfurt
-  'ws://ec2-54-252-182-8.ap-southeast-2.compute.amazonaws.com:8090'  // Sydney
-]
+const blockchainUrls = [
+  'wss://pta.blockveritas.co:8089',
+  'wss://api.ppytest.nuevax.com',
+  'wss://bnode2.peerblock.trade',
+  'wss://api.ppytest.blckchnd.com',
+  'ws://testnet-ppyapi.spacemx.tech:8080'
+  //'wss://bnode.peerblock.trade', // Does not work
+  //'wss://ppytest.proxyhosts.info', // Connection refused.
+  //'wss://ip228.ip-87-98-148.eu:8080', Not working
+];
 
 // Shuffle list of blockchain nodes
 // So every bookie app will not always connect to the first node in the list
@@ -31,13 +36,13 @@ const Config = {
   broadcastAccount: {
     name: 'pbsa-broadcasts',
     keys: {
-      active: PublicKey.fromPublicKeyString("PPY5er7f4G75nnQ9gaexmsGd8QFFgM1ebztKG7FEohXrXF6qCu8r6")
+      active: PublicKey.fromPublicKeyString("PPYTEST8H4L2UeaXRRAt5nVR4GSGFdt232711wyzTQnFRJeoJeLXXZT23")
     }
   },
   updateAccount: {
     name: 'bookie-updates',
     keys: {
-      memo: PrivateKey.fromWif("5K9wZTcbZH2Y42VkxajEJc3HY8tqmXQ27yTRoHDpxtmQgwxgRPH") 
+      memo: PrivateKey.fromWif("5Kjqz8HwRBCW7ZtvhmM2NhAqaPpLQvBShKjVNcKdbm8gdXi5V3J") 
     }
   },
   gatewayAccountName: 'gateway1', // Any transfer from this account is marked as deposit/ withdraw with gateway
@@ -46,7 +51,7 @@ const Config = {
   // Remember to set the faucet urls properly beforehand
   // We don't have faucet for blocktrades testnet
   registerThroughRegistrar: false,
-  faucetUrls: ['http://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:5000'], // E-Chain
+  faucetUrls: ['http://ec2-35-182-126-252.ca-central-1.compute.amazonaws.com:5000'],
   accountRegistar: {
     name: 'nathan',
     keys: {
