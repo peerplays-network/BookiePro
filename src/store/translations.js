@@ -417,14 +417,14 @@ export const translationsObject = {
           imperfect: {
             bad_bets_1: 'There is 1 incomplete bet that cannot be updated.',
             bad_bets: 'There are %{bad_bets} incomplete bets that cannot be updated.',
-            good_bets_1: 'Would you like to update 1 bet with <span class="currency-label">%{amount}</span>?',
-            good_bets: 'Would you like to update %{good_bets} bets with <span class="currency-label">%{amount}</span>?',
+            good_bets_1: 'Would you like to update 1 bet with ',
+            good_bets: 'Would you like to update %{good_bets} bets with ',
             cancel_button: 'CANCEL',
             confirm_button: 'CONFIRM BET',
           },
           perfect: {
-            good_bets_1: 'You are about to update 1 bet for a total liability of <span class="currency-label">%{amount}</span>.<br/> Are you sure?',
-            good_bets: 'You are about to update %{good_bets} bets for a total liability of <span class="currency-label">%{amount}</span>.<br/> Are you sure?',
+            good_bets_1: 'You are about to update 1 bet for a total liability of ',
+            good_bets: 'You are about to update %{good_bets} bets for a total liability of ',
             cancel_button: 'CANCEL',
             confirm_button: 'CONFIRM BET',
           },
