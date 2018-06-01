@@ -19,8 +19,12 @@ const getStakeFromBetObject = (bet) => {
   if (bet.get('category') === BetCategories.UNMATCHED_BET) {
     betAmount = bet.get('unmatched_bet_amount')
   } else {
-    betAmount = bet.get('matched_bet_amount');
+    betAmount = bet.get('matched_bet_amount');    
   }
+
+  // Resolved bets are handled a little bit differently, no need to format depending on back/lay
+  if (bet.get('category') === BetCategories.RESOLVED_BET) return betAmount;
+  
 
   // Author   :   Keegan Francis - k.francis@pbsa.info
   // Tickets  :   BOOK-341,
@@ -29,7 +33,7 @@ const getStakeFromBetObject = (bet) => {
   switch (bet.get('back_or_lay')) {
     case BetTypes.BACK:
       return betAmount;
-    case BetTypes.LAY:
+    case BetTypes.LAY:      
       return Math.round(betAmount / (bet.get('backer_multiplier') - 1));
     default:
       return betAmount;

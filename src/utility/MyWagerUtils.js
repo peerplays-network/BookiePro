@@ -168,13 +168,13 @@ const getResolvedBetsColumns = (currencyFormat) => {
       dataIndex: 'profit_liability',
       key: 'profit_liability',
       className: 'value_text_label',
-    },
-    {
-      title: renderTitle(I18n.t('mybets.balance'), currencySymbol),
-      dataIndex: 'amount_won',
-      key: 'amount_won',
-      className: 'value_text_label',
     }
+    // {
+    //   title: renderTitle(I18n.t('mybets.balance'), currencySymbol),
+    //   dataIndex: 'amount_won',
+    //   key: 'amount_won',
+    //   className: 'value_text_label',
+    // }
   ];
 
 }
