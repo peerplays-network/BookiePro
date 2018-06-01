@@ -173,7 +173,7 @@ const getResolvedBetsColumns = (currencyFormat) => {
       title: renderTitle(I18n.t('mybets.balance'), currencySymbol),
       dataIndex: 'amount_won',
       key: 'amount_won',
-      className: 'value_text_label',
+      className: 'value_text_label resolved align-right',
     }
   ];
 
