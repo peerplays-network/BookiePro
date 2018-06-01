@@ -117,13 +117,17 @@ const getEventGroupPageData = createSelector(
       // Find the MoneyLine Betting Market Group of this event
       const bettingMarketId = offers.getIn(['0', 'betting_market_id']);
       const bettingMarketGroupId = bettingMarketsById.getIn([bettingMarketId, 'group_id']);
+      let eventStatus = event.get('status').toLowerCase();
+      if (eventStatus.toUpperCase() === 'IN_PROGRESS'){
+        eventStatus = 'live';
+      }
       // Create event node
       return Immutable.fromJS({
         event_id: event.get('id'),
         event_name: event.get('name'),
         time: DateUtils.getLocalDate(event.get('start_time')),
         isLiveMarket: event.get('is_live_market'),
-        eventStatus: event.get('status').toLowerCase(),
+        eventStatus: eventStatus,
         offers,
         bettingMarketGroupId: bettingMarketGroupId,
       });
