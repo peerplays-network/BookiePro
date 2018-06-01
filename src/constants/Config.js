@@ -8,10 +8,18 @@ import { ChainConfig } from 'peerplaysjs-ws';
 // This line needs to be edited for connecting to chains with a different core asset
 ChainConfig.setPrefix('PPY');
 
-const blockchainUrls = [ // E-Chain
-  'ws://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:8090',  // Canada
-  'ws://ec2-18-195-242-233.eu-central-1.compute.amazonaws.com:8090', // Frankfurt
-  'ws://ec2-54-252-182-8.ap-southeast-2.compute.amazonaws.com:8090'  // Sydney
+const blockchainUrls = [ // Witnesses Nodes BAXTER
+  'wss://api.ppytest.nuevax.com/', // nuevax
+  'wss://bnode.peerblock.trade', // bitcoinsig	
+  'wss://ppytest.proxyhosts.info/', // baxters-sports-witness
+  //'', //royal-flush
+  'wss://api.ppytest.blckchnd.com/', // blckchnd
+  'wss://testnet-ppyapi.spacemx.tech:8080/rpc', // spacecrypt-witness
+  'wss://ip228.ip-87-98-148.eu:8080 ', // melea-trust
+  //'', // bhuz
+  //'', // roelandp
+  'wss://api.test.ppy.us.altcap.io', // winner.winner.chicken.dinner
+  //'' // xtar-testz
 ]
 
 // Shuffle list of blockchain nodes
