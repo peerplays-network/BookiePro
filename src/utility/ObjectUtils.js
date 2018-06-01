@@ -76,10 +76,6 @@ const getProfitLiabilityFromBetObject = (bet) => {
  */
 const getAmountWonFromBetObject = (bet, bettingMarketResolutionType) => {
 
-  console.log('----- getAmountWonFromBetObject()')
-  console.log(bet)
-  console.log(bettingMarketResolutionType)
-
   let amountWon = 0;
   switch (bettingMarketResolutionType) {
     case BettingMarketResolutionTypes.WIN: { // If the betting market was one
