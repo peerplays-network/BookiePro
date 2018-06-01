@@ -193,16 +193,21 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
     getBettingMarketsById,
     getBettingMarketGroupsById,
     getEventsById,
-    getAssetsById
+    getAssetsById,
+    getEventGroupsById
   ],
-  (binnedOrderBooksByBettingMarketId, bettingMarketsById, bettingMarketGroupsById, eventsById, assetsById) => {
+  (binnedOrderBooksByBettingMarketId, bettingMarketsById, bettingMarketGroupsById, eventsById, assetsById, eventGroupsById) => {
     let simpleBettingWidgetBinnedOrderBooksByEventId = Immutable.Map();
     binnedOrderBooksByBettingMarketId.forEach((binnedOrderBook, bettingMarketId) => {
       const bettingMarket = bettingMarketsById.get(bettingMarketId);
       const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
       const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
       const eventId = bettingMarketGroup && bettingMarketGroup.get('event_id');
-      if(bettingMarketGroup !== undefined){
+      const eventGroupId = eventsById.get(eventId).get('event_group_id');
+      const eventGroupName = eventGroupsById.get(eventGroupId).get('name');
+      // Ensure bettingMarketGroup exists.
+      // Remove instances of friendly international event group(s) from the bookie pro fun beta.
+      if(bettingMarketGroup !== undefined && eventGroupName.toUpperCase() !== 'FRIENDLY INTERNATIONAL'){
         // NOTE: Assume description can be used as comparison
         var isMoneyline = !!bettingMarketGroup && ((bettingMarketGroup.get('description').toUpperCase() === 'MONEYLINE')
                                                 || (bettingMarketGroup.get('description').toUpperCase() === 'MATCH ODDS'));
