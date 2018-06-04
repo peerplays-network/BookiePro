@@ -155,7 +155,7 @@ const getExtendedBets = createSelector(
       const eventId = bettingMarketGroup && bettingMarketGroup.get('event_id');
       const event = eventsById.get(eventId);
       const eventName = (event && event.get('name')) || '';
-      const eventTime = event && getFormattedDate(DateUtils.getLocalDate(new Date(event.get('start_time'))));
+      const eventTime = event && getFormattedDate(DateUtils.getLocalDate(event.get('start_time')));
 
       const eventGroupId = event && event.get('event_group_id');
       const eventGroup = eventGroupsById.get(eventGroupId);
