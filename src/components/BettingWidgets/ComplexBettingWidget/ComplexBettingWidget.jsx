@@ -317,6 +317,7 @@ class ComplexBettingWidget extends PureComponent {
     const currencySymbol = CurrencyUtils.getCurrencySymbol('BTF');
     const currencySymbolWhite = CurrencyUtils.getCurrencySymbol('BTF', 'white');
 
+    // Format the totalMatchedBestAmount
     // Column names;
     const competitorColumn = {
       header: props => null,
@@ -541,7 +542,7 @@ class ComplexBettingWidget extends PureComponent {
           </div>
           <div className='rules'>
             <span>{ I18n.t('complex_betting_widget.matched') }</span>
-            { currencySymbolWhite } { this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
+            { currencySymbolWhite } { this.props.loadingStatus === LoadingStatus.DONE ? formattedMatchedBetsAmount : '' }
             <RulesButton rules={ rules } />
           </div>
         </div>
