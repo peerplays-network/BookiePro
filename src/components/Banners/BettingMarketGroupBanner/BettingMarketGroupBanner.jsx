@@ -22,7 +22,7 @@ class BettingMarketGroupBanner extends PureComponent {
   }
 
   renderLive() {
-    if (!this.props.isLiveMarket) {
+    if (this.props.eventStatus !== 'in_progress') {
       return;
     }
     
@@ -67,10 +67,6 @@ class BettingMarketGroupBanner extends PureComponent {
           <div className='name'>{ eventName } </div>
           <div className='time'>{ I18n.t('bettingMarketGroup.match_start_on', { time: formattedEventTime }) }</div>
           { this.renderLive() }
-          <div className='name'>  
-            <span className={ this.props.eventStatus }>
-            <span className='indicator'/>{I18n.t('complex_betting_widget.' + this.props.eventStatusClassName)}</span> 
-          </div>
         </div>
       </div>
     )
