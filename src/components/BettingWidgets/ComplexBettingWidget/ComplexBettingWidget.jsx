@@ -318,7 +318,7 @@ class ComplexBettingWidget extends PureComponent {
     const currencySymbolWhite = CurrencyUtils.getCurrencySymbol('BTF', 'white');
 
     // Format the totalMatchedBestAmount
-    let formattedMatchedBetsAmount = totalMatchedBetsAmount;
+    let formattedMatchedBetsAmount = totalMatchedBetsAmount || 0;
 
     if (this.props.currencyFormat === 'mBTF') {
       // Convert the number to BTF if the format is currently mBTF
