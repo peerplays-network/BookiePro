@@ -116,7 +116,7 @@ const getSportPageData = createSelector(
       // Create event nodes based on active events
       const activeEvents = activeEventsByEventGroupId.get(eventGroup.get('id')) || Immutable.List();
       const eventNodes = activeEvents.map((event) => {
-        if (event.get('status') !== null) {
+        if (event.get('status') !== null && event.get('status') !== undefined) {
           const offers = simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
           // Find the Betting Market Group of this event
           const bettingMarketId = offers.getIn(['0', 'betting_market_id']);
