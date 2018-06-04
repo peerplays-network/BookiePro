@@ -51,7 +51,7 @@ const Config = {
   // Remember to set the faucet urls properly beforehand
   // We don't have faucet for blocktrades testnet
   registerThroughRegistrar: false,
-  faucetUrls: ['http://ec2-35-182-126-252.ca-central-1.compute.amazonaws.com:5000'],
+  faucetUrls: ['http://faucet.bookiepro.fun:5000'],
   accountRegistar: {
     name: 'nathan',
     keys: {
