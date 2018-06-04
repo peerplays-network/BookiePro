@@ -537,7 +537,7 @@ class ComplexBettingWidget extends PureComponent {
           <div className='name'>
             { widgetTitle }
             <span className={ this.props.bettingMarketGroupStatus }>
-            <span className='indicator'/>{I18n.t('object_status_enumerator.' + this.props.bettingMarketGroupStatusClassName)}</span>
+            <span className=''/>{I18n.t('object_status_enumerator.' + this.props.bettingMarketGroupStatusClassName)}</span>
           </div>
           <div className='rules'>
             <span>{ I18n.t('complex_betting_widget.matched') }</span>

@@ -5,6 +5,8 @@ import { SimpleBettingWidget } from '../BettingWidgets';
 import { SportPageActions, NavigateActions } from '../../actions';
 import { SportPageSelector, QuickBetDrawerSelector } from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
+import { DateUtils } from '../../utility';
+import moment from 'moment';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
 
@@ -45,13 +47,16 @@ class Sport extends PureComponent {
             sportPageData.map((eventGroupData) => {
               const eventGroupId = eventGroupData.get('event_group_id');
               const events = eventGroupData.get('events');
+              let sortedEvents = [];
+              // Sort by event time
+              sortedEvents = DateUtils.sortEventsByDate(events);
               return (
                 events.size > 0 && 
                 <SimpleBettingWidget
                   sportName={ sportName }
                   key={ eventGroupId }                    // required by React to have unique key
                   title={ eventGroupData.get('name') }
-                  events={ events.slice(0, MAX_EVENTS_PER_WIDGET) }
+                  events={ sortedEvents.slice(0, MAX_EVENTS_PER_WIDGET) }
                   currencyFormat={ currencyFormat }
                   showFooter={ events.size > MAX_EVENTS_PER_WIDGET }
                   footerLink={ `/exchange/eventgroup/${eventGroupId}` }

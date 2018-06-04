@@ -69,7 +69,7 @@ var CurrencyUtils = {
    * @returns - amount rounded/truncated to precision decimal places
    */
   substringPrecision(amount, precision, accuracy=true){
-    if (amount < 0 || amount === undefined){
+    if (amount === undefined){
       amount = 0.0;
     }
     let split = amount.toString().split('.');

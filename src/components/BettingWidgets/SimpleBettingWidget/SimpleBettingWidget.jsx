@@ -37,12 +37,12 @@ const { OFFER_PRECISION } = CurrencyUtils;
 const renderEventTime = (text, record) => {
   var isLiveMarket;
   let eventStatus = record.get('eventStatus');
-  if (eventStatus === 'in_progress'){
+  if (eventStatus === 'live'){
     isLiveMarket = true;
   }
 
   if (isLiveMarket) {
-    return <span className='live'><span className='indicator'/>{ I18n.t('object_status_enumerator.' + record.get('eventStatus')) }</span>;
+    return <span className='live'><span className=''/>{ I18n.t('object_status_enumerator.' + record.get('eventStatus')) }</span>;
   } else {
     const eventTime = moment(record.get('time')).format('H:mm');
     let dateString = DateUtils.getMonthAndDay(record.get('time'));
