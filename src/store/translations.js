@@ -295,8 +295,8 @@ export const translationsObject = {
     },
     complex_betting_widget:{
       error: 'ERROR',
-      back_all: 'Back all',
-      lay_all: 'Lay all',
+      back_all: 'Back',
+      lay_all: 'Lay',
       offer: '--',
       matched: 'Matched',
     },
