@@ -9,9 +9,9 @@ import { ChainConfig } from 'peerplaysjs-ws';
 ChainConfig.setPrefix('PPY');
 
 const blockchainUrls = [
-  'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090' // Charlie
+  // 'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090' // Charlie
   //'ws://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:8090' // D-Chain
-  //'ws://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:8090' // E-Chain
+  'ws://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:8090' // E-Chain
 ]
 
 // Shuffle list of blockchain nodes
