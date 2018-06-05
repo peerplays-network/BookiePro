@@ -255,9 +255,6 @@ class ComplexBettingWidget extends PureComponent {
 
       this.props.createBet(betType, bettingMarketId, odds);
     });
-
-
-
   }
   /**
     * get the best back/lay odds in tableData.
@@ -316,6 +313,17 @@ class ComplexBettingWidget extends PureComponent {
 
     const currencySymbol = CurrencyUtils.getCurrencySymbol('BTF');
     const currencySymbolWhite = CurrencyUtils.getCurrencySymbol('BTF', 'white');
+
+    // Format the totalMatchedBestAmount
+    let formattedMatchedBetsAmount = totalMatchedBetsAmount || 0;
+
+    if (this.props.currencyFormat === 'mBTF') {
+      // Convert the number to BTF if the format is currently mBTF
+      formattedMatchedBetsAmount = formattedMatchedBetsAmount / 1000;
+    }
+
+    // Format the currency for display.
+    formattedMatchedBetsAmount = CurrencyUtils.getFormattedCurrency(formattedMatchedBetsAmount, 'BTF', OFFER_PRECISION, true);
 
     // Column names;
     const competitorColumn = {
@@ -408,7 +416,7 @@ class ComplexBettingWidget extends PureComponent {
         const isDisabled = props.data[0].firstColumn.bmStatus[0];
 
         return (<div className={ `offer-header back-all-offer${isDisabled ? ' disabled' : ''}` }>
-          <p id={ BetTypes.BACK } onClick={ this.placeAllBestBets } >{ !isDisabled ? I18n.t('complex_betting_widget.back_all') : null }</p>
+          <p id={ BetTypes.BACK }>{ !isDisabled ? I18n.t('complex_betting_widget.back_all') : null }</p>
         </div>)
       },
       render: props => props.value ?
@@ -436,7 +444,7 @@ class ComplexBettingWidget extends PureComponent {
         const isDisabled = props.data[0].firstColumn.bmStatus[0];
 
         return (<div className={ `offer-header lay-all-offer${isDisabled ? ' disabled' : ''}` }>
-          <p id={ BetTypes.LAY } onClick={ this.placeAllBestBets } >{ !isDisabled ? I18n.t('complex_betting_widget.lay_all') : null }</p>
+          <p id={ BetTypes.LAY }>{ !isDisabled ? I18n.t('complex_betting_widget.lay_all') : null }</p>
         </div>);
       },
       render: props => props.value ?
@@ -541,7 +549,7 @@ class ComplexBettingWidget extends PureComponent {
           </div>
           <div className='rules'>
             <span>{ I18n.t('complex_betting_widget.matched') }</span>
-            { currencySymbolWhite } { this.props.loadingStatus === LoadingStatus.DONE ? totalMatchedBetsAmount : '' }
+            { currencySymbolWhite } { this.props.loadingStatus === LoadingStatus.DONE ? formattedMatchedBetsAmount : '' }
             <RulesButton rules={ rules } />
           </div>
         </div>
