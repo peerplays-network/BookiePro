@@ -1,13 +1,13 @@
 directories:
   output: dist
 appId: com.peerplays.bookie
-productName: Bookie
+productName: BookiePro.fun
 extraMetadata:
-  name: Bookie
+  name: BookiePro.fun
   homepage: http://bookie.exchange/
-  description: Bookie is the first truly global betting exchange. Using a decentralized blockchain foundation, Bookie has been built to address three key challenges in sports betting today.
+  description: BookiePro.fun is the first truly global betting exchange. Using a decentralized blockchain foundation, BookiePro.fun has been built to address three key challenges in sports betting today.
   author: 
-    name: Bookie
+    name: BookiePro.fun
     email: bookie@peerplays.com
 mac:
   category: public.app-category.productivity
