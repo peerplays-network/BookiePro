@@ -9,15 +9,14 @@ import { ChainConfig } from 'peerplaysjs-ws';
 ChainConfig.setPrefix('PPYTEST');
 
 const blockchainUrls = [
-  'wss://api.ppytest.nuevax.com', // nuevax
-  //'wss://bnode.peerblock.trade', // bitcoinsig - not working
-  'wss://bnode2.peerblock.trade', // bitcoinsig
-  //'wss://ppytest.proxyhosts.info // baxters-sports-witness - not working
-  'wss://api.ppytest.blckchnd.com', // blckchnd
-  //'wss://testnet-ppyapi.spacemx.tech:8080/rpc // spacecrypt-witness - not working
-  //'wss://ip228.ip-87-98-148.eu', // Melea
-  //'ws://ip228.ip-87-98-148.eu // Melea
-  'wss://pta.blockveritas.co:8089' // taconator-witness
+  'wss://pta.blockveritas.co:8089', // taconator-witness
+  'wss://bnode2.peerblock.trade', // bitcoinsig-test
+  'wss://ppytest.proxyhosts.info/wss', // tf-witness
+  'wss://api.ppytest.nuevax.com', // nuevax-test
+  'wss://api.ppytest.blckchnd.com', // blckchnd-testnet
+  'wss://139.ip-54-38-243.eu', // melea-witness
+  'wss://api.test.ppy.us.altcap.io', // wwcd
+  'wss://baxter.ppy.steemul.ru:8080' // xtar-testnet  
 ];
 
 // Shuffle list of blockchain nodes
