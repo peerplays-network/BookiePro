@@ -13,8 +13,7 @@ class InitAccountModal extends PureComponent {
         footer={ null }
         closable={ false }
       >
-        <p>{ I18n.t('initAccountModal.line_1') }</p>
-        <p>{ I18n.t('initAccountModal.line_2') }</p>
+        <p>{ I18n.t('initAccountModal.loading') }</p>
         <div style={ { display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '20px', paddingBottom: '20px' } }>
           <Spin size='large'/>
         </div>
