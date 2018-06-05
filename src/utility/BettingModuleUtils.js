@@ -21,6 +21,8 @@ If current currency is mBTF:
   profit/liability precision -> 2
 */
 const oddsPlaces = 2;
+const avgStakePlaced = 0;
+const avgProfLiaPlaces = 2;
 const stakePlaces = 5;//minimum stake = 0.001 BTF
 const exposurePlaces = 5;
 
@@ -292,8 +294,8 @@ var BettingModuleUtils = {
     const averageOdds = (groupedStake + groupedProfitOrLiability) / groupedStake;
     return Immutable.fromJS({
       averageOdds: averageOdds.toFixed(oddsPlaces),
-      groupedProfitOrLiability: CurrencyUtils.getFormattedCurrency( groupedProfitOrLiability, currency, exposurePlaces),
-      groupedStake: CurrencyUtils.getFormattedCurrency( groupedStake, currency, stakePlaces),
+      groupedProfitOrLiability: CurrencyUtils.getFormattedCurrency( groupedProfitOrLiability, currency, avgProfLiaPlaces),
+      groupedStake: CurrencyUtils.getFormattedCurrency( groupedStake, currency, avgStakePlaced),
     });
   },
 
