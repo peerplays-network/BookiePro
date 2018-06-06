@@ -21,8 +21,6 @@ If current currency is mBTF:
   profit/liability precision -> 2
 */
 const oddsPlaces = 2;
-const avgStakePlaced = 0;
-const avgProfLiaPlaces = 2;
 const stakePlaces = 5;//minimum stake = 0.001 BTF
 const exposurePlaces = 5;
 
