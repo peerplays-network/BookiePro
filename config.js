@@ -91,9 +91,9 @@ if (process.env && process.env.TARGET && config.environments[process.env.TARGET]
   current = process.env.TARGET;
   console.log(`Environment defined as ${current}`);
 } else if (!process.env.TARGET) {
-  console.warn('Environment was not defined, using default.')
+  console.warn('Environment was not defined, using default. (dick)')
 } else if (!config.environments[process.env.TARGET]) {
-  console.warn('Environment supplied is invalid, using default.')
+  console.warn('Environment supplied is invalid, using default. (dick)')
 }
 
 module.exports = config.environments[current];
