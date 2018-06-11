@@ -55,6 +55,7 @@ const renderContent = (props) => (
           dimmed={ props.obscureContent }
           currencyFormat={ props.currencyFormat }
           oddsFormat={ props.oddsFormat }
+          isValidBetTotal={ props.isValidBetTotal }
         />
       ))
     }
@@ -93,7 +94,7 @@ class QuickBetDrawer extends PureComponent {
                 <Button
                   className={ `btn place-bet btn${this.props.numberOfGoodBets > 0 ? '-regular' : '-disabled'}` }
                   onClick={ () => this.props.clickPlaceBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
-                  disabled={ this.props.numberOfGoodBets === 0  }
+                  disabled={ !this.props.isValidBetTotal }
                 >
                   { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button')}
                   { this.props.currencySymbol }
@@ -115,7 +116,7 @@ class QuickBetDrawer extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => {
   const originalBets = state.getIn(['quickBetDrawer', 'bets']);
-  const availableBalance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
+  var availableBalance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
 
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
@@ -162,7 +163,16 @@ const mapStateToProps = (state, ownProps) => {
   const overlay = state.getIn(['quickBetDrawer', 'overlay']);
   const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
   const currencyFormat =  MyAccountPageSelector.currencyFormatSelector(state);
-  
+  const totalBetAmountString = CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat);
+  const numberOfBadBets = originalBets.size - numberOfGoodBets;
+  // Convert the balance to a human recognizable number.
+  // mili[coin] = balance / 100,000
+  // [coin] = balance / 100,000,000
+  availableBalance = currencyFormat.indexOf('m') === 0 ? availableBalance / Math.pow(10, 5) : availableBalance / Math.pow(10, 8);
+
+  const isValidBetTotal = numberOfBadBets === 0 && parseFloat(totalBetAmountString) <= availableBalance;
+  // If bet total valid and no invalid bets...
+  const whiteOrBlack = (numberOfGoodBets !== originalBets.size && !isValidBetTotal) || (numberOfGoodBets === originalBets.size && !isValidBetTotal);
   return {
     originalBets,
     bets: page,
@@ -171,12 +181,13 @@ const mapStateToProps = (state, ownProps) => {
     betsToBeDeleted: state.getIn(['quickBetDrawer', 'betsToBeDeleted']),
     eventNameInDeleteBetsConfirmation: state.getIn(['quickBetDrawer', 'eventNameInDeleteBetsConfirmation']),
     numberOfGoodBets,
-    numberOfBadBets: originalBets.size - numberOfGoodBets,
+    numberOfBadBets: numberOfBadBets,
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),    
-    currencySymbol: CurrencyUtils.getCurrencySymbol(currencyFormat, numberOfGoodBets === 0 ? 'white' : 'black'),
-    totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat),
-    availableBalance: availableBalance
+    currencySymbol: CurrencyUtils.getCurrencySymbol(currencyFormat, whiteOrBlack ? 'white' : 'black'),
+    totalBetAmountString: totalBetAmountString,
+    availableBalance: availableBalance,
+    isValidBetTotal: isValidBetTotal
   };
 }
 

@@ -202,10 +202,19 @@ class BetTableInput extends PureComponent {
   }
 
   render() {
+    const isValidBetTotal = this.props.isValidBetTotal;
+    const isEmpty = this.state.value === '' || this.state.value === undefined;
+    var isValid = false;
+    // Override the disabled state of the input fields if the default state of stake, undefined, is present.
+    if(isEmpty){
+      isValid = true;
+    } else {
+      isValid = isValidBetTotal;
+    }
     return (
       <div>
         <input
-          className='betTableInput'
+          className={ isValid ? 'betTableInput' : 'betTableInput disabled' } 
           type='text'
           value={ this.state.value }
           onChange={ e => this.handleChange(e) }
