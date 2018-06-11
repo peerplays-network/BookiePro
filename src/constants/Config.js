@@ -3,27 +3,19 @@ import _ from 'lodash';
 import { PrivateKey, PublicKey } from 'peerplaysjs-lib';
 import { version } from '../../package.json';
 import { ChainConfig } from 'peerplaysjs-ws';
+import environment from '../../config';
 
 // This sets the prefx of the supporting libraries to the PPY prefix
 // This line needs to be edited for connecting to chains with a different core asset
-ChainConfig.setPrefix('PPYTEST');
+ChainConfig.setPrefix(environment.prefix);
 
-const blockchainUrls = [
-  'wss://pta.blockveritas.co:8089', // taconator-witness
-  'wss://bnode2.peerblock.trade', // bitcoinsig-test
-  'wss://ppytest.proxyhosts.info/wss', // tf-witness
-  'wss://api.ppytest.nuevax.com', // nuevax-test
-  'wss://api.ppytest.blckchnd.com', // blckchnd-testnet
-  'wss://139.ip-54-38-243.eu', // melea-witness
-  'wss://api.test.ppy.us.altcap.io', // wwcd
-  'wss://baxter.ppy.steemul.ru:8080' // xtar-testnet  
-];
+const blockchainUrls = environment.apiEndpoints;
 
 // Shuffle list of blockchain nodes
 // So every bookie app will not always connect to the first node in the list
 const shuffledBlockhainUrls = _.shuffle(blockchainUrls);
 
-const ASSET_ID = '1.3.1';
+const ASSET_ID = environment.assetId;
 
 const Config = {
   version: version,
@@ -34,15 +26,15 @@ const Config = {
   btfTransactionFee: 0.00001,
   mbtfTransactionFee: 0.01,
   broadcastAccount: {
-    name: 'pbsa-broadcasts',
+    name: environment.accounts.broadcasts.name,
     keys: {
-      active: PublicKey.fromPublicKeyString("PPYTEST8H4L2UeaXRRAt5nVR4GSGFdt232711wyzTQnFRJeoJeLXXZT23")
+      active: PublicKey.fromPublicKeyString(environment.accounts.broadcasts.key)
     }
   },
   updateAccount: {
-    name: 'bookie-updates',
+    name: environment.accounts.updates.name,
     keys: {
-      memo: PrivateKey.fromWif("5Kjqz8HwRBCW7ZtvhmM2NhAqaPpLQvBShKjVNcKdbm8gdXi5V3J") 
+      memo: PrivateKey.fromWif(environment.accounts.updates.key)
     }
   },
   gatewayAccountName: 'gateway1', // Any transfer from this account is marked as deposit/ withdraw with gateway
@@ -51,7 +43,7 @@ const Config = {
   // Remember to set the faucet urls properly beforehand
   // We don't have faucet for blocktrades testnet
   registerThroughRegistrar: false,
-  faucetUrls: ['http://faucet.bookiepro.fun:5000'],
+  faucetUrls: environment.faucetUrls,
   accountRegistar: {
     name: 'nathan',
     keys: {
