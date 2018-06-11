@@ -193,55 +193,59 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
     getBettingMarketsById,
     getBettingMarketGroupsById,
     getEventsById,
-    getAssetsById
+    getAssetsById,
+    getEventGroupsById
   ],
-  (binnedOrderBooksByBettingMarketId, bettingMarketsById, bettingMarketGroupsById, eventsById, assetsById) => {
+  // TO DO: FIX ME. .map with .filter
+  (binnedOrderBooksByBettingMarketId, bettingMarketsById, bettingMarketGroupsById, eventsById, assetsById, eventGroupsById) => {
     let simpleBettingWidgetBinnedOrderBooksByEventId = Immutable.Map();
     binnedOrderBooksByBettingMarketId.forEach((binnedOrderBook, bettingMarketId) => {
       const bettingMarket = bettingMarketsById.get(bettingMarketId);
       const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
       const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
       const eventId = bettingMarketGroup && bettingMarketGroup.get('event_id');
-      if(bettingMarketGroup !== undefined){
-        // NOTE: Assume description can be used as comparison
-        var isMoneyline = !!bettingMarketGroup && ((bettingMarketGroup.get('description').toUpperCase() === 'MONEYLINE')
-                                                || (bettingMarketGroup.get('description').toUpperCase() === 'MATCH ODDS'));
-        if (eventId && isMoneyline) {
-          // Implicit Rule: the first betting market is for the home team
-          let simpleBettingWidgetBinnedOrderBook = Immutable.Map().set('betting_market_id', bettingMarketId)
-            .set('back', Immutable.List())
-            .set('lay', Immutable.List());
+      if (eventsById.get(eventId) !== undefined){
+        const eventGroupId = eventsById.get(eventId).get('event_group_id');
+        const eventGroupName = eventGroupsById.get(eventGroupId).get('name');
+        // Ensure bettingMarketGroup exists.
+        // Remove instances of friendly international event group(s) from the bookie pro fun beta.
+        if(bettingMarketGroup !== undefined && eventGroupName.toUpperCase() !== 'FRIENDLY INTERNATIONAL'){
+          // NOTE: Assume description can be used as comparison
+          var isMoneyline = !!bettingMarketGroup && ((bettingMarketGroup.get('description').toUpperCase() === 'MONEYLINE')
+                                                  || (bettingMarketGroup.get('description').toUpperCase() === 'MATCH ODDS'));
+          if (eventId && isMoneyline) {
+            // Implicit Rule: the first betting market is for the home team
+            let simpleBettingWidgetBinnedOrderBook = Immutable.Map().set('betting_market_id', bettingMarketId)
+              .set('back', Immutable.List())
+              .set('lay', Immutable.List());
 
-          // Normalize aggregated_lay_bets and aggregated_back_bets
-          const assetPrecision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']);
-          let aggregated_lay_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
-          aggregated_lay_bets = aggregated_lay_bets.map(aggregated_lay_bet => {
-            const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
-            const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
-            return aggregated_lay_bet.set('odds', odds)
-              .set('price', price);
-          });
-          let aggregated_back_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
-          aggregated_back_bets = aggregated_back_bets.map(aggregated_back_bet => {
-            const odds = aggregated_back_bet.get('backer_multiplier') / Config.oddsPrecision;
-            const price = aggregated_back_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
-            return aggregated_back_bet.set('odds', odds)
-              .set('price', price);
-          });
-          simpleBettingWidgetBinnedOrderBook = simpleBettingWidgetBinnedOrderBook.set('back', aggregated_back_bets)
-            .set('lay', aggregated_lay_bets);
-          simpleBettingWidgetBinnedOrderBooksByEventId = simpleBettingWidgetBinnedOrderBooksByEventId.update(eventId, (simpleBettingWidgetBinnedOrderBooks) => {
-            if (!simpleBettingWidgetBinnedOrderBooks) simpleBettingWidgetBinnedOrderBooks = Immutable.List();
-            return simpleBettingWidgetBinnedOrderBooks.push(simpleBettingWidgetBinnedOrderBook);
-          })
+            // Normalize aggregated_lay_bets and aggregated_back_bets
+            const assetPrecision = assetsById.getIn([bettingMarketGroup.get('asset_id'), 'precision']);
+            let aggregated_lay_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
+            aggregated_lay_bets = aggregated_lay_bets.map(aggregated_lay_bet => {
+              const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
+              const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
+              return aggregated_lay_bet.set('odds', odds)
+                .set('price', price);
+            });
+            let aggregated_back_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
+            aggregated_back_bets = aggregated_back_bets.map(aggregated_back_bet => {
+              const odds = aggregated_back_bet.get('backer_multiplier') / Config.oddsPrecision;
+              const price = aggregated_back_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
+              return aggregated_back_bet.set('odds', odds)
+                .set('price', price);
+            });
+            simpleBettingWidgetBinnedOrderBook = simpleBettingWidgetBinnedOrderBook.set('back', aggregated_back_bets)
+              .set('lay', aggregated_lay_bets);
+            simpleBettingWidgetBinnedOrderBooksByEventId = simpleBettingWidgetBinnedOrderBooksByEventId.update(eventId, (simpleBettingWidgetBinnedOrderBooks) => {
+              if (!simpleBettingWidgetBinnedOrderBooks) simpleBettingWidgetBinnedOrderBooks = Immutable.List();
+              return simpleBettingWidgetBinnedOrderBooks.push(simpleBettingWidgetBinnedOrderBook);
+            })
+          }
         }
       }
-
     });
-
     return simpleBettingWidgetBinnedOrderBooksByEventId;
-
-    
   }
 )
 

@@ -5,7 +5,7 @@ import { I18n, Translate } from 'react-redux-i18n';
 const PERFECT = 'perfect';
 const IMPERFECT = 'imperfect';
 
-const renderInstructions = (className, goodBets, badBets, amount) => {
+const renderInstructions = (className, goodBets, badBets) => {
   let instructions = '';
   if (badBets > 0) {
     instructions =
@@ -41,9 +41,8 @@ const PlaceBetConfirm = (props) => {
     <div className='overlay'>
       <div className='instructions'>
         { renderInstructions(extendedClassName, goodBets, badBets) }
-        { currencySymbol }
-        { amount }        
-        <p>{ I18n.t(`${extendedClassName}.are_you_sure`)}</p>
+        { currencySymbol } { amount }
+        <p>{ I18n.t(`${extendedClassName}.are_you_sure`)}?</p>
       </div>
       <div className='buttons'>
         <Button className='btn btn-cancel' onClick={ cancelAction }>

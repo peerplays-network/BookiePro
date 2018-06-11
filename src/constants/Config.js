@@ -6,13 +6,18 @@ import { ChainConfig } from 'peerplaysjs-ws';
 
 // This sets the prefx of the supporting libraries to the PPY prefix
 // This line needs to be edited for connecting to chains with a different core asset
-ChainConfig.setPrefix('PPY');
+ChainConfig.setPrefix('PPYTEST');
 
 const blockchainUrls = [
-  'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090' // Charlie
-  //'ws://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:8090' // D-Chain
-  //'ws://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:8090' // E-Chain
-]
+  'wss://pta.blockveritas.co:8089', // taconator-witness
+  'wss://bnode2.peerblock.trade', // bitcoinsig-test
+  'wss://ppytest.proxyhosts.info/wss', // tf-witness
+  'wss://api.ppytest.nuevax.com', // nuevax-test
+  'wss://api.ppytest.blckchnd.com', // blckchnd-testnet
+  'wss://139.ip-54-38-243.eu', // melea-witness
+  'wss://api.test.ppy.us.altcap.io', // wwcd
+  'wss://baxter.ppy.steemul.ru:8080' // xtar-testnet  
+];
 
 // Shuffle list of blockchain nodes
 // So every bookie app will not always connect to the first node in the list
@@ -31,13 +36,13 @@ const Config = {
   broadcastAccount: {
     name: 'pbsa-broadcasts',
     keys: {
-      active: PublicKey.fromPublicKeyString("PPY4vR89Z4TiqxbcDDuv5BV7XRgxhfYquYvC8ciiDnRZanPCLcQJ4")
+      active: PublicKey.fromPublicKeyString("PPYTEST8H4L2UeaXRRAt5nVR4GSGFdt232711wyzTQnFRJeoJeLXXZT23")
     }
   },
   updateAccount: {
-    name: 'peerplays-updates',
+    name: 'bookie-updates',
     keys: {
-      memo: PrivateKey.fromWif("5JnR1XHTj2BQtM4gf4tDkayfB4TQf15zBAwgSEMQcpyED21bNnv") 
+      memo: PrivateKey.fromWif("5Kjqz8HwRBCW7ZtvhmM2NhAqaPpLQvBShKjVNcKdbm8gdXi5V3J") 
     }
   },
   gatewayAccountName: 'gateway1', // Any transfer from this account is marked as deposit/ withdraw with gateway
@@ -46,7 +51,7 @@ const Config = {
   // Remember to set the faucet urls properly beforehand
   // We don't have faucet for blocktrades testnet
   registerThroughRegistrar: false,
-  faucetUrls: ['http://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:5000'],
+  faucetUrls: ['http://faucet.bookiepro.fun:5000'],
   accountRegistar: {
     name: 'nathan',
     keys: {
