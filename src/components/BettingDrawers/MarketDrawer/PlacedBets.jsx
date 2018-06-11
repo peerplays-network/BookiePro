@@ -78,6 +78,7 @@ class PlacedBets extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const availableBalance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
   const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   // Total Bet amount for updated bets ONLY
@@ -102,7 +103,7 @@ const mapStateToProps = (state, ownProps) => {
 
   // Number of Good bets
   const numberOfGoodBets = updatedBets.reduce((sum, bet) => {
-    return sum + (BettingModuleUtils.isValidBet(bet) | 0);
+    return sum + (BettingModuleUtils.isValidBet(bet, availableBalance, ownProps.currencyFormat) | 0);
   }, 0);
   // Overlay
   const overlay = state.getIn(['marketDrawer', 'overlay']);
@@ -115,7 +116,8 @@ const mapStateToProps = (state, ownProps) => {
     numberOfGoodBets,
     numberOfBadBets: updatedBets.size - numberOfGoodBets,
     totalBetAmountFloat: totalAmount + transactionFee,
-    totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat)
+    totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat),
+    availableBalance: availableBalance
   }
 }
 

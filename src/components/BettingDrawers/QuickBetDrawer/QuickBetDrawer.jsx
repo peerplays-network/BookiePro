@@ -115,6 +115,8 @@ class QuickBetDrawer extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => {
   const originalBets = state.getIn(['quickBetDrawer', 'bets']);
+  const availableBalance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
+
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
     const eventId = bet.get('event_id');
@@ -154,7 +156,7 @@ const mapStateToProps = (state, ownProps) => {
   
   // Number of Good bets
   const numberOfGoodBets = originalBets.reduce((sum, bet) => {
-    return sum + (BettingModuleUtils.isValidBet(bet) | 0);
+    return sum + (BettingModuleUtils.isValidBet(bet, availableBalance, ownProps.currencyFormat) | 0);
   }, 0);
   // Overlay
   const overlay = state.getIn(['quickBetDrawer', 'overlay']);
@@ -173,7 +175,8 @@ const mapStateToProps = (state, ownProps) => {
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),    
     currencySymbol: CurrencyUtils.getCurrencySymbol(currencyFormat, numberOfGoodBets === 0 ? 'white' : 'black'),
-    totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat)
+    totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat),
+    availableBalance: availableBalance
   };
 }
 

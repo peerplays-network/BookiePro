@@ -95,6 +95,8 @@ class BetSlip extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => {
   const originalBets = state.getIn(['marketDrawer', 'unconfirmedBets']);
+  const availableBalance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
+
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
     const betType = bet.get('bet_type');
@@ -131,11 +133,12 @@ const mapStateToProps = (state, ownProps) => {
   
   // Number of Good bets
   const numberOfGoodBets = originalBets.reduce((sum, bet) => {
-    return sum + (BettingModuleUtils.isValidBet(bet) | 0);
+    return sum + (BettingModuleUtils.isValidBet(bet, availableBalance, ownProps.currencyFormat) | 0);
   }, 0);
   // Overlay
   const overlay = state.getIn(['marketDrawer', 'overlay']);
   const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
+  
   return {
     originalBets,
     bets: page,
@@ -147,7 +150,8 @@ const mapStateToProps = (state, ownProps) => {
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
     currencySymbol: CurrencyUtils.getCurrencySymbol(ownProps.currencyFormat, numberOfGoodBets === 0 ? 'white' : 'black'),
-    totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat)
+    totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat),
+    availableBalance: availableBalance
   };
 }
 
