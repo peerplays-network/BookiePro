@@ -3,19 +3,20 @@ import _ from 'lodash';
 import { PrivateKey, PublicKey } from 'peerplaysjs-lib';
 import { version } from '../../package.json';
 import { ChainConfig } from 'peerplaysjs-ws';
-import environment from '../../config';
+
+console.log(`Configuration loaded for ${process.env.name || 'unknown'}`)
 
 // This sets the prefx of the supporting libraries to the PPY prefix
 // This line needs to be edited for connecting to chains with a different core asset
-ChainConfig.setPrefix(environment.prefix);
+ChainConfig.setPrefix(process.env.prefix);
 
-const blockchainUrls = environment.apiEndpoints;
+const blockchainUrls = process.env.apiEndpoints;
 
 // Shuffle list of blockchain nodes
 // So every bookie app will not always connect to the first node in the list
 const shuffledBlockhainUrls = _.shuffle(blockchainUrls);
 
-const ASSET_ID = environment.assetId;
+const ASSET_ID = process.env.assetId;
 
 const Config = {
   version: version,
@@ -26,15 +27,15 @@ const Config = {
   btfTransactionFee: 0.00001,
   mbtfTransactionFee: 0.01,
   broadcastAccount: {
-    name: environment.accounts.broadcasts.name,
+    name: process.env.accounts.broadcasts.name,
     keys: {
-      active: PublicKey.fromPublicKeyString(environment.accounts.broadcasts.key)
+      active: PublicKey.fromPublicKeyString(process.env.accounts.broadcasts.key)
     }
   },
   updateAccount: {
-    name: environment.accounts.updates.name,
+    name: process.env.accounts.updates.name,
     keys: {
-      memo: PrivateKey.fromWif(environment.accounts.updates.key)
+      memo: PrivateKey.fromWif(process.env.accounts.updates.key)
     }
   },
   gatewayAccountName: 'gateway1', // Any transfer from this account is marked as deposit/ withdraw with gateway
@@ -43,7 +44,7 @@ const Config = {
   // Remember to set the faucet urls properly beforehand
   // We don't have faucet for blocktrades testnet
   registerThroughRegistrar: false,
-  faucetUrls: environment.faucetUrls,
+  faucetUrls: process.env.faucetUrls,
   accountRegistar: {
     name: 'nathan',
     keys: {
