@@ -2,7 +2,6 @@ import CommonSelector from './CommonSelector';
 import { createSelector } from 'reselect';
 import { DateUtils } from '../utility';
 import Immutable from 'immutable';
-import { Config } from '../constants';
 
 const {
   getBettingMarketsById,
@@ -128,6 +127,8 @@ const getEventGroupPageData = createSelector(
           offers,
           bettingMarketGroupId: bettingMarketGroupId,
         });
+      } else {
+        return Immutable.List();
       }
     }).filter( eventNode => {
       return eventNode.get('bettingMarketGroupId') !== undefined
