@@ -45,7 +45,7 @@ class AllSports extends PureComponent {
             )
           })
         }
-        <img alt='The Worlds Betting Exchange' className='banner-footer' src={ FooterBanner }></img>
+        <img alt='The Worlds Betting Exchange' className='banner-ad-footer' src={ FooterBanner }></img>
         <div className='margin-top-18 logo-container'>
           <PeerPlaysLogo />
         </div>
