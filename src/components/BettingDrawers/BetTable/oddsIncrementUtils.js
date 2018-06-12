@@ -78,14 +78,14 @@ const getOddsIncrement = (odds, decrementing, oddsFormat) => {
   }
   if (_.inRange(odds, 30, 50)) {
     if (odds === 30 && decrementing){
-      return 0.5;
+      return 1;
     } else {
-      return 0.2;
+      return 2;
     }
   }
   if (_.inRange(odds, 50, 100)) {
     if (odds === 50 && decrementing){
-      return 1;
+      return 2;
     } else {
       return 5;
     }
