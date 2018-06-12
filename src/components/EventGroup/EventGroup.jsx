@@ -5,7 +5,6 @@ import { SimpleBettingWidget } from '../BettingWidgets';
 import { EventGroupPageActions, NavigateActions } from '../../actions';
 import { EventGroupPageSelector, QuickBetDrawerSelector } from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
-import moment from 'moment';
 import { DateUtils } from '../../utility';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';

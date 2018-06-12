@@ -6,7 +6,6 @@ import { SportPageActions, NavigateActions } from '../../actions';
 import { SportPageSelector, QuickBetDrawerSelector } from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
 import { DateUtils } from '../../utility';
-import moment from 'moment';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
 
