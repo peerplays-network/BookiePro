@@ -96,4 +96,5 @@ if (process.env && process.env.TARGET && config.environments[process.env.TARGET]
   console.warn('Environment supplied is invalid, using default. (dick)')
 }
 
-module.exports = config.environments[current];
+// Export the current config with the additional name property.
+module.exports = Object.assign(config.environments[current], {name: current});
