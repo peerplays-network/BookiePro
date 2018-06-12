@@ -104,6 +104,8 @@ const getAllSportsData = createSelector(
             bettingMarketGroupId: bettingMarketGroupId,
             bmgAsset: bettingMarketGroupAsset
           });
+        } else {
+          return Immutable.List();
         }
       }).filter( eventNode => {
         // Feature check       
