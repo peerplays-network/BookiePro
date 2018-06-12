@@ -30,7 +30,7 @@ export const translationsObject = {
       loading: 'Loading your transaction history, this may take a moment.'
     },
     titleBar:{
-      title: 'BookiePro',
+      title: 'BookiePro.fun',
       clock: 'Local Time'
     },
     searchMenu:{
@@ -290,7 +290,8 @@ export const translationsObject = {
       graded: 'GRADED',
       re_grading: 'RE-GRADING',
       win: 'WINNER',
-      not_win: 'LOSER'
+      not_win: 'LOSER',
+      live: 'LIVE'
     },
     complex_betting_widget:{
       error: 'ERROR',
