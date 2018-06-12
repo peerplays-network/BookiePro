@@ -97,19 +97,26 @@ class ChangePasswordForm extends PureComponent {
 
   render(){
     const { isPwDownloaded } = this.state;
-    const { handleSubmit,reset,loadingStatus,invalid,asyncValidating,submitting,pristine } = this.props;
+    const { handleSubmit,onBlur,reset,loadingStatus,invalid,asyncValidating,submitting,pristine } = this.props;
     const errors = this.props.errors ? this.props.errors.toJS() : {}, isLoading = (loadingStatus===LoadingStatus.LOADING && errors.length===0)
     const recoveryDisabled = invalid || submitting || asyncValidating || isLoading;
     const confirmBtnDisabled = recoveryDisabled || !isPwDownloaded;
     const oldPasswordDisabled = isLoading || pristine || submitting;
-
     return (
       <form onSubmit={ handleSubmit }>
 
         <div>{ I18n.t('changePassword.enter_old_password_hint') }</div>
         <div className='form-fields'>
-          <Field name='old_password' id='old_password' errors={ errors } maxLength='52'
-            component={ renderPasswordField }  placeholder={ I18n.t('changePassword.current_password') } type='password' tabIndex='1' />
+          <Field 
+            name='old_password' 
+            id='old_password' 
+            onBlur={ onBlur }
+            errors={ errors } 
+            maxLength='52'
+            component={ renderPasswordField }  
+            placeholder={ I18n.t('changePassword.current_password') } 
+            type='password' 
+            tabIndex='1' />
         </div>
 
         <div>{ I18n.t('changePassword.enter_new_password_hint') }</div>
