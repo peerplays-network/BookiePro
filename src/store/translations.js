@@ -239,7 +239,7 @@ export const translationsObject = {
       profit_liability: 'Profit / Liability',
       winnings: 'Win / Loss',
       bet_amount: 'Bet Amount',
-      screenName: 'myBets_',
+      screenName: 'myBets_settledBets_',
       //Days of week - first three characters
       today: 'Today',
       tomorrow: 'Tomorrow',
