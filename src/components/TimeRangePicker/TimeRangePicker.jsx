@@ -155,12 +155,16 @@ class TimeRangePicker extends PureComponent {
     const disableButton = (this.state.periodType === TimeRangePeriodTypes.CUSTOM)
                             && (!this.state.customTimeRangeStartDate || !this.state.customTimeRangeEndDate);
     return (
-      <div className='filter'>
+      <div className='filter' id='filter'>
         <div className='ant-form-inline'>
           <div className='ant-form-item' >
             <div className='ant-form-item'>
               <label>{ I18n.t('application.period') }</label>
-              <Select className='bookie-select' defaultValue={ TimeRangePeriodTypes.LAST_7_DAYS } onChange={ this.onChange }>
+              <Select 
+                className='bookie-select' 
+                defaultValue={ TimeRangePeriodTypes.LAST_7_DAYS } 
+                onChange={ this.onChange }
+                getPopupContainer={ () => document.getElementById('filter') } >
                 <Option value={ TimeRangePeriodTypes.LAST_7_DAYS }>{ I18n.t('application.last_7_Days') }</Option>
                 <Option value={ TimeRangePeriodTypes.LAST_14_DAYS }>{ I18n.t('application.last_14_Days') }</Option>
                 <Option value={ TimeRangePeriodTypes.THIS_MONTH }>{ I18n.t('application.this_Month') }</Option>
