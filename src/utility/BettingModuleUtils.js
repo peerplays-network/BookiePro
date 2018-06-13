@@ -292,8 +292,8 @@ var BettingModuleUtils = {
     const averageOdds = (groupedStake + groupedProfitOrLiability) / groupedStake;
     return Immutable.fromJS({
       averageOdds: averageOdds.toFixed(oddsPlaces),
-      groupedProfitOrLiability: CurrencyUtils.getFormattedCurrency( groupedProfitOrLiability, currency, exposurePlaces),
-      groupedStake: CurrencyUtils.getFormattedCurrency( groupedStake, currency, stakePlaces),
+      groupedProfitOrLiability: CurrencyUtils.getFormattedCurrency( groupedProfitOrLiability, currency, CurrencyUtils.fieldPrecisionMap['avgProfitLiability'][currency], true, true),
+      groupedStake: CurrencyUtils.getFormattedCurrency( groupedStake, currency, CurrencyUtils.fieldPrecisionMap['avgStake'][currency], true, true),
     });
   },
 
