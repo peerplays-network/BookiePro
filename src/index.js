@@ -44,11 +44,56 @@ const history = syncHistoryWithStore(hashHistory, store, {
 // We should turn this off in the production build.
 log.setLevel(log.levels.SILENT);
 
-//open links externally by default
 // are we in an electron window?
 const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 if (isRunningInsideElectron){
+  /* Right click menu START */
+  //const electron = require('electron');
   let electron;
+  const remote = electron.remote;
+  const Menu = remote.Menu;
+
+  const InputMenu = Menu.buildFromTemplate([{
+    label: 'Undo',
+    role: 'undo',
+  }, {
+    label: 'Redo',
+    role: 'redo',
+  }, {
+    type: 'separator',
+  }, {
+    label: 'Cut',
+    role: 'cut',
+  }, {
+    label: 'Copy',
+    role: 'copy',
+  }, {
+    label: 'Paste',
+    role: 'paste',
+  }, {
+    type: 'separator',
+  }, {
+    label: 'Select all',
+    role: 'selectall',
+  },
+  ]);
+  document.body.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let node = e.target;
+    electron = window.require('electron');
+    while (node) {
+      if (node.nodeName.match(/^(input|textarea)$/i) || node.isContentEditable) {
+        InputMenu.popup(remote.getCurrentWindow());
+        break;
+      }
+      node = node.parentNode;
+    }
+  });
+  /* Right click menu FINISH */
+
+  //open links externally by default
   // add a listener to handle all clicks
   document.addEventListener("click", (e) => {
     // act on any clicks that are hyperlinks preceeded by http
