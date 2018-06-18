@@ -48,49 +48,138 @@ log.setLevel(log.levels.SILENT);
 const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 if (isRunningInsideElectron){
   /* Right click menu START */
-  //const electron = require('electron');
+  const {app, electronMenu, remote} = require('electron');
+  const {Menu, MenuItem} = remote;
   let electron;
-  const remote = electron.remote;
-  const Menu = remote.Menu;
-
-  const InputMenu = Menu.buildFromTemplate([{
-    label: 'Undo',
-    role: 'undo',
-  }, {
-    label: 'Redo',
-    role: 'redo',
-  }, {
-    type: 'separator',
-  }, {
-    label: 'Cut',
-    role: 'cut',
-  }, {
-    label: 'Copy',
-    role: 'copy',
-  }, {
-    label: 'Paste',
-    role: 'paste',
-  }, {
-    type: 'separator',
-  }, {
-    label: 'Select all',
-    role: 'selectall',
-  },
-  ]);
-  document.body.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    let node = e.target;
-    electron = window.require('electron');
-    while (node) {
-      if (node.nodeName.match(/^(input|textarea)$/i) || node.isContentEditable) {
-        InputMenu.popup(remote.getCurrentWindow());
-        break;
-      }
-      node = node.parentNode;
+  
+  const template = [
+    {
+      label: 'Edit',
+      submenu: [
+        {role: 'undo'},
+        {role: 'redo'},
+        {type: 'separator'},
+        {role: 'cut'},
+        {role: 'copy'},
+        {role: 'paste'},
+        {role: 'pasteandmatchstyle'},
+        {role: 'delete'},
+        {role: 'selectall'}
+      ]
+    },
+    {
+      label: 'View',
+      submenu: [
+        {role: 'reload'},
+        {role: 'forcereload'},
+        {role: 'toggledevtools'},
+        {type: 'separator'},
+        {role: 'resetzoom'},
+        {role: 'zoomin'},
+        {role: 'zoomout'},
+        {type: 'separator'},
+        {role: 'togglefullscreen'}
+      ]
+    },
+    {
+      role: 'window',
+      submenu: [
+        {role: 'minimize'},
+        {role: 'close'}
+      ]
+    },
+    {
+      role: 'help',
+      submenu: [
+        {
+          label: 'Learn More',
+          click () { require('electron').shell.openExternal('https://electronjs.org') }
+        }
+      ]
     }
-  });
+  ]
+
+  if (process.platform === 'darwin') {
+    template.unshift({
+      label: app.getName(),
+      submenu: [
+        {role: 'about'},
+        {type: 'separator'},
+        {role: 'services', submenu: []},
+        {type: 'separator'},
+        {role: 'hide'},
+        {role: 'hideothers'},
+        {role: 'unhide'},
+        {type: 'separator'},
+        {role: 'quit'}
+      ]
+    })
+
+    // Edit menu
+    template[1].submenu.push(
+    {type: 'separator'},
+      {
+        label: 'Speech',
+        submenu: [
+          {role: 'startspeaking'},
+          {role: 'stopspeaking'}
+        ]
+      }
+    )
+
+    // Window menu
+    template[3].submenu = [
+      {role: 'close'},
+      {role: 'minimize'},
+      {role: 'zoom'},
+      {type: 'separator'},
+      {role: 'front'}
+    ]
+  }
+  const menu = electronMenu.buildFromTemplate(template)
+  electronMenu.setApplicationMenu(menu)
+  
+  // const remote = electron.remote;
+  // const Menu = remote.Menu;
+
+  // const InputMenu = Menu.buildFromTemplate([{
+  //   label: 'Undo',
+  //   role: 'undo',
+  // }, {
+  //   label: 'Redo',
+  //   role: 'redo',
+  // }, {
+  //   type: 'separator',
+  // }, {
+  //   label: 'Cut',
+  //   role: 'cut',
+  // }, {
+  //   label: 'Copy',
+  //   role: 'copy',
+  // }, {
+  //   label: 'Paste',
+  //   role: 'paste',
+  // }, {
+  //   type: 'separator',
+  // }, {
+  //   label: 'Select all',
+  //   role: 'selectall',
+  // },
+  // ]);
+  // document.body.addEventListener('contextmenu', (e) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+
+  //   let node = e.target;
+  //   electron = window.require('electron');
+  //   while (node) {
+  //     if (node.nodeName.match(/^(input|textarea)$/i) || node.isContentEditable) {
+  //       InputMenu.popup(remote.getCurrentWindow());
+  //       break;
+  //     }
+  //     node = node.parentNode;
+  //   }
+  // });
   /* Right click menu FINISH */
 
   //open links externally by default
@@ -103,6 +192,11 @@ if (isRunningInsideElectron){
       electron.shell.openExternal(e.target.href);
     }
   });
+  // add listener for right click on electron window
+  // window.addEventListener('contextmenu', (e) => {
+  //   e.preventDefault()
+  //   menu.popup({window: remote.getCurrentWindow()})
+  // }, false)
 }
 
 // Add new page here
