@@ -4,21 +4,19 @@ import { PrivateKey, PublicKey } from 'peerplaysjs-lib';
 import { version } from '../../package.json';
 import { ChainConfig } from 'peerplaysjs-ws';
 
+console.log(`Configuration loaded for ${process.env.name || 'unknown'}`)
+
 // This sets the prefx of the supporting libraries to the PPY prefix
 // This line needs to be edited for connecting to chains with a different core asset
-ChainConfig.setPrefix('PPY');
+ChainConfig.setPrefix(process.env.prefix);
 
-const blockchainUrls = [
-  'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090' // Charlie
-  //'ws://ec2-35-182-93-168.ca-central-1.compute.amazonaws.com:8090' // D-Chain
-  //'ws://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:8090' // E-Chain
-]
+const blockchainUrls = process.env.apiEndpoints;
 
 // Shuffle list of blockchain nodes
 // So every bookie app will not always connect to the first node in the list
 const shuffledBlockhainUrls = _.shuffle(blockchainUrls);
 
-const ASSET_ID = '1.3.1';
+const ASSET_ID = process.env.assetId;
 
 const Config = {
   version: version,
@@ -29,15 +27,15 @@ const Config = {
   btfTransactionFee: 0.00001,
   mbtfTransactionFee: 0.01,
   broadcastAccount: {
-    name: 'pbsa-broadcasts',
+    name: process.env.accounts.broadcasts.name,
     keys: {
-      active: PublicKey.fromPublicKeyString("PPY4vR89Z4TiqxbcDDuv5BV7XRgxhfYquYvC8ciiDnRZanPCLcQJ4")
+      active: PublicKey.fromPublicKeyString(process.env.accounts.broadcasts.key)
     }
   },
   updateAccount: {
-    name: 'peerplays-updates',
+    name: process.env.accounts.updates.name,
     keys: {
-      memo: PrivateKey.fromWif("5JnR1XHTj2BQtM4gf4tDkayfB4TQf15zBAwgSEMQcpyED21bNnv") 
+      memo: PrivateKey.fromWif(process.env.accounts.updates.key)
     }
   },
   gatewayAccountName: 'gateway1', // Any transfer from this account is marked as deposit/ withdraw with gateway
@@ -46,7 +44,7 @@ const Config = {
   // Remember to set the faucet urls properly beforehand
   // We don't have faucet for blocktrades testnet
   registerThroughRegistrar: false,
-  faucetUrls: ['http://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:5000'],
+  faucetUrls: process.env.faucetUrls,
   accountRegistar: {
     name: 'nathan',
     keys: {
