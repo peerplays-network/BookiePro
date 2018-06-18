@@ -240,6 +240,14 @@ class HistoryService {
               unmatchedBetsById = unmatchedBetsById.delete(unmatchedBet.get('id'));
             } else {
               unmatchedBet = unmatchedBet.set('unmatched_bet_amount', updatedUnmatchedAmount);
+
+              // Update the original values so that we can represent what is truely accurate for this bet.
+              if (betType === 'back') {
+                unmatchedBet = unmatchedBet.set('original_profit', updatedUnmatchedAmount);
+              } else {
+                unmatchedBet = unmatchedBet.set('original_liability', updatedUnmatchedAmount);
+              }
+
               unmatchedBetsById = unmatchedBetsById.set(unmatchedBet.get('id'), unmatchedBet);
             }
 
