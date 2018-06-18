@@ -4,6 +4,9 @@ import { SimpleBettingWidget } from '../BettingWidgets';
 import { AllSportsActions } from '../../actions';
 import { AllSportsSelector, QuickBetDrawerSelector } from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
+import HeaderBanner from '../../assets/images/betting_exchange_banner.png';
+import FooterBanner from '../../assets/images/footer_banner.png';
+import { DateUtils } from '../../utility';
 
 const MAX_EVENTS_PER_WIDGET = 3;
 const { getData } = AllSportsActions;
@@ -17,18 +20,22 @@ class AllSports extends PureComponent {
     const { allSportsData, currencyFormat } = this.props;
     return (
       <div id='all-sports-wrapper'>
+        <img alt='The Worlds Betting Exchange' className='banner-ad-header' src={ HeaderBanner }></img>
         {
           allSportsData.map((sportData) => {
             const sportId = sportData.get('sport_id');
             const events = sportData.get('events');
             const sportName = sportData.get('name');
+            let sortedEvents = [];
+            // Sort by event time
+            sortedEvents = DateUtils.sortEventsByDate(events);
             return (
               events.size > 0 &&
               <SimpleBettingWidget
                 sportName={ sportName }
                 key={ sportId }                   // required by React to have unique key
                 title={ sportData.get('name') }
-                events={ events.slice(0, MAX_EVENTS_PER_WIDGET) }
+                events={ sortedEvents.slice(0, MAX_EVENTS_PER_WIDGET) }
                 currencyFormat={ currencyFormat }
                 showFooter={ events.size > MAX_EVENTS_PER_WIDGET }
                 footerLink={ `/exchange/sport/${sportId}` }
@@ -38,6 +45,7 @@ class AllSports extends PureComponent {
             )
           })
         }
+        <img alt='The Worlds Betting Exchange' className='banner-ad-footer' src={ FooterBanner }></img>
         <div className='margin-top-18 logo-container'>
           <PeerPlaysLogo />
         </div>
