@@ -44,7 +44,7 @@ class Export extends PureComponent {
         break;
       }
       case ExportTypes.RESOLVED_BETS: {
-        prefix = I18n.t('myBets.screenName')
+        prefix = I18n.t('mybets.screenName')
         break;
       }
       default: break;
