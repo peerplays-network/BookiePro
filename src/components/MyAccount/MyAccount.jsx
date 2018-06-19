@@ -229,7 +229,8 @@ class MyAccount extends PureComponent {
       <Card className='bookie-card settingComponent'
             title={ I18n.t('myAccount.settings') }
             bordered={ false }
-            style={ {width: '100%'} }>
+            style={ {width: '100%'} }
+            id='setting_card_1'>
         <Row>
           <Col span={ 18 }>
             <p> { I18n.t('myAccount.notifications') }</p>
@@ -252,7 +253,8 @@ class MyAccount extends PureComponent {
               <Select
                 className='bookie-select'
                 defaultValue={ this.props.currencyFormat }
-                onChange={ this.handleCurrFormatChange }>
+                onChange={ this.handleCurrFormatChange }
+                getPopupContainer={ () => document.getElementById('setting_card_1') }>
                 <Option value={ this.props.currencySymbol }> {this.props.currencySymbol}</Option>
                 <Option value={ 'm' + this.props.currencySymbol }>{'m' + this.props.currencySymbol}</Option>
               </Select>

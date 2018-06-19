@@ -44,6 +44,14 @@ var CurrencyUtils = {
     transaction: {
       BTF: 5,
       mBTF: 2
+    },
+    avgStake : {
+      BTF: 3,
+      mBTF: 0
+    },
+    avgProfitLiability : {
+      BTF: 5,
+      mBTF: 2
     }
   },
 
@@ -111,7 +119,7 @@ var CurrencyUtils = {
    *                              will truncate to the number of decimal places equal to precision (thus, less accuracy)
    * @returns {string} - formatted string to support negative bitcoin curruency values
    */
-  getFormattedCurrency: function(amount, currencyFormat = 'mBTF', precision = 0, accuracy=true){
+  getFormattedCurrency: function(amount, currencyFormat = 'mBTF', precision = 0, accuracy=true, avg=false, forExport=false){
     if (!isNaN(amount)) {
       if (amount === 0){
         return amount;
@@ -123,7 +131,10 @@ var CurrencyUtils = {
         if (!accuracy){
           return this.substringPrecision((1000 * amount), mPrecision, accuracy);
         }
-        return ( 1000 * amount ).toFixed(mPrecision);
+        if (forExport){
+          return amount.toFixed(mPrecision);
+        }
+        return avg ? amount.toFixed(precision) : ( 1000 * amount ).toFixed(mPrecision);
       }
 
       if (currencyFormat === 'BTF' || currencyFormat === currencySymbol) {
