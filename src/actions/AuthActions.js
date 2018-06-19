@@ -96,6 +96,12 @@ class AuthPrivateActions {
     }
   }
 
+  static resetChangePwdErrors(){
+    return {
+      type: ActionTypes.AUTH_RESET_CHANGE_PASSWORD_ERRORS
+    }
+  }
+
   /**
    * Log the user in given account name and password
    * This is internal action that is used for the exposed login and signup function
@@ -243,6 +249,8 @@ class AuthActions {
         if (!isAuthenticated) {
           throw new Error(I18n.t('changePassword.old_password_does_not_match'));
         }
+        // No old password error, reset error state.
+        dispatch(AuthPrivateActions.resetChangePwdErrors());
       }).catch((error) => {
         error.message = I18n.t('changePassword.old_password_does_not_match');
         //Set password change error

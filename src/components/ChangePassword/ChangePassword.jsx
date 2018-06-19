@@ -38,7 +38,7 @@ class ChangePassword extends PureComponent{
   }
 
   /**
-   * Invole the {@link AuthActions#validateOldPasswordField} action
+   * Invoke the {@link AuthActions#validateOldPasswordField} action
    * 
    * @param {object} values - data obtained from the {@link ChangePasswordForm}
    * @memberof ChangePassword
