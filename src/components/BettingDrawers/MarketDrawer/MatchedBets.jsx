@@ -44,7 +44,7 @@ class MatchedBets extends PureComponent {
   }
 }
 
-const groupBetsByAverageOdds = (matchedBets, oddsFormat) => {
+const groupBetsByAverageOdds = (matchedBets, oddsFormat, currencyFormat) => {
   // Group bets by betting market id
   let betsByBettingMarketId = Immutable.Map();
   matchedBets.forEach(bet => {
@@ -55,7 +55,7 @@ const groupBetsByAverageOdds = (matchedBets, oddsFormat) => {
     betsByBettingMarketId = betsByBettingMarketId.update(betting_market_id, list => list.push(bet));
   })
   return betsByBettingMarketId.map(bets => {
-    const result = BettingModuleUtils.calculateAverageOddsFromMatchedBets(bets);
+    const result = BettingModuleUtils.calculateAverageOddsFromMatchedBets(bets, currencyFormat);
     const first = bets.get(0);
     return Immutable.fromJS({
       bet_type: first.get('bet_type'),
@@ -104,10 +104,10 @@ const mapStateToProps = (state, ownProps) => {
 
   if (groupByAverageOdds) {
     if (page.has('back')) {
-      page = page.update('back', bets => groupBetsByAverageOdds(bets, oddsFormat));
+      page = page.update('back', bets => groupBetsByAverageOdds(bets, oddsFormat, currencyFormat));
     }
     if (page.has('lay')) {
-      page = page.update('lay', bets => groupBetsByAverageOdds(bets, oddsFormat));
+      page = page.update('lay', bets => groupBetsByAverageOdds(bets, oddsFormat, currencyFormat));
     }
   }
   // Overlay
