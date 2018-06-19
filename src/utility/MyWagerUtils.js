@@ -128,9 +128,11 @@ const getMatchedBetsColumns = (currencyFormat, onEventClick) => {
  * @param {string} currency - display currency, 'BTC' or 'mBTC'
  * @returns {list} - list of objects with 'title', 'dataIndex', 'key' and 'onCellClick'(optional)
  */
-const getResolvedBetsColumns = (currencyFormat) => {
-  const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
-
+const getResolvedBetsColumns = (currencyFormat, forExport = false) => {
+  var currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
+  if (forExport){
+    currencySymbol = currencyFormat;
+  }
   return [
     {
       title:  I18n.t('mybets.resolved_time'),
@@ -158,13 +160,15 @@ const getResolvedBetsColumns = (currencyFormat) => {
       key: 'backer_multiplier',
     },
     {
-      title: renderTitle(I18n.t('mybets.bet_amount'), currencySymbol),
+      title: forExport ? I18n.t('mybets.bet_amount') + ' (' + currencySymbol + ')' 
+        : renderTitle(I18n.t('mybets.bet_amount'), currencySymbol),
       dataIndex: 'stake',
       key: 'stake',
       className: 'value_text_label',
     },
     {
-      title: renderTitle(I18n.t('mybets.winnings'), currencySymbol),
+      title: forExport ? I18n.t('mybets.winnings') + ' (' + currencySymbol + ')' 
+        : renderTitle(I18n.t('mybets.winnings'), currencySymbol),
       dataIndex: 'profit_liability',
       key: 'profit_liability',
       className: 'value_text_label',
@@ -179,26 +183,7 @@ const getResolvedBetsColumns = (currencyFormat) => {
 
 }
 
-//merge data from relationalCollection to collection by foreign key relationId
-//mergeColumns is key value pair in which key is new column name to be set collection
-//value represent source column of relationalCollection, value of which to be copied to collection
-const mergeRelationData = (collection, relationalCollection, relationId, mergeColumns) => {
-  collection.forEach((d, index) => {
-    //get object from relationalCollection on the basis of foreign key value from collection
-    var matchObj = relationalCollection.get(d.get(relationId));
-    //iterate through mergeColumns to set value from relational object to specific object in collection
-    matchObj && Object.keys(mergeColumns).forEach(function(r){
-      //set column value
-      d = d.set(mergeColumns[r], matchObj.get(r));
-    });
-    //replacing updated object in collection
-    collection[index] = d;
-  });
-  return collection;
-}
-
 const MyWagerUtils = {
-  mergeRelationData,
   getUnmatchedBetsColumns,
   getMatchedBetsColumns,
   getResolvedBetsColumns
