@@ -120,6 +120,9 @@ var CurrencyUtils = {
       if (currencyFormat === 'mBTF' || currencyFormat === mCurrencySymbol) {
         // 1 BTF = 1 * 10^3 mBTF
         const mPrecision = precision < 3 ? 0 : precision - 3;
+        if (!accuracy){
+          return this.substringPrecision((1000 * amount), mPrecision, accuracy);
+        }
         return ( 1000 * amount ).toFixed(mPrecision);
       }
 
