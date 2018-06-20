@@ -52,9 +52,8 @@ class Signup extends PureComponent {
       <div className='onboardingSportsBackground signupComponent'>
         <div className='wrapper'>
           <div className='text-center'>
-            <img src={ logo } className='logo' width='110px' height='112px' alt=''/>
+            <img src={ logo } className='logo' width='213px' height='100px' alt=''/>
             <p className='font18 margin-btm-24'>{I18n.t('signup.new_acc_req_text')}</p>
-            <p className='helperText'>{ I18n.t('signup.loginWithAccount') }</p>
             <div className='center-ele'>
               <SignupForm
                 loadingStatus={ this.props.status }

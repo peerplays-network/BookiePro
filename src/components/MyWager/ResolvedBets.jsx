@@ -55,14 +55,16 @@ class ResolvedBets extends PureComponent {
       handleResetExport
     } = this.props;
 
-    const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat);
+    const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
 
     return (
       <div className='table-card'>
         <div>
           <div className='filterComponent clearfix'>
             <div className='float-left'>
-              <p className='card-title'>{ I18n.t('mybets.total') } : <span>{ currencySymbol + (betsTotal ? betsTotal : 0) }</span> </p>
+              <p className='card-title'>
+                { I18n.t('mybets.total') } { currencySymbol } { (betsTotal ? betsTotal : 0) } 
+              </p>
             </div>
             <div className='float-right'>
               <TimeRangePicker

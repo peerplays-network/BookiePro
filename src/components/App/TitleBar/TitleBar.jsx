@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import MacTitleBar from './MacTitleBar';
 import WindowsTitleBar from './WindowsTitleBar';
 import { AppUtils } from '../../../utility';
-import { ConnectionStatus } from '../../../constants';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -130,7 +129,7 @@ class TitleBar extends PureComponent {
   };
 
   render() {
-    const { isConnectedToBlockchain, isWindowsPlatform, isTransparent, height } = this.props;
+    const { isWindowsPlatform, isTransparent, height } = this.props;
 
     let style = {
       height,
@@ -149,7 +148,6 @@ class TitleBar extends PureComponent {
           onMinimizeClick={ this.onMinimizeClick }
           onCloseClick={ this.onCloseClick }
           isMaximized={ this.state.isMaximized }
-          isConnected={ isConnectedToBlockchain }
           style={ style }
         />
       );
@@ -163,7 +161,6 @@ class TitleBar extends PureComponent {
           onResizeClick={ this.onResizeClick }
           onCloseClick={ this.onCloseClick }
           isFullscreen={ this.state.isFullscreen }
-          isConnected={ isConnectedToBlockchain }
           style={ style }
         />
       )
@@ -173,16 +170,13 @@ class TitleBar extends PureComponent {
 
 TitleBar.propTypes = {
   isWindowsPlatform: PropTypes.bool,
-  isConnectedToBlockchain: PropTypes.bool,
   isTitleBarTransparent: PropTypes.bool,
   height: PropTypes.string,
   style: PropTypes.object
 }
 
 const mapStateToProps = (state) => {
-  return {
-    isConnected: state.getIn(['app', 'connectionStatus']) === ConnectionStatus.CONNECTED
-  }
+  return {}
 }
 
 export default connect(mapStateToProps)(TitleBar);

@@ -229,7 +229,8 @@ class MyAccount extends PureComponent {
       <Card className='bookie-card settingComponent'
             title={ I18n.t('myAccount.settings') }
             bordered={ false }
-            style={ {width: '100%'} }>
+            style={ {width: '100%'} }
+            id='setting_card_1'>
         <Row>
           <Col span={ 18 }>
             <p> { I18n.t('myAccount.notifications') }</p>
@@ -252,31 +253,35 @@ class MyAccount extends PureComponent {
               <Select
                 className='bookie-select'
                 defaultValue={ this.props.currencyFormat }
-                onChange={ this.handleCurrFormatChange }>
-                <Option value='BTC'> BTC</Option>
-                <Option value='mBTC'>mBTC</Option>
+                onChange={ this.handleCurrFormatChange }
+                getPopupContainer={ () => document.getElementById('setting_card_1') }>
+                <Option value={ this.props.currencySymbol }> {this.props.currencySymbol}</Option>
+                <Option value={ 'm' + this.props.currencySymbol }>{'m' + this.props.currencySymbol}</Option>
               </Select>
             </div>
           </Col>
         </Row>
 
-        <Row className='margin-tb-15'>
-          <Col span={ 18 }>
-            <p
-              className='padding-tb-5'>{ I18n.t('myAccount.oddsFormat') }</p>
-          </Col>
-          <Col span={ 6 }>
-            <div ref='global_object'>
-              <Select
-                className='bookie-select'
-                defaultValue={ this.props.oddsFormat }
-                onChange={ this.handleOddsFormatChange }>
-                <Option value='decimal'>Decimal</Option>
-                <Option value='american'>American</Option>
-              </Select>
-            </div>
-          </Col>
-        </Row>
+        { // @ FEATURE_FLAG
+          this.props.americanOddsEnabled ? 
+          <Row className='margin-tb-15'>
+            <Col span={ 18 }>
+              <p
+                className='padding-tb-5'>{ I18n.t('myAccount.oddsFormat') }</p>
+            </Col>
+            <Col span={ 6 }>
+              <div ref='global_object'>
+                <Select
+                  className='bookie-select'
+                  defaultValue={ this.props.oddsFormat }
+                  onChange={ this.handleOddsFormatChange }>
+                  <Option value='decimal'>Decimal</Option>
+                  <Option value='american'>American</Option>
+                </Select>
+              </div>
+            </Col>
+          </Row> : ''
+        }
 
 
         <div className='card-footer'>
@@ -287,7 +292,7 @@ class MyAccount extends PureComponent {
               className='btn btn-primary margin-tb-15'>
               { I18n.t('myAccount.change_password') }
             </button>
-            <button className='btn btn-secondary'
+            <button className='btn btn-cancel'
               onClick={ this.handleDownloadPasswordFile }>
               { I18n.t('myAccount.create_recovery_file') }
             </button>
@@ -316,9 +321,9 @@ class MyAccount extends PureComponent {
           </Col>
         </Row>
         <Row gutter={ 20 }>
-          { this.props.depositsEnabled ? 
+          { this.props.depositsEnabled ? // @ FEATURE_FLAG
             <Col span={ 8 }>
-              <Deposit cardClass='bookie-card depositCardComponent' depositAddress={ this.props.depositAddress }/>
+              <Deposit cardClass='bookie-card depositCardComponent' depositAddress={ this.props.depositAddress } currency={ this.props.currencyFormat }/>
             </Col> 
           : null }
           { this.props.withdrawalsEnabled ? 
@@ -362,7 +367,9 @@ class MyAccount extends PureComponent {
 
 MyAccount.defaultProps = {
   depositsEnabled: Config.features.deposits,
-  withdrawalsEnabled: Config.features.withdrawels
+  withdrawalsEnabled: Config.features.withdrawels,
+  currencySymbol: Config.features.currency,
+  americanOddsEnabled: Config.features.americanOdds
 };
 
 const mapStateToProps = (state) => {
@@ -382,10 +389,7 @@ const mapStateToProps = (state) => {
     availableBalance: MyAccountPageSelector.availableBalanceSelector(state),
     withdrawLoadingStatus: MyAccountPageSelector.withdrawLoadingStatusSelector(state),
     convertedAvailableBalance : MyAccountPageSelector.formattedAvailableBalanceSelector(state),
-    accountName: MyAccountPageSelector.accountNameSelector(state),
-    // Manual Feature Overrides
-    /*depositsEnabled: true,
-    withdawalsEnabled: true*/
+    accountName: MyAccountPageSelector.accountNameSelector(state)
   }
 }
 

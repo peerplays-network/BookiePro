@@ -98,7 +98,7 @@ class ChangePassword extends PureComponent{
                 <div className='text-center'>
                   <i className='icon-lock'></i>
                   <p className='font16'>{ <Translate value='changePassword.successText' dangerousHTML/> }</p>
-                    <button className='btn btn-regular grid-100 margin-top-25' type='button' onClick={ this.navigateToMyAccount }>
+                    <button className='btn btn-regular grid-100 btn-top-margin' type='button' onClick={ this.navigateToMyAccount }>
                       { I18n.t('changePassword.back_to_my_account') }
                     </button>
                 </div> : null

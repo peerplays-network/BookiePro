@@ -120,7 +120,7 @@ class TopMenuWithdraw extends PureComponent {
       isWithdrawLoadingStatusDone = withdrawLoadingStatus===LoadingStatus.DONE,
       isDisabled = invalid || submitting || asyncValidating || pristine ||
                        this.state.hasWithdrawAmountErr || isWithdrawLoadingStatusLoading,
-      prefix = currencyFormat === 'BTC' ? 'icon-bitcoin' : ( currencyFormat === 'mBTC' ? 'icon-mbitcoin' : '');
+      prefix = currencyFormat === 'BTF' ? 'icon-bitcoin' : ( currencyFormat === 'mBTF' ? 'icon-mbitcoin' : '');
 
     let withdrawCardTitle = I18n.t('myAccount.withdraw');
     if(isWithdrawLoadingStatusDone)

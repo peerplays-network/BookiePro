@@ -1,4 +1,4 @@
-import { ActionTypes } from '../constants';
+import { ActionTypes, Config } from '../constants';
 import _ from 'lodash';
 import Immutable from 'immutable';
 
@@ -6,7 +6,8 @@ let initialState = Immutable.Map({
   referenceAccount: {},
   referenceAccountStatistics: {},
   version: '0.0.1', // minimum value, we not using null to avoid null checking
-  displayText: null
+  displayText: null,
+  hardUpdateGracePeriod: Config.hardUpdateGracePeriod
 });
 
 export default function (state = initialState, action) {
@@ -24,7 +25,9 @@ export default function (state = initialState, action) {
     case ActionTypes.SOFTWARE_UPDATE_SET_UPDATE_PARAMETER: {
       return state.merge({
         version: action.version,
-        displayText: action.displayText
+        displayText: action.displayText,
+        date: action.date,
+        link: action.link
       });
     }
     default:
