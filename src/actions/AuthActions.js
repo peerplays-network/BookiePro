@@ -115,6 +115,8 @@ class AuthPrivateActions {
           dispatch(AccountActions.setPasswordAction(password));
           // Save account statistic
           dispatch(AccountActions.setStatistics(accountStatistics));
+          // Ensure we are synced in the event of a forced login due to web connection loss.
+          AppActions.connectToBlockchain();
           // Save account available balance
           dispatch(BalanceActions.addOrUpdateAvailableBalances(availableBalances));
           // Set initial setting (in case this is first time login)
