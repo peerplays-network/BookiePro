@@ -32,6 +32,50 @@
       padding-top: 8px;
       font-weight:500;
       text-transform: uppercase;
+      .live {
+        display: inline-flex;
+        align-items: center;
+        color: @primary_label;
+        margin-left: 10px;
+        padding-right: 6px;
+        padding-left: 12px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: @live_market_marker;
+        font-size: 12px;
+        font-weight: bold;
+        .indicator{
+          background-color: @white;
+          border-radius: 50%;
+          display: inline-block;
+          width:8px;
+          height:8px;
+          margin-right:4px;
+          margin-bottom: 1px;
+        }
+      }
+      .going-live {
+        display: inline-flex;
+        align-items: center;
+        color: @cinder;
+        margin-left: 10px;
+        padding-right: 6px;
+        padding-left: 12px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: @going_live_market_marker;
+        font-size: 12px;
+        font-weight: bold;
+        .indicator{
+          background-color: @white;
+          border-radius: 50%;
+          display: inline-block;
+          width:8px;
+          height:8px;
+          margin-right:4px;
+          margin-bottom: 1px;
+        }
+      }
       line-height: 18px;
     }
 
@@ -49,9 +93,14 @@
     }
 
   }
-
+    
   .live {
+    right: 12px;
+    bottom: 10px;
+    padding: 5px 10px;
     background-color: @live_market_marker;
+    right: 12px;
+    bottom: 10px;
     padding: 6px 12px;
     margin-top: 12px;
     font-size: 12px;

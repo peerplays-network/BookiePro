@@ -7,8 +7,6 @@ class Event extends PureComponent {
     const { id, onClick, data, name } = this.props;
 
     let date = DateUtils.getMonthAndDay(data.start_time);
-
-        
     let appliedStateClass = '';
 
     // Set classes to be able to properly style the different states.

@@ -16,7 +16,7 @@ import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import './PlacedBets.less';
 import { Empty, OverlayUtils } from '../Common';
-import { BettingDrawerStates } from '../../../constants'
+import { BettingDrawerStates, Config } from '../../../constants'
 
 class PlacedBets extends PureComponent {
   componentDidMount() {
@@ -82,11 +82,24 @@ const mapStateToProps = (state, ownProps) => {
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   // Total Bet amount for updated bets ONLY
   const updatedBets = unmatchedBets.filter(bet => bet.get('updated'));
-  const totalAmount = updatedBets.reduce((total, bet) => {
-    const stake = parseFloat(bet.get('stake'));
-    const originalStake = parseFloat(bet.get('original_stake'));
+  
+  // Update the total amount based on changed bets.
+  const totalAmount = updatedBets.reduce((total, bet) => {    
+    const stake = bet.get('bet_type') === 'back' ? parseFloat(bet.get('stake')) : parseFloat(bet.get('liability'));
+    const originalStake = bet.get('bet_type') === 'back' ? parseFloat(bet.get('original_stake')) : parseFloat(bet.get('original_liability'));
+
     return total + (!isNaN(stake) && !isNaN(originalStake) ? stake - originalStake : 0.0);
   }, 0.0);
+
+  // Add the transaction fee to the place bet button. 
+  /*Precision value will affect whether or not the full number will be displayed, regardless of it being added. */
+  let transactionFee = ownProps.currencyFormat === 'BTF' ? Config.btfTransactionFee : Config.mbtfTransactionFee;
+
+  // Add a transaction fee for each updated bet.
+  if (updatedBets.size > 0) {
+    transactionFee = updatedBets.size * transactionFee;
+  } 
+
   // Number of Good bets
   const numberOfGoodBets = updatedBets.reduce((sum, bet) => {
     return sum + (BettingModuleUtils.isValidBet(bet) | 0);
@@ -101,9 +114,8 @@ const mapStateToProps = (state, ownProps) => {
     unmatchedBetToBeDeleted: state.getIn(['marketDrawer', 'unmatchedBetToBeDeleted']),
     numberOfGoodBets,
     numberOfBadBets: updatedBets.size - numberOfGoodBets,
-    totalBetAmountFloat: totalAmount,
-    totalBetAmountString: CurrencyUtils.getCurrencySymbol(ownProps.currencyFormat) +
-                            CurrencyUtils.toFixed('stake', totalAmount, ownProps.currencyFormat)
+    totalBetAmountFloat: totalAmount + transactionFee,
+    totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat)
   }
 }
 

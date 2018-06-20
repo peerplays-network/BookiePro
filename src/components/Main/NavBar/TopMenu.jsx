@@ -15,6 +15,15 @@ import { initialize } from 'redux-form';
 const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
 import { I18n } from 'react-redux-i18n';
 
+import { AppUtils } from '../../../utility';
+
+const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
+
+let electron;
+if (isRunningInsideElectron) {
+  electron = window.require('electron');
+}
+
 class TopMenu extends PureComponent {
   constructor(props) {
     super(props);
@@ -27,7 +36,7 @@ class TopMenu extends PureComponent {
       withdrawAmount:'',
       isSubMenuVisible: false,
       isNotificationCardVisible: false
-    };
+    };    
 
     this.handleClick = this.handleClick.bind(this);
     this.handleWithdrawSubmit = this.handleWithdrawSubmit.bind(this);
@@ -76,8 +85,11 @@ class TopMenu extends PureComponent {
         this.props.navigateTo('/my-account');
         break;
       }
-      case NotificationTypes.SOFTWARE_UPDATE_AVAILABLE: {
-        this.props.showSoftwareUpdatePopup(true);
+      case NotificationTypes.SOFTWARE_UPDATE_AVAILABLE: {      
+        if (electron) {
+          // Case of electron
+          electron.shell.openExternal(notification.get('link'))
+        }
         break;
       }
       case NotificationTypes.TRANSACTION_HISTORY_DATA_EXPORTED: {
@@ -97,8 +109,6 @@ class TopMenu extends PureComponent {
   componentDidMount(){
     //Get the deposit address
     this.props.getDepositAddress();
-    console.log("----- TopMenu Mounted");
-    console.log(Config.coreAsset);
   }
 
   handleClick(e) {
@@ -188,6 +198,32 @@ class TopMenu extends PureComponent {
         onClickCloseItem={ this.handleNotificationCardItemClickClose }
       />
     );
+    const iconCurrencyClass = (isAmountComponentVisible, curr) => {
+      let configCurr = Config.features.currency;
+      if (curr !== configCurr && curr !== 'm' + configCurr){
+        curr = Config.features.currency;
+      }
+      switch (curr){
+        case 'BTC':
+          return isAmountComponentVisible ? 'bitcoin-icon-selected' : 'bitcoin-icon';
+        case 'mBTC':
+          return isAmountComponentVisible ? 'mbitcoin-icon-selected' : 'mbitcoin-icon';
+        case 'BTF':
+          return isAmountComponentVisible ? 'bitfun-icon-selected' : 'bitfun-icon';
+        case 'mBTF':
+          return isAmountComponentVisible ? 'mbitfun-icon-selected' : 'mbitfun-icon';
+        default:
+          break;
+      }
+    }
+    const parentIconCurrencyClass = () => {
+      let configCurr = Config.features.currency;      
+      if(configCurr === 'BTC'){
+        return 'icon-main bitcoin-icon-main';
+      } else if (configCurr === 'BTF'){
+        return 'icon-main bitfun-icon-main';
+      }
+    }
     return (
       <Menu
         className='top-menu'
@@ -208,12 +244,11 @@ class TopMenu extends PureComponent {
               <Dropdown trigger={ ['click'] } overlay={ amountCard } placement='bottomRight'
                 onVisibleChange={ this.handleAmountComponentVisibleChange } visible={ false }>
                 <Tooltip overlayClassName='bookie-tooltip bookie-tooltip-amount' placement='bottom' title={ I18n.t('topbar_tooltip.account_balance') }>
-                <div className='icon-main bitcoin-icon-main'>
+                <div className={ parentIconCurrencyClass() }>
                   <a className={ this.state.isAmountComponentVisible ? 'ant-dropdown-link-clicked ' : 'ant-dropdown-link' } href='#'>
                     <div>
-                      <i className={ this.state.isAmountComponentVisible ? (this.props.currencyFormat === 'BTC' ? 'bitcoin-icon-selected' : 'mbitcoin-icon-selected') :
-                          (this.props.currencyFormat === 'BTC' ? 'bitcoin-icon' : 'mbitcoin-icon') }></i>
-                        { this.props.availableBalance }
+                      <i className={ iconCurrencyClass(this.state.isAmountComponentVisible, this.props.currencyFormat) }></i>
+                      { this.props.availableBalance }
                     </div>
                   </a>
                 </div>
@@ -299,7 +334,7 @@ class TopMenu extends PureComponent {
 
 TopMenu.defaultProps = {
   depositsEnabled: Config.features.deposits,
-  withdrawalsEnabled: Config.features.withdrawels
+  withdrawalsEnabled: Config.features.withdrawels,
 };
 
 const mapStateToProps = (state) => {
@@ -308,7 +343,11 @@ const mapStateToProps = (state) => {
   const accountId = account.getIn(['account','id']);
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']) ;
   const precision = state.getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
-  const balance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
+  let balance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
+  // Make Sure the balance is 0
+  if (!balance || balance < 0) {
+    balance = 0;
+  }
   const convertedAvailableBalance = CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces);
   let availableBalance = balance !== undefined ? convertedAvailableBalance : 0;
 

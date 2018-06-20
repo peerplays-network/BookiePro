@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import { LoadingStatus, ActionTypes, BettingDrawerStates } from '../constants';
+import { LoadingStatus, ActionTypes, BettingDrawerStates, BetTypes } from '../constants';
 import { BettingModuleUtils } from '../utility';
 
 let initialState = Immutable.fromJS({
@@ -75,9 +75,10 @@ export default function(state = initialState, action) {
       const index = unconfirmedBets.findIndex(b => b.get('id') === action.delta.get('id'));
       const { delta } = action;
       let bet = unconfirmedBets.get(index).set(delta.get('field'), delta.get('value'));
+      const betType = bet.get('bet_type');
       // Calculate the profit/liability of a bet based on the latest odds and stake value
       if (bet.has('stake')) {
-        const profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
+        const profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'), action.currencyFormat, betType === BetTypes.BACK ? 'profit' : 'liability');
         bet = bet.set('profit', profit).set('liability', profit);
       }
       return state.merge({
@@ -143,23 +144,32 @@ export default function(state = initialState, action) {
         bettingMarketGroupId: action.bettingMarketGroupId,
       });
     }
-    case ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNMATCHED_BET: {
+    case ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNMATCHED_BET: {      
       const { delta } = action;
       const index = unmatchedBets.findIndex(b => b.get('id') === delta.get('id'));
       let bet = unmatchedBets.get(index).set(delta.get('field'), delta.get('value'));
-      // Calculate the profit/liability of a bet based on the latest odds and stake value
-      if (bet.has('stake')) {
-        const profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
-        bet = bet.set('profit', profit).set('liability', profit);
-      }
-      // Check if the bet needs to be marked as updated
-      // NOTE: For unmatched bets, the original stake and odds MUST exist
-      const updated = (bet.has('stake') && bet.get('stake') !== bet.get('original_stake')) ||
+      const betType = bet.get('bet_type'); 
+
+      // Check whether or not to update first, then make decisions on how to alter the bet after
+      const updated = (bet.has('stake') && bet.get('stake').toString() !== bet.get('original_stake').toString()) ||
                       (bet.has('odds') && bet.get('odds') !== bet.get('original_odds'));
-      bet = bet.set('updated', updated);
+
+      bet = bet.set('updated', updated); // Set the updated value
+
+      if (updated) { // If the bet has odds or stake that is different from the original, recalculate the new profit or liability 
+        // Calculate the profit/liability of a bet based on the latest odds and stake value
+        if (bet.has('stake')) {
+          const profitLiability = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'), action.currencyFormat, betType === BetTypes.BACK ? 'profit' : 'liability');
+          bet = bet.set(betType === 'back' ? 'profit' : 'liability', profitLiability);
+        }
+      } else { // Use the original profit or liability if the odds and the stake are the same as the original
+        bet = bet.set(betType === 'back' ? 'profit' : 'liability',
+                      betType === 'back' ? bet.get('original_profit') : bet.get('original_liability'));
+      }    
+
       return state.merge({
         unmatchedBets: unmatchedBets.set(index, bet)
-      })
+      });
     }
     case ActionTypes.MARKET_DRAWER_DELETE_ONE_UNMATCHED_BET: {
       return state.merge({
@@ -230,6 +240,8 @@ export default function(state = initialState, action) {
         bet.set('updated', false)
            .set('odds', bet.get('original_odds'))
            .set('stake', bet.get('original_stake'))
+           .set('profit', bet.get('original_profit'))
+           .set('liability', bet.get('original_liability'))
       );
       return state.merge({
         unmatchedBets: restoredBets,

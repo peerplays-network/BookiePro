@@ -75,7 +75,6 @@ class MyWager extends PureComponent {
     this.props.resetTimeRange();
   }
 
-
   /** Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb */
   onHomeLinkClick(e){
     e.preventDefault();
@@ -114,14 +113,7 @@ class MyWager extends PureComponent {
     // First set the history time range, so the search result is re-filtered
     this.props.setResolvedBetsTimeRange(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
     // Then generate export data
-    this.props.generateResolvedBetsExportData(this.props.betsColumns);
-  }
-
-  handleExportFinishDownload() {
-    // Reset
-    this.props.resetResolvedBetsExportLoadingStatus();
-    this.props.clearResolvedBetsExport();
-    this.setState({ exportButtonClicked: false });
+    this.props.generateResolvedBetsExportData(this.props.betsData);    
   }
 
   handleExportFinishDownload() {
@@ -156,7 +148,6 @@ class MyWager extends PureComponent {
   onTabChange(key) {
     this.props.setActiveTab(key);
   }
-
 
   /**
    * Called on 'event name' click in Unmatched bets list {@link UnmatchedBets}
@@ -280,7 +271,7 @@ function filterOdds(tableData, oddsFormat) {
     for (let row in tableData) {
       if (tableData[row]) {
         tableData[row].backer_multiplier = BettingModuleUtils.oddsFormatFilter(tableData[row].backer_multiplier, oddsFormat)
-        .toFixed(CurrencyUtils.fieldPrecisionMap['odds']['BTC']);
+        .toFixed(CurrencyUtils.fieldPrecisionMap['odds']['BTF']);
       }
     }
   }

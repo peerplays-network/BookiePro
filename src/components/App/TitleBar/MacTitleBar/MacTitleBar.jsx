@@ -9,7 +9,6 @@ class MacTitleBar extends PureComponent {
 
   render() {
     const {
-        isConnected,
         isWindowFocused,
         onMaximizeClick,
         onMinimizeClick,
@@ -33,7 +32,6 @@ class MacTitleBar extends PureComponent {
           />
         </div>
         <div className='right'>
-          <i className={ isConnected ? 'connection-status-online' : 'connection-status-offline' } />
           <Clock className='clock' />
         </div>
 
@@ -49,8 +47,7 @@ MacTitleBar.propTypes = {
   onResizeClick: PropTypes.func,
   onMinimizeClick: PropTypes.func,
   onCloseClick: PropTypes.func,
-  isFullscreen: PropTypes.bool,
-  isConnected: PropTypes.bool
+  isFullscreen: PropTypes.bool
 };
 
 export default MacTitleBar;

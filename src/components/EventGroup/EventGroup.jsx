@@ -5,6 +5,7 @@ import { SimpleBettingWidget } from '../BettingWidgets';
 import { EventGroupPageActions, NavigateActions } from '../../actions';
 import { EventGroupPageSelector, QuickBetDrawerSelector } from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
+import { DateUtils } from '../../utility';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
 
@@ -38,6 +39,8 @@ class EventGroup extends PureComponent {
     if (!eventGroup || eventGroup.isEmpty()) {
       return null;
     } else {
+      let sortedEvents = [];
+      sortedEvents = DateUtils.sortEventsByDate(events);
       return (
        <div className='event-group-wrapper'>
          <SportBanner sport={ sportName }/>
@@ -47,11 +50,11 @@ class EventGroup extends PureComponent {
            events={ events }
            currencyFormat={ currencyFormat }
            showFooter={ false }
-           showPagination={ events.size > MAX_EVENT_PER_PAGE }
+           showPagination={ sortedEvents.size > MAX_EVENT_PER_PAGE }
            pageSize={ MAX_EVENT_PER_PAGE }
            canCreateBet={ this.props.canCreateBet }
          />
-         <div className='margin-top-18'>
+         <div className='margin-top-18 logo-container'>
            <PeerPlaysLogo />
          </div>
        </div>

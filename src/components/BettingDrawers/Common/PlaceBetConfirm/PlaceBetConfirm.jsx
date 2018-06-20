@@ -5,7 +5,7 @@ import { I18n, Translate } from 'react-redux-i18n';
 const PERFECT = 'perfect';
 const IMPERFECT = 'imperfect';
 
-const renderInstructions = (className, goodBets, badBets, amount) => {
+const renderInstructions = (className, goodBets, badBets) => {
   let instructions = '';
   if (badBets > 0) {
     instructions =
@@ -13,14 +13,12 @@ const renderInstructions = (className, goodBets, badBets, amount) => {
         <Translate
           value={ `${ className }.bad_bets` }
           bad_bets={ badBets }
-          amount={ amount }
           count={ badBets }
           dangerousHTML/>
         <br/>
         <Translate
           value={ `${ className }.good_bets` }
           good_bets={ goodBets }
-          amount={ amount }
           count={ goodBets }
           dangerousHTML/>
       </span>
@@ -29,7 +27,6 @@ const renderInstructions = (className, goodBets, badBets, amount) => {
       <Translate
         value={ `${ className }.good_bets` }
         good_bets={ goodBets }
-        amount={ amount }
         count={ goodBets }
         dangerousHTML/>
   }
@@ -38,12 +35,14 @@ const renderInstructions = (className, goodBets, badBets, amount) => {
 }
 
 const PlaceBetConfirm = (props) => {
-  const { className, cancelAction, confirmAction, goodBets, badBets, amount } = props;
+  const { className, cancelAction, confirmAction, goodBets, badBets, amount, currencySymbol } = props;
   const extendedClassName = `${ className }.${badBets === 0 ? PERFECT : IMPERFECT}`;
   return (
     <div className='overlay'>
       <div className='instructions'>
-        { renderInstructions(extendedClassName, goodBets, badBets, amount) }
+        { renderInstructions(extendedClassName, goodBets, badBets) }
+        { currencySymbol } { amount }
+        <p>{ I18n.t(`${extendedClassName}.are_you_sure`)}?</p>
       </div>
       <div className='buttons'>
         <Button className='btn btn-cancel' onClick={ cancelAction }>

@@ -1,5 +1,6 @@
 import CommonSelector from './CommonSelector';
 import { createSelector } from 'reselect';
+import { DateUtils } from '../utility';
 import Immutable from 'immutable';
 
 const {
@@ -111,23 +112,28 @@ const getEventGroupPageData = createSelector(
     // Create event nodes (= event group page data) based on active events
     const activeEvents = activeEventsByEventGroupId.get(relatedEventGroupId) || Immutable.List();
     const eventGroupPageData = activeEvents.map((event) => {
-      const offers = simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
-      // Find the MoneyLine Betting Market Group of this event
-      const moneylineBettingMarketId = offers.getIn(['0', 'betting_market_id']);
-      const moneylineBettingMarketGroupId = bettingMarketsById.getIn([moneylineBettingMarketId, 'group_id']);
-      // Create event node
-      return Immutable.fromJS({
-        event_id: event.get('id'),
-        event_name: event.get('name'),
-        time: event.get('start_time'),
-        isLiveMarket: event.get('is_live_market'),
-        offers,
-        moneyline: moneylineBettingMarketGroupId,
-      });
+      if (event.get('status') !== null || event.get('status') !== undefined){
+        const offers = simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
+        // Find the MoneyLine Betting Market Group of this event
+        const bettingMarketId = offers.getIn(['0', 'betting_market_id']);
+        const bettingMarketGroupId = bettingMarketsById.getIn([bettingMarketId, 'group_id']);
+        // Create event node
+        return Immutable.fromJS({
+          event_id: event.get('id'),
+          event_name: event.get('name'),
+          time: DateUtils.getLocalDate(event.get('start_time')),
+          isLiveMarket: event.get('is_live_market'),
+          eventStatus: event.get('status').toLowerCase(),
+          offers,
+          bettingMarketGroupId: bettingMarketGroupId,
+        });
+      } else {
+        return Immutable.List();
+      }
     }).filter( eventNode => {
-      return eventNode.get('moneyline') !== undefined
+      return eventNode.get('bettingMarketGroupId') !== undefined
     });
-
+    
     return eventGroupPageData;
   }
 )

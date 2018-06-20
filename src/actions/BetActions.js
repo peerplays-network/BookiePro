@@ -320,7 +320,7 @@ class BetActions {
           const currencyFormat = setting.get('currencyFormat');
 
           // If the Better's currency format is set to 'mBTC' ...
-          if (currencyFormat === 'mBTC') {
+          if (currencyFormat === 'mBTF') {
             // ... reduce the precision by 3.
             betAssetPrecision = Math.max(betAssetPrecision - 3, 0);
           };
@@ -503,7 +503,7 @@ class BetActions {
           const currencyFormat = setting.get('currencyFormat');
 
           // If the Better's currency format is set to 'mBTC' ...
-          if (currencyFormat === 'mBTC') {
+          if (currencyFormat === 'mBTF') {
             // ... reduce the precision by 3
             betAssetPrecision = Math.max(betAssetPrecision - 3, 0);
           };

@@ -13,11 +13,11 @@ import { bindActionCreators } from 'redux';
 import { Checkbox } from 'antd';
 import Immutable from 'immutable';
 import { I18n } from 'react-redux-i18n';
-import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
+import { BettingModuleUtils } from '../../../utility';
 import { MarketDrawerActions } from '../../../actions';
 import BetTable from '../BetTable';
 import './MatchedBets.less';
-import { BettingDrawerStates } from '../../../constants'
+import { BettingDrawerStates, BetTypes } from '../../../constants'
 import { MyAccountPageSelector } from '../../../selectors';
 
 class MatchedBets extends PureComponent {
@@ -44,7 +44,7 @@ class MatchedBets extends PureComponent {
   }
 }
 
-const groupBetsByAverageOdds = (matchedBets, oddsFormat) => {
+const groupBetsByAverageOdds = (matchedBets, oddsFormat, currencyFormat) => {
   // Group bets by betting market id
   let betsByBettingMarketId = Immutable.Map();
   matchedBets.forEach(bet => {
@@ -55,7 +55,7 @@ const groupBetsByAverageOdds = (matchedBets, oddsFormat) => {
     betsByBettingMarketId = betsByBettingMarketId.update(betting_market_id, list => list.push(bet));
   })
   return betsByBettingMarketId.map(bets => {
-    const result = BettingModuleUtils.calculateAverageOddsFromMatchedBets(bets);
+    const result = BettingModuleUtils.calculateAverageOddsFromMatchedBets(bets, currencyFormat);
     const first = bets.get(0);
     return Immutable.fromJS({
       bet_type: first.get('bet_type'),
@@ -76,6 +76,7 @@ const mapStateToProps = (state, ownProps) => {
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   const groupByAverageOdds = state.getIn(['marketDrawer', 'groupByAverageOdds']);
   const oddsFormat = MyAccountPageSelector.oddsFormatSelector(state)
+  const currencyFormat = MyAccountPageSelector.currencyFormatSelector(state)
   // Transform the raw bet data into a specific format for the EditableBetTable
   const originalBets = matchedBets;
   // This is essentially the same procedure used in BetSlip
@@ -88,7 +89,8 @@ const mapStateToProps = (state, ownProps) => {
     }
     // Add the bet to the list of bets with the same market type
     let betListByBetType = page.get(betType);
-    let profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
+
+    let profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'), currencyFormat, betType === BetTypes.BACK ? 'profit' : 'liability');
     let odds = BettingModuleUtils.oddsFormatFilter(bet.get('odds'), oddsFormat, 'decimal')
 
     bet = bet.set('profit', profit).set('liability', profit).set('odds', odds)
@@ -102,10 +104,10 @@ const mapStateToProps = (state, ownProps) => {
 
   if (groupByAverageOdds) {
     if (page.has('back')) {
-      page = page.update('back', bets => groupBetsByAverageOdds(bets, oddsFormat));
+      page = page.update('back', bets => groupBetsByAverageOdds(bets, oddsFormat, currencyFormat));
     }
     if (page.has('lay')) {
-      page = page.update('lay', bets => groupBetsByAverageOdds(bets, oddsFormat));
+      page = page.update('lay', bets => groupBetsByAverageOdds(bets, oddsFormat, currencyFormat));
     }
   }
   // Overlay

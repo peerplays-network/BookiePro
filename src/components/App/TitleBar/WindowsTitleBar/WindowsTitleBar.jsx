@@ -9,7 +9,6 @@ class WindowsTitleBar extends PureComponent {
 
   render() {
     const {
-        isConnected,
         isWindowFocused,
         onMaximizeClick,
         onMinimizeClick,
@@ -23,7 +22,6 @@ class WindowsTitleBar extends PureComponent {
       <div className='windows-title-bar' { ...props } >
         <div className='title'>{ I18n.t('titleBar.title') } { Config.version }</div>
         <div className='left'>
-          <i className={ isConnected ? 'connection-status-online' : 'connection-status-offline' } />
           <Clock className='clock' />
         </div>
         <div className='right'>
@@ -48,8 +46,7 @@ WindowsTitleBar.propTypes = {
   onRestoreDownClick: PropTypes.func,
   onMinimizeClick: PropTypes.func,
   onCloseClick: PropTypes.func,
-  isMaximized: PropTypes.bool,
-  isConnected: PropTypes.bool
+  isMaximized: PropTypes.bool
 };
 
 export default WindowsTitleBar;
