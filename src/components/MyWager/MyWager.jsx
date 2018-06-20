@@ -113,7 +113,7 @@ class MyWager extends PureComponent {
     // First set the history time range, so the search result is re-filtered
     this.props.setResolvedBetsTimeRange(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
     // Then generate export data
-    this.props.generateResolvedBetsExportData(this.props.betsColumns);
+    this.props.generateResolvedBetsExportData(this.props.betsData);    
   }
 
   handleExportFinishDownload() {

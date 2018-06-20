@@ -32,17 +32,71 @@ const ODDS_BOUNDS = {
  * -1 is returned if the Odds value is out of range
  * THIS FUNCTION MUST TAKE THE ODDS IN DECIMAL FORMAT
  */
-const getOddsIncrement = (odds, oddsFormat) => {
+const getOddsIncrement = (odds, decrementing, oddsFormat) => {
   if (_.inRange(odds, 1.01, 2)) return 0.01;
-  if (_.inRange(odds, 2, 3)) return 0.02;
-  if (_.inRange(odds, 3, 4)) return 0.05;
-  if (_.inRange(odds, 4, 6)) return 0.1;
-  if (_.inRange(odds, 6, 10)) return 0.2;
-  if (_.inRange(odds, 10, 20)) return 0.5;
-  if (_.inRange(odds, 20, 30)) return 1;
-  if (_.inRange(odds, 30, 50)) return 2;
-  if (_.inRange(odds, 50, 100)) return 5;
-  if (_.inRange(odds, 100, 1000)) return 10;
+  if (_.inRange(odds, 2, 3)) {
+    if (odds === 2 && decrementing){
+      return 0.01;
+    } else {
+      return 0.02;
+    }
+  }
+  if (_.inRange(odds, 3, 4)) {
+    if (odds === 3 && decrementing){
+      return 0.02;
+    } else {
+      return 0.05;
+    }
+  }
+  if (_.inRange(odds, 4, 6)) {
+    if (odds === 4 && decrementing){
+      return 0.05;
+    } else {
+      return 0.1;
+    }
+  }
+  if (_.inRange(odds, 6, 10)) {
+    if (odds === 6 && decrementing){
+      return 0.1;
+    } else {
+      return 0.2;
+    }
+  }
+  if (_.inRange(odds, 10, 20)) {
+    if (odds === 10 && decrementing){
+      return 0.2;
+    } else {
+      return 0.5;
+    }
+  }
+  if (_.inRange(odds, 20, 30)) {
+    if (odds === 20 && decrementing){
+      return 0.5;
+    } else {
+      return 1;
+    }
+  }
+  if (_.inRange(odds, 30, 50)) {
+    if (odds === 30 && decrementing){
+      return 1;
+    } else {
+      return 2;
+    }
+  }
+  if (_.inRange(odds, 50, 100)) {
+    if (odds === 50 && decrementing){
+      return 2;
+    } else {
+      return 5;
+    }
+  }
+  if (_.inRange(odds, 100, 1000)) {
+    if (odds === 100 && decrementing){
+      return 5;
+    } else {
+      return 10;
+    }
+  }
   // REVIEW special handling for decreasing the odds value from the MAX
   if (odds === MAX_ODDS) return 10;
   return -1;
@@ -108,7 +162,7 @@ const incrementOdds = (odds) => {
  */
 const decrementOdds = (odds) => {
   const floatNumber = parseFloat(odds);
-  let newOdds = floatNumber - getOddsIncrement(floatNumber);
+  let newOdds = floatNumber - getOddsIncrement(floatNumber, true);
   if (newOdds < MIN_ODDS) {
     newOdds = MIN_ODDS;
   }

@@ -1,6 +1,6 @@
 // Grab NODE_ENV and REACT_APP_* environment variables and prepare them to be
 // injected into the application via DefinePlugin in Webpack configuration.
-
+var config = require('../config');
 var REACT_APP = /^REACT_APP_/i;
 
 function getClientEnvironment(publicUrl) {
@@ -20,6 +20,9 @@ function getClientEnvironment(publicUrl) {
       // images into the `src` and `import` them in code to get their paths.
       'PUBLIC_URL': publicUrl
     });
+
+  raw = Object.assign(raw, config);
+  
   // Stringify all values so we can feed into Webpack DefinePlugin
   var stringified = {
     'process.env': Object
