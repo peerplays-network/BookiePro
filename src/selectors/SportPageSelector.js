@@ -133,6 +133,8 @@ const getSportPageData = createSelector(
             bettingMarketGroupId: bettingMarketGroupId,
             bmgAsset: bettingMarketGroupAsset          
           });
+        } else {
+          return Immutable.List();
         }
       }).filter( eventNode => {
         // Filter out results that do not have betting market group UIA matching the configured UIA in Config.js
