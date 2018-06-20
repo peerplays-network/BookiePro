@@ -39,7 +39,7 @@ import _ from 'lodash';
 import { Map } from 'immutable';
 import { I18n } from 'react-redux-i18n';
 import { MyWagerSelector, MyAccountPageSelector } from '../../selectors';
-import { MyWagerTabTypes, Config } from '../../constants';
+import { MyWagerTabTypes } from '../../constants';
 import PeerPlaysLogo from '../PeerPlaysLogo';
 
 const {  getBetData, getBetTotal, getCurrencyFormat, getBetsLoadingStatus } = MyWagerSelector;
@@ -158,9 +158,7 @@ class MyWager extends PureComponent {
    *    This will navigat user to event full market screen
    */
   handleEventClick(record, event){
-    if(record.asset_id === Config.coreAsset){
-      this.props.navigateTo(`/exchange/bettingmarketgroup/${record.group_id}`);
-    }
+    this.props.navigateTo(`/exchange/bettingmarketgroup/${record.group_id}`);
   }
 
   /**
