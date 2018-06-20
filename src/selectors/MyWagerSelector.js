@@ -246,7 +246,6 @@ const getBetData = createSelector(
     cancelBetsByIdsLoadingStatus,
     bettingMarkets
   ) => {
-    const c_assetId = Config.coreAsset;
     return bets.map((bet) => {
       bet = bet.set('key', bet.get('id'));
 
@@ -263,9 +262,7 @@ const getBetData = createSelector(
           bet = bet.set('group_id', bettingMarkets.getIn([bet.get('betting_market_id')]).get('group_id'))
 
         const linkedEventName = <a target='_self'>{ bet.get('event_name') }</a>;
-        if( bet.get('asset_id') === c_assetId ){
-          bet = bet.set('event_name', linkedEventName);
-        }
+        bet = bet.set('event_name', linkedEventName);
         const cancelLoadingStatus = cancelBetsByIdsLoadingStatus.get(bet.get('id')) || LoadingStatus.DEFAULT;
         const cancelButton = (cancelLoadingStatus === LoadingStatus.DEFAULT || cancelLoadingStatus === LoadingStatus.ERROR)
                             ? <a className='btn btn-cancel' target='_self'>{ I18n.t('mybets.cancel') }</a> : <Loading/>;
@@ -277,9 +274,8 @@ const getBetData = createSelector(
           bet = bet.set('group_id', bettingMarkets.getIn([bet.get('betting_market_id')]).get('group_id'))
         }
         const linkedEventName = <a target='_self'>{ bet.get('event_name') }</a>;
-        if( bet.get('asset_id') === c_assetId ){
-          bet = bet.set('event_name', linkedEventName);
-        }      }
+        bet = bet.set('event_name', linkedEventName);
+      }
       return bet;
     });
   }
