@@ -2,9 +2,17 @@
  * The MyWagerUtils contains all the functions shared within My Wager component.
  */
 import React from 'react';
-import { I18n, Translate } from 'react-redux-i18n';
+import { I18n } from 'react-redux-i18n';
 import CurrencyUtils from './CurrencyUtils';
 
+
+const renderTitle = (text, currencySymbol) => {
+  return (
+    <div>
+      <p>{ text } ({ currencySymbol })</p>      
+    </div>
+  )     
+}
 
 /**
  *  get list of unmatched bets to be served as data in unmatched bets columns
@@ -15,8 +23,7 @@ import CurrencyUtils from './CurrencyUtils';
  * @returns {list} - list of objects with 'title', 'dataIndex', 'key' and 'onCellClick'(optional)
  */
 const getUnmatchedBetsColumns = (currencyFormat, onCancelBetClick, onEventClick) => {
-  const currencySymbol = '(' + CurrencyUtils.getCurrencySymbol(currencyFormat) + ')';
-  const profitLiabilityTitle  = <Translate value='mybets.profit_liability' currency={ currencySymbol } dangerousHTML/> ;
+  const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
   return [
     {
       title: I18n.t('mybets.event_time') ,
@@ -45,14 +52,16 @@ const getUnmatchedBetsColumns = (currencyFormat, onCancelBetClick, onEventClick)
       key: 'backer_multiplier',
     },
     {
-      title: I18n.t('mybets.stake') + currencySymbol,
+      title: renderTitle(I18n.t('mybets.stake'), currencySymbol),
       dataIndex: 'stake',
       key: 'stake',
+      className: 'value_text_label',
     },
     {
-      title: profitLiabilityTitle,
+      title: renderTitle(I18n.t('mybets.profit_liability'), currencySymbol),
       dataIndex: 'profit_liability',
-      key: 'profit_liability'
+      key: 'profit_liability',
+      className: 'value_text_label',
     },
     {
       title: '',
@@ -70,8 +79,7 @@ const getUnmatchedBetsColumns = (currencyFormat, onCancelBetClick, onEventClick)
  * @returns {list} - list of objects with 'title', 'dataIndex', 'key' and 'onCellClick'(optional)
  */
 const getMatchedBetsColumns = (currencyFormat, onEventClick) => {
-  const currencySymbol = '(' + CurrencyUtils.getCurrencySymbol(currencyFormat) + ')';
-  const profitLiabilityTitle  = <Translate value='mybets.profit_liability' currency={ currencySymbol } dangerousHTML/> ;
+  const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
   return [
     {
       title: I18n.t('mybets.event_time') ,
@@ -100,14 +108,16 @@ const getMatchedBetsColumns = (currencyFormat, onEventClick) => {
       key: 'backer_multiplier',
     },
     {
-      title: I18n.t('mybets.stake') + currencySymbol,
+      title: renderTitle(I18n.t('mybets.stake'), currencySymbol),
       dataIndex: 'stake',
       key: 'stake',
+      className: 'value_text_label',
     },
     {
-      title: profitLiabilityTitle,
+      title: renderTitle(I18n.t('mybets.profit_liability'), currencySymbol),
       dataIndex: 'profit_liability',
-      key: 'profit_liability'
+      key: 'profit_liability',
+      className: 'value_text_label',
     },
   ];
 }
@@ -118,9 +128,11 @@ const getMatchedBetsColumns = (currencyFormat, onEventClick) => {
  * @param {string} currency - display currency, 'BTC' or 'mBTC'
  * @returns {list} - list of objects with 'title', 'dataIndex', 'key' and 'onCellClick'(optional)
  */
-const getResolvedBetsColumns = (currencyFormat) => {
-  const currencySymbol = '(' + CurrencyUtils.getCurrencySymbol(currencyFormat) + ')';
-
+const getResolvedBetsColumns = (currencyFormat, forExport = false) => {
+  var currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
+  if (forExport){
+    currencySymbol = currencyFormat;
+  }
   return [
     {
       title:  I18n.t('mybets.resolved_time'),
@@ -148,44 +160,30 @@ const getResolvedBetsColumns = (currencyFormat) => {
       key: 'backer_multiplier',
     },
     {
-      title: I18n.t('mybets.stake') + currencySymbol,
+      title: forExport ? I18n.t('mybets.bet_amount') + ' (' + currencySymbol + ')' 
+        : renderTitle(I18n.t('mybets.bet_amount'), currencySymbol),
       dataIndex: 'stake',
       key: 'stake',
+      className: 'value_text_label',
     },
     {
-      title: I18n.t('mybets.profit_liability') + currencySymbol,
+      title: forExport ? I18n.t('mybets.winnings') + ' (' + currencySymbol + ')' 
+        : renderTitle(I18n.t('mybets.winnings'), currencySymbol),
       dataIndex: 'profit_liability',
-      key: 'profit_liability'
-    },
-    {
-      title: I18n.t('mybets.balance') + currencySymbol,
-      dataIndex: 'amount_won',
-      key: 'amount_won'
+      key: 'profit_liability',
+      className: 'value_text_label',
     }
+    // {
+    //   title: renderTitle(I18n.t('mybets.balance'), currencySymbol),
+    //   dataIndex: 'amount_won',
+    //   key: 'amount_won',
+    //   className: 'value_text_label',
+    // }
   ];
 
 }
 
-//merge data from relationalCollection to collection by foreign key relationId
-//mergeColumns is key value pair in which key is new column name to be set collection
-//value represent source column of relationalCollection, value of which to be copied to collection
-const mergeRelationData = (collection, relationalCollection, relationId, mergeColumns) => {
-  collection.forEach((d, index) => {
-    //get object from relationalCollection on the basis of foreign key value from collection
-    var matchObj = relationalCollection.get(d.get(relationId));
-    //iterate through mergeColumns to set value from relational object to specific object in collection
-    matchObj && Object.keys(mergeColumns).forEach(function(r){
-      //set column value
-      d = d.set(mergeColumns[r], matchObj.get(r));
-    });
-    //replacing updated object in collection
-    collection[index] = d;
-  });
-  return collection;
-}
-
 const MyWagerUtils = {
-  mergeRelationData,
   getUnmatchedBetsColumns,
   getMatchedBetsColumns,
   getResolvedBetsColumns

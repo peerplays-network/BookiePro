@@ -37,7 +37,9 @@ class Main extends PureComponent {
   }
 
   onRouteChange(){
-    this.navBar.onRouteChangeHandle();
+    if (this.navBar && typeof this.navBar.onRouteChangeHandle === 'function') {
+      this.navBar.onRouteChangeHandle();
+    }
   }
 
   render() {

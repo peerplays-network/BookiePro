@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import CommonSelector from './CommonSelector';
 import Immutable from 'immutable';
+import { DateUtils } from '../utility';
 import { Config } from '../constants';
 
 const {
@@ -91,7 +92,7 @@ const getSidebarCompleteTree = createSelector(
           const eventNodes = eventList.map((event) => {
             let eventNode = createNode(event, 'Event');
             // Set isLiveMarket
-            eventNode = eventNode.set('start_time', event.get('start_time'));
+            eventNode = eventNode.set('start_time', DateUtils.getLocalDate(event.get('start_time')));
             eventNode = eventNode.set('isLiveMarket', event.get('is_live_market'));
             // Sort & filter betting market group by id and core asset.
             let bettingMktGroupList = bettingMktGroupByEventId.get(event.get('id')) || Immutable.List();
@@ -110,15 +111,24 @@ const getSidebarCompleteTree = createSelector(
             // Append betting market group to event node
             eventNode = eventNode.set('children', bettingMktGroupNodes);
             return eventNode;
-          }).filter( node => node.get('children').size > 0);
+          }).filter( event => event.get('children').size > 0); // filter events that do not have BMGs
           // Append event to event group
           eventGroupNode = eventGroupNode.set('children', eventNodes);
           return eventGroupNode;
-        }).filter( node => node.get('children').size > 0);
+        }).filter( (eventGroup) => { 
+          // filter eventGroups that have no events
+          let filtered = false;
+          let eventName = eventGroup.get('name').toUpperCase();
+          // Remove friendly international from beta bookie pro fun
+          if(eventGroup.get('children').size > 0 && eventName !== 'FRIENDLY INTERNATIONAL'){ 
+            filtered = true;
+          } 
+          return filtered;
+        }); 
         // Append event group to sport
         sportNode = sportNode.set('children', eventGroupNodes);
         return sportNode;
-      }).filter( node => node.get('children').size > 0);
+      }).filter( sport => sport.get('children').size > 0); // filter sports that have no event groups
       // Append sport to complete tree
       completeTree = completeTree.concat(sportNodes);
     }

@@ -9,7 +9,7 @@
  */
 import React, { PureComponent } from 'react';
 import { Layout } from 'antd';
-import SearchMenu from './SearchMenu';
+//import SearchMenu from './SearchMenu';
 import TopMenu from './TopMenu';
 import logo from '../../../assets/images/bookie_logo_topnav.png';
 
@@ -30,7 +30,7 @@ class NavBar extends PureComponent {
 
   //Called by parent component Main
   onRouteChangeHandle(){
-    this._searchMenu.onRouteChangeHandle();
+    //this._searchMenu.onRouteChangeHandle();
   }
 
   renderLogo(){
@@ -50,10 +50,10 @@ class NavBar extends PureComponent {
     return (
       <Header id='betex-header'>
         { this.renderLogo() }
-        <SearchMenu
+        {/* <SearchMenu
           ref={ (ref) => this._searchMenu = ref }
           { ...this.props }
-         />
+         /> */}
         <TopMenu />
       </Header>
     )

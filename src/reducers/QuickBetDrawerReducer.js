@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import { LoadingStatus, ActionTypes, BettingDrawerStates } from '../constants';
+import { LoadingStatus, ActionTypes, BettingDrawerStates, BetTypes } from '../constants';
 import { BettingModuleUtils } from '../utility';
 
 let initialState = Immutable.fromJS({
@@ -76,11 +76,15 @@ export default function(state = initialState, action) {
     case ActionTypes.QUICK_BET_DRAWER_UPDATE_ONE_BET: {
       const index = oldBets.findIndex(b => b.get('id') === action.delta.get('id'));
       const { delta } = action;
-
       let bet = oldBets.get(index).set(delta.get('field'), delta.get('value'));
+      const betType = bet.get('bet_type');
+
       // Calculate the profit/liability of a bet based on the latest odds and stake value
       if (bet.has('stake')) {
-        const profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'));
+        const profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'),
+                                                               bet.get('odds'),
+                                                               action.currencyFormat,
+                                                               betType === BetTypes.BACK ? 'profit' : 'liability');
         bet = bet.set('profit', profit).set('liability', profit);
       }
       return state.merge({

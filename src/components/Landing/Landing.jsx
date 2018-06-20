@@ -80,7 +80,6 @@ class Landing extends PureComponent {
             <button className='btn btn-transparent' onClick={ this.onLoginClick }>
                 { I18n.t('landing.login') }
             </button>
-            <p className='helperText'>{ I18n.t('landing.loginWithAccount') }</p>
             <LandingSteps 
               className='steps' 
               depositsEnabled={ this.props.depositsEnabled }

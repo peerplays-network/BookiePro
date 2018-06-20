@@ -1,13 +1,15 @@
 import React, { PureComponent } from 'react';
 import { Modal } from 'antd';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
 
 class SoftwareUpdateModal extends PureComponent {
 
   render() {
     return (
       <Modal
-        title={ 'New Version :' + this.props.latestVersion }
+        title={ 'New Version : ' + this.props.version }
         wrapClassName={ 'vertical-center-modal' }
         closable={ this.props.closable }
         maskClosable={ this.props.closable }
@@ -19,6 +21,8 @@ class SoftwareUpdateModal extends PureComponent {
         width={ 428 }
       >
         <p dangerouslySetInnerHTML={ { __html:this.props.modalTitle} } />
+        <p>{ I18n.t('notification.version')} : <a target='_blank' href={ this.props.link }>{ this.props.version }</a></p>
+        <p>{ moment.unix(this.props.date).fromNow() }</p>
       </Modal>
     );
   }
@@ -30,7 +34,9 @@ SoftwareUpdateModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
-
+  link: PropTypes.string,
+  date: PropTypes.string,
+  version: PropTypes.string
 };
 
 export default SoftwareUpdateModal;

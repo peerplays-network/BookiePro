@@ -172,12 +172,16 @@ div.search-menu{
   }
   .Select-option-holder{
 
-     &.is-focused,&.is-pseudo-focused, &.is-selected{
+     &.is-focused,
+     &.is-pseudo-focused, 
+     &.is-selected {
        background-color: @topbar_more_menu_active;
      }
-     &:hover{
+
+     &:hover {
        background-color: @topbar_more_menu_active;
      }
+
      padding-left: 50px;
 
      .indicator{
@@ -194,8 +198,6 @@ div.search-menu{
        display: inline-block;
      }
 
-
-
      .Select-option{
        padding-left: 0px;
        color: @primary_label;
@@ -203,14 +205,6 @@ div.search-menu{
        font-size:16px;
        display: inline-flex;
        align-items: center;
-       &.is-focused,&.is-pseudo-focused, &.is-selected{
-         color: @primary_label;
-         background-color: @topbar_more_menu_active;
-       }
-       &:hover{
-         color: @primary_label;
-         background-color: @topbar_more_menu_active;
-       }
      }
    }
 

@@ -3,6 +3,7 @@ import { BlockchainUtils, ObjectUtils } from '../utility';
 import {
   AssetActions,
   AppActions,
+  AuthActions,
   AccountActions,
   SoftwareUpdateActions,
   SportActions,
@@ -28,6 +29,7 @@ const { blockchainTimeStringToDate, getObjectIdPrefix, isRelevantObject, getObje
 class CommunicationService {
   static dispatch = null;
   static getState = null;
+  static PING_TIMEOUT = null;
   /**
    * Updated blockchain objects in the following structure
    * {
@@ -226,10 +228,10 @@ class CommunicationService {
             // Check if this statistic is related to my account or software update account
             if (ownerId === myAccountId) {
               // Set the newest statistic
-              this.dispatch(AccountActions.setStatistics(updatedObject));
+              this.dispatch(AccountActions.setStatistics(updatedObject)); // Retrieves new raw history
             } else if (ownerId === softwareUpdateRefAccId) {
               // Set the newest statistic
-              this.dispatch(SoftwareUpdateActions.setReferenceAccountStatistics(updatedObject));
+              this.dispatch(SoftwareUpdateActions.setReferenceAccountStatistics(updatedObject)); // Retrieves new raw history
             }
           })
           break;
@@ -367,7 +369,9 @@ class CommunicationService {
     if (apiPlugin) {
       return apiPlugin.exec(methodName, params).then((result) => {
         // Intercept and log
-        log.debug(`Call blockchain ${apiPluginName}\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
+        if(methodName !== 'get_binned_order_book' && methodName !== "list_betting_market_groups" && methodName !== "list_betting_markets" ){ //&& JSON.stringify(params[0]) === "1.20.1688"){
+          log.debug(`Call blockchain ${apiPluginName}\nMethod: ${methodName}\nParams: ${JSON.stringify(params)}\nResult: `, result);
+        }
         return Immutable.fromJS(result);
       }).catch((error) => {
         // Intercept and log
@@ -413,6 +417,19 @@ class CommunicationService {
   }
 
   /**
+   * Recursive timer to monitor the connection to the blockchain.
+   */
+  static ping() {
+    // Clear the timeout, this will help prevent zombie timeout loops.
+    if (CommunicationService.PING_TIMEOUT) {
+      clearTimeout(CommunicationService.PING_TIMEOUT);
+    }
+
+    CommunicationService.PING_TIMEOUT = setTimeout(CommunicationService.ping, Config.pingInterval)
+    CommunicationService.callBlockchainDbApi('get_objects', [['2.1.0']]);
+  } 
+
+  /**
    * Sync communication service with blockchain, so it always has the latest data
    */
   static syncWithBlockchain(dispatch, getState, attempt=3) {
@@ -438,7 +455,7 @@ class CommunicationService {
         if (isBlockchainTimeDifferenceAcceptable) {
           // Subscribe to blockchain callback so the store is always has the latest data
           const onUpdate = this.onUpdate.bind(this);
-          return Apis.instance().db_api().exec( 'set_subscribe_callback', [ onUpdate, true ] ).then(() => {
+          return Apis.instance().db_api().exec( 'set_subscribe_callback', [ onUpdate, true ] ).then(() => {            
             // Sync success
             log.debug('Sync with Blockchain Success');
             // Set reference to dispatch and getState
@@ -450,6 +467,13 @@ class CommunicationService {
             dispatch(AppActions.setBlockchainGlobalPropertyAction(blockchainGlobalProperty));
             // Save core asset
             dispatch(AssetActions.addOrUpdateAssetsAction([coreAsset]));
+
+            // Set the ping up.
+            CommunicationService.ping();
+
+            // Attach an error handler to the socket.
+            CommunicationService.addSocketCloseListener();
+
             resolve();
           });
         } else {
@@ -471,6 +495,36 @@ class CommunicationService {
         reject(error);
       });
     });
+  }
+
+  /**
+   * Attach an event listener to the socket so we can listen for it to close the connection.
+   * 
+   * @static
+   * @memberof CommunicationService
+   */
+  static addSocketCloseListener () {
+    let api = Apis.instance();
+
+    // Make sure it has an instance of chainsocket, and a websocket attached to it.
+    if (api && api.ws_rpc && api.ws_rpc.ws) {
+      let socket = api.ws_rpc.ws;
+      // Remove it first to make sure there is only ever one listener firing on close.
+      socket.removeEventListener('close', CommunicationService.onSocketClose);
+      socket.addEventListener('close', CommunicationService.onSocketClose);
+    }
+  }
+
+  /**
+   * Handle the closure of the socket connection.
+   * 
+   * @static
+   * @param {any} error 
+   * @memberof CommunicationService
+   */
+  static onSocketClose (error) {
+    // Call the action to redirect the user to the logged out screen.
+    CommunicationService.dispatch(AuthActions.confirmLogout());
   }
 
   /**
@@ -608,8 +662,19 @@ class CommunicationService {
       if (eventGroupIds instanceof Immutable.List) eventGroupIds = eventGroupIds.toJS();
       let promises = eventGroupIds.map((eventGroupId) => {
         return this.callBlockchainDbApi('list_events_in_group', [eventGroupId]).then(events => {
-          // Replace name with english name
-          return ObjectUtils.localizeArrayOfObjects(events, ['name', 'season']);
+          const ids = events.toJS().map(event => event.id);
+          const localizedEvents = ObjectUtils.localizeArrayOfObjects(events, ['name', 'season']);
+          
+          // If there are no events, returned an empty object
+          if (ids.length <= 0) {
+            return localizedEvents;
+          }
+
+          // Subscribe to changes on the blockchain.
+          return this.getEventsByIds(ids).then(() => {
+            // Replace name with english name
+            return localizedEvents;
+          })
         });
       })
       return Promise.all(promises).then((result) => {
@@ -629,8 +694,19 @@ class CommunicationService {
       if (eventIds instanceof Immutable.List) eventIds = eventIds.toJS();
       let promises = eventIds.map((eventId) => {
         return this.callBlockchainDbApi('list_betting_market_groups', [eventId]).then(bettingMarketGroups => {
-          // Replace name with english name
-          return ObjectUtils.localizeArrayOfObjects(bettingMarketGroups, ['description']);
+          const ids = bettingMarketGroups.toJS().map(bmg => bmg.id);
+          const localizedMarketGroups = ObjectUtils.localizeArrayOfObjects(bettingMarketGroups, ['description']);
+
+          // If there are no Betting Market Groups, returned an empty object
+          if (ids.length <= 0) {
+            return localizedMarketGroups;
+          }
+
+          // Subscribe to changes on the blockchain.
+          return this.getBettingMarketGroupsByIds(ids).then(() => {
+            // Replace name with english name
+            return localizedMarketGroups;
+          });
         });
       })
       return Promise.all(promises).then((result) => {
@@ -650,8 +726,20 @@ class CommunicationService {
       if (bettingMarketGroupIds instanceof Immutable.List) bettingMarketGroupIds = bettingMarketGroupIds.toJS();
       let promises = bettingMarketGroupIds.map((bettingMarketGroupId) => {
         return this.callBlockchainDbApi('list_betting_markets', [bettingMarketGroupId]).then(bettingMarkets => {
-          // Replace name with english name
-          return ObjectUtils.localizeArrayOfObjects(bettingMarkets, ['description', 'payout_condition']);
+          // Call get_objects here so that we can subscribe to updates
+          const ids = bettingMarkets.toJS().map(market => market.id);
+          const localizedBettingMarkets = ObjectUtils.localizeArrayOfObjects(bettingMarkets, ['description', 'payout_condition']);
+
+          // If there are no betting markets, returned an empty object
+          if (ids.length <= 0) {
+            return localizedBettingMarkets;
+          }
+
+          // Subscribe to changes on the blockchain.
+          return this.getBettingMarketsByIds(ids).then(() => {
+            // Replace name with english name
+            return localizedBettingMarkets;
+          })
         });
       })
       return Promise.all(promises).then((result) => {
@@ -1184,7 +1272,6 @@ class CommunicationService {
       }, TIMEOUT_LENGTH);
     });
   }
-
 
 }
 
