@@ -170,7 +170,7 @@ const mapStateToProps = (state, ownProps) => {
   // [coin] = balance / 100,000,000
   availableBalance = currencyFormat.indexOf('m') === 0 ? availableBalance / Math.pow(10, 5) : availableBalance / Math.pow(10, 8);
 
-  const isValidBetTotal = numberOfBadBets === 0 && parseFloat(totalBetAmountString) <= availableBalance;
+  const isValidBetTotal = numberOfBadBets === 0 && parseFloat(totalBetAmountString) <= availableBalance && numberOfGoodBets > 0;
   // If bet total valid and no invalid bets...
   const whiteOrBlack = (numberOfGoodBets !== originalBets.size && !isValidBetTotal) || (numberOfGoodBets === originalBets.size && !isValidBetTotal);
   return {
