@@ -224,7 +224,7 @@ class SimpleBettingWidget extends PureComponent {
         }
       }
 
-      if ( offer === undefined){
+      if ( offer === undefined || offer.get('price') <= '0.001'){
         return (
           <div className={ className }>
             <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, '') }>
