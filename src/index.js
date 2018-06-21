@@ -57,7 +57,7 @@ if (isRunningInsideElectron){
       electron.shell.openExternal(e.target.href);
     }
   });
-  const {remote} = window.require('electron')
+  const {remote} = electron;
   const {Menu, MenuItem} = remote
 
   const menu = new Menu();
