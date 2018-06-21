@@ -112,7 +112,7 @@ class Exchange extends PureComponent {
       this.setModalVisible(true);
       return false;
     } 
-    this.gracefulLeave(); // will return true
+    return this.gracefulLeave(); // will return true
   }
 
   render() {
