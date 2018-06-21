@@ -109,17 +109,15 @@ class Exchange extends PureComponent {
   routerWillLeave(nextLocation){
 
     this.setState({
-      nextLocation: nextLocation
+      nextLocation
     })
-    if (this.props.connectionStatus.toLowerCase() !== 'connected'){
-      this.gracefulLeave();
-    }
+
     if (!this.props.isShowLogoutPopup && !this.state.confirmToLeave && this.props.hasUnplacedBets){
       this.setModalVisible(true);
       return false;
-    } else {
-      this.gracefulLeave();
-    }
+    } 
+    
+    this.gracefulLeave(); // will return true
   }
 
   render() {
