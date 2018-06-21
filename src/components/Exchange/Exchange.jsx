@@ -112,7 +112,7 @@ class Exchange extends PureComponent {
       nextLocation
     })
 
-    if (!this.props.isShowLogoutPopup && !this.state.confirmToLeave && this.props.hasUnplacedBets){
+    if (!this.props.isShowLogoutPopup && !this.state.confirmToLeave && this.props.hasUnplacedBets && this.props.connectionStatus.toLowerCase() === 'connected'){
       this.setModalVisible(true);
       return false;
     } 
