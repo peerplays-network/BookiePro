@@ -243,19 +243,12 @@ class AuthActions {
     return (dispatch, getState) => {
       const account = getState().getIn(['account', 'account']);
       const oldKeys = KeyGeneratorService.generateKeys(account.get('name'), oldPassword);
-      Promise.resolve().then(() => {
-        // Check if account is authenticated
-        const isAuthenticated = AccountService.authenticateAccount(account, oldKeys);
-        if (!isAuthenticated) {
-          throw new Error(I18n.t('changePassword.old_password_does_not_match'));
-        }
-        // No old password error, reset error state.
-        dispatch(AuthPrivateActions.resetChangePwdErrors());
-      }).catch((error) => {
-        error.message = I18n.t('changePassword.old_password_does_not_match');
+      const isAuthenticated = AccountService.authenticateAccount(account, oldKeys);
+      if (!isAuthenticated) {
         //Set password change error
-        dispatch(AuthPrivateActions.setChangePasswordErrorsAction([error.message ? error.message : 'Error Occured']));
-      });
+        return dispatch(AuthPrivateActions.setChangePasswordErrorsAction([I18n.t('changePassword.old_password_does_not_match')]));
+      }
+      dispatch(AuthPrivateActions.resetChangePwdErrors());
     }
   }
   
