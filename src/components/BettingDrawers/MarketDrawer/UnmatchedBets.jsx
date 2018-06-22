@@ -77,7 +77,7 @@ const mapStateToProps = (state, props) => {
 
     stake = CurrencyUtils.isDust(currencyFormat, stake);
     bet =  bet.set('stake', stake);
-    //debugger;
+
     // Page content are grouped by market type (back or lay)
     if (!page.has(betType)) {
       page = page.set(betType, Immutable.List());
