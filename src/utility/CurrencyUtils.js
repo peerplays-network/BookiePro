@@ -58,10 +58,10 @@ var CurrencyUtils = {
   OFFER_PRECISION: 3,
 
   isZero: function(num) {
-    if (num.indexOf('*') === -1 && (parseFloat(num.split('*')[0]) === 0 || num === 0)){
+    if (parseFloat(num) === 0 || num === 0)
       return '0'
-    }
-    return num;
+    else
+      return num;
   },
 
   
@@ -76,17 +76,22 @@ var CurrencyUtils = {
    *        False will truncate to precision decimal places
    * @returns - amount rounded/truncated to precision decimal places
    */
-  substringPrecision(amount, precision, accuracy=true){
+  substringPrecision(amount, precision, accuracy=true, currencyFormat){
     if (amount === undefined){
       amount = 0.0;
     }
+    amount = this.isDust(currencyFormat, amount);
     let split = amount.toString().split('.');
     if (split[1] && split[1].length > precision){
       let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0)); // Conditionally take the value one past the accpeted precision ,,.
       let newAmount = split[0] + '.' + splitSel;
       return parseFloat(newAmount).toFixed(precision); // Then execute toFixed on the resulting amount. This keeps more accuracy. 
     } else {
-      return amount.toFixed(precision);
+      if (typeof(amount) !== 'number' && amount.indexOf('*') !== -1){
+        return amount;
+      } else {
+        return amount.toFixed(precision);
+      }
     }
   },
 
@@ -121,30 +126,28 @@ var CurrencyUtils = {
    */
   getFormattedCurrency: function(amount, currencyFormat = 'mBTF', precision = 0, accuracy=true, avg=false, forExport=false){
     if (!isNaN(amount)) {
-      // if (amount === 0){
-      //   console.log(amount);
-      //   return amount;
-      // }
-      // debugger;
+      if (amount === 0){
+        return amount;
+      }
+      if(amount > -0.00001 && amount < 0.00001){
+        console.log(amount);
+      }
       if (currencyFormat === 'mBTF' || currencyFormat === mCurrencySymbol) {
-        if (amount > -0.01 && amount > 0.01 && amount !== '0'){
-          return amount = 0 + '*';
-        }
+        
         // 1 BTF = 1 * 10^3 mBTF
         const mPrecision = precision < 3 ? 0 : precision - 3;
         if (forExport){
-          return amount.toFixed(mPrecision);
+          //return amount.toFixed(mPrecision);
+          return this.substringPrecision(amount, mPrecision, false, currencyFormat);
         }
-        return avg ? amount.toFixed(precision) : ( 1000 * amount ).toFixed(mPrecision);
+        //return avg ? amount.toFixed(precision) : ( 1000 * amount ).toFixed(mPrecision);
+        return avg ? this.substringPrecision(amount, precision, false, currencyFormat) : 
+          this.substringPrecision((1000 * amount), mPrecision, false, currencyFormat);
       }
 
       if (currencyFormat === 'BTF' || currencyFormat === configCurrency) {
-        if (amount > -0.00001 && amount < 0.00001 && amount !== '0'){
-          console.log(amount + '*');
-          return amount = '0*';
-        }
         if(amount % 1 !== 0){
-          return this.substringPrecision(amount, precision, accuracy);
+          return this.substringPrecision(amount, precision, accuracy, currencyFormat);
         }
         else{
           // Sometimes amount is a string type which will throw an
@@ -254,11 +257,11 @@ var CurrencyUtils = {
     if(configCurrency === currencyFormat){
       if (amount > -0.00001 && amount < 0.00001 && amount !== '0'){
         //console.log(amount + '*');
-        return amount = amount + '*';
+        return amount = 0 + '*';
       }
     } else {
-      if (amount > -0.01 && amount > 0.01 && amount !== '0'){
-        return amount = amount + '*';
+      if (amount > -0.01 && amount < 0.01 && amount !== '0'){
+        return amount = 0 + '*';
       }
     }
     return amount;
