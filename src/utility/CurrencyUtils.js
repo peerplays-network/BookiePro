@@ -58,10 +58,10 @@ var CurrencyUtils = {
   OFFER_PRECISION: 3,
 
   isZero: function(num) {
-    if (parseFloat(num) === 0 || num === 0)
+    if (num.indexOf('*') === -1 && (parseFloat(num.split('*')[0]) === 0 || num === 0)){
       return '0'
-    else
-      return num;
+    }
+    return num;
   },
 
   
@@ -121,11 +121,15 @@ var CurrencyUtils = {
    */
   getFormattedCurrency: function(amount, currencyFormat = 'mBTF', precision = 0, accuracy=true, avg=false, forExport=false){
     if (!isNaN(amount)) {
-      if (amount === 0){
-        return amount;
-      }
-      
+      // if (amount === 0){
+      //   console.log(amount);
+      //   return amount;
+      // }
+      // debugger;
       if (currencyFormat === 'mBTF' || currencyFormat === mCurrencySymbol) {
+        if (amount > -0.01 && amount > 0.01 && amount !== '0'){
+          return amount = 0 + '*';
+        }
         // 1 BTF = 1 * 10^3 mBTF
         const mPrecision = precision < 3 ? 0 : precision - 3;
         if (forExport){
@@ -135,6 +139,10 @@ var CurrencyUtils = {
       }
 
       if (currencyFormat === 'BTF' || currencyFormat === configCurrency) {
+        if (amount > -0.00001 && amount < 0.00001 && amount !== '0'){
+          console.log(amount + '*');
+          return amount = '0*';
+        }
         if(amount % 1 !== 0){
           return this.substringPrecision(amount, precision, accuracy);
         }
@@ -244,13 +252,12 @@ var CurrencyUtils = {
   // Check if the currency is dust. If it is, append an asterik.
   isDust: (currencyFormat, amount) => {
     if(configCurrency === currencyFormat){
-      //if (amount < 0.00001){
-      if (amount >= 20){
+      if (amount > -0.00001 && amount < 0.00001 && amount !== '0'){
+        //console.log(amount + '*');
         return amount = amount + '*';
       }
     } else {
-      //if (amount < 0.01){
-      if (amount >= 20){
+      if (amount > -0.01 && amount > 0.01 && amount !== '0'){
         return amount = amount + '*';
       }
     }
