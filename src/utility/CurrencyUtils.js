@@ -8,9 +8,9 @@ import mBitFunBlack from '../assets/icons/mbitfun_icon_black.svg';
 /**
  * The CurrencyUtils contains all the functions related to currency conversion function
  */
-//const currencySymbol = '\u0243';
-const currencySymbol = Config.features.currency;
-const mCurrencySymbol = 'm' + currencySymbol;
+//const configCurrency = '\u0243';
+const configCurrency = Config.features.currency;
+const mCurrencySymbol = 'm' + configCurrency;
 
 // REVIEW: Some functions here do auto conversion from BTF to mBTF.
 //         We need to be careful because sometimes the values we are handling
@@ -134,7 +134,7 @@ var CurrencyUtils = {
         return avg ? amount.toFixed(precision) : ( 1000 * amount ).toFixed(mPrecision);
       }
 
-      if (currencyFormat === 'BTF' || currencyFormat === currencySymbol) {
+      if (currencyFormat === 'BTF' || currencyFormat === configCurrency) {
         if(amount % 1 !== 0){
           return this.substringPrecision(amount, precision, accuracy);
         }
@@ -208,7 +208,7 @@ var CurrencyUtils = {
     let floatAmount = parseFloat(amount)
     if (field === 'stake') {
       if ((floatAmount < 1 && currency === 'mBTF') || (floatAmount < 1 && currency === mCurrencySymbol)) return Config.mbtfTransactionFee.toString()
-      if ((floatAmount < .001 && currency === 'BTF') || (floatAmount < .001 && currency === currencySymbol)) return Config.btfTransactionFee.toString()
+      if ((floatAmount < .001 && currency === 'BTF') || (floatAmount < .001 && currency === configCurrency)) return Config.btfTransactionFee.toString()
     }
     if(amount % 1 !== 0 && !isNaN(amount)){
       return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency]);
@@ -239,6 +239,22 @@ var CurrencyUtils = {
   // This function will convert lay stake to the correct value
   layBetStakeModifier: function(stake, odds) {
     return stake / (odds - 1)
+  },
+
+  // Check if the currency is dust. If it is, append an asterik.
+  isDust: (currencyFormat, amount) => {
+    if(configCurrency === currencyFormat){
+      //if (amount < 0.00001){
+      if (amount >= 20){
+        return amount = amount + '*';
+      }
+    } else {
+      //if (amount < 0.01){
+      if (amount >= 20){
+        return amount = amount + '*';
+      }
+    }
+    return amount;
   }
 }
 
