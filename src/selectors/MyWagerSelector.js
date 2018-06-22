@@ -215,6 +215,8 @@ const getBetsWithFormattedCurrency = createSelector(
                                       currencyFormat,
                                       BettingModuleUtils.stakePlaces,
                                       betType);
+
+      //debugger;
       // Check for zero's
       bet = bet.set('stake', CurrencyUtils.isZero(formattedStake));
       bet = bet.set('profit_liability', CurrencyUtils.isZero(formattedProfitLiability));
