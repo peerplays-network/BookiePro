@@ -10,6 +10,7 @@ import _ from 'lodash';
 import { CurrencyUtils, BettingModuleUtils, DateUtils, ObjectUtils } from '../utility';
 import { TimeRangePeriodTypes, MyWagerTabTypes, LoadingStatus, BetCategories, BetTypes, Config } from '../constants';
 import CommonSelector from './CommonSelector';
+import MyAccountPageSelector from './MyAccountPageSelector';
 import Loading from '../components/Loading'
 
 const { getStakeFromBetObject, getProfitLiabilityFromBetObject } = ObjectUtils;
@@ -239,17 +240,30 @@ const getBetData = createSelector(
   [
     getBetsWithFormattedCurrency,
     getCancelBetsByIdsLoadingStatus,
-    getBettingMarketsById
+    getBettingMarketsById,
+    getCurrencyFormat
   ],
   (
     bets,
     cancelBetsByIdsLoadingStatus,
-    bettingMarkets
+    bettingMarkets,
+    currencyFormat
   ) => {
+    // const oddsFormat = MyAccountPageSelector.oddsFormatSelector(state);
+          
     return bets.map((bet) => {
+      //debugger;
       bet = bet.set('key', bet.get('id'));
 
       bet = bet.set('type', bet.get('back_or_lay').toUpperCase() + ' | ' + bet.get('betting_market_description') + ' | ' + bet.get('betting_market_group_description'))
+
+      let profit = bet.get('profit_liability');
+      let stake = bet.get('stake');
+      profit = CurrencyUtils.isDust(currencyFormat, profit);
+      bet = bet.set('profit_liability', profit);
+  
+      stake = CurrencyUtils.isDust(currencyFormat, stake);
+      bet =  bet.set('stake', stake);
 
       if (bet.get('category') === BetCategories.RESOLVED_BET) {
         const resolvedTime = getFormattedDate(bet.get('resolved_time'));
