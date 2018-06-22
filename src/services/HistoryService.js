@@ -277,10 +277,7 @@ class HistoryService {
           const resolutions = operationContent.get('resolutions');
           const bettingMarketIds = resolutions.map(resolution =>  resolution.get(0));
           let gameResultByBettingMarketId = Immutable.Map(resolutions);
-          // Remove all related unmatched bets
-          unmatchedBetsById = unmatchedBetsById.filter((unmatchedBet) => {
-            return bettingMarketIds.includes(unmatchedBet.get('betting_market_id'));
-          });
+
           // Create resolved bets from related matched bets
           matchedBetsById.forEach((matchedBet) => {
             const bettingMarketId = matchedBet.get('betting_market_id');

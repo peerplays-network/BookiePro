@@ -1,8 +1,8 @@
-import { ActionTypes, LoadingStatus, TimeRangePeriodTypes } from '../constants';
+import { ActionTypes, LoadingStatus } from '../constants';
 import { CurrencyUtils, DateUtils, BettingModuleUtils, ObjectUtils, MyWagerUtils } from '../utility';
-import moment from 'moment';
 import Immutable from 'immutable';
-const { mergeRelationData, getResolvedBetsColumns } = MyWagerUtils;
+import { MyWagerSelector } from '../selectors';
+const { getResolvedBetsColumns } = MyWagerUtils;
 const { getStakeFromBetObject } = ObjectUtils;
 
 const getFormattedDate = DateUtils.getFormattedDate;
@@ -63,23 +63,11 @@ class MywagerActions {
 
   static generateResolvedBetsExportData() {
     return (dispatch, getState) => {
-      const accountId = getState().getIn(['account', 'account', 'id']);
+      const accountId = getState().getIn(['account', 'account', 'id']);     
       if (accountId) {
-
+        const betData = MyWagerSelector.getBetData(getState());
         // Set loading status
         dispatch(MywagerPrivateActions.setGenerateResolvedBetsExportDataLoadingStatusAction(LoadingStatus.LOADING));
-        let startDate, endDate;
-        const periodType = getState().getIn(['mywager', 'periodType']);
-        const customTimeRangeStartDate = getState().getIn(['mywager', 'customTimeRangeStartDate']);
-        const customTimeRangeEndDate = getState().getIn(['mywager', 'customTimeRangeEndDate']);
-        if (periodType === TimeRangePeriodTypes.CUSTOM) {
-          startDate = customTimeRangeStartDate;
-          endDate = customTimeRangeEndDate;
-        } else {
-          const timeRange = DateUtils.getTimeRangeGivenTimeRangePeriodType(periodType);
-          startDate = timeRange.startDate;
-          endDate = timeRange.endDate
-        }
 
         const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting']);
         const currencyFormat = setting.getIn(['currencyFormat']);
@@ -88,10 +76,7 @@ class MywagerActions {
 
         let exportData = [];
 
-        let filteredResolvedBets = getState().getIn(['bet', 'resolvedBetsById'])
-          .filter(bet => (moment(bet.get('resolved_time')).isBetween(startDate, endDate)));
-
-        filteredResolvedBets.forEach(bet => {
+        betData.forEach(bet => {
           const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
           const bettingMarketGroupId = bettingMarket.get('group_id');
           const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'persistedBettingMarketGroupsById', bettingMarketGroupId]) || Immutable.Map();
@@ -104,33 +89,17 @@ class MywagerActions {
             // TODO: use betcategories instead of MyWagerTabTypes to avoid confusion
             'stake': CurrencyUtils.getFormattedCurrency(getStakeFromBetObject(bet) / Math.pow(10, precision), currencyFormat, BettingModuleUtils.stakePlaces),
             'backer_multiplier': bet.get('backer_multiplier'),
-            'profit_liability': CurrencyUtils.getFormattedCurrency(bet.get('amount_won') / Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces),
-            'amount_won': CurrencyUtils.getFormattedCurrency(bet.get('amount_won') / Math.pow(10, precision), currencyFormat, BettingModuleUtils.exposurePlaces),
-            'resolved_time': getFormattedDate(bet.get('resolved_time'))
+            'profit_liability': CurrencyUtils.getFormattedCurrency(parseFloat(bet.get('amount_won')), currencyFormat, BettingModuleUtils.exposurePlaces, true, false, true),
+            'amount_won': CurrencyUtils.getFormattedCurrency(parseFloat(bet.get('amount_won')), currencyFormat, BettingModuleUtils.exposurePlaces, true, false, true),            
+            'resolved_time': getFormattedDate(bet.get('resolved_time')),
+            'event_name': bet.get('event_name'),
+            'sport_name': bet.get('sport_name'),
+            'betting_market_description': bet.get('betting_market_description'),
+            'betting_market_group_description': bet.get('betting_market_group_description')
           }
 
           exportData.push(Immutable.Map(rowObj));
         });
-
-        //merging betting market data for display and betting_market_group_id for reference
-        exportData = mergeRelationData(exportData, getState().getIn(['bettingMarket','persistedBettingMarketsById']), 'betting_market_id',
-          {group_id: 'group_id', description: 'betting_market_description'});
-
-        //merging betting market group data for display and eventid for reference
-        exportData = mergeRelationData(exportData, getState().getIn(['bettingMarketGroup','persistedBettingMarketGroupsById']), 'group_id',
-          {event_id: 'event_id', description: 'betting_market_group_description'});
-
-        //merging event data for display and sport id for reference
-        exportData = mergeRelationData(exportData, getState().getIn(['event','eventsById']), 'event_id',
-          {name: 'event_name', event_group_id: 'event_group_id'});
-
-        //merging event data for display and sport id for reference
-        exportData = mergeRelationData(exportData, getState().getIn(['eventGroup','eventGroupsById']), 'event_group_id',
-          {sport_id: 'sport_id'});
-
-        //merging sport data for display
-        exportData = mergeRelationData(exportData, getState().getIn(['sport','sportsById']), 'sport_id',
-          {'name': 'sport_name'});
 
         //Generated Resolved bets export object array using foreach to display properties in particular order in excel.
         //TODO: Need to check if this can be improved
@@ -139,7 +108,7 @@ class MywagerActions {
           2. Sequence of properties in Object as per column configuration
           3. Removing unwanted columns from export data
         */
-        const columns = getResolvedBetsColumns(currencyFormat);
+        const columns = getResolvedBetsColumns(currencyFormat, true);
         exportData.forEach((row, index) => {
           row = row.merge({
             'type' : (row.get('back_or_lay') + ' | ' + row.get('betting_market_description') + ' | ' + row.get('betting_market_group_description')),
