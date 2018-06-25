@@ -91,14 +91,6 @@ class Exchange extends PureComponent {
     });
   }
 
-  gracefulLeave(){
-    // We still need to gracefully "leave" the page and reset the drawer
-    this.handleLeave();
-    // Notify Search Menu(i.e. react-select) to remove focus
-    this.props.onRouteChange();
-    return true;
-  }
-
   /**
    * Callback function when user 'attempt' to navigate to new page
    *
@@ -112,11 +104,19 @@ class Exchange extends PureComponent {
     this.setState({
       nextLocation
     })
+
     if (!this.props.isShowLogoutPopup && !this.state.confirmToLeave && this.props.hasUnplacedBets){
       this.setModalVisible(true);
       return false;
-    } 
-    return this.gracefulLeave(); // will return true
+    } else {
+      // DO NOT remove
+      // We still need to gracefully "leave" the page and reset the drawer
+      this.handleLeave();
+      // Notify Search Menu(i.e. react-select) to remove focus
+      this.props.onRouteChange();
+
+      return true;
+    }
   }
 
   render() {
