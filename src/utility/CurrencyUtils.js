@@ -77,7 +77,7 @@ var CurrencyUtils = {
    *        False will truncate to precision decimal places
    * @returns - amount rounded/truncated to precision decimal places
    */
-  substringPrecision(amount, precision, accuracy=true, currencyFormat){
+  substringPrecision(amount, precision, accuracy=true, currencyFormat='mBTF'){
     if (amount === undefined){
       amount = 0.0;
     }
@@ -218,7 +218,7 @@ var CurrencyUtils = {
       if ((floatAmount < .001 && currency === 'BTF') || (floatAmount < .001 && currency === configCurrency)) return Config.btfTransactionFee.toString()
     }
     if(amount % 1 !== 0 && !isNaN(amount)){
-      return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency]);
+      return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency], true, currency);
     } else{
       return floatAmount.toFixed(this.fieldPrecisionMap[field][currency]);
     }
@@ -247,17 +247,19 @@ var CurrencyUtils = {
   layBetStakeModifier: function(stake, odds) {
     return stake / (odds - 1)
   },
-
   // Check if the currency is dust. If it is, append an asterik.
   isDust: (currencyFormat, amount) => {
-    if(configCurrency === currencyFormat){
-      if (amount > -coinDust && amount < coinDust && amount !== '0'){
-        return amount = 0 + '*';
+    let dustRange;
+    // If the value coming in is from the simplebettingwidget and is of 3 precision, execute a different dust check
+    if(amount % 1 && amount.toString().split('.')[1].length !== 3){
+      if (currencyFormat.toLowerCase().indexOf('m') === -1){
+        dustRange = coinDust;
+      } else {
+        dustRange = miliCoinDust;
       }
-    } else {
-      if (amount > -miliCoinDust && amount < miliCoinDust && amount !== '0'){
-        return amount = 0 + '*';
-      }
+    }
+    if( amount > -dustRange && amount < dustRange && amount !== 0){
+      amount = 0 + '*';
     }
     return amount;
   }

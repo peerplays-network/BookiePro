@@ -97,8 +97,6 @@ const mapStateToProps = (state, ownProps) => {
   // Add a transaction fee for each updated bet.
   if (updatedBets.size > 0) {
     transactionFee = updatedBets.size * transactionFee;
-  } else {
-    transactionFee = 0;
   }
 
   // Number of Good bets

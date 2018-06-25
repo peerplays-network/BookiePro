@@ -81,21 +81,13 @@ const mapStateToProps = (state, props) => {
   const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
   const currencySymbol = CurrencyUtils.getCurrencySymbol(props.currencyFormat, originalBets.count(bet => bet.get('updated')) > 0 ? 'black' : 'white')
   const hasUpdatedBets = originalBets.count(bet => bet.get('updated')) > 0;
-  let totalBetAmountString = props.totalBetAmountString;
-  if (!hasUpdatedBets && props.totalBetAmountString === '0*'){
-    if (props.currencyFormat.toLowerCase().indexOf('m') === -1){
-      totalBetAmountString = '0.00000';
-    } else {
-      totalBetAmountString = '0.00';
-    }
-  }
+
   
   return {
     bets: page,
     obscureContent,
     currencySymbol,
     hasUpdatedBets,
-    totalBetAmountString,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state)
   };
 }

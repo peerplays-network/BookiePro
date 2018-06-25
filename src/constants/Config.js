@@ -54,6 +54,7 @@ const Config = {
     },
   },
   dummyDataAccountId: '1.2.243', // TODO: remove this
+  // Anything smaller than these configured numbers are to be treated as dust.
   dust: {
     exchangeCoin: 0.001,
     coin: 0.00001,
