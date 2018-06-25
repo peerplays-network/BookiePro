@@ -213,9 +213,7 @@ const getBetsWithFormattedCurrency = createSelector(
                                       currencyFormat,
                                       BettingModuleUtils.stakePlaces,
                                       betType);
-      // Check for zero's
-      // bet = bet.set('stake', CurrencyUtils.isZero(formattedStake));
-      // bet = bet.set('profit_liability', CurrencyUtils.isZero(formattedProfitLiability));
+
       bet = bet.set('stake', formattedStake);
       bet = bet.set('profit_liability', formattedProfitLiability);
 
@@ -247,20 +245,12 @@ const getBetData = createSelector(
   (
     bets,
     cancelBetsByIdsLoadingStatus,
-    bettingMarkets,
-    currencyFormat
+    bettingMarkets
   ) => {
     return bets.map((bet) => {
       bet = bet.set('key', bet.get('id'));
 
       bet = bet.set('type', bet.get('back_or_lay').toUpperCase() + ' | ' + bet.get('betting_market_description') + ' | ' + bet.get('betting_market_group_description'))
-
-      // let profit = bet.get('profit_liability');
-      // let stake = bet.get('stake');
-      // profit = CurrencyUtils.isDust(currencyFormat, profit);
-      // bet = bet.set('profit_liability', profit);
-      // stake = CurrencyUtils.isDust(currencyFormat, stake);
-      // bet =  bet.set('stake', stake);
 
       if (bet.get('category') === BetCategories.RESOLVED_BET) {
         const resolvedTime = getFormattedDate(bet.get('resolved_time'));
