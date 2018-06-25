@@ -11,7 +11,8 @@ import mBitFunBlack from '../assets/icons/mbitfun_icon_black.svg';
 //const configCurrency = '\u0243';
 const configCurrency = Config.features.currency;
 const mCurrencySymbol = 'm' + configCurrency;
-
+const coinDust = Config.dust.coin;
+const miliCoinDust = Config.dust.miliCoin;
 // REVIEW: Some functions here do auto conversion from BTF to mBTF.
 //         We need to be careful because sometimes the values we are handling
 //         could be in satoshi unit.
@@ -134,10 +135,8 @@ var CurrencyUtils = {
         // 1 BTF = 1 * 10^3 mBTF
         const mPrecision = precision < 3 ? 0 : precision - 3;
         if (forExport){
-          //return amount.toFixed(mPrecision);
           return this.substringPrecision(amount, mPrecision, false, currencyFormat);
         }
-        //return avg ? amount.toFixed(precision) : ( 1000 * amount ).toFixed(mPrecision);
         return avg ? this.substringPrecision(amount, precision, false, currencyFormat) : 
           this.substringPrecision((1000 * amount), mPrecision, false, currencyFormat);
       }
@@ -252,13 +251,11 @@ var CurrencyUtils = {
   // Check if the currency is dust. If it is, append an asterik.
   isDust: (currencyFormat, amount) => {
     if(configCurrency === currencyFormat){
-      //if (amount > -0.00001 && amount < 0.00001 && amount !== '0'){
-      if (amount > -10.01 && amount < 10.01 && amount !== '0'){
+      if (amount > -coinDust && amount < coinDust && amount !== '0'){
         return amount = 0 + '*';
       }
     } else {
-      //if (amount > -0.01 && amount < 0.01 && amount !== '0'){
-      if (amount > -80.01 && amount < 80.01 && amount !== '0'){
+      if (amount > -miliCoinDust && amount < miliCoinDust && amount !== '0'){
         return amount = 0 + '*';
       }
     }

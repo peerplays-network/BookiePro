@@ -54,6 +54,11 @@ const Config = {
     },
   },
   dummyDataAccountId: '1.2.243', // TODO: remove this
+  dust: {
+    exchangeCoin: 0.001,
+    coin: 0.00001,
+    miliCoin: 0.01
+  },
   features: {
     withdrawels: false,
     deposits: false,
