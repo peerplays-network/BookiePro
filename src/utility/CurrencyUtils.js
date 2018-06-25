@@ -129,9 +129,6 @@ var CurrencyUtils = {
       if (amount === 0){
         return amount;
       }
-      if(amount > -0.00001 && amount < 0.00001){
-        console.log(amount);
-      }
       if (currencyFormat === 'mBTF' || currencyFormat === mCurrencySymbol) {
         
         // 1 BTF = 1 * 10^3 mBTF
@@ -255,12 +252,13 @@ var CurrencyUtils = {
   // Check if the currency is dust. If it is, append an asterik.
   isDust: (currencyFormat, amount) => {
     if(configCurrency === currencyFormat){
-      if (amount > -0.00001 && amount < 0.00001 && amount !== '0'){
-        //console.log(amount + '*');
+      //if (amount > -0.00001 && amount < 0.00001 && amount !== '0'){
+      if (amount > -10.01 && amount < 10.01 && amount !== '0'){
         return amount = 0 + '*';
       }
     } else {
-      if (amount > -0.01 && amount < 0.01 && amount !== '0'){
+      //if (amount > -0.01 && amount < 0.01 && amount !== '0'){
+      if (amount > -80.01 && amount < 80.01 && amount !== '0'){
         return amount = 0 + '*';
       }
     }

@@ -72,7 +72,7 @@ const groupBetsByAverageOdds = (matchedBets, oddsFormat, currencyFormat) => {
   }).toList();
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   const groupByAverageOdds = state.getIn(['marketDrawer', 'groupByAverageOdds']);
   const oddsFormat = MyAccountPageSelector.oddsFormatSelector(state);
@@ -93,7 +93,7 @@ const mapStateToProps = (state, ownProps) => {
     let profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'), currencyFormat, betType === BetTypes.BACK ? 'profit' : 'liability');
     let odds = BettingModuleUtils.oddsFormatFilter(bet.get('odds'), oddsFormat, 'decimal');
 
-    profit = CurrencyUtils.isDust(currencyFormat, profit);
+    //profit = CurrencyUtils.isDust(currencyFormat, profit);
     
     bet = bet.set('profit', profit).set('liability', profit).set('odds', odds);
 
