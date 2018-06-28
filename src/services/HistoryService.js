@@ -243,9 +243,9 @@ class HistoryService {
 
               // Update the original values so that we can represent what is truely accurate for this bet.
               if (betType === 'back') {
-                unmatchedBet = unmatchedBet.set('original_profit', updatedUnmatchedAmount);
+                unmatchedBet = unmatchedBet.set('original_profit', ObjectUtils.getProfitLiabilityFromBetObject(unmatchedBet));
               } else {
-                unmatchedBet = unmatchedBet.set('original_liability', updatedUnmatchedAmount);
+                unmatchedBet = unmatchedBet.set('original_liability', ObjectUtils.getProfitLiabilityFromBetObject(unmatchedBet));
               }
 
               unmatchedBetsById = unmatchedBetsById.set(unmatchedBet.get('id'), unmatchedBet);
