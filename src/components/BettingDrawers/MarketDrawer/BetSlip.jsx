@@ -43,6 +43,8 @@ const renderContent = (props) => (
         currencyFormat={ props.currencyFormat }
         oddsFormat={ props.oddsFormat }
         isValidBetTotal={ props.isValidBetTotal }
+        betError={ props.betError }
+        autoOddsPopulated={ props.autoOddsPopulated }
       />
     }
   </div>
@@ -58,6 +60,12 @@ class BetSlip extends PureComponent {
   }
 
   render() {
+    let expandedFooterStyle = '';
+    if (this.props.isValidBetTotal){
+      expandedFooterStyle = '50px';
+    } else {
+      expandedFooterStyle = '100px';
+    }
     return (
       <div className='betslip'>
         <SplitPane
@@ -66,12 +74,16 @@ class BetSlip extends PureComponent {
           defaultSize={ 40 }
           primary='second'
           allowResize={ false }
-          pane1Style={ { 'overflowY': 'hidden' } }
+          pane1Style={ { 'overflowY': 'hidden', 'paddingBottom': expandedFooterStyle} }
         >
           { renderContent(this.props) }
           {
             !this.props.bets.isEmpty() &&
             <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
+              { !this.props.isValidBetTotal ?
+                <div className='bet_balance_error'>{this.props.betsError}</div> : 
+                null
+              }
               <Button
                 className={ `btn place-bet` }
                 onClick={ () => this.props.clickPlaceBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
@@ -98,6 +110,10 @@ const mapStateToProps = (state, ownProps) => {
   const originalBets = state.getIn(['marketDrawer', 'unconfirmedBets']);
   var availableBalance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
 
+  var betsError = I18n.t('bet_error.insufficient_balance');
+  var autoOddsPopulated = 0;
+  var profit_liability, odds, stake;
+
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
     const betType = bet.get('bet_type');
@@ -105,6 +121,15 @@ const mapStateToProps = (state, ownProps) => {
     // Page content are grouped by market type (back or lay)
     if (!page.has(betType)) {
       page = page.set(betType, Immutable.List());
+    }
+    profit_liability = bet.get('profit') && bet.get('liability');
+    odds = bet.get('odds');
+    stake = bet.get('stake');
+    profit_liability = profit_liability === undefined || profit_liability === '';
+    odds = odds !== undefined || odds !== '';
+    stake = stake === undefined || stake === '';
+    if( profit_liability && odds && stake){
+      autoOddsPopulated = autoOddsPopulated + 1;
     }
     // Add the bet to the list of bets with the same market type
     let betListByBetType = page.get(betType);
@@ -152,6 +177,11 @@ const mapStateToProps = (state, ownProps) => {
 
   // If bet total valid and no invalid bets...
   const whiteOrBlack = (numberOfGoodBets !== originalBets.size && !isValidBetTotal) || (numberOfGoodBets === originalBets.size && !isValidBetTotal);
+  const betError = (error)=> {
+    if(autoOddsPopulated === 0 || isValidBetTotal){
+      betsError = '';
+    }
+  }
   return {
     originalBets,
     bets: page,
@@ -165,7 +195,10 @@ const mapStateToProps = (state, ownProps) => {
     currencySymbol: CurrencyUtils.getCurrencySymbol(ownProps.currencyFormat, whiteOrBlack ? 'white' : 'black'),
     totalBetAmountString: totalBetAmountString,
     availableBalance: availableBalance,
-    isValidBetTotal: isValidBetTotal
+    isValidBetTotal: isValidBetTotal,
+    betError,
+    betsError,
+    autoOddsPopulated
   };
 }
 

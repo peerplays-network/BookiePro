@@ -75,6 +75,12 @@ class QuickBetDrawer extends PureComponent {
   }
 
   render() {
+    let expandedFooterStyle = '';
+    if (this.props.isValidBetTotal){
+      expandedFooterStyle = '50px';
+    } else {
+      expandedFooterStyle = '100px';
+    }
     return (
       <div id='quick-bet-drawer' ref='drawer'>
         <SplitPane split='horizontal' defaultSize='40px' allowResize={ false }>
@@ -87,7 +93,7 @@ class QuickBetDrawer extends PureComponent {
             defaultSize={ 40 }
             primary='second'
             allowResize={ false }
-            pane1Style={ { 'overflowY': 'hidden' } }
+            pane1Style={ { 'overflowY': 'hidden', 'paddingBottom': expandedFooterStyle} }
           >
             { renderContent(this.props) }
             {
@@ -98,7 +104,7 @@ class QuickBetDrawer extends PureComponent {
                   null
                 }
                 <Button
-                  className={ `btn place-bet btn${this.props.numberOfGoodBets > 0 ? '-regular' : '-disabled'} ${this.props.betsError === '' ? '' : 'error'}` }
+                  className={ `btn place-bet btn${this.props.numberOfGoodBets > 0 ? '-regular' : '-disabled'}` }
                   onClick={ () => this.props.clickPlaceBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
                   disabled={ !this.props.isValidBetTotal }
                 >
