@@ -211,6 +211,7 @@ class BetTableInput extends PureComponent {
           onChange={ e => this.handleChange(e) }
           onBlur={ e => this.handleBlur(e) }
           placeholder={ this.props.field === 'odds' ? 'Odds' : 'Stake' }
+          disabled={ this.props.disabled }
           />
         { this.props.field === 'odds' ?
           <div>

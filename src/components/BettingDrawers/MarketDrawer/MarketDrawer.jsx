@@ -65,10 +65,10 @@ class MarketDrawer extends PureComponent {
       <div id='market-drawer'>
         <Tabs activeKey={ this.state.activeTab } type='card' onTabClick={ this.onTabClick }>
           <TabPane tab={ I18n.t('market_drawer.tab1') } key={ BETSLIP }>
-            <BetSlip currencyFormat={ this.props.currencyFormat }/>
+            <BetSlip currencyFormat={ this.props.currencyFormat } activeTab={ this.state.activeTab }/>
           </TabPane>
           <TabPane tab={ I18n.t('market_drawer.tab2') } key={ PLACEDBETS }>
-            <PlacedBets currencyFormat={ this.props.currencyFormat }/>
+            <PlacedBets currencyFormat={ this.props.currencyFormat } activeTab={ this.state.activeTab }/>
           </TabPane>
         </Tabs>
       </div>
