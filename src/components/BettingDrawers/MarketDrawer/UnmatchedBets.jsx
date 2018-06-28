@@ -35,6 +35,7 @@ class UnmatchedBets extends PureComponent {
           dimmed={ this.props.obscureContent }
           currencyFormat={ this.props.currencyFormat }
           oddsFormat={ this.props.oddsFormat }
+          tabIndex={ this.props.tabIndex }
         />
         { !this.props.bets.isEmpty() &&
           <div className={ `buttons ${this.props.obscureContent ? 'dimmed' : ''}` }>
@@ -45,6 +46,7 @@ class UnmatchedBets extends PureComponent {
               className={ `btn btn${this.props.hasUpdatedBets ? '-regular' : '-disabled'}` }
               onClick={ () => this.props.clickUpdateBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
               disabled={ !this.props.hasUpdatedBets }
+              tabIndex={ this.props.tabIndex }
             >
               { I18n.t('market_drawer.unmatched_bets.content.update_button') }
               { this.props.currencySymbol }
@@ -85,7 +87,7 @@ const mapStateToProps = (state, props) => {
     obscureContent,
     currencySymbol,
     hasUpdatedBets: originalBets.count(bet => bet.get('updated')) > 0,
-    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state)
+    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
   };
 }
 
