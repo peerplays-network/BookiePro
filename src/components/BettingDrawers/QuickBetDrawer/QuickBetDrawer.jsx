@@ -131,7 +131,7 @@ const mapStateToProps = (state, ownProps) => {
   var availableBalance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
   var betsError = I18n.t('bet_error.insufficient_balance');
   var autoOddsPopulated = 0;
-  var profit_liability, odds, stake;
+  var profit, odds, stake;
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
     const eventId = bet.get('event_id');
@@ -149,15 +149,22 @@ const mapStateToProps = (state, ownProps) => {
     if (!unconfirmedBets.has(betType)) {
       unconfirmedBets = unconfirmedBets.set(betType, Immutable.List());
     }
-    profit_liability = bet.get('profit') && bet.get('liability');
-    odds = bet.get('odds');
+    
+    profit = bet.get('profit');
     stake = bet.get('stake');
-    profit_liability = profit_liability === undefined || profit_liability === '';
-    odds = odds !== undefined || odds !== '';
+    odds = bet.get('odds');
+    
+    profit = profit === undefined || profit === '';
     stake = stake === undefined || stake === '';
-    if( profit_liability && odds && stake){
+
+    odds = odds !== undefined || odds !== '';
+    
+    // If odds exists, it has either been provided by the user and is an incomplete bet or it has been provided via clicking a bet from the /exchange.
+    // If odds exists, autopopulated bets increment.
+    if( profit && odds && stake){
       autoOddsPopulated = autoOddsPopulated + 1;
     }
+
     // Add the bet to the list of bets with the same market type
     let betListBybetType = unconfirmedBets.get(betType);
     betListBybetType = betListBybetType.push(bet);
