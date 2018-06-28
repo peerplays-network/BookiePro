@@ -2,10 +2,6 @@ import React, { PureComponent } from 'react';
 import { BettingModuleUtils, CurrencyUtils } from '../../../utility'
 import Immutable from 'immutable';
 import { incrementOdds, decrementOdds, adjustOdds, ODDS_BOUNDS } from './oddsIncrementUtils';
-import { I18n } from 'react-redux-i18n';
-import { bindActionCreators } from 'redux';
-import { BalanceActions } from '../../../actions';
-import { connect } from 'react-redux';
 
 class BetTableInput extends PureComponent {
   constructor(props) {
