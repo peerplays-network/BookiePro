@@ -56,6 +56,8 @@ const renderContent = (props) => (
           currencyFormat={ props.currencyFormat }
           oddsFormat={ props.oddsFormat }
           isValidBetTotal={ props.isValidBetTotal }
+          betError={ props.betError }
+          autoOddsPopulated={ props.autoOddsPopulated }
         />
       ))
     }
@@ -91,8 +93,12 @@ class QuickBetDrawer extends PureComponent {
             {
               !this.props.bets.isEmpty() &&
               <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
+                { !this.props.isValidBetTotal ?
+                  <div className='bet_balance_error'>{this.props.betsError}</div> : 
+                  null
+                }
                 <Button
-                  className={ `btn place-bet btn${this.props.numberOfGoodBets > 0 ? '-regular' : '-disabled'}` }
+                  className={ `btn place-bet btn${this.props.numberOfGoodBets > 0 ? '-regular' : '-disabled'} ${this.props.betsError === '' ? '' : 'error'}` }
                   onClick={ () => this.props.clickPlaceBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
                   disabled={ !this.props.isValidBetTotal }
                 >
@@ -117,7 +123,9 @@ class QuickBetDrawer extends PureComponent {
 const mapStateToProps = (state, ownProps) => {
   const originalBets = state.getIn(['quickBetDrawer', 'bets']);
   var availableBalance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
-
+  var betsError = I18n.t('bet_error.insufficient_balance');
+  var autoOddsPopulated = 0;
+  var profit_liability, odds, stake;
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
     const eventId = bet.get('event_id');
@@ -135,6 +143,15 @@ const mapStateToProps = (state, ownProps) => {
     if (!unconfirmedBets.has(betType)) {
       unconfirmedBets = unconfirmedBets.set(betType, Immutable.List());
     }
+    profit_liability = bet.get('profit') && bet.get('liability');
+    odds = bet.get('odds');
+    stake = bet.get('stake');
+    profit_liability = profit_liability === undefined || profit_liability === '';
+    odds = odds !== undefined || odds !== '';
+    stake = stake === undefined || stake === '';
+    if( profit_liability && odds && stake){
+      autoOddsPopulated = autoOddsPopulated + 1;
+    }
     // Add the bet to the list of bets with the same market type
     let betListBybetType = unconfirmedBets.get(betType);
     betListBybetType = betListBybetType.push(bet);
@@ -142,6 +159,7 @@ const mapStateToProps = (state, ownProps) => {
     unconfirmedBets = unconfirmedBets.set(betType, betListBybetType);
     page = page.setIn([eventId, 'unconfirmedBets'], unconfirmedBets);
   });
+  
   // Total Bet amount
   const totalAmount = originalBets.reduce((total, bet) => {
     const stake = bet.get('bet_type') === 'back' ? parseFloat(bet.get('stake')) : parseFloat(bet.get('liability'));
@@ -173,6 +191,11 @@ const mapStateToProps = (state, ownProps) => {
   const isValidBetTotal = numberOfBadBets === 0 && parseFloat(totalBetAmountString) <= availableBalance && numberOfGoodBets > 0;
   // If bet total valid and no invalid bets...
   const whiteOrBlack = (numberOfGoodBets !== originalBets.size && !isValidBetTotal) || (numberOfGoodBets === originalBets.size && !isValidBetTotal);
+  const betError = (error)=> {
+    if(autoOddsPopulated === 0 || isValidBetTotal){
+      betsError = '';
+    }
+  }
   return {
     originalBets,
     bets: page,
@@ -187,7 +210,10 @@ const mapStateToProps = (state, ownProps) => {
     currencySymbol: CurrencyUtils.getCurrencySymbol(currencyFormat, whiteOrBlack ? 'white' : 'black'),
     totalBetAmountString: totalBetAmountString,
     availableBalance: availableBalance,
-    isValidBetTotal: isValidBetTotal
+    isValidBetTotal: isValidBetTotal,
+    betError,
+    betsError,
+    autoOddsPopulated
   };
 }
 

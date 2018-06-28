@@ -474,6 +474,9 @@ export const translationsObject = {
         }
       }
     },
+    bet_error: {
+      insufficient_balance: 'One or more of your bets are empty or exceed your account balance.'
+    },
     rules_dialogue:{
       title: 'Rules',
       buttonTitle:'Rules',
