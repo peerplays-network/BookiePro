@@ -96,12 +96,7 @@ class BetSlip extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  let disabled;
-  if (ownProps.activeTab === "2"){
-    disabled = true;
-  } else {
-    disabled = false;
-  }
+  const disabled = ownProps.activeTab === "2";
   const originalBets = state.getIn(['marketDrawer', 'unconfirmedBets']);
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
