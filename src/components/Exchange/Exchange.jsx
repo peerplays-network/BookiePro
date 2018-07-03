@@ -84,7 +84,6 @@ class Exchange extends PureComponent {
       this.props.clearMarketDrawerBetslips();
       this.props.clearMarketBetsOverlay();
     }
-
     this.setModalVisible(false);
     this.setState({
       confirmToLeave: true
@@ -102,7 +101,7 @@ class Exchange extends PureComponent {
    */
   routerWillLeave(nextLocation){
     this.setState({
-      nextLocation
+      nextLocation: nextLocation
     })
 
     if (!this.props.isShowLogoutPopup && !this.state.confirmToLeave && this.props.hasUnplacedBets){
