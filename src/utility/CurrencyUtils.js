@@ -9,10 +9,9 @@ import mBitFunBlack from '../assets/icons/mbitfun_icon_black.svg';
  * The CurrencyUtils contains all the functions related to currency conversion function
  */
 //const configCurrency = '\u0243';
-const configCurrency = Config.features.currency;
-const mCurrencySymbol = 'm' + configCurrency;
-const coinDust = Config.dust.coin;
-const miliCoinDust = Config.dust.miliCoin;
+const currencySymbol = Config.features.currency;
+const mCurrencySymbol = 'm' + currencySymbol;
+
 // REVIEW: Some functions here do auto conversion from BTF to mBTF.
 //         We need to be careful because sometimes the values we are handling
 //         could be in satoshi unit.
@@ -77,22 +76,17 @@ var CurrencyUtils = {
    *        False will truncate to precision decimal places
    * @returns - amount rounded/truncated to precision decimal places
    */
-  substringPrecision(amount, precision, accuracy=true, currencyFormat='mBTF'){
+  substringPrecision(amount, precision, accuracy=true){
     if (amount === undefined){
       amount = 0.0;
     }
-    amount = this.isDust(currencyFormat, amount);
     let split = amount.toString().split('.');
     if (split[1] && split[1].length > precision){
       let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0)); // Conditionally take the value one past the accpeted precision ,,.
       let newAmount = split[0] + '.' + splitSel;
       return parseFloat(newAmount).toFixed(precision); // Then execute toFixed on the resulting amount. This keeps more accuracy. 
     } else {
-      if (typeof(amount) !== 'number' && amount.indexOf('*') !== -1){
-        return amount;
-      } else {
-        return amount.toFixed(precision);
-      }
+      return amount.toFixed(precision);
     }
   },
 
@@ -130,20 +124,19 @@ var CurrencyUtils = {
       if (amount === 0){
         return amount;
       }
+
       if (currencyFormat === 'mBTF' || currencyFormat === mCurrencySymbol) {
-        
         // 1 BTF = 1 * 10^3 mBTF
         const mPrecision = precision < 3 ? 0 : precision - 3;
         if (forExport){
-          return this.substringPrecision(amount, mPrecision, false, currencyFormat);
+          return amount.toFixed(mPrecision);
         }
-        return avg ? this.substringPrecision(amount, precision, false, currencyFormat) : 
-          this.substringPrecision((1000 * amount), mPrecision, false, currencyFormat);
+        return avg ? amount.toFixed(precision) : ( 1000 * amount ).toFixed(mPrecision);
       }
 
-      if (currencyFormat === 'BTF' || currencyFormat === configCurrency) {
+      if (currencyFormat === 'BTF' || currencyFormat === currencySymbol) {
         if(amount % 1 !== 0){
-          return this.substringPrecision(amount, precision, accuracy, currencyFormat);
+          return this.substringPrecision(amount, precision, accuracy);
         }
         else{
           // Sometimes amount is a string type which will throw an
@@ -214,11 +207,10 @@ var CurrencyUtils = {
     if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
     let floatAmount = parseFloat(amount)
     if (field === 'stake') {
-      if ((floatAmount < 1 && currency === 'mBTF') || (floatAmount < 1 && currency === mCurrencySymbol)) return Config.mbtfTransactionFee.toString()
-      if ((floatAmount < .001 && currency === 'BTF') || (floatAmount < .001 && currency === configCurrency)) return Config.btfTransactionFee.toString()
+      if ((floatAmount < .001 && currency === 'BTF') || (floatAmount < .001 && currency === currencySymbol)) return Config.btfTransactionFee.toString()
     }
     if(amount % 1 !== 0 && !isNaN(amount)){
-      return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency], true, currency);
+      return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency]);
     } else{
       return floatAmount.toFixed(this.fieldPrecisionMap[field][currency]);
     }
@@ -246,24 +238,6 @@ var CurrencyUtils = {
   // This function will convert lay stake to the correct value
   layBetStakeModifier: function(stake, odds) {
     return stake / (odds - 1)
-  },
-  // Check if the currency is dust. If it is, append an asterik.
-  isDust: (currencyFormat, amount) => {
-    let dustRange;
-    // If the value coming in is from the simplebettingwidget and is of 3 precision, execute a different dust check
-    if(amount % 1 && amount.toString().split('.')[1].length !== 3){
-      if (currencyFormat.toLowerCase().indexOf('m') === -1){
-        dustRange = coinDust;
-      } else {
-        dustRange = miliCoinDust;
-      }
-    }
-    // The amount is dust if it is between the negative and positive versions of the configured dust values. 
-    // ex: Between -0.001 & 0.001 is dust.
-    if( amount > -dustRange && amount < dustRange && amount !== 0){
-      amount = 0 + '*';
-    }
-    return amount;
   }
 }
 
