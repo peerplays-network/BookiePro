@@ -14,7 +14,7 @@ import {
   BinnedOrderBookActions,
   BalanceActions,
   RuleActions,
-  LiquidityActions,
+  LiquidityActions
 } from '../actions';
 import Immutable from 'immutable';
 import { ObjectPrefix, Config, ChainTypes } from '../constants';

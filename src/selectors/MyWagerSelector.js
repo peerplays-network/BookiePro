@@ -225,7 +225,7 @@ const getBetsWithFormattedCurrency = createSelector(
           betType
         );
         
-        bet = bet.set('amount_won', CurrencyUtils.isZero(formattedAmountWon));       
+        bet = bet.set('amount_won', CurrencyUtils.isZero(formattedAmountWon));
       }
       return bet;
     })
