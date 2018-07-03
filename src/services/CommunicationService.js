@@ -15,8 +15,6 @@ import {
   BalanceActions,
   RuleActions,
   LiquidityActions,
-  QuickBetDrawerActions,
-  MarketDrawerActions
 } from '../actions';
 import Immutable from 'immutable';
 import { ObjectPrefix, Config, ChainTypes } from '../constants';
@@ -24,8 +22,6 @@ import { ChainValidation } from 'peerplaysjs-lib';
 import _ from 'lodash';
 import dummyData from '../dummyData';
 import log from 'loglevel';
-import CommonSelector from '../selectors/CommonSelector';
-import DrawerSelector from '../selectors/DrawerSelector';
 import DrawerActions from '../actions/DrawerActions';
 const TIMEOUT_LENGTH = 500;
 const SYNC_MIN_INTERVAL = 1000; // 1 seconds
@@ -342,10 +338,8 @@ class CommunicationService {
           break;
         }
         case ObjectPrefix.BETTING_MARKET_PREFIX: {
-          // Calls functions that will retrieve unplaced bets from the two drawers available in redux state. Market Drawer & Quick Bet Drawer.
-          let betsToDelete = DrawerSelector.getUnplacedBetsToBeDeleted(deletedObjectIds);
           // Delete the bets
-          this.dispatch(DrawerActions.deleteBets(betsToDelete));
+          this.dispatch(DrawerActions.deleteBets(deletedObjectIds));
           this.dispatch(BettingMarketActions.removeBettingMarketsByIdsAction(deletedObjectIds));
           break;
         }
