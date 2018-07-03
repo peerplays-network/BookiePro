@@ -100,7 +100,7 @@ class Exchange extends PureComponent {
    * @returns {boolean} whether to follow the new route
    */
   routerWillLeave(nextLocation){
-    
+
     this.setState({
       nextLocation: nextLocation
     })
