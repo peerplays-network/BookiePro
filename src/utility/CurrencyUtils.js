@@ -8,7 +8,7 @@ import mBitFunBlack from '../assets/icons/mbitfun_icon_black.svg';
 /**
  * The CurrencyUtils contains all the functions related to currency conversion function
  */
-//const configCurrency = '\u0243';
+//const currencySymbol = '\u0243';
 const currencySymbol = Config.features.currency;
 const mCurrencySymbol = 'm' + currencySymbol;
 
@@ -124,7 +124,6 @@ var CurrencyUtils = {
       if (amount === 0){
         return amount;
       }
-
       if (currencyFormat === 'mBTF' || currencyFormat === mCurrencySymbol) {
         // 1 BTF = 1 * 10^3 mBTF
         const mPrecision = precision < 3 ? 0 : precision - 3;
