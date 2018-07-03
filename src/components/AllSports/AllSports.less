@@ -7,10 +7,41 @@
 
 .banner-ad-header,
 .banner-ad-footer {
+  background-size: 100%;
+  background-repeat: no-repeat;
   display: block;
+  height: 60px;
   width: 100%;
 }
 
+
+.banner-ad-header {
+  background-image: url(../../assets/images/betting_exchange_banner.png);
+}
 .banner-ad-footer {
+  background-image: url(../../assets/images/footer_banner.png);
   margin-top: 20px;
 }
+
+@media screen and (min-width: 1301px) {
+  .banner-ad-header {
+    background-image: url(../../assets/images/betting_exchange_banner.png);
+    height: 100px;
+  }
+  .banner-ad-footer {
+    background-image: url(../../assets/images/footer_banner.png);
+    height: 100px;
+  }
+}
+
+@media screen and (min-width: 1551px){
+  .banner-ad-header {
+    background-image: url(../../assets/images/betting_exchange_banner@x2.png); 
+    height: 160px;
+  }
+  .banner-ad-footer {
+    background-image: url(../../assets/images/footer_banner@x2.png); 
+    height: 160px;
+  }
+}
+
