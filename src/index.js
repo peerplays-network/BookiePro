@@ -44,20 +44,30 @@ const history = syncHistoryWithStore(hashHistory, store, {
 // We should turn this off in the production build.
 log.setLevel(log.levels.SILENT);
 
-//open links externally by default
 // are we in an electron window?
+let electron;
 const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 if (isRunningInsideElectron){
-  let electron;
+  electron = window.require('electron');
   // add a listener to handle all clicks
   document.addEventListener("click", (e) => {
     // act on any clicks that are hyperlinks preceeded by http
     if(e.target.tagName.toLowerCase() === "a" && e.target.href.indexOf("http") >= 0){
       event.preventDefault();
-      electron = window.require('electron');
       electron.shell.openExternal(e.target.href);
     }
   });
+  const {remote} = electron;
+  const {Menu, MenuItem} = remote
+
+  const menu = new Menu();
+  menu.append(new MenuItem({label: 'Copy', click() {document.execCommand('copy')}}))
+  menu.append(new MenuItem({label: 'Paste', click() {document.execCommand('paste')}}))
+
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    menu.popup({window: remote.getCurrentWindow()})
+  }, false);
 }
 
 // Add new page here
