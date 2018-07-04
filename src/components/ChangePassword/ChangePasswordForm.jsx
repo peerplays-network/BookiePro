@@ -80,7 +80,7 @@ class ChangePasswordForm extends PureComponent {
    */
   renderRecoveryButtonFields = (fields) =>{
     const minimumLength = 22;
-    const disabled = fields.recoveryDisabled
+    const disabled = fields.recoveryDisabled || fields.errors.length > 0
       || fields.new_password.input.value !== fields.new_password_confirm.input.value
       || fields.new_password_confirm.input.value.length < minimumLength;
     return (
@@ -138,7 +138,7 @@ class ChangePasswordForm extends PureComponent {
             </p>
             <div className='text-center'>
               <Fields
-                props={ { recoveryDisabled } }
+                props={ { recoveryDisabled, errors } }
                 names={ ['new_password','new_password_confirm'] }
                 component={ this.renderRecoveryButtonFields }
                 onClick={ this.onClickDownload.bind(this) }/>
