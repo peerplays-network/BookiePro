@@ -34,7 +34,7 @@ class MatchedBets extends PureComponent {
         />
         { !this.props.bets.isEmpty() &&
           <div className={ `controls ${this.props.obscureContent ? 'dimmed' : ''}` }>
-            <Checkbox onChange={ e => this.props.clickAverageOdds(e.target.checked) } disabled={ this.props.disabled }>
+            <Checkbox onChange={ e => this.props.clickAverageOdds(e.target.checked) } checked={ this.props.averageOdds } disabled={ this.props.disabled }>
               { I18n.t('market_drawer.matched_bets.average_odds') }
             </Checkbox>
           </div>
@@ -72,7 +72,7 @@ const groupBetsByAverageOdds = (matchedBets, oddsFormat, currencyFormat) => {
   }).toList();
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   const groupByAverageOdds = state.getIn(['marketDrawer', 'groupByAverageOdds']);
   const oddsFormat = MyAccountPageSelector.oddsFormatSelector(state)
