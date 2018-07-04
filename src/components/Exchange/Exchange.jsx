@@ -87,6 +87,13 @@ class Exchange extends PureComponent {
     });
   }
 
+  gracefulLeave(){
+    // We still need to gracefully "leave" the page and reset the drawer
+    this.handleLeave();
+    // Notify Search Menu(i.e. react-select) to remove focus
+    this.props.onRouteChange();
+    return true;
+  }
   /**
    * Callback function when user 'attempt' to navigate to new page
    *
@@ -100,18 +107,13 @@ class Exchange extends PureComponent {
     this.setState({
       nextLocation
     })
-    if (!this.props.isShowLogoutPopup && !this.state.confirmToLeave && this.props.hasUnplacedBets){
+
+    if (!this.props.isShowLogoutPopup && !this.state.confirmToLeave && this.props.hasUnplacedBets && this.props.connectionStatus.toLowerCase() === 'connected'){
       this.setModalVisible(true);
       return false;
-    } else {
-      // DO NOT remove
-      // We still need to gracefully "leave" the page and reset the drawer
-      this.handleLeave();
-      // Notify Search Menu(i.e. react-select) to remove focus
-      this.props.onRouteChange();
-
-      return true;
-    }
+    } 
+    
+    return this.gracefulLeave(); // will return true
   }
 
   render() {
@@ -176,6 +178,7 @@ class Exchange extends PureComponent {
 const mapStateToProps = (state, ownProps) => {
   const app = state.get('app');  
   const isShowLogoutPopup = app.get('isShowLogoutPopup');  
+  const connectionStatus = app.get('connectionStatus');
   const account = state.get('account');
   const accountId = account.getIn(['account','id']);
   const setting = state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting'])
@@ -190,7 +193,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     hasUnplacedBets: !state.getIn(path).isEmpty(),
     currencyFormat,
-    isShowLogoutPopup
+    isShowLogoutPopup,
+    connectionStatus
   };
 }
 
