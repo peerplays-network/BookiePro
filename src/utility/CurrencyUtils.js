@@ -250,6 +250,8 @@ var CurrencyUtils = {
   // Check if the currency is dust. If it is, append an asterik.
   isDust: (currencyFormat, amount) => {
     let dustRange;
+    // Handle negative amounts
+    amount = Math.abs(amount);
     // If the value coming in is from the simplebettingwidget and is of 3 precision, execute a different dust check
     if(amount % 1 && amount.toString().split('.')[1].length !== 3){
       if (currencyFormat.toLowerCase().indexOf('m') === -1){
@@ -260,7 +262,7 @@ var CurrencyUtils = {
     }
     // The amount is dust if it is between the negative and positive versions of the configured dust values. 
     // ex: Between -0.001 & 0.001 is dust.
-    if( amount > -dustRange && amount < dustRange && amount !== 0){
+    if(amount < dustRange && amount !== 0){
       amount = 0 + '*';
     }
     return amount;
