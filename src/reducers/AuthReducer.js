@@ -46,6 +46,9 @@ export default function (state = initialState, action) {
         changePasswordLoadingStatus: LoadingStatus.ERROR
       });
     }
+    case ActionTypes.AUTH_RESET_CHANGE_PASSWORD_ERRORS: {
+      return initialState;
+    }
     case ActionTypes.AUTH_LOGOUT: {
       return initialState;
     }
