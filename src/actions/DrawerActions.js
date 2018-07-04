@@ -30,7 +30,7 @@ class DrawerActions {
         betsToDelete = unplacedBets.filter(bet => bet.includes(bettingMarketIds.toJS()[0]));
       } else {
         // Loop through the betting market ids list for bms that have been updated.
-        for(let i=0;i < bettingMarketIds.size; i++){
+        for(let i = 0, size = bettingMarketIds.size; i < size; i++){
           // pull the betting market id out for the current index
           let id = bettingMarketIds.get(i);
           // Filter the unplacedBets list for bets that belong to a betting market that has been updated. (Determined by bettingMarketIds).
