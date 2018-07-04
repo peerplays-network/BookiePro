@@ -348,7 +348,7 @@ const mapStateToProps = (state) => {
   if (!balance || balance < 0) {
     balance = 0;
   }
-  const convertedAvailableBalance = CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces);
+  const convertedAvailableBalance = CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces, false);
   let availableBalance = balance !== undefined ? convertedAvailableBalance : 0;
 
   // in game balances is gained by summing matched bets and unmatched bets
