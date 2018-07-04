@@ -230,7 +230,7 @@ class SignupForm extends PureComponent {
               </div>
             </div>
           </div>
-          <div className='clearfix center-object'>
+          <div className='clearfix center-object align-top'>
             {/*TODO: bold text inside warning*/}
             <Field name='understand' id='understand'
                 component={ renderCheckboxField } type='checkbox'
