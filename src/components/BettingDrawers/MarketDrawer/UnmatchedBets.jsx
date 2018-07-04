@@ -80,7 +80,7 @@ const mapStateToProps = (state, props) => {
   const overlay = state.getIn(['marketDrawer', 'overlay']);
   const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
   const hasUpdatedBets = originalBets.some(bet => bet.get('updated'));
-  const currencySymbol = CurrencyUtils.getCurrencySymbol(props.currencyFormat, hasUpdatedBets ? 'black' : 'white')
+  const currencySymbol = CurrencyUtils.getCurrencySymbol(props.currencyFormat, hasUpdatedBets ? 'black' : 'white');
 
   
   return {
