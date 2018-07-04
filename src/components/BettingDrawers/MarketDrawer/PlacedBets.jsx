@@ -80,7 +80,7 @@ class PlacedBets extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const disabled = ownProps.activeTab === "1";
+  const disabled = ownProps.activeTab === "BETSLIP";
   const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   // Total Bet amount for updated bets ONLY
