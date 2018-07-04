@@ -260,8 +260,7 @@ var CurrencyUtils = {
         dustRange = miliCoinDust;
       }
     }
-    // The amount is dust if it is between the negative and positive versions of the configured dust values. 
-    // ex: Between -0.001 & 0.001 is dust.
+    // If the amount is less than the configured dust values (Config.js), then change the display of that amount to indicate as such.
     if(amount < dustRange && amount !== 0){
       amount = 0 + '*';
     }
