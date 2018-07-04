@@ -14,8 +14,8 @@ import { BettingDrawerStates } from '../../../constants';
 import { MarketDrawerSelector } from '../../../selectors';
 
 const TabPane = Tabs.TabPane;
-const BETSLIP = '1';
-const PLACEDBETS = '2';
+const BETSLIP = 'BETSLIP';
+const PLACEDBETS = 'PLACEDBETS';
 const { SUBMIT_BETS_SUCCESS } = BettingDrawerStates;
 
 class MarketDrawer extends PureComponent {
