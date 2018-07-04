@@ -18,7 +18,7 @@ class AllSports extends PureComponent {
     const { allSportsData, currencyFormat } = this.props;
     return (
       <div id='all-sports-wrapper'>
-        <div className='banner-ad-header'>&nbsp;</div>
+        <div className='banner-ad-header'></div>
         {
           allSportsData.map((sportData) => {
             const sportId = sportData.get('sport_id');
@@ -43,7 +43,7 @@ class AllSports extends PureComponent {
             )
           })
         }
-        <div className='banner-ad-footer'>&nbsp;</div>
+        <div className='banner-ad-footer'></div>
         <div className='margin-top-18 logo-container'>
           <PeerPlaysLogo />
         </div>
