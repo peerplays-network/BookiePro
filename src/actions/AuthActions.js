@@ -96,6 +96,12 @@ class AuthPrivateActions {
     }
   }
 
+  static resetChangePwdErrors(){
+    return {
+      type: ActionTypes.AUTH_RESET_CHANGE_PASSWORD_ERRORS
+    }
+  }
+
   /**
    * Log the user in given account name and password
    * This is internal action that is used for the exposed login and signup function
@@ -233,6 +239,19 @@ class AuthActions {
     return AuthPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DEFAULT);
   }
 
+  static validateOldPasswordField(oldPassword){
+    return (dispatch, getState) => {
+      const account = getState().getIn(['account', 'account']);
+      const oldKeys = KeyGeneratorService.generateKeys(account.get('name'), oldPassword);
+      const isAuthenticated = AccountService.authenticateAccount(account, oldKeys);
+      if (!isAuthenticated) {
+        //Set password change error
+        return dispatch(AuthPrivateActions.setChangePasswordErrorsAction([I18n.t('changePassword.old_password_does_not_match')]));
+      }
+      dispatch(AuthPrivateActions.resetChangePwdErrors());
+    }
+  }
+  
   static changePassword(oldPassword, newPassword) {
     return (dispatch, getState) => {
       dispatch(AuthPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.LOADING));
