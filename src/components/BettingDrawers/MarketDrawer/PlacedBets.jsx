@@ -55,9 +55,17 @@ class PlacedBets extends PureComponent {
                currencyFormat={ this.props.currencyFormat }
                totalBetAmountFloat={ this.props.totalBetAmountFloat }
                totalBetAmountString={ this.props.totalBetAmountString }
+               activeTab={ this.props.activeTab }
+               disabled={ this.props.disabled }
             />
           }
-          { !this.props.isEmpty && <MatchedBets currencyFormat={ this.props.currencyFormat }/> }
+          { !this.props.isEmpty && 
+            <MatchedBets 
+              currencyFormat={ this.props.currencyFormat } 
+              averageOdds={ this.props.averageOdds } 
+              activeTab={ this.props.activeTab } 
+              disabled={ this.props.disabled }/> 
+          }
           { this.props.isEmpty &&
             <Empty
               showSuccess={ this.props.overlay === BettingDrawerStates.SUBMIT_BETS_SUCCESS }
@@ -78,6 +86,8 @@ class PlacedBets extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const disabled = ownProps.activeTab === "BETSLIP";
+  const averageOdds = state.getIn(['marketDrawer', 'groupByAverageOdds']);
   const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   // Total Bet amount for updated bets ONLY
@@ -114,7 +124,9 @@ const mapStateToProps = (state, ownProps) => {
     numberOfGoodBets,
     numberOfBadBets: updatedBets.size - numberOfGoodBets,
     totalBetAmountFloat: totalAmount + transactionFee,
-    totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat)
+    totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat),
+    disabled,
+    averageOdds
   }
 }
 
