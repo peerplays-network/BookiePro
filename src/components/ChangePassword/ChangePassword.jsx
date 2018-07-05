@@ -23,6 +23,7 @@ class ChangePassword extends PureComponent{
   constructor(props){
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleOldPasswordCheck = this.handleOldPasswordCheck.bind(this);
     this.navigateToMyAccount = this.navigateToMyAccount.bind(this);
     this.navigateToHome = this.navigateToHome.bind(this);
   }
@@ -36,6 +37,16 @@ class ChangePassword extends PureComponent{
     this.props.changePassword(values.get('old_password'), values.get('new_password'));
   }
 
+  /**
+   * Invoke the {@link AuthActions#validateOldPasswordField} action
+   * 
+   * @param {object} values - data obtained from the {@link ChangePasswordForm}
+   * @memberof ChangePassword
+   */
+  handleOldPasswordCheck(values) {
+    this.props.validateOldPasswordField(values.currentTarget.value);
+  }
+  
   /**
    * Navigate to the `targetLocation` and reset the page loading status back to
    * DEFAULT.
@@ -89,6 +100,7 @@ class ChangePassword extends PureComponent{
                 this.props.loadingStatus!==LoadingStatus.DONE  ?
                 <ChangePasswordForm
                   onSubmit={ this.handleSubmit }
+                  onBlur={ this.handleOldPasswordCheck }
                   loadingStatus={ this.props.loadingStatus }
                   errors={ this.props.errors }/> : null
               }
@@ -127,6 +139,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     navigateTo: NavigateActions.navigateTo,
     changePassword: AuthActions.changePassword,
+    validateOldPasswordField: AuthActions.validateOldPasswordField,
     resetChangePwdLoadingStatus: AuthActions.resetChangePwdLoadingStatus
   }, dispatch);
 }

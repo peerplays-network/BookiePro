@@ -35,16 +35,18 @@ class UnmatchedBets extends PureComponent {
           dimmed={ this.props.obscureContent }
           currencyFormat={ this.props.currencyFormat }
           oddsFormat={ this.props.oddsFormat }
+          activeTab={ this.props.activeTab }
+          disabled={ this.props.disabled }
         />
         { !this.props.bets.isEmpty() &&
           <div className={ `buttons ${this.props.obscureContent ? 'dimmed' : ''}` }>
-            <Button className='btn btn-cancel' onClick={ this.props.clickReset }>
+            <Button className='btn btn-cancel' onClick={ this.props.clickReset } disabled={ this.props.disabled }>
               { I18n.t('market_drawer.unmatched_bets.content.reset_button') }
             </Button>
             <button
               className={ `btn btn${this.props.hasUpdatedBets ? '-regular' : '-disabled'}` }
               onClick={ () => this.props.clickUpdateBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
-              disabled={ !this.props.hasUpdatedBets }
+              disabled={ this.props.disabled }
             >
               { I18n.t('market_drawer.unmatched_bets.content.update_button') }
               { this.props.currencySymbol }
