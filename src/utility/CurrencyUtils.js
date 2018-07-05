@@ -13,6 +13,7 @@ const configCurrency = Config.features.currency;
 const mCurrencySymbol = 'm' + configCurrency;
 const coinDust = Config.dust.coin;
 const miliCoinDust = Config.dust.miliCoin;
+const exchangeCoin = Config.dust.exchangeCoin;
 // REVIEW: Some functions here do auto conversion from BTF to mBTF.
 //         We need to be careful because sometimes the values we are handling
 //         could be in satoshi unit.
@@ -255,13 +256,14 @@ var CurrencyUtils = {
     let dustRange;
     // Handle negative amounts
     amount = Math.abs(amount);
-    // If the value coming in is from the simplebettingwidget and is of 3 precision, execute a different dust check
-    if(amount % 1 && amount.toString().split('.')[1].length !== 3){
-      if (currencyFormat.toLowerCase().indexOf('m') === -1){
-        dustRange = coinDust;
-      } else {
-        dustRange = miliCoinDust;
-      }
+    if (currencyFormat.toLowerCase().indexOf('m') === -1){
+      dustRange = coinDust;
+    } else {
+      dustRange = miliCoinDust;
+    }
+    // If the value coming is of 3 precision, its dust is different.
+    if(amount % 1 !== 0 && amount.toString().split('.')[1].length === 3){
+      dustRange = exchangeCoin;
     }
     // If the amount is less than the configured dust values (Config.js), then change the display of that amount to indicate as such.
     if(amount < dustRange && amount !== 0){
