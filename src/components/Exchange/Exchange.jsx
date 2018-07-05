@@ -76,14 +76,11 @@ class Exchange extends PureComponent {
    * Attempts to reset the store about unconfirmed bets as well as state of UI like modal visibliity and overlay.
    */
   handleLeave(){
-    const transitionName = this.props.location.pathname.split("/");
-    if (transitionName.length < 3 || transitionName[2].toLowerCase() !== 'bettingmarketgroup') {
-      this.props.clearQuickBetDrawer();
-      this.props.clearQuickBetsOverlay();
-    } else {
-      this.props.clearMarketDrawerBetslips();
-      this.props.clearMarketBetsOverlay();
-    }
+    this.props.clearQuickBetDrawer();
+    this.props.clearQuickBetsOverlay();
+    this.props.clearMarketDrawerBetslips();
+    this.props.clearMarketBetsOverlay();
+
     this.setModalVisible(false);
     this.setState({
       confirmToLeave: true
@@ -107,7 +104,6 @@ class Exchange extends PureComponent {
    * @returns {boolean} whether to follow the new route
    */
   routerWillLeave(nextLocation){
-
     this.setState({
       nextLocation
     })
