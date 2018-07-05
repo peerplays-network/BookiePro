@@ -304,7 +304,7 @@ class TopMenu extends PureComponent {
             <div className='icon-main notification-icon-main'>
                 <a className='ant-dropdown-link' href='#'>
                 <Badge count={ this.props.unreadNotificationNumber }>
-                  <i className={ this.state.isNotificationComponentVisible ? 'notification-icon-selected' : 'notification-icon' }>
+                  <i className={ this.state.isNotificationComponentVisible ? 'notification-icon selected' : 'notification-icon' }>
                     <span className='count-number'>{ this.props.unreadNotificationNumber }</span>
                   </i>
                 </Badge>
@@ -348,7 +348,7 @@ const mapStateToProps = (state) => {
   if (!balance || balance < 0) {
     balance = 0;
   }
-  const convertedAvailableBalance = CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces);
+  const convertedAvailableBalance = CurrencyUtils.getFormattedCurrency(balance/ Math.pow(10, precision), setting.get('currencyFormat'), BettingModuleUtils.exposurePlaces, false);
   let availableBalance = balance !== undefined ? convertedAvailableBalance : 0;
 
   // in game balances is gained by summing matched bets and unmatched bets

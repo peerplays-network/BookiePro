@@ -134,6 +134,9 @@ var CurrencyUtils = {
         
         // 1 BTF = 1 * 10^3 mBTF
         const mPrecision = precision < 3 ? 0 : precision - 3;
+        if (!accuracy){
+          return this.substringPrecision((1000 * amount), mPrecision, accuracy);
+        }
         if (forExport){
           return this.substringPrecision(amount, mPrecision, false, currencyFormat);
         }

@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
-import { Modal, Spin } from 'antd';
+import { Modal } from 'antd';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
+import Loading from '../../Loading';
 
 class InitAccountModal extends PureComponent {
 
@@ -13,9 +14,9 @@ class InitAccountModal extends PureComponent {
         footer={ null }
         closable={ false }
       >
-        <p>{ I18n.t('initAccountModal.loading') }</p>
-        <div style={ { display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '20px', paddingBottom: '20px' } }>
-          <Spin size='large'/>
+        <div className='initAccountModal'>
+          <p>{ I18n.t('initAccountModal.loading') }</p>
+          <Loading />
         </div>
       </Modal>
     );
