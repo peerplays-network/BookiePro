@@ -87,14 +87,13 @@ var CurrencyUtils = {
     if (split[1] && split[1].length > precision){
       let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0)); // Conditionally take the value one past the accpeted precision ,,.
       let newAmount = split[0] + '.' + splitSel;
-      return parseFloat(newAmount).toFixed(precision); // Then execute toFixed on the resulting amount. This keeps more accuracy. 
+      amount = parseFloat(newAmount).toFixed(precision); // Then execute toFixed on the resulting amount. This keeps more accuracy. 
     } else {
-      if (typeof(amount) !== 'number' && amount.indexOf('*') !== -1){
-        return amount;
-      } else {
-        return amount.toFixed(precision);
+      if (typeof(amount) === 'number' && amount.toString().indexOf('*') === -1){
+        amount = amount.toFixed(precision);
       }
     }
+    return amount;
   },
 
   getCurrencySymbol: function(currency='mBTF', color = 'black'){
@@ -254,20 +253,23 @@ var CurrencyUtils = {
   // Check if the currency is dust. If it is, append an asterik.
   isDust: (currencyFormat, amount) => {
     let dustRange;
-    // Handle negative amounts
-    amount = Math.abs(amount);
-    if (currencyFormat.toLowerCase().indexOf('m') === -1){
-      dustRange = coinDust;
-    } else {
-      dustRange = miliCoinDust;
-    }
-    // If the value coming is of 3 precision, its dust is different.
-    if(amount % 1 !== 0 && amount.toString().split('.')[1].length === 3){
-      dustRange = exchangeCoin;
-    }
-    // If the amount is less than the configured dust values (Config.js), then change the display of that amount to indicate as such.
-    if(amount < dustRange && amount !== 0){
-      amount = 0 + '*';
+    if (!isNaN(amount)) {
+      // Handle negative amounts
+      amount = Math.abs(amount);
+      if (currencyFormat.toLowerCase().indexOf('m') === -1){
+        dustRange = coinDust;
+      } else {
+        dustRange = miliCoinDust;
+      }
+      // If the value coming is of 3 precision, its dust is different.
+      if(amount % 1 !== 0 && amount.toString().split('.')[1].length === 3){
+        dustRange = exchangeCoin;
+      }
+      // If the amount is less than the configured dust values (Config.js), then change the display of that amount to indicate as such.
+      console.log(amount)
+      if(amount < dustRange && amount !== 0){
+        amount = 0 + '*';
+      }
     }
     return amount;
   }
