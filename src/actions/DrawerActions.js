@@ -26,6 +26,8 @@ class DrawerActions {
       // Concatinate the unplaced bets
       const unplacedBets = unconfirmedBets.concat(bets);
       var betsToDelete = Immutable.List();
+      // In the event that a proposal is made that alters two object in the one proposal, this size would be larger than one.
+      // ie: Update the event object status enumerator for two events in one proposal.
       if (bettingMarketIds.size === 1){
         betsToDelete = unplacedBets.filter(bet => bet.includes(bettingMarketIds.toJS()[0]));
       } else {
