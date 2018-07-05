@@ -26,20 +26,14 @@ class DrawerActions {
       // Concatinate the unplaced bets
       const unplacedBets = unconfirmedBets.concat(bets);
       var betsToDelete = Immutable.List();
-      // In the event that a proposal is made that alters two object in the one proposal, this size would be larger than one.
-      // ie: Update the event object status enumerator for two events in one proposal.
-      if (bettingMarketIds.size === 1){
-        betsToDelete = unplacedBets.filter(bet => bet.includes(bettingMarketIds.toJS()[0]));
-      } else {
-        // Loop through the betting market ids list for bms that have been updated.
-        for(let i = 0, size = bettingMarketIds.size; i < size; i++){
-          // pull the betting market id out for the current index
-          let id = bettingMarketIds.get(i);
-          // Filter the unplacedBets list for bets that belong to a betting market that has been updated. (Determined by bettingMarketIds).
-          betsToDelete = betsToDelete.concat(unplacedBets.filter(bet => {
-            return bet.get('betting_market_id') === id;
-          }));
-        }
+      // Loop through the betting market ids list for bms that have been updated.
+      for(let i = 0, size = bettingMarketIds.size; i < size; i++){
+        // pull the betting market id out for the current index
+        let id = bettingMarketIds.get(i);
+        // Filter the unplacedBets list for bets that belong to a betting market that has been updated. (Determined by bettingMarketIds).
+        betsToDelete = betsToDelete.concat(unplacedBets.filter(bet => {
+          return bet.get('betting_market_id') === id;
+        }));
       }
 
       // Dispatch the deletion actions for the two drawers with the betsToDelete list.
