@@ -1,6 +1,6 @@
 {
   "name": "peerplays-electron-build-bookie",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The intent of this project is to wrap bookie in electron.",
   "main": "build/electron.js",
   "scripts": {
