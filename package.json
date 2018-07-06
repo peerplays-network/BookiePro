@@ -84,6 +84,7 @@
     "promise-queue": "~2.2.3",
     "prop-types": "~15.5.8",
     "qrcode.react": "~0.6.1",
+    "rc": "^1.2.8",
     "react": "~15.4.2",
     "react-addons-test-utils": "^15.6.0",
     "react-dom": "~15.4.2",
