@@ -26,9 +26,8 @@ const generateBannerUrl = (sport) => {
   if (sportBannerUrls[theSport]) {
     return sportBannerUrls[theSport];
   } else {
-    // Otherwise, choose a random image from the list of provided images
-    const indexOfBannerToBeUsed = Math.floor((Math.random() * bannerUrls.length));
-    return bannerUrls[indexOfBannerToBeUsed];
+    // Otherwise, use the default image
+    return defaultBanner;
   }
   
 }
