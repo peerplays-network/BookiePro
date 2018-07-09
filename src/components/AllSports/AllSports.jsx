@@ -5,6 +5,7 @@ import { AllSportsActions } from '../../actions';
 import { AllSportsSelector, QuickBetDrawerSelector } from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
 import { DateUtils } from '../../utility';
+import Loading from  '../Loading';
 
 const MAX_EVENTS_PER_WIDGET = 3;
 const { getData } = AllSportsActions;
@@ -28,7 +29,7 @@ class AllSports extends PureComponent {
             // Sort by event time
             sortedEvents = DateUtils.sortEventsByDate(events);
             return (
-              events.size > 0 &&
+              events.size > 0 ?
               <SimpleBettingWidget
                 sportName={ sportName }
                 key={ sportId }                   // required by React to have unique key
@@ -39,7 +40,7 @@ class AllSports extends PureComponent {
                 footerLink={ `/exchange/sport/${sportId}` }
                 pagination={ false }          // No pagination, only show top records
                 canCreateBet={ this.props.canCreateBet }
-              />
+              /> : <Loading />
             )
           })
         }
