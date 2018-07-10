@@ -1,7 +1,4 @@
 import React, { PureComponent } from 'react';
-import banner1 from '../../../assets/images/sports_banner_1.png';
-import banner2 from '../../../assets/images/sports_banner_2.png';
-import banner3 from '../../../assets/images/sports_banner_3.png';
 
 import baseball from '../../../assets/images/sports_banner_baseball.png';
 import basketball from '../../../assets/images/sports_banner_basketball.png';
@@ -12,7 +9,6 @@ import soccer from '../../../assets/images/sports_banner_soccer.png';
 
 import PropTypes from 'prop-types';
 
-const bannerUrls = [banner1, banner2, banner3];
 const sportBannerUrls = {
   baseball, basketball, defaultBanner, football, soccer, icehockey
 };
