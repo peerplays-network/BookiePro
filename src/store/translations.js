@@ -790,9 +790,11 @@ export const translationsObject = {
     },
     connectionErrorModal: {
       title: 'Connection Error',
+      disconnected: 'You have been disconnected from the Blockchain',
       explanation: 'Could not connect to the Blockchain',
       noInternet: 'Could not connect to the internet',
       confirm: 'Try Again',
+      reconnect: 'Reconnect'
     },
     unplacedBetModal: {
       title: 'Confirm navigation',
