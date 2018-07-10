@@ -10,7 +10,7 @@ import soccer from '../../../assets/images/sports_banner_soccer.png';
 import PropTypes from 'prop-types';
 
 const sportBannerUrls = {
-  baseball, basketball, defaultBanner, football, soccer, icehockey
+  baseball, basketball, football, soccer, icehockey
 };
 
 const generateBannerUrl = (sport) => {
