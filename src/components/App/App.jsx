@@ -118,6 +118,7 @@ class App extends PureComponent {
       <ConnectionErrorModal
         onClickTryAgain={ this.onClickTryAgainConnectionError }
         visible={ this.props.isShowConnectionErrorPopup }
+        error={ this.props.connectToBlockchainError }
         isConnectedToBlockchain={ this.props.isConnectedToBlockchain }
       />
     );
@@ -195,6 +196,7 @@ const mapStateToProps = (state) => {
   const updateDate = softwareUpdate.get('date');
   const isLoggedIn = state.getIn(['account','isLoggedIn']);
   const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');
+  const connectToBlockchainError = app.get('connectToBlockchainError');
   const isShowLogoutPopup = app.get('isShowLogoutPopup');
   const isShowSoftwareUpdatePopup = app.get('isShowSoftwareUpdatePopup');
   const isShowConnectionErrorPopup = connectToBlockchainLoadingStatus === LoadingStatus.ERROR;
@@ -206,6 +208,7 @@ const mapStateToProps = (state) => {
 
   return {
     connectToBlockchainLoadingStatus,
+    connectToBlockchainError,
     isConnectedToBlockchain,
     hardUpdateGracePeriod,
     isLoggedIn,
