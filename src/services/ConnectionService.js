@@ -82,6 +82,14 @@ class ConnectionService {
     // Close connection
     Apis.close();
 
+    // Increment the index fpr the next connection attempt; 
+    this.blockchainUrlIndex++;
+
+    // Reset the index if we've gone past the end.
+    if (this.blockchainUrlIndex >= Config.blockchainUrls.length) {
+      this.blockchainUrlIndex = 0;
+    }
+
     // Stop the health check.
     CommunicationService.clearPing();
   }
@@ -107,15 +115,6 @@ class ConnectionService {
       // Print out which blockchain we are connecting to
       log.debug('Connected to:', res[0] ? res[0].network_name : 'Undefined Blockchain');
     }).catch((error) => {
-
-      // Increment the index fpr the next connection attempt; 
-      this.blockchainUrlIndex++;
-
-      // Reset the index if we've gone past the end.
-      if (this.blockchainUrlIndex >= Config.blockchainUrls.length) {
-        this.blockchainUrlIndex = 0;
-      }
-
       // Close residue connection to blockchain
       this.closeConnectionToBlockchain();
     })
