@@ -141,7 +141,7 @@ class AuthPrivateActions {
  */
 class AuthActions {
   /**
-   * Auto logout, Log the user our when they come back to the app.
+   * Auto logout, Log the user out when they come back to the app.
    */
   static autoLogout() {
     return (dispatch, getState) => {
