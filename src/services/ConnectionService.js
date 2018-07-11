@@ -2,52 +2,58 @@ import { Apis } from 'peerplaysjs-ws';
 import { Config, ConnectionStatus } from '../constants';
 import { ConnectionUtils } from '../utility';
 import log from 'loglevel';
+import CommunicationService from './CommunicationService';
 
 class ConnectionService {
   
   constructor() {
     this.blockchainUrlIndex = 0; // Index of blockchain url to be used from the list
   
-    window.addEventListener('online', this.onlineStatusCallback.bind(this));
+    // Listen for the loss of internet.
     window.addEventListener('offline', this.offlineStatusCallback.bind(this));
 
+    // Since the service is now a class, bind to the this instance.
     Apis.setRpcConnectionStatusCallback(this.websocketStatusCallback.bind(this));
     
+    // Default callback so we don't have to to validity checking everytime we call the callback.
     this.connectionStatusCallback = () => {};
   }
   
-  // Define new callback
-  onlineStatusCallback () {
-    log.info('Connected to Internet.');
-    if (ConnectionUtils.isWebsocketOpen()) {
-      // Internet is on and websocket is open
-      this.connectionStatusCallback(ConnectionStatus.CONNECTED);
-    } else {
-      // Internet is on but websocket is closed
-      this.connectionStatusCallback(ConnectionStatus.DISCONNECTED);
-    }
-  }
-
+  /**
+   * Called when the internet is offline.
+   *
+   * @memberof ConnectionService
+   */
   offlineStatusCallback () {
     log.info('Disconnected from the internet.');
     // Internet is off and websocket is open/ closed
     this.connectionStatusCallback(ConnectionStatus.DISCONNECTED);
+    this.closeConnectionToBlockchain();
   }
 
+  /**
+   * Called each time the websocket status chagnes.
+   *
+   * @param {string} message [open, error, reconnected, closed] current status.
+   * @memberof ConnectionService
+   */
   websocketStatusCallback (message) {
     switch (message) {
       case 'open': {
         log.info('Websocket connection is open.');
         if (ConnectionUtils.isConnectedToInternet()) {
           // Internet is on and websocket is open
+  
+          // Setup the health check.
+          CommunicationService.ping();
+
           this.connectionStatusCallback(ConnectionStatus.CONNECTED);
+
         } else {
           // Internet is off and websocket is closed
           this.connectionStatusCallback(ConnectionStatus.DISCONNECTED);
           this.closeConnectionToBlockchain();
         }
-
-        // TODO: Resubscribe here if we have a list of subscriptions.
 
         break;
       }
@@ -66,16 +72,26 @@ class ConnectionService {
       default: break;
     }
   }
+
   /**
    * Close connection to blockchain and remove any related callbacks
+   *
+   * @memberof ConnectionService
    */
   closeConnectionToBlockchain() {
     // Close connection
     Apis.close();
+
+    // Stop the health check.
+    CommunicationService.clearPing();
   }
 
   /**
    * Open websocket connection to blockchain
+   *
+   * @param {function} connectionStatusCallback
+   * @returns A promise that resolves when the connection is establised.
+   * @memberof ConnectionService
    */
   connectToBlockchain(connectionStatusCallback) {
     // Set connection status callback
