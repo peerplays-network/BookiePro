@@ -28,9 +28,11 @@ class ConnectionErrorModal extends PureComponent {
         cancelText={ null }
         width={ 428 }
       >
-        <p>{this.props.isConnectedToBlockchain && I18n.t('connectionErrorModal.explanation') }</p>
         <p>
-          { !this.props.isConnectedToBlockchain && this.props.error === LoadingStatus.ERROR_DISCONNECTED ? I18n.t('connectionErrorModal.disconnected') : I18n.t('connectionErrorModal.noInternet')} 
+          { this.props.isConnectedToBlockchain && I18n.t('connectionErrorModal.explanation') }
+        </p>
+        <p>
+          { !this.props.isConnectedToBlockchain && (this.props.error === LoadingStatus.ERROR_DISCONNECTED ? I18n.t('connectionErrorModal.disconnected') : I18n.t('connectionErrorModal.noInternet'))} 
         </p>
         <button className='btn btn-regular try-again' onClick={ this.onClickTryAgain }>
           { this.props.error === LoadingStatus.ERROR_DISCONNECTED ? I18n.t('connectionErrorModal.reconnect') : I18n.t('connectionErrorModal.confirm') }
