@@ -3,7 +3,6 @@ import { BlockchainUtils, ObjectUtils } from '../utility';
 import {
   AssetActions,
   AppActions,
-  AuthActions,
   AccountActions,
   SoftwareUpdateActions,
   SportActions,
@@ -22,9 +21,19 @@ import { ChainValidation } from 'peerplaysjs-lib';
 import _ from 'lodash';
 import dummyData from '../dummyData';
 import log from 'loglevel';
+
 const TIMEOUT_LENGTH = 500;
 const SYNC_MIN_INTERVAL = 1000; // 1 seconds
-const { blockchainTimeStringToDate, getObjectIdPrefix, isRelevantObject, getObjectIdInstanceNumber } = BlockchainUtils;
+
+const { 
+  blockchainTimeStringToDate, 
+  getObjectIdPrefix, 
+  isRelevantObject, 
+  getObjectIdInstanceNumber 
+} = BlockchainUtils;
+
+// An array that holds all the objects that the application is currently subscribed to.
+let subscriptions = [];
 
 class CommunicationService {
   static dispatch = null;
@@ -296,6 +305,15 @@ class CommunicationService {
    */
   static deleteObjects(deletedObjectIdsByObjectIdPrefix) {
     log.debug('Sync - deleting', deletedObjectIdsByObjectIdPrefix.toJS());
+
+    // Loop through the subscriptions and remove the ids of the deleted objects.
+    
+    // Reduce the results down to their ids and turn it into a vanilla js array.
+    let deletedIds = deletedObjectIdsByObjectIdPrefix.reduce((accumulator, current) => accumulator.concat(current)).toJS();
+
+    // Filter out the items that are being deleted.
+    subscriptions = subscriptions.filter(item => !deletedIds.includes(item));
+
     deletedObjectIdsByObjectIdPrefix.forEach((deletedObjectIds, objectIdPrefix) => {
       switch (objectIdPrefix) {
         case ObjectPrefix.ACCOUNT_PREFIX: {
@@ -367,6 +385,23 @@ class CommunicationService {
       default: break;
     }
     if (apiPlugin) {
+
+      // If it is get_objects, we want to push the id's into an array.
+      if (methodName === 'get_objects') {
+
+        let ids = params[0];
+
+        // There are cases where an immutable list is passed instead of an array. This converts it to an array.
+        if (!Array.isArray(ids)) {
+          ids = ids.toJS();
+        }
+
+        // Add the ids to the subscriptions array.
+        // this code will create an array of unique ids, that way we don't need to duplicate the same
+        // item if its requested more than once.
+        subscriptions = Array.from(new Set(subscriptions.concat(ids)));
+      }
+
       return apiPlugin.exec(methodName, params).then((result) => {
         // Intercept and log
         if(methodName !== 'get_binned_order_book' && methodName !== "list_betting_market_groups" && methodName !== "list_betting_markets" ){ //&& JSON.stringify(params[0]) === "1.20.1688"){
@@ -398,7 +433,6 @@ class CommunicationService {
     return this.callBlockchainApi('bookie_api', methodName, params);
   }
 
-
   /**
    * Call blokchain db api
    * Route every call to blockchain db api through this function, so we can see the logging
@@ -418,16 +452,30 @@ class CommunicationService {
 
   /**
    * Recursive timer to monitor the connection to the blockchain.
+   *
+   * @static
+   * @memberof CommunicationService
    */
   static ping() {
     // Clear the timeout, this will help prevent zombie timeout loops.
     if (CommunicationService.PING_TIMEOUT) {
-      clearTimeout(CommunicationService.PING_TIMEOUT);
+      CommunicationService.clearPing();
     }
 
     CommunicationService.PING_TIMEOUT = setTimeout(CommunicationService.ping, Config.pingInterval)
     CommunicationService.callBlockchainDbApi('get_objects', [['2.1.0']]);
   } 
+
+  /**
+   * Clear the timeout for the websocket health check.
+   *
+   * @static
+   * @memberof CommunicationService
+   */
+  static clearPing() {
+    clearTimeout(CommunicationService.PING_TIMEOUT);
+    CommunicationService.PING_TIMEOUT = null;
+  }
 
   /**
    * Sync communication service with blockchain, so it always has the latest data
@@ -468,11 +516,9 @@ class CommunicationService {
             // Save core asset
             dispatch(AssetActions.addOrUpdateAssetsAction([coreAsset]));
 
-            // Set the ping up.
-            CommunicationService.ping();
-
-            // Attach an error handler to the socket.
-            CommunicationService.addSocketCloseListener();
+            // Request all of the objects that are currently stored in the subscriptions array.
+            // This will resubscribe to updates from the BlockChain.
+            this.getObjectsByIds(subscriptions);
 
             resolve();
           });
@@ -495,36 +541,6 @@ class CommunicationService {
         reject(error);
       });
     });
-  }
-
-  /**
-   * Attach an event listener to the socket so we can listen for it to close the connection.
-   * 
-   * @static
-   * @memberof CommunicationService
-   */
-  static addSocketCloseListener () {
-    let api = Apis.instance();
-
-    // Make sure it has an instance of chainsocket, and a websocket attached to it.
-    if (api && api.ws_rpc && api.ws_rpc.ws) {
-      let socket = api.ws_rpc.ws;
-      // Remove it first to make sure there is only ever one listener firing on close.
-      socket.removeEventListener('close', CommunicationService.onSocketClose);
-      socket.addEventListener('close', CommunicationService.onSocketClose);
-    }
-  }
-
-  /**
-   * Handle the closure of the socket connection.
-   * 
-   * @static
-   * @param {any} error 
-   * @memberof CommunicationService
-   */
-  static onSocketClose (error) {
-    // Call the action to redirect the user to the logged out screen.
-    CommunicationService.dispatch(AuthActions.confirmLogout());
   }
 
   /**
