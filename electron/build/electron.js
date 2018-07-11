@@ -21,17 +21,16 @@
 	global.guid = mainWindowState.guid;
 	global.version = JSON.parse(fs.readFileSync(__dirname + "/package.json")).version;
 	
-//	require('electron-context-menu')({
-//		showInspectElement: false,
-//		labels: {
-			// cut: 'Cut',
-			// copy: 'Configured Copy',
-			// paste: 'Configured Paste',
-			// save: 'Configured Save Image',
-			// copyLink: 'Configured Copy Link',
-			// inspect: 'Configured Inspect'
-//		},
-//	});
+	require('electron-context-menu')({
+		showInspectElement: false,
+		labels: {
+			cut: 'Cut',
+			copy: 'Copy',
+			paste: 'Paste',
+			save: 'Save Image',
+			copyLink: 'Copy Link'
+		},
+	});
 	
 	app.on('ready', function() {
 		
@@ -124,7 +123,7 @@
 				{role: 'delete'},
 				{role: 'selectall'}
 			]
-		}
+		
 		// , {
 		// 	label: 'View',
 		// 	submenu: [{
@@ -133,15 +132,14 @@
 		// 		click: function() {
 		// 			BrowserWindow.getFocusedWindow().reload();
 		// 		}
-		// 	}, {
-		// 		label: 'Toggle DevTools',
-		// 		accelerator: 'Alt+CmdOrCtrl+I',
-		// 		click: function() {
-		// 			BrowserWindow.getFocusedWindow().toggleDevTools();
-		// 		}
-		// 	}]
-		// }
-		];
+		// 	}
+			//  {
+			// 	label: 'Toggle DevTools',
+			// 	accelerator: 'Alt+CmdOrCtrl+I',
+			// 	click: function() {
+			// 		BrowserWindow.getFocusedWindow().toggleDevTools();
+			// 	}
+		}]
 		
 		if(process.platform === 'darwin')
 			Menu.setApplicationMenu(Menu.buildFromTemplate(template));
