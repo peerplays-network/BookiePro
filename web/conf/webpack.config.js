@@ -30,7 +30,7 @@ module.exports = function(options) {
     var define = {
         APP_PACKAGE_VERSION: JSON.stringify(packageJSON.version),
         SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME: JSON.stringify(options.SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME || "ppcoreupdates"),
-        APP_VERSION: JSON.stringify(git.tag()),
+        APP_VERSION: JSON.stringify(packageJSON.version),
         __ELECTRON__: !!options.electron,
         CORE_ASSET: JSON.stringify('PPY'),
         BLOCKCHAIN_URL: JSON.stringify(options.blockchain || 'wss://pma.blockveritas.co:8089/'),
