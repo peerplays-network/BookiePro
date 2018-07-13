@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, hashHistory, IndexRoute, IndexRedirect } from 'react-router';
 import App from './components/App';
-import BlockchainTestPage from './components/BlockchainTestPage';
 import MyAccount from './components/MyAccount';
 import MyWager from './components/MyWager';
 import Signup from './components/Signup';
@@ -81,7 +80,6 @@ const routes = (
       <Route path='/deposit' component={ Deposit } />
       <Route path='/landing' component={ Landing } />
       <Route component={ Main }>
-        <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
         <Route path='/help-and-support' component={ HelpAndSupport } />
         <Route path='/exchange' component={ Exchange } >
           <IndexRoute component={ AllSports }/>
