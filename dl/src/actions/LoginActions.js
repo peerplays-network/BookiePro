@@ -125,7 +125,7 @@ class LoginActions {
             AccountRepository.fetchFullAccount(state.loginPage.accountForLogin[1]).then(function (result) {            
                 if (result && result[1] && result[1]['account'] && result[1]['account']['active']['key_auths'] && result[1]['account']['active']['key_auths'].length) {
                     result[1]['account']['active']['key_auths'].forEach(function (keyArr) {
-                        if (keyArr[0] && keyArr[0] === activePublicKey || keyArr[0] && keyArr[0] === ownerPublicKey) {
+                        if (keyArr[0] && (keyArr[0] === activePublicKey ||  keyArr[0] === ownerPublicKey)) {
                             isLogin = true;
                         }
                     });
