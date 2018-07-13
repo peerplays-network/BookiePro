@@ -54,8 +54,8 @@ class Accounts extends React.Component {
         this.props.accountSearch('');
 	}
 
-	onSearch(e) {
-		this.props.accountSearch(e.target.value);
+	onSearch(e) {		
+		this.props.accountSearch(e.target.value);		
 		this.setState({searchValue: e.target.value});
 	}
 
@@ -109,7 +109,7 @@ class Accounts extends React.Component {
 
 						<input type="text" className="field field-search"
 							placeholder={counterpart.translate("explore.accounts.search_accounts")}
-							value={searchValue} onChange={this.onSearch.bind(this)}/>
+							value={this.state.searchValue} onChange={this.onSearch.bind(this)}/>
 					</div>
 				</div>
 				{ searchValue ?
