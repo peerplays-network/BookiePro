@@ -146,7 +146,7 @@ const renderCheckboxField = ({ id,pseudoText,tabIndex, errors, placeholder, inpu
 const renderRecoveryButtonFields = (fields) => (
   <div>
     <Button type='primary' htmlType='submit'
-      className={ 'btn ' + (fields.password.input.value!==fields.password_retype.input.value ? 'btn-disabled':' btn-download') + ' grid-100' }
+      className={ 'btn btn-regular' + (fields.password.input.value!==fields.password_retype.input.value ? 'btn-disabled':' btn-download') + ' grid-100' }
       onClick={ fields.onClick.bind(this, fields.password.input.value) }
       disabled={ fields.password.input.value!==fields.password_retype.input.value }>
       {I18n.t('signup.download_rec_text')}
