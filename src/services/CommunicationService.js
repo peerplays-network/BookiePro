@@ -20,7 +20,6 @@ import Immutable from 'immutable';
 import { ObjectPrefix, Config, ChainTypes } from '../constants';
 import { ChainValidation } from 'peerplaysjs-lib';
 import _ from 'lodash';
-import dummyData from '../dummyData';
 import log from 'loglevel';
 import DrawerActions from '../actions/DrawerActions';
 const TIMEOUT_LENGTH = 500;
@@ -94,23 +93,7 @@ class CommunicationService {
       // If updatedObject is object_id instead of an object, it means that object is deleted
       if (ChainValidation.is_object_id(object)) {
         const deletedObjectId = object;
-        const objectIdPrefix = getObjectIdPrefix(deletedObjectId);
-
-        // TODO: remove dummy data later
-        if (Config.useDummyData) {
-          // If we are using dummy data, ignore any real time update for dummy data object
-          // which is sport, event_group, event, rule, bmg, bm
-          // Coz it will generate conflict
-          if (objectIdPrefix === ObjectPrefix.SPORT_PREFIX ||
-              objectIdPrefix === ObjectPrefix.EVENT_GROUP_PREFIX ||
-              objectIdPrefix === ObjectPrefix.EVENT_PREFIX ||
-              objectIdPrefix === ObjectPrefix.RULE_PREFIX ||
-              objectIdPrefix === ObjectPrefix.BETTING_MARKET_GROUP_PREFIX ||
-              objectIdPrefix === ObjectPrefix.BETTING_MARKET_PREFIX) {
-            return true;
-          }
-        }
-
+        const objectIdPrefix = getObjectIdPrefix(deletedObjectId);       
         // Add this to the list if it is relevant
         if (isRelevantObject(objectIdPrefix)) {
           this.deletedObjectIdsByObjectIdPrefix = this.deletedObjectIdsByObjectIdPrefix.update(objectIdPrefix, list => {
@@ -122,21 +105,6 @@ class CommunicationService {
       } else {
         const updatedObjectId = object.id;
         const objectIdPrefix = getObjectIdPrefix(updatedObjectId);
-
-        // TODO: remove dummy data later
-        if (Config.useDummyData) {
-          // If we are using dummy data, ignore any real time update for dummy data object
-          // which is sport, event_group, event, rule, bmg, bm
-          // Coz it will generate conflict
-          if (objectIdPrefix === ObjectPrefix.SPORT_PREFIX ||
-              objectIdPrefix === ObjectPrefix.EVENT_GROUP_PREFIX ||
-              objectIdPrefix === ObjectPrefix.EVENT_PREFIX ||
-              objectIdPrefix === ObjectPrefix.RULE_PREFIX ||
-              objectIdPrefix === ObjectPrefix.BETTING_MARKET_GROUP_PREFIX ||
-              objectIdPrefix === ObjectPrefix.BETTING_MARKET_PREFIX) {
-            return true;
-          }
-        }
 
         // Add this to the list if it is relevant
         if (isRelevantObject(objectIdPrefix)) {
@@ -581,16 +549,10 @@ class CommunicationService {
   * Fetch recent history of an account  given object id of the transaction
   */
   static fetchRecentHistory(accountId, stopTxHistoryId, limit=Number.MAX_SAFE_INTEGER) {
-    // TODO: remove dummy data later
-    if (Config.useDummyData) {
-      return this.fetchDummyTransactionHistory(accountId, stopTxHistoryId);
-    } else {
-      // 1.11.0 denotes the current time
-      const currentTimeTransactionId = ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0';
-      const startTxHistoryId = currentTimeTransactionId;
-      return this.fetchTransactionHistory(accountId, startTxHistoryId, stopTxHistoryId, limit);
-    }
-
+    // 1.11.0 denotes the current time
+    const currentTimeTransactionId = ObjectPrefix.OPERATION_HISTORY_PREFIX + '.0';
+    const startTxHistoryId = currentTimeTransactionId;
+    return this.fetchTransactionHistory(accountId, startTxHistoryId, stopTxHistoryId, limit);
   }
 
   /**
@@ -626,132 +588,112 @@ class CommunicationService {
    * Get all sports
    */
   static getAllSports() {
-    if (Config.useDummyData) {
-      return this.getDummyAllSports();
-    } else {
-      return this.callBlockchainDbApi('list_sports').then((sports) => {
-        // Replace name with english name
-        return ObjectUtils.localizeArrayOfObjects(sports, ['name']);
-      });
-    }
+    return this.callBlockchainDbApi('list_sports').then((sports) => {
+      // Replace name with english name
+      return ObjectUtils.localizeArrayOfObjects(sports, ['name']);
+    });
   }
 
   /**
    * Get event group given sport ids
    */
   static getEventGroupsBySportIds(sportIds) {
-    if (Config.useDummyData) {
-      return this.getDummyEventGroupsBySportIds(sportIds);
-    } else {
-      if (sportIds instanceof Immutable.List) sportIds = sportIds.toJS();
-      let promises = sportIds.map((sportId) => {
-        return this.callBlockchainDbApi('list_event_groups', [sportId]).then(eventGroups => {
-          // Replace name with english name
-          return ObjectUtils.localizeArrayOfObjects(eventGroups, ['name']);
-        });
-      })
-      return Promise.all(promises).then((result) => {
-        // Return in immutable format
-        return Immutable.fromJS(result).flatten(true);
-      })
-    }
+    if (sportIds instanceof Immutable.List) sportIds = sportIds.toJS();
+    let promises = sportIds.map((sportId) => {
+      return this.callBlockchainDbApi('list_event_groups', [sportId]).then(eventGroups => {
+        // Replace name with english name
+        return ObjectUtils.localizeArrayOfObjects(eventGroups, ['name']);
+      });
+    })
+    return Promise.all(promises).then((result) => {
+      // Return in immutable format
+      return Immutable.fromJS(result).flatten(true);
+    })
   }
 
   /**
    * Get events given array of event group ids (can be immutable)
    */
   static getEventsByEventGroupIds(eventGroupIds) {
-    if (Config.useDummyData) {
-      return this.getDummyEventsByEventGroupIds(eventGroupIds);
-    } else {
-      if (eventGroupIds instanceof Immutable.List) eventGroupIds = eventGroupIds.toJS();
-      let promises = eventGroupIds.map((eventGroupId) => {
-        return this.callBlockchainDbApi('list_events_in_group', [eventGroupId]).then(events => {
-          const ids = events.toJS().map(event => event.id);
-          const localizedEvents = ObjectUtils.localizeArrayOfObjects(events, ['name', 'season']);
-          
-          // If there are no events, returned an empty object
-          if (ids.length <= 0) {
-            return localizedEvents;
-          }
+    if (eventGroupIds instanceof Immutable.List) eventGroupIds = eventGroupIds.toJS();
+    let promises = eventGroupIds.map((eventGroupId) => {
+      return this.callBlockchainDbApi('list_events_in_group', [eventGroupId]).then(events => {
+        const ids = events.toJS().map(event => event.id);
+        const localizedEvents = ObjectUtils.localizeArrayOfObjects(events, ['name', 'season']);
+        
+        // If there are no events, returned an empty object
+        if (ids.length <= 0) {
+          return localizedEvents;
+        }
 
-          // Subscribe to changes on the blockchain.
-          return this.getEventsByIds(ids).then(() => {
-            // Replace name with english name
-            return localizedEvents;
-          })
-        });
-      })
-      return Promise.all(promises).then((result) => {
-        // Return in immutable format
-        return Immutable.fromJS(result).flatten(true);
-      })
-    }
+        // Subscribe to changes on the blockchain.
+        return this.getEventsByIds(ids).then(() => {
+          // Replace name with english name
+          return localizedEvents;
+        })
+      });
+    })
+    return Promise.all(promises).then((result) => {
+      // Return in immutable format
+      return Immutable.fromJS(result).flatten(true);
+    })
   }
 
   /**
    * Get betting market group given event ids
    */
   static getBettingMarketGroupsByEventIds(eventIds) {
-    if (Config.useDummyData) {
-      return this.getDummyBettingMarketGroupsByEventIds(eventIds);
-    } else {
-      if (eventIds instanceof Immutable.List) eventIds = eventIds.toJS();
-      let promises = eventIds.map((eventId) => {
-        return this.callBlockchainDbApi('list_betting_market_groups', [eventId]).then(bettingMarketGroups => {
-          const ids = bettingMarketGroups.toJS().map(bmg => bmg.id);
-          const localizedMarketGroups = ObjectUtils.localizeArrayOfObjects(bettingMarketGroups, ['description']);
+    if (eventIds instanceof Immutable.List) eventIds = eventIds.toJS();
+    let promises = eventIds.map((eventId) => {
+      return this.callBlockchainDbApi('list_betting_market_groups', [eventId]).then(bettingMarketGroups => {
+        const ids = bettingMarketGroups.toJS().map(bmg => bmg.id);
+        const localizedMarketGroups = ObjectUtils.localizeArrayOfObjects(bettingMarketGroups, ['description']);
 
-          // If there are no Betting Market Groups, returned an empty object
-          if (ids.length <= 0) {
-            return localizedMarketGroups;
-          }
+        // If there are no Betting Market Groups, returned an empty object
+        if (ids.length <= 0) {
+          return localizedMarketGroups;
+        }
 
-          // Subscribe to changes on the blockchain.
-          return this.getBettingMarketGroupsByIds(ids).then(() => {
-            // Replace name with english name
-            return localizedMarketGroups;
-          });
+        // Subscribe to changes on the blockchain.
+        return this.getBettingMarketGroupsByIds(ids).then(() => {
+          // Replace name with english name
+          return localizedMarketGroups;
         });
-      })
-      return Promise.all(promises).then((result) => {
-        // Return in immutable format
-        return Immutable.fromJS(result).flatten(true);
-      })
-    }
+      });
+    })
+    return Promise.all(promises).then((result) => {
+      // Return in immutable format
+      return Immutable.fromJS(result).flatten(true);
+    })
   }
 
   /**
    * Get betting market given betting market group ids
    */
   static getBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds) {
-    if (Config.useDummyData) {
-      return this.getDummyBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds);
-    } else {
-      if (bettingMarketGroupIds instanceof Immutable.List) bettingMarketGroupIds = bettingMarketGroupIds.toJS();
-      let promises = bettingMarketGroupIds.map((bettingMarketGroupId) => {
-        return this.callBlockchainDbApi('list_betting_markets', [bettingMarketGroupId]).then(bettingMarkets => {
-          // Call get_objects here so that we can subscribe to updates
-          const ids = bettingMarkets.toJS().map(market => market.id);
-          const localizedBettingMarkets = ObjectUtils.localizeArrayOfObjects(bettingMarkets, ['description', 'payout_condition']);
+    if (bettingMarketGroupIds instanceof Immutable.List) bettingMarketGroupIds = bettingMarketGroupIds.toJS();
+    let promises = bettingMarketGroupIds.map((bettingMarketGroupId) => {
+      return this.callBlockchainDbApi('list_betting_markets', [bettingMarketGroupId]).then(bettingMarkets => {
+        // Call get_objects here so that we can subscribe to updates
+        const ids = bettingMarkets.toJS().map(market => market.id);
+        const localizedBettingMarkets = ObjectUtils.localizeArrayOfObjects(bettingMarkets, ['description', 'payout_condition']);
 
-          // If there are no betting markets, returned an empty object
-          if (ids.length <= 0) {
-            return localizedBettingMarkets;
-          }
+        // If there are no betting markets, returned an empty object
+        if (ids.length <= 0) {
+          return localizedBettingMarkets;
+        }
 
-          // Subscribe to changes on the blockchain.
-          return this.getBettingMarketsByIds(ids).then(() => {
-            // Replace name with english name
-            return localizedBettingMarkets;
-          })
-        });
-      })
-      return Promise.all(promises).then((result) => {
-        // Return in immutable format
-        return Immutable.fromJS(result).flatten(true);
-      })
-    }
+        // Subscribe to changes on the blockchain.
+        return this.getBettingMarketsByIds(ids).then(() => {
+          // Replace name with english name
+          return localizedBettingMarkets;
+        })
+      });
+    })
+    return Promise.all(promises).then((result) => {
+      // Return in immutable format
+      return Immutable.fromJS(result).flatten(true);
+    });
   }
 
 
@@ -759,110 +701,85 @@ class CommunicationService {
    * Get binned order books
    */
   static getBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision) {
-    if (Config.useDummyData) {
-      return this.getDummyBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision);
-    } else {
-      // return this.getGeneratedBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision);
-      if (bettingMarketIds instanceof Immutable.List) bettingMarketIds = bettingMarketIds.toJS();
-      // Create promises of getting binned order book for each betting market
-      const promises = bettingMarketIds.map( (bettingMarketId) => {
-        return this.callBlockchainBookieApi('get_binned_order_book', [bettingMarketId, binningPrecision]);
+    if (bettingMarketIds instanceof Immutable.List) bettingMarketIds = bettingMarketIds.toJS();
+    // Create promises of getting binned order book for each betting market
+    const promises = bettingMarketIds.map( (bettingMarketId) => {
+      return this.callBlockchainBookieApi('get_binned_order_book', [bettingMarketId, binningPrecision]);
+    });
+    return Promise.all(promises).then( (result) => {
+      let finalResult = Immutable.Map();
+      // Modify the data structure of return objects, from list of binnedOrderBooks into dictionary of binnedOrderBooks with betting market id as the key
+      _.forEach(result, (binnedOrderBook, index) => {
+        if (binnedOrderBook) {
+          const bettingMarketId = bettingMarketIds[index];
+          binnedOrderBook = binnedOrderBook.set('betting_market_id', bettingMarketId);
+          finalResult = finalResult.set(bettingMarketId, binnedOrderBook);
+        }
       });
-      return Promise.all(promises).then( (result) => {
-        let finalResult = Immutable.Map();
-        // Modify the data structure of return objects, from list of binnedOrderBooks into dictionary of binnedOrderBooks with betting market id as the key
-        _.forEach(result, (binnedOrderBook, index) => {
-          if (binnedOrderBook) {
-            const bettingMarketId = bettingMarketIds[index];
-            binnedOrderBook = binnedOrderBook.set('betting_market_id', bettingMarketId);
-            finalResult = finalResult.set(bettingMarketId, binnedOrderBook);
-          }
-        });
-        return Immutable.fromJS(finalResult);
-      });
-    }
+      return Immutable.fromJS(finalResult);
+    });
   }
 
   /**
    * Get total matched bets given array of betting market group ids (can be immutable)
    */
   static getTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds) {
-    if (Config.useDummyData) {
-      return this.getDummyTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds);
-    } else {
-      if (bettingMarketGroupIds instanceof Immutable.List) bettingMarketGroupIds = bettingMarketGroupIds.toJS();
-      let promises = bettingMarketGroupIds.map((bettingMarketGroupId) => {
-        return this.callBlockchainBookieApi('get_total_matched_bet_amount_for_betting_market_group', [bettingMarketGroupId]);
-      })
+    if (bettingMarketGroupIds instanceof Immutable.List) bettingMarketGroupIds = bettingMarketGroupIds.toJS();
+    let promises = bettingMarketGroupIds.map((bettingMarketGroupId) => {
+      return this.callBlockchainBookieApi('get_total_matched_bet_amount_for_betting_market_group', [bettingMarketGroupId]);
+    })
 
-      return Promise.all(promises).then((result) => {
-        // Map the result with betting market groupIds
-        let totalMatchedBetsByMarketGroupId = Immutable.Map();
-        _.forEach(result, (totalMatchedBet, index) => {
-          if (totalMatchedBet) {
-            const bettingMarketGroupId = bettingMarketGroupIds[index];
-            totalMatchedBetsByMarketGroupId = totalMatchedBetsByMarketGroupId.set(bettingMarketGroupId, totalMatchedBet);
-          }
-        })
-        return totalMatchedBetsByMarketGroupId;
+    return Promise.all(promises).then((result) => {
+      // Map the result with betting market groupIds
+      let totalMatchedBetsByMarketGroupId = Immutable.Map();
+      _.forEach(result, (totalMatchedBet, index) => {
+        if (totalMatchedBet) {
+          const bettingMarketGroupId = bettingMarketGroupIds[index];
+          totalMatchedBetsByMarketGroupId = totalMatchedBetsByMarketGroupId.set(bettingMarketGroupId, totalMatchedBet);
+        }
       })
-    }
+      return totalMatchedBetsByMarketGroupId;
+    });
   }
 
   /**
    * Get betting market by id
    */
   static getBettingMarketsByIds(bettingMarketIds) {
-    if (Config.useDummyData) {
-      return this.getDummyObjectsByIds(bettingMarketIds);
-    } else {
-      return this.getObjectsByIds(bettingMarketIds).then(result => {
-        // Localize string
-        return ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition']);
-      });
-    }
+    return this.getObjectsByIds(bettingMarketIds).then(result => {
+      // Localize string
+      return ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition']);
+    });
   }
 
   /**
    * Get persisted betting market by id
    */
   static getPersistedBettingMarketsByIds(bettingMarketIds) {
-    if (Config.useDummyData) {
-      return this.getDummyObjectsByIds(bettingMarketIds);
-    } else {
-      return this.getPersistedBookieObjectsByIds(bettingMarketIds).then(result => {
-        // Localize string
-        return ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition']);
-      });
-    }
+    return this.getPersistedBookieObjectsByIds(bettingMarketIds).then(result => {
+      // Localize string
+      return ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition']);
+    });
   }
 
   /**
    * Get betting market group by id
    */
   static getBettingMarketGroupsByIds(bettingMarketGroupIds) {
-    if (Config.useDummyData) {
-      return this.getDummyObjectsByIds(bettingMarketGroupIds);
-    } else {
-      return this.getObjectsByIds(bettingMarketGroupIds).then(result => {
-        // Localize string
-        return ObjectUtils.localizeArrayOfObjects(result, ['description']);
-      });
-    }
+    return this.getObjectsByIds(bettingMarketGroupIds).then(result => {
+      // Localize string
+      return ObjectUtils.localizeArrayOfObjects(result, ['description']);
+    });
   }
 
   /**
    * Get persisted betting market group by id
    */
   static getPersistedBettingMarketGroupsByIds(bettingMarketGroupIds) {
-    if (Config.useDummyData) {
-      return this.getDummyObjectsByIds(bettingMarketGroupIds);
-    } else {
-      return this.getPersistedBookieObjectsByIds(bettingMarketGroupIds).then(result => {
-        // Localize string
-        return ObjectUtils.localizeArrayOfObjects(result, ['description']);
-      });
-    }
+    return this.getPersistedBookieObjectsByIds(bettingMarketGroupIds).then(result => {
+      // Localize string
+      return ObjectUtils.localizeArrayOfObjects(result, ['description']);
+    });
   }
 
 
@@ -870,14 +787,10 @@ class CommunicationService {
    * Get event by id
    */
   static getEventsByIds(eventIds) {
-    if (Config.useDummyData) {
-      return this.getDummyObjectsByIds(eventIds);
-    } else {
-      return this.getObjectsByIds(eventIds).then(result => {
-        // Localize string
-        return ObjectUtils.localizeArrayOfObjects(result, ['name']);
-      });
-    }
+    return this.getObjectsByIds(eventIds).then(result => {
+      // Localize string
+      return ObjectUtils.localizeArrayOfObjects(result, ['name']);
+    });
   }
 
 
@@ -885,67 +798,47 @@ class CommunicationService {
    * Get event by id
    */
   static getPersistedEventsByIds(eventIds) {
-    if (Config.useDummyData) {
-      return this.getDummyObjectsByIds(eventIds);
-    } else {
-      return this.getPersistedBookieObjectsByIds(eventIds).then(result => {
-        // Localize string
-        return ObjectUtils.localizeArrayOfObjects(result, ['name']);
-      });
-    }
+    return this.getPersistedBookieObjectsByIds(eventIds).then(result => {
+      // Localize string
+      return ObjectUtils.localizeArrayOfObjects(result, ['name']);
+    });
   }
 
   /**
    * Get event group by id
    */
   static getEventGroupsByIds(eventGroupIds) {
-    if (Config.useDummyData) {
-      return this.getDummyObjectsByIds(eventGroupIds);
-    } else {
-      return this.getObjectsByIds(eventGroupIds).then(result => {
-        // Localize string
-        return ObjectUtils.localizeArrayOfObjects(result, ['name']);
-      });
-    }
+    return this.getObjectsByIds(eventGroupIds).then(result => {
+      // Localize string
+      return ObjectUtils.localizeArrayOfObjects(result, ['name']);
+    });
   }
 
   /**
    * Get sport by id
    */
   static getSportsByIds(sportIds) {
-    if (Config.useDummyData) {
-      return this.getDummyObjectsByIds(sportIds);
-    } else {
-      return this.getObjectsByIds(sportIds).then(result => {
-        // Localize string
-        return ObjectUtils.localizeArrayOfObjects(result, ['name']);
-      });
-    }
+    return this.getObjectsByIds(sportIds).then(result => {
+      // Localize string
+      return ObjectUtils.localizeArrayOfObjects(result, ['name']);
+    });
   }
 
   /**
    * Get rules
    */
   static getRulesByIds(ruleIds) {
-    if (Config.useDummyData) {
-      return this.getDummyObjectsByIds(ruleIds);
-    } else {
-      return this.getObjectsByIds(ruleIds).then(result => {
-        // Localize string
-        return ObjectUtils.localizeArrayOfObjects(result, ['description', 'name']);
-      });
-    }
+    return this.getObjectsByIds(ruleIds).then(result => {
+      // Localize string
+      return ObjectUtils.localizeArrayOfObjects(result, ['description', 'name']);
+    });
   }
 
   /**
    * Get global betting statistics
    */
   static getGlobalBettingStatistics() {
-    if (Config.useDummyData) {
-      return this.getDummyGlobalBettingStatistics();
-    } else {
-      return this.callBlockchainDbApi('get_global_betting_statistics');
-    }
+    return this.callBlockchainDbApi('get_global_betting_statistics');
   }
 
   /**
@@ -965,294 +858,6 @@ class CommunicationService {
 
     return this.callBlockchainDbApi('get_required_fees', [[[operation]], asset]);
   }
-
-  //========================================================================
-  // FETCH DUMMY OBJECT IMPLEMENTATION  - BEGINNING
-  //========================================================================
-  /**
-   * Fetch dummy transaction history
-   */
-  static fetchDummyTransactionHistory(accountId, stopTxHistoryId) {
-    // TODO: remove later
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        let history = Immutable.fromJS(dummyData.history.generateHistory(accountId));
-        if (stopTxHistoryId) {
-          history = history.filter((transaction) => {
-            const transactionIdInstanceNumber = getObjectIdInstanceNumber(transaction.get('id'));
-            const stopTxHistoryIdInstanceNumber = getObjectIdInstanceNumber(stopTxHistoryId);
-            return transactionIdInstanceNumber > stopTxHistoryIdInstanceNumber;
-          })
-        }
-        resolve(history);
-      }, TIMEOUT_LENGTH);
-    });
-  }
-
-  /**
-   * Get all sports
-   */
-  static getDummyAllSports() {
-    // TODO: Replace later
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(Immutable.fromJS(dummyData.sports));
-      }, TIMEOUT_LENGTH);
-    });
-  }
-
-  /**
-   * Get event groups given array of sport ids (can be immutable)
-   */
-  static getDummyEventGroupsBySportIds(sportIds) {
-    // TODO: Replace later
-    const promises = sportIds.map( (sportId) => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const filteredResult = _.filter(dummyData.eventGroups, (item) => {
-            return (item.sport_id === sportId);
-          });
-          resolve(filteredResult);
-        }, TIMEOUT_LENGTH);
-      });
-    });
-    return Promise.all(promises).then( result => {
-      return Immutable.fromJS(_.flatten(result));
-    });
-  }
-
-  /**
-   * Get active events given array of sport ids (can be immutable)
-   */
-  static getDummyActiveEventsBySportIds(sportIds) {
-    // TODO: Remove later
-    const promises = sportIds.map( (sportId) => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const currentTime = new Date().getTime();
-          const eventGroupsById = _.keyBy(dummyData.eventGroups, (eventGroup) => eventGroup.id);
-          const filteredResult = _.filter(dummyData.events, (item) => {
-            const isActive = (item.start_time - currentTime > 0);
-            const eventGroup = eventGroupsById[item.event_group_id];
-            const isSportRelated = eventGroup && eventGroup.sport_id === sportId;
-            return isActive && isSportRelated;
-          });
-          resolve(filteredResult);
-        }, TIMEOUT_LENGTH);
-      });
-    });
-    return Promise.all(promises).then( result => {
-      return Immutable.fromJS(_.flatten(result));
-    });
-  }
-
-  /**
-   * Get events given array of event group ids (can be immutable)
-   */
-  static getDummyEventsByEventGroupIds(eventGroupIds) {
-    // TODO: Remove later
-    const promises = eventGroupIds.map( (eventGroupId) => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const currentTime = new Date().getTime();
-          const filteredResult = _.filter(dummyData.events, (item) => {
-            const isActive = (item.start_time - currentTime > 0);;
-            const isRelated = item.event_group_id === eventGroupId;
-            return isActive && isRelated;
-          });
-          resolve(filteredResult);
-        }, TIMEOUT_LENGTH);
-      });
-    });
-    return Promise.all(promises).then( result => {
-      return Immutable.fromJS(_.flatten(result));
-    });
-  }
-
-
-  /**
-   * Get betting market groups given event ids
-   */
-  static getDummyBettingMarketGroupsByEventIds(eventIds) {
-    // TODO: Remove later
-    const promises = eventIds.map( (eventId) => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const filteredResult = _.filter(dummyData.bettingMarketGroups, (item) => {
-            return (item.event_id === eventId);
-          });
-          resolve(filteredResult);
-        }, TIMEOUT_LENGTH);
-      });
-    });
-    return Promise.all(promises).then( result => {
-      return Immutable.fromJS(_.flatten(result));
-    });
-  }
-
-  /**
-   * Get betting markets given betting market group ids
-   */
-  static getDummyBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds) {
-    // TODO: Remove later
-    const promises = bettingMarketGroupIds.map( (bettingMarketGroupId) => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const filteredResult = _.filter(dummyData.bettingMarkets, (item) => {
-            return (item.group_id === bettingMarketGroupId);
-          });
-          resolve(filteredResult);
-        }, TIMEOUT_LENGTH);
-      });
-    });
-    return Promise.all(promises).then( result => {
-      return Immutable.fromJS(_.flatten(result));
-    });
-  }
-
-
-  /**
-   * Get dummy blockchain objects given their ids
-   */
-  static getDummyObjectsByIds(arrayOfObjectIds = []) {
-    // TODO: Remove later
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const filteredResult = [];
-        // Iterate every object in dummy data to find the matching object
-        let allObjects = [];
-        _.forEach(dummyData, (item) => {
-          allObjects = _.concat(allObjects, item);
-        })
-        _.forEach(allObjects, (item) => {
-          if (arrayOfObjectIds.includes(item.id)) {
-            filteredResult.push(item);
-          }
-        })
-        resolve(Immutable.fromJS(filteredResult));
-      }, TIMEOUT_LENGTH);
-    });
-  }
-
-  /*
-   * Generate random binned order books for betting market
-   */
-  static generateRandomBinnedOrderBook(bettingMarketId) {
-    let binnedOrderBook = {
-      betting_market_id: bettingMarketId,
-      aggregated_back_bets: [],
-      aggregated_lay_bets: []
-    };
-    const createRandomOrderBookBin = () => {
-      return {
-        odds: Number((1.01 + Math.round(Math.random() * 100) / 100).toFixed(2)),
-        price: Number((Math.round(Math.random() * 100) / 100).toFixed(2)),
-      };
-    }
-    for(let i = 0; i < 10; i++) {
-      binnedOrderBook.aggregated_back_bets.push(createRandomOrderBookBin());
-      binnedOrderBook.aggregated_lay_bets.push(createRandomOrderBookBin());
-    }
-    return Immutable.fromJS(binnedOrderBook);
-  }
-
-   /**
-    * Get generated binned order books by betting market ids
-    */
-  static getGeneratedBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision) {
-    // TODO: Remove later
-    // Create promises of getting binned order book for each betting market
-    const promises = bettingMarketIds.map( (bettingMarketId) => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve(this.generateRandomBinnedOrderBook(bettingMarketId));
-        }, TIMEOUT_LENGTH);
-      });
-    });
-    return Promise.all(promises).then( (result) => {
-      let finalResult = Immutable.Map();
-      // Modify the data structure of return objects, from list of binnedOrderBooks into dictionary of binnedOrderBooks with betting market id as the key
-      _.forEach(result, (item, index) => {
-        const bettingMarketId = item.get('betting_market_id');
-        finalResult = finalResult.set(bettingMarketId, item);
-      });
-      return Immutable.fromJS(finalResult);
-    });
-  }
-
-  /**
-   * Get binned order books
-   */
-  static getDummyBinnedOrderBooksByBettingMarketIds(bettingMarketIds, binningPrecision) {
-    // TODO: Remove later
-    // Create promises of getting binned order book for each betting market
-    const promises = bettingMarketIds.map( (bettingMarketId) => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // Get related binned order book from dummy data
-          let filteredResult = _.find(dummyData.binnedOrderBooks, (item) => {
-            return item.betting_market_id === bettingMarketId;
-          });
-          // TODO: the real binned_order_book object shouldn't have betting_market_id, append betting_market_id to binnedOrderBook here when blockchain is ready
-          resolve(filteredResult);
-        }, TIMEOUT_LENGTH);
-      });
-    });
-    return Promise.all(promises).then( (result) => {
-      const finalResult = {};
-      // Modify the data structure of return objects, from list of binnedOrderBooks into dictionary of binnedOrderBooks with betting market id as the key
-      _.forEach(result, (item, index) => {
-        if (!_.isEmpty(item)) {
-          const bettingMarketId = item['betting_market_id'];
-          finalResult[bettingMarketId] = result[index];
-        }
-      });
-      return Immutable.fromJS(finalResult);
-    });
-  }
-
-  /**
-   * Get total matched bets given array of betting market group ids (can be immutable)
-   */
-  static getDummyTotalMatchedBetsByBettingMarketGroupIds(bettingMarketGroupIds) {
-    // TODO: Remove later
-    const promises = bettingMarketGroupIds.map( (bettingMarketGroupId) => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const amountObject = {
-            amount: Math.floor((Math.random() * 1000000) + 100000),
-            asset_id: Config.coreAsset
-          }
-          resolve(amountObject);
-        }, TIMEOUT_LENGTH);
-      });
-    });
-    return Promise.all(promises).then( result => {
-      const finalResult = {};
-      bettingMarketGroupIds.forEach((bettingMarketGroupId, index) => {
-        if (result[index]) {
-          finalResult[bettingMarketGroupId] = result[index];
-        }
-      })
-      return Immutable.fromJS(finalResult);
-    });
-  }
-
-  /**
-   * Get global betting statistics
-   */
-  static getDummyGlobalBettingStatistics() {
-    // TODO: Remove later
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(Immutable.fromJS(dummyData.globalBettingStatistics));
-      }, TIMEOUT_LENGTH);
-    });
-  }
-
-  //========================================================================
-  // FETCH DUMMY OBJECT IMPLEMENTATION - END
-  //========================================================================
 
   /**
    * Withdraw money

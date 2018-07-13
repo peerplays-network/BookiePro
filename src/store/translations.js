@@ -581,7 +581,6 @@ export const translationsObject = {
       },
       //BaseBall
       'Baseball':{
-        //dummy not yet definied in ACD_v1.0
         Moneyline:{
           content: '<p>%{eventName}</br>' +
           '%{marketName}</p>' +
@@ -596,7 +595,6 @@ export const translationsObject = {
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
-        //dummy not yet definied in ACD_v1.0
         'Spread':{
           content: '<p>%{eventName}</br>' +
           '%{marketName}</p>' +
@@ -611,7 +609,7 @@ export const translationsObject = {
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
-        //dummy not yet definied in ACD_v1.0
+      
         'OverUnder':{
           content: '<p>%{eventName}</br>' +
           '%{marketName}</p>' +
@@ -630,7 +628,6 @@ export const translationsObject = {
       },
       //Soccer
       'Soccer':{
-        //dummy not yet definied in ACD_v1.0
         Moneyline:{
           content: '<p>%{eventName}</br>' +
           '%{marketName}</p>' +
@@ -645,7 +642,6 @@ export const translationsObject = {
           'Please also be aware that transmissions described as “live” by some broadcasters may actually be delayed and that not all in-play matches are necessarily televised.</p>' +
           '<p>Commission and Network Fees apply to all bets placed in this market.</p>',
         },
-        //dummy not yet definied in ACD_v1.0
         'Spread':{
           content: '<p>%{eventName}</br>' +
           '%{marketName}</p>' +
