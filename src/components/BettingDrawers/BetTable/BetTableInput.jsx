@@ -6,9 +6,11 @@ import { incrementOdds, decrementOdds, adjustOdds, ODDS_BOUNDS } from './oddsInc
 class BetTableInput extends PureComponent {
   constructor(props) {
     super(props)
+    console.log('----- BetTableInput()');
+    console.log(props);
     if (props.field === 'odds') {
       this.state = {
-        value: props.text ? BettingModuleUtils.oddsFormatFilter(props.text, props.oddsFormat) : ''
+        value: props.text ? BettingModuleUtils.oddsFormatFilter(props.text, props.oddsFormat).toFixed(2) : ''
       }
     } else {
       this.state = {
@@ -111,7 +113,7 @@ class BetTableInput extends PureComponent {
     } else {
       odds = updateOdds(adjustOdds(odds, record.bet_type));
       this.setState({
-        value: BettingModuleUtils.oddsFormatFilter(odds, this.props.oddsFormat)
+        value: BettingModuleUtils.oddsFormatFilter(odds, this.props.oddsFormat).toFixed(2)
       })
     }
     const delta = Immutable.Map()
@@ -155,7 +157,7 @@ class BetTableInput extends PureComponent {
                   this.props.field, value, this.props.currencyFormat
                 ), this.props.record.bet_type, this.props.oddsFormat);
         this.setState({
-          value: BettingModuleUtils.oddsFormatFilter(value, this.props.oddsFormat)
+          value: BettingModuleUtils.oddsFormatFilter(value, this.props.oddsFormat).toFixed(2)
         })
       } else {
         value = this.props.record.odds
