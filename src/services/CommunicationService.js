@@ -24,7 +24,7 @@ import log from 'loglevel';
 import DrawerActions from '../actions/DrawerActions';
 const TIMEOUT_LENGTH = 500;
 const SYNC_MIN_INTERVAL = 1000; // 1 seconds
-const { blockchainTimeStringToDate, getObjectIdPrefix, isRelevantObject, getObjectIdInstanceNumber } = BlockchainUtils;
+const { blockchainTimeStringToDate, getObjectIdPrefix, isRelevantObject } = BlockchainUtils;
 
 class CommunicationService {
   static dispatch = null;
