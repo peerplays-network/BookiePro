@@ -10,7 +10,6 @@ import { I18n } from 'react-redux-i18n';
 import { translationsObject } from './translations';
 import Immutable from 'immutable';
 import rootReducer from '../reducers';
-import { Config } from '../constants';
 import log from 'loglevel';
 
 const syncImmutableTranslationWithStore = (store) => {
