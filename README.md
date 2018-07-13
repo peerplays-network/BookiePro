@@ -100,6 +100,12 @@ npm run release
 The exectuable will appear within the "releases" folder within the "electron" folder.
 
 ### Building the Executable for Linux
+
+If building on a mac the following command are required in order to produce the linux build
+```
+brew install dpkg fakeroot
+```
+
 ```
 cd web; npm run electron
 cd ../electron/node_modules/electron-prebuilt; rm -rf dist
