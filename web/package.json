@@ -65,7 +65,7 @@
     "object-assign": "^4.0.1",
     "openpgp": "^2.3.5",
     "peerjs": "^0.3.14",
-    "peerplaysjs-lib": "^0.4.19",
+    "peerplaysjs-lib": "^0.4.20",
     "peerplaysjs-ws": "^0.1.9",
     "perfect-scrollbar": "^0.6.11",
     "randomstring": "^1.1.5",
