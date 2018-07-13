@@ -21,6 +21,7 @@ class AllSports extends PureComponent {
       <div id='all-sports-wrapper'>
         <div className='banner-ad-header'></div>
         {
+          allSportsData ? 
           allSportsData.map((sportData) => {
             const sportId = sportData.get('sport_id');
             const events = sportData.get('events');
@@ -29,7 +30,7 @@ class AllSports extends PureComponent {
             // Sort by event time
             sortedEvents = DateUtils.sortEventsByDate(events);
             return (
-              events.size > 0 ?
+              events.size > 0 &&
               <SimpleBettingWidget
                 sportName={ sportName }
                 key={ sportId }                   // required by React to have unique key
@@ -40,9 +41,9 @@ class AllSports extends PureComponent {
                 footerLink={ `/exchange/sport/${sportId}` }
                 pagination={ false }          // No pagination, only show top records
                 canCreateBet={ this.props.canCreateBet }
-              /> : <Loading />
+              />
             )
-          })
+          }) : <Loading  />
         }
         <div className='banner-ad-footer'></div>
         <div className='margin-top-18 logo-container'>
