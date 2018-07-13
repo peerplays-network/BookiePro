@@ -54,8 +54,8 @@ class Accounts extends React.Component {
         this.props.accountSearch('');
 	}
 
-	onSearch(e) {		
-		this.props.accountSearch(e.target.value);		
+	onSearch(e) {
+		this.props.accountSearch(e.target.value);
 		this.setState({searchValue: e.target.value});
 	}
 
