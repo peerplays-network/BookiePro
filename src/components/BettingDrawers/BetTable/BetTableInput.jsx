@@ -6,8 +6,6 @@ import { incrementOdds, decrementOdds, adjustOdds, ODDS_BOUNDS } from './oddsInc
 class BetTableInput extends PureComponent {
   constructor(props) {
     super(props)
-    console.log('----- BetTableInput()');
-    console.log(props);
     if (props.field === 'odds') {
       this.state = {
         value: props.text ? BettingModuleUtils.oddsFormatFilter(props.text, props.oddsFormat).toFixed(2) : ''
