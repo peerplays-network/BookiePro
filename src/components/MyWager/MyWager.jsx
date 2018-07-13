@@ -1,6 +1,5 @@
 /**
  * This is mywager component with tabbed view of Unmatched, Matched and Resolved bets
- * Bets listed in mybets are dummy bet objects. This are not blockchain objects.
  *
  * following are sub-components used in MyWager
  *   {@link UnmatchedBets} - This component list unmatched bet transactions
@@ -163,7 +162,7 @@ class MyWager extends PureComponent {
   /**
    * Called on 'Cancel' click in {@link UnmatchedBets}
    * This is not actual cancel of transaction in blockchain.
-   * @param {object} record - bet object to cancel. This are dummy bet objects. This are not fetched from blockchain
+   * @param {object} record - bet object to cancel.
    * @param {object} event - the click event
    *
    * Dispatched action: {@link BetActions#cancelBets}

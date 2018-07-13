@@ -71,26 +71,14 @@ export default function configureStore() {
     (inboundState, key) => {
       if (key ==='rawHistory') {
         // Only persist rawHistoryByAccountId for history reducer
-        // TODO: remove dummy data later
-        if (Config.useDummyData) {
-          // Don't persist dummy data history
-          return Immutable.Map();
-        } else {
-          const savedState = inboundState.filter((v, k) => k === 'rawHistoryByAccountId');
-          return savedState;
-        }
+        const savedState = inboundState.filter((v, k) => k === 'rawHistoryByAccountId');
+        return savedState;
       } else {
         return inboundState;
       }
     },
     (outboundState, key) => {
-      // Don't get back dummy data persisted history, because it will cause conflict
-      // TODO: remove dummy data later
-      if (Config.useDummyData && key ==='rawHistory') {
-        return Immutable.Map();
-      } else {
-        return outboundState
-      }
+      return outboundState
     },
   );
 

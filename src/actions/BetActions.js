@@ -275,101 +275,84 @@ class BetActions {
    */
   static makeBets(bets) {
     return (dispatch, getState) => {
-      dispatch(BetPrivateActions.setMakeBetsLoadingStatusAction(LoadingStatus.LOADING));
+      dispatch(BetPrivateActions.setMakeBetsLoadingStatusAction(LoadingStatus.LOADING));      
+      const accountId = getState().getIn(['account', 'account', 'id']);
 
-      if (Config.useDummyData) {
-        // Dummy Implementation
-        console.warn('warning   BetActions.makeBets is currently disabled.');
-        // TODO: remove later
-        const tr = new TransactionBuilder();
-        WalletService.processFakeTransaction(getState(), tr).then(() => {
-          log.debug('Make bets succeed.');
-          dispatch(BetPrivateActions.setMakeBetsLoadingStatusAction(LoadingStatus.DONE));
-        }).catch((error) => {
-          log.error('Fail to get make bets', error);
-          // Set error
-          dispatch(BetPrivateActions.setMakeBetsErrorAction(error));
-        });
-      } else {
-        const accountId = getState().getIn(['account', 'account', 'id']);
+      const tr = new TransactionBuilder();
+      bets.forEach((bet) => {
+        // Create operation for each bet and attach it to the transaction
+        const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', bet.get('betting_market_id')]);
+        const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
+        const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
+        const betAssetType = (bettingMarketGroup && bettingMarketGroup.get('asset_id')) || Config.coreAsset;
 
-        const tr = new TransactionBuilder();
-        bets.forEach((bet) => {
-          // Create operation for each bet and attach it to the transaction
-          const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', bet.get('betting_market_id')]);
-          const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
-          const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
-          const betAssetType = (bettingMarketGroup && bettingMarketGroup.get('asset_id')) || Config.coreAsset;
+        // 2017-11-27 : JIG : BOOK-232 : Betslip says mBTC but is actually denominated in BTC!
+        // The variable amountToBet should be sent to the blockchain based
+        // on betAssetPrecision. For example, if betAssetPrecision is 5,
+        // then the amountToBet should be expressed as bet x 10^5 asset tokens.
 
-          // 2017-11-27 : JIG : BOOK-232 : Betslip says mBTC but is actually denominated in BTC!
-          // The variable amountToBet should be sent to the blockchain based
-          // on betAssetPrecision. For example, if betAssetPrecision is 5,
-          // then the amountToBet should be expressed as bet x 10^5 asset tokens.
-
-          // Make betAssetPrecision a variable so it can be adjusted as needed.
-          let betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
+        // Make betAssetPrecision a variable so it can be adjusted as needed.
+        let betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
 
 
 
-          // We need to adjust the betAssetPrecision if the Better
-          // is working with mBTC instead of BTC (is, reducet the
-          // betAssetPrecision by 1000).
+        // We need to adjust the betAssetPrecision if the Better
+        // is working with mBTC instead of BTC (is, reducet the
+        // betAssetPrecision by 1000).
 
-          // Get the currencyFormat from the State object
-          const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting']);
-          const currencyFormat = setting.get('currencyFormat');
+        // Get the currencyFormat from the State object
+        const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting']);
+        const currencyFormat = setting.get('currencyFormat');
 
-          // If the Better's currency format is set to 'mBTC' ...
-          if (currencyFormat === 'mBTF') {
-            // ... reduce the precision by 3.
-            betAssetPrecision = Math.max(betAssetPrecision - 3, 0);
-          };
+        // If the Better's currency format is set to 'mBTC' ...
+        if (currencyFormat === 'mBTF') {
+          // ... reduce the precision by 3.
+          betAssetPrecision = Math.max(betAssetPrecision - 3, 0);
+        };
 
-          // 2017-11-27 : KLF : BOOK-235
-          // Below line has replaced an conditional logic that sets the amountToBet
-          //  differently depending on if the bet is a BACK or a LAY. The amount to
-          //  bet should be the same regardless of if it is a back or a lay.
-          let amountToBet = 0;
-          // amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
-          if (bet.get('bet_type') === BetTypes.BACK) {
-            amountToBet = (parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision)).toFixed(betAssetPrecision);
-          } else if (bet.get('bet_type') === BetTypes.LAY) {
-            amountToBet = (parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision)).toFixed(betAssetPrecision);
-          }
+        // 2017-11-27 : KLF : BOOK-235
+        // Below line has replaced an conditional logic that sets the amountToBet
+        //  differently depending on if the bet is a BACK or a LAY. The amount to
+        //  bet should be the same regardless of if it is a back or a lay.
+        let amountToBet = 0;
+        // amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
+        if (bet.get('bet_type') === BetTypes.BACK) {
+          amountToBet = (parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision)).toFixed(betAssetPrecision);
+        } else if (bet.get('bet_type') === BetTypes.LAY) {
+          amountToBet = (parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision)).toFixed(betAssetPrecision);
+        }
 
-          let backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision)
+        let backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision)
 
-          amountToBet = Math.floor(amountToBet)
+        amountToBet = Math.floor(amountToBet)
 
-          const operationParams = {
-            bettor_id: accountId,
-            betting_market_id: bet.get('betting_market_id'),
-            amount_to_bet: {
-              amount: amountToBet,
-              asset_id: betAssetType
-            },
-            backer_multiplier: backerMultiplier,
-            amount_reserved_for_fees: Math.floor(amountToBet * 0.01),
-            back_or_lay: bet.get('bet_type')
-          };
-          const operationType = 'bet_place';
+        const operationParams = {
+          bettor_id: accountId,
+          betting_market_id: bet.get('betting_market_id'),
+          amount_to_bet: {
+            amount: amountToBet,
+            asset_id: betAssetType
+          },
+          backer_multiplier: backerMultiplier,
+          amount_reserved_for_fees: Math.floor(amountToBet * 0.01),
+          back_or_lay: bet.get('bet_type')
+        };
+        const operationType = 'bet_place';
 
-          tr.add_type_operation(operationType, operationParams);
-        });
-        const accountName = getState().getIn(['account', 'account', 'name']);
-        const password = getState().getIn(['account', 'password']);
-        const keys = KeyGeneratorService.generateKeys(accountName, password);
+        tr.add_type_operation(operationType, operationParams);
+      });
+      const accountName = getState().getIn(['account', 'account', 'name']);
+      const password = getState().getIn(['account', 'password']);
+      const keys = KeyGeneratorService.generateKeys(accountName, password);
 
-        WalletService.processTransaction(keys, tr).then(() => {
-          log.debug('Make bets succeed.');
-          dispatch(BetPrivateActions.setMakeBetsLoadingStatusAction(LoadingStatus.DONE));
-        }).catch((error) => {
-          log.error('Fail to get make bets', error);
-          // Set error
-          dispatch(BetPrivateActions.setMakeBetsErrorAction(error));
-        });
-
-      }
+      WalletService.processTransaction(keys, tr).then(() => {
+        log.debug('Make bets succeed.');
+        dispatch(BetPrivateActions.setMakeBetsLoadingStatusAction(LoadingStatus.DONE));
+      }).catch((error) => {
+        log.error('Fail to get make bets', error);
+        // Set error
+        dispatch(BetPrivateActions.setMakeBetsErrorAction(error));
+      });
     }
   }
 
@@ -378,52 +361,33 @@ class BetActions {
    * bets - array of blockchain bet objects
    */
   static cancelBets(bets) {
-    return (dispatch, getState) => {
-
-      if (Config.useDummyData) {
-        // Dummy implementation
-        // TODO: remove later
-        const tr = new TransactionBuilder();
-        const betIds = bets.map(bet => bet.get('id'));
-        dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
-        // TODO: replace this with valid wallet service process transaction later on
-        WalletService.processFakeTransaction(getState(), tr).then(() => {
-          log.debug('Cancel bets succeed.');
-          dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds,LoadingStatus.DONE));
-        }).catch((error) => {
-          log.error('Fail to cancel bets', error);
-          // Set error
-          dispatch(BetPrivateActions.setCancelBetsErrorByBetIdAction(betIds, error));
-        });
-      } else {
-        const bettorId = getState().getIn(['account', 'account', 'id']);
-        // Build transaction
-        const tr = new TransactionBuilder();
-        bets.forEach((bet) => {
-          // Create operation for each bet and attach it to the transaction
-          const operationParams = {
-            bettor_id: bettorId,
-            bet_to_cancel: bet.get('original_bet_id')
-          };
-          const operationType = 'bet_cancel';
-          tr.add_type_operation(operationType, operationParams);
-        });
-        const betIds = bets.map(bet => bet.get('id'));
-        dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
-        const accountName = getState().getIn(['account', 'account', 'name']);
-        const password = getState().getIn(['account', 'password']);
-        const keys = KeyGeneratorService.generateKeys(accountName, password);
-        WalletService.processTransaction(keys, tr).then(() => {
-          log.debug('Cancel bets succeed.');
-          dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds,LoadingStatus.DONE));
-          dispatch(MarketDrawerActions.hideOverlay())
-        }).catch((error) => {
-          log.error('Fail to cancel bets', error);
-          // Set error
-          dispatch(BetPrivateActions.setCancelBetsErrorByBetIdAction(betIds, error));
-        });
-      }
-
+    return (dispatch, getState) => {     
+      const bettorId = getState().getIn(['account', 'account', 'id']);
+      // Build transaction
+      const tr = new TransactionBuilder();
+      bets.forEach((bet) => {
+        // Create operation for each bet and attach it to the transaction
+        const operationParams = {
+          bettor_id: bettorId,
+          bet_to_cancel: bet.get('original_bet_id')
+        };
+        const operationType = 'bet_cancel';
+        tr.add_type_operation(operationType, operationParams);
+      });
+      const betIds = bets.map(bet => bet.get('id'));
+      dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
+      const accountName = getState().getIn(['account', 'account', 'name']);
+      const password = getState().getIn(['account', 'password']);
+      const keys = KeyGeneratorService.generateKeys(accountName, password);
+      WalletService.processTransaction(keys, tr).then(() => {
+        log.debug('Cancel bets succeed.');
+        dispatch(BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds,LoadingStatus.DONE));
+        dispatch(MarketDrawerActions.hideOverlay())
+      }).catch((error) => {
+        log.error('Fail to cancel bets', error);
+        // Set error
+        dispatch(BetPrivateActions.setCancelBetsErrorByBetIdAction(betIds, error));
+      });
     }
   }
 
@@ -449,113 +413,94 @@ class BetActions {
    */
   static editBets(bets) {
     return (dispatch, getState) => {
-      if (Config.useDummyData) {
-        // TODO: remove later
-        const tr = new TransactionBuilder();
-        bets.forEach((bet) => {
-          // NOTE: This will be commented out until we have the actual Blockchain
-          console.warn('warning   BetActions.editBets is currently disabled.');
-        });
-        const betIds = bets.map(bet => bet.get('id'));
+      const tr = new TransactionBuilder();
+      bets.forEach((bet) => {
+        if (!bet.get('updated')) return // Exit early if the bet has not been updated
+
+        // Add cancel bet operation
+        const cancelBetOperationParams = {
+          bettor_id: bet.get('bettor_id'),
+          bet_to_cancel: bet.get('original_bet_id')
+        };
+        const cancelBetOperationType = 'bet_cancel';
+        tr.add_type_operation(cancelBetOperationType, cancelBetOperationParams);
+
+        // Followed up with add bet operation with the new parameter
+        const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', bet.get('betting_market_id')]);
+        const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
+        const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
+        const betAssetType = (bettingMarketGroup && bettingMarketGroup.get('asset_id')) || Config.coreAsset;
+
+        // 2017-11-27 JIG
+        // BOOK-232: Betslip says mBTC but is actually denominated in BTC!
+        // The variable amountToBet should be sent to the blockchain based
+        // on betAssetPrecision. For example, if betAssetPrecision is 5,
+        // then the amountToBet should be expressed as bet x 10^5 asset tokens.
+
+        // Make betAssetPrecision a variable so it can be adjusted as needed.
+        let betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
+
+        // We need to adjust the betAssetPrecision if the Better
+        // is working with mBTC instead of BTC (is, reducet the
+        // betAssetPrecision by 1000).
+
+        // Get the currencyFormat from the State object
+        const accountId = getState().getIn(['account', 'account', 'id']);
+        const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting']);
+        const currencyFormat = setting.get('currencyFormat');
+
+        // If the Better's currency format is set to 'mBTC' ...
+        if (currencyFormat === 'mBTF') {
+          // ... reduce the precision by 3
+          betAssetPrecision = Math.max(betAssetPrecision - 3, 0);
+        };
+
+        // 2017-11-27 : KLF : BOOK-235
+        // Below line has replaced an conditional logic that sets the amountToBet
+        //  differently depending on if the bet is a BACK or a LAY. The amount to
+        //  bet should be the same regardless of if it is a back or a lay.
+        let amountToBet = 0;
+        // amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
+
+        if (bet.get('bet_type') === BetTypes.BACK) {
+          amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
+        } else if (bet.get('bet_type') === BetTypes.LAY) {
+          amountToBet = parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision);
+        }
+
+        let backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision)
+
+        amountToBet = Math.floor(amountToBet)
+
+        const betPlaceOperationParams = {
+          bettor_id: bet.get('bettor_id'),
+          betting_market_id: bet.get('betting_market_id'),
+          amount_to_bet: {
+            amount: amountToBet,
+            asset_id: betAssetType
+          },
+          backer_multiplier: backerMultiplier,
+          amount_reserved_for_fees: Math.floor(amountToBet * 0.01),
+          back_or_lay: bet.get('bet_type')
+        };
+        const betPlaceOperationType = 'bet_place';
+        tr.add_type_operation(betPlaceOperationType, betPlaceOperationParams);
+      });
+
+      const betIds = bets.map(bet => bet.get('id'));
+      dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
+      // Process transactions
+      const accountName = getState().getIn(['account', 'account', 'name']);
+      const password = getState().getIn(['account', 'password']);
+      const keys = KeyGeneratorService.generateKeys(accountName, password);
+      WalletService.processTransaction(keys, tr).then(() => {
+        // Update status
         dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
-        WalletService.processFakeTransaction(getState(), tr).then(() => {
-          dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.DONE));
-        }).catch((error) => {
-          log.error('Fail to edit bets', error);
-          // Set error
-          dispatch(BetPrivateActions.setEditBetsErrorByBetIdAction(betIds, error));
-        });
-      } else {
-        const tr = new TransactionBuilder();
-        bets.forEach((bet) => {
-          if (!bet.get('updated')) return // Exit early if the bet has not been updated
-
-          // Add cancel bet operation
-          const cancelBetOperationParams = {
-            bettor_id: bet.get('bettor_id'),
-            bet_to_cancel: bet.get('original_bet_id')
-          };
-          const cancelBetOperationType = 'bet_cancel';
-          tr.add_type_operation(cancelBetOperationType, cancelBetOperationParams);
-
-          // Followed up with add bet operation with the new parameter
-          const bettingMarket = getState().getIn(['bettingMarket', 'bettingMarketsById', bet.get('betting_market_id')]);
-          const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
-          const bettingMarketGroup = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bettingMarketGroupId]);
-          const betAssetType = (bettingMarketGroup && bettingMarketGroup.get('asset_id')) || Config.coreAsset;
-
-          // 2017-11-27 JIG
-          // BOOK-232: Betslip says mBTC but is actually denominated in BTC!
-          // The variable amountToBet should be sent to the blockchain based
-          // on betAssetPrecision. For example, if betAssetPrecision is 5,
-          // then the amountToBet should be expressed as bet x 10^5 asset tokens.
-
-          // Make betAssetPrecision a variable so it can be adjusted as needed.
-          let betAssetPrecision = getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
-
-          // We need to adjust the betAssetPrecision if the Better
-          // is working with mBTC instead of BTC (is, reducet the
-          // betAssetPrecision by 1000).
-
-          // Get the currencyFormat from the State object
-          const accountId = getState().getIn(['account', 'account', 'id']);
-          const setting = getState().getIn(['setting', 'settingByAccountId', accountId]) || getState().getIn(['setting', 'defaultSetting']);
-          const currencyFormat = setting.get('currencyFormat');
-
-          // If the Better's currency format is set to 'mBTC' ...
-          if (currencyFormat === 'mBTF') {
-            // ... reduce the precision by 3
-            betAssetPrecision = Math.max(betAssetPrecision - 3, 0);
-          };
-
-          // 2017-11-27 : KLF : BOOK-235
-          // Below line has replaced an conditional logic that sets the amountToBet
-          //  differently depending on if the bet is a BACK or a LAY. The amount to
-          //  bet should be the same regardless of if it is a back or a lay.
-          let amountToBet = 0;
-          // amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
-
-          if (bet.get('bet_type') === BetTypes.BACK) {
-            amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
-          } else if (bet.get('bet_type') === BetTypes.LAY) {
-            amountToBet = parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision);
-          }
-
-          let backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision)
-
-          amountToBet = Math.floor(amountToBet)
-
-          const betPlaceOperationParams = {
-            bettor_id: bet.get('bettor_id'),
-            betting_market_id: bet.get('betting_market_id'),
-            amount_to_bet: {
-              amount: amountToBet,
-              asset_id: betAssetType
-            },
-            backer_multiplier: backerMultiplier,
-            amount_reserved_for_fees: Math.floor(amountToBet * 0.01),
-            back_or_lay: bet.get('bet_type')
-          };
-          const betPlaceOperationType = 'bet_place';
-          tr.add_type_operation(betPlaceOperationType, betPlaceOperationParams);
-        });
-
-        const betIds = bets.map(bet => bet.get('id'));
-        dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
-        // Process transactions
-        const accountName = getState().getIn(['account', 'account', 'name']);
-        const password = getState().getIn(['account', 'password']);
-        const keys = KeyGeneratorService.generateKeys(accountName, password);
-        WalletService.processTransaction(keys, tr).then(() => {
-          // Update status
-          dispatch(BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING));
-        }).catch((error) => {
-          log.error('Fail to edit bets', error);
-          // Set error
-          dispatch(BetPrivateActions.setEditBetsErrorByBetIdAction(betIds, error));
-        });
-      }
-
+      }).catch((error) => {
+        log.error('Fail to edit bets', error);
+        // Set error
+        dispatch(BetPrivateActions.setEditBetsErrorByBetIdAction(betIds, error));
+      });
     }
   }
 }
