@@ -36,6 +36,7 @@
     "alt": "^0.17.8",
     "alt-container": "^1.0.0",
     "bignumber.js": "^2.1.0",
+    "buffer": "^5.1.0",
     "classnames": "^2.2.1",
     "contextify": "^1.0.0",
     "cookies-js": "^1.2.1",
@@ -147,7 +148,7 @@
     "traceur": "0.0.110",
     "uglify-es": "git://github.com/mishoo/UglifyJS2.git#harmony",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.1",
+    "webpack": "^1.15.0",
     "webpack-dev-server": "^1.14.1",
     "worker-loader": "^0.6.0"
   },
