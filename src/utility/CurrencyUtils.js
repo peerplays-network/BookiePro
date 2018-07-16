@@ -89,7 +89,7 @@ var CurrencyUtils = {
       let newAmount = split[0] + '.' + splitSel;
       amount = parseFloat(newAmount).toFixed(precision); // Then execute toFixed on the resulting amount. This keeps more accuracy. 
     } else {
-      if (typeof(amount) === 'number' && amount.toString().indexOf('*') === -1){
+      if (typeof(amount) === 'number'){
         amount = amount.toFixed(precision);
       }
     }
@@ -266,7 +266,6 @@ var CurrencyUtils = {
         dustRange = exchangeCoin;
       }
       // If the amount is less than the configured dust values (Config.js), then change the display of that amount to indicate as such.
-      console.log(amount)
       if(amount < dustRange && amount !== 0){
         amount = 0 + '*';
       }
