@@ -16,7 +16,8 @@ import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import './PlacedBets.less';
 import { Empty, OverlayUtils } from '../Common';
-import { BettingDrawerStates, Config } from '../../../constants'
+import { BettingDrawerStates, Config } from '../../../constants';
+import Loading from '../../Loading';
 
 class PlacedBets extends PureComponent {
   componentDidMount() {
@@ -50,6 +51,7 @@ class PlacedBets extends PureComponent {
     return (
       <div className='placed-bets'>
         <div className='content' ref='placedBets'>
+          { this.props.tmpLoadingStatus === 'loading' ? <Loading /> : '' }
           { !this.props.isEmpty &&
             <UnmatchedBets
                currencyFormat={ this.props.currencyFormat }
@@ -119,7 +121,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     unmatchedBets,
     isEmpty: unmatchedBets.isEmpty() && matchedBets.isEmpty(),
-    overlay,
+    overlay,    
     unmatchedbetsToBeDeleted: state.getIn(['marketDrawer', 'unmatchedbetsToBeDeleted']),
     unmatchedBetToBeDeleted: state.getIn(['marketDrawer', 'unmatchedBetToBeDeleted']),
     numberOfGoodBets,
@@ -127,7 +129,8 @@ const mapStateToProps = (state, ownProps) => {
     totalBetAmountFloat: totalAmount + transactionFee,
     totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat),
     disabled,
-    averageOdds
+    averageOdds,
+    tmpLoadingStatus: state.getIn(['marketDrawer', 'unmatchedBetsLoadingStatus'])
   }
 }
 
