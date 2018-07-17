@@ -150,9 +150,9 @@ class RegisterActions {
 
                 let appApi = new ApplicationApi();
 
-                return appApi.create_account(
-                    keys.active.toPublicKey().toPublicKeyString(),
+                return appApi.create_account(                 
                     keys.owner.toPublicKey().toPublicKeyString(),
+                    keys.active.toPublicKey().toPublicKeyString(),
                     accountName,
                     registrarAccount, //registrar_id,
                     registrarAccount, //referrer_id,
@@ -162,7 +162,7 @@ class RegisterActions {
                     throw err;
                 });
             } else {
-                return fetchFaucetAddress(1, accountName, keys.active, keys.owner, keys.memo, referral)
+                return fetchFaucetAddress(1, accountName, keys.owner, keys.active, keys.memo, referral)
                     .then(result => {
                         if(result.error) {
                             console.warn("CREATE ACCOUNT RESPONSE", result);
@@ -177,7 +177,7 @@ class RegisterActions {
 
                             let account = result[1]['account'];
 
-                            return LoginService.systemLogin(account.id, accountName, password, false, dispatch).then(() => {
+                            return LoginService.systemLogin(account, password, false, dispatch).then(() => {
                                 dispatch(NavigateActions.navigateToDashboard());
                                 dispatch(RegisterActions.setRegisterStatus('default'));
                             });
