@@ -101,6 +101,7 @@ class BetTableInput extends PureComponent {
       if (props.oddsFormat === 'decimal' && cleanStr > ODDS_BOUNDS.decimal.max) return ODDS_BOUNDS.decimal.max
       if (props.oddsFormat === 'american' && cleanStr < ODDS_BOUNDS.american.min) return ODDS_BOUNDS.american.min
       if (props.oddsFormat === 'american' && cleanStr > ODDS_BOUNDS.american.max) return ODDS_BOUNDS.american.max
+      return cleanStr;
     }
   }
 
