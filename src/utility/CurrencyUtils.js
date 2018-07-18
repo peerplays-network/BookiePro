@@ -93,7 +93,7 @@ var CurrencyUtils = {
   getCurrencySymbol: function(currency='mBTF', color = 'black'){
     switch(currency){
       case 'BTC':
-        return <img src='../../../assets/icons/bitcoin_icon_hover.svg' className='currency-symbol mbtf' alt='BTF'/>;
+        return <img src='../../../assets/icons/bitcoin_icon_hover.svg' className='currency-symbol btf' alt='BTF'/>;
       case 'mBTC':
         return <img src='../../../assets/icons/mbitcoin_icon_hover.svg' className='currency-symbol mbtf' alt='mBTF'/>;
       case 'BTF':
