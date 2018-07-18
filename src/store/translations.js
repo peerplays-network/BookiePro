@@ -381,6 +381,7 @@ export const translationsObject = {
             good_bets: 'You are about to place %{good_bets} bets  for a total liability of ',
             cancel_button: 'CANCEL',
             confirm_button: 'CONFIRM BET',
+            are_you_sure: 'Are you sure?',
           },
         },
         error: {
@@ -429,6 +430,7 @@ export const translationsObject = {
             good_bets: 'You are about to update %{good_bets} bets for a total liability of ',
             cancel_button: 'CANCEL',
             confirm_button: 'CONFIRM BET',
+            are_you_sure: 'Are you sure?',
           },
         },
         error: {
