@@ -104,7 +104,8 @@ class Export extends PureComponent {
     } else {
       return (
         <Card className='export-card' title={ I18n.t('application.exportDownloadHeader') }>
-          <p>{ I18n.t('application.exportDataReadyMsg') }</p>
+          <p>{ I18n.t('application.exportDataReadyMsg1') }<br/>
+          { I18n.t('application.exportDataReadyMsg2') }</p>
           <div className='card-footer'>
             <button className='btn btn-cancel'
                     onClick={ this.handleCancelClick }>{ I18n.t('mybets.cancel') }
