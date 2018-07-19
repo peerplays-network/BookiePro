@@ -273,6 +273,7 @@ const BettingMarketGroupPageSelector = {
   getBettingMarketGroup,
   getBettingMarkets,
   getMarketData,
+  getEvent,
   getEventName,
   getEventTime,
   getEventStatus,
