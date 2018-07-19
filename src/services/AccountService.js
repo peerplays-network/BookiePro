@@ -150,7 +150,6 @@ class AccountServices {
     const ownerKeyAuths = account.getIn(['owner', 'key_auths']);
 
     // Check if the owner keys match.
-    //activeKeyMatches = this.keysMatch(activePublicKey, activeKeyAuths);
     ownerKeyMatches = this.keysMatch(ownerPublicKey, ownerKeyAuths);
 
     // If the owner keys do not match, switch the owner & active keys.
