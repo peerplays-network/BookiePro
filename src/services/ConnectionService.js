@@ -126,7 +126,8 @@ class ConnectionService {
           log.error('Fail to connect to blockchain', error);
           this.blockchainUrlIndex = 0;
           let returnError = '';
-          if(!ConnectionUtils.isConnectedToInternet()){
+          let connectedToInternet = ConnectionUtils.isConnectedToInternet();
+          if(connectedToInternet){
             returnError = error;
           } else {
             returnError = I18n.t('connectionErrorModal.noInternet');
