@@ -5,6 +5,7 @@ import { AllSportsActions } from '../../actions';
 import { AllSportsSelector, QuickBetDrawerSelector } from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
 import { DateUtils } from '../../utility';
+import Loading from  '../Loading';
 
 const MAX_EVENTS_PER_WIDGET = 3;
 const { getData } = AllSportsActions;
@@ -20,6 +21,7 @@ class AllSports extends PureComponent {
       <div id='all-sports-wrapper'>
         <div className='banner-ad-header'></div>
         {
+          allSportsData ? 
           allSportsData.map((sportData) => {
             const sportId = sportData.get('sport_id');
             const events = sportData.get('events');
@@ -41,7 +43,7 @@ class AllSports extends PureComponent {
                 canCreateBet={ this.props.canCreateBet }
               />
             )
-          })
+          }) : <Loading  />
         }
         <div className='banner-ad-footer'></div>
         <div className='margin-top-18 logo-container'>
