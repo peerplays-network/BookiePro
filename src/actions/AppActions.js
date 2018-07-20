@@ -180,14 +180,13 @@ class AppActions {
 
       }).catch((error) => {
         log.error('Fail to connect to blockchain', error);
-        const desyncError = I18n.t('connectionErrorModal.outOfSyncClock');
-        const defaultError = I18n.t('connectionErrorModal.explanation');
+        let desyncError = I18n.t('connectionErrorModal.outOfSyncClock');
         if (error.toString().includes(desyncError)){
           dispatch(AppPrivateActions.setConnectToBlockchainErrorAction(desyncError));
         } else {
           // Fail to connect/ sync/ listen to software update, close connection to the blockchain
           ConnectionService.closeConnectionToBlockchain();
-          dispatch(AppPrivateActions.setConnectToBlockchainErrorAction(defaultError));
+          dispatch(AppPrivateActions.setConnectToBlockchainErrorAction(error));          
           dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));
         }
       });
