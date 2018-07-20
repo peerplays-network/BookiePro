@@ -2,6 +2,7 @@ import { ActionTypes, LoadingStatus, Config, ConnectionStatus } from '../constan
 import { ConnectionService, CommunicationService } from '../services';
 import SoftwareUpdateActions from './SoftwareUpdateActions';
 import AuthActions from './AuthActions';
+import { I18n } from 'react-redux-i18n';
 import log from 'loglevel';
 
 /**
@@ -179,9 +180,16 @@ class AppActions {
 
       }).catch((error) => {
         log.error('Fail to connect to blockchain', error);
-        // Fail to connect/ sync/ listen to software update, close connection to the blockchain
-        ConnectionService.closeConnectionToBlockchain();
-        dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));
+        const desyncError = I18n.t('connectionErrorModal.outOfSyncClock');
+        const defaultError = I18n.t('connectionErrorModal.explanation');
+        if (error.toString().includes(desyncError)){
+          dispatch(AppPrivateActions.setConnectToBlockchainErrorAction(desyncError));
+        } else {
+          // Fail to connect/ sync/ listen to software update, close connection to the blockchain
+          ConnectionService.closeConnectionToBlockchain();
+          dispatch(AppPrivateActions.setConnectToBlockchainErrorAction(defaultError));
+          dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));
+        }
       });
     }
   }

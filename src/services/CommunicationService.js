@@ -23,6 +23,7 @@ import _ from 'lodash';
 import dummyData from '../dummyData';
 import log from 'loglevel';
 import DrawerActions from '../actions/DrawerActions';
+import { I18n } from 'react-redux-i18n';
 const TIMEOUT_LENGTH = 500;
 const SYNC_MIN_INTERVAL = 1000; // 1 seconds
 const { blockchainTimeStringToDate, getObjectIdPrefix, isRelevantObject, getObjectIdInstanceNumber } = BlockchainUtils;
@@ -482,12 +483,16 @@ class CommunicationService {
             resolve();
           });
         } else {
-          throw new Error();
+          throw new Error(I18n.t('connectionErrorModal.outOfSyncClock'));
         }
       }).catch( error => {
         log.error('Sync with Blockchain Fail', error);
+        let desyncError = I18n.t('connectionErrorModal.outOfSyncClock');
+        if (error.toString().includes(desyncError)){
+          throw new Error(desyncError);
+        }
         // Retry if needed
-        if (attempt > 0) {
+        else if (attempt > 0) {
           // Retry to connect
           log.info('Retry syncing with blockchain');
           return CommunicationService.syncWithBlockchain(dispatch, getState, attempt-1);
