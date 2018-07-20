@@ -324,6 +324,7 @@ class CommitteeMembers extends React.Component {
                     <Translate component="div" className="title__sm" content="votes.advisors_tab.help_note" />
 
                     <div className="row">
+                        <label className="label"><Translate content="votes.select_advisor"/></label>
                         <label className="label">&nbsp;</label>
                         <div className="fieldWrap col-5">
                             <span className="fieldPic2">
