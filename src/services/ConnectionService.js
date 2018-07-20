@@ -1,6 +1,7 @@
 import { Apis } from 'peerplaysjs-ws';
 import { Config, ConnectionStatus } from '../constants';
 import { ConnectionUtils } from '../utility';
+import { I18n } from 'react-redux-i18n';
 import log from 'loglevel';
 
 class ConnectionService {
@@ -124,7 +125,14 @@ class ConnectionService {
           // No more node available for retry, reset the blockchainUrlIndex and throw error
           log.error('Fail to connect to blockchain', error);
           this.blockchainUrlIndex = 0;
-          throw error;
+          let returnError = '';
+          if(!ConnectionUtils.isConnectedToInternet()){
+            returnError = error;
+          } else {
+            returnError = I18n.t('connectionErrorModal.noInternet');
+          }
+          
+          throw returnError;
         }
       }
     })
