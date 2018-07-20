@@ -137,11 +137,18 @@ class Send extends React.Component {
             }
 
 
-        }).catch (invalidName => {
+        }).catch (error => {
+            let errorMessage = "";
+            if (error.data && error.data.name === 'assert_exception') {
+                errorMessage = "Invalid Name";
+            } else {
+                errorMessage = error;
+            }
+
             if(this.state.recipientName === value) {
                 this.setState({
                   recipientName: value,
-                  invalidName
+                  invalidName: errorMessage
                 });
             }
         });
@@ -365,7 +372,7 @@ class Send extends React.Component {
                                 </div>
                                 <div className="row2">
                                     <label className="label"><Translate content="transfer.account_name"/></label>
-                                    <input type="text" className={`field field-type3 ${this.state.invalidName ? 'error' : null}`} value={recipientName} onChange={this.onInputChange.bind(this)}/>
+                                    <input type="text" className={`field field-type3 ${this.state.invalidName ? 'error' : null}`} value={recipientName} onChange={this.onInputChange.bind(this)} onBlur={this.onInputChange.bind(this)}/>
                                     {this.state.invalidName ? <span className="error__hint">{this.state.invalidName}</span> : null}
                                 </div>
                                 {/*<div className="row2">
