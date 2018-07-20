@@ -109,7 +109,7 @@ class Accounts extends React.Component {
 
 						<input type="text" className="field field-search"
 							placeholder={counterpart.translate("explore.accounts.search_accounts")}
-							value={searchValue} onChange={this.onSearch.bind(this)}/>
+							value={this.state.searchValue} onChange={this.onSearch.bind(this)}/>
 					</div>
 				</div>
 				{ searchValue ?

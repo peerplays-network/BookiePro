@@ -46,10 +46,6 @@ class LoginService {
      * @param dispatch
      */
     static systemLoginByPrivateKey(account, privateKeyWif, dispatch) {
-
-        let accountId = account.id;
-        let accountName = account.name;
-
         return WalletService.createWalletByPrivateKey(account, privateKeyWif).then((wallet) => {
 
             return WalletService.getDBKeys().then((keys) => {
@@ -62,8 +58,8 @@ class LoginService {
                 dispatch(PrivateKeyActions.setKeys(keys));
 
                 dispatch(AppActions.login({
-                    id: accountId,
-                    name: accountName
+                    id: account.id,
+                    name: account.name
                 }));
 
                 if (CONFIG.__ELECTRON__) {
@@ -83,9 +79,9 @@ class LoginService {
      * @param {boolean} rememberMe
      * @param dispatch
      */
-    static systemLogin(accountId, accountName, password, rememberMe, dispatch) {
+    static systemLogin(account, password, rememberMe, dispatch) {
 
-        return WalletService.createWalletByAccount(accountName, password).then((wallet) => {
+        return WalletService.createWalletByAccount(account, password).then((wallet) => {
 
             return WalletService.getDBKeys().then((keys) => {
 
@@ -97,8 +93,8 @@ class LoginService {
                 dispatch(PrivateKeyActions.setKeys(keys));
 
                 dispatch(AppActions.login({
-                    id: accountId,
-                    name: accountName
+                    id: account.id,
+                    name: account.name
                 }));
 
                 if (CONFIG.__ELECTRON__) {
