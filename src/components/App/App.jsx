@@ -206,7 +206,7 @@ const mapStateToProps = (state) => {
   const showLicenseScreen = app.get('showLicenseScreen');
   let connectionError = app.get('connectToBlockchainError');
   
-  if (!isConnectedToBlockchain && connectionError !== null){
+  if (!isConnectedToBlockchain && connectionError === null){
     connectionError = I18n.t('connectionErrorModal.noInternet');
   }
 

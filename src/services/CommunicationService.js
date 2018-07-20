@@ -456,7 +456,7 @@ class CommunicationService {
         const headTime = blockchainTimeStringToDate(blockchainDynamicGlobalProperty.get('time')).getTime();
         const delta = (now - headTime)/1000;
         // Continue only if delta of computer current time and the blockchain time is less than a minute
-        const isBlockchainTimeDifferenceAcceptable = delta < 60;
+        let isBlockchainTimeDifferenceAcceptable = Math.abs(delta) < 60;
         // const isBlockchainTimeDifferenceAcceptable = true;
         if (isBlockchainTimeDifferenceAcceptable) {
           // Subscribe to blockchain callback so the store is always has the latest data
@@ -488,17 +488,18 @@ class CommunicationService {
       }).catch( error => {
         log.error('Sync with Blockchain Fail', error);
         let desyncError = I18n.t('connectionErrorModal.outOfSyncClock');
-        if (error.toString().includes(desyncError)){
-          throw new Error(desyncError);
-        }
         // Retry if needed
-        else if (attempt > 0) {
+        if (attempt > 0) {
           // Retry to connect
           log.info('Retry syncing with blockchain');
           return CommunicationService.syncWithBlockchain(dispatch, getState, attempt-1);
         } else {
-          // Give up, throw an error to be caught by the outer promise handler
-          throw new Error('Fail to Sync with Blockchain.');
+          if (error.toString().includes(desyncError)){
+            throw new Error(desyncError);
+          } else {
+            // Give up, throw an error to be caught by the outer promise handler
+            throw new Error('Fail to Sync with Blockchain.');
+          }
         }
       }).catch( error => {
         // Caught any error thrown by the recursive promise and reject it
