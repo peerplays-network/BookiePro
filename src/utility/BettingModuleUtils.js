@@ -83,7 +83,7 @@ var BettingModuleUtils = {
    * @returns {string} - profit of liability, based on either BTF or mBTF
    */
   getProfitOrLiability: function(stake, odds, currencyFormat = 'BTF', profitOrLiability) {
-    if (stake.toString().indexOf('*') === -1){
+    if (stake && stake.toString().indexOf('*') === -1){
       let floatStake = parseFloat(stake);
       let floatOdds = parseFloat(odds);    
 
