@@ -36,18 +36,17 @@ class PlacedBets extends PureComponent {
     Ps.update(ReactDOM.findDOMNode(this.refs.placedBets));
 
     // If there are no bets, then the loading screen can go away
+    // The Betslip is finished "doing something" if the following condition is true and there is no overlay.
     if (this.props.isEmpty) {
       this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
-    } 
-    // If there are bets in the betslip, then we need to make sure there is "nothing in progress" before we remove the loading screen
-    // The Betslip is "doing something" one of the following is true
-    //  - The user has just confirmed they would like to delete one or more bets
-    //  - The BMG has switched states and triggered the deletion of Bets in the betslip
-    // The Betslip is finished "doing something" if the above condition is true and there is no overlay.
-    else if (!this.props.isEmpty && 
+    } else if (!this.props.isEmpty && 
                 this.props.overlay === 'NO_OVERLAY' && 
                 (prevProps.overlay !== 'DELETE_BET_CONFIRMATION' && prevProps.overlay !== 'DELETE_BETS_CONFIRMATION') &&
-                prevProps.overlay !== this.props.overlay) {
+                prevProps.overlay !== this.props.overlay) {                  
+      // If there are bets in the betslip, then we need to make sure there is "nothing in progress" before we remove the loading screen
+      // The Betslip is "doing something" one of the following is true
+      //  - The user has just confirmed they would like to delete one or more bets
+      //  - The BMG has switched states and triggered the deletion of Bets in the betslip    
       this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
     } 
   }
