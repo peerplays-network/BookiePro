@@ -219,7 +219,7 @@ class MarketDrawerActions {
     }
   }
 
-  static updatePlacedBets() {    
+  static updatePlacedBets() {
     return (dispatch, getState) => {
       const currentPlacedBetsBettingMarketGroupId = getState().getIn(['marketDrawer', 'bettingMarketGroupId']);
       if (currentPlacedBetsBettingMarketGroupId) {
