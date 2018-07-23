@@ -419,7 +419,7 @@ class Witnesses extends React.Component {
                             <div className="assets__label"><Translate content="witnesses.current"/></div>
                             <div className="assets__labeled">{currentWitnessAccount ? currentWitnessAccount.name : null}</div>
                         </div>
-                        <div className="assets__item col col-1 text_r">
+                        <div className="assets__item col col-2 text_r">
                             <div className="assets__label"><Translate content="witnesses.active_witness"/></div>
                             <div className="assets__labeled">{this.props.witnessAmount}</div>
                         </div>
