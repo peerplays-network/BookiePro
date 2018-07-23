@@ -93,17 +93,17 @@ var CurrencyUtils = {
   getCurrencySymbol: function(currency='mBTF', color = 'black'){
     switch(currency){
       case 'BTC':
-        return <img src='../../../assets/icons/bitcoin_icon_hover.svg' alt='BTF'/>;
+        return <img src='../../../assets/icons/bitcoin_icon_hover.svg' className='currency-symbol btf' alt='BTF'/>;
       case 'mBTC':
-        return <img src='../../../assets/icons/mbitcoin_icon_hover.svg' alt='mBTF'/>;
+        return <img src='../../../assets/icons/mbitcoin_icon_hover.svg' className='currency-symbol mbtf' alt='mBTF'/>;
       case 'BTF':
         if (color === 'white')
-          return <img src={ bitFunWhite } className='currency-symbol' alt='BTF'/>;
-        return <img src={ bitFunBlack } className='currency-symbol' alt='BTF'/>;
+          return <img src={ bitFunWhite } className='currency-symbol btf' alt='BTF'/>;
+        return <img src={ bitFunBlack } className='currency-symbol btf' alt='BTF'/>;
       case 'mBTF':
         if (color === 'white')
-          return <img src={ mBitFunWhite } className='currency-symbol' alt='mBTF'/>;
-        return <img src={ mBitFunBlack } className='currency-symbol' alt='mBTF'/>;
+          return <img src={ mBitFunWhite } className='currency-symbol mbtf' alt='mBTF'/>;
+        return <img src={ mBitFunBlack } className='currency-symbol mbtf' alt='mBTF'/>;
       default:
         break;
     }
