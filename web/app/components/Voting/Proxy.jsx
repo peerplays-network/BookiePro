@@ -242,7 +242,7 @@ class Proxy extends React.Component {
 
                     <div className="row clearfix">
                         <label className="label"><Translate content="votes.proxy" /></label>
-                        <div className="fieldWrap col-5">
+                        <div className="fieldWrap col-7">
                             <span className="fieldPic2">
                                 <AccountImage size={{height: 33, width: 33}} account={inputName ? inputName : account} custom_image={null}/>
                             </span>
