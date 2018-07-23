@@ -139,7 +139,7 @@ class AccountServices {
        Account: the result of a call to the blockchain for an account object containing relvant account information. */
     let isAuthenticated = false,
       activeKeyMatches = false,
-      ownerKeyMatches = false
+      ownerKeyMatches = false;
 
     // Bookie keys generated in KeyGeneratorService.js
     let activePublicKey = keys.active.toPublicKey().toPublicKeyString();
