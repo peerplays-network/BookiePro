@@ -74,7 +74,6 @@ class SoftwareUpdateActions {
               
               if (memoMessage) {
                 const { broadcastAccount, updateAccount } = Config;
-                                
                 // The public active key of the broadcast account
                 let sendingPublic = broadcastAccount.keys.active; 
 
