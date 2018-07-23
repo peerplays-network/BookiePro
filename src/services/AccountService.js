@@ -152,16 +152,14 @@ class AccountServices {
     // Check if the owner keys match.
     ownerKeyMatches = this.keysMatch(ownerPublicKey, ownerKeyAuths);
 
-    // If the owner keys do not match, switch the owner & active keys.
+    // If the owner keys do not match, switch the owner & active keys in the authentication check.
     if (!ownerKeyMatches){
-      let tmp = activePublicKey;
-      activePublicKey = ownerPublicKey;
-      ownerPublicKey = tmp;
+      ownerKeyMatches = this.keysMatch(activePublicKey, ownerKeyAuths);
+      activeKeyMatches = this.keysMatch(ownerPublicKey, activeKeyAuths);
+    } else {
+      // If the first check of ownerKeyMatches is true, we only need to check the remaining activeKeyMatch.
+      activeKeyMatches = this.keysMatch(activePublicKey, activeKeyAuths);
     }
-
-    // Check for matches with keys.
-    ownerKeyMatches = this.keysMatch(ownerPublicKey, ownerKeyAuths);
-    activeKeyMatches = this.keysMatch(activePublicKey, activeKeyAuths);
 
     // If both service generated keys match both blockchain account object keys, allow user to login.
     isAuthenticated = activeKeyMatches && ownerKeyMatches;
