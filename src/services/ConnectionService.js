@@ -128,7 +128,7 @@ class ConnectionService {
           let returnError = '';
           let connectedToInternet = ConnectionUtils.isConnectedToInternet();
           if(connectedToInternet){
-            returnError = error;
+            returnError = I18n.t('connectionErrorModal.explanation');
           } else {
             returnError = I18n.t('connectionErrorModal.noInternet');
           }

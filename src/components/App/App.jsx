@@ -119,7 +119,7 @@ class App extends PureComponent {
         onClickTryAgain={ this.onClickTryAgainConnectionError }
         visible={ this.props.isShowConnectionErrorPopup }
         isConnectedToBlockchain={ this.props.isConnectedToBlockchain }
-        connectionError={ this.props.connectionError }
+        error={ this.props.connectToBlockchainError }
       />
     );
   }
@@ -204,15 +204,11 @@ const mapStateToProps = (state) => {
   const appBackgroundType = app.get('appBackgroundType');
   const isConnectedToBlockchain = state.getIn(['app', 'connectionStatus']) === ConnectionStatus.CONNECTED
   const showLicenseScreen = app.get('showLicenseScreen');
-  let connectionError = app.get('connectToBlockchainError');
-  
-  if (!isConnectedToBlockchain && connectionError === null){
-    connectionError = I18n.t('connectionErrorModal.noInternet');
-  }
+  const connectToBlockchainError = app.get('connectToBlockchainError');
 
   return {
     connectToBlockchainLoadingStatus,
-    connectionError,
+    connectToBlockchainError,
     isConnectedToBlockchain,
     hardUpdateGracePeriod,
     isLoggedIn,
