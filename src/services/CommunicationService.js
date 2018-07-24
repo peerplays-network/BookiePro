@@ -21,6 +21,7 @@ import { ChainValidation } from 'peerplaysjs-lib';
 import _ from 'lodash';
 import dummyData from '../dummyData';
 import log from 'loglevel';
+import DrawerActions from '../actions/DrawerActions';
 
 const TIMEOUT_LENGTH = 500;
 const SYNC_MIN_INTERVAL = 1000; // 1 seconds
@@ -289,6 +290,8 @@ class CommunicationService {
           this.dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(localizedUpdatedObject));
           // Get betting market id
           const bettingMarketIds = localizedUpdatedObject.map(object => object.get('id'));
+          // Delete the bets
+          this.dispatch(DrawerActions.deleteBets(bettingMarketIds));
           // Get related binned order books
           this.dispatch(BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds));
           break;
@@ -353,6 +356,8 @@ class CommunicationService {
           break;
         }
         case ObjectPrefix.BETTING_MARKET_PREFIX: {
+          // Delete the bets
+          this.dispatch(DrawerActions.deleteBets(deletedObjectIds));
           this.dispatch(BettingMarketActions.removeBettingMarketsByIdsAction(deletedObjectIds));
           break;
         }

@@ -8,7 +8,7 @@ class BetTableInput extends PureComponent {
     super(props)
     if (props.field === 'odds') {
       this.state = {
-        value: props.text ? BettingModuleUtils.oddsFormatFilter(props.text, props.oddsFormat) : ''
+        value: props.text ? BettingModuleUtils.oddsFormatFilter(props.text, props.oddsFormat).toFixed(2) : ''
       }
     } else {
       this.state = {
@@ -111,7 +111,7 @@ class BetTableInput extends PureComponent {
     } else {
       odds = updateOdds(adjustOdds(odds, record.bet_type));
       this.setState({
-        value: BettingModuleUtils.oddsFormatFilter(odds, this.props.oddsFormat)
+        value: BettingModuleUtils.oddsFormatFilter(odds, this.props.oddsFormat).toFixed(2)
       })
     }
     const delta = Immutable.Map()
@@ -155,7 +155,7 @@ class BetTableInput extends PureComponent {
                   this.props.field, value, this.props.currencyFormat
                 ), this.props.record.bet_type, this.props.oddsFormat);
         this.setState({
-          value: BettingModuleUtils.oddsFormatFilter(value, this.props.oddsFormat)
+          value: BettingModuleUtils.oddsFormatFilter(value, this.props.oddsFormat).toFixed(2)
         })
       } else {
         value = this.props.record.odds
@@ -211,6 +211,7 @@ class BetTableInput extends PureComponent {
           onChange={ e => this.handleChange(e) }
           onBlur={ e => this.handleBlur(e) }
           placeholder={ this.props.field === 'odds' ? 'Odds' : 'Stake' }
+          disabled={ this.props.disabled }
           />
         { this.props.field === 'odds' ?
           <div>
