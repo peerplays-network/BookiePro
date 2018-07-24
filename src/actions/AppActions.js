@@ -187,8 +187,9 @@ class AppActions {
           // Fail to connect/ sync/ listen to software update, close connection to the blockchain
           ConnectionService.closeConnectionToBlockchain();
           dispatch(AppPrivateActions.setConnectToBlockchainErrorAction(error));          
-          dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));
         }
+
+        dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));
       });
     }
   }
