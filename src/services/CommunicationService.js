@@ -487,18 +487,20 @@ class CommunicationService {
         }
       }).catch( error => {
         log.error('Sync with Blockchain Fail', error);
-        let desyncError = I18n.t('connectionErrorModal.outOfSyncClock');
+        let desyncError = I18n.t('connectionErrorModal.outOfSyncClock'),
+          failToSyncError = I18n.t('connectionErrorModal.failToSync');
+
         // Retry if needed
         if (attempt > 0) {
           // Retry to connect
           log.info('Retry syncing with blockchain');
           return CommunicationService.syncWithBlockchain(dispatch, getState, attempt-1);
         } else {
-          if (error.toString().includes(desyncError)){
+          if (error.message === desyncError){
             throw new Error(desyncError);
           } else {
             // Give up, throw an error to be caught by the outer promise handler
-            throw new Error('Fail to Sync with Blockchain.');
+            throw new Error(failToSyncError);
           }
         }
       }).catch( error => {
