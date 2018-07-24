@@ -97,10 +97,25 @@ class BetTableInput extends PureComponent {
       if (value.length > 1 && value.charAt(1) === '.' && props.oddsFormat === 'decimal') return str
       let cleanStr = parseFloat(str)
       if (isNaN(cleanStr)) return ''
-      if (props.oddsFormat === 'decimal' && cleanStr < ODDS_BOUNDS.decimal.min) return ODDS_BOUNDS.decimal.min
-      if (props.oddsFormat === 'decimal' && cleanStr > ODDS_BOUNDS.decimal.max) return ODDS_BOUNDS.decimal.max
-      if (props.oddsFormat === 'american' && cleanStr < ODDS_BOUNDS.american.min) return ODDS_BOUNDS.american.min
-      if (props.oddsFormat === 'american' && cleanStr > ODDS_BOUNDS.american.max) return ODDS_BOUNDS.american.max
+      let result = cleanStr;
+
+      if (props.oddFormat === 'decimal'){
+        if (cleanStr < ODDS_BOUNDS.decimal.min) {
+          result = ODDS_BOUNDS.decimal.min;
+        } else {
+          result = ODDS_BOUNDS.decimal.max;
+        }
+      }
+
+      if (props.oddFormat === 'american') {
+        if (cleanStr < ODDS_BOUNDS.american.min) {
+          result = ODDS_BOUNDS.american.min;
+        } else {
+          result = ODDS_BOUNDS.amertican.max;
+        }
+      }
+
+      return result;
     }
   }
 
