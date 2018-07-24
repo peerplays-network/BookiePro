@@ -82,7 +82,7 @@ class ConnectionService {
     // Close connection
     Apis.close();
 
-    // Increment the index fpr the next connection attempt; 
+    // Increment the index for the next connection attempt
     this.blockchainUrlIndex++;
 
     // Reset the index if we've gone past the end.
