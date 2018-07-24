@@ -118,14 +118,14 @@ class LoginActions {
 
             let state = getState(),
                 keys = KeyGeneratorService.generateKeys(accountName, password),
-                publicKey = keys.active.toPublicKey().toPublicKeyString(),
+                activePublicKey = keys.active.toPublicKey().toPublicKeyString(),
+                ownerPublicKey = keys.owner.toPublicKey().toPublicKeyString(),
                 isLogin = false;
 
-            AccountRepository.fetchFullAccount(state.loginPage.accountForLogin[1]).then(function (result) {
-
+            AccountRepository.fetchFullAccount(state.loginPage.accountForLogin[1]).then(function (result) {    
                 if (result && result[1] && result[1]['account'] && result[1]['account']['active']['key_auths'] && result[1]['account']['active']['key_auths'].length) {
                     result[1]['account']['active']['key_auths'].forEach(function (keyArr) {
-                        if (keyArr[0] && keyArr[0] === publicKey) {
+                        if (keyArr[0] && (keyArr[0] === activePublicKey ||  keyArr[0] === ownerPublicKey)) {
                             isLogin = true;
                         }
                     });
@@ -135,7 +135,7 @@ class LoginActions {
 
                     let account = result[1]['account'];
 
-                    return LoginService.systemLogin(account.id, account.name, password, rememberMe, dispatch).then(() => {
+                    return LoginService.systemLogin(account, password, rememberMe, dispatch).then(() => {
 
                         if (next) {
                             dispatch(NavigateActions.navigateTo(next));
