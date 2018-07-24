@@ -34,7 +34,7 @@ class MatchedBets extends PureComponent {
         />
         { !this.props.bets.isEmpty() &&
           <div className={ `controls ${this.props.obscureContent ? 'dimmed' : ''}` }>
-            <Checkbox onChange={ e => this.props.clickAverageOdds(e.target.checked) }>
+            <Checkbox onChange={ e => this.props.clickAverageOdds(e.target.checked) } checked={ this.props.averageOdds } disabled={ this.props.disabled }>
               { I18n.t('market_drawer.matched_bets.average_odds') }
             </Checkbox>
           </div>
@@ -72,11 +72,11 @@ const groupBetsByAverageOdds = (matchedBets, oddsFormat, currencyFormat) => {
   }).toList();
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   const groupByAverageOdds = state.getIn(['marketDrawer', 'groupByAverageOdds']);
-  const oddsFormat = MyAccountPageSelector.oddsFormatSelector(state)
-  const currencyFormat = MyAccountPageSelector.currencyFormatSelector(state)
+  const oddsFormat = MyAccountPageSelector.oddsFormatSelector(state);
+  const currencyFormat = MyAccountPageSelector.currencyFormatSelector(state);
   // Transform the raw bet data into a specific format for the EditableBetTable
   const originalBets = matchedBets;
   // This is essentially the same procedure used in BetSlip
@@ -91,9 +91,9 @@ const mapStateToProps = (state, ownProps) => {
     let betListByBetType = page.get(betType);
 
     let profit = BettingModuleUtils.getProfitOrLiability(bet.get('stake'), bet.get('odds'), currencyFormat, betType === BetTypes.BACK ? 'profit' : 'liability');
-    let odds = BettingModuleUtils.oddsFormatFilter(bet.get('odds'), oddsFormat, 'decimal')
-
-    bet = bet.set('profit', profit).set('liability', profit).set('odds', odds)
+    let odds = BettingModuleUtils.oddsFormatFilter(bet.get('odds'), oddsFormat, 'decimal');
+    
+    bet = bet.set('profit', profit).set('liability', profit).set('odds', odds);
 
     betListByBetType = betListByBetType.push(bet);
     // Put everything back in their rightful places
@@ -117,7 +117,7 @@ const mapStateToProps = (state, ownProps) => {
     originalBets,
     bets: page,
     obscureContent,
-    oddsFormat
+    oddsFormat,
   };
 }
 

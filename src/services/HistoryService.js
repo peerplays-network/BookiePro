@@ -26,7 +26,7 @@ class HistoryService {
     let transactionHistory = Immutable.List();
     rawHistory.forEach((rawTransaction) => {
       // Check the operation type to ensure it is relevant
-      const operationType = rawTransaction.getIn(['op', 0]);
+      const operationType = rawTransaction.getIn(['op', 0]);              
       const isRelevant = (operationType === ChainTypes.operations.transfer) ||
                           (operationType === ChainTypes.operations.bet_place) ||
                           (operationType === ChainTypes.operations.bet_matched) ||
@@ -173,6 +173,12 @@ class HistoryService {
           const betId = operationResult;
           const id =  rawTransaction.get('id');
           const betType = operationContent.get('back_or_lay')
+          const assetID = operationContent.getIn(['amount_to_bet', 'asset_id']);
+
+          // Do not process transactions/bets that do not match the core asset
+          if (assetID !== Config.coreAsset) {
+            return;
+          }
 
           let unmatchedBet = Immutable.fromJS({
             id,
@@ -182,7 +188,7 @@ class HistoryService {
             betting_market_id: operationContent.get('betting_market_id'),
             back_or_lay: betType,
             backer_multiplier: operationContent.get('backer_multiplier') / oddsPrecision,
-            asset_id: operationContent.getIn(['amount_to_bet', 'asset_id']),
+            asset_id: assetID,
             original_bet_amount: operationContent.getIn(['amount_to_bet', 'amount']),
             unmatched_bet_amount: operationContent.getIn(['amount_to_bet', 'amount'])                        
           });
@@ -243,9 +249,9 @@ class HistoryService {
 
               // Update the original values so that we can represent what is truely accurate for this bet.
               if (betType === 'back') {
-                unmatchedBet = unmatchedBet.set('original_profit', updatedUnmatchedAmount);
+                unmatchedBet = unmatchedBet.set('original_profit', ObjectUtils.getProfitLiabilityFromBetObject(unmatchedBet));
               } else {
-                unmatchedBet = unmatchedBet.set('original_liability', updatedUnmatchedAmount);
+                unmatchedBet = unmatchedBet.set('original_liability', ObjectUtils.getProfitLiabilityFromBetObject(unmatchedBet));
               }
 
               unmatchedBetsById = unmatchedBetsById.set(unmatchedBet.get('id'), unmatchedBet);
