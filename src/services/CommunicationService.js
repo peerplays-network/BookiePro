@@ -486,66 +486,93 @@ class CommunicationService {
    * Sync communication service with blockchain, so it always has the latest data
    */
   static syncWithBlockchain(dispatch, getState, attempt=3) {
-    return new Promise((resolve, reject) => {
-      // Check if db api is ready
-      let db_api = Apis.instance().db_api();
-      if (!db_api) {
-        return reject(new Error('Api not found, please ensure Apis from peerplaysjs-ws is initialized first'));
-      }
+    // Check if db api is ready
+    let db_api = Apis.instance().db_api();
+    if (!db_api) {
+      return Promise.reject(new Error('Api not found, please ensure Apis from peerplaysjs-ws is initialized first'));
+    }
 
-      // Get current blockchain data (dynamic global property and global property), to ensure blockchain time is in sync
-      // Also ask for core asset here
-      this.callBlockchainDbApi('get_objects', [['2.1.0', '2.0.0', Config.coreAsset]]).then( result => {
-        const blockchainDynamicGlobalProperty = result.get(0);
-        const blockchainGlobalProperty = result.get(1);
-        const coreAsset = result.get(2);
-        const now = new Date().getTime();
-        const headTime = blockchainTimeStringToDate(blockchainDynamicGlobalProperty.get('time')).getTime();
-        const delta = (now - headTime)/1000;
-        // Continue only if delta of computer current time and the blockchain time is less than a minute
-        const isBlockchainTimeDifferenceAcceptable = delta < 60;
-        // const isBlockchainTimeDifferenceAcceptable = true;
-        if (isBlockchainTimeDifferenceAcceptable) {
-          // Subscribe to blockchain callback so the store is always has the latest data
-          const onUpdate = this.onUpdate.bind(this);
-          return Apis.instance().db_api().exec( 'set_subscribe_callback', [ onUpdate, true ] ).then(() => {            
-            // Sync success
-            log.debug('Sync with Blockchain Success');
-            // Set reference to dispatch and getState
-            this.dispatch = dispatch;
-            this.getState = getState;
-            // Save dynamic global property
-            dispatch(AppActions.setBlockchainDynamicGlobalPropertyAction(blockchainDynamicGlobalProperty));
-            // Save global property
-            dispatch(AppActions.setBlockchainGlobalPropertyAction(blockchainGlobalProperty));
-            // Save core asset
-            dispatch(AssetActions.addOrUpdateAssetsAction([coreAsset]));
+    // Get current blockchain data (dynamic global property and global property), to ensure blockchain time is in sync
+    // Also ask for core asset here
+    return this.callBlockchainDbApi('get_objects', [['2.1.0', '2.0.0', Config.coreAsset]]).then( result => {
+      const blockchainDynamicGlobalProperty = result.get(0);
+      const blockchainGlobalProperty = result.get(1);
+      const coreAsset = result.get(2);
+      const now = new Date().getTime();
+      const headTime = blockchainTimeStringToDate(blockchainDynamicGlobalProperty.get('time')).getTime();
+      const delta = (now - headTime)/1000;
+      // Continue only if delta of computer current time and the blockchain time is less than a minute
+      const isBlockchainTimeDifferenceAcceptable = delta < 60;
+      // const isBlockchainTimeDifferenceAcceptable = true;
+      if (isBlockchainTimeDifferenceAcceptable) {
+        // Subscribe to blockchain callback so the store is always has the latest data
+        const onUpdate = this.onUpdate.bind(this);
+        return Apis.instance().db_api().exec( 'set_subscribe_callback', [ onUpdate, true ] ).then(() => {            
+          // Sync success
+          log.debug('Sync with Blockchain Success');
+          // Set reference to dispatch and getState
+          this.dispatch = dispatch;
+          this.getState = getState;
+          // Save dynamic global property
+          dispatch(AppActions.setBlockchainDynamicGlobalPropertyAction(blockchainDynamicGlobalProperty));
+          // Save global property
+          dispatch(AppActions.setBlockchainGlobalPropertyAction(blockchainGlobalProperty));
+          // Save core asset
+          dispatch(AssetActions.addOrUpdateAssetsAction([coreAsset]));
 
-            // Request all of the objects that are currently stored in the subscriptions array.
-            // This will resubscribe to updates from the BlockChain.
-            this.getObjectsByIds(subscriptions);
+          // If there are no subscriptions we can return early.
+          if (subscriptions.length <= 0) {
+            return;
+          }
 
-            resolve();
+          // Request all of the objects that are currently stored in the subscriptions array.
+          // This will resubscribe to updates from the BlockChain.
+          this.getObjectsByIds(subscriptions).then((results) => {
+            let resultsByPrefix = Immutable.Map();
+
+            results = results.map((item) => {
+              let id = item.get('id'); 
+              // Get the id prefix
+              let prefix = id.split('.').slice(0, -1).join('.');
+
+              // get the current map
+              let current = resultsByPrefix.get(prefix);
+
+              // If the item doesn't exist create a new immutable map.
+              if (!current) {
+                current = Immutable.Map();
+              }
+
+              // Add the current item to the prefix map. 
+              current = current.set(id, item);
+
+              // Update the resultsByPrefix map with the new or updated mapped objects.
+              resultsByPrefix = resultsByPrefix.set(prefix, current);
+
+              return item;
+            });
+            
+            // Call update objects so the application can properly refresh its data.
+            this.updateObjects(resultsByPrefix);
           });
-        } else {
-          throw new Error();
-        }
-      }).catch( error => {
-        log.error('Sync with Blockchain Fail', error);
-        // Retry if needed
-        if (attempt > 0) {
-          // Retry to connect
-          log.info('Retry syncing with blockchain');
-          return CommunicationService.syncWithBlockchain(dispatch, getState, attempt-1);
-        } else {
-          // Give up, throw an error to be caught by the outer promise handler
-          throw new Error('Fail to Sync with Blockchain.');
-        }
-      }).catch( error => {
-        // Caught any error thrown by the recursive promise and reject it
-        reject(error);
-      });
+
+        });
+      } else {
+        throw new Error();
+      }
+    }).catch( error => {
+      log.error('Sync with Blockchain Fail', error);
+      // Retry if needed
+      if (attempt > 0) {
+        // Retry to connect
+        log.info('Retry syncing with blockchain');
+        return CommunicationService.syncWithBlockchain(dispatch, getState, attempt-1);
+      } else {
+        // Give up, throw an error to be caught by the outer promise handler
+        throw new Error('Fail to Sync with Blockchain.');
+      }
     });
+
   }
 
   /**
