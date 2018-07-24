@@ -6,7 +6,6 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import { createSelector } from 'reselect';
-import _ from 'lodash';
 import { CurrencyUtils, BettingModuleUtils, DateUtils, ObjectUtils } from '../utility';
 import { TimeRangePeriodTypes, MyWagerTabTypes, LoadingStatus, BetCategories, BetTypes, Config } from '../constants';
 import CommonSelector from './CommonSelector';

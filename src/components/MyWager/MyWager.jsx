@@ -35,7 +35,6 @@ import { NavigateActions, BetActions, MywagerActions } from '../../actions';
 import { BettingModuleUtils } from '../../utility';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import _ from 'lodash';
 import { Map } from 'immutable';
 import { I18n } from 'react-redux-i18n';
 import { MyWagerSelector, MyAccountPageSelector } from '../../selectors';
@@ -157,7 +156,7 @@ class MyWager extends PureComponent {
    * Dispatched action: {@link NavigateActions#navigateTo}
    *    This will navigat user to event full market screen
    */
-  handleEventClick(record, event){
+  handleEventClick(record){
     this.props.navigateTo(`/exchange/bettingmarketgroup/${record.group_id}`);
   }
 
@@ -172,7 +171,7 @@ class MyWager extends PureComponent {
    *    change in state will trigger to load Unmatched Transactions
    *    This is temporary cancel. This doesn't have any effect on blockchain data yet.
    */
-  cancelBet(record, event) {
+  cancelBet(record) {
     //cancelBets expects array of immutable bet objects. converting simple object to immutable list
     this.props.cancelBets([Map(record)]);
   }

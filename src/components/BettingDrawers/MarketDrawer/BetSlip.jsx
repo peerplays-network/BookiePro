@@ -42,6 +42,8 @@ const renderContent = (props) => (
         dimmed={ props.obscureContent }
         currencyFormat={ props.currencyFormat }
         oddsFormat={ props.oddsFormat }
+        activeTab={ props.activeTab }
+        disabled={ props.disabled }
       />
     }
   </div>
@@ -94,6 +96,7 @@ class BetSlip extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const disabled = ownProps.activeTab === "PLACEDBETS";
   const originalBets = state.getIn(['marketDrawer', 'unconfirmedBets']);
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
@@ -147,7 +150,8 @@ const mapStateToProps = (state, ownProps) => {
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
     currencySymbol: CurrencyUtils.getCurrencySymbol(ownProps.currencyFormat, numberOfGoodBets === 0 ? 'white' : 'black'),
-    totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat)
+    totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat),
+    disabled
   };
 }
 
