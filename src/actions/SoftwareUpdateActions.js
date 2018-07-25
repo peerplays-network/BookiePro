@@ -99,12 +99,12 @@ class SoftwareUpdateActions {
                 }                        
                 
                 // DEBUG
-                // console.log('Last Memo Message');
-                // console.log(message);
-                // console.log(`Version: ${version}`);
-                // console.log(`Date: ${date}`);
-                // console.log(`Link: ${link}`);
-                // console.log(`Display Text ${displayText}`);
+                // console.debug('Last Memo Message');
+                // console.debug(message);
+                // console.debug(`Version: ${version}`);
+                // console.debug(`Date: ${date}`);
+                // console.debug(`Link: ${link}`);
+                // console.debug(`Display Text ${displayText}`);
 
                 // If it has valid version then it is an update transaction
                 if (version && SoftwareUpdateUtils.isValidVersionNumber(version)) {
