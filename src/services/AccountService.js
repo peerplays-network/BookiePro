@@ -134,36 +134,51 @@ class AccountServices {
     //   activePrivateKey: keys.active.toWif(),
     //   memoPrivateKey: keys.memo.toWif()
     // };
-    const activePublicKey = keys.active.toPublicKey().toPublicKeyString();
-    const ownerPublicKey = keys.owner.toPublicKey().toPublicKeyString();
 
-    let isAuthenticated = false;
-    // Check the similarity of keys
+    /* Keys are generated within Bookie from the user input from the login form.
+       Account: the result of a call to the blockchain for an account object containing relvant account information. */
+    let isAuthenticated = false,
+      activeKeyMatches = false,
+      ownerKeyMatches = false;
+
+    // Bookie keys generated in KeyGeneratorService.js
+    let activePublicKey = keys.active.toPublicKey().toPublicKeyString();
+    let ownerPublicKey = keys.owner.toPublicKey().toPublicKeyString();
+
+    // Account keys from blockchain.
     const activeKeyAuths = account.getIn(['active', 'key_auths']);
     const ownerKeyAuths = account.getIn(['owner', 'key_auths']);
-    // Check active keys
-    let activeKeyMatches = false;
-    if (activeKeyAuths) {
-      activeKeyAuths.forEach((keyArr) => {
-        if (keyArr.first() && keyArr.first() === activePublicKey) {
-          activeKeyMatches = true;
-          return false;
-        }
-      });
+
+    // Check if the owner keys match.
+    ownerKeyMatches = this.keysMatch(ownerPublicKey, ownerKeyAuths);
+
+    // If the owner keys do not match, switch the owner & active keys in the authentication check.
+    if (!ownerKeyMatches){
+      ownerKeyMatches = this.keysMatch(activePublicKey, ownerKeyAuths);
+      activeKeyMatches = this.keysMatch(ownerPublicKey, activeKeyAuths);
+    } else {
+      // If the first check of ownerKeyMatches is true, we only need to check the remaining activeKeyMatch.
+      activeKeyMatches = this.keysMatch(activePublicKey, activeKeyAuths);
     }
-    // Check owner keys
-    let ownerKeyMatches = false;
-    if (ownerKeyAuths) {
-      ownerKeyAuths.forEach((keyArr) => {
-        if (keyArr.first() && keyArr.first() === ownerPublicKey) {
-          ownerKeyMatches = true;
-          return false;
-        }
-      });
-    }
+
+    // If both service generated keys match both blockchain account object keys, allow user to login.
     isAuthenticated = activeKeyMatches && ownerKeyMatches;
     return isAuthenticated;
   }
+
+  // Check if the bookie generated key matched the blockchain key.
+  static keysMatch(serviceKey, bcKey) {
+    let keyMatch = false;
+    if (bcKey) {
+      bcKey.forEach((keyArr) => {
+        if (keyArr.first() && keyArr.first() === serviceKey) {
+          keyMatch = true;
+        }
+      });
+    }
+    return keyMatch;
+  }
+
   /**
    * Get the list of matching account name
    * account - account object list from blockchain
