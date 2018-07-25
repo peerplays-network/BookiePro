@@ -147,37 +147,19 @@ class AuthPrivateActions {
  */
 class AuthActions {
   /**
-   * Auto login
+   * Auto logout, Log the user out when they come back to the app.
    */
-  static autoLogin() {
+  static autoLogout() {
     return (dispatch, getState) => {
+      // Get the current account ID before 
       const accountId = getState().getIn(['account', 'account', 'id']);
-      if(!accountId){
-        // No auto login information
-        log.info('No auto login information');
-        // Dispatch logout action to clear data
-        dispatch(AuthPrivateActions.logoutAction(accountId));
-        // Navigate to the login page of the app
-        dispatch(NavigateActions.navigateTo('/login'));
-        log.debug('Logout user succeed.');
-        
-        return Promise.reject();
-      } else{
-        if (accountId){
-            // Dispatch logout action to clear data
-          dispatch(AuthPrivateActions.logoutAction(accountId));
-          // Navigate to the login page of the app
-          dispatch(NavigateActions.navigateTo('/login'));
-          log.debug('Logout user succeed.');
-          return Promise.reject();
-        }else {
-          log.error('No user is logged in');
-          return Promise.reject();
-        }
-        
-      }
+
+      // Clear the user data and log them out.
+      dispatch(AuthPrivateActions.logoutAction(accountId));
+      dispatch(NavigateActions.navigateTo('/login'));
     }
   }
+
   /**
    * Log the user in with account name and password
    */

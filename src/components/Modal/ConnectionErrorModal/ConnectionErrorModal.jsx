@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Modal } from 'antd';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
+import { LoadingStatus } from '../../../constants';
 
 class ConnectionErrorModal extends PureComponent {
   constructor(props) {
@@ -27,9 +28,12 @@ class ConnectionErrorModal extends PureComponent {
         cancelText={ null }
         width={ 428 }
       >
-        <p>{this.props.error}</p>
+        <p>
+          { this.props.error }
+        </p>
+
         <button className='btn btn-regular try-again' onClick={ this.onClickTryAgain }>
-          { I18n.t('connectionErrorModal.confirm') }
+          { this.props.error === LoadingStatus.ERROR_DISCONNECTED ? I18n.t('connectionErrorModal.reconnect') : I18n.t('connectionErrorModal.confirm') }
         </button>
       </Modal>
     );
