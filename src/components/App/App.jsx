@@ -210,13 +210,18 @@ const mapStateToProps = (state) => {
   const error = connectToBlockchainError;
   let errorMsg;
   
+  // Handle explicit errors.
+  // - clock desync, websocket disconnect
   if (error === LoadingStatus.ERROR_DESYNC) {
     errorMsg = I18n.t('connectionErrorModal.outOfSyncClock');
   } else {
+    // Default error message will be assigned when initial connection to any configured blockchain api nodes fail.
     errorMsg = I18n.t('connectionErrorModal.explanation');
+    // ERROR_DISCONNECT will be hit when the user loses their network connection while logged in.
     if (error === LoadingStatus.ERROR_DISCONNECTED) {
       errorMsg = I18n.t('connectionErrorModal.disconnected');
-    } else if (!isConnectedToInternet) {
+    } else if (!isConnectedToInternet) { // Will be hit if the user is not logged in and is attempting to connect.
+      // One such example is if ERROR_DISCONNECT was hit and the user is clicking "TRY AGAIN".
       errorMsg = I18n.t('connectionErrorModal.noInternet');
     }
   }
