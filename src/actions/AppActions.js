@@ -149,6 +149,10 @@ class AppActions {
         if (connectionStatus === ConnectionStatus.DISCONNECTED) {
           // To force a resubscription to all the required information, push the user to the start of the app again.  
           dispatch(AuthActions.confirmLogout());
+          
+          // Show the prompt that they've been disconnected and to try again.
+          dispatch(AppPrivateActions.setConnectToBlockchainErrorAction(LoadingStatus.ERROR_DISCONNECTED));
+          dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));
         }
 
       };
@@ -168,21 +172,15 @@ class AppActions {
           dispatch(AppPrivateActions.setGatewayAccountAction(gatewayAccount));
         }
         log.info('Connected to blockchain.');
-        // Do auto login
-        dispatch(AuthActions.autoLogin()).then(() => {
-          // Redirect the user to exchange page
-        }).catch(() => {
-          // Fail to do auto login, do nothing
-        }).then(() => {
-          // Mark done of connected to blockchain
-          dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.DONE));
-        })
+        // Push the user back to the login.
+        dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.DONE));
+        dispatch(AuthActions.autoLogout());
 
       }).catch((error) => {
         log.error('Fail to connect to blockchain', error);
         let desyncError = I18n.t('connectionErrorModal.outOfSyncClock');
-        if (error.toString().includes(desyncError)){
-          dispatch(AppPrivateActions.setConnectToBlockchainErrorAction(desyncError));
+        if (error.message === desyncError){
+          dispatch(AppPrivateActions.setConnectToBlockchainErrorAction(LoadingStatus.ERROR_DESYNC));
         } else {
           // Fail to connect/ sync/ listen to software update, close connection to the blockchain
           ConnectionService.closeConnectionToBlockchain();

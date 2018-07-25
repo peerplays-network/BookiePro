@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
 import ConnectionErrorModal from '../Modal/ConnectionErrorModal';
 import LogoutModal from '../Modal/LogoutModal';
-import { AppUtils, SoftwareUpdateUtils } from '../../utility';
+import { AppUtils, SoftwareUpdateUtils, ConnectionUtils } from '../../utility';
 import TitleBar from './TitleBar';
 import { I18n } from 'react-redux-i18n';
 import Loading from '../Loading';
@@ -118,8 +118,9 @@ class App extends PureComponent {
       <ConnectionErrorModal
         onClickTryAgain={ this.onClickTryAgainConnectionError }
         visible={ this.props.isShowConnectionErrorPopup }
+        //error={ this.props.connectToBlockchainError }
+        error={ this.props.errorMsg }
         isConnectedToBlockchain={ this.props.isConnectedToBlockchain }
-        error={ this.props.connectToBlockchainError }
       />
     );
   }
@@ -196,6 +197,7 @@ const mapStateToProps = (state) => {
   const updateDate = softwareUpdate.get('date');
   const isLoggedIn = state.getIn(['account','isLoggedIn']);
   const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');
+  const connectToBlockchainError = app.get('connectToBlockchainError');
   const isShowLogoutPopup = app.get('isShowLogoutPopup');
   const isShowSoftwareUpdatePopup = app.get('isShowSoftwareUpdatePopup');
   const isShowConnectionErrorPopup = connectToBlockchainLoadingStatus === LoadingStatus.ERROR;
@@ -204,7 +206,20 @@ const mapStateToProps = (state) => {
   const appBackgroundType = app.get('appBackgroundType');
   const isConnectedToBlockchain = state.getIn(['app', 'connectionStatus']) === ConnectionStatus.CONNECTED
   const showLicenseScreen = app.get('showLicenseScreen');
-  const connectToBlockchainError = app.get('connectToBlockchainError');
+  const isConnectedToInternet = ConnectionUtils.isConnectedToInternet();
+  const error = connectToBlockchainError;
+  let errorMsg;
+  
+  if (error === LoadingStatus.ERROR_DESYNC) {
+    errorMsg = I18n.t('connectionErrorModal.outOfSyncClock');
+  } else {
+    errorMsg = I18n.t('connectionErrorModal.explanation');
+    if (error === LoadingStatus.ERROR_DISCONNECTED) {
+      errorMsg = I18n.t('connectionErrorModal.disconnected');
+    } else if (!isConnectedToInternet) {
+      errorMsg = I18n.t('connectionErrorModal.noInternet');
+    }
+  }
 
   return {
     connectToBlockchainLoadingStatus,
@@ -223,7 +238,8 @@ const mapStateToProps = (state) => {
     isTitleBarTransparent,
     showLicenseScreen,
     updateLink,
-    updateDate
+    updateDate,
+    errorMsg
   }
 }
 
