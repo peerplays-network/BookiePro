@@ -72,11 +72,11 @@ class RWalletUnlockNewActions {
      *
      * @returns {Function}
      */
-    static getActiveKeyFromState() {
+    static getKeyFromState(role) {
 
         return (dispatch, getState) => {
 
-            return KeysService.getActiveKeyFromState(getState(), dispatch);
+            return KeysService.getActiveKeyFromState(getState(), dispatch, role);
 
         }
     }

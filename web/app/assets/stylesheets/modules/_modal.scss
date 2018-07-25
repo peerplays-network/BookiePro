@@ -58,6 +58,35 @@
 			line-height: 1.25;
 			padding: 10px 0;
 		}
+
+		.modalContent {			
+			color: $black;
+
+			.modalLabel {
+				font-size: 20px;
+			}
+
+			.modalValue {
+				font-weight: bold;
+				font-size: 15px;
+			}
+
+			.modalReceiver, .modalSender {
+				display: inline-block;
+				margin-bottom: 25px;
+			}
+
+			.modalMessage {
+				background-color: $gray4;
+				padding: 25px;
+			}
+
+			p {
+				display: inline;
+				padding: 10px;
+			}
+		}
+
 		&Content{
 			position: relative;
 			text-align: left;

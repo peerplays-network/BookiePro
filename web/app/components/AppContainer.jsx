@@ -41,6 +41,7 @@ import Header from "components/Header/Header";
 
 import TransactionConfirmModal from "components/Modal/TransactionConfirmModal/TransactionConfirmModal";
 import WalletUnlockModal from "components/Modal/WalletUnlockModal";
+import ViewMemoModal from "components/Modal/ViewMemoModal";
 import ReconnectModal from "components/Modal/ReconnectModal/ReconnectModal";
 import CantConnectModal from "components/Modal/CantConnectModal/CantConnectModal";
 import HelpModal from "../components/Help/HelpModal";
@@ -118,6 +119,7 @@ class App extends React.Component {
                 <TransactionConfirmModal />
                 <WalletUnlockModal />
                 <CantConnectModal />
+                <ViewMemoModal />
                 <HelpModal />
             </div>
         );
