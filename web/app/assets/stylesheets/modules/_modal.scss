@@ -67,13 +67,20 @@
 			}
 
 			.modalValue {
+				display: inline-block;
 				font-weight: bold;
 				font-size: 15px;
+				margin-left: 25px;
 			}
 
 			.modalReceiver, .modalSender {
 				display: inline-block;
 				margin-bottom: 25px;
+			}
+
+			.modalDate, .modalConfirm {
+				display: inline-block;
+				margin-top: 10px;
 			}
 
 			.modalMessage {
@@ -131,10 +138,12 @@
 		&:hover{color: rgba(0,0,0,.8);}
 	}
 	&Title{
+		border-bottom: 1px solid $color-prime;
 		color: $clear-color;
 		font-size: 24px;
 		font-weight: 400;
 		margin-bottom: 30px;
+		padding-bottom: 15px;
 		font-family: $ff-main;
 	}
 	&Body{
