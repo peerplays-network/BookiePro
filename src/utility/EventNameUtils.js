@@ -11,15 +11,24 @@ import React from 'react';
  * @param {string} name - event name to be formatted
  * @returns {object} - JSX component displaying event name either formatted or not
  */
-const breakAtVs = (name) => {
-  let formatted = (<span>{ name }</span>);
+const breakAtVs = name => {
+  let formatted = <span>{name}</span>;
   // REVIEW Ensure this is the actual agreed format
   const found = name.match(/^(.+)(\W+(?:@|v|vs)\W+)(.+)$/);
+
   if (found !== null) {
-    formatted = (<span>{ found[1] }{ found[2] }<br/>{ found[3] }</span>);
+    formatted = (
+      <span>
+        {found[1]}
+        {found[2]}
+        <br />
+        {found[3]}
+      </span>
+    );
   }
+
   return formatted;
-}
+};
 
 const EventNameUtils = {
   breakAtVs

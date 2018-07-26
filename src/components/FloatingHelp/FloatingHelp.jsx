@@ -4,7 +4,7 @@
  *
  * When a user clicks on the icon, a modal containing the Bookie FAQ will be displayed.
  */
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import FaqModal from '../Modal/FaqModal';
 import helpIcon from '../../assets/icons/landing_help_icon.png';
 
@@ -13,20 +13,20 @@ class FloatingHelp extends PureComponent {
     super(props);
     this.state = {
       modalVisible: false
-    }
+    };
     this.onIconClick = this.onIconClick.bind(this);
     this.onCancelClick = this.onCancelClick.bind(this);
   }
 
   onIconClick(event) {
     event.preventDefault();
-    this.setState( {
+    this.setState({
       modalVisible: true
     });
   }
 
   onCancelClick() {
-    this.setState( {
+    this.setState({
       modalVisible: false
     });
   }
@@ -35,14 +35,13 @@ class FloatingHelp extends PureComponent {
     return (
       <div>
         <div className='floating-help'>
-          <a onClick={ this.onIconClick }><img className='help-icon' src={ helpIcon } alt=''/></a>
+          <a onClick={ this.onIconClick }>
+            <img className='help-icon' src={ helpIcon } alt='' />
+          </a>
         </div>
-        <FaqModal
-          visible={ this.state.modalVisible }
-          onCancelClick={ this.onCancelClick }
-        />
+        <FaqModal visible={ this.state.modalVisible } onCancelClick={ this.onCancelClick } />
       </div>
-    )
+    );
   }
 }
 

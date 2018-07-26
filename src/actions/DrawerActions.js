@@ -1,18 +1,18 @@
 import {ActionTypes} from '../constants';
-import Immutable from "immutable";
+import Immutable from 'immutable';
 
 class PrivateDrawerActions {
   static deleteManyBets(listOfBetIds) {
     return {
       type: ActionTypes.QUICK_BET_DRAWER_DELETE_MANY_BETS,
       listOfBetIds
-    }
+    };
   }
   static deleteManyUnconfirmedBets(listOfBetIds) {
     return {
       type: ActionTypes.MARKET_DRAWER_DELETE_MANY_UNCONFIRMED_BETS,
       listOfBetIds
-    }
+    };
   }
 }
 
@@ -26,22 +26,24 @@ class DrawerActions {
       // Concatinate the unplaced bets
       const unplacedBets = unconfirmedBets.concat(bets);
       var betsToDelete = Immutable.List();
+
       // Loop through the betting market ids list for bms that have been updated.
-      for(let i = 0, size = bettingMarketIds.size; i < size; i++){
+      for (let i = 0, size = bettingMarketIds.size; i < size; i++) {
         // pull the betting market id out for the current index
         let id = bettingMarketIds.get(i);
-        // Filter the unplacedBets list for bets that belong to a betting market that has been updated. (Determined by bettingMarketIds).
-        betsToDelete = betsToDelete.concat(unplacedBets.filter(bet => {
-          return bet.get('betting_market_id') === id;
-        }));
+        // Filter the unplacedBets list for bets that belong to a betting market that has 
+        // been updated. (Determined by bettingMarketIds).
+        betsToDelete = betsToDelete.concat(
+          unplacedBets.filter(bet => bet.get('betting_market_id') === id)
+        );
       }
 
       // Dispatch the deletion actions for the two drawers with the betsToDelete list.
       // 'unconfirmedBets' can be see in redux state under Market Drawer.
-      dispatch(PrivateDrawerActions.deleteManyUnconfirmedBets(betsToDelete.map(b => b.get('id')))); 
+      dispatch(PrivateDrawerActions.deleteManyUnconfirmedBets(betsToDelete.map(b => b.get('id'))));
       // 'bets' can be seen in redux state under Quick Bet Drawer.
-      dispatch(PrivateDrawerActions.deleteManyBets(betsToDelete.map(b => b.get('id')))); 
-    }
+      dispatch(PrivateDrawerActions.deleteManyBets(betsToDelete.map(b => b.get('id'))));
+    };
   }
 }
 

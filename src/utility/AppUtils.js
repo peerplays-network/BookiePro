@@ -15,6 +15,6 @@ const AppUtils = {
   isRunningInsideElectron() {
     return window && window.process && window.process.type === 'renderer';
   }
-}
+};
 
 export default AppUtils;

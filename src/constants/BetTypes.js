@@ -1,6 +1,6 @@
 const BetTypes = {
   BACK: 'back',
-  LAY: 'lay',
-}
+  LAY: 'lay'
+};
 
 export default BetTypes;

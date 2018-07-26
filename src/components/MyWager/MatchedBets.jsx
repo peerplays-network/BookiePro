@@ -16,11 +16,11 @@
  *
  * This component is used in {@link MyBets}
  */
-import React, { PureComponent } from 'react';
-import { Table } from 'antd';
-import { LoadingStatus } from '../../constants';
-import { I18n } from 'react-redux-i18n';
-import { MyWagerUtils, CurrencyUtils } from '../../utility';
+import React, {PureComponent} from 'react';
+import {Table} from 'antd';
+import {LoadingStatus} from '../../constants';
+import {I18n} from 'react-redux-i18n';
+import {MyWagerUtils, CurrencyUtils} from '../../utility';
 import './MyWager.less';
 import PropTypes from 'prop-types';
 
@@ -28,48 +28,61 @@ import PropTypes from 'prop-types';
 class MatchedBets extends PureComponent {
   constructor(props) {
     super(props);
-    const { matchedBets, currencyFormat, onEventClick } = props;
+    const {matchedBets, currencyFormat, onEventClick} = props;
 
     this.state = {
       tableData: matchedBets,
       columns: MyWagerUtils.getMatchedBetsColumns(currencyFormat, onEventClick)
-    }
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.matchedBets !== nextProps.matchedBets) {
       this.setState({
         tableData: nextProps.matchedBets
-      })
+      });
     }
+
     if (this.props.currencyFormat !== nextProps.currencyFormat) {
       this.setState({
-        columns: MyWagerUtils.getMatchedBetsColumns(nextProps.currencyFormat, nextProps.onEventClick)
-      })
+        columns: MyWagerUtils.getMatchedBetsColumns(
+          nextProps.currencyFormat,
+          nextProps.onEventClick
+        )
+      });
     }
   }
 
   render() {
-    const {  matchedBetsLoadingStatus, currencyFormat, betsTotal } = this.props;
+    const {matchedBetsLoadingStatus, currencyFormat, betsTotal} = this.props;
     const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
     return (
       <div className='table-card'>
         <div className='filterComponent'>
           <div className='float-left'>
             <p className='card-title'>
-              { I18n.t('mybets.total') } { currencySymbol } { (betsTotal ? betsTotal : 0) }
+              {I18n.t('mybets.total')} {currencySymbol} {betsTotal ? betsTotal : 0}
             </p>
           </div>
         </div>
-          <Table className='bookie-table' pagination={ { pageSize: 20 } } rowKey='id'
-            locale={ {emptyText: ( this.state.tableData.length === 0 &&
-              matchedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : matchedBetsLoadingStatus )} }
-              dataSource={ this.state.tableData } columns={ this.state.columns } />
+        <Table
+          className='bookie-table'
+          pagination={ {pageSize: 20} }
+          rowKey='id'
+          locale={ {
+            emptyText:
+              this.state.tableData.length === 0 && matchedBetsLoadingStatus === LoadingStatus.DONE
+                ? I18n.t('mybets.nodata')
+                : matchedBetsLoadingStatus
+          } }
+          dataSource={ this.state.tableData }
+          columns={ this.state.columns }
+        />
       </div>
-    )
+    );
   }
 }
 MatchedBets.propTypes = {
   matchedBets: PropTypes.instanceOf(Array).isRequired
-}
+};
 export default MatchedBets;

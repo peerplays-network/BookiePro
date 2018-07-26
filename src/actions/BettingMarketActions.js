@@ -1,6 +1,6 @@
-import { ActionTypes, LoadingStatus } from '../constants';
+import {ActionTypes, LoadingStatus} from '../constants';
 import Immutable from 'immutable';
-import { CommunicationService } from '../services';
+import {CommunicationService} from '../services';
 
 class BettingMarketPrivateActions {
   static setGetBettingMarketsByIdsLoadingStatusAction(bettingMarketIds, loadingStatus) {
@@ -8,14 +8,17 @@ class BettingMarketPrivateActions {
       type: ActionTypes.BETTING_MARKET_SET_GET_BETTING_MARKETS_BY_IDS_LOADING_STATUS,
       bettingMarketIds,
       loadingStatus
-    }
+    };
   }
-  static setGetBettingMarketsByBettingMarketGroupIdsLoadingStatusAction(bettingMarketGroupIds, loadingStatus) {
+  static setGetBettingMarketsByBettingMarketGroupIdsLoadingStatusAction(
+    bettingMarketGroupIds,
+    loadingStatus
+  ) {
     return {
-      type: ActionTypes.BETTING_MARKET_SET_GET_BETTING_MARKETS_BY_BETTING_MARKET_GROUP_IDS_LOADING_STATUS,
+      type: ActionTypes.BETTING_MARKET_SET_GET_BETTING_MARKETS_BY_BETTING_MARKET_GROUP_IDS_LOADING_STATUS, // eslint-disable-line
       bettingMarketGroupIds,
       loadingStatus
-    }
+    };
   }
 }
 
@@ -23,26 +26,25 @@ class BettingMarketPrivateActions {
  * Public actions
  */
 class BettingMarketActions {
-
   static addOrUpdateBettingMarketsAction(bettingMarkets) {
     return {
       type: ActionTypes.BETTING_MARKET_ADD_OR_UPDATE_BETTING_MARKETS,
       bettingMarkets
-    }
+    };
   }
 
   static addPersistedBettingMarketsAction(bettingMarkets) {
     return {
       type: ActionTypes.BETTING_MARKET_ADD_PERSISTED_BETTING_MARKETS,
       bettingMarkets
-    }
+    };
   }
 
   static removeBettingMarketsByIdsAction(bettingMarketIds) {
     return {
       type: ActionTypes.BETTING_MARKET_REMOVE_BETTING_MARKETS_BY_IDS,
       bettingMarketIds
-    }
+    };
   }
 
   /**
@@ -55,28 +57,46 @@ class BettingMarketActions {
 
       // Get bettingMarketsByBettingMarketGroupId
       let bettingMarketsById = getState().getIn(['bettingMarket', 'bettingMarketsById']);
-      const persistedBettingMarketsById = getState().getIn(['bettingMarket', 'persistedBettingMarketsById']);
+      const persistedBettingMarketsById = getState().getIn([
+        'bettingMarket',
+        'persistedBettingMarketsById'
+      ]);
       bettingMarketsById = bettingMarketsById.concat(persistedBettingMarketsById);
       let bettingMarketsByBettingMarketGroupId = Immutable.Map();
-      bettingMarketsById.forEach( (bettingMarket, id) => {
+      bettingMarketsById.forEach((bettingMarket) => {
         const bettingMarketGroupId = bettingMarket.get('event_id');
-        bettingMarketsByBettingMarketGroupId = bettingMarketsByBettingMarketGroupId.update(bettingMarketGroupId, bettingMarkets => {
-          if (!bettingMarkets) bettingMarkets = Immutable.List();
-          return bettingMarkets.push(bettingMarket);
-        })
-      })
+        bettingMarketsByBettingMarketGroupId = bettingMarketsByBettingMarketGroupId.update(
+          bettingMarketGroupId,
+          bettingMarkets => {
+            if (!bettingMarkets) {
+              bettingMarkets = Immutable.List();
+            }
+
+            return bettingMarkets.push(bettingMarket);
+          }
+        );
+      });
 
       // Check if the requested data is already inside redux store
-      const getBettingMarketsByBettingMarketGroupIdsLoadingStatus = getState().getIn(['bettingMarket', 'getBettingMarketsByBettingMarketGroupIdsLoadingStatus']);
-      bettingMarketGroupIds.forEach( bettingMarketGroupId => {
-        if (getBettingMarketsByBettingMarketGroupIdsLoadingStatus.get(bettingMarketGroupId) === LoadingStatus.DONE) {
+      const getBettingMarketsByBettingMarketGroupIdsLoadingStatus = getState().getIn([
+        'bettingMarket',
+        'getBettingMarketsByBettingMarketGroupIdsLoadingStatus'
+      ]);
+      bettingMarketGroupIds.forEach(bettingMarketGroupId => {
+        if (
+          getBettingMarketsByBettingMarketGroupIdsLoadingStatus.get(bettingMarketGroupId) ===
+          LoadingStatus.DONE
+        ) {
           if (bettingMarketsByBettingMarketGroupId.has(bettingMarketGroupId)) {
-            retrievedBettingMarkets = retrievedBettingMarkets.concat(bettingMarketsByBettingMarketGroupId.get(bettingMarketGroupId));
+            retrievedBettingMarkets = retrievedBettingMarkets.concat(
+              bettingMarketsByBettingMarketGroupId.get(bettingMarketGroupId)
+            );
           }
         } else {
-          bettingMarketGroupIdsOfBettingMarketsToBeRetrieved = bettingMarketGroupIdsOfBettingMarketsToBeRetrieved.push(bettingMarketGroupId);
+          bettingMarketGroupIdsOfBettingMarketsToBeRetrieved = bettingMarketGroupIdsOfBettingMarketsToBeRetrieved // eslint-disable-line
+            .push(bettingMarketGroupId);
         }
-      })
+      });
 
       if (bettingMarketGroupIdsOfBettingMarketsToBeRetrieved.size === 0) {
         // No events to be retrieved from blockchain, return retrieved data from redux store
@@ -84,14 +104,31 @@ class BettingMarketActions {
       } else {
         // Retrieve data from blockchain
         // Set status
-        dispatch(BettingMarketPrivateActions.setGetBettingMarketsByBettingMarketGroupIdsLoadingStatusAction(bettingMarketGroupIdsOfBettingMarketsToBeRetrieved, LoadingStatus.LOADING));
-        return CommunicationService.getBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIdsOfBettingMarketsToBeRetrieved).then((events) => {
+        dispatch(
+          BettingMarketPrivateActions.setGetBettingMarketsByBettingMarketGroupIdsLoadingStatusAction( // eslint-disable-line
+            bettingMarketGroupIdsOfBettingMarketsToBeRetrieved,
+            LoadingStatus.LOADING
+          )
+        );
+        return CommunicationService.getBettingMarketsByBettingMarketGroupIds(
+          bettingMarketGroupIdsOfBettingMarketsToBeRetrieved
+        ).then(events => {
           // Add data to redux store
           dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(events));
           // Set status
-          dispatch(BettingMarketPrivateActions.setGetBettingMarketsByBettingMarketGroupIdsLoadingStatusAction(bettingMarketGroupIdsOfBettingMarketsToBeRetrieved, LoadingStatus.DONE));
-          const bettingMarketGroupIds = events.map( event => event.get('id'));
-          dispatch(BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(bettingMarketGroupIds, LoadingStatus.DONE));
+          dispatch(
+            BettingMarketPrivateActions.setGetBettingMarketsByBettingMarketGroupIdsLoadingStatusAction( // eslint-disable-line
+              bettingMarketGroupIdsOfBettingMarketsToBeRetrieved,
+              LoadingStatus.DONE
+            )
+          );
+          const bettingMarketGroupIds = events.map(event => event.get('id'));
+          dispatch(
+            BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(
+              bettingMarketGroupIds,
+              LoadingStatus.DONE
+            )
+          );
           // Concat with retrieved data from redux store
           return retrievedBettingMarkets.concat(events);
         });
@@ -109,16 +146,21 @@ class BettingMarketActions {
 
       // Check if the data is already inside redux store
       const bettingMarketsById = getState().getIn(['bettingMarket', 'bettingMarketsById']);
-      const getBettingMarketsByIdsLoadingStatus = getState().getIn(['bettingMarket', 'getBettingMarketsByIdsLoadingStatus']);
-      bettingMarketIds.forEach( (bettingMarketId) => {
+      const getBettingMarketsByIdsLoadingStatus = getState().getIn([
+        'bettingMarket',
+        'getBettingMarketsByIdsLoadingStatus'
+      ]);
+      bettingMarketIds.forEach(bettingMarketId => {
         if (getBettingMarketsByIdsLoadingStatus.get(bettingMarketId) === LoadingStatus.DONE) {
           if (bettingMarketsById.has(bettingMarketId)) {
-            retrievedBettingMarkets = retrievedBettingMarkets.push(bettingMarketsById.get(bettingMarketId));
+            retrievedBettingMarkets = retrievedBettingMarkets.push(
+              bettingMarketsById.get(bettingMarketId)
+            );
           }
         } else {
           idsOfBettingMarketsToBeRetrieved = idsOfBettingMarketsToBeRetrieved.push(bettingMarketId);
         }
-      })
+      });
 
       if (idsOfBettingMarketsToBeRetrieved.size === 0) {
         // All data is inside redux store, return it
@@ -126,36 +168,59 @@ class BettingMarketActions {
       } else {
         // Some data is in the blockchain, retrieve from blockchain
         // Set status
-        dispatch(BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(idsOfBettingMarketsToBeRetrieved, LoadingStatus.LOADING));
-        return CommunicationService.getBettingMarketsByIds(idsOfBettingMarketsToBeRetrieved).then((bettingMarkets) => {
-          // Concat
-          retrievedBettingMarkets = retrievedBettingMarkets.concat(bettingMarkets);
+        dispatch(
+          BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(
+            idsOfBettingMarketsToBeRetrieved,
+            LoadingStatus.LOADING
+          )
+        );
+        return CommunicationService.getBettingMarketsByIds(idsOfBettingMarketsToBeRetrieved).then(
+          bettingMarkets => {
+            // Concat
+            retrievedBettingMarkets = retrievedBettingMarkets.concat(bettingMarkets);
 
-          // Check if we have retrieved all events
-          if (idsOfBettingMarketsToBeRetrieved.size === bettingMarkets.size) {
-            // All fetched
-            // Add to redux store
-            dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(bettingMarkets));
-            // Set status
-            dispatch(BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(idsOfBettingMarketsToBeRetrieved, LoadingStatus.DONE));
-            return retrievedBettingMarkets;
-          } else {
-            // Some of them are not fetched, use persistent api to fetch it
-            const retrievedBettingMarketIds = bettingMarkets.map(bettingMarket => bettingMarket.get('id'));
-            const filteredIdsOfBMsToBeRetrieved = idsOfBettingMarketsToBeRetrieved.filterNot(id => retrievedBettingMarketIds.includes(id));
-            return CommunicationService.getPersistedBettingMarketsByIds(filteredIdsOfBMsToBeRetrieved).then((persistedBMs) => {
-              retrievedBettingMarkets = retrievedBettingMarkets.concat(persistedBMs);
+            // Check if we have retrieved all events
+            if (idsOfBettingMarketsToBeRetrieved.size === bettingMarkets.size) {
+              // All fetched
               // Add to redux store
               dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(bettingMarkets));
-              dispatch(BettingMarketActions.addPersistedBettingMarketsAction(persistedBMs));
-              // All fetched, set status
-              dispatch(BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(idsOfBettingMarketsToBeRetrieved, LoadingStatus.DONE));
+              // Set status
+              dispatch(
+                BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(
+                  idsOfBettingMarketsToBeRetrieved,
+                  LoadingStatus.DONE
+                )
+              );
               return retrievedBettingMarkets;
-            });
+            } else {
+              // Some of them are not fetched, use persistent api to fetch it
+              const retrievedBettingMarketIds = bettingMarkets
+                .map(bettingMarket => bettingMarket.get('id'));
+                
+              const filteredIdsOfBMsToBeRetrieved = idsOfBettingMarketsToBeRetrieved
+                .filterNot(id => retrievedBettingMarketIds.includes(id));
+
+              return CommunicationService.getPersistedBettingMarketsByIds(
+                filteredIdsOfBMsToBeRetrieved
+              ).then(persistedBMs => {
+                retrievedBettingMarkets = retrievedBettingMarkets.concat(persistedBMs);
+                // Add to redux store
+                dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(bettingMarkets));
+                dispatch(BettingMarketActions.addPersistedBettingMarketsAction(persistedBMs));
+                // All fetched, set status
+                dispatch(
+                  BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(
+                    idsOfBettingMarketsToBeRetrieved,
+                    LoadingStatus.DONE
+                  )
+                );
+                return retrievedBettingMarkets;
+              });
+            }
           }
-        });
+        );
       }
-    }
+    };
   }
 }
 

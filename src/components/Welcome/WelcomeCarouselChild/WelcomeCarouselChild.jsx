@@ -1,9 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
 class WelcomeCarouselChild extends PureComponent {
-  static TWO_COLUMN_TYPE = 'TWO_COLUMN_TYPE';
-  static SINGLE_COLUMN_TYPE = 'SINGLE_COLUMN_TYPE';
 
   constructor(props) {
     super(props);
@@ -15,52 +13,51 @@ class WelcomeCarouselChild extends PureComponent {
     return (
       <div className='welcomeCarouselChildTwoColumn'>
         <div className='welcomeCarouselChildLeftPart'>
-          { this.props.imageSource &&
+          {this.props.imageSource && (
             <img
               className='welcomeCarouselChildImage'
               alt='onboarding'
               src={ this.props.imageSource }
               width={ this.props.imageWidth }
-              height={ this.props.imageHeight }/>
-          }
+              height={ this.props.imageHeight }
+            />
+          )}
         </div>
         <div className='welcomeCarouselChildRightPart'>
-          <div className='welcomeCarouselChildHeader'>{ this.props.headerText }</div>
+          <div className='welcomeCarouselChildHeader'>{this.props.headerText}</div>
           <div className='welcomeCarouselChildSeparator' />
-          <div className='welcomeCarouselChildContent'>{ this.props.contentText }</div>
+          <div className='welcomeCarouselChildContent'>{this.props.contentText}</div>
         </div>
       </div>
-    )
+    );
   }
 
   renderSingleColumn() {
     return (
       <div className='welcomeCarouselChildSingleColumn'>
-        { this.props.imageSource &&
+        {this.props.imageSource && (
           <img
             className='welcomeCarouselChildImage'
             alt='onboarding'
             src={ this.props.imageSource }
             width={ this.props.imageWidth }
-            height={ this.props.imageHeight }/>
-        }
-        <div className='welcomeCarouselChildContent'>{ this.props.contentText }</div>
+            height={ this.props.imageHeight }
+          />
+        )}
+        <div className='welcomeCarouselChildContent'>{this.props.contentText}</div>
       </div>
-    )
+    );
   }
   render() {
     let child;
+
     if (this.props.type === WelcomeCarouselChild.TWO_COLUMN_TYPE) {
       child = this.renderTwoColumn();
     } else if (this.props.type === WelcomeCarouselChild.SINGLE_COLUMN_TYPE) {
       child = this.renderSingleColumn();
     }
 
-    return (
-      <div className='welcomeCarouselChild'>
-        { child }
-      </div>
-    )
+    return <div className='welcomeCarouselChild'>{child}</div>;
   }
 }
 
@@ -71,7 +68,7 @@ WelcomeCarouselChild.propTypes = {
   imageHeight: PropTypes.number,
   headerText: PropTypes.string,
   contentText: PropTypes.string
-}
+};
 
 WelcomeCarouselChild.defaultProps = {
   type: WelcomeCarouselChild.TWO_COLUMN_TYPE,
@@ -80,6 +77,9 @@ WelcomeCarouselChild.defaultProps = {
   imageHeight: 300,
   headerText: '',
   contentText: ''
-}
+};
+
+WelcomeCarouselChild.TWO_COLUMN_TYPE = 'TWO_COLUMN_TYPE';
+WelcomeCarouselChild.SINGLE_COLUMN_TYPE = 'SINGLE_COLUMN_TYPE';
 
 export default WelcomeCarouselChild;
