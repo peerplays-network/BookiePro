@@ -9,7 +9,9 @@ class BetTableInput extends PureComponent {
 
     if (props.field === 'odds') {
       this.state = {
-        value: props.text ? BettingModuleUtils.oddsFormatFilter(props.text, props.oddsFormat) : ''
+        value: props.text
+          ? BettingModuleUtils.oddsFormatFilter(props.text, props.oddsFormat).toFixed(2)
+          : ''
       };
     } else {
       this.state = {
@@ -123,21 +125,25 @@ class BetTableInput extends PureComponent {
         return '';
       }
 
-      if (props.oddsFormat === 'decimal' && cleanStr < ODDS_BOUNDS.decimal.min) {
-        return ODDS_BOUNDS.decimal.min;
+      let result = cleanStr;
+
+      if (props.oddFormat === 'decimal') {
+        if (cleanStr < ODDS_BOUNDS.decimal.min) {
+          result = ODDS_BOUNDS.decimal.min;
+        } else {
+          result = ODDS_BOUNDS.decimal.max;
+        }
       }
 
-      if (props.oddsFormat === 'decimal' && cleanStr > ODDS_BOUNDS.decimal.max) {
-        return ODDS_BOUNDS.decimal.max;
+      if (props.oddFormat === 'american') {
+        if (cleanStr < ODDS_BOUNDS.american.min) {
+          result = ODDS_BOUNDS.american.min;
+        } else {
+          result = ODDS_BOUNDS.amertican.max;
+        }
       }
 
-      if (props.oddsFormat === 'american' && cleanStr < ODDS_BOUNDS.american.min) {
-        return ODDS_BOUNDS.american.min;
-      }
-
-      if (props.oddsFormat === 'american' && cleanStr > ODDS_BOUNDS.american.max) {
-        return ODDS_BOUNDS.american.max;
-      }
+      return result;
     }
   }
 
@@ -149,7 +155,7 @@ class BetTableInput extends PureComponent {
     } else {
       odds = updateOdds(adjustOdds(odds, record.bet_type));
       this.setState({
-        value: BettingModuleUtils.oddsFormatFilter(odds, this.props.oddsFormat)
+        value: BettingModuleUtils.oddsFormatFilter(odds, this.props.oddsFormat).toFixed(2)
       });
     }
 
@@ -201,7 +207,7 @@ class BetTableInput extends PureComponent {
           this.props.oddsFormat
         );
         this.setState({
-          value: BettingModuleUtils.oddsFormatFilter(value, this.props.oddsFormat)
+          value: BettingModuleUtils.oddsFormatFilter(value, this.props.oddsFormat).toFixed(2)
         });
       } else {
         value = this.props.record.odds;
