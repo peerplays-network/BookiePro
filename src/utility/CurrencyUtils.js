@@ -19,7 +19,7 @@ const mCurrencySymbol = 'm' + currencySymbol;
 
 var CurrencyUtils = {
   fieldPrecisionMap: {
-    // Odds values have no dependency on currency but it is included in this map for 
+    // Odds values have no dependency on currency but it is included in this map for
     // convenience's sake.
     odds: {
       BTF: 2,
@@ -67,7 +67,7 @@ var CurrencyUtils = {
 
   /**
    * substringPrecision()
-   * This function uses string manipulation to manipulate the value of amount depending 
+   * This function uses string manipulation to manipulate the value of amount depending
    * on the precision value and whether or not accuracy is preferred
    * @param {any} amount - The amount to round/truncate
    * @param {any} precision - The amount of decimal places to keep
@@ -85,7 +85,7 @@ var CurrencyUtils = {
 
     if (split[1] && split[1].length > precision) {
       // Conditionally take the value one past the accpeted precision
-      let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0)); 
+      let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0));
       let newAmount = split[0] + '.' + splitSel;
       // Then execute toFixed on the resulting amount. This keeps more accuracy.
       return parseFloat(newAmount).toFixed(precision);
@@ -97,21 +97,33 @@ var CurrencyUtils = {
   getCurrencySymbol: function(currency = 'mBTF', color = 'black') {
     switch (currency) {
       case 'BTC':
-        return <img src='../../../assets/icons/bitcoin_icon_hover.svg' alt='BTF' />;
+        return (
+          <img
+            src='../../../assets/icons/bitcoin_icon_hover.svg'
+            className='currency-symbol btf'
+            alt='BTF'
+          />
+        );
       case 'mBTC':
-        return <img src='../../../assets/icons/mbitcoin_icon_hover.svg' alt='mBTF' />;
+        return (
+          <img
+            src='../../../assets/icons/mbitcoin_icon_hover.svg'
+            className='currency-symbol mbtf'
+            alt='mBTF'
+          />
+        );
       case 'BTF':
         if (color === 'white') {
-          return <img src={ bitFunWhite } className='currency-symbol' alt='BTF' />;
+          return <img src={ bitFunWhite } className='currency-symbol btf' alt='BTF' />;
         }
 
-        return <img src={ bitFunBlack } className='currency-symbol' alt='BTF' />;
+        return <img src={ bitFunBlack } className='currency-symbol btf' alt='BTF' />;
       case 'mBTF':
         if (color === 'white') {
-          return <img src={ mBitFunWhite } className='currency-symbol' alt='mBTF' />;
+          return <img src={ mBitFunWhite } className='currency-symbol mbtf' alt='mBTF' />;
         }
 
-        return <img src={ mBitFunBlack } className='currency-symbol' alt='mBTF' />;
+        return <img src={ mBitFunBlack } className='currency-symbol mbtf' alt='mBTF' />;
       default:
         break;
     }
@@ -122,10 +134,10 @@ var CurrencyUtils = {
    *
    * @param {float} amount - amount to be formatted, in terms of 'BTF'
    * @param {string} currency -  display currency, 'BTF' or 'mBTF'
-   * @param {integer} precision - ( ***BTF*** base), either BettingModuleUtils.oddsPlaces or 
+   * @param {integer} precision - ( ***BTF*** base), either BettingModuleUtils.oddsPlaces or
    * BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
-   * @param {boolan} accuracy - This value defaults to true as accuracy is typically preferred. 
-   * This parameter if set to false, will truncate to the number of decimal places equal to 
+   * @param {boolan} accuracy - This value defaults to true as accuracy is typically preferred.
+   * This parameter if set to false, will truncate to the number of decimal places equal to
    * precision (thus, less accuracy)
    * @returns {string} - formatted string to support negative bitcoin curruency values
    */
@@ -173,13 +185,13 @@ var CurrencyUtils = {
   },
 
   /**
-   * Format BTF or mBTF value with the specified currency and prepend the result 
-   * with currency symbol. Internally, this function calls getFormattedCurrency and use the same 
+   * Format BTF or mBTF value with the specified currency and prepend the result
+   * with currency symbol. Internally, this function calls getFormattedCurrency and use the same
    * parameters except the last optional one.
    *
    * @param {float} amount - amount to be formatted, in terms of 'BTF'
    * @param {string} currency -  display currency, 'BTF' or 'mBTF'
-   * @param {integer} precision - ( ***BTF*** base), either BettingModuleUtils.oddsPlaces or 
+   * @param {integer} precision - ( ***BTF*** base), either BettingModuleUtils.oddsPlaces or
    * BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
    * @param {boolean} spaceAfterSymbol -  if space needed to seperate currency symbole and amount.
    * @returns {string} - formatted BTF or mBTF value with currency symbol prepended
