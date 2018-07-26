@@ -41,10 +41,11 @@
 		z-index: 1050;
 		margin: 0;
 		width: 100%!important;
+		height: 90%;
 		left: 0;
-		top: 0;
+		top: 10%;
 		bottom: 0;
-		overflow: auto;
+		overflow: hidden;
 
 		&AlignOut{
 			@include va_middle_out;
@@ -61,7 +62,6 @@
 
 		.modalContent {			
 			color: $black;
-
 			.modalLabel {
 				font-size: 20px;
 			}
@@ -102,6 +102,8 @@
 			max-width: 100%;
 			background: $clear-color2;
 			padding: 30px 50px 40px;
+			max-height: -webkit-fill-available;
+			overflow-y: scroll;
 			-webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
 			box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
 			@include border-radius(2px);
