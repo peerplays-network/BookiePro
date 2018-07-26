@@ -8,7 +8,7 @@ class NavigateActions {
    * pushPage - true to push on top of current page, false to replace current page
    */
   static navigateTo(path, pushPage = true) {
-    return dispatch => {
+    return (dispatch) => {
       if (path) {
         log.debug('Navigate to ', path);
 

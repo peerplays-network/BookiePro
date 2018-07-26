@@ -5,7 +5,7 @@ export function findKeyPathOf(tree, childrenKey, predicate) {
   var path;
 
   if (Immutable.List.isList(tree)) {
-    childrenKey = tree.findKey(child => (path = findKeyPathOf(child, childrenKey, predicate)));
+    childrenKey = tree.findKey((child) => (path = findKeyPathOf(child, childrenKey, predicate)));
   } else if (predicate(tree)) {
     return [];
   } else {

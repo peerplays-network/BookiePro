@@ -1,8 +1,8 @@
 import Immutable from 'immutable';
 import {BlockchainUtils} from '../utility';
 import {NotificationTypes, ChainTypes} from '../constants';
-const {calcBlockTime} = BlockchainUtils;
 import {I18n} from 'react-redux-i18n';
+const {calcBlockTime} = BlockchainUtils;
 
 class NotificationService {
   /**
@@ -12,7 +12,7 @@ class NotificationService {
     let relevantAssetIds = Immutable.List();
     let relevantBettingMarketIds = Immutable.List();
 
-    transactions.forEach(transaction => {
+    transactions.forEach((transaction) => {
       const operationType = transaction.getIn(['op', 0]);
       const operationContent = transaction.getIn(['op', 1]);
 
@@ -23,7 +23,7 @@ class NotificationService {
       } else if (operationType === ChainTypes.operations.betting_market_group_resolved) {
         // Extract betting market Id
         const resolutions = operationContent.get('resolutions');
-        const bettingMarketIds = resolutions.map(resolution => resolution.get(0));
+        const bettingMarketIds = resolutions.map((resolution) => resolution.get(0));
         relevantBettingMarketIds = relevantBettingMarketIds.concat(bettingMarketIds);
       }
     });
@@ -58,7 +58,7 @@ class NotificationService {
       state.getIn(['setting', 'defaultSetting']);
     const currency = setting.get('currencyFormat');
     let notifications = Immutable.List();
-    transactions.forEach(transaction => {
+    transactions.forEach((transaction) => {
       const operationType = transaction.getIn(['op', 0]);
       const operationContent = transaction.getIn(['op', 1]);
       const blockNum = transaction.get('block_num');

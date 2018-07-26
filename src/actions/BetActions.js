@@ -118,23 +118,23 @@ class BetActions {
         const myBets = HistoryService.convertRawHistoryToMyBets(getState(), rawHistory);
         // Fetch related betting markets
         let bettingMarketIds = Immutable.List();
-        myBets.unmatchedBetsById.forEach(bet => {
+        myBets.unmatchedBetsById.forEach((bet) => {
           bettingMarketIds = bettingMarketIds.push(bet.get('betting_market_id'));
         });
-        myBets.matchedBetsById.forEach(bet => {
+        myBets.matchedBetsById.forEach((bet) => {
           bettingMarketIds = bettingMarketIds.push(bet.get('betting_market_id'));
         });
-        myBets.resolvedBetsById.forEach(bet => {
+        myBets.resolvedBetsById.forEach((bet) => {
           bettingMarketIds = bettingMarketIds.push(bet.get('betting_market_id'));
         });
         // Unique betting market ids
         bettingMarketIds = bettingMarketIds.toSet().toList();
 
         return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds))
-          .then(bettingMarkets => {
+          .then((bettingMarkets) => {
             // Get unique betting market group ids
             let bettingMarketGroupIds = bettingMarkets
-              .map(bettingMarket => bettingMarket.get('group_id'))
+              .map((bettingMarket) => bettingMarket.get('group_id'))
               .toSet()
               .toList();
             // Get the betting market groups
@@ -142,28 +142,28 @@ class BetActions {
               BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds)
             );
           })
-          .then(bettingMarketGroups => {
+          .then((bettingMarketGroups) => {
             // Get unique event ids
             let eventIds = bettingMarketGroups
-              .map(bettingMarketGroup => bettingMarketGroup.get('event_id'))
+              .map((bettingMarketGroup) => bettingMarketGroup.get('event_id'))
               .toSet()
               .toList();
             // Get the betting market groups
             return dispatch(EventActions.getEventsByIds(eventIds));
           })
-          .then(events => {
+          .then((events) => {
             // Get unique event group ids
             let eventGroupIds = events
-              .map(event => event.get('event_group_id'))
+              .map((event) => event.get('event_group_id'))
               .toSet()
               .toList();
             // Get the betting market groups
             return dispatch(EventGroupActions.getEventGroupsByIds(eventGroupIds));
           })
-          .then(eventGroups => {
+          .then((eventGroups) => {
             // Get unique sport ids
             let sportIds = eventGroups
-              .map(eventGroup => eventGroup.get('sport_id'))
+              .map((eventGroup) => eventGroup.get('sport_id'))
               .toSet()
               .toList();
             // Get the betting market groups
@@ -176,7 +176,7 @@ class BetActions {
             dispatch(BetPrivateActions.setInitMyBetsLoadingStatusAction(LoadingStatus.DONE));
             log.debug('Init my bets succeed.');
           })
-          .catch(error => {
+          .catch((error) => {
             log.error('Fail to init my bets', error);
             // Set error
             dispatch(BetPrivateActions.setInitMyBetsErrorAction(error));
@@ -199,23 +199,23 @@ class BetActions {
 
         // Fetch related betting markets
         let bettingMarketIds = Immutable.List();
-        myBets.unmatchedBetsById.forEach(bet => {
+        myBets.unmatchedBetsById.forEach((bet) => {
           bettingMarketIds = bettingMarketIds.push(bet.get('betting_market_id'));
         });
-        myBets.matchedBetsById.forEach(bet => {
+        myBets.matchedBetsById.forEach((bet) => {
           bettingMarketIds = bettingMarketIds.push(bet.get('betting_market_id'));
         });
-        myBets.resolvedBetsById.forEach(bet => {
+        myBets.resolvedBetsById.forEach((bet) => {
           bettingMarketIds = bettingMarketIds.push(bet.get('betting_market_id'));
         });
         // Unique betting market ids
         bettingMarketIds = bettingMarketIds.toSet().toList();
 
         return dispatch(BettingMarketActions.getBettingMarketsByIds(bettingMarketIds))
-          .then(bettingMarkets => {
+          .then((bettingMarkets) => {
             // Get unique betting market group ids
             let bettingMarketGroupIds = bettingMarkets
-              .map(bettingMarket => bettingMarket.get('group_id'))
+              .map((bettingMarket) => bettingMarket.get('group_id'))
               .toSet()
               .toList();
             // Get the betting market groups
@@ -223,28 +223,28 @@ class BetActions {
               BettingMarketGroupActions.getBettingMarketGroupsByIds(bettingMarketGroupIds)
             );
           })
-          .then(bettingMarketGroups => {
+          .then((bettingMarketGroups) => {
             // Get unique event ids
             let eventIds = bettingMarketGroups
-              .map(bettingMarketGroup => bettingMarketGroup.get('event_id'))
+              .map((bettingMarketGroup) => bettingMarketGroup.get('event_id'))
               .toSet()
               .toList();
             // Get the events
             return dispatch(EventActions.getEventsByIds(eventIds));
           })
-          .then(events => {
+          .then((events) => {
             // Get unique event group ids
             let eventGroupIds = events
-              .map(event => event.get('event_group_id'))
+              .map((event) => event.get('event_group_id'))
               .toSet()
               .toList();
             // Get the betting market groups
             return dispatch(EventGroupActions.getEventGroupsByIds(eventGroupIds));
           })
-          .then(eventGroups => {
+          .then((eventGroups) => {
             // Get unique sport ids
             let sportIds = eventGroups
-              .map(eventGroup => eventGroup.get('sport_id'))
+              .map((eventGroup) => eventGroup.get('sport_id'))
               .toSet()
               .toList();
             // Get the betting market groups
@@ -260,7 +260,7 @@ class BetActions {
             dispatch(BetPrivateActions.setCheckForNewMyBetsLoadingStatusAction(LoadingStatus.DONE));
             log.debug('Check for new my bets succeed.');
           })
-          .catch(error => {
+          .catch((error) => {
             log.error('Fail to check for new my bets', error);
             // Set error
             dispatch(BetPrivateActions.setCheckForNewMyBetsErrorAction(error));
@@ -314,7 +314,7 @@ class BetActions {
       const accountId = getState().getIn(['account', 'account', 'id']);
 
       const tr = new TransactionBuilder();
-      bets.forEach(bet => {
+      bets.forEach((bet) => {
         // Create operation for each bet and attach it to the transaction
         const bettingMarket = getState().getIn([
           'bettingMarket',
@@ -400,7 +400,7 @@ class BetActions {
           log.debug('Make bets succeed.');
           dispatch(BetPrivateActions.setMakeBetsLoadingStatusAction(LoadingStatus.DONE));
         })
-        .catch(error => {
+        .catch((error) => {
           log.error('Fail to get make bets', error);
           // Set error
           dispatch(BetPrivateActions.setMakeBetsErrorAction(error));
@@ -417,7 +417,7 @@ class BetActions {
       const bettorId = getState().getIn(['account', 'account', 'id']);
       // Build transaction
       const tr = new TransactionBuilder();
-      bets.forEach(bet => {
+      bets.forEach((bet) => {
         // Create operation for each bet and attach it to the transaction
         const operationParams = {
           bettor_id: bettorId,
@@ -426,7 +426,7 @@ class BetActions {
         const operationType = 'bet_cancel';
         tr.add_type_operation(operationType, operationParams);
       });
-      const betIds = bets.map(bet => bet.get('id'));
+      const betIds = bets.map((bet) => bet.get('id'));
       dispatch(
         BetPrivateActions.setCancelBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING)
       );
@@ -441,7 +441,7 @@ class BetActions {
           );
           dispatch(MarketDrawerActions.hideOverlay());
         })
-        .catch(error => {
+        .catch((error) => {
           log.error('Fail to cancel bets', error);
           // Set error
           dispatch(BetPrivateActions.setCancelBetsErrorByBetIdAction(betIds, error));
@@ -472,7 +472,7 @@ class BetActions {
   static editBets(bets) {
     return (dispatch, getState) => {
       const tr = new TransactionBuilder();
-      bets.forEach(bet => {
+      bets.forEach((bet) => {
         // Exit early if the bet has not been updated
 
         if (!bet.get('updated')) {
@@ -561,7 +561,7 @@ class BetActions {
         tr.add_type_operation(betPlaceOperationType, betPlaceOperationParams);
       });
 
-      const betIds = bets.map(bet => bet.get('id'));
+      const betIds = bets.map((bet) => bet.get('id'));
       dispatch(
         BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING)
       );
@@ -576,7 +576,7 @@ class BetActions {
             BetPrivateActions.setEditBetsByIdsLoadingStatusAction(betIds, LoadingStatus.LOADING)
           );
         })
-        .catch(error => {
+        .catch((error) => {
           log.error('Fail to edit bets', error);
           // Set error
           dispatch(BetPrivateActions.setEditBetsErrorByBetIdAction(betIds, error));

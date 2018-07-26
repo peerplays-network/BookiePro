@@ -53,7 +53,7 @@ class EventGroupActions {
       let eventGroupsBySportId = Immutable.Map();
       eventGroupsById.forEach((eventGroup) => {
         const sportId = eventGroup.get('sport_id');
-        eventGroupsBySportId = eventGroupsBySportId.update(sportId, eventGroups => {
+        eventGroupsBySportId = eventGroupsBySportId.update(sportId, (eventGroups) => {
           if (!eventGroups) {
             eventGroups = Immutable.List();
           }
@@ -67,7 +67,7 @@ class EventGroupActions {
         'eventGroup',
         'getEventGroupsBySportIdsLoadingStatus'
       ]);
-      sportIds.forEach(sportId => {
+      sportIds.forEach((sportId) => {
         if (getEventGroupsBySportIdsLoadingStatus.get(sportId) === LoadingStatus.DONE) {
           if (eventGroupsBySportId.has(sportId)) {
             retrievedEventGroups = retrievedEventGroups.concat(eventGroupsBySportId.get(sportId));
@@ -91,7 +91,7 @@ class EventGroupActions {
         );
         return CommunicationService.getEventGroupsBySportIds(
           sportIdsOfEventGroupsToBeRetrieved
-        ).then(eventGroups => {
+        ).then((eventGroups) => {
           // Add data to redux store
           dispatch(EventGroupActions.addOrUpdateEventGroupsAction(eventGroups));
           // Set status
@@ -101,7 +101,7 @@ class EventGroupActions {
               LoadingStatus.DONE
             )
           );
-          const eventGroupIds = eventGroups.map(eventGroup => eventGroup.get('id'));
+          const eventGroupIds = eventGroups.map((eventGroup) => eventGroup.get('id'));
           dispatch(
             EventGroupPrivateActions.setGetEventGroupsByIdsLoadingStatusAction(
               eventGroupIds,
@@ -129,7 +129,7 @@ class EventGroupActions {
         'eventGroup',
         'getEventGroupsByIdsLoadingStatus'
       ]);
-      eventGroupIds.forEach(eventGroupId => {
+      eventGroupIds.forEach((eventGroupId) => {
         if (getEventGroupsByIdsLoadingStatus.get(eventGroupId) === LoadingStatus.DONE) {
           if (eventGroupsById.has(eventGroupId)) {
             retrievedEventGroups = retrievedEventGroups.push(eventGroupsById.get(eventGroupId));
@@ -151,7 +151,7 @@ class EventGroupActions {
           )
         );
         return CommunicationService.getEventGroupsByIds(idsOfEventGroupsToBeRetrieved).then(
-          eventGroups => {
+          (eventGroups) => {
             // Add to redux store
             dispatch(EventGroupActions.addOrUpdateEventGroupsAction(eventGroups));
             // Set status

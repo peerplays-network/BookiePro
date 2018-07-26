@@ -6,7 +6,7 @@ class KeyGeneratorService {
    */
   static generateKeys(accountName, password, roles = ['owner', 'active', 'memo']) {
     let keys = {};
-    roles.forEach(role => {
+    roles.forEach((role) => {
       keys[role] = PrivateKey.fromSeed(key.normalize_brainKey(password + accountName + role));
     });
     return keys;

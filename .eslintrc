@@ -9,6 +9,7 @@
     "react/jsx-curly-spacing": [2, "always"],
     "react/prefer-stateless-function": [0],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "jsx-a11y/href-no-hash": [0],
     "no-throw-literal": [0],
     "operator-assignment": [0],
     "no-unused-vars": ["error", { 
@@ -42,7 +43,8 @@
     "arrow-body-style": ["error", "as-needed"],
     "max-len": ["error", {"code": 100}],
     "implicit-arrow-linebreak": ["error", "beside"],
-    "no-control-regex": "off"
+    "no-control-regex": "off",
+    "arrow-parens": ["error", "always"]
   },
   "settings": {
     "import/resolver": "webpack"

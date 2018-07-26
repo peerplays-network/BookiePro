@@ -7,32 +7,32 @@ import log from 'loglevel';
 
 class SidebarActions {
   static getData() {
-    return dispatch => {
+    return (dispatch) => {
       // Loading status
       dispatch(SidebarActions.setLoadingStatusAction(LoadingStatus.LOADING));
       // Get sports
       dispatch(SportActions.getAllSports())
-        .then(sports => {
-          const sportIds = sports.map(sport => sport.get('id'));
+        .then((sports) => {
+          const sportIds = sports.map((sport) => sport.get('id'));
           // Get event groups related to the sports
           return dispatch(EventGroupActions.getEventGroupsBySportIds(sportIds));
         })
-        .then(eventGroups => {
-          const eventGroupIds = eventGroups.map(eventGroup => eventGroup.get('id'));
+        .then((eventGroups) => {
+          const eventGroupIds = eventGroups.map((eventGroup) => eventGroup.get('id'));
           // Get events related to the sports (because we don't 
           // have get event based on event groups)
           return dispatch(EventActions.getEventsByEventGroupIds(eventGroupIds));
         })
-        .then(events => {
+        .then((events) => {
           // Get betting market groups
-          const eventIds = events.map(event => event.get('id'));
+          const eventIds = events.map((event) => event.get('id'));
           return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByEventIds(eventIds));
         })
         .then(() => {
           // Loading status
           dispatch(SidebarActions.setLoadingStatusAction(LoadingStatus.DONE));
         })
-        .catch(error => {
+        .catch((error) => {
           log.error('Sidebar get data error', error);
           // Loading status
           dispatch(SidebarActions.setErrorAction(error));

@@ -9,11 +9,11 @@ import {ObjectUtils} from '../utility';
 import {Config} from '../constants';
 import Immutable from 'immutable';
 
-const getAccountId = state => state.getIn(['account', 'account', 'id']);
+const getAccountId = (state) => state.getIn(['account', 'account', 'id']);
 
-const getSettingByAccountId = state => state.getIn(['setting', 'settingByAccountId']);
+const getSettingByAccountId = (state) => state.getIn(['setting', 'settingByAccountId']);
 
-const getDefaultSetting = state => state.getIn(['setting', 'defaultSetting']);
+const getDefaultSetting = (state) => state.getIn(['setting', 'defaultSetting']);
 
 const getSetting = createSelector(
   [getAccountId, getSettingByAccountId, getDefaultSetting],
@@ -24,44 +24,44 @@ const getSetting = createSelector(
   ) => settingByAccountId.get(accountId) || defaultSetting
 );
 
-const getCurrencyFormat = createSelector(getSetting, setting => setting.get('currencyFormat'));
-const getNotificationSetting = createSelector(getSetting, setting => setting.get('notification'));
+const getCurrencyFormat = createSelector(getSetting, (setting) => setting.get('currencyFormat'));
+const getNotificationSetting = createSelector(getSetting, (setting) => setting.get('notification'));
 
-const getAssetsById = state => state.getIn(['asset', 'assetsById']);
+const getAssetsById = (state) => state.getIn(['asset', 'assetsById']);
 
-const getRulesById = state => state.getIn(['rule', 'rulesById']);
+const getRulesById = (state) => state.getIn(['rule', 'rulesById']);
 
-const getSportsById = state => state.getIn(['sport', 'sportsById']);
+const getSportsById = (state) => state.getIn(['sport', 'sportsById']);
 
-const getEventGroupsById = state => state.getIn(['eventGroup', 'eventGroupsById']);
+const getEventGroupsById = (state) => state.getIn(['eventGroup', 'eventGroupsById']);
 
 const getEventGroupsBySportId = createSelector(
   getEventGroupsById, 
-  (eventGroupsById) => eventGroupsById.toList().groupBy(eventGroup => eventGroup.get('sport_id'))
+  (eventGroupsById) => eventGroupsById.toList().groupBy((eventGroup) => eventGroup.get('sport_id'))
 );
 
-const getEventsById = state => state.getIn(['event', 'eventsById']);
+const getEventsById = (state) => state.getIn(['event', 'eventsById']);
 
-const getPersistedEventsById = state => state.getIn(['event', 'persistedEventsById']);
+const getPersistedEventsById = (state) => state.getIn(['event', 'persistedEventsById']);
 
 const getAggregatedEventsById = createSelector(
   [getEventsById, getPersistedEventsById],
   (eventsById, persistedEventsById) => eventsById.concat(persistedEventsById)
 );
 
-const getEventStatusById = createSelector([getEventsById], eventsById => {
-  const eventStatus = event => ObjectUtils.eventStatus(event);
+const getEventStatusById = createSelector([getEventsById], (eventsById) => {
+  const eventStatus = (event) => ObjectUtils.eventStatus(event);
   return eventsById.filter(eventStatus);
 });
 
-const getActiveEventsById = createSelector([getEventsById], eventsById => {
-  const isActiveEvent = event => ObjectUtils.isActiveEvent(event);
+const getActiveEventsById = createSelector([getEventsById], (eventsById) => {
+  const isActiveEvent = (event) => ObjectUtils.isActiveEvent(event);
   return eventsById.filter(isActiveEvent);
 });
 
 const getActiveEventsBySportId = createSelector(
   [getActiveEventsById, getEventGroupsById],
-  (activeEventsById, eventGroupsById) => activeEventsById.toList().groupBy(event => {
+  (activeEventsById, eventGroupsById) => activeEventsById.toList().groupBy((event) => {
     const eventGroup = eventGroupsById.get(event.get('event_group_id'));
     return eventGroup && eventGroup.get('sport_id');
   })
@@ -69,18 +69,18 @@ const getActiveEventsBySportId = createSelector(
 
 const getEventsByEventGroupId = createSelector(
   getEventsById, 
-  (eventsById) => eventsById.toList().groupBy(event => event.get('event_group_id'))
+  (eventsById) => eventsById.toList().groupBy((event) => event.get('event_group_id'))
 );
 
 const getActiveEventsByEventGroupId = createSelector(
   getActiveEventsById, 
-  (activeEventsById) => activeEventsById.toList().groupBy(event => event.get('event_group_id'))
+  (activeEventsById) => activeEventsById.toList().groupBy((event) => event.get('event_group_id'))
 );
 
-const getBettingMarketGroupsById = state => state
+const getBettingMarketGroupsById = (state) => state
   .getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
 
-const getPersistedBettingMarketGroupsById = state => state
+const getPersistedBettingMarketGroupsById = (state) => state
   .getIn(['bettingMarketGroup', 'persistedBettingMarketGroupsById']);
 
 const getAggregatedBettingMarketGroupsById = createSelector(
@@ -94,9 +94,9 @@ const getAggregatedBettingMarketGroupsById = createSelector(
   ) => bettingMarketGroupsById.concat(persistedBettingMarketGroupsById)
 );
 
-const getBettingMarketsById = state => state.getIn(['bettingMarket', 'bettingMarketsById']);
+const getBettingMarketsById = (state) => state.getIn(['bettingMarket', 'bettingMarketsById']);
 
-const getPersistedBettingMarketsById = state => state
+const getPersistedBettingMarketsById = (state) => state
   .getIn(['bettingMarket', 'persistedBettingMarketsById']);
 
 const getAggregatedBettingMarketsById = createSelector(
@@ -107,7 +107,7 @@ const getAggregatedBettingMarketsById = createSelector(
   ) => bettingMarketsById.concat(persistedBettingMarketsById)
 );
 
-const getBinnedOrderBooksByBettingMarketId = state => state
+const getBinnedOrderBooksByBettingMarketId = (state) => state
   .getIn(['binnedOrderBook', 'binnedOrderBooksByBettingMarketId']);
 
 // The structure of the binned order book used for simple betting widget is as the following
@@ -189,14 +189,14 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
             ]);
             let aggregated_lay_bets =
               (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
-            aggregated_lay_bets = aggregated_lay_bets.map(aggregated_lay_bet => {
+            aggregated_lay_bets = aggregated_lay_bets.map((aggregated_lay_bet) => {
               const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
               const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
               return aggregated_lay_bet.set('odds', odds).set('price', price);
             });
             let aggregated_back_bets =
               (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
-            aggregated_back_bets = aggregated_back_bets.map(aggregated_back_bet => {
+            aggregated_back_bets = aggregated_back_bets.map((aggregated_back_bet) => {
               const odds = aggregated_back_bet.get('backer_multiplier') / Config.oddsPrecision;
               const price = aggregated_back_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
               return aggregated_back_bet.set('odds', odds).set('price', price);
@@ -207,7 +207,7 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
 
             simpleBettingWidgetBinnedOrderBooksByEventId = simpleBettingWidgetBinnedOrderBooksByEventId.update( // eslint-disable-line
               eventId,
-              simpleBettingWidgetBinnedOrderBooks => {
+              (simpleBettingWidgetBinnedOrderBooks) => {
                 if (!simpleBettingWidgetBinnedOrderBooks) {
                   simpleBettingWidgetBinnedOrderBooks = Immutable.List();
                 }

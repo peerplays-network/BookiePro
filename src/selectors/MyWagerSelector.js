@@ -34,15 +34,15 @@ const {
 
 const getFormattedDate = DateUtils.getFormattedDate;
 
-const getActiveTab = state => state.getIn(['mywager', 'activeTab']);
+const getActiveTab = (state) => state.getIn(['mywager', 'activeTab']);
 
-const getResolvedBetsPeriodType = state => state
+const getResolvedBetsPeriodType = (state) => state
   .getIn(['mywager', 'periodType']);
 
-const getResolvedBetsCustomTimeRangeStartDate = state => state
+const getResolvedBetsCustomTimeRangeStartDate = (state) => state
   .getIn(['mywager', 'customTimeRangeStartDate']);
 
-const getResolvedBetsCustomTimeRangeEndDate = state => state
+const getResolvedBetsCustomTimeRangeEndDate = (state) => state
   .getIn(['mywager', 'customTimeRangeEndDate']);
 
 const startDate = createSelector(
@@ -69,13 +69,13 @@ const endDate = createSelector(
   }
 );
 
-const getMatchedBetsById = state => state.getIn(['bet', 'matchedBetsById']);
-const getUnmatchedBetsById = state => state.getIn(['bet', 'unmatchedBetsById']);
-const getResolvedBetsById = state => state.getIn(['bet', 'resolvedBetsById']);
+const getMatchedBetsById = (state) => state.getIn(['bet', 'matchedBetsById']);
+const getUnmatchedBetsById = (state) => state.getIn(['bet', 'unmatchedBetsById']);
+const getResolvedBetsById = (state) => state.getIn(['bet', 'resolvedBetsById']);
 
 const getFilteredResolvedBetsById = createSelector(
   [getResolvedBetsById, startDate, endDate],
-  (resolvedBetsById, startDate, endDate) => resolvedBetsById.filter(bet => {
+  (resolvedBetsById, startDate, endDate) => resolvedBetsById.filter((bet) => {
     const resolvedTime = bet.get('resolved_time');
     return (
       resolvedTime.valueOf() <= endDate.valueOf() && resolvedTime.valueOf() >= startDate.valueOf()
@@ -132,7 +132,7 @@ const getBetTotal = createSelector(
   }
 );
 
-const getCancelBetsByIdsLoadingStatus = state => state
+const getCancelBetsByIdsLoadingStatus = (state) => state
   .getIn(['bet', 'cancelBetsByIdsLoadingStatus']);
 
 // Extend bet objects with necessary fields
@@ -152,7 +152,7 @@ const getExtendedBets = createSelector(
     eventsById, 
     eventGroupsById, 
     sportsById
-  ) => bets.map(bet => {
+  ) => bets.map((bet) => {
     const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
     const bettingMarketDescription = (bettingMarket && bettingMarket.get('description')) || '';
 
@@ -185,16 +185,16 @@ const getExtendedBets = createSelector(
 // Sort bet objects according to natural order
 const getSortedBets = createSelector([getActiveTab, getExtendedBets], (activeTab, extendedBets) => {
   if (activeTab === MyWagerTabTypes.RESOLVED_BETS) {
-    return extendedBets.sortBy(bet => bet.get('resolved_time')).reverse();
+    return extendedBets.sortBy((bet) => bet.get('resolved_time')).reverse();
   } else {
-    return extendedBets.sortBy(bet => bet.get('event_time')).reverse();
+    return extendedBets.sortBy((bet) => bet.get('event_time')).reverse();
   }
 });
 
 // Format the currency in a bet's field (stake, profit/ liability, and amount won)
 const getBetsWithFormattedCurrency = createSelector(
   [getSortedBets, getCurrencyFormat, getAssetsById],
-  (bets, currencyFormat, assetsById) => bets.map(bet => {
+  (bets, currencyFormat, assetsById) => bets.map((bet) => {
     const betType = bet.get('back_or_lay');
 
     const precision = assetsById.getIn([bet.get('asset_id'), 'precision']) || 0;
@@ -236,7 +236,7 @@ const getBetsWithFormattedCurrency = createSelector(
 //memoized selector - function for formatting merged data and return same
 const getBetData = createSelector(
   [getBetsWithFormattedCurrency, getCancelBetsByIdsLoadingStatus, getBettingMarketsById],
-  (bets, cancelBetsByIdsLoadingStatus, bettingMarkets) => bets.map(bet => {
+  (bets, cancelBetsByIdsLoadingStatus, bettingMarkets) => bets.map((bet) => {
     bet = bet.set('key', bet.get('id'));
 
     bet = bet.set(
@@ -293,7 +293,7 @@ const getBetData = createSelector(
   })
 );
 
-const getBetsLoadingStatus = state => state.getIn(['bet', 'initMyBetsLoadingStatus']);
+const getBetsLoadingStatus = (state) => state.getIn(['bet', 'initMyBetsLoadingStatus']);
 
 const MyWagerSelector = {
   getBetsLoadingStatus,

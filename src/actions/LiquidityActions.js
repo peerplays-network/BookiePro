@@ -46,7 +46,7 @@ class LiquidityActions {
           'liquidity',
           'totalMatchedBetsByBettingMarketGroupId'
         ]);
-        bettingMarketGroupIds.forEach(bettingMarketGroupId => {
+        bettingMarketGroupIds.forEach((bettingMarketGroupId) => {
           if (
             getTotalMatchedBetsByBettingMarketGroupIdsLoadingStatus.get(bettingMarketGroupId) ===
             LoadingStatus.DONE
@@ -78,7 +78,7 @@ class LiquidityActions {
         );
         return CommunicationService.getTotalMatchedBetsByBettingMarketGroupIds(
           bettingMarketGroupIdsOfTotalMatchedBetsToBeRetrieved
-        ).then(totalMatchedBetsByBettingMarketGroupId => {
+        ).then((totalMatchedBetsByBettingMarketGroupId) => {
           log.debug(
             'Retrieve total matched bets succeeds',
             bettingMarketGroupIdsOfTotalMatchedBetsToBeRetrieved
@@ -108,7 +108,7 @@ class LiquidityActions {
     return (dispatch, getState) => {
       // Only update existing total matched bets
       let bmgIdsOfTotalMatchedBetsToBeUpdated = Immutable.List();
-      bettingMarketIds.forEach(bettingMarketId => {
+      bettingMarketIds.forEach((bettingMarketId) => {
         // If it is existing total matched bets, we must have its betting market object locally
         const bettingMarket = getState().getIn([
           'bettingMarket',

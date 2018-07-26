@@ -57,12 +57,12 @@ class SportActions {
         // Retrieve sports from blockchain
         // Set status
         dispatch(SportPrivateActions.setGetAllSportsLoadingStatusAction(LoadingStatus.LOADING));
-        return CommunicationService.getAllSports().then(sports => {
+        return CommunicationService.getAllSports().then((sports) => {
           // Add data
           dispatch(SportActions.addOrUpdateSportsAction(sports));
           // Set status
           dispatch(SportPrivateActions.setGetAllSportsLoadingStatusAction(LoadingStatus.DONE));
-          const sportIds = sports.map(sport => sport.get('id'));
+          const sportIds = sports.map((sport) => sport.get('id'));
           dispatch(
             SportPrivateActions.setGetSportsByIdsLoadingStatusAction(sportIds, LoadingStatus.DONE)
           );
@@ -88,7 +88,7 @@ class SportActions {
         'getSportsByIdsLoadingStatus'
       ]);
       const sportsById = getState().getIn(['sport', 'sportsById']);
-      sportIds.forEach(sportId => {
+      sportIds.forEach((sportId) => {
         if (getSportsByIdsLoadingStatus.get(sportId) === LoadingStatus.DONE) {
           if (sportsById.has(sportId)) {
             retrievedSports = retrievedSports.push(sportsById.get(sportId));
@@ -110,7 +110,7 @@ class SportActions {
             LoadingStatus.LOADING
           )
         );
-        return CommunicationService.getSportsByIds(idsOfSportsToBeRetrieved).then(sports => {
+        return CommunicationService.getSportsByIds(idsOfSportsToBeRetrieved).then((sports) => {
           // Add sports
           dispatch(SportActions.addOrUpdateSportsAction(sports));
           // Set status

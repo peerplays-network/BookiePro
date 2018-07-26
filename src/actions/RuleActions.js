@@ -43,7 +43,7 @@ class RuleActions {
       // Check if the data is already inside the redux store
       const getRulesByIdsLoadingStatus = getState().getIn(['rule', 'getRulesByIdsLoadingStatus']);
       const assetsById = getState().getIn(['rule', 'rulesById']);
-      ruleIds.forEach(ruleId => {
+      ruleIds.forEach((ruleId) => {
         if (getRulesByIdsLoadingStatus.get(ruleId) === LoadingStatus.DONE) {
           if (getRulesByIdsLoadingStatus.has(ruleId)) {
             retrievedRules = retrievedRules.push(assetsById.get(ruleId));
@@ -65,7 +65,7 @@ class RuleActions {
           )
         );
         // TODO: mark later
-        return CommunicationService.getRulesByIds(idsOfRulesToBeRetrieved).then(rules => {
+        return CommunicationService.getRulesByIds(idsOfRulesToBeRetrieved).then((rules) => {
           // Add to redux store
           dispatch(RuleActions.addOrUpdateRulesAction(rules));
           // Set status

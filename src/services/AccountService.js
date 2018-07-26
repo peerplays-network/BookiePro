@@ -39,8 +39,8 @@ class AccountServices {
           }
         })
       })
-        .then(response => response.json())
-        .then(responseJson => {
+        .then((response) => response.json())
+        .then((responseJson) => {
           // Check if the registration is rejected by the faucet
           if (responseJson.error) {
             log.error(responseJson.error);
@@ -57,7 +57,7 @@ class AccountServices {
             resolve(responseJson);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           // Fail, retry for fixed amount of attempt
           if (attempt <= 0) {
             log.warn('Retry registering for account by the faucet');
@@ -66,8 +66,8 @@ class AccountServices {
             log.error('Fail to register for account by the faucet', error);
             attempt--;
             return AccountServices.registerThroughFaucet(attempt, accountName, keys)
-              .then(res => resolve(res))
-              .catch(err => reject(err));
+              .then((res) => resolve(res))
+              .catch((err) => reject(err));
           }
         });
     });
@@ -79,7 +79,7 @@ class AccountServices {
 
   static registerThroughRegistrar(accountName, keys) {
     return CommunicationService.getFullAccount(Config.accountRegistar.name)
-      .then(registrarAccount => {
+      .then((registrarAccount) => {
         const tr = new TransactionBuilder();
         tr.add_type_operation('account_create', {
           fee: {
@@ -112,7 +112,7 @@ class AccountServices {
         });
         return WalletService.processTransaction(Config.accountRegistar.keys, tr);
       })
-      .catch(error => {
+      .catch((error) => {
         log.error('Fail to register for account by other account', error);
       });
   }
@@ -179,7 +179,7 @@ class AccountServices {
     let keyMatch = false;
 
     if (bcKey) {
-      bcKey.forEach(keyArr => {
+      bcKey.forEach((keyArr) => {
         if (keyArr.first() && keyArr.first() === serviceKey) {
           keyMatch = true;
         }

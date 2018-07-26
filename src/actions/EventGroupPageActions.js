@@ -45,7 +45,7 @@ class EventGroupPageActions {
 
       // Get event group
       dispatch(EventGroupActions.getEventGroupsByIds([eventGroupId]))
-        .then(eventGroups => {
+        .then((eventGroups) => {
           const retrievedEventGroup = eventGroups.get(0);
           const sportId = retrievedEventGroup.get('sport_id');
           // Get sport and events
@@ -54,24 +54,24 @@ class EventGroupPageActions {
             dispatch(EventActions.getEventsByEventGroupIds([eventGroupId]))
           ]);
         })
-        .then(result => {
+        .then((result) => {
           const retrievedEvents = result[1];
           // Get betting market groups
-          const eventIds = retrievedEvents.map(event => event.get('id'));
+          const eventIds = retrievedEvents.map((event) => event.get('id'));
           return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByEventIds(eventIds));
         })
-        .then(bettingMarketGroups => {
+        .then((bettingMarketGroups) => {
           // Get betting markets
           const bettingMarketGroupIds = bettingMarketGroups
-            .map(bettingMarketGroup => bettingMarketGroup.get('id'));
+            .map((bettingMarketGroup) => bettingMarketGroup.get('id'));
 
           return dispatch(
             BettingMarketActions.getBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds)
           );
         })
-        .then(bettingMarkets => {
+        .then((bettingMarkets) => {
           // Get binned order books
-          const bettingMarketIds = bettingMarkets.map(bettingMarket => bettingMarket.get('id'));
+          const bettingMarketIds = bettingMarkets.map((bettingMarket) => bettingMarket.get('id'));
           return dispatch(
             BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds)
           );
@@ -82,7 +82,7 @@ class EventGroupPageActions {
             EventGroupPagePrivateActions.setLoadingStatusAction(eventGroupId, LoadingStatus.DONE)
           );
         })
-        .catch(error => {
+        .catch((error) => {
           log.error('Event group page get data error', eventGroupId, error);
           dispatch(EventGroupPagePrivateActions.setErrorAction(eventGroupId, error));
         });

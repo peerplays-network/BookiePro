@@ -12,7 +12,7 @@ import Immutable from 'immutable';
 import rootReducer from '../reducers';
 import log from 'loglevel';
 
-const syncImmutableTranslationWithStore = store => {
+const syncImmutableTranslationWithStore = (store) => {
   I18n.setTranslationsGetter(() => {
     try {
       return store.getState().getIn(['i18n', 'translations']);
@@ -68,7 +68,7 @@ export default function configureStore() {
         return inboundState;
       }
     },
-    outboundState => outboundState
+    (outboundState) => outboundState
   );
 
   let persistedStoreWhiteList = ['setting', 'account', 'rawHistory'];

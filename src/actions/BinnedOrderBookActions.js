@@ -45,7 +45,7 @@ class BinnedOrderBookActions {
         )
       );
       return CommunicationService.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds, 2).then(
-        binnedOrderBooksByBettingMarketId => {
+        (binnedOrderBooksByBettingMarketId) => {
           // Add to store
           dispatch(
             BinnedOrderBookPrivateActions.addOrUpdateBinnedOrderBooksByBettingMarketIdsAction(
@@ -76,14 +76,14 @@ class BinnedOrderBookActions {
         'binnedOrderBooksByBettingMarketId'
       ]);
       let bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bettingMarketIds.filter(
-        bettingMarketId => binnedOrderBooksByBettingMarketId.has(bettingMarketId)
+        (bettingMarketId) => binnedOrderBooksByBettingMarketId.has(bettingMarketId)
       );
 
       // Fetch the updated info from the blockchain
       return CommunicationService.getBinnedOrderBooksByBettingMarketIds(
         bettingMarketIdsOfBinnedOrderBooksToBeRefreshed,
         2
-      ).then(binnedOrderBooksByBettingMarketId => {
+      ).then((binnedOrderBooksByBettingMarketId) => {
         // Update store
         dispatch(
           BinnedOrderBookPrivateActions.addOrUpdateBinnedOrderBooksByBettingMarketIdsAction(

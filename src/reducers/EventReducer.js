@@ -15,7 +15,7 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.EVENT_SET_GET_EVENTS_BY_EVENT_GROUP_IDS_LOADING_STATUS: {
       let getEventsByEventGroupIdsLoadingStatus = Immutable.Map();
-      action.eventGroupIds.forEach(eventGroupId => {
+      action.eventGroupIds.forEach((eventGroupId) => {
         getEventsByEventGroupIdsLoadingStatus = getEventsByEventGroupIdsLoadingStatus.set(
           eventGroupId,
           action.loadingStatus
@@ -29,7 +29,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.EVENT_SET_GET_EVENTS_BY_IDS_LOADING_STATUS: {
       let getEventsByIdsLoadingStatus = Immutable.Map();
-      action.eventIds.forEach(eventId => {
+      action.eventIds.forEach((eventId) => {
         getEventsByIdsLoadingStatus = getEventsByIdsLoadingStatus.set(
           eventId,
           action.loadingStatus
@@ -46,7 +46,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.EVENT_ADD_OR_UPDATE_EVENTS: {
       let nextState = state;
-      action.events.forEach(event => {
+      action.events.forEach((event) => {
         const eventId = event.get('id');
         // Update event ids by ids
         nextState = nextState.setIn(['eventsById', eventId], event);
@@ -56,7 +56,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.EVENT_ADD_PERSISTED_EVENTS: {
       let nextState = state;
-      action.events.forEach(event => {
+      action.events.forEach((event) => {
         const eventId = event.get('id');
         // Update event ids by ids
         nextState = nextState.setIn(['persistedEventsById', eventId], event);
@@ -66,7 +66,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.EVENT_REMOVE_EVENTS_BY_IDS: {
       let nextState = state;
-      action.eventIds.forEach(eventId => {
+      action.eventIds.forEach((eventId) => {
         // Since we want to have persistent event list
         // Move event from eventsById to persistedEventsById
         nextState = nextState.setIn(
