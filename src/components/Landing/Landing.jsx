@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PrivacyModal from '../Modal/PrivacyModal';
-import { I18n } from 'react-redux-i18n';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { NavigateActions, AppActions } from '../../actions';
+import {I18n} from 'react-redux-i18n';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {NavigateActions, AppActions} from '../../actions';
 import logo from '../../assets/images/bookie_logo_signup.png';
-import { AppBackgroundTypes, Config } from '../../constants';
+import {AppBackgroundTypes, Config} from '../../constants';
 import LandingSteps from './LandingSteps';
 import FloatingHelp from '../FloatingHelp';
 
@@ -14,7 +14,7 @@ class Landing extends PureComponent {
     super(props);
     this.state = {
       privacyModalVisible: false
-    }
+    };
     this.onLoginClick = this.onLoginClick.bind(this);
     this.onSignupClick = this.onSignupClick.bind(this);
     this.onPrivacyModalCancelClick = this.onPrivacyModalCancelClick.bind(this);
@@ -44,51 +44,42 @@ class Landing extends PureComponent {
 
   onPrivacyPolicyClick(event) {
     event.preventDefault();
-    this.setState( {
+    this.setState({
       privacyModalVisible: true
-    })
+    });
   }
 
   onPrivacyModalCancelClick() {
-    this.setState( {
+    this.setState({
       privacyModalVisible: false
-    })
+    });
   }
 
   renderSteps() {
-    return (
-      <div className='steps'>
-
-      </div>
-    )
+    return <div className='steps' />;
   }
 
   render() {
-    return(
+    return (
       <div className='landing'>
         <div className='content'>
-            <img className='logo' src={ logo } alt=''/>
-            <div className='slogan'>
-              { I18n.t('landing.slogan') }
-            </div>
-            <div className='intro'>
-              { I18n.t('landing.intro') }
-            </div>
-            <button className='btn btn-transparent is-blue-border' onClick={ this.onSignupClick }>
-                { I18n.t('landing.signup') }
-            </button>            
-            <button className='btn btn-transparent' onClick={ this.onLoginClick }>
-                { I18n.t('landing.login') }
-            </button>
-            <LandingSteps 
-              className='steps' 
-              depositsEnabled={ this.props.depositsEnabled }
-            />
+          <img className='logo' src={ logo } alt='' />
+          <div className='slogan'>{I18n.t('landing.slogan')}</div>
+          <div className='intro'>{I18n.t('landing.intro')}</div>
+          <button className='btn btn-transparent is-blue-border' onClick={ this.onSignupClick }>
+            {I18n.t('landing.signup')}
+          </button>
+          <button className='btn btn-transparent' onClick={ this.onLoginClick }>
+            {I18n.t('landing.login')}
+          </button>
+          <LandingSteps className='steps' depositsEnabled={ this.props.depositsEnabled } />
         </div>
         <div className='footer'>
-          <a className='copyright'>{ I18n.t('landing.copyright') }</a>
+          <a className='copyright'>{I18n.t('landing.copyright')}</a>
           <span className='separator'> | </span>
-          <a className='privacy-policy' onClick={ this.onPrivacyPolicyClick }>{ I18n.t('landing.privacy_policy') }</a>
+          <a className='privacy-policy' onClick={ this.onPrivacyPolicyClick }>
+            {I18n.t('landing.privacy_policy')}
+          </a>
         </div>
         <FloatingHelp />
         <PrivacyModal
@@ -96,19 +87,24 @@ class Landing extends PureComponent {
           onCancelClick={ this.onPrivacyModalCancelClick }
         />
       </div>
-    )
+    );
   }
 }
 Landing.defaultProps = {
   depositsEnabled: Config.features.deposits
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
     navigateTo: NavigateActions.navigateTo,
-    setAppBackground: AppActions.setAppBackgroundAction,
+    setAppBackground: AppActions.setAppBackgroundAction
     // Manual Feature Overrides
     /*depositsEnabled: true*/
-  }, dispatch);
-}
-export default connect(null, mapDispatchToProps)(Landing);
+  },
+  dispatch
+);
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Landing);

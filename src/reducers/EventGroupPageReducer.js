@@ -1,6 +1,5 @@
-import { ActionTypes, LoadingStatus } from '../constants';
+import {ActionTypes, LoadingStatus} from '../constants';
 import Immutable from 'immutable';
-import _ from 'lodash';
 
 let initialState = Immutable.fromJS({
   errorByEventGroupId: {},
@@ -10,11 +9,18 @@ let initialState = Immutable.fromJS({
 export default function(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.EVENT_GROUP_PAGE_SET_LOADING_STATUS: {
-      return state.setIn(['loadingStatusByEventGroupId', action.eventGroupId], action.loadingStatus);
+      return state.setIn(
+        ['loadingStatusByEventGroupId', action.eventGroupId],
+        action.loadingStatus
+      );
     }
+
     case ActionTypes.EVENT_GROUP_PAGE_SET_ERROR: {
       let nextState = state;
-      nextState = state.setIn(['loadingStatusByEventGroupId', action.eventGroupId], LoadingStatus.ERROR);
+      nextState = state.setIn(
+        ['loadingStatusByEventGroupId', action.eventGroupId],
+        LoadingStatus.ERROR
+      );
       nextState = state.setIn(['errorByEventGroupId', action.eventGroupId], action.error);
       return nextState;
     }
@@ -22,4 +28,4 @@ export default function(state = initialState, action) {
     default:
       return state;
   }
-};
+}

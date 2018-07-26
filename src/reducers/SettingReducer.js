@@ -1,4 +1,4 @@
-import { ActionTypes } from '../constants';
+import {ActionTypes} from '../constants';
 import Immutable from 'immutable';
 
 const initialState = Immutable.fromJS({
@@ -13,41 +13,48 @@ const initialState = Immutable.fromJS({
   }
 });
 
-export default function (state = initialState, action) {
-  switch(action.type) {
+export default function(state = initialState, action) {
+  switch (action.type) {
     case ActionTypes.SETTING_SET_INITIAL_SETTING: {
       return state.setIn(['settingByAccountId', action.accountId], state.get('defaultSetting'));
     }
+
     case ActionTypes.SETTING_UPDATE_LANG: {
       return state.mergeIn(['settingByAccountId', action.accountId], {
-        lang: action.lang,
-      })
+        lang: action.lang
+      });
     }
+
     case ActionTypes.SETTING_UPDATE_TIMEZONE: {
       return state.mergeIn(['settingByAccountId', action.accountId], {
-        timezone: action.timezone,
-      })
+        timezone: action.timezone
+      });
     }
+
     case ActionTypes.SETTING_UPDATE_NOTIFICATION: {
       return state.mergeIn(['settingByAccountId', action.accountId], {
-        notification: action.notification,
-      })
+        notification: action.notification
+      });
     }
+
     case ActionTypes.SETTING_UPDATE_CURRENCY_FORMAT: {
       return state.mergeIn(['settingByAccountId', action.accountId], {
-        currencyFormat: action.currencyFormat,
-      })
+        currencyFormat: action.currencyFormat
+      });
     }
+
     case ActionTypes.SETTING_UPDATE_ODDS_FORMAT: {
       return state.mergeIn(['settingByAccountId', action.accountId], {
-        oddsFormat: action.oddsFormat,
-      })
+        oddsFormat: action.oddsFormat
+      });
     }
+
     case ActionTypes.SETTING_MARK_SKIP_LOGOUT_POPUP: {
       return state.mergeIn(['settingByAccountId', action.accountId], {
-        isSkipLogoutPopup: action.isSkipLogoutPopup,
-      })
+        isSkipLogoutPopup: action.isSkipLogoutPopup
+      });
     }
+
     default:
       return state;
   }

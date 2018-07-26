@@ -5,7 +5,7 @@ const EventStatus = {
   FINISHED: 'finished',
   CANCELED: 'canceled',
   SETTLED: 'settled',
-  COMPLETED: 'completed',
-}
+  COMPLETED: 'completed'
+};
 
 export default EventStatus;

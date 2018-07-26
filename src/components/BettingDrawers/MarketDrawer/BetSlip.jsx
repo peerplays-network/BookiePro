@@ -6,33 +6,33 @@
  *
  * The betslips are stored in the Redux store under `marketDrawer`->`unconfirmedBets`.
  */
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import SplitPane from 'react-split-pane';
-import { I18n } from 'react-redux-i18n';
+import {I18n} from 'react-redux-i18n';
 import ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
-import { Button } from 'antd';
-import { BetActions, MarketDrawerActions, NavigateActions } from '../../../actions';
-import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
+import {Button} from 'antd';
+import {BetActions, MarketDrawerActions, NavigateActions} from '../../../actions';
+import {BettingModuleUtils, CurrencyUtils} from '../../../utility';
 import BetTable from '../BetTable';
 import './BetSlip.less';
-import { Empty, OverlayUtils } from '../Common';
-import { BettingDrawerStates, Config } from '../../../constants';
-import { MyAccountPageSelector } from '../../../selectors';
+import {Empty, OverlayUtils} from '../Common';
+import {BettingDrawerStates, Config} from '../../../constants';
+import {MyAccountPageSelector} from '../../../selectors';
 
-const renderContent = (props) => (
+const renderContent = props => (
   <div className='content' ref='unconfirmedBets'>
-    { props.bets.isEmpty() &&
+    {props.bets.isEmpty() && (
       <Empty
         showSuccess={ props.showBetSlipSuccess }
         className='market_drawer.unconfirmed_bets'
         navigateTo={ props.navigateTo }
       />
-    }
-    { !props.bets.isEmpty() &&
+    )}
+    {!props.bets.isEmpty() && (
       <BetTable
         data={ props.bets }
         title={ I18n.t('market_drawer.unconfirmed_bets.header') }
@@ -45,7 +45,7 @@ const renderContent = (props) => (
         activeTab={ props.activeTab }
         disabled={ props.disabled }
       />
-    }
+    )}
   </div>
 );
 
@@ -67,53 +67,56 @@ class BetSlip extends PureComponent {
           defaultSize={ 40 }
           primary='second'
           allowResize={ false }
-          pane1Style={ { 'overflowY': 'hidden' } }
+          pane1Style={ {overflowY: 'hidden'} }
         >
-          { renderContent(this.props) }
-          {
-            !this.props.bets.isEmpty() &&
+          {renderContent(this.props)}
+          {!this.props.bets.isEmpty() && (
             <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
               <Button
-                className={ `btn place-bet` }
-                onClick={ () => this.props.clickPlaceBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
-                disabled={ this.props.numberOfGoodBets === 0  }
+                className={ 'btn place-bet' }
+                onClick={ () => this.props.clickPlaceBet(
+                  this.props.totalBetAmountFloat,
+                  this.props.currencyFormat
+                )
+                }
+                disabled={ this.props.numberOfGoodBets === 0 }
               >
-                { I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button')}
-                { this.props.currencySymbol }
-                { this.props.totalBetAmountString }
+                {I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button')}
+                {this.props.currencySymbol}
+                {this.props.totalBetAmountString}
               </Button>
             </div>
-          }
+          )}
         </SplitPane>
-        {
-          OverlayUtils.render('market_drawer.unconfirmed_bets', this.props,
-                              () => this.props.makeBets(this.props.originalBets),
-                              () => this.props.deleteUnconfirmedBets(this.props.unconfirmedbetsToBeDeleted))
-        }
+        {OverlayUtils.render(
+          'market_drawer.unconfirmed_bets',
+          this.props,
+          () => this.props.makeBets(this.props.originalBets),
+          () => this.props.deleteUnconfirmedBets(this.props.unconfirmedbetsToBeDeleted)
+        )}
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const disabled = ownProps.activeTab === "PLACEDBETS";
+  const disabled = ownProps.activeTab === 'PLACEDBETS';
   const originalBets = state.getIn(['marketDrawer', 'unconfirmedBets']);
   let page = Immutable.Map();
-  originalBets.forEach((bet) => {
+  originalBets.forEach(bet => {
     const betType = bet.get('bet_type');
 
     // Page content are grouped by market type (back or lay)
     if (!page.has(betType)) {
       page = page.set(betType, Immutable.List());
     }
+
     // Add the bet to the list of bets with the same market type
     let betListByBetType = page.get(betType);
     betListByBetType = betListByBetType.push(bet);
     // Put everything back in their rightful places
     page = page.set(betType, betListByBetType);
   });
-
-
 
   // Name   : totalAmount Calculation
   // Author : Keegan Francis : k.francis@pbsa.info
@@ -122,23 +125,30 @@ const mapStateToProps = (state, ownProps) => {
   //           taking either the stake (back) or the profit (lay). The result
   //           will be the amount subtracted from your account when a bet is placed.
   const totalAmount = originalBets.reduce((total, bet) => {
-    const stake = bet.get('bet_type') === 'back' ? parseFloat(bet.get('stake')) : parseFloat(bet.get('liability'));
+    const stake =
+      bet.get('bet_type') === 'back'
+        ? parseFloat(bet.get('stake'))
+        : parseFloat(bet.get('liability'));
     return total + (isNaN(stake) ? 0.0 : stake);
   }, 0.0);
-  // Add the transaction fee to the place bet button. 
-  /*Precision value will affect whether or not the full number will be displayed, regardless of it being added. */
-  let transactionFee = ownProps.currencyFormat === 'BTF' ? Config.btfTransactionFee : Config.mbtfTransactionFee;
-  
+  // Add the transaction fee to the place bet button.
+  /*Precision value will affect whether or not the full number will be displayed, 
+  regardless of it being added. */
+  let transactionFee =
+    ownProps.currencyFormat === 'BTF' ? Config.btfTransactionFee : Config.mbtfTransactionFee;
+
   // Add a transaction action fee for each bet.
   transactionFee = originalBets.size * transactionFee;
-  
+
   // Number of Good bets
-  const numberOfGoodBets = originalBets.reduce((sum, bet) => {
-    return sum + (BettingModuleUtils.isValidBet(bet) | 0);
-  }, 0);
+  const numberOfGoodBets = originalBets
+    .reduce((sum, bet) => sum + (BettingModuleUtils.isValidBet(bet) | 0), 0);
+    
   // Overlay
   const overlay = state.getIn(['marketDrawer', 'overlay']);
-  const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
+  const obscureContent =
+    overlay !== BettingDrawerStates.NO_OVERLAY &&
+    overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
   return {
     originalBets,
     bets: page,
@@ -149,14 +159,21 @@ const mapStateToProps = (state, ownProps) => {
     numberOfBadBets: originalBets.size - numberOfGoodBets,
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
-    currencySymbol: CurrencyUtils.getCurrencySymbol(ownProps.currencyFormat, numberOfGoodBets === 0 ? 'white' : 'black'),
-    totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat),
+    currencySymbol: CurrencyUtils.getCurrencySymbol(
+      ownProps.currencyFormat,
+      numberOfGoodBets === 0 ? 'white' : 'black'
+    ),
+    totalBetAmountString: CurrencyUtils.toFixed(
+      'transaction',
+      totalAmount + transactionFee,
+      ownProps.currencyFormat
+    ),
     disabled
   };
-}
+};
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
     navigateTo: NavigateActions.navigateTo,
     deleteUnconfirmedBet: MarketDrawerActions.deleteUnconfirmedBet,
     clickDeleteUnconfirmedBets: MarketDrawerActions.clickDeleteUnconfirmedBets,
@@ -164,9 +181,10 @@ const mapDispatchToProps = (dispatch) => {
     updateUnconfirmedBet: MarketDrawerActions.updateUnconfirmedBet,
     clickPlaceBet: MarketDrawerActions.clickPlaceBet,
     makeBets: BetActions.makeBets,
-    hideOverlay: MarketDrawerActions.hideOverlay,
-  }, dispatch);
-}
+    hideOverlay: MarketDrawerActions.hideOverlay
+  },
+  dispatch
+);
 
 export default connect(
   mapStateToProps,

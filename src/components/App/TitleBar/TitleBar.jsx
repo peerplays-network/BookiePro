@@ -1,14 +1,15 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import MacTitleBar from './MacTitleBar';
 import WindowsTitleBar from './WindowsTitleBar';
-import { AppUtils } from '../../../utility';
-import { connect } from 'react-redux';
+import {AppUtils} from '../../../utility';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 
 // Import electron only if we are running inside electron (otherwise it will throw exception)
 let electron;
+
 if (isRunningInsideElectron) {
   electron = window.require('electron');
 }
@@ -18,6 +19,7 @@ class TitleBar extends PureComponent {
     super();
 
     let isWindowFocused = true;
+
     if (typeof document === 'object' && typeof document.hasFocus === 'function') {
       isWindowFocused = document.hasFocus();
     }
@@ -36,19 +38,19 @@ class TitleBar extends PureComponent {
   }
 
   windowMaximized() {
-    this.setState({ isMaximized: true });
+    this.setState({isMaximized: true});
   }
 
   windowUnmaximized() {
-    this.setState({ isMaximized: false });
+    this.setState({isMaximized: false});
   }
 
   windowEnterFullScreen() {
-    this.setState({ isFullscreen: true });
+    this.setState({isFullscreen: true});
   }
 
   windowExitFullScreen() {
-    this.setState({ isFullscreen: false });
+    this.setState({isFullscreen: false});
   }
 
   onMinimizeClick() {
@@ -61,7 +63,8 @@ class TitleBar extends PureComponent {
   onMaximizeUnmaximizeClick() {
     if (electron) {
       const window = electron.remote.getCurrentWindow();
-      if (window.isMaximized()){
+
+      if (window.isMaximized()) {
         window.unmaximize();
       } else {
         window.maximize();
@@ -72,12 +75,12 @@ class TitleBar extends PureComponent {
   onResizeClick() {
     if (electron) {
       const window = electron.remote.getCurrentWindow();
+
       if (window.isFullScreen()) {
         window.setFullScreen(false);
       } else {
         window.setFullScreen(true);
       }
-
     }
   }
 
@@ -92,6 +95,7 @@ class TitleBar extends PureComponent {
     if (typeof window !== 'undefined') {
       window.addEventListener('focus', this.windowFocus);
       window.addEventListener('blur', this.windowBlur);
+
       if (electron) {
         const electronWindow = electron.remote.getCurrentWindow();
         electronWindow.on('maximize', this.windowMaximized);
@@ -108,6 +112,7 @@ class TitleBar extends PureComponent {
     if (typeof window !== 'undefined') {
       window.removeEventListener('focus', this.windowFocus);
       window.removeEventListener('blur', this.windowBlur);
+
       if (electron) {
         const electronWindow = electron.remote.getCurrentWindow();
         electronWindow.removeListener('maximize', this.windowMaximized);
@@ -121,20 +126,21 @@ class TitleBar extends PureComponent {
   }
 
   windowFocus() {
-    this.setState({ isWindowFocused: true });
-  };
+    this.setState({isWindowFocused: true});
+  }
 
   windowBlur() {
-    this.setState({ isWindowFocused: false });
-  };
+    this.setState({isWindowFocused: false});
+  }
 
   render() {
-    const { isWindowsPlatform, isTransparent, height } = this.props;
+    const {isWindowsPlatform, isTransparent, height} = this.props;
 
     let style = {
       height,
       minHeight: height
     };
+
     if (isTransparent) {
       style['backgroundColor'] = 'transparent';
     }
@@ -163,7 +169,7 @@ class TitleBar extends PureComponent {
           isFullscreen={ this.state.isFullscreen }
           style={ style }
         />
-      )
+      );
     }
   }
 }
@@ -173,10 +179,8 @@ TitleBar.propTypes = {
   isTitleBarTransparent: PropTypes.bool,
   height: PropTypes.string,
   style: PropTypes.object
-}
+};
 
-const mapStateToProps = (state) => {
-  return {}
-}
+const mapStateToProps = () => ({});
 
 export default connect(mapStateToProps)(TitleBar);

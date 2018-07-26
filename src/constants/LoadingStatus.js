@@ -4,6 +4,6 @@ const LoadingStatus = {
   LOADING: 'loading',
   DONE: 'done',
   ERROR: 'error'
-}
+};
 
 export default LoadingStatus;

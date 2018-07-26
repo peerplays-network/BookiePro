@@ -1,4 +1,4 @@
-import { ActionTypes, LoadingStatus } from '../constants';
+import {ActionTypes, LoadingStatus} from '../constants';
 import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
@@ -6,14 +6,14 @@ let initialState = Immutable.fromJS({
   error: null
 });
 
-export default function (state = initialState, action) {
-  switch(action.type) {
-
+export default function(state = initialState, action) {
+  switch (action.type) {
     case ActionTypes.SIDEBAR_SET_LOADING_STATUS: {
       return state.merge({
         loadingStatus: action.loadingStatus
       });
     }
+
     case ActionTypes.SIDEBAR_SET_ERROR: {
       return state.merge({
         error: action.error,

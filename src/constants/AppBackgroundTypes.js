@@ -4,6 +4,6 @@ const AppBackgroundTypes = {
   AUDIENCE_BG: 'AUDIENCE_BG',
   GRADIENT_BG: 'GRADIENT_BG',
   LICENSE_BG: 'LICENSE_BG'
-}
+};
 
 export default AppBackgroundTypes;

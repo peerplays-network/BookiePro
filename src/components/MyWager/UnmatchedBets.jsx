@@ -16,88 +16,120 @@
  *
  * This component is used in {@link MyBets}
  */
-import React, { PureComponent } from 'react';
-import { Table, Modal } from 'antd';
-import { LoadingStatus } from '../../constants';
-import { MyWagerUtils, CurrencyUtils } from '../../utility';
-import { I18n } from 'react-redux-i18n';
+import React, {PureComponent} from 'react';
+import {Table, Modal} from 'antd';
+import {LoadingStatus} from '../../constants';
+import {MyWagerUtils, CurrencyUtils} from '../../utility';
+import {I18n} from 'react-redux-i18n';
 import './MyWager.less';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 
 /** Unmatchedbets component used in mybets tabbed list */
 class UnmatchedBets extends PureComponent {
-
   constructor(props) {
     super(props);
 
-    const { unmatchedBets, currencyFormat, onCancelBetClick, onEventClick } = props;
+    const {unmatchedBets, currencyFormat, onCancelBetClick, onEventClick} = props;
 
     this.state = {
       tableData: unmatchedBets,
       columns: MyWagerUtils.getUnmatchedBetsColumns(currencyFormat, onCancelBetClick, onEventClick)
-    }
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.unmatchedBets !== nextProps.unmatchedBets) {
       this.setState({
         tableData: nextProps.unmatchedBets
-      })
+      });
     }
-    if (this.props.currencyFormat !== nextProps.currencyFormat ||
-        this.props.onCancelBetClick !== nextProps.onCancelBetClick) {
+
+    if (
+      this.props.currencyFormat !== nextProps.currencyFormat ||
+      this.props.onCancelBetClick !== nextProps.onCancelBetClick
+    ) {
       this.setState({
-        columns: MyWagerUtils.getUnmatchedBetsColumns(nextProps.currencyFormat, nextProps.onCancelBetClick, nextProps.onEventClick)
-      })
+        columns: MyWagerUtils.getUnmatchedBetsColumns(
+          nextProps.currencyFormat,
+          nextProps.onCancelBetClick,
+          nextProps.onEventClick
+        )
+      });
     }
   }
 
   getModalTitle(textA, textB, value, currencySymbol) {
     return (
       <div>
-        { textA } {currencySymbol } { value } { textB }
+        {textA} {currencySymbol} {value} {textB}
       </div>
-    )
+    );
   }
 
   render() {
-    const { unmatchedBetsLoadingStatus, currencyFormat, betsTotal, onCancelAllBetsClick,
-      isCancelAllConfirmModalVisible, handleCancelAllBets, declineCancelAllBets } = this.props;
+    const {
+      unmatchedBetsLoadingStatus,
+      currencyFormat,
+      betsTotal,
+      onCancelAllBetsClick,
+      isCancelAllConfirmModalVisible,
+      handleCancelAllBets,
+      declineCancelAllBets
+    } = this.props;
     const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
     return (
       <div className='table-card'>
         <div className='filterComponent clearfix'>
           <div className='float-left'>
-            <p className='card-title'>{ I18n.t('mybets.total') } { currencySymbol } { (betsTotal ? betsTotal : 0) }</p>
+            <p className='card-title'>
+              {I18n.t('mybets.total')} {currencySymbol} {betsTotal ? betsTotal : 0}
+            </p>
           </div>
-          { this.state.tableData.length !== 0 ?
-          <div className='float-right'>
-            <button className='btn btn-cancel' onClick={ onCancelAllBetsClick }
-              disabled={ this.state.tableData && this.state.tableData.length === 0 }>{ I18n.t('mybets.cancel_all') }</button>
-          </div>
-          : null }
+          {this.state.tableData.length !== 0 ? (
+            <div className='float-right'>
+              <button
+                className='btn btn-cancel'
+                onClick={ onCancelAllBetsClick }
+                disabled={ this.state.tableData && this.state.tableData.length === 0 }
+              >
+                {I18n.t('mybets.cancel_all')}
+              </button>
+            </div>
+          ) : null}
         </div>
-        <Table className='bookie-table' pagination={ { pageSize: 20 } } rowKey='id'
-          locale={ {emptyText: ( this.state.tableData.length === 0 &&
-            unmatchedBetsLoadingStatus === LoadingStatus.DONE ? I18n.t('mybets.nodata') : unmatchedBetsLoadingStatus )} }
-          dataSource={ this.state.tableData } columns={ this.state.columns } >
-        </Table>
+        <Table
+          className='bookie-table'
+          pagination={ {pageSize: 20} }
+          rowKey='id'
+          locale={ {
+            emptyText:
+              this.state.tableData.length === 0 && unmatchedBetsLoadingStatus === LoadingStatus.DONE
+                ? I18n.t('mybets.nodata')
+                : unmatchedBetsLoadingStatus
+          } }
+          dataSource={ this.state.tableData }
+          columns={ this.state.columns }
+        />
         <Modal
           wrapClassName={ 'vertical-center-modal' }
-          title={ this.getModalTitle(I18n.t('mybets.cancel_all_confirm_part_a'), I18n.t('mybets.cancel_all_confirm_part_b'), betsTotal, currencySymbol) }
+          title={ this.getModalTitle(
+            I18n.t('mybets.cancel_all_confirm_part_a'),
+            I18n.t('mybets.cancel_all_confirm_part_b'),
+            betsTotal,
+            currencySymbol
+          ) }
           visible={ isCancelAllConfirmModalVisible }
           onOk={ handleCancelAllBets }
           onCancel={ declineCancelAllBets }
           okText='Confirm'
-          cancelText='Cancel'>
-        </Modal>
+          cancelText='Cancel'
+        />
       </div>
-    )
+    );
   }
 }
 
 UnmatchedBets.propTypes = {
   unmatchedBets: PropTypes.instanceOf(Array).isRequired
-}
+};
 export default UnmatchedBets;
