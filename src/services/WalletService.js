@@ -28,11 +28,11 @@ class WalletService {
       .set_required_fees(Config.coreAsset)
       .then(() => transaction.get_potential_signatures()
       )
-      .then(result => {
+      .then((result) => {
         const potentialPublicKeys = result.pubkeys;
         // Check if none of the potential public keys is equal to our public keys
         const myPubKeys = publicKeyStringsByRole
-          .filter(publicKey => _.includes(potentialPublicKeys, publicKey))
+          .filter((publicKey) => _.includes(potentialPublicKeys, publicKey))
           .toArray();
 
         if (_.isEmpty(myPubKeys)) {
@@ -42,10 +42,12 @@ class WalletService {
         // Filter potential signatures to get required keys needed to sign the transaction
         return transaction.get_required_signatures(myPubKeys);
       })
-      .then(requiredPublicKeys => {
+      .then((requiredPublicKeys) => {
         // Add required keys to the transaction
-        _.forEach(requiredPublicKeys, requiredPublicKey => {
-          const role = publicKeyStringsByRole.findKey(publicKey => publicKey === requiredPublicKey);
+        _.forEach(requiredPublicKeys, (requiredPublicKey) => {
+          const role = publicKeyStringsByRole
+            .findKey((publicKey) => publicKey === requiredPublicKey);
+            
           // Get private key pair
           const requiredPrivateKey = PrivateKey.fromWif(privateKeyWifsByRole.get(role));
           // Add signature
@@ -64,7 +66,7 @@ class WalletService {
           log.debug('Processing Transaction Success\nTransaction:', filteredTransaction);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         // Intercept and log error
         log.error('Processing Transaction fails', error);
         // Throw the error to be caught by next promise in chain

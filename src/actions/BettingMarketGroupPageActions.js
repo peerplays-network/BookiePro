@@ -35,7 +35,7 @@ class BettingMarketGroupPagePrivateActions {
 
 class BettingMarketGroupPageActions {
   static getData(bettingMktGrpId) {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(
         BettingMarketGroupPagePrivateActions.setLoadingStatusAction(
           bettingMktGrpId,
@@ -45,7 +45,7 @@ class BettingMarketGroupPageActions {
 
       // get related betting market group object
       dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds([bettingMktGrpId]))
-        .then(bettingMarketGroups => {
+        .then((bettingMarketGroups) => {
           // Get placed bets for market drawer
           dispatch(MarketDrawerActions.getPlacedBets(bettingMktGrpId));
 
@@ -70,9 +70,9 @@ class BettingMarketGroupPageActions {
             )
           ]);
         })
-        .then(result => {
+        .then((result) => {
           const bettingMarkets = result[0];
-          const bettingMarketIds = bettingMarkets.map(bettingMarket => bettingMarket.get('id'));
+          const bettingMarketIds = bettingMarkets.map((bettingMarket) => bettingMarket.get('id'));
           // Get binned order books
           return dispatch(
             BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds)
@@ -87,7 +87,7 @@ class BettingMarketGroupPageActions {
             )
           );
         })
-        .catch(error => {
+        .catch((error) => {
           log.error('Betting market group page get data error', bettingMktGrpId, error);
           dispatch(BettingMarketGroupPagePrivateActions.setErrorAction(bettingMktGrpId, error));
         });

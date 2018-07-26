@@ -30,7 +30,7 @@ class HistoryService {
     const accountId = state.getIn(['account', 'account', 'id']);
 
     let transactionHistory = Immutable.List();
-    rawHistory.forEach(rawTransaction => {
+    rawHistory.forEach((rawTransaction) => {
       // Check the operation type to ensure it is relevant
       const operationType = rawTransaction.getIn(['op', 0]);
       const isRelevant =
@@ -92,7 +92,7 @@ class HistoryService {
             let totalAmountWon = 0;
             const resolutions = rawTransaction.getIn(['op', 1, 'resolutions']);
             const gameResultByBettingMarketId = Immutable.Map(resolutions);
-            resolvedBetsById.forEach(resolvedBet => {
+            resolvedBetsById.forEach((resolvedBet) => {
               const bettingMarketId = resolvedBet.get('betting_market_id');
 
               if (gameResultByBettingMarketId.has(bettingMarketId)) {
@@ -181,7 +181,7 @@ class HistoryService {
     let resolvedBetsById = state.getIn(['bet', 'resolvedBetsById']);
 
     // Iterate from the beginning
-    rawHistory.reverse().forEach(rawTransaction => {
+    rawHistory.reverse().forEach((rawTransaction) => {
       const operationType = rawTransaction.getIn(['op', 0]);
       const operationContent = rawTransaction.getIn(['op', 1]);
       const operationResult = rawTransaction.getIn(['result', 1]);
@@ -229,14 +229,14 @@ class HistoryService {
         case ChainTypes.operations.bet_canceled: {
           const betId = operationContent.get('bet_id');
           unmatchedBetsById = unmatchedBetsById.filterNot(
-            bet => bet.get('original_bet_id') === betId
+            (bet) => bet.get('original_bet_id') === betId
           );
           break;
         }
 
         case ChainTypes.operations.bet_adjusted: {
           const betId = operationContent.get('bet_id');
-          let unmatchedBet = unmatchedBetsById.find(bet => bet.get('original_bet_id') === betId);
+          let unmatchedBet = unmatchedBetsById.find((bet) => bet.get('original_bet_id') === betId);
 
           if (unmatchedBet && !unmatchedBet.isEmpty()) {
             const unmatchedAmount = unmatchedBet.get('unmatched_bet_amount');
@@ -261,7 +261,7 @@ class HistoryService {
         case ChainTypes.operations.bet_matched: {
           const betId = operationContent.get('bet_id');
           // Get unmatched bet
-          let unmatchedBet = unmatchedBetsById.find(bet => bet.get('original_bet_id') === betId);
+          let unmatchedBet = unmatchedBetsById.find((bet) => bet.get('original_bet_id') === betId);
 
           if (unmatchedBet && !unmatchedBet.isEmpty()) {
             const originalAmount = unmatchedBet.get('original_bet_amount');
@@ -332,11 +332,11 @@ class HistoryService {
 
         case ChainTypes.operations.betting_market_group_resolved: {
           const resolutions = operationContent.get('resolutions');
-          const bettingMarketIds = resolutions.map(resolution => resolution.get(0));
+          const bettingMarketIds = resolutions.map((resolution) => resolution.get(0));
           let gameResultByBettingMarketId = Immutable.Map(resolutions);
 
           // Create resolved bets from related matched bets
-          matchedBetsById.forEach(matchedBet => {
+          matchedBetsById.forEach((matchedBet) => {
             const bettingMarketId = matchedBet.get('betting_market_id');
 
             if (bettingMarketIds.includes(bettingMarketId)) {
@@ -384,7 +384,7 @@ class HistoryService {
     customTimeRangeStartDate,
     customTimeRangeEndDate
   ) {
-    const filteredTransactionHistory = transactionHistory.filter(transaction => {
+    const filteredTransactionHistory = transactionHistory.filter((transaction) => {
       let startDate, endDate;
 
       if (periodType === TimeRangePeriodTypes.CUSTOM) {
@@ -426,7 +426,7 @@ class HistoryService {
       'last_irreversible_block_num'
     ]);
 
-    return transactionHistory.map(transaction => {
+    return transactionHistory.map((transaction) => {
       const blockNum = transaction.get('blockNum');
       let status;
 

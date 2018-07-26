@@ -40,7 +40,7 @@ class AssetActions {
         'getAssetsByIdsLoadingStatus'
       ]);
       const assetsById = getState().getIn(['asset', 'assetsById']);
-      assetIds.forEach(assetId => {
+      assetIds.forEach((assetId) => {
         if (getAssetsByIdsLoadingStatus.get(assetId) === LoadingStatus.DONE) {
           if (getAssetsByIdsLoadingStatus.has(assetId)) {
             retrievedAssets = retrievedAssets.push(assetsById.get(assetId));
@@ -62,7 +62,7 @@ class AssetActions {
           )
         );
         // TODO: mark later
-        return CommunicationService.getAssetsByIds(idsOfAssetsToBeRetrieved).then(assets => {
+        return CommunicationService.getAssetsByIds(idsOfAssetsToBeRetrieved).then((assets) => {
           // Add to redux store
           dispatch(AssetActions.addOrUpdateAssetsAction(assets));
           // Set status

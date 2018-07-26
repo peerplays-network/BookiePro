@@ -12,7 +12,7 @@ const {
   getBettingMarketGroupsById
 } = CommonSelector;
 
-const getAllSportsLoadingStatus = state => state.getIn(['allSports', 'loadingStatus']);
+const getAllSportsLoadingStatus = (state) => state.getIn(['allSports', 'loadingStatus']);
 
 // All Sports Data is in the following format
 // [
@@ -87,7 +87,7 @@ const getAllSportsData = createSelector(
 
     let allSportsData = Immutable.List();
     // Iterate over all sports to create sport node
-    sportsById.forEach(sport => {
+    sportsById.forEach((sport) => {
       // Initialize sport node
       let sportNode = Immutable.Map()
         .set('name', sport.get('name'))
@@ -95,7 +95,7 @@ const getAllSportsData = createSelector(
       // Create event nodes based on active events
       const activeEvents = activeEventsBySportId.get(sport.get('id')) || Immutable.List();
       const eventNodes = activeEvents
-        .map(event => {
+        .map((event) => {
           if (event.get('status') !== null && event.get('status') !== undefined) {
             const offers =
               simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
@@ -121,7 +121,7 @@ const getAllSportsData = createSelector(
             return Immutable.List();
           }
         })
-        .filter(eventNode => {
+        .filter((eventNode) => {
           // Feature check
           const isCoreAsset = eventNode.get('bmgAsset') === coreAsset;
           return isCoreAsset ? eventNode : null;
@@ -136,7 +136,7 @@ const getAllSportsData = createSelector(
   }
 );
 
-const getGlobalBettingStatistics = state => state.getIn(['app', 'globalBettingStatistics']);
+const getGlobalBettingStatistics = (state) => state.getIn(['app', 'globalBettingStatistics']);
 
 const AllSportsSelector = {
   getAllSportsData,

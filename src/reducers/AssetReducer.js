@@ -10,7 +10,7 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.ASSET_ADD_OR_UPDATE_ASSETS: {
       let newState = state;
-      action.assets.forEach(asset => {
+      action.assets.forEach((asset) => {
         newState = newState.setIn(['assetsById', asset.get('id')], asset);
       });
       return newState;
@@ -18,7 +18,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.ASSET_SET_GET_ASSETS_BY_IDS_LOADING_STATUS: {
       let getAssetsByIdsLoadingStatus = Immutable.Map();
-      action.assetIds.forEach(assetId => {
+      action.assetIds.forEach((assetId) => {
         getAssetsByIdsLoadingStatus = getAssetsByIdsLoadingStatus.set(
           assetId,
           action.loadingStatus

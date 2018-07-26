@@ -11,7 +11,7 @@ export default function(state = initialState, action) {
     case ActionTypes.LIQUIDITY_SET_GET_TOTAL_MATCHED_BETS_BY_BETTING_MARKET_GROUP_IDS_LOADING_STATUS: { // eslint-disable-line
       let nextState = state;
 
-      action.bettingMarketGroupIds.forEach(bettingMarketGroupId => {
+      action.bettingMarketGroupIds.forEach((bettingMarketGroupId) => {
         nextState = nextState.setIn(
           ['getTotalMatchedBetsByBettingMarketGroupIdsLoadingStatus', bettingMarketGroupId],
           action.loadingStatus

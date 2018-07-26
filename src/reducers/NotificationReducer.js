@@ -13,14 +13,14 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.NOTIFICATION_PREPEND_NOTIFICATIONS: {
       const notificationsToBePrepended = action.notifications || Immutable.List();
-      return state.update('notifications', notifications => notificationsToBePrepended
+      return state.update('notifications', (notifications) => notificationsToBePrepended
         .concat(notifications));
     }
 
     case ActionTypes.NOTIFICATION_REMOVE_NOTIFICATIONS: {
       let nextState = state;
-      nextState = nextState.update('notifications', notifications => notifications
-        .filterNot(notification => action.notificationIds.includes(notification.get('id'))));
+      nextState = nextState.update('notifications', (notifications) => notifications
+        .filterNot((notification) => action.notificationIds.includes(notification.get('id'))));
       return nextState;
     }
 
@@ -55,8 +55,8 @@ export default function(state = initialState, action) {
     }
 
     case ActionTypes.NOTIFICATION_MARK_NOTIFICATIONS_AS_READ: {
-      return state.update('notifications', notifications => notifications
-        .map(notification => notification.set('isRead', true)));
+      return state.update('notifications', (notifications) => notifications
+        .map((notification) => notification.set('isRead', true)));
     }
 
     default:

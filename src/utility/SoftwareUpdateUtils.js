@@ -16,7 +16,7 @@ const SoftwareUpdateUtils = {
    * @param {string} version - expected to be in a.b.c format
    * @returns {boolean} - if the string is in valid format.
    */
-  isValidVersionNumber: version => {
+  isValidVersionNumber: (version) => {
     const regex = /^(\d+\.)(\d+\.)(\d+.*)$/;
     return regex.test(version);
   },
@@ -32,7 +32,7 @@ const SoftwareUpdateUtils = {
    * @param {string} newVersion - expected to be in a.b.c format
    * @returns {boolean} - if hard update is needed.
    */
-  isNeedHardUpdate: newVersion => {
+  isNeedHardUpdate: (newVersion) => {
     const newVersionMajorNumber = newVersion.split('.')[0];
     const currentVersionMajorNumber = Config.version.split('.')[0];
 
@@ -57,7 +57,7 @@ const SoftwareUpdateUtils = {
    * @param {string} newVersion - expected to be in a.b.c format
    * @returns {boolean} - if hard update is needed.
    */
-  isNeedSoftUpdate: newVersion => {
+  isNeedSoftUpdate: (newVersion) => {
     const newVersionSplitted = newVersion.split('.');
     const currentVersionSplitted = Config.version.split('.');
 

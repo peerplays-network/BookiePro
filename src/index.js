@@ -50,11 +50,11 @@ const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 if (isRunningInsideElectron) {
   electron = window.require('electron');
   // add a listener to handle all clicks
-  document.addEventListener('click', e => {
+  document.addEventListener('click', (event) => {
     // act on any clicks that are hyperlinks preceeded by http
-    if (e.target.tagName.toLowerCase() === 'a' && e.target.href.indexOf('http') >= 0) {
+    if (event.target.tagName.toLowerCase() === 'a' && event.target.href.indexOf('http') >= 0) {
       event.preventDefault();
-      electron.shell.openExternal(e.target.href);
+      electron.shell.openExternal(event.target.href);
     }
   });
   const {remote} = electron;
@@ -80,7 +80,7 @@ if (isRunningInsideElectron) {
 
   document.addEventListener(
     'contextmenu',
-    e => {
+    (e) => {
       e.preventDefault();
       menu.popup({window: remote.getCurrentWindow()});
     },

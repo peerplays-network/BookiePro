@@ -61,7 +61,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.BALANCE_ADD_OR_UPDATE_AVAILABLE_BALANCES: {
       let nextState = state;
-      action.availableBalances.forEach(balance => {
+      action.availableBalances.forEach((balance) => {
         const assetId = balance.get('asset_type');
         nextState = nextState.setIn(['availableBalancesByAssetId', assetId], balance);
       });
@@ -71,8 +71,8 @@ export default function(state = initialState, action) {
     case ActionTypes.BALANCE_REMOVE_AVAILABLE_BALANCES_BY_IDS: {
       return state.updateIn(
         ['availableBalancesByAssetId'], 
-        availableBalancesByAssetId => availableBalancesByAssetId
-          .filterNot(balance => action.balanceIds.includes(balance.get('id')))
+        (availableBalancesByAssetId) => availableBalancesByAssetId
+          .filterNot((balance) => action.balanceIds.includes(balance.get('id')))
       );
     }
 

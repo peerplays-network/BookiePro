@@ -51,7 +51,7 @@ class ConnectionService {
       connectionStatusCallback(ConnectionStatus.DISCONNECTED);
     };
 
-    this.websocketStatusCallback = message => {
+    this.websocketStatusCallback = (message) => {
       switch (message) {
         case 'open': {
           log.info('Websocket connection is open.');
@@ -106,11 +106,11 @@ class ConnectionService {
     // Connecting to blockchain
     const connectionString = Config.blockchainUrls[this.blockchainUrlIndex];
     return Apis.instance(connectionString, true)
-      .init_promise.then(res => {
+      .init_promise.then((res) => {
         // Print out which blockchain we are connecting to
         log.debug('Connected to:', res[0] ? res[0].network_name : 'Undefined Blockchain');
       })
-      .catch(error => {
+      .catch((error) => {
         // Close residue connection to blockchain
         this.closeConnectionToBlockchain();
 

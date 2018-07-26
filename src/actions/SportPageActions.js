@@ -50,28 +50,28 @@ class SportPageActions {
       // Get sport detail
       dispatch(SportActions.getSportsByIds([sportId]))
         .then(() => dispatch(EventGroupActions.getEventGroupsBySportIds([sportId])))
-        .then(eventGroups => {
+        .then((eventGroups) => {
           // Get events
-          const eventGroupIds = eventGroups.map(eventGroup => eventGroup.get('id'));
+          const eventGroupIds = eventGroups.map((eventGroup) => eventGroup.get('id'));
           return dispatch(EventActions.getEventsByEventGroupIds(eventGroupIds));
         })
-        .then(events => {
+        .then((events) => {
           // Get betting market groups
-          const eventIds = events.map(event => event.get('id'));
+          const eventIds = events.map((event) => event.get('id'));
           return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByEventIds(eventIds));
         })
-        .then(bettingMarketGroups => {
+        .then((bettingMarketGroups) => {
           // Get betting markets
           const bettingMarketGroupIds = bettingMarketGroups
-            .map(bettingMarketGroup => bettingMarketGroup.get('id'));
+            .map((bettingMarketGroup) => bettingMarketGroup.get('id'));
 
           return dispatch(
             BettingMarketActions.getBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds)
           );
         })
-        .then(bettingMarkets => {
+        .then((bettingMarkets) => {
           // Get binned order books
-          const bettingMarketIds = bettingMarkets.map(bettingMarket => bettingMarket.get('id'));
+          const bettingMarketIds = bettingMarkets.map((bettingMarket) => bettingMarket.get('id'));
           return dispatch(
             BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds)
           );
@@ -80,7 +80,7 @@ class SportPageActions {
           // Set status
           dispatch(SportPagePrivateActions.setLoadingStatusAction(sportId, LoadingStatus.DONE));
         })
-        .catch(error => {
+        .catch((error) => {
           // Log and set error
           log.error('Sport page get data error', sportId, error);
           dispatch(SportPagePrivateActions.setErrorAction(sportId, error));

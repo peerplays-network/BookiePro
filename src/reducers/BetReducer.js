@@ -78,7 +78,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.BET_SET_CANCEL_BETS_BY_IDS_LOADING_STATUS: {
       let cancelBetsByIdsLoadingStatus = Immutable.Map();
-      action.betIds.forEach(betId => {
+      action.betIds.forEach((betId) => {
         cancelBetsByIdsLoadingStatus = cancelBetsByIdsLoadingStatus.set(
           betId,
           action.loadingStatus
@@ -89,7 +89,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.BET_SET_CANCEL_BETS_ERROR_BY_BET_ID: {
       let nextState = state;
-      action.betIds.forEach(betId => {
+      action.betIds.forEach((betId) => {
         nextState = nextState.setIn(['cancelBetsErrorByBetId', betId], action.error);
         nextState = nextState.setIn(['cancelBetsByIdsLoadingStatus', betId], LoadingStatus.ERROR);
       });
@@ -98,7 +98,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.BET_SET_EDIT_BETS_BY_IDS_LOADING_STATUS: {
       let editBetsByIdsLoadingStatus = Immutable.Map();
-      action.betIds.forEach(betId => {
+      action.betIds.forEach((betId) => {
         editBetsByIdsLoadingStatus = editBetsByIdsLoadingStatus.set(betId, action.loadingStatus);
       });
       return state.mergeIn(['editBetsByIdsLoadingStatus'], editBetsByIdsLoadingStatus);
@@ -106,7 +106,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.BET_SET_EDIT_BETS_ERROR_BY_BET_ID: {
       let nextState = state;
-      action.betIds.forEach(betId => {
+      action.betIds.forEach((betId) => {
         nextState = nextState.setIn(['editBetsErrorByBetId', betId], action.error);
         nextState = nextState.setIn(['editBetsByIdsLoadingStatus', betId], LoadingStatus.ERROR);
       });

@@ -11,7 +11,7 @@ import React from 'react';
  * @param {string} name - event name to be formatted
  * @returns {object} - JSX component displaying event name either formatted or not
  */
-const breakAtVs = name => {
+const breakAtVs = (name) => {
   let formatted = <span>{name}</span>;
   // REVIEW Ensure this is the actual agreed format
   const found = name.match(/^(.+)(\W+(?:@|v|vs)\W+)(.+)$/);

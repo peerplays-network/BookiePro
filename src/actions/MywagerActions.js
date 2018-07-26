@@ -90,7 +90,7 @@ class MywagerActions {
 
         let exportData = [];
 
-        betData.forEach(bet => {
+        betData.forEach((bet) => {
           const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
           const bettingMarketGroupId = bettingMarket.get('group_id');
           const bettingMarketGroup =

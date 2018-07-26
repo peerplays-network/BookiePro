@@ -311,7 +311,7 @@ var saveAs = (function(view) {
   FS_proto.onwriteend = null;
   return saveAs;
 })(
-  (typeof self !== 'undefined' && self) || (typeof window !== 'undefined' && window) || this.content
+  (typeof self !== 'undefined' && self) || (typeof window !== 'undefined' && window) || this.content // eslint-disable-line
 );
 // `self` is undefined in Firefox for Android content script context
 // while `this` is nsIContentFrameMessageManager

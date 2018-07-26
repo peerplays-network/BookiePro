@@ -71,8 +71,8 @@ class SoftwareUpdateActions {
       } else {
         // Get latest 100 transaction history and parse it
         return CommunicationService.fetchRecentHistory(referenceAccountId, null, 100)
-          .then(history => {
-            history.forEach(transaction => {
+          .then((history) => {
+            history.forEach((transaction) => {
               const operationType = transaction.getIn(['op', 0]);
 
               // 0 is operation type for transfer
@@ -151,7 +151,7 @@ class SoftwareUpdateActions {
               }
             });
           })
-          .catch(error => {
+          .catch((error) => {
             // Retry
             if (attempt > 0) {
               log.warn('Retry checking for software update', error);
@@ -169,8 +169,8 @@ class SoftwareUpdateActions {
    * Listen to software update (fetch info from software update reference account)
    */
   static listenToSoftwareUpdate(attempt = 3) {
-    return dispatch => CommunicationService.getFullAccount(Config.broadcastAccount.name)
-      .then(fullAccount => {
+    return (dispatch) => CommunicationService.getFullAccount(Config.broadcastAccount.name)
+      .then((fullAccount) => {
         if (fullAccount) {
           const account = fullAccount.get('account');
           const statistics = fullAccount.get('statistics');
@@ -181,7 +181,7 @@ class SoftwareUpdateActions {
           return dispatch(SoftwareUpdateActions.checkForSoftwareUpdate());
         }
       })
-      .catch(error => {
+      .catch((error) => {
         // Retry
         if (attempt > 0) {
           log.warn('Retry listening to software update', error);

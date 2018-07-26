@@ -136,7 +136,7 @@ class AppActions {
       dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.LOADING));
 
       // Define callback whenever connection change
-      const connectionStatusCallback = connectionStatus => {
+      const connectionStatusCallback = (connectionStatus) => {
         // Dispatch action if connection status is updated
         if (getState().getIn(['app', 'connectionStatus']) !== connectionStatus) {
           dispatch(AppPrivateActions.setConnectionStatusAction(connectionStatus));
@@ -158,7 +158,7 @@ class AppActions {
           const gatewayAccountName = Config.gatewayAccountName;
           return CommunicationService.getFullAccount(gatewayAccountName);
         })
-        .then(gatewayFullAccount => {
+        .then((gatewayFullAccount) => {
           if (gatewayFullAccount) {
             const gatewayAccount = gatewayFullAccount.get('account');
             dispatch(AppPrivateActions.setGatewayAccountAction(gatewayAccount));
@@ -180,7 +180,7 @@ class AppActions {
               );
             });
         })
-        .catch(error => {
+        .catch((error) => {
           log.error('Fail to connect to blockchain', error);
           // Fail to connect/ sync/ listen to software update, close connection to the blockchain
           ConnectionService.closeConnectionToBlockchain();
@@ -192,19 +192,19 @@ class AppActions {
   }
 
   static getGlobalBettingStatistics() {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(
         AppPrivateActions.setGetGlobalBettingStatisticsLoadingStatusAction(LoadingStatus.LOADING)
       );
       return CommunicationService.getGlobalBettingStatistics()
-        .then(globalBettingStatistics => {
+        .then((globalBettingStatistics) => {
           log.debug('Get global betting statistics succeed.');
           dispatch(AppPrivateActions.setGlobalBettingStatisticsAction(globalBettingStatistics));
           dispatch(
             AppPrivateActions.setGetGlobalBettingStatisticsLoadingStatusAction(LoadingStatus.DONE)
           );
         })
-        .catch(error => {
+        .catch((error) => {
           log.error('Fail to get global betting statistics', error);
           dispatch(AppPrivateActions.setGetGlobalBettingStatisticsErrorAction(error));
         });
@@ -212,7 +212,7 @@ class AppActions {
   }
 
   static hideLicenseScreen() {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(AppPrivateActions.hideLicenseScreen());
     };
   }

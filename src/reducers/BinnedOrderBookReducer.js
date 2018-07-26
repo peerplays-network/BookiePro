@@ -17,7 +17,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.BINNED_ORDER_BOOK_SET_GET_BINNED_ORDER_BOOKS_BY_BETTING_MARKET_IDS_LOADING_STATUS: { // eslint-disable-line
       let getBinnedOrderBooksByBettingMarketIdsLoadingStatus = Immutable.Map();
-      action.bettingMarketIds.forEach(id => {
+      action.bettingMarketIds.forEach((id) => {
         getBinnedOrderBooksByBettingMarketIdsLoadingStatus = getBinnedOrderBooksByBettingMarketIdsLoadingStatus.set( // eslint-disable-line
           id,
           action.loadingStatus

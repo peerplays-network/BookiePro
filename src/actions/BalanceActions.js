@@ -84,14 +84,14 @@ class BalanceActions {
 
   static addOrUpdateAvailableBalances(availableBalances) {
     return (dispatch) => {
-      const assetIds = availableBalances.map(balance => balance.get('asset_type'));
+      const assetIds = availableBalances.map((balance) => balance.get('asset_type'));
       // Get asset objects for each balance
       dispatch(AssetActions.getAssetsByIds(assetIds))
         .then(() => {
           // Save available balances
           dispatch(BalancePrivateActions.addOrUpdateAvailableBalancesAction(availableBalances));
           log.debug('Add available balances succeeds.');
-        }).catch(error => {
+        }).catch((error) => {
           log.error('Fail to add or update available balances', error);
         });
     };
@@ -105,13 +105,13 @@ class BalanceActions {
         BalancePrivateActions.setGetDepositAddressLoadingStatusAction(LoadingStatus.LOADING)
       );
       CommunicationService.getDepositAddress(accountId)
-        .then(depositAddress => {
+        .then((depositAddress) => {
           log.debug('Get deposit address succeed.');
           dispatch(BalancePrivateActions.setDepositAddressAction(depositAddress));
           dispatch(
             BalancePrivateActions.setGetDepositAddressLoadingStatusAction(LoadingStatus.DONE)
           );
-        }).catch(error => {
+        }).catch((error) => {
           log.error('Get deposit address error', error);
           //Set password change error
           dispatch(BalancePrivateActions.setGetDepositAddressErrorAction(error));
@@ -120,13 +120,13 @@ class BalanceActions {
   }
 
   static withdraw(withdrawAmt, walletAddress) {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(BalancePrivateActions.setWithdrawLoadingStatusAction(LoadingStatus.LOADING));
       CommunicationService.withdraw(withdrawAmt, walletAddress)
         .then(() => {
           log.debug('Withdraw succeed.');
           dispatch(BalancePrivateActions.setWithdrawLoadingStatusAction(LoadingStatus.DONE));
-        }).catch(error => {
+        }).catch((error) => {
           log.error('Withdraw error', error);
           //Set password change error
           dispatch(BalancePrivateActions.setWithdrawErrorAction(error));
@@ -140,13 +140,13 @@ class BalanceActions {
   }
 
   static topMenuWithdraw(withdrawAmt, walletAddress) {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(BalancePrivateActions.setTopMenuWithdrawLoadingStatusAction(LoadingStatus.LOADING));
       CommunicationService.withdraw(walletAddress)
         .then(() => {
           log.debug('Withdraw succeed.');
           dispatch(BalancePrivateActions.setTopMenuWithdrawLoadingStatusAction(LoadingStatus.DONE));
-        }).catch(error => {
+        }).catch((error) => {
           log.error('Withdraw error', error);
           //Set password change error
           dispatch(BalancePrivateActions.setTopMenuWithdrawErrorAction(error));

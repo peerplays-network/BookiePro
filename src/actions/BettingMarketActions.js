@@ -67,7 +67,7 @@ class BettingMarketActions {
         const bettingMarketGroupId = bettingMarket.get('event_id');
         bettingMarketsByBettingMarketGroupId = bettingMarketsByBettingMarketGroupId.update(
           bettingMarketGroupId,
-          bettingMarkets => {
+          (bettingMarkets) => {
             if (!bettingMarkets) {
               bettingMarkets = Immutable.List();
             }
@@ -82,7 +82,7 @@ class BettingMarketActions {
         'bettingMarket',
         'getBettingMarketsByBettingMarketGroupIdsLoadingStatus'
       ]);
-      bettingMarketGroupIds.forEach(bettingMarketGroupId => {
+      bettingMarketGroupIds.forEach((bettingMarketGroupId) => {
         if (
           getBettingMarketsByBettingMarketGroupIdsLoadingStatus.get(bettingMarketGroupId) ===
           LoadingStatus.DONE
@@ -112,7 +112,7 @@ class BettingMarketActions {
         );
         return CommunicationService.getBettingMarketsByBettingMarketGroupIds(
           bettingMarketGroupIdsOfBettingMarketsToBeRetrieved
-        ).then(events => {
+        ).then((events) => {
           // Add data to redux store
           dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(events));
           // Set status
@@ -122,7 +122,7 @@ class BettingMarketActions {
               LoadingStatus.DONE
             )
           );
-          const bettingMarketGroupIds = events.map(event => event.get('id'));
+          const bettingMarketGroupIds = events.map((event) => event.get('id'));
           dispatch(
             BettingMarketPrivateActions.setGetBettingMarketsByIdsLoadingStatusAction(
               bettingMarketGroupIds,
@@ -150,7 +150,7 @@ class BettingMarketActions {
         'bettingMarket',
         'getBettingMarketsByIdsLoadingStatus'
       ]);
-      bettingMarketIds.forEach(bettingMarketId => {
+      bettingMarketIds.forEach((bettingMarketId) => {
         if (getBettingMarketsByIdsLoadingStatus.get(bettingMarketId) === LoadingStatus.DONE) {
           if (bettingMarketsById.has(bettingMarketId)) {
             retrievedBettingMarkets = retrievedBettingMarkets.push(
@@ -175,7 +175,7 @@ class BettingMarketActions {
           )
         );
         return CommunicationService.getBettingMarketsByIds(idsOfBettingMarketsToBeRetrieved).then(
-          bettingMarkets => {
+          (bettingMarkets) => {
             // Concat
             retrievedBettingMarkets = retrievedBettingMarkets.concat(bettingMarkets);
 
@@ -195,14 +195,14 @@ class BettingMarketActions {
             } else {
               // Some of them are not fetched, use persistent api to fetch it
               const retrievedBettingMarketIds = bettingMarkets
-                .map(bettingMarket => bettingMarket.get('id'));
+                .map((bettingMarket) => bettingMarket.get('id'));
                 
               const filteredIdsOfBMsToBeRetrieved = idsOfBettingMarketsToBeRetrieved
-                .filterNot(id => retrievedBettingMarketIds.includes(id));
+                .filterNot((id) => retrievedBettingMarketIds.includes(id));
 
               return CommunicationService.getPersistedBettingMarketsByIds(
                 filteredIdsOfBMsToBeRetrieved
-              ).then(persistedBMs => {
+              ).then((persistedBMs) => {
                 retrievedBettingMarkets = retrievedBettingMarkets.concat(persistedBMs);
                 // Add to redux store
                 dispatch(BettingMarketActions.addOrUpdateBettingMarketsAction(bettingMarkets));

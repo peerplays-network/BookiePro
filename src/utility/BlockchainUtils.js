@@ -51,7 +51,7 @@ const Utils = {
     return true;
   },
 
-  get_asset_precision: precision => {
+  get_asset_precision: (precision) => {
     precision = precision.toJS ? precision.get('precision') : precision;
     return Math.pow(10, precision);
   },
