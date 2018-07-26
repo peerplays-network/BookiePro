@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
-import { Modal, Checkbox } from 'antd';
-import { I18n } from 'react-redux-i18n';
+import React, {PureComponent} from 'react';
+import {Modal, Checkbox} from 'antd';
+import {I18n} from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 
 class LogoutModal extends PureComponent {
@@ -19,7 +19,7 @@ class LogoutModal extends PureComponent {
     const checked = event.target.checked;
     this.setState({
       isSkipLogoutPopupNextTime: checked
-    })
+    });
   }
 
   onClickConfirm() {
@@ -45,9 +45,11 @@ class LogoutModal extends PureComponent {
         cancelText={ I18n.t('logoutModal.cancel') }
         width={ 428 }
       >
-        <p>{ I18n.t('logoutModal.explanation') }</p>
-        <p>{ I18n.t('logoutModal.confirmation') }</p>
-        <Checkbox onChange={ this.onChangeSkipLogoutPopupNextTime }>{ I18n.t('logoutModal.skipLogoutPopupNextTime') }</Checkbox>
+        <p>{I18n.t('logoutModal.explanation')}</p>
+        <p>{I18n.t('logoutModal.confirmation')}</p>
+        <Checkbox onChange={ this.onChangeSkipLogoutPopupNextTime }>
+          {I18n.t('logoutModal.skipLogoutPopupNextTime')}
+        </Checkbox>
       </Modal>
     );
   }

@@ -57,4 +57,4 @@ export {
   NavigateActions,
   MyAccountPageActions,
   MywagerActions
-}
+};

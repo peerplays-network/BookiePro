@@ -41,7 +41,8 @@
     ],
     "arrow-body-style": ["error", "as-needed"],
     "max-len": ["error", {"code": 100}],
-    "implicit-arrow-linebreak": ["error", "beside"]
+    "implicit-arrow-linebreak": ["error", "beside"],
+    "no-control-regex": "off"
   },
   "settings": {
     "import/resolver": "webpack"

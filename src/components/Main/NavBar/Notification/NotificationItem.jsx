@@ -2,12 +2,12 @@
  * This component displays notification with cancel button.
  * NotificationItem is used in {@link Notification}
  */
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
+import {I18n} from 'react-redux-i18n';
 
-export class NotificationItem extends PureComponent{
+export class NotificationItem extends PureComponent {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
@@ -22,6 +22,7 @@ export class NotificationItem extends PureComponent{
    */
   onClick(e) {
     e.preventDefault();
+
     if (typeof this.props.onClick === 'function') {
       this.props.onClick();
     }
@@ -40,56 +41,54 @@ export class NotificationItem extends PureComponent{
   /** This will render close button next to notification content */
   renderCloseButton() {
     if (this.props.isCloseButtonVisible) {
-      return (
-       <i className='close-button' onClick={ this.onClickClose } />
-      );
+      return <i className='close-button' onClick={ this.onClickClose } />;
     }
   }
 
   /** This will render notification content with date */
   renderContent() {
     let date, messageStyle, link;
+
     if (this.props.isDateVisible) {
-      date = (
-        <div className='date'>
-          { moment.unix(this.props.date).fromNow() }
-        </div>
-      );
+      date = <div className='date'>{moment.unix(this.props.date).fromNow()}</div>;
     } else {
-      messageStyle = { 'paddingTop': '0px' };
+      messageStyle = {paddingTop: '0px'};
     }
 
     if (this.props.link) {
       link = (
         <div>
-          <p>{ I18n.t('notification.version')} : </p>
-          <a target='_blank' href={ this.props.link }>{ this.props.version }</a>
+          <p>{I18n.t('notification.version')} : </p>
+          <a target='_blank' href={ this.props.link }>
+            {this.props.version}
+          </a>
         </div>
-      )
+      );
     }
 
     return (
       <div className='content'>
         <div className='message' style={ messageStyle }>
-          { this.props.message }
+          {this.props.message}
         </div>
 
-        <div className='link'>
-          { link }
-        </div>
-        
-        { date }
+        <div className='link'>{link}</div>
+
+        {date}
       </div>
-    )
+    );
   }
 
-  render(){
-    return(
-      <div className={ `notification-item ${!this.props.onClick ? 'disabled' : ''}` } onClick={ this.onClick }>
-        { this.renderContent() }
-        { this.renderCloseButton() }
+  render() {
+    return (
+      <div
+        className={ `notification-item ${!this.props.onClick ? 'disabled' : ''}` }
+        onClick={ this.onClick }
+      >
+        {this.renderContent()}
+        {this.renderCloseButton()}
       </div>
-    )
+    );
   }
 }
 
@@ -100,7 +99,7 @@ NotificationItem.propTypes = {
   onClickClose: PropTypes.func,
   isDateVisible: PropTypes.bool,
   isCloseButtonVisible: PropTypes.bool
-}
+};
 
 NotificationItem.defaultProps = {
   message: '',
@@ -109,6 +108,6 @@ NotificationItem.defaultProps = {
   onClickClose: null,
   isDateVisible: true,
   isCloseButtonVisible: true
-}
+};
 
 export default NotificationItem;

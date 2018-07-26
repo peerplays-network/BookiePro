@@ -1,13 +1,9 @@
-import { Apis } from 'peerplaysjs-ws';
-import { Config, ConnectionStatus } from '../constants';
-import { ConnectionUtils } from '../utility';
+import {Apis} from 'peerplaysjs-ws';
+import {Config, ConnectionStatus} from '../constants';
+import {ConnectionUtils} from '../utility';
 import log from 'loglevel';
 
 class ConnectionService {
-  static blockchainUrlIndex = 0; // Index of blockchain url to be used from the list
-  static onlineStatusCallback = null;
-  static offlineStatusCallback = null;
-  static websocketStatusCallback = null;
 
   /**
    * Remove any registered callback to connection (online, offline, websocket)
@@ -17,10 +13,12 @@ class ConnectionService {
       window.removeEventListener('online', this.onlineStatusCallback);
       this.onlineStatusCallback = null;
     }
+
     if (this.offlineStatusCallback) {
       window.removeEventListener('offline', this.offlineStatusCallback);
       this.offlineStatusCallback = null;
     }
+
     if (this.websocketStatusCallback) {
       Apis.setRpcConnectionStatusCallback(null);
       this.websocketStatusCallback = null;
@@ -37,6 +35,7 @@ class ConnectionService {
     // Define new callback
     this.onlineStatusCallback = () => {
       log.info('Connected to Internet.');
+
       if (ConnectionUtils.isWebsocketOpen()) {
         // Internet is on and websocket is open
         connectionStatusCallback(ConnectionStatus.CONNECTED);
@@ -50,12 +49,13 @@ class ConnectionService {
       log.info('Disconnected from the internet.');
       // Internet is off and websocket is open/ closed
       connectionStatusCallback(ConnectionStatus.DISCONNECTED);
-    }
+    };
 
-    this.websocketStatusCallback = (message) => {
+    this.websocketStatusCallback = message => {
       switch (message) {
         case 'open': {
           log.info('Websocket connection is open.');
+
           if (ConnectionUtils.isConnectedToInternet()) {
             // Internet is on and websocket is open
             connectionStatusCallback(ConnectionStatus.CONNECTED);
@@ -66,13 +66,16 @@ class ConnectionService {
 
           break;
         }
+
         case 'closed': {
           log.info('Websocket connection is closed.');
           // Internet is on/off and websocket is closed
           connectionStatusCallback(ConnectionStatus.DISCONNECTED);
           break;
         }
-        default: break;
+
+        default:
+          break;
       }
     };
 
@@ -95,41 +98,49 @@ class ConnectionService {
   /**
    * Open websocket connection to blockchain
    */
-  static connectToBlockchain(connectionStatusCallback, attempt=3) {
+  static connectToBlockchain(connectionStatusCallback, attempt = 3) {
     // Set connection status callback
     ConnectionService.setConnectionStatusCallback(connectionStatusCallback);
     // Set connection status to be connecting
     connectionStatusCallback(ConnectionStatus.CONNECTING);
     // Connecting to blockchain
     const connectionString = Config.blockchainUrls[this.blockchainUrlIndex];
-    return Apis.instance(connectionString, true).init_promise.then((res) => {
-      // Print out which blockchain we are connecting to
-      log.debug('Connected to:', res[0] ? res[0].network_name : 'Undefined Blockchain');
-    }).catch((error) => {
-      // Close residue connection to blockchain
-      this.closeConnectionToBlockchain();
-      // Retry if needed
-      if (attempt > 0) {
-        // Retry to connect
-        log.info('Retry connecting to blockchain');
-        return ConnectionService.connectToBlockchain(connectionStatusCallback, attempt-1);
-      } else {
-        // Max number of attempt is reached for this node, check if there is another node to be tried
-        if (this.blockchainUrlIndex < Config.blockchainUrls.length - 1) {
-          // Use next node and retry (also reset number of attempt)
-          log.error('Fail to connect to ' + connectionString + ' trying with other node')
-          this.blockchainUrlIndex += 1;
-          return ConnectionService.connectToBlockchain(connectionStatusCallback);
-        } else {
-          // No more node available for retry, reset the blockchainUrlIndex and throw error
-          log.error('Fail to connect to blockchain', error);
-          this.blockchainUrlIndex = 0;
-          throw error;
-        }
-      }
-    })
-  }
+    return Apis.instance(connectionString, true)
+      .init_promise.then(res => {
+        // Print out which blockchain we are connecting to
+        log.debug('Connected to:', res[0] ? res[0].network_name : 'Undefined Blockchain');
+      })
+      .catch(error => {
+        // Close residue connection to blockchain
+        this.closeConnectionToBlockchain();
 
+        // Retry if needed
+        if (attempt > 0) {
+          // Retry to connect
+          log.info('Retry connecting to blockchain');
+          return ConnectionService.connectToBlockchain(connectionStatusCallback, attempt - 1);
+        } else {
+          // Max number of attempt is reached for this node, check if there is another 
+          // node to be tried
+          if (this.blockchainUrlIndex < Config.blockchainUrls.length - 1) {
+            // Use next node and retry (also reset number of attempt)
+            log.error('Fail to connect to ' + connectionString + ' trying with other node');
+            this.blockchainUrlIndex += 1;
+            return ConnectionService.connectToBlockchain(connectionStatusCallback);
+          } else {
+            // No more node available for retry, reset the blockchainUrlIndex and throw error
+            log.error('Fail to connect to blockchain', error);
+            this.blockchainUrlIndex = 0;
+            throw error;
+          }
+        }
+      });
+  }
 }
+
+ConnectionService.blockchainUrlIndex = 0; // Index of blockchain url to be used from the list
+ConnectionService.onlineStatusCallback = null;
+ConnectionService.offlineStatusCallback = null;
+ConnectionService.websocketStatusCallback = null;
 
 export default ConnectionService;

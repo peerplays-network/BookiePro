@@ -1,4 +1,4 @@
-import { Config } from '../constants';
+import {Config} from '../constants';
 import React from 'react';
 import bitFunBlack from '../assets/icons/bitfun_icon_black.svg';
 import bitFunWhite from '../assets/icons/bitfun_icon_white.svg';
@@ -18,9 +18,9 @@ const mCurrencySymbol = 'm' + currencySymbol;
 //         The functions toFixed and toFixedWithSymbol are not performing this conversion.
 
 var CurrencyUtils = {
-
   fieldPrecisionMap: {
-    //  Odds values have no dependency on currency but it is included in this map for convenience's sake.
+    // Odds values have no dependency on currency but it is included in this map for 
+    // convenience's sake.
     odds: {
       BTF: 2,
       mBTF: 2
@@ -29,27 +29,27 @@ var CurrencyUtils = {
       BTF: 3,
       mBTF: 0
     },
-    profit : {
+    profit: {
       BTF: 5,
       mBTF: 5
     },
-    liability : {
+    liability: {
       BTF: 5,
       mBTF: 5
     },
     exposure: {
       BTF: 2,
       mBTF: 2
-    }, 
+    },
     transaction: {
       BTF: 5,
       mBTF: 2
     },
-    avgStake : {
+    avgStake: {
       BTF: 3,
       mBTF: 0
     },
-    avgProfitLiability : {
+    avgProfitLiability: {
       BTF: 5,
       mBTF: 2
     }
@@ -58,90 +58,109 @@ var CurrencyUtils = {
   OFFER_PRECISION: 3,
 
   isZero: function(num) {
-    if (parseFloat(num) === 0 || num === 0)
-      return '0'
-    else
+    if (parseFloat(num) === 0 || num === 0) {
+      return '0';
+    } else {
       return num;
+    }
   },
 
-  
   /**
    * substringPrecision()
-   * This function uses string manipulation to manipulate the value of amount depending on the precision value 
-   *  and whether or not accuracy is preferred
+   * This function uses string manipulation to manipulate the value of amount depending 
+   * on the precision value and whether or not accuracy is preferred
    * @param {any} amount - The amount to round/truncate
    * @param {any} precision - The amount of decimal places to keep
-   * @param {boolean} [accuracy=true] - Whether or not to round to precision decimal places. 
+   * @param {boolean} [accuracy=true] - Whether or not to round to precision decimal places.
    *        True will round to precision decimal places
    *        False will truncate to precision decimal places
    * @returns - amount rounded/truncated to precision decimal places
    */
-  substringPrecision(amount, precision, accuracy=true){
-    if (amount === undefined){
+  substringPrecision(amount, precision, accuracy = true) {
+    if (amount === undefined) {
       amount = 0.0;
     }
+
     let split = amount.toString().split('.');
-    if (split[1] && split[1].length > precision){
-      let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0)); // Conditionally take the value one past the accpeted precision ,,.
+
+    if (split[1] && split[1].length > precision) {
+      // Conditionally take the value one past the accpeted precision
+      let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0)); 
       let newAmount = split[0] + '.' + splitSel;
-      return parseFloat(newAmount).toFixed(precision); // Then execute toFixed on the resulting amount. This keeps more accuracy. 
+      // Then execute toFixed on the resulting amount. This keeps more accuracy.
+      return parseFloat(newAmount).toFixed(precision);
     } else {
       return amount.toFixed(precision);
     }
   },
 
-  getCurrencySymbol: function(currency='mBTF', color = 'black'){
-    switch(currency){
+  getCurrencySymbol: function(currency = 'mBTF', color = 'black') {
+    switch (currency) {
       case 'BTC':
-        return <img src='../../../assets/icons/bitcoin_icon_hover.svg' alt='BTF'/>;
+        return <img src='../../../assets/icons/bitcoin_icon_hover.svg' alt='BTF' />;
       case 'mBTC':
-        return <img src='../../../assets/icons/mbitcoin_icon_hover.svg' alt='mBTF'/>;
+        return <img src='../../../assets/icons/mbitcoin_icon_hover.svg' alt='mBTF' />;
       case 'BTF':
-        if (color === 'white')
-          return <img src={ bitFunWhite } className='currency-symbol' alt='BTF'/>;
-        return <img src={ bitFunBlack } className='currency-symbol' alt='BTF'/>;
+        if (color === 'white') {
+          return <img src={ bitFunWhite } className='currency-symbol' alt='BTF' />;
+        }
+
+        return <img src={ bitFunBlack } className='currency-symbol' alt='BTF' />;
       case 'mBTF':
-        if (color === 'white')
-          return <img src={ mBitFunWhite } className='currency-symbol' alt='mBTF'/>;
-        return <img src={ mBitFunBlack } className='currency-symbol' alt='mBTF'/>;
+        if (color === 'white') {
+          return <img src={ mBitFunWhite } className='currency-symbol' alt='mBTF' />;
+        }
+
+        return <img src={ mBitFunBlack } className='currency-symbol' alt='mBTF' />;
       default:
         break;
     }
   },
-  
+
   /**
    * Get converted amount based on input currency and precision
    *
    * @param {float} amount - amount to be formatted, in terms of 'BTF'
    * @param {string} currency -  display currency, 'BTF' or 'mBTF'
-   * @param {integer} precision - ( ***BTF*** base), either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
-   * @param {boolan} accuracy - This value defaults to true as accuracy is typically preferred. This parameter if set to false, 
-   *                              will truncate to the number of decimal places equal to precision (thus, less accuracy)
+   * @param {integer} precision - ( ***BTF*** base), either BettingModuleUtils.oddsPlaces or 
+   * BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
+   * @param {boolan} accuracy - This value defaults to true as accuracy is typically preferred. 
+   * This parameter if set to false, will truncate to the number of decimal places equal to 
+   * precision (thus, less accuracy)
    * @returns {string} - formatted string to support negative bitcoin curruency values
    */
-  getFormattedCurrency: function(amount, currencyFormat = 'mBTF', precision = 0, accuracy=true, avg=false, forExport=false){
+  getFormattedCurrency: function(
+    amount,
+    currencyFormat = 'mBTF',
+    precision = 0,
+    accuracy = true,
+    avg = false,
+    forExport = false
+  ) {
     if (!isNaN(amount)) {
-      if (amount === 0){
+      if (amount === 0) {
         return amount;
       }
-      
+
       if (currencyFormat === 'mBTF' || currencyFormat === mCurrencySymbol) {
         // 1 BTF = 1 * 10^3 mBTF
         const mPrecision = precision < 3 ? 0 : precision - 3;
-        if (!accuracy){
-          return this.substringPrecision((1000 * amount), mPrecision, accuracy);
+
+        if (!accuracy) {
+          return this.substringPrecision(1000 * amount, mPrecision, accuracy);
         }
-        if (forExport){
+
+        if (forExport) {
           return amount.toFixed(mPrecision);
         }
-        return avg ? amount.toFixed(precision) : ( 1000 * amount ).toFixed(mPrecision);
+
+        return avg ? amount.toFixed(precision) : (1000 * amount).toFixed(mPrecision);
       }
 
       if (currencyFormat === 'BTF' || currencyFormat === currencySymbol) {
-        if(amount % 1 !== 0){
+        if (amount % 1 !== 0) {
           return this.substringPrecision(amount, precision, accuracy);
-        }
-        else{
+        } else {
           // Sometimes amount is a string type which will throw an
           // error unless its cast as a number. Add (1 * amount)
           return (1 * amount).toFixed(precision);
@@ -153,45 +172,63 @@ var CurrencyUtils = {
     return amount.toFixed(precision).toString();
   },
 
-
-   /**
-    *  Format BTF or mBTF value with the specified currency and prepend the result with currency symbol
-    *  Internally, this function calls getFormattedCurrency and use the same parameters except the last optional one.
-    *
-    * @param {float} amount - amount to be formatted, in terms of 'BTF'
-    * @param {string} currency -  display currency, 'BTF' or 'mBTF'
-    * @param {integer} precision - ( ***BTF*** base), either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
-    * @param {boolean} spaceAfterSymbol -  if space needed to seperate currency symbole and amount.
-    * @returns {string} - formatted BTF or mBTF value with currency symbol prepended
-    */
-  formatByCurrencyAndPrecisionWithSymbol: function(amount, currency='mBTF', precision = 0, spaceAfterSymbol = false) {
+  /**
+   * Format BTF or mBTF value with the specified currency and prepend the result 
+   * with currency symbol. Internally, this function calls getFormattedCurrency and use the same 
+   * parameters except the last optional one.
+   *
+   * @param {float} amount - amount to be formatted, in terms of 'BTF'
+   * @param {string} currency -  display currency, 'BTF' or 'mBTF'
+   * @param {integer} precision - ( ***BTF*** base), either BettingModuleUtils.oddsPlaces or 
+   * BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
+   * @param {boolean} spaceAfterSymbol -  if space needed to seperate currency symbole and amount.
+   * @returns {string} - formatted BTF or mBTF value with currency symbol prepended
+   */
+  formatByCurrencyAndPrecisionWithSymbol: function(
+    amount,
+    currency = 'mBTF',
+    precision = 0,
+    spaceAfterSymbol = false
+  ) {
     let formatted = this.getFormattedCurrency(amount, currency, precision, true);
-    if (isNaN(formatted)) return 0
+
+    if (isNaN(formatted)) {
+      return 0;
+    }
 
     // Note: Math.abs can take a string of valid number as argument
     if (currency === 'mBTF' || currency === mCurrencySymbol) {
       precision = precision < 3 ? 0 : precision - 3;
     }
 
-    return ( amount >= 0 ? '' : '-') + (spaceAfterSymbol ? ' ' : '') + formatted;
+    return (amount >= 0 ? '' : '-') + (spaceAfterSymbol ? ' ' : '') + formatted;
   },
 
-   /**
-    * Format Odds, Stake, Profit and Liability based on currency and precision.
-    * The precision of each field is defined in requirements.
-    *
-    * This function is defined so that we don't need to do the field and precision
-    * lookup in multiple places in the code.
-    *
-    * @param {float} amount - amount to be formatted, in terms of 'BTF'
-    * @param {string} currency -  display currency, 'BTF' or 'mBTF'
-    * @returns {string} - formatted BTF or mBTF value
-    */
-  formatFieldByCurrencyAndPrecision: function(field, amount, currency='mBTF') {
+  /**
+   * Format Odds, Stake, Profit and Liability based on currency and precision.
+   * The precision of each field is defined in requirements.
+   *
+   * This function is defined so that we don't need to do the field and precision
+   * lookup in multiple places in the code.
+   *
+   * @param {float} amount - amount to be formatted, in terms of 'BTF'
+   * @param {string} currency -  display currency, 'BTF' or 'mBTF'
+   * @returns {string} - formatted BTF or mBTF value
+   */
+  formatFieldByCurrencyAndPrecision: function(field, amount, currency = 'mBTF') {
     // Odds values have no dependency on currency
-    if (field === 'odds') return amount.toFixed(2);
+    if (field === 'odds') {
+      return amount.toFixed(2);
+    }
+
     // DO NOT expect this but just in case...
-    if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
+    if (
+      this.fieldPrecisionMap[field] === undefined ||
+      this.fieldPrecisionMap[field][currency] === undefined
+    ) {
+      return amount;
+    }
+
     return this.getFormattedCurrency(amount, currency, this.fieldPrecisionMap[field][currency]);
   },
 
@@ -205,17 +242,36 @@ var CurrencyUtils = {
    *
    * Return the field value (amount) as a formatted string
    */
-  toFixed: function(field, amount, currency='mBTF') {
+  toFixed: function(field, amount, currency = 'mBTF') {
     // DO NOT expect this but just in case...
-    if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
-    let floatAmount = parseFloat(amount)
-    if (field === 'stake') {
-      if ((floatAmount < 1 && currency === 'mBTF') || (floatAmount < 1 && currency === mCurrencySymbol)) return Config.mbtfTransactionFee.toString()
-      if ((floatAmount < .001 && currency === 'BTF') || (floatAmount < .001 && currency === currencySymbol)) return Config.btfTransactionFee.toString()
+    if (
+      this.fieldPrecisionMap[field] === undefined ||
+      this.fieldPrecisionMap[field][currency] === undefined
+    ) {
+      return amount;
     }
-    if(amount % 1 !== 0 && !isNaN(amount)){
+
+    let floatAmount = parseFloat(amount);
+
+    if (field === 'stake') {
+      if (
+        (floatAmount < 1 && currency === 'mBTF') ||
+        (floatAmount < 1 && currency === mCurrencySymbol)
+      ) {
+        return Config.mbtfTransactionFee.toString();
+      }
+
+      if (
+        (floatAmount < 0.001 && currency === 'BTF') ||
+        (floatAmount < 0.001 && currency === currencySymbol)
+      ) {
+        return Config.btfTransactionFee.toString();
+      }
+    }
+
+    if (amount % 1 !== 0 && !isNaN(amount)) {
       return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency]);
-    } else{
+    } else {
       return floatAmount.toFixed(this.fieldPrecisionMap[field][currency]);
     }
   },
@@ -225,24 +281,29 @@ var CurrencyUtils = {
    * There is an option to insert an extra space after the symbol.
    *
    * Parameters:
-   *   field - the name of a field (odds, stake, profit, liability)
-   *   amount - a JS Number (not a string)
-   *   currency - either BTF or mBTF, based on setting
-   *   spaceAfterSymbol - true if a space should be added after the currency symbol in the formatted results
+   * field - the name of a field (odds, stake, profit, liability)
+   * amount - a JS Number (not a string)
+   * currency - either BTF or mBTF, based on setting
+   * spaceAfterSymbol - true if a space should be added after the currency symbol in 
+   * the formatted results
    *
    * Return the field value (amount) as a formatted string
    */
-  toFixedWithSymbol: function(field, amount, currency='mBTF', spaceAfterSymbol=false) {
-    return (amount >= 0 ? '' : '-') + this.getCurrencySymbol(currency) +
-           (spaceAfterSymbol ? ' ' : '') + this.toFixed(field, Math.abs(amount), currency);
+  toFixedWithSymbol: function(field, amount, currency = 'mBTF', spaceAfterSymbol = false) {
+    return (
+      (amount >= 0 ? '' : '-') +
+      this.getCurrencySymbol(currency) +
+      (spaceAfterSymbol ? ' ' : '') +
+      this.toFixed(field, Math.abs(amount), currency)
+    );
   },
 
   // BOOK-384
   // Author: Keegan Francis : k.francis@pbsa.rowInfo
   // This function will convert lay stake to the correct value
   layBetStakeModifier: function(stake, odds) {
-    return stake / (odds - 1)
+    return stake / (odds - 1);
   }
-}
+};
 
 export default CurrencyUtils;

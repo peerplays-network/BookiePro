@@ -1,8 +1,8 @@
 import CommonSelector from './CommonSelector';
-import { createSelector } from 'reselect';
+import {createSelector} from 'reselect';
 import Immutable from 'immutable';
-import { DateUtils } from '../utility';
-import { Config } from '../constants';
+import {DateUtils} from '../utility';
+import {Config} from '../constants';
 
 const {
   getBettingMarketsById,
@@ -12,7 +12,7 @@ const {
   getBettingMarketGroupsById
 } = CommonSelector;
 
-const getAllSportsLoadingStatus = (state) => state.getIn(['allSports', 'loadingStatus']);
+const getAllSportsLoadingStatus = state => state.getIn(['allSports', 'loadingStatus']);
 
 // All Sports Data is in the following format
 // [
@@ -70,7 +70,14 @@ const getAllSportsData = createSelector(
     getSimpleBettingWidgetBinnedOrderBooksByEventId,
     getBettingMarketGroupsById
   ],
-  (allSportsLoadingStatus, sportsById, activeEventsBySportId, bettingMarketsById, simpleBettingWidgetBinnedOrderBooksByEventId, bettingMarketGroupsById) => {
+  (
+    allSportsLoadingStatus,
+    sportsById,
+    activeEventsBySportId,
+    bettingMarketsById,
+    simpleBettingWidgetBinnedOrderBooksByEventId,
+    bettingMarketGroupsById
+  ) => {
     // Process all sports data only if the necessary data has been finished loaded
     // NOTE if you do not want to see incremental update, re-enable this if clause
     // if (allSportsLoadingStatus !== LoadingStatus.DONE) {
@@ -80,38 +87,45 @@ const getAllSportsData = createSelector(
 
     let allSportsData = Immutable.List();
     // Iterate over all sports to create sport node
-    sportsById.forEach((sport) => {
+    sportsById.forEach(sport => {
       // Initialize sport node
-      let sportNode = Immutable.Map().set('name', sport.get('name'))
-                                      .set('sport_id', sport.get('id'));
+      let sportNode = Immutable.Map()
+        .set('name', sport.get('name'))
+        .set('sport_id', sport.get('id'));
       // Create event nodes based on active events
       const activeEvents = activeEventsBySportId.get(sport.get('id')) || Immutable.List();
-      const eventNodes = activeEvents.map((event) => {
-        if (event.get('status') !== null && event.get('status') !== undefined){
-          const offers = simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
-          // Find the Betting Market Group of this event
-          const bettingMarketId = offers.getIn(['0', 'betting_market_id']);
-          const bettingMarketGroupId = bettingMarketsById.getIn([bettingMarketId, 'group_id']);
-          const bettingMarketGroupAsset = bettingMarketGroupsById.getIn([bettingMarketGroupId, 'asset_id']);
-          // Create event node
-          return Immutable.fromJS({
-            event_id: event.get('id'),
-            event_name: event.get('name'),
-            time: DateUtils.getLocalDate(event.get('start_time')),
-            isLiveMarket: event.get('is_live_market'),
-            eventStatus: event.get('status').toLowerCase(),
-            offers,
-            bettingMarketGroupId: bettingMarketGroupId,
-            bmgAsset: bettingMarketGroupAsset
-          });
-        } else {
-          return Immutable.List();
-        }
-      }).filter( eventNode => {
-        // Feature check       
-        const isCoreAsset = eventNode.get('bmgAsset') === coreAsset;
-        return isCoreAsset ? eventNode : null;
-      });
+      const eventNodes = activeEvents
+        .map(event => {
+          if (event.get('status') !== null && event.get('status') !== undefined) {
+            const offers =
+              simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
+            // Find the Betting Market Group of this event
+            const bettingMarketId = offers.getIn(['0', 'betting_market_id']);
+            const bettingMarketGroupId = bettingMarketsById.getIn([bettingMarketId, 'group_id']);
+            const bettingMarketGroupAsset = bettingMarketGroupsById.getIn([
+              bettingMarketGroupId,
+              'asset_id'
+            ]);
+            // Create event node
+            return Immutable.fromJS({
+              event_id: event.get('id'),
+              event_name: event.get('name'),
+              time: DateUtils.getLocalDate(event.get('start_time')),
+              isLiveMarket: event.get('is_live_market'),
+              eventStatus: event.get('status').toLowerCase(),
+              offers,
+              bettingMarketGroupId: bettingMarketGroupId,
+              bmgAsset: bettingMarketGroupAsset
+            });
+          } else {
+            return Immutable.List();
+          }
+        })
+        .filter(eventNode => {
+          // Feature check
+          const isCoreAsset = eventNode.get('bmgAsset') === coreAsset;
+          return isCoreAsset ? eventNode : null;
+        });
       // Set events to the sport
       sportNode = sportNode.set('events', eventNodes);
       // Set sport to the all sports data
@@ -120,15 +134,13 @@ const getAllSportsData = createSelector(
 
     return allSportsData;
   }
-)
+);
 
-const getGlobalBettingStatistics = (state) => {
-  return state.getIn(['app', 'globalBettingStatistics']);
-}
+const getGlobalBettingStatistics = state => state.getIn(['app', 'globalBettingStatistics']);
 
 const AllSportsSelector = {
   getAllSportsData,
   getGlobalBettingStatistics
-}
+};
 
 export default AllSportsSelector;

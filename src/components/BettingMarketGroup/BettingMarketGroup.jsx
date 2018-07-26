@@ -1,11 +1,14 @@
-import React, { PureComponent } from 'react';
-import { BettingMarketGroupBanner } from '../Banners';
-import { ComplexBettingWidget } from '../BettingWidgets/';
-import _ from 'lodash';
-import { BettingMarketGroupPageSelector, MarketDrawerSelector, MyAccountPageSelector } from '../../selectors';
-import { BettingMarketGroupPageActions, MarketDrawerActions, NavigateActions } from '../../actions';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import React, {PureComponent} from 'react';
+import {BettingMarketGroupBanner} from '../Banners';
+import {ComplexBettingWidget} from '../BettingWidgets/';
+import {
+  BettingMarketGroupPageSelector,
+  MarketDrawerSelector,
+  MyAccountPageSelector
+} from '../../selectors';
+import {BettingMarketGroupPageActions, MarketDrawerActions, NavigateActions} from '../../actions';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import PeerPlaysLogo from '../PeerPlaysLogo';
 
 class BettingMarketGroup extends PureComponent {
@@ -24,30 +27,37 @@ class BettingMarketGroup extends PureComponent {
     this.props.getData(this.props.params.objectId);
   }
 
-  componentWillReceiveProps(nextProps){
-    if (!nextProps.bettingMarketGroup || nextProps.bettingMarketGroup.isEmpty() || nextProps.eventStatus === null) {
+  componentWillReceiveProps(nextProps) {
+    if (
+      !nextProps.bettingMarketGroup ||
+      nextProps.bettingMarketGroup.isEmpty() ||
+      nextProps.eventStatus === null
+    ) {
       // Betting market group doesn't exist,
       // Go back to home page
       this.props.navigateTo('/exchange');
     } else {
       const prevBettingMarketGroupId = this.props.params.objectId;
       const nextBettingMarketGroupId = nextProps.params.objectId;
+
       //if (nextBettingMarketGroupId !== prevBettingMarketGroupId){
-      if (nextBettingMarketGroupId !== prevBettingMarketGroupId ||
-        nextProps.bettingMarketGroup !== this.props.bettingMarketGroup || 
-        nextProps.marketData !== this.props.marketData || 
+      if (
+        nextBettingMarketGroupId !== prevBettingMarketGroupId ||
+        nextProps.bettingMarketGroup !== this.props.bettingMarketGroup ||
+        nextProps.marketData !== this.props.marketData ||
         nextProps.eventName !== this.props.eventName ||
         nextProps.eventStatus !== this.props.eventStatus ||
-        nextProps.bettingMarketGroupStatus !== this.props.bettingMarketGroupStatus){  
+        nextProps.bettingMarketGroupStatus !== this.props.bettingMarketGroupStatus
+      ) {
         // Get the data
         this.props.getData(nextBettingMarketGroupId);
       }
     }
-
   }
 
   render() {
-    const { bettingMarketGroup } = this.props;
+    const {bettingMarketGroup} = this.props;
+
     // Return nothing if betting market group doesn't exist
     if (!bettingMarketGroup || bettingMarketGroup.isEmpty() || this.props.eventStatus === null) {
       return null;
@@ -59,7 +69,7 @@ class BettingMarketGroup extends PureComponent {
             eventTime={ this.props.eventTime }
             isLiveMarket={ this.props.isLiveMarket }
             eventStatus={ this.props.eventStatus[1] }
-            eventStatusClassName={ this.props.eventStatus[0] }            
+            eventStatusClassName={ this.props.eventStatus[0] }
           />
           <ComplexBettingWidget
             bettingMarketGroupStatus={ this.props.bettingMarketGroupStatus[0] }
@@ -81,19 +91,20 @@ class BettingMarketGroup extends PureComponent {
             <PeerPlaysLogo />
           </div>
         </div>
-      )
+      );
     }
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
     getData: BettingMarketGroupPageActions.getData,
     createBet: MarketDrawerActions.createBet,
     getPlacedBets: MarketDrawerActions.getPlacedBets,
-    navigateTo: NavigateActions.navigateTo,
-  }, dispatch);
-}
+    navigateTo: NavigateActions.navigateTo
+  },
+  dispatch
+);
 
 const mapStateToProps = (state, ownProps) => {
   const bettingMarketGroup = BettingMarketGroupPageSelector.getBettingMarketGroup(state, ownProps);
@@ -101,25 +112,32 @@ const mapStateToProps = (state, ownProps) => {
   let props = {
     bettingMarketGroup,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state)
-  }
+  };
 
   // Populate other properties if betting market group exists
   if (bettingMarketGroup && !bettingMarketGroup.isEmpty()) {
-    _.assign(props, {
+    props = Object.assign(props, {
       marketData: BettingMarketGroupPageSelector.getMarketData(state, ownProps),
       eventName: BettingMarketGroupPageSelector.getEventName(state, ownProps),
       eventTime: BettingMarketGroupPageSelector.getEventTime(state, ownProps),
       isLiveMarket: BettingMarketGroupPageSelector.getIsLiveMarket(state, ownProps),
       eventStatus: BettingMarketGroupPageSelector.getEventStatus(state, ownProps),
-      bettingMarketGroupStatus: BettingMarketGroupPageSelector.getBettingMarketGroupStatus(state, ownProps),
-      totalMatchedBetsAmount: BettingMarketGroupPageSelector.getTotalMatchedBetsAmount(state, ownProps),
+      bettingMarketGroupStatus: BettingMarketGroupPageSelector.getBettingMarketGroupStatus(
+        state,
+        ownProps
+      ),
+      totalMatchedBetsAmount: BettingMarketGroupPageSelector.getTotalMatchedBetsAmount(
+        state,
+        ownProps
+      ),
       unconfirmedBets: BettingMarketGroupPageSelector.getUnconfirmedBets(state, ownProps),
       loadingStatus: BettingMarketGroupPageSelector.getLoadingStatus(state, ownProps),
       widgetTitle: BettingMarketGroupPageSelector.getWidgetTitle(state, ownProps),
       rules: BettingMarketGroupPageSelector.getRules(state, ownProps),
-      canCreateBet: MarketDrawerSelector.canAcceptBet(state, ownProps),
-    })
+      canCreateBet: MarketDrawerSelector.canAcceptBet(state, ownProps)
+    });
   }
+
   return props;
 };
 

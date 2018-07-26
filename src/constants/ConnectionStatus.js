@@ -11,6 +11,6 @@ const ConnectionStatus = {
   DISCONNECTED: 'disconnected',
   CONNECTING: 'connecting',
   CONNECTED: 'connected'
-}
+};
 
 export default ConnectionStatus;
