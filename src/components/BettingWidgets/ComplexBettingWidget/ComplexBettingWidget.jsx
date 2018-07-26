@@ -48,7 +48,7 @@ class ComplexBettingWidget extends PureComponent {
      * This allows us to control the various event handler's behavior without modifying the
      * actual handler code. Otherwise, we need to add an if-statement in every handler function.
      */
-    const callIfMarketDrawerIsReady = fn => (...args) => {
+    const callIfMarketDrawerIsReady = (fn) => (...args) => {
       if (this.props.canCreateBet === true) {
         fn(...args);
       }
@@ -178,7 +178,7 @@ class ComplexBettingWidget extends PureComponent {
       });
 
       // Sort the betting markets by their id.
-      tableData = tableData.sortBy(row => row.get('id'));
+      tableData = tableData.sortBy((row) => row.get('id'));
 
       this.setState({
         tableData,
@@ -269,8 +269,8 @@ class ComplexBettingWidget extends PureComponent {
     const {id} = event.target;
     const betType = id;
     this.state.tableData
-      .filter(item => item.hasIn(['offer', betType + 'Origin', '0']))
-      .forEach(row => {
+      .filter((item) => item.hasIn(['offer', betType + 'Origin', '0']))
+      .forEach((row) => {
         const offer = row.getIn(['offer', betType + 'Origin', '0']);
         const odds = offer && offer.get('odds');
         const bettingMarketId = row.getIn(['offer', 'bettingMarketId']);
@@ -288,8 +288,8 @@ class ComplexBettingWidget extends PureComponent {
    */
   getBestOfferOfEachmarket(tableData, betType) {
     return tableData
-      .map(item => item.getIn(['offer', betType + 'Origin', '0']))
-      .filter(item => item !== undefined);
+      .map((item) => item.getIn(['offer', betType + 'Origin', '0']))
+      .filter((item) => item !== undefined);
   }
   displayStatus(status, typeOfDisplay) {
     if (status === 'unresolved') {
@@ -356,7 +356,7 @@ class ComplexBettingWidget extends PureComponent {
       minWidth: minNameWidth,
       accessor: 'firstColumn',
       sortable: false,
-      render: props => (
+      render: (props) => (
         <div className='competitor'>
           {this.state.winOrLose ? (
             <div className='complex-outcome'>
@@ -375,7 +375,7 @@ class ComplexBettingWidget extends PureComponent {
       header: () => null,
       minWidth: minArrowWidth,
       sortable: false,
-      render: props => (
+      render: (props) => (
         <div className={ `back-arrows-col arrows-col${this.state.winOrLose ? ' disabled' : ''}` }>
           <i
             className='icon-left-arrow'
@@ -394,8 +394,8 @@ class ComplexBettingWidget extends PureComponent {
       minWidth: minOfferWidth,
       className: classNameBack,
       sortable: false,
-      accessor: row => (row.offer.back.length > 2 ? row.offer.back[2] : undefined),
-      header: props => (
+      accessor: (row) => (row.offer.back.length > 2 ? row.offer.back[2] : undefined),
+      header: (props) => (
         <div
           className={
             props.data[0].firstColumn.bmStatus[0]
@@ -406,7 +406,7 @@ class ComplexBettingWidget extends PureComponent {
           {this.state.backBookPercent > 0 ? <p>{this.state.backBookPercent}%</p> : ''}
         </div>
       ),
-      render: props => props.value ? (
+      render: (props) => props.value ? (
         <div
           className={ props.row.bmStatus[0] ? 'back-offer back-bg disabled' : 'back-offer back-bg' }
         >
@@ -445,10 +445,10 @@ class ComplexBettingWidget extends PureComponent {
       minWidth: minOfferWidth,
       className: classNameBack,
       sortable: false,
-      accessor: row => (row.offer.back.length > 1 ? row.offer.back[1] : undefined),
+      accessor: (row) => (row.offer.back.length > 1 ? row.offer.back[1] : undefined),
       header: () => null,
       headerClassName: 'back-all-offer-border',
-      render: props => props.value ? (
+      render: (props) => props.value ? (
         <div
           className={ props.row.bmStatus[0] ? 'back-offer back-bg disabled' : 'back-offer back-bg' }
         >
@@ -487,8 +487,8 @@ class ComplexBettingWidget extends PureComponent {
       minWidth: minOfferWidth,
       className: classNameBack,
       sortable: false,
-      accessor: row => (row.offer.back.length > 0 ? row.offer.back[0] : undefined),
-      header: props => {
+      accessor: (row) => (row.offer.back.length > 0 ? row.offer.back[0] : undefined),
+      header: (props) => {
         const isDisabled = props.data[0].firstColumn.bmStatus[0];
 
         return (
@@ -499,7 +499,7 @@ class ComplexBettingWidget extends PureComponent {
           </div>
         );
       },
-      render: props => props.value ? (
+      render: (props) => props.value ? (
         <div
           className={
             props.row.bmStatus[0]
@@ -544,8 +544,8 @@ class ComplexBettingWidget extends PureComponent {
       minWidth: minOfferWidth,
       className: classNameLay,
       sortable: false,
-      accessor: row => (row.offer.lay.length > 0 ? row.offer.lay[0] : undefined),
-      header: props => {
+      accessor: (row) => (row.offer.lay.length > 0 ? row.offer.lay[0] : undefined),
+      header: (props) => {
         const isDisabled = props.data[0].firstColumn.bmStatus[0];
 
         return (
@@ -556,7 +556,7 @@ class ComplexBettingWidget extends PureComponent {
           </div>
         );
       },
-      render: props => props.value ? (
+      render: (props) => props.value ? (
         <div
           className={
             props.row.bmStatus[0]
@@ -601,9 +601,9 @@ class ComplexBettingWidget extends PureComponent {
       minWidth: minOfferWidth,
       className: classNameLay,
       sortable: false,
-      accessor: row => (row.offer.lay.length > 1 ? row.offer.lay[1] : undefined),
+      accessor: (row) => (row.offer.lay.length > 1 ? row.offer.lay[1] : undefined),
       header: () => null,
-      render: props => props.value ? (
+      render: (props) => props.value ? (
         <div className={ props.row.bmStatus[0] ? 'lay-offer lay-bg disabled' : 'lay-offer lay-bg' }>
           <div className='odds'>
             {props.row.bmStatus[0]
@@ -640,8 +640,8 @@ class ComplexBettingWidget extends PureComponent {
       minWidth: minOfferWidth,
       className: classNameLay,
       sortable: false,
-      accessor: row => (row.offer.lay.length > 2 ? row.offer.lay[2] : undefined),
-      header: props => (
+      accessor: (row) => (row.offer.lay.length > 2 ? row.offer.lay[2] : undefined),
+      header: (props) => (
         <div
           className={
             props.data[0].firstColumn.bmStatus[0] ? 'offer-header lay disabled' : 'offer-header lay'
@@ -650,7 +650,7 @@ class ComplexBettingWidget extends PureComponent {
           {this.state.layBookPercent > 0 ? <p>{this.state.layBookPercent}%</p> : ''}
         </div>
       ),
-      render: props => props.value ? (
+      render: (props) => props.value ? (
         <div className={ props.row.bmStatus[0] ? 'lay-offer lay-bg disabled' : 'lay-offer lay-bg' }>
           <div className='odds'>
             {props.row.bmStatus[0]
@@ -686,7 +686,7 @@ class ComplexBettingWidget extends PureComponent {
       header: () => null,
       minWidth: minArrowWidth,
       sortable: false,
-      render: props => (
+      render: (props) => (
         <div className={ `lay-arrows-col arrows-col${this.state.winOrLose ? ' disabled' : ''}` }>
           <i
             className='icon-left-arrow'

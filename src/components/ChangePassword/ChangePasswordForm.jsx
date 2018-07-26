@@ -54,7 +54,7 @@ const renderPasswordField = ({
     />
     {touched && error && <span className='errorText'>{error}</span>}
     {tabIndex === '1' && !error && errors && errors.length
-      ? errors.map(currentError => (
+      ? errors.map((currentError) => (
         <span className='errorText' key={ currentError }>
           {currentError}
         </span>

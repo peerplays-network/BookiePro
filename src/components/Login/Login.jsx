@@ -69,8 +69,8 @@ class Login extends PureComponent {
       throw new SubmissionError(errors);
     } else {
       //getting username search result and checking whether such user exists
-      return AccountService.lookupAccounts(e.get('userName'), 1).then(result => {
-        let account = result.find(a => a.get(0) === e.get('userName'));
+      return AccountService.lookupAccounts(e.get('userName'), 1).then((result) => {
+        let account = result.find((a) => a.get(0) === e.get('userName'));
 
         if (!account) {
           errors.userName = I18n.t('login.username_notfound');
@@ -109,12 +109,12 @@ class Login extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   errors: state.getIn(['auth', 'loginErrors']),
   status: state.getIn(['auth', 'loginLoadingStatus'])
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo,
     login: AuthActions.login,

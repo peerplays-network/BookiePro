@@ -3,14 +3,14 @@
  * It uses 'redux-form' library to generate form fields and perform field validations
  * It is used in the MyAccount component
  */
-
 import React, {PureComponent} from 'react';
-let I18n = require('react-redux-i18n').I18n;
 import {Card} from 'antd';
 import {Field, reduxForm} from 'redux-form/immutable';
 import {LoadingStatus} from '../../../constants';
 import './MyAccountWithdraw.less';
 import {CurrencyUtils} from '../../../utility';
+
+let I18n = require('react-redux-i18n').I18n;
 
 /**
  * Following is the stateless function that is passed as the 'component' prop to
@@ -62,7 +62,7 @@ const renderField = ({
       <span className='errorText'>{hasWithdrawAmountErr ? withdrawAmountErrMsg : error}</span>
     )}
     {!error && errors && errors.length
-      ? errors.map(err => (
+      ? errors.map((err) => (
         <span className='errorText' key={ err }>
           {err}
         </span>

@@ -101,7 +101,7 @@ class SearchMenu extends PureComponent {
 
   componentDidMount() {
     //subscribe input box debonunce
-    this.subscription = this.onSearch$.debounceTime(300).subscribe(debounced => {
+    this.subscription = this.onSearch$.debounceTime(300).subscribe((debounced) => {
       this.props.searchEvents(debounced);
       this.setState({debounced});
     });
@@ -233,7 +233,7 @@ class SearchMenu extends PureComponent {
 
     if (this.props.completeTree && event) {
       const nested = Immutable.fromJS(this.props.completeTree);
-      const keyPath = findKeyPathOf(nested, 'children', node => node.get('id') === event.id);
+      const keyPath = findKeyPathOf(nested, 'children', (node) => node.get('id') === event.id);
 
       if (!keyPath) {
         this.setState({
@@ -247,7 +247,7 @@ class SearchMenu extends PureComponent {
         .getIn(keyPath)
         .get('children')
         .filter(
-          mktGroup => mktGroup.get('description').toUpperCase() === 'MONEYLINE' ||
+          (mktGroup) => mktGroup.get('description').toUpperCase() === 'MONEYLINE' ||
             mktGroup.get('description').toUpperCase() === 'MATCH ODDS'
         );
 
@@ -317,7 +317,7 @@ class SearchMenu extends PureComponent {
           <Menu.Item className='search-menu-item'>
             {this.props.sidebarLoadingStatus !== LoadingStatus.DONE ? null : (
               <Select
-                ref={ ref => (this.select = ref) }
+                ref={ (ref) => (this.select = ref) }
                 autoBlur={ true }
                 value={ this.state.value }
                 onChange={ this.onChange }

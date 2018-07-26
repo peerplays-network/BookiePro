@@ -80,7 +80,7 @@ class MarketDrawer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   overlay: MarketDrawerSelector.getOverlayState(state),
   unconfirmedBets: MarketDrawerSelector.getUnconfirmedBets(state),
   canSwitchTab: MarketDrawerSelector.canAcceptBet(state)

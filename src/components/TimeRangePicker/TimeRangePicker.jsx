@@ -141,7 +141,7 @@ class TimeRangePicker extends PureComponent {
     // Only shows when period type is custom
     if (this.state.periodType === TimeRangePeriodTypes.CUSTOM) {
       //Disable out of range dates for 'From Date'
-      const disabledStartDate = date => {
+      const disabledStartDate = (date) => {
         const endDate = this.state.customTimeRangeEndDate;
 
         if (!date || !endDate) {
@@ -152,7 +152,7 @@ class TimeRangePicker extends PureComponent {
       };
 
       //Disable out of range dates for 'To Date'
-      const disabledEndDate = date => {
+      const disabledEndDate = (date) => {
         const startDate = this.state.customTimeRangeStartDate;
 
         if (!date || !startDate) {

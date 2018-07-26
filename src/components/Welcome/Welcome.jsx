@@ -118,7 +118,7 @@ class Welcome extends PureComponent {
         <div className='welcomeHeader'>{I18n.t('welcome.getting_started')}</div>
         <div className='welcomeContent'>
           <Carousel
-            ref={ c => (this.carousel = c) }
+            ref={ (c) => (this.carousel = c) }
             className='bookieCarousel'
             afterChange={ this.onCarouselChange }
           >
@@ -128,10 +128,10 @@ class Welcome extends PureComponent {
             <div>{this.renderCarouselChild(3)}</div>
           </Carousel>
           {this.state.currentCarouselIndex !== 0 && (
-            <a className='arrowLeft' onClick={ this.onArrowLeftClick } />
+            <a className='arrowLeft' onClick={ this.onArrowLeftClick }>Left</a>
           )}
           {this.state.currentCarouselIndex !== 3 && (
-            <a className='arrowRight' onClick={ this.onArrowRightClick } />
+            <a className='arrowRight' onClick={ this.onArrowRightClick }>Right</a>
           )}
         </div>
         <button className='btn btn-regular startButton' onClick={ this.onClickStartBetting }>
@@ -152,7 +152,7 @@ const mapStateToProps = () => ({
   /*depositsEnabled: true*/
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo,
     setAppBackground: AppActions.setAppBackgroundAction

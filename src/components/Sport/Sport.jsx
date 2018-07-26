@@ -43,7 +43,7 @@ class Sport extends PureComponent {
         <div className='sport-wrapper'>
           <SportBanner sport={ sportName } />
           {// convert the list of keys into vanilla JS array so that I can grab the index
-            sportPageData.map(eventGroupData => {
+            sportPageData.map((eventGroupData) => {
               const eventGroupId = eventGroupData.get('event_group_id');
               const events = eventGroupData.get('events');
               let sortedEvents = [];
@@ -93,7 +93,7 @@ const mapStateToProps = (state, ownProps) => {
   return props;
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo,
     getData: SportPageActions.getData

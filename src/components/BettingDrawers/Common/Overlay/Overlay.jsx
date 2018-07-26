@@ -12,7 +12,7 @@ const renderInstructions = (className, replacements) => {
   return instructions;
 };
 
-const Overlay = props => {
+const Overlay = (props) => {
   const {className, cancelAction, confirmAction, replacements} = props;
   return (
     <div className='overlay'>

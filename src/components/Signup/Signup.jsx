@@ -78,14 +78,14 @@ Signup.defaultProps = {
   depositsEnabled: Config.features.deposits
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   errors: state.getIn(['auth', 'signupErrors']),
   status: state.getIn(['auth', 'signupLoadingStatus'])
   // Manual Feature Overrides
   /*depositsEnabled: true*/
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo,
     signup: AuthActions.signup,

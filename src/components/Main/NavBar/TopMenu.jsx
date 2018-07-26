@@ -189,7 +189,7 @@ class TopMenu extends PureComponent {
         inGameAmount={ this.props.inGameAmount }
       />
     );
-    const depositCard = depositAddress => (
+    const depositCard = (depositAddress) => (
       <Deposit
         cardClass='bookie-card deposit-card depositCardComponent'
         depositAddress={ depositAddress }
@@ -457,7 +457,7 @@ TopMenu.defaultProps = {
   withdrawalsEnabled: Config.features.withdrawels
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   // Check and assign features
   const account = state.get('account');
   const accountId = account.getIn(['account', 'id']);
@@ -484,12 +484,12 @@ const mapStateToProps = state => {
   let inGameAmount = 0;
   state
     .getIn(['bet', 'unmatchedBetsById'])
-    .filter(row => !state.getIn(['bet', 'cancelBetsByIdsLoadingStatus']).get(row.get('id')))
-    .forEach(row => {
+    .filter((row) => !state.getIn(['bet', 'cancelBetsByIdsLoadingStatus']).get(row.get('id')))
+    .forEach((row) => {
       inGameAmount += getStakeFromBetObject(row);
       inGameAmount += getProfitLiabilityFromBetObject(row);
     });
-  state.getIn(['bet', 'matchedBetsById']).forEach(row => {
+  state.getIn(['bet', 'matchedBetsById']).forEach((row) => {
     inGameAmount += getStakeFromBetObject(row);
     inGameAmount += getProfitLiabilityFromBetObject(row);
   });
@@ -500,12 +500,12 @@ const mapStateToProps = state => {
   );
 
   const isShowNotificationCard = state.getIn(['app', 'isShowNotificationCard']);
-  const notificationsSelector = state => state.getIn(['notification', 'notifications']);
+  const notificationsSelector = (state) => state.getIn(['notification', 'notifications']);
   const notifications = notificationsSelector(state);
   // Calculate unread notif
   const unreadNotificationNumberSelector = createSelector(
     notificationsSelector, 
-    notifications => notifications
+    (notifications) => notifications
       .reduce((acc, notification) => acc + (notification.get('isRead') ? 0 : 1), 0)
   );
   

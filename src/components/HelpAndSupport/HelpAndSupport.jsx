@@ -39,7 +39,7 @@ class HelpAndSupport extends PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo
   },

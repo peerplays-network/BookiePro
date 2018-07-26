@@ -43,7 +43,7 @@ class Main extends PureComponent {
   render() {
     return (
       <Layout className='layout'>
-        <NavBar ref={ ref => (this.navBar = ref) } { ...this.props } />
+        <NavBar ref={ (ref) => (this.navBar = ref) } { ...this.props } />
         <Layout id='main-content-layout'>
           <Content className='main-content'>
             {React.cloneElement(this.props.children, {
@@ -57,7 +57,7 @@ class Main extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const initTransactionHistoryLoadingStatus = state.getIn([
     'rawHistory',
     'initRawHistoryLoadingStatus'
@@ -75,7 +75,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo,
     getDataForSidebar: SidebarActions.getData,

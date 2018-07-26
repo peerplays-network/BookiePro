@@ -125,13 +125,13 @@ class Deposit extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
   loadingStatus: state.getIn(['balance', 'getDepositAddressLoadingStatus']),
   depositAddress: state.getIn(['balance', 'depositAddress'])
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     getDepositAddress: BalanceActions.getDepositAddress,
     navigateTo: NavigateActions.navigateTo,

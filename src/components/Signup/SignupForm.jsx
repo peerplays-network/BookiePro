@@ -50,7 +50,7 @@ const renderField = ({tabIndex, errors, placeholder, input, type, meta: {touched
     />
     {touched && error && <span className='errorText'>{error}</span>}
     {!error && errors && errors.size
-      ? errors.map(currentError => (
+      ? errors.map((currentError) => (
         <span className='errorText' key={ currentError }>
           {currentError}
         </span>
@@ -197,7 +197,7 @@ const renderCheckboxField = ({
  *
  * @param {object} fields - a JS object that contains the form's data
  */
-const renderRecoveryButtonFields = fields => (
+const renderRecoveryButtonFields = (fields) => (
   <div>
     <Button
       type='primary'
