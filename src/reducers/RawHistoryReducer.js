@@ -13,7 +13,7 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.RAW_HISTORY_PREPEND_RAW_TRANSACTIONS_TO_RAW_HISTORY: {
       let nextState = state;
-      nextState = nextState.updateIn(['rawHistoryByAccountId', action.accountId], rawHistory => {
+      nextState = nextState.updateIn(['rawHistoryByAccountId', action.accountId], (rawHistory) => {
         // Create list if it doesnt exist yet
         if (!rawHistory) {
           rawHistory = Immutable.List();

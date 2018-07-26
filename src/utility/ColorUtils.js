@@ -1,4 +1,4 @@
-const convertColor = color => {
+const convertColor = (color) => {
   const colors = {
     aliceblue: '#f0f8ff',
     antiquewhite: '#faebd7',
@@ -149,7 +149,7 @@ const convertColor = color => {
   return color;
 };
 
-const isDarkColor = color => {
+const isDarkColor = (color) => {
   const c = convertColor(color).substring(1); // strip #
   const rgb = parseInt(c, 16); // convert rrggbb to decimal
   const r = (rgb >> 16) & 0xff; // extract red

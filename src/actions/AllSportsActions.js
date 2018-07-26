@@ -46,33 +46,33 @@ class AllSportsActions {
       let retrievedSportIds;
       // Get sports
       dispatch(SportActions.getAllSports())
-        .then(sports => {
-          retrievedSportIds = sports.map(sport => sport.get('id'));
+        .then((sports) => {
+          retrievedSportIds = sports.map((sport) => sport.get('id'));
           // Get related event group
           return dispatch(EventGroupActions.getEventGroupsBySportIds(retrievedSportIds));
         })
-        .then(eventGroups => {
+        .then((eventGroups) => {
           // Get related events
-          const eventGroupIds = eventGroups.map(eventGroup => eventGroup.get('id'));
+          const eventGroupIds = eventGroups.map((eventGroup) => eventGroup.get('id'));
           return dispatch(EventActions.getEventsByEventGroupIds(eventGroupIds));
         })
-        .then(events => {
+        .then((events) => {
           // Get betting market groups
-          const eventIds = events.map(event => event.get('id'));
+          const eventIds = events.map((event) => event.get('id'));
           return dispatch(BettingMarketGroupActions.getBettingMarketGroupsByEventIds(eventIds));
         })
-        .then(bettingMarketGroups => {
+        .then((bettingMarketGroups) => {
           // Get betting markets
           const bettingMarketGroupIds = bettingMarketGroups
-            .map(bettingMarketGroup => bettingMarketGroup.get('id'));
+            .map((bettingMarketGroup) => bettingMarketGroup.get('id'));
             
           return dispatch(
             BettingMarketActions.getBettingMarketsByBettingMarketGroupIds(bettingMarketGroupIds)
           );
         })
-        .then(bettingMarkets => {
+        .then((bettingMarkets) => {
           // Get binned order books
-          const bettingMarketIds = bettingMarkets.map(bettingMarket => bettingMarket.get('id'));
+          const bettingMarketIds = bettingMarkets.map((bettingMarket) => bettingMarket.get('id'));
           return dispatch(
             BinnedOrderBookActions.getBinnedOrderBooksByBettingMarketIds(bettingMarketIds)
           );
@@ -83,7 +83,7 @@ class AllSportsActions {
           dispatch(AllSportsPrivateActions.setLoadingStatusAction(LoadingStatus.DONE));
           log.debug('All Sports get data succeed.');
         })
-        .catch(error => {
+        .catch((error) => {
           log.error('All Sports get data error', error);
           dispatch(AllSportsPrivateActions.setErrorAction(error));
         });

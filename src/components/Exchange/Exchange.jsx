@@ -146,7 +146,7 @@ class Exchange extends PureComponent {
     );
 
     // Pick one of the 2 betting drawers based on the path
-    let selectBettingDrawer = pathTokens => {
+    let selectBettingDrawer = (pathTokens) => {
       if (pathTokens.length < 3 || pathTokens[2].toLowerCase() !== 'bettingmarketgroup') {
         return <QuickBetDrawer currencyFormat={ this.props.currencyFormat } />;
       }
@@ -216,7 +216,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo,
     clearQuickBetDrawer: QuickBetDrawerActions.deleteAllBets,

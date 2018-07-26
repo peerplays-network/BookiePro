@@ -104,31 +104,31 @@ class QuickBetDrawerActions {
   }
 
   static updateBet(delta, currencyFormat) {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(QuickBetDrawerPrivateActions.updateOneBet(delta, currencyFormat));
     };
   }
 
   static deleteBet(bet) {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(QuickBetDrawerPrivateActions.deleteOneBet(bet.get('id')));
     };
   }
 
   static clickDeleteBets(bets, eventName) {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(QuickBetDrawerPrivateActions.showDeleteBetsConfirmation(bets, eventName));
     };
   }
 
   static deleteBets(bets) {
-    return dispatch => {
-      dispatch(QuickBetDrawerPrivateActions.deleteManyBets(bets.map(b => b.get('id'))));
+    return (dispatch) => {
+      dispatch(QuickBetDrawerPrivateActions.deleteManyBets(bets.map((b) => b.get('id'))));
     };
   }
 
   static deleteAllBets() {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(QuickBetDrawerPrivateActions.deleteAllBets());
     };
   }
@@ -169,7 +169,7 @@ class QuickBetDrawerActions {
   }
 
   static hideOverlay() {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(QuickBetDrawerPrivateActions.hideOverlay());
     };
   }

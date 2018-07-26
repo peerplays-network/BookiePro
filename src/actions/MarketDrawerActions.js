@@ -166,31 +166,31 @@ class MarketDrawerActions {
   }
 
   static updateUnconfirmedBet(delta, currencyFormat) {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.updateOneUnconfirmedBet(delta, currencyFormat));
     };
   }
 
   static deleteUnconfirmedBet(bet) {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.deleteOneUnconfirmedBet(bet.get('id')));
     };
   }
 
   static clickDeleteUnconfirmedBets(bets) {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.showDeleteUnconfirmedBetsConfirmation(bets));
     };
   }
 
   static deleteUnconfirmedBets(bets) {
-    return dispatch => {
-      dispatch(MarketDrawerPrivateActions.deleteManyUnconfirmedBets(bets.map(b => b.get('id'))));
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.deleteManyUnconfirmedBets(bets.map((b) => b.get('id'))));
     };
   }
 
   static deleteAllUnconfirmedBets() {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.deleteAllUnconfirmedBets());
     };
   }
@@ -264,14 +264,14 @@ class MarketDrawerActions {
           bettingMarketGroup && bettingMarketGroup.get('description');
 
         // Helper function to filter related bet
-        const filterRelatedBet = bet => {
+        const filterRelatedBet = (bet) => {
           // Only get bet that belongs to this betting market group
           const bettingMarket = bettingMarketsById.get(bet.get('betting_market_id'));
           return bettingMarket && bettingMarket.get('group_id') === bettingMarketGroupId;
         };
 
         // Helper function to format bets to market drawer bet object structure
-        const formatBet = bet => {
+        const formatBet = (bet) => {
           const accountId = getState().getIn(['account', 'account', 'id']);
           const setting =
             getState().getIn(['setting', 'settingByAccountId', accountId]) ||
@@ -378,37 +378,37 @@ class MarketDrawerActions {
   }
 
   static clearPlacedBets() {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.getPlacedBets(Immutable.List(), Immutable.List(), null));
     };
   }
 
   static updateUnmatchedBet(delta, currencyFormat) {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.updateOneUnmatchedBet(delta, currencyFormat));
     };
   }
 
   static deleteUnmatchedBet(bet) {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(BetActions.cancelBets(Immutable.List([bet])));
     };
   }
 
   static clickDeleteUnmatchedBets(bets) {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.showDeleteUnmatchedBetsConfirmation(bets));
     };
   }
 
   static clickDeleteUnmatchedBet(bet) {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.showDeleteUnmatchedBetConfirmation(bet));
     };
   }
 
   static deleteUnmatchedBets(bets) {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(BetActions.cancelBets(Immutable.List(bets)));
     };
   }
@@ -449,19 +449,19 @@ class MarketDrawerActions {
   }
 
   static clickReset() {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.resetUnmatchedBets());
     };
   }
 
   static clickAverageOdds(groupByAverageOdds) {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.setGroupByAverageOdds(groupByAverageOdds));
     };
   }
 
   static hideOverlay() {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.hideOverlay());
     };
   }

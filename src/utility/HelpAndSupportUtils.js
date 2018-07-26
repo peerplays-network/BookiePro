@@ -4,7 +4,7 @@
 import {FaqTopics} from '../constants';
 import {I18n} from 'react-redux-i18n';
 
-const getTopicTranslationKeyword = topic => {
+const getTopicTranslationKeyword = (topic) => {
   let translationKeyword;
 
   switch (topic) {
@@ -60,7 +60,7 @@ const getTopicTranslationKeyword = topic => {
   return translationKeyword;
 };
 
-const getQuestionAnswerPairs = topic => {
+const getQuestionAnswerPairs = (topic) => {
   let questionAnswerPairs = [];
   let translationKeyword = getTopicTranslationKeyword(topic);
 
@@ -71,7 +71,7 @@ const getQuestionAnswerPairs = topic => {
   return questionAnswerPairs;
 };
 
-const getTopicHeader = topic => {
+const getTopicHeader = (topic) => {
   let translationKeyword = getTopicTranslationKeyword(topic);
   let topicHeader = '';
 

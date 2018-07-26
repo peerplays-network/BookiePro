@@ -154,13 +154,13 @@ const fmod = (
  *   Math.ceil for Back bets (round up)
  *   Math.floor for Lay bets (round down)
  */
-const rounding = betType => (betType === 'back' ? Math.ceil : Math.floor);
+const rounding = (betType) => (betType === 'back' ? Math.ceil : Math.floor);
 
 /*
  * Increase the Odds value by one unit defined in the increment ladder in CR#34
  * The maximum Odds is returned if the new value exceeds the upper limit
  */
-const incrementOdds = odds => {
+const incrementOdds = (odds) => {
   const floatNumber = parseFloat(odds);
   let newOdds = floatNumber + getOddsIncrement(floatNumber);
 
@@ -175,7 +175,7 @@ const incrementOdds = odds => {
  * Decrease the Odds value by one unit defined in the increment ladder in CR#34
  * The minimum Odds is returned if the new value falls below the lower limit
  */
-const decrementOdds = odds => {
+const decrementOdds = (odds) => {
   const floatNumber = parseFloat(odds);
   let newOdds = floatNumber - getOddsIncrement(floatNumber, true);
 

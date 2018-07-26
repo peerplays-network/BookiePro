@@ -31,7 +31,7 @@ const getSportName = createSelector(
   }
 );
 
-const getEventGroupPageLoadingStatusByEventGroupId = state => state
+const getEventGroupPageLoadingStatusByEventGroupId = (state) => state
   .getIn(['eventGroupPage', 'loadingStatusByEventGroupId']);
 
 const getEventGroupPageLoadingStatus = createSelector(
@@ -107,7 +107,7 @@ const getEventGroupPageData = createSelector(
     // Create event nodes (= event group page data) based on active events
     const activeEvents = activeEventsByEventGroupId.get(relatedEventGroupId) || Immutable.List();
     const eventGroupPageData = activeEvents
-      .map(event => {
+      .map((event) => {
         if (event.get('status') !== null || event.get('status') !== undefined) {
           const offers =
             simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
@@ -128,7 +128,7 @@ const getEventGroupPageData = createSelector(
           return Immutable.List();
         }
       })
-      .filter(eventNode => eventNode.get('bettingMarketGroupId') !== undefined);
+      .filter((eventNode) => eventNode.get('bettingMarketGroupId') !== undefined);
 
     return eventGroupPageData;
   }

@@ -28,7 +28,7 @@
     "electron": "^1.8.6",
     "enzyme": "~2.7.1",
     "eslint": "^5.2.0",
-    "eslint-config-react-app": "~0.5.1",
+    "eslint-config-react-app": "^0.5.2",
     "eslint-loader": "1.6.0",
     "eslint-plugin-flowtype": "2.21.0",
     "eslint-plugin-import": "2.0.1",

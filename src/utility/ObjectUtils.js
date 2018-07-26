@@ -140,10 +140,10 @@ const getAmountWonFromBetObject = function(bet, bettingMarketResolutionType) {
  */
 const localizeObject = function(object, fieldsToLocalize = [], lang = 'en') {
   let result = object;
-  fieldsToLocalize.forEach(field => {
+  fieldsToLocalize.forEach((field) => {
     const intlStringArrays = object.get(field);
     let targetString = '';
-    intlStringArrays.forEach(intlStringArray => {
+    intlStringArrays.forEach((intlStringArray) => {
       if (intlStringArray.get(0) === lang) {
         targetString = intlStringArray.get(1) || '';
       }
@@ -164,7 +164,7 @@ const localizeObject = function(object, fieldsToLocalize = [], lang = 'en') {
  * on fieldsToLocalize.
  */
 const localizeArrayOfObjects = function (arrayOfObjects, fieldsToLocalize = [], lang = 'en') {
-  return arrayOfObjects.map(object => localizeObject(object, fieldsToLocalize, lang));
+  return arrayOfObjects.map((object) => localizeObject(object, fieldsToLocalize, lang));
 };
 
 /**

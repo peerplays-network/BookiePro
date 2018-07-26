@@ -12,7 +12,7 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.BETTING_MARKET_GROUP_ADD_OR_UPDATE_BETTING_MARKET_GROUPS: {
       let bettingMarketGroupsById = Immutable.Map();
-      action.bettingMarketGroups.forEach(bettingMarketGroup => {
+      action.bettingMarketGroups.forEach((bettingMarketGroup) => {
         bettingMarketGroupsById = bettingMarketGroupsById.set(
           bettingMarketGroup.get('id'),
           bettingMarketGroup
@@ -23,7 +23,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.BETTING_MARKET_GROUP_ADD_PERSISTED_BETTING_MARKET_GROUPS: {
       let bettingMarketGroupsById = Immutable.Map();
-      action.bettingMarketGroups.forEach(bettingMarketGroup => {
+      action.bettingMarketGroups.forEach((bettingMarketGroup) => {
         bettingMarketGroupsById = bettingMarketGroupsById.set(
           bettingMarketGroup.get('id'),
           bettingMarketGroup
@@ -34,7 +34,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.BETTING_MARKET_GROUP_SET_GET_BETTING_MARKET_GROUPS_BY_IDS_LOADING_STATUS: {
       let getBettingMarketGroupsByIdsLoadingStatus = Immutable.Map();
-      action.bettingMarketGroupIds.forEach(id => {
+      action.bettingMarketGroupIds.forEach((id) => {
         getBettingMarketGroupsByIdsLoadingStatus = getBettingMarketGroupsByIdsLoadingStatus.set(
           id,
           action.loadingStatus
@@ -48,7 +48,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.BETTING_MARKET_GROUP_REMOVE_BETTING_MARKET_GROUPS_BY_IDS: {
       let nextState = state;
-      action.bettingMarketGroupIds.forEach(bettingMarketGroupId => {
+      action.bettingMarketGroupIds.forEach((bettingMarketGroupId) => {
         // Since we want to have persistent bmg list
         // Move bettingMarketGroup from bettingMarketGroupsById to persistedBettingMarketGroupsById
         const bettingMarketGroup = state.getIn(['bettingMarketGroupsById', bettingMarketGroupId]);
@@ -63,7 +63,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.BETTING_MARKET_GROUP_SET_GET_BETTING_MARKET_GROUPS_BY_EVENT_IDS_LOADING_STATUS: { // eslint-disable-line
       let getBettingMarketGroupsByEventIdsLoadingStatus = Immutable.Map();
-      action.eventIds.forEach(eventId => {
+      action.eventIds.forEach((eventId) => {
         getBettingMarketGroupsByEventIdsLoadingStatus = getBettingMarketGroupsByEventIdsLoadingStatus.set( // eslint-disable-line
           eventId,
           action.loadingStatus

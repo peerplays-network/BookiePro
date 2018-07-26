@@ -40,7 +40,7 @@ const getBettingMarketGroup = createSelector(
 );
 const getBettingMarketGroupStatus = createSelector(
   getBettingMarketGroup, // Id of current betting market group
-  bettingMarketGroup => ObjectUtils.bettingMarketGroupStatus(bettingMarketGroup)
+  (bettingMarketGroup) => ObjectUtils.bettingMarketGroupStatus(bettingMarketGroup)
 );
 
 const getBettingMarkets = createSelector(
@@ -51,7 +51,7 @@ const getBettingMarkets = createSelector(
   (bettingMarketGroupId, bettingMarketsById) => {
     // Filter all the betting markets by those that have the same BMG Id as the current BMG.
     let bettingMarkets = Immutable.List();
-    bettingMarketsById.forEach(bettingMarket => {
+    bettingMarketsById.forEach((bettingMarket) => {
       if (bettingMarket.get('group_id') === bettingMarketGroupId) {
         bettingMarkets = bettingMarkets.push(bettingMarket);
       }
@@ -67,22 +67,22 @@ const getEvent = createSelector(
     return event;
   }
 );
-const getEventStatus = createSelector(getEvent, event => ObjectUtils.eventStatus(event));
+const getEventStatus = createSelector(getEvent, (event) => ObjectUtils.eventStatus(event));
 
-const getEventName = createSelector(getEvent, event => {
+const getEventName = createSelector(getEvent, (event) => {
   const eventName = (event && event.get('name')) || '';
   return eventName;
 });
 
-const getEventTime = createSelector(getEvent, event => {
+const getEventTime = createSelector(getEvent, (event) => {
   const eventTime = (event && new Date(event.get('start_time'))) || new Date();
 
   return DateUtils.getLocalDate(eventTime);
 });
 
-const getIsLiveMarket = createSelector(getEvent, event => event && event.get('is_live_market'));
+const getIsLiveMarket = createSelector(getEvent, (event) => event && event.get('is_live_market'));
 
-const getTotalMatchedBetsByMarketGroupId = state => state
+const getTotalMatchedBetsByMarketGroupId = (state) => state
   .getIn(['liquidity', 'totalMatchedBetsByBettingMarketGroupId']);
 
 const getTotalMatchedBetsAmount = createSelector(
@@ -107,7 +107,7 @@ const getTotalMatchedBetsAmount = createSelector(
   }
 );
 
-const getUnconfirmedBets = state => state.getIn(['marketDrawer', 'unconfirmedBets']);
+const getUnconfirmedBets = (state) => state.getIn(['marketDrawer', 'unconfirmedBets']);
 
 const getWidgetTitle = createSelector(
   [getBettingMarketGroup], 
@@ -213,7 +213,7 @@ const getMarketData = createSelector(
           let aggregated_lay_bets =
             (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
 
-          aggregated_lay_bets = aggregated_lay_bets.map(aggregated_lay_bet => {
+          aggregated_lay_bets = aggregated_lay_bets.map((aggregated_lay_bet) => {
             const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
             const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
             return aggregated_lay_bet.set('odds', odds).set('price', price / (odds - 1));
@@ -222,7 +222,7 @@ const getMarketData = createSelector(
           let aggregated_back_bets =
             (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
 
-          aggregated_back_bets = aggregated_back_bets.map(aggregated_back_bet => {
+          aggregated_back_bets = aggregated_back_bets.map((aggregated_back_bet) => {
             const odds = aggregated_back_bet.get('backer_multiplier') / Config.oddsPrecision;
             const price = aggregated_back_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
 

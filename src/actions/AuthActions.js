@@ -111,7 +111,7 @@ class AuthPrivateActions {
    * This is internal action that is used for the exposed login and signup function
    */
   static processLogin(accountName, password) {
-    return dispatch => CommunicationService.getFullAccount(accountName).then(fullAccount => {
+    return (dispatch) => CommunicationService.getFullAccount(accountName).then((fullAccount) => {
       const account = fullAccount && fullAccount.get('account');
       const keys = KeyGeneratorService.generateKeys(accountName, password);
       const isAuthenticated = AccountService.authenticateAccount(account, keys);
@@ -184,7 +184,7 @@ class AuthActions {
    * Log the user in with account name and password
    */
   static login(accountName, password) {
-    return dispatch => {
+    return (dispatch) => {
       // Set register status to loading
       dispatch(AuthPrivateActions.setLoginLoadingStatusAction(LoadingStatus.LOADING));
       return dispatch(AuthPrivateActions.processLogin(accountName, password))
@@ -195,7 +195,7 @@ class AuthActions {
           // Set login status to done
           dispatch(AuthPrivateActions.setLoginLoadingStatusAction(LoadingStatus.DONE));
         })
-        .catch(error => {
+        .catch((error) => {
           log.error('Login error', error);
           // Set error
           dispatch(
@@ -206,7 +206,7 @@ class AuthActions {
   }
 
   static signup(accountName, password, depositsEnabled) {
-    return dispatch => {
+    return (dispatch) => {
       // Set register status to loading
       dispatch(AuthPrivateActions.setSignupLoadingStatusAction(LoadingStatus.LOADING));
 
@@ -236,7 +236,7 @@ class AuthActions {
           // Set register status to done
           dispatch(AuthPrivateActions.setSignupLoadingStatusAction(LoadingStatus.DONE));
         })
-        .catch(error => {
+        .catch((error) => {
           log.error('Signup Error', error);
           // Set error
           dispatch(
@@ -321,7 +321,7 @@ class AuthActions {
           //To display the success message
           dispatch(AuthPrivateActions.setChangePasswordLoadingStatusAction(LoadingStatus.DONE));
         })
-        .catch(error => {
+        .catch((error) => {
           // Get the available balance for the core asset. Default to 0 if the balance is undefined.
           const balance =
             getState().getIn([
@@ -333,7 +333,7 @@ class AuthActions {
 
           // Check the balance to determine if that was the error
           return CommunicationService.getOperationFee(ACCOUNT_UPDATE, Config.coreAsset).then(
-            fees => {
+            (fees) => {
               // Grab the amount for the account update operation
               const fee = fees.get(0).get('amount');
 
@@ -411,7 +411,7 @@ class AuthActions {
 
   //Clear any sign up related error from store
   static clearSignupError() {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(AuthPrivateActions.setSignupErrorsAction([]));
     };
   }

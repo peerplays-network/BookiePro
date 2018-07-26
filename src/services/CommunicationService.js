@@ -62,7 +62,7 @@ class CommunicationService {
    */
   static categorizeUpdatedDataFromBlockchain(data) {
     // Parse the data given by blockchain and categorize them
-    _.forEach(data, object => {
+    _.forEach(data, (object) => {
       // If updatedObject is object_id instead of an object, it means that object is deleted
       if (ChainValidation.is_object_id(object)) {
         const deletedObjectId = object;
@@ -72,7 +72,7 @@ class CommunicationService {
         if (isRelevantObject(objectIdPrefix)) {
           this.deletedObjectIdsByObjectIdPrefix = this.deletedObjectIdsByObjectIdPrefix.update(
             objectIdPrefix,
-            list => {
+            (list) => {
               if (!list) {
                 list = Immutable.List();
               }
@@ -89,7 +89,7 @@ class CommunicationService {
         if (isRelevantObject(objectIdPrefix)) {
           this.updatedObjectsByObjectIdByObjectIdPrefix = this.updatedObjectsByObjectIdByObjectIdPrefix.update( // eslint-disable-line
             objectIdPrefix,
-            map => {
+            (map) => {
               // Use map instead of list for more efficient duplicate detection
               if (!map) {
                 map = Immutable.Map();
@@ -119,7 +119,7 @@ class CommunicationService {
             'referenceAccount',
             'id'
           ]);
-          updatedObjects.forEach(updatedObject => {
+          updatedObjects.forEach((updatedObject) => {
             const accountId = updatedObject.get('id');
 
             // Check if this account is related to my account or software update account
@@ -143,7 +143,7 @@ class CommunicationService {
           let bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = Immutable.List();
           let matchedBetIds = Immutable.List();
           let canceledBetIds = Immutable.List();
-          updatedObjects.forEach(updatedObject => {
+          updatedObjects.forEach((updatedObject) => {
             const operationType = updatedObject.getIn(['op', 0]);
 
             if (operationType === ChainTypes.operations.bet_matched) {
@@ -161,8 +161,8 @@ class CommunicationService {
           });
 
           const betIds = matchedBetIds.concat(canceledBetIds);
-          this.getPersistedBookieObjectsByIds(betIds).then(bets => {
-            const bettingMarketIds = bets.map(bet => bet.get('betting_market_id'));
+          this.getPersistedBookieObjectsByIds(betIds).then((bets) => {
+            const bettingMarketIds = bets.map((bet) => bet.get('betting_market_id'));
             bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bettingMarketIdsOfBinnedOrderBooksToBeRefreshed // eslint-disable-line
               .concat(bettingMarketIds)
               .toSet()
@@ -175,8 +175,8 @@ class CommunicationService {
             );
 
             const bettingMarketIdsOfMatchedBets = bets
-              .filter(bet => matchedBetIds.contains(bet.get('id')))
-              .map(bet => bet.get('betting_market_id'));
+              .filter((bet) => matchedBetIds.contains(bet.get('id')))
+              .map((bet) => bet.get('betting_market_id'));
             // Update total matched bets
             this.dispatch(
               LiquidityActions.updateTotalMatchedBetsGivenBettingMarketIds(
@@ -218,7 +218,7 @@ class CommunicationService {
             'referenceAccount',
             'id'
           ]);
-          updatedObjects.forEach(updatedObject => {
+          updatedObjects.forEach((updatedObject) => {
             const ownerId = updatedObject.get('owner');
 
             // Check if this statistic is related to my account or software update account
@@ -239,7 +239,7 @@ class CommunicationService {
           const myAccountId = this.getState().getIn(['account', 'account', 'id']);
           // Filter the balances related to the account
           const myAvailableBalances = updatedObjects.filter(
-            balance => balance.get('owner') === myAccountId
+            (balance) => balance.get('owner') === myAccountId
           );
           this.dispatch(BalanceActions.addOrUpdateAvailableBalances(myAvailableBalances));
 
@@ -304,7 +304,7 @@ class CommunicationService {
             BettingMarketActions.addOrUpdateBettingMarketsAction(localizedUpdatedObject)
           );
           // Get betting market id
-          const bettingMarketIds = localizedUpdatedObject.map(object => object.get('id'));
+          const bettingMarketIds = localizedUpdatedObject.map((object) => object.get('id'));
           // Delete the bets
           this.dispatch(DrawerActions.deleteBets(bettingMarketIds));
           // Get related binned order books
@@ -329,7 +329,7 @@ class CommunicationService {
       switch (objectIdPrefix) {
         case ObjectPrefix.ACCOUNT_PREFIX: {
           const myAccountId = this.getState().getIn(['account', 'account', 'id']);
-          deletedObjectIdsByObjectIdPrefix.forEach(deletedObjectId => {
+          deletedObjectIdsByObjectIdPrefix.forEach((deletedObjectId) => {
             // Check if this account is related to my account
             if (deletedObjectId === myAccountId) {
               // If it is, logout the user
@@ -416,7 +416,7 @@ class CommunicationService {
     if (apiPlugin) {
       return apiPlugin
         .exec(methodName, params)
-        .then(result => {
+        .then((result) => {
           // Intercept and log
           if (
             methodName !== 'get_binned_order_book' &&
@@ -434,7 +434,7 @@ class CommunicationService {
 
           return Immutable.fromJS(result);
         })
-        .catch(error => {
+        .catch((error) => {
           // Intercept and log
           log.error(
             `Error in calling ${apiPluginName}\nMethod: ${methodName}\nParams: ${JSON.stringify(
@@ -512,7 +512,7 @@ class CommunicationService {
       // to ensure blockchain time is in sync
       // Also ask for core asset here
       this.callBlockchainDbApi('get_objects', [['2.1.0', '2.0.0', Config.coreAsset]])
-        .then(result => {
+        .then((result) => {
           const blockchainDynamicGlobalProperty = result.get(0);
           const blockchainGlobalProperty = result.get(1);
           const coreAsset = result.get(2);
@@ -561,7 +561,7 @@ class CommunicationService {
             throw new Error();
           }
         })
-        .catch(error => {
+        .catch((error) => {
           log.error('Sync with Blockchain Fail', error);
 
           // Retry if needed
@@ -574,7 +574,7 @@ class CommunicationService {
             throw new Error('Fail to Sync with Blockchain.');
           }
         })
-        .catch(error => {
+        .catch((error) => {
           // Caught any error thrown by the recursive promise and reject it
           reject(error);
         });
@@ -615,11 +615,12 @@ class CommunicationService {
    * Get full account
    */
   static getFullAccount(accountNameOrId) {
-    return this.callBlockchainDbApi('get_full_accounts', [[accountNameOrId], true]).then(result => {
-      const fullAccount = result.getIn([0, 1]);
-      // Return the full account
-      return fullAccount;
-    });
+    return this.callBlockchainDbApi('get_full_accounts', [[accountNameOrId], true])
+      .then((result) => {
+        const fullAccount = result.getIn([0, 1]);
+        // Return the full account
+        return fullAccount;
+      });
   }
 
   /**
@@ -649,7 +650,7 @@ class CommunicationService {
       stopTxHistoryId,
       adjustedLimit,
       startTxHistoryId
-    ]).then(history => {
+    ]).then((history) => {
       // Concat to the result
       result = result.concat(history);
       const remainingLimit = limit - adjustedLimit;
@@ -663,7 +664,7 @@ class CommunicationService {
           newStartTxHistoryId,
           stopTxHistoryId,
           remainingLimit
-        ).then(nextHistory => result.concat(nextHistory.shift()));
+        ).then((nextHistory) => result.concat(nextHistory.shift()));
       } else {
         return history;
       }
@@ -684,7 +685,7 @@ class CommunicationService {
    */
   static getObjectsByIds(arrayOfObjectIds = []) {
     return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds])
-      .then(result => result.filter(object => !!object));
+      .then((result) => result.filter((object) => !!object));
   }
 
   /**
@@ -693,7 +694,7 @@ class CommunicationService {
    */
   static getPersistedBookieObjectsByIds(arrayOfObjectIds = []) {
     return this.callBlockchainBookieApi('get_objects', [arrayOfObjectIds])
-      .then(result => result.filter(object => !!object));
+      .then((result) => result.filter((object) => !!object));
   }
 
   /**
@@ -708,7 +709,7 @@ class CommunicationService {
    */
   static getAllSports() {
     return this.callBlockchainDbApi('list_sports')
-      .then(sports => ObjectUtils.localizeArrayOfObjects(sports, ['name']));
+      .then((sports) => ObjectUtils.localizeArrayOfObjects(sports, ['name']));
   }
 
   /**
@@ -719,10 +720,15 @@ class CommunicationService {
       sportIds = sportIds.toJS();
     }
 
-    let promises = sportIds.map(sportId => this.callBlockchainDbApi('list_event_groups', [sportId])
-      .then(eventGroups => ObjectUtils.localizeArrayOfObjects(eventGroups, ['name'])));
+    let promises = sportIds
+      .map((sportId) => {
+        let promise = this.callBlockchainDbApi('list_event_groups', [sportId])
+          .then((eventGroups) => ObjectUtils.localizeArrayOfObjects(eventGroups, ['name']));
 
-    return Promise.all(promises).then(result => Immutable.fromJS(result).flatten(true));
+        return promise;
+      });
+
+    return Promise.all(promises).then((result) => Immutable.fromJS(result).flatten(true));
   }
 
   /**
@@ -734,9 +740,9 @@ class CommunicationService {
     }
 
     let promises = eventGroupIds
-      .map(eventGroupId => this.callBlockchainDbApi('list_events_in_group', [eventGroupId])
-        .then(events => {
-          const ids = events.toJS().map(event => event.id);
+      .map((eventGroupId) => this.callBlockchainDbApi('list_events_in_group', [eventGroupId])
+        .then((events) => {
+          const ids = events.toJS().map((event) => event.id);
           const localizedEvents = ObjectUtils.localizeArrayOfObjects(events, ['name', 'season']);
 
           // If there are no events, returned an empty object
@@ -748,7 +754,7 @@ class CommunicationService {
           return this.getEventsByIds(ids).then(() => localizedEvents);
         })
       );
-    return Promise.all(promises).then(result => Immutable.fromJS(result).flatten(true));
+    return Promise.all(promises).then((result) => Immutable.fromJS(result).flatten(true));
   }
 
   /**
@@ -760,10 +766,10 @@ class CommunicationService {
     }
 
     let promises = eventIds
-      .map(eventId => this.callBlockchainDbApi('list_betting_market_groups', [eventId])
+      .map((eventId) => this.callBlockchainDbApi('list_betting_market_groups', [eventId])
         .then(
-          bettingMarketGroups => {
-            const ids = bettingMarketGroups.toJS().map(bmg => bmg.id);
+          (bettingMarketGroups) => {
+            const ids = bettingMarketGroups.toJS().map((bmg) => bmg.id);
             const localizedMarketGroups = ObjectUtils.localizeArrayOfObjects(bettingMarketGroups, [
               'description'
             ]);
@@ -778,7 +784,7 @@ class CommunicationService {
           }
         )
       );
-    return Promise.all(promises).then(result => Immutable.fromJS(result).flatten(true));
+    return Promise.all(promises).then((result) => Immutable.fromJS(result).flatten(true));
   }
 
   /**
@@ -792,9 +798,9 @@ class CommunicationService {
     let promises = bettingMarketGroupIds
       .map(bettingMarketGroupId => this.callBlockchainDbApi('list_betting_markets', [bettingMarketGroupId]) // eslint-disable-line
         .then(
-          bettingMarkets => {
+          (bettingMarkets) => {
             // Call get_objects here so that we can subscribe to updates
-            const ids = bettingMarkets.toJS().map(market => market.id);
+            const ids = bettingMarkets.toJS().map((market) => market.id);
             const localizedBettingMarkets = ObjectUtils.localizeArrayOfObjects(bettingMarkets, [
               'description',
               'payout_condition'
@@ -810,7 +816,7 @@ class CommunicationService {
           }
         )
       );
-    return Promise.all(promises).then(result => Immutable.fromJS(result).flatten(true));
+    return Promise.all(promises).then((result) => Immutable.fromJS(result).flatten(true));
   }
 
   /**
@@ -825,7 +831,7 @@ class CommunicationService {
     const promises = bettingMarketIds
       .map(bettingMarketId => this.callBlockchainBookieApi('get_binned_order_book', [bettingMarketId, binningPrecision])); // eslint-disable-line
 
-    return Promise.all(promises).then(result => {
+    return Promise.all(promises).then((result) => {
       let finalResult = Immutable.Map();
       // Modify the data structure of return objects, from list of binnedOrderBooks into 
       // dictionary of binnedOrderBooks with betting market id as the key
@@ -851,7 +857,7 @@ class CommunicationService {
     let promises = bettingMarketGroupIds
       .map(bettingMarketGroupId => this.callBlockchainBookieApi('get_total_matched_bet_amount_for_betting_market_group', [bettingMarketGroupId])); // eslint-disable-line
 
-    return Promise.all(promises).then(result => {
+    return Promise.all(promises).then((result) => {
       // Map the result with betting market groupIds
       let totalMatchedBetsByMarketGroupId = Immutable.Map();
       _.forEach(result, (totalMatchedBet, index) => {
@@ -888,7 +894,7 @@ class CommunicationService {
    */
   static getBettingMarketGroupsByIds(bettingMarketGroupIds) {
     return this.getObjectsByIds(bettingMarketGroupIds)
-      .then(result => ObjectUtils.localizeArrayOfObjects(result, ['description']));
+      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description']));
   }
 
   /**
@@ -896,7 +902,7 @@ class CommunicationService {
    */
   static getPersistedBettingMarketGroupsByIds(bettingMarketGroupIds) {
     return this.getPersistedBookieObjectsByIds(bettingMarketGroupIds)
-      .then(result => ObjectUtils.localizeArrayOfObjects(result, ['description']));
+      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description']));
   }
 
   /**
@@ -904,7 +910,7 @@ class CommunicationService {
    */
   static getEventsByIds(eventIds) {
     return this.getObjectsByIds(eventIds)
-      .then(result => ObjectUtils.localizeArrayOfObjects(result, ['name']));
+      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['name']));
   }
 
   /**
@@ -912,7 +918,7 @@ class CommunicationService {
    */
   static getPersistedEventsByIds(eventIds) {
     return this.getPersistedBookieObjectsByIds(eventIds)
-      .then(result => ObjectUtils.localizeArrayOfObjects(result, ['name']));
+      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['name']));
   }
 
   /**
@@ -920,7 +926,7 @@ class CommunicationService {
    */
   static getEventGroupsByIds(eventGroupIds) {
     return this.getObjectsByIds(eventGroupIds)
-      .then(result => ObjectUtils.localizeArrayOfObjects(result, ['name']));
+      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['name']));
   }
 
   /**
@@ -928,7 +934,7 @@ class CommunicationService {
    */
   static getSportsByIds(sportIds) {
     return this.getObjectsByIds(sportIds)
-      .then(result => ObjectUtils.localizeArrayOfObjects(result, ['name']));
+      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['name']));
   }
 
   /**
@@ -936,7 +942,7 @@ class CommunicationService {
    */
   static getRulesByIds(ruleIds) {
     return this.getObjectsByIds(ruleIds)
-      .then(result => ObjectUtils.localizeArrayOfObjects(result, ['description', 'name']));
+      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description', 'name']));
   }
 
   /**

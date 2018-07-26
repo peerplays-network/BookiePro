@@ -86,7 +86,7 @@ class EventActions {
         const eventGroupId = event.get('event_group_id');
 
         if (eventGroupId) {
-          eventsByEventGroupId = eventsByEventGroupId.update(eventGroupId, events => {
+          eventsByEventGroupId = eventsByEventGroupId.update(eventGroupId, (events) => {
             if (!events) {
               events = Immutable.List();
             }
@@ -101,7 +101,7 @@ class EventActions {
         'event',
         'getEventsByEventGroupIdsLoadingStatus'
       ]);
-      eventGroupIds.forEach(eventGroupId => {
+      eventGroupIds.forEach((eventGroupId) => {
         if (getEventsByEventGroupIdsLoadingStatus.get(eventGroupId) === LoadingStatus.DONE) {
           if (eventsByEventGroupId.has(eventGroupId)) {
             retrievedEvents = retrievedEvents.concat(eventsByEventGroupId.get(eventGroupId));
@@ -127,7 +127,7 @@ class EventActions {
         );
         return CommunicationService.getEventsByEventGroupIds(
           eventGroupIdsOfEventsToBeRetrieved
-        ).then(events => {
+        ).then((events) => {
           // Add data to redux store
           dispatch(EventActions.addOrUpdateEventsAction(events));
           // Set status
@@ -137,7 +137,7 @@ class EventActions {
               LoadingStatus.DONE
             )
           );
-          const eventIds = events.map(event => event.get('id'));
+          const eventIds = events.map((event) => event.get('id'));
           dispatch(
             EventPrivateActions.setGetEventsByIdsLoadingStatusAction(eventIds, LoadingStatus.DONE)
           );
@@ -164,7 +164,7 @@ class EventActions {
         'event',
         'getEventsByIdsLoadingStatus'
       ]);
-      eventIds.forEach(eventId => {
+      eventIds.forEach((eventId) => {
         if (getEventsByIdsLoadingStatus.get(eventId) === LoadingStatus.DONE) {
           if (eventsById.has(eventId)) {
             retrievedEvents = retrievedEvents.push(eventsById.get(eventId));
@@ -186,7 +186,7 @@ class EventActions {
             LoadingStatus.LOADING
           )
         );
-        return CommunicationService.getEventsByIds(idsOfEventsToBeRetrieved).then(events => {
+        return CommunicationService.getEventsByIds(idsOfEventsToBeRetrieved).then((events) => {
           retrievedEvents = retrievedEvents.concat(events);
 
           // Check if we have retrieved all events
@@ -205,13 +205,13 @@ class EventActions {
             return retrievedEvents;
           } else {
             // Some of them are not fetched, use persistent api to fetch it
-            const retrievedEventIds = events.map(event => event.get('id'));
+            const retrievedEventIds = events.map((event) => event.get('id'));
             const filteredIdsOfEventsToBeRetrieved = idsOfEventsToBeRetrieved
-              .filterNot(id => retrievedEventIds.includes(id));
+              .filterNot((id) => retrievedEventIds.includes(id));
               
             return CommunicationService.getPersistedEventsByIds(
               filteredIdsOfEventsToBeRetrieved
-            ).then(persistedEvents => {
+            ).then((persistedEvents) => {
               retrievedEvents = retrievedEvents.concat(persistedEvents);
               // Add to redux store
               dispatch(EventActions.addOrUpdateEventsAction(events));
@@ -246,10 +246,10 @@ class EventActions {
         Search will be performed on these events
       **/
       const eventsById = getState().getIn(['event', 'eventsById']);
-      let myEvents = eventsById.toArray().filter(event => ObjectUtils.isActiveEvent(event));
+      let myEvents = eventsById.toArray().filter((event) => ObjectUtils.isActiveEvent(event));
       let eventList = Immutable.List(myEvents);
 
-      const filteredResult = eventList.toArray().filter(item => {
+      const filteredResult = eventList.toArray().filter((item) => {
         const teamNameArray = item.get('name').split(' vs ') || item.get('name').split('/') || [];
         const team1Name = teamNameArray[0];
         const team2Name = teamNameArray[1];
@@ -274,7 +274,7 @@ class EventActions {
    * Clear search result
    */
   static clearSearchResult() {
-    return dispatch => {
+    return (dispatch) => {
       dispatch(EventPrivateActions.setSearchResultAction(Immutable.List()));
     };
   }

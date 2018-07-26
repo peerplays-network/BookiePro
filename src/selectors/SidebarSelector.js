@@ -3,6 +3,8 @@ import CommonSelector from './CommonSelector';
 import Immutable from 'immutable';
 import {DateUtils} from '../utility';
 import {Config} from '../constants';
+import {I18n} from 'react-redux-i18n';
+import {LoadingStatus} from '../constants';
 
 const {
   getSportsById,
@@ -10,10 +12,8 @@ const {
   getActiveEventsById,
   getBettingMarketGroupsById
 } = CommonSelector;
-import {I18n} from 'react-redux-i18n';
-import {LoadingStatus} from '../constants';
 
-const getSidebarLoadingStatus = state => state.getIn(['sidebar', 'loadingStatus']);
+const getSidebarLoadingStatus = (state) => state.getIn(['sidebar', 'loadingStatus']);
 
 // item : immutable.js
 // componentClass : String
@@ -62,13 +62,13 @@ const getSidebarCompleteTree = createSelector(
       // Map each item according to its parent id
       const eventGroupsBySportId = eventGroupsById
         .toList()
-        .groupBy(eventGroup => eventGroup.get('sport_id'));
+        .groupBy((eventGroup) => eventGroup.get('sport_id'));
       const activeEventsByEventGroupId = activeEventsById
         .toList()
-        .groupBy(event => event.get('event_group_id'));
+        .groupBy((event) => event.get('event_group_id'));
       const bettingMktGroupByEventId = bettingMarketGroupsById
         .toList()
-        .groupBy(bettingMktGroup => bettingMktGroup.get('event_id'));
+        .groupBy((bettingMktGroup) => bettingMktGroup.get('event_id'));
       // Add hard code header "all sports"
       const allSportsHeader = Immutable.fromJS({
         name: I18n.t('AllSports.allSports') /*require for menu lib */,
@@ -86,14 +86,14 @@ const getSidebarCompleteTree = createSelector(
       const sportList = sportsById.toList().sort(sortById);
       // For each sport, create sport node
       const sportNodes = sportList
-        .map(sport => {
+        .map((sport) => {
           let sportNode = createNode(sport, 'Sport');
           // Sort event group by id
           let eventGroupList = eventGroupsBySportId.get(sport.get('id')) || Immutable.List();
           eventGroupList = eventGroupList.sort(sortById);
           // For each event group, create event group node
           const eventGroupNodes = eventGroupList
-            .map(eventGroup => {
+            .map((eventGroup) => {
               let eventGroupNode = createNode(eventGroup, 'EventGroup');
               // Sort event by id
               let eventList =
@@ -101,7 +101,7 @@ const getSidebarCompleteTree = createSelector(
               eventList = eventList.sort(sortById);
               // For each active event, create event node
               const eventNodes = eventList
-                .map(event => {
+                .map((event) => {
                   let eventNode = createNode(event, 'Event');
                   // Set isLiveMarket
                   eventNode = eventNode.set(
@@ -113,11 +113,11 @@ const getSidebarCompleteTree = createSelector(
                   let bettingMktGroupList =
                     bettingMktGroupByEventId.get(event.get('id')) || Immutable.List();
                   bettingMktGroupList = bettingMktGroupList
-                    .filter(bmg => bmg.get('asset_id') === assetId);
+                    .filter((bmg) => bmg.get('asset_id') === assetId);
 
                   bettingMktGroupList = bettingMktGroupList.sort(sortById);
                   // For each betting market group, create betting market group node
-                  const bettingMktGroupNodes = bettingMktGroupList.map(mktGroup => {
+                  const bettingMktGroupNodes = bettingMktGroupList.map((mktGroup) => {
                     let mktGroupNode = createNode(mktGroup, 'BettingMarketGroup');
                     mktGroupNode = mktGroupNode.set('description', mktGroup.get('description'));
                     mktGroupNode = mktGroupNode.set('name', mktGroup.get('description'));
@@ -128,13 +128,13 @@ const getSidebarCompleteTree = createSelector(
                   return eventNode;
                   // filter events that do not have BMGs
                 })
-                .filter(event => event.get('children').size > 0); 
+                .filter((event) => event.get('children').size > 0); 
                 
               // Append event to event group
               eventGroupNode = eventGroupNode.set('children', eventNodes);
               return eventGroupNode;
             })
-            .filter(eventGroup => {
+            .filter((eventGroup) => {
               // filter eventGroups that have no events
               let filtered = false;
               let eventName = eventGroup.get('name').toUpperCase();
@@ -150,7 +150,9 @@ const getSidebarCompleteTree = createSelector(
           sportNode = sportNode.set('children', eventGroupNodes);
           return sportNode;
         })
-        .filter(sport => sport.get('children').size > 0); // filter sports that have no event groups
+        .filter((sport) => sport.get('children').size > 0); 
+        // filter sports that have no event groups
+
       // Append sport to complete tree
       completeTree = completeTree.concat(sportNodes);
     }

@@ -34,15 +34,16 @@ class DrawerActions {
         // Filter the unplacedBets list for bets that belong to a betting market that has 
         // been updated. (Determined by bettingMarketIds).
         betsToDelete = betsToDelete.concat(
-          unplacedBets.filter(bet => bet.get('betting_market_id') === id)
+          unplacedBets.filter((bet) => bet.get('betting_market_id') === id)
         );
       }
 
       // Dispatch the deletion actions for the two drawers with the betsToDelete list.
       // 'unconfirmedBets' can be see in redux state under Market Drawer.
-      dispatch(PrivateDrawerActions.deleteManyUnconfirmedBets(betsToDelete.map(b => b.get('id'))));
+      let betIdsToDelete = betsToDelete.map((b) => b.get('id'));
+      dispatch(PrivateDrawerActions.deleteManyUnconfirmedBets(betIdsToDelete));
       // 'bets' can be seen in redux state under Quick Bet Drawer.
-      dispatch(PrivateDrawerActions.deleteManyBets(betsToDelete.map(b => b.get('id'))));
+      dispatch(PrivateDrawerActions.deleteManyBets(betsToDelete.map((b) => b.get('id'))));
     };
   }
 }

@@ -18,10 +18,10 @@ export default function(state = initialState, action) {
         .set('stake', undefined)
         .set('profit', undefined)
         .set('liability', undefined)
-        .update('odds', odds => (odds !== '' ? odds.toFixed(2) : ''));
+        .update('odds', (odds) => (odds !== '' ? odds.toFixed(2) : ''));
       // If no match, returns -1
       const index = oldBets.findIndex(
-        b => b.get('bet_type') === newBet.get('bet_type') &&
+        (b) => b.get('bet_type') === newBet.get('bet_type') &&
           b.get('betting_market_id') === newBet.get('betting_market_id')
       );
 
@@ -40,7 +40,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.QUICK_BET_DRAWER_DELETE_ONE_BET: {
       return state.merge({
-        bets: oldBets.filterNot(b => b.get('id') === action.betId),
+        bets: oldBets.filterNot((b) => b.get('id') === action.betId),
         // In case the sucess screen is on, we should turn it off after deleting a bet
         overlay: BettingDrawerStates.NO_OVERLAY
       });
@@ -64,7 +64,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.QUICK_BET_DRAWER_DELETE_MANY_BETS: {
       return state.merge({
-        bets: oldBets.filterNot(b => action.listOfBetIds.includes(b.get('id'))),
+        bets: oldBets.filterNot((b) => action.listOfBetIds.includes(b.get('id'))),
         // In case the success screen is on, we should turn it off after deleting bets
         overlay: BettingDrawerStates.NO_OVERLAY,
         betsToBeDeleted: Immutable.List(),
@@ -83,7 +83,7 @@ export default function(state = initialState, action) {
     }
 
     case ActionTypes.QUICK_BET_DRAWER_UPDATE_ONE_BET: {
-      const index = oldBets.findIndex(b => b.get('id') === action.delta.get('id'));
+      const index = oldBets.findIndex((b) => b.get('id') === action.delta.get('id'));
       const {delta} = action;
       let bet = oldBets.get(index).set(delta.get('field'), delta.get('value'));
       const betType = bet.get('bet_type');

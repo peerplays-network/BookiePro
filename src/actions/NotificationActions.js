@@ -90,14 +90,14 @@ class NotificationActions {
             dispatch(AssetActions.getAssetsByIds(relevantAssetIds)),
             dispatch(BettingMarketActions.getBettingMarketsByIds(relevantBettingMarketIds))
           ])
-            .then(result => {
+            .then((result) => {
               const assets = result[0];
               const bettingMarkets = result[1];
               const relevantAssetsById = Immutable.Map(
-                assets.map(asset => [asset.get('id'), asset])
+                assets.map((asset) => [asset.get('id'), asset])
               );
               const relevantBettingMarketsById = Immutable.Map(
-                bettingMarkets.map(bettingMarket => [bettingMarket.get('id'), bettingMarket])
+                bettingMarkets.map((bettingMarket) => [bettingMarket.get('id'), bettingMarket])
               );
               // Create notifications and store it
               const notifications = NotificationService.convertTransactionsToNotifications(
@@ -112,7 +112,7 @@ class NotificationActions {
               );
               log.debug('Update notification succeeds.');
             })
-            .catch(error => {
+            .catch((error) => {
               if (attempt > 0) {
                 log.warn('Retry updating notification', error);
                 return dispatch(NotificationActions.updateNotifications(transactions, attempt - 1));
@@ -130,7 +130,7 @@ class NotificationActions {
    * Add soft update notification
    */
   static addSoftUpdateNotification(version, versionPublishDate, updateLink) {
-    return dispatch => {
+    return (dispatch) => {
       // Create notification object and add it
       const type = NotificationTypes.SOFTWARE_UPDATE_AVAILABLE;
       const content = `${I18n.t('notification.software_update')}`;
@@ -160,7 +160,7 @@ class NotificationActions {
       return;
     }
 
-    return dispatch => {
+    return (dispatch) => {
       const type = NotificationTypes.TRANSACTION_HISTORY_DATA_EXPORTED;
       const content = I18n.t('notification.transaction_history_data_exported');
       const date = new Date();

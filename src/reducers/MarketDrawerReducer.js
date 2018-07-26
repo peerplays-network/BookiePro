@@ -23,10 +23,10 @@ export default function(state = initialState, action) {
         .set('stake', undefined)
         .set('profit', undefined)
         .set('liability', undefined)
-        .update('odds', odds => (odds !== '' ? odds.toFixed(2) : ''));
+        .update('odds', (odds) => (odds !== '' ? odds.toFixed(2) : ''));
       // If no match, returns -1
       const index = unconfirmedBets.findIndex(
-        b => b.get('bet_type') === newBet.get('bet_type') &&
+        (b) => b.get('bet_type') === newBet.get('bet_type') &&
           b.get('betting_market_id') === newBet.get('betting_market_id')
       );
 
@@ -45,7 +45,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.MARKET_DRAWER_DELETE_ONE_UNCONFIRMED_BET: {
       return state.merge({
-        unconfirmedBets: unconfirmedBets.filterNot(b => b.get('id') === action.betId),
+        unconfirmedBets: unconfirmedBets.filterNot((b) => b.get('id') === action.betId),
         overlay: BettingDrawerStates.NO_OVERLAY
       });
     }
@@ -66,7 +66,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.MARKET_DRAWER_DELETE_MANY_UNCONFIRMED_BETS: {
       return state.merge({
-        unconfirmedBets: unconfirmedBets.filterNot(b => action.listOfBetIds.includes(b.get('id'))),
+        unconfirmedBets: unconfirmedBets.filterNot((b) => action.listOfBetIds.includes(b.get('id'))), // eslint-disable-line
         overlay: BettingDrawerStates.NO_OVERLAY,
         unconfirmedbetsToBeDeleted: Immutable.List()
       });
@@ -81,7 +81,7 @@ export default function(state = initialState, action) {
     }
 
     case ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNCONFIRMED_BET: {
-      const index = unconfirmedBets.findIndex(b => b.get('id') === action.delta.get('id'));
+      const index = unconfirmedBets.findIndex((b) => b.get('id') === action.delta.get('id'));
       const {delta} = action;
       let bet = unconfirmedBets.get(index).set(delta.get('field'), delta.get('value'));
       const betType = bet.get('bet_type');
@@ -176,7 +176,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.MARKET_DRAWER_UPDATE_ONE_UNMATCHED_BET: {
       const {delta} = action;
-      const index = unmatchedBets.findIndex(b => b.get('id') === delta.get('id'));
+      const index = unmatchedBets.findIndex((b) => b.get('id') === delta.get('id'));
       let bet = unmatchedBets.get(index).set(delta.get('field'), delta.get('value'));
       const betType = bet.get('bet_type');
 
@@ -217,7 +217,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.MARKET_DRAWER_DELETE_ONE_UNMATCHED_BET: {
       return state.merge({
-        unmatchedBets: unmatchedBets.filterNot(b => b.get('id') === action.betId)
+        unmatchedBets: unmatchedBets.filterNot((b) => b.get('id') === action.betId)
       });
     }
 
@@ -244,7 +244,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.MARKET_DRAWER_DELETE_MANY_UNMATCHED_BETS: {
       return state.merge({
-        unmatchedBets: unmatchedBets.filterNot(b => action.listOfBetIds.includes(b.get('id'))),
+        unmatchedBets: unmatchedBets.filterNot((b) => action.listOfBetIds.includes(b.get('id'))),
         unmatchedbetsToBeDeleted: Immutable.List(),
         overlay: BettingDrawerStates.NO_OVERLAY
       });
@@ -292,7 +292,7 @@ export default function(state = initialState, action) {
     case ActionTypes.MARKET_DRAWER_RESET_UNMATCHED_BETS: {
       // Just reset every bet to their original values
       // It is a small list anyway
-      const restoredBets = unmatchedBets.map(bet => bet
+      const restoredBets = unmatchedBets.map((bet) => bet
         .set('updated', false)
         .set('odds', bet.get('original_odds'))
         .set('stake', bet.get('original_stake'))

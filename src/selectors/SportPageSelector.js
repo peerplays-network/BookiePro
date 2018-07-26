@@ -25,7 +25,7 @@ const getSportName = createSelector(
   (sportId, sportsById) => sportsById.getIn([sportId, 'name']) || ''
 );
 
-const getSportPageLoadingStatusBySportId = state => state
+const getSportPageLoadingStatusBySportId = (state) => state
   .getIn(['sportPage', 'loadingStatusBySportId']);
 
 const getSportPageLoadingStatus = createSelector(
@@ -106,7 +106,7 @@ const getSportPageData = createSelector(
     let sportPageData = Immutable.List();
     const eventGroups = eventGroupsBySportId.get(relatedSportId) || Immutable.List();
     let coreAsset = Config.coreAsset;
-    eventGroups.forEach(eventGroup => {
+    eventGroups.forEach((eventGroup) => {
       // Initialize event group node
       let eventGroupNode = Immutable.Map()
         .set('name', eventGroup.get('name'))
@@ -114,7 +114,7 @@ const getSportPageData = createSelector(
       // Create event nodes based on active events
       const activeEvents = activeEventsByEventGroupId.get(eventGroup.get('id')) || Immutable.List();
       const eventNodes = activeEvents
-        .map(event => {
+        .map((event) => {
           if (event.get('status') !== null && event.get('status') !== undefined) {
             const offers =
               simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
@@ -140,7 +140,7 @@ const getSportPageData = createSelector(
             return Immutable.List();
           }
         })
-        .filter(eventNode => {
+        .filter((eventNode) => {
           // Filter out results that do not have betting market group UIA 
           // matching the configured UIA in Config.js
           const isCoreAsset = eventNode.get('bmgAsset') === coreAsset;

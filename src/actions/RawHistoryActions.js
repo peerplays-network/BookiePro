@@ -78,7 +78,7 @@ class RawHistoryActions {
           RawHistoryPrivateActions.setInitRawHistoryLoadingStatusAction(LoadingStatus.LOADING)
         );
         CommunicationService.fetchRecentHistory(accountId, stopTxHistoryId)
-          .then(transactions => {
+          .then((transactions) => {
             // Prepend transaction history
             dispatch(
               RawHistoryPrivateActions.prependRawTransactionsToRawHistoryAction(
@@ -98,7 +98,7 @@ class RawHistoryActions {
             );
             log.debug('Init raw history succeed.');
           })
-          .catch(error => {
+          .catch((error) => {
             // Set error
             dispatch(RawHistoryPrivateActions.setInitRawHistoryErrorAction(error));
             log.error('Init raw history error', error);
@@ -136,7 +136,7 @@ class RawHistoryActions {
           );
           let fetchedTransactions;
           return CommunicationService.fetchRecentHistory(accountId, stopTxHistoryId)
-            .then(transactions => {
+            .then((transactions) => {
               fetchedTransactions = transactions;
               // Prepend transaction history
               dispatch(
@@ -161,7 +161,7 @@ class RawHistoryActions {
               );
               log.debug('Check for new raw history succeed.');
             })
-            .catch(error => {
+            .catch((error) => {
               // Set error
               dispatch(RawHistoryPrivateActions.setCheckForNewRawHistoryLoadingStatusAction(error));
               log.error('Check for raw history error', error);
