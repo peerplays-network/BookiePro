@@ -211,7 +211,7 @@ class MyWager extends PureComponent {
    * isCancelAllConfirmModalVisible value true will trigger to show Confirmation pop-up
    * for deleting all Unmatched bets.
    */
-  cancelAllBets() {
+  cancelAllBets(event) {
     event.preventDefault();
     //To show export related status after the 'Export' button is clicked
     this.setState({isCancelAllConfirmModalVisible: true});
@@ -295,7 +295,7 @@ function filterOdds(tableData, oddsFormat) {
   return tableData;
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   betsData: getBetData(state),
   betsLoadingStatus: getBetsLoadingStatus(state),
   betsCurrencyFormat: getCurrencyFormat(state),

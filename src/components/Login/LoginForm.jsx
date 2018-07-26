@@ -53,7 +53,7 @@ const renderField = ({
     />
     {touched && error && <span className='errorText'>{error}</span>}
     {!error && errors && errors.length
-      ? errors.map(currentError => (
+      ? errors.map((currentError) => (
         <span className='errorText' key={ currentError }>
           {currentError}
         </span>
@@ -66,7 +66,7 @@ const renderField = ({
  * accountname validation - normalize - restrict user to enter invalid characters
  * signup button disabled if username or password not entered
  */
-const LoginForm = props => {
+const LoginForm = (props) => {
   const {handleSubmit, invalid, submitting, asyncValidating, onClickSignup, errors, status} = props;
   return (
     <form onSubmit={ handleSubmit }>
@@ -146,7 +146,7 @@ const LoginForm = props => {
 let form = reduxForm({form: 'login'})(LoginForm);
 
 const selector = formValueSelector('login');
-form = connect(state => {
+form = connect((state) => {
   const hasUserName = selector(state, 'userName');
   const hasPassword = selector(state, 'password');
   const hasEulaChecked = selector(state, 'eulaAgree');

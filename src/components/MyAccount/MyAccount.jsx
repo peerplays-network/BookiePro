@@ -380,7 +380,7 @@ MyAccount.defaultProps = {
   americanOddsEnabled: Config.features.americanOdds
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   lastIrreversibleBlockNum: MyAccountPageSelector.lastIrreversibleBlockNumSelector(state),
   notification: MyAccountPageSelector.notificationSelector(state),
   currencyFormat: MyAccountPageSelector.currencyFormatSelector(state),

@@ -28,7 +28,7 @@ class LicenseScreen extends PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     setAppBackground: AppActions.setAppBackgroundAction
   },

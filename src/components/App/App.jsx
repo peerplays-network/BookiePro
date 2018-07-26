@@ -200,7 +200,7 @@ class App extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const app = state.get('app');
   const softwareUpdate = state.get('softwareUpdate');
   const i18n = state.get('i18n');
@@ -242,7 +242,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo,
     connectToBlockchain: AppActions.connectToBlockchain,

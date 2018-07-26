@@ -33,7 +33,7 @@ import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config} from '../../../constants';
 import {MyAccountPageSelector} from '../../../selectors';
 
-const renderContent = props => (
+const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
     {props.bets.isEmpty() && (
       <Empty
@@ -47,7 +47,7 @@ const renderContent = props => (
       props.bets
         .keySeq()
         .toArray()
-        .map(eventId => (
+        .map((eventId) => (
           <BetTable
             key={ eventId }
             data={ props.bets.get(eventId).get('unconfirmedBets') }
@@ -123,7 +123,7 @@ class QuickBetDrawer extends PureComponent {
 const mapStateToProps = (state, ownProps) => {
   const originalBets = state.getIn(['quickBetDrawer', 'bets']);
   let page = Immutable.Map();
-  originalBets.forEach(bet => {
+  originalBets.forEach((bet) => {
     const eventId = bet.get('event_id');
     const betType = bet.get('bet_type');
 
@@ -204,7 +204,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo,
     deleteBet: QuickBetDrawerActions.deleteBet,

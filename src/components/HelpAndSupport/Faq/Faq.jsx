@@ -23,7 +23,7 @@ class Faq extends PureComponent {
     return FaqTopics.map((topic) => {
       const topicHeader = HelpAndSupportUtils.getTopicHeader(topic);
 
-      const onClick = event => {
+      const onClick = (event) => {
         event.preventDefault();
         this.setState({currentTopic: topic});
       };

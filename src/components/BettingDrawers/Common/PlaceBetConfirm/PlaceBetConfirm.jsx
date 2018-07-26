@@ -40,7 +40,7 @@ const renderInstructions = (className, goodBets, badBets) => {
   return instructions;
 };
 
-const PlaceBetConfirm = props => {
+const PlaceBetConfirm = (props) => {
   const {className, cancelAction, confirmAction, goodBets, badBets, amount, currencySymbol} = props;
   const extendedClassName = `${className}.${badBets === 0 ? PERFECT : IMPERFECT}`;
   return (

@@ -2,7 +2,7 @@ import React from 'react';
 import {I18n} from 'react-redux-i18n';
 import {Card, Menu, Icon} from 'antd';
 
-const DropdownMenu = props => {
+const DropdownMenu = (props) => {
   
   let isOnMyAccount = false;
   let isOnHelp = false;

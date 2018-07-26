@@ -21,7 +21,7 @@ class AllSports extends PureComponent {
       <div id='all-sports-wrapper'>
         <div className='banner-ad-header' />
         {allSportsData ? (
-          allSportsData.map(sportData => {
+          allSportsData.map((sportData) => {
             const sportId = sportData.get('sport_id');
             const events = sportData.get('events');
             const sportName = sportData.get('name');
@@ -56,7 +56,7 @@ class AllSports extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   allSportsData: AllSportsSelector.getAllSportsData(state),
   canCreateBet: QuickBetDrawerSelector.canAcceptBet(state)
 });

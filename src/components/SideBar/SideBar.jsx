@@ -55,6 +55,14 @@ class SideBar extends PureComponent {
     }
   }
 
+  setNodeSelected(node) {
+    node.set('isSelected', true).set('isOpen', true);
+  }
+
+  setNodeOpen(node) {
+    node.set('isOpen', true);
+  }
+
   /**
    * update tree based on current navigation
    * idea is to reuse a base completeTree and contrucut the base tree based on currrent navigation.
@@ -74,7 +82,7 @@ class SideBar extends PureComponent {
     const keyPath = findKeyPathOf(
       completeTree,
       'children',
-      node => node.get('id') === targetObjectId
+      (node) => node.get('id') === targetObjectId
     );
 
     // Found path?
@@ -84,48 +92,48 @@ class SideBar extends PureComponent {
       // For sport
       if (keyPath.length === 1) {
         newTree = newTree
-          .updateIn(keyPath.slice(0, 1), node => node.set('isSelected', true).set('isOpen', true));
+          .updateIn(keyPath.slice(0, 1), this.setSelected);
       } else if (keyPath.length === 3) {
       // For event group
         newTree = newTree
-          .updateIn(keyPath.slice(0, 1), node => node.set('isOpen', true))
-          .updateIn(keyPath.slice(0, 3), node => node.set('isSelected', true).set('isOpen', true));
+          .updateIn(keyPath.slice(0, 1), this.setOpen)
+          .updateIn(keyPath.slice(0, 3), this.setSelected);
       } else if (keyPath.length === 5) {
         // For event
         newTree = newTree
-          .updateIn(keyPath.slice(0, 1), node => node.set('isOpen', true))
-          .updateIn(keyPath.slice(0, 3), node => node.set('isSelected', true).set('isOpen', true))
-          .updateIn(keyPath.slice(0, 5), node => node.set('isSelected', true).set('isOpen', true));
+          .updateIn(keyPath.slice(0, 1), this.setOpen)
+          .updateIn(keyPath.slice(0, 3), this.setSelected)
+          .updateIn(keyPath.slice(0, 5), this.setSelected);
       } else if (keyPath.length === 7) {
         // For betting market group
         newTree = newTree
-          .updateIn(keyPath.slice(0, 1), node => node.set('isOpen', true))
-          .updateIn(keyPath.slice(0, 3), node => node.set('isOpen', true))
-          .updateIn(keyPath.slice(0, 5), node => node.set('isSelected', true).set('isOpen', true))
-          .updateIn(keyPath.slice(0, 7), node => node.set('isSelected', true).set('isOpen', true));
+          .updateIn(keyPath.slice(0, 1), this.setOpen)
+          .updateIn(keyPath.slice(0, 3), this.setOpen)
+          .updateIn(keyPath.slice(0, 5), this.setSelected)
+          .updateIn(keyPath.slice(0, 7), this.setSelected);
       }
 
       // Compare all nodes to see which ones were altered:
       // find the 'id' path of the newTree
-      const altered = differences(completeTree, newTree, 'children').map(x => x.get('id'));
+      const altered = differences(completeTree, newTree, 'children').map((x) => x.get('id'));
 
       if (keyPath.length >= 5) {
         newTree = newTree.setIn(
           keyPath.slice(0, 4),
-          newTree.getIn(keyPath.slice(0, 4)).filter(metric => metric.get('id') === altered[2])
+          newTree.getIn(keyPath.slice(0, 4)).filter((metric) => metric.get('id') === altered[2])
         );
       }
 
       if (keyPath.length >= 3) {
         newTree = newTree.setIn(
           keyPath.slice(0, 2),
-          newTree.getIn(keyPath.slice(0, 2)).filter(metric => metric.get('id') === altered[1])
+          newTree.getIn(keyPath.slice(0, 2)).filter((metric) => metric.get('id') === altered[1])
         );
       }
 
       if (keyPath[0] !== 0) {
         // '0' is hardcode id for all-sports node,
-        newTree = newTree.filter(p => p.get('id') === '0' || p.get('isOpen'));
+        newTree = newTree.filter((p) => p.get('id') === '0' || p.get('isOpen'));
       }
 
       return newTree.toJS();
@@ -163,7 +171,7 @@ class SideBar extends PureComponent {
     } else {
       if (node.customComponent.toLowerCase() === 'event') {
         const moneyline = node.children.filter(
-          mktGroup => mktGroup.description.toUpperCase() === 'MONEYLINE'
+          (mktGroup) => mktGroup.description.toUpperCase() === 'MONEYLINE'
         );
 
         if (moneyline.length > 0) {
@@ -251,11 +259,11 @@ SideBar.defaultProps = {
   objectId: ''
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   completeTree: SidebarSelector.getSidebarCompleteTree(state)
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo
   },
