@@ -170,7 +170,7 @@ class HistoryService {
    */
 
   static convertRawHistoryToMyBets(state, rawHistory) {
-    // TODO: find better place to put odds precision (this one should be 
+    // TODO: find better place to put odds precision (this one should be
     // returned by blockchain anyway)
     const oddsPrecision = Config.oddsPrecision;
     const dynGlobalObject = state.getIn(['app', 'blockchainDynamicGlobalProperty']);
@@ -192,6 +192,12 @@ class HistoryService {
           const betId = operationResult;
           const id = rawTransaction.get('id');
           const betType = operationContent.get('back_or_lay');
+          const assetID = operationContent.getIn(['amount_to_bet', 'asset_id']);
+
+          // Do not process transactions/bets that do not match the core asset
+          if (assetID !== Config.coreAsset) {
+            return;
+          }
 
           let unmatchedBet = Immutable.fromJS({
             id,
@@ -201,7 +207,7 @@ class HistoryService {
             betting_market_id: operationContent.get('betting_market_id'),
             back_or_lay: betType,
             backer_multiplier: operationContent.get('backer_multiplier') / oddsPrecision,
-            asset_id: operationContent.getIn(['amount_to_bet', 'asset_id']),
+            asset_id: assetID,
             original_bet_amount: operationContent.getIn(['amount_to_bet', 'amount']),
             unmatched_bet_amount: operationContent.getIn(['amount_to_bet', 'amount'])
           });
@@ -222,8 +228,9 @@ class HistoryService {
 
         case ChainTypes.operations.bet_canceled: {
           const betId = operationContent.get('bet_id');
-          unmatchedBetsById = unmatchedBetsById
-            .filterNot(bet => bet.get('original_bet_id') === betId);
+          unmatchedBetsById = unmatchedBetsById.filterNot(
+            bet => bet.get('original_bet_id') === betId
+          );
           break;
         }
 
@@ -238,7 +245,7 @@ class HistoryService {
             // Deduct the refund from the unmatched bets bet amount.
             const updatedUnmatchedAmount = unmatchedAmount - refund;
 
-            // If this refund returned the remainder of the unmatched value, remove it 
+            // If this refund returned the remainder of the unmatched value, remove it
             // from the unmatched bets.
             if (updatedUnmatchedAmount <= 0) {
               unmatchedBetsById = unmatchedBetsById.delete(unmatchedBet.get('id'));
@@ -272,7 +279,7 @@ class HistoryService {
             } else {
               unmatchedBet = unmatchedBet.set('unmatched_bet_amount', updatedUnmatchedAmount);
 
-              // Update the original values so that we can represent what is truely 
+              // Update the original values so that we can represent what is truely
               // accurate for this bet.
               if (betType === 'back') {
                 unmatchedBet = unmatchedBet.set(

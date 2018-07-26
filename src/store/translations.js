@@ -17,7 +17,8 @@ export const translationsObject = {
       export: 'Export',
       download: 'Download',
       exportDataFetchMsg: 'Please wait while we process your request',
-      exportDataReadyMsg: 'Your exported file is ready! Please download the exported file now.',
+      exportDataReadyMsg1: 'Your exported file is ready!',
+      exportDataReadyMsg2: 'Please download the exported file now.',
       exportNoDataMsg: 'No data to be exported',
       exportLoadingHeader: 'Exporting to .xlsx',
       exportDownloadHeader: 'Export Completed',
@@ -394,7 +395,8 @@ export const translationsObject = {
             good_bets_1: 'You are about to place 1 bet for a total liability of ',
             good_bets: 'You are about to place %{good_bets} bets  for a total liability of ',
             cancel_button: 'CANCEL',
-            confirm_button: 'CONFIRM BET'
+            confirm_button: 'CONFIRM BET',
+            are_you_sure: 'Are you sure?'
           }
         },
         error: {
@@ -444,7 +446,8 @@ export const translationsObject = {
             good_bets_1: 'You are about to update 1 bet for a total liability of ',
             good_bets: 'You are about to update %{good_bets} bets for a total liability of ',
             cancel_button: 'CANCEL',
-            confirm_button: 'CONFIRM BET'
+            confirm_button: 'CONFIRM BET',
+            are_you_sure: 'Are you sure?'
           }
         },
         error: {
