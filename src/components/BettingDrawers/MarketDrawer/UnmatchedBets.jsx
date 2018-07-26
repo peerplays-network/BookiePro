@@ -69,7 +69,7 @@ const mapStateToProps = (state, props) => {
   const originalBets = unmatchedBets;
   // This is essentially the same procedure used in BetSlip
   let page = Immutable.Map();
-  originalBets.forEach(bet => {
+  originalBets.forEach((bet) => {
     const betType = bet.get('bet_type');
 
     // Page content are grouped by market type (back or lay)
@@ -88,7 +88,7 @@ const mapStateToProps = (state, props) => {
   const obscureContent =
     overlay !== BettingDrawerStates.NO_OVERLAY &&
     overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
-  const hasUpdatedBets = originalBets.some(bet => bet.get('updated'));
+  const hasUpdatedBets = originalBets.some((bet) => bet.get('updated'));
   const currencySymbol = CurrencyUtils.getCurrencySymbol(
     props.currencyFormat,
     hasUpdatedBets ? 'black' : 'white'
@@ -103,7 +103,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     updateUnmatchedBet: MarketDrawerActions.updateUnmatchedBet,
     deleteUnmatchedBet: MarketDrawerActions.deleteUnmatchedBet,

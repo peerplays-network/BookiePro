@@ -23,7 +23,7 @@ import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config} from '../../../constants';
 import {MyAccountPageSelector} from '../../../selectors';
 
-const renderContent = props => (
+const renderContent = (props) => (
   <div className='content' ref='unconfirmedBets'>
     {props.bets.isEmpty() && (
       <Empty
@@ -103,7 +103,7 @@ const mapStateToProps = (state, ownProps) => {
   const disabled = ownProps.activeTab === 'PLACEDBETS';
   const originalBets = state.getIn(['marketDrawer', 'unconfirmedBets']);
   let page = Immutable.Map();
-  originalBets.forEach(bet => {
+  originalBets.forEach((bet) => {
     const betType = bet.get('bet_type');
 
     // Page content are grouped by market type (back or lay)
@@ -172,7 +172,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo,
     deleteUnconfirmedBet: MarketDrawerActions.deleteUnconfirmedBet,

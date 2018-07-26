@@ -35,7 +35,7 @@ class MatchedBets extends PureComponent {
         {!this.props.bets.isEmpty() && (
           <div className={ `controls ${this.props.obscureContent ? 'dimmed' : ''}` }>
             <Checkbox
-              onChange={ e => this.props.clickAverageOdds(e.target.checked) }
+              onChange={ (e) => this.props.clickAverageOdds(e.target.checked) }
               checked={ this.props.averageOdds }
               disabled={ this.props.disabled }
             >
@@ -51,17 +51,18 @@ class MatchedBets extends PureComponent {
 const groupBetsByAverageOdds = (matchedBets, oddsFormat, currencyFormat) => {
   // Group bets by betting market id
   let betsByBettingMarketId = Immutable.Map();
-  matchedBets.forEach(bet => {
+  matchedBets.forEach((bet) => {
     const betting_market_id = bet.get('betting_market_id');
 
     if (!betsByBettingMarketId.has(betting_market_id)) {
       betsByBettingMarketId = betsByBettingMarketId.set(betting_market_id, Immutable.List());
     }
 
-    betsByBettingMarketId = betsByBettingMarketId.update(betting_market_id, list => list.push(bet));
+    betsByBettingMarketId = betsByBettingMarketId
+      .update(betting_market_id, (list) => list.push(bet));
   });
   return betsByBettingMarketId
-    .map(bets => {
+    .map((bets) => {
       const result = BettingModuleUtils.calculateAverageOddsFromMatchedBets(bets, currencyFormat);
       const first = bets.get(0);
       return Immutable.fromJS({
@@ -80,7 +81,7 @@ const groupBetsByAverageOdds = (matchedBets, oddsFormat, currencyFormat) => {
     .toList();
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   const groupByAverageOdds = state.getIn(['marketDrawer', 'groupByAverageOdds']);
   const oddsFormat = MyAccountPageSelector.oddsFormatSelector(state);
@@ -89,7 +90,7 @@ const mapStateToProps = state => {
   const originalBets = matchedBets;
   // This is essentially the same procedure used in BetSlip
   let page = Immutable.Map();
-  originalBets.forEach(bet => {
+  originalBets.forEach((bet) => {
     const betType = bet.get('bet_type');
 
     // Page content are grouped by market type (back or lay)
@@ -120,11 +121,13 @@ const mapStateToProps = state => {
 
   if (groupByAverageOdds) {
     if (page.has('back')) {
-      page = page.update('back', bets => groupBetsByAverageOdds(bets, oddsFormat, currencyFormat));
+      page = page
+        .update('back', (bets) => groupBetsByAverageOdds(bets, oddsFormat, currencyFormat));
     }
 
     if (page.has('lay')) {
-      page = page.update('lay', bets => groupBetsByAverageOdds(bets, oddsFormat, currencyFormat));
+      page = page
+        .update('lay', (bets) => groupBetsByAverageOdds(bets, oddsFormat, currencyFormat));
     }
   }
 
@@ -141,7 +144,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     clickAverageOdds: MarketDrawerActions.clickAverageOdds
   },

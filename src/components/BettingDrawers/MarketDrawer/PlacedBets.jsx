@@ -93,7 +93,7 @@ const mapStateToProps = (state, ownProps) => {
   const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   // Total Bet amount for updated bets ONLY
-  const updatedBets = unmatchedBets.filter(bet => bet.get('updated'));
+  const updatedBets = unmatchedBets.filter((bet) => bet.get('updated'));
 
   // Update the total amount based on changed bets.
   const totalAmount = updatedBets.reduce((total, bet) => {
@@ -145,7 +145,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo,
     getPlacedBets: MarketDrawerActions.getPlacedBets,

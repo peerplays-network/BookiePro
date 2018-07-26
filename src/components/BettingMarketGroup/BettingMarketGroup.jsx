@@ -96,7 +96,7 @@ class BettingMarketGroup extends PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     getData: BettingMarketGroupPageActions.getData,
     createBet: MarketDrawerActions.createBet,

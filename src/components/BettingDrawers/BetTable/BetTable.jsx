@@ -352,7 +352,7 @@ const buildBetTableData = (bets) => bets.map((bet, idx) => bet.set('key', idx));
  */
 const getRowClassName = (record) => (record.updated ? 'updated' : '');
 
-const BetTable = props => {
+const BetTable = (props) => {
   const {
     readonly,
     data,

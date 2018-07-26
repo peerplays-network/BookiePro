@@ -140,7 +140,7 @@ class ChangePassword extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const loadingStatus = state.getIn(['auth', 'changePasswordLoadingStatus']);
   const errors =
     loadingStatus === LoadingStatus.ERROR
@@ -152,7 +152,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo,
     changePassword: AuthActions.changePassword,

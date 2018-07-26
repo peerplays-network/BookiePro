@@ -160,7 +160,7 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
   return columns;
 };
 
-const renderTitle = title => (
+const renderTitle = (title) => (
   <div className='title'>
     <div className='sport'>{title}</div>
   </div>
@@ -186,7 +186,7 @@ class SimpleBettingWidget extends PureComponent {
    *
    * Parameter definition are omitted as they are self explanatory.
    */
-  onOfferClicked(event, record, betType, betting_market_id, odds) {
+  onOfferClicked(event, record, betType, betting_market_id, odds = '') {
     event.preventDefault();
 
     if (this.props.canCreateBet === true) {
@@ -275,7 +275,7 @@ class SimpleBettingWidget extends PureComponent {
           <div className={ className }>
             <a
               href='#'
-              onClick={ event => this.onOfferClicked(event, record, action, betting_market_id, '') }
+              onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id) }
             >
               <div className='offer empty'>
                 <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
@@ -317,7 +317,7 @@ class SimpleBettingWidget extends PureComponent {
 
     if (this.props.events !== undefined) {
       // Introduce the key attribute to suppress the React warning
-      events = this.props.events.map(event => event.set('key', event.get('event_id')));
+      events = this.props.events.map((event) => event.set('key', event.get('event_id')));
 
       // Sort by event time
       events = events.sort((a, b) => {
@@ -355,7 +355,7 @@ class SimpleBettingWidget extends PureComponent {
           footer={ () => (this.props.showFooter ? this.renderFooter(this.props) : null) }
           pagination={ this.props.showPagination ? {pageSize: this.props.pageSize} : false }
           locale={ {emptyText: I18n.t('simple_betting_widget.no_data')} }
-          rowKey={ record => record.get('key') }
+          rowKey={ (record) => record.get('key') }
           rowClassName={ (record) => {
             let eventStatus = record.get('eventStatus');
 
@@ -376,11 +376,11 @@ class SimpleBettingWidget extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   oddsFormat: MyAccountPageSelector.oddsFormatSelector(state)
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     createBet: QuickBetDrawerActions.createBet,
     navigateTo: NavigateActions.navigateTo

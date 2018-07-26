@@ -94,7 +94,7 @@ Landing.defaultProps = {
   depositsEnabled: Config.features.deposits
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo,
     setAppBackground: AppActions.setAppBackgroundAction

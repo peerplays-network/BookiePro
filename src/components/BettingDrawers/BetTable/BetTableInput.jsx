@@ -277,8 +277,8 @@ class BetTableInput extends PureComponent {
           className='betTableInput'
           type='text'
           value={ this.state.value }
-          onChange={ e => this.handleChange(e) }
-          onBlur={ e => this.handleBlur(e) }
+          onChange={ (e) => this.handleChange(e) }
+          onBlur={ (e) => this.handleBlur(e) }
           placeholder={ this.props.field === 'odds' ? 'Odds' : 'Stake' }
           disabled={ this.props.disabled }
         />

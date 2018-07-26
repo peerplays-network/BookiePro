@@ -83,7 +83,7 @@ const mapStateToProps = (state, ownProps) => {
   return props;
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo,
     getData: EventGroupPageActions.getData
