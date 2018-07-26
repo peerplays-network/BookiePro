@@ -97,9 +97,11 @@
 		}
 
 		&Content{
-			position: relative;
+			position: fixed;
+    		top: 50%;
+    		left: 50%;
+    		transform: translate(-50%, -50%);
 			text-align: left;
-			margin: auto;
 			width: 730px;
 			max-width: 100%;
 			background: $clear-color2;
