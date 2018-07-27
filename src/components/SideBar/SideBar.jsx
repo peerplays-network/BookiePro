@@ -56,11 +56,11 @@ class SideBar extends PureComponent {
   }
 
   setNodeSelected(node) {
-    node.set('isSelected', true).set('isOpen', true);
+    return node.set('isSelected', true).set('isOpen', true);
   }
 
   setNodeOpen(node) {
-    node.set('isOpen', true);
+    return node.set('isOpen', true);
   }
 
   /**
@@ -92,25 +92,25 @@ class SideBar extends PureComponent {
       // For sport
       if (keyPath.length === 1) {
         newTree = newTree
-          .updateIn(keyPath.slice(0, 1), this.setSelected);
+          .updateIn(keyPath.slice(0, 1), this.setNodeSelected);
       } else if (keyPath.length === 3) {
       // For event group
         newTree = newTree
-          .updateIn(keyPath.slice(0, 1), this.setOpen)
-          .updateIn(keyPath.slice(0, 3), this.setSelected);
+          .updateIn(keyPath.slice(0, 1), this.setNodeOpen)
+          .updateIn(keyPath.slice(0, 3), this.setNodeSelected);
       } else if (keyPath.length === 5) {
         // For event
         newTree = newTree
-          .updateIn(keyPath.slice(0, 1), this.setOpen)
-          .updateIn(keyPath.slice(0, 3), this.setSelected)
-          .updateIn(keyPath.slice(0, 5), this.setSelected);
+          .updateIn(keyPath.slice(0, 1), this.setNodeOpen)
+          .updateIn(keyPath.slice(0, 3), this.setNodeSelected)
+          .updateIn(keyPath.slice(0, 5), this.setNodeSelected);
       } else if (keyPath.length === 7) {
         // For betting market group
         newTree = newTree
-          .updateIn(keyPath.slice(0, 1), this.setOpen)
-          .updateIn(keyPath.slice(0, 3), this.setOpen)
-          .updateIn(keyPath.slice(0, 5), this.setSelected)
-          .updateIn(keyPath.slice(0, 7), this.setSelected);
+          .updateIn(keyPath.slice(0, 1), this.setNodeOpen)
+          .updateIn(keyPath.slice(0, 3), this.setNodeOpen)
+          .updateIn(keyPath.slice(0, 5), this.setNodeSelected)
+          .updateIn(keyPath.slice(0, 7), this.setNodeSelected);
       }
 
       // Compare all nodes to see which ones were altered:
