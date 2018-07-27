@@ -220,7 +220,9 @@ class HistoryService {
           );
           unmatchedBet = unmatchedBet.set(
             'original_liability',
-            betType === BetTypes.LAY ? ObjectUtils.getProfitLiabilityFromBetObject(unmatchedBet) : 0
+            betType === BetTypes.LAY 
+            ? ObjectUtils.getProfitLiabilityFromBetObject(unmatchedBet) 
+            : 0
           );
           unmatchedBetsById = unmatchedBetsById.set(id, unmatchedBet);
           break;
