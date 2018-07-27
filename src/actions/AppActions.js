@@ -3,6 +3,7 @@ import { ConnectionService, CommunicationService } from '../services';
 import SoftwareUpdateActions from './SoftwareUpdateActions';
 import AuthActions from './AuthActions';
 import log from 'loglevel';
+import { AllSportsActions } from '.';
 
 /**
  * Private actions
@@ -134,7 +135,7 @@ class AppActions {
   }
 
   static connectToBlockchain() {
-    
+
     return (dispatch, getState) => {
       dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.LOADING));
       // Define callback whenever connection change
@@ -144,6 +145,9 @@ class AppActions {
           dispatch(AppPrivateActions.setConnectionStatusAction(connectionStatus));
         }
 
+        if (connectionStatus === ConnectionStatus.CONNECTED) {
+          dispatch(AllSportsActions.getData());
+        }
         // If we are offline, logout the user.
         if (connectionStatus === ConnectionStatus.DISCONNECTED) {
           // To force a resubscription to all the required information, push the user to the start of the app again.  
