@@ -339,7 +339,7 @@ class AuthActions {
         // Save in redux
         dispatch(SettingActions.markSkipLogoutPopupAction(accountId, skipLogoutPopupNextTime));
         // Dispatch logout action to clear data
-        dispatch(AuthPrivateActions.logoutAction(accountId));        
+        dispatch(AuthPrivateActions.logoutAction(accountId));
         // Navigate to the login page of the app
         dispatch(NavigateActions.navigateTo('/login'));
         // Clear the Sports, EG, E, BMG, BM data from redux

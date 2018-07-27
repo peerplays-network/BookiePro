@@ -17,8 +17,8 @@ class BettingMarketGroupPrivateActions {
       eventIds,
       loadingStatus
     }
-  }  
-  
+  }
+
 }
 
 /**
