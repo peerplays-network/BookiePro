@@ -148,32 +148,34 @@ class BetTableInput extends PureComponent {
    *              3. Odds are sent to Redux for storage in decimal odds
    */
   handleBlur(e) {
-    let value = parseFloat(e.target.value)
-    if (this.props.field === 'odds') {
-      if (value !== '' && !isNaN(value)) {
-        value = adjustOdds(CurrencyUtils.formatFieldByCurrencyAndPrecision(
-                  this.props.field, value, this.props.currencyFormat
-                ), this.props.record.bet_type, this.props.oddsFormat);
+    let value = e.target.value;
+    if(e.target.value !== '0*'){
+      value = parseFloat(value);
+      if (this.props.field === 'odds') {
+        if (value !== '' && !isNaN(value)) {
+          value = adjustOdds(CurrencyUtils.formatFieldByCurrencyAndPrecision(
+                    this.props.field, value, this.props.currencyFormat
+                  ), this.props.record.bet_type, this.props.oddsFormat);
+          this.setState({
+            value: BettingModuleUtils.oddsFormatFilter(value, this.props.oddsFormat).toFixed(2)
+          })
+        } else {
+          value = this.props.record.odds
+        }
+      }
+
+      if (this.props.field === 'stake') {
+        if (isNaN(value)) return false; // fail fast if the value is undefined or bad
+        value = CurrencyUtils.toFixed('stake', value, this.props.currencyFormat);
+        // Final clean of the string
+        if (value.toString().slice(-1) === '.') {
+          value = value.toString().slice(0, -1);
+        }
         this.setState({
-          value: BettingModuleUtils.oddsFormatFilter(value, this.props.oddsFormat).toFixed(2)
+          value
         })
-      } else {
-        value = this.props.record.odds
       }
     }
-
-    if (this.props.field === 'stake') {
-      if (isNaN(value)) return false; // fail fast if the value is undefined or bad
-      value = CurrencyUtils.toFixed('stake', value, this.props.currencyFormat);
-      // Final clean of the string
-      if (value.toString().slice(-1) === '.') {
-        value = value.toString().slice(0, -1);
-      }
-      this.setState({
-        value
-      })
-    }
-
     const delta = Immutable.Map()
       .set('id', this.props.record.id)
       .set('field', this.props.field)
