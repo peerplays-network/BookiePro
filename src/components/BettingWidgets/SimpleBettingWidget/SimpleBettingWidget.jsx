@@ -226,7 +226,7 @@ class SimpleBettingWidget extends PureComponent {
         }
       }
 
-      if ( offer === undefined || offer.get('price') <= coinDust.toString()){
+      if ( offer === undefined || offer.get('price') < coinDust.toString()){
         return (
           <div className={ className }>
             <a href='#' onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, '') }>
