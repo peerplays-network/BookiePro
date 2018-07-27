@@ -17,8 +17,8 @@ class BettingMarketGroupPrivateActions {
       eventIds,
       loadingStatus
     }
-  }
-
+  }  
+  
 }
 
 /**
@@ -44,6 +44,12 @@ class BettingMarketGroupActions {
     return {
       type: ActionTypes.BETTING_MARKET_GROUP_REMOVE_BETTING_MARKET_GROUPS_BY_IDS,
       bettingMarketGroupIds
+    }
+  }
+
+  static resetBettingMarketGroupStore() {
+    return {
+      type: ActionTypes.BETTING_MARKET_GROUP_RESET_STORE
     }
   }
 
