@@ -9,7 +9,7 @@ import RuleActions from './RuleActions';
 import log from 'loglevel';
 
 class BettingMarketGroupPagePrivateActions {
-
+  
   static setLoadingStatusAction(bettingMarketGroupId, loadingStatus) {
     return {
       type: ActionTypes.BETTING_MARKET_GROUP_PAGE_SET_LOADING_STATUS,
@@ -39,7 +39,7 @@ class BettingMarketGroupPageActions {
   static getData(bettingMktGrpId) {
     return (dispatch) => {
       dispatch(BettingMarketGroupPagePrivateActions.setLoadingStatusAction(bettingMktGrpId, LoadingStatus.LOADING));
-
+      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
       // get related betting market group object
       dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds([bettingMktGrpId])).then((bettingMarketGroups) => {
         // Get placed bets for market drawer
