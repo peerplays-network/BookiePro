@@ -419,22 +419,22 @@ class Witnesses extends React.Component {
                             <div className="assets__label"><Translate content="witnesses.current"/></div>
                             <div className="assets__labeled">{currentWitnessAccount ? currentWitnessAccount.name : null}</div>
                         </div>
-                        <div className="assets__item col col-2 text_r">
+                        <div className="assets__item col col-2">
                             <div className="assets__label"><Translate content="witnesses.active_witness"/></div>
                             <div className="assets__labeled">{this.props.witnessAmount}</div>
                         </div>
-                        <div className="assets__item col col-2 text_r">
+                        <div className="assets__item col col-2">
                             <div className="assets__label"><Translate content="witnesses.participation"/></div>
                             <div className="assets__labeled">{this.props.participation}%</div>
                         </div>
-                        <div className="assets__item col col-2 text_r">
+                        <div className="assets__item col col-2">
                             <div className="assets__label"><Translate content="witnesses.pay"/></div>
                             <div className="assets__labeled mark">
                                 {this.props.witnessPayPerBlock/precision}
                                 <div className="assets__unit">{this.props.asset.symbol}</div>
                             </div>
                         </div>
-                        <div className="assets__item col col-2 text_r">
+                        <div className="assets__item col col-2">
                             <div className="assets__label"><Translate content="witnesses.budget"/></div>
                             <div className="assets__labeled mark">{this.props.witnessBudget}<div className="assets__unit">{this.props.asset.symbol}</div></div>
                         </div>
