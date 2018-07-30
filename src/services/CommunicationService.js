@@ -14,10 +14,11 @@ import {
   BinnedOrderBookActions,
   BalanceActions,
   RuleActions,
-  LiquidityActions
+  LiquidityActions,
+  MarketDrawerActions
 } from '../actions';
 import Immutable from 'immutable';
-import {ObjectPrefix, Config, ChainTypes} from '../constants';
+import {ObjectPrefix, Config, ChainTypes, LoadingStatus} from '../constants';
 import {ChainValidation} from 'peerplaysjs-lib';
 import _ from 'lodash';
 import log from 'loglevel';
@@ -288,6 +289,7 @@ class CommunicationService {
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
             'description'
           ]);
+          this.dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
           this.dispatch(
             BettingMarketGroupActions.addOrUpdateBettingMarketGroupsAction(localizedUpdatedObject)
           );

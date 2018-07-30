@@ -38,11 +38,11 @@ class BettingMarketGroupPageActions {
     return (dispatch) => {
       dispatch(
         BettingMarketGroupPagePrivateActions.setLoadingStatusAction(
-          bettingMktGrpId,
+          bettingMktGrpId, 
           LoadingStatus.LOADING
         )
       );
-
+      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
       // get related betting market group object
       dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds([bettingMktGrpId]))
         .then((bettingMarketGroups) => {

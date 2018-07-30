@@ -1,10 +1,24 @@
-import {ActionTypes, ConnectionStatus, Config, BetCategories, BetTypes} from '../constants';
+import {
+  ActionTypes, 
+  ConnectionStatus, 
+  Config, 
+  BetCategories, 
+  BetTypes, 
+  LoadingStatus
+} from '../constants';
 import Immutable from 'immutable';
 import moment from 'moment';
 import BetActions from './BetActions';
 import {CurrencyUtils, ObjectUtils} from '../utility';
 
 class MarketDrawerPrivateActions {
+  static updatePlacedBetsLoadingStatus(loadingStatus) {
+    return {
+      type: ActionTypes.MARKET_DRAWER_UPDATE_PLACED_BETS_LOADING_STATUS,
+      loadingStatus
+    };
+  }
+
   static addUnconfirmedBet(bet) {
     return {
       type: ActionTypes.MARKET_DRAWER_ADD_UNCONFIRMED_BET,
@@ -137,6 +151,12 @@ class MarketDrawerPrivateActions {
 }
 
 class MarketDrawerActions {
+  static updatePlacedBetsLoadingStatus(loadingStatus) {
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.updatePlacedBetsLoadingStatus(loadingStatus));
+    };
+  }
+
   static createBet(bet_type, betting_market_id, odds = '') {
     return (dispatch, getState) => {
       const bettingMarket = getState().getIn([
@@ -183,13 +203,13 @@ class MarketDrawerActions {
     };
   }
 
-  static deleteUnconfirmedBets(bets) {
+  static deleteUnconfirmedBets(bets) {    
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.deleteManyUnconfirmedBets(bets.map((b) => b.get('id'))));
     };
   }
 
-  static deleteAllUnconfirmedBets() {
+  static deleteAllUnconfirmedBets() {    
     return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.deleteAllUnconfirmedBets());
     };
@@ -378,7 +398,8 @@ class MarketDrawerActions {
   }
 
   static clearPlacedBets() {
-    return (dispatch) => {
+    return (dispatch) => {      
+      dispatch(MarketDrawerPrivateActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
       dispatch(MarketDrawerPrivateActions.getPlacedBets(Immutable.List(), Immutable.List(), null));
     };
   }
