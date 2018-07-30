@@ -33,7 +33,7 @@ module.exports = function(options) {
         APP_VERSION: JSON.stringify(packageJSON.version),
         __ELECTRON__: !!options.electron,
         CORE_ASSET: JSON.stringify('PPY'),
-        BLOCKCHAIN_URL: JSON.stringify(options.blockchain || 'pma.blockveritas.co:8089'),
+        BLOCKCHAIN_URL: JSON.stringify(options.blockchain || 'wss://pma.blockveritas.co:8089/'),
         FAUCET_URL: JSON.stringify(options.faucet || "https://faucet.peerplays.download/faucet"),
         FAUCET_FILE: JSON.stringify(options.faucetFile || "faucetUrls"),
         BITSHARES_WS: JSON.stringify(options.BITSHARES_WS || 'wss://bitshares.openledger.info/ws'),
