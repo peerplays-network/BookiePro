@@ -165,7 +165,9 @@ class BetTableInput extends PureComponent {
       }
 
       if (this.props.field === 'stake') {
-        if (isNaN(value)) return false; // fail fast if the value is undefined or bad
+        if (isNaN(value)) {
+          return false; // fail fast if the value is undefined or bad
+        }
         value = CurrencyUtils.toFixed('stake', value, this.props.currencyFormat);
         // Final clean of the string
         if (value.toString().slice(-1) === '.') {
