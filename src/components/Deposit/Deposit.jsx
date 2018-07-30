@@ -38,7 +38,7 @@ class Deposit extends PureComponent {
    *
    * Dispatched actions:
    *   {@link BalanceActions#getDepositAddress}
-   *     the state 'depositAddress','getDepositAddressLoadingStatus' is updated under 
+   *     the state 'depositAddress','getDepositAddressLoadingStatus' is updated under
    *  the 'balance' store
    *   {@link AppActions#setAppBackgroundAction}
    *     the state 'appBackgroundType' is updated under the 'app' store
@@ -125,11 +125,13 @@ class Deposit extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
-  //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
-  loadingStatus: state.getIn(['balance', 'getDepositAddressLoadingStatus']),
-  depositAddress: state.getIn(['balance', 'depositAddress'])
-});
+const mapStateToProps = (state) => {
+  return {
+    //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
+    loadingStatus: state.getIn(['balance', 'getDepositAddressLoadingStatus']),
+    depositAddress: state.getIn(['balance', 'depositAddress'])
+  };
+};
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
