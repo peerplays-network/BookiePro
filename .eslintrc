@@ -1,6 +1,11 @@
 {
-  "plugins": ["prettier"],
-  "extends": "react-app",
+  "plugins": [
+    "prettier",
+    "react"
+  ],
+  "extends": [
+    "react-app"
+  ],
   "env": {
     "browser": true
   },
@@ -41,7 +46,6 @@
         { "blankLine": "always", "prev": "*", "next": "block-like" },
         { "blankLine": "always", "prev": "block-like", "next": "*" }
     ],
-    "arrow-body-style": ["error", "as-needed"],
     "max-len": ["error", {"code": 100}],
     "implicit-arrow-linebreak": ["error", "beside"],
     "no-control-regex": "off",

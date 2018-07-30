@@ -1,7 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {Router, Route, hashHistory, IndexRoute, IndexRedirect} from 'react-router';
+import {
+  Router, 
+  Route, 
+  hashHistory, 
+  IndexRoute, 
+  IndexRedirect
+} from 'react-router';
 import App from './components/App';
 import MyAccount from './components/MyAccount';
 import MyWager from './components/MyWager';
