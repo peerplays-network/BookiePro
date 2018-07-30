@@ -332,7 +332,6 @@ class Witnesses extends React.Component {
                     </div>
 
                     <Translate component="div" unsafe={true} className="title__sm" content="votes.witnesses_tab.help_note_1" />
-                    <Translate component="div" unsafe={true} className="title__sm mb-20" content="votes.witnesses_tab.help_note_2" />
 
                     <div className="row">
                         <label className="label"><Translate content="votes.select_witness"/></label>

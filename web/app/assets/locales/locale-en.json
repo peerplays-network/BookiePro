@@ -345,14 +345,13 @@
       "hide_expired": "Hide Expired"
     },
     "proxy_tab": {
-      "help_note": "Proxy your vote to other accounts.",
-      "help_note_disclaimer": "Note: Proxying your vote will disable your ability to vote directly for a witness.",
-      "question_mark_note": "Proxying means you give other accounts the ability to vote on your behalf."
+      "help_note": "Proxy your vote to other accounts",
+      "help_note_disclaimer": "Note: Proxying your vote will disable your ability to vote directly for a witness",
+      "question_mark_note": "Proxying means you give other accounts the ability to vote on your behalf"
     },
     "witnesses_tab": {
       "help_note_1": "Vote for Witnesses",
-      "help_note_2": "",
-      "question_mark_note": "Witnesses are the accounts that run the blockchains dn produce blocks"
+      "question_mark_note": "Witnesses are the accounts that run the blockchains and produce blocks"
     },  
     "advisors_tab": {
       "help_note": "Vote for Advisors",
