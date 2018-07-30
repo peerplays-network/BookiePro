@@ -1,5 +1,6 @@
-import {ActionTypes} from '../constants';
+import {ActionTypes, LoadingStatus} from '../constants';
 import Immutable from 'immutable';
+import {MarketDrawerActions} from '.';
 
 class PrivateDrawerActions {
   static deleteManyBets(listOfBetIds) {
@@ -44,6 +45,7 @@ class DrawerActions {
       dispatch(PrivateDrawerActions.deleteManyUnconfirmedBets(betIdsToDelete));
       // 'bets' can be seen in redux state under Quick Bet Drawer.
       dispatch(PrivateDrawerActions.deleteManyBets(betsToDelete.map((b) => b.get('id'))));
+      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.DONE));
     };
   }
 }

@@ -414,6 +414,7 @@ class BetActions {
    */
   static cancelBets(bets) {
     return (dispatch, getState) => {
+      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
       const bettorId = getState().getIn(['account', 'account', 'id']);
       // Build transaction
       const tr = new TransactionBuilder();
