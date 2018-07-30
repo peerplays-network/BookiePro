@@ -16,40 +16,49 @@ import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import './PlacedBets.less';
 import {Empty, OverlayUtils} from '../Common';
-import {BettingDrawerStates, Config} from '../../../constants';
+import {BettingDrawerStates, Config, LoadingStatus} from '../../../constants';
+import Loading from '../../Loading';
 
 class PlacedBets extends PureComponent {
+
+  constructor(props) {
+    super(props);
+    // By default, there should be no loading screen shown on the betting drawer
+    this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DEFAULT);
+  }
+
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.placedBets));
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     Ps.update(ReactDOM.findDOMNode(this.refs.placedBets));
-  }
 
-  /**
-   * The #componentWillMount function is overriden here in order to retrieve the
-   * placed bets from the Blockchain. Normally, this operation is done during the
-   * startup process of the Bookie app. However we are doing this EXPLICITLY here
-   * because during development time, developers who woork on this page may manually
-   * refresh this page to do changes and sometimes the data did not get loaded
-   * properly. So this is the temporary solution to that problem.
-   *
-   * REVIEW: We only need this when the user refresh the browser in web mode
-   *         However, this should not happen in the actual desktop app
-   */
-  componentWillMount() {
-    // Extract the current Betting Market Group Id the user is viewing
-    // This is required to filter the data from all ongoing bets
-    // TODO REVIEW feel free to replace this with a better method!
-    const bettingMarketGroupId = window.location.href.split('/').pop();
-    this.props.getPlacedBets(bettingMarketGroupId);
+    // If there are no bets, then the loading screen can go away
+    // The Betslip is finished "doing something" if the following 
+    // condition is true and there is no overlay.
+    if (this.props.isEmpty) {
+      this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
+    } else if (!this.props.isEmpty && 
+                this.props.overlay === 'NO_OVERLAY' && 
+                (prevProps.overlay !== 'DELETE_BET_CONFIRMATION' && 
+                prevProps.overlay !== 'DELETE_BETS_CONFIRMATION') &&
+                prevProps.overlay !== this.props.overlay) {                  
+      // If there are bets in the betslip, then we need to make sure there is 
+      // "nothing in progress" before we remove the loading screen
+      // The Betslip is "doing something" one of the following is true
+      //  - The user has just confirmed they would like to delete one or more bets
+      //  - The BMG has switched states and triggered the deletion of Bets in the betslip    
+      this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
+    } 
   }
 
   render() {
     return (
       <div className='placed-bets'>
         <div className='content' ref='placedBets'>
+
+          {this.props.placedBetsLoadingStatus === 'loading' ? <Loading /> : ''}
           {!this.props.isEmpty && (
             <UnmatchedBets
               currencyFormat={ this.props.currencyFormat }
@@ -129,7 +138,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     unmatchedBets,
     isEmpty: unmatchedBets.isEmpty() && matchedBets.isEmpty(),
-    overlay,
+    overlay,    
     unmatchedbetsToBeDeleted: state.getIn(['marketDrawer', 'unmatchedbetsToBeDeleted']),
     unmatchedBetToBeDeleted: state.getIn(['marketDrawer', 'unmatchedBetToBeDeleted']),
     numberOfGoodBets,
@@ -141,7 +150,8 @@ const mapStateToProps = (state, ownProps) => {
       ownProps.currencyFormat
     ),
     disabled,
-    averageOdds
+    averageOdds,
+    placedBetsLoadingStatus: state.getIn(['marketDrawer', 'unmatchedBetsLoadingStatus'])
   };
 };
 
@@ -152,8 +162,9 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     editBets: BetActions.editBets,
     deleteUnmatchedBets: MarketDrawerActions.deleteUnmatchedBets,
     deleteUnmatchedBet: MarketDrawerActions.deleteUnmatchedBet,
-    hideOverlay: MarketDrawerActions.hideOverlay
-  },
+    hideOverlay: MarketDrawerActions.hideOverlay,
+    updatePlacedBetsLoadingStatus: MarketDrawerActions.updatePlacedBetsLoadingStatus
+  }, 
   dispatch
 );
 

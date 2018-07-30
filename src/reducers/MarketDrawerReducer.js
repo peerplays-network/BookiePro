@@ -10,7 +10,8 @@ let initialState = Immutable.fromJS({
   groupByAverageOdds: false,
   unconfirmedbetsToBeDeleted: Immutable.List(),
   unmatchedbetsToBeDeleted: Immutable.List(),
-  bettingMarketGroupId: null
+  bettingMarketGroupId: null,
+  unmatchedBetsLoadingStatus: LoadingStatus.DEFAULT
 });
 
 export default function(state = initialState, action) {
@@ -40,6 +41,12 @@ export default function(state = initialState, action) {
       // ELSE just append
       return state.merge({
         unconfirmedBets: unconfirmedBets.push(newBet)
+      });
+    }
+
+    case ActionTypes.MARKET_DRAWER_UPDATE_PLACED_BETS_LOADING_STATUS: {
+      return state.merge({
+        unmatchedBetsLoadingStatus: action.loadingStatus
       });
     }
 
