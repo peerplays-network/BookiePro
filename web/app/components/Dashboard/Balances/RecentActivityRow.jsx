@@ -79,11 +79,7 @@ class RecentActivityRow extends React.Component {
                 };
 
                 this.props.setViewModalStatus(true, memo);
-            }
-            
-            // // DEBUG
-            // console.log('Last Memo Message');
-            // console.log("Message: ", message);
+            }        
         });
     }
 
