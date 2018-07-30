@@ -3,14 +3,14 @@
  *
  * AllSport -> Sport -> Event Group -> Event -> Betting MarketGroup.
  * InfinityMenu widget : https://github.com/JedWatson/react-select
- * customComponent in InfinityMenu : 
+ * customComponent in InfinityMenu :
  * https://www.bountysource.com/issues/30555786-having-trouble-with-search
  *
  * - Under different level
  * landed on home screen / click on all sports -> display sports
  * click on sport name -> show divisions under the selected sport
  * click on division -> show events under the selected division
- * click on event -> show markets under the selected, go to moneyline if moneyline exist, else go 
+ * click on event -> show markets under the selected, go to moneyline if moneyline exist, else go
  * to first market based on default ordering
  * click on market -> no change in menu item, only highlight selected market
  *
@@ -72,8 +72,11 @@ class SideBar extends PureComponent {
    
    * for detailed explanation.
    */
-  /* https://stackoverflow.com/questions/41298577/how-to-get-altered-tree-from-immutable-tree-maximising-reuse-of-nodes*/ // eslint-disable-line
-  createCurrentStateTree(completeTree, targetObjectId) {
+  /* https://stackoverflow.com/questions/41298577/how-to-get-altered-tree-from-immutable-tree-maximising-reuse-of-nodes*/  //eslint-disable-line
+  createCurrentStateTree(
+    completeTree,
+    targetObjectId
+  ) {
     if (!targetObjectId || targetObjectId === 'exchange') {
       //hardcode id for all-sports node,
       targetObjectId = '0';
@@ -91,10 +94,9 @@ class SideBar extends PureComponent {
 
       // For sport
       if (keyPath.length === 1) {
-        newTree = newTree
-          .updateIn(keyPath.slice(0, 1), this.setNodeSelected);
+        newTree = newTree.updateIn(keyPath.slice(0, 1), this.setNodeSelected);
       } else if (keyPath.length === 3) {
-      // For event group
+        // For event group
         newTree = newTree
           .updateIn(keyPath.slice(0, 1), this.setNodeOpen)
           .updateIn(keyPath.slice(0, 3), this.setNodeSelected);
@@ -147,17 +149,17 @@ class SideBar extends PureComponent {
    * onClick function to be cosumed by props in react-infinity-menu
    * https://github.com/socialtables/react-infinity-menu#properties
    *
-   * i) Event  -> show Moneyline if ACTITVE Moneyline exists. Else it will show the first 
+   * i) Event  -> show Moneyline if ACTITVE Moneyline exists. Else it will show the first
    * descendant ACTIVE BMG
    * ii) BMG -> show corresponding BMG
    * iii) SPORT / Event Group -> show ACTIVE descendants
    *
-   *  navgiation path name is related to value of customComponentMappings props provided to 
+   *  navgiation path name is related to value of customComponentMappings props provided to
    * InfinityMenu
    *
    * @param event - is the mouse click event.
    * @param tree -  is the updated tree, you should update your own tree accordingly.
-   * @param node -  is the folder(node) the user clicked on. Including the id, name, isOpen 
+   * @param node -  is the folder(node) the user clicked on. Including the id, name, isOpen
    * and children.
    * @param level - is the distance from the root.
    * @param keyPath - is the path from root to current node
@@ -197,7 +199,7 @@ class SideBar extends PureComponent {
         let currentDate = node.children[0].start_time;
 
         for (var c = 1; c < node.children.length; c++) {
-          // This for loop removes the start_date property from the object if the previous 
+          // This for loop removes the start_date property from the object if the previous
           // element has the same date
           if (
             DateUtils.getMonthAndDay(currentDate) ===
@@ -244,7 +246,7 @@ class SideBar extends PureComponent {
 
 SideBar.propTypes = {
   /**
-   * completeTree served as the base tree and sidebar get the tree data to be dispalyed after 
+   * completeTree served as the base tree and sidebar get the tree data to be dispalyed after
    * filtering based on current navigation
    * Action : Main.jsx -> componentDidMount -> getDataForSidebar();
    * Store  : Main.jsx -> mapStateToProps -> completeTree
@@ -259,9 +261,11 @@ SideBar.defaultProps = {
   objectId: ''
 };
 
-const mapStateToProps = (state) => ({
-  completeTree: SidebarSelector.getSidebarCompleteTree(state)
-});
+const mapStateToProps = (state) => {
+  return {
+    completeTree: SidebarSelector.getSidebarCompleteTree(state)
+  };
+};
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {

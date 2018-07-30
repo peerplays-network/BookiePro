@@ -256,8 +256,10 @@ class SimpleBettingWidget extends PureComponent {
       }
 
       // TODO: Shall we sort the list of offers first before we pass it to the betting widget?
-      offers = offers
-        .sort((a, b) => a.get('betting_market_id').localeCompare(b.get('betting_market_id')));
+      offers = offers.sort((a, b) => {
+        return a.get('betting_market_id')
+          .localeCompare(b.get('betting_market_id'));
+      });
 
       const betting_market_id = offers.getIn([index - 1, 'betting_market_id']);
       let offer = offers.getIn([index - 1, typeOfBet, 0]);
@@ -290,7 +292,7 @@ class SimpleBettingWidget extends PureComponent {
         <div className={ className }>
           <a
             href='#'
-            onClick={ event => this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds'))} // eslint-disable-line
+            onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds')) } // eslint-disable-line
           >
             <div className='offer'>
               <div className='odds'>
@@ -376,9 +378,11 @@ class SimpleBettingWidget extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
-  oddsFormat: MyAccountPageSelector.oddsFormatSelector(state)
-});
+const mapStateToProps = (state) => {
+  return {
+    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state)
+  };
+};
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
