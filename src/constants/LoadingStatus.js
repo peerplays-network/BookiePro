@@ -3,7 +3,8 @@ const LoadingStatus = {
   DEFAULT: 'default',
   LOADING: 'loading',
   DONE: 'done',
-  ERROR: 'error'
+  ERROR: 'error',
+  ERROR_DISCONNECTED: 'error_disconnected'
 }
 
 export default LoadingStatus;
