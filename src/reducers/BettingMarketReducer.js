@@ -50,6 +50,9 @@ export default function (state = initialState, action) {
       })
       return state.mergeIn(['getBettingMarketsByBettingMarketGroupIdsLoadingStatus'], getBettingMarketsByBettingMarketGroupIdsLoadingStatus);
     }
+    case ActionTypes.BETTING_MARKET_RESET_STORE: {
+      return initialState;
+    }
     default:
       return state;
   }
