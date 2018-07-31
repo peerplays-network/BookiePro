@@ -129,7 +129,9 @@ class Send extends React.Component {
     verifyInputValue(value) {
         AccountRepository.fetchFullAccount(value).then(result => {
 
-            if(!result) throw (counterpart.translate("errors.unknown_account"));
+            if(!result) {
+                invalidName = counterpart.translate("errors.unknown_account");
+            }
 
             let account = result[1].account;
 
@@ -145,7 +147,7 @@ class Send extends React.Component {
             if(this.state.recipientName === value) {
                 this.setState({
                   recipientName: value,
-                  invalidName
+                  invalidName: counterpart.translate("errors.invalid_account")
                 });
             }
         });
