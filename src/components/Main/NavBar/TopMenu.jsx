@@ -56,6 +56,7 @@ class TopMenu extends PureComponent {
     this.handleDepositComponentVisibleChange = this.handleDepositComponentVisibleChange.bind(this);
     this.handleTopMenuWithdrawComponentVisibleChange = this.handleTopMenuWithdrawComponentVisibleChange.bind(this); // eslint-disable-line
     this.gotoMyAccount = this.gotoMyAccount.bind(this);
+    this.handleSubMenuVisibleChange = this.handleSubMenuVisibleChange.bind(this);
   }
 
   gotoMyAccount() {
