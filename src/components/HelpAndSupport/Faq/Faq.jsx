@@ -3,6 +3,7 @@ import {I18n} from 'react-redux-i18n';
 import {FaqTopics} from '../../../constants';
 import {HelpAndSupportUtils} from '../../../utility';
 import FaqContent from './FaqContent';
+import _ from 'lodash';
 
 class Faq extends PureComponent {
   constructor(props) {
@@ -20,7 +21,7 @@ class Faq extends PureComponent {
 
   renderTopics() {
     const currentTopic = this.state.currentTopic;
-    return FaqTopics.map((topic) => {
+    return _.map(FaqTopics, (topic) => {
       const topicHeader = HelpAndSupportUtils.getTopicHeader(topic);
 
       const onClick = (event) => {

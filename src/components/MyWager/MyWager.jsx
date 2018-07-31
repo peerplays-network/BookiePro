@@ -63,6 +63,8 @@ class MyWager extends PureComponent {
     this.onTabChange = this.onTabChange.bind(this);
     this.cancelBet = this.cancelBet.bind(this);
     this.cancelAllBets = this.cancelAllBets.bind(this);
+    this.handleCancelAllBets = this.handleCancelAllBets.bind(this);
+    this.declineCancelAllBets = this.declineCancelAllBets.bind(this);
   }
 
   componentDidMount() {
