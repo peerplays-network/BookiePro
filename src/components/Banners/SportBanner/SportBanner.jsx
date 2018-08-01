@@ -1,20 +1,27 @@
 import React, { PureComponent } from 'react';
-import banner1 from '../../../assets/images/sports_banner_1.png';
-import banner2 from '../../../assets/images/sports_banner_2.png';
-import banner3 from '../../../assets/images/sports_banner_3.png';
+
+import sportsBanners from '../BannerConstants';
+
 import PropTypes from 'prop-types';
 
-const bannerUrls = [banner1, banner2, banner3];
-const generateBannerUrl = () => {
-  const indexOfBannerToBeUsed = Math.floor((Math.random() * bannerUrls.length));
-  return bannerUrls[indexOfBannerToBeUsed];
+const generateBannerUrl = (sport) => {
+  // Make the passed in sport lowercase without spaces. The url name is written to conform and match these rules. 
+  const theSport = sport.toLowerCase().replace(/ /g,'');
+
+  // Choose the sport that was passed into the component
+  if (sportsBanners[theSport]) {
+    return sportsBanners[theSport];
+  } else {
+    // Otherwise, use the default image
+    return sportsBanners['defaultBanner'];
+  }
 }
 
 class SportsBanner extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      bannerUrl: generateBannerUrl()
+      bannerUrl: generateBannerUrl(props.sport)
     }
   }
 
