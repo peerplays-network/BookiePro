@@ -227,8 +227,9 @@ const getMarketData = createSelector(
             return aggregated_lay_bet
               .set('odds', odds)
               .set('price', price / (odds - 1));
-          }).filter((bet) => {
-            return bet.get('price') > coinDust;
+          })
+          .filter((bet) => {
+            return bet.get('price') >= coinDust;
           });
           
           let aggregated_back_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
@@ -241,7 +242,7 @@ const getMarketData = createSelector(
               .set('odds', odds)
               .set('price', price);
           }).filter((bet) => {
-            return bet.get('price') > coinDust;
+            return bet.get('price') >= coinDust;
           });
 
           let offer = Immutable.Map({
