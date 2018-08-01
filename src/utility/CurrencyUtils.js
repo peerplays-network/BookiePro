@@ -78,11 +78,11 @@ var CurrencyUtils = {
    *        False will truncate to precision decimal places
    * @returns - amount rounded/truncated to precision decimal places
    */
-  substringPrecision(amount, precision, accuracy=true, currencyFormat='mBTF'){
+  substringPrecision(amount, precision, accuracy=true, currencyFormat='mBTF', field){
     if (amount === undefined){
       amount = 0.0;
     }
-    amount = this.isDust(currencyFormat, amount);
+    amount = this.isDust(currencyFormat, amount, field);
     let split = amount.toString().split('.');
     if (split[1] && split[1].length > precision){
       let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0)); // Conditionally take the value one past the accpeted precision ,,.
@@ -125,7 +125,7 @@ var CurrencyUtils = {
    *                              will truncate to the number of decimal places equal to precision (thus, less accuracy)
    * @returns {string} - formatted string to support negative bitcoin curruency values
    */
-  getFormattedCurrency: function(amount, currencyFormat = 'mBTF', precision = 0, accuracy=true, avg=false, forExport=false){
+  getFormattedCurrency: function(amount, currencyFormat = 'mBTF', precision = 0, accuracy=true, avg=false, forExport=false, field){
     if (!isNaN(amount)) {
       if (amount === 0){
         return amount;
@@ -135,18 +135,18 @@ var CurrencyUtils = {
         // 1 BTF = 1 * 10^3 mBTF
         const mPrecision = precision < 3 ? 0 : precision - 3;
         if (!accuracy){
-          return this.substringPrecision((1000 * amount), mPrecision, accuracy);
+          return this.substringPrecision((1000 * amount), mPrecision, accuracy, currencyFormat, field);
         }
         if (forExport){
-          return this.substringPrecision(amount, mPrecision, false, currencyFormat);
+          return this.substringPrecision(amount, mPrecision, false, currencyFormat, field);
         }
-        return avg ? this.substringPrecision(amount, precision, false, currencyFormat) : 
-          this.substringPrecision((1000 * amount), mPrecision, false, currencyFormat);
+        return avg ? this.substringPrecision(amount, precision, false, currencyFormat, field) : 
+          this.substringPrecision((1000 * amount), mPrecision, false, currencyFormat, field);
       }
 
       if (currencyFormat === 'BTF' || currencyFormat === configCurrency) {
         if(amount % 1 !== 0){
-          return this.substringPrecision(amount, precision, accuracy, currencyFormat);
+          return this.substringPrecision(amount, precision, accuracy, currencyFormat, field);
         }
         else{
           // Sometimes amount is a string type which will throw an
@@ -199,7 +199,7 @@ var CurrencyUtils = {
     if (field === 'odds') return amount.toFixed(2);
     // DO NOT expect this but just in case...
     if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
-    return this.getFormattedCurrency(amount, currency, this.fieldPrecisionMap[field][currency]);
+    return this.getFormattedCurrency(amount, currency, this.fieldPrecisionMap[field][currency], true, false, false, field);
   },
 
   /*
@@ -221,7 +221,7 @@ var CurrencyUtils = {
       if ((floatAmount < .001 && currency === 'BTF') || (floatAmount < .001 && currency === configCurrency)) return Config.btfTransactionFee.toString()
     }
     if(amount % 1 !== 0 && !isNaN(amount)){
-      return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency], true, currency);
+      return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency], true, currency, field);
     } else{
       return floatAmount.toFixed(this.fieldPrecisionMap[field][currency]);
     }
@@ -251,7 +251,7 @@ var CurrencyUtils = {
     return stake / (odds - 1)
   },
   // Check if the currency is dust. If it is, append an asterik.
-  isDust: (currencyFormat, amount) => {
+  isDust: (currencyFormat, amount, field) => {
     let dustRange;
     if (!isNaN(amount)) {
       // Handle negative amounts
@@ -265,9 +265,19 @@ var CurrencyUtils = {
       if(amount % 1 !== 0 && amount.toString().split('.')[1].length === 3){
         dustRange = exchangeCoin;
       }
-      // If the amount is less than the configured dust values (Config.js), then change the display of that amount to indicate as such.
-      if(amount < dustRange && amount !== 0){
-        amount = 0 + '*';
+      // Check the fields for overriding the general dust values.
+      switch(field) {
+        case 'stake':
+          if(amount % 1 !== 0){
+            amount = 0 + '*';
+          }
+          break;
+        default:
+          // If the amount is less than the configured dust values (Config.js), then change the display of that amount to indicate as such.
+          if (amount < dustRange && amount !== 0) {
+            amount = 0 + '*';
+          }
+          break;
       }
     }
     return amount;
