@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { BettingMarketGroupBanner } from '../Banners';
 import { ComplexBettingWidget } from '../BettingWidgets/';
 import _ from 'lodash';
-import { BettingMarketGroupPageSelector, MarketDrawerSelector, MyAccountPageSelector } from '../../selectors';
+import { BettingMarketGroupPageSelector, MarketDrawerSelector, MyAccountPageSelector, EventGroupPageSelector } from '../../selectors';
 import { BettingMarketGroupPageActions, MarketDrawerActions, NavigateActions } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -55,6 +55,7 @@ class BettingMarketGroup extends PureComponent {
       return (
         <div className='betting-market-group-wrapper'>
           <BettingMarketGroupBanner
+            sportName={ this.props.sportName }
             eventName={ this.props.eventName }
             eventTime={ this.props.eventTime }
             isLiveMarket={ this.props.isLiveMarket }
@@ -97,6 +98,11 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state, ownProps) => {
   const bettingMarketGroup = BettingMarketGroupPageSelector.getBettingMarketGroup(state, ownProps);
+  const event = BettingMarketGroupPageSelector.getEvent(state, ownProps);
+  let sportName;
+  if (event) {
+    sportName = EventGroupPageSelector.getSportNameFromEvent(state, event);
+  }
 
   let props = {
     bettingMarketGroup,
@@ -118,6 +124,7 @@ const mapStateToProps = (state, ownProps) => {
       widgetTitle: BettingMarketGroupPageSelector.getWidgetTitle(state, ownProps),
       rules: BettingMarketGroupPageSelector.getRules(state, ownProps),
       canCreateBet: MarketDrawerSelector.canAcceptBet(state, ownProps),
+      sportName
     })
   }
   return props;

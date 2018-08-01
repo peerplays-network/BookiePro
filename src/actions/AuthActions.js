@@ -4,6 +4,11 @@ import NavigateActions from './NavigateActions';
 import AccountActions from './AccountActions';
 import SettingActions from './SettingActions';
 import BalanceActions from './BalanceActions';
+import SportActions from './SportActions';
+import EventGroupActions from './EventGroupActions';
+import EventActions from './EventActions';
+import BettingMarketGroupActions from './BettingMarketGroupActions';
+import BettingMarketActions from './BettingMarketActions';
 import RawHistoryActions from './RawHistoryActions';
 import AppActions from './AppActions';
 import { I18n } from 'react-redux-i18n';
@@ -12,6 +17,7 @@ import log from 'loglevel';
 import { TransactionBuilder, ChainTypes } from 'peerplaysjs-lib';
 import { SoftwareUpdateActions } from '.';
 import Immutable from 'immutable';
+import AllSportsActions from './AllSportsActions';
 
 const ACCOUNT_UPDATE = `${ChainTypes.reserved_spaces.protocol_ids}.${ChainTypes.operations.account_update}`;
 
@@ -121,8 +127,6 @@ class AuthPrivateActions {
           dispatch(AccountActions.setPasswordAction(password));
           // Save account statistic
           dispatch(AccountActions.setStatistics(accountStatistics));
-          // Ensure we are synced in the event of a forced login due to web connection loss.
-          AppActions.connectToBlockchain();
           // Save account available balance
           dispatch(BalanceActions.addOrUpdateAvailableBalances(availableBalances));
           // Set initial setting (in case this is first time login)
@@ -147,37 +151,19 @@ class AuthPrivateActions {
  */
 class AuthActions {
   /**
-   * Auto login
+   * Auto logout, Log the user out when they come back to the app.
    */
-  static autoLogin() {
+  static autoLogout() {
     return (dispatch, getState) => {
+      // Get the current account ID before 
       const accountId = getState().getIn(['account', 'account', 'id']);
-      if(!accountId){
-        // No auto login information
-        log.info('No auto login information');
-        // Dispatch logout action to clear data
-        dispatch(AuthPrivateActions.logoutAction(accountId));
-        // Navigate to the login page of the app
-        dispatch(NavigateActions.navigateTo('/login'));
-        log.debug('Logout user succeed.');
-        
-        return Promise.reject();
-      } else{
-        if (accountId){
-            // Dispatch logout action to clear data
-          dispatch(AuthPrivateActions.logoutAction(accountId));
-          // Navigate to the login page of the app
-          dispatch(NavigateActions.navigateTo('/login'));
-          log.debug('Logout user succeed.');
-          return Promise.reject();
-        }else {
-          log.error('No user is logged in');
-          return Promise.reject();
-        }
-        
-      }
+
+      // Clear the user data and log them out.
+      dispatch(AuthPrivateActions.logoutAction(accountId));
+      dispatch(NavigateActions.navigateTo('/login'));
     }
   }
+
   /**
    * Log the user in with account name and password
    */
@@ -356,6 +342,13 @@ class AuthActions {
         dispatch(AuthPrivateActions.logoutAction(accountId));
         // Navigate to the login page of the app
         dispatch(NavigateActions.navigateTo('/login'));
+        // Clear the Sports, EG, E, BMG, BM data from redux
+        dispatch(AllSportsActions.resetAllSportsData());
+        dispatch(SportActions.resetSportStore());
+        dispatch(EventGroupActions.resetEventGroupStore());
+        dispatch(EventActions.resetEventStore());
+        dispatch(BettingMarketGroupActions.resetBettingMarketGroupStore());
+        dispatch(BettingMarketActions.resetBettingMarketStore());
         log.debug('Logout user succeed.');
       } else {
         log.error('No user is logged in');
