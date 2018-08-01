@@ -47,6 +47,12 @@ class BettingMarketActions {
     };
   }
 
+  static resetBettingMarketStore() {
+    return {
+      type: ActionTypes.BETTING_MARKET_RESET_STORE
+    }
+  }
+
   /**
    * Get betting market groups given event ids (can be immutable array)
    */

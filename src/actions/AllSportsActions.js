@@ -32,8 +32,16 @@ class AllSportsPrivateActions {
  * Public actions
  */
 class AllSportsActions {
+
+  static resetAllSportsData() {
+    return {
+      type: ActionTypes.ALL_SPORTS_RESET
+    }
+  }
+
   static getData() {
-    return (dispatch, getState) => {
+    return (dispatch, getState) => {    
+
       // If all sports have ever been fetched, no need to fetch it again
       const allSportsLoadingStatus = getState().getIn(['allSports', 'loadingStatus']);
 

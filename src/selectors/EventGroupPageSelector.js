@@ -13,6 +13,8 @@ const {
 
 const getRelatedEventGroupId = (state, ownProps) => ownProps.params.objectId;
 
+const getRelatedEventGroupFromEvent = (state, event) => event.get('event_group_id');
+
 const getEventGroup = createSelector(
   [getEventGroupsById, getRelatedEventGroupId],
   (eventGroupsById, relatedEventGroupId) => eventGroupsById.get(relatedEventGroupId)
@@ -31,8 +33,21 @@ const getSportName = createSelector(
   }
 );
 
-const getEventGroupPageLoadingStatusByEventGroupId = (state) => state
-  .getIn(['eventGroupPage', 'loadingStatusByEventGroupId']);
+const getSportNameFromEvent = createSelector(
+  [
+    getRelatedEventGroupFromEvent,
+    getEventGroupsById,
+    getSportsById
+  ],
+  (eventGroupId, eventGroupsById, sportsById) => {
+    const sportId = eventGroupsById.getIn([eventGroupId, 'sport_id']);
+    return sportsById.getIn([sportId, 'name']) || '';
+  }
+);
+
+const getEventGroupPageLoadingStatusByEventGroupId = (state) => {
+  return state.getIn(['eventGroupPage', 'loadingStatusByEventGroupId']);
+};
 
 const getEventGroupPageLoadingStatus = createSelector(
   [
@@ -138,7 +153,8 @@ const EventGroupPageSelector = {
   getEventGroup,
   getEventGroupPageData,
   getEventGroupName,
-  getSportName
+  getSportName,
+  getSportNameFromEvent
 };
 
 export default EventGroupPageSelector;

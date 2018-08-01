@@ -3,7 +3,6 @@ import {BlockchainUtils, ObjectUtils} from '../utility';
 import {
   AssetActions,
   AppActions,
-  AuthActions,
   AccountActions,
   SoftwareUpdateActions,
   SportActions,
@@ -23,9 +22,18 @@ import {ChainValidation} from 'peerplaysjs-lib';
 import _ from 'lodash';
 import log from 'loglevel';
 import DrawerActions from '../actions/DrawerActions';
+import {I18n} from 'react-redux-i18n';
 const TIMEOUT_LENGTH = 500;
 const SYNC_MIN_INTERVAL = 1000; // 1 seconds
-const {blockchainTimeStringToDate, getObjectIdPrefix, isRelevantObject} = BlockchainUtils;
+
+const {
+  blockchainTimeStringToDate,
+  getObjectIdPrefix,
+  isRelevantObject
+} = BlockchainUtils;
+
+// An array that holds all the objects that the application is currently subscribed to.
+let subscriptions = [];
 
 class CommunicationService {
   /**
@@ -139,7 +147,7 @@ class CommunicationService {
         }
 
         case ObjectPrefix.OPERATION_HISTORY_PREFIX: {
-          // For each bet matched/ bet placed/ canceled happened on a betting market, refresh 
+          // For each bet matched/ bet placed/ canceled happened on a betting market, refresh
           // the binned order book and total matched bets
           let bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = Immutable.List();
           let matchedBetIds = Immutable.List();
@@ -226,11 +234,11 @@ class CommunicationService {
             if (ownerId === myAccountId) {
               // Set the newest statistic
               // Retrieves new raw history
-              this.dispatch(AccountActions.setStatistics(updatedObject)); 
+              this.dispatch(AccountActions.setStatistics(updatedObject));
             } else if (ownerId === softwareUpdateRefAccId) {
               // Set the newest statistic
               // Retrieves new raw history
-              this.dispatch(SoftwareUpdateActions.setReferenceAccountStatistics(updatedObject)); 
+              this.dispatch(SoftwareUpdateActions.setReferenceAccountStatistics(updatedObject));
             }
           });
           break;
@@ -327,6 +335,17 @@ class CommunicationService {
    */
   static deleteObjects(deletedObjectIdsByObjectIdPrefix) {
     log.debug('Sync - deleting', deletedObjectIdsByObjectIdPrefix.toJS());
+
+    // Loop through the subscriptions and remove the ids of the deleted objects.
+
+    // Reduce the results down to their ids and turn it into a vanilla js array.
+    let deletedIds = deletedObjectIdsByObjectIdPrefix
+      .reduce((accumulator, current) => accumulator.concat(current))
+      .toJS();
+
+    // Filter out the items that are being deleted.
+    subscriptions = subscriptions.filter((item) => !deletedIds.includes(item));
+
     deletedObjectIdsByObjectIdPrefix.forEach((deletedObjectIds, objectIdPrefix) => {
       switch (objectIdPrefix) {
         case ObjectPrefix.ACCOUNT_PREFIX: {
@@ -416,6 +435,22 @@ class CommunicationService {
     }
 
     if (apiPlugin) {
+      // If it is get_objects, we want to push the id's into an array.
+      if (methodName === 'get_objects') {
+        let ids = params[0];
+
+        // There are cases where an immutable list is passed instead of an array. 
+        // This converts it to an array.
+        if (!Array.isArray(ids)) {
+          ids = ids.toJS();
+        }
+
+        // Add the ids to the subscriptions array.
+        // this code will create an array of unique ids, that way we don't need to duplicate 
+        // the same item if its requested more than once.
+        subscriptions = Array.from(new Set(subscriptions.concat(ids)));
+      }
+
       return apiPlugin
         .exec(methodName, params)
         .then((result) => {
@@ -485,11 +520,14 @@ class CommunicationService {
 
   /**
    * Recursive timer to monitor the connection to the blockchain.
+   *
+   * @static
+   * @memberof CommunicationService
    */
   static ping() {
     // Clear the timeout, this will help prevent zombie timeout loops.
     if (CommunicationService.PING_TIMEOUT) {
-      clearTimeout(CommunicationService.PING_TIMEOUT);
+      CommunicationService.clearPing();
     }
 
     CommunicationService.PING_TIMEOUT = setTimeout(CommunicationService.ping, Config.pingInterval);
@@ -497,137 +535,149 @@ class CommunicationService {
   }
 
   /**
+   * Clear the timeout for the websocket health check.
+   *
+   * @static
+   * @memberof CommunicationService
+   */
+  static clearPing() {
+    clearTimeout(CommunicationService.PING_TIMEOUT);
+    CommunicationService.PING_TIMEOUT = null;
+  }
+
+  /**
    * Sync communication service with blockchain, so it always has the latest data
    */
   static syncWithBlockchain(dispatch, getState, attempt = 3) {
-    return new Promise((resolve, reject) => {
-      // Check if db api is ready
-      let db_api = Apis.instance().db_api();
+    // Check if db api is ready
+    let db_api = Apis.instance().db_api();
 
-      if (!db_api) {
-        return reject(
-          new Error('Api not found, please ensure Apis from peerplaysjs-ws is initialized first')
-        );
-      }
+    if (!db_api) {
+      return Promise.reject(
+        new Error('Api not found, please ensure Apis from peerplaysjs-ws is initialized first')
+      );
+    }
 
-      // Get current blockchain data (dynamic global property and global property), 
-      // to ensure blockchain time is in sync
-      // Also ask for core asset here
-      this.callBlockchainDbApi('get_objects', [['2.1.0', '2.0.0', Config.coreAsset]])
-        .then((result) => {
-          const blockchainDynamicGlobalProperty = result.get(0);
-          const blockchainGlobalProperty = result.get(1);
-          const coreAsset = result.get(2);
-          const now = new Date().getTime();
-          const headTime = blockchainTimeStringToDate(
-            blockchainDynamicGlobalProperty.get('time')
-          ).getTime();
-          const delta = (now - headTime) / 1000;
-          // Continue only if delta of computer current time and the blockchain 
-          // time is less than a minute
-          const isBlockchainTimeDifferenceAcceptable = delta < 60;
+    // Get current blockchain data (dynamic global property and global property), 
+    // to ensure blockchain time is in sync
+    // Also ask for core asset here
+    return this.callBlockchainDbApi('get_objects', [['2.1.0', '2.0.0', Config.coreAsset]])
+      .then((result) => {
+        const blockchainDynamicGlobalProperty = result.get(0);
+        const blockchainGlobalProperty = result.get(1);
+        const coreAsset = result.get(2);
+        const now = new Date().getTime();
+        const headTime = blockchainTimeStringToDate(
+          blockchainDynamicGlobalProperty.get('time')
+        ).getTime();
+        const delta = (now - headTime) / 1000;
+        // Continue only if delta of computer current time and the blockchain time 
+        // is less than a minute
+        const isBlockchainTimeDifferenceAcceptable = Math.abs(delta) < 60;
 
-          // const isBlockchainTimeDifferenceAcceptable = true;
-          if (isBlockchainTimeDifferenceAcceptable) {
-            // Subscribe to blockchain callback so the store is always has the latest data
-            const onUpdate = this.onUpdate.bind(this);
-            return Apis.instance()
-              .db_api()
-              .exec('set_subscribe_callback', [onUpdate, true])
-              .then(() => {
-                // Sync success
-                log.debug('Sync with Blockchain Success');
-                // Set reference to dispatch and getState
-                this.dispatch = dispatch;
-                this.getState = getState;
-                // Save dynamic global property
-                dispatch(
-                  AppActions.setBlockchainDynamicGlobalPropertyAction(
-                    blockchainDynamicGlobalProperty
-                  )
-                );
-                // Save global property
-                dispatch(AppActions.setBlockchainGlobalPropertyAction(blockchainGlobalProperty));
-                // Save core asset
-                dispatch(AssetActions.addOrUpdateAssetsAction([coreAsset]));
+        // const isBlockchainTimeDifferenceAcceptable = true;
+        if (isBlockchainTimeDifferenceAcceptable) {
+          // Subscribe to blockchain callback so the store is always has the latest data
+          const onUpdate = this.onUpdate.bind(this);
+          return Apis.instance()
+            .db_api()
+            .exec('set_subscribe_callback', [onUpdate, true])
+            .then(() => {
+              // Sync success
+              log.debug('Sync with Blockchain Success');
+              // Set reference to dispatch and getState
+              this.dispatch = dispatch;
+              this.getState = getState;
+              // Save dynamic global property
+              dispatch(
+                AppActions.setBlockchainDynamicGlobalPropertyAction(blockchainDynamicGlobalProperty)
+              );
+              // Save global property
+              dispatch(AppActions.setBlockchainGlobalPropertyAction(blockchainGlobalProperty));
+              // Save core asset
+              dispatch(AssetActions.addOrUpdateAssetsAction([coreAsset]));
 
-                // Set the ping up.
-                CommunicationService.ping();
+              // If there are no subscriptions we can return early.
+              if (subscriptions.length <= 0) {
+                return;
+              }
 
-                // Attach an error handler to the socket.
-                CommunicationService.addSocketCloseListener();
+              // Request all of the objects that are currently stored in the subscriptions array.
+              // This will resubscribe to updates from the BlockChain.
+              this.getObjectsByIds(subscriptions).then((results) => {
+                let resultsByPrefix = Immutable.Map();
 
-                resolve();
+                results.map((item) => {
+                  let id = item.get('id');
+                  // Get the id prefix
+                  let prefix = id
+                    .split('.')
+                    .slice(0, -1)
+                    .join('.');
+
+                  // get the current map
+                  let current = resultsByPrefix.get(prefix);
+
+                  // If the item doesn't exist create a new immutable map.
+                  if (!current) {
+                    current = Immutable.Map();
+                  }
+
+                  // Add the current item to the prefix map.
+                  current = current.set(id, item);
+
+                  // Update the resultsByPrefix map with the new or updated mapped objects.
+                  resultsByPrefix = resultsByPrefix.set(prefix, current);
+
+                  return item;
+                });
+
+                // Call update objects so the application can properly refresh its data.
+                this.updateObjects(resultsByPrefix);
               });
-          } else {
-            throw new Error();
-          }
-        })
-        .catch((error) => {
-          log.error('Sync with Blockchain Fail', error);
+            });
+        } else {
+          // throw new Error();
+          throw new Error(I18n.t('connectionErrorModal.outOfSyncClock'));
+        }
+      })
+      .catch((error) => {
+        log.error('Sync with Blockchain Fail', error);
+        let desyncError = I18n.t('connectionErrorModal.outOfSyncClock'),
+          failToSyncError = I18n.t('connectionErrorModal.failToSync');
 
-          // Retry if needed
-          if (attempt > 0) {
-            // Retry to connect
-            log.info('Retry syncing with blockchain');
-            return CommunicationService.syncWithBlockchain(dispatch, getState, attempt - 1);
+        // Retry if needed
+        if (attempt > 0) {
+          // Retry to connect
+          log.info('Retry syncing with blockchain');
+          return CommunicationService.syncWithBlockchain(dispatch, getState, attempt - 1);
+        } else {
+          if (error.message === desyncError) {
+            throw new Error(desyncError);
           } else {
             // Give up, throw an error to be caught by the outer promise handler
-            throw new Error('Fail to Sync with Blockchain.');
+            throw new Error(failToSyncError);
           }
-        })
-        .catch((error) => {
-          // Caught any error thrown by the recursive promise and reject it
-          reject(error);
-        });
-    });
-  }
-
-  /**
-   * Attach an event listener to the socket so we can listen for it to close the connection.
-   *
-   * @static
-   * @memberof CommunicationService
-   */
-  static addSocketCloseListener() {
-    let api = Apis.instance();
-
-    // Make sure it has an instance of chainsocket, and a websocket attached to it.
-    if (api && api.ws_rpc && api.ws_rpc.ws) {
-      let socket = api.ws_rpc.ws;
-      // Remove it first to make sure there is only ever one listener firing on close.
-      socket.removeEventListener('close', CommunicationService.onSocketClose);
-      socket.addEventListener('close', CommunicationService.onSocketClose);
-    }
-  }
-
-  /**
-   * Handle the closure of the socket connection.
-   *
-   * @static
-   * @param {any} error
-   * @memberof CommunicationService
-   */
-  static onSocketClose() {
-    // Call the action to redirect the user to the logged out screen.
-    CommunicationService.dispatch(AuthActions.confirmLogout());
+        }
+      });
   }
 
   /**
    * Get full account
    */
   static getFullAccount(accountNameOrId) {
-    return this.callBlockchainDbApi('get_full_accounts', [[accountNameOrId], true])
-      .then((result) => {
+    return this.callBlockchainDbApi('get_full_accounts', [[accountNameOrId], true]).then(
+      (result) => {
         const fullAccount = result.getIn([0, 1]);
         // Return the full account
         return fullAccount;
-      });
+      }
+    );
   }
 
   /**
    * Fetch transaction history of an account given object id of the transaction
-   * This function do the fetch recursively if there is more than 100 transactions between 
+   * This function do the fetch recursively if there is more than 100 transactions between
    * startTxHistoryId and stopTxHistoryId
    */
   static fetchTransactionHistory(
@@ -722,13 +772,12 @@ class CommunicationService {
       sportIds = sportIds.toJS();
     }
 
-    let promises = sportIds
-      .map((sportId) => {
-        let promise = this.callBlockchainDbApi('list_event_groups', [sportId])
-          .then((eventGroups) => ObjectUtils.localizeArrayOfObjects(eventGroups, ['name']));
+    let promises = sportIds.map((sportId) => {
+      let promise = this.callBlockchainDbApi('list_event_groups', [sportId])
+        .then((eventGroups) => ObjectUtils.localizeArrayOfObjects(eventGroups, ['name']));
 
-        return promise;
-      });
+      return promise;
+    });
 
     return Promise.all(promises).then((result) => Immutable.fromJS(result).flatten(true));
   }
@@ -754,8 +803,7 @@ class CommunicationService {
 
           // Subscribe to changes on the blockchain.
           return this.getEventsByIds(ids).then(() => localizedEvents);
-        })
-      );
+        }));
     return Promise.all(promises).then((result) => Immutable.fromJS(result).flatten(true));
   }
 
@@ -768,24 +816,22 @@ class CommunicationService {
     }
 
     let promises = eventIds
-      .map((eventId) => this.callBlockchainDbApi('list_betting_market_groups', [eventId])
-        .then(
-          (bettingMarketGroups) => {
-            const ids = bettingMarketGroups.toJS().map((bmg) => bmg.id);
-            const localizedMarketGroups = ObjectUtils.localizeArrayOfObjects(bettingMarketGroups, [
-              'description'
-            ]);
+      .map((eventId) => this.callBlockchainDbApi('list_betting_market_groups', [eventId]).then(
+        (bettingMarketGroups) => {
+          const ids = bettingMarketGroups.toJS().map((bmg) => bmg.id);
+          const localizedMarketGroups = ObjectUtils.localizeArrayOfObjects(bettingMarketGroups, [
+            'description'
+          ]);
 
-              // If there are no Betting Market Groups, returned an empty object
-            if (ids.length <= 0) {
-              return localizedMarketGroups;
-            }
-
-            // Subscribe to changes on the blockchain.
-            return this.getBettingMarketGroupsByIds(ids).then(() => localizedMarketGroups);
+            // If there are no Betting Market Groups, returned an empty object
+          if (ids.length <= 0) {
+            return localizedMarketGroups;
           }
-        )
-      );
+
+          // Subscribe to changes on the blockchain.
+          return this.getBettingMarketGroupsByIds(ids).then(() => localizedMarketGroups);
+        }
+      ));
     return Promise.all(promises).then((result) => Immutable.fromJS(result).flatten(true));
   }
 
@@ -797,27 +843,25 @@ class CommunicationService {
       bettingMarketGroupIds = bettingMarketGroupIds.toJS();
     }
 
-    let promises = bettingMarketGroupIds
-      .map(bettingMarketGroupId => this.callBlockchainDbApi('list_betting_markets', [bettingMarketGroupId]) // eslint-disable-line
-        .then(
-          (bettingMarkets) => {
-            // Call get_objects here so that we can subscribe to updates
-            const ids = bettingMarkets.toJS().map((market) => market.id);
-            const localizedBettingMarkets = ObjectUtils.localizeArrayOfObjects(bettingMarkets, [
-              'description',
-              'payout_condition'
-            ]);
+    let promises = bettingMarketGroupIds.map((bettingMarketGroupId) =>
+      this.callBlockchainDbApi('list_betting_markets', [bettingMarketGroupId]) // eslint-disable-line
+        .then((bettingMarkets) => {
+          // Call get_objects here so that we can subscribe to updates
+          const ids = bettingMarkets.toJS().map((market) => market.id);
+          const localizedBettingMarkets = ObjectUtils.localizeArrayOfObjects(bettingMarkets, [
+            'description',
+            'payout_condition'
+          ]);
 
-              // If there are no betting markets, returned an empty object
-            if (ids.length <= 0) {
-              return localizedBettingMarkets;
-            }
-
-            // Subscribe to changes on the blockchain.
-            return this.getBettingMarketsByIds(ids).then(() => localizedBettingMarkets);
+          // If there are no betting markets, returned an empty object
+          if (ids.length <= 0) {
+            return localizedBettingMarkets;
           }
-        )
-      );
+
+          // Subscribe to changes on the blockchain.
+          return this.getBettingMarketsByIds(ids).then(() => localizedBettingMarkets);
+        })
+    );
     return Promise.all(promises).then((result) => Immutable.fromJS(result).flatten(true));
   }
 
@@ -831,11 +875,11 @@ class CommunicationService {
 
     // Create promises of getting binned order book for each betting market
     const promises = bettingMarketIds
-      .map(bettingMarketId => this.callBlockchainBookieApi('get_binned_order_book', [bettingMarketId, binningPrecision])); // eslint-disable-line
+      .map((bettingMarketId) => this.callBlockchainBookieApi('get_binned_order_book', [bettingMarketId, binningPrecision])); // eslint-disable-line
 
     return Promise.all(promises).then((result) => {
       let finalResult = Immutable.Map();
-      // Modify the data structure of return objects, from list of binnedOrderBooks into 
+      // Modify the data structure of return objects, from list of binnedOrderBooks into
       // dictionary of binnedOrderBooks with betting market id as the key
       _.forEach(result, (binnedOrderBook, index) => {
         if (binnedOrderBook) {
@@ -857,7 +901,9 @@ class CommunicationService {
     }
 
     let promises = bettingMarketGroupIds
-      .map(bettingMarketGroupId => this.callBlockchainBookieApi('get_total_matched_bet_amount_for_betting_market_group', [bettingMarketGroupId])); // eslint-disable-line
+      .map((bettingMarketGroupId) => this.callBlockchainBookieApi('get_total_matched_bet_amount_for_betting_market_group', [ // eslint-disable-line
+        bettingMarketGroupId
+      ]));
 
     return Promise.all(promises).then((result) => {
       // Map the result with betting market groupIds
@@ -880,7 +926,7 @@ class CommunicationService {
    */
   static getBettingMarketsByIds(bettingMarketIds) {
     return this.getObjectsByIds(bettingMarketIds)
-      .then(result => ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition'])); // eslint-disable-line
+      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition'])); // eslint-disable-line
   }
 
   /**
@@ -888,7 +934,7 @@ class CommunicationService {
    */
   static getPersistedBettingMarketsByIds(bettingMarketIds) {
     return this.getPersistedBookieObjectsByIds(bettingMarketIds)
-      .then(result => ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition'])); // eslint-disable-line
+      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition'])); // eslint-disable-line
   }
 
   /**

@@ -818,9 +818,13 @@ export const translationsObject = {
     },
     connectionErrorModal: {
       title: 'Connection Error',
-      explanation: 'Could not connect to the Blockchain',
-      noInternet: 'Could not connect to the internet',
-      confirm: 'Try Again'
+      explanation: 'Could not connect to the Blockchain.',
+      noInternet: 'Could not connect to the internet.',
+      outOfSyncClock: 'Computer Date/Time is out of sync.',
+      failToSync: 'Fail to Sync with Blockchain.',
+      disconnected: 'You have been disconnected from the Blockchain',
+      confirm: 'Try Again',
+      reconnect: 'Reconnect'
     },
     unplacedBetModal: {
       title: 'Confirm navigation',
