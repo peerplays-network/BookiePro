@@ -1,6 +1,6 @@
 
 
-import { Aes } from "peerplaysjs-lib";
+import { Aes, PublicKey } from "peerplaysjs-lib";
 
 /**
  * Service for work with memos
@@ -21,9 +21,9 @@ class MemoService {
      * @returns {String} - The unencrypted memo, or an error message if the memo could not be decoded.
      * @memberof MemoService
      */
-    static decodeMemo(receiverPrivateMemo, senderPublicMemo, nonce, encryptedMessage) {
+    static decodeMemo(privateMemo, publicMemo, nonce, encryptedMessage) {
         // Using the AES library to decrypt the memo message using the private Memo key of the receiver and the public memo key of the sender.
-        let decryptedMessage = Aes.decrypt_with_checksum(receiverPrivateMemo, senderPublicMemo, nonce, encryptedMessage);
+        let decryptedMessage = Aes.decrypt_with_checksum(privateMemo, publicMemo, nonce, encryptedMessage);
 
         // The message then needs to be decoded using the default browser TextDecoder
         let decoder = new TextDecoder('utf-8');
@@ -31,7 +31,7 @@ class MemoService {
         // Try to decode the message and throw an error if the decoing is unsuccessful.
         let message;
         try {
-            message = decoder.decode(decryptedMessage) // Parse the resulting plain text into a JSON object
+            message = decoder.decode(decryptedMessage); // Parse the resulting plain text into a JSON object
         } catch (error) {
             message = "Could not decode memo: " + error;
         }

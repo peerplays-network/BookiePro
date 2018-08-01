@@ -38,7 +38,7 @@ import MemoService from 'services/MemoService';
         walletLocked: state.wallet.locked,
         walletIsOpen: state.wallet.isOpen,
         aes: state.walletData.aesPrivate,
-        memoKey: state.privateKey ? state.privateKey.keys.get('memo').encrypted_key : null
+        currentAccount: state.account.currentAccount
     }
 }, {
     getKeyFromState,
@@ -60,12 +60,26 @@ class RecentActivityRow extends React.Component {
      * @memberof RecentActivityRow
      */
     memoClick() {
-        // geyKeyFromState returns a promise with a callback containing the requested key as a parameter
-        // getKeyFromState triggers a modal wherin the user is prompted to enter their password. The password is then used to decrypt the memo key from state
-        this.props.getKeyFromState('memo').then((memoKey) => {
 
+        let requiredKey, publicKey;
+
+        // If you are the sender, then you require your private active key to decode the memo.
+        // If you are the receiver, then you require your private memo key to decode the memo.
+        if (this.props.currentAccount === this.props.sender) {
+            requiredKey = 'active';
+            publicKey = this.props.memo.to;
+        } else {
+            requiredKey = 'memo';
+            publicKey = this.props.memo.from;
+        }
+
+        // getKeyFromState triggers a modal wherin the user is prompted to enter their password.
+        // geyKeyFromState returns a promise with a callback containing the requested key as a parameter
+        // The password is then used to decrypt the memo key from state
+        this.props.getKeyFromState(requiredKey).then((privateKey) => {
             // Use the memo service to decode the message
-            let message = MemoService.decodeMemo(memoKey, this.props.memo.from, this.props.memo.nonce, this.props.memo.message);            
+            let message = MemoService.decodeMemo(privateKey, publicKey, this.props.memo.nonce, this.props.memo.message);
+
 
             // If message exists, then the message was decoded successfully.
             // Put the message into an object with other relevant information and pass the memo into reduc for viewing in the modal
