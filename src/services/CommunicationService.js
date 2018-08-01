@@ -23,7 +23,7 @@ import _ from 'lodash';
 import dummyData from '../dummyData';
 import log from 'loglevel';
 import DrawerActions from '../actions/DrawerActions';
-
+import { I18n } from 'react-redux-i18n';
 const TIMEOUT_LENGTH = 500;
 const SYNC_MIN_INTERVAL = 1000; // 1 seconds
 
@@ -504,7 +504,7 @@ class CommunicationService {
       const headTime = blockchainTimeStringToDate(blockchainDynamicGlobalProperty.get('time')).getTime();
       const delta = (now - headTime)/1000;
       // Continue only if delta of computer current time and the blockchain time is less than a minute
-      const isBlockchainTimeDifferenceAcceptable = delta < 60;
+      const isBlockchainTimeDifferenceAcceptable = Math.abs(delta) < 60;
       // const isBlockchainTimeDifferenceAcceptable = true;
       if (isBlockchainTimeDifferenceAcceptable) {
         // Subscribe to blockchain callback so the store is always has the latest data
@@ -560,21 +560,28 @@ class CommunicationService {
 
         });
       } else {
-        throw new Error();
+        // throw new Error();
+        throw new Error(I18n.t('connectionErrorModal.outOfSyncClock'));
       }
     }).catch( error => {
       log.error('Sync with Blockchain Fail', error);
+      let desyncError = I18n.t('connectionErrorModal.outOfSyncClock'),
+        failToSyncError = I18n.t('connectionErrorModal.failToSync');
+
       // Retry if needed
       if (attempt > 0) {
         // Retry to connect
         log.info('Retry syncing with blockchain');
         return CommunicationService.syncWithBlockchain(dispatch, getState, attempt-1);
       } else {
-        // Give up, throw an error to be caught by the outer promise handler
-        throw new Error('Fail to Sync with Blockchain.');
+        if (error.message === desyncError){
+          throw new Error(desyncError);
+        } else {
+          // Give up, throw an error to be caught by the outer promise handler
+          throw new Error(failToSyncError);
+        }
       }
     });
-
   }
 
   /**
