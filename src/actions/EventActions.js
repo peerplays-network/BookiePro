@@ -71,6 +71,12 @@ class EventActions {
     };
   }
 
+  static resetEventStore() {
+    return {
+      type: ActionTypes.EVENT_RESET_STORE
+    };
+  }
+
   /**
    * Get events given array of event group ids (can be immutable)
    */

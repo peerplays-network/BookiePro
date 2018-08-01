@@ -50,6 +50,10 @@ export default function(state = initialState, action) {
         getEventGroupsBySportIdsLoadingStatus
       );
     }
+    
+    case ActionTypes.EVENT_GROUP_RESET_STORE: {
+      return initialState;
+    }
 
     default:
       return state;

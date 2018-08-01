@@ -89,6 +89,10 @@ export default function(state = initialState, action) {
         searchEventsError: action.error
       });
     }
+    
+    case ActionTypes.EVENT_RESET_STORE: {
+      return initialState;
+    }
 
     default:
       return state;
