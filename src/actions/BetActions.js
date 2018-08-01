@@ -106,7 +106,7 @@ class BetPrivateActions {
  * Public actions
  */
 class BetActions {
-
+  
   /**
    * Init my bets, i.e. derive unmatchedBets, matchedBets, and resolvedBets from transaction history
    */
@@ -221,7 +221,7 @@ class BetActions {
           dispatch(MarketDrawerActions.updatePlacedBets());
           dispatch(MarketDrawerActions.hideOverlay())
           // Setstatus
-          dispatch(BetPrivateActions.setCheckForNewMyBetsLoadingStatusAction(LoadingStatus.DONE));
+          dispatch(BetPrivateActions.setCheckForNewMyBetsLoadingStatusAction(LoadingStatus.DONE));                    
           log.debug('Check for new my bets succeed.');
         }).catch((error) => {
           log.error('Fail to check for new my bets', error);
@@ -379,7 +379,7 @@ class BetActions {
    */
   static cancelBets(bets) {
     return (dispatch, getState) => {
-
+      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
       if (Config.useDummyData) {
         // Dummy implementation
         // TODO: remove later

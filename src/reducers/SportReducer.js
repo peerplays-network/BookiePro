@@ -38,6 +38,9 @@ export default function (state = initialState, action) {
       })
       return nextState;
     }
+    case ActionTypes.SPORT_RESET_STORE: {
+      return initialState;
+    }
     default:
       return state;
   }

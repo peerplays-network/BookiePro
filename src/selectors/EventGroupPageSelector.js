@@ -13,6 +13,8 @@ const {
 
 const getRelatedEventGroupId = (state, ownProps) => ownProps.params.objectId;
 
+const getRelatedEventGroupFromEvent = (state, event) => event.get('event_group_id');
+
 const getEventGroup = createSelector(
   [
     getEventGroupsById,
@@ -36,6 +38,18 @@ const getEventGroupName = createSelector(
 const getSportName = createSelector(
   [
     getRelatedEventGroupId,
+    getEventGroupsById,
+    getSportsById
+  ],
+  (eventGroupId, eventGroupsById, sportsById) => {
+    const sportId = eventGroupsById.getIn([eventGroupId, 'sport_id']);
+    return sportsById.getIn([sportId, 'name']) || '';
+  }
+)
+
+const getSportNameFromEvent = createSelector(
+  [
+    getRelatedEventGroupFromEvent,
     getEventGroupsById,
     getSportsById
   ],
@@ -142,7 +156,8 @@ const EventGroupPageSelector = {
   getEventGroup,
   getEventGroupPageData,
   getEventGroupName,
-  getSportName
+  getSportName,
+  getSportNameFromEvent
 }
 
 export default EventGroupPageSelector;

@@ -16,7 +16,8 @@ export const translationsObject = {
       export: 'Export',
       download: 'Download',
       exportDataFetchMsg: 'Please wait while we process your request',
-      exportDataReadyMsg: 'Your exported file is ready! Please download the exported file now.',
+      exportDataReadyMsg1: 'Your exported file is ready!',
+      exportDataReadyMsg2: 'Please download the exported file now.',
       exportNoDataMsg: 'No data to be exported',
       exportLoadingHeader: 'Exporting to .xlsx',
       exportDownloadHeader: 'Export Completed',
@@ -381,6 +382,7 @@ export const translationsObject = {
             good_bets: 'You are about to place %{good_bets} bets  for a total liability of ',
             cancel_button: 'CANCEL',
             confirm_button: 'CONFIRM BET',
+            are_you_sure: 'Are you sure?',
           },
         },
         error: {
@@ -429,6 +431,7 @@ export const translationsObject = {
             good_bets: 'You are about to update %{good_bets} bets for a total liability of ',
             cancel_button: 'CANCEL',
             confirm_button: 'CONFIRM BET',
+            are_you_sure: 'Are you sure?',
           },
         },
         error: {
@@ -790,9 +793,13 @@ export const translationsObject = {
     },
     connectionErrorModal: {
       title: 'Connection Error',
-      explanation: 'Could not connect to the Blockchain',
-      noInternet: 'Could not connect to the internet',
+      explanation: 'Could not connect to the Blockchain.',
+      noInternet: 'Could not connect to the internet.',
+      outOfSyncClock: 'Computer Date/Time is out of sync.',
+      failToSync: 'Fail to Sync with Blockchain.',
+      disconnected: 'You have been disconnected from the Blockchain',
       confirm: 'Try Again',
+      reconnect: 'Reconnect'
     },
     unplacedBetModal: {
       title: 'Confirm navigation',

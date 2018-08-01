@@ -74,8 +74,7 @@ export default function (state = initialState, action) {
     }
     case ActionTypes.APP_SET_CONNECT_TO_BLOCKCHAIN_ERROR: {
       return state.merge({
-        connectToBlockchainError: action.error,
-        connectToBlockchainLoadingStatus: LoadingStatus.ERROR
+        connectToBlockchainError: action.error
       });
     }
     case ActionTypes.APP_SET_CONNECTION_STATUS: {
