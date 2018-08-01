@@ -39,6 +39,9 @@ export default function (state = initialState, action) {
       })
       return state.mergeIn(['getEventGroupsBySportIdsLoadingStatus'], getEventGroupsBySportIdsLoadingStatus);
     }
+    case ActionTypes.EVENT_GROUP_RESET_STORE: {
+      return initialState;
+    }
     default:
       return state;
   }

@@ -20,6 +20,9 @@ export default function(state = initialState, action) {
         loadingStatus: LoadingStatus.ERROR
       })
     }
+    case ActionTypes.ALL_SPORTS_RESET: {
+      return initialState;
+    }
     default:
       return state;
   }

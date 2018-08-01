@@ -2,7 +2,9 @@ import { ActionTypes, LoadingStatus, Config, ConnectionStatus } from '../constan
 import { ConnectionService, CommunicationService } from '../services';
 import SoftwareUpdateActions from './SoftwareUpdateActions';
 import AuthActions from './AuthActions';
+import { I18n } from 'react-redux-i18n';
 import log from 'loglevel';
+import { AllSportsActions } from '.';
 
 /**
  * Private actions
@@ -134,7 +136,7 @@ class AppActions {
   }
 
   static connectToBlockchain() {
-    
+
     return (dispatch, getState) => {
       dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.LOADING));
       // Define callback whenever connection change
@@ -144,10 +146,17 @@ class AppActions {
           dispatch(AppPrivateActions.setConnectionStatusAction(connectionStatus));
         }
 
+        if (connectionStatus === ConnectionStatus.CONNECTED) {
+          dispatch(AllSportsActions.getData());
+        }
         // If we are offline, logout the user.
         if (connectionStatus === ConnectionStatus.DISCONNECTED) {
           // To force a resubscription to all the required information, push the user to the start of the app again.  
           dispatch(AuthActions.confirmLogout());
+          
+          // Show the prompt that they've been disconnected and to try again.
+          dispatch(AppPrivateActions.setConnectToBlockchainErrorAction(LoadingStatus.ERROR_DISCONNECTED));
+          dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));
         }
 
       };
@@ -167,20 +176,21 @@ class AppActions {
           dispatch(AppPrivateActions.setGatewayAccountAction(gatewayAccount));
         }
         log.info('Connected to blockchain.');
-        // Do auto login
-        dispatch(AuthActions.autoLogin()).then(() => {
-          // Redirect the user to exchange page
-        }).catch(() => {
-          // Fail to do auto login, do nothing
-        }).then(() => {
-          // Mark done of connected to blockchain
-          dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.DONE));
-        })
+        // Push the user back to the login.
+        dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.DONE));
+        dispatch(AuthActions.autoLogout());
 
       }).catch((error) => {
         log.error('Fail to connect to blockchain', error);
-        // Fail to connect/ sync/ listen to software update, close connection to the blockchain
-        ConnectionService.closeConnectionToBlockchain();
+        let desyncError = I18n.t('connectionErrorModal.outOfSyncClock');
+        if (error.message === desyncError){
+          dispatch(AppPrivateActions.setConnectToBlockchainErrorAction(LoadingStatus.ERROR_DESYNC));
+        } else {
+          // Fail to connect/ sync/ listen to software update, close connection to the blockchain
+          ConnectionService.closeConnectionToBlockchain();
+          dispatch(AppPrivateActions.setConnectToBlockchainErrorAction(error));          
+        }
+
         dispatch(AppPrivateActions.setConnectToBlockchainLoadingStatusAction(LoadingStatus.ERROR));
       });
     }

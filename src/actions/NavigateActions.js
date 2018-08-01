@@ -10,14 +10,21 @@ class NavigateActions {
    */
   static navigateTo(path, pushPage = true) {
     return (dispatch) => {
-      if (path) {
+
+      // Get the current location.
+      let hash = location.hash.replace('#', '');
+
+      // Don't dispatch a change if the url is already the current url.
+      if (path && path !== hash) {
         log.debug('Navigate to ', path);
+        
         if (pushPage) {
           dispatch(push(path));
         } else {
           dispatch(replace(path));
         }
       }
+
     };
   }
 
