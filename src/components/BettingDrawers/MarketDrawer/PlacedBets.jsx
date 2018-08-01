@@ -11,7 +11,6 @@ import { bindActionCreators } from 'redux';
 import ReactDOM from 'react-dom';
 import Ps from 'perfect-scrollbar';
 import { BetActions, MarketDrawerActions, NavigateActions } from '../../../actions';
-import { BettingMarketGroupPageSelector, MarketDrawerSelector, MyAccountPageSelector } from '../../../selectors';
 import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
