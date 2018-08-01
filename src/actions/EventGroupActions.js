@@ -40,6 +40,12 @@ class EventGroupActions {
     };
   }
 
+  static resetEventGroupStore() {
+    return {
+      type: ActionTypes.EVENT_GROUP_RESET_STORE
+    };
+  }
+
   /**
    * Get event groups given array of sport ids (can be immutable)
    */
