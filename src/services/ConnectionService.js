@@ -1,6 +1,7 @@
 import { Apis } from 'peerplaysjs-ws';
 import { Config, ConnectionStatus } from '../constants';
 import { ConnectionUtils } from '../utility';
+import { I18n } from 'react-redux-i18n';
 import log from 'loglevel';
 import CommunicationService from './CommunicationService';
 
