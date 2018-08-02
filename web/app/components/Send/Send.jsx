@@ -81,6 +81,10 @@ class Send extends React.Component {
             invalidName: null,
             invalidAmount: null
         }
+        this.onChangeMemo = this.onChangeMemo.bind(this);
+        this.onChangeSymbol = this.onChangeSymbol.bind(this);
+        this.onAmountChange = this.onAmountChange.bind(this);
+        this.onInputChange = this.onInputChange.bind(this);
     }
 
     onChangeSymbol(e){
@@ -125,7 +129,9 @@ class Send extends React.Component {
     verifyInputValue(value) {
         AccountRepository.fetchFullAccount(value).then(result => {
 
-            if(!result) throw (counterpart.translate("errors.unknown_account"));
+            if(!result) {
+                invalidName = counterpart.translate("errors.unknown_account");
+            }
 
             let account = result[1].account;
 
@@ -141,7 +147,7 @@ class Send extends React.Component {
             if(this.state.recipientName === value) {
                 this.setState({
                   recipientName: value,
-                  invalidName
+                  invalidName: counterpart.translate("errors.invalid_account")
                 });
             }
         });
@@ -189,6 +195,10 @@ class Send extends React.Component {
     }
 
     onSend(walletLocked) {
+
+        console.log('onSend()');
+        console.log(walletLocked);
+
         if(walletLocked && !this.props.walletIsOpen) {
             this.props.setWalletPosition(true);
         }
@@ -349,7 +359,7 @@ class Send extends React.Component {
                                     <Select
                     									value={selectedSymbol}
                     									options={options}
-                                      onChange={this.onChangeSymbol.bind(this)}
+                                      onChange={this.onChangeSymbol}
                     								/>
                                     <div className="fieldNote stack"><b className="mark">
                                         <FormattedNumber
@@ -360,12 +370,12 @@ class Send extends React.Component {
                                 </div>
                                 <div className="row2">
                                     <label className="label"><Translate content="transfer.amount_to_send"/></label>
-                                    <input type="text" className={`field field-type3 ${this.state.invalidAmount ? 'error' : null}`} value={amountValue} onChange={this.onAmountChange.bind(this)}/>
+                                    <input type="text" className={`field field-type3 ${this.state.invalidAmount ? 'error' : null}`} value={amountValue} onChange={this.onAmountChange}/>
                                     {this.state.invalidAmount ? <span className="error__hint">{this.state.invalidAmount}</span> : null}
                                 </div>
                                 <div className="row2">
                                     <label className="label"><Translate content="transfer.account_name"/></label>
-                                    <input type="text" className={`field field-type3 ${this.state.invalidName ? 'error' : null}`} value={recipientName} onChange={this.onInputChange.bind(this)}/>
+                                    <input type="text" className={`field field-type3 ${this.state.invalidName ? 'error' : null}`} value={recipientName} onChange={this.onInputChange}/>
                                     {this.state.invalidName ? <span className="error__hint">{this.state.invalidName}</span> : null}
                                 </div>
                                 {/*<div className="row2">
@@ -374,7 +384,7 @@ class Send extends React.Component {
                                 </div>*/}
                                 <div className="row2">
                                     <label className="label"><Translate content="transfer.memo"/></label>
-                                    <textarea className="textarea field field-type3" rows="1" value={this.state.memo} onChange={this.onChangeMemo.bind(this)} />
+                                    <textarea className="textarea field field-type3" rows="1" value={this.state.memo} onChange={this.onChangeMemo} />
                                 </div>
                                 <div className="sendForm__btns">
                                     <button

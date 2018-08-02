@@ -251,6 +251,7 @@
     "incorrect_password": "This password is incorrect",
     "divisible_by_two": "The number must be divisible by two",
     "unknown_account": "Unknown account",
+    "invalid_account": "Invalid account",
     "cant_proxy_yourself": "Cant proxy to yourself",
     "cant_send_yourself": "Cant send to yourself",
     "not_witness": "Not a witness",
