@@ -11,7 +11,6 @@ import { bindActionCreators } from 'redux';
 import ReactDOM from 'react-dom';
 import Ps from 'perfect-scrollbar';
 import { BetActions, MarketDrawerActions, NavigateActions } from '../../../actions';
-import { BettingMarketGroupPageSelector, MarketDrawerSelector, MyAccountPageSelector } from '../../../selectors';
 import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
@@ -110,11 +109,10 @@ const mapStateToProps = (state, ownProps) => {
   // Add the transaction fee to the place bet button. 
   /*Precision value will affect whether or not the full number will be displayed, regardless of it being added. */
   let transactionFee = ownProps.currencyFormat === 'BTF' ? Config.btfTransactionFee : Config.mbtfTransactionFee;
-
   // Add a transaction fee for each updated bet.
   if (updatedBets.size > 0) {
     transactionFee = updatedBets.size * transactionFee;
-  } 
+  }
 
   // Number of Good bets
   const numberOfGoodBets = updatedBets.reduce((sum, bet) => {

@@ -83,27 +83,30 @@ var BettingModuleUtils = {
    * @returns {string} - profit of liability, based on either BTF or mBTF
    */
   getProfitOrLiability: function(stake, odds, currencyFormat = 'BTF', profitOrLiability) {
-    let floatStake = parseFloat(stake);
-    let floatOdds = parseFloat(odds);    
+    if (stake && stake.toString().indexOf('*') === -1){
+      let floatStake = parseFloat(stake);
+      let floatOdds = parseFloat(odds);    
 
-    //check invalid input
-    if (isNaN(floatStake) || isNaN(floatOdds) ) {
-      return;
-    }
-    if ( floatOdds.toFixed(oddsPlaces) < 1.01 ){
-      return;
-    }
+      //check invalid input
+      if (isNaN(floatStake) || isNaN(floatOdds) ) {
+        return;
+      }
+      if ( floatOdds.toFixed(oddsPlaces) < 1.01 ){
+        return;
+      }
 
-    // Any mBTF passed into this function will be 1000 times larger than it needs to be.
-    //  The return function will multiply the mBTF value by 1000.
-    if (currencyFormat === 'mBTF') {
-      floatStake = floatStake / 1000;
+      // Any mBTF passed into this function will be 1000 times larger than it needs to be.
+      //  The return function will multiply the mBTF value by 1000.
+      if (currencyFormat === 'mBTF') {
+        floatStake = floatStake / 1000;
+      }
+        
+      return CurrencyUtils.getFormattedCurrency(floatStake * ( floatOdds - 1 ),
+                                                currencyFormat,
+                                                CurrencyUtils.fieldPrecisionMap[profitOrLiability][currencyFormat]);
+    } else {
+      return stake;
     }
-      
-    return CurrencyUtils.getFormattedCurrency(floatStake * ( floatOdds - 1 ),
-                                              currencyFormat,
-                                              CurrencyUtils.fieldPrecisionMap[profitOrLiability][currencyFormat]
-);
 
   },
 

@@ -8,9 +8,14 @@ import mBitFunBlack from '../assets/icons/mbitfun_icon_black.svg';
 /**
  * The CurrencyUtils contains all the functions related to currency conversion function
  */
-//const currencySymbol = '\u0243';
-const currencySymbol = Config.features.currency;
-const mCurrencySymbol = 'm' + currencySymbol;
+//const configCurrency = '\u0243';
+const configCurrency = Config.features.currency;
+const mCurrencySymbol = 'm' + configCurrency;
+const coinDust = Config.dust.coin;
+const miliCoinDust = Config.dust.miliCoin;
+const exchangeCoin = Config.dust.exchangeCoin;
+const miliStakeDust = 0;
+const stakeDust = exchangeCoin; // Three
 
 // REVIEW: Some functions here do auto conversion from BTF to mBTF.
 //         We need to be careful because sometimes the values we are handling
@@ -76,18 +81,22 @@ var CurrencyUtils = {
    *        False will truncate to precision decimal places
    * @returns - amount rounded/truncated to precision decimal places
    */
-  substringPrecision(amount, precision, accuracy=true){
+  substringPrecision(amount, precision, accuracy=true, currencyFormat='mBTF', field){
     if (amount === undefined){
       amount = 0.0;
     }
+    amount = this.isDust(currencyFormat, amount, field);
     let split = amount.toString().split('.');
     if (split[1] && split[1].length > precision){
       let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0)); // Conditionally take the value one past the accpeted precision ,,.
       let newAmount = split[0] + '.' + splitSel;
-      return parseFloat(newAmount).toFixed(precision); // Then execute toFixed on the resulting amount. This keeps more accuracy. 
+      amount = parseFloat(newAmount).toFixed(precision); // Then execute toFixed on the resulting amount. This keeps more accuracy. 
     } else {
-      return amount.toFixed(precision);
+      if (typeof(amount) === 'number'){
+        amount = amount.toFixed(precision);
+      }
     }
+    return amount;
   },
 
   getCurrencySymbol: function(currency='mBTF', color = 'black'){
@@ -119,27 +128,28 @@ var CurrencyUtils = {
    *                              will truncate to the number of decimal places equal to precision (thus, less accuracy)
    * @returns {string} - formatted string to support negative bitcoin curruency values
    */
-  getFormattedCurrency: function(amount, currencyFormat = 'mBTF', precision = 0, accuracy=true, avg=false, forExport=false){
+  getFormattedCurrency: function(amount, currencyFormat = 'mBTF', precision = 0, accuracy=true, avg=false, forExport=false, field){
     if (!isNaN(amount)) {
       if (amount === 0){
         return amount;
       }
-      
       if (currencyFormat === 'mBTF' || currencyFormat === mCurrencySymbol) {
+        
         // 1 BTF = 1 * 10^3 mBTF
         const mPrecision = precision < 3 ? 0 : precision - 3;
         if (!accuracy){
-          return this.substringPrecision((1000 * amount), mPrecision, accuracy);
+          return this.substringPrecision((1000 * amount), mPrecision, accuracy, currencyFormat, field);
         }
         if (forExport){
-          return amount.toFixed(mPrecision);
+          return this.substringPrecision(amount, mPrecision, false, currencyFormat, field);
         }
-        return avg ? amount.toFixed(precision) : ( 1000 * amount ).toFixed(mPrecision);
+        return avg ? this.substringPrecision(amount, precision, false, currencyFormat, field) : 
+          this.substringPrecision((1000 * amount), mPrecision, false, currencyFormat, field);
       }
 
-      if (currencyFormat === 'BTF' || currencyFormat === currencySymbol) {
+      if (currencyFormat === 'BTF' || currencyFormat === configCurrency) {
         if(amount % 1 !== 0){
-          return this.substringPrecision(amount, precision, accuracy);
+          return this.substringPrecision(amount, precision, accuracy, currencyFormat, field);
         }
         else{
           // Sometimes amount is a string type which will throw an
@@ -192,7 +202,7 @@ var CurrencyUtils = {
     if (field === 'odds') return amount.toFixed(2);
     // DO NOT expect this but just in case...
     if (this.fieldPrecisionMap[field] === undefined || this.fieldPrecisionMap[field][currency] === undefined) return amount;
-    return this.getFormattedCurrency(amount, currency, this.fieldPrecisionMap[field][currency]);
+    return this.getFormattedCurrency(amount, currency, this.fieldPrecisionMap[field][currency], true, false, false, field);
   },
 
   /*
@@ -211,10 +221,10 @@ var CurrencyUtils = {
     let floatAmount = parseFloat(amount)
     if (field === 'stake') {
       if ((floatAmount < 1 && currency === 'mBTF') || (floatAmount < 1 && currency === mCurrencySymbol)) return Config.mbtfTransactionFee.toString()
-      if ((floatAmount < .001 && currency === 'BTF') || (floatAmount < .001 && currency === currencySymbol)) return Config.btfTransactionFee.toString()
+      if ((floatAmount < .001 && currency === 'BTF') || (floatAmount < .001 && currency === configCurrency)) return Config.btfTransactionFee.toString()
     }
     if(amount % 1 !== 0 && !isNaN(amount)){
-      return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency]);
+      return this.substringPrecision(amount, this.fieldPrecisionMap[field][currency], true, currency, field);
     } else{
       return floatAmount.toFixed(this.fieldPrecisionMap[field][currency]);
     }
@@ -242,6 +252,41 @@ var CurrencyUtils = {
   // This function will convert lay stake to the correct value
   layBetStakeModifier: function(stake, odds) {
     return stake / (odds - 1)
+  },
+  // Check if the currency is dust. If it is, append an asterik.
+  isDust: (currencyFormat, amount, field) => {
+    let dustRange;
+    if (!isNaN(amount)) {
+      // Handle negative amounts
+      amount = Math.abs(amount);
+      if (currencyFormat.toLowerCase().indexOf('m') === -1){
+        dustRange = coinDust;
+      } else {
+        dustRange = miliCoinDust;
+      }
+      // If the value coming is of 3 precision, its dust is different.
+      if(amount % 1 !== 0 && amount.toString().split('.')[1].length === 3){
+        dustRange = exchangeCoin;
+      }
+      // Check the fields for overriding the general dust values.
+      if(field === 'stake') {
+        // Is the currency a mili coin? [ mBTF ]
+        if (currencyFormat.indexOf('m') !== -1) {
+          // miliCoin's do not display non-whole numbers.
+          if (amount % 1 !== miliStakeDust) {
+            // Early return for edge case dust.
+            return amount = 0 + '*';
+          }
+        } else {
+          dustRange = stakeDust;
+        }
+      }
+      // If the amount is less than the configured dust values (Config.js), then change the display of that amount to indicate as such.
+      if (amount < dustRange && amount !== 0) {
+        amount = 0 + '*';
+      }
+    }
+    return amount;
   }
 }
 
