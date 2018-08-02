@@ -750,8 +750,8 @@ class DashboardBalancesService {
 		}
 
 		let recentActivity = history ? history.map(obj => {
-			let {type, sender, receiver, description, date, operation} = formatOperation(obj);
-			return {id: obj.id, type, sender, receiver, description, operation, block: obj.block_num}
+			let {type, sender, receiver, description, date, operation, memo} = formatOperation(obj);
+			return {id: obj.id, type, sender, receiver, description, operation, block: obj.block_num, memo}
 		}) : [];
 
 		return {recentActivity, openOrders, blockInterval, headBlockNumber};

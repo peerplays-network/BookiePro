@@ -315,3 +315,11 @@ export const CLAIM_BTS_SET_ERRORS = 'CLAIM_BTS_SET_ERRORS';
  * const TOGGLE_HELP_POPUP - Show|hide Help popup
  */
 export const TOGGLE_HELP_POPUP = 'TOGGLE_HELP_POPUP';
+
+/*
+ * Memo Modal
+ * 
+ * const MEMO_SET_VIEW_STATUS - Show|hide the memo modal.
+ */
+export const MEMO_SET_VIEW_STATUS = 'MEMO_SET_VIEW_STATUS';
+export const MEMO_RESET_VIEW_MODAL = 'MEMO_RESET_VIEW_MODAL';

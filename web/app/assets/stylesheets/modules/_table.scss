@@ -498,25 +498,37 @@
 	table-layout: fixed;
 	.tableCell{
 		&:nth-child(1){
-			width: 26%;
+			width: 25%;
 			.btn-mark{
 				max-width: 100%;
 				text-overflow: ellipsis;
 				overflow: hidden;
 				padding: 0 15px;
 			}
+
+			.viewMemo {
+				font-size: 10px;
+				line-height: 36px;
+				display: inline;
+				padding: 10px;
+				
+				&:hover {
+					color: $light-blue;
+					cursor: pointer;
+				}
+			}
 		}
 		&:nth-child(2){
-			width: 13%;
+			width: 8%;
 		}
 		&:nth-child(3){
-			width: 13%;
+			width: 8%;
 		}
 		&:nth-child(4){
-			width: 33%;
+			width: 30%;
 		}
 		&:nth-child(5){
-			width: 15%;
+			width: 10%;
 		}
 	}
 }

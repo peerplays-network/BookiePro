@@ -61,7 +61,8 @@
       "sender": "Sender",
       "receiver": "Receiver",
       "description": "Description",
-      "date": "Date"
+      "date": "Date",
+      "viewMemo": "View Memo"
     }
   },
   "activity": {
@@ -548,6 +549,7 @@
     "game_move_commit": "Display selected gesture. Gesture - {gesture}. User - {from}. Game - {game_id}."
   },
   "cancel": "Cancel",
+  "done": "Done",
   "vesting_balances": {
     "title": "Vesting Balances",
     "balance_number": "Balance #%(id)s",
@@ -683,7 +685,10 @@
       "title": "Unlock Wallet",
       "password": "Password",
       "password_placeholder": "Enter password",
-      "unlock_btn": "Unlock Wallet"
+      "unlock_btn": "Unlock Wallet"      
+    },    
+    "memo": {
+      "title": "Memo"
     }
   },
   "deposit_with_draw": {

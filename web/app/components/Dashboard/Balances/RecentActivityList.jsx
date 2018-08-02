@@ -37,13 +37,13 @@ import RecentActivityRow from './RecentActivityRow';
 class RecentActivityList extends React.Component {
 
     constructor(props) {
-        super(props);
+        super(props);    
 
         this.state = {
             popup : false,
             sortBy : 'all'
         };
-        this._closePopup = this._closePopup.bind(this)
+        this._closePopup = this._closePopup.bind(this);
     }
 
     componentDidMount() {
@@ -84,7 +84,7 @@ class RecentActivityList extends React.Component {
 
         let sortBy = this.state.sortBy;
 
-
+        
         let rows;  
 
 
@@ -119,6 +119,7 @@ class RecentActivityList extends React.Component {
                     receiver={obj.receiver}
                     description={obj.description}
                     block={obj.block}
+                    memo={obj.memo}
                 />
             );
 
@@ -128,7 +129,7 @@ class RecentActivityList extends React.Component {
             <div className="table__wrap">
                 <h3 className="content__headTitle mb-15"><Translate content="dashboard.recent_activity.title" /></h3>
                 { this.props.recentActivity.length > 0 ?
-                    <div className="table table2 table-db-rec-activity table-scroll">
+                    <div id='recentHistoryTable' className="table table2 table-db-rec-activity table-scroll">
                         <div className="table__head no_ov clearfix">
                             <div className="tableCell">
                                 <div className={classNames('tableOperation__dd', 'dd', {'open' : showPopup })}>
@@ -147,7 +148,7 @@ class RecentActivityList extends React.Component {
                             <div className="tableCell"><Translate content="dashboard.recent_activity.sender" /></div>
                             <div className="tableCell"><Translate content="dashboard.recent_activity.receiver" /></div>
                             <div className="tableCell"><Translate content="dashboard.recent_activity.description" /></div>
-                            <div className="tableCell text_r"><Translate content="dashboard.recent_activity.date" /></div>
+                            <div className="tableCell"><Translate content="dashboard.recent_activity.date" /></div>
                         </div>
 
                         <CustomScroll allowOuterScroll={true}>
