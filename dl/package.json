@@ -1,10 +1,10 @@
 {
   "name": "peerplays-dl",
   "description": "peerplays data layer powered by flux",
-  "homepage": "https://github.com/PBSA/peerplays-ui",
+  "homepage": "https://github.com/PBSA/peerplays-core-gui",
   "author": "Cryptonomex, Inc.",
   "license": "LicenseRef-LICENSE",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "engines": {
     "node": ">=5.0.0",
     "npm": ">=3.0.0"
