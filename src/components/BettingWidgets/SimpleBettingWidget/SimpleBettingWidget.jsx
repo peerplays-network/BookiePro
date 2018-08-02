@@ -24,6 +24,7 @@ import {QuickBetDrawerActions, NavigateActions} from '../../../actions';
 import {I18n} from 'react-redux-i18n';
 import {BettingModuleUtils, CurrencyUtils, EventNameUtils, DateUtils} from '../../../utility';
 import {MyAccountPageSelector} from '../../../selectors';
+import {Config} from '../../../constants';
 
 /**
  * We cannot use CSS to override antd Table column width using CSS
@@ -31,6 +32,7 @@ import {MyAccountPageSelector} from '../../../selectors';
  */
 const eventTimeColumnWidth = 65;
 const offerColumnWidth = 70;
+const coinDust = Config.dust.exchangeCoin;
 
 const {OFFER_PRECISION} = CurrencyUtils;
 
@@ -272,7 +274,7 @@ class SimpleBettingWidget extends PureComponent {
         }
       }
 
-      if (offer === undefined) {
+      if ( offer === undefined || offer.get('price') < coinDust.toString()){
         return (
           <div className={ className }>
             <a
