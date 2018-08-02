@@ -87,29 +87,33 @@ var BettingModuleUtils = {
    * @returns {string} - profit of liability, based on either BTF or mBTF
    */
   getProfitOrLiability: function(stake, odds, currencyFormat = 'BTF', profitOrLiability) {
-    let floatStake = parseFloat(stake);
-    let floatOdds = parseFloat(odds);
+    if (stake && stake.toString().indexOf('*') === -1) {
+      let floatStake = parseFloat(stake);
+      let floatOdds = parseFloat(odds);
 
-    //check invalid input
-    if (isNaN(floatStake) || isNaN(floatOdds)) {
-      return;
+      //check invalid input
+      if (isNaN(floatStake) || isNaN(floatOdds)) {
+        return;
+      }
+
+      if (floatOdds.toFixed(oddsPlaces) < 1.01) {
+        return;
+      }
+
+      // Any mBTF passed into this function will be 1000 times larger than it needs to be.
+      //  The return function will multiply the mBTF value by 1000.
+      if (currencyFormat === 'mBTF') {
+        floatStake = floatStake / 1000;
+      }
+
+      return CurrencyUtils.getFormattedCurrency(
+        floatStake * (floatOdds - 1),
+        currencyFormat,
+        CurrencyUtils.fieldPrecisionMap[profitOrLiability][currencyFormat]
+      );
+    } else {
+      return stake;
     }
-
-    if (floatOdds.toFixed(oddsPlaces) < 1.01) {
-      return;
-    }
-
-    // Any mBTF passed into this function will be 1000 times larger than it needs to be.
-    //  The return function will multiply the mBTF value by 1000.
-    if (currencyFormat === 'mBTF') {
-      floatStake = floatStake / 1000;
-    }
-
-    return CurrencyUtils.getFormattedCurrency(
-      floatStake * (floatOdds - 1),
-      currencyFormat,
-      CurrencyUtils.fieldPrecisionMap[profitOrLiability][currencyFormat]
-    );
   },
 
   /**
@@ -157,20 +161,20 @@ var BettingModuleUtils = {
    *  A full back bet betslip is filled    + Profit(BTF)   - Stake(BTF)
    *  A full lay bet betslip is filled    - Liability(BTF)   + Backer’s Stake(BTF)
    *
-   * @param {string} bettingMarketId : id of the betting market for which expsoure 
+   * @param {string} bettingMarketId : id of the betting market for which expsoure
    * calculation specified
    * @param {Immutable.List} bets - unconfirmedBets, marketDrawer.unconfirmedBets stored in redux
    * @param {string} currency - display currency, 'BTF' or 'mBTF'
-   * @returns {string} - exposure of the target betting market, either BTF or mBTF, based 
+   * @returns {string} - exposure of the target betting market, either BTF or mBTF, based
    * on currency param
    */
   getExposure: function(bettingMarketId, bets, currency = 'BTF') {
     let exposure = 0.0;
 
     bets.forEach((bet) => {
-      // TODO: Confirm if stake should be empty or having having a zero 
+      // TODO: Confirm if stake should be empty or having having a zero
       // value if it is not available
-      // TODO: Confirm if profit/liability should be empty or having a zero 
+      // TODO: Confirm if profit/liability should be empty or having a zero
       // value if it is not available
       if (
         isFieldInvalid(bet, 'odds') ||
@@ -214,12 +218,12 @@ var BettingModuleUtils = {
   /**
    *  Calculate book percentage with provided best back/lay odds of selection. Formula is as follow:
    *
-   *  Back Book Percentage: (100% / Best Back Odds of Selection 1) + 
+   *  Back Book Percentage: (100% / Best Back Odds of Selection 1) +
    *  … + (100% / Best Back Odds of Selection n)
-   *  Lay Book Percentage: (100% / Best Lay Odds of Selection 1) + 
+   *  Lay Book Percentage: (100% / Best Lay Odds of Selection 1) +
    *  … + (100% / Best Lay Odds of Selection n)
    *
-   * @param {Immutable.List} - bestOfferList-  bets which have the best offer among the 
+   * @param {Immutable.List} - bestOfferList-  bets which have the best offer among the
    * bets in same market.
    * @returns {integer} - book percentage in a certain market, rounded to nearest integer
    */
@@ -239,7 +243,7 @@ var BettingModuleUtils = {
    *
    *  Total (Betslip) = ∑ Back Bet’s Stake(BTF) & Lay Bet’s Liability(BTF) in the Betslip section
    *
-   * @param {Immutable.List} bets - unconfirmedBets in betslip, 
+   * @param {Immutable.List} bets - unconfirmedBets in betslip,
    * marketDrawer.unconfirmedBets stored in redux
    * @param {string} currency - display currency, 'BTF' or 'mBTF'
    * @returns {double} - total: total value of betslip
@@ -292,10 +296,10 @@ var BettingModuleUtils = {
    *  This function expects a `normalized` bet objects. This `normalized` format
    *  is only used within the betting application.
    *
-   * @param {Immutable.List} matchedBets - list of matched bets with the same bet 
+   * @param {Immutable.List} matchedBets - list of matched bets with the same bet
    * type, i.e. all back or all lay
    * @param {string} currency - display currency, 'BTF' or 'mBTF'
-   * @param {integer} precision - ( ***BTF*** base), either BettingModuleUtils.oddsPlaces or 
+   * @param {integer} precision - ( ***BTF*** base), either BettingModuleUtils.oddsPlaces or
    * BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
    * @returns {Immutable.Maps} - total valu object which has the following fields:
    *    - averageOdds

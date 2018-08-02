@@ -54,6 +54,12 @@ const Config = {
       memo: PrivateKey.fromWif('5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3')
     }
   },
+  dust: {
+    exchangeCoin: 0.001, // On the simple betting widget, aggregated bets are displayed in their 
+    // base coin (BTC, BTF, etc.) with a precision of three.
+    coin: 0.00001,       // The base coin. ie: BTC, BTF, etc.
+    miliCoin: 0.01       // The mili version of the base coin. ie: mBTC, mBTF, etc.
+  },
   features: {
     withdrawels: false,
     deposits: false,
