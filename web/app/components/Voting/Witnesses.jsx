@@ -103,7 +103,13 @@ class Witnesses extends React.Component {
 
         this.debounceOnInputChange();
 
+        const GRAPHENE_MAX_ACCOUNT_NAME_LENGTH = 63;
+
         let value = e.target.value.trim();
+
+        if (value.length > GRAPHENE_MAX_ACCOUNT_NAME_LENGTH) {
+            value = value.substring(0, GRAPHENE_MAX_ACCOUNT_NAME_LENGTH);
+        }
 
         this.setState({
             requestInProcess: true,
@@ -335,7 +341,7 @@ class Witnesses extends React.Component {
 
                     <div className="row">
                         <label className="label"><Translate content="votes.select_witness"/></label>
-                        <div className="fieldWrap col-5">
+                        <div className="fieldWrap col-7">
                             <span className="fieldPic2">
                                 <AccountImage size={{height: 33, width: 33}} account={item_name_input ? item_name_input : account} custom_image={null}/>
                             </span>

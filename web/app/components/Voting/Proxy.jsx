@@ -83,7 +83,13 @@ class Proxy extends React.Component {
 
     onInputChange(e) {
 
+        const GRAPHENE_MAX_ACCOUNT_NAME_LENGTH = 63;
+
         let value = e.target.value.trim();
+
+        if (value.length > GRAPHENE_MAX_ACCOUNT_NAME_LENGTH) {
+            value = value.substring(0, GRAPHENE_MAX_ACCOUNT_NAME_LENGTH);
+        }
 
         if(value === this.props.account){
             this.setState({
@@ -236,7 +242,7 @@ class Proxy extends React.Component {
 
                     <div className="row clearfix">
                         <label className="label"><Translate content="votes.proxy" /></label>
-                        <div className="fieldWrap col-5">
+                        <div className="fieldWrap col-7">
                             <span className="fieldPic2">
                                 <AccountImage size={{height: 33, width: 33}} account={inputName ? inputName : account} custom_image={null}/>
                             </span>
