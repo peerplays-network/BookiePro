@@ -1489,7 +1489,7 @@ class RockPaperScissorsActions {
 
                                                         console.log("Game %o is expecting a reveal move", game.get('id'));
 
-                                                        dispatch(RWalletUnlockNewActions.getActiveKeyFromState()).then((privateKey) => {
+                                                        dispatch(RWalletUnlockNewActions.getKeyFromState('active')).then((privateKey) => {
                                                             RPSTransactionService.broadcastRevealMove(tournament.get('id'), game.get("id"), playerId, game.getIn(["game_details", 1, "commit_moves", playerIndex]), privateKey);
                                                         });
 
@@ -1682,7 +1682,7 @@ class RockPaperScissorsActions {
     static commitMove(tournamentId, gameId, playerAccountId, move) {
         return (dispatch, getState) => {
 
-            return dispatch(RWalletUnlockNewActions.getActiveKeyFromState()).then((privateKey) => {
+            return dispatch(RWalletUnlockNewActions.getKeyFromState('active')).then((privateKey) => {
 
                 let [commit, reveal] = RPSTransactionService.createCommitAndRevealMoveOperations(move);
 

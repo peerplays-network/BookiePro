@@ -61,7 +61,8 @@
       "sender": "Sender",
       "receiver": "Receiver",
       "description": "Description",
-      "date": "Date"
+      "date": "Date",
+      "viewMemo": "View Memo"
     }
   },
   "activity": {
@@ -236,7 +237,7 @@
     }
   },
   "errors": {
-    "login_error": "Please enter a username, starting with a letter and containing at least one dash or number",
+    "login_error": "Please enter an account name, starting with a letter and containing at least one dash or number",
     "incorrect_username_or_password": "Incorrect username or password",
     "incorrect_private_key": "Incorrect Private key",
     "password_must_be_X_characters_or_more": "Password should be at least %(cnt)s symbols (alphanumeric)",
@@ -250,6 +251,7 @@
     "incorrect_password": "This password is incorrect",
     "divisible_by_two": "The number must be divisible by two",
     "unknown_account": "Unknown account",
+    "invalid_account": "Invalid account",
     "cant_proxy_yourself": "Cant proxy to yourself",
     "cant_send_yourself": "Cant send to yourself",
     "not_witness": "Not a witness",
@@ -344,6 +346,19 @@
       "show_expired": "Show Expired",
       "hide_expired": "Hide Expired"
     },
+    "proxy_tab": {
+      "help_note": "Proxy your vote to other accounts",
+      "help_note_disclaimer": "Note: Proxying your vote will disable your ability to vote directly for a witness",
+      "question_mark_note": "Proxying means you give other accounts the ability to vote on your behalf"
+    },
+    "witnesses_tab": {
+      "help_note_1": "Vote for Witnesses",
+      "question_mark_note": "Witnesses are the accounts that run the blockchains and produce blocks"
+    },  
+    "advisors_tab": {
+      "help_note": "Vote for Advisors",
+      "question_mark_note": "Advisors can vote on proposals to change blockchain parameters such as fees"
+    },
     "proxy_short": "Proxy",
     "workers_short": "Workers",
     "proxy": "Proxy Voting Account",
@@ -359,7 +374,8 @@
     "support": "Support",
     "workers": "Budget Items",
     "publish": "Publish Changes",
-    "select_witness": "Select a Witness",
+    "select_witness": "Select Witnesses",
+    "select_advisor": "Select Advisors",
     "witness_stats": "Witness Stats",
     "action": "Action",
     "add_witness": "Add",
@@ -548,6 +564,7 @@
     "game_move_commit": "Display selected gesture. Gesture - {gesture}. User - {from}. Game - {game_id}."
   },
   "cancel": "Cancel",
+  "done": "Done",
   "vesting_balances": {
     "title": "Vesting Balances",
     "balance_number": "Balance #%(id)s",
@@ -683,7 +700,10 @@
       "title": "Unlock Wallet",
       "password": "Password",
       "password_placeholder": "Enter password",
-      "unlock_btn": "Unlock Wallet"
+      "unlock_btn": "Unlock Wallet"      
+    },    
+    "memo": {
+      "title": "Memo"
     }
   },
   "deposit_with_draw": {

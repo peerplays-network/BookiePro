@@ -103,7 +103,13 @@ class Witnesses extends React.Component {
 
         this.debounceOnInputChange();
 
+        const GRAPHENE_MAX_ACCOUNT_NAME_LENGTH = 63;
+
         let value = e.target.value.trim();
+
+        if (value.length > GRAPHENE_MAX_ACCOUNT_NAME_LENGTH) {
+            value = value.substring(0, GRAPHENE_MAX_ACCOUNT_NAME_LENGTH);
+        }
 
         this.setState({
             requestInProcess: true,
@@ -332,11 +338,10 @@ class Witnesses extends React.Component {
                     </div>
 
                     <Translate component="div" unsafe={true} className="title__sm" content="votes.witnesses_tab.help_note_1" />
-                    <Translate component="div" unsafe={true} className="title__sm mb-20" content="votes.witnesses_tab.help_note_2" />
 
                     <div className="row">
                         <label className="label"><Translate content="votes.select_witness"/></label>
-                        <div className="fieldWrap col-5">
+                        <div className="fieldWrap col-7">
                             <span className="fieldPic2">
                                 <AccountImage size={{height: 33, width: 33}} account={item_name_input ? item_name_input : account} custom_image={null}/>
                             </span>
@@ -419,22 +424,22 @@ class Witnesses extends React.Component {
                             <div className="assets__label"><Translate content="witnesses.current"/></div>
                             <div className="assets__labeled">{currentWitnessAccount ? currentWitnessAccount.name : null}</div>
                         </div>
-                        <div className="assets__item col col-1 text_r">
+                        <div className="assets__item col col-2">
                             <div className="assets__label"><Translate content="witnesses.active_witness"/></div>
                             <div className="assets__labeled">{this.props.witnessAmount}</div>
                         </div>
-                        <div className="assets__item col col-2 text_r">
+                        <div className="assets__item col col-2">
                             <div className="assets__label"><Translate content="witnesses.participation"/></div>
                             <div className="assets__labeled">{this.props.participation}%</div>
                         </div>
-                        <div className="assets__item col col-2 text_r">
+                        <div className="assets__item col col-2">
                             <div className="assets__label"><Translate content="witnesses.pay"/></div>
                             <div className="assets__labeled mark">
                                 {this.props.witnessPayPerBlock/precision}
                                 <div className="assets__unit">{this.props.asset.symbol}</div>
                             </div>
                         </div>
-                        <div className="assets__item col col-2 text_r">
+                        <div className="assets__item col col-2">
                             <div className="assets__label"><Translate content="witnesses.budget"/></div>
                             <div className="assets__labeled mark">{this.props.witnessBudget}<div className="assets__unit">{this.props.asset.symbol}</div></div>
                         </div>
