@@ -136,7 +136,7 @@
 	@include border-radius(5px);
 	@include transition(background .2s ease);
 	&[disabled]{
-		cursor: not-allowed !important;	
+		cursor: not-allowed;
 		.btnText{
 			padding-top: 0;
 		}
