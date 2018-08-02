@@ -202,6 +202,7 @@ const getMarketData = createSelector(
   (bettingMarkets, binnedOrderBooksByBettingMarketId, bettingMarketGroup, assetsById, eventStatus) => {
     let marketData = Immutable.List();
     bettingMarkets.forEach((bettingMarket, i) => {
+      const coinDust = Config.dust.exchangeCoin;
       const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarket.get('id'));
       if (!bettingMarketGroup.isEmpty()){
         const bmgStatus = bettingMarketGroup.get('status');
@@ -222,11 +223,13 @@ const getMarketData = createSelector(
           
           aggregated_lay_bets = aggregated_lay_bets.map(aggregated_lay_bet => {
             const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
-            const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);          
+            const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
             return aggregated_lay_bet
               .set('odds', odds)
               .set('price', price / (odds - 1));
-
+          })
+          .filter((bet) => {
+            return bet.get('price') >= coinDust;
           });
           
           let aggregated_back_bets = (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
@@ -238,6 +241,8 @@ const getMarketData = createSelector(
             return aggregated_back_bet
               .set('odds', odds)
               .set('price', price);
+          }).filter((bet) => {
+            return bet.get('price') >= coinDust;
           });
 
           let offer = Immutable.Map({
