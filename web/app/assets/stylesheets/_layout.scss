@@ -353,7 +353,7 @@ a{
 }
 .table__thAction{
 	width: 120px;
-	text-align: center;
+	text-align: left;
 	display: inline-block;
 }
 
@@ -402,6 +402,7 @@ a{
 	&__item{
 		&In{
 			display: inline-block;
+			padding-left: 25px;
 		}
 	}
 	&__label{
