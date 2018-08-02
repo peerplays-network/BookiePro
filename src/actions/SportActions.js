@@ -42,7 +42,7 @@ class SportActions {
   static resetSportStore() {
     return {
       type: ActionTypes.SPORT_RESET_STORE
-    }
+    };
   }
 
   /**

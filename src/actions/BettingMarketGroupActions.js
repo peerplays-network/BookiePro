@@ -49,7 +49,7 @@ class BettingMarketGroupActions {
   static resetBettingMarketGroupStore() {
     return {
       type: ActionTypes.BETTING_MARKET_GROUP_RESET_STORE
-    }
+    };
   }
 
   /**

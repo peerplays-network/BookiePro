@@ -104,7 +104,7 @@ class ConnectionService {
    * @returns A promise that resolves when the connection is establised.
    * @memberof ConnectionService
    */
-  static connectToBlockchain(connectionStatusCallback) {
+  connectToBlockchain(connectionStatusCallback) {
     // Set connection status callback
     this.connectionStatusCallback = connectionStatusCallback;
 
