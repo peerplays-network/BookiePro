@@ -74,9 +74,11 @@ export default function(state = initialState, action) {
         getBettingMarketGroupsByEventIdsLoadingStatus
       );
     }
+    
     case ActionTypes.BETTING_MARKET_GROUP_RESET_STORE: {
       return initialState;
     }
+
     default:
       return state;
   }

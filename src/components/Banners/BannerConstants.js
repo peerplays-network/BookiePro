@@ -6,5 +6,5 @@ import icehockey from '../../assets/images/sports_banner_hockey.png';
 import soccer from '../../assets/images/sports_banner_soccer.png';
 
 export default  {
-    baseball, basketball, football, soccer, icehockey, defaultBanner
+  baseball, basketball, football, soccer, icehockey, defaultBanner
 };

@@ -36,7 +36,7 @@ class AllSportsActions {
   static resetAllSportsData() {
     return {
       type: ActionTypes.ALL_SPORTS_RESET
-    }
+    };
   }
 
   static getData() {
