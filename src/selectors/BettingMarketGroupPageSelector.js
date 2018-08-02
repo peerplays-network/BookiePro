@@ -16,8 +16,9 @@ const {
 
 const getBettingMarketGroupId = (state, props) => props.params.objectId;
 
-const getLoadingStatusByBettingMarketGroupId = (state) => state
-  .getIn(['bettingMarketGroupPage', 'loadingStatusByBettingMarketGroupId']);
+const getLoadingStatusByBettingMarketGroupId = (state) => {
+  return state.getIn(['bettingMarketGroupPage', 'loadingStatusByBettingMarketGroupId']);
+};
 
 const getLoadingStatus = createSelector(
   [getBettingMarketGroupId, getLoadingStatusByBettingMarketGroupId],
@@ -82,8 +83,9 @@ const getEventTime = createSelector(getEvent, (event) => {
 
 const getIsLiveMarket = createSelector(getEvent, (event) => event && event.get('is_live_market'));
 
-const getTotalMatchedBetsByMarketGroupId = (state) => state
-  .getIn(['liquidity', 'totalMatchedBetsByBettingMarketGroupId']);
+const getTotalMatchedBetsByMarketGroupId = (state) => {
+  return state.getIn(['liquidity', 'totalMatchedBetsByBettingMarketGroupId']);
+};
 
 const getTotalMatchedBetsAmount = createSelector(
   [getBettingMarketGroupId, getAssetsById, getTotalMatchedBetsByMarketGroupId, getCurrencyFormat],
@@ -110,7 +112,7 @@ const getTotalMatchedBetsAmount = createSelector(
 const getUnconfirmedBets = (state) => state.getIn(['marketDrawer', 'unconfirmedBets']);
 
 const getWidgetTitle = createSelector(
-  [getBettingMarketGroup], 
+  [getBettingMarketGroup],
   (bettingMarketGroup) => (bettingMarketGroup && bettingMarketGroup.get('description')) || ''
 );
 
@@ -181,6 +183,7 @@ const getMarketData = createSelector(
   ) => {
     let marketData = Immutable.List();
     bettingMarkets.forEach((bettingMarket) => {
+      const coinDust = Config.dust.exchangeCoin;
       const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarket.get('id'));
 
       if (!bettingMarketGroup.isEmpty()) {
@@ -213,21 +216,29 @@ const getMarketData = createSelector(
           let aggregated_lay_bets =
             (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
 
-          aggregated_lay_bets = aggregated_lay_bets.map((aggregated_lay_bet) => {
-            const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
-            const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
-            return aggregated_lay_bet.set('odds', odds).set('price', price / (odds - 1));
-          });
+          aggregated_lay_bets = aggregated_lay_bets
+            .map((aggregated_lay_bet) => {
+              const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
+              const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
+              return aggregated_lay_bet.set('odds', odds).set('price', price / (odds - 1));
+            })
+            .filter((bet) => {
+              return bet.get('price') >= coinDust;
+            });
 
           let aggregated_back_bets =
             (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();
 
-          aggregated_back_bets = aggregated_back_bets.map((aggregated_back_bet) => {
-            const odds = aggregated_back_bet.get('backer_multiplier') / Config.oddsPrecision;
-            const price = aggregated_back_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
+          aggregated_back_bets = aggregated_back_bets
+            .map((aggregated_back_bet) => {
+              const odds = aggregated_back_bet.get('backer_multiplier') / Config.oddsPrecision;
+              const price = aggregated_back_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
 
-            return aggregated_back_bet.set('odds', odds).set('price', price);
-          });
+              return aggregated_back_bet.set('odds', odds).set('price', price);
+            })
+            .filter((bet) => {
+              return bet.get('price') >= coinDust;
+            });
 
           let offer = Immutable.Map({
             backIndex: 0,
@@ -235,9 +246,9 @@ const getMarketData = createSelector(
             bettingMarketId: bettingMarket.get('id'),
             bettingMarketStatus: bettingMarket.get('status'),
             //display in descending order, ensure best odd is in the first index
-            backOrigin: aggregated_lay_bets.sort((a, b) => b.get('odds') - a.get('odds')), 
+            backOrigin: aggregated_lay_bets.sort((a, b) => b.get('odds') - a.get('odds')),
             //display in ascending order, ensure best odd is in the first index
-            layOrigin: aggregated_back_bets.sort((a, b) => a.get('odds') - b.get('odds')), 
+            layOrigin: aggregated_back_bets.sort((a, b) => a.get('odds') - b.get('odds')),
             bettingMarketGroup: bettingMarketGroup
           });
 
