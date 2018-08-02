@@ -37,7 +37,7 @@ import RecentActivityRow from './RecentActivityRow';
 class RecentActivityList extends React.Component {
 
     constructor(props) {
-        super(props);    
+        super(props);
 
         this.state = {
             popup : false,
@@ -84,9 +84,7 @@ class RecentActivityList extends React.Component {
 
         let sortBy = this.state.sortBy;
 
-        
-        let rows;  
-
+        let rows;
 
         switch(sortBy) {
             case 'tournament':

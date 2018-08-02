@@ -45,7 +45,6 @@ function convertAmount({amount, asset_id}) {
  * @returns {*}
  */
 export function formatOperation(obj) {
-    
     let sender, receiver, amount, price, base, quote;
 
     let op = obj.op;
@@ -63,7 +62,7 @@ export function formatOperation(obj) {
                 operation: ops[op[0]],
                 type: counterpart.translate('transaction.trxTypes.transfer'),
                 sender: sender ? sender.get('name') : '',
-                receiver: receiver ? receiver.get('name') : '',                
+                receiver: receiver ? receiver.get('name') : '',
                 description: sender && receiver ?
                     counterpart.translate('activity.transfer', {from: sender.get('name'), to: receiver.get('name'), amount}) : '',
                 memo,
