@@ -3,7 +3,6 @@ import Immutable from 'immutable';
 import moment from 'moment';
 import BetActions from './BetActions';
 import { CurrencyUtils, ObjectUtils } from '../utility';
-import Loading from '../components/Loading';
 
 class MarketDrawerPrivateActions {
   static updatePlacedBetsLoadingStatus(loadingStatus) {
