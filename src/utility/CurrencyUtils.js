@@ -79,25 +79,26 @@ var CurrencyUtils = {
    * @param {boolean} [accuracy=true] - Whether or not to round to precision decimal places.
    *        True will round to precision decimal places
    *        False will truncate to precision decimal places
+   * @param {string} currencyFormat -  the current currency format. Mili-coin or coin. [ mBTF | BTF ]
+   * @param {string} field -  The current field being acted on.
+   * @param {boolean} skipDustCheck - Whether or not to skip checking dust and simply return the input unmodified.
    * @returns - amount rounded/truncated to precision decimal places
    */
-  substringPrecision(amount, precision, accuracy = true, currencyFormat = 'mBTF', field) {
-    if (amount === undefined) {
-      amount = 0.0;
-    }
-
-    amount = this.isDust(currencyFormat, amount, field);
-    let split = amount.toString().split('.');
-
-    if (split[1] && split[1].length > precision) {
-      // Conditionally take the value one past the accpeted precision
-      let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0));
-      let newAmount = split[0] + '.' + splitSel;
-      // Then execute toFixed on the resulting amount. This keeps more accuracy.
-      amount = parseFloat(newAmount).toFixed(precision);
-    } else {
-      if (typeof amount === 'number') {
-        amount = amount.toFixed(precision);
+  substringPrecision(amount, precision, accuracy=true, currencyFormat='mBTF', field, skipDustCheck=false){
+    if (!skipDustCheck){
+      if (amount === undefined){
+        amount = 0.0;
+      }
+      amount = this.isDust(currencyFormat, amount, field);
+      let split = amount.toString().split('.');
+      if (split[1] && split[1].length > precision){
+        let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0)); // Conditionally take the value one past the accpeted precision ,,.
+        let newAmount = split[0] + '.' + splitSel;
+        amount = parseFloat(newAmount).toFixed(precision); // Then execute toFixed on the resulting amount. This keeps more accuracy. 
+      } else {
+        if (typeof(amount) === 'number'){
+          amount = amount.toFixed(precision);
+        }
       }
     }
 
@@ -144,21 +145,24 @@ var CurrencyUtils = {
    *
    * @param {float} amount - amount to be formatted, in terms of 'BTF'
    * @param {string} currency -  display currency, 'BTF' or 'mBTF'
-   * @param {integer} precision - ( ***BTF*** base), either BettingModuleUtils.oddsPlaces or
-   * BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
-   * @param {boolan} accuracy - This value defaults to true as accuracy is typically preferred.
-   * This parameter if set to false, will truncate to the number of decimal places equal to
-   * precision (thus, less accuracy)
+   * @param {integer} precision - ( ***BTF*** base), either BettingModuleUtils.oddsPlaces or BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
+   * @param {boolan} accuracy - This value defaults to true as accuracy is typically preferred. This parameter if set to false, 
+   *                              will truncate to the number of decimal places equal to precision (thus, less accuracy)
+   * @param {boolan} avg - If true, the output is for the purpose of the averaging of bets in the placed bets tab of the betslip.
+   * @param {boolan} forExport - If true, the output is for the purposes of the bet history exports.
+   * @param {string} field - Which field is being acted on currently
+   * @param {boolan} skipDustCheck - If true, dust checking will be skipped.
    * @returns {string} - formatted string to support negative bitcoin curruency values
    */
   getFormattedCurrency: function(
     amount,
     currencyFormat = 'mBTF',
     precision = 0,
-    accuracy = true,
-    avg = false,
-    forExport = false,
-    field
+    accuracy=true,
+    avg=false,
+    forExport=false,
+    field,
+    skipDustCheck
   ) {
     if (!isNaN(amount)) {
       if (amount === 0) {
@@ -180,17 +184,17 @@ var CurrencyUtils = {
         }
 
         if (forExport) {
-          return this.substringPrecision(amount, mPrecision, false, currencyFormat, field);
+          return this.substringPrecision(amount, mPrecision, false, currencyFormat, field, skipDustCheck);
         }
 
         return avg
-          ? this.substringPrecision(amount, precision, false, currencyFormat, field)
-          : this.substringPrecision(1000 * amount, mPrecision, false, currencyFormat, field);
+          ? this.substringPrecision(amount, precision, false, currencyFormat, field, skipDustCheck)
+          : this.substringPrecision(1000 * amount, mPrecision, false, currencyFormat, field, skipDustCheck);
       }
 
       if (currencyFormat === 'BTF' || currencyFormat === configCurrency) {
         if (amount % 1 !== 0) {
-          return this.substringPrecision(amount, precision, accuracy, currencyFormat, field);
+          return this.substringPrecision(amount, precision, accuracy, currencyFormat, field, skipDustCheck);
         } else {
           // Sometimes amount is a string type which will throw an
           // error unless its cast as a number. Add (1 * amount)
@@ -235,18 +239,19 @@ var CurrencyUtils = {
     return (amount >= 0 ? '' : '-') + (spaceAfterSymbol ? ' ' : '') + formatted;
   },
 
-  /**
-   * Format Odds, Stake, Profit and Liability based on currency and precision.
-   * The precision of each field is defined in requirements.
-   *
-   * This function is defined so that we don't need to do the field and precision
-   * lookup in multiple places in the code.
-   *
-   * @param {float} amount - amount to be formatted, in terms of 'BTF'
-   * @param {string} currency -  display currency, 'BTF' or 'mBTF'
-   * @returns {string} - formatted BTF or mBTF value
-   */
-  formatFieldByCurrencyAndPrecision: function(field, amount, currency = 'mBTF') {
+   /**
+    * Format Odds, Stake, Profit and Liability based on currency and precision.
+    * The precision of each field is defined in requirements.
+    *
+    * This function is defined so that we don't need to do the field and precision
+    * lookup in multiple places in the code.
+    *
+    * @param {float} amount - amount to be formatted, in terms of 'BTF'
+    * @param {string} currency -  display currency, 'BTF' or 'mBTF'
+    * @param {boolan} skipDustCheck - if true, do not check if value is dust. Used for placing bets.
+    * @returns {string} - formatted BTF or mBTF value
+    */
+  formatFieldByCurrencyAndPrecision: function(field, amount, currency='mBTF', skipDustCheck) {
     // Odds values have no dependency on currency
     if (field === 'odds') {
       return amount.toFixed(2);
@@ -267,7 +272,8 @@ var CurrencyUtils = {
       true,
       false,
       false,
-      field
+      field,
+      skipDustCheck
     );
   },
 

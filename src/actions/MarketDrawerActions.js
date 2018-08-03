@@ -237,10 +237,10 @@ class MarketDrawerActions {
           CurrencyUtils.formatFieldByCurrencyAndPrecision(
             'stake',
             normalizedBalance,
-            currencyFormat
+            currencyFormat,
+            true
           )
         );
-
         if (formattedBalance < totalBetAmount) {
           dispatch(MarketDrawerPrivateActions.showInsufficientBalanceError());
         } else {
@@ -434,9 +434,8 @@ class MarketDrawerActions {
     };
   }
 
-  static clickUpdateBet(totalBetAmount, currencyFormat) {
-    console.warn('The totalBetAmount is not the final version.');
-
+  static clickUpdateBet(totalBetAmount, currencyFormat, skipDustCheck) {
+    console.warn('The totalBetAmount is not the final version.')
     return (dispatch, getState) => {
       const isDisconnected =
         getState().getIn(['app', 'connectionStatus']) !== ConnectionStatus.CONNECTED;
@@ -456,10 +455,10 @@ class MarketDrawerActions {
           CurrencyUtils.formatFieldByCurrencyAndPrecision(
             'stake',
             normalizedBalance,
-            currencyFormat
+            currencyFormat,
+            skipDustCheck
           )
         );
-
         if (formattedBalance < totalBetAmount) {
           dispatch(MarketDrawerPrivateActions.showInsufficientBalanceError());
         } else {
