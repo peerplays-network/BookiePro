@@ -49,7 +49,7 @@ class UnmatchedBets extends PureComponent {
             </Button>
             <button
               className={ `btn btn${this.props.hasUpdatedBets ? '-regular' : '-disabled'}` }
-              onClick={ () => this.props.clickUpdateBet(this.props.totalBetAmountFloat, this.props.currencyFormat)} // eslint-disable-line
+              onClick={ () => this.props.clickUpdateBet(this.props.totalBetAmountFloat, this.props.currencyFormat, true) } // eslint-disable-line
               disabled={ this.props.disabled }
             >
               {I18n.t('market_drawer.unmatched_bets.content.update_button')}
