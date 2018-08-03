@@ -241,6 +241,7 @@ class MarketDrawerActions {
             true
           )
         );
+
         if (formattedBalance < totalBetAmount) {
           dispatch(MarketDrawerPrivateActions.showInsufficientBalanceError());
         } else {
@@ -435,7 +436,8 @@ class MarketDrawerActions {
   }
 
   static clickUpdateBet(totalBetAmount, currencyFormat, skipDustCheck) {
-    console.warn('The totalBetAmount is not the final version.')
+    console.warn('The totalBetAmount is not the final version.');
+
     return (dispatch, getState) => {
       const isDisconnected =
         getState().getIn(['app', 'connectionStatus']) !== ConnectionStatus.CONNECTED;
@@ -459,6 +461,7 @@ class MarketDrawerActions {
             skipDustCheck
           )
         );
+
         if (formattedBalance < totalBetAmount) {
           dispatch(MarketDrawerPrivateActions.showInsufficientBalanceError());
         } else {
