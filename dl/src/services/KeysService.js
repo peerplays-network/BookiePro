@@ -34,13 +34,13 @@ class KeysService {
      * @param dispatch
      * @returns {Promise}
      */
-    static getActiveKeyFromState(state, dispatch) {
+    static getActiveKeyFromState(state, dispatch, role) {
 
         return new Promise((resolve, reject) => {
 
             if (state.walletData.aesPrivate) {
 
-                let encrypted_key = state.walletData.wallet.encrypted_brainkey,
+                let encrypted_key = state.privateKey.keys.get(role).encrypted_key,
                     activePrivateKeyBuffer = state.walletData.aesPrivate.decryptHexToBuffer(encrypted_key);
 
                 return resolve(PrivateKey.fromBuffer(activePrivateKeyBuffer));
@@ -50,7 +50,7 @@ class KeysService {
                 dispatch(RWalletUnlockNewActions.showWalletPasswordWindow({
                     isOpen: true,
                     success: (aes) => {
-                        let encrypted_key = state.walletData.wallet.encrypted_brainkey,
+                        let encrypted_key = state.privateKey.keys.get(role).encrypted_key,
                             activePrivateKeyBuffer = aes.decryptHexToBuffer(encrypted_key);
 
                         return resolve(PrivateKey.fromBuffer(activePrivateKeyBuffer));

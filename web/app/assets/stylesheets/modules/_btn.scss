@@ -15,7 +15,7 @@
 	@include transition(all .15s ease);
 
 	&[disabled]{
-		//opacity: .5!important;
+		cursor: not-allowed !important;
 		background: #9a9eab;
 		color: rgba($field-color, .5);
 		& ~ .btn .calendarIcon{
@@ -136,8 +136,7 @@
 	@include border-radius(5px);
 	@include transition(background .2s ease);
 	&[disabled]{
-		opacity: .5!important;
-		cursor: default!important;
+		cursor: not-allowed;
 		.btnText{
 			padding-top: 0;
 		}

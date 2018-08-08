@@ -83,9 +83,9 @@ class AssetUtils {
 
 	static getSymbol(symbol) {
 		let symbolsMap = {
-			'PIXEL.BITCOIN': 'BTC',
-			'PIXEL.STEEM': 'STEEM',
-            'TESTPLAYS': 'TESTPLAYS'
+            'BITCOIN': 'BTC',
+            'PEERPLAYS': 'PPY',
+            'BITFUN': 'BTF'
 		};
 
 		return typeof symbolsMap[symbol] === 'undefined' ? symbol : symbolsMap[symbol];
@@ -94,8 +94,8 @@ class AssetUtils {
 	static getName(symbol, name = '') {
 		let shortNamesMap = {
 			'BTC': 'Bitcoin',
-			'STEEM': 'Steem',
-            'TESTPLAYS': 'Testplays'
+            'PPY': 'Peerplays',
+            'BTF': 'BitFun'
 		};
 
 		return typeof shortNamesMap[AssetUtils.getSymbol(symbol)] === 'undefined' ? name : shortNamesMap[AssetUtils.getSymbol(symbol)];

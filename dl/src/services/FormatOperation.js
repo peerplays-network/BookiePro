@@ -45,7 +45,6 @@ function convertAmount({amount, asset_id}) {
  * @returns {*}
  */
 export function formatOperation(obj) {
-
     let sender, receiver, amount, price, base, quote;
 
     let op = obj.op;
@@ -56,6 +55,7 @@ export function formatOperation(obj) {
             receiver = ChainStore.getAccount(op[1].to);
             let amountValue = op[1].amount.amount;
             let asset = ChainStore.getAsset(op[1].amount.asset_id);
+            let memo = op[1].memo ? op[1].memo : null;
 
             amount = asset ? `${amountValue / Math.pow(10, asset.get('precision'))} ${asset_utils.getSymbol(asset.get('symbol'))}` : null;
             return {
@@ -64,7 +64,8 @@ export function formatOperation(obj) {
                 sender: sender ? sender.get('name') : '',
                 receiver: receiver ? receiver.get('name') : '',
                 description: sender && receiver ?
-                    counterpart.translate('activity.transfer', {from: sender.get('name'), to: receiver.get('name'), amount}) : ''
+                    counterpart.translate('activity.transfer', {from: sender.get('name'), to: receiver.get('name'), amount}) : '',
+                memo,
             };
 
         case 1:

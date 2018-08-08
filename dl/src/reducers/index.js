@@ -50,6 +50,7 @@ import RockPaperScissorsReducer from './Games/RockPaperScissorsReducer';
 import SoftwareUpdateReducer from './SoftwareUpdateReducer';
 import NotificationsReducer from './NotificationsReducer';
 import HelpReducer from './HelpReducer';
+import MemoReducer from './MemoReducer';
 import { reducer as formReducer } from 'redux-form';
 
 
@@ -79,7 +80,8 @@ const rootReducer = combineReducers({
     softwareUpdateReducer: SoftwareUpdateReducer,
     notificationsReducer: NotificationsReducer,
     helpReducer: HelpReducer,
-
+    memoModal: MemoReducer,
+    
     /**
      * Games
      */

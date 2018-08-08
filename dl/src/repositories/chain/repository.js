@@ -25,7 +25,7 @@
 import {ChainTypes, PrivateKey, key, ChainStore, Aes, TransactionHelper, FetchChain} from "peerplaysjs-lib";
 import {Apis} from "peerplaysjs-ws";
 
-const MAX_RECURSION_ATTEMPTS = 20;
+const MAX_RECURSION_ATTEMPTS = 10;
 
 class Repository {
     //account
