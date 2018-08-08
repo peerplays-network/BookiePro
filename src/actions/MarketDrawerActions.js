@@ -208,9 +208,6 @@ class MarketDrawerActions {
         const balance = getState().getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
         const precision = getState().getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
         const normalizedBalance = balance / Math.pow(10, precision);
-<<<<<<< HEAD
-        const formattedBalance = parseFloat(CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', normalizedBalance, currencyFormat));
-=======
         const formattedBalance = parseFloat(
           CurrencyUtils.formatFieldByCurrencyAndPrecision(
             'stake',
@@ -219,7 +216,6 @@ class MarketDrawerActions {
             true
           )
         );
->>>>>>> 3fd9c598... Comments added to function documentation
         if (formattedBalance < totalBetAmount) {
           dispatch(MarketDrawerPrivateActions.showInsufficientBalanceError());
         } else {
@@ -380,11 +376,7 @@ class MarketDrawerActions {
     }
   }
 
-<<<<<<< HEAD
-  static clickUpdateBet(totalBetAmount, currencyFormat) {
-=======
   static clickUpdateBet(totalBetAmount, currencyFormat, skipDustCheck) {
->>>>>>> 3fd9c598... Comments added to function documentation
     console.warn('The totalBetAmount is not the final version.')
     return (dispatch, getState) => {
       const isDisconnected = getState().getIn(['app', 'connectionStatus']) !== ConnectionStatus.CONNECTED;
@@ -394,9 +386,6 @@ class MarketDrawerActions {
         const balance = getState().getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
         const precision = getState().getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
         const normalizedBalance = balance / Math.pow(10, precision);
-<<<<<<< HEAD
-        const formattedBalance = parseFloat(CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', normalizedBalance, currencyFormat));
-=======
         const formattedBalance = parseFloat(
           CurrencyUtils.formatFieldByCurrencyAndPrecision(
             'stake',
@@ -405,7 +394,6 @@ class MarketDrawerActions {
             skipDustCheck
           )
         );
->>>>>>> 3fd9c598... Comments added to function documentation
         if (formattedBalance < totalBetAmount) {
           dispatch(MarketDrawerPrivateActions.showInsufficientBalanceError());
         } else {
