@@ -28,9 +28,9 @@ const config = {
     charlie: {
       assetId: '1.3.1',
       apiEndpoints: [
-        'ws://ec2-35-183-78-0.ca-central-1.compute.amazonaws.com:8090'
+        'ws://ec2-35-182-244-143.ca-central-1.compute.amazonaws.com:8090'
       ],
-      faucetUrls: ['http://ec2-35-183-78-0.ca-central-1.compute.amazonaws.com:5001'],
+      faucetUrls: ['ws://ec2-35-182-244-143.ca-central-1.compute.amazonaws.com:5000'],
       prefix: 'PPY',
       accounts: {
         broadcasts: {
