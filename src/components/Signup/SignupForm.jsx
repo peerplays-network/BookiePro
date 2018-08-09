@@ -124,9 +124,17 @@ const renderRetypePasswordField = ({ tabIndex, errors, input, type, meta: { touc
   *       value   : the input value
   */
 const renderCheckboxField = ({ id,pseudoText,tabIndex, errors, placeholder, input, label, type, meta: { touched, error } }) => (
-  <div className='float-left width300 text-left align-checkbox'>
-    <input id={ id } autoComplete='off' { ...input } type={ type } placeholder={ placeholder } tabIndex={ tabIndex }/>
-    <label htmlFor={ id }> <span>{ pseudoText }</span></label>
+  <div className='float-left col--50 text-left checkbox'>
+    <input 
+      id={ id } 
+      autoComplete='off' 
+      { ...input } 
+      type={ type } 
+      placeholder={ placeholder } 
+      tabIndex={ tabIndex } 
+      className='box margin-shift'
+    />
+    <label className='lblText' htmlFor={ id }>{ pseudoText }</label>
   </div>
 );
 
