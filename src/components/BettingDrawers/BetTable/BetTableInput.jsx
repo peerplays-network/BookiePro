@@ -35,11 +35,14 @@ class BetTableInput extends PureComponent {
 
   handleChange(e) {
     let props = this.props
-    let value = e.target.value.replace(/[A-z*&^%$#@!(){};:'"?><,|+=_/~]/g, '').trim()
+    let value = e.target.value.replace(/[A-z*&^%$#@!(){};:'"?><,|+=_/~]/g, '').trim();
+    // If the last character is a decimal in the odds, assume the user is still
+    // entering a value.
+    let isEntering = value.substr(value.length - 1);
 
     if (value.length > 0 && value.charAt(0) === '-' && props.oddsFormat === 'decimal') return ''
     if (value.length > 1) value = deepClean(value)
-    if (value.length > 1 && this.props.field === 'odds') value = cleanOdds(value)
+    if (value.length > 1 && this.props.field === 'odds'&& !isEntering) value = cleanOdds(value)
 
     if (this.props.field === 'stake') {
       const stakePrecision = CurrencyUtils.fieldPrecisionMap[this.props.field][this.props.currencyFormat];
