@@ -20,7 +20,7 @@ const config = {
           key: 'PPYTEST8H4L2UeaXRRAt5nVR4GSGFdt232711wyzTQnFRJeoJeLXXZT23'
         },
         updates: {
-          name: 'pbsa-broadcasts',
+          name: 'bookie-updates',
           key: '5Kjqz8HwRBCW7ZtvhmM2NhAqaPpLQvBShKjVNcKdbm8gdXi5V3J'
         }
       }
