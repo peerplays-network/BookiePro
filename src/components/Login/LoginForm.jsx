@@ -60,16 +60,17 @@ const LoginForm = (props) => {
 					errors={ errors.toJS() } placeholder={ I18n.t('login.password') } tabIndex='2'/>
       </div>
       <div className='form-fields'>
-				<div className='eulaAgree clearfix center-object'>
-					<label><Translate className='eulaMsg' value='registration.eulaAgree' dangerousHTML/>
-						<Field
-							name='eulaAgree'
-							id='eulaAgree'
-							component='input'
-							type='checkbox'
-							className='eulaCheckbox'
-							tabIndex='3'
-						/>
+				<div className='checkbox clearfix center-object align-top'>
+					<label className='login'>
+            <Field
+              name='eulaAgree'
+              id='eulaAgree'
+              component='input'
+              type='checkbox'
+              className='box'
+              tabIndex='3'
+            />
+            <Translate className='lblText' value='registration.eulaAgree' dangerousHTML/>
 					</label>
 				</div>
 				<button
