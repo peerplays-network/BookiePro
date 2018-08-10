@@ -208,7 +208,14 @@ class MarketDrawerActions {
         const balance = getState().getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
         const precision = getState().getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
         const normalizedBalance = balance / Math.pow(10, precision);
-        const formattedBalance = parseFloat(CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', normalizedBalance, currencyFormat));
+        const formattedBalance = parseFloat(
+          CurrencyUtils.formatFieldByCurrencyAndPrecision(
+            'stake',
+            normalizedBalance,
+            currencyFormat,
+            true
+          )
+        );
         if (formattedBalance < totalBetAmount) {
           dispatch(MarketDrawerPrivateActions.showInsufficientBalanceError());
         } else {
@@ -369,7 +376,7 @@ class MarketDrawerActions {
     }
   }
 
-  static clickUpdateBet(totalBetAmount, currencyFormat) {
+  static clickUpdateBet(totalBetAmount, currencyFormat, skipDustCheck) {
     console.warn('The totalBetAmount is not the final version.')
     return (dispatch, getState) => {
       const isDisconnected = getState().getIn(['app', 'connectionStatus']) !== ConnectionStatus.CONNECTED;
@@ -379,7 +386,14 @@ class MarketDrawerActions {
         const balance = getState().getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
         const precision = getState().getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
         const normalizedBalance = balance / Math.pow(10, precision);
-        const formattedBalance = parseFloat(CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', normalizedBalance, currencyFormat));
+        const formattedBalance = parseFloat(
+          CurrencyUtils.formatFieldByCurrencyAndPrecision(
+            'stake',
+            normalizedBalance,
+            currencyFormat,
+            skipDustCheck
+          )
+        );
         if (formattedBalance < totalBetAmount) {
           dispatch(MarketDrawerPrivateActions.showInsufficientBalanceError());
         } else {
