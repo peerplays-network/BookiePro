@@ -26,58 +26,9 @@
     margin-bottom: 30px;
   }
   form {
-    input[type="checkbox"] {
-      display: none;
-    }
     .align-top {
       align-items: end;
     }
-  }
-  form .align-checkbox{
-    input[type="checkbox"]{
-      & + label{
-        cursor: pointer;
-
-        &:before{
-          content: '';
-          background: @checkbox;
-          border-radius: 1.5px;
-          display: inline-block;
-          vertical-align: middle;
-          width: 16px;
-          height: 16px;
-          margin-right: 24px;
-          text-align: center;
-          float: left;
-          margin-top: 2px;
-        }
-        &>span{
-          display: -webkit-box;
-        }
-      }
-      &:checked{
-        & + label{
-          &:after{
-            content: "";
-            padding: 2px;
-            text-align: center;
-            position: absolute;
-            width: 1px;
-            height: 10px;
-            border: solid @primary_label_border;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
-            -webkit-transform: rotate(45deg);
-            -ms-transform: rotate(45deg);
-            top: 2px;
-            left: 5px;
-            float: left;
-            margin-top: 3px;
-          }
-        }
-      }
-    }
-
   }
   .download-file {
     border: 1px solid @primary_label_border;
@@ -104,8 +55,5 @@
     font-size: 14px;
     width: 270px;
     float: left;
-  }
-  .width300 {
-    width: 300px;
   }
 }
