@@ -105,12 +105,11 @@ var BettingModuleUtils = {
       if (currencyFormat === 'mBTF') {
         floatStake = floatStake / 1000;
       }
-
-      return CurrencyUtils.getFormattedCurrency(
-        floatStake * (floatOdds - 1),
-        currencyFormat,
-        CurrencyUtils.fieldPrecisionMap[profitOrLiability][currencyFormat]
-      );
+      
+      let precision = CurrencyUtils.fieldPrecisionMap[profitOrLiability][currencyFormat];
+      let amount = (floatStake * (floatOdds - 1)).toFixed(precision);
+        
+      return CurrencyUtils.getFormattedCurrency(amount, currencyFormat, precision);
     } else {
       return stake;
     }

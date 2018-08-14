@@ -168,7 +168,7 @@ const renderCheckboxField = ({
   label,
   type
 }) => (
-  <div className='float-left width300 text-left align-checkbox'>
+  <div className='float-left col--50 text-left checkbox'>
     <input
       id={ id }
       autoComplete='off'
@@ -176,8 +176,9 @@ const renderCheckboxField = ({
       type={ type }
       placeholder={ placeholder }
       tabIndex={ tabIndex }
+      className='box margin-shift'
     />
-    <label htmlFor={ id }>
+    <label className='lblText' htmlFor={ id }>
       {' '}
       <span>{pseudoText}</span>
     </label>
