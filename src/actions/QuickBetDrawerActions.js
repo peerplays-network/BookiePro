@@ -133,7 +133,7 @@ class QuickBetDrawerActions {
         const balance = getState().getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
         const precision = getState().getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
         const normalizedBalance = balance / Math.pow(10, precision);
-        const formattedBalance = parseFloat(CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', normalizedBalance, currencyFormat));
+        const formattedBalance = parseFloat(CurrencyUtils.formatFieldByCurrencyAndPrecision('stake', normalizedBalance, currencyFormat, true));
         if (formattedBalance < totalBetAmount) {
           dispatch(QuickBetDrawerPrivateActions.showInsufficientBalanceError());
         } else {
