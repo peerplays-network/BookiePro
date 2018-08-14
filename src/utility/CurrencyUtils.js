@@ -99,7 +99,7 @@ var CurrencyUtils = {
         amount = 0.0;
       }
 
-      amount = this.isDust(currencyFormat, amount, field, skipDustCheck);
+      amount = this.isDust(currencyFormat, amount, field);
       let split = amount.toString().split('.');
 
       if (split[1] && split[1].length > precision){

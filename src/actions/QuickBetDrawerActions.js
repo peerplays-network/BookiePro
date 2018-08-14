@@ -155,7 +155,8 @@ class QuickBetDrawerActions {
           CurrencyUtils.formatFieldByCurrencyAndPrecision(
             'stake',
             normalizedBalance,
-            currencyFormat
+            currencyFormat,
+            true
           )
         );
 

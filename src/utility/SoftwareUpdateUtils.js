@@ -41,7 +41,10 @@ const SoftwareUpdateUtils = {
 
     return (
       newVersionMajorNumber > currentVersionMajorNumber ||
-      newVersionMinorNumber > currentVersionMinorNumber
+      (
+        newVersionMajorNumber === currentVersionMajorNumber && 
+        newVersionMinorNumber > currentVersionMinorNumber
+      )
     );
   },
 

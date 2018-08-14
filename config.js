@@ -20,7 +20,7 @@ const config = {
           key: 'PPYTEST8H4L2UeaXRRAt5nVR4GSGFdt232711wyzTQnFRJeoJeLXXZT23'
         },
         updates: {
-          name: 'pbsa-broadcasts',
+          name: 'bookie-updates',
           key: '5Kjqz8HwRBCW7ZtvhmM2NhAqaPpLQvBShKjVNcKdbm8gdXi5V3J'
         }
       }
@@ -28,9 +28,9 @@ const config = {
     charlie: {
       assetId: '1.3.1',
       apiEndpoints: [
-        'ws://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:8090'
+        'ws://ec2-35-182-244-143.ca-central-1.compute.amazonaws.com:8090'
       ],
-      faucetUrls: ['http://ec2-35-183-1-21.ca-central-1.compute.amazonaws.com:5000'],
+      faucetUrls: ['ws://ec2-35-182-244-143.ca-central-1.compute.amazonaws.com:5000'],
       prefix: 'PPY',
       accounts: {
         broadcasts: {
