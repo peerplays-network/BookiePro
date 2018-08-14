@@ -39,18 +39,21 @@ class PlacedBets extends PureComponent {
     // condition is true and there is no overlay.
     if (this.props.isEmpty) {
       this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
-    } else if (!this.props.isEmpty && 
-                this.props.overlay === 'NO_OVERLAY' && 
-                (prevProps.overlay !== 'DELETE_BET_CONFIRMATION' && 
-                prevProps.overlay !== 'DELETE_BETS_CONFIRMATION') &&
-                prevProps.overlay !== this.props.overlay) {                  
-      // If there are bets in the betslip, then we need to make sure there is 
-      // "nothing in progress" before we remove the loading screen
-      // The Betslip is "doing something" one of the following is true
-      //  - The user has just confirmed they would like to delete one or more bets
-      //  - The BMG has switched states and triggered the deletion of Bets in the betslip    
-      this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
-    } 
+    } else if (!this.props.isEmpty) {
+      // A different set of conditions needs to be true when the placed Bets tab has bets within it
+      if (this.props.overlay === 'NO_OVERLAY') {
+        // If there is not currently an overlay, for any reason
+        if (prevProps.unmatchedBets.size !== this.props.unmatchedBets.size || 
+            prevProps.overlay === 'SUBMIT_BETS_SUCCESS') {
+          // If the previous unmatchedBets Map is different in size than the one we have now, 
+          // then the flow has finished removing the bet from both the order book and the users bets
+          // OR
+          // If the previous overlay was submit_bets_success, 
+          //  then we've finished placing those bets and should remove the loading screen
+          this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
+        }
+      }
+    }
   }
 
   render() {

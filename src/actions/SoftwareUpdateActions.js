@@ -115,6 +115,7 @@ class SoftwareUpdateActions {
                     displayText = message.displayText; // The text
                   } catch (error) {
                     log.warn('Invalid memo, most likely this is not software update transaction');
+                    
                   }
 
                   // If it has valid version then it is an update transaction

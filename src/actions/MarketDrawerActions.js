@@ -461,7 +461,7 @@ class MarketDrawerActions {
             skipDustCheck
           )
         );
-
+        
         if (formattedBalance < totalBetAmount) {
           dispatch(MarketDrawerPrivateActions.showInsufficientBalanceError());
         } else {
