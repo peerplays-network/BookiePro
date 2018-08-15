@@ -112,7 +112,7 @@ const LoginForm = (props) => {
             invalid || 
             submitting || 
             asyncValidating ||
-            status===LoadingStatus.LOADING) ? 'btn-disabled' : 'btn-regular') + 
+            status === LoadingStatus.LOADING) ? 'btn-disabled' : 'btn-regular') + 
             ' grid-100 margin-top-25' } 
           type='submit'
           disabled={ 
@@ -121,9 +121,9 @@ const LoginForm = (props) => {
             invalid || 
             submitting || 
             asyncValidating || 
-            status===LoadingStatus.LOADING) }>
+            status === LoadingStatus.LOADING) }>
           { //set loadingstatus on submit
-            status===LoadingStatus.LOADING ? I18n.t('application.loading') : I18n.t('login.title')
+            status === LoadingStatus.LOADING ? I18n.t('application.loading') : I18n.t('login.title')
           }
         </button>
       </div>
