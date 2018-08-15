@@ -46,9 +46,11 @@ class BetTableInput extends PureComponent {
     if (value.length > 0 && value.charAt(0) === '-' && props.oddsFormat === 'decimal') {
       return '';
     }
+
     if (value.length > 1) {
       value = deepClean(value);
     }
+    
     if (value.length > 1 && this.props.field === 'odds' && !allowDecimal) {
       value = cleanOdds(value);
     }
