@@ -395,8 +395,11 @@ var CurrencyUtils = {
   // Check if the currency is dust. If it is, append an asterik.
   isDust: (currencyFormat, amount, field) => {
     let dustRange;
-
+    let isNegative = false;
     if (!isNaN(amount)) {
+      if (amount < 0) {
+        isNegative = true;
+      }
       // Handle negative amounts
       amount = Math.abs(amount);
 
@@ -431,7 +434,9 @@ var CurrencyUtils = {
         amount = 0 + '*';
       }
     }
-
+    if (isNegative) {
+      amount = '-' + amount;
+    }
     return amount;
   }
 };
