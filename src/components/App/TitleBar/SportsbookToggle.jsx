@@ -9,7 +9,7 @@ import { BookieModes } from '../../../constants';
 class SportsbookToggle extends PureComponent {  
   render() {
     return (
-        <div id='sportsBookToggle'>
+        <div className='sportsBookToggle'>
             <p onClick={ () => this.props.setMode(BookieModes.EXCHANGE) }
                 className={ this.props.bookMode === BookieModes.EXCHANGE ? 'active' : '' }>
                 { I18n.t('titleBar.sportsbookToggle.exchange') }
