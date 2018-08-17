@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Clock from '../Clock';
 import { I18n } from 'react-redux-i18n';
 import { Config } from '../../../../constants';
+import SportsbookToggle from '../SportsbookToggle';
 
 class WindowsTitleBar extends PureComponent {
 
@@ -15,15 +16,25 @@ class WindowsTitleBar extends PureComponent {
         onRestoreDownClick,
         onCloseClick,
         isMaximized,
+        loggedIn,
          ...props
        } = this.props;
 
     return (
       <div className='windows-title-bar' { ...props } >
         <div className='title'>{ I18n.t('titleBar.title') } { Config.version }</div>
-        <div className='left'>
-          <Clock className='clock' />
-        </div>
+        { Config.features.clock &&
+          <div className='left'>
+            <Clock className='clock' />
+          </div>
+        }
+
+        { loggedIn &&
+          <div className='right'>
+            <SportsbookToggle />
+          </div>
+        }
+
         <div className='right'>
           <WindowsControls
             isWindowFocused={ isWindowFocused }

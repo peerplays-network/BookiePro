@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import MacControls from './MacControls';
 import PropTypes from 'prop-types';
 import Clock from '../Clock';
+import SportsbookToggle from '../SportsbookToggle';
 import { I18n } from 'react-redux-i18n';
 import { Config } from '../../../../constants';
 
@@ -15,6 +16,7 @@ class MacTitleBar extends PureComponent {
         onResizeClick,
         onCloseClick,
         isFullscreen,
+        loggedIn,
          ...props
        } = this.props;
 
@@ -31,14 +33,21 @@ class MacTitleBar extends PureComponent {
             isFullscreen={ isFullscreen }
           />
         </div>
-        <div className='right'>
-          <Clock className='clock' />
-        </div>
 
+        { loggedIn &&
+          <div className='right'>
+            <SportsbookToggle />
+          </div>
+        }
+
+        { Config.features.clock &&
+          <div className='right'>
+            <Clock className='clock' />
+          </div>
+        }
       </div>
-    )
+    );
   }
-
 }
 
 MacTitleBar.propTypes = {

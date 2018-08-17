@@ -1,4 +1,4 @@
-import { ActionTypes, LoadingStatus, ConnectionStatus, AppBackgroundTypes } from '../constants';
+import { ActionTypes, LoadingStatus, ConnectionStatus, AppBackgroundTypes, BookieModes } from '../constants';
 import Immutable from 'immutable';
 
 const initialState = Immutable.fromJS({
@@ -17,6 +17,7 @@ const initialState = Immutable.fromJS({
   isTitleBarTransparent: true,
   gatewayAccount: {},
   showLicenseScreen: false,
+  bookMode: BookieModes.EXCHANGE
 });
 
 export default function (state = initialState, action) {
@@ -85,17 +86,22 @@ export default function (state = initialState, action) {
     case ActionTypes.APP_SHOW_LOGOUT_POPUP: {
       return state.merge({
         isShowLogoutPopup: action.isShowLogoutPopup
-      })
+      });
     }
     case ActionTypes.APP_SET_GATEWAY_ACCOUNT: {
       return state.merge({
         gatewayAccount: action.gatewayAccount
-      })
+      });
     }
     case ActionTypes.APP_HIDE_LICENSE_SCREEN: {
       return state.merge({
         showLicenseScreen: false   // It is a one time thing
-      })
+      });
+    }
+    case ActionTypes.APP_SET_BOOK_MODE: {
+      return state.merge({
+        bookMode: action.mode
+      });
     }
     default:
       return state;

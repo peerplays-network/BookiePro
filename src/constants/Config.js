@@ -64,7 +64,8 @@ const Config = {
     withdrawels: false,
     deposits: false,
     currency: 'BTF',
-    americanOdds: false
+    americanOdds: false,
+    clock: false
   },
   pingInterval: 9000 // Interval in seconds to ping the BlockChain.
 };

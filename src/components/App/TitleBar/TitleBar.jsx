@@ -148,6 +148,7 @@ class TitleBar extends PureComponent {
           onMinimizeClick={ this.onMinimizeClick }
           onCloseClick={ this.onCloseClick }
           isMaximized={ this.state.isMaximized }
+          loggedIn={ this.props.loggedIn }
           style={ style }
         />
       );
@@ -161,6 +162,7 @@ class TitleBar extends PureComponent {
           onResizeClick={ this.onResizeClick }
           onCloseClick={ this.onCloseClick }
           isFullscreen={ this.state.isFullscreen }
+          loggedIn={ this.props.loggedIn }
           style={ style }
         />
       )
@@ -176,7 +178,9 @@ TitleBar.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  return {}
+  return {
+    loggedIn: state.getIn(['account', 'isLoggedIn'])
+  };
 }
 
 export default connect(mapStateToProps)(TitleBar);
