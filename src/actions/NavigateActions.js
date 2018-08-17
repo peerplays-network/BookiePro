@@ -1,8 +1,7 @@
-import { push, replace } from 'react-router-redux';
+import {push, replace} from 'react-router-redux';
 import log from 'loglevel';
 
 class NavigateActions {
-
   /**
    * Action to navigate to the given path
    * path - path to go
@@ -27,7 +26,6 @@ class NavigateActions {
 
     };
   }
-
 }
 
 export default NavigateActions;

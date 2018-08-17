@@ -9,18 +9,18 @@
  *
  * The unmatched bets are stored in the Redux store under `marketDrawer`->`unmatchedBets`.
  */
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Button } from 'antd';
+import React, {PureComponent} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {Button} from 'antd';
 import Immutable from 'immutable';
-import { I18n } from 'react-redux-i18n';
-import { CurrencyUtils } from '../../../utility';
-import { MarketDrawerActions } from '../../../actions';
+import {I18n} from 'react-redux-i18n';
+import {CurrencyUtils} from '../../../utility';
+import {MarketDrawerActions} from '../../../actions';
 import BetTable from '../BetTable';
 import './UnmatchedBets.less';
-import { BettingDrawerStates } from '../../../constants'
-import { MyAccountPageSelector } from '../../../selectors'
+import {BettingDrawerStates} from '../../../constants';
+import {MyAccountPageSelector} from '../../../selectors';
 
 class UnmatchedBets extends PureComponent {
   render() {
@@ -38,24 +38,28 @@ class UnmatchedBets extends PureComponent {
           activeTab={ this.props.activeTab }
           disabled={ this.props.disabled }
         />
-        { !this.props.bets.isEmpty() &&
+        {!this.props.bets.isEmpty() && (
           <div className={ `buttons ${this.props.obscureContent ? 'dimmed' : ''}` }>
-            <Button className='btn btn-cancel' onClick={ this.props.clickReset } disabled={ this.props.disabled }>
-              { I18n.t('market_drawer.unmatched_bets.content.reset_button') }
+            <Button
+              className='btn btn-cancel'
+              onClick={ this.props.clickReset }
+              disabled={ this.props.disabled }
+            >
+              {I18n.t('market_drawer.unmatched_bets.content.reset_button')}
             </Button>
             <button
               className={ `btn btn${this.props.hasUpdatedBets ? '-regular' : '-disabled'}` }
               onClick={ () => this.props.clickUpdateBet(this.props.totalBetAmountFloat, this.props.currencyFormat, true) } // eslint-disable-line
               disabled={ this.props.disabled }
             >
-              { I18n.t('market_drawer.unmatched_bets.content.update_button') }
-              { this.props.currencySymbol }
-              { this.props.totalBetAmountString }
+              {I18n.t('market_drawer.unmatched_bets.content.update_button')}
+              {this.props.currencySymbol}
+              {this.props.totalBetAmountString}
             </button>
           </div>
-        }
+        )}
       </div>
-    )
+    );
   }
 }
 
@@ -72,18 +76,24 @@ const mapStateToProps = (state, props) => {
     if (!page.has(betType)) {
       page = page.set(betType, Immutable.List());
     }
+
     // Add the bet to the list of bets with the same market type
-    let betListByBetType = page.get(betType);    
+    let betListByBetType = page.get(betType);
     betListByBetType = betListByBetType.push(bet);
     // Put everything back in their rightful places
     page = page.set(betType, betListByBetType);
   });
   // Overlay
   const overlay = state.getIn(['marketDrawer', 'overlay']);
-  const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
-  const hasUpdatedBets = originalBets.some(bet => bet.get('updated'));
-  const currencySymbol = CurrencyUtils.getCurrencySymbol(props.currencyFormat, hasUpdatedBets ? 'black' : 'white');
-  
+  const obscureContent =
+    overlay !== BettingDrawerStates.NO_OVERLAY &&
+    overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
+  const hasUpdatedBets = originalBets.some((bet) => bet.get('updated'));
+  const currencySymbol = CurrencyUtils.getCurrencySymbol(
+    props.currencyFormat,
+    hasUpdatedBets ? 'black' : 'white'
+  );
+
   return {
     bets: page,
     obscureContent,
@@ -91,19 +101,19 @@ const mapStateToProps = (state, props) => {
     hasUpdatedBets,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state)
   };
-}
+};
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
     updateUnmatchedBet: MarketDrawerActions.updateUnmatchedBet,
     deleteUnmatchedBet: MarketDrawerActions.deleteUnmatchedBet,
     clickDeleteUnmatchedBets: MarketDrawerActions.clickDeleteUnmatchedBets,
     clickDeleteUnmatchedBet: MarketDrawerActions.clickDeleteUnmatchedBet,
     clickUpdateBet: MarketDrawerActions.clickUpdateBet,
-    clickReset: MarketDrawerActions.clickReset,
-  }, dispatch);
-}
-
+    clickReset: MarketDrawerActions.clickReset
+  },
+  dispatch
+);
 
 export default connect(
   mapStateToProps,

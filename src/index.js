@@ -1,9 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { Router, Route, hashHistory, IndexRoute, IndexRedirect } from 'react-router';
+import {Provider} from 'react-redux';
+import {
+  Router, 
+  Route, 
+  hashHistory, 
+  IndexRoute, 
+  IndexRedirect
+} from 'react-router';
 import App from './components/App';
-import BlockchainTestPage from './components/BlockchainTestPage';
 import MyAccount from './components/MyAccount';
 import MyWager from './components/MyWager';
 import Signup from './components/Signup';
@@ -15,23 +20,23 @@ import Sport from './components/Sport';
 import EventGroup from './components/EventGroup';
 import BettingMarketGroup from './components/BettingMarketGroup';
 import configureStore from './store/configureStore';
-import { syncHistoryWithStore } from 'react-router-redux';
+import {syncHistoryWithStore} from 'react-router-redux';
 import Deposit from './components/Deposit';
 import ChangePassword from './components/ChangePassword';
 import Welcome from './components/Welcome';
 import Landing from './components/Landing';
 import HelpAndSupport from './components/HelpAndSupport';
-import { LocaleProvider } from 'antd';
-import { I18n } from 'react-redux-i18n';
+import {LocaleProvider} from 'antd';
+import {I18n} from 'react-redux-i18n';
 import log from 'loglevel';
 import LicenseScreen from './components/LicenseScreen';
-import { AppUtils } from './utility';
+import {AppUtils} from './utility';
 
 // Configure store
 const store = configureStore();
 // Configure history
 const history = syncHistoryWithStore(hashHistory, store, {
-  selectLocationState (state) {
+  selectLocationState(state) {
     // Custom selector for immutable redux state
     return state.get('routing').toJS();
   }
@@ -47,62 +52,81 @@ log.setLevel(log.levels.SILENT);
 // are we in an electron window?
 let electron;
 const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
-if (isRunningInsideElectron){
+
+if (isRunningInsideElectron) {
   electron = window.require('electron');
   // add a listener to handle all clicks
-  document.addEventListener("click", (e) => {
+  document.addEventListener('click', (event) => {
     // act on any clicks that are hyperlinks preceeded by http
-    if(e.target.tagName.toLowerCase() === "a" && e.target.href.indexOf("http") >= 0){
+    if (event.target.tagName.toLowerCase() === 'a' && event.target.href.indexOf('http') >= 0) {
       event.preventDefault();
-      electron.shell.openExternal(e.target.href);
+      electron.shell.openExternal(event.target.href);
     }
   });
   const {remote} = electron;
-  const {Menu, MenuItem} = remote
+  const {Menu, MenuItem} = remote;
 
   const menu = new Menu();
-  menu.append(new MenuItem({label: 'Copy', click() {document.execCommand('copy')}}))
-  menu.append(new MenuItem({label: 'Paste', click() {document.execCommand('paste')}}))
+  menu.append(
+    new MenuItem({
+      label: 'Copy',
+      click() {
+        document.execCommand('copy');
+      }
+    })
+  );
+  menu.append(
+    new MenuItem({
+      label: 'Paste',
+      click() {
+        document.execCommand('paste');
+      }
+    })
+  );
 
-  document.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    menu.popup({window: remote.getCurrentWindow()})
-  }, false);
+  document.addEventListener(
+    'contextmenu',
+    (e) => {
+      e.preventDefault();
+      menu.popup({window: remote.getCurrentWindow()});
+    },
+    false
+  );
 }
 
 // Add new page here
 const routes = (
-  <Route path='/' component={ App }  >
-      <IndexRedirect to='landing' />
-      <Route path='/login' component={ Login } />
-      <Route path='/signup' component={ Signup } />
-      <Route path='/license' component={ LicenseScreen } />
-      <Route path='/welcome' component={ Welcome } />
-      <Route path='/deposit' component={ Deposit } />
-      <Route path='/landing' component={ Landing } />
-      <Route component={ Main }>
-        <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
-        <Route path='/help-and-support' component={ HelpAndSupport } />
-        <Route path='/exchange' component={ Exchange } >
-          <IndexRoute component={ AllSports }/>
-          <Route path='Sport/:objectId' component={ Sport }/>
-          <Route path='EventGroup/:objectId' component={ EventGroup }/>
-          <Route path=':eventName/:eventId/BettingMarketGroup/:objectId/' component={ BettingMarketGroup }/>
-          <Route path='BettingMarketGroup/:objectId' component={ BettingMarketGroup }/>
-        </Route>
-        <Route path='/my-account' component={ MyAccount } />
-        <Route path='/change-password' component={ ChangePassword } />
-        <Route path='/my-wager' component={ MyWager } />
+  <Route path='/' component={ App }>
+    <IndexRedirect to='landing' />
+    <Route path='/login' component={ Login } />
+    <Route path='/signup' component={ Signup } />
+    <Route path='/license' component={ LicenseScreen } />
+    <Route path='/welcome' component={ Welcome } />
+    <Route path='/deposit' component={ Deposit } />
+    <Route path='/landing' component={ Landing } />
+    <Route component={ Main }>
+      <Route path='/help-and-support' component={ HelpAndSupport } />
+      <Route path='/exchange' component={ Exchange }>
+        <IndexRoute component={ AllSports } />
+        <Route path='Sport/:objectId' component={ Sport } />
+        <Route path='EventGroup/:objectId' component={ EventGroup } />
+        <Route
+          path=':eventName/:eventId/BettingMarketGroup/:objectId/'
+          component={ BettingMarketGroup }
+        />
+        <Route path='BettingMarketGroup/:objectId' component={ BettingMarketGroup } />
       </Route>
+      <Route path='/my-account' component={ MyAccount } />
+      <Route path='/change-password' component={ ChangePassword } />
+      <Route path='/my-wager' component={ MyWager } />
     </Route>
+  </Route>
 );
-
-
 
 ReactDOM.render(
   <LocaleProvider locale={ I18n.t('application.locale') }>
     <Provider store={ store }>
-        <Router history={ history } routes={ routes } />
+      <Router history={ history } routes={ routes } />
     </Provider>
   </LocaleProvider>,
   document.getElementById('root')

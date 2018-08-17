@@ -1,11 +1,10 @@
-import React, { PureComponent } from 'react';
-import { Modal } from 'antd';
+import React, {PureComponent} from 'react';
+import {Modal} from 'antd';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
+import {I18n} from 'react-redux-i18n';
 
 class SoftwareUpdateModal extends PureComponent {
-
   render() {
     return (
       <Modal
@@ -20,9 +19,14 @@ class SoftwareUpdateModal extends PureComponent {
         cancelText={ 'Ignore it' }
         width={ 428 }
       >
-        <p dangerouslySetInnerHTML={ { __html:this.props.modalTitle} } />
-        <p>{ I18n.t('notification.version')} : <a target='_blank' href={ this.props.link }>{ this.props.version }</a></p>
-        <p>{ moment.unix(this.props.date).fromNow() }</p>
+        <p dangerouslySetInnerHTML={ {__html: this.props.modalTitle} } />
+        <p>
+          {I18n.t('notification.version')} :{' '}
+          <a target='_blank' href={ this.props.link }>
+            {this.props.version}
+          </a>
+        </p>
+        <p>{moment.unix(this.props.date).fromNow()}</p>
       </Modal>
     );
   }

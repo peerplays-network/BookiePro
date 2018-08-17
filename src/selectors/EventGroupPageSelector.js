@@ -1,6 +1,6 @@
 import CommonSelector from './CommonSelector';
-import { createSelector } from 'reselect';
-import { DateUtils } from '../utility';
+import {createSelector} from 'reselect';
+import {DateUtils} from '../utility';
 import Immutable from 'immutable';
 
 const {
@@ -16,36 +16,22 @@ const getRelatedEventGroupId = (state, ownProps) => ownProps.params.objectId;
 const getRelatedEventGroupFromEvent = (state, event) => event.get('event_group_id');
 
 const getEventGroup = createSelector(
-  [
-    getEventGroupsById,
-    getRelatedEventGroupId
-  ],
-  (eventGroupsById, relatedEventGroupId) => {
-    return eventGroupsById.get(relatedEventGroupId);
-  }
+  [getEventGroupsById, getRelatedEventGroupId],
+  (eventGroupsById, relatedEventGroupId) => eventGroupsById.get(relatedEventGroupId)
 );
 
 const getEventGroupName = createSelector(
-  [
-    getRelatedEventGroupId,
-    getEventGroupsById
-  ],
-  (eventGroupId, eventGroupsById) => {
-    return eventGroupsById.getIn([eventGroupId, 'name']) || '';
-  }
-)
+  [getRelatedEventGroupId, getEventGroupsById],
+  (eventGroupId, eventGroupsById) => eventGroupsById.getIn([eventGroupId, 'name']) || ''
+);
 
 const getSportName = createSelector(
-  [
-    getRelatedEventGroupId,
-    getEventGroupsById,
-    getSportsById
-  ],
+  [getRelatedEventGroupId, getEventGroupsById, getSportsById],
   (eventGroupId, eventGroupsById, sportsById) => {
     const sportId = eventGroupsById.getIn([eventGroupId, 'sport_id']);
     return sportsById.getIn([sportId, 'name']) || '';
   }
-)
+);
 
 const getSportNameFromEvent = createSelector(
   [
@@ -57,18 +43,22 @@ const getSportNameFromEvent = createSelector(
     const sportId = eventGroupsById.getIn([eventGroupId, 'sport_id']);
     return sportsById.getIn([sportId, 'name']) || '';
   }
-)
+);
 
-const getEventGroupPageLoadingStatusByEventGroupId = (state) => state.getIn(['eventGroupPage', 'loadingStatusByEventGroupId']);
+const getEventGroupPageLoadingStatusByEventGroupId = (state) => {
+  return state.getIn(['eventGroupPage', 'loadingStatusByEventGroupId']);
+};
+
 const getEventGroupPageLoadingStatus = createSelector(
   [
-    getRelatedEventGroupId,
+    getRelatedEventGroupId, 
     getEventGroupPageLoadingStatusByEventGroupId
   ],
-  (relatedEventGroupId, eventGroupPageLoadingStatusByEventGroupId) => {
-    return eventGroupPageLoadingStatusByEventGroupId.get(relatedEventGroupId)
-  }
-)
+  (
+    relatedEventGroupId, 
+    eventGroupPageLoadingStatusByEventGroupId
+  ) => eventGroupPageLoadingStatusByEventGroupId.get(relatedEventGroupId)
+);
 
 // Event group page data is in the following format
 // [
@@ -116,7 +106,13 @@ const getEventGroupPageData = createSelector(
     getBettingMarketsById,
     getSimpleBettingWidgetBinnedOrderBooksByEventId
   ],
-  (relatedEventGroupId, eventGroupPageLoadingStatus, activeEventsByEventGroupId, bettingMarketsById, simpleBettingWidgetBinnedOrderBooksByEventId) => {
+  (
+    relatedEventGroupId,
+    eventGroupPageLoadingStatus,
+    activeEventsByEventGroupId,
+    bettingMarketsById,
+    simpleBettingWidgetBinnedOrderBooksByEventId
+  ) => {
     // Process all sports data only if the necessary data has been finished loaded
     // NOTE if you do not want to see incremental update, re-enable this if clause
     // if (eventGroupPageLoadingStatus !== LoadingStatus.DONE) {
@@ -125,32 +121,33 @@ const getEventGroupPageData = createSelector(
 
     // Create event nodes (= event group page data) based on active events
     const activeEvents = activeEventsByEventGroupId.get(relatedEventGroupId) || Immutable.List();
-    const eventGroupPageData = activeEvents.map((event) => {
-      if (event.get('status') !== null || event.get('status') !== undefined){
-        const offers = simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
-        // Find the MoneyLine Betting Market Group of this event
-        const bettingMarketId = offers.getIn(['0', 'betting_market_id']);
-        const bettingMarketGroupId = bettingMarketsById.getIn([bettingMarketId, 'group_id']);
-        // Create event node
-        return Immutable.fromJS({
-          event_id: event.get('id'),
-          event_name: event.get('name'),
-          time: DateUtils.getLocalDate(event.get('start_time')),
-          isLiveMarket: event.get('is_live_market'),
-          eventStatus: event.get('status').toLowerCase(),
-          offers,
-          bettingMarketGroupId: bettingMarketGroupId,
-        });
-      } else {
-        return Immutable.List();
-      }
-    }).filter( eventNode => {
-      return eventNode.get('bettingMarketGroupId') !== undefined
-    });
-    
+    const eventGroupPageData = activeEvents
+      .map((event) => {
+        if (event.get('status') !== null || event.get('status') !== undefined) {
+          const offers =
+            simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
+          // Find the MoneyLine Betting Market Group of this event
+          const bettingMarketId = offers.getIn(['0', 'betting_market_id']);
+          const bettingMarketGroupId = bettingMarketsById.getIn([bettingMarketId, 'group_id']);
+          // Create event node
+          return Immutable.fromJS({
+            event_id: event.get('id'),
+            event_name: event.get('name'),
+            time: DateUtils.getLocalDate(event.get('start_time')),
+            isLiveMarket: event.get('is_live_market'),
+            eventStatus: event.get('status').toLowerCase(),
+            offers,
+            bettingMarketGroupId: bettingMarketGroupId
+          });
+        } else {
+          return Immutable.List();
+        }
+      })
+      .filter((eventNode) => eventNode.get('bettingMarketGroupId') !== undefined);
+
     return eventGroupPageData;
   }
-)
+);
 
 const EventGroupPageSelector = {
   getEventGroup,
@@ -158,6 +155,6 @@ const EventGroupPageSelector = {
   getEventGroupName,
   getSportName,
   getSportNameFromEvent
-}
+};
 
 export default EventGroupPageSelector;

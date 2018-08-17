@@ -1,5 +1,4 @@
-import { ActionTypes } from '../constants';
-import _ from 'lodash';
+import {ActionTypes} from '../constants';
 import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
@@ -9,50 +8,77 @@ let initialState = Immutable.fromJS({
   getBettingMarketGroupsByEventIdsLoadingStatus: {}
 });
 
-export default function (state = initialState, action) {
-  switch(action.type) {
+export default function(state = initialState, action) {
+  switch (action.type) {
     case ActionTypes.BETTING_MARKET_GROUP_ADD_OR_UPDATE_BETTING_MARKET_GROUPS: {
       let bettingMarketGroupsById = Immutable.Map();
-      action.bettingMarketGroups.forEach( bettingMarketGroup => {
-        bettingMarketGroupsById = bettingMarketGroupsById.set(bettingMarketGroup.get('id'), bettingMarketGroup);
-      })
+      action.bettingMarketGroups.forEach((bettingMarketGroup) => {
+        bettingMarketGroupsById = bettingMarketGroupsById.set(
+          bettingMarketGroup.get('id'),
+          bettingMarketGroup
+        );
+      });
       return state.mergeIn(['bettingMarketGroupsById'], bettingMarketGroupsById);
     }
+
     case ActionTypes.BETTING_MARKET_GROUP_ADD_PERSISTED_BETTING_MARKET_GROUPS: {
       let bettingMarketGroupsById = Immutable.Map();
-      action.bettingMarketGroups.forEach( bettingMarketGroup => {
-        bettingMarketGroupsById = bettingMarketGroupsById.set(bettingMarketGroup.get('id'), bettingMarketGroup);
-      })
+      action.bettingMarketGroups.forEach((bettingMarketGroup) => {
+        bettingMarketGroupsById = bettingMarketGroupsById.set(
+          bettingMarketGroup.get('id'),
+          bettingMarketGroup
+        );
+      });
       return state.mergeIn(['persistedBettingMarketGroupsById'], bettingMarketGroupsById);
     }
+
     case ActionTypes.BETTING_MARKET_GROUP_SET_GET_BETTING_MARKET_GROUPS_BY_IDS_LOADING_STATUS: {
       let getBettingMarketGroupsByIdsLoadingStatus = Immutable.Map();
-      action.bettingMarketGroupIds.forEach( id => {
-        getBettingMarketGroupsByIdsLoadingStatus = getBettingMarketGroupsByIdsLoadingStatus.set(id, action.loadingStatus);
-      })
-      return state.mergeIn(['getBettingMarketGroupsByIdsLoadingStatus'], getBettingMarketGroupsByIdsLoadingStatus);
+      action.bettingMarketGroupIds.forEach((id) => {
+        getBettingMarketGroupsByIdsLoadingStatus = getBettingMarketGroupsByIdsLoadingStatus.set(
+          id,
+          action.loadingStatus
+        );
+      });
+      return state.mergeIn(
+        ['getBettingMarketGroupsByIdsLoadingStatus'],
+        getBettingMarketGroupsByIdsLoadingStatus
+      );
     }
+
     case ActionTypes.BETTING_MARKET_GROUP_REMOVE_BETTING_MARKET_GROUPS_BY_IDS: {
       let nextState = state;
       action.bettingMarketGroupIds.forEach((bettingMarketGroupId) => {
         // Since we want to have persistent bmg list
         // Move bettingMarketGroup from bettingMarketGroupsById to persistedBettingMarketGroupsById
         const bettingMarketGroup = state.getIn(['bettingMarketGroupsById', bettingMarketGroupId]);
-        nextState = nextState.setIn(['persistedBettingMarketGroupsById', bettingMarketGroupId], bettingMarketGroup);
+        nextState = nextState.setIn(
+          ['persistedBettingMarketGroupsById', bettingMarketGroupId],
+          bettingMarketGroup
+        );
         nextState = nextState.deleteIn(['bettingMarketGroupsById', bettingMarketGroupId]);
       });
       return nextState;
     }
-    case ActionTypes.BETTING_MARKET_GROUP_SET_GET_BETTING_MARKET_GROUPS_BY_EVENT_IDS_LOADING_STATUS: {
+
+    case ActionTypes.BETTING_MARKET_GROUP_SET_GET_BETTING_MARKET_GROUPS_BY_EVENT_IDS_LOADING_STATUS: { // eslint-disable-line
       let getBettingMarketGroupsByEventIdsLoadingStatus = Immutable.Map();
-      action.eventIds.forEach( eventId => {
-        getBettingMarketGroupsByEventIdsLoadingStatus = getBettingMarketGroupsByEventIdsLoadingStatus.set(eventId, action.loadingStatus);
-      })
-      return state.mergeIn(['getBettingMarketGroupsByEventIdsLoadingStatus'], getBettingMarketGroupsByEventIdsLoadingStatus);
+      action.eventIds.forEach((eventId) => {
+        getBettingMarketGroupsByEventIdsLoadingStatus = getBettingMarketGroupsByEventIdsLoadingStatus.set( // eslint-disable-line
+          eventId,
+          action.loadingStatus
+        );
+      });
+      return state.mergeIn(
+        ['getBettingMarketGroupsByEventIdsLoadingStatus'],
+        getBettingMarketGroupsByEventIdsLoadingStatus
+      );
     }
+    
     case ActionTypes.BETTING_MARKET_GROUP_RESET_STORE: {
       return initialState;
     }
+
     default:
       return state;
   }
