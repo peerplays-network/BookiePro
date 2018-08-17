@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 
 class Loading extends PureComponent {
   render() {
@@ -6,7 +6,7 @@ class Loading extends PureComponent {
       <div className='loading'>
         <span className='loading-logo' />
       </div>
-    )
+    );
   }
 }
 

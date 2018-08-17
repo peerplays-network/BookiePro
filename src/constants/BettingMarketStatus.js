@@ -6,6 +6,6 @@ const BettingMarketStatus = {
   WIN: 'win',
   NOTWIN: 'notwin',
   CANCELED: 'canceled'
-}
+};
 
 export default BettingMarketStatus;

@@ -7,6 +7,6 @@ const BettingMarketGroupStatus = {
   SETTLED: 'settled',
   FROZEN: 'frozen',
   CANCELED: 'canceled'
-}
+};
 
 export default BettingMarketGroupStatus;

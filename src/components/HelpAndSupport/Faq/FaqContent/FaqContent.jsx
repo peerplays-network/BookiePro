@@ -1,8 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import { HelpAndSupportUtils } from '../../../../utility';
-import _ from 'lodash';
-import { Modal } from 'antd';
+import {HelpAndSupportUtils} from '../../../../utility';
+import {Modal} from 'antd';
 import LicenseScreen from '../../../LicenseScreen';
 
 class FaqContent extends PureComponent {
@@ -12,7 +11,7 @@ class FaqContent extends PureComponent {
     this.state = {
       questionAnswerPairs: HelpAndSupportUtils.getQuestionAnswerPairs(props.topic),
       modalIsOpen: false
-    }
+    };
     // Set initial ref
     this.qaPairRefs = {};
     this.renderFaqDetailPart = this.renderFaqDetailPart.bind(this);
@@ -20,8 +19,8 @@ class FaqContent extends PureComponent {
     this.handleMITClick = this.handleMITClick.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
-  createHTMLMarkup(data){
-    return {__html: data };
+  createHTMLMarkup(data) {
+    return {__html: data};
   }
 
   handleMITClick(e) {
@@ -31,10 +30,10 @@ class FaqContent extends PureComponent {
     });
   }
 
-  closeModal(e) {
+  closeModal() {
     this.setState({
       modalIsOpen: false
-    })
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,74 +41,75 @@ class FaqContent extends PureComponent {
       // Update question answer pairs
       this.setState({
         questionAnswerPairs: HelpAndSupportUtils.getQuestionAnswerPairs(nextProps.topic)
-      })
+      });
     }
   }
-  componentDidUpdate(){
-    let getAnchor = document.getElementsByClassName("fees-scroll")[0];
-    if (getAnchor) getAnchor.addEventListener("click", this.props.handleOverviewFeesClick);
+  componentDidUpdate() {
+    let getAnchor = document.getElementsByClassName('fees-scroll')[0];
+
+    if (getAnchor) {
+      getAnchor.addEventListener('click', this.props.handleOverviewFeesClick);
+    }
 
     let MITAnchor = document.getElementsByClassName('mit-license-anchor')[0];
-    if (MITAnchor) MITAnchor.addEventListener('click', this.handleMITClick);
+
+    if (MITAnchor) {
+      MITAnchor.addEventListener('click', this.handleMITClick);
+    }
   }
-  componentDidMount(){
-    let getAnchor = document.getElementsByClassName("fees-scroll")[0];
-    if (getAnchor) getAnchor.addEventListener("click", this.props.handleOverviewFeesClick);
+  componentDidMount() {
+    let getAnchor = document.getElementsByClassName('fees-scroll')[0];
+
+    if (getAnchor) {
+      getAnchor.addEventListener('click', this.props.handleOverviewFeesClick);
+    }
 
     let MITAnchor = document.getElementsByClassName('mit-license-anchor')[0];
-    if (MITAnchor) MITAnchor.addEventListener('click', this.handleMITClick);
+
+    if (MITAnchor) {
+      MITAnchor.addEventListener('click', this.handleMITClick);
+    }
   }
   renderFaqDetailPart() {
-    const faqDetail = _.map(this.state.questionAnswerPairs, (pair, index) => {
-      return (
-        <div className='questionAnswerPair' key={ index }>
-          <div key={ 'question' + index } className='question'>{ pair.question }</div>
-          <div dangerouslySetInnerHTML={ this.createHTMLMarkup(pair.answer) } className='answer' />
+    const faqDetail = this.state.questionAnswerPairs.map((pair, index) => (
+      <div className='questionAnswerPair' key={ index }>
+        <div key={ 'question' + index } className='question'>
+          {pair.question}
         </div>
-      )
-    });
-    return (
-      <div className='faqDetailPart'>
-        { faqDetail }
+        <div dangerouslySetInnerHTML={ this.createHTMLMarkup(pair.answer) } className='answer' />
       </div>
-    )
+    ));
+    return <div className='faqDetailPart'>{faqDetail}</div>;
   }
 
   renderFaqTopicHeader() {
     const topicHeader = HelpAndSupportUtils.getTopicHeader(this.props.topic);
+
     if (topicHeader) {
-      return (
-        <div className='faqTopicHeader'>
-          { topicHeader.toUpperCase() }
-        </div>
-      )
+      return <div className='faqTopicHeader'>{topicHeader.toUpperCase()}</div>;
     }
   }
 
   render() {
-    const { className } = this.props;
+    const {className} = this.props;
     const licenseStyle = {
       'padding-top': '75px'
-    }
+    };
 
     return (
-      <div className={ 'faqContent ' + ( className || '') }>
-        { this.renderFaqTopicHeader() }
-        { this.renderFaqDetailPart() }
-        <Modal
-          visible={ this.state.modalIsOpen }
-          footer={ null }
-          onCancel={ this.closeModal }
-          >
-          <LicenseScreen style={ licenseStyle }/>
+      <div className={ 'faqContent ' + (className || '') }>
+        {this.renderFaqTopicHeader()}
+        {this.renderFaqDetailPart()}
+        <Modal visible={ this.state.modalIsOpen } footer={ null } onCancel={ this.closeModal }>
+          <LicenseScreen style={ licenseStyle } />
         </Modal>
       </div>
-    )
+    );
   }
 }
 
 FaqContent.propTypes = {
   topic: PropTypes.string
-}
+};
 
 export default FaqContent;

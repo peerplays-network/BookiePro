@@ -4,20 +4,19 @@
  *
  * The states of the component are maintained in the Redux store under 'auth'.
  */
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import logo from '../../assets/images/bookie_logo_signup.png';
-import { Form } from 'antd';
+import {Form} from 'antd';
 import SignupForm from './SignupForm';
-import { NavigateActions, AuthActions, AppActions } from '../../actions';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { I18n }  from 'react-redux-i18n';
-import { AppBackgroundTypes, Config } from '../../constants';
+import {NavigateActions, AuthActions, AppActions} from '../../actions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {I18n} from 'react-redux-i18n';
+import {AppBackgroundTypes, Config} from '../../constants';
 import FloatingHelp from '../FloatingHelp';
 
 class Signup extends PureComponent {
-
-  constructor(props){
+  constructor(props) {
     super(props);
     this.onClickLogin = this.onClickLogin.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,7 +34,7 @@ class Signup extends PureComponent {
 
   onClickLogin(event) {
     event.preventDefault();
-    this.props.navigateTo('/login')
+    this.props.navigateTo('/login');
   }
 
   /**
@@ -44,7 +43,11 @@ class Signup extends PureComponent {
    * @param {object} values - data obtained from the {@link SignupForm}
    */
   handleSubmit(values) {
-    this.props.signup(values.get('accountName'), values.get('password'), this.props.depositsEnabled);
+    this.props.signup(
+      values.get('accountName'),
+      values.get('password'),
+      this.props.depositsEnabled
+    );
   }
 
   render() {
@@ -52,7 +55,7 @@ class Signup extends PureComponent {
       <div className='onboardingSportsBackground signupComponent'>
         <div className='wrapper'>
           <div className='text-center'>
-            <img src={ logo } className='logo' width='213px' height='100px' alt=''/>
+            <img src={ logo } className='logo' width='213px' height='100px' alt='' />
             <p className='font18 margin-btm-24'>{I18n.t('signup.new_acc_req_text')}</p>
             <div className='center-ele'>
               <SignupForm
@@ -60,7 +63,8 @@ class Signup extends PureComponent {
                 onClickLogin={ this.onClickLogin }
                 onSubmit={ this.handleSubmit }
                 errors={ this.props.errors }
-                clearSignupError={ this.props.clearSignupError }/>
+                clearSignupError={ this.props.clearSignupError }
+              />
             </div>
           </div>
         </div>
@@ -71,23 +75,27 @@ class Signup extends PureComponent {
 }
 
 Signup.defaultProps = {
-  depositsEnabled: Config.features.deposits,
+  depositsEnabled: Config.features.deposits
 };
 
-const mapStateToProps = (state) => {
-  return {
-    errors: state.getIn(['auth','signupErrors']),
-    status: state.getIn(['auth','signupLoadingStatus']),
-    // Manual Feature Overrides
-    /*depositsEnabled: true*/
-  }
-}
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
+const mapStateToProps = (state) => ({
+  errors: state.getIn(['auth', 'signupErrors']),
+  status: state.getIn(['auth', 'signupLoadingStatus'])
+  // Manual Feature Overrides
+  /*depositsEnabled: true*/
+});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
     navigateTo: NavigateActions.navigateTo,
     signup: AuthActions.signup,
     clearSignupError: AuthActions.clearSignupError,
-    setAppBackground: AppActions.setAppBackgroundAction,
-  }, dispatch);
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(Signup))
+    setAppBackground: AppActions.setAppBackgroundAction
+  },
+  dispatch
+);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form.create()(Signup));

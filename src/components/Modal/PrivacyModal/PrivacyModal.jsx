@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
-import { Modal } from 'antd';
+import React, {PureComponent} from 'react';
+import {Modal} from 'antd';
 import Ps from 'perfect-scrollbar';
 import ReactDOM from 'react-dom';
-import { I18n, Translate } from 'react-redux-i18n';
+import {I18n, Translate} from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 
 class PrivacyModalScrollableContent extends PureComponent {
@@ -15,10 +15,10 @@ class PrivacyModalScrollableContent extends PureComponent {
 
   render() {
     return (
-      <div style={ { 'height' : '100%', 'position' : 'relative' } } ref='scrollableSection'>
-          <Translate value='privacy_dialogue.content' dangerousHTML/>
+      <div style={ {height: '100%', position: 'relative'} } ref='scrollableSection'>
+        <Translate value='privacy_dialogue.content' dangerousHTML />
       </div>
-    )
+    );
   }
 }
 
@@ -52,10 +52,10 @@ class PrivacyModal extends PureComponent {
 PrivacyModal.propTypes = {
   visible: PropTypes.bool,
   onCancelClick: PropTypes.func
-}
+};
 
 PrivacyModal.defaultProps = {
   onCancelClick: () => {}
-}
+};
 
 export default PrivacyModal;

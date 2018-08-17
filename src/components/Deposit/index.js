@@ -1,3 +1,3 @@
-import './Deposit.less'
-import Deposit from './Deposit'
-export default Deposit
+import './Deposit.less';
+import Deposit from './Deposit';
+export default Deposit;

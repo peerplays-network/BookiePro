@@ -1,18 +1,17 @@
-import { ActionTypes, LoadingStatus } from '../constants';
-import { CommunicationService } from '../services';
+import {ActionTypes, LoadingStatus} from '../constants';
+import {CommunicationService} from '../services';
 import Immutable from 'immutable';
 
 /**
  * Private actions
  */
 class RulePrivateActions {
-
   static setGetRulesByIdsLoadingStatusAction(ruleIds, loadingStatus) {
     return {
       type: ActionTypes.RULE_SET_GET_RULES_BY_IDS_LOADING_STATUS,
       ruleIds,
       loadingStatus
-    }
+    };
   }
 }
 
@@ -24,15 +23,14 @@ class RuleActions {
     return {
       type: ActionTypes.RULE_ADD_OR_UPDATE_RULES,
       rules
-    }
+    };
   }
   static removeRulesByIdsAction(ruleIds) {
     return {
       type: ActionTypes.RULE_REMOVE_RULES_BY_IDS,
       ruleIds
-    }
+    };
   }
-
 
   /**
    * Get assets given their ids (can be immutable array)
@@ -53,25 +51,35 @@ class RuleActions {
         } else {
           idsOfRulesToBeRetrieved = idsOfRulesToBeRetrieved.push(ruleId);
         }
-      })
+      });
 
       if (idsOfRulesToBeRetrieved.size === 0) {
         // No assets to be retrieved from blockchain, all data is in blockchain
         return Promise.resolve(retrievedRules);
       } else {
         // Retrieve data from blockchain
-        dispatch(RulePrivateActions.setGetRulesByIdsLoadingStatusAction(idsOfRulesToBeRetrieved, LoadingStatus.LOADING));
+        dispatch(
+          RulePrivateActions.setGetRulesByIdsLoadingStatusAction(
+            idsOfRulesToBeRetrieved,
+            LoadingStatus.LOADING
+          )
+        );
         // TODO: mark later
         return CommunicationService.getRulesByIds(idsOfRulesToBeRetrieved).then((rules) => {
           // Add to redux store
           dispatch(RuleActions.addOrUpdateRulesAction(rules));
           // Set status
-          dispatch(RulePrivateActions.setGetRulesByIdsLoadingStatusAction(idsOfRulesToBeRetrieved, LoadingStatus.DONE));
+          dispatch(
+            RulePrivateActions.setGetRulesByIdsLoadingStatusAction(
+              idsOfRulesToBeRetrieved,
+              LoadingStatus.DONE
+            )
+          );
           // Concat and return
           return retrievedRules.concat(rules);
         });
       }
-    }
+    };
   }
 }
 

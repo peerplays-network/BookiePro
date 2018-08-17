@@ -1,5 +1,4 @@
-import { ActionTypes, Config } from '../constants';
-import _ from 'lodash';
+import {ActionTypes, Config} from '../constants';
 import Immutable from 'immutable';
 
 let initialState = Immutable.Map({
@@ -10,18 +9,20 @@ let initialState = Immutable.Map({
   hardUpdateGracePeriod: Config.hardUpdateGracePeriod
 });
 
-export default function (state = initialState, action) {
-  switch(action.type) {
+export default function(state = initialState, action) {
+  switch (action.type) {
     case ActionTypes.SOFTWARE_UPDATE_SET_REFERENCE_ACCOUNT: {
       return state.merge({
         referenceAccount: action.referenceAccount
       });
     }
+
     case ActionTypes.SOFTWARE_UPDATE_SET_REFERENCE_ACCOUNT_STATISTICS: {
       return state.merge({
         referenceAccountStatistics: action.referenceAccountStatistics
       });
     }
+
     case ActionTypes.SOFTWARE_UPDATE_SET_UPDATE_PARAMETER: {
       return state.merge({
         version: action.version,
@@ -30,6 +31,7 @@ export default function (state = initialState, action) {
         link: action.link
       });
     }
+
     default:
       return state;
   }
