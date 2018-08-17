@@ -1,3 +1,3 @@
 import ConnectionErrorModal from './ConnectionErrorModal';
-import './ConnectionErrorModal.less'
+import './ConnectionErrorModal.less';
 export default ConnectionErrorModal;

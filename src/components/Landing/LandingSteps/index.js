@@ -1,3 +1,3 @@
-import LandingSteps from './LandingSteps'
-import './LandingSteps.less'
+import LandingSteps from './LandingSteps';
+import './LandingSteps.less';
 export default LandingSteps;

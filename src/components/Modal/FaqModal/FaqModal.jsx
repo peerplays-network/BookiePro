@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { Modal } from 'antd';
+import React, {PureComponent} from 'react';
+import {Modal} from 'antd';
 import Ps from 'perfect-scrollbar';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
@@ -15,10 +15,10 @@ class FaqModalScrollableContent extends PureComponent {
 
   render() {
     return (
-      <div style={ { 'height' : '100%', 'position' : 'relative' } } ref='scrollableSection'>
+      <div style={ {height: '100%', position: 'relative'} } ref='scrollableSection'>
         <Faq />
       </div>
-    )
+    );
   }
 }
 
@@ -36,7 +36,7 @@ class FaqModal extends PureComponent {
   render() {
     return (
       <Modal
-        title={ <div className='banner'></div> }
+        title={ <div className='banner' /> }
         wrapClassName={ 'faq-modal' }
         visible={ this.props.visible }
         footer={ null }
@@ -52,10 +52,10 @@ class FaqModal extends PureComponent {
 FaqModal.propTypes = {
   visible: PropTypes.bool,
   onCancelClick: PropTypes.func
-}
+};
 
 FaqModal.defaultProps = {
   onCancelClick: () => {}
-}
+};
 
 export default FaqModal;

@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import './BettingMarketGroup.less';
 
 class BettingMarketGroup extends PureComponent {
   render() {
-    const { id, onClick, data, name } = this.props;
+    const {id, onClick, data, name} = this.props;
 
     let appliedStateClass = '';
 
@@ -17,7 +17,7 @@ class BettingMarketGroup extends PureComponent {
     return (
       <div className='betting-market-node-container' key={ id } onClick={ onClick }>
         <div className={ `betting-market-label-container${appliedStateClass}` }>
-          <label>{ name }</label>
+          <label>{name}</label>
         </div>
       </div>
     );

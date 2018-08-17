@@ -4,38 +4,33 @@
  *
  * This widget used to be part of the top menu bar but it is now not in use.
  */
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 let I18n = require('react-redux-i18n').I18n;
-import {
-  Card,
-  Row,
-  Col
-} from 'antd';
+import {Card, Row, Col} from 'antd';
 
 //TODO Rename this component in order to match the file name (or rename the file if appropriate)
-class Amount extends PureComponent{
-
-  renderAmount(amountTypeText,amount){
-    return(
+class Amount extends PureComponent {
+  renderAmount(amountTypeText, amount) {
+    return (
       <Col span={ 12 }>
         <div className='icon-main bitcoin-icon-main'>
           <p>
-            { this.props.currencyFormat } { amount } <span> { I18n.t(amountTypeText) } </span>
+            {this.props.currencyFormat} {amount} <span> {I18n.t(amountTypeText)} </span>
           </p>
         </div>
       </Col>
-    )
+    );
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <Card className={ this.props.cardClass } title={ I18n.t('topbar.account_balance') }>
         <Row>
-          { this.renderAmount('topbar.available',this.props.availableBalance) }
-          { this.renderAmount('topbar.in_game',this.props.inGameAmount) }
+          {this.renderAmount('topbar.available', this.props.availableBalance)}
+          {this.renderAmount('topbar.in_game', this.props.inGameAmount)}
         </Row>
       </Card>
-    )
+    );
   }
 }
 

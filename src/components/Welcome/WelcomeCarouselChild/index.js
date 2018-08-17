@@ -1,3 +1,3 @@
-import './WelcomeCarouselChild.less'
-import WelcomeCarouselChild from './WelcomeCarouselChild'
-export default WelcomeCarouselChild
+import './WelcomeCarouselChild.less';
+import WelcomeCarouselChild from './WelcomeCarouselChild';
+export default WelcomeCarouselChild;

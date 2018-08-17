@@ -14,4 +14,4 @@ export {
   ConnectionService,
   CommunicationService,
   HistoryService
-}
+};
