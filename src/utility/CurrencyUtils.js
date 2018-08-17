@@ -62,14 +62,6 @@ var CurrencyUtils = {
 
   OFFER_PRECISION: 3,
 
-  isZero: function(num) {
-    if (parseFloat(num) === 0 || num === 0) {
-      return '0';
-    } else {
-      return num;
-    }
-  },
-
   /**
    * substringPrecision()
    * This function uses string manipulation to manipulate the value of amount depending
@@ -98,20 +90,26 @@ var CurrencyUtils = {
       if (amount === undefined){
         amount = 0.0;
       }
+      
+      // Check if the value is dust.
+      let isDust = this.isDust(currencyFormat, amount, field);
+      
+      if (!isDust) {
+        let split = amount.toString().split('.');
 
-      amount = this.isDust(currencyFormat, amount, field);
-      let split = amount.toString().split('.');
-
-      if (split[1] && split[1].length > precision){
-        // Conditionally take the value one past the accpeted precision 
-        let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0)); 
-        let newAmount = split[0] + '.' + splitSel;
-        // Then execute toFixed on the resulting amount. This keeps more accuracy.
-        amount = parseFloat(newAmount).toFixed(precision); 
-      } else {
-        if (typeof(amount) === 'number'){
-          amount = amount.toFixed(precision);
+        if (split[1] && split[1].length > precision){
+          // Conditionally take the value one past the accpeted precision 
+          let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0)); 
+          let newAmount = split[0] + '.' + splitSel;
+          // Then execute toFixed on the resulting amount. This keeps more accuracy.
+          amount = parseFloat(newAmount).toFixed(precision); 
+        } else {
+          if (typeof(amount) === 'number'){
+            amount = amount.toFixed(precision);
+          }
         }
+      } else {
+        amount = 0 + '*';
       }
     }
 
@@ -392,17 +390,14 @@ var CurrencyUtils = {
   layBetStakeModifier: function(stake, odds) {
     return stake / (odds - 1);
   },
+
+
   // Check if the currency is dust. If it is, append an asterik.
   isDust: (currencyFormat, amount, field) => {
-    let dustRange;
-    let isNegative = false;
+    let dustRange, 
+      isDust = false;
 
-    if (!isNaN(amount)) {
-
-      if (amount < 0) {
-        isNegative = true;
-      }
-      
+    if (amount) {
       // Handle negative amounts
       amount = Math.abs(amount);
 
@@ -424,7 +419,7 @@ var CurrencyUtils = {
           // miliCoin's do not display non-whole numbers.
           if (amount % 1 !== miliStakeDust) {
             // Early return for edge case dust.
-            return (amount = 0 + '*');
+            isDust = true;
           }
         } else {
           dustRange = stakeDust;
@@ -434,15 +429,11 @@ var CurrencyUtils = {
       // If the amount is less than the configured dust values (Config.js), then 
       // change the display of that amount to indicate as such.
       if (amount < dustRange && amount !== 0) {
-        amount = 0 + '*';
+        isDust = true;
       }
     }
 
-    if (isNegative) {
-      amount = '-' + amount;
-    }
-
-    return amount;
+    return isDust;
   }
 };
 
