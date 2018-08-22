@@ -35,21 +35,20 @@ class PlacedBets extends PureComponent {
     Ps.update(ReactDOM.findDOMNode(this.refs.placedBets));
 
     // If there are no bets, then the loading screen can go away
-    // The Betslip is finished "doing something" if the following 
-    // condition is true and there is no overlay.
     if (this.props.isEmpty) {
       this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
     } else if (!this.props.isEmpty) {
       // A different set of conditions needs to be true when the placed Bets tab has bets within it
       if (this.props.overlay === 'NO_OVERLAY') {
-        // If there is not currently an overlay, for any reason
-        if (prevProps.unmatchedBets.size !== this.props.unmatchedBets.size || 
-            prevProps.overlay === 'SUBMIT_BETS_SUCCESS') {
-          // If the previous unmatchedBets Map is different in size than the one we have now, 
-          // then the flow has finished removing the bet from both the order book and the users bets
-          // OR
-          // If the previous overlay was submit_bets_success, 
-          //  then we've finished placing those bets and should remove the loading screen
+        if (prevProps.unmatchedBets.size !== this.props.unmatchedBets.size) {
+          // If we've received an update wherein there are a different number of bets,
+          //  assume that we're done loading those new bets into the betslip
+          //  - This clause catches the deletion of bets for any reason
+          //  - This clause catches the placement of 'completely' new bets (not updated)
+          this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
+        } else if (prevProps.overlay === 'SUBMIT_BETS_SUCCESS') {
+          // If we've successfully "submitted" new bets.
+          //  - This clause catches updating bets
           this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
         }
       }

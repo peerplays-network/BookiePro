@@ -219,6 +219,7 @@ class MarketDrawerActions {
     console.warn('The totalBetAmount is not the final version.');
 
     return (dispatch, getState) => {
+      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
       const isDisconnected =
         getState().getIn(['app', 'connectionStatus']) !== ConnectionStatus.CONNECTED;
 
