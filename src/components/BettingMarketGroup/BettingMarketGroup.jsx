@@ -28,7 +28,7 @@ class BettingMarketGroup extends PureComponent {
     this.props.getData(this.props.params.objectId);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillUpdate(nextProps) {
     if (
       !nextProps.bettingMarketGroup ||
       nextProps.bettingMarketGroup.isEmpty() ||
@@ -41,11 +41,10 @@ class BettingMarketGroup extends PureComponent {
       const prevBettingMarketGroupId = this.props.params.objectId;
       const nextBettingMarketGroupId = nextProps.params.objectId;
 
-      //if (nextBettingMarketGroupId !== prevBettingMarketGroupId){
+
       if (
         nextBettingMarketGroupId !== prevBettingMarketGroupId ||
         nextProps.bettingMarketGroup !== this.props.bettingMarketGroup ||
-        nextProps.marketData !== this.props.marketData ||
         nextProps.eventName !== this.props.eventName ||
         nextProps.eventStatus !== this.props.eventStatus ||
         nextProps.bettingMarketGroupStatus !== this.props.bettingMarketGroupStatus

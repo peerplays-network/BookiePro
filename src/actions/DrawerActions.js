@@ -22,6 +22,7 @@ class DrawerActions {
   static deleteBets(bettingMarketIds) {
     return (dispatch, getState) => {
       // Get all unplaced bets from state. There exists two locations for them.
+      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
       const unconfirmedBets = getState().getIn(['marketDrawer', 'unconfirmedBets']);
       const bets = getState().getIn(['quickBetDrawer', 'bets']);
       // Concatinate the unplaced bets
