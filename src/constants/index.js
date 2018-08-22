@@ -19,7 +19,7 @@ import MyWagerTabTypes from './MyWagerTabTypes';
 import NotificationTypes from './NotificationTypes';
 import ObjectPrefix from './ObjectPrefix';
 import TimeRangePeriodTypes from './TimeRangePeriodTypes';
-
+import LayoutConstants from './LayoutConstants';
 
 export {
   ActionTypes,
@@ -38,6 +38,7 @@ export {
   EventStatus,
   ExportTypes,
   FaqTopics,
+  LayoutConstants,
   LoadingStatus,
   MyWagerTabTypes,
   NotificationTypes,

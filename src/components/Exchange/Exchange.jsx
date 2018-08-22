@@ -12,6 +12,7 @@ import { QuickBetDrawer, MarketDrawer } from '../BettingDrawers';
 import { QuickBetDrawerActions, MarketDrawerActions, NavigateActions } from '../../actions';
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
 import Ps from 'perfect-scrollbar';
+import { LayoutConstants } from '../../constants';
 
 class Exchange extends PureComponent {
 
@@ -117,14 +118,9 @@ class Exchange extends PureComponent {
   }
 
   render() {
-    const sidebarWidth = 220;
-    const betslipWidth = 360;
+    const { sidebarWidth, betslipWidth,splitPaneStyle } = LayoutConstants;
 
     let transitionName = this.props.location.pathname.split("/");
-    const splitPaneStyle = {
-      'top':'0px',
-      'position': 'fixed'
-    };
 
     //confirmation modal about leaving current route.
     let unplacedBetModal = (

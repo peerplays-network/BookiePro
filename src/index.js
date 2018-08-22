@@ -14,6 +14,7 @@ import AllSports from './components/AllSports';
 import Sport from './components/Sport';
 import EventGroup from './components/EventGroup';
 import BettingMarketGroup from './components/BettingMarketGroup';
+import SportsBook from './components/SportsBook';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
 import Deposit from './components/Deposit';
@@ -82,9 +83,10 @@ const routes = (
       <Route path='/landing' component={ Landing } />
       <Route component={ Main }>
         <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
-        <Route path='/help-and-support' component={ HelpAndSupport } />
+        <Route path='/help-and-support' component={ HelpAndSupport } />        
         <Route path='/exchange' component={ Exchange } >
           <IndexRoute component={ AllSports }/>
+          <Route path='sportsbook' component={ SportsBook } />
           <Route path='Sport/:objectId' component={ Sport }/>
           <Route path='EventGroup/:objectId' component={ EventGroup }/>
           <Route path=':eventName/:eventId/BettingMarketGroup/:objectId/' component={ BettingMarketGroup }/>
