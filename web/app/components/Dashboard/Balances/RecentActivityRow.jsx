@@ -29,6 +29,7 @@ import { getKeyFromState } from 'actions/RWalletUnlockNewActions';
 import { setViewModalStatus } from 'actions/MemoActions';
 import Translate from "react-translate-component";
 import MemoService from 'services/MemoService';
+import {PrivateKey} from "peerplaysjs-lib";
 
 @connect(state => {
     return {
@@ -38,7 +39,8 @@ import MemoService from 'services/MemoService';
         walletLocked: state.wallet.locked,
         walletIsOpen: state.wallet.isOpen,
         aes: state.walletData.aesPrivate,
-        currentAccount: state.account.currentAccount
+        currentAccount: state.account.currentAccount,
+        walletData: state.walletData
     }
 }, {
     getKeyFromState,
@@ -61,24 +63,39 @@ class RecentActivityRow extends React.Component {
      */
     memoClick() {
 
-        let requiredKey, publicKey;
+        let publicKey = this.props.memo.from;
 
         // If you are the sender, then you require your private active key to decode the memo.
         // If you are the receiver, then you require your private memo key to decode the memo.
         if (this.props.currentAccount === this.props.sender) {
-            requiredKey = 'active';
             publicKey = this.props.memo.to;
-        } else {
-            requiredKey = 'memo';
-            publicKey = this.props.memo.from;
         }
 
         // getKeyFromState triggers a modal wherin the user is prompted to enter their password.
         // geyKeyFromState returns a promise with a callback containing the requested key as a parameter
         // The password is then used to decrypt the memo key from state
-        this.props.getKeyFromState(requiredKey).then((privateKey) => {
+        this.props.getKeyFromState("memo").then((privateKey) => {
+
+            let message;
+
             // Use the memo service to decode the message
-            let message = MemoService.decodeMemo(privateKey, publicKey, this.props.memo.nonce, this.props.memo.message);
+            try {
+                message = MemoService.decodeMemo(privateKey, publicKey, this.props.memo.nonce, this.props.memo.message);
+            } catch (e) {
+                // Legacty account, attempt to decode with the active key.
+
+                // Get the encrypted active key.
+                const encryptedKey = this.props.walletData.wallet.encrypted_brainkey;
+                const activePrivateKeyBuffer = this.props.walletData.aesPrivate.decryptHexToBuffer(encryptedKey);//.toBuffer());
+                const activePrivateKey = PrivateKey.fromBuffer(activePrivateKeyBuffer);
+                
+                try {
+                    message = MemoService.decodeMemo(activePrivateKey, publicKey, this.props.memo.nonce, this.props.memo.message);
+                } catch (e) {
+                    console.error("Could not decode message.");
+                }
+
+            }
 
 
             // If message exists, then the message was decoded successfully.
@@ -93,7 +110,7 @@ class RecentActivityRow extends React.Component {
                 };
 
                 this.props.setViewModalStatus(true, memo);
-            }        
+            }
         });
     }
 

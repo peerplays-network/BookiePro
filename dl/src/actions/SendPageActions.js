@@ -145,7 +145,8 @@ class SendPageActions {
         return (dispatch, getState) => {
 
             return new Promise((resolve, reject) => {
-                const encryptedKey = getState().walletData.wallet.encrypted_brainkey;
+                // Get the encrypted memo key.
+                const encryptedKey = getState().walletData.wallet.encrypted_memo_key;
                 const activePrivateKeyBuffer = getState().walletData.aesPrivate.decryptHexToBuffer(encryptedKey);//.toBuffer());
                 const activePrivateKey = PrivateKey.fromBuffer(activePrivateKeyBuffer);
 
@@ -158,7 +159,7 @@ class SendPageActions {
                     FetchChain("getAccount", memo_sender),
                     FetchChain("getAccount", propose_account),
                     FetchChain("getAsset", asset),
-                  FetchChain("getAsset", fee_asset_id)
+                    FetchChain("getAsset", fee_asset_id)
                 ]).then((res)=> {
 
                     let [
@@ -219,7 +220,7 @@ class SendPageActions {
                     // Default to CORE in case of faulty core_exchange_rate
                     if( fee_asset.options.core_exchange_rate.base.asset_id === "1.3.0" &&
                         fee_asset.options.core_exchange_rate.quote.asset_id === "1.3.0" ) {
-                       fee_asset_id = "1.3.0";
+                        fee_asset_id = "1.3.0";
                     }
 
                     let wallet_api = new WalletApi();

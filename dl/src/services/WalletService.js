@@ -161,13 +161,17 @@ class WalletService {
         let publicPassword = privatePassword.toPublicKey().toPublicKeyString();
 
         let privateActiveEncrypted = privateAesLocal.encryptToHex(privateActive.toBuffer());
-            
+
+        // Get the encrypted private memo key.
+        let encrypted_memo_key = privateAesLocal.encryptToHex(AuthKeys.memo.toBuffer());
+
         let date = new Date();
 
         let wallet = {
             public_name : walletName,
             password_pubkey : publicPassword,
             encryption_key : encryptionKey,
+            encrypted_memo_key: encrypted_memo_key,
             encrypted_brainkey : privateActiveEncrypted,
             brainkey_pubkey : publicActive,
             brainkey_sequence: 0,
