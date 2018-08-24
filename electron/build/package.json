@@ -3,7 +3,7 @@
   "productName": "Peerplays Core",
   "identifier": "org.peerplays.peerplays",
   "description": "Peerplays Core Graphical Interface",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "community@peerplays.org",
   "main": "electron.js",
   "config": {
