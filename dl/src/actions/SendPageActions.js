@@ -153,10 +153,11 @@ class SendPageActions {
 
                 let memo_sender = propose_account || from_account;
 
+                let memoToPublicKey;
+
                 return Promise.all([
                     FetchChain("getAccount", from_account),
                     FetchChain("getAccount", to_account),
-                    FetchChain("getAccount", memo_sender),
                     FetchChain("getAccount", propose_account),
                     FetchChain("getAsset", asset),
                     FetchChain("getAsset", fee_asset_id)
@@ -169,15 +170,17 @@ class SendPageActions {
 
                     if( memo && encrypt_memo  ) {
                         memoToPublicKey = chain_to.getIn(["options","memo_key"]);
-                        if( /111111111111111111111/.test(memo_to_public)) {
-                            memo_to_public = chain_to.getIn(["active", "key_auths", 0]);
+                        
+                        // Check for a null memo key, if the memo key is null use the receivers active key
+                        if( /PPY1111111111111111111111111111111114T1Anm/.test(memoToPublicKey)) {
+                            memoToPublicKey = chain_to.getIn(["active", "key_auths", 0, 0]);
                         }
                     }
 
                     let propose_acount_id = propose_account ? chain_propose_account.get("id") : null;
 
                     let memo_object;
-                    if(memo && memo_to_public && memo_from_public) {
+                    if(memo && memoToPublicKey && memoPublicKey) {
                         let nonce = optional_nonce == null ?
                                     TransactionHelper.unique_nonce_uint64() :
                                     optional_nonce;
