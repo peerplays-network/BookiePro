@@ -172,9 +172,8 @@ class AuthActions {
       // Set register status to loading
       dispatch(AuthPrivateActions.setLoginLoadingStatusAction(LoadingStatus.LOADING));
       return dispatch(AuthPrivateActions.processLogin(accountName, password)).then(() => {
-        log.debug('Login succeed.')
         // Navigate to home page
-        dispatch(NavigateActions.navigateTo('/exchange'));
+        dispatch(NavigateActions.navigateTo('/betting/exchange'));
         // Set login status to done
         dispatch(AuthPrivateActions.setLoginLoadingStatusAction(LoadingStatus.DONE));
       }).catch((error) => {
@@ -204,12 +203,11 @@ class AuthActions {
         // Log the user in
         return dispatch(AuthPrivateActions.processLogin(accountName, password));
       }).then(() => {
-        log.debug('Signup succeed.');
         // Navigate to home page
         if (depositsEnabled) {
           dispatch(NavigateActions.navigateTo('/deposit'));
         } else {
-          dispatch(NavigateActions.navigateTo('/exchange'));
+          dispatch(NavigateActions.navigateTo('/betting/exchange'));
         }
         // Set register status to done
         dispatch(AuthPrivateActions.setSignupLoadingStatusAction(LoadingStatus.DONE));

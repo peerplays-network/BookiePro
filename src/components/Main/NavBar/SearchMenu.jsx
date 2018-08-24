@@ -257,9 +257,9 @@ class SearchMenu extends PureComponent {
       )
 
       if ( moneyline.size > 0 ){
-        this.props.navigateTo('/exchange/bettingmarketgroup/' + moneyline.get(0).get('id') );
+        this.props.navigateTo('/betting/exchange/bettingmarketgroup/' + moneyline.get(0).get('id') );
       } else {
-        this.props.navigateTo('/exchange/bettingmarketgroup/' + nested.getIn(keyPath).getIn(['children', 0 , 'id']) );
+        this.props.navigateTo('/betting/exchange/bettingmarketgroup/' + nested.getIn(keyPath).getIn(['children', 0 , 'id']) );
       }
     }
 

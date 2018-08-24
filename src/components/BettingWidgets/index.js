@@ -13,7 +13,9 @@
 
 import ComplexBettingWidget from './ComplexBettingWidget';
 import SimpleBettingWidget from './SimpleBettingWidget';
+import BackingBettingWidget from './BackingBettingWidget';
 export {
   ComplexBettingWidget,
-  SimpleBettingWidget
+  SimpleBettingWidget,
+  BackingBettingWidget
 };

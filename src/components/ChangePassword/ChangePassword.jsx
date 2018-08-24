@@ -78,7 +78,7 @@ class ChangePassword extends PureComponent{
    * @param {object} event - the 'Home' link click event
    */
   navigateToHome(event){
-    this.navigateToLocation(event, '/exchange');
+    this.navigateToLocation(event, '/betting/exchange');
   }
 
   render(){

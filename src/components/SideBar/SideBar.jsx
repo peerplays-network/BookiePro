@@ -30,6 +30,7 @@ import PropTypes from 'prop-types';
 import { SidebarSelector } from '../../selectors';
 import log from 'loglevel';
 import { DateUtils } from '../../utility';
+import { BookieModes } from '../../constants';
 
 class SideBar extends PureComponent {
 
@@ -67,7 +68,7 @@ class SideBar extends PureComponent {
       targetObjectId = '0'
     }
 
-    const keyPath = findKeyPathOf(completeTree, 'children', (node => node.get('id') === targetObjectId) );
+    let keyPath = findKeyPathOf(completeTree, 'children', (node => node.get('id') === targetObjectId) );
 
     // Found path?
     if (keyPath) {
@@ -116,6 +117,12 @@ class SideBar extends PureComponent {
       // find the 'id' path of the newTree
       const altered = differences(completeTree, newTree, 'children').map(x => x.get('id'));
       if ( keyPath.length >= 5){
+        // If we're in sportbook mode, remove all the children of the event from being shown in the sidebar.
+        if (this.props.bookMode === BookieModes.SPORTSBOOK) {
+          keyPath.push('children');
+          newTree = newTree.removeIn(keyPath);
+        }
+
         newTree = newTree.setIn(keyPath.slice(0,4),
           newTree.getIn(keyPath.slice(0,4)).filter((metric) => {
             return metric.get('id') === altered[2];
@@ -157,21 +164,36 @@ class SideBar extends PureComponent {
   * @param keyPath - is the path from root to current node
   */
   onNodeMouseClick(event, tree, node, level, keyPath) {
-    const { navigateTo } = this.props;
+
+    let navPath = '/betting';
+
+    if (this.props.bookMode === BookieModes.SPORTSBOOK) {
+      navPath += '/sportsbook';
+    } else {
+      navPath += '/exchange';
+    }
 
     // '0' is hardcode id for all-sports node,
     if (node.id === '0') {
-      navigateTo('/exchange/');
+      this.props.navigateTo(navPath);
     } else {
       if ( node.customComponent.toLowerCase() === 'event'){
+
+        // If you're viewing a sportsbook, there is no BMG page. Stop and redirect to events page.
+        if (this.props.bookMode === BookieModes.SPORTSBOOK) {
+          // Return early so no further code is executed.
+          return this.props.navigateTo(navPath + '/events/' + node.id);
+        }
+
         const moneyline = node.children.filter((mktGroup) => mktGroup.description.toUpperCase() === 'MONEYLINE');
+
         if ( moneyline.length > 0){
-          navigateTo('/exchange/bettingmarketgroup/' + moneyline[0].id );
+          this.props.navigateTo(navPath + '/bettingmarketgroup/' + moneyline[0].id );
         } else {
-          navigateTo('/exchange/bettingmarketgroup/' + node.children[0].id );
+          this.props.navigateTo(navPath + '/bettingmarketgroup/' + node.children[0].id );
         }
       } else {
-        navigateTo('/exchange/' + node.customComponent.toLowerCase() + '/' + node.id);
+        this.props.navigateTo('/betting/exchange/' + node.customComponent.toLowerCase() + '/' + node.id);
       }
     }
   }
@@ -244,7 +266,8 @@ SideBar.defaultProps = {
 
 const mapStateToProps = (state) => {
   return {
-    completeTree: SidebarSelector.getSidebarCompleteTree(state)
+    completeTree: SidebarSelector.getSidebarCompleteTree(state),
+    bookMode: state.getIn(['app', 'bookMode'])
   }
 }
 

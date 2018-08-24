@@ -1,21 +1,23 @@
+import AllSportsSelector from './AllSportsSelector';
+import BettingMarketGroupPageSelector from './BettingMarketGroupPageSelector';
+import EventGroupPageSelector from './EventGroupPageSelector';
+import EventPageSelector from './EventPageSelector';
+import MarketDrawerSelector from './MarketDrawerSelector';
 import MyWagerSelector from './MyWagerSelector';
 import MyAccountPageSelector from './MyAccountPageSelector';
-import SidebarSelector from './SidebarSelector';
-import BettingMarketGroupPageSelector from './BettingMarketGroupPageSelector';
-import AllSportsSelector from './AllSportsSelector';
-import SportPageSelector from './SportPageSelector';
-import EventGroupPageSelector from './EventGroupPageSelector';
-import MarketDrawerSelector from './MarketDrawerSelector';
 import QuickBetDrawerSelector from './QuickBetDrawerSelector';
+import SidebarSelector from './SidebarSelector';
+import SportPageSelector from './SportPageSelector';
 
 export {
+  AllSportsSelector,
+  BettingMarketGroupPageSelector,
   EventGroupPageSelector,
-  SportPageSelector,
-  SidebarSelector,
+  EventPageSelector,
+  MarketDrawerSelector,
   MyWagerSelector,
   MyAccountPageSelector,
-  BettingMarketGroupPageSelector,
-  AllSportsSelector,
-  MarketDrawerSelector,
   QuickBetDrawerSelector,
-}
+  SidebarSelector,
+  SportPageSelector
+};

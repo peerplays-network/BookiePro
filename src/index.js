@@ -2,30 +2,35 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, hashHistory, IndexRoute, IndexRedirect } from 'react-router';
+
+// Components
+import AllSports from './components/AllSports';
 import App from './components/App';
+import BettingMarketGroup from './components/BettingMarketGroup';
 import BlockchainTestPage from './components/BlockchainTestPage';
+import ChangePassword from './components/ChangePassword';
+import Deposit from './components/Deposit';
+import EventGroup from './components/EventGroup';
+import Exchange from './components/Exchange';
+import Landing from './components/Landing';
+import LicenseScreen from './components/LicenseScreen';
+import Login from './components/Login';
+import HelpAndSupport from './components/HelpAndSupport';
+import Main from './components/Main';
 import MyAccount from './components/MyAccount';
 import MyWager from './components/MyWager';
 import Signup from './components/Signup';
-import Login from './components/Login';
-import Main from './components/Main';
-import Exchange from './components/Exchange';
-import AllSports from './components/AllSports';
 import Sport from './components/Sport';
-import EventGroup from './components/EventGroup';
-import BettingMarketGroup from './components/BettingMarketGroup';
 import SportsBook from './components/SportsBook';
+import SportsBookEvent from './components/SportsBookEvent';
+import Welcome from './components/Welcome';
+
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
-import Deposit from './components/Deposit';
-import ChangePassword from './components/ChangePassword';
-import Welcome from './components/Welcome';
-import Landing from './components/Landing';
-import HelpAndSupport from './components/HelpAndSupport';
+
 import { LocaleProvider } from 'antd';
 import { I18n } from 'react-redux-i18n';
 import log from 'loglevel';
-import LicenseScreen from './components/LicenseScreen';
 import { AppUtils } from './utility';
 
 // Configure store
@@ -83,14 +88,21 @@ const routes = (
       <Route path='/landing' component={ Landing } />
       <Route component={ Main }>
         <Route path='/blockchain-test-page' component={ BlockchainTestPage } />
-        <Route path='/help-and-support' component={ HelpAndSupport } />        
-        <Route path='/exchange' component={ Exchange } >
-          <IndexRoute component={ AllSports }/>
-          <Route path='sportsbook' component={ SportsBook } />
-          <Route path='Sport/:objectId' component={ Sport }/>
-          <Route path='EventGroup/:objectId' component={ EventGroup }/>
-          <Route path=':eventName/:eventId/BettingMarketGroup/:objectId/' component={ BettingMarketGroup }/>
-          <Route path='BettingMarketGroup/:objectId' component={ BettingMarketGroup }/>
+        <Route path='/help-and-support' component={ HelpAndSupport } />
+
+        <Route path='/betting' component={ Exchange }>
+          <Route path='exchange' >
+            <IndexRoute component={ AllSports }/>
+            <Route path='Sport/:objectId' component={ Sport }/>
+            <Route path='EventGroup/:objectId' component={ EventGroup }/>
+            <Route path=':eventName/:eventId/BettingMarketGroup/:objectId/' component={ BettingMarketGroup }/>
+            <Route path='BettingMarketGroup/:objectId' component={ BettingMarketGroup }/>
+          </Route>
+
+          <Route path='sportsbook'>
+            <IndexRoute component={ SportsBook } />
+            <Route path='events/:eventId' component={ SportsBookEvent } />
+          </Route>
         </Route>
         <Route path='/my-account' component={ MyAccount } />
         <Route path='/change-password' component={ ChangePassword } />

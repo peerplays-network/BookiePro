@@ -28,7 +28,7 @@ class BettingMarketGroup extends PureComponent {
     if (!nextProps.bettingMarketGroup || nextProps.bettingMarketGroup.isEmpty() || nextProps.eventStatus === null) {
       // Betting market group doesn't exist,
       // Go back to home page
-      this.props.navigateTo('/exchange');
+      this.props.navigateTo('/betting/exchange');
     } else {
       const prevBettingMarketGroupId = this.props.params.objectId;
       const nextBettingMarketGroupId = nextProps.params.objectId;
@@ -60,7 +60,7 @@ class BettingMarketGroup extends PureComponent {
             eventTime={ this.props.eventTime }
             isLiveMarket={ this.props.isLiveMarket }
             eventStatus={ this.props.eventStatus[1] }
-            eventStatusClassName={ this.props.eventStatus[0] }            
+            eventStatusClassName={ this.props.eventStatus[0] }
           />
           <ComplexBettingWidget
             bettingMarketGroupStatus={ this.props.bettingMarketGroupStatus[0] }

@@ -38,7 +38,7 @@ class AllSports extends PureComponent {
                   events={ sortedEvents.slice(0, MAX_EVENTS_PER_WIDGET) }
                   currencyFormat={ currencyFormat }
                   showFooter={ events.size > MAX_EVENTS_PER_WIDGET }
-                  footerLink={ `/exchange/sport/${sportId}` }
+                  footerLink={ `/betting/exchange/sport/${sportId}` }
                   pagination={ false } // No pagination, only show top records
                   canCreateBet={ this.props.canCreateBet }
                 />

@@ -75,7 +75,7 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
       className: 'event-name',
       render: (text, record) => EventNameUtils.breakAtVs(record.get('event_name')),
       onCellClick: (record, event) => {
-        record.get('bettingMarketGroupId') && navigateTo('/exchange/bettingmarketgroup/' + record.get('bettingMarketGroupId'))
+        record.get('bettingMarketGroupId') && navigateTo('/betting/exchange/bettingmarketgroup/' + record.get('bettingMarketGroupId'))
       }
     }, {
       title: '1',

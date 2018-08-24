@@ -21,7 +21,7 @@ class EventGroup extends PureComponent {
     if (!nextProps.eventGroup || nextProps.eventGroup.isEmpty()) {
       // Event group doesn't exist,
       // Go back to home page
-      this.props.navigateTo('/exchange');
+      this.props.navigateTo('/betting/exchange');
     } else {
       const prevEventGroupId = this.props.params.objectId;
       const nextEventGroupId = nextProps.params.objectId;

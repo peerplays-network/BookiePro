@@ -101,7 +101,7 @@ class Welcome extends PureComponent{
   //Navigate to the 'Home' screen after clicking on the 'Start Betting Now' button
   onClickStartBetting(e) {
     e.preventDefault();
-    this.props.navigateTo('/exchange');
+    this.props.navigateTo('/betting/exchange');
   }
   render() {
     return (
