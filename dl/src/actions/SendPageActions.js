@@ -146,10 +146,10 @@ class SendPageActions {
 
             return new Promise((resolve, reject) => {
                 // Get the encrypted memo key.
-                const encryptedKey = getState().walletData.wallet.encrypted_memo_key;
-                const activePrivateKeyBuffer = getState().walletData.aesPrivate.decryptHexToBuffer(encryptedKey);//.toBuffer());
-                const activePrivateKey = PrivateKey.fromBuffer(activePrivateKeyBuffer);
-
+                const encryptedMemoKey = getState().walletData.wallet.encrypted_memo_key;
+                const memoPrivateKeyBuffer = getState().walletData.aesPrivate.decryptHexToBuffer(encryptedMemoKey);
+                const memoPrivateKey = PrivateKey.fromBuffer(memoPrivateKeyBuffer);
+                const memoPublicKey = memoPrivateKey.toPublicKey().toPublicKeyString();
 
                 let memo_sender = propose_account || from_account;
 
@@ -163,56 +163,38 @@ class SendPageActions {
                 ]).then((res)=> {
 
                     let [
-                        chain_from, chain_to, chain_memo_sender, chain_propose_account,
+                        chain_from, chain_to, chain_propose_account,
                         chain_asset, chain_fee_asset
                     ] = res;
 
-                    let memo_from_public, memo_to_public;
                     if( memo && encrypt_memo  ) {
-
-                        memo_from_public = chain_memo_sender.getIn(["options","memo_key"]);
-
-                        // The 1s are base58 for all zeros (null)
-                        if( /111111111111111111111/.test(memo_from_public)) {
-                            memo_from_public = null;
-                        }
-
-                        memo_to_public = chain_to.getIn(["options","memo_key"])
+                        memoToPublicKey = chain_to.getIn(["options","memo_key"]);
                         if( /111111111111111111111/.test(memo_to_public)) {
-                            memo_to_public = null
+                            memo_to_public = chain_to.getIn(["active", "key_auths", 0]);
                         }
                     }
 
-                    let propose_acount_id = propose_account ? chain_propose_account.get("id") : null
-
-                    let memo_from_privkey;
-                    if(encrypt_memo && memo ) {
-                        memo_from_privkey = activePrivateKey;
-
-                        if(! memo_from_privkey) {
-                            throw new Error("Missing private memo key for sender: " + memo_sender)
-                        }
-                    }
+                    let propose_acount_id = propose_account ? chain_propose_account.get("id") : null;
 
                     let memo_object;
                     if(memo && memo_to_public && memo_from_public) {
                         let nonce = optional_nonce == null ?
                                     TransactionHelper.unique_nonce_uint64() :
-                                    optional_nonce
+                                    optional_nonce;
 
                         memo_object = {
-                            from: memo_from_public,
-                            to: memo_to_public,
+                            from: memoPublicKey, // From Public Key
+                            to: memoToPublicKey, // To Public Key
                             nonce,
                             message: (encrypt_memo) ?
                                 Aes.encrypt_with_checksum(
-                                    memo_from_privkey,
-                                    memo_to_public,
+                                    memoPrivateKey, // From Private Key
+                                    memoToPublicKey, // To Public Key
                                     nonce,
                                     memo
                                 ) :
                                 Buffer.isBuffer(memo) ? memo.toString("utf-8") : memo
-                        }
+                        };
                     }
                     // Allow user to choose asset with which to pay fees #356
                     let fee_asset = chain_fee_asset.toJS();
@@ -226,7 +208,7 @@ class SendPageActions {
                     let wallet_api = new WalletApi();
                     let tr = wallet_api.new_transaction();
 
-                    let transfer_op = tr.get_type_operation('transfer', {
+                    let transfer_op = tr.get_type_operation("transfer", {
                         fee: {
                             amount: 0,
                             asset_id: fee_asset_id
@@ -241,7 +223,7 @@ class SendPageActions {
                     });
 
                     if( propose_account ) {
-                        let proposal_create_op = tr.get_type_operation('proposal_create', {
+                        let proposal_create_op = tr.get_type_operation("proposal_create", {
                             proposed_ops: [{ op: transfer_op }],
                             fee_paying_account: propose_acount_id
                         });
@@ -249,7 +231,7 @@ class SendPageActions {
                         tr.operations[0][1].expiration_time = parseInt(Date.now()/1000 + 5);
 
                     } else {
-                        tr.add_operation( transfer_op )
+                        tr.add_operation( transfer_op );
                     }
                     return tr.set_required_fees().then(() => resolve(tr));
 
