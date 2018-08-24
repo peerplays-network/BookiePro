@@ -100,10 +100,6 @@ class SportsBookEvent extends PureComponent {
 const mapStateToProps = (state, ownProps) => {
   const event = EventPageSelector.getEvent(state, ownProps.params.eventId);
   let sportName;
-
-  console.log('Ladada');
-  console.log(event);
-
   if (event) {
     sportName = EventGroupPageSelector.getSportNameFromEvent(state, event);
   }
