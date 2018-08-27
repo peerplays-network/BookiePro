@@ -1,22 +1,20 @@
-import React, { PureComponent } from 'react';
-import { Layout } from 'antd';
+import React, {PureComponent} from 'react';
+import {Layout} from 'antd';
 import NavBar from './NavBar';
 import InitAccountModal from '../Modal/InitAccountModal';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
-import { withRouter } from 'react-router'
-import { NavigateActions, SidebarActions, AppActions, EventActions } from '../../actions';
-import { LoadingStatus } from '../../constants';
-import { SidebarSelector } from '../../selectors';
-const { Content } = Layout;
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {withRouter} from 'react-router';
+import {NavigateActions, SidebarActions, AppActions, EventActions} from '../../actions';
+import {LoadingStatus} from '../../constants';
+import {SidebarSelector} from '../../selectors';
+const {Content} = Layout;
 
 class Main extends PureComponent {
-
   constructor(props) {
     super(props);
     this.onRouteChange = this.onRouteChange.bind(this);
     this.handleNavigateToHome = this.handleNavigateToHome.bind(this);
-
   }
 
   componentDidMount() {
@@ -36,7 +34,7 @@ class Main extends PureComponent {
     this.props.navigateTo('/exchange');
   }
 
-  onRouteChange(){
+  onRouteChange() {
     if (this.navBar && typeof this.navBar.onRouteChangeHandle === 'function') {
       this.navBar.onRouteChangeHandle();
     }
@@ -45,11 +43,8 @@ class Main extends PureComponent {
   render() {
     return (
       <Layout className='layout'>
-        <NavBar
-          ref={ (ref) => this.navBar = ref }
-          { ...this.props }
-        />
-      <Layout id='main-content-layout'>
+        <NavBar ref={ (ref) => (this.navBar = ref) } { ...this.props } />
+        <Layout id='main-content-layout'>
           <Content className='main-content'>
             {React.cloneElement(this.props.children, {
               onRouteChange: this.onRouteChange
@@ -58,14 +53,15 @@ class Main extends PureComponent {
         </Layout>
         <InitAccountModal visible={ this.props.isInitAccountModalVisible } />
       </Layout>
-    )
+    );
   }
-
-
 }
 
 const mapStateToProps = (state) => {
-  const initTransactionHistoryLoadingStatus = state.getIn(['rawHistory', 'initRawHistoryLoadingStatus']);
+  const initTransactionHistoryLoadingStatus = state.getIn([
+    'rawHistory',
+    'initRawHistoryLoadingStatus'
+  ]);
   const isInitAccountModalVisible = initTransactionHistoryLoadingStatus === LoadingStatus.LOADING;
 
   const event = state.get('event');
@@ -75,20 +71,24 @@ const mapStateToProps = (state) => {
     completeTree: SidebarSelector.getSidebarCompleteTree(state),
     sidebarLoadingStatus: state.getIn(['sidebar', 'loadingStatus']),
     searchResult: event.get('searchResult'),
-    getSearchEventsLoadingStatus: event.get('getSearchEventsLoadingStatus'),
-  }
-}
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
+    getSearchEventsLoadingStatus: event.get('getSearchEventsLoadingStatus')
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
     navigateTo: NavigateActions.navigateTo,
-    getDataForSidebar : SidebarActions.getData,
+    getDataForSidebar: SidebarActions.getData,
     setTitleBarTransparency: AppActions.setTitleBarTransparency,
     searchEvents: EventActions.searchEvents,
     clearSearchResult: EventActions.clearSearchResult
-  }, dispatch);
-}
+  },
+  dispatch
+);
 
-export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Main));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Main)
+);

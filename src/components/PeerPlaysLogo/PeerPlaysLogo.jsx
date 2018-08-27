@@ -10,19 +10,23 @@
  *   {@link MyWager}
  *   {@link Sport}
  */
-import React, { PureComponent } from 'react';
-import { I18n } from 'react-redux-i18n';
+import React, {PureComponent} from 'react';
+import {I18n} from 'react-redux-i18n';
 import PoweredByPPLogoPath from '../../assets/images/powerbypp.png';
-import "./PeerPlaysLogo.less"
+import './PeerPlaysLogo.less';
 
 class PeerPlaysLogo extends PureComponent {
   render() {
     return (
       <div className='peerplays-logo'>
-        <img alt={ I18n.t('application.peerplays_logo_title') } src={ PoweredByPPLogoPath }
-          width={ 130 } height={ 22 }></img>
+        <img
+          alt={ I18n.t('application.peerplays_logo_title') }
+          src={ PoweredByPPLogoPath }
+          width={ 130 }
+          height={ 22 }
+        />
       </div>
-    )
+    );
   }
 }
 export default PeerPlaysLogo;

@@ -1,11 +1,12 @@
 import React from 'react';
-import { Overlay, PlaceBetConfirm, Waiting } from './';
-import { BettingDrawerStates } from '../../../constants';
-import { CurrencyUtils } from '../../../utility';
+import {Overlay, PlaceBetConfirm, Waiting} from './';
+import {BettingDrawerStates} from '../../../constants';
+import {CurrencyUtils} from '../../../utility';
 
 const Utils = {
   render(classPrefix, props, submitBets, deleteBets, deleteBet) {
     const currencySymbol = CurrencyUtils.getCurrencySymbol(props.currencyFormat, 'white');
+
     switch (props.overlay) {
       case BettingDrawerStates.SUBMIT_BETS_CONFIRMATION:
         return (
@@ -18,7 +19,7 @@ const Utils = {
             confirmAction={ submitBets }
             currencySymbol={ currencySymbol }
           />
-        )
+        );
       case BettingDrawerStates.SUBMIT_BETS_ERROR:
         return (
           <Overlay
@@ -26,45 +27,42 @@ const Utils = {
             cancelAction={ props.hideOverlay }
             confirmAction={ submitBets }
           />
-        )
+        );
       case BettingDrawerStates.DELETE_BETS_CONFIRMATION:
         return (
           <Overlay
             className={ `${classPrefix}.delete_bets` }
             cancelAction={ props.hideOverlay }
             confirmAction={ deleteBets }
-            replacements={ { event: props.eventNameInDeleteBetsConfirmation } }
+            replacements={ {event: props.eventNameInDeleteBetsConfirmation} }
           />
-        )
+        );
       case BettingDrawerStates.DELETE_BET_CONFIRMATION:
         return (
           <Overlay
             className={ `${classPrefix}.delete_bet` }
             cancelAction={ props.hideOverlay }
             confirmAction={ deleteBet }
-            replacements={ { event: props.eventNameInDeleteBetsConfirmation } }
+            replacements={ {event: props.eventNameInDeleteBetsConfirmation} }
           />
-        )
+        );
       case BettingDrawerStates.INSUFFICIENT_BALANCE_ERROR:
         return (
           <Overlay
             className={ `${classPrefix}.insufficient_balance` }
             confirmAction={ props.hideOverlay }
           />
-        )
+        );
       case BettingDrawerStates.DISCONNECTED_ERROR:
         return (
-          <Overlay
-            className={ `${classPrefix}.disconnected` }
-            cancelAction={ props.hideOverlay }
-          />
-        )
+          <Overlay className={ `${classPrefix}.disconnected` } cancelAction={ props.hideOverlay } />
+        );
       case BettingDrawerStates.SUBMIT_BETS_WAITING:
-        return <Waiting />
+        return <Waiting />;
       default:
         return;
     }
   }
-}
+};
 
 export default Utils;

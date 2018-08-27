@@ -1,10 +1,10 @@
-import { combineReducers } from 'redux-immutable';
-import { reducer as formReducer } from 'redux-form/immutable';
+import {combineReducers} from 'redux-immutable';
+import {reducer as formReducer} from 'redux-form/immutable';
 
 import AssetReducer from './AssetReducer';
 import SettingReducer from './SettingReducer';
 import AppReducer from './AppReducer';
-import AuthReducer  from './AuthReducer';
+import AuthReducer from './AuthReducer';
 import SidebarReducer from './SidebarReducer';
 import SportReducer from './SportReducer';
 import EventGroupReducer from './EventGroupReducer';

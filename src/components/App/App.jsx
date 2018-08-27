@@ -1,14 +1,14 @@
-import React, { PureComponent } from 'react';
-import { LoadingStatus, AppBackgroundTypes, ConnectionStatus } from '../../constants';
-import { NavigateActions, AppActions, AuthActions } from '../../actions';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, {PureComponent} from 'react';
+import {LoadingStatus, AppBackgroundTypes, ConnectionStatus} from '../../constants';
+import {NavigateActions, AppActions, AuthActions} from '../../actions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import SoftwareUpdateModal from '../Modal/SoftwareUpdateModal';
 import ConnectionErrorModal from '../Modal/ConnectionErrorModal';
 import LogoutModal from '../Modal/LogoutModal';
-import { AppUtils, SoftwareUpdateUtils } from '../../utility';
+import {AppUtils, SoftwareUpdateUtils, ConnectionUtils} from '../../utility';
 import TitleBar from './TitleBar';
-import { I18n } from 'react-redux-i18n';
+import {I18n} from 'react-redux-i18n';
 import Loading from '../Loading';
 import LicenseScreen from '../LicenseScreen';
 
@@ -18,17 +18,17 @@ const LICENSE_SCREEN_DURATION = 2000; //2 seconds
 
 // App content top depends on the title bar height
 const appContentStyle = {
-  'top': titleBarHeight
-}
+  top: titleBarHeight
+};
 
 const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 
 // Import electron only if we are running inside electron (otherwise it will throw exception)
 let electron;
+
 if (isRunningInsideElectron) {
   electron = window.require('electron');
 }
-
 
 class App extends PureComponent {
   constructor(props) {
@@ -61,32 +61,47 @@ class App extends PureComponent {
     // Case of electron
     if (electron) {
       electron.shell.openExternal(this.props.updateLink);
+
       if (this.props.isNeedHardUpdate) {
-      // Close the app if it is hard update              
-        const electronWindow = electron.remote.getCurrentWindow();        
-        if (SoftwareUpdateUtils.checkHardUpdateGracePeriod(this.props.updateDate, this.props.hardUpdateGracePeriod)) {
+        // Close the app if it is hard update
+        const electronWindow = electron.remote.getCurrentWindow();
+
+        if (
+          SoftwareUpdateUtils.checkHardUpdateGracePeriod(
+            this.props.updateDate,
+            this.props.hardUpdateGracePeriod
+          )
+        ) {
           electronWindow.close();
         }
       }
     }
+
     // Hide popup
     this.props.showSoftwareUpdatePopup(false);
   }
 
   onCancelSoftwareUpdate() {
     // Case of electron
-    if (electron) {      
+    if (electron) {
       // Close the app if it is hard update
-      if (this.props.isNeedHardUpdate) {                   
-        const electronWindow = electron.remote.getCurrentWindow();        
-        if (SoftwareUpdateUtils.checkHardUpdateGracePeriod(this.props.updateDate, this.props.hardUpdateGracePeriod)) {
+      if (this.props.isNeedHardUpdate) {
+        const electronWindow = electron.remote.getCurrentWindow();
+
+        if (
+          SoftwareUpdateUtils.checkHardUpdateGracePeriod(
+            this.props.updateDate,
+            this.props.hardUpdateGracePeriod
+          )
+        ) {
           electronWindow.close();
         }
       }
     }
+
     // Hide popup
     this.props.showSoftwareUpdatePopup(false);
-  }  
+  }
 
   onConfirmLogout(skipLogoutPopupNextTime) {
     // Logout
@@ -100,16 +115,16 @@ class App extends PureComponent {
 
   renderSoftwareUpdateModal() {
     return (
-        <SoftwareUpdateModal
-          modalTitle={ this.props.displayText }
-          version={ this.props.version }
-          date={ this.props.updateDate }
-          link={ this.props.updateLink }
-          closable={ !this.props.isNeedHardUpdate }
-          visible={ this.props.isShowSoftwareUpdatePopup }
-          onOk={ this.onConfirmSoftwareUpdate }
-          onCancel={ this.onCancelSoftwareUpdate }
-        />
+      <SoftwareUpdateModal
+        modalTitle={ this.props.displayText }
+        version={ this.props.version }
+        date={ this.props.updateDate }
+        link={ this.props.updateLink }
+        closable={ !this.props.isNeedHardUpdate }
+        visible={ this.props.isShowSoftwareUpdatePopup }
+        onOk={ this.onConfirmSoftwareUpdate }
+        onCancel={ this.onCancelSoftwareUpdate }
+      />
     );
   }
 
@@ -118,6 +133,8 @@ class App extends PureComponent {
       <ConnectionErrorModal
         onClickTryAgain={ this.onClickTryAgainConnectionError }
         visible={ this.props.isShowConnectionErrorPopup }
+        //error={ this.props.connectToBlockchainError }
+        error={ this.props.errorMsg }
         isConnectedToBlockchain={ this.props.isConnectedToBlockchain }
       />
     );
@@ -129,31 +146,32 @@ class App extends PureComponent {
         onConfirmLogout={ this.onConfirmLogout }
         onCancelLogout={ this.onCancelLogout }
         visible={ this.props.isShowLogoutPopup }
-        />
+      />
     );
   }
 
   render() {
-    const { 
-      children, 
-      connectToBlockchainLoadingStatus, 
+    const {
+      children,
+      connectToBlockchainLoadingStatus,
       appBackgroundType,
-      isTitleBarTransparent, 
-      showLicenseScreen 
+      isTitleBarTransparent,
+      showLicenseScreen
     } = this.props;
 
     let content = null;
+
     if (showLicenseScreen) {
       content = <LicenseScreen />;
-    }
-    else if (connectToBlockchainLoadingStatus === LoadingStatus.LOADING) {
+    } else if (connectToBlockchainLoadingStatus === LoadingStatus.LOADING) {
       content = <Loading />;
-    } else{
+    } else {
       content = children;
     }
 
     // Determine app background
     let appBackgroundClass = '';
+
     if (appBackgroundType === AppBackgroundTypes.SPORTS_BG) {
       appBackgroundClass = 'sportsbg';
     } else if (appBackgroundType === AppBackgroundTypes.FIELD_BG) {
@@ -171,13 +189,14 @@ class App extends PureComponent {
         <TitleBar
           isWindowsPlatform={ isWindowsPlatform }
           isTransparent={ isTitleBarTransparent }
-          height={ titleBarHeight } />
+          height={ titleBarHeight }
+        />
         <div className='app-content' style={ appContentStyle }>
-          { content }
+          {content}
         </div>
-        { this.renderLogoutModal() }
-        { this.renderSoftwareUpdateModal() }
-        { this.renderConnectionErrorModal() }
+        {this.renderLogoutModal()}
+        {this.renderSoftwareUpdateModal()}
+        {this.renderConnectionErrorModal()}
       </div>
     );
   }
@@ -193,19 +212,44 @@ const mapStateToProps = (state) => {
   const displayText = I18n.t('softwareUpdate.default');
   const updateLink = softwareUpdate.get('link');
   const updateDate = softwareUpdate.get('date');
-  const isLoggedIn = state.getIn(['account','isLoggedIn']);
+  const isLoggedIn = state.getIn(['account', 'isLoggedIn']);
   const connectToBlockchainLoadingStatus = app.get('connectToBlockchainLoadingStatus');
+  const connectToBlockchainError = app.get('connectToBlockchainError');
   const isShowLogoutPopup = app.get('isShowLogoutPopup');
   const isShowSoftwareUpdatePopup = app.get('isShowSoftwareUpdatePopup');
   const isShowConnectionErrorPopup = connectToBlockchainLoadingStatus === LoadingStatus.ERROR;
   const isNeedHardUpdate = SoftwareUpdateUtils.isNeedHardUpdate(version);
   const isTitleBarTransparent = app.get('isTitleBarTransparent');
   const appBackgroundType = app.get('appBackgroundType');
-  const isConnectedToBlockchain = state.getIn(['app', 'connectionStatus']) === ConnectionStatus.CONNECTED
+  const isConnectedToBlockchain =
+    state.getIn(['app', 'connectionStatus']) === ConnectionStatus.CONNECTED;
   const showLicenseScreen = app.get('showLicenseScreen');
+  const isConnectedToInternet = ConnectionUtils.isConnectedToInternet();
+  const error = connectToBlockchainError;
+  let errorMsg;
+
+  // Handle explicit errors.
+  // - clock desync, websocket disconnect
+  if (error === LoadingStatus.ERROR_DESYNC) {
+    errorMsg = I18n.t('connectionErrorModal.outOfSyncClock');
+  } else {
+    // Default error message will be assigned when initial connection to any 
+    // configured blockchain api nodes fail.
+    errorMsg = I18n.t('connectionErrorModal.explanation');
+
+    // ERROR_DISCONNECT will be hit when the user loses their network connection while logged in.
+    if (error === LoadingStatus.ERROR_DISCONNECTED) {
+      errorMsg = I18n.t('connectionErrorModal.disconnected');
+    } else if (!isConnectedToInternet) {
+      // Will be hit if the user is not logged in and is attempting to connect.
+      // One such example is if ERROR_DISCONNECT was hit and the user is clicking "TRY AGAIN".
+      errorMsg = I18n.t('connectionErrorModal.noInternet');
+    }
+  }
 
   return {
     connectToBlockchainLoadingStatus,
+    connectToBlockchainError,
     isConnectedToBlockchain,
     hardUpdateGracePeriod,
     isLoggedIn,
@@ -220,19 +264,24 @@ const mapStateToProps = (state) => {
     isTitleBarTransparent,
     showLicenseScreen,
     updateLink,
-    updateDate
-  }
-}
+    updateDate,
+    errorMsg
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
     navigateTo: NavigateActions.navigateTo,
     connectToBlockchain: AppActions.connectToBlockchain,
     showLogoutPopup: AppActions.showLogoutPopupAction,
     confirmLogout: AuthActions.confirmLogout,
     showSoftwareUpdatePopup: AppActions.showSoftwareUpdatePopupAction,
     hideLicenseScreen: AppActions.hideLicenseScreen
-  }, dispatch);
-}
+  },
+  dispatch
+);
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

@@ -17,5 +17,5 @@ export {
   BettingMarketGroupPageSelector,
   AllSportsSelector,
   MarketDrawerSelector,
-  QuickBetDrawerSelector,
-}
+  QuickBetDrawerSelector
+};

@@ -18,39 +18,40 @@
  * This component does not rely on any state in the Redux store. All data displayed
  * are provided by outer component as props.
  */
-import React, { PureComponent } from 'react';
-import { BettingModuleUtils, CurrencyUtils } from '../../../utility';
-import { BetTypes, LoadingStatus } from '../../../constants';
-import ReactTable from 'react-table'
-import 'react-table/react-table.css'
+import React, {PureComponent} from 'react';
+import {BettingModuleUtils, CurrencyUtils} from '../../../utility';
+import {BetTypes, LoadingStatus} from '../../../constants';
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
 import Immutable from 'immutable';
-import RulesButton from '../RulesButton'
-import { I18n } from 'react-redux-i18n';
+import RulesButton from '../RulesButton';
+import {I18n} from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 
 // number of best odds to be shown in each market ( Back and Lay )
 const itemDisplay = 3;
-const { OFFER_PRECISION } = CurrencyUtils;
+const {OFFER_PRECISION} = CurrencyUtils;
 
 class ComplexBettingWidget extends PureComponent {
-
-  constructor(props) {    
+  constructor(props) {
     super(props);
 
     this.state = {
       // tableData used in data props in react-table
-      tableData:  Immutable.fromJS([]),
+      tableData: Immutable.fromJS([]),
       backAllPercent: 0,
-      layAllPercent: 0,
-    }
+      layAllPercent: 0
+    };
 
     /*
      * Only call the function argument if the Market Drawer is ready for new bet (i.e. no overlay)
      * This allows us to control the various event handler's behavior without modifying the
      * actual handler code. Otherwise, we need to add an if-statement in every handler function.
      */
-    const callIfMarketDrawerIsReady = (fn) => {
-      return (...args) => { if (this.props.canCreateBet === true) fn(...args) }
+    const callIfMarketDrawerIsReady = (fn) => (...args) => {
+      if (this.props.canCreateBet === true) {
+        fn(...args);
+      }
     };
 
     this.onOfferClicked = callIfMarketDrawerIsReady(this.onOfferClicked.bind(this));
@@ -61,59 +62,75 @@ class ComplexBettingWidget extends PureComponent {
     this.displayStatus = this.displayStatus.bind(this);
   }
 
-  componentDidMount(){
-    this.setTableData(this.props.marketData, this.props.unconfirmedBets, false)
+  componentDidMount() {
+    this.setTableData(this.props.marketData, this.props.unconfirmedBets, false);
   }
 
   // re-render when there is update in bets or navigation
   componentWillReceiveProps(nextProps) {
     //only perform calculation when there exists changes in related data
-    if (this.props.marketData !==  nextProps.marketData ||
-      this.props.unconfirmedBets !== nextProps.unconfirmedBets){
-      this.setTableData(nextProps.marketData, nextProps.unconfirmedBets, this.props.bettingMarketGroupName === nextProps.bettingMarketGroupName)
+    if (
+      this.props.marketData !== nextProps.marketData ||
+      this.props.unconfirmedBets !== nextProps.unconfirmedBets
+    ) {
+      this.setTableData(
+        nextProps.marketData,
+        nextProps.unconfirmedBets,
+        this.props.bettingMarketGroupName === nextProps.bettingMarketGroupName
+      );
     }
   }
 
   /**
    * updating the tableData consumed by react-table
    *
-   *                 ---------------------|-------------------  BACK ALL (row.back)   --------|     LAY ALL (row.lay) -------------------------|
-   * ROW 1 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
-   * ROW 2 row.firstColumn--------| backTableData[2] | backTableData[1] | backTableData[0] | layTableData[0] | layTableData[1] | layTableData[2] |
-   *
-   * @param {object} tableData - a ImmutableJS List of ImmutableJS Map objects representing, existing tableData used by react-table
-   * @param {object} unconfirmedBets - a ImmutableJS List of ImmutableJS Map objects representing, unconfirmed bets in bet table
-   * @param {integer} reserveIndex - whether to reset the paging to zero. false => reset, true => no reset
+   * @param {object} tableData - a ImmutableJS List of ImmutableJS Map objects representing, 
+   * existing tableData used by react-table
+   * @param {object} unconfirmedBets - a ImmutableJS List of ImmutableJS Map objects representing, 
+   * unconfirmed bets in bet table
+   * @param {integer} reserveIndex - whether to reset the paging to zero. false => reset, true => 
+   * no reset
    */
-  setTableData(tableData, unconfirmedBets, reserveIndex){
-    let bmgs = tableData ? tableData.size : -1
-    let backs = 0, lays = 0
+  setTableData(tableData, unconfirmedBets, reserveIndex) {
+    let bmgs = tableData ? tableData.size : -1;
+    let backs = 0,
+      lays = 0;
 
-    if ( tableData && !tableData.isEmpty()){
-
-      let backBookPercent = BettingModuleUtils.getBookPercentage( this.getBestOfferOfEachmarket(tableData, BetTypes.BACK) );
-      let layBookPercent = BettingModuleUtils.getBookPercentage( this.getBestOfferOfEachmarket(tableData, BetTypes.LAY) );
+    if (tableData && !tableData.isEmpty()) {
+      let backBookPercent = BettingModuleUtils.getBookPercentage(
+        this.getBestOfferOfEachmarket(tableData, BetTypes.BACK)
+      );
+      let layBookPercent = BettingModuleUtils.getBookPercentage(
+        this.getBestOfferOfEachmarket(tableData, BetTypes.LAY)
+      );
       var winOrLose = false;
       tableData.forEach((row, i) => {
         //in i th row
-        // Retrieve the status of the betting market from the table data. A value of true means that the betting market has a status that is equivalent to resolved.
+        // Retrieve the status of the betting market from the table data. A value of true means 
+        // that the betting market has a status that is equivalent to resolved.
         var stat = tableData.getIn([i, 'bmStatus']);
-        
-        if(stat[0]) {
+
+        if (stat[0]) {
           winOrLose = true;
         }
 
         //retrieve paging Index from previous state
         let backStartingIndex = 0;
 
-        if ( reserveIndex && this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'backIndex']) ) {
+        if (
+          reserveIndex &&
+          this.state.tableData &&
+          this.state.tableData.hasIn([i, 'offer', 'backIndex'])
+        ) {
           //retrieve scrolling Index from previous state
-          backStartingIndex = this.state.tableData.getIn([i, 'offer', 'backIndex']) 
+          backStartingIndex = this.state.tableData.getIn([i, 'offer', 'backIndex']);
         }
+
         //get back offer data
-        let backTableData = tableData.getIn([i, 'offer', 'backOrigin'])
+        let backTableData = tableData
+          .getIn([i, 'offer', 'backOrigin'])
           .slice(backStartingIndex, backStartingIndex + itemDisplay);
-        
+
         if (backTableData.size > 0) {
           backs++;
         }
@@ -121,9 +138,13 @@ class ComplexBettingWidget extends PureComponent {
         //retrieve paging Index from previous state
         let layStartingIndex = 0;
 
-        if ( reserveIndex && this.state.tableData && this.state.tableData.hasIn([i, 'offer', 'layIndex']) ) {
+        if (
+          reserveIndex &&
+          this.state.tableData &&
+          this.state.tableData.hasIn([i, 'offer', 'layIndex'])
+        ) {
           //retrieve scrolling Index from previous state
-          layStartingIndex = this.state.tableData.getIn([i, 'offer', 'layIndex']); 
+          layStartingIndex = this.state.tableData.getIn([i, 'offer', 'layIndex']);
         }
 
         //get lay offer data
@@ -136,7 +157,7 @@ class ComplexBettingWidget extends PureComponent {
         }
 
         //get Exposure
-        let market_exposure = 0.00
+        let market_exposure = 0.0;
         const bettingMarketId = row.getIn(['offer', 'bettingMarketId']);
         const betslip_exposure = BettingModuleUtils.getExposure(bettingMarketId, unconfirmedBets);
 
@@ -147,74 +168,72 @@ class ComplexBettingWidget extends PureComponent {
           .setIn([i, 'offer', 'backIndex'], backStartingIndex)
           .setIn([i, 'offer', 'layIndex'], layStartingIndex)
           .setIn([i, 'firstColumn'], {
-            'name': tableData.getIn([i, 'name']),
-            'displayedName': tableData.getIn([i, 'displayedName']),
-            'market_exposure': market_exposure,
-            'bettingMarket_status': tableData.getIn([i, 'bettingMarket_status']),
-            'bmStatus': tableData.getIn([i, 'bmStatus']),
-            'betslip_exposure': parseFloat(betslip_exposure) !== 0 ?  betslip_exposure : undefined 
+            name: tableData.getIn([i, 'name']),
+            displayedName: tableData.getIn([i, 'displayedName']),
+            market_exposure: market_exposure,
+            bettingMarket_status: tableData.getIn([i, 'bettingMarket_status']),
+            bmStatus: tableData.getIn([i, 'bmStatus']),
+            betslip_exposure: parseFloat(betslip_exposure) !== 0 ? betslip_exposure : undefined
           });
       });
 
       // Sort the betting markets by their id.
-      tableData = tableData.sortBy(row => row.get('id'));
-      
+      tableData = tableData.sortBy((row) => row.get('id'));
+
       this.setState({
         tableData,
         backBookPercent: backs === bmgs ? backBookPercent : 0,
         layBookPercent: lays === bmgs ? layBookPercent : 0,
         winOrLose
       });
-
     } else {
-
       this.setState({
         tableData: Immutable.List()
       });
-
     }
-
   }
 
   /**
    * This function is used by arrow buttons in both back and lay sides.
    *
-   * Arrow buttons are for user to go through the back/lay odds from best available to worst available and the Offer option,
+   * Arrow buttons are for user to go through the back/lay odds from best available to worst 
+   * available and the Offer option,
    * it will be disabled when it reaches the end of available odds and the Offer cell.
    *
-   * @param {integer} index - rowIndex / viewIndex, the index of the row relative to the current view https://github.com/react-tools/react-table#renderers
+   * @param {integer} index - rowIndex / viewIndex, the index of the row relative to the current 
+   * view https://github.com/react-tools/react-table#renderers
    * @param {string} type - BetTypes.BACK or BetTypes.LAY
-   * @param {integer} change - position shift upon clicking the arrow, use positive value for forward, use negative value for backword
+   * @param {integer} change - position shift upon clicking the arrow, use positive value for 
+   * forward, use negative value for backword
    */
-  shiftOfferDisplay(index, type, change){
-
-    let updatedTableData = this.state.tableData;    
-    let offerIndex = updatedTableData.getIn([index, 'offer', type + 'Index'])
-    let layList = updatedTableData.getIn([index, 'offer', type + 'Origin'])
+  shiftOfferDisplay(index, type, change) {
+    let updatedTableData = this.state.tableData;
+    let offerIndex = updatedTableData.getIn([index, 'offer', type + 'Index']);
+    let layList = updatedTableData.getIn([index, 'offer', type + 'Origin']);
 
     // in UI back odds and lay odds are in different orders in
     // so the arror button with same direction in back and lay are of difference shifting direction.
-    if ( type === BetTypes.BACK){
-
-      change *= -1
-
+    if (type === BetTypes.BACK) {
+      change *= -1;
     }
 
-     // marginal case checking : reaching the end of available odds.
-    if ( layList.size < itemDisplay ||
-      ( change === -1 && offerIndex === 0) ||
-      ( change === 1 && offerIndex + itemDisplay  > layList.size)){
-      return
+    // marginal case checking : reaching the end of available odds.
+    if (
+      layList.size < itemDisplay ||
+      (change === -1 && offerIndex === 0) ||
+      (change === 1 && offerIndex + itemDisplay > layList.size)
+    ) {
+      return;
     }
 
-    offerIndex += change
-    updatedTableData = updatedTableData.setIn([index, 'offer', type + 'Index'], offerIndex)
+    offerIndex += change;
+    updatedTableData = updatedTableData
+      .setIn([index, 'offer', type + 'Index'], offerIndex)
       .setIn([index, 'offer', type], layList.slice(offerIndex, offerIndex + itemDisplay));
 
     this.setState({
       tableData: updatedTableData
-    })
-
+    });
   }
 
   /**
@@ -223,8 +242,10 @@ class ComplexBettingWidget extends PureComponent {
    * Create a new betslip in the betting drawer, with the odds pre-filled.
    *
    * please refer to https://github.com/react-tools/react-table#custom-props for rowInfo and column
-   * @param {object} rowInfo - built-in param in func props of react-table   getTdProps={(state, rowInfo, column, instance)
-   * @param {object} column - built-in param in func props of react-table   getTdProps={(state, rowInfo, column, instance)
+   * @param {object} rowInfo - built-in param in func props of react-table   getTdProps={(state, 
+   * rowInfo, column, instance)
+   * @param {object} column - built-in param in func props of react-table   getTdProps={(state, 
+   * rowInfo, column, instance)
    */
   onOfferClicked(rowInfo, column) {
     const betType = column.className;
@@ -238,70 +259,69 @@ class ComplexBettingWidget extends PureComponent {
   }
 
   /**
-    * This function is used by 'back all' and 'lay all' buttons
-    *
-    * It will create betslips for all team's best back odds/ best lay odds, if offer exist.
-    *
-    * @param {object} event - onclick event
-    */
+   * This function is used by 'back all' and 'lay all' buttons
+   *
+   * It will create betslips for all team's best back odds/ best lay odds, if offer exist.
+   *
+   * @param {object} event - onclick event
+   */
   placeAllBestBets(event) {
     const {id} = event.target;
-    const betType = id
-    this.state.tableData.filter( item => item.hasIn([ 'offer', betType + 'Origin', '0' ]) )
-    .forEach( row => {
-      const offer = row.getIn([ 'offer', betType + 'Origin', '0' ])
-      const odds = offer && offer.get('odds');
-      const bettingMarketId = row.getIn( ['offer', 'bettingMarketId'])
+    const betType = id;
+    this.state.tableData
+      .filter((item) => item.hasIn(['offer', betType + 'Origin', '0']))
+      .forEach((row) => {
+        const offer = row.getIn(['offer', betType + 'Origin', '0']);
+        const odds = offer && offer.get('odds');
+        const bettingMarketId = row.getIn(['offer', 'bettingMarketId']);
 
-      this.props.createBet(betType, bettingMarketId, odds);
-    });
+        this.props.createBet(betType, bettingMarketId, odds);
+      });
   }
   /**
-    * get the best back/lay odds in tableData.
-    *
-    * @param {object} tableData - a ImmutableJS List of ImmutableJS Map objects representing existing tableData in react-table
-    * @param {string} type - BetTypes.BACK or BetTypes.LAY
-    * @return {Immutable.List} list of best odds to be used for book percentage caluclation.
-    */
-  getBestOfferOfEachmarket(tableData, betType){
-    return tableData.map( item => {
-
-      return item.getIn([ 'offer', betType + 'Origin', '0' ])
-
-    }).filter( item => {
-      return item !== undefined
-    });
+   * get the best back/lay odds in tableData.
+   *
+   * @param {object} tableData - a ImmutableJS List of ImmutableJS Map objects representing 
+   * existing tableData in react-table
+   * @param {string} type - BetTypes.BACK or BetTypes.LAY
+   * @return {Immutable.List} list of best odds to be used for book percentage caluclation.
+   */
+  getBestOfferOfEachmarket(tableData, betType) {
+    return tableData
+      .map((item) => item.getIn(['offer', betType + 'Origin', '0']))
+      .filter((item) => item !== undefined);
   }
-  displayStatus(status, typeOfDisplay){
-    if(status === 'unresolved'){
+  displayStatus(status, typeOfDisplay) {
+    if (status === 'unresolved') {
       return null;
     }
-    if(typeOfDisplay === 'indicator'){
 
+    if (typeOfDisplay === 'indicator') {
       if (status[3][1] === 'unresolved') {
         return null;
       }
 
       return (
         <span className={ status[3][0] }>
-        <span className='indicator'/>{ I18n.t('object_status_enumerator.' + status[3][1]) }</span>
-      )     
-    } else{ // complex-outcome overlay
+          <span className='indicator' />
+          {I18n.t('object_status_enumerator.' + status[3][1])}
+        </span>
+      );
+    } else {
+      // complex-outcome overlay
       let i = status[4];
-      if(i === 3){ // result needed is in child array.
+
+      if (i === 3) {
+        // result needed is in child array.
         return I18n.t('object_status_enumerator.' + status[3][1]);
-      } else{
+      } else {
         return I18n.t('object_status_enumerator.' + status[i]);
       }
     }
   }
 
   render() {
-    const { totalMatchedBetsAmount,
-            widgetTitle,
-            rules,
-            oddsFormat
-    } = this.props;
+    const {totalMatchedBetsAmount, widgetTitle, rules, oddsFormat} = this.props;
 
     const minNameWidth = 194;
     const minOfferWidth = 52;
@@ -323,35 +343,50 @@ class ComplexBettingWidget extends PureComponent {
     }
 
     // Format the currency for display.
-    formattedMatchedBetsAmount = CurrencyUtils.getFormattedCurrency(formattedMatchedBetsAmount, 'BTF', OFFER_PRECISION, true);
+    formattedMatchedBetsAmount = CurrencyUtils.getFormattedCurrency(
+      formattedMatchedBetsAmount,
+      'BTF',
+      OFFER_PRECISION,
+      true
+    );
 
     // Column names;
     const competitorColumn = {
-      header: props => null,
+      header: () => null,
       minWidth: minNameWidth,
       accessor: 'firstColumn',
       sortable: false,
-      render: props => {
-        return (
-          <div className='competitor'>
-            { this.state.winOrLose ? <div className='complex-outcome'>{ this.displayStatus(props.value.bmStatus, 'complex-outcome') }</div> : null }
-            <div className='name'>{props.value.displayedName} 
-              { this.state.winOrLose ? null : this.displayStatus(props.value.bmStatus, 'indicator') }
+      render: (props) => (
+        <div className='competitor'>
+          {this.state.winOrLose ? (
+            <div className='complex-outcome'>
+              {this.displayStatus(props.value.bmStatus, 'complex-outcome')}
             </div>
-              </div>
-        )
-      }
+          ) : null}
+          <div className='name'>
+            {props.value.displayedName}
+            {this.state.winOrLose ? null : this.displayStatus(props.value.bmStatus, 'indicator')}
+          </div>
+        </div>
+      )
     };
 
     const backArrowsColumn = {
-      header: props => null,
+      header: () => null,
       minWidth: minArrowWidth,
       sortable: false,
-      render: props =>
-        <div className={ `back-arrows-col arrows-col${this.state.winOrLose ? ' disabled' : '' }` }>
-          <i className='icon-left-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'back', -1) }></i>
-          <i className='icon-right-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'back', 1) }></i>
+      render: (props) => (
+        <div className={ `back-arrows-col arrows-col${this.state.winOrLose ? ' disabled' : ''}` }>
+          <i
+            className='icon-left-arrow'
+            onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'back', -1) }
+          />
+          <i
+            className='icon-right-arrow'
+            onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'back', 1) }
+          />
         </div>
+      )
     };
 
     const backOfferOne = {
@@ -359,26 +394,50 @@ class ComplexBettingWidget extends PureComponent {
       minWidth: minOfferWidth,
       className: classNameBack,
       sortable: false,
-      accessor: row => row.offer.back.length > 2 ? row.offer.back[2] : undefined,
-      header:  props =>
-        <div className={ props.data[0].firstColumn.bmStatus[0] ? 'offer-header back disabled' : 'offer-header back disabled' }>
-          { this.state.backBookPercent > 0 ? (<p>{ this.state.backBookPercent }%</p>) : '' }
-        </div>,
-      render: props => props.value ?
-        <div className={ props.row.bmStatus[0] ? 'back-offer back-bg disabled' : 'back-offer back-bg' }>                
+      accessor: (row) => (row.offer.back.length > 2 ? row.offer.back[2] : undefined),
+      header: (props) => (
+        <div
+          className={
+            props.data[0].firstColumn.bmStatus[0]
+              ? 'offer-header back disabled'
+              : 'offer-header back disabled'
+          }
+        >
+          {this.state.backBookPercent > 0 ? <p>{this.state.backBookPercent}%</p> : ''}
+        </div>
+      ),
+      render: (props) => props.value ? (
+        <div
+          className={ props.row.bmStatus[0] ? 'back-offer back-bg disabled' : 'back-offer back-bg' }
+        >
           <div className='odds'>
-            { props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }
+            {props.row.bmStatus[0]
+              ? null
+              : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat)}
           </div>
           <div className='price'>
-            { props.row.bmStatus[0] ? null : currencySymbol }
-            { props.row.bmStatus[0] ? null : CurrencyUtils.getFormattedCurrency( props.value.price, 'BTF', OFFER_PRECISION, true) }
+            {props.row.bmStatus[0] ? null : currencySymbol}
+            {props.row.bmStatus[0]
+              ? null
+              : CurrencyUtils.getFormattedCurrency(
+                props.value.price,
+                'BTF',
+                OFFER_PRECISION,
+                true
+              )}
           </div>
-        </div> :
-        <div className={ props.row.bmStatus[0] ? 'back-offer empty-offer disabled' : 'back-offer empty-offer' }>                
+        </div>
+      ) : (
+        <div
+          className={
+            props.row.bmStatus[0] ? 'back-offer empty-offer disabled' : 'back-offer empty-offer'
+          }
+        >
           <div className='odds-offer'>
             <p>{props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
           </div>
         </div>
+      )
     };
 
     const backOfferTwo = {
@@ -386,24 +445,41 @@ class ComplexBettingWidget extends PureComponent {
       minWidth: minOfferWidth,
       className: classNameBack,
       sortable: false,
-      accessor: row => row.offer.back.length > 1 ? row.offer.back[1] : undefined,
-      header: props => null,
+      accessor: (row) => (row.offer.back.length > 1 ? row.offer.back[1] : undefined),
+      header: () => null,
       headerClassName: 'back-all-offer-border',
-      render: props => props.value ?
-        <div className={ props.row.bmStatus[0] ? 'back-offer back-bg disabled' : 'back-offer back-bg' }>        
+      render: (props) => props.value ? (
+        <div
+          className={ props.row.bmStatus[0] ? 'back-offer back-bg disabled' : 'back-offer back-bg' }
+        >
           <div className='odds'>
-            { props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }
+            {props.row.bmStatus[0]
+              ? null
+              : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat)}
           </div>
           <div className='price'>
-            { props.row.bmStatus[0] ? null : currencySymbol }
-            { props.row.bmStatus[0] ? null : CurrencyUtils.getFormattedCurrency( props.value.price, 'BTF', OFFER_PRECISION, true) }
+            {props.row.bmStatus[0] ? null : currencySymbol}
+            {props.row.bmStatus[0]
+              ? null
+              : CurrencyUtils.getFormattedCurrency(
+                props.value.price,
+                'BTF',
+                OFFER_PRECISION,
+                true
+              )}
           </div>
-        </div> :
-        <div className={ props.row.bmStatus[0] ? 'back-offer empty-offer disabled' : 'back-offer empty-offer' }>        
+        </div>
+      ) : (
+        <div
+          className={
+            props.row.bmStatus[0] ? 'back-offer empty-offer disabled' : 'back-offer empty-offer'
+          }
+        >
           <div className='odds-offer'>
             <p>{props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
           </div>
         </div>
+      )
     };
 
     const backOfferThree = {
@@ -411,27 +487,56 @@ class ComplexBettingWidget extends PureComponent {
       minWidth: minOfferWidth,
       className: classNameBack,
       sortable: false,
-      accessor: row => row.offer.back.length > 0 ? row.offer.back[0] : undefined,
+      accessor: (row) => (row.offer.back.length > 0 ? row.offer.back[0] : undefined),
       header: (props) => {
         const isDisabled = props.data[0].firstColumn.bmStatus[0];
 
-        return (<div className={ `offer-header back-all-offer${isDisabled ? ' disabled' : ''}` }>
-          <p id={ BetTypes.BACK }>{ !isDisabled ? I18n.t('complex_betting_widget.back_all') : null }</p>
-        </div>)
+        return (
+          <div className={ `offer-header back-all-offer${isDisabled ? ' disabled' : ''}` }>
+            <p id={ BetTypes.BACK }>
+              {!isDisabled ? I18n.t('complex_betting_widget.back_all') : null}
+            </p>
+          </div>
+        );
       },
-      render: props => props.value ?
-      <div className={ props.row.bmStatus[0] ? 'back-offer back-all-offer best-offer disabled' : 'back-offer back-all-offer best-offer' }>
-        <div className='odds'>{ props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }</div>
-        <div className='price'>
-          { props.row.bmStatus[0] ? null : currencySymbol }
-          { props.row.bmStatus[0] ? null : CurrencyUtils.getFormattedCurrency( props.value.price, 'BTF', OFFER_PRECISION, true) }
+      render: (props) => props.value ? (
+        <div
+          className={
+            props.row.bmStatus[0]
+              ? 'back-offer back-all-offer best-offer disabled'
+              : 'back-offer back-all-offer best-offer'
+          }
+        >
+          <div className='odds'>
+            {props.row.bmStatus[0]
+              ? null
+              : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat)}
+          </div>
+          <div className='price'>
+            {props.row.bmStatus[0] ? null : currencySymbol}
+            {props.row.bmStatus[0]
+              ? null
+              : CurrencyUtils.getFormattedCurrency(
+                props.value.price,
+                'BTF',
+                OFFER_PRECISION,
+                true
+              )}
+          </div>
         </div>
-      </div> :
-      <div className={ props.row.bmStatus[0] ? 'back-offer empty-offer disabled' : 'back-offer empty-offer best-offer' }>
-        <div className='odds-offer'>
-          <p>{ props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
+      ) : (
+        <div
+          className={
+            props.row.bmStatus[0]
+              ? 'back-offer empty-offer disabled'
+              : 'back-offer empty-offer best-offer'
+          }
+        >
+          <div className='odds-offer'>
+            <p>{props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
+          </div>
         </div>
-      </div>
+      )
     };
 
     const layOfferOne = {
@@ -439,29 +544,56 @@ class ComplexBettingWidget extends PureComponent {
       minWidth: minOfferWidth,
       className: classNameLay,
       sortable: false,
-      accessor: row => row.offer.lay.length > 0 ? row.offer.lay[0] : undefined,
-      header:  (props) => {   
+      accessor: (row) => (row.offer.lay.length > 0 ? row.offer.lay[0] : undefined),
+      header: (props) => {
         const isDisabled = props.data[0].firstColumn.bmStatus[0];
 
-        return (<div className={ `offer-header lay-all-offer${isDisabled ? ' disabled' : ''}` }>
-          <p id={ BetTypes.LAY }>{ !isDisabled ? I18n.t('complex_betting_widget.lay_all') : null }</p>
-        </div>);
+        return (
+          <div className={ `offer-header lay-all-offer${isDisabled ? ' disabled' : ''}` }>
+            <p id={ BetTypes.LAY }>
+              {!isDisabled ? I18n.t('complex_betting_widget.lay_all') : null}
+            </p>
+          </div>
+        );
       },
-      render: props => props.value ?
-        <div className={ props.row.bmStatus[0] ? 'lay-offer lay-all-offer best-offer disabled' : 'lay-offer lay-all-offer best-offer' }>
+      render: (props) => props.value ? (
+        <div
+          className={
+            props.row.bmStatus[0]
+              ? 'lay-offer lay-all-offer best-offer disabled'
+              : 'lay-offer lay-all-offer best-offer'
+          }
+        >
           <div className='odds'>
-            { props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }
+            {props.row.bmStatus[0]
+              ? null
+              : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat)}
           </div>
           <div className='price'>
-            { props.row.bmStatus[0] ? null : currencySymbol }
-            { props.row.bmStatus[0] ? null : CurrencyUtils.getFormattedCurrency( props.value.price, 'BTF', OFFER_PRECISION, true) }
-          </div>
-        </div> :
-        <div className={ props.row.bmStatus[0] ? 'lay-offer empty-offer best-offer disabled' : 'lay-offer empty-offer best-offer' }>
-          <div className='odds-offer'>
-            <p>{ props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
+            {props.row.bmStatus[0] ? null : currencySymbol}
+            {props.row.bmStatus[0]
+              ? null
+              : CurrencyUtils.getFormattedCurrency(
+                props.value.price,
+                'BTF',
+                OFFER_PRECISION,
+                true
+              )}
           </div>
         </div>
+      ) : (
+        <div
+          className={
+            props.row.bmStatus[0]
+              ? 'lay-offer empty-offer best-offer disabled'
+              : 'lay-offer empty-offer best-offer'
+          }
+        >
+          <div className='odds-offer'>
+            <p>{props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
+          </div>
+        </div>
+      )
     };
 
     const layOfferTwo = {
@@ -469,23 +601,38 @@ class ComplexBettingWidget extends PureComponent {
       minWidth: minOfferWidth,
       className: classNameLay,
       sortable: false,
-      accessor: row => row.offer.lay.length > 1 ? row.offer.lay[1] : undefined,
-      header: props => null,
-      render: props => props.value ?
-      <div className={ props.row.bmStatus[0] ? 'lay-offer lay-bg disabled' : 'lay-offer lay-bg' }>      
+      accessor: (row) => (row.offer.lay.length > 1 ? row.offer.lay[1] : undefined),
+      header: () => null,
+      render: (props) => props.value ? (
+        <div className={ props.row.bmStatus[0] ? 'lay-offer lay-bg disabled' : 'lay-offer lay-bg' }>
           <div className='odds'>
-            {  props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }
+            {props.row.bmStatus[0]
+              ? null
+              : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat)}
           </div>
           <div className='price'>
-            { props.row.bmStatus[0] ? null : currencySymbol }
-            { props.row.bmStatus[0] ? null : CurrencyUtils.getFormattedCurrency( props.value.price, 'BTF', OFFER_PRECISION, true) }
-          </div>
-        </div> :
-        <div className={ props.row.bmStatus[0] ? 'lay-offer empty-offer disabled' : 'lay-offer empty-offer' }>
-          <div className='odds-offer'>
-            <p>{ props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
+            {props.row.bmStatus[0] ? null : currencySymbol}
+            {props.row.bmStatus[0]
+              ? null
+              : CurrencyUtils.getFormattedCurrency(
+                props.value.price,
+                'BTF',
+                OFFER_PRECISION,
+                true
+              )}
           </div>
         </div>
+      ) : (
+        <div
+          className={
+            props.row.bmStatus[0] ? 'lay-offer empty-offer disabled' : 'lay-offer empty-offer'
+          }
+        >
+          <div className='odds-offer'>
+            <p>{props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
+          </div>
+        </div>
+      )
     };
 
     const layOfferThree = {
@@ -493,37 +640,64 @@ class ComplexBettingWidget extends PureComponent {
       minWidth: minOfferWidth,
       className: classNameLay,
       sortable: false,
-      accessor: row => row.offer.lay.length > 2 ? row.offer.lay[2] : undefined,
-      header: props => 
-       <div className={ props.data[0].firstColumn.bmStatus[0] ? 'offer-header lay disabled' : 'offer-header lay' }>
-          { this.state.layBookPercent > 0 ? (<p>{ this.state.layBookPercent }%</p>) : '' }
-       </div>,
-      render: props => props.value ?
+      accessor: (row) => (row.offer.lay.length > 2 ? row.offer.lay[2] : undefined),
+      header: (props) => (
+        <div
+          className={
+            props.data[0].firstColumn.bmStatus[0] ? 'offer-header lay disabled' : 'offer-header lay'
+          }
+        >
+          {this.state.layBookPercent > 0 ? <p>{this.state.layBookPercent}%</p> : ''}
+        </div>
+      ),
+      render: (props) => props.value ? (
         <div className={ props.row.bmStatus[0] ? 'lay-offer lay-bg disabled' : 'lay-offer lay-bg' }>
           <div className='odds'>
-            { props.row.bmStatus[0] ? null : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat) }
+            {props.row.bmStatus[0]
+              ? null
+              : BettingModuleUtils.oddsFormatFilter(props.value.odds, oddsFormat)}
           </div>
           <div className='price'>
-            { props.row.bmStatus[0] ? null : currencySymbol }
-            { props.row.bmStatus[0] ? null : CurrencyUtils.getFormattedCurrency( props.value.price, 'BTF', OFFER_PRECISION, true) }
+            {props.row.bmStatus[0] ? null : currencySymbol}
+            {props.row.bmStatus[0]
+              ? null
+              : CurrencyUtils.getFormattedCurrency(
+                props.value.price,
+                'BTF',
+                OFFER_PRECISION,
+                true
+              )}
           </div>
-      </div> :
-      <div className={ props.row.bmStatus[0] ? 'lay-offer empty-offer disabled' : 'lay-offer empty-offer' }>
-        <div className='odds-offer'>
-          <p>{ props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
         </div>
-      </div>
+      ) : (
+        <div
+          className={
+            props.row.bmStatus[0] ? 'lay-offer empty-offer disabled' : 'lay-offer empty-offer'
+          }
+        >
+          <div className='odds-offer'>
+            <p>{props.row.bmStatus[0] ? null : I18n.t('complex_betting_widget.offer')}</p>
+          </div>
+        </div>
+      )
     };
 
     const layArrowsColumn = {
-      header: props => null,
+      header: () => null,
       minWidth: minArrowWidth,
       sortable: false,
-      render: props =>
-        <div className={ `lay-arrows-col arrows-col${this.state.winOrLose ? ' disabled' : '' }` }>
-          <i className='icon-left-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'lay', -1) }></i>
-          <i className='icon-right-arrow' onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'lay', 1) }></i>
+      render: (props) => (
+        <div className={ `lay-arrows-col arrows-col${this.state.winOrLose ? ' disabled' : ''}` }>
+          <i
+            className='icon-left-arrow'
+            onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'lay', -1) }
+          />
+          <i
+            className='icon-right-arrow'
+            onClick={ () => this.shiftOfferDisplay(props.viewIndex, 'lay', 1) }
+          />
         </div>
+      )
     };
 
     const columns = [
@@ -539,25 +713,26 @@ class ComplexBettingWidget extends PureComponent {
     ];
 
     return (
-
       <div className='complex-betting'>
         <div className='title'>
           <div className='name'>
-            { widgetTitle }
+            {widgetTitle}
             <span className={ this.props.bettingMarketGroupStatus }>
-            <span className=''/>{I18n.t('object_status_enumerator.' + this.props.bettingMarketGroupStatusClassName)}</span>
+              <span className='' />
+              {I18n.t('object_status_enumerator.' + this.props.bettingMarketGroupStatusClassName)}
+            </span>
           </div>
           <div className='rules'>
-            <span>{ I18n.t('complex_betting_widget.matched') }</span>
-            { currencySymbolWhite } { this.props.loadingStatus === LoadingStatus.DONE ? formattedMatchedBetsAmount : '' }
+            <span>{I18n.t('complex_betting_widget.matched')}</span>
+            {currencySymbolWhite}{' '}
+            {this.props.loadingStatus === LoadingStatus.DONE ? formattedMatchedBetsAmount : ''}
             <RulesButton rules={ rules } />
           </div>
         </div>
-        {
-          this.state.tableData.isEmpty() ?
-          <div/>
-          :
-          <ReactTable 
+        {this.state.tableData.isEmpty() ? (
+          <div />
+        ) : (
+          <ReactTable
             pageSize={ this.state.tableData.size }
             data={ this.state.tableData.toJS() }
             columns={ columns }
@@ -565,31 +740,24 @@ class ComplexBettingWidget extends PureComponent {
             multiSort={ false }
             sortable={ false }
             showPagination={ false }
-            getTrProps={ (state, rowInfo, column) => {
-              return {
-                style: {
-                  background: rowInfo.row.bmStatus[0] ? 'lightSlateGray' : null, 
-                }
+            getTrProps={ (state, rowInfo) => ({
+              style: {
+                background: rowInfo.row.bmStatus[0] ? 'lightSlateGray' : null
               }
-            }
-            }
-            getTdProps={ (state, rowInfo, column, instance) => {  
-              return {
-                onClick: (event) => {
-                  if ( column.className === BetTypes.LAY || column.className === BetTypes.BACK){
-                    if(!rowInfo.row.bmStatus[0]){
-                      this.onOfferClicked(rowInfo, column)
-                    }
+            }) }
+            getTdProps={ (state, rowInfo, column) => ({
+              onClick: () => {
+                if (column.className === BetTypes.LAY || column.className === BetTypes.BACK) {
+                  if (!rowInfo.row.bmStatus[0]) {
+                    this.onOfferClicked(rowInfo, column);
                   }
                 }
               }
-            }
-          }
+            }) }
           />
-        }
+        )}
       </div>
     );
-
   }
 }
 
@@ -605,7 +773,7 @@ ComplexBettingWidget.propTypes = {
   currencyFormat: PropTypes.string.isRequired,
   oddsFormat: PropTypes.string.isRequired,
   canCreateBet: PropTypes.any.isRequired,
-  isLiveMarket: PropTypes.bool,
+  isLiveMarket: PropTypes.bool
 };
 
 export default ComplexBettingWidget;

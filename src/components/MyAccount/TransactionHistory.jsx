@@ -16,27 +16,25 @@
  *    BettingModuleUtils : to get the precision to be applied on the transaction amounts
  */
 
-import React, { PureComponent } from 'react';
-import { Table } from 'antd';
+import React, {PureComponent} from 'react';
+import {Table} from 'antd';
 import './MyAccount.less';
-import { LoadingStatus, ExportTypes } from '../../constants';
-import { I18n } from 'react-redux-i18n';
+import {LoadingStatus, ExportTypes} from '../../constants';
+import {I18n} from 'react-redux-i18n';
 import Export from '../Export';
-import { CurrencyUtils, BettingModuleUtils } from '../../utility';
+import {CurrencyUtils, BettingModuleUtils} from '../../utility';
 import TimeRangePicker from '../TimeRangePicker';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 
 /** default page size = 20 */
-const paginationParams = { pageSize: 20 };
+const paginationParams = {pageSize: 20};
 
-const getTitle = (text, currencySymbol) => {
-  return (
-    <div>
-      { text } {currencySymbol }
-    </div>
-  )
-}
+const getTitle = (text, currencySymbol) => (
+  <div>
+    {text} {currencySymbol}
+  </div>
+);
 
 /**
  * Generate the transaction history table columns and their keys
@@ -44,11 +42,12 @@ const getTitle = (text, currencySymbol) => {
  *
  * @param {string} currencyFormat - the user's selected currency
  * @param {integer} lastIrreversibleBlockNum - Obtained from blockchain to find the status
- *                                             (processing or completed) of every transaction history data.
+ *                                             (processing or completed) of every 
+ * transaction history data.
  *                                             It will be displayed on the 'Status' column
  */
 const getColumns = (currencyFormat, lastIrreversibleBlockNum) => {
-  const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white')
+  const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
   return [
     {
       title: I18n.t('myAccount.id'),
@@ -57,9 +56,7 @@ const getColumns = (currencyFormat, lastIrreversibleBlockNum) => {
     },
     {
       title: I18n.t('myAccount.time'),
-      render: (text, row) => {
-        return row.time.format('DD/MM/YYYY HH:mm:ss');
-      },
+      render: (text, row) => row.time.format('DD/MM/YYYY HH:mm:ss'),
       key: 'time'
     },
     {
@@ -72,31 +69,39 @@ const getColumns = (currencyFormat, lastIrreversibleBlockNum) => {
       dataIndex: 'status',
       render: (text, row) => {
         const blockNum = row.blockNum;
+
         if (lastIrreversibleBlockNum >= blockNum) {
-          return <span className='completed'>{ I18n.t('myAccount.transaction_status_complete') }</span>
+          return (
+            <span className='completed'>{I18n.t('myAccount.transaction_status_complete')}</span>
+          );
         } else {
-          return <span className='processed'>{ I18n.t('myAccount.transaction_status_processing') }</span>
+          return (
+            <span className='processed'>{I18n.t('myAccount.transaction_status_processing')}</span>
+          );
         }
-      },
+      }
     },
     {
       title: getTitle(I18n.t('myAccount.amount'), currencySymbol),
       render: (text, row) => {
         const amount = row.amount;
-        return CurrencyUtils.getFormattedCurrency(amount, currencyFormat, BettingModuleUtils.stakePlaces);
+        return CurrencyUtils.getFormattedCurrency(
+          amount,
+          currencyFormat,
+          BettingModuleUtils.stakePlaces
+        );
       },
-      key: 'amount',
+      key: 'amount'
     }
   ];
-}
+};
 
 class TransactionHistory extends PureComponent {
-
   constructor(props) {
     super(props);
     this.state = {
       tableData: this.props.transactionHistory.toJS()
-    }
+    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -104,7 +109,7 @@ class TransactionHistory extends PureComponent {
       // Update table data if transaction history is updated
       this.setState({
         tableData: nextProps.transactionHistory.toJS()
-      })
+      });
     }
   }
 
@@ -118,7 +123,7 @@ class TransactionHistory extends PureComponent {
       handleResetExport,
       lastIrreversibleBlockNum,
       currencyFormat
-     } = this.props;
+    } = this.props;
 
     const hasNoTransactionHistoryData = this.state.tableData && this.state.tableData.length === 0;
 
@@ -130,22 +135,27 @@ class TransactionHistory extends PureComponent {
         <div className='table-card margin-top-20'>
           <div className='filterComponent clearfix'>
             <div className='float-left'>
-              <p className='card-title '>
-                { I18n.t('myAccount.transaction_history') }
-              </p>
+              <p className='card-title '>{I18n.t('myAccount.transaction_history')}</p>
             </div>
             <div className='float-right'>
-              <TimeRangePicker onSearchClick={ handleSearchClick }
+              <TimeRangePicker
+                onSearchClick={ handleSearchClick }
                 onExportClick={ handleExportClick }
-                />
+              />
             </div>
           </div>
           <Table
             className='bookie-table'
-            locale={ { emptyText: (
-                hasNoTransactionHistoryData && transactionHistoryLoadingStatus === LoadingStatus.DONE ?
-                I18n.t('mybets.nodata') : I18n.t('mybets.no_transactions'))  } }
-            pagination={ this.state.tableData.length > paginationParams.pageSize ? paginationParams : false }
+            locale={ {
+              emptyText:
+                hasNoTransactionHistoryData &&
+                transactionHistoryLoadingStatus === LoadingStatus.DONE
+                  ? I18n.t('mybets.nodata')
+                  : I18n.t('mybets.no_transactions')
+            } }
+            pagination={
+              this.state.tableData.length > paginationParams.pageSize ? paginationParams : false
+            }
             dataSource={ this.state.tableData }
             columns={ columns }
           />
@@ -155,7 +165,7 @@ class TransactionHistory extends PureComponent {
           exportLoadingStatus={ exportLoadingStatus }
           handleResetExport={ handleResetExport }
           type={ ExportTypes.TRANSACTION_HISTORY }
-          />
+        />
       </div>
     );
   }
@@ -164,10 +174,10 @@ class TransactionHistory extends PureComponent {
 TransactionHistory.propTypes = {
   onExportClick: PropTypes.func,
   transactionHistory: PropTypes.instanceOf(Immutable.List)
-}
+};
 
 TransactionHistory.defaultProps = {
   onExportClick: () => {},
   transactionHistory: Immutable.List()
-}
+};
 export default TransactionHistory;

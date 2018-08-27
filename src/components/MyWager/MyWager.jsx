@@ -1,13 +1,14 @@
 /**
  * This is mywager component with tabbed view of Unmatched, Matched and Resolved bets
- * Bets listed in mybets are dummy bet objects. This are not blockchain objects.
  *
  * following are sub-components used in MyWager
  *   {@link UnmatchedBets} - This component list unmatched bet transactions
- *   Unmatched bets - Placed bets that are pending for someone to make an opposite bet with same odds to match on
+ *   Unmatched bets - Placed bets that are pending for someone to make an opposite bet with same 
+ *   odds to match on
  *
  *   {@link MatchedBets} - This component list Matched bet transactions
- *   Matched bets - Bets that are matched with certain opposite bets, pending for the market to end and get resolved
+ *   Matched bets - Bets that are matched with certain opposite bets, pending for the market to end 
+ *   and get resolved
  *
  *   {@link ResolvedBets} - This component list Resolved bet transactions
  *   Resolved bets - When a market with the user’s bet is ended and bets resolved
@@ -25,24 +26,23 @@
  *
  * MyWagerSelector is the source of bets listing
  */
-import React, { PureComponent } from 'react';
-import { CurrencyUtils } from '../../utility'
-import { Tabs, Breadcrumb } from 'antd';
+import React, {PureComponent} from 'react';
+import {CurrencyUtils} from '../../utility';
+import {Tabs, Breadcrumb} from 'antd';
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
 import ResolvedBets from './ResolvedBets';
-import { NavigateActions, BetActions, MywagerActions } from '../../actions';
-import { BettingModuleUtils } from '../../utility';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import _ from 'lodash';
-import { Map } from 'immutable';
-import { I18n } from 'react-redux-i18n';
-import { MyWagerSelector, MyAccountPageSelector } from '../../selectors';
-import { MyWagerTabTypes } from '../../constants';
+import {NavigateActions, BetActions, MywagerActions} from '../../actions';
+import {BettingModuleUtils} from '../../utility';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {Map} from 'immutable';
+import {I18n} from 'react-redux-i18n';
+import {MyWagerSelector, MyAccountPageSelector} from '../../selectors';
+import {MyWagerTabTypes} from '../../constants';
 import PeerPlaysLogo from '../PeerPlaysLogo';
 
-const {  getBetData, getBetTotal, getCurrencyFormat, getBetsLoadingStatus } = MyWagerSelector;
+const {getBetData, getBetTotal, getCurrencyFormat, getBetsLoadingStatus} = MyWagerSelector;
 const TabPane = Tabs.TabPane;
 
 //* Mywager component */
@@ -63,6 +63,8 @@ class MyWager extends PureComponent {
     this.onTabChange = this.onTabChange.bind(this);
     this.cancelBet = this.cancelBet.bind(this);
     this.cancelAllBets = this.cancelAllBets.bind(this);
+    this.handleCancelAllBets = this.handleCancelAllBets.bind(this);
+    this.declineCancelAllBets = this.declineCancelAllBets.bind(this);
   }
 
   componentDidMount() {
@@ -76,7 +78,7 @@ class MyWager extends PureComponent {
   }
 
   /** Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb */
-  onHomeLinkClick(e){
+  onHomeLinkClick(e) {
     e.preventDefault();
     this.props.navigateTo('/exchange');
   }
@@ -91,9 +93,13 @@ class MyWager extends PureComponent {
    *    the state 'periodType','customTimeRangeStartDate','customTimeRangeEndDate'
    *    is updated under the 'MyWager' store when Resolved bets are searched
    */
-  handleSearchClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
+  handleSearchClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate) {
     // Set time range.
-    this.props.setResolvedBetsTimeRange(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
+    this.props.setResolvedBetsTimeRange(
+      periodType,
+      customTimeRangeStartDate,
+      customTimeRangeEndDate
+    );
   }
 
   /**
@@ -109,18 +115,22 @@ class MyWager extends PureComponent {
    *    the state 'resolvedBetsExportData','generateResolvedBetsExportDataLoadingStatus' ,
    *    'generateResolvedBetsExportDataError' are updated under the 'MyWager' store
    */
-  handleExportClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
+  handleExportClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate) {
     // First set the history time range, so the search result is re-filtered
-    this.props.setResolvedBetsTimeRange(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
+    this.props.setResolvedBetsTimeRange(
+      periodType,
+      customTimeRangeStartDate,
+      customTimeRangeEndDate
+    );
     // Then generate export data
-    this.props.generateResolvedBetsExportData(this.props.betsData);    
+    this.props.generateResolvedBetsExportData(this.props.betsData);
   }
 
   handleExportFinishDownload() {
     // Reset
     this.props.resetResolvedBetsExportLoadingStatus();
     this.props.clearResolvedBetsExport();
-    this.setState({ exportButtonClicked: false });
+    this.setState({exportButtonClicked: false});
   }
 
   /**
@@ -157,14 +167,14 @@ class MyWager extends PureComponent {
    * Dispatched action: {@link NavigateActions#navigateTo}
    *    This will navigat user to event full market screen
    */
-  handleEventClick(record, event){
+  handleEventClick(record) {
     this.props.navigateTo(`/exchange/bettingmarketgroup/${record.group_id}`);
   }
 
   /**
    * Called on 'Cancel' click in {@link UnmatchedBets}
    * This is not actual cancel of transaction in blockchain.
-   * @param {object} record - bet object to cancel. This are dummy bet objects. This are not fetched from blockchain
+   * @param {object} record - bet object to cancel.
    * @param {object} event - the click event
    *
    * Dispatched action: {@link BetActions#cancelBets}
@@ -172,7 +182,7 @@ class MyWager extends PureComponent {
    *    change in state will trigger to load Unmatched Transactions
    *    This is temporary cancel. This doesn't have any effect on blockchain data yet.
    */
-  cancelBet(record, event) {
+  cancelBet(record) {
     //cancelBets expects array of immutable bet objects. converting simple object to immutable list
     this.props.cancelBets([Map(record)]);
   }
@@ -185,15 +195,17 @@ class MyWager extends PureComponent {
    *    change in state will trigger to load Unmatched Transactions
    *    This is temporary cancel. This doesn't have any effect on blockchain data yet.
    */
-  handleCancelAllBets = () => {
+  handleCancelAllBets() {
     this.props.cancelBets(this.props.betsData);
-    this.setState({ isCancelAllConfirmModalVisible: false });
-  }
+    this.setState({isCancelAllConfirmModalVisible: false});
+  };
 
-  /** set local state isCancelAllConfirmModalVisible to false - This will hide cancelAllConfirmModal on decline */
-  declineCancelAllBets = () => {
-    this.setState({isCancelAllConfirmModalVisible: false,});
-  }
+  /** set local state isCancelAllConfirmModalVisible to false - This will hide 
+   * cancelAllConfirmModal on decline 
+   */
+  declineCancelAllBets() {
+    this.setState({isCancelAllConfirmModalVisible: false});
+  };
 
   /**
    * Called on 'Cancel All' click in {@link UnmatchedBets}
@@ -201,24 +213,28 @@ class MyWager extends PureComponent {
    * isCancelAllConfirmModalVisible value true will trigger to show Confirmation pop-up
    * for deleting all Unmatched bets.
    */
-  cancelAllBets(){
-
+  cancelAllBets(event) {
     event.preventDefault();
     //To show export related status after the 'Export' button is clicked
-    this.setState({ isCancelAllConfirmModalVisible: true });
+    this.setState({isCancelAllConfirmModalVisible: true});
     //this.props.cancelBets(this.props.betsData);
   }
-
 
   render() {
     return (
       <div className='my-wager section-padding'>
         <Breadcrumb className='bookie-breadcrumb'>
-          <Breadcrumb.Item><a onClick={ this.onHomeLinkClick }>{ I18n.t('mybets.home') } </a></Breadcrumb.Item>
-          <Breadcrumb.Item>{ I18n.t('mybets.mybets') }</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a onClick={ this.onHomeLinkClick }>{I18n.t('mybets.home')} </a>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>{I18n.t('mybets.mybets')}</Breadcrumb.Item>
         </Breadcrumb>
 
-        <Tabs className='content bookie-tab' defaultActiveKey={ MyWagerTabTypes.UNMATCHED_BETS } onChange={ this.onTabChange }>
+        <Tabs
+          className='content bookie-tab'
+          defaultActiveKey={ MyWagerTabTypes.UNMATCHED_BETS }
+          onChange={ this.onTabChange }
+        >
           <TabPane tab={ I18n.t('mybets.unmatched_bets') } key={ MyWagerTabTypes.UNMATCHED_BETS }>
             <UnmatchedBets
               unmatchedBets={ filterOdds(this.props.betsData.toJS(), this.props.oddsFormat) }
@@ -231,7 +247,7 @@ class MyWager extends PureComponent {
               isCancelAllConfirmModalVisible={ this.state.isCancelAllConfirmModalVisible }
               handleCancelAllBets={ this.handleCancelAllBets }
               declineCancelAllBets={ this.declineCancelAllBets }
-              />
+            />
           </TabPane>
           <TabPane tab={ I18n.t('mybets.matched_bets') } key={ MyWagerTabTypes.MATCHED_BETS }>
             <MatchedBets
@@ -241,7 +257,7 @@ class MyWager extends PureComponent {
               currencyFormat={ this.props.betsCurrencyFormat }
               betsTotal={ this.props.betsTotal }
               oddsFormat={ this.props.oddsFormat }
-              />
+            />
           </TabPane>
           <TabPane tab={ I18n.t('mybets.resolved_bets') } key={ MyWagerTabTypes.RESOLVED_BETS }>
             <ResolvedBets
@@ -270,37 +286,47 @@ function filterOdds(tableData, oddsFormat) {
   if (tableData) {
     for (let row in tableData) {
       if (tableData[row]) {
-        tableData[row].backer_multiplier = BettingModuleUtils.oddsFormatFilter(tableData[row].backer_multiplier, oddsFormat)
-        .toFixed(CurrencyUtils.fieldPrecisionMap['odds']['BTF']);
+        tableData[row].backer_multiplier = BettingModuleUtils.oddsFormatFilter(
+          tableData[row].backer_multiplier,
+          oddsFormat
+        ).toFixed(CurrencyUtils.fieldPrecisionMap['odds']['BTF']);
       }
     }
   }
-  return tableData
+
+  return tableData;
 }
 
-const mapStateToProps = (state) => {
-  return {
-    betsData: getBetData(state),
-    betsLoadingStatus: getBetsLoadingStatus(state),
-    betsCurrencyFormat: getCurrencyFormat(state),
-    targetCurrency: getCurrencyFormat(state),
-    betsTotal: getBetTotal(state),
-    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
-    resolvedBetsExportData: state.getIn(['mywager','resolvedBetsExportData']),
-    resolvedBetsExportLoadingStatus: state.getIn(['mywager','generateResolvedBetsExportDataLoadingStatus'])
-  }
+const mapStateToProps = (state) => ({
+  betsData: getBetData(state),
+  betsLoadingStatus: getBetsLoadingStatus(state),
+  betsCurrencyFormat: getCurrencyFormat(state),
+  targetCurrency: getCurrencyFormat(state),
+  betsTotal: getBetTotal(state),
+  oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
+  resolvedBetsExportData: state.getIn(['mywager', 'resolvedBetsExportData']),
+  resolvedBetsExportLoadingStatus: state.getIn([
+    'mywager',
+    'generateResolvedBetsExportDataLoadingStatus'
+  ])
+});
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      navigateTo: NavigateActions.navigateTo,
+      generateResolvedBetsExportData: MywagerActions.generateResolvedBetsExportData,
+      resetResolvedBetsExportDataAction: MywagerActions.resetResolvedBetsExportDataAction,
+      cancelBets: BetActions.cancelBets,
+      setActiveTab: MywagerActions.setMywagerActiveTab,
+      setResolvedBetsTimeRange: MywagerActions.setResolvedBetsTimeRangeAction,
+      resetTimeRange: MywagerActions.resetTimeRange
+    },
+    dispatch
+  );
 }
 
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({
-    navigateTo: NavigateActions.navigateTo,
-    generateResolvedBetsExportData: MywagerActions.generateResolvedBetsExportData,
-    resetResolvedBetsExportDataAction: MywagerActions.resetResolvedBetsExportDataAction,
-    cancelBets: BetActions.cancelBets,
-    setActiveTab: MywagerActions.setMywagerActiveTab,
-    setResolvedBetsTimeRange: MywagerActions.setResolvedBetsTimeRangeAction,
-    resetTimeRange: MywagerActions.resetTimeRange
-  }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyWager);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MyWager);

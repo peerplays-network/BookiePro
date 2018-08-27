@@ -1,3 +1,3 @@
 import FaqContent from './FaqContent';
-import './FaqContent.less'
+import './FaqContent.less';
 export default FaqContent;
