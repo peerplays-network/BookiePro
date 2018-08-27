@@ -289,7 +289,7 @@ function filterOdds(tableData, oddsFormat) {
         tableData[row].backer_multiplier = BettingModuleUtils.oddsFormatFilter(
           tableData[row].backer_multiplier,
           oddsFormat
-        ).toFixed(CurrencyUtils.fieldPrecisionMap['odds']['BTF']);
+        ).toFixed(CurrencyUtils.fieldPrecisionMap['odds']['coin']);
       }
     }
   }
