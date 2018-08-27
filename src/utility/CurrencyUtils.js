@@ -4,11 +4,15 @@ import bitFunBlack from '../assets/icons/bitfun_icon_black.svg';
 import bitFunWhite from '../assets/icons/bitfun_icon_white.svg';
 import mBitFunWhite from '../assets/icons/mbitfun_icon_white.svg';
 import mBitFunBlack from '../assets/icons/mbitfun_icon_black.svg';
+import bitCoin from '../assets/icons/bitcoin_icon_black.png';
+import bitCoinWhite from '../assets/icons/bitcoin_icon_white.png';
+import miliBitCoin from '../assets/icons/mbitcoin_icon_black.png';
+import miliBitCoinWhite from '../assets/icons/mbitcoin_icon_white.png';
 
 /**
  * The CurrencyUtils contains all the functions related to currency conversion function
  */
-//const configCurrency = '\u0243';
+const bitcoinSymbol = '\u0243';
 const configCurrency = Config.features.currency;
 const mCurrencySymbol = 'm' + configCurrency;
 const coinDust = Config.dust.coin;
@@ -119,19 +123,24 @@ var CurrencyUtils = {
   getCurrencySymbol: function(currency='mBTF', color='black') {
     switch (currency) {
       case 'BTC':
+        if (color === 'white') {
+          return (
+            <img src={ bitCoinWhite } className='currency-symbol btc' alt={ bitcoinSymbol }/>
+          );
+        }
+
         return (
-          <img
-            src='../../../assets/icons/bitcoin_icon_hover.svg'
-            className='currency-symbol btf'
-            alt='BTF'
-          />
+          <img src={ bitCoin } className='currency-symbol btc' alt={ bitcoinSymbol }/>
         );
       case 'mBTC':
+        if (color === 'white') {
+          return (
+            <img src={ miliBitCoinWhite } className='currency-symbol btc' alt={ bitcoinSymbol } />
+          );
+        }
+
         return (
-          <img
-            src='../../../assets/icons/mbitcoin_icon_hover.svg'
-            className='currency-symbol mbtf'
-            alt='mBTF'
+          <img src={ miliBitCoin } className='currency-symbol mbtc' alt={ mCurrencySymbol }
           />
         );
       case 'BTF':
