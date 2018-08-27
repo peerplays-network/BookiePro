@@ -190,6 +190,7 @@ class BetActions {
    */
   static checkForNewMyBets(rawHistoryDelta) {
     return (dispatch, getState) => {
+      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
       const accountId = getState().getIn(['account', 'account', 'id']);
 
       if (accountId) {
@@ -258,6 +259,7 @@ class BetActions {
             dispatch(MarketDrawerActions.hideOverlay());
             // Setstatus
             dispatch(BetPrivateActions.setCheckForNewMyBetsLoadingStatusAction(LoadingStatus.DONE));
+            dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.DONE));
             log.debug('Check for new my bets succeed.');
           })
           .catch((error) => {
