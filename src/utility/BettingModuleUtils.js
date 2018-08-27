@@ -90,7 +90,8 @@ var BettingModuleUtils = {
     if (stake && stake.toString().indexOf('*') === -1) {
       let floatStake = parseFloat(stake);
       let floatOdds = parseFloat(odds);
-
+      let currencyType = CurrencyUtils.getCurrencyType(currencyFormat);
+      
       //check invalid input
       if (isNaN(floatStake) || isNaN(floatOdds)) {
         return;
@@ -106,7 +107,7 @@ var BettingModuleUtils = {
         floatStake = floatStake / 1000;
       }
       
-      let precision = CurrencyUtils.fieldPrecisionMap[profitOrLiability][currencyFormat];
+      let precision = CurrencyUtils.fieldPrecisionMap[profitOrLiability][currencyType];
       let amount = (floatStake * (floatOdds - 1)).toFixed(precision);
         
       return CurrencyUtils.getFormattedCurrency(amount, currencyFormat, precision);
@@ -306,6 +307,7 @@ var BettingModuleUtils = {
    *    - groupedStake
    */
   calculateAverageOddsFromMatchedBets: function(matchedBets, currency = 'BTF') {
+    const currencyType = CurrencyUtils.getCurrencyType(currency);
     // Assume all the bets are of the same bet type so we can just sample from the first bet
     const profitOrLiability =
       matchedBets
@@ -326,14 +328,14 @@ var BettingModuleUtils = {
       groupedProfitOrLiability: CurrencyUtils.getFormattedCurrency(
         groupedProfitOrLiability,
         currency,
-        CurrencyUtils.fieldPrecisionMap['avgProfitLiability'][currency],
+        CurrencyUtils.fieldPrecisionMap['avgProfitLiability'][currencyType],
         true,
         true
       ),
       groupedStake: CurrencyUtils.getFormattedCurrency(
         groupedStake,
         currency,
-        CurrencyUtils.fieldPrecisionMap['avgStake'][currency],
+        CurrencyUtils.fieldPrecisionMap['avgStake'][currencyType],
         true,
         true
       )

@@ -31,36 +31,36 @@ var CurrencyUtils = {
     // Odds values have no dependency on currency but it is included in this map for
     // convenience's sake.
     odds: {
-      BTF: 2,
-      mBTF: 2
+      coin: 2,
+      mCoin: 2
     },
     stake: {
-      BTF: 3,
-      mBTF: 0
+      coin: 3,
+      mCoin: 0
     },
     profit: {
-      BTF: 5,
-      mBTF: 5
+      coin: 5,
+      mCoin: 5
     },
     liability: {
-      BTF: 5,
-      mBTF: 5
+      coin: 5,
+      mCoin: 5
     },
     exposure: {
-      BTF: 2,
-      mBTF: 2
+      coin: 2,
+      mCoin: 2
     },
     transaction: {
-      BTF: 5,
-      mBTF: 2
+      coin: 5,
+      mCoin: 2
     },
     avgStake: {
-      BTF: 3,
-      mBTF: 0
+      coin: 3,
+      mCoin: 0
     },
     avgProfitLiability: {
-      BTF: 5,
-      mBTF: 2
+      coin: 5,
+      mCoin: 2
     }
   },
 
@@ -118,6 +118,16 @@ var CurrencyUtils = {
     }
 
     return amount;
+  },
+
+  getCurrencyType: function(currency='BTF') {
+    let type = 'coin';
+
+    if (currency.indexOf('m') !== -1) {
+      type = 'mCoin';
+    }
+
+    return type;
   },
 
   getCurrencySymbol: function(currency='mBTF', color='black') {
@@ -296,6 +306,8 @@ var CurrencyUtils = {
     * @returns {string} - formatted BTF or mBTF value
     */
   formatFieldByCurrencyAndPrecision: function(field, amount, currency='mBTF', skipDustCheck) {
+    const currencyType = this.getCurrencyType(currency);
+    
     // Odds values have no dependency on currency
     if (field === 'odds') {
       return amount.toFixed(2);
@@ -304,7 +316,7 @@ var CurrencyUtils = {
     // DO NOT expect this but just in case...
     if (
       this.fieldPrecisionMap[field] === undefined ||
-      this.fieldPrecisionMap[field][currency] === undefined
+      this.fieldPrecisionMap[field][currencyType] === undefined
     ) {
       return amount;
     }
@@ -312,7 +324,7 @@ var CurrencyUtils = {
     return this.getFormattedCurrency(
       amount,
       currency,
-      this.fieldPrecisionMap[field][currency],
+      this.fieldPrecisionMap[field][currencyType],
       true,
       false,
       false,
@@ -332,10 +344,12 @@ var CurrencyUtils = {
    * Return the field value (amount) as a formatted string
    */
   toFixed: function(field, amount, currency='mBTF') {
+    const currencyType = this.getCurrencyType(currency);
+
     // DO NOT expect this but just in case...
     if (
       this.fieldPrecisionMap[field] === undefined ||
-      this.fieldPrecisionMap[field][currency] === undefined
+      this.fieldPrecisionMap[field][currencyType] === undefined
     ) {
       return amount;
     }
@@ -361,13 +375,13 @@ var CurrencyUtils = {
     if (amount % 1 !== 0 && !isNaN(amount)) {
       return this.substringPrecision(
         amount,
-        this.fieldPrecisionMap[field][currency],
+        this.fieldPrecisionMap[field][currencyType],
         true,
         currency,
         field
       );
     } else {
-      return floatAmount.toFixed(this.fieldPrecisionMap[field][currency]);
+      return floatAmount.toFixed(this.fieldPrecisionMap[field][currencyType]);
     }
   },
   /*
