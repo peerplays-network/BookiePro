@@ -14,7 +14,9 @@ function getType(object, type) {
   if (type) {
     return type;
   }
+
   var objectType = typeof object;
+
   switch (objectType) {
     case 'string':
     case 'number':
@@ -37,29 +39,33 @@ function getByString(object, path) {
   path = path.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
   path = path.replace(/^\./, ''); // strip a leading dot
   var property = path.split('.');
+
   while (property.length) {
     var key = property.shift();
+
     if (key in object) {
-      object = (object[key] === undefined) ? null : object[key];
+      object = object[key] === undefined ? null : object[key];
     } else {
       return null;
     }
   }
+
   return object;
 }
-
 
 /**
  * //convert binary content to bytes
  *
  * @param {string} binary contents
- * @returns {array} - bytes array in uint 8 
+ * @returns {array} - bytes array in uint 8
  */
-function convertStringToBytes (str) {
+function convertStringToBytes(str) {
   var bytes = new Uint8Array(str.length);
-  for (var i=0; i<str.length; i++) {
+
+  for (var i = 0; i < str.length; i++) {
     bytes[i] = str.charCodeAt(i);
   }
+
   return bytes;
 }
 
@@ -76,12 +82,14 @@ var prepareTableRowsColumnsFromJSON = function(json, config) {
   var jsonArray = [].concat(json);
   var fields = conf.fields || Object.keys(jsonArray[0] || {});
   var types = [];
+
   if (!(fields instanceof Array)) {
     types = Object.keys(fields).map(function(key) {
       return fields[key];
     });
     fields = Object.keys(fields);
   }
+
   //cols
   result.cols = fields.map(function(key, i) {
     return {
@@ -97,12 +105,20 @@ var prepareTableRowsColumnsFromJSON = function(json, config) {
   result.rows = jsonArray.map(function(row) {
     return fields.map(function(key) {
       var value = getByString(row, key);
+
       //stringify objects
-      if (value && value.constructor === Object) value = JSON.stringify(value);
+      if (value && value.constructor === Object) {
+        value = JSON.stringify(value);
+      }
+
       //replace illegal xml characters with a square
       if (typeof value === 'string') {
-        value = value.replace(/[^\u0009\u000A\u000D\u0020-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]/g, '');
+        value = value.replace(
+          /[^\u0009\u000A\u000D\u0020-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]/g,
+          ''
+        );
       }
+
       return value;
     });
   });
@@ -119,22 +135,24 @@ function formatDataForExport(json, type, config) {
     case 'excel':
     default:
       var conf = prepareTableRowsColumnsFromJSON(json, config);
+
       //add style xml if given
       if (config.style) {
         conf.stylesXmlFile = config.style;
       }
+
       result = Excel.execute(conf);
       break;
   }
 
-  if(config.toBytes){
+  if (config.toBytes) {
     result = convertStringToBytes(result);
   }
 
   return result;
-};
+}
 
 const ExportUtils = {
   formatDataForExport
-}
+};
 export default ExportUtils;

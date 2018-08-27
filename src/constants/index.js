@@ -40,4 +40,4 @@ export {
   BettingMarketStatus,
   BettingMarketGroupStatus,
   BettingMarketResolutionTypes
-}
+};

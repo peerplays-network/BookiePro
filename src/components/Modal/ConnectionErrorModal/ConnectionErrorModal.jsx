@@ -1,7 +1,8 @@
-import React, { PureComponent } from 'react';
-import { Modal } from 'antd';
-import { I18n } from 'react-redux-i18n';
+import React, {PureComponent} from 'react';
+import {Modal} from 'antd';
+import {I18n} from 'react-redux-i18n';
 import PropTypes from 'prop-types';
+import {LoadingStatus} from '../../../constants';
 
 class ConnectionErrorModal extends PureComponent {
   constructor(props) {
@@ -11,7 +12,7 @@ class ConnectionErrorModal extends PureComponent {
 
   onClickTryAgain(event) {
     event.preventDefault();
-      // Call parent handler
+    // Call parent handler
     this.props.onClickTryAgain();
   }
 
@@ -27,10 +28,12 @@ class ConnectionErrorModal extends PureComponent {
         cancelText={ null }
         width={ 428 }
       >
-        <p>{this.props.isConnectedToBlockchain && I18n.t('connectionErrorModal.explanation') }</p>
-        <p>{ !this.props.isConnectedToBlockchain && I18n.t('connectionErrorModal.noInternet') }</p>
+        <p>{this.props.error}</p>
+
         <button className='btn btn-regular try-again' onClick={ this.onClickTryAgain }>
-          { I18n.t('connectionErrorModal.confirm') }
+          {this.props.error === LoadingStatus.ERROR_DISCONNECTED
+            ? I18n.t('connectionErrorModal.reconnect')
+            : I18n.t('connectionErrorModal.confirm')}
         </button>
       </Modal>
     );
@@ -39,7 +42,8 @@ class ConnectionErrorModal extends PureComponent {
 
 ConnectionErrorModal.propTypes = {
   visible: PropTypes.bool.isRequired,
-  onClickTryAgain: PropTypes.func.isRequired
+  onClickTryAgain: PropTypes.func.isRequired,
+  error: PropTypes.any
 };
 
 ConnectionErrorModal.defaultProps = {

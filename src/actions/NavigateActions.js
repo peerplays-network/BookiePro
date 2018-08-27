@@ -1,8 +1,7 @@
-import { push, replace } from 'react-router-redux';
+import {push, replace} from 'react-router-redux';
 import log from 'loglevel';
 
 class NavigateActions {
-
   /**
    * Action to navigate to the given path
    * path - path to go
@@ -10,17 +9,23 @@ class NavigateActions {
    */
   static navigateTo(path, pushPage = true) {
     return (dispatch) => {
-      if (path) {
+
+      // Get the current location.
+      let hash = location.hash.replace('#', '');
+
+      // Don't dispatch a change if the url is already the current url.
+      if (path && path !== hash) {
         log.debug('Navigate to ', path);
+        
         if (pushPage) {
           dispatch(push(path));
         } else {
           dispatch(replace(path));
         }
       }
+
     };
   }
-
 }
 
 export default NavigateActions;

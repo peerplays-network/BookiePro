@@ -15,15 +15,15 @@
  *    {@link AppActions#setAppBackgroundAction}
  * Effects of the above actions on the Redux stores are explained furthur
  */
-import React, { PureComponent } from 'react';
-import { Row, Col, Input } from 'antd'
+import React, {PureComponent} from 'react';
+import {Row, Col, Input} from 'antd';
 import QRCode from 'qrcode.react';
-import { I18n, Translate } from 'react-redux-i18n';
-import { NavigateActions, BalanceActions, AppActions } from '../../actions';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import {I18n, Translate} from 'react-redux-i18n';
+import {NavigateActions, BalanceActions, AppActions} from '../../actions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import copy from 'copy-to-clipboard';
-import { AppBackgroundTypes } from '../../constants';
+import {AppBackgroundTypes} from '../../constants';
 import FloatingHelp from '../FloatingHelp';
 
 class Deposit extends PureComponent {
@@ -38,7 +38,8 @@ class Deposit extends PureComponent {
    *
    * Dispatched actions:
    *   {@link BalanceActions#getDepositAddress}
-   *     the state 'depositAddress','getDepositAddressLoadingStatus' is updated under the 'balance' store
+   *     the state 'depositAddress','getDepositAddressLoadingStatus' is updated under
+   *  the 'balance' store
    *   {@link AppActions#setAppBackgroundAction}
    *     the state 'appBackgroundType' is updated under the 'app' store
    */
@@ -79,59 +80,69 @@ class Deposit extends PureComponent {
     return (
       <div className='onboardingSportsBackground depositComponent' id='main-content'>
         <div className='wrapper'>
-            <div className='text-center'>
-              <i className='deposit-icon'></i>
-              <h2>
-                { I18n.t('deposit.title') }
-              </h2>
-              <div className='center-section deposit-content'>
-                <Row type='flex' gutter={ 100 } className='row-divided'>
-                  <Col span={ 12 }>
-                    <p>
-                      { <Translate value='deposit.left_description' dangerousHTML /> }
-                    </p>
-                    <div className='depositAddress pos-rel'>
-                      <Input readOnly className='bookie-input' value={ this.props.depositAddress }/>
-                      <button className='btn btn-regular inputWithButton' onClick={ this.onClickCopy.bind(this, this.props.depositAddress) }>
-                        { I18n.t('deposit.copy') }
-                      </button>
+          <div className='text-center'>
+            <i className='deposit-icon' />
+            <h2>{I18n.t('deposit.title')}</h2>
+            <div className='center-section deposit-content'>
+              <Row type='flex' gutter={ 100 } className='row-divided'>
+                <Col span={ 12 }>
+                  <p>{<Translate value='deposit.left_description' dangerousHTML />}</p>
+                  <div className='depositAddress pos-rel'>
+                    <Input readOnly className='bookie-input' value={ this.props.depositAddress } />
+                    <button
+                      className='btn btn-regular inputWithButton'
+                      onClick={ this.onClickCopy.bind(this, this.props.depositAddress) }
+                    >
+                      {I18n.t('deposit.copy')}
+                    </button>
+                  </div>
+                </Col>
+                <div className='vertical-divider'>{I18n.t('deposit.or')}</div>
+                <Col span={ 12 }>
+                  <p>{<Translate value='deposit.right_description' dangerousHTML />}</p>
+                  <div className='text-center'>
+                    <div className='bookie-qr'>
+                      <QRCode
+                        className='bookie-qr'
+                        size={ 165 }
+                        value={ JSON.stringify(this.props.depositAddress) }
+                      />
                     </div>
-                  </Col>
-                  <div className='vertical-divider'>{ I18n.t('deposit.or') }</div>
-                  <Col span={ 12 }>
-                    <p>{ <Translate value='deposit.right_description' dangerousHTML /> }
-                    </p>
-                    <div className='text-center'>
-                      <div className='bookie-qr'><QRCode className='bookie-qr' size={ 165 } value={ JSON.stringify(this.props.depositAddress) }/>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-                <div className='text-center margin-top-100'>
-                  <button onClick={ this.onClickContinue } className='btn btn-regular'>
-                    { I18n.t('deposit.continue') }
-                  </button>
-                </div>
+                  </div>
+                </Col>
+              </Row>
+              <div className='text-center margin-top-100'>
+                <button onClick={ this.onClickContinue } className='btn btn-regular'>
+                  {I18n.t('deposit.continue')}
+                </button>
               </div>
             </div>
           </div>
-          <FloatingHelp />
+        </div>
+        <FloatingHelp />
       </div>
-    )
+    );
   }
 }
+
 const mapStateToProps = (state) => {
   return {
     //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
     loadingStatus: state.getIn(['balance', 'getDepositAddressLoadingStatus']),
     depositAddress: state.getIn(['balance', 'depositAddress'])
-  }
-}
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
     getDepositAddress: BalanceActions.getDepositAddress,
     navigateTo: NavigateActions.navigateTo,
-    setAppBackground: AppActions.setAppBackgroundAction,
-  }, dispatch);
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Deposit)
+    setAppBackground: AppActions.setAppBackgroundAction
+  },
+  dispatch
+);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Deposit);

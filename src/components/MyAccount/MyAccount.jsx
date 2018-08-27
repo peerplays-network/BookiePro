@@ -31,38 +31,35 @@
  * Effects of the above actions on the Redux stores are explained furthur
  *
  */
-import React, { PureComponent } from 'react';
-import { I18n } from 'react-redux-i18n';
-import TransactionHistory from './TransactionHistory'
-import {
-  Row,
-  Col,
-  Card,
-  Switch,
-  Select,
-  Breadcrumb
-} from 'antd';
+import React, {PureComponent} from 'react';
+import {I18n} from 'react-redux-i18n';
+import TransactionHistory from './TransactionHistory';
+import {Row, Col, Card, Switch, Select, Breadcrumb} from 'antd';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux'
-import './MyAccount.less'
-import _ from 'lodash';
+import {bindActionCreators} from 'redux';
+import './MyAccount.less';
 import Deposit from './Deposit';
-import { MyAccountWithdraw } from '../Withdraw';
-import { SettingActions, BalanceActions, NavigateActions, MyAccountPageActions, AccountActions } from '../../actions';
-import { MyAccountPageSelector } from '../../selectors';
+import {MyAccountWithdraw} from '../Withdraw';
+import {
+  SettingActions,
+  BalanceActions,
+  NavigateActions,
+  MyAccountPageActions,
+  AccountActions
+} from '../../actions';
+import {MyAccountPageSelector} from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
-import { Config } from '../../constants';
+import {Config} from '../../constants';
 
 const Option = Select.Option;
 
 class MyAccount extends PureComponent {
-
   constructor(props) {
     super(props);
 
     this.state = {
-      withdrawAmount:'',
-    }
+      withdrawAmount: ''
+    };
 
     this.handleCurrFormatChange = this.handleCurrFormatChange.bind(this);
     this.handleOddsFormatChange = this.handleOddsFormatChange.bind(this);
@@ -84,7 +81,8 @@ class MyAccount extends PureComponent {
    * Fetches the deposit address of the user when the component mounts
    *
    * Dispatched action: {@link BalanceActions#getDepositAddress}
-   *   the state 'depositAddress','getDepositAddressLoadingStatus' is updated under the 'balance' store
+   *   the state 'depositAddress',
+   *   'getDepositAddressLoadingStatus' is updated under the 'balance' store
    */
   componentDidMount() {
     this.props.getDepositAddress();
@@ -112,7 +110,7 @@ class MyAccount extends PureComponent {
    *    the states 'periodType','customTimeRangeStartDate','customTimeRangeEndDate'
    *    is updated under the 'myAccountPage' store
    */
-  handleSearchClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
+  handleSearchClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate) {
     this.props.setHistoryTimeRange(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
   }
 
@@ -127,11 +125,12 @@ class MyAccount extends PureComponent {
    *      the states 'periodType','customTimeRangeStartDate','customTimeRangeEndDate'
    *      is updated under the 'myAccountPage' store
    *   {@link MyAccountPageActions#generateTransactionHistoryExportData} :
-   *      the states 'transactionHistoryExportData','generateTransactionHistoryExportDataLoadingStatus'
+   *      the states 'transactionHistoryExportData',
+   *      'generateTransactionHistoryExportDataLoadingStatus'
    *      is updated under the 'myAccountPage' store
    *
    */
-  handleExportClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate){
+  handleExportClick(periodType, customTimeRangeStartDate, customTimeRangeEndDate) {
     // First set the history time range, so the search result is re-filtered
     this.props.setHistoryTimeRange(periodType, customTimeRangeStartDate, customTimeRangeEndDate);
     // Then generate export data
@@ -156,8 +155,8 @@ class MyAccount extends PureComponent {
    *   the state 'notification' is updated under the 'setting' store
    */
   handleNotificationChange(value) {
-    const {updateSettingNotification} = this.props
-    updateSettingNotification(value)
+    const {updateSettingNotification} = this.props;
+    updateSettingNotification(value);
   }
 
   /**
@@ -167,8 +166,8 @@ class MyAccount extends PureComponent {
    *   the state 'currencyFormat' is updated under the 'setting' store
    */
   handleCurrFormatChange(value) {
-    const {updateCurrencyFormat} = this.props
-    updateCurrencyFormat(value)
+    const {updateCurrencyFormat} = this.props;
+    updateCurrencyFormat(value);
   }
 
   /**
@@ -178,14 +177,14 @@ class MyAccount extends PureComponent {
    *   the state 'oddsFormat' is updated under the 'setting' store
    */
   handleOddsFormatChange(value) {
-    const { updateOddsFormat } = this.props
-    updateOddsFormat(value)
+    const {updateOddsFormat} = this.props;
+    updateOddsFormat(value);
   }
 
   /**
    * Navigate to the 'Change Password' screen - - {@link ChangePassword}
    */
-  handleRedirectToChangePwd(){
+  handleRedirectToChangePwd() {
     this.props.navigateTo('/change-password');
   }
 
@@ -196,9 +195,9 @@ class MyAccount extends PureComponent {
    * Dispatched action: {@link BalanceActions#withdraw}
    *   the state 'withdrawLoadingStatus' is updated under the 'balance' store after withdraw process
    */
-  handleWithdrawSubmit(values){
+  handleWithdrawSubmit(values) {
     //track the withdraw amount to display in success message after successful submit
-    this.setState({ withdrawAmount:values.get('withdrawAmount') });
+    this.setState({withdrawAmount: values.get('withdrawAmount')});
     this.props.withdraw(values.get('withdrawAmount'), values.get('walletAddr'));
   }
 
@@ -216,37 +215,39 @@ class MyAccount extends PureComponent {
    * Navigate to the 'Home' screen when clicked on 'Home'
    * link on the Breadcrumb - {@link Exchange}
    */
-  handleNavigateToHome(){
+  handleNavigateToHome() {
     this.props.navigateTo('/exchange');
   }
 
- /**
-  * This method generates 'antd' card to create the markup for 'Settings' section
-  * on the My Account screen
-  */
+  /**
+   * This method generates 'antd' card to create the markup for 'Settings' section
+   * on the My Account screen
+   */
   renderSettingCard() {
     return (
-      <Card className='bookie-card settingComponent'
-            title={ I18n.t('myAccount.settings') }
-            bordered={ false }
-            style={ {width: '100%'} }
-            id='setting_card_1'>
+      <Card
+        className='bookie-card settingComponent'
+        title={ I18n.t('myAccount.settings') }
+        bordered={ false }
+        style={ {width: '100%'} }
+        id='setting_card_1'
+      >
         <Row>
           <Col span={ 18 }>
-            <p> { I18n.t('myAccount.notifications') }</p>
+            <p> {I18n.t('myAccount.notifications')}</p>
           </Col>
           <Col span={ 6 }>
-            <Switch className='bookie-switch'
-                    defaultChecked={ this.props.notification }
-                    onChange={ this.handleNotificationChange }/>
+            <Switch
+              className='bookie-switch'
+              defaultChecked={ this.props.notification }
+              onChange={ this.handleNotificationChange }
+            />
           </Col>
         </Row>
 
-
         <Row className='margin-tb-15'>
           <Col span={ 18 }>
-            <p
-              className='padding-tb-5'>{ I18n.t('myAccount.format') }</p>
+            <p className='padding-tb-5'>{I18n.t('myAccount.format')}</p>
           </Col>
           <Col span={ 6 }>
             <div ref='global_object'>
@@ -254,47 +255,50 @@ class MyAccount extends PureComponent {
                 className='bookie-select'
                 defaultValue={ this.props.currencyFormat }
                 onChange={ this.handleCurrFormatChange }
-                getPopupContainer={ () => document.getElementById('setting_card_1') }>
+                getPopupContainer={ () => document.getElementById('setting_card_1') }
+              >
                 <Option value={ this.props.currencySymbol }> {this.props.currencySymbol}</Option>
-                <Option value={ 'm' + this.props.currencySymbol }>{'m' + this.props.currencySymbol}</Option>
+                <Option value={ 'm' + this.props.currencySymbol }>
+                  {'m' + this.props.currencySymbol}
+                </Option>
               </Select>
             </div>
           </Col>
         </Row>
 
-        { // @ FEATURE_FLAG
-          this.props.americanOddsEnabled ? 
-          <Row className='margin-tb-15'>
-            <Col span={ 18 }>
-              <p
-                className='padding-tb-5'>{ I18n.t('myAccount.oddsFormat') }</p>
-            </Col>
-            <Col span={ 6 }>
-              <div ref='global_object'>
-                <Select
-                  className='bookie-select'
-                  defaultValue={ this.props.oddsFormat }
-                  onChange={ this.handleOddsFormatChange }>
-                  <Option value='decimal'>Decimal</Option>
-                  <Option value='american'>American</Option>
-                </Select>
-              </div>
-            </Col>
-          </Row> : ''
-        }
-
+        {// @ FEATURE_FLAG
+          this.props.americanOddsEnabled ? (
+            <Row className='margin-tb-15'>
+              <Col span={ 18 }>
+                <p className='padding-tb-5'>{I18n.t('myAccount.oddsFormat')}</p>
+              </Col>
+              <Col span={ 6 }>
+                <div ref='global_object'>
+                  <Select
+                    className='bookie-select'
+                    defaultValue={ this.props.oddsFormat }
+                    onChange={ this.handleOddsFormatChange }
+                  >
+                    <Option value='decimal'>Decimal</Option>
+                    <Option value='american'>American</Option>
+                  </Select>
+                </div>
+              </Col>
+            </Row>
+          ) : (
+            ''
+          )}
 
         <div className='card-footer'>
-          <Row
-            className='registerComponent'>
+          <Row className='registerComponent'>
             <button
               onClick={ this.handleRedirectToChangePwd }
-              className='btn btn-primary margin-tb-15'>
-              { I18n.t('myAccount.change_password') }
+              className='btn btn-primary margin-tb-15'
+            >
+              {I18n.t('myAccount.change_password')}
             </button>
-            <button className='btn btn-cancel'
-              onClick={ this.handleDownloadPasswordFile }>
-              { I18n.t('myAccount.create_recovery_file') }
+            <button className='btn btn-cancel' onClick={ this.handleDownloadPasswordFile }>
+              {I18n.t('myAccount.create_recovery_file')}
             </button>
           </Row>
         </div>
@@ -309,26 +313,32 @@ class MyAccount extends PureComponent {
           <Col span={ 16 }>
             <Breadcrumb className='bookie-breadcrumb'>
               <Breadcrumb.Item>
-                <a onClick={ this.handleNavigateToHome }>  {I18n.t('myAccount.home')} </a>
+                <a onClick={ this.handleNavigateToHome }> {I18n.t('myAccount.home')} </a>
               </Breadcrumb.Item>
               <Breadcrumb.Item>{I18n.t('myAccount.my_account')}</Breadcrumb.Item>
             </Breadcrumb>
           </Col>
           <Col span={ 8 }>
             <div className='welcome'>
-              { I18n.t('myAccount.welcome_back') }, <span className='account-name'>{ this.props.accountName }</span>
+              {I18n.t('myAccount.welcome_back')},{' '}
+              <span className='account-name'>{this.props.accountName}</span>
             </div>
           </Col>
         </Row>
         <Row gutter={ 20 }>
-          { this.props.depositsEnabled ? // @ FEATURE_FLAG
+          {this.props.depositsEnabled ? ( // @ FEATURE_FLAG
             <Col span={ 8 }>
-              <Deposit cardClass='bookie-card depositCardComponent' depositAddress={ this.props.depositAddress } currency={ this.props.currencyFormat }/>
-            </Col> 
-          : null }
-          { this.props.withdawalsEnabled ? // @ FEATURE_FLAG
+              <Deposit
+                cardClass='bookie-card depositCardComponent'
+                depositAddress={ this.props.depositAddress }
+                currency={ this.props.currencyFormat }
+              />
+            </Col>
+          ) : null}
+          {this.props.withdrawalsEnabled ? (
             <Col span={ 8 }>
-              <MyAccountWithdraw cardClass='bookie-card withdrawComponent'
+              <MyAccountWithdraw
+                cardClass='bookie-card withdrawComponent'
                 currencyFormat={ this.props.currencyFormat }
                 precision={ this.props.precision }
                 availableBalance={ this.props.availableBalance }
@@ -337,31 +347,29 @@ class MyAccount extends PureComponent {
                 withdrawAmount={ this.state.withdrawAmount }
                 convertedAvailableBalance={ this.props.convertedAvailableBalance }
                 resetWithdrawLoadingStatus={ this.props.resetWithdrawLoadingStatus }
-                />
-            </Col> 
-          : null }
-          <Col span={ 10 }>
-            { this.renderSettingCard() }
-          </Col>
+              />
+            </Col>
+          ) : null}
+          <Col span={ 10 }>{this.renderSettingCard()}</Col>
         </Row>
         <Row>
           <TransactionHistory
-             currencyFormat={ this.props.currencyFormat }
-             lastIrreversibleBlockNum={ this.props.lastIrreversibleBlockNum }
-             transactionHistory={ this.props.transactionHistory }
-             transactionHistoryLoadingStatus={ this.props.transactionHistoryLoadingStatus }
-             handleSearchClick={ this.handleSearchClick }
-             handleExportClick={ this.handleExportClick }
-             exportData={ this.props.transactionHistoryExportData }
-             exportLoadingStatus={ this.props.generateTransactionHistoryExportDataLoadingStatus }
-             handleResetExport={ this.handleResetExport }
-           />
+            currencyFormat={ this.props.currencyFormat }
+            lastIrreversibleBlockNum={ this.props.lastIrreversibleBlockNum }
+            transactionHistory={ this.props.transactionHistory }
+            transactionHistoryLoadingStatus={ this.props.transactionHistoryLoadingStatus }
+            handleSearchClick={ this.handleSearchClick }
+            handleExportClick={ this.handleExportClick }
+            exportData={ this.props.transactionHistoryExportData }
+            exportLoadingStatus={ this.props.generateTransactionHistoryExportDataLoadingStatus }
+            handleResetExport={ this.handleResetExport }
+          />
         </Row>
         <Row>
           <PeerPlaysLogo />
         </Row>
       </div>
-    )
+    );
   }
 }
 
@@ -372,45 +380,54 @@ MyAccount.defaultProps = {
   americanOddsEnabled: Config.features.americanOdds
 };
 
-const mapStateToProps = (state) => {
-  return {
-    lastIrreversibleBlockNum: MyAccountPageSelector.lastIrreversibleBlockNumSelector(state),
-    notification: MyAccountPageSelector.notificationSelector(state),
-    currencyFormat: MyAccountPageSelector.currencyFormatSelector(state),
-    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
-    precision: MyAccountPageSelector.coreAssetPrecisionSelector(state),
-    transactionHistory: MyAccountPageSelector.filteredTransactionHistorySelector(state),
-    transactionHistoryLoadingStatus: MyAccountPageSelector.initRawHistoryLoadingStatusSelector(state),
-    transactionHistoryExportData: MyAccountPageSelector.transactionHistoryExportDataSelector(state),
-    generateTransactionHistoryExportDataLoadingStatus: MyAccountPageSelector.generateTransactionHistoryExportDataLoadingStatusSelector(state),
-    //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
-    loadingStatus: MyAccountPageSelector.getDepositAddressLoadingStatusSelector(state),
-    depositAddress: MyAccountPageSelector.depositAddressSelector(state),
-    availableBalance: MyAccountPageSelector.availableBalanceSelector(state),
-    withdrawLoadingStatus: MyAccountPageSelector.withdrawLoadingStatusSelector(state),
-    convertedAvailableBalance : MyAccountPageSelector.formattedAvailableBalanceSelector(state),
-    accountName: MyAccountPageSelector.accountNameSelector(state)
-  }
-}
+const mapStateToProps = (state) => ({
+  lastIrreversibleBlockNum: MyAccountPageSelector.lastIrreversibleBlockNumSelector(state),
+  notification: MyAccountPageSelector.notificationSelector(state),
+  currencyFormat: MyAccountPageSelector.currencyFormatSelector(state),
+  oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
+  precision: MyAccountPageSelector.coreAssetPrecisionSelector(state),
+  transactionHistory: MyAccountPageSelector.filteredTransactionHistorySelector(state),
+  transactionHistoryLoadingStatus: MyAccountPageSelector.initRawHistoryLoadingStatusSelector(
+    state
+  ),
+  transactionHistoryExportData: MyAccountPageSelector.transactionHistoryExportDataSelector(state),
+  generateTransactionHistoryExportDataLoadingStatus: MyAccountPageSelector.generateTransactionHistoryExportDataLoadingStatusSelector( // eslint-disable-line
+    state
+  ),
+  //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
+  loadingStatus: MyAccountPageSelector.getDepositAddressLoadingStatusSelector(state),
+  depositAddress: MyAccountPageSelector.depositAddressSelector(state),
+  availableBalance: MyAccountPageSelector.availableBalanceSelector(state),
+  withdrawLoadingStatus: MyAccountPageSelector.withdrawLoadingStatusSelector(state),
+  convertedAvailableBalance: MyAccountPageSelector.formattedAvailableBalanceSelector(state),
+  accountName: MyAccountPageSelector.accountNameSelector(state)
+});
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    updateSettingLang: SettingActions.updateSettingLang,
-    updateSettingTimeZone: SettingActions.updateSettingTimeZone,
-    updateSettingNotification: SettingActions.updateSettingNotification,
-    updateCurrencyFormat: SettingActions.updateCurrencyFormat,
-    updateOddsFormat: SettingActions.updateOddsFormat,
-    getDepositAddress: BalanceActions.getDepositAddress,
-    withdraw: BalanceActions.withdraw,
-    resetWithdrawLoadingStatus: BalanceActions.resetWithdrawLoadingStatus,
-    navigateTo: NavigateActions.navigateTo,
-    setHistoryTimeRange: MyAccountPageActions.setHistoryTimeRange,
-    generateTransactionHistoryExportData: MyAccountPageActions.generateTransactionHistoryExportData,
-    resetTransactionHistoryExportData: MyAccountPageActions.resetTransactionHistoryExportDataAction,
-    resetTimeRange: MyAccountPageActions.resetTimeRange,
-    downloadPassword: AccountActions.downloadPassword,
-  }, dispatch)
+  return bindActionCreators(
+    {
+      updateSettingLang: SettingActions.updateSettingLang,
+      updateSettingTimeZone: SettingActions.updateSettingTimeZone,
+      updateSettingNotification: SettingActions.updateSettingNotification,
+      updateCurrencyFormat: SettingActions.updateCurrencyFormat,
+      updateOddsFormat: SettingActions.updateOddsFormat,
+      getDepositAddress: BalanceActions.getDepositAddress,
+      withdraw: BalanceActions.withdraw,
+      resetWithdrawLoadingStatus: BalanceActions.resetWithdrawLoadingStatus,
+      navigateTo: NavigateActions.navigateTo,
+      setHistoryTimeRange: MyAccountPageActions.setHistoryTimeRange,
+      generateTransactionHistoryExportData:
+        MyAccountPageActions.generateTransactionHistoryExportData,
+      resetTransactionHistoryExportData:
+        MyAccountPageActions.resetTransactionHistoryExportDataAction,
+      resetTimeRange: MyAccountPageActions.resetTimeRange,
+      downloadPassword: AccountActions.downloadPassword
+    },
+    dispatch
+  );
 }
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccount);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MyAccount);

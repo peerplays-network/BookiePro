@@ -1,3 +1,3 @@
 import Signup from './Signup';
-import './Signup.less'
+import './Signup.less';
 export default Signup;

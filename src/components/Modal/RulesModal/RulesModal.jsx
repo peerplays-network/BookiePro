@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
-import { Modal } from 'antd';
+import React, {PureComponent} from 'react';
+import {Modal} from 'antd';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import Ps from 'perfect-scrollbar';
 import ReactDOM from 'react-dom';
-import { I18n } from 'react-redux-i18n';
+import {I18n} from 'react-redux-i18n';
 
 class RulesModalScrollableContent extends PureComponent {
   componentDidMount() {
@@ -15,7 +15,6 @@ class RulesModalScrollableContent extends PureComponent {
   }
 
   render() {
-    
     const rules = this.props.rules.get('description');
     const pattern = /([A-Z]+\s[A-Z]+(?=\s))\s([^\.]+\.)\s(.+)\s(?=Please note)(.+)/g;
     const parts = pattern.exec(rules);
@@ -24,31 +23,23 @@ class RulesModalScrollableContent extends PureComponent {
 
     // If we've matched all the pieces that we are expecting.
     if (parts && parts.length === 5) {
-      output = <div>
-        <p>
-          {parts[1]}
-        </p>
-        <p>
-          {parts[2]}
-        </p>
-        <p>
-          {parts[3]}
-        </p>
-        <p>
-          {parts[4]}
-        </p>
-      </div>;
+      output = (
+        <div>
+          <p>{parts[1]}</p>
+          <p>{parts[2]}</p>
+          <p>{parts[3]}</p>
+          <p>{parts[4]}</p>
+        </div>
+      );
     }
 
     return (
       <div className='rules-modal-content' ref='scrollableSection'>
-        { output }
+        {output}
       </div>
-    )
+    );
   }
 }
-
-
 
 class RulesModal extends PureComponent {
   constructor(props) {
@@ -58,7 +49,7 @@ class RulesModal extends PureComponent {
   handleCancel(event) {
     event.preventDefault();
     this.props.onCancel();
-  };
+  }
   render() {
     return (
       <Modal
@@ -79,12 +70,12 @@ RulesModal.propTypes = {
   rules: PropTypes.instanceOf(Immutable.Map),
   visible: PropTypes.bool,
   onCancel: PropTypes.func
-}
+};
 
 RulesModal.defaultProps = {
   rules: Immutable.Map(),
   visible: false,
   onCancel: () => {}
-}
+};
 
 export default RulesModal;
