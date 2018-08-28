@@ -1,5 +1,6 @@
 import ActionTypes from './ActionTypes';
 import AppBackgroundTypes from './AppBackgroundTypes';
+import BackingWidgetTypes from './BackingWidgetTypes';
 import BetTypes from './BetTypes';
 import BetCategories from './BetCategories';
 import BettingDrawerStates from './BettingDrawerStates';
@@ -24,6 +25,7 @@ import LayoutConstants from './LayoutConstants';
 export {
   ActionTypes,
   AppBackgroundTypes,
+  BackingWidgetTypes,
   BetTypes,
   BetCategories,
   BettingDrawerStates,
@@ -43,5 +45,5 @@ export {
   MyWagerTabTypes,
   NotificationTypes,
   ObjectPrefix,
-  TimeRangePeriodTypes,
+  TimeRangePeriodTypes
 };

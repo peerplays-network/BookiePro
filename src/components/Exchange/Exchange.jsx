@@ -132,8 +132,8 @@ class Exchange extends PureComponent {
     );
 
     // Pick one of the 2 betting drawers based on the path
-    let selectBettingDrawer = (pathTokens) => {
-      if (pathTokens.length < 3 || pathTokens[2].toLowerCase() !== 'bettingmarketgroup') {
+    let selectBettingDrawer = (pathTokens) => {  
+      if (pathTokens.length < 4 || pathTokens[3].toLowerCase() !== 'bettingmarketgroup') {
         return ( <QuickBetDrawer currencyFormat={ this.props.currencyFormat }/> );
       }
 
