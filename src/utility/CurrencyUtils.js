@@ -173,8 +173,8 @@ var CurrencyUtils = {
   /**
    * Get converted amount based on input currency and precision
    *
-   * @param {float} amount - amount to be formatted, in terms of 'BTF'
-   * @param {string} currency -  display currency, 'BTF' or 'mBTF'
+   * @param {float} amount - amount to be formatted, in terms of base coin
+   * @param {string} currency -  display currency, base coin or mili base coin
    * @param {integer} precision - ( ***BTF*** base), either BettingModuleUtils.oddsPlaces or 
    *        BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
    * @param {boolan} accuracy - This value defaults to true as accuracy is typically preferred. 
@@ -202,7 +202,7 @@ var CurrencyUtils = {
         return amount;
       }
 
-      if (currencyFormat === 'mBTF' || currencyFormat === mCoinSymbol) {
+      if (currencyFormat === mCoinSymbol) {
         // 1 BTF = 1 * 10^3 mBTF
         const mPrecision = precision < 3 ? 0 : precision - 3;
 
@@ -266,8 +266,8 @@ var CurrencyUtils = {
    * with currency symbol. Internally, this function calls getFormattedCurrency and use the same
    * parameters except the last optional one.
    *
-   * @param {float} amount - amount to be formatted, in terms of 'BTF'
-   * @param {string} currency -  display currency, 'BTF' or 'mBTF'
+   * @param {float} amount - amount to be formatted, in terms of base coin
+   * @param {string} currency -  display currency, base coin or mili base coin
    * @param {integer} precision - ( ***BTF*** base), either BettingModuleUtils.oddsPlaces or
    * BettingModuleUtils.stakePlaces or BettingModuleUtils.exposurePlaces
    * @param {boolean} spaceAfterSymbol -  if space needed to seperate currency symbole and amount.
@@ -300,8 +300,8 @@ var CurrencyUtils = {
     * This function is defined so that we don't need to do the field and precision
     * lookup in multiple places in the code.
     *
-    * @param {float} amount - amount to be formatted, in terms of 'BTF'
-    * @param {string} currency -  display currency, 'BTF' or 'mBTF'
+    * @param {float} amount - amount to be formatted, in terms of base coin
+    * @param {string} currency -  display currency, base coin or mili base coin
     * @param {boolan} skipDustCheck - if true, do not check if value is dust. Used for placing bets.
     * @returns {string} - formatted BTF or mBTF value
     */
