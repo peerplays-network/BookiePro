@@ -2,7 +2,6 @@ import {Config} from '../constants';
 import React from 'react';
 import UserIssuedAssets from '../constants/UserIssuedAssets';
 
-
 /**
  * The CurrencyUtils contains all the functions related to currency conversion function
  */
@@ -129,8 +128,6 @@ var CurrencyUtils = {
   },
 
   getCurrencySymbol: function(currency = mCoinSymbol, color='black') {
-    debugger;
-
     switch (currency) {
       case 'BTC':
         if (color === 'white') {
