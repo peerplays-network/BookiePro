@@ -22,6 +22,22 @@ const stakeDust = exchangeCoin; // Three
 //         could be in satoshi unit.
 //         The functions toFixed and toFixedWithSymbol are not performing this conversion.
 
+class Currency {
+  // Type:  profit, liability, stake, exposure, orderbook balance.
+  constructor(amount, field) {
+    this.amount = amount;
+    this.field = field;
+  }
+
+  static fromInt(val) {
+
+  }
+
+  static fromString(val) {
+
+  }
+}
+
 var CurrencyUtils = {
   fieldPrecisionMap: {
     // Odds values have no dependency on currency but it is included in this map for
