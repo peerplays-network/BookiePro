@@ -24,19 +24,31 @@ const stakeDust = exchangeCoin; // Three
 
 class Currency {
   // Type:  profit, liability, stake, exposure, orderbook balance.
-  constructor(amount, field) {
+  constructor(amount, field, currencyFormat) {
     this.amount = amount;
     this.field = field;
+    this.currencyFormat = currencyFormat;
   }
 
   static fromInt(val) {
-
+    return val.toString();
   }
 
   static fromString(val) {
+    return parseFloat(val);
+  }
 
+  static truncPrecision(val) {
+    return Math.abs(val);
+  }
+
+  static dustCheck() {
+    return true;
   }
 }
+
+const testCurrency = new Currency(12.356, 'stake', 'mBTC');
+console.log(testCurrency);
 
 var CurrencyUtils = {
   fieldPrecisionMap: {
