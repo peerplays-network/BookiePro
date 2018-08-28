@@ -13,8 +13,8 @@ import miliBitCoinWhite from '../assets/icons/mbitcoin_icon_white.png';
  * The CurrencyUtils contains all the functions related to currency conversion function
  */
 const bitcoinSymbol = '\u0243';
-const configCurrency = Config.features.currency;
-const mCurrencySymbol = 'm' + configCurrency;
+const coinSymbol = Config.features.currency;
+const mCoinSymbol = 'm' + coinSymbol;
 const coinDust = Config.dust.coin;
 const miliCoinDust = Config.dust.miliCoin;
 const exchangeCoin = Config.dust.exchangeCoin;
@@ -86,7 +86,7 @@ var CurrencyUtils = {
     amount,
     precision,
     accuracy=true,
-    currencyFormat='mBTF',
+    currencyFormat = mCoinSymbol,
     field,
     skipDustCheck=false
   ) {
@@ -120,7 +120,7 @@ var CurrencyUtils = {
     return amount;
   },
 
-  getCurrencyType: function(currency='BTF') {
+  getCurrencyType: function (currency = coinSymbol) {
     let type = 'coin';
 
     if (currency.indexOf('m') !== -1) {
@@ -130,7 +130,7 @@ var CurrencyUtils = {
     return type;
   },
 
-  getCurrencySymbol: function(currency='mBTF', color='black') {
+  getCurrencySymbol: function(currency = mCoinSymbol, color='black') {
     switch (currency) {
       case 'BTC':
         if (color === 'white') {
@@ -150,7 +150,7 @@ var CurrencyUtils = {
         }
 
         return (
-          <img src={ miliBitCoin } className='currency-symbol mbtc' alt={ mCurrencySymbol }
+          <img src={ miliBitCoin } className='currency-symbol mbtc' alt={ mCoinSymbol }
           />
         );
       case 'BTF':
@@ -189,7 +189,7 @@ var CurrencyUtils = {
    */
   getFormattedCurrency: function(
     amount,
-    currencyFormat='mBTF',
+    currencyFormat=mCoinSymbol,
     precision=0,
     accuracy=true,
     avg=false,
@@ -202,7 +202,7 @@ var CurrencyUtils = {
         return amount;
       }
 
-      if (currencyFormat === 'mBTF' || currencyFormat === mCurrencySymbol) {
+      if (currencyFormat === 'mBTF' || currencyFormat === mCoinSymbol) {
         // 1 BTF = 1 * 10^3 mBTF
         const mPrecision = precision < 3 ? 0 : precision - 3;
 
@@ -239,7 +239,7 @@ var CurrencyUtils = {
           );
       }
 
-      if (currencyFormat === 'BTF' || currencyFormat === configCurrency) {
+      if (currencyFormat === coinSymbol) {
         if (amount % 1 !== 0) {
           return this.substringPrecision(
             amount, 
@@ -275,7 +275,7 @@ var CurrencyUtils = {
    */
   formatByCurrencyAndPrecisionWithSymbol: function(
     amount,
-    currency='mBTF',
+    currency=mCoinSymbol,
     precision=0,
     spaceAfterSymbol=false
   ) {
@@ -286,7 +286,7 @@ var CurrencyUtils = {
     }
 
     // Note: Math.abs can take a string of valid number as argument
-    if (currency === 'mBTF' || currency === mCurrencySymbol) {
+    if (currency === mCoinSymbol) {
       precision = precision < 3 ? 0 : precision - 3;
     }
 
@@ -305,7 +305,11 @@ var CurrencyUtils = {
     * @param {boolan} skipDustCheck - if true, do not check if value is dust. Used for placing bets.
     * @returns {string} - formatted BTF or mBTF value
     */
-  formatFieldByCurrencyAndPrecision: function(field, amount, currency='mBTF', skipDustCheck) {
+  formatFieldByCurrencyAndPrecision: function(
+    field, 
+    amount, 
+    currency=mCoinSymbol, 
+    skipDustCheck) {
     const currencyType = this.getCurrencyType(currency);
     
     // Odds values have no dependency on currency
@@ -343,7 +347,7 @@ var CurrencyUtils = {
    *
    * Return the field value (amount) as a formatted string
    */
-  toFixed: function(field, amount, currency='mBTF') {
+  toFixed: function(field, amount, currency=mCoinSymbol) {
     const currencyType = this.getCurrencyType(currency);
 
     // DO NOT expect this but just in case...
@@ -357,17 +361,11 @@ var CurrencyUtils = {
     let floatAmount = parseFloat(amount);
 
     if (field === 'stake') {
-      if (
-        (floatAmount < 1 && currency === 'mBTF') ||
-        (floatAmount < 1 && currency === mCurrencySymbol)
-      ) {
+      if (floatAmount < 1 && currency === mCoinSymbol) {
         return Config.mbtfTransactionFee.toString();
       }
 
-      if (
-        (floatAmount < 0.001 && currency === 'BTF') ||
-        (floatAmount < 0.001 && currency === configCurrency)
-      ) {
+      if (floatAmount < 0.001 && currency === coinSymbol) {
         return Config.btfTransactionFee.toString();
       }
     }
@@ -398,7 +396,7 @@ var CurrencyUtils = {
    *
    * Return the field value (amount) as a formatted string
    */
-  toFixedWithSymbol: function(field, amount, currency='mBTF', spaceAfterSymbol=false) {
+  toFixedWithSymbol: function(field, amount, currency=mCoinSymbol, spaceAfterSymbol=false) {
     return (
       (amount >= 0 ? '' : '-') +
       this.getCurrencySymbol(currency) +
