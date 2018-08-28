@@ -1,13 +1,5 @@
-import {Config} from '../constants';
+import {Config, UserIssuedAssets} from '../constants';
 import React from 'react';
-import bitFunBlack from '../assets/icons/bitfun_icon_black.svg';
-import bitFunWhite from '../assets/icons/bitfun_icon_white.svg';
-import mBitFunWhite from '../assets/icons/mbitfun_icon_white.svg';
-import mBitFunBlack from '../assets/icons/mbitfun_icon_black.svg';
-import bitCoin from '../assets/icons/bitcoin_icon_black.png';
-import bitCoinWhite from '../assets/icons/bitcoin_icon_white.png';
-import miliBitCoin from '../assets/icons/mbitcoin_icon_black.png';
-import miliBitCoinWhite from '../assets/icons/mbitcoin_icon_white.png';
 
 /**
  * The CurrencyUtils contains all the functions related to currency conversion function
@@ -20,6 +12,10 @@ const miliCoinDust = Config.dust.miliCoin;
 const exchangeCoin = Config.dust.exchangeCoin;
 const miliStakeDust = 0;
 const stakeDust = exchangeCoin; // Three
+
+const btc = UserIssuedAssets.btc;
+const btf = UserIssuedAssets.btf;
+
 
 // REVIEW: Some functions here do auto conversion from BTF to mBTF.
 //         We need to be careful because sometimes the values we are handling
@@ -131,40 +127,42 @@ var CurrencyUtils = {
   },
 
   getCurrencySymbol: function(currency = mCoinSymbol, color='black') {
+    debugger;
+
     switch (currency) {
       case 'BTC':
         if (color === 'white') {
           return (
-            <img src={ bitCoinWhite } className='currency-symbol btc' alt={ bitcoinSymbol }/>
+            <img src={ btc.white } className='currency-symbol btc' alt={ bitcoinSymbol }/>
           );
         }
 
         return (
-          <img src={ bitCoin } className='currency-symbol btc' alt={ bitcoinSymbol }/>
+          <img src={ btc.black } className='currency-symbol btc' alt={ bitcoinSymbol }/>
         );
       case 'mBTC':
         if (color === 'white') {
           return (
-            <img src={ miliBitCoinWhite } className='currency-symbol btc' alt={ bitcoinSymbol } />
+            <img src={ btc.mWhite } className='currency-symbol btc' alt={ bitcoinSymbol } />
           );
         }
 
         return (
-          <img src={ miliBitCoin } className='currency-symbol mbtc' alt={ mCoinSymbol }
+          <img src={ btc.mBlack } className='currency-symbol mbtc' alt={ mCoinSymbol }
           />
         );
       case 'BTF':
         if (color === 'white') {
-          return <img src={ bitFunWhite } className='currency-symbol btf' alt='BTF' />;
+          return <img src={ btf.white } className='currency-symbol btf' alt='BTF' />;
         }
 
-        return <img src={ bitFunBlack } className='currency-symbol btf' alt='BTF' />;
+        return <img src={ btf.black } className='currency-symbol btf' alt='BTF' />;
       case 'mBTF':
         if (color === 'white') {
-          return <img src={ mBitFunWhite } className='currency-symbol mbtf' alt='mBTF' />;
+          return <img src={ btf.mWhite } className='currency-symbol mbtf' alt='mBTF' />;
         }
 
-        return <img src={ mBitFunBlack } className='currency-symbol mbtf' alt='mBTF' />;
+        return <img src={ btf.mBlack } className='currency-symbol mbtf' alt='mBTF' />;
       default:
         break;
     }
