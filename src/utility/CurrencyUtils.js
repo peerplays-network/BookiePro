@@ -38,8 +38,12 @@ class Currency {
     return parseFloat(val);
   }
 
-  static truncPrecision(val) {
-    return Math.abs(val);
+  truncPrecision() {
+    if (typeof this.amount !== 'number') {
+      this.amount = this.fromString(this.amount);
+    }
+
+    return Math.floor(this.amount);
   }
 
   static dustCheck() {
@@ -48,11 +52,12 @@ class Currency {
 }
 
 const testCurrency = new Currency(12.356, 'stake', 'mBTC');
+const cur = new Currency('12.543', 'stake', 'BTC');
 console.log(testCurrency);
 
 var CurrencyUtils = {
   fieldPrecisionMap: {
-    // Odds values have no dependency on currency but it is included in this map for
+    // Odds values have no dependency on ∏securrency but it is included in this map for
     // convenience's sake.
     odds: {
       BTF: 2,
