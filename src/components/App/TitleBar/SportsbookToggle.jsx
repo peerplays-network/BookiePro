@@ -6,6 +6,7 @@ import { AppActions, NavigateActions } from '../../../actions';
 import { I18n } from 'react-redux-i18n';
 import { BookieModes } from '../../../constants';
 import { EventPageSelector } from '../../../selectors';
+import { ChainTypes } from 'peerplaysjs-lib';
 
 class SportsbookToggle extends PureComponent {
   constructor(props) {
@@ -17,13 +18,15 @@ class SportsbookToggle extends PureComponent {
     let subroute = '';
 
     if (this.props.eventID) {
-      subroute  = '/events/' + this.props.eventID;
+      subroute = '/events/' + this.props.eventID;
+    } else if (this.props.bmgID) {
+      subroute = '/BettingMarketGroup/' + this.props.bmgID;
     }
 
     switch (mode) {
       case BookieModes.EXCHANGE: {
         this.props.setMode(BookieModes.EXCHANGE);
-        this.props.navigateTo('/betting/exchange');
+        this.props.navigateTo('/betting/exchange' + subroute);
         break;
       }
       case BookieModes.SPORTSBOOK: {
@@ -39,13 +42,11 @@ class SportsbookToggle extends PureComponent {
   render() {
     return (
       <div className='sportsBookToggle'>
-        <p onClick={ () => this.toggle(BookieModes.EXCHANGE) } 
-            className={ this.props.bookMode === BookieModes.EXCHANGE ? 'active' : '' }>
+        <p onClick={ () => this.toggle(BookieModes.EXCHANGE) } className={ this.props.bookMode === BookieModes.EXCHANGE ? 'active' : '' }>
           {I18n.t('titleBar.sportsbookToggle.exchange')}
         </p>
 
-        <p onClick={ () => this.toggle(BookieModes.SPORTSBOOK) } 
-            className={ this.props.bookMode === BookieModes.SPORTSBOOK ? 'active' : '' }>
+        <p onClick={ () => this.toggle(BookieModes.SPORTSBOOK) } className={ this.props.bookMode === BookieModes.SPORTSBOOK ? 'active' : '' }>
           {I18n.t('titleBar.sportsbookToggle.sportsbook')}
         </p>
       </div>
@@ -61,22 +62,39 @@ SportsbookToggle.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const previousRoute = state.getIn(['routing', 'locationBeforeTransitions']);
-  let eventID;
-
-
+  let eventID, bmgID;
+  // If the previous route exists
   if (previousRoute) {
     let splitRoute = previousRoute.pathname.split('/');
 
+    // If we're deeper than the base routes
     if (splitRoute.length > 3) {
-      let bmgID = splitRoute[splitRoute.length - 1];
-      eventID = EventPageSelector.getEventIdByFromBMGId(state, bmgID);
+      // Get the object that we're currently looking at
+      let blockchainObject = splitRoute[splitRoute.length - 1];
+
+      // The object type lives in the 'y' position (x.y.z)
+      let objectType = blockchainObject.split('.')[1];
+
+      // If we've got a BMG, then we need to pull an eventID
+      if (objectType === ChainTypes.object_type.betting_market_group.toString()) {
+        // We want to have the parent eventID on hand in case the user toggles to the exchange
+        eventID = EventPageSelector.getEventIdByFromBMGId(state, blockchainObject);
+      } else if (objectType === ChainTypes.object_type.event.toString()) {
+        // We want to have the 'first' bmgID on hand incase the user toggles to the sportsbook
+        bmgID = EventPageSelector.getFirstBettingMarketGroupByEventId(state, {
+          params: {
+            eventId: blockchainObject,
+          },
+        });
+      }
     }
   }
 
   return {
     bookMode: state.getIn(['app', 'bookMode']),
     previousRoute: state.getIn(['routing', 'previousRoute']),
-    eventID
+    eventID,
+    bmgID,
   };
 };
 

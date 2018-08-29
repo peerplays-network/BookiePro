@@ -36,6 +36,20 @@ const getBettingMarketGroupsByEventId = (state, ownProps) => {
   return bettingMarkets;
 };
 
+const getFirstBettingMarketGroupByEventId = createSelector(
+  [
+    getBettingMarketGroupsByEventId
+  ],
+  (
+    bettingMarketGroups
+  ) => {
+    console.log(bettingMarketGroups);
+    if (bettingMarketGroups.first()) {
+      return bettingMarketGroups.last().get('id')
+    }
+  }
+);
+
 const getBettingMarketsByBMGID = createSelector([getBettingMarketsById], bettingMarkets => {
   let bettingMarketsByGroupID = {};
 
@@ -115,7 +129,8 @@ const EventPageSelector = {
   getEvent,
   getMarketData,
   getBettingMarketGroupsByEventId,
-  getEventIdByFromBMGId
+  getEventIdByFromBMGId,
+  getFirstBettingMarketGroupByEventId
 };
 
 export default EventPageSelector;
