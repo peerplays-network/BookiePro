@@ -12,12 +12,23 @@ const {
 
 const getEvent = (state, id) => state.getIn(['event', 'eventsById', id]);
 
+const getEventIdByFromBMGId = (state, id) => {
+  const bmgs = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
+  let foundEventID = -1;
+  bmgs.valueSeq().forEach(bettingMarket => {
+    if (bettingMarket.get('id') === id) {
+      foundEventID = bettingMarket.get('event_id');
+    }
+  });
+  return foundEventID;
+};
+
 const getBettingMarketGroupsByEventId = (state, ownProps) => {
   const bmgs = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
   const eventId = ownProps.params.eventId;
 
   let bettingMarkets = Immutable.List();
-  bmgs.valueSeq().forEach((bettingMarket, index) => {
+  bmgs.valueSeq().forEach(bettingMarket => {
     if (bettingMarket.get('event_id') === eventId) {
       bettingMarkets = bettingMarkets.push(bettingMarket);
     }
@@ -104,6 +115,7 @@ const EventPageSelector = {
   getEvent,
   getMarketData,
   getBettingMarketGroupsByEventId,
+  getEventIdByFromBMGId
 };
 
 export default EventPageSelector;

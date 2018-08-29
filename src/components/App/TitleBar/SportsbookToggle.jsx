@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { AppActions, NavigateActions } from '../../../actions';
 import { I18n } from 'react-redux-i18n';
 import { BookieModes } from '../../../constants';
+import { EventPageSelector } from '../../../selectors';
 
 class SportsbookToggle extends PureComponent {
   constructor(props) {
@@ -13,6 +14,12 @@ class SportsbookToggle extends PureComponent {
   }
 
   toggle(mode) {
+    let subroute = '';
+
+    if (this.props.eventID) {
+      subroute  = '/events/' + this.props.eventID;
+    }
+
     switch (mode) {
       case BookieModes.EXCHANGE: {
         this.props.setMode(BookieModes.EXCHANGE);
@@ -21,7 +28,7 @@ class SportsbookToggle extends PureComponent {
       }
       case BookieModes.SPORTSBOOK: {
         this.props.setMode(BookieModes.SPORTSBOOK);
-        this.props.navigateTo('/betting/sportsbook');
+        this.props.navigateTo('/betting/sportsbook' + subroute);
         break;
       }
       default:
@@ -32,11 +39,13 @@ class SportsbookToggle extends PureComponent {
   render() {
     return (
       <div className='sportsBookToggle'>
-        <p onClick={ () => this.toggle(BookieModes.EXCHANGE) } className={ this.props.bookMode === BookieModes.EXCHANGE ? 'active' : '' }>
+        <p onClick={ () => this.toggle(BookieModes.EXCHANGE) } 
+            className={ this.props.bookMode === BookieModes.EXCHANGE ? 'active' : '' }>
           {I18n.t('titleBar.sportsbookToggle.exchange')}
         </p>
 
-        <p onClick={ () => this.toggle(BookieModes.SPORTSBOOK) } className={ this.props.bookMode === BookieModes.SPORTSBOOK ? 'active' : '' }>
+        <p onClick={ () => this.toggle(BookieModes.SPORTSBOOK) } 
+            className={ this.props.bookMode === BookieModes.SPORTSBOOK ? 'active' : '' }>
           {I18n.t('titleBar.sportsbookToggle.sportsbook')}
         </p>
       </div>
@@ -51,8 +60,23 @@ SportsbookToggle.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
+  const previousRoute = state.getIn(['routing', 'locationBeforeTransitions']);
+  let eventID;
+
+
+  if (previousRoute) {
+    let splitRoute = previousRoute.pathname.split('/');
+
+    if (splitRoute.length > 3) {
+      let bmgID = splitRoute[splitRoute.length - 1];
+      eventID = EventPageSelector.getEventIdByFromBMGId(state, bmgID);
+    }
+  }
+
   return {
     bookMode: state.getIn(['app', 'bookMode']),
+    previousRoute: state.getIn(['routing', 'previousRoute']),
+    eventID
   };
 };
 
