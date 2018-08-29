@@ -12,7 +12,7 @@ import mBitFunBlack from '../assets/icons/mbitfun_icon_black.svg';
 const configCurrency = Config.features.currency;
 const mCurrencySymbol = 'm' + configCurrency;
 const coinDust = Config.dust.coin;
-const miliCoinDust = Config.dust.miliCoin;
+const mCoinDust = Config.dust.miliCoin;
 const exchangeCoin = Config.dust.exchangeCoin;
 const miliStakeDust = 0;
 const stakeDust = exchangeCoin; // Three
@@ -23,7 +23,13 @@ const stakeDust = exchangeCoin; // Three
 //         The functions toFixed and toFixedWithSymbol are not performing this conversion.
 
 class Currency {
-  // Type:  profit, liability, stake, exposure, orderbook balance.
+  /**
+   *Creates an instance of Currency.
+   * @param {string | number} amount
+   * @param {string} field - profit, liability, stake, exposure, orderbook balance
+   * @param {string} currencyFormat - the configured currency. (ie: 'BTF', 'mBTF', 'BTC', etc...).
+   * @memberof Currency
+   */
   constructor(amount, field, currencyFormat) {
     this.amount = amount;
     this.field = field;
@@ -46,7 +52,7 @@ class Currency {
     return this._field;
   }
   set field(value) {
-    this._field = value;
+    this._field = value.toLowerCase();
   }
 
   get currencyFormat() {
@@ -57,30 +63,117 @@ class Currency {
   }
 
   // HELPER FUNCTIONS
-  fromInt(val) {
-    return val.toString();
+  /**
+   * Converts the provided currency amount number into a string.
+   *
+   * @param {number} amount
+   * @returns {string}
+   * @memberof Currency
+   */
+  fromInt(amount) {
+    return amount.toString();
   }
-
-  fromString(val) {
-    return parseFloat(val);
+  /**
+ * Converts the provided currency amount string into a number.
+ *
+ * @param {string} amount
+ * @returns {float}
+ * @memberof Currency
+ */
+  fromString(amount) {
+    return parseFloat(amount);
   }
-
-
 
   truncPrecision() { // testCurrency.truncPrecision();
     return Math.floor(this.amount);
   }
 
-  isDust(amount) {
+  /**
+   * Checks if the provided currency format is a base coin or a mili coin type.
+   *
+   * @param {string} currency
+   * @returns {string} - Either 'coin' or 'mCoin' to represent base or mili format.
+   * @memberof Currency
+   */
+  getCurrencyType(currencyFormat) {
+    let type = 'coin';
+
+    if (currencyFormat.indexOf('m') !== -1) {
+      type = 'mCoin';
+    }
+
+    return type;
+  }
+  
+  /**
+   * Determine what the dust range is based on the currency objects attributes.
+   *
+   * @returns {number} - What the dust value is.
+   * @memberof Currency
+   */
+  getDustRange() {
+    let currencyType,
+      dustRange;
+    // Check the currency format.
+    // mili coin & base coin have different dust rules.
+    currencyType = this.getCurrencyType(this._currencyFormat);
+
+    if (currencyType === 'coin') {
+      dustRange = coinDust;
+    } else { // 'mCoin'
+      // Is the field STAKE?
+      if (this._field === 'stake') {
+        dustRange = miliStakeDust;
+      } else {
+        dustRange = mCoinDust;
+      }
+    }
+
+    // If the amount is of three precision, it is either a STAKE field or a field used in 
+    // ComplexBettingWidget or SimpleBettingWidget offer fields.
+    // Is amount from one of the betting widgets?
+    if (this._amount % 1 !== 0 && this._amount.toString().split('.')[1].length === 3) {
+      dustRange = exchangeCoin;
+    }
+
+    return dustRange;
+  }
+
+  /**
+   * Determine if the value qualifies as dust.
+   *
+   * @returns {boolean} - True | False indicator for dust.
+   * @memberof Currency
+   */
+  isDust() {
     let dustRange,
+      tempAmount,
+      currencyType,
       isDust = false;
 
     // Handle negative amounts
-    amount = Math.abs(amount);
+    tempAmount = Math.abs(this._amount);
 
     // Check the currency format.
     // mili coin & base coin have different dust rules.
+    currencyType = this.getCurrencyType(this._currencyFormat);
+    // Get the dust range.
+    dustRange = this.getDustRange();
 
+    // Stake plus miliCoin format has a special dust rule.
+    if (this._field === 'stake' && currencyType === 'mCoin') {
+      // The amount must be a whole number to not be considered dust.
+      if (tempAmount % 1 !== dustRange) {
+        isDust = true;
+      }
+    }
+
+    // If the amount is less thatn the configured dust values (Config.js).
+    if (tempAmount < dustRange && tempAmount !== 0) {
+      isDust = true;
+    }
+
+    return isDust;
   }
 }
 
@@ -470,7 +563,7 @@ var CurrencyUtils = {
       if (currencyFormat.toLowerCase().indexOf('m') === -1) {
         dustRange = coinDust;
       } else {
-        dustRange = miliCoinDust;
+        dustRange = mCoinDust;
       }
 
       // If the value coming is of 3 precision, its dust is different.
