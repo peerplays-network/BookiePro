@@ -12,7 +12,7 @@ class BettingMarket extends PureComponent {
   }
 
   getBestOdds(layBets) {
-    let bestOffer = layBets.first();
+    let bestOffer = layBets.last();
     if (bestOffer) {
       return bestOffer.get('odds');
     } else {
