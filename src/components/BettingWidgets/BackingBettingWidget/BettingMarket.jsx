@@ -3,12 +3,26 @@ import 'react-table/react-table.css';
 import PropTypes from 'prop-types';
 
 class BettingMarket extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.getBestOdds = this.getBestOdds.bind(this);
+  }
+
+  getBestOdds(layBets) {
+    let bestOffer = layBets.first();
+    if (bestOffer) {
+      return bestOffer.get('odds');
+    } else {
+      return '--';
+    }
+  }
+
   render() {
-    const { title } = this.props;
+    const { title, backOrigin } = this.props;
     return (
       <div className='backBettingMarket'>
         <div className='bmTitle'>{title}</div>
-        <div className='odds'>1.22</div>
+        <div className='odds'>{this.getBestOdds(backOrigin)}</div>
       </div>
     );
   }

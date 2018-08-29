@@ -17,7 +17,10 @@ class BackingBettingWidget extends PureComponent {
           {bettingMarkets.map((item, index) => {
             return (
               <Col key={ index } span={ SportsbookUtils.getColumnSize(title) }>
-                <BettingMarket title={ item.get('description') } />
+                <BettingMarket 
+                  title={ item.get('description') } 
+                  backOrigin={ item.get('backOrigin') }
+                />
               </Col>
             );
           })}

@@ -74,7 +74,7 @@ const groupOverUnders = bettingMarketGroups => {
     }
   });
 
-  overUnders = overUnders.set('bettingMarkets', overUnderBMs);
+  overUnders = overUnders.set('bettingMarkets', overUnderBMs.sort());
   newBettingMarketGroups = newBettingMarketGroups.push(overUnders);
   newBettingMarketGroups = newBettingMarketGroups.push(nonOverUnders);
   return newBettingMarketGroups;
