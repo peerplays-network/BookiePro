@@ -87,11 +87,13 @@ const getMarketData = createSelector(
     // Group all of the over under BMGs as if they belonged to the same BMG.
     bettingMarketGroups = SportsbookUtils.groupOverUnders(bettingMarketGroups);
 
-    // Priority sort
+    // Sort the betting market groups so they appear in priority order (ex. Match odds at top)
     bettingMarketGroups = SportsbookUtils.prioritySort(bettingMarketGroups);
 
     bettingMarketGroups.forEach(bmg => {
+      // If there is a betting market group that belongs to match odds
       if (SportsbookUtils.isMatchodds(bmg)) {
+        // The draw needs to be centered
         bmg = SportsbookUtils.centerTheDraw(bmg);
       }
     });

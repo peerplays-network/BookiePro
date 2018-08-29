@@ -76,8 +76,12 @@ const groupOverUnders = bettingMarketGroups => {
     }
   });
 
-  overUnders = overUnders.set('bettingMarkets', overUnderBMs.sort());
-  newBettingMarketGroups = newBettingMarketGroups.push(overUnders);
+  // If there were over unders present in the bettingMarkets,
+  //  add them to the list
+  if (overUnders.length > 0) {
+    overUnders = overUnders.set('bettingMarkets', overUnderBMs.sort());
+    newBettingMarketGroups = newBettingMarketGroups.push(overUnders);
+  }    
   newBettingMarketGroups = newBettingMarketGroups.push(nonOverUnders);
   return newBettingMarketGroups;
 };
@@ -134,7 +138,9 @@ const prioritySort = bettingMarketGroups => {
     let typeA = getDescriptionAsType(a.get('description'));
     let typeB = getDescriptionAsType(b.get('description'));
 
-    return BackingWidgetLayouts[typeA].order > BackingWidgetLayouts[typeB].order;
+    if (BackingWidgetLayouts[typeA] && BackingWidgetLayouts[typeB]) {
+      return BackingWidgetLayouts[typeA].order > BackingWidgetLayouts[typeB].order;
+    }
   });
   return bettingMarketGroups;
 };
