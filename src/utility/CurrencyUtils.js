@@ -90,9 +90,11 @@ class Currency {
    * May or may not be combined with other functions for inclusion of currency symbol image(s).
    *
    * @static
-   * @param {boolean} accuracy - Whether or not to round to precision decimal places.
+   * @param {boolean} [accuracy = true] - Whether or not to round to precision decimal places.
    *                       - True will round to precision decimal places
    *                       - False will truncate to precision decimal places
+   * @param {boolean} [skipDustCheck = false] - In some circumstances, we do not want to check if
+   *                                            a value is dust. 
    * @returns {string}
    * @memberof Currency
    */
@@ -123,6 +125,15 @@ class Currency {
     return displayNum;
   }
 
+  /**
+   * Retrieves the image file corresponding to the currency.
+   * Returns a HTML image tag.
+   *
+   * @static
+   * @param {string} [color='black'] - determine which image file to use to display
+   * @returns {HTMLImageElement}
+   * @memberof Currency
+   */
   static displayCurrencySymbol(color = 'black') {
     switch (this._currencyFormat) {
       case 'BTC':
@@ -158,9 +169,19 @@ class Currency {
     }
   }
 
+  /**
+   *
+   *
+   * @static
+   * @param {boolean} accuracy - for use in displayCurrencyAmount()
+   * @param {boolean} skipDustCheck - for use in displayCurrencyAmount()
+   * @param {string} color - for use in displayCurrencySymbol()
+   * @returns {HTMLImageElement + string}
+   * @memberof Currency
+   */
   static displayCurrencyAmountWithSymbol(accuracy, skipDustCheck, color) {
-    let displayValue = this.displayCurrencyAmount(accuracy, skipDustCheck)
-      + this.displayCurrencySymbol(color);
+    let displayValue = this.displayCurrencySymbol(color)
+        + this.displayCurrencyAmount(accuracy, skipDustCheck);
     return displayValue;
   }
 
