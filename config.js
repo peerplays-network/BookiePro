@@ -62,7 +62,7 @@ const config = {
       }
     },
     elizabeth: {
-      assetId: '1.3.0',
+      assetId: '1.3.1',
       apiEndpoints: [
         'ws://ec2-35-182-42-231.ca-central-1.compute.amazonaws.com:8090', // Canada
         'ws://ec2-18-195-242-233.eu-central-1.compute.amazonaws.com:8090', // Frankfurt
