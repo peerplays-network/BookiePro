@@ -96,28 +96,72 @@ class Currency {
    * @returns {string}
    * @memberof Currency
    */
-  static displayCurrencyAmount(accuracy) {
-    let precision = this.fieldPrecisionMap[this._field][this._currencyFormat];
-    let displayNum = '';
-    
-    // Check if the amount is dust.
-    if (!this.isDust()) {
-      let split = this._amount.toString().split('.');
+  static displayCurrencyAmount(accuracy = true, skipDustCheck = false) {
+    let displayNum = this._amount;
 
-      if (split[1] && split[1].length > precision) {
-        // Conditionally take tha value one past the accepted precision.
-        let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0));
-        let newAmount = split[0] + '.' + splitSel;
-        // Then, execute toFixed on the resulting amount. This maintains accuracy.
-        displayNum = parseFloat(newAmount).toFixed(precision);
+    if (!skipDustCheck) {
+      let precision = this.fieldPrecisionMap[this._field][this._currencyFormat];
+      
+      // Check if the amount is dust.
+      if (!this.isDust()) {
+        let split = this._amount.toString().split('.');
+
+        if (split[1] && split[1].length > precision) {
+          // Conditionally take tha value one past the accepted precision.
+          let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0));
+          let newAmount = split[0] + '.' + splitSel;
+          // Then, execute toFixed on the resulting amount. This maintains accuracy.
+          displayNum = parseFloat(newAmount).toFixed(precision);
+        } else {
+          displayNum = this._amount.toFixed(precision);
+        }
       } else {
-        displayNum = this._amount.toFixed(precision);
+        displayNum = 0 + '*';
       }
-    } else {
-      displayNum = 0 + '*';
     }
 
     return displayNum;
+  }
+
+  static displayCurrencySymbol(color = 'black') {
+    switch (this._currencyFormat) {
+      case 'BTC':
+        return (
+          <img
+            src='../../../assets/icons/bitcoin_icon_hover.svg'
+            className='currency-symbol btf'
+            alt='BTF'
+          />
+        );
+      case 'mBTC':
+        return (
+          <img
+            src='../../../assets/icons/mbitcoin_icon_hover.svg'
+            className='currency-symbol mbtf'
+            alt='mBTF'
+          />
+        );
+      case 'BTF':
+        if (color === 'white') {
+          return <img src={ bitFunWhite } className='currency-symbol btf' alt='BTF' />;
+        }
+
+        return <img src={ bitFunBlack } className='currency-symbol btf' alt='BTF' />;
+      case 'mBTF':
+        if (color === 'white') {
+          return <img src={ mBitFunWhite } className='currency-symbol mbtf' alt='mBTF' />;
+        }
+
+        return <img src={ mBitFunBlack } className='currency-symbol mbtf' alt='mBTF' />;
+      default:
+        break;
+    }
+  }
+
+  static displayCurrencyAmountWithSymbol(accuracy, skipDustCheck, color) {
+    let displayValue = this.displayCurrencyAmount(accuracy, skipDustCheck)
+      + this.displayCurrencySymbol(color);
+    return displayValue;
   }
 
   /**
