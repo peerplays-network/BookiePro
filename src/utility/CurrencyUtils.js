@@ -83,7 +83,7 @@ var CurrencyUtils = {
     amount,
     precision,
     accuracy=true,
-    currencyFormat = mCoinSymbol,
+    currencyFormat=mCoinSymbol,
     field,
     skipDustCheck=false
   ) {
