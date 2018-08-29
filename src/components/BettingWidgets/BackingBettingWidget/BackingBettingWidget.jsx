@@ -20,6 +20,7 @@ class BackingBettingWidget extends PureComponent {
                 <BettingMarket
                   title={ item.get('description') }
                   backOrigin={ item.get('backOrigin') }
+                  bettingMarketId={ item.get('id') }
                 />
               </Col>
             );
