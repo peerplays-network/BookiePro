@@ -21,19 +21,40 @@ const stakeDust = exchangeCoin; // Three
 //         We need to be careful because sometimes the values we are handling
 //         could be in satoshi unit.
 //         The functions toFixed and toFixedWithSymbol are not performing this conversion.
+class Field {
+  constructor(field) {
+    this._field = field;
+  }
+  get field() {
+    return this._field;
+  }
+  set field(value) {   
+    this._field = value;
+  }
 
+  average() {
+    if (
+      this._field === 'avgProfitLiability' ||
+      this._field === 'avgStake'
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
 class Currency {
   /**
    *Creates an instance of Currency.
    * @param {string | number} amount
-   * @param {string} field - profit, liability, stake, exposure, orderbook balance
+   * @param {string} field - profit, liability, stake, exposure, orderbook balance, amount won
    * @param {string} currencyFormat - the configured currency. (ie: 'BTF', 'mBTF', 'BTC', etc...).
    * @memberof Currency
    */
   constructor(amount, field, currencyFormat) {
-    this.amount = amount;
-    this.field = field;
-    this.currencyFormat = currencyFormat;
+    this._amount = amount;
+    this._field = new Field(field);
+    this._currencyFormat = currencyFormat;
   }
 
   // GETTER & SETTERS
@@ -66,29 +87,31 @@ class Currency {
   /**
    * Converts the provided currency amount number into a string.
    *
-   * @param {number} amount
    * @returns {string}
    * @memberof Currency
    */
-  fromInt(amount) {
-    return amount.toString();
+  fromInt() {
+    return this._amount.toString();
   }
   /**
  * Converts the provided currency amount string into a number.
  *
- * @param {string} amount
  * @returns {float}
  * @memberof Currency
  */
-  fromString(amount) {
-    return parseFloat(amount);
+  fromString() {
+    return parseFloat(this._amount);
   }
 
   /**
    * Used to determine the string representation of a currency amount for displaying throughout
    * Bookie.
    * May or may not be combined with other functions for inclusion of currency symbol image(s).
-   *
+   * 
+   * Uses a combination of string split and substringing to get an amount 
+   * without rounding applied.
+   * May still use .toFixed() depending on the situation.
+   * 
    * @static
    * @param {boolean} [accuracy = true] - Whether or not to round to precision decimal places.
    *                       - True will round to precision decimal places
@@ -100,6 +123,15 @@ class Currency {
    */
   static displayCurrencyAmount(accuracy = true, skipDustCheck = false) {
     let displayNum = this._amount;
+
+    if (!accuracy) {
+      displayNum = displayNum * 1000;
+    }
+
+    // If true, the return display value is for average data.
+    if (this._field.average()) {
+
+    }
 
     if (!skipDustCheck) {
       let precision = this.fieldPrecisionMap[this._field][this._currencyFormat];
@@ -117,6 +149,9 @@ class Currency {
         } else {
           displayNum = this._amount.toFixed(precision);
         }
+
+        // Convert the value back into a number.
+        displayNum = displayNum * 1;
       } else {
         displayNum = 0 + '*';
       }
@@ -170,7 +205,7 @@ class Currency {
   }
 
   /**
-   *
+   * Combine two helper functions and return the result.
    *
    * @static
    * @param {boolean} accuracy - for use in displayCurrencyAmount()
@@ -294,6 +329,8 @@ class Currency {
 }
 
 const testCurrency = new Currency(12.356, 'stake', 'mBTC');
+const testCurrency1 = new Currency(12.356, 'avgStake', 'BTC');
+console.log(testCurrency1);
 console.log(testCurrency);
 
 
