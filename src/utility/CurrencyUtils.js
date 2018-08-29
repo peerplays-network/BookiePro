@@ -84,8 +84,43 @@ class Currency {
     return parseFloat(amount);
   }
 
-  truncPrecision() { // testCurrency.truncPrecision();
+  truncPrecision() { // testCurrency.truncPrecision(); // replace substringPrecision function.
     return Math.floor(this.amount);
+  }
+
+  /**
+   * Used to determine the string representation of a currency amount for displaying throughout
+   * Bookie.
+   * May or may not be combined with other functions for inclusion of currency symbol image(s).
+   *
+   * @static
+   * @param {boolean} accuracy - Whether or not to round to precision decimal places.
+   *                       - True will round to precision decimal places
+   *                       - False will truncate to precision decimal places
+   * @returns {string}
+   * @memberof Currency
+   */
+  static displayCurrencyAmount(accuracy) {
+    let precision = this.fieldPrecisionMap[this._field][this._currencyFormat];
+    let displayNum = '';
+    // Check if the amount is dust.
+    if (!this.isDust()) {
+      let split = amount.toString().split('.');
+
+      if (split[1] && split[1].length > precision) {
+        // Conditionally take tha value one past the accepted precision.
+        let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0));
+        let newAmount = split[0] + '.' + splitSel;
+        // Then, execute toFixed on the resulting amount. This maintains accuracy.
+        displayNum = parseFloat(newAmount).toFixed(precision);
+      } else {
+        displayNum = amount.toFixed(precision);
+      }
+    } else {
+      displayNum = 0 + '*';
+    }
+
+    return displayNum;
   }
 
   /**
@@ -103,6 +138,32 @@ class Currency {
     }
 
     return type;
+  }
+
+  toFixed() {
+    // DO NOT expect this but just in case.
+    if (
+      this.fieldPrecisionMap[this._field] === undefined ||
+      this.fieldPrecisionMap[this._field][this._currencyFormat] === undefined
+    ) {
+      return this._amount;
+    }
+
+    let currencyType = this.getCurrencyType();
+
+    if (this._field === 'stake') {
+      if (this._amount < 1 && currencyType === 'mCoin') {
+        return Config.mbtfTransactionFee.toString();
+      }
+
+      if (this._amount < 0.001 && currencyType === 'coin') {
+        return Config.btfTransactionFee.toString();
+      }
+    }
+
+    if (amount % 1 !== 0) {
+      return this.
+    }
   }
   
   /**
