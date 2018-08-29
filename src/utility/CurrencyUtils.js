@@ -255,7 +255,7 @@ var CurrencyUtils = {
     }
 
     // Return the original value in string
-    return amount.toFixed(precision).toString();
+    return parseFloat(amount).toFixed(precision).toString();
   },
 
   /**
