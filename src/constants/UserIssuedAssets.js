@@ -21,8 +21,7 @@ const UserIssuedAssets = {
     white: bitCoinWhite,
     mBlack: mBitCoinBlack,
     mWhite: mBitCoinWhite
-  },
-  thing: 'thing'
+  }
 };
 
 export default UserIssuedAssets;
