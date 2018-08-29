@@ -4,6 +4,7 @@ const orderPriority = {
   BOTTOM: 10,
 };
 
+// This constant object maps onto BMG descriptions produced by BOS
 const BackingWidgetTypes = {
   MATCHODDS: 'MATCHODDS',
   MONEYLINE: 'MONEYLINE',

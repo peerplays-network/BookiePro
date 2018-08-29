@@ -76,8 +76,6 @@ const getMarketData = createSelector(
       }
     });
 
-    
-
     // Iterate through the list of betting market groups and...
     bettingMarketGroups.forEach((bmg, index) => {
       // Pick the betting markets out of the dictionary that pertain to the given BMG

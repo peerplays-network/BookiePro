@@ -7,14 +7,14 @@ import { SportsbookUtils } from '../../../utility';
 
 class BackingBettingWidget extends PureComponent {
   render() {
-    // The title is the title of the widget (Ex. Match Odds, Moneyline)
+    // The title is the title of the widget (Ex. Match Odds, Moneyline)    
     const title = this.props.marketData.get('description');
     const bettingMarkets = this.props.marketData.get('bettingMarkets');
     return (
       <div className='backingBettingWidget'>
         <div className='title'>{title}</div>
         <div>
-          {bettingMarkets.map((item, index) => {
+          {bettingMarkets && bettingMarkets.map((item, index) => {
             return (
               <Col key={ index } span={ SportsbookUtils.getColumnSize(title) }>
                 <BettingMarket

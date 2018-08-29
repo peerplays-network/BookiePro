@@ -23,17 +23,11 @@ const getColumnSize = type => {
     type = getDescriptionAsType(type);
   }
 
-  switch (type) {
-    case BackingWidgetTypes.MATCHODDS:
-    case BackingWidgetTypes.MONEYLINE: {
-      return 8; // Three Columns
-    }
-    case BackingWidgetTypes.OVERUNDER: {
-      return 12; // Two Columns
-    }
-    default:
-      return 6; // Four Columns
+  if (BackingWidgetLayouts[type]) {
+    return BackingWidgetLayouts[type].columns;
   }
+
+  return 12;
 };
 
 /**
@@ -56,33 +50,40 @@ const groupOverUnders = bettingMarketGroups => {
 
   let overUnderBMs = [];
 
-  let nonOverUnders = Immutable.Map();
+  let nonOverUnders = Immutable.List();
 
   let newBettingMarketGroups = Immutable.List();
 
   const overUnder = 'over/under';
-
+  
   // Iterate through the BMGs passed in
   bettingMarketGroups.forEach(bmg => {
     // Check the current BMG's description to see if it matches over/under
     let description = bmg.get('description').toLowerCase();
     if (description.includes(overUnder)) {
       // Add the list of BMs in the current BM to the list of over/unders
-      for (let i = 0; i < bmg.get('bettingMarkets').length; i++) {
-        overUnderBMs.push(bmg.get('bettingMarkets')[i]);
+      let bettingMarkets = bmg.get('bettingMarkets');
+      if (bettingMarkets) {
+        for (let i = 0; i < bmg.get('bettingMarkets').length; i++) {
+          overUnderBMs.push(bmg.get('bettingMarkets')[i]);
+        }
       }
     } else {
-      nonOverUnders = bmg;
+      nonOverUnders = nonOverUnders.push(bmg);
     }
   });
-
   // If there were over unders present in the bettingMarkets,
   //  add them to the list
-  if (overUnders.length > 0) {
+  if (overUnderBMs.length > 0) {
     overUnders = overUnders.set('bettingMarkets', overUnderBMs.sort());
     newBettingMarketGroups = newBettingMarketGroups.push(overUnders);
-  }    
-  newBettingMarketGroups = newBettingMarketGroups.push(nonOverUnders);
+  }
+  if (nonOverUnders.size > 0) {
+    nonOverUnders.forEach((bmg) => {
+      newBettingMarketGroups = newBettingMarketGroups.push(bmg);
+    });
+  }
+  
   return newBettingMarketGroups;
 };
 
