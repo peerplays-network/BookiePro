@@ -71,12 +71,12 @@ class Currency {
     return Math.floor(this.amount);
   }
 
-  isDust() {
-    //let dustRange,
-    //isDust = false;
+  isDust(amount) {
+    let dustRange,
+      isDust = false;
 
     // Handle negative amounts
-    //amount = Math.abs(amount);
+    amount = Math.abs(amount);
 
     // Check the currency format.
     // mili coin & base coin have different dust rules.
