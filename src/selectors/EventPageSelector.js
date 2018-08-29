@@ -55,9 +55,15 @@ const getMarketData = createSelector(
 
     binnedOrderBooksByBettingMarketId
   ) => {
+
+    // Iterate through the values of the bettingMarkets dictionary
     Object.values(bettingMarkets).forEach(bm => {
+      // There are one or more bm in a single betting market group, this loop matches them
+      //  with the order book that pertains to the BM.
       for (let i  = 0; i < bm.length; i++) {
         bm[i] = bm[i].set('orderBook', binnedOrderBooksByBettingMarketId.get(bm[i].get('id')));
+
+        // We only care about the lay bets (the bets that will display as open back bets)
         let aggregated_lay_bets = bm[i].getIn(['orderBook', 'aggregated_lay_bets']);
 
         if (aggregated_lay_bets) {
@@ -78,7 +84,17 @@ const getMarketData = createSelector(
       bettingMarketGroups = bettingMarketGroups.set(index, bmg.set('bettingMarkets', bettingMarkets[bmg.get('id')]));
     });
 
+    // Group all of the over under BMGs as if they belonged to the same BMG.
     bettingMarketGroups = SportsbookUtils.groupOverUnders(bettingMarketGroups);
+
+    // Priority sort
+    bettingMarketGroups = SportsbookUtils.prioritySort(bettingMarketGroups);
+
+    bettingMarketGroups.forEach(bmg => {
+      if (SportsbookUtils.isMatchodds(bmg)) {
+        bmg = SportsbookUtils.centerTheDraw(bmg);
+      }
+    });
 
     return bettingMarketGroups;
   }

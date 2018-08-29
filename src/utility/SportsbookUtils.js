@@ -1,5 +1,7 @@
-import { BackingWidgetTypes } from '../constants';
+import { BackingWidgetTypes, BackingWidgetLayouts } from '../constants/BackingWidgetTypes';
 import Immutable from 'immutable';
+
+const getDescriptionAsType = description => description.replace(/[\/\- ]/, '').toUpperCase();
 
 /**
  * getColumnSize()
@@ -18,7 +20,7 @@ import Immutable from 'immutable';
  */
 const getColumnSize = type => {
   if (type) {
-    type = type.replace(/[\/\- ]/, '').toUpperCase();
+    type = getDescriptionAsType(type);
   }
 
   switch (type) {
@@ -80,9 +82,86 @@ const groupOverUnders = bettingMarketGroups => {
   return newBettingMarketGroups;
 };
 
+/**
+ * centerTheDraw()
+ *
+ * With respect to Match Odds, there are 3 betting markets, not just win and lose.
+ *  "The Draw" needs to come second, or in the middle, with respect to the two other teams.
+ *
+ * @param {*} bettingMarketGroup - The bettingMarketGroup containing the two teams and a draw bm
+ * @returns - The bettingMarketGroup wherein the draw lives in the [1] element of the list
+ */
+const centerTheDraw = bettingMarketGroup => {
+  let bettingMarkets = bettingMarketGroup.get('bettingMarkets');
+  const description = getDescriptionAsType(bettingMarketGroup.get('description'));
+
+  // If there is not the correct number of markets within the BMG, then return the original object
+  if (bettingMarkets.length !== BackingWidgetLayouts[description].numberOfMarkets) {
+    return bettingMarketGroup;
+  }
+
+  // Find the index that the draw is in
+  let drawIndex = -1;
+  bettingMarkets.forEach((bm, index) => {
+    if (bm.get('description').replace(/\s/g, '').toUpperCase() === 'THEDRAW') {
+      drawIndex = index;
+    }
+  });
+
+  // If the draw is not in the middle. Swap it with the middle index.
+  if (drawIndex !== 1) {
+    let temp = bettingMarkets[1];
+    bettingMarkets[1] = bettingMarkets[drawIndex];
+    bettingMarkets[drawIndex] = temp;
+  }
+
+  bettingMarketGroup = bettingMarketGroup.set('bettingMarkets', bettingMarkets);
+
+  return bettingMarketGroup;
+};
+
+/**
+ * prioritySort()
+ *
+ * Priority sort uses the layout priorities defined in the constant BackingWidgetLayouts to order
+ *  the bettingMarketGroups inside of the bettingMarketGroups list.
+ *
+ * @param {*} bettingMarketGroups - An Immutable list containing bettingMarketGroups
+ * @returns - A listed sorted by the priorities defined in BackingWidgetLayouts
+ */
+const prioritySort = bettingMarketGroups => {
+  bettingMarketGroups = bettingMarketGroups.sort((a, b) => {
+    let typeA = getDescriptionAsType(a.get('description'));
+    let typeB = getDescriptionAsType(b.get('description'));
+
+    return BackingWidgetLayouts[typeA].order > BackingWidgetLayouts[typeB].order;
+  });
+  return bettingMarketGroups;
+};
+
+/**
+ * isMatchOdds()
+ *
+ * This function will determine if the betting market group is a match odds betting market group
+ *
+ * @param {*} bettingMarketGroup - The betting market group in question.
+ * @returns - True if the bmg is a match odds bmg. False otherwise.
+ */
+const isMatchodds = bettingMarketGroup => {
+  const description = getDescriptionAsType(bettingMarketGroup.get('description'));
+  if (description === BackingWidgetTypes.MATCHODDS) {
+    return true;
+  }
+  return false;
+};
+
 const SportsbookUtils = {
   getColumnSize,
   groupOverUnders,
+  prioritySort,
+  centerTheDraw,
+  isMatchodds,
+  getDescriptionAsType,
 };
 
 export default SportsbookUtils;
