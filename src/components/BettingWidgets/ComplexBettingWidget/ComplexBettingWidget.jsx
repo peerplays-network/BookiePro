@@ -331,21 +331,23 @@ class ComplexBettingWidget extends PureComponent {
     // to match the lay bet-type in placebet action dispatch
     const classNameLay = BetTypes.LAY;
 
-    const currencySymbol = CurrencyUtils.getCurrencySymbol('BTF');
-    const currencySymbolWhite = CurrencyUtils.getCurrencySymbol('BTF', 'white');
+    const currencySymbol = CurrencyUtils.getCurrencySymbol(this.props.currencyFormat);
+    const currencySymbolWhite = CurrencyUtils.getCurrencySymbol(this.props.currencyFormat, 'white');
 
     // Format the totalMatchedBestAmount
     let formattedMatchedBetsAmount = totalMatchedBetsAmount || 0;
+    // Determine if the coin in use is base or mili format.
+    const currencyType = CurrencyUtils.getCurrencyType(this.props.currencyFormat);
 
-    if (this.props.currencyFormat === 'mBTF') {
-      // Convert the number to BTF if the format is currently mBTF
+    if (currencyType === 'mCoin') {
+      // Convert the number to base coin if the format is currently mili coin format.
       formattedMatchedBetsAmount = formattedMatchedBetsAmount / 1000;
     }
 
     // Format the currency for display.
     formattedMatchedBetsAmount = CurrencyUtils.getFormattedCurrency(
       formattedMatchedBetsAmount,
-      'BTF',
+      this.props.currencyFormat,
       OFFER_PRECISION,
       true
     );
@@ -421,7 +423,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.getFormattedCurrency(
                 props.value.price,
-                'BTF',
+                props.currencyFormat,
                 OFFER_PRECISION,
                 true
               )}
@@ -463,7 +465,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.getFormattedCurrency(
                 props.value.price,
-                'BTF',
+                props.currencyFormat,
                 OFFER_PRECISION,
                 true
               )}
@@ -518,7 +520,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.getFormattedCurrency(
                 props.value.price,
-                'BTF',
+                props.currencyFormat,
                 OFFER_PRECISION,
                 true
               )}
@@ -575,7 +577,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.getFormattedCurrency(
                 props.value.price,
-                'BTF',
+                props.currencyFormat,
                 OFFER_PRECISION,
                 true
               )}
@@ -616,7 +618,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.getFormattedCurrency(
                 props.value.price,
-                'BTF',
+                props.currencyFormat,
                 OFFER_PRECISION,
                 true
               )}
@@ -663,7 +665,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.getFormattedCurrency(
                 props.value.price,
-                'BTF',
+                currencySymbol,
                 OFFER_PRECISION,
                 true
               )}
