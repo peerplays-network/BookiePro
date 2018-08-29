@@ -289,7 +289,7 @@ class SimpleBettingWidget extends PureComponent {
         );
       }
 
-      let currencySymbol = CurrencyUtils.getCurrencySymbol('BTF');
+      let currencySymbol = CurrencyUtils.getCurrencySymbol(Config.features.currencyFormat);
       return (
         <div className={ className }>
           <a
@@ -340,6 +340,7 @@ class SimpleBettingWidget extends PureComponent {
       });
     }
 
+
     return (
       // Note that we have to explicitly tell antd Table how to find the rowKey
       // because it is not compatible with Immutable JS
@@ -349,7 +350,7 @@ class SimpleBettingWidget extends PureComponent {
           columns={ getColumns(
             this.renderOffer,
             this.props.navigateTo,
-            'BTF',
+            this.props.currencyFormat,
             this.props.sportName,
             this.props.oddsFormat,
             this.renderClass
