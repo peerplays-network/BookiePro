@@ -30,30 +30,63 @@ class Currency {
     this.currencyFormat = currencyFormat;
   }
 
-  static fromInt(val) {
+  // GETTER & SETTERS
+  get amount() {
+    return this._amount;
+  }
+  set amount(value) {
+    if (typeof value !== 'number') {
+      this._amount = this.fromString(this._amount);
+    } else {
+      this._amount = this.isDust(value);
+    }
+  }
+
+  get field() {
+    return this._field;
+  }
+  set field(value) {
+    this._field = value;
+  }
+
+  get currencyFormat() {
+    return this._currencyFormat;
+  }
+  set currencyFormat(value) {
+    this._currencyFormat = value;
+  }
+
+  // HELPER FUNCTIONS
+  fromInt(val) {
     return val.toString();
   }
 
-  static fromString(val) {
+  fromString(val) {
     return parseFloat(val);
   }
 
-  truncPrecision() {
-    if (typeof this.amount !== 'number') {
-      this.amount = this.fromString(this.amount);
-    }
 
+
+  truncPrecision() { // testCurrency.truncPrecision();
     return Math.floor(this.amount);
   }
 
-  static dustCheck() {
-    return true;
+  isDust() {
+    //let dustRange,
+    //isDust = false;
+
+    // Handle negative amounts
+    //amount = Math.abs(amount);
+
+    // Check the currency format.
+    // mili coin & base coin have different dust rules.
+
   }
 }
 
 const testCurrency = new Currency(12.356, 'stake', 'mBTC');
-const cur = new Currency('12.543', 'stake', 'BTC');
 console.log(testCurrency);
+
 
 var CurrencyUtils = {
   fieldPrecisionMap: {
