@@ -84,10 +84,6 @@ class Currency {
     return parseFloat(amount);
   }
 
-  truncPrecision() { // testCurrency.truncPrecision(); // replace substringPrecision function.
-    return Math.floor(this.amount);
-  }
-
   /**
    * Used to determine the string representation of a currency amount for displaying throughout
    * Bookie.
@@ -103,9 +99,10 @@ class Currency {
   static displayCurrencyAmount(accuracy) {
     let precision = this.fieldPrecisionMap[this._field][this._currencyFormat];
     let displayNum = '';
+    
     // Check if the amount is dust.
     if (!this.isDust()) {
-      let split = amount.toString().split('.');
+      let split = this._amount.toString().split('.');
 
       if (split[1] && split[1].length > precision) {
         // Conditionally take tha value one past the accepted precision.
@@ -114,7 +111,7 @@ class Currency {
         // Then, execute toFixed on the resulting amount. This maintains accuracy.
         displayNum = parseFloat(newAmount).toFixed(precision);
       } else {
-        displayNum = amount.toFixed(precision);
+        displayNum = this._amount.toFixed(precision);
       }
     } else {
       displayNum = 0 + '*';
@@ -126,30 +123,27 @@ class Currency {
   /**
    * Checks if the provided currency format is a base coin or a mili coin type.
    *
-   * @param {string} currency
    * @returns {string} - Either 'coin' or 'mCoin' to represent base or mili format.
    * @memberof Currency
    */
-  getCurrencyType(currencyFormat) {
+  currencyType() {
     let type = 'coin';
 
-    if (currencyFormat.indexOf('m') !== -1) {
+    if (this._currencyFormat.indexOf('m') !== -1) {
       type = 'mCoin';
     }
 
     return type;
   }
-
-  toFixed() {
-    // DO NOT expect this but just in case.
-    if (
-      this.fieldPrecisionMap[this._field] === undefined ||
-      this.fieldPrecisionMap[this._field][this._currencyFormat] === undefined
-    ) {
-      return this._amount;
-    }
-
-    let currencyType = this.getCurrencyType();
+  
+  /**
+   * Get the transactionFee.
+   *
+   * @returns {number} - One of two values from Config.js
+   * @memberof Currency
+   */
+  static transactionFee() {
+    let currencyType = this.currencyType();
 
     if (this._field === 'stake') {
       if (this._amount < 1 && currencyType === 'mCoin') {
@@ -160,10 +154,6 @@ class Currency {
         return Config.btfTransactionFee.toString();
       }
     }
-
-    if (amount % 1 !== 0) {
-      return this.
-    }
   }
   
   /**
@@ -172,12 +162,12 @@ class Currency {
    * @returns {number} - What the dust value is.
    * @memberof Currency
    */
-  getDustRange() {
+  dustRange() {
     let currencyType,
       dustRange;
     // Check the currency format.
     // mili coin & base coin have different dust rules.
-    currencyType = this.getCurrencyType(this._currencyFormat);
+    currencyType = this.currencyType();
 
     if (currencyType === 'coin') {
       dustRange = coinDust;
@@ -217,9 +207,9 @@ class Currency {
 
     // Check the currency format.
     // mili coin & base coin have different dust rules.
-    currencyType = this.getCurrencyType(this._currencyFormat);
+    currencyType = this.currencyType();
     // Get the dust range.
-    dustRange = this.getDustRange();
+    dustRange = this.dustRange();
 
     // Stake plus miliCoin format has a special dust rule.
     if (this._field === 'stake' && currencyType === 'mCoin') {
