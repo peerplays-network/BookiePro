@@ -421,7 +421,7 @@ class ComplexBettingWidget extends PureComponent {
             {props.row.bmStatus[0] ? null : currencySymbol}
             {props.row.bmStatus[0]
               ? null
-              : CurrencyUtils.getFormattedCurrency(
+              : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
                 props.currencyFormat,
                 OFFER_PRECISION,
@@ -463,7 +463,7 @@ class ComplexBettingWidget extends PureComponent {
             {props.row.bmStatus[0] ? null : currencySymbol}
             {props.row.bmStatus[0]
               ? null
-              : CurrencyUtils.getFormattedCurrency(
+              : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
                 props.currencyFormat,
                 OFFER_PRECISION,
@@ -518,7 +518,7 @@ class ComplexBettingWidget extends PureComponent {
             {props.row.bmStatus[0] ? null : currencySymbol}
             {props.row.bmStatus[0]
               ? null
-              : CurrencyUtils.getFormattedCurrency(
+              : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
                 props.currencyFormat,
                 OFFER_PRECISION,
@@ -575,7 +575,7 @@ class ComplexBettingWidget extends PureComponent {
             {props.row.bmStatus[0] ? null : currencySymbol}
             {props.row.bmStatus[0]
               ? null
-              : CurrencyUtils.getFormattedCurrency(
+              : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
                 props.currencyFormat,
                 OFFER_PRECISION,
@@ -616,7 +616,7 @@ class ComplexBettingWidget extends PureComponent {
             {props.row.bmStatus[0] ? null : currencySymbol}
             {props.row.bmStatus[0]
               ? null
-              : CurrencyUtils.getFormattedCurrency(
+              : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
                 props.currencyFormat,
                 OFFER_PRECISION,
@@ -663,7 +663,7 @@ class ComplexBettingWidget extends PureComponent {
             {props.row.bmStatus[0] ? null : currencySymbol}
             {props.row.bmStatus[0]
               ? null
-              : CurrencyUtils.getFormattedCurrency(
+              : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
                 currencySymbol,
                 OFFER_PRECISION,
