@@ -20,7 +20,7 @@
  */
 import React, {PureComponent} from 'react';
 import {BettingModuleUtils, CurrencyUtils} from '../../../utility';
-import {BetTypes, LoadingStatus} from '../../../constants';
+import {BetTypes, Config, LoadingStatus} from '../../../constants';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import Immutable from 'immutable';
@@ -331,8 +331,8 @@ class ComplexBettingWidget extends PureComponent {
     // to match the lay bet-type in placebet action dispatch
     const classNameLay = BetTypes.LAY;
 
-    const currencySymbol = CurrencyUtils.getCurrencySymbol(this.props.currencyFormat);
-    const currencySymbolWhite = CurrencyUtils.getCurrencySymbol(this.props.currencyFormat, 'white');
+    const currencySymbol = CurrencyUtils.getCurrencySymbol(Config.features.currency);
+    const currencySymbolWhite = CurrencyUtils.getCurrencySymbol(Config.features.currency, 'white');
 
     // Format the totalMatchedBestAmount
     let formattedMatchedBetsAmount = totalMatchedBetsAmount || 0;
