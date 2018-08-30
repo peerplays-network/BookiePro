@@ -19,5 +19,5 @@ export {
   MyAccountPageSelector,
   QuickBetDrawerSelector,
   SidebarSelector,
-  SportPageSelector
+  SportPageSelector,
 };

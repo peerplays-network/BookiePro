@@ -1,4 +1,4 @@
-import { ObjectPrefix } from '../constants';
+import {ObjectPrefix} from '../constants';
 import _ from 'lodash';
 
 const relevantObjectPrefixes = _.values(ObjectPrefix);
@@ -10,17 +10,20 @@ const Utils = {
     amount = typeof amount === 'string' ? amount : amount.toString();
 
     let decimalPosition = amount.indexOf('.');
+
     if (decimalPosition === -1) {
       return parseInt(amount, 10) * assetPrecision;
     } else {
       amount = amount.replace('.', '');
       amount = amount.substr(0, decimalPosition + precision);
+
       for (let i = 0; i < precision; i++) {
         decimalPosition += 1;
+
         if (decimalPosition > amount.length) {
           amount += '0';
         }
-      };
+      }
 
       return parseInt(amount, 10);
     }
@@ -32,16 +35,19 @@ const Utils = {
         return false;
       }
     }
-    for(let key in a) {
-      if(!(key in b) || a[key] !== b[key]) {
+
+    for (let key in a) {
+      if (!(key in b) || a[key] !== b[key]) {
         return false;
       }
     }
-    for(let key in b) {
-      if(!(key in a) || a[key] !== b[key]) {
+
+    for (let key in b) {
+      if (!(key in a) || a[key] !== b[key]) {
         return false;
       }
     }
+
     return true;
   },
 
@@ -51,7 +57,10 @@ const Utils = {
   },
 
   calcBlockTime(block_number, globalObject, dynGlobalObject) {
-    if (!globalObject || !dynGlobalObject) return null;
+    if (!globalObject || !dynGlobalObject) {
+      return null;
+    }
+
     const block_interval = globalObject.get('parameters').get('block_interval');
     const head_block = dynGlobalObject.get('head_block_number');
     const head_block_time = new Date(dynGlobalObject.get('time') + '+00:00');
@@ -61,12 +70,16 @@ const Utils = {
   },
 
   blockchainTimeStringToDate(timeString) {
-    if( ! timeString) return new Date('1970-01-01T00:00:00.000Z');
+    if (!timeString) {
+      return new Date('1970-01-01T00:00:00.000Z');
+    }
+
     // does not end in Z
     // https://github.com/cryptonomex/graphene/issues/368
-    if( ! /Z$/.test(timeString)) {
+    if (!/Z$/.test(timeString)) {
       timeString += 'Z';
     }
+
     return new Date(timeString);
   },
   /**

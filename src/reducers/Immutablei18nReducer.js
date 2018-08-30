@@ -1,4 +1,4 @@
-import { LOAD_TRANSLATIONS, SET_LOCALE } from 'react-redux-i18n';
+import {LOAD_TRANSLATIONS, SET_LOCALE} from 'react-redux-i18n';
 import Immutable from 'immutable';
 
 const initialState = Immutable.Map();

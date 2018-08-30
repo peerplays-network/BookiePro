@@ -7,16 +7,15 @@
  *  - Show deposit dropdown
  *  - Display notifications.
  */
-import React, { PureComponent } from 'react';
-import { Layout } from 'antd';
+import React, {PureComponent} from 'react';
+import {Layout} from 'antd';
 //import SearchMenu from './SearchMenu';
 import TopMenu from './TopMenu';
 import logo from '../../../assets/images/bookie_logo_topnav.png';
 
-const { Header } = Layout;
+const {Header} = Layout;
 
 class NavBar extends PureComponent {
-
   constructor(props) {
     super(props);
     this.handleNavigateToHome = this.handleNavigateToHome.bind(this);
@@ -29,36 +28,36 @@ class NavBar extends PureComponent {
   }
 
   //Called by parent component Main
-  onRouteChangeHandle(){
+  onRouteChangeHandle() {
     //this._searchMenu.onRouteChangeHandle();
   }
 
-  renderLogo(){
+  renderLogo() {
     //Hide cursor and deactivate click event of logo when on home page
     const isHomeScreen = window.location.hash.endsWith('/betting/exchange');
-    return(
+    return (
       <div
         className={ 'logo' + (!isHomeScreen ? ' link' : '') }
-        onClick={ !isHomeScreen ? this.handleNavigateToHome : null }>
+        onClick={ !isHomeScreen ? this.handleNavigateToHome : null }
+      >
         <img alt='logo' src={ logo } />
       </div>
-    )
+    );
   }
 
   //pass all props from Main.jsx parent component to SearchMenu
-  render(){
+  render() {
     return (
       <Header id='betex-header'>
-        { this.renderLogo() }
+        {this.renderLogo()}
         {/* <SearchMenu
           ref={ (ref) => this._searchMenu = ref }
           { ...this.props }
          /> */}
         <TopMenu />
       </Header>
-    )
+    );
   }
-
-};
+}
 
 export default NavBar;

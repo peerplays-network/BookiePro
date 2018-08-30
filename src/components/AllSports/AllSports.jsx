@@ -1,14 +1,14 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { SimpleBettingWidget } from '../BettingWidgets';
-import { AllSportsActions } from '../../actions';
-import { AllSportsSelector, QuickBetDrawerSelector } from '../../selectors';
+import React, {PureComponent} from 'react';
+import {connect} from 'react-redux';
+import {SimpleBettingWidget} from '../BettingWidgets';
+import {AllSportsActions} from '../../actions';
+import {AllSportsSelector, QuickBetDrawerSelector} from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
-import { DateUtils } from '../../utility';
+import {DateUtils} from '../../utility';
 import Loading from '../Loading';
 
 const MAX_EVENTS_PER_WIDGET = 3;
-const { getData } = AllSportsActions;
+const {getData} = AllSportsActions;
 
 class AllSports extends PureComponent {
   componentDidMount() {
@@ -16,13 +16,12 @@ class AllSports extends PureComponent {
   }
 
   render() {
-    const { allSportsData, currencyFormat } = this.props;
-
+    const {allSportsData, currencyFormat} = this.props;
     return (
       <div id='all-sports-wrapper'>
         <div className='banner-ad-header' />
         {allSportsData ? (
-          allSportsData.map(sportData => {
+          allSportsData.map((sportData) => {
             const sportId = sportData.get('sport_id');
             const events = sportData.get('events');
             const sportName = sportData.get('name');
@@ -57,11 +56,9 @@ class AllSports extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    allSportsData: AllSportsSelector.getAllSportsData(state),
-    canCreateBet: QuickBetDrawerSelector.canAcceptBet(state),
-  };
-};
+const mapStateToProps = (state) => ({
+  allSportsData: AllSportsSelector.getAllSportsData(state),
+  canCreateBet: QuickBetDrawerSelector.canAcceptBet(state),
+});
 
 export default connect(mapStateToProps)(AllSports);

@@ -7,20 +7,19 @@
  * {@link AuthActions#changePassword} action. The new password will be updated
  * under the `auth` in the Redux store if the operation was successful.
  */
-import React, { PureComponent } from 'react';
-import { Card,Breadcrumb,Form } from 'antd'
-import { I18n,Translate }  from 'react-redux-i18n';
-import ChangePasswordForm from './ChangePasswordForm'
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { NavigateActions, AuthActions } from '../../actions';
-import { LoadingStatus } from '../../constants';
+import React, {PureComponent} from 'react';
+import {Card, Breadcrumb, Form} from 'antd';
+import {I18n, Translate} from 'react-redux-i18n';
+import ChangePasswordForm from './ChangePasswordForm';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {NavigateActions, AuthActions} from '../../actions';
+import {LoadingStatus} from '../../constants';
 import Immutable from 'immutable';
 import PeerPlaysLogo from '../PeerPlaysLogo';
 
-class ChangePassword extends PureComponent{
-
-  constructor(props){
+class ChangePassword extends PureComponent {
+  constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleOldPasswordCheck = this.handleOldPasswordCheck.bind(this);
@@ -39,14 +38,14 @@ class ChangePassword extends PureComponent{
 
   /**
    * Invoke the {@link AuthActions#validateOldPasswordField} action
-   * 
+   *
    * @param {object} values - data obtained from the {@link ChangePasswordForm}
    * @memberof ChangePassword
    */
   handleOldPasswordCheck(values) {
     this.props.validateOldPasswordField(values.currentTarget.value);
   }
-  
+
   /**
    * Navigate to the `targetLocation` and reset the page loading status back to
    * DEFAULT.
@@ -54,7 +53,7 @@ class ChangePassword extends PureComponent{
    * @param {object} event - the click event
    * @param {string} targetLocation - the target location to navigate to
    */
-  navigateToLocation(event, targetLocation){
+  navigateToLocation(event, targetLocation) {
     event.preventDefault();
     this.props.navigateTo(targetLocation);
     this.props.resetChangePwdLoadingStatus();
@@ -77,44 +76,57 @@ class ChangePassword extends PureComponent{
    *
    * @param {object} event - the 'Home' link click event
    */
-  navigateToHome(event){
+  navigateToHome(event) {
     this.navigateToLocation(event, '/betting/exchange');
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <div className='change-password section-padding'>
         <Breadcrumb className='bookie-breadcrumb'>
-          <Breadcrumb.Item><a onClick={ this.navigateToHome }>{ I18n.t('myAccount.home') } </a></Breadcrumb.Item>
-          <Breadcrumb.Item><a onClick={ this.navigateToMyAccount }>{ I18n.t('myAccount.my_account') } </a></Breadcrumb.Item>
-          <Breadcrumb.Item>{ I18n.t('myAccount.change_password') }</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a onClick={ this.navigateToHome }>{I18n.t('myAccount.home')} </a>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a onClick={ this.navigateToMyAccount }>{I18n.t('myAccount.my_account')} </a>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>{I18n.t('myAccount.change_password')}</Breadcrumb.Item>
         </Breadcrumb>
-        <Card className='bookie-card'
-              title={ I18n.t('changePassword.title') }
-              bordered={ false }
-              style={ {width: '100%'} }>
+        <Card
+          className='bookie-card'
+          title={ I18n.t('changePassword.title') }
+          bordered={ false }
+          style={ {width: '100%'} }
+        >
           <div className='registerComponent'>
             <div className='center-form'>
-              {
-                //Display the form initially (initially and when the data is getting saved. (Loading will be displayed on 'Submit' button))
-                this.props.loadingStatus!==LoadingStatus.DONE  ?
-                <ChangePasswordForm
-                  onSubmit={ this.handleSubmit }
-                  onBlur={ this.handleOldPasswordCheck }
-                  loadingStatus={ this.props.loadingStatus }
-                  errors={ this.props.errors }/> : null
-              }
-              {
-                //Show the success message when the password has been changed successfully (DONE) and the form will be hidden
-                this.props.loadingStatus===LoadingStatus.DONE && this.props.errors.isEmpty()  ?
-                <div className='text-center'>
-                  <i className='icon-lock'></i>
-                  <p className='font16'>{ <Translate value='changePassword.successText' dangerousHTML/> }</p>
-                    <button className='btn btn-regular grid-100 btn-top-margin' type='button' onClick={ this.navigateToMyAccount }>
-                      { I18n.t('changePassword.back_to_my_account') }
+              {//Display the form initially (initially and when the data is getting saved.
+              // (Loading will be displayed on 'Submit' button))
+                this.props.loadingStatus !== LoadingStatus.DONE ? (
+                  <ChangePasswordForm
+                    onSubmit={ this.handleSubmit }
+                    onBlur={ this.handleOldPasswordCheck }
+                    loadingStatus={ this.props.loadingStatus }
+                    errors={ this.props.errors }
+                  />
+                ) : null}
+              {//Show the success message when the password has been changed successfully (DONE)
+              // and the form will be hidden
+                this.props.loadingStatus === LoadingStatus.DONE && this.props.errors.isEmpty() ? (
+                  <div className='text-center'>
+                    <i className='icon-lock' />
+                    <p className='font16'>
+                      {<Translate value='changePassword.successText' dangerousHTML />}
+                    </p>
+                    <button
+                      className='btn btn-regular grid-100 btn-top-margin'
+                      type='button'
+                      onClick={ this.navigateToMyAccount }
+                    >
+                      {I18n.t('changePassword.back_to_my_account')}
                     </button>
-                </div> : null
-              }
+                  </div>
+                ) : null}
             </div>
           </div>
         </Card>
@@ -122,26 +134,33 @@ class ChangePassword extends PureComponent{
           <PeerPlaysLogo />
         </div>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => {
   const loadingStatus = state.getIn(['auth', 'changePasswordLoadingStatus']);
-  const errors = loadingStatus === LoadingStatus.ERROR ? state.getIn(['auth', 'changePasswordErrors']) : Immutable.List();
+  const errors =
+    loadingStatus === LoadingStatus.ERROR
+      ? state.getIn(['auth', 'changePasswordErrors'])
+      : Immutable.List();
   return {
     loadingStatus,
-    errors
-  }
-}
+    errors,
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
     navigateTo: NavigateActions.navigateTo,
     changePassword: AuthActions.changePassword,
     validateOldPasswordField: AuthActions.validateOldPasswordField,
-    resetChangePwdLoadingStatus: AuthActions.resetChangePwdLoadingStatus
-  }, dispatch);
-}
+    resetChangePwdLoadingStatus: AuthActions.resetChangePwdLoadingStatus,
+  },
+  dispatch
+);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(ChangePassword))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form.create()(ChangePassword));

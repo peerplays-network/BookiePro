@@ -1,118 +1,116 @@
-import { createSelector } from 'reselect';
-import { BettingModuleUtils, CurrencyUtils } from '../utility';
-import { HistoryService } from '../services';
-import { Config } from '../constants'
+import {createSelector} from 'reselect';
+import {BettingModuleUtils, CurrencyUtils} from '../utility';
+import {HistoryService} from '../services';
+import {Config} from '../constants';
 
-const coreAssetPrecisionSelector = (state) => {
-  return state.getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
-}
+const coreAssetPrecisionSelector = (state) => state
+  .getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
 
-const accountIdSelector = (state) => {
-  return state.getIn(['account', 'account','id'])
-}
+const accountIdSelector = (state) => state
+  .getIn(['account', 'account', 'id']);
 
-const periodTypeSelector = (state) => {
-  return state.getIn(['myAccountPage', 'periodType']);
-}
-const customTimeRangeStartDateSelector = (state) => {
-  return state.getIn(['myAccountPage', 'customTimeRangeStartDate']);
-}
+const periodTypeSelector = (state) => state
+  .getIn(['myAccountPage', 'periodType']);
 
-const customTimeRangeEndDateSelector = (state) => {
-  return state.getIn(['myAccountPage', 'customTimeRangeEndDate']);
-}
+const customTimeRangeStartDateSelector = (state) => state
+  .getIn(['myAccountPage', 'customTimeRangeStartDate']);
 
-const assetsByIdSelector = (state) => {
-  return state.getIn(['asset', 'assetsById']);
-}
+const customTimeRangeEndDateSelector = (state) => state
+  .getIn(['myAccountPage', 'customTimeRangeEndDate']);
+
+const assetsByIdSelector = (state) => state.getIn(['asset', 'assetsById']);
 
 const settingSelector = (state) => {
   const accountId = accountIdSelector(state);
-  return state.getIn(['setting', 'settingByAccountId', accountId]) || state.getIn(['setting', 'defaultSetting']);
-}
+  return (
+    state.getIn(['setting', 'settingByAccountId', accountId]) ||
+    state.getIn(['setting', 'defaultSetting'])
+  );
+};
 
 const currencyFormatSelector = createSelector(
-  [settingSelector],
-  (setting) => {
-    return setting.get('currencyFormat')
-  }
-)
+  [settingSelector], 
+  (setting) => setting.get('currencyFormat')
+);
 
 const oddsFormatSelector = createSelector(
-  [settingSelector],
-  (setting) => {
-    return setting.get('oddsFormat')
-  }
-)
+  [settingSelector], 
+  (setting) => setting.get('oddsFormat')
+);
 
 const notificationSelector = createSelector(
-  [settingSelector],
-  (setting) => {
-    return setting.get('notification')
-  }
-)
+  [settingSelector], (setting) => setting.get('notification')
+);
 
-const transactionHistorySelector = (state) => {
-  return state.getIn(['myAccountPage', 'transactionHistory']);
-}
+const transactionHistorySelector = (state) => state
+  .getIn(['myAccountPage', 'transactionHistory']);
 
-const lastIrreversibleBlockNumSelector = (state) => {
-  return state.getIn(['app', 'blockchainDynamicGlobalProperty', 'last_irreversible_block_num']);
-}
-
+const lastIrreversibleBlockNumSelector = (state) => state
+  .getIn(['app', 'blockchainDynamicGlobalProperty', 'last_irreversible_block_num']);
 
 const filteredTransactionHistorySelector = createSelector(
-    [transactionHistorySelector, periodTypeSelector, customTimeRangeStartDateSelector, customTimeRangeEndDateSelector],
-    (transactionHistory, periodType, customTimeRangeStartDate, customTimeRangeEndDate) => {
-      return HistoryService.filterTransactionHistoryGivenTimeRange(transactionHistory, periodType, customTimeRangeStartDate, customTimeRangeEndDate);
-    }
+  [
+    transactionHistorySelector,
+    periodTypeSelector,
+    customTimeRangeStartDateSelector,
+    customTimeRangeEndDateSelector
+  ],
+  (
+    transactionHistory, 
+    periodType, 
+    customTimeRangeStartDate, 
+    customTimeRangeEndDate
+  ) => HistoryService.filterTransactionHistoryGivenTimeRange(
+    transactionHistory,
+    periodType,
+    customTimeRangeStartDate,
+    customTimeRangeEndDate
+  )
 );
 
 const availableBalanceSelector = (state) => {
   /*-1 will be used to check to display 'Not available' against the withdraw amount field
       when the asset Config.coreAsset is not obtained for some reason
   */
-  const balance = state.getIn(['balance', 'availableBalancesByAssetId',Config.coreAsset,'balance']);
+  const balance = state.getIn([
+    'balance',
+    'availableBalancesByAssetId',
+    Config.coreAsset,
+    'balance'
+  ]);
   return balance || -1;
-}
+};
 
 const formattedAvailableBalanceSelector = createSelector(
   [availableBalanceSelector, assetsByIdSelector, currencyFormatSelector],
   (availableBalance, assetsById, currencyFormat) => {
     const precision = assetsById.getIn([Config.coreAsset, 'precision']);
-    return CurrencyUtils.getFormattedCurrency(availableBalance/ Math.pow(10, precision),
-     currencyFormat, BettingModuleUtils.exposurePlaces);
+    return CurrencyUtils.getFormattedCurrency(
+      availableBalance / Math.pow(10, precision),
+      currencyFormat,
+      BettingModuleUtils.exposurePlaces
+    );
   }
-)
+);
 
-const depositAddressSelector = (state) => {
-  return state.getIn(['balance', 'depositAddress']);
-}
+const depositAddressSelector = (state) => state.getIn(['balance', 'depositAddress']);
 
-const getDepositAddressLoadingStatusSelector = (state) => {
-  return state.getIn(['balance', 'getDepositAddressLoadingStatus']);
-}
+const getDepositAddressLoadingStatusSelector = (state) => state
+  .getIn(['balance', 'getDepositAddressLoadingStatus']);
 
-const withdrawLoadingStatusSelector = (state) => {
-  return state.getIn(['balance', 'withdrawLoadingStatus']);
-}
+const withdrawLoadingStatusSelector = (state) => state
+  .getIn(['balance', 'withdrawLoadingStatus']);
 
-const initRawHistoryLoadingStatusSelector = (state) => {
-  return state.getIn(['rawHistory', 'initRawHistoryLoadingStatus']);
-}
+const initRawHistoryLoadingStatusSelector = (state) => state
+  .getIn(['rawHistory', 'initRawHistoryLoadingStatus']);
 
-const generateTransactionHistoryExportDataLoadingStatusSelector = (state) => {
-  return state.getIn(['myAccountPage', 'generateTransactionHistoryExportDataLoadingStatus']);
-}
+const generateTransactionHistoryExportDataLoadingStatusSelector = (state) => state
+  .getIn(['myAccountPage', 'generateTransactionHistoryExportDataLoadingStatus']);
 
-const transactionHistoryExportDataSelector = (state) => {
-  return state.getIn(['myAccountPage', 'transactionHistoryExportData']);
-}
+const transactionHistoryExportDataSelector = (state) => state
+  .getIn(['myAccountPage', 'transactionHistoryExportData']);
 
-const accountNameSelector = (state) => {
-  return state.getIn(['account', 'account', 'name']);
-}
-
+const accountNameSelector = (state) => state.getIn(['account', 'account', 'name']);
 
 const MyAccountSelector = {
   lastIrreversibleBlockNumSelector,
@@ -129,7 +127,7 @@ const MyAccountSelector = {
   generateTransactionHistoryExportDataLoadingStatusSelector,
   transactionHistoryExportDataSelector,
   formattedAvailableBalanceSelector,
-  accountNameSelector,
-}
+  accountNameSelector
+};
 
 export default MyAccountSelector;

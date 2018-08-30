@@ -1,20 +1,17 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
+import {I18n} from 'react-redux-i18n';
 
 class Clock extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       time: moment()
-    }
+    };
   }
 
   componentDidMount() {
-    this.timer = setInterval(
-      () => this.tick(),
-      1000
-    )
+    this.timer = setInterval(() => this.tick(), 1000);
   }
 
   componentWillUnmount() {
@@ -29,12 +26,11 @@ class Clock extends PureComponent {
 
   render() {
     return (
-      <div { ...this.props } >
-        { I18n.t('titleBar.clock') } <span>{this.state.time.format('HH:mm')}</span>
+      <div { ...this.props }>
+        {I18n.t('titleBar.clock')} <span>{this.state.time.format('HH:mm')}</span>
       </div>
     );
   }
-
 }
 
 export default Clock;

@@ -45,5 +45,5 @@ export {
   MyWagerTabTypes,
   NotificationTypes,
   ObjectPrefix,
-  TimeRangePeriodTypes
+  TimeRangePeriodTypes,
 };

@@ -1,7 +1,7 @@
-import { createSelector } from 'reselect';
+import {createSelector} from 'reselect';
 import BettingDrawerStates from '../constants/BettingDrawerStates';
 
-const { NO_OVERLAY, SUBMIT_BETS_SUCCESS } = BettingDrawerStates;
+const {NO_OVERLAY, SUBMIT_BETS_SUCCESS} = BettingDrawerStates;
 
 const getOverlayState = (state) => state.getIn(['marketDrawer', 'overlay']);
 const getUnconfirmedBets = (state) => state.getIn(['marketDrawer', 'unconfirmedBets']);
@@ -14,7 +14,7 @@ const canAcceptBet = createSelector(
 const MarketDrawerSelector = {
   getOverlayState,
   getUnconfirmedBets,
-  canAcceptBet,
+  canAcceptBet
 };
 
 export default MarketDrawerSelector;
