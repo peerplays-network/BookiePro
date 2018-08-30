@@ -199,25 +199,27 @@ div.simple-betting {
   margin-top: -4px;
   pointer-events: none;
 }
+
+.offer {
+  a {
+    color: @simple_betting_label;
+    display: block;
+  }
+  .odds {
+    font-size: 16px;
+    text-align: center;
+  }
+  .price {
+    font-size: 12px;
+    text-align: center;
+    font-weight:700;
+  }
+}
+
 .back-offer {
   background-color: @simple_betting_lay_bg;
   &:hover {
     background-color: fade(@simple_betting_back_bg, 90%);
-  }
-  > a {
-    color: @simple_betting_label;
-    display: block;
-    > div.offer {
-      > div.odds {
-        font-size: 16px;
-        text-align: center;
-      }
-      > div.price {
-        font-size: 12px;
-        text-align: center;
-        font-weight:500;
-      }
-    }
   }
 }
 
@@ -226,22 +228,8 @@ div.simple-betting {
   &:hover {
     background-color: fade(@light_pink, 90%);
   }
-  > a {
-    color: @simple_betting_label;
-    display: block;
-    > div.offer {
-      > div.odds {
-        font-size: 16px;
-        text-align: center;
-      }
-      > div.price {
-        font-size: 12px;
-        text-align: center;
-        font-weight:500;
-      }
-    }
-  }
 }
+
 .simple-betting-disabled{
   background-color: @simple_betting_disabled;
     &:hover{
