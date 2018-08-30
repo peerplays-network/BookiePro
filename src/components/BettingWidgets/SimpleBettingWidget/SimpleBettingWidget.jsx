@@ -293,8 +293,7 @@ class SimpleBettingWidget extends PureComponent {
         <div className={ className }>
           <a
             href='#'
-            onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds'))
-            } // eslint-disable-line
+            onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds')) } // eslint-disable-line
           >
             <div className='offer'>
               <div className='odds'>

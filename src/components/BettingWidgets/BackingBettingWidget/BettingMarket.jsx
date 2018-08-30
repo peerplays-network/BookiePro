@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, {PureComponent} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import { MarketDrawerActions } from '../../../actions';
+import {MarketDrawerActions} from '../../../actions';
 
 class BettingMarket extends PureComponent {
   constructor(props) {
@@ -13,6 +13,7 @@ class BettingMarket extends PureComponent {
 
   getBestOdds(layBets) {
     let bestOffer = layBets.last();
+
     if (bestOffer) {
       return bestOffer.get('odds');
     } else {
@@ -31,7 +32,7 @@ class BettingMarket extends PureComponent {
   }
 
   render() {
-    const { title, backOrigin } = this.props;
+    const {title, backOrigin} = this.props;
     return (
       <div className='backBettingMarket' onClick={ this.offerClicked }>
         <div className='bmTitle'>{title}</div>
@@ -45,7 +46,7 @@ BettingMarket.propTypes = {
   title: PropTypes.string.isRequired,
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       createBet: MarketDrawerActions.createBet,

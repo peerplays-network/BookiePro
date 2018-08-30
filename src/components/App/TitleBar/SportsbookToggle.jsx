@@ -1,12 +1,12 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, {PureComponent} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import { AppActions, NavigateActions } from '../../../actions';
-import { I18n } from 'react-redux-i18n';
-import { BookieModes } from '../../../constants';
-import { EventPageSelector } from '../../../selectors';
-import { ChainTypes } from 'peerplaysjs-lib';
+import {AppActions, NavigateActions} from '../../../actions';
+import {I18n} from 'react-redux-i18n';
+import {BookieModes} from '../../../constants';
+import {EventPageSelector} from '../../../selectors';
+import {ChainTypes} from 'peerplaysjs-lib';
 
 class SportsbookToggle extends PureComponent {
   constructor(props) {
@@ -29,11 +29,13 @@ class SportsbookToggle extends PureComponent {
         this.props.navigateTo('/betting/exchange' + subroute);
         break;
       }
+
       case BookieModes.SPORTSBOOK: {
         this.props.setMode(BookieModes.SPORTSBOOK);
         this.props.navigateTo('/betting/sportsbook' + subroute);
         break;
       }
+
       default:
         break;
     }
@@ -42,13 +44,17 @@ class SportsbookToggle extends PureComponent {
   render() {
     return (
       <div className='sportsBookToggle'>
-        <p onClick={ () => this.toggle(BookieModes.EXCHANGE) } 
-            className={ this.props.bookMode === BookieModes.EXCHANGE ? 'active' : '' }>
+        <p
+          onClick={ () => this.toggle(BookieModes.EXCHANGE) }
+          className={ this.props.bookMode === BookieModes.EXCHANGE ? 'active' : '' }
+        >
           {I18n.t('titleBar.sportsbookToggle.exchange')}
         </p>
 
-        <p onClick={ () => this.toggle(BookieModes.SPORTSBOOK) } 
-            className={ this.props.bookMode === BookieModes.SPORTSBOOK ? 'active' : '' }>
+        <p
+          onClick={ () => this.toggle(BookieModes.SPORTSBOOK) }
+          className={ this.props.bookMode === BookieModes.SPORTSBOOK ? 'active' : '' }
+        >
           {I18n.t('titleBar.sportsbookToggle.sportsbook')}
         </p>
       </div>
@@ -62,9 +68,10 @@ SportsbookToggle.propTypes = {
   navigateTo: PropTypes.func,
 };
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const previousRoute = state.getIn(['routing', 'locationBeforeTransitions']);
   let eventID, bmgID;
+
   // If the previous route exists
   if (previousRoute) {
     let splitRoute = previousRoute.pathname.split('/');
@@ -100,7 +107,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       setMode: AppActions.setBookMode,

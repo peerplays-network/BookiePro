@@ -389,10 +389,7 @@ const mapStateToProps = (state) => ({
   transactionHistory: MyAccountPageSelector.filteredTransactionHistorySelector(state),
   transactionHistoryLoadingStatus: MyAccountPageSelector.initRawHistoryLoadingStatusSelector(state),
   transactionHistoryExportData: MyAccountPageSelector.transactionHistoryExportDataSelector(state),
-  generateTransactionHistoryExportDataLoadingStatus: MyAccountPageSelector.generateTransactionHistoryExportDataLoadingStatusSelector(
-    // eslint-disable-line
-    state
-  ),
+  generateTransactionHistoryExportDataLoadingStatus: MyAccountPageSelector.generateTransactionHistoryExportDataLoadingStatusSelector(state), // eslint-disable-line
   //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
   loadingStatus: MyAccountPageSelector.getDepositAddressLoadingStatusSelector(state),
   depositAddress: MyAccountPageSelector.depositAddressSelector(state),

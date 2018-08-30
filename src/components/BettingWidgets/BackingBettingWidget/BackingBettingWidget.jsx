@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import 'react-table/react-table.css';
 import PropTypes from 'prop-types';
 import BettingMarket from './BettingMarket';
-import { Col } from 'antd';
-import { SportsbookUtils } from '../../../utility';
+import {Col} from 'antd';
+import {SportsbookUtils} from '../../../utility';
 
 class BackingBettingWidget extends PureComponent {
   render() {

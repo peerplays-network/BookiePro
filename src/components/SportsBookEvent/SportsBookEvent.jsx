@@ -1,13 +1,19 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { BettingMarketGroupBanner } from '../Banners';
-import { BackingBettingWidget } from '../BettingWidgets';
-import { ObjectUtils, DateUtils } from '../../utility';
+import React, {PureComponent} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {BettingMarketGroupBanner} from '../Banners';
+import {BackingBettingWidget} from '../BettingWidgets';
+import {ObjectUtils, DateUtils} from '../../utility';
 import PeerPlaysLogo from '../PeerPlaysLogo';
-import { AllSportsActions, MarketDrawerActions, NavigateActions } from '../../actions';
+import {AllSportsActions, MarketDrawerActions, NavigateActions} from '../../actions';
 
-import { BettingMarketGroupPageSelector, EventGroupPageSelector, MarketDrawerSelector, MyAccountPageSelector, EventPageSelector } from '../../selectors';
+import {
+  BettingMarketGroupPageSelector,
+  EventGroupPageSelector,
+  MarketDrawerSelector,
+  MyAccountPageSelector,
+  EventPageSelector,
+} from '../../selectors';
 
 import _ from 'lodash';
 
@@ -35,6 +41,7 @@ class SportsBookEvent extends PureComponent {
     } else {
       const prevEventId = this.props.params.objectId;
       const nextEventId = nextProps.params.objectId;
+
       if (
         nextEventId !== prevEventId ||
         nextProps.event !== this.props.event ||
@@ -91,6 +98,7 @@ class SportsBookEvent extends PureComponent {
 const mapStateToProps = (state, ownProps) => {
   const event = EventPageSelector.getEvent(state, ownProps.params.eventId);
   let sportName;
+
   if (event) {
     sportName = EventGroupPageSelector.getSportNameFromEvent(state, event);
   }
@@ -115,10 +123,11 @@ const mapStateToProps = (state, ownProps) => {
       sportName,
     });
   }
+
   return props;
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       createBet: MarketDrawerActions.createBet,

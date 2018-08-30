@@ -1,7 +1,7 @@
-import { BackingWidgetTypes, BackingWidgetLayouts } from '../constants/BackingWidgetTypes';
+import {BackingWidgetTypes, BackingWidgetLayouts} from '../constants/BackingWidgetTypes';
 import Immutable from 'immutable';
 
-const getDescriptionAsType = description => description.replace(/[\/\- ]/, '').toUpperCase();
+const getDescriptionAsType = (description) => description.replace(/[\/\- ]/, '').toUpperCase();
 
 /**
  * getColumnSize()
@@ -18,7 +18,7 @@ const getDescriptionAsType = description => description.replace(/[\/\- ]/, '').t
  * @note - Antd uses a 24 column layout. This function takes that into account. The calling function
  *  should be able to call this function like so <Col span={ getColumnSize(title) }>
  */
-const getColumnSize = type => {
+const getColumnSize = (type) => {
   if (type) {
     type = getDescriptionAsType(type);
   }
@@ -37,13 +37,17 @@ const getColumnSize = type => {
  *  category over/under.
  *
  * @param {*} bettingMarketGroups -
- * @returns - A new list of wherein all over/under betting markets appear to live within a single BMG
+ * @returns - A new list of wherein all over/under betting markets appear to live within 
+ *             a single BMG
  */
-const groupOverUnders = bettingMarketGroups => {
+const groupOverUnders = (bettingMarketGroups) => {
   let overUnders = Immutable.Map();
   overUnders = overUnders.set('event_id', bettingMarketGroups.first().get('event_id'));
   overUnders = overUnders.set('asset_id', bettingMarketGroups.first().get('asset_id'));
-  overUnders = overUnders.set('delay_before_settling', bettingMarketGroups.first().get('delay_before_settling'));
+  overUnders = overUnders.set(
+    'delay_before_settling',
+    bettingMarketGroups.first().get('delay_before_settling')
+  );
   overUnders = overUnders.set('description', 'Over/Under');
   overUnders = overUnders.set('total_matched_bets_amount', 0);
   overUnders = overUnders.set('bettingMarkets', Immutable.List());
@@ -55,14 +59,16 @@ const groupOverUnders = bettingMarketGroups => {
   let newBettingMarketGroups = Immutable.List();
 
   const overUnder = 'over/under';
-  
+
   // Iterate through the BMGs passed in
-  bettingMarketGroups.forEach(bmg => {
+  bettingMarketGroups.forEach((bmg) => {
     // Check the current BMG's description to see if it matches over/under
     let description = bmg.get('description').toLowerCase();
+
     if (description.includes(overUnder)) {
       // Add the list of BMs in the current BM to the list of over/unders
       let bettingMarkets = bmg.get('bettingMarkets');
+
       if (bettingMarkets) {
         for (let i = 0; i < bmg.get('bettingMarkets').length; i++) {
           overUnderBMs.push(bmg.get('bettingMarkets')[i]);
@@ -72,18 +78,20 @@ const groupOverUnders = bettingMarketGroups => {
       nonOverUnders = nonOverUnders.push(bmg);
     }
   });
+
   // If there were over unders present in the bettingMarkets,
   //  add them to the list
   if (overUnderBMs.length > 0) {
     overUnders = overUnders.set('bettingMarkets', overUnderBMs.sort());
     newBettingMarketGroups = newBettingMarketGroups.push(overUnders);
   }
+
   if (nonOverUnders.size > 0) {
     nonOverUnders.forEach((bmg) => {
       newBettingMarketGroups = newBettingMarketGroups.push(bmg);
     });
   }
-  
+
   return newBettingMarketGroups;
 };
 
@@ -96,7 +104,7 @@ const groupOverUnders = bettingMarketGroups => {
  * @param {*} bettingMarketGroup - The bettingMarketGroup containing the two teams and a draw bm
  * @returns - The bettingMarketGroup wherein the draw lives in the [1] element of the list
  */
-const centerTheDraw = bettingMarketGroup => {
+const centerTheDraw = (bettingMarketGroup) => {
   let bettingMarkets = bettingMarketGroup.get('bettingMarkets');
   const description = getDescriptionAsType(bettingMarketGroup.get('description'));
 
@@ -108,7 +116,12 @@ const centerTheDraw = bettingMarketGroup => {
   // Find the index that the draw is in
   let drawIndex = -1;
   bettingMarkets.forEach((bm, index) => {
-    if (bm.get('description').replace(/\s/g, '').toUpperCase() === 'THEDRAW') {
+    if (
+      bm
+        .get('description')
+        .replace(/\s/g, '')
+        .toUpperCase() === 'THEDRAW'
+    ) {
       drawIndex = index;
     }
   });
@@ -134,13 +147,15 @@ const centerTheDraw = bettingMarketGroup => {
  * @param {*} bettingMarketGroups - An Immutable list containing bettingMarketGroups
  * @returns - A listed sorted by the priorities defined in BackingWidgetLayouts
  */
-const prioritySort = bettingMarketGroups => {
+const prioritySort = (bettingMarketGroups) => {
   bettingMarketGroups = bettingMarketGroups.sort((a, b) => {
     let typeA = getDescriptionAsType(a.get('description'));
     let typeB = getDescriptionAsType(b.get('description'));
 
     if (BackingWidgetLayouts[typeA] && BackingWidgetLayouts[typeB]) {
       return BackingWidgetLayouts[typeA].order > BackingWidgetLayouts[typeB].order;
+    } else {
+      return true;
     }
   });
   return bettingMarketGroups;
@@ -154,11 +169,13 @@ const prioritySort = bettingMarketGroups => {
  * @param {*} bettingMarketGroup - The betting market group in question.
  * @returns - True if the bmg is a match odds bmg. False otherwise.
  */
-const isMatchodds = bettingMarketGroup => {
+const isMatchodds = (bettingMarketGroup) => {
   const description = getDescriptionAsType(bettingMarketGroup.get('description'));
+
   if (description === BackingWidgetTypes.MATCHODDS) {
     return true;
   }
+
   return false;
 };
 

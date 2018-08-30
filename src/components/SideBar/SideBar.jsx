@@ -81,8 +81,8 @@ class SideBar extends PureComponent {
    * for findKeyPathOf() and differences(), please refer to
    
    * for detailed explanation.
-   */
-  /* https://stackoverflow.com/questions/41298577/how-to-get-altered-tree-from-immutable-tree-maximising-reuse-of-nodes*/ createCurrentStateTree(
+   */  
+  createCurrentStateTree(
     completeTree,
     targetObjectId
   ) {
@@ -103,29 +103,25 @@ class SideBar extends PureComponent {
 
       // For sport
       if (keyPath.length === 1) {
-        newTree = newTree.updateIn(keyPath.slice(0, 1), (node) => node.set('isSelected', true).set('isOpen', true)
+        newTree = newTree.updateIn(
+          keyPath.slice(0, 1),
+          (node) => node.set('isSelected', true).set('isOpen', true)
         );
-      }
-
-      // For event group
-      else if (keyPath.length === 3) {
+      } else if (keyPath.length === 3) {
+        // For event group
         newTree = newTree
           .updateIn(keyPath.slice(0, 1), (node) => node.set('isOpen', true))
           .updateIn(keyPath.slice(0, 3), (node) => node.set('isSelected', true).set('isOpen', true)
           );
-      }
-
-      // For event
-      else if (keyPath.length === 5) {
+      } else if (keyPath.length === 5) {
+        // For event
         newTree = newTree
           .updateIn(keyPath.slice(0, 1), (node) => node.set('isOpen', true))
           .updateIn(keyPath.slice(0, 3), (node) => node.set('isSelected', true).set('isOpen', true))
           .updateIn(keyPath.slice(0, 5), (node) => node.set('isSelected', true).set('isOpen', true)
           );
-      }
-
-      // For betting market group
-      else if (keyPath.length === 7) {
+      } else if (keyPath.length === 7) {
+        // For betting market group
         newTree = newTree
           .updateIn(keyPath.slice(0, 1), (node) => node.set('isOpen', true))
           .updateIn(keyPath.slice(0, 3), (node) => node.set('isOpen', true))
@@ -138,9 +134,10 @@ class SideBar extends PureComponent {
       // find the 'id' path of the newTree
       const altered = differences(completeTree, newTree, 'children').map((x) => x.get('id'));
 
-      if (keyPath.length >= 5) {
-        // If we're in sportbook mode, remove all the children of the event from being shown in the sidebar.
+      if (keyPath.length >= 5) {        
         if (this.props.bookMode === BookieModes.SPORTSBOOK) {
+          // If we're in sportbook mode
+          // remove all the children of the event from being shown in the sidebar.
           keyPath.push('children');
           newTree = newTree.removeIn(keyPath);
         }
@@ -178,19 +175,22 @@ class SideBar extends PureComponent {
    * onClick function to be cosumed by props in react-infinity-menu
    * https://github.com/socialtables/react-infinity-menu#properties
    *
-   * i) Event  -> show Moneyline if ACTITVE Moneyline exists. Else it will show the first descendant ACTIVE BMG
+   * i) Event  -> show Moneyline if ACTITVE Moneyline exists. 
+   *                Else it will show the first descendant ACTIVE BMG
    * ii) BMG -> show corresponding BMG
    * iii) SPORT / Event Group -> show ACTIVE descendants
    *
-   *  navgiation path name is related to value of customComponentMappings props provided to InfinityMenu
+   *  navgiation path name is related to value of customComponentMappings props
+   *   provided to InfinityMenu
    *
    * @param event - is the mouse click event.
    * @param tree -  is the updated tree, you should update your own tree accordingly.
-   * @param node -  is the folder(node) the user clicked on. Including the id, name, isOpen and children.
+   * @param node -  is the folder(node) the user clicked on. 
+   *                  Including the id, name, isOpen and children.
    * @param level - is the distance from the root.
    * @param keyPath - is the path from root to current node
    */
-  onNodeMouseClick(event, tree, node, level, keyPath) {
+  onNodeMouseClick(event, tree, node) {
     let navPath = '/betting';
 
     if (this.props.bookMode === BookieModes.SPORTSBOOK) {

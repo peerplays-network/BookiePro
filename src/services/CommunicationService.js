@@ -14,7 +14,7 @@ import {
   BalanceActions,
   RuleActions,
   LiquidityActions,
-  MarketDrawerActions
+  MarketDrawerActions,
 } from '../actions';
 import Immutable from 'immutable';
 import {ObjectPrefix, Config, ChainTypes, LoadingStatus} from '../constants';
@@ -26,11 +26,7 @@ import {I18n} from 'react-redux-i18n';
 const TIMEOUT_LENGTH = 500;
 const SYNC_MIN_INTERVAL = 1000; // 1 seconds
 
-const {
-  blockchainTimeStringToDate,
-  getObjectIdPrefix,
-  isRelevantObject
-} = BlockchainUtils;
+const {blockchainTimeStringToDate, getObjectIdPrefix, isRelevantObject} = BlockchainUtils;
 
 // An array that holds all the objects that the application is currently subscribed to.
 let subscriptions = [];
@@ -96,7 +92,7 @@ class CommunicationService {
 
         // Add this to the list if it is relevant
         if (isRelevantObject(objectIdPrefix)) {
-          this.updatedObjectsByObjectIdByObjectIdPrefix = this.updatedObjectsByObjectIdByObjectIdPrefix.update( // eslint-disable-line
+          this.updatedObjectsByObjectIdByObjectIdPrefix = this.updatedObjectsByObjectIdByObjectIdPrefix.update(// eslint-disable-line
             objectIdPrefix,
             (map) => {
               // Use map instead of list for more efficient duplicate detection
@@ -126,7 +122,7 @@ class CommunicationService {
           const softwareUpdateRefAccId = this.getState().getIn([
             'softwareUpdate',
             'referenceAccount',
-            'id'
+            'id',
           ]);
           updatedObjects.forEach((updatedObject) => {
             const accountId = updatedObject.get('id');
@@ -163,7 +159,7 @@ class CommunicationService {
               canceledBetIds = canceledBetIds.push(betId);
             } else if (operationType === ChainTypes.operations.bet_place) {
               const bettingMarketId = updatedObject.getIn(['op', 1, 'betting_market_id']);
-              bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bettingMarketIdsOfBinnedOrderBooksToBeRefreshed.push( // eslint-disable-line
+              bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bettingMarketIdsOfBinnedOrderBooksToBeRefreshed.push(// eslint-disable-line
                 bettingMarketId
               );
             }
@@ -225,7 +221,7 @@ class CommunicationService {
           const softwareUpdateRefAccId = this.getState().getIn([
             'softwareUpdate',
             'referenceAccount',
-            'id'
+            'id',
           ]);
           updatedObjects.forEach((updatedObject) => {
             const ownerId = updatedObject.get('owner');
@@ -258,7 +254,7 @@ class CommunicationService {
         case ObjectPrefix.SPORT_PREFIX: {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
-            'name'
+            'name',
           ]);
           this.dispatch(SportActions.addOrUpdateSportsAction(localizedUpdatedObject));
           break;
@@ -267,7 +263,7 @@ class CommunicationService {
         case ObjectPrefix.EVENT_GROUP_PREFIX: {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
-            'name'
+            'name',
           ]);
           this.dispatch(EventGroupActions.addOrUpdateEventGroupsAction(localizedUpdatedObject));
           break;
@@ -276,7 +272,7 @@ class CommunicationService {
         case ObjectPrefix.EVENT_PREFIX: {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
-            'name'
+            'name',
           ]);
           this.dispatch(EventActions.addOrUpdateEventsAction(localizedUpdatedObject));
           break;
@@ -286,7 +282,7 @@ class CommunicationService {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
             'name',
-            'description'
+            'description',
           ]);
           this.dispatch(RuleActions.addOrUpdateRulesAction(localizedUpdatedObject));
           break;
@@ -295,7 +291,7 @@ class CommunicationService {
         case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
-            'description'
+            'description',
           ]);
           this.dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
           this.dispatch(
@@ -308,7 +304,7 @@ class CommunicationService {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
             'description',
-            'payout_condition'
+            'payout_condition',
           ]);
           this.dispatch(
             BettingMarketActions.addOrUpdateBettingMarketsAction(localizedUpdatedObject)
@@ -439,14 +435,14 @@ class CommunicationService {
       if (methodName === 'get_objects') {
         let ids = params[0];
 
-        // There are cases where an immutable list is passed instead of an array. 
+        // There are cases where an immutable list is passed instead of an array.
         // This converts it to an array.
         if (!Array.isArray(ids)) {
           ids = ids.toJS();
         }
 
         // Add the ids to the subscriptions array.
-        // this code will create an array of unique ids, that way we don't need to duplicate 
+        // this code will create an array of unique ids, that way we don't need to duplicate
         // the same item if its requested more than once.
         subscriptions = Array.from(new Set(subscriptions.concat(ids)));
       }
@@ -558,7 +554,7 @@ class CommunicationService {
       );
     }
 
-    // Get current blockchain data (dynamic global property and global property), 
+    // Get current blockchain data (dynamic global property and global property),
     // to ensure blockchain time is in sync
     // Also ask for core asset here
     return this.callBlockchainDbApi('get_objects', [['2.1.0', '2.0.0', Config.coreAsset]])
@@ -571,7 +567,7 @@ class CommunicationService {
           blockchainDynamicGlobalProperty.get('time')
         ).getTime();
         const delta = (now - headTime) / 1000;
-        // Continue only if delta of computer current time and the blockchain time 
+        // Continue only if delta of computer current time and the blockchain time
         // is less than a minute
         const isBlockchainTimeDifferenceAcceptable = Math.abs(delta) < 60;
 
@@ -701,7 +697,7 @@ class CommunicationService {
       accountId,
       stopTxHistoryId,
       adjustedLimit,
-      startTxHistoryId
+      startTxHistoryId,
     ]).then((history) => {
       // Concat to the result
       result = result.concat(history);
@@ -736,7 +732,9 @@ class CommunicationService {
    * Get any blockchain object given their id
    */
   static getObjectsByIds(arrayOfObjectIds = []) {
-    return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds])
+    return this.callBlockchainDbApi(
+      'get_objects', 
+      [arrayOfObjectIds])
       .then((result) => result.filter((object) => !!object));
   }
 
@@ -745,7 +743,9 @@ class CommunicationService {
    * This applies to event, betting market group, betting market, and bet
    */
   static getPersistedBookieObjectsByIds(arrayOfObjectIds = []) {
-    return this.callBlockchainBookieApi('get_objects', [arrayOfObjectIds])
+    return this.callBlockchainBookieApi(
+      'get_objects',
+      [arrayOfObjectIds])
       .then((result) => result.filter((object) => !!object));
   }
 
@@ -760,7 +760,8 @@ class CommunicationService {
    * Get all sports
    */
   static getAllSports() {
-    return this.callBlockchainDbApi('list_sports')
+    return this.callBlockchainDbApi(
+      'list_sports')
       .then((sports) => ObjectUtils.localizeArrayOfObjects(sports, ['name']));
   }
 
@@ -773,9 +774,10 @@ class CommunicationService {
     }
 
     let promises = sportIds.map((sportId) => {
-      let promise = this.callBlockchainDbApi('list_event_groups', [sportId])
+      let promise = this.callBlockchainDbApi(
+        'list_event_groups',
+        [sportId])
         .then((eventGroups) => ObjectUtils.localizeArrayOfObjects(eventGroups, ['name']));
-
       return promise;
     });
 
@@ -790,20 +792,22 @@ class CommunicationService {
       eventGroupIds = eventGroupIds.toJS();
     }
 
-    let promises = eventGroupIds
-      .map((eventGroupId) => this.callBlockchainDbApi('list_events_in_group', [eventGroupId])
-        .then((events) => {
-          const ids = events.toJS().map((event) => event.id);
-          const localizedEvents = ObjectUtils.localizeArrayOfObjects(events, ['name', 'season']);
+    let promises = eventGroupIds.map((eventGroupId) => this.callBlockchainDbApi(
+      'list_events_in_group',
+      [eventGroupId])
+      .then((events) => {
+        const ids = events.toJS().map((event) => event.id);
+        const localizedEvents = ObjectUtils.localizeArrayOfObjects(events, ['name', 'season']);
 
-          // If there are no events, returned an empty object
-          if (ids.length <= 0) {
-            return localizedEvents;
-          }
+        // If there are no events, returned an empty object
+        if (ids.length <= 0) {
+          return localizedEvents;
+        }
 
-          // Subscribe to changes on the blockchain.
-          return this.getEventsByIds(ids).then(() => localizedEvents);
-        }));
+        // Subscribe to changes on the blockchain.
+        return this.getEventsByIds(ids).then(() => localizedEvents);
+      })
+    );
     return Promise.all(promises).then((result) => Immutable.fromJS(result).flatten(true));
   }
 
@@ -815,15 +819,17 @@ class CommunicationService {
       eventIds = eventIds.toJS();
     }
 
-    let promises = eventIds
-      .map((eventId) => this.callBlockchainDbApi('list_betting_market_groups', [eventId]).then(
+    let promises = eventIds.map((eventId) => this.callBlockchainDbApi(
+      'list_betting_market_groups',
+      [eventId])
+      .then(
         (bettingMarketGroups) => {
           const ids = bettingMarketGroups.toJS().map((bmg) => bmg.id);
           const localizedMarketGroups = ObjectUtils.localizeArrayOfObjects(bettingMarketGroups, [
-            'description'
+            'description',
           ]);
 
-            // If there are no Betting Market Groups, returned an empty object
+          // If there are no Betting Market Groups, returned an empty object
           if (ids.length <= 0) {
             return localizedMarketGroups;
           }
@@ -831,7 +837,8 @@ class CommunicationService {
           // Subscribe to changes on the blockchain.
           return this.getBettingMarketGroupsByIds(ids).then(() => localizedMarketGroups);
         }
-      ));
+      )
+    );
     return Promise.all(promises).then((result) => Immutable.fromJS(result).flatten(true));
   }
 
@@ -850,7 +857,7 @@ class CommunicationService {
           const ids = bettingMarkets.toJS().map((market) => market.id);
           const localizedBettingMarkets = ObjectUtils.localizeArrayOfObjects(bettingMarkets, [
             'description',
-            'payout_condition'
+            'payout_condition',
           ]);
 
           // If there are no betting markets, returned an empty object
@@ -874,8 +881,10 @@ class CommunicationService {
     }
 
     // Create promises of getting binned order book for each betting market
-    const promises = bettingMarketIds
-      .map((bettingMarketId) => this.callBlockchainBookieApi('get_binned_order_book', [bettingMarketId, binningPrecision])); // eslint-disable-line
+    const promises = bettingMarketIds.map((bettingMarketId) => this.callBlockchainBookieApi(
+      'get_binned_order_book',
+      [bettingMarketId, binningPrecision])
+    ); // eslint-disable-line
 
     return Promise.all(promises).then((result) => {
       let finalResult = Immutable.Map();
@@ -900,10 +909,10 @@ class CommunicationService {
       bettingMarketGroupIds = bettingMarketGroupIds.toJS();
     }
 
-    let promises = bettingMarketGroupIds
-      .map((bettingMarketGroupId) => this.callBlockchainBookieApi('get_total_matched_bet_amount_for_betting_market_group', [ // eslint-disable-line
-        bettingMarketGroupId
-      ]));
+    let promises = bettingMarketGroupIds.map((bettingMarketGroupId) => this.callBlockchainBookieApi(
+      'get_total_matched_bet_amount_for_betting_market_group',
+      [bettingMarketGroupId])
+    );
 
     return Promise.all(promises).then((result) => {
       // Map the result with betting market groupIds
@@ -925,72 +934,63 @@ class CommunicationService {
    * Get betting market by id
    */
   static getBettingMarketsByIds(bettingMarketIds) {
-    return this.getObjectsByIds(bettingMarketIds)
-      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition'])); // eslint-disable-line
+    return this.getObjectsByIds(bettingMarketIds).then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition'])); // eslint-disable-line
   }
 
   /**
    * Get persisted betting market by id
    */
   static getPersistedBettingMarketsByIds(bettingMarketIds) {
-    return this.getPersistedBookieObjectsByIds(bettingMarketIds)
-      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition'])); // eslint-disable-line
+    return this.getPersistedBookieObjectsByIds(bettingMarketIds).then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description', 'payout_condition'])); // eslint-disable-line
   }
 
   /**
    * Get betting market group by id
    */
   static getBettingMarketGroupsByIds(bettingMarketGroupIds) {
-    return this.getObjectsByIds(bettingMarketGroupIds)
-      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description']));
+    return this.getObjectsByIds(bettingMarketGroupIds).then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description'])); // eslint-disable-line
   }
 
   /**
    * Get persisted betting market group by id
    */
   static getPersistedBettingMarketGroupsByIds(bettingMarketGroupIds) {
-    return this.getPersistedBookieObjectsByIds(bettingMarketGroupIds)
-      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description']));
+    return this.getPersistedBookieObjectsByIds(bettingMarketGroupIds).then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description'])); // eslint-disable-line
   }
 
   /**
    * Get event by id
    */
   static getEventsByIds(eventIds) {
-    return this.getObjectsByIds(eventIds)
-      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['name']));
+    return this.getObjectsByIds(eventIds).then((result) => ObjectUtils.localizeArrayOfObjects(result, ['name'])); // eslint-disable-line
   }
 
   /**
    * Get event by id
    */
   static getPersistedEventsByIds(eventIds) {
-    return this.getPersistedBookieObjectsByIds(eventIds)
-      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['name']));
+    return this.getPersistedBookieObjectsByIds(eventIds).then((result) => ObjectUtils.localizeArrayOfObjects(result, ['name'])); // eslint-disable-line
   }
 
   /**
    * Get event group by id
    */
   static getEventGroupsByIds(eventGroupIds) {
-    return this.getObjectsByIds(eventGroupIds)
-      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['name']));
+    return this.getObjectsByIds(eventGroupIds).then((result) => ObjectUtils.localizeArrayOfObjects(result, ['name'])); // eslint-disable-line
   }
 
   /**
    * Get sport by id
    */
   static getSportsByIds(sportIds) {
-    return this.getObjectsByIds(sportIds)
-      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['name']));
+    return this.getObjectsByIds(sportIds).then((result) => ObjectUtils.localizeArrayOfObjects(result, ['name'])); // eslint-disable-line
   }
 
   /**
    * Get rules
    */
   static getRulesByIds(ruleIds) {
-    return this.getObjectsByIds(ruleIds)
-      .then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description', 'name']));
+    return this.getObjectsByIds(ruleIds).then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description', 'name'])); // eslint-disable-line
   }
 
   /**

@@ -27,4 +27,4 @@ const BackingWidgetLayouts = {
   },
 };
 
-export { BackingWidgetTypes, BackingWidgetLayouts };
+export {BackingWidgetTypes, BackingWidgetLayouts};
