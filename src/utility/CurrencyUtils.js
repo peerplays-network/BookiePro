@@ -142,7 +142,7 @@ var CurrencyUtils = {
       case 'mBTC':
         if (color === 'white') {
           return (
-            <img src={ btc.mWhite } className='currency-symbol btc' alt={ bitcoinSymbol } />
+            <img src={ btc.mWhite } className='currency-symbol mbtc' alt={ bitcoinSymbol } />
           );
         }
 
