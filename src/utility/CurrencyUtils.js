@@ -21,354 +21,42 @@ const stakeDust = exchangeCoin; // Three
 //         We need to be careful because sometimes the values we are handling
 //         could be in satoshi unit.
 //         The functions toFixed and toFixedWithSymbol are not performing this conversion.
-class Field {
-  constructor(field) {
-    this._field = field;
-  }
-  get field() {
-    return this._field;
-  }
-  set field(value) {   
-    this._field = value;
-  }
-
-  average() {
-    if (
-      this._field === 'avgProfitLiability' ||
-      this._field === 'avgStake'
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-}
-class Currency {
-  /**
-   *Creates an instance of Currency.
-   * @param {string | number} amount
-   * @param {string} field - profit, liability, stake, exposure, orderbook balance, amount won
-   * @param {string} currencyFormat - the configured currency. (ie: 'BTF', 'mBTF', 'BTC', etc...).
-   * @memberof Currency
-   */
-  constructor(amount, field, currencyFormat) {
-    this._amount = amount;
-    this._field = new Field(field);
-    this._currencyFormat = currencyFormat;
-  }
-
-  // GETTER & SETTERS
-  get amount() {
-    return this._amount;
-  }
-  set amount(value) {
-    if (typeof value !== 'number') {
-      this._amount = this.fromString(this._amount);
-    } else {
-      this._amount = this.isDust(value);
-    }
-  }
-
-  get field() {
-    return this._field;
-  }
-  set field(value) {
-    this._field = value.toLowerCase();
-  }
-
-  get currencyFormat() {
-    return this._currencyFormat;
-  }
-  set currencyFormat(value) {
-    this._currencyFormat = value;
-  }
-
-  // HELPER FUNCTIONS
-  /**
-   * Converts the provided currency amount number into a string.
-   *
-   * @returns {string}
-   * @memberof Currency
-   */
-  fromInt() {
-    return this._amount.toString();
-  }
-  /**
- * Converts the provided currency amount string into a number.
- *
- * @returns {float}
- * @memberof Currency
- */
-  fromString() {
-    return parseFloat(this._amount);
-  }
-
-  /**
-   * Used to determine the string representation of a currency amount for displaying throughout
-   * Bookie.
-   * May or may not be combined with other functions for inclusion of currency symbol image(s).
-   * 
-   * Uses a combination of string split and substringing to get an amount 
-   * without rounding applied.
-   * May still use .toFixed() depending on the situation.
-   * 
-   * @static
-   * @param {boolean} [accuracy = true] - Whether or not to round to precision decimal places.
-   *                       - True will round to precision decimal places
-   *                       - False will truncate to precision decimal places
-   * @param {boolean} [skipDustCheck = false] - In some circumstances, we do not want to check if
-   *                                            a value is dust. 
-   * @returns {string}
-   * @memberof Currency
-   */
-  static displayCurrencyAmount(accuracy = true, skipDustCheck = false) {
-    let displayNum = this._amount;
-
-    if (!accuracy) {
-      displayNum = displayNum * 1000;
-    }
-
-    // If true, the return display value is for average data.
-    if (this._field.average()) {
-
-    }
-
-    if (!skipDustCheck) {
-      let precision = this.fieldPrecisionMap[this._field][this._currencyFormat];
-      
-      // Check if the amount is dust.
-      if (!this.isDust()) {
-        let split = this._amount.toString().split('.');
-
-        if (split[1] && split[1].length > precision) {
-          // Conditionally take tha value one past the accepted precision.
-          let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0));
-          let newAmount = split[0] + '.' + splitSel;
-          // Then, execute toFixed on the resulting amount. This maintains accuracy.
-          displayNum = parseFloat(newAmount).toFixed(precision);
-        } else {
-          displayNum = this._amount.toFixed(precision);
-        }
-
-        // Convert the value back into a number.
-        displayNum = displayNum * 1;
-      } else {
-        displayNum = 0 + '*';
-      }
-    }
-
-    return displayNum;
-  }
-
-  /**
-   * Retrieves the image file corresponding to the currency.
-   * Returns a HTML image tag.
-   *
-   * @static
-   * @param {string} [color='black'] - determine which image file to use to display
-   * @returns {HTMLImageElement}
-   * @memberof Currency
-   */
-  static displayCurrencySymbol(color = 'black') {
-    switch (this._currencyFormat) {
-      case 'BTC':
-        return (
-          <img
-            src='../../../assets/icons/bitcoin_icon_hover.svg'
-            className='currency-symbol btf'
-            alt='BTF'
-          />
-        );
-      case 'mBTC':
-        return (
-          <img
-            src='../../../assets/icons/mbitcoin_icon_hover.svg'
-            className='currency-symbol mbtf'
-            alt='mBTF'
-          />
-        );
-      case 'BTF':
-        if (color === 'white') {
-          return <img src={ bitFunWhite } className='currency-symbol btf' alt='BTF' />;
-        }
-
-        return <img src={ bitFunBlack } className='currency-symbol btf' alt='BTF' />;
-      case 'mBTF':
-        if (color === 'white') {
-          return <img src={ mBitFunWhite } className='currency-symbol mbtf' alt='mBTF' />;
-        }
-
-        return <img src={ mBitFunBlack } className='currency-symbol mbtf' alt='mBTF' />;
-      default:
-        break;
-    }
-  }
-
-  /**
-   * Combine two helper functions and return the result.
-   *
-   * @static
-   * @param {boolean} accuracy - for use in displayCurrencyAmount()
-   * @param {boolean} skipDustCheck - for use in displayCurrencyAmount()
-   * @param {string} color - for use in displayCurrencySymbol()
-   * @returns {HTMLImageElement + string}
-   * @memberof Currency
-   */
-  static displayCurrencyAmountWithSymbol(accuracy, skipDustCheck, color) {
-    let displayValue = this.displayCurrencySymbol(color)
-        + this.displayCurrencyAmount(accuracy, skipDustCheck);
-    return displayValue;
-  }
-
-  /**
-   * Checks if the provided currency format is a base coin or a mili coin type.
-   *
-   * @returns {string} - Either 'coin' or 'mCoin' to represent base or mili format.
-   * @memberof Currency
-   */
-  currencyType() {
-    let type = 'coin';
-
-    if (this._currencyFormat.indexOf('m') !== -1) {
-      type = 'mCoin';
-    }
-
-    return type;
-  }
-  
-  /**
-   * Get the transactionFee.
-   *
-   * @returns {number} - One of two values from Config.js
-   * @memberof Currency
-   */
-  static transactionFee() {
-    let currencyType = this.currencyType();
-
-    if (this._field === 'stake') {
-      if (this._amount < 1 && currencyType === 'mCoin') {
-        return Config.mbtfTransactionFee.toString();
-      }
-
-      if (this._amount < 0.001 && currencyType === 'coin') {
-        return Config.btfTransactionFee.toString();
-      }
-    }
-  }
-  
-  /**
-   * Determine what the dust range is based on the currency objects attributes.
-   *
-   * @returns {number} - What the dust value is.
-   * @memberof Currency
-   */
-  dustRange() {
-    let currencyType,
-      dustRange;
-    // Check the currency format.
-    // mili coin & base coin have different dust rules.
-    currencyType = this.currencyType();
-
-    if (currencyType === 'coin') {
-      dustRange = coinDust;
-    } else { // 'mCoin'
-      // Is the field STAKE?
-      if (this._field === 'stake') {
-        dustRange = miliStakeDust;
-      } else {
-        dustRange = mCoinDust;
-      }
-    }
-
-    // If the amount is of three precision, it is either a STAKE field or a field used in 
-    // ComplexBettingWidget or SimpleBettingWidget offer fields.
-    // Is amount from one of the betting widgets?
-    if (this._amount % 1 !== 0 && this._amount.toString().split('.')[1].length === 3) {
-      dustRange = exchangeCoin;
-    }
-
-    return dustRange;
-  }
-
-  /**
-   * Determine if the value qualifies as dust.
-   *
-   * @returns {boolean} - True | False indicator for dust.
-   * @memberof Currency
-   */
-  isDust() {
-    let dustRange,
-      tempAmount,
-      currencyType,
-      isDust = false;
-
-    // Handle negative amounts
-    tempAmount = Math.abs(this._amount);
-
-    // Check the currency format.
-    // mili coin & base coin have different dust rules.
-    currencyType = this.currencyType();
-    // Get the dust range.
-    dustRange = this.dustRange();
-
-    // Stake plus miliCoin format has a special dust rule.
-    if (this._field === 'stake' && currencyType === 'mCoin') {
-      // The amount must be a whole number to not be considered dust.
-      if (tempAmount % 1 !== dustRange) {
-        isDust = true;
-      }
-    }
-
-    // If the amount is less thatn the configured dust values (Config.js).
-    if (tempAmount < dustRange && tempAmount !== 0) {
-      isDust = true;
-    }
-
-    return isDust;
-  }
-}
-
-const testCurrency = new Currency(12.356, 'stake', 'mBTC');
-const testCurrency1 = new Currency(12.356, 'avgStake', 'BTC');
-console.log(testCurrency1);
-console.log(testCurrency);
-
 
 var CurrencyUtils = {
   fieldPrecisionMap: {
     // Odds values have no dependency on ∏securrency but it is included in this map for
     // convenience's sake.
     odds: {
-      BTF: 2,
-      mBTF: 2
+      coin: 2,
+      mCoin: 2
     },
     stake: {
-      BTF: 3,
-      mBTF: 0
+      coin: 3,
+      mCoin: 0
     },
     profit: {
-      BTF: 5,
-      mBTF: 5
+      coin: 5,
+      mCoin: 5
     },
     liability: {
-      BTF: 5,
-      mBTF: 5
+      coin: 5,
+      mCoin: 5
     },
     exposure: {
-      BTF: 2,
-      mBTF: 2
+      coin: 2,
+      mCoin: 2
     },
     transaction: {
-      BTF: 5,
-      mBTF: 2
+      coin: 5,
+      mCoin: 2
     },
     avgStake: {
-      BTF: 3,
-      mBTF: 0
+      coin: 3,
+      mCoin: 0
     },
     avgProfitLiability: {
-      BTF: 5,
-      mBTF: 2
+      coin: 5,
+      mCoin: 2
     }
   },
 

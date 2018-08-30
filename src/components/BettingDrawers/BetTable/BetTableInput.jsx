@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import {BettingModuleUtils, CurrencyUtils} from '../../../utility';
 import Immutable from 'immutable';
 import {incrementOdds, decrementOdds, adjustOdds, ODDS_BOUNDS} from './oddsIncrementUtils';
+import Currency from '../../../utility/Currency';
 
 class BetTableInput extends PureComponent {
   constructor(props) {
@@ -281,6 +282,8 @@ class BetTableInput extends PureComponent {
   }
 
   render() {
+    const testCurr = new Currency(12.6546543654, 'odds', 'BTC');
+    console.log(testCurr);
     return (
       <div>
         <input
@@ -314,6 +317,9 @@ class BetTableInput extends PureComponent {
         ) : (
           ''
         )}
+        <div className='odds' >
+          {testCurr.displayCurrencyAmount()}
+        </div>
       </div>
     );
   }
