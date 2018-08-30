@@ -11,6 +11,7 @@ import TitleBar from './TitleBar';
 import {I18n} from 'react-redux-i18n';
 import Loading from '../Loading';
 import LicenseScreen from '../LicenseScreen';
+import Currency from  '../../utility/Currency';
 
 const isWindowsPlatform = AppUtils.isWindowsPlatform();
 const titleBarHeight = isWindowsPlatform ? '32px' : '40px';
@@ -184,6 +185,7 @@ class App extends PureComponent {
       appBackgroundClass = 'gradientbg';
     }
 
+    const testCurr = new Currency(12.6546563654, 'profit', 'BTF');
     return (
       <div className={ 'app ' + appBackgroundClass }>
         <TitleBar
@@ -191,6 +193,12 @@ class App extends PureComponent {
           isTransparent={ isTitleBarTransparent }
           height={ titleBarHeight }
         />
+        <div className='odds' >
+          <br/><br/><br/><br/><br/>
+          {testCurr.display()} <br/>
+          {testCurr.symbol('white')}
+          {testCurr.displayNoSymbol('white',false)}
+        </div>
         <div className='app-content' style={ appContentStyle }>
           {content}
         </div>
