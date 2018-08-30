@@ -43,9 +43,8 @@ const getFirstBettingMarketGroupByEventId = createSelector(
   (
     bettingMarketGroups
   ) => {
-    console.log(bettingMarketGroups);
     if (bettingMarketGroups.first()) {
-      return bettingMarketGroups.last().get('id')
+      return SportsbookUtils.prioritySort(bettingMarketGroups).first();
     }
   }
 );

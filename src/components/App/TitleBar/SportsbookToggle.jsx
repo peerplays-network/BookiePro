@@ -42,11 +42,13 @@ class SportsbookToggle extends PureComponent {
   render() {
     return (
       <div className='sportsBookToggle'>
-        <p onClick={ () => this.toggle(BookieModes.EXCHANGE) } className={ this.props.bookMode === BookieModes.EXCHANGE ? 'active' : '' }>
+        <p onClick={ () => this.toggle(BookieModes.EXCHANGE) } 
+            className={ this.props.bookMode === BookieModes.EXCHANGE ? 'active' : '' }>
           {I18n.t('titleBar.sportsbookToggle.exchange')}
         </p>
 
-        <p onClick={ () => this.toggle(BookieModes.SPORTSBOOK) } className={ this.props.bookMode === BookieModes.SPORTSBOOK ? 'active' : '' }>
+        <p onClick={ () => this.toggle(BookieModes.SPORTSBOOK) } 
+            className={ this.props.bookMode === BookieModes.SPORTSBOOK ? 'active' : '' }>
           {I18n.t('titleBar.sportsbookToggle.sportsbook')}
         </p>
       </div>
@@ -85,7 +87,7 @@ const mapStateToProps = (state, ownProps) => {
           params: {
             eventId: blockchainObject,
           },
-        });
+        }).get('id');
       }
     }
   }
