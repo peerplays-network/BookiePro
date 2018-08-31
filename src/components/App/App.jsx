@@ -186,6 +186,8 @@ class App extends PureComponent {
     }
 
     const testCurr = new Currency(12.6546563654, 'profit', 'BTF');
+    const testCurr1 = new Currency(12.6546563654, 'profit', 'BTC');
+
     return (
       <div className={ 'app ' + appBackgroundClass }>
         <TitleBar
@@ -198,6 +200,10 @@ class App extends PureComponent {
           {testCurr.amount()} <br/>
           {testCurr.symbol('white')}
           {testCurr.display('white',false)}
+
+          {testCurr1.amount()} <br />
+          {testCurr1.symbol('white')}
+          {testCurr1.display('white', false)}
         </div>
         <div className='app-content' style={ appContentStyle }>
           {content}
