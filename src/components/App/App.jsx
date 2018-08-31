@@ -193,11 +193,11 @@ class App extends PureComponent {
           isTransparent={ isTitleBarTransparent }
           height={ titleBarHeight }
         />
-        <div className='odds' >
+        <div className='testCurrency' >
           <br/><br/><br/><br/><br/>
-          {testCurr.display()} <br/>
+          {testCurr.amount()} <br/>
           {testCurr.symbol('white')}
-          {testCurr.displayNoSymbol('white',false)}
+          {testCurr.display('white',false)}
         </div>
         <div className='app-content' style={ appContentStyle }>
           {content}
