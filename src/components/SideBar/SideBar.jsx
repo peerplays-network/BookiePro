@@ -170,7 +170,7 @@ class SideBar extends PureComponent {
    * onClick function to be cosumed by props in react-infinity-menu
    * https://github.com/socialtables/react-infinity-menu#properties
    *
-   * i) Event  -> show Moneyline if ACTITVE Moneyline exists.
+   * i) Event  -> show Moneyline if ACTIVE Moneyline exists.
    *                Else it will show the first descendant ACTIVE BMG
    * ii) BMG -> show corresponding BMG
    * iii) SPORT / Event Group -> show ACTIVE descendants
