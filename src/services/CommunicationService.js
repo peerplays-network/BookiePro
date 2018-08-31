@@ -823,7 +823,7 @@ class CommunicationService {
             'description'
           ]);
 
-            // If there are no Betting Market Groups, returned an empty object
+          // If there are no Betting Market Groups, returned an empty object
           if (ids.length <= 0) {
             return localizedMarketGroups;
           }
