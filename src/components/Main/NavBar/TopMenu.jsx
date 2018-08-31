@@ -226,9 +226,8 @@ class TopMenu extends PureComponent {
 
     const iconCurrencyClass = (isAmountComponentVisible, currencyFormat) => {
       let configCurrency = Config.features.currency;
-      let isMCoin = CurrencyUtils.getCurrencyType(currencyFormat);
 
-      if (currencyFormat !== configCurrency && !isMCoin) {
+      if (currencyFormat !== configCurrency) {
         currencyFormat = configCurrency;
       }
 
