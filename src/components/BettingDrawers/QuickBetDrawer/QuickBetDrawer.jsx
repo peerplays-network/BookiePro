@@ -33,8 +33,6 @@ import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config} from '../../../constants';
 import {MyAccountPageSelector} from '../../../selectors';
 
-
-
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
     {props.bets.isEmpty() && (
