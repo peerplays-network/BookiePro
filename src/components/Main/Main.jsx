@@ -70,8 +70,9 @@ const mapStateToProps = (state) => {
     isInitAccountModalVisible,
     completeTree: SidebarSelector.getSidebarCompleteTree(state),
     sidebarLoadingStatus: state.getIn(['sidebar', 'loadingStatus']),
-    searchResult: event.get('searchResult'),
-    getSearchEventsLoadingStatus: event.get('getSearchEventsLoadingStatus')
+    searchResult: event.get('searchResult'),    
+    getSearchEventsLoadingStatus: event.get('getSearchEventsLoadingStatus'),
+    bookMode: state.getIn(['app', 'bookMode'])
   };
 };
 
