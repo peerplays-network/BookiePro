@@ -90,11 +90,15 @@ const mapStateToProps = (state) => {
         eventID = EventPageSelector.getEventIdByFromBMGId(state, blockchainObject);
       } else if (objectType === ChainTypes.object_type.event.toString()) {
         // We want to have the 'first' bmgID on hand incase the user toggles to the sportsbook
-        bmgID = EventPageSelector.getFirstBettingMarketGroupByEventId(state, {
+        let bmg = EventPageSelector.getFirstBettingMarketGroupByEventId(state, {
           params: {
             eventId: blockchainObject,
           },
-        }).get('id');
+        });
+
+        if (bmg) {
+          bmgID = bmg.get('id');
+        }
       }
     }
   }
