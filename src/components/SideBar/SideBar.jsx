@@ -38,7 +38,7 @@ class SideBar extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      tree: this.createCurrentStateTree(props.completeTree, props.objectId),
+      tree: this.createCurrentStateTree(props.completeTree, props.objectId)
     };
     this.createCurrentStateTree = this.createCurrentStateTree.bind(this);
     this.onNodeMouseClick = this.onNodeMouseClick.bind(this);
@@ -52,7 +52,7 @@ class SideBar extends PureComponent {
       this.props.bookMode !== nextProps.bookMode
     ) {
       this.setState({
-        tree: this.createCurrentStateTree(nextProps.completeTree, nextProps.objectId),
+        tree: this.createCurrentStateTree(nextProps.completeTree, nextProps.objectId)
       });
     }
   }
@@ -60,7 +60,7 @@ class SideBar extends PureComponent {
   componentDidUpdate(prevProps) {
     if (prevProps.bookMode !== this.props.bookMode) {
       this.setState({
-        tree: this.createCurrentStateTree(this.props.completeTree, this.props.objectId),
+        tree: this.createCurrentStateTree(this.props.completeTree, this.props.objectId)
       });
     }
   }
@@ -81,11 +81,9 @@ class SideBar extends PureComponent {
    * for findKeyPathOf() and differences(), please refer to
    
    * for detailed explanation.
-   */  
-  createCurrentStateTree(
-    completeTree,
-    targetObjectId
-  ) {
+   */
+
+  createCurrentStateTree(completeTree, targetObjectId) {
     if (!targetObjectId || targetObjectId === 'exchange') {
       //hardcode id for all-sports node,
       targetObjectId = '0';
@@ -103,10 +101,7 @@ class SideBar extends PureComponent {
 
       // For sport
       if (keyPath.length === 1) {
-        newTree = newTree.updateIn(
-          keyPath.slice(0, 1),
-          (node) => node.set('isSelected', true).set('isOpen', true)
-        );
+        newTree = newTree.updateIn(keyPath.slice(0, 1), (node) => node.set('isSelected', true).set('isOpen', true)); // eslint-disable-line
       } else if (keyPath.length === 3) {
         // For event group
         newTree = newTree
@@ -134,7 +129,7 @@ class SideBar extends PureComponent {
       // find the 'id' path of the newTree
       const altered = differences(completeTree, newTree, 'children').map((x) => x.get('id'));
 
-      if (keyPath.length >= 5) {        
+      if (keyPath.length >= 5) {
         if (this.props.bookMode === BookieModes.SPORTSBOOK) {
           // If we're in sportbook mode
           // remove all the children of the event from being shown in the sidebar.
@@ -175,7 +170,7 @@ class SideBar extends PureComponent {
    * onClick function to be cosumed by props in react-infinity-menu
    * https://github.com/socialtables/react-infinity-menu#properties
    *
-   * i) Event  -> show Moneyline if ACTITVE Moneyline exists. 
+   * i) Event  -> show Moneyline if ACTITVE Moneyline exists.
    *                Else it will show the first descendant ACTIVE BMG
    * ii) BMG -> show corresponding BMG
    * iii) SPORT / Event Group -> show ACTIVE descendants
@@ -185,12 +180,14 @@ class SideBar extends PureComponent {
    *
    * @param event - is the mouse click event.
    * @param tree -  is the updated tree, you should update your own tree accordingly.
-   * @param node -  is the folder(node) the user clicked on. 
+   * @param node -  is the folder(node) the user clicked on.
    *                  Including the id, name, isOpen and children.
    * @param level - is the distance from the root.
    * @param keyPath - is the path from root to current node
    */
   onNodeMouseClick(event, tree, node) {
+    console.log('----- onNodeMouseClick()');
+    console.log(node);
     let navPath = '/betting';
 
     if (this.props.bookMode === BookieModes.SPORTSBOOK) {
@@ -205,6 +202,7 @@ class SideBar extends PureComponent {
     } else {
       if (node.customComponent.toLowerCase() === 'event') {
         // If you're viewing a sportsbook, there is no BMG page. Stop and redirect to events page.
+
         if (this.props.bookMode === BookieModes.SPORTSBOOK) {
           // Return early so no further code is executed.
           return this.props.navigateTo(navPath + '/events/' + node.id);
@@ -220,9 +218,7 @@ class SideBar extends PureComponent {
           this.props.navigateTo(navPath + '/bettingmarketgroup/' + node.children[0].id);
         }
       } else {
-        this.props.navigateTo(
-          '/betting/exchange/' + node.customComponent.toLowerCase() + '/' + node.id
-        );
+        this.props.navigateTo(navPath + '/' + node.customComponent.toLowerCase() + '/' + node.id);
       }
     }
   }
@@ -277,7 +273,7 @@ class SideBar extends PureComponent {
           Sport: Sport,
           EventGroup: EventGroup,
           Event: Event,
-          BettingMarketGroup: BettingMarketGroup,
+          BettingMarketGroup: BettingMarketGroup
         } }
       />
     );
@@ -293,25 +289,25 @@ SideBar.propTypes = {
    */
   completeTree: PropTypes.instanceOf(Immutable.List).isRequired,
   objectId: PropTypes.string.isRequired,
-  level: PropTypes.number.isRequired,
+  level: PropTypes.number.isRequired
 };
 
 SideBar.defaultProps = {
   completeTree: Immutable.List(),
-  objectId: '',
+  objectId: ''
 };
 
 const mapStateToProps = (state) => {
   return {
     completeTree: SidebarSelector.getSidebarCompleteTree(state),
-    bookMode: state.getIn(['app', 'bookMode']),
+    bookMode: state.getIn(['app', 'bookMode'])
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
-      navigateTo: NavigateActions.navigateTo,
+      navigateTo: NavigateActions.navigateTo
     },
     dispatch
   );

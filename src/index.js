@@ -22,6 +22,8 @@ import Signup from './components/Signup';
 import Sport from './components/Sport';
 import SportsBook from './components/SportsBook';
 import SportsBookEvent from './components/SportsBookEvent';
+import SportsBookEventGroup from './components/SportsBookEventGroup';
+import SportsBookSport from './components/SportsBookSport';
 import Welcome from './components/Welcome';
 
 import configureStore from './store/configureStore';
@@ -39,7 +41,7 @@ const history = syncHistoryWithStore(hashHistory, store, {
   selectLocationState(state) {
     // Custom selector for immutable redux state
     return state.get('routing').toJS();
-  },
+  }
 });
 
 // Configure log
@@ -72,7 +74,7 @@ if (isRunningInsideElectron) {
       label: 'Copy',
       click() {
         document.execCommand('copy');
-      },
+      }
     })
   );
   menu.append(
@@ -80,7 +82,7 @@ if (isRunningInsideElectron) {
       label: 'Paste',
       click() {
         document.execCommand('paste');
-      },
+      }
     })
   );
 
@@ -121,6 +123,8 @@ const routes = (
 
         <Route path='sportsbook'>
           <IndexRoute component={ SportsBook } />
+          <Route path='Sport/:objectId' component={ SportsBookSport } />
+          <Route path='EventGroup/:objectId' component={ SportsBookEventGroup } />
           <Route path='events/:eventId' component={ SportsBookEvent } />
         </Route>
       </Route>
