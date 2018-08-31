@@ -359,11 +359,11 @@ var CurrencyUtils = {
 
     if (field === 'stake') {
       if (floatAmount < 1 && currency === mCoinSymbol) {
-        return Config.mbtfTransactionFee.toString();
+        return Config.mCoinTransactionFee.toString();
       }
 
       if (floatAmount < 0.001 && currency === coinSymbol) {
-        return Config.btfTransactionFee.toString();
+        return Config.coinTransactionFee.toString();
       }
     }
 
