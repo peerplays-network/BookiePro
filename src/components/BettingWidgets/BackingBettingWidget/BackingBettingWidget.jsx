@@ -7,7 +7,7 @@ import {SportsbookUtils} from '../../../utility';
 
 class BackingBettingWidget extends PureComponent {
   render() {
-    // The title is the title of the widget (Ex. Match Odds, Moneyline)    
+    // The title is the title of the widget (Ex. Match Odds, Moneyline)
     const title = this.props.marketData.get('description');
     const bettingMarkets = this.props.marketData.get('bettingMarkets');
     return (
@@ -21,6 +21,8 @@ class BackingBettingWidget extends PureComponent {
                   title={ item.get('description') }
                   backOrigin={ item.get('backOrigin') }
                   bettingMarketId={ item.get('id') }
+                  eventStatus={ this.props.eventStatus }
+                  isLiveMarket={ this.props.isLiveMarket }
                 />
               </Col>
             );
@@ -33,6 +35,7 @@ class BackingBettingWidget extends PureComponent {
 
 BackingBettingWidget.propTypes = {
   isLiveMarket: PropTypes.bool.isRequired,
+  eventStatus: PropTypes.array.isRequired
 };
 
 export default BackingBettingWidget;

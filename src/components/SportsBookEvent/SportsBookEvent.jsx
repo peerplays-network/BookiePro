@@ -75,6 +75,7 @@ class SportsBookEvent extends PureComponent {
               <BackingBettingWidget
                 key={ index }
                 isLiveMarket={ this.props.isLiveMarket }
+                eventStatus={ this.props.eventStatus }
                 marketData={ item }
                 createBet={ this.props.createBet }
                 currencyFormat={ this.props.currencyFormat }
@@ -111,7 +112,6 @@ const mapStateToProps = (state, ownProps) => {
   // Populate other properties if betting market group exists
   if (event && !event.isEmpty()) {
     _.assign(props, {
-      // marketData: EventPageSelector.getBettingMarketsByEventId(state, ownProps.params.eventId),
       marketData: EventPageSelector.getMarketData(state, ownProps),
       eventName: event.get('name'),
       eventTime: DateUtils.getLocalDate(new Date(event.get('start_time'))),

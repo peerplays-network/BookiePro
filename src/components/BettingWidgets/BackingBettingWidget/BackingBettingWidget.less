@@ -17,9 +17,13 @@
     padding: 10px 20px 10px 20px;
     margin: 3px;
 
-    &:hover {
+    &.active:hover {
       background-color: @cello;
       cursor: pointer;
+    }
+
+    &.disabled:hover {
+      cursor: not-allowed;
     }
 
     .bmTitle, .odds {

@@ -3,12 +3,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {MarketDrawerActions} from '../../../actions';
+import {EventStatus} from '../../../constants';
 
 class BettingMarket extends PureComponent {
   constructor(props) {
     super(props);
     this.getBestOdds = this.getBestOdds.bind(this);
     this.offerClicked = this.offerClicked.bind(this);
+    this.isAbleToBet = this.isAbleToBet.bind(this);
   }
 
   getBestOdds(layBets) {
@@ -22,6 +24,11 @@ class BettingMarket extends PureComponent {
   }
 
   offerClicked() {
+    // Return early if the cell was clicked and the market is not live
+    if (!this.isAbleToBet()) {
+      return;
+    }
+
     let odds = this.getBestOdds(this.props.backOrigin);
 
     if (odds === '--') {
@@ -31,10 +38,26 @@ class BettingMarket extends PureComponent {
     this.props.createBet('back', this.props.bettingMarketId, odds);
   }
 
+  isAbleToBet() {
+    switch (this.props.eventStatus[1]) {
+      case EventStatus.FINISHED:
+      case EventStatus.FROZEN:
+      case EventStatus.COMPLETED:
+      case EventStatus.SETTLED:
+      case EventStatus.CANCELED:
+        return false;
+      default:
+        return true;
+    }
+  }
+
   render() {
     const {title, backOrigin} = this.props;
     return (
-      <div className='backBettingMarket' onClick={ this.offerClicked }>
+      <div 
+        className={ 'backBettingMarket ' + (this.isAbleToBet() ? 'active' : 'disabled') } 
+        onClick={ this.offerClicked }
+      >
         <div className='bmTitle'>{title}</div>
         <div className='odds'>{this.getBestOdds(backOrigin)}</div>
       </div>
@@ -44,6 +67,8 @@ class BettingMarket extends PureComponent {
 
 BettingMarket.propTypes = {
   title: PropTypes.string.isRequired,
+  isLiveMarket: PropTypes.bool.isRequired,
+  eventStatus: PropTypes.array.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => {
