@@ -322,7 +322,7 @@ class ComplexBettingWidget extends PureComponent {
 
   render() {
     const {totalMatchedBetsAmount, widgetTitle, rules, oddsFormat} = this.props;
-
+    const configCurrency = Config.features.currency;
     const minNameWidth = 194;
     const minOfferWidth = 52;
     const minArrowWidth = 22;
@@ -331,8 +331,8 @@ class ComplexBettingWidget extends PureComponent {
     // to match the lay bet-type in placebet action dispatch
     const classNameLay = BetTypes.LAY;
 
-    const currencySymbol = CurrencyUtils.getCurrencySymbol(Config.features.currency);
-    const currencySymbolWhite = CurrencyUtils.getCurrencySymbol(Config.features.currency, 'white');
+    const currencySymbol = CurrencyUtils.getCurrencySymbol(configCurrency);
+    const currencySymbolWhite = CurrencyUtils.getCurrencySymbol(configCurrency, 'white');
 
     // Format the totalMatchedBestAmount
     let formattedMatchedBetsAmount = totalMatchedBetsAmount || 0;
