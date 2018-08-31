@@ -32,9 +32,32 @@ import BetTable from '../BetTable';
 import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config} from '../../../constants';
 import {MyAccountPageSelector} from '../../../selectors';
+import Currency from '../../../utility/Currency';
+
+const testCurr = new Currency(12.6546563654, ['profit'], 'BTF');
+const testCurr1 = new Currency(12.6546563654, ['profit'], 'BTC');
+const testCurr2 = new Currency(0.001, ['profit'], 'BTC');
+const testCurr3 = new Currency(0.00001, ['profit'], 'BTC');
+const testCurr4 = new Currency(0.000001, ['profit'], 'BTC');
+const testFieldPrecision = new Currency(0.000001, ['profit'], 'BTC');
+const testFieldPrecision1 = new Currency(0.000001, ['total'], 'BTC');
+console.log(testFieldPrecision, testFieldPrecision1);
+const thing = new Currency(0.1, ['total'], 'BTC');
+console.log(thing);
 
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
+    <div className='testCurrency' >
+      {testCurr.amount()}<br />
+      {testCurr.display('white', false)}<br /><br />
+
+      {testCurr1.amount()}<br />
+      {testCurr1.display('white', false)}<br /><br />
+
+      {testCurr2.amount()}<br />
+      {testCurr3.amount()}<br />
+      {testCurr4.amount()}<br />
+    </div>
     {props.bets.isEmpty() && (
       <Empty
         showSuccess={ props.overlay === BettingDrawerStates.SUBMIT_BETS_SUCCESS }
