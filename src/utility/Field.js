@@ -2,9 +2,9 @@ import CurrencyUtils from './CurrencyUtils';
 
 class Field {
   constructor(field, currencyType, precision) {
-    this._type = field;
-    this._precision = this.precision(this._type, currencyType, precision);
-    this._average = this.average();
+    this.type = field;
+    this.precision = this.precision(this._type, currencyType, precision);
+    this.average = this.average();
   }
   get type() {
     return this._type;

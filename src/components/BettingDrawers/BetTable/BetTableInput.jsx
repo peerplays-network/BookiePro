@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import {BettingModuleUtils, CurrencyUtils} from '../../../utility';
 import Immutable from 'immutable';
 import {incrementOdds, decrementOdds, adjustOdds, ODDS_BOUNDS} from './oddsIncrementUtils';
+import Currency from '../../../utility/Currency';
 //import Currency from '../../../utility/Currency';
 
 class BetTableInput extends PureComponent {
@@ -206,6 +207,11 @@ class BetTableInput extends PureComponent {
     let value = e.target.value;
 
     if (e.target.value !== '0*') {
+
+      let value1 = new Currency(value, [this.props.field], this.props.currencyFormat);
+      console.log(value1);
+
+
       value = parseFloat(value);
 
       if (this.props.field === 'odds') {
