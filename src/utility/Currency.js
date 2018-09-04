@@ -43,7 +43,7 @@ class Currency {
     if (typeof value !== 'number') {
       this._quantity = this.fromString(this._quantity);
     } else {
-      this._quantity = this.isDust(value);
+      this._quantity = value;
     }
   }
 
