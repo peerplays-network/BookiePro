@@ -226,9 +226,15 @@ class TopMenu extends PureComponent {
 
     const iconCurrencyClass = (isAmountComponentVisible, currencyFormat) => {
       let configCurrency = Config.features.currency;
+      let isMili = CurrencyUtils.getCurrencyType(currencyFormat) === 'mCoin';
 
       if (currencyFormat !== configCurrency) {
-        currencyFormat = configCurrency;
+
+        if (isMili) {
+          currencyFormat = 'm' + configCurrency;
+        } else {
+          currencyFormat = configCurrency;
+        }
       }
 
       switch (currencyFormat) {
