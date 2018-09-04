@@ -101,12 +101,14 @@ var BettingModuleUtils = {
       }
 
       // Any mBTF passed into this function will be 1000 times larger than it needs to be.
-      //  The return function will multiply the mBTF value by 1000.
-      if (currencyFormat === 'mBTF') {
+      //  The return function will multiply the mCoin value by 1000.
+      let currencyType = CurrencyUtils.getCurrencyType(currencyFormat);
+
+      if (currencyType === 'mCoin') {
         floatStake = floatStake / 1000;
       }
       
-      let precision = CurrencyUtils.fieldPrecisionMap[profitOrLiability][currencyFormat];
+      let precision = CurrencyUtils.fieldPrecisionMap[profitOrLiability][currencyType];
       let amount = (floatStake * (floatOdds - 1)).toFixed(precision);
         
       return CurrencyUtils.getFormattedCurrency(amount, currencyFormat, precision);
