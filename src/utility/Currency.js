@@ -28,9 +28,9 @@ class Currency {
    * @memberof Currency
    */
   constructor(quantity, [field, precisionOverride], currencyFormat) {
-    this._quantity = quantity;
-    this._currencyFormat = currencyFormat;
-    this._field = new Field(field, this.currencyType(), precisionOverride);
+    this.quantity = quantity;
+    this.currencyFormat = currencyFormat;
+    this.field = new Field(field, this.currencyType(), precisionOverride);
 
     this._display = this.display(); // Image symbol + string quantity
     this._symbol = this.symbol(); // Image symbol
@@ -43,17 +43,10 @@ class Currency {
   }
   set quantity(value) {
     if (typeof value !== 'number') {
-      this._quantity = this.fromString(this._quantity);
+      this._quantity = this.fromString(value);
     } else {
       this._quantity = value;
     }
-  }
-
-  get field() {
-    return this._field;
-  }
-  set field(value) {
-    this._field = value.toLowerCase();
   }
 
   get currencyFormat() {
@@ -109,16 +102,16 @@ class Currency {
     }
 
     // If true, the return display value is for average data.
-    if (this._field._average) {
+    if (this.field.average) {
       // DO WE NEED SPECIAL HANDLING FOR THIS ANYMORE?
       // DO WE NEED SPECIAL HANDLING FOR EXPORT DATA?
     }
 
     if (!skipDustCheck) {
       //let precision = CurrencyUtils.fieldPrecisionMap[this._field._type][this.currencyType()];
-      let precision = this._field._precision;
+      let precision = this.field.precision;
 
-      switch(this._field._type) {
+      switch(this.field.type) {
         case 'selector':
           precision = 0;
           break;
@@ -127,8 +120,13 @@ class Currency {
           break;
       }
 
-      if (this._field._type === 'selector') {
-        precision = 0;
+      switch(this.field.type) {
+        case 'selector':
+          precision = 0;
+          break;
+        case 'total':
+          precision = OFFER_PRECISION;
+          break;
       }
 
       // Modify the quantity according to the currency type.

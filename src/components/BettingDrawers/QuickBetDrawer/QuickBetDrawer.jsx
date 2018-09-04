@@ -60,7 +60,7 @@ const renderTestCurrencies = () => (
 
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
-    { renderTestCurrencies() }
+    {renderTestCurrencies}
     {props.bets.isEmpty() && (
       <Empty
         showSuccess={ props.overlay === BettingDrawerStates.SUBMIT_BETS_SUCCESS }
