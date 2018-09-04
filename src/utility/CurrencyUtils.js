@@ -10,6 +10,7 @@ import mBitFunBlack from '../assets/icons/mbitfun_icon_black.svg';
  */
 //const configCurrency = '\u0243';
 const configCurrency = Config.features.currency;
+const coinSymbol = Config.features.currency;
 const mCurrencySymbol = 'm' + configCurrency;
 const coinDust = Config.dust.coin;
 const mCoinDust = Config.dust.miliCoin;
@@ -114,6 +115,16 @@ var CurrencyUtils = {
     }
 
     return amount;
+  },
+
+  getCurrencyType: function (currency = coinSymbol) {
+    let type = 'coin';
+
+    if (currency.indexOf('m') !== -1) {
+      type = 'mCoin';
+    }
+
+    return type;
   },
 
   getCurrencySymbol: function(currency='mBTF', color='black') {

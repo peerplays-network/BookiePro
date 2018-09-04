@@ -63,8 +63,9 @@ class BetTableInput extends PureComponent {
 
       // TODO: USE CURRENCY OBJECT.
       // TODO: CHANGE PARENT PROPS TO USE CURRENCY.JS FIRST
+      const currencyType = CurrencyUtils.getCurrencyType(this.props.currencyFormat);
       const stakePrecision =
-        CurrencyUtils.fieldPrecisionMap[this.props.field][this.props.currencyFormat];
+        CurrencyUtils.fieldPrecisionMap[this.props.field][currencyType];
 
       if (stakePrecision === 0) {
         // should only accept integers greater than zero when precision is zero
