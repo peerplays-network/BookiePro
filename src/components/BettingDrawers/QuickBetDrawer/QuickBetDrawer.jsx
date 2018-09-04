@@ -57,7 +57,6 @@ const renderTestCurrencies = ()=> (
     {testCurr4.amount()}<br />
   </div>
 );
-console.debug(renderTestCurrencies());
 
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
