@@ -10,6 +10,7 @@ import Immutable from 'immutable';
 import moment from 'moment';
 import BetActions from './BetActions';
 import {CurrencyUtils, ObjectUtils} from '../utility';
+import Currency from '../utility/Currency';
 
 class MarketDrawerPrivateActions {
   static updatePlacedBetsLoadingStatus(loadingStatus) {
@@ -234,16 +235,9 @@ class MarketDrawerActions {
         ]);
         const precision = getState().getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
         const normalizedBalance = balance / Math.pow(10, precision);
-        const formattedBalance = parseFloat(
-          CurrencyUtils.formatFieldByCurrencyAndPrecision(
-            'stake',
-            normalizedBalance,
-            currencyFormat,
-            true
-          )
-        );
+        const formattedBalance = new Currency(normalizedBalance, ['stake'], currencyFormat);
 
-        if (formattedBalance < totalBetAmount) {
+        if (formattedBalance._quantity < totalBetAmount) {
           dispatch(MarketDrawerPrivateActions.showInsufficientBalanceError());
         } else {
           dispatch(MarketDrawerPrivateActions.showBetSlipConfirmation());
