@@ -1,7 +1,7 @@
 import {createSelector} from 'reselect';
 import Immutable from 'immutable';
 import CommonSelector from './CommonSelector';
-import {CurrencyUtils, DateUtils, ObjectUtils} from '../utility';
+import {DateUtils, ObjectUtils} from '../utility';
 import {Config} from '../constants';
 import Currency from '../utility/Currency';
 
@@ -99,22 +99,13 @@ const getTotalMatchedBetsAmount = createSelector(
     const totalMatchedBetsAssetPrecision = totalMatchedBetsAsset
       ? totalMatchedBetsAsset.get('precision')
       : 0;
-    const totalMatchedBetsAmount = CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
-      totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'amount']) /
-        Math.pow(10, totalMatchedBetsAssetPrecision),
-      currencyFormat,
-      totalMatchedBetsAssetPrecision,
-      true
-    );
-    console.log('totalMatchedBetsAssetPrecision', totalMatchedBetsAssetPrecision);
-    console.log('totalMatchedBetsAsset', totalMatchedBetsAsset);
+
     const quantity = totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'amount']) /
       Math.pow(10, totalMatchedBetsAssetPrecision);
-    const totalMatchedBetsAmount1 = new Currency(
-      quantity, ['total'], currencyFormat
+    const totalMatchedBetsAmount = new Currency(
+      quantity, ['total', totalMatchedBetsAssetPrecision], currencyFormat
     );
-    console.log(totalMatchedBetsAmount1);
-    return totalMatchedBetsAmount;
+    return totalMatchedBetsAmount._amount;
   }
 );
 

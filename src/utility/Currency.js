@@ -1,4 +1,5 @@
 import {Config} from '../constants';
+import {CurrencyUtils} from './';
 import Field from './Field';
 import React from 'react'; 
 
@@ -16,6 +17,7 @@ const coinDust = Config.dust.coin;
 const mCoinDust = Config.dust.miliCoin;
 const exchangeCoin = Config.dust.exchangeCoin;
 const miliStakeDust = 0;
+const {OFFER_PRECISION} = CurrencyUtils;
 
 class Currency {
   /**
@@ -116,8 +118,22 @@ class Currency {
       //let precision = CurrencyUtils.fieldPrecisionMap[this._field._type][this.currencyType()];
       let precision = this._field._precision;
 
+      switch(this._field._type) {
+        case 'selector':
+          precision = 0;
+          break;
+        case 'total':
+          precision = OFFER_PRECISION;
+          break;
+      }
+
       if (this._field._type === 'selector') {
         precision = 0;
+      }
+
+      // Modify the quantity according to the currency type.
+      if (this.currencyType() === 'mCoin') {
+        displayNum = displayNum / 1000;
       }
 
       // Check if the quantity is dust.
@@ -135,7 +151,7 @@ class Currency {
         }
 
         // Convert the value back into a number.
-        displayNum = displayNum * 1;
+        // displayNum = displayNum * 1;
       } else {
         displayNum = 0 + '*';
         displayNum = (

@@ -337,19 +337,6 @@ class ComplexBettingWidget extends PureComponent {
     // Format the totalMatchedBestAmount
     let formattedMatchedBetsAmount = totalMatchedBetsAmount || 0;
 
-    if (this.props.currencyFormat === 'mBTF') {
-      // Convert the number to BTF if the format is currently mBTF
-      formattedMatchedBetsAmount = formattedMatchedBetsAmount / 1000;
-    }
-
-    // Format the currency for display.
-    formattedMatchedBetsAmount = CurrencyUtils.getFormattedCurrency(
-      formattedMatchedBetsAmount,
-      'BTF',
-      OFFER_PRECISION,
-      true
-    );
-
     // Column names;
     const competitorColumn = {
       header: () => null,
