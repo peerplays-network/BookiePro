@@ -206,26 +206,16 @@ class BetTableInput extends PureComponent {
    */
   handleBlur(e) {
     let value = e.target.value;
+    let valueFull = new Currency(value, [this.props.field], this.props.currencyFormat);
+    let betType = this.props.record.bet_type;
+    let oddsFormat = this.props.oddsFormat;
 
     if (e.target.value !== '0*') {
-
-      let value1 = new Currency(value, [this.props.field], this.props.currencyFormat);
-      console.log(value1);
-
-
-      value = parseFloat(value);
+      value = valueFull.floatAmount();
 
       if (this.props.field === 'odds') {
         if (value !== '' && !isNaN(value)) {
-          value = adjustOdds(
-            CurrencyUtils.formatFieldByCurrencyAndPrecision(
-              this.props.field,
-              value,
-              this.props.currencyFormat
-            ),
-            this.props.record.bet_type,
-            this.props.oddsFormat
-          );
+          value = adjustOdds(value, betType, oddsFormat);
           this.setState({
             value: BettingModuleUtils.oddsFormatFilter(value, this.props.oddsFormat).toFixed(2)
           });
@@ -238,8 +228,6 @@ class BetTableInput extends PureComponent {
         if (isNaN(value)) {
           return false; // fail fast if the value is undefined or bad
         }
-
-        value = CurrencyUtils.toFixed('stake', value, this.props.currencyFormat);
 
         // Final clean of the string
         if (value.toString().slice(-1) === '.') {

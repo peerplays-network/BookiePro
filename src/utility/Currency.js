@@ -32,9 +32,9 @@ class Currency {
     this.currencyFormat = currencyFormat;
     this.field = new Field(field, this.currencyType(), precisionOverride);
 
-    this._display = this.display(); // Image symbol + string quantity
-    this._symbol = this.symbol(); // Image symbol
-    this._amount = this.amount(); // String quantity
+    this._display = this.display(); // Image symbol + string quantity.
+    this._symbol = this.symbol(); // Image symbol.
+    this._amount = this.amount(); // Formatted string quantity.
   }
 
   // GETTER & SETTERS
@@ -76,6 +76,14 @@ class Currency {
     return parseFloat(value);
   }
 
+  format(value, precision) {
+    return value.toFixed(precision);
+  }
+
+  floatAmount() {
+    return this.format(parseFloat(this._amount), this.field.precision);// Formatted number quantity.
+  }
+
   /**
    * Used to determine the string representation of a currency quantity for displaying throughout
    * Bookie.
@@ -95,7 +103,7 @@ class Currency {
    * @memberof Currency
    */
   amount(accuracy = true, skipDustCheck = false) {
-    let displayNum = this._quantity;
+    let displayNum = this.quantity;
 
     if (!accuracy) {
       displayNum = displayNum * 1000;
@@ -108,17 +116,7 @@ class Currency {
     }
 
     if (!skipDustCheck) {
-      //let precision = CurrencyUtils.fieldPrecisionMap[this._field._type][this.currencyType()];
       let precision = this.field.precision;
-
-      switch(this.field.type) {
-        case 'selector':
-          precision = 0;
-          break;
-        case 'total':
-          precision = OFFER_PRECISION;
-          break;
-      }
 
       switch(this.field.type) {
         case 'selector':
@@ -136,16 +134,16 @@ class Currency {
 
       // Check if the quantity is dust.
       if (!this.isDust()) {
-        let split = this._quantity.toString().split('.');
+        let split = this.quantity.toString().split('.');
 
         if (split[1] && split[1].length > precision) {
           // Conditionally take tha value one past the accepted precision.
           let splitSel = split[1].substring(0, precision + (accuracy ? 1 : 0));
           let newQuantity = split[0] + '.' + splitSel;
           // Then, execute toFixed on the resulting quantity. This maintains accuracy.
-          displayNum = parseFloat(newQuantity).toFixed(precision);
+          displayNum = this.format(parseFloat(newQuantity), precision);
         } else {
-          displayNum = this._quantity.toFixed(precision);
+          displayNum = this.format(this.quantity, precision);
         }
 
         // Convert the value back into a number.
@@ -174,7 +172,7 @@ class Currency {
    * @memberof Currency
    */
   symbol(color = 'black') {
-    switch (this._currencyFormat) {
+    switch (this.currencyFormat) {
       case 'BTC':
         if (color === 'white') {
           return <img src={ bitCoinWhite } className='currency-symbol btc' alt='BTC' />;
@@ -237,7 +235,7 @@ class Currency {
   currencyType() {
     let type = 'coin';
 
-    if (this._currencyFormat.indexOf('m') !== -1) {
+    if (this.currencyFormat.indexOf('m') !== -1) {
       type = 'mCoin';
     }
 
@@ -253,12 +251,12 @@ class Currency {
   static transactionFee() {
     let currencyType = this.currencyType();
 
-    if (this._field === 'stake') {
-      if (this._quantity < 1 && currencyType === 'mCoin') {
+    if (this.field === 'stake') {
+      if (this.quantity < 1 && currencyType === 'mCoin') {
         return Config.mbtfTransactionFee.toString();
       }
 
-      if (this._quantity < 0.001 && currencyType === 'coin') {
+      if (this.quantity < 0.001 && currencyType === 'coin') {
         return Config.btfTransactionFee.toString();
       }
     }
@@ -280,7 +278,7 @@ class Currency {
       dustRange = coinDust;
     } else { // 'mCoin'
       // Is the field STAKE?
-      if (this._field === 'stake') {
+      if (this.field === 'stake') {
         dustRange = miliStakeDust;
       } else {
         dustRange = mCoinDust;
@@ -290,10 +288,10 @@ class Currency {
     // If the quantity is of three precision, it is either a STAKE field or a field used in 
     // ComplexBettingWidget or SimpleBettingWidget offer fields.
     // Is quantity from one of the betting widgets?
-    const hasDecimal = this._quantity.toString().indexOf('.') !== -1;
+    const hasDecimal = this.quantity.toString().indexOf('.') !== -1;
 
-    if (this._quantity % 1 !== 0 && hasDecimal) {
-      if(this._quantity.toString().split('.')[1].length === 3) {
+    if (this.quantity % 1 !== 0 && hasDecimal) {
+      if(this.quantity.toString().split('.')[1].length === 3) {
         dustRange = exchangeCoin;
       }
     }
@@ -314,7 +312,7 @@ class Currency {
       isDust = false;
 
     // Handle negative amounts
-    tempQuantity = Math.abs(this._quantity);
+    tempQuantity = Math.abs(this.quantity);
 
     // Check the currency format.
     // mili coin & base coin have different dust rules.
@@ -323,7 +321,7 @@ class Currency {
     dustRange = this.dustRange();
 
     // Stake plus miliCoin format has a special dust rule.
-    if (this._field === 'stake' && currencyType === 'mCoin') {
+    if (this.field === 'stake' && currencyType === 'mCoin') {
       // The quantity must be a whole number to not be considered dust.
       if (tempQuantity % 1 !== dustRange) {
         isDust = true;
