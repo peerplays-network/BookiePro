@@ -141,7 +141,7 @@ class Currency {
         displayNum = (
           <div className='tooltip'>
             {displayNum}
-            <span className='tooltipText'><a href='link/to/dust/in/faq'>Dust</a></span>
+            <span className='tooltipText no-highlight'><a href='link/to/dust/in/faq'>Dust</a></span>
           </div>
         );
       }
@@ -276,8 +276,12 @@ class Currency {
     // If the quantity is of three precision, it is either a STAKE field or a field used in 
     // ComplexBettingWidget or SimpleBettingWidget offer fields.
     // Is quantity from one of the betting widgets?
-    if (this._quantity % 1 !== 0 && this._quantity.toString().split('.')[1].length === 3) {
-      dustRange = exchangeCoin;
+    const hasDecimal = this._quantity.toString().indexOf('.') !== -1;
+
+    if (this._quantity % 1 !== 0 && hasDecimal) {
+      if(this._quantity.toString().split('.')[1].length === 3) {
+        dustRange = exchangeCoin;
+      }
     }
 
     return dustRange;

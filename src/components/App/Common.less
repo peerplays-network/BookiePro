@@ -921,3 +921,55 @@ input, .ant-input, .ant-calendar-input {
     width: 12px;
   }
 }
+
+// Currency class style rules.
+.testCurrency {
+  line-height: 1.3;
+  padding: 10%;
+  //font-size: 24px;
+  img {
+    height: 1.3em;
+    width: 1.3em;
+    vertical-align: bottom;
+  }
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    &:hover .tooltipText {
+      visibility: visible;
+      opacity: 1;
+    }
+    .tooltipText {
+      visibility: hidden;
+      width: 50px;
+      background-color: @outer_space;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px 0;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -25px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+      -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+      user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+    }
+    .tooltipText::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: @outer_space transparent transparent transparent;
+    }
+  }
+}
