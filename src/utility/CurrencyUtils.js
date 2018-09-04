@@ -213,7 +213,7 @@ var CurrencyUtils = {
           : this.substringPrecision(
             1000 * amount, 
             mPrecision, 
-            false, 
+            true,
             currencyFormat, 
             field, 
             skipDustCheck
