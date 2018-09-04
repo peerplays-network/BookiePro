@@ -50,7 +50,6 @@ import {
 import {MyAccountPageSelector} from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
 import {Config} from '../../constants';
-import {CurrencyUtils} from '../../utility';
 
 const Option = Select.Option;
 
@@ -75,7 +74,6 @@ class MyAccount extends PureComponent {
     this.handleDownloadPasswordFile = this.handleDownloadPasswordFile.bind(this);
     this.handleNavigateToHome = this.handleNavigateToHome.bind(this);
     this.handleRedirectToChangePwd = this.handleRedirectToChangePwd.bind(this);
-    this.defaultCurrency = this.defaultCurrency.bind(this);
   }
 
   /**
@@ -221,42 +219,11 @@ class MyAccount extends PureComponent {
     this.props.navigateTo('/exchange');
   }
 
-  defaultCurrency() {
-    const configCurrency = Config.features.currency;
-    let currentCurrency;
-
-    if (this.props.currencyFormat !== null){
-      currentCurrency = this.props.currencyFormat;
-    }
-
-    const isMili = CurrencyUtils.getCurrencyType(currentCurrency) === 'mCoin';
-
-    if (isMili) {
-      let i = currentCurrency.indexOf('m') + 1;
-      currentCurrency = currentCurrency.slice(i);
-    }
-
-    if (currentCurrency !== configCurrency) {
-      if (isMili) {
-        currentCurrency = 'm' + configCurrency;
-      } else {
-        currentCurrency = configCurrency;
-      }
-    }
-
-    return currentCurrency;
-  }
   /**
    * This method generates 'antd' card to create the markup for 'Settings' section
    * on the My Account screen
    */
   renderSettingCard() {
-    let defaultCurrency = this.props.currencyFormat;
-    
-    if (defaultCurrency !== undefined) {
-      defaultCurrency = this.defaultCurrency(defaultCurrency);
-    }
-
     return (
       <Card
         className='bookie-card settingComponent'
@@ -286,7 +253,7 @@ class MyAccount extends PureComponent {
             <div ref='global_object'>
               <Select
                 className='bookie-select'
-                defaultValue={ defaultCurrency }
+                defaultValue={ this.props.currencyFormat }
                 onChange={ this.handleCurrFormatChange }
                 getPopupContainer={ () => document.getElementById('setting_card_1') }
               >
