@@ -3,7 +3,6 @@ import Immutable from 'immutable';
 import CommonSelector from './CommonSelector';
 import {CurrencyUtils, DateUtils, ObjectUtils} from '../utility';
 import {Config} from '../constants';
-import Currency from '../utility/Currency';
 
 const {
   getBettingMarketGroupsById,
@@ -108,12 +107,6 @@ const getTotalMatchedBetsAmount = createSelector(
     );
     console.log('totalMatchedBetsAssetPrecision', totalMatchedBetsAssetPrecision);
     console.log('totalMatchedBetsAsset', totalMatchedBetsAsset);
-    const quantity = totalMatchedBetsByMarketGroupId.getIn([bettingMarketGroupId, 'amount']) /
-      Math.pow(10, totalMatchedBetsAssetPrecision);
-    const totalMatchedBetsAmount1 = new Currency(
-      quantity, ['total'], currencyFormat
-    );
-    console.log(totalMatchedBetsAmount1);
     return totalMatchedBetsAmount;
   }
 );
