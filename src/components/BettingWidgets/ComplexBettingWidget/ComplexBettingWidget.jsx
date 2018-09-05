@@ -20,7 +20,7 @@
  */
 import React, {PureComponent} from 'react';
 import {BettingModuleUtils, CurrencyUtils} from '../../../utility';
-import {BetTypes, LoadingStatus} from '../../../constants';
+import {BetTypes, LoadingStatus, Config} from '../../../constants';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import Immutable from 'immutable';
@@ -30,6 +30,7 @@ import PropTypes from 'prop-types';
 
 // number of best odds to be shown in each market ( Back and Lay )
 const itemDisplay = 3;
+const configCurrency = Config.features.currency;
 const {OFFER_PRECISION} = CurrencyUtils;
 
 class ComplexBettingWidget extends PureComponent {
@@ -331,8 +332,8 @@ class ComplexBettingWidget extends PureComponent {
     // to match the lay bet-type in placebet action dispatch
     const classNameLay = BetTypes.LAY;
 
-    const currencySymbol = CurrencyUtils.getCurrencySymbol('BTF');
-    const currencySymbolWhite = CurrencyUtils.getCurrencySymbol('BTF', 'white');
+    const currencySymbol = CurrencyUtils.getCurrencySymbol(configCurrency);
+    const currencySymbolWhite = CurrencyUtils.getCurrencySymbol(configCurrency, 'white');
 
     // Format the totalMatchedBestAmount
     let formattedMatchedBetsAmount = totalMatchedBetsAmount || 0;
@@ -408,7 +409,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.getFormattedCurrency(
                 props.value.price,
-                'BTF',
+                configCurrency,
                 OFFER_PRECISION,
                 true
               )}
@@ -450,7 +451,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.getFormattedCurrency(
                 props.value.price,
-                'BTF',
+                configCurrency,
                 OFFER_PRECISION,
                 true
               )}
@@ -505,7 +506,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.getFormattedCurrency(
                 props.value.price,
-                'BTF',
+                configCurrency,
                 OFFER_PRECISION,
                 true
               )}
@@ -562,7 +563,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.getFormattedCurrency(
                 props.value.price,
-                'BTF',
+                configCurrency,
                 OFFER_PRECISION,
                 true
               )}
@@ -603,7 +604,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.getFormattedCurrency(
                 props.value.price,
-                'BTF',
+                configCurrency,
                 OFFER_PRECISION,
                 true
               )}
@@ -650,7 +651,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.getFormattedCurrency(
                 props.value.price,
-                'BTF',
+                configCurrency,
                 OFFER_PRECISION,
                 true
               )}

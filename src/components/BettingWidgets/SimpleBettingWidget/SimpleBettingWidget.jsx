@@ -33,6 +33,7 @@ import {Config} from '../../../constants';
 const eventTimeColumnWidth = 65;
 const offerColumnWidth = 70;
 const coinDust = Config.dust.exchangeCoin;
+const configCurrency = Config.features.currency;
 
 const {OFFER_PRECISION} = CurrencyUtils;
 
@@ -289,7 +290,7 @@ class SimpleBettingWidget extends PureComponent {
         );
       }
 
-      let currencySymbol = CurrencyUtils.getCurrencySymbol('BTF');
+      let currencySymbol = CurrencyUtils.getCurrencySymbol(configCurrency);
       return (
         <div className={ className }>
           <a
