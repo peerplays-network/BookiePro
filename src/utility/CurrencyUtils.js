@@ -1,5 +1,9 @@
 import {Config} from '../constants';
 import React from 'react';
+import bitCoinBlack from '../assets/icons/bitcoin_icon_black.svg';
+import bitCoinWhite from '../assets/icons/bitcoin_icon_white.svg';
+import mBitCoinWhite from '../assets/icons/mbitcoin_icon_white.svg';
+import mBitCoinBlack from '../assets/icons/mbitcoin_icon_black.svg';
 import bitFunBlack from '../assets/icons/bitfun_icon_black.svg';
 import bitFunWhite from '../assets/icons/bitfun_icon_white.svg';
 import mBitFunWhite from '../assets/icons/mbitfun_icon_white.svg';
@@ -119,20 +123,20 @@ var CurrencyUtils = {
   getCurrencySymbol: function(currency='mBTF', color='black') {
     switch (currency) {
       case 'BTC':
+        if (color === 'white') {
+          return <img src={ bitCoinWhite } className='currency-symbol btc' alt='BTC' />;
+        }
+      
         return (
-          <img
-            src='../../../assets/icons/bitcoin_icon_hover.svg'
-            className='currency-symbol btf'
-            alt='BTF'
-          />
+          <img src={ bitCoinBlack } className='currency-symbol btc' alt='BTC' />
         );
       case 'mBTC':
+        if (color === 'white') {
+          return <img src={ mBitCoinWhite } className='currency-symbol mbtc' alt='BTC' />;
+        }
+
         return (
-          <img
-            src='../../../assets/icons/mbitcoin_icon_hover.svg'
-            className='currency-symbol mbtf'
-            alt='mBTF'
-          />
+          <img src={ mBitCoinBlack } className='currency-symbol mbtc' alt='mBTC'/>
         );
       case 'BTF':
         if (color === 'white') {
