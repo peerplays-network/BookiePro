@@ -1,9 +1,9 @@
 import {Config} from '../constants';
 import React from 'react';
-import bitCoinBlack from '../assets/icons/bitcoin_icon_black.png';
-import bitCoinWhite from '../assets/icons/bitcoin_icon_white.png';
-import mBitCoinWhite from '../assets/icons/mbitcoin_icon_white.png';
-import mBitCoinBlack from '../assets/icons/mbitcoin_icon_black.png';
+import bitCoinBlack from '../assets/icons/bitcoin_icon_black.svg';
+import bitCoinWhite from '../assets/icons/bitcoin_icon_white.svg';
+import mBitCoinWhite from '../assets/icons/mbitcoin_icon_white.svg';
+import mBitCoinBlack from '../assets/icons/mbitcoin_icon_black.svg';
 import bitFunBlack from '../assets/icons/bitfun_icon_black.svg';
 import bitFunWhite from '../assets/icons/bitfun_icon_white.svg';
 import mBitFunWhite from '../assets/icons/mbitfun_icon_white.svg';
@@ -29,7 +29,7 @@ const stakeDust = exchangeCoin; // Three
 
 var CurrencyUtils = {
   fieldPrecisionMap: {
-    // Odds values have no dependency on ∏securrency but it is included in this map for
+    // Odds values have no dependency on currency but it is included in this map for
     // convenience's sake.
     odds: {
       coin: 2,

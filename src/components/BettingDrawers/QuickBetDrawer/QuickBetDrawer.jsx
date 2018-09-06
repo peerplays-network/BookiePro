@@ -43,7 +43,10 @@ const testCurr4 = new Currency(0.000001, ['profit'], 'BTC');
 //const testFieldPrecision1 = new Currency(0.000001, ['total'], 'BTC');
 //console.log(testFieldPrecision, testFieldPrecision1);
 //const thing = new Currency(0.1, ['total'], 'BTC');
-console.log(testCurr2);
+console.log(
+  'Example of what is available in a newly instantiated Currency class object:', 
+  testCurr2
+);
 const renderTestCurrencies = () => (
   <div className='testCurrency' >
     {testCurr.amount()}<br />

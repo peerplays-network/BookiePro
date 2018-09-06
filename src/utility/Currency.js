@@ -3,10 +3,10 @@ import {CurrencyUtils} from './';
 import Field from './Field';
 import React from 'react'; 
 
-import bitCoinBlack from '../assets/icons/bitcoin_icon_black.png';
-import bitCoinWhite from '../assets/icons/bitcoin_icon_white.png';
-import mBitCoinWhite from '../assets/icons/mbitcoin_icon_white.png';
-import mBitCoinBlack from '../assets/icons/mbitcoin_icon_black.png';
+import bitCoinBlack from '../assets/icons/bitcoin_icon_black.svg';
+import bitCoinWhite from '../assets/icons/bitcoin_icon_white.svg';
+import mBitCoinWhite from '../assets/icons/mbitcoin_icon_white.svg';
+import mBitCoinBlack from '../assets/icons/mbitcoin_icon_black.svg';
 
 import bitFunBlack from '../assets/icons/bitfun_icon_black.svg';
 import bitFunWhite from '../assets/icons/bitfun_icon_white.svg';
@@ -32,8 +32,6 @@ class Currency {
     this.currencyFormat = currencyFormat;
     this.field = new Field(field, this.currencyType(), precisionOverride);
 
-    this._display = this.display(); // Image symbol + string quantity.
-    this._symbol = this.symbol(); // Image symbol.
     this._amount = this.amount(); // Formatted string quantity.
   }
 
