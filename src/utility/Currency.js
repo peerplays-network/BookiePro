@@ -33,9 +33,7 @@ class Currency {
     this.currencyFormat = currencyFormat;
     this.field = new Field(field, this.currencyType(), precisionOverride);
 
-    this._display = this.display(); // Image symbol + string quantity
-    this._symbol = this.symbol(); // Image symbol
-    this._amount = this.amount(); // String quantity
+    this._amount = this.amount(); // Formatted string quantity.
   }
 
   // GETTER & SETTERS
