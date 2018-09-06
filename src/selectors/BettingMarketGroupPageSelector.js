@@ -105,8 +105,6 @@ const getTotalMatchedBetsAmount = createSelector(
       totalMatchedBetsAssetPrecision,
       true
     );
-    console.log('totalMatchedBetsAssetPrecision', totalMatchedBetsAssetPrecision);
-    console.log('totalMatchedBetsAsset', totalMatchedBetsAsset);
     return totalMatchedBetsAmount;
   }
 );

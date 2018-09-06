@@ -2,7 +2,6 @@ import React, {PureComponent} from 'react';
 import {BettingModuleUtils, CurrencyUtils} from '../../../utility';
 import Immutable from 'immutable';
 import {incrementOdds, decrementOdds, adjustOdds, ODDS_BOUNDS} from './oddsIncrementUtils';
-import Currency from '../../../utility/Currency';
 
 class BetTableInput extends PureComponent {
   constructor(props) {
