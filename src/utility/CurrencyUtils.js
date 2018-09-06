@@ -28,7 +28,7 @@ const stakeDust = exchangeCoin; // Three
 
 var CurrencyUtils = {
   fieldPrecisionMap: {
-    // Odds values have no dependency on ∏securrency but it is included in this map for
+    // Odds values have no dependency on currency but it is included in this map for
     // convenience's sake.
     odds: {
       coin: 2,
