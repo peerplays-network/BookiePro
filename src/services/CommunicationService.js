@@ -287,13 +287,23 @@ class CommunicationService {
               currentBMG = splitRoute[splitRoute.length - 1];
             }
 
+            let eventID = this.getState().getIn([
+              'bettingMarketGroup', 'bettingMarketGroupsById', currentBMG, 'event_id'
+            ]);
+
+            // Iterate through all of the updated objects
             for (let i = 0; i < updatedObjects.size; i++) {
-              if (ObjectUtils.isStatusUpdate(this.getState(), updatedObjects.get(i), currentBMG)) {
-                this.dispatch(
-                  MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING)
-                );
+              // If there was an update to the currently looked at object
+              if (eventID === updatedObjects.get(i).get('id')) {
+                // Then check for a status update on the object
+                if (ObjectUtils.isStatusUpdate(this.getState(), updatedObjects.get(i), eventID)) {
+                  // If there was an update, then fire a state change loading screen
+                  this.dispatch(
+                    MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.STATE_CHANGE)
+                  );
+                }
               }
-            }            
+            }
           }
 
           // Localize name

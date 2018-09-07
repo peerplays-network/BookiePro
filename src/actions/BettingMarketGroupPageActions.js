@@ -42,7 +42,7 @@ class BettingMarketGroupPageActions {
           LoadingStatus.LOADING
         )
       );
-      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
+      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.FETCHING));
       // get related betting market group object
       dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds([bettingMktGrpId]))
         .then((bettingMarketGroups) => {

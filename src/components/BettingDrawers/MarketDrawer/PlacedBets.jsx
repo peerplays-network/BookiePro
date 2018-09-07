@@ -18,6 +18,7 @@ import './PlacedBets.less';
 import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config, LoadingStatus} from '../../../constants';
 import Loading from '../../Loading';
+import _ from 'lodash';
 
 class PlacedBets extends PureComponent {
 
@@ -29,6 +30,21 @@ class PlacedBets extends PureComponent {
 
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.placedBets));
+  }
+
+  shouldComponentUpdate(nextProps) {
+
+    if (nextProps.placedBetsLoadingStatus === LoadingStatus.DEFAULT) {
+      return true;
+    }
+
+    // This if statement checks to see if the app is fetching "for no reason"
+    if (_.isEqual(this.props.unmatchedBets, nextProps.unmatchedBets) &&
+        nextProps.placedBetsLoadingStatus === LoadingStatus.FETCHING) {
+      return false;
+    }
+
+    return true;
   }
 
   componentDidUpdate(prevProps) {
@@ -60,11 +76,27 @@ class PlacedBets extends PureComponent {
   }
 
   render() {
+
+    let showLoadingScreen;
+
+    switch (this.props.placedBetsLoadingStatus) {
+      case LoadingStatus.LOADING:
+      case LoadingStatus.BET_DELETE:
+      case LoadingStatus.BET_PLACE:
+      case LoadingStatus.STATE_CHANGE:
+      case LoadingStatus.FETCHING:
+      case LoadingStatus.CHECKING:
+        showLoadingScreen = true;
+        break;
+      default:
+        showLoadingScreen = false;
+    }
+
     return (
       <div className='placed-bets'>
         <div className='content' ref='placedBets'>
 
-          {this.props.placedBetsLoadingStatus === 'loading' ? <Loading /> : ''}
+          { showLoadingScreen ? <Loading /> : ''}
           {!this.props.isEmpty && (
             <UnmatchedBets
               currencyFormat={ this.props.currencyFormat }
