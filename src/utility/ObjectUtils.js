@@ -6,7 +6,6 @@
  * please refer to https://bitbucket.org/ii5/bookie/wiki/blockchain-objects/index
  */
 import {BetCategories, EventStatus, BettingMarketResolutionTypes, BetTypes} from '../constants';
-import {ChainTypes} from 'peerplaysjs-lib';
 
 /**
  * Function   :     getStakeFromBetObject()
@@ -222,14 +221,11 @@ const bettingMarketGroupStatus = function (betting_market_group) {
  * @param {*} bmgID - The bmgID that the user is currently viewing
  * @returns - A boolean value. True if there has been a stauts update, otherwise false.
  */
-const isStatusUpdate = function(state, updatedEvent, bmgID) {
+const isStatusUpdate = function(state, updatedEvent, eventID) {
   // Return early if the bmgID is invalid
-  if (!bmgID) {
+  if (!eventID) {
     return false;
   }
-
-  // Get the eventID from the currently viewed betting market
-  let eventID = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bmgID, 'event_id']);
 
   // Get the current Event
   let currentEvent = state.getIn(['event', 'eventsById', eventID]);
