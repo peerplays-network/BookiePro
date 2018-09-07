@@ -274,6 +274,28 @@ class CommunicationService {
         }
 
         case ObjectPrefix.EVENT_PREFIX: {
+          const currentRoute = this.getState().getIn([
+            'routing', 'locationBeforeTransitions']).pathname;
+
+          let currentBMG;
+
+          if (currentRoute) {
+
+            let splitRoute = currentRoute.split('/');
+
+            if (splitRoute.length === 4) {
+              currentBMG = splitRoute[splitRoute.length - 1];
+            }
+
+            for (let i = 0; i < updatedObjects.size; i++) {
+              if (ObjectUtils.isStatusUpdate(this.getState(), updatedObjects.get(i), currentBMG)) {
+                this.dispatch(
+                  MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING)
+                );
+              }
+            }            
+          }
+
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
             'name'
@@ -297,7 +319,6 @@ class CommunicationService {
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
             'description'
           ]);
-          this.dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
           this.dispatch(
             BettingMarketGroupActions.addOrUpdateBettingMarketGroupsAction(localizedUpdatedObject)
           );
