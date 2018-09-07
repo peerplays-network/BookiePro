@@ -6,6 +6,7 @@
  * please refer to https://bitbucket.org/ii5/bookie/wiki/blockchain-objects/index
  */
 import {BetCategories, EventStatus, BettingMarketResolutionTypes, BetTypes} from '../constants';
+import {ChainTypes} from 'peerplaysjs-lib';
 
 /**
  * Function   :     getStakeFromBetObject()
@@ -209,6 +210,43 @@ const bettingMarketGroupStatus = function (betting_market_group) {
   return determineStatusResult(betting_market_group.get('status'));
 };
 
+
+/**
+ * isStatusUpdate()
+ * 
+ * This function takes the current state, an event object, and a bmgID, and determines whether or 
+ *  not there has been a status update on the event in quesiton.
+ *
+ * @param {*} state - The current state of the application
+ * @param {*} event - The event that is to be checked
+ * @param {*} bmgID - The bmgID that the user is currently viewing
+ * @returns - A boolean value. True if there has been a stauts update, otherwise false.
+ */
+const isStatusUpdate = function(state, updatedEvent, bmgID) {
+  // Return early if the bmgID is invalid
+  if (!bmgID) {
+    return false;
+  }
+
+  // Get the eventID from the currently viewed betting market
+  let eventID = state.getIn(['bettingMarketGroup', 'bettingMarketGroupsById', bmgID, 'event_id']);
+
+  // Get the current Event
+  let currentEvent = state.getIn(['event', 'eventsById', eventID]);
+
+  // Return early if the current event or the updated event is invalid.
+  if (!currentEvent || !updatedEvent) {
+    return false;
+  }
+
+  // Do the actual check to see if there has been a status update
+  if (updatedEvent.get('status') !== currentEvent.get('status')) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 const ObjectUtils = {
   getStakeFromBetObject,
   getProfitLiabilityFromBetObject,
@@ -218,7 +256,8 @@ const ObjectUtils = {
   isActiveEvent,
   eventStatus,
   bettingMarketStatus,
-  bettingMarketGroupStatus
+  bettingMarketGroupStatus,
+  isStatusUpdate
 };
 
 export default ObjectUtils;
