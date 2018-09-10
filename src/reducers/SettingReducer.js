@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants';
+import {ActionTypes, Config} from '../constants';
 import Immutable from 'immutable';
 
 const initialState = Immutable.fromJS({
@@ -7,7 +7,7 @@ const initialState = Immutable.fromJS({
     lang: 'en-us',
     timezone: 'UTC+08:00',
     notification: true,
-    currencyFormat: 'mBTF',
+    currencyFormat: Config.features.currency,
     oddsFormat: 'decimal',
     skipLogoutPopup: false
   }
