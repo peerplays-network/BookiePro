@@ -124,7 +124,9 @@ const mapStateToProps = (state, ownProps) => {
   /*Precision value will affect whether or not the full number will be displayed, 
   regardless of it being added. */
   let transactionFee =
-    ownProps.currencyFormat === 'BTF' ? Config.btfTransactionFee : Config.mbtfTransactionFee;
+    ownProps.currencyFormat === Config.features.currency ?
+      Config.coinTransactionFee :
+      Config.mCoinTransactionFee;
 
   // Add a transaction fee for each updated bet.
   if (updatedBets.size > 0) {
