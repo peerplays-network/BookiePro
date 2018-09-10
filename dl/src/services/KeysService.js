@@ -34,7 +34,7 @@ class KeysService {
      * @param dispatch
      * @returns {Promise}
      */
-    static getActiveKeyFromState(state, dispatch, role) {
+    static getActiveKeyFromState(state, dispatch, role="active") {
 
         return new Promise((resolve, reject) => {
 
