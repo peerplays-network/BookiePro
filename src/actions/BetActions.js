@@ -259,7 +259,6 @@ class BetActions {
             dispatch(MarketDrawerActions.hideOverlay());
             // Setstatus
             dispatch(BetPrivateActions.setCheckForNewMyBetsLoadingStatusAction(LoadingStatus.DONE));
-            dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.DONE));
             log.debug('Check for new my bets succeed.');
           })
           .catch((error) => {
