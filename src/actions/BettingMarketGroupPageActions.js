@@ -42,7 +42,7 @@ class BettingMarketGroupPageActions {
           LoadingStatus.LOADING
         )
       );
-      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.FETCHING));
+      // dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.FETCHING));
       // get related betting market group object
       dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds([bettingMktGrpId]))
         .then((bettingMarketGroups) => {
@@ -86,6 +86,7 @@ class BettingMarketGroupPageActions {
               LoadingStatus.DONE
             )
           );
+          // dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.FETCHED));
         })
         .catch((error) => {
           log.error('Betting market group page get data error', bettingMktGrpId, error);

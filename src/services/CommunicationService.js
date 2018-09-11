@@ -161,6 +161,9 @@ class CommunicationService {
             } else if (operationType === ChainTypes.operations.bet_canceled) {
               const betId = updatedObject.getIn(['op', 1, 'bet_id']);
               canceledBetIds = canceledBetIds.push(betId);
+              this.dispatch(
+                MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.BET_DELETE)
+              );
             } else if (operationType === ChainTypes.operations.bet_place) {
               const bettingMarketId = updatedObject.getIn(['op', 1, 'betting_market_id']);
               bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bettingMarketIdsOfBinnedOrderBooksToBeRefreshed.push( // eslint-disable-line
