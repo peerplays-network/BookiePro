@@ -401,7 +401,6 @@ class MarketDrawerActions {
 
   static clearPlacedBets() {
     return (dispatch) => {
-      console.log('Here - 2');
       dispatch(MarketDrawerPrivateActions.updatePlacedBetsLoadingStatus(LoadingStatus.BET_DELETE));
       dispatch(MarketDrawerPrivateActions.getPlacedBets(Immutable.List(), Immutable.List(), null));
     };
