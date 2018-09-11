@@ -2,7 +2,7 @@
  * The ObjectUtils contains all the functions related to blockchain-objects such as
  * event, bet etc.
  *
- * For the list of supported blockchain-objects, 
+ * For the list of supported blockchain-objects,
  * please refer to https://bitbucket.org/ii5/bookie/wiki/blockchain-objects/index
  */
 import {BetCategories, EventStatus, BettingMarketResolutionTypes, BetTypes} from '../constants';
@@ -43,7 +43,7 @@ const getStakeFromBetObject = function(bet) {
 };
 
 /**
- * calculate the profitability of bet, supporting cases including resolved bets, 
+ * calculate the profitability of bet, supporting cases including resolved bets,
  * unmatched bets and matched bets.
  *
  * @param {bet} Immutable Object, bet object
@@ -87,7 +87,7 @@ const getAmountWonFromBetObject = function(bet, bettingMarketResolutionType) {
       // If the betting market was won
       if (bet.get('back_or_lay') === BetTypes.BACK) {
         // if the bet we have is a back
-        amountWon = Math.round(bet.get('matched_bet_amount') * (bet.get('backer_multiplier') - 1)); 
+        amountWon = Math.round(bet.get('matched_bet_amount') * (bet.get('backer_multiplier') - 1));
       } else if (bet.get('back_or_lay') === BetTypes.LAY) {
         // if the bet we have is a lay then the bet was lost.
         amountWon = -1 * bet.get('matched_bet_amount');
@@ -123,19 +123,19 @@ const getAmountWonFromBetObject = function(bet, bettingMarketResolutionType) {
 
 /**
  * Replace the localised string JSON object with localised string, based on lang parameter provided.
- * For reference of blockchain object and localisation, 
+ * For reference of blockchain object and localisation,
  * please refer to https://bitbucket.org/ii5/bookie/wiki/blockchain-objects/index
  *
- * Examples of blockchain-objects include sport, event group, event , betting market, bet , 
+ * Examples of blockchain-objects include sport, event group, event , betting market, bet ,
  * rules and market position for account.
- * For JSON object structure of blockchain object, 
+ * For JSON object structure of blockchain object,
  * please refer to https://bitbucket.org/ii5/bookie/wiki/browse/blockchain-objects
  *
- * @param {Immutable JS} Immutable JS object, blockchain objects contain localised string fields 
+ * @param {Immutable JS} Immutable JS object, blockchain objects contain localised string fields
  * and they need to be updated with related string value.
- * @param {fieldsToLocalize} string array, in which key names mean the object in param need to 
+ * @param {fieldsToLocalize} string array, in which key names mean the object in param need to
  * be translated
- * @returns {object} - object with internationalized string fields updated based 
+ * @returns {object} - object with internationalized string fields updated based
  * on fieldsToLocalize.
  */
 const localizeObject = function(object, fieldsToLocalize = [], lang = 'en') {
@@ -156,14 +156,14 @@ const localizeObject = function(object, fieldsToLocalize = [], lang = 'en') {
 /**
  * Extend localizeObject for an array of objects
  *
- * @param {Immutable JS} Immutable JS array of objects, blockchain objects contain localised string 
+ * @param {Immutable JS} Immutable JS array of objects, blockchain objects contain localised string
  * fields and they need to be updated with related string value.
- * @param {fieldsToLocalize} string array, in which key names mean the object in param need 
+ * @param {fieldsToLocalize} string array, in which key names mean the object in param need
  * to be translated
- * @returns {object} - object with internationalized string fields updated based 
+ * @returns {object} - object with internationalized string fields updated based
  * on fieldsToLocalize.
  */
-const localizeArrayOfObjects = function (arrayOfObjects, fieldsToLocalize = [], lang = 'en') {
+const localizeArrayOfObjects = function(arrayOfObjects, fieldsToLocalize = [], lang = 'en') {
   return arrayOfObjects.map((object) => localizeObject(object, fieldsToLocalize, lang));
 };
 
@@ -205,21 +205,20 @@ const bettingMarketStatus = function(bettingMarket) {
   }
 };
 
-const bettingMarketGroupStatus = function (betting_market_group) {
+const bettingMarketGroupStatus = function(betting_market_group) {
   return determineStatusResult(betting_market_group.get('status'));
 };
 
-
 /**
  * isStatusUpdate()
- * 
- * This function takes the current state, an event object, and a bmgID, and determines whether or 
+ *
+ * This function takes the current state, an event object, and a bmgID, and determines whether or
  *  not there has been a status update on the event in quesiton.
  *
  * @param {*} state - The current state of the application
  * @param {*} event - The event that is to be checked
  * @param {*} bmgID - The bmgID that the user is currently viewing
- * @returns - A boolean value. True if there has been a stauts update, otherwise false.
+ * @returns - A boolean value. True if there has been a status update, otherwise false.
  */
 const isStatusUpdate = function(state, updatedEvent, eventID) {
   // Return early if the bmgID is invalid
@@ -243,6 +242,29 @@ const isStatusUpdate = function(state, updatedEvent, eventID) {
   }
 };
 
+/**
+ * isMyBet()
+ *
+ * This function
+ *
+ * @param {*} state - The current state of the application
+ * @param {*} theBetInQuestion - The betID of the bet that were checking to see if the current user
+ *                                owns
+ * @returns - A boolean value. True if the bet belongs to the current user. False otherwise.
+ */
+const isMyBet = function(state, theBetInQuestion) {
+  let myBets = state.getIn(['bet', 'unmatchedBetsById']);
+
+  let isMyBet = false;
+
+  myBets.forEach((bet) => {
+    if (bet.get('original_bet_id') === theBetInQuestion) {
+      isMyBet = true;
+    }
+  });
+  return isMyBet;
+};
+
 const ObjectUtils = {
   getStakeFromBetObject,
   getProfitLiabilityFromBetObject,
@@ -253,7 +275,8 @@ const ObjectUtils = {
   eventStatus,
   bettingMarketStatus,
   bettingMarketGroupStatus,
-  isStatusUpdate
+  isStatusUpdate,
+  isMyBet
 };
 
 export default ObjectUtils;
