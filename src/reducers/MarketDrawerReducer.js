@@ -44,7 +44,7 @@ export default function(state = initialState, action) {
       });
     }
 
-    case ActionTypes.MARKET_DRAWER_UPDATE_PLACED_BETS_LOADING_STATUS: {
+    case ActionTypes.MARKET_DRAWER_UPDATE_OPENED_BETS_LOADING_STATUS: {
       return state.merge({
         unmatchedBetsLoadingStatus: action.loadingStatus
       });
@@ -173,10 +173,10 @@ export default function(state = initialState, action) {
       });
     }
 
-    case ActionTypes.MARKET_DRAWER_GET_PLACED_BETS: {
+    case ActionTypes.MARKET_DRAWER_GET_OPENED_BETS: {
       return state.merge({
-        unmatchedBets: action.placedUnmatchedBets,
-        matchedBets: action.placedMatchedBets,
+        unmatchedBets: action.openedUnmatchedBets,
+        matchedBets: action.openedMatchedBets,
         bettingMarketGroupId: action.bettingMarketGroupId
       });
     }
@@ -257,20 +257,20 @@ export default function(state = initialState, action) {
       });
     }
 
-    case ActionTypes.MARKET_DRAWER_SHOW_PLACED_BETS_CONFIRMATION: {
+    case ActionTypes.MARKET_DRAWER_SHOW_OPENED_BETS_CONFIRMATION: {
       return state.merge({
         overlay: BettingDrawerStates.SUBMIT_BETS_CONFIRMATION,
         showOpenBetsConfirmation: true
       });
     }
 
-    case ActionTypes.MARKET_DRAWER_HIDE_PLACED_BETS_CONFIRMATION: {
+    case ActionTypes.MARKET_DRAWER_HIDE_OPENED_BETS_CONFIRMATION: {
       return state.merge({
         overlay: BettingDrawerStates.NO_OVERLAY
       });
     }
 
-    case ActionTypes.MARKET_DRAWER_HIDE_PLACED_BETS_ERROR: {
+    case ActionTypes.MARKET_DRAWER_HIDE_OPENED_BETS_ERROR: {
       return state.merge({
         overlay: BettingDrawerStates.NO_OVERLAY
       });
