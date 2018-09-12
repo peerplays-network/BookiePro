@@ -219,7 +219,7 @@ class MarketDrawerActions {
     console.warn('The totalBetAmount is not the final version.');
 
     return (dispatch, getState) => {
-      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
+      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.BET_PLACE));
       const isDisconnected =
         getState().getIn(['app', 'connectionStatus']) !== ConnectionStatus.CONNECTED;
 
@@ -400,8 +400,8 @@ class MarketDrawerActions {
   }
 
   static clearPlacedBets() {
-    return (dispatch) => {      
-      dispatch(MarketDrawerPrivateActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
+    return (dispatch) => {
+      dispatch(MarketDrawerPrivateActions.updatePlacedBetsLoadingStatus(LoadingStatus.BET_DELETE));
       dispatch(MarketDrawerPrivateActions.getPlacedBets(Immutable.List(), Immutable.List(), null));
     };
   }

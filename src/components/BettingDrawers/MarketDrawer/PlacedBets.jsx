@@ -20,7 +20,6 @@ import {BettingDrawerStates, Config, LoadingStatus} from '../../../constants';
 import Loading from '../../Loading';
 
 class PlacedBets extends PureComponent {
-
   constructor(props) {
     super(props);
     // By default, there should be no loading screen shown on the betting drawer
@@ -34,33 +33,52 @@ class PlacedBets extends PureComponent {
   componentDidUpdate(prevProps) {
     Ps.update(ReactDOM.findDOMNode(this.refs.placedBets));
 
-    // If there are no bets, then the loading screen can go away
+    // If there are no bets, then there is no need for the loading screen
     if (this.props.isEmpty) {
       this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
-    } else if (!this.props.isEmpty) {
-      // A different set of conditions needs to be true when the placed Bets tab has bets within it
-      if (this.props.overlay === 'NO_OVERLAY') {
-        if (prevProps.unmatchedBets.size !== this.props.unmatchedBets.size) {
-          // If we've received an update wherein there are a different number of bets,
-          //  assume that we're done loading those new bets into the betslip
-          //  - This clause catches the deletion of bets for any reason
-          //  - This clause catches the placement of 'completely' new bets (not updated)
-          this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
-        } else if (prevProps.overlay === 'SUBMIT_BETS_SUCCESS') {
-          // If we've successfully "submitted" new bets.
-          //  - This clause catches updating bets
-          this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
-        }
+    } else if (this.props.overlay === 'NO_OVERLAY') {
+      // No overlay is a precondition for the rest of the
+      //  conditions for there not being a loading screen.
+      if (
+        prevProps.overlay !== this.props.overlay &&
+        prevProps.overlay !== 'DELETE_BET_CONFIRMATION' &&
+        prevProps.overlay !== 'DELETE_BETS_CONFIRMATION'
+      ) {
+        // If there are bets in the betslip, then we need to make sure there is
+        // "nothing in progress" before we remove the loading screen
+        // The Betslip is "doing something" one of the following is true
+        //  - The user has just confirmed they would like to delete one or more bets
+        //  - The BMG has switched states and triggered the deletion of Bets in the betslip
+        this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
+      } else if (prevProps.unmatchedBets.size !== this.props.unmatchedBets.size) {
+        // If there is a different number of bets in the unmatchedBets array, then the app has
+        //  just finished adding/removing something.
+        this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
+      } else if (prevProps.overlay === 'SUBMIT_BETS_SUCCESS') {
+        this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
       }
     }
   }
 
   render() {
+    let showLoadingScreen;
+
+    switch (this.props.placedBetsLoadingStatus) {
+      case LoadingStatus.LOADING:
+      case LoadingStatus.BET_DELETE:
+      case LoadingStatus.BET_PLACE:
+      case LoadingStatus.STATE_CHANGE:
+      case LoadingStatus.CHECKING:
+        showLoadingScreen = true;
+        break;
+      default:
+        showLoadingScreen = false;
+    }
+
     return (
       <div className='placed-bets'>
         <div className='content' ref='placedBets'>
-
-          {this.props.placedBetsLoadingStatus === 'loading' ? <Loading /> : ''}
+          {showLoadingScreen ? <Loading /> : ''}
           {!this.props.isEmpty && (
             <UnmatchedBets
               currencyFormat={ this.props.currencyFormat }
@@ -86,13 +104,14 @@ class PlacedBets extends PureComponent {
             />
           )}
         </div>
-        {OverlayUtils.render(
-          'market_drawer.placed_bets',
-          this.props,
-          () => this.props.editBets(this.props.unmatchedBets),
-          () => this.props.deleteUnmatchedBets(this.props.unmatchedbetsToBeDeleted),
-          () => this.props.deleteUnmatchedBet(this.props.unmatchedBetToBeDeleted)
-        )}
+        {!showLoadingScreen &&
+          OverlayUtils.render(
+            'market_drawer.placed_bets',
+            this.props,
+            () => this.props.editBets(this.props.unmatchedBets),
+            () => this.props.deleteUnmatchedBets(this.props.unmatchedbetsToBeDeleted),
+            () => this.props.deleteUnmatchedBet(this.props.unmatchedBetToBeDeleted)
+          )}
       </div>
     );
   }
@@ -134,15 +153,17 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   // Number of Good bets
-  const numberOfGoodBets = updatedBets
-    .reduce((sum, bet) => sum + (BettingModuleUtils.isValidBet(bet) | 0), 0);
-    
+  const numberOfGoodBets = updatedBets.reduce(
+    (sum, bet) => sum + (BettingModuleUtils.isValidBet(bet) | 0),
+    0
+  );
+
   // Overlay
   const overlay = state.getIn(['marketDrawer', 'overlay']);
   return {
     unmatchedBets,
     isEmpty: unmatchedBets.isEmpty() && matchedBets.isEmpty(),
-    overlay,    
+    overlay,
     unmatchedbetsToBeDeleted: state.getIn(['marketDrawer', 'unmatchedbetsToBeDeleted']),
     unmatchedBetToBeDeleted: state.getIn(['marketDrawer', 'unmatchedBetToBeDeleted']),
     numberOfGoodBets,
@@ -168,7 +189,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     deleteUnmatchedBet: MarketDrawerActions.deleteUnmatchedBet,
     hideOverlay: MarketDrawerActions.hideOverlay,
     updatePlacedBetsLoadingStatus: MarketDrawerActions.updatePlacedBetsLoadingStatus
-  }, 
+  },
   dispatch
 );
 
