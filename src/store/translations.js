@@ -427,7 +427,7 @@ export const translationsObject = {
           place_bet_button: 'PLACE BET '
         }
       },
-      placed_bets: {
+      open_bets: {
         header: 'OPEN BETS',
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
