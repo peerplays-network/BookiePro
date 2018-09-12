@@ -118,7 +118,6 @@ const LoginForm = (props) => {
           disabled={ 
             (!props.hasEulaChecked || 
             !props.hasPassword || 
-            !props.hasUserName || 
             invalid || 
             submitting || 
             asyncValidating || 
