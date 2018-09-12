@@ -191,7 +191,7 @@ class BetActions {
    */
   static checkForNewMyBets(rawHistoryDelta) {
     return (dispatch, getState) => {
-      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
+      dispatch(MarketDrawerActions.updateOpenBetsLoadingStatus(LoadingStatus.LOADING));
       const accountId = getState().getIn(['account', 'account', 'id']);
 
       if (accountId) {
@@ -255,12 +255,12 @@ class BetActions {
           .then(() => {
             // Set my bets
             dispatch(BetPrivateActions.updateMyBetsAction(myBets));
-            // Update market drawer placed bets
-            dispatch(MarketDrawerActions.updatePlacedBets());
+            // Update market drawer open bets
+            dispatch(MarketDrawerActions.updateOpenBets());
             dispatch(MarketDrawerActions.hideOverlay());
             // Setstatus
             dispatch(BetPrivateActions.setCheckForNewMyBetsLoadingStatusAction(LoadingStatus.DONE));
-            dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.DONE));
+            dispatch(MarketDrawerActions.updateOpenBetsLoadingStatus(LoadingStatus.DONE));
             log.debug('Check for new my bets succeed.');
           })
           .catch((error) => {
@@ -417,7 +417,7 @@ class BetActions {
    */
   static cancelBets(bets) {
     return (dispatch, getState) => {
-      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
+      dispatch(MarketDrawerActions.updateOpenBetsLoadingStatus(LoadingStatus.LOADING));
       const bettorId = getState().getIn(['account', 'account', 'id']);
       // Build transaction
       const tr = new TransactionBuilder();

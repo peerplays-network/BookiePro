@@ -260,7 +260,7 @@ export default function(state = initialState, action) {
     case ActionTypes.MARKET_DRAWER_SHOW_PLACED_BETS_CONFIRMATION: {
       return state.merge({
         overlay: BettingDrawerStates.SUBMIT_BETS_CONFIRMATION,
-        showPlacedBetsConfirmation: true
+        showOpenBetsConfirmation: true
       });
     }
 
