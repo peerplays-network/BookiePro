@@ -14,7 +14,7 @@ import {CurrencyUtils, ObjectUtils} from '../utility';
 class MarketDrawerPrivateActions {
   static updateOpenBetsLoadingStatus(loadingStatus) {
     return {
-      type: ActionTypes.MARKET_DRAWER_UPDATE_PLACED_BETS_LOADING_STATUS,
+      type: ActionTypes.MARKET_DRAWER_UPDATE_OPENED_BETS_LOADING_STATUS,
       loadingStatus
     };
   }
@@ -79,11 +79,11 @@ class MarketDrawerPrivateActions {
     };
   }
 
-  static getOpenBets(placedUnmatchedBets, placedMatchedBets, bettingMarketGroupId) {
+  static getOpenBets(openedUnmatchedBets, openedMatchedBets, bettingMarketGroupId) {
     return {
-      type: ActionTypes.MARKET_DRAWER_GET_PLACED_BETS,
-      placedUnmatchedBets,
-      placedMatchedBets,
+      type: ActionTypes.MARKET_DRAWER_GET_OPENED_BETS,
+      openedUnmatchedBets,
+      openedMatchedBets,
       bettingMarketGroupId
     };
   }
@@ -126,7 +126,7 @@ class MarketDrawerPrivateActions {
 
   static showOpenBetsConfirmation() {
     return {
-      type: ActionTypes.MARKET_DRAWER_SHOW_PLACED_BETS_CONFIRMATION
+      type: ActionTypes.MARKET_DRAWER_SHOW_OPENED_BETS_CONFIRMATION
     };
   }
 
@@ -379,19 +379,19 @@ class MarketDrawerActions {
           return formattedBet;
         };
 
-        const placedUnmatchedBets = unmatchedBetsById
+        const openedUnmatchedBets = unmatchedBetsById
           .filter(filterRelatedBet)
           .map(formatBet)
           .toList();
-        const placedMatchedBets = matchedBetsById
+        const openedMatchedBets = matchedBetsById
           .filter(filterRelatedBet)
           .map(formatBet)
           .toList();
 
         dispatch(
           MarketDrawerPrivateActions.getOpenBets(
-            placedUnmatchedBets,
-            placedMatchedBets,
+            openedUnmatchedBets,
+            openedMatchedBets,
             bettingMarketGroupId
           )
         );
