@@ -190,7 +190,6 @@ class BetActions {
    */
   static checkForNewMyBets(rawHistoryDelta) {
     return (dispatch, getState) => {
-      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.CHECKING));
       const accountId = getState().getIn(['account', 'account', 'id']);
 
       if (accountId) {
