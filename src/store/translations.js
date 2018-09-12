@@ -320,7 +320,7 @@ export const translationsObject = {
       in_play: 'IN-PLAY'
     },
     quick_bet_drawer: {
-      header: 'BETSLIP',
+      header: 'PLACE BETS',
       unconfirmed_bets: {
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
@@ -374,10 +374,10 @@ export const translationsObject = {
       }
     },
     market_drawer: {
-      tab1: 'BETSLIP',
+      tab1: 'PLACE BETS',
       tab2: 'PLACED BETS',
       unconfirmed_bets: {
-        header: 'Betslip',
+        header: 'Place Bets',
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
           my_bet_button: 'View My Bets'

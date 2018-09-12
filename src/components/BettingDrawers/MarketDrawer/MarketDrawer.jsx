@@ -1,43 +1,43 @@
 /**
  * The Market Drawer is only used when the user is viewing the BettingMarketGroup
- * (Market) page. The Market Drawer is consisted of two components: {@link Betslip}
- * and {@link PlacedBets}. These two components are shown in tabs. The Betslip
+ * (Market) page. The Market Drawer is consisted of two components: {@link PlaceBet}
+ * and {@link PlacedBet}. These two components are shown in tabs. The PlaceBet
  * tab is displaye by default.
  */
 import React, {PureComponent} from 'react';
 import {Tabs} from 'antd';
 import {I18n} from 'react-redux-i18n';
 import {connect} from 'react-redux';
-import BetSlip from './BetSlip';
+import PlaceBets from './PlaceBets';
 import PlacedBets from './PlacedBets';
 import {BettingDrawerStates} from '../../../constants';
 import {MarketDrawerSelector} from '../../../selectors';
 
 const TabPane = Tabs.TabPane;
-const BETSLIP = 'BETSLIP';
+const PLACEBETS = 'PLACEBETS';
 const PLACEDBETS = 'PLACEDBETS';
 const {SUBMIT_BETS_SUCCESS} = BettingDrawerStates;
 
 class MarketDrawer extends PureComponent {
   constructor(props) {
     super(props);
-    // Show BetSlip by default
-    this.state = {activeTab: BETSLIP};
+    // Show PlaceBets by default
+    this.state = {activeTab: PLACEBETS};
     this.onTabClick = this.onTabClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     // Automatically switch to Placed Bets tab after a successful PlaceBet operation
     if (nextProps.overlay === SUBMIT_BETS_SUCCESS && this.props.overlay !== SUBMIT_BETS_SUCCESS) {
-      if (this.state.activeTab === BETSLIP) {
+      if (this.state.activeTab === PLACEBETS) {
         this.setState({activeTab: PLACEDBETS});
       }
     }
 
-    // Automatically switch to BetSlip if the user changes anything in the BetSlip
+    // Automatically switch to PlaceBet if the user changes anything in the PlaceBet
     if (!nextProps.unconfirmedBets.equals(this.props.unconfirmedBets)) {
       if (this.state.activeTab === PLACEDBETS) {
-        this.setState({activeTab: BETSLIP});
+        this.setState({activeTab: PLACEBETS});
       }
     }
   }
@@ -63,8 +63,8 @@ class MarketDrawer extends PureComponent {
     return (
       <div id='market-drawer'>
         <Tabs activeKey={ this.state.activeTab } type='card' onTabClick={ this.onTabClick }>
-          <TabPane tab={ I18n.t('market_drawer.tab1') } key={ BETSLIP }>
-            <BetSlip 
+          <TabPane tab={ I18n.t('market_drawer.tab1') } key={ PLACEBETS }>
+            <PlaceBets 
               currencyFormat={ this.props.currencyFormat } 
               activeTab={ this.state.activeTab } />
           </TabPane>
