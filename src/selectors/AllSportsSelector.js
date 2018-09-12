@@ -12,6 +12,8 @@ const {
   getBettingMarketGroupsById
 } = CommonSelector;
 
+const getAllSportsLoadingStatus = (state) => state.getIn(['allSports', 'loadingStatus']);
+
 // All Sports Data is in the following format
 // [
 //   {
@@ -61,6 +63,7 @@ const {
 // Including events, betting markets, binned order books, sports
 const getAllSportsData = createSelector(
   [
+    getAllSportsLoadingStatus,
     getSportsById,
     getActiveEventsBySportId,
     getBettingMarketsById,
@@ -68,6 +71,7 @@ const getAllSportsData = createSelector(
     getBettingMarketGroupsById
   ],
   (
+    allSportsLoadingStatus,
     sportsById,
     activeEventsBySportId,
     bettingMarketsById,

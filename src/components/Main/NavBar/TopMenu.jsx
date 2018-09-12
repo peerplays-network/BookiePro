@@ -224,20 +224,14 @@ class TopMenu extends PureComponent {
       />
     );
 
-    const iconCurrencyClass = (isAmountComponentVisible, currencyFormat) => {
-      let configCurrency = Config.features.currency;
-      let isMili = CurrencyUtils.getCurrencyType(currencyFormat) === 'mCoin';
+    const iconCurrencyClass = (isAmountComponentVisible, curr) => {
+      let configCurr = Config.features.currency;
 
-      if (currencyFormat !== configCurrency) {
-
-        if (isMili) {
-          currencyFormat = 'm' + configCurrency;
-        } else {
-          currencyFormat = configCurrency;
-        }
+      if (curr !== configCurr && curr !== 'm' + configCurr) {
+        curr = Config.features.currency;
       }
 
-      switch (currencyFormat) {
+      switch (curr) {
         case 'BTC':
           return isAmountComponentVisible ? 'bitcoin-icon-selected' : 'bitcoin-icon';
         case 'mBTC':

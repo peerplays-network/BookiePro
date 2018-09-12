@@ -6,7 +6,7 @@
  * Those utility functions are mostly used in betslips, betting widgets and
  *  betting drawers components.
  */
-import {BetTypes, Config} from '../constants';
+import {BetTypes} from '../constants';
 import Immutable from 'immutable';
 import {CurrencyUtils} from './';
 
@@ -23,7 +23,6 @@ If current currency is mBTF:
 const oddsPlaces = 2;
 const stakePlaces = 5; //minimum stake = 0.001 BTF
 const exposurePlaces = 5;
-const configCurrency = Config.features.currency;
 
 var isFieldInvalid = function(object, field) {
   if (!object.has(field)) {
@@ -57,10 +56,10 @@ var BettingModuleUtils = {
    *
    * @param {string} odds
    * @param {string} profit - profit or liability
-   * @param {string} currency - display currency, 'coin' or 'mCoin'
-   * @returns {string} - stake, based on either coin or mCoin
+   * @param {string} currency - display currency, 'BTF' or 'mBTF'
+   * @returns {string} - stake, based on either BTF or mBTF
    */
-  getStake: function(odds, profit, currency = configCurrency) {
+  getStake: function(odds, profit, currency = 'BTF') {
     const floatProfit = parseFloat(profit);
     const floatOdds = parseFloat(odds);
 
@@ -84,15 +83,14 @@ var BettingModuleUtils = {
    *
    * @param {string} stake
    * @param {string} odds
-   * @param {string} currency - display currency, 'coin' or 'mCoin'
-   * @returns {string} - profit of liability, based on either coin or mCoin
+   * @param {string} currency - display currency, 'BTF' or 'mBTF'
+   * @returns {string} - profit of liability, based on either BTF or mBTF
    */
-  getProfitOrLiability: function(stake, odds, currencyFormat = configCurrency, profitOrLiability) {
+  getProfitOrLiability: function(stake, odds, currencyFormat = 'BTF', profitOrLiability) {
     if (stake && stake.toString().indexOf('*') === -1) {
       let floatStake = parseFloat(stake);
       let floatOdds = parseFloat(odds);
-      let currencyType = CurrencyUtils.getCurrencyType(currencyFormat);
-      
+
       //check invalid input
       if (isNaN(floatStake) || isNaN(floatOdds)) {
         return;
@@ -104,11 +102,11 @@ var BettingModuleUtils = {
 
       // Any mBTF passed into this function will be 1000 times larger than it needs to be.
       //  The return function will multiply the mBTF value by 1000.
-      if (currencyType === 'mCoin') {
+      if (currencyFormat === 'mBTF') {
         floatStake = floatStake / 1000;
       }
       
-      let precision = CurrencyUtils.fieldPrecisionMap[profitOrLiability][currencyType];
+      let precision = CurrencyUtils.fieldPrecisionMap[profitOrLiability][currencyFormat];
       let amount = (floatStake * (floatOdds - 1)).toFixed(precision);
         
       return CurrencyUtils.getFormattedCurrency(amount, currencyFormat, precision);
@@ -124,10 +122,10 @@ var BettingModuleUtils = {
    *
    * @param {string} odds : odds
    * @param {string} stake : stake
-   * @param {string} currency - display currency, 'coin' or 'mCoin'
-   * @returns {string} - payout, based on either coin or mCoin
+   * @param {string} currency - display currency, 'BTF' or 'mBTF'
+   * @returns {string} - payout, based on either BTF or mBTF
    */
-  getPayout: function(stake, odds, currency = configCurrency) {
+  getPayout: function(stake, odds, currency = 'BTF') {
     const floatStake = parseFloat(stake);
     const floatOdds = parseFloat(odds);
 
@@ -165,11 +163,11 @@ var BettingModuleUtils = {
    * @param {string} bettingMarketId : id of the betting market for which expsoure
    * calculation specified
    * @param {Immutable.List} bets - unconfirmedBets, marketDrawer.unconfirmedBets stored in redux
-   * @param {string} currency - display currency, 'coin' or 'mCoin'
+   * @param {string} currency - display currency, 'BTF' or 'mBTF'
    * @returns {string} - exposure of the target betting market, either BTF or mBTF, based
    * on currency param
    */
-  getExposure: function(bettingMarketId, bets, currency = configCurrency) {
+  getExposure: function(bettingMarketId, bets, currency = 'BTF') {
     let exposure = 0.0;
 
     bets.forEach((bet) => {
@@ -246,10 +244,10 @@ var BettingModuleUtils = {
    *
    * @param {Immutable.List} bets - unconfirmedBets in betslip,
    * marketDrawer.unconfirmedBets stored in redux
-   * @param {string} currency - display currency, 'coin' or 'mCoin'
+   * @param {string} currency - display currency, 'BTF' or 'mBTF'
    * @returns {double} - total: total value of betslip
    */
-  getBetslipTotal: function(bets, currency = configCurrency) {
+  getBetslipTotal: function(bets, currency = 'BTF') {
     const accumulator = (total, bet) => {
       if (
         isFieldInvalid(bet, 'odds') ||
@@ -307,8 +305,7 @@ var BettingModuleUtils = {
    *    - groupedProfitOrLiability
    *    - groupedStake
    */
-  calculateAverageOddsFromMatchedBets: function(matchedBets, currency = configCurrency) {
-    const currencyType = CurrencyUtils.getCurrencyType(currency);
+  calculateAverageOddsFromMatchedBets: function(matchedBets, currency = 'BTF') {
     // Assume all the bets are of the same bet type so we can just sample from the first bet
     const profitOrLiability =
       matchedBets
@@ -329,14 +326,14 @@ var BettingModuleUtils = {
       groupedProfitOrLiability: CurrencyUtils.getFormattedCurrency(
         groupedProfitOrLiability,
         currency,
-        CurrencyUtils.fieldPrecisionMap['avgProfitLiability'][currencyType],
+        CurrencyUtils.fieldPrecisionMap['avgProfitLiability'][currency],
         true,
         true
       ),
       groupedStake: CurrencyUtils.getFormattedCurrency(
         groupedStake,
         currency,
-        CurrencyUtils.fieldPrecisionMap['avgStake'][currencyType],
+        CurrencyUtils.fieldPrecisionMap['avgStake'][currency],
         true,
         true
       )
