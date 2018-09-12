@@ -22,7 +22,7 @@ class MarketDrawer extends PureComponent {
   constructor(props) {
     super(props);
     // Show BetSlip by default
-    this.state = {activeTab: BETSLIP};
+    this.state = {activeTab: OPENBETS};
     this.onTabClick = this.onTabClick.bind(this);
   }
 
