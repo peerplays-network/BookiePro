@@ -245,7 +245,7 @@ const isStatusUpdate = function(state, updatedEvent, eventID) {
 /**
  * isMyBet()
  *
- * This function
+ * This function checks to see whether or not the bet passed in belongs to the current user
  *
  * @param {*} state - The current state of the application
  * @param {*} theBetInQuestion - The betID of the bet that were checking to see if the current user
@@ -265,6 +265,51 @@ const isMyBet = function(state, theBetInQuestion) {
   return isMyBet;
 };
 
+
+
+/**
+ * betBelongsToBMG()
+ *
+ * This functions checks to see whether or not the bet passed in belongs to the BMG that the user
+ *  is currently viewing
+ * 
+ * @param {*} state - The current state of the application
+ * @param {*} theBetInQuestion - The betID of thebet that we're checking to see if the current user
+ *                                owns
+ * @param {*} currentBMG - The current BMG ID
+ * @returns - A boolean value. True if the bet belongs to the currently viewed BMG. False Otherwise.
+ */
+const betBelongsToBMG = function(state, theBetInQuestion, currentBMG) {
+
+  // Exit early if the function is missing sufficient information to make the decision.
+  if (!currentBMG || !theBetInQuestion) {
+    return false;
+  }
+
+  let myBets = state.getIn(['bet', 'unmatchedBetsById']);
+  let bettingMarkets = state.getIn(['bettingMarket', 'bettingMarketsById']);
+
+  let betBelongs = false;
+
+  // Iterate through the betting markets to find the BMG that the bettingMarket belongs to
+  bettingMarkets.forEach((bm) => {
+    // When the BMG that the BM belongs to is found
+    if (bm.get('group_id') === currentBMG) {
+      // Iterate through the bets... 
+      myBets.forEach((bet) => {
+        // If the bet matches the bet in question, check to see if that bet belongs to the currently
+        //  viewed betting market
+        if (bet.get('original_bet_id') === theBetInQuestion && 
+            bet.get('betting_market_id') === bm.get('id')) {
+          betBelongs = true;
+        }
+      });
+    }
+  });
+
+  return betBelongs;
+};
+
 const ObjectUtils = {
   getStakeFromBetObject,
   getProfitLiabilityFromBetObject,
@@ -276,7 +321,8 @@ const ObjectUtils = {
   bettingMarketStatus,
   bettingMarketGroupStatus,
   isStatusUpdate,
-  isMyBet
+  isMyBet,
+  betBelongsToBMG
 };
 
 export default ObjectUtils;

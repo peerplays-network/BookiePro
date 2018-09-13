@@ -67,8 +67,6 @@ class PlacedBets extends PureComponent {
       case LoadingStatus.LOADING:
       case LoadingStatus.BET_DELETE:
       case LoadingStatus.BET_PLACE:
-      case LoadingStatus.STATE_CHANGE:
-      case LoadingStatus.CHECKING:
         showLoadingScreen = true;
         break;
       default:
