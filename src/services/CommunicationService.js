@@ -278,40 +278,6 @@ class CommunicationService {
         }
 
         case ObjectPrefix.EVENT_PREFIX: {
-          const currentRoute = this.getState().getIn(['routing', 'locationBeforeTransitions'])
-            .pathname;
-
-          let currentBMG;
-
-          if (currentRoute) {
-            let splitRoute = currentRoute.split('/');
-
-            if (splitRoute.length === 4) {
-              currentBMG = splitRoute[splitRoute.length - 1];
-            }
-
-            let eventID = this.getState().getIn([
-              'bettingMarketGroup',
-              'bettingMarketGroupsById',
-              currentBMG,
-              'event_id'
-            ]);
-
-            // Iterate through all of the updated objects
-            for (let i = 0; i < updatedObjects.size; i++) {
-              // If there was an update to the currently looked at object
-              if (eventID === updatedObjects.get(i).get('id')) {
-                // Then check for a status update on the object
-                if (ObjectUtils.isStatusUpdate(this.getState(), updatedObjects.get(i), eventID)) {
-                  // If there was an update, then fire a state change loading screen
-                  this.dispatch(
-                    MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.STATE_CHANGE)
-                  );
-                }
-              }
-            }
-          }
-
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
             'name'
