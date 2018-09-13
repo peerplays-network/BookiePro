@@ -155,6 +155,7 @@ const mapStateToProps = (state, ownProps) => {
   const obscureContent =
     overlay !== BettingDrawerStates.NO_OVERLAY &&
     overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
+  const currencyType = CurrencyUtils.getCurrencyType(ownProps.currencyFormat);
   return {
     originalBets,
     bets: page,
@@ -172,7 +173,7 @@ const mapStateToProps = (state, ownProps) => {
     totalBetAmountString: CurrencyUtils.toFixed(
       'transaction',
       totalAmount,
-      ownProps.currencyFormat
+      currencyType
     ),
     transactionFee,
     disabled
