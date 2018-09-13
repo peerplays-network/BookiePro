@@ -1,0 +1,33 @@
+@import (reference) '../App/Colors.less';
+
+.message {
+	&-background{
+		width: 100%;
+		position: absolute;
+		top: 0;
+		height: 30px;
+		padding: 5px 0;
+		display: table;
+		&.default {
+			background-color: fade(@outer_space, 100%);
+			color: @white;
+		}
+		&.error {
+			background-color: fade(@error, 100%);
+			color: @white;
+		}
+		&.warning {
+			background-color: fade(@update_highlight, 100%);
+			color: @black;
+		}
+		&.success {
+			background-color: fade(@green, 100%);
+			color: @black;
+		}
+	}
+	&-content {
+		text-align: center;
+		vertical-align: middle;
+		padding: 0 1vw;
+	}
+}
