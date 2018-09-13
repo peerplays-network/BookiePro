@@ -41,10 +41,11 @@ class BetTableInput extends PureComponent {
     let value = e.target.value.replace(/[A-z*&^%$#@!(){};:'"?><,|+=_/~]/g, '').trim();
     // If the last character is a decimal in the odds, assume the user is still
     // entering a value.
-    let isEntering = value.substr(value.length - 1);
+    let isEntering = value.substr(value.length - 1) === '.';
     let isMiliCoin = props.currencyFormat.indexOf('m') !== -1;
     // Allow decimals in miliCoing but not Coin currency mode.
     let allowDecimal = isEntering && isMiliCoin;
+    let coinType = CurrencyUtils.getCurrencyType(props.currencyFormat);
 
     if (value.length > 0 && value.charAt(0) === '-' && props.oddsFormat === 'decimal') {
       return '';
@@ -58,17 +59,9 @@ class BetTableInput extends PureComponent {
       value = cleanOdds(value);
     }
 
-    if (value.length > 1) {
-      value = deepClean(value);
-    }
-
-    if (value.length > 1 && this.props.field === 'odds') {
-      value = cleanOdds(value);
-    }
-
     if (this.props.field === 'stake') {
       const stakePrecision =
-        CurrencyUtils.fieldPrecisionMap[this.props.field][this.props.currencyFormat];
+        CurrencyUtils.fieldPrecisionMap[this.props.field][coinType];
 
       if (stakePrecision === 0) {
         // should only accept integers greater than zero when precision is zero
