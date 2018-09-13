@@ -251,6 +251,11 @@ const mapStateToProps = (state, ownProps) => {
     overlay !== BettingDrawerStates.NO_OVERLAY &&
     overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
 
+  const currencySymbol = CurrencyUtils.getCurrencySymbol(
+    currencyFormat,
+    numberOfGoodBets === 0 ? 'white' : 'black'
+  );
+
   return {
     originalBets,
     bets: page,
@@ -265,10 +270,7 @@ const mapStateToProps = (state, ownProps) => {
     numberOfBadBets: numberOfBadBets,
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
-    currencySymbol: CurrencyUtils.getCurrencySymbol(
-      currencyFormat, 
-      numberOfGoodBets === 0 ? 'white' : 'black'
-    ),
+    currencySymbol,
     totalBetAmountString: totalBetAmountString,
     availableBalance: availableBalance,
     isValidBetTotal: isValidBetTotal,

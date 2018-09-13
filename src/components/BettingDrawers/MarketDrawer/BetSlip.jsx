@@ -219,6 +219,12 @@ const mapStateToProps = (state, ownProps) => {
     }
   };
 
+  const currencyFormat = MyAccountPageSelector.currencyFormatSelector(state);
+  const currencySymbol = CurrencyUtils.getCurrencySymbol(
+    currencyFormat,
+    numberOfGoodBets === 0 ? 'white' : 'black'
+  );
+
   return {
     originalBets,
     bets: page,
@@ -235,10 +241,7 @@ const mapStateToProps = (state, ownProps) => {
     betError,
     betsError,
     autoOddsPopulated,
-    currencySymbol: CurrencyUtils.getCurrencySymbol(
-      ownProps.currencyFormat,
-      numberOfGoodBets === 0 ? 'white' : 'black'
-    ),
+    currencySymbol,
     disabled
   };
 };
