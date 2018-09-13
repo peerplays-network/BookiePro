@@ -5,41 +5,50 @@
 @betslip-title-height: 40px;
 @betslip-footer-height: 40px;
 
-div.betslip {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: @betslip-title-height;
-
-  div.content {
-    position: relative;
+#market-drawer {
+  .betslip {
+    position: absolute;
+    width: 100%;
     height: 100%;
-  }
+    top: @betslip-title-height;
 
-  div.footer {
-    align-self: flex-end;
-    background-color: @betslip_bg;
-    width: @betslip-width;
-    padding: 6px;
-    margin-bottom: 40px;
-
-    &.dimmed {
-      opacity: .1;
+    .SplitPane {
+      overflow-y: scroll!important;
+    }
+    .Pane.horizontal.Pane1 {
+      padding-bottom: 165px;
     }
 
-    > button.place-bet {
-      color: @black_pearl_dark;
-      font-size: 18px;
-      font-weight: 700;
-      height: 40px;
-      .btn-regular;
-        width: 100%;
-        text-transform: none;  // for displaying mB properly
-      &:disabled{
-        .btn-disabled;
+    .content {
+      position: relative;
+      height: 100%;
+    }
+
+    .footer {
+      align-self: flex-end;
+      background-color: @betslip_bg;
+      width: @betslip-width;
+      padding: 6px;
+      margin-bottom: 40px;
+
+      &.dimmed {
+        opacity: .1;
       }
-      span {
-        display: inline-block;
+
+      > button.place-bet {
+        color: @black_pearl_dark;
+        font-size: 18px;
+        font-weight: 700;
+        height: 40px;
+        .btn-regular;
+          width: 100%;
+          text-transform: none;  // for displaying mB properly
+        &:disabled{
+          .btn-disabled;
+        }
+        span {
+          display: inline-block;
+        }
       }
     }
   }
