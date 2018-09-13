@@ -22,6 +22,7 @@ import './BetSlip.less';
 import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config} from '../../../constants';
 import {MyAccountPageSelector} from '../../../selectors';
+import Subtotal from './Subtotal';
 
 const renderContent = (props) => (
   <div className='content' ref='unconfirmedBets'>
@@ -72,6 +73,11 @@ class BetSlip extends PureComponent {
           {renderContent(this.props)}
           {!this.props.bets.isEmpty() && (
             <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
+              <Subtotal
+                betAmount={ this.props.totalBetAmountFloat }
+                transactionFee={ this.props.transactionFee }
+                currencyFormat={ this.props.currencyFormat }
+              />
               <Button
                 className={ 'btn place-bet' }
                 onClick={ () => this.props.clickPlaceBet(
@@ -82,8 +88,6 @@ class BetSlip extends PureComponent {
                 disabled={ this.props.numberOfGoodBets === 0 }
               >
                 {I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button')}
-                {this.props.currencySymbol}
-                {this.props.totalBetAmountString}
               </Button>
             </div>
           )}
@@ -167,9 +171,10 @@ const mapStateToProps = (state, ownProps) => {
     ),
     totalBetAmountString: CurrencyUtils.toFixed(
       'transaction',
-      totalAmount + transactionFee,
+      totalAmount,
       ownProps.currencyFormat
     ),
+    transactionFee,
     disabled
   };
 };
