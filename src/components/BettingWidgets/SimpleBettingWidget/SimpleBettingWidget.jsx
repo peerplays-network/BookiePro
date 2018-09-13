@@ -229,7 +229,7 @@ class SimpleBettingWidget extends PureComponent {
    * the opposite of `action`. The idea is to perform an `action` to a `typeOfBet`.
    * For example, 'laying a back bet' or 'backing a lay bet'.
    * @param {integer} index - 1: Home Team, 2: Away Team, 3: Draw (for some sports only)
-   * @param {string} currencyFormat - 'BTC' or 'mBTC'
+   * @param {string} currencyFormat - Base coin or mili coin format.
    * @returns {Function} - the actual cell rendering function used by antd Table
    */
   renderOffer(action, typeOfBet, index, currencyFormat) {
@@ -289,7 +289,7 @@ class SimpleBettingWidget extends PureComponent {
         );
       }
 
-      let currencySymbol = CurrencyUtils.getCurrencySymbol('BTF');
+      let currencySymbol = CurrencyUtils.getCurrencySymbol(Config.features.currency);
       return (
         <div className={ className }>
           <a
@@ -349,7 +349,7 @@ class SimpleBettingWidget extends PureComponent {
           columns={ getColumns(
             this.renderOffer,
             this.props.navigateTo,
-            'BTF',
+            this.props.currencyFormat,
             this.props.sportName,
             this.props.oddsFormat,
             this.renderClass
