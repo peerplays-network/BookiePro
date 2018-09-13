@@ -349,24 +349,27 @@ var BettingModuleUtils = {
    * @param { Immutable.Maps} - bet
    * @returns {boolean} - if the bet valid
    */
-  isValidBet: function(bet, balance, currencyFormat) {
+  isValidBet: function(bet, balance, currencyType) {
     
     let proposedBetAmount = 0;
     let bet_type = bet.get('bet_type');
     let stake =  parseFloat(bet.get('stake'));
     let liability = parseFloat(bet.get('liability'));
     let validBetAmount = false;
+
     // Calculate price of bet, balance.
     // Convert the balance to a human recognizable number.
     // mili[coin] = balance / 100,000
     // [coin] = balance / 100,000,000
-    balance = currencyFormat.indexOf('m') === 0 
-      ? balance / Math.pow(10, 5) 
-      : balance / Math.pow(10, 8);
+    if (currencyType === 'mCoin') {
+      balance = balance / Math.pow(10, 5);
+    } else {
+      balance = balance / Math.pow(10, 8);
+    }
 
-    let transactionFee = currencyFormat === 'BTF' 
-      ? Config.btfTransactionFee 
-      : Config.mbtfTransactionFee;
+    let transactionFee = currencyType === 'coin'
+      ? Config.coinTransactionFee 
+      : Config.mCoinTransactionFee;
 
     // Check if bet is larger than the balance available.
     if (bet_type && bet_type.toLowerCase() === 'back'){

@@ -115,7 +115,7 @@ class QuickBetDrawer extends PureComponent {
                     this.props.currencyFormat
                   )
                   }
-                  disabled={ !this.props.isValidBetTotal }
+                  disabled={ this.props.isValidBetTotal }
                 >
                   {I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button')}
                   {this.props.currencySymbol}
@@ -138,6 +138,7 @@ class QuickBetDrawer extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => {
   const originalBets = state.getIn(['quickBetDrawer', 'bets']);
+  const currencyType = CurrencyUtils.getCurrencyType(ownProps.currencyFormat);
   var availableBalance = state.getIn(
     ['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']
   );
@@ -212,12 +213,11 @@ const mapStateToProps = (state, ownProps) => {
   // Number of Good bets
   const numberOfGoodBets = originalBets.reduce((sum, bet) => {
     return sum +
-      (BettingModuleUtils.isValidBet(bet, availableBalance, ownProps.currencyFormat) | 0);
+      (BettingModuleUtils.isValidBet(bet, availableBalance, currencyType) | 0);
   }, 0);
   // Overlay
   const overlay = state.getIn(['quickBetDrawer', 'overlay']);
   const currencyFormat = MyAccountPageSelector.currencyFormatSelector(state);
-  const currencyType = CurrencyUtils.getCurrencyType(ownProps.currencyFormat);
   const totalBetAmountString = CurrencyUtils.toFixed(
     'transaction',
     totalAmount + transactionFee,

@@ -120,6 +120,7 @@ const mapStateToProps = (state, ownProps) => {
   var availableBalance = state.getIn(
     ['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']
   );
+  const currencyType = CurrencyUtils.getCurrencyType(ownProps.currencyFormat);
 
   var betsError = I18n.t('bet_error.insufficient_balance');
   var autoOddsPopulated = 0;
@@ -180,12 +181,10 @@ const mapStateToProps = (state, ownProps) => {
 
   // Add a transaction action fee for each bet.
   transactionFee = originalBets.size * transactionFee;
-
-  const currencyType = CurrencyUtils.getCurrencyType(ownProps.currencyFormat);
   // Number of Good bets
   const numberOfGoodBets = originalBets.reduce((sum, bet) => {
     return sum + 
-    (BettingModuleUtils.isValidBet(bet, availableBalance, ownProps.currencyFormat) | 0);
+    (BettingModuleUtils.isValidBet(bet, availableBalance, currencyType) | 0);
   }, 0);
   // Overlay
   const overlay = state.getIn(['marketDrawer', 'overlay']);
