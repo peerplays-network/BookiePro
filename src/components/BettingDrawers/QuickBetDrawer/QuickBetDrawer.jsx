@@ -115,7 +115,7 @@ class QuickBetDrawer extends PureComponent {
                     this.props.currencyFormat
                   )
                   }
-                  disabled={ this.props.isValidBetTotal }
+                  disabled={ !this.props.isValidBetTotal }
                 >
                   {I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button')}
                   {this.props.currencySymbol}
@@ -264,7 +264,7 @@ const mapStateToProps = (state, ownProps) => {
     numberOfGoodBets,
     numberOfBadBets: numberOfBadBets,
     totalBetAmountFloat: totalAmount,
-    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),    
+    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
     currencySymbol: CurrencyUtils.getCurrencySymbol(
       currencyFormat, 
       numberOfGoodBets === 0 ? 'white' : 'black'
