@@ -99,12 +99,11 @@ class PlacedBets extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-<<<<<<< HEAD
-  const availableBalance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
-=======
+  const availableBalance = state.getIn(
+    ['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']
+  );
   const disabled = ownProps.activeTab === 'BETSLIP';
   const averageOdds = state.getIn(['marketDrawer', 'groupByAverageOdds']);
->>>>>>> origin/develop
   const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   // Total Bet amount for updated bets ONLY
@@ -138,17 +137,13 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   // Number of Good bets
-<<<<<<< HEAD
   const numberOfGoodBets = updatedBets.reduce((sum, bet) => {
-    return sum + (BettingModuleUtils.isValidBet(bet, availableBalance, ownProps.currencyFormat) | 0);
+    return sum +
+      (BettingModuleUtils.isValidBet(bet, availableBalance, ownProps.currencyFormat) | 0);
   }, 0);
-=======
-  const numberOfGoodBets = updatedBets
-    .reduce((sum, bet) => sum + (BettingModuleUtils.isValidBet(bet) | 0), 0);
-    
->>>>>>> origin/develop
   // Overlay
   const overlay = state.getIn(['marketDrawer', 'overlay']);
+  const currencyType = CurrencyUtils.getCurrencyType(ownProps.currencyFormat);
   return {
     unmatchedBets,
     isEmpty: unmatchedBets.isEmpty() && matchedBets.isEmpty(),
@@ -158,23 +153,17 @@ const mapStateToProps = (state, ownProps) => {
     numberOfGoodBets,
     numberOfBadBets: updatedBets.size - numberOfGoodBets,
     totalBetAmountFloat: totalAmount + transactionFee,
-<<<<<<< HEAD
-    totalBetAmountString: CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat),
-    availableBalance: availableBalance
-  }
-}
-=======
     totalBetAmountString: CurrencyUtils.toFixed(
       'transaction',
       totalAmount + transactionFee,
-      ownProps.currencyFormat
+      currencyType
     ),
+    availableBalance: availableBalance,
     disabled,
     averageOdds,
     placedBetsLoadingStatus: state.getIn(['marketDrawer', 'unmatchedBetsLoadingStatus'])
   };
 };
->>>>>>> origin/develop
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
