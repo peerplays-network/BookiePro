@@ -42,14 +42,11 @@ const renderContent = (props) => (
         dimmed={ props.obscureContent }
         currencyFormat={ props.currencyFormat }
         oddsFormat={ props.oddsFormat }
-<<<<<<< HEAD
         isValidBetTotal={ props.isValidBetTotal }
         betError={ props.betError }
         autoOddsPopulated={ props.autoOddsPopulated }
-=======
         activeTab={ props.activeTab }
         disabled={ props.disabled }
->>>>>>> origin/develop
       />
     )}
   </div>
@@ -66,11 +63,13 @@ class BetSlip extends PureComponent {
 
   render() {
     let expandedFooterStyle = '';
+
     if (this.props.isValidBetTotal){
       expandedFooterStyle = '50px';
     } else {
       expandedFooterStyle = '100px';
     }
+
     return (
       <div className='betslip'>
         <SplitPane
@@ -79,11 +78,7 @@ class BetSlip extends PureComponent {
           defaultSize={ 40 }
           primary='second'
           allowResize={ false }
-<<<<<<< HEAD
-          pane1Style={ { 'overflowY': 'hidden', 'paddingBottom': expandedFooterStyle} }
-=======
-          pane1Style={ {overflowY: 'hidden'} }
->>>>>>> origin/develop
+          pane1Style={ {'overflowY': 'hidden', 'paddingBottom': expandedFooterStyle} }
         >
           {renderContent(this.props)}
           {!this.props.bets.isEmpty() && (
@@ -93,19 +88,13 @@ class BetSlip extends PureComponent {
                 null
               }
               <Button
-<<<<<<< HEAD
-                className={ `btn place-bet` }
-                onClick={ () => this.props.clickPlaceBet(this.props.totalBetAmountFloat, this.props.currencyFormat) }
-                disabled={ !this.props.isValidBetTotal }
-=======
                 className={ 'btn place-bet' }
                 onClick={ () => this.props.clickPlaceBet(
                   this.props.totalBetAmountFloat,
                   this.props.currencyFormat
                 )
                 }
-                disabled={ this.props.numberOfGoodBets === 0 }
->>>>>>> origin/develop
+                disabled={ !this.props.isValidBetTotal }
               >
                 {I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button')}
                 {this.props.currencySymbol}
@@ -128,7 +117,9 @@ class BetSlip extends PureComponent {
 const mapStateToProps = (state, ownProps) => {
   const disabled = ownProps.activeTab === 'PLACEDBETS';
   const originalBets = state.getIn(['marketDrawer', 'unconfirmedBets']);
-  var availableBalance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
+  var availableBalance = state.getIn(
+    ['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']
+  );
 
   var betsError = I18n.t('bet_error.insufficient_balance');
   var autoOddsPopulated = 0;
@@ -142,7 +133,7 @@ const mapStateToProps = (state, ownProps) => {
     if (!page.has(betType)) {
       page = page.set(betType, Immutable.List());
     }
-<<<<<<< HEAD
+
     profit = bet.get('profit');
     stake = bet.get('stake');
     odds = bet.get('odds');
@@ -152,15 +143,13 @@ const mapStateToProps = (state, ownProps) => {
 
     odds = odds !== undefined || odds !== '';
 
-    // If odds exists, it has either been provided by the user and is an incomplete bet or it has been provided via clicking a bet from the /exchange.
+    // If odds exists, it has either been provided by the user and is an incomplete bet or it has 
+    // been provided via clicking a bet from the /exchange.
     // If odds exists, autopopulated bets increment.
     if( profit && odds && stake){
       autoOddsPopulated = autoOddsPopulated + 1;
     }
     
-=======
-
->>>>>>> origin/develop
     // Add the bet to the list of bets with the same market type
     let betListByBetType = page.get(betType);
     betListByBetType = betListByBetType.push(bet);
@@ -192,42 +181,45 @@ const mapStateToProps = (state, ownProps) => {
   // Add a transaction action fee for each bet.
   transactionFee = originalBets.size * transactionFee;
 
+  const currencyType = CurrencyUtils.getCurrencyType(ownProps.currencyFormat);
   // Number of Good bets
-<<<<<<< HEAD
   const numberOfGoodBets = originalBets.reduce((sum, bet) => {
-    return sum + (BettingModuleUtils.isValidBet(bet, availableBalance, ownProps.currencyFormat) | 0);
+    return sum + 
+    (BettingModuleUtils.isValidBet(bet, availableBalance, ownProps.currencyFormat) | 0);
   }, 0);
-  // Overlay
-  const overlay = state.getIn(['marketDrawer', 'overlay']);
-  const obscureContent = overlay !== BettingDrawerStates.NO_OVERLAY && overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
-  const totalBetAmountString = CurrencyUtils.toFixed('transaction', totalAmount + transactionFee, ownProps.currencyFormat);
-  const numberOfBadBets = originalBets.size - numberOfGoodBets;
-  // Convert the balance to a human recognizable number.
-  // mili[coin] = balance / 100,000
-  // [coin] = balance / 100,000,000
-  availableBalance = ownProps.currencyFormat.indexOf('m') === 0 ? availableBalance / Math.pow(10, 5) : availableBalance / Math.pow(10, 8);
-
-  const sufficientFunds = parseFloat(totalBetAmountString) <= availableBalance;
-
-  const isValidBetTotal = numberOfBadBets === 0 && sufficientFunds && numberOfGoodBets > 0;
-
-  // If bet total valid and no invalid bets...
-  const whiteOrBlack = (numberOfGoodBets !== originalBets.size && !isValidBetTotal) || (numberOfGoodBets === originalBets.size && !isValidBetTotal);
-  const betError = (error)=> {
-    if(autoOddsPopulated === 0 || isValidBetTotal){
-      betsError = '';
-    }
-  }
-=======
-  const numberOfGoodBets = originalBets
-    .reduce((sum, bet) => sum + (BettingModuleUtils.isValidBet(bet) | 0), 0);
-    
   // Overlay
   const overlay = state.getIn(['marketDrawer', 'overlay']);
   const obscureContent =
     overlay !== BettingDrawerStates.NO_OVERLAY &&
     overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
->>>>>>> origin/develop
+  const totalBetAmountString = CurrencyUtils.toFixed(
+    'transaction',
+    totalAmount + transactionFee,
+    currencyType
+  );
+  const numberOfBadBets = originalBets.size - numberOfGoodBets;
+
+  // Convert the balance to a human recognizable number.
+  // mili[coin] = balance / 100,000
+  // [coin] = balance / 100,000,000
+  if (currencyType === 'mCoin') {
+    availableBalance = availableBalance / Math.pow(10, 5);
+  } else {
+    availableBalance = availableBalance / Math.pow(10, 8);
+  }
+
+  const sufficientFunds = parseFloat(totalBetAmountString) <= availableBalance;
+
+  const isValidBetTotal = numberOfBadBets === 0 && sufficientFunds && numberOfGoodBets > 0;
+
+  const betError = (error)=> {
+    if(autoOddsPopulated === 0 || isValidBetTotal){
+      betsError = '';
+    } else {
+      betsError = error;
+    }
+  };
+
   return {
     originalBets,
     bets: page,
@@ -238,26 +230,17 @@ const mapStateToProps = (state, ownProps) => {
     numberOfBadBets: numberOfBadBets,
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
-<<<<<<< HEAD
-    currencySymbol: CurrencyUtils.getCurrencySymbol(ownProps.currencyFormat, whiteOrBlack ? 'white' : 'black'),
     totalBetAmountString: totalBetAmountString,
     availableBalance: availableBalance,
     isValidBetTotal: isValidBetTotal,
     betError,
     betsError,
-    autoOddsPopulated
-=======
+    autoOddsPopulated,
     currencySymbol: CurrencyUtils.getCurrencySymbol(
       ownProps.currencyFormat,
       numberOfGoodBets === 0 ? 'white' : 'black'
     ),
-    totalBetAmountString: CurrencyUtils.toFixed(
-      'transaction',
-      totalAmount + transactionFee,
-      ownProps.currencyFormat
-    ),
     disabled
->>>>>>> origin/develop
   };
 };
 

@@ -9,7 +9,6 @@
 import {BetTypes, Config} from '../constants';
 import Immutable from 'immutable';
 import {CurrencyUtils} from './';
-import {Config} from '../constants';
 
 /*
 If current currency is BTF: 

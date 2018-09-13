@@ -287,13 +287,19 @@ class BetTableInput extends PureComponent {
     const isEmpty = this.state.value === '' || this.state.value === undefined;
     var isValid = false;
     const profit_liability = record.profit && record.liability;
-    const oddsPopulated = record.odds !== undefined && record.stake === undefined && profit_liability === undefined;
-    // Override the disabled state of the input fields if the default state of stake, undefined, is present.
+    const oddsPopulated = 
+      record.odds !== undefined &&
+      record.stake === undefined &&
+      profit_liability === undefined;
+
+    // Override the disabled state of the input fields if the default state of stake, 
+    // undefined, is present.
     if(isEmpty || oddsPopulated || this.props.autoOddsPopulated > 0){
       isValid = true;
     } else {
       isValid = isValidBetTotal;
-    } 
+    }
+
     return (
       <div>
         <input
@@ -331,8 +337,5 @@ class BetTableInput extends PureComponent {
     );
   }
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/develop
 export default BetTableInput;
