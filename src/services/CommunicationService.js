@@ -158,8 +158,22 @@ class CommunicationService {
               const betId = updatedObject.getIn(['op', 1, 'bet_id']);
               canceledBetIds = canceledBetIds.push(betId);
 
-              // Check to see if the deleted bet belongs to the current user.
-              if (ObjectUtils.isMyBet(this.getState(), betId)) {
+              const currentRoute = this.getState()
+                .getIn(['routing', 'locationBeforeTransitions']).pathname;
+              let currentBMG;
+              
+              if (currentRoute) {
+                let splitRoute = currentRoute.split('/');
+
+                if (splitRoute.length === 4) {
+                  currentBMG = splitRoute[splitRoute.length - 1];
+                }
+              }
+
+              // Check to see if the deleted bet belongs to the current user and the bet belongs to
+              //  the currently viewed BMG
+              if (ObjectUtils.isMyBet(this.getState(), betId) &&
+                  ObjectUtils.betBelongsToBMG(this.getState(), betId, currentBMG)) {
                 // If it does, then trigger a loading screen on the placed bets tab.
                 this.dispatch(
                   MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.BET_DELETE)
