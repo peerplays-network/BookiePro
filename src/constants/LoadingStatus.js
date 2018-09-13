@@ -2,8 +2,6 @@
 const LoadingStatus = {
   DEFAULT: 'default',
   LOADING: 'loading',
-  CHECKING: 'checking',
-  STATE_CHANGE: 'state_change',
   BET_PLACE: 'bet_place',
   BET_DELETE: 'bet_delete',
   DONE: 'done',
