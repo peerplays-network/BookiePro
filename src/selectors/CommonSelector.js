@@ -37,6 +37,8 @@ const getSportById = (state, sportId) => state.getIn(['sport', 'sportsById', spo
 
 const getEventGroupsById = (state) => state.getIn(['eventGroup', 'eventGroupsById']);
 
+const getEventGroupById = (state, eventGroupId) => state.getIn(['eventGroup', 'eventGroupsById', eventGroupId]); // eslint-disable-line
+
 const getEventGroupsBySportId = createSelector(
   getEventGroupsById, 
   (eventGroupsById) => eventGroupsById.toList().groupBy((eventGroup) => eventGroup.get('sport_id'))
@@ -234,6 +236,7 @@ const CommonSelector = {
   getSportById,
   getEventGroupsById,
   getEventGroupsBySportId,
+  getEventGroupById,
   getEventsById,
   getPersistedEventsById,
   getAggregatedEventsById,

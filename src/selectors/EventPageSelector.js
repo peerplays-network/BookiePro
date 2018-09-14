@@ -12,6 +12,7 @@ const {
   getSportsById,
   getSportById,
   getEventGroupsBySportId,
+  getEventGroupById,
   getEventsByEventGroupId
 } = CommonSelector;
 
@@ -285,6 +286,49 @@ const getSportData = createSelector(
 
     return sportData;
   }
+);
+
+const getEventGroupData = createSelector(
+  [
+    getEventGroupById,
+    getEventsByEventGroupId,
+    getAllBettingMarketGroupsByEventId,
+    getBettingMarketsWithOrderBook
+  ],
+  (
+    eventGroup,
+    events,
+    bmgsByEventID,
+    bettingMarketsWithOrderBook
+  ) => {
+    if (!eventGroup || !events || !bmgsByEventID || ! bettingMarketsWithOrderBook) return;
+
+    let eventGroupData = Immutable.Map();
+
+    eventGroupData = eventGroupData
+                      .set('name', eventGroup.get('name'))
+                      .set('id', eventGroup.get('id'));
+
+    let eventList = events.get(eventGroup.get('id'));
+
+    eventList = eventList.map((e) => {
+      let bmgs = bmgsByEventID[e.get('id')];
+
+      bmgs = bmgs.map((bmg) => {
+        let bmgID = bmg.get('id');
+        return bmg.set('bettingMarkets', bettingMarketsWithOrderBook[bmgID]);
+      });
+
+      bmgs = SportsbookUtils.sortAndCenter(bmgs);
+
+      // Put the list of BMGs into their respective events
+      return e.set('bettingMarketGroups', bmgs);
+    });
+
+    eventGroupData = eventGroupData.set('events', eventList);
+
+    return eventGroupData;
+  }
 )
 
 const EventPageSelector = {
@@ -294,7 +338,8 @@ const EventPageSelector = {
   getEventIdByFromBMGId,
   getFirstBettingMarketGroupByEventId,
   getAllSportsData,
-  getSportData
+  getSportData,
+  getEventGroupData
 };
 
 export default EventPageSelector;
