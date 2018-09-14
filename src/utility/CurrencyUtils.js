@@ -64,6 +64,22 @@ var CurrencyUtils = {
   OFFER_PRECISION: 3,
 
   /**
+   * Will format a numbers passed into it and correct rounding issues due to floating point numbers.
+   *
+   * @param {array} numArr - [@param {number} amount, @param {string} field].
+   * @param {string} currencyType - 'coin' or 'mCoin'
+   * @returns @param {number} numArr[0] - The amount that was passed in, corrected.
+   */
+  correctFloatingPointPrecision(numArr, currencyType) {
+    let precision;
+
+    precision = this.fieldPrecisionMap[numArr[1]][currencyType];
+    numArr[0] = numArr[0].toFixed(precision);
+
+    return parseFloat(numArr[0]);
+  },
+
+  /**
    * substringPrecision()
    * This function uses string manipulation to manipulate the value of amount depending
    * on the precision value and whether or not accuracy is preferred

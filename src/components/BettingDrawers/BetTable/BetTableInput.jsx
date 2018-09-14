@@ -42,7 +42,7 @@ class BetTableInput extends PureComponent {
     // If the last character is a decimal in the odds, assume the user is still
     // entering a value.
     let isEntering = value.substr(value.length - 1) === '.';
-    let isMiliCoin = props.currencyFormat.indexOf('m') !== -1;
+    let isMiliCoin = CurrencyUtils.getCurrencyType(props.currencyFormat) === 'mCoin';
     // Allow decimals in miliCoing but not Coin currency mode.
     let allowDecimal = isEntering && isMiliCoin;
     let coinType = CurrencyUtils.getCurrencyType(props.currencyFormat);
