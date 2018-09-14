@@ -33,6 +33,8 @@ const getRulesById = (state) => state.getIn(['rule', 'rulesById']);
 
 const getSportsById = (state) => state.getIn(['sport', 'sportsById']);
 
+const getSportById = (state, sportId) => state.getIn(['sport', 'sportsById', sportId]);
+
 const getEventGroupsById = (state) => state.getIn(['eventGroup', 'eventGroupsById']);
 
 const getEventGroupsBySportId = createSelector(
@@ -229,6 +231,7 @@ const CommonSelector = {
   getNotificationSetting,
   getAssetsById,
   getSportsById,
+  getSportById,
   getEventGroupsById,
   getEventGroupsBySportId,
   getEventsById,
