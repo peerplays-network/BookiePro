@@ -1,8 +1,5 @@
 import React, {PureComponent} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {MarketDrawerActions} from '../../../actions';
 import {EventStatus} from '../../../constants';
 
 class BettingMarket extends PureComponent {
@@ -35,7 +32,13 @@ class BettingMarket extends PureComponent {
       odds = 1.01;
     }
 
-    this.props.createBet('back', this.props.bettingMarketId, odds);
+    this.props.createBet(
+      'back', 
+      this.props.bettingMarketId,
+      odds,
+      this.props.eventID,
+      this.props.eventName
+    );
   }
 
   isAbleToBet() {
@@ -68,19 +71,9 @@ class BettingMarket extends PureComponent {
 BettingMarket.propTypes = {
   title: PropTypes.string.isRequired,
   isLiveMarket: PropTypes.bool.isRequired,
-  eventStatus: PropTypes.array.isRequired
+  eventStatus: PropTypes.array.isRequired,
+  createBet: PropTypes.func.isRequired,
+  bettingMarketId: PropTypes.string.isRequired
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(
-    {
-      createBet: MarketDrawerActions.createBet,
-    },
-    dispatch
-  );
-};
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(BettingMarket);
+export default BettingMarket;

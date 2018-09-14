@@ -1,7 +1,9 @@
 import {BackingWidgetTypes, BackingWidgetLayouts} from '../constants/BackingWidgetTypes';
 import Immutable from 'immutable';
 
-const getDescriptionAsType = (description) => description.replace(/[\/\- ]/, '').toUpperCase();
+const getDescriptionAsType = (description) => {
+  return description.replace(/[\/\- ]/, '').split(' ')[0].toUpperCase();
+};
 
 /**
  * getColumnSize()
@@ -179,6 +181,19 @@ const isMatchodds = (bettingMarketGroup) => {
   return false;
 };
 
+const sortAndCenter = (bettingMarketGroups) => {
+  bettingMarketGroups = prioritySort(bettingMarketGroups);
+
+  bettingMarketGroups.forEach((bmg) => {
+    // If there is a betting market group that belongs to match odds
+    if (isMatchodds(bmg)) {
+      // The draw needs to be centered
+      bmg = centerTheDraw(bmg);
+    }
+  });
+  return bettingMarketGroups;
+};
+
 const SportsbookUtils = {
   getColumnSize,
   groupOverUnders,
@@ -186,6 +201,7 @@ const SportsbookUtils = {
   centerTheDraw,
   isMatchodds,
   getDescriptionAsType,
+  sortAndCenter
 };
 
 export default SportsbookUtils;

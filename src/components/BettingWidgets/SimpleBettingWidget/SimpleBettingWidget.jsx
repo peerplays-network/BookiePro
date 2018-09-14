@@ -193,11 +193,11 @@ class SimpleBettingWidget extends PureComponent {
 
     if (this.props.canCreateBet === true) {
       this.props.createBet(
-        record.get('event_id'),
-        record.get('event_name'),
         betType,
         betting_market_id,
-        odds
+        odds,
+        record.get('event_id'),
+        record.get('event_name')
       );
     }
   }

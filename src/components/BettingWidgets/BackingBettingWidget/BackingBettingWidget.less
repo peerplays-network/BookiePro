@@ -1,21 +1,30 @@
 @import (reference) '../../App/Colors.less';
 @import (reference) '../../App/ProThemeColors.less';
 
+@tileHeight: 40px;
+
 .backingBettingWidget {
   background-color: @cinder;
-  padding: 17px;
-  margin: 20px 0px 20px 0px;
+  padding: 0px 15px 0px 15px;
+  display: inline-block;
+  width:100%;
 
-  .title {
-    color: @dark_tangerine;
-    font-size: 16px;
-    margin-bottom: 15px;
+  .date {
+    font-size: .75em;
+  }
+
+  .name, .date {
+    color: @white;
+    background-color: @midnight;
+    padding: 10px 20px 10px 20px;
+    height: @tileHeight;
   }
 
   .backBettingMarket {
     background-color: @midnight;
     padding: 10px 20px 10px 20px;
-    margin: 3px;
+    margin-left: 3px;
+    height: @tileHeight;
 
     &.active:hover {
       background-color: @cello;
@@ -28,10 +37,6 @@
 
     .bmTitle, .odds {
       display: inline-block;
-    }
-
-    .bmTitle {
-      color: @white;
     }
 
     .odds {

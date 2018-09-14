@@ -73,7 +73,7 @@ class QuickBetDrawerPrivateActions {
 }
 
 class QuickBetDrawerActions {
-  static createBet(event_id, event_name, bet_type, betting_market_id, odds) {
+  static createBet(bet_type, betting_market_id, odds='', event_id, event_name) {
     return (dispatch, getState) => {
       const bettingMarket = getState().getIn([
         'bettingMarket',

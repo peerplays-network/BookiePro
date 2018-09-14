@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {BettingMarketGroupBanner} from '../Banners';
-import {BackingBettingWidget} from '../BettingWidgets';
+import {BackingWidgetContainer} from '../BettingWidgets';
 import {ObjectUtils, DateUtils} from '../../utility';
 import PeerPlaysLogo from '../PeerPlaysLogo';
 import {AllSportsActions, MarketDrawerActions, NavigateActions} from '../../actions';
@@ -72,18 +72,10 @@ class SportsBookEvent extends PureComponent {
           />
           {this.props.marketData.map((item, index) => {
             return (
-              <BackingBettingWidget
+              <BackingWidgetContainer
                 key={ index }
-                isLiveMarket={ this.props.isLiveMarket }
-                eventStatus={ this.props.eventStatus }
+                widgetTitle={ item.get('description') }
                 marketData={ item }
-                createBet={ this.props.createBet }
-                currencyFormat={ this.props.currencyFormat }
-                oddsFormat={ this.props.oddsFormat }
-                loadingStatus={ this.props.loadingStatus }
-                widgetTitle={ this.props.widgetTitle }
-                rules={ this.props.rules }
-                canCreateBet={ this.props.canCreateBet }
               />
             );
           })}
@@ -112,7 +104,9 @@ const mapStateToProps = (state, ownProps) => {
   // Populate other properties if betting market group exists
   if (event && !event.isEmpty()) {
     _.assign(props, {
-      marketData: EventPageSelector.getMarketData(state, ownProps),
+      marketData: EventPageSelector.getMarketData(state, {
+        eventId: ownProps.params.eventId
+      }),
       eventName: event.get('name'),
       eventTime: DateUtils.getLocalDate(new Date(event.get('start_time'))),
       eventStatus: ObjectUtils.eventStatus(event),
