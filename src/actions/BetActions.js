@@ -9,7 +9,8 @@ import SportActions from './SportActions';
 import MarketDrawerActions from './MarketDrawerActions';
 import {TransactionBuilder} from 'peerplaysjs-lib';
 import log from 'loglevel';
-import {CurrencyUtils} from '../utility';
+import {CurrencyUtils, ObjectUtils} from '../utility';
+import {ODDS_BOUNDS} from '../components/BettingDrawers/BetTable/oddsIncrementUtils';
 
 /**
  * Private actions
@@ -477,19 +478,61 @@ class BetActions {
     return (dispatch, getState) => {
       const tr = new TransactionBuilder();
       bets.forEach((bet) => {
-        // Exit early if the bet has not been updated
+        let stakeDiff=[],
+          profitDiff=[],
+          liabilityDiff=[],
+          oddsDiff=[],
+          changeType='increment';
+        // Get the currencyFormat from the State object
+        const accountId = getState().getIn(['account', 'account', 'id']);
+        const setting =
+          getState().getIn(['setting', 'settingByAccountId', accountId]) ||
+          getState().getIn(['setting', 'defaultSetting']);
+        const oddsFormat = setting.get('oddsFormat');
+        const currencyFormat = setting.get('currencyFormat');
+        const currencyType = CurrencyUtils.getCurrencyType(currencyFormat);
+        const isMiliCoin = currencyType === 'mCoin';
+        let validStakeDiff = false, backerMultiplier, minOdds;
 
+        // Exit early if the bet has not been updated
         if (!bet.get('updated')) {
           return;
         }
-        
-        // Add cancel bet operation
-        const cancelBetOperationParams = {
-          bettor_id: bet.get('bettor_id'),
-          bet_to_cancel: bet.get('original_bet_id')
-        };
-        const cancelBetOperationType = 'bet_cancel';
-        tr.add_type_operation(cancelBetOperationType, cancelBetOperationParams);
+
+        // Get the bet differences.
+        const stake = bet.get('stake');
+        const original_stake = bet.get('original_stake');
+        stakeDiff = ObjectUtils.getBetAttrDiff(stake, original_stake);
+        stakeDiff.push('stake');
+
+        const profit = bet.get('profit');
+        const original_profit = bet.get('original_profit');
+        profitDiff = ObjectUtils.getBetAttrDiff(profit, original_profit);
+        profitDiff.push('profit');
+
+        const liability = bet.get('liability');
+        const original_liability = bet.get('original_liability');
+        liabilityDiff = ObjectUtils.getBetAttrDiff(liability, original_liability);
+        liabilityDiff.push('liability');
+
+        const odds = bet.get('odds');
+        const original_odds = bet.get('original_odds');
+        oddsDiff = ObjectUtils.getBetAttrDiff(odds, original_odds);
+        oddsDiff.push('odds');
+
+        // Are there any instances of decremental changes?
+        const betDiff = [stakeDiff, profitDiff, liabilityDiff, oddsDiff];
+
+        for (var i = 0; i<betDiff.length; i++) {
+          // Correct the precision of the numbers in the diffs. floating point num issues.
+          betDiff[i][0] = CurrencyUtils.correctFloatingPointPrecision(
+            [betDiff[i][0], betDiff[i][2]], currencyType
+          );
+
+          if (betDiff[i][1] === 'decrement') {
+            changeType = 'decrement';
+          }
+        }
 
         // Followed up with add bet operation with the new parameter
         const bettingMarket = getState().getIn([
@@ -517,39 +560,77 @@ class BetActions {
           getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
 
         // We need to adjust the betAssetPrecision if the Better
-        // is working with mBTC instead of BTC (is, reducet the
-        // betAssetPrecision by 1000).
-
-        // Get the currencyFormat from the State object
-        const accountId = getState().getIn(['account', 'account', 'id']);
-        const setting =
-          getState().getIn(['setting', 'settingByAccountId', accountId]) ||
-          getState().getIn(['setting', 'defaultSetting']);
-        const currencyFormat = setting.get('currencyFormat');
-        const currencyType = CurrencyUtils.getCurrencyType(currencyFormat);
-
+        // is working with mBTC instead of BTC (is, reducet the betAssetPrecision by 1000).
         // If the Better's currency format is set to 'mBTC' ...
-        if (currencyType === 'mCoin') {
+        if (isMiliCoin) {
           // ... reduce the precision by 3
           betAssetPrecision = Math.max(betAssetPrecision - 3, 0);
         }
 
-        // 2017-11-27 : KLF : BOOK-235
-        // Below line has replaced an conditional logic that sets the amountToBet
-        //  differently depending on if the bet is a BACK or a LAY. The amount to
-        //  bet should be the same regardless of if it is a back or a lay.
         let amountToBet = 0;
-        // amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
+        let mathPow = Math.pow(10, betAssetPrecision);
 
+        // Assign relevant values from betDiff array for readability. (the amount value only)
+        stakeDiff = betDiff[0][0];
+        profitDiff = betDiff[1][0];
+        liabilityDiff = betDiff[2][0];
+        oddsDiff = betDiff[3][0];
+
+        // If there are incremental changes, we will place a new bet built based on the increment
+        // differences.
+        if (changeType === 'increment' && stakeDiff !== 0) { // Has stake changed?
+          let allowDecimal = !isMiliCoin;
+          
+          if (allowDecimal) {
+            validStakeDiff = stakeDiff > 0;
+          } else {
+            validStakeDiff = stakeDiff % 1 === 0;
+          }
+        }
+          
+        // Build a new bet from the diff of which will be placed.
         if (bet.get('bet_type') === BetTypes.BACK) {
-          amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
+          if (validStakeDiff && changeType === 'increment') {
+            amountToBet = parseFloat(betDiff[0][0]) * mathPow;
+          } else {
+            changeType = 'decrement';
+            amountToBet = parseFloat(bet.get('stake')) * mathPow;
+          }
         } else if (bet.get('bet_type') === BetTypes.LAY) {
-          amountToBet = parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision);
+          if (changeType === 'increment') {
+            amountToBet = parseFloat(liabilityDiff) * mathPow;
+          } else {
+            amountToBet = parseFloat(bet.get('liability')) * mathPow;
+          }
+          
         }
 
-        let backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision);
+        // Determine if the oddsDiff is valid.
+        if (oddsFormat === 'decimal') {
+          minOdds = ODDS_BOUNDS.decimal.min;
+        } else {
+          minOdds = ODDS_BOUNDS.american.min;
+        }
+
+        if (oddsDiff > minOdds && changeType === 'increment'){
+          backerMultiplier = oddsDiff * Config.oddsPrecision;
+        } else {
+          backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision);
+        }
 
         amountToBet = Math.floor(amountToBet);
+
+        // If there are decremental changes, we will cancel the bet and place a new bet with the
+        // decremental differences.
+        if (changeType === 'decrement') {
+          // Add cancel bet operation
+          const cancelBetOperationParams = {
+            bettor_id: bet.get('bettor_id'),
+            bet_to_cancel: bet.get('original_bet_id')
+          };
+          const cancelBetOperationType = 'bet_cancel';
+          tr.add_type_operation(cancelBetOperationType, cancelBetOperationParams);
+        }
 
         const betPlaceOperationParams = {
           bettor_id: bet.get('bettor_id'),
