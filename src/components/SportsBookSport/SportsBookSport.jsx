@@ -27,13 +27,12 @@ class SportsBookSport extends PureComponent {
               );
             });
 
-            if (eventsToDisplay.length > 0) {
-              return (<BackingWidgetContainer
+            return eventsToDisplay.length > 0 && 
+              (<BackingWidgetContainer
                 key={ eg.get('name') }
                 widgetTitle={ eg.get('name') }
                 marketData={ eventsToDisplay }
               />);
-            }
           })
         }
       </div>
@@ -43,7 +42,7 @@ class SportsBookSport extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => {  
   return {
-    sport: EventPageSelector.getSportData(state, ownProps.params.objectId);
+    sport: EventPageSelector.getSportData(state, ownProps.params.objectId)
   };
 };
 
