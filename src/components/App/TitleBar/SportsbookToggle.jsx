@@ -17,7 +17,11 @@ class SportsbookToggle extends PureComponent {
   toggle(mode) {
     let subroute = '';
 
-    if (this.props.eventID) {
+    if (this.props.sportID) {
+      subroute = '/sport/' + this.props.sportID;
+    } else if (this.props.eventGroupID) {
+      subroute = '/eventgroup/' + this.props.eventGroupID;
+    } else if (this.props.eventID) {
       subroute = '/events/' + this.props.eventID;
     } else if (this.props.bmgID) {
       subroute = '/BettingMarketGroup/' + this.props.bmgID;
@@ -70,7 +74,7 @@ SportsbookToggle.propTypes = {
 
 const mapStateToProps = (state) => {
   const previousRoute = state.getIn(['routing', 'locationBeforeTransitions']);
-  let eventID, bmgID;
+  let sportID, eventGroupID, eventID, bmgID;
 
   // If the previous route exists
   if (previousRoute) {
@@ -85,15 +89,17 @@ const mapStateToProps = (state) => {
       let objectType = blockchainObject.split('.')[1];
 
       // If we've got a BMG, then we need to pull an eventID
-      if (objectType === ChainTypes.object_type.betting_market_group.toString()) {
+      if (objectType === ChainTypes.object_type.sport.toString()) {
+        sportID = blockchainObject;
+      } else if (objectType === ChainTypes.object_type.event_group.toString()) {
+        eventGroupID = blockchainObject;
+      } else if (objectType === ChainTypes.object_type.betting_market_group.toString()) {
         // We want to have the parent eventID on hand in case the user toggles to the exchange
         eventID = EventPageSelector.getEventIdByFromBMGId(state, blockchainObject);
       } else if (objectType === ChainTypes.object_type.event.toString()) {
         // We want to have the 'first' bmgID on hand incase the user toggles to the sportsbook
         let bmg = EventPageSelector.getFirstBettingMarketGroupByEventId(state, {
-          params: {
-            eventId: blockchainObject,
-          },
+          eventId: blockchainObject,
         });
 
         if (bmg) {
@@ -106,8 +112,7 @@ const mapStateToProps = (state) => {
   return {
     bookMode: state.getIn(['app', 'bookMode']),
     previousRoute: state.getIn(['routing', 'previousRoute']),
-    eventID,
-    bmgID,
+    sportID, eventGroupID, eventID, bmgID,
   };
 };
 
