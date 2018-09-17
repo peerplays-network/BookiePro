@@ -60,7 +60,10 @@ class BackingBettingWidget extends PureComponent {
           
           {bettingMarkets && bettingMarkets.map((item, index) => {
 
-            if (eventFlag && item.get('description') === 'The Draw') {
+            let description = item.get('description');
+
+            if (eventFlag && description === 'The Draw') {
+              description = 'Draw';
               span = 2;
             } else if (eventFlag) {
               span = SportsbookUtils.getColumnSize(this.props.columnType, eventFlag);
@@ -74,7 +77,7 @@ class BackingBettingWidget extends PureComponent {
                 span={ span }
               >
                 <BettingMarket
-                  title={ item.get('description') }
+                  title={ description }
                   eventName={ this.props.title }
                   eventID={ this.props.eventID }
                   backOrigin={ item.get('backOrigin') }
