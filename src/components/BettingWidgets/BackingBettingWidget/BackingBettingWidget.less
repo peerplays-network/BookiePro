@@ -10,9 +10,11 @@
   width:100%;
 
   .date {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 300;
     padding: 4px 4px 4px 16px;
+    display: flex;
+    align-items: center;
   }
 
   .name {
@@ -34,10 +36,6 @@
     margin-left: 4px;
     height: @tileHeight;
     line-height: 1.2;
-
-    &.eventFlag {
-      
-    }
 
     &.active:hover {
       background-color: @cello;
