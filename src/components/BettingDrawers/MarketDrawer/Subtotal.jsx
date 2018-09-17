@@ -1,71 +1,59 @@
-import React, {PureComponent} from 'react';
-import {connect} from 'react-redux';
+import React from 'react';
 import {I18n} from 'react-redux-i18n';
 import './Subtotal.less';
 import {CurrencyUtils} from '../../../utility';
 
-class Subtotal extends PureComponent {
-  render() {
-    return (
-      <table className='subtotal'>
-        <tbody>
-          <tr>
-            <td>
-              {I18n.t('market_drawer.subtotal.amount')}
-            </td>
-            <td>
-              <span>{this.props.currencySymbol} {this.props.amount}</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              {I18n.t('market_drawer.subtotal.fee')}
-            </td>
-            <td>
-              <span>{this.props.currencySymbol} {this.props.transactionFee}</span>
-            </td>
-          </tr>
-          <tr className='total'>
-            <td>
-              {I18n.t('market_drawer.subtotal.total')}
-            </td>
-            <td>
-              <span>{this.props.currencySymbol} {this.props.total}</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    );
-  }
-}
-
-const mapStateToProps = (state, ownProps) => {
+const Subtotal = (props) => {
   const amount = CurrencyUtils.toFixed(
     'transaction',
-    ownProps.betAmount,
-    ownProps.currencyFormat
+    props.betAmount,
+    props.currencyFormat
   );
   const transactionFee = CurrencyUtils.toFixed(
     'transaction',
-    ownProps.transactionFee,
-    ownProps.currencyFormat
+    props.transactionFee,
+    props.currencyFormat
   );
   const total = CurrencyUtils.toFixed(
     'transaction',
-    ownProps.betAmount + ownProps.transactionFee,
-    ownProps.currencyFormat
+    props.betAmount + props.transactionFee,
+    props.currencyFormat
   );
   const currencySymbol = CurrencyUtils.getCurrencySymbol(
-    ownProps.currencyFormat,
+    props.currencyFormat,
     'white'
   );
 
-  return {
-    amount,
-    transactionFee,
-    total,
-    currencySymbol
-  };
+  return (
+    <table className='subtotal'>
+      <tbody>
+        <tr>
+          <td>
+            {I18n.t('market_drawer.subtotal.amount')}
+          </td>
+          <td>
+            <span>{currencySymbol} {amount}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {I18n.t('market_drawer.subtotal.fee')}
+          </td>
+          <td>
+            <span>{currencySymbol} {transactionFee}</span>
+          </td>
+        </tr>
+        <tr className='total'>
+          <td>
+            {I18n.t('market_drawer.subtotal.total')}
+          </td>
+          <td>
+            <span>{currencySymbol} {total}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  );
 };
 
-export default connect(mapStateToProps)(Subtotal);
+export default Subtotal;
