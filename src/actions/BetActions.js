@@ -577,7 +577,7 @@ class BetActions {
         liabilityDiff = betDiff[2][0];
         oddsDiff = betDiff[3][0];
 
-        // If there are incremental changes, we will place a new bet built based on the increment
+        // If there are incremental changes, we will place a new bet built from the increment
         // differences.
         if (changeType === 'increment' && stakeDiff !== 0) { // Has stake changed?
           let allowDecimal = !isMiliCoin;
