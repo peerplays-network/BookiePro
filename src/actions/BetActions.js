@@ -522,6 +522,9 @@ class BetActions {
         oddsDiff.push('odds');
 
         // Are there any instances of decremental changes?
+        // betDiff -> [x][0] = amount
+        //            [x][1] = 'increment', 'decrement', or 'none'
+        //            [x][2] = {string} field
         const betDiff = [stakeDiff, profitDiff, liabilityDiff, oddsDiff];
 
         for (var i = 0; i<betDiff.length; i++) {
