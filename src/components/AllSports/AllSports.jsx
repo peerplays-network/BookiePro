@@ -18,7 +18,7 @@ class AllSports extends PureComponent {
   render() {
     const {allSportsData, currencyFormat} = this.props;
     return (
-      <div id='all-sports-wrapper'>
+      <div className='all-sports-wrapper'>
         <div className='banner-ad-header' />
         {allSportsData ? (
           allSportsData.map((sportData) => {

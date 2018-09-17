@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
-import {EventPageSelector} from '../../selectors';
+import {EventPageSelector, EventGroupPageSelector} from '../../selectors';
 import {BackingWidgetContainer} from '../BettingWidgets';
-// import {BackingWidgetContainer} from '../BettingWidgets';
+import {SportBanner} from '../Banners';
 
 const MAX_EVENTS = 25;
 class SportsBookEventGroup extends PureComponent {
@@ -27,10 +27,13 @@ class SportsBookEventGroup extends PureComponent {
       }
 
       return (
-        <BackingWidgetContainer
-          widgetTitle={ eventGroup.get('name') }
-          marketData={ eventsToDisplay }
-        />
+        <div className='event-group-wrapper'>
+          <SportBanner sport={ this.props.sportName } />
+          <BackingWidgetContainer
+            widgetTitle={ eventGroup.get('name') }
+            marketData={ eventsToDisplay }
+          />
+        </div>
       );
     }
 
@@ -40,7 +43,8 @@ class SportsBookEventGroup extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => {  
   return {
-    eventGroup: EventPageSelector.getEventGroupData(state, ownProps.params.objectId)
+    eventGroup: EventPageSelector.getEventGroupData(state, ownProps.params.objectId),
+    sportName: EventGroupPageSelector.getSportName(state, ownProps)
   };
 };
 

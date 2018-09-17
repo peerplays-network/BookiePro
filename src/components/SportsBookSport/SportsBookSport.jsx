@@ -2,13 +2,16 @@ import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {EventPageSelector} from '../../selectors';
 import {BackingWidgetContainer} from '../BettingWidgets';
+import {SportBanner} from '../Banners';
 
 const MAX_EVENTS = 3;
 class SportsBookSport extends PureComponent {
   render() {
     const sport = this.props.sport;
     return (
-      <div>
+      <div className='sport-wrapper'>
+        { sport && <SportBanner sport={ sport.get('sportName') || '' } /> }
+        
         { 
           sport && this.props.sport.get('eventGroups').map((eg) => {
 
