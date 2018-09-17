@@ -31,6 +31,7 @@ class BackingWidgetContainer extends PureComponent {
             eventID={ market.get('eventID') }
             eventTime={ market.get('eventTime') }
             eventStatus={ ['upcoming', 'upcoming'] }
+            columnType={ market.get('description') }
             marketData={ market }
             isLiveMarket={ true }
           />);

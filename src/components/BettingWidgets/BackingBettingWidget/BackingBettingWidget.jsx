@@ -33,17 +33,12 @@ class BackingBettingWidget extends PureComponent {
     // The event flag will render an event if true, BMG otherwise
     let eventFlag = false;
 
-    // Used to determine the exact column widths for the BettingMarket components
-    let multiplier = 1;
-    let divisor = 1;
     let span = 24;
-    
 
     // If the following if statement is true, then the component is an event
     if (this.props.eventTime) {
       eventFlag = true;
       dateString = DateUtils.getMonthAndDay(this.props.eventTime);
-      divisor = 2;
       createBet = this.props.quickBetDrawerCreateBet;
     }
 
@@ -67,8 +62,10 @@ class BackingBettingWidget extends PureComponent {
 
             if (eventFlag && item.get('description') === 'The Draw') {
               span = 2;
+            } else if (eventFlag) {
+              span = SportsbookUtils.getColumnSize(this.props.columnType, eventFlag);
             } else {
-              span = (multiplier * SportsbookUtils.getColumnSize(title)) / divisor;
+              span = SportsbookUtils.getColumnSize(title, eventFlag);
             }
 
             return (

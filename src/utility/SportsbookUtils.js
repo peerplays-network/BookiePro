@@ -20,16 +20,17 @@ const getDescriptionAsType = (description) => {
  * @note - Antd uses a 24 column layout. This function takes that into account. The calling function
  *  should be able to call this function like so <Col span={ getColumnSize(title) }>
  */
-const getColumnSize = (type) => {
+const getColumnSize = (type, eventFlag=false) => {
   if (type) {
     type = getDescriptionAsType(type);
   }
 
   if (BackingWidgetLayouts[type]) {
-    return BackingWidgetLayouts[type].columns;
+    return BackingWidgetLayouts[type].columns[eventFlag ? 'eventFlag' : 'default'];
   }
 
-  return 12;
+  // The default column width for events is 7, 12 otherwise
+  return eventFlag ? 7 : 12;
 };
 
 /**

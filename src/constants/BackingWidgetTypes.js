@@ -13,16 +13,25 @@ const BackingWidgetTypes = {
 
 const BackingWidgetLayouts = {
   MATCHODDS: {
-    columns: 8, // 3 Columns
+    columns: {
+      eventFlag: 6,
+      default: 8
+    },
     order: orderPriority.TOP, // Highest Priority, always show on the top.
     numberOfMarkets: 3,
   },
   MONEYLINE: {
-    columns: 12, // 3 Columns
+    columns: {
+      eventFlag: 7,
+      default: 12
+    },
     order: orderPriority.TOP, // Highest Priority, always show on the top.
   },
   OVERUNDER: {
-    columns: 12, // 2 Columns
+    columns: {
+      eventFlag: 12,
+      default: 12
+    },
     order: orderPriority.MIDDLE, // Middle priority, show below the top.
   },
 };
