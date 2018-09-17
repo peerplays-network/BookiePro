@@ -58,7 +58,11 @@ class BettingMarket extends PureComponent {
     const {title, backOrigin} = this.props;
     return (
       <div 
-        className={ 'backBettingMarket ' + (this.isAbleToBet() ? 'active' : 'disabled') } 
+        className={
+          'backBettingMarket ' +
+          (this.isAbleToBet() ? 'active ' : 'disabled ') +
+          (this.props.eventFlag ? 'eventFlag' : '')
+        }
         onClick={ this.offerClicked }
       >
         <div className='bmTitle'>{title}</div>
@@ -73,7 +77,8 @@ BettingMarket.propTypes = {
   isLiveMarket: PropTypes.bool.isRequired,
   eventStatus: PropTypes.array.isRequired,
   createBet: PropTypes.func.isRequired,
-  bettingMarketId: PropTypes.string.isRequired
+  bettingMarketId: PropTypes.string.isRequired,
+  eventFlag: PropTypes.bool
 };
 
 export default BettingMarket;

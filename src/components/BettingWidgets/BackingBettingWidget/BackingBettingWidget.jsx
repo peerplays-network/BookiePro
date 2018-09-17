@@ -85,6 +85,7 @@ class BackingBettingWidget extends PureComponent {
                   eventStatus={ this.props.eventStatus }
                   isLiveMarket={ this.props.isLiveMarket }
                   createBet={ createBet }
+                  eventFlag={ eventFlag }
                 />
               </Col>
             );

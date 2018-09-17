@@ -26,6 +26,12 @@
     margin-left: 3px;
     height: @tileHeight;
 
+    &.eventFlag {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     &.active:hover {
       background-color: @cello;
       cursor: pointer;
@@ -36,6 +42,15 @@
     }
 
     .bmTitle, .odds {
+
+      &.eventFlag {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+        float: left;
+      }
+
       display: inline-block;
     }
 
