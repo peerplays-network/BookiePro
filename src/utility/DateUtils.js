@@ -40,7 +40,7 @@ const DateUtils = {
         moment(new Date(dateToFormat)).format('HH:mm')
       );
     } else {
-      if (forExport) {
+      if (forExport && dateToFormat.toLowerCase().indexOf('today') !== -1) {
         let full = dateToFormat.toLowerCase().replace('today,', '');
         return moment().format('MM-DD-YYYY') + full;
       } else {
