@@ -48,11 +48,11 @@ class BackingBettingWidget extends PureComponent {
 
           { eventFlag && 
             <Col span={ 10 }>
-              <Col className='date' span={ 4 }>
+              <Col className='date' span={ 5 }>
                 { dateString }
               </Col>
 
-              <Col className='name' span={ 20 }>
+              <Col className='name' span={ 19 }>
                 { title }
               </Col>
             </Col>

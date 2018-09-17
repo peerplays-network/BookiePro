@@ -5,31 +5,38 @@
 
 .backingBettingWidget {
   background-color: @cinder;
-  padding: 0px 15px 0px 15px;
+  padding: 0px;
   display: inline-block;
   width:100%;
 
   .date {
-    font-size: .75em;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 4px 4px 4px 16px;
+  }
+
+  .name {
+    display: flex;
+    align-items: center;
+    padding: 4px 12px 4px 8px;
   }
 
   .name, .date {
     color: @white;
     background-color: @midnight;
-    padding: 10px 20px 10px 20px;
     height: @tileHeight;
+    line-height: 1.2;
   }
 
   .backBettingMarket {
     background-color: @midnight;
-    padding: 10px 20px 10px 20px;
-    margin-left: 3px;
+    padding: 4px 16px 6px 16px;
+    margin-left: 4px;
     height: @tileHeight;
+    line-height: 1.2;
 
     &.eventFlag {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      
     }
 
     &.active:hover {
@@ -39,6 +46,15 @@
 
     &.disabled:hover {
       cursor: not-allowed;
+    }
+
+    .bmTitle {
+      width: 100%;
+    }
+
+    .odds {
+      float: left;
+      width: 100%;
     }
 
     .bmTitle, .odds {
