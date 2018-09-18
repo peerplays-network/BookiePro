@@ -1,25 +1,16 @@
-import React, {PureComponent} from 'react';
-import {connect} from 'react-redux';
+import React from 'react';
 import './CommonMessage.less';
 
-class CommonMessage extends PureComponent {
-  render() {
-    return (
-      <div className={ this.props.msgClass }>
-        <div className='message-content'>
-          {this.props.message}
-        </div>
+const CommonMessage = (props) => {
+  const msgClass = 'message-background ' + props.type;
+  
+  return (
+    <div className={ msgClass }>
+      <div className='message-content'>
+        {props.message}
       </div>
-    );
-  }
-}
-
-const mapStateToProps = (state, ownProps) => {
-  const msgClass = 'message-background ' + ownProps.type;
-  return {
-    msgClass
-  };
+    </div>
+  );
 };
 
-export default connect(mapStateToProps)(CommonMessage);
-//export default connect(CommonMessage);
+export default CommonMessage;
