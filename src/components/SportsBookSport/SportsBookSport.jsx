@@ -1,9 +1,11 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {EventPageSelector} from '../../selectors';
 import {BackingWidgetContainer} from '../BettingWidgets';
 import {SportBanner} from '../Banners';
 import {SportsbookUtils, ObjectUtils} from '../../utility';
+import {NavigateActions} from '../../actions';
 
 const MAX_EVENTS = 10;
 class SportsBookSport extends PureComponent {
@@ -37,11 +39,23 @@ class SportsBookSport extends PureComponent {
             });
 
             return eventsToDisplay.length > 0 && 
-              (<BackingWidgetContainer
-                key={ eg.get('name') }
-                widgetTitle={ eg.get('name') }
-                marketData={ eventsToDisplay }
-              />);
+              (
+                <div key={ eg.get('name') }>
+                  <BackingWidgetContainer
+                    widgetTitle={ eg.get('name') }
+                    marketData={ eventsToDisplay }
+                  />
+                  <div className='more-sport-link'>
+                    <a 
+                      onClick={ () => this.props.navigateTo(
+                        '/betting/sportsbook/eventgroup/' + eg.get('id')
+                      ) }
+                    >
+                      More { eg.get('name') }
+                    </a>
+                  </div>
+                </div>
+              );
           })
         }
       </div>
@@ -55,4 +69,11 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(SportsBookSport);
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    navigateTo: NavigateActions.navigateTo
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(SportsBookSport);
