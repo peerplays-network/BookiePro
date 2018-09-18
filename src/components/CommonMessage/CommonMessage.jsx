@@ -5,10 +5,13 @@ const CommonMessage = (props) => {
   const msgClass = 'message-background ' + props.type;
   
   return (
-    <div className={ msgClass }>
-      <div className='message-content'>
-        {props.message}
+    <div>
+      <div className={ msgClass }>
+        <div className='message-content'>
+          {props.message}
+        </div>
       </div>
+      <br/>
     </div>
   );
 };

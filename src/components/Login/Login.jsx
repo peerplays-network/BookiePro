@@ -89,27 +89,29 @@ class Login extends PureComponent {
 
   render() {
     return (
-      <div className='loginBackground'>
+      <div>
         <CommonMessage
           message={ this.props.message }
           type={ MessageType.DEFAULT }
         />
-        <div className='loginComponent'>
-          <div className='wrapper'>
-            <div className='text-center'>
-              <img src={ logo } height='132' width='280' alt='' />
-              <div className='center-ele'>
-                <LoginForm
-                  onClickSignup={ this.onClickSignup }
-                  onSubmit={ this.handleSubmit }
-                  errors={ this.props.errors }
-                  status={ this.props.status }
-                />
+        <div className='loginBackground'>
+          <div className='loginComponent'>
+            <div className='wrapper'>
+              <div className='text-center'>
+                <img src={ logo } height='132' width='280' alt='' />
+                <div className='center-ele'>
+                  <LoginForm
+                    onClickSignup={ this.onClickSignup }
+                    onSubmit={ this.handleSubmit }
+                    errors={ this.props.errors }
+                    status={ this.props.status }
+                  />
+                </div>
               </div>
             </div>
           </div>
+          <FloatingHelp />
         </div>
-        <FloatingHelp />
       </div>
     );
   }

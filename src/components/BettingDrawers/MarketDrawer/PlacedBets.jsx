@@ -18,6 +18,8 @@ import './PlacedBets.less';
 import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config, LoadingStatus} from '../../../constants';
 import Loading from '../../Loading';
+import CommonMessage from '../../CommonMessage/CommonMessage';
+import MessageType from '../../../constants/MessageTypes';
 
 class PlacedBets extends PureComponent {
 
@@ -58,6 +60,10 @@ class PlacedBets extends PureComponent {
   render() {
     return (
       <div className='placed-bets'>
+        <CommonMessage
+          message={ this.props.message }
+          type={ this.props.messageType }
+        />
         <div className='content' ref='placedBets'>
 
           {this.props.placedBetsLoadingStatus === 'loading' ? <Loading /> : ''}
@@ -105,6 +111,12 @@ const mapStateToProps = (state, ownProps) => {
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   // Total Bet amount for updated bets ONLY
   const updatedBets = unmatchedBets.filter((bet) => bet.get('updated'));
+  let messageType = MessageType.NONE;
+  let message = 'THIS IS A MESSAGE';
+
+  if (averageOdds) {
+    messageType = MessageType.ERROR;
+  }
 
   // Update the total amount based on changed bets.
   const totalAmount = updatedBets.reduce((total, bet) => {
@@ -155,7 +167,9 @@ const mapStateToProps = (state, ownProps) => {
     ),
     disabled,
     averageOdds,
-    placedBetsLoadingStatus: state.getIn(['marketDrawer', 'unmatchedBetsLoadingStatus'])
+    placedBetsLoadingStatus: state.getIn(['marketDrawer', 'unmatchedBetsLoadingStatus']),
+    messageType,
+    message
   };
 };
 
