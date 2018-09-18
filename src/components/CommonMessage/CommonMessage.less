@@ -4,15 +4,15 @@
 	&-background{
 		width: 100%;
 		position: relative;
-		top: 0;
+		top: -30;
 		height: 30px;
 		padding: 5px 0;
 		display: table;
-		margin-bottom: 30px;
 
 		animation-name: slideDown;
 		animation-duration: 1s;
 		animation-timing-function: ease-in-out;
+		animation-fill-mode: forwards;
 		&.default {
 			background-color: fade(@outer_space, 100%);
 			color: @white;
@@ -39,10 +39,10 @@
 		padding: 0 1vw;
 	}
 }
+
 @keyframes slideDown {
 	0% {
 		transform: translateY(-100%);
-		margin-bottom: 0px;
 		opacity: 0;
 	}
 	30% {
@@ -50,22 +50,17 @@
 	}
 	50%{
 		transform: translateY(8%);
-		margin-bottom: 27.6px;
 	}
 	65%{
 		transform: translateY(-4%);
-		margin-bottom: 26.4px;
 	}
 	80%{
 		transform: translateY(4%);
-		margin-bottom: 28.8px;
 	}
 	95%{
 		transform: translateY(-2%);
-		margin-bottom: 28.2px;
 	}
 	100% {
 		transform: translateY(0%);
-		margin-bottom: 30px;
 	}
 }

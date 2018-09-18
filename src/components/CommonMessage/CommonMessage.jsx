@@ -11,7 +11,6 @@ const CommonMessage = (props) => {
           {props.message}
         </div>
       </div>
-      <br/>
     </div>
   );
 };
