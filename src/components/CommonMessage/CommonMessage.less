@@ -4,33 +4,39 @@
 	&-background{
 		width: 100%;
 		position: relative;
-		top: -30;
+		top: -30px;
 		height: 30px;
 		padding: 5px 0;
 		display: table;
 
-		animation-name: slideDown;
-		animation-duration: 1s;
-		animation-timing-function: ease-in-out;
-		animation-fill-mode: forwards;
+		transition: 1s ease-in-out;
+		// animation-name: slideDown;
+		// animation-duration: 1s;
+		// animation-timing-function: ease-in-out;
+		// animation-fill-mode: forwards;
 		&.default {
 			background-color: fade(@outer_space, 100%);
 			color: @white;
+			top: 0;
 		}
 		&.error {
 			background-color: fade(@error, 100%);
 			color: @white;
+			top: 0;
 		}
 		&.warning {
 			background-color: fade(@update_highlight, 100%);
 			color: @black;
+			top: 0;
 		}
 		&.success {
 			background-color: fade(@green, 100%);
 			color: @black;
+			top: 0;
 		}
 		&.none {
-			display: none;
+			// display: none;
+			opacity: 0;
 		}
 	}
 	&-content {
