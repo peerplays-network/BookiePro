@@ -1,4 +1,5 @@
 const MessageType = {
+  NONE: 'none',
   DEFAULT: 'default',
   ERROR: 'error',
   WARNING: 'warning',
