@@ -2,7 +2,10 @@ import {BackingWidgetTypes, BackingWidgetLayouts} from '../constants/BackingWidg
 import Immutable from 'immutable';
 
 const getDescriptionAsType = (description) => {
-  return description.replace(/[\/\- ]/, '').split(' ')[0].toUpperCase();
+  return description
+    .replace(/[\/\- ]/, '')
+    .split(' ')[0]
+    .toUpperCase();
 };
 
 /**
@@ -20,7 +23,7 @@ const getDescriptionAsType = (description) => {
  * @note - Antd uses a 24 column layout. This function takes that into account. The calling function
  *  should be able to call this function like so <Col span={ getColumnSize(title) }>
  */
-const getColumnSize = (type, eventFlag=false) => {
+const getColumnSize = (type, eventFlag = false) => {
   if (type) {
     type = getDescriptionAsType(type);
   }
@@ -40,7 +43,7 @@ const getColumnSize = (type, eventFlag=false) => {
  *  category over/under.
  *
  * @param {*} bettingMarketGroups -
- * @returns - A new list of wherein all over/under betting markets appear to live within 
+ * @returns - A new list of wherein all over/under betting markets appear to live within
  *             a single BMG
  */
 const groupOverUnders = (bettingMarketGroups) => {
@@ -182,6 +185,24 @@ const isMatchodds = (bettingMarketGroup) => {
   return false;
 };
 
+/**
+ * isMoneyline()
+ *
+ * This function will determine if the betting market group is a moneyline betting market group
+ *
+ * @param {*} bettingMarketGroup - The betting market group in question.
+ * @returns - True if the bmg is a moneyline bmg. False otherwise.
+ */
+const isMoneyline = (bettingMarketGroup) => {
+  const description = getDescriptionAsType(bettingMarketGroup.get('description'));
+
+  if (description === BackingWidgetTypes.MONEYLINE) {
+    return true;
+  }
+
+  return false;
+};
+
 const sortAndCenter = (bettingMarketGroups) => {
   bettingMarketGroups = prioritySort(bettingMarketGroups);
 
@@ -196,12 +217,13 @@ const sortAndCenter = (bettingMarketGroups) => {
 };
 
 const SportsbookUtils = {
-  getColumnSize,
-  groupOverUnders,
-  prioritySort,
   centerTheDraw,
-  isMatchodds,
+  getColumnSize,
   getDescriptionAsType,
+  groupOverUnders,
+  isMatchodds,
+  isMoneyline,
+  prioritySort,
   sortAndCenter
 };
 
