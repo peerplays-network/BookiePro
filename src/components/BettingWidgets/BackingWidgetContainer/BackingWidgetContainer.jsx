@@ -10,7 +10,7 @@ class BackingWidgetContainer extends PureComponent {
     if (this.props.marketData.length) {
       eventFlag = true;
     }
-
+    
     return (
       <div className='backingWidgetContainer'>
         <div className='title'>{this.props.widgetTitle}</div>
@@ -20,7 +20,7 @@ class BackingWidgetContainer extends PureComponent {
             marketData={ this.props.marketData }
             title={ this.props.widgetTitle }
             isLiveMarket={ true }
-            eventStatus={ ['upcoming', 'upcoming'] }
+            eventStatus={ this.props.eventStatus }
           />
         }
 
@@ -30,7 +30,7 @@ class BackingWidgetContainer extends PureComponent {
             title={ market.get('eventName') }
             eventID={ market.get('eventID') }
             eventTime={ market.get('eventTime') }
-            eventStatus={ ['upcoming', 'upcoming'] }
+            eventStatus={ this.props.eventStatus }
             columnType={ market.get('description') }
             marketData={ market }
             isLiveMarket={ true }

@@ -5,7 +5,7 @@ import {BettingMarketGroupBanner} from '../Banners';
 import {BackingWidgetContainer} from '../BettingWidgets';
 import {ObjectUtils, DateUtils} from '../../utility';
 import PeerPlaysLogo from '../PeerPlaysLogo';
-import {AllSportsActions, MarketDrawerActions, NavigateActions} from '../../actions';
+import {MarketDrawerActions} from '../../actions';
 
 import {
   BettingMarketGroupPageSelector,
@@ -18,43 +18,6 @@ import {
 import _ from 'lodash';
 
 class SportsBookEvent extends PureComponent {
-  componentDidMount() {
-    const doc = document.querySelector('body');
-    doc.style.minWidth = '1210px';
-    doc.style.overflow = 'overlay';
-  }
-
-  componentWillUnmount() {
-    document.querySelector('body').style.minWidth = '1002px';
-  }
-
-  componentWillMount() {
-    // Get the data
-    this.props.getData();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.event || nextProps.event.isEmpty()) {
-      // Betting market group doesn't exist,
-      // Go back to home page
-      this.props.navigateTo('/betting/exchange');
-    } else {
-      const prevEventId = this.props.params.objectId;
-      const nextEventId = nextProps.params.objectId;
-
-      if (
-        nextEventId !== prevEventId ||
-        nextProps.event !== this.props.event ||
-        nextProps.marketData !== this.props.marketData ||
-        nextProps.eventName !== this.props.eventName ||
-        nextProps.eventStatus !== this.props.eventStatus
-      ) {
-        // Get the data
-        this.props.getData();
-      }
-    }
-  }
-
   render() {
     // Return nothing if betting market group doesn't exist
     if (!this.props.event || this.props.event.isEmpty() || this.props.eventStatus === null) {
@@ -76,6 +39,8 @@ class SportsBookEvent extends PureComponent {
                 key={ index }
                 widgetTitle={ item.get('description') }
                 marketData={ item }
+                eventStatus={ this.props.eventStatus }
+                eventStatusClassName={ this.props.eventStatus[0] }
               />
             );
           })}
@@ -125,9 +90,6 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       createBet: MarketDrawerActions.createBet,
-      getData: AllSportsActions.getData,
-      getPlacedBets: MarketDrawerActions.getPlacedBets,
-      navigateTo: NavigateActions.navigateTo,
     },
     dispatch
   );

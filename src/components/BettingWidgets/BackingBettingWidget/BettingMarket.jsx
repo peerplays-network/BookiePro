@@ -42,16 +42,20 @@ class BettingMarket extends PureComponent {
   }
 
   isAbleToBet() {
-    switch (this.props.eventStatus[1]) {
-      case EventStatus.FINISHED:
-      case EventStatus.FROZEN:
-      case EventStatus.COMPLETED:
-      case EventStatus.SETTLED:
-      case EventStatus.CANCELED:
-        return false;
-      default:
-        return true;
+    if (this.props.eventStatus) {
+      switch (this.props.eventStatus[1]) {
+        case EventStatus.FINISHED:
+        case EventStatus.FROZEN:
+        case EventStatus.COMPLETED:
+        case EventStatus.SETTLED:
+        case EventStatus.CANCELED:
+          return false;
+        default:
+          return true;
+      }
     }
+
+    return true;
   }
 
   render() {

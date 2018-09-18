@@ -3,8 +3,9 @@ import {connect} from 'react-redux';
 import {EventPageSelector} from '../../selectors';
 import {BackingWidgetContainer} from '../BettingWidgets';
 import {SportBanner} from '../Banners';
+import {SportsbookUtils} from '../../utility';
 
-const MAX_EVENTS = 3;
+const MAX_EVENTS = 10;
 class SportsBookSport extends PureComponent {
   render() {
     const sport = this.props.sport;
@@ -22,12 +23,15 @@ class SportsBookSport extends PureComponent {
             events && events.slice(0, MAX_EVENTS).forEach((e) => {
               let bmgs = e.get('bettingMarketGroups');
               let bmg = bmgs.first();
-              eventsToDisplay.push(
-                bmg
-                  .set('eventName', e.get('name'))
-                  .set('eventID', e.get('id'))
-                  .set('eventTime', e.get('start_time'))
-              );
+
+              if (SportsbookUtils.isMatchodds(bmg)) {
+                eventsToDisplay.push(
+                  bmg
+                    .set('eventName', e.get('name'))
+                    .set('eventID', e.get('id'))
+                    .set('eventTime', e.get('start_time'))
+                );
+              }
             });
 
             return eventsToDisplay.length > 0 && 

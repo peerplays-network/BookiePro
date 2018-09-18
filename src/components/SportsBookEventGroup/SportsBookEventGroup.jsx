@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {EventPageSelector, EventGroupPageSelector} from '../../selectors';
 import {BackingWidgetContainer} from '../BettingWidgets';
 import {SportBanner} from '../Banners';
+import {SportsbookUtils} from '../../utility';
 
 const MAX_EVENTS = 25;
 class SportsBookEventGroup extends PureComponent {
@@ -17,12 +18,15 @@ class SportsBookEventGroup extends PureComponent {
         events.slice(0, MAX_EVENTS).forEach((e) => {
           let bmgs = e.get('bettingMarketGroups');
           let bmg = bmgs.first();
-          eventsToDisplay.push(
-            bmg
-              .set('eventName', e.get('name'))
-              .set('eventID', e.get('id'))
-              .set('eventTime', e.get('start_time'))
-          );
+
+          if (SportsbookUtils.isMatchodds(bmg)) {
+            eventsToDisplay.push(
+              bmg
+                .set('eventName', e.get('name'))
+                .set('eventID', e.get('id'))
+                .set('eventTime', e.get('start_time'))
+            );
+          }
         });
       }
 
