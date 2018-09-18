@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {EventPageSelector, EventGroupPageSelector} from '../../selectors';
 import {BackingWidgetContainer} from '../BettingWidgets';
 import {SportBanner} from '../Banners';
-import {SportsbookUtils} from '../../utility';
+import {SportsbookUtils, ObjectUtils} from '../../utility';
 
 const MAX_EVENTS = 25;
 class SportsBookEventGroup extends PureComponent {
@@ -25,6 +25,7 @@ class SportsBookEventGroup extends PureComponent {
                 .set('eventName', e.get('name'))
                 .set('eventID', e.get('id'))
                 .set('eventTime', e.get('start_time'))
+                .set('eventStatus', ObjectUtils.eventStatus(e))
             );
           }
         });

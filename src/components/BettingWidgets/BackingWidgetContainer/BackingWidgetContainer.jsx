@@ -19,8 +19,8 @@ class BackingWidgetContainer extends PureComponent {
           <BackingBettingWidget
             marketData={ this.props.marketData }
             title={ this.props.widgetTitle }
-            isLiveMarket={ true }
             eventStatus={ this.props.eventStatus }
+            isLiveMarket={ true }
           />
         }
 
@@ -30,7 +30,7 @@ class BackingWidgetContainer extends PureComponent {
             title={ market.get('eventName') }
             eventID={ market.get('eventID') }
             eventTime={ market.get('eventTime') }
-            eventStatus={ this.props.eventStatus }
+            eventStatus={ market.get('eventStatus') }
             columnType={ market.get('description') }
             marketData={ market }
             isLiveMarket={ true }

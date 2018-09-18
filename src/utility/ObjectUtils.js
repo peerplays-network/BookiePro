@@ -180,12 +180,48 @@ const isActiveEvent = function(event) {
 };
 
 const determineStatusResult = function(enumStatus) {
-  var className = 'going-live';
-  var status = enumStatus || 'error';
+  let className;
+  let status = enumStatus || 'error';
 
-  if (enumStatus === 'in_play' || enumStatus === 'in_progress') {
-    // Only BMG and BM status' can fulfill this.
-    className = 'live';
+  switch (enumStatus) {
+    case EventStatus.UPCOMING: {
+      className = 'going-live';
+      break;
+    }
+
+    case EventStatus.IN_PROGRESS: {
+      className = 'live';
+      break;
+    }
+
+    case EventStatus.FROZEN: {
+      className = 'stalled';
+      break;
+    }
+
+    case EventStatus.CANCELED: {
+      className = 'stalled';
+      break;
+    }
+
+    case EventStatus.FINISHED: {
+      className = 'finished';
+      break;
+    }
+
+    case EventStatus.SETTLED: {
+      className = 'finished';
+      break;
+    }
+
+    case EventStatus.COMPLETED: {
+      className = 'finished';
+      break;
+    }
+
+    default: {
+      className = 'error';
+    }
   }
 
   return [className, status];
