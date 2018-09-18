@@ -41,12 +41,13 @@ class BetTableInput extends PureComponent {
     let value = e.target.value.replace(/[A-z*&^%$#@!(){};:'"?><,|+=_/~]/g, '').trim();
     // If the last character is a decimal in the odds, assume the user is still
     // entering a value.
-    let isEntering = value.substr(value.length - 1) === '.';
-    let isMiliCoin = props.currencyFormat.indexOf('m') !== -1;
-    // Allow decimals in miliCoing but not Coin currency mode.
-    let allowDecimal = isEntering && isMiliCoin;
+    let allowDecimal = value.substr(value.length - 1) === '.';
 
     if (value.length > 0 && value.charAt(0) === '-' && props.oddsFormat === 'decimal') {
+      return '';
+    }
+
+    if (value.charAt(0) === '.' && this.props.field === 'odds') {
       return '';
     }
 
@@ -54,6 +55,8 @@ class BetTableInput extends PureComponent {
       value = deepClean(value);
     }
     
+    // We do not clean the odds if the user is still typing. ie: allow decimal while the input
+    // field is active.
     if (value.length > 1 && this.props.field === 'odds' && !allowDecimal) {
       value = cleanOdds(value);
     }
