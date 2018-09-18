@@ -12,9 +12,9 @@ import BetActions from './BetActions';
 import {CurrencyUtils, ObjectUtils} from '../utility';
 
 class MarketDrawerPrivateActions {
-  static updatePlacedBetsLoadingStatus(loadingStatus) {
+  static updateOpenBetsLoadingStatus(loadingStatus) {
     return {
-      type: ActionTypes.MARKET_DRAWER_UPDATE_PLACED_BETS_LOADING_STATUS,
+      type: ActionTypes.MARKET_DRAWER_UPDATE_OPENED_BETS_LOADING_STATUS,
       loadingStatus
     };
   }
@@ -79,11 +79,11 @@ class MarketDrawerPrivateActions {
     };
   }
 
-  static getPlacedBets(placedUnmatchedBets, placedMatchedBets, bettingMarketGroupId) {
+  static getOpenBets(openedUnmatchedBets, openedMatchedBets, bettingMarketGroupId) {
     return {
-      type: ActionTypes.MARKET_DRAWER_GET_PLACED_BETS,
-      placedUnmatchedBets,
-      placedMatchedBets,
+      type: ActionTypes.MARKET_DRAWER_GET_OPENED_BETS,
+      openedUnmatchedBets,
+      openedMatchedBets,
       bettingMarketGroupId
     };
   }
@@ -124,9 +124,9 @@ class MarketDrawerPrivateActions {
     };
   }
 
-  static showPlacedBetsConfirmation() {
+  static showOpenBetsConfirmation() {
     return {
-      type: ActionTypes.MARKET_DRAWER_SHOW_PLACED_BETS_CONFIRMATION
+      type: ActionTypes.MARKET_DRAWER_SHOW_OPENED_BETS_CONFIRMATION
     };
   }
 
@@ -151,9 +151,9 @@ class MarketDrawerPrivateActions {
 }
 
 class MarketDrawerActions {
-  static updatePlacedBetsLoadingStatus(loadingStatus) {
+  static updateOpenBetsLoadingStatus(loadingStatus) {
     return (dispatch) => {
-      dispatch(MarketDrawerPrivateActions.updatePlacedBetsLoadingStatus(loadingStatus));
+      dispatch(MarketDrawerPrivateActions.updateOpenBetsLoadingStatus(loadingStatus));
     };
   }
 
@@ -219,7 +219,7 @@ class MarketDrawerActions {
     console.warn('The totalBetAmount is not the final version.');
 
     return (dispatch, getState) => {
-      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
+      dispatch(MarketDrawerActions.updateOpenBetsLoadingStatus(LoadingStatus.LOADING));
       const isDisconnected =
         getState().getIn(['app', 'connectionStatus']) !== ConnectionStatus.CONNECTED;
 
@@ -252,20 +252,20 @@ class MarketDrawerActions {
     };
   }
 
-  static updatePlacedBets() {
+  static updateOpenBets() {
     return (dispatch, getState) => {
-      const currentPlacedBetsBettingMarketGroupId = getState().getIn([
+      const currentOpenBetsBettingMarketGroupId = getState().getIn([
         'marketDrawer',
         'bettingMarketGroupId'
       ]);
 
-      if (currentPlacedBetsBettingMarketGroupId) {
-        dispatch(MarketDrawerActions.getPlacedBets(currentPlacedBetsBettingMarketGroupId));
+      if (currentOpenBetsBettingMarketGroupId) {
+        dispatch(MarketDrawerActions.getOpenBets(currentOpenBetsBettingMarketGroupId));
       }
     };
   }
 
-  static getPlacedBets(bettingMarketGroupId) {
+  static getOpenBets(bettingMarketGroupId) {
     return (dispatch, getState) => {
       const bettingMarketGroup = getState().getIn([
         'bettingMarketGroup',
@@ -274,8 +274,8 @@ class MarketDrawerActions {
       ]);
 
       if (!bettingMarketGroup || bettingMarketGroup.isEmpty()) {
-        // If betting market group doesn't exist, clear placed bets
-        dispatch(MarketDrawerActions.clearPlacedBets());
+        // If betting market group doesn't exist, clear open bets
+        dispatch(MarketDrawerActions.clearOpenBets());
       } else {
         const unmatchedBetsById = getState().getIn(['bet', 'unmatchedBetsById']);
         const matchedBetsById = getState().getIn(['bet', 'matchedBetsById']);
@@ -379,19 +379,19 @@ class MarketDrawerActions {
           return formattedBet;
         };
 
-        const placedUnmatchedBets = unmatchedBetsById
+        const openedUnmatchedBets = unmatchedBetsById
           .filter(filterRelatedBet)
           .map(formatBet)
           .toList();
-        const placedMatchedBets = matchedBetsById
+        const openedMatchedBets = matchedBetsById
           .filter(filterRelatedBet)
           .map(formatBet)
           .toList();
 
         dispatch(
-          MarketDrawerPrivateActions.getPlacedBets(
-            placedUnmatchedBets,
-            placedMatchedBets,
+          MarketDrawerPrivateActions.getOpenBets(
+            openedUnmatchedBets,
+            openedMatchedBets,
             bettingMarketGroupId
           )
         );
@@ -399,10 +399,10 @@ class MarketDrawerActions {
     };
   }
 
-  static clearPlacedBets() {
+  static clearOpenBets() {
     return (dispatch) => {      
-      dispatch(MarketDrawerPrivateActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
-      dispatch(MarketDrawerPrivateActions.getPlacedBets(Immutable.List(), Immutable.List(), null));
+      dispatch(MarketDrawerPrivateActions.updateOpenBetsLoadingStatus(LoadingStatus.LOADING));
+      dispatch(MarketDrawerPrivateActions.getOpenBets(Immutable.List(), Immutable.List(), null));
     };
   }
 
@@ -466,7 +466,7 @@ class MarketDrawerActions {
         if (formattedBalance < totalBetAmount) {
           dispatch(MarketDrawerPrivateActions.showInsufficientBalanceError());
         } else {
-          dispatch(MarketDrawerPrivateActions.showPlacedBetsConfirmation());
+          dispatch(MarketDrawerPrivateActions.showOpenBetsConfirmation());
         }
       }
     };
