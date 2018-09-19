@@ -11,7 +11,6 @@ class CommonMessage extends PureComponent {
   }
 
   isHidden() {
-    console.log(this.state);
     this.setState({isHidden: !this.state.isHidden});
   }
 
