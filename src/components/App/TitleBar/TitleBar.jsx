@@ -136,6 +136,8 @@ class TitleBar extends PureComponent {
   render() {
     const {isWindowsPlatform, isMacPlatform, isTransparent, height} = this.props;
 
+    let isLinux = !isWindowsPlatform && !isMacPlatform;
+
     let style = {
       height,
       minHeight: height,
@@ -158,7 +160,7 @@ class TitleBar extends PureComponent {
           style={ style }
         />
       );
-    } else if (isMacPlatform) {
+    } else {
       // Instead of returning nothing when it is either not Mac or Windows, resort to Mac style
       return (
         <MacTitleBar
@@ -170,10 +172,9 @@ class TitleBar extends PureComponent {
           isFullscreen={ this.state.isFullscreen }
           loggedIn={ this.props.loggedIn }
           style={ style }
+          isLinux={ isLinux }
         />
       );
-    } else {
-      return null;
     }
   }
 }
