@@ -3,13 +3,13 @@
 .message {
 	&-background{
 		width: 100%;
-		position: relative;
+		position: absolute;
 		top: -30px;
 		height: 30px;
 		padding: 5px 0;
 		display: table;
+		z-index: 1;
 
-		//transition: 10s ease-in-out;
 		animation-name: slideDown;
 		animation-duration: 1s;
 		animation-timing-function: ease-in-out;
@@ -23,8 +23,6 @@
 			background-color: fade(@system_error, 100%);
 			color: @white;
 			top: 0;
-			// display: none;
-			//visibility: hidden;
 		}
 		&.warning {
 			background-color: fade(@system_warning, 100%);
@@ -38,7 +36,6 @@
 		}
 		&.none {
 			display: none;
-			//opacity: 0;
 		}
 	}
 	&-content {
@@ -49,6 +46,18 @@
 }
 
 @keyframes slideDown {
+	0% {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+	30% {
+		opacity: 1;
+	}
+	100% {
+		transform: translateY(0%);
+	}
+}
+@keyframes slideDownBounce {
 	0% {
 		transform: translateY(-100%);
 		opacity: 0;
