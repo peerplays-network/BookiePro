@@ -14,6 +14,8 @@ import {QuickBetDrawer, MarketDrawer} from '../BettingDrawers';
 import {QuickBetDrawerActions, MarketDrawerActions, NavigateActions} from '../../actions';
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
 import Ps from 'perfect-scrollbar';
+import CommonMessage from '../CommonMessage/CommonMessage';
+import MessageType from '../../constants/MessageTypes';
 
 class Exchange extends PureComponent {
   constructor(props) {
@@ -169,20 +171,26 @@ class Exchange extends PureComponent {
               objectId={ transitionName[transitionName.length - 1] }
             />
           </div>
-          <SplitPane
-            split='vertical'
-            allowResize={ false }
-            minSize={ betslipWidth }
-            defaultSize={ betslipWidth }
-            primary='second'
-          >
-            <div className='scrollbar-style-main' ref='main'>
-              {React.cloneElement(this.props.children, {
-                currencyFormat: this.props.currencyFormat
-              })}
-            </div>
-            {selectBettingDrawer(transitionName)}
-          </SplitPane>
+          <div className={ this.props.messaging }>
+            <CommonMessage
+              message={ this.props.message }
+              type={ this.props.messageType }
+            />
+            <SplitPane
+              split='vertical'
+              allowResize={ false }
+              minSize={ betslipWidth }
+              defaultSize={ betslipWidth }
+              primary='second'
+            >
+              <div className='scrollbar-style-main' ref='main'>
+                {React.cloneElement(this.props.children, {
+                  currencyFormat: this.props.currencyFormat
+                })}
+              </div>
+              {selectBettingDrawer(transitionName)}
+            </SplitPane>
+          </div>
         </SplitPane>
         {unplacedBetModal}
       </div>
@@ -204,6 +212,14 @@ const mapStateToProps = (state, ownProps) => {
   let path = ['marketDrawer', 'unconfirmedBets'];
   const transitionName = ownProps.location.pathname.split('/');
 
+  let messageType = MessageType.NONE;
+  let message = 'THIS IS A MESSAGE';
+  let messaging = '';
+
+  if (messageType !== MessageType.NONE) {
+    messaging = 'messaging';
+  }
+
   if (transitionName.length < 3 || transitionName[2].toLowerCase() !== 'bettingmarketgroup') {
     path = ['quickBetDrawer', 'bets'];
   }
@@ -212,7 +228,10 @@ const mapStateToProps = (state, ownProps) => {
     hasUnplacedBets: !state.getIn(path).isEmpty(),
     currencyFormat,
     isShowLogoutPopup,
-    connectionStatus
+    connectionStatus,
+    messageType,
+    message,
+    messaging
   };
 };
 
