@@ -7,15 +7,57 @@ import {SportsbookUtils, ObjectUtils} from '../../utility';
 
 const MAX_EVENTS = 25;
 class SportsBookEventGroup extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pagination: 0
+    };
+    this.setPage = this.setPage.bind(this);
+  }
+
+
+  setPage(page) {
+    this.setState({
+      pagination: page
+    });
+  }
+
+  renderPagination(numPages) {
+    let pageNumbers = [];
+
+    for (let i = 0; i < numPages; i++) {
+      pageNumbers.push(i);
+    }
+
+    return pageNumbers.map((page) => {
+      return (
+        <li 
+          key={ page } 
+          onClick={ () => this.setPage(page) }
+          className={ this.state.pagination === page ? 'active' : '' }
+        >
+          { page }
+        </li>
+      );
+    });
+  }
+
   render() {
     const eventGroup = this.props.eventGroup;
 
     if (eventGroup) {
       const events = eventGroup.get('events');
       let eventsToDisplay = [];
+      let pagination = '';
 
       if (events) {
-        events.slice(0, MAX_EVENTS).forEach((e) => {
+
+        let start = this.state.pagination * MAX_EVENTS;
+        let finish = (this.state.pagination + 1) * MAX_EVENTS;
+        let numPages = Math.ceil(events.size / MAX_EVENTS);
+        pagination = this.renderPagination(numPages);
+
+        events.slice(start, finish).forEach((e) => {
           let bmgs = e.get('bettingMarketGroups');
           let bmg = bmgs.first();
 
@@ -39,6 +81,9 @@ class SportsBookEventGroup extends PureComponent {
             widgetTitle={ eventGroup.get('name') }
             marketData={ eventsToDisplay }
           />
+          <ul className='event-group-pagination'>
+            { pagination }
+          </ul>
         </div>
       );
     }
