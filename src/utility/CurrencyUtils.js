@@ -414,7 +414,23 @@ var CurrencyUtils = {
       // Check the fields for overriding the general dust values.
       if (field === 'stake') {
         // Is the currency a mili coin? [ mBTF ]
-        dustRange = stakeDust;
+        if (currencyFormat.indexOf('m') !== -1) {
+          // miliCoin's do not display non-whole numbers.
+          let aSplit = amount.toString().split('.');
+          let preDec = parseFloat(aSplit[0]);
+          let postDec = parseFloat(aSplit[1]);
+
+          // Is the first part of the amount valid?
+          if (preDec > 0) {
+            if(isNaN(postDec)){
+              isDust = false;
+            }
+          } else if (preDec === 0 && !isNaN(postDec)) {
+            isDust = true;
+          }
+        } else {
+          dustRange = stakeDust;
+        }
       }
 
       // If the amount is less than the configured dust values (Config.js), then 
