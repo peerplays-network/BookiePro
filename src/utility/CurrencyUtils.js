@@ -14,7 +14,6 @@ const mCurrencySymbol = 'm' + configCurrency;
 const coinDust = Config.dust.coin;
 const miliCoinDust = Config.dust.miliCoin;
 const exchangeCoin = Config.dust.exchangeCoin;
-const miliStakeDust = 0;
 const stakeDust = exchangeCoin; // Three
 
 // REVIEW: Some functions here do auto conversion from BTF to mBTF.
@@ -415,15 +414,7 @@ var CurrencyUtils = {
       // Check the fields for overriding the general dust values.
       if (field === 'stake') {
         // Is the currency a mili coin? [ mBTF ]
-        if (currencyFormat.indexOf('m') !== -1) {
-          // miliCoin's do not display non-whole numbers.
-          if (amount % 1 !== miliStakeDust) {
-            // Early return for edge case dust.
-            isDust = true;
-          }
-        } else {
-          dustRange = stakeDust;
-        }
+        dustRange = stakeDust;
       }
 
       // If the amount is less than the configured dust values (Config.js), then 
