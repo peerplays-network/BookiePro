@@ -13,7 +13,6 @@ import Loading from '../Loading';
 import LicenseScreen from '../LicenseScreen';
 
 const isWindowsPlatform = AppUtils.isWindowsPlatform();
-const isMacPlatform = AppUtils.isMacPlatform();
 const titleBarHeight = isWindowsPlatform ? '32px' : '40px';
 const LICENSE_SCREEN_DURATION = 2000; //2 seconds
 
