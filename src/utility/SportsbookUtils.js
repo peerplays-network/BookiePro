@@ -1,5 +1,6 @@
 import {BackingWidgetTypes, BackingWidgetLayouts} from '../constants/BackingWidgetTypes';
 import Immutable from 'immutable';
+import {EventStatus} from '../constants';
 
 const getDescriptionAsType = (description) => {
   return description
@@ -216,11 +217,29 @@ const sortAndCenter = (bettingMarketGroups) => {
   return bettingMarketGroups;
 };
 
+const isAbleToBet = (eventStatus) => {
+  if (eventStatus) {
+    switch (eventStatus[1]) {
+      case EventStatus.FINISHED:
+      case EventStatus.FROZEN:
+      case EventStatus.COMPLETED:
+      case EventStatus.SETTLED:
+      case EventStatus.CANCELED:
+        return false;
+      default:
+        return true;
+    }
+  }
+
+  return true;
+};
+
 const SportsbookUtils = {
   centerTheDraw,
   getColumnSize,
   getDescriptionAsType,
   groupOverUnders,
+  isAbleToBet,
   isMatchodds,
   isMoneyline,
   prioritySort,

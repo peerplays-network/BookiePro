@@ -1,13 +1,12 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import {EventStatus} from '../../../constants';
+import {SportsbookUtils} from '../../../utility';
 
 class BettingMarket extends PureComponent {
   constructor(props) {
     super(props);
     this.getBestOdds = this.getBestOdds.bind(this);
     this.offerClicked = this.offerClicked.bind(this);
-    this.isAbleToBet = this.isAbleToBet.bind(this);
   }
 
   getBestOdds(layBets) {
@@ -41,30 +40,13 @@ class BettingMarket extends PureComponent {
     );
   }
 
-  isAbleToBet() {
-    if (this.props.eventStatus) {
-      switch (this.props.eventStatus[1]) {
-        case EventStatus.FINISHED:
-        case EventStatus.FROZEN:
-        case EventStatus.COMPLETED:
-        case EventStatus.SETTLED:
-        case EventStatus.CANCELED:
-          return false;
-        default:
-          return true;
-      }
-    }
-
-    return true;
-  }
-
   render() {
     const {title, backOrigin} = this.props;
     return (
       <div 
         className={
           'backBettingMarket ' +
-          (this.isAbleToBet() ? 'active ' : 'disabled ') +
+          (SportsbookUtils.isAbleToBet(this.props.eventStatus) ? 'active ' : 'disabled ') +
           (this.props.eventFlag ? 'eventFlag' : '')
         }
         onClick={ this.offerClicked }

@@ -9,6 +9,18 @@
   display: inline-block;
   width:100%;
 
+  &.disabled {
+    .name, .date {
+      color: grey;
+
+      &:hover {
+        color: grey;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+
   .date {
     font-size: 12px;
     font-weight: 300;
@@ -47,8 +59,15 @@
       cursor: pointer;
     }
 
-    &.disabled:hover {
-      cursor: not-allowed;
+    &.disabled {
+      .odds, .bmTitle {
+        color: grey;
+      }
+
+      &:hover {
+        cursor: not-allowed;
+        color: grey;
+      }
     }
 
     .bmTitle {

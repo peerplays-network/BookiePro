@@ -43,7 +43,8 @@ class BackingBettingWidget extends PureComponent {
     }
 
     return (
-      <div className='backingBettingWidget'>
+      <div className={ 'backingBettingWidget ' + 
+       (SportsbookUtils.isAbleToBet(this.props.eventStatus) ? 'active ' : 'disabled ') }>
         <div>
 
           { eventFlag && 
