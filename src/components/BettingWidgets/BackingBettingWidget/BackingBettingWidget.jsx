@@ -12,7 +12,7 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {MarketDrawerActions, QuickBetDrawerActions} from '../../../actions';
+import {MarketDrawerActions, QuickBetDrawerActions, NavigateActions} from '../../../actions';
 import PropTypes from 'prop-types';
 import BettingMarket from './BettingMarket';
 import {Col} from 'antd';
@@ -53,7 +53,10 @@ class BackingBettingWidget extends PureComponent {
               </Col>
 
               <Col className='name' span={ 19 }>
-                { title }
+                <p onClick={
+                  () => this.props.navigateTo('/betting/sportsbook/events/' + this.props.eventID)}>
+                  { title }
+                </p>
               </Col>
             </Col>
           }
@@ -106,7 +109,8 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       marketDrawerCreateBet: MarketDrawerActions.createBet,
-      quickBetDrawerCreateBet: QuickBetDrawerActions.createBet
+      quickBetDrawerCreateBet: QuickBetDrawerActions.createBet,
+      navigateTo: NavigateActions.navigateTo
     },
     dispatch
   );
