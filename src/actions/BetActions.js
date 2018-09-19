@@ -492,8 +492,8 @@ class BetActions {
         const currencyFormat = setting.get('currencyFormat');
         const currencyType = CurrencyUtils.getCurrencyType(currencyFormat);
         const isMiliCoin = currencyType === 'mCoin';
-        let validStakeDiff = false,
-          backerMultiplier, minOdds;
+        let validStakeDiff = false;
+        let backerMultiplier, minOdds;
 
         // Exit early if the bet has not been updated
         if (!bet.get('updated')) {
