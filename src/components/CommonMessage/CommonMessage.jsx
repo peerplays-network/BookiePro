@@ -2,8 +2,6 @@ import React, {PureComponent} from 'react';
 import './CommonMessage.less';
 import MessageType from '../../constants/MessageTypes';
 
-//const msgClass = 'message-background ' + props.type;
-
 class CommonMessage extends PureComponent {
   constructor(props) {
     super(props);
