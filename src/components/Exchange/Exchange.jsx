@@ -212,7 +212,7 @@ const mapStateToProps = (state, ownProps) => {
   let path = ['marketDrawer', 'unconfirmedBets'];
   const transitionName = ownProps.location.pathname.split('/');
 
-  let messageType = MessageType.NONE;
+  let messageType = MessageType.INFO;
   let message = 'THIS IS A MESSAGE';
   let messaging = '';
 
