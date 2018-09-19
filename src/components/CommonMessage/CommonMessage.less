@@ -9,34 +9,36 @@
 		padding: 5px 0;
 		display: table;
 
-		transition: 1s ease-in-out;
-		// animation-name: slideDown;
-		// animation-duration: 1s;
-		// animation-timing-function: ease-in-out;
-		// animation-fill-mode: forwards;
-		&.default {
-			background-color: fade(@outer_space, 100%);
+		//transition: 10s ease-in-out;
+		animation-name: slideDown;
+		animation-duration: 1s;
+		animation-timing-function: ease-in-out;
+		animation-fill-mode: forwards;
+		&.info {
+			background-color: fade(@system_info, 100%);
 			color: @white;
 			top: 0;
 		}
 		&.error {
-			background-color: fade(@error, 100%);
+			background-color: fade(@system_error, 100%);
 			color: @white;
 			top: 0;
+			// display: none;
+			//visibility: hidden;
 		}
 		&.warning {
-			background-color: fade(@update_highlight, 100%);
+			background-color: fade(@system_warning, 100%);
 			color: @black;
 			top: 0;
 		}
 		&.success {
-			background-color: fade(@green, 100%);
+			background-color: fade(@system_success, 100%);
 			color: @black;
 			top: 0;
 		}
 		&.none {
-			// display: none;
-			opacity: 0;
+			display: none;
+			//opacity: 0;
 		}
 	}
 	&-content {

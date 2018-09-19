@@ -1,6 +1,6 @@
 const MessageType = {
   NONE: 'none',
-  DEFAULT: 'default',
+  INFO: 'info',
   ERROR: 'error',
   WARNING: 'warning',
   SUCCESS: 'success'
