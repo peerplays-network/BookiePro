@@ -19,8 +19,6 @@ import {I18n} from 'react-redux-i18n';
 import {AccountService} from '../../services';
 import {AppBackgroundTypes} from '../../constants';
 import FloatingHelp from '../FloatingHelp';
-import CommonMessage from '../CommonMessage/CommonMessage';
-import MessageType from '../../constants/MessageTypes';
 
 class Login extends PureComponent {
   constructor(props) {
@@ -90,10 +88,6 @@ class Login extends PureComponent {
   render() {
     return (
       <div>
-        <CommonMessage
-          message={ this.props.message }
-          type={ MessageType.DEFAULT }
-        />
         <div className='loginBackground'>
           <div className='loginComponent'>
             <div className='wrapper'>
@@ -120,7 +114,6 @@ class Login extends PureComponent {
 const mapStateToProps = (state) => ({
   errors: state.getIn(['auth', 'loginErrors']),
   status: state.getIn(['auth', 'loginLoadingStatus']),
-  message: 'This is a message'
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
