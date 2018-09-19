@@ -421,11 +421,11 @@ var CurrencyUtils = {
           let postDec = parseFloat(aSplit[1]);
 
           // Is the first part of the amount valid?
-          if (preDec > 0) {
+          if (preDec >= 1) {
             if(isNaN(postDec)){
               isDust = false;
             }
-          } else if (preDec === 0 && !isNaN(postDec)) {
+          } else if (preDec === 0 && !isNaN(postDec) && postDec < 5) {
             isDust = true;
           }
         } else {
