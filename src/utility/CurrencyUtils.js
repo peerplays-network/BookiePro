@@ -413,14 +413,13 @@ var CurrencyUtils = {
 
       // Check the fields for overriding the general dust values.
       if (field === 'stake') {
+        let aSplit = amount.toString().split('.');
+        let preDec = parseFloat(aSplit[0]);
+        let postDec = parseFloat(aSplit[1]);
+
         // Is the currency a mili coin? [ mBTF ]
         if (currencyFormat.indexOf('m') !== -1) {
           // miliCoin's do not display non-whole numbers.
-          let aSplit = amount.toString().split('.');
-          let preDec = parseFloat(aSplit[0]);
-          let postDec = parseFloat(aSplit[1]);
-
-          // Is the first part of the amount valid?
           if (preDec >= 1) {
             if(isNaN(postDec)){
               isDust = false;
@@ -429,6 +428,13 @@ var CurrencyUtils = {
             isDust = true;
           }
         } else {
+          if (preDec === 0 && !isNaN(postDec) && postDec > 4 && postDec <= 9) { // ie: 0.0009
+            // Early return for stake in coin (btf) mode.
+            // Account for fractional part that will be rounded up for display purposes within
+            // the placed bets stake field(s).
+            return false;
+          }
+
           dustRange = stakeDust;
         }
       }
