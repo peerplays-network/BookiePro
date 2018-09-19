@@ -25,15 +25,14 @@ class MacTitleBar extends PureComponent {
           {I18n.t('titleBar.title')} {Config.version}
         </div>
         <div className='left'>
-          { this.props.isLinux && (<MacControls
+          <MacControls
             isWindowFocused={ isWindowFocused }
             onMaximizeClick={ onMaximizeClick }
             onMinimizeClick={ onMinimizeClick }
             onResizeClick={ onResizeClick }
             onCloseClick={ onCloseClick }
             isFullscreen={ isFullscreen }
-          />)
-          }
+          />
         </div>
 
         {loggedIn && (

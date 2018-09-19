@@ -189,7 +189,6 @@ class App extends PureComponent {
       <div className={ 'app ' + appBackgroundClass }>
         <TitleBar
           isWindowsPlatform={ isWindowsPlatform }
-          isMacPlatform={ isMacPlatform }
           isTransparent={ isTitleBarTransparent }
           height={ titleBarHeight }
         />
