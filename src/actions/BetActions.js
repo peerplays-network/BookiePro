@@ -493,6 +493,7 @@ class BetActions {
         const currencyType = CurrencyUtils.getCurrencyType(currencyFormat);
         const isMiliCoin = currencyType === 'mCoin';
         let validStakeDiff = false;
+        let validOddsDiff = false;
         let backerMultiplier, minOdds;
 
         // Exit early if the bet has not been updated
@@ -580,22 +581,46 @@ class BetActions {
         liabilityDiff = betDiff[2][0];
         oddsDiff = betDiff[3][0];
 
+        // Determine if the oddsDiff is valid.
+        if (oddsFormat === 'decimal') {
+          minOdds = ODDS_BOUNDS.decimal.min;
+        } else {
+          minOdds = ODDS_BOUNDS.american.min;
+        }
+
         // If there are incremental changes, we will place a new bet built from the increment
         // differences.
-        if (changeType === 'increment' && stakeDiff !== 0) { // Has stake changed?
-          let allowDecimal = !isMiliCoin;
-          
-          if (allowDecimal) {
-            validStakeDiff = stakeDiff > 0;
-          } else {
-            validStakeDiff = stakeDiff % 1 === 0;
+        if (changeType === 'increment') {
+          if (stakeDiff !== 0) { // Has stake changed?
+            let allowDecimal = !isMiliCoin;
+            
+            if (allowDecimal) {
+              validStakeDiff = stakeDiff > 0;
+            } else {
+              validStakeDiff = stakeDiff % 1 === 0;
+            }
           }
+
+          if (oddsDiff !== 0) {
+            if (oddsDiff >= minOdds) {
+              backerMultiplier = oddsDiff * Config.oddsPrecision;
+            } else if (oddsDiff < minOdds) {
+              backerMultiplier = (minOdds + oddsDiff) * Config.oddsPrecision;
+            }
+
+            backerMultiplier = Math.round(backerMultiplier);
+            validOddsDiff = true;
+          } 
+        } else {
+          backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision);
         }
-          
+
         // Build a new bet from the diff of which will be placed.
         if (bet.get('bet_type') === BetTypes.BACK) {
           if (validStakeDiff && changeType === 'increment') {
             amountToBet = parseFloat(betDiff[0][0]) * mathPow;
+          } else if (validOddsDiff && changeType === 'increment') {
+            amountToBet = CurrencyUtils.toFixed('stake', 0, currencyFormat) * mathPow;
           } else {
             changeType = 'decrement';
             amountToBet = parseFloat(bet.get('stake')) * mathPow;
@@ -607,19 +632,6 @@ class BetActions {
             amountToBet = parseFloat(bet.get('liability')) * mathPow;
           }
           
-        }
-
-        // Determine if the oddsDiff is valid.
-        if (oddsFormat === 'decimal') {
-          minOdds = ODDS_BOUNDS.decimal.min;
-        } else {
-          minOdds = ODDS_BOUNDS.american.min;
-        }
-
-        if (oddsDiff > minOdds && changeType === 'increment'){
-          backerMultiplier = oddsDiff * Config.oddsPrecision;
-        } else {
-          backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision);
         }
 
         amountToBet = Math.floor(amountToBet);
