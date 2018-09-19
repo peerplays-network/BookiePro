@@ -54,7 +54,7 @@ class BackingBettingWidget extends PureComponent {
 
               <Col className='name' span={ 19 }>
                 <p onClick={
-                  () => this.props.navigateTo('/betting/sportsbook/events/' + this.props.eventID)}>
+                  () => this.props.navigateTo('/betting/sportsbook/events/' + this.props.eventID) }>
                   { title }
                 </p>
               </Col>
