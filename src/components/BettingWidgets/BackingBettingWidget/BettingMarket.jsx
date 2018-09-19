@@ -21,7 +21,7 @@ class BettingMarket extends PureComponent {
 
   offerClicked() {
     // Return early if the cell was clicked and the market is not live
-    if (!this.isAbleToBet()) {
+    if (!SportsbookUtils.isAbleToBet(this.props.eventStatus)) {
       return;
     }
 

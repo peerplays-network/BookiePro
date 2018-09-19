@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {BackingWidgetContainer} from '../BettingWidgets';
 import {EventPageSelector} from '../../selectors';
-import {ObjectUtils} from '../../utility';
+import {ObjectUtils, SportsbookUtils} from '../../utility';
 import {NavigateActions} from '../../actions';
 
 const MAX_EVENTS = 3;
@@ -26,13 +26,15 @@ class SportsBook extends PureComponent {
               let bmgs = e.get('bettingMarketGroups');
               let bmg = bmgs.first();
 
-              eventsToDisplay.push(
-                bmg
-                  .set('eventName', e.get('name'))
-                  .set('eventID', e.get('id'))
-                  .set('eventTime', e.get('start_time'))
-                  .set('eventStatus', ObjectUtils.eventStatus(e))
-              );
+              if (SportsbookUtils.hasBettingMarkets(bmg)) {
+                eventsToDisplay.push(
+                  bmg
+                    .set('eventName', e.get('name'))
+                    .set('eventID', e.get('id'))
+                    .set('eventTime', e.get('start_time'))
+                    .set('eventStatus', ObjectUtils.eventStatus(e))
+                );
+              }
             });
 
             if (eventsToDisplay.length > 0) {

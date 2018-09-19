@@ -234,11 +234,16 @@ const isAbleToBet = (eventStatus) => {
   return true;
 };
 
+const hasBettingMarkets = (bettingMarketGroup) => {
+  return !!bettingMarketGroup.get('bettingMarkets');
+};
+
 const SportsbookUtils = {
   centerTheDraw,
   getColumnSize,
   getDescriptionAsType,
   groupOverUnders,
+  hasBettingMarkets,
   isAbleToBet,
   isMatchodds,
   isMoneyline,
