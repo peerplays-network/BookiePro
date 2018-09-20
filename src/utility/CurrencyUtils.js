@@ -410,29 +410,11 @@ var CurrencyUtils = {
       if (amount.toString().indexOf('e') !== -1) {
         isDust = true;
       } else {
-<<<<<<< HEAD
         if (currencyFormat.toLowerCase().indexOf('m') === -1) {
           dustRange = coinDust;
         } else {
           dustRange = miliCoinDust;
         }
-=======
-        dustRange = miliCoinDust;
-      }
-
-      // If the value coming is of 3 precision, its dust is different.
-      if (amount % 1 !== 0) {
-        if (amount.toString().split('.')[1] && amount.toString().split('.')[1].length === 3) {
-          dustRange = exchangeCoin;
-        }
-      }
-
-      // Check the fields for overriding the general dust values.
-      if (field === 'stake') {
-        let aSplit = amount.toString().split('.');
-        let preDec = parseFloat(aSplit[0]);
-        let postDec = parseFloat(aSplit[1]);
->>>>>>> origin/release
 
         // If the value coming is of 3 precision, its dust is different.
         if (amount % 1 !== 0 && amount.toString().split('.')[1].length === 3) {
