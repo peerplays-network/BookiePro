@@ -59,6 +59,11 @@ var CurrencyUtils = {
     }
   },
 
+  minBetAmount: {
+    BTF: .001,
+    mBTF: 1
+  },
+
   OFFER_PRECISION: 3,
 
   /**
@@ -92,7 +97,7 @@ var CurrencyUtils = {
       
       // Check if the value is dust.
       let isDust = this.isDust(currencyFormat, amount, field);
-      
+    
       if (!isDust) {
         let split = amount.toString().split('.');
 
@@ -337,14 +342,14 @@ var CurrencyUtils = {
         (floatAmount < 1 && currency === 'mBTF') ||
         (floatAmount < 1 && currency === mCurrencySymbol)
       ) {
-        return Config.mbtfTransactionFee.toString();
+        return this.minBetAmount[currency];
       }
 
       if (
         (floatAmount < 0.001 && currency === 'BTF') ||
         (floatAmount < 0.001 && currency === configCurrency)
       ) {
-        return Config.btfTransactionFee.toString();
+        return this.minBetAmount[currency];
       }
     }
 
@@ -405,11 +410,29 @@ var CurrencyUtils = {
       if (amount.toString().indexOf('e') !== -1) {
         isDust = true;
       } else {
+<<<<<<< HEAD
         if (currencyFormat.toLowerCase().indexOf('m') === -1) {
           dustRange = coinDust;
         } else {
           dustRange = miliCoinDust;
         }
+=======
+        dustRange = miliCoinDust;
+      }
+
+      // If the value coming is of 3 precision, its dust is different.
+      if (amount % 1 !== 0) {
+        if (amount.toString().split('.')[1] && amount.toString().split('.')[1].length === 3) {
+          dustRange = exchangeCoin;
+        }
+      }
+
+      // Check the fields for overriding the general dust values.
+      if (field === 'stake') {
+        let aSplit = amount.toString().split('.');
+        let preDec = parseFloat(aSplit[0]);
+        let postDec = parseFloat(aSplit[1]);
+>>>>>>> origin/release
 
         // If the value coming is of 3 precision, its dust is different.
         if (amount % 1 !== 0 && amount.toString().split('.')[1].length === 3) {
