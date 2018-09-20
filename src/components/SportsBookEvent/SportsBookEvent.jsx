@@ -5,7 +5,8 @@ import {BettingMarketGroupBanner} from '../Banners';
 import {BackingWidgetContainer} from '../BettingWidgets';
 import {ObjectUtils, DateUtils} from '../../utility';
 import PeerPlaysLogo from '../PeerPlaysLogo';
-import {MarketDrawerActions} from '../../actions';
+import {MarketDrawerActions, NavigateActions, BettingMarketGroupPageActions} from '../../actions';
+import _ from 'lodash';
 
 import {
   BettingMarketGroupPageSelector,
@@ -15,9 +16,44 @@ import {
   EventPageSelector,
 } from '../../selectors';
 
-import _ from 'lodash';
-
 class SportsBookEvent extends PureComponent {
+
+  componentDidMount() {
+    const doc = document.querySelector('body');
+    doc.style.minWidth = '1210px';
+    doc.style.overflow = 'overlay';
+  }
+
+  componentWillUnmount() {
+    document.querySelector('body').style.minWidth = '1002px';
+    this.props.resetPlacedBets();
+  }
+
+  componentWillMount() {
+    this.props.getPlacedBetsForEvent(this.props.params.eventId);
+  }
+
+  componentWillUpdate(nextProps) {
+    if (!nextProps.event || nextProps.event.isEmpty()) {
+      // Betting market group doesn't exist,
+      // Go back to home page
+      this.props.navigateTo('/betting/exchange');
+    } else {
+      const prevEventId = this.props.params.eventId;
+      const nextEventId = nextProps.params.eventId;
+
+      if (
+        nextEventId !== prevEventId ||
+        !_.isEqual(this.props.event, nextProps.event) ||
+        nextProps.eventName !== this.props.eventName ||
+        !_.isEqual(nextProps.eventStatus, this.props.eventStatus)
+      ) {
+        // Get the data
+        this.props.getPlacedBetsForEvent(this.props.params.eventId);
+      }
+    }
+  }
+
   render() {
     // Return nothing if betting market group doesn't exist
     if (!this.props.event || this.props.event.isEmpty() || this.props.eventStatus === null) {
@@ -89,6 +125,11 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       createBet: MarketDrawerActions.createBet,
+      navigateTo: NavigateActions.navigateTo,
+      getData: BettingMarketGroupPageActions.getData,
+      resetPlacedBets: MarketDrawerActions.resetPlacedBets,
+      getPlacedBets: MarketDrawerActions.getPlacedBets,
+      getPlacedBetsForEvent: MarketDrawerActions.getPlacedBetsForEvent
     },
     dispatch
   );

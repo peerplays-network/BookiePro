@@ -174,7 +174,7 @@ export default function(state = initialState, action) {
     }
 
     case ActionTypes.MARKET_DRAWER_GET_PLACED_BETS: {
-      return state.merge({
+      return state.mergeDeep({
         unmatchedBets: action.placedUnmatchedBets,
         matchedBets: action.placedMatchedBets,
         bettingMarketGroupId: action.bettingMarketGroupId
@@ -321,6 +321,10 @@ export default function(state = initialState, action) {
       return state.merge({
         overlay: BettingDrawerStates.NO_OVERLAY
       });
+    }
+
+    case ActionTypes.MARKET_DRAWER_RESET_PLACED_BETS: {
+      return initialState;
     }
 
     default:

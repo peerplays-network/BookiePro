@@ -94,7 +94,7 @@ class MarketDrawerPrivateActions {
       delta,
       currencyFormat
     };
-  }
+  }  
 
   static deleteOneUnmatchedBet(betId) {
     return {
@@ -265,6 +265,19 @@ class MarketDrawerActions {
     };
   }
 
+  static getPlacedBetsForEvent(eventID) {
+
+    return (dispatch, getState) => {
+      const bmgs = getState().getIn(['bettingMarketGroup', 'bettingMarketGroupsById']);
+
+      bmgs.forEach((bmg) => {
+        if (bmg.get('event_id') === eventID) {
+          dispatch(MarketDrawerActions.getPlacedBets(bmg.get('id')));
+        }
+      });
+    };
+  }
+
   static getPlacedBets(bettingMarketGroupId) {
     return (dispatch, getState) => {
       const bettingMarketGroup = getState().getIn([
@@ -400,9 +413,15 @@ class MarketDrawerActions {
   }
 
   static clearPlacedBets() {
-    return (dispatch) => {      
+    return (dispatch) => {
       dispatch(MarketDrawerPrivateActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
       dispatch(MarketDrawerPrivateActions.getPlacedBets(Immutable.List(), Immutable.List(), null));
+    };
+  }
+
+  static resetPlacedBets() {
+    return {
+      type: ActionTypes.MARKET_DRAWER_RESET_PLACED_BETS
     };
   }
 
