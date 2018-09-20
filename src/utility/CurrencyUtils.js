@@ -400,33 +400,39 @@ var CurrencyUtils = {
       // Handle negative amounts
       amount = Math.abs(amount);
 
-      if (currencyFormat.toLowerCase().indexOf('m') === -1) {
-        dustRange = coinDust;
-      } else {
-        dustRange = miliCoinDust;
-      }
-
-      // If the value coming is of 3 precision, its dust is different.
-      if (amount % 1 !== 0 && amount.toString().split('.')[1].length === 3) {
-        dustRange = exchangeCoin;
-      }
-
-      // Check the fields for overriding the general dust values.
-      if (field === 'stake') {
-        // Is the currency a mili coin? [ mBTF ]
-        if (currencyFormat.indexOf('m') !== -1) {
-          if (amount < 1) {
-            isDust = true;
-          }
-        } else {
-          dustRange = stakeDust;
-        }
-      }
-
-      // If the amount is less than the configured dust values (Config.js), then 
-      // change the display of that amount to indicate as such.
-      if (amount < dustRange && amount !== 0) {
+      // For edge cases where users have ended up with amounts in their transaction histories
+      // reaching this function. 
+      if (amount.toString().indexOf('e') !== -1) {
         isDust = true;
+      } else {
+        if (currencyFormat.toLowerCase().indexOf('m') === -1) {
+          dustRange = coinDust;
+        } else {
+          dustRange = miliCoinDust;
+        }
+
+        // If the value coming is of 3 precision, its dust is different.
+        if (amount % 1 !== 0 && amount.toString().split('.')[1].length === 3) {
+          dustRange = exchangeCoin;
+        }
+
+        // Check the fields for overriding the general dust values.
+        if (field === 'stake') {
+          // Is the currency a mili coin? [ mBTF ]
+          if (currencyFormat.indexOf('m') !== -1) {
+            if (amount < 1) {
+              isDust = true;
+            }
+          } else {
+            dustRange = stakeDust;
+          }
+        }
+
+        // If the amount is less than the configured dust values (Config.js), then 
+        // change the display of that amount to indicate as such.
+        if (amount < dustRange && amount !== 0) {
+          isDust = true;
+        }
       }
     }
 
