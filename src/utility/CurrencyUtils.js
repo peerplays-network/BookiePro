@@ -426,16 +426,20 @@ var CurrencyUtils = {
 
         // Is the currency a mili coin? [ mBTF ]
         if (currencyFormat.indexOf('m') !== -1) {
+          let willRound = postDec.toString().charAt(0) < 5;
+
           // miliCoin's do not display non-whole numbers.
           if (preDec >= 1) {
             if(isNaN(postDec)){
               isDust = false;
             }
-          } else if (preDec === 0 && !isNaN(postDec) && postDec < 5) {
+          } else if (preDec === 0 && !isNaN(postDec) && willRound) {
             isDust = true;
           }
         } else {
-          if (preDec === 0 && !isNaN(postDec) && postDec > 4 && postDec <= 9) { // ie: 0.0009
+          let willRound = postDec.toString().charAt(0) > 4 && postDec.toString().charAt(0) <= 9;
+
+          if (preDec === 0 && !isNaN(postDec) && willRound) {
             // Early return for stake in coin (btf) mode.
             // Account for fractional part that will be rounded up for display purposes within
             // the placed bets stake field(s).
