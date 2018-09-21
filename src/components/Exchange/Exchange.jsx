@@ -15,6 +15,8 @@ import {QuickBetDrawerActions, MarketDrawerActions, NavigateActions} from '../..
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
 import Ps from 'perfect-scrollbar';
 import CommonMessage from '../CommonMessage/CommonMessage';
+import CommonMessageActions from '../../actions/CommonMessageActions';
+import MessageType from '../../constants/MessageTypes';
 
 class Exchange extends PureComponent {
   constructor(props) {
@@ -113,6 +115,9 @@ class Exchange extends PureComponent {
     this.setState({
       nextLocation
     });
+
+    // TESTING PURPOSES
+    this.props.addCommonMessage('some content', MessageType.SUCCESS, 'exchange');
 
     if (
       !this.props.isShowLogoutPopup &&
@@ -228,7 +233,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     clearQuickBetDrawer: QuickBetDrawerActions.deleteAllBets,
     clearQuickBetsOverlay: QuickBetDrawerActions.hideOverlay,
     clearMarketDrawerBetslips: MarketDrawerActions.deleteAllUnconfirmedBets,
-    clearMarketBetsOverlay: MarketDrawerActions.hideOverlay
+    clearMarketBetsOverlay: MarketDrawerActions.hideOverlay,
+    addCommonMessage: CommonMessageActions.newMessage
   },
   dispatch
 );

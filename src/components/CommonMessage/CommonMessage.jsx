@@ -11,7 +11,7 @@ const compileMessage = (props) => {
     const msgParent = e.target.parentElement.parentElement.parentElement;
     const id = msgParent.id;
     
-    props.hideMessage(id);
+    props.clearMessage(id);
   };
 
   let idPrefix, messageList;
@@ -70,7 +70,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
-    hideMessage: CommonMessageActions.hideMessage
+    clearMessage : CommonMessageActions.clearMessage
   },
   dispatch
 );
