@@ -26,7 +26,6 @@ class SportsBookEvent extends PureComponent {
 
   componentWillUnmount() {
     document.querySelector('body').style.minWidth = '1002px';
-    this.props.resetPlacedBets();
   }
 
   componentWillMount() {
@@ -44,6 +43,7 @@ class SportsBookEvent extends PureComponent {
 
       if (
         nextEventId !== prevEventId ||
+        !_.isEqual(this.props.marketData.toJS(), nextProps.marketData.toJS()) ||
         !_.isEqual(this.props.event, nextProps.event) ||
         nextProps.eventName !== this.props.eventName ||
         !_.isEqual(nextProps.eventStatus, this.props.eventStatus)
@@ -128,7 +128,6 @@ const mapDispatchToProps = (dispatch) => {
       navigateTo: NavigateActions.navigateTo,
       getData: BettingMarketGroupPageActions.getData,
       resetPlacedBets: MarketDrawerActions.resetPlacedBets,
-      getPlacedBets: MarketDrawerActions.getPlacedBets,
       getPlacedBetsForEvent: MarketDrawerActions.getPlacedBetsForEvent
     },
     dispatch

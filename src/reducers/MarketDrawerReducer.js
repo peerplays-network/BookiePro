@@ -11,6 +11,7 @@ let initialState = Immutable.fromJS({
   unconfirmedbetsToBeDeleted: Immutable.List(),
   unmatchedbetsToBeDeleted: Immutable.List(),
   bettingMarketGroupId: null,
+  eventId: null,
   unmatchedBetsLoadingStatus: LoadingStatus.DEFAULT
 });
 
@@ -174,10 +175,11 @@ export default function(state = initialState, action) {
     }
 
     case ActionTypes.MARKET_DRAWER_GET_PLACED_BETS: {
-      return state.mergeDeep({
+      return state.merge({
         unmatchedBets: action.placedUnmatchedBets,
         matchedBets: action.placedMatchedBets,
-        bettingMarketGroupId: action.bettingMarketGroupId
+        bettingMarketGroupId: action.bettingMarketGroupId || null,
+        eventId: action.eventId || null
       });
     }
 
