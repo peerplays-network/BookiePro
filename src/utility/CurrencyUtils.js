@@ -451,6 +451,7 @@ var CurrencyUtils = {
       }
     }
 
+    isDust=false;
     return isDust;
   }
 };
