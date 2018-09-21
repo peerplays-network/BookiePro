@@ -405,55 +405,39 @@ var CurrencyUtils = {
       // Handle negative amounts
       amount = Math.abs(amount);
 
-      if (currencyFormat.toLowerCase().indexOf('m') === -1) {
-        dustRange = coinDust;
+      // For edge cases where users have ended up with amounts in their transaction histories
+      // reaching this function. 
+      if (amount.toString().indexOf('e') !== -1) {
+        isDust = true;
       } else {
-        dustRange = miliCoinDust;
-      }
+        if (currencyFormat.toLowerCase().indexOf('m') === -1) {
+          dustRange = coinDust;
+        } else {
+          dustRange = miliCoinDust;
+        }
 
-      // If the value coming is of 3 precision, its dust is different.
-      if (amount % 1 !== 0) {
-        if (amount.toString().split('.')[1] && amount.toString().split('.')[1].length === 3) {
+        // If the value coming is of 3 precision, its dust is different.
+        if (amount % 1 !== 0 && amount.toString().split('.')[1].length === 3) {
           dustRange = exchangeCoin;
         }
-      }
 
-      // Check the fields for overriding the general dust values.
-      if (field === 'stake') {
-        let aSplit = amount.toString().split('.');
-        let preDec = parseFloat(aSplit[0]);
-        let postDec = parseFloat(aSplit[1]);
-
-        // Is the currency a mili coin? [ mBTF ]
-        if (currencyFormat.indexOf('m') !== -1) {
-          let willRound = postDec.toString().charAt(0) < 5;
-
-          // miliCoin's do not display non-whole numbers.
-          if (preDec >= 1) {
-            if(isNaN(postDec)){
-              isDust = false;
+        // Check the fields for overriding the general dust values.
+        if (field === 'stake') {
+          // Is the currency a mili coin? [ mBTF ]
+          if (currencyFormat.indexOf('m') !== -1) {
+            if (amount < 1) {
+              isDust = true;
             }
-          } else if (preDec === 0 && !isNaN(postDec) && willRound) {
-            isDust = true;
+          } else {
+            dustRange = stakeDust;
           }
-        } else {
-          let willRound = postDec.toString().charAt(0) > 4 && postDec.toString().charAt(0) <= 9;
-
-          if (preDec === 0 && !isNaN(postDec) && willRound) {
-            // Early return for stake in coin (btf) mode.
-            // Account for fractional part that will be rounded up for display purposes within
-            // the placed bets stake field(s).
-            return false;
-          }
-
-          dustRange = stakeDust;
         }
-      }
 
-      // If the amount is less than the configured dust values (Config.js), then 
-      // change the display of that amount to indicate as such.
-      if (amount < dustRange && amount !== 0) {
-        isDust = true;
+        // If the amount is less than the configured dust values (Config.js), then 
+        // change the display of that amount to indicate as such.
+        if (amount < dustRange && amount !== 0) {
+          isDust = true;
+        }
       }
     }
 
