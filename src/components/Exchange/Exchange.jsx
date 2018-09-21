@@ -171,7 +171,9 @@ class Exchange extends PureComponent {
             />
           </div>
           <div className={ this.props.messaging }>
-            <CommonMessage/>
+            <CommonMessage
+              location='exchange'
+            />
             <SplitPane
               split='vertical'
               allowResize={ false }

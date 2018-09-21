@@ -18,7 +18,7 @@ import './PlacedBets.less';
 import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config, LoadingStatus} from '../../../constants';
 import Loading from '../../Loading';
-//import CommonMessage from '../../CommonMessage/CommonMessage';
+import CommonMessage from '../../CommonMessage/CommonMessage';
 
 class PlacedBets extends PureComponent {
 
@@ -59,7 +59,9 @@ class PlacedBets extends PureComponent {
   render() {
     return (
       <div className='placed-bets'>
-        
+        <CommonMessage
+          location='betslip'
+        />
         <div className='content' ref='placedBets'>
 
           {this.props.placedBetsLoadingStatus === 'loading' ? <Loading /> : ''}
