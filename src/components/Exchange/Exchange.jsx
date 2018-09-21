@@ -15,7 +15,6 @@ import {QuickBetDrawerActions, MarketDrawerActions, NavigateActions} from '../..
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
 import Ps from 'perfect-scrollbar';
 import CommonMessage from '../CommonMessage/CommonMessage';
-import MessageType from '../../constants/MessageTypes';
 
 class Exchange extends PureComponent {
   constructor(props) {
@@ -172,11 +171,7 @@ class Exchange extends PureComponent {
             />
           </div>
           <div className={ this.props.messaging }>
-            <CommonMessage
-              message={ this.props.message }
-              type={ this.props.messageType }
-              id='exchange'
-            />
+            <CommonMessage/>
             <SplitPane
               split='vertical'
               allowResize={ false }
@@ -213,22 +208,6 @@ const mapStateToProps = (state, ownProps) => {
   let path = ['marketDrawer', 'unconfirmedBets'];
   const transitionName = ownProps.location.pathname.split('/');
 
-  let messageType = MessageType.INFO;
-  let message = 'THIS IS A MESSAGE';
-  let messaging = '';
-
-  const commonMessageById = document.getElementById('exchange');
-
-  if (commonMessageById && commonMessageById.className.indexOf('none') !== -1) {
-    messageType = MessageType.NONE;
-  }
-
-  if (messageType !== MessageType.NONE) {
-    messaging = 'messaging';
-  } else {
-    messaging = 'messaging-none';
-  }
-
   if (transitionName.length < 3 || transitionName[2].toLowerCase() !== 'bettingmarketgroup') {
     path = ['quickBetDrawer', 'bets'];
   }
@@ -237,10 +216,7 @@ const mapStateToProps = (state, ownProps) => {
     hasUnplacedBets: !state.getIn(path).isEmpty(),
     currencyFormat,
     isShowLogoutPopup,
-    connectionStatus,
-    messageType,
-    message,
-    messaging
+    connectionStatus
   };
 };
 
