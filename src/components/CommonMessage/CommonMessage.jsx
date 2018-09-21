@@ -1,6 +1,9 @@
 import React, {PureComponent} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import './CommonMessage.less';
 import MessageType from '../../constants/MessageTypes';
+import CommonMessageActions from '../../actions/CommonMessageActions';
 
 class CommonMessage extends PureComponent {
   constructor(props) {
@@ -10,8 +13,12 @@ class CommonMessage extends PureComponent {
     this.isHidden = this.isHidden.bind(this);
   }
 
-  isHidden() {
+  isHidden(e) {
+    debugger;
+    // Get the id of the message component to hide.
+    const id = e.target.parentElement.parentElement.parentElement.id;
     this.setState({isHidden: !this.state.isHidden});
+    this.props.hideMessage(id);
   }
 
   render() {
@@ -25,7 +32,7 @@ class CommonMessage extends PureComponent {
 
     return(
       <div>
-        <div className={ msgClass }>
+        <div className={ msgClass } id={ this.props.id }>
           <div className='message-content'>
             <span>{this.props.message} <p onClick={ this.isHidden }>X</p></span>
           </div>
@@ -35,4 +42,11 @@ class CommonMessage extends PureComponent {
   }
 }
 
-export default CommonMessage;
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    hideMessage: CommonMessageActions.hideMessage
+  },
+  dispatch
+);
+
+export default connect(mapDispatchToProps)(CommonMessage);

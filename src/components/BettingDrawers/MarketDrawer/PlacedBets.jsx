@@ -63,6 +63,7 @@ class PlacedBets extends PureComponent {
         <CommonMessage
           message={ this.props.message }
           type={ this.props.messageType }
+          id='betslip'
         />
         <div className='content' ref='placedBets'>
 

@@ -1,9 +1,10 @@
 @import (reference) '../App/Colors.less';
 
+@height-of-common-message: 36px;
+
 .message {
 	&-background{
 		width: 100%;
-		position: absolute;
 		top: -36px;
 		height: 36px;
 		padding: 5px 0;
@@ -23,25 +24,22 @@
 		&.info {
 			background-color: fade(@system_info, 100%);
 			color: @white;
-			top: 0;
 		}
 		&.error {
 			background-color: fade(@system_error, 100%);
 			color: @white;
-			top: 0;
 		}
 		&.warning {
 			background-color: fade(@system_warning, 100%);
 			color: @black;
-			top: 0;
 		}
 		&.success {
 			background-color: fade(@system_success, 100%);
 			color: @black;
-			top: 0;
 		}
 		&.none {
 			display: none;
+			@height-of-common-message: 0;
 		}
 	}
 	&-content {
@@ -86,5 +84,17 @@
 	}
 	100% {
 		transform: translateY(0%);
+	}
+}
+
+.messaging {
+	.Pane2 {
+		height: calc(~'100% - @{height-of-common-message}');
+	}
+	.scrollbar-style-main {
+		height: calc(~'100% - @{height-of-common-message}');
+	}
+	&-none {
+		height: 100%;
 	}
 }
