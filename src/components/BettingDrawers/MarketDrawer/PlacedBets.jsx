@@ -59,12 +59,11 @@ class PlacedBets extends PureComponent {
   render() {
     return (
       <div className='placed-bets'>
-        <CommonMessage
-          location='betslip'
-        />
         <div className='content' ref='placedBets'>
-
           {this.props.placedBetsLoadingStatus === 'loading' ? <Loading /> : ''}
+          <CommonMessage
+            location='betslip'
+          />
           {!this.props.isEmpty && (
             <UnmatchedBets
               currencyFormat={ this.props.currencyFormat }

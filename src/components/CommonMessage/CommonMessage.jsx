@@ -62,19 +62,37 @@ const mapStateToProps = (state, ownProps) => {
   const exchangeMessages = messages.get('exchangeMessages');
   const betslipMessages = messages.get('betslipMessages');
 
+  // Get number of messages in the exchange location.
   const numOfExchangeMessages = exchangeMessages.size;
-  const messagingHeight = 36 * numOfExchangeMessages;
+  // Get the number of messages in the betslip location. This needs to account for
+  // any messages that may exist in the exchange location.
+  const numOfBetslipMessages = betslipMessages.size;
+  const totalNumOfMessages = numOfExchangeMessages + numOfBetslipMessages;
+
+  //Calculate the heights of the exchange child div and the betslip child div.
+  const exchangeMessagingHeight = 36 * numOfExchangeMessages;
+  let betslipMessageHeight;
+
+  // If there is more than one betslip message, subtract 1 and use the totalNumOfMessages.
+  if (numOfBetslipMessages >= 1){
+    betslipMessageHeight = 36 * (totalNumOfMessages - 1);
+  } else {
+    betslipMessageHeight = exchangeMessagingHeight;
+  }
+
   // Dynamically apply a style to the split panes.
   const messagingDivExist = document.getElementsByClassName('messaging').length > 0;
 
   if (messagingDivExist) {
     const messagingExchange = document.getElementsByClassName('messaging')[0]
       .children[1].children[0];
+    
     const messagingBetslip = document.getElementsByClassName('messaging')[0]
       .children[1].children[2];
 
-    messagingExchange.style.height = 'calc(100% - ' + messagingHeight + 'px)';
-    messagingBetslip.style.height = 'calc(100% - ' + messagingHeight + 'px)';
+    messagingExchange.style.height = 'calc(100% - ' + exchangeMessagingHeight + 'px)';
+    messagingBetslip.style.height = 'calc(100% - ' + betslipMessageHeight + 'px)';
+
   }
 
   return {
