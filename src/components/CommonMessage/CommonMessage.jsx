@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import './CommonMessage.less';
 import CommonMessageActions from '../../actions/CommonMessageActions';
+import {Config} from '../../constants';
 
 const compileMessage = (props) => {
   // Compile and render the exchange messages.
@@ -25,6 +26,9 @@ const compileMessage = (props) => {
     idPrefix = 'b';
     messageList = props.betslipMessages;
   }
+
+  // Filter the message list to only show the number of messages configured.
+  messageList = messageList.slice(0, props.numOfCommonMessageToDisplay);
 
   const messages = messageList.map((pair, key) => (
     <div
@@ -56,29 +60,33 @@ class CommonMessage extends PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const messageO = ownProps.message;
+const mapStateToProps = (state) => {
+  const reverse = Config.commonMessageModule.sortingMethod === 'oldest';
   const messages = state.get('commonMessage');
-  const exchangeMessages = messages.get('exchangeMessages');
-  const betslipMessages = messages.get('betslipMessages');
+  let exchangeMessages = messages.get('exchangeMessages');
+  let betslipMessages = messages.get('betslipMessages');
+  const numOfCommonMessageToDisplay = Config.commonMessageModule.numOfCommonMessageToDisplay;
 
-  // Get number of messages in the exchange location.
-  const numOfExchangeMessages = exchangeMessages.size;
-  // Get the number of messages in the betslip location. This needs to account for
-  // any messages that may exist in the exchange location.
-  const numOfBetslipMessages = betslipMessages.size;
-  const totalNumOfMessages = numOfExchangeMessages + numOfBetslipMessages;
+  if (reverse) {
+    exchangeMessages = exchangeMessages.reverse();
+    betslipMessages = betslipMessages.reverse();
+  }
+
+  // Determine the number of messages for calculating the heigh offset needed.
+  let numOfExchangeMessages = exchangeMessages.size;
+  let numOfBetslipMessages = betslipMessages.size;
+
+  if (numOfExchangeMessages > numOfCommonMessageToDisplay) {
+    numOfExchangeMessages = numOfCommonMessageToDisplay;
+  }
+
+  if (numOfBetslipMessages > numOfCommonMessageToDisplay) {
+    numOfBetslipMessages = numOfCommonMessageToDisplay;
+  }
 
   //Calculate the heights of the exchange child div and the betslip child div.
   const exchangeMessagingHeight = 36 * numOfExchangeMessages;
-  let betslipMessageHeight;
 
-  // If there is more than one betslip message, subtract 1 and use the totalNumOfMessages.
-  if (numOfBetslipMessages >= 1){
-    betslipMessageHeight = 36 * (totalNumOfMessages - 1);
-  } else {
-    betslipMessageHeight = exchangeMessagingHeight;
-  }
 
   // Dynamically apply a style to the split panes.
   const messagingDivExist = document.getElementsByClassName('messaging').length > 0;
@@ -91,14 +99,13 @@ const mapStateToProps = (state, ownProps) => {
       .children[1].children[2];
 
     messagingExchange.style.height = 'calc(100% - ' + exchangeMessagingHeight + 'px)';
-    messagingBetslip.style.height = 'calc(100% - ' + betslipMessageHeight + 'px)';
-
+    messagingBetslip.style.height = 'calc(100% - ' + exchangeMessagingHeight + 'px)';
   }
 
   return {
-    messageO,
     exchangeMessages,
-    betslipMessages
+    betslipMessages,
+    numOfCommonMessageToDisplay
   };
 };
 
