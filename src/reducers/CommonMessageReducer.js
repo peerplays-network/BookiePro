@@ -3,38 +3,8 @@ import {ActionTypes} from '../constants';
 //import MessageType from '../constants/MessageTypes';
 
 let initialState = Immutable.fromJS({
-  exchangeMessages: [
-    {
-      content: 'this is a warning message. Index 0',
-      messageType: 'warning'
-    },
-    {
-      content: 'this is an error message. Index 1',
-      messageType: 'error'
-    },
-    {
-      content: 'this is a success message. Index 2',
-      messageType: 'success'
-    }, {
-      content: 'this is an info message. Index 3',
-      messageType: 'info'
-    }
-  ],
-  betslipMessages: [
-    {
-      content: 'this is a warning message. Index 0',
-      messageType: 'warning'
-    }, {
-      content: 'this is an error message. Index 1',
-      messageType: 'error'
-    }, {
-      content: 'this is a success message. Index 2',
-      messageType: 'success'
-    }, {
-      content: 'this is an info message. Index 3',
-      messageType: 'info'
-    }
-  ]
+  exchangeMessages: [],
+  betslipMessages: []
 });
 
 export default function(state = initialState, action) {
