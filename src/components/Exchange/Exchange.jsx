@@ -175,7 +175,7 @@ class Exchange extends PureComponent {
               objectId={ transitionName[transitionName.length - 1] }
             />
           </div>
-          <div className={ this.props.messaging }>
+          <div className='messaging'>
             <CommonMessage
               location='exchange'
             />
