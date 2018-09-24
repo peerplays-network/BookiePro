@@ -61,6 +61,22 @@ const mapStateToProps = (state, ownProps) => {
   const messages = state.get('commonMessage');
   const exchangeMessages = messages.get('exchangeMessages');
   const betslipMessages = messages.get('betslipMessages');
+
+  const numOfExchangeMessages = exchangeMessages.size;
+  const messagingHeight = 36 * numOfExchangeMessages;
+  // Dynamically apply a style to the split panes.
+  const messagingDivExist = document.getElementsByClassName('messaging').length > 0;
+
+  if (messagingDivExist) {
+    const messagingExchange = document.getElementsByClassName('messaging')[0]
+      .children[1].children[0];
+    const messagingBetslip = document.getElementsByClassName('messaging')[0]
+      .children[1].children[2];
+
+    messagingExchange.style.height = 'calc(100% - ' + messagingHeight + 'px)';
+    messagingBetslip.style.height = 'calc(100% - ' + messagingHeight + 'px)';
+  }
+
   return {
     messageO,
     exchangeMessages,
