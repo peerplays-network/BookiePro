@@ -117,7 +117,26 @@ class Exchange extends PureComponent {
     });
 
     // TESTING PURPOSES
-    this.props.addCommonMessage('some content', MessageType.SUCCESS, 'exchange');
+    let index = Math.floor(Math.random() * 5) + 1;
+
+    switch (index) {
+      case 1:
+        this.props.addCommonMessage(
+          Math.random(Math.random() * 99).toString(), MessageType.SUCCESS, 'exchange');
+        break;
+      case 2:
+        this.props.addCommonMessage(
+          Math.random(Math.random() * 99).toString(), MessageType.INFO, 'exchange');
+        break;
+      case 3:
+        this.props.addCommonMessage(
+          Math.random(Math.random() * 99).toString(), MessageType.ERROR, 'exchange');
+        break;
+      case 4:
+        this.props.addCommonMessage(
+          Math.random(Math.random() * 99).toString(), MessageType.WARNING, 'exchange');
+        break;
+    }
 
     if (
       !this.props.isShowLogoutPopup &&
