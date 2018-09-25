@@ -123,18 +123,24 @@ class Exchange extends PureComponent {
       case 1:
         this.props.addCommonMessage(
           Math.random(Math.random() * 99).toString(), MessageType.SUCCESS, 'exchange');
+        this.props.addCommonMessage(
+          Math.random(Math.random() * 99).toString(), MessageType.INFO, 'betslip');
         break;
       case 2:
         this.props.addCommonMessage(
-          Math.random(Math.random() * 99).toString(), MessageType.INFO, 'exchange');
+          Math.random(Math.random() * 99).toString(), MessageType.INFO, 'betslip');
         break;
       case 3:
         this.props.addCommonMessage(
           Math.random(Math.random() * 99).toString(), MessageType.ERROR, 'exchange');
+        this.props.addCommonMessage(
+          Math.random(Math.random() * 99).toString(), MessageType.INFO, 'betslip');
         break;
       case 4:
         this.props.addCommonMessage(
           Math.random(Math.random() * 99).toString(), MessageType.WARNING, 'exchange');
+        this.props.addCommonMessage(
+          Math.random(Math.random() * 99).toString(), MessageType.INFO, 'betslip');
         break;
     }
 

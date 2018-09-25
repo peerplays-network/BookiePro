@@ -4,43 +4,40 @@ import {bindActionCreators} from 'redux';
 import './CommonMessage.less';
 import CommonMessageActions from '../../actions/CommonMessageActions';
 import {Config} from '../../constants';
+import MessageType from '../../constants/MessageTypes';
 
 const compileMessage = (props) => {
-  // Compile and render the exchange messages.
-  const remove = (e) => {
-    // extract the id to pass to reducer so that we can remove the message from state.
-    const msgParent = e.target.parentElement.parentElement.parentElement;
-    const id = msgParent.id;
-    
-    props.clearMessage(id);
-  };
-
-  let idPrefix, messageList;
+  let messageList;
 
   if (props.location === 'exchange') {
-    idPrefix = 'e';
     messageList = props.exchangeMessages;
   }
 
   if (props.location === 'betslip') {
-    idPrefix = 'b';
     messageList = props.betslipMessages;
   }
 
   // Filter the message list to only show the number of messages configured.
   messageList = messageList.slice(0, props.numOfCommonMessageToDisplay);
 
-  const messages = messageList.map((pair, key) => (
-    <div
-      className={ 'c-message__background ' + pair.get('messageType') }
-      key={ key }
-      id={ idPrefix + key }
-    >
-      <div className='c-message__content'>
-        <span>{pair.get('content') } <p onClick={ remove }>X</p></span>
+  const messages = messageList.map((pair, key) => {
+    let messageType = pair.get('messageType');
+    let id = pair.get('id');
+
+    return (
+      <div
+        className={ 'c-common-message__background ' + messageType }
+        key={ key }
+        id={ id }
+      >
+        <div className='c-common-message__content'>
+          <span>{pair.get('content') }
+            <p onClick={ () => props.clearMessage([id]) }>X</p>
+          </span>
+        </div>
       </div>
-    </div>
-  ));
+    );
+  });
   return <div>{messages}</div>;
 };
 
@@ -48,9 +45,42 @@ class CommonMessage extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {isHidden: false};
+    this.setTimer = this.setTimer.bind(this);
+    this.checkToAssignTimer = this.checkToAssignTimer.bind(this);
   }
 
+  setTimer(id) {
+    setTimeout(
+      function () {
+        this.props.clearMessage([id]);
+      }.bind(this),
+      Config.commonMessageModule.timeout
+    );
+  }
+
+  checkToAssignTimer(messages) {
+    messages.forEach((msg) => {
+      let msgType = msg.get('messageType');
+
+      if (msgType === MessageType.SUCCESS || msgType === MessageType.INFO) {
+        this.setTimer(msg.get('id'));
+      }
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    let isDiffExchange = this.props.exchangeMessages !== prevProps.exchangeMessages;
+    let isDiffBetslip = this.props.betslipMessages !== prevProps.betslipMessages;
+
+    if (isDiffExchange) {
+      this.checkToAssignTimer(this.props.exchangeMessages);
+    }
+
+    if (isDiffBetslip) {
+      this.checkToAssignTimer(this.props.betslipMessages);
+    }
+  }
+  
   render() {
     return (
       <div>
