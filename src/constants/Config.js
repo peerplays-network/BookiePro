@@ -62,7 +62,8 @@ const Config = {
   },
   commonMessageModule: {
     numOfCommonMessageToDisplay: 3,
-    sortingMethod: 'recent' // recent OR oldest
+    sortingMethod: 'recent', // recent OR oldest
+    timeout: 7500 // 7.5 seconds for auto-dismissal messages
   },
   features: {
     withdrawels: false,

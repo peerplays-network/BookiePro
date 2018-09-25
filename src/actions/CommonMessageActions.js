@@ -7,12 +7,13 @@ class CommonMessagePrivateActions {
       id
     };
   }
-  static addMessage(content, messageType, loc) {
+  static addMessage(content, messageType, loc, id) {
     return {
       type: ActionTypes.COMMON_MSG_ADD_MSG,
       content,
       messageType,
-      loc
+      loc,
+      id
     };
   }
 }
@@ -24,8 +25,16 @@ class CommonMessageActions {
     };
   }
   static newMessage(content, messageType, loc) {
-    return (dispatch) => {
-      dispatch(CommonMessagePrivateActions.addMessage(content, messageType, loc));
+    return (dispatch, getState) => {
+      let id = getState().get('commonMessage').get('messageCount') + 1;
+
+      if (loc === 'exchange') {
+        id = 'e' + id;
+      } else {
+        id = 'b' + id;
+      }
+
+      dispatch(CommonMessagePrivateActions.addMessage(content, messageType, loc, id));
     };
   }
 }
