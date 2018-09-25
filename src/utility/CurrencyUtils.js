@@ -436,7 +436,9 @@ var CurrencyUtils = {
         }
 
         // If the value coming is of 3 precision, its dust is different.
-        if (amount % 1 !== 0 && amount.toString().split('.')[1].length === 3) {
+        if (amount % 1 !== 0 && 
+            amount.toString().split('.')[1] &&
+            amount.toString().split('.')[1].length === 3) {
           dustRange = exchangeCoin;
         }
 

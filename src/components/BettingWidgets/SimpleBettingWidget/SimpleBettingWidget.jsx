@@ -232,7 +232,7 @@ class SimpleBettingWidget extends PureComponent {
    * @param {string} currencyFormat - Base coin or mili coin format.
    * @returns {Function} - the actual cell rendering function used by antd Table
    */
-  renderOffer(action, typeOfBet, index, currencyFormat) {
+  renderOffer(action, typeOfBet, index) {
     return (text, record) => {
       // Retrieve the nested offers data from the data record
       let offers = record.get('offers');
@@ -270,8 +270,13 @@ class SimpleBettingWidget extends PureComponent {
         if (offer) {
           let odds = offer.get('odds');
           let price = offer.get('price');
-          offer = offer.set('price', price / (odds - 1)
-            .toFixed(CurrencyUtils.fieldPrecisionMap['odds']['BTF']));
+
+          offer = offer.set('price', CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
+            price / (odds - 1),
+            'coin',
+            OFFER_PRECISION,
+            true
+          ));
         }
       }
 
@@ -305,7 +310,7 @@ class SimpleBettingWidget extends PureComponent {
                 {currencySymbol}
                 {CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                   offer.get('price'),
-                  currencyFormat,
+                  'coin',
                   OFFER_PRECISION,
                   true
                 )}
