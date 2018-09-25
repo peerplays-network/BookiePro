@@ -1,6 +1,5 @@
 import Immutable from 'immutable';
 import {ActionTypes} from '../constants';
-//import MessageType from '../constants/MessageTypes';
 
 let initialState = Immutable.fromJS({
   exchangeMessages: [],
