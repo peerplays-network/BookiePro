@@ -270,7 +270,8 @@ class SimpleBettingWidget extends PureComponent {
         if (offer) {
           let odds = offer.get('odds');
           let price = offer.get('price');
-          offer = offer.set('price', price / (odds - 1));
+          offer = offer.set('price', price / (odds - 1)
+            .toFixed(CurrencyUtils.fieldPrecisionMap['odds']['BTF']));
         }
       }
 
