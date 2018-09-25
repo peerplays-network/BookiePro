@@ -61,6 +61,11 @@ var CurrencyUtils = {
     }
   },
 
+  minBetAmount: {
+    BTF: .001,
+    mBTF: 1
+  },
+
   OFFER_PRECISION: 3,
 
   /**
@@ -419,6 +424,11 @@ var CurrencyUtils = {
       // Handle negative amounts
       amount = Math.abs(amount);
 
+      // For edge cases where users have ended up with amounts in their transaction histories
+      // reaching this function. 
+      if (amount.toString().indexOf('e') !== -1) {
+        isDust = true;
+      } else {
       if (currencyFormat.toLowerCase().indexOf('m') === -1) {
         dustRange = coinDust;
       } else {
@@ -434,9 +444,7 @@ var CurrencyUtils = {
       if (field === 'stake') {
         // Is the currency a mili coin? [ mBTF ]
         if (currencyFormat.indexOf('m') !== -1) {
-          // miliCoin's do not display non-whole numbers.
-          if (amount % 1 !== miliStakeDust) {
-            // Early return for edge case dust.
+            if (amount < 1) {
             isDust = true;
           }
         } else {
@@ -449,6 +457,7 @@ var CurrencyUtils = {
       if (amount < dustRange && amount !== 0) {
         isDust = true;
       }
+    }
     }
 
     return isDust;

@@ -438,12 +438,14 @@ class HistoryService {
         status = I18n.t('myAccount.transaction_status_processing');
       }
 
+      let amountHeader = 'Amount(' + currencyFormat + ')';
+
       return {
         Id: transaction.get('id'),
         Time: moment(transaction.get('time')).format('DD/MM/YYYY HH:mm:ss'),
         Description: transaction.get('desc'),
         Status: status,
-        Amount: CurrencyUtils.getFormattedCurrency(
+        [amountHeader]: CurrencyUtils.getFormattedCurrency(
           transaction.get('amount'),
           currencyFormat,
           BettingModuleUtils.stakePlaces
