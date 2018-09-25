@@ -32,11 +32,11 @@ const compileMessage = (props) => {
 
   const messages = messageList.map((pair, key) => (
     <div
-      className={ 'message-background ' + pair.get('messageType') }
+      className={ 'c-message__background ' + pair.get('messageType') }
       key={ key }
       id={ idPrefix + key }
     >
-      <div className='message-content'>
+      <div className='c-message__content'>
         <span>{pair.get('content') } <p onClick={ remove }>X</p></span>
       </div>
     </div>
