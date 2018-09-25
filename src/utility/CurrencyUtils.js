@@ -6,6 +6,7 @@ import UserIssuedAssets from '../constants/UserIssuedAssets';
  * The CurrencyUtils contains all the functions related to currency conversion function
  */
 const bitcoinSymbol = '\u0243';
+const configCurrency = Config.features.currency;
 const coinSymbol = Config.features.currency;
 const mCoinSymbol = 'm' + coinSymbol;
 const coinDust = Config.dust.coin;
@@ -99,7 +100,7 @@ var CurrencyUtils = {
       
       // Check if the value is dust.
       let isDust = this.isDust(currencyFormat, amount, field);
-      
+    
       if (!isDust) {
         let split = amount.toString().split('.');
 
@@ -222,7 +223,7 @@ var CurrencyUtils = {
           return this.substringPrecision(
             amount, 
             mPrecision, 
-            false, 
+            true, 
             currencyFormat, 
             field, 
             skipDustCheck
@@ -234,7 +235,7 @@ var CurrencyUtils = {
           : this.substringPrecision(
             1000 * amount, 
             mPrecision, 
-            false, 
+            true,
             currencyFormat, 
             field, 
             skipDustCheck
@@ -260,7 +261,7 @@ var CurrencyUtils = {
     }
 
     // Return the original value in string
-    return parseFloat(amount).toFixed(precision).toString();
+    return amount.toFixed(precision).toString();
   },
 
   /**
@@ -313,7 +314,7 @@ var CurrencyUtils = {
     currency=mCoinSymbol, 
     skipDustCheck) {
     const currencyType = this.getCurrencyType(currency);
-    
+
     // Odds values have no dependency on currency
     if (field === 'odds') {
       return amount.toFixed(2);
@@ -352,7 +353,6 @@ var CurrencyUtils = {
   toFixed: function(field, amount, currency=mCoinSymbol) {
     const currencyType = this.getCurrencyType(currency);
 
-    // DO NOT expect this but just in case...
     if (
       this.fieldPrecisionMap[field] === undefined ||
       this.fieldPrecisionMap[field][currencyType] === undefined
@@ -429,35 +429,35 @@ var CurrencyUtils = {
       if (amount.toString().indexOf('e') !== -1) {
         isDust = true;
       } else {
-      if (currencyFormat.toLowerCase().indexOf('m') === -1) {
-        dustRange = coinDust;
-      } else {
-        dustRange = miliCoinDust;
-      }
-
-      // If the value coming is of 3 precision, its dust is different.
-      if (amount % 1 !== 0 && amount.toString().split('.')[1].length === 3) {
-        dustRange = exchangeCoin;
-      }
-
-      // Check the fields for overriding the general dust values.
-      if (field === 'stake') {
-        // Is the currency a mili coin? [ mBTF ]
-        if (currencyFormat.indexOf('m') !== -1) {
-            if (amount < 1) {
-            isDust = true;
-          }
+        if (currencyFormat.toLowerCase().indexOf('m') === -1) {
+          dustRange = coinDust;
         } else {
-          dustRange = stakeDust;
+          dustRange = miliCoinDust;
+        }
+
+        // If the value coming is of 3 precision, its dust is different.
+        if (amount % 1 !== 0 && amount.toString().split('.')[1].length === 3) {
+          dustRange = exchangeCoin;
+        }
+
+        // Check the fields for overriding the general dust values.
+        if (field === 'stake') {
+          // Is the currency a mili coin? [ mBTF ]
+          if (currencyFormat.indexOf('m') !== -1) {
+            if (amount < 1) {
+              isDust = true;
+            }
+          } else {
+            dustRange = stakeDust;
+          }
+        }
+
+        // If the amount is less than the configured dust values (Config.js), then 
+        // change the display of that amount to indicate as such.
+        if (amount < dustRange && amount !== 0) {
+          isDust = true;
         }
       }
-
-      // If the amount is less than the configured dust values (Config.js), then 
-      // change the display of that amount to indicate as such.
-      if (amount < dustRange && amount !== 0) {
-        isDust = true;
-      }
-    }
     }
 
     return isDust;
