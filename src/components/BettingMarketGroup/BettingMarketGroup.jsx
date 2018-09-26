@@ -103,7 +103,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     getData: BettingMarketGroupPageActions.getData,
     createBet: MarketDrawerActions.createBet,
-    getOpenBets: MarketDrawerActions.getPlacedBets,
+    getOpenBets: MarketDrawerActions.getOpenBets,
     navigateTo: NavigateActions.navigateTo,
     updateOpenBetsLoadingStatus: MarketDrawerActions.updateOpenBetsLoadingStatus
   },
