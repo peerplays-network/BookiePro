@@ -203,7 +203,7 @@ var CurrencyUtils = {
         return amount;
       }
 
-      if (currencyFormat === 'mCoin') {
+      if (currencyFormat === mCoinSymbol) {
         // 1 BTF = 1 * 10^3 mBTF
         const mPrecision = precision < 3 ? 0 : precision - 3;
 
@@ -240,7 +240,7 @@ var CurrencyUtils = {
           );
       }
 
-      if (currencyFormat === 'coin') {
+      if (currencyFormat === coinSymbol) {
         if (amount % 1 !== 0) {
           return this.substringPrecision(
             amount, 
