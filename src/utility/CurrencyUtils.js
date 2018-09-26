@@ -6,13 +6,11 @@ import UserIssuedAssets from '../constants/UserIssuedAssets';
  * The CurrencyUtils contains all the functions related to currency conversion function
  */
 const bitcoinSymbol = '\u0243';
-const configCurrency = Config.features.currency;
 const coinSymbol = Config.features.currency;
 const mCoinSymbol = 'm' + coinSymbol;
 const coinDust = Config.dust.coin;
 const miliCoinDust = Config.dust.miliCoin;
 const exchangeCoin = Config.dust.exchangeCoin;
-const miliStakeDust = 0;
 const stakeDust = exchangeCoin; // Three
 
 const btc = UserIssuedAssets.btc;
