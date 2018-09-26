@@ -16,7 +16,6 @@ import UnplacedBetModal from '../Modal/UnplacedBetModal';
 import Ps from 'perfect-scrollbar';
 import CommonMessage from '../CommonMessage/CommonMessage';
 import CommonMessageActions from '../../actions/CommonMessageActions';
-import MessageType from '../../constants/MessageTypes';
 
 class Exchange extends PureComponent {
   constructor(props) {
@@ -115,34 +114,6 @@ class Exchange extends PureComponent {
     this.setState({
       nextLocation
     });
-
-    // TESTING PURPOSES
-    let index = Math.floor(Math.random() * 5) + 1;
-
-    switch (index) {
-      case 1:
-        this.props.addCommonMessage(
-          Math.random(Math.random() * 99).toString(), MessageType.SUCCESS, 'exchange');
-        this.props.addCommonMessage(
-          Math.random(Math.random() * 99).toString(), MessageType.INFO, 'betslip');
-        break;
-      case 2:
-        this.props.addCommonMessage(
-          Math.random(Math.random() * 99).toString(), MessageType.INFO, 'betslip');
-        break;
-      case 3:
-        this.props.addCommonMessage(
-          Math.random(Math.random() * 99).toString(), MessageType.ERROR, 'exchange');
-        this.props.addCommonMessage(
-          Math.random(Math.random() * 99).toString(), MessageType.INFO, 'betslip');
-        break;
-      case 4:
-        this.props.addCommonMessage(
-          Math.random(Math.random() * 99).toString(), MessageType.WARNING, 'exchange');
-        this.props.addCommonMessage(
-          Math.random(Math.random() * 99).toString(), MessageType.INFO, 'betslip');
-        break;
-    }
 
     if (
       !this.props.isShowLogoutPopup &&
