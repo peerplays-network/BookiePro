@@ -64,7 +64,7 @@ class OpenBets extends PureComponent {
   render() {
     let showLoadingScreen;
 
-    switch (this.props.placedBetsLoadingStatus) {
+    switch (this.props.openBetsLoadingStatus) {
       case LoadingStatus.LOADING:
       case LoadingStatus.BET_DELETE:
       case LoadingStatus.BET_PLACE:
@@ -76,7 +76,7 @@ class OpenBets extends PureComponent {
 
     return (
       <div className='placed-bets'>
-        <div className='content' ref='placedBets'>
+        <div className='content' ref='openBets'>
           {showLoadingScreen ? <Loading /> : ''}
           {!this.props.isEmpty && (
             <UnmatchedBets

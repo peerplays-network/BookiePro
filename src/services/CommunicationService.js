@@ -176,7 +176,7 @@ class CommunicationService {
                   ObjectUtils.betBelongsToBMG(this.getState(), betId, currentBMG)) {
                 // If it does, then trigger a loading screen on the placed bets tab.
                 this.dispatch(
-                  MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.BET_DELETE)
+                  MarketDrawerActions.updateOpenBetsLoadingStatus(LoadingStatus.BET_DELETE)
                 );
               }
             } else if (operationType === ChainTypes.operations.bet_place) {
