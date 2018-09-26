@@ -9,6 +9,7 @@ import SportActions from './SportActions';
 import MarketDrawerActions from './MarketDrawerActions';
 import {TransactionBuilder} from 'peerplaysjs-lib';
 import log from 'loglevel';
+import {CurrencyUtils} from '../utility';
 
 /**
  * Private actions
@@ -348,9 +349,10 @@ class BetActions {
           getState().getIn(['setting', 'settingByAccountId', accountId]) ||
           getState().getIn(['setting', 'defaultSetting']);
         const currencyFormat = setting.get('currencyFormat');
+        const currencyType = CurrencyUtils.getCurrencyType(currencyFormat);
 
         // If the Better's currency format is set to 'mCoin' ...
-        if (currencyFormat === 'mCoin') {
+        if (currencyType === 'mCoin') {
           // ... reduce the precision by 3.
           betAssetPrecision = Math.max(betAssetPrecision - 3, 0);
         }
@@ -523,9 +525,10 @@ class BetActions {
           getState().getIn(['setting', 'settingByAccountId', accountId]) ||
           getState().getIn(['setting', 'defaultSetting']);
         const currencyFormat = setting.get('currencyFormat');
+        const currencyType = CurrencyUtils.getCurrencyType(currencyFormat);
 
         // If the Better's currency format is set to 'mBTC' ...
-        if (currencyFormat === 'mCoin') {
+        if (currencyType === 'mCoin') {
           // ... reduce the precision by 3
           betAssetPrecision = Math.max(betAssetPrecision - 3, 0);
         }

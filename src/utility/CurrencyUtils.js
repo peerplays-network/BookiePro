@@ -427,7 +427,7 @@ var CurrencyUtils = {
       if (amount.toString().indexOf('e') !== -1) {
         isDust = true;
       } else {
-        if (currencyFormat.toLowerCase().indexOf('m') === -1) {
+        if (this.getCurrencyType(currencyFormat) === 'mCoin') {
           dustRange = coinDust;
         } else {
           dustRange = miliCoinDust;
@@ -443,7 +443,7 @@ var CurrencyUtils = {
         // Check the fields for overriding the general dust values.
         if (field === 'stake') {
           // Is the currency a mili coin? [ mBTF ]
-          if (currencyFormat.indexOf('m') !== -1) {
+          if (this.getCurrencyType(currencyFormat) === 'mCoin') {
             if (amount < 1) {
               isDust = true;
             }
