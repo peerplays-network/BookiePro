@@ -93,7 +93,7 @@ const getTotalMatchedBetsAmount = createSelector(
     const totalMatchedBetsAssetId = totalMatchedBetsByMarketGroupId.getIn([
       bettingMarketGroupId,
       'asset_id'
-    ]) | 0;
+    ]);
     const totalMatchedBetsAsset = assetsById.get(totalMatchedBetsAssetId);
     const totalMatchedBetsAssetPrecision = totalMatchedBetsAsset
       ? totalMatchedBetsAsset.get('precision')
