@@ -37,7 +37,7 @@ export default function(state = initialState, action) {
       // operate on the one matching supplied id
       let messageCount = state.get('messageCount');
       const newMessageCount = --messageCount;
-      const id = action.id[0];
+      const id = action.id;
 
       if (id.indexOf('e') !== -1) {
         // Location is of type 'exchange'

@@ -32,7 +32,7 @@ const compileMessage = (props) => {
       >
         <div className='c-common-message__content'>
           <span>{pair.get('content') }
-            <p onClick={ () => props.clearMessage([id]) }>X</p>
+            <p onClick={ () => props.clearMessage(id) }>X</p>
           </span>
         </div>
       </div>
@@ -52,7 +52,7 @@ class CommonMessage extends PureComponent {
   setTimer(id) {
     setTimeout(
       function () {
-        this.props.clearMessage([id]);
+        this.props.clearMessage(id);
       }.bind(this),
       Config.commonMessageModule.timeout
     );
