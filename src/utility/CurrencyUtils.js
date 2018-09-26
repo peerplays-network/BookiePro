@@ -203,7 +203,7 @@ var CurrencyUtils = {
         return amount;
       }
 
-      if (currencyFormat === mCoinSymbol) {
+      if (currencyFormat === 'mCoin') {
         // 1 BTF = 1 * 10^3 mBTF
         const mPrecision = precision < 3 ? 0 : precision - 3;
 
@@ -240,7 +240,7 @@ var CurrencyUtils = {
           );
       }
 
-      if (currencyFormat === coinSymbol) {
+      if (currencyFormat === 'coin') {
         if (amount % 1 !== 0) {
           return this.substringPrecision(
             amount, 
@@ -428,9 +428,9 @@ var CurrencyUtils = {
         isDust = true;
       } else {
         if (this.getCurrencyType(currencyFormat) === 'mCoin') {
-          dustRange = coinDust;
-        } else {
           dustRange = miliCoinDust;
+        } else {
+          dustRange = coinDust;
         }
 
         // If the value coming is of 3 precision, its dust is different.
