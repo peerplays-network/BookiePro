@@ -182,7 +182,6 @@ const getMarketData = createSelector(
     eventStatus
   ) => {
     let marketData = Immutable.List();
-    const oddsPrecision = CurrencyUtils.fieldPrecisionMap['odds']['BTF'];
     bettingMarkets.forEach((bettingMarket) => {
       const coinDust = Config.dust.exchangeCoin;
       const binnedOrderBook = binnedOrderBooksByBettingMarketId.get(bettingMarket.get('id'));
@@ -222,7 +221,7 @@ const getMarketData = createSelector(
               const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
               const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
               return aggregated_lay_bet
-                .set('odds', odds).set('price', price / (odds - 1).toFixed(oddsPrecision));
+                .set('odds', odds).set('price', price / (odds - 1));
             })
             .filter((bet) => {
               return bet.get('price') >= coinDust;
