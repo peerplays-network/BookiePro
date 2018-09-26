@@ -34,10 +34,10 @@ const syncImmutableTranslationWithStore = (store) => {
 export default function configureStore() {
   // Define initial state
   const initialState = Immutable.Map();
-  let actionsWhitelist = ['COMMON_MSG_ADD_MSG'];
+  let actionsWhitelist;
 
-  if (!Config.commonMessageModule.disableActionsInRedux) {
-    actionsWhitelist = [];
+  if (Config.commonMessageModule.disableActionsInRedux) {
+    actionsWhitelist = ['BALANCE_SET_DEPOSIT_ADDRESS'];
   }
 
   // Configure enhancer for redux dev tools extensions (if available)
