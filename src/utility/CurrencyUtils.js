@@ -121,7 +121,7 @@ var CurrencyUtils = {
     return amount;
   },
 
-  getCurrencyType: function (currency = coinSymbol) {
+  getCurrencyType (currency = coinSymbol) {
     let type = 'coin';
 
     if (currency.indexOf('m') !== -1) {
@@ -131,7 +131,7 @@ var CurrencyUtils = {
     return type;
   },
 
-  getCurrencySymbol: function(currency = mCoinSymbol, color='black') {
+  getCurrencySymbol (currency = mCoinSymbol, color='black') {
     switch (currency) {
       case 'BTC':
         if (color === 'white') {
@@ -188,7 +188,7 @@ var CurrencyUtils = {
    * @param {boolan} skipDustCheck - If true, dust checking will be skipped.
    * @returns {string} - formatted string to support negative bitcoin curruency values
    */
-  getFormattedCurrency: function(
+  getFormattedCurrency (
     amount,
     currencyFormat=mCoinSymbol,
     precision=0,
@@ -274,7 +274,7 @@ var CurrencyUtils = {
    * @param {boolean} spaceAfterSymbol -  if space needed to seperate currency symbole and amount.
    * @returns {string} - formatted BTF or mBTF value with currency symbol prepended
    */
-  formatByCurrencyAndPrecisionWithSymbol: function(
+  formatByCurrencyAndPrecisionWithSymbol (
     amount,
     currency=mCoinSymbol,
     precision=0,
@@ -306,7 +306,7 @@ var CurrencyUtils = {
     * @param {boolan} skipDustCheck - if true, do not check if value is dust. Used for placing bets.
     * @returns {string} - formatted BTF or mBTF value
     */
-  formatFieldByCurrencyAndPrecision: function(
+  formatFieldByCurrencyAndPrecision (
     field, 
     amount, 
     currency=mCoinSymbol, 
@@ -348,7 +348,7 @@ var CurrencyUtils = {
    *
    * Return the field value (amount) as a formatted string
    */
-  toFixed: function(field, amount, currency=mCoinSymbol) {
+  toFixed (field, amount, currency=mCoinSymbol) {
     const currencyType = this.getCurrencyType(currency);
 
     if (
@@ -396,7 +396,7 @@ var CurrencyUtils = {
    *
    * Return the field value (amount) as a formatted string
    */
-  toFixedWithSymbol: function(field, amount, currency=mCoinSymbol, spaceAfterSymbol=false) {
+  toFixedWithSymbol (field, amount, currency=mCoinSymbol, spaceAfterSymbol=false) {
     return (
       (amount >= 0 ? '' : '-') +
       this.getCurrencySymbol(currency) +
@@ -408,13 +408,13 @@ var CurrencyUtils = {
   // BOOK-384
   // Author: Keegan Francis : k.francis@pbsa.rowInfo
   // This function will convert lay stake to the correct value
-  layBetStakeModifier: function(stake, odds) {
+  layBetStakeModifier (stake, odds) {
     return stake / (odds - 1);
   },
 
 
   // Check if the currency is dust. If it is, append an asterik.
-  isDust: (currencyFormat, amount, field) => {
+  isDust (currencyFormat, amount, field) {
     let dustRange, 
       isDust = false;
 
