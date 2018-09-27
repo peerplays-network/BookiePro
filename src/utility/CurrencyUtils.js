@@ -61,6 +61,11 @@ var CurrencyUtils = {
     }
   },
 
+  minBetAmount: {
+    BTF: .001,
+    mBTF: 1
+  },
+
   OFFER_PRECISION: 3,
 
   /**
@@ -375,11 +380,11 @@ var CurrencyUtils = {
 
     if (field === 'stake') {
       if (floatAmount < 1 && currency === mCoinSymbol) {
-        return Config.mCoinTransactionFee.toString();
+        return this.minBetAmount.mBTF.toString();
       }
 
       if (floatAmount < 0.001 && currency === coinSymbol) {
-        return Config.coinTransactionFee.toString();
+        return this.minBetAmount.BTF.toString();
       }
     }
 
