@@ -610,7 +610,9 @@ class BetActions {
 
             backerMultiplier = Math.round(backerMultiplier);
             validOddsDiff = true;
-          } 
+          } else {
+            backerMultiplier = minOdds * Config.oddsPrecision;
+          }
         } else {
           backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision);
         }
