@@ -428,9 +428,9 @@ var CurrencyUtils = {
         isDust = true;
       } else {
         if (this.getCurrencyType(currencyFormat) === 'mCoin') {
-          dustRange = coinDust;
-        } else {
           dustRange = miliCoinDust;
+        } else {
+          dustRange = coinDust;
         }
 
         // If the value coming is of 3 precision, its dust is different.
