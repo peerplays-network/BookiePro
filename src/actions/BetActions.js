@@ -10,7 +10,6 @@ import MarketDrawerActions from './MarketDrawerActions';
 import {TransactionBuilder} from 'peerplaysjs-lib';
 import log from 'loglevel';
 import {CurrencyUtils, ObjectUtils} from '../utility';
-import {ODDS_BOUNDS} from '../components/BettingDrawers/BetTable/oddsIncrementUtils';
 
 /**
  * Private actions
@@ -487,13 +486,11 @@ class BetActions {
         const setting =
           getState().getIn(['setting', 'settingByAccountId', accountId]) ||
           getState().getIn(['setting', 'defaultSetting']);
-        const oddsFormat = setting.get('oddsFormat');
         const currencyFormat = setting.get('currencyFormat');
         const currencyType = CurrencyUtils.getCurrencyType(currencyFormat);
         const isMiliCoin = currencyType === 'mCoin';
         let validStakeDiff = false;
-        let validOddsDiff = false;
-        let backerMultiplier, minOdds;
+        let backerMultiplier;
 
         // Exit early if the bet has not been updated
         if (!bet.get('updated')) {
@@ -580,11 +577,8 @@ class BetActions {
         liabilityDiff = betDiff[2][0];
         oddsDiff = betDiff[3][0];
 
-        // Determine if the oddsDiff is valid.
-        if (oddsFormat === 'decimal') {
-          minOdds = ODDS_BOUNDS.decimal.min;
-        } else {
-          minOdds = ODDS_BOUNDS.american.min;
+        if (oddsDiff !== 0) {
+          changeType = 'decrement';
         }
 
         // If there are incremental changes, we will place a new bet built from the increment
@@ -599,29 +593,14 @@ class BetActions {
               validStakeDiff = stakeDiff % 1 === 0;
             }
           }
-
-          if (oddsDiff !== 0) {
-            if (oddsDiff >= minOdds) {
-              backerMultiplier = oddsDiff * Config.oddsPrecision;
-            } else if (oddsDiff < minOdds) {
-              backerMultiplier = (minOdds + oddsDiff) * Config.oddsPrecision;
-            }
-
-            backerMultiplier = Math.round(backerMultiplier);
-            validOddsDiff = true;
-          } else {
-            backerMultiplier = minOdds * Config.oddsPrecision;
-          }
-        } else {
-          backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision);
         }
+
+        backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision);
 
         // Build a new bet from the diff of which will be placed.
         if (bet.get('bet_type') === BetTypes.BACK) {
           if (validStakeDiff && changeType === 'increment') {
             amountToBet = parseFloat(betDiff[0][0]) * mathPow;
-          } else if (validOddsDiff && changeType === 'increment') {
-            amountToBet = CurrencyUtils.toFixed('stake', 0, currencyFormat) * mathPow;
           } else {
             changeType = 'decrement';
             amountToBet = parseFloat(bet.get('stake')) * mathPow;
