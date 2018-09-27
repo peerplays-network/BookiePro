@@ -14,8 +14,9 @@ class InitAccountModal extends PureComponent {
         closable={ false }
       >
         <div className='initAccountModal'>
-          <p>{I18n.t('initAccountModal.loading')}</p>
-          <Loading />
+          <span>{I18n.t('initAccountModal.loading')} <br/>
+            <Loading />
+          </span>
         </div>
       </Modal>
     );
