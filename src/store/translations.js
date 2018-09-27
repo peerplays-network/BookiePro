@@ -375,7 +375,7 @@ export const translationsObject = {
     },
     market_drawer: {
       tab1: 'BETSLIP',
-      tab2: 'PLACED BETS',
+      tab2: 'OPEN BETS',
       unconfirmed_bets: {
         header: 'Betslip',
         empty: {
@@ -427,8 +427,8 @@ export const translationsObject = {
           place_bet_button: 'PLACE BET '
         }
       },
-      placed_bets: {
-        header: 'PLACED BETS',
+      open_bets: {
+        header: 'OPEN BETS',
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
           my_bet_button: 'VIEW MY BETS'
