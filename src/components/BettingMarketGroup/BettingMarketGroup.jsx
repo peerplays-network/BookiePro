@@ -11,6 +11,7 @@ import {BettingMarketGroupPageActions, MarketDrawerActions, NavigateActions} fro
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import PeerPlaysLogo from '../PeerPlaysLogo';
+import _ from 'lodash';
 
 class BettingMarketGroup extends PureComponent {
   componentDidMount() {
@@ -28,7 +29,7 @@ class BettingMarketGroup extends PureComponent {
     this.props.getData(this.props.params.objectId);
   }
 
-  componentWillUpdate(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (
       !nextProps.bettingMarketGroup ||
       nextProps.bettingMarketGroup.isEmpty() ||
@@ -38,16 +39,17 @@ class BettingMarketGroup extends PureComponent {
       // Go back to home page
       this.props.navigateTo('/exchange');
     } else {
+      
       const prevBettingMarketGroupId = this.props.params.objectId;
       const nextBettingMarketGroupId = nextProps.params.objectId;
 
-
       if (
         nextBettingMarketGroupId !== prevBettingMarketGroupId ||
-        nextProps.bettingMarketGroup !== this.props.bettingMarketGroup ||
-        nextProps.eventName !== this.props.eventName ||
-        nextProps.eventStatus !== this.props.eventStatus ||
-        nextProps.bettingMarketGroupStatus !== this.props.bettingMarketGroupStatus
+        this.props.bettingMarketGroup !== nextProps.bettingMarketGroup ||
+        !_.isEqual(this.props.marketData.toJS(), nextProps.marketData.toJS()) || 
+        this.props.eventName !== nextProps.eventName ||
+        this.props.eventStatus !== nextProps.eventStatus ||
+        this.props.bettingMarketGroupStatus !== nextProps.bettingMarketGroupStatus
       ) {
         // Get the data
         this.props.getData(nextBettingMarketGroupId);
@@ -102,7 +104,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     getData: BettingMarketGroupPageActions.getData,
     createBet: MarketDrawerActions.createBet,
     getOpenBets: MarketDrawerActions.getOpenBets,
-    navigateTo: NavigateActions.navigateTo
+    navigateTo: NavigateActions.navigateTo,
+    updateOpenBetsLoadingStatus: MarketDrawerActions.updateOpenBetsLoadingStatus
   },
   dispatch
 );
