@@ -232,7 +232,7 @@ class BetTableInput extends PureComponent {
           return false; // fail fast if the value is undefined or bad
         }
 
-        value = CurrencyUtils.minBetAmount[this.props.currencyFormat];
+        value = CurrencyUtils.toFixed('stake', value, this.props.currencyFormat);
 
         // Final clean of the string
         if (value.toString().slice(-1) === '.') {
