@@ -11,7 +11,6 @@ const mCoinSymbol = 'm' + coinSymbol;
 const coinDust = Config.dust.coin;
 const miliCoinDust = Config.dust.miliCoin;
 const exchangeCoin = Config.dust.exchangeCoin;
-const miliStakeDust = 0;
 const stakeDust = exchangeCoin; // Three
 
 const btc = UserIssuedAssets.btc;
@@ -61,6 +60,11 @@ var CurrencyUtils = {
     }
   },
 
+  minBetAmount: {
+    BTF: .001,
+    mBTF: 1
+  },
+
   OFFER_PRECISION: 3,
 
   /**
@@ -94,7 +98,7 @@ var CurrencyUtils = {
       
       // Check if the value is dust.
       let isDust = this.isDust(currencyFormat, amount, field);
-      
+    
       if (!isDust) {
         let split = amount.toString().split('.');
 
@@ -117,7 +121,7 @@ var CurrencyUtils = {
     return amount;
   },
 
-  getCurrencyType: function (currency = coinSymbol) {
+  getCurrencyType (currency = coinSymbol) {
     let type = 'coin';
 
     if (currency.indexOf('m') !== -1) {
@@ -127,7 +131,7 @@ var CurrencyUtils = {
     return type;
   },
 
-  getCurrencySymbol: function(currency = mCoinSymbol, color='black') {
+  getCurrencySymbol (currency = mCoinSymbol, color='black') {
     switch (currency) {
       case 'BTC':
         if (color === 'white') {
@@ -184,7 +188,7 @@ var CurrencyUtils = {
    * @param {boolan} skipDustCheck - If true, dust checking will be skipped.
    * @returns {string} - formatted string to support negative bitcoin curruency values
    */
-  getFormattedCurrency: function(
+  getFormattedCurrency (
     amount,
     currencyFormat=mCoinSymbol,
     precision=0,
@@ -217,7 +221,7 @@ var CurrencyUtils = {
           return this.substringPrecision(
             amount, 
             mPrecision, 
-            false, 
+            true, 
             currencyFormat, 
             field, 
             skipDustCheck
@@ -229,7 +233,7 @@ var CurrencyUtils = {
           : this.substringPrecision(
             1000 * amount, 
             mPrecision, 
-            false, 
+            true,
             currencyFormat, 
             field, 
             skipDustCheck
@@ -270,7 +274,7 @@ var CurrencyUtils = {
    * @param {boolean} spaceAfterSymbol -  if space needed to seperate currency symbole and amount.
    * @returns {string} - formatted BTF or mBTF value with currency symbol prepended
    */
-  formatByCurrencyAndPrecisionWithSymbol: function(
+  formatByCurrencyAndPrecisionWithSymbol (
     amount,
     currency=mCoinSymbol,
     precision=0,
@@ -302,13 +306,13 @@ var CurrencyUtils = {
     * @param {boolan} skipDustCheck - if true, do not check if value is dust. Used for placing bets.
     * @returns {string} - formatted BTF or mBTF value
     */
-  formatFieldByCurrencyAndPrecision: function(
+  formatFieldByCurrencyAndPrecision (
     field, 
     amount, 
     currency=mCoinSymbol, 
     skipDustCheck) {
     const currencyType = this.getCurrencyType(currency);
-    
+
     // Odds values have no dependency on currency
     if (field === 'odds') {
       return amount.toFixed(2);
@@ -344,10 +348,9 @@ var CurrencyUtils = {
    *
    * Return the field value (amount) as a formatted string
    */
-  toFixed: function(field, amount, currency=mCoinSymbol) {
+  toFixed (field, amount, currency=mCoinSymbol) {
     const currencyType = this.getCurrencyType(currency);
 
-    // DO NOT expect this but just in case...
     if (
       this.fieldPrecisionMap[field] === undefined ||
       this.fieldPrecisionMap[field][currencyType] === undefined
@@ -359,11 +362,11 @@ var CurrencyUtils = {
 
     if (field === 'stake') {
       if (floatAmount < 1 && currency === mCoinSymbol) {
-        return Config.mCoinTransactionFee.toString();
+        return this.minBetAmount.mBTF.toString();
       }
 
       if (floatAmount < 0.001 && currency === coinSymbol) {
-        return Config.coinTransactionFee.toString();
+        return this.minBetAmount.BTF.toString();
       }
     }
 
@@ -393,7 +396,7 @@ var CurrencyUtils = {
    *
    * Return the field value (amount) as a formatted string
    */
-  toFixedWithSymbol: function(field, amount, currency=mCoinSymbol, spaceAfterSymbol=false) {
+  toFixedWithSymbol (field, amount, currency=mCoinSymbol, spaceAfterSymbol=false) {
     return (
       (amount >= 0 ? '' : '-') +
       this.getCurrencySymbol(currency) +
@@ -405,13 +408,13 @@ var CurrencyUtils = {
   // BOOK-384
   // Author: Keegan Francis : k.francis@pbsa.rowInfo
   // This function will convert lay stake to the correct value
-  layBetStakeModifier: function(stake, odds) {
+  layBetStakeModifier (stake, odds) {
     return stake / (odds - 1);
   },
 
 
   // Check if the currency is dust. If it is, append an asterik.
-  isDust: (currencyFormat, amount, field) => {
+  isDust (currencyFormat, amount, field) {
     let dustRange, 
       isDust = false;
 
@@ -419,35 +422,41 @@ var CurrencyUtils = {
       // Handle negative amounts
       amount = Math.abs(amount);
 
-      if (currencyFormat.toLowerCase().indexOf('m') === -1) {
-        dustRange = coinDust;
-      } else {
-        dustRange = miliCoinDust;
-      }
-
-      // If the value coming is of 3 precision, its dust is different.
-      if (amount % 1 !== 0 && amount.toString().split('.')[1].length === 3) {
-        dustRange = exchangeCoin;
-      }
-
-      // Check the fields for overriding the general dust values.
-      if (field === 'stake') {
-        // Is the currency a mili coin? [ mBTF ]
-        if (currencyFormat.indexOf('m') !== -1) {
-          // miliCoin's do not display non-whole numbers.
-          if (amount % 1 !== miliStakeDust) {
-            // Early return for edge case dust.
-            isDust = true;
-          }
-        } else {
-          dustRange = stakeDust;
-        }
-      }
-
-      // If the amount is less than the configured dust values (Config.js), then 
-      // change the display of that amount to indicate as such.
-      if (amount < dustRange && amount !== 0) {
+      // For edge cases where users have ended up with amounts in their transaction histories
+      // reaching this function. 
+      if (amount.toString().indexOf('e') !== -1) {
         isDust = true;
+      } else {
+        if (this.getCurrencyType(currencyFormat) === 'mCoin') {
+          dustRange = miliCoinDust;
+        } else {
+          dustRange = coinDust;
+        }
+
+        // If the value coming is of 3 precision, its dust is different.
+        if (amount % 1 !== 0 && 
+            amount.toString().split('.')[1] &&
+            amount.toString().split('.')[1].length === 3) {
+          dustRange = exchangeCoin;
+        }
+
+        // Check the fields for overriding the general dust values.
+        if (field === 'stake') {
+          // Is the currency a mili coin? [ mBTF ]
+          if (this.getCurrencyType(currencyFormat) === 'mCoin') {
+            if (amount < 1) {
+              isDust = true;
+            }
+          } else {
+            dustRange = stakeDust;
+          }
+        }
+
+        // If the amount is less than the configured dust values (Config.js), then 
+        // change the display of that amount to indicate as such.
+        if (amount < dustRange && amount !== 0) {
+          isDust = true;
+        }
       }
     }
 

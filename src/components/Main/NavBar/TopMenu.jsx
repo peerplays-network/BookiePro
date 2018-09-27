@@ -473,6 +473,7 @@ const mapStateToProps = (state) => {
     state.getIn(['setting', 'defaultSetting']);
   const precision = state.getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
   let balance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
+  const currencyFormat = setting.get('currencyFormat');
 
   // Make Sure the balance is 0
   if (!balance || balance < 0) {
@@ -481,7 +482,7 @@ const mapStateToProps = (state) => {
 
   const convertedAvailableBalance = CurrencyUtils.getFormattedCurrency(
     balance / Math.pow(10, precision),
-    setting.get('currencyFormat'),
+    currencyFormat,
     BettingModuleUtils.exposurePlaces,
     false
   );
@@ -502,7 +503,7 @@ const mapStateToProps = (state) => {
   });
   inGameAmount = CurrencyUtils.getFormattedCurrency(
     inGameAmount / Math.pow(10, precision),
-    setting.get('currencyFormat'),
+    currencyFormat,
     BettingModuleUtils.stakePlaces
   );
 
