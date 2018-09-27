@@ -6,7 +6,7 @@ describe('The Bet Table', () => {
 
   // let data = {}
 
-  // const placedBets = mount(<Provider store={ store } ><BetTable data={ data }/></Provider>);
+  // const openBets = mount(<Provider store={ store } ><BetTable data={ data }/></Provider>);
 
   it('Mock Test', () => {
     expect(1).toBe(1);
