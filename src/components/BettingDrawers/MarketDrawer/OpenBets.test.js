@@ -1,19 +1,19 @@
 import React from 'react';
 import {mount} from 'enzyme';
-import PlacedBets from './PlacedBets';
+import OpenBets from './OpenBets';
 import {Provider} from 'react-redux';
 import configureStore from '../../../store/configureStore';
 
-describe('The Placed Bets Component', () => {
+describe('The Open Bets Component', () => {
   const store = configureStore();
 
-  const placedBets = mount(
+  const openBets = mount(
     <Provider store={ store }>
-      <PlacedBets />
+      <OpenBets />
     </Provider>
   );
 
   it('Should Exist', () => {
-    expect(placedBets).toBeDefined();
+    expect(openBets).toBeDefined();
   });
 });

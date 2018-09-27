@@ -178,7 +178,7 @@ var CurrencyUtils = {
    *        This parameter if set to false, will truncate to the number of decimal places equal to 
    *        precision (thus, less accuracy)
    * @param {boolan} avg - If true, the output is for the purpose of the averaging of bets in the 
-   *        placed bets tab of the betslip.
+   *        open bets tab of the betslip.
    * @param {boolan} forExport - If true, the output is for the purposes of the bet history exports.
    * @param {string} field - Which field is being acted on currently
    * @param {boolan} skipDustCheck - If true, dust checking will be skipped.

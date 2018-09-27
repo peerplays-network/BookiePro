@@ -1,5 +1,5 @@
 /**
- * The PlacedBets component contains bets that have been submitted to the blockchain.
+ * The OpenBets component contains bets that have been submitted to the blockchain.
  * The bets are further grouped by their statues, Unmatched and Matched, and are
  * stored in two different components.
  *
@@ -14,43 +14,43 @@ import {BetActions, MarketDrawerActions, NavigateActions} from '../../../actions
 import {BettingModuleUtils, CurrencyUtils} from '../../../utility';
 import UnmatchedBets from './UnmatchedBets';
 import MatchedBets from './MatchedBets';
-import './PlacedBets.less';
+import './OpenBets.less';
 import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config, LoadingStatus} from '../../../constants';
 import Loading from '../../Loading';
 import CommonMessage from '../../CommonMessage/CommonMessage';
 
-class PlacedBets extends PureComponent {
+class OpenBets extends PureComponent {
 
   constructor(props) {
     super(props);
     // By default, there should be no loading screen shown on the betting drawer
-    this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DEFAULT);
+    this.props.updateOpenBetsLoadingStatus(LoadingStatus.DEFAULT);
   }
 
   componentDidMount() {
-    Ps.initialize(ReactDOM.findDOMNode(this.refs.placedBets));
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.openBets));
   }
 
   componentDidUpdate(prevProps) {
-    Ps.update(ReactDOM.findDOMNode(this.refs.placedBets));
+    Ps.update(ReactDOM.findDOMNode(this.refs.openBets));
 
     // If there are no bets, then the loading screen can go away
     if (this.props.isEmpty) {
-      this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
+      this.props.updateOpenBetsLoadingStatus(LoadingStatus.DONE);
     } else if (!this.props.isEmpty) {
-      // A different set of conditions needs to be true when the placed Bets tab has bets within it
+      // A different set of conditions needs to be true when the open Bets tab has bets within it
       if (this.props.overlay === 'NO_OVERLAY') {
         if (prevProps.unmatchedBets.size !== this.props.unmatchedBets.size) {
           // If we've received an update wherein there are a different number of bets,
           //  assume that we're done loading those new bets into the betslip
           //  - This clause catches the deletion of bets for any reason
           //  - This clause catches the placement of 'completely' new bets (not updated)
-          this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
+          this.props.updateOpenBetsLoadingStatus(LoadingStatus.DONE);
         } else if (prevProps.overlay === 'SUBMIT_BETS_SUCCESS') {
           // If we've successfully "submitted" new bets.
           //  - This clause catches updating bets
-          this.props.updatePlacedBetsLoadingStatus(LoadingStatus.DONE);
+          this.props.updateOpenBetsLoadingStatus(LoadingStatus.DONE);
         }
       }
     }
@@ -58,9 +58,9 @@ class PlacedBets extends PureComponent {
 
   render() {
     return (
-      <div className='placed-bets'>
-        <div className='content' ref='placedBets'>
-          {this.props.placedBetsLoadingStatus === 'loading' ? <Loading /> : ''}
+      <div className='open-bets'>
+        <div className='content' ref='openBets'>
+          {this.props.openBetsLoadingStatus === 'loading' ? <Loading /> : ''}
           <CommonMessage
             location='betslip'
           />
@@ -84,13 +84,13 @@ class PlacedBets extends PureComponent {
           {this.props.isEmpty && (
             <Empty
               showSuccess={ this.props.overlay === BettingDrawerStates.SUBMIT_BETS_SUCCESS }
-              className='market_drawer.placed_bets'
+              className='market_drawer.open_bets'
               navigateTo={ this.props.navigateTo }
             />
           )}
         </div>
         {OverlayUtils.render(
-          'market_drawer.placed_bets',
+          'market_drawer.open_bets',
           this.props,
           () => this.props.editBets(this.props.unmatchedBets),
           () => this.props.deleteUnmatchedBets(this.props.unmatchedbetsToBeDeleted),
@@ -158,19 +158,19 @@ const mapStateToProps = (state, ownProps) => {
     ),
     disabled,
     averageOdds,
-    placedBetsLoadingStatus: state.getIn(['marketDrawer', 'unmatchedBetsLoadingStatus'])
+    openBetsLoadingStatus: state.getIn(['marketDrawer', 'unmatchedBetsLoadingStatus'])
   };
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo,
-    getPlacedBets: MarketDrawerActions.getPlacedBets,
+    getOpenBets: MarketDrawerActions.getOpenBets,
     editBets: BetActions.editBets,
     deleteUnmatchedBets: MarketDrawerActions.deleteUnmatchedBets,
     deleteUnmatchedBet: MarketDrawerActions.deleteUnmatchedBet,
     hideOverlay: MarketDrawerActions.hideOverlay,
-    updatePlacedBetsLoadingStatus: MarketDrawerActions.updatePlacedBetsLoadingStatus
+    updateOpenBetsLoadingStatus: MarketDrawerActions.updateOpenBetsLoadingStatus
   }, 
   dispatch
 );
@@ -178,4 +178,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PlacedBets);
+)(OpenBets);
