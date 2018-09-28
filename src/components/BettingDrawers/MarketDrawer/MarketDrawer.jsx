@@ -31,19 +31,13 @@ class MarketDrawer extends PureComponent {
     // Automatically switch to Open Bets tab after a successful PlaceBet operation
     if (nextProps.overlay === SUBMIT_BETS_SUCCESS && this.props.overlay !== SUBMIT_BETS_SUCCESS) {
       if (this.state.activeTab === PLACEBETS) {
-        this.setState({activeTab: PLACEBETS});
+        this.setState({activeTab: OPENBETS});
       }
     }
 
     // Automatically switch to PlaceBet if the user changes anything in the PlaceBet
     if (!nextProps.unconfirmedBets.equals(this.props.unconfirmedBets)) {
       if (this.state.activeTab === OPENBETS) {
-        this.setState({activeTab: OPENBETS});
-      }
-    }
-
-    if (nextProps.unconfirmedBets.size !== this.props.unconfirmedBets.size) {
-      if (nextProps.unconfirmedBets.size > 0 && nextProps.unconfirmedBets.size < 2) {
         this.setState({activeTab: PLACEBETS});
       }
     }
