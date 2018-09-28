@@ -72,7 +72,7 @@ const renderEventTime = (text, record) => {
   }
 };
 
-const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsFormat) => {
+const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, sportName, oddsFormat) => { // eslint-disable-line
   // 1 = home , 2 = away, 3 = draw
   let columns = [
     {
@@ -102,6 +102,9 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
           key: 'back_offer_home',
           width: offerColumnWidth,
           className: 'back-offer',
+          onCellClick: ((record) => {
+            renderOfferClick(event, 'back', 'lay', 1, record);
+          }),
           render: renderOffer('back', 'lay', 1, currencyFormat, oddsFormat)
         },
         {
@@ -109,6 +112,9 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
           key: 'lay_offer_home',
           width: offerColumnWidth,
           className: 'lay-offer',
+          onCellClick: ((record) => {
+            renderOfferClick(event, 'lay', 'back', 1, record);
+          }),
           render: renderOffer('lay', 'back', 1, currencyFormat, oddsFormat)
         }
       ]
@@ -121,6 +127,9 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
           key: 'back_offer_draw',
           width: offerColumnWidth,
           className: 'back-offer',
+          onCellClick: ((record) => {
+            renderOfferClick(event, 'back', 'lay', 3, record);
+          }),
           render: renderOffer('back', 'lay', 3, currencyFormat, oddsFormat)
         },
         {
@@ -128,6 +137,9 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
           key: 'lay_offer_draw',
           width: offerColumnWidth,
           className: 'lay-offer',
+          onCellClick: ((record) => {
+            renderOfferClick(event, 'lay', 'back', 3, record);
+          }),
           render: renderOffer('lay', 'back', 3, currencyFormat, oddsFormat)
         }
       ]
@@ -140,6 +152,9 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
           key: 'back_offer_away',
           width: offerColumnWidth,
           className: 'back-offer',
+          onCellClick: ((record) => {
+            renderOfferClick(event, 'back', 'lay', 2, record);
+          }),
           render: renderOffer('back', 'lay', 2, currencyFormat, oddsFormat)
         },
         {
@@ -147,6 +162,9 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
           key: 'lay_offer_away',
           width: offerColumnWidth,
           className: 'lay-offer',
+          onCellClick: ((record) => {
+            renderOfferClick(event, 'lay', 'back', 2, record);
+          }),
           render: renderOffer('lay', 'back', 2, currencyFormat, oddsFormat)
         }
       ]
@@ -173,6 +191,7 @@ class SimpleBettingWidget extends PureComponent {
     super(props);
     this.onOfferClicked = this.onOfferClicked.bind(this);
     this.renderOffer = this.renderOffer.bind(this);
+    this.renderOfferClick = this.renderOfferClick.bind(this);
   }
 
   /**
@@ -208,6 +227,18 @@ class SimpleBettingWidget extends PureComponent {
         <a onClick={ () => props.navigateTo(props.footerLink) }>More {props.title}</a>
       </div>
     );
+  }
+
+  renderOfferClick(event, action, typeOfBet, index, record) {
+    let offers = record.get('offers');
+    let offer = offers.getIn([index - 1, typeOfBet, 0]);
+    const betting_market_id = offers.getIn([index - 1, 'betting_market_id']);
+
+    if (offer === undefined || offer.get('price') < coinDust.toString()) {
+      return (this.onOfferClicked(event, record, action, betting_market_id));
+    }
+
+    return (this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds')));
   }
   /**
    * This function returns a function that will be used by the Ant-Design table
@@ -263,7 +294,6 @@ class SimpleBettingWidget extends PureComponent {
           .localeCompare(b.get('betting_market_id'));
       });
 
-      const betting_market_id = offers.getIn([index - 1, 'betting_market_id']);
       let offer = offers.getIn([index - 1, typeOfBet, 0]);
 
       if (typeOfBet === 'lay') {
@@ -283,14 +313,9 @@ class SimpleBettingWidget extends PureComponent {
       if ( offer === undefined || offer.get('price') < coinDust.toString()){
         return (
           <div className={ className }>
-            <a
-              href='#'
-              onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id) }
-            >
-              <div className='offer empty'>
-                <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
-              </div>
-            </a>
+            <div className='offer empty'>
+              <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
+            </div>
           </div>
         );
       }
@@ -298,25 +323,20 @@ class SimpleBettingWidget extends PureComponent {
       let currencySymbol = CurrencyUtils.getCurrencySymbol(Config.features.currency);
       return (
         <div className={ className }>
-          <a
-            href='#'
-            onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds')) } // eslint-disable-line
-          >
-            <div className='offer'>
-              <div className='odds'>
-                {BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat)}
-              </div>
-              <div className='price'>
-                {currencySymbol}
-                {CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
-                  offer.get('price'),
-                  'coin',
-                  OFFER_PRECISION,
-                  true
-                )}
-              </div>
+          <div className='offer'>
+            <div className='odds'>
+              {BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat)}
             </div>
-          </a>
+            <div className='price'>
+              {currencySymbol}
+              {CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
+                offer.get('price'),
+                'coin',
+                OFFER_PRECISION,
+                true
+              )}
+            </div>
+          </div>
         </div>
       );
     };
@@ -354,6 +374,7 @@ class SimpleBettingWidget extends PureComponent {
           bordered
           columns={ getColumns(
             this.renderOffer,
+            this.renderOfferClick,
             this.props.navigateTo,
             this.props.currencyFormat,
             this.props.sportName,
