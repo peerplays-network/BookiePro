@@ -23,7 +23,7 @@ class MarketDrawer extends PureComponent {
   constructor(props) {
     super(props);
     // Show PlaceBets by default
-    this.state = {activeTab: PLACEBETS};
+    this.state = {activeTab: OPENBETS};
     this.onTabClick = this.onTabClick.bind(this);
   }
 
@@ -39,6 +39,12 @@ class MarketDrawer extends PureComponent {
     if (!nextProps.unconfirmedBets.equals(this.props.unconfirmedBets)) {
       if (this.state.activeTab === OPENBETS) {
         this.setState({activeTab: OPENBETS});
+      }
+    }
+
+    if (nextProps.unconfirmedBets.size !== this.props.unconfirmedBets.size) {
+      if (nextProps.unconfirmedBets.size > 0 && nextProps.unconfirmedBets.size < 2) {
+        this.setState({activeTab: PLACEBETS});
       }
     }
   }
