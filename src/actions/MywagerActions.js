@@ -4,8 +4,6 @@ import Immutable from 'immutable';
 import {MyWagerSelector} from '../selectors';
 const {getResolvedBetsColumns} = MyWagerUtils;
 const {getStakeFromBetObject} = ObjectUtils;
-
-const getFormattedDate = DateUtils.getFormattedDate;
 class MywagerPrivateActions {
   static setGenerateResolvedBetsExportDataLoadingStatusAction(loadingStatus) {
     return {
@@ -129,7 +127,7 @@ class MywagerActions {
               false,
               true
             ),
-            resolved_time: getFormattedDate(bet.get('resolved_time')),
+            resolved_time: DateUtils.getFormattedDate(bet.get('resolved_time'), true),
             event_name: bet.get('event_name'),
             sport_name: bet.get('sport_name'),
             betting_market_description: bet.get('betting_market_description'),

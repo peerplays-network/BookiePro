@@ -157,6 +157,28 @@ class CommunicationService {
             } else if (operationType === ChainTypes.operations.bet_canceled) {
               const betId = updatedObject.getIn(['op', 1, 'bet_id']);
               canceledBetIds = canceledBetIds.push(betId);
+
+              const currentRoute = this.getState()
+                .getIn(['routing', 'locationBeforeTransitions']).pathname;
+              let currentBMG;
+              
+              if (currentRoute) {
+                let splitRoute = currentRoute.split('/');
+
+                if (splitRoute.length === 4) {
+                  currentBMG = splitRoute[splitRoute.length - 1];
+                }
+              }
+
+              // Check to see if the deleted bet belongs to the current user and the bet belongs to
+              //  the currently viewed BMG
+              if (ObjectUtils.isMyBet(this.getState(), betId) &&
+                  ObjectUtils.betBelongsToBMG(this.getState(), betId, currentBMG)) {
+                // If it does, then trigger a loading screen on the placed bets tab.
+                this.dispatch(
+                  MarketDrawerActions.updateOpenBetsLoadingStatus(LoadingStatus.BET_DELETE)
+                );
+              }
             } else if (operationType === ChainTypes.operations.bet_place) {
               const bettingMarketId = updatedObject.getIn(['op', 1, 'betting_market_id']);
               bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bettingMarketIdsOfBinnedOrderBooksToBeRefreshed.push(// eslint-disable-line
@@ -293,7 +315,6 @@ class CommunicationService {
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
             'description',
           ]);
-          this.dispatch(MarketDrawerActions.updateOpenBetsLoadingStatus(LoadingStatus.LOADING));
           this.dispatch(
             BettingMarketGroupActions.addOrUpdateBettingMarketGroupsAction(localizedUpdatedObject)
           );
@@ -732,10 +753,7 @@ class CommunicationService {
    * Get any blockchain object given their id
    */
   static getObjectsByIds(arrayOfObjectIds = []) {
-    return this.callBlockchainDbApi(
-      'get_objects', 
-      [arrayOfObjectIds])
-      .then((result) => result.filter((object) => !!object));
+    return this.callBlockchainDbApi('get_objects', [arrayOfObjectIds]).then((result) => result.filter((object) => !!object)); // eslint-disable-line
   }
 
   /**
@@ -743,10 +761,7 @@ class CommunicationService {
    * This applies to event, betting market group, betting market, and bet
    */
   static getPersistedBookieObjectsByIds(arrayOfObjectIds = []) {
-    return this.callBlockchainBookieApi(
-      'get_objects',
-      [arrayOfObjectIds])
-      .then((result) => result.filter((object) => !!object));
+    return this.callBlockchainBookieApi('get_objects', [arrayOfObjectIds]).then((result) => result.filter((object) => !!object)); // eslint-disable-line
   }
 
   /**
@@ -760,9 +775,7 @@ class CommunicationService {
    * Get all sports
    */
   static getAllSports() {
-    return this.callBlockchainDbApi(
-      'list_sports')
-      .then((sports) => ObjectUtils.localizeArrayOfObjects(sports, ['name']));
+    return this.callBlockchainDbApi('list_sports').then((sports) => ObjectUtils.localizeArrayOfObjects(sports, ['name'])); // eslint-disable-line
   }
 
   /**
@@ -774,10 +787,8 @@ class CommunicationService {
     }
 
     let promises = sportIds.map((sportId) => {
-      let promise = this.callBlockchainDbApi(
-        'list_event_groups',
-        [sportId])
-        .then((eventGroups) => ObjectUtils.localizeArrayOfObjects(eventGroups, ['name']));
+      let promise = this.callBlockchainDbApi('list_event_groups', [sportId]).then((eventGroups) => ObjectUtils.localizeArrayOfObjects(eventGroups, ['name'])); // eslint-disable-line
+
       return promise;
     });
 
@@ -792,21 +803,18 @@ class CommunicationService {
       eventGroupIds = eventGroupIds.toJS();
     }
 
-    let promises = eventGroupIds.map((eventGroupId) => this.callBlockchainDbApi(
-      'list_events_in_group',
-      [eventGroupId])
-      .then((events) => {
-        const ids = events.toJS().map((event) => event.id);
-        const localizedEvents = ObjectUtils.localizeArrayOfObjects(events, ['name', 'season']);
+    let promises = eventGroupIds.map((eventGroupId) => this.callBlockchainDbApi('list_events_in_group', [eventGroupId]).then((events) => { // eslint-disable-line
+      const ids = events.toJS().map((event) => event.id);
+      const localizedEvents = ObjectUtils.localizeArrayOfObjects(events, ['name', 'season']);
 
-        // If there are no events, returned an empty object
-        if (ids.length <= 0) {
-          return localizedEvents;
-        }
+      // If there are no events, returned an empty object
+      if (ids.length <= 0) {
+        return localizedEvents;
+      }
 
-        // Subscribe to changes on the blockchain.
-        return this.getEventsByIds(ids).then(() => localizedEvents);
-      })
+      // Subscribe to changes on the blockchain.
+      return this.getEventsByIds(ids).then(() => localizedEvents);
+    })
     );
     return Promise.all(promises).then((result) => Immutable.fromJS(result).flatten(true));
   }
@@ -820,24 +828,22 @@ class CommunicationService {
     }
 
     let promises = eventIds.map((eventId) => this.callBlockchainDbApi(
-      'list_betting_market_groups',
-      [eventId])
-      .then(
-        (bettingMarketGroups) => {
-          const ids = bettingMarketGroups.toJS().map((bmg) => bmg.id);
-          const localizedMarketGroups = ObjectUtils.localizeArrayOfObjects(bettingMarketGroups, [
-            'description',
-          ]);
+      'list_betting_market_groups', [eventId]).then(
+      (bettingMarketGroups) => {
+        const ids = bettingMarketGroups.toJS().map((bmg) => bmg.id);
+        const localizedMarketGroups = ObjectUtils.localizeArrayOfObjects(bettingMarketGroups, [
+          'description'
+        ]);
 
-          // If there are no Betting Market Groups, returned an empty object
-          if (ids.length <= 0) {
-            return localizedMarketGroups;
-          }
-
-          // Subscribe to changes on the blockchain.
-          return this.getBettingMarketGroupsByIds(ids).then(() => localizedMarketGroups);
+        // If there are no Betting Market Groups, returned an empty object
+        if (ids.length <= 0) {
+          return localizedMarketGroups;
         }
-      )
+
+        // Subscribe to changes on the blockchain.
+        return this.getBettingMarketGroupsByIds(ids).then(() => localizedMarketGroups);
+      }
+    )
     );
     return Promise.all(promises).then((result) => Immutable.fromJS(result).flatten(true));
   }
@@ -882,8 +888,7 @@ class CommunicationService {
 
     // Create promises of getting binned order book for each betting market
     const promises = bettingMarketIds.map((bettingMarketId) => this.callBlockchainBookieApi(
-      'get_binned_order_book',
-      [bettingMarketId, binningPrecision])
+      'get_binned_order_book', [bettingMarketId, binningPrecision])
     ); // eslint-disable-line
 
     return Promise.all(promises).then((result) => {
@@ -909,9 +914,9 @@ class CommunicationService {
       bettingMarketGroupIds = bettingMarketGroupIds.toJS();
     }
 
-    let promises = bettingMarketGroupIds.map((bettingMarketGroupId) => this.callBlockchainBookieApi(
-      'get_total_matched_bet_amount_for_betting_market_group',
-      [bettingMarketGroupId])
+    let promises = bettingMarketGroupIds.map((bettingMarketGroupId) => this.callBlockchainBookieApi('get_total_matched_bet_amount_for_betting_market_group', [ // eslint-disable-line
+      bettingMarketGroupId
+    ])
     );
 
     return Promise.all(promises).then((result) => {
@@ -948,7 +953,8 @@ class CommunicationService {
    * Get betting market group by id
    */
   static getBettingMarketGroupsByIds(bettingMarketGroupIds) {
-    return this.getObjectsByIds(bettingMarketGroupIds).then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description'])); // eslint-disable-line
+    return this.getObjectsByIds(bettingMarketGroupIds).then((result) => ObjectUtils.localizeArrayOfObjects(result, ['description']) // eslint-disable-line
+    );
   }
 
   /**

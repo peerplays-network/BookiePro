@@ -347,7 +347,7 @@ class ComplexBettingWidget extends PureComponent {
     // Format the currency for display.
     formattedMatchedBetsAmount = CurrencyUtils.getFormattedCurrency(
       formattedMatchedBetsAmount,
-      this.props.currencyFormat,
+      currencyType,
       OFFER_PRECISION,
       true
     );

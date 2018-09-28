@@ -190,7 +190,8 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
             const assetPrecision = assetsById.getIn([
               bettingMarketGroup.get('asset_id'),
               'precision'
-            ]);
+            ]) || 0;
+
             let aggregated_lay_bets =
               (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
             aggregated_lay_bets = aggregated_lay_bets.map((aggregated_lay_bet) => {
