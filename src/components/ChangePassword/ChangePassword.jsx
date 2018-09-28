@@ -26,7 +26,9 @@ class ChangePassword extends PureComponent {
     this.navigateToMyAccount = this.navigateToMyAccount.bind(this);
     this.navigateToHome = this.navigateToHome.bind(this);
   }
-
+  componentWillUnmount() {
+    this.props.resetChangePwdLoadingStatus();
+  }
   /**
    * Invoke the {@link AuthActions#changePassword} action
    *
@@ -56,7 +58,6 @@ class ChangePassword extends PureComponent {
   navigateToLocation(event, targetLocation) {
     event.preventDefault();
     this.props.navigateTo(targetLocation);
-    this.props.resetChangePwdLoadingStatus();
   }
 
   /**

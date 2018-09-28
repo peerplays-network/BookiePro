@@ -21,7 +21,7 @@ class BettingMarketGroup extends PureComponent {
 
   componentWillUnmount() {
     document.querySelector('body').style.minWidth = '1002px';
-    this.props.resetPlacedBets();
+    this.props.resetOpenBets();
   }
 
   componentWillMount() {
@@ -102,8 +102,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     getData: BettingMarketGroupPageActions.getData,
     createBet: MarketDrawerActions.createBet,
-    getPlacedBets: MarketDrawerActions.getPlacedBets,
-    resetPlacedBets: MarketDrawerActions.resetPlacedBets,
+    getOpenBets: MarketDrawerActions.getOpenBets,
+    resetOpenBets: MarketDrawerActions.resetOpenBets,
     navigateTo: NavigateActions.navigateTo
   },
   dispatch

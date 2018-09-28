@@ -100,7 +100,7 @@ class BetSlip extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const disabled = ownProps.activeTab === 'PLACEDBETS';
+  const disabled = ownProps.activeTab === 'OPENBETS';
   const originalBets = state.getIn(['marketDrawer', 'unconfirmedBets']);
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
@@ -135,7 +135,9 @@ const mapStateToProps = (state, ownProps) => {
   /*Precision value will affect whether or not the full number will be displayed, 
   regardless of it being added. */
   let transactionFee =
-    ownProps.currencyFormat === 'BTF' ? Config.btfTransactionFee : Config.mbtfTransactionFee;
+    ownProps.currencyFormat === Config.features.currency ?
+      Config.coinTransactionFee :
+      Config.mCoinTransactionFee;
 
   // Add a transaction action fee for each bet.
   transactionFee = originalBets.size * transactionFee;

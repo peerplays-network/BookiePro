@@ -174,12 +174,12 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
           eventGroupName.toUpperCase() !== 'FRIENDLY INTERNATIONAL'
         ) {
           // NOTE: Assume description can be used as comparison
-          var isMoneyline =
+          var passesFilters =
             !!bettingMarketGroup &&
             (bettingMarketGroup.get('description').toUpperCase() === 'MONEYLINE' ||
               bettingMarketGroup.get('description').toUpperCase() === 'MATCH ODDS');
 
-          if (eventId && isMoneyline) {
+          if (eventId && passesFilters) {
             // Implicit Rule: the first betting market is for the home team
             let simpleBettingWidgetBinnedOrderBook = Immutable.Map()
               .set('betting_market_id', bettingMarketId)

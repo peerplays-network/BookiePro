@@ -20,7 +20,7 @@
  */
 import React, {PureComponent} from 'react';
 import {BettingModuleUtils, CurrencyUtils} from '../../../utility';
-import {BetTypes, LoadingStatus} from '../../../constants';
+import {BetTypes, Config, LoadingStatus} from '../../../constants';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import Immutable from 'immutable';
@@ -322,7 +322,7 @@ class ComplexBettingWidget extends PureComponent {
 
   render() {
     const {totalMatchedBetsAmount, widgetTitle, rules, oddsFormat} = this.props;
-
+    const configCurrency = Config.features.currency;
     const minNameWidth = 194;
     const minOfferWidth = 52;
     const minArrowWidth = 22;
@@ -331,21 +331,23 @@ class ComplexBettingWidget extends PureComponent {
     // to match the lay bet-type in placebet action dispatch
     const classNameLay = BetTypes.LAY;
 
-    const currencySymbol = CurrencyUtils.getCurrencySymbol('BTF');
-    const currencySymbolWhite = CurrencyUtils.getCurrencySymbol('BTF', 'white');
+    const currencySymbol = CurrencyUtils.getCurrencySymbol(configCurrency);
+    const currencySymbolWhite = CurrencyUtils.getCurrencySymbol(configCurrency, 'white');
 
     // Format the totalMatchedBestAmount
     let formattedMatchedBetsAmount = totalMatchedBetsAmount || 0;
+    // Determine if the coin in use is base or mili format.
+    const currencyType = CurrencyUtils.getCurrencyType(this.props.currencyFormat);
 
-    if (this.props.currencyFormat === 'mBTF') {
-      // Convert the number to BTF if the format is currently mBTF
+    if (currencyType === 'mCoin') {
+      // Convert the number to base coin if the format is currently mili coin format.
       formattedMatchedBetsAmount = formattedMatchedBetsAmount / 1000;
     }
 
     // Format the currency for display.
     formattedMatchedBetsAmount = CurrencyUtils.getFormattedCurrency(
       formattedMatchedBetsAmount,
-      'BTF',
+      this.props.currencyFormat,
       OFFER_PRECISION,
       true
     );
@@ -419,9 +421,9 @@ class ComplexBettingWidget extends PureComponent {
             {props.row.bmStatus[0] ? null : currencySymbol}
             {props.row.bmStatus[0]
               ? null
-              : CurrencyUtils.getFormattedCurrency(
+              : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                'BTF',
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
@@ -461,9 +463,9 @@ class ComplexBettingWidget extends PureComponent {
             {props.row.bmStatus[0] ? null : currencySymbol}
             {props.row.bmStatus[0]
               ? null
-              : CurrencyUtils.getFormattedCurrency(
+              : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                'BTF',
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
@@ -516,9 +518,9 @@ class ComplexBettingWidget extends PureComponent {
             {props.row.bmStatus[0] ? null : currencySymbol}
             {props.row.bmStatus[0]
               ? null
-              : CurrencyUtils.getFormattedCurrency(
+              : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                'BTF',
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
@@ -573,9 +575,9 @@ class ComplexBettingWidget extends PureComponent {
             {props.row.bmStatus[0] ? null : currencySymbol}
             {props.row.bmStatus[0]
               ? null
-              : CurrencyUtils.getFormattedCurrency(
+              : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                'BTF',
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
@@ -614,9 +616,9 @@ class ComplexBettingWidget extends PureComponent {
             {props.row.bmStatus[0] ? null : currencySymbol}
             {props.row.bmStatus[0]
               ? null
-              : CurrencyUtils.getFormattedCurrency(
+              : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                'BTF',
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
@@ -661,9 +663,9 @@ class ComplexBettingWidget extends PureComponent {
             {props.row.bmStatus[0] ? null : currencySymbol}
             {props.row.bmStatus[0]
               ? null
-              : CurrencyUtils.getFormattedCurrency(
+              : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                'BTF',
+                'coin',
                 OFFER_PRECISION,
                 true
               )}

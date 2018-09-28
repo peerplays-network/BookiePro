@@ -3,7 +3,7 @@
  *
  * following are sub-components used in MyWager
  *   {@link UnmatchedBets} - This component list unmatched bet transactions
- *   Unmatched bets - Placed bets that are pending for someone to make an opposite bet with same
+ *   Unmatched bets - Open bets that are pending for someone to make an opposite bet with same 
  *   odds to match on
  *
  *   {@link MatchedBets} - This component list Matched bet transactions
@@ -289,7 +289,7 @@ function filterOdds(tableData, oddsFormat) {
         tableData[row].backer_multiplier = BettingModuleUtils.oddsFormatFilter(
           tableData[row].backer_multiplier,
           oddsFormat
-        ).toFixed(CurrencyUtils.fieldPrecisionMap['odds']['BTF']);
+        ).toFixed(CurrencyUtils.fieldPrecisionMap['odds']['coin']);
       }
     }
   }

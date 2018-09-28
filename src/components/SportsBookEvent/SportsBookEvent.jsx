@@ -29,7 +29,7 @@ class SportsBookEvent extends PureComponent {
   }
 
   componentWillMount() {
-    this.props.getPlacedBetsForEvent(this.props.params.eventId);
+    this.props.getOpenBetsForEvent(this.props.params.eventId);
   }
 
   componentWillUpdate(nextProps) {
@@ -49,7 +49,7 @@ class SportsBookEvent extends PureComponent {
         !_.isEqual(nextProps.eventStatus, this.props.eventStatus)
       ) {
         // Get the data
-        this.props.getPlacedBetsForEvent(this.props.params.eventId);
+        this.props.getOpenBetsForEvent(this.props.params.eventId);
       }
     }
   }
@@ -127,8 +127,8 @@ const mapDispatchToProps = (dispatch) => {
       createBet: MarketDrawerActions.createBet,
       navigateTo: NavigateActions.navigateTo,
       getData: BettingMarketGroupPageActions.getData,
-      resetPlacedBets: MarketDrawerActions.resetPlacedBets,
-      getPlacedBetsForEvent: MarketDrawerActions.getPlacedBetsForEvent
+      resetOpenBets: MarketDrawerActions.resetOpenBets,
+      getOpenBetsForEvent: MarketDrawerActions.getOpenBetsForEvent
     },
     dispatch
   );
