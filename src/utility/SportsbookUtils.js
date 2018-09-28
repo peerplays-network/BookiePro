@@ -1,6 +1,7 @@
 import {BackingWidgetTypes, BackingWidgetLayouts} from '../constants/BackingWidgetTypes';
 import Immutable from 'immutable';
 import {EventStatus} from '../constants';
+import moment from 'moment';
 
 const getDescriptionAsType = (description) => {
   return description
@@ -204,6 +205,26 @@ const isMoneyline = (bettingMarketGroup) => {
   return false;
 };
 
+
+/**
+ * isInThePast()
+ * 
+ * This function determines whether or not the event passed in is in the past
+ *
+ * @param {*} event - The event in question
+ * @returns - True if the event is in the past, false otherwise.
+ */
+const isInThePast = (event) => {
+  let today = moment();
+  let date = moment(event.get('start_time'));
+
+  if (date.isBefore(today)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 const sortAndCenter = (bettingMarketGroups) => {
   bettingMarketGroups = prioritySort(bettingMarketGroups);
 
@@ -238,6 +259,19 @@ const hasBettingMarkets = (bettingMarketGroup) => {
   return !!bettingMarketGroup.get('bettingMarkets');
 };
 
+const sortEventsByDate = (eventList) => {
+
+  eventList = eventList.sort((a, b) => {
+    if (moment(a.get('start_time')).isBefore(moment(b.get('start_time')))) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+
+  return eventList;
+};
+
 const SportsbookUtils = {
   centerTheDraw,
   getColumnSize,
@@ -245,10 +279,12 @@ const SportsbookUtils = {
   groupOverUnders,
   hasBettingMarkets,
   isAbleToBet,
+  isInThePast,
   isMatchodds,
   isMoneyline,
   prioritySort,
-  sortAndCenter
+  sortAndCenter,
+  sortEventsByDate
 };
 
 export default SportsbookUtils;

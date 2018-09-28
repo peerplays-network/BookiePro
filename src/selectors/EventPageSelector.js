@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {createSelector} from 'reselect';
 import CommonSelector from './CommonSelector';
 import Immutable from 'immutable';
@@ -47,9 +46,11 @@ const getAllBettingMarketGroupsByEventId = (state) => {
   let events = [];
   bmgs.valueSeq().forEach((bmg) => {
     let eventID = bmg.get('event_id');
+
     if (!events[eventID]) {
       events[eventID] = Immutable.List();
     }
+
     events[eventID] = events[eventID].push(bmg);
   });
   return events;
@@ -133,20 +134,13 @@ const getMarketData = createSelector(
 );
 
 const getBettingMarketsWithOrderBook = createSelector(
-  [
-    getBettingMarketsById,
-    getBinnedOrderBooksByBettingMarketId
-  ],
-  (
-    bettingMarkets,
-    binnedOrderBooksByBettingMarketId
-  ) => {
+  [getBettingMarketsById, getBinnedOrderBooksByBettingMarketId],
+  (bettingMarkets, binnedOrderBooksByBettingMarketId) => {
     // Iterate through the values of the bettingMarkets dictionary
     bettingMarkets = bettingMarkets.map((bm) => {
-
       // There are one or more bm in a single betting market group, this loop matches them
       //  with the order book that pertains to the BM.
-    
+
       bm = bm.set('orderBook', binnedOrderBooksByBettingMarketId.get(bm.get('id')));
 
       // We only care about the lay bets (the bets that will display as open back bets)
@@ -170,31 +164,28 @@ const getBettingMarketsWithOrderBook = createSelector(
 
     bettingMarkets.forEach((bm) => {
       let bmgID = bm.get('group_id');
+
       if (!orderBooksByBMGID[bmgID]) {
         orderBooksByBMGID[bmgID] = [];
       }
+
       orderBooksByBMGID[bmgID].push(bm);
     });
 
     return orderBooksByBMGID;
   }
-)
+);
 
-const getAllSportsData =  createSelector(
+const getAllSportsData = createSelector(
   [
     getSportsById,
     getActiveEventsBySportId,
     getAllBettingMarketGroupsByEventId,
     getBettingMarketsWithOrderBook
-  ], 
-  (
-    sportsById,
-    activeEventsBySportId,
-    bmgsByEventID,
-    bettingMarketsWithOrderBook
-  ) => {
+  ],
+  (sportsById, activeEventsBySportId, bmgsByEventID, bettingMarketsWithOrderBook) => {
     let allSportsData = Immutable.List();
-    
+
     // Iterate through each sport to build each sport node
     sportsById.forEach((sport) => {
       // A sport node consists of a name and a sport ID
@@ -206,8 +197,13 @@ const getAllSportsData =  createSelector(
       const activeEvents = activeEventsBySportId.get(sport.get('id'));
 
       // Iterate through each event and parse the relevant data
-      const eventNodes = activeEvents && activeEvents
-        .map((e) => {
+      let eventNodes =
+        activeEvents &&
+        activeEvents.map((e) => {
+
+          if (SportsbookUtils.isInThePast(e)) {
+            return null;
+          }
 
           let bmgs = bmgsByEventID[e.get('id')];
 
@@ -223,6 +219,12 @@ const getAllSportsData =  createSelector(
 
           return e;
         });
+
+      if (eventNodes) {
+        eventNodes = eventNodes.filter((e) => e);
+        eventNodes = SportsbookUtils.sortEventsByDate(eventNodes);
+      }
+
       // Set events to the sport
       sportNode = sportNode.set('events', eventNodes);
       // Set sport to the all sports data
@@ -240,42 +242,47 @@ const getSportData = createSelector(
     getAllBettingMarketGroupsByEventId,
     getBettingMarketsWithOrderBook
   ],
-  (
-    sport,
-    eventGroups,
-    events,
-    bmgsByEventID,
-    bettingMarketsWithOrderBook
-  ) => {
-    if (!eventGroups || !events || !sport) return;
+  (sport, eventGroups, events, bmgsByEventID, bettingMarketsWithOrderBook) => {
+    if (!eventGroups || !events || !sport) {
+      return;
+    }
 
     let sportData = Immutable.Map();
 
     sportData = sportData
-                  .set('eventGroups', eventGroups.get(sport.get('id')))
-                  .set('sportId', sport.get('id'))
-                  .set('sportName', sport.get('name'));
-    
+      .set('eventGroups', eventGroups.get(sport.get('id')))
+      .set('sportId', sport.get('id'))
+      .set('sportName', sport.get('name'));
+
     eventGroups = sportData.get('eventGroups').map((eg) => {
       let eventList = events.get(eg.get('id'));
-      if (eventList) {
 
+      if (eventList) {
         eventList = eventList.map((e) => {
+
+          if (SportsbookUtils.isInThePast(e)) {
+            return null;
+          }
+
           let bmgs = bmgsByEventID[e.get('id')];
 
           bmgs = bmgs.map((bmg) => {
             let bmgID = bmg.get('id');
             return bmg.set('bettingMarkets', bettingMarketsWithOrderBook[bmgID]);
           });
-  
+
           bmgs = SportsbookUtils.sortAndCenter(bmgs);
-  
+
           // Put the list of BMGs into their respective events
           return e.set('bettingMarketGroups', bmgs);
         });
 
+        eventList = eventList.filter((e) => e);
+
+        eventList = SportsbookUtils.sortEventsByDate(eventList);
+
         if (eventList) {
-          return eg.set('events', eventList);
+          return eg.set('events', eventList.filter((e) => e));
         }
       }
     });
@@ -295,23 +302,24 @@ const getEventGroupData = createSelector(
     getAllBettingMarketGroupsByEventId,
     getBettingMarketsWithOrderBook
   ],
-  (
-    eventGroup,
-    events,
-    bmgsByEventID,
-    bettingMarketsWithOrderBook
-  ) => {
-    if (!eventGroup || !events || !bmgsByEventID || ! bettingMarketsWithOrderBook) return;
+  (eventGroup, events, bmgsByEventID, bettingMarketsWithOrderBook) => {
+    if (!eventGroup || !events || !bmgsByEventID || !bettingMarketsWithOrderBook) {
+      return;
+    }
 
     let eventGroupData = Immutable.Map();
 
     eventGroupData = eventGroupData
-                      .set('name', eventGroup.get('name'))
-                      .set('id', eventGroup.get('id'));
+      .set('name', eventGroup.get('name'))
+      .set('id', eventGroup.get('id'));
 
     let eventList = events.get(eventGroup.get('id'));
 
     eventList = eventList.map((e) => {
+      if (SportsbookUtils.isInThePast(e)) {
+        return null;
+      }
+
       let bmgs = bmgsByEventID[e.get('id')];
 
       bmgs = bmgs.map((bmg) => {
@@ -325,11 +333,15 @@ const getEventGroupData = createSelector(
       return e.set('bettingMarketGroups', bmgs);
     });
 
+    eventList = eventList.filter((e) => e);
+
+    eventList = SportsbookUtils.sortEventsByDate(eventList);
+
     eventGroupData = eventGroupData.set('events', eventList);
 
     return eventGroupData;
   }
-)
+);
 
 const EventPageSelector = {
   getEvent,
