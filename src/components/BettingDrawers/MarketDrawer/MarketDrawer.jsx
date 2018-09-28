@@ -22,7 +22,7 @@ const {SUBMIT_BETS_SUCCESS} = BettingDrawerStates;
 class MarketDrawer extends PureComponent {
   constructor(props) {
     super(props);
-    // Show PlaceBets by default
+    // Show OpenBets by default
     this.state = {activeTab: OPENBETS};
     this.onTabClick = this.onTabClick.bind(this);
   }
