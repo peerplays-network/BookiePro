@@ -72,23 +72,14 @@ const renderEventTime = (text, record) => {
   }
 };
 
-const isDisabled = (status, purpose) => {
+const isDisabled = (status) => {
   let enabled = false;
 
   if (status !== 'settled' && status !== 'graded' && status !== 'finished' && status !== 'frozen') {
     enabled = true;
   }
 
-  switch (purpose) {
-    case 'rowClassName':
-      if (!enabled) {
-        return 'simple-betting-disabled';
-      } else {
-        return null;
-      }
-
-    default: return enabled;
-  }
+  return enabled;
 };
 
 const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, sportName, oddsFormat) => { // eslint-disable-line
@@ -413,7 +404,13 @@ class SimpleBettingWidget extends PureComponent {
           rowKey={ (record) => record.get('key') }
           rowClassName={ (record) => {
             let eventStatus = record.get('eventStatus');
-            return isDisabled(eventStatus, 'rowClassName');
+            let enabled = isDisabled(eventStatus, 'rowClassName');
+
+            if (!enabled) {
+              return 'simple-betting-disabled';
+            } else {
+              return null;
+            }
           } }
         />
       </div>
