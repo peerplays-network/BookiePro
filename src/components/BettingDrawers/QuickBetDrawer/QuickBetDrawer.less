@@ -48,7 +48,6 @@
 
   .Pane1 {
     .content {
-      padding-bottom: 130px;
       overflow: unset !important;
       .ps-scrollbar-y-rail {
         display: none !important;
@@ -63,7 +62,6 @@
 
   .footer {
     font-size: 18px;
-    align-self: flex-end;
     background-color: @quick_bet_drawer_title_bg;
     width: @quick-bet-drawer-width;
     padding: 5px;
@@ -73,6 +71,11 @@
       opacity: .1;
     }
 
+    &.sticky {
+      position: fixed;
+      bottom: 0;
+      right: 5px;
+    }
   }
 
   // DO NOT use resize cursor as resizing has been disabled

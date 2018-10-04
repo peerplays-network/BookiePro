@@ -69,7 +69,29 @@ class QuickBetDrawer extends PureComponent {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.bettingtable));
   }
 
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    console.log(prevProps.toJS(), prevState.toJS());
+    return 'a';
+    // Not hitting this function, not implemented in our version of React?
+  }
+
   componentDidUpdate() {
+    // Get the div element for the footer.
+    let rect = document.getElementById('betslip__footer');
+    let isVisibleInDOM;
+
+    // If the `rect` exists, we will proceed to get its location in the DOM.
+    if (rect) {
+      rect = rect.getBoundingClientRect();
+      // Determing if the `rect` is visible with the following checks.
+      isVisibleInDOM =
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+    }
+
+    console.log(isVisibleInDOM);
     Ps.update(ReactDOM.findDOMNode(this.refs.bettingtable));
   }
 
@@ -90,7 +112,10 @@ class QuickBetDrawer extends PureComponent {
           >
             {renderContent(this.props)}
             {!this.props.bets.isEmpty() && (
-              <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
+              <div 
+                id={ 'betslip__footer' } 
+                className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }
+              >
                 <Subtotal
                   betAmount={ this.props.totalBetAmountFloat }
                   transactionFee={ this.props.transactionFee }
