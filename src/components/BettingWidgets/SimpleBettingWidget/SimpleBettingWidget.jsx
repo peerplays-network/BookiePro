@@ -120,7 +120,7 @@ const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, s
           dataIndex: 'back_offer_home',
           key: 'back_offer_home',
           width: offerColumnWidth,
-          className: [()=>{ return 'back-offer'; }], // eslint-disable-line
+          className: 'back-offer',
           onCellClick: ((record) => {
             if (isDisabled(record.get('eventStatus'))) {
               renderOfferClick(event, 'back', 'lay', 1, record);
