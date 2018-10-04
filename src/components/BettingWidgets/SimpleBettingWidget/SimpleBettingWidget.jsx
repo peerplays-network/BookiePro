@@ -72,6 +72,25 @@ const renderEventTime = (text, record) => {
   }
 };
 
+const isDisabled = (status, purpose) => {
+  let enabled = false;
+
+  if (status !== 'settled' && status !== 'graded' && status !== 'finished' && status !== 'frozen') {
+    enabled = true;
+  }
+
+  switch (purpose) {
+    case 'rowClassName':
+      if (!enabled) {
+        return 'simple-betting-disabled';
+      } else {
+        return null;
+      }
+
+    default: return enabled;
+  }
+};
+
 const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, sportName, oddsFormat) => { // eslint-disable-line
   // 1 = home , 2 = away, 3 = draw
   let columns = [
@@ -101,9 +120,11 @@ const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, s
           dataIndex: 'back_offer_home',
           key: 'back_offer_home',
           width: offerColumnWidth,
-          className: 'back-offer',
+          className: [()=>{ return 'back-offer'; }], // eslint-disable-line
           onCellClick: ((record) => {
-            renderOfferClick(event, 'back', 'lay', 1, record);
+            if (isDisabled(record.get('eventStatus'))) {
+              renderOfferClick(event, 'back', 'lay', 1, record);
+            }
           }),
           render: renderOffer('back', 'lay', 1, currencyFormat, oddsFormat)
         },
@@ -113,7 +134,9 @@ const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, s
           width: offerColumnWidth,
           className: 'lay-offer',
           onCellClick: ((record) => {
-            renderOfferClick(event, 'lay', 'back', 1, record);
+            if (isDisabled(record.get('eventStatus'))) {
+              renderOfferClick(event, 'lay', 'back', 1, record);
+            }
           }),
           render: renderOffer('lay', 'back', 1, currencyFormat, oddsFormat)
         }
@@ -128,7 +151,9 @@ const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, s
           width: offerColumnWidth,
           className: 'back-offer',
           onCellClick: ((record) => {
-            renderOfferClick(event, 'back', 'lay', 3, record);
+            if (isDisabled(record.get('eventStatus'))) {
+              renderOfferClick(event, 'back', 'lay', 3, record);
+            }
           }),
           render: renderOffer('back', 'lay', 3, currencyFormat, oddsFormat)
         },
@@ -138,7 +163,9 @@ const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, s
           width: offerColumnWidth,
           className: 'lay-offer',
           onCellClick: ((record) => {
-            renderOfferClick(event, 'lay', 'back', 3, record);
+            if (isDisabled(record.get('eventStatus'))) {
+              renderOfferClick(event, 'lay', 'back', 3, record);
+            }
           }),
           render: renderOffer('lay', 'back', 3, currencyFormat, oddsFormat)
         }
@@ -153,7 +180,9 @@ const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, s
           width: offerColumnWidth,
           className: 'back-offer',
           onCellClick: ((record) => {
-            renderOfferClick(event, 'back', 'lay', 2, record);
+            if (isDisabled(record.get('eventStatus'))) {
+              renderOfferClick(event, 'back', 'lay', 2, record);
+            }
           }),
           render: renderOffer('back', 'lay', 2, currencyFormat, oddsFormat)
         },
@@ -163,7 +192,9 @@ const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, s
           width: offerColumnWidth,
           className: 'lay-offer',
           onCellClick: ((record) => {
-            renderOfferClick(event, 'lay', 'back', 2, record);
+            if (isDisabled(record.get('eventStatus'))) {
+              renderOfferClick(event, 'lay', 'back', 2, record);
+            }
           }),
           render: renderOffer('lay', 'back', 2, currencyFormat, oddsFormat)
         }
@@ -270,14 +301,7 @@ class SimpleBettingWidget extends PureComponent {
       let eventStatus = record.get('eventStatus');
       var canBet, className;
 
-      if (
-        eventStatus !== 'settled' &&
-        eventStatus !== 'graded' &&
-        eventStatus !== 'finished' &&
-        eventStatus !== 'frozen'
-      ) {
-        canBet = true;
-      }
+      canBet = isDisabled(eventStatus, 'canBet');
 
       if (
         offers === undefined ||
@@ -389,17 +413,7 @@ class SimpleBettingWidget extends PureComponent {
           rowKey={ (record) => record.get('key') }
           rowClassName={ (record) => {
             let eventStatus = record.get('eventStatus');
-
-            if (
-              eventStatus === 'settled' ||
-              eventStatus === 'graded' ||
-              eventStatus === 'finished' ||
-              eventStatus === 'frozen'
-            ) {
-              return 'simple-betting-disabled';
-            } else {
-              return null;
-            }
+            return isDisabled(eventStatus, 'rowClassName');
           } }
         />
       </div>
