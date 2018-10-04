@@ -409,7 +409,7 @@ class SimpleBettingWidget extends PureComponent {
             if (!enabled) {
               return 'simple-betting-disabled';
             } else {
-              return null;
+              return '';
             }
           } }
         />
