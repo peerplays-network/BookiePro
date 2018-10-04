@@ -423,7 +423,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                currencyType,
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
@@ -465,7 +465,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                currencyType,
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
@@ -520,7 +520,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                currencyType,
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
@@ -577,7 +577,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                currencyType,
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
@@ -618,7 +618,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                currencyType,
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
@@ -665,7 +665,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                currencyType,
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
