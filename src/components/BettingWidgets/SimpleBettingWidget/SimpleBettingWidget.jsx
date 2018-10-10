@@ -72,11 +72,29 @@ const renderEventTime = (text, record) => {
   }
 };
 
-const isDisabled = (status) => {
+const hasOffers = (record, index) => {
+  let offers = record.get('offers');
+  let hasOffers = true;
+
+  if(index && offers.getIn([index - 1, 'betting_market_id']) === undefined) {
+    hasOffers = false;
+  }
+
+  if (offers === undefined || offers.isEmpty()) {
+    hasOffers = false;
+  }
+
+  return hasOffers;
+};
+
+const isClickEnabled = (record, index) => {
   let enabled = false;
+  let status = record.get('eventStatus');
 
   if (status !== 'settled' && status !== 'graded' && status !== 'finished' && status !== 'frozen') {
-    enabled = true;
+    if (hasOffers(record, index)) {
+      enabled = true;
+    }
   }
 
   return enabled;
@@ -113,7 +131,7 @@ const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, s
           width: offerColumnWidth,
           className: 'back-offer',
           onCellClick: ((record) => {
-            if (isDisabled(record.get('eventStatus'))) {
+            if (isClickEnabled(record, 1)) {
               renderOfferClick(event, 'back', 'lay', 1, record);
             }
           }),
@@ -125,7 +143,7 @@ const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, s
           width: offerColumnWidth,
           className: 'lay-offer',
           onCellClick: ((record) => {
-            if (isDisabled(record.get('eventStatus'))) {
+            if (isClickEnabled(record, 1)) {
               renderOfferClick(event, 'lay', 'back', 1, record);
             }
           }),
@@ -142,7 +160,7 @@ const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, s
           width: offerColumnWidth,
           className: 'back-offer',
           onCellClick: ((record) => {
-            if (isDisabled(record.get('eventStatus'))) {
+            if (isClickEnabled(record, 3)) {
               renderOfferClick(event, 'back', 'lay', 3, record);
             }
           }),
@@ -154,7 +172,7 @@ const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, s
           width: offerColumnWidth,
           className: 'lay-offer',
           onCellClick: ((record) => {
-            if (isDisabled(record.get('eventStatus'))) {
+            if (isClickEnabled(record, 3)) {
               renderOfferClick(event, 'lay', 'back', 3, record);
             }
           }),
@@ -171,7 +189,7 @@ const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, s
           width: offerColumnWidth,
           className: 'back-offer',
           onCellClick: ((record) => {
-            if (isDisabled(record.get('eventStatus'))) {
+            if (isClickEnabled(record, 2)) {
               renderOfferClick(event, 'back', 'lay', 2, record);
             }
           }),
@@ -183,7 +201,7 @@ const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, s
           width: offerColumnWidth,
           className: 'lay-offer',
           onCellClick: ((record) => {
-            if (isDisabled(record.get('eventStatus'))) {
+            if (isClickEnabled(record, 2)) {
               renderOfferClick(event, 'lay', 'back', 2, record);
             }
           }),
@@ -216,6 +234,30 @@ class SimpleBettingWidget extends PureComponent {
     this.renderOfferClick = this.renderOfferClick.bind(this);
   }
 
+  looper(offers) {
+    for (let i = 0, length = offers.length; i < length; i++) {
+      // Get the child classname.
+      let offer = offers[i];
+
+      if (offer.className.indexOf('offer') !== -1) {
+        if (offer.children.length === 0) {
+          offer.classList.add('disabled');
+        }
+      }
+    }
+  }
+
+  componentDidMount() {
+    // Hover state classes need to be redetermined based on whether the cell has an offer in it.
+    let backOffers = document.getElementsByClassName('back-offer');
+    let layOffers = document.getElementsByClassName('lay-offer');
+
+    // Iterate over the offer children and determine if the cell contains the offer class.
+    // If the cell does not contain the offer class, we do not want a hover style applied to the
+    // cursor.
+    this.looper(backOffers);
+    this.looper(layOffers);
+  }
   /**
    * Cick handler of the offer cells
    *
@@ -289,17 +331,12 @@ class SimpleBettingWidget extends PureComponent {
     return (text, record) => {
       // Retrieve the nested offers data from the data record
       let offers = record.get('offers');
-      let eventStatus = record.get('eventStatus');
-      var canBet, className;
+      // let eventStatus = record.get('eventStatus');
+      var canBet;
 
-      canBet = isDisabled(eventStatus, 'canBet');
+      canBet = isClickEnabled(record, index);
 
-      if (
-        offers === undefined ||
-        offers.isEmpty() ||
-        offers.getIn([index - 1, 'betting_market_id']) === undefined ||
-        !canBet
-      ) {
+      if (!canBet) {
         return '';
       }
 
@@ -327,30 +364,26 @@ class SimpleBettingWidget extends PureComponent {
 
       if ( offer === undefined || offer.get('price') < coinDust.toString()){
         return (
-          <div className={ className }>
-            <div className='offer empty'>
-              <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
-            </div>
+          <div className='offer empty'>
+            <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
           </div>
         );
       }
 
       let currencySymbol = CurrencyUtils.getCurrencySymbol(Config.features.currency);
       return (
-        <div className={ className }>
-          <div className='offer'>
-            <div className='odds'>
-              {BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat)}
-            </div>
-            <div className='price'>
-              {currencySymbol}
-              {CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
-                offer.get('price'),
-                'coin',
-                OFFER_PRECISION,
-                true
-              )}
-            </div>
+        <div className='offer'>
+          <div className='odds'>
+            {BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat)}
+          </div>
+          <div className='price'>
+            {currencySymbol}
+            {CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
+              offer.get('price'),
+              'coin',
+              OFFER_PRECISION,
+              true
+            )}
           </div>
         </div>
       );
@@ -393,8 +426,7 @@ class SimpleBettingWidget extends PureComponent {
             this.props.navigateTo,
             this.props.currencyFormat,
             this.props.sportName,
-            this.props.oddsFormat,
-            this.renderClass
+            this.props.oddsFormat
           ) }
           dataSource={ events.toArray() }
           title={ () => renderTitle(this.props.title) }
@@ -403,8 +435,7 @@ class SimpleBettingWidget extends PureComponent {
           locale={ {emptyText: I18n.t('simple_betting_widget.no_data')} }
           rowKey={ (record) => record.get('key') }
           rowClassName={ (record) => {
-            let eventStatus = record.get('eventStatus');
-            let enabled = isDisabled(eventStatus, 'rowClassName');
+            let enabled = isClickEnabled(record);
 
             if (!enabled) {
               return 'simple-betting-disabled';

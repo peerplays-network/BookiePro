@@ -203,12 +203,22 @@ div.simple-betting {
   &:hover {
     background-color: fade(@simple_betting_back_bg, 90%);
   }
+  &.disabled {
+    &:hover {
+      background-color: @simple_betting_back_bg;
+    }
+  }
 }
 
 .lay-offer {
   background-color: @light_pink;
   &:hover {
     background-color: fade(@light_pink, 90%);
+  }
+  &.disabled {
+    &:hover {
+      background-color: @light_pink;
+    }
   }
 }
 
@@ -218,6 +228,10 @@ div.simple-betting {
   cursor: pointer;
   text-align: center;
   font-weight: 700;
+  &.disabled {
+    cursor: default;
+  }
+
   .offer {
     .odds {
       font-size: 15px;
@@ -239,8 +253,10 @@ div.simple-betting {
     &:hover{
       background-color: @simple_betting_disabled;
     }
-  .lay-offer, .back-offer{
-    background-color: transparent;
-    cursor: default;
+  .lay-offer, .back-offer {
+    &.disabled {
+      background-color: transparent;
+      cursor: default;
+    }
   }
 }
