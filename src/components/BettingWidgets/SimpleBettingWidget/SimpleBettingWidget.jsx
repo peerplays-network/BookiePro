@@ -292,11 +292,6 @@ class SimpleBettingWidget extends PureComponent {
           }
         }
 
-        console.log('Comparing....');
-        console.log(offer.get('price'));
-        console.log(coinDust.toString());
-        console.log(offer);
-        
         if (parseFloat(offer.get('price')) >= coinDust) {
           foundGoodBet = true;
         } else {
