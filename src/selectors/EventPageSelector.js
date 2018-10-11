@@ -207,17 +207,21 @@ const getAllSportsData = createSelector(
 
           let bmgs = bmgsByEventID[e.get('id')];
 
-          bmgs = bmgs.map((bmg) => {
-            let bmgID = bmg.get('id');
-            return bmg.set('bettingMarkets', bettingMarketsWithOrderBook[bmgID]);
-          });
+          if (bmgs) {
+            bmgs = bmgs.map((bmg) => {
+              let bmgID = bmg.get('id');
+              return bmg.set('bettingMarkets', bettingMarketsWithOrderBook[bmgID]);
+            });
 
-          bmgs = SportsbookUtils.sortAndCenter(bmgs);
+            bmgs = SportsbookUtils.sortAndCenter(bmgs);
 
-          // Put the list of BMGs into their respective events
-          e = e.set('bettingMarketGroups', bmgs);
+            // Put the list of BMGs into their respective events
+            e = e.set('bettingMarketGroups', bmgs);
 
-          return e;
+            return e;
+          } else {
+            return null;
+          }
         });
 
       if (eventNodes) {
@@ -283,7 +287,11 @@ const getSportData = createSelector(
 
         if (eventList) {
           return eg.set('events', eventList.filter((e) => e));
+        } else {
+          return Immutable.List();
         }
+      } else {
+        return Immutable.List();
       }
     });
 

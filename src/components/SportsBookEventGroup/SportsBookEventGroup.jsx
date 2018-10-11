@@ -92,9 +92,10 @@ class SportsBookEventGroup extends PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {  
+const mapStateToProps = (state, ownProps) => {
+  const eventGroup = EventPageSelector.getEventGroupData(state, ownProps.params.objectId);
   return {
-    eventGroup: EventPageSelector.getEventGroupData(state, ownProps.params.objectId),
+    eventGroup: eventGroup,
     sportName: EventGroupPageSelector.getSportName(state, ownProps)
   };
 };
