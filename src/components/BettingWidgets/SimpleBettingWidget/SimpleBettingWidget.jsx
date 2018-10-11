@@ -301,7 +301,7 @@ class SimpleBettingWidget extends PureComponent {
     let offer = offers.getIn([index - 1, typeOfBet, 0]);
     const betting_market_id = offers.getIn([index - 1, 'betting_market_id']);
 
-    if (offer === undefined || offer.get('price') < coinDust.toString()) {
+    if (!offer || offer.get('price') < coinDust.toString()) {
       return (this.onOfferClicked(event, record, action, betting_market_id));
     }
 
