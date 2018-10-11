@@ -69,29 +69,58 @@ class QuickBetDrawer extends PureComponent {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.bettingtable));
   }
 
-  getSnapshotBeforeUpdate(prevProps, prevState) {
-    console.log(prevProps.toJS(), prevState.toJS());
-    return 'a';
-    // Not hitting this function, not implemented in our version of React?
+  modifyFooterLocation(isVisibleInDOM, rectParent) {
+    let footer = document.getElementsByClassName('quick-bet-drawer__footer')[0];
+    let footerClass = footer.className;
+    let scrollableDivClass = rectParent.children[0].className;
+    
+    if (!isVisibleInDOM) {
+      footerClass.className = footerClass + '--sticky';
+      scrollableDivClass.className = scrollableDivClass + ' footer--sticky';
+    } else {
+      let fCIndex = footerClass.indexOf('--sticky');
+      let sCIndex = scrollableDivClass.indexOf('footer--sticky');
+      footerClass.className = footerClass.substring(0, fCIndex);
+      scrollableDivClass.className = scrollableDivClass.substring(0, sCIndex);
+    }
+  }
+
+  inViewport(rect, rectParent) {
+    let isVisibleInDOM;
+
+    let rectBounding = rect.getBoundingClientRect();
+    // Determing if the `rect` is visible with the following checks.
+    isVisibleInDOM =
+      rectBounding.top >= 0 &&
+      rectBounding.left >= 0 &&
+      rectBounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rectBounding.right <= (window.innerWidth || document.documentElement.clientWidth);
+
+    console.log(isVisibleInDOM);
+    this.modifyFooterLocation(isVisibleInDOM, rectParent);
   }
 
   componentDidUpdate() {
-    // Get the div element for the footer.
-    let rect = document.getElementById('betslip__footer');
-    let isVisibleInDOM;
+    // Get the button element in the footer.
+    let rect = document.getElementById('btn--place-bet');
 
     // If the `rect` exists, we will proceed to get its location in the DOM.
     if (rect) {
-      rect = rect.getBoundingClientRect();
-      // Determing if the `rect` is visible with the following checks.
-      isVisibleInDOM =
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+      // Determine if the 'rect' is visible within its scrollable element. 'content
+      let rectParent = rect.parentElement.parentElement.parentElement;
+      
+      this.inViewport(rect, rectParent);
+
+      // Add event listener for scrolling/resize on the place bet button parent div. 
+      // Just a precaution.
+      rectParent.addEventListener('scroll', () => {
+        this.inViewport(rect, rectParent);
+      });
+      rectParent.addEventListener('resize', () => {
+        this.inViewport(rect, rectParent);
+      });
     }
 
-    console.log(isVisibleInDOM);
     Ps.update(ReactDOM.findDOMNode(this.refs.bettingtable));
   }
 
@@ -113,8 +142,9 @@ class QuickBetDrawer extends PureComponent {
             {renderContent(this.props)}
             {!this.props.bets.isEmpty() && (
               <div 
-                id={ 'betslip__footer' } 
-                className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }
+                className={ 
+                  `quick-bet-drawer__footer ${this.props.obscureContent ? 'dimmed' : ''}`
+                }
               >
                 <Subtotal
                   betAmount={ this.props.totalBetAmountFloat }
@@ -125,6 +155,7 @@ class QuickBetDrawer extends PureComponent {
                   className={ `btn place-bet btn${
                     this.props.numberOfGoodBets > 0 ? '-regular' : '-disabled'
                   }` }
+                  id='btn--place-bet'
                   onClick={ () => this.props.clickPlaceBet(
                     this.props.totalBetAmountFloat,
                     this.props.currencyFormat

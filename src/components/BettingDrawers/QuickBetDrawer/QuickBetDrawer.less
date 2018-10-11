@@ -47,12 +47,15 @@
   }
 
   .Pane1 {
+    &.footer--sticky {
+      padding-bottom: 140px;
+    }
     .content {
       overflow: unset !important;
       .ps-scrollbar-y-rail {
         display: none !important;
       }
-    }    
+    }
   }
 
   .content {
@@ -60,21 +63,23 @@
     height: 100%;
   }
 
-  .footer {
-    font-size: 18px;
-    background-color: @quick_bet_drawer_title_bg;
-    width: @quick-bet-drawer-width;
-    padding: 5px;
-    margin: 0px 5px;
+  .quick-bet-drawer {
+    &__footer {
+      font-size: 18px;
+      background-color: @quick_bet_drawer_title_bg;
+      width: @quick-bet-drawer-width;
+      padding: 5px;
+      margin: 0px 5px;
 
-    &.dimmed {
-      opacity: .1;
-    }
+      &.dimmed {
+        opacity: .1;
+      }
 
-    &.sticky {
-      position: fixed;
-      bottom: 0;
-      right: 5px;
+      &--sticky {
+        position: fixed;
+        bottom: 0;
+        right: 5px;
+      }
     }
   }
 
