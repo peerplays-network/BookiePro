@@ -480,7 +480,7 @@ class BetActions {
           profitDiff=[],
           liabilityDiff=[],
           oddsDiff=[],
-          changeType='increment';
+          changeType= BetTypes.INCREMENT;
         // Get the currencyFormat from the State object
         const accountId = getState().getIn(['account', 'account', 'id']);
         const setting =
@@ -524,16 +524,15 @@ class BetActions {
         //            [x][2] = {string} field
         const betDiff = [stakeDiff, profitDiff, liabilityDiff, oddsDiff];
 
-        for (var i = 0; i<betDiff.length; i++) {
-          // Correct the precision of the numbers in the diffs. floating point num issues.
-          betDiff[i][0] = CurrencyUtils.correctFloatingPointPrecision(
-            [betDiff[i][0], betDiff[i][2]], currencyType
-          );
+        betDiff.map((item) => {
+          item[0] = CurrencyUtils.correctFloatingPointPrecision([item[0], item[2]], currencyType);
 
-          if (betDiff[i][1] === 'decrement') {
-            changeType = 'decrement';
+          if(item[1] === 'decrement') {
+            changeType = BetTypes.DECREMENT;
           }
-        }
+
+          return item;
+        });
 
         // Followed up with add bet operation with the new parameter
         const bettingMarket = getState().getIn([
@@ -572,18 +571,17 @@ class BetActions {
         let mathPow = Math.pow(10, betAssetPrecision);
 
         // Assign relevant values from betDiff array for readability. (the amount value only)
-        stakeDiff = betDiff[0][0];
-        profitDiff = betDiff[1][0];
-        liabilityDiff = betDiff[2][0];
-        oddsDiff = betDiff[3][0];
+        [stakeDiff, profitDiff, liabilityDiff, oddsDiff] = [
+          betDiff[0][0], betDiff[1][0], betDiff[2][0], betDiff[3][0]
+        ];
 
         if (oddsDiff !== 0) {
-          changeType = 'decrement';
+          changeType = BetTypes.DECREMENT;
         }
 
         // If there are incremental changes, we will place a new bet built from the increment
         // differences.
-        if (changeType === 'increment') {
+        if (changeType === BetTypes.INCREMENT) {
           if (stakeDiff !== 0) { // Has stake changed?
             let allowDecimal = !isMiliCoin;
             
@@ -599,14 +597,14 @@ class BetActions {
 
         // Build a new bet from the diff of which will be placed.
         if (bet.get('bet_type') === BetTypes.BACK) {
-          if (validStakeDiff && changeType === 'increment') {
+          if (validStakeDiff && changeType === BetTypes.INCREMENT) {
             amountToBet = parseFloat(betDiff[0][0]) * mathPow;
           } else {
-            changeType = 'decrement';
+            changeType = BetTypes.DECREMENT;
             amountToBet = parseFloat(bet.get('stake')) * mathPow;
           }
         } else if (bet.get('bet_type') === BetTypes.LAY) {
-          if (changeType === 'increment') {
+          if (changeType === BetTypes.INCREMENT) {
             amountToBet = parseFloat(liabilityDiff) * mathPow;
           } else {
             amountToBet = parseFloat(bet.get('liability')) * mathPow;
@@ -618,7 +616,7 @@ class BetActions {
 
         // If there are decremental changes, we will cancel the bet and place a new bet with the
         // decremental differences.
-        if (changeType === 'decrement') {
+        if (changeType === BetTypes.DECREMENT) {
           // Add cancel bet operation
           const cancelBetOperationParams = {
             bettor_id: bet.get('bettor_id'),
