@@ -265,13 +265,11 @@ class SimpleBettingWidget extends PureComponent {
 
       const betting_market_id = offers.getIn([index - 1, 'betting_market_id']);
 
-
-      let foundGoodBet = false;
       let goodBetIndex = 0;
 
       let offer;
 
-      while (!foundGoodBet) {
+      for (let i = 0, len = offers.size; i < len; i++) {
         offer = offers.getIn([index - 1, typeOfBet, goodBetIndex]);
 
         if (!offer) {
@@ -282,7 +280,7 @@ class SimpleBettingWidget extends PureComponent {
           if (offer) {
             let odds = offer.get('odds');
             let price = offer.get('price');
-  
+
             offer = offer.set('price', CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
               price / (odds - 1),
               'coin',
@@ -292,9 +290,7 @@ class SimpleBettingWidget extends PureComponent {
           }
         }
 
-        if (parseFloat(offer.get('price')) >= coinDust) {
-          foundGoodBet = true;
-        } else {
+        if (parseFloat(offer.get('price')) <= coinDust) {
           goodBetIndex++;
         }
       }
