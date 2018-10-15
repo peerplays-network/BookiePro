@@ -46,17 +46,22 @@ class CommonMessage extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.setTimer = this.setTimer.bind(this);
+    this.state = {
+      timeout: null
+    };
+
     this.checkToAssignTimer = this.checkToAssignTimer.bind(this);
   }
 
   setTimer(id) {
-    setTimeout(
-      function () {
-        this.props.clearMessage(id);
-      }.bind(this),
-      Config.commonMessageModule.timeout
-    );
+    const {timeout} = this.state;
+    clearTimeout(timeout);
+
+    this.setState({
+      timeout: setTimeout(
+        this.props.clearMessage.bind(this, id), Config.commonMessageModule.timeout
+      )
+    });
   }
 
   checkToAssignTimer(messages) {
