@@ -1,5 +1,5 @@
 /**
- * The Betslip component contains all the pending bets a user has selected but
+ * The Place Bets component contains all the pending bets a user has selected but
  * not yet placed. Its behaviors are almost identical to the Betslip in QuickBetDrawer.
  * The only difference is that this Betslip only contains betslips associated with
  * one sport event so they are all displayed in one {@link BetTable}.
@@ -50,7 +50,7 @@ const renderContent = (props) => (
   </div>
 );
 
-class BetSlip extends PureComponent {
+class PlaceBet extends PureComponent {
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.unconfirmedBets));
   }
@@ -104,7 +104,7 @@ class BetSlip extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const disabled = ownProps.activeTab === 'PLACEDBETS';
+  const disabled = ownProps.activeTab === 'OPENBETS';
   const originalBets = state.getIn(['marketDrawer', 'unconfirmedBets']);
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
@@ -197,4 +197,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BetSlip);
+)(PlaceBet);
