@@ -81,8 +81,11 @@ class QuickBetDrawer extends PureComponent {
     
     if (!isVisibleInDOM) {
       // Append the sticky class.
-      if (fCIndex === -1 && sCIndex === -1) {
+      if (fCIndex === -1) {
         footer.className = footerClass + ' sticky';
+      }
+
+      if (sCIndex === -1 ) {
         scrollableDiv.className = scrollableDivClass + ' footer--sticky';
       }
     } else {
@@ -94,12 +97,12 @@ class QuickBetDrawer extends PureComponent {
       let rectParentHeight = rectParent.offsetHeight;
 
       if (cOcHeight < rectParentHeight) {
-        if (sCIndex !== -1) {
-          scrollableDiv.className = scrollableDivClass.substring(0, sCIndex - 1);
-        }
-
         if (fCIndex !== -1) {
           footer.className = footerClass.substring(0, fCIndex - 1);
+        }
+
+        if (sCIndex !== -1) {
+          scrollableDiv.className = scrollableDivClass.substring(0, sCIndex - 1);
         }
       }
     }
@@ -136,7 +139,8 @@ class QuickBetDrawer extends PureComponent {
       rectParent.addEventListener('scroll', () => {
         this.inViewport(rect, rectParent);
       });
-      rectParent.addEventListener('resize', () => {
+      // Window event listener for immediate update of footer while resizing.
+      window.addEventListener('resize', () => {
         this.inViewport(rect, rectParent);
       });
     }
