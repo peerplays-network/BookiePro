@@ -80,7 +80,6 @@ class CommonMessage extends PureComponent {
 
     // Use lodash for a deep comparison of the merged messages.
     if (!_.isEqual(propsMerged, prevPropsMerged)) {
-      console.log('lodash not equal');
       this.checkToAssignTimer(propsMerged);
     }
   }
