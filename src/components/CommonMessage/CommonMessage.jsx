@@ -5,6 +5,7 @@ import './CommonMessage.less';
 import CommonMessageActions from '../../actions/CommonMessageActions';
 import {Config} from '../../constants';
 import MessageType from '../../constants/MessageTypes';
+import _ from 'lodash';
 
 const compileMessage = (props) => {
   let messageList;
@@ -69,15 +70,13 @@ class CommonMessage extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    let isDiffExchange = this.props.exchangeMessages !== prevProps.exchangeMessages;
-    let isDiffBetslip = this.props.betslipMessages !== prevProps.betslipMessages;
+    let propsMerged = this.props.exchangeMessages.concat(this.props.betslipMessages);
+    let prevPropsMerged = prevProps.exchangeMessages.concat(prevProps.betslipMessages);
 
-    if (isDiffExchange) {
-      this.checkToAssignTimer(this.props.exchangeMessages);
-    }
-
-    if (isDiffBetslip) {
-      this.checkToAssignTimer(this.props.betslipMessages);
+    // Use lodash for a deep comparison of the merged messages.
+    if (!_.isEqual(propsMerged, prevPropsMerged)) {
+      console.log('lodash not equal');
+      this.checkToAssignTimer(propsMerged);
     }
   }
   
