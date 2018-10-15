@@ -15,21 +15,14 @@ export default function(state = initialState, action) {
         messageType: action.messageType,
         id: action.id
       }]);
-      const location = action.loc;
+      const location = action.loc + 'Messages';
+
       let messageCount = state.get('messageCount') + 1;
 
-      if (location === 'exchange') {
-        let newState = state.update('exchangeMessages', (msgs) => newMsg.concat(msgs))
-          .set('messageCount', messageCount);
+      let newState = state.update(location, (msgs) => newMsg.concat(msgs))
+        .set('messageCount', messageCount);
 
-        return newState;
-
-      } else {
-        let newState = state.update('betslipMessages', (msgs) => newMsg.concat(msgs))
-          .set('messageCount', messageCount);
-
-        return newState;
-      }
+      return newState;
     }
 
     case ActionTypes.COMMON_MSG_REMOVE_MESSAGE: {
@@ -38,41 +31,24 @@ export default function(state = initialState, action) {
       let messageCount = state.get('messageCount');
       const newMessageCount = --messageCount;
       const id = action.id;
+      const newExchangeMsgState = state.get('exchangeMessages')
+        .filter((m) => {
+          let mID = m.get('id');
 
-      if (id.indexOf('e') !== -1) {
-        // Location is of type 'exchange'
-        // Delete the item from the list in state
-        let newExchangeMsgState = state.get('exchangeMessages');
-
-        let i = 0;
-        newExchangeMsgState.forEach((m) => {
-          if (m.get('id') !== id) {
-            i = i + 1;
-          } else {
-            newExchangeMsgState = newExchangeMsgState.delete(i);
-          }
+          // Filter exchange messages.
+          return mID === 'e' + id;
         });
-        
+      const newBetslipMessageState = state.get('betslipMessages')
+        .filter((m) => {
+          let mID = m.get('id');
 
-        return state.set('exchangeMessages', newExchangeMsgState)
-          .set('messageCount', newMessageCount);
-      } else {
-        // Location is of type 'betslip'
-        // Delete the item from the list in state.
-        let newBetslipMsgState = state.get('betslipMessages');
-
-        let i = 0;
-        newBetslipMsgState.forEach((m) => {
-          if (m.get('id') !== id) {
-            i = i + 1;
-          } else {
-            newBetslipMsgState = newBetslipMsgState.delete(i);
-          }
+          // Filter betslip messages.
+          return mID === 'b' + id;
         });
 
-        return state.set('betslipMessages', newBetslipMsgState)
-          .set('messageCount', newMessageCount);
-      }
+      return state.set('exchangeMessages', newExchangeMsgState)
+        .set('betslipMessages', newBetslipMessageState)
+        .set('messageCount', newMessageCount);
     }
 
     case ActionTypes.COMMON_MSG_RESET: {
