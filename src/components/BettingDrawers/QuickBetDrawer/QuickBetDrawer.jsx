@@ -70,18 +70,38 @@ class QuickBetDrawer extends PureComponent {
   }
 
   modifyFooterLocation(isVisibleInDOM, rectParent) {
-    let footer = document.getElementsByClassName('quick-bet-drawer__footer')[0];
+    // The rectParent needs to have its height adjusted to manipulate the scrollable region of the 
+    // betslip tab.
+    let footer = document.getElementById('qbd-footer');
     let footerClass = footer.className;
-    let scrollableDivClass = rectParent.children[0].className;
+    let scrollableDiv = rectParent.children[0];
+    let scrollableDivClass = scrollableDiv.className;
+    let fCIndex = footerClass.indexOf('sticky');
+    let sCIndex = scrollableDivClass.indexOf('footer--sticky');
     
     if (!isVisibleInDOM) {
-      footerClass.className = footerClass + '--sticky';
-      scrollableDivClass.className = scrollableDivClass + ' footer--sticky';
+      // Append the sticky class.
+      if (fCIndex === -1 && sCIndex === -1) {
+        footer.className = footerClass + ' sticky';
+        scrollableDiv.className = scrollableDivClass + ' footer--sticky';
+      }
     } else {
-      let fCIndex = footerClass.indexOf('--sticky');
-      let sCIndex = scrollableDivClass.indexOf('footer--sticky');
-      footerClass.className = footerClass.substring(0, fCIndex);
-      scrollableDivClass.className = scrollableDivClass.substring(0, sCIndex);
+      // Two children down from the rectParent is the div that has a height changing as bets are
+      // added or deleted from it. If this child elements height is less than rectParents, we can
+      // remove the sticky class from the footer.
+      let childOfChild = rectParent.firstElementChild.firstElementChild;
+      let cOcHeight = childOfChild.offsetHeight + 120; // To make up for the existance of footer
+      let rectParentHeight = rectParent.offsetHeight;
+
+      if (cOcHeight < rectParentHeight) {
+        if (sCIndex !== -1) {
+          scrollableDiv.className = scrollableDivClass.substring(0, sCIndex - 1);
+        }
+
+        if (fCIndex !== -1) {
+          footer.className = footerClass.substring(0, fCIndex - 1);
+        }
+      }
     }
   }
 
@@ -107,7 +127,7 @@ class QuickBetDrawer extends PureComponent {
     // If the `rect` exists, we will proceed to get its location in the DOM.
     if (rect) {
       // Determine if the 'rect' is visible within its scrollable element. 'content
-      let rectParent = rect.parentElement.parentElement.parentElement;
+      let rectParent = rect.parentElement.parentElement.parentElement.parentElement;
       
       this.inViewport(rect, rectParent);
 
@@ -142,9 +162,10 @@ class QuickBetDrawer extends PureComponent {
             {renderContent(this.props)}
             {!this.props.bets.isEmpty() && (
               <div 
-                className={ 
-                  `quick-bet-drawer__footer ${this.props.obscureContent ? 'dimmed' : ''}`
+                className={
+                  `${this.props.obscureContent ? 'dimmed' : ''}quick-bet-drawer__footer`
                 }
+                id='qbd-footer'
               >
                 <Subtotal
                   betAmount={ this.props.totalBetAmountFloat }

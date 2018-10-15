@@ -8,6 +8,7 @@
 #quick-bet-drawer {
   height:100%;
   background-color: @drawer_main_bg;
+  width: @quick-bet-drawer-width;
   div.title {
     background-color: @quick_bet_drawer_title_bg;
     width: @quick-bet-drawer-width;
@@ -43,13 +44,15 @@
   .Pane2 {
     .SplitPane {
       overflow: scroll !important;
+      min-height: 100px!important;
+      height:100%;
+      &.footer--sticky {
+        height: ~"calc(100% - 120px)"!important;
+      }
     }
   }
 
   .Pane1 {
-    &.footer--sticky {
-      padding-bottom: 140px;
-    }
     .content {
       overflow: unset !important;
       .ps-scrollbar-y-rail {
@@ -67,7 +70,8 @@
     &__footer {
       font-size: 18px;
       background-color: @quick_bet_drawer_title_bg;
-      width: @quick-bet-drawer-width;
+      position: absolute;
+      width: 349px;
       padding: 5px;
       margin: 0px 5px;
 
@@ -75,10 +79,12 @@
         opacity: .1;
       }
 
-      &--sticky {
+      &.sticky {
+        width: 350px;
         position: fixed;
-        bottom: 0;
-        right: 5px;
+        bottom: 5px;
+        right: 0;
+        margin-right: 5px;
       }
     }
   }
