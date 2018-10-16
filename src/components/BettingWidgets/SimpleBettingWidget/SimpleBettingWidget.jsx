@@ -349,23 +349,39 @@ class SimpleBettingWidget extends PureComponent {
           .localeCompare(b.get('betting_market_id'));
       });
 
-      let offer = offers.getIn([index - 1, typeOfBet, 0]);
+      // const betting_market_id = offers.getIn([index - 1, 'betting_market_id']);
 
-      if (typeOfBet === 'lay') {
-        if (offer) {
-          let odds = offer.get('odds');
-          let price = offer.get('price');
+      let goodBetIndex = 0;
 
-          offer = offer.set('price', CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
-            price / (odds - 1),
-            'coin',
-            OFFER_PRECISION,
-            true
-          ));
+      let offer;
+
+      for (let i = 0, len = offers.size; i < len; i++) {
+        offer = offers.getIn([index - 1, typeOfBet, goodBetIndex]);
+
+        if (!offer) {
+          break;
+        }
+
+        if (typeOfBet === 'lay') {
+          if (offer) {
+            let odds = offer.get('odds');
+            let price = offer.get('price');
+
+            offer = offer.set('price', CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
+              price / (odds - 1),
+              'coin',
+              OFFER_PRECISION,
+              true
+            ));
+          }
+        }
+
+        if (parseFloat(offer.get('price')) <= coinDust) {
+          goodBetIndex++;
         }
       }
 
-      if ( offer === undefined || offer.get('price') < coinDust.toString()){
+      if ( offer === undefined ) {
         return (
           <div className='offer empty'>
             <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
