@@ -116,29 +116,31 @@ const centerTheDraw = (bettingMarketGroup) => {
   let bettingMarkets = bettingMarketGroup.get('bettingMarkets');
   const description = getDescriptionAsType(bettingMarketGroup.get('description'));
 
-  // If there is not the correct number of markets within the BMG, then return the original object
-  if (bettingMarkets.length !== BackingWidgetLayouts[description].numberOfMarkets) {
-    return bettingMarketGroup;
-  }
-
-  // Find the index that the draw is in
-  let drawIndex = -1;
-  bettingMarkets.forEach((bm, index) => {
-    if (
-      bm
-        .get('description')
-        .replace(/\s/g, '')
-        .toUpperCase() === 'THEDRAW'
-    ) {
-      drawIndex = index;
+  if (bettingMarkets) {
+    // If there is not the correct number of markets within the BMG, then return the original object
+    if (bettingMarkets.length !== BackingWidgetLayouts[description].numberOfMarkets) {
+      return bettingMarketGroup;
     }
-  });
 
-  // If the draw is not in the middle. Swap it with the middle index.
-  if (drawIndex !== 1) {
-    let temp = bettingMarkets[1];
-    bettingMarkets[1] = bettingMarkets[drawIndex];
-    bettingMarkets[drawIndex] = temp;
+    // Find the index that the draw is in
+    let drawIndex = -1;
+    bettingMarkets.forEach((bm, index) => {
+      if (
+        bm
+          .get('description')
+          .replace(/\s/g, '')
+          .toUpperCase() === 'THEDRAW'
+      ) {
+        drawIndex = index;
+      }
+    });
+
+    // If the draw is not in the middle. Swap it with the middle index.
+    if (drawIndex !== 1) {
+      let temp = bettingMarkets[1];
+      bettingMarkets[1] = bettingMarkets[drawIndex];
+      bettingMarkets[drawIndex] = temp;
+    }
   }
 
   bettingMarketGroup = bettingMarketGroup.set('bettingMarkets', bettingMarkets);

@@ -15,7 +15,7 @@ class BackingWidgetContainer extends PureComponent {
       <div className='backingWidgetContainer'>
         <div className='title'>{this.props.widgetTitle}</div>
 
-        { !eventFlag && 
+        { !eventFlag && this.props.marketData.length > 0 &&
           <BackingBettingWidget
             marketData={ this.props.marketData }
             title={ this.props.widgetTitle }
@@ -24,7 +24,7 @@ class BackingWidgetContainer extends PureComponent {
           />
         }
 
-        { eventFlag && this.props.marketData.map((market, index) => {
+        { eventFlag && this.props.marketData.length > 0 && this.props.marketData.map((market, index) => { // eslint-disable-line
           return (<BackingBettingWidget
             key={ index }
             title={ market.get('eventName') }

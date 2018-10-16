@@ -24,17 +24,20 @@ class SportsBookSport extends PureComponent {
 
             events && events.slice(0, MAX_EVENTS).forEach((e) => {
               let bmgs = e.get('bettingMarketGroups');
-              let bmg = bmgs.first();
 
-              if (SportsbookUtils.isMatchodds(bmg) || 
-                  SportsbookUtils.isMoneyline(bmg)) {
-                eventsToDisplay.push(
-                  bmg
-                    .set('eventName', e.get('name'))
-                    .set('eventID', e.get('id'))
-                    .set('eventTime', e.get('start_time'))
-                    .set('eventStatus', ObjectUtils.eventStatus(e))
-                );
+              if (bmgs) {
+                let bmg = bmgs.first();
+
+                if (SportsbookUtils.isMatchodds(bmg) || 
+                    SportsbookUtils.isMoneyline(bmg)) {
+                  eventsToDisplay.push(
+                    bmg
+                      .set('eventName', e.get('name'))
+                      .set('eventID', e.get('id'))
+                      .set('eventTime', e.get('start_time'))
+                      .set('eventStatus', ObjectUtils.eventStatus(e))
+                  );
+                }
               }
             });
 
@@ -44,6 +47,7 @@ class SportsBookSport extends PureComponent {
                   <BackingWidgetContainer
                     widgetTitle={ eg.get('name') }
                     marketData={ eventsToDisplay }
+                    eventStatus={ [''] }
                   />
                   <div className='more-sport-link'>
                     <a 

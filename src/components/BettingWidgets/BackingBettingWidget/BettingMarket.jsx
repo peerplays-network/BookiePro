@@ -61,7 +61,7 @@ class BettingMarket extends PureComponent {
 BettingMarket.propTypes = {
   title: PropTypes.string.isRequired,
   isLiveMarket: PropTypes.bool.isRequired,
-  eventStatus: PropTypes.array.isRequired,
+  eventStatus: PropTypes.any.isRequired,
   createBet: PropTypes.func.isRequired,
   bettingMarketId: PropTypes.string.isRequired,
   eventFlag: PropTypes.bool

@@ -59,17 +59,20 @@ class SportsBookEventGroup extends PureComponent {
 
         events.slice(start, finish).forEach((e) => {
           let bmgs = e.get('bettingMarketGroups');
-          let bmg = bmgs.first();
+          
+          if(bmgs) {
+            let bmg = bmgs.first();
 
-          if (SportsbookUtils.isMatchodds(bmg) || 
-              SportsbookUtils.isMoneyline(bmg)) {
-            eventsToDisplay.push(
-              bmg
-                .set('eventName', e.get('name'))
-                .set('eventID', e.get('id'))
-                .set('eventTime', e.get('start_time'))
-                .set('eventStatus', ObjectUtils.eventStatus(e))
-            );
+            if (SportsbookUtils.isMatchodds(bmg) || 
+                SportsbookUtils.isMoneyline(bmg)) {
+              eventsToDisplay.push(
+                bmg
+                  .set('eventName', e.get('name'))
+                  .set('eventID', e.get('id'))
+                  .set('eventTime', e.get('start_time'))
+                  .set('eventStatus', ObjectUtils.eventStatus(e))
+              );
+            }
           }
         });
       }
@@ -80,6 +83,7 @@ class SportsBookEventGroup extends PureComponent {
           <BackingWidgetContainer
             widgetTitle={ eventGroup.get('name') }
             marketData={ eventsToDisplay }
+            eventStatus={ [''] }
           />
           <ul className='event-group-pagination'>
             { pagination }
