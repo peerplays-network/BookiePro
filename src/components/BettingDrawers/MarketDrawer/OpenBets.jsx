@@ -75,7 +75,7 @@ class OpenBets extends PureComponent {
     }
 
     return (
-      <div className='placed-bets'>
+      <div className='open-bets'>
         <div className='content' ref='openBets'>
           {showLoadingScreen ? <Loading /> : ''}
           {!this.props.isEmpty && (
