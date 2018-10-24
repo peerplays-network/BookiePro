@@ -389,7 +389,11 @@ class VotingActions {
                     list.push(committeeMember);
 
                     Repository.getObject(committeeMember.committee_member_account).then(result => {
-                        let cmAccount = result.toJS();
+                        let cmAccount;
+
+                        if (result) {
+                            cmAccount = result.toJS();
+                        }
                         objectAccounts[committeeMember.committee_member_account] = cmAccount;
 
                         votes = votes.filter(item => {
