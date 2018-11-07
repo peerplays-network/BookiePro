@@ -102,7 +102,7 @@ class BackingBettingWidget extends PureComponent {
 
 BackingBettingWidget.propTypes = {
   isLiveMarket: PropTypes.bool.isRequired,
-  eventStatus: PropTypes.array.isRequired,
+  eventStatus: PropTypes.any.isRequired,
   title: PropTypes.string.isRequired
 };
 

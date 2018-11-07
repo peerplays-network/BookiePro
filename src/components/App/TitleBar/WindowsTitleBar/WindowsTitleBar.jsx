@@ -30,13 +30,11 @@ class WindowsTitleBar extends PureComponent {
           </div>
         )}
 
-        {loggedIn && (
-          <div className='right'>
-            <SportsbookToggle />
-          </div>
-        )}
 
         <div className='right'>
+          {loggedIn && (
+            <SportsbookToggle />
+          )}
           <WindowsControls
             isWindowFocused={ isWindowFocused }
             onMaximizeClick={ onMaximizeClick }

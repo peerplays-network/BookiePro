@@ -768,7 +768,7 @@ ComplexBettingWidget.propTypes = {
   totalMatchedBetsAmount: PropTypes.any.isRequired,
   createBet: PropTypes.func.isRequired,
   // unconfirmedBets data in bet table
-  eventStatus: PropTypes.any,
+  eventStatus: PropTypes.any.isRequired,
   bettingMarketGroupStatus: PropTypes.string,
   bettingMarketGroupStatusClassName: PropTypes.string,
   unconfirmedBets: PropTypes.any,

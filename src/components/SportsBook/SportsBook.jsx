@@ -24,16 +24,19 @@ class SportsBook extends PureComponent {
             events && events.slice(0, MAX_EVENTS).forEach((e) => {
 
               let bmgs = e.get('bettingMarketGroups');
-              let bmg = bmgs.first();
+              
+              if(bmgs) {
+                let bmg = bmgs.first();
 
-              if (SportsbookUtils.hasBettingMarkets(bmg)) {
-                eventsToDisplay.push(
-                  bmg
-                    .set('eventName', e.get('name'))
-                    .set('eventID', e.get('id'))
-                    .set('eventTime', e.get('start_time'))
-                    .set('eventStatus', ObjectUtils.eventStatus(e))
-                );
+                if (SportsbookUtils.hasBettingMarkets(bmg)) {
+                  eventsToDisplay.push(
+                    bmg
+                      .set('eventName', e.get('name'))
+                      .set('eventID', e.get('id'))
+                      .set('eventTime', e.get('start_time'))
+                      .set('eventStatus', ObjectUtils.eventStatus(e))
+                  );
+                }
               }
             });
 
