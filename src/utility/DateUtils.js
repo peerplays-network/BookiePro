@@ -17,9 +17,10 @@ const DateUtils = {
    * calculate start date and end date given time range period data
    *
    * @param {date} - dateToFormat, date to be formated, assumed to be in unixformat date
+   * @param {boolean} forExport - is the date for export?
    * @returns {string} - formatted string
    */
-  getFormattedDate(dateToFormat) {
+  getFormattedDate(dateToFormat, forExport=false) {
     if (moment(new Date(dateToFormat)).format('MM-DD-YYYY') === moment().format('MM-DD-YYYY')) {
       return I18n.t('mybets.today') + ', ' + moment(new Date(dateToFormat)).format('HH:mm');
     } else if (
@@ -39,7 +40,12 @@ const DateUtils = {
         moment(new Date(dateToFormat)).format('HH:mm')
       );
     } else {
-      return moment(new Date(dateToFormat)).format('MM-DD-YYYY HH:mm');
+      if (forExport && dateToFormat.toLowerCase().indexOf('today') !== -1) {
+        let full = dateToFormat.toLowerCase().replace('today,', '');
+        return moment().format('MM-DD-YYYY') + full;
+      } else {
+        return moment(new Date(dateToFormat)).format('MM-DD-YYYY HH:mm');
+      }
     }
   },
   /**

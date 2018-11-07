@@ -9,7 +9,7 @@ import SportActions from './SportActions';
 import MarketDrawerActions from './MarketDrawerActions';
 import {TransactionBuilder} from 'peerplaysjs-lib';
 import log from 'loglevel';
-import {CurrencyUtils} from '../utility';
+import {CurrencyUtils, ObjectUtils} from '../utility';
 
 /**
  * Private actions
@@ -191,7 +191,6 @@ class BetActions {
    */
   static checkForNewMyBets(rawHistoryDelta) {
     return (dispatch, getState) => {
-      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
       const accountId = getState().getIn(['account', 'account', 'id']);
 
       if (accountId) {
@@ -255,12 +254,11 @@ class BetActions {
           .then(() => {
             // Set my bets
             dispatch(BetPrivateActions.updateMyBetsAction(myBets));
-            // Update market drawer placed bets
-            dispatch(MarketDrawerActions.updatePlacedBets());
+            // Update market drawer open bets
+            dispatch(MarketDrawerActions.updateOpenBets());
             dispatch(MarketDrawerActions.hideOverlay());
             // Setstatus
             dispatch(BetPrivateActions.setCheckForNewMyBetsLoadingStatusAction(LoadingStatus.DONE));
-            dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.DONE));
             log.debug('Check for new my bets succeed.');
           })
           .catch((error) => {
@@ -341,8 +339,9 @@ class BetActions {
         // Make betAssetPrecision a variable so it can be adjusted as needed.
         let betAssetPrecision =
           getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
+
         // We need to adjust the betAssetPrecision if the Better
-        // is working with mBTC instead of BTC (is, reducet the
+        // is working with mCoin instead of coin (is, reducet the
         // betAssetPrecision by 1000).
 
         // Get the currencyFormat from the State object
@@ -352,7 +351,7 @@ class BetActions {
         const currencyFormat = setting.get('currencyFormat');
         const currencyType = CurrencyUtils.getCurrencyType(currencyFormat);
 
-        // If the Better's currency format is set to 'mBTC' ...
+        // If the Better's currency format is set to 'mCoin' ...
         if (currencyType === 'mCoin') {
           // ... reduce the precision by 3.
           betAssetPrecision = Math.max(betAssetPrecision - 3, 0);
@@ -417,7 +416,7 @@ class BetActions {
    */
   static cancelBets(bets) {
     return (dispatch, getState) => {
-      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
+      dispatch(MarketDrawerActions.updateOpenBetsLoadingStatus(LoadingStatus.BET_DELETE));
       const bettorId = getState().getIn(['account', 'account', 'id']);
       // Build transaction
       const tr = new TransactionBuilder();
@@ -477,19 +476,63 @@ class BetActions {
     return (dispatch, getState) => {
       const tr = new TransactionBuilder();
       bets.forEach((bet) => {
-        // Exit early if the bet has not been updated
+        let stakeDiff=[],
+          profitDiff=[],
+          liabilityDiff=[],
+          oddsDiff=[],
+          changeType= BetTypes.INCREMENT;
+        // Get the currencyFormat from the State object
+        const accountId = getState().getIn(['account', 'account', 'id']);
+        const setting =
+          getState().getIn(['setting', 'settingByAccountId', accountId]) ||
+          getState().getIn(['setting', 'defaultSetting']);
+        const currencyFormat = setting.get('currencyFormat');
+        const currencyType = CurrencyUtils.getCurrencyType(currencyFormat);
+        const isMiliCoin = currencyType === 'mCoin';
+        let validStakeDiff = false;
+        let backerMultiplier;
 
+        // Exit early if the bet has not been updated
         if (!bet.get('updated')) {
           return;
         }
-        
-        // Add cancel bet operation
-        const cancelBetOperationParams = {
-          bettor_id: bet.get('bettor_id'),
-          bet_to_cancel: bet.get('original_bet_id')
-        };
-        const cancelBetOperationType = 'bet_cancel';
-        tr.add_type_operation(cancelBetOperationType, cancelBetOperationParams);
+
+        // Get the bet differences.
+        const stake = bet.get('stake');
+        const original_stake = bet.get('original_stake');
+        stakeDiff = ObjectUtils.getBetAttrDiff(stake, original_stake);
+        stakeDiff.push('stake');
+
+        const profit = bet.get('profit');
+        const original_profit = bet.get('original_profit');
+        profitDiff = ObjectUtils.getBetAttrDiff(profit, original_profit);
+        profitDiff.push('profit');
+
+        const liability = bet.get('liability');
+        const original_liability = bet.get('original_liability');
+        liabilityDiff = ObjectUtils.getBetAttrDiff(liability, original_liability);
+        liabilityDiff.push('liability');
+
+        const odds = bet.get('odds');
+        const original_odds = bet.get('original_odds');
+        oddsDiff = ObjectUtils.getBetAttrDiff(odds, original_odds);
+        oddsDiff.push('odds');
+
+        // Are there any instances of decremental changes?
+        // betDiff -> [x][0] = {number} amount
+        //            [x][1] = {string} :'increment', 'decrement', or 'none'
+        //            [x][2] = {string} field
+        const betDiff = [stakeDiff, profitDiff, liabilityDiff, oddsDiff];
+
+        betDiff.map((item) => {
+          item[0] = CurrencyUtils.correctFloatingPointPrecision([item[0], item[2]], currencyType);
+
+          if(item[1] === 'decrement') {
+            changeType = BetTypes.DECREMENT;
+          }
+
+          return item;
+        });
 
         // Followed up with add bet operation with the new parameter
         const bettingMarket = getState().getIn([
@@ -517,39 +560,71 @@ class BetActions {
           getState().getIn(['asset', 'assetsById', betAssetType, 'precision']) || 0;
 
         // We need to adjust the betAssetPrecision if the Better
-        // is working with mBTC instead of BTC (is, reducet the
-        // betAssetPrecision by 1000).
-
-        // Get the currencyFormat from the State object
-        const accountId = getState().getIn(['account', 'account', 'id']);
-        const setting =
-          getState().getIn(['setting', 'settingByAccountId', accountId]) ||
-          getState().getIn(['setting', 'defaultSetting']);
-        const currencyFormat = setting.get('currencyFormat');
-        const currencyType = CurrencyUtils.getCurrencyType(currencyFormat);
-
+        // is working with mBTC instead of BTC (is, reducet the betAssetPrecision by 1000).
         // If the Better's currency format is set to 'mBTC' ...
-        if (currencyType === 'mCoin') {
+        if (isMiliCoin) {
           // ... reduce the precision by 3
           betAssetPrecision = Math.max(betAssetPrecision - 3, 0);
         }
 
-        // 2017-11-27 : KLF : BOOK-235
-        // Below line has replaced an conditional logic that sets the amountToBet
-        //  differently depending on if the bet is a BACK or a LAY. The amount to
-        //  bet should be the same regardless of if it is a back or a lay.
         let amountToBet = 0;
-        // amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
+        let mathPow = Math.pow(10, betAssetPrecision);
 
-        if (bet.get('bet_type') === BetTypes.BACK) {
-          amountToBet = parseFloat(bet.get('stake')) * Math.pow(10, betAssetPrecision);
-        } else if (bet.get('bet_type') === BetTypes.LAY) {
-          amountToBet = parseFloat(bet.get('liability')) * Math.pow(10, betAssetPrecision);
+        // Assign relevant values from betDiff array for readability. (the amount value only)
+        [stakeDiff, profitDiff, liabilityDiff, oddsDiff] = [
+          betDiff[0][0], betDiff[1][0], betDiff[2][0], betDiff[3][0]
+        ];
+
+        if (oddsDiff !== 0) {
+          changeType = BetTypes.DECREMENT;
         }
 
-        let backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision);
+        // If there are incremental changes, we will place a new bet built from the increment
+        // differences.
+        if (changeType === BetTypes.INCREMENT) {
+          if (stakeDiff !== 0) { // Has stake changed?
+            let allowDecimal = !isMiliCoin;
+            
+            if (allowDecimal) {
+              validStakeDiff = stakeDiff > 0;
+            } else {
+              validStakeDiff = stakeDiff % 1 === 0;
+            }
+          }
+        }
+
+        backerMultiplier = Math.round(parseFloat(bet.get('odds')) * Config.oddsPrecision);
+
+        // Build a new bet from the diff of which will be placed.
+        if (bet.get('bet_type') === BetTypes.BACK) {
+          if (validStakeDiff && changeType === BetTypes.INCREMENT) {
+            amountToBet = parseFloat(betDiff[0][0]) * mathPow;
+          } else {
+            changeType = BetTypes.DECREMENT;
+            amountToBet = parseFloat(bet.get('stake')) * mathPow;
+          }
+        } else if (bet.get('bet_type') === BetTypes.LAY) {
+          if (changeType === BetTypes.INCREMENT) {
+            amountToBet = parseFloat(liabilityDiff) * mathPow;
+          } else {
+            amountToBet = parseFloat(bet.get('liability')) * mathPow;
+          }
+          
+        }
 
         amountToBet = Math.floor(amountToBet);
+
+        // If there are decremental changes, we will cancel the bet and place a new bet with the
+        // decremental differences.
+        if (changeType === BetTypes.DECREMENT) {
+          // Add cancel bet operation
+          const cancelBetOperationParams = {
+            bettor_id: bet.get('bettor_id'),
+            bet_to_cancel: bet.get('original_bet_id')
+          };
+          const cancelBetOperationType = 'bet_cancel';
+          tr.add_type_operation(cancelBetOperationType, cancelBetOperationParams);
+        }
 
         const betPlaceOperationParams = {
           bettor_id: bet.get('bettor_id'),

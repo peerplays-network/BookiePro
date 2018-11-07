@@ -320,7 +320,7 @@ export const translationsObject = {
       in_play: 'IN-PLAY'
     },
     quick_bet_drawer: {
-      header: 'BETSLIP',
+      header: 'PLACE BETS',
       unconfirmed_bets: {
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
@@ -374,10 +374,10 @@ export const translationsObject = {
       }
     },
     market_drawer: {
-      tab1: 'BETSLIP',
-      tab2: 'PLACED BETS',
+      tab1: 'PLACE BETS',
+      tab2: 'OPEN BETS',
       unconfirmed_bets: {
-        header: 'Betslip',
+        header: 'Place Bets',
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
           my_bet_button: 'View My Bets'
@@ -427,8 +427,8 @@ export const translationsObject = {
           place_bet_button: 'PLACE BET '
         }
       },
-      placed_bets: {
-        header: 'PLACED BETS',
+      open_bets: {
+        header: 'OPEN BETS',
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
           my_bet_button: 'VIEW MY BETS'

@@ -347,7 +347,7 @@ class ComplexBettingWidget extends PureComponent {
     // Format the currency for display.
     formattedMatchedBetsAmount = CurrencyUtils.getFormattedCurrency(
       formattedMatchedBetsAmount,
-      this.props.currencyFormat,
+      currencyType,
       OFFER_PRECISION,
       true
     );
@@ -423,7 +423,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                props.currencyFormat,
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
@@ -465,7 +465,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                props.currencyFormat,
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
@@ -520,7 +520,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                props.currencyFormat,
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
@@ -577,7 +577,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                props.currencyFormat,
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
@@ -618,7 +618,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                props.currencyFormat,
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
@@ -665,7 +665,7 @@ class ComplexBettingWidget extends PureComponent {
               ? null
               : CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
                 props.value.price,
-                currencySymbol,
+                'coin',
                 OFFER_PRECISION,
                 true
               )}
