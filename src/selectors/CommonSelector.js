@@ -143,7 +143,6 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
     getAssetsById,
     getEventGroupsById
   ],
-  // TO DO: FIX ME. .map with .filter
   (
     binnedOrderBooksByBettingMarketId,
     bettingMarketsById,
@@ -186,13 +185,14 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
             const assetPrecision = assetsById.getIn([
               bettingMarketGroup.get('asset_id'),
               'precision'
-            ]);
+            ]) || 0;
+
             let aggregated_lay_bets =
               (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
             aggregated_lay_bets = aggregated_lay_bets.map((aggregated_lay_bet) => {
               const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
               const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
-              return aggregated_lay_bet.set('odds', odds).set('price', price);
+              return aggregated_lay_bet.set('odds', odds).set('price', price / (odds - 1));
             });
             let aggregated_back_bets =
               (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();

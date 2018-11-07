@@ -38,21 +38,20 @@ class BettingMarketGroupPageActions {
     return (dispatch) => {
       dispatch(
         BettingMarketGroupPagePrivateActions.setLoadingStatusAction(
-          bettingMktGrpId, 
+          bettingMktGrpId,
           LoadingStatus.LOADING
         )
       );
-      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
       // get related betting market group object
       dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds([bettingMktGrpId]))
         .then((bettingMarketGroups) => {
-          // Get placed bets for market drawer
-          dispatch(MarketDrawerActions.getPlacedBets(bettingMktGrpId));
+          // Get open bets for market drawer
+          dispatch(MarketDrawerActions.getOpenBets(bettingMktGrpId));
 
           const bettingMarketGroup = bettingMarketGroups.get(0);
           const eventId = bettingMarketGroup && bettingMarketGroup.get('event_id');
           const ruleId = bettingMarketGroup && bettingMarketGroup.get('rules_id');
-          // get related betting markets objects, event object, and total matched bets in 
+          // get related betting markets objects, event object, and total matched bets in
           // parallel (since they are mutually exclusive)
           return Promise.all([
             dispatch(

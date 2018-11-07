@@ -211,7 +211,7 @@ const getMarketData = createSelector(
           const assetPrecision = assetsById.getIn([
             bettingMarketGroup.get('asset_id'),
             'precision'
-          ]);
+          ]) || 0;
 
           let aggregated_lay_bets =
             (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
@@ -220,10 +220,11 @@ const getMarketData = createSelector(
             .map((aggregated_lay_bet) => {
               const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
               const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
-              return aggregated_lay_bet.set('odds', odds).set('price', price / (odds - 1));
+              return aggregated_lay_bet
+                .set('odds', odds).set('price', price / (odds - 1));
             })
             .filter((bet) => {
-              return bet.get('price') >= coinDust;
+              return bet.get('price') / (bet.get('odds') - 1) >= coinDust;
             });
 
           let aggregated_back_bets =
