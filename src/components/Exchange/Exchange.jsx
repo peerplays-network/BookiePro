@@ -14,6 +14,8 @@ import {QuickBetDrawer, MarketDrawer} from '../BettingDrawers';
 import {QuickBetDrawerActions, MarketDrawerActions, NavigateActions} from '../../actions';
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
 import Ps from 'perfect-scrollbar';
+import CommonMessage from '../CommonMessage/CommonMessage';
+import CommonMessageActions from '../../actions/CommonMessageActions';
 
 class Exchange extends PureComponent {
   constructor(props) {
@@ -169,20 +171,25 @@ class Exchange extends PureComponent {
               objectId={ transitionName[transitionName.length - 1] }
             />
           </div>
-          <SplitPane
-            split='vertical'
-            allowResize={ false }
-            minSize={ betslipWidth }
-            defaultSize={ betslipWidth }
-            primary='second'
-          >
-            <div className='scrollbar-style-main' ref='main'>
-              {React.cloneElement(this.props.children, {
-                currencyFormat: this.props.currencyFormat
-              })}
-            </div>
-            {selectBettingDrawer(transitionName)}
-          </SplitPane>
+          <div className='messaging'>
+            <CommonMessage
+              location='exchange'
+            />
+            <SplitPane
+              split='vertical'
+              allowResize={ false }
+              minSize={ betslipWidth }
+              defaultSize={ betslipWidth }
+              primary='second'
+            >
+              <div className='scrollbar-style-main' ref='main'>
+                {React.cloneElement(this.props.children, {
+                  currencyFormat: this.props.currencyFormat
+                })}
+              </div>
+              {selectBettingDrawer(transitionName)}
+            </SplitPane>
+          </div>
         </SplitPane>
         {unplacedBetModal}
       </div>
@@ -222,7 +229,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     clearQuickBetDrawer: QuickBetDrawerActions.deleteAllBets,
     clearQuickBetsOverlay: QuickBetDrawerActions.hideOverlay,
     clearMarketDrawerBetslips: MarketDrawerActions.deleteAllUnconfirmedBets,
-    clearMarketBetsOverlay: MarketDrawerActions.hideOverlay
+    clearMarketBetsOverlay: MarketDrawerActions.hideOverlay,
+    addCommonMessage: CommonMessageActions.newMessage
   },
   dispatch
 );
