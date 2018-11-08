@@ -33,9 +33,8 @@ import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config} from '../../../constants';
 import {MyAccountPageSelector} from '../../../selectors';
 import CommonMessage from '../../CommonMessage/CommonMessage';
-import CommonMessageActions from '../../../actions/CommonMessageActions';
-// import MessageType from '../../../constants/MessageTypes';
-// import MessageLocation from '../../../constants/MessageLocation';
+import MessageType from '../../../constants/MessageTypes';
+import CommonMessageUtils from '../../../utility/CommonMessageUtils';
 
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
@@ -74,20 +73,24 @@ const renderContent = (props) => (
 );
 
 class QuickBetDrawer extends PureComponent {
+  addRemoveMessage() {
+    this.props.betslipAddRemove(
+      this.props.betsError[0], MessageType.WARNING, this.props.betsError[1]
+    );
+  }
+  
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.bettingtable));
+    this.addRemoveMessage();
   }
 
   componentDidUpdate(prevProps) {
     Ps.update(ReactDOM.findDOMNode(this.refs.bettingtable));
     
-    if (prevProps.betsError !== this.props.betsError) {
-      // this.props.addCommonMessage(
-      //   this.props.betsError,
-      //   MessageType.WARNING,
-      //   MessageLocation.BETSLIP
-      // );
+    if (prevProps.betsError[0] !== this.props.betsError[0]) {
+      this.addRemoveMessage();
     }
+
   }
 
   render() {
@@ -116,10 +119,6 @@ class QuickBetDrawer extends PureComponent {
             {renderContent(this.props)}
             {!this.props.bets.isEmpty() && (
               <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
-                { !this.props.isValidBetTotal ?
-                  <div className='bet_balance_error'>{this.props.betsError}</div> :
-                  null
-                }
                 <Button
                   className={ `btn place-bet btn${
                     this.props.numberOfGoodBets > 0 ? '-regular' : '-disabled'
@@ -156,7 +155,6 @@ const mapStateToProps = (state, ownProps) => {
   var availableBalance = state.getIn(
     ['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']
   );
-  var betsError = I18n.t('bet_error.insufficient_balance');
   var autoOddsPopulated = 0;
   var profit, odds, stake;
   let page = Immutable.Map();
@@ -251,6 +249,10 @@ const mapStateToProps = (state, ownProps) => {
   const sufficientFunds = parseFloat(totalBetAmountString) <= availableBalance;
   const isValidBetTotal = numberOfBadBets === 0 && sufficientFunds && numberOfGoodBets > 0;
 
+  var betsError = CommonMessageUtils.determineMessageAndId(
+    originalBets.size, numberOfBadBets, sufficientFunds
+  );
+
   // Overlay
   const obscureContent =
     overlay !== BettingDrawerStates.NO_OVERLAY &&
@@ -294,7 +296,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     clickPlaceBet: QuickBetDrawerActions.clickPlaceBet,
     makeBets: BetActions.makeBets,
     hideOverlay: QuickBetDrawerActions.hideOverlay,
-    addCommonMessage: CommonMessageActions.newMessage
+    betslipAddRemove: CommonMessageUtils.betslipAddRemove
   },
   dispatch
 );

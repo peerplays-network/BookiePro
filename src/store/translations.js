@@ -496,7 +496,8 @@ export const translationsObject = {
       }
     },
     bet_error: {
-      insufficient_balance: 'One or more of your bets are empty or exceed your account balance.'
+      insufficient_balance: 'One or more of your bets exceed your account balance.',
+      incomplete_bet: 'Please submit odds and/or stake for all bets.'
     },
     rules_dialogue:{
       title: 'Rules',

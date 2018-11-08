@@ -23,6 +23,8 @@ import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config} from '../../../constants';
 import {MyAccountPageSelector} from '../../../selectors';
 import CommonMessage from '../../CommonMessage/CommonMessage';
+import MessageType from '../../../constants/MessageTypes';
+import CommonMessageUtils from '../../../utility/CommonMessageUtils';
 
 const renderContent = (props) => (
   <div className='content' ref='unconfirmedBets'>
@@ -57,12 +59,23 @@ const renderContent = (props) => (
 );
 
 class PlaceBet extends PureComponent {
-  componentDidMount() {
-    Ps.initialize(ReactDOM.findDOMNode(this.refs.unconfirmedBets));
+  addRemoveMessage() {
+    this.props.betslipAddRemove(
+      this.props.betsError[0], MessageType.WARNING, this.props.betsError[1]
+    );
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
+    Ps.initialize(ReactDOM.findDOMNode(this.refs.unconfirmedBets));
+    this.addRemoveMessage();
+  }
+
+  componentDidUpdate(prevProps) {
     Ps.update(ReactDOM.findDOMNode(this.refs.unconfirmedBets));
+
+    if (prevProps.betsError[0] !== this.props.betsError[0]) {
+      this.addRemoveMessage();
+    }
   }
 
   render() {
@@ -87,10 +100,6 @@ class PlaceBet extends PureComponent {
           {renderContent(this.props)}
           {!this.props.bets.isEmpty() && (
             <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
-              { !this.props.isValidBetTotal ?
-                <div className='bet_balance_error'>{this.props.betsError}</div> : 
-                null
-              }
               <Button
                 className={ 'btn place-bet' }
                 onClick={ () => this.props.clickPlaceBet(
@@ -125,8 +134,6 @@ const mapStateToProps = (state, ownProps) => {
     ['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']
   );
   const currencyType = CurrencyUtils.getCurrencyType(ownProps.currencyFormat);
-
-  var betsError = I18n.t('bet_error.insufficient_balance');
   var autoOddsPopulated = 0;
   var profit, odds, stake;
 
@@ -212,16 +219,12 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   const sufficientFunds = parseFloat(totalBetAmountString) <= availableBalance;
-
   const isValidBetTotal = numberOfBadBets === 0 && sufficientFunds && numberOfGoodBets > 0;
 
-  const betError = (error)=> {
-    if(autoOddsPopulated === 0 || isValidBetTotal){
-      betsError = '';
-    } else {
-      betsError = error;
-    }
-  };
+  // Determine if there are any common errors.
+  var betsError = CommonMessageUtils.determineMessageAndId(
+    originalBets.size, numberOfBadBets, sufficientFunds
+  );
 
   const currencyFormat = MyAccountPageSelector.currencyFormatSelector(state);
   const currencySymbol = CurrencyUtils.getCurrencySymbol(
@@ -242,7 +245,6 @@ const mapStateToProps = (state, ownProps) => {
     totalBetAmountString: totalBetAmountString,
     availableBalance: availableBalance,
     isValidBetTotal: isValidBetTotal,
-    betError,
     betsError,
     autoOddsPopulated,
     currencySymbol,
@@ -259,7 +261,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     updateUnconfirmedBet: MarketDrawerActions.updateUnconfirmedBet,
     clickPlaceBet: MarketDrawerActions.clickPlaceBet,
     makeBets: BetActions.makeBets,
-    hideOverlay: MarketDrawerActions.hideOverlay
+    hideOverlay: MarketDrawerActions.hideOverlay,
+    betslipAddRemove: CommonMessageUtils.betslipAddRemove
   },
   dispatch
 );
