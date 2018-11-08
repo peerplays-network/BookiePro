@@ -33,7 +33,6 @@ import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config} from '../../../constants';
 import {MyAccountPageSelector} from '../../../selectors';
 import CommonMessage from '../../CommonMessage/CommonMessage';
-import MessageType from '../../../constants/MessageTypes';
 import CommonMessageUtils from '../../../utility/CommonMessageUtils';
 
 const renderContent = (props) => (
@@ -75,7 +74,7 @@ const renderContent = (props) => (
 class QuickBetDrawer extends PureComponent {
   addRemoveMessage() {
     this.props.betslipAddRemove(
-      this.props.betsError[0], MessageType.WARNING, this.props.betsError[1]
+      this.props.betsError[0], this.props.betsError[1]
     );
   }
   
