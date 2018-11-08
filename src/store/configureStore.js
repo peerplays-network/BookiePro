@@ -11,6 +11,8 @@ import {translationsObject} from './translations';
 import Immutable from 'immutable';
 import rootReducer from '../reducers';
 import log from 'loglevel';
+import * as actionCreators from '../actions/CommonMessageActions';
+import {Config} from '../constants';
 
 const syncImmutableTranslationWithStore = (store) => {
   I18n.setTranslationsGetter(() => {
@@ -32,11 +34,21 @@ const syncImmutableTranslationWithStore = (store) => {
 export default function configureStore() {
   // Define initial state
   const initialState = Immutable.Map();
+  let actionsWhitelist;
+
+  if (Config.commonMessageModule.disableActionsInRedux) {
+    actionsWhitelist = ['BALANCE_SET_DEPOSIT_ADDRESS'];
+  }
 
   // Configure enhancer for redux dev tools extensions (if available)
   const composeEnhancers = composeWithDevTools({
+    features: {
+      dispatch: true
+    },
     // Option for immutable
-    serialize: {immutable: Immutable}
+    serialize: {immutable: Immutable},
+    actionsWhitelist: actionsWhitelist,
+    actionCreators: {actionCreators}
   });
 
   // Construct enhancer
