@@ -20,8 +20,15 @@ class AccountServices {
       let index = Math.floor(Math.random() * Object.keys(faucets).length);
       let faucetAddress = faucets[index];
 
+      // Beatrice faucet api endpoint is different.
+      let apiEP = '/api/v1/accounts';
+      
+      if (process.env.name === 'beatrice') {
+        apiEP = '/faucet';
+      }
+
       // Call faucet api to register for account
-      return fetch(faucetAddress + '/api/v1/accounts', {
+      return fetch(faucetAddress + apiEP, {
         method: 'post',
         mode: 'cors',
         headers: {
