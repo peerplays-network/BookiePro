@@ -21,7 +21,7 @@ class AccountServices {
       let faucetAddress = faucets[index];
 
       // Call faucet api to register for account
-      return fetch(faucetAddress + '/api/v1/accounts', {
+      return fetch(faucetAddress + '/faucet', {
         method: 'post',
         mode: 'cors',
         headers: {
