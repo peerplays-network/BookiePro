@@ -143,7 +143,6 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
     getAssetsById,
     getEventGroupsById
   ],
-  // TO DO: FIX ME. .map with .filter
   (
     binnedOrderBooksByBettingMarketId,
     bettingMarketsById,

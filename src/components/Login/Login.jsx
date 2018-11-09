@@ -87,23 +87,25 @@ class Login extends PureComponent {
 
   render() {
     return (
-      <div className='loginBackground'>
-        <div className='loginComponent'>
-          <div className='wrapper'>
-            <div className='text-center'>
-              <img src={ logo } height='132' width='280' alt='' />
-              <div className='center-ele'>
-                <LoginForm
-                  onClickSignup={ this.onClickSignup }
-                  onSubmit={ this.handleSubmit }
-                  errors={ this.props.errors }
-                  status={ this.props.status }
-                />
+      <div>
+        <div className='loginBackground'>
+          <div className='loginComponent'>
+            <div className='wrapper'>
+              <div className='text-center'>
+                <img src={ logo } height='132' width='280' alt='' />
+                <div className='center-ele'>
+                  <LoginForm
+                    onClickSignup={ this.onClickSignup }
+                    onSubmit={ this.handleSubmit }
+                    errors={ this.props.errors }
+                    status={ this.props.status }
+                  />
+                </div>
               </div>
             </div>
           </div>
+          <FloatingHelp />
         </div>
-        <FloatingHelp />
       </div>
     );
   }
@@ -111,7 +113,7 @@ class Login extends PureComponent {
 
 const mapStateToProps = (state) => ({
   errors: state.getIn(['auth', 'loginErrors']),
-  status: state.getIn(['auth', 'loginLoadingStatus'])
+  status: state.getIn(['auth', 'loginLoadingStatus']),
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
