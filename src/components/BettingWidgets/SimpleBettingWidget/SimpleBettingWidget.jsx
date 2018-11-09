@@ -75,7 +75,6 @@ const renderEventTime = (text, record) => {
 const hasOffers = (record, index) => {
   let offers = record.get('offers');
   let hasOffers = true;
-  debugger;
 
   // This checks that there is a betting market exisiting to pair up with another.
   // aka: a second team betting market to be a competitor to the first one
