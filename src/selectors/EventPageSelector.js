@@ -206,7 +206,7 @@ const getAllSportsData = createSelector(
         activeEvents.map((e) => {
           let bmgs = bmgsByEventID[e.get('id')];
 
-          if(bmgs) {
+          if (bmgs) {
             bmgs = bmgs.map((bmg) => {
               let bmgID = bmg.get('id');
               return bmg.set('bettingMarkets', bettingMarketsWithOrderBook[bmgID]);
@@ -216,9 +216,11 @@ const getAllSportsData = createSelector(
 
             // Put the list of BMGs into their respective events
             e = e.set('bettingMarketGroups', bmgs);
-          }
 
-          return e;
+            return e;
+          } else {
+            return null;
+          }
         });
 
       if (eventNodes) {
@@ -282,10 +284,10 @@ const getSportData = createSelector(
         if (eventList) {
           return eg.set('events', eventList.filter((e) => e));
         } else {
-          return null;
+          return Immutable.List();
         }
       } else {
-        return null;
+        return Immutable.List();
       }
     });
 
