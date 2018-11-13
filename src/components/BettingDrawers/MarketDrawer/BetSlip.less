@@ -1,7 +1,7 @@
 @import '../../App/Colors.less';
 @import '../../App/Common.less';
 
-@betslip-width: 360px;
+@betslip-width: 349px;
 @betslip-title-height: 40px;
 @betslip-footer-height: 40px;
 
@@ -14,9 +14,28 @@
 
     .SplitPane {
       overflow-y: scroll!important;
+      overflow: scroll !important;
+      min-height: 100px!important;
+      height: 100%;
+      &.footer--sticky {
+        height: ~"calc(100% - 160px)"!important;
+      }
     }
-    .Pane.horizontal.Pane1 {
-      padding-bottom: 165px;
+
+    .place-bet {
+      color: @black_pearl_dark;
+      font-weight: 700;
+      height: 40px;
+      margin-bottom: 5px;
+      .btn-regular;
+        width: 100%;
+        text-transform: none; // for displaying mB properly
+      &:disabled{
+        .btn-disabled;
+      }
+      span {
+        display: inline-block;
+      }
     }
 
     .content {
@@ -24,30 +43,52 @@
       height: 100%;
     }
 
-    .footer {
-      align-self: flex-end;
-      background-color: @betslip_bg;
-      width: @betslip-width;
-      padding: 6px;
-      margin-bottom: 40px;
-
-      &.dimmed {
-        opacity: .1;
-      }
-
-      > button.place-bet {
-        color: @black_pearl_dark;
+    .place-bet-drawer {
+      &__footer {
         font-size: 18px;
-        font-weight: 700;
-        height: 40px;
-        .btn-regular;
+        background-color: @betslip_bg;
+        position: absolute;
+        width: @betslip-width;
+        padding: 5px;
+        margin: 0px 5px;
+
+        &-dimmed {
           width: 100%;
-          text-transform: none;  // for displaying mB properly
-        &:disabled{
-          .btn-disabled;
+          opacity: .1;
+          padding-top: 5px;
+          .place-bet {
+            padding: 5px;
+            left: 10px;
+            width: 339px;
+          }
         }
-        span {
-          display: inline-block;
+
+        &.sticky {
+          width: 350px;
+          position: fixed;
+          bottom: 0;
+          right: 0;
+          margin-right: 10px;
+        }
+
+        .place-bet {
+          font-size: 18px;
+          width: 100%;
+          text-transform: none; // for displaying mB properly
+          margin-bottom: 5px;
+          
+          span {
+            padding-right: 2px;
+          }
+
+          .currency-symbol {
+            height: 14px;
+            width: auto;
+            padding: 0 2px;
+            &.btc, &.mbtf, &.mbtc {
+              margin-bottom: 0;
+            }
+          }
         }
       }
     }

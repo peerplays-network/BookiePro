@@ -24,7 +24,8 @@
   .place-bet {
     font-size: 18px;
     width: 100%;
-    text-transform: none;  // for displaying mB properly
+    text-transform: none; // for displaying mB properly
+    margin-bottom: 5px;
 
     span {
       padding-right: 2px;
@@ -38,8 +39,7 @@
         margin-bottom: 0;
       }
     }
-
-  } 
+  }
 
   .Pane2 {
     .SplitPane {
@@ -74,17 +74,24 @@
       width: 349px;
       padding: 5px;
       margin: 0px 5px;
-
-      &.dimmed {
+      
+      &-dimmed {
+        width: 100%;
         opacity: .1;
+          padding-top: 5px;
+
+        .place-bet {
+          left: 10px;
+          width: 339px;
+        }
       }
 
       &.sticky {
         width: 350px;
         position: fixed;
-        bottom: 5px;
+        bottom: 0;
         right: 0;
-        margin-right: 5px;
+        margin-right: 10px;
       }
     }
   }

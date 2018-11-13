@@ -73,10 +73,10 @@ class QuickBetDrawer extends PureComponent {
     // The rectParent needs to have its height adjusted to manipulate the scrollable region of the 
     // betslip tab.
     let footer = document.getElementById('qbd-footer');
-    let footerClass = footer.className;
+    let footerClass = footer && footer.className;
     let scrollableDiv = rectParent.children[0];
     let scrollableDivClass = scrollableDiv.className;
-    let fCIndex = footerClass.indexOf('sticky');
+    let fCIndex = footerClass && footerClass.indexOf('sticky');
     let sCIndex = scrollableDivClass.indexOf('footer--sticky');
     
     if (!isVisibleInDOM) {
@@ -119,7 +119,6 @@ class QuickBetDrawer extends PureComponent {
       rectBounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
       rectBounding.right <= (window.innerWidth || document.documentElement.clientWidth);
 
-    console.log(isVisibleInDOM);
     this.modifyFooterLocation(isVisibleInDOM, rectParent);
   }
 
@@ -134,7 +133,7 @@ class QuickBetDrawer extends PureComponent {
       
       this.inViewport(rect, rectParent);
 
-      // Add event listener for scrolling/resize on the place bet button parent div. 
+      // Add event listener for scrolling/resize on the place bet button parent div.
       // Just a precaution.
       rectParent.addEventListener('scroll', () => {
         this.inViewport(rect, rectParent);
@@ -167,7 +166,7 @@ class QuickBetDrawer extends PureComponent {
             {!this.props.bets.isEmpty() && (
               <div 
                 className={
-                  `${this.props.obscureContent ? 'dimmed' : ''}quick-bet-drawer__footer`
+                  `quick-bet-drawer__footer${this.props.obscureContent ? '-dimmed' : ''}`
                 }
                 id='qbd-footer'
               >
