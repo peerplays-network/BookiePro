@@ -69,78 +69,26 @@ class QuickBetDrawer extends PureComponent {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.bettingtable));
   }
 
-  modifyFooterLocation(isVisibleInDOM, rectParent) {
-    // The rectParent needs to have its height adjusted to manipulate the scrollable region of the 
-    // betslip tab.
-    let footer = document.getElementById('qbd-footer');
-    let footerClass = footer && footer.className;
-    let scrollableDiv = rectParent.children[0];
-    let scrollableDivClass = scrollableDiv.className;
-    let fCIndex = footerClass && footerClass.indexOf('sticky');
-    let sCIndex = scrollableDivClass.indexOf('footer--sticky');
-    
-    if (!isVisibleInDOM) {
-      // Append the sticky class.
-      if (fCIndex === -1) {
-        footer.className = footerClass + ' sticky';
-      }
-
-      if (sCIndex === -1 ) {
-        scrollableDiv.className = scrollableDivClass + ' footer--sticky';
-      }
-    } else {
-      // Two children down from the rectParent is the div that has a height changing as bets are
-      // added or deleted from it. If this child elements height is less than rectParents, we can
-      // remove the sticky class from the footer.
-      let childOfChild = rectParent.firstElementChild.firstElementChild;
-      let cOcHeight = childOfChild.offsetHeight + 120; // To make up for the existance of footer
-      let rectParentHeight = rectParent.offsetHeight;
-
-      if (cOcHeight < rectParentHeight) {
-        if (fCIndex !== -1) {
-          footer.className = footerClass.substring(0, fCIndex - 1);
-        }
-
-        if (sCIndex !== -1) {
-          scrollableDiv.className = scrollableDivClass.substring(0, sCIndex - 1);
-        }
-      }
-    }
-  }
-
-  inViewport(rect, rectParent) {
-    let isVisibleInDOM;
-
-    let rectBounding = rect.getBoundingClientRect();
-    // Determing if the `rect` is visible with the following checks.
-    isVisibleInDOM =
-      rectBounding.top >= 0 &&
-      rectBounding.left >= 0 &&
-      rectBounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rectBounding.right <= (window.innerWidth || document.documentElement.clientWidth);
-
-    this.modifyFooterLocation(isVisibleInDOM, rectParent);
-  }
-
   componentDidUpdate() {
     // Get the button element in the footer.
     let rect = document.getElementById('btn--place-bet');
+    let footerID = 'qbd-footer';
 
     // If the `rect` exists, we will proceed to get its location in the DOM.
     if (rect) {
       // Determine if the 'rect' is visible within its scrollable element. 'content
       let rectParent = rect.parentElement.parentElement.parentElement.parentElement;
       
-      this.inViewport(rect, rectParent);
+      BettingModuleUtils.inViewport(rect, rectParent, footerID);
 
       // Add event listener for scrolling/resize on the place bet button parent div.
       // Just a precaution.
       rectParent.addEventListener('scroll', () => {
-        this.inViewport(rect, rectParent);
+        BettingModuleUtils.inViewport(rect, rectParent, footerID);
       });
       // Window event listener for immediate update of footer while resizing.
       window.addEventListener('resize', () => {
-        this.inViewport(rect, rectParent);
+        BettingModuleUtils.inViewport(rect, rectParent, footerID);
       });
     }
 

@@ -214,7 +214,7 @@ var BettingModuleUtils = {
     return (parseFloat(marketExposure) + parseFloat(betslipExposure)).toFixed(exposurePlaces);
   },
 
-  //  =========== Book Percentage  ===========
+  //  =========== Book Percentage ===========
 
   /**
    *  Calculate book percentage with provided best back/lay odds of selection. Formula is as follow:
@@ -400,6 +400,67 @@ var BettingModuleUtils = {
         }
       }
     }
+  },
+
+  //  =========== UI/DOM Manipulation ===========
+  // Subtotal DOM sticky/unsticky
+  modifyFooterLocation: function(isVisibleInDOM, rectParent, footerID) {
+    // The rectParent needs to have its height adjusted to manipulate the scrollable region of the 
+    // betslip tab.
+    let footer = document.getElementById(footerID);
+    let footerClass = footer && footer.className;
+    let scrollableDiv = rectParent.children[0];
+    let scrollableDivClass = scrollableDiv.className;
+    let fCIndex = footerClass && footerClass.indexOf('sticky');
+    let sCIndex = scrollableDivClass.indexOf('footer--sticky');
+
+    if (!isVisibleInDOM) {
+      // Append the sticky class.
+      if (fCIndex === -1) {
+        footer.className = footerClass + ' sticky';
+      }
+
+      if (sCIndex === -1) {
+        scrollableDiv.className = scrollableDivClass + ' footer--sticky';
+      }
+    } else {
+      // Two children down from the rectParent is the div that has a height changing as bets are
+      // added or deleted from it. If this child elements height is less than rectParents, we can
+      // remove the sticky class from the footer.
+      let offsetAddition = 120; // To make up for the existance of footer
+
+      if (footerID.indexOf('pb') !== -1) {
+        offsetAddition = 160;
+      }
+
+      let childOfChild = rectParent.firstElementChild.firstElementChild;
+      let cOcHeight = childOfChild.offsetHeight + offsetAddition;
+      let rectParentHeight = rectParent.offsetHeight;
+
+      if (cOcHeight < rectParentHeight) {
+        if (fCIndex !== -1) {
+          footer.className = footerClass.substring(0, fCIndex - 1);
+        }
+
+        if (sCIndex !== -1) {
+          scrollableDiv.className = scrollableDivClass.substring(0, sCIndex - 1);
+        }
+      }
+    }
+  },
+
+  inViewport: function(rect, rectParent, footerID) {
+    let isVisibleInDOM;
+
+    let rectBounding = rect.getBoundingClientRect();
+    // Determing if the `rect` is visible with the following checks.
+    isVisibleInDOM =
+      rectBounding.top >= 0 &&
+      rectBounding.left >= 0 &&
+      rectBounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rectBounding.right <= (window.innerWidth || document.documentElement.clientWidth);
+
+    this.modifyFooterLocation(isVisibleInDOM, rectParent, footerID);
   }
 };
 
