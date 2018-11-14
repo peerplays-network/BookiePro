@@ -18,6 +18,7 @@ import './OpenBets.less';
 import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config, LoadingStatus} from '../../../constants';
 import Loading from '../../Loading';
+import CommonMessage from '../../CommonMessage/CommonMessage';
 
 class OpenBets extends PureComponent {
 
@@ -75,8 +76,11 @@ class OpenBets extends PureComponent {
     }
 
     return (
-      <div className='placed-bets'>
+      <div className='open-bets'>
         <div className='content' ref='openBets'>
+          <CommonMessage
+            location='betslip'
+          />
           {showLoadingScreen ? <Loading /> : ''}
           {!this.props.isEmpty && (
             <UnmatchedBets

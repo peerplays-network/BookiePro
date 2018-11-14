@@ -72,7 +72,37 @@ const renderEventTime = (text, record) => {
   }
 };
 
-const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsFormat) => {
+const hasOffers = (record, index) => {
+  let offers = record.get('offers');
+  let hasOffers = true;
+
+  // This checks that there is a betting market exisiting to pair up with another.
+  // aka: a second team betting market to be a competitor to the first one
+  if(index && offers.getIn([index - 1, 'betting_market_id']) === undefined) {
+    hasOffers = false;
+  }
+
+  if (offers === undefined || offers.isEmpty()) {
+    hasOffers = false;
+  }
+
+  return hasOffers;
+};
+
+const isClickEnabled = (record, index) => {
+  let enabled = false;
+  let status = record.get('eventStatus');
+
+  if (status !== 'settled' && status !== 'graded' && status !== 'finished' && status !== 'frozen') {
+    if (hasOffers(record, index)) {
+      enabled = true;
+    }
+  }
+
+  return enabled;
+};
+
+const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, sportName, oddsFormat) => { // eslint-disable-line
   // 1 = home , 2 = away, 3 = draw
   let columns = [
     {
@@ -102,6 +132,11 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
           key: 'back_offer_home',
           width: offerColumnWidth,
           className: 'back-offer',
+          onCellClick: ((record) => {
+            if (isClickEnabled(record, 1)) {
+              renderOfferClick(event, 'back', 'lay', 1, record);
+            }
+          }),
           render: renderOffer('back', 'lay', 1, currencyFormat, oddsFormat)
         },
         {
@@ -109,6 +144,11 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
           key: 'lay_offer_home',
           width: offerColumnWidth,
           className: 'lay-offer',
+          onCellClick: ((record) => {
+            if (isClickEnabled(record, 1)) {
+              renderOfferClick(event, 'lay', 'back', 1, record);
+            }
+          }),
           render: renderOffer('lay', 'back', 1, currencyFormat, oddsFormat)
         }
       ]
@@ -121,6 +161,11 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
           key: 'back_offer_draw',
           width: offerColumnWidth,
           className: 'back-offer',
+          onCellClick: ((record) => {
+            if (isClickEnabled(record, 3)) {
+              renderOfferClick(event, 'back', 'lay', 3, record);
+            }
+          }),
           render: renderOffer('back', 'lay', 3, currencyFormat, oddsFormat)
         },
         {
@@ -128,6 +173,11 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
           key: 'lay_offer_draw',
           width: offerColumnWidth,
           className: 'lay-offer',
+          onCellClick: ((record) => {
+            if (isClickEnabled(record, 3)) {
+              renderOfferClick(event, 'lay', 'back', 3, record);
+            }
+          }),
           render: renderOffer('lay', 'back', 3, currencyFormat, oddsFormat)
         }
       ]
@@ -140,6 +190,11 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
           key: 'back_offer_away',
           width: offerColumnWidth,
           className: 'back-offer',
+          onCellClick: ((record) => {
+            if (isClickEnabled(record, 2)) {
+              renderOfferClick(event, 'back', 'lay', 2, record);
+            }
+          }),
           render: renderOffer('back', 'lay', 2, currencyFormat, oddsFormat)
         },
         {
@@ -147,6 +202,11 @@ const getColumns = (renderOffer, navigateTo, currencyFormat, sportName, oddsForm
           key: 'lay_offer_away',
           width: offerColumnWidth,
           className: 'lay-offer',
+          onCellClick: ((record) => {
+            if (isClickEnabled(record, 2)) {
+              renderOfferClick(event, 'lay', 'back', 2, record);
+            }
+          }),
           render: renderOffer('lay', 'back', 2, currencyFormat, oddsFormat)
         }
       ]
@@ -173,8 +233,33 @@ class SimpleBettingWidget extends PureComponent {
     super(props);
     this.onOfferClicked = this.onOfferClicked.bind(this);
     this.renderOffer = this.renderOffer.bind(this);
+    this.renderOfferClick = this.renderOfferClick.bind(this);
   }
 
+  looper(offers) {
+    for (let i = 0, length = offers.length; i < length; i++) {
+      // Get the child classname.
+      let offer = offers[i];
+
+      if (offer.className.indexOf('offer') !== -1) {
+        if (offer.children.length === 0) {
+          offer.classList.add('disabled');
+        }
+      }
+    }
+  }
+
+  componentDidMount() {
+    // Hover state classes need to be redetermined based on whether the cell has an offer in it.
+    let backOffers = document.getElementsByClassName('back-offer');
+    let layOffers = document.getElementsByClassName('lay-offer');
+
+    // Iterate over the offer children and determine if the cell contains the offer class.
+    // If the cell does not contain the offer class, we do not want a hover style applied to the
+    // cursor.
+    this.looper(backOffers);
+    this.looper(layOffers);
+  }
   /**
    * Cick handler of the offer cells
    *
@@ -209,6 +294,18 @@ class SimpleBettingWidget extends PureComponent {
       </div>
     );
   }
+
+  renderOfferClick(event, action, typeOfBet, index, record) {
+    let offers = record.get('offers');
+    let offer = offers.getIn([index - 1, typeOfBet, 0]);
+    const betting_market_id = offers.getIn([index - 1, 'betting_market_id']);
+
+    if (!offer || offer.get('price') < coinDust.toString()) {
+      return (this.onOfferClicked(event, record, action, betting_market_id));
+    }
+
+    return (this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds')));
+  }
   /**
    * This function returns a function that will be used by the Ant-Design table
    * for cell rendering the betting offers in the widget.
@@ -236,24 +333,12 @@ class SimpleBettingWidget extends PureComponent {
     return (text, record) => {
       // Retrieve the nested offers data from the data record
       let offers = record.get('offers');
-      let eventStatus = record.get('eventStatus');
-      var canBet, className;
+      // let eventStatus = record.get('eventStatus');
+      var canBet;
 
-      if (
-        eventStatus !== 'settled' &&
-        eventStatus !== 'graded' &&
-        eventStatus !== 'finished' &&
-        eventStatus !== 'frozen'
-      ) {
-        canBet = true;
-      }
+      canBet = isClickEnabled(record, index);
 
-      if (
-        offers === undefined ||
-        offers.isEmpty() ||
-        offers.getIn([index - 1, 'betting_market_id']) === undefined ||
-        !canBet
-      ) {
+      if (!canBet) {
         return '';
       }
 
@@ -263,60 +348,61 @@ class SimpleBettingWidget extends PureComponent {
           .localeCompare(b.get('betting_market_id'));
       });
 
-      const betting_market_id = offers.getIn([index - 1, 'betting_market_id']);
-      let offer = offers.getIn([index - 1, typeOfBet, 0]);
+      // const betting_market_id = offers.getIn([index - 1, 'betting_market_id']);
 
-      if (typeOfBet === 'lay') {
-        if (offer) {
-          let odds = offer.get('odds');
-          let price = offer.get('price');
+      let goodBetIndex = 0;
 
-          offer = offer.set('price', CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
-            price / (odds - 1),
-            'coin',
-            OFFER_PRECISION,
-            true
-          ));
+      let offer;
+
+      for (let i = 0, len = offers.size; i < len; i++) {
+        offer = offers.getIn([index - 1, typeOfBet, goodBetIndex]);
+
+        if (!offer) {
+          break;
+        }
+
+        if (typeOfBet === 'lay') {
+          if (offer) {
+            let odds = offer.get('odds');
+            let price = offer.get('price');
+
+            offer = offer.set('price', CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
+              price / (odds - 1),
+              'coin',
+              OFFER_PRECISION,
+              true
+            ));
+          }
+        }
+
+        if (parseFloat(offer.get('price')) <= coinDust) {
+          goodBetIndex++;
         }
       }
 
-      if ( offer === undefined || offer.get('price') < coinDust.toString()){
+      if ( offer === undefined ) {
         return (
-          <div className={ className }>
-            <a
-              href='#'
-              onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id) }
-            >
-              <div className='offer empty'>
-                <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
-              </div>
-            </a>
+          <div className='offer empty'>
+            <div className='odds'>{I18n.t('simple_betting_widget.offer')}</div>
           </div>
         );
       }
 
       let currencySymbol = CurrencyUtils.getCurrencySymbol(Config.features.currency);
       return (
-        <div className={ className }>
-          <a
-            href='#'
-            onClick={ (event) => this.onOfferClicked(event, record, action, betting_market_id, offer.get('odds')) } // eslint-disable-line
-          >
-            <div className='offer'>
-              <div className='odds'>
-                {BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat)}
-              </div>
-              <div className='price'>
-                {currencySymbol}
-                {CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
-                  offer.get('price'),
-                  'coin',
-                  OFFER_PRECISION,
-                  true
-                )}
-              </div>
-            </div>
-          </a>
+        <div className='offer'>
+          <div className='odds'>
+            {BettingModuleUtils.oddsFormatFilter(offer.get('odds'), this.props.oddsFormat)}
+          </div>
+          <div className='price'>
+            {currencySymbol}
+            {CurrencyUtils.formatByCurrencyAndPrecisionWithSymbol(
+              offer.get('price'),
+              'coin',
+              OFFER_PRECISION,
+              true
+            )}
+          </div>
         </div>
       );
     };
@@ -354,11 +440,11 @@ class SimpleBettingWidget extends PureComponent {
           bordered
           columns={ getColumns(
             this.renderOffer,
+            this.renderOfferClick,
             this.props.navigateTo,
             this.props.currencyFormat,
             this.props.sportName,
-            this.props.oddsFormat,
-            this.renderClass
+            this.props.oddsFormat
           ) }
           dataSource={ events.toArray() }
           title={ () => renderTitle(this.props.title) }
@@ -367,17 +453,12 @@ class SimpleBettingWidget extends PureComponent {
           locale={ {emptyText: I18n.t('simple_betting_widget.no_data')} }
           rowKey={ (record) => record.get('key') }
           rowClassName={ (record) => {
-            let eventStatus = record.get('eventStatus');
+            let enabled = isClickEnabled(record);
 
-            if (
-              eventStatus === 'settled' ||
-              eventStatus === 'graded' ||
-              eventStatus === 'finished' ||
-              eventStatus === 'frozen'
-            ) {
+            if (!enabled) {
               return 'simple-betting-disabled';
             } else {
-              return null;
+              return '';
             }
           } }
         />

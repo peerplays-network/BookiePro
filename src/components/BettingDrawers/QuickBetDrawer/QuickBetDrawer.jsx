@@ -33,9 +33,13 @@ import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config} from '../../../constants';
 import {MyAccountPageSelector} from '../../../selectors';
 import Subtotal from '../MarketDrawer/Subtotal';
+import CommonMessage from '../../CommonMessage/CommonMessage';
 
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
+    <CommonMessage
+      location='betslip'
+    />
     {props.bets.isEmpty() && (
       <Empty
         showSuccess={ props.overlay === BettingDrawerStates.SUBMIT_BETS_SUCCESS }

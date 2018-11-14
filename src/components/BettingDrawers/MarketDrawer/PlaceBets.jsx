@@ -23,9 +23,13 @@ import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config} from '../../../constants';
 import {MyAccountPageSelector} from '../../../selectors';
 import Subtotal from './Subtotal';
+import CommonMessage from '../../CommonMessage/CommonMessage';
 
 const renderContent = (props) => (
   <div className='content' ref='unconfirmedBets'>
+    <CommonMessage
+      location='betslip'
+    />
     {props.bets.isEmpty() && (
       <Empty
         showSuccess={ props.showBetSlipSuccess }
