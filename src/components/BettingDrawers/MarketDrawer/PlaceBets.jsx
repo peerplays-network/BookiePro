@@ -113,7 +113,7 @@ class PlaceBet extends PureComponent {
                 className={ 'btn place-bet' }
                 id={ 'btn--place-bet' }
                 onClick={ () => this.props.clickPlaceBet(
-                  this.props.totalBetAmountFloat,
+                  this.props.totalBetAmountString,
                   this.props.currencyFormat
                 )
                 }
@@ -204,7 +204,7 @@ const mapStateToProps = (state, ownProps) => {
     ),
     totalBetAmountString: CurrencyUtils.toFixed(
       'transaction',
-      totalAmount,
+      totalAmount + transactionFee,
       currencyType
     ),
     transactionFee,

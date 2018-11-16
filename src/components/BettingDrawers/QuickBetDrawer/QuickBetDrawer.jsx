@@ -237,7 +237,7 @@ const mapStateToProps = (state, ownProps) => {
     ),
     totalBetAmountString: CurrencyUtils.toFixed(
       'transaction',
-      totalAmount,
+      totalAmount + transactionFee,
       currencyType
     ),
     transactionFee
