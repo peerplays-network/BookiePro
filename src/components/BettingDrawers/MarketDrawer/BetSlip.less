@@ -17,10 +17,11 @@ div.betslip {
   }
 
   div.footer {
+    font-size: 18px;
     align-self: flex-end;
     background-color: @betslip_bg;
     width: @betslip-width;
-    padding: 6px;
+    padding: 5px;
     margin-bottom: 40px;
 
     &.dimmed {
@@ -41,6 +42,12 @@ div.betslip {
       span {
         display: inline-block;
       }
+    }
+    
+    .bet_balance_error{
+      color: @error;
+      text-align: center;
+      text-transform: uppercase;
     }
   }
 }

@@ -481,7 +481,11 @@ export const translationsObject = {
         }
       }
     },
-    rules_dialogue: {
+    bet_error: {
+      insufficient_balance: 'One or more of your bets exceed your balance.',
+      incomplete_bet: 'Please submit odds and/or stake for all bets.'
+    },
+    rules_dialogue:{
       title: 'Rules',
       buttonTitle: 'Rules',
       content:
