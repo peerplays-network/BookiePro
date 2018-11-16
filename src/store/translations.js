@@ -231,21 +231,7 @@ export const translationsObject = {
       help: 'Help & Support',
       signout: 'Log Out'
     },
-    landing: {
-      login: 'LOG IN',
-      signup: 'JOIN BOOKIEPRO NOW',
-      slogan: 'Bet from Anywhere in the World',
-      intro: 'Sign-Up and Start Betting in 2 Minutes!',
-      copyright: 'COPYRIGHT',
-      privacy_policy: 'PRIVACY POLICY',
-      registerStepTitle: 'Register',
-      registerStepMessage: 'Create an Account',
-      depositStepTitle: 'Deposit',
-      depositStepMessage: 'Add Wallet',
-      betStepTitle: 'Bet',
-      betStepMessage: 'Easy Betting',
-      help_and_support: 'HELP'
-    },
+    
     mybets: {
       // profit_liability: 'Profit / </br>Liability' +
       // '%{currency}',
@@ -500,7 +486,11 @@ export const translationsObject = {
         total: 'Total:'
       }
     },
-    rules_dialogue: {
+    bet_error: {
+      insufficient_balance: 'One or more of your bets exceed your balance.',
+      incomplete_bet: 'Please submit odds and/or stake for all bets.'
+    },
+    rules_dialogue:{
       title: 'Rules',
       buttonTitle: 'Rules',
       content:
