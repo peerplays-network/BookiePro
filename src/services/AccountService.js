@@ -22,7 +22,7 @@ class AccountServices {
 
       // Beatrice faucet api endpoint is different.
       let apiEP = '/api/v1/accounts';
-      
+
       if (process.env.name === 'beatrice') {
         apiEP = '/faucet';
       }
