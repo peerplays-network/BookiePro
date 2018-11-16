@@ -1,6 +1,6 @@
 /**
  * The FloatingHelp is an help icon that appears at the lower right corner of the
- * screen in the following screens: Landing, Login, SignUp and Welcome.
+ * screen in the following screens: Login, SignUp and Welcome.
  *
  * When a user clicks on the icon, a modal containing the Bookie FAQ will be displayed.
  */

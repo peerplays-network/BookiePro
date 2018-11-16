@@ -5,8 +5,7 @@ import {
   Router, 
   Route, 
   hashHistory, 
-  IndexRoute, 
-  IndexRedirect
+  IndexRoute
 } from 'react-router';
 import App from './components/App';
 import MyAccount from './components/MyAccount';
@@ -24,7 +23,6 @@ import {syncHistoryWithStore} from 'react-router-redux';
 import Deposit from './components/Deposit';
 import ChangePassword from './components/ChangePassword';
 import Welcome from './components/Welcome';
-import Landing from './components/Landing';
 import HelpAndSupport from './components/HelpAndSupport';
 import {LocaleProvider} from 'antd';
 import {I18n} from 'react-redux-i18n';
@@ -97,13 +95,11 @@ if (isRunningInsideElectron) {
 // Add new page here
 const routes = (
   <Route path='/' component={ App }>
-    <IndexRedirect to='landing' />
     <Route path='/login' component={ Login } />
     <Route path='/signup' component={ Signup } />
     <Route path='/license' component={ LicenseScreen } />
     <Route path='/welcome' component={ Welcome } />
     <Route path='/deposit' component={ Deposit } />
-    <Route path='/landing' component={ Landing } />
     <Route component={ Main }>
       <Route path='/help-and-support' component={ HelpAndSupport } />
       <Route path='/exchange' component={ Exchange }>
