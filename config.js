@@ -1,34 +1,26 @@
 const config = {
   environments: {
-    beatrice: {
+    someEnvironmentName: {
       assetId: '1.3.1',
       apiEndpoints: [
-        'wss://pta.blockveritas.co:8089', // taconator-witness
-        'wss://bnode2.peerblock.trade', // bitcoinsig-test
-        'wss://api.ppytest.nuevax.com', // nuevax-test
-        'wss://api.ppy-beatrice.blckchnd.com', // blckchnd-testnet
-        'wss://ip100.ip-54-37-165.eu/', // melea-witness
-        'wss://api.test.ppy.us.altcap.io', // winner.winner.chicken.dinner
-        'wss://peerplaysblockchain.net/testnet/api', // houdini-witness
-        'wss://api-beatrice01.eifos.org' // eifos-witness
+        'insert api endpoint urls here' // multiple are supported.
       ],
-      faucetUrls: ['https://pbsa-beatrice-faucet.blockchainprojectsbv.com'],
+      faucetUrls: ['insert faucet url here'],
       prefix: 'TEST',
       accounts: {
         broadcasts: {
-          name: 'pbsa-broadcasts',
-          key: 'PPYTEST8H4L2UeaXRRAt5nVR4GSGFdt232711wyzTQnFRJeoJeLXXZT23'
+          name: 'broadcasts',
+          key: 'insertKeyHere'
         },
         updates: {
-          name: 'bookie-updates',
-          key: '5Kjqz8HwRBCW7ZtvhmM2NhAqaPpLQvBShKjVNcKdbm8gdXi5V3J'
+          name: 'updates',
+          key: 'insertKeyHere'
         }
       }
     }
   }
 };
-
-let current = 'beatrice'; // Set the default environment.
+let current = 'someEnvironmentName'; // Set the current default environment.
 
 // Check to make sure a valid target is specified.
 if (process.env && process.env.TARGET && config.environments[process.env.TARGET]) {
