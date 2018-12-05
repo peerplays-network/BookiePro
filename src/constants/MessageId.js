@@ -3,6 +3,7 @@ const MessageId = {
     INFO: {
     },
     SUCCESS: {
+      CANCEL_BET: 'suc-b-CB'
     },
     WARNING: {
       INCOMPLETE_BET: 'war-b-IB'

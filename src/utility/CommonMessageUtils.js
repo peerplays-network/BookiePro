@@ -3,11 +3,12 @@ import {I18n} from 'react-redux-i18n';
 import MessageId from '../constants/MessageId';
 import MessageLocation from '../constants/MessageLocation';
 import MessageType from '../constants/MessageTypes';
+import LoadingStatus from '../constants/LoadingStatus';
 
 
 var CommonMessageUtils = {
-  betslipAddRemove(betsError, id) {
-    // Determine what the message type is.
+
+  getMessageType(id) {
     let type;
 
     if (id) {
@@ -26,6 +27,13 @@ var CommonMessageUtils = {
       }
     }
 
+    return type;
+  },
+  
+  betslipAddRemove(betsError, id) {
+    // Determine what the message type is.
+    let type = CommonMessageUtils.getMessageType(id);
+
     // If there exists invalid bets, display warning message to indicate as such.
     if (betsError !== '') {
       return CommonMessageActions.newMessage(betsError, type, MessageLocation.BETSLIP, id);
@@ -34,6 +42,41 @@ var CommonMessageUtils = {
       // otherwise.
       return CommonMessageActions.clearMessage(id);
     }
+  },
+
+  /**
+ * Dispatch a message based on the loading state provided
+ *
+ * @param {string} loadingState - the user's selected currency
+ */
+  messageFromLoadState(loadingState) {
+    let type;
+    let message;
+    let location;
+    let id;
+
+    switch (loadingState) {
+      case LoadingStatus.DONE_UNMATCHED_BET_CANCEL: {
+        id = MessageId.BETSLIP.SUCCESS.CANCEL_BET;
+        type = CommonMessageUtils.getMessageType(id);
+        location = MessageLocation.BETSLIP;
+        message = I18n.t('market_drawer.open_bets.confirmation.imperfect.cancel_bet');
+        break;
+      }
+
+      case LoadingStatus.DONE_UNMATCHED_BET_CANCEL_ALL: {
+        id = MessageId.BETSLIP.SUCCESS.CANCEL_BET;
+        type = CommonMessageUtils.getMessageType(id);
+        location = MessageLocation.BETSLIP;
+        message = I18n.t('market_drawer.open_bets.confirmation.imperfect.cancel_bets');
+        break;
+      }
+
+      default:
+        break;
+    }
+
+    return CommonMessageActions.newMessage(message, type, location, id);
   },
 
   determineMessageAndId(numberOfBets, numberOfBadBets, sufficientFunds) {

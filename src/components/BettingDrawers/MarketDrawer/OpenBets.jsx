@@ -19,6 +19,7 @@ import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config, LoadingStatus} from '../../../constants';
 import Loading from '../../Loading';
 import CommonMessage from '../../CommonMessage/CommonMessage';
+import CommonMessageUtils from '../../../utility/CommonMessageUtils';
 
 class OpenBets extends PureComponent {
 
@@ -35,10 +36,7 @@ class OpenBets extends PureComponent {
   componentDidUpdate(prevProps) {
     Ps.update(ReactDOM.findDOMNode(this.refs.openBets));
 
-    // If there are no bets, then there is no need for the loading screen
-    if (this.props.isEmpty) {
-      this.props.updateOpenBetsLoadingStatus(LoadingStatus.DONE);
-    } else if (this.props.overlay === 'NO_OVERLAY') {
+    if (this.props.overlay === 'NO_OVERLAY') {
       // No overlay is a precondition for the rest of the
       //  conditions for there not being a loading screen.
       if (
@@ -56,6 +54,14 @@ class OpenBets extends PureComponent {
         // If there is a different number of bets in the unmatchedBets array, then the app has
         //  just finished adding/removing something.
         this.props.updateOpenBetsLoadingStatus(LoadingStatus.DONE);
+
+        // Check how many bets were removed and display appropriate message
+        if (prevProps.unmatchedBets.size > 1 && this.props.unmatchedBets.size === 0) {
+          this.props.messageFromLoadState(LoadingStatus.DONE_UNMATCHED_BET_CANCEL_ALL);
+        } else if (this.props.unmatchedBets.size === (prevProps.unmatchedBets.size - 1)) {
+          this.props.messageFromLoadState(LoadingStatus.DONE_UNMATCHED_BET_CANCEL);
+        }
+
       } else if (prevProps.overlay === 'SUBMIT_BETS_SUCCESS') {
         this.props.updateOpenBetsLoadingStatus(LoadingStatus.DONE);
       }
@@ -196,7 +202,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     deleteUnmatchedBets: MarketDrawerActions.deleteUnmatchedBets,
     deleteUnmatchedBet: MarketDrawerActions.deleteUnmatchedBet,
     hideOverlay: MarketDrawerActions.hideOverlay,
-    updateOpenBetsLoadingStatus: MarketDrawerActions.updateOpenBetsLoadingStatus
+    updateOpenBetsLoadingStatus: MarketDrawerActions.updateOpenBetsLoadingStatus,
+    messageFromLoadState: CommonMessageUtils.messageFromLoadState
   }, 
   dispatch
 );
