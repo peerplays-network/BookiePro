@@ -1,8 +1,8 @@
 [submodule "lib/peerplaysjs-lib"]
 	path = lib/peerplaysjs-lib
-	url = https://bitbucket.org/peerplaysblockchain/peerplays-graphenejs-lib/
+	url = https://github.com/PBSA/peerplaysjs-lib-private.git/
 	branch = master
 [submodule "lib/peerplaysjs-ws"]
 	path = lib/peerplaysjs-ws
-	url = https://bitbucket.org/peerplaysblockchain/peerplays-graphenejs-ws/
+	url = https://github.com/PBSA/peerplaysjs-ws-private.git/
 	branch = betting2

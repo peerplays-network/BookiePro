@@ -116,6 +116,14 @@ class QuickBetDrawer extends PureComponent {
   }
 
   render() {
+    let expandedFooterStyle = '';
+
+    if (this.props.isValidBetTotal){
+      expandedFooterStyle = '50px';
+    } else {
+      expandedFooterStyle = '100px';
+    }
+
     return (
       <div id='quick-bet-drawer' ref='drawer'>
         <SplitPane split='horizontal' defaultSize='40px' allowResize={ false }>
