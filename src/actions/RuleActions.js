@@ -64,7 +64,6 @@ class RuleActions {
             LoadingStatus.LOADING
           )
         );
-        // TODO: mark later
         return CommunicationService.getRulesByIds(idsOfRulesToBeRetrieved).then((rules) => {
           // Add to redux store
           dispatch(RuleActions.addOrUpdateRulesAction(rules));

@@ -318,7 +318,6 @@ class SignupForm extends PureComponent {
           </div>
         </div>
         <div className='clearfix center-object align-top'>
-          {/*TODO: bold text inside warning*/}
           <Field
             name='understand'
             id='understand'

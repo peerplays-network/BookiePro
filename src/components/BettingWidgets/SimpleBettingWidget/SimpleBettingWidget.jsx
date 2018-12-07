@@ -213,8 +213,6 @@ const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, s
     }
   ];
 
-  // TODO: This is an ad-hoc method to decide whether we need to display the
-  //       3rd selection for DRAW
   if (sportName.toUpperCase() !== 'SOCCER') {
     columns.splice(3, 1); // remove the X column group
   }
@@ -333,7 +331,6 @@ class SimpleBettingWidget extends PureComponent {
     return (text, record) => {
       // Retrieve the nested offers data from the data record
       let offers = record.get('offers');
-      // let eventStatus = record.get('eventStatus');
       var canBet;
 
       canBet = isClickEnabled(record, index);
@@ -342,13 +339,10 @@ class SimpleBettingWidget extends PureComponent {
         return '';
       }
 
-      // TODO: Shall we sort the list of offers first before we pass it to the betting widget?
       offers = offers.sort((a, b) => {
         return a.get('betting_market_id')
           .localeCompare(b.get('betting_market_id'));
       });
-
-      // const betting_market_id = offers.getIn([index - 1, 'betting_market_id']);
 
       let goodBetIndex = 0;
 

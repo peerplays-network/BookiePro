@@ -8,7 +8,6 @@ import React, {PureComponent} from 'react';
 let I18n = require('react-redux-i18n').I18n;
 import {Card, Row, Col} from 'antd';
 
-//TODO Rename this component in order to match the file name (or rename the file if appropriate)
 class Amount extends PureComponent {
   renderAmount(amountTypeText, amount) {
     return (
