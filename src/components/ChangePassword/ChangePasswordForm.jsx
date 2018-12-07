@@ -5,11 +5,9 @@
  */
 import React, {PureComponent} from 'react';
 import {Field, Fields, reduxForm} from 'redux-form/immutable';
-import {Button} from 'antd';
+import {Button, Modal} from 'antd';
 import {I18n} from 'react-redux-i18n';
 import {LoadingStatus} from '../../constants';
-import {FileSaverUtils} from '../../utility';
-const {saveAs} = FileSaverUtils;
 
 /**
  * Following is the stateless function that is passed as the 'component' prop to
@@ -64,13 +62,6 @@ const renderPasswordField = ({
 );
 
 class ChangePasswordForm extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isPwDownloaded: false
-    };
-  }
-
   /**
    * Download the password in a text file
    *
@@ -79,11 +70,7 @@ class ChangePasswordForm extends PureComponent {
    */
   onClickDownload(password, event) {
     event.preventDefault();
-    let blob = new Blob([password], {
-      type: 'text/plain'
-    });
-    saveAs(blob, 'account-recovery-file.txt');
-    this.setState({isPwDownloaded: true});
+    this.props.showModal();
   }
 
   /**
@@ -120,7 +107,6 @@ class ChangePasswordForm extends PureComponent {
   };
 
   render() {
-    const {isPwDownloaded} = this.state;
     const {
       handleSubmit,
       onBlur,
@@ -129,12 +115,15 @@ class ChangePasswordForm extends PureComponent {
       invalid,
       asyncValidating,
       submitting,
-      pristine
+      pristine,
+      handleCancel,
+      visible,
+      downloadPassword
     } = this.props;
     const errors = this.props.errors ? this.props.errors.toJS() : {},
       isLoading = loadingStatus === LoadingStatus.LOADING && errors.length === 0;
     const recoveryDisabled = invalid || submitting || asyncValidating || isLoading;
-    const confirmBtnDisabled = recoveryDisabled || !isPwDownloaded;
+    const confirmBtnDisabled = recoveryDisabled;
     const oldPasswordDisabled = isLoading || pristine || submitting;
     return (
       <form onSubmit={ handleSubmit }>
@@ -195,6 +184,32 @@ class ChangePasswordForm extends PureComponent {
                 component={ this.renderRecoveryButtonFields }
                 onClick={ this.onClickDownload.bind(this) }
               />
+              <Modal
+                className={ 'password-modal' }
+                visible={ visible }
+                onOk={ downloadPassword }
+                onCancel={ handleCancel }
+                okText={ 'Download Password' }
+                cancelText={ 'Cancel' }
+                width={ 428 }
+                footer={ [
+                  <Button
+                    className='btn-regular btn-cancel'
+                    key='back'
+                    onClick={ handleCancel }>
+                      { I18n.t('changePassword.cancel') }
+                  </Button>,
+                  <Button
+                    className='btn-regular btn-download'
+                    key='next'
+                    onClick={ downloadPassword }
+                    type='default'>
+                      Download Password
+                  </Button>
+                ] }
+              >
+                <p>Please download your new password.</p>
+              </Modal>
             </div>
           </div>
         </div>

@@ -17,6 +17,8 @@ import {NavigateActions, AuthActions} from '../../actions';
 import {LoadingStatus} from '../../constants';
 import Immutable from 'immutable';
 import PeerPlaysLogo from '../PeerPlaysLogo';
+import {FileSaverUtils} from '../../utility';
+const {saveAs} = FileSaverUtils;
 
 class ChangePassword extends PureComponent {
   constructor(props) {
@@ -25,6 +27,9 @@ class ChangePassword extends PureComponent {
     this.handleOldPasswordCheck = this.handleOldPasswordCheck.bind(this);
     this.navigateToMyAccount = this.navigateToMyAccount.bind(this);
     this.navigateToHome = this.navigateToHome.bind(this);
+    this.showModal = this.showModal.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.state = { visible: false, isPwDownloaded: false };
   }
 
   /**
@@ -34,6 +39,29 @@ class ChangePassword extends PureComponent {
    */
   handleSubmit(values) {
     this.props.changePassword(values.get('old_password'), values.get('new_password'));
+  }
+
+  showModal = () => {
+    this.setState({
+      visible: true
+    });
+  }
+  handleCancel = () => {
+    this.setState({
+      visible: false
+    });
+  }
+  downloadPassword = () => {
+    // Get the password and convert it to a blob
+    const blob = new Blob([ this.props.newPassword ], {
+      type: 'text/plain'
+    });
+    saveAs(blob, 'account-recovery-file.txt');
+    // Hide the modal and enable the submission of the form.
+    this.setState({
+      visible: false,
+      isPwDownloaded: true
+    });
   }
 
   /**
@@ -103,14 +131,19 @@ class ChangePassword extends PureComponent {
               {
                 //Display the form initially (initially and when the data is getting saved. 
                 // (Loading will be displayed on 'Submit' button))
-                this.props.loadingStatus !== LoadingStatus.DONE ? (
+                this.props.loadingStatus !== LoadingStatus.DONE ?
                   <ChangePasswordForm
                     onSubmit={ this.handleSubmit }
                     onBlur={ this.handleOldPasswordCheck }
                     loadingStatus={ this.props.loadingStatus }
                     errors={ this.props.errors }
-                  />
-                ) : null}
+                    showModal={ this.showModal }
+                    handleCancel={ this.handleCancel }
+                    visible={ this.state.visible }
+                    isPwDownloaded={ this.state.isPwDownloaded }
+                    downloadPassword={ this.downloadPassword }
+                  /> : null
+              }
               {
                 //Show the success message when the password has been changed successfully (DONE) 
                 // and the form will be hidden
@@ -146,9 +179,11 @@ const mapStateToProps = (state) => {
     loadingStatus === LoadingStatus.ERROR
       ? state.getIn(['auth', 'changePasswordErrors'])
       : Immutable.List();
+  const newPassword = state.getIn(['form', 'changePasswordForm', 'values', 'new_password_confirm']);
   return {
     loadingStatus,
-    errors
+    errors,
+    newPassword
   };
 };
 
