@@ -58,7 +58,7 @@ class AllSports extends PureComponent {
 
 const mapStateToProps = (state) => ({
   allSportsData: AllSportsSelector.getAllSportsData(state),
-  canCreateBet: QuickBetDrawerSelector.canAcceptBet(state),
+  canCreateBet: QuickBetDrawerSelector.canAcceptBet(state)
 });
 
 export default connect(mapStateToProps)(AllSports);

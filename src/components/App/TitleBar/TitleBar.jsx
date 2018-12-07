@@ -180,12 +180,12 @@ TitleBar.propTypes = {
   isWindowsPlatform: PropTypes.bool,
   isTitleBarTransparent: PropTypes.bool,
   height: PropTypes.string,
-  style: PropTypes.object,
+  style: PropTypes.object
 };
 
 const mapStateToProps = (state) => {
   return {
-    loggedIn: state.getIn(['account', 'isLoggedIn']),
+    loggedIn: state.getIn(['account', 'isLoggedIn'])
   };
 };
 

@@ -224,7 +224,7 @@ const getMarketData = createSelector(
                 .set('odds', odds).set('price', price / (odds - 1));
             })
             .filter((bet) => {
-              return bet.get('price') >= coinDust;
+              return bet.get('price') / (bet.get('odds') - 1) >= coinDust;
             });
 
           let aggregated_back_bets =

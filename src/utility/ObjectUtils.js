@@ -168,6 +168,28 @@ const localizeArrayOfObjects = function(arrayOfObjects, fieldsToLocalize = [], l
 };
 
 /**
+ * Gets the difference in two numbers and returns it along with a string to identify if the 
+ * difference was an increment or decrement.
+ *
+ * @param {number} a
+ * @param {number} b
+ * @returns @param {array} diff - [@param {number}, @param {string}].
+ */
+const getBetAttrDiff = function(a, b) {
+  let diff = [0, 'none'];
+
+  if (a !== b) {
+    if (a > b) {
+      diff = [a - b, 'increment'];
+    } else {
+      diff = [b - a, 'decrement'];
+    }
+  }
+
+  return diff;
+};
+
+/**
  * Report if the event is active by checking its status
  *
  * @param {event} event Immutable.JSobject in Immutable.JS
@@ -352,6 +374,7 @@ const ObjectUtils = {
   getAmountWonFromBetObject,
   localizeObject,
   localizeArrayOfObjects,
+  getBetAttrDiff,
   isActiveEvent,
   eventStatus,
   bettingMarketStatus,

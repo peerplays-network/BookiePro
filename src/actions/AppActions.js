@@ -79,6 +79,7 @@ class AppActions {
       appBackgroundType
     };
   }
+  
   /**
    * Action to set title bar transparency
    */

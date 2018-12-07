@@ -80,6 +80,7 @@ class MarketDrawerPrivateActions {
   }
 
   static getOpenBets(openedUnmatchedBets, openedMatchedBets, bettingMarketGroupId, eventId) {
+
     return {
       type: ActionTypes.MARKET_DRAWER_GET_OPENED_BETS,
       openedUnmatchedBets,

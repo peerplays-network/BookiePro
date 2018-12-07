@@ -307,8 +307,8 @@ const mapStateToProps = (state) => ({
   resolvedBetsExportData: state.getIn(['mywager', 'resolvedBetsExportData']),
   resolvedBetsExportLoadingStatus: state.getIn([
     'mywager',
-    'generateResolvedBetsExportDataLoadingStatus',
-  ]),
+    'generateResolvedBetsExportDataLoadingStatus'
+  ])
 });
 
 function mapDispatchToProps(dispatch) {
@@ -320,7 +320,7 @@ function mapDispatchToProps(dispatch) {
       cancelBets: BetActions.cancelBets,
       setActiveTab: MywagerActions.setMywagerActiveTab,
       setResolvedBetsTimeRange: MywagerActions.setResolvedBetsTimeRangeAction,
-      resetTimeRange: MywagerActions.resetTimeRange,
+      resetTimeRange: MywagerActions.resetTimeRange
     },
     dispatch
   );

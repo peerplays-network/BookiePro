@@ -71,7 +71,7 @@ class SideBar extends PureComponent {
 
   setNodeOpen(node) {
     return node.set('isOpen', true);
-  } //eslint-disable-line
+  }
 
   /**
    * update tree based on current navigation
@@ -101,28 +101,25 @@ class SideBar extends PureComponent {
 
       // For sport
       if (keyPath.length === 1) {
-        newTree = newTree.updateIn(keyPath.slice(0, 1), (node) => node.set('isSelected', true).set('isOpen', true)); // eslint-disable-line
+        newTree = newTree.updateIn(keyPath.slice(0, 1), this.setNodeSelected);
       } else if (keyPath.length === 3) {
         // For event group
         newTree = newTree
-          .updateIn(keyPath.slice(0, 1), (node) => node.set('isOpen', true))
-          .updateIn(keyPath.slice(0, 3), (node) => node.set('isSelected', true).set('isOpen', true)
-          );
+          .updateIn(keyPath.slice(0, 1), this.setNodeOpen)
+          .updateIn(keyPath.slice(0, 3), this.setNodeSelected);
       } else if (keyPath.length === 5) {
         // For event
         newTree = newTree
-          .updateIn(keyPath.slice(0, 1), (node) => node.set('isOpen', true))
-          .updateIn(keyPath.slice(0, 3), (node) => node.set('isSelected', true).set('isOpen', true))
-          .updateIn(keyPath.slice(0, 5), (node) => node.set('isSelected', true).set('isOpen', true)
-          );
+          .updateIn(keyPath.slice(0, 1), this.setNodeOpen)
+          .updateIn(keyPath.slice(0, 3), this.setNodeSelected)
+          .updateIn(keyPath.slice(0, 5), this.setNodeSelected);
       } else if (keyPath.length === 7) {
         // For betting market group
         newTree = newTree
-          .updateIn(keyPath.slice(0, 1), (node) => node.set('isOpen', true))
-          .updateIn(keyPath.slice(0, 3), (node) => node.set('isOpen', true))
-          .updateIn(keyPath.slice(0, 5), (node) => node.set('isSelected', true).set('isOpen', true))
-          .updateIn(keyPath.slice(0, 7), (node) => node.set('isSelected', true).set('isOpen', true)
-          );
+          .updateIn(keyPath.slice(0, 1), this.setNodeOpen)
+          .updateIn(keyPath.slice(0, 3), this.setNodeOpen)
+          .updateIn(keyPath.slice(0, 5), this.setNodeSelected)
+          .updateIn(keyPath.slice(0, 7), this.setNodeSelected);
       }
 
       // Compare all nodes to see which ones were altered:
@@ -171,7 +168,7 @@ class SideBar extends PureComponent {
    * https://github.com/socialtables/react-infinity-menu#properties
    *
    * i) Event  -> show Moneyline if ACTIVE Moneyline exists.
-   *                Else it will show the first descendant ACTIVE BMG
+   *              Else it will show the first descendant ACTIVE BMG
    * ii) BMG -> show corresponding BMG
    * iii) SPORT / Event Group -> show ACTIVE descendants
    *

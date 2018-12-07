@@ -53,7 +53,7 @@ const getEventGroupPageLoadingStatusByEventGroupId = (state) => {
 
 const getEventGroupPageLoadingStatus = createSelector(
   [
-    getRelatedEventGroupId,
+    getRelatedEventGroupId, 
     getEventGroupPageLoadingStatusByEventGroupId
   ],
   (relatedEventGroupId, eventGroupPageLoadingStatusByEventGroupId) => {

@@ -34,13 +34,11 @@ const getRulesById = (state) => state.getIn(['rule', 'rulesById']);
 const getSportsById = (state) => state.getIn(['sport', 'sportsById']);
 
 const getSportById = (state, sportId) => state.getIn(['sport', 'sportsById', sportId]);
-
 const getEventGroupsById = (state) => state.getIn(['eventGroup', 'eventGroupsById']);
-
 const getEventGroupById = (state, eventGroupId) => state.getIn(['eventGroup', 'eventGroupsById', eventGroupId]); // eslint-disable-line
 
 const getEventGroupsBySportId = createSelector(
-  getEventGroupsById, 
+  getEventGroupsById,
   (eventGroupsById) => eventGroupsById.toList().groupBy((eventGroup) => eventGroup.get('sport_id'))
 );
 
@@ -52,6 +50,16 @@ const getAggregatedEventsById = createSelector(
   [getEventsById, getPersistedEventsById],
   (eventsById, persistedEventsById) => eventsById.concat(persistedEventsById)
 );
+
+const getEventStatusById = createSelector([getEventsById], (eventsById) => {
+  const eventStatus = (event) => ObjectUtils.eventStatus(event);
+  return eventsById.filter(eventStatus);
+});
+
+const getActiveEventsById = createSelector([getEventsById], (eventsById) => {
+  const isActiveEvent = (event) => ObjectUtils.isActiveEvent(event);
+  return eventsById.filter(isActiveEvent);
+});
 
 const getEventStatusById = createSelector([getEventsById], (eventsById) => {
   const eventStatus = (event) => ObjectUtils.eventStatus(event);
@@ -147,7 +155,6 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
     getAssetsById,
     getEventGroupsById
   ],
-  // TO DO: FIX ME. .map with .filter
   (
     binnedOrderBooksByBettingMarketId,
     bettingMarketsById,
@@ -197,7 +204,7 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
             aggregated_lay_bets = aggregated_lay_bets.map((aggregated_lay_bet) => {
               const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
               const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
-              return aggregated_lay_bet.set('odds', odds).set('price', price);
+              return aggregated_lay_bet.set('odds', odds).set('price', price / (odds - 1));
             });
             let aggregated_back_bets =
               (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();

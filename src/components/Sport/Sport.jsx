@@ -78,7 +78,7 @@ const mapStateToProps = (state, ownProps) => {
   const sport = SportPageSelector.getSport(state, ownProps);
 
   let props = {
-    sport,
+    sport
   };
 
   // Populate other properties if sport exists
@@ -86,7 +86,7 @@ const mapStateToProps = (state, ownProps) => {
     props = Object.assign(props, {
       sportName: SportPageSelector.getSportName(state, ownProps),
       sportPageData: SportPageSelector.getSportPageData(state, ownProps),
-      canCreateBet: QuickBetDrawerSelector.canAcceptBet(state, ownProps),
+      canCreateBet: QuickBetDrawerSelector.canAcceptBet(state, ownProps)
     });
   }
 
@@ -96,7 +96,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo,
-    getData: SportPageActions.getData,
+    getData: SportPageActions.getData
   },
   dispatch
 );

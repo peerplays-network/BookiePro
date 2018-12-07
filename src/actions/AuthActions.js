@@ -3,7 +3,7 @@ import {
   CommunicationService,
   KeyGeneratorService,
   AccountService,
-  WalletService,
+  WalletService
 } from '../services';
 import NavigateActions from './NavigateActions';
 import AccountActions from './AccountActions';
@@ -25,7 +25,8 @@ import AllSportsActions from './AllSportsActions';
 
 const ACCOUNT_UPDATE = `${ChainTypes.reserved_spaces.protocol_ids}.${
   ChainTypes.operations.account_update
-}`; // eslint-disable-line
+}`;
+
 
 let initialState = Immutable.fromJS({
   isLoggedIn: false,
@@ -33,7 +34,7 @@ let initialState = Immutable.fromJS({
   password: null,
   privateKeyWifsByRole: {},
   publicKeyStringsByRole: {},
-  statistics: {},
+  statistics: {}
 });
 /**
  * Private actions
@@ -41,76 +42,76 @@ let initialState = Immutable.fromJS({
 class AuthPrivateActions {
   static resetAutoLoginInfoAction() {
     return {
-      type: ActionTypes.AUTH_RESET_AUTO_LOGIN_INFO,
+      type: ActionTypes.AUTH_RESET_AUTO_LOGIN_INFO
     };
   }
   static logoutAction(accountId) {
     return {
       type: ActionTypes.AUTH_LOGOUT,
       accountId,
-      initialState,
+      initialState
     };
   }
 
   static setLoginLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.AUTH_SET_LOGIN_LOADING_STATUS,
-      loadingStatus,
+      loadingStatus
     };
   }
 
   static setLoginErrorsAction(errors) {
     return {
       type: ActionTypes.AUTH_SET_LOGIN_ERRORS,
-      errors,
+      errors
     };
   }
 
   static setAutoLoginLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.AUTH_SET_AUTO_LOGIN_LOADING_STATUS,
-      loadingStatus,
+      loadingStatus
     };
   }
 
   static setAutoLoginErrorsAction(errors) {
     return {
       type: ActionTypes.AUTH_SET_AUTO_LOGIN_ERRORS,
-      errors,
+      errors
     };
   }
 
   static setSignupLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.AUTH_SET_SIGNUP_LOADING_STATUS,
-      loadingStatus,
+      loadingStatus
     };
   }
 
   static setSignupErrorsAction(errors) {
     return {
       type: ActionTypes.AUTH_SET_SIGNUP_ERRORS,
-      errors,
+      errors
     };
   }
 
   static setChangePasswordLoadingStatusAction(loadingStatus) {
     return {
       type: ActionTypes.AUTH_SET_CHANGE_PASSWORD_LOADING_STATUS,
-      loadingStatus,
+      loadingStatus
     };
   }
 
   static setChangePasswordErrorsAction(errors) {
     return {
       type: ActionTypes.AUTH_SET_CHANGE_PASSWORD_ERRORS,
-      errors,
+      errors
     };
   }
 
   static resetChangePwdErrors() {
     return {
-      type: ActionTypes.AUTH_RESET_CHANGE_PASSWORD_ERRORS,
+      type: ActionTypes.AUTH_RESET_CHANGE_PASSWORD_ERRORS
     };
   }
 
@@ -226,7 +227,7 @@ class AuthActions {
           // Set error
           dispatch(
             AuthPrivateActions.setSignupErrorsAction([
-              error.message ? error.message : 'Error Occured',
+              error.message ? error.message : 'Error Occured'
             ])
           );
         });
@@ -247,7 +248,7 @@ class AuthActions {
         //Set password change error
         return dispatch(
           AuthPrivateActions.setChangePasswordErrorsAction([
-            I18n.t('changePassword.old_password_does_not_match'),
+            I18n.t('changePassword.old_password_does_not_match')
           ])
         );
       }
@@ -313,7 +314,7 @@ class AuthActions {
               'balance',
               'availableBalancesByAssetId',
               Config.coreAsset,
-              'balance',
+              'balance'
             ]) || 0;
 
           // Check the balance to determine if that was the error
@@ -333,7 +334,7 @@ class AuthActions {
               //Set password change error
               dispatch(
                 AuthPrivateActions.setChangePasswordErrorsAction([
-                  error.message ? error.message : 'Error Occured',
+                  error.message ? error.message : 'Error Occured'
                 ])
               );
             }
@@ -354,7 +355,7 @@ class AuthActions {
           'setting',
           'settingByAccountId',
           accountId,
-          'isSkipLogoutPopup',
+          'isSkipLogoutPopup'
         ]);
 
         if (isSkipLogoutPopup) {

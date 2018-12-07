@@ -68,21 +68,23 @@ const renderTitle = (text, currencySymbol) => {
  */
 
 const renderInput = (
-  field, 
-  action, 
-  currencyFormat, 
-  oddsFormat, 
-  activeTab, 
+  field,
+  action,
+  currencyFormat,
+  oddsFormat,
+  activeTab,
   disabled
 ) => (text, record) => (
   <BetTableInput
     field={ field }
     action={ action }
     currencyFormat={ currencyFormat }
+    isValidBetTotal={ isValidBetTotal }
     oddsFormat={ oddsFormat }
     text={ text }
     record={ record }
     key={ record.id }
+    autoOddsPopulated={ autoOddsPopulated }
     activeTab={ activeTab }
     disabled={ disabled }
   />
@@ -102,9 +104,20 @@ const renderInput = (
  * be used to format the Odds or Stake values on screen
  * @returns {Function} - the actual cell rendering function used by antd Table
  */
-const renderOdds = (action, currencyFormat, oddsFormat, activeTab, disabled) => (text, record) => (
+const renderOdds = (
+  action, currencyFormat, oddsFormat, isValidBetTotal, autoOddsPopulated, activeTab, disabled
+) => (text, record) => (
   <div className='pos-rel'>
-    {renderInput('odds', action, currencyFormat, oddsFormat, activeTab, disabled)(text, record)}
+    { renderInput(
+      'odds',
+      action,
+      currencyFormat,
+      oddsFormat,
+      isValidBetTotal,
+      autoOddsPopulated,
+      activeTab,
+      disabled
+    )(text, record) }
   </div>
 );
 
@@ -150,8 +163,10 @@ const getBackColumns = (
   deleteOne,
   updateOne,
   currencyFormat,
-  readonly = false,
+  readonly=false,
   oddsFormat,
+  isValidBetTotal,
+  autoOddsPopulated,
   activeTab,
   disabled
 ) => {
@@ -175,7 +190,16 @@ const getBackColumns = (
   };
 
   if (!readonly) {
-    oddsColumn['render'] = renderOdds(updateOne, currencyFormat, oddsFormat, activeTab, disabled);
+    oddsColumn['render'] = renderOdds(
+      updateOne,
+      currencyFormat,
+      oddsFormat,
+      isValidBetTotal,
+      autoOddsPopulated,
+      activeTab,
+      disabled
+    );
+
     oddsColumn['className'] = 'numeric';
   }
 
@@ -193,6 +217,8 @@ const getBackColumns = (
       updateOne,
       currencyFormat,
       oddsFormat,
+      isValidBetTotal,
+      autoOddsPopulated,
       activeTab,
       disabled
     );
@@ -246,8 +272,10 @@ const getLayColumns = (
   deleteOne,
   updateOne,
   currencyFormat,
-  readonly = false,
+  readonly=false,
   oddsFormat,
+  isValidBetTotal,
+  autoOddsPopulated,
   activeTab,
   disabled
 ) => {
@@ -271,7 +299,15 @@ const getLayColumns = (
   };
 
   if (!readonly) {
-    oddsColumn['render'] = renderOdds(updateOne, currencyFormat, oddsFormat, activeTab, disabled);
+    oddsColumn['render'] = renderOdds(
+      updateOne,
+      currencyFormat,
+      oddsFormat,
+      isValidBetTotal,
+      autoOddsPopulated,
+      activeTab,
+      disabled
+    );
     oddsColumn['className'] = 'numeric';
   }
 
@@ -289,6 +325,8 @@ const getLayColumns = (
       updateOne,
       currencyFormat,
       oddsFormat,
+      isValidBetTotal,
+      autoOddsPopulated,
       activeTab,
       disabled
     );
@@ -363,6 +401,8 @@ const BetTable = (props) => {
     dimmed,
     currencyFormat,
     oddsFormat,
+    isValidBetTotal,
+    autoOddsPopulated,
     activeTab,
     disabled
   } = props;
@@ -390,15 +430,19 @@ const BetTable = (props) => {
           <div className='back'>
             <Table
               pagination={ false }
-              columns={ getBackColumns(
-                deleteOne,
-                updateOne,
-                currencyFormat,
-                readonly,
-                oddsFormat,
-                activeTab,
-                disabled
-              ) }
+              columns={
+                getBackColumns(
+                  deleteOne,
+                  updateOne,
+                  currencyFormat,
+                  readonly,
+                  oddsFormat,
+                  isValidBetTotal,
+                  autoOddsPopulated,
+                  activeTab,
+                  disabled
+                )
+              }
               dataSource={ buildBetTableData(backBets, currencyFormat).toJS() }
               rowClassName={ getRowClassName }
             />
@@ -408,15 +452,19 @@ const BetTable = (props) => {
           <div className='lay'>
             <Table
               pagination={ false }
-              columns={ getLayColumns(
-                deleteOne,
-                updateOne,
-                currencyFormat,
-                readonly,
-                oddsFormat,
-                activeTab,
-                disabled
-              ) }
+              columns={
+                getLayColumns(
+                  deleteOne,
+                  updateOne,
+                  currencyFormat,
+                  readonly,
+                  oddsFormat,
+                  isValidBetTotal,
+                  autoOddsPopulated,
+                  activeTab,
+                  disabled
+                ) 
+              }
               dataSource={ buildBetTableData(layBets, currencyFormat).toJS() }
               rowClassName={ getRowClassName }
             />

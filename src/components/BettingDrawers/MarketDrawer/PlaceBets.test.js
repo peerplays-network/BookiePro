@@ -1,17 +1,17 @@
 import React from 'react';
 import {mount} from 'enzyme';
-import Landing from './Landing';
+import PlaceBets from './PlaceBets';
 import {createStore} from 'redux';
-import rootReducer from '../../reducers';
+import rootReducer from '../../../reducers';
 import Immutable from 'immutable';
 
-describe('The Floating Help Component', () => {
+describe('The Quick Bet Drawer', () => {
   const initialState = Immutable.Map();
   const store = createStore(rootReducer, initialState);
 
-  const landingComponent = mount(<Landing store={ store } />);
+  const placeBets = mount(<PlaceBets store={ store } />);
 
   it('Should Exist', () => {
-    expect(landingComponent).toBeDefined();
+    expect(placeBets).toBeDefined();
   });
 });

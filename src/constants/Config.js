@@ -60,6 +60,12 @@ const Config = {
     coin: 0.00001,       // The base coin. ie: BTC, BTF, etc.
     miliCoin: 0.01       // The mili version of the base coin. ie: mBTC, mBTF, etc.
   },
+  commonMessageModule: {
+    numOfCommonMessageToDisplay: 1,
+    sortingMethod: 'recent', // recent OR oldest
+    timeout: 7500, // 7.5 seconds for auto-dismissal messages
+    disableActionsInRedux: true
+  },
   features: {
     withdrawels: false,
     deposits: false,

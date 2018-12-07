@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {Router, Route, hashHistory, IndexRoute, IndexRedirect} from 'react-router';
+import {Router, Route, hashHistory, IndexRoute} from 'react-router';
 
 // Components
 import AllSports from './components/AllSports';
@@ -11,7 +11,6 @@ import ChangePassword from './components/ChangePassword';
 import Deposit from './components/Deposit';
 import EventGroup from './components/EventGroup';
 import Exchange from './components/Exchange';
-import Landing from './components/Landing';
 import LicenseScreen from './components/LicenseScreen';
 import Login from './components/Login';
 import HelpAndSupport from './components/HelpAndSupport';
@@ -25,10 +24,8 @@ import SportsBookEvent from './components/SportsBookEvent';
 import SportsBookEventGroup from './components/SportsBookEventGroup';
 import SportsBookSport from './components/SportsBookSport';
 import Welcome from './components/Welcome';
-
 import configureStore from './store/configureStore';
 import {syncHistoryWithStore} from 'react-router-redux';
-
 import {LocaleProvider} from 'antd';
 import {I18n} from 'react-redux-i18n';
 import log from 'loglevel';
@@ -99,42 +96,33 @@ if (isRunningInsideElectron) {
 // Add new page here
 const routes = (
   <Route path='/' component={ App }>
-    <IndexRedirect to='landing' />
     <Route path='/login' component={ Login } />
     <Route path='/signup' component={ Signup } />
     <Route path='/license' component={ LicenseScreen } />
     <Route path='/welcome' component={ Welcome } />
     <Route path='/deposit' component={ Deposit } />
-    <Route path='/landing' component={ Landing } />
     <Route component={ Main }>
       <Route path='/help-and-support' component={ HelpAndSupport } />
-
-      <Route path='/betting' component={ Exchange }>
-        <Route path='exchange'>
-          <IndexRoute component={ AllSports } />
-          <Route path='Sport/:objectId' component={ Sport } />
-          <Route path='EventGroup/:objectId' component={ EventGroup } />
-          <Route
-            path=':eventName/:eventId/BettingMarketGroup/:objectId/'
-            component={ BettingMarketGroup }
-          />
-          <Route path='BettingMarketGroup/:objectId' component={ BettingMarketGroup } />
-        </Route>
-
-        <Route path='sportsbook'>
-          <IndexRoute component={ SportsBook } />
-          <Route path='Sport/:objectId' component={ SportsBookSport } />
-          <Route path='EventGroup/:objectId' component={ SportsBookEventGroup } />
-          <Route path='events/:eventId' component={ SportsBookEvent } />
-        </Route>
+      <Route path='/exchange' component={ Exchange }>
+        <IndexRoute component={ AllSports } />
+        <Route path='Sport/:objectId' component={ Sport } />
+        <Route path='EventGroup/:objectId' component={ EventGroup } />
+        <Route
+          path=':eventName/:eventId/BettingMarketGroup/:objectId/'
+          component={ BettingMarketGroup }
+        />
+        <Route path='BettingMarketGroup/:objectId' component={ BettingMarketGroup } />
+      </Route>
+      <Route path='sportsbook'>
+        <IndexRoute component={ SportsBook } />
+        <Route path='Sport/:objectId' component={ SportsBookSport } />
+        <Route path='EventGroup/:objectId' component={ SportsBookEventGroup } />
+        <Route path='events/:eventId' component={ SportsBookEvent } />
       </Route>
       <Route path='/my-account' component={ MyAccount } />
       <Route path='/change-password' component={ ChangePassword } />
       <Route path='/my-wager' component={ MyWager } />
     </Route>
-    <Route path='/my-account' component={ MyAccount } />
-    <Route path='/change-password' component={ ChangePassword } />
-    <Route path='/my-wager' component={ MyWager } />
   </Route>
 );
 

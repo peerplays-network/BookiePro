@@ -18,6 +18,7 @@ import './OpenBets.less';
 import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config, LoadingStatus} from '../../../constants';
 import Loading from '../../Loading';
+import CommonMessage from '../../CommonMessage/CommonMessage';
 
 class OpenBets extends PureComponent {
 
@@ -75,8 +76,11 @@ class OpenBets extends PureComponent {
     }
 
     return (
-      <div className='placed-bets'>
+      <div className='open-bets'>
         <div className='content' ref='openBets'>
+          <CommonMessage
+            location='betslip'
+          />
           {showLoadingScreen ? <Loading /> : ''}
           {!this.props.isEmpty && (
             <UnmatchedBets
@@ -117,6 +121,9 @@ class OpenBets extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const availableBalance = state.getIn(
+    ['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']
+  );
   const disabled = ownProps.activeTab === 'BETSLIP';
   const averageOdds = state.getIn(['marketDrawer', 'groupByAverageOdds']);
   const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
@@ -153,13 +160,13 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   // Number of Good bets
-  const numberOfGoodBets = updatedBets.reduce(
-    (sum, bet) => sum + (BettingModuleUtils.isValidBet(bet) | 0),
-    0
-  );
-
+  const numberOfGoodBets = updatedBets.reduce((sum, bet) => {
+    return sum +
+      (BettingModuleUtils.isValidBet(bet, availableBalance, ownProps.currencyFormat) | 0);
+  }, 0);
   // Overlay
   const overlay = state.getIn(['marketDrawer', 'overlay']);
+  const currencyType = CurrencyUtils.getCurrencyType(ownProps.currencyFormat);
   return {
     unmatchedBets,
     isEmpty: unmatchedBets.isEmpty() && matchedBets.isEmpty(),
@@ -172,8 +179,9 @@ const mapStateToProps = (state, ownProps) => {
     totalBetAmountString: CurrencyUtils.toFixed(
       'transaction',
       totalAmount + transactionFee,
-      ownProps.currencyFormat
+      currencyType
     ),
+    availableBalance: availableBalance,
     disabled,
     averageOdds,
     openBetsLoadingStatus: state.getIn(['marketDrawer', 'unmatchedBetsLoadingStatus'])

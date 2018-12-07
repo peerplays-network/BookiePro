@@ -100,8 +100,9 @@ class ChangePassword extends PureComponent {
         >
           <div className='registerComponent'>
             <div className='center-form'>
-              {//Display the form initially (initially and when the data is getting saved.
-              // (Loading will be displayed on 'Submit' button))
+              {
+                //Display the form initially (initially and when the data is getting saved.
+                // (Loading will be displayed on 'Submit' button))
                 this.props.loadingStatus !== LoadingStatus.DONE ? (
                   <ChangePasswordForm
                     onSubmit={ this.handleSubmit }
@@ -110,8 +111,9 @@ class ChangePassword extends PureComponent {
                     errors={ this.props.errors }
                   />
                 ) : null}
-              {//Show the success message when the password has been changed successfully (DONE)
-              // and the form will be hidden
+              {
+                //Show the success message when the password has been changed successfully (DONE)
+                // and the form will be hidden
                 this.props.loadingStatus === LoadingStatus.DONE && this.props.errors.isEmpty() ? (
                   <div className='text-center'>
                     <i className='icon-lock' />
@@ -146,7 +148,7 @@ const mapStateToProps = (state) => {
       : Immutable.List();
   return {
     loadingStatus,
-    errors,
+    errors
   };
 };
 
@@ -155,7 +157,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     navigateTo: NavigateActions.navigateTo,
     changePassword: AuthActions.changePassword,
     validateOldPasswordField: AuthActions.validateOldPasswordField,
-    resetChangePwdLoadingStatus: AuthActions.resetChangePwdLoadingStatus,
+    resetChangePwdLoadingStatus: AuthActions.resetChangePwdLoadingStatus
   },
   dispatch
 );

@@ -32,9 +32,14 @@ import BetTable from '../BetTable';
 import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config} from '../../../constants';
 import {MyAccountPageSelector} from '../../../selectors';
+import CommonMessage from '../../CommonMessage/CommonMessage';
+import CommonMessageUtils from '../../../utility/CommonMessageUtils';
 
 const renderContent = (props) => (
   <div className='content' ref='bettingtable'>
+    <CommonMessage
+      location='betslip'
+    />
     {props.bets.isEmpty() && (
       <Empty
         showSuccess={ props.overlay === BettingDrawerStates.SUBMIT_BETS_SUCCESS }
@@ -58,21 +63,44 @@ const renderContent = (props) => (
             dimmed={ props.obscureContent }
             currencyFormat={ props.currencyFormat }
             oddsFormat={ props.oddsFormat }
+            isValidBetTotal={ props.isValidBetTotal }
+            autoOddsPopulated={ props.autoOddsPopulated }
           />
-        ))}
+        ))
+    }
   </div>
 );
 
 class QuickBetDrawer extends PureComponent {
+  addRemoveMessage() {
+    this.props.betslipAddRemove(
+      this.props.betsError[0], this.props.betsError[1]
+    );
+  }
+  
   componentDidMount() {
     Ps.initialize(ReactDOM.findDOMNode(this.refs.bettingtable));
+    this.addRemoveMessage();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     Ps.update(ReactDOM.findDOMNode(this.refs.bettingtable));
+    
+    if (prevProps.betsError[0] !== this.props.betsError[0]) {
+      this.addRemoveMessage();
+    }
+
   }
 
   render() {
+    let expandedFooterStyle = '';
+
+    if (this.props.isValidBetTotal){
+      expandedFooterStyle = '50px';
+    } else {
+      expandedFooterStyle = '100px';
+    }
+
     return (
       <div id='quick-bet-drawer' ref='drawer'>
         <SplitPane split='horizontal' defaultSize='40px' allowResize={ false }>
@@ -85,7 +113,7 @@ class QuickBetDrawer extends PureComponent {
             defaultSize={ 40 }
             primary='second'
             allowResize={ false }
-            pane1Style={ {overflowY: 'hidden'} }
+            pane1Style={ {overflowY: 'hidden', paddingBottom: expandedFooterStyle} }
           >
             {renderContent(this.props)}
             {!this.props.bets.isEmpty() && (
@@ -99,7 +127,7 @@ class QuickBetDrawer extends PureComponent {
                     this.props.currencyFormat
                   )
                   }
-                  disabled={ this.props.numberOfGoodBets === 0 }
+                  disabled={ !this.props.isValidBetTotal }
                 >
                   {I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button')}
                   {this.props.currencySymbol}
@@ -122,6 +150,12 @@ class QuickBetDrawer extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => {
   const originalBets = state.getIn(['quickBetDrawer', 'bets']);
+  const currencyType = CurrencyUtils.getCurrencyType(ownProps.currencyFormat);
+  var availableBalance = state.getIn(
+    ['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']
+  );
+  var autoOddsPopulated = 0;
+  var profit, odds, stake;
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
     const eventId = bet.get('event_id');
@@ -142,6 +176,22 @@ const mapStateToProps = (state, ownProps) => {
     if (!unconfirmedBets.has(betType)) {
       unconfirmedBets = unconfirmedBets.set(betType, Immutable.List());
     }
+    
+    profit = bet.get('profit');
+    stake = bet.get('stake');
+    odds = bet.get('odds');
+    
+    profit = profit === undefined || profit === '';
+    stake = stake === undefined || stake === '';
+
+    odds = odds !== undefined || odds !== '';
+    
+    // If odds exists, it has either been provided by the user and is an incomplete bet or it has 
+    // been provided via clicking a bet from the /exchange.
+    // If odds exists, autopopulated bets increment.
+    if( profit && odds && stake){
+      autoOddsPopulated = autoOddsPopulated + 1;
+    }
 
     // Add the bet to the list of bets with the same market type
     let betListBybetType = unconfirmedBets.get(betType);
@@ -150,6 +200,7 @@ const mapStateToProps = (state, ownProps) => {
     unconfirmedBets = unconfirmedBets.set(betType, betListBybetType);
     page = page.setIn([eventId, 'unconfirmedBets'], unconfirmedBets);
   });
+  
   // Total Bet amount
   const totalAmount = originalBets.reduce((total, bet) => {
     const stake =
@@ -171,14 +222,45 @@ const mapStateToProps = (state, ownProps) => {
   transactionFee = originalBets.size * transactionFee;
 
   // Number of Good bets
-  const numberOfGoodBets = originalBets
-    .reduce((sum, bet) => sum + (BettingModuleUtils.isValidBet(bet) | 0), 0);
+  const numberOfGoodBets = originalBets.reduce((sum, bet) => {
+    return sum +
+      (BettingModuleUtils.isValidBet(bet, availableBalance, currencyType) | 0);
+  }, 0);
   // Overlay
   const overlay = state.getIn(['quickBetDrawer', 'overlay']);
+  const currencyFormat = MyAccountPageSelector.currencyFormatSelector(state);
+  const totalBetAmountString = CurrencyUtils.toFixed(
+    'transaction',
+    totalAmount + transactionFee,
+    currencyType
+  );
+  const numberOfBadBets = originalBets.size - numberOfGoodBets;
+
+  // Convert the balance to a human recognizable number.
+  // mili[coin] = balance / 100,000
+  // [coin] = balance / 100,000,000
+  if (currencyType === 'mCoin') {
+    availableBalance = availableBalance / Math.pow(10, 5);
+  } else {
+    availableBalance = availableBalance / Math.pow(10, 8);
+  }
+
+  const sufficientFunds = parseFloat(totalBetAmountString) <= availableBalance;
+  const isValidBetTotal = numberOfBadBets === 0 && sufficientFunds && numberOfGoodBets > 0;
+
+  var betsError = CommonMessageUtils.determineMessageAndId(
+    originalBets.size, numberOfBadBets, sufficientFunds
+  );
+
+  // Overlay
   const obscureContent =
     overlay !== BettingDrawerStates.NO_OVERLAY &&
     overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
-  const currencyFormat = MyAccountPageSelector.currencyFormatSelector(state);
+
+  const currencySymbol = CurrencyUtils.getCurrencySymbol(
+    currencyFormat,
+    numberOfGoodBets === 0 ? 'white' : 'black'
+  );
 
   return {
     originalBets,
@@ -191,18 +273,15 @@ const mapStateToProps = (state, ownProps) => {
       'eventNameInDeleteBetsConfirmation'
     ]),
     numberOfGoodBets,
-    numberOfBadBets: originalBets.size - numberOfGoodBets,
+    numberOfBadBets: numberOfBadBets,
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
-    currencySymbol: CurrencyUtils.getCurrencySymbol(
-      currencyFormat,
-      numberOfGoodBets === 0 ? 'white' : 'black'
-    ),
-    totalBetAmountString: CurrencyUtils.toFixed(
-      'transaction',
-      totalAmount + transactionFee,
-      ownProps.currencyFormat
-    )
+    currencySymbol,
+    totalBetAmountString: totalBetAmountString,
+    availableBalance: availableBalance,
+    isValidBetTotal: isValidBetTotal,
+    betsError,
+    autoOddsPopulated
   };
 };
 
@@ -215,7 +294,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     updateBet: QuickBetDrawerActions.updateBet,
     clickPlaceBet: QuickBetDrawerActions.clickPlaceBet,
     makeBets: BetActions.makeBets,
-    hideOverlay: QuickBetDrawerActions.hideOverlay
+    hideOverlay: QuickBetDrawerActions.hideOverlay,
+    betslipAddRemove: CommonMessageUtils.betslipAddRemove
   },
   dispatch
 );

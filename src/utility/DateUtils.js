@@ -125,7 +125,7 @@ const DateUtils = {
     ) {
       formatted = I18n.t('mybets.today');
     }
-    
+
     return formatted;
   },
 

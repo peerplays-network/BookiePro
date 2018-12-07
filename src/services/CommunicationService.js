@@ -14,7 +14,7 @@ import {
   BalanceActions,
   RuleActions,
   LiquidityActions,
-  MarketDrawerActions,
+  MarketDrawerActions
 } from '../actions';
 import Immutable from 'immutable';
 import {ObjectPrefix, Config, ChainTypes, LoadingStatus} from '../constants';
@@ -92,7 +92,7 @@ class CommunicationService {
 
         // Add this to the list if it is relevant
         if (isRelevantObject(objectIdPrefix)) {
-          this.updatedObjectsByObjectIdByObjectIdPrefix = this.updatedObjectsByObjectIdByObjectIdPrefix.update(// eslint-disable-line
+          this.updatedObjectsByObjectIdByObjectIdPrefix = this.updatedObjectsByObjectIdByObjectIdPrefix.update( // eslint-disable-line
             objectIdPrefix,
             (map) => {
               // Use map instead of list for more efficient duplicate detection
@@ -122,7 +122,7 @@ class CommunicationService {
           const softwareUpdateRefAccId = this.getState().getIn([
             'softwareUpdate',
             'referenceAccount',
-            'id',
+            'id'
           ]);
           updatedObjects.forEach((updatedObject) => {
             const accountId = updatedObject.get('id');
@@ -181,7 +181,7 @@ class CommunicationService {
               }
             } else if (operationType === ChainTypes.operations.bet_place) {
               const bettingMarketId = updatedObject.getIn(['op', 1, 'betting_market_id']);
-              bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bettingMarketIdsOfBinnedOrderBooksToBeRefreshed.push(// eslint-disable-line
+              bettingMarketIdsOfBinnedOrderBooksToBeRefreshed = bettingMarketIdsOfBinnedOrderBooksToBeRefreshed.push( // eslint-disable-line
                 bettingMarketId
               );
             }
@@ -243,7 +243,7 @@ class CommunicationService {
           const softwareUpdateRefAccId = this.getState().getIn([
             'softwareUpdate',
             'referenceAccount',
-            'id',
+            'id'
           ]);
           updatedObjects.forEach((updatedObject) => {
             const ownerId = updatedObject.get('owner');
@@ -276,7 +276,7 @@ class CommunicationService {
         case ObjectPrefix.SPORT_PREFIX: {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
-            'name',
+            'name'
           ]);
           this.dispatch(SportActions.addOrUpdateSportsAction(localizedUpdatedObject));
           break;
@@ -285,7 +285,7 @@ class CommunicationService {
         case ObjectPrefix.EVENT_GROUP_PREFIX: {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
-            'name',
+            'name'
           ]);
           this.dispatch(EventGroupActions.addOrUpdateEventGroupsAction(localizedUpdatedObject));
           break;
@@ -294,7 +294,7 @@ class CommunicationService {
         case ObjectPrefix.EVENT_PREFIX: {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
-            'name',
+            'name'
           ]);
           this.dispatch(EventActions.addOrUpdateEventsAction(localizedUpdatedObject));
           break;
@@ -304,7 +304,7 @@ class CommunicationService {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
             'name',
-            'description',
+            'description'
           ]);
           this.dispatch(RuleActions.addOrUpdateRulesAction(localizedUpdatedObject));
           break;
@@ -313,7 +313,7 @@ class CommunicationService {
         case ObjectPrefix.BETTING_MARKET_GROUP_PREFIX: {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
-            'description',
+            'description'
           ]);
           this.dispatch(
             BettingMarketGroupActions.addOrUpdateBettingMarketGroupsAction(localizedUpdatedObject)
@@ -325,7 +325,7 @@ class CommunicationService {
           // Localize name
           const localizedUpdatedObject = ObjectUtils.localizeArrayOfObjects(updatedObjects, [
             'description',
-            'payout_condition',
+            'payout_condition'
           ]);
           this.dispatch(
             BettingMarketActions.addOrUpdateBettingMarketsAction(localizedUpdatedObject)
@@ -718,7 +718,7 @@ class CommunicationService {
       accountId,
       stopTxHistoryId,
       adjustedLimit,
-      startTxHistoryId,
+      startTxHistoryId
     ]).then((history) => {
       // Concat to the result
       result = result.concat(history);
@@ -863,7 +863,7 @@ class CommunicationService {
           const ids = bettingMarkets.toJS().map((market) => market.id);
           const localizedBettingMarkets = ObjectUtils.localizeArrayOfObjects(bettingMarkets, [
             'description',
-            'payout_condition',
+            'payout_condition'
           ]);
 
           // If there are no betting markets, returned an empty object

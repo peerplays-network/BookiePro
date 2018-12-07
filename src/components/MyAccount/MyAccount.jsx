@@ -45,7 +45,7 @@ import {
   BalanceActions,
   NavigateActions,
   MyAccountPageActions,
-  AccountActions,
+  AccountActions
 } from '../../actions';
 import {MyAccountPageSelector} from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
@@ -58,7 +58,7 @@ class MyAccount extends PureComponent {
     super(props);
 
     this.state = {
-      withdrawAmount: '',
+      withdrawAmount: ''
     };
 
     this.handleCurrFormatChange = this.handleCurrFormatChange.bind(this);
@@ -389,14 +389,16 @@ const mapStateToProps = (state) => ({
   transactionHistory: MyAccountPageSelector.filteredTransactionHistorySelector(state),
   transactionHistoryLoadingStatus: MyAccountPageSelector.initRawHistoryLoadingStatusSelector(state),
   transactionHistoryExportData: MyAccountPageSelector.transactionHistoryExportDataSelector(state),
-  generateTransactionHistoryExportDataLoadingStatus: MyAccountPageSelector.generateTransactionHistoryExportDataLoadingStatusSelector(state), // eslint-disable-line
+  generateTransactionHistoryExportDataLoadingStatus: MyAccountPageSelector.generateTransactionHistoryExportDataLoadingStatusSelector( // eslint-disable-line
+    state
+  ),
   //Not using the 'loadingStatus' prop for now. Will use it later when the 'loader' is available
   loadingStatus: MyAccountPageSelector.getDepositAddressLoadingStatusSelector(state),
   depositAddress: MyAccountPageSelector.depositAddressSelector(state),
   availableBalance: MyAccountPageSelector.availableBalanceSelector(state),
   withdrawLoadingStatus: MyAccountPageSelector.withdrawLoadingStatusSelector(state),
   convertedAvailableBalance: MyAccountPageSelector.formattedAvailableBalanceSelector(state),
-  accountName: MyAccountPageSelector.accountNameSelector(state),
+  accountName: MyAccountPageSelector.accountNameSelector(state)
 });
 
 function mapDispatchToProps(dispatch) {
@@ -417,7 +419,7 @@ function mapDispatchToProps(dispatch) {
       resetTransactionHistoryExportData:
         MyAccountPageActions.resetTransactionHistoryExportDataAction,
       resetTimeRange: MyAccountPageActions.resetTimeRange,
-      downloadPassword: AccountActions.downloadPassword,
+      downloadPassword: AccountActions.downloadPassword
     },
     dispatch
   );

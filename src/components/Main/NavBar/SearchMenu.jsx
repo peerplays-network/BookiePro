@@ -151,12 +151,12 @@ class SearchMenu extends PureComponent {
       this.onSearch$.next(searchText);
     } else {
       this.setState({
-        debounced: searchText,
+        debounced: searchText
       });
     }
 
     this.setState({
-      searchText: searchText,
+      searchText: searchText
     });
 
     return searchText;
@@ -164,7 +164,7 @@ class SearchMenu extends PureComponent {
 
   closeModal() {
     this.setState({
-      modalIsOpen: false,
+      modalIsOpen: false
     });
   }
 
@@ -210,7 +210,7 @@ class SearchMenu extends PureComponent {
       this.props.clearSearchResult();
       this.setState({
         searchText: '',
-        debounced: '',
+        debounced: ''
       });
     } else if (event === RESULT_COUNT_ID) {
       //  event === RESULT_COUNT_ID when resetValue is trigerred i.e. cross button is clicked
@@ -228,7 +228,7 @@ class SearchMenu extends PureComponent {
 
     //to update the value props in Select component
     this.setState({
-      value: event && event.id !== RESULT_COUNT_ID ? event.id : null,
+      value: event && event.id !== RESULT_COUNT_ID ? event.id : null
     });
 
     if (this.props.completeTree && event) {
@@ -238,7 +238,7 @@ class SearchMenu extends PureComponent {
       if (!keyPath) {
         this.setState({
           modalIsOpen: true,
-          eventName: event.name,
+          eventName: event.name
         });
         return;
       }
@@ -285,8 +285,8 @@ class SearchMenu extends PureComponent {
       id: '0',
       name: I18n.t('searchMenu.no_of_result', {
         count: this.props.searchResult.size,
-        searchText: searchText,
-      }),
+        searchText: searchText
+      })
     });
 
     const shouldShowOptions =
@@ -303,8 +303,8 @@ class SearchMenu extends PureComponent {
             ? [
               {
                 id: '0',
-                name: I18n.t('searchMenu.no_of_result_0'),
-              },
+                name: I18n.t('searchMenu.no_of_result_0')
+              }
             ]
             : [];
 
@@ -345,7 +345,7 @@ class SearchMenu extends PureComponent {
 }
 
 SearchMenu.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.string
 };
 
 export default SearchMenu;

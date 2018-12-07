@@ -15,6 +15,8 @@ import {QuickBetDrawerActions, MarketDrawerActions, NavigateActions} from '../..
 import UnplacedBetModal from '../Modal/UnplacedBetModal';
 import Ps from 'perfect-scrollbar';
 import {LayoutConstants} from '../../constants';
+import CommonMessage from '../CommonMessage/CommonMessage';
+import CommonMessageActions from '../../actions/CommonMessageActions';
 
 class Exchange extends PureComponent {
   constructor(props) {
@@ -23,7 +25,7 @@ class Exchange extends PureComponent {
       // whether user has clicked 'confirm' button in the UnplacedBetModal.
       confirmToLeave: false,
       // whether the UnplacedBetModal is shown
-      unplacedBetModalVisible: false,
+      unplacedBetModalVisible: false
     };
   }
 
@@ -41,7 +43,7 @@ class Exchange extends PureComponent {
     if (prevState.confirmToLeave === false && this.state.confirmToLeave === true) {
       this.props.navigateTo(this.state.nextLocation);
       this.setState({
-        confirmToLeave: false,
+        confirmToLeave: false
       });
     }
   }
@@ -111,7 +113,7 @@ class Exchange extends PureComponent {
    */
   routerWillLeave(nextLocation) {
     this.setState({
-      nextLocation,
+      nextLocation
     });
 
     if (
@@ -131,6 +133,10 @@ class Exchange extends PureComponent {
     const {sidebarWidth, betslipWidth, splitPaneStyle} = LayoutConstants;
 
     let transitionName = this.props.location.pathname.split('/');
+    const splitPaneStyle = {
+      top: '0px',
+      position: 'fixed'
+    };
 
     //confirmation modal about leaving current route.
     let unplacedBetModal = (
@@ -169,20 +175,25 @@ class Exchange extends PureComponent {
               objectId={ transitionName[transitionName.length - 1] }
             />
           </div>
-          <SplitPane
-            split='vertical'
-            allowResize={ false }
-            minSize={ betslipWidth }
-            defaultSize={ betslipWidth }
-            primary='second'
-          >
-            <div className='scrollbar-style-main' ref='main'>
-              {React.cloneElement(this.props.children, {
-                currencyFormat: this.props.currencyFormat,
-              })}
-            </div>
-            {selectBettingDrawer(transitionName)}
-          </SplitPane>
+          <div className='messaging'>
+            <CommonMessage
+              location='exchange'
+            />
+            <SplitPane
+              split='vertical'
+              allowResize={ false }
+              minSize={ betslipWidth }
+              defaultSize={ betslipWidth }
+              primary='second'
+            >
+              <div className='scrollbar-style-main' ref='main'>
+                {React.cloneElement(this.props.children, {
+                  currencyFormat: this.props.currencyFormat
+                })}
+              </div>
+              {selectBettingDrawer(transitionName)}
+            </SplitPane>
+          </div>
         </SplitPane>
         {unplacedBetModal}
       </div>
@@ -212,7 +223,7 @@ const mapStateToProps = (state, ownProps) => {
     hasUnplacedBets: !state.getIn(path).isEmpty(),
     currencyFormat,
     isShowLogoutPopup,
-    connectionStatus,
+    connectionStatus
   };
 };
 
@@ -223,6 +234,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     clearQuickBetsOverlay: QuickBetDrawerActions.hideOverlay,
     clearMarketDrawerBetslips: MarketDrawerActions.deleteAllUnconfirmedBets,
     clearMarketBetsOverlay: MarketDrawerActions.hideOverlay,
+    addCommonMessage: CommonMessageActions.newMessage
   },
   dispatch
 );
