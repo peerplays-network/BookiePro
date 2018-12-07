@@ -2,7 +2,7 @@ import CommonSelector from './CommonSelector';
 import {createSelector} from 'reselect';
 import Immutable from 'immutable';
 import {DateUtils} from '../utility';
-import {Config} from '../constants';
+import {Config, LoadingStatus} from '../constants';
 
 const {
   getBettingMarketsById,
@@ -96,7 +96,8 @@ const getAllSportsData = createSelector(
       const activeEvents = activeEventsBySportId.get(sport.get('id')) || Immutable.List();
       const eventNodes = activeEvents
         .map((event) => {
-          if (event.get('status') !== null && event.get('status') !== undefined) {
+          let eventStatus = event.get('status');
+          if (eventStatus !== null && eventStatus !== undefined) {
             const offers =
               simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
             // Find the Betting Market Group of this event
@@ -112,7 +113,7 @@ const getAllSportsData = createSelector(
               event_name: event.get('name'),
               time: DateUtils.getLocalDate(event.get('start_time')),
               isLiveMarket: event.get('is_live_market'),
-              eventStatus: event.get('status').toLowerCase(),
+              eventStatus: eventStatus.toLowerCase(),
               offers,
               bettingMarketGroupId: bettingMarketGroupId,
               bmgAsset: bettingMarketGroupAsset
@@ -122,9 +123,8 @@ const getAllSportsData = createSelector(
           }
         })
         .filter((eventNode) => {
-          // Feature check
-          const isCoreAsset = eventNode.get('bmgAsset') === coreAsset;
-          return isCoreAsset ? eventNode : null;
+          // Feature check. Is the event one that matches the configured Core Asset?
+          return eventNode.get('bmgAsset') === coreAsset;
         });
       // Set events to the sport
       sportNode = sportNode.set('events', eventNodes);

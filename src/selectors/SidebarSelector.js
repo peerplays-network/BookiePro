@@ -81,6 +81,7 @@ const getSidebarCompleteTree = createSelector(
       });
       completeTree = completeTree.push(allSportsHeader);
 
+      const filters = Config.filters;
       const sortById = (a, b) => a.get('id').localeCompare(b.get('id'));
       // Sort sport by id
       const sportList = sportsById.toList().sort(sortById);
@@ -136,15 +137,11 @@ const getSidebarCompleteTree = createSelector(
             })
             .filter((eventGroup) => {
               // filter eventGroups that have no events
-              let filtered = false;
-              let eventName = eventGroup.get('name').toUpperCase();
+              let eventGroupName = eventGroup.get('name').toUpperCase();
 
               // Remove friendly international from beta bookie pro fun
-              if (eventGroup.get('children').size > 0 && eventName !== 'FRIENDLY INTERNATIONAL') {
-                filtered = true;
-              }
-
-              return filtered;
+              return (eventGroup.get('children').size > 0 &&
+                !filters.eventGroup.name.includes(eventGroupName));
             });
           // Append event group to sport
           sportNode = sportNode.set('children', eventGroupNodes);
