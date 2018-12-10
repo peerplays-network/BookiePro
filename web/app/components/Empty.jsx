@@ -22,16 +22,16 @@
  *  THE SOFTWARE.
  */
 
-import React from "react";
+import React from 'react';
 
 class Empty extends React.Component {
 
-    render() {
+  render() {
 
-        return (
-            <div></div>
-        );
-    }
+    return (
+      <div></div>
+    );
+  }
 }
 
 export default Empty;

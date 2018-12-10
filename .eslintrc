@@ -4,6 +4,11 @@
     "react"
   ],
   "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "legacyDecorators": true
+    }
+  },
   "extends": [
     "react-app"
   ],
@@ -37,6 +42,7 @@
     "camelcase": "off",
     "object-curly-spacing": ["error", "never"],
     "prefer-const": "off",
+    "no-trailing-spaces": "error",
     "no-underscore-dangle": "off",
     "no-param-reassign": "off",
     "no-plusplus": "off",
