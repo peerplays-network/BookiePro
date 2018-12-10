@@ -18,57 +18,29 @@
     "jsx": true
   },
   "rules": {
-    "jsx-quotes": [
-      2,
-      "prefer-single"
-    ],
-    "react/jsx-curly-spacing": [
-      2,
-      "always"
-    ],
+    "jsx-quotes": [2, "prefer-single"],
+    "react/jsx-curly-spacing": [2, "always"],
     "react/prefer-stateless-function": "off",
-    "react/jsx-filename-extension": [
-      1,
-      {
-        "extensions": [
-          ".js",
-          ".jsx"
-        ]
-      }
-    ],
+    "react/jsx-filename-extension": [1, {
+      "extensions": [".js", ".jsx"]
+    }],
     "react/no-deprecated": "off",
     "jsx-a11y/href-no-hash": "off",
     "no-throw-literal": "off",
     "operator-assignment": "off",
-    "no-unused-vars": [
-      "error",
-      {
-        "vars": "all",
-        "args": "after-used"
-      }
-    ],
+    "no-unused-vars": ["error", {
+      "vars": "all",
+      "args": "after-used"
+    }],
     "comma-dangle": "off",
-    "indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ],
+    "indent": ["error", 2, {
+      "SwitchCase": 1
+    }],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
     "no-console": "off",
     "camelcase": "off",
-    "object-curly-spacing": [
-      "error",
-      "never"
-    ],
+    "object-curly-spacing": ["error", "never"],
     "prefer-const": "off",
     "no-underscore-dangle": "off",
     "no-param-reassign": "off",
@@ -78,14 +50,8 @@
     "consistent-return": "off",
     "guard-for-in": "off",
     "no-loop-func": "off",
-    "curly": [
-      "error",
-      "all"
-    ],
-    "brace-style": [
-      "error",
-      "1tbs"
-    ],
+    "curly": ["error", "all"],
+    "brace-style": ["error", "1tbs"],
     "default-case": "off",
     "prefer-destructuring": "off",
     "padding-line-between-statements": [
@@ -101,20 +67,11 @@
         "next": "*"
       }
     ],
-    "max-len": [
-      "error",
-      {
-        "code": 100
-      }
-    ],
-    "implicit-arrow-linebreak": [
-      "error",
-      "beside"
-    ],
+    "max-len": ["error", {
+      "code": 100
+    }],
+    "implicit-arrow-linebreak": ["error", "beside"],
     "no-control-regex": "off",
-    "arrow-parens": [
-      "error",
-      "always"
-    ]
+    "arrow-parens": ["error", "always"]
   }
 }
