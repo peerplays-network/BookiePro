@@ -332,7 +332,7 @@ export default class ImportKeys extends Component {
       for (let element of json_contents) {
 
         if (
-          'key_record_type' == element.type &&
+          'key_record_type' === element.type &&
           element.data.account_address &&
           element.data.encrypted_private_key
         ) {
@@ -344,7 +344,7 @@ export default class ImportKeys extends Component {
           continue;
         }
 
-        if ('account_record_type' == element.type) {
+        if ('account_record_type' === element.type) {
           var account_name = element.data.name;
           savePubkeyAccount(element.data.owner_key, account_name);
 
@@ -355,12 +355,12 @@ export default class ImportKeys extends Component {
           continue;
         }
 
-        if ('property_record_type' == element.type && 'encrypted_brainkey' == element.data.key) {
+        if ('property_record_type' === element.type && 'encrypted_brainkey' === element.data.key) {
           encrypted_brainkey = element.data.value;
           continue;
         }
 
-        if ('master_key_record_type' == element.type) {
+        if ('master_key_record_type' === element.type) {
           if (!element.data) {
             throw file.name + ' invalid master_key_record record';
           }
@@ -432,7 +432,7 @@ export default class ImportKeys extends Component {
       .sha512(hash.sha512(password))
       .toString('hex');
 
-    if (checksum != new_checksum) {
+    if (checksum !== new_checksum) {
       return this.setState({
         no_file: false,
         import_password_message: password.length
@@ -491,7 +491,7 @@ export default class ImportKeys extends Component {
               ? account.addresses[i]
               : null; // assert checking
 
-            if (address_string && addy.substring(3) != address_string.substring(3)) {
+            if (address_string && addy.substring(3) !== address_string.substring(3)) {
               error = 'address imported ' + address_string + ' but calculated ' + addy + '. ';
             }
 

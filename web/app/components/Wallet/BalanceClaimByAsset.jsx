@@ -50,7 +50,7 @@ export default class BalanceClaimByAsset extends Component {
         })
         .map((l) => l.reduce((r, v) => {
           // V A L U E S
-          if (v.vested_balance != undefined) {
+          if (v.vested_balance !== undefined) {
             r.vesting.unclaimed += Number(v.vested_balance.amount);
             r.vesting.total += Number(v.balance.amount);
           } else {

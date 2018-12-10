@@ -73,7 +73,7 @@ export default class BackupBrainkey extends Component {
     }
 
     if(!content && this.state.brainkey) {
-      var sha1 = hash.sha1(this.state.brainkey).toString('hex').substring(0,4);
+      var sha1 = hash.sha1(this.state.brainkey).toString('hex').substring(0,4); // eslint-disable-line
       content = <span>
         <h3><Translate content='wallet.brainkey' /></h3>
         <div className='card'><div className='card-content'>

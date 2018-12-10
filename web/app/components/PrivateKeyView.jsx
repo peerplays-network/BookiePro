@@ -78,15 +78,13 @@ export default class PrivateKeyView extends Component {
     var key = keys.get(this.props.pubkey);
     return (
       <span>
-        <a onClick={ this
-          .onOpen
-          .bind(this) }>{this.props.children}</a>
+        <a onClick={ this.onOpen.bind(this) }> {/* eslint-disable-line */ }
+          {this.props.children}
+        </a>
         <Modal ref={ modalId } id={ modalId } overlay={ true } overlayClose={ false }>
-          <a
-            onClick={ this
-              .onClose
-              .bind(this) }
-            className='close-button'>&times;</a>
+          <a onClick={this.onClose.bind(this)} className='close-button'> {/* eslint-disable-line */}
+            &times;
+          </a>
           <h3><Translate content='account.perm.key_viewer'/></h3>
           <div className='grid-block vertical'>
             <div className='content-block'>
@@ -101,15 +99,13 @@ export default class PrivateKeyView extends Component {
                   {this.state.wif
                     ? <span>
                       {this.state.wif}
-                      &nbsp;(<a
-                        onClick={ this
-                          .onHide
-                          .bind(this) }>hide</a>)
+                      &nbsp;(
+                      <a onClick={this.onHide.bind(this)}> {/* eslint-disable-line */}
+                        hide
+                      </a>)
                     </span>
                     : <span>
-                    (<a onClick={ this
-                        .onShow
-                        .bind(this) }>
+                      (<a onClick={this.onShow.bind(this)}> {/* eslint-disable-line */}
                         <Translate content='account.perm.show'/>
                       </a>)
                     </span>
