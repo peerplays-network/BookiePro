@@ -45,9 +45,7 @@ class AboutContainer extends React.Component {
         <section className='content'>
           <div className='box box-inPadding'>
             <div className='dialog dialog-descr'>
-
               <Logo/>
-
               <Translate component='h1' className='h1' content='about.title'/>
               <Translate component='p' className='text' content='about.note1'/>
               <Translate component='p' className='text' content='about.note2'/>
@@ -113,9 +111,7 @@ class AboutContainer extends React.Component {
               <div className='text_c'>
                 <button
                   className='btn btn-sbm btn-fsz-18'
-                  onClick={ this
-                    .navigateToLogin
-                    .bind(this) }>
+                  onClick={ this.navigateToLogin.bind(this) }>
                   <Translate component='span' className='btnText' content='about.continue_btn'/>
                 </button>
               </div>

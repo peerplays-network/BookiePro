@@ -22,97 +22,85 @@
  *  THE SOFTWARE.
  */
 
-import React from "react";
+import React from 'react';
 import {connect} from 'react-redux';
-import ExchangePageActions from "actions/ExchangePageActions"
-
-import ExchangeMainStatistics from "./ExchangeMainStatistics";
-import ExchangeMarketsTabs from "./ExchangeMarketsTabs";
-import ExchangePriceChart from "./ExchangePriceChart";
-import ExchangeDepthChart from "./ExchangeDepthChart";
-import ExchangeSellOrders from "./ExchangeSellOrders";
-import ExchangeBuyOrders from "./ExchangeBuyOrders";
-import ExchangeTrade from "./ExchangeTrade";
-import ExchangeHistory from "./ExchangeHistory";
-import ExchangeOpenOrders from "./ExchangeOpenOrders";
+import ExchangePageActions from 'actions/ExchangePageActions';
+import ExchangeMainStatistics from './ExchangeMainStatistics';
+import ExchangeMarketsTabs from './ExchangeMarketsTabs';
+import ExchangePriceChart from './ExchangePriceChart';
+import ExchangeDepthChart from './ExchangeDepthChart';
+import ExchangeSellOrders from './ExchangeSellOrders';
+import ExchangeBuyOrders from './ExchangeBuyOrders';
+import ExchangeTrade from './ExchangeTrade';
+import ExchangeHistory from './ExchangeHistory';
+import ExchangeOpenOrders from './ExchangeOpenOrders';
 
 class ExchangeContainer extends React.Component {
 
+  componentDidMount() {
+    let symbols = this.props.params.marketId.split('_');
+    this.init(symbols[1], symbols[0]);
+  }
 
-    componentDidMount() {
-        let symbols = this.props.params.marketId.split("_");
-        this.init(symbols[1], symbols[0]);
-    }
+  componentWillReceiveProps(nextProps) {
+    let symbols = nextProps.params.marketId.split('_');
+    this.init(symbols[1], symbols[0]);
+  }
 
-    componentWillReceiveProps(nextProps) {
-        let symbols = nextProps.params.marketId.split("_");
-        this.init(symbols[1], symbols[0]);
-    }
+  componentWillUnmount() {
+    this.props.unSubscribeMarket();
+  }
 
-    componentWillUnmount() {
-        this.props.unSubscribeMarket();
-    }
+  init(baseAssetSymbol, quoteAssetSymbol) {
 
-    init(baseAssetSymbol, quoteAssetSymbol) {
+    this.props.initStarredMarkets();
+    this.props.subscribeMarket(baseAssetSymbol, quoteAssetSymbol);
+    this.props.getMarketStats();
+  }
 
-        this.props.initStarredMarkets();
-        this.props.subscribeMarket(baseAssetSymbol, quoteAssetSymbol);
-        this.props.getMarketStats();
-
-
-    }
-
-    render() {
-
-        return (
-            <div className="main">
-                <section className="content">
-                    <div className="box">
-                        <div className="content__head noBd">
-                            <h1 className="content__headTitle">Exchange</h1>
-                        </div>
-                        <div className="ex_wrap">
-                            <div className="ex_content col col-9">
-                                <ExchangeMainStatistics />
-                                <ExchangePriceChart />
-                                <ExchangeTrade />
-                                <ExchangeDepthChart />
-
-                                <div className="clearfix">
-                                    <ExchangeBuyOrders />
-                                    <ExchangeSellOrders />
-                                </div>
-
-                                <ExchangeHistory />
-                            </div>
-                            <aside className="ex_aside col col-3">
-
-                                <ExchangeMarketsTabs />
-
-                                <ExchangeOpenOrders />
-                            </aside>
-
-                        </div>
-                        <div className="h100"></div>
-                    </div>
-                </section>
+  render() {
+    return (
+      <div className='main'>
+        <section className='content'>
+          <div className='box'>
+            <div className='content__head noBd'>
+              <h1 className='content__headTitle'>Exchange</h1>
             </div>
-        )
-    }
+            <div className='ex_wrap'>
+              <div className='ex_content col col-9'>
+                <ExchangeMainStatistics/>
+                <ExchangePriceChart/>
+                <ExchangeTrade/>
+                <ExchangeDepthChart/>
+
+                <div className='clearfix'>
+                  <ExchangeBuyOrders/>
+                  <ExchangeSellOrders/>
+                </div>
+
+                <ExchangeHistory/>
+              </div>
+              <aside className='ex_aside col col-3'>
+                <ExchangeMarketsTabs/>
+                <ExchangeOpenOrders/>
+              </aside>
+
+            </div>
+            <div className='h100'></div>
+          </div>
+        </section>
+      </div>
+    );
+  }
 }
 
-ExchangeContainer = connect(
-    (state) => {
-        return {
-
-        };
-    },
-    {
-        initStarredMarkets: ExchangePageActions.initStarredMarkets,
-        getMarketStats: ExchangePageActions.getMarketStats,
-        subscribeMarket: ExchangePageActions.subscribeMarket,
-        unSubscribeMarket: ExchangePageActions.unSubscribeMarket
-    }
-)(ExchangeContainer);
+ExchangeContainer = connect((state) => { /* eslint-disable-line */
+  return {};
+}, {
+  initStarredMarkets: ExchangePageActions.initStarredMarkets,
+  getMarketStats: ExchangePageActions.getMarketStats,
+  subscribeMarket: ExchangePageActions.subscribeMarket,
+  unSubscribeMarket: ExchangePageActions.unSubscribeMarket
+})(ExchangeContainer);
 
 export default ExchangeContainer;

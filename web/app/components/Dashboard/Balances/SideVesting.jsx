@@ -22,84 +22,113 @@
  *  THE SOFTWARE.
  */
 
-import React from "react";
+import React from 'react';
 import {connect} from 'react-redux';
-import {FormattedNumber} from "react-intl";
+import {FormattedNumber} from 'react-intl';
 import NavigateActions from 'actions/NavigateActions';
-import asset_utils from "common/asset_utils";
-import Translate from "react-translate-component";
-import { getTotalVestingBalances } from 'selectors/SideVesting'
+import asset_utils from 'common/asset_utils';
+import Translate from 'react-translate-component';
+import {getTotalVestingBalances} from 'selectors/SideVesting';
 
-@connect(
-    (state)=> {
+@connect((state) => {
 
-        let data = getTotalVestingBalances(state);
+  let data = getTotalVestingBalances(state);
 
-        return {
-
-            totalAmount: data.totalAmount,
-            totalClaimable: data.totalClaimable,
-
-            asset: state.dashboardPage.vestingAsset
-        }
-    },
-    {
-        navigateToVestingBalances: NavigateActions.navigateToVestingBalances
-    }
-)
+  return {
+    totalAmount: data.totalAmount,
+    totalClaimable: data.totalClaimable,
+    asset: state.dashboardPage.vestingAsset
+  };
+}, {navigateToVestingBalances: NavigateActions.navigateToVestingBalances})
 class SideVesting extends React.Component {
+  navigateToVestingBalances() {
+    this.props.navigateToVestingBalances();
+  }
 
-    navigateToVestingBalances() {
-        this.props.navigateToVestingBalances();
+  render() {
+    let {asset, totalAmount, totalClaimable} = this.props,
+      symbol;
+
+    if (asset) {
+      symbol = asset_utils.getSymbol(asset.get('symbol'));
     }
 
-    render() {
+    return (
+      <div className='aside__item bb'>
+        <Translate
+          component='div'
+          className='aside__title'
+          content='dashboard.side.vesting_balances'
+        />
+        <div className='aside__row'>
+          <Translate
+            component='div'
+            className='aside__rowLabel2'
+            content='dashboard.side.total'
+          />
 
-        let {asset, totalAmount, totalClaimable} = this.props,
-            symbol;
+          <div className='aside__unit'>
+            {symbol}
+          </div>
 
-        if (asset) {
-            symbol = asset_utils.getSymbol(asset.get('symbol'))
-        }
+          <div className='aside__num'>
+            {totalAmount && asset
+              ? <FormattedNumber
+                value={
+                  totalAmount
+                    ? totalAmount / Math.pow(10, asset.get('precision'))
+                    : totalAmount
+                }
+                minimumFractionDigits={ 0 }
+                maximumFractionDigits={ asset.get('precision') }
+              />
+              : 0
+            }
+          </div>
+        </div>
+        <div className='aside__row'>
+          <Translate
+            component='div'
+            className='aside__rowLabel2'
+            content='dashboard.side.claimable'
+          />
 
-        return (
-            <div className="aside__item bb">
-                <Translate component="div" className="aside__title" content="dashboard.side.vesting_balances" />
-                <div className="aside__row">
-                    <Translate component="div" className="aside__rowLabel2" content="dashboard.side.total" />
-                    <div className="aside__unit">{symbol}</div>
-                    <div className="aside__num">{totalAmount && asset ?
-                        <FormattedNumber
-                            value={totalAmount ? totalAmount / Math.pow(10, asset.get('precision')) : totalAmount }
-                            minimumFractionDigits={0}
-                            maximumFractionDigits={asset.get('precision')}
-                        />
-                        :
-                        0
-                    }</div>
-                </div>
-                <div className="aside__row">
-                    <Translate component="div" className="aside__rowLabel2" content="dashboard.side.claimable" />
-                    <div className="aside__unit">{symbol}</div>
-                    <div className="aside__num">{totalClaimable && asset ?
-                        <FormattedNumber
-                            value={totalClaimable ? totalClaimable / Math.pow(10, asset.get('precision')) : totalClaimable }
-                            minimumFractionDigits={0}
-                            maximumFractionDigits={asset.get('precision')}
-                        />
-                        :
-                        0
-                    }</div>
-                </div>
-                <div className="aside__btnWrap">
-                    <button className="btn aside__btn" type="button" onClick={this.navigateToVestingBalances.bind(this)}>
-                        <span className="aside__btnIcon icon-claim"></span>
-                        <Translate component="span" className="" content="dashboard.side.claim_balances" />
-                    </button>
-                </div>
-            </div>
-        );
-    }
+          <div className='aside__unit'>
+            {symbol}
+          </div>
+
+          <div className='aside__num'>
+            {totalClaimable && asset
+              ? <FormattedNumber
+                value={
+                  totalClaimable
+                    ? totalClaimable / Math.pow(10, asset.get('precision'))
+                    : totalClaimable
+                }
+                minimumFractionDigits={ 0 }
+                maximumFractionDigits={ asset.get('precision') }
+              />
+              : 0
+            }
+          </div>
+        </div>
+
+        <div className='aside__btnWrap'>
+          <button
+            className='btn aside__btn'
+            type='button'
+            onClick={ this.navigateToVestingBalances.bind(this) }>
+            <span className='aside__btnIcon icon-claim'></span>
+            <Translate
+              component='span'
+              className=''
+              content='dashboard.side.claim_balances'
+            />
+          </button>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default SideVesting;

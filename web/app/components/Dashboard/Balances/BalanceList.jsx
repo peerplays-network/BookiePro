@@ -22,79 +22,95 @@
  *  THE SOFTWARE.
  */
 
-import React from "react";
-import BalanceRow from "./BalanceRow";
-import BalanceEmptyRow from "./BalanceEmptyRow";
-import Translate from "react-translate-component";
+import React from 'react';
+import BalanceRow from './BalanceRow';
+import BalanceEmptyRow from './BalanceEmptyRow';
+import Translate from 'react-translate-component';
 
 class BalanceList extends React.Component {
+  render() {
+    let {title, list, precision, decimals, showHiddenAssets} = this.props;
 
-	constructor(props) {
-		super(props);
-	}
+    let renderList;
+    let showList = false;
 
-	render() {
-		let {title, list, precision, decimals, showHiddenAssets} = this.props;
+    renderList = list.map((immItem) => {
+      let data = immItem.toJS();
 
-		let renderList,
-			showList = false;
+      if (!showHiddenAssets && data.hidden) {
+        return null;
+      } else {
+        showList = true;
+      }
 
-		renderList = list.map((immItem) => {
-			let data = immItem.toJS();
+      return (
+        <BalanceRow
+          showHideOption={ this.props.showHideOption }
+          onNavigateToDeposit={ this.props.onNavigateToDeposit }
+          onNavigateToSend={ this.props.onNavigateToSend }
+          onAfterChangeHide={ this.props.onAfterChangeHide }
+          onAfterChangeShow={ this.props.onAfterChangeShow }
+          key={ data.id }
+          precision={ precision }
+          decimals={ decimals }
+          data={ data }/>
+      );
+    });
 
-			if(!showHiddenAssets && data.hidden) {
-				return null;
-			} else {
-				showList = true;
-			}
+    if (!showList) {
+      renderList = (<BalanceEmptyRow/>);
+    }
 
-			return (
-				<BalanceRow showHideOption={this.props.showHideOption} onNavigateToDeposit={this.props.onNavigateToDeposit} onNavigateToSend={this.props.onNavigateToSend} onAfterChangeHide={this.props.onAfterChangeHide} onAfterChangeShow={this.props.onAfterChangeShow} key={data.id} precision={precision} decimals={decimals} data={data}/>
-			);
-
-		});
-
-		if(!showList) {
-			renderList = <BalanceEmptyRow />;
-		}
-
-		return (
-			<div className="table__wrap">
-				<div className="table__title">{title}</div>
-				<table className="table">
-					<thead>
-					<tr className="tr tr-head">
-						<th className="th th__assetsSym">
-							<div className="th__in"><Translate content="dashboard.assetSymbol" /></div>
-						</th>
-						<th className="th th__assetsName">
-							<div className="th__in"><Translate content="dashboard.assetName" /></div>
-						</th>
-						<th className="th">
-							<div className="th__in"><Translate content="dashboard.availableBalance" /></div>
-						</th>
-						{/*<th className="th">*/}
-							{/*<div className="th__in"><Translate content="dashboard.openOrders" /></div>*/}
-						{/*</th>*/}
-						<th className="th">
-							<div className="th__in"><Translate content="dashboard.totalBalance" /></div>
-						</th>
-						{/*<th className="th">*/}
-							{/*<div className="th__in"><Translate content="dashboard.totalValue" unit={asset_utils.getSymbol(unit)} /></div>*/}
-						{/*</th>*/}
-						<th className="th th__action">
-							<div className="th__in"><Translate content="dashboard.actions" /></div>
-						</th>
-					</tr>
-					</thead>
-					<tbody className="tr tr-main">
-					{renderList}
-					</tbody>
-				</table>
-			</div>
-		);
-	}
-
+    return (
+      <div className='table__wrap'>
+        <div className='table__title'>{title}</div>
+        <table className='table'>
+          <thead>
+            <tr className='tr tr-head'>
+              <th className='th th__assetsSym'>
+                <div className='th__in'>
+                  <Translate content='dashboard.assetSymbol'/>
+                </div>
+              </th>
+              <th className='th th__assetsName'>
+                <div className='th__in'>
+                  <Translate content='dashboard.assetName'/>
+                </div>
+              </th>
+              <th className='th'>
+                <div className='th__in'>
+                  <Translate content='dashboard.availableBalance'/>
+                </div>
+              </th>
+              {/*<th className="th">*/}
+              {/*<div className="th__in">
+                <Translate content="dashboard.openOrders" />
+              </div>*/}
+              {/*</th>*/}
+              <th className='th'>
+                <div className='th__in'>
+                  <Translate content='dashboard.totalBalance'/>
+                </div>
+              </th>
+              {/*<th className="th">*/}
+              {/*<div className="th__in">
+                <Translate content="dashboard.totalValue" unit={asset_utils.getSymbol(unit)} />
+              </div>*/}
+              {/*</th>*/}
+              <th className='th th__action'>
+                <div className='th__in'>
+                  <Translate content='dashboard.actions'/>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody className='tr tr-main'>
+            {renderList}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
 }
 
 export default BalanceList;

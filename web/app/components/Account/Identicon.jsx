@@ -38,7 +38,11 @@ class Identicon extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.size.height !== this.props.size.height || nextProps.size.width !== this.props.size.width || nextProps.account !== this.props.account;
+    return (
+      nextProps.size.height !== this.props.size.height ||
+      nextProps.size.width !== this.props.size.width ||
+      nextProps.account !== this.props.account
+    );
   }
 
   render() {
@@ -47,21 +51,23 @@ class Identicon extends Component {
     let hash = account
       ? sha256(account)
       : null;
-    return (<canvas
-      id={ this.canvas_id }
-      ref='canvas'
-      style={ {
-        height: height,
-        width: width
-      } }
-      width={ width * 2 }
-      height={ height * 2 }
-      data-jdenticon-hash={ hash }/>);
+    return (
+      <canvas
+        id={ this.canvas_id }
+        ref='canvas'
+        style={ {
+          height: height,
+          width: width
+        } }
+        width={ width * 2 }
+        height={ height * 2 }
+        data-jdenticon-hash={ hash }/>
+    );
   }
 
   repaint() {
     if (this.props.account) {
-      jdenticon.updateById(this.canvas_id);
+      jdenticon.updateById(this.canvas_id); // UPDATE JDENTICOM
     } else {
       let ctx = ReactDOM
         .findDOMNode(this.refs.canvas)

@@ -22,26 +22,21 @@
  *  THE SOFTWARE.
  */
 
-import React from "react";
-import utils from "common/utils";
-import {FormattedNumber} from "react-intl";
-import Translate from "react-translate-component";
+import React from 'react';
+import utils from 'common/utils';
+import {FormattedNumber} from 'react-intl';
+import Translate from 'react-translate-component';
 
 class VestingBalance extends React.Component {
 
   handleClaimClick() {
-    this
-      .props
-      .handleClaimClick(this.props.vb);
+    this.props.handleClaimClick(this.props.vb);
   }
 
   render() {
     let {vb} = this.props;
-    if (!vb) {
-      return null;
-    }
 
-    if (!vb.balance.amount) {
+    if (!vb || !vb.balance.amount) {
       return null;
     }
 
@@ -59,44 +54,55 @@ class VestingBalance extends React.Component {
         : 0;
 
     return (
-      <div key={vb.id} className="tableRow">
-        <div className="tableCell">{vb.id}</div>
-        <div className="tableCell">
+      <div key={ vb.id } className='tableRow'>
+        <div className='tableCell'>{vb.id}</div>
+        <div className='tableCell'>
           <FormattedNumber
-            value={balance
-            ? balance / Math.pow(10, precision)
-            : balance}
-            minimumFractionDigits={0}
-            maximumFractionDigits={precision}/>
+            value={ balance
+              ? balance / Math.pow(10, precision)
+              : balance }
+            minimumFractionDigits={ 0 }
+            maximumFractionDigits={ precision }
+          />
         </div>
-        <div className="tableCell text_r">{utils.format_number(utils.get_asset_amount(earned / secondsPerDay, cvbAsset), 0)}</div>
-        <div className="tableCell text_r">{utils.format_number(utils.get_asset_amount(vb.balance.amount * vestingPeriod / secondsPerDay, cvbAsset), 0)}</div>
-        <div className="tableCell text_r">{utils.format_number(vestingPeriod * (1 - availablePercent) / secondsPerDay, 2)}</div>
-        <div className="tableCell">
-          <span className="mark3">
+        <div className='tableCell text_r'>
+          {utils.format_number(utils.get_asset_amount(earned / secondsPerDay, cvbAsset), 0)}
+        </div>
+        <div className='tableCell text_r'>
+          {utils.format_number(
+            utils.get_asset_amount(vb.balance.amount * vestingPeriod / secondsPerDay, cvbAsset), 0
+          )}
+        </div>
+        <div className='tableCell text_r'>
+          {utils.format_number(vestingPeriod * (1 - availablePercent) / secondsPerDay, 2)}
+        </div>
+        <div className='tableCell'>
+          <span className='mark3'>
             {availablePercent
               ? <FormattedNumber
-                  value={availablePercent * vb.balance.amount
+                value={ availablePercent * vb.balance.amount
                   ? availablePercent * vb.balance.amount / Math.pow(10, precision)
-                  : availablePercent * vb.balance.amount}
-                  minimumFractionDigits={0}
-                  maximumFractionDigits={precision}/>
+                  : availablePercent * vb.balance.amount }
+                minimumFractionDigits={ 0 }
+                maximumFractionDigits={ precision }
+              />
               : 0
-}
-
+            }
           </span>
+
           <span>
             ({availablePercent > 0
               ? utils.format_number(availablePercent * 100, 2)
-              : 0}%)</span>
+              : 0}%)
+          </span>
         </div>
-        <div className="tableCell text_c">
+        <div className='tableCell text_c'>
           <button
-            className="btn btn-claim"
-            type="button"
-            onClick={this
-            .handleClaimClick
-            .bind(this)}><Translate content="vesting_balances.claim"/></button>
+            className='btn btn-claim'
+            type='button'
+            onClick={ this.handleClaimClick.bind(this) }>
+            <Translate content='vesting_balances.claim'/>
+          </button>
         </div>
       </div>
     );
