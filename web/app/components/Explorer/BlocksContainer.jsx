@@ -22,16 +22,13 @@
  *  THE SOFTWARE.
  */
 
-import React from "react";
-import Blocks from "./Blocks";
+import React from 'react';
+import Blocks from './Blocks';
 
 class BlocksContainer extends React.Component {
-
-    render() {
-
-        return (<Blocks />);
-
-    }
+  render() {
+    return (<Blocks />);
+  }
 }
 
 export default BlocksContainer;

@@ -22,46 +22,46 @@
  *  THE SOFTWARE.
  */
 
-import React from 'react'
-import Translate from "react-translate-component";
-import counterpart from "counterpart";
-import { connect } from 'react-redux';
-import Inspector from "react-json-inspector";
+import React from 'react';
+import Translate from 'react-translate-component';
+import {connect} from 'react-redux';
+import Inspector from 'react-json-inspector';
 
 
-@connect(state => {
-    return {
-        inputs: state.transactionConfirm.transaction.inputs
-        outputs: state.transactionConfirm.transaction.outputs
-    };
+@connect((state) => {
+  return {
+    inputs: state.transactionConfirm.transaction.inputs,
+    outputs: state.transactionConfirm.transaction.outputs
+  };
 })
 class BlindTransfer extends React.Component {
-
-    render() {
-        return (
-            <div className="mConf__content">
-                <div className="mConf__title"><Translate content="transaction.trxTypes.blind_transfer" /></div>
-                <div className="mConf__table">
-                    <div className="mConf__tableRow">
-                        <div className="mConf__tableLeft"><Translate content="transaction.inputs" /></div>
-                        <div className="mConf__tableRight">
-                            <span className="mark2">
-                                <Inspector data={ this.props.inputs } search={false} />
-                            </span>
-                        </div>
-                    </div>
-                    <div className="mConf__tableRow">
-                        <div className="mConf__tableLeft"><Translate content="transaction.outputs" /></div>
-                        <div className="mConf__tableRight">
-                            <span className="mark2">
-                                <Inspector data={ this.props.outputs } search={false} />
-                            </span>
-                        </div>
-                    </div>
-                </div>
+  render() {
+    return (
+      <div className='mConf__content'>
+        <div className='mConf__title'>
+          <Translate content='transaction.trxTypes.blind_transfer' />
+        </div>
+        <div className='mConf__table'>
+          <div className='mConf__tableRow'>
+            <div className='mConf__tableLeft'><Translate content='transaction.inputs' /></div>
+            <div className='mConf__tableRight'>
+              <span className='mark2'>
+                <Inspector data={ this.props.inputs } search={ false } />
+              </span>
             </div>
-        );
-    }
+          </div>
+          <div className='mConf__tableRow'>
+            <div className='mConf__tableLeft'><Translate content='transaction.outputs' /></div>
+            <div className='mConf__tableRight'>
+              <span className='mark2'>
+                <Inspector data={ this.props.outputs } search={ false } />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default BlindTransfer;

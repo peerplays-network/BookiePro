@@ -25,15 +25,11 @@
 import React from 'react';
 
 class BasicAssets extends React.Component {
-	constructor() {
-		super();
-	}
-
-	render() {
-		return (
-            <div>Basic Assets</div>
-		);
-	}
+  render() {
+    return (
+      <div>Basic Assets</div>
+    );
+  }
 }
 
 export default BasicAssets;

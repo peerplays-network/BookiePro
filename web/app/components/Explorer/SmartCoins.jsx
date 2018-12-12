@@ -25,15 +25,11 @@
 import React from 'react';
 
 class SmartCoins extends React.Component {
-	constructor() {
-		super();
-	}
-
-	render() {
-		return (
-            <div>Smart Coins</div>
-		);
-	}
+  render() {
+    return (
+      <div>Smart Coins</div>
+    );
+  }
 }
 
 export default SmartCoins;

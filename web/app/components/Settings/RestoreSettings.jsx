@@ -22,69 +22,75 @@
  *  THE SOFTWARE.
  */
 
-import React from "react";
+import React from 'react';
 // import {BackupRestore} from "../Wallet/Backup";
 // import ImportKeys from "../Wallet/ImportKeys";
-import Translate from "react-translate-component";
-import counterpart from "counterpart";
+import counterpart from 'counterpart';
 
 export default class RestoreSettings extends React.Component {
+  constructor(props) {
+    super(props);
 
-    constructor(props) {
-        super(props);
+    this.state = {
+      selectedType: 0,
+      types: ['backup', 'key', 'legacy']
+    };
+  }
 
-        this.state = {
-            selectedType: 0,
-            types: ["backup", "key", "legacy"]
-        };
+  _changeType(e) {
+    this.setState({
+      selectedType: this.state.types.indexOf(e.target.value)
+    });
+  }
+
+  render() {
+    let {types, selectedType} = this.state;
+    let options = types.map((type) => {
+      return (
+        <option
+          key={ type }
+          value={ type }>
+          {counterpart.translate(`settings.backup_${type}`)}
+        </option>
+      );
+    });
+    let content;
+
+    switch (types[selectedType]) {
+      case 'backup':
+        break;
+      case 'key':
+        break;
+      default:
     }
 
-    _changeType(e) {
+    return (
+      <div>
+        <select
+          value={ types[selectedType] }
+          onChange={ this._changeType.bind(this) }
+          className='bts-select'
+        >
+          {options}
+        </select>
+        {content}
+      </div>
+    );
 
-        this.setState({
-            selectedType: this.state.types.indexOf(e.target.value)
-        });
-    }
-
-    render() {
-        let {types, selectedType} = this.state;
-
-        let options = types.map(type => {
-            return <option key={type} value={type}>{counterpart.translate(`settings.backup_${type}`)} </option>;
-        });
-
-        let content;
-
-        switch (types[selectedType]) {
-            case "backup":
-                break;
-            case "key":
-                break;
-            default:
-        }
-        return (
-            <div>
-                <select value={types[selectedType]} onChange={this._changeType.bind(this)} className="bts-select">
-                    {options}
-                </select>
-                {content}
-            </div>
-        );
-
-        // let content;
-        //
-        //
-        // case "backup":
-        //     // content = (
-        //     //     <div>
-        //     //         <BackupRestore />
-        //     //     </div>
-        //     // );
-        //     break;
-        //
-        // default:
-        //     content = <ImportKeys privateKey={restoreType === 1} />;
-        //     break;
-        // }
-    }
+    // let content;
+    //
+    //
+    // case "backup":
+    //     // content = (
+    //     //     <div>
+    //     //         <BackupRestore />
+    //     //     </div>
+    //     // );
+    //     break;
+    //
+    // default:
+    //     content = <ImportKeys privateKey={restoreType === 1} />;
+    //     break;
+    // }
+  }
 };
