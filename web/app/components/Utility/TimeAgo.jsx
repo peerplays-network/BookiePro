@@ -22,67 +22,68 @@
  *  THE SOFTWARE.
  */
 
-import React from "react";
-import {FormattedRelative} from "react-intl";
-import {ChainStore} from "peerplaysjs-lib";
+import React from 'react';
+import {FormattedRelative} from 'react-intl';
+import {ChainStore} from 'peerplaysjs-lib';
 
 class TimeAgo extends React.Component {
-
     static propTypes = {
-        time: React.PropTypes.any.isRequired,
-        chain_time: React.PropTypes.bool,
-        component: React.PropTypes.element,
-        className: React.PropTypes.string
+      time: React.PropTypes.any.isRequired,
+      chain_time: React.PropTypes.bool,
+      component: React.PropTypes.element,
+      className: React.PropTypes.string
     };
 
     static defaultProps = {
-        chain_time: true
+      chain_time: true
     };
 
     shouldComponentUpdate(nextProps) {
-        return (
-            nextProps.time !== this.props.time
-        );
+      return (
+        nextProps.time !== this.props.time
+      );
     }
 
     render() {
-        let {time, chain_time} = this.props;
-        var offset_mills = chain_time ? ChainStore.getEstimatedChainTimeOffset() : 0
-        if (!time) {
-            return null;
-        }
+      let {time, chain_time} = this.props;
+      var offset_mills = chain_time ? ChainStore.getEstimatedChainTimeOffset() : 0;
 
-        if (typeof time === "string" && time.indexOf("+") === -1) {
-            time += "+00:00";
-        }
+      if (!time) {
+        return null;
+      }
 
-        let timePassed = Math.round( ( new Date().getTime() - new Date(time).getTime() + offset_mills ) / 1000 );
-        let interval;
+      if (typeof time === 'string' && time.indexOf('+') === -1) {
+        time += '+00:00';
+      }
 
-        if (timePassed < 60) { // 60s
-            interval = 500; // 0.5s
-        } else if (timePassed < 60 * 60){ // 1 hour
-            interval = 60 * 500; // 30 seconds
-        } else {
-            interval = 60 * 60 * 500 // 30 minutes
-        }
+      let timePassed = Math.round(
+        (new Date().getTime() - new Date(time).getTime() + offset_mills) / 1000
+      );
+      let interval;
 
-        return (
-            <span
-                className={this.props.className}
-                ref={"timeago_ttip_" + time}
-                data-tip={new Date(time)}
-                data-place="top"
-                data-type="light"
-            >
-                <FormattedRelative
-                    updateInterval={interval}
-                    value={new Date(time).getTime() + offset_mills * 0.75}
-                    initialNow={Date.now()}
-                />
-            </span>
-        );
+      if (timePassed < 60) { // 60s
+        interval = 500; // 0.5s
+      } else if (timePassed < 60 * 60){ // 1 hour
+        interval = 60 * 500; // 30 seconds
+      } else {
+        interval = 60 * 60 * 500; // 30 minutes
+      }
 
+      return (
+        <span
+          className={ this.props.className }
+          ref={ 'timeago_ttip_' + time }
+          data-tip={ new Date(time) }
+          data-place='top'
+          data-type='light'
+        >
+          <FormattedRelative
+            updateInterval={ interval }
+            value={ new Date(time).getTime() + offset_mills * 0.75 }
+            initialNow={ Date.now() }
+          />
+        </span>
+      );
     }
 }
 

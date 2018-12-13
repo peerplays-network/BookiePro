@@ -30,7 +30,6 @@ import ChangeCurrentWallet from 'components/Wallet/ChangeCurrentWallet';
 import DeleteWallet from 'components/Wallet/Delete';
 
 export default class WalletSettings extends React.Component {
-
   constructor(props) {
     super(props);
 

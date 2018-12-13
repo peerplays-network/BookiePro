@@ -22,19 +22,15 @@
  *  THE SOFTWARE.
  */
 
-import React from "react";
-import Translate from "react-translate-component";
+import React from 'react';
+import Translate from 'react-translate-component';
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import {connect} from 'react-redux';
-
-import VotingActions from "actions/VotingActions";
-
+import VotingActions from 'actions/VotingActions';
 /*COMPONENTS*/
-import Proxy from "./Proxy";
-import Witnesses from "./Witnesses";
+import Proxy from './Proxy';
+import Witnesses from './Witnesses';
 import CommitteeMembers from './CommitteeMembers';
-import Proposals from './Proposals';
-
 import SLoader from '../Loaders/SLoader';
 
 @connect(null, {fetchData: VotingActions.fetchData})
@@ -54,11 +50,11 @@ class VotingContainer extends React.Component {
       .then(() => {
         this.setState({loaded: true});
       });
-
   }
 
   onChangeActiveMenuItem(e) {
     let selectedTab;
+
     switch (e) {
       case 0:
         selectedTab = 'proxy';
@@ -74,10 +70,7 @@ class VotingContainer extends React.Component {
         selectedTab = 'proxy';
     }
 
-    this
-      .props
-      .router
-      .push(`/explore/voting/${selectedTab}`);
+    this.props.router.push(`/explore/voting/${selectedTab}`);
   }
 
   getCurrentTabFromParams(props) {
@@ -98,35 +91,33 @@ class VotingContainer extends React.Component {
         selectedIndex = 2;
         break;
         // case 'proposals':     selectedIndex = 3;
-        break;
+      // break;
       default:
         selectedIndex = 0;
     }
 
     return (
-      <div className="main">
-        <section className="content">
-          <div className="box">
+      <div className='main'>
+        <section className='content'>
+          <div className='box'>
             {/*<Translate component="h1" className="h1 h1__main" content="votes.title_page" />*/}
 
             {this.state.loaded
               ? <Tabs
-                  className="pt40"
-                  onSelect={this
-                  .onChangeActiveMenuItem
-                  .bind(this)}
-                  selectedIndex={selectedIndex}>
-                  <TabList>
-                    <Tab><Translate content="votes.proxy_short"/></Tab>
-                    <Tab><Translate content="votes.add_witness_label"/></Tab>
-                    <Tab><Translate content="votes.advisors"/></Tab>
-                    {/*<Tab><Translate content="account.votes.proposals.title_tab" /></Tab>*/}
-                  </TabList>
-                  <TabPanel><Proxy/></TabPanel>
-                  <TabPanel><Witnesses/></TabPanel>
-                  <TabPanel><CommitteeMembers/></TabPanel>
-                  {/*<TabPanel><Proposals /></TabPanel>*/}
-                </Tabs>
+                className='pt40'
+                onSelect={ this.onChangeActiveMenuItem.bind(this) }
+                selectedIndex={ selectedIndex }>
+                <TabList>
+                  <Tab><Translate content='votes.proxy_short'/></Tab>
+                  <Tab><Translate content='votes.add_witness_label'/></Tab>
+                  <Tab><Translate content='votes.advisors'/></Tab>
+                  {/*<Tab><Translate content="account.votes.proposals.title_tab" /></Tab>*/}
+                </TabList>
+                <TabPanel><Proxy/></TabPanel>
+                <TabPanel><Witnesses/></TabPanel>
+                <TabPanel><CommitteeMembers/></TabPanel>
+                {/*<TabPanel><Proposals /></TabPanel>*/}
+              </Tabs>
               : <SLoader/>
             }
           </div>
