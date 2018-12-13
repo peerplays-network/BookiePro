@@ -1,107 +1,105 @@
-import { push, replace } from 'react-router-redux';
+import {push, replace} from 'react-router-redux';
 import SendPageActions from './SendPageActions';//TODO::rm
 
 class NavigateActions {
+  static navigateTo(path) {
+    return (dispatch) => {
+      if (path) {
+        dispatch(push(path));
+      } else {
+        console.error('Unimplemented path', path);
+      }
+    };
+  }
 
-    static navigateTo(path) {
-        return (dispatch) => {
+  static navigateToDashboard() {
+    return (dispatch) => {
+      dispatch(push('/'));
+    };
+  }
 
-            if (path) {
-                dispatch(push(path));
-            } else {
-                console.error('Unimplemented path', path)
-            }
+  static navigateToDashboardAdvancedOptions() {
+    return (dispatch) => {
+      dispatch(push('/dashboard/advanced-options'));
+    };
+  }
 
-        };
-    }
+  static navigateToDepositWithDraw() {
+    return (dispatch) => {
+      dispatch(push('/deposit-withdraw'));
+    };
+  }
 
-    static navigateToDashboard() {
-        return (dispatch) => {
-            dispatch(push('/'));
-        };
-    }
+  static navigateToVestingBalances() {
+    return (dispatch) => {
 
-    static navigateToDashboardAdvancedOptions() {
-        return (dispatch) => {
-            dispatch(push('/dashboard/advanced-options'));
-        };
-    }
+      dispatch(push('/account/vesting'));
+    };
+  }
 
-    static navigateToDepositWithDraw() {
-        return (dispatch) => {
-            dispatch(push('/deposit-withdraw'));
-        };
-    }
+  static navigateToSignUp() {
+    return (dispatch) => {
+      dispatch(push('/sign-up'));
+    };
+  }
 
-    static navigateToVestingBalances() {
-        return (dispatch) => {
+  static navigateToSignIn(redirectAfterLogin = null, withReplace = true) {
+    return (dispatch) => {
+      let url = redirectAfterLogin ? `/login?next=${redirectAfterLogin}` : '/login';
 
-            dispatch(push('/account/vesting'));
-        };
-    }
+      if (withReplace) {
+        dispatch(replace(url));
+      } else {
+        dispatch(push(url));
+      }
+    };
+  }
 
-    static navigateToSignUp() {
-        return (dispatch) => {
-            dispatch(push('/sign-up'));
-        };
-    }
+  static navigateToForgotPassword() {
+    return (dispatch) => {
+      dispatch(push('/forgot-password'));
+    };
+  }
 
-    static navigateToSignIn(redirectAfterLogin = null, withReplace = true) {
-        return (dispatch) => {
-            let url = redirectAfterLogin ? `/login?next=${redirectAfterLogin}` : '/login';
-            if (withReplace) {
-                dispatch(replace(url));
-            } else {
-                dispatch(push(url));
-            }
+  static navigateToForgotPasswordDecrypt() {
+    return (dispatch) => {
+      dispatch(push('/forgot-password/decrypt'));
+    };
+  }
 
-        };
-    }
+  static navigateToForgotPasswordChange() {
+    return (dispatch) => {
+      dispatch(push('/forgot-password/change'));
+    };
+  }
 
-    static navigateToForgotPassword() {
-        return (dispatch) => {
-            dispatch(push('/forgot-password'));
-        };
-    }
+  static navigateToExchangeMarket(id) {
+    return (dispatch) => {
+      dispatch(push('/exchange/' + id));
+    };
+  }
 
-    static navigateToForgotPasswordDecrypt() {
-        return (dispatch) => {
-            dispatch(push('/forgot-password/decrypt'));
-        };
-    }
+  static navigateToSend(selectedSymbol = null) {
+    return (dispatch) => {
+      if (selectedSymbol) {
+        dispatch(SendPageActions.setSelectedSymbol(selectedSymbol));
+      }//TODO::rm
 
-    static navigateToForgotPasswordChange() {
-        return (dispatch) => {
-            dispatch(push('/forgot-password/change'));
-        };
-    }
+      dispatch(push('/send'));
+    };
+  }
 
-    static navigateToExchangeMarket(id) {
-        return (dispatch) => {
-            dispatch(push('/exchange/' + id));
-        };
-    }
+  static navigateToClaim(climType) {
+    return (dispatch) => {
+      dispatch(push(`/claims/${climType}`));
+    };
+  }
 
-    static navigateToSend(selectedSymbol = null) {
-        return (dispatch) => {
-            if(selectedSymbol) dispatch(SendPageActions.setSelectedSymbol(selectedSymbol));//TODO::rm
-            dispatch(push('/send'));
-        };
-    }
-
-    static navigateToClaim(climType) {
-        return (dispatch) => {
-            dispatch(push(`/claims/${climType}`));
-        };
-    }
-
-    static navigateToSettingsClaim() {
-        return (dispatch) => {
-            dispatch(push('/settings/claim'));
-        };
-    }
-
+  static navigateToSettingsClaim() {
+    return (dispatch) => {
+      dispatch(push('/settings/claim'));
+    };
+  }
 }
-
 
 export default NavigateActions;

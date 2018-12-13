@@ -1,11 +1,10 @@
-import RegisterConstants from "../constants/Register";
+import RegisterConstants from '../constants/Register';
 import LoginService from '../services/LoginService';
-import NavigateActions from "./NavigateActions";
+import NavigateActions from './NavigateActions';
 import AccountRepository from '../repositories/AccountRepository';
-import KeyGeneratorService from "services/KeyGeneratorService";
-import ApplicationApi from "../rpc_api/ApplicationApi";
-import CONFIG from "../config/main";
-import _ from "lodash";
+import KeyGeneratorService from 'services/KeyGeneratorService';
+import ApplicationApi from '../rpc_api/ApplicationApi';
+import CONFIG from '../config/main';
 
 /**
  * Private Redux Action Creator (RegisterConstants.REGISTER_SET_STATUS)
@@ -14,10 +13,10 @@ import _ from "lodash";
  * @returns {{type, status: *}}
  */
 function setRegisterStatusAction(status) {
-    return {
-        type: RegisterConstants.REGISTER_SET_STATUS,
-        status: status
-    }
+  return {
+    type: RegisterConstants.REGISTER_SET_STATUS,
+    status: status
+  };
 }
 
 /**
@@ -27,10 +26,10 @@ function setRegisterStatusAction(status) {
  * @returns {{type, errors: []}}
  */
 function setCommonErrorsAction(errors) {
-    return {
-        type: RegisterConstants.REGISTER_SET_ERRORS,
-        errors: errors
-    }
+  return {
+    type: RegisterConstants.REGISTER_SET_ERRORS,
+    errors: errors
+  };
 }
 
 /**
@@ -49,140 +48,138 @@ const faucets = require('json!common/' + CONFIG.FAUCET_FILE + '.json');
  * @param referral
  * @returns {Promise}
  */
-function fetchFaucetAddress(attempt, accountName, ownerPrivate, activePrivate, memoPrivate, referral) {
-    return new Promise((resolve, reject) => {
-        let index = Math.floor(Math.random() * Object.keys(faucets).length);
-        let faucetAddress = faucets[index];
+function fetchFaucetAddress(
+  attempt,
+  accountName,
+  ownerPrivate,
+  activePrivate,
+  memoPrivate,
+  referral
+) {
+  return new Promise((resolve, reject) => {
+    let index = Math.floor(Math.random() * Object.keys(faucets).length);
+    let faucetAddress = faucets[index];
 
-        if(window && window.location && window.location.protocol === "https:") {
-            faucetAddress = faucetAddress.replace(/http:\/\//, "https://");
+    if(window && window.location && window.location.protocol === 'https:') {
+      faucetAddress = faucetAddress.replace(/http:\/\//, 'https://');
+    }
+
+    return fetch(faucetAddress, {
+      method: 'post',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        'account': {
+          'name': accountName,
+          'owner_key': ownerPrivate.toPublicKey().toPublicKeyString(),
+          'active_key': activePrivate.toPublicKey().toPublicKeyString(),
+          'memo_key': memoPrivate.toPublicKey().toPublicKeyString(),
+          'refcode': referral,
+          'referrer': window && window.BTSW ? BTSW.referrer : '' // TODO: define
         }
-
-        return fetch(faucetAddress, {
-            method: 'post',
-            mode: 'cors',
-            headers: {
-                "Accept": "application/json",
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({
-                "account": {
-                    "name": accountName,
-                    "owner_key": ownerPrivate.toPublicKey().toPublicKeyString(),
-                    "active_key": activePrivate.toPublicKey().toPublicKeyString(),
-                    "memo_key": memoPrivate.toPublicKey().toPublicKeyString(),
-                    "refcode": referral,
-                    "referrer": window && window.BTSW ? BTSW.referrer : ""
-                }
-            })
-        }).then(response => {
-            let res = response.json();
-            resolve(res);
-        }).catch(err => {
-            if(attempt > 2) {
-                reject(err);
-            }
-            else {
-                attempt++;
-                return fetchFaucetAddress(attempt, accountName, ownerPrivate,activePrivate, referral).then(res => resolve(res)).catch(err => reject(err));
-            }
-        })
-    })
+      })
+    }).then((response) => {
+      let res = response.json();
+      resolve(res);
+    }).catch((err) => {
+      if(attempt > 2) {
+        reject(err);
+      } else {
+        attempt++;
+        return fetchFaucetAddress(attempt, accountName, ownerPrivate,activePrivate, referral)
+          .then((res) => resolve(res)).catch((err) => reject(err));
+      }
+    });
+  });
 }
 
 class RegisterActions {
+  /**
+ *  Register form: Setting "Create account" button state
+ *
+ * @param {String} status
+ * @returns {function(*)}
+ */
+  static setRegisterStatus(status) {
+    return (dispatch) => {
+      dispatch(setRegisterStatusAction(status));
+    };
+  }
 
-    /**
-     *  Register form: Setting "Create account" button state
-     *
-     * @param {String} status
-     * @returns {function(*)}
-     */
-    static setRegisterStatus(status) {
-        return (dispatch) => {
-            dispatch(setRegisterStatusAction(status));
-        };
-    }
+  /**
+ * Sign Up account in app
+ *
+ * @param {String} accountName
+ * @param {String} password
+ * @param {String} registrarAccount
+ * @param {String|null} referral
+ * @param {Number} referralPercent
+ * @returns {function(*=)}
+ */
+  static register(
+    accountName,
+    password,
+    registrarAccount = null,
+    referral = null,
+    referralPercent = 0
+  ) {
+    return (dispatch) => {
+      let keys = KeyGeneratorService.generateKeys(accountName, password);
+      dispatch(setCommonErrorsAction([]));
 
-    /**
-     * Sign Up account in app
-     *
-     * @param {String} accountName
-     * @param {String} password
-     * @param {String} registrarAccount
-     * @param {String|null} referral
-     * @param {Number} referralPercent
-     * @returns {function(*=)}
-     */
-    static register(accountName, password, registrarAccount = null, referral = null, referralPercent = 0) {
-
-        return (dispatch) => {
-
-            let keys = KeyGeneratorService.generateKeys(accountName, password);
-
-            dispatch(setCommonErrorsAction([]));
-
-            if (registrarAccount) {
-
-                let appApi = new ApplicationApi();
-
-                return appApi.create_account(                 
-                    keys.owner.toPublicKey().toPublicKeyString(),
-                    keys.active.toPublicKey().toPublicKeyString(),
-                    accountName,
-                    registrarAccount, //registrar_id,
-                    registrarAccount, //referrer_id,
-                    referralPercent, //referrer_percent,
-                    true //broadcast
-                ).catch(err => {
-                    throw err;
-                });
-            } else {
-                return fetchFaucetAddress(1, accountName, keys.owner, keys.active, keys.memo, referral)
-                    .then(result => {
-                        if(result.error) {
-                            console.warn("CREATE ACCOUNT RESPONSE", result);
-                            console.warn("CREATE ACCOUNT ERROR", result.error);
-                            throw result.error;
-                        }
-                        console.log('RESULT', result);
-                        return result;
-                    }).then(() => {
-
-                        return AccountRepository.fetchFullAccount(accountName).then((result) => {
-
-                            let account = result[1]['account'];
-
-                            return LoginService.systemLogin(account, password, false, dispatch).then(() => {
-                                dispatch(NavigateActions.navigateToDashboard());
-                                dispatch(RegisterActions.setRegisterStatus('default'));
-                            });
-
-                        });
-
-                    }).catch(error => {
-
-                        dispatch(RegisterActions.setRegisterStatus('default'));
-
-                        let errorKeys = Object.keys(error),
-                            errors = [];
-
-                        errorKeys.forEach((errorKey) => {
-                            errors.push(error[errorKey]);
-                        });
-
-                        if (errors.length) {
-                            return dispatch(setCommonErrorsAction(errors));
-                        }
-
-                        return dispatch(setCommonErrorsAction(['Faucet registration failed']));
-                    });
+      if (registrarAccount) {
+        let appApi = new ApplicationApi();
+        return appApi.create_account(
+          keys.owner.toPublicKey().toPublicKeyString(),
+          keys.active.toPublicKey().toPublicKeyString(),
+          accountName,
+          registrarAccount, //registrar_id,
+          registrarAccount, //referrer_id,
+          referralPercent, //referrer_percent,
+          true //broadcast
+        ).catch((err) => {
+          throw err;
+        });
+      } else {
+        return fetchFaucetAddress(1, accountName, keys.owner, keys.active, keys.memo, referral)
+          .then((result) => {
+            if (result.error) {
+              console.warn('CREATE ACCOUNT RESPONSE', result);
+              console.warn('CREATE ACCOUNT ERROR', result.error);
+              throw result.error;
             }
 
-        }
+            console.log('RESULT', result);
+            return result;
+          }).then(() => {
+            return AccountRepository.fetchFullAccount(accountName).then((result) => {
+              let account = result[1]['account'];
 
-    }
+              return LoginService.systemLogin(account, password, false, dispatch).then(() => {
+                dispatch(NavigateActions.navigateToDashboard());
+                dispatch(RegisterActions.setRegisterStatus('default'));
+              });
+            });
+          }).catch((error) => {
+            dispatch(RegisterActions.setRegisterStatus('default'));
+            let errorKeys = Object.keys(error),
+              errors = [];
+            errorKeys.forEach((errorKey) => {
+              errors.push(error[errorKey]);
+            });
 
+            if (errors.length) {
+              return dispatch(setCommonErrorsAction(errors));
+            }
+
+            return dispatch(setCommonErrorsAction(['Faucet registration failed']));
+          });
+      }
+    };
+  }
 }
 
 export default RegisterActions;

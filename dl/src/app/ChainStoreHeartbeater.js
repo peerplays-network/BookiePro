@@ -1,31 +1,24 @@
-import {EmitterInstance} from "peerplaysjs-lib";
+import {EmitterInstance} from 'peerplaysjs-lib';
 
 class ChainStoreHeartbeater {
 
-    constructor() {
-        this.heartBeatTimer = null;
-    }
+  constructor() {
+    this.heartBeatTimer = null;
+  }
 
-    setHeartBeatChainStore(cb) {
+  setHeartBeatChainStore(cb) {
+    let emitter = EmitterInstance.emitter();
+    emitter.on('heartbeat', () => {
 
-        let emitter = EmitterInstance.emitter();
+      if (this.heartBeatTimer) {
+        clearInterval(this.heartBeatTimer);
+      }
 
-        emitter.on('heartbeat', () => {
-
-            if (this.heartBeatTimer) {
-                clearInterval(this.heartBeatTimer);
-            }
-
-            this.heartBeatTimer = setInterval(() => {
-                return cb();
-            }, 30000);
-
-        });
-    }
-
-
+      this.heartBeatTimer = setInterval(() => {
+        return cb();
+      }, 30000);
+    });
+  }
 }
-
-
 
 export default ChainStoreHeartbeater;

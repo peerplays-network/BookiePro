@@ -1,5 +1,4 @@
-import {TOGGLE_HELP_POPUP} from "../constants/ActionTypes";
-
+import {TOGGLE_HELP_POPUP} from '../constants/ActionTypes';
 
 /**
  * Private Action Creator (TOGGLE_HELP_POPUP)
@@ -8,30 +7,27 @@ import {TOGGLE_HELP_POPUP} from "../constants/ActionTypes";
  * @returns {{type, payload: {showHelpModal: boolean}}}
  */
 function toggleModalAction(isShow) {
-    return {
-        type: TOGGLE_HELP_POPUP,
-        payload: {
-            showHelpModal: isShow
-        }
+  return {
+    type: TOGGLE_HELP_POPUP,
+    payload: {
+      showHelpModal: isShow
     }
+  };
 }
 
 class HelpActions {
+  /**
+ * Toggle Help popup
+ *
+ * @param {boolean} showHelpModal
+ * @returns {function(*=, *)}
+ */
+  static toggleHelpModal(showHelpModal) {
 
-    /**
-     * Toggle Help popup
-     *
-     * @param {boolean} showHelpModal
-     * @returns {function(*=, *)}
-     */
-    static toggleHelpModal(showHelpModal) {
-
-        return (dispatch) => {
-            dispatch(toggleModalAction(showHelpModal));
-        }
-    }
-
-
+    return (dispatch) => {
+      dispatch(toggleModalAction(showHelpModal));
+    };
+  }
 }
 
 export default HelpActions;

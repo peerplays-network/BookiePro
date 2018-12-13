@@ -1,5 +1,5 @@
-import {ADD_CONNECTION, REMOVE_CONNECTION} from "../constants/ActionTypes";
-import {getViewSettings,setViewSettings} from "services/ViewSettingsService";
+import {ADD_CONNECTION, REMOVE_CONNECTION} from '../constants/ActionTypes';
+import {getViewSettings,setViewSettings} from 'services/ViewSettingsService';
 
 /**
  * Settings page Action Creator (ADD_CONNECTION)
@@ -8,15 +8,17 @@ import {getViewSettings,setViewSettings} from "services/ViewSettingsService";
  * @returns {Function}
  */
 export function addConnection(data){
-  let connection = getViewSettings("connection");
+  let connection = getViewSettings('connection');
   setViewSettings({connection : connection.concat(data)});
-    return function (dispatch) {
-        dispatch({
-            type: ADD_CONNECTION,
-            payload: data
-        })
-    };
+
+  return function (dispatch) {
+    dispatch({
+      type: ADD_CONNECTION,
+      payload: data
+    });
+  };
 }
+
 /**
  * Settings page Action Creator (REMOVE_CONNECTION)
  * Remove WS connection
@@ -24,13 +26,13 @@ export function addConnection(data){
  * @returns {Function}
  */
 export function removeConnection(data) {
+  let connection = getViewSettings('connection');
+  setViewSettings({connection : connection.filter((item) => item !== data)});
 
-  let connection = getViewSettings("connection");
-  setViewSettings({connection : connection.filter(item => item != data)});
-    return function (dispatch) {
-        dispatch({
-            type: REMOVE_CONNECTION,
-            payload: data
-        })
-    };
+  return function (dispatch) {
+    dispatch({
+      type: REMOVE_CONNECTION,
+      payload: data
+    });
+  };
 }

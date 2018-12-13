@@ -1,62 +1,53 @@
 import {
-    SHOW_WALLET_PASSWORD_WINDOW,
-    RESET_WALLET_PASSWORD_WINDOW
-    } from '../constants/ActionTypes';
+  SHOW_WALLET_PASSWORD_WINDOW,
+  RESET_WALLET_PASSWORD_WINDOW
+} from '../constants/ActionTypes';
 
-import KeysService from "services/KeysService";
+import KeysService from 'services/KeysService';
 
 class RWalletUnlockNewActions {
 
-    /**
+  /**
      * Action Creator (SHOW_WALLET_PASSWORD_WINDOW)
      * Show|Hide Unlock modal //here we work with promises
      *
      * @param data Object
      * @returns {Function}
      */
-    static showWalletPasswordWindow(data) {
-        return (dispatch) => {
-
-            dispatch({
-                type: SHOW_WALLET_PASSWORD_WINDOW,
-                payload: data
-            });
-
-        }
-    }
+  static showWalletPasswordWindow(data) {
+    return (dispatch) => {
+      dispatch({
+        type: SHOW_WALLET_PASSWORD_WINDOW,
+        payload: data
+      });
+    };
+  }
 
 
-    /**
-     * Action Creator (RESET_WALLET_PASSWORD_WINDOW)
-     * reset Unlock modal //here we work with promises
-     * @returns {Function}
-     */
-    static resetWalletPasswordWindow() {
+  /**
+   * Action Creator (RESET_WALLET_PASSWORD_WINDOW)
+   * reset Unlock modal //here we work with promises
+   * @returns {Function}
+   */
+  static resetWalletPasswordWindow() {
+    return (dispatch) => {
+      dispatch({
+        type: RESET_WALLET_PASSWORD_WINDOW,
+        payload: null
+      });
+    };
+  }
 
-        return (dispatch) => {
-
-            dispatch({
-                type: RESET_WALLET_PASSWORD_WINDOW,
-                payload: null
-            });
-
-        }
-    }
-
-    /**
-     * Get current Active key from state
-     *
-     * @returns {Function}
-     */
-    static getKeyFromState(role) {
-
-        return (dispatch, getState) => {
-
-            return KeysService.getActiveKeyFromState(getState(), dispatch, role);
-
-        }
-    }
-
+  /**
+ * Get current Active key from state
+ *
+ * @returns {Function}
+ */
+  static getKeyFromState(role) {
+    return (dispatch, getState) => {
+      return KeysService.getActiveKeyFromState(getState(), dispatch, role);
+    };
+  }
 }
 
 export default RWalletUnlockNewActions;

@@ -1,11 +1,11 @@
 import {
-    TRCONFIRM_SET_TRANSACTION,
-    TRCONFIRM_CLEAR,
-    TRCONFIRM_PROPOSE,
-    TRCONFIRM_TRCONFIRMED,
-    TRCONFIRM_BROADCASTING,
-    TRCONFIRM_BROADCAST_SUCCESS,
-    TRCONFIRM_BROADCAST_ERROR
+  TRCONFIRM_SET_TRANSACTION,
+  TRCONFIRM_CLEAR,
+  TRCONFIRM_PROPOSE,
+  TRCONFIRM_TRCONFIRMED,
+  TRCONFIRM_BROADCASTING,
+  TRCONFIRM_BROADCAST_SUCCESS,
+  TRCONFIRM_BROADCAST_ERROR
 } from '../constants/ActionTypes';
 
 
@@ -15,30 +15,32 @@ import {
  * @returns {function(*)}
  */
 function broadcastingAction() {
-    return dispatch => {
-        return new Promise((resolve, reject) => {
-            dispatch({
-                type: TRCONFIRM_BROADCASTING
-            });
-            resolve();
-        })
-    }
+  return (dispatch) => {
+    return new Promise((resolve, reject) => { // eslint-disable-line
+      dispatch({
+        type: TRCONFIRM_BROADCASTING
+      });
+      resolve();
+    });
+  };
 }
+
 /**
  * Private Redux Action Creator (TRCONFIRM_BROADCAST_SUCCESS)
  * set broadcast SUCCESS
  * @returns {function(*)}
  */
 function broadcastSuccessAction() {
-    return dispatch => {
-        return new Promise((resolve, reject) => {
-            dispatch({
-                type: TRCONFIRM_BROADCAST_SUCCESS
-            });
-            resolve();
-        });
-    }
+  return (dispatch) => {
+    return new Promise((resolve, reject) => { // eslint-disable-line
+      dispatch({
+        type: TRCONFIRM_BROADCAST_SUCCESS
+      });
+      resolve();
+    });
+  };
 }
+
 /**
  * Private Redux Action Creator (TRCONFIRM_BROADCAST_ERROR)
  * set broadcast ERROR
@@ -46,32 +48,32 @@ function broadcastSuccessAction() {
  * @returns {function(*)}
  */
 function broadcastErrorAction(err) {
-    return dispatch => {
-        return new Promise((resolve, reject) => {
-            dispatch({
-                type: TRCONFIRM_BROADCAST_ERROR,
-                payload: err
-            });
-            resolve();
-        });
-    }
+  return (dispatch) => {
+    return new Promise((resolve, reject) => { // eslint-disable-line
+      dispatch({
+        type: TRCONFIRM_BROADCAST_ERROR,
+        payload: err
+      });
+      resolve();
+    });
+  };
 }
+
 /**
  * Private Redux Action Creator (TRCONFIRM_TRCONFIRMED)
  * The transaction was successful
  * @returns {function(*)}
  */
 function transactionConfirmedAction() {
-    return dispatch => {
-        dispatch({
-            type: TRCONFIRM_TRCONFIRMED
-        });
-    }
+  return (dispatch) => {
+    dispatch({
+      type: TRCONFIRM_TRCONFIRMED
+    });
+  };
 }
 
 /**
- * Action creators
- *
+ * ACTION CREATORS
  */
 
 /**
@@ -83,12 +85,12 @@ function transactionConfirmedAction() {
  * @returns {function(*)}
  */
 export function setTransaction(name, data) {
-    return dispatch => {
-        dispatch({
-            type: TRCONFIRM_SET_TRANSACTION,
-            payload: { transaction: name, data }
-        });
-    }
+  return (dispatch) => {
+    dispatch({
+      type: TRCONFIRM_SET_TRANSACTION,
+      payload: {transaction: name, data}
+    });
+  };
 }
 
 /**
@@ -97,12 +99,13 @@ export function setTransaction(name, data) {
  * @returns {function(*)}
  */
 export function clearTransaction() {
-    return dispatch => {
-        dispatch({
-            type: TRCONFIRM_CLEAR
-        });
-    }
+  return (dispatch) => {
+    dispatch({
+      type: TRCONFIRM_CLEAR
+    });
+  };
 }
+
 /**
  * Redux Action Creator (TRCONFIRM_PROPOSE)
  * set propose account
@@ -110,12 +113,12 @@ export function clearTransaction() {
  * @returns {function(*)}
  */
 export function setProposeAccount(name) {
-    return dispatch => {
-        dispatch({
-            type: TRCONFIRM_PROPOSE,
-            payload: name
-        })
-    }
+  return (dispatch) => {
+    dispatch({
+      type: TRCONFIRM_PROPOSE,
+      payload: name
+    });
+  };
 }
 
 /**
@@ -127,37 +130,34 @@ export function setProposeAccount(name) {
  * @returns {function(*=, *=)}
  */
 export function confirmTransaction(trFunc, funcArgs, funcCb) {
-    return (dispatch, getState) => {
-        dispatch(broadcastingAction()).then(() => {
+  return (dispatch, getState) => {
+    dispatch(broadcastingAction()).then(() => {
+      dispatch(trFunc(funcArgs)).then(() => {
+        //TODO::rm
+        if (funcCb) {
+          funcCb();
+        }
 
-            dispatch(trFunc(funcArgs)).then(() => {
-
-                //TODO::rm
-
-                if (funcCb) {
-                    funcCb();
-                }
-
-                dispatch(broadcastSuccessAction()).then(() => {
-                    dispatch(transactionConfirmedAction());
-                })
-            }).catch(error => {
-                let stringError = 'Transaction Error';
-
-                if (error && error.message) {
-                    let lines = error.message.split('\n');
-                    if (lines && lines.length > 1) {
-                        stringError = lines[1];
-                    }
-                }
-
-                if (getState().transactionConfirm.transaction.errorCallback) {
-                    getState().transactionConfirm.transaction.errorCallback()
-                }
-
-                dispatch(broadcastErrorAction(stringError))
-            });
+        dispatch(broadcastSuccessAction()).then(() => {
+          dispatch(transactionConfirmedAction());
         });
-    }
+      }).catch((error) => {
+        let stringError = 'Transaction Error';
 
+        if (error && error.message) {
+          let lines = error.message.split('\n');
+
+          if (lines && lines.length > 1) {
+            stringError = lines[1];
+          }
+        }
+
+        if (getState().transactionConfirm.transaction.errorCallback) {
+          getState().transactionConfirm.transaction.errorCallback();
+        }
+
+        dispatch(broadcastErrorAction(stringError));
+      });
+    });
+  };
 }

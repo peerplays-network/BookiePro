@@ -1,10 +1,10 @@
 import {
-    REFERRALS_SET
-} from "../constants/ActionTypes";
-import {ChainStore} from "peerplaysjs-lib";
-import Repository from "repositories/chain/repository";
-import KeysService from "services/KeysService";
-import TransactionService from "services/TransactionService";
+  REFERRALS_SET
+} from '../constants/ActionTypes';
+import {ChainStore} from 'peerplaysjs-lib';
+import Repository from 'repositories/chain/repository';
+import KeysService from 'services/KeysService';
+import TransactionService from 'services/TransactionService';
 
 /**
  * Private Redux Action Creator (REFERRALS_SET)
@@ -15,110 +15,83 @@ import TransactionService from "services/TransactionService";
  * @returns {{type, payload: *}}
  */
 function setPageDataAction(data) {
-    return {
-        type: REFERRALS_SET,
-        payload: data
-    }
+  return {
+    type: REFERRALS_SET,
+    payload: data
+  };
 }
 
-
 let subscribers = {
-    referral: null
+  referral: null
 };
 
 class ReferralsPageActions {
-
-    /**
-     * Subscribe to update
-     *
-     * @returns {function(*=, *=)}
-     */
-    static subscribe() {
-
-        return (dispatch, getState) => {
-
-
-            let subscriber = function (dispatch) {
-                return () => {
-                    dispatch(ReferralsPageActions.setPageData());
-                }
-            };
-
-            subscribers['referral'] = subscriber(dispatch, getState);
-
-            ChainStore.subscribe(subscribers['referral']);
-
-        }
-    }
-
-    /**
-     *
-     * Unsubscribe from chainstore updates
-     *
-     * @returns {function()}
-     */
-    static unSubscribe() {
-
+  /**
+ * Subscribe to update
+ *
+ * @returns {function(*=, *=)}
+ */
+  static subscribe() {
+    return (dispatch, getState) => {
+      let subscriber = function (dispatch) {
         return () => {
-
-            ChainStore.unsubscribe(subscribers['referral']);
-
-            delete subscribers['referral'];
-        }
-    }
-
-
-    /**
-     *
-     * Update controlled account
-     *
-     * @returns {function(*, *)}
-     */
-    static setPageData() {
-
-        return (dispatch, getState) => {
-
-            let state = getState();
-
-            Repository.getAccount(state.app.accountId).then((account) => {
-
-                dispatch(setPageDataAction({
-                    account: account
-                }));
-
-            });
-
+          dispatch(ReferralsPageActions.setPageData());
         };
-    }
+      };
 
-    /**
-     * Upgrade account
-     *
-     * @returns {function(*=, *)}
-     */
-    static onClickUpgradeLifetime() {
+      subscribers['referral'] = subscriber(dispatch, getState);
+      ChainStore.subscribe(subscribers['referral']);
+    };
+  }
 
-        return (dispatch, getState) => {
+  /**
+ *
+ * Unsubscribe from chainstore updates
+ *
+ * @returns {function()}
+ */
+  static unSubscribe() {
+    return () => {
+      ChainStore.unsubscribe(subscribers['referral']);
+      delete subscribers['referral'];
+    };
+  }
 
-            let state = getState();
 
-            KeysService.getActiveKeyFromState(state, dispatch).then((privateKey) => {
+  /**
+ *
+ * Update controlled account
+ *
+ * @returns {function(*, *)}
+ */
+  static setPageData() {
+    return (dispatch, getState) => {
+      let state = getState();
+      Repository.getAccount(state.app.accountId).then((account) => {
+        dispatch(setPageDataAction({
+          account: account
+        }));
+      });
+    };
+  }
 
-                TransactionService.upgradeAccount(state.app.accountId, "1.3.0", true, () => {
-
-                    dispatch(ReferralsPageActions.setPageData());
-
-                }).then((trFnc) => {
-
-                    dispatch(trFnc);
-
-                });
-
-            });
-
-        };
-    }
-
+  /**
+ * Upgrade account
+ *
+ * @returns {function(*=, *)}
+ */
+  static onClickUpgradeLifetime() {
+    return (dispatch, getState) => {
+      let state = getState();
+      KeysService.getActiveKeyFromState(state, dispatch).then((privateKey) => { // eslint-disable-line
+        TransactionService.upgradeAccount(state.app.accountId, '1.3.0', true, () => {
+          dispatch(ReferralsPageActions.setPageData());
+        }).then((trFnc) => {
+          dispatch(trFnc);
+        });
+      });
+    };
+  }
 }
 
 export default ReferralsPageActions;

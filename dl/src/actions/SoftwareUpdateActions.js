@@ -1,5 +1,5 @@
 import {
-    SOFTWARE_UPDATE_SET_ACCOUNT_DATA
+  SOFTWARE_UPDATE_SET_ACCOUNT_DATA
 } from '../constants/ActionTypes';
 import {ChainTypes} from 'peerplaysjs-lib';
 import Repository from '../repositories/chain/repository';
@@ -17,109 +17,98 @@ import CONFIG from '../config/main';
  * @returns {{type, payload: *}}
  */
 function setAccountDataAction(data) {
-    return {
-        type: SOFTWARE_UPDATE_SET_ACCOUNT_DATA,
-        payload: data
-    }
+  return {
+    type: SOFTWARE_UPDATE_SET_ACCOUNT_DATA,
+    payload: data
+  };
 }
 
 class SoftwareUpdateActions {
 
-    /**
+  /**
      * We monitor a Peerplays controlled account
      *
      * @returns {function(*=, *)}
      */
-    static checkForSoftwareUpdate() {
+  static checkForSoftwareUpdate() {
+    return (dispatch, getState) => {
+      return Repository.fetchFullAccount(CONFIG.SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME)
+        .then((account) => { //Get Controlled account
+          if (!account) {
+            return null;
+          }
 
-        return (dispatch, getState) => {
+          let state = getState();
 
-            return Repository.fetchFullAccount(CONFIG.SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME).then((account) => { //Get Controlled account
-
-                if (!account) {
-                    return null;
-                }
-
-                let state = getState();
-
-                /**
+          /**
                  * Compare with the current account
                  */
-                if (state.softwareUpdateReducer.account !== account) {
-
-                    /**
+          if (state.softwareUpdateReducer.account !== account) {
+            /**
                      * Get latest transaction histories and parse it
                      */
-                    let history = account.get('history');
+            let history = account.get('history');
 
-                    if (history && history.size) {
+            if (history && history.size) {
+              history.find((historyItem) => {
+                let operationType = historyItem.getIn(['op', 0]);
 
-                        history.find((historyItem) => {
+                if (operationType === ChainTypes.operations.transfer) {
+                  let memo = historyItem.getIn(['op', 1, 'memo']);
 
-                            let operationType = historyItem.getIn(['op', 0]);
-
-                            if (operationType === ChainTypes.operations.transfer) {
-
-                                let memo = historyItem.getIn(['op', 1, 'memo']);
-
-                                if (memo) {
-
-                                    /**
-                                     * Assuming that we need to decrypt the message to parse 'software update' memo message
-                                     */
-                                    try {
-
-                                        let memoJson =  JSON.parse(StringHelper.hex2a(memo.toJS().message)),
-                                            version = memoJson.version,
-                                            displayText = memoJson.displayText;
-                                        /**
-                                         * If it has version then it is an update transaction
-                                         */
-                                        if (version) {
-
-                                            console.log('[APP] NEW VERSION', version);
-                                            console.log('[APP] CURRENT VERSION', CONFIG.APP_PACKAGE_VERSION);
-
-                                            /**
-                                             * Check if we need to add it to notification list
-                                             */
-                                            if (VersionHelper.compare(version, CONFIG.APP_PACKAGE_VERSION) === 1) {
-                                                dispatch(NotificationsActions.addUpdateSoftwareMessage(new NotificationMessage(_.uniqueId('msg_'), displayText, NotificationMessage.TYPES.SOFTWARE_UPDATE)));
-                                            }
-
-                                            return true;
-
-                                        }
-
-                                    } catch (e) {
-                                        return false;
-                                    }
-
-                                }
-
-                            }
-
-                        });
-
-                    }
-
+                  if (memo) {
                     /**
-                     * Set new controlled account
+                   * Assuming that we need to decrypt the message to parse 'software update'
+                   * memo message
+                   */
+                    try {
+                      let memoJson =  JSON.parse(StringHelper.hex2a(memo.toJS().message)),
+                        version = memoJson.version,
+                        displayText = memoJson.displayText;
+
+                      /**
+                     * If it has version then it is an update transaction
                      */
-                    dispatch(setAccountDataAction({
-                        account
-                    }));
+                      if (version) {
 
+                        console.log('[APP] NEW VERSION', version);
+                        console.log('[APP] CURRENT VERSION', CONFIG.APP_PACKAGE_VERSION);
+
+                        /**
+                       * Check if we need to add it to notification list
+                       */
+                        if (VersionHelper.compare(version, CONFIG.APP_PACKAGE_VERSION) === 1) {
+                          dispatch(NotificationsActions.addUpdateSoftwareMessage(
+                            new NotificationMessage(
+                              _.uniqueId('msg_'),
+                              displayText,
+                              NotificationMessage.TYPES.SOFTWARE_UPDATE
+                            )
+                          ));
+                        }
+
+                        return true;
+                      }
+                    } catch (e) {
+                      return false;
+                    }
+                  }
                 }
+              });
+            }
 
-                return account;
+            /**
+           * Set new controlled account
+           */
+            dispatch(setAccountDataAction({
+              account
+            }));
+          }
 
-            });
-
-        }
-
-    }
-
+          return account;
+        });
+    };
+  }
 }
 
 export default SoftwareUpdateActions;
