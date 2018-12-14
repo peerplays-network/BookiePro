@@ -1,3 +1,3 @@
-var counterpart = require("counterpart");
+var counterpart = require('counterpart');
 
 module.exports = counterpart;

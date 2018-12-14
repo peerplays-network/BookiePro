@@ -350,7 +350,7 @@ class DashboardBalancesService {
             //    smartCoinTotal += dataBalances[asset]['totalValue'];
             //    smartCoins = smartCoins.push(info);
             //    break;
-          case !!cryptoIds.find((value) => value == asset):
+          case !!cryptoIds.find((value) => value === asset):
 
             if (
               dataBalances[asset]['totalValue'] > 0

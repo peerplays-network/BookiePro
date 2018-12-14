@@ -80,7 +80,7 @@ export default function (state = initialState, action) {
       });
     case REMOVE_CONNECTION:
       return Object.assign({}, state, {
-        connection: state.connection.filter((e) => e != action.payload)
+        connection: state.connection.filter((e) => e !== action.payload)
       });
       /**
        * Sharedrop page claim

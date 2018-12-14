@@ -297,22 +297,18 @@ class RockPaperScissorsActions {
 
           switch (tab) {
             case 'dashboard':
-
               dispatch(RockPaperScissorsActions.fetchDashboardTournaments());
 
               break;
             case 'find':
-
               dispatch(RockPaperScissorsActions.fetchFindTournaments());
 
               break;
             case 'explore':
-
               dispatch(RockPaperScissorsActions.fetchExploreTournaments());
 
               break;
             case 'rps':
-
               let state = getState();
 
               if (state.rockPaperScissorsReducer.activeGameId) {
@@ -322,18 +318,14 @@ class RockPaperScissorsActions {
 
               break;
             case 'create':
-
               dispatch(RockPaperScissorsActions.fetchAvailableUnits());
 
               break;
-
           }
-
         };
       };
 
       subscribers[tab] = subscriber(dispatch, getState);
-
       ChainStore.subscribe(subscribers[tab]);
     };
   }
@@ -346,16 +338,11 @@ class RockPaperScissorsActions {
    */
 
   static unSubscribe(tab) {
-
     return () => {
-
       ChainStore.unsubscribe(subscribers[tab]);
-
       delete subscribers[tab];
     };
   }
-
-
 
   /**
    * Join to game (register)
@@ -366,7 +353,6 @@ class RockPaperScissorsActions {
   static joinToTournament(tournamentId) {
 
     return (dispatch, getState) => {
-
       let state = getState(),
         results = {
           account: null,

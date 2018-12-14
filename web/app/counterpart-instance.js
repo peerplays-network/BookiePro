@@ -1,2 +1,2 @@
-import counterpart from "counterpart";
+import counterpart from 'counterpart';
 export default counterpart;

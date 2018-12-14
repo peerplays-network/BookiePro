@@ -8,13 +8,11 @@
  */
 
 /*global self */
-/*jslint bitwise: true, indent: 4, laxbreak: true, laxcomma: true, smarttabs: true, plusplus: true */
+/*jslint bitwise: true, indent: 4, laxbreak: true, laxcomma: true, smarttabs: true, plusplus: true*/
 
 /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
 
 var saveAs = saveAs || (function(view) {
-  'use strict';
-
   // IE <10 is explicitly unsupported
   if (typeof navigator !== 'undefined' && /MSIE [1-9]\./.test(navigator.userAgent)) {
     return;
@@ -89,7 +87,8 @@ var saveAs = saveAs || (function(view) {
     }
     , auto_bom = function(blob) {
       // prepend BOM for UTF-8 XML and text/* types (including HTML)
-      if (/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(blob.type)) {
+      if (/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i
+        .test(blob.type)) {
         return new Blob(['\ufeff', blob], {type: blob.type});
       }
 
@@ -118,7 +117,8 @@ var saveAs = saveAs || (function(view) {
 
             reader.onloadend = function() {
               var base64Data = reader.result;
-              target_view.location.href = 'data:attachment/file' + base64Data.slice(base64Data.search(/[,;]/));
+              target_view.location.href = 'data:attachment/file' + base64Data
+                .slice(base64Data.search(/[,;]/));
               filesaver.readyState = filesaver.DONE;
               dispatch_all();
             };

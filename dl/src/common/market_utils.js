@@ -165,7 +165,7 @@ class MarketUtils {
   }
 
   static parse_order_history(order, paysAsset, receivesAsset, isAsk, flipped) { // eslint-disable-line
-    let isCall = order.order_id.split('.')[1] == object_type.limit_order ? false : true;
+    let isCall = order.order_id.split('.')[1] === object_type.limit_order ? false : true;
     let receivePrecision = utils.get_asset_precision(receivesAsset.toJS
       ? receivesAsset.get('precision')
       : receivesAsset.precision);
