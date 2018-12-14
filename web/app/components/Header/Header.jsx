@@ -54,7 +54,7 @@ class Header extends React.Component {
           </Link>
           <div className='nav__right nav-bdl'>
             <Link
-              to='/settings '
+              to='/settings'
               className={ classNames({' nav__link bb nav__link - set ': true, ' active ': (/\/settings/.test(this.props.pathname))}) }> {/* eslint-disable-line */}
               <span className='nav__linkAlign'>
                 <span className='nav__linkIcon nav__linkIcon-blank icon-settings'></span>
