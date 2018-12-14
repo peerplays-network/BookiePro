@@ -1,6 +1,6 @@
 import {
-    CLAIM_BTS_SET_STATUS,
-    CLAIM_BTS_SET_ERRORS
+  CLAIM_BTS_SET_STATUS,
+  CLAIM_BTS_SET_ERRORS
 } from '../constants/ActionTypes';
 
 /**
@@ -11,33 +11,32 @@ import {
  * @type {{status: string, errors: Array}}
  */
 let defaultState = {
-    status: 'default',
-    errors: []
+  status: 'default',
+  errors: []
 };
 
 export default function (state = defaultState, action) {
-    switch (action.type) {
-        /**
-         * set btn status (default|loading)
-         */
-        case CLAIM_BTS_SET_STATUS:
-            return {
-                ...state,
-                status: action.payload.status
-            };
-        /**
-         * ClaimBtsForm: Setting Common validation errors
-         */
-        case CLAIM_BTS_SET_ERRORS:
-            return {
-                ...state,
-                errors: action.payload.errors
-            };
-        default:
-            /**
-             * We return the previous state in the default case
-             */
-            return state
-    }
-
-};
+  switch (action.type) {
+    /**
+     * set btn status (default|loading)
+     */
+    case CLAIM_BTS_SET_STATUS:
+      return {
+        ...state,
+        status: action.payload.status
+      };
+      /**
+       * ClaimBtsForm: Setting Common validation errors
+       */
+    case CLAIM_BTS_SET_ERRORS:
+      return {
+        ...state,
+        errors: action.payload.errors
+      };
+    default:
+      /**
+       * We return the previous state in the default case
+       */
+      return state;
+  }
+}

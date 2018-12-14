@@ -1,35 +1,31 @@
-import ls from "common/localStorage";
-import Immutable from "immutable";
-const STORAGE_KEY = "__peerplays__";
+import ls from 'common/localStorage';
+import Immutable from 'immutable';
 
-
-const VIEW_SETTINGS_KEY = "viewSettings_v3";
-
+const STORAGE_KEY = '__peerplays__';
+const VIEW_SETTINGS_KEY = 'viewSettings_v3';
 let ss = new ls(STORAGE_KEY);
 let viewSettings = Immutable.Map(ss.get(VIEW_SETTINGS_KEY));
 
 initViewSettings();
 
 function initViewSettings() {
-    let defaultViewSettings = {
-        activeSetting: 'general',
-        connection: [BLOCKCHAIN_URL]
-    };
-    let reset = false;
+  let defaultViewSettings = {
+    activeSetting: 'general',
+    connection: [BLOCKCHAIN_URL] // TODO: import
+  };
+  let reset = false;
 
-    for (let key in defaultViewSettings) {
-        if (!viewSettings.get(key)) {
-            viewSettings = viewSettings.set(key, defaultViewSettings[key]);
-            reset = true;
-        }
+  for (let key in defaultViewSettings) {
+    if (!viewSettings.get(key)) {
+      viewSettings = viewSettings.set(key, defaultViewSettings[key]);
+      reset = true;
     }
+  }
 
-    if (reset) {
-        let vSettings = viewSettings.toJS();
-
-        ss.set(VIEW_SETTINGS_KEY, vSettings);
-    }
-
+  if (reset) {
+    let vSettings = viewSettings.toJS();
+    ss.set(VIEW_SETTINGS_KEY, vSettings);
+  }
 }
 
 /**
@@ -38,10 +34,9 @@ function initViewSettings() {
  * @returns {null}
  */
 export function getViewSettings(item) {
+  let data = ss.get(VIEW_SETTINGS_KEY);
 
-    let data = ss.get(VIEW_SETTINGS_KEY);
-
-    return (data && (item in data)) ? data[item] : null;
+  return (data && (item in data)) ? data[item] : null;
 }
 
 /**
@@ -50,15 +45,12 @@ export function getViewSettings(item) {
  * @returns {any}
  */
 export function setViewSettings(data) {
+  for (let key in data) {
+    viewSettings = viewSettings.set(key, data[key]);
+  }
 
-    for (let key in data) {
-        viewSettings = viewSettings.set(key, data[key]);
-    }
+  let vSettings = viewSettings.toJS();
+  ss.set(VIEW_SETTINGS_KEY, vSettings);
 
-    let vSettings = viewSettings.toJS();
-
-    ss.set(VIEW_SETTINGS_KEY, vSettings);
-
-    return vSettings;
-
+  return vSettings;
 }

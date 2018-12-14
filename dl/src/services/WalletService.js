@@ -1,335 +1,299 @@
-import KeyGeneratorService from "services/KeyGeneratorService";
-import {Apis, ChainConfig} from "peerplaysjs-ws";
-import idb_helper from "idb-helper";
-import iDB from "idb-instance";
-
-import {PrivateKey, key, Aes, hash} from "peerplaysjs-lib";
+import KeyGeneratorService from 'services/KeyGeneratorService';
+import {Apis} from 'peerplaysjs-ws';
+import idb_helper from 'idb-helper';
+import iDB from 'idb-instance';
+import {PrivateKey, key, Aes} from 'peerplaysjs-lib';
 
 /**
  * Service for work with a wallet
  */
 class WalletService {
-
-    /**
-     * Create Wallet by Wif private key
-     * @param account
-     * @param privateKeyWif
-     * @returns {Promise}
-     */
-    static createWalletByPrivateKey(account, privateKeyWif) {
-
-        if(!account) {
-            throw new Error("account is required");
-        }
-
-        if(typeof privateKeyWif !== 'string') {
-            throw new Error("password string is required");
-        }
-
-        if(privateKeyWif.trim() === "") {
-            throw new Error("accountName can not be an empty string");
-        }
-
-        let passwordAes = Aes.fromSeed(privateKeyWif),
-            encryptionBuffer = key.get_random_key().toBuffer(),
-            encryptionKey = passwordAes.encryptToHex(encryptionBuffer),
-            privateAesLocal = Aes.fromSeed(encryptionBuffer);
-
-        let privateKeyObject = PrivateKey.fromWif(privateKeyWif),
-            publicKey = privateKeyObject.toPublicKey().toPublicKeyString();
-
-        let keysNames = ['owner', 'active'],
-            keys = {};
-
-        for (let i = 0; i < keysNames.length; i++) {
-
-            let userKey = keysNames[i];
-
-            if (account[userKey]['key_auths'] && account[userKey]['key_auths'].length) {
-
-                let findKey = account[userKey]['key_auths'].find((keyArr) => {
-                    return keyArr[0] && keyArr[0] === publicKey;
-                });
-
-                if (findKey) {
-                    keys[userKey] = PrivateKey.fromWif(privateKeyWif);
-                }
-
-            }
-        }
-
-        let walletName = iDB.getCurrentWalletName(),
-            brainKeyPrivate = keys.owner ? keys.owner : keys.active,
-            brainKeyPublic = brainKeyPrivate.toPublicKey().toPublicKeyString(),
-            brainKeyEncrypted = privateAesLocal.encryptToHex(brainKeyPrivate.toBuffer()),
-            passwordPrivate = PrivateKey.fromSeed(privateKeyWif),
-            passwordPublic = passwordPrivate.toPublicKey().toPublicKeyString(),
-            date = new Date(),
-            wallet = {
-                public_name : walletName,
-                password_pubkey : passwordPublic,
-                encryption_key : encryptionKey,
-                encrypted_brainkey : brainKeyEncrypted,
-                brainkey_pubkey : brainKeyPublic,
-                brainkey_sequence: 0,
-                brainkey_backup_date : date,
-                created: date,
-                last_modified: date,
-                chain_id: Apis.instance().chain_id
-            };
-
-        return WalletService.resetDBTables()
-            .then(WalletService.saveKeysToDB(keys, privateAesLocal))
-            .then(WalletService.saveWalletToDB(wallet))
-            .then(WalletService.setCurrentWalletNameToDB(walletName))
-            .then(() => {
-                return wallet;
-            });
+  /**
+   * Create Wallet by Wif private key
+   * @param account
+   * @param privateKeyWif
+   * @returns {Promise}
+   */
+  static createWalletByPrivateKey(account, privateKeyWif) {
+    if (!account) {
+      throw new Error('account is required');
     }
 
-    /**
-     * Create Wallet
-     *
-     * @param {String} accountName
-     * @param {String} password
-     */
-    static createWalletByAccount(account, password) {
-
-        if(typeof password !== 'string') {
-            throw new Error("password string is required");
-        }
-
-        let passwordAes = Aes.fromSeed(password),
-            encryptionBuffer = key.get_random_key().toBuffer(),
-            encryptionKey = passwordAes.encryptToHex(encryptionBuffer),
-            privateAesLocal = Aes.fromSeed(encryptionBuffer);
-
-        // The name of the wallet 
-        let walletName = iDB.getCurrentWalletName();
-
-        // Generate the keys using the account name and the password
-        let keys = KeyGeneratorService.generateKeys(account.name, password);
-
-        // Build the keys object used for authentication throughout the app
-        let AuthKeys = {
-            owner: keys.owner,
-            active: keys.active,
-            memo: keys.memo
-        };
-
-        // If the owner key derived from the password doesn't match the owner key from the blockchain,
-        //  then we need to swap the owner and active keys
-        if (keys.owner.toPublicKey().toPublicKeyString() !== account.owner.key_auths[0][0]) {
-            AuthKeys.owner = keys.active;
-            AuthKeys.active = keys.owner;
-        }
-
-        // If the active keys Public Key are the same on the blockchain, then we need to change
-        //  the memo key that is set on the account to be the same as the generated active key
-        if (account.active.key_auths[0][0] === account.options.memo_key) {
-            AuthKeys.memo = keys.active;
-        }
-
-        // These are the owner keys generated by the service
-        let privateOwner = AuthKeys.owner;
-        let publicOwner = privateOwner.toPublicKey().toPublicKeyString();
-
-        // These are the active keys generated by the service
-        let privateActive = AuthKeys.active;
-        let publicActive = privateActive.toPublicKey().toPublicKeyString();
-        
-        // This is your encrypted password
-        let privatePassword = PrivateKey.fromSeed(password);
-        let publicPassword = privatePassword.toPublicKey().toPublicKeyString();
-
-        let privateActiveEncrypted = privateAesLocal.encryptToHex(privateActive.toBuffer());
-
-        // Get the encrypted private memo key.
-        let encrypted_memo_key = privateAesLocal.encryptToHex(AuthKeys.memo.toBuffer());
-
-        let date = new Date();
-
-        let wallet = {
-            public_name : walletName,
-            password_pubkey : publicPassword,
-            encryption_key : encryptionKey,
-            encrypted_memo_key: encrypted_memo_key,
-            encrypted_brainkey : privateActiveEncrypted,
-            brainkey_pubkey : publicActive,
-            brainkey_sequence: 0,
-            brainkey_backup_date : date,
-            created: date,
-            last_modified: date,
-            chain_id: Apis.instance().chain_id
-        };
-
-        // DEBUG
-        // console.log(`Password Public: ${publicPassword}`);
-        // console.log(`publicOwner (Owner): ${publicOwner}`);
-        // console.log(`Public Active Key (Active): ${publicActive}`);        
-        ////////////////////////////////////////////////////////////
-
-        return WalletService.resetDBTables()
-            .then(WalletService.saveKeysToDB(AuthKeys, privateAesLocal))
-            .then(WalletService.saveWalletToDB(wallet))
-            .then(WalletService.setCurrentWalletNameToDB(walletName))
-            .then(() => {
-                return wallet;
-            });
+    if (typeof privateKeyWif !== 'string') {
+      throw new Error('password string is required');
     }
 
-    /**
-     * Is there a wallet
-     */
-    static checkEnableWallet() {
-        return iDB.root.getProperty("current_wallet").then((current_wallet) => {
+    if (privateKeyWif.trim() === '') {
+      throw new Error('accountName can not be an empty string');
+    }
 
+    let passwordAes = Aes.fromSeed(privateKeyWif),
+      encryptionBuffer = key.get_random_key().toBuffer(),
+      encryptionKey = passwordAes.encryptToHex(encryptionBuffer),
+      privateAesLocal = Aes.fromSeed(encryptionBuffer);
 
-            return (current_wallet) ? true : false;
+    let privateKeyObject = PrivateKey.fromWif(privateKeyWif),
+      publicKey = privateKeyObject.toPublicKey().toPublicKeyString();
+
+    let keysNames = ['owner', 'active'],
+      keys = {};
+
+    for (let i = 0; i < keysNames.length; i++) {
+      let userKey = keysNames[i];
+
+      if (account[userKey]['key_auths'] && account[userKey]['key_auths'].length) {
+        let findKey = account[userKey]['key_auths'].find((keyArr) => {
+          return keyArr[0] && keyArr[0] === publicKey;
         });
 
-
+        if (findKey) {
+          keys[userKey] = PrivateKey.fromWif(privateKeyWif);
+        }
+      }
     }
 
-    /**
-     * Get wallet from iDB
-     * @returns {Promise}
-     */
-    static getDBWallet() {
+    let walletName = iDB.getCurrentWalletName(),
+      brainKeyPrivate = keys.owner ? keys.owner : keys.active,
+      brainKeyPublic = brainKeyPrivate.toPublicKey().toPublicKeyString(),
+      brainKeyEncrypted = privateAesLocal.encryptToHex(brainKeyPrivate.toBuffer()),
+      passwordPrivate = PrivateKey.fromSeed(privateKeyWif),
+      passwordPublic = passwordPrivate.toPublicKey().toPublicKeyString(),
+      date = new Date(),
+      wallet = {
+        public_name: walletName,
+        password_pubkey: passwordPublic,
+        encryption_key: encryptionKey,
+        encrypted_brainkey: brainKeyEncrypted,
+        brainkey_pubkey: brainKeyPublic,
+        brainkey_sequence: 0,
+        brainkey_backup_date: date,
+        created: date,
+        last_modified: date,
+        chain_id: Apis.instance().chain_id
+      };
 
-        return new Promise((resolve) => {
+    return WalletService.resetDBTables()
+      .then(WalletService.saveKeysToDB(keys, privateAesLocal))
+      .then(WalletService.saveWalletToDB(wallet))
+      .then(WalletService.setCurrentWalletNameToDB(walletName))
+      .then(() => {
+        return wallet;
+      });
+  }
 
-
-            return idb_helper.cursor("wallet", cursor => {
-                if(!cursor){
-                    return resolve();
-                }
-
-                return resolve(cursor.value);
-            });
-        });
-
+  /**
+   * Create Wallet
+   *
+   * @param {String} accountName
+   * @param {String} password
+   */
+  static createWalletByAccount(account, password) {
+    if (typeof password !== 'string') {
+      throw new Error('password string is required');
     }
 
-    /**
-     * Get keys from iDB
-     * @returns {Promise}
-     */
-    static getDBKeys() {
+    let passwordAes = Aes.fromSeed(password),
+      encryptionBuffer = key.get_random_key().toBuffer(),
+      encryptionKey = passwordAes.encryptToHex(encryptionBuffer),
+      privateAesLocal = Aes.fromSeed(encryptionBuffer);
 
-        return new Promise((resolve) => {
+    // The name of the wallet
+    let walletName = iDB.getCurrentWalletName();
 
-            let keys = {};
+    // Generate the keys using the account name and the password
+    let keys = KeyGeneratorService.generateKeys(account.name, password);
 
-            return idb_helper.cursor("private_keys", cursor => {
+    // Build the keys object used for authentication throughout the app
+    let AuthKeys = {
+      owner: keys.owner,
+      active: keys.active,
+      memo: keys.memo
+    };
 
-                if(!cursor) {
-                    return;
-                }
-
-                keys[cursor.value.type] = cursor.value;
-
-                cursor.continue()
-            }).then(()=>{
-
-                resolve(keys)
-            });
-
-        });
-
+    // If the owner key derived from the password doesn't match the owner key from the blockchain,
+    //  then we need to swap the owner and active keys
+    if (keys.owner.toPublicKey().toPublicKeyString() !== account.owner.key_auths[0][0]) {
+      AuthKeys.owner = keys.active;
+      AuthKeys.active = keys.owner;
     }
 
-    /**
-     * Save keys to iDB
-     * @param keys
-     * @param privateAesLocal
-     */
-    static saveKeysToDB(keys, privateAesLocal) {
-        let objectKeys = [],
-            objectHashKeys = {};
-
-        Object.keys(keys).forEach((keyHash) => {
-
-            let private_key = keys[keyHash];
-
-            let obj = {
-                encrypted_key: privateAesLocal.encryptToHex( private_key.toBuffer() ),
-                pubkey: private_key.toPublicKey().toPublicKeyString(),
-                type: keyHash
-            };
-
-            objectKeys.push(obj);
-
-            objectHashKeys[keyHash] = obj;
-        });
-
-
-        let promises = [];
-
-        objectKeys.forEach((private_key_object) => {
-
-            let transaction = iDB.instance().db().transaction(["wallet", "private_keys"], "readwrite");
-
-            promises.push(idb_helper.add(transaction.objectStore("private_keys"), private_key_object).catch( event => {
-                // ignore_duplicates
-                let error = event.target.error;
-                console.log('... error', error, event);
-            }));
-
-        });
-
-        return Promise.all(promises).then(() => {
-            return objectHashKeys;
-        });
-
-
+    // If the active keys Public Key are the same on the blockchain, then we need to change
+    //  the memo key that is set on the account to be the same as the generated active key
+    if (account.active.key_auths[0][0] === account.options.memo_key) {
+      AuthKeys.memo = keys.active;
     }
 
-    /**
-     * Save wallet to iDB
-     * @param wallet
-     * @returns {*}
-     */
-    static saveWalletToDB(wallet) {
+    // These are the owner keys generated by the service
+    let privateOwner = AuthKeys.owner;
+    let publicOwner = privateOwner.toPublicKey().toPublicKeyString();
 
-        let transaction = iDB.instance().db().transaction(["wallet"], "readwrite"),
-            add = idb_helper.add( transaction.objectStore("wallet"), wallet ),
-            end = idb_helper.on_transaction_end(transaction);
+    // These are the active keys generated by the service
+    let privateActive = AuthKeys.active;
+    let publicActive = privateActive.toPublicKey().toPublicKeyString();
 
-        return Promise.all([add, end]);
-    }
+    // This is your encrypted password
+    let privatePassword = PrivateKey.fromSeed(password);
+    let publicPassword = privatePassword.toPublicKey().toPublicKeyString();
 
-    /**
-     * Set Current Name into iDB
-     * @param walletName
-     * @returns {promise|void}
-     */
-    static setCurrentWalletNameToDB(walletName) {
+    let privateActiveEncrypted = privateAesLocal.encryptToHex(privateActive.toBuffer());
 
-        return iDB.root.setProperty("current_wallet", walletName);
-    }
+    // Get the encrypted private memo key.
+    let encrypted_memo_key = privateAesLocal.encryptToHex(AuthKeys.memo.toBuffer());
 
-    /**
-     * Reset iDB keys
-     * @returns {*}
-     */
-    static resetDBPrivateKeysTable() {
-        return iDB.reset_table('private_keys');
-    }
+    let date = new Date();
 
-    /**
-     * Reset iDB tables
-     * @returns {*}
-     */
-    static resetDBTables() {
+    let wallet = {
+      public_name: walletName,
+      password_pubkey: publicPassword,
+      encryption_key: encryptionKey,
+      encrypted_memo_key: encrypted_memo_key,
+      encrypted_brainkey: privateActiveEncrypted,
+      brainkey_pubkey: publicActive,
+      brainkey_sequence: 0,
+      brainkey_backup_date: date,
+      created: date,
+      last_modified: date,
+      chain_id: Apis.instance().chain_id
+    };
 
-        let resetPromises = iDB.WALLET_BACKUP_STORES.map((table) => {
-            return iDB.reset_table(table);
-        });
+    // DEBUG
+    // console.log(`Password Public: ${publicPassword}`);
+    // console.log(`publicOwner (Owner): ${publicOwner}`);
+    // console.log(`Public Active Key (Active): ${publicActive}`);
+    ////////////////////////////////////////////////////////////
 
-        return Promise.all(resetPromises);
-    }
+    return WalletService.resetDBTables()
+      .then(WalletService.saveKeysToDB(AuthKeys, privateAesLocal))
+      .then(WalletService.saveWalletToDB(wallet))
+      .then(WalletService.setCurrentWalletNameToDB(walletName))
+      .then(() => {
+        return wallet;
+      });
+  }
 
+  /**
+   * Is there a wallet
+   */
+  static checkEnableWallet() {
+    return iDB.root.getProperty('current_wallet').then((current_wallet) => {
+      return (current_wallet) ? true : false;
+    });
+  }
+
+  /**
+   * Get wallet from iDB
+   * @returns {Promise}
+   */
+  static getDBWallet() {
+    return new Promise((resolve) => {
+      return idb_helper.cursor('wallet', (cursor) => {
+        if (!cursor) {
+          return resolve();
+        }
+
+        return resolve(cursor.value);
+      });
+    });
+  }
+
+  /**
+   * Get keys from iDB
+   * @returns {Promise}
+   */
+  static getDBKeys() {
+    return new Promise((resolve) => {
+      let keys = {};
+      return idb_helper.cursor('private_keys', (cursor) => {
+        if (!cursor) {
+          return;
+        }
+
+        keys[cursor.value.type] = cursor.value;
+        cursor.continue();
+      }).then(() => {
+        resolve(keys);
+      });
+    });
+  }
+
+  /**
+   * Save keys to iDB
+   * @param keys
+   * @param privateAesLocal
+   */
+  static saveKeysToDB(keys, privateAesLocal) {
+    let objectKeys = [],
+      objectHashKeys = {};
+
+    Object.keys(keys).forEach((keyHash) => {
+      let private_key = keys[keyHash];
+      let obj = {
+        encrypted_key: privateAesLocal.encryptToHex(private_key.toBuffer()),
+        pubkey: private_key.toPublicKey().toPublicKeyString(),
+        type: keyHash
+      };
+
+      objectKeys.push(obj);
+      objectHashKeys[keyHash] = obj;
+    });
+
+    let promises = [];
+    objectKeys.forEach((private_key_object) => {
+      let transaction = iDB.instance().db().transaction(['wallet', 'private_keys'], 'readwrite');
+      promises.push(idb_helper.add(transaction.objectStore('private_keys'), private_key_object)
+        .catch((event) => {
+        // ignore_duplicates
+          let error = event.target.error;
+          console.log('... error', error, event);
+        }));
+    });
+
+    return Promise.all(promises).then(() => {
+      return objectHashKeys;
+    });
+  }
+
+  /**
+   * Save wallet to iDB
+   * @param wallet
+   * @returns {*}
+   */
+  static saveWalletToDB(wallet) {
+    let transaction = iDB.instance().db().transaction(['wallet'], 'readwrite'),
+      add = idb_helper.add(transaction.objectStore('wallet'), wallet),
+      end = idb_helper.on_transaction_end(transaction);
+
+    return Promise.all([add, end]);
+  }
+
+  /**
+   * Set Current Name into iDB
+   * @param walletName
+   * @returns {promise|void}
+   */
+  static setCurrentWalletNameToDB(walletName) {
+    return iDB.root.setProperty('current_wallet', walletName);
+  }
+
+  /**
+   * Reset iDB keys
+   * @returns {*}
+   */
+  static resetDBPrivateKeysTable() {
+    return iDB.reset_table('private_keys');
+  }
+
+  /**
+   * Reset iDB tables
+   * @returns {*}
+   */
+  static resetDBTables() {
+    let resetPromises = iDB.WALLET_BACKUP_STORES.map((table) => {
+      return iDB.reset_table(table);
+    });
+
+    return Promise.all(resetPromises);
+  }
 }
 
 export default WalletService;

@@ -1,5 +1,5 @@
 import {
-    SOFTWARE_UPDATE_SET_ACCOUNT_DATA
+  SOFTWARE_UPDATE_SET_ACCOUNT_DATA
 } from '../constants/ActionTypes';
 
 /**
@@ -10,28 +10,26 @@ import {
  * @type {{account: null}}
  */
 let defaultState = {
-    /**
-     * Controlled account
-     */
-    account: null
+  /**
+   * Controlled account
+   */
+  account: null
 };
 
 export default (state = defaultState, action) => {
-
-    switch (action.type) {
-        /**
-         * Update controlled account
-         */
-        case SOFTWARE_UPDATE_SET_ACCOUNT_DATA:
-            return {
-                ...state,
-                account: action.payload.account
-            };
-        default:
-            /**
-             * We return the previous state in the default case
-             */
-            return state;
-    }
-
+  switch (action.type) {
+    /**
+     * Update controlled account
+     */
+    case SOFTWARE_UPDATE_SET_ACCOUNT_DATA:
+      return {
+        ...state,
+        account: action.payload.account
+      };
+    default:
+      /**
+       * We return the previous state in the default case
+       */
+      return state;
+  }
 };

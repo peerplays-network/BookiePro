@@ -1,6 +1,6 @@
-import LS from "../common/localStorage";
+import LS from '../common/localStorage';
 
-let accountStorage = new LS("__peerplays__");
+let accountStorage = new LS('__peerplays__');
 
 /**
  * Base Storage service
@@ -8,18 +8,17 @@ let accountStorage = new LS("__peerplays__");
  * Here we work with Local Storage
  */
 class StorageService {
+  static get() {
+    return accountStorage.get.apply(accountStorage, arguments);
+  }
 
-    static get() {
-        return accountStorage.get.apply(accountStorage, arguments);
-    }
+  static set() {
+    return accountStorage.set.apply(accountStorage, arguments);
+  }
 
-    static set() {
-        return accountStorage.set.apply(accountStorage, arguments);
-    }
-
-    static remove() {
-        return accountStorage.remove.apply(accountStorage, arguments);
-    }
+  static remove() {
+    return accountStorage.remove.apply(accountStorage, arguments);
+  }
 }
 
 export default StorageService;

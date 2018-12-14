@@ -1,5 +1,5 @@
-import StorageService from "./StorageService";
-const SETTINGS_KEY = "settings_v3";
+import StorageService from './StorageService';
+const SETTINGS_KEY = 'settings_v3';
 
 /**
  * Settings Storage Service
@@ -7,46 +7,37 @@ const SETTINGS_KEY = "settings_v3";
  * Here we work with Local Storage
  */
 class SettingsStorageService {
+  static get(param) {
+    let settings = StorageService.get(SETTINGS_KEY);
 
-    static get(param) {
-
-        let settings = StorageService.get(SETTINGS_KEY);
-
-        if (settings && typeof settings[param] !== "undefined") {
-            return settings[param];
-        }
-
-        return null;
+    if (settings && typeof settings[param] !== 'undefined') {
+      return settings[param];
     }
 
-    static set(k, val) {
+    return null;
+  }
 
-        let settings = StorageService.get(SETTINGS_KEY);
+  static set(k, val) {
+    let settings = StorageService.get(SETTINGS_KEY);
 
-        if (!settings) {
-            settings = {};
-        }
-
-        settings[k] = val;
-
-        StorageService.set(SETTINGS_KEY, settings);
-
+    if (!settings) {
+      settings = {};
     }
 
-    static remove(k) {
+    settings[k] = val;
+    StorageService.set(SETTINGS_KEY, settings);
+  }
 
-        let settings = StorageService.get(SETTINGS_KEY);
+  static remove(k) {
+    let settings = StorageService.get(SETTINGS_KEY);
 
-        if (!settings) {
-            settings = {};
-        }
-
-        delete settings[k];
-
-        StorageService.set(SETTINGS_KEY, settings);
-
+    if (!settings) {
+      settings = {};
     }
 
+    delete settings[k];
+    StorageService.set(SETTINGS_KEY, settings);
+  }
 }
 
 export default SettingsStorageService;

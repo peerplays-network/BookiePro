@@ -1,4 +1,6 @@
-import {TOGGLE_HELP_POPUP} from '../constants/ActionTypes';
+import {
+  TOGGLE_HELP_POPUP
+} from '../constants/ActionTypes';
 
 /**
  *
@@ -10,23 +12,23 @@ import {TOGGLE_HELP_POPUP} from '../constants/ActionTypes';
  * @type {{showHelpModal: boolean}}
  */
 const initialState = {
-    showHelpModal: false
+  showHelpModal: false
 };
 
-export default (state = initialState, action)=>{
-    switch(action.type) {
-        /**
-         * Toggle Help popup
-         */
-        case TOGGLE_HELP_POPUP:
-            return {
-                ...state,
-                showHelpModal: action.payload.showHelpModal
-            };
-        default:
-            /**
-             * We return the previous state in the default case
-             */
-            return state;
-    }
+export default (state = initialState, action) => {
+  switch (action.type) {
+    /**
+     * Toggle Help popup
+     */
+    case TOGGLE_HELP_POPUP:
+      return {
+        ...state,
+        showHelpModal: action.payload.showHelpModal
+      };
+    default:
+      /**
+       * We return the previous state in the default case
+       */
+      return state;
+  }
 };

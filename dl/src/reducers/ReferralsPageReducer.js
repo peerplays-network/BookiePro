@@ -1,7 +1,6 @@
 import {
-    REFERRALS_SET
+  REFERRALS_SET
 } from '../constants/ActionTypes';
-
 
 /**
  * Referrals Reducer is used to controlling a Referral Page
@@ -13,23 +12,22 @@ import {
  * @type {{account: null}}
  */
 let defaultState = {
-    account: null
+  account: null
 };
 
 export default function (state = defaultState, action) {
-    switch (action.type) {
-        /**
-         * Set controlled account
-         */
-        case REFERRALS_SET:
-            return Object.assign({}, state, {
-                account: action.payload.account
-            });
-        default:
-            /**
-             * We return the previous state in the default case
-             */
-            return state
-    }
-
-};
+  switch (action.type) {
+    /**
+     * Set controlled account
+     */
+    case REFERRALS_SET:
+      return Object.assign({}, state, {
+        account: action.payload.account
+      });
+    default:
+      /**
+       * We return the previous state in the default case
+       */
+      return state;
+  }
+}

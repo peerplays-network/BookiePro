@@ -48,18 +48,18 @@ const operations = {
 };
 
 class ObjectService {
-    /**
+  /**
      * Get fee by type of operation
      *
      * @param typeOperation
      */
-    static getFee(typeOperation) {
+  static getFee(typeOperation) {
 
-        return ObjectRepository.fetchObjectsByIds(['2.0.0']).then(res => {
-            let codeOperation = operations[typeOperation];
-            return res[0].parameters.current_fees.parameters[codeOperation][1];
-        });
-    }
+    return ObjectRepository.fetchObjectsByIds(['2.0.0']).then((res) => {
+      let codeOperation = operations[typeOperation];
+      return res[0].parameters.current_fees.parameters[codeOperation][1];
+    });
+  }
 }
 
 export default ObjectService;

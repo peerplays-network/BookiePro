@@ -1,11 +1,11 @@
-import Immutable from "immutable";
+import Immutable from 'immutable';
 
 import {
-    EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC,
-    EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS,
-    EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS,
-    EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED
-    } from '../constants/ActionTypes';
+  EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC,
+  EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS,
+  EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS,
+  EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED
+} from '../constants/ActionTypes';
 
 /**
  *
@@ -35,82 +35,77 @@ import {
  * @type {{head_block_number: number, last_irreversible_block_num: number, recently_missed_count: number, time: null, active_witnesses: Array, active_committee_members: Array, block_interval: number, current_supply: number, confidential_supply: number, graphBlockTimes: Array, graphBlockTransactions: Array, trxPerSec: number, trxPerBlock: number, avgTime: number, updatedAt: number, latestBlocks: (*), latestTransactions: (*), operations: (*), coreAsset: {}, dataIsFetched: boolean}}
  */
 let defaultState = {
-    head_block_number: 0,
-    last_irreversible_block_num: 0,
-    recently_missed_count: 0,
-    time: null,
-    active_witnesses: [],
-    active_committee_members: [],
-    block_interval: 0,
-    current_supply: 0,
-    confidential_supply: 0,
-
-    graphBlockTimes: [],
-    graphBlockTransactions: [],
-    trxPerSec: 0,
-    trxPerBlock: 0,
-    avgTime: 0,
-    updatedAt: 0,
-    latestBlocks: Immutable.List(),
-    latestTransactions: Immutable.List(),
-    operations: Immutable.List(),
-    coreAsset: {},
-    dataIsFetched: false
+  head_block_number: 0,
+  last_irreversible_block_num: 0,
+  recently_missed_count: 0,
+  time: null,
+  active_witnesses: [],
+  active_committee_members: [],
+  block_interval: 0,
+  current_supply: 0,
+  confidential_supply: 0,
+  graphBlockTimes: [],
+  graphBlockTransactions: [],
+  trxPerSec: 0,
+  trxPerBlock: 0,
+  avgTime: 0,
+  updatedAt: 0,
+  latestBlocks: Immutable.List(),
+  latestTransactions: Immutable.List(),
+  operations: Immutable.List(),
+  coreAsset: {},
+  dataIsFetched: false
 };
 
 export default function (state = defaultState, action) {
-    switch (action.type) {
-        /**
-         * At least once the data were collected
-         */
-        case EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED:
-            return Object.assign({}, state, {
-                dataIsFetched: action.payload.dataIsFetched
-            });
-        /**
-         * Set recent blocks on explore page
-         */
-        case EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS:
-            return Object.assign({}, state, {
-                latestBlocks: action.payload.latestBlocks
-            });
-        /**
-         *  Set operation list
-         */
-        case EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS:
-            return Object.assign({}, state, {
-                operations: action.payload.operations
-            });
-
-        /**
-         * Set statistic page block
-         */
-        case EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC:
-            return Object.assign({}, state, {
-                head_block_number: action.payload.head_block_number,
-                last_irreversible_block_num: action.payload.last_irreversible_block_num,
-                recently_missed_count: action.payload.recently_missed_count,
-                time: action.payload.time,
-                active_witnesses: action.payload.active_witnesses,
-                active_committee_members: action.payload.active_committee_members,
-                block_interval: action.payload.block_interval,
-                current_supply: action.payload.current_supply,
-                confidential_supply: action.payload.confidential_supply,
-
-                avgTime: action.payload.avgTime,
-                graphBlockTimes: action.payload.graphBlockTimes,
-                graphBlockTransactions: action.payload.graphBlockTransactions,
-                trxPerSec: action.payload.trxPerSec,
-                trxPerBlock: action.payload.trxPerBlock,
-                updatedAt: action.payload.updatedAt,
-
-                coreAsset: action.payload.coreAsset
-            });
-        default:
-            /**
-             * We return the previous state in the default case
-             */
-            return state
-    }
-
-};
+  switch (action.type) {
+    /**
+     * At least once the data were collected
+     */
+    case EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED:
+      return Object.assign({}, state, {
+        dataIsFetched: action.payload.dataIsFetched
+      });
+      /**
+       * Set recent blocks on explore page
+       */
+    case EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS:
+      return Object.assign({}, state, {
+        latestBlocks: action.payload.latestBlocks
+      });
+      /**
+       *  Set operation list
+       */
+    case EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS:
+      return Object.assign({}, state, {
+        operations: action.payload.operations
+      });
+      /**
+       * Set statistic page block
+       */
+    case EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC:
+      return Object.assign({}, state, {
+        head_block_number: action.payload.head_block_number,
+        last_irreversible_block_num: action.payload.last_irreversible_block_num,
+        recently_missed_count: action.payload.recently_missed_count,
+        time: action.payload.time,
+        active_witnesses: action.payload.active_witnesses,
+        active_committee_members: action.payload.active_committee_members,
+        block_interval: action.payload.block_interval,
+        current_supply: action.payload.current_supply,
+        confidential_supply: action.payload.confidential_supply,
+        avgTime: action.payload.avgTime,
+        graphBlockTimes: action.payload.graphBlockTimes,
+        graphBlockTransactions: action.payload.graphBlockTransactions,
+        trxPerSec: action.payload.trxPerSec,
+        trxPerBlock: action.payload.trxPerBlock,
+        updatedAt: action.payload.updatedAt,
+        coreAsset: action.payload.coreAsset
+      });
+    default:
+      /**
+       * We return the previous state in the default case
+       */
+      return state;
+  }
+}

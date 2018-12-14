@@ -1,6 +1,6 @@
 import {
-    MEMO_SET_VIEW_STATUS,
-    MEMO_RESET_VIEW_MODAL
+  MEMO_SET_VIEW_STATUS,
+  MEMO_RESET_VIEW_MODAL
 } from '../constants/ActionTypes';
 
 /**
@@ -12,28 +12,28 @@ import {
  * @type {{status: string, errors: Array, accountForLogin: null}}
  */
 let defaultState = {
-    memo: {
-        message: '',
-        sender: '',
-        receiver: '',
-        date: ''
-    },
-    isOpen: false
+  memo: {
+    message: '',
+    sender: '',
+    receiver: '',
+    date: ''
+  },
+  isOpen: false
 };
 
 export default function (state = defaultState, action) {
-    switch (action.type) {
-        case MEMO_SET_VIEW_STATUS:
-            return Object.assign({}, state, {
-                isOpen: action.isOpen,
-                memo: action.memo
-            });
-        case MEMO_RESET_VIEW_MODAL:
-            return defaultState;
-        default:
-            /**
-             * We return the previous state in the default case
-             */
-            return state;
-    }
-};
+  switch (action.type) {
+    case MEMO_SET_VIEW_STATUS:
+      return Object.assign({}, state, {
+        isOpen: action.isOpen,
+        memo: action.memo
+      });
+    case MEMO_RESET_VIEW_MODAL:
+      return defaultState;
+    default:
+      /**
+       * We return the previous state in the default case
+       */
+      return state;
+  }
+}

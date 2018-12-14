@@ -1,6 +1,5 @@
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 import {routerReducer} from 'react-router-redux';
-
 import AccountReducer from './AccountReducer';
 import SettingsReducer from './SettingsReducer';
 import PageSettingsReducer from './PageSettingsReducer';
@@ -21,53 +20,51 @@ import ExploreFeeScheduleReducer from './ExploreFeeScheduleReducer';
 import ExchangePageReducer from './ExchangePageReducer';
 import ReferralsPageReducer from './ReferralsPageReducer';
 import AccountVestingPageReducer from './AccountVestingPageReducer';
-
 import RockPaperScissorsReducer from './Games/RockPaperScissorsReducer';
 import SoftwareUpdateReducer from './SoftwareUpdateReducer';
 import NotificationsReducer from './NotificationsReducer';
 import HelpReducer from './HelpReducer';
 import MemoReducer from './MemoReducer';
-import { reducer as formReducer } from 'redux-form';
+import {
+  reducer as formReducer
+} from 'redux-form';
 
 
 const rootReducer = combineReducers({
-    routing: routerReducer,
-    account: AccountReducer,
-    voting: VotingReducer,
-    claimBtsReducer: ClaimBtsReducer,
-    settings: SettingsReducer,
-    pageSettings: PageSettingsReducer,
-    wallet: WalletReducer,
-    walletData: WalletDataReducer,
-    privateKey : PrivateKeyReducer,
-    addressIndex : AddressIndexReducer,
-    app: AppReducer,
-    loginPage: LoginPageReducer,
-    register: RegisterReducer,
-    dashboardPage: DashboardPageReducer,
-    explorerBlockchainPage: ExplorerBlockchainPageReducer,
-    exploreFeeSchedule: ExploreFeeScheduleReducer,
-    sendPage: SendPageReducer,
-    exchangePageReducer: ExchangePageReducer,
-    transactionConfirm: TransactionConfirmReducer,
-    referralsPageReducer: ReferralsPageReducer,
-    accountVestingPageReducer: AccountVestingPageReducer,
+  routing: routerReducer,
+  account: AccountReducer,
+  voting: VotingReducer,
+  claimBtsReducer: ClaimBtsReducer,
+  settings: SettingsReducer,
+  pageSettings: PageSettingsReducer,
+  wallet: WalletReducer,
+  walletData: WalletDataReducer,
+  privateKey: PrivateKeyReducer,
+  addressIndex: AddressIndexReducer,
+  app: AppReducer,
+  loginPage: LoginPageReducer,
+  register: RegisterReducer,
+  dashboardPage: DashboardPageReducer,
+  explorerBlockchainPage: ExplorerBlockchainPageReducer,
+  exploreFeeSchedule: ExploreFeeScheduleReducer,
+  sendPage: SendPageReducer,
+  exchangePageReducer: ExchangePageReducer,
+  transactionConfirm: TransactionConfirmReducer,
+  referralsPageReducer: ReferralsPageReducer,
+  accountVestingPageReducer: AccountVestingPageReducer,
+  softwareUpdateReducer: SoftwareUpdateReducer,
+  notificationsReducer: NotificationsReducer,
+  helpReducer: HelpReducer,
+  memoModal: MemoReducer,
 
-    softwareUpdateReducer: SoftwareUpdateReducer,
-    notificationsReducer: NotificationsReducer,
-    helpReducer: HelpReducer,
-    memoModal: MemoReducer,
-    
-    /**
-     * Games
-     */
-    rockPaperScissorsReducer: RockPaperScissorsReducer,
-
-    /**
-     * Common form reducer: npm redux-form
-     */
-    form: formReducer
-
+  /**
+   * Games
+   */
+  rockPaperScissorsReducer: RockPaperScissorsReducer,
+  /**
+   * Common form reducer: npm redux-form
+   */
+  form: formReducer
 });
 
 export default rootReducer;

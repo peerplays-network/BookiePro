@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * Account reducer
  *
@@ -232,7 +233,8 @@ export const EXCHANGE_SET_BALANCES = 'EXCHANGE_SET_BALANCES';
 /**
  * Transaction Confirm Modal
  *
- * const TRCONFIRM_SET_TRANSACTION - open modal, set transaction object, transaction type and button type
+ * const TRCONFIRM_SET_TRANSACTION - open modal, set transaction object, transaction type and
+ * button type
  * const TRCONFIRM_CLEAR - close and reset modal
  * const TRCONFIRM_PROPOSE - set propose btn status
  * const TRCONFIRM_TRCONFIRMED - set: The transaction was successful
@@ -294,7 +296,7 @@ export const TOGGLE_HELP_POPUP = 'TOGGLE_HELP_POPUP';
 
 /*
  * Memo Modal
- * 
+ *
  * const MEMO_SET_VIEW_STATUS - Show|hide the memo modal.
  */
 export const MEMO_SET_VIEW_STATUS = 'MEMO_SET_VIEW_STATUS';
