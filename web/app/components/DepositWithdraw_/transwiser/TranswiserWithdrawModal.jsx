@@ -34,7 +34,7 @@ class TranswiserWithdrawModal extends React.Component {
   }
 
   onWithdrawAmountChange({amount, asset}) {
-    if (!this.balanceAmount || this.balanceAmount == 0 || !amount || !asset) {
+    if (!this.balanceAmount || this.balanceAmount === 0 || !amount || !asset) {
       this.setState({withdraw_amount: 0, withdraw_amount_after_fee: 0, balance_error: true});
     } else {
       let should_receive = parseInt(amount.replace(/,/g, ''));

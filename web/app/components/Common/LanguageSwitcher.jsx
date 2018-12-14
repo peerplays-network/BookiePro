@@ -47,13 +47,6 @@ class LanguageSwitcher extends React.Component {
 
   render() {
     return null; //TODO::uncomment
-    return (
-      <div className='lang__wrap'>
-        <ul className='lang__list'>
-          {this.getItems()}
-        </ul>
-      </div>
-    );
   }
 }
 
