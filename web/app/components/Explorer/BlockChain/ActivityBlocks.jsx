@@ -6,9 +6,7 @@ import CustomScroll from 'react-custom-scroll';
 import SLoader from '../../Loaders/SLoader';
 
 class ActivityBlocks extends React.Component {
-
   render() {
-
     let {operations} = this.props;
 
     let operationData = operations.map((operation) => {

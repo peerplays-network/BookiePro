@@ -6,7 +6,6 @@ class ConcludedGameContent extends React.Component {
   render() {
     let {matchList} = this.props;
     let matchListContent = matchList.map((match) => {
-
       let gamesList = match.get('games').map((game) => {
         return (
           <tr key={ game.get('id') }>

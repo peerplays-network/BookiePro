@@ -190,11 +190,12 @@ class ExchangeMarketsTabs extends React.Component {
                 </div>
               </div>
               <div className='table__body'>
-                {(marketRowsDataLoaderIsShow)
-                  ? <div className='loader-splash'>
-                    <span className='loader loader-s'/>
-                  </div>
-                  : marketsRows
+                {
+                  (marketRowsDataLoaderIsShow)
+                    ? <div className='loader-splash'>
+                      <span className='loader loader-s'/>
+                    </div>
+                    : marketsRows
                 }
               </div>
             </div>

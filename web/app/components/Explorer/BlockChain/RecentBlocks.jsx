@@ -5,9 +5,7 @@ import {FormattedDate} from 'react-intl';
 import Translate from 'react-translate-component';
 
 class RecentBlocks extends React.Component {
-
   render() {
-
     let {latestBlocks} = this.props,
       blocks = latestBlocks.map((block) => {
         return (
@@ -64,7 +62,6 @@ class RecentBlocks extends React.Component {
             {blocks}
           </div>
         </div>
-
       </div>
     );
   }

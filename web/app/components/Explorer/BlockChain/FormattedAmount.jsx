@@ -1,7 +1,6 @@
 import React from 'react';
 import {FormattedNumber} from 'react-intl';
 import utils from 'common/utils';
-
 import AssetName from './AssetName';
 
 class FormattedAmount extends React.Component {

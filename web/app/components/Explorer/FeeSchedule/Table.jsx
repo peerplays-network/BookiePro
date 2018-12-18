@@ -47,8 +47,7 @@ class Table extends React.Component {
           className = 'tableCell' > {
               fee.feeType
             } </div>,
-          standartFee]); //,
-        // <div key={ `${key} memberFee` } className='tableCell text_r'>{fee.memberFee}</div >]);
+          standartFee]);
       });
       return fees.map((fee, index) => {
 
@@ -84,8 +83,6 @@ class Table extends React.Component {
             <div className='tableCell text_r'>
               <Translate content='explore.feeSchedule.table.standart_fee'/>
             </div>
-            {/*<div className="tableCell text_r">
-              <Translate content="explore.feeSchedule.table.lifetime_anual_member_fee" /></div>*/}
           </div>
           <div className='table__body'>
             {rows}

@@ -4,7 +4,6 @@ import Translate from 'react-translate-component';
 import Icon from '../Icon/Icon';
 
 class ExplorerCard extends React.Component {
-
   render() {
     return (
       <div className='grid-content'>
@@ -91,16 +90,6 @@ class Explorer extends React.Component {
               </div>
             </Link>
           </ExplorerCard>
-          {/*<ExplorerCard>
-              <Link to="blocks">
-                  <div>
-                      <Icon name="proposals" size="5x" fillClass="fill-black"/>
-                  </div>
-                  <div className="card-divider text-center">
-                      <Translate component="span" content="explorer.proposals.title" />
-                  </div>
-              </Link>
-          </ExplorerCard>*/}
         </div>
       </div>
     );

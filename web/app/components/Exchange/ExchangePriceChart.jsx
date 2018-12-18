@@ -5,9 +5,7 @@ import ExchangePageActions from 'actions/ExchangePageActions';
 import PeriodNameHelper from 'helpers/PeriodNameHelper';
 
 let Highstock = require('highcharts/highstock.src');
-
 require('highcharts/modules/exporting')(Highstock);
-
 // Apply the theme
 Highstock.setOptions(HighstockThemeService.getTheme());
 
@@ -143,37 +141,7 @@ class ExchangePriceChart extends React.Component {
             }
           }
 
-        ],
-        //                tooltip: {                    enabledIndicators: true,
-        //            shared: true,                    borderWidth: 0,
-        //  shadow: false,                    useHTML: true,                    padding:
-        // 0,                    formatter: function () {
-        //
-        //
-        //
-        //                        if (!this.points || this.points.length === 0) {
-        //                     return "";                        }
-        // console.log(this.points);                        return '<span>' +
-        // this.points[0].point.y + '</span>';                        //
-        //        //return ("<span style='color: " + colors[theme].tooltipColor
-        // +";fill: "+ colors[theme].tooltipFillColor + "'>" +
-        // //"<b>Open:&nbsp;&nbsp;&nbsp;</b>" +
-        // Highcharts.numberFormat(this.points[1].point.open, price_dec, ".", ",") +
-        //                    //"<b>&nbsp;&nbsp;High:&nbsp;&nbsp;&nbsp;</b>" +
-        // Highcharts.numberFormat(this.points[1].point.high, price_dec, ".", ",") +
-        //                    //"<b>&nbsp;&nbsp;Time:&nbsp;&nbsp;&nbsp;</b>" + time +
-        //                     //"<br/><b>Close:&nbsp;&nbsp;</b>" +
-        // Highcharts.numberFormat(this.points[1].point.close, price_dec, ".", ",") +
-        //                     //"<b>&nbsp;&nbsp;Low:&nbsp;&nbsp;&nbsp;&nbsp;</b>" +
-        // Highcharts.numberFormat(this.points[1].point.low, price_dec, ".", ",") +
-        //
-        // //"<b>&nbsp;&nbsp;&nbsp;Vol:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>" +
-        // Highcharts.numberFormat(this.points[1] ? this.points[0].point.y : 0, vol_dec,
-        // ".", ",") + "&nbsp;&nbsp;" + quoteSymbol + "<br/>"                        //+
-        // TA + "</span>");
-        //
-        //                    },                    positioner: function () {
-        //             return { x: 50, y: -5 };                    }                }
+        ]
       });
     } else {
       if (nextProps.highPriceList !== this.props.highPriceList) {
@@ -201,7 +169,6 @@ class ExchangePriceChart extends React.Component {
           min: minVal,
           max: currTime,
           range: currTime - minVal
-          //range: nextProps.priceChartCurrentPeriod ?  null : range
         });
         this.chart.xAxis[0].setExtremes();
       } else {
@@ -305,7 +272,6 @@ class ExchangePriceChart extends React.Component {
                 y: -15
               }
             }
-            //enabled: false
           },
           scrollbar: {
             barBackgroundColor: 'rgba(255,255,255,.3)',
@@ -330,70 +296,14 @@ class ExchangePriceChart extends React.Component {
               animation: false
             }
           ],
-          //                tooltip: {                    enabledIndicators: true,
-          //            shared: true,                    borderWidth: 0,
-          //  shadow: false,                    useHTML: true,                    padding:
-          // 0,                    formatter: function () {
-          //
-          //
-          //
-          //                        if (!this.points || this.points.length === 0) {
-          //                     return "";                        }
-          // console.log(this.points);                        return '<span>' +
-          // this.points[0].point.y + '</span>';                        //
-          //        //return ("<span style='color: " + colors[theme].tooltipColor
-          // +";fill: "+ colors[theme].tooltipFillColor + "'>" +
-          // //"<b>Open:&nbsp;&nbsp;&nbsp;</b>" +
-          // Highcharts.numberFormat(this.points[1].point.open, price_dec, ".", ",") +
-          //                    //"<b>&nbsp;&nbsp;High:&nbsp;&nbsp;&nbsp;</b>" +
-          // Highcharts.numberFormat(this.points[1].point.high, price_dec, ".", ",") +
-          //                    //"<b>&nbsp;&nbsp;Time:&nbsp;&nbsp;&nbsp;</b>" + time +
-          //                     //"<br/><b>Close:&nbsp;&nbsp;</b>" +
-          // Highcharts.numberFormat(this.points[1].point.close, price_dec, ".", ",") +
-          //                     //"<b>&nbsp;&nbsp;Low:&nbsp;&nbsp;&nbsp;&nbsp;</b>" +
-          // Highcharts.numberFormat(this.points[1].point.low, price_dec, ".", ",") +
-          //
-          // //"<b>&nbsp;&nbsp;&nbsp;Vol:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>" +
-          // Highcharts.numberFormat(this.points[1] ? this.points[0].point.y : 0, vol_dec,
-          // ".", ",") + "&nbsp;&nbsp;" + quoteSymbol + "<br/>"                        //+
-          // TA + "</span>");
-          //
-          //                    },                    positioner: function () {
-          //             return { x: 50, y: -5 };                    }                }
         });
       }
-      // } else {    this.chart.xAxis[0].setExtremes(nextProps.priceChartCurrentPeriod
-      // ? new Date().getTime() - 1000 * nextProps.priceChartCurrentPeriod:
-      // null,null);    this.chart.xAxis[0].update({        min:
-      // nextProps.priceChartCurrentPeriod ? new Date().getTime() - 1000 *
-      // nextProps.priceChartCurrentPeriod: null,        //range: undefined    }); }
     }
   }
 
   componentDidMount() {
-    //let data = this.props.highPriceList;
-    //    // create the chart this.chart = new Highstock.StockChart('chart01', {
-    // colors: [{        linearGradient: { x1: 1, y1: 0, x2: 0, y2: 1 },
-    // stops: [            [0, '#2f97e9'],            [1, '#00fe95']        ]    }],
-    //    chart: {        alignTicks: false,        margin: [0, 0, 40, 0],
-    // spacing: [0, 0, 0, 0]    },
-    //
-    //    rangeSelector: {        selected: 1    },
-    //
-    //    credits: {        enabled: false    },    title: {        text: ''    },
-    //  subtitle: {        text: ''    },    yAxis: {        gridLineColor:
-    // '#0f3748',        gridLineDashStyle: 'ShortDot',        gridLineWidth: 2,
-    //    opposite: false,        lineWidth: 160,        lineColor: "#283378",
-    //  labels: {            align: "left",            x: 3,            y: -2,
-    //      style: {                color: '#90afcf',                fontSize:
-    // '14px',                fontWeight: '500'            }        }    },
-    // xAxis: {        tickWidth: 0,        crosshair: {            color:
-    // 'rgba(255,255,255,.2)'        }    },    series: [{        type: 'column',
-    //     //name: 'AAPL Stock Volume',        data: data,        dataGrouping: {
-    //         units: [[                'week', // unit name                [1] //
-    // allowed multiples            ], [                'month',                [1,
-    // 2, 3, 4, 6]            ]]        }    }] });
   }
+
   onChangePeriod(period) {
     this.props.changePriceChartPeriod(period);
   }

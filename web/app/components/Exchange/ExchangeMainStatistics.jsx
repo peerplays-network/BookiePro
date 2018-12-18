@@ -5,7 +5,6 @@ import utils from 'common/utils';
 import AssetName from '../Explorer/BlockChain/AssetName';
 
 class ExchangeMainStatistics extends React.Component {
-
   render() {
     let {
       latestPriceText,

@@ -6,7 +6,6 @@ import counterpart from 'counterpart';
 import moment from 'moment-timezone';
 
 class Statistics extends React.Component {
-
   render() {
     let {
       head_block_number,

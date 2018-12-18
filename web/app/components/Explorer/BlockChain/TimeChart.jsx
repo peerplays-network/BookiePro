@@ -17,14 +17,12 @@ class TimeChart extends React.Component {
 
       if (series.xData.length) {
         let needRedraw = false;
-        nextProps
-          .graphBlockTimes
-          .forEach((point) => {
-            if (point['id'] > finalValue) {
-              needRedraw = true;
-              series.addPoint(point, false, series.xData.length >= 20);
-            }
-          });
+        nextProps.graphBlockTimes.forEach((point) => {
+          if (point['id'] > finalValue) {
+            needRedraw = true;
+            series.addPoint(point, false, series.xData.length >= 20);
+          }
+        });
 
         if (needRedraw) {
           this.chart.redraw();
@@ -81,7 +79,6 @@ class TimeChart extends React.Component {
         title: {
           text: null
         }
-
       },
       legend: {
         enabled: false
@@ -94,7 +91,6 @@ class TimeChart extends React.Component {
           }
         }
       },
-
       tooltip: {
         useHTML: true,
         backgroundColor: '#fff',

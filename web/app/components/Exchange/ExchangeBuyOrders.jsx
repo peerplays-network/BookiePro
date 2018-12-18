@@ -7,7 +7,6 @@ import CustomScroll from 'react-custom-scroll';
 import AssetName from '../Explorer/BlockChain/AssetName';
 
 class ExchangeBuyOrders extends React.Component {
-
   _createOrderRows() {
     let {bidsOrders, baseAsset, quoteAsset} = this.props,
       basePrecision = baseAsset

@@ -111,7 +111,6 @@ class TradeBlock extends React.Component {
           : 0
       });
     }
-
   }
 
   _onChangeTotal(e) {
@@ -139,7 +138,6 @@ class TradeBlock extends React.Component {
           ? market_utils.limitByPrecision(limitTotal / price, quoteAsset)
           : 0
       });
-
     }
   }
 
@@ -159,11 +157,6 @@ class TradeBlock extends React.Component {
 
     if (this.__validateOrder(true)) {
       let isPredictionMarket = (tradeAsset.bitasset && tradeAsset.bitasset.is_prediction_market); /* eslint-disable-line */
-
-      // TODO if (type === "sell" && isPredictionMarket && short) {     return
-      // this._createPredictionShort(buyAsset, sellAsset, buyAssetAmount,
-      // sellAssetAmount, feeID); }
-
       this.__createOrder(walletLocked);
     }
   }
@@ -192,8 +185,7 @@ class TradeBlock extends React.Component {
 
     if (price <= 0 || amount <= 0 || total <= 0) {
       if (showNotification) {
-        // this.props.setNotification({ 	message: "Price, amount and total should be
-        // specified", 	level: "error" });
+
       }
 
       return false;
@@ -204,8 +196,7 @@ class TradeBlock extends React.Component {
 
     if (balance.available < totalFormatted) {
       if (showNotification) {
-        // notify.addNotification({ 	message: "Insufficient funds to place order.
-        // Required: " + total + " " + tradeAsset.symbol, 	level: "error" });
+
       }
 
       return false;
@@ -216,8 +207,7 @@ class TradeBlock extends React.Component {
 
     if (balance.available < sum) {
       if (showNotification) {
-        // notify.addNotification({ 	message: "Insufficient funds pay fees. Required: "
-        // + (sum / paymentPrecision) + " " + tradeAsset.symbol, 	level: "error" });
+
       }
 
       return false;

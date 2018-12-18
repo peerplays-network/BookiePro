@@ -4,10 +4,9 @@ import HighstockThemeService from 'services/HighstockThemeService';
 import utils from 'common/utils';
 import counterpart from 'counterpart';
 import asset_utils from 'common/asset_utils';
+
 let Highstock = require('highcharts/highstock.src');
-
 require('highcharts/modules/exporting')(Highstock);
-
 // Apply the theme
 Highstock.setOptions(HighstockThemeService.getTheme());
 
@@ -167,7 +166,6 @@ class ExchangeDepthChart extends React.Component {
       this.chart = Highstock.chart('chart02', config);
 
     } else {
-
       this.chart.xAxis[0].removePlotLine('plot_line');
       this.chart.xAxis[0].addPlotLine({
         color: '#eeeeee',

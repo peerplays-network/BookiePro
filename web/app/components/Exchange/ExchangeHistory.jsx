@@ -24,7 +24,7 @@ export default class ExchangeHistory extends React.Component {
       let key = 0;
 
       return marketHistory
-        .filter((a) => { /* eslint-disable-line */
+        .filter(() => {
           index++;
           return index % 2 === 0;
         })

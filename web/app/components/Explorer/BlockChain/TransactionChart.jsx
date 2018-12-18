@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import counterpart from 'counterpart';
 
 class TransactionChart extends React.Component {
-
   shouldComponentUpdate(nextProps) {
     if (nextProps.graphBlockTransactions.length < 19) {
       return false;
@@ -75,7 +74,6 @@ class TransactionChart extends React.Component {
         gridLineWidth: 0,
         minorTickLength: 0,
         tickLength: 0,
-
         min: 0,
         minRange: 0.1,
         labels: {
@@ -84,7 +82,6 @@ class TransactionChart extends React.Component {
         title: {
           text: null
         }
-
       },
       legend: {
         enabled: false

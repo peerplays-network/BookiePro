@@ -5,7 +5,6 @@ import Immutable from 'immutable';
 import {connect} from 'react-redux';
 import {FormattedNumber} from 'react-intl';
 import utils from 'common/utils';
-
 import {accountSearch} from 'actions/RAccountActions';
 
 @connect((state) => {
@@ -111,13 +110,6 @@ class Accounts extends React.Component {
                   <Translate content='explore.accounts.percent_of_total_supply'/>
                 </div>
                 <div className='tableCell text_r'>
-                  {/*<div className="table__sortingWrap">
-                    <a href="" className="table__sorting">
-                      <span className="table__sortingIcon up active icon-arrow-top2"></span>
-                      <span className="table__sortingIcon table__sorting down icon-arrow-top2">
-                      </span>
-                    </a>
-                  </div>*/}
                 </div>
               </div>
               <div className='table__body'>

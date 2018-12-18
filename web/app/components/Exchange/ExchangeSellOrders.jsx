@@ -7,7 +7,6 @@ import CustomScroll from 'react-custom-scroll';
 import AssetName from '../Explorer/BlockChain/AssetName';
 
 class ExchangeSellOrders extends React.Component {
-
   _createOrderRows() {
     let {asksOrders, baseAsset, quoteAsset} = this.props,
       orderKey = 0,
@@ -40,8 +39,6 @@ class ExchangeSellOrders extends React.Component {
           quoteAsset,
           baseAsset.precision
         ),
-        // formattedAverageTotal = utils.price_to_text(order.totalValue /
-        // quotePrecision, baseAsset, quoteAsset, baseAsset.precision);
         formattedAverageTotal = utils.price_to_text(
           order.totalValue,
           baseAsset,

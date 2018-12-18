@@ -6,7 +6,6 @@ import Accounts from './Accounts/Accounts';
 import FeeSchedule from './FeeSchedule/FeeSchedule';
 
 class ExploreContainer extends React.Component {
-
   onChangeActiveMenuItem(e) {
     let selectedTab;
 
@@ -17,8 +16,6 @@ class ExploreContainer extends React.Component {
       case 1:
         selectedTab = 'accounts';
         break;
-        // case 2:  	selectedTab = 'assets'; 	break; case 3: 	selectedTab =
-        // 'smartcoins'; 	break;
       case 2:
         selectedTab = 'fee';
         break;
@@ -47,8 +44,6 @@ class ExploreContainer extends React.Component {
       case 'accounts':
         selectedIndex = 1;
         break;
-        // case 'assets':     selectedIndex = 2;     break; case 'smartcoins':
-        // selectedIndex = 3;     break;
       case 'fee':
         selectedIndex = 2;
         break;
@@ -62,21 +57,15 @@ class ExploreContainer extends React.Component {
           <div className='box'>
             <Tabs
               className='pt40'
-              onSelect={ this
-                .onChangeActiveMenuItem
-                .bind(this) }
+              onSelect={ this.onChangeActiveMenuItem.bind(this) }
               selectedIndex={ selectedIndex }>
               <TabList>
                 <Tab key='blockchain'><Translate content='explore.blockchain.title'/></Tab>
                 <Tab key='accounts'><Translate content='explore.accounts.title'/></Tab>
-                {/*<Tab key="assets"><Translate content="explore.basicAssets.title" /></Tab>*/}
-                {/*<Tab key="smartcoins"><Translate content="explore.smartCoins.title" /></Tab>*/}
                 <Tab key='fee'><Translate content='explore.feeSchedule.title'/></Tab>
               </TabList>
               <TabPanel><BlockChainContainer/></TabPanel>
               <TabPanel><Accounts/></TabPanel>
-              {/*<TabPanel><BasicAssets /></TabPanel>*/}
-              {/*<TabPanel><SmartCoins /></TabPanel>*/}
               <TabPanel><FeeSchedule/></TabPanel>
             </Tabs>
           </div>

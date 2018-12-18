@@ -12,7 +12,6 @@ import ExchangeHistory from './ExchangeHistory';
 import ExchangeOpenOrders from './ExchangeOpenOrders';
 
 class ExchangeContainer extends React.Component {
-
   componentDidMount() {
     let symbols = this.props.params.marketId.split('_');
     this.init(symbols[1], symbols[0]);
