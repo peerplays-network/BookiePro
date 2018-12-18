@@ -34,17 +34,11 @@ class OpenLedgerFiatDepositWithdrawCurrency extends React.Component {
   }
 
   getWithdrawModalId() {
-    return 'withdraw_fiat_openledger_' + this
-      .props
-      .receive_asset
-      .get('symbol');
+    return 'withdraw_fiat_openledger_' + this.props.receive_asset.get('symbol');
   }
 
   getDepositModalId() {
-    return 'deposit_fiat_openledger_' + this
-      .props
-      .receive_asset
-      .get('symbol');
+    return 'deposit_fiat_openledger_' + this.props.receive_asset.get('symbol');
   }
 
   onWithdraw() {
@@ -134,9 +128,7 @@ class OpenLedgerFiatDepositWithdrawCurrency extends React.Component {
         <td>
           <button
             className={ 'button outline' }
-            onClick={ this
-              .onWithdraw
-              .bind(this) }>
+            onClick={ this.onWithdraw.bind(this) }>
             <Translate content='gateway.withdraw'/>
           </button>
           <Modal id={ withdraw_modal_id } overlay={ true }>

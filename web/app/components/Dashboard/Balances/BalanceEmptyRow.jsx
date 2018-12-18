@@ -20,21 +20,11 @@ class BalanceEmptyRow extends React.Component {
             <Translate content='dashboard.n_a'/>
           </div>
         </td>
-        {/*<td className="td">*/}
-        {/*<div className="td__in">*/}
-        {/*<Translate content="dashboard.n_a" />*/}
-        {/*</div>*/}
-        {/*</td>*/}
         <td className='td'>
           <div className='td__in'>
             <Translate content='dashboard.n_a'/>
           </div>
         </td>
-        {/*<td className="td">*/}
-        {/*<div className="td__in">*/}
-        {/*<Translate content="dashboard.n_a" />*/}
-        {/*</div>*/}
-        {/*</td>*/}
         <td className='td td__action'>
           <div className='td__in'>
             —

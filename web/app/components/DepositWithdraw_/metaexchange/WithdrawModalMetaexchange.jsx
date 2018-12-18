@@ -10,10 +10,10 @@ import counterpart from 'counterpart';
 import AmountSelector from 'components/Utility/AmountSelector';
 import AccountActions from 'actions/AccountActions';
 import Post from 'common/formPost';
+import {ChainStore} from 'peerplaysjs-lib';
 
 @BindToChainState({keep_updating: true})
 class WithdrawModalMetaexchange extends React.Component {
-
   static propTypes = {
     gateway: React.PropTypes.string,
     api_root: React.PropTypes.string,
@@ -32,9 +32,7 @@ class WithdrawModalMetaexchange extends React.Component {
 
     var withdrawAddress = this.updateWithdrawalAddress();
 
-    let parts = props
-      .symbol_pair
-      .split('_');
+    let parts = props.symbol_pair.split('_');
 
     this.state = {
       base_symbol: parts[0],
@@ -90,7 +88,6 @@ class WithdrawModalMetaexchange extends React.Component {
         deposit_amount: amount
       })
       .then((reply) => reply.json().then((reply) => {
-        // console.log(reply);
         this.setState({quote: reply.result});
       }))
       .catch((err) => {
@@ -121,7 +118,6 @@ class WithdrawModalMetaexchange extends React.Component {
       if (reply.error) {
         this.setState({api_error: reply.message, memo: null});
       } else {
-        // this.props.issuer = reply.deposit_address;
         var apiReply = {
           api_error: '',
           memo: reply.memo,
@@ -142,7 +138,7 @@ class WithdrawModalMetaexchange extends React.Component {
       .replace(/,/g, '');
 
     if (this.state.memo) {
-      let sendTo = ChainStore.getAccount(this.state.deposit_address); // ToDo: FIX
+      let sendTo = ChainStore.getAccount(this.state.deposit_address);
       let asset = this.props.asset;
       let precision = utils.get_asset_precision(asset.get('precision'));
 
@@ -186,9 +182,11 @@ class WithdrawModalMetaexchange extends React.Component {
       titlePart = null;
 
     if (this.props.is_bts_withdraw) {
-      quotePart = <p>{this.state.quote_amount}
+      quotePart = (
+        <p>{this.state.quote_amount}
         BTS = {this.state.quote}
-        BTC</p>;
+        BTC</p>
+      );
       limitPart = <div style={ {
         paddingTop: 10
       } }>There is a withdrawal limit of {this.state.limit}
@@ -251,7 +249,6 @@ class WithdrawModalMetaexchange extends React.Component {
       </form>
     );
   }
-
 };
 
 export default WithdrawModalMetaexchange;

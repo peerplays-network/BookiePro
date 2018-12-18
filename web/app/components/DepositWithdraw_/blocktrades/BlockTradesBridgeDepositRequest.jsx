@@ -183,8 +183,10 @@ class BlockTradesBridgeDepositRequest extends React.Component {
             if (input_coin_info.backingCoinType !== pair.outputCoinType &&
                     output_coin_info.backingCoinType !== pair.inputCoinType) {
               // filter out mappings where one of the wallets is offline
-              if (active_wallets.indexOf(input_coin_info.walletType) !== -1 &&
-                        active_wallets.indexOf(output_coin_info.walletType) !== -1) {
+              if (
+                active_wallets.indexOf(input_coin_info.walletType) !== -1 &&
+                active_wallets.indexOf(output_coin_info.walletType) !== -1
+              ) {
                 if (
                   input_coin_info.walletType !== 'bitshares2' &&
                   output_coin_info.walletType === 'bitshares2'
@@ -333,7 +335,6 @@ class BlockTradesBridgeDepositRequest extends React.Component {
           this.state.deposit_output_coin_type
         );
 
-
         let new_deposit_limit = this.getCachedOrFreshDepositLimit(
           'deposit',
           this.state.deposit_input_coin_type,
@@ -359,7 +360,6 @@ class BlockTradesBridgeDepositRequest extends React.Component {
             new_deposit_estimated_output_amount
           );
         }
-
 
         let new_withdraw_limit = this.getCachedOrFreshDepositLimit(
           'withdraw',
@@ -614,7 +614,6 @@ class BlockTradesBridgeDepositRequest extends React.Component {
         {method: 'get', headers: new Headers({'Accept': 'application/json'})}
       ).then((response) => response.json());
       estimate_output_promise.then((reply) => {
-        // console.log("Reply: ", reply);
         if (reply.error) {
           if (
             this.state[deposit_or_withdraw + '_input_coin_type'] === input_coin_type &&
@@ -673,10 +672,13 @@ class BlockTradesBridgeDepositRequest extends React.Component {
       output_coin_type,
       output_amount
     ) {
-      let estimate_input_url = this.state.url +
-        '/estimate-input-amount?outputAmount=' + encodeURIComponent(output_amount) +
-        '&inputCoinType=' + encodeURIComponent(input_coin_type) +
-        '&outputCoinType=' + encodeURIComponent(output_coin_type);
+      let [encodedOutAmount, encodedInCoin, encodedOutCoin] = [
+        encodeURIComponent(output_amount),
+        encodeURIComponent(input_coin_type),
+        encodeURIComponent(output_coin_type)
+      ];
+      let estimate_input_url = this.state.url + '/estimate-input-amount?outputAmount=' +
+        encodedOutAmount + '&inputCoinType=' + encodedInCoin + '&outputCoinType=' + encodedOutCoin;
       let estimate_input_promise = fetch(
         estimate_input_url,
         {method: 'get', headers: new Headers({'Accept': 'application/json'})}
@@ -855,7 +857,7 @@ class BlockTradesBridgeDepositRequest extends React.Component {
 
     render() {
       if (!this.props.account || !this.props.issuer_account || !this.props.gateway) {
-        return  (<div></div>);
+        return (<div></div>);
       }
 
       let deposit_body, deposit_header, withdraw_body, withdraw_header, withdraw_modal_id;
@@ -976,8 +978,6 @@ class BlockTradesBridgeDepositRequest extends React.Component {
             } else {
               deposit_limit_element = null;
             }
-            //else
-            //    deposit_limit_element = <span>no limit</span>;
           }
 
           let deposit_error_element = null;
@@ -987,7 +987,6 @@ class BlockTradesBridgeDepositRequest extends React.Component {
               <div>{this.state.deposit_error}</div>
             );
           }
-
 
           deposit_header = (
             <thead>

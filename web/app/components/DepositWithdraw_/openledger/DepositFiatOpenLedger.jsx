@@ -7,7 +7,6 @@ import ZfApi from 'react-foundation-apps/src/utils/foundation-api';
 
 @BindToChainState({keep_updating: true})
 class DepositFiatOpenLedger extends React.Component {
-
   static propTypes = {
     account: ChainTypes.ChainAccount.isRequired,
     issuer_account: ChainTypes.ChainAccount.isRequired,
@@ -25,7 +24,7 @@ class DepositFiatOpenLedger extends React.Component {
     };
   }
 
-  onDepositAmountChange({amount}) { /* eslint-disable-line */
+  onDepositAmountChange({amount}) {
     this.setState({deposit_amount: amount});
   }
 
@@ -70,8 +69,7 @@ class DepositFiatOpenLedger extends React.Component {
   }
 
   onClose() {
-    // reset the state so the next time the dialog is launched, it doesn't show the
-    // old data
+    // reset the state so the next time the dialog is launched, it doesn't show the old data
     this.setState({deposit_amount: null, deposit_info: null, deposit_error: null});
     ZfApi.publish(this.props.modal_id, 'close');
   }
@@ -166,9 +164,6 @@ class DepositFiatOpenLedger extends React.Component {
                 className='button'
                 onClick={ this.onClose.bind(this) }
                 value={ counterpart.translate('account.perm.cancel') }/>
-              {/* <Trigger close={this.props.modal_id}>
-                <div className="button">Close</a>
-              </Trigger> */}
             </div>
           </div>
         </form>
@@ -202,9 +197,6 @@ class DepositFiatOpenLedger extends React.Component {
                 className=' button'
                 onClick={ this.onClose.bind(this) }
                 value={ counterpart.translate('account.perm.cancel') }/>
-              {/* <Trigger close={this.props.modal_id}>
-                  <div className="button"><Translate content="account.perm.cancel" /></div>
-              </Trigger> */}
             </div>
           </div>
         </form>

@@ -46,7 +46,6 @@ class TranswiserWithdrawModal extends React.Component {
         balance_error: amount > this.balanceAmount
       });
     }
-
   }
 
   onWithdrawAddressChanged(e) {
@@ -56,10 +55,7 @@ class TranswiserWithdrawModal extends React.Component {
   onSubmit() {
     let asset = this.props.sellAsset;
     let precision = utils.get_asset_precision(asset.get('precision'));
-    let amount = this
-      .state
-      .withdraw_amount
-      .replace(/,/g, '');
+    let amount = this.state.withdraw_amount.replace(/,/g, '');
     AccountActions.transfer(
       this.props.account.get('id'),
       this.props.issuerAccount.get('id'),
@@ -75,18 +71,11 @@ class TranswiserWithdrawModal extends React.Component {
 
   render() {
     let balance = null;
-    let account_balances = this
-      .props
-      .account
-      .get('balances')
-      .toJS();
+    let account_balances = this.props.account.get('balances').toJS();
     let asset_types = Object.keys(account_balances);
 
     if (asset_types.length > 0) {
-      let current_asset_id = this
-        .props
-        .sellAsset
-        .get('id');
+      let current_asset_id = this.props.sellAsset.get('id');
 
       if (current_asset_id) {
         balance = (

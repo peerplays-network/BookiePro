@@ -37,7 +37,6 @@ class RecentActivityRow extends React.Component {
      * @memberof RecentActivityRow
      */
   memoClick() {
-
     let publicKey = this.props.memo.from;
 
     // If you are the sender, then you require your private active key to decode the
@@ -109,8 +108,7 @@ class RecentActivityRow extends React.Component {
       receiver,
       description,
       block,
-      memo,
-      handleMemoClick /* eslint-disable-line */
+      memo
     } = this.props;
 
     let time = this.getTransactionDate(this.props.headBlockNumber, block, this.props.blockInterval);

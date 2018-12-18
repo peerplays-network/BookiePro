@@ -11,7 +11,6 @@ import LoadingIndicator from '../LoadingIndicator';
 
 @connectToStores
 export default class BlockTradesGateway extends React.Component {
-
   static getStores() {
     return [SettingsStore];
   };
@@ -54,11 +53,6 @@ export default class BlockTradesGateway extends React.Component {
       });
     }
   }
-
-  // shouldComponentUpdate(nextProps, nextState) {     if (nextState.action !==
-  // this.state.action) {         this.setState({             activeCoin:
-  // this._getActiveCoin(nextProps, nextState)         });     }     return true;
-  // }
 
   onSelectCoin(e) {
     this.setState({activeCoin: e.target.value});

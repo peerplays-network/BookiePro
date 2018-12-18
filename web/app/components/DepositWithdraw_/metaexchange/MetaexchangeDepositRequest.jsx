@@ -135,31 +135,6 @@ export default class MetaexchangeDepositRequest extends React.Component {
       <tr>
         <td>{this.props.deposit_asset}
         </td>
-
-        {/*<td>
-        <button className={"button outline"} onClick={this.onDeposit.bind(this)}>
-          <Translate content="gateway.deposit" />
-        </button>
-        <Modal id={deposit_modal_id} overlay={true}>
-            <Trigger close={deposit_modal_id}>
-                <a href="#" className="close-button">&times;</a>
-            </Trigger>
-            <br/>
-            <div className="grid-block vertical">
-                <DepositModalMetaexchange
-                    api_root={this.apiRoot}
-                    symbol_pair={this.props.symbol_pair}
-                    gateway={this.props.gateway}
-                    deposit_address={this.state.deposit_address}
-                    memo={this.state.memo}
-                    is_bts_deposit={this.props.is_bts_deposit}
-                    receive_asset_name={this.props.deposit_asset_name}
-                    receive_asset_symbol={this.props.deposit_asset}
-                    modal_id={deposit_modal_id} />
-            </div>
-        </Modal>
-      </td>*/}
-
         <td>
           <button className={ 'button outline' }>
             <a target='__blank' href={ this.getMetaLink() }>Open in metaexchange</a>

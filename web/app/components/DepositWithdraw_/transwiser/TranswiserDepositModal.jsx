@@ -50,13 +50,6 @@ class TranswiserDepositModal extends React.Component {
             <label><Translate content='gateway.scan_qr'/></label>
             <img alt='qr' src={ this.props.qr }/>
           </div>
-          {/*
-          <br/>
-          <div className="content-block">
-              <label><Translate content="transfer.fee" /></label>
-              {this.props.fee}
-          </div>
-          */}
           <div className='content-block'>
             <Trigger close={ this.props.modalId }>
               <div className='button'><Translate content='modal.ok'/></div>

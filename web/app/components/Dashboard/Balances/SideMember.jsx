@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-
 import AccountMemberService from 'services/AccountMemberService';
 import Translate from 'react-translate-component';
 import ReferralsPageActions from 'actions/ReferralsPageActions';

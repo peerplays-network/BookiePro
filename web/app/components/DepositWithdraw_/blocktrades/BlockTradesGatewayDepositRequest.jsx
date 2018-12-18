@@ -78,21 +78,17 @@ export default class BlockTradesGatewayDepositRequest extends React.Component {
       reply
         .json()
         .then((json) => {
-          // console.log( "reply: ", json )
           let address = {
             'address': json.inputAddress || 'unknown',
             'memo': json.inputMemo
           };
           this.addDepositAddress(address);
         }, (error) => { /* eslint-disable-line */
-          // console.log( "error: ",error  );
           this.addDepositAddress({'address': 'unknown', 'memo': null});
         });
     }, (error) => { /* eslint-disable-line */
-      // console.log( "error: ",error  );
       this.addDepositAddress({'address': 'unknown', 'memo': null});
     });
-
   }
 
   addDepositAddress(receive_address) {
@@ -108,8 +104,6 @@ export default class BlockTradesGatewayDepositRequest extends React.Component {
   }
 
   getWithdrawModalId() {
-    // console.log( "this.props.issuer: ", this.props.issuer_account.toJS() )
-    // console.log( "this.receive_asset.issuer: ", this.props.receive_asset.toJS() )
     return 'withdraw_asset_' + this.props.issuer_account.get('name') + '_'
       + this.props.receive_asset.get('symbol');
   }
@@ -132,7 +126,6 @@ export default class BlockTradesGatewayDepositRequest extends React.Component {
     }
 
     let account_balances_object = this.props.account.get('balances');
-
     let balance = '0 ' + this.props.receive_asset.get('symbol'); /* eslint-disable-line */
 
     if (this.props.deprecated_in_favor_of) {
@@ -156,13 +149,6 @@ export default class BlockTradesGatewayDepositRequest extends React.Component {
       }
     }
 
-    // let account_balances = account_balances_object.toJS(); let asset_types =
-    // Object.keys(account_balances); if (asset_types.length > 0) {     let
-    // current_asset_id = this.props.receive_asset.get('id');     if(
-    // current_asset_id )     {         balance = (<span><Translate component="span"
-    // content="transfer.available"/>: <BalanceComponent
-    // balance={account_balances[current_asset_id]}/></span>);     } }
-
     let receive_address = this.state.receive_address;
 
     if (!receive_address) {
@@ -184,11 +170,6 @@ export default class BlockTradesGatewayDepositRequest extends React.Component {
     let deposit_address_fragment = null;
     let deposit_memo = null;
 
-    // if (this.props.deprecated_in_favor_of) {     deposit_address_fragment =
-    // <span>please use {this.props.deprecated_in_favor_of.get('symbol')} instead.
-    // <span data-tip={this.props.deprecated_message} data-place="right"
-    // data-html={true}><Icon name="question-circle" /></span><ReactTooltip
-    // /></span>; } else {
     if (this.props.deposit_account) {
       deposit_address_fragment = (
         <span>
@@ -427,12 +408,6 @@ export default class BlockTradesGatewayDepositRequest extends React.Component {
                 </tr>
               </tbody>
             </table>
-
-            {/*<p>
-              When you withdraw {this.props.receive_asset.get('symbol')},
-              you will receive {this.props.deposit_asset} at a 1:1 ratio (minus fees).
-            </p>*/}
-
           </div>
           <div>
             <Translate component='h4' content='gateway.withdraw_inst'/>

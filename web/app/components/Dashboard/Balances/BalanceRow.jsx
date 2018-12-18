@@ -74,13 +74,9 @@ class BalanceRow extends React.Component {
   }
 
   render() {
-    let {precision, decimals, data} = this.props; // eslint-disable-line
+    let {data} = this.props;
 
     let showPopup = this.state.popup;
-    //TODO:: config f PIXEL.BITCOIN
-    let marketLink = (data.symbol == 'PIXEL.BITCOIN') // eslint-disable-line
-      ? (data.symbol + '_' + CORE_ASSET) // eslint-disable-line
-      : ('PIXEL.BITCOIN_' + data.symbol);
 
     return (
       <tr
@@ -105,23 +101,6 @@ class BalanceRow extends React.Component {
               maximumFractionDigits={ data.decimals }/>
           </div>
         </td>
-        {/*<td className="td">*/}
-        {/*<div className="td__in">*/}
-        {/*{data.orders === 0 ? 'N/A' :*/
-        }
-        {/*<FormattedNumber*/
-        }
-        {/*value={data.orders / data.precision}*/
-        }
-        {/*minimumFractionDigits={0}*/
-        }
-        {/*maximumFractionDigits={data.decimals}*/
-        }
-        {/*/>*/
-        }
-        {/*}*/}
-        {/*</div>*/}
-        {/*</td>*/}
         <td className='td'>
           <div className='td__in'>
             <FormattedNumber
@@ -131,23 +110,6 @@ class BalanceRow extends React.Component {
             />
           </div>
         </td>
-        {/*<td className="td">*/}
-        {/*<div className="td__in">*/}
-        {/*{(!data.totalValue || isNaN(data.totalValue / precision)) ? 'N/A' :*/
-        }
-        {/*<FormattedNumber*/
-        }
-        {/*value={data.totalValue / precision}*/
-        }
-        {/*minimumFractionDigits={0}*/
-        }
-        {/*maximumFractionDigits={this.props.currentDecimals}*/
-        }
-        {/*/>*/
-        }
-        {/*}*/}
-        {/*</div>*/}
-        {/*</td>*/}
         <td className='td td__action'>
           <div className='td__in'>
             <div className={ classNames('tableAction__dd', 'dd', {'open': showPopup}) }>
@@ -160,12 +122,6 @@ class BalanceRow extends React.Component {
               </a>
               <div className='tableAction__ddMenu ddMenu'>
                 <ul className='ddMenu__list'>
-                  {/*<li className="ddMenu__item" onClick={this.onMenuDepositWithDraw.bind(this, data.symbol)}>*/} {/* eslint-disable-line */}
-                  {/*<Link to="" className="ddMenu__link active">*/}
-                  {/*<span className="ddMenu__icon icon-arrows3"/>*/}
-                  {/*<Translate content="dashboard.balances_row_menu.deposit_withdraw" />*/}
-                  {/*</Link>*/}
-                  {/*</li>*/}
                   <li className='ddMenu__item'>
                     <Link
                       className='ddMenu__link active'
@@ -175,13 +131,6 @@ class BalanceRow extends React.Component {
                       <Translate content='dashboard.balances_row_menu.send'/>
                     </Link>
                   </li>
-                  {/*<li className="ddMenu__item">
-                    <Link to={"/exchange/" + marketLink} className="ddMenu__link active">
-                      <span className="ddMenu__icon chart icon-chart2"/>
-                      <Translate content="dashboard.balances_row_menu.markets" />
-                    </Link>
-                  </li>*/}
-
                   {(this.props.showHideOption
                     ? <li className='ddMenu__item'>
                       <a href='' className='ddMenu__link active' onClick={ this.changeVisible }> {/* eslint-disable-line */}
@@ -194,7 +143,6 @@ class BalanceRow extends React.Component {
                       </a>
                     </li>
                     : null)}
-
                   <div className='tableAction__ddMenu ddMenu'>
                     <ul className='ddMenu__list'></ul>
                   </div>

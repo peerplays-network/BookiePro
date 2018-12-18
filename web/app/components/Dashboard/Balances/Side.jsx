@@ -14,15 +14,7 @@ import SideVesting from './SideVesting';
 //TODO:: Derived Data
 @connect((state) => {
   return {
-    //side: state.dashboardPage.side
     account: state.app.account,
-    // precision: state.dashboardPage.precision, decimals:
-    // state.dashboardPage.decimals, assetSymbol: state.dashboardPage.assetSymbol,
-    // coreSymbol: state.dashboardPage.coreSymbol, coreTokenTotal:
-    // state.dashboardPage.coreTokenTotal, fiatTotal: state.dashboardPage.fiatTotal,
-    // cryptoTokensTotal: state.dashboardPage.cryptoTokensTotal, smartCoinTotal:
-    // state.dashboardPage.smartCoinTotal, otherAssetsTotal:
-    // state.dashboardPage.otherAssetsTotal,
     availableBalances: state.dashboardPage.availableBalances
   };
 }, {
@@ -33,19 +25,9 @@ import SideVesting from './SideVesting';
 class Side extends React.Component {
 
   componentWillMount() {
-    //TODO::
     this.props.fetchCurrentBalance();
   }
-  //
-  // onHandleChangeUnit() {
-  //
-  //     setTimeout(() => {         this.props.updateData();     }, 0);
-  //
-  // } navigateToAdvancedOptions() {
-  //
-  //     this.props.navigateToDashboardAdvancedOptions();
-  //
-  // }
+
   onLogoutClick(e) {
     e.preventDefault();
     this.props.logout();
@@ -57,22 +39,8 @@ class Side extends React.Component {
 
   render() {
     let {
-      /*precision,
-      assetSymbol,
-      coreSymbol,
-      coreTokenTotal,
-      cryptoTokensTotal,
-      otherAssetsTotal,
-      decimals,*/
       availableBalances,
-      // hideDepositWithdrawButton
     } = this.props;
-    // let decimals = Math.max(0, precision) - coreSymbol.indexOf("BTC") === -1 ?
-    // precision : 4; console.log(decimals) let currentBalance = coreTokenTotal +
-    // cryptoTokensTotal;
-    //
-    // assetSymbol = asset_utils.getSymbol(assetSymbol); coreSymbol =
-    // asset_utils.getSymbol(coreSymbol);
 
     let availableKeys = Object.keys(availableBalances);
 
@@ -147,86 +115,8 @@ class Side extends React.Component {
               </div>
             );
           })}
-
-          {/*{(hideDepositWithdrawButton === true) ?*/
-          }
-          {/*''*/
-          }
-          {/*:*/
-          }
-          {/*<div className="aside__btnWrap">*/
-          }
-          {/*<button
-            className="btn aside__btn"
-            type="button"
-            onClick={this.navigateToDepositWithDraw.bind(this)}
-          >*/
-          }
-          {/*<span className="aside__btnIcon icon-arrows3"></span>*/
-          }
-          {/*<Translate component="span" className="" content="dashboard.side.deposit_withdraw" />*/
-          }
-          {/*</button>*/
-          }
-          {/*</div>*/
-          }
-          {/*}*/}
         </div>
-        <SideVesting/> {/*<SideMember />*/}
-        {/*
-        <div className="aside__balance bb">
-            <div className="aside__balanceLabel">Current Balance:</div>
-            <div className="aside__balanceSum">
-                <div className="aside__balanceVal">
-                    <FormattedNumber
-                        value={
-                          (currentBalance &&
-                          !isNaN(currentBalance / precision))
-                            ?(currentBalance / precision)
-                            : 0
-                          }
-                        minimumFractionDigits={0}
-                        maximumFractionDigits={decimals}
-                    />
-                    <span className="aside__balanceValUnit">{assetSymbol}</span></div>
-                <UnitSelect onHandleChange={this.onHandleChangeUnit.bind(this)}/>
-            </div>
-        </div> */}
-        {/*
-        <div className="aside__balance bb">
-            <dl className="aside__curList">
-                <dt className="aside__curName aside__curName-main">
-                    <img src="images/bitsahres/p.png" alt="" className="aside__curPic" />
-                    Core Tokens ({coreSymbol})
-                </dt>
-
-                <dd className="aside__curVal aside__curVal-main aside__curVal-pic">
-                    <FormattedNumber
-                        value={coreTokenTotal / precision}
-                        minimumFractionDigits={0}
-                        maximumFractionDigits={decimals}
-                    /> <span>{assetSymbol}</span>
-                </dd>
-
-                <dt className="aside__curName">CryptoCurrencies</dt>
-                <dd className="aside__curVal">
-                    <FormattedNumber
-                        value={cryptoTokensTotal / precision}
-                        minimumFractionDigits={0}
-                        maximumFractionDigits={decimals}
-                    /> <span>{assetSymbol}</span>
-                </dd>
-
-              <dt className="aside__curName">Others Assets</dt>
-                <dd className="aside__curVal">
-                    <FormattedNumber
-                        value={otherAssetsTotal / precision}
-                        minimumFractionDigits={0}
-                        maximumFractionDigits={decimals}
-                    /> <span>{assetSymbol}</span>
-                </dd>
-            </dl>
-        </div>*/
+        <SideVesting/>
         }
       </aside>
     );

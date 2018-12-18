@@ -4,7 +4,6 @@ import counterpart from 'counterpart';
 import Side from '../Dashboard/Balances/Side';
 
 class DepositWithdrawContainer extends React.Component {
-
   render() {
     return (
       <div className='main'>
@@ -117,20 +116,6 @@ class DepositWithdrawContainer extends React.Component {
                   </div>
                 </div>
                 <div className='table__body'>
-                  {/*<div className="tableRow">*/}
-                  {/*<div className="tableCell">Deposit</div>*/}
-                  {/*<div className="tableCell text__gray text_r">Feb 16, 2016</div>*/}
-                  {/*<div className="tableCell ">Pending</div>*/}
-                  {/*<div className="tableCell ">BTC</div>*/}
-                  {/*<div className="tableCell text_r">5</div>*/}
-                  {/*</div>*/}
-                  {/*<div className="tableRow">*/}
-                  {/*<div className="tableCell">Withdrawal</div>*/}
-                  {/*<div className="tableCell text__gray text_r">Feb 16, 2016</div>*/}
-                  {/*<div className="tableCell ">Done</div>*/}
-                  {/*<div className="tableCell ">BTC</div>*/}
-                  {/*<div className="tableCell text_r">6</div>*/}
-                  {/*</div>*/}
                 </div>
               </div>
             </div>

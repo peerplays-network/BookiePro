@@ -72,11 +72,6 @@ class Balances extends React.Component {
       <section className='content content-aside'>
         <div className='box'>
           <div className='content__head db'>
-            {/*<h1 className="content__headTitle pull-left"><Translate content="dashboard.balances"/></h1>*/} {/* eslint-disable-line */}
-            {/*<button type="button" className="btn btn-content__head">
-              <span classNam∏e="content__headBtnIcon icon-arrows3"/>
-              <span className=""><Translate content="dashboard.deposit_withdraw"/></span>
-            </button>*/}
             <button
               type='button'
               className='btn btn-content__head pull-right'
@@ -89,23 +84,6 @@ class Balances extends React.Component {
                 <Translate content='dashboard.send'/>
               </span>
             </button>
-            {/*<h1
-                className="content__headTitle pull-left">
-                <Translate content="dashboard.balances"/>
-              </h1>
-            <h1 className="content__headTitle pull-left">
-              <Translate content="dashboard.balances"/>
-            </h1>
-            <button
-              type="button"
-              className="btn btn-content__head"
-              onClick={this.onNavigateToMarkets.bind(this)}
-            >
-            <span className="content__headBtnIcon icon-chart"/>
-              <span className="">
-                <Translate content="dashboard.markets"/>
-              </span>
-            </button>*/}
           </div>
 
           <CoreBalanceList
@@ -155,9 +133,6 @@ class Balances extends React.Component {
               }
             </div>
           }
-
-          {/*<OpenOrdersList />*/}
-
           <RecentActivityList/>
           <div className='h100'></div>
         </div>

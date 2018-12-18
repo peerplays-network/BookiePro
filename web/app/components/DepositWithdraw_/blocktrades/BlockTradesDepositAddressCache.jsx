@@ -4,8 +4,6 @@ class BlockTradesDepositAddressCache {
   constructor() {
     // increment this to force generating new addresses for all mappings
     this.current_blocktrades_address_cache_version_string = '1';
-    // let wallet = WalletDb.getWallet(); delete wallet.deposit_keys["blocktrades"];
-    // delete wallet.deposit_keys["openledger"]; WalletDb._updateWallet();
   }
 
   getIndexForDepositKeyInExchange(account_name, input_coin_type, output_coin_type) {
@@ -22,7 +20,6 @@ class BlockTradesDepositAddressCache {
     );
   }
 
-  // returns {"address": address, "memo": memo}, with a null memo if not
   // applicable
   getCachedInputAddress(exchange_name, account_name, input_coin_type, output_coin_type) {
     let wallet = WalletDb.getWallet();

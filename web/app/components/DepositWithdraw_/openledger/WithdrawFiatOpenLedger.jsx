@@ -11,7 +11,6 @@ import AccountActions from 'actions/AccountActions';
 
 @BindToChainState({keep_updating: true})
 class WithdrawFiatOpenLedger extends React.Component {
-
   static propTypes = {
     account: ChainTypes.ChainAccount.isRequired,
     issuer_account: ChainTypes.ChainAccount.isRequired,
@@ -40,10 +39,7 @@ class WithdrawFiatOpenLedger extends React.Component {
       'jsonrpc': '2.0',
       'method': 'getMemoForFiatWithdrawal',
       'params': {
-        'bitsharesAccountName': this
-          .props
-          .account
-          .get('name'),
+        'bitsharesAccountName': this.props.account.get('name'),
         'currency': this.props.deposit_asset,
         'amount': amount
       },

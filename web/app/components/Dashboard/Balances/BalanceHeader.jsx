@@ -34,25 +34,6 @@ class BalanceHeader extends React.Component {
         <th className='th'>
           <div className='th__in'>Total Value ({unit})</div>
         </th>
-        {/*<th className="th">
-            <div className="th__in">
-              <div className="tableValue__dd dd">
-                <a href="" className="tableValue__trigger ddTrigger js_dropDown">
-                <span className="ddTrigger__text">Total Value ({unit})</span>
-                </a>
-                <div className="tableValue__ddMenu ddMenu">
-                  <ul className="ddMenu__list">
-                    <li className="ddMenu__item">
-                      <a href="" className="ddMenu__link js-sel_dropDown">Total Value (STEEM)</a>
-                    </li>
-                    <li className="ddMenu__item">
-                      <a href="" className="ddMenu__link js-sel_dropDown">Test2</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </th>*/}
         <th className='th th__action'>
           <div className='th__in'>Actions</div>
         </th>

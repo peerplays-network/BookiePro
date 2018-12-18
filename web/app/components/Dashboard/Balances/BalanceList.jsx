@@ -58,21 +58,11 @@ class BalanceList extends React.Component {
                   <Translate content='dashboard.availableBalance'/>
                 </div>
               </th>
-              {/*<th className="th">*/}
-              {/*<div className="th__in">
-                <Translate content="dashboard.openOrders" />
-              </div>*/}
-              {/*</th>*/}
               <th className='th'>
                 <div className='th__in'>
                   <Translate content='dashboard.totalBalance'/>
                 </div>
               </th>
-              {/*<th className="th">*/}
-              {/*<div className="th__in">
-                <Translate content="dashboard.totalValue" unit={asset_utils.getSymbol(unit)} />
-              </div>*/}
-              {/*</th>*/}
               <th className='th th__action'>
                 <div className='th__in'>
                   <Translate content='dashboard.actions'/>

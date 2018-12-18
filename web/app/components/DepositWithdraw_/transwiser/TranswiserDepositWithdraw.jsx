@@ -42,7 +42,6 @@ class TranswiserDepositWithdraw extends React.Component {
       headers: new Headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
     }).then((reply) => {
       reply.json().then((json) => {
-        // console.log( "reply: ", json )
         let setting = json[pair];
 
         if (setting) {
@@ -75,7 +74,6 @@ class TranswiserDepositWithdraw extends React.Component {
   }
 
   onWithdraw() {
-    // console.log('onWithdraw', this.getWithdrawModalId());
     ZfApi.publish(this.getWithdrawModalId(), 'open');
   }
 
