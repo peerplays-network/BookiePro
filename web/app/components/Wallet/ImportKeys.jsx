@@ -10,12 +10,10 @@ import WalletCreate from 'components/Wallet/WalletCreate';
 import LoadingIndicator from 'components/LoadingIndicator';
 import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
-
 import BalanceClaimActiveActions from 'actions/BalanceClaimActiveActions';
 import BalanceClaimAssetTotal from 'components/Wallet/BalanceClaimAssetTotal';
 import WalletDb from 'stores/WalletDb';
 import ImportKeysStore from 'stores/ImportKeysStore';
-
 import GenesisFilter from 'chain/GenesisFilter';
 
 require('./ImportKeys.scss');
@@ -24,7 +22,6 @@ var import_keys_assert_checking = false;
 
 @connectToStores
 export default class ImportKeys extends Component {
-
   constructor() {
     super();
     this.state = this._getInitialState();
@@ -36,9 +33,7 @@ export default class ImportKeys extends Component {
 
   static getPropsFromStores() {
     return {
-      importing: ImportKeysStore
-        .getState()
-        .importing
+      importing: ImportKeysStore.getState().importing
     };
   }
 
@@ -49,7 +44,6 @@ export default class ImportKeys extends Component {
   _getInitialState(keep_file_name = false) {
     return {
       keys_to_account: {}, no_file: true, account_keys: [],
-      //brainkey: null, encrypted_brainkey: null,
       reset_file_name: keep_file_name
         ? this.state.reset_file_name
         : Date.now(),
@@ -223,7 +217,6 @@ export default class ImportKeys extends Component {
         }
 
         if (status.success) {
-          // var { account_keys } = event.data // if using worker thread
           update_state({
             password_checksum,
             account_keys,
@@ -289,9 +282,7 @@ export default class ImportKeys extends Component {
     var savePubkeyAccount = function (pubkey, account_name) {
       //replace BTS with GPH
       pubkey = ChainConfig.address_prefix + pubkey.substring(3);
-      var address = PublicKey
-        .fromPublicKeyString(pubkey)
-        .toAddressString();
+      var address = PublicKey.fromPublicKeyString(pubkey).toAddressString();
       var addresses = account_addresses[account_name] || [];
       address = 'BTS' + address.substring(3);
       //DEBUG console.log("... address",address,account_name)
@@ -306,7 +297,6 @@ export default class ImportKeys extends Component {
       }
 
       for (let element of json_contents) {
-
         if (
           'key_record_type' === element.type &&
           element.data.account_address &&
@@ -389,7 +379,6 @@ export default class ImportKeys extends Component {
     // can't use it now.
     this.setState({
       password_checksum, account_keys
-      //encrypted_brainkey
     });
   }
 
@@ -399,7 +388,6 @@ export default class ImportKeys extends Component {
     }
 
     var pwNode = this.refs.password;
-    // if(pwNode) pwNode.focus()
     var password = pwNode
       ? pwNode.value
       : '';
@@ -422,7 +410,6 @@ export default class ImportKeys extends Component {
       reset_password: Date.now(),
       import_password_message: counterpart.translate('wallet.import_pass_match')
     }, () => this._decryptPrivateKeys(password));
-    // setTimeout(, 250)
   }
 
   _decryptPrivateKeys(password) {
@@ -442,9 +429,7 @@ export default class ImportKeys extends Component {
         continue;
       }
 
-      var account_name = account
-        .account_name
-        .trim();
+      var account_name = account.account_name.trim();
       var same_prefix_regex = new RegExp('^' + ChainConfig.address_prefix);
 
       for (let i = 0; i < account.encrypted_private_keys.length; i++) {
@@ -490,8 +475,6 @@ export default class ImportKeys extends Component {
             // shown.  It was probably caused by garbage collection.
               public_key_string = ChainConfig.address_prefix + public_key_string.substring(3);
             }
-
-            ;
           }
 
           this.setState[public_key_string] = true;
@@ -523,9 +506,6 @@ export default class ImportKeys extends Component {
       }
     }
 
-    // var enc_brainkey = this.state.encrypted_brainkey if(enc_brainkey){
-    // this.setState({        brainkey: password_aes.decryptHexToText(enc_brainkey)
-    //   }) }
     this.setState({
       import_file_message: null,
       import_password_message: null,
@@ -535,9 +515,7 @@ export default class ImportKeys extends Component {
 
   _saveImport(e) {
     e.preventDefault();
-    var keys = PrivateKeyStore
-      .getState()
-      .keys;
+    var keys = PrivateKeyStore.getState().keys;
     var dups = {};
 
     for (let public_key_string in this.state.imported_keys_public) {
@@ -564,13 +542,11 @@ export default class ImportKeys extends Component {
       }
     }
 
-    WalletUnlockActions
-      .unlock()
-      .then(() => {
-        ImportKeysStore.importing(true);
-        // show the loading indicator
-        setTimeout(() => this.saveImport(), 200);
-      });
+    WalletUnlockActions.unlock().then(() => {
+      ImportKeysStore.importing(true);
+      // show the loading indicator
+      setTimeout(() => this.saveImport(), 200);
+    });
   }
 
   saveImport() {
@@ -587,25 +563,22 @@ export default class ImportKeys extends Component {
     }
 
     this.reset();
-    WalletDb
-      .importKeysWorker(private_key_objs)
-      .then(() => {
-        ImportKeysStore.importing(false);
-        var import_count = private_key_objs.length;
-        notify.success(`Successfully imported ${import_count} keys.`);
-        this.onCancel();
-      })
-      .catch((error) => {
-        console.log('error:', error);
-        ImportKeysStore.importing(false);
-        var message = error;
+    WalletDb.importKeysWorker(private_key_objs).then(() => {
+      ImportKeysStore.importing(false);
+      var import_count = private_key_objs.length;
+      notify.success(`Successfully imported ${import_count} keys.`);
+      this.onCancel();
+    }).catch((error) => {
+      console.log('error:', error);
+      ImportKeysStore.importing(false);
+      var message = error;
 
-        try {
-          message = error.target.error.message;
-        } catch (e) {}
+      try {
+        message = error.target.error.message;
+      } catch (e) {}
 
-        notify.error(`Key import error: ${message}`);
-      });
+      notify.error(`Key import error: ${message}`);
+    });
   }
 
   addByPattern(contents) {
@@ -620,9 +593,7 @@ export default class ImportKeys extends Component {
     for (let wif of contents.match(wif_regex) || []) {
       try {
         var private_key = PrivateKey.fromWif(wif); //could throw and error
-        var private_plainhex = private_key
-          .toBuffer()
-          .toString('hex');
+        var private_plainhex = private_key.toBuffer().toString('hex');
         var public_key = private_key.toPublicKey(); // S L O W
         var public_key_string = public_key.toPublicKeyString();
         this.setState.imported_keys_public[public_key_string] = true;
@@ -650,16 +621,10 @@ export default class ImportKeys extends Component {
     return count;
   }
 
-  // toggleImportType(type) {     if (!type) {         return;     }
-  // console.log("toggleImportType", type);     this.setState({
-  // privateKey: type === "privateKey"     }); }
-
   render() {
     var {privateKey} = this.props;
     var {keys_to_account} = this.state;
-    var key_count = Object
-      .keys(keys_to_account)
-      .length;
+    var key_count = Object.keys(keys_to_account).length;
     var account_keycount = this.getImportAccountKeyCount(keys_to_account);
 
     // Create wallet prior to the import keys (keeps layout clean)
@@ -688,8 +653,7 @@ export default class ImportKeys extends Component {
           <tr key={ status.account_name }>
             <td>{status.account_name}</td>
             <td>{filtering
-              ? <span>Filtering {Math.round((status.count / status.total) * 100)}
-                    %
+              ? <span>Filtering {Math.round((status.count / status.total) * 100)}%
               </span>
               : <span>{status.count}</span>
             }</td>
@@ -721,9 +685,7 @@ export default class ImportKeys extends Component {
     let cancelButton = (
       <div
         className='button success'
-        onClick={ this
-          .onCancel
-          .bind(this) }>
+        onClick={ this.onCancel.bind(this) }>
         <Translate content='wallet.cancel'/>
       </div>
     );
@@ -734,13 +696,15 @@ export default class ImportKeys extends Component {
       <div>
         {/* Key file upload */}
         <div>
-          <span>{this.state.key_text_message
-            ? this.state.key_text_message
-            : <KeyCount key_count={ key_count }/>
+          <span>{
+            this.state.key_text_message
+              ? this.state.key_text_message
+              : <KeyCount key_count={ key_count }/>
           }</span>
-          {!import_ready
-            ? null
-            : <span>
+          {
+            !import_ready
+              ? null
+              : <span>
               (<a onClick={ this.reset.bind(this) }>reset</a>)</span> // eslint-disable-line
           }
         </div>
@@ -778,9 +742,7 @@ export default class ImportKeys extends Component {
                 {privateKey
                   ? (
                     <form
-                      onSubmit={ this
-                        .onWif
-                        .bind(this) }>
+                      onSubmit={ this.onWif.bind(this) }>
                       <Translate component='label' content='wallet.paste_private'/>
                       <input ref='wifInput' type='password' id='wif' tabIndex={ tabIndex++ }/>
                       <button className='button' type='submit'>
@@ -791,9 +753,7 @@ export default class ImportKeys extends Component {
                   )
                   : (
                     <form
-                      onSubmit={ this
-                        ._passwordCheck
-                        .bind(this) }>
+                      onSubmit={ this._passwordCheck.bind(this) }>
                       <label><Translate content='wallet.bts_09_export'/> {this.state.no_file
                         ? null
                         : <span>&nbsp; (<a onClick={ this.reset.bind(this) }>Reset</a>)</span>} { /* eslint-disable-line */}
@@ -806,9 +766,7 @@ export default class ImportKeys extends Component {
                           marginBottom: 15
                         } }
                         key={ this.state.reset_file_name }
-                        onChange={ this
-                          .upload
-                          .bind(this) }/>
+                        onChange={ this.upload.bind(this) }/>
                       <div>{this.state.import_file_message}</div>
                       {!this.state.no_file
                         ? (
@@ -862,7 +820,6 @@ export default class ImportKeys extends Component {
               </div>
             </div>
             <br/>
-
             <div>
               <div className='button-group content-block'>
                 <div

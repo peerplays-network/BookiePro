@@ -4,7 +4,6 @@ import Immutable from 'immutable';
 import cname from 'classnames';
 
 export default class PasswordConfirm extends Component {
-
     static propTypes = {
       // Called everytime a valid password is provided and matches a confirmed password
       onValid: PropTypes.func.isRequired

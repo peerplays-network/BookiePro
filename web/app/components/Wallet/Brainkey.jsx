@@ -9,7 +9,6 @@ import ChainTypes from 'components/Utility/ChainTypes';
 import BrainkeyInput from 'components/Wallet/BrainkeyInput';
 import {pairs} from 'lodash';
 import Translate from 'react-translate-component';
-
 import AccountCard from 'components/Dashboard/AccountCard';
 
 class BrainkeyBaseComponent extends Component {
@@ -17,9 +16,7 @@ class BrainkeyBaseComponent extends Component {
     return [BrainkeyStoreFactory.getInstance('wmc')];
   }
   static getPropsFromStores() {
-    var props = BrainkeyStoreFactory
-      .getInstance('wmc')
-      .getState();
+    var props = BrainkeyStoreFactory.getInstance('wmc').getState();
     return props;
   }
 }
@@ -45,40 +42,37 @@ export default class Brainkey extends BrainkeyBaseComponent {
 @connectToStores
 class ViewBrainkey extends BrainkeyBaseComponent {
   render() {
-    var short_brnkey = this
-      .props
-      .brnkey
-      .substring(0, 10);
+    var short_brnkey = this.props.brnkey.substring(0, 10);
     console.log('this.props.account_ids.toArray()', this.props.account_ids.toArray());
-    return <span>
-      <div>
-        <span className=''>{short_brnkey}</span>&hellip;</div>
-      <p></p>
-      {this.props.account_ids.size
-        ? <BrainkeyAccounts accounts={ Immutable.List(this.props.account_ids.toArray()) }/>
-        : <h5><Translate content='wallet.no_accounts'/></h5>}
-    </span>;
+    return (
+      <span>
+        <div>
+          <span className=''>{short_brnkey}</span>&hellip;</div>
+        <p></p>
+        {
+          this.props.account_ids.size
+            ? <BrainkeyAccounts accounts={ Immutable.List(this.props.account_ids.toArray()) }/>
+            : <h5><Translate content='wallet.no_accounts'/></h5>
+        }
+      </span>
+    );
   }
 };
 @BindToChainState({keep_updating: true})
 class BrainkeyAccounts {
-
   static propTypes = {
     accounts: ChainTypes.ChainAccountsList.isRequired
   }
 
   render() {
-    var rows = pairs(this.props.accounts)
-      .filter((account) => !!account[1])
-      .map((account) => account[1]
-        .get('name'))
-      .sort()
-      .map((name) => <AccountCard key={ name } account={ name }/>);
+    var rows = pairs(this.props.accounts).filter(
+      (account) => !!account[1]).map((account) => account[1].get('name')).sort().map(
+      (name) => <AccountCard key={ name } account={ name }/>
+    );
     return <span>
       {rows}
     </span>;
   }
-
 }
 
 export class BrainkeyInputAccept extends Component {
@@ -100,17 +94,13 @@ export class BrainkeyInputAccept extends Component {
       <span className='grid-container'>
         <div>
           <BrainkeyInput
-            onChange={ this
-              .onBrainkeyChange
-              .bind(this) }/>
+            onChange={ this.onBrainkeyChange.bind(this) }/>
         </div>
         <div
           className={ cname('button success', {
             disabled: !ready
           }) }
-          onClick={ this
-            .onAccept
-            .bind(this) }><Translate content='wallet.accept'/></div>
+          onClick={ this.onAccept.bind(this) }><Translate content='wallet.accept'/></div>
       </span>
     );
   }

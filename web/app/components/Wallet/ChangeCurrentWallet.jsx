@@ -24,14 +24,11 @@ export default class ChangeCurrentWallet extends React.Component {
   render() {
     var options = [];
 
-    this
-      .props
-      .walletNames
-      .forEach((walletName) => {
-        options.push(
-          <option key={ walletName } value={ walletName }>{walletName.toLowerCase()}</option>
-        );
-      });
+    this.props.walletNames.forEach((walletName) => {
+      options.push(
+        <option key={ walletName } value={ walletName }>{walletName.toLowerCase()}</option>
+      );
+    });
 
     var isDirty = this.state.currentWallet !== this.props.currentWallet;
 
@@ -42,19 +39,14 @@ export default class ChangeCurrentWallet extends React.Component {
 
           <ul>
             <li className='with-dropdown'>
-              {this
-                .props
-                .walletNames
-                .count() <= 1
+              {this.props.walletNames.count() <= 1
                 ? <div style={ {
                   paddingLeft: 10
                 } }>{this.state.currentWallet}</div>
                 : (
                   <select
                     value={ this.state.currentWallet }
-                    onChange={ this
-                      .onChange
-                      .bind(this) }>
+                    onChange={ this.onChange.bind(this) }>
                     {options}
                   </select>
                 )}
@@ -70,9 +62,7 @@ export default class ChangeCurrentWallet extends React.Component {
           ? (
             <div
               className='button outline'
-              onClick={ this
-                .onConfirm
-                .bind(this) }>
+              onClick={ this.onConfirm.bind(this) }>
               <Translate content='wallet.change' name={ this.state.currentWallet }/>
             </div>
           )
@@ -82,16 +72,11 @@ export default class ChangeCurrentWallet extends React.Component {
   }
 
   onConfirm() {
-    this
-      .props
-      .changeCurrentWallet(this.state.currentWallet);
+    this.props.changeCurrentWallet(this.state.currentWallet);
 
     if (window.electron) {
       window.location.hash = '';
-      window
-        .remote
-        .getCurrentWindow()
-        .reload();
+      window.remote.getCurrentWindow().reload();
     } else {
       window.location.href = '/';
     }
@@ -101,5 +86,4 @@ export default class ChangeCurrentWallet extends React.Component {
     var currentWallet = event.target.value;
     this.setState({currentWallet});
   }
-
 }

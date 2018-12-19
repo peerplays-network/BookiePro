@@ -8,7 +8,6 @@ import PasswordConfirm from './PasswordConfirm';
 import BrainkeyInput from './BrainkeyInput';
 
 export default class Create extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -87,46 +86,51 @@ export default class Create extends Component {
             </div>
 
             <PasswordConfirm onValid={ this.onPassword.bind(this) }/>
-            { has_wallet ? (
-              <div className='grid-content no-overflow'>
-                <br/>
-                <section>
-                  <label><Translate content='wallet.name' /></label>
-                  <input
-                    type='text'
-                    id='wallet_public_name'
-                    defaultValue={ this.state.wallet_public_name }
-                  />
-                </section>
-                <div className='has-error'>{errors.wallet_public_name}</div>
-                <br/>
-              </div>) : null}
+            {
+              has_wallet
+                ? (
+                  <div className='grid-content no-overflow'>
+                    <br/>
+                    <section>
+                      <label><Translate content='wallet.name' /></label>
+                      <input
+                        type='text'
+                        id='wallet_public_name'
+                        defaultValue={ this.state.wallet_public_name }
+                      />
+                    </section>
+                    <div className='has-error'>{errors.wallet_public_name}</div>
+                    <br/>
+                  </div>)
+                : null
+            }
 
             <div className='grid-content no-overflow'>
-
-              { this.state.custom_brainkey ? (
-                <div>
-                  <label><Translate content='wallet.brainkey' /></label>
-                  <BrainkeyInput onChange={ this.onBrainkey.bind(this) }/>
-                </div>) : null}
-
+              {
+                this.state.custom_brainkey
+                  ? (<div>
+                    <label><Translate content='wallet.brainkey' /></label>
+                    <BrainkeyInput onChange={ this.onBrainkey.bind(this) }/>
+                  </div>)
+                  : null
+              }
               <button className={ className('button',{disabled: !(this.state.isValid)}) }>
                 <Translate content='wallet.create_wallet' />
               </button>
-
               <button className='button secondary' onClick={ this.onBack.bind(this) }>
                 <Translate content='wallet.cancel' />
               </button>
-
             </div>
-
-            { ! this.state.custom_brainkey ? (
-              <div style={ {paddingTop: 20} }>
-                <label>
+            {
+              !this.state.custom_brainkey
+                ? (<div style={ {paddingTop: 20} }>
+                  <label>
                   <a onClick={ this.onCustomBrainkey.bind(this) }> { /* eslint-disable-line */ }
-                    <Translate content='wallet.custom_brainkey' /></a>
-                </label>
-              </div>) : null}
+                      <Translate content='wallet.custom_brainkey' /></a>
+                  </label>
+                </div>)
+                : null
+            }
           </form>
         </div>);
     }

@@ -20,12 +20,9 @@ class VotingContainer extends React.Component {
   }
 
   componentWillMount() {
-    this
-      .props
-      .fetchData()
-      .then(() => {
-        this.setState({loaded: true});
-      });
+    this.props.fetchData().then(() => {
+      this.setState({loaded: true});
+    });
   }
 
   onChangeActiveMenuItem(e) {
@@ -41,7 +38,6 @@ class VotingContainer extends React.Component {
       case 2:
         selectedTab = 'committee';
         break;
-        // case 3:     selectedTab = 'proposals';     break;
       default:
         selectedTab = 'proxy';
     }
@@ -66,8 +62,6 @@ class VotingContainer extends React.Component {
       case 'committee':
         selectedIndex = 2;
         break;
-        // case 'proposals':     selectedIndex = 3;
-      // break;
       default:
         selectedIndex = 0;
     }
@@ -76,8 +70,6 @@ class VotingContainer extends React.Component {
       <div className='main'>
         <section className='content'>
           <div className='box'>
-            {/*<Translate component="h1" className="h1 h1__main" content="votes.title_page" />*/}
-
             {this.state.loaded
               ? <Tabs
                 className='pt40'
@@ -87,12 +79,10 @@ class VotingContainer extends React.Component {
                   <Tab><Translate content='votes.proxy_short'/></Tab>
                   <Tab><Translate content='votes.add_witness_label'/></Tab>
                   <Tab><Translate content='votes.advisors'/></Tab>
-                  {/*<Tab><Translate content="account.votes.proposals.title_tab" /></Tab>*/}
                 </TabList>
                 <TabPanel><Proxy/></TabPanel>
                 <TabPanel><Witnesses/></TabPanel>
                 <TabPanel><CommitteeMembers/></TabPanel>
-                {/*<TabPanel><Proposals /></TabPanel>*/}
               </Tabs>
               : <SLoader/>
             }

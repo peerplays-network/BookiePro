@@ -3,7 +3,6 @@ import connectToStores from 'alt/utils/connectToStores';
 import Immutable from 'immutable';
 import cname from 'classnames';
 import notify from 'actions/NotificationActions';
-
 import LoadingIndicator from 'components/LoadingIndicator';
 import PrivateKeyStore from 'stores/PrivateKeyStore';
 import AccountRefsStore from 'stores/AccountRefsStore';
@@ -99,9 +98,7 @@ export default class BalanceClaimActive extends Component {
               <MyAccounts
                 key={ this.props.balances }
                 accounts={ Immutable.List(this.props.account_refs) }
-                onChange={ this
-                  .onClaimAccountChange
-                  .bind(this) }/>
+                onChange={ this.onClaimAccountChange.bind(this) }/>
             </div>
             <br></br>
           </div>
@@ -113,9 +110,7 @@ export default class BalanceClaimActive extends Component {
           className={ cname('button success', {
             disabled: !import_ready
           }) }
-          onClick={ this
-            .onClaimBalance
-            .bind(this) }>
+          onClick={ this.onClaimBalance.bind(this) }>
           <Translate content='wallet.claim_balance'/>{claim_balance_label}</div>
         <div
           className='button cancel'
@@ -128,9 +123,7 @@ export default class BalanceClaimActive extends Component {
 
   onBack(e) {
     e.preventDefault();
-    window
-      .history
-      .back();
+    window.history.back();
   }
 
   onClaimAccountChange(claim_account_name) {

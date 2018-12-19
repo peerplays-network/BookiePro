@@ -180,21 +180,6 @@ class Witnesses extends React.Component {
         ? null
         : counterpart.translate('errors.not_witness');
     });
-
-    /*
-    if (!account){
-      return null;
-    }
-
-    let result = this
-      .props
-      .activeWitnesseObjects
-      .filter((w) => w.witness_account === account.id)
-      .toArray();
-    return result[0]
-      ? null
-      : counterpart.translate('errors.not_witness');
-      */
   }
 
   onResetChanges() {

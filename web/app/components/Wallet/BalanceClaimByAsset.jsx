@@ -48,18 +48,14 @@ export default class BalanceClaimByAsset extends Component {
   }
 
   componentWillMount() {
-    var keys = PrivateKeyStore
-      .getState()
-      .keys;
+    var keys = PrivateKeyStore.getState().keys;
     var keySeq = keys.keySeq();
     BalanceClaimActiveActions.setPubkeys(keySeq);
     this.existing_keys = keySeq;
   }
 
   componentWillReceiveProps() {
-    var keys = PrivateKeyStore
-      .getState()
-      .keys;
+    var keys = PrivateKeyStore.getState().keys;
     var keySeq = keys.keySeq();
 
     if (!keySeq.equals(this.existing_keys)) {
@@ -70,11 +66,13 @@ export default class BalanceClaimByAsset extends Component {
 
   render() {
     if (this.props.loading || this.props.balances === undefined) {
-      return <div className='center-content'>
-        <p></p>
-        <h5><Translate content='wallet.loading_balances'/>&hellip;</h5>
-        <LoadingIndicator type='circle'/>
-      </div>;
+      return (
+        <div className='center-content'>
+          <p></p>
+          <h5><Translate content='wallet.loading_balances'/>&hellip;</h5>
+          <LoadingIndicator type='circle'/>
+        </div>
+      );
     }
 
     var content;
@@ -85,16 +83,14 @@ export default class BalanceClaimByAsset extends Component {
       var key = 0;
       content = <span>
         <label>Unclaimed Balances</label>
-        {this
-          .props
-          .total_by_asset
-          .map((r, asset) => <div key={ key++ }>
+        {
+          this.props.total_by_asset.map((r, asset) => <div key={ key++ }>
             <FormattedAsset
               color='info'
               amount={ r.unclaimed + r.vesting.unclaimed }
               asset={ asset }/>
-          </div>)
-          .toArray()}
+          </div>
+          ).toArray()}
         {this.props.children}
       </span>;
     }

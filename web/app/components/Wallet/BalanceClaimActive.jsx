@@ -66,9 +66,7 @@ export default class BalanceClaimActive extends Component {
               {/* <MyAccounts
                 key={ this.props.balances }
                 accounts={ Immutable.List(this.props.account_refs) }
-                onChange={ this
-                  .onClaimAccountChange
-                  .bind(this) }/> */}
+                onChange={ this.onClaimAccountChange.bind(this) }/> */}
             </div>
             <br></br>
           </div>
@@ -80,15 +78,11 @@ export default class BalanceClaimActive extends Component {
           className={ cname('button success', {
             disabled: !import_ready
           }) }
-          onClick={ this
-            .onClaimBalance
-            .bind(this) }>
+          onClick={ this.onClaimBalance.bind(this) }>
           <Translate content='wallet.claim_balance'/>{claim_balance_label}</div>
         <div
           className='button cancel'
-          onClick={ this
-            .onBack
-            .bind(this) }><Translate content='wallet.cancel'/></div>
+          onClick={ this.onBack.bind(this) }><Translate content='wallet.cancel'/></div>
       </div>
     );
   }

@@ -22,20 +22,14 @@ export default class BalanceClaimSelector extends Component {
   static getPropsFromStores() {
     var props = BalanceClaimActiveStore.getState();
     var {balances, address_to_pubkey} = props;
-    var private_keys = PrivateKeyStore
-      .getState()
-      .keys;
-    var groupCountMap = Immutable
-      .Map()
-      .asMutable();
+    var private_keys = PrivateKeyStore.getState().keys;
+    var groupCountMap = Immutable.Map().asMutable();
 
     var groupCount = (group, distinct) => {
       var set = groupCountMap.get(group);
 
       if (!set) {
-        set = Immutable
-          .Set()
-          .asMutable();
+        set = Immutable.Set().asMutable();
         groupCountMap.set(group, set);
       }
 
@@ -51,13 +45,11 @@ export default class BalanceClaimSelector extends Component {
         var private_key_object = private_keys.get(pubkey);
 
         if (private_key_object && private_key_object.import_account_names) {
-        // Imported Account Names (just a visual aid, helps to auto select a real
-        // account)
+        // Imported Account Names (just a visual aid, helps to auto select a real account)
           names = private_key_object.import_account_names.join(', ');
         }
 
-        // Signing is very slow, further divide the groups based on the number of
-        // signatures required
+        //Signing is very slow, further divide the groups based on the number of signatures required
         var batch_number = Math.ceil(
           groupCount(Immutable.List([names, v.balance.asset_id]), v.owner) / 60
         );
@@ -115,20 +107,13 @@ export default class BalanceClaimSelector extends Component {
             </tr>
           </thead>
           <tbody>
-            {this
-              .props
-              .total_by_account_asset
-              .map((r, name_asset) => <tr key={ ++index }>
+            {
+              this.props.total_by_account_asset.map((r, name_asset) => <tr key={ ++index }>
                 <td>
                   <input
                     type='checkbox'
-                    checked={ !!this
-                      .props
-                      .checked
-                      .get(index) }
-                    onChange={ this
-                      .onCheckbox
-                      .bind(this, index, r.balances) }/>
+                    checked={ !!this.props.checked.get(index) }
+                    onChange={ this.onCheckbox.bind(this, index, r.balances) }/>
                 </td>
                 <td style={ {
                   textAlign: 'right'
@@ -164,8 +149,8 @@ export default class BalanceClaimSelector extends Component {
                 <td>
                   {name_asset.get(0)}
                 </td>
-              </tr>)
-              .toArray()}
+              </tr>
+              ).toArray()}
           </tbody>
         </table>
       </div>
@@ -185,26 +170,22 @@ export default class BalanceClaimSelector extends Component {
   }
 
   onClaimAccount(claim_account_name, checked) {
-    // A U T O  S E L E C T  A C C O U N T S only if nothing is selected (play it
-    // safe)
+    // A U T O  S E L E C T  A C C O U N T S only if nothing is selected (play it safe)
     if (checked.size) {
       return;
     }
 
     var index = -1;
-    this
-      .props
-      .total_by_account_asset
-      .forEach((v, k) => {
-        index++;
-        var name = k.get(0);
+    this.props.total_by_account_asset.forEach((v, k) => {
+      index++;
+      var name = k.get(0);
 
-        if (name === claim_account_name) {
-          if (v.unclaimed || v.vesting.unclaimed) {
-            checked = checked.set(index, v.balances);
-          }
+      if (name === claim_account_name) {
+        if (v.unclaimed || v.vesting.unclaimed) {
+          checked = checked.set(index, v.balances);
         }
-      });
+      }
+    });
 
     if (checked.size) {
       BalanceClaimActiveActions.setSelectedBalanceClaims(checked);

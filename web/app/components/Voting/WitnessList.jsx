@@ -3,7 +3,6 @@ import Translate from 'react-translate-component';
 import WitnessRow from './WitnessRow';
 import {connect} from 'react-redux';
 
-
 @connect((state) => {
   return {
     current: state.voting.witnesses.currentWitnessId,
@@ -65,7 +64,6 @@ class WitnessListNew extends React.Component {
           return false;
         }
 
-        //return name.indexOf(this.props.filter) !== -1;
         return true;
       }).sort((a, b) => {
         let a_account = activeWitnesseAccounts.get(a.witness_account);
@@ -82,29 +80,6 @@ class WitnessListNew extends React.Component {
         } else {
           return 0;
         }
-
-        // switch (sortBy) {
-        //     case 'name':
-        //         if (a_account.get("name") > b_account.get("name")) {
-        //             return inverseSort ? 1 : -1;
-        //         } else if (a_account.get("name") < b_account.get("name")) {
-        //             return inverseSort ? -1 : 1;
-        //         } else {
-        //             return 0;
-        //         }
-        //         break;
-        //
-        //     case "rank":
-        //         return !inverseSort
-        // ? ranks[b.get("id")] - ranks[a.get("id")]
-        // : ranks[a.get("id")] - ranks[b.get("id")];
-        //         break;
-        //
-        //     default:
-        //         return !inverseSort
-        // ? parseInt(b.get(sortBy), 10) - parseInt(a.get(sortBy), 10)
-        // : parseInt(a.get(sortBy), 10) - parseInt(b.get(sortBy), 10);
-        // }
       }).map((a) => {
         let a_account = activeWitnesseAccounts.get(a.witness_account);
         return (

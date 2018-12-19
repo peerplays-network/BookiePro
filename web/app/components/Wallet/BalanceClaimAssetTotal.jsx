@@ -6,7 +6,6 @@ import Translate from 'react-translate-component';
 
 @connectToStores
 export default class BalanceClaimAssetTotals extends Component {
-
   static getStores() {
     return [BalanceClaimActiveStore];
   }
@@ -25,16 +24,18 @@ export default class BalanceClaimAssetTotals extends Component {
       .groupBy( (v) => v.balance.asset_id )
       .map( (l) => l.reduce( (r,v) => r + Number(v.balance.amount), 0 ));
 
-    if( ! total_by_asset.size) {
+    if (!total_by_asset.size) {
       return (<div>None</div>);
     }
 
     return (
       <div>
-        {total_by_asset.map( (total, asset_id) => <div key={ asset_id }>
-          <FormattedAsset color='info' amount={ total } asset={ asset_id } />
-        </div>
-        ).toArray()}
+        {
+          total_by_asset.map( (total, asset_id) => <div key={ asset_id }>
+            <FormattedAsset color='info' amount={ total } asset={ asset_id } />
+          </div>
+          ).toArray()
+        }
       </div>);
   }
 }

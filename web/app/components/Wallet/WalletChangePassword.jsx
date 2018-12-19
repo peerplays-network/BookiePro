@@ -87,7 +87,6 @@ export default class WalletChangePassword extends Component {
 }
 
 class WalletPassword extends Component {
-
     static propTypes = {
       onValid: React.PropTypes.func.isRequired
     };
@@ -126,11 +125,12 @@ class WalletPassword extends Component {
 
     render() {
       if(this.state.verified) {
-        return <div className='grid-content'>{this.props.children}</div>;
+        return (
+          <div className='grid-content'>{this.props.children}</div>
+        );
       } else {
         return (
           <form onSubmit={ this.onPassword.bind(this) }>
-
             <label><Translate content='wallet.existing_password'/></label>
             <section>
               <input
@@ -156,8 +156,10 @@ class WalletPassword extends Component {
 class Reset extends Component { // eslint-disable-line
   render() {
     var label = this.props.label || <Translate content='wallet.reset' />;
-    return  <span className='button outline'
-      onClick={ this.onReset.bind(this) }>{label}</span>;
+    return (
+      <span className='button outline'
+        onClick={ this.onReset.bind(this) }>{label}</span>
+    );
   }
 
   onReset() {

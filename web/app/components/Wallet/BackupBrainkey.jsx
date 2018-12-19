@@ -75,7 +75,6 @@ export default class BackupBrainkey extends Component {
     }
 
     if(!content) {
-      // var valid = this.state.password && this.state.password !== '';
       content = <span>
         <label><Translate content='wallet.enter_password' /></label>
         <form onSubmit={ this.onSubmit.bind(this) } className='name-form' noValidate>

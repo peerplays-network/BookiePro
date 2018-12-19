@@ -29,7 +29,6 @@ export default class Delete extends React.Component {
   }
 
   _onConfirm() {
-    // WalletManagerStore.onDeleteWallet(this.state.selected_wallet);
     this._onCancel();
   }
 
@@ -49,21 +48,16 @@ export default class Delete extends React.Component {
           <br/>
           <div
             className='button outline'
-            onClick={ this
-              ._onConfirm
-              .bind(this) }>
+            onClick={ this._onConfirm.bind(this) }>
             <Translate
               content='wallet.delete_confirm_line4'
               name={ this.state.selectedWallet }/>
           </div>
           <div
             className='button outline'
-            onClick={ this
-              ._onCancel
-              .bind(this) }>
+            onClick={ this._onCancel.bind(this) }>
             <Translate content='wallet.cancel'/>
           </div>
-
         </div>
       );
     }
@@ -75,14 +69,11 @@ export default class Delete extends React.Component {
       </option>
     );
 
-    this
-      .props
-      .walletNames
-      .forEach((walletName) => {
-        options.push(
-          <option key={ walletName } value={ walletName }>{walletName.toLowerCase()}</option>
-        );
-      });
+    this.props.walletNames.forEach((walletName) => {
+      options.push(
+        <option key={ walletName } value={ walletName }>{walletName.toLowerCase()}</option>
+      );
+    });
 
     var is_dirty = !!this.state.selectedWallet;
 
@@ -99,9 +90,7 @@ export default class Delete extends React.Component {
                 style={ {
                   margin: '0 auto'
                 } }
-                onChange={ this
-                  ._onChange
-                  .bind(this) }>
+                onChange={ this._onChange1.bind(this) }>
                 {options}
               </select>
             </li>
@@ -111,9 +100,7 @@ export default class Delete extends React.Component {
           className={ className('button outline', {
             disabled: !is_dirty
           }) }
-          onClick={ this
-            ._onRemove
-            .bind(this) }>
+          onClick={ this._onRemove.bind(this) }>
           <Translate
             content={ this.state.selectedWallet
               ? 'wallet.delete_wallet_name'

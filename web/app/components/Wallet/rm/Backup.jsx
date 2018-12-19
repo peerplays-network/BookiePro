@@ -15,7 +15,6 @@ import {ChainConfig} from 'peerplaysjs-ws';
 import {PrivateKey} from 'peerplaysjs-lib';
 
 class BackupBaseComponent extends Component {
-
   static getStores() {
     return [WalletManagerStore, BackupStore];
   }
@@ -25,7 +24,6 @@ class BackupBaseComponent extends Component {
     var backup = BackupStore.getState();
     return {wallet, backup};
   }
-
 }
 
 //The default component is WalletManager.jsx
@@ -75,12 +73,6 @@ export class BackupVerify extends BackupBaseComponent {
     );
   }
 }
-
-// layout is a small project class WalletObjectInspector extends Component {
-// static propTypes={ walletObject: PropTypes.object }     render() {
-// return <div style={{overflowY:'auto'}}>             <Inspector
-//  data={ this.props.walletObject || {} }                 search={false}/>
-//    </div>     } }
 
 @connectToStores
 export class BackupRestore extends BackupBaseComponent {
@@ -138,11 +130,7 @@ class Restore extends BackupBaseComponent {
 
   isRestored() {
     var new_wallet = this.props.wallet.new_wallet;
-    var has_new_wallet = this
-      .props
-      .wallet
-      .wallet_names
-      .has(new_wallet);
+    var has_new_wallet = this.props.wallet.wallet_names.has(new_wallet);
     return has_new_wallet;
   }
 
@@ -162,9 +150,10 @@ class Restore extends BackupBaseComponent {
         <h3><Translate content='wallet.ready_to_restore'/></h3>
         <div
           className='button outline'
-          onClick={ this
-            .onRestore
-            .bind(this) }><Translate content='wallet.restore_wallet_of' name={ new_wallet }/></div>
+          onClick={ this.onRestore.bind(this) }
+        >
+          <Translate content='wallet.restore_wallet_of' name={ new_wallet }/>
+        </div>
       </span>
     );
   }
@@ -195,11 +184,7 @@ class NewWalletName extends BackupBaseComponent {
 
     if (has_current_wallet && this.props.backup.name && !this.state.new_wallet) {
       // begning of the file name might make a good wallet name
-      var new_wallet = this
-        .props
-        .backup
-        .name
-        .match(/[a-z0-9_-]*/)[0];
+      var new_wallet = this.props.backup.name.match(/[a-z0-9_-]*/)[0];
 
       if (new_wallet) {
         this.setState({new_wallet});
@@ -214,33 +199,23 @@ class NewWalletName extends BackupBaseComponent {
 
     var has_wallet_name = !!this.state.new_wallet;
     var has_wallet_name_conflict = has_wallet_name
-      ? this
-        .props
-        .wallet
-        .wallet_names
-        .has(this.state.new_wallet)
+      ? this.props.wallet.wallet_names.has(this.state.new_wallet)
       : false;
     var name_ready = !has_wallet_name_conflict && has_wallet_name;
 
     return (
-      <form onSubmit={ this
-        .onAccept
-        .bind(this) }>
+      <form onSubmit={ this.onAccept.bind(this) }>
         <h5><Translate content='wallet.new_wallet_name'/></h5>
         <input
           type='text'
           id='new_wallet'
-          onChange={ this
-            .formChange
-            .bind(this) }
+          onChange={ this.formChange.bind(this) }
           value={ this.state.new_wallet }/>
         <p>{has_wallet_name_conflict
           ? <Translate content='wallet.wallet_exist'/>
           : null}</p>
         <div
-          onClick={ this
-            .onAccept
-            .bind(this) }
+          onClick={ this.onAccept.bind(this) }
           type='submit'
           className={ cname('button outline', {
             disabled: !name_ready
@@ -367,9 +342,7 @@ class Create extends BackupBaseComponent {
             <Translate component='p' content='wallet.backup_explain'/>
           </div>}
         <div
-          onClick={ this
-            .onCreateBackup
-            .bind(this) }
+          onClick={ this.onCreateBackup.bind(this) }
           className={ cname('button', {
             disabled: !ready
           }) }
@@ -386,9 +359,7 @@ class Create extends BackupBaseComponent {
   }
 
   onCreateBackup() {
-    var backup_pubkey = WalletDb
-      .getWallet()
-      .password_pubkey;
+    var backup_pubkey = WalletDb.getWallet().password_pubkey;
     backup(backup_pubkey).then((contents) => {
       let name = this.getBackupName();
       BackupActions.incommingBuffer({name, contents});
@@ -402,12 +373,8 @@ class LastBackupDate extends Component {
       return null;
     }
 
-    var backup_date = WalletDb
-      .getWallet()
-      .backup_date;
-    var last_modified = WalletDb
-      .getWallet()
-      .last_modified;
+    var backup_date = WalletDb.getWallet().backup_date;
+    var last_modified = WalletDb.getWallet().last_modified;
     var backup_time = backup_date
       ? <h4><Translate content='wallet.last_backup'/>
         <FormattedDate value={ backup_date }/></h4>
@@ -436,7 +403,6 @@ class LastBackupDate extends Component {
 @connectToStores
 class Upload extends BackupBaseComponent {
   reset() {
-    // debugger; this.refs.file_input.value = "";
     BackupActions.reset();
   }
 
@@ -472,11 +438,12 @@ class Upload extends BackupBaseComponent {
           style={ {
             border: 'solid'
           } }
-          onChange={ this
-            .onFileUpload
-            .bind(this) }/> {is_invalid
-          ? <h5><Translate content='wallet.invalid_format'/></h5>
-          : null}
+          onChange={ this.onFileUpload.bind(this) }/>
+        {
+          is_invalid
+            ? <h5><Translate content='wallet.invalid_format'/></h5>
+            : null
+        }
         {resetButton}
       </div>
     );
@@ -528,24 +495,18 @@ class DecryptBackup extends BackupBaseComponent {
     }
 
     return (
-      <form onSubmit={ this
-        .onPassword
-        .bind(this) }>
+      <form onSubmit={ this.onPassword.bind(this) }>
         <label><Translate content='wallet.enter_password'/></label>
         <input
           type='password'
           id='backup_password'
-          onChange={ this
-            .formChange
-            .bind(this) }
+          onChange={ this.formChange.bind(this) }
           value={ this.state.backup_password }/>
         <Sha1/>
         <div
           type='submit'
           className='button outline'
-          onClick={ this
-            .onPassword
-            .bind(this) }>
+          onClick={ this.onPassword.bind(this) }>
           <Translate content='wallet.submit'/>
         </div>
       </form>
@@ -596,20 +557,13 @@ export class Sha1 extends BackupBaseComponent {
 
 @connectToStores
 class Reset extends BackupBaseComponent {
-
-  // static contextTypes = {router: React.PropTypes.func.isRequired}
-
   render() {
     var label = this.props.label || <Translate content='wallet.reset'/>;
-    return <span className='button cancel' onClick={ this
-      .onReset
-      .bind(this) }>{label}</span>;
+    return <span className='button cancel' onClick={ this.onReset1.bind(this) }>{label}</span>;
   }
 
   onReset() {
     BackupActions.reset();
-    window
-      .history
-      .back();
+    window.history.back();
   }
 }

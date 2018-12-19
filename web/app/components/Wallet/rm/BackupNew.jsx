@@ -29,7 +29,7 @@ export class Create extends React.Component {
     var name = this.props.currentWallet;
     var addressPrefix = ChainConfig.address_prefix.toLowerCase();
 
-    if(name.indexOf(addressPrefix) !== 0){
+    if (name.indexOf(addressPrefix) !== 0){
       name = addressPrefix + '_' + name;
     }
 
@@ -53,12 +53,11 @@ export class Create extends React.Component {
   render(){
     let hasBackup = !!this.props.backup.contents;
 
-    if(hasBackup){
+    if (hasBackup){
       return this.renderDownloading();
     } else {
       return this.renderCreation();
     }
-
   }
 
   renderDownloading(){
@@ -125,7 +124,7 @@ class LastBackupDate extends React.Component {
 
     var backupTime;
 
-    if(backupDate){
+    if (backupDate){
       backupTime = <h4><Translate content='wallet.last_backup' /> <FormattedDate value={ backupDate }/></h4>; // eslint-disable-line
     } else {
       backupTime = <Translate style={ {paddingTop: 20} } className='facolor-error' component='p' content='wallet.never_backed_up' />; // eslint-disable-line
@@ -133,8 +132,8 @@ class LastBackupDate extends React.Component {
 
     var needBackup;
 
-    if( backupDate ) {
-      if(lastModified.getTime() > backupDate.getTime()){
+    if (backupDate ) {
+      if (lastModified.getTime() > backupDate.getTime()){
         needBackup = <h4 className='facolor-error'><Translate content='wallet.need_backup' /></h4>;
       } else {
         needBackup = <h4 className='success'><Translate content='wallet.noneed_backup' /></h4>;
@@ -173,7 +172,6 @@ class Download extends React.Component {
 
   componentDidMount() {
     if( ! this.isFileSaverSupported ){
-      // notify.error("File saving is not supported")
       console.error('File saving is not supported');
     }
   }

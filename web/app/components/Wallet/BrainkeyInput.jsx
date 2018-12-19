@@ -4,7 +4,6 @@ import {hash, key} from 'peerplaysjs-lib';
 
 var dictionary_set;
 let isInElectron = false;
-
 var userAgent = navigator.userAgent.toLowerCase();
 
 if (userAgent.indexOf(' electron/') > -1) {
@@ -57,14 +56,14 @@ export default class BrainkeyInput extends Component {
       var spellcheck_words = this.state.brnkey.split(' ');
       var checked_words = [];
       spellcheck_words.forEach( (word, i) => {
-        if(word === '') {
+        if (word === '') {
           return;
         }
 
         var spellcheckword = word.toLowerCase();
         spellcheckword = spellcheckword.match(/[a-z]+/); //just spellcheck letters
 
-        if(spellcheckword === null || dictionary_set.has(spellcheckword[0])) {
+        if (spellcheckword === null || dictionary_set.has(spellcheckword[0])) {
           checked_words.push(
             <span key={ i } style={ {padding: '1px', margin: '1px'} }>{word}</span>
           );
@@ -72,15 +71,15 @@ export default class BrainkeyInput extends Component {
           checked_words.push(<MisspelledWord key={ i }>{word}</MisspelledWord>);
         }
       });
-      // this.ready = checked_words.length > 0
+
       var word_count_label;
       var warn = true;
 
-      if(checked_words.length > 0) {
-        if(this.state.brnkey.length < 50) {
+      if (checked_words.length > 0) {
+        if (this.state.brnkey.length < 50) {
           word_count_label = this.state.brnkey.length + ' characters (50 minimum)';
         } else {
-          if(checked_words.length < 16) {
+          if (checked_words.length < 16) {
             word_count_label = checked_words.length + ' words (16 recommended)';
           } else {
             word_count_label = checked_words.length + ' words';
@@ -100,11 +99,15 @@ export default class BrainkeyInput extends Component {
               className='grid-content no-padding no-overflow'>
               { checked_words }
             </div>
-            { this.state.check_digits && !this.props.hideCheckDigits ? <div>
-              <br/>
-              <pre className='no-overflow'>{this.state.check_digits} * Check Digits</pre>
-              <br/>
-            </div>:null}
+            {
+              this.state.check_digits && !this.props.hideCheckDigits
+                ? <div>
+                  <br/>
+                  <pre className='no-overflow'>{this.state.check_digits} * Check Digits</pre>
+                  <br/>
+                </div>
+                :null
+            }
             <p><i className={ cname({error: warn}) }>{ word_count_label }</i></p>
           </div>
         </span>

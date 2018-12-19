@@ -31,7 +31,6 @@ class Proxy extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // inputName : props.name ? props.name : "",
       inputName: '',
       name: props.name,
       error: null,
@@ -70,23 +69,20 @@ class Proxy extends React.Component {
   }
 
   verifyInputValue(value, uniqueRequestId) {
-    AccountRepository
-      .fetchFullAccount(value)
-      .then((result) => {
-        if (!result) {
-          throw(counterpart.translate('errors.unknown_account'));
-        }
+    AccountRepository.fetchFullAccount(value).then((result) => {
+      if (!result) {
+        throw(counterpart.translate('errors.unknown_account'));
+      }
 
-        if (this.uniqueRequestId === uniqueRequestId) {
-          this.setState({requestInProcess: false});
-        }
+      if (this.uniqueRequestId === uniqueRequestId) {
+        this.setState({requestInProcess: false});
+      }
 
-      })
-      .catch((error) => {
-        if (this.uniqueRequestId === uniqueRequestId) {
-          this.setState({requestInProcess: false, error});
-        }
-      });
+    }).catch((error) => {
+      if (this.uniqueRequestId === uniqueRequestId) {
+        this.setState({requestInProcess: false, error});
+      }
+    });
   }
 
   onKeyDown(e) {
@@ -104,7 +100,6 @@ class Proxy extends React.Component {
   }
 
   onMakeProxy(walletLocked) {
-    // let name = this.state.inputName;
     let name = this.state.name;
 
     if (walletLocked && !this.props.walletIsOpen) {
@@ -137,7 +132,6 @@ class Proxy extends React.Component {
         })
           .then(() => {
             this.setState({
-              // inputName: name,
               name: name
             });
           });
@@ -148,7 +142,6 @@ class Proxy extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.name !== this.props.name) {
       this.setState({
-        // inputName: nextProps.name,
         name: nextProps.name
       });
     }
@@ -165,8 +158,6 @@ class Proxy extends React.Component {
     this.setState({name: this.props.name});
   }
 
-  onPublishChanges() {}
-
   onRemoveProxy() {
     this.setState({name: ''});
   }
@@ -178,7 +169,6 @@ class Proxy extends React.Component {
   render() {
     let {inputName, name, error, requestInProcess} = this.state;
     let {account} = this.props;
-
     let disabled = this.props.name === this.state.name;
 
     return (
@@ -218,20 +208,13 @@ class Proxy extends React.Component {
                   ? 'error'
                   : null}` }
                 value={ inputName }
-                onChange={ this
-                  .onInputChange
-                  .bind(this) }
-                onKeyDown={ this
-                  .onKeyDown
-                  .bind(this) }
+                onChange={ this.onInputChange.bind(this) }
+                onKeyDown={ this.onKeyDown.bind(this) }
                 placeholder={ counterpart.translate('account.name') }/>
-
               <button
                 type='button'
                 className='btn btn-floatedRight btn-voteHead'
-                onClick={ this
-                  .addProxy
-                  .bind(this, this.props.walletLocked) }
+                onClick={ this.addProxy.bind(this, this.props.walletLocked) }
                 disabled={ error || inputName === name || !inputName || requestInProcess }>
                 <Translate content='votes.make_proxy'/>
               </button>
@@ -239,7 +222,6 @@ class Proxy extends React.Component {
             {error
               ? <span className='error__hint'>{error}</span>
               : null}
-
           </div>
         </div>
         <div className='box-inner box-inner-2'>
@@ -248,18 +230,14 @@ class Proxy extends React.Component {
             <button
               type='button'
               className='btn btn-neutral'
-              onClick={ this
-                .onResetChanges
-                .bind(this) }
+              onClick={ this.onResetChanges.bind(this) }
               disabled={ disabled }>
               <Translate content='votes.reset_changes'/>
             </button>
             <button
               type='button'
               className='btn btn-success'
-              onClick={ this
-                .onMakeProxy
-                .bind(this, this.props.walletLocked) }
+              onClick={ this.onMakeProxy.bind(this, this.props.walletLocked) }
               disabled={ disabled }>
               <Translate content='votes.publish'/>
             </button>
@@ -298,9 +276,7 @@ class Proxy extends React.Component {
                     type='button'
                     className='btn btn-set'
                     disabled={ !name }
-                    onClick={ this
-                      .onRemoveProxy
-                      .bind(this) }>
+                    onClick={ this.onRemoveProxy.bind(this) }>
                     <Translate content='votes.remove'/>
                   </button>
                 </div>

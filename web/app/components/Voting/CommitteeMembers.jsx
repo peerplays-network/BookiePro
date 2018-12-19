@@ -112,11 +112,7 @@ class CommitteeMembers extends React.Component {
   onAddSelectItem() {
     let item = this.state.inputName;
 
-    if(!item) {
-      return;
-    }
-
-    if(this.state.error) {
+    if (!item || this.state.error) {
       return;
     }
 
@@ -210,9 +206,6 @@ class CommitteeMembers extends React.Component {
           });
         });
       });
-      // .then(() => {
-      //     this.setState({ disabled: true});
-      // })
     }
   }
 
@@ -251,10 +244,7 @@ class CommitteeMembers extends React.Component {
           </div>
           <div className='tableCell'><LinkToAccountById account={ a.id } /></div>
           <div className='tableCell'>
-            <a
-              href={ link }
-              className='tableCell__link'
-              target='_blank'> {/* TODO: resolve */}
+            <a href={ link } className='tableCell__link' target='_blank'> {/* eslint-disable-line */}
               {url.length < 45 ? url : url.substr(0, 45) + '...'}
             </a>
           </div>
@@ -296,7 +286,7 @@ class CommitteeMembers extends React.Component {
           </div>
           <div className='tableCell'><LinkToAccountById account={ a.id } /></div>
           <div className='tableCell'>
-            <a href={ link } className='tableCell__link' target='_blank'> { /* TODO: resolve */}
+            <a href={ link } className='tableCell__link' target='_blank'> { /* eslint-disable-line */}
               {url.length < 45 ? url : url.substr(0, 45) + '...'}
             </a>
           </div>

@@ -11,7 +11,6 @@ import cname from 'classnames';
 
 @connectToStores
 class WalletCreate extends Component {
-
   static getStores() {
     return [WalletManagerStore];
   }
@@ -29,12 +28,10 @@ class WalletCreate extends Component {
 
     return <CreateNewWallet { ...this.props }/>;
   }
-
 }
 
 @connectToStores
 class CreateNewWallet extends Component {
-
   static getStores() {
     return [WalletManagerStore];
   };
@@ -114,9 +111,9 @@ class CreateNewWallet extends Component {
       let state = this.state;
       let errors = state.errors;
       let wallet_names = WalletManagerStore.getState().wallet_names;
-      errors.wallet_public_name =
-            !wallet_names.has(state.wallet_public_name) ?
-              null : `Wallet ${state.wallet_public_name.toUpperCase()} exists, please change the name`; // eslint-disable-line
+      errors.wallet_public_name = !wallet_names.has(state.wallet_public_name)
+        ? null
+        : `Wallet ${state.wallet_public_name.toUpperCase()} exists, please change the name`;
 
       var isValid = errors.wallet_public_name === null && state.valid_password !== null;
 
@@ -137,13 +134,15 @@ class CreateNewWallet extends Component {
       let has_wallet = !!this.props.current_wallet;
 
       if(this.state.create_submitted &&
-            this.state.wallet_public_name === this.props.current_wallet) {
-        return <div>
-          <h4><Translate content='wallet.wallet_created' /></h4>
-          <span onClick={ this.onDone.bind(this) }
-            className='button success'><Translate content='wallet.done' />
-          </span>
-        </div>;
+          this.state.wallet_public_name === this.props.current_wallet) {
+        return (
+          <div>
+            <h4><Translate content='wallet.wallet_created' /></h4>
+            <span onClick={ this.onDone.bind(this) }
+              className='button success'><Translate content='wallet.done' />
+            </span>
+          </div>
+        );
       }
 
       return (
@@ -151,57 +150,62 @@ class CreateNewWallet extends Component {
           <form
             style={ {maxWidth: '40rem'} }
             onSubmit={ this.onSubmit.bind(this) }
-            onChange={ this.formChange.bind(this) } noValidate
+            onChange={ this.formChange.bind(this) }
+            noValidate
           >
-            <div
-              className='grid-content'
-              style={ {
-                textAlign: 'left'
-              } }
+            <div className='grid-content' style={ {
+              textAlign: 'left'
+            } }
             >
               <Translate component='p' content='wallet.create_importkeys_text' />
               <Translate component='p' content='wallet.create_text' />
             </div>
             <PasswordConfirm onValid={ this.onPassword.bind(this) }/>
-            { has_wallet ? (
-              <div className='grid-content no-overflow'>
-                <br/>
-                <section>
-                  <label><Translate content='wallet.name' /></label>
-                  <input
-                    type='text'
-                    id='wallet_public_name'
-                    defaultValue={ this.state.wallet_public_name }
-                  />
-                </section>
-                <div className='has-error'>{errors.wallet_public_name}</div>
-                <br/>
-              </div>) : null}
+            { has_wallet
+              ? (
+                <div className='grid-content no-overflow'>
+                  <br/>
+                  <section>
+                    <label><Translate content='wallet.name' /></label>
+                    <input
+                      type='text'
+                      id='wallet_public_name'
+                      defaultValue={ this.state.wallet_public_name }
+                    />
+                  </section>
+                  <div className='has-error'>{errors.wallet_public_name}</div>
+                  <br/>
+                </div>)
+              : null
+            }
 
             <div className='grid-content no-overflow'>
-              { this.state.custom_brainkey ? (
-                <div>
-                  <label><Translate content='wallet.brainkey' /></label>
-                  <BrainkeyInput onChange={ this.onBrainkey.bind(this) }/>
-                </div>) : null}
-
+              { this.state.custom_brainkey
+                ? (
+                  <div>
+                    <label><Translate content='wallet.brainkey' /></label>
+                    <BrainkeyInput onChange={ this.onBrainkey.bind(this) }/>
+                  </div>)
+                : null
+              }
               <button className={ cname('button',{disabled: !(this.state.isValid)}) }>
                 <Translate content='wallet.create_wallet' />
               </button>
-
               <button className='button secondary' onClick={ this.onBack.bind(this) }>
                 <Translate content='wallet.cancel' />
               </button>
-
             </div>
 
-            { ! this.state.custom_brainkey ? (
-              <div style={ {paddingTop: 20} }>
-                <label>
+            { ! this.state.custom_brainkey
+              ? (
+                <div style={ {paddingTop: 20} }>
+                  <label>
                   <a onClick={ this.onCustomBrainkey.bind(this) }> {/* eslint-disable-line */}
-                    <Translate content='wallet.custom_brainkey' /></a>
-                </label>
-              </div>) : null}
+                      <Translate content='wallet.custom_brainkey' /></a>
+                  </label>
+                </div>)
+              : null
+            }
           </form>
         </div>);
     }

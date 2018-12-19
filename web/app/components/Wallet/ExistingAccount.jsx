@@ -19,11 +19,7 @@ class ExistingAccountBaseComponent extends Component {
 @connectToStores
 class ExistingAccount extends ExistingAccountBaseComponent {
   render() {
-    var has_wallet = this
-      .props
-      .wallet
-      .wallet_names
-      .count() !== 0;
+    var has_wallet = this.props.wallet.wallet_names.count() !== 0;
     return (
       <div className='grid-container'>
         <div className='grid-content'>
@@ -47,44 +43,46 @@ class ExistingAccount extends ExistingAccountBaseComponent {
 @connectToStores
 export class ExistingAccountOptions extends ExistingAccountBaseComponent {
   render() {
-    var has_wallet = this
-      .props
-      .wallet
-      .wallet_names
-      .count() !== 0;
+    var has_wallet = this.props.wallet.wallet_names.count() !== 0;
     return (
       <span>
-        {!has_wallet
-          ? <div>
-            <Link to='existing-account/import-backup'>
-              <Translate content='wallet.import_backup'/>
-            </Link><br/><br/>
-            <Link to='existing-account/import-keys'>
-              <Translate content='wallet.import_bts1'/>
-            </Link><br/><br/>
-            <Link to='existing-account/import-keys'>
-              <Translate content='wallet.create_wallet'/>
-            </Link><br/>
-            <hr/>
-          </div>
-          : null}
+        {
+          !has_wallet
+            ? <div>
+              <Link to='existing-account/import-backup'>
+                <Translate content='wallet.import_backup'/>
+              </Link><br/><br/>
+              <Link to='existing-account/import-keys'>
+                <Translate content='wallet.import_bts1'/>
+              </Link><br/><br/>
+              <Link to='existing-account/import-keys'>
+                <Translate content='wallet.create_wallet'/>
+              </Link><br/>
+              <hr/>
+            </div>
+            : null
+        }
 
-        {!has_wallet
-          ? (null)
-          : <BalanceClaimActive/>}
+        {
+          !has_wallet
+            ? (null)
+            : <BalanceClaimActive/>
+        }
 
-        {has_wallet
-          ? <span>
-            <Link to='dashboard'>
-              <div className='button outline'>
-                <Translate component='span' content='header.dashboard'/></div>
-            </Link>
-            <Link to='wallet'>
-              <div className='button outline'>
-                <Translate content='settings.wallets'/></div>
-            </Link>
-          </span>
-          : null}
+        {
+          has_wallet
+            ? <span>
+              <Link to='dashboard'>
+                <div className='button outline'>
+                  <Translate component='span' content='header.dashboard'/></div>
+              </Link>
+              <Link to='wallet'>
+                <div className='button outline'>
+                  <Translate content='settings.wallets'/></div>
+              </Link>
+            </span>
+            : null
+        }
       </span>
     );
   }

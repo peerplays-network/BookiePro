@@ -136,13 +136,7 @@ class Proposals extends React.Component {
   }
 
   onPublish(walletLocked) {
-    let newProposals = this.state.proposals;
-    let oldProposals = this.props.proposals;
-
-    let changedProposals = newProposals // eslint-disable-line
-      .filter((p, index) => p.approval !== oldProposals[index].approval);
-
-    if(walletLocked && !this.props.walletIsOpen) {
+    if (walletLocked && !this.props.walletIsOpen) {
       this.props.setWalletPosition(true);
     }
 
@@ -273,8 +267,6 @@ class Proposals extends React.Component {
           <div className='row'>
             <div className='col col-7 col-offset-05'>
               <p>&nbsp;
-                {/*<Translate content="account.votes.proposals.text" />
-                  <strong>Bitsharestalk</strong>.*/}
               </p>
             </div>
             <div className='col col-5 col-offset-05 text_r'>

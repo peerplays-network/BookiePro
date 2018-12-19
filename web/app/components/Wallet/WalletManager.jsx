@@ -8,7 +8,6 @@ import cname from 'classnames';
 import counterpart from 'counterpart';
 
 class WalletBaseComponent extends Component {
-
   static getStores() {
     return [WalletManagerStore];
   }
@@ -17,16 +16,12 @@ class WalletBaseComponent extends Component {
     var props = WalletManagerStore.getState();
     return props;
   }
-
 }
 
 @connectToStores
 export default class WalletManager extends WalletBaseComponent {
-
   getTitle() {
-
     switch (this.props.location.pathname) {
-
       case '/wallet/create':
         return 'wallet.create_wallet';
       case '/wallet/backup/create':
@@ -47,7 +42,6 @@ export default class WalletManager extends WalletBaseComponent {
   }
 
   render() {
-
     return (
       <div className='grid-block vertical'>
         <div
@@ -75,15 +69,11 @@ export class WalletOptions extends WalletBaseComponent {
     var has_wallet = !!this.props.current_wallet;
     var has_wallets = this.props.wallet_names.size > 1;
     var current_wallet = this.props.current_wallet
-      ? this
-        .props
-        .current_wallet
-        .toUpperCase()
+      ? this.props.current_wallet.toUpperCase()
       : '';
     return (
       <span>
         <div className='grid-block'>
-
           <div className='grid-content'>
             <div className='card'>
               <div className='card-content'>
@@ -106,10 +96,9 @@ export class WalletOptions extends WalletBaseComponent {
             <div className='card'>
               <div className='card-content'>
                 <label><Translate content='wallet.import_keys_tool'/></label>
-                <div
-                  style={ {
-                    visibility: 'hidden'
-                  } }>Dummy</div>
+                <div style={ {
+                  visibility: 'hidden'
+                } }>Dummy</div>
                 <br/> {has_wallet
                   ? (
                     <Link to='/wallet/import-keys'>
@@ -138,17 +127,11 @@ export class WalletOptions extends WalletBaseComponent {
                       <Translate content='wallet.balance_claim_lookup'/>
                     </div>
                   </Link>
-                  {/*<BalanceClaimByAsset>
-                    <br/>
-                    <div className="button outline success">
-                        <Translate content="wallet.balance_claims" /></div>
-                </BalanceClaimByAsset>
-                */}
                 </div>
               </div>
             </div>
-            : null}
-
+            : null
+          }
         </div>
 
         {has_wallet
@@ -157,7 +140,8 @@ export class WalletOptions extends WalletBaseComponent {
               <Translate content='wallet.create_backup'/>
             </div>
           </Link>
-          : null}
+          : null
+        }
 
         {has_wallet
           ? <Link to='wallet/backup/brainkey'>
@@ -165,7 +149,8 @@ export class WalletOptions extends WalletBaseComponent {
               <Translate content='wallet.backup_brainkey'/>
             </div>
           </Link>
-          : null}
+          : null
+        }
 
         <Link to='wallet/backup/restore'>
           <div className='button outline success'>
@@ -189,7 +174,8 @@ export class WalletOptions extends WalletBaseComponent {
               <Translate content='wallet.delete_wallet'/>
             </div>
           </Link>
-          : null}
+          : null
+        }
 
         {has_wallet
           ? <Link to='wallet/change-password'>
@@ -197,11 +183,11 @@ export class WalletOptions extends WalletBaseComponent {
               <Translate content='wallet.change_password'/>
             </div>
           </Link>
-          : null}
+          : null
+        }
       </span>
     );
   }
-
 }
 
 @connectToStores
@@ -220,13 +206,11 @@ export class ChangeActiveWallet extends WalletBaseComponent {
     var state = WalletManagerStore.getState();
 
     var options = [];
-    state
-      .wallet_names
-      .forEach((wallet_name) => {
-        options.push(
-          <option key={ wallet_name } value={ wallet_name }>{wallet_name.toLowerCase()}</option>
-        );
-      });
+    state.wallet_names.forEach((wallet_name) => {
+      options.push(
+        <option key={ wallet_name } value={ wallet_name }>{wallet_name.toLowerCase()}</option>
+      );
+    });
 
     var is_dirty = this.state.current_wallet !== this.props.current_wallet;
 
@@ -234,12 +218,9 @@ export class ChangeActiveWallet extends WalletBaseComponent {
       <div>
         <section className='block-list'>
           <header><Translate content='wallet.active_wallet'/>:</header>
-
           <ul>
             <li className='with-dropdown'>
-              {state
-                .wallet_names
-                .count() <= 1
+              {state.wallet_names.count() <= 1
                 ? <div
                   style={ {
                     paddingLeft: 10
@@ -247,12 +228,11 @@ export class ChangeActiveWallet extends WalletBaseComponent {
                 : (
                   <select
                     value={ this.state.current_wallet }
-                    onChange={ this
-                      .onChange
-                      .bind(this) }>
+                    onChange={ this.onChange.bind(this) }>
                     {options}
                   </select>
-                )}
+                )
+              }
             </li>
           </ul>
         </section>
@@ -265,28 +245,24 @@ export class ChangeActiveWallet extends WalletBaseComponent {
           ? (
             <div
               className='button outline'
-              onClick={ this
-                .onConfirm
-                .bind(this) }>
+              onClick={ this.onConfirm.bind(this) }>
               <Translate content='wallet.change' name={ this.state.current_wallet }/>
             </div>
           )
-          : null}
+          : null
+        }
       </div>
     );
   }
 
   onConfirm() {
     WalletActions.setWallet(this.state.current_wallet);
-    // if (window.electron) {     window.location.hash = "";
-    // window.remote.getCurrentWindow().reload(); } else window.location.href = "/";
   }
 
   onChange(event) {
     var current_wallet = event.target.value;
     this.setState({current_wallet});
   }
-
 }
 
 //TODO remove
@@ -315,18 +291,14 @@ export class WalletDelete extends WalletBaseComponent {
           <br/>
           <div
             className='button outline'
-            onClick={ this
-              .onConfirm2
-              .bind(this) }>
+            onClick={ this.onConfirm2.bind(this) }>
             <Translate
               content='wallet.delete_confirm_line4'
               name={ this.state.selected_wallet }/>
           </div>
           <div
             className='button outline'
-            onClick={ this
-              ._onCancel
-              .bind(this) }>
+            onClick={ this._onCancel.bind(this) }>
             <Translate content='wallet.cancel'/>
           </div>
         </div>
@@ -334,30 +306,24 @@ export class WalletDelete extends WalletBaseComponent {
     }
 
     // this.props.current_wallet
-    var placeholder = <option
-      key='placeholder'
-      value=''
-      disabled={ this.props.wallet_names.size > 1 }>
-    </option>;
-    // if (this.props.wallet_names.size > 1) {     placeholder = <option value=""
-    // disabled>{placeholder}</option>; } else {     //When disabled and list_size
-    // was 1, chrome was skipping the     //placeholder and selecting the 1st item
-    // automatically (not shown)     placeholder = <option
-    // value="">{placeholder}</option>; }
+    var placeholder = (
+      <option
+        key='placeholder'
+        value=''
+        disabled={ this.props.wallet_names.size > 1 }>
+      </option>
+    );
     var options = [placeholder];
     options.push(
       <option key='select_option' value=''>
         {counterpart.translate('settings.delete_select')}&hellip;
       </option>
     );
-    this
-      .props
-      .wallet_names
-      .forEach((wallet_name) => {
-        options.push(
-          <option key={ wallet_name } value={ wallet_name }>{wallet_name.toLowerCase()}</option>
-        );
-      });
+    this.props.wallet_names.forEach((wallet_name) => {
+      options.push(
+        <option key={ wallet_name } value={ wallet_name }>{wallet_name.toLowerCase()}</option>
+      );
+    });
 
     var is_dirty = !!this.state.selected_wallet;
 
@@ -374,9 +340,7 @@ export class WalletDelete extends WalletBaseComponent {
                 style={ {
                   margin: '0 auto'
                 } }
-                onChange={ this
-                  .onChange
-                  .bind(this) }>
+                onChange={ this.onChange.bind(this) }>
                 {options}
               </select>
             </li>
@@ -386,9 +350,7 @@ export class WalletDelete extends WalletBaseComponent {
           className={ cname('button outline', {
             disabled: !is_dirty
           }) }
-          onClick={ this
-            .onConfirm
-            .bind(this) }>
+          onClick={ this.onConfirm.bind(this) }>
           <Translate
             content={ this.state.selected_wallet
               ? 'wallet.delete_wallet_name'
@@ -406,14 +368,12 @@ export class WalletDelete extends WalletBaseComponent {
   onConfirm2() {
     WalletManagerStore.onDeleteWallet(this.state.selected_wallet);
     this._onCancel();
-    // window.history.back()
   }
 
   onChange(event) {
     var selected_wallet = event.target.value;
     this.setState({selected_wallet});
   }
-
 }
 
 class Cancel extends Component { // eslint-disable-line
@@ -421,14 +381,10 @@ class Cancel extends Component { // eslint-disable-line
     var label = <Translate content='wallet.cancel'/>;
     return <span
       className='button cancel'
-      onClick={ this
-        .onReset
-        .bind(this) }>{label}</span>;
+      onClick={ this.onReset.bind(this) }>{label}</span>;
   }
 
   onReset() {
-    window
-      .history
-      .back();
+    window.history.back();
   }
 }
