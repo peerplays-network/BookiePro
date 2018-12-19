@@ -9,7 +9,6 @@ import {Apis} from 'peerplaysjs-ws';
 
 @connectToStores
 class InitError extends React.Component {
-
   static getStores() {
     return [BlockchainStore, SettingsStore];
   }
@@ -35,11 +34,7 @@ class InitError extends React.Component {
   }
 
   triggerModal(e) {
-    this
-      .refs
-      .ws_modal
-      .getWrappedInstance()
-      .show(e);
+    this.refs.ws_modal.getWrappedInstance().show(e);
   }
 
   onChangeWS(e) {
@@ -54,10 +49,7 @@ class InitError extends React.Component {
 
     if (window.electron) {
       window.location.hash = '';
-      window
-        .remote
-        .getCurrentWindow()
-        .reload();
+      window.remote.getCurrentWindow().reload();
     } else {
       window.location.href = '/';
     }
@@ -71,12 +63,9 @@ class InitError extends React.Component {
   render() {
     console.log('-- InitError.render -->', this.props);
 
-    let options = this
-      .props
-      .apis
-      .map((entry) => {
-        return <option key={ entry } value={ entry }>{entry}</option>;
-      });
+    let options = this.props.apis.map((entry) => {
+      return <option key={ entry } value={ entry }>{entry}</option>;
+    });
 
     return (
       <div className='grid-block page-layout'>
@@ -90,9 +79,7 @@ class InitError extends React.Component {
               <ul>
                 <li className='with-dropdown'>
                   <select
-                    onChange={ this
-                      .onChangeWS
-                      .bind(this) }
+                    onChange={ this.onChangeWS.bind(this) }
                     value={ this.props.connection }>
                     {options}
                   </select>
@@ -102,9 +89,7 @@ class InitError extends React.Component {
                     } }
                     className='button-group'>
                     <div
-                      onClick={ this
-                        .triggerModal
-                        .bind(this) }
+                      onClick={ this.triggerModal.bind(this) }
                       className='button outline'
                       id='add'>
                       <Translate id='add_text' content='settings.add_api'/>
@@ -131,11 +116,8 @@ class InitError extends React.Component {
               <div className='button outline' href onClick={ this.onReloadClick }>
                 <Translate content={ 'init_error.retry' }/>
               </div>
-
               <div
-                onClick={ this
-                  .onReset
-                  .bind(this) }
+                onClick={ this.onReset.bind(this) }
                 className='button outline'>
                 <Translate content='settings.reset'/>
               </div>

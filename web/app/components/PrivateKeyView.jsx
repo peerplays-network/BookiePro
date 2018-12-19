@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-// import ReactDOM from 'react-dom';
 import Modal from 'react-foundation-apps/src/modal';
 import ZfApi from 'react-foundation-apps/src/utils/foundation-api';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
@@ -27,7 +26,6 @@ export default class PrivateKeyView extends Component {
 
   componentDidMount() {
     var modalId = 'key_view_modal' + this.props.pubkey;
-    // let modal = ReactDOM.findDOMNode(this.refs[modalId]);
     ZfApi.subscribe(modalId, (name, msg) => {
       if (name !== modalId) {
         return;
@@ -41,10 +39,7 @@ export default class PrivateKeyView extends Component {
 
   render() {
     var modalId = 'key_view_modal' + this.props.pubkey;
-    var keys = PrivateKeyStore
-      .getState()
-      .keys;
-
+    var keys = PrivateKeyStore.getState().keys;
     var has_private = keys.has(this.props.pubkey);
 
     if (!has_private) {
@@ -100,9 +95,7 @@ export default class PrivateKeyView extends Component {
               {key.import_account_names && key.import_account_names.length
                 ? <div className='grid-block grid-content'>
                   <label><Translate content='account.perm.from'/></label>
-                  {key
-                    .import_account_names
-                    .join(', ')}
+                  {key.import_account_names.join(', ')}
                   <br/>
                 </div>
                 : null
@@ -111,9 +104,7 @@ export default class PrivateKeyView extends Component {
           </div>
           <div className='button-group'>
             <div
-              onClick={ this
-                .onClose
-                .bind(this) }
+              onClick={ this.onClose.bind(this) }
               className=' button'>
               <Translate content='transfer.close'/>
             </div>

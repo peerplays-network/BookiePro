@@ -4,7 +4,12 @@ var isDevNet = (process.env.DEV_NET || false);
 var webpack = require('webpack');
 var ProgressPlugin = require('webpack/lib/ProgressPlugin');
 var WebpackDevServer = require('webpack-dev-server');
-var config = (isDevNet) ? require('./conf/webpack-dev-net') : require(env ? './conf/webpack-dev-ugly' : './conf/webpack-dev');
+var config = isDevNet
+    ? require('./conf/webpack-dev-net')
+    : require(env
+        ? './conf/webpack-dev-ugly'
+        : './conf/webpack-dev'
+    );
 
 var compiler = webpack(config);
 

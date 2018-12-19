@@ -3,15 +3,11 @@ import Router from 'react-router';
 
 import KeyGenComponent from './components/Wallet/KeyGenComponent';
 
-const {Route, RouteHandler, DefaultRoute} = Router; // eslint-disable-line
+const {Route, DefaultRoute} = Router;
 
 require('./assets/loader');
 
 class KeyGen {
-  componentDidMount() {}
-
-  componentWillUpdate(nextProps, nextState) {} // eslint-disable-line
-
   render() {
     return (<KeyGenComponent/>);
   }

@@ -16,9 +16,9 @@ module.exports = React.createClass({
       on: false
     };
   },
-  
+
   statics: {
-      hasGetUserMedia: hasGetUserMedia
+    hasGetUserMedia: hasGetUserMedia
   },
 
   render: function () {
@@ -32,8 +32,8 @@ module.exports = React.createClass({
     var video = this.refs.video.getDOMNode();
 
     if (!hasGetUserMedia()) {
-        console.error("react-webcam: browser does not support User Media");
-        return;
+      console.error('react-webcam: browser does not support User Media');
+      return;
     }
 
     navigator.getUserMedia = navigator.getUserMedia ||
@@ -42,6 +42,7 @@ module.exports = React.createClass({
                           navigator.msGetUserMedia;
 
     var self = this;
+
     if (this.props.audioSource && this.props.videoSource) {
       sourceSelected(this.props.audioSource, this.props.videoSource);
     } else {
@@ -81,29 +82,28 @@ module.exports = React.createClass({
 
     function successCallback(stream) {
       self.setState({on:true});
-      //? var video = this.refs.video.getDOMNode();
       video.src = window.URL.createObjectURL(stream);
-    };
+    }
 
-    function errorCallback(e) {
-      // ? var video = this.refs.video.getDOMNode();
+    function errorCallback() {
       video.src = self.props.fallbackURL;
-    };
+    }
   },
 
   componentWillUnmount() {
-      var video = this.refs.video.getDOMNode();
-      //https://gist.github.com/danro/5725870
-      console.log('... video shutdown')
-      video.pause()
-      video.src = ''
+    var video = this.refs.video.getDOMNode();
+    //https://gist.github.com/danro/5725870
+    console.log('... video shutdown');
+    video.pause();
+    video.src = '';
   },
-  
+
   getScreenshot: function() {
-    if (!this.state.on) return;
+    if (!this.state.on) {
+      return;
+    }
 
     var video = this.refs.video.getDOMNode();
-
     var canvas = document.createElement('canvas');
     canvas.height = video.clientHeight;
     canvas.width = video.clientWidth;

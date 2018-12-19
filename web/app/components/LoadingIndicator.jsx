@@ -1,7 +1,6 @@
 import React from 'react';
 
 export default class LoadingIndicator extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {

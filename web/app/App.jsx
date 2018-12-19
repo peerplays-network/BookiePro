@@ -89,13 +89,6 @@ let routes = (
         window.scrollTo(0,0);
         store.dispatch(AppActions.setCurrentLocation(LocationConstants.DASHBOARD_BALANCES));
       } } />
-    {/*<Route path="/exchange/:marketId" component={requireAuthentication(Exchange)}
-    onEnter={() => {
-            store.dispatch(AppActions.setCurrentLocation(LocationConstants.EXCHANGE));
-        }} onLeave={() => {
-            store.dispatch(AppActions.setCurrentLocation(null));
-        }} />
-        */}
     <Route path='/games' component={ requireAuthentication(Games) } onEnter={ () => {
       store.dispatch(AppActions.setCurrentLocation(LocationConstants.GAMES));
     } } onLeave={ () => {
@@ -112,7 +105,6 @@ let routes = (
         params={ {tab: 'dashboard'} }
         title='Dashboard'
         component={ requireAuthentication(RockPaperScissorsContainer) } />
-
       <Route
         path='explore/all'
         params={ {tab: 'explore', tournamentsFilter: 'all'} }
@@ -146,7 +138,6 @@ let routes = (
       } } onLeave={ () => {
         store.dispatch(AppActions.setCurrentLocation(null));
       } } >
-
         <IndexRoute params={ {tab: 'proxy'} } component={ requireAuthentication(Voting) } />
         <Route
           params={ {tab: 'proxy'} }
@@ -163,9 +154,6 @@ let routes = (
           path='committee'
           title='Committee'
           component={ requireAuthentication(Voting) } />
-        {/*<Route params={{tab: 'proposals'}} path="proposals" title="Proposals"
-      component={requireAuthentication(Voting)} />*/}
-
       </Route>
       <Route path='blockchain' component={ requireAuthentication(ExploreContainer) }>
         <IndexRoute
@@ -214,17 +202,9 @@ let routes = (
       <Route params={ {tab: 'access'} } path='access' component={ AccessSettings } />
       <Route params={ {tab: 'claim'} } path='claim' />
     </Route>
-
     <Route path='/claims/bts' component={ ClaimBtsContainer } />
     <Route path='/about' component={ AboutContainer } />
     <Route path='/init-error' component={ Empty } />
-
-    {/*<Route path="/deposit-withdraw" component={requireAuthentication(DepositWithdrawContainer)}
-  onEnter={() => {*/}
-    {/*store.dispatch(AppActions.setCurrentLocation(LocationConstants.DEPOSIT_WITHDRAW));*/}
-    {/*}} onLeave={() => {*/}
-    {/*store.dispatch(AppActions.setCurrentLocation(null));*/}
-    {/*}} />*/}
     <Route path='/help' component={ Help }>
       <Route path=':path1' component={ Help }>
         <Route path=':path2' component={ Help }>

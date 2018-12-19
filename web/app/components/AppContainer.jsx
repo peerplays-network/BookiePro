@@ -32,7 +32,6 @@ import {routerShape} from 'react-router/lib/PropTypes';
 
 }, {})
 class App extends React.Component {
-
   static contextTypes = {
     router: routerShape
   }
@@ -57,10 +56,7 @@ class App extends React.Component {
 
     document.getElementsByTagName('body')[0].className = '';
 
-    let loc = this
-        .context
-        .router
-        .getCurrentLocation(),
+    let loc = this.context.router.getCurrentLocation(),
       pathname = loc.pathname;
 
     if (this.props.syncIsFail) {
@@ -68,10 +64,10 @@ class App extends React.Component {
         <div className='wrapper wrapper-with-footer'></div>
       );
     } else if (!this.props.dbIsInit || !this.props.dbDataIsLoad || !this.props.chainIsInit) {
-      content = <div></div>;
+      content = (<div></div>);
     } else if (urlsWithYellowBackground.indexOf(this.props.location.pathname) >= 0) {
       document.getElementsByTagName('body')[0].className = 'loginBg';
-      content = <div className='wrapper wrapper-with-footer'>{this.props.children}</div>;
+      content = (<div className='wrapper wrapper-with-footer'>{this.props.children}</div>);
     } else {
 
       content = (
@@ -111,10 +107,7 @@ export default class AppContainer extends React.Component {
   render() {
     return (
       <IntlProvider
-        locale={ this
-          .props
-          .locale
-          .replace(/cn/, 'zh') }
+        locale={ this.props.locale.replace(/cn/, 'zh') }
         formats={ intlData.formats }
         initialNow={ Date.now() }>
         <App { ...this.props }/>

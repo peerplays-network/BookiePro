@@ -8,7 +8,7 @@ onmessage = function(event) {
     var aes = new Aes(iv, key);
     var private_cipherhex_array = [];
 
-    for(let private_plainhex of private_plainhex_array) {
+    for (let private_plainhex of private_plainhex_array) {
       var private_cipherhex = aes.encryptHex( private_plainhex );
       private_cipherhex_array.push( private_cipherhex );
     }

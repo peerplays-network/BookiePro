@@ -11,7 +11,6 @@ const secondEl = curry(arrayElement)(1);
 const isAssetType = checkChainType(ChainTypes.ChainAsset);
 
 export function connectComponentWrapper(Component, mapStateToProps) {
-
   class ConnectComponentWrapper extends React.Component {
     constructor(props) {
       super(props);
@@ -48,11 +47,11 @@ export function connectComponentWrapper(Component, mapStateToProps) {
       });
     }
 
+    check() {}
+
     componentWillReceiveProps() {
       this.check();
     }
-
-    check() {}
 
     render() {
       const props = {

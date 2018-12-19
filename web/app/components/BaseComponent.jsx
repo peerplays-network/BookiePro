@@ -32,9 +32,7 @@ class BaseComponent extends React.Component {
   componentWillMount() {
     if (this.stores) {
       for (let storeName in this.stores) {
-        this
-          .stores[storeName]
-          .listen(this.onChange.bind(this));
+        this.stores[storeName].listen(this.onChange.bind(this));
       }
     }
   }
@@ -42,17 +40,10 @@ class BaseComponent extends React.Component {
   componentWillUnmount() {
     if (this.stores) {
       for (let storeName in this.stores) {
-        this
-          .stores[storeName]
-          .unlisten(this.onChange.bind(this));
+        this.stores[storeName].unlisten(this.onChange.bind(this));
       }
     }
   }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  // console.log("[BaseComponent.jsx:20] ----- shouldComponentUpdate ----->",
-  // nextProps, nextState); return this.props !== nextProps || this.state !==
-  // nextState; }
 
   onChange(newState) {
     if (newState) {
