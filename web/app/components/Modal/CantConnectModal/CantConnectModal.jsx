@@ -11,7 +11,6 @@ import {Modal, ModalBody} from 'react-modal-bootstrap';
 
 })
 class CantConnectModal extends React.Component {
-
   tryAgainHandler() {
     window.location.reload();
   }

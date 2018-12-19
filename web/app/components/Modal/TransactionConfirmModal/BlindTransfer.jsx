@@ -3,7 +3,6 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import Inspector from 'react-json-inspector';
 
-
 @connect((state) => {
   return {
     inputs: state.transactionConfirm.transaction.inputs,

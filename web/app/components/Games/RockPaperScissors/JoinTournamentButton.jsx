@@ -87,19 +87,6 @@ class JoinTournamentButton extends React.Component {
               className={ 'btn btn-join' } />
           );
       }
-      // return (
-      //  (tournamentState === 'in_progress')
-      //  ? <Translate
-      // component='button'
-      // content='games.rps_game.play'
-      // disabled={ false }
-      // className={ 'btn btn-play' } />
-      // : <Translate
-      // component='button'
-      // content='games.rps_game.already_registered'
-      // disabled={ true }
-      // className={ 'btn btn-join' } />
-      // );
     } else {
       if (tournamentState === 'registration_period_expired') {
         return (

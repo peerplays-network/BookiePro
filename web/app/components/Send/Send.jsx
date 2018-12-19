@@ -95,8 +95,6 @@ class Send extends React.Component {
   verifyInputValue(value) {
     AccountRepository.fetchFullAccount(value).then((result) => {
       if(!result) {
-        // TODO: check if this even works.
-        // if not, change this to setState
         invalidName = counterpart.translate('errors.unknown_account'); // eslint-disable-line
       }
 
@@ -120,15 +118,6 @@ class Send extends React.Component {
 
   onAmountChange(e) {
     let amount = e.target.value.trim().replace(/[A-Za-z]/g, '').replace(/,/g,'');
-
-    // let balance = this.props.balance
-    //    .filter(item => item.symbol === this.state.selectedSymbol).map(item => item)[0];
-    // let precision = Math.pow(10, balance.precision);
-    //
-    // if((amount) * precision > balance.balance) {
-    //     this.setState({ amount, invalidAmount: 'Insufficient balance' });
-    //     return;
-    // }
 
     this.setState({amount, invalidAmount: null});
   }
@@ -194,15 +183,15 @@ class Send extends React.Component {
       let precision = utils.get_asset_precision(asset.precision);
 
       /**
-             * Fix
-             *
-             * Problem:
-             * 8.998 * 100000 = 899799.9999999999
-             *
-             * Solution:
-             * 8.998 * 1000 = 8998
-             * 8998 * precision / 1000
-             */
+       * Fix
+       *
+       * Problem:
+       * 8.998 * 100000 = 899799.9999999999
+       *
+       * Solution:
+       * 8.998 * 1000 = 8998
+       * 8998 * precision / 1000
+       */
 
       let amount,
         splitAmount = this.state.amount.split('.');
@@ -238,37 +227,6 @@ class Send extends React.Component {
       ).then((tr) => {
         //tr.set_required_fees().then(() => {
         AssetRepository.fetchAssetsByIds([assetId]).then((assets) => { // eslint-disable-line
-          // let fee = {amount: tr.operations[0][1].fee.amount};
-
-          // if(assets[0].id === assets[1].id) {
-          //   fee = Object.assign({}, fee, {asset: assets[0]});
-          // } else {
-          //   let bts = assets[1].options.core_exchange_rate.base.amount
-          //     / Math.pow(10, assets[0].precision);
-          //   let currency = assets[1].options.core_exchange_rate.quote.amount
-          //     / Math.pow(10, assets[1].precision);
-          //   let btsAmount = tr.operations[0][1].fee.amount / Math.pow(10, assets[0].precision);
-          //   let amount = bts > 0
-          //     ? (btsAmount * currency / bts) * Math.pow(10, assets[1].precision)
-          //     : fee.amount;
-          //   console.log(bts, currency, btsAmount, amount);
-          //   tr.operations[0][1].fee = {
-          //     amount,
-          //     asset_id: assetId
-          //   };
-
-          //   if(
-          //     tr.operations[0][1].fee.amount
-          //       / Math.pow(10, assets[1].precision) >= tr.operations[0][1].fee.amount
-          //       / Math.pow(10, assets[0].precision)
-          //   ) {
-          //     tr.operations[0][1].fee.asset_id = assetId;
-          //     fee = Object.assign({}, fee, {asset: assets[1]});//{amount, asset: assets[1]};
-          //   }
-
-          //   fee = Object.assign({}, fee, {asset: assets[0]});//{amount, asset: assets[1]};
-          // }
-
           this.props.setTransaction('transfer', {
             nameFrom: this.props.currentAccount,
             nameTo: this.state.recipientName,
@@ -290,7 +248,6 @@ class Send extends React.Component {
             functionArguments: tr
           });
         });
-        //});
       });
     }
   }
@@ -306,14 +263,6 @@ class Send extends React.Component {
     if(!this.props.symbols &&  nextProps.symbols) {
       this.setState({selectedSymbol: nextProps.symbols[0]});
     }
-    // AccountRepository.fetchFullAccount(this.props.currentAccount).then(res => {
-    //     let balance = Object.values(res[1].balances);
-    //     this.props.balance.map((item, index) => {
-    //         if(item.balance != balance[index].balance) {
-    //             this.setState({ balance: balance });
-    //         }
-    //     });
-    // });
   }
 
   render() {
@@ -390,10 +339,6 @@ class Send extends React.Component {
                       : null
                   }
                 </div>
-                {/*<div className="row2">
-                    <label className="label"><Translate content="transfer.account_type"/></label>
-                    <Select/>
-                </div>*/}
                 <div className='row2'>
                   <label className='label'><Translate content='transfer.memo'/></label>
                   <textarea

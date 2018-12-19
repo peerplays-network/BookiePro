@@ -11,118 +11,115 @@ import WalletApi from 'rpc_api/WalletApi';
 import WalletDb from 'stores/WalletDb';
 import counterpart from 'counterpart';
 import {ChainStore} from 'peerplaysjs-lib';
-
 import AmountSelector from '../../Utility/AmountSelector';
 
 let wallet_api = new WalletApi();
 
 @BindToChainState({keep_updating: true})
 class ModalContent extends React.Component {
-    static propTypes = {
-      asset: ChainTypes.ChainAsset.isRequired,
-      account: ChainTypes.ChainAccount.isRequired
+  static propTypes = {
+    asset: ChainTypes.ChainAsset.isRequired,
+    account: ChainTypes.ChainAccount.isRequired
+  };
+
+  constructor() {
+    super();
+    this.state = {
+      amount: 0
     };
+  }
 
-    constructor() {
-      super();
-      this.state = {
-        amount: 0
-      };
+  onAmountChanged({amount}) {
+    this.setState({amount: amount});
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    ZfApi.publish('settlement_modal', 'close');
+    let precision = utils.get_asset_precision(this.props.asset.get('precision'));
+    let amount = this.state.amount.replace(/,/g, '');
+    amount *= precision;
+    var tr = wallet_api.new_transaction();
+    tr.add_type_operation('asset_settle', {
+      fee: {
+        amount: 0,
+        asset_id: 0
+      },
+      'account': this.props.account.get('id'),
+      'amount': {
+        'amount': amount,
+        'asset_id': this.props.asset.get('id')
+      }
+    });
+    return WalletDb.process_transaction(tr, null, true).then(() => {
+      return true;
+    }).catch((error) => {
+      console.error('asset settle error: ', error);
+      return false;
+    });
+  }
+
+  render() {
+    let {asset, account} = this.props;
+    let {amount} = this.state;
+
+    if (!asset) {
+      return null;
     }
 
-    onAmountChanged({amount}) {
-      this.setState({amount: amount});
-    }
+    let assetID = asset.get('id');
+    let account_balances = account.get('balances');
+    let currentBalance = null, balanceAmount = 0;
 
-    onSubmit(e) {
-      e.preventDefault();
-      ZfApi.publish('settlement_modal', 'close');
-      let precision = utils.get_asset_precision(this.props.asset.get('precision'));
-      let amount = this.state.amount.replace(/,/g, '');
-      amount *= precision;
-      var tr = wallet_api.new_transaction();
-      tr.add_type_operation('asset_settle', {
-        fee: {
-          amount: 0,
-          asset_id: 0
-        },
-        'account': this.props.account.get('id'),
-        'amount': {
-          'amount': amount,
-          'asset_id': this.props.asset.get('id')
-        }
-      });
-      return WalletDb.process_transaction(tr, null, true).then(() => {
-        // console.log("asset settle result:", result);
-        // this.dispatch(account_id);
-        return true;
-      }).catch((error) => {
-        console.error('asset settle error: ', error);
-        return false;
-      });
-    }
+    account_balances && account_balances.forEach( (balance) => {
+      let balanceObject = ChainStore.getObject(balance);
 
-    render() {
-      let {asset, account} = this.props;
-      let {amount} = this.state;
-
-      if (!asset) {
+      if (!balanceObject.get('balance')) {
         return null;
       }
 
-      let assetID = asset.get('id');
-      let account_balances = account.get('balances');
-      let currentBalance = null, balanceAmount = 0;
+      if (balanceObject.get('asset_type') === assetID) {
+        currentBalance = balance;
+        balanceAmount = balanceObject.get('balance');
+      }
+    });
 
-      account_balances && account_balances.forEach( (balance) => {
-        let balanceObject = ChainStore.getObject(balance);
+    let precision = utils.get_asset_precision(asset.get('precision'));
+    let parsedAmount = amount ? amount.replace(/,/g, '') : 0;
+    let submit_btn_class = parseFloat(parsedAmount) > 0
+      && parseFloat(parsedAmount) * precision <= parseFloat(balanceAmount)
+      ? 'button success'
+      : 'button disabled';
 
-        if (!balanceObject.get('balance')) {
-          return null;
-        }
+    let balanceText = currentBalance ? (
+      <span>
+        <Translate content='exchange.balance'/>:&nbsp;
+        <BalanceComponent balance={ currentBalance }/>
+      </span>
+    ) : null;
 
-        if (balanceObject.get('asset_type') === assetID) {
-          currentBalance = balance;
-          balanceAmount = balanceObject.get('balance');
-        }
-      });
-
-      let precision = utils.get_asset_precision(asset.get('precision'));
-      let parsedAmount = amount ? amount.replace(/,/g, '') : 0;
-      let submit_btn_class = parseFloat(parsedAmount) > 0
-        && parseFloat(parsedAmount) * precision <= parseFloat(balanceAmount)
-        ? 'button success'
-        : 'button disabled';
-
-      let balanceText = currentBalance ? (
-        <span>
-          <Translate content='exchange.balance'/>:&nbsp;
-          <BalanceComponent balance={ currentBalance }/>
-        </span>
-      ) : null;
-
-      return (
-        <form className='grid-block vertical full-width-content'>
-          <Translate component='h3' content='modal.settle.title' asset={ asset.get('symbol') } />
-          <div className='grid-container ' style={ {paddingTop: '2rem'} }>
-            <div className='content-block' style={ {maxWidth: '25rem'} }>
-              <AmountSelector label='modal.settle.amount'
-                amount={ amount }
-                onChange={ this.onAmountChanged.bind(this) }
-                display_balance={ balanceText }
-                asset={ assetID  }
-                assets={ [assetID] }
-                tabIndex={ 1 }/>
-            </div>
-            <div className='content-block'>
-              <input type='submit' className={ submit_btn_class }
-                onClick={ this.onSubmit.bind(this) }
-                value={ counterpart.translate('modal.settle.submit') }/>
-            </div>
+    return (
+      <form className='grid-block vertical full-width-content'>
+        <Translate component='h3' content='modal.settle.title' asset={ asset.get('symbol') } />
+        <div className='grid-container ' style={ {paddingTop: '2rem'} }>
+          <div className='content-block' style={ {maxWidth: '25rem'} }>
+            <AmountSelector label='modal.settle.amount'
+              amount={ amount }
+              onChange={ this.onAmountChanged.bind(this) }
+              display_balance={ balanceText }
+              asset={ assetID  }
+              assets={ [assetID] }
+              tabIndex={ 1 }/>
           </div>
-        </form>
-      );
-    }
+          <div className='content-block'>
+            <input type='submit' className={ submit_btn_class }
+              onClick={ this.onSubmit.bind(this) }
+              value={ counterpart.translate('modal.settle.submit') }/>
+          </div>
+        </div>
+      </form>
+    );
+  }
 }
 
 class SettleModal extends React.Component {

@@ -5,7 +5,6 @@ import asset_utils from 'common/asset_utils';
 class DropDownTrigger extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       showBuyInMenu: false
     };

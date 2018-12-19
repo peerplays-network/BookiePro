@@ -89,8 +89,7 @@ let GestureSelectorFsm = machina
         },
         displayCommittedGesture: function (gestureToDisplay) {
           this.gestureSelector.buttons.forEach((button) => {
-            // only one of the buttons should have been visible, but it is easiest to hide
-            // them all
+            // only one of the buttons should have been visible, but it is easiest to hide them all
             button.set({
               alpha: 0
             }, 200);
@@ -489,8 +488,7 @@ let GestureSelectorFsm = machina
         },
         displayGestureSelector: function () {
           this.gestureSelector.icons.forEach((icon) => {
-            // only one of the icons should have been visible, but it is easiest to hide
-            // them all
+            // only one of the icons should have been visible, but it is easiest to hide them all
             createjs.Tween.get(icon).to({
               alpha: 0
             }, 200);
@@ -607,7 +605,6 @@ let GestureSelectorFsm = machina
   });
 
 class GestureSelector extends React.Component {
-
   constructor(props) {
     super(props);
     this.playerId = null;

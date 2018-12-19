@@ -32,19 +32,7 @@ class Games extends React.Component {
                     </span>
                   </div>
                 </div>
-                {/*<div className="pG__section2 ">
-                    <div className="pG__section2Link">
-                        <span className="pG__section2Pic">
-                          <img src="images/playGames/pic06.png" alt=""/>
-                        </span>
-                        <span className="pG__section2Text">
-                            Coming Soon...
-                        </span>
-                    </div>
-                </div> */}
-
                 <hr className='gamesHR'/>
-
                 <div className='pG__section2 '>
                   <div className='pG__section2Link'>
                     <span className='pG__section2Pic'>
@@ -56,23 +44,7 @@ class Games extends React.Component {
                   </div>
                 </div>
               </div>
-
             </div>
-            {/*<div className="pG__sectionWrap">*/}
-            {/*<div className="clearfix">*/}
-            {/*<div className="pG__section col col-4">*/}
-            {/*<Link to="/games/rock-paper-scissors" className="pG__sectionLink">*/}
-            {/*<span className="pG__sectionPic lg">*/}
-            {/*<img src="images/games/rps/bkg.png" alt=""/>*/}
-            {/*</span>*/}
-            {/*<Translate
-              component="span"
-              className="pG__sectionText"
-              content="games.rps_game.name" >*/}
-            {/*</Link>*/}
-            {/*</div>*/}
-            {/*</div>*/}
-            {/*</div>*/}
             <div className='h50'></div>
           </div>
         </section>

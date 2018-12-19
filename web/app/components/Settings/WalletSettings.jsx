@@ -1,5 +1,4 @@
 import React from 'react';
-// import {WalletChange, WalletDelete} from "../Wallet/WalletManager";
 import BalanceClaimActive from 'components/Wallet/BalanceClaimActive';
 import Translate from 'react-translate-component';
 import ChangeCurrentWallet from 'components/Wallet/ChangeCurrentWallet';

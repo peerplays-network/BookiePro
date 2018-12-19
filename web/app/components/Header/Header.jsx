@@ -3,7 +3,6 @@ import {Link} from 'react-router';
 import counterpart from 'counterpart';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
-
 import Notices from './Notices';
 import AppActions from 'actions/AppActions';
 import HelpActions from 'actions/HelpActions';
@@ -24,20 +23,14 @@ import Translate from 'react-translate-component';
   toggleHelpModal: HelpActions.toggleHelpModal
 })
 class Header extends React.Component {
-
   onLogoutClick(e) {
     e.preventDefault();
 
-    this
-      .props
-      .logout();
-
+    this.props.logout();
   }
 
   onClickHelpLink(e) {
-    this
-      .props
-      .toggleHelpModal(true);
+    this.props.toggleHelpModal(true);
     e.preventDefault();
   }
 
@@ -72,32 +65,9 @@ class Header extends React.Component {
                 <span className='nav__linkText'>{help}</span>
               </span>
             </a>
-
             <Notices/>
-            {/*<Link to="/explore" className="nav__link bb nav__link-expl" activeClassName="active">
-              <span className="nav__linkAlign">
-                  <span className="nav__linkIcon nav__linkIcon-blank icon-cube"/>
-                  <span className="nav__linkIcon nav__linkIcon-filled icon-cube-filled3"/>
-                  <span className="nav__linkText">Explore</span>
-              </span>
-            </Link>
-            <Link to="/settings" className="nav__link bb nav__link-set" activeClassName="active">
-              <span className="nav__linkAlign">
-                  <span className="nav__linkIcon nav__linkIcon-blank icon-settings"/>
-                  <span className="nav__linkIcon nav__linkIcon-filled icon-settings-filled"/>
-                  <span className="nav__linkText">Settings</span>
-              </span>
-            </Link>
-            <Link to="/help" className="nav__link bb nav__link-help" activeClassName="active">
-              <span className="nav__linkAlign">
-                  <span className="nav__linkIcon nav__linkIcon-blank icon-help"/>
-                  <span className="nav__linkIcon nav__linkIcon-filled icon-help-filled"/>
-                  <span className="nav__linkText">Help</span>
-              </span>
-            </Link> */}
           </div>
           <nav className='nav'>
-
             <Link
               to='/dashboard'
               className={ classNames({
@@ -142,35 +112,6 @@ class Header extends React.Component {
                 <Translate component='span' className='nav__linkText' content='header.network'/>
               </span>
             </Link>
-
-            {/*<IndexLink to="/dashboard" className="nav__link bb" activeClassName="active">
-              <span className="nav__linkAlign">
-                <span className="nav__linkIcon nav__linkIcon-blank icon-funds"/>
-                <span className="nav__linkIcon nav__linkIcon-filled icon-funds-filled"/>
-                <span className="nav__linkText">My Funds </span>
-              </span>
-            </IndexLink>
-            <Link to="/games" className="nav__link bb" activeClassName="active">
-              <span className="nav__linkAlign">
-                <span className="nav__linkIcon nav__linkIcon-blank icon-star"/>
-                <span className="nav__linkIcon nav__linkIcon-filled icon-star-filled"/>
-                <span className="nav__linkText">Play Games </span>
-              </span>
-            </Link>
-            <Link to="" className="nav__link bb">
-              <span className="nav__linkAlign">
-                <span className="nav__linkIcon nav__linkIcon-blank icon-arrows2"/>
-                <span className="nav__linkIcon nav__linkIcon-filled icon-arrows2-filled"/>
-                <span className="nav__linkText">Betting Exchange </span>
-              </span>
-            </Link>
-            <Link to="/referrals" className="nav__link bb">
-              <span className="nav__linkAlign">
-                <span className="nav__linkIcon nav__linkIcon-blank icon-rocket"/>
-                <span className="nav__linkIcon nav__linkIcon-filled icon-rocket-filled"/>
-                <span className="nav__linkText">Referrals </span>
-              </span>
-            </Link>*/}
           </nav>
           <nav className='nav__right'></nav>
         </div>

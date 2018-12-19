@@ -120,7 +120,6 @@ function BindToChainState(options) {
           ? Component.defaultProps.tempComponent || null
           : null;
 
-        //console.log("----- Wrapper constructor ----->", this.all_chain_props);
         this.update = this.update.bind(this);
         this.state = {resolved: false};
       }
@@ -170,9 +169,6 @@ function BindToChainState(options) {
       }
 
       update(next_props = null) {
-        //let keep_updating = (options && options.keep_updating) || this.props.keep_updating;
-        //if(!next_props && !keep_updating && this.state.resolved) return;
-
         let props = next_props || this.props;
         let new_state = {};
         let all_objects_counter = 0;
@@ -323,7 +319,6 @@ function BindToChainState(options) {
         }
 
         for( let key of this.chain_objects_list ) {
-          //console.log("-- Wrapper.update -->", this.chain_objects_list);
           let prop = props[key] || this.dynamic_props[key] || this.default_props[key];
 
           if(prop) {
@@ -340,7 +335,6 @@ function BindToChainState(options) {
             prop.forEach( (obj_id) => {
               ++index;
 
-              //console.log("-- Wrapper.chain_objects_list item -->", obj_id, index);
               if(obj_id) {
                 let new_obj = ChainStore.getObject(obj_id);
 
@@ -359,7 +353,6 @@ function BindToChainState(options) {
               ++all_objects_counter;
             });
 
-            //console.log("-- Wrapper.chain_objects_list: ", prop_new_state);
             if(changes) {
               new_state[key] = prop_new_state;
             }
@@ -371,7 +364,6 @@ function BindToChainState(options) {
         }
 
         for( let key of this.chain_accounts_list ) {
-          //console.log("-- Wrapper.update -->", this.chain_accounts_list);
           let prop = props[key] || this.dynamic_props[key] || this.default_props[key];
 
           if(prop) {
@@ -386,7 +378,6 @@ function BindToChainState(options) {
 
             let index = 0;
             prop.forEach( (obj_id) => {
-              //console.log("-- Wrapper.chain_accounts_list item -->", obj_id, index);
               if(obj_id) {
                 let new_obj = ChainStore.getAccount(obj_id);
 
@@ -406,7 +397,6 @@ function BindToChainState(options) {
               ++all_objects_counter;
             });
 
-            //console.log("-- Wrapper.chain_accounts_list: ", prop_new_state);
             if(changes) {
               new_state[key] = prop_new_state;
             }
@@ -418,7 +408,6 @@ function BindToChainState(options) {
         }
 
         for( let key of this.chain_assets_list ) {
-          //console.log("-- Wrapper.update -->", this.chain_assets_list);
           let prop = props[key] || this.dynamic_props[key] || this.default_props[key];
 
           if(prop) {
@@ -435,7 +424,6 @@ function BindToChainState(options) {
             prop.forEach( (obj_id) => {
               ++index;
 
-              //console.log("-- Wrapper.chain_assets_list item -->", obj_id, index);
               if(obj_id) {
                 let new_obj = ChainStore.getAsset(obj_id);
 
@@ -454,7 +442,6 @@ function BindToChainState(options) {
               ++all_objects_counter;
             });
 
-            //console.log("-- Wrapper.chain_assets_list: ", prop_new_state);
             if(changes) {
               new_state[key] = prop_new_state;
             }
@@ -465,9 +452,6 @@ function BindToChainState(options) {
           }
         }
 
-        //console.log("----- Wrapper update ----->",
-        // this.all_chain_props, this.all_chain_props.length,
-        // all_objects_counter, resolved_objects_counter);
         if(all_objects_counter <= resolved_objects_counter) {
           new_state.resolved = true;
         }
@@ -483,7 +467,6 @@ function BindToChainState(options) {
       render() {
         const props = omit(this.props, this.all_chain_props);
 
-        //console.log("----- Wrapper render ----->", this.componentName(), this.props, this.state);
         for (let prop of this.required_props)  {
           if(!this.state[prop]) {
             if (typeof options !== 'undefined' && options.show_loader) {
@@ -497,8 +480,6 @@ function BindToChainState(options) {
           }
         }
 
-        // return <span className={this.state.resolved ? "resolved":"notresolved"}>
-        // <Component {...props} {...this.state}/></span>;
         return <Component { ...props } { ...this.state }/>;
       }
     };

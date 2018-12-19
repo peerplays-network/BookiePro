@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import FormattedAsset from '../Utility/FormattedAsset';
 import Inspector from 'react-json-inspector';
 
-
 @connect((state) => {
   return {
     amount: state.transactionConfirm.transaction.amount,

@@ -34,15 +34,11 @@ class Create extends React.Component {
   }
 
   handleSubmit(values) {
-    //TODO:: new unlock
     let {walletLocked, walletModalOpened} = this.props;
 
     if (walletLocked && !walletModalOpened) {
       callback.exists = true;
-      callback.run = this
-        .props
-        .createTournament
-        .bind(this, values);
+      callback.run = this.props.createTournament.bind(this, values);
       this.props.setWalletPosition(true);
       return;
     }

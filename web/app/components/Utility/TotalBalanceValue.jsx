@@ -308,7 +308,6 @@ class TotalValue extends React.Component {
 
       totalsTip += '</tbody></table>';
 
-      // console.log("assetValues:", assetValues, "totalsTip:", totalsTip);
       if (!inHeader) {
         return (
           <FormattedAsset
@@ -351,7 +350,6 @@ class ValueStoreWrapper extends React.Component {
   static getPropsFromStores() {
     return {
       marketStats: MarketsStore.getState().allMarketStats,
-      // settings: SettingsStore.getState().settings
     };
   };
 

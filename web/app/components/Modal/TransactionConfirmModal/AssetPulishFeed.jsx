@@ -3,7 +3,6 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import FormattedPrice from '../Utility/FormattedPrice';
 
-
 @connect((state) => {
   return {
     publisher: state.transactionConfirm.transaction.publisher,

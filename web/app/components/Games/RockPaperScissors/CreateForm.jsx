@@ -8,7 +8,6 @@ import moment from 'moment';
 import AccountRepository from 'repositories/AccountRepository';
 import AssetHelper from 'helpers/AssetHelper';
 import Translate from 'react-translate-component';
-
 import {DateField, DatePicker} from 'react-date-picker';
 import 'react-date-picker/index.css';
 
@@ -48,7 +47,6 @@ const renderFieldInput = ({className, placeholder, input, type, meta: {touched, 
 
 
 const normalizeNumberOfPlayers = (value, previousValue) => {
-
   if (value === '' || (/^\d*$/.test(value) && value > 0 && value <= 64)) {
     return parseInt(value);
   }
@@ -162,7 +160,6 @@ class CreateForm extends React.Component {
   }
 
   getPrecisionAmount(unitList, buyInSymbol) {
-
     let currentUnitObject = this.getUnitObject(unitList, buyInSymbol);
 
     if (currentUnitObject) {
@@ -173,7 +170,6 @@ class CreateForm extends React.Component {
   }
 
   toggleBuyIn(e) {
-
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
@@ -186,25 +182,20 @@ class CreateForm extends React.Component {
   }
 
   hideBuyIn() {
-
     if (this.state.showBuyInMenu) {
       this.setState({
         showBuyInMenu: false
       });
     }
-
   }
 
   showBuyIn() {
-
     this.setState({
       showBuyInMenu: true
     });
-
   }
 
   resetForm() {
-
     this.props.reset();
     this.props.change('buy_in_asset_symbol', this.INIT_SYMBOL);
     this.props.change(
@@ -218,13 +209,11 @@ class CreateForm extends React.Component {
   }
 
   _onUpdateTime(value, newTime) {
-
     this.props.change(value, newTime);
 
   }
 
   toggleTimeDelay() {
-
     if (this.props.has_started) {
       this.props.change('start_delay', 2 * 60);
     } else {
@@ -232,14 +221,11 @@ class CreateForm extends React.Component {
     }
 
     this.props.change('has_started', !this.props.has_started);
-
   }
 
   handleAddition (tag) {
-
     let tags = this.props.whitelist;
     let suggestionsResults = this.props.suggestionsResults;
-
     let fItem = suggestionsResults.find((sugItem) => {
       return sugItem.text.toLowerCase() === tag.toLowerCase();
     });
@@ -259,7 +245,6 @@ class CreateForm extends React.Component {
   }
 
   handleDelete(i) {
-
     let tags = [
       ...this.props.whitelist
     ];
@@ -267,11 +252,9 @@ class CreateForm extends React.Component {
     tags.splice(i, 1);
 
     this.props.change('whitelist', tags);
-
   }
 
   handleInputChange(value) {
-
     this.lookupAccounts(value).then((result) => {
 
       let suggestions = [],
@@ -296,13 +279,10 @@ class CreateForm extends React.Component {
 
       this.props.change('suggestions', suggestions);
       this.props.change('suggestionsResults', suggestionsResults);
-
     });
-
   }
 
   lookupAccounts(accountName) {
-
     return AccountRepository.lookupAccounts(accountName, 100);
   }
 
@@ -398,7 +378,6 @@ class CreateForm extends React.Component {
                     clearIcon={ false }
                     onExpandChange={ (ex) => {
                       if (ex === false) {
-                        //fix
                         this.blurInputField('registration_deadline');
                       }
                     } }
@@ -515,7 +494,6 @@ class CreateForm extends React.Component {
                         </button>);
                     } }
                   >
-
                     <input
                       name='start_time'
                       value={ start_time }
@@ -523,7 +501,6 @@ class CreateForm extends React.Component {
                       readOnly
                       type='text'
                       className='field field-type3 field-btnFloated80' />
-
                     <DatePicker
                       navigation={ true }
                       locale='en'
@@ -547,12 +524,10 @@ class CreateForm extends React.Component {
             <button className='btn btn-success' type='submit' onClick={ handleSubmit((values) => {
               values.action_type = 'create';
               onSubmit(values);
-
             }) } name='create'>{counterpart.translate('games.rps_game.create')}</button>
             <button className='btn btn-success' type='submit' onClick={ handleSubmit((values) => {
               values.action_type = 'create_and_join';
               onSubmit(values);
-
             }) } name='create_and_join'>
               {counterpart.translate('games.rps_game.create_and_join')}
             </button>
@@ -573,7 +548,6 @@ class CreateForm extends React.Component {
               {counterpart.translate('games.rps_game.whitelist_your_friends')}
             </label>
             <div className='fieldWrap'>
-
               <ReactTags
                 ref='whitelist_tags'
                 autofocus={ false }

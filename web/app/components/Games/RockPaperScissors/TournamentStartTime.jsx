@@ -14,9 +14,7 @@ class TournamentStartTime extends React.Component {
     if (this.props.start_time_tournament) {
       return (
         <span>{
-          moment
-            .utc(this.props.start_time_tournament)
-            .tz(moment.tz.guess())
+          moment.utc(this.props.start_time_tournament).tz(moment.tz.guess())
             .format('MMMM D, YYYY hh:mm A Z')}
         </span>
       );

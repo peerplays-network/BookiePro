@@ -94,7 +94,6 @@ const renderRetypePasswordField = ({
   className,
   placeholder,
   input,
-  label,
   type,
   meta: {
     touched,
@@ -126,7 +125,6 @@ const renderCheckboxField = ({
   className,
   placeholder,
   input,
-  label,
   type,
   meta: {
     touched,
@@ -148,11 +146,6 @@ const renderCheckboxField = ({
         <span className='customCheck__checkPseudo'></span>
       </span>
       <span className='customCheck__labelPseudo'>{pseudoText}</span>
-      {/*(dirty) && error && <span className="error__hint">{error}</span>*/}
-      {/*!error && errors && errors.length
-        ? errors.map((err) => {
-          return <span className="error__hint" key={err}>{err}</span>
-        }) : null*/}
     </label>
   );
 };
@@ -401,5 +394,3 @@ export default RegisterForm = reduxForm({
   },
   asyncBlurFields: [ 'accountName' ]
 })(RegisterForm);
-
-// export default RegisterForm;

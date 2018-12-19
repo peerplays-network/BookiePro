@@ -5,7 +5,6 @@ import Trigger from 'react-foundation-apps/src/trigger';
 import Translate from 'react-translate-component';
 
 export default class BrowserSupportModal extends React.Component {
-
   show() {
     ZfApi.publish('browser_modal', 'open');
   }

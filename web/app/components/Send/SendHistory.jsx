@@ -1,9 +1,7 @@
 import React from 'react';
 import Translate from 'react-translate-component';
-
 import {connect} from 'react-redux';
 import assetUtils from 'common/asset_utils';
-
 import SendHistoryRow from './SendHistoryRow';
 
 @connect((state) => {

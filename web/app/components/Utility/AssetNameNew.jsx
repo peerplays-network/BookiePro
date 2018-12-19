@@ -27,8 +27,6 @@ class AssetNameNew extends React.Component {
     let {name: replacedName, prefix} = utils.replaceName(
       name, isBitAsset && !isPredMarket && asset.get('issuer') === '1.2.0'
     );
-    // let prefix = isBitAsset && !isPredMarket ? <span>bit</span> :
-    // replacedName !== this.props.name ? <span>{replacedPrefix}</span> : null;
 
     if (replace && replacedName !== this.props.name) {
       let desc = asset_utils.parseDescription(asset.getIn(['options', 'description']));

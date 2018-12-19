@@ -11,7 +11,6 @@ const renderField = ({
   errors,
   placeholder,
   input,
-  label,
   type,
   iconClass,
   meta: {
@@ -119,13 +118,6 @@ class LoginForm extends React.Component {
           normalize={ normalizeAccount }
           tabIndex='1'
         />
-        {/*
-        <div className="forgot__linkBox">
-          <a href="" className="forgot__link" onClick={navigateToForgotPassword}>
-            {counterpart.translate("login.login_form_forgot_btn_label")}
-          </a>
-        </div>
-      */}
         <Field
           name='password'
           className='field field-pic'
@@ -136,25 +128,6 @@ class LoginForm extends React.Component {
           tabIndex='2'
         />
         <div className='login__options'>
-          {/*<div className="switcher pull-left">
-
-            <Field
-              name="remember_me"
-              id="sw1"
-              className="switcher__value"
-              component="input"
-              type="checkbox"
-            />
-            <label htmlFor="sw1" className="switcher__btn"/>
-            <div className="switcher__barBox">
-              <div className="switcher__bar">
-                <div className="switcher__pipe"></div>
-              </div>
-            </div>
-            <ul className="switcher__labelList">
-              <li>{counterpart.translate("login.login_form_remember_me_label")}</li>
-            </ul>
-          </div>*/}
           {RestoreBtn}
         </div>
       </form>

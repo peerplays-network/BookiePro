@@ -16,7 +16,6 @@ import AssetNameNew from './AssetNameNew';
  *
  */
 
-
 class FormattedAssetNew extends React.Component {
     static propTypes = {
       amount: PropTypes.any.isRequired,

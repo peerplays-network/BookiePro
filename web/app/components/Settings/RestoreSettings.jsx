@@ -1,6 +1,4 @@
 import React from 'react';
-// import {BackupRestore} from "../Wallet/Backup";
-// import ImportKeys from "../Wallet/ImportKeys";
 import counterpart from 'counterpart';
 
 export default class RestoreSettings extends React.Component {
@@ -52,21 +50,5 @@ export default class RestoreSettings extends React.Component {
         {content}
       </div>
     );
-
-    // let content;
-    //
-    //
-    // case "backup":
-    //     // content = (
-    //     //     <div>
-    //     //         <BackupRestore />
-    //     //     </div>
-    //     // );
-    //     break;
-    //
-    // default:
-    //     content = <ImportKeys privateKey={restoreType === 1} />;
-    //     break;
-    // }
   }
 };

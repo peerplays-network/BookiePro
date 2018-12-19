@@ -16,7 +16,6 @@ let callback = {
 };
 
 class Dashboard extends React.Component {
-
   componentWillUpdate(nextProps) {
     const {walletLocked} = this.props;
 

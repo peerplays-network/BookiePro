@@ -16,7 +16,6 @@ let callback = {
 };
 
 class Find extends React.Component {
-
   componentWillUpdate(nextProps) {
     const {walletLocked} = this.props;
 
@@ -123,7 +122,6 @@ class Find extends React.Component {
 
     let numKeys = Object.keys(numPlayersObject);
     let list = numKeys.map((numberOfPlayers) => {
-
       return (
         <div key={ numberOfPlayers } className='table__section'>
           <div className='table2__title'>

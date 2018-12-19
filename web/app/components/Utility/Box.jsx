@@ -4,19 +4,6 @@ import Accordion from 'react-foundation-apps/src/accordion';
 require('./Box.scss');
 
 class Box extends React.Component {
-
-  /*
-    static propTypes = {
-    };
-
-    static defaultProps = {
-    };
-
-    constructor(props) {
-        super(props);
-    }
-*/
-
   renderOriginal() {
     var className = 'Box' + this.props.className ? ' ' + this.props.className : '';
     return (

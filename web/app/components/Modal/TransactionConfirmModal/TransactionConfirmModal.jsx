@@ -119,7 +119,6 @@ class TransactionConfirmModal extends React.Component {
     });
   }
 
-
   render() {
     let transaction, title;
 
@@ -286,40 +285,6 @@ class TransactionConfirmModal extends React.Component {
                         </div>
                     }
                     {buttons}
-                    {/*<div className="ull-right">
-                    {this.props.broadcasting
-                      ? null
-                      : this.props.broadcastError || this.props.isConfirm
-                        ? <button
-                          type="button"
-                          className="btn btn-neutral2"
-                          onClick={this.onClose.bind(this)}>
-                            <Translate content="transfer.close"/>
-                        </button>
-                        : <button
-                          type="button"
-                          className="btn btn-neutral2"
-                          onClick={this.onClose.bind(this)}>
-                            <Translate content="cancel"/>
-                        </button>
-                    }
-                    {this.props.broadcasting || this.props.broadcastError || this.props.isConfirm
-                      ? null
-                      : this.props.propose && this.props.transactionType != 'proposal_create'
-                        ? <button
-                            type="button"
-                            className="btn btn-success"
-                            onClick={this.onPropose.bind(this)}>
-                              <Translate content="propose" />
-                          </button>
-                        : <button
-                            type="button"
-                            className="btn btn-success"
-                            onClick={this.onConfirm.bind(this)}>
-                              <Translate content="transfer.confirm" />
-                        </button>
-                    }
-                </div>*/}
                   </div>
                 </div>
               </div>

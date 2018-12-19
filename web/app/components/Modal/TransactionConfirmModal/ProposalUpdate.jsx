@@ -31,7 +31,6 @@ class ProposalUpdate extends React.Component {
               </span>
             </div>
           </div>
-          {/*f*/}
         </div>
       </div>
     );

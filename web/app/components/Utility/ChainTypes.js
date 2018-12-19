@@ -1,5 +1,6 @@
 import utils from 'common/utils';
 import Immutable from 'immutable';
+
 var {object_type} = require('peerplaysjs-lib').ChainTypes;
 
 function createChainableTypeChecker(validate) {

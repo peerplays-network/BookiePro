@@ -46,7 +46,6 @@ class RockPaperScissorsGame extends React.Component {
 
     switch (status) {
       case 'concluded':
-
         content = (
           <div>
             <h1>{counterpart.translate('games.rps_game.game_status')}: {status}

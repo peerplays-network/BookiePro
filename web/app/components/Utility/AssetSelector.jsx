@@ -106,7 +106,7 @@ class AssetSelector extends React.Component {
 
     render() {
       let {disabled} = this.props;
-      let error; // = this.getError();
+      let error;
       let lookup_display;
 
       if (!disabled) {

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 class CalcBlockTimeWrapper extends Component {
-
   calc_block_time(block_number) {
     const state = this.context.store.getState();
     const block_interval = state.chain.block_interval;

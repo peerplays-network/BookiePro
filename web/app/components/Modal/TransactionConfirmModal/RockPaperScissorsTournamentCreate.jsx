@@ -175,7 +175,7 @@ class RockPaperScissorsTournamentCreate extends React.Component {
       </div>
     );
 
-    if(whitelist_records.length){
+    if (whitelist_records.length) {
       rows.push(
         <div  key={ key++ } className='mConf__tableRow'>
           <div className='mConf__tableLeft'><Translate content='games.rps_game.whitelist' /></div>

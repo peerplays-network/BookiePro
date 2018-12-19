@@ -107,23 +107,20 @@ class ProposalApproveModal extends React.Component {
     let isAdd = this.props.action === 'approve';
 
     if (this.props.accounts.length) {
-      this
-        .props
-        .accounts
-        .forEach((account) => {
-          let accountCheck = isAdd
-            ? account && !proposal
-              .get(`available_${type}_approvals`)
-              .includes(account.get('id'))
-            : account && proposal
-              .get(`available_${type}_approvals`)
-              .includes(account.get('id'));
+      this.props.accounts.forEach((account) => {
+        let accountCheck = isAdd
+          ? account && !proposal
+            .get(`available_${type}_approvals`)
+            .includes(account.get('id'))
+          : account && proposal
+            .get(`available_${type}_approvals`)
+            .includes(account.get('id'));
 
-          if (accountCheck) {
-            accountMap[account.get('name')] = account.get('id');
-            accountNames.push(account.get('name'));
-          }
-        });
+        if (accountCheck) {
+          accountMap[account.get('name')] = account.get('id');
+          accountNames.push(account.get('name'));
+        }
+      });
     }
 
     let keyNames = [];
@@ -241,9 +238,7 @@ class FirstLevel extends React.Component {
   constructor() {
     super();
 
-    this._updateState = this
-      ._updateState
-      .bind(this);
+    this._updateState = this._updateState.bind(this);
   }
 
   componentWillMount() {
@@ -258,9 +253,7 @@ class FirstLevel extends React.Component {
 
   _updateState() {
     let {proposal} = this.props;
-    let type = proposal
-      .get('required_active_approvals')
-      .size
+    let type = proposal.get('required_active_approvals').size
       ? 'active'
       : 'owner';
 

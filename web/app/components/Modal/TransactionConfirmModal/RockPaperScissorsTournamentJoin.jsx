@@ -10,7 +10,6 @@ import asset_utils from 'common/asset_utils';
     payer: state.transactionConfirm.transaction.payer,
     player: state.transactionConfirm.transaction.player,
     asset: state.transactionConfirm.transaction.asset
-
   };
 })
 class RockPaperScissorsTournamentJoin extends React.Component {

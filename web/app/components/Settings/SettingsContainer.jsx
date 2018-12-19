@@ -17,7 +17,6 @@ const mapStateToProps = (state) => {
   mapStateToProps
 )
 class SettingsContainer extends React.Component {
-
   onChangeActiveMenuItem(e) {
     let selectedTab;
 
@@ -28,9 +27,6 @@ class SettingsContainer extends React.Component {
       case 1:
         selectedTab = 'password';
         break;
-        // case 2:
-        //   selectedSettings = 'permissions';
-        //   break;
       case 2:
         selectedTab = 'access';
         break;
@@ -64,9 +60,6 @@ class SettingsContainer extends React.Component {
       case 'password':
         selectedIndex = 1;
         break;
-        // case 'permissions':
-        //   selectedIndex = 2;
-        //   break;
       case 'access':
         selectedIndex = 2;
         break;
@@ -81,9 +74,6 @@ class SettingsContainer extends React.Component {
       <div className='main'>
         <section className='content'>
           <div className='box'>
-            {/*<h1 className="h1 h1__main">*/}
-            {/*<Translate content="header.settings"/>*/}
-            {/*</h1>*/}
             <Tabs className='pt40'
               onSelect={ this.onChangeActiveMenuItem.bind(this) }
               selectedIndex={ selectedIndex }>
@@ -94,13 +84,11 @@ class SettingsContainer extends React.Component {
                 <Tab style={ {display: 'none'} } key='password'>
                   <Translate content='settings.password'/>
                 </Tab>
-                {/*<Tab key="permissions"><Translate content="account.permissions" /></Tab>*/}
                 <Tab key='access'><Translate content='settings.access'/></Tab>
                 <Tab key='claim'><Translate content='settings.claim'/></Tab>
               </TabList>
               <TabPanel><GeneralSettings /></TabPanel>
               <TabPanel><PasswordSettings /></TabPanel>
-              {/*<TabPanel><PermissionSettings /></TabPanel>*/}
               <TabPanel><AccessSettings /></TabPanel>
               <TabPanel><ClaimSettings /></TabPanel>
             </Tabs>

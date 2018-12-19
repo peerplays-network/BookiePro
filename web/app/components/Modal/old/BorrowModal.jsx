@@ -237,7 +237,7 @@ class BorrowModalContent extends React.Component {
           'asset_id': this.props.quote_asset.get('id')
         }});
       WalletDb.process_transaction(tr, null, true).catch((err) => { // eslint-disable-line
-        // console.log("unlock failed:", err);
+        console.log('unlock failed:', err);
       });
 
       ZfApi.publish(this.props.modalId, 'close');
@@ -395,8 +395,6 @@ class BorrowModalContent extends React.Component {
           </div>);
       }
 
-
-
       return (
         <div>
           <form className='grid-container small-10 small-offset-1 no-overflow' noValidate>
@@ -537,9 +535,6 @@ class BorrowModalContent extends React.Component {
                 e.preventDefault(); this.setState(this._initialState(this.props))
                 ;
               } } href className='button info'><Translate content='wallet.reset' /></div>
-              {/*<Trigger close={this.props.modalId}>
-                  <div className="button"><Translate content="account.perm.cancel" /></div>
-              </Trigger>*/}
             </div>
           </form>
         </div>

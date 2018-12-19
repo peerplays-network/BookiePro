@@ -52,7 +52,6 @@ function adjust_links(str) {
   });
 }
 
-//console.log("-- HelpData -->", HelpData);
 class HelpContent extends React.Component {
     static propTypes = {
       path: React.PropTypes.string.isRequired,
@@ -60,7 +59,6 @@ class HelpContent extends React.Component {
     };
 
     static contextTypes = {
-      //history: PropTypes.history
       router: routerShape
     };
 
@@ -120,7 +118,6 @@ class HelpContent extends React.Component {
           value = utils.format_time(value.time);
         }
 
-        //console.log("-- var -->", key, value);
         return value;
       });
     }

@@ -181,7 +181,6 @@ class AccessSettings extends React.Component {
           <div className='desc'><Translate content='settings.access_text'/></div>
         </div>
         <div className='box-inner box-inner-2'>
-
           <form className='clearfix'>
             <div className='clearfix'>
               <div className='col col-5 col-offset-05'>
@@ -221,36 +220,6 @@ class AccessSettings extends React.Component {
                   </button>
                 </div>
               </div>
-              {/*<div className="col col-5 col-offset-05">
-              <div className="row2">
-              <label className="label"><Translate content="settings.faucet_address" /></label>
-              <input
-                type="text"
-                className="field field-type3"
-                value={newFaucetAddress}
-                onChange={this.changeFaucetAddress.bind(this)}
-              />
-              </div>
-              <div className="row2 rowOptions text_r">
-              <button
-                type="button"
-                className="btn btn-neutral"
-                disabled={disableFaucetAddress}
-                onClick={this.onResetFaucetAddress.bind(this)}
-              >
-              <Translate content="settings.reset" />
-              </button>
-              <button
-                type="button"
-                className="btn btn-success"
-                disabled={disableFaucetAddress}
-                onClick={this.onChangeFaucetAddress.bind(this)}
-              >
-              <Translate content="settings.confirm" />
-              </button>
-              </div>
-              </div>
-              */}
             </div>
             <div className='hr'></div>
             <div className='clearfix'>

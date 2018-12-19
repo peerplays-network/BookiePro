@@ -92,8 +92,8 @@ class MoveTimerDisplay extends React.Component {
   timerCallback() {
     let secondsRemaining = null;
     /**
-         * This will fix itself if the user changes their clock
-         */
+   * This will fix itself if the user changes their clock
+   */
 
     let now = new Date(new Date().getTime() - this.timeOffset);
     // let now = new Date();
@@ -127,7 +127,6 @@ class MoveTimerDisplay extends React.Component {
   }
 
   draw() {
-    //counter
     this.counter = new createjs.Container().set({scaleX: 0, scaleY: 0, alpha: 1});
 
     let circle = new createjs.Shape();

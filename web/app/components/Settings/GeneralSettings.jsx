@@ -62,41 +62,6 @@ export default class GeneralSettings extends React.Component {
                 />
               </div>
             </div>
-
-            {/*<div className="col col-5 general__switch">
-              <div className="row2">
-                <div className="switch__big switch__big-inline">
-                  <input
-                    type="checkbox"
-                    className="switch"
-                    id="showOrders"
-                    onChange={this.onChangeSettleStatus.bind(this)}
-                    defaultChecked={showSettles ? true : false}
-                  />
-                  <label htmlFor="showOrders" className="switch__label">
-                    <Translate content="settings.showSettles" />
-                  </label>
-                  <label htmlFor="showOrders" className="switch__slider"></label>
-                </div>
-              </div>
-            </div>*
-            <div className="col col-3 general__switch">
-              <div className="row2">
-                <div className="switch__big switch__big-inline">
-                  <input
-                    type="checkbox"
-                    className="switch"
-                    id="disableChat"
-                    onChange={this.onChangeChatStatus.bind(this)}
-                    defaultChecked={disableChat ? true : false}
-                  />
-                  <label htmlFor="disableChat" className="switch__label">
-                    <Translate content="settings.disableChat" />
-                  </label>
-                  <label htmlFor="disableChat" className="switch__slider"></label>
-                </div>
-              </div>
-            </div>*/}
           </form>
         </div>
       </div>
