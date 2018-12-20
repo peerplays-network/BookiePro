@@ -14,9 +14,7 @@ let defaultState = {
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    /**
-     * Set List of notices
-     */
+    // Set List of notices
     case ActionTypes.NOTIFICATIONS_SET_MESSAGES:
       return {
         ...state,

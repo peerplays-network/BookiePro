@@ -32,10 +32,7 @@ let defaultState = {
   change: 0,
   volumeBase: 0,
   volumeQuote: 0,
-
-  /**
-   * Markets
-   */
+  // Markets
   currentTab: 0,
   tabs: [],
   marketRowsData: [],
@@ -43,18 +40,14 @@ let defaultState = {
   marketRowsDataSortBy: 'volume',
   marketRowsDataSortInvert: true,
   marketRowsDataLoaderIsShow: true,
-  /**
-   * Price Chart
-   */
+  // Price Chart
   highPriceList: [],
   priceData: [],
   priceChartCurrentPeriod: null,
   currentBucket: 86400,
   buckets: [300, 3600, 86400],
   priceChartStatusLoader: 'default',
-  /**
-   * Depth Chart
-   */
+  // Depth Chart
   bids: [],
   asks: [],
   settlementPrice: 0,

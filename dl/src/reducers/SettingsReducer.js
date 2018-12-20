@@ -53,49 +53,35 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    /**
-     * Set initial settings
-     */
+    // Set initial settings
     case ActionTypes.INIT_SETTINGS:
       return Object.assign({}, state, action.payload.newSettings);
-      /**
-       * Change settings language
-       */
+      // Change settings language
     case ActionTypes.SWITCH_LOCALE:
       return Object.assign({}, state, {
         locale: action.payload
       });
-      /**
-       * show|hide settles
-       */
+      // show|hide settles
     case ActionTypes.CHANGE_SETTLE_STATUS:
       return Object.assign({}, state, {
         showSettles: action.payload
       });
-      /**
-       * show|hide chat
-       */
+      // show|hide chat
     case ActionTypes.CHANGE_CHAT_STATUS:
       return Object.assign({}, state, {
         disableChat: action.payload
       });
-      /**
-       * change unit //TODO::rm
-       */
+      // change unit //TODO::rm
     case ActionTypes.CHANGE_UNIT:
       return Object.assign({}, state, {
         unit: action.payload
       });
-      /**
-       * change hidden assets
-       */
+      // change hidden assets
     case ActionTypes.CHANGE_HIDDEN_ASSETS:
       return Object.assign({}, state, {
         hiddenAssets: action.payload
       });
-      /**
-       * add OwnerKey Permissions TODO::rm
-       */
+      // add OwnerKey Permissions TODO::rm
     case ActionTypes.ADD_OWNER_KEY:
       return {
         ...state,
@@ -103,24 +89,18 @@ export default function (state = initialState, action) {
           ? state.ownerKeyPermissions.concat(action.payload)
           : action.payload
       };
-      /**
-       * change current ws connection
-       */
+      // change current ws connection
     case ActionTypes.CHANGE_CONNECTION:
       return Object.assign({}, state, {
         connection: action.payload
       });
-      /**
-       * Change current faucet url
-       */
+      // Change current faucet url
     case ActionTypes.CHANGE_FAUCET_ADDRESS:
       return Object.assign({}, state, {
         faucetAddress: action.payload
       });
     default:
-      /**
-       * We return the previous state in the default case
-       */
+      // We return the previous state in the default case
       return state;
   }
 }

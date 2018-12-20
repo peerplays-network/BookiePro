@@ -46,9 +46,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    /**
-     * open modal, set transaction object, transaction type and button type
-     */
+    // open modal, set transaction object, transaction type and button type
     case ActionTypes.TRCONFIRM_SET_TRANSACTION:
       return Object.assign({}, state, {
         isOpen: true,
@@ -56,42 +54,32 @@ export default (state = initialState, action) => {
         transaction: action.payload.data,
         btnStatus: 'default'
       });
-      /**
-       * set propose btn status
-       */
+      // set propose btn status
     case ActionTypes.TRCONFIRM_PROPOSE:
       return Object.assign({}, state, {
         propose: action.payload,
         btnStatus: action.payload ? 'propose' : 'default'
       });
-      /**
-       * set: transaction in process
-       */
+      // set: transaction in process
     case ActionTypes.TRCONFIRM_BROADCASTING:
       return Object.assign({}, state, {
         broadcasting: true,
         btnStatus: 'loading'
       });
-      /**
-       * set broadcast SUCCESS
-       */
+      // set broadcast SUCCESS
     case ActionTypes.TRCONFIRM_BROADCAST_SUCCESS:
       return Object.assign({}, state, {
         broadcasting: false,
         broadcastSuccess: true
       });
-      /**
-       * set broadcast ERROR
-       */
+      // set broadcast ERROR
     case ActionTypes.TRCONFIRM_BROADCAST_ERROR:
       return Object.assign({}, state, {
         broadcasting: false,
         broadcastError: action.payload,
         btnStatus: 'error'
       });
-      /**
-       * set: The transaction was successful
-       */
+      // set: The transaction was successful
     case ActionTypes.TRCONFIRM_TRCONFIRMED:
       return Object.assign({}, state, {
         broadcasting: false,
@@ -99,16 +87,12 @@ export default (state = initialState, action) => {
         isConfirm: true,
         btnStatus: 'done'
       });
-      /**
-       * close and reset modal
-       */
+      // close and reset modal
     case ActionTypes.TRCONFIRM_CLEAR:
       return initialState;
 
     default:
-      /**
-       * We return the previous state in the default case
-       */
+      // We return the previous state in the default case
       return state;
   }
 };

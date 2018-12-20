@@ -16,17 +16,13 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    /**
-     * Set new Private Keys
-     */
+    // Set new Private Keys
     case ActionTypes.PRIVATE_KEY_SET:
       return Object.assign({}, state, {
         keys: action.payload.keys
       });
     default:
-      /**
-       * We return the previous state in the default case
-       */
+      // We return the previous state in the default case
       return state;
   }
 };

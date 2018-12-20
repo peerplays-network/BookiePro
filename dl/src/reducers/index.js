@@ -57,13 +57,9 @@ const rootReducer = combineReducers({
   helpReducer: HelpReducer,
   memoModal: MemoReducer,
 
-  /**
-   * Games
-   */
+  // Games
   rockPaperScissorsReducer: RockPaperScissorsReducer,
-  /**
-   * Common form reducer: npm redux-form
-   */
+  //Common form reducer: npm redux-form
   form: formReducer
 });
 

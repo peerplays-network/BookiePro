@@ -53,30 +53,22 @@ let defaultState = {
 
 export default function (state = defaultState, action) {
   switch (action.type) {
-    /**
-     * At least once the data were collected
-     */
+    // At least once the data were collected
     case ActionTypes.EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED:
       return Object.assign({}, state, {
         dataIsFetched: action.payload.dataIsFetched
       });
-      /**
-       * Set recent blocks on explore page
-       */
+      // Set recent blocks on explore page
     case ActionTypes.EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS:
       return Object.assign({}, state, {
         latestBlocks: action.payload.latestBlocks
       });
-      /**
-       *  Set operation list
-       */
+      // Set operation list
     case ActionTypes.EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS:
       return Object.assign({}, state, {
         operations: action.payload.operations
       });
-      /**
-       * Set statistic page block
-       */
+      // Set statistic page block
     case ActionTypes.EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC:
       return Object.assign({}, state, {
         head_block_number: action.payload.head_block_number,
@@ -97,9 +89,7 @@ export default function (state = defaultState, action) {
         coreAsset: action.payload.coreAsset
       });
     default:
-      /**
-       * We return the previous state in the default case
-       */
+      // We return the previous state in the default case
       return state;
   }
 }

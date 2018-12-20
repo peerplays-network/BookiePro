@@ -17,16 +17,12 @@ let defaultState = {
 
 export default function (state = defaultState, action) {
   switch (action.type) {
-    /**
-     * Register form: Setting button state
-     */
+    // Register form: Setting button state
     case RegisterConstants.REGISTER_SET_STATUS:
       return Object.assign({}, state, {
         status: action.status
       });
-      /**
-       * Register form: Setting Common validation errors
-       */
+      // Register form: Setting Common validation errors
     case RegisterConstants.REGISTER_SET_ERRORS:
       return Object.assign({}, state, {
         errors: action.errors
@@ -35,5 +31,3 @@ export default function (state = defaultState, action) {
       return state;
   }
 }
-
-;

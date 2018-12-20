@@ -12,22 +12,16 @@ let defaultState = {
 
 export default function (state = defaultState, action) {
   switch (action.type) {
-    /**
-     * Set account vesting list
-     */
+    // Set account vesting list
     case ActionTypes.SET_ACCOUNT_VESTING_DATA:
       return Object.assign({}, state, {
         balances: action.payload.balances
       });
-      /**
-       * Reset page
-       */
+      // Reset page
     case ActionTypes.RESET_ACCOUNT_VESTING_DATA:
       return Object.assign({}, state, defaultState);
     default:
-      /**
-       * We return the previous state in the default case
-       */
+      // We return the previous state in the default case
       return state;
   }
 }

@@ -11,9 +11,7 @@ import {ActionTypes} from '../constants/ActionTypes';
  */
 let defaultState = {
 
-  /**
-   * Dashboard Data
-   */
+  // Dashboard Data
   precision: 4,
   decimals: 4,
   coreSymbol: CORE_ASSET,
@@ -30,24 +28,18 @@ let defaultState = {
   blockInterval: null,
   availableBalances: {},
 
-  /**
-   * Vesting balance Side
-   */
+  // Vesting balance Side
   vestingBalancesIds: [],
   vestingBalances: Immutable.Map(),
   vestingAsset: null,
 
-  /**
-   * Member account
-   */
+  // Member account
   memberAccount: null
 };
 
 export default function (state = defaultState, action) {
   switch (action.type) {
-    /**
-     * Dashboard Side: set vesting balances
-     */
+    // Dashboard Side: set vesting balances
     case ActionTypes.DASHBOARD_SET_SIDE_VESTING_BALANCES:
       return {
         ...state,
@@ -58,23 +50,19 @@ export default function (state = defaultState, action) {
       /**
        * Dashboard Side: set controlled member account
        *
-       *  For this account we control the change of type
+       * For this account we control the change of type
        */
     case ActionTypes.DASHBOARD_SET_SIDE_MEMBER:
       return {
         ...state,
         memberAccount: action.payload.memberAccount
       };
-      /**
-       *  Dashboard Side: Set available balances
-       */
+      // Dashboard Side: Set available balances
     case ActionTypes.DASHBOARD_CHANGE_SIDE:
       return Object.assign({}, state, {
         availableBalances: action.payload.availableBalances
       });
-      /**
-       * set data for balances
-       */
+      // set data for balances
     case ActionTypes.DASHBOARD_SET_BALANCES:
       return Object.assign({}, state, {
         coreToken: action.payload.coreToken,
@@ -90,33 +78,25 @@ export default function (state = defaultState, action) {
       });
     case ActionTypes.DASHBOARD_UPDATE:
       return Object.assign({}, state, action.payload);
-      /**
-       * Show hidden assets button status
-       */
+      // Show hidden assets button status
     case ActionTypes.DASHBOARD_TOGGLE_SHOW_HIDDEN_ASSETS:
       return Object.assign({}, state, {
         showHiddenAssets: action.payload.showHiddenAssets
       });
-      /**
-       * Set recent activity page data
-       */
+      // Set recent activity page data
     case ActionTypes.DASHBOARD_SET_RECENT_ACTIVITY:
       return Object.assign({}, state, {
         recentActivity: action.payload.recentActivity,
         headBlockNumber: action.payload.headBlockNumber,
         blockInterval: action.payload.blockInterval
       });
-      /**
-       * Set open orders list
-       */
+      // Set open orders list
     case ActionTypes.DASHBOARD_SET_OPEN_ORDERS:
       return Object.assign({}, state, {
         openOrders: action.payload.openOrders
       });
     default:
-      /**
-       * We return the previous state in the default case
-       */
+      // We return the previous state in the default case
       return state;
   }
 }

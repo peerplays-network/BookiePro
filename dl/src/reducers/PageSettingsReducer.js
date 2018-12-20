@@ -17,14 +17,10 @@ const initialState = {
   /* Active menu item (Sub menu)*/
 
   activeSetting: activeSetting,
-  /**
-   * Current connection
-   */
+  // Current connection
   connection: connection,
 
-  /**
-   * Tabs
-   */
+  // Tabs
   menuEntries: [
     'general',
     'password',
@@ -35,9 +31,7 @@ const initialState = {
     general: ['locale', 'showSettles', 'disableChat'],
     access: ['connection', 'faucetAddress']
   },
-  /**
-   * Default settings
-   */
+  //Default settings
   defaults: {
     showSettles: [{
       translate: 'yes'
@@ -56,9 +50,7 @@ const initialState = {
     connection: BLOCKCHAIN_URL,
     faucetAddress: FAUCET_URL,
   },
-  /**
-   * Claim page(sharedrop page)
-   */
+  // Claim page(sharedrop page)
   claim_error: null,
   claim_privateKey: null,
   claim_balances: Immutable.List()
@@ -74,51 +66,37 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, {
         connection: state.connection.filter((e) => e !== action.payload)
       });
-      /**
-       * Sharedrop page claim
-       */
+      /* Sharedrop page claim */
 
-      /**
-       * set common key error(field Owner Key)
-       */
+      // set common key error(field Owner Key)
     case ActionTypes.SETTINGS_CLAIM_SET_KEY_ERROR:
       return Object.assign({}, state, {
         claim_error: action.payload.claim_error
       });
-      /**
-       * reset page
-       */
+      // reset page
     case ActionTypes.SETTINGS_CLAIM_RESET:
       return Object.assign({}, state, {
         claim_error: null,
         claim_privateKey: null,
         claim_balances: Immutable.List()
       });
-      /**
-       * reset balances list only(without owner key)
-       */
+      // reset balances list only(without owner key)
     case ActionTypes.SETTINGS_CLAIM_RESET_BALANCES:
       return Object.assign({}, state, {
         claim_balances: Immutable.List()
       });
-      /**
-       * Set key with which we will work
-       */
+      // Set key with which we will work
     case ActionTypes.SETTINGS_CLAIM_SET_PRIVATE_KEY:
       return Object.assign({}, state, {
         claim_privateKey: action.payload.claim_privateKey
       });
-      /**
-       * set claim balances list
-       */
+      // set claim balances list
     case ActionTypes.SETTINGS_CLAIM_SET_BALANCES_DATA:
       return Object.assign({}, state, {
         claim_balances: action.payload.claim_balances
       });
     default:
-      /**
-       * We return the previous state in the default case
-       */
+      // We return the previous state in the default case
       return state;
   }
 }

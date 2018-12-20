@@ -26,9 +26,7 @@ let initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    /**
-     * Set page data
-     */
+    // Set page data
     case ActionTypes.SEND_PAGE_UPDATE:
       return Object.assign({}, state, {
         head_block_number: action.payload.head_block_number,
@@ -44,17 +42,13 @@ export default function (state = initialState, action) {
         history: action.payload.history,
         historyAssets: action.payload.historyAssets
       });
-      /**
-       * Page assets <select> symbol
-       */
+      // Page assets <select> symbol
     case ActionTypes.SEND_PAGE_SET_SYMBOL:
       return Object.assign({}, state, {
         selectedSymbol: action.payload
       });
     default:
-      /**
-       * We return the previous state in the default case
-       */
+      // We return the previous state in the default case
       return state;
   }
 }

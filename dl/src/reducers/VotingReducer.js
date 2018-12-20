@@ -19,30 +19,19 @@ import {
  * @type {{proxy: {knownProxies: Array}, witnesses: {sortBy: string, inverseSort: boolean}, committeeMembers: {}, proposals: {}}}
  */
 const initialState = {
-  /**
-   *
-   */
   proxy: {
     knownProxies: []
   },
-  /**
-   * Voting/witnesses page
-   */
+  // Voting/witnesses page
   witnesses: {
     sortBy: 'rank',
     inverseSort: true
   },
-  /**
-   * New witness ids
-   */
+  // New witness ids
   newWitnesses: [],
-  /**
-   * Voting/Committee Members page(Advisors)
-   */
+  // Voting/Committee Members page(Advisors)
   committeeMembers: {},
-  /**
-   * Proposal page TODO::rm
-   */
+  // Proposal page TODO::rm
   proposals: {}
 };
 
@@ -71,26 +60,20 @@ export default (state = initialState, action) => {
           id: action.payload.id
         }
       });
-      /**
-       * Add new witness
-       */
+      // Add new witness
     case VOTING_SET_NEW_WITNESSES:
       return Object.assign({}, state, {
         ...state,
         newWitnesses: action.payload.newWitnesses
       });
-      /**
-       * Update only a witness page
-       */
+      // Update only a witness page
     case VOTING_UPDATE_WITNESS_TAB:
       return Object.assign({}, state, {
         ...state,
         witnesses: action.payload.witnesses
       });
     default:
-      /**
-       * We return the previous state in the default case
-       */
+      // We return the previous state in the default case
       return state;
   }
 };

@@ -16,31 +16,23 @@ let defaultState = {
 
 export default function (state = defaultState, action) {
   switch (action.type) {
-    /**
-     * Login form: Setting button state
-     */
+    // Login form: Setting button state
     case LoginPageConstants.LOGIN_SET_STATUS:
       return Object.assign({}, state, {
         status: action.status
       });
-      /**
-       * Login form: Set up a login account
-       */
+      //Login form: Set up a login account
     case LoginPageConstants.LOGIN_SET_ACCOUNT_FOR_LOGIN:
       return Object.assign({}, state, {
         accountForLogin: action.accountForLogin
       });
-      /**
-       * Login form: Setting Common validation errors
-       */
+      //Login form: Setting Common validation errors
     case LoginPageConstants.LOGIN_SET_LOGIN_ERRORS:
       return Object.assign({}, state, {
         errors: action.errors
       });
     default:
-      /**
-       * We return the previous state in the default case
-       */
+      // We return the previous state in the default case
       return state;
   }
 }

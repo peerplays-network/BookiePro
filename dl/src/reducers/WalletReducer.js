@@ -20,42 +20,26 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    /**
-     *
-     */
     case ActionTypes.SET_LOCK_STATUS:
       return Object.assign({}, state, {
         locked: action.payload
       });
-      /**
-       * Show|Hide Unlock modal
-       */
+      // Show|Hide Unlock modal
     case ActionTypes.SET_POSITION:
       return Object.assign({}, state, {
         isOpen: action.payload
       });
-      /**
-       * reset wallet data
-       */
+      // reset wallet data
     case ActionTypes.WALLET_RESET:
       return Object.assign({}, state, initialState);
-
-      /**
-       * New
-       */
-
-      /**
-       * Show|Hide Unlock modal //here we work with promises
-       */
+      // Show|Hide Unlock modal //here we work with promises
     case ActionTypes.SHOW_WALLET_PASSWORD_WINDOW:
       return Object.assign({}, state, {
         isOpen: action.payload.isOpen,
         success: action.payload.success,
         cancel: action.payload.cancel
       });
-      /**
-       * reset Unlock modal //here we work with promises
-       */
+      // reset Unlock modal //here we work with promises
     case ActionTypes.RESET_WALLET_PASSWORD_WINDOW:
       return Object.assign({}, state, {
         isOpen: false,
@@ -63,9 +47,7 @@ export default function (state = initialState, action) {
         cancel: null
       });
     default:
-      /**
-       * We return the previous state in the default case
-       */
+      // We return the previous state in the default case
       return state;
   }
 }

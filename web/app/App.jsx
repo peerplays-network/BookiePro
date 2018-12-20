@@ -14,24 +14,9 @@ import ReactDOM from 'react-dom';
 import {Router, Route, IndexRoute, IndexRedirect, hashHistory} from 'react-router';
 import {Provider} from 'react-redux';
 import {syncHistoryWithStore} from 'react-router-redux';
-
-/**
- * Constants
- */
 import LocationConstants from 'constants/LocationConstants';
-
-
-/**
- * Actions
- */
 import AppActions from 'actions/AppActions';
-
-
-/**
- * Services
- */
 import AppService from 'services/AppService';
-
 
 /**
  * Wrappers

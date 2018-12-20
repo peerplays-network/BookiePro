@@ -11,17 +11,13 @@ let initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    /**
-     * blockchain/fee page: set fee groups
-     */
+    // blockchain/fee page: set fee groups
     case ActionTypes.EXPLORER_FEE_SCHEDULE_SET:
       return {
         feeGroups: action.payload
       };
     default:
-      /**
-       * We return the previous state in the default case
-       */
+      // We return the previous state in the default case
       return state;
   }
 }

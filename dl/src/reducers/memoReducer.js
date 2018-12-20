@@ -28,9 +28,7 @@ export default function (state = defaultState, action) {
     case ActionTypes.MEMO_RESET_VIEW_MODAL:
       return defaultState;
     default:
-      /**
-       * We return the previous state in the default case
-       */
+      // We return the previous state in the default case
       return state;
   }
 }
