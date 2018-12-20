@@ -1,5 +1,5 @@
 import ls from '../common/localStorage';
-import * as Types from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import Immutable from 'immutable';
 import {switchLibraryLocale} from '../services/LocaleService';
 
@@ -41,7 +41,7 @@ export function initSettings() {
         let locale = newSettings['locale'];
         switchLibraryLocale({locale, localeData: locales[locale]});
         dispatch({
-          type: Types.INIT_SETTINGS,
+          type: ActionTypes.INIT_SETTINGS,
           payload: {
             newSettings: newSettings
           }
@@ -62,7 +62,7 @@ export function switchLocale(locale) {
     changeStorageValue('locale', locale);
     switchLibraryLocale({locale, localeData: locales[locale]});
     dispatch({
-      type: Types.SWITCH_LOCALE,
+      type: ActionTypes.SWITCH_LOCALE,
       payload: locale
     });
   };
@@ -80,7 +80,7 @@ export function changeSettleStatus() {
   return (dispatch) => {
     changeStorageValue('showSettles', status);
     dispatch({
-      type: Types.CHANGE_SETTLE_STATUS,
+      type: ActionTypes.CHANGE_SETTLE_STATUS,
       payload: status
     });
   };
@@ -98,7 +98,7 @@ export function changeChatStatus() {
   return (dispatch) => {
     changeStorageValue('disableChat', status);
     dispatch({
-      type: Types.CHANGE_CHAT_STATUS,
+      type: ActionTypes.CHANGE_CHAT_STATUS,
       payload: status
     });
   };
@@ -115,7 +115,7 @@ export function changeChatStatus() {
 export function addOwnerKeyPermissions(data){
   return (dispatch) => {
     dispatch({
-      type: Types.ADD_OWNER_KEY,
+      type: ActionTypes.ADD_OWNER_KEY,
       payload: data
     });
   };
@@ -131,7 +131,7 @@ export function changeUnit(unit) {
   return function (dispatch) {
     changeStorageValue('unit', unit);
     dispatch({
-      type: Types.CHANGE_UNIT,
+      type: ActionTypes.CHANGE_UNIT,
       payload: unit
     });
   };
@@ -149,7 +149,7 @@ export function changeFaucetAddress(address){
   return function (dispatch) {
     changeStorageValue('faucetAddress', address);
     dispatch({
-      type: Types.CHANGE_FAUCET_ADDRESS,
+      type: ActionTypes.CHANGE_FAUCET_ADDRESS,
       payload: address
     });
   };
@@ -167,7 +167,7 @@ export function addAssetToHidden(unit) {
     hiddenAssets = hiddenAssets.push(unit);
     changeStorageValue('hiddenAssets', hiddenAssets.toJS());
     dispatch({
-      type: Types.CHANGE_HIDDEN_ASSETS,
+      type: ActionTypes.CHANGE_HIDDEN_ASSETS,
       payload: hiddenAssets
     });
   };
@@ -189,7 +189,7 @@ export function removeAssetToHidden(unit) {
       hiddenAssets = hiddenAssets.delete(hiddenAssets.indexOf(unit));
       changeStorageValue('hiddenAssets', hiddenAssets.toJS());
       dispatch({
-        type: Types.CHANGE_HIDDEN_ASSETS,
+        type: ActionTypes.CHANGE_HIDDEN_ASSETS,
         payload: hiddenAssets
       });
     }

@@ -1,14 +1,4 @@
-import {
-  DASHBOARD_CHANGE_SIDE,
-  DASHBOARD_SET_BALANCES,
-  DASHBOARD_UPDATE,
-  DASHBOARD_TOGGLE_SHOW_HIDDEN_ASSETS,
-  DASHBOARD_SET_RECENT_ACTIVITY,
-  DASHBOARD_SET_OPEN_ORDERS,
-  DASHBOARD_SET_SIDE_VESTING_BALANCES,
-  DASHBOARD_SET_SIDE_MEMBER
-} from '../constants/ActionTypes';
-
+import {ActionTypes} from '../constants/ActionTypes';
 import DashboardBalancesService from '../services/DashboardBalancesService';
 import Repository from '../repositories/chain/repository';
 
@@ -19,7 +9,7 @@ import Repository from '../repositories/chain/repository';
  */
 function toggleShowHiddenAssetsAction(showHiddenAssets) {
   return {
-    type: DASHBOARD_TOGGLE_SHOW_HIDDEN_ASSETS,
+    type: ActionTypes.DASHBOARD_TOGGLE_SHOW_HIDDEN_ASSETS,
     payload: {
       showHiddenAssets: showHiddenAssets
     }
@@ -34,7 +24,7 @@ function toggleShowHiddenAssetsAction(showHiddenAssets) {
  */
 function setSideAction(sideData) {
   return {
-    type: DASHBOARD_CHANGE_SIDE,
+    type: ActionTypes.DASHBOARD_CHANGE_SIDE,
     payload: sideData
   };
 }
@@ -46,7 +36,7 @@ function setSideAction(sideData) {
  */
 function setBalancesAction(data) {
   return {
-    type: DASHBOARD_SET_BALANCES,
+    type: ActionTypes.DASHBOARD_SET_BALANCES,
     payload: data
   };
 }
@@ -58,7 +48,7 @@ function setBalancesAction(data) {
  */
 function updateAssetAction(data) {
   return {
-    type: DASHBOARD_UPDATE,
+    type: ActionTypes.DASHBOARD_UPDATE,
     payload: data
   };
 }
@@ -70,7 +60,7 @@ function updateAssetAction(data) {
  */
 function setRecentActivityAction(data) {
   return {
-    type: DASHBOARD_SET_RECENT_ACTIVITY,
+    type: ActionTypes.DASHBOARD_SET_RECENT_ACTIVITY,
     payload: data
   };
 }
@@ -82,7 +72,7 @@ function setRecentActivityAction(data) {
  */
 function setOpenOrdersAction(data) {
   return {
-    type: DASHBOARD_SET_OPEN_ORDERS,
+    type: ActionTypes.DASHBOARD_SET_OPEN_ORDERS,
     payload: data
   };
 }
@@ -95,7 +85,7 @@ function setOpenOrdersAction(data) {
  */
 function setVestingBalancesAction(data) {
   return {
-    type: DASHBOARD_SET_SIDE_VESTING_BALANCES,
+    type: ActionTypes.DASHBOARD_SET_SIDE_VESTING_BALANCES,
     payload: data
   };
 }
@@ -108,7 +98,7 @@ function setVestingBalancesAction(data) {
  */
 function setMemberDataAction(data) {
   return {
-    type: DASHBOARD_SET_SIDE_MEMBER,
+    type: ActionTypes.DASHBOARD_SET_SIDE_MEMBER,
     payload: data
   };
 }

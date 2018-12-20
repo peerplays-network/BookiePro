@@ -1,6 +1,4 @@
-import {
-  SOFTWARE_UPDATE_SET_ACCOUNT_DATA
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 /**
  * Software Update Reducer is used to monitoring updates
@@ -21,7 +19,7 @@ export default (state = defaultState, action) => {
     /**
      * Update controlled account
      */
-    case SOFTWARE_UPDATE_SET_ACCOUNT_DATA:
+    case ActionTypes.SOFTWARE_UPDATE_SET_ACCOUNT_DATA:
       return {
         ...state,
         account: action.payload.account

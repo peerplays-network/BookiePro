@@ -1,4 +1,4 @@
-import {TOGGLE_HELP_POPUP} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 /**
  * Private Action Creator (TOGGLE_HELP_POPUP)
@@ -8,7 +8,7 @@ import {TOGGLE_HELP_POPUP} from '../constants/ActionTypes';
  */
 function toggleModalAction(isShow) {
   return {
-    type: TOGGLE_HELP_POPUP,
+    type: ActionTypes.TOGGLE_HELP_POPUP,
     payload: {
       showHelpModal: isShow
     }

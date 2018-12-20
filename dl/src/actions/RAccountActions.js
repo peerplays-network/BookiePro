@@ -1,5 +1,5 @@
 import AccountApi from '../api/accountApi';
-import * as Types from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import Immutable from 'immutable';
 import {ChainStore} from 'peerplaysjs-lib';
 import BalanceRepository from '../repositories/BalanceRepository';
@@ -13,7 +13,7 @@ import AssetRepository from '../repositories/AssetRepository';
  */
 function action_accountSearchRequested(start_symbol) {
   return {
-    type: Types.ACCOUNT_SEARCH_REQUESTED,
+    type: ActionTypes.ACCOUNT_SEARCH_REQUESTED,
     startSymbol: start_symbol
   };
 }
@@ -28,7 +28,7 @@ function action_accountSearchRequested(start_symbol) {
  */
 function action_accountSearch(accounts, startSymbol, coreAsset) {
   return {
-    type: Types.ACCOUNT_SEARCH,
+    type: ActionTypes.ACCOUNT_SEARCH,
     accounts: accounts,
     searchTerm: startSymbol,
     coreAsset

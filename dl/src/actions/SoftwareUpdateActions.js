@@ -1,6 +1,4 @@
-import {
-  SOFTWARE_UPDATE_SET_ACCOUNT_DATA
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import {ChainTypes} from 'peerplaysjs-lib';
 import Repository from '../repositories/chain/repository';
 import NotificationsActions from './NotificationsActions';
@@ -18,7 +16,7 @@ import CONFIG from '../config/main';
  */
 function setAccountDataAction(data) {
   return {
-    type: SOFTWARE_UPDATE_SET_ACCOUNT_DATA,
+    type: ActionTypes.SOFTWARE_UPDATE_SET_ACCOUNT_DATA,
     payload: data
   };
 }

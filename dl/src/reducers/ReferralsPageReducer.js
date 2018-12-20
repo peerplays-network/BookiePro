@@ -1,6 +1,4 @@
-import {
-  REFERRALS_SET
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 /**
  * Referrals Reducer is used to controlling a Referral Page
@@ -20,7 +18,7 @@ export default function (state = defaultState, action) {
     /**
      * Set controlled account
      */
-    case REFERRALS_SET:
+    case ActionTypes.REFERRALS_SET:
       return Object.assign({}, state, {
         account: action.payload.account
       });

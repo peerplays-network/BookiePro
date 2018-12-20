@@ -1,7 +1,4 @@
-import {
-  SET_ACCOUNT_VESTING_DATA,
-  RESET_ACCOUNT_VESTING_DATA
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 /**
  * Account Vesting Reducer is used to saving account vesting balances
@@ -18,14 +15,14 @@ export default function (state = defaultState, action) {
     /**
      * Set account vesting list
      */
-    case SET_ACCOUNT_VESTING_DATA:
+    case ActionTypes.SET_ACCOUNT_VESTING_DATA:
       return Object.assign({}, state, {
         balances: action.payload.balances
       });
       /**
        * Reset page
        */
-    case RESET_ACCOUNT_VESTING_DATA:
+    case ActionTypes.RESET_ACCOUNT_VESTING_DATA:
       return Object.assign({}, state, defaultState);
     default:
       /**

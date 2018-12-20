@@ -1,14 +1,4 @@
-import {
-  APP_LOCAL_DB_IS_INIT,
-  APP_LOCAL_DB_DATA_IS_LOAD,
-  APP_CHAIN_IS_INIT,
-  APP_SET_SYNC_FAIL,
-  APP_LOGIN,
-  APP_LOGOUT,
-  APP_CURRENT_LOCATION,
-  APP_SET_STATUS,
-  APP_SET_SHOW_CANT_CONNECT_MODAL
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 /**
  * AppReducer is used to controling an application state
@@ -65,49 +55,49 @@ export default function (state = defaultState, action) {
     /**
      * Show cant connect modal window or no
      */
-    case APP_SET_SHOW_CANT_CONNECT_MODAL:
+    case ActionTypes.APP_SET_SHOW_CANT_CONNECT_MODAL:
       return Object.assign({}, state, {
         showCantConnectModal: action.payload.showCantConnectModal
       });
       /**
        * global app status "reconnect"|null
        */
-    case APP_SET_STATUS:
+    case ActionTypes.APP_SET_STATUS:
       return Object.assign({}, state, {
         status: action.payload.status
       });
       /**
        * iDB.init_instance() is init
        */
-    case APP_LOCAL_DB_IS_INIT:
+    case ActionTypes.APP_LOCAL_DB_IS_INIT:
       return Object.assign({}, state, {
         dbIsInit: action.dbIsInit
       });
       /**
        * iDB.init_instance() is load
        */
-    case APP_LOCAL_DB_DATA_IS_LOAD: //TODO::rm
+    case ActionTypes.APP_LOCAL_DB_DATA_IS_LOAD: //TODO::rm
       return Object.assign({}, state, {
         dbDataIsLoad: action.dbDataIsLoad
       });
       /**
        * ChainStore.init() Success status
        */
-    case APP_CHAIN_IS_INIT:
+    case ActionTypes.APP_CHAIN_IS_INIT:
       return Object.assign({}, state, {
         chainIsInit: action.chainIsInit
       });
       /**
        * ChainStore.init() fail status
        */
-    case APP_SET_SYNC_FAIL:
+    case ActionTypes.APP_SET_SYNC_FAIL:
       return Object.assign({}, state, {
         syncIsFail: action.syncIsFail
       });
       /**
        * login in app
        */
-    case APP_LOGIN:
+    case ActionTypes.APP_LOGIN:
       return Object.assign({}, state, {
         isLogin: action.payload.isLogin,
         account: action.payload.account,
@@ -116,7 +106,7 @@ export default function (state = defaultState, action) {
       /**
        * logout from app
        */
-    case APP_LOGOUT:
+    case ActionTypes.APP_LOGOUT:
       return Object.assign({}, state, {
         isLogin: action.payload.isLogin,
         account: action.payload.account,
@@ -125,7 +115,7 @@ export default function (state = defaultState, action) {
       /**
        * SET CURRENT LOCATION FROM PageConstants.js file
        */
-    case APP_CURRENT_LOCATION:
+    case ActionTypes.APP_CURRENT_LOCATION:
       return Object.assign({}, state, {
         currentLocation: action.payload.currentLocation
       });

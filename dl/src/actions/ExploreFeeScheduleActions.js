@@ -1,4 +1,4 @@
-import {EXPLORER_FEE_SCHEDULE_SET} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import Repository from '../repositories/chain/repository';
 import {ChainTypes} from 'peerplaysjs-lib';
 import counterpart from 'counterpart';
@@ -123,7 +123,7 @@ class ExploreFeeScheduleActions {
         }
 
         dispatch({
-          type: EXPLORER_FEE_SCHEDULE_SET,
+          type: ActionTypes.EXPLORER_FEE_SCHEDULE_SET,
           payload: feeGroups
         });
       });

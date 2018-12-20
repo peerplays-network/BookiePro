@@ -1,4 +1,4 @@
-import * as Types from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 /**
  * Wallet Reducer is used to unlocking and locking the Modal window
@@ -23,21 +23,21 @@ export default function (state = initialState, action) {
     /**
      *
      */
-    case Types.SET_LOCK_STATUS:
+    case ActionTypes.SET_LOCK_STATUS:
       return Object.assign({}, state, {
         locked: action.payload
       });
       /**
        * Show|Hide Unlock modal
        */
-    case Types.SET_POSITION:
+    case ActionTypes.SET_POSITION:
       return Object.assign({}, state, {
         isOpen: action.payload
       });
       /**
        * reset wallet data
        */
-    case Types.WALLET_RESET:
+    case ActionTypes.WALLET_RESET:
       return Object.assign({}, state, initialState);
 
       /**
@@ -47,7 +47,7 @@ export default function (state = initialState, action) {
       /**
        * Show|Hide Unlock modal //here we work with promises
        */
-    case Types.SHOW_WALLET_PASSWORD_WINDOW:
+    case ActionTypes.SHOW_WALLET_PASSWORD_WINDOW:
       return Object.assign({}, state, {
         isOpen: action.payload.isOpen,
         success: action.payload.success,
@@ -56,7 +56,7 @@ export default function (state = initialState, action) {
       /**
        * reset Unlock modal //here we work with promises
        */
-    case Types.RESET_WALLET_PASSWORD_WINDOW:
+    case ActionTypes.RESET_WALLET_PASSWORD_WINDOW:
       return Object.assign({}, state, {
         isOpen: false,
         success: null,

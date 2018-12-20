@@ -409,7 +409,6 @@ class MarketUtils {
       inverted
     };
   }
-
 }
 
 export default MarketUtils;

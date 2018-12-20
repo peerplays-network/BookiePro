@@ -1,8 +1,6 @@
 import Immutable from 'immutable';
-import * as Types from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import CONFIG from '../config/main';
-import {getViewSettings} from 'services/ViewSettingsService';
-import {merge} from 'lodash';
 
 const CORE_ASSET = CONFIG.CORE_ASSET;
 /**
@@ -58,47 +56,47 @@ export default function (state = initialState, action) {
     /**
      * Set initial settings
      */
-    case Types.INIT_SETTINGS:
+    case ActionTypes.INIT_SETTINGS:
       return Object.assign({}, state, action.payload.newSettings);
       /**
        * Change settings language
        */
-    case Types.SWITCH_LOCALE:
+    case ActionTypes.SWITCH_LOCALE:
       return Object.assign({}, state, {
         locale: action.payload
       });
       /**
        * show|hide settles
        */
-    case Types.CHANGE_SETTLE_STATUS:
+    case ActionTypes.CHANGE_SETTLE_STATUS:
       return Object.assign({}, state, {
         showSettles: action.payload
       });
       /**
        * show|hide chat
        */
-    case Types.CHANGE_CHAT_STATUS:
+    case ActionTypes.CHANGE_CHAT_STATUS:
       return Object.assign({}, state, {
         disableChat: action.payload
       });
       /**
        * change unit //TODO::rm
        */
-    case Types.CHANGE_UNIT:
+    case ActionTypes.CHANGE_UNIT:
       return Object.assign({}, state, {
         unit: action.payload
       });
       /**
        * change hidden assets
        */
-    case Types.CHANGE_HIDDEN_ASSETS:
+    case ActionTypes.CHANGE_HIDDEN_ASSETS:
       return Object.assign({}, state, {
         hiddenAssets: action.payload
       });
       /**
        * add OwnerKey Permissions TODO::rm
        */
-    case Types.ADD_OWNER_KEY:
+    case ActionTypes.ADD_OWNER_KEY:
       return {
         ...state,
         ownerKeyPermissions: state.ownerKeyPermissions
@@ -108,14 +106,14 @@ export default function (state = initialState, action) {
       /**
        * change current ws connection
        */
-    case Types.CHANGE_CONNECTION:
+    case ActionTypes.CHANGE_CONNECTION:
       return Object.assign({}, state, {
         connection: action.payload
       });
       /**
        * Change current faucet url
        */
-    case Types.CHANGE_FAUCET_ADDRESS:
+    case ActionTypes.CHANGE_FAUCET_ADDRESS:
       return Object.assign({}, state, {
         faucetAddress: action.payload
       });

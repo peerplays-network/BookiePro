@@ -1,7 +1,4 @@
-import {
-  SEND_PAGE_UPDATE,
-  SEND_PAGE_SET_SYMBOL
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import Immutable from 'immutable';
 
 /**
@@ -32,7 +29,7 @@ export default function (state = initialState, action) {
     /**
      * Set page data
      */
-    case SEND_PAGE_UPDATE:
+    case ActionTypes.SEND_PAGE_UPDATE:
       return Object.assign({}, state, {
         head_block_number: action.payload.head_block_number,
         block_interval: action.payload.block_interval,
@@ -50,7 +47,7 @@ export default function (state = initialState, action) {
       /**
        * Page assets <select> symbol
        */
-    case SEND_PAGE_SET_SYMBOL:
+    case ActionTypes.SEND_PAGE_SET_SYMBOL:
       return Object.assign({}, state, {
         selectedSymbol: action.payload
       });

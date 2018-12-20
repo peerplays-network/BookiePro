@@ -1,4 +1,4 @@
-import {WD_UPDATE_WALLET} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import PrivateKeyActions from '../actions/RPrivateKeyActions';
 import AppActions from '../actions/AppActions';
 import WalletService from './WalletService';
@@ -20,7 +20,7 @@ class LoginService {
     return WalletService.createWalletByPrivateKey(account, privateKeyWif).then((wallet) => {
       return WalletService.getDBKeys().then((keys) => {
         dispatch({
-          type: WD_UPDATE_WALLET,
+          type: ActionTypes.WD_UPDATE_WALLET,
           payload: wallet
         });
 
@@ -49,7 +49,7 @@ class LoginService {
     return WalletService.createWalletByAccount(account, password).then((wallet) => {
       return WalletService.getDBKeys().then((keys) => {
         dispatch({
-          type: WD_UPDATE_WALLET,
+          type: ActionTypes.WD_UPDATE_WALLET,
           payload: wallet
         });
 

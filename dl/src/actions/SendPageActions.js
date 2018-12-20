@@ -1,4 +1,4 @@
-import {SEND_PAGE_UPDATE, SEND_PAGE_SET_SYMBOL} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import {PrivateKey, Aes, TransactionHelper, FetchChain} from 'peerplaysjs-lib';
 import WalletApi from 'rpc_api/WalletApi';
 import Immutable from 'immutable';
@@ -41,7 +41,7 @@ function getHistory(accountsList) {
  */
 function updateDataAction(data) {
   return {
-    type: SEND_PAGE_UPDATE,
+    type: ActionTypes.SEND_PAGE_UPDATE,
     payload: data
   };
 }
@@ -251,7 +251,7 @@ class SendPageActions {
   static setSelectedSymbol(symbol) {
     return (dispatch) => {
       dispatch({
-        type: SEND_PAGE_SET_SYMBOL,
+        type: ActionTypes.SEND_PAGE_SET_SYMBOL,
         payload: symbol
       });
     };

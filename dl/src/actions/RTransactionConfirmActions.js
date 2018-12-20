@@ -1,12 +1,4 @@
-import {
-  TRCONFIRM_SET_TRANSACTION,
-  TRCONFIRM_CLEAR,
-  TRCONFIRM_PROPOSE,
-  TRCONFIRM_TRCONFIRMED,
-  TRCONFIRM_BROADCASTING,
-  TRCONFIRM_BROADCAST_SUCCESS,
-  TRCONFIRM_BROADCAST_ERROR
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 
 /**
@@ -18,7 +10,7 @@ function broadcastingAction() {
   return (dispatch) => {
     return new Promise((resolve) => {
       dispatch({
-        type: TRCONFIRM_BROADCASTING
+        type: ActionTypes.TRCONFIRM_BROADCASTING
       });
       resolve();
     });
@@ -34,7 +26,7 @@ function broadcastSuccessAction() {
   return (dispatch) => {
     return new Promise((resolve) => {
       dispatch({
-        type: TRCONFIRM_BROADCAST_SUCCESS
+        type: ActionTypes.TRCONFIRM_BROADCAST_SUCCESS
       });
       resolve();
     });
@@ -51,7 +43,7 @@ function broadcastErrorAction(err) {
   return (dispatch) => {
     return new Promise((resolve) => {
       dispatch({
-        type: TRCONFIRM_BROADCAST_ERROR,
+        type: ActionTypes.TRCONFIRM_BROADCAST_ERROR,
         payload: err
       });
       resolve();
@@ -67,7 +59,7 @@ function broadcastErrorAction(err) {
 function transactionConfirmedAction() {
   return (dispatch) => {
     dispatch({
-      type: TRCONFIRM_TRCONFIRMED
+      type: ActionTypes.TRCONFIRM_TRCONFIRMED
     });
   };
 }
@@ -87,7 +79,7 @@ function transactionConfirmedAction() {
 export function setTransaction(name, data) {
   return (dispatch) => {
     dispatch({
-      type: TRCONFIRM_SET_TRANSACTION,
+      type: ActionTypes.TRCONFIRM_SET_TRANSACTION,
       payload: {transaction: name, data}
     });
   };
@@ -101,7 +93,7 @@ export function setTransaction(name, data) {
 export function clearTransaction() {
   return (dispatch) => {
     dispatch({
-      type: TRCONFIRM_CLEAR
+      type: ActionTypes.TRCONFIRM_CLEAR
     });
   };
 }
@@ -115,7 +107,7 @@ export function clearTransaction() {
 export function setProposeAccount(name) {
   return (dispatch) => {
     dispatch({
-      type: TRCONFIRM_PROPOSE,
+      type: ActionTypes.TRCONFIRM_PROPOSE,
       payload: name
     });
   };

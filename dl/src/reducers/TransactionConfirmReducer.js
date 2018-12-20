@@ -1,12 +1,4 @@
-import {
-  TRCONFIRM_SET_TRANSACTION,
-  TRCONFIRM_CLEAR,
-  TRCONFIRM_PROPOSE,
-  TRCONFIRM_TRCONFIRMED,
-  TRCONFIRM_BROADCASTING,
-  TRCONFIRM_BROADCAST_SUCCESS,
-  TRCONFIRM_BROADCAST_ERROR
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 /**
  *
@@ -57,7 +49,7 @@ export default (state = initialState, action) => {
     /**
      * open modal, set transaction object, transaction type and button type
      */
-    case TRCONFIRM_SET_TRANSACTION:
+    case ActionTypes.TRCONFIRM_SET_TRANSACTION:
       return Object.assign({}, state, {
         isOpen: true,
         transactionType: action.payload.transaction,
@@ -67,7 +59,7 @@ export default (state = initialState, action) => {
       /**
        * set propose btn status
        */
-    case TRCONFIRM_PROPOSE:
+    case ActionTypes.TRCONFIRM_PROPOSE:
       return Object.assign({}, state, {
         propose: action.payload,
         btnStatus: action.payload ? 'propose' : 'default'
@@ -75,7 +67,7 @@ export default (state = initialState, action) => {
       /**
        * set: transaction in process
        */
-    case TRCONFIRM_BROADCASTING:
+    case ActionTypes.TRCONFIRM_BROADCASTING:
       return Object.assign({}, state, {
         broadcasting: true,
         btnStatus: 'loading'
@@ -83,7 +75,7 @@ export default (state = initialState, action) => {
       /**
        * set broadcast SUCCESS
        */
-    case TRCONFIRM_BROADCAST_SUCCESS:
+    case ActionTypes.TRCONFIRM_BROADCAST_SUCCESS:
       return Object.assign({}, state, {
         broadcasting: false,
         broadcastSuccess: true
@@ -91,7 +83,7 @@ export default (state = initialState, action) => {
       /**
        * set broadcast ERROR
        */
-    case TRCONFIRM_BROADCAST_ERROR:
+    case ActionTypes.TRCONFIRM_BROADCAST_ERROR:
       return Object.assign({}, state, {
         broadcasting: false,
         broadcastError: action.payload,
@@ -100,7 +92,7 @@ export default (state = initialState, action) => {
       /**
        * set: The transaction was successful
        */
-    case TRCONFIRM_TRCONFIRMED:
+    case ActionTypes.TRCONFIRM_TRCONFIRMED:
       return Object.assign({}, state, {
         broadcasting: false,
         broadcastSuccess: false,
@@ -110,7 +102,7 @@ export default (state = initialState, action) => {
       /**
        * close and reset modal
        */
-    case TRCONFIRM_CLEAR:
+    case ActionTypes.TRCONFIRM_CLEAR:
       return initialState;
 
     default:

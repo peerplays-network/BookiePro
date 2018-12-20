@@ -1,7 +1,7 @@
 /**
  * Created by shumer on 10/7/16.
  */
-import * as Types from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 /**
  * Wallet Data Reducer is used to storing wallet data
@@ -22,14 +22,14 @@ export default (state = initialState, action) => {
     /**
      * Update wallet data
      */
-    case Types.WD_UPDATE_WALLET:
+    case ActionTypes.WD_UPDATE_WALLET:
       return Object.assign({}, state, {
         wallet: action.payload
       });
       /**
        * RPS Game: Update Reveal moves
        */
-    case Types.WD_UPDATE_REVEAL_MOVES_WALLET:
+    case ActionTypes.WD_UPDATE_REVEAL_MOVES_WALLET:
 
       return {
         ...state,
@@ -42,14 +42,14 @@ export default (state = initialState, action) => {
       /**
        * Change wallet AES
        */
-    case Types.WD_SET_AES_PRIVATE:
+    case ActionTypes.WD_SET_AES_PRIVATE:
       return Object.assign({}, state, {
         aesPrivate: action.payload
       });
       /**
        * Reset Wallet data reducer
        */
-    case Types.WD_RESET:
+    case ActionTypes.WD_RESET:
       return Object.assign({}, state, initialState);
     default:
       /**

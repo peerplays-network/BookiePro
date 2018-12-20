@@ -1,7 +1,4 @@
-import {
-  SET_ACCOUNT_VESTING_DATA,
-  RESET_ACCOUNT_VESTING_DATA
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import Repository from 'repositories/chain/repository';
 import BalanceRepository from 'repositories/BalanceRepository';
 import KeysService from 'services/KeysService';
@@ -16,7 +13,7 @@ import TransactionService from 'services/TransactionService';
  */
 function setAccountVestingDataAction(data) {
   return {
-    type: SET_ACCOUNT_VESTING_DATA,
+    type: ActionTypes.SET_ACCOUNT_VESTING_DATA,
     payload: data
   };
 }
@@ -28,7 +25,7 @@ function setAccountVestingDataAction(data) {
  */
 function resetAccountVestingDataAction() {
   return {
-    type: RESET_ACCOUNT_VESTING_DATA,
+    type: ActionTypes.RESET_ACCOUNT_VESTING_DATA,
     payload: null
   };
 }

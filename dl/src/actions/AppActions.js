@@ -1,21 +1,8 @@
-import {
-  APP_LOCAL_DB_IS_INIT,
-  APP_LOCAL_DB_DATA_IS_LOAD,
-  APP_CHAIN_IS_INIT,
-  APP_SET_SYNC_FAIL,
-  APP_LOGIN,
-  APP_LOGOUT,
-  SET_CURRENT_ACCOUNT,//TODO:: remove
-  APP_CURRENT_LOCATION,
-  APP_SET_STATUS,
-  APP_SET_SHOW_CANT_CONNECT_MODAL
-} from '../constants/ActionTypes';
-
+import {ActionTypes} from '../constants/ActionTypes';
 import NavigateActions from './NavigateActions';
 import RWalletActions from './RWalletActions';
 import RWalletDataActions from './RWalletDataActions';
 import PrivateKeyActions from './RPrivateKeyActions';
-
 import StorageService from 'services/StorageService';
 import WalletService from 'services/WalletService';
 import RememberMeService from 'services/RememberMeService';
@@ -31,7 +18,7 @@ import CONFIG from '../config/main';
  */
 function logoutAction() {
   return {
-    type: APP_LOGOUT,
+    type: ActionTypes.APP_LOGOUT,
     payload: {
       isLogin: false,
       account: null,
@@ -50,7 +37,7 @@ function logoutAction() {
  */
 function loginAction(account, accountId) {
   return {
-    type: APP_LOGIN,
+    type: ActionTypes.APP_LOGIN,
     payload: {
       isLogin: true,
       account: account,
@@ -67,7 +54,7 @@ function loginAction(account, accountId) {
  */
 function setAppLocalDbInitAction(dbIsInit) {
   return {
-    type: APP_LOCAL_DB_IS_INIT,
+    type: ActionTypes.APP_LOCAL_DB_IS_INIT,
     dbIsInit: dbIsInit
   };
 }
@@ -80,7 +67,7 @@ function setAppLocalDbInitAction(dbIsInit) {
  */
 function setAppLocalDbLoadAction(dbDataIsLoad) {
   return {
-    type: APP_LOCAL_DB_DATA_IS_LOAD,
+    type: ActionTypes.APP_LOCAL_DB_DATA_IS_LOAD,
     dbDataIsLoad: dbDataIsLoad
   };
 }
@@ -93,7 +80,7 @@ function setAppLocalDbLoadAction(dbDataIsLoad) {
  */
 function setAppChainIsInitAction(chainIsInit) {
   return {
-    type: APP_CHAIN_IS_INIT,
+    type: ActionTypes.APP_CHAIN_IS_INIT,
     chainIsInit: chainIsInit
   };
 }
@@ -106,7 +93,7 @@ function setAppChainIsInitAction(chainIsInit) {
  */
 function setAppSyncFailAction(syncIsFail) {
   return {
-    type: APP_SET_SYNC_FAIL,
+    type: ActionTypes.APP_SET_SYNC_FAIL,
     syncIsFail: syncIsFail
   };
 }
@@ -121,7 +108,7 @@ function setAppSyncFailAction(syncIsFail) {
  */
 function setCurrentLocationAction(location) {
   return {
-    type: APP_CURRENT_LOCATION,
+    type: ActionTypes.APP_CURRENT_LOCATION,
     payload: {
       currentLocation: location
     }
@@ -136,7 +123,7 @@ function setCurrentLocationAction(location) {
  */
 function setStatusAction(status) {
   return {
-    type: APP_SET_STATUS,
+    type: ActionTypes.APP_SET_STATUS,
     payload: {
       status: status
     }
@@ -152,7 +139,7 @@ function setStatusAction(status) {
  */
 function setShowCantConnectStatusAction(show) {
   return {
-    type: APP_SET_SHOW_CANT_CONNECT_MODAL,
+    type: ActionTypes.APP_SET_SHOW_CANT_CONNECT_MODAL,
     payload: {
       showCantConnectModal: show
     }
@@ -240,7 +227,7 @@ class AppActions {
       dispatch(loginAction(account.name, account.id));
       //TODO::remove legacy
       dispatch({
-        type : SET_CURRENT_ACCOUNT,
+        type: ActionTypes.SET_CURRENT_ACCOUNT,
         payload : account.name
       });
       //TODO::end remove legacy

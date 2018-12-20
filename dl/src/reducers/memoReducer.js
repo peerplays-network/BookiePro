@@ -1,7 +1,4 @@
-import {
-  MEMO_SET_VIEW_STATUS,
-  MEMO_RESET_VIEW_MODAL
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 /**
  * Login Page Reducer is used to controlling login in an application
@@ -23,12 +20,12 @@ let defaultState = {
 
 export default function (state = defaultState, action) {
   switch (action.type) {
-    case MEMO_SET_VIEW_STATUS:
+    case ActionTypes.MEMO_SET_VIEW_STATUS:
       return Object.assign({}, state, {
         isOpen: action.isOpen,
         memo: action.memo
       });
-    case MEMO_RESET_VIEW_MODAL:
+    case ActionTypes.MEMO_RESET_VIEW_MODAL:
       return defaultState;
     default:
       /**

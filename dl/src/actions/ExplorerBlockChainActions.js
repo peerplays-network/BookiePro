@@ -1,9 +1,4 @@
-import {
-  EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC,
-  EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS,
-  EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS,
-  EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import ObjectRepository from '../repositories/ObjectRepository';
 import ExplorerBlockChainService from '../services/ExplorerBlockChainService';
 import ColorHelper from '../helpers/ColorHelper';
@@ -18,7 +13,7 @@ import Repository from '../repositories/chain/repository';
  */
 function changeStatisticAction(data) {
   return {
-    type: EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC,
+    type: ActionTypes.EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC,
     payload: data
   };
 }
@@ -31,7 +26,7 @@ function changeStatisticAction(data) {
  */
 function changeRecentBlockAction(data) {
   return {
-    type: EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS,
+    type: ActionTypes.EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS,
     payload: data
   };
 }
@@ -44,7 +39,7 @@ function changeRecentBlockAction(data) {
  */
 function changeOperationBlockAction(data) {
   return {
-    type: EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS,
+    type: ActionTypes.EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS,
     payload: data
   };
 }
@@ -57,7 +52,7 @@ function changeOperationBlockAction(data) {
  */
 function setDataIsFetchedAction(data) {
   return {
-    type: EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED,
+    type: ActionTypes.EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED,
     payload: data
   };
 }

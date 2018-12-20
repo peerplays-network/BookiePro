@@ -1,20 +1,5 @@
 import Immutable from 'immutable';
-import {
-  EXCHANGE_SET_DATA,
-  EXCHANGE_SET_MARKETS_DATA,
-  EXCHANGE_SET_MARKETS_TAB,
-  EXCHANGE_SET_MARKETS_ROWS,
-  EXCHANGE_SET_MARKETS_ROWS_SORT,
-  EXCHANGE_SET_MARKETS_ROWS_LOADER,
-  EXCHANGE_SET_PRICE_CHART_DATA,
-  EXCHANGE_SET_PRICE_CHART_PERIOD,
-  EXCHANGE_SET_CURRENT_ASSETS_DATA,
-  EXCHANGE_CHANGE_PRICE_CHART_BUCKET,
-  EXCHANGE_CHANGE_PRICE_CHART_BUCKETS,
-  EXCHANGE_CHANGE_PRICE_CHART_LOADER,
-  EXCHANGE_SET_DEPTH_CHART_DATA,
-  EXCHANGE_SET_BALANCES
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 /**
  * Reducer is used to controlling exchange page
@@ -83,7 +68,7 @@ let defaultState = {
 
 export default function (state = defaultState, action) {
   switch (action.type) {
-    case EXCHANGE_SET_DATA:
+    case ActionTypes.EXCHANGE_SET_DATA:
       return Object.assign({}, state, {
         latestPrice: action.payload.latestPrice,
         latestPriceText: action.payload.latestPriceText,
@@ -95,39 +80,39 @@ export default function (state = defaultState, action) {
         volumeQuote: action.payload.volumeQuote,
         marketHistory: action.payload.marketHistory
       });
-    case EXCHANGE_SET_MARKETS_DATA:
+    case ActionTypes.EXCHANGE_SET_MARKETS_DATA:
       return Object.assign({}, state, {
         tabs: action.payload.tabs
       });
-    case EXCHANGE_SET_MARKETS_TAB:
+    case ActionTypes.EXCHANGE_SET_MARKETS_TAB:
       return Object.assign({}, state, {
         currentTab: action.payload.currentTab,
         marketRowsDataLoaderIsShow: action.payload.marketRowsDataLoaderIsShow
       });
-    case EXCHANGE_SET_MARKETS_ROWS:
+    case ActionTypes.EXCHANGE_SET_MARKETS_ROWS:
       return Object.assign({}, state, {
         marketRowsData: action.payload.marketRowsData,
         marketRowsDataLoaderIsShow: action.payload.marketRowsDataLoaderIsShow
       });
-    case EXCHANGE_SET_MARKETS_ROWS_SORT:
+    case ActionTypes.EXCHANGE_SET_MARKETS_ROWS_SORT:
       return Object.assign({}, state, {
         marketRowsDataSortBy: action.payload.marketRowsDataSortBy,
         marketRowsDataSortInvert: action.payload.marketRowsDataSortInvert
       });
-    case EXCHANGE_SET_MARKETS_ROWS_LOADER:
+    case ActionTypes.EXCHANGE_SET_MARKETS_ROWS_LOADER:
       return Object.assign({}, state, {
         marketRowsDataLoaderIsShow: action.payload.marketRowsDataLoaderIsShow
       });
-    case EXCHANGE_SET_PRICE_CHART_DATA:
+    case ActionTypes.EXCHANGE_SET_PRICE_CHART_DATA:
       return Object.assign({}, state, {
         highPriceList: action.payload.highPriceList,
         priceData: action.payload.priceData
       });
-    case EXCHANGE_SET_PRICE_CHART_PERIOD:
+    case ActionTypes.EXCHANGE_SET_PRICE_CHART_PERIOD:
       return Object.assign({}, state, {
         priceChartCurrentPeriod: action.payload.priceChartCurrentPeriod
       });
-    case EXCHANGE_SET_CURRENT_ASSETS_DATA:
+    case ActionTypes.EXCHANGE_SET_CURRENT_ASSETS_DATA:
       return Object.assign({}, state, {
         baseAssetId: action.payload.baseAssetId,
         quoteAssetId: action.payload.quoteAssetId,
@@ -142,21 +127,21 @@ export default function (state = defaultState, action) {
         baseAssetName: action.payload.baseAssetName,
         quoteAssetName: action.payload.quoteAssetName
       });
-    case EXCHANGE_CHANGE_PRICE_CHART_BUCKET:
+    case ActionTypes.EXCHANGE_CHANGE_PRICE_CHART_BUCKET:
       return Object.assign({}, state, {
         highPriceList: action.payload.highPriceList,
         priceData: action.payload.priceData,
         currentBucket: action.payload.currentBucket
       });
-    case EXCHANGE_CHANGE_PRICE_CHART_BUCKETS:
+    case ActionTypes.EXCHANGE_CHANGE_PRICE_CHART_BUCKETS:
       return Object.assign({}, state, {
         buckets: action.payload.buckets
       });
-    case EXCHANGE_CHANGE_PRICE_CHART_LOADER:
+    case ActionTypes.EXCHANGE_CHANGE_PRICE_CHART_LOADER:
       return Object.assign({}, state, {
         priceChartStatusLoader: action.payload.priceChartStatusLoader
       });
-    case EXCHANGE_SET_DEPTH_CHART_DATA:
+    case ActionTypes.EXCHANGE_SET_DEPTH_CHART_DATA:
       return Object.assign({}, state, {
         bids: action.payload.bids,
         asks: action.payload.asks,
@@ -168,7 +153,7 @@ export default function (state = defaultState, action) {
         bidsOrders: action.payload.bidsOrders,
         asksOrders: action.payload.asksOrders
       });
-    case EXCHANGE_SET_BALANCES:
+    case ActionTypes.EXCHANGE_SET_BALANCES:
       return Object.assign({}, state, {
         coreAssetBalance: action.payload.coreAssetBalance,
         baseAssetBalance: action.payload.baseAssetBalance,

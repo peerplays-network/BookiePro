@@ -1,6 +1,4 @@
-import {
-  TOGGLE_HELP_POPUP
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 /**
  *
@@ -20,7 +18,7 @@ export default (state = initialState, action) => {
     /**
      * Toggle Help popup
      */
-    case TOGGLE_HELP_POPUP:
+    case ActionTypes.TOGGLE_HELP_POPUP:
       return {
         ...state,
         showHelpModal: action.payload.showHelpModal

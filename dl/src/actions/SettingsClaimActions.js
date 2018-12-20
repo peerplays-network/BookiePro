@@ -1,10 +1,4 @@
-import {
-  SETTINGS_CLAIM_SET_KEY_ERROR,
-  SETTINGS_CLAIM_SET_PRIVATE_KEY,
-  SETTINGS_CLAIM_SET_BALANCES_DATA,
-  SETTINGS_CLAIM_RESET,
-  SETTINGS_CLAIM_RESET_BALANCES
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import {PrivateKey, key, FetchChain} from 'peerplaysjs-lib';
 import Immutable from 'immutable';
 import KeysService from '../services/KeysService';
@@ -21,7 +15,7 @@ import counterpart from 'counterpart';
  */
 function setKeyErrorAction(data) {
   return {
-    type: SETTINGS_CLAIM_SET_KEY_ERROR,
+    type: ActionTypes.SETTINGS_CLAIM_SET_KEY_ERROR,
     payload: data
   };
 }
@@ -35,7 +29,7 @@ function setKeyErrorAction(data) {
 
 function setPrivateKeyAction(data) {
   return {
-    type: SETTINGS_CLAIM_SET_PRIVATE_KEY,
+    type: ActionTypes.SETTINGS_CLAIM_SET_PRIVATE_KEY,
     payload: data
   };
 }
@@ -48,7 +42,7 @@ function setPrivateKeyAction(data) {
  */
 function setBalancesDataAction(data) {
   return {
-    type: SETTINGS_CLAIM_SET_BALANCES_DATA,
+    type: ActionTypes.SETTINGS_CLAIM_SET_BALANCES_DATA,
     payload: data
   };
 }
@@ -61,7 +55,7 @@ function setBalancesDataAction(data) {
  */
 function resetBalancesDataAction(data) {
   return {
-    type: SETTINGS_CLAIM_RESET,
+    type: ActionTypes.SETTINGS_CLAIM_RESET,
     payload: data
   };
 }
@@ -74,7 +68,7 @@ function resetBalancesDataAction(data) {
  */
 function resetBalancesAction(data) {
   return {
-    type: SETTINGS_CLAIM_RESET_BALANCES,
+    type: ActionTypes.SETTINGS_CLAIM_RESET_BALANCES,
     payload: data
   };
 }

@@ -1,11 +1,5 @@
 import Immutable from 'immutable';
-
-import {
-  EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC,
-  EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS,
-  EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS,
-  EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 /**
  *
@@ -62,28 +56,28 @@ export default function (state = defaultState, action) {
     /**
      * At least once the data were collected
      */
-    case EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED:
+    case ActionTypes.EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED:
       return Object.assign({}, state, {
         dataIsFetched: action.payload.dataIsFetched
       });
       /**
        * Set recent blocks on explore page
        */
-    case EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS:
+    case ActionTypes.EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS:
       return Object.assign({}, state, {
         latestBlocks: action.payload.latestBlocks
       });
       /**
        *  Set operation list
        */
-    case EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS:
+    case ActionTypes.EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS:
       return Object.assign({}, state, {
         operations: action.payload.operations
       });
       /**
        * Set statistic page block
        */
-    case EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC:
+    case ActionTypes.EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC:
       return Object.assign({}, state, {
         head_block_number: action.payload.head_block_number,
         last_irreversible_block_num: action.payload.last_irreversible_block_num,

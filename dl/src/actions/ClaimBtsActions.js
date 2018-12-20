@@ -1,7 +1,4 @@
-import {
-  CLAIM_BTS_SET_STATUS,
-  CLAIM_BTS_SET_ERRORS
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import {PrivateKey} from 'peerplaysjs-lib'; // eslint-disable-line
 import counterpart from 'counterpart';
 import AccountRepository from '../repositories/AccountRepository';
@@ -18,7 +15,7 @@ import NavigateActions from '../actions/NavigateActions';
  */
 function setStatus(status) {
   return {
-    type: CLAIM_BTS_SET_STATUS,
+    type: ActionTypes.CLAIM_BTS_SET_STATUS,
     payload: {
       status: status
     }
@@ -33,7 +30,7 @@ function setStatus(status) {
  */
 function setErrors(errors) {
   return {
-    type: CLAIM_BTS_SET_ERRORS,
+    type: ActionTypes.CLAIM_BTS_SET_ERRORS,
     payload: {
       errors: errors
     }

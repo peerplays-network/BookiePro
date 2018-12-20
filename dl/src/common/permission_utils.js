@@ -11,7 +11,6 @@ let KeyAuth = function(auth) {
 };
 
 let permissionUtils = {
-
   AccountPermission: function(account, weight, type) {
     this.id = account.get('id');
     this.weight = weight;
@@ -26,7 +25,6 @@ let permissionUtils = {
     };
 
     this._sumWeights = (auths) => {
-
       if (!this.isNested()) {
         return this.isAvailable(auths) ? this.weight : 0;
       } else {

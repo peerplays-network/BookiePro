@@ -1,4 +1,4 @@
-import * as Types from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import merge from 'lodash/object/merge';
 
 /**
@@ -35,21 +35,21 @@ export default (state = initialState, action) => {
     /**
      * set "In process" search
      */
-    case Types.ACCOUNT_SEARCH_REQUESTED:
+    case ActionTypes.ACCOUNT_SEARCH_REQUESTED:
       return state;
       /**
        * set search data account
        */
-    case Types.ACCOUNT_SEARCH:
+    case ActionTypes.ACCOUNT_SEARCH:
       return AccountReducerWrapper.accountSearch(state, action);
-    case Types.SET_CURRENT_ACCOUNT:
+    case ActionTypes.SET_CURRENT_ACCOUNT:
       return Object.assign({}, state, {
         currentAccount: action.payload
       });
       /**
        * reset account reducer
        */
-    case Types.ACCOUNT_RESET:
+    case ActionTypes.ACCOUNT_RESET:
       return Object.assign({}, state, initialState);
     default:
       return state;

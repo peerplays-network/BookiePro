@@ -1,4 +1,4 @@
-import * as Types from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import idb_helper from '../idb-helper';
 import Immutable from 'immutable';
 import {
@@ -18,7 +18,7 @@ export default class PrivateKeyActions {
   static setKeys(keys) {
     return (dispatch) => {
       dispatch({
-        type: Types.PRIVATE_KEY_SET,
+        type: ActionTypes.PRIVATE_KEY_SET,
         payload: {
           keys: Immutable.Map(keys)
         }

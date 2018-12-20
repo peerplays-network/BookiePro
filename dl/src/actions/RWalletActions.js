@@ -1,4 +1,4 @@
-import * as Types from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 var lockTimeout;
 
@@ -14,7 +14,7 @@ export default class WalletActions {
 
       if (!getState().wallet.locked) {
         dispatch({
-          type: Types.SET_LOCK_STATUS,
+          type: ActionTypes.SET_LOCK_STATUS,
           payload: true,
         });
       }
@@ -36,7 +36,7 @@ export default class WalletActions {
 
       if(getState().wallet.locked) {
         dispatch({
-          type: Types.SET_LOCK_STATUS,
+          type: ActionTypes.SET_LOCK_STATUS,
           payload: false,
         });
       }
@@ -49,7 +49,7 @@ export default class WalletActions {
   */
   static resetWallet() {
     return {
-      type: Types.WALLET_RESET,
+      type: ActionTypes.WALLET_RESET,
       payload: null,
     };
   }

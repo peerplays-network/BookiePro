@@ -1,7 +1,4 @@
-import {
-  SHOW_WALLET_PASSWORD_WINDOW,
-  RESET_WALLET_PASSWORD_WINDOW
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 import KeysService from 'services/KeysService';
 
@@ -17,7 +14,7 @@ class RWalletUnlockNewActions {
   static showWalletPasswordWindow(data) {
     return (dispatch) => {
       dispatch({
-        type: SHOW_WALLET_PASSWORD_WINDOW,
+        type: ActionTypes.SHOW_WALLET_PASSWORD_WINDOW,
         payload: data
       });
     };
@@ -32,7 +29,7 @@ class RWalletUnlockNewActions {
   static resetWalletPasswordWindow() {
     return (dispatch) => {
       dispatch({
-        type: RESET_WALLET_PASSWORD_WINDOW,
+        type: ActionTypes.RESET_WALLET_PASSWORD_WINDOW,
         payload: null
       });
     };

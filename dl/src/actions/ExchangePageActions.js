@@ -1,18 +1,4 @@
-import {
-  EXCHANGE_SET_DATA,
-  EXCHANGE_SET_MARKETS_DATA,
-  EXCHANGE_SET_MARKETS_TAB,
-  EXCHANGE_SET_MARKETS_ROWS,
-  EXCHANGE_SET_MARKETS_ROWS_SORT,
-  EXCHANGE_SET_PRICE_CHART_DATA,
-  EXCHANGE_SET_PRICE_CHART_PERIOD,
-  EXCHANGE_SET_CURRENT_ASSETS_DATA,
-  EXCHANGE_CHANGE_PRICE_CHART_BUCKET,
-  EXCHANGE_CHANGE_PRICE_CHART_BUCKETS,
-  EXCHANGE_CHANGE_PRICE_CHART_LOADER,
-  EXCHANGE_SET_DEPTH_CHART_DATA,
-  EXCHANGE_SET_BALANCES
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import MarketRepository from '../repositories/MarketRepository';
 import AssetRepository from '../repositories/AssetRepository';
 import ExchangeService from '../services/ExchangeService';//TODO::rm
@@ -32,7 +18,7 @@ let marketStatsTimeout = null;
  */
 function changeExchangeDataAction(data) {
   return {
-    type: EXCHANGE_SET_DATA,
+    type: ActionTypes.EXCHANGE_SET_DATA,
     payload: data
   };
 }
@@ -44,7 +30,7 @@ function changeExchangeDataAction(data) {
  */
 function changeExchangeMarketsAction(data) {
   return {
-    type: EXCHANGE_SET_MARKETS_DATA,
+    type: ActionTypes.EXCHANGE_SET_MARKETS_DATA,
     payload: data
   };
 }
@@ -56,7 +42,7 @@ function changeExchangeMarketsAction(data) {
  */
 function changeExchangeMarketsTabAction(data) {
   return {
-    type: EXCHANGE_SET_MARKETS_TAB,
+    type: ActionTypes.EXCHANGE_SET_MARKETS_TAB,
     payload: data
   };
 }
@@ -68,7 +54,7 @@ function changeExchangeMarketsTabAction(data) {
  */
 function changeExchangeMarketsRowsAction(data) {
   return {
-    type: EXCHANGE_SET_MARKETS_ROWS,
+    type: ActionTypes.EXCHANGE_SET_MARKETS_ROWS,
     payload: data
   };
 }
@@ -80,7 +66,7 @@ function changeExchangeMarketsRowsAction(data) {
  */
 function changeExchangeMarketsRowsSortAction(data) {
   return {
-    type: EXCHANGE_SET_MARKETS_ROWS_SORT,
+    type: ActionTypes.EXCHANGE_SET_MARKETS_ROWS_SORT,
     payload: data
   };
 }
@@ -92,7 +78,7 @@ function changeExchangeMarketsRowsSortAction(data) {
  */
 function changeExchangePriceChartAction(data) {
   return {
-    type: EXCHANGE_SET_PRICE_CHART_DATA,
+    type: ActionTypes.EXCHANGE_SET_PRICE_CHART_DATA,
     payload: data
   };
 }
@@ -104,7 +90,7 @@ function changeExchangePriceChartAction(data) {
  */
 function changeExchangePriceChartPeriodAction(data) {
   return {
-    type: EXCHANGE_SET_PRICE_CHART_PERIOD,
+    type: ActionTypes.EXCHANGE_SET_PRICE_CHART_PERIOD,
     payload: data
   };
 }
@@ -116,7 +102,7 @@ function changeExchangePriceChartPeriodAction(data) {
  */
 function changeCurrentAssetsDataAction(data) {
   return {
-    type: EXCHANGE_SET_CURRENT_ASSETS_DATA,
+    type: ActionTypes.EXCHANGE_SET_CURRENT_ASSETS_DATA,
     payload: data
   };
 }
@@ -128,7 +114,7 @@ function changeCurrentAssetsDataAction(data) {
  */
 function changePriceChartBucketAction(data) {
   return {
-    type: EXCHANGE_CHANGE_PRICE_CHART_BUCKET,
+    type: ActionTypes.EXCHANGE_CHANGE_PRICE_CHART_BUCKET,
     payload: data
   };
 }
@@ -140,7 +126,7 @@ function changePriceChartBucketAction(data) {
  */
 function changePriceChartBucketsAction(data) {
   return {
-    type: EXCHANGE_CHANGE_PRICE_CHART_BUCKETS,
+    type: ActionTypes.EXCHANGE_CHANGE_PRICE_CHART_BUCKETS,
     payload: data
   };
 }
@@ -152,7 +138,7 @@ function changePriceChartBucketsAction(data) {
  */
 function changePriceChartLoaderAction(data) {
   return {
-    type: EXCHANGE_CHANGE_PRICE_CHART_LOADER,
+    type: ActionTypes.EXCHANGE_CHANGE_PRICE_CHART_LOADER,
     payload: data
   };
 }
@@ -164,7 +150,7 @@ function changePriceChartLoaderAction(data) {
  */
 function setDepthChartDataAction(data) {
   return {
-    type: EXCHANGE_SET_DEPTH_CHART_DATA,
+    type: ActionTypes.EXCHANGE_SET_DEPTH_CHART_DATA,
     payload: data
   };
 }
@@ -176,7 +162,7 @@ function setDepthChartDataAction(data) {
  */
 function setExchangeBalances(data){
   return {
-    type : EXCHANGE_SET_BALANCES,
+    type: ActionTypes.EXCHANGE_SET_BALANCES,
     payload: data
   };
 }

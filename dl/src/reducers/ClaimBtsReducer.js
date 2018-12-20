@@ -1,7 +1,4 @@
-import {
-  CLAIM_BTS_SET_STATUS,
-  CLAIM_BTS_SET_ERRORS
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 /**
  * Claim Bts Reducer is used to controlling BTS Sharedrop page
@@ -20,7 +17,7 @@ export default function (state = defaultState, action) {
     /**
      * set btn status (default|loading)
      */
-    case CLAIM_BTS_SET_STATUS:
+    case ActionTypes.CLAIM_BTS_SET_STATUS:
       return {
         ...state,
         status: action.payload.status
@@ -28,7 +25,7 @@ export default function (state = defaultState, action) {
       /**
        * ClaimBtsForm: Setting Common validation errors
        */
-    case CLAIM_BTS_SET_ERRORS:
+    case ActionTypes.CLAIM_BTS_SET_ERRORS:
       return {
         ...state,
         errors: action.payload.errors

@@ -1,4 +1,4 @@
-import {ADD_CONNECTION, REMOVE_CONNECTION} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import {getViewSettings,setViewSettings} from 'services/ViewSettingsService';
 
 /**
@@ -13,7 +13,7 @@ export function addConnection(data){
 
   return function (dispatch) {
     dispatch({
-      type: ADD_CONNECTION,
+      type: ActionTypes.ADD_CONNECTION,
       payload: data
     });
   };
@@ -31,7 +31,7 @@ export function removeConnection(data) {
 
   return function (dispatch) {
     dispatch({
-      type: REMOVE_CONNECTION,
+      type: ActionTypes.REMOVE_CONNECTION,
       payload: data
     });
   };

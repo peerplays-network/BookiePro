@@ -1,5 +1,5 @@
 import iDB from '../idb-instance';
-import * as Types from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import {key} from 'peerplaysjs-lib';
 
 let timeout;
@@ -33,7 +33,7 @@ export default class AddressIndexActions {
         pubKeys.add(publicKey);
 
         dispatch({
-          type : Types.SET_ADDRESS_INDEXES_PUBKEYS,
+          type: ActionTypes.SET_ADDRESS_INDEXES_PUBKEYS,
           payload : pubKeys,
         });
 
@@ -42,7 +42,7 @@ export default class AddressIndexActions {
         }
 
         dispatch({
-          type: Types.SET_ADDRESS_INDEXES_SAVING_STATUS,
+          type: ActionTypes.SET_ADDRESS_INDEXES_SAVING_STATUS,
           payload: true,
         });
 
@@ -56,7 +56,7 @@ export default class AddressIndexActions {
 
         if (dirty) {
           dispatch({
-            type : Types.SET_ADDRESS_INDEXES,
+            type: ActionTypes.SET_ADDRESS_INDEXES,
             payload : addresses,
           });
 
@@ -64,7 +64,7 @@ export default class AddressIndexActions {
 
           timeout = setTimeout(()=> {
             dispatch({
-              type: Types.SET_ADDRESS_INDEXES_SAVING_STATUS,
+              type: ActionTypes.SET_ADDRESS_INDEXES_SAVING_STATUS,
               payload: false,
             });
 
@@ -72,7 +72,7 @@ export default class AddressIndexActions {
           }, 100);
         } else {
           dispatch({
-            type: Types.SET_ADDRESS_INDEXES_SAVING_STATUS,
+            type: ActionTypes.SET_ADDRESS_INDEXES_SAVING_STATUS,
             payload: false,
           });
         }

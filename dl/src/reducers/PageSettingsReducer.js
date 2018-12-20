@@ -1,12 +1,4 @@
-import {
-  ADD_CONNECTION,
-  REMOVE_CONNECTION,
-  SETTINGS_CLAIM_SET_BALANCES_DATA,
-  SETTINGS_CLAIM_SET_KEY_ERROR,
-  SETTINGS_CLAIM_RESET,
-  SETTINGS_CLAIM_RESET_BALANCES,
-  SETTINGS_CLAIM_SET_PRIVATE_KEY
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import {getViewSettings} from 'services/ViewSettingsService';
 import Immutable from 'immutable';
 
@@ -74,11 +66,11 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case ADD_CONNECTION:
+    case ActionTypes.ADD_CONNECTION:
       return Object.assign({}, state, {
         connection: state.connection.concat(action.payload)
       });
-    case REMOVE_CONNECTION:
+    case ActionTypes.REMOVE_CONNECTION:
       return Object.assign({}, state, {
         connection: state.connection.filter((e) => e !== action.payload)
       });
@@ -89,14 +81,14 @@ export default function (state = initialState, action) {
       /**
        * set common key error(field Owner Key)
        */
-    case SETTINGS_CLAIM_SET_KEY_ERROR:
+    case ActionTypes.SETTINGS_CLAIM_SET_KEY_ERROR:
       return Object.assign({}, state, {
         claim_error: action.payload.claim_error
       });
       /**
        * reset page
        */
-    case SETTINGS_CLAIM_RESET:
+    case ActionTypes.SETTINGS_CLAIM_RESET:
       return Object.assign({}, state, {
         claim_error: null,
         claim_privateKey: null,
@@ -105,21 +97,21 @@ export default function (state = initialState, action) {
       /**
        * reset balances list only(without owner key)
        */
-    case SETTINGS_CLAIM_RESET_BALANCES:
+    case ActionTypes.SETTINGS_CLAIM_RESET_BALANCES:
       return Object.assign({}, state, {
         claim_balances: Immutable.List()
       });
       /**
        * Set key with which we will work
        */
-    case SETTINGS_CLAIM_SET_PRIVATE_KEY:
+    case ActionTypes.SETTINGS_CLAIM_SET_PRIVATE_KEY:
       return Object.assign({}, state, {
         claim_privateKey: action.payload.claim_privateKey
       });
       /**
        * set claim balances list
        */
-    case SETTINGS_CLAIM_SET_BALANCES_DATA:
+    case ActionTypes.SETTINGS_CLAIM_SET_BALANCES_DATA:
       return Object.assign({}, state, {
         claim_balances: action.payload.claim_balances
       });

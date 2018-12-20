@@ -1,8 +1,4 @@
-import {
-  WD_UPDATE_WALLET,
-  WD_SET_AES_PRIVATE,
-  SET_LOCK_STATUS
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import {PrivateKey, key, Aes} from 'peerplaysjs-lib';
 import {WalletTcomb} from '../stores/tcomb_structs';
 import iDB from 'idb-instance';
@@ -108,11 +104,11 @@ class ChangePasswordActions {
           getState().transactionConfirm.transaction.transactionObject, oldOwnerPrivateKey
         ).then(() => {
           dispatch({
-            type: WD_UPDATE_WALLET,
+            type: ActionTypes.WD_UPDATE_WALLET,
             payload: wallet
           });
           dispatch({
-            type: WD_SET_AES_PRIVATE,
+            type: ActionTypes.WD_SET_AES_PRIVATE,
             payload: aesPrivate
           });
           WalletService.resetDBPrivateKeysTable().then(() => {
@@ -124,7 +120,7 @@ class ChangePasswordActions {
           walletTransaction.objectStore('wallet').clear();
           walletTransaction.objectStore('wallet').put(wallet);
           dispatch({
-            type: SET_LOCK_STATUS,
+            type: ActionTypes.SET_LOCK_STATUS,
             payload: false
           });
           resolve();

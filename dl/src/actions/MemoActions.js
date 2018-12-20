@@ -1,11 +1,8 @@
-import {
-  MEMO_SET_VIEW_STATUS,
-  MEMO_RESET_VIEW_MODAL
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 function setViewModalStatus(isOpen, memo) {
   return {
-    type: MEMO_SET_VIEW_STATUS,
+    type: ActionTypes.MEMO_SET_VIEW_STATUS,
     isOpen,
     memo
   };
@@ -13,7 +10,7 @@ function setViewModalStatus(isOpen, memo) {
 
 function resetViewModalStatus() {
   return {
-    type: MEMO_RESET_VIEW_MODAL
+    type: ActionTypes.MEMO_RESET_VIEW_MODAL
   };
 }
 

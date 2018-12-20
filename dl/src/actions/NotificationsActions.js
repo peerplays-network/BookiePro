@@ -1,6 +1,4 @@
-import {
-  NOTIFICATIONS_SET_MESSAGES
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import NotificationMessage from '../app/NotificationMessage';
 
 /**
@@ -12,7 +10,7 @@ import NotificationMessage from '../app/NotificationMessage';
  */
 function setMessagesAction(messages) {
   return {
-    type: NOTIFICATIONS_SET_MESSAGES,
+    type: ActionTypes.NOTIFICATIONS_SET_MESSAGES,
     payload: {
       messages: messages
     }

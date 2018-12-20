@@ -1,4 +1,4 @@
-import * as Types from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 /**
  * Action Creator (SET_POSITION)
@@ -10,7 +10,7 @@ import * as Types from '../constants/ActionTypes';
 export function setWalletPosition(status) {
   return (dispatch, getState) => {
     dispatch({
-      type: Types.SET_POSITION,
+      type: ActionTypes.SET_POSITION,
       payload: status
     });
     return getState().wallet.locked;
@@ -26,7 +26,7 @@ export function setWalletPosition(status) {
 export function setWalletStatus(status) {
   return (dispatch) => {
     return dispatch({
-      type: Types.SET_LOCK_STATUS,
+      type: ActionTypes.SET_LOCK_STATUS,
       payload: status
     });
   };

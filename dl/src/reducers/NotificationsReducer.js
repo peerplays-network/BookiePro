@@ -1,6 +1,4 @@
-import {
-  NOTIFICATIONS_SET_MESSAGES
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import Immutable from 'immutable';
 
 /**
@@ -19,7 +17,7 @@ export default (state = defaultState, action) => {
     /**
      * Set List of notices
      */
-    case NOTIFICATIONS_SET_MESSAGES:
+    case ActionTypes.NOTIFICATIONS_SET_MESSAGES:
       return {
         ...state,
         messages: action.payload.messages

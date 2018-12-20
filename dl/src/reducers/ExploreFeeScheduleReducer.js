@@ -1,6 +1,4 @@
-import {
-  EXPLORER_FEE_SCHEDULE_SET
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 /**
  * Explore Fee Schedule Reducer is used to controlling explore/blockchain/fee page
@@ -16,7 +14,7 @@ export default function (state = initialState, action) {
     /**
      * blockchain/fee page: set fee groups
      */
-    case EXPLORER_FEE_SCHEDULE_SET:
+    case ActionTypes.EXPLORER_FEE_SCHEDULE_SET:
       return {
         feeGroups: action.payload
       };

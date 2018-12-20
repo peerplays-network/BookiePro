@@ -1,6 +1,4 @@
-import {
-  CHANGE_CONNECTION
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import SettingsStorageService from '../services/SettingsStorageService';
 
 class AppSettingsActions {
@@ -26,7 +24,7 @@ class AppSettingsActions {
     return (dispatch) => {
       SettingsStorageService.set('connection',  connection);
       dispatch({
-        type: CHANGE_CONNECTION,
+        type: ActionTypes.CHANGE_CONNECTION,
         payload: connection
       });
       SettingsStorageService.set('changeConnection',  1);

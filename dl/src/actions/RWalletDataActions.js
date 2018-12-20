@@ -1,8 +1,4 @@
-import {
-  WD_UPDATE_WALLET,
-  WD_SET_AES_PRIVATE,
-  WD_RESET
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 
 export default class WalletDataActions {
   /**
@@ -12,7 +8,7 @@ export default class WalletDataActions {
    */
   static resetWalletData() {
     return {
-      type: WD_RESET,
+      type: ActionTypes.WD_RESET,
       payload: null,
     };
   }
@@ -26,7 +22,7 @@ export default class WalletDataActions {
    */
   static updateWalletData(wallet) {
     return {
-      type: WD_UPDATE_WALLET,
+      type: ActionTypes.WD_UPDATE_WALLET,
       payload: wallet
     };
   }
@@ -42,7 +38,7 @@ export default class WalletDataActions {
 export function setAesPrivate(aesPrivate) {
   return (dispatch) => {
     dispatch({
-      type: WD_SET_AES_PRIVATE,
+      type: ActionTypes.WD_SET_AES_PRIVATE,
       payload: aesPrivate
     });
   };

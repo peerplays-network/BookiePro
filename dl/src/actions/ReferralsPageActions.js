@@ -1,6 +1,4 @@
-import {
-  REFERRALS_SET
-} from '../constants/ActionTypes';
+import {ActionTypes} from '../constants/ActionTypes';
 import {ChainStore} from 'peerplaysjs-lib';
 import Repository from 'repositories/chain/repository';
 import KeysService from 'services/KeysService';
@@ -16,7 +14,7 @@ import TransactionService from 'services/TransactionService';
  */
 function setPageDataAction(data) {
   return {
-    type: REFERRALS_SET,
+    type: ActionTypes.REFERRALS_SET,
     payload: data
   };
 }
