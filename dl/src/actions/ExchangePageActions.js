@@ -181,7 +181,6 @@ function setExchangeBalances(data){
   };
 }
 
-
 let assetsCacheBySymbol = {};
 let assetsCacheById = {};
 let subscribers = {};
@@ -368,7 +367,6 @@ class ExchangePageActions {
         'OPEN.DGD', 'EUR', 'TRADE.BTC', 'CASH.BTC', 'GOLD', 'SILVER',
         'OPEN.USDT', 'OPEN.EURT', 'OPEN.BTC', 'CADASTRAL'
       ];
-      let marketsString = 'markets'; // eslint-disable-line
 
       function addMarkets(target, base, markets) {
         markets.filter((a) => {
@@ -461,7 +459,7 @@ class ExchangePageActions {
   }
 
   static setMarketTab(currentTab) {
-    return (dispatch) => { // eslint-disable-line
+    return (dispatch) => {
       dispatch(changeExchangeMarketsTabAction({
         currentTab: currentTab,
         marketRowsDataLoaderIsShow: true
@@ -492,7 +490,7 @@ class ExchangePageActions {
   }
 
   static changePriceChartPeriod(period) {
-    return (dispatch, getState) => { // eslint-disable-line
+    return (dispatch) => {
       dispatch(changeExchangePriceChartPeriodAction({
         priceChartCurrentPeriod: period
       }));
@@ -500,7 +498,7 @@ class ExchangePageActions {
   }
 
   static changePriceChartLoader(status) {
-    return (dispatch) => { // eslint-disable-line
+    return (dispatch) => {
       dispatch(changePriceChartLoaderAction({
         priceChartStatusLoader: status
       }));
@@ -538,7 +536,7 @@ class ExchangePageActions {
   }
 
   static setBalances(data){
-    return (dispatch) => { // eslint-disable-line
+    return (dispatch) => {
       dispatch(setExchangeBalances({
         coreAssetBalance : data.coreAssetBalance,
         baseAssetBalance : data.baseAssetBalance,
@@ -547,7 +545,7 @@ class ExchangePageActions {
     };
   }
 
-  static removeOrderFromPage() { // eslint-disable-line
+  static removeOrderFromPage() {
     return (dispatch, getState)=> {
       let selfState = getState().exchangePageReducer;
       let baseAssetSymbol = selfState.baseAssetSymbol;

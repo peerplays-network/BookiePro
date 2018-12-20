@@ -20,9 +20,3 @@ module.exports = {
   GRAPHENE_100_PERCENT: 10000,
   GRAPHENE_1_PERCENT: 10000 / 100
 };
-
-/*
-const static uint32_t ASSET_ISSUER_PERMISSION_MASK = charge_market_fee|white_list|override_authority|transfer_restricted|disable_force_settle|global_settle|disable_confidential
-      |witness_fed_asset|committee_fed_asset;
-const static uint32_t UIA_ASSET_ISSUER_PERMISSION_MASK = charge_market_fee|white_list|override_authority|transfer_restricted|disable_confidential;
- */

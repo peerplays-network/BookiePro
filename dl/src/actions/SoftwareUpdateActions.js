@@ -26,10 +26,10 @@ function setAccountDataAction(data) {
 class SoftwareUpdateActions {
 
   /**
-     * We monitor a Peerplays controlled account
-     *
-     * @returns {function(*=, *)}
-     */
+   * We monitor a Peerplays controlled account
+   *
+   * @returns {function(*=, *)}
+   */
   static checkForSoftwareUpdate() {
     return (dispatch, getState) => {
       return Repository.fetchFullAccount(CONFIG.SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME)
@@ -41,12 +41,12 @@ class SoftwareUpdateActions {
           let state = getState();
 
           /**
-                 * Compare with the current account
-                 */
+           * Compare with the current account
+           */
           if (state.softwareUpdateReducer.account !== account) {
             /**
-                     * Get latest transaction histories and parse it
-                     */
+             * Get latest transaction histories and parse it
+             */
             let history = account.get('history');
 
             if (history && history.size) {
@@ -70,7 +70,6 @@ class SoftwareUpdateActions {
                      * If it has version then it is an update transaction
                      */
                       if (version) {
-
                         console.log('[APP] NEW VERSION', version);
                         console.log('[APP] CURRENT VERSION', CONFIG.APP_PACKAGE_VERSION);
 
@@ -88,18 +87,24 @@ class SoftwareUpdateActions {
                         }
 
                         return true;
+                      } else {
+                        return null;
                       }
                     } catch (e) {
                       return false;
                     }
+                  } else {
+                    return null;
                   }
+                } else {
+                  return null;
                 }
               });
             }
 
             /**
-           * Set new controlled account
-           */
+             * Set new controlled account
+             */
             dispatch(setAccountDataAction({
               account
             }));

@@ -85,29 +85,25 @@ function resetBalancesAction(data) {
 class SettingsClaimActions {
 
   /**
-     * This is started after pressing the button "Lookup Balances"
-     *
-     * @param {String} ownerKeyString
-     * @returns {function(*=)}
-     */
+   * This is started after pressing the button "Lookup Balances"
+   *
+   * @param {String} ownerKeyString
+   * @returns {function(*=)}
+   */
   static lookupBalances(ownerKeyString) {
 
     return (dispatch) => {
-
       dispatch(resetBalancesDataAction());
-
       //TODO::services
 
       try {
-
         let privateKey = PrivateKey.fromWif(ownerKeyString),
           publicKey = privateKey.toPublicKey().toPublicKeyString(),
           addresses = key.addresses(publicKey);
 
-        BalanceRepository.getBalanceObjects(addresses).then( (results) => {
+        BalanceRepository.getBalanceObjects(addresses).then((results) => {
 
           if (!results.length) {
-
             dispatch(setKeyErrorAction({
               claim_error: counterpart.translate('errors.no_balance_objects')
             }));
@@ -117,7 +113,7 @@ class SettingsClaimActions {
 
           let balance_ids = [];
 
-          for(let balance of results) {
+          for (let balance of results) {
             balance_ids.push(balance.id);
           }
 
@@ -126,40 +122,29 @@ class SettingsClaimActions {
           }));
 
           return BalanceRepository.getVestedBalances(balance_ids).then( (vested_balances) => {
-
             let assetsPromises = [];
-
             let assetsIdsHash = Object.create(null);
-
             let balances = Immutable.List().withMutations( (balance_list) => {
               for(let i = 0; i < results.length; i++) {
-
                 let balance = results[i];
 
-                if(balance.vesting_policy) {
+                if (balance.vesting_policy) {
                   balance.vested_balance = vested_balances[i];
                 }
 
                 balance.available_balance = vested_balances[i];
-
                 balance.public_key_string = publicKey;
-
                 balance_list.push(Immutable.fromJS(balance));
 
                 if (!assetsIdsHash[balance.balance.asset_id]) {
                   assetsIdsHash[balance.balance.asset_id] = true;
                   assetsPromises.push(Repository.getAsset(balance.balance.asset_id));
                 }
-
               }
-
             });
-
             return Promise.all([Promise.all(assetsPromises),balances]);
           });
-
         }).then(([assets, balances]) => {
-
           let assetsHash = Object.create(null);
 
           assets.forEach((asset) => {
@@ -180,15 +165,12 @@ class SettingsClaimActions {
             });
 
             if (ids.length) {
-
               let accountPromises = ids.map((id) => {
                 return Repository.getAccount(id);
               });
 
               Promise.all(accountPromises).then((accounts) => {
-
                 let accountsNames = [];
-
                 accounts.forEach((account) => {
                   accountsNames.push(account.get('name'));
                 });
@@ -203,65 +185,49 @@ class SettingsClaimActions {
               });
 
             } else {
-
               dispatch(setBalancesDataAction({
                 claim_balances: balances
               }));
-
             }
-
           });
-
         });
-
       } catch (e) {
         console.error(e);
         dispatch(setKeyErrorAction({
-          claim_error: counterpart.translate('errors.paste_your_redemption_key_here')//e.message
+          claim_error: counterpart.translate('errors.paste_your_redemption_key_here')
         }));
       }
-
     };
-
   }
 
   /**
-     * This is started after pressing the button "Import Balances"
-     *
-     * @returns {function(*=, *)}
-     */
+   * This is started after pressing the button "Import Balances"
+   *
+   * @returns {function(*=, *)}
+   */
   static importBalance() {
-
     return (dispatch, getState) => {
-
       return new Promise((resolve) => {
-
         let state = getState();
-
         let balances = state.pageSettings.claim_balances;
         let account_name_or_id = state.app.accountId;
-
         let account_lookup = FetchChain('getAccount', account_name_or_id);
-
         let p = Promise.all([ account_lookup ]).then( (results)=> {
           let account = results[0];
 
-          if(!account) {
+          if (!account) {
             return Promise.reject('Unknown account ' + account_name_or_id);
           }
 
           let balance_claims = [];
 
-          for(let balance of balances) {
-
+          for (let balance of balances) {
             balance = balance.toJS();
             let {vested_balance, public_key_string} = balance;
-
-
             let total_claimed;
 
-            if( vested_balance ) {
-              if(vested_balance.amount === 0) {
+            if (vested_balance) {
+              if (vested_balance.amount === 0) {
                 // recently claimed
                 continue;
               }
@@ -272,7 +238,7 @@ class SettingsClaimActions {
             }
 
             //assert
-            if(vested_balance && vested_balance.asset_id !== balance.balance.asset_id) {
+            if (vested_balance && vested_balance.asset_id !== balance.balance.asset_id) {
               throw new Error('Vested balance record and balance record asset_id missmatch',
                 vested_balance.asset_id,
                 balance.balance.asset_id
@@ -291,7 +257,7 @@ class SettingsClaimActions {
             });
           }
 
-          if( ! balance_claims.length) {
+          if (!balance_claims.length) {
             throw new Error('No balances to claim');
           }
 
@@ -301,16 +267,11 @@ class SettingsClaimActions {
                 balance_claims, account.get('id'), state.pageSettings.claim_privateKey, () => {
                   dispatch(resetBalancesDataAction());
                   resolve();
-
                 }).then((trFnc) => {
                 dispatch(trFnc);
               });
-
             });
           });
-
-
-
         });
         resolve(p);
       });

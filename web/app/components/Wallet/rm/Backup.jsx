@@ -559,7 +559,9 @@ export class Sha1 extends BackupBaseComponent {
 class Reset extends BackupBaseComponent {
   render() {
     var label = this.props.label || <Translate content='wallet.reset'/>;
-    return <span className='button cancel' onClick={ this.onReset1.bind(this) }>{label}</span>;
+    return (
+      <span className='button cancel' onClick={ this.onReset1.bind(this) }>{label}</span>
+    );
   }
 
   onReset() {

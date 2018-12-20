@@ -52,29 +52,28 @@ export function accountSearch(start_symbol, limit = 50){
       accountSearchCache[uid] = true;
       dispatch(action_accountSearchRequested(start_symbol));
 
-      return AccountApi.lookupAccounts(start_symbol, limit)
-        .then((result) => {
-          accountSearchCache[uid] = false;
-          result = result.filter((a) => {
-            return a[0].indexOf(start_symbol) !== -1;
+      return AccountApi.lookupAccounts(start_symbol, limit).then((result) => {
+        accountSearchCache[uid] = false;
+        result = result.filter((a) => {
+          return a[0].indexOf(start_symbol) !== -1;
+        });
+        let accountsBalance = result.map((obj) => BalanceRepository.getAccountBalances(obj[1]));
+        Promise.all(accountsBalance).then((balances) => {
+          result = result.map((a, index) => {
+            a.push(balances[index][0].amount);
+            return a;
           });
-          let accountsBalance = result.map((obj) => BalanceRepository.getAccountBalances(obj[1]));
-          Promise.all(accountsBalance).then((balances) => {
-            result = result.map((a, index) => {
-              a.push(balances[index][0].amount);
-              return a;
-            });
-            AssetRepository.fetchAssetsByIds(['1.3.0']).then((coreAsset) => {
-              dispatch(action_accountSearch(result, start_symbol, coreAsset[0]));
-            });
+          AssetRepository.fetchAssetsByIds(['1.3.0']).then((coreAsset) => {
+            dispatch(action_accountSearch(result, start_symbol, coreAsset[0]));
           });
         });
+      });
     }
   };
 }
 
 function getMyAuthorityForAccount(account, recursion_count = 1) {
-  return (dispatch, getState) => { // eslint-disable-line
+  return (dispatch) => {
     if (! account) {
       return undefined;
     }
@@ -83,41 +82,38 @@ function getMyAuthorityForAccount(account, recursion_count = 1) {
     let active_authority = account.get('active');
     let owner_pubkey_threshold = dispatch(pubkeyThreshold(owner_authority));
 
-    if(owner_pubkey_threshold === 'full') {
+    if (owner_pubkey_threshold === 'full') {
       return 'full';
     }
 
     let active_pubkey_threshold = dispatch(pubkeyThreshold(active_authority));
 
-    if(active_pubkey_threshold === 'full') {
+    if (active_pubkey_threshold === 'full') {
       return 'full';
     }
 
     let owner_address_threshold = dispatch(addressThreshold(owner_authority));
 
-    if(owner_address_threshold === 'full') {
+    if (owner_address_threshold === 'full') {
       return 'full';
     }
 
     let active_address_threshold = dispatch(addressThreshold(active_authority));
 
-    if(active_address_threshold === 'full') {
+    if (active_address_threshold === 'full') {
       return 'full';
     }
 
     let owner_account_threshold, active_account_threshold;
 
-    // if (account.get("name") === "secured-x") {
-    //     debugger;
-    // }
-    if(recursion_count < 3) {
+    if (recursion_count < 3) {
       owner_account_threshold = dispatch(accountThreshold(owner_authority, recursion_count));
 
       if ( owner_account_threshold === undefined ) {
         return undefined;
       }
 
-      if(owner_account_threshold === 'full') {
+      if (owner_account_threshold === 'full') {
         return 'full';
       }
 
@@ -127,15 +123,15 @@ function getMyAuthorityForAccount(account, recursion_count = 1) {
         return undefined;
       }
 
-      if(active_account_threshold === 'full') {
+      if (active_account_threshold === 'full') {
         return 'full';
       }
     }
 
     if (
-      owner_pubkey_threshold === 'partial' || active_pubkey_threshold === 'partial' ||
-      owner_address_threshold === 'partial' || active_address_threshold === 'partial' ||
-      owner_account_threshold === 'partial' || active_account_threshold === 'partial'
+      owner_pubkey_threshold === 'partial' || active_pubkey_threshold === 'partial'
+      || owner_address_threshold === 'partial' || active_address_threshold === 'partial'
+      || owner_account_threshold === 'partial' || active_account_threshold === 'partial'
     ) {
       return 'partial';
     }
@@ -145,17 +141,17 @@ function getMyAuthorityForAccount(account, recursion_count = 1) {
 }
 
 function accountThreshold(authority, recursion_count) {
-  return (dispatch, getState) => { // eslint-disable-line
+  return (dispatch) => {
     var account_auths = authority.get('account_auths');
 
-    if( ! account_auths.size ) {
+    if ( ! account_auths.size ) {
       return 'none';
     }
 
     let auths = account_auths.map((auth) => {
       let account = ChainStore.getAccount(auth.get(0));
 
-      if(account === undefined) {
+      if (account === undefined) {
         return undefined;
       }
 
@@ -192,22 +188,26 @@ function pubkeyThreshold(authority) {
         available += k.get(1);
       }
 
-      if(available >= required) {
+      if (available >= required) {
         break;
       }
     }
 
-    return available >= required ? 'full' : available > 0 ? 'partial' : 'none';
+    return available >= required
+      ? 'full'
+      : available > 0
+        ? 'partial'
+        : 'none';
   };
 }
 
 function addressThreshold(authority) {
-  return (dispatch, getState)=>{
+  return (getState)=>{
     var available = 0;
     var required = authority.get('weight_threshold');
     var address_auths = authority.get('address_auths');
 
-    if( ! address_auths.size) {
+    if ( ! address_auths.size) {
       return 'none';
     }
 
@@ -221,11 +221,15 @@ function addressThreshold(authority) {
         available += k.get(1);
       }
 
-      if(available >= required) {
+      if (available >= required) {
         break;
       }
     }
 
-    return available >= required ? 'full' : available > 0 ? 'partial' : 'none';
+    return available >= required
+      ? 'full'
+      : available > 0
+        ? 'partial'
+        : 'none';
   };
 }

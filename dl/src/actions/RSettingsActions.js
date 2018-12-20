@@ -77,7 +77,7 @@ export function switchLocale(locale) {
 export function changeSettleStatus() {
   let status = storageSettings.showSettles ? false : true;
 
-  return (dispatch, getState) => { // eslint-disable-line
+  return (dispatch) => {
     changeStorageValue('showSettles', status);
     dispatch({
       type: Types.CHANGE_SETTLE_STATUS,
@@ -95,7 +95,7 @@ export function changeSettleStatus() {
 export function changeChatStatus() {
   let status = storageSettings.disableChat ? false : true;
 
-  return (dispatch, getState) => { // eslint-disable-line
+  return (dispatch) => {
     changeStorageValue('disableChat', status);
     dispatch({
       type: Types.CHANGE_CHAT_STATUS,
@@ -113,7 +113,7 @@ export function changeChatStatus() {
  * @returns {function(*, *)}
  */
 export function addOwnerKeyPermissions(data){
-  return (dispatch, getState) => { // eslint-disable-line
+  return (dispatch) => {
     dispatch({
       type: Types.ADD_OWNER_KEY,
       payload: data
@@ -185,7 +185,7 @@ export function removeAssetToHidden(unit) {
   return function (dispatch, getState) {
     let hiddenAssets = getState().settings.hiddenAssets;
 
-    if(hiddenAssets.indexOf(unit) !== -1){
+    if (hiddenAssets.indexOf(unit) !== -1){
       hiddenAssets = hiddenAssets.delete(hiddenAssets.indexOf(unit));
       changeStorageValue('hiddenAssets', hiddenAssets.toJS());
       dispatch({

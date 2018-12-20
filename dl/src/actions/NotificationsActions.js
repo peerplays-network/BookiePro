@@ -49,7 +49,6 @@ class NotificationsActions {
         newListMessages = messages.update(messages.findIndex((message) => {
           return id === message.id;
         }), (message) => {
-          // message.setIsRead();
           return message;
         });
 

@@ -23,7 +23,6 @@ class HelpActions {
  * @returns {function(*=, *)}
  */
   static toggleHelpModal(showHelpModal) {
-
     return (dispatch) => {
       dispatch(toggleModalAction(showHelpModal));
     };

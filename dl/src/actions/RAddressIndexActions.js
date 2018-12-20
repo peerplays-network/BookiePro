@@ -49,12 +49,12 @@ export default class AddressIndexActions {
         // Gather all 5 legacy address formats (see key.addresses)
         var address_strings = key.addresses(publicKey);
 
-        for(let address of address_strings) {
+        for (let address of address_strings) {
           addresses.set(address, publicKey);
           dirty = true;
         }
 
-        if( dirty ) {
+        if (dirty) {
           dispatch({
             type : Types.SET_ADDRESS_INDEXES,
             payload : addresses,

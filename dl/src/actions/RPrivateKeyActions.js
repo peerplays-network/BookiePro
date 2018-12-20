@@ -34,8 +34,6 @@ export default class PrivateKeyActions {
    * @returns {function(*, *)}
    */
   static addKey(private_key_object, transaction) {
-    let self = this; // eslint-disable-line
-
     return (dispatch, getState) => {
       return new Promise((resolve) => {
         let {
@@ -79,7 +77,6 @@ export default class PrivateKeyActions {
             }
 
             if (private_key_object.brainkey_sequence == null) {
-            // CachedPropertiesActions.setProperty("backup_recommended", true);
             }
 
             idb_helper.on_transaction_end(transaction).then(() => {});

@@ -1,7 +1,6 @@
 import assetConstants from '../chain/asset_constants';
 
 class AssetUtils {
-
   static getFlagBooleans(mask, isBitAsset = false) {
     let booleans = {
       charge_market_fee    : false,

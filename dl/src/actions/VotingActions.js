@@ -85,7 +85,6 @@ class VotingActions {
  */
   static fetchWitnessData() {
     return (dispatch, getState) => {
-
       let accountName = getState().app.account,
         newWitnesses = getState().voting.newWitnesses;
 
@@ -104,10 +103,8 @@ class VotingActions {
  * @param {String} accountName
  */
   static getProxyData(accountName) {
-
     return Repository.fetchFullAccount(accountName).then((result) => {
       let account = result.toJS();
-
       let proxyId = account.options.voting_account;
 
       return Repository.getAccount(proxyId).then((result) => {
@@ -136,15 +133,12 @@ class VotingActions {
    * @returns {function(*, *)}
    */
   static publishProxy(proxyId) {
-    return (dispatch, getState) => {
+    return ( getState) => {
       return Repository.getAccount(getState().app.account).then((result) => {
-
         let account = result.toJS();
         account.account = account.id;
         account.new_options = account.options;
-
         account.new_options.voting_account = proxyId ? proxyId : DEFAULT_PROXY_ID;
-
         account.fee = {
           amount: 0,
           asset_id: accountUtils.getFinalFeeAsset(account.id, 'account_update')
@@ -172,7 +166,6 @@ class VotingActions {
       let account = results[0].toJS();
       let votes = account.options.votes;
       let proxyId = account.options.voting_account;
-
       let object200 = results[1].toJS();
       let object210 = results[2].toJS();
       let coreAsset = results[3].toJS();
@@ -193,7 +186,6 @@ class VotingActions {
           let allWitnesses = [];
 
           allWitnesses = allWitnesses.concat(object200.active_witnesses);
-
           votesArray.forEach((vote) => {
             if (allWitnesses.indexOf(vote.get('id')) === -1) {
               allWitnesses.push(vote.get('id'));
@@ -232,7 +224,7 @@ class VotingActions {
                 let witnessAccount = result.toJS();
                 objectAccounts[witness.witness_account] = witnessAccount;
                 votes = votes.filter((item) => {
-                  if(item === witness.vote_id) {
+                  if (item === witness.vote_id) {
                     approvedAccounts[witness.witness_account] = witness.witness_account;
                     return false;
                   } else {
@@ -297,15 +289,13 @@ class VotingActions {
    * @returns {function(*, *)}
    */
   static publishWitnesses(witnesses) {
-    return (dispatch, getState) => {
+    return ( getState) => {
       return Repository.getAccount(getState().app.account).then((result) => {
         let account = result.toJS();
         account.account = account.id;
         account.new_options = account.options;
-
         account.new_options.num_witness = witnesses.size;
         account.new_options.num_committee = getState().voting.witnesses.cmVotes.length;
-
         account.fee = {
           amount: 0,
           asset_id: accountUtils.getFinalFeeAsset(account.id, 'account_update')
@@ -401,15 +391,13 @@ class VotingActions {
    * @returns {function(*, *)}
    */
   static publishCM(committeeMembers) {
-    return (dispatch, getState) => {
+    return (getState) => {
       return Repository.getAccount(getState().app.account).then((result) => {
         let account = result.toJS();
         account.account = account.id;
         account.new_options = account.options;
-
         account.new_options.num_committee = committeeMembers.size;
         account.new_options.num_witness = getState().voting.committeeMembers.witnessesVotes.length;
-
         account.fee = {
           amount: 0,
           asset_id: accountUtils.getFinalFeeAsset(account.id, 'account_update')
@@ -447,8 +435,6 @@ class VotingActions {
       let id = '1.14.' + i;
       workerPromises.push(Repository.getObject(id).then((w) => w).catch((e) => e));
     }
-
-    ;
 
     return Promise.all(workerPromises).then((result) => {
       result = result.filter((w) => {
@@ -518,21 +504,18 @@ class VotingActions {
         let dataPromises = workers.map((worker, index) => { // eslint-disable-line
           let dailyPay = parseInt(worker.daily_pay, 10);
           workerBudget = workerBudget - dailyPay;
-
           let rest = workerBudget + dailyPay;
-
           let totalVotes = (worker.total_votes_for - worker.total_votes_against) / precision;
-          let totalDays = 1; // eslint-disable-line
-
-          let approvalState = votes.has(worker.vote_for) ? true :
-            votes.has(worker.vote_against) ? false :
-              null;
-
+          let approvalState = votes.has(worker.vote_for)
+            ? true
+            : votes.has(worker.vote_against)
+              ? false
+              :null;
           let approval = counterpart.translate('account.votes.status.neutral');
 
-          if( approvalState === true ) {
+          if (approvalState === true) {
             approval = counterpart.translate('account.votes.status.supported');
-          } else if( approvalState === false ) {
+          } else if (approvalState === false) {
             approval = counterpart.translate('account.votes.status.rejected');
           }
 
@@ -554,6 +537,7 @@ class VotingActions {
           let endDate = counterpart.localize(new Date(worker.work_end_date), {type: 'date'});
           let now = new Date();
           let isExpired = new Date(worker.work_end_date) <= now;
+
           return Promise.all([
             Repository.getAccount(worker.worker_account),
             worker.worker[1].balance
@@ -612,7 +596,7 @@ class VotingActions {
    * @returns {function(*, *)}
    */
   static publishProposals(votes) {
-    return (dispatch, getState) => {
+    return (getState) => {
       return Repository.getAccount(getState().app.account).then((result) => {
         let account = result.toJS();
         account.account = account.id;
@@ -656,7 +640,7 @@ class VotingActions {
   }
 
   static holdTransaction(tr) {
-    return (dispatch, getState) => {
+    return (getState) => {
       return new Promise((resolve, reject) => {
         let aes_private = getState().walletData.aesPrivate,
           keys = getState().privateKey.keys,

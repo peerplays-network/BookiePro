@@ -2,7 +2,7 @@ import {
   CLAIM_BTS_SET_STATUS,
   CLAIM_BTS_SET_ERRORS
 } from '../constants/ActionTypes';
-import {key, PrivateKey} from 'peerplaysjs-lib'; // eslint-disable-line
+import {PrivateKey} from 'peerplaysjs-lib'; // eslint-disable-line
 import counterpart from 'counterpart';
 import AccountRepository from '../repositories/AccountRepository';
 import LoginService from '../services/LoginService';

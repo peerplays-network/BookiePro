@@ -39,7 +39,6 @@ const faucets = require('json!common/' + CONFIG.FAUCET_FILE + '.json');
 
 /**
  * Get Faucet Address
- * //TODO:: AccountService.fetchFaucetAddress
  * @param {Number} attempt
  * @param {String} accountName
  * @param {PrivateKey} ownerPrivate
@@ -60,7 +59,7 @@ function fetchFaucetAddress(
     let index = Math.floor(Math.random() * Object.keys(faucets).length);
     let faucetAddress = faucets[index];
 
-    if(window && window.location && window.location.protocol === 'https:') {
+    if (window && window.location && window.location.protocol === 'https:') {
       faucetAddress = faucetAddress.replace(/http:\/\//, 'https://');
     }
 
@@ -85,7 +84,7 @@ function fetchFaucetAddress(
       let res = response.json();
       resolve(res);
     }).catch((err) => {
-      if(attempt > 2) {
+      if (attempt > 2) {
         reject(err);
       } else {
         attempt++;

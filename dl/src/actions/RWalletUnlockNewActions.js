@@ -8,12 +8,12 @@ import KeysService from 'services/KeysService';
 class RWalletUnlockNewActions {
 
   /**
-     * Action Creator (SHOW_WALLET_PASSWORD_WINDOW)
-     * Show|Hide Unlock modal //here we work with promises
-     *
-     * @param data Object
-     * @returns {Function}
-     */
+   * Action Creator (SHOW_WALLET_PASSWORD_WINDOW)
+   * Show|Hide Unlock modal //here we work with promises
+   *
+   * @param data Object
+   * @returns {Function}
+   */
   static showWalletPasswordWindow(data) {
     return (dispatch) => {
       dispatch({

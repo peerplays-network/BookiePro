@@ -23,7 +23,7 @@ class WalletUnlockActions {
     return new Promise( (resolve) => {
       this.dispatch({resolve});
     }).then( (was_unlocked) => {
-      if(was_unlocked) {
+      if (was_unlocked) {
         WrappedWalletUnlockActions.change();
       }
     });
@@ -36,7 +36,6 @@ class WalletUnlockActions {
   change() {
     this.dispatch();
   }
-
 }
 
 var WrappedWalletUnlockActions = alt.createActions(WalletUnlockActions);

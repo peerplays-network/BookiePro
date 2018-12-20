@@ -1,7 +1,6 @@
 import {EmitterInstance} from 'peerplaysjs-lib';
 
 class ChainStoreHeartbeater {
-
   constructor() {
     this.heartBeatTimer = null;
   }

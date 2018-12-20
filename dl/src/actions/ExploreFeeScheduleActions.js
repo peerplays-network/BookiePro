@@ -71,7 +71,7 @@ class ExploreFeeScheduleActions {
             console.warn(
               'Asking for non-existing fee id %d! Check group settings in Fees.jsx', feeIdx
             );
-            return; // FIXME, if I ask for a fee that does not exist?
+            return null; // FIXME, if I ask for a fee that does not exist?
           }
 
           let feeStruct = feesRaw[feeIdx];

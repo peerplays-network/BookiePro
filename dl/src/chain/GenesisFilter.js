@@ -1,17 +1,6 @@
 import {hash} from 'peerplaysjs-lib';
 
 var bts_genesiskeys_bloom_url = undefined;
-//try {
-//    var url = require("file?name=bts_genesiskeys_bloom_[sha1:hash:hex:7]
-//      .dat!assets/bts_genesiskeys_bloom.dat")
-//    if(url.indexOf("3cee441") === -1)
-//        throw new Error("Incorrect hash: bts_genesiskeys_bloom.dat")
-//    bts_genesiskeys_bloom_url = url
-//} catch(e) {
-//    // webpack deployment exception (not run time)
-//    console.log("WARN: Will be unable to filter BTS 1.0 wallet imports, did not find assets/bts_genesiskeys_bloom.dat", e)
-//}
-
 /**
     This should only be applied to a BTS 1.0 export file taken on the
     discontinued chain. Any public key string or address (all 5 formats) carried
@@ -50,21 +39,6 @@ export default class GenesisFilter {
     var xhr = new XMLHttpRequest();
     // firefox 40 did not allow the blob url but ff 41.0.2 did
     xhr.responseType = 'blob';
-    //xhr.onload = ()=> {
-    //    if (xhr.status === 404) return
-    //    var reader = new FileReader
-    //    reader.onload = evt => {
-    //        var contents = new Buffer(evt.target.result, 'binary')
-    //        if( contents.length !== 1048576) throw new Error("Wrong length")
-    //        this.bits_in_filter = contents.length * 8 // 8388608 (test data)
-    //        this.bloom_buffer = contents
-    //        done()
-    //    }
-    //    reader.readAsBinaryString(xhr.response)
-    //}
-    //xhr.onerror = () => { console.error('xhr.onerror',e) }
-    ////xhr.open("GET", bts_genesiskeys_bloom_url)
-    //xhr.send()
   }
 
   inGenesis(pubkey_or_address) {

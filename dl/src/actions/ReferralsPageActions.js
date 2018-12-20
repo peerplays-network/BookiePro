@@ -83,7 +83,7 @@ class ReferralsPageActions {
   static onClickUpgradeLifetime() {
     return (dispatch, getState) => {
       let state = getState();
-      KeysService.getActiveKeyFromState(state, dispatch).then((privateKey) => { // eslint-disable-line
+      KeysService.getActiveKeyFromState(state, dispatch).then(() => {
         TransactionService.upgradeAccount(state.app.accountId, '1.3.0', true, () => {
           dispatch(ReferralsPageActions.setPageData());
         }).then((trFnc) => {

@@ -3,7 +3,6 @@ import * as Types from '../constants/ActionTypes';
 var lockTimeout;
 
 export default class WalletActions {
-
   /**
    * Redux Action Creator (SET_LOCK_STATUS)
    * lock Wallet
@@ -13,7 +12,7 @@ export default class WalletActions {
     return (dispatch, getState) => {
       clearTimeout(lockTimeout);
 
-      if(!getState().wallet.locked) {
+      if (!getState().wallet.locked) {
         dispatch({
           type: Types.SET_LOCK_STATUS,
           payload: true,

@@ -164,7 +164,7 @@ class MarketUtils {
     };
   }
 
-  static parse_order_history(order, paysAsset, receivesAsset, isAsk, flipped) { // eslint-disable-line
+  static parse_order_history(order, paysAsset, receivesAsset, isAsk) {
     let isCall = order.order_id.split('.')[1] === object_type.limit_order ? false : true;
     let receivePrecision = utils.get_asset_precision(receivesAsset.toJS
       ? receivesAsset.get('precision')
@@ -240,6 +240,10 @@ class MarketUtils {
     let dec = price_split[1];
     return {int: int, dec: dec};
   }
+
+  // TODO: Determine if neeeded.
+  // DO NOT REMOVE, MODIFY AS NECESSARY FOR WHERE IT IS CALLED.
+  // If it is not needed in the locations it is called. remove.
 
   // static flatten_orderbookchart(array, sumBoolean, inverse, precision) {
   //     inverse = inverse === undefined ? false : inverse;
@@ -320,13 +324,12 @@ class MarketUtils {
   //     return orderBookArray;
   // }
 
-  static flatten_orderbookchart_highcharts(array, sumBoolean, inverse, precision) { // eslint-disable-line
+  static flatten_orderbookchart_highcharts(array, sumBoolean, inverse) {
     inverse = inverse === undefined ? false : inverse;
     let orderBookArray = [];
     let arrayLength;
 
     if (inverse) {
-
       if (array && array.length) {
         arrayLength = array.length - 1;
         orderBookArray.unshift([array[arrayLength][0], array[arrayLength][1]]);

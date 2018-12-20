@@ -148,40 +148,33 @@ class ExplorerBlockChainActions {
               firstBlock = 0,
               trxCount = 0;
 
-            recentBlocks.toJS()
-              .forEach((block, index) => {
-                let trxLength = block.transactions.length;
+            recentBlocks.toJS().forEach((block, index) => {
+              let trxLength = block.transactions.length;
+              trxCount += trxLength;
 
-                trxCount += trxLength;
+              if (index > 0) {
+                let delta = (previousTime - block.timestamp) / 1000;
 
-                if(index > 0) {
-
-                  let delta = (previousTime - block.timestamp) / 1000;
-
-                  blockTimes.push([block.id, delta]);
-
-                  graphBlockTimes.push({
-                    id: block.id,
-                    y: delta,
-                    x: block.id,
-                    color: ColorHelper.getExplorerTimeColor(delta)
-                  });
-
-                  lastBlock = block.timestamp;
-                } else {
-                  firstBlock = block.timestamp;
-                }
-
-                previousTime = block.timestamp;
-
-                graphBlockTransactions.push({
+                blockTimes.push([block.id, delta]);
+                graphBlockTimes.push({
                   id: block.id,
-                  y: trxLength,
+                  y: delta,
                   x: block.id,
-                  color: ColorHelper.getExplorerTransactionColor(trxLength)
+                  color: ColorHelper.getExplorerTimeColor(delta)
                 });
+                lastBlock = block.timestamp;
+              } else {
+                firstBlock = block.timestamp;
+              }
 
+              previousTime = block.timestamp;
+              graphBlockTransactions.push({
+                id: block.id,
+                y: trxLength,
+                x: block.id,
+                color: ColorHelper.getExplorerTransactionColor(trxLength)
               });
+            });
 
             let avgTime = blockTimes.reduce((previous, current, idx, array) => {
               return previous + current[1] / array.length;
@@ -211,7 +204,7 @@ class ExplorerBlockChainActions {
               let filteredKeys = [];
               //TODO:: chainstore repository
               neededKeys.forEach((neededKey) => {
-                if(!fetchedObjects[neededKey]) {
+                if (!fetchedObjects[neededKey]) {
                   filteredKeys.push(neededKey);
                 }
               });
@@ -220,13 +213,13 @@ class ExplorerBlockChainActions {
                   ? [ObjectRepository.fetchObjectsByIds(filteredKeys)]
                   : []
               ).then((data) => {
-                if(data && data.length) {
+                if (data && data.length) {
                   let bitAssets = {};
                   data[0].forEach((item) => {
                     fetchedObjects[item.id] = item;
 
-                    if(item.id.substring(0, '1.3.'.length) === '1.3.' && item.bitasset_data_id) {
-                      if(!bitAssets[item.bitasset_data_id]) {
+                    if (item.id.substring(0, '1.3.'.length) === '1.3.' && item.bitasset_data_id) {
+                      if (!bitAssets[item.bitasset_data_id]) {
                         bitAssets[item.bitasset_data_id] = [];
                       }
 
@@ -235,7 +228,7 @@ class ExplorerBlockChainActions {
                   });
                   let bitAssetsKeys = Object.keys(bitAssets);
 
-                  if(bitAssetsKeys.length) {
+                  if (bitAssetsKeys.length) {
                     return ObjectRepository.fetchObjectsByIds(bitAssetsKeys).then((data) => {
                       data.forEach((bitObject) => {
                         bitAssets[bitObject.id].forEach((assetId) => {
@@ -253,15 +246,15 @@ class ExplorerBlockChainActions {
                     newOperation, operation, fetchedObjects
                   );
 
-                  if(updatedOperation) {
+                  if (updatedOperation) {
                     operations = operations.unshift(updatedOperation);
                   }
                 });
 
-                if(operations.size > MAX_LATEST_OPERATIONS) {
+                if (operations.size > MAX_LATEST_OPERATIONS) {
                   let iterations = operations.size - MAX_LATEST_OPERATIONS;
 
-                  for(let i = 0; i < iterations; i++) {
+                  for (let i = 0; i < iterations; i++) {
                     operations = operations.pop();
                   }
                 }

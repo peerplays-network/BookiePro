@@ -3,7 +3,6 @@ import alt from 'alt-instance';
 import {ChainConfig} from 'peerplaysjs-ws';
 
 class TransactionConfirmActions {
-
   confirm(transaction) {
     this.dispatch({transaction});
   }

@@ -6,11 +6,11 @@ import _ from 'lodash';
 class NotificationMessage {
 
   /**
-     *
-     * @param {string} id
-     * @param {string} message
-     * @param {NotificationMessage.TYPES} type
-     */
+   *
+   * @param {string} id
+   * @param {string} message
+   * @param {NotificationMessage.TYPES} type
+   */
   constructor(id, message, type, isRead = false) {
     this.id = id;
     this.message = message;
@@ -23,12 +23,11 @@ class NotificationMessage {
   }
 
   /**
-     *
-     * @param {string} language | ISO 639-1: two-letter codes, one per language
-     * @returns {string} Processed message
-     */
+   *
+   * @param {string} language | ISO 639-1: two-letter codes, one per language
+   * @returns {string} Processed message
+   */
   getText(language) {
-
     if (_.isObject(this.message)) {
       if (this.message[language]) {
         return this.message[language];

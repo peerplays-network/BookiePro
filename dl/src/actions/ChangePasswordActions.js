@@ -41,22 +41,14 @@ class ChangePasswordActions {
         const oldActivePrivateKeyBuffer = oldAesPrivate
           .decryptHexToBuffer(encryptedKey);//.toBuffer());
         const oldActivePrivateKey = PrivateKey.fromBuffer(oldActivePrivateKeyBuffer);
-
-        //new wallet settings, owner encrypted and active keys
-
-        // const brainKey =  key.normalize_brainKey(getState().account.currentAccount);
         const passwordAes = Aes.fromSeed( newPassword );
         const encryptionBuffer = key.get_random_key().toBuffer();
         const encryptionKey = passwordAes.encryptToHex( encryptionBuffer );
         const aesPrivate = Aes.fromSeed( encryptionBuffer );
-
         let keys = KeyGeneratorService.generateKeys(getState().account.currentAccount, newPassword);
-
-        // const activeObjKey = generateActiveKey(brainKey, newPassword);
         const activePrivateKey = keys.active;
         const activePublicKey = activePrivateKey.toPublicKey().toPublicKeyString();
         const activePrivateKeyEncrypted = aesPrivate.encryptToHex(activePrivateKey.toBuffer());
-        //const newOwnerPrivateKeyEncrypted = aesPrivate.encryptToHex(ownerPrivateKey.toBuffer());
         const passwordPrivate = PrivateKey.fromSeed( newPassword );
         const passwordPublic = passwordPrivate.toPublicKey().toPublicKeyString();
         const wallet = {

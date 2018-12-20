@@ -4,15 +4,12 @@ import {
   WD_RESET
 } from '../constants/ActionTypes';
 
-if (__ELECTRON__) { // Confirm is checking if in Electron properly
-}
-
 export default class WalletDataActions {
   /**
-     * Action Creator (WD_RESET)
-     * Reset Wallet data reducer
-     * @returns {{type, payload: null}}
-     */
+   * Action Creator (WD_RESET)
+   * Reset Wallet data reducer
+   * @returns {{type, payload: null}}
+   */
   static resetWalletData() {
     return {
       type: WD_RESET,
@@ -21,12 +18,12 @@ export default class WalletDataActions {
   }
 
   /**
-     * Action Creator (WD_UPDATE_WALLET)
-     * Update Wallet data
-     *
-     * @param wallet
-     * @returns {{type: string, payload: *}}
-     */
+   * Action Creator (WD_UPDATE_WALLET)
+   * Update Wallet data
+   *
+   * @param wallet
+   * @returns {{type: string, payload: *}}
+   */
   static updateWalletData(wallet) {
     return {
       type: WD_UPDATE_WALLET,

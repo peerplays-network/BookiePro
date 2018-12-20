@@ -16,7 +16,7 @@ function getHistory(accountsList) {
   let seen_ops = new Set();
 
   for (let account of accountsList) {
-    if(account) {
+    if (account) {
       let h = account.history;
 
       if (h) {
@@ -49,20 +49,19 @@ function updateDataAction(data) {
 class SendPageActions {
 
   /**
-     * get and update send page data
-     *
-     * @param data
-     * @returns {function(*=, *)}
-     */
+   * get and update send page data
+   *
+   * @param data
+   * @returns {function(*=, *)}
+   */
   static update(data) {
     return (dispatch, getState) => {
       return Repository.getAccount(getState().app.account).then((result) => {
         let account = result.toJS();
-
         let assetPromises = [];
         let balancePromises = [];
 
-        for(let assetId in account.balances) {
+        for (let assetId in account.balances) {
           assetPromises.push(Repository.getAsset(assetId));
           balancePromises.push(Repository.getObject(account.balances[assetId]));
         }
@@ -92,27 +91,26 @@ class SendPageActions {
               historyAssets: results.map((ha) => ha.toJS())
             })));
           });
-
         });
       });
     };
   }
 
   /**
-     * Get transaction for transfer
-     *
-     * @param {string} from_account
-     * @param {string} to_account
-     * @param {string} amount
-     * @param {string} memo
-     * @param {string} asset
-     * @param {string} fee_asset_id
-     * @param {string} propose_account
-     * @param {boolean} broadcast
-     * @param {boolean} encrypt_memo
-     * @param {string} optional_nonce
-     * @returns {function(*, *)}
-     */
+   * Get transaction for transfer
+   *
+   * @param {string} from_account
+   * @param {string} to_account
+   * @param {string} amount
+   * @param {string} memo
+   * @param {string} asset
+   * @param {string} fee_asset_id
+   * @param {string} propose_account
+   * @param {boolean} broadcast
+   * @param {boolean} encrypt_memo
+   * @param {string} optional_nonce
+   * @returns {function(*, *)}
+   */
   static getTransferTransaction(
     from_account,
     to_account,
@@ -125,8 +123,7 @@ class SendPageActions {
     optional_nonce = null
   ) {
 
-    return (dispatch, getState) => {
-
+    return (getState) => {
       return new Promise((resolve, reject) => {
         // Get the encrypted memo key.
         const encryptedMemoKey = getState().walletData.wallet.encrypted_memo_key;
@@ -134,8 +131,6 @@ class SendPageActions {
           .decryptHexToBuffer(encryptedMemoKey);
         const memoPrivateKey = PrivateKey.fromBuffer(memoPrivateKeyBuffer);
         const memoPublicKey = memoPrivateKey.toPublicKey().toPublicKeyString();
-
-
         let memoToPublicKey;
 
         return Promise.all([
@@ -145,13 +140,12 @@ class SendPageActions {
           FetchChain('getAsset', asset),
           FetchChain('getAsset', fee_asset_id)
         ]).then((res)=> {
-
           let [
             chain_from, chain_to, chain_propose_account,
             chain_asset, chain_fee_asset
           ] = res;
 
-          if( memo && encrypt_memo  ) {
+          if (memo && encrypt_memo) {
             memoToPublicKey = chain_to.getIn(['options','memo_key']);
 
             // Check for a null memo key, if the memo key is null use the receivers active key
@@ -161,13 +155,12 @@ class SendPageActions {
           }
 
           let propose_acount_id = propose_account ? chain_propose_account.get('id') : null;
-
           let memo_object;
 
-          if(memo && memoToPublicKey && memoPublicKey) {
-            let nonce = optional_nonce == null ?
-              TransactionHelper.unique_nonce_uint64() :
-              optional_nonce;
+          if (memo && memoToPublicKey && memoPublicKey) {
+            let nonce = optional_nonce == null
+              ? TransactionHelper.unique_nonce_uint64()
+              : optional_nonce;
 
             memo_object = {
               from: memoPublicKey, // From Public Key
@@ -188,8 +181,10 @@ class SendPageActions {
           let fee_asset = chain_fee_asset.toJS();
 
           // Default to CORE in case of faulty core_exchange_rate
-          if( fee_asset.options.core_exchange_rate.base.asset_id === '1.3.0' &&
-                        fee_asset.options.core_exchange_rate.quote.asset_id === '1.3.0' ) {
+          if (
+            fee_asset.options.core_exchange_rate.base.asset_id === '1.3.0'
+            && fee_asset.options.core_exchange_rate.quote.asset_id === '1.3.0'
+          ) {
             fee_asset_id = '1.3.0';
           }
 
@@ -210,36 +205,32 @@ class SendPageActions {
             memo: memo_object
           });
 
-          if( propose_account ) {
+          if (propose_account) {
             let proposal_create_op = tr.get_type_operation('proposal_create', {
               proposed_ops: [{op: transfer_op}],
               fee_paying_account: propose_acount_id
             });
             tr.add_operation(proposal_create_op);
             tr.operations[0][1].expiration_time = parseInt(Date.now()/1000 + 5);
-
           } else {
             tr.add_operation( transfer_op );
           }
 
           return tr.set_required_fees().then(() => resolve(tr));
-
         }).catch((err) => reject(err));
-
-
       });
     };
   }
 
 
   /**
-     * Send money transaction
-     *
-     * @param tr
-     * @returns {function(*, *)}
-     */
+   * Send money transaction
+   *
+   * @param tr
+   * @returns {function(*, *)}
+   */
   static transferTransaction(tr) {
-    return (dispatch, getState) => {
+    return (getState) => {
       return new Promise((resolve, reject) => {
         let encrypted_key = getState().walletData.wallet.encrypted_brainkey;
         const activePrivateKeyBuffer = getState().walletData.aesPrivate
@@ -252,11 +243,11 @@ class SendPageActions {
   }
 
   /**
-     * select asset and set in reducer
-     *
-     * @param symbol
-     * @returns {function(*)}
-     */
+   * select asset and set in reducer
+   *
+   * @param symbol
+   * @returns {function(*)}
+   */
   static setSelectedSymbol(symbol) {
     return (dispatch) => {
       dispatch({

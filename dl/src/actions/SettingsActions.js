@@ -2,7 +2,6 @@
 var alt = require('../alt-instance');
 
 class SettingsActions {
-
   changeSetting(value) {
     this.dispatch(value);
   }
@@ -47,9 +46,6 @@ class SettingsActions {
   clearSettings() {
     this.dispatch();
   }
-  // changeBase(index, value) {
-  //     this.dispatch({index, value});
-  // }
 }
 
 module.exports = alt.createActions(SettingsActions);

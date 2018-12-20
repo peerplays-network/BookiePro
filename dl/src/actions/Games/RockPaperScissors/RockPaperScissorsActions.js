@@ -453,7 +453,6 @@ class RockPaperScissorsActions {
                 [Repository.getAccount(account.get('id')),
                   Repository.getAsset(operationJSON.buy_in.asset_id)]
               ).then((data) => {
-
                 if (data[0] && data[1]) {
                   let payer = data[0].toJS(),
                     asset = data[1].toJS(),
@@ -540,7 +539,6 @@ class RockPaperScissorsActions {
             [Repository.getAccount(operationJSON.creator),
               Repository.getAsset(operationJSON.options.buy_in.asset_id)]
           ).then(([payer, asset]) => {
-
             if (payer && asset) {
               payer = payer.toJS();
               asset = asset.toJS();
@@ -698,7 +696,6 @@ class RockPaperScissorsActions {
         });
 
         account.get('balances').forEach((balanceItem, keyItem) => {
-
           if (!addedAssets[keyItem]) {
             addedAssets[keyItem] = keyItem;
             promisesAssets.push(Repository.fetchObject(keyItem));
@@ -749,7 +746,7 @@ class RockPaperScissorsActions {
           exploreDropDownCurrent = 'any';
         }
 
-        tournaments.forEach((tournament) => { // eslint-disable-line
+        tournaments.forEach((tournament) => {
           if (assetsHash[tournament.getIn(['options', 'buy_in', 'asset_id'])]) {
             tournament = tournament.setIn(
               ['options', 'buy_in', 'asset'],
@@ -795,7 +792,6 @@ class RockPaperScissorsActions {
         if (!exploreList.equals(state.rockPaperScissorsReducer.exploreList)
           || !exploreDropDownItems.equals(state.rockPaperScissorsReducer.exploreDropDownItems)
         ) {
-
           dispatch(setExploreListAction({
             exploreList: exploreList,
             exploreDropDownItems: exploreDropDownItems,
@@ -999,8 +995,10 @@ class RockPaperScissorsActions {
           }
         });
 
-        if (!findList.equals(state.rockPaperScissorsReducer.findList) ||
-          !findDropDownItems.equals(state.rockPaperScissorsReducer.findDropDownItems)) {
+        if (
+          !findList.equals(state.rockPaperScissorsReducer.findList) ||
+          !findDropDownItems.equals(state.rockPaperScissorsReducer.findDropDownItems)
+        ) {
           dispatch(setFindListAction({
             findList: findList,
             findDropDownItems: findDropDownItems,
@@ -1287,56 +1285,59 @@ class RockPaperScissorsActions {
                   Repository.getAccount(match.getIn(['players', 1]))
                 ]),
               Promise.all(gamesPromises)
-              ])
-                .then(([players, games]) => {
-                  let account = results['account'],
-                    immutableGames = Immutable.List(games);
-                  let previousGamesHash = {};
-                  state.rockPaperScissorsReducer.games.forEach((prevGame) => {
-                    previousGamesHash[prevGame.get('id')] = prevGame;
-                  });
-                  games.forEach((game) => {
-                    if (
-                      !previousGamesHash[game.get('id')]
+              ]).then(([players, games]) => {
+                let account = results['account'],
+                  immutableGames = Immutable.List(games);
+                let previousGamesHash = {};
+                state.rockPaperScissorsReducer.games.forEach((prevGame) => {
+                  previousGamesHash[prevGame.get('id')] = prevGame;
+                });
+                games.forEach((game) => {
+                  if (
+                    !previousGamesHash[game.get('id')]
                       || (game !== previousGamesHash[game.get('id')]
                       && game.get('state') !== previousGamesHash[game.get('id')].get('state'))
-                    ) {
-                      if (game.get('state') === 'expecting_reveal_moves') {
-                        game.get('players').forEach((playerId, playerIndex) => {
-                          if (account.get('id') === playerId &&
-                            game.getIn(['game_details', 1, 'commit_moves', playerIndex]) &&
-                            !game.getIn(['game_details', 1, 'reveal_moves', playerIndex])) {
-                            console.log('Game %o is expecting a reveal move', game.get('id'));
-                            dispatch(RWalletUnlockNewActions.getKeyFromState('active')).then(
-                              (privateKey) => {
-                                RPSTransactionService.broadcastRevealMove(
-                                  tournament.get('id'),
-                                  game.get('id'),
-                                  playerId,
-                                  game.getIn(['game_details', 1, 'commit_moves', playerIndex]),
-                                  privateKey
-                                );
-                              }
-                            );
-                          }
-                        });
-                      }
+                  ) {
+                    if (game.get('state') === 'expecting_reveal_moves') {
+                      game.get('players').forEach((playerId, playerIndex) => {
+                        if (
+                          account.get('id') === playerId
+                          && game.getIn(['game_details', 1, 'commit_moves', playerIndex])
+                          && !game.getIn(['game_details', 1, 'reveal_moves', playerIndex])
+                        ) {
+                          console.log('Game %o is expecting a reveal move', game.get('id'));
+                          dispatch(RWalletUnlockNewActions.getKeyFromState('active')).then(
+                            (privateKey) => {
+                              RPSTransactionService.broadcastRevealMove(
+                                tournament.get('id'),
+                                game.get('id'),
+                                playerId,
+                                game.getIn(['game_details', 1, 'commit_moves', playerIndex]),
+                                privateKey
+                              );
+                            }
+                          );
+                        }
+                      });
                     }
-                  });
-
-                  if (!immutableGames.equals(state.rockPaperScissorsReducer.games) ||
-                    !match.equals(state.rockPaperScissorsReducer.match) ||
-                    !players.equals(state.rockPaperScissorsReducer.players) ||
-                    gameId !== state.rockPaperScissorsReducer.activeGameId) {
-                    dispatch(setGameAction({
-                      match: match,
-                      activeGameId: gameId,
-                      players: players,
-                      games: immutableGames,
-                      status: tournament.get('state')
-                    }));
                   }
                 });
+
+                if (
+                  !immutableGames.equals(state.rockPaperScissorsReducer.games)
+                  || !match.equals(state.rockPaperScissorsReducer.match)
+                  || !players.equals(state.rockPaperScissorsReducer.players)
+                  || gameId !== state.rockPaperScissorsReducer.activeGameId
+                ) {
+                  dispatch(setGameAction({
+                    match: match,
+                    activeGameId: gameId,
+                    players: players,
+                    games: immutableGames,
+                    status: tournament.get('state')
+                  }));
+                }
+              });
             } else {
               //waiting game...
               dispatch(setActiveGameAction({

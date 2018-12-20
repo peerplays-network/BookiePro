@@ -16,7 +16,7 @@ import {
  */
 function broadcastingAction() {
   return (dispatch) => {
-    return new Promise((resolve, reject) => { // eslint-disable-line
+    return new Promise((resolve) => {
       dispatch({
         type: TRCONFIRM_BROADCASTING
       });
@@ -32,7 +32,7 @@ function broadcastingAction() {
  */
 function broadcastSuccessAction() {
   return (dispatch) => {
-    return new Promise((resolve, reject) => { // eslint-disable-line
+    return new Promise((resolve) => {
       dispatch({
         type: TRCONFIRM_BROADCAST_SUCCESS
       });
@@ -49,7 +49,7 @@ function broadcastSuccessAction() {
  */
 function broadcastErrorAction(err) {
   return (dispatch) => {
-    return new Promise((resolve, reject) => { // eslint-disable-line
+    return new Promise((resolve) => {
       dispatch({
         type: TRCONFIRM_BROADCAST_ERROR,
         payload: err
