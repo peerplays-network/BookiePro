@@ -1,26 +1,6 @@
 import AssetHelper from './AssetHelper';
 
 class MarketHelper {
-  //static isMarketAsset(base, quote) {
-  //    let isMarketAsset = false, marketAsset, inverted = false;
-  //
-  //    if (quote.bitasset && base.id === quote.bitasset.options.short_backing_asset) {
-  //        isMarketAsset = true;
-  //        marketAsset = {id: quote.id}
-  //    } else if (base.bitasset && quote.id === base.bitasset.options.short_backing_asset) {
-  //        inverted = true;
-  //        isMarketAsset = true;
-  //        marketAsset = {id: base.id};
-  //    }
-  //
-  //    return {
-  //        isMarketAsset,
-  //        marketAsset,
-  //        inverted
-  //    };
-  //
-  //}
-
   static parseOrder(order, base, quote, invert = false) {
     let ask = this.isAsk(order, base);
     let quotePrecision = AssetHelper.getAssetPrecision(quote.precision);
@@ -144,7 +124,6 @@ class MarketHelper {
     let arrayLength;
 
     if (inverse) {
-
       if (array && array.length) {
         arrayLength = array.length - 1;
         orderBookArray.unshift([array[arrayLength][0], array[arrayLength][1]]);
@@ -157,8 +136,6 @@ class MarketHelper {
 
             orderBookArray.unshift([array[i][0], array[i][1]]);
           }
-        } else {
-          // orderBookArray.unshift([0, array[arrayLength][1]]);
         }
       }
     } else {
@@ -173,74 +150,12 @@ class MarketHelper {
 
             orderBookArray.push([array[i][0], array[i][1]]);
           }
-        } else {
-          // orderBookArray.push([array[0][0] * 1.5, array[0][1]]);
         }
       }
     }
 
     return orderBookArray;
   }
-
-  //    static getSettlementPrice(base, quote) {
-  //        let settlementPrice = 0,
-  //            settlement_price;
-  //
-  //        let {isMarketAsset} = this.isMarketAsset(quote, base);
-  //
-  //        if (isMarketAsset && quote && base) {
-  //            if (
-  //   quote.bitasset
-  //   && quote.bitasset.current_feed
-  //   && base.id === quote.bitasset.options.short_backing_asset
-  // ) {
-  //                settlement_price = quote.bitasset.current_feed.settlement_price;
-  //            } else if (
-  // base.bitasset
-  // && base.bitassetcurrent_feed
-  // && quote.id === base.bitasset.options.short_backing_asset
-  // ) {
-  //                settlement_price = base.bitasset.current_feed.settlement_price;
-  //
-  //            }
-  //
-  //            if (settlement_price) {
-  //                let flipped = false;
-  //
-  //
-  //                if (settlement_price.base.asset_id === quote.id) {
-  //                    settlementPrice = this.getFeedPrice(settlement_price, flipped);
-  //                } else {
-  //                    flipped = true;
-  //                }
-  //            }
-  //        }
-  //
-  //
-  //        return settlementPrice;
-  //    }
-
-  static getFeedPrice(settlement_price, invert = false) { //TODO
-    let price = 0; // eslint-disable-line
-    //let quoteAsset = ChainStore.getAsset(settlement_price.getIn(["quote", "asset_id"]));
-    //let baseAsset = ChainStore.getAsset(settlement_price.getIn(["base", "asset_id"]));
-    //
-    //let price = utils.get_asset_price(
-    //    settlement_price.getIn(["quote", "amount"]),
-    //    quoteAsset,
-    //    settlement_price.getIn(["base", "amount"]),
-    //    baseAsset
-    //)
-    //
-    //if (invert) {
-    //    return 1 / price;
-    //} else {
-    //    return price;
-    //}
-
-    return;
-  }
-
 }
 
 

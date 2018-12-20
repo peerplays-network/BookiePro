@@ -37,14 +37,12 @@ var Utils = {
     let precision = asset.toJS ? asset.get('precision') : asset.precision;
     let assetPrecision = this.get_asset_precision(precision);
     amount = typeof amount === 'string' ? amount : amount.toString();
-
     let decimalPosition = amount.indexOf('.');
 
     if (decimalPosition === -1) {
       return parseInt(amount, 10) * assetPrecision;
     } else {
-      let amountLength = amount.length, // eslint-disable-line
-        i;
+      let i;
       amount = amount.replace('.', '');
       amount = amount.substr(0, decimalPosition + precision);
 
@@ -107,7 +105,7 @@ var Utils = {
   },
 
   format_number: (number, decimals, trailing_zeros = true) => {
-    if(isNaN(number) || !isFinite(number) || number === undefined || number === null) {
+    if (isNaN(number) || !isFinite(number) || number === undefined || number === null) {
       return '';
     }
 
@@ -119,11 +117,10 @@ var Utils = {
 
     let num = numeral(number).format('0,0' + zeros);
 
-    if( num.indexOf('.') > 0 && !trailing_zeros) {
+    if (num.indexOf('.') > 0 && !trailing_zeros) {
       return num.replace(/0+$/,'').replace(/\.$/,'');
     }
 
-    ;
     return num;
   },
 
@@ -131,14 +128,11 @@ var Utils = {
     let symbol;
     let digits = 0;
 
-    if( asset === undefined ) {
-      return undefined
-      ;
+    if (asset === undefined) {
+      return undefined;
     }
 
-    ;
-
-    if( 'symbol' in asset ) {
+    if ('symbol' in asset) {
       // console.log( "asset: ", asset )
       symbol = asset.symbol;
       digits = asset.precision;
@@ -236,7 +230,6 @@ var Utils = {
       price = 0;
     }
 
-    let precision; // eslint-disable-line
     let priceText;
 
     if (forcePrecision) {
@@ -249,7 +242,6 @@ var Utils = {
     let int = price_split[0];
     let dec = price_split[1];
     let i;
-
     let zeros = 0;
 
     if (dec) {
@@ -314,37 +306,33 @@ var Utils = {
     value = value.trim();
     value = value.replace( /,/g, '' );
 
-    if( value === '.' || value === '' ) {
+    if (value === '.' || value === '') {
       return value;
     } else if( value.length ) {
-      // console.log( "before: ",value )
       let n = Number(value);
 
-      if( isNaN( n ) ) {
+      if (isNaN(n)) {
         return;
       }
 
       let parts = value.split('.');
-      // console.log( "split: ", parts )
       n = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-      if( parts.length > 1 ) {
+      if (parts.length > 1) {
         n += '.' + parts[1];
       }
 
-      // console.log( "after: ",transfer.amount )
       return n;
     }
   },
 
   parse_float_with_comma: function(value) {
-    // let value = new_state.transfer.amount
     value = value.replace( /,/g, '' );
     let fvalue = parseFloat(value);
 
-    if( value.length && isNaN(fvalue) && value !== '.' ) {
+    if (value.length && isNaN(fvalue) && value !== '.') {
       throw 'parse_float_with_comma: must be a number';
-    } else if( fvalue < 0 ) {
+    } else if ( fvalue < 0) {
       return 0;
     }
 
@@ -358,14 +346,14 @@ var Utils = {
       }
     }
 
-    for(let key in a) {
-      if(!(key in b) || a[key] !== b[key]) {
+    for (let key in a) {
+      if (!(key in b) || a[key] !== b[key]) {
         return false;
       }
     }
 
-    for(let key in b) {
-      if(!(key in a) || a[key] !== b[key]) {
+    for (let key in b) {
+      if (!(key in a) || a[key] !== b[key]) {
         return false;
       }
     }
@@ -394,12 +382,6 @@ var Utils = {
     } else {
       return splitString[0] + '.' + splitString[1].substr(0, assetPrecision);
     }
-    // let precision = this.get_asset_precision(assetPrecision);
-    // value = Math.floor(value * precision) / precision;
-    // if (isNaN(value) || !isFinite(value)) {
-    //     return 0;
-    // }
-    // return value;
   },
 
   estimateFee: function(op_type, options, globalObject) {
@@ -426,20 +408,17 @@ var Utils = {
   },
 
   convertPriceObj: function(fromRate, toRate, fromID, toID) {
-
     if (!fromRate || !toRate) {
       return null;
     }
-    // Handle case of input simply being a fromAsset and toAsset
 
+    // Handle case of input simply being a fromAsset and toAsset
     if (this.is_object_type(fromRate.id, 'asset')) {
       fromID = fromRate.id;
       fromRate = fromRate.bitasset
         ? fromRate.bitasset.current_feed.settlement_price
         : fromRate.options.core_exchange_rate;
     }
-
-
 
     if (this.is_object_type(toRate.id, 'asset')) {
       toID = toRate.id;
@@ -450,8 +429,7 @@ var Utils = {
 
     let fromRateQuoteID = fromRate.quote.asset_id;
     let toRateQuoteID = toRate.quote.asset_id;
-
-    let fromRateQuoteAmount, fromRateBaseAmount, finalQuoteID, finalBaseID; // eslint-disable-line
+    let fromRateQuoteAmount, fromRateBaseAmount;
 
     if (fromRateQuoteID === fromID) {
       fromRateQuoteAmount = fromRate.quote.amount;
@@ -517,8 +495,7 @@ var Utils = {
 
     let fromRateQuoteID = fromRate.quote.asset_id;
     let toRateQuoteID = toRate.quote.asset_id;
-
-    let fromRateQuoteAmount, fromRateBaseAmount, finalQuoteID, finalBaseID; // eslint-disable-line
+    let fromRateQuoteAmount, fromRateBaseAmount;
 
     if (fromRateQuoteID === fromID) {
       fromRateQuoteAmount = fromRate.quote.amount;
@@ -563,10 +540,8 @@ var Utils = {
   },
 
   convertValueObj: function(priceObject, amount, fromAsset, toAsset) {
-    // priceObject = priceObject;
     let quotePrecision = this.get_asset_precision(fromAsset.precision);
     let basePrecision = this.get_asset_precision(toAsset.precision);
-
     let assetPrice = this.get_asset_price(
       priceObject.quote.amount,
       fromAsset,
@@ -586,7 +561,7 @@ var Utils = {
   },
 
   convertValue: function(priceObject, amount, fromAsset, toAsset) {
-    priceObject = priceObject.toJS ?  priceObject.toJS() : priceObject;
+    priceObject = priceObject.toJS ? priceObject.toJS() : priceObject;
     let quotePrecision = this.get_asset_precision(fromAsset.toJS
       ? fromAsset.get('precision')
       : fromAsset.precision);
@@ -661,28 +636,8 @@ var Utils = {
   },
 
   get_translation_parts(str) {
-    // let result = [];
-    // let toReplace = {};
     let re = /{(.*?)}/g;
-    // let interpolators = str.split(re);
-    // console.log("split:", str.split(re));
     return str.split(re);
-    // var str = '{{azazdaz}} {{azdazd}}';
-    // var m;
-
-    // while ((m = re.exec(str)) !== null) {
-    //     if (m.index === re.lastIndex) {
-    //         re.lastIndex++;
-    //     }
-    //     console.log("m:", m);
-    //     // View your result using the m-variable.
-    //     // eg m[0] etc.
-    //     //
-    //     toReplace[m[1]] = m[0]
-    //     result.push(m[1])
-    // }
-
-    // return result;
   },
 
   get_percentage(a, b) {

@@ -14,9 +14,7 @@ class ExchangeMarketService {
       let settlementPrice = 0,
         settlement_price;
 
-      let {
-        isMarketAsset
-      } = this.isMarketAsset(quote, base);
+      let {isMarketAsset} = this.isMarketAsset(quote, base);
 
       if (isMarketAsset && quote && base) {
         if (
