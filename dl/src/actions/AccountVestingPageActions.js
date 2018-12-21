@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import Repository from 'repositories/chain/repository';
 import BalanceRepository from 'repositories/BalanceRepository';
 import KeysService from 'services/KeysService';

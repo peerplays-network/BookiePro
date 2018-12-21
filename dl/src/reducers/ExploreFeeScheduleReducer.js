@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 
 /**
  * Explore Fee Schedule Reducer is used to controlling explore/blockchain/fee page

@@ -1,5 +1,5 @@
 import ls from '../common/localStorage';
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import Immutable from 'immutable';
 import {switchLibraryLocale} from '../services/LocaleService';
 

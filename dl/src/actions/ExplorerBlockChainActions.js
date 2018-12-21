@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import ObjectRepository from '../repositories/ObjectRepository';
 import ExplorerBlockChainService from '../services/ExplorerBlockChainService';
 import ColorHelper from '../helpers/ColorHelper';

@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 
 /**
  * Claim Bts Reducer is used to controlling BTS Sharedrop page

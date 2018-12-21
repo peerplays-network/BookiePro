@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import NavigateActions from './NavigateActions';
 import RWalletActions from './RWalletActions';
 import RWalletDataActions from './RWalletDataActions';

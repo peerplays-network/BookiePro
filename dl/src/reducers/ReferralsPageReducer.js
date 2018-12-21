@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 
 /**
  * Referrals Reducer is used to controlling a Referral Page

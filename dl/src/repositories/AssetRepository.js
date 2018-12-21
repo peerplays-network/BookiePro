@@ -3,13 +3,11 @@ import ObjectRepository from './ObjectRepository';
 
 class AssetRepository {
   static fetchAssetsByIds(ids = [], withBitAssets = false) {
-
     return Apis.instance().db_api().exec('lookup_asset_symbols', [ids])
       .then(function (asset_objects) {
         if (withBitAssets) {
           let bitAssetIds = [];
           asset_objects.forEach((asset) => {
-
             if (asset && asset.bitasset_data_id) {
               bitAssetIds.push(asset.bitasset_data_id);
             }

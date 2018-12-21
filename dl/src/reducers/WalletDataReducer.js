@@ -1,7 +1,7 @@
 /**
  * Created by shumer on 10/7/16.
  */
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 
 /**
  * Wallet Data Reducer is used to storing wallet data

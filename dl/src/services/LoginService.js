@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import PrivateKeyActions from '../actions/RPrivateKeyActions';
 import AppActions from '../actions/AppActions';
 import WalletService from './WalletService';

@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import {PrivateKey, Aes, TransactionHelper, FetchChain} from 'peerplaysjs-lib';
 import WalletApi from 'rpc_api/WalletApi';
 import Immutable from 'immutable';

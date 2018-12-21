@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import {getViewSettings,setViewSettings} from 'services/ViewSettingsService';
 
 /**

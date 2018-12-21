@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import MarketRepository from '../repositories/MarketRepository';
 import AssetRepository from '../repositories/AssetRepository';
 import ExchangeService from '../services/ExchangeService';//TODO::rm

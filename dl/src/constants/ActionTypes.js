@@ -300,4 +300,4 @@ export default {
     */
     MEMO_SET_VIEW_STATUS : 'MEMO_SET_VIEW_STATUS',
     MEMO_RESET_VIEW_MODAL : 'MEMO_RESET_VIEW_MODAL'
-}
+};

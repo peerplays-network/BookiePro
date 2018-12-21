@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import Repository from '../repositories/chain/repository';
 import {ChainTypes} from 'peerplaysjs-lib';
 import counterpart from 'counterpart';

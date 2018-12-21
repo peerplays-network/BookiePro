@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import {ChainTypes} from 'peerplaysjs-lib';
 import Repository from '../repositories/chain/repository';
 import NotificationsActions from './NotificationsActions';

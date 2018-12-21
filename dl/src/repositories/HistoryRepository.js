@@ -1,7 +1,6 @@
 import {Apis} from 'peerplaysjs-ws';
 
 class HistoryRepository {
-
   static fetchMarketHistory(coreId, quoteId, tm, startDateShort, endDateShort) {
     return Apis.instance().history_api().exec('get_market_history', [
       coreId, quoteId, tm, startDateShort, endDateShort

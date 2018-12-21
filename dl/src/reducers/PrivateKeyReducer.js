@@ -2,7 +2,7 @@
  * Created by shumer on 10/5/16.
  */
 import Immutable from 'immutable';
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 
 /**
  * Private Key Reducer is used to controlling Private keys

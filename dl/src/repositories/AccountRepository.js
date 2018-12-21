@@ -114,7 +114,6 @@ class AccountRepository {
 
           return tr.get_required_signatures(myPubKeys).then((requiredPubKeys) => {
             if (requiredPubKeys.length > 0) {
-
               tr.add_signer(ownerPrivateKey, ownerPublicKey);
               tr.broadcast((data) => {
                 resolve(data);
@@ -172,15 +171,7 @@ class AccountRepository {
       FetchChain('getAccount', account.id),
       FetchChain('getAsset', '1.3.0'), //asset
       FetchChain('getAsset', '1.3.0') //fee
-    ]).then((res) => {
-      let [chain_account, chain_asset, chain_fee_asset] = res; // eslint-disable-line
-      let fee_asset = chain_fee_asset.toJS();
-
-      if (fee_asset.options.core_exchange_rate.base.asset_id === '1.3.0' &&
-        fee_asset.options.core_exchange_rate.quote.asset_id === '1.3.0') {
-        let fee_asset_id = '1.3.0'; // eslint-disable-line
-      }
-
+    ]).then((res) => { //eslint-disable-line
       let wallet_api = new WalletApi();
       let tr = wallet_api.new_transaction();
       let update_op = tr.get_type_operation('account_update', {
@@ -354,6 +345,7 @@ class AccountRepository {
     });
   }
 
+  // Do we want this to be a feature of the GUI Walelt?
   // static accountUpgrade(account_id, fee_asset_id = "1.3.0", lifetime = true, privateKey) {
   //
   //     let operationJSON = {

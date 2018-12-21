@@ -2,7 +2,7 @@
  * Created by shumer on 10/19/16.
  */
 import Immutable from 'immutable';
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 
 /**
  * Address Index Reducer is used to saving pub keys

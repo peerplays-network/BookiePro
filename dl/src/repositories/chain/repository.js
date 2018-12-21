@@ -185,9 +185,7 @@ class Repository {
 
   //balance
   static getAccountBalance(accountId, assetType) {
-
     return new Promise((resolve, reject) => {
-
       let balance = ChainStore.getAccountBalance(accountId, assetType);
 
       if (balance === null) {
@@ -208,7 +206,6 @@ class Repository {
   //block
   //----------
   static fetchBlockById(id) {
-
     return Apis.instance().db_api().exec('get_block', [id]).then(function (block) {
       return block;
     }).catch(function (error) {
@@ -219,7 +216,6 @@ class Repository {
   //object
   static fetchObject(id) {
     return new Promise((resolve, reject) => {
-
       let object = ChainStore.fetchObject(id);
 
       if (object === null) {
@@ -238,7 +234,6 @@ class Repository {
 
   static getObject(id, force = false, numRecursion = 0) {
     return new Promise((resolve, reject) => {
-
       if (numRecursion > MAX_RECURSION_ATTEMPTS) {
         console.warn('[APP] MAX_RECURSION_ATTEMPTS Repository.getObject()');
         return resolve(null);
@@ -262,9 +257,7 @@ class Repository {
   }
 
   static getTournamentIdsInState(accountId, stateString) {
-
     return new Promise((resolve, reject) => {
-
       let object = ChainStore.getTournamentIdsInState(accountId, stateString);
 
       if (object === null) {
@@ -280,11 +273,9 @@ class Repository {
           .then((res) => resolve(res)).catch((err) => reject(err));
       }, 100);
     });
-
   }
 
   static getRegisteredTournamentIds(accountId, stateString) {
-
     return new Promise((resolve, reject) => {
       let object = ChainStore.getRegisteredTournamentIds(accountId);
 
@@ -301,8 +292,6 @@ class Repository {
           .then((res) => resolve(res)).catch((err) => reject(err));
       }, 200);
     });
-
-    // return Apis.instance().db_api().exec( 'get_tournaments_in_state', [stateString, 100] );
   }
 
   static getTournamentIdsInStateDirectly(stateString) {

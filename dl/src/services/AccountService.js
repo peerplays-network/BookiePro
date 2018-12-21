@@ -1,6 +1,7 @@
 import AccountRepository from '../repositories/AccountRepository';
+import CONFIG from '../config/main';
 
-const faucets = require('json!common/' + FAUCET_FILE + '.json'); // TODO: find/declare
+const faucets = require('json!common/' + CONFIG.FAUCET_FILE + '.json'); // TODO: find/declare
 
 class AccountService {
   /**

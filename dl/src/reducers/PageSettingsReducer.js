@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import {getViewSettings} from 'services/ViewSettingsService';
 import Immutable from 'immutable';
 

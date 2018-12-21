@@ -1,5 +1,5 @@
 import AccountApi from '../api/accountApi';
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import Immutable from 'immutable';
 import {ChainStore} from 'peerplaysjs-lib';
 import BalanceRepository from '../repositories/BalanceRepository';

@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import {PrivateKey, key, FetchChain} from 'peerplaysjs-lib';
 import Immutable from 'immutable';
 import KeysService from '../services/KeysService';

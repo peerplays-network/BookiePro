@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import {PrivateKey, key, Aes} from 'peerplaysjs-lib';
 import {WalletTcomb} from '../stores/tcomb_structs';
 import iDB from 'idb-instance';

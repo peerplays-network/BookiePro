@@ -18,7 +18,6 @@ class ApplicationApi {
     referrer_percent,
     broadcast = false
   ) {
-
     ChainValidation.required(registrar, 'registrar_id');
     ChainValidation.required(referrer, 'referrer_id');
 
@@ -61,6 +60,7 @@ class ApplicationApi {
           'votes': []
         }
       });
+      debugger;
       return WalletDb.process_transaction(
         tr,
         null, //signer_private_keys,

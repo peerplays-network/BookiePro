@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 
 
 /**

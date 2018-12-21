@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import {PrivateKey} from 'peerplaysjs-lib'; // eslint-disable-line
 import counterpart from 'counterpart';
 import AccountRepository from '../repositories/AccountRepository';

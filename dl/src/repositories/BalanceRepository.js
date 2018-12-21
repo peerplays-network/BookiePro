@@ -1,7 +1,6 @@
 import {Apis} from 'peerplaysjs-ws';
 
 class BalanceRepository {
-
   static getAccountBalances(accountId, asset_types = ['1.3.0']) {
     return Apis.instance().db_api().exec('get_account_balances', [accountId, asset_types])
       .then((results) => results);

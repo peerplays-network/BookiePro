@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import idb_helper from '../idb-helper';
 import Immutable from 'immutable';
 import {

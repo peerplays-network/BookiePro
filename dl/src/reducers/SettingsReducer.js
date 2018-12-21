@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import CONFIG from '../config/main';
 
 const CORE_ASSET = CONFIG.CORE_ASSET;

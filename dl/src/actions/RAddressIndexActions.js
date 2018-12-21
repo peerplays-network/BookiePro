@@ -1,5 +1,5 @@
 import iDB from '../idb-instance';
-import {ActionTypes} from '../constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import {key} from 'peerplaysjs-lib';
 
 let timeout;
