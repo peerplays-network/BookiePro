@@ -240,16 +240,15 @@ class WalletService {
     let promises = [];
     objectKeys.forEach((private_key_object) => {
       let transaction = iDB.instance().db().transaction(['wallet', 'private_keys'], 'readwrite');
-      promises.push(idb_helper.add(transaction.objectStore('private_keys'), private_key_object)
-        .catch((event) => {
-        // ignore_duplicates
-          let error = event.target.error;
-          console.log('... error', error, event);
-        }));
+      promises.push(idb_helper.add(transaction.objectStore('private_keys'), private_key_object));
     });
 
     return Promise.all(promises).then(() => {
       return objectHashKeys;
+    }).catch((event) => {
+      // ignore_duplicates
+      let error = event.target.error;
+      console.log('... error', error, event);
     });
   }
 
