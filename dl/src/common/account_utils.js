@@ -10,7 +10,7 @@ export default class AccountUtils {
     *  @return true if the fee pool has sufficient balance
     */
   static checkFeePool(asset, fee) {
-    asset =  asset.toJS ? asset : ChainStore.getAsset(asset);
+    asset = asset.toJS ? asset : ChainStore.getAsset(asset);
 
     if (!asset) {
       return undefined;

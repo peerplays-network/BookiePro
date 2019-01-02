@@ -41,7 +41,6 @@ class AssetUtils {
 
   static getFlags(flagBooleans) {
     let keys = Object.keys(assetConstants.permission_flags);
-
     let flags = 0;
 
     keys.forEach((key) => {
@@ -77,7 +76,7 @@ class AssetUtils {
     try {
       parsed = JSON.parse(description);
     } catch (error) {
-
+      // TODO: Handle error
     }
 
     return parsed ? parsed : {main: description};

@@ -18,8 +18,7 @@ var saveAs = saveAs || (function(view) {
     return;
   }
 
-  var
-    doc = view.document
+  var doc = view.document
     // only get URL when necessary in case Blob.js hasn't overridden it yet
     , get_URL = function() {
       return view.URL || view.webkitURL || view;
@@ -100,8 +99,7 @@ var saveAs = saveAs || (function(view) {
       }
 
       // First try a.download, then web filesystem, then object URLs
-      var
-        filesaver = this
+      var filesaver = this
         , type = blob.type
         , blob_changed = false
         , object_url
@@ -156,8 +154,7 @@ var saveAs = saveAs || (function(view) {
           };
         }
         , create_if_not_found = {create: true, exclusive: false}
-        , slice
-      ;
+        , slice;
       filesaver.readyState = filesaver.INIT;
 
       if (!name) {
