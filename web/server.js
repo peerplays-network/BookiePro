@@ -21,9 +21,15 @@ new WebpackDevServer(compiler, {
   publicPath: config.output.publicPath,
   hot: true,
   historyApiFallback: true,
-  quiet: false,
+  // Switch assets, children, chunks to see verbose information in console.
   stats: {
-    colors: true
+    assets: false,
+    children: false,
+    colors: true,
+    chunks: false,
+    errors: true,
+    errorDetails: true,
+    warnings: true
   },
   port: 8082
 }).listen(8082, '0.0.0.0', function (err, result) {
