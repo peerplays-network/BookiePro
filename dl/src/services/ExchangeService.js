@@ -1,12 +1,12 @@
 import Immutable from 'immutable';
 import utils from 'common/utils';
 import AssetNameHelper from '../helpers/AssetNameHelper';
-import MarketHelper from '../helpers/MarketHelper';
 import AssetRepository from '../repositories/AssetRepository';
 import HistoryRepository from '../repositories/HistoryRepository';
 import OrderRepository from '../repositories/OrderRepository';
 import Repository from 'repositories/chain/repository';
 import ExchangeMarketService from 'services/ExchangeMarketService';
+import MarketUtils from '../common/market_utils';
 
 let activeMarketHistory = Immutable.OrderedSet();
 
@@ -38,7 +38,7 @@ class ExchangeService {
           }
 
           order.expiration = new Date(order.expiration);
-          let parseOrder = MarketHelper.parseOrder(order, baseAsset, quoteAsset);
+          let parseOrder = MarketUtils.parseOrder(order, baseAsset, quoteAsset);
           parsedOrders[order.id] = parseOrder;
 
           if (order.sell_price.base.asset_id === baseAsset.id) {
@@ -173,19 +173,8 @@ class ExchangeService {
           });
         });
 
-        flat_bids = MarketHelper.flatten_orderbookchart_highcharts(flat_bids, true, true, 1000);
-
-        // if (flat_bids.length > 0) {
-        //     flat_bids.unshift([0, flat_bids[0][1]]);
-        // }
-
-        flat_asks = MarketHelper.flatten_orderbookchart_highcharts(flat_asks, true, false, 1000);
-        //
-        // if (flat_asks.length > 0) {
-        // flat_asks.push(
-        //   [flat_asks[flat_asks.length - 1][0] * 1.5, flat_asks[flat_asks.length - 1][1]]
-        // );
-        // }
+        flat_bids = MarketUtils.flatten_orderbookchart_highcharts(flat_bids, true, true, 1000);
+        flat_asks = MarketUtils.flatten_orderbookchart_highcharts(flat_asks, true, false, 1000);
 
         if (flat_bids.length) {
           while ((flat_bids[flat_bids.length - 1][0] * power) < 1) {
