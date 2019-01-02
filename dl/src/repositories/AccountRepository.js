@@ -171,7 +171,7 @@ class AccountRepository {
       FetchChain('getAccount', account.id),
       FetchChain('getAsset', '1.3.0'), //asset
       FetchChain('getAsset', '1.3.0') //fee
-    ]).then((res) => { //eslint-disable-line
+    ]).then(() => {
       let wallet_api = new WalletApi();
       let tr = wallet_api.new_transaction();
       let update_op = tr.get_type_operation('account_update', {

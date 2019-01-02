@@ -242,9 +242,6 @@ class AccountStore extends BaseStore {
 
     let owner_account_threshold, active_account_threshold;
 
-    // if (account.get("name") === "secured-x") {
-    //     debugger;
-    // }
     if (recursion_count < 3) {
       owner_account_threshold = this._accountThreshold(owner_authority, recursion_count);
 

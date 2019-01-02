@@ -60,7 +60,6 @@ class ApplicationApi {
           'votes': []
         }
       });
-      debugger;
       return WalletDb.process_transaction(
         tr,
         null, //signer_private_keys,

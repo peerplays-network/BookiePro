@@ -15,11 +15,9 @@ let connection = getViewSettings('connection') ? getViewSettings('connection') :
 const initialState = {
 
   /* Active menu item (Sub menu)*/
-
   activeSetting: activeSetting,
   // Current connection
   connection: connection,
-
   // Tabs
   menuEntries: [
     'general',
@@ -47,8 +45,8 @@ const initialState = {
       translate: 'no'
     }
     ],
-    connection: BLOCKCHAIN_URL,
-    faucetAddress: FAUCET_URL,
+    connection: BLOCKCHAIN_URL, // eslint-disable-line
+    faucetAddress: FAUCET_URL, // eslint-disable-line
   },
   // Claim page(sharedrop page)
   claim_error: null,

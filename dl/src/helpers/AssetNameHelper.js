@@ -19,7 +19,6 @@ class AssetNameHelper {
       prefix: prefix,
       name: name
     };
-
   }
 
   static replaceName(name, isBitAsset = false) {

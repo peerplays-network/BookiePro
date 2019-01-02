@@ -4,7 +4,7 @@ import {Apis} from 'peerplaysjs-ws';
 const MAX_RECURSION_ATTEMPTS = 10;
 
 class Repository {
-  //account
+  // account
   static getAccount(accountIdOrName, numRecursion = 0) {
     return new Promise((resolve, reject) => {
       let fullAccount = ChainStore.getAccount(accountIdOrName);
@@ -89,8 +89,6 @@ class Repository {
     });
   }
 
-
-
   static getAccountRefsOfKey(key) {
     return new Promise((resolve, reject) => {
       let accountRefs = ChainStore.getAccountRefsOfKey(key);
@@ -151,14 +149,14 @@ class Repository {
       }, 100);
     });
   }
-  //----------
+
   static lookupAccounts(startChar, limit) {
     return Apis.instance().db_api().exec('lookup_accounts', [
       startChar, limit
     ]);
   }
 
-  //asset
+  // asset
   static getAsset(assetIdOrSymbol, numRecursion = 0) {
     return new Promise((resolve, reject) => {
       if (numRecursion > MAX_RECURSION_ATTEMPTS) {
@@ -183,7 +181,7 @@ class Repository {
     });
   }
 
-  //balance
+  // balance
   static getAccountBalance(accountId, assetType) {
     return new Promise((resolve, reject) => {
       let balance = ChainStore.getAccountBalance(accountId, assetType);
@@ -203,8 +201,7 @@ class Repository {
     });
   }
 
-  //block
-  //----------
+  // block
   static fetchBlockById(id) {
     return Apis.instance().db_api().exec('get_block', [id]).then(function (block) {
       return block;
@@ -213,7 +210,7 @@ class Repository {
     });
   }
 
-  //object
+  // object
   static fetchObject(id) {
     return new Promise((resolve, reject) => {
       let object = ChainStore.fetchObject(id);

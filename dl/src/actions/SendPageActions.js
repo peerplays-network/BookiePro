@@ -81,7 +81,6 @@ class SendPageActions {
           let hAssetIds = Immutable.Set(history.map((item) => item.op[1].amount.asset_id));
 
           return Promise.all(hAssetIds.map((id) => Repository.getAsset(id))).then((results) => {
-
             dispatch(updateDataAction(Object.assign({}, data, {
               balance,
               symbols: assets.map((item) => item.symbol),
@@ -149,7 +148,7 @@ class SendPageActions {
             memoToPublicKey = chain_to.getIn(['options','memo_key']);
 
             // Check for a null memo key, if the memo key is null use the receivers active key
-            if( /PPY1111111111111111111111111111111114T1Anm/.test(memoToPublicKey)) {
+            if ( /PPY1111111111111111111111111111111114T1Anm/.test(memoToPublicKey)) {
               memoToPublicKey = chain_to.getIn(['active', 'key_auths', 0, 0]);
             }
           }
@@ -221,7 +220,6 @@ class SendPageActions {
       });
     };
   }
-
 
   /**
    * Send money transaction

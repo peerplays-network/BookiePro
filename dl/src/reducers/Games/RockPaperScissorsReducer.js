@@ -9,26 +9,18 @@ import RockPaperScissorsConstants from 'constants/Games/RockPaperScissors/RockPa
  * @type {{tab: string, tournamentsFilter: string, unitList: (*), unit: null, dashboardList: (*), findList: (*), findDropDownItems: (*), findDropDownCurrent: string, exploreList: (*), exploreDropDownItems: (*), exploreDropDownCurrent: string, exploreSortColumn: string, exploreSortDirection: string, explorePage: number, exploreCountPages: number, exploreCountPerPage: number, activeGameId: null, status: null, match: null, games: (*), players: Array, start_time: null, end_time: null, matchList: (*)}} // eslint-disable-line
  */
 let defaultState = {
-  /**
-   * mb another reducer???
-   */
+  // mb another reducer???
   tab: 'explore',
   tournamentsFilter: 'open',
   unitList: Immutable.List(),
   unit: null,
-  /**
-   * Dashboard Tab
-   */
+  // Dashboard Tab
   dashboardList: Immutable.List(),
-  /**
-   * Find Tab
-   */
+  // Find Tab
   findList: Immutable.List(),
   findDropDownItems: Immutable.List(),
   findDropDownCurrent: 'any',
-  /**
-   * Explore Tab
-   */
+  // Explore Tab
   exploreList: Immutable.List(),
   exploreDropDownItems: Immutable.List(),
   exploreDropDownCurrent: 'any',
@@ -37,9 +29,7 @@ let defaultState = {
   explorePage: 1,
   exploreCountPages: 1,
   exploreCountPerPage: 10,
-  /**
-   * Game
-   */
+  // Game
   activeGameId: null,
   status: null,
   match: null,
@@ -52,32 +42,24 @@ let defaultState = {
 
 export default function (state = defaultState, action) {
   switch (action.type) {
-    /**
-     * mb another reducer???
-     */
+    // mb another reducer???
     case RockPaperScissorsConstants.GAME_RPS_CHANGE_TAB_PARAMS:
       return Object.assign({}, state, {
         tab: action.payload.tab,
         tournamentsFilter: action.payload.tournamentsFilter
       });
-      /**
-       * Create
-       */
+      // Create
     case RockPaperScissorsConstants.GAME_RPS_SET_AVAILABLE_UNITS:
       return Object.assign({}, state, {
         unitList: action.payload.unitList,
         unit: action.payload.unit
       });
-      /**
-       * Dashboard Tab
-       */
+      // Dashboard Tab
     case RockPaperScissorsConstants.GAME_RPS_SET_DASHBOARD_LIST:
       return Object.assign({}, state, {
         dashboardList: action.payload.dashboardList
       });
-      /**
-       * Find Tab
-       */
+      // Find Tab
     case RockPaperScissorsConstants.GAME_RPS_SET_FIND_LIST:
       return Object.assign({}, state, {
         findList: action.payload.findList,
@@ -88,11 +70,7 @@ export default function (state = defaultState, action) {
       return Object.assign({}, state, {
         findDropDownCurrent: action.payload.findDropDownCurrent
       });
-
-      /**
-       * Explore Tab
-       */
-
+      // Explore Tab
     case RockPaperScissorsConstants.GAME_RPS_SET_EXPLORE_LIST:
       return Object.assign({}, state, {
         exploreList: action.payload.exploreList,
@@ -116,9 +94,7 @@ export default function (state = defaultState, action) {
       return Object.assign({}, state, {
         exploreCountPages: action.payload.exploreCountPages
       });
-      /**
-       * Game
-       */
+      // Game
     case RockPaperScissorsConstants.GAME_RPS_SET_GAME:
       return Object.assign({}, state, {
         match: action.payload.match,

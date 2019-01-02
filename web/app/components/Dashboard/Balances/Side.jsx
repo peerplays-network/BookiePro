@@ -8,7 +8,6 @@ import DashboardPageActions from 'actions/DashboardPageActions';
 import NavigateActions from 'actions/NavigateActions';
 import asset_utils from 'common/asset_utils';
 import AppActions from 'actions/AppActions';
-
 import SideVesting from './SideVesting';
 // import SideMember from './SideMember';
 //TODO:: Derived Data
@@ -117,7 +116,6 @@ class Side extends React.Component {
           })}
         </div>
         <SideVesting/>
-        }
       </aside>
     );
   }

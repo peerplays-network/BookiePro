@@ -11,7 +11,7 @@ initViewSettings();
 function initViewSettings() {
   let defaultViewSettings = {
     activeSetting: 'general',
-    connection: [BLOCKCHAIN_URL] // TODO: import
+    connection: [BLOCKCHAIN_URL]
   };
   let reset = false;
 

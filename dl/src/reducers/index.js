@@ -56,7 +56,6 @@ const rootReducer = combineReducers({
   notificationsReducer: NotificationsReducer,
   helpReducer: HelpReducer,
   memoModal: MemoReducer,
-
   // Games
   rockPaperScissorsReducer: RockPaperScissorsReducer,
   //Common form reducer: npm redux-form
