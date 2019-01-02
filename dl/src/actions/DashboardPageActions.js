@@ -159,9 +159,7 @@ class DashboardPageActions {
   static updateSideData() {
     return (dispatch, getState) => {
       let currentState = getState();
-      /**
-     * Total
-     */
+      // Total
       let availableBalances = DashboardBalancesService
         .calculateAvailableBalances(currentState.settings.defaults.unit);
 
@@ -169,18 +167,14 @@ class DashboardPageActions {
         availableBalances: availableBalances
       }));
 
-      /**
-     * Member
-     */
+      // Member
       Repository.getAccount(currentState.app.account).then((account) => {
         dispatch(setMemberDataAction({
           memberAccount: account
         }));
       });
 
-      /**
-       * Vesting
-       */
+      // Vesting
       let vestingBalances = currentState.dashboardPage.vestingBalances,
         vestingAsset = currentState.dashboardPage.vestingAsset,
         vestingBalancesIds = currentState.dashboardPage.vestingBalancesIds;

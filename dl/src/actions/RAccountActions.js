@@ -74,69 +74,53 @@ export function accountSearch(start_symbol, limit = 50){
 
 function getMyAuthorityForAccount(account, recursion_count = 1) {
   return (dispatch) => {
+    let returnValue = '';
+
     if (! account) {
+      // Skip the rest of the function in the event that no account is passed.
       return undefined;
     }
 
     let owner_authority = account.get('owner');
     let active_authority = account.get('active');
     let owner_pubkey_threshold = dispatch(pubkeyThreshold(owner_authority));
-
-    if (owner_pubkey_threshold === 'full') {
-      return 'full';
-    }
-
     let active_pubkey_threshold = dispatch(pubkeyThreshold(active_authority));
-
-    if (active_pubkey_threshold === 'full') {
-      return 'full';
-    }
-
     let owner_address_threshold = dispatch(addressThreshold(owner_authority));
-
-    if (owner_address_threshold === 'full') {
-      return 'full';
-    }
-
     let active_address_threshold = dispatch(addressThreshold(active_authority));
-
-    if (active_address_threshold === 'full') {
-      return 'full';
-    }
-
     let owner_account_threshold, active_account_threshold;
 
-    if (recursion_count < 3) {
+    if (owner_pubkey_threshold === 'full') {
+      returnValue = 'full';
+    } else if (active_pubkey_threshold === 'full') {
+      returnValue = 'full';
+    } else if (owner_address_threshold === 'full') {
+      returnValue = 'full';
+    } else if (active_address_threshold === 'full') {
+      returnValue = 'full';
+    } else if (recursion_count < 3) {
       owner_account_threshold = dispatch(accountThreshold(owner_authority, recursion_count));
-
-      if ( owner_account_threshold === undefined ) {
-        return undefined;
-      }
-
-      if (owner_account_threshold === 'full') {
-        return 'full';
-      }
-
       active_account_threshold = dispatch(accountThreshold(active_authority, recursion_count));
 
-      if ( active_account_threshold === undefined ) {
-        return undefined;
+      if (owner_account_threshold === undefined ) {
+        returnValue = undefined;
+      } else if (owner_account_threshold === 'full') {
+        returnValue = 'full';
+      } else if (active_account_threshold === undefined ) {
+        returnValue = undefined;
+      } else if (active_account_threshold === 'full') {
+        returnValue = 'full';
       }
-
-      if (active_account_threshold === 'full') {
-        return 'full';
-      }
-    }
-
-    if (
+    } else if (
       owner_pubkey_threshold === 'partial' || active_pubkey_threshold === 'partial'
       || owner_address_threshold === 'partial' || active_address_threshold === 'partial'
       || owner_account_threshold === 'partial' || active_account_threshold === 'partial'
     ) {
-      return 'partial';
+      returnValue = 'partial';
+    } else {
+      returnValue = 'none';
     }
 
-    return 'none';
+    return returnValue;
   };
 }
 
@@ -207,7 +191,7 @@ function addressThreshold(authority) {
     var required = authority.get('weight_threshold');
     var address_auths = authority.get('address_auths');
 
-    if ( ! address_auths.size) {
+    if (!address_auths.size) {
       return 'none';
     }
 

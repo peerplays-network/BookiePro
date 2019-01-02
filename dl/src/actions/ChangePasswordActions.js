@@ -10,12 +10,12 @@ import AccountRepository from 'repositories/AccountRepository';
 
 class ChangePasswordActions {
   /**
-     * Generate new wallet after change password
-     *
-     * @param {string} newPassword
-     * @param {string} oldPassword
-     * @returns {function(*, *)}
-     */
+   * Generate new wallet after change password
+   *
+   * @param {string} newPassword
+   * @param {string} oldPassword
+   * @returns {function(*, *)}
+   */
   static generateWallet(newPassword, oldPassword) {
     return (dispatch, getState) => {
       return new Promise( (resolve) => {
@@ -89,14 +89,14 @@ class ChangePasswordActions {
   }
 
   /**
-     * Password change transaction
-     *
-     * @param wallet
-     * @param keys
-     * @param oldOwnerPrivateKey
-     * @param aesPrivate
-     * @returns {function(*=, *)}
-     */
+ * Password change transaction
+ *
+ * @param wallet
+ * @param keys
+ * @param oldOwnerPrivateKey
+ * @param aesPrivate
+ * @returns {function(*=, *)}
+ */
   static changePassword({wallet, keys, oldOwnerPrivateKey, aesPrivate}) {
     return (dispatch, getState) => {
       return new Promise( (resolve, reject) => {

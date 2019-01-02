@@ -2,10 +2,10 @@ import {push} from 'react-router-redux';
 
 class RockPaperScissorsNavigateActions {
   /**
-     * Explore Tab
-     *
-     * @returns {Function}
-     */
+   * Explore Tab
+   *
+   * @returns {Function}
+   */
   static navigateToAllTournaments(page) {
     return (dispatch) => {
       if (page && page !== 1) {
@@ -17,10 +17,10 @@ class RockPaperScissorsNavigateActions {
   }
 
   /**
-     * Find Tab
-     *
-     * @returns {Function}
-     */
+   * Find Tab
+   *
+   * @returns {Function}
+   */
   static navigateToOpenTournaments() {
     return (dispatch) => {
       dispatch(push('/games/rock-paper-scissors/explore/find'));
@@ -28,10 +28,10 @@ class RockPaperScissorsNavigateActions {
   }
 
   /**
-     * Create Tab
-     *
-     * @returns {Function}
-     */
+   * Create Tab
+   *
+   * @returns {Function}
+   */
   static navigateToCreateTournament() {
     return (dispatch) => {
       dispatch(push('/games/rock-paper-scissors/create'));
@@ -39,10 +39,10 @@ class RockPaperScissorsNavigateActions {
   }
 
   /**
-     * Dashboard Tab
-     *
-     * @returns {Function}
-     */
+   * Dashboard Tab
+   *
+   * @returns {Function}
+   */
   static navigateToDashboardTournaments() {
     return (dispatch) => {
       dispatch(push('/games/rock-paper-scissors/dashboard'));
@@ -50,11 +50,11 @@ class RockPaperScissorsNavigateActions {
   }
 
   /**
-     * Game page
-     *
-     * @param id
-     * @returns {Function}
-     */
+   * Game page
+   *
+   * @param id
+   * @returns {Function}
+   */
   static navigateToGame(id) {
     return (dispatch) => {
       dispatch(push('/games/rock-paper-scissors/game/' + id));

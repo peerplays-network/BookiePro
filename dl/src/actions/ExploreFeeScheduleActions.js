@@ -55,7 +55,7 @@ class ExploreFeeScheduleActions {
         let feeGrouping = {
           general  : [0,25,26,27,28,32,33,37,39,40],
           asset    : [10,11,12,13,14,15,16,17,18,19,38],
-          // market   : [1,2,3,4,17,18],
+          // market: [1,2,3,4,17,18],
           account  : [5,6,7,8,9],
           business : [20,21,22,23,24,29,30,31,34,35,36],
           game : [45,46]
@@ -112,7 +112,7 @@ class ExploreFeeScheduleActions {
         });
 
         let feeGroups = {};
-        let FeeGroupsTitle  = counterpart.translate('transaction.feeGroups');
+        let FeeGroupsTitle = counterpart.translate('transaction.feeGroups');
 
         for (let groupName in feeGrouping) {
           let groupNameText = FeeGroupsTitle[groupName];

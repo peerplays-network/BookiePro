@@ -66,8 +66,8 @@ let fetchedObjects = {};
 class ExplorerBlockChainActions {
   /**
    * get and update All Data on explorer page
-  * @returns {function(*=, *)}
-  */
+   * @returns {function(*=, *)}
+   */
   static updateAllData() {
     return (dispatch, getState) => {
       Promise.all(
@@ -78,11 +78,11 @@ class ExplorerBlockChainActions {
         let recentBlocks = Repository.getRecentBlocks();
         let recentOperations = Repository.getRecentOperations();
 
-        if(!object210 || !object200 || !coreAsset || recentBlocks.size < MAX_LATEST_BLOCKS) {
+        if (!object210 || !object200 || !coreAsset || recentBlocks.size < MAX_LATEST_BLOCKS) {
           return null;
         }
 
-        if(coreAsset.get('dynamic_asset_data_id')) {
+        if (coreAsset.get('dynamic_asset_data_id')) {
           let dynamic = coreAsset.get('dynamic'),
             last_irreversible_block_num = object210.get('last_irreversible_block_num'),
             maxHeight = object210.get('head_block_number'),
@@ -100,7 +100,7 @@ class ExplorerBlockChainActions {
               latestFetchedBlocks: []
             };
 
-          if(recentBlocks.get(0).id > latestBlock) {
+          if (recentBlocks.get(0).id > latestBlock) {
             dispatch(changeRecentBlockAction({
               latestBlocks: recentBlocks
             }));
@@ -112,7 +112,7 @@ class ExplorerBlockChainActions {
             let increment = 0;
 
             recentOperations.toJS().forEach((operation) => {
-              if(increment < MAX_LATEST_OPERATIONS) {
+              if (increment < MAX_LATEST_OPERATIONS) {
                 let obj = {
                   block_id: operation[1].block_id,
                   created_at: operation[1].created_at,
@@ -197,7 +197,7 @@ class ExplorerBlockChainActions {
             Promise.all([]).then(() => {
               let neededKeys = Object.keys(neededObjects);
               let filteredKeys = [];
-              //TODO:: chainstore repository
+              // TODO:: chainstore repository
               neededKeys.forEach((neededKey) => {
                 if (!fetchedObjects[neededKey]) {
                   filteredKeys.push(neededKey);

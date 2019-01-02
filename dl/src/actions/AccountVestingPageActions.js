@@ -99,10 +99,10 @@ class AccountVestingPageActions {
   }
 
   /**
-     * Reset balances
-     *
-     * @returns {function(*=, *)}
-     */
+   * Reset balances
+   *
+   * @returns {function(*=, *)}
+   */
   static resetAccountVestingData() {
     return (dispatch) => {
       dispatch(resetAccountVestingDataAction());

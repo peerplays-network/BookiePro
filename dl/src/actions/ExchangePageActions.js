@@ -311,17 +311,13 @@ class ExchangePageActions {
       let baseAssetSymbol = selfState.baseAssetSymbol;
       let quoteAssetSymbol = selfState.quoteAssetSymbol;
 
-      /**
-       * Fetch depth chart data
-       */
+      // Fetch depth chart data
       ExchangeService.fetchChartDepthData(quoteAssetSymbol, baseAssetSymbol)
         .then((chartDepthData) => {
           dispatch(setDepthChartDataAction(chartDepthData));
         });
 
-      /**
-     * Fetch price chart data
-     */
+      // Fetch price chart data
       ExchangeService.fetchChartData(quoteAssetSymbol, baseAssetSymbol, selfState.currentBucket)
         .then((data) => {
           dispatch(changePriceChartBucketsAction({
@@ -334,9 +330,7 @@ class ExchangePageActions {
           }));
         });
 
-      /**
-     * Fetch exchange data
-     */
+      // Fetch exchange data
       ExchangeService.fetchExchangeData(quoteAssetSymbol, baseAssetSymbol).then((data) => {
         dispatch(changeExchangeDataAction(data));
       });
@@ -394,9 +388,7 @@ class ExchangePageActions {
           });
         }): [])]).then(() => {
 
-        /**
-         * Generate tabs
-         */
+        // Generate tabs
         let currentHashTabs = {};
         state.exchangePageReducer.tabs.forEach((tab) => {
           currentHashTabs[tab.id] = tab;
@@ -427,9 +419,7 @@ class ExchangePageActions {
           }));
         }
 
-        /**
-         * Fetch tab stats
-         */
+        // Fetch tab stats
         ExchangeService.fetchTabStats(mainAssetSymbol, topMarkets, assetsCacheBySymbol)
           .then((marketRows) => {
             dispatch(changeExchangeMarketsRowsAction({
@@ -537,9 +527,7 @@ class ExchangePageActions {
       let baseAssetSymbol = selfState.baseAssetSymbol;
       let quoteAssetSymbol = selfState.quoteAssetSymbol;
 
-      /**
-     * Fetch depth chart data
-     */
+      // Fetch depth chart data
       ExchangeService.fetchChartDepthData(quoteAssetSymbol, baseAssetSymbol)
         .then((chartDepthData) => {
           dispatch(setDepthChartDataAction(chartDepthData));
