@@ -27,7 +27,7 @@ export function initSettings() {
 
       for (let key in storageSettings) {
         if (storageSettings[key] !== state.settings[key]) {
-          if(key === 'hiddenAssets'){
+          if (key === 'hiddenAssets'){
             newSettings[key] = Immutable.List(storageSettings[key]);
           } else {
             newSettings[key] = storageSettings[key];

@@ -31,20 +31,16 @@ class SoftwareUpdateActions {
   static checkForSoftwareUpdate() {
     return (dispatch, getState) => {
       return Repository.fetchFullAccount(CONFIG.SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME)
-        .then((account) => { //Get Controlled account
+        .then((account) => { // Get Controlled account
           if (!account) {
             return null;
           }
 
           let state = getState();
 
-          /**
-           * Compare with the current account
-           */
+          // Compare with the current account
           if (state.softwareUpdateReducer.account !== account) {
-            /**
-             * Get latest transaction histories and parse it
-             */
+            // Get latest transaction histories and parse it
             let history = account.get('history');
 
             if (history && history.size) {
@@ -56,24 +52,20 @@ class SoftwareUpdateActions {
 
                   if (memo) {
                     /**
-                   * Assuming that we need to decrypt the message to parse 'software update'
-                   * memo message
-                   */
+                    * Assuming that we need to decrypt the message to parse 'software update'
+                    * memo message
+                    */
                     try {
                       let memoJson =  JSON.parse(StringHelper.hex2a(memo.toJS().message)),
                         version = memoJson.version,
                         displayText = memoJson.displayText;
 
-                      /**
-                     * If it has version then it is an update transaction
-                     */
+                      // If it has version then it is an update transaction
                       if (version) {
                         console.log('[APP] NEW VERSION', version);
                         console.log('[APP] CURRENT VERSION', CONFIG.APP_PACKAGE_VERSION);
 
-                        /**
-                       * Check if we need to add it to notification list
-                       */
+                        // Check if we need to add it to notification list
                         if (VersionHelper.compare(version, CONFIG.APP_PACKAGE_VERSION) === 1) {
                           dispatch(NotificationsActions.addUpdateSoftwareMessage(
                             new NotificationMessage(
@@ -100,9 +92,7 @@ class SoftwareUpdateActions {
               });
             }
 
-            /**
-             * Set new controlled account
-             */
+            // Set new controlled account
             dispatch(setAccountDataAction({
               account
             }));

@@ -1,6 +1,5 @@
 import ActionTypes from '../constants/ActionTypes';
 
-
 /**
  * Private Redux Action Creator (TRCONFIRM_BROADCASTING)
  * set: transaction in process

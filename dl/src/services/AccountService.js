@@ -1,7 +1,7 @@
 import AccountRepository from '../repositories/AccountRepository';
 import CONFIG from '../config/main';
 
-const faucets = require('json!common/' + CONFIG.FAUCET_FILE + '.json'); // TODO: find/declare
+const faucets = require('json!common/' + CONFIG.FAUCET_FILE + '.json');
 
 class AccountService {
   /**
@@ -67,7 +67,8 @@ class AccountService {
             'active_key': activePrivate.toPublicKey().toPublicKeyString(),
             'memo_key': memoPrivate.toPublicKey().toPublicKeyString(),
             'refcode': referral,
-            'referrer': window && window.BTSW ? BTSW.referrer : '' // TODO: find/declare
+            // web assets index.html declares this.
+            'referrer': window && window.BTSW ? BTSW.referrer : '' // eslint-disable-line
           }
         })
       }).then((response) => {

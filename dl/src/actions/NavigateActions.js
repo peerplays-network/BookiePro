@@ -83,7 +83,7 @@ class NavigateActions {
     return (dispatch) => {
       if (selectedSymbol) {
         dispatch(SendPageActions.setSelectedSymbol(selectedSymbol));
-      }//TODO::rm
+      }// TODO::rm
 
       dispatch(push('/send'));
     };

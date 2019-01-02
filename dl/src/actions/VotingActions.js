@@ -98,10 +98,10 @@ class VotingActions {
     };
   }
   /**
- * fetchData/getProxyData
- *
- * @param {String} accountName
- */
+  * fetchData/getProxyData
+  *
+  * @param {String} accountName
+  */
   static getProxyData(accountName) {
     return Repository.fetchFullAccount(accountName).then((result) => {
       let account = result.toJS();
@@ -357,7 +357,7 @@ class VotingActions {
             objectAccounts[committeeMember.committee_member_account] = cmAccount;
 
             votes = votes.filter((item) => {
-              if(item === committeeMember.vote_id) {
+              if (item === committeeMember.vote_id) {
                 approvedAccounts[committeeMember.committee_member_account] = committeeMember
                   .committee_member_account;
                 return false;

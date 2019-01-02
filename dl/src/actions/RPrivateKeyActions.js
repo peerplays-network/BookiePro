@@ -1,9 +1,7 @@
 import ActionTypes from '../constants/ActionTypes';
 import idb_helper from '../idb-helper';
 import Immutable from 'immutable';
-import {
-  PrivateKeyTcomb
-} from 'stores/tcomb_structs';
+import {PrivateKeyTcomb} from 'stores/tcomb_structs';
 import AddressIndexActions from './RAddressIndexActions';
 
 export default class PrivateKeyActions {
@@ -52,6 +50,7 @@ export default class PrivateKeyActions {
         dispatch(AddressIndexActions.add(private_key_object.pubkey));
         PrivateKeyTcomb(private_key_object);
         let duplicate = false;
+
         idb_helper.add(transaction.objectStore('private_keys'), private_key_object)
           .catch((event) => {
           // ignore_duplicates

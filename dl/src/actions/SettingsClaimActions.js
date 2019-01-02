@@ -26,7 +26,6 @@ function setKeyErrorAction(data) {
  * @param data
  * @returns {{type: SETTINGS_CLAIM_SET_PRIVATE_KEY, payload: *}}
  */
-
 function setPrivateKeyAction(data) {
   return {
     type: ActionTypes.SETTINGS_CLAIM_SET_PRIVATE_KEY,
@@ -85,7 +84,6 @@ class SettingsClaimActions {
    * @returns {function(*=)}
    */
   static lookupBalances(ownerKeyString) {
-
     return (dispatch) => {
       dispatch(resetBalancesDataAction());
       //TODO::services
@@ -119,7 +117,7 @@ class SettingsClaimActions {
             let assetsPromises = [];
             let assetsIdsHash = Object.create(null);
             let balances = Immutable.List().withMutations( (balance_list) => {
-              for(let i = 0; i < results.length; i++) {
+              for (let i = 0; i < results.length; i++) {
                 let balance = results[i];
 
                 if (balance.vesting_policy) {
@@ -151,7 +149,6 @@ class SettingsClaimActions {
           });
 
           Repository.getAccountRefsOfKey(publicKey).then((resultKeys) => {
-
             let ids = [];
 
             resultKeys.forEach((rKey) => {

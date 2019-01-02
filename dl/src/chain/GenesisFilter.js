@@ -16,7 +16,6 @@ export default class GenesisFilter {
       return;
     }
 
-    ;
     this.bloom_buffer = bloom_buffer;
     this.bits_in_filter = bloom_buffer.length * 8; // 8388608 (test data)
   }

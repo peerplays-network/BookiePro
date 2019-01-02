@@ -58,6 +58,7 @@ export function accountSearch(start_symbol, limit = 50){
           return a[0].indexOf(start_symbol) !== -1;
         });
         let accountsBalance = result.map((obj) => BalanceRepository.getAccountBalances(obj[1]));
+
         Promise.all(accountsBalance).then((balances) => {
           result = result.map((a, index) => {
             a.push(balances[index][0].amount);

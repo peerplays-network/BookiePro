@@ -79,7 +79,8 @@ function fetchFaucetAddress(
           'active_key': activePrivate.toPublicKey().toPublicKeyString(),
           'memo_key': memoPrivate.toPublicKey().toPublicKeyString(),
           'refcode': referral,
-          'referrer': window && window.BTSW ? BTSW.referrer : '' // TODO: define
+          // defined in web assets index.html
+          'referrer': window && window.BTSW ? BTSW.referrer : '' // eslint-disable-line
         }
       })
     }).then((response) => {

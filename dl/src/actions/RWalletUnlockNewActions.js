@@ -1,12 +1,11 @@
 import ActionTypes from '../constants/ActionTypes';
-
 import KeysService from 'services/KeysService';
 
 class RWalletUnlockNewActions {
 
   /**
    * Action Creator (SHOW_WALLET_PASSWORD_WINDOW)
-   * Show|Hide Unlock modal //here we work with promises
+   * Show|Hide Unlock modal (here we work with promises)
    *
    * @param data Object
    * @returns {Function}
@@ -23,7 +22,7 @@ class RWalletUnlockNewActions {
 
   /**
    * Action Creator (RESET_WALLET_PASSWORD_WINDOW)
-   * reset Unlock modal //here we work with promises
+   * reset Unlock modal (here we work with promises)
    * @returns {Function}
    */
   static resetWalletPasswordWindow() {
