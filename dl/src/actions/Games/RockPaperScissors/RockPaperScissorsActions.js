@@ -177,7 +177,6 @@ function setAvailableUnitsAction(data) {
 
 
 /**
- *
  * Game page
  */
 /**
@@ -263,7 +262,6 @@ let currentLastTournamentId = null;
 let currentLastTournamentPage = null;
 
 class RockPaperScissorsActions {
-
   /**
    * change tab action
    *
@@ -271,14 +269,11 @@ class RockPaperScissorsActions {
    * @returns {Function}
    */
   static changeTabParams(data) {
-
     return (dispatch) => {
-
       dispatch(changeTabParamsAction({
         tab: data.tab,
         tournamentsFilter: data.tournamentsFilter
       }));
-
     };
   }
 
@@ -289,24 +284,18 @@ class RockPaperScissorsActions {
    * @returns {Function}
    */
   static subscribe(tab) {
-
     return (dispatch, getState) => {
-
       let subscriber = function (dispatch, getState) {
         return () => {
-
           switch (tab) {
             case 'dashboard':
               dispatch(RockPaperScissorsActions.fetchDashboardTournaments());
-
               break;
             case 'find':
               dispatch(RockPaperScissorsActions.fetchFindTournaments());
-
               break;
             case 'explore':
               dispatch(RockPaperScissorsActions.fetchExploreTournaments());
-
               break;
             case 'rps':
               let state = getState();
@@ -319,7 +308,6 @@ class RockPaperScissorsActions {
               break;
             case 'create':
               dispatch(RockPaperScissorsActions.fetchAvailableUnits());
-
               break;
           }
         };
@@ -360,14 +348,12 @@ class RockPaperScissorsActions {
         };
 
       Repository.getAccount(state.app.account).then((account) => {
-
         results['account'] = account;
 
         return account;
       }).then(() => {
         return Repository.fetchObject(tournamentId);
       }).then((tournament) => {
-
         results['tournament'] = tournament;
 
         if (!tournament) {
@@ -376,7 +362,6 @@ class RockPaperScissorsActions {
 
         return Repository.getAsset(tournament.getIn(['options', 'buy_in', 'asset_id']));
       }).then((asset) => {
-
         let tournament = results['tournament'],
           account = results['account'],
           accountJs = account.toJS(),
@@ -391,7 +376,6 @@ class RockPaperScissorsActions {
             'buy_in': tournament.getIn(['options', 'buy_in']).toJS(),
             'extensions': null
           };
-
 
         TournamentTransactionService.joinToTournament(
           operationJSON, accountJs, asset.toJS(), () => {}).then((trFnc) => {
@@ -409,11 +393,8 @@ class RockPaperScissorsActions {
    * @returns {Function}
    */
   static joinToLastTournament(accountId) {
-
     return (dispatch) => {
-      /**
-       * Todo: refactor without callback hell
-       */
+      // Todo: refactor without callback hell
       Repository.getAccount(accountId).then((account) => {
         Repository.getTournamentIdsInStateDirectly(accountId, 'accepting_registrations')
           .then((results) => {
@@ -428,13 +409,10 @@ class RockPaperScissorsActions {
                 maxId = id;
                 maxElement = element;
               }
-
             });
 
             if (maxElement) {
-            /**
-             * Clear a previous transaction
-             */
+            // Clear a previous transaction
               dispatch(clearTransaction());
 
               let operationJSON = {
@@ -491,10 +469,7 @@ class RockPaperScissorsActions {
    */
   static createTournament(data) {
     return (dispatch, getState) => {
-
-      /**
-       * Todo: refactor without callback hell
-       */
+      // Todo: refactor without callback hell
       Repository.getAsset(data.buy_in_asset_symbol).then((asset) => {
         let precision = utils.get_asset_precision(asset.get('precision')),
           buy_in_in_satoshis = parseInt(data.buy_in_amount * precision, 10);
@@ -603,9 +578,7 @@ class RockPaperScissorsActions {
         let shortLastTournamentId = parseFloat(
           lastTournamentId.substring(tournament_prefix.length)
         );
-        /**
-         *  + 1 for zero (1.16.0)
-         */
+        // +1 for zero (1.16.0)
         countPages = Math.max(Math.ceil((shortLastTournamentId + 1) / exploreCountPerPage), 1);
 
         if (!page) {
@@ -635,9 +608,7 @@ class RockPaperScissorsActions {
         results['first'] = first;
         results['last'] = last;
 
-        /**
-         * Cache
-         */
+        // Cache
         if (
           currentLastTournamentId === lastTournamentId
           && currentLastTournamentPage === page
@@ -676,9 +647,7 @@ class RockPaperScissorsActions {
           account = results['account'],
           creatorsIdsHash = {};
 
-        /**
-         * Details, Creators
-         */
+        // Details, Creators
         objects.forEach((obj) => {
           let item = obj.toJS();
           promises.push(Repository.fetchObject(item.tournament_details_id));
@@ -687,7 +656,6 @@ class RockPaperScissorsActions {
             creatorsIdsHash[item.creator] = true;
             promisesCreators.push(Repository.getAccount(item.creator));
           }
-
 
           if (!addedAssets[item.options.buy_in.asset_id]) {
             addedAssets[item.options.buy_in.asset_id] = item.options.buy_in.asset_id;
@@ -952,23 +920,16 @@ class RockPaperScissorsActions {
           if (detail) {
             let registered_players = detail.get('registered_players');
             let needAdd = false;
-            /**
-             * From registered players
-             */
+            // From registered players
             let fPlayer = registered_players.find((playerId) => {
               return playerId === results['account'].get('id');
             });
 
             if (
-              !fPlayer
-              && (
-                findDropDownCurrent === 'any'
-                || findDropDownCurrent === tournament.getIn(['options', 'buy_in', 'asset_id'])
-              )
+              !fPlayer && (findDropDownCurrent === 'any'
+              || findDropDownCurrent === tournament.getIn(['options', 'buy_in', 'asset_id']))
             ) {
-              /**
-               * From whiteList
-               */
+              // From whiteList
               let optionsImm = tournament.get('options'),
                 options = optionsImm.toJS();
 
@@ -996,8 +957,8 @@ class RockPaperScissorsActions {
         });
 
         if (
-          !findList.equals(state.rockPaperScissorsReducer.findList) ||
-          !findDropDownItems.equals(state.rockPaperScissorsReducer.findDropDownItems)
+          !findList.equals(state.rockPaperScissorsReducer.findList)
+          ||!findDropDownItems.equals(state.rockPaperScissorsReducer.findDropDownItems)
         ) {
           dispatch(setFindListAction({
             findList: findList,
@@ -1042,7 +1003,6 @@ class RockPaperScissorsActions {
 
           return Promise.all(promises);
         }).then((objects) => {
-
         let promises = [],
           promisesAssets = [],
           addedAssets = {};
@@ -1086,9 +1046,7 @@ class RockPaperScissorsActions {
             let registered_players = detail.get('registered_players');
             let needAdd = false;
 
-            /**
-             * From registered players
-             */
+            // From registered players
             let fPlayer = registered_players.find((playerId) => {
               return playerId === results['account'].get('id');
             });
@@ -1097,9 +1055,7 @@ class RockPaperScissorsActions {
               needAdd = true;
             }
 
-            /**
-             * From whiteList
-             */
+            // From whiteList
             if (!needAdd) {
               let optionsImm = tournament.get('options'),
                 options = optionsImm.toJS();
@@ -1113,9 +1069,7 @@ class RockPaperScissorsActions {
                   needAdd = true;
                 }
               }
-            }
-
-            if (needAdd) {
+            } else {
               dashboardList = dashboardList.push(
                 tournament.set(
                   'tournament_details',
@@ -1233,14 +1187,10 @@ class RockPaperScissorsActions {
 
         return account;
       }).then(() => {
-        /**
-         * Fetch tournament
-         */
+        // Fetch tournament
         return Repository.fetchObject(gameId);
       }).then((tournament) => {
-        /**
-         * Fetch details
-         */
+        // Fetch details
         results['tournament'] = tournament;
 
         return Repository.fetchObject(tournament.get('tournament_details_id'));
@@ -1339,7 +1289,7 @@ class RockPaperScissorsActions {
                 }
               });
             } else {
-              //waiting game...
+              // waiting game...
               dispatch(setActiveGameAction({
                 activeGameId: gameId,
                 match: null,
