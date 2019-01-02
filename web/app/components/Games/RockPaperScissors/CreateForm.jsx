@@ -6,12 +6,11 @@ import asset_utils from 'common/asset_utils';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import AccountRepository from 'repositories/AccountRepository';
-import AssetHelper from 'helpers/AssetHelper';
 import Translate from 'react-translate-component';
 import {DateField, DatePicker} from 'react-date-picker';
 import 'react-date-picker/index.css';
-
 import {WithContext as ReactTags} from 'react-tag-input';
+import Utils from '../../../../../dl/src/common/utils';
 
 const renderFieldNumberOfPlayers = (
   {className, placeholder, input, type, meta: {touched, error}}
@@ -84,13 +83,10 @@ const normalizeAmount = (value, previousValue, precision) => {
 class CreateForm extends React.Component {
 
   constructor(props) {
-
     super(props);
-
     this.state = {
       showBuyInMenu : false
     };
-
     this.INIT_SYMBOL = null;
     this.hideBuyIn = this.hideBuyIn.bind(this);
   }
@@ -152,7 +148,7 @@ class CreateForm extends React.Component {
       minValue = 0;
 
     if (currentUnitObject) {
-      let precision = AssetHelper.getAssetPrecision(currentUnitObject.get('precision'));
+      let precision = Utils.get_asset_precision(currentUnitObject.get('precision'));
       minValue = 1 / precision;
     }
 
