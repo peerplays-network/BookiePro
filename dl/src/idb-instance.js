@@ -11,7 +11,6 @@ const WALLET_BACKUP_STORES = [
 var current_wallet_name = 'default';
 
 var upgrade = function(db, oldVersion) {
-  // DEBUG console.log('... upgrade oldVersion',oldVersion)
   if (oldVersion === 0) {
     db.createObjectStore('wallet', {keyPath: 'public_name'});
     idb_helper.autoIncrement_unique(db, 'private_keys', 'pubkey');
@@ -25,7 +24,7 @@ var upgrade = function(db, oldVersion) {
 };
 
 /**
-    Everything in this class is scopped by the database name.  This separates
+    Everything in this class is scopped by the database name. This separates
     data per-wallet and per-chain.
 */
 var getDatabaseName = function(
@@ -43,13 +42,11 @@ var openDatabase = function(database_name = this.getDatabaseName()) {
     var openRequest = iDB.impl.open(database_name, DB_VERSION);
 
     openRequest.onupgradeneeded = function (e) {
-      // DEBUG console.log('... openRequest.onupgradeneeded ' + database_name)
       // Don't resolve here, indexedDb will call onsuccess or onerror next
       upgrade(e.target.result, e.oldVersion);
     };
 
     openRequest.onsuccess = function (e) {
-      // DEBUG console.log('... openRequest.onsuccess ' + database_name, e.target.result)
       var db = e.target.result;
       iDB.database_name = database_name;
       idb_helper.set_graphene_db(db);
@@ -57,7 +54,6 @@ var openDatabase = function(database_name = this.getDatabaseName()) {
     };
 
     openRequest.onerror = function (e) {
-      // DEBUG console.log("... openRequest.onerror " + database_name,e.target.error, e)
       reject(e.target.error);
     };
   });
@@ -96,8 +92,8 @@ var iDB = (function () {
     getDatabaseName: getDatabaseName,
     getCurrentWalletName: ()=> current_wallet_name,
     deleteDatabase: function(are_you_sure = false) {
-      if( ! are_you_sure) {
-        return 'Are you sure?';
+      if (! are_you_sure) {
+        return 'Are you sure?'; // TODO move to a translation file with all other strings
       }
 
       console.log('deleting', this.database_name);
@@ -213,7 +209,6 @@ var iDB = (function () {
         let store = transaction.objectStore(store_name);
         let request = store.openCursor();
 
-        //request.oncomplete = () => { resolve(data); };
         request.onsuccess = (e) => {
           let cursor = e.target.result;
 
@@ -227,7 +222,7 @@ var iDB = (function () {
 
         request.onerror = (e) => {
           console.log(
-            'ERROR!!! open_store - can\'t get \'`${store_name}`\' cursor. ',
+            'ERROR!!! open_store - can\'t get \'`${store_name}`\' cursor. ', // eslint-disable-line
             e.target.error.message
           );
           reject(e.target.error.message);
@@ -236,8 +231,8 @@ var iDB = (function () {
     },
 
     /** Persisted to disk but not backed up.
-            @return promise
-        */
+        @return promise
+    */
     getCachedProperty: function(name, default_value) {
       var db = this.instance().db();
       var transaction = db.transaction(['cached_properties'], 'readonly');
@@ -274,14 +269,14 @@ var iDB = (function () {
         promises.push(this.load_data(store_name));
       }
 
-      //Add each store name
+      // Add each store name
       return Promise.all(promises).then( (results) => {
         var obj = {};
 
         for (let i = 0; i < store_names.length; i++) {
           var store_name = store_names[i];
 
-          if( store_name === 'wallet' ) {
+          if (store_name === 'wallet' ) {
             var wallet_array = results[i];
 
             // their should be only 1 wallet per database
@@ -302,11 +297,11 @@ var iDB = (function () {
         var store_names = Object.keys(object);
         var trx = db.transaction(store_names, 'readwrite');
 
-        for(let store_name of store_names) {
+        for (let store_name of store_names) {
           var store = trx.objectStore(store_name);
           var records = object[store_name];
 
-          for(let record of records) {
+          for (let record of records) {
             store.put(record);
           }
         }

@@ -13,14 +13,12 @@ module.exports = idb_helper = {
   },
 
   on_request_end: (request) => {
-    //return request => {
     return new Promise((resolve, reject) => {
       request.onsuccess = new ChainEvent(
         request.onsuccess, resolve, request).event;
       request.onerror = new ChainEvent(
         request.onerror, reject, request).event;
     });
-    //}(request)
   },
 
   on_transaction_end: (transaction) => {
@@ -41,7 +39,6 @@ module.exports = idb_helper = {
   add: (store, object, event_callback) => { // eslint-disable-line
     return (object, event_callback) => {
       var request = store.add(object);
-
       var event_promise = null;
 
       if (event_callback) {
@@ -52,9 +49,8 @@ module.exports = idb_helper = {
       }
 
       var request_promise = idb_helper.on_request_end(request).then((event) => {
-        //DEBUG console.log('... object',object,'result',event.target.result,'event',event)
         if (event.target.result !== void 0) {
-          //todo does event provide the keyPath name? (instead of id)
+          // TODO does event provide the keyPath name? (instead of id)
           object.id = event.target.result;
         }
 
@@ -131,7 +127,6 @@ class ChainEvent {
         console.error('---- transaction error ---->', event.target.error);
       }
 
-      //event.request = request
       callback(event);
 
       if (existing_on_event) {

@@ -40,7 +40,7 @@ module.exports = {
   },
 
   init: (context) => {
-    if( ! context) {
+    if (!context) {
       return;
     }
 

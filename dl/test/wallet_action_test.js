@@ -55,7 +55,6 @@ describe( 'wallet_actions', ()=> {
         public_key_string: private_key.toPublicKey().toPublicKeyString()
       };
       WalletDb.importKeys([ private_key_obj ]).then(() => {
-        // console.log("importKeys", result)
         done();
       });
     }).catch(_catch);
@@ -63,7 +62,6 @@ describe( 'wallet_actions', ()=> {
 
   it( 'wallet_backups', (done) => {
     var suffix = secureRandom.randomBuffer(2).toString('hex').toLowerCase();
-    var public_name = 'default_' + suffix;
     helper.test_wallet( suffix ).then(() => {
 
       return createWalletObject().then( (wallet_object) => {
@@ -91,7 +89,6 @@ describe( 'wallet_actions', ()=> {
 
   it( 'wallet_create', (done) => {
     var suffix = secureRandom.randomBuffer(2).toString('hex').toLowerCase();
-    var public_name = 'default_' + suffix;
     helper.test_wallet( suffix ).then(() => {
       WalletDb.onLock();
       assert( WalletDb.isLocked(), 'isLocked' );

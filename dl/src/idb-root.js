@@ -17,7 +17,7 @@ export default class iDBRoot {
 
   /** @return promise */
   openIndexedDB() {
-    if(this.db) {
+    if (this.db) {
       return Promise.resolve(this.db);
     }
 
@@ -61,19 +61,20 @@ export default class iDBRoot {
       var transaction = db.transaction(['properties'], 'readwrite');
       var store = transaction.objectStore('properties');
 
-      if(value && value['toJS']) {
+      if (value && value['toJS']) {
         value = value.toJS();
       }
 
       //Immutable-js
       return idb_helper.on_request_end( store.put({name, value}) );
     }).catch( (error) => {
-      console.error(error); throw error;
+      console.error(error);
+      throw error;
     });
   }
 
   deleteDatabase(are_you_sure = false) {
-    if( ! are_you_sure) {
+    if (!are_you_sure) {
       return 'Are you sure?';
     }
 
