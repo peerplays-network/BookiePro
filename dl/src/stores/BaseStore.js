@@ -1,5 +1,4 @@
 class BaseStore {
-
   _export(...methods) {
     let publicMethods = {};
     methods.forEach((method) => {

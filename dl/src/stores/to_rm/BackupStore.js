@@ -4,7 +4,6 @@ import BaseStore from 'stores/BaseStore';
 import {hash, PublicKey} from 'peerplaysjs-lib';
 
 class BackupStore extends BaseStore {
-
   constructor() {
     super();
     this.state = this._getInitialState();
@@ -48,15 +47,12 @@ class BackupStore extends BaseStore {
     var sha1 = hash.sha1(contents).toString('hex');
     var size = contents.length;
 
-    if( ! public_key) {
-      public_key = getBackupPublicKey(contents)
-      ;
+    if (!public_key) {
+      public_key = getBackupPublicKey(contents);
     }
 
-    ;
     this.setState({name, contents, sha1, size, public_key});
   }
-
 }
 
 export var BackupStoreWrapped = alt.createStore(BackupStore, 'BackupStore');

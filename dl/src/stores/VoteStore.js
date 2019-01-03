@@ -79,19 +79,15 @@ class VoteStore extends BaseStore {
       .concat(this.listToVoteOptions(
         BUDGET_ITEM, this.c_budget_items[account_name], account_name_to_id
       ));
-    //let account_store_data = AccountStore.getState();
-    //let account = account_store_data.cachedAccounts
-    //    .get(account_store_data.account_name_to_id[account_name]).toJSON();
     let account = this.cachedAccountsJson[account_name];
     account.new_options = account.options;
     account.new_options.votes = votes;
 
-    if(this.c_proxies[account_name]) {
+    if (this.c_proxies[account_name]) {
       let account_id = account_name_to_id[this.c_proxies[account_name]];
       account.new_options.voting_account = account_id;
     }
 
-    //AccountActions.transactUpdateAccount(account);
     return account;
   }
 

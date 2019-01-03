@@ -57,7 +57,6 @@ class BlockchainStore extends BaseStore{
         this.latestBlocks = this.latestBlocks.pop();
       }
 
-
       if (block.transactions.length > 0) {
         block.transactions.forEach((trx) => {
           trx.block_num = block.id;
@@ -74,7 +73,7 @@ class BlockchainStore extends BaseStore{
   onUpdateRpcConnectionStatus(status){
     let prev_status = this.rpc_connection_status;
 
-    if(status === 'reconnect')  {
+    if (status === 'reconnect') {
       ChainStore.resetCache();
     } else {
       this.rpc_connection_status = status;

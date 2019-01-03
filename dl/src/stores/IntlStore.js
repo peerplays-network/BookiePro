@@ -57,11 +57,6 @@ class IntlStore extends BaseStore {
         break;
 
       default:
-        // let newLocale = this.localesObject[locale];
-        // if (!newLocale) {
-        // newLocale = require("assets/locales/locale-" + locale);
-        //     this.localesObject[locale] = newLocale;
-        // }
         counterpart.registerTranslations(locale, localeData);
         break;
     }

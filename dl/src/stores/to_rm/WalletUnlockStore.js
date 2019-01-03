@@ -16,16 +16,9 @@ class WalletUnlockStore {
     this.bindListeners({
       onChangeSetting: SettingsActions.changeSetting
     });
-
-    // let timeoutSetting = this._getTimeout();
-
-    // if (timeoutSetting) {
-    //     this.walletLockTimeout = timeoutSetting;
-    // }
   }
 
   onUnlock({resolve, reject}) {
-    //DEBUG console.log('... onUnlock setState', WalletDb.isLocked())
     this._setLockTimeout();
 
     if( ! WalletDb.isLocked()) {
@@ -37,7 +30,6 @@ class WalletUnlockStore {
   }
 
   onLock({resolve}) {
-    //DEBUG console.log('... WalletUnlockStore\tprogramatic lock', WalletDb.isLocked())
     if(WalletDb.isLocked()) {
       resolve();
       return;
@@ -49,7 +41,6 @@ class WalletUnlockStore {
   }
 
   onCancel() {
-    //this.state.reject();
     this.setState({resolve:null, reject:null});
   }
 

@@ -9,8 +9,6 @@ var MarketsActions = require('../actions/MarketsActions');
 var market_utils = require('../common/market_utils');
 let marketStorage = new ls('__peerplays__');
 
-// TODO: import CORE_ASSET
-// Ensure using the right import
 class MarketsStore {
   constructor() {
     this.markets = Immutable.Map();
@@ -38,7 +36,7 @@ class MarketsStore {
     this.bucketSize = this._getBucketSize();
     this.priceHistory = [];
     this.lowestCallPrice = null;
-    this.marketBase = CORE_ASSET;
+    this.marketBase = CORE_ASSET; // eslint-disable-line
     this.marketStats = Immutable.Map({
       change: 0,
       volumeBase: 0,
@@ -49,13 +47,13 @@ class MarketsStore {
 
     this.baseAsset = {
       id: '1.3.0',
-      symbol: CORE_ASSET,
+      symbol: CORE_ASSET, // eslint-disable-line
       precision: 5
     };
 
     this.coreAsset = {
       id: '1.3.0',
-      symbol: CORE_ASSET,
+      symbol: CORE_ASSET, // eslint-disable-line
       precision: 5
     };
 
@@ -103,7 +101,8 @@ class MarketsStore {
     // Optimistic removal of activeMarket
     if (payload.unSub) {
       this.activeMarket = null;
-    } else { // Unsub failed, restore activeMarket
+    } else {
+      // Unsub failed, restore activeMarket
       this.activeMarket = payload.market;
     }
   }
@@ -129,13 +128,11 @@ class MarketsStore {
   }
 
   onSubscribeMarket(result) {
-
     if (result.switchMarket) {
       this.marketReady = false;
       return true;
     }
 
-    // console.log("onSubscribeMarket:", result, this.activeMarket);
     this.invertedCalls = result.inverted;
 
     // Get updated assets every time for updated feed data
@@ -143,7 +140,6 @@ class MarketsStore {
     this.baseAsset = ChainStore.getAsset(result.base.get('id'));
 
     if (result.market && (result.market !== this.activeMarket)) {
-      // console.log("switch active market from", this.activeMarket, "to", result.market);
       this.activeMarket = result.market;
       this.onClearMarket();
     }
@@ -194,8 +190,6 @@ class MarketsStore {
       if (this.pendingCreateLimitOrders.length === 0) {
         this.pendingCounter = 0;
       }
-
-      // console.log("time to process limit orders:", new Date() - limitStart, "ms");
     }
 
     if (result.calls) {
@@ -217,7 +211,6 @@ class MarketsStore {
           CallOrder(call)
         );
       });
-
     }
 
     this.updateSettleOrders(result);
@@ -234,7 +227,6 @@ class MarketsStore {
 
     if (result.fillOrders) {
       result.fillOrders.forEach((fill) => {
-        // console.log("fill:", fill);
         this.activeMarketHistory = this.activeMarketHistory.add(
           fill[0][1]
         );
@@ -266,7 +258,6 @@ class MarketsStore {
 
   onCancelLimitOrderSuccess(cancellations) {
     if (cancellations && cancellations.length) {
-
       let didUpdate = false;
       cancellations.forEach((orderID) => {
         if (orderID && this.activeMarketLimits.has(orderID)) {
@@ -285,7 +276,6 @@ class MarketsStore {
       if (didUpdate) {
         // Update orderbook
         this._orderBook();
-
         // Update depth chart data
         this._depthChart();
       }
@@ -329,11 +319,9 @@ class MarketsStore {
         );
         // Update orderbook
         this._orderBook();
-
         // Update depth chart data
         this._depthChart();
       }
-
     } else {
       return false;
     }
@@ -355,8 +343,6 @@ class MarketsStore {
     }
 
     if (needsUpdate) {
-      // console.log("onFeedUpdate asset", asset.get("symbol"), "quote:",
-      // this.quoteAsset.get("symbol"), "base:", this.baseAsset.get("symbol"));
       // Update orderbook
       this.calls = this.constructCalls(this.activeMarketCalls);
       // Update depth chart data
@@ -434,7 +420,6 @@ class MarketsStore {
         );
       }
 
-
       function findMax(a, b) {
         if (a !== Infinity && b !== Infinity) {
           return Math.max(a, b);
@@ -481,8 +466,6 @@ class MarketsStore {
 
     if (priceLength > 0 && priceLength < 200) {
       let now = (new Date()).getTime();
-      // let firstDate = prices[0][0];
-
       // ensure there's a final entry close to the current time
       let i = 1;
 
@@ -544,8 +527,6 @@ class MarketsStore {
   }
 
   _orderBook() {
-    // let orderBookStart = new Date();
-
     // Loop over limit orders and return array containing bids with formatted values
     let constructBids = (orderArray) => {
       let bids = [];
@@ -557,10 +538,8 @@ class MarketsStore {
 
         return a_price.full - b_price.full;
       }).map((order) => {
-        // let isAskOrder = market_utils.isAsk(order, this.baseAsset);
         let {value, price, amount} = market_utils
           .parseOrder(order, this.baseAsset, this.quoteAsset);
-        // console.log("order:", order);
         bids.push({
           value: value,
           price: price,
@@ -602,7 +581,6 @@ class MarketsStore {
 
         return a_price.full - b_price.full;
       }).map((order) => {
-        // let isAskOrder = market_utils.isAsk(order, this.baseAsset);
         let {value, price, amount} = market_utils
           .parseOrder(order, this.baseAsset, this.quoteAsset);
         asks.push({
@@ -639,18 +617,13 @@ class MarketsStore {
     this.bids = constructBids(this.activeMarketLimits);
     this.asks = constructAsks(this.activeMarketLimits);
     this.calls = this.constructCalls(this.activeMarketCalls);
-
-    // console.log("time to construct orderbook:", new Date() - orderBookStart, "ms");
   }
 
   _depthChart() {
-    // let depthStart = new Date();
-
     let bids = [], asks = [], calls= [], totalBids = 0, totalCalls = 0;
     let flat_bids = [], flat_asks = [], flat_calls = [];
 
     if (this.activeMarketLimits.size) {
-
       this.bids.forEach((order) => {
         bids.push([order.price_full, order.amount]);
         totalBids += order.value;
@@ -938,9 +911,6 @@ class MarketsStore {
           debt: order.debt,
           collateral: order.collateral
         };
-        // priceData = market_utils.parseOrder(
-        //   order, this.quoteAsset, this.baseAsset, true, squeezeRatio
-        // );
         priceData = market_utils
           .parseOrder(feed_price_order, this.quoteAsset, this.baseAsset, true);
       } else {
@@ -958,9 +928,6 @@ class MarketsStore {
           debt: order.debt,
           collateral: order.collateral
         };
-        // priceData = market_utils.parseOrder(
-        //   order, this.baseAsset, this.quoteAsset, false, squeezeRatio
-        // );
         priceData = market_utils
           .parseOrder(feed_price_order, this.baseAsset, this.quoteAsset, false);
       }

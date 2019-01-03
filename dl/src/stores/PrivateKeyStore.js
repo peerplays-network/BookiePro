@@ -49,7 +49,7 @@ class PrivateKeyStore extends BaseStore {
     this.setState(this._getInitialState());
     var keys = Immutable.Map().asMutable();
     var p = idb_helper.cursor('private_keys', (cursor) => {
-      if( ! cursor) {
+      if (!cursor) {
         this.setState({keys: keys.asImmutable()});
         return;
       }
@@ -80,15 +80,15 @@ class PrivateKeyStore extends BaseStore {
   getPubkeys_having_PrivateKey(pubkeys, addys = null) {
     var return_pubkeys = [];
 
-    if(pubkeys) {
-      for(let pubkey of pubkeys) {
-        if(this.hasKey(pubkey)) {
+    if (pubkeys) {
+      for (let pubkey of pubkeys) {
+        if (this.hasKey(pubkey)) {
           return_pubkeys.push(pubkey);
         }
       }
     }
 
-    if(addys) {
+    if (addys) {
       var addresses = AddressIndex.getState().addresses;
 
       for (let addy of addys) {
@@ -101,11 +101,11 @@ class PrivateKeyStore extends BaseStore {
   }
 
   getTcomb_byPubkey(public_key) {
-    if(! public_key) {
+    if (! public_key) {
       return null;
     }
 
-    if(public_key.Q) {
+    if (public_key.Q) {
       public_key = public_key.toPublicKeyString();
     }
 
@@ -113,13 +113,12 @@ class PrivateKeyStore extends BaseStore {
   }
 
   onAddKey({private_key_object, transaction, resolve}) {// resolve is deprecated
-    if(this.state.keys.has(private_key_object.pubkey)) {
+    if (this.state.keys.has(private_key_object.pubkey)) {
       resolve({result:'duplicate',id:null});
       return;
     }
 
     this.pendingOperation();
-    //console.log("... onAddKey private_key_object.pubkey", private_key_object.pubkey)
     this.state.keys = this.state.keys.set(
       private_key_object.pubkey,
       PrivateKeyTcomb(private_key_object)
@@ -151,11 +150,11 @@ class PrivateKeyStore extends BaseStore {
       }).then( ()=> {
         this.pendingOperationDone();
 
-        if(duplicate) {
+        if (duplicate) {
           return {result:'duplicate',id:null};
         }
 
-        if( private_key_object.brainkey_sequence == null) {
+        if (private_key_object.brainkey_sequence == null) {
           this.binaryBackupRecommended();
         }
 
@@ -163,7 +162,7 @@ class PrivateKeyStore extends BaseStore {
         idb_helper.on_transaction_end(transaction).then(
           () => {
             this.setState({keys: this.state.keys});
-          } );
+          });
         return {
           result: 'added',
           id: private_key_object.id
@@ -174,16 +173,15 @@ class PrivateKeyStore extends BaseStore {
     resolve(p);
   }
 
-
-  /** WARN: does not update AddressIndex.  This is designed for bulk importing.
+  /** WARN: does not update AddressIndex. This is designed for bulk importing.
         @return duplicate_count
     */
   addPrivateKeys_noindex(private_key_objects, transaction) {
     var store = transaction.objectStore('private_keys');
     var duplicate_count = 0;
     var keys = this.state.keys.withMutations( (keys) => {
-      for(let private_key_object of private_key_objects) {
-        if(this.state.keys.has(private_key_object.pubkey)) {
+      for (let private_key_object of private_key_objects) {
+        if (this.state.keys.has(private_key_object.pubkey)) {
           duplicate_count++;
           continue;
         }
@@ -209,7 +207,7 @@ class PrivateKeyStore extends BaseStore {
   }
 
   pendingOperationDone() {
-    if(this.pending_operation_count === 0) {
+    if (this.pending_operation_count === 0) {
       throw new Error('Pending operation done called too many times');
     }
 
@@ -226,7 +224,7 @@ class PrivateKeyStore extends BaseStore {
   }
 
   decodeMemo(memo) {
-    let lockedWallet = false;
+    let lockedWallet = false; // eslint-disable-line
     let memo_text, isMine = false;
     let from_private_key = this.state.keys.get(memo.from);
     let to_private_key = this.state.keys.get(memo.to);

@@ -9,7 +9,6 @@ class TransactionConfirmStore {
   }
 
   getInitialState() {
-    //console.log("-- TransactionConfirmStore.getInitialState -->");
     return {
       transaction: null,
       error: null,
@@ -33,31 +32,22 @@ class TransactionConfirmStore {
       closed: false,
       broadcasted_transaction: null
     };
-    //console.log("-- TransactionConfirmStore.onConfirm -->", state);
     this.setState(state);
   }
 
   onClose() {
-    // let state = this.state;
-    //console.log("-- TransactionConfirmStore.onClose -->", state);
     this.setState({closed: true});
   }
 
   onBroadcast() {
-    // let state = this.state;
-    //console.log("-- TransactionConfirmStore.onBroadcast -->", state);
     this.setState({broadcasting: true});
   }
 
   onWasBroadcast() {
-    // let state = this.state;
-    //console.log("-- TransactionConfirmStore.onWasBroadcast -->", state);
     this.setState({broadcasting: false, broadcast: true});
   }
 
   onWasIncluded(res) {
-    //console.log("-- TransactionConfirmStore.onWasIncluded -->", this.state);
-    // let state = this.state;
     this.setState({
       error: null,
       broadcasting: false,
@@ -69,7 +59,6 @@ class TransactionConfirmStore {
   }
 
   onError({error}) {
-    // let state = this.state;
     this.setState({broadcast: false, broadcasting: false, error});
   }
 
@@ -82,7 +71,6 @@ class TransactionConfirmStore {
   }
 
   reset() {
-    //console.log("-- TransactionConfirmStore.reset -->");
     this.state = this.getInitialState();
   }
 }

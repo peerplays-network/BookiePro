@@ -15,12 +15,11 @@ import AddressIndex from 'stores/AddressIndex';
 ChainConfig.setPrefix('PPY');
 
 var aes_private;
-var transaction;
 var TRACE = false;
 let dictJson;
 
-if (__ELECTRON__) {
-  dictJson = require('json!common/dictionary_en.json');
+if (__ELECTRON__) { // eslint-disable-line
+  dictJson = require('json!common/dictionary_en.json'); // eslint-disable-line
 }
 
 /** Represents a single wallet and related indexedDb database operations. */
@@ -174,18 +173,6 @@ class WalletDb extends BaseStore {
         }) => {
           var my_pubkeys = PrivateKeyStore.getPubkeys_having_PrivateKey(pubkeys, addys);
 
-          //{//Testing only, don't send All public keys!
-          //    var pubkeys_all = PrivateKeyStore.getPubkeys() // All public keys
-          //    tr.get_required_signatures(pubkeys_all).then( required_pubkey_strings =>
-          //    console.log(
-          // 'get_required_signatures all\t',required_pubkey_strings.sort(), pubkeys_all)
-          // )
-          //    tr.get_required_signatures(my_pubkeys).then( required_pubkey_strings =>
-          //        console.log(
-          // 'get_required_signatures normal\t',required_pubkey_strings.sort(), pubkeys)
-          // )
-          //}
-
           return tr.get_required_signatures(my_pubkeys).then((required_pubkeys) => {
             for (let pubkey_string of required_pubkeys) {
               if (signer_pubkeys_added[pubkey_string]) {
@@ -283,8 +270,7 @@ class WalletDb extends BaseStore {
             throw new Error('Brainkey must be at least 50 characters long');
           }
 
-          // The user just provided the Brainkey so this avoids
-          // bugging them to back it up again.
+          // The user just provided the Brainkey so this avoids bugging them to back it up again.
           brainkey_backup_date = new Date();
         }
 
@@ -307,7 +293,6 @@ class WalletDb extends BaseStore {
         var encrypted_brainkey = local_aes_private.encryptToHex(brainkey_plaintext);
         var password_private = PrivateKey.fromSeed(password_plaintext);
         var password_pubkey = password_private.toPublicKey().toPublicKeyString();
-
         let wallet = {
           public_name,
           password_pubkey,
@@ -337,7 +322,7 @@ class WalletDb extends BaseStore {
       });
     };
 
-    if (__ELECTRON__) { /* TODO: import */
+    if (__ELECTRON__) { // eslint-disable-line
       return walletCreateFct(dictJson);
     } else {
       let dictionaryPromise = brainkey_plaintext ? null : fetch('dictionary.json');
@@ -473,21 +458,17 @@ class WalletDb extends BaseStore {
   importKeysWorker(private_key_objs) {
     return new Promise((resolve, reject) => {
       var pubkeys = [];
+      var addyIndexPromise = AddressIndex.addAll(pubkeys);
+      var private_plainhex_array = [];
 
       for (let private_key_obj of private_key_objs) {
         pubkeys.push(private_key_obj.public_key_string);
       }
 
-      ;
-      var addyIndexPromise = AddressIndex.addAll(pubkeys);
-
-      var private_plainhex_array = [];
-
       for (let private_key_obj of private_key_objs) {
         private_plainhex_array.push(private_key_obj.private_plainhex);
       }
 
-      ;
       var AesWorker = require('worker!workers/AesWorker'); /* eslint-disable-line */
       var worker = new AesWorker();
       worker.postMessage({
@@ -516,7 +497,6 @@ class WalletDb extends BaseStore {
             var private_cipherhex = private_cipherhex_array[i];
 
             if (!public_key_string) {
-              // console.log('WARN: public key was not provided, this will incur slow performance')
               var private_key = PrivateKey.fromHex(private_plainhex);
               var public_key = private_key.toPublicKey(); // S L O W
               public_key_string = public_key.toPublicKeyString();
@@ -589,11 +569,9 @@ class WalletDb extends BaseStore {
     transaction = this.transaction_update_keys()
   ) {
     var private_cipherhex = aes_private.encryptToHex(private_key.toBuffer());
-    var wallet = this.state.wallet;
 
     if (!public_key_string) {
       //S L O W
-      // console.log('WARN: public key was not provided, this may incur slow performance')
       var public_key = private_key.toPublicKey();
       public_key_string = public_key.toPublicKeyString();
     } else
@@ -635,7 +613,7 @@ class WalletDb extends BaseStore {
     return this._updateWallet();
   }
 
-  /** Saves wallet object to disk.  Always updates the last_modified date. */
+  /** Saves wallet object to disk. Always updates the last_modified date. */
   _updateWallet(transaction = this.transaction_update()) {
     var wallet = this.state.wallet;
 
@@ -644,7 +622,6 @@ class WalletDb extends BaseStore {
       return;
     }
 
-    //DEBUG console.log('... wallet',wallet)
     var wallet_clone = cloneDeep(wallet);
     wallet_clone.last_modified = new Date();
 

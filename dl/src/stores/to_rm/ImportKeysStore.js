@@ -15,7 +15,6 @@ class ImportKeysStore extends BaseStore {
   importing(importing) {
     this.setState({importing});
   }
-
 }
 
 export var ImportKeysStoreWrapped = alt.createStore(ImportKeysStore, 'ImportKeysStore');

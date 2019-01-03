@@ -13,14 +13,14 @@ export default class BrainkeyStoreFactory {
     static getInstance(name) {
       var instance = BrainkeyStoreFactory.instances.get(name);
 
-      if( ! instance) {
+      if (! instance) {
         instance = alt.createStore(BrainkeyStoreImpl, 'BrainkeyStore');
         BrainkeyStoreFactory.instances.set(name, instance);
       }
 
       var subscribed_instance_key = name + ' subscribed_instance';
 
-      if( ! BrainkeyStoreFactory.instances.get(subscribed_instance_key)) {
+      if (! BrainkeyStoreFactory.instances.get(subscribed_instance_key)) {
         var subscribed_instance = instance.chainStoreUpdate.bind(instance);
         ChainStore.subscribe(subscribed_instance);
         BrainkeyStoreFactory.instances.set(subscribed_instance_key, subscribed_instance);
@@ -32,7 +32,7 @@ export default class BrainkeyStoreFactory {
     static closeInstance(name) {
       var instance = BrainkeyStoreFactory.instances.get(name);
 
-      if(!instance) {
+      if (!instance) {
         throw new Error('unknown instance ' + name);
       }
 
@@ -59,22 +59,12 @@ class BrainkeyStoreImpl extends BaseStore {
     this._export('inSync', 'chainStoreUpdate', 'clearCache');
   }
 
-  // chainStoreUnsubscribe() {
-  //     try{
-  //         ChainStore.unsubscribe(this.chainStoreUpdate)
-  //     }catch(e1) {console.log("unsub 1 fail");
-  //         try{
-  //             ChainStore.unsubscribe(this.chainStoreUpdate.bind(this))
-  //         }catch(e2) {console.log("unsub 1 fail")}
-  //     }
-  // }
-
   clearCache() {
     this.state = {
       brnkey: '',
       account_ids: Immutable.Set()
     };
-    this.derived_keys = new Array();
+    this.derived_keys = [];
     // Compared with ChainStore.account_ids_by_key
     this.account_ids_by_key = null;
   }
@@ -92,21 +82,19 @@ class BrainkeyStoreImpl extends BaseStore {
     */
   inSync() {
     this.derived_keys.forEach( (derived_key) => {
-      if( isPendingFromChain(derived_key) ) {
+      if (isPendingFromChain(derived_key) ) {
         return false;
       }
-
     });
     return true;
   }
 
   chainStoreUpdate() {
-    if(! this.derived_keys.length) {
+    if (!this.derived_keys.length) {
       return;
     }
 
-
-    if(this.account_ids_by_key === ChainStore.account_ids_by_key) {
+    if (this.account_ids_by_key === ChainStore.account_ids_by_key) {
       return;
     }
 
@@ -120,7 +108,7 @@ class BrainkeyStoreImpl extends BaseStore {
     var derived_key = derivedKeyStruct(private_key);
     this.derived_keys.push(derived_key);
 
-    if(this.derived_keys.length < DERIVIED_BRAINKEY_POOL_SIZE) {
+    if (this.derived_keys.length < DERIVIED_BRAINKEY_POOL_SIZE) {
       this.deriveKeys(brnkey);
     }
   }
@@ -130,17 +118,17 @@ class BrainkeyStoreImpl extends BaseStore {
       var updatePubkey = (public_string) => {
         var chain_account_ids = ChainStore.getAccountRefsOfKey( public_string );
 
-        if(chain_account_ids) {
-          chain_account_ids.forEach( (chain_account_id) => {
+        if (chain_account_ids) {
+          chain_account_ids.forEach((chain_account_id) => {
             new_ids.add(chain_account_id);
           });
         }
       };
 
-      this.derived_keys.forEach( (derived_key) => updatePubkey(derived_key.public_string) );
+      this.derived_keys.forEach((derived_key) => updatePubkey(derived_key.public_string) );
     });
 
-    if( ! new_account_ids.equals(this.state.account_ids)) {
+    if (! new_account_ids.equals(this.state.account_ids)) {
       this.state.account_ids = new_account_ids;
       this.setState({account_ids: new_account_ids});
     }

@@ -226,6 +226,7 @@ class SettingsStore {
 
     if (window && window.location) {
       // window.location.reload();
+      // TODO: Rewrite behaviour
     }
   }
 

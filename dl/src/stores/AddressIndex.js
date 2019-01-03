@@ -6,7 +6,6 @@ import Immutable from 'immutable';
 import BaseStore from 'stores/BaseStore';
 
 class AddressIndex extends BaseStore {
-
   constructor() {
     super();
     this.state = {
@@ -19,7 +18,7 @@ class AddressIndex extends BaseStore {
   }
 
   saving() {
-    if( this.state.saving ) {
+    if (this.state.saving ) {
       return;
     }
 
@@ -34,7 +33,7 @@ class AddressIndex extends BaseStore {
     this.loadAddyMap().then( () => {
       var dirty = false;
 
-      if(this.pubkeys.has(pubkey)) {
+      if (this.pubkeys.has(pubkey)) {
         return;
       }
 
@@ -43,19 +42,17 @@ class AddressIndex extends BaseStore {
       // Gather all 5 legacy address formats (see key.addresses)
       var address_strings = key.addresses(pubkey);
 
-      for(let address of address_strings) {
+      for (let address of address_strings) {
         this.state.addresses = this.state.addresses.set(address, pubkey);
         dirty = true;
       }
 
-      if( dirty ) {
+      if (dirty) {
         this.setState({addresses: this.state.addresses});
         this.saveAddyMap();
       } else {
         this.setState({saving: false});
       }
-
-      ;
     }).catch ( (e) => {
       throw e;
     });
@@ -76,10 +73,10 @@ class AddressIndex extends BaseStore {
             var key_addresses = event.data;
             var dirty = false;
             var addresses = _this.state.addresses.withMutations( (addresses) => {
-              for(let i = 0; i < pubkeys.length; i++) {
+              for (let i = 0; i < pubkeys.length; i++) {
                 var pubkey = pubkeys[i];
 
-                if(_this.pubkeys.has(pubkey)) {
+                if (_this.pubkeys.has(pubkey)) {
                   continue;
                 }
 
@@ -87,14 +84,14 @@ class AddressIndex extends BaseStore {
                 // Gather all 5 legacy address formats (see key.addresses)
                 var address_strings = key_addresses[i];
 
-                for(let address of address_strings) {
+                for (let address of address_strings) {
                   addresses.set(address, pubkey);
                   dirty = true;
                 }
               }
             });
 
-            if( dirty ) {
+            if (dirty) {
               _this.setState({addresses});
               _this.saveAddyMap();
             } else {
@@ -103,7 +100,8 @@ class AddressIndex extends BaseStore {
 
             resolve();
           } catch( e ) {
-            console.error('AddressIndex.addAll', e); reject(e);
+            console.error('AddressIndex.addAll', e);
+            reject(e);
           }
         };
       }).catch ( (e) => {
@@ -113,11 +111,11 @@ class AddressIndex extends BaseStore {
   }
 
   loadAddyMap() {
-    if(this.loadAddyMapPromise) {
+    if (this.loadAddyMapPromise) {
       return this.loadAddyMapPromise;
     }
 
-    this.loadAddyMapPromise = iDB.root.getProperty('AddressIndex').then( (map) => {
+    this.loadAddyMapPromise = iDB.root.getProperty('AddressIndex').then((map) => {
       this.state.addresses = map ? Immutable.Map(map) : Immutable.Map();
       console.log('AddressIndex load', this.state.addresses.size);
       this.state.addresses.valueSeq().forEach( (pubkey) => this.pubkeys.add(pubkey) );
@@ -136,6 +134,4 @@ class AddressIndex extends BaseStore {
     }, 100);
   }
 }
-// console.log("post msg a");
-// worker.postMessage("a")
 export default alt.createStore(AddressIndex, 'AddressIndex');

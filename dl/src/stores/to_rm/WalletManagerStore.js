@@ -11,8 +11,7 @@ import BaseStore from 'stores/BaseStore';
 import iDB from 'idb-instance';
 import Immutable from 'immutable';
 
-/**  High-level container for managing multiple wallets.
-*/
+// High-level container for managing multiple wallets.
 class WalletManagerStore extends BaseStore {
   constructor() {
     super();
@@ -50,18 +49,18 @@ class WalletManagerStore extends BaseStore {
   onSetWallet({wallet_name = 'default', create_wallet_password, brnkey, resolve}) {
     var p = new Promise( (resolve) => {
 
-      if( /[^a-z0-9_-]/.test(wallet_name) || wallet_name === '' ){
+      if ( /[^a-z0-9_-]/.test(wallet_name) || wallet_name === '' ){
         throw new Error('Invalid wallet name');
       }
 
-      if(this.state.current_wallet === wallet_name) {
+      if (this.state.current_wallet === wallet_name) {
         resolve();
         return;
       }
 
       var add;
 
-      if ( ! this.state.wallet_names.has(wallet_name) ) {
+      if (! this.state.wallet_names.has(wallet_name) ) {
         var wallet_names = this.state.wallet_names.add(wallet_name);
         add = iDB.root.setProperty('wallet_names', wallet_names);
         this.setState({wallet_names});
@@ -84,8 +83,7 @@ class WalletManagerStore extends BaseStore {
             PrivateKeyActions.loadDbData().then(()=>AccountRefsStore.loadDbData())
           ]).then(()=>{
             // Update state here again to make sure listeners re-render
-
-            if( ! create_wallet_password) {
+            if (! create_wallet_password) {
               this.setState({current_wallet: wallet_name});
               return;
             }
@@ -104,7 +102,7 @@ class WalletManagerStore extends BaseStore {
       return Promise.reject(error);
     });
 
-    if(resolve) {
+    if (resolve) {
       resolve(p);
     }
   }
@@ -138,21 +136,20 @@ class WalletManagerStore extends BaseStore {
     return new Promise( (resolve) => {
       var {current_wallet, wallet_names} = this.state;
 
-      if( ! wallet_names.has(delete_wallet_name) ) {
+      if (! wallet_names.has(delete_wallet_name) ) {
         throw new Error('Can\'t delete wallet, does not exist in index');
       }
 
       wallet_names = wallet_names.delete(delete_wallet_name);
       iDB.root.setProperty('wallet_names', wallet_names);
 
-      if(current_wallet === delete_wallet_name) {
+      if (current_wallet === delete_wallet_name) {
         current_wallet = wallet_names.size ? wallet_names.first() : undefined;
         iDB.root.setProperty('current_wallet', current_wallet);
       }
 
       this.setState({current_wallet, wallet_names});
       var database_name = iDB.getDatabaseName(delete_wallet_name);
-      var req = iDB.impl.deleteDatabase(database_name);
       resolve( database_name );
     });
   }

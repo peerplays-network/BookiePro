@@ -66,9 +66,7 @@ class AssetStore extends BaseStore {
   }
 
   onGetAsset(payload) {
-    let {
-      asset
-    } = payload;
+    let {asset} = payload;
 
     if (payload.asset === null) {
       this.assets = this.assets.set(
@@ -78,7 +76,6 @@ class AssetStore extends BaseStore {
       return true;
     }
 
-    // console.log("onGetAsset payload:", payload);
     asset.dynamic_data = payload.dynamic_data;
 
     if (payload.bitasset_data) {
