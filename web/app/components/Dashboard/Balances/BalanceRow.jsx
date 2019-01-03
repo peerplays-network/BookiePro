@@ -75,7 +75,6 @@ class BalanceRow extends React.Component {
 
   render() {
     let {data} = this.props;
-
     let showPopup = this.state.popup;
 
     return (

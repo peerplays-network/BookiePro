@@ -22,8 +22,7 @@ class SideVesting extends React.Component {
   }
 
   render() {
-    let {asset, totalAmount, totalClaimable} = this.props,
-      symbol;
+    let {asset, totalAmount, totalClaimable} = this.props, symbol;
 
     if (asset) {
       symbol = asset_utils.getSymbol(asset.get('symbol'));

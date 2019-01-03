@@ -169,9 +169,7 @@ class Operation extends React.Component {
             }
             ] }
             params={ {
-              order: operation
-                .order
-                .substring(4)
+              order: operation.order.substring(4)
             } }/>
         );
         break;

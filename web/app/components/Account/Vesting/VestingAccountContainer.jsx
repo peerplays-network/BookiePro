@@ -12,7 +12,6 @@ import AccountVestingPageActions from 'actions/AccountVestingPageActions';
   resetAccountVestingData: AccountVestingPageActions.resetAccountVestingData
 })
 class VestingAccountContainer extends React.Component {
-
   componentWillMount() {
     this.props.fetchData();
   }
@@ -63,14 +62,15 @@ class VestingAccountContainer extends React.Component {
                   <div className='tableCell text_c'></div>
                 </div>
                 <div className='table__body'>
-                  {balances.map((vb) => {
-                    return (
-                      <VestingBalance
-                        key={ vb.id }
-                        handleClaimClick={ this.onHandleClaimClick.bind(this) }
-                        vb={ vb }/>
-                    );
-                  })}
+                  {
+                    balances.map((vb) => {
+                      return (
+                        <VestingBalance
+                          key={ vb.id }
+                          handleClaimClick={ this.onHandleClaimClick.bind(this) }
+                          vb={ vb }/>
+                      );
+                    })}
                 </div>
               </div>
             </div>

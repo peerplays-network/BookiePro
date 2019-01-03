@@ -62,10 +62,7 @@ class RecentActivityRow extends React.Component {
         // Legacty account, attempt to decode with the active key. Get the encrypted
         // active key.
         const encryptedKey = this.props.walletData.wallet.encrypted_brainkey;
-        const activePrivateKeyBuffer = this
-          .props
-          .walletData
-          .aesPrivate
+        const activePrivateKeyBuffer = this.props.walletData.aesPrivate
           .decryptHexToBuffer(encryptedKey); //.toBuffer());
         const activePrivateKey = PrivateKey.fromBuffer(activePrivateKeyBuffer);
 

@@ -75,17 +75,15 @@ export default class BlockTradesGatewayDepositRequest extends React.Component {
       headers: new Headers({'Accept': 'application/json', 'Content-Type': 'application/json'}),
       body: body_string
     }).then((reply) => {
-      reply
-        .json()
-        .then((json) => {
-          let address = {
-            'address': json.inputAddress || 'unknown',
-            'memo': json.inputMemo
-          };
-          this.addDepositAddress(address);
+      reply.json().then((json) => {
+        let address = {
+          'address': json.inputAddress || 'unknown',
+          'memo': json.inputMemo
+        };
+        this.addDepositAddress(address);
         }, (error) => { /* eslint-disable-line */
-          this.addDepositAddress({'address': 'unknown', 'memo': null});
-        });
+        this.addDepositAddress({'address': 'unknown', 'memo': null});
+      });
     }, (error) => { /* eslint-disable-line */
       this.addDepositAddress({'address': 'unknown', 'memo': null});
     });
@@ -325,9 +323,7 @@ export default class BlockTradesGatewayDepositRequest extends React.Component {
                   style={ {
                     width: '100%'
                   } }
-                  onClick={ this
-                    .requestDepositAddress
-                    .bind(this) }
+                  onClick={ this.requestDepositAddress.bind(this) }
                 >
                   <Translate content='gateway.generate_new'/>
                 </button>

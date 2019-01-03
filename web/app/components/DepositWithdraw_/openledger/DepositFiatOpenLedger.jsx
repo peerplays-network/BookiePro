@@ -130,7 +130,6 @@ class DepositFiatOpenLedger extends React.Component {
         );
       }
 
-      // old dead code for displaying all returned fields as text
       let table_lines = [];
 
       for (var key in this.state.deposit_info) {

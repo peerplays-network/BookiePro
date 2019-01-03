@@ -4,7 +4,6 @@ import {FormattedNumber} from 'react-intl';
 import Translate from 'react-translate-component';
 
 class VestingBalance extends React.Component {
-
   handleClaimClick() {
     this.props.handleClaimClick(this.props.vb);
   }
@@ -23,10 +22,7 @@ class VestingBalance extends React.Component {
       balance = vb.balance.amount,
       availablePercent = earned / (vestingPeriod * balance),
       precision = vb.balance.asset
-        ? vb
-          .balance
-          .asset
-          .get('precision')
+        ? vb.balance.asset.get('precision')
         : 0;
 
     return (
@@ -54,15 +50,16 @@ class VestingBalance extends React.Component {
         </div>
         <div className='tableCell'>
           <span className='mark3'>
-            {availablePercent
-              ? <FormattedNumber
-                value={ availablePercent * vb.balance.amount
-                  ? availablePercent * vb.balance.amount / Math.pow(10, precision)
-                  : availablePercent * vb.balance.amount }
-                minimumFractionDigits={ 0 }
-                maximumFractionDigits={ precision }
-              />
-              : 0
+            {
+              availablePercent
+                ? <FormattedNumber
+                  value={ availablePercent * vb.balance.amount
+                    ? availablePercent * vb.balance.amount / Math.pow(10, precision)
+                    : availablePercent * vb.balance.amount }
+                  minimumFractionDigits={ 0 }
+                  maximumFractionDigits={ precision }
+                />
+                : 0
             }
           </span>
 

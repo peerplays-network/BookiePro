@@ -412,9 +412,7 @@ class WithdrawModalBlocktrades extends React.Component {
             <input
               type='submit'
               className='button'
-              onClick={ this
-                .onSubmit
-                .bind(this) }
+              onClick={ this.onSubmit.bind(this) }
               value={ counterpart.translate('modal.withdraw.submit') }/>
             <Trigger close={ this.props.modal_id }>
               <a href className='secondary button'><Translate content='account.perm.cancel'/></a>

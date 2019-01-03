@@ -49,8 +49,7 @@ class WithdrawModalMetaexchange extends React.Component {
 
   componentDidMount() {
     if (this.props.is_bts_withdraw) {
-      Post
-        .PostForm(this.props.api_root + '/1/getMarket', {symbol_pair: this.props.symbol_pair})
+      Post.PostForm(this.props.api_root + '/1/getMarket', {symbol_pair: this.props.symbol_pair})
         .then((reply) => reply.json().then((reply) => {
           this.setState({limit: reply.bid_max});
           this.updateQuote(1);
@@ -81,12 +80,11 @@ class WithdrawModalMetaexchange extends React.Component {
   updateQuote(amount) {
     this.setState({quote: 'fetching...', quote_amount: amount});
 
-    Post
-      .PostForm(this.props.api_root + '/2/getQuote', {
-        symbol_pair: this.props.symbol_pair,
-        order_type: 'sell',
-        deposit_amount: amount
-      })
+    Post.PostForm(this.props.api_root + '/2/getQuote', {
+      symbol_pair: this.props.symbol_pair,
+      order_type: 'sell',
+      deposit_amount: amount
+    })
       .then((reply) => reply.json().then((reply) => {
         this.setState({quote: reply.result});
       }))
@@ -132,10 +130,7 @@ class WithdrawModalMetaexchange extends React.Component {
   }
 
   onSubmit() {
-    let amount = this
-      .state
-      .withdraw_amount
-      .replace(/,/g, '');
+    let amount = this.state.withdraw_amount.replace(/,/g, '');
 
     if (this.state.memo) {
       let sendTo = ChainStore.getAccount(this.state.deposit_address);

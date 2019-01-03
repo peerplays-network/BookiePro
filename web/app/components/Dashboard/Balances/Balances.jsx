@@ -38,7 +38,6 @@ const OtherBalanceList = connect((state) => {
   navigateToDepositWithDraw: NavigateActions.navigateToDepositWithDraw
 })
 class Balances extends React.Component {
-
   onAfterChangeShow(type, value) {
     this.props.removeAssetToHidden(value);
     this.props.toggleAssetHidden(value, type, false);
@@ -75,9 +74,7 @@ class Balances extends React.Component {
             <button
               type='button'
               className='btn btn-content__head pull-right'
-              onClick={ this
-                .onNavigateToSend
-                .bind(this) }
+              onClick={ this.onNavigateToSend.bind(this) }
             >
               <span className='content__headBtnIcon icon-arrow2'/>
               <span className=''>

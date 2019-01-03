@@ -50,7 +50,6 @@ class Table extends React.Component {
           standartFee]);
       });
       return fees.map((fee, index) => {
-
         if (!fee.length) {
           return null;
         }

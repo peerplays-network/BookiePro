@@ -49,7 +49,6 @@ const renderField = ({
 );
 
 class ClaimBtsForm extends React.Component {
-
   componentWillMount() {
     this.props.initialize({});
   }

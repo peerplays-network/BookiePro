@@ -6,7 +6,6 @@ import Translate from 'react-translate-component';
 class BalanceList extends React.Component {
   render() {
     let {title, list, precision, decimals, showHiddenAssets} = this.props;
-
     let renderList;
     let showList = false;
 

@@ -25,7 +25,8 @@ class FeeSchedule extends React.Component {
         className='tab__deploy'
         style={ {
           display: 'block'
-        } }>
+        } }
+      >
         <div className='tab__deployHead'>
           <div className='title col'><Translate content='explore.feeSchedule.title'/></div>
         </div>

@@ -8,13 +8,10 @@ import Logo from '../Forms/Logo';
 class AboutContainer extends React.Component {
 
   navigateToLogin() {
-    this
-      .props
-      .navigateToDashboard();
+    this.props.navigateToDashboard();
   }
 
   render() {
-
     return (
       <div className='main'>
         <div className='yHelper'></div>
@@ -34,11 +31,6 @@ class AboutContainer extends React.Component {
                       <Translate component='span' className='' content='about.library_link'/>
                     </Link>
                   </li>
-                  {/*<li className="descr__li">
-                      <Link to="/exchange/PIXEL.BITCOIN_TESTPLAYS" className="descr__item">
-                          <Translate component="span" className="" content="about.exchange_link" />
-                      </Link>
-                  </li>*/}
                   <li className='descr__li'>
                     <Link to='/dashboard' className='descr__item'>
                       <Translate component='span' className='' content='about.balance_link'/>

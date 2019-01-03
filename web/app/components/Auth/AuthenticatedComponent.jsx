@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import NavigateActions from 'actions/NavigateActions';
 
 export function requireAuthentication(Component) {
-
   class AuthenticatedComponent extends React.Component {
     componentWillMount() {
       this.checkAuth();

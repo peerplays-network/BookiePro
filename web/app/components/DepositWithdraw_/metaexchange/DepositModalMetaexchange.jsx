@@ -7,7 +7,6 @@ import utils from 'common/utils';
 
 @BindToChainState()
 class DepositModalMetaexchange extends React.Component {
-
   static propTypes = {
     api_root: React.PropTypes.string,
     symbol_pair: React.PropTypes.string,
@@ -38,8 +37,7 @@ class DepositModalMetaexchange extends React.Component {
   }
 
   componentDidMount() {
-    Post
-      .PostForm(this.props.api_root + '/1/getMarket', {symbol_pair: this.props.symbol_pair})
+    Post.PostForm(this.props.api_root + '/1/getMarket', {symbol_pair: this.props.symbol_pair})
       .then((reply) => reply.json().then((reply) => {
         this.setState({limit: reply.ask_max});
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Translate from 'react-translate-component';
-// import UnitSelect from './UnitSelect';
 import {FormattedNumber} from 'react-intl';
 import AccountImage from '../../Account/AccountImage';
 import DashboardPageActions from 'actions/DashboardPageActions';
@@ -9,7 +8,6 @@ import NavigateActions from 'actions/NavigateActions';
 import asset_utils from 'common/asset_utils';
 import AppActions from 'actions/AppActions';
 import SideVesting from './SideVesting';
-// import SideMember from './SideMember';
 //TODO:: Derived Data
 @connect((state) => {
   return {
