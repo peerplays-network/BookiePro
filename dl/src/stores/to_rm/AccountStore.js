@@ -1,9 +1,9 @@
-import BaseStore from './BaseStore';
+import BaseStore from '../BaseStore';
 import Immutable from 'immutable';
-import alt from '../alt-instance';
+import alt from '../../alt-instance';
 import AccountActions from '../actions/AccountActions';
-import iDB from '../idb-instance';
-import PrivateKeyStore from './PrivateKeyStore';
+import iDB from '../../idb-instance';
+import PrivateKeyStore from '../PrivateKeyStore';
 import {
   ChainStore,
   ChainValidation,
@@ -12,10 +12,10 @@ import {
 import {
   Apis
 } from 'peerplaysjs-ws';
-import AccountRefsStore from 'stores/AccountRefsStore';
-import AddressIndex from 'stores/AddressIndex';
-import SettingsStore from 'stores/SettingsStore';
-import ls from 'common/localStorage';
+import AccountRefsStore from './AccountRefsStore';
+import AddressIndex from '../AddressIndex';
+import SettingsStore from '../SettingsStore';
+import ls from '../../common/localStorage';
 
 let accountStorage = new ls('__peerplays__');
 

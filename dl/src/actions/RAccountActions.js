@@ -4,7 +4,6 @@ import Immutable from 'immutable';
 import {ChainStore} from 'peerplaysjs-lib';
 import BalanceRepository from '../repositories/BalanceRepository';
 import AssetRepository from '../repositories/AssetRepository';
-import AccountStore from '../stores/to_rm/AccountStore';
 
 /**
  * Private Redux Action Creator (ACCOUNT_SEARCH_REQUESTED)
