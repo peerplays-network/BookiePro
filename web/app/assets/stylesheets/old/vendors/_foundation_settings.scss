@@ -34,34 +34,32 @@
 // - - - - - - - - - - - - - - - - - - - -
 // Set a component to "false" to prevent the CSS classes from being printed.
 // You can still use the mixins even if the value is false.
-$include-css: (
-        accordion: true,
-        action-sheet: true,
-        block-list: true,
-        button: true,
-        button-group: true,
-        card: true,
-        coloring: true,
-        extras: true,
-        forms: true,
-        grid: true,
+$include-css: (accordion: true,
+action-sheet: true,
+block-list: true,
+button: true,
+button-group: true,
+card: true,
+coloring: true,
+extras: true,
+forms: true,
+grid: true,
 //        iconic: true,
-        label: true,
-        badge: true,
-        list: true,
-        menu-bar: true,
-        modal: true,
-        motion: true,
+label: true,
+badge: true,
+list: true,
+menu-bar: true,
+modal: true,
+motion: true,
 //        notification: true,
 //        off-canvas: true,
-        panel: true,
-        popup: true,
-        switch: true,
-        tabs: true,
-        title-bar: true,
-        typography: true,
-        utilities: true
-);
+panel: true,
+popup: true,
+switch: true,
+tabs: true,
+title-bar: true,
+typography: true,
+utilities: true);
 
 // 2. Global Styles
 // - - - - - - - - - - - - - - - - - - - -
@@ -89,7 +87,10 @@ $include-css: (
 // We use these to control various global styles
 // $body-background: #fff;
 // $body-font-color: #222;
-$body-font-family: Roboto-Regular, Helvetica, Arial, sans-serif;
+$body-font-family: Roboto-Regular,
+Helvetica,
+Arial,
+sans-serif;
 // $body-font-weight: $font-weight-normal;
 // $body-font-style: normal;
 // $body-antialiased: true;
@@ -234,7 +235,7 @@ $breakpoint-classes: (small medium large xlarge);
 
 $container-width: 70rem;
 // $block-padding: $global-padding;
-   $total-columns: 12;
+$total-columns: 12;
 // $block-grid-max-size: 6;
 
 // 6. Accordion

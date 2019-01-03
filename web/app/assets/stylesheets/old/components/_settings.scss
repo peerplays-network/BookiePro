@@ -1,10 +1,11 @@
 .settings-menu {
-    > li {
+    >li {
         list-style-type: none;
         cursor: pointer;
         padding: 5px 0;
+
         &:hover {
-                background-color: red;
+            background-color: red;
         }
 
         &.active {

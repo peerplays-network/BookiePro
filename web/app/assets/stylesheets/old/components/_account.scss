@@ -2,10 +2,12 @@
   .account-buttons-row .button {
     min-width: 4.5rem;
   }
+
   .bottom {
     border-top: 1px solid transparent;
     padding: 0.5rem;
-    > .center {
+
+    >.center {
       width: auto;
       margin: 0 auto;
     }
@@ -14,6 +16,7 @@
 
 .account-info {
   text-align: center;
+
   .my-account-label {
     font-size: 90%;
   }
@@ -21,7 +24,8 @@
 
 .account-left-menu {
   margin-left: 1.25rem !important;
-  > li {
+
+  >li {
     &.menu-subheader {
       text-transform: uppercase;
       font-size: 0.9rem;
@@ -29,16 +33,17 @@
       text-align: center;
       border-bottom: none !important;
 
-      > span {
-          display: inline-block;
-          color: inherit;
-          cursor: pointer;
+      >span {
+        display: inline-block;
+        color: inherit;
+        cursor: pointer;
       }
     }
 
-    > a {
+    >a {
       padding-left: 1.75rem !important;
       border-left: 2px solid transparent;
+
       &.active {
         border-left-color: #f00;
       }
@@ -73,6 +78,6 @@
   height: 180px;
 }
 
-a.action-button > span {
-    text-transform: lowercase;
+a.action-button>span {
+  text-transform: lowercase;
 }

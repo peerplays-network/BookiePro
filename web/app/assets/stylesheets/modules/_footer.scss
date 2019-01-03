@@ -1,31 +1,33 @@
-.openKeyboard{
-	.footer{
-		display: none;
-	}
+.openKeyboard {
+  .footer {
+    display: none;
+  }
 }
 
-.footer{
-	position: relative;
-	z-index: 3;
-	background: $footer-bg;
-	height: 50px;
-	margin-top: -50px;
-	&:before{
-		position: absolute;
-		content: '';
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 1px;
-		display: block!important;
-		background: $footer-bd-color;
-	}
-	@include clearfix;
+.footer {
+  position: relative;
+  z-index: 3;
+  background: $footer-bg;
+  height: 50px;
+  margin-top: -50px;
 
-	&__copy{
-		float: right;
-		line-height: 50px;
-		color: $footer-color;
-		font-size: 14px;
-	}
+  &:before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    display: block !important;
+    background: $footer-bd-color;
+  }
+
+  @include clearfix;
+
+  &__copy {
+    float: right;
+    line-height: 50px;
+    color: $footer-color;
+    font-size: 14px;
+  }
 }

@@ -3,21 +3,27 @@
 
 #content.win32 {
   font-size: 90%;
+
   h1 {
     font-size: 2rem;
   }
+
   h2 {
     font-size: 1.8rem;
   }
+
   h3 {
     font-size: 1.6rem;
   }
+
   h4 {
     font-size: 1.4rem;
   }
+
   h5 {
     font-size: 1.2rem;
   }
+
   h6 {
     font-size: 1.0rem;
   }
@@ -30,7 +36,7 @@ a {
 // border is needed when centering
 // input[type="file"] did not work
 input[type="file"] {
-    border: 'solid';
+  border: 'solid';
 }
 
 hr {
@@ -55,8 +61,8 @@ hr {
 //padding: "2rem 0 2rem 0"  Using top and bottom padding prevents
 //unnecessary scroll bars but does not disable them for future use.
 .no-overflow-padding {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .no-padding {
@@ -69,7 +75,8 @@ hr {
 
 .center-content {
   text-align: center;
-  > * {
+
+  >* {
     margin-left: auto;
     margin-right: auto;
   }
@@ -83,7 +90,7 @@ hr {
   cursor: pointer;
 }
 
-a > .label {
+a>.label {
   cursor: pointer;
 }
 
@@ -91,14 +98,20 @@ a > .label {
   display: block;
 }
 
-button, .button {
+button,
+.button {
   transition: all 0.3s ease 0s !important;
   //margin: 2px 5px 2px 5px;
   vertical-align: middle;
+
   &.outline {
-    &:hover, &:focus, &:active {
+
+    &:hover,
+    &:focus,
+    &:active {
       background: none !important;
     }
+
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     background: none;
@@ -106,7 +119,10 @@ button, .button {
   }
 }
 
-td > button:first-child, td > .button:first-child, div > button:first-child, div > .button:first-child {
+td>button:first-child,
+td>.button:first-child,
+div>button:first-child,
+div>.button:first-child {
   margin-left: 0;
 }
 
@@ -125,13 +141,16 @@ td > button:first-child, td > .button:first-child, div > button:first-child, div
 
 .content-block {
   margin-bottom: 2rem;
-  > h3, .recent-transactions > h3 {
+
+  >h3,
+  .recent-transactions>h3 {
     font-size: 2rem;
     border-bottom: 1px solid #444;
     margin-top: 0;
     padding-bottom: 0.5rem;
     margin-bottom: 0.5rem;
   }
+
   .actions {
     padding: 1rem 0 1rem 0;
   }
@@ -142,38 +161,45 @@ td > button:first-child, td > .button:first-child, div > button:first-child, div
 }
 
 .no-border-bottom {
-    border-bottom: none !important;
+  border-bottom: none !important;
 }
 
 .page-header {
   margin-bottom: 2rem;
   border-bottom: 1px solid #444;
-  h3, h1 {
+
+  h3,
+  h1 {
     margin: 0;
     padding: 1rem 0 1rem 0;
   }
+
   h3 {
     font-size: 2rem;
   }
-  h1 + h3 {
+
+  h1+h3 {
     padding-top: 0;
   }
 }
 
-table > tbody > tr.control-row > td {
+table>tbody>tr.control-row>td {
   padding-top: 1rem;
   border-bottom: none;
   vertical-align: middle;
+
   input {
     display: inline-block;
     padding-top: 0;
     padding-bottom: 0;
     margin-right: 8px !important;
   }
-  > label {
+
+  >label {
     margin: 0;
   }
-  > input {
+
+  >input {
     margin-right: 2rem !important;
   }
 }
@@ -191,15 +217,15 @@ div.modal {
   overflow: visible;
 }
 
-.full-width-content > * {
+.full-width-content>* {
   width: 100%;
 }
 
-.op-table > tbody > tr > td:first-child {
+.op-table>tbody>tr>td:first-child {
   min-width: 12rem;
 }
 
-.button-group > .button {
+.button-group>.button {
   margin: 0 1rem 1rem 0;
 }
 
@@ -208,9 +234,9 @@ div.modal {
 }
 
 div.disabled * {
-    opacity: 0.8 !important;
-    cursor: default !important;
-    pointer-events: none !important;
+  opacity: 0.8 !important;
+  cursor: default !important;
+  pointer-events: none !important;
 }
 
 div.disabled input {
@@ -218,9 +244,12 @@ div.disabled input {
 }
 
 .modal-header {
-  > h3, >h6 {
+
+  >h3,
+  >h6 {
     margin-bottom: 0;
   }
+
   margin-bottom: 1rem;
 }
 
@@ -240,6 +269,7 @@ div.disabled input {
   .item-name {
     padding: 0.2rem 0 0.2rem 0;
   }
+
   .item-description {
     padding: 0.2rem 0 0.2rem 0;
     font-size: 90%;
@@ -250,7 +280,7 @@ span.time {
   white-space: nowrap;
 }
 
-section > ul > li.key-value {
+section>ul>li.key-value {
   padding: 0.5rem 1rem;
 }
 
@@ -259,7 +289,7 @@ label.inline {
 }
 
 .blocks-row {
-  > div.grid-block {
+  >div.grid-block {
     padding-bottom: 0 !important;
   }
 }
@@ -271,6 +301,7 @@ label.inline {
 .electron-only {
   visibility: hidden;
 }
+
 #content.electron {
   visibility: visible;
 }
@@ -331,22 +362,22 @@ label.inline {
 }
 
 select {
-    line-height: normal !important;
+  line-height: normal !important;
 }
 
 select.bts-select {
-    border: none;
-    background: none;
-    background-color: transparent;
-    max-width: 500px;
-    border-bottom: 1px solid #444;
-    -webkit-appearance: menulist;
-    -moz-appearance: menulist;
-    appearance: menulist;
+  border: none;
+  background: none;
+  background-color: transparent;
+  max-width: 500px;
+  border-bottom: 1px solid #444;
+  -webkit-appearance: menulist;
+  -moz-appearance: menulist;
+  appearance: menulist;
 }
 
 @media screen and (max-width: 900px) {
-    .column-hide-small {
-        display: none;
-    }
+  .column-hide-small {
+    display: none;
+  }
 }

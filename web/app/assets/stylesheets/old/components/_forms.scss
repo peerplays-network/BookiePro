@@ -1,5 +1,5 @@
 label.horizontal {
-  > input {
+  >input {
     display: inline;
     width: auto;
   }
@@ -19,18 +19,22 @@ label.horizontal {
 
 }
 
-.has-error input, .has-error select, .has-error textarea {
+.has-error input,
+.has-error select,
+.has-error textarea {
   border-color: #a94442;
 }
 
-.autocomplete > .action-sheet-container {
+.autocomplete>.action-sheet-container {
   display: flex;
-  > .action-sheet {
+
+  >.action-sheet {
     left: 6em;
   }
 }
 
-td > input, td > .autocomplete input {
+td>input,
+td>.autocomplete input {
   margin: 0 !important;
 }
 
@@ -42,29 +46,36 @@ td > input, td > .autocomplete input {
   width: auto;
 }
 
-.account-selector, .pubkey-input {
+.account-selector,
+.pubkey-input {
   clear: right;
+
   input {
     display: block;
     flex: auto;
   }
-  > .account-image {
+
+  >.account-image {
     float: left;
     width: 80px;
-    > .icon > svg path {
+
+    >.icon>svg path {
       fill: rgba(255, 255, 255, 0.2);
     }
   }
-  > .content-area {
+
+  >.content-area {
     //width: 100%;
     margin-left: 80px;
     padding-left: 1rem;
   }
+
   .error-area {
     padding-top: 0.5rem;
     height: 1.5rem;
     font-size: 1rem;
   }
+
   .right-label {
     float: right;
   }
