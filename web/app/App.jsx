@@ -95,7 +95,6 @@ import ClaimBtsContainer from './components/ClaimBts/ClaimBtsContainer';
 import AboutContainer from './components/About/AboutContainer';
 
 
-import Games from "./components/Games/Games";
 import RockPaperScissorsContainer from "./components/Games/RockPaperScissors/RockPaperScissorsContainer";
 import RockPaperScissorsGame from "./components/Games/RockPaperScissors/RockPaperScissorsGame";
 
