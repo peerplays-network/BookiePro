@@ -37,8 +37,6 @@ function setCommonErrorsAction(errors) {
  */
 const faucets = require('json!common/' + CONFIG.FAUCET_FILE + '.json');
 
-console.log('faucets', faucets);
-
 /**
  * Get Faucet Address
  * @param {Number} attempt

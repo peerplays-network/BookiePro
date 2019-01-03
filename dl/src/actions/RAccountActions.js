@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 import {ChainStore} from 'peerplaysjs-lib';
 import BalanceRepository from '../repositories/BalanceRepository';
 import AssetRepository from '../repositories/AssetRepository';
+import AccountStore from '../stores/to_rm/AccountStore';
 
 /**
  * Private Redux Action Creator (ACCOUNT_SEARCH_REQUESTED)
@@ -75,8 +76,6 @@ export function accountSearch(start_symbol, limit = 50){
 
 function getMyAuthorityForAccount(account, recursion_count = 1) {
   return (dispatch) => {
-    let returnValue = '';
-
     if (! account) {
       // Skip the rest of the function in the event that no account is passed.
       return undefined;
@@ -90,38 +89,35 @@ function getMyAuthorityForAccount(account, recursion_count = 1) {
     let active_address_threshold = dispatch(addressThreshold(active_authority));
     let owner_account_threshold, active_account_threshold;
 
-    if (owner_pubkey_threshold === 'full') {
-      returnValue = 'full';
-    } else if (active_pubkey_threshold === 'full') {
-      returnValue = 'full';
-    } else if (owner_address_threshold === 'full') {
-      returnValue = 'full';
-    } else if (active_address_threshold === 'full') {
-      returnValue = 'full';
-    } else if (recursion_count < 3) {
+    if (
+      owner_pubkey_threshold === 'full' || active_pubkey_threshold === 'full'
+      || owner_address_threshold === 'full' || active_address_threshold === 'full'
+    ) {
+      return 'full';
+    }
+
+    if (recursion_count < 3) {
       owner_account_threshold = dispatch(accountThreshold(owner_authority, recursion_count));
       active_account_threshold = dispatch(accountThreshold(active_authority, recursion_count));
 
-      if (owner_account_threshold === undefined ) {
-        returnValue = undefined;
-      } else if (owner_account_threshold === 'full') {
-        returnValue = 'full';
-      } else if (active_account_threshold === undefined ) {
-        returnValue = undefined;
-      } else if (active_account_threshold === 'full') {
-        returnValue = 'full';
+      if (owner_account_threshold === undefined || active_account_threshold === undefined) {
+        return undefined;
       }
-    } else if (
+
+      if (owner_account_threshold === 'full' || active_account_threshold === 'full') {
+        return 'full';
+      }
+    }
+
+    if (
       owner_pubkey_threshold === 'partial' || active_pubkey_threshold === 'partial'
       || owner_address_threshold === 'partial' || active_address_threshold === 'partial'
       || owner_account_threshold === 'partial' || active_account_threshold === 'partial'
     ) {
-      returnValue = 'partial';
-    } else {
-      returnValue = 'none';
+      return 'partial';
     }
 
-    return returnValue;
+    return 'none';
   };
 }
 

@@ -209,57 +209,34 @@ class AccountStore extends BaseStore {
     */
   getMyAuthorityForAccount(account, recursion_count = 1) {
     if (!account) {
+      // Skip the rest of the function in the event that no account is passed.
       return undefined;
     }
-
-    ;
 
     let owner_authority = account.get('owner');
     let active_authority = account.get('active');
     let owner_pubkey_threshold = pubkeyThreshold(owner_authority);
-
-    if (owner_pubkey_threshold === 'full') {
-      return 'full';
-    }
-
     let active_pubkey_threshold = pubkeyThreshold(active_authority);
-
-    if (active_pubkey_threshold === 'full') {
-      return 'full';
-    }
-
     let owner_address_threshold = addressThreshold(owner_authority);
-
-    if (owner_address_threshold === 'full') {
-      return 'full';
-    }
-
     let active_address_threshold = addressThreshold(active_authority);
+    let owner_account_threshold, active_account_threshold;
 
-    if (active_address_threshold === 'full') {
+    if (
+      owner_pubkey_threshold === 'full' || active_pubkey_threshold === 'full'
+      ||owner_address_threshold === 'full' || active_address_threshold === 'full'
+    ) {
       return 'full';
     }
-
-    let owner_account_threshold, active_account_threshold;
 
     if (recursion_count < 3) {
       owner_account_threshold = this._accountThreshold(owner_authority, recursion_count);
-
-      if (owner_account_threshold === undefined) {
-        return undefined;
-      }
-
-      if (owner_account_threshold === 'full') {
-        return 'full';
-      }
-
       active_account_threshold = this._accountThreshold(active_authority, recursion_count);
 
-      if (active_account_threshold === undefined) {
+      if (owner_account_threshold === undefined || active_account_threshold === undefined) {
         return undefined;
       }
 
-      if (active_account_threshold === 'full') {
+      if (owner_account_threshold === 'full' || active_account_threshold === 'full') {
         return 'full';
       }
     }
