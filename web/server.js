@@ -10,13 +10,17 @@ var config = isDevNet ?
     './conf/webpack-dev-ugly' :
     './conf/webpack-dev'
   );
-
+var chalk = require('chalk');
+var openBrowser = require('react-dev-utils/openBrowser');
 var compiler = webpack(config);
-
+var DEFAULT_PORT = process.env.PORT || 8082;
 
 compiler.apply(new ProgressPlugin(function (percentage, msg) {
-  process.stdout.write((percentage * 100).toFixed(2) + '% ' + msg + '                 \033[0G');
+  process.stdout.write(chalk.green(
+    (percentage * 100).toFixed(2) + '% ' + msg + '                 \033[0G'
+  ));
 }));
+
 new WebpackDevServer(compiler, {
   publicPath: config.output.publicPath,
   hot: true,
@@ -31,10 +35,11 @@ new WebpackDevServer(compiler, {
     errorDetails: true,
     warnings: true
   },
-  port: 8082
-}).listen(8082, '0.0.0.0', function (err, result) {
+  port: DEFAULT_PORT
+}).listen(DEFAULT_PORT, '0.0.0.0', function (err, result) {
   if (err) {
-    console.log(err);
+    console.log(chalk.red(err));
   }
-  console.log('Listening at 0.0.0.0:8082');
+  console.log(chalk.yellow('Listening at 0.0.0.0:8082'));
+  openBrowser('localhost:' + DEFAULT_PORT + '/');
 });

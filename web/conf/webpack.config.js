@@ -8,6 +8,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 // BASE APP DIR
 var root_dir = path.resolve(__dirname, '..');
 var packageJSON = require('../package.json');
+var chalk = require('chalk');
 
 // FUNCTION TO EXTRACT CSS FOR PRODUCTION
 function extractForProduction(loaders) {
@@ -15,7 +16,7 @@ function extractForProduction(loaders) {
 }
 
 module.exports = function(options) {
-  console.log(options);
+  console.log(chalk.gray('Options:', JSON.stringify(options, null, 4)));
   // console.log(options.prod ? "Using PRODUCTION options\n" : "Using DEV options\n");
   // STYLE LOADERS
   var cssLoaders = 'style-loader!css-loader!postcss-loader',
@@ -39,7 +40,7 @@ module.exports = function(options) {
     FAUCET_FILE: JSON.stringify(options.faucetFile || 'faucetUrls'),
     BITSHARES_WS: JSON.stringify(options.BITSHARES_WS || 'wss://bitshares.openledger.info/ws'),
   };
-  console.log(define);
+  console.log(chalk.gray('Environment configuration: ', JSON.stringify(define, null, 4)));
   // COMMON PLUGINS
   var plugins = [
     new webpack.optimize.DedupePlugin(),
@@ -217,5 +218,4 @@ module.exports = function(options) {
   // ];
 
   return config;
-
 };
