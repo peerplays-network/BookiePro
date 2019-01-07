@@ -4,13 +4,21 @@ var isDevNet = (process.env.DEV_NET || false);
 var webpack = require('webpack');
 var ProgressPlugin = require('webpack/lib/ProgressPlugin');
 var WebpackDevServer = require('webpack-dev-server');
-var config = (isDevNet) ? require('./conf/webpack-dev-net') : require(env ? './conf/webpack-dev-ugly' : './conf/webpack-dev');
-
+var config = isDevNet ?
+  require('./conf/webpack-dev-net') :
+  require(env ?
+    './conf/webpack-dev-ugly' :
+    './conf/webpack-dev'
+  );
+var chalk = require('chalk');
+var openBrowser = require('react-dev-utils/openBrowser');
 var compiler = webpack(config);
-
+var DEFAULT_PORT = process.env.PORT || 8082;
 
 compiler.apply(new ProgressPlugin(function (percentage, msg) {
-    process.stdout.write((percentage * 100).toFixed(2) + '% ' + msg + '                 \033[0G');
+  process.stdout.write(chalk.green(
+    (percentage * 100).toFixed(2) + '% ' + msg + '                 \033[0G'
+  ));
 }));
 
 new WebpackDevServer(compiler, {
