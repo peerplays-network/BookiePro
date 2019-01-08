@@ -6,6 +6,11 @@ var ProgressPlugin = require('webpack/lib/ProgressPlugin');
 var WebpackDevServer = require('webpack-dev-server');
 var config = (isDevNet) ? require('./conf/webpack-dev-net') : require(env ? './conf/webpack-dev-ugly' : './conf/webpack-dev');
 
+var whichConfig = (isDevNet)
+    ? './conf/webpack-dev-net'
+    : (env ? './conf/webpack-dev-ugly' : './conf/webpack-dev');
+console.log('Using ' + whichConfig + ' webpack config.');
+
 var compiler = webpack(config);
 
 
@@ -16,8 +21,16 @@ new WebpackDevServer(compiler, {
     publicPath: config.output.publicPath,
     hot: true,
     historyApiFallback: true,
-    quiet: false,
-    stats: {colors: true},
+    // Switch assets, children, chunks to see verbose information in console.
+    stats: {
+        assets: false,
+        children: false,
+        colors: true,
+        chunks: false,
+        errors: true,
+        errorDetails: true,
+        warnings: true
+    },
     port: 8082
 }).listen(8082, '0.0.0.0', function (err, result) {
     if (err) {
