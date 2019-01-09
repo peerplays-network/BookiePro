@@ -2,12 +2,10 @@ var path = require("path");
 var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var Clean = require("clean-webpack-plugin");
-var git = require('git-rev-sync');
 require('es6-promise').polyfill();
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 // BASE APP DIR
 var root_dir = path.resolve(__dirname, "..");
-var packageJSON = require('../package.json');
 var Config = require('./Config');
 
 // FUNCTION TO EXTRACT CSS FOR PRODUCTION
@@ -33,7 +31,7 @@ module.exports = function (options) {
     APP_PACKAGE_VERSION: JSON.stringify(Config.APP_PACKAGE_VERSION),
     SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME: JSON.stringify(options.SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME || Config.SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME),
     APP_VERSION: JSON.stringify(Config.APP_VERSION),
-    __ELECTRON__: !!options.electron, // TODO: Do a proper check for this. Move to config.js and do check there.
+    __ELECTRON__: !!options.electron,
     CORE_ASSET: JSON.stringify(Config.CORE_ASSET),
     BLOCKCHAIN_URL: JSON.stringify(Config.BLOCKCHAIN_URLS),
     FAUCET_URL: JSON.stringify(Config.FAUCET_URLS),
@@ -45,12 +43,8 @@ module.exports = function (options) {
   var plugins = [
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    // Makes some environment variables available to the JS code, for example:
-    // if (process.env.APP_VERSION === 'development') { ... }. See `./env.js` & './Config.js'.
     new webpack.DefinePlugin(define)
   ];
-
-  // console.log(define);
 
   if (options.prod) {
     // WRAP INTO CSS FILE

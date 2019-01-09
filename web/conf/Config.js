@@ -1,6 +1,3 @@
-// import _ from 'lodash';
-// import {version} from '../package.json';
-
 const _ = require('lodash');
 const {version} = require('../package.json');
 const getClientEnvironment = require('./env');
