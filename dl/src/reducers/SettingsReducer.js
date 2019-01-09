@@ -131,20 +131,6 @@ export default function (state = initialState, action) {
               ...state,
               ownerKeyPermissions: state.ownerKeyPermissions ? state.ownerKeyPermissions.concat(action.payload) : action.payload
             };
-        /**
-         * change current ws connection
-         */
-        case Types.CHANGE_CONNECTION:
-            return Object.assign({}, state, {
-                connection: action.payload
-            });
-        /**
-         * Change current faucet url
-         */
-        case Types.CHANGE_FAUCET_ADDRESS:
-            return Object.assign({}, state, {
-                faucetAddress: action.payload
-            });
         default:
             /**
              * We return the previous state in the default case

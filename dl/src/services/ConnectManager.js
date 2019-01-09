@@ -37,7 +37,6 @@ class ConnectManager {
     console.log("Attempting connection to: ", connectionString);
     
     return Apis.instance(connectionString, true).init_promise.then((res) => {
-      console.log(res);
       console.log('Connected to: ', connectionString);
     }).catch((err) => {
       console.log('Connection to: ', connectionString, ' failed.');

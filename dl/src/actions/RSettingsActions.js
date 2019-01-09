@@ -109,7 +109,6 @@ export function changeChatStatus() {
   };
 }
 
-
 /**
  * Redux Action Creator (ADD_OWNER_KEY)
  * TODO::rm
@@ -139,24 +138,6 @@ export function changeUnit(unit) {
     dispatch({
       type: Types.CHANGE_UNIT,
       payload: unit
-    });
-  }
-}
-
-/**
- * Redux Action Creator (CHANGE_FAUCET_ADDRESS)
- * Change current faucet address
- *
- * @param {string} address
- * @returns {Function}
- */
-export function changeFaucetAddress(address) {
-  return function (dispatch) {
-    changeStorageValue('faucetAddress', address);
-
-    dispatch({
-      type: Types.CHANGE_FAUCET_ADDRESS,
-      payload: address
     });
   }
 }

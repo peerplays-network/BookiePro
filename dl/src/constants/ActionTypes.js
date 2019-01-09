@@ -78,7 +78,6 @@ export const SETTINGS_CLAIM_RESET_BALANCES = 'SETTINGS_CLAIM_RESET_BALANCES';
  * const ADD_CONNECTION - add ws connection
  * const REMOVE_CONNECTION - rm ws connection
  * const CHANGE_CONNECTION - change current ws connection
- * const CHANGE_FAUCET_ADDRESS - change faucet
  * const CHANGE_UNIT - change unit //TODO::rm
  * const CHANGE_HIDDEN_ASSETS - change hidden assets
  *
@@ -89,10 +88,6 @@ export const SWITCH_LOCALE = 'SWITCH_LOCALE';
 export const CHANGE_SETTLE_STATUS = 'CHANGE_SETTLE_STATUS';
 export const CHANGE_CHAT_STATUS = 'CHANGE_CHAT_STATUS';
 export const ADD_OWNER_KEY = 'ADD_OWNER_KEY'; //TODO::rm
-export const CHANGE_CONNECTION = 'CHANGE_CONNECTION';
-export const ADD_CONNECTION = 'ADD_CONNECTION';
-export const REMOVE_CONNECTION = 'REMOVE_CONNECTION';
-export const CHANGE_FAUCET_ADDRESS = 'CHANGE_FAUCET_ADDRESS';
 export const CHANGE_UNIT = 'CHANGE_UNIT'; //TODO::rm
 export const CHANGE_HIDDEN_ASSETS = 'CHANGE_HIDDEN_ASSETS';
 
