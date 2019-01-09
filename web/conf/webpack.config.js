@@ -41,7 +41,6 @@ module.exports = function (options) {
     BITSHARES_WS: JSON.stringify(options.BITSHARES_WS || Config.BITSHARES_WS),
   };
 
-  console.log(typeof Config.BLOCKCHAIN_URLS);
   // COMMON PLUGINS
   var plugins = [
     new webpack.optimize.DedupePlugin(),
