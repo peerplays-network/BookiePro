@@ -34,12 +34,13 @@ class ConnectManager {
     const connectionString = this.blockchainUrls[this.blockchainUrlIndex];
 
     // Display the blockchain api node that we are conencting to.
-    console.log("Attempting connection to: ", connectionString);
+    console.log(`%cAttempting connection to: ${connectionString}.`, 'background: #222; color: magenta; font-size: large');
     
     return Apis.instance(connectionString, true).init_promise.then((res) => {
-      console.log('Connected to: ', connectionString);
+      console.log(`%cConnected to: ${connectionString}.`, 'background: #222 color: green; font-size: large');
     }).catch((err) => {
-      console.log('Connection to: ', connectionString, ' failed.');
+      console.error(`%cConnection to: ${connectionString} failed.`, 'background: #222; color: red; font-size: large');
+      
       return Promise.reject();
     });
   }

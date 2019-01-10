@@ -38,8 +38,6 @@ const CORE_ASSET = CONFIG.CORE_ASSET;
  * @type {{locale: string, showSettles: boolean, disableChat: boolean, ownerKeyPermissions: null, connection: *, faucetAddress: *, unit: *, defaults: {locale: [*], unit: [*], preferredBases: [*], topMarkets: [*]}, hiddenAssets: (*)}}
  */
 
-console.log('Connecting to: ', BLOCKCHAIN_URL[0]);
-
 const initialState = {
     /*general*/
     locale: 'en',
