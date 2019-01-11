@@ -60,7 +60,6 @@ class AppService {
 
     ConnectManager.setDefaultConnection(connectionString).init_promise.then(() => {
       let db;
-      debugger;
       try {
         db = iDB.init_instance(window.openDatabase ?
           (shimIndexedDB || indexedDB) // TODO: find/declare
