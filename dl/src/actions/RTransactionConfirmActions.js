@@ -142,6 +142,7 @@ export function confirmTransaction(trFunc, funcArgs, funcCb) {
           dispatch(transactionConfirmedAction());
         });
       }).catch((error) => {
+        debugger;
         let stringError = 'Transaction Error';
 
         if (error && error.message) {
@@ -149,6 +150,8 @@ export function confirmTransaction(trFunc, funcArgs, funcCb) {
 
           if (lines && lines.length > 1) {
             stringError = lines[1];
+          } else {
+            stringError = lines[0];
           }
         }
 
