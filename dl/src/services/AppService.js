@@ -1,7 +1,13 @@
-import {Apis} from 'peerplaysjs-ws';
-import {ChainStore} from 'peerplaysjs-lib';
+import {
+  Apis
+} from 'peerplaysjs-ws';
+import {
+  ChainStore
+} from 'peerplaysjs-lib';
 import iDB from 'idb-instance';
-import {listenChainStore} from './ChainStoreService';
+import {
+  listenChainStore
+} from './ChainStoreService';
 import AccountLoginService from './AccountLoginService';
 import LoginService from './LoginService';
 import WalletService from './WalletService';
@@ -13,13 +19,15 @@ import ChainStoreHeartbeater from '../app/ChainStoreHeartbeater';
 import WalletDataActions from '../actions/RWalletDataActions';
 import PrivateKeyActions from '../actions/RPrivateKeyActions';
 import CONFIG from '../config/main';
-import {initSettings} from '../actions/RSettingsActions';
+import {
+  initSettings
+} from '../actions/RSettingsActions';
 
 class AppService {
   /**
-     * Init our app
-     * @param store
-     */
+   * Init our app
+   * @param store
+   */
   static init(store) {
     let beater = new ChainStoreHeartbeater();
     beater.setHeartBeatChainStore(() => {
@@ -30,7 +38,7 @@ class AppService {
     let connectionString = store.getState().settings.connection;
     ConnectManager.setDefaultRpcConnectionStatusCallback((value) => {
       if (SettingsStorageService.get('changeConnection')) {
-        switch(value) {
+        switch (value) {
           case 'error':
             store.dispatch(AppActions.setStatus('reconnect'));
             break;
@@ -42,7 +50,7 @@ class AppService {
             store.dispatch(AppActions.setStatus(null));
         }
       } else {
-        switch(value) {
+        switch (value) {
           case 'error':
             store.dispatch(AppActions.setShowCantConnectStatus(true));
             break;
@@ -52,21 +60,21 @@ class AppService {
 
     ConnectManager.setDefaultConnection(connectionString).init_promise.then(() => {
       let db;
-
+      debugger;
       try {
-        db = iDB.init_instance(window.openDatabase
-          ? (shimIndexedDB || indexedDB) // TODO: find/declare
+        db = iDB.init_instance(window.openDatabase ?
+          (shimIndexedDB || indexedDB) // TODO: find/declare
           : indexedDB).init_promise;
         db.then(() => {
           store.dispatch(AppActions.setAppLocalDbInit(true));
-          return Promise.all([]).then(()=> {
+          return Promise.all([]).then(() => {
             store.dispatch(AppActions.setAppLocalDbLoad(true));
             ChainStore.init().then(() => {
               listenChainStore(ChainStore, store);
 
               if (
-                RememberMeService.checkRememberMeIsEnable()
-                && RememberMeService.checkNeedResetWallet()
+                RememberMeService.checkRememberMeIsEnable() &&
+                RememberMeService.checkNeedResetWallet()
               ) {
                 store.dispatch(AppActions.logout());
                 store.dispatch(AppActions.setAppChainIsInit(true));
@@ -99,7 +107,7 @@ class AppService {
                   } else {
                     console.warn('[APP] ACCOUNT NOT LOGIN', account);
 
-                    if(
+                    if (
                       !store.getState().walletData.wallet &&
                       (
                         !/\/login/.test(window.location.hash) &&
@@ -124,7 +132,7 @@ class AppService {
             });
           });
         });
-      } catch(err) {
+      } catch (err) {
         console.error('DB init error:', err);
         store.dispatch(AppActions.setAppSyncFail(true));
         store.dispatch(AppActions.setShowCantConnectStatus(true));
