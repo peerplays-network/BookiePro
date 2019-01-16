@@ -1,10 +1,7 @@
-/**
- * Created by shumer on 9/29/16.
- */
-
 /* Libs */
 import React from 'react';
 import {connect} from 'react-redux';
+
 /* Components */
 import {IntlProvider} from 'react-intl';
 import NotificationSystem from 'react-notification-system';
@@ -12,7 +9,6 @@ import Header from 'components/Header/Header';
 import TransactionConfirmModal from 'components/Modal/TransactionConfirmModal/TransactionConfirmModal'; // eslint-disable-line
 import WalletUnlockModal from 'components/Modal/WalletUnlockModal';
 import ViewMemoModal from 'components/Modal/ViewMemoModal';
-import ReconnectModal from 'components/Modal/ReconnectModal/ReconnectModal';
 import CantConnectModal from 'components/Modal/CantConnectModal/CantConnectModal';
 import HelpModal from '../components/Help/HelpModal';
 import intlData from 'components/Utility/intlData';
@@ -81,14 +77,6 @@ class App extends React.Component {
       );
     }
 
-    if (this.props.status === 'reconnect') {
-      return (
-        <div className='out'>
-          <ReconnectModal/>
-        </div>
-      );
-    }
-
     return (
       <div className='out'>
         {content}
@@ -106,15 +94,16 @@ class App extends React.Component {
 @connect((state) => {
   return {locale: state.settings.locale};
 })
-
 export default class AppContainer extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return (
       <IntlProvider
-        locale={ this
-          .props
-          .locale
-          .replace(/cn/, 'zh') }
+        locale={ this.props.locale.replace(/cn/, 'zh') }
         formats={ intlData.formats }
         initialNow={ Date.now() }>
         <App { ...this.props }/>

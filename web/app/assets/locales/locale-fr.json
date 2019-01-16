@@ -799,7 +799,8 @@
     },
     "help": {
       "title": "Help",
-      "note": "This is where you are right now!"
+      "note": "This is where you are right now!",
+      "link_pdf": "How to claim your PPY Tokens"
     },
     "notifications": {
       "title": "NOTIFICATIONS",
