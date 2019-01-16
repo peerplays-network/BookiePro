@@ -9,7 +9,7 @@ class AppSettingsActions {
    * @returns {function(*)}
    */
   static switchLocale(locale) {
-    return dispatch => {
+    return (dispatch) => {
       //TODO::
     };
   }

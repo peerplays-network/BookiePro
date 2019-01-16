@@ -1,62 +1,28 @@
-/*
- * Copyright (c) 2015 Cryptonomex, Inc., and contributors.
- *
- * The MIT License
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-
 import {
-    EXCHANGE_SET_DATA,
-    EXCHANGE_SET_MARKETS_DATA,
-    EXCHANGE_SET_MARKETS_TAB,
-    EXCHANGE_SET_MARKETS_ROWS,
-    EXCHANGE_SET_MARKETS_ROWS_SORT,
-    EXCHANGE_SET_MARKETS_ROWS_LOADER,
-    EXCHANGE_SET_PRICE_CHART_DATA,
-    EXCHANGE_SET_PRICE_CHART_PERIOD,
-    EXCHANGE_SET_CURRENT_ASSETS_DATA,
-    EXCHANGE_CHANGE_PRICE_CHART_BUCKET,
-    EXCHANGE_CHANGE_PRICE_CHART_BUCKETS,
-    EXCHANGE_CHANGE_PRICE_CHART_LOADER,
-    EXCHANGE_SET_DEPTH_CHART_DATA,
-    EXCHANGE_SET_BALANCES
-    } from "../constants/ActionTypes";
-import Immutable from "immutable";
+  EXCHANGE_SET_DATA,
+  EXCHANGE_SET_MARKETS_DATA,
+  EXCHANGE_SET_MARKETS_TAB,
+  EXCHANGE_SET_MARKETS_ROWS,
+  EXCHANGE_SET_MARKETS_ROWS_SORT,
+  EXCHANGE_SET_PRICE_CHART_DATA,
+  EXCHANGE_SET_PRICE_CHART_PERIOD,
+  EXCHANGE_SET_CURRENT_ASSETS_DATA,
+  EXCHANGE_CHANGE_PRICE_CHART_BUCKET,
+  EXCHANGE_CHANGE_PRICE_CHART_BUCKETS,
+  EXCHANGE_CHANGE_PRICE_CHART_LOADER,
+  EXCHANGE_SET_DEPTH_CHART_DATA,
+  EXCHANGE_SET_BALANCES
+} from '../constants/ActionTypes';
 import MarketRepository from '../repositories/MarketRepository';
 import AssetRepository from '../repositories/AssetRepository';
+import ExchangeService from '../services/ExchangeService';//TODO::rm
+import AssetNameHelper from '../helpers/AssetNameHelper';
+import Repository from 'repositories/chain/repository';
+import {EmitterInstance} from 'peerplaysjs-lib';
+import ls from 'common/localStorage';
 
-import ExchangeService from "../services/ExchangeService"//TODO::rm
-
-import AssetNameHelper from "../helpers/AssetNameHelper";
-import Repository from "repositories/chain/repository";
-
-
-import {ChainStore, EmitterInstance} from "peerplaysjs-lib";
 let emitter = EmitterInstance.emitter();
-
-
-import ls from "common/localStorage";
-
-let storage = new ls("__peerplays__");
-
+let storage = new ls('__peerplays__'); // eslint-disable-line
 let marketStatsTimeout = null;
 
 /**
@@ -65,131 +31,142 @@ let marketStatsTimeout = null;
  * @returns {{type, payload: *}}
  */
 function changeExchangeDataAction(data) {
-    return {
-        type: EXCHANGE_SET_DATA,
-        payload: data
-    }
+  return {
+    type: EXCHANGE_SET_DATA,
+    payload: data
+  };
 }
+
 /**
  * Private Redux Action Creator (EXCHANGE_SET_MARKETS_DATA)
  * @param data
  * @returns {{type, payload: *}}
  */
 function changeExchangeMarketsAction(data) {
-    return {
-        type: EXCHANGE_SET_MARKETS_DATA,
-        payload: data
-    }
+  return {
+    type: EXCHANGE_SET_MARKETS_DATA,
+    payload: data
+  };
 }
+
 /**
  * Private Redux Action Creator (EXCHANGE_SET_MARKETS_TAB)
  * @param data
  * @returns {{type, payload: *}}
  */
 function changeExchangeMarketsTabAction(data) {
-    return {
-        type: EXCHANGE_SET_MARKETS_TAB,
-        payload: data
-    }
+  return {
+    type: EXCHANGE_SET_MARKETS_TAB,
+    payload: data
+  };
 }
+
 /**
  * Private Redux Action Creator (EXCHANGE_SET_MARKETS_ROWS)
  * @param data
  * @returns {{type, payload: *}}
  */
 function changeExchangeMarketsRowsAction(data) {
-    return {
-        type: EXCHANGE_SET_MARKETS_ROWS,
-        payload: data
-    }
+  return {
+    type: EXCHANGE_SET_MARKETS_ROWS,
+    payload: data
+  };
 }
+
 /**
  * Private Redux Action Creator (EXCHANGE_SET_MARKETS_ROWS_SORT)
  * @param data
  * @returns {{type, payload: *}}
  */
 function changeExchangeMarketsRowsSortAction(data) {
-    return {
-        type: EXCHANGE_SET_MARKETS_ROWS_SORT,
-        payload: data
-    }
+  return {
+    type: EXCHANGE_SET_MARKETS_ROWS_SORT,
+    payload: data
+  };
 }
+
 /**
  * Private Redux Action Creator (EXCHANGE_SET_PRICE_CHART_DATA)
  * @param data
  * @returns {{type, payload: *}}
  */
 function changeExchangePriceChartAction(data) {
-    return {
-        type: EXCHANGE_SET_PRICE_CHART_DATA,
-        payload: data
-    }
+  return {
+    type: EXCHANGE_SET_PRICE_CHART_DATA,
+    payload: data
+  };
 }
+
 /**
  * Private Redux Action Creator (EXCHANGE_SET_PRICE_CHART_PERIOD)
  * @param data
  * @returns {{type, payload: *}}
  */
 function changeExchangePriceChartPeriodAction(data) {
-    return {
-        type: EXCHANGE_SET_PRICE_CHART_PERIOD,
-        payload: data
-    }
+  return {
+    type: EXCHANGE_SET_PRICE_CHART_PERIOD,
+    payload: data
+  };
 }
+
 /**
  * Private Redux Action Creator (EXCHANGE_SET_CURRENT_ASSETS_DATA)
  * @param data
  * @returns {{type, payload: *}}
  */
 function changeCurrentAssetsDataAction(data) {
-    return {
-        type: EXCHANGE_SET_CURRENT_ASSETS_DATA,
-        payload: data
-    }
+  return {
+    type: EXCHANGE_SET_CURRENT_ASSETS_DATA,
+    payload: data
+  };
 }
+
 /**
  * Private Redux Action Creator (EXCHANGE_CHANGE_PRICE_CHART_BUCKET)
  * @param data
  * @returns {{type, payload: *}}
  */
 function changePriceChartBucketAction(data) {
-    return {
-        type: EXCHANGE_CHANGE_PRICE_CHART_BUCKET,
-        payload: data
-    }
+  return {
+    type: EXCHANGE_CHANGE_PRICE_CHART_BUCKET,
+    payload: data
+  };
 }
+
 /**
  * Private Redux Action Creator (EXCHANGE_CHANGE_PRICE_CHART_BUCKETS)
  * @param data
  * @returns {{type, payload: *}}
  */
 function changePriceChartBucketsAction(data) {
-    return {
-        type: EXCHANGE_CHANGE_PRICE_CHART_BUCKETS,
-        payload: data
-    }
+  return {
+    type: EXCHANGE_CHANGE_PRICE_CHART_BUCKETS,
+    payload: data
+  };
 }
+
 /**
  * Private Redux Action Creator (EXCHANGE_CHANGE_PRICE_CHART_LOADER)
  * @param data
  * @returns {{type, payload: *}}
  */
 function changePriceChartLoaderAction(data) {
-    return {
-        type: EXCHANGE_CHANGE_PRICE_CHART_LOADER,
-        payload: data
-    }
+  return {
+    type: EXCHANGE_CHANGE_PRICE_CHART_LOADER,
+    payload: data
+  };
 }
+
 /**
  * Private Redux Action Creator (EXCHANGE_SET_DEPTH_CHART_DATA)
  * @param data
  * @returns {{type, payload: *}}
  */
 function setDepthChartDataAction(data) {
-    return {
-        type: EXCHANGE_SET_DEPTH_CHART_DATA,
-        payload: data
-    }
+  return {
+    type: EXCHANGE_SET_DEPTH_CHART_DATA,
+    payload: data
+  };
 }
 
 /**
@@ -198,473 +175,393 @@ function setDepthChartDataAction(data) {
  * @returns {{type, payload: *}}
  */
 function setExchangeBalances(data){
-    return {
-        type : EXCHANGE_SET_BALANCES,
-        payload: data
-    }
+  return {
+    type : EXCHANGE_SET_BALANCES,
+    payload: data
+  };
 }
 
 
 let assetsCacheBySymbol = {};
 let assetsCacheById = {};
-
 let subscribers = {};
 let currentDeleting = {};
 let stack = [];
 
-
 class ExchangePageActions {
+  /**
+ * Subscribe to market
+ *
+ * @param baseAssetSymbol
+ * @param quoteAssetSymbol
+ * @returns {function(*)}
+ */
+  static subscribeMarket(baseAssetSymbol, quoteAssetSymbol) {
+    return (dispatch) => {
+      // TODO; import core_asset
+      let coreAssetSymbol = CORE_ASSET; // eslint-disable-line
+      Promise.all([Repository.getAsset(quoteAssetSymbol),
+        Repository.getAsset(baseAssetSymbol),
+        Repository.getAsset(coreAssetSymbol)]).then(([quoteAsset, baseAsset, coreAsset]) => {
+        quoteAsset = quoteAsset.toJS();
+        baseAsset = baseAsset.toJS();
+        coreAsset = coreAsset.toJS();
+        let baseAssetName,
+          quoteAssetName;
 
-    /**
-     * Subscribe to market
-     *
-     * @param baseAssetSymbol
-     * @param quoteAssetSymbol
-     * @returns {function(*)}
-     */
-    static subscribeMarket(baseAssetSymbol, quoteAssetSymbol) {
-        return (dispatch) => {
-
-            let coreAssetSymbol = CORE_ASSET;
-
-            Promise.all([Repository.getAsset(quoteAssetSymbol),
-                         Repository.getAsset(baseAssetSymbol),
-                         Repository.getAsset(coreAssetSymbol)]).then(([quoteAsset, baseAsset, coreAsset]) => {
-
-                    quoteAsset = quoteAsset.toJS();
-                    baseAsset = baseAsset.toJS();
-                    coreAsset = coreAsset.toJS();
-
-                let baseAssetName,
-                    quoteAssetName;
-
-
-                if (!quoteAsset || !baseAsset) {
-                    //TODO:: show error for user
-                    return false;
-                }
-
-
-                baseAssetName = AssetNameHelper.getAssetName(baseAsset);
-                quoteAssetName = AssetNameHelper.getAssetName(quoteAsset);
-
-                dispatch(changeCurrentAssetsDataAction({
-                    baseAssetId:baseAsset.id,
-                    quoteAssetId:quoteAsset.id,
-                    coreAsset:coreAsset,
-                    baseAsset:baseAsset,
-                    quoteAsset:quoteAsset,
-                    coreAssetSymbol: coreAssetSymbol,
-                    baseAssetSymbol: baseAsset.symbol,
-                    quoteAssetSymbol: quoteAsset.symbol,
-                    baseAssetPrecision: baseAsset.precision,
-                    quoteAssetPrecision: quoteAsset.precision,
-                    baseAssetName: baseAssetName,
-                    quoteAssetName: quoteAssetName
-                }));
-
-                dispatch(ExchangePageActions.updateData());
-
-                stack.push({
-                    type: 'subscribe',
-                    quoteAssetId: quoteAsset.id,
-                    baseAssetId: baseAsset.id
-                });
-
-                dispatch(ExchangePageActions.processStack());
-
-            });
+        if (!quoteAsset || !baseAsset) {
+          //TODO:: show error for user
+          return false;
         }
-    }
 
-    /**
-     * Unsubscribe Market
-     * @returns {function(*=)}
-     */
-    static unSubscribeMarket() {
-        return (dispatch) => {
+        baseAssetName = AssetNameHelper.getAssetName(baseAsset);
+        quoteAssetName = AssetNameHelper.getAssetName(quoteAsset);
+        dispatch(changeCurrentAssetsDataAction({
+          baseAssetId:baseAsset.id,
+          quoteAssetId:quoteAsset.id,
+          coreAsset:coreAsset,
+          baseAsset:baseAsset,
+          quoteAsset:quoteAsset,
+          coreAssetSymbol: coreAssetSymbol,
+          baseAssetSymbol: baseAsset.symbol,
+          quoteAssetSymbol: quoteAsset.symbol,
+          baseAssetPrecision: baseAsset.precision,
+          quoteAssetPrecision: quoteAsset.precision,
+          baseAssetName: baseAssetName,
+          quoteAssetName: quoteAssetName
+        }));
+        dispatch(ExchangePageActions.updateData());
+        stack.push({
+          type: 'subscribe',
+          quoteAssetId: quoteAsset.id,
+          baseAssetId: baseAsset.id
+        });
+        dispatch(ExchangePageActions.processStack());
+      });
+    };
+  }
 
-            let subKeys = Object.keys(subscribers);
+  /**
+ * Unsubscribe Market
+ * @returns {function(*=)}
+ */
+  static unSubscribeMarket() {
+    return (dispatch) => {
+      let subKeys = Object.keys(subscribers);
 
-            if (subKeys.length) {
-                subKeys.forEach((subKey) => {
+      if (subKeys.length) {
+        subKeys.forEach((subKey) => {
+          if (currentDeleting[subKey]) {
+            return null;
+          }
 
-                    if (currentDeleting[subKey]) {
-                        return null;
-                    }
+          currentDeleting[subKey] = true;
+          let sub = subscribers[subKey];
+          emitter.off('cancel-order', sub['subscribeFunction']);
+          MarketRepository.unSubscribeFromMarket(
+            sub.quoteAssetId,
+            sub.baseAssetId,
+            sub.subscribeFunction
+          ).then(() => {
+            console.warn('[APP] UNSUBSCRIBE', subKey);
+            delete subscribers[subKey];
+            delete currentDeleting[subKey];
+            dispatch(ExchangePageActions.processStack());
+          });
+        });
+      }
+    };
+  }
 
-                    currentDeleting[subKey] = true;
+  /**
+ * Subscribes Stack
+ *
+ * @returns {function(*)}
+ */
+  static processStack() {
+    return (dispatch) => {
+      if (!stack.length) {
+        return null;
+      }
 
-                    let sub = subscribers[subKey];
+      let subKeys = Object.keys(subscribers);
 
-                    emitter.off('cancel-order', sub['subscribeFunction']);
+      if (subKeys.length) {
+        dispatch(ExchangePageActions.unSubscribeMarket());
+      } else {
+        let subscribeObject = stack.shift();
+        let subId = subscribeObject.quoteAssetId + '_' + subscribeObject.baseAssetId;
 
-                    MarketRepository.unSubscribeFromMarket(sub.quoteAssetId , sub.baseAssetId, sub.subscribeFunction).then(() => {
-
-                        console.warn('[APP] UNSUBSCRIBE', subKey);
-
-                        delete subscribers[subKey];
-                        delete currentDeleting[subKey];
-
-                        dispatch(ExchangePageActions.processStack());
-
-                    });
-
-                });
-            }
-
-        }
-    }
-
-    /**
-     * Subscribes Stack
-     *
-     * @returns {function(*)}
-     */
-    static processStack() {
-
-        return (dispatch) => {
-
-            if (!stack.length) {
-                return null;
-            }
-
-            let subKeys = Object.keys(subscribers);
-
-            if (subKeys.length) {
-
-                dispatch(ExchangePageActions.unSubscribeMarket());
-
-            } else {
-
-                let subscribeObject = stack.shift();
-
-                let subId = subscribeObject.quoteAssetId + '_' + subscribeObject.baseAssetId;
-
-                let subscribeFunction = () => {
-
-                    console.warn('[APP] MARKET UPDATER', subId);
-
-                    dispatch(ExchangePageActions.updateData());
-                };
-
-                subscribers[subId] = {
-                    subscribeFunction: subscribeFunction,
-                    quoteAssetId: subscribeObject.quoteAssetId,
-                    baseAssetId: subscribeObject.baseAssetId
-                };
-
-                MarketRepository.subscribeToMarket(subscribeObject.quoteAssetId , subscribeObject.baseAssetId, subscribeFunction).then(() => {
-
-                    emitter.on('cancel-order', subscribeFunction);
-
-                    console.warn('[APP] SUBSCRIBE', subId);
-
-                    dispatch(ExchangePageActions.processStack());
-                });
-            }
-
+        let subscribeFunction = () => {
+          console.warn('[APP] MARKET UPDATER', subId);
+          dispatch(ExchangePageActions.updateData());
         };
 
-    }
+        subscribers[subId] = {
+          subscribeFunction: subscribeFunction,
+          quoteAssetId: subscribeObject.quoteAssetId,
+          baseAssetId: subscribeObject.baseAssetId
+        };
+        MarketRepository.subscribeToMarket(
+          subscribeObject.quoteAssetId,
+          subscribeObject.baseAssetId,
+          subscribeFunction
+        ).then(() => {
+          emitter.on('cancel-order', subscribeFunction);
+          console.warn('[APP] SUBSCRIBE', subId);
+          dispatch(ExchangePageActions.processStack());
+        });
+      }
+    };
+  }
 
+  /**
+ * Update page data
+ *
+ * @returns {function(*, *)}
+ */
+  static updateData(){
+    return (dispatch, getState)=>{
+      let selfState = getState().exchangePageReducer;
+      let baseAssetSymbol = selfState.baseAssetSymbol;
+      let quoteAssetSymbol = selfState.quoteAssetSymbol;
 
-    /**
-     * Update page data
-     *
-     * @returns {function(*, *)}
+      /**
+       * Fetch depth chart data
+       */
+      ExchangeService.fetchChartDepthData(quoteAssetSymbol, baseAssetSymbol)
+        .then((chartDepthData) => {
+          dispatch(setDepthChartDataAction(chartDepthData));
+        });
+
+      /**
+     * Fetch price chart data
      */
-    static updateData(){
-        return (dispatch, getState)=>{
+      ExchangeService.fetchChartData(quoteAssetSymbol, baseAssetSymbol, selfState.currentBucket)
+        .then((data) => {
+          dispatch(changePriceChartBucketsAction({
+            buckets: data.buckets
+          }));
 
-            let selfState = getState().exchangePageReducer;
+          dispatch(changeExchangePriceChartAction({
+            highPriceList: data.priceData.highPriceList,
+            priceData: data.priceData.priceData
+          }));
+        });
 
-            let baseAssetSymbol = selfState.baseAssetSymbol;
-            let quoteAssetSymbol = selfState.quoteAssetSymbol;
+      /**
+     * Fetch exchange data
+     */
+      ExchangeService.fetchExchangeData(quoteAssetSymbol, baseAssetSymbol).then((data) => {
+        dispatch(changeExchangeDataAction(data));
+      });
+    };
+  }
 
-            /**
-             * Fetch depth chart data
-             */
-            ExchangeService.fetchChartDepthData(quoteAssetSymbol, baseAssetSymbol).then((chartDepthData) => {
-                dispatch(setDepthChartDataAction(chartDepthData));
-            });
+  static initStarredMarkets() {
+    return (dispatch, getState) => {
+      let state = getState();
+      // Default markets setup
+      let topMarkets = [
+        'MKR', 'OPEN.MKR', CORE_ASSET, 'OPEN.ETH', 'ICOO', 'BTC', 'OPEN.LISK', // eslint-disable-line
+        'OPEN.STEEM', 'OPEN.DAO', 'PEERPLAYS', 'USD', 'CNY', 'BTSR', 'OBITS',
+        'OPEN.DGD', 'EUR', 'TRADE.BTC', 'CASH.BTC', 'GOLD', 'SILVER',
+        'OPEN.USDT', 'OPEN.EURT', 'OPEN.BTC', 'CADASTRAL'
+      ];
+      let marketsString = 'markets'; // eslint-disable-line
 
-            /**
-             * Fetch price chart data
-             */
-            ExchangeService.fetchChartData(quoteAssetSymbol, baseAssetSymbol, selfState.currentBucket).then((data) => {
-                dispatch(changePriceChartBucketsAction({
-                    buckets: data.buckets
-                }));
+      function addMarkets(target, base, markets) {
+        markets.filter((a) => {
+          return a !== base;
+        }).forEach((market) => {
+          target.push([`${market}_${base}`, {'quote': market,'base': base}]);
+        });
+      }
 
-                dispatch(changeExchangePriceChartAction({
-                    highPriceList: data.priceData.highPriceList,
-                    priceData: data.priceData.priceData
-                }));
-            });
-
-            /**
-             * Fetch exchange data
-             */
-            ExchangeService.fetchExchangeData(quoteAssetSymbol, baseAssetSymbol).then((data) => {
-                dispatch(changeExchangeDataAction(data));
-            });
-        };
-    }
+      let defaultMarkets = [];
+      state.settings.defaults.preferredBases.forEach((base) => {
+        addMarkets(defaultMarkets, base, topMarkets);
+      });
+    };
+  }
 
 
-    static initStarredMarkets()
-    {
-        return (dispatch, getState) => {
+  static getMarketStats() {
+    return (dispatch, getState) => {
+      clearTimeout(marketStatsTimeout);
+      let state = getState(),
+        currentTab = state.exchangePageReducer.currentTab,
+        mainAssetSymbol = state.settings.defaults.preferredBases[currentTab],
+        topMarkets = state.settings.defaults.topMarkets,
+        allNeededAssets = [mainAssetSymbol, ...topMarkets],
+        filteredAssets = [];
+      allNeededAssets.forEach((assetSymbol) => {
+        if (!assetsCacheBySymbol[assetSymbol]) {
+          filteredAssets.push(assetSymbol);
+        }
+      });
+      Promise.all([(filteredAssets.length ? AssetRepository.fetchAssetsByIds(filteredAssets, true)
+        .then((results) => {
+          results.forEach((asset) => {
+            if (asset) {
+              assetsCacheById[asset.id] = asset;
+              assetsCacheBySymbol[asset.symbol] = asset;
+            }
+          });
+        }): [])]).then(() => {
 
-            let state = getState();
+        /**
+         * Generate tabs
+         */
+        let currentHashTabs = {};
+        state.exchangePageReducer.tabs.forEach((tab) => {
+          currentHashTabs[tab.id] = tab;
+        });
+        let tabs = [];
+        let needDispatch = false;
+        state.settings.defaults.preferredBases.forEach((symbol) => {
+          let asset = assetsCacheBySymbol[symbol];
 
-            // Default markets setup
-            let topMarkets = [
-                "MKR", "OPEN.MKR", CORE_ASSET, "OPEN.ETH", "ICOO", "BTC", "OPEN.LISK",
-                "OPEN.STEEM", "OPEN.DAO", "PEERPLAYS", "USD", "CNY", "BTSR", "OBITS",
-                "OPEN.DGD", "EUR", "TRADE.BTC", "CASH.BTC", "GOLD", "SILVER",
-                "OPEN.USDT", "OPEN.EURT", "OPEN.BTC", "CADASTRAL"
-            ];
+          if (asset) {
+            let baseAssetName = AssetNameHelper.getAssetName(asset);
 
-            let marketsString = "markets";
-
-            function addMarkets(target, base, markets) {
-                markets.filter(a => {
-                    return a !== base;
-                }).forEach(market => {
-                    target.push([`${market}_${base}`, {"quote": market,"base": base}]);
-                });
+            if (!currentHashTabs[symbol]) {
+              needDispatch = true;
             }
 
-            let defaultMarkets = [];
-
-            state.settings.defaults.preferredBases.forEach(base => {
-                addMarkets(defaultMarkets, base, topMarkets);
+            tabs.push({
+              id: symbol,
+              prefix: baseAssetName.prefix,
+              name: baseAssetName.name
             });
+          }
+        });
 
-            let starredMarkets = Immutable.Map(storage.get(marketsString, defaultMarkets));
-
-
-
+        if (needDispatch) {
+          dispatch(changeExchangeMarketsAction({
+            tabs: tabs
+          }));
         }
-    }
 
-
-    static getMarketStats()
-    {
-        return (dispatch, getState) => {
-
-            clearTimeout(marketStatsTimeout);
-
-
-            let state = getState(),
-                currentTab = state.exchangePageReducer.currentTab,
-                mainAssetSymbol = state.settings.defaults.preferredBases[currentTab],
-                topMarkets = state.settings.defaults.topMarkets,
-                allNeededAssets = [mainAssetSymbol, ...topMarkets],
-                filteredAssets = [];
-
-
-            allNeededAssets.forEach((assetSymbol) => {
-                if (!assetsCacheBySymbol[assetSymbol]) {
-                    filteredAssets.push(assetSymbol);
-                }
-            });
-
-            Promise.all([(filteredAssets.length ? AssetRepository.fetchAssetsByIds(filteredAssets, true).then((results) => {
-
-                results.forEach((asset) => {
-                    if (asset) {
-                        assetsCacheById[asset.id] = asset;
-                        assetsCacheBySymbol[asset.symbol] = asset;
-                    }
-
-                });
-
-            }): [])]).then(() => {
-
-
-
-                /**
-                 * Generate tabs
-                 */
-                let currentHashTabs = {};
-
-                state.exchangePageReducer.tabs.forEach((tab) => {
-                    currentHashTabs[tab.id] = tab;
-                });
-
-                let tabs = [];
-                let needDispatch = false;
-
-                state.settings.defaults.preferredBases.forEach((symbol) => {
-                    let asset = assetsCacheBySymbol[symbol];
-
-                    if (asset) {
-                        let baseAssetName = AssetNameHelper.getAssetName(asset);
-
-                        if (!currentHashTabs[symbol]) {
-                            needDispatch = true;
-                        }
-
-                        tabs.push({
-                            id: symbol,
-                            prefix: baseAssetName.prefix,
-                            name: baseAssetName.name
-                        });
-                    }
-                });
-
-                if (needDispatch) {
-                    dispatch(changeExchangeMarketsAction({
-                        tabs: tabs
-                    }));
-                }
-
-                /**
-                 * Fetch tab stats
-                 */
-
-                ExchangeService.fetchTabStats(mainAssetSymbol, topMarkets, assetsCacheBySymbol).then((marketRows) => {
-
-                    dispatch(changeExchangeMarketsRowsAction({
-                                marketRowsData: marketRows,
-                                marketRowsDataLoaderIsShow: false
-                            }));
-
-                    marketStatsTimeout = setTimeout(() => {
-                        dispatch(ExchangePageActions.getMarketStats());
-                    }, 25000);
-
-                });
-
-
-            });
-
-
-        }
-    }
-
-    static setMarketTab(currentTab) {
-
-        return (dispatch, getState) => {
-
-            dispatch(changeExchangeMarketsTabAction({
-                currentTab: currentTab,
-                marketRowsDataLoaderIsShow: true
+        /**
+         * Fetch tab stats
+         */
+        ExchangeService.fetchTabStats(mainAssetSymbol, topMarkets, assetsCacheBySymbol)
+          .then((marketRows) => {
+            dispatch(changeExchangeMarketsRowsAction({
+              marketRowsData: marketRows,
+              marketRowsDataLoaderIsShow: false
             }));
+            marketStatsTimeout = setTimeout(() => {
+              dispatch(ExchangePageActions.getMarketStats());
+            }, 25000);
+          });
+      });
+    };
+  }
 
-            setTimeout(() => {
-                dispatch(ExchangePageActions.getMarketStats());
-            }, 0)
+  static setMarketTab(currentTab) {
+    return (dispatch) => { // eslint-disable-line
+      dispatch(changeExchangeMarketsTabAction({
+        currentTab: currentTab,
+        marketRowsDataLoaderIsShow: true
+      }));
+      setTimeout(() => {
+        dispatch(ExchangePageActions.getMarketStats());
+      }, 0);
+    };
+  }
 
+  static changeExchangeMarketsRowsSort(type) {
+    return (dispatch, getState) => {
+      let state = getState(),
+        marketRowsDataSortBy = state.exchangePageReducer.marketRowsDataSortBy,
+        marketRowsDataSortInvert = state.exchangePageReducer.marketRowsDataSortInvert;
 
+      if (type !== state.exchangePageReducer.marketRowsDataSortBy) {
+        marketRowsDataSortBy = type;
+      } else {
+        marketRowsDataSortInvert = !marketRowsDataSortInvert;
+      }
+
+      dispatch(changeExchangeMarketsRowsSortAction({
+        marketRowsDataSortBy: marketRowsDataSortBy,
+        marketRowsDataSortInvert: marketRowsDataSortInvert
+      }));
+    };
+  }
+
+  static changePriceChartPeriod(period) {
+    return (dispatch, getState) => { // eslint-disable-line
+      dispatch(changeExchangePriceChartPeriodAction({
+        priceChartCurrentPeriod: period
+      }));
+    };
+  }
+
+  static changePriceChartLoader(status) {
+    return (dispatch) => { // eslint-disable-line
+      dispatch(changePriceChartLoaderAction({
+        priceChartStatusLoader: status
+      }));
+    };
+  }
+
+  static changePriceChartBucket(bucket) {
+    return (dispatch, getState) => {
+      let state = getState();
+      dispatch(changePriceChartLoaderAction({
+        priceChartStatusLoader: 'process'
+      }));
+      ExchangeService.fetchChartData(
+        state.exchangePageReducer.quoteAssetSymbol,
+        state.exchangePageReducer.baseAssetSymbol,
+        bucket
+      ).then((data) => {
+        dispatch(changePriceChartBucketsAction({
+          buckets: data.buckets
+        }));
+
+        if (data.buckets.indexOf(bucket) !== -1) {
+          dispatch(changePriceChartBucketAction({
+            priceData: data.priceData.priceData,
+            highPriceList: data.priceData.highPriceList,
+            currentBucket: bucket
+          }));
         }
-    }
 
-    static changeExchangeMarketsRowsSort(type) {
-        return (dispatch, getState) => {
-            let state = getState(),
-                marketRowsDataSortBy = state.exchangePageReducer.marketRowsDataSortBy,
-                marketRowsDataSortInvert = state.exchangePageReducer.marketRowsDataSortInvert;
+        dispatch(changePriceChartLoaderAction({
+          priceChartStatusLoader: 'default'
+        }));
+      });
+    };
+  }
 
-            if (type !== state.exchangePageReducer.marketRowsDataSortBy) {
-                marketRowsDataSortBy = type;
-            } else {
-                marketRowsDataSortInvert = !marketRowsDataSortInvert;
-            }
+  static setBalances(data){
+    return (dispatch) => { // eslint-disable-line
+      dispatch(setExchangeBalances({
+        coreAssetBalance : data.coreAssetBalance,
+        baseAssetBalance : data.baseAssetBalance,
+        quoteAssetBalance : data.quoteAssetBalance
+      }));
+    };
+  }
 
-            dispatch(changeExchangeMarketsRowsSortAction({
-                marketRowsDataSortBy: marketRowsDataSortBy,
-                marketRowsDataSortInvert: marketRowsDataSortInvert
-            }));
+  static removeOrderFromPage() { // eslint-disable-line
+    return (dispatch, getState)=> {
+      let selfState = getState().exchangePageReducer;
+      let baseAssetSymbol = selfState.baseAssetSymbol;
+      let quoteAssetSymbol = selfState.quoteAssetSymbol;
 
-        }
-    }
-
-    static changePriceChartPeriod(period) {
-        return (dispatch, getState) => {
-            let state = getState();
-
-            dispatch(changeExchangePriceChartPeriodAction({
-                priceChartCurrentPeriod: period
-            }));
-
-        }
-    }
-
-    static changePriceChartLoader(status) {
-        return (dispatch, getState) => {
-
-            dispatch(changePriceChartLoaderAction({
-                priceChartStatusLoader: status
-            }));
-
-        }
-    }
-
-    static changePriceChartBucket(bucket) {
-        return (dispatch, getState) => {
-
-            let state = getState();
-
-            dispatch(changePriceChartLoaderAction({
-                priceChartStatusLoader: 'process'
-            }));
-            ExchangeService.fetchChartData(state.exchangePageReducer.quoteAssetSymbol, state.exchangePageReducer.baseAssetSymbol, bucket).then((data) => {
-
-                dispatch(changePriceChartBucketsAction({
-                    buckets: data.buckets
-                }));
-
-                if (data.buckets.indexOf(bucket) !== -1) {
-                    dispatch(changePriceChartBucketAction({
-                        priceData: data.priceData.priceData,
-                        highPriceList: data.priceData.highPriceList,
-                        currentBucket: bucket
-                    }));
-                }
-
-                dispatch(changePriceChartLoaderAction({
-                    priceChartStatusLoader: 'default'
-                }));
-            });
-
-        }
-    }
-
-    static setBalances(data){
-        return (dispatch, getState)=>{
-            dispatch(setExchangeBalances({
-                coreAssetBalance : data.coreAssetBalance,
-                baseAssetBalance : data.baseAssetBalance,
-                quoteAssetBalance : data.quoteAssetBalance
-            }));
-        };
-    }
-
-
-    static removeOrderFromPage(orderId){
-        return (dispatch, getState)=> {
-
-
-            let selfState = getState().exchangePageReducer;
-
-            let baseAssetSymbol = selfState.baseAssetSymbol;
-            let quoteAssetSymbol = selfState.quoteAssetSymbol;
-
-            /**
-             * Fetch depth chart data
-             */
-
-            ExchangeService.fetchChartDepthData(quoteAssetSymbol, baseAssetSymbol).then((chartDepthData) => {
-                dispatch(setDepthChartDataAction(chartDepthData));
-            });
-
-        };
-    }
+      /**
+     * Fetch depth chart data
+     */
+      ExchangeService.fetchChartDepthData(quoteAssetSymbol, baseAssetSymbol)
+        .then((chartDepthData) => {
+          dispatch(setDepthChartDataAction(chartDepthData));
+        });
+    };
+  }
 }
-
 
 export default ExchangePageActions;

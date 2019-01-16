@@ -1,30 +1,5 @@
-/*
- * Copyright (c) 2015 Cryptonomex, Inc., and contributors.
- *
- * The MIT License
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-
 import {
-    NOTIFICATIONS_SET_MESSAGES
+  NOTIFICATIONS_SET_MESSAGES
 } from '../constants/ActionTypes';
 import NotificationMessage from '../app/NotificationMessage';
 
@@ -36,59 +11,53 @@ import NotificationMessage from '../app/NotificationMessage';
  * @returns {{type, payload: *}}
  */
 function setMessagesAction(messages) {
-    return {
-        type: NOTIFICATIONS_SET_MESSAGES,
-        payload: {
-            messages: messages
-        }
+  return {
+    type: NOTIFICATIONS_SET_MESSAGES,
+    payload: {
+      messages: messages
     }
+  };
 }
 
 class NotificationsActions {
 
-    /**
-     * Update List of notices with software message
-     *
-     * @param {NotificationMessage} message
-     * @returns {function(*, *)}
-     */
-    static addUpdateSoftwareMessage(message) {
-        return (dispatch, getState) => {
+  /**
+ * Update List of notices with software message
+ *
+ * @param {NotificationMessage} message
+ * @returns {function(*, *)}
+ */
+  static addUpdateSoftwareMessage(message) {
+    return (dispatch, getState) => {
+      let messages = getState().notificationsReducer.messages,
+        newListMessages = messages.filter((message) => {
+          return NotificationMessage.TYPES.SOFTWARE_UPDATE !== message.type;
+        });
+      dispatch(setMessagesAction(newListMessages.unshift(message)));
+    };
+  }
 
-            let messages = getState().notificationsReducer.messages,
-                newListMessages = messages.filter((message) => {
-                    return NotificationMessage.TYPES.SOFTWARE_UPDATE !== message.type;
-                });
+  /**
+ * Remove message from List of notices by id
+ *
+ * @param {String} id
+ * @returns {function(*, *)}
+ */
+  static closeMessage(id) {
+    return (dispatch, getState) => {
+      let messages = getState().notificationsReducer.messages,
+        newListMessages = messages.update(messages.findIndex((message) => {
+          return id === message.id;
+        }), (message) => {
+          // message.setIsRead();
+          return message;
+        });
 
-            dispatch(setMessagesAction(newListMessages.unshift(message)));
-
-        }
-    }
-
-    /**
-     * Remove message from List of notices by id
-     *
-     * @param {String} id
-     * @returns {function(*, *)}
-     */
-    static closeMessage(id) {
-        return (dispatch, getState) => {
-
-            let messages = getState().notificationsReducer.messages,
-                newListMessages = messages.update(messages.findIndex((message) => {
-                    return id === message.id;
-                }), (message) => {
-                    // message.setIsRead();
-                    return message;
-                });
-
-            if (messages !== newListMessages) {
-                dispatch(setMessagesAction(newListMessages));
-            }
-
-        }
-    }
-
+      if (messages !== newListMessages) {
+        dispatch(setMessagesAction(newListMessages));
+      }
+    };
+  }
 }
 
 export default NotificationsActions;

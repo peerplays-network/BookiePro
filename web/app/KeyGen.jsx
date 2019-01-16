@@ -1,38 +1,29 @@
-import React from "react";
-import Router from "react-router";
+import React from 'react';
+import Router from 'react-router';
 
-const { Route, RouteHandler, DefaultRoute } = Router;
+import KeyGenComponent from './components/Wallet/KeyGenComponent';
 
-import KeyGenComponent from "./components/Wallet/KeyGenComponent";
+const {Route, RouteHandler, DefaultRoute} = Router; // eslint-disable-line
 
-require("./assets/loader");
+require('./assets/loader');
 
-class KeyGen  {
+class KeyGen {
+  componentDidMount() {}
 
-    constructor(props) {
-    }
+  componentWillUpdate(nextProps, nextState) {} // eslint-disable-line
 
-    componentDidMount() {
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-    }
-
-    render() {
-        return (
-            <KeyGenComponent/>
-        )
-    }
+  render() {
+    return (<KeyGenComponent/>);
+  }
 }
 
 let routes = (
-    <Route handler={KeyGen}>
-        <Route name="keygen" path="keygen" handler={KeyGenComponent}/>
-        <DefaultRoute handler={KeyGenComponent}/>
-    </Route>
+  <Route handler={ KeyGen }>
+    <Route name='keygen' path='keygen' handler={ KeyGenComponent }/>
+    <DefaultRoute handler={ KeyGenComponent }/>
+  </Route>
 );
 
-
 Router.run(routes, function (Handler) {
-    React.render(<Handler/>, document.getElementById("content"));
+  React.render(<Handler/>, document.getElementById('content'));
 });

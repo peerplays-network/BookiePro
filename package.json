@@ -1,0 +1,30 @@
+{
+  "name": "peerplays-core-gui",
+  "version": "0.2.0",
+  "description": "Peerplays-Core-GUI ============",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.10.0",
+    "eslint-config-react-app": "^3.0.5",
+    "eslint-plugin-flowtype": "^3.2.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-plugin-react": "^7.11.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PBSA/peerplays-core-gui.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PBSA/peerplays-core-gui/issues"
+  },
+  "homepage": "https://github.com/PBSA/peerplays-core-gui#readme"
+}

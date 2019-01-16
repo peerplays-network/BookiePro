@@ -1,5 +1,5 @@
-import StorageService from "./StorageService";
-const SETTINGS_KEY = "settings_v3";
+import StorageService from './StorageService';
+const SETTINGS_KEY = 'settings_v3';
 
 /**
  * Settings Storage Service
@@ -10,14 +10,16 @@ class SettingsStorageService {
   static get(param) {
     let settings = StorageService.get(SETTINGS_KEY);
 
-    if (settings && typeof settings[param] !== "undefined") {
+    if (settings && typeof settings[param] !== 'undefined') {
       return settings[param];
     }
+
     return null;
   }
 
   static set(k, val) {
     let settings = StorageService.get(SETTINGS_KEY);
+
     if (!settings) {
       settings = {};
     }

@@ -1,17 +1,16 @@
-import ls from "../common/localStorage";
+import ls from '../common/localStorage';
 import * as Types from '../constants/ActionTypes';
-import Immutable from "immutable";
-import {switchLibraryLocale} from "../services/LocaleService";
+import Immutable from 'immutable';
+import {switchLibraryLocale} from '../services/LocaleService';
 
-const STORAGE_KEY = "__peerplays__";
-const SETTINGS_KEY = "settings_v3";
+const STORAGE_KEY = '__peerplays__';
+const SETTINGS_KEY = 'settings_v3';
 
 let ss = new ls(STORAGE_KEY);
 let storageSettings = ss.get(SETTINGS_KEY);
-
 let locales = {};
-["cn", "de", "es", "fr", "ko", "tr"].forEach(locale => {
-  locales[locale] = require("json!assets/locales/locale-" + locale + ".json");
+['cn', 'de', 'es', 'fr', 'ko', 'tr'].forEach((locale) => {
+  locales[locale] = require('json!assets/locales/locale-' + locale + '.json');
 });
 
 /**
@@ -22,24 +21,25 @@ let locales = {};
 export function initSettings() {
   return function (dispatch, getState) {
     let state = getState();
+
     if (storageSettings) {
       let newSettings = {};
       let needUpdate = false;
+
       for (let key in storageSettings) {
         if (storageSettings[key] !== state.settings[key]) {
-          if (key == "hiddenAssets") {
+          if (key === 'hiddenAssets') {
             newSettings[key] = Immutable.List(storageSettings[key]);
           } else {
             newSettings[key] = storageSettings[key];
           }
 
-          console.log('storageSettings', storageSettings);
-          console.log('newSettings', newSetting);
           needUpdate = true;
         }
       }
+
       if (needUpdate) {
-        let locale = newSettings["locale"];
+        let locale = newSettings['locale'];
         switchLibraryLocale({
           locale,
           localeData: locales[locale]
@@ -62,8 +62,8 @@ export function initSettings() {
  * @returns {function(*)}
  */
 export function switchLocale(locale) {
-  return dispatch => {
-    changeStorageValue("locale", locale);
+  return (dispatch) => {
+    changeStorageValue('locale', locale);
     switchLibraryLocale({
       locale,
       localeData: locales[locale]
@@ -83,8 +83,9 @@ export function switchLocale(locale) {
  */
 export function changeSettleStatus() {
   let status = storageSettings.showSettles ? false : true;
-  return (dispatch, getState) => {
-    changeStorageValue("showSettles", status);
+
+  return (dispatch, getState) => { // eslint-disable-line
+    changeStorageValue('showSettles', status);
     dispatch({
       type: Types.CHANGE_SETTLE_STATUS,
       payload: status
@@ -100,8 +101,9 @@ export function changeSettleStatus() {
  */
 export function changeChatStatus() {
   let status = storageSettings.disableChat ? false : true;
-  return (dispatch, getState) => {
-    changeStorageValue("disableChat", status);
+
+  return (dispatch, getState) => { // eslint-disable-line
+    changeStorageValue('disableChat', status);
     dispatch({
       type: Types.CHANGE_CHAT_STATUS,
       payload: status
@@ -117,12 +119,12 @@ export function changeChatStatus() {
  * @returns {function(*, *)}
  */
 export function addOwnerKeyPermissions(data) {
-  return (dispatch, getState) => {
+  return (dispatch, getState) => { // eslint-disable-line
     dispatch({
       type: Types.ADD_OWNER_KEY,
       payload: data
-    })
-  }
+    });
+  };
 }
 
 /**
@@ -134,12 +136,11 @@ export function addOwnerKeyPermissions(data) {
 export function changeUnit(unit) {
   return function (dispatch) {
     changeStorageValue('unit', unit);
-
     dispatch({
       type: Types.CHANGE_UNIT,
       payload: unit
     });
-  }
+  };
 }
 
 /**
@@ -153,12 +154,11 @@ export function addAssetToHidden(unit) {
     let hiddenAssets = getState().settings.hiddenAssets;
     hiddenAssets = hiddenAssets.push(unit);
     changeStorageValue('hiddenAssets', hiddenAssets.toJS());
-
     dispatch({
       type: Types.CHANGE_HIDDEN_ASSETS,
       payload: hiddenAssets
     });
-  }
+  };
 }
 
 /**
@@ -183,7 +183,7 @@ export function removeAssetToHidden(unit) {
         payload: hiddenAssets
       });
     }
-  }
+  };
 }
 
 // export function

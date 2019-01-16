@@ -1,5 +1,5 @@
-import {ApisInstance} from "peerplaysjs-ws";
-import {Apis} from "peerplaysjs-ws";
+import {ApisInstance} from 'peerplaysjs-ws';
+import {Apis} from 'peerplaysjs-ws';
 import CONFIG from '../config/main';
 
 let instances = {};
@@ -34,13 +34,16 @@ class ConnectManager {
     const connectionString = this.blockchainUrls[this.blockchainUrlIndex];
 
     // Display the blockchain api node that we are conencting to.
-    console.log(`%cAttempting connection to: ${connectionString}.`, 'background: #222; color: magenta; font-size: large');
-    
+    console.log(`%cAttempting connection to: ${connectionString}.`,
+      'background: #222; color: magenta; font-size: large');
+
     return Apis.instance(connectionString, true).init_promise.then((res) => {
-      console.log(`%cConnected to: ${connectionString}.`, 'background: #222 color: green; font-size: large');
+      console.log(`%cConnected to: ${connectionString}.`,
+        'background: #222 color: green; font-size: large');
     }).catch((err) => {
-      console.error(`%cConnection to: ${connectionString} failed.`, 'background: #222; color: red; font-size: large');
-      
+      console.error(`%cConnection to: ${connectionString} failed.`,
+        'background: #222; color: red; font-size: large');
+
       return Promise.reject();
     });
   }
@@ -63,7 +66,7 @@ class ConnectManager {
 
   /**
    * Connects to the blockchain with the provided connectionString.
-   * 
+   *
    * @param {String} connectionString
    */
   setDefaultConnection(connectionString) {
@@ -77,11 +80,12 @@ class ConnectManager {
    */
   getConnection(cs) {
     if (!instances[cs]) {
-      console.log('instance', instance)
+      console.log('instance', instance);
       let instance = new ApisInstance();
       instance.connect(cs);
       ConnectManager.setConnection(cs, instance);
     }
+
     return instances[cs];
   }
 }

@@ -1,28 +1,20 @@
 /* Libs */
-import React from "react";
+import React from 'react';
 import {connect} from 'react-redux';
-import {ChainStore} from "peerplaysjs-lib";
 
 /* Components */
-import {IntlProvider} from "react-intl";
-import Translate from "react-translate-component";
-
-import NotificationSystem from "react-notification-system";
-
-import Header from "components/Header/Header";
-
-import TransactionConfirmModal from "components/Modal/TransactionConfirmModal/TransactionConfirmModal";
-import WalletUnlockModal from "components/Modal/WalletUnlockModal";
-import ViewMemoModal from "components/Modal/ViewMemoModal";
-import CantConnectModal from "components/Modal/CantConnectModal/CantConnectModal";
-import HelpModal from "../components/Help/HelpModal";
-
-import intlData from "components/Utility/intlData";
-import Icon from "components/Icon/Icon";
+import {IntlProvider} from 'react-intl';
+import NotificationSystem from 'react-notification-system';
+import Header from 'components/Header/Header';
+import TransactionConfirmModal from 'components/Modal/TransactionConfirmModal/TransactionConfirmModal'; // eslint-disable-line
+import WalletUnlockModal from 'components/Modal/WalletUnlockModal';
+import ViewMemoModal from 'components/Modal/ViewMemoModal';
+import CantConnectModal from 'components/Modal/CantConnectModal/CantConnectModal';
+import HelpModal from '../components/Help/HelpModal';
+import intlData from 'components/Utility/intlData';
 
 /* Other */
-import {listenChainStore} from 'services/ChainStoreService';
-import {routerShape} from "react-router/lib/PropTypes";
+import {routerShape} from 'react-router/lib/PropTypes';
 
 @connect((state) => {
   return {
@@ -42,7 +34,6 @@ class App extends React.Component {
   }
 
   render() {
-
     let content = null;
     let urlsWithYellowBackground = [
       '/claims/bts',
@@ -70,26 +61,26 @@ class App extends React.Component {
 
     if (this.props.syncIsFail) {
       content = (
-        <div className="wrapper wrapper-with-footer"></div>
+        <div className='wrapper wrapper-with-footer'></div>
       );
     } else if (!this.props.dbIsInit || !this.props.dbDataIsLoad || !this.props.chainIsInit) {
       content = <div></div>;
     } else if (urlsWithYellowBackground.indexOf(this.props.location.pathname) >= 0) {
       document.getElementsByTagName('body')[0].className = 'loginBg';
-      content = <div className="wrapper wrapper-with-footer">{this.props.children}</div>;
+      content = <div className='wrapper wrapper-with-footer'>{this.props.children}</div>;
     } else {
 
       content = (
-        <div className="wrapper wrapper-with-footer">
-          <Header pathname={pathname}/> {this.props.children}
+        <div className='wrapper wrapper-with-footer'>
+          <Header pathname={ pathname }/> {this.props.children}
         </div>
       );
     }
 
     return (
-      <div className="out">
+      <div className='out'>
         {content}
-        <NotificationSystem ref="notificationSystem" allowHTML={true}/>
+        <NotificationSystem ref='notificationSystem' allowHTML={ true }/>
         <TransactionConfirmModal/>
         <WalletUnlockModal/>
         <CantConnectModal/>
@@ -112,10 +103,10 @@ export default class AppContainer extends React.Component {
   render() {
     return (
       <IntlProvider
-        locale={this.props.locale.replace(/cn/, "zh")}
-        formats={intlData.formats}
-        initialNow={Date.now()}>
-        <App {...this.props}/>
+        locale={ this.props.locale.replace(/cn/, 'zh') }
+        formats={ intlData.formats }
+        initialNow={ Date.now() }>
+        <App { ...this.props }/>
       </IntlProvider>
     );
   }
