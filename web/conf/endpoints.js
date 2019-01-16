@@ -25,7 +25,7 @@ const endpoints = {
       ]
     }
   }
-}
+};
 let current = 'beatrice'; // Set the current default environment.
 
 // Check to make sure a valid target is specified.
