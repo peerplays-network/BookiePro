@@ -1,147 +1,139 @@
-/*
- *  Copyright (c) 2015 Cryptonomex, Inc., and contributors.
- *
- *  The MIT License
- *
- *  Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to deal
- *  in the Software without restriction, including without limitation the rights
- *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- *  copies of the Software, and to permit persons to whom the Software is
- *  furnished to do so, subject to the following conditions:
- *
- *  The above copyright notice and this permission notice shall be included in
- *  all copies or substantial portions of the Software.
- *
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- *  THE SOFTWARE.
- */
-
-import React, {Component} from "react"
-import {FormattedDate} from "react-intl"
-import BrainkeyInput from "components/Wallet/BrainkeyInput"
-import Translate from "react-translate-component"
-import WalletActions from "actions/WalletActions"
-import WalletDb from "stores/WalletDb"
-import {hash} from "peerplaysjs-lib";
-import cname from "classnames"
+import React, {Component} from 'react';
+import {FormattedDate} from 'react-intl';
+import Translate from 'react-translate-component';
+import WalletActions from 'actions/WalletActions';
+import WalletDb from 'stores/WalletDb';
+import {hash} from 'peerplaysjs-lib';
 
 export default class BackupBrainkey extends Component {
 
-    constructor() {
-        super()
-        this.state = this._getInitialState()
+  constructor() {
+    super();
+    this.state = this._getInitialState();
+  }
+
+  _getInitialState() {
+    return {
+      password: null,
+      brainkey: null,
+      invalid_password: false
+    };
+  }
+
+  render() {
+    var content;
+    var brainkey_backup_date = WalletDb.getWallet().brainkey_backup_date;
+
+    var brainkey_backup_time = brainkey_backup_date ?
+      <div>
+        <Translate content='wallet.brainkey_backed_up' />:
+        <FormattedDate value={ brainkey_backup_date }/>
+      </div> :
+      <Translate className='facolor-error' component='p' content='wallet.brainkey_not_backed_up' />;
+
+    if(this.state.verified) {
+      var sha1 = hash.sha1(this.state.brainkey).toString('hex').substring(0,4);
+      content = <div>
+        <h3><Translate content='wallet.brainkey' /></h3>
+        <div className='card'><div className='card-content'>
+          <h5>{this.state.brainkey}</h5></div></div>
+        <br/>
+        <pre className='no-overflow'>sha1 hash of the brainkey: {sha1}</pre>
+        <br/>
+        {brainkey_backup_time}
+        <br/>
+        <button className='button success' onClick={ this.onBack.bind(this) }>
+          <Translate content='wallet.done' />
+        </button>
+      </div>;
     }
 
-    _getInitialState() {
-        return {
-            password: null,
-            brainkey: null,
-            invalid_password: false
-        }
-    }
-
-    render() {
-        var content
-        var brainkey_backup_date = WalletDb.getWallet().brainkey_backup_date;
-
-        var brainkey_backup_time = brainkey_backup_date ?
-            <div><Translate content="wallet.brainkey_backed_up" />: <FormattedDate value={brainkey_backup_date}/></div> :
-            <Translate className="facolor-error" component="p" content="wallet.brainkey_not_backed_up" />
-
-        if(this.state.verified) {
-            var sha1 = hash.sha1(this.state.brainkey).toString('hex').substring(0,4)
-            content = <div>
-                <h3><Translate content="wallet.brainkey" /></h3>
-                <div className="card"><div className="card-content">
-                    <h5>{this.state.brainkey}</h5></div></div>
-                <br/>
-                <pre className="no-overflow">sha1 hash of the brainkey: {sha1}</pre>
-                <br/>
-                {brainkey_backup_time}
-                <br/>
-                <button className="button success" onClick={this.onBack.bind(this)}><Translate content="wallet.done" /></button>
-            </div>
-        }
-
-        if(!content && this.state.brainkey) {
-            var sha1 = hash.sha1(this.state.brainkey).toString('hex').substring(0,4)
-            content = <span>
-                <h3><Translate content="wallet.brainkey" /></h3>
-                <div className="card"><div className="card-content">
-                    <h5>{this.state.brainkey}</h5></div></div>
-                    <div style={{padding: "10px 0"}}>
-                        <pre className="no-overflow">sha1 hash of your brainkey: {sha1}</pre>
-                    </div>
-                <hr/>
-                <div style={{padding: "10px 0 20px 0"}}>
-                    <Translate content="wallet.brainkey_w1" /><br/>
-                    <Translate content="wallet.brainkey_w2" /><br/>
-                    <Translate content="wallet.brainkey_w3" />
-                </div>
-
-                <button className="button success" onClick={this.onComplete.bind(this)}><Translate content="wallet.verify" /></button>
-                <button className="button cancel" onClick={this.onBack.bind(this)}><Translate content="wallet.cancel" /></button>
-
-            </span>
-        }
-
-        if(!content) {
-            var valid = this.state.password && this.state.password !== ""
-            content = <span>
-                <label><Translate content="wallet.enter_password" /></label>
-                <form onSubmit={this.onSubmit.bind(this)} className="name-form" noValidate>
-                    <input type="password" id="password" onChange={this.onPassword.bind(this)}/>
-                    <p>
-                        {this.state.invalid_password ?
-                            <span className="error">Invalid password</span>:
-                            <span><Translate content="wallet.pwd4brainkey" /></span>}
-                    </p>
-                    <div>{brainkey_backup_time}<br/></div>
-                    <button className="button success"><Translate content="wallet.show_brainkey" /></button>
-                    <button className="button cancel" onClick={this.onBack.bind(this)}><Translate content="wallet.cancel" /></button>
-                </form>
-            </span>
-        }
-        return <div className="grid-block vertical">
-            <div className="grid-content no-overflow">
-                {content}
-            </div>
+    if(!content && this.state.brainkey) {
+      var sha1 = hash.sha1(this.state.brainkey).toString('hex').substring(0,4); // eslint-disable-line
+      content = <span>
+        <h3><Translate content='wallet.brainkey' /></h3>
+        <div className='card'><div className='card-content'>
+          <h5>{this.state.brainkey}</h5></div></div>
+        <div style={ {padding: '10px 0'} }>
+          <pre className='no-overflow'>sha1 hash of your brainkey: {sha1}</pre>
         </div>
+        <hr/>
+        <div style={ {padding: '10px 0 20px 0'} }>
+          <Translate content='wallet.brainkey_w1' /><br/>
+          <Translate content='wallet.brainkey_w2' /><br/>
+          <Translate content='wallet.brainkey_w3' />
+        </div>
+
+        <button className='button success' onClick={ this.onComplete.bind(this) }>
+          <Translate content='wallet.verify' />
+        </button>
+        <button className='button cancel' onClick={ this.onBack.bind(this) }>
+          <Translate content='wallet.cancel' />
+        </button>
+
+      </span>;
     }
 
-
-    onComplete(brnkey) {
-        this.setState({ verified: true })
-        WalletActions.setBrainkeyBackupDate()
+    if(!content) {
+      // var valid = this.state.password && this.state.password !== '';
+      content = <span>
+        <label><Translate content='wallet.enter_password' /></label>
+        <form onSubmit={ this.onSubmit.bind(this) } className='name-form' noValidate>
+          <input type='password' id='password' onChange={ this.onPassword.bind(this) }/>
+          <p>
+            {this.state.invalid_password ?
+              <span className='error'>Invalid password</span>:
+              <span><Translate content='wallet.pwd4brainkey' /></span>}
+          </p>
+          <div>{brainkey_backup_time}<br/></div>
+          <button className='button success'><Translate content='wallet.show_brainkey' /></button>
+          <button className='button cancel' onClick={ this.onBack.bind(this) }>
+            <Translate content='wallet.cancel' />
+          </button>
+        </form>
+      </span>;
     }
 
-    reset() {
-        this.setState(this._getInitialState())
-    }
+    return <div className='grid-block vertical'>
+      <div className='grid-content no-overflow'>
+        {content}
+      </div>
+    </div>;
+  }
 
-    onBack(e) {
-        e.preventDefault()
-        window.history.back()
-    }
 
-    onSubmit(e) {
-        e.preventDefault()
-        var was_locked = WalletDb.isLocked()
-        if(WalletDb.validatePassword(this.state.password, true)) {
-            var brainkey = WalletDb.getBrainKey()
-            if(was_locked) WalletDb.onLock()
-            this.setState({ brainkey })
-        } else
-            this.setState({ invalid_password: true })
-    }
+  onComplete() {
+    this.setState({verified: true});
+    WalletActions.setBrainkeyBackupDate();
+  }
 
-    onPassword(event) {
-        this.setState({ password: event.target.value, invalid_password: false })
+  reset() {
+    this.setState(this._getInitialState());
+  }
+
+  onBack(e) {
+    e.preventDefault();
+    window.history.back();
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    var was_locked = WalletDb.isLocked();
+
+    if(WalletDb.validatePassword(this.state.password, true)) {
+      var brainkey = WalletDb.getBrainKey();
+
+      if(was_locked) {
+        WalletDb.onLock();
+      }
+
+      this.setState({brainkey});
+    } else {
+      this.setState({invalid_password: true});
     }
+  }
+
+  onPassword(event) {
+    this.setState({password: event.target.value, invalid_password: false});
+  }
 }
