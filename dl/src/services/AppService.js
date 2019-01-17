@@ -1,6 +1,8 @@
 import {ChainStore} from 'peerplaysjs-lib';
 import iDB from 'idb-instance';
-import {listenChainStore} from './ChainStoreService';
+import {
+  listenChainStore
+} from './ChainStoreService';
 import AccountLoginService from './AccountLoginService';
 import LoginService from './LoginService';
 import WalletService from './WalletService';
@@ -12,7 +14,9 @@ import ChainStoreHeartbeater from '../app/ChainStoreHeartbeater';
 import WalletDataActions from '../actions/RWalletDataActions';
 import PrivateKeyActions from '../actions/RPrivateKeyActions';
 import CONFIG from '../config/main';
-import {initSettings} from '../actions/RSettingsActions';
+import {
+  initSettings
+} from '../actions/RSettingsActions';
 
 class AppService {
   /**
@@ -73,8 +77,8 @@ class AppService {
               listenChainStore(ChainStore, store);
 
               if (
-                RememberMeService.checkRememberMeIsEnable()
-                && RememberMeService.checkNeedResetWallet()
+                RememberMeService.checkRememberMeIsEnable() &&
+                RememberMeService.checkNeedResetWallet()
               ) {
                 store.dispatch(AppActions.logout());
                 store.dispatch(AppActions.setAppChainIsInit(true));
