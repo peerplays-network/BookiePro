@@ -1,8 +1,6 @@
 import Immutable from 'immutable';
 import * as Types from '../constants/ActionTypes';
 import CONFIG from '../config/main';
-import {getViewSettings} from 'services/ViewSettingsService';
-import {merge} from 'lodash';
 
 const CORE_ASSET = CONFIG.CORE_ASSET;
 /**
@@ -21,10 +19,10 @@ const initialState = {
   /*permissions*/
   ownerKeyPermissions: null,
   /*API access*/
-  connection: BLOCKCHAIN_URL,
-  faucetAddress: FAUCET_URL,
+  connection: BLOCKCHAIN_URL[0], // eslint-disable-line
+  faucetAddress: FAUCET_URL[0], // eslint-disable-line
   unit: CORE_ASSET,
-  defaults: {
+  defaults : {
     locale: [
       'en',
       'cn',
@@ -49,55 +47,56 @@ const initialState = {
       'OPEN.DGD', 'EUR', 'TRADE.BTC', 'CASH.BTC', 'GOLD', 'SILVER'
     ]
   },
-  hiddenAssets: Immutable.List([])
+  hiddenAssets : Immutable.List([])
+
 };
 
 
 export default function (state = initialState, action) {
   switch (action.type) {
     /**
-     * Set initial settings
-     */
+         * Set initial settings
+         */
     case Types.INIT_SETTINGS:
       return Object.assign({}, state, action.payload.newSettings);
       /**
-       * Change settings language
-       */
+         * Change settings language
+         */
     case Types.SWITCH_LOCALE:
       return Object.assign({}, state, {
         locale: action.payload
       });
       /**
-       * show|hide settles
-       */
+         * show|hide settles
+         */
     case Types.CHANGE_SETTLE_STATUS:
       return Object.assign({}, state, {
         showSettles: action.payload
       });
       /**
-       * show|hide chat
-       */
+         * show|hide chat
+         */
     case Types.CHANGE_CHAT_STATUS:
       return Object.assign({}, state, {
         disableChat: action.payload
       });
       /**
-       * change unit //TODO::rm
-       */
+         * change unit //TODO::rm
+         */
     case Types.CHANGE_UNIT:
       return Object.assign({}, state, {
         unit: action.payload
       });
       /**
-       * change hidden assets
-       */
+         * change hidden assets
+         */
     case Types.CHANGE_HIDDEN_ASSETS:
       return Object.assign({}, state, {
-        hiddenAssets: action.payload
+        hiddenAssets : action.payload
       });
       /**
-       * add OwnerKey Permissions TODO::rm
-       */
+         * add OwnerKey Permissions TODO::rm
+         */
     case Types.ADD_OWNER_KEY:
       return {
         ...state,
@@ -105,24 +104,13 @@ export default function (state = initialState, action) {
           ? state.ownerKeyPermissions.concat(action.payload)
           : action.payload
       };
-      /**
-       * change current ws connection
-       */
-    case Types.CHANGE_CONNECTION:
-      return Object.assign({}, state, {
-        connection: action.payload
-      });
-      /**
-       * Change current faucet url
-       */
-    case Types.CHANGE_FAUCET_ADDRESS:
-      return Object.assign({}, state, {
-        faucetAddress: action.payload
-      });
     default:
       /**
-       * We return the previous state in the default case
-       */
+             * We return the previous state in the default case
+             */
       return state;
   }
+
 }
+
+;

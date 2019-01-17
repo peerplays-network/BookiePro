@@ -1,8 +1,7 @@
 //TODO:: rm file
 var alt = require('../alt-instance');
 var locales = {};
-
-if (__ELECTRON__) { // TODO: ensure checking inside electron properly
+if ( __ELECTRON__) { // eslint-disable-line
   ['cn', 'de', 'es', 'fr', 'ko', 'tr'].forEach((locale) => {
     locales[locale] = require('json!assets/locales/locale-' + locale + '.json');
   });
@@ -14,7 +13,7 @@ class IntlActions {
       return this.dispatch({locale});
     }
 
-    if (__ELECTRON__) { // TODO: ensure checking inside electron properly
+    if (__ELECTRON__) { // eslint-disable-line
       this.dispatch({
         locale: locale,
         localeData: locales[locale]

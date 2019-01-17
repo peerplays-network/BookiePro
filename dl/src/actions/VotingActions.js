@@ -95,7 +95,6 @@ class VotingActions {
           payload: {witnesses}
         });
       });
-
     };
   }
   /**
@@ -367,7 +366,7 @@ class VotingActions {
             objectAccounts[committeeMember.committee_member_account] = cmAccount;
 
             votes = votes.filter((item) => {
-              if(item === committeeMember.vote_id) {
+              if (item === committeeMember.vote_id) {
                 approvedAccounts[committeeMember.committee_member_account] = committeeMember
                   .committee_member_account;
                 return false;
@@ -447,8 +446,6 @@ class VotingActions {
       let id = '1.14.' + i;
       workerPromises.push(Repository.getObject(id).then((w) => w).catch((e) => e));
     }
-
-    ;
 
     return Promise.all(workerPromises).then((result) => {
       result = result.filter((w) => {

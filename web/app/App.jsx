@@ -54,7 +54,6 @@ import ExploreFeeSchedule from './components/Explorer/FeeSchedule/FeeSchedule';
 import Settings from './components/Settings/SettingsContainer';
 import PasswordSettings from './components/Settings/PasswordSettings';
 import PermissionSettings from './components/Settings/PermissionSettings';
-import AccessSettings from './components/Settings/AccessSettings';
 import Register from './components/Register/Register';
 import VestingAccountContainer from './components/Account/Vesting/VestingAccountContainer';
 import Login from './components/Login/Login';
@@ -67,7 +66,9 @@ import ClaimBtsContainer from './components/ClaimBts/ClaimBtsContainer';
 import AboutContainer from './components/About/AboutContainer';
 import Games from './components/Games/Games';
 import RockPaperScissorsContainer from './components/Games/RockPaperScissors/RockPaperScissorsContainer'; /*eslint-disable-line */
-import RockPaperScissorsGame from './components/Games/RockPaperScissors/RockPaperScissorsGame'; require('./components/Utility/Prototypes'); /*eslint-disable-line */
+import RockPaperScissorsGame from './components/Games/RockPaperScissors/RockPaperScissorsGame';
+import ClaimSettings from './components/Settings/ClaimSettings';
+require('./components/Utility/Prototypes'); /*eslint-disable-line */
 
 /**
  * Init App
@@ -208,10 +209,9 @@ let routes = (
     <Route path='send' component={ requireAuthentication(Send) } />
 
     <Route path='settings' component={ requireAuthentication(Settings) }>
-      <IndexRoute params={ {tab: 'access'} } component={ AccessSettings } />
+      <IndexRoute params={ {tab: 'access'} } component={ ClaimSettings } />
       <Route params={ {tab: 'password'} } path='password' component={ PasswordSettings } />
       <Route params={ {tab: 'permissions'} } path='permissions' component={ PermissionSettings } />
-      <Route params={ {tab: 'access'} } path='access' component={ AccessSettings } />
       <Route params={ {tab: 'claim'} } path='claim' />
     </Route>
 
