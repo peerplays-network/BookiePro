@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import GeneralSettings from './GeneralSettings';
 import PasswordSettings from './PasswordSettings';
-import AccessSettings from './AccessSettings';
 import ClaimSettings from './ClaimSettings';
 
 const mapStateToProps = (state) => {
@@ -27,12 +26,6 @@ class SettingsContainer extends React.Component {
         break;
       case 1:
         selectedTab = 'password';
-        break;
-        // case 2:
-        //   selectedSettings = 'permissions';
-        //   break;
-      case 2:
-        selectedTab = 'access';
         break;
       case 3:
         selectedTab = 'claim';
@@ -95,13 +88,11 @@ class SettingsContainer extends React.Component {
                   <Translate content='settings.password'/>
                 </Tab>
                 {/*<Tab key="permissions"><Translate content="account.permissions" /></Tab>*/}
-                <Tab key='access'><Translate content='settings.access'/></Tab>
                 <Tab key='claim'><Translate content='settings.claim'/></Tab>
               </TabList>
               <TabPanel><GeneralSettings /></TabPanel>
               <TabPanel><PasswordSettings /></TabPanel>
               {/*<TabPanel><PermissionSettings /></TabPanel>*/}
-              <TabPanel><AccessSettings /></TabPanel>
               <TabPanel><ClaimSettings /></TabPanel>
             </Tabs>
           </div>
