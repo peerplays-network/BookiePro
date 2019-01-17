@@ -23,12 +23,6 @@ require("file?name=images/flags/[name].png!./flags/us.png");
 /**
  * RPS Game
  */
-require("file?name=images/playGames/[name].png!./playGames/pic04.png");
-require("file?name=images/playGames/[name].png!./playGames/pic05.png");
-require("file?name=images/playGames/[name].png!./playGames/pic06.png");
-require("file?name=images/playGames/[name].jpg!./playGames/pic01.jpg");
-require("file?name=images/playGames/[name].png!./playGames/logo.png");
-
 require("file?name=images/games/rps/[name].png!./games/rps/bkg.png");
 
 require("file?name=images/games/rps/[name].svg!./games/rps/rock.svg");

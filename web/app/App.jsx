@@ -1,3 +1,26 @@
+/*
+ *  Copyright (c) 2015 Cryptonomex, Inc., and contributors.
+ *
+ *  The MIT License
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *  THE SOFTWARE.
+ */
 /**
  * Configure
  */
@@ -20,24 +43,20 @@ import {syncHistoryWithStore} from 'react-router-redux';
  */
 import LocationConstants from 'constants/LocationConstants';
 
-
 /**
  * Actions
  */
 import AppActions from 'actions/AppActions';
-
 
 /**
  * Services
  */
 import AppService from 'services/AppService';
 
-
 /**
  * Wrappers
  */
 import {requireAuthentication} from './components/Auth/AuthenticatedComponent';
-
 
 /**
  * Routes Components
@@ -64,7 +83,6 @@ import Referrals from './components/Referrals/Referrals';
 import Empty from './components/Empty';
 import ClaimBtsContainer from './components/ClaimBts/ClaimBtsContainer';
 import AboutContainer from './components/About/AboutContainer';
-import Games from './components/Games/Games';
 import RockPaperScissorsContainer from './components/Games/RockPaperScissors/RockPaperScissorsContainer'; /*eslint-disable-line */
 import RockPaperScissorsGame from './components/Games/RockPaperScissors/RockPaperScissorsGame';
 import ClaimSettings from './components/Settings/ClaimSettings';
@@ -75,97 +93,126 @@ require('./components/Utility/Prototypes'); /*eslint-disable-line */
  */
 AppService.init(store);
 
-
 let routes = (
   <Route path='/' component={ AppContainer }>
-    <IndexRedirect to='/dashboard' />
-    <Route path='/login' component={ Login } />
-    <Route path='/sign-up' component={ Register } />
-    <Route path='/account/vesting' component={ requireAuthentication(VestingAccountContainer) } />
-    <Route path='/referrals' component={ requireAuthentication(Referrals) } />
+    <IndexRedirect to='/dashboard'/>
+    <Route path='/login' component={ Login }/>
+    <Route path='/sign-up' component={ Register }/>
+    <Route
+      path='/account/vesting'
+      component={ requireAuthentication(VestingAccountContainer) }
+    />
+    <Route path='/referrals' component={ requireAuthentication(Referrals) }/>
     <Route
       path='/dashboard'
       component={ requireAuthentication(BalancesDashboard) }
       onEnter={ () => {
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
         store.dispatch(AppActions.setCurrentLocation(LocationConstants.DASHBOARD_BALANCES));
-      } } />
-    {/*<Route path="/exchange/:marketId" component={requireAuthentication(Exchange)}
-    onEnter={() => {
-            store.dispatch(AppActions.setCurrentLocation(LocationConstants.EXCHANGE));
-        }} onLeave={() => {
-            store.dispatch(AppActions.setCurrentLocation(null));
-        }} />
-        */}
-    <Route path='/games' component={ requireAuthentication(Games) } onEnter={ () => {
-      store.dispatch(AppActions.setCurrentLocation(LocationConstants.GAMES));
-    } } onLeave={ () => {
-      store.dispatch(AppActions.setCurrentLocation(null));
-    } } />
-    <Route path='/games/rock-paper-scissors' onEnter={ () => {
-      store.dispatch(
-        AppActions.setCurrentLocation(LocationConstants.GAMES_ROCK_PAPER_SCISSOR_TOURNAMENTS));
-    } } onLeave={ () => {
-      store.dispatch(AppActions.setCurrentLocation(null));
-    } }>
+      } }
+    />
+    {/*
+      <Route
+        path="/exchange/:marketId"
+        component={requireAuthentication(Exchange)}
+        onEnter={() => {
+          store.dispatch(AppActions.setCurrentLocation(LocationConstants.EXCHANGE));
+        }}
+        onLeave={() => {
+          store.dispatch(AppActions.setCurrentLocation(null));
+        }}
+      />
+    */}
+
+    <Route
+      path='/games/rock-paper-scissors'
+      onEnter={ () => {
+        store.dispatch(AppActions
+          .setCurrentLocation(LocationConstants.GAMES_ROCK_PAPER_SCISSOR_TOURNAMENTS));
+      } }
+      onLeave={ () => {
+        store.dispatch(AppActions.setCurrentLocation(null));
+      } }
+    >
 
       <IndexRoute
         params={ {tab: 'dashboard'} }
         title='Dashboard'
-        component={ requireAuthentication(RockPaperScissorsContainer) } />
-
+        component={ requireAuthentication(RockPaperScissorsContainer) }
+      />
       <Route
         path='explore/all'
         params={ {tab: 'explore', tournamentsFilter: 'all'} }
         title='Explore All'
-        component={ requireAuthentication(RockPaperScissorsContainer) } />
+        component={ requireAuthentication(RockPaperScissorsContainer) }
+      />
       <Route
         path='explore/find'
         params={ {tab: 'find', tournamentsFilter: 'find'} }
         title='Find'
-        component={ requireAuthentication(RockPaperScissorsContainer) } />
+        component={ requireAuthentication(RockPaperScissorsContainer) }
+      />
       <Route
         path='create'
         params={ {tab: 'create'} }
         title='Create'
-        component={ requireAuthentication(RockPaperScissorsContainer) } />
+        component={ requireAuthentication(RockPaperScissorsContainer) }
+      />
       <Route
         path='dashboard'
         params={ {tab: 'dashboard'} }
         title='Dashboard Open'
-        component={ requireAuthentication(RockPaperScissorsContainer) } />
+        component={ requireAuthentication(RockPaperScissorsContainer) }
+      />
       <Route
         path='game/:id'
         title='Game'
-        component={ requireAuthentication(RockPaperScissorsGame) } />
+        component={ requireAuthentication(RockPaperScissorsGame) }
+      />
     </Route>
-
     <Route path='explore'>
-      <IndexRoute component={ requireAuthentication(AdvancedOptionsDashboard) } />
-      <Route path='voting' onEnter={ () => {
-        store.dispatch(AppActions.setCurrentLocation(LocationConstants.VOTING));
-      } } onLeave={ () => {
-        store.dispatch(AppActions.setCurrentLocation(null));
-      } } >
-
-        <IndexRoute params={ {tab: 'proxy'} } component={ requireAuthentication(Voting) } />
+      <IndexRoute component={ requireAuthentication(AdvancedOptionsDashboard) }/>
+      <Route
+        path='voting'
+        onEnter={ () => {
+          store.dispatch(AppActions.setCurrentLocation(LocationConstants.VOTING));
+        } }
+        onLeave={ () => {
+          store.dispatch(AppActions.setCurrentLocation(null));
+        } }
+      >
+        <IndexRoute
+          params={ {tab: 'proxy'} }
+          component={ requireAuthentication(Voting) }
+        />
         <Route
           params={ {tab: 'proxy'} }
           path='proxy'
           title='Proxy'
-          component={ requireAuthentication(Voting) } />
+          component={ requireAuthentication(Voting) }
+        />
         <Route
           params={ {tab: 'witness'} }
           path='witness'
           title='Witness'
-          component={ requireAuthentication(Voting) } />
+          component={ requireAuthentication(Voting) }
+        />
         <Route
           params={ {tab: 'committee'} }
           path='committee'
           title='Committee'
-          component={ requireAuthentication(Voting) } />
-        {/*<Route params={{tab: 'proposals'}} path="proposals" title="Proposals"
-      component={requireAuthentication(Voting)} />*/}
+          component={ requireAuthentication(Voting) }
+        />
+        {
+          /*
+            <Route
+              params={{tab: 'proposals'}}
+              path="proposals"
+              title="Proposals"
+              component={requireAuthentication(Voting)}
+            />
+          */
+        }
 
       </Route>
       <Route path='blockchain' component={ requireAuthentication(ExploreContainer) }>
@@ -174,39 +221,47 @@ let routes = (
           component={ requireAuthentication(ExplorerBlockChain) }
           onEnter={ () => {
             store.dispatch(AppActions.setCurrentLocation(LocationConstants.EXPLORER_BLOCK_CHAIN));
-          } } onLeave={ () => {
+          } }
+          onLeave={ () => {
             store.dispatch(AppActions.setCurrentLocation(null));
-          } } />
+          } }
+        />
         <Route
           path='accounts'
           params={ {tab: 'accounts'} }
           compoment={ requireAuthentication(ExploreAccounts) }
           onEnter={ () => {
             store.dispatch(AppActions.setCurrentLocation(LocationConstants.EXPLORER_ACCOUNTS));
-          } } onLeave={ () => {
+          } }
+          onLeave={ () => {
             store.dispatch(AppActions.setCurrentLocation(null));
-          } } />
+          } }
+        />
         <Route
           path='assets'
           params={ {tab: 'assets'} }
-          compoment={ requireAuthentication(ExploreBasicAssets) }/>
+          compoment={ requireAuthentication(ExploreBasicAssets) }
+        />
         <Route
           path='smartcoins'
           params={ {tab: 'smartcoins'} }
-          compoment={ requireAuthentication(ExploreSmartCoins) }/>
+          compoment={ requireAuthentication(ExploreSmartCoins) }
+        />
         <Route
           path='fee'
           params={ {tab: 'fee'} }
           compoment={ requireAuthentication(ExploreFeeSchedule) }
           onEnter={ () => {
             store.dispatch(AppActions.setCurrentLocation(LocationConstants.EXPLORER_FEE_SCHEDULE));
-          } } onLeave={ () => {
+          } }
+          onLeave={ () => {
             store.dispatch(AppActions.setCurrentLocation(null));
-          } } />
+          } }
+        />
       </Route>
     </Route>
 
-    <Route path='send' component={ requireAuthentication(Send) } />
+    <Route path='send' component={ requireAuthentication(Send) }/>
 
     <Route path='settings' component={ requireAuthentication(Settings) }>
       <IndexRoute params={ {tab: 'access'} } component={ ClaimSettings } />
@@ -214,21 +269,23 @@ let routes = (
       <Route params={ {tab: 'permissions'} } path='permissions' component={ PermissionSettings } />
       <Route params={ {tab: 'claim'} } path='claim' />
     </Route>
-
-    <Route path='/claims/bts' component={ ClaimBtsContainer } />
-    <Route path='/about' component={ AboutContainer } />
-    <Route path='/init-error' component={ Empty } />
-
-    {/*<Route path="/deposit-withdraw" component={requireAuthentication(DepositWithdrawContainer)}
-  onEnter={() => {*/}
-    {/*store.dispatch(AppActions.setCurrentLocation(LocationConstants.DEPOSIT_WITHDRAW));*/}
-    {/*}} onLeave={() => {*/}
-    {/*store.dispatch(AppActions.setCurrentLocation(null));*/}
-    {/*}} />*/}
+    <Route path='/claims/bts' component={ ClaimBtsContainer }/>
+    <Route path='/about' component={ AboutContainer }/>
+    <Route path='/init-error' component={ Empty }/>
+    {/*
+      <Route
+        path="/deposit-withdraw"
+        component={requireAuthentication(DepositWithdrawContainer)}
+        onEnter={() => { store.dispatch(AppActions
+          .setCurrentLocation(LocationConstants.DEPOSIT_WITHDRAW))
+        }}
+        onLeave={() => {store.dispatch(AppActions.setCurrentLocation(null))}}
+      />
+    */}
     <Route path='/help' component={ Help }>
       <Route path=':path1' component={ Help }>
         <Route path=':path2' component={ Help }>
-          <Route path=':path3' component={ Help } />
+          <Route path=':path3' component={ Help }/>
         </Route>
       </Route>
     </Route>
@@ -238,10 +295,7 @@ let routes = (
 ReactDOM.render(
   <Provider store={ store }>
     <Router history={ syncHistoryWithStore(hashHistory, store) } routes={ routes }/>
-  </Provider>,
-  document.getElementById('content')
-);
-
+  </Provider>, document.getElementById('content'));
 
 window.onunhandledrejection = (data) => {
   console.log(data);
