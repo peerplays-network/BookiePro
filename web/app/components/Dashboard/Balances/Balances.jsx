@@ -4,39 +4,11 @@ import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
 import BalanceList from './BalanceList';
 import RecentActivityList from './RecentActivityList';
-import {addAssetToHidden, removeAssetToHidden} from 'actions/RSettingsActions';
+import {RSettingsActions} from '../../../actions';
 import DashboardPageActions from 'actions/DashboardPageActions';
 import NavigateActions from 'actions/NavigateActions';
+import {bindActionCreators} from 'redux';
 
-const CoreBalanceList = connect((state) => {
-  return {list: state.dashboardPage.coreToken, showHideOption: false};
-}, {})(BalanceList);
-
-const CryptoBalanceList = connect((state) => {
-  return {list: state.dashboardPage.cryptoTokens, showHideOption: false};
-}, {})(BalanceList);
-
-const OtherBalanceList = connect((state) => {
-  return {list: state.dashboardPage.otherAssets, showHideOption: true};
-}, {})(BalanceList);
-
-@connect((state) => {
-  return {
-    coreSymbol: state.dashboardPage.coreSymbol,
-    assetSymbol: state.dashboardPage.assetSymbol,
-    precision: state.dashboardPage.precision,
-    decimals: state.dashboardPage.decimals,
-    showHiddenAssets: state.dashboardPage.showHiddenAssets,
-    hiddenAssets: state.settings.hiddenAssets
-  };
-}, {
-  removeAssetToHidden: removeAssetToHidden,
-  addAssetToHidden: addAssetToHidden,
-  toggleAssetHidden: DashboardPageActions.toggleAssetHidden,
-  toggleShowHiddenAssets: DashboardPageActions.toggleShowHiddenAssets,
-  navigateToSend: NavigateActions.navigateToSend,
-  navigateToDepositWithDraw: NavigateActions.navigateToDepositWithDraw
-})
 class Balances extends React.Component {
   onAfterChangeShow(type, value) {
     this.props.removeAssetToHidden(value);
@@ -64,8 +36,26 @@ class Balances extends React.Component {
     this.props.navigateToDepositWithDraw(symbol);
   }
 
+  renderBalanceList(list, title, showHideOption, onAfterChangeShow, onAfterChangeHide) {
+    return (
+      <BalanceList
+        list={ list }
+        title={ title }
+        showHideOption={ showHideOption }
+        onAfterChangeHide={ onAfterChangeHide }
+        onAfterChangeShow={ onAfterChangeShow }
+        onNavigateToDeposit={ this.onNavigateToDeposit.bind(this) }
+        onNavigateToSend={ this.onNavigateToSend.bind(this) }
+        showHiddenAssets={ this.props.showHiddenAssets }
+        unit={ this.props.assetSymbol }
+        precision={ this.props.precision }
+        decimals={ this.props.decimals }
+      />
+    );
+  }
+
   render() {
-    let {showHiddenAssets, assetSymbol, precision, decimals, hiddenAssets} = this.props;
+    let {showHiddenAssets, hiddenAssets} = this.props;
 
     return (
       <section className='content content-aside'>
@@ -83,52 +73,45 @@ class Balances extends React.Component {
             </button>
           </div>
 
-          <CoreBalanceList
-            onNavigateToDeposit={ this.onNavigateToDeposit.bind(this) }
-            onNavigateToSend={ this.onNavigateToSendBySymbol.bind(this) }
-            title={ counterpart.translate('dashboard.core_tokens') }
-            showHiddenAssets={ showHiddenAssets }
-            unit={ assetSymbol }
-            precision={ precision }
-            decimals={ decimals }
-            onAfterChangeShow={ this.onAfterChangeShow.bind(this, 'coreToken') }
-            onAfterChangeHide={ this.onAfterChangeHide.bind(this, 'coreToken') }
-          />
-          <CryptoBalanceList
-            onNavigateToDeposit={ this.onNavigateToDeposit.bind(this) }
-            onNavigateToSend={ this.onNavigateToSendBySymbol.bind(this) }
-            title={ counterpart.translate('dashboard.digital_currencies') }
-            showHiddenAssets={ showHiddenAssets }
-            unit={ assetSymbol }
-            precision={ precision }
-            decimals={ decimals }
-            onAfterChangeShow={ this.onAfterChangeShow.bind(this, 'cryptoTokens') }
-            onAfterChangeHide={ this.onAfterChangeHide.bind(this, 'cryptoTokens') }
-          />
-          <OtherBalanceList
-            onNavigateToDeposit={ this.onNavigateToDeposit.bind(this) }
-            onNavigateToSend={ this.onNavigateToSendBySymbol.bind(this) }
-            title={ counterpart.translate('dashboard.other_assets') }
-            showHiddenAssets={ showHiddenAssets }
-            unit={ assetSymbol }
-            precision={ precision }
-            decimals={ decimals }
-            onAfterChangeShow={ this.onAfterChangeShow.bind(this, 'otherAssets') }
-            onAfterChangeHide={ this.onAfterChangeHide.bind(this, 'otherAssets') }
-          /> {hiddenAssets.size === 0
-            ? null
-            : <div className='table__btns'>
-              {showHiddenAssets
-                ? <button
-                  onClick={ this.toggleShowHiddenAssets.bind(this) }
-                  className='btn btn-neutral2 btn-table js-toggleAssetsVis'>
-                  <Translate content='dashboard.hide_hidden'/></button>
-                : <button
-                  onClick={ this.toggleShowHiddenAssets.bind(this) }
-                  className='btn btn-neutral2 btn-table js-toggleAssetsVis'>
-                  <Translate content='dashboard.show_hidden'/></button>
-              }
-            </div>
+          {this.renderBalanceList(
+            this.props.coreTokenList,
+            counterpart.translate('dashboard.core_tokens'),
+            false,
+            this.onAfterChangeShow.bind(this, 'coreToken'),
+            this.onAfterChangeHide.bind(this, 'coreToken')
+          )}
+          {this.renderBalanceList(
+            this.props.cryptoTokensList,
+            counterpart.translate('dashboard.digital_currencies'),
+            false,
+            this.onAfterChangeShow.bind(this, 'cryptoTokens'),
+            this.onAfterChangeHide.bind(this, 'cryptoTokens')
+          )}
+          {this.renderBalanceList(
+            this.props.otherAssetsList,
+            counterpart.translate('dashboard.other_assets'),
+            true,
+            this.onAfterChangeShow.bind(this, 'otherAssets'),
+            this.onAfterChangeHide.bind(this, 'otherAssets')
+          )}
+          {
+            hiddenAssets.size === 0
+              ? null
+              : <div className='table__btns'>
+                {
+                  showHiddenAssets
+                    ? <button
+                      onClick={ this.toggleShowHiddenAssets.bind(this) }
+                      className='btn btn-neutral2 btn-table js-toggleAssetsVis'>
+                      <Translate content='dashboard.hide_hidden'/>
+                    </button>
+                    : <button
+                      onClick={ this.toggleShowHiddenAssets.bind(this) }
+                      className='btn btn-neutral2 btn-table js-toggleAssetsVis'>
+                      <Translate content='dashboard.show_hidden'/>
+                    </button>
+                }
+              </div>
           }
           <RecentActivityList/>
           <div className='h100'></div>
@@ -138,4 +121,32 @@ class Balances extends React.Component {
   }
 }
 
-export default Balances;
+const mapStateToProps = (state) => {
+  const dashboard = state.dashboardPage;
+
+  return {
+    coreTokenList: dashboard.coreToken,
+    cryptoTokensList: dashboard.cryptoTokens,
+    otherAssetsList: dashboard.otherAssets,
+    coreSymbol: dashboard.coreSymbol,
+    assetSymbol: dashboard.assetSymbol,
+    precision: dashboard.precision,
+    decimals: dashboard.decimals,
+    showHiddenAssets: dashboard.showHiddenAssets,
+    hiddenAssets: state.settings.hiddenAssets
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    removeAssetToHidden: RSettingsActions.removeAssetToHidden,
+    addAssetToHidden: RSettingsActions.addAssetToHidden,
+    toggleAssetHidden: DashboardPageActions.toggleAssetHidden,
+    toggleShowHiddenAssets: DashboardPageActions.toggleShowHiddenAssets,
+    navigateToSend: NavigateActions.navigateToSend,
+    navigateToDepositWithDraw: NavigateActions.navigateToDepositWithDraw
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Balances);
