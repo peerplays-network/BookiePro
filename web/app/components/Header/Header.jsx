@@ -25,7 +25,6 @@ import Translate from 'react-translate-component';
 class Header extends React.Component {
   onLogoutClick(e) {
     e.preventDefault();
-
     this.props.logout();
   }
 
@@ -85,19 +84,6 @@ class Header extends React.Component {
               </span>
             </Link>
 
-            <Link
-              to='/games'
-              className={ classNames({
-                'nav__link': true,
-                'active': (/\/games/.test(this.props.pathname))
-              }) }
-              activeClassName='active'>
-              <span className='nav__linkAlign'>
-                <span className='nav__linkIcon nav__linkIcon-blank icon-star'></span>
-                <span className='nav__linkIcon nav__linkIcon-filled icon-star-filled'></span>
-                <Translate component='span' className='nav__linkText' content='header.play'/>
-              </span>
-            </Link>
             <Link to='/explore/voting' className='nav__link' activeClassName='active'>
               <span className='nav__linkAlign'>
                 <span className='nav__linkIcon nav__linkIcon-blank icon-check2'></span>

@@ -2,22 +2,18 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var Clean = require('clean-webpack-plugin');
-var git = require('git-rev-sync');
 require('es6-promise').polyfill();
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 // BASE APP DIR
 var root_dir = path.resolve(__dirname, '..');
-var packageJSON = require('../package.json');
-var chalk = require('chalk');
+var Config = require('./Config');
 
 // FUNCTION TO EXTRACT CSS FOR PRODUCTION
 function extractForProduction(loaders) {
   return ExtractTextPlugin.extract('style', loaders.substr(loaders.indexOf('!')));
 }
 
-module.exports = function(options) {
-  console.log(chalk.gray('Options:', JSON.stringify(options, null, 4)));
-  // console.log(options.prod ? "Using PRODUCTION options\n" : "Using DEV options\n");
+module.exports = function (options) {
   // STYLE LOADERS
   var cssLoaders = 'style-loader!css-loader!postcss-loader',
     scssLoaders = 'style!css!postcss-loader!sass?outputStyle=expanded';
@@ -28,19 +24,21 @@ module.exports = function(options) {
   // OUTPUT PATH
   var outputPath = path.join(root_dir, 'assets');
 
+  // GLOBAL VAR DEFINE
   var define = {
-    APP_PACKAGE_VERSION: JSON.stringify(packageJSON.version),
-    SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME: JSON
-      .stringify(options.SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME || 'ppcoreupdates'),
-    APP_VERSION: JSON.stringify(packageJSON.version),
+    APP_PACKAGE_VERSION: JSON.stringify(Config.APP_PACKAGE_VERSION),
+    SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME: JSON.stringify(
+      options.SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME
+      || Config.SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME
+    ),
+    APP_VERSION: JSON.stringify(Config.APP_VERSION),
     __ELECTRON__: !!options.electron,
-    CORE_ASSET: JSON.stringify('PPY'),
-    BLOCKCHAIN_URL: JSON.stringify(options.blockchain || 'wss://pma.blockveritas.co:8089/'),
-    FAUCET_URL: JSON.stringify(options.faucet || 'https://faucet.peerplays.download/faucet'),
-    FAUCET_FILE: JSON.stringify(options.faucetFile || 'faucetUrls'),
-    BITSHARES_WS: JSON.stringify(options.BITSHARES_WS || 'wss://bitshares.openledger.info/ws'),
+    CORE_ASSET: JSON.stringify(Config.CORE_ASSET),
+    BLOCKCHAIN_URL: JSON.stringify(Config.BLOCKCHAIN_URLS),
+    FAUCET_URL: JSON.stringify(Config.FAUCET_URLS),
+    FAUCET_FILE: JSON.stringify(options.faucetFile || Config.FAUCET_FILE),
+    BITSHARES_WS: JSON.stringify(options.BITSHARES_WS || Config.BITSHARES_WS),
   };
-  console.log(chalk.gray('Environment configuration: ', JSON.stringify(define, null, 4)));
   // COMMON PLUGINS
   var plugins = [
     new webpack.optimize.DedupePlugin(),
@@ -54,9 +52,14 @@ module.exports = function(options) {
     scssLoaders = extractForProduction(scssLoaders);
 
     // PROD PLUGINS
-    plugins.push(new Clean(cleanDirectories, {root: root_dir}));
-    plugins.push(new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON
-      .stringify('production')}}));
+    plugins.push(new Clean(cleanDirectories, {
+      root: root_dir
+    }));
+    plugins.push(new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }));
 
     plugins.push(new ExtractTextPlugin('app.css'));
 
@@ -81,14 +84,20 @@ module.exports = function(options) {
     // PROD OUTPUT PATH
     outputPath = path.join(root_dir, 'dist');
 
-    plugins.push(new CopyWebpackPlugin([
-      {from: path.resolve(root_dir, 'app/assets/openpgp'), to: path.resolve(outputPath, 'openpgp')},
-      {from: path.resolve(root_dir, 'app/assets/createjs-2015.11.26.min.js'),
-        to: path.resolve(outputPath, 'createjs-2015.11.26.min.js')},
+    plugins.push(new CopyWebpackPlugin([{
+      from: path.resolve(root_dir, 'app/assets/openpgp'),
+      to: path.resolve(outputPath, 'openpgp')
+    },
+    {
+      from: path.resolve(root_dir, 'app/assets/createjs-2015.11.26.min.js'),
+      to: path.resolve(outputPath, 'createjs-2015.11.26.min.js')
+    },
     ]));
   } else {
     plugins.push(new webpack.DefinePlugin({
-      'process.env': {NODE_ENV: JSON.stringify('development')}
+      'process.env': {
+        NODE_ENV: JSON.stringify('development')
+      }
     })),
     plugins.push(new webpack.HotModuleReplacementPlugin());
 
@@ -109,8 +118,7 @@ module.exports = function(options) {
   var config = {
     entry: {
       app: options.prod ?
-        path.resolve(root_dir, 'app/Main.js') :
-        [
+        path.resolve(root_dir, 'app/Main.js') : [
           'webpack-dev-server/client?http://localhost:8082',
           'webpack/hot/only-dev-server',
           path.resolve(root_dir, 'app/Main-dev.js')
@@ -126,63 +134,87 @@ module.exports = function(options) {
     debug: !options.prod,
     module: {
       noParse: /node_modules\/openpgp\/dist\/openpgp.js/,
-      loaders: [
-        {
-          test: /\.jsx$/,
-          include: [path.join(root_dir, 'app'),
-            path.join(root_dir, 'node_modules/react-foundation-apps'),
-            '/home/sigve/Dev/graphene/react-foundation-apps'],
-          loaders: options.prod ? ['babel-loader'] : ['babel-loader?cacheDirectory=../babel-cache']
-        },
-        {
-          test: /\.js$/,
-          exclude: [/node_modules/, path.resolve(root_dir, '../dl/node_modules')],
-          loader: 'babel-loader',
-          query: {compact: false, cacheDirectory: true}
-        },
-        {
-          test: /\.json/, loader: 'json',
-          exclude: [
-            path.resolve(root_dir, '../dl/src/common'),
-            path.resolve(root_dir, 'app/assets/locales')
-          ]
-        },
-        {test: /\.coffee$/, loader: 'coffee-loader'},
-        {test: /\.(coffee\.md|litcoffee)$/, loader: 'coffee-loader?literate'},
-        {test: /\.css$/, loader: cssLoaders},
-        {
-          test: /\.scss$/,
-          loader: scssLoaders
-        },
-        {
-          test: /(\.png$)/, loader: 'url-loader?limit=100000',
-          exclude:[
-            path.resolve(root_dir, 'app/assets/asset-symbols'),
-            path.resolve(root_dir, 'app/assets/images')
-          ]
-        },
-        {
-          test: /\.(jpe?g|png|gif|svg)$/i,
-          loaders: [
-            'file?hash=sha512&digest=hex&name=[hash].[ext]',
-            `image-webpack?${JSON.stringify({
-              bypassOnDebug: true,
-              optipng: {
-                optimizationLevel: true
-              },
-              gifsicle: {
-                interlaced: true
-              }
-            })}`
-          ],
-          exclude : [
-            path.join(root_dir, 'app/assets/images')
-          ]
-        },
-        {test: /\.woff$/, loader: 'url-loader?limit=100000&mimetype=application/font-woff'},
-        {test: /.*\.svg$/, loaders: ['svg-inline-loader', 'svgo-loader'] ,
-          exclude:[path.resolve(root_dir, 'app/assets/images/games/rps')]},
-        {test: /\.md/, loader: 'html?removeAttributeQuotes=false!remarkable'},
+      loaders: [{
+        test: /\.jsx$/,
+        include: [
+          path.join(root_dir, 'app'),
+          path.join(root_dir, 'node_modules/react-foundation-apps'),
+          '/home/sigve/Dev/graphene/react-foundation-apps'
+        ],
+        loaders: options.prod ? ['babel-loader'] : ['babel-loader?cacheDirectory=../babel-cache']
+      },
+      {
+        test: /\.js$/,
+        exclude: [/node_modules/, path.resolve(root_dir, '../dl/node_modules')],
+        loader: 'babel-loader',
+        query: {
+          compact: false,
+          cacheDirectory: true
+        }
+      },
+      {
+        test: /\.json/,
+        loader: 'json',
+        exclude: [
+          path.resolve(root_dir, '../dl/src/common'),
+          path.resolve(root_dir, 'app/assets/locales')
+        ]
+      },
+      {
+        test: /\.coffee$/,
+        loader: 'coffee-loader'
+      },
+      {
+        test: /\.(coffee\.md|litcoffee)$/,
+        loader: 'coffee-loader?literate'
+      },
+      {
+        test: /\.css$/,
+        loader: cssLoaders
+      },
+      {
+        test: /\.scss$/,
+        loader: scssLoaders
+      },
+      {
+        test: /(\.png$)/,
+        loader: 'url-loader?limit=100000',
+        exclude: [
+          path.resolve(root_dir, 'app/assets/asset-symbols'),
+          path.resolve(root_dir, 'app/assets/images')
+        ]
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loaders: [
+          'file?hash=sha512&digest=hex&name=[hash].[ext]',
+          `image-webpack?${JSON.stringify({
+            bypassOnDebug: true,
+            optipng: {
+              optimizationLevel: true
+            },
+            gifsicle: {
+              interlaced: true
+            }
+          })}`
+        ],
+        exclude: [
+          path.join(root_dir, 'app/assets/images')
+        ]
+      },
+      {
+        test: /\.woff$/,
+        loader: 'url-loader?limit=100000&mimetype=application/font-woff'
+      },
+      {
+        test: /.*\.svg$/,
+        loaders: ['svg-inline-loader', 'svgo-loader'],
+        exclude: [path.resolve(root_dir, 'app/assets/images/games/rps')]
+      },
+      {
+        test: /\.md/,
+        loader: 'html?removeAttributeQuotes=false!remarkable'
+      },
       ],
       postcss: function () {
         return [precss, autoprefixer];
@@ -210,8 +242,8 @@ module.exports = function(options) {
   };
 
   // if(options.prod) config.entry.vendors = [
-  //     "classnames", "react-router", "highcharts/highstock", "counterpart",
-  //       "react-translate-component",
+  //     "classnames", "react-router", "highcharts/highstock",
+  //     "counterpart", "react-translate-component",
   //     "perfect-scrollbar", "jdenticon", "react-notification-system", "react-tooltip",
   //     "whatwg-fetch", "alt", "react-json-inspector",
   //     "immutable", "peerplaysjs-lib"

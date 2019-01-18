@@ -94,7 +94,6 @@ class VotingActions {
           payload: {witnesses}
         });
       });
-
     };
   }
   /**

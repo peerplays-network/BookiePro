@@ -5,6 +5,7 @@ import {switchLibraryLocale} from '../services/LocaleService';
 
 const STORAGE_KEY = '__peerplays__';
 const SETTINGS_KEY = 'settings_v3';
+
 let ss = new ls(STORAGE_KEY);
 let storageSettings = ss.get(SETTINGS_KEY);
 let locales = {};
@@ -27,7 +28,7 @@ export function initSettings() {
 
       for (let key in storageSettings) {
         if (storageSettings[key] !== state.settings[key]) {
-          if (key === 'hiddenAssets'){
+          if (key === 'hiddenAssets') {
             newSettings[key] = Immutable.List(storageSettings[key]);
           } else {
             newSettings[key] = storageSettings[key];
@@ -39,7 +40,10 @@ export function initSettings() {
 
       if (needUpdate) {
         let locale = newSettings['locale'];
-        switchLibraryLocale({locale, localeData: locales[locale]});
+        switchLibraryLocale({
+          locale,
+          localeData: locales[locale]
+        });
         dispatch({
           type: ActionTypes.INIT_SETTINGS,
           payload: {
@@ -60,7 +64,10 @@ export function initSettings() {
 export function switchLocale(locale) {
   return (dispatch) => {
     changeStorageValue('locale', locale);
-    switchLibraryLocale({locale, localeData: locales[locale]});
+    switchLibraryLocale({
+      locale,
+      localeData: locales[locale]
+    });
     dispatch({
       type: ActionTypes.SWITCH_LOCALE,
       payload: locale
@@ -104,7 +111,6 @@ export function changeChatStatus() {
   };
 }
 
-
 /**
  * Redux Action Creator (ADD_OWNER_KEY)
  * TODO::rm
@@ -112,8 +118,8 @@ export function changeChatStatus() {
  * @param data
  * @returns {function(*, *)}
  */
-export function addOwnerKeyPermissions(data){
-  return (dispatch) => {
+export function addOwnerKeyPermissions(data) {
+  return (dispatch, getState) => { // eslint-disable-line
     dispatch({
       type: ActionTypes.ADD_OWNER_KEY,
       payload: data
@@ -133,24 +139,6 @@ export function changeUnit(unit) {
     dispatch({
       type: ActionTypes.CHANGE_UNIT,
       payload: unit
-    });
-  };
-}
-
-/**
- *
- * Redux Action Creator (CHANGE_FAUCET_ADDRESS)
- * Change current faucet address
- *
- * @param {string} address
- * @returns {Function}
- */
-export function changeFaucetAddress(address){
-  return function (dispatch) {
-    changeStorageValue('faucetAddress', address);
-    dispatch({
-      type: ActionTypes.CHANGE_FAUCET_ADDRESS,
-      payload: address
     });
   };
 }
@@ -185,9 +173,11 @@ export function removeAssetToHidden(unit) {
   return function (dispatch, getState) {
     let hiddenAssets = getState().settings.hiddenAssets;
 
-    if (hiddenAssets.indexOf(unit) !== -1){
+    if (hiddenAssets.indexOf(unit) != -1) {
       hiddenAssets = hiddenAssets.delete(hiddenAssets.indexOf(unit));
+
       changeStorageValue('hiddenAssets', hiddenAssets.toJS());
+
       dispatch({
         type: ActionTypes.CHANGE_HIDDEN_ASSETS,
         payload: hiddenAssets
@@ -204,4 +194,5 @@ function changeStorageValue(k, val) {
 
   storageSettings[k] = val;
   ss.set(SETTINGS_KEY, storageSettings);
+
 }
