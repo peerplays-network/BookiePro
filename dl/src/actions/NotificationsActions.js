@@ -1,20 +1,22 @@
 import ActionTypes from '../constants/ActionTypes';
 import NotificationMessage from '../app/NotificationMessage';
 
-/**
- * Private Redux Action Creator (NOTIFICATIONS_SET_MESSAGES)
- * Set List of notices
- *
- * @param {Immutable.List} messages
- * @returns {{type, payload: *}}
- */
-function setMessagesAction(messages) {
-  return {
-    type: ActionTypes.NOTIFICATIONS_SET_MESSAGES,
-    payload: {
-      messages: messages
-    }
-  };
+class NotificationsPrivateActions {
+  /**
+   * Private Redux Action Creator (NOTIFICATIONS_SET_MESSAGES)
+   * Set List of notices
+   *
+   * @param {Immutable.List} messages
+   * @returns {{type, payload: *}}
+   */
+  static setMessagesAction(messages) {
+    return {
+      type: ActionTypes.NOTIFICATIONS_SET_MESSAGES,
+      payload: {
+        messages: messages
+      }
+    };
+  }
 }
 
 class NotificationsActions {
@@ -31,7 +33,7 @@ class NotificationsActions {
         newListMessages = messages.filter((message) => {
           return NotificationMessage.TYPES.SOFTWARE_UPDATE !== message.type;
         });
-      dispatch(setMessagesAction(newListMessages.unshift(message)));
+      dispatch(NotificationsPrivateActions.setMessagesAction(newListMessages.unshift(message)));
     };
   }
 
@@ -51,7 +53,7 @@ class NotificationsActions {
         });
 
       if (messages !== newListMessages) {
-        dispatch(setMessagesAction(newListMessages));
+        dispatch(NotificationsPrivateActions.setMessagesAction(newListMessages));
       }
     };
   }

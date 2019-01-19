@@ -1,5 +1,9 @@
 import ActionTypes from '../constants/ActionTypes';
-import {PrivateKey, key, FetchChain} from 'peerplaysjs-lib';
+import {
+  PrivateKey,
+  key,
+  FetchChain
+} from 'peerplaysjs-lib';
 import Immutable from 'immutable';
 import KeysService from '../services/KeysService';
 import TransactionService from '../services/TransactionService';
@@ -7,76 +11,77 @@ import Repository from '../repositories/chain/repository';
 import BalanceRepository from '../repositories/BalanceRepository';
 import counterpart from 'counterpart';
 
-/**
- * Private Action Creator (SETTINGS_CLAIM_SET_KEY_ERROR)
- *
- * @param data
- * @returns {{type: SETTINGS_CLAIM_SET_KEY_ERROR, payload: *}}
- */
-function setKeyErrorAction(data) {
-  return {
-    type: ActionTypes.SETTINGS_CLAIM_SET_KEY_ERROR,
-    payload: data
-  };
-}
+class SettingsClaimPrivateActions {
+  /**
+   * Private Action Creator (SETTINGS_CLAIM_SET_KEY_ERROR)
+   *
+   * @param data
+   * @returns {{type: SETTINGS_CLAIM_SET_KEY_ERROR, payload: *}}
+   */
+  static setKeyErrorAction(data) {
+    return {
+      type: ActionTypes.SETTINGS_CLAIM_SET_KEY_ERROR,
+      payload: data
+    };
+  }
 
-/**
- * Private Action Creator (SETTINGS_CLAIM_SET_PRIVATE_KEY)
- *
- * @param data
- * @returns {{type: SETTINGS_CLAIM_SET_PRIVATE_KEY, payload: *}}
- */
-function setPrivateKeyAction(data) {
-  return {
-    type: ActionTypes.SETTINGS_CLAIM_SET_PRIVATE_KEY,
-    payload: data
-  };
-}
+  /**
+   * Private Action Creator (SETTINGS_CLAIM_SET_PRIVATE_KEY)
+   *
+   * @param data
+   * @returns {{type: SETTINGS_CLAIM_SET_PRIVATE_KEY, payload: *}}
+   */
+  static setPrivateKeyAction(data) {
+    return {
+      type: ActionTypes.SETTINGS_CLAIM_SET_PRIVATE_KEY,
+      payload: data
+    };
+  }
 
-/**
- * Private Action Creator (SETTINGS_CLAIM_SET_BALANCES_DATA)
- *
- * @param data
- * @returns {{type: SETTINGS_CLAIM_SET_BALANCES_DATA, payload: *}}
- */
-function setBalancesDataAction(data) {
-  return {
-    type: ActionTypes.SETTINGS_CLAIM_SET_BALANCES_DATA,
-    payload: data
-  };
-}
+  /**
+   * Private Action Creator (SETTINGS_CLAIM_SET_BALANCES_DATA)
+   *
+   * @param data
+   * @returns {{type: SETTINGS_CLAIM_SET_BALANCES_DATA, payload: *}}
+   */
+  static setBalancesDataAction(data) {
+    return {
+      type: ActionTypes.SETTINGS_CLAIM_SET_BALANCES_DATA,
+      payload: data
+    };
+  }
 
-/**
- * Private Action Creator (SETTINGS_CLAIM_RESET)
- *
- * @param data
- * @returns {{type: SETTINGS_CLAIM_RESET, payload: *}}
- */
-function resetBalancesDataAction(data) {
-  return {
-    type: ActionTypes.SETTINGS_CLAIM_RESET,
-    payload: data
-  };
-}
+  /**
+   * Private Action Creator (SETTINGS_CLAIM_RESET)
+   *
+   * @param data
+   * @returns {{type: SETTINGS_CLAIM_RESET, payload: *}}
+   */
+  static resetBalancesDataAction(data) {
+    return {
+      type: ActionTypes.SETTINGS_CLAIM_RESET,
+      payload: data
+    };
+  }
 
-/**
- * Private Action Creator (SETTINGS_CLAIM_RESET_BALANCES)
- *
- * @param data
- * @returns {{type: SETTINGS_CLAIM_RESET_BALANCES, payload: *}}
- */
-function resetBalancesAction(data) {
-  return {
-    type: ActionTypes.SETTINGS_CLAIM_RESET_BALANCES,
-    payload: data
-  };
+  /**
+   * Private Action Creator (SETTINGS_CLAIM_RESET_BALANCES)
+   *
+   * @param data
+   * @returns {{type: SETTINGS_CLAIM_RESET_BALANCES, payload: *}}
+   */
+  static resetBalancesAction(data) {
+    return {
+      type: ActionTypes.SETTINGS_CLAIM_RESET_BALANCES,
+      payload: data
+    };
+  }
 }
 
 /**
  * Claim Sharedrop page
  */
 class SettingsClaimActions {
-
   /**
    * This is started after pressing the button "Lookup Balances"
    *
@@ -85,7 +90,7 @@ class SettingsClaimActions {
    */
   static lookupBalances(ownerKeyString) {
     return (dispatch) => {
-      dispatch(resetBalancesDataAction());
+      dispatch(SettingsClaimPrivateActions.resetBalancesDataAction());
       //TODO::services
 
       try {
@@ -96,7 +101,7 @@ class SettingsClaimActions {
         BalanceRepository.getBalanceObjects(addresses).then((results) => {
 
           if (!results.length) {
-            dispatch(setKeyErrorAction({
+            dispatch(SettingsClaimPrivateActions.setKeyErrorAction({
               claim_error: counterpart.translate('errors.no_balance_objects')
             }));
 
@@ -109,14 +114,14 @@ class SettingsClaimActions {
             balance_ids.push(balance.id);
           }
 
-          dispatch(setPrivateKeyAction({
+          dispatch(SettingsClaimPrivateActions.setPrivateKeyAction({
             claim_privateKey: ownerKeyString
           }));
 
-          return BalanceRepository.getVestedBalances(balance_ids).then( (vested_balances) => {
+          return BalanceRepository.getVestedBalances(balance_ids).then((vested_balances) => {
             let assetsPromises = [];
             let assetsIdsHash = Object.create(null);
-            let balances = Immutable.List().withMutations( (balance_list) => {
+            let balances = Immutable.List().withMutations((balance_list) => {
               for (let i = 0; i < results.length; i++) {
                 let balance = results[i];
 
@@ -134,7 +139,7 @@ class SettingsClaimActions {
                 }
               }
             });
-            return Promise.all([Promise.all(assetsPromises),balances]);
+            return Promise.all([Promise.all(assetsPromises), balances]);
           });
         }).then(([assets, balances]) => {
           let assetsHash = Object.create(null);
@@ -170,13 +175,13 @@ class SettingsClaimActions {
                   return balance.setIn(['accounts'], accountsNames);
                 });
 
-                dispatch(setBalancesDataAction({
+                dispatch(SettingsClaimPrivateActions.setBalancesDataAction({
                   claim_balances: balances
                 }));
               });
 
             } else {
-              dispatch(setBalancesDataAction({
+              dispatch(SettingsClaimPrivateActions.setBalancesDataAction({
                 claim_balances: balances
               }));
             }
@@ -184,7 +189,7 @@ class SettingsClaimActions {
         });
       } catch (e) {
         console.error(e);
-        dispatch(setKeyErrorAction({
+        dispatch(SettingsClaimPrivateActions.setKeyErrorAction({
           claim_error: counterpart.translate('errors.paste_your_redemption_key_here')
         }));
       }
@@ -203,7 +208,7 @@ class SettingsClaimActions {
         let balances = state.pageSettings.claim_balances;
         let account_name_or_id = state.app.accountId;
         let account_lookup = FetchChain('getAccount', account_name_or_id);
-        let p = Promise.all([ account_lookup ]).then( (results)=> {
+        let p = Promise.all([account_lookup]).then((results) => {
           let account = results[0];
 
           if (!account) {
@@ -214,7 +219,10 @@ class SettingsClaimActions {
 
           for (let balance of balances) {
             balance = balance.toJS();
-            let {vested_balance, public_key_string} = balance;
+            let {
+              vested_balance,
+              public_key_string
+            } = balance;
             let total_claimed;
 
             if (vested_balance) {
@@ -237,7 +245,10 @@ class SettingsClaimActions {
             }
 
             balance_claims.push({
-              fee: {amount: '0', asset_id: '1.3.0'},
+              fee: {
+                amount: '0',
+                asset_id: '1.3.0'
+              },
               deposit_to_account: account.get('id'),
               balance_to_claim: balance.id,
               balance_owner_key: public_key_string,
@@ -256,7 +267,7 @@ class SettingsClaimActions {
             KeysService.getActiveKeyFromState(state, dispatch).then(() => {
               TransactionService.importBalances(
                 balance_claims, account.get('id'), state.pageSettings.claim_privateKey, () => {
-                  dispatch(resetBalancesDataAction());
+                  dispatch(SettingsClaimPrivateActions.resetBalancesDataAction());
                   resolve();
                 }).then((trFnc) => {
                 dispatch(trFnc);
@@ -270,11 +281,11 @@ class SettingsClaimActions {
   }
 
   static resetKey() {
-    return resetBalancesDataAction();
+    return SettingsClaimPrivateActions.resetBalancesDataAction();
   }
 
   static resetBalances() {
-    return resetBalancesAction();
+    return SettingsClaimPrivateActions.resetBalancesAction();
   }
 }
 

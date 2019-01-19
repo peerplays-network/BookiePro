@@ -2,105 +2,107 @@ import ActionTypes from '../constants/ActionTypes';
 import DashboardBalancesService from '../services/DashboardBalancesService';
 import Repository from '../repositories/chain/repository';
 
-/**
- * Private Redux Action Creator (DASHBOARD_TOGGLE_SHOW_HIDDEN_ASSETS)
- * @param showHiddenAssets boolean
- * @returns {{type: (DASHBOARD_TOGGLE_SHOW_HIDDEN_ASSETS), payload: {showHiddenAssets: boolean}}}
- */
-function toggleShowHiddenAssetsAction(showHiddenAssets) {
-  return {
-    type: ActionTypes.DASHBOARD_TOGGLE_SHOW_HIDDEN_ASSETS,
-    payload: {
-      showHiddenAssets: showHiddenAssets
-    }
-  };
-}
-
-/**
- * Private Redux Action Creator (DASHBOARD_CHANGE_SIDE)
- * Dashboard Side: Set available balances
- * @param sideData
- * @returns {{type: (DASHBOARD_CHANGE_SIDE), payload: Object}}
- */
-function setSideAction(sideData) {
-  return {
-    type: ActionTypes.DASHBOARD_CHANGE_SIDE,
-    payload: sideData
-  };
-}
-
-/**
- * Private Redux Action Creator (DASHBOARD_SET_BALANCES)
- * @param data
- * @returns {{type: (DASHBOARD_SET_BALANCES), payload: Object}}
- */
-function setBalancesAction(data) {
-  return {
-    type: ActionTypes.DASHBOARD_SET_BALANCES,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (DASHBOARD_UPDATE)
- * @param data
- * @returns {{type: (DASHBOARD_UPDATE), payload: Object}}
- */
-function updateAssetAction(data) {
-  return {
-    type: ActionTypes.DASHBOARD_UPDATE,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (DASHBOARD_SET_RECENT_ACTIVITY)
- * @param data
- * @returns {{type, payload: *}}
- */
-function setRecentActivityAction(data) {
-  return {
-    type: ActionTypes.DASHBOARD_SET_RECENT_ACTIVITY,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (DASHBOARD_SET_OPEN_ORDERS)
- * @param data
- * @returns {{type, payload: *}}
- */
-function setOpenOrdersAction(data) {
-  return {
-    type: ActionTypes.DASHBOARD_SET_OPEN_ORDERS,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (DASHBOARD_SET_SIDE_VESTING_BALANCES)
- * Side Vesting
- * @param data
- * @returns {{type, payload: *}}
- */
-function setVestingBalancesAction(data) {
-  return {
-    type: ActionTypes.DASHBOARD_SET_SIDE_VESTING_BALANCES,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (DASHBOARD_SET_SIDE_MEMBER)
- *
- * @param data
- * @returns {{type, payload: *}}
- */
-function setMemberDataAction(data) {
-  return {
-    type: ActionTypes.DASHBOARD_SET_SIDE_MEMBER,
-    payload: data
-  };
+class DashboardPagePrivateActions {
+  /**
+   * Private Redux Action Creator (DASHBOARD_TOGGLE_SHOW_HIDDEN_ASSETS)
+   * @param showHiddenAssets boolean
+   * @returns {{type: (DASHBOARD_TOGGLE_SHOW_HIDDEN_ASSETS), payload: {showHiddenAssets: boolean}}}
+   */
+  static toggleShowHiddenAssetsAction(showHiddenAssets) {
+    return {
+      type: ActionTypes.DASHBOARD_TOGGLE_SHOW_HIDDEN_ASSETS,
+      payload: {
+        showHiddenAssets: showHiddenAssets
+      }
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (DASHBOARD_CHANGE_SIDE)
+   * Dashboard Side: Set available balances
+   * @param sideData
+   * @returns {{type: (DASHBOARD_CHANGE_SIDE), payload: Object}}
+   */
+  static setSideAction(sideData) {
+    return {
+      type: ActionTypes.DASHBOARD_CHANGE_SIDE,
+      payload: sideData
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (DASHBOARD_SET_BALANCES)
+   * @param data
+   * @returns {{type: (DASHBOARD_SET_BALANCES), payload: Object}}
+   */
+  static setBalancesAction(data) {
+    return {
+      type: ActionTypes.DASHBOARD_SET_BALANCES,
+      payload: data
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (DASHBOARD_UPDATE)
+   * @param data
+   * @returns {{type: (DASHBOARD_UPDATE), payload: Object}}
+   */
+  static updateAssetAction(data) {
+    return {
+      type: ActionTypes.DASHBOARD_UPDATE,
+      payload: data
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (DASHBOARD_SET_RECENT_ACTIVITY)
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static setRecentActivityAction(data) {
+    return {
+      type: ActionTypes.DASHBOARD_SET_RECENT_ACTIVITY,
+      payload: data
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (DASHBOARD_SET_OPEN_ORDERS)
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static setOpenOrdersAction(data) {
+    return {
+      type: ActionTypes.DASHBOARD_SET_OPEN_ORDERS,
+      payload: data
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (DASHBOARD_SET_SIDE_VESTING_BALANCES)
+   * Side Vesting
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static setVestingBalancesAction(data) {
+    return {
+      type: ActionTypes.DASHBOARD_SET_SIDE_VESTING_BALANCES,
+      payload: data
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (DASHBOARD_SET_SIDE_MEMBER)
+   *
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static setMemberDataAction(data) {
+    return {
+      type: ActionTypes.DASHBOARD_SET_SIDE_MEMBER,
+      payload: data
+    };
+  }
 }
 
 class DashboardPageActions {
@@ -169,7 +171,7 @@ class DashboardPageActions {
 
       // Member
       Repository.getAccount(currentState.app.account).then((account) => {
-        dispatch(setMemberDataAction({
+        dispatch(DashboardPagePrivateActions.setMemberDataAction({
           memberAccount: account
         }));
       });
@@ -190,7 +192,7 @@ class DashboardPageActions {
           || (vestingBalances !== data.vestingBalances)
           || (vestingAsset !== data.vestingAsset)
           ) {
-            dispatch(setVestingBalancesAction({
+            dispatch(DashboardPagePrivateActions.setVestingBalancesAction({
               vestingBalancesIds: data.vestingBalancesIds,
               vestingBalances: data.vestingBalances,
               vestingAsset: data.vestingAsset
@@ -207,7 +209,7 @@ class DashboardPageActions {
  */
   static setSide(side) {
     return (dispatch) => {
-      dispatch(setSideAction(side));
+      dispatch(DashboardPagePrivateActions.setSideAction(side));
     };
   }
 
@@ -219,7 +221,7 @@ class DashboardPageActions {
  */
   static setVestingBalances(data) {
     return (dispatch) => {
-      dispatch(setVestingBalancesAction(data));
+      dispatch(DashboardPagePrivateActions.setVestingBalancesAction(data));
     };
   }
 
@@ -231,7 +233,7 @@ class DashboardPageActions {
  */
   static setBalances(data) {
     return (dispatch) => {
-      dispatch(setBalancesAction({
+      dispatch(DashboardPagePrivateActions.setBalancesAction({
         coreToken: data.coreToken,
         fiat: data.fiat,
         cryptoTokens: data.cryptoTokens,
@@ -268,7 +270,7 @@ class DashboardPageActions {
         );
         let updateData = {};
         updateData[type] = listNext;
-        dispatch(updateAssetAction(updateData));
+        dispatch(DashboardPagePrivateActions.updateAssetAction(updateData));
       }
     };
   }
@@ -280,7 +282,7 @@ class DashboardPageActions {
   static toggleShowHiddenAssets() {
     return (dispatch, getState) => {
       let state = getState();
-      dispatch(toggleShowHiddenAssetsAction(!state.dashboardPage.showHiddenAssets));
+      dispatch(DashboardPagePrivateActions.toggleShowHiddenAssetsAction(!state.dashboardPage.showHiddenAssets));
     };
   }
 
@@ -292,7 +294,7 @@ class DashboardPageActions {
  */
   static setRecentActivity(data) {
     return (dispatch) => {
-      dispatch(setRecentActivityAction(data));
+      dispatch(DashboardPagePrivateActions.setRecentActivityAction(data));
     };
   }
 
@@ -304,7 +306,7 @@ class DashboardPageActions {
  */
   static setOpenOrders(data) {
     return (dispatch) => {
-      dispatch(setOpenOrdersAction(data));
+      dispatch(DashboardPagePrivateActions.setOpenOrdersAction(data));
     };
   }
 }

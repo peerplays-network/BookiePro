@@ -1,18 +1,20 @@
 import ActionTypes from '../constants/ActionTypes';
 
-/**
- * Private Action Creator (TOGGLE_HELP_POPUP)
- *
- * @param isShow
- * @returns {{type, payload: {showHelpModal: boolean}}}
- */
-function toggleModalAction(isShow) {
-  return {
-    type: ActionTypes.TOGGLE_HELP_POPUP,
-    payload: {
-      showHelpModal: isShow
-    }
-  };
+class HelpPrivateActions {
+  /**
+   * Private Action Creator (TOGGLE_HELP_POPUP)
+   *
+   * @param isShow
+   * @returns {{type, payload: {showHelpModal: boolean}}}
+   */
+  static toggleModalAction(isShow) {
+    return {
+      type: ActionTypes.TOGGLE_HELP_POPUP,
+      payload: {
+        showHelpModal: isShow
+      }
+    };
+  }
 }
 
 class HelpActions {
@@ -24,7 +26,7 @@ class HelpActions {
  */
   static toggleHelpModal(showHelpModal) {
     return (dispatch) => {
-      dispatch(toggleModalAction(showHelpModal));
+      dispatch(HelpPrivateActions.toggleModalAction(showHelpModal));
     };
   }
 }

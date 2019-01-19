@@ -5,36 +5,38 @@ import AccountRepository from '../repositories/AccountRepository';
 import LoginService from '../services/LoginService';
 import NavigateActions from '../actions/NavigateActions';
 
-/**
- * Private Redux Action Creator (CLAIM_BTS_SET_STATUS)
- *
- * button Status
- *
- * @param {string} status - loading|default
- * @returns {{type, payload: {status: *}}}
- */
-function setStatus(status) {
-  return {
-    type: ActionTypes.CLAIM_BTS_SET_STATUS,
-    payload: {
-      status: status
-    }
-  };
-}
+class ClaimBtsPrivateActions {
+  /**
+   * Private Redux Action Creator (CLAIM_BTS_SET_STATUS)
+   *
+   * button Status
+   *
+   * @param {string} status - loading|default
+   * @returns {{type, payload: {status: *}}}
+   */
+  static setStatus(status) {
+    return {
+      type: ActionTypes.CLAIM_BTS_SET_STATUS,
+      payload: {
+        status: status
+      }
+    };
+  }
 
-/**
- * Private Redux Action Creator (CLAIM_BTS_SET_ERRORS)
- * ClaimBtsForm: common errors
- * @param {array} errors
- * @returns {{type, payload: {errors: []}}}
- */
-function setErrors(errors) {
-  return {
-    type: ActionTypes.CLAIM_BTS_SET_ERRORS,
-    payload: {
-      errors: errors
-    }
-  };
+  /**
+   * Private Redux Action Creator (CLAIM_BTS_SET_ERRORS)
+   * ClaimBtsForm: common errors
+   * @param {array} errors
+   * @returns {{type, payload: {errors: []}}}
+   */
+  static setErrors(errors) {
+    return {
+      type: ActionTypes.CLAIM_BTS_SET_ERRORS,
+      payload: {
+        errors: errors
+      }
+    };
+  }
 }
 
 class ClaimBtsActions {
@@ -45,7 +47,7 @@ class ClaimBtsActions {
  * @returns {{type, payload: {status: *}}}
  */
   static setStatus(status) {
-    return setStatus(status);
+    return ClaimBtsPrivateActions.setStatus(status);
   }
 
   /**
@@ -105,18 +107,18 @@ class ClaimBtsActions {
             account, private_bts_key, dispatch
           ).then(() => {
             dispatch(NavigateActions.navigateToDashboard());
-            dispatch(setStatus('default'));
+            dispatch(ClaimBtsPrivateActions.setStatus('default'));
           }).catch(() => {
-            dispatch(setStatus('default'));
+            dispatch(ClaimBtsPrivateActions.setStatus('default'));
           });
         } else {
-          dispatch(setErrors([counterpart.translate('errors.incorrect_private_key')]));
-          dispatch(setStatus('default'));
+          dispatch(ClaimBtsPrivateActions.setErrors([counterpart.translate('errors.incorrect_private_key')]));
+          dispatch(ClaimBtsPrivateActions.setStatus('default'));
         }
       }).catch((err) => {
         console.warn('Error:', err);
-        dispatch(setErrors([counterpart.translate('errors.incorrect_private_key')]));
-        dispatch(setStatus('default'));
+        dispatch(ClaimBtsPrivateActions.setErrors([counterpart.translate('errors.incorrect_private_key')]));
+        dispatch(ClaimBtsPrivateActions.setStatus('default'));
       });
     };
   }

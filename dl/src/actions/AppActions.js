@@ -10,140 +10,142 @@ import CryptoElectronService from '../services/CryptoElectronService';
 import Repository from 'repositories/chain/repository';
 import CONFIG from '../config/main';
 
-/**
- *  Private Redux Action Creator (APP_LOGOUT)
- *  User Logout
- *
- * @returns {{type, payload: {isLogin: boolean, account: null, accountId: null}}}
- */
-function logoutAction() {
-  return {
-    type: ActionTypes.APP_LOGOUT,
-    payload: {
-      isLogin: false,
-      account: null,
-      accountId: null
-    }
-  };
-}
-
-/**
- * Private Redux Action Creator (APP_LOGIN)
- * Account Login in app
- *
- * @param {String} account
- * @param {String} accountId
- * @returns {{type, payload: {isLogin: boolean, account: String, accountId: String}}}
- */
-function loginAction(account, accountId) {
-  return {
-    type: ActionTypes.APP_LOGIN,
-    payload: {
-      isLogin: true,
-      account: account,
-      accountId: accountId
-    }
-  };
-}
-
-/**
- *  Private Redux Action Creator (APP_LOCAL_DB_IS_INIT)
- *
- * @param {boolean} dbIsInit
- * @returns {{type: (APP_LOCAL_DB_IS_INIT), dbIsInit: boolean}}
- */
-function setAppLocalDbInitAction(dbIsInit) {
-  return {
-    type: ActionTypes.APP_LOCAL_DB_IS_INIT,
-    dbIsInit: dbIsInit
-  };
-}
-
-/**
- * Private Redux Action Creator (APP_LOCAL_DB_DATA_IS_LOAD)
- *
- * @param dbDataIsLoad
- * @returns {{type: (APP_LOCAL_DB_DATA_IS_LOAD), dbDataIsLoad: boolean}}
- */
-function setAppLocalDbLoadAction(dbDataIsLoad) {
-  return {
-    type: ActionTypes.APP_LOCAL_DB_DATA_IS_LOAD,
-    dbDataIsLoad: dbDataIsLoad
-  };
-}
-
-/**
- * Private Redux Action Creator (APP_CHAIN_IS_INIT)
- *
- * @param {boolean} chainIsInit
- * @returns {{type: (APP_CHAIN_IS_INIT), chainIsInit: boolean}}
- */
-function setAppChainIsInitAction(chainIsInit) {
-  return {
-    type: ActionTypes.APP_CHAIN_IS_INIT,
-    chainIsInit: chainIsInit
-  };
-}
-
-/**
- * Private Redux Action Creator (APP_SET_SYNC_FAIL)
- *
- * @param syncIsFail
- * @returns {{type: (APP_SET_SYNC_FAIL), syncIsFail: boolean}}
- */
-function setAppSyncFailAction(syncIsFail) {
-  return {
-    type: ActionTypes.APP_SET_SYNC_FAIL,
-    syncIsFail: syncIsFail
-  };
-}
-
-/**
- * Private Redux Action Creator (APP_CURRENT_LOCATION)
- *
- * set current APP-reducer LOCATION FROM PageConstants.js File
- *
- * @param location
- * @returns {{type: (APP_CURRENT_LOCATION), currentLocation: string}}
- */
-function setCurrentLocationAction(location) {
-  return {
-    type: ActionTypes.APP_CURRENT_LOCATION,
-    payload: {
-      currentLocation: location
-    }
-  };
-}
-
-/**
- * Private Redux Action Creator (APP_SET_STATUS)
- *
- * @param {String} status
- * @returns {{type: APP_SET_STATUS, payload: {currentLocation: *}}}
- */
-function setStatusAction(status) {
-  return {
-    type: ActionTypes.APP_SET_STATUS,
-    payload: {
-      status: status
-    }
-  };
-}
-
-/**
- * Private Redux Action Creator (APP_SET_SHOW_CANT_CONNECT_MODAL)
- * Show cant connect modal window or no
- *
- * @param {boolean} show
- * @returns {{type: APP_SET_SHOW_CANT_CONNECT_MODAL, payload: {showCantConnectModal: *}}}
- */
-function setShowCantConnectStatusAction(show) {
-  return {
-    type: ActionTypes.APP_SET_SHOW_CANT_CONNECT_MODAL,
-    payload: {
-      showCantConnectModal: show
-    }
-  };
+class AppPrivateActions {
+  /**
+   *  Private Redux Action Creator (APP_LOGOUT)
+   *  User Logout
+   *
+   * @returns {{type, payload: {isLogin: boolean, account: null, accountId: null}}}
+   */
+  static logoutAction() {
+    return {
+      type: ActionTypes.APP_LOGOUT,
+      payload: {
+        isLogin: false,
+        account: null,
+        accountId: null
+      }
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (APP_LOGIN)
+   * Account Login in app
+   *
+   * @param {String} account
+   * @param {String} accountId
+   * @returns {{type, payload: {isLogin: boolean, account: String, accountId: String}}}
+   */
+  static loginAction(account, accountId) {
+    return {
+      type: ActionTypes.APP_LOGIN,
+      payload: {
+        isLogin: true,
+        account: account,
+        accountId: accountId
+      }
+    };
+  }
+  
+  /**
+   *  Private Redux Action Creator (APP_LOCAL_DB_IS_INIT)
+   *
+   * @param {boolean} dbIsInit
+   * @returns {{type: (APP_LOCAL_DB_IS_INIT), dbIsInit: boolean}}
+   */
+  static setAppLocalDbInitAction(dbIsInit) {
+    return {
+      type: ActionTypes.APP_LOCAL_DB_IS_INIT,
+      dbIsInit: dbIsInit
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (APP_LOCAL_DB_DATA_IS_LOAD)
+   *
+   * @param dbDataIsLoad
+   * @returns {{type: (APP_LOCAL_DB_DATA_IS_LOAD), dbDataIsLoad: boolean}}
+   */
+  static setAppLocalDbLoadAction(dbDataIsLoad) {
+    return {
+      type: ActionTypes.APP_LOCAL_DB_DATA_IS_LOAD,
+      dbDataIsLoad: dbDataIsLoad
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (APP_CHAIN_IS_INIT)
+   *
+   * @param {boolean} chainIsInit
+   * @returns {{type: (APP_CHAIN_IS_INIT), chainIsInit: boolean}}
+   */
+  static setAppChainIsInitAction(chainIsInit) {
+    return {
+      type: ActionTypes.APP_CHAIN_IS_INIT,
+      chainIsInit: chainIsInit
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (APP_SET_SYNC_FAIL)
+   *
+   * @param syncIsFail
+   * @returns {{type: (APP_SET_SYNC_FAIL), syncIsFail: boolean}}
+   */
+  static setAppSyncFailAction(syncIsFail) {
+    return {
+      type: ActionTypes.APP_SET_SYNC_FAIL,
+      syncIsFail: syncIsFail
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (APP_CURRENT_LOCATION)
+   *
+   * set current APP-reducer LOCATION FROM PageConstants.js File
+   *
+   * @param location
+   * @returns {{type: (APP_CURRENT_LOCATION), currentLocation: string}}
+   */
+  static setCurrentLocationAction(location) {
+    return {
+      type: ActionTypes.APP_CURRENT_LOCATION,
+      payload: {
+        currentLocation: location
+      }
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (APP_SET_STATUS)
+   *
+   * @param {String} status
+   * @returns {{type: APP_SET_STATUS, payload: {currentLocation: *}}}
+   */
+  static setStatusAction(status) {
+    return {
+      type: ActionTypes.APP_SET_STATUS,
+      payload: {
+        status: status
+      }
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (APP_SET_SHOW_CANT_CONNECT_MODAL)
+   * Show cant connect modal window or no
+   *
+   * @param {boolean} show
+   * @returns {{type: APP_SET_SHOW_CANT_CONNECT_MODAL, payload: {showCantConnectModal: *}}}
+   */
+  static setShowCantConnectStatusAction(show) {
+    return {
+      type: ActionTypes.APP_SET_SHOW_CANT_CONNECT_MODAL,
+      payload: {
+        showCantConnectModal: show
+      }
+    };
+  }
 }
 
 class AppActions {
@@ -154,7 +156,7 @@ class AppActions {
  * @returns {{type, payload: {showCantConnectModal: *}}}
  */
   static setShowCantConnectStatus(show) {
-    return setShowCantConnectStatusAction(show);
+    return AppPrivateActions.setShowCantConnectStatusAction(show);
   }
 
   /**
@@ -165,7 +167,7 @@ class AppActions {
  * @returns {{type: APP_SET_STATUS, payload: {currentLocation: *}}}
  */
   static setStatus(status) {
-    return setStatusAction(status);
+    return AppPrivateActions.setStatusAction(status);
   }
 
   /**
@@ -176,7 +178,7 @@ class AppActions {
  */
   static setAppLocalDbInit(status) { //TODO::mv to setStatus
     return (dispatch) => {
-      dispatch(setAppLocalDbInitAction(status));
+      dispatch(AppPrivateActions.setAppLocalDbInitAction(status));
     };
   }
 
@@ -188,7 +190,7 @@ class AppActions {
  */
   static setAppLocalDbLoad(status) { //TODO::mv to setStatus
     return (dispatch) => {
-      dispatch(setAppLocalDbLoadAction(status));
+      dispatch(AppPrivateActions.setAppLocalDbLoadAction(status));
     };
   }
 
@@ -200,7 +202,7 @@ class AppActions {
  */
   static setAppChainIsInit(status) { //TODO::mv to setStatus
     return (dispatch) => {
-      dispatch(setAppChainIsInitAction(status));
+      dispatch(AppPrivateActions.setAppChainIsInitAction(status));
     };
   }
 
@@ -212,7 +214,7 @@ class AppActions {
  */
   static setAppSyncFail(status) { ////TODO::mv to setStatus
     return (dispatch) => {
-      dispatch(setAppSyncFailAction(status));
+      dispatch(AppPrivateActions.setAppSyncFailAction(status));
     };
   }
 
@@ -224,7 +226,7 @@ class AppActions {
  */
   static login(account) {
     return (dispatch) => {
-      dispatch(loginAction(account.name, account.id));
+      dispatch(AppPrivateActions.loginAction(account.name, account.id));
       //TODO::remove legacy
       dispatch({
         type: ActionTypes.SET_CURRENT_ACCOUNT,
@@ -243,7 +245,7 @@ class AppActions {
  */
   static setCurrentLocation(location) {
     return (dispatch) => {
-      dispatch(setCurrentLocationAction(location));
+      dispatch(AppPrivateActions.setCurrentLocationAction(location));
     };
   }
 
@@ -265,7 +267,7 @@ class AppActions {
       dispatch(PrivateKeyActions.setKeys());
 
       return WalletService.resetDBTables().then(() => {
-        dispatch(logoutAction());
+        dispatch(AppPrivateActions.logoutAction());
         dispatch(RWalletActions.resetWallet());
         dispatch(RWalletDataActions.resetWalletData());
         dispatch(NavigateActions.navigateToSignIn());

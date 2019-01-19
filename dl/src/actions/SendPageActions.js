@@ -32,18 +32,20 @@ function getHistory(accountsList) {
   return history;
 }
 
-/**
- * Private Redux Action Creator (SEND_PAGE_UPDATE)
- * set all Send page data
- *
- * @param data
- * @returns {{type, payload: *}}
- */
-function updateDataAction(data) {
-  return {
-    type: ActionTypes.SEND_PAGE_UPDATE,
-    payload: data
-  };
+class SendPagePrivateActions {
+  /**
+   * Private Redux Action Creator (SEND_PAGE_UPDATE)
+   * set all Send page data
+   *
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static updateDataAction(data) {
+    return {
+      type: ActionTypes.SEND_PAGE_UPDATE,
+      payload: data
+    };
+  }
 }
 
 class SendPageActions {
@@ -81,7 +83,7 @@ class SendPageActions {
           let hAssetIds = Immutable.Set(history.map((item) => item.op[1].amount.asset_id));
 
           return Promise.all(hAssetIds.map((id) => Repository.getAsset(id))).then((results) => {
-            dispatch(updateDataAction(Object.assign({}, data, {
+            dispatch(SendPagePrivateActions.updateDataAction(Object.assign({}, data, {
               balance,
               symbols: assets.map((item) => item.symbol),
               assets,
