@@ -7,7 +7,6 @@ import jdenticon from 'jdenticon';
 var canvas_id_count = 0;
 
 class Identicon extends Component {
-
   constructor(props) {
     super(props);
     this.canvas_id = 'identicon_' + (this.props.account || '') + (++canvas_id_count);

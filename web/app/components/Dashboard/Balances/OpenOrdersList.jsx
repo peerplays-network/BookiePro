@@ -4,13 +4,6 @@ import TimeAgo from '../../Utility/TimeAgo';
 import Translate from 'react-translate-component';
 import asset_utils from 'common/asset_utils';
 
-@connect((state) => {
-  return {
-    openOrders: state.dashboardPage.openOrders,
-    headBlockNumber: state.dashboardPage.headBlockNumber,
-    blockInterval: state.dashboardPage.blockInterval
-  };
-})
 class OpenOrdersList extends React.Component {
   render() {
     let orders = this.props.openOrders.map((order) => {
@@ -97,4 +90,12 @@ class OpenOrdersList extends React.Component {
     );
   }
 }
-export default OpenOrdersList;
+
+const mapStateToProps = (state) => {
+  return {
+    openOrders: state.dashboardPage.openOrders,
+    headBlockNumber: state.dashboardPage.headBlockNumber,
+    blockInterval: state.dashboardPage.blockInterval
+  }
+}
+export default connect(mapStateToProps)(OpenOrdersList);

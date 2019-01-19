@@ -27,7 +27,7 @@ import RTransactionConfirmActions from '../../../dl/src/actions/RTransactionConf
 import RWalletActions from '../../../dl/src/actions/RWalletActions';
 import RWalletDataActions from '../../../dl/src/actions/RWalletDataActions';
 import RWalletUnlockActions from '../../../dl/src/actions/RWalletUnlockActions';
-import RWalletNewUnlockActions from '../../../dl/src/actions/RWalletUnlockNewActions';
+import RWalletUnlockNewActions from '../../../dl/src/actions/RWalletUnlockNewActions';
 import SendPageActions from '../../../dl/src/actions/SendPageActions';
 import SettingsActions from '../../../dl/src/actions/SettingsActions';
 import SettingsClaimActions from '../../../dl/src/actions/SettingsClaimActions';
@@ -63,7 +63,7 @@ export {
   RWalletActions,
   RWalletDataActions,
   RWalletUnlockActions,
-  RWalletNewUnlockActions,
+  RWalletUnlockNewActions,
   SendPageActions,
   SettingsActions,
   SettingsClaimActions,

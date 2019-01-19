@@ -1,9 +1,10 @@
 import React from 'react';
 import Translate from 'react-translate-component';
-import {connect} from 'react-redux';
-import NavigateActions from 'actions/NavigateActions';
+import {NavigateActions} from '../../actions';
 import {Link} from 'react-router';
 import Logo from '../Forms/Logo';
+import { bindActionCreators } from 'redux';
+import { connect } from 'http2';
 
 class AboutContainer extends React.Component {
 
@@ -90,10 +91,12 @@ class AboutContainer extends React.Component {
     );
   }
 }
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    navigateToSignIn: NavigateActions.navigateToSignIn,
+    navigateToDashboard: NavigateActions.navigateToDashboard
+  },
+  dispatch
+)
 
-AboutContainer = connect(null, {
-  navigateToSignIn: NavigateActions.navigateToSignIn,
-  navigateToDashboard: NavigateActions.navigateToDashboard
-})(AboutContainer);
-
-export default AboutContainer;
+export default connect(null, mapDispatchToProps)(AboutContainer);

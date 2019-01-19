@@ -4,9 +4,7 @@ import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
 import BalanceList from './BalanceList';
 import RecentActivityList from './RecentActivityList';
-import {RSettingsActions} from '../../../actions';
-import DashboardPageActions from 'actions/DashboardPageActions';
-import NavigateActions from 'actions/NavigateActions';
+import {RSettingsActions, DashboardPageActions, NavigateActions} from '../../../actions';
 import {bindActionCreators} from 'redux';
 
 class Balances extends React.Component {
