@@ -5,40 +5,42 @@ import LoginService from '../services/LoginService';
 import NavigateActions from './NavigateActions';
 import AccountRepository from '../repositories/AccountRepository';
 
-/**
- * Private Action Creator (LOGIN_SET_STATUS)
- * @param status
- * @returns {{type: LoginPageConstants.LOGIN_SET_STATUS, status: *}}
- */
-function setLoginStatusAction(status) {
-  return {
-    type: LoginPageConstants.LOGIN_SET_STATUS,
-    status: status
-  };
-}
+class LoginPrivateActions {
+  /**
+   * Private Action Creator (LOGIN_SET_STATUS)
+   * @param status
+   * @returns {{type: LoginPageConstants.LOGIN_SET_STATUS, status: *}}
+   */
+  static setLoginStatusAction(status) {
+    return {
+      type: LoginPageConstants.LOGIN_SET_STATUS,
+      status: status
+    };
+  }
 
-/**
- * Private Action Creator (LOGIN_SET_ACCOUNT_FOR_LOGIN)
- * @param {String} account
- * @returns {{type: (LoginPageConstants.LOGIN_SET_ACCOUNT_FOR_LOGIN), accountForLogin: *}}
- */
-function setLoginAccountAction(account) {
-  return {
-    type: LoginPageConstants.LOGIN_SET_ACCOUNT_FOR_LOGIN,
-    accountForLogin: account
-  };
-}
+  /**
+   * Private Action Creator (LOGIN_SET_ACCOUNT_FOR_LOGIN)
+   * @param {String} account
+   * @returns {{type: (LoginPageConstants.LOGIN_SET_ACCOUNT_FOR_LOGIN), accountForLogin: *}}
+   */
+  static setLoginAccountAction(account) {
+    return {
+      type: LoginPageConstants.LOGIN_SET_ACCOUNT_FOR_LOGIN,
+      accountForLogin: account
+    };
+  }
 
-/**
- * Private Action Creator (LOGIN_SET_LOGIN_ERRORS)
- * @param {Array} errors
- * @returns {{type: (LoginPageConstants.LOGIN_SET_LOGIN_ERRORS), errors: *}}
- */
-function setLoginErrorsAccountAction(errors) {
-  return {
-    type: LoginPageConstants.LOGIN_SET_LOGIN_ERRORS,
-    errors: errors
-  };
+  /**
+   * Private Action Creator (LOGIN_SET_LOGIN_ERRORS)
+   * @param {Array} errors
+   * @returns {{type: (LoginPageConstants.LOGIN_SET_LOGIN_ERRORS), errors: *}}
+   */
+  static setLoginErrorsAccountAction(errors) {
+    return {
+      type: LoginPageConstants.LOGIN_SET_LOGIN_ERRORS,
+      errors: errors
+    };
+  }
 }
 
 class LoginActions {
@@ -50,7 +52,7 @@ class LoginActions {
  */
   static setLoginStatus(status) {
     return (dispatch) => {
-      dispatch(setLoginStatusAction(status));
+      dispatch(LoginPrivateActions.setLoginStatusAction(status));
     };
   }
 
@@ -62,8 +64,8 @@ class LoginActions {
  */
   static setLoginAccount(account) {
     return (dispatch) => {
-      dispatch(setLoginErrorsAccountAction([]));
-      dispatch(setLoginAccountAction(account));
+      dispatch(LoginPrivateActions.setLoginErrorsAccountAction([]));
+      dispatch(LoginPrivateActions.setLoginAccountAction(account));
     };
   }
 
@@ -75,7 +77,7 @@ class LoginActions {
  */
   static setLoginErrorsAccount(errors) {
     return (dispatch) => {
-      dispatch(setLoginErrorsAccountAction(errors));
+      dispatch(LoginPrivateActions.setLoginErrorsAccountAction(errors));
     };
   }
 

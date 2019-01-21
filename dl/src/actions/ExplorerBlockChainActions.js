@@ -5,56 +5,58 @@ import ColorHelper from '../helpers/ColorHelper';
 import TimeHelper from '../helpers/TimeHelper';
 import Repository from '../repositories/chain/repository';
 
-/**
- * Private Redux Action Creator (EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC)
- * Set statistic page block
- * @param data
- * @returns {{type, payload: *}}
- */
-function changeStatisticAction(data) {
-  return {
-    type: ActionTypes.EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS)
- * Set recent blocks on explore page
- * @param data
- * @returns {{type, payload: *}}
- */
-function changeRecentBlockAction(data) {
-  return {
-    type: ActionTypes.EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS)
- * Set operation list
- * @param data
- * @returns {{type, payload: *}}
- */
-function changeOperationBlockAction(data) {
-  return {
-    type: ActionTypes.EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED)
- * At least once the data were collected
- * @param data
- * @returns {{type, payload: *}}
- */
-function setDataIsFetchedAction(data) {
-  return {
-    type: ActionTypes.EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED,
-    payload: data
-  };
+class ExplorerBlockChainPrivateActions {
+  /**
+   * Private Redux Action Creator (EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC)
+   * Set statistic page block
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static changeStatisticAction(data) {
+    return {
+      type: ActionTypes.EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC,
+      payload: data
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS)
+   * Set recent blocks on explore page
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static changeRecentBlockAction(data) {
+    return {
+      type: ActionTypes.EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS,
+      payload: data
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS)
+   * Set operation list
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static changeOperationBlockAction(data) {
+    return {
+      type: ActionTypes.EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS,
+      payload: data
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED)
+   * At least once the data were collected
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static setDataIsFetchedAction(data) {
+    return {
+      type: ActionTypes.EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED,
+      payload: data
+    };
+  }
 }
 
 let MAX_LATEST_BLOCKS = 20;
@@ -101,7 +103,7 @@ class ExplorerBlockChainActions {
             };
 
           if (recentBlocks.get(0).id > latestBlock) {
-            dispatch(changeRecentBlockAction({
+            dispatch(ExplorerBlockChainPrivateActions.changeRecentBlockAction({
               latestBlocks: recentBlocks
             }));
             latestBlock = recentBlocks.get(0).id;
@@ -189,8 +191,8 @@ class ExplorerBlockChainActions {
             updateData.trxPerSec = trxCount / ((firstBlock - lastBlock) / 1000);
             updateData.trxPerBlock = trxCount / recentBlocks.size;
 
-            dispatch(changeStatisticAction(updateData));
-            dispatch(setDataIsFetchedAction({
+            dispatch(ExplorerBlockChainPrivateActions.changeStatisticAction(updateData));
+            dispatch(ExplorerBlockChainPrivateActions.setDataIsFetchedAction({
               dataIsFetched: true
             }));
             let operations = state.explorerBlockchainPage.operations;
@@ -260,7 +262,7 @@ class ExplorerBlockChainActions {
                     : 0;
                   return operation;
                 });
-                dispatch(changeOperationBlockAction({
+                dispatch(ExplorerBlockChainPrivateActions.changeOperationBlockAction({
                   operations: operations
                 }));
               });

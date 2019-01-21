@@ -1,7 +1,6 @@
 import React from 'react';
 import {Field, reduxForm} from 'redux-form';
 import counterpart from 'counterpart';
-
 import {key, PrivateKey} from 'peerplaysjs-lib'; // eslint-disable-line
 
 const renderField = ({

@@ -2,15 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Translate from 'react-translate-component';
 import VestingBalance from './VestingBalance';
-import AccountVestingPageActions from 'actions/AccountVestingPageActions';
+import {AccountVestingPageActions} from '../../../actions';
+import { bindActionCreators } from 'redux';
 
-@connect((state) => {
-  return {balances: state.accountVestingPageReducer.balances};
-}, {
-  fetchData: AccountVestingPageActions.fetchData,
-  claimVestingBalance: AccountVestingPageActions.claimVestingBalance,
-  resetAccountVestingData: AccountVestingPageActions.resetAccountVestingData
-})
 class VestingAccountContainer extends React.Component {
   componentWillMount() {
     this.props.fetchData();
@@ -81,4 +75,18 @@ class VestingAccountContainer extends React.Component {
   }
 }
 
-export default VestingAccountContainer;
+const mapStateToProps = (state) => {
+  return {
+    balances: state.accountVestingPageReducer.balances
+  }
+}
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    fetchData: AccountVestingPageActions.fetchData,
+    claimVestingBalance: AccountVestingPageActions.claimVestingBalance,
+    resetAccountVestingData: AccountVestingPageActions.resetAccountVestingData
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(VestingAccountContainer);

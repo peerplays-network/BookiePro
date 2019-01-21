@@ -10,168 +10,169 @@ import ls from 'common/localStorage';
 let emitter = EmitterInstance.emitter();
 let storage = new ls('__peerplays__'); // eslint-disable-line
 let marketStatsTimeout = null;
-
-/**
- * Private Redux Action Creator (EXCHANGE_SET_DATA)
- * @param data
- * @returns {{type, payload: *}}
- */
-function changeExchangeDataAction(data) {
-  return {
-    type: ActionTypes.EXCHANGE_SET_DATA,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (EXCHANGE_SET_MARKETS_DATA)
- * @param data
- * @returns {{type, payload: *}}
- */
-function changeExchangeMarketsAction(data) {
-  return {
-    type: ActionTypes.EXCHANGE_SET_MARKETS_DATA,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (EXCHANGE_SET_MARKETS_TAB)
- * @param data
- * @returns {{type, payload: *}}
- */
-function changeExchangeMarketsTabAction(data) {
-  return {
-    type: ActionTypes.EXCHANGE_SET_MARKETS_TAB,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (EXCHANGE_SET_MARKETS_ROWS)
- * @param data
- * @returns {{type, payload: *}}
- */
-function changeExchangeMarketsRowsAction(data) {
-  return {
-    type: ActionTypes.EXCHANGE_SET_MARKETS_ROWS,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (EXCHANGE_SET_MARKETS_ROWS_SORT)
- * @param data
- * @returns {{type, payload: *}}
- */
-function changeExchangeMarketsRowsSortAction(data) {
-  return {
-    type: ActionTypes.EXCHANGE_SET_MARKETS_ROWS_SORT,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (EXCHANGE_SET_PRICE_CHART_DATA)
- * @param data
- * @returns {{type, payload: *}}
- */
-function changeExchangePriceChartAction(data) {
-  return {
-    type: ActionTypes.EXCHANGE_SET_PRICE_CHART_DATA,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (EXCHANGE_SET_PRICE_CHART_PERIOD)
- * @param data
- * @returns {{type, payload: *}}
- */
-function changeExchangePriceChartPeriodAction(data) {
-  return {
-    type: ActionTypes.EXCHANGE_SET_PRICE_CHART_PERIOD,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (EXCHANGE_SET_CURRENT_ASSETS_DATA)
- * @param data
- * @returns {{type, payload: *}}
- */
-function changeCurrentAssetsDataAction(data) {
-  return {
-    type: ActionTypes.EXCHANGE_SET_CURRENT_ASSETS_DATA,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (EXCHANGE_CHANGE_PRICE_CHART_BUCKET)
- * @param data
- * @returns {{type, payload: *}}
- */
-function changePriceChartBucketAction(data) {
-  return {
-    type: ActionTypes.EXCHANGE_CHANGE_PRICE_CHART_BUCKET,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (EXCHANGE_CHANGE_PRICE_CHART_BUCKETS)
- * @param data
- * @returns {{type, payload: *}}
- */
-function changePriceChartBucketsAction(data) {
-  return {
-    type: ActionTypes.EXCHANGE_CHANGE_PRICE_CHART_BUCKETS,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (EXCHANGE_CHANGE_PRICE_CHART_LOADER)
- * @param data
- * @returns {{type, payload: *}}
- */
-function changePriceChartLoaderAction(data) {
-  return {
-    type: ActionTypes.EXCHANGE_CHANGE_PRICE_CHART_LOADER,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (EXCHANGE_SET_DEPTH_CHART_DATA)
- * @param data
- * @returns {{type, payload: *}}
- */
-function setDepthChartDataAction(data) {
-  return {
-    type: ActionTypes.EXCHANGE_SET_DEPTH_CHART_DATA,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (EXCHANGE_SET_BALANCES)
- * @param data
- * @returns {{type, payload: *}}
- */
-function setExchangeBalances(data){
-  return {
-    type: ActionTypes.EXCHANGE_SET_BALANCES,
-    payload: data
-  };
-}
-
 let assetsCacheBySymbol = {};
 let assetsCacheById = {};
 let subscribers = {};
 let currentDeleting = {};
 let stack = [];
+
+class ExchangePagePrivateActions {
+  /**
+   * Private Redux Action Creator (EXCHANGE_SET_DATA)
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static changeExchangeDataAction(data) {
+    return {
+      type: ActionTypes.EXCHANGE_SET_DATA,
+      payload: data
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (EXCHANGE_SET_MARKETS_DATA)
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static changeExchangeMarketsAction(data) {
+    return {
+      type: ActionTypes.EXCHANGE_SET_MARKETS_DATA,
+      payload: data
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (EXCHANGE_SET_MARKETS_TAB)
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static changeExchangeMarketsTabAction(data) {
+    return {
+      type: ActionTypes.EXCHANGE_SET_MARKETS_TAB,
+      payload: data
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (EXCHANGE_SET_MARKETS_ROWS)
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static changeExchangeMarketsRowsAction(data) {
+    return {
+      type: ActionTypes.EXCHANGE_SET_MARKETS_ROWS,
+      payload: data
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (EXCHANGE_SET_MARKETS_ROWS_SORT)
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static changeExchangeMarketsRowsSortAction(data) {
+    return {
+      type: ActionTypes.EXCHANGE_SET_MARKETS_ROWS_SORT,
+      payload: data
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (EXCHANGE_SET_PRICE_CHART_DATA)
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static changeExchangePriceChartAction(data) {
+    return {
+      type: ActionTypes.EXCHANGE_SET_PRICE_CHART_DATA,
+      payload: data
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (EXCHANGE_SET_PRICE_CHART_PERIOD)
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static changeExchangePriceChartPeriodAction(data) {
+    return {
+      type: ActionTypes.EXCHANGE_SET_PRICE_CHART_PERIOD,
+      payload: data
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (EXCHANGE_SET_CURRENT_ASSETS_DATA)
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static changeCurrentAssetsDataAction(data) {
+    return {
+      type: ActionTypes.EXCHANGE_SET_CURRENT_ASSETS_DATA,
+      payload: data
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (EXCHANGE_CHANGE_PRICE_CHART_BUCKET)
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static changePriceChartBucketAction(data) {
+    return {
+      type: ActionTypes.EXCHANGE_CHANGE_PRICE_CHART_BUCKET,
+      payload: data
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (EXCHANGE_CHANGE_PRICE_CHART_BUCKETS)
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static changePriceChartBucketsAction(data) {
+    return {
+      type: ActionTypes.EXCHANGE_CHANGE_PRICE_CHART_BUCKETS,
+      payload: data
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (EXCHANGE_CHANGE_PRICE_CHART_LOADER)
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static changePriceChartLoaderAction(data) {
+    return {
+      type: ActionTypes.EXCHANGE_CHANGE_PRICE_CHART_LOADER,
+      payload: data
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (EXCHANGE_SET_DEPTH_CHART_DATA)
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static setDepthChartDataAction(data) {
+    return {
+      type: ActionTypes.EXCHANGE_SET_DEPTH_CHART_DATA,
+      payload: data
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (EXCHANGE_SET_BALANCES)
+   * @param data
+   * @returns {{type, payload: *}}
+   */
+  static setExchangeBalances(data) {
+    return {
+      type: ActionTypes.EXCHANGE_SET_BALANCES,
+      payload: data
+    };
+  }
+}
 
 class ExchangePageActions {
   /**
@@ -201,7 +202,7 @@ class ExchangePageActions {
 
         baseAssetName = AssetNameHelper.getAssetName(baseAsset);
         quoteAssetName = AssetNameHelper.getAssetName(quoteAsset);
-        dispatch(changeCurrentAssetsDataAction({
+        dispatch(ExchangePagePrivateActions.changeCurrentAssetsDataAction({
           baseAssetId:baseAsset.id,
           quoteAssetId:quoteAsset.id,
           coreAsset:coreAsset,
@@ -314,17 +315,17 @@ class ExchangePageActions {
       // Fetch depth chart data
       ExchangeService.fetchChartDepthData(quoteAssetSymbol, baseAssetSymbol)
         .then((chartDepthData) => {
-          dispatch(setDepthChartDataAction(chartDepthData));
+          dispatch(ExchangePagePrivateActions.setDepthChartDataAction(chartDepthData));
         });
 
       // Fetch price chart data
       ExchangeService.fetchChartData(quoteAssetSymbol, baseAssetSymbol, selfState.currentBucket)
         .then((data) => {
-          dispatch(changePriceChartBucketsAction({
+          dispatch(ExchangePagePrivateActions.changePriceChartBucketsAction({
             buckets: data.buckets
           }));
 
-          dispatch(changeExchangePriceChartAction({
+          dispatch(ExchangePagePrivateActions.changeExchangePriceChartAction({
             highPriceList: data.priceData.highPriceList,
             priceData: data.priceData.priceData
           }));
@@ -332,7 +333,7 @@ class ExchangePageActions {
 
       // Fetch exchange data
       ExchangeService.fetchExchangeData(quoteAssetSymbol, baseAssetSymbol).then((data) => {
-        dispatch(changeExchangeDataAction(data));
+        dispatch(ExchangePagePrivateActions.changeExchangeDataAction(data));
       });
     };
   }
@@ -414,7 +415,7 @@ class ExchangePageActions {
         });
 
         if (needDispatch) {
-          dispatch(changeExchangeMarketsAction({
+          dispatch(ExchangePagePrivateActions.changeExchangeMarketsAction({
             tabs: tabs
           }));
         }
@@ -422,7 +423,7 @@ class ExchangePageActions {
         // Fetch tab stats
         ExchangeService.fetchTabStats(mainAssetSymbol, topMarkets, assetsCacheBySymbol)
           .then((marketRows) => {
-            dispatch(changeExchangeMarketsRowsAction({
+            dispatch(ExchangePagePrivateActions.changeExchangeMarketsRowsAction({
               marketRowsData: marketRows,
               marketRowsDataLoaderIsShow: false
             }));
@@ -436,7 +437,7 @@ class ExchangePageActions {
 
   static setMarketTab(currentTab) {
     return (dispatch) => {
-      dispatch(changeExchangeMarketsTabAction({
+      dispatch(ExchangePagePrivateActions.changeExchangeMarketsTabAction({
         currentTab: currentTab,
         marketRowsDataLoaderIsShow: true
       }));
@@ -458,7 +459,7 @@ class ExchangePageActions {
         marketRowsDataSortInvert = !marketRowsDataSortInvert;
       }
 
-      dispatch(changeExchangeMarketsRowsSortAction({
+      dispatch(ExchangePagePrivateActions.changeExchangeMarketsRowsSortAction({
         marketRowsDataSortBy: marketRowsDataSortBy,
         marketRowsDataSortInvert: marketRowsDataSortInvert
       }));
@@ -467,7 +468,7 @@ class ExchangePageActions {
 
   static changePriceChartPeriod(period) {
     return (dispatch) => {
-      dispatch(changeExchangePriceChartPeriodAction({
+      dispatch(ExchangePagePrivateActions.changeExchangePriceChartPeriodAction({
         priceChartCurrentPeriod: period
       }));
     };
@@ -475,7 +476,7 @@ class ExchangePageActions {
 
   static changePriceChartLoader(status) {
     return (dispatch) => {
-      dispatch(changePriceChartLoaderAction({
+      dispatch(ExchangePagePrivateActions.changePriceChartLoaderAction({
         priceChartStatusLoader: status
       }));
     };
@@ -484,7 +485,7 @@ class ExchangePageActions {
   static changePriceChartBucket(bucket) {
     return (dispatch, getState) => {
       let state = getState();
-      dispatch(changePriceChartLoaderAction({
+      dispatch(ExchangePagePrivateActions.changePriceChartLoaderAction({
         priceChartStatusLoader: 'process'
       }));
       ExchangeService.fetchChartData(
@@ -492,19 +493,19 @@ class ExchangePageActions {
         state.exchangePageReducer.baseAssetSymbol,
         bucket
       ).then((data) => {
-        dispatch(changePriceChartBucketsAction({
+        dispatch(ExchangePagePrivateActions.changePriceChartBucketsAction({
           buckets: data.buckets
         }));
 
         if (data.buckets.indexOf(bucket) !== -1) {
-          dispatch(changePriceChartBucketAction({
+          dispatch(ExchangePagePrivateActions.changePriceChartBucketAction({
             priceData: data.priceData.priceData,
             highPriceList: data.priceData.highPriceList,
             currentBucket: bucket
           }));
         }
 
-        dispatch(changePriceChartLoaderAction({
+        dispatch(ExchangePagePrivateActions.changePriceChartLoaderAction({
           priceChartStatusLoader: 'default'
         }));
       });
@@ -513,7 +514,7 @@ class ExchangePageActions {
 
   static setBalances(data){
     return (dispatch) => {
-      dispatch(setExchangeBalances({
+      dispatch(ExchangePagePrivateActions.setExchangeBalances({
         coreAssetBalance : data.coreAssetBalance,
         baseAssetBalance : data.baseAssetBalance,
         quoteAssetBalance : data.quoteAssetBalance
@@ -530,7 +531,7 @@ class ExchangePageActions {
       // Fetch depth chart data
       ExchangeService.fetchChartDepthData(quoteAssetSymbol, baseAssetSymbol)
         .then((chartDepthData) => {
-          dispatch(setDepthChartDataAction(chartDepthData));
+          dispatch(ExchangePagePrivateActions.setDepthChartDataAction(chartDepthData));
         });
     };
   }

@@ -26,20 +26,20 @@ export default class WalletDataActions {
       payload: wallet
     };
   }
-}
 
-/**
- * Action Creator (WD_SET_AES_PRIVATE)
- * Change wallet AES
- *
- * @param aesPrivate
- * @returns {function(*)}
- */
-export function setAesPrivate(aesPrivate) {
-  return (dispatch) => {
-    dispatch({
-      type: ActionTypes.WD_SET_AES_PRIVATE,
-      payload: aesPrivate
-    });
-  };
+  /**
+   * Action Creator (WD_SET_AES_PRIVATE)
+   * Change wallet AES
+   *
+   * @param aesPrivate
+   * @returns {function(*)}
+   */
+  static setAesPrivate(aesPrivate) {
+    return (dispatch) => {
+      dispatch({
+        type: ActionTypes.WD_SET_AES_PRIVATE,
+        payload: aesPrivate
+      });
+    };
+  }
 }

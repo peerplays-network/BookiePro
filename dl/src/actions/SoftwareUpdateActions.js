@@ -8,17 +8,19 @@ import VersionHelper from '../helpers/VersionHelper';
 import _ from 'lodash';
 import CONFIG from '../config/main';
 
-/**
- * Private Action Creator (SOFTWARE_UPDATE_SET_ACCOUNT_DATA)
- *
- * @param {Object} data
- * @returns {{type, payload: *}}
- */
-function setAccountDataAction(data) {
-  return {
-    type: ActionTypes.SOFTWARE_UPDATE_SET_ACCOUNT_DATA,
-    payload: data
-  };
+class SoftwareUpdatePrivateActions {
+  /**
+   * Private Action Creator (SOFTWARE_UPDATE_SET_ACCOUNT_DATA)
+   *
+   * @param {Object} data
+   * @returns {{type, payload: *}}
+   */
+  static setAccountDataAction(data) {
+    return {
+      type: ActionTypes.SOFTWARE_UPDATE_SET_ACCOUNT_DATA,
+      payload: data
+    };
+  }
 }
 
 class SoftwareUpdateActions {
@@ -93,7 +95,7 @@ class SoftwareUpdateActions {
             }
 
             // Set new controlled account
-            dispatch(setAccountDataAction({
+            dispatch(SoftwareUpdatePrivateActions.setAccountDataAction({
               account
             }));
           }

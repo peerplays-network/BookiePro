@@ -3,12 +3,6 @@ import {connect} from 'react-redux';
 import classNames from 'classnames';
 import {switchLocale} from 'actions/RSettingsActions';
 
-@connect((state) => {
-  return {
-    defaultLocales: state.settings.defaults.locale,
-    locale: state.settings.locale
-  };
-}, {switchLocale})
 class LanguageSwitcher extends React.Component {
   onSwitchLocale(lang, e) {
     this.props.switchLocale(lang);
@@ -50,4 +44,11 @@ class LanguageSwitcher extends React.Component {
   }
 }
 
-export default LanguageSwitcher;
+const mapStateToProps = (state) => {
+  return {
+    defaultLocales: state.settings.defaults.locale,
+    locale: state.settings.locale
+  }
+}
+
+export default connect(mapStateToProps)(LanguageSwitcher);

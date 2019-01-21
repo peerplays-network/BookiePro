@@ -4,30 +4,32 @@ import BalanceRepository from 'repositories/BalanceRepository';
 import KeysService from 'services/KeysService';
 import TransactionService from 'services/TransactionService';
 
-/**
- * Private Redux Action Creator (SET_ACCOUNT_VESTING_DATA)
- * Set account vesting list
- *
- * @param data
- * @returns {{type, payload: {balances}}}
- */
-function setAccountVestingDataAction(data) {
-  return {
-    type: ActionTypes.SET_ACCOUNT_VESTING_DATA,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (RESET_ACCOUNT_VESTING_DATA)
- * Reset page(balance list)
- * @returns {{type, payload: null}}
- */
-function resetAccountVestingDataAction() {
-  return {
-    type: ActionTypes.RESET_ACCOUNT_VESTING_DATA,
-    payload: null
-  };
+class AccountVestingPagePrivateActions {
+  /**
+   * Private Redux Action Creator (SET_ACCOUNT_VESTING_DATA)
+   * Set account vesting list
+   *
+   * @param data
+   * @returns {{type, payload: {balances}}}
+   */
+  static setAccountVestingDataAction(data) {
+    return {
+      type: ActionTypes.SET_ACCOUNT_VESTING_DATA,
+      payload: data
+    };
+  }
+  
+  /**
+   * Private Redux Action Creator (RESET_ACCOUNT_VESTING_DATA)
+   * Reset page(balance list)
+   * @returns {{type, payload: null}}
+   */
+  static resetAccountVestingDataAction() {
+    return {
+      type: ActionTypes.RESET_ACCOUNT_VESTING_DATA,
+      payload: null
+    };
+  }
 }
 
 class AccountVestingPageActions {
@@ -64,13 +66,13 @@ class AccountVestingPageActions {
                 vb.balance.asset = assetsHash[vb.balance.asset_id];
               });
 
-              dispatch(setAccountVestingDataAction({
+              dispatch(AccountVestingPagePrivateActions.setAccountVestingDataAction({
                 balances
               }));
             });
           });
         } else {
-          dispatch(resetAccountVestingDataAction());
+          dispatch(AccountVestingPagePrivateActions.resetAccountVestingDataAction());
         }
       });
     };
@@ -105,7 +107,7 @@ class AccountVestingPageActions {
    */
   static resetAccountVestingData() {
     return (dispatch) => {
-      dispatch(resetAccountVestingDataAction());
+      dispatch(AccountVestingPagePrivateActions.resetAccountVestingDataAction());
     };
   }
 }

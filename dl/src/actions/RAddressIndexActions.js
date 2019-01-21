@@ -4,8 +4,7 @@ import {key} from 'peerplaysjs-lib';
 
 let timeout;
 
-export default class AddressIndexActions {
-
+class AddressIndexActions {
   /**
  * add pub key
  *
@@ -82,3 +81,5 @@ export default class AddressIndexActions {
     };
   }
 }
+
+export default AddressIndexActions;

@@ -2,7 +2,6 @@ import ActionTypes from '../constants/ActionTypes';
 import KeysService from 'services/KeysService';
 
 class RWalletUnlockNewActions {
-
   /**
    * Action Creator (SHOW_WALLET_PASSWORD_WINDOW)
    * Show|Hide Unlock modal (here we work with promises)

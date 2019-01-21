@@ -15,36 +15,35 @@ import {
 
 let witness_object_type  = parseInt(ChainTypes.object_type.witness, 10);
 let witness_prefix = '1.' + witness_object_type + '.';
-
-function fetchDataAction(data) {
-  return {
-    type: VOTING_SET_DATA,
-    payload: data
-  };
-}
-
-/**
- * Private Redux Action Creator (VOTING_CHANGE_PROXY)
- * Change proxy
- *
- * @param {{name, id}} data - change proxy object
- * @returns {{type: VOTING_CHANGE_PROXY, payload: {name, id}}}
- */
-function changeProxyAction(data){
-  return {
-    type: VOTING_CHANGE_PROXY,
-    payload: data
-  };
-}
-
-
 let lastBudgetObject = null;
 
 const DEFAULT_PROXY_ID = '1.2.5';
 const wallet_api = new WalletApi();
 
-class VotingActions {
+class VotingPrivateActions {
+  static fetchDataAction(data) {
+    return {
+      type: VOTING_SET_DATA,
+      payload: data
+    };
+  }
 
+  /**
+   * Private Redux Action Creator (VOTING_CHANGE_PROXY)
+   * Change proxy
+   *
+   * @param {{name, id}} data - change proxy object
+   * @returns {{type: VOTING_CHANGE_PROXY, payload: {name, id}}}
+   */
+  static changeProxyAction(data) {
+    return {
+      type: VOTING_CHANGE_PROXY,
+      payload: data
+    };
+  }
+}
+
+class VotingActions {
   /**
  * Get all the data for the voting page
  * fetchData/
@@ -65,7 +64,7 @@ class VotingActions {
         return VotingActions.getWitnessData(accountName, newWitnesses).then((witnesses) => {
           return VotingActions.getCMData(accountName).then((committeeMembers) => {
             return VotingActions.getProposalsData(accountName).then((proposals) => {
-              dispatch(fetchDataAction({
+              dispatch(VotingPrivateActions.fetchDataAction({
                 proxy,
                 witnesses,
                 committeeMembers,
@@ -122,7 +121,7 @@ class VotingActions {
    * @returns {function(*): *}
    */
   static changeProxy(data) {
-    return (dispatch) => dispatch(changeProxyAction(data));
+    return (dispatch) => dispatch(VotingPrivateActions.changeProxyAction(data));
   }
 
   /**

@@ -6,9 +6,6 @@ import Translate from 'react-translate-component';
 import CustomScroll from 'react-custom-scroll';
 import RecentActivityRow from './RecentActivityRow';
 
-@connect((state) => {
-  return {recentActivity: state.dashboardPage.recentActivity};
-})
 class RecentActivityList extends React.Component {
   constructor(props) {
     super(props);
@@ -152,4 +149,11 @@ class RecentActivityList extends React.Component {
     );
   }
 }
-export default RecentActivityList;
+
+const mapStateToProps = (state) => {
+  return {
+    recentActivity: state.dashboardPage.recentActivity
+  }
+}
+
+export default connect(mapStateToProps)(RecentActivityList);
