@@ -1,6 +1,5 @@
 import React from 'react';
 import Router from 'react-router';
-
 import KeyGenComponent from './components/Wallet/KeyGenComponent';
 
 const {Route, DefaultRoute} = Router;

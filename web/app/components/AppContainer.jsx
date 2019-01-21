@@ -16,17 +16,6 @@ import intlData from 'components/Utility/intlData';
 /* Other */
 import {routerShape} from 'react-router/lib/PropTypes';
 
-@connect((state) => {
-  return {
-    status: state.app.status,
-    dbIsInit: state.app.dbIsInit,
-    dbDataIsLoad: state.app.dbDataIsLoad,
-    chainIsInit: state.app.chainIsInit,
-    syncIsFail: state.app.syncIsFail,
-    showHelpPopup: state.helpReducer.showHelpModal
-  };
-
-}, {})
 class App extends React.Component {
   static contextTypes = {
     router: routerShape
@@ -87,10 +76,7 @@ class App extends React.Component {
   }
 }
 
-@connect((state) => {
-  return {locale: state.settings.locale};
-})
-export default class AppContainer extends React.Component {
+class AppContainer extends React.Component {
   render() {
     return (
       <IntlProvider
@@ -102,3 +88,17 @@ export default class AppContainer extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    status: state.app.status,
+    dbIsInit: state.app.dbIsInit,
+    dbDataIsLoad: state.app.dbDataIsLoad,
+    chainIsInit: state.app.chainIsInit,
+    syncIsFail: state.app.syncIsFail,
+    showHelpPopup: state.helpReducer.showHelpModal,
+    locale: state.settings.locale
+  };
+};
+
+export default connect(mapStateToProps)(AppContainer);

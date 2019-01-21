@@ -4,7 +4,7 @@ import {NavigateActions} from '../../actions';
 import {Link} from 'react-router';
 import Logo from '../Forms/Logo';
 import {bindActionCreators} from 'redux';
-import {connect} from 'http2';
+import {connect} from 'react-redux';
 
 class AboutContainer extends React.Component {
 
