@@ -3,8 +3,8 @@ import Translate from 'react-translate-component';
 import {NavigateActions} from '../../actions';
 import {Link} from 'react-router';
 import Logo from '../Forms/Logo';
-import { bindActionCreators } from 'redux';
-import { connect } from 'http2';
+import {bindActionCreators} from 'redux';
+import {connect} from 'http2';
 
 class AboutContainer extends React.Component {
 
@@ -97,6 +97,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     navigateToDashboard: NavigateActions.navigateToDashboard
   },
   dispatch
-)
+);
 
 export default connect(null, mapDispatchToProps)(AboutContainer);

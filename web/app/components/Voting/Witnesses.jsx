@@ -7,42 +7,14 @@ import LinkToAccountById from '../Blockchain/LinkToAccountById';
 import WitnessList from './WitnessList';
 import FormattedAsset from '../Utility/FormattedAsset';
 import Tooltip from './Tooltip';
-import VotingActions from 'actions/VotingActions';
-import {setWalletPosition} from 'actions/RWalletUnlockActions';
-import {setTransaction} from 'actions/RTransactionConfirmActions';
+import {VotingActions, RWalletUnlockActions, RTransactionConfirmActions} from '../../actions';
 import AccountRepository from 'repositories/AccountRepository';
 import Repository from 'repositories/chain/repository';
 import moment from 'moment-timezone';
 import {FormattedRelative} from 'react-intl';
 import _ from 'lodash';
-
-@connect((state) => {
-  return {
-    account: state.app.account,
-    currentWitnessAccount: state.voting.witnesses.currentWitnessAccount,
-    witnessAmount: state.voting.witnesses.witnessAmount,
-    participation: state.voting.witnesses.participation,
-    witnessPayPerBlock: state.voting.witnesses.witnessPayPerBlock,
-    asset: state.voting.witnesses.asset,
-    witnessBudget: state.voting.witnesses.witnessBudget,
-    nextMaintenanceTime: state.voting.witnesses.nextMaintenanceTime,
-    approvedWitnesseIds: state.voting.witnesses.approvedWitnesseIds,
-    activeWitnesseAccounts: state.voting.witnesses.activeWitnesseAccounts,
-    activeWitnesseObjects: state.voting.witnesses.activeWitnesseObjects,
-    proxyIsEnabled: state.voting.witnesses.proxyIsEnabled,
-    walletLocked: state.wallet.locked,
-    walletIsOpen: state.wallet.isOpen
-  };
-}, {
-  setWalletPosition,
-  publishWitnesses: VotingActions.publishWitnesses,
-  addNewWitnessData: VotingActions.addNewWitnessData,
-  fetchWitnessData: VotingActions.fetchWitnessData,
-  setTransaction
-})
-
+import {bindActionCreators} from 'redux';
 class Witnesses extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -515,4 +487,34 @@ class Witnesses extends React.Component {
   }
 }
 
-export default Witnesses;
+const mapStateToProps = (state) => {
+  return {
+    account : state.app.account,
+    currentWitnessAccount : state.voting.witnesses.currentWitnessAccount,
+    witnessAmount : state.voting.witnesses.witnessAmount,
+    participation : state.voting.witnesses.participation,
+    witnessPayPerBlock : state.voting.witnesses.witnessPayPerBlock,
+    asset : state.voting.witnesses.asset,
+    witnessBudget : state.voting.witnesses.witnessBudget,
+    nextMaintenanceTime : state.voting.witnesses.nextMaintenanceTime,
+    approvedWitnesseIds : state.voting.witnesses.approvedWitnesseIds,
+    activeWitnesseAccounts : state.voting.witnesses.activeWitnesseAccounts,
+    activeWitnesseObjects : state.voting.witnesses.activeWitnesseObjects,
+    proxyIsEnabled : state.voting.witnesses.proxyIsEnabled,
+    walletLocked : state.wallet.locked,
+    walletIsOpen : state.wallet.isOpen
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    setWalletPosition: RWalletUnlockActions.setWalletPosition,
+    publishWitnesses: VotingActions.publishWitnesses,
+    addNewWitnessData: VotingActions.addNewWitnessData,
+    fetchWitnessData: VotingActions.fetchWitnessData,
+    setTransaction: RTransactionConfirmActions.setTransaction
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Witnesses);

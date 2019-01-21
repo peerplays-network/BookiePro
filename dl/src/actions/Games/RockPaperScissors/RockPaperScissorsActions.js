@@ -1,10 +1,17 @@
 import RockPaperScissorsConstants from 'constants/Games/RockPaperScissors/RockPaperScissorsConstants'; // eslint-disable-line
 import Repository from 'repositories/chain/repository';
 import utils from 'common/utils';
-import {clearTransaction} from 'actions/RTransactionConfirmActions';
+import {
+  clearTransaction
+} from 'actions/RTransactionConfirmActions';
 import WalletApi from 'rpc_api/WalletApi';
-import {ChainTypes,ChainStore} from 'peerplaysjs-lib';
-import {reset} from 'redux-form';
+import {
+  ChainTypes,
+  ChainStore
+} from 'peerplaysjs-lib';
+import {
+  reset
+} from 'redux-form';
 import Immutable from 'immutable';
 import TimeHelper from 'helpers/TimeHelper';
 import RWalletUnlockNewActions from 'actions/RWalletUnlockNewActions';
@@ -14,242 +21,13 @@ import TournamentTransactionService from 'services/Tournament/TournamentTransact
 import RockPaperScissorsNavigateActions from 'actions/Games/RockPaperScissors/RockPaperScissorsNavigateActions'; // eslint-disable-line
 import iDB from 'idb-instance';
 import idb_helper from 'idb-helper';
-
 import {
   WD_UPDATE_REVEAL_MOVES_WALLET
 } from 'constants/ActionTypes';
+
 let tournament_object_type = parseInt(ChainTypes.object_type.tournament, 10);
 let tournament_prefix = '1.' + tournament_object_type + '.';
-
 let wallet_api = new WalletApi(); // eslint-disable-line
-
-/**
- * Private Redux Action Creator (GAME_RPS_CHANGE_TAB_PARAMS)
- * @param data
- * @returns {{type: string, payload: {tab, tournamentsFilter}}}
- */
-function changeTabParamsAction(data) {
-  return {
-    type: RockPaperScissorsConstants.GAME_RPS_CHANGE_TAB_PARAMS,
-    payload: {
-      tab: data.tab,
-      tournamentsFilter: data.tournamentsFilter
-    }
-  };
-}
-
-/**
- * Private Redux Action Creator (GAME_RPS_SET_DASHBOARD_LIST)
- * @param data
- * @returns {{type: string, payload: {dashboardList: (*|List<T>|List<any>)}}}
- */
-function setDashboardListAction(data) {
-  return {
-    type: RockPaperScissorsConstants.GAME_RPS_SET_DASHBOARD_LIST,
-    payload: {
-      dashboardList: data.dashboardList
-    }
-  };
-}
-
-/**
- * Private Redux Action Creator (GAME_RPS_SET_FIND_LIST)
- * @param data
- * @returns {{type: string, payload: {findList: (*|List<T>|List<any>), findDropDownCurrent, findDropDownItems: (*|List<T>|List<any>)}}}
- */
-function setFindListAction(data) {
-  return {
-    type: RockPaperScissorsConstants.GAME_RPS_SET_FIND_LIST,
-    payload: {
-      findList: data.findList,
-      findDropDownCurrent: data.findDropDownCurrent,
-      findDropDownItems: data.findDropDownItems
-    }
-  };
-}
-
-/**
- * Private Redux Action Creator (GAME_RPS_SET_EXPLORE_LIST)
- * @param data
- * @returns {{type: string, payload: {exploreList: *, exploreDropDownCurrent, exploreDropDownItems: (*|List<T>|List<any>)}}}
- */
-function setExploreListAction(data) {
-  return {
-    type: RockPaperScissorsConstants.GAME_RPS_SET_EXPLORE_LIST,
-    payload: {
-      exploreList: data.exploreList,
-      exploreDropDownCurrent: data.exploreDropDownCurrent,
-      exploreDropDownItems: data.exploreDropDownItems
-    }
-  };
-}
-
-/**
- * Private Redux Action Creator (GAME_RPS_SET_FIND_DD_CURRENT)
- * @param data
- * @returns {{type: string, payload: {findDropDownCurrent}}}
- */
-function setFindDDCurrentAction(data) {
-  return {
-    type: RockPaperScissorsConstants.GAME_RPS_SET_FIND_DD_CURRENT,
-    payload: {
-      findDropDownCurrent: data.findDropDownCurrent
-    }
-  };
-}
-
-/**
- * Private Redux Action Creator (GAME_RPS_SET_EXPLORE_DD_CURRENT)
- * @param data
- * @returns {{type: string, payload: {exploreDropDownCurrent}}}
- */
-function setExploreDDCurrentAction(data) {
-  return {
-    type: RockPaperScissorsConstants.GAME_RPS_SET_EXPLORE_DD_CURRENT,
-    payload: {
-      exploreDropDownCurrent: data.exploreDropDownCurrent
-    }
-  };
-}
-
-/**
- * Private Redux Action Creator (GAME_RPS_SET_EXPLORE_SORT)
- * @param data
- * @returns {{type: string, payload: {exploreSortColumn: (*|string|string), exploreSortDirection: (*|string|string)}}}
- */
-function setSortExploreByAction(data) {
-  return {
-    type: RockPaperScissorsConstants.GAME_RPS_SET_EXPLORE_SORT,
-    payload: {
-      exploreSortColumn: data.exploreSortColumn,
-      exploreSortDirection: data.exploreSortDirection
-    }
-  };
-}
-
-/**
- * Private Redux Action Creator (GAME_RPS_SET_EXPLORE_PAGE)
- * @param data
- * @returns {{type: string, payload: {explorePage: (*|number)}}}
- */
-function setExplorePageAction(data) {
-  return {
-    type: RockPaperScissorsConstants.GAME_RPS_SET_EXPLORE_PAGE,
-    payload: {
-      explorePage: data.explorePage
-    }
-  };
-}
-
-/**
- * Private Redux Action Creator (GAME_RPS_SET_EXPLORE_COUNT_PAGES)
- * @param data
- * @returns {{type: string, payload: {exploreCountPages: (*|number)}}}
- */
-function setExploreCountPagesAction(data) {
-  return {
-    type: RockPaperScissorsConstants.GAME_RPS_SET_EXPLORE_COUNT_PAGES,
-    payload: {
-      exploreCountPages: data.exploreCountPages
-    }
-  };
-}
-
-/**
- * Create tab
- */
-
-/**
- * Private Redux Action Creator (GAME_RPS_SET_AVAILABLE_UNITS)
- * @param data
- * @returns {{type: string, payload: {unitList, unit}}}
- */
-function setAvailableUnitsAction(data) {
-
-  return {
-    type: RockPaperScissorsConstants.GAME_RPS_SET_AVAILABLE_UNITS,
-    payload: {
-      unitList: data.unitList,
-      unit: data.unit
-    }
-  };
-}
-
-
-/**
- * Game page
- */
-/**
- * Private Redux Action Creator (GAME_RPS_SET_ACTIVE_GAME)
- * @param data
- * @returns {{type: string, payload: {activeGameId, match, games, players, start_time, status}}}
- */
-function setActiveGameAction(data) {
-  return {
-    type: RockPaperScissorsConstants.GAME_RPS_SET_ACTIVE_GAME,
-    payload: {
-      activeGameId: data.activeGameId,
-      match: data.match,
-      games: data.games,
-      players: data.players,
-      start_time: data.start_time,
-      status: data.status
-    }
-  };
-}
-
-/**
- * Private Redux Action Creator (GAME_RPS_SET_GAME)
- * @param data
- * @returns {{type: string, payload: {match, activeGameId, players, games, status}}}
- */
-function setGameAction(data) {
-  return {
-    type: RockPaperScissorsConstants.GAME_RPS_SET_GAME,
-    payload: {
-      match: data.match,
-      activeGameId: data.activeGameId,
-      players: data.players,
-      games: data.games,
-      status: data.status
-    }
-  };
-}
-
-/**
- * Private Redux Action Creator (GAME_RPS_SET_AWAITING_GAME_START)
- * @param data
- * @returns {{type: string, payload: {activeGameId, start_time, status}}}
- */
-function setAwaitingGameStartAction(data) {
-  return {
-    type: RockPaperScissorsConstants.GAME_RPS_SET_AWAITING_GAME_START,
-    payload: {
-      activeGameId: data.activeGameId,
-      start_time: data.start_time,
-      status: data.status
-    }
-  };
-}
-
-/**
- * Private Redux Action Creator (GAME_RPS_SET_CONCLUDED_GAME_START)
- * @param data
- * @returns {{type: string, payload: {activeGameId, start_time, end_time, status, matchList: (*|List<T>|List<any>)}}}
- */
-function setConcludedGameStartAction(data) {
-  return {
-    type: RockPaperScissorsConstants.GAME_RPS_SET_CONCLUDED_GAME_START,
-    payload: {
-      activeGameId: data.activeGameId,
-      start_time: data.start_time,
-      end_time: data.end_time,
-      status: data.status,
-      matchList: data.matchList
-    }
-  };
-}
-
 let subscribers = {
   dashboard: null,
   explore: null,
@@ -261,6 +39,235 @@ let subscribers = {
 let currentLastTournamentId = null;
 let currentLastTournamentPage = null;
 
+class RockPaperScissorsPrivateActions {
+  /**
+   * Private Redux Action Creator (GAME_RPS_CHANGE_TAB_PARAMS)
+   * @param data
+   * @returns {{type: string, payload: {tab, tournamentsFilter}}}
+   */
+  static changeTabParamsAction(data) {
+    return {
+      type: RockPaperScissorsConstants.GAME_RPS_CHANGE_TAB_PARAMS,
+      payload: {
+        tab: data.tab,
+        tournamentsFilter: data.tournamentsFilter
+      }
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (GAME_RPS_SET_DASHBOARD_LIST)
+   * @param data
+   * @returns {{type: string, payload: {dashboardList: (*|List<T>|List<any>)}}}
+   */
+  static setDashboardListAction(data) {
+    return {
+      type: RockPaperScissorsConstants.GAME_RPS_SET_DASHBOARD_LIST,
+      payload: {
+        dashboardList: data.dashboardList
+      }
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (GAME_RPS_SET_FIND_LIST)
+   * @param data
+   * @returns {{type: string, payload: {findList: (*|List<T>|List<any>), findDropDownCurrent, findDropDownItems: (*|List<T>|List<any>)}}}
+   */
+  static setFindListAction(data) {
+    return {
+      type: RockPaperScissorsConstants.GAME_RPS_SET_FIND_LIST,
+      payload: {
+        findList: data.findList,
+        findDropDownCurrent: data.findDropDownCurrent,
+        findDropDownItems: data.findDropDownItems
+      }
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (GAME_RPS_SET_EXPLORE_LIST)
+   * @param data
+   * @returns {{type: string, payload: {exploreList: *, exploreDropDownCurrent, exploreDropDownItems: (*|List<T>|List<any>)}}}
+   */
+  static setExploreListAction(data) {
+    return {
+      type: RockPaperScissorsConstants.GAME_RPS_SET_EXPLORE_LIST,
+      payload: {
+        exploreList: data.exploreList,
+        exploreDropDownCurrent: data.exploreDropDownCurrent,
+        exploreDropDownItems: data.exploreDropDownItems
+      }
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (GAME_RPS_SET_FIND_DD_CURRENT)
+   * @param data
+   * @returns {{type: string, payload: {findDropDownCurrent}}}
+   */
+  static setFindDDCurrentAction(data) {
+    return {
+      type: RockPaperScissorsConstants.GAME_RPS_SET_FIND_DD_CURRENT,
+      payload: {
+        findDropDownCurrent: data.findDropDownCurrent
+      }
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (GAME_RPS_SET_EXPLORE_DD_CURRENT)
+   * @param data
+   * @returns {{type: string, payload: {exploreDropDownCurrent}}}
+   */
+  static setExploreDDCurrentAction(data) {
+    return {
+      type: RockPaperScissorsConstants.GAME_RPS_SET_EXPLORE_DD_CURRENT,
+      payload: {
+        exploreDropDownCurrent: data.exploreDropDownCurrent
+      }
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (GAME_RPS_SET_EXPLORE_SORT)
+   * @param data
+   * @returns {{type: string, payload: {exploreSortColumn: (*|string|string), exploreSortDirection: (*|string|string)}}}
+   */
+  static setSortExploreByAction(data) {
+    return {
+      type: RockPaperScissorsConstants.GAME_RPS_SET_EXPLORE_SORT,
+      payload: {
+        exploreSortColumn: data.exploreSortColumn,
+        exploreSortDirection: data.exploreSortDirection
+      }
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (GAME_RPS_SET_EXPLORE_PAGE)
+   * @param data
+   * @returns {{type: string, payload: {explorePage: (*|number)}}}
+   */
+  static setExplorePageAction(data) {
+    return {
+      type: RockPaperScissorsConstants.GAME_RPS_SET_EXPLORE_PAGE,
+      payload: {
+        explorePage: data.explorePage
+      }
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (GAME_RPS_SET_EXPLORE_COUNT_PAGES)
+   * @param data
+   * @returns {{type: string, payload: {exploreCountPages: (*|number)}}}
+   */
+  static setExploreCountPagesAction(data) {
+    return {
+      type: RockPaperScissorsConstants.GAME_RPS_SET_EXPLORE_COUNT_PAGES,
+      payload: {
+        exploreCountPages: data.exploreCountPages
+      }
+    };
+  }
+
+  /**
+   * Create tab
+   */
+
+  /**
+   * Private Redux Action Creator (GAME_RPS_SET_AVAILABLE_UNITS)
+   * @param data
+   * @returns {{type: string, payload: {unitList, unit}}}
+   */
+  static setAvailableUnitsAction(data) {
+
+    return {
+      type: RockPaperScissorsConstants.GAME_RPS_SET_AVAILABLE_UNITS,
+      payload: {
+        unitList: data.unitList,
+        unit: data.unit
+      }
+    };
+  }
+
+
+  /**
+   * Game page
+   */
+  /**
+   * Private Redux Action Creator (GAME_RPS_SET_ACTIVE_GAME)
+   * @param data
+   * @returns {{type: string, payload: {activeGameId, match, games, players, start_time, status}}}
+   */
+  static setActiveGameAction(data) {
+    return {
+      type: RockPaperScissorsConstants.GAME_RPS_SET_ACTIVE_GAME,
+      payload: {
+        activeGameId: data.activeGameId,
+        match: data.match,
+        games: data.games,
+        players: data.players,
+        start_time: data.start_time,
+        status: data.status
+      }
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (GAME_RPS_SET_GAME)
+   * @param data
+   * @returns {{type: string, payload: {match, activeGameId, players, games, status}}}
+   */
+  static setGameAction(data) {
+    return {
+      type: RockPaperScissorsConstants.GAME_RPS_SET_GAME,
+      payload: {
+        match: data.match,
+        activeGameId: data.activeGameId,
+        players: data.players,
+        games: data.games,
+        status: data.status
+      }
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (GAME_RPS_SET_AWAITING_GAME_START)
+   * @param data
+   * @returns {{type: string, payload: {activeGameId, start_time, status}}}
+   */
+  static setAwaitingGameStartAction(data) {
+    return {
+      type: RockPaperScissorsConstants.GAME_RPS_SET_AWAITING_GAME_START,
+      payload: {
+        activeGameId: data.activeGameId,
+        start_time: data.start_time,
+        status: data.status
+      }
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (GAME_RPS_SET_CONCLUDED_GAME_START)
+   * @param data
+   * @returns {{type: string, payload: {activeGameId, start_time, end_time, status, matchList: (*|List<T>|List<any>)}}}
+   */
+  static setConcludedGameStartAction(data) {
+    return {
+      type: RockPaperScissorsConstants.GAME_RPS_SET_CONCLUDED_GAME_START,
+      payload: {
+        activeGameId: data.activeGameId,
+        start_time: data.start_time,
+        end_time: data.end_time,
+        status: data.status,
+        matchList: data.matchList
+      }
+    };
+  }
+}
+
 class RockPaperScissorsActions {
   /**
    * change tab action
@@ -270,7 +277,7 @@ class RockPaperScissorsActions {
    */
   static changeTabParams(data) {
     return (dispatch) => {
-      dispatch(changeTabParamsAction({
+      dispatch(RockPaperScissorsPrivateActions.changeTabParamsAction({
         tab: data.tab,
         tournamentsFilter: data.tournamentsFilter
       }));
@@ -381,8 +388,7 @@ class RockPaperScissorsActions {
           operationJSON, accountJs, asset.toJS(), () => {}).then((trFnc) => {
           dispatch(trFnc);
         });
-      }).catch(() => {
-      });
+      }).catch(() => {});
     };
   }
 
@@ -412,7 +418,7 @@ class RockPaperScissorsActions {
             });
 
             if (maxElement) {
-            // Clear a previous transaction
+              // Clear a previous transaction
               dispatch(clearTransaction());
 
               let operationJSON = {
@@ -429,7 +435,8 @@ class RockPaperScissorsActions {
 
               Promise.all(
                 [Repository.getAccount(account.get('id')),
-                  Repository.getAsset(operationJSON.buy_in.asset_id)]
+                  Repository.getAsset(operationJSON.buy_in.asset_id)
+                ]
               ).then((data) => {
                 if (data[0] && data[1]) {
                   let payer = data[0].toJS(),
@@ -512,7 +519,8 @@ class RockPaperScissorsActions {
           };
           Promise.all(
             [Repository.getAccount(operationJSON.creator),
-              Repository.getAsset(operationJSON.options.buy_in.asset_id)]
+              Repository.getAsset(operationJSON.options.buy_in.asset_id)
+            ]
           ).then(([payer, asset]) => {
             if (payer && asset) {
               payer = payer.toJS();
@@ -590,29 +598,30 @@ class RockPaperScissorsActions {
         }
 
         if (currentPage !== page) {
-          dispatch(setExplorePageAction({
+          dispatch(RockPaperScissorsPrivateActions.setExplorePageAction({
             explorePage: page
           }));
         }
 
         if (exploreCountPages !== countPages) {
-          dispatch(setExploreCountPagesAction({
+          dispatch(RockPaperScissorsPrivateActions.setExploreCountPagesAction({
             exploreCountPages: countPages
           }));
         }
 
         let last = tournament_prefix + Math.max(
             (shortLastTournamentId - exploreCountPerPage * page) + 1, 0
-          ), first = tournament_prefix + (shortLastTournamentId - exploreCountPerPage * (page - 1));
+          ),
+          first = tournament_prefix + (shortLastTournamentId - exploreCountPerPage * (page - 1));
 
         results['first'] = first;
         results['last'] = last;
 
         // Cache
         if (
-          currentLastTournamentId === lastTournamentId
-          && currentLastTournamentPage === page
-          && currentExploreList.size
+          currentLastTournamentId === lastTournamentId &&
+          currentLastTournamentPage === page &&
+          currentExploreList.size
         ) {
           currentLastTournamentPage = page;
           let promiseTournamentsList = [];
@@ -737,8 +746,8 @@ class RockPaperScissorsActions {
 
           if (detail) {
             if (
-              exploreDropDownCurrent === 'any'
-              || exploreDropDownCurrent === tournament.getIn(['options', 'buy_in', 'asset_id'])
+              exploreDropDownCurrent === 'any' ||
+              exploreDropDownCurrent === tournament.getIn(['options', 'buy_in', 'asset_id'])
             ) {
               exploreList = exploreList.push(
                 tournament.set(
@@ -757,10 +766,10 @@ class RockPaperScissorsActions {
           account
         );
 
-        if (!exploreList.equals(state.rockPaperScissorsReducer.exploreList)
-          || !exploreDropDownItems.equals(state.rockPaperScissorsReducer.exploreDropDownItems)
+        if (!exploreList.equals(state.rockPaperScissorsReducer.exploreList) ||
+          !exploreDropDownItems.equals(state.rockPaperScissorsReducer.exploreDropDownItems)
         ) {
-          dispatch(setExploreListAction({
+          dispatch(RockPaperScissorsPrivateActions.setExploreListAction({
             exploreList: exploreList,
             exploreDropDownItems: exploreDropDownItems,
             exploreDropDownCurrent: exploreDropDownCurrent
@@ -778,7 +787,7 @@ class RockPaperScissorsActions {
    */
   static setFindDDCurrent(current) {
     return (dispatch) => {
-      dispatch(setFindDDCurrentAction({
+      dispatch(RockPaperScissorsPrivateActions.setFindDDCurrentAction({
         findDropDownCurrent: current
       }));
       dispatch(RockPaperScissorsActions.fetchFindTournaments());
@@ -792,7 +801,7 @@ class RockPaperScissorsActions {
    */
   static setExploreDDCurrent(current) {
     return (dispatch) => {
-      dispatch(setExploreDDCurrentAction({
+      dispatch(RockPaperScissorsPrivateActions.setExploreDDCurrentAction({
         exploreDropDownCurrent: current
       }));
       dispatch(RockPaperScissorsActions.fetchExploreTournaments());
@@ -810,14 +819,14 @@ class RockPaperScissorsActions {
         direction;
 
       if (state.rockPaperScissorsReducer.exploreSortColumn === field) {
-        direction = (state.rockPaperScissorsReducer.exploreSortDirection === 'desc')
-          ? 'asc'
-          : 'desc';
+        direction = (state.rockPaperScissorsReducer.exploreSortDirection === 'desc') ?
+          'asc' :
+          'desc';
       } else {
         direction = state.rockPaperScissorsReducer.exploreSortDirection;
       }
 
-      dispatch(setSortExploreByAction({
+      dispatch(RockPaperScissorsPrivateActions.setSortExploreByAction({
         exploreSortColumn: field,
         exploreSortDirection: direction
       }));
@@ -926,8 +935,8 @@ class RockPaperScissorsActions {
             });
 
             if (
-              !fPlayer && (findDropDownCurrent === 'any'
-              || findDropDownCurrent === tournament.getIn(['options', 'buy_in', 'asset_id']))
+              !fPlayer && (findDropDownCurrent === 'any' ||
+                findDropDownCurrent === tournament.getIn(['options', 'buy_in', 'asset_id']))
             ) {
               // From whiteList
               let optionsImm = tournament.get('options'),
@@ -957,10 +966,10 @@ class RockPaperScissorsActions {
         });
 
         if (
-          !findList.equals(state.rockPaperScissorsReducer.findList)
-          ||!findDropDownItems.equals(state.rockPaperScissorsReducer.findDropDownItems)
+          !findList.equals(state.rockPaperScissorsReducer.findList) ||
+          !findDropDownItems.equals(state.rockPaperScissorsReducer.findDropDownItems)
         ) {
-          dispatch(setFindListAction({
+          dispatch(RockPaperScissorsPrivateActions.setFindListAction({
             findList: findList,
             findDropDownItems: findDropDownItems,
             findDropDownCurrent: findDropDownCurrent
@@ -995,7 +1004,8 @@ class RockPaperScissorsActions {
         ([rawUpcomingTournamentIds, rawTournamentIdsAwaitingStart, rawTournamentIdsInProgress]) => {
           let allUpcomingTournamentIds = rawUpcomingTournamentIds.union(
               rawTournamentIdsAwaitingStart
-            ), promises = [];
+            ),
+            promises = [];
           allUpcomingTournamentIds = allUpcomingTournamentIds.union(rawTournamentIdsInProgress);
           allUpcomingTournamentIds.forEach((id) => {
             promises.push(Repository.fetchObject(id));
@@ -1081,7 +1091,7 @@ class RockPaperScissorsActions {
         });
 
         if (!dashboardList.equals(state.rockPaperScissorsReducer.dashboardList)) {
-          dispatch(setDashboardListAction({
+          dispatch(RockPaperScissorsPrivateActions.setDashboardListAction({
             dashboardList: dashboardList
           }));
         }
@@ -1148,7 +1158,7 @@ class RockPaperScissorsActions {
           current = items.getIn([0, 'symbol']);
         }
 
-        dispatch(setAvailableUnitsAction({
+        dispatch(RockPaperScissorsPrivateActions.setAvailableUnitsAction({
           unitList: items,
           unit: current
         }));
@@ -1171,7 +1181,7 @@ class RockPaperScissorsActions {
       let state = getState();
 
       if (state.rockPaperScissorsReducer.activeGameId !== gameId) {
-        dispatch(setActiveGameAction({
+        dispatch(RockPaperScissorsPrivateActions.setActiveGameAction({
           activeGameId: gameId,
           match: null,
           games: Immutable.List(),
@@ -1216,8 +1226,8 @@ class RockPaperScissorsActions {
           case 'in_progress':
             console.log('IN PROGRESS', tournament.get('id'));
             let match = matches.find((match) => {
-              return match.get('state') === 'match_in_progress'
-                && match.get('players') && match.get('players').find((playerId) => {
+              return match.get('state') === 'match_in_progress' &&
+                match.get('players') && match.get('players').find((playerId) => {
                 return playerId === account.get('id');
               });
             });
@@ -1244,16 +1254,16 @@ class RockPaperScissorsActions {
                 });
                 games.forEach((game) => {
                   if (
-                    !previousGamesHash[game.get('id')]
-                      || (game !== previousGamesHash[game.get('id')]
-                      && game.get('state') !== previousGamesHash[game.get('id')].get('state'))
+                    !previousGamesHash[game.get('id')] ||
+                    (game !== previousGamesHash[game.get('id')] &&
+                      game.get('state') !== previousGamesHash[game.get('id')].get('state'))
                   ) {
                     if (game.get('state') === 'expecting_reveal_moves') {
                       game.get('players').forEach((playerId, playerIndex) => {
                         if (
-                          account.get('id') === playerId
-                          && game.getIn(['game_details', 1, 'commit_moves', playerIndex])
-                          && !game.getIn(['game_details', 1, 'reveal_moves', playerIndex])
+                          account.get('id') === playerId &&
+                          game.getIn(['game_details', 1, 'commit_moves', playerIndex]) &&
+                          !game.getIn(['game_details', 1, 'reveal_moves', playerIndex])
                         ) {
                           console.log('Game %o is expecting a reveal move', game.get('id'));
                           dispatch(RWalletUnlockNewActions.getKeyFromState('active')).then(
@@ -1274,12 +1284,12 @@ class RockPaperScissorsActions {
                 });
 
                 if (
-                  !immutableGames.equals(state.rockPaperScissorsReducer.games)
-                  || !match.equals(state.rockPaperScissorsReducer.match)
-                  || !players.equals(state.rockPaperScissorsReducer.players)
-                  || gameId !== state.rockPaperScissorsReducer.activeGameId
+                  !immutableGames.equals(state.rockPaperScissorsReducer.games) ||
+                  !match.equals(state.rockPaperScissorsReducer.match) ||
+                  !players.equals(state.rockPaperScissorsReducer.players) ||
+                  gameId !== state.rockPaperScissorsReducer.activeGameId
                 ) {
-                  dispatch(setGameAction({
+                  dispatch(RockPaperScissorsPrivateActions.setGameAction({
                     match: match,
                     activeGameId: gameId,
                     players: players,
@@ -1290,7 +1300,7 @@ class RockPaperScissorsActions {
               });
             } else {
               // waiting game...
-              dispatch(setActiveGameAction({
+              dispatch(RockPaperScissorsPrivateActions.setActiveGameAction({
                 activeGameId: gameId,
                 match: null,
                 games: Immutable.List(),
@@ -1302,7 +1312,7 @@ class RockPaperScissorsActions {
 
             break;
           case 'awaiting_start':
-            dispatch(setAwaitingGameStartAction({
+            dispatch(RockPaperScissorsPrivateActions.setAwaitingGameStartAction({
               activeGameId: gameId,
               start_time: tournament.get('start_time'),
               status: tournament.get('state')
@@ -1398,7 +1408,7 @@ class RockPaperScissorsActions {
                 matchList.push(item);
               });
 
-              dispatch(setConcludedGameStartAction({
+              dispatch(RockPaperScissorsPrivateActions.setConcludedGameStartAction({
                 activeGameId: gameId,
                 start_time: tournament.get('start_time'),
                 end_time: tournament.get('end_time'),
@@ -1413,8 +1423,7 @@ class RockPaperScissorsActions {
         }
 
         return Promise.reject();
-      }).catch(() => {
-      });
+      }).catch(() => {});
     };
   }
 

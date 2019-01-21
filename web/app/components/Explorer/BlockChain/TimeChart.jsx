@@ -129,8 +129,10 @@ class TimeChart extends React.Component {
   }
 }
 
-TimeChart = connect((state) => {
-  return {graphBlockTimes: state.explorerBlockchainPage.graphBlockTimes};
-})(TimeChart);
+const mapStateToProps = (state) => {
+  return {
+    graphBlockTimes : state.explorerBlockchainPage.graphBlockTimes
+  };
+};
 
-export default TimeChart;
+export default connect(mapStateToProps)(TimeChart);

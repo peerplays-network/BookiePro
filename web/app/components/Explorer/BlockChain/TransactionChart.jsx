@@ -132,8 +132,10 @@ class TransactionChart extends React.Component {
   }
 }
 
-TransactionChart = connect((state) => {
-  return {graphBlockTransactions: state.explorerBlockchainPage.graphBlockTransactions};
-})(TransactionChart);
+const mapStateToProps = (state) => {
+  return {
+    graphBlockTransactions : state.explorerBlockchainPage.graphBlockTransactions
+  };
+};
 
-export default TransactionChart;
+export default connect(mapStateToProps)(TransactionChart);

@@ -3,13 +3,6 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import FormattedPrice from '../Utility/FormattedPrice';
 
-@connect((state) => {
-  return {
-    publisher: state.transactionConfirm.transaction.publisher,
-    asset_id: state.transactionConfirm.transaction.asset_id,
-    feed: state.transactionConfirm.transaction.feed
-  };
-})
 class AssetPublishFeed extends React.Component {
   render() {
     return (
@@ -94,4 +87,12 @@ class AssetPublishFeed extends React.Component {
   }
 }
 
-export default AssetPublishFeed;
+const mapStateToProps = (state) => {
+  return {
+    publisher: state.transactionConfirm.transaction.publisher,
+    asset_id: state.transactionConfirm.transaction.asset_id,
+    feed: state.transactionConfirm.transaction.feed
+  };
+};
+
+export default connect(mapStateToProps)(AssetPublishFeed);

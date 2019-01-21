@@ -65,7 +65,6 @@ class RTransactionConfirmPrivateActions {
   }
 }
 
-
 class RTransactionConfirmActions {
   /**
    * Redux Action Creator (TRCONFIRM_SET_TRANSACTION)
@@ -159,3 +158,5 @@ class RTransactionConfirmActions {
     };
   }
 }
+
+export default RTransactionConfirmActions;

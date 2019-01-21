@@ -1,6 +1,7 @@
 // TODO: Make actions classed and export. Nonspecific url requirements then.
 // ctrl+click link compatible
-
+import RockPaperScissorsActions from '../../../dl/src/actions/Games/RockPaperScissors/RockPaperScissorsActions';
+import RockPaperScissorsNavigateActions from '../../../dl/src/actions/Games/RockPaperScissors/RockPaperScissorsNavigateActions';
 import AccountVestingPageActions from '../../../dl/src/actions/AccountVestingPageActions';
 import AppActions from '../../../dl/src/actions/AppActions';
 import AppSettingsActions from '../../../dl/src/actions/AppSettingsActions';
@@ -37,6 +38,8 @@ import VotingActions from '../../../dl/src/actions/VotingActions';
 import WalletUnlockActions from '../../../dl/src/actions/WalletUnlockActions';
 
 export {
+  RockPaperScissorsActions,
+  RockPaperScissorsNavigateActions,
   AccountVestingPageActions,
   AppActions,
   AppSettingsActions,

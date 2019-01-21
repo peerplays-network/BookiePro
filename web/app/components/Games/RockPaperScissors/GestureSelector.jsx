@@ -3,606 +3,604 @@ import ReactDOM from 'react-dom';
 import createjs from 'createjs';
 import machina from 'machina';
 
-let GestureSelectorFsm = machina
-  .Fsm
-  .extend({
-    initialize: function (gestureSelector) {
-      this.gestureSelector = gestureSelector;
-    },
-    initialState: 'hidden',
-    currentGesture: null,
-    states: {
-      hidden: {
-        // All elements are hidden
-        displayGestureSelector: function () {
-          createjs.Tween.get(this.gestureSelector.circle).to({
-            scaleX: 1,
-            scaleY: 1
-          }, 400, createjs.Ease.backIn).wait(200).call(() => {
-            this.transition('displayingGestureSelector');
+let GestureSelectorFsm = machina.Fsm.extend({
+  initialize: function (gestureSelector) {
+    this.gestureSelector = gestureSelector;
+  },
+  initialState: 'hidden',
+  currentGesture: null,
+  states: {
+    hidden: {
+      // All elements are hidden
+      displayGestureSelector: function () {
+        createjs.Tween.get(this.gestureSelector.circle).to({
+          scaleX: 1,
+          scaleY: 1
+        }, 400, createjs.Ease.backIn).wait(200).call(() => {
+          this.transition('displayingGestureSelector');
+        });
+
+        this.gestureSelector.buttons.forEach((button, buttonIndex) => {
+          button.set({
+            x: this.gestureSelector.shapes[buttonIndex].x,
+            y: this.gestureSelector.shapes[buttonIndex].y,
+            scaleX: 0,
+            scaleY: 0,
+            alpha: 1
           });
 
-          this.gestureSelector.buttons.forEach((button, buttonIndex) => {
+          if (button.name !== 'question') {
+            // waiting animation
+            createjs.Tween.get(button).wait(400).to({
+              scaleX: 1,
+              scaleY: 1
+            }, 200, createjs.Ease.backIn).call(() => {
+              createjs.Tween.get(button, {loop: true}).to({
+                scaleX: 0.95,
+                scaleY: 0.95
+              }, 600, createjs.Ease.sineIn).to({
+                scaleX: 1,
+                scaleY: 1
+              }, 600, createjs.Ease.sineOut);
+            });
+            // waiting animation for the shadow
+            createjs.Tween.get(button.getChildByName('circle').shadow).wait(600).call(() => {
+              createjs.Tween.get(button.getChildByName('circle').shadow, {
+                loop: true,
+                paused: true
+              }).to({
+                offsetX: this.gestureSelector.shadowOffset.x * 0.75,
+                offsetY: this.gestureSelector.shadowOffset.y * 0.75
+              }, 600, createjs.Ease.sineIn).to({
+                offsetX: this.gestureSelector.shadowOffset.x,
+                offsetY: this.gestureSelector.shadowOffset.y
+              }, 600, createjs.Ease.sineOut);
+            });
+          }
+        });
+        this.transition('transitioningToDisplayGestureSelector');
+      },
+      displaySelectedGesture: function () {
+        createjs.Tween.get(this.gestureSelector.circle).to({
+          scaleX: 1,
+          scaleY: 1
+        }, 400, createjs.Ease.backIn).wait(200).call(() => {
+          this.transition('displayingSelectedGesture');
+        });
+        this.gestureSelector.buttons.forEach((button) => {
+          if (button.name === this.gestureSelector.gestureToDisplay) {
             button.set({
-              x: this.gestureSelector.shapes[buttonIndex].x,
-              y: this.gestureSelector.shapes[buttonIndex].y,
+              x: this.gestureSelector.maxCircleCenter.x,
+              y: this.gestureSelector.maxCircleCenter.y,
+              scaleX: 0,
+              scaleY: 0
+            });
+            createjs.Tween.get(button).wait(400).to({
+              scaleX: 1,
+              scaleY: 1
+            }, 200, createjs.Ease.backIn);
+          } else {
+            button.set({scaleX: 0, scaleY: 0});
+          }
+        });
+        this.transition('transitioningToDisplayingSelectedGesture');
+      },
+      displayCommittedGesture: function (gestureToDisplay) {
+        this.gestureSelector.buttons.forEach((button) => {
+          // only one of the buttons should have been visible, but it is easiest to hide them all
+          button.set({
+            alpha: 0
+          }, 200);
+        });
+        this.gestureSelector.icons.forEach((icon) => {
+          icon.set({alpha: 0, scaleX: 1, scaleY: 1});
+        });
+        this.gestureSelector.circle.set({scaleX: 0, scaleY: 0});
+        createjs.Tween.get(this.gestureSelector.circle).to({
+          scaleX: 1,
+          scaleY: 1
+        }, 600, createjs.Ease.backIn).call(() => {
+          this.transition('displayingCommittedGesture');
+        });
+        this.gestureSelector.icons.forEach((icon) => {
+          if (icon.name === gestureToDisplay) {
+            icon.set({alpha: 1, scaleX: 0, scaleY: 0});
+            createjs.Tween.get(icon).wait(200).to({
+              scaleX: 1,
+              scaleY: 1
+            }, 400, createjs.Ease.backIn);
+          }
+        });
+        this.currentGesture = gestureToDisplay;
+        this.transition('transitioningToDisplayingCommittedGesture');
+      }
+    },
+    transitioningToDisplayingGestureSelector: {
+      _onEnter: function () {
+        console.log(
+          'Entering transitioningToDisplayingGestureSelector, player %d',
+          this.gestureSelector.props.playerIndex
+        );
+      },
+      _onExit: function () {
+        console.log(
+          'Exiting transitioningToDisplayingGestureSelector, player %d',
+          this.gestureSelector.props.playerIndex
+        );
+      },
+      '*': function (eventObject) {
+        console.log(
+          'Defering event %s until transition is finished, player %d',
+          eventObject.inputType,
+          this.gestureSelector.props.playerIndex
+        );
+        this.deferUntilTransition('displayingGestureSelector');
+      }
+    },
+    displayingGestureSelector: {
+      _onEnter: function () {
+        console.log(
+          'Entering displayingGestureSelector, player %d', this.gestureSelector.props.playerIndex
+        );
+      },
+      _onExit: function () {
+        console.log(
+          'Exiting displayingGestureSelector, player %d', this.gestureSelector.props.playerIndex
+        );
+      },
+      // three buttons are spaced around the circle, pulsing question button is zero
+      // size in the center icons are all alpha zero in the center
+      gestureSelected: function (gestureToDisplay) {
+        this.gestureSelector.props.getActiveKeyFromState().then(() => {
+          this.gestureSelector.buttons.forEach((button, buttonIndex) => {
+            createjs.Tween.removeTweens(button);
+            createjs.Tween.removeTweens(button.getChildByName('circle').shadow);
+
+            if (button.name === this.gestureSelector.gestureToDisplay) {
+              // zoom it to the center of the circle
+              createjs.Tween.get(button).to({
+                x: (this.gestureSelector.shapes[buttonIndex].x
+                      + this.gestureSelector.maxCircleCenter.x) / 2,
+                y: (this.gestureSelector.shapes[buttonIndex].y
+                    + this.gestureSelector.maxCircleCenter.y) / 2,
+                scaleX: 1.2,
+                scaleY: 1.2
+              }, 400, createjs.Ease.sineIn).to({
+                x: this.gestureSelector.maxCircleCenter.x,
+                y: this.gestureSelector.maxCircleCenter.y,
+                scaleX: 1,
+                scaleY: 1
+              }, 400, createjs.Ease.sineOut).call(() => {
+                // We broadcast the commit move after all of the animations are done because the
+                // crypto causes the animations to stutter.
+                this.props.commitMove(
+                  this.props.tournament_id,
+                  this.gestureSelector.props.currentGame.get('id'),
+                  this.gestureSelector.props.currentGame.getIn(['players',
+                    this.gestureSelector.props.playerIndex]
+                  ), gestureToDisplay
+                );
+
+                this.transition('displayingSelectedGesture');
+              });
+            } else if (button.name === 'question') {
+              // should already be hidden
+              button.set({scaleX: 0, scaleY: 0});
+            } else {
+              // shrink it away
+              createjs.Tween.get(button).to({
+                scaleX: 0,
+                scaleY: 0
+              }, 350, createjs.Ease.backIn);
+            }
+          });
+
+          this.currentGesture = gestureToDisplay;
+          this.transition('transitioningToDisplayingSelectedGesture');
+        }).catch((err) => {
+          console.log('CANCEL INNER', err);
+        });
+      },
+      displayCommittedGesture: function (gestureToDisplay) {
+        // we never saw the user select their gesture, so disappear all of the buttons
+        // in place and show the selected gesture
+        this.gestureSelector.buttons.forEach((button) => {
+          createjs.Tween.removeTweens(button);
+          createjs.Tween.removeTweens(button.getChildByName('circle').shadow);
+
+          createjs.Tween.get(button).to({
+            scaleX: 0,
+            scaleY: 0
+          }, 350, createjs.Ease.backIn);
+        });
+        this.gestureSelector.icons.forEach((icon) => {
+          if (icon.name === gestureToDisplay) {
+            icon.set({alpha: 0, scaleX: 1, scaleY: 1});
+            createjs.Tween.get(icon).to({
+              alpha: 1
+            }, 200).call(() => {
+              this.transition('displayingCommittedGesture');
+            });
+          }
+        });
+        this.currentGesture = gestureToDisplay;
+        this.transition('transitioningToDisplayingCommittedGesture');
+      },
+      displayWinLoseTie: function (gestureName) {
+        // we never saw the opponent commit their move as a distinct step, so fake it
+        // here
+        this.deferUntilTransition('displayingCommittedGesture');
+        this.handle('displayCommittedGesture', gestureName);
+      },
+      hideDisplay: function () {}
+    },
+    transitioningToDisplayingSelectedGesture: {
+      _onEnter: function () {
+        console.log(
+          'Entering transitioningToDisplayingSelectedGesture, player %d',
+          this.gestureSelector.props.playerIndex
+        );
+      },
+      _onExit: function () {
+        console.log(
+          'Exiting transitioningToDisplayingSelectedGesture, player %d',
+          this.gestureSelector.props.playerIndex
+        );
+      },
+      '*': function (eventObject) {
+        console.log(
+          'Defering event %s until transition is finished, player %d',
+          eventObject.inputType, this.gestureSelector.props.playerIndex
+        );
+        this.deferUntilTransition('displayingSelectedGesture');
+      }
+    },
+    displayingSelectedGesture: {
+      // We're displaying a selected gesture, one button is in the middle of the
+      // circle, all icons are hidden
+      _onEnter: function () {
+        console.log(
+          'Entering displayingSelectedGesture, player %d',
+          this.gestureSelector.props.playerIndex
+        );
+      },
+      displayCommittedGesture: function (gestureToDisplay) {
+        this.gestureSelector.buttons.forEach((button) => {
+          // only one of the buttons should have been visible, but it is easiest to hide
+          // them all
+          createjs.Tween.get(button).to({
+            alpha: 0
+          }, 200);
+        });
+        this.gestureSelector.icons.forEach((icon) => {
+          if (icon.name === gestureToDisplay) {
+            icon.set({alpha: 0, scaleX: 1, scaleY: 1});
+            createjs.Tween.get(icon).to({
+              alpha: 1
+            }, 200).call(() => {
+              this.transition('displayingCommittedGesture');
+            });
+          }
+        });
+        this.currentGesture = gestureToDisplay;
+        this.transition('transitioningToDisplayingCommittedGesture');
+      },
+      displayWinLoseTie: function (gestureName) {
+        // we never saw the opponent commit their move as a distinct step, so fake it
+        // here
+        this.deferUntilTransition('displayingCommittedGesture');
+        this.handle('displayCommittedGesture', gestureName);
+      },
+      _onExit: function () {
+        console.log(
+          'Exiting displayingSelectedGesture, player %d',
+          this.gestureSelector.props.playerIndex
+        );
+      }
+    },
+    transitioningToDisplayingCommittedGesture: {
+      _onEnter: function () {
+        console.log(
+          'Entering transitioningToDisplayingCommittedGesture, player %d',
+          this.gestureSelector.props.playerIndex
+        );
+      },
+      _onExit: function () {
+        console.log(
+          'Exiting transitioningToDisplayingCommittedGesture, player %d',
+          this.gestureSelector.props.playerIndex
+        );
+      },
+      '*': function (eventObject) {
+        console.log(
+          'Defering event %s until transition is finished, player %d',
+          eventObject.inputType, this.gestureSelector.props.playerIndex
+        );
+        this.deferUntilTransition('displayingCommittedGesture');
+      }
+    },
+    displayingCommittedGesture: {
+      _onEnter: function () {
+        console.log('Entering displayingCommittedGesture');
+      },
+      displayGestureSelector: function () {
+        this.gestureSelector.icons.forEach((icon) => {
+          // only one of the icons should have been visible, but it is easiest to hide
+          // them all
+          createjs.Tween.get(icon).to({
+            alpha: 0
+          }, 200);
+        });
+        this.gestureSelector.buttons.forEach((button, buttonIndex) => {
+          button.set({
+            x: this.gestureSelector.shapes[buttonIndex].x,
+            y: this.gestureSelector.shapes[buttonIndex].y,
+            scaleX: 0, scaleY: 0, alpha: 1
+          });
+
+          if (button.name !== 'question') {
+            // waiting animation
+            createjs.Tween.get(button).wait(200).to({
+              scaleX: 1,
+              scaleY: 1
+            }, 200, createjs.Ease.backIn).call(() => {
+              createjs.Tween.get(button, {loop: true}).to({
+                scaleX: 0.95,
+                scaleY: 0.95
+              }, 600, createjs.Ease.sineIn).to({
+                scaleX: 1,
+                scaleY: 1
+              }, 600, createjs.Ease.sineOut);
+            });
+            // waiting animation for the shadow
+            createjs.Tween.get(button.getChildByName('circle').shadow).wait(400).call(() => {
+              createjs.Tween.get(button.getChildByName('circle').shadow, {
+                loop: true,
+                paused: true
+              }).to({
+                offsetX: this.gestureSelector.shadowOffset.x * 0.75,
+                offsetY: this.gestureSelector.shadowOffset.y * 0.75
+              }, 600, createjs.Ease.sineIn).to({
+                offsetX: this.gestureSelector.shadowOffset.x,
+                offsetY: this.gestureSelector.shadowOffset.y
+              }, 600, createjs.Ease.sineOut);
+            });
+          }
+        });
+        createjs.Tween.get(this.gestureSelector.circle).wait(400).call(() => {
+          this.transition('displayingGestureSelector');
+        });
+        this.transition('transitioningToDisplayGestureSelector');
+      },
+      displaySelectedGesture: function () {
+        this.gestureSelector.icons.forEach((icon) => {
+          // only one of the icons should have been visible, but it is easiest to hide
+          // them all
+          createjs.Tween.get(icon).to({
+            alpha: 0
+          }, 200);
+        });
+        this.gestureSelector.buttons.forEach((button, ) => {
+          // all buttons are hidden, only need to un-hide the one we're concerned with
+          if (button.name === this.gestureSelector.gestureToDisplay) {
+            button.set({
+              x: this.gestureSelector.maxCircleCenter.x,
+              y: this.gestureSelector.maxCircleCenter.y,
               scaleX: 0,
               scaleY: 0,
               alpha: 1
             });
-
-            if (button.name !== 'question') {
-              // waiting animation
-              createjs.Tween.get(button).wait(400).to({
-                scaleX: 1,
-                scaleY: 1
-              }, 200, createjs.Ease.backIn).call(() => {
-                createjs.Tween.get(button, {loop: true}).to({
-                  scaleX: 0.95,
-                  scaleY: 0.95
-                }, 600, createjs.Ease.sineIn).to({
-                  scaleX: 1,
-                  scaleY: 1
-                }, 600, createjs.Ease.sineOut);
-              });
-              // waiting animation for the shadow
-              createjs.Tween.get(button.getChildByName('circle').shadow).wait(600).call(() => {
-                createjs.Tween.get(button.getChildByName('circle').shadow, {
-                  loop: true,
-                  paused: true
-                }).to({
-                  offsetX: this.gestureSelector.shadowOffset.x * 0.75,
-                  offsetY: this.gestureSelector.shadowOffset.y * 0.75
-                }, 600, createjs.Ease.sineIn).to({
-                  offsetX: this.gestureSelector.shadowOffset.x,
-                  offsetY: this.gestureSelector.shadowOffset.y
-                }, 600, createjs.Ease.sineOut);
-              });
-            }
-          });
-          this.transition('transitioningToDisplayGestureSelector');
-        },
-        displaySelectedGesture: function () {
-          createjs.Tween.get(this.gestureSelector.circle).to({
-            scaleX: 1,
-            scaleY: 1
-          }, 400, createjs.Ease.backIn).wait(200).call(() => {
-            this.transition('displayingSelectedGesture');
-          });
-          this.gestureSelector.buttons.forEach((button) => {
-            if (button.name === this.gestureSelector.gestureToDisplay) {
-              button.set({
-                x: this.gestureSelector.maxCircleCenter.x,
-                y: this.gestureSelector.maxCircleCenter.y,
-                scaleX: 0,
-                scaleY: 0
-              });
-              createjs.Tween.get(button).wait(400).to({
-                scaleX: 1,
-                scaleY: 1
-              }, 200, createjs.Ease.backIn);
-            } else {
-              button.set({scaleX: 0, scaleY: 0});
-            }
-          });
-          this.transition('transitioningToDisplayingSelectedGesture');
-        },
-        displayCommittedGesture: function (gestureToDisplay) {
-          this.gestureSelector.buttons.forEach((button) => {
-            // only one of the buttons should have been visible, but it is easiest to hide them all
-            button.set({
-              alpha: 0
-            }, 200);
-          });
-          this.gestureSelector.icons.forEach((icon) => {
+            createjs.Tween.get(button).wait(200).to({
+              scaleX: 1,
+              scaleY: 1
+            }, 200, createjs.Ease.backIn).call(() => {
+              this.transition('displayingSelectedGesture');
+            });
+          }
+        });
+        this.transition('transitioningToDisplayingSelectedGesture');
+      },
+      displayCommittedGesture: function (gestureName) {
+        // we are already displaying the committed gesture, but in the unlikely chance
+        // it has changed, jump to it now
+        this.gestureSelector.icons.forEach((icon) => {
+          if (icon.name === gestureName) {
+            icon.set({alpha: 1, scaleX: 1, scaleY: 1});
+          } else {
             icon.set({alpha: 0, scaleX: 1, scaleY: 1});
+          }
+        });
+        this.currentGesture = gestureName;
+        // remain in this state
+      },
+      displayWinLoseTie: function (gestureName, winLoseTie) {
+        this.gestureSelector.icons.forEach((icon) => {
+          if (icon.name === gestureName) {
+            // if we somehow got here with the wrong icon displayed, force it to the correct
+            // icon immediately
+            icon.set({alpha: 1});
+
+            if (winLoseTie === 'win') {
+              createjs.Tween.get(icon).to({
+                scaleX: 2.25,
+                scaleY: 2.25
+              }, 400).wait(400).call(() => {
+                this.transition('displayingWinLoseTie');
+              });
+            } else if (winLoseTie === 'lose') {
+              createjs.Tween.get(icon).to({
+                scaleX: .75,
+                scaleY: .75
+              }, 400).wait(400).call(() => {
+                this.transition('displayingWinLoseTie');
+              });
+            } else {
+              createjs.Tween.get(icon).to({
+                rotation: 90
+              }, 100).to({
+                rotation: 180
+              }, 100).to({
+                rotation: 270
+              }, 100).to({
+                rotation: 0
+              }, 100).wait(400).call(() => {
+                this.transition('displayingWinLoseTie');
+              });
+            }
+          } else {
+            icon.set({alpha: 0});
+          }
+
+          this.transition('transitioningToDisplayingWinLoseTie');
+        });
+      },
+      _onExit: function () {
+        console.log('Exiting displayingCommittedGesture');
+      }
+    },
+    transitioningToDisplayingWinLoseTie: {
+      _onEnter: function () {
+        console.log(
+          'Entering transitioningToDisplayingWinLoseTie, player %d',
+          this.gestureSelector.props.playerIndex
+        );
+      },
+      _onExit: function () {
+        console.log(
+          'Exiting transitioningToDisplayingWinLoseTie, player %d',
+          this.gestureSelector.props.playerIndex
+        );
+      },
+      '*': function (eventObject) {
+        console.log(
+          'Defering event %s until transition is finished, player %d',
+          eventObject.inputType,
+          this.gestureSelector.props.playerIndex
+        );
+        this.deferUntilTransition('displayingWinLoseTie');
+      }
+    },
+    displayingWinLoseTie: {
+      _onEnter: function () {
+        console.log('Entering displayingWinLoseTie');
+      },
+      displayGestureSelector: function () {
+        this.gestureSelector.icons.forEach((icon) => {
+          // only one of the icons should have been visible, but it is easiest to hide them all
+          createjs.Tween.get(icon).to({
+            alpha: 0
+          }, 200);
+        });
+        this.gestureSelector.buttons.forEach((button, buttonIndex) => {
+          button.set({
+            x: this.gestureSelector.shapes[buttonIndex].x,
+            y: this.gestureSelector.shapes[buttonIndex].y,
+            scaleX: 0, scaleY: 0, alpha: 1
           });
-          this.gestureSelector.circle.set({scaleX: 0, scaleY: 0});
-          createjs.Tween.get(this.gestureSelector.circle).to({
-            scaleX: 1,
-            scaleY: 1
-          }, 600, createjs.Ease.backIn).call(() => {
-            this.transition('displayingCommittedGesture');
-          });
-          this.gestureSelector.icons.forEach((icon) => {
-            if (icon.name === gestureToDisplay) {
-              icon.set({alpha: 1, scaleX: 0, scaleY: 0});
-              createjs.Tween.get(icon).wait(200).to({
+
+          if (button.name !== 'question') {
+            // waiting animation
+            createjs.Tween.get(button).wait(200).to({
+              scaleX: 1,
+              scaleY: 1
+            }, 200, createjs.Ease.backIn).call(() => {
+              createjs.Tween.get(button, {loop: true}).to({
+                scaleX: 0.95,
+                scaleY: 0.95
+              }, 600, createjs.Ease.sineIn).to({
                 scaleX: 1,
                 scaleY: 1
-              }, 400, createjs.Ease.backIn);
-            }
-          });
-          this.currentGesture = gestureToDisplay;
-          this.transition('transitioningToDisplayingCommittedGesture');
-        }
-      },
-      transitioningToDisplayingGestureSelector: {
-        _onEnter: function () {
-          console.log(
-            'Entering transitioningToDisplayingGestureSelector, player %d',
-            this.gestureSelector.props.playerIndex
-          );
-        },
-        _onExit: function () {
-          console.log(
-            'Exiting transitioningToDisplayingGestureSelector, player %d',
-            this.gestureSelector.props.playerIndex
-          );
-        },
-        '*': function (eventObject) {
-          console.log(
-            'Defering event %s until transition is finished, player %d',
-            eventObject.inputType,
-            this.gestureSelector.props.playerIndex
-          );
-          this.deferUntilTransition('displayingGestureSelector');
-        }
-      },
-      displayingGestureSelector: {
-        _onEnter: function () {
-          console.log(
-            'Entering displayingGestureSelector, player %d', this.gestureSelector.props.playerIndex
-          );
-        },
-        _onExit: function () {
-          console.log(
-            'Exiting displayingGestureSelector, player %d', this.gestureSelector.props.playerIndex
-          );
-        },
-        // three buttons are spaced around the circle, pulsing question button is zero
-        // size in the center icons are all alpha zero in the center
-        gestureSelected: function (gestureToDisplay) {
-          this.gestureSelector.props.getActiveKeyFromState().then(() => {
-            this.gestureSelector.buttons.forEach((button, buttonIndex) => {
-              createjs.Tween.removeTweens(button);
-              createjs.Tween.removeTweens(button.getChildByName('circle').shadow);
-
-              if (button.name === this.gestureSelector.gestureToDisplay) {
-                // zoom it to the center of the circle
-                createjs.Tween.get(button).to({
-                  x: (this.gestureSelector.shapes[buttonIndex].x
-                      + this.gestureSelector.maxCircleCenter.x) / 2,
-                  y: (this.gestureSelector.shapes[buttonIndex].y
-                    + this.gestureSelector.maxCircleCenter.y) / 2,
-                  scaleX: 1.2,
-                  scaleY: 1.2
-                }, 400, createjs.Ease.sineIn).to({
-                  x: this.gestureSelector.maxCircleCenter.x,
-                  y: this.gestureSelector.maxCircleCenter.y,
-                  scaleX: 1,
-                  scaleY: 1
-                }, 400, createjs.Ease.sineOut).call(() => {
-                  // We broadcast the commit move after all of the animations are done because the
-                  // crypto causes the animations to stutter.
-                  this.props.commitMove(
-                    this.props.tournament_id,
-                    this.gestureSelector.props.currentGame.get('id'),
-                    this.gestureSelector.props.currentGame.getIn(['players',
-                      this.gestureSelector.props.playerIndex]
-                    ), gestureToDisplay
-                  );
-
-                  this.transition('displayingSelectedGesture');
-                });
-              } else if (button.name === 'question') {
-                // should already be hidden
-                button.set({scaleX: 0, scaleY: 0});
-              } else {
-                // shrink it away
-                createjs.Tween.get(button).to({
-                  scaleX: 0,
-                  scaleY: 0
-                }, 350, createjs.Ease.backIn);
-              }
+              }, 600, createjs.Ease.sineOut);
             });
-
-            this.currentGesture = gestureToDisplay;
-            this.transition('transitioningToDisplayingSelectedGesture');
-          }).catch((err) => {
-            console.log('CANCEL INNER', err);
-          });
-        },
-        displayCommittedGesture: function (gestureToDisplay) {
-          // we never saw the user select their gesture, so disappear all of the buttons
-          // in place and show the selected gesture
-          this.gestureSelector.buttons.forEach((button) => {
-            createjs.Tween.removeTweens(button);
-            createjs.Tween.removeTweens(button.getChildByName('circle').shadow);
-
-            createjs.Tween.get(button).to({
+            // waiting animation for the shadow
+            createjs.Tween.get(button.getChildByName('circle').shadow).wait(400).call(() => {
+              createjs.Tween.get(button.getChildByName('circle').shadow, {
+                loop: true,
+                paused: true
+              }).to({
+                offsetX: this.gestureSelector.shadowOffset.x * 0.75,
+                offsetY: this.gestureSelector.shadowOffset.y * 0.75
+              }, 600, createjs.Ease.sineIn).to({
+                offsetX: this.gestureSelector.shadowOffset.x,
+                offsetY: this.gestureSelector.shadowOffset.y
+              }, 600, createjs.Ease.sineOut);
+            });
+          }
+        });
+        createjs.Tween.get(this.gestureSelector.circle).wait(400).call(() => {
+          this.transition('displayingGestureSelector');
+        });
+        this.transition('transitioningToDisplayGestureSelector');
+      },
+      displaySelectedGesture: function () {
+        this.gestureSelector.icons.forEach((icon) => {
+          // only one of the icons should have been visible, but it is easiest to hide
+          // them all
+          createjs.Tween.get(icon).to({
+            alpha: 0
+          }, 200);
+        });
+        this.gestureSelector.forEach((button) => {
+          // all buttons are hidden, only need to un-hide the one we're concerned with
+          if (button.name === this.gestureSelector.gestureToDisplay) {
+            button.set({
+              x: this.gestureSelector.maxCircleCenter.x,
+              y: this.gestureSelector.maxCircleCenter.y,
               scaleX: 0,
-              scaleY: 0
-            }, 350, createjs.Ease.backIn);
-          });
-          this.gestureSelector.icons.forEach((icon) => {
-            if (icon.name === gestureToDisplay) {
-              icon.set({alpha: 0, scaleX: 1, scaleY: 1});
-              createjs.Tween.get(icon).to({
-                alpha: 1
-              }, 200).call(() => {
-                this.transition('displayingCommittedGesture');
-              });
-            }
-          });
-          this.currentGesture = gestureToDisplay;
-          this.transition('transitioningToDisplayingCommittedGesture');
-        },
-        displayWinLoseTie: function (gestureName) {
-          // we never saw the opponent commit their move as a distinct step, so fake it
-          // here
-          this.deferUntilTransition('displayingCommittedGesture');
-          this.handle('displayCommittedGesture', gestureName);
-        },
-        hideDisplay: function () {}
-      },
-      transitioningToDisplayingSelectedGesture: {
-        _onEnter: function () {
-          console.log(
-            'Entering transitioningToDisplayingSelectedGesture, player %d',
-            this.gestureSelector.props.playerIndex
-          );
-        },
-        _onExit: function () {
-          console.log(
-            'Exiting transitioningToDisplayingSelectedGesture, player %d',
-            this.gestureSelector.props.playerIndex
-          );
-        },
-        '*': function (eventObject) {
-          console.log(
-            'Defering event %s until transition is finished, player %d',
-            eventObject.inputType, this.gestureSelector.props.playerIndex
-          );
-          this.deferUntilTransition('displayingSelectedGesture');
-        }
-      },
-      displayingSelectedGesture: {
-        // We're displaying a selected gesture, one button is in the middle of the
-        // circle, all icons are hidden
-        _onEnter: function () {
-          console.log(
-            'Entering displayingSelectedGesture, player %d',
-            this.gestureSelector.props.playerIndex
-          );
-        },
-        displayCommittedGesture: function (gestureToDisplay) {
-          this.gestureSelector.buttons.forEach((button) => {
-            // only one of the buttons should have been visible, but it is easiest to hide
-            // them all
-            createjs.Tween.get(button).to({
-              alpha: 0
-            }, 200);
-          });
-          this.gestureSelector.icons.forEach((icon) => {
-            if (icon.name === gestureToDisplay) {
-              icon.set({alpha: 0, scaleX: 1, scaleY: 1});
-              createjs.Tween.get(icon).to({
-                alpha: 1
-              }, 200).call(() => {
-                this.transition('displayingCommittedGesture');
-              });
-            }
-          });
-          this.currentGesture = gestureToDisplay;
-          this.transition('transitioningToDisplayingCommittedGesture');
-        },
-        displayWinLoseTie: function (gestureName) {
-          // we never saw the opponent commit their move as a distinct step, so fake it
-          // here
-          this.deferUntilTransition('displayingCommittedGesture');
-          this.handle('displayCommittedGesture', gestureName);
-        },
-        _onExit: function () {
-          console.log(
-            'Exiting displayingSelectedGesture, player %d',
-            this.gestureSelector.props.playerIndex
-          );
-        }
-      },
-      transitioningToDisplayingCommittedGesture: {
-        _onEnter: function () {
-          console.log(
-            'Entering transitioningToDisplayingCommittedGesture, player %d',
-            this.gestureSelector.props.playerIndex
-          );
-        },
-        _onExit: function () {
-          console.log(
-            'Exiting transitioningToDisplayingCommittedGesture, player %d',
-            this.gestureSelector.props.playerIndex
-          );
-        },
-        '*': function (eventObject) {
-          console.log(
-            'Defering event %s until transition is finished, player %d',
-            eventObject.inputType, this.gestureSelector.props.playerIndex
-          );
-          this.deferUntilTransition('displayingCommittedGesture');
-        }
-      },
-      displayingCommittedGesture: {
-        _onEnter: function () {
-          console.log('Entering displayingCommittedGesture');
-        },
-        displayGestureSelector: function () {
-          this.gestureSelector.icons.forEach((icon) => {
-            // only one of the icons should have been visible, but it is easiest to hide
-            // them all
-            createjs.Tween.get(icon).to({
-              alpha: 0
-            }, 200);
-          });
-          this.gestureSelector.buttons.forEach((button, buttonIndex) => {
-            button.set({
-              x: this.gestureSelector.shapes[buttonIndex].x,
-              y: this.gestureSelector.shapes[buttonIndex].y,
-              scaleX: 0, scaleY: 0, alpha: 1
+              scaleY: 0,
+              alpha: 1
             });
-
-            if (button.name !== 'question') {
-              // waiting animation
-              createjs.Tween.get(button).wait(200).to({
-                scaleX: 1,
-                scaleY: 1
-              }, 200, createjs.Ease.backIn).call(() => {
-                createjs.Tween.get(button, {loop: true}).to({
-                  scaleX: 0.95,
-                  scaleY: 0.95
-                }, 600, createjs.Ease.sineIn).to({
-                  scaleX: 1,
-                  scaleY: 1
-                }, 600, createjs.Ease.sineOut);
-              });
-              // waiting animation for the shadow
-              createjs.Tween.get(button.getChildByName('circle').shadow).wait(400).call(() => {
-                createjs.Tween.get(button.getChildByName('circle').shadow, {
-                  loop: true,
-                  paused: true
-                }).to({
-                  offsetX: this.gestureSelector.shadowOffset.x * 0.75,
-                  offsetY: this.gestureSelector.shadowOffset.y * 0.75
-                }, 600, createjs.Ease.sineIn).to({
-                  offsetX: this.gestureSelector.shadowOffset.x,
-                  offsetY: this.gestureSelector.shadowOffset.y
-                }, 600, createjs.Ease.sineOut);
-              });
-            }
-          });
-          createjs.Tween.get(this.gestureSelector.circle).wait(400).call(() => {
-            this.transition('displayingGestureSelector');
-          });
-          this.transition('transitioningToDisplayGestureSelector');
-        },
-        displaySelectedGesture: function () {
-          this.gestureSelector.icons.forEach((icon) => {
-            // only one of the icons should have been visible, but it is easiest to hide
-            // them all
-            createjs.Tween.get(icon).to({
-              alpha: 0
-            }, 200);
-          });
-          this.gestureSelector.buttons.forEach((button, ) => {
-            // all buttons are hidden, only need to un-hide the one we're concerned with
-            if (button.name === this.gestureSelector.gestureToDisplay) {
-              button.set({
-                x: this.gestureSelector.maxCircleCenter.x,
-                y: this.gestureSelector.maxCircleCenter.y,
-                scaleX: 0,
-                scaleY: 0,
-                alpha: 1
-              });
-              createjs.Tween.get(button).wait(200).to({
-                scaleX: 1,
-                scaleY: 1
-              }, 200, createjs.Ease.backIn).call(() => {
-                this.transition('displayingSelectedGesture');
-              });
-            }
-          });
-          this.transition('transitioningToDisplayingSelectedGesture');
-        },
-        displayCommittedGesture: function (gestureName) {
-          // we are already displaying the committed gesture, but in the unlikely chance
-          // it has changed, jump to it now
-          this.gestureSelector.icons.forEach((icon) => {
-            if (icon.name === gestureName) {
-              icon.set({alpha: 1, scaleX: 1, scaleY: 1});
-            } else {
-              icon.set({alpha: 0, scaleX: 1, scaleY: 1});
-            }
-          });
-          this.currentGesture = gestureName;
-          // remain in this state
-        },
-        displayWinLoseTie: function (gestureName, winLoseTie) {
-          this.gestureSelector.icons.forEach((icon) => {
-            if (icon.name === gestureName) {
-              // if we somehow got here with the wrong icon displayed, force it to the correct
-              // icon immediately
-              icon.set({alpha: 1});
-
-              if (winLoseTie === 'win') {
-                createjs.Tween.get(icon).to({
-                  scaleX: 2.25,
-                  scaleY: 2.25
-                }, 400).wait(400).call(() => {
-                  this.transition('displayingWinLoseTie');
-                });
-              } else if (winLoseTie === 'lose') {
-                createjs.Tween.get(icon).to({
-                  scaleX: .75,
-                  scaleY: .75
-                }, 400).wait(400).call(() => {
-                  this.transition('displayingWinLoseTie');
-                });
-              } else {
-                createjs.Tween.get(icon).to({
-                  rotation: 90
-                }, 100).to({
-                  rotation: 180
-                }, 100).to({
-                  rotation: 270
-                }, 100).to({
-                  rotation: 0
-                }, 100).wait(400).call(() => {
-                  this.transition('displayingWinLoseTie');
-                });
-              }
-            } else {
-              icon.set({alpha: 0});
-            }
-
-            this.transition('transitioningToDisplayingWinLoseTie');
-          });
-        },
-        _onExit: function () {
-          console.log('Exiting displayingCommittedGesture');
-        }
-      },
-      transitioningToDisplayingWinLoseTie: {
-        _onEnter: function () {
-          console.log(
-            'Entering transitioningToDisplayingWinLoseTie, player %d',
-            this.gestureSelector.props.playerIndex
-          );
-        },
-        _onExit: function () {
-          console.log(
-            'Exiting transitioningToDisplayingWinLoseTie, player %d',
-            this.gestureSelector.props.playerIndex
-          );
-        },
-        '*': function (eventObject) {
-          console.log(
-            'Defering event %s until transition is finished, player %d',
-            eventObject.inputType,
-            this.gestureSelector.props.playerIndex
-          );
-          this.deferUntilTransition('displayingWinLoseTie');
-        }
-      },
-      displayingWinLoseTie: {
-        _onEnter: function () {
-          console.log('Entering displayingWinLoseTie');
-        },
-        displayGestureSelector: function () {
-          this.gestureSelector.icons.forEach((icon) => {
-            // only one of the icons should have been visible, but it is easiest to hide them all
-            createjs.Tween.get(icon).to({
-              alpha: 0
-            }, 200);
-          });
-          this.gestureSelector.buttons.forEach((button, buttonIndex) => {
-            button.set({
-              x: this.gestureSelector.shapes[buttonIndex].x,
-              y: this.gestureSelector.shapes[buttonIndex].y,
-              scaleX: 0, scaleY: 0, alpha: 1
+            createjs.Tween.get(button).wait(200).to({
+              scaleX: 1,
+              scaleY: 1
+            }, 200, createjs.Ease.backIn).call(() => {
+              this.transition('displayingSelectedGesture');
             });
-
-            if (button.name !== 'question') {
-              // waiting animation
-              createjs.Tween.get(button).wait(200).to({
-                scaleX: 1,
-                scaleY: 1
-              }, 200, createjs.Ease.backIn).call(() => {
-                createjs.Tween.get(button, {loop: true}).to({
-                  scaleX: 0.95,
-                  scaleY: 0.95
-                }, 600, createjs.Ease.sineIn).to({
-                  scaleX: 1,
-                  scaleY: 1
-                }, 600, createjs.Ease.sineOut);
-              });
-              // waiting animation for the shadow
-              createjs.Tween.get(button.getChildByName('circle').shadow).wait(400).call(() => {
-                createjs.Tween.get(button.getChildByName('circle').shadow, {
-                  loop: true,
-                  paused: true
-                }).to({
-                  offsetX: this.gestureSelector.shadowOffset.x * 0.75,
-                  offsetY: this.gestureSelector.shadowOffset.y * 0.75
-                }, 600, createjs.Ease.sineIn).to({
-                  offsetX: this.gestureSelector.shadowOffset.x,
-                  offsetY: this.gestureSelector.shadowOffset.y
-                }, 600, createjs.Ease.sineOut);
-              });
-            }
-          });
-          createjs.Tween.get(this.gestureSelector.circle).wait(400).call(() => {
-            this.transition('displayingGestureSelector');
-          });
-          this.transition('transitioningToDisplayGestureSelector');
-        },
-        displaySelectedGesture: function () {
-          this.gestureSelector.icons.forEach((icon) => {
-            // only one of the icons should have been visible, but it is easiest to hide
-            // them all
-            createjs.Tween.get(icon).to({
-              alpha: 0
-            }, 200);
-          });
-          this.gestureSelector.forEach((button) => {
-            // all buttons are hidden, only need to un-hide the one we're concerned with
-            if (button.name === this.gestureSelector.gestureToDisplay) {
-              button.set({
-                x: this.gestureSelector.maxCircleCenter.x,
-                y: this.gestureSelector.maxCircleCenter.y,
-                scaleX: 0,
-                scaleY: 0,
-                alpha: 1
-              });
-              createjs.Tween.get(button).wait(200).to({
-                scaleX: 1,
-                scaleY: 1
-              }, 200, createjs.Ease.backIn).call(() => {
-                this.transition('displayingSelectedGesture');
-              });
-            }
-          });
-          this.transition('transitioningToDisplayingSelectedGesture');
-        },
-        _onExit: function () {
-          console.log('Exiting displayingWinLoseTie');
-        }
+          }
+        });
+        this.transition('transitioningToDisplayingSelectedGesture');
       },
-      displayingOpponentGestureSelector: {}
+      _onExit: function () {
+        console.log('Exiting displayingWinLoseTie');
+      }
     },
-    displayGestureSelector: function () {
-      console.log(
-        'Triggering displayGestureSelector, player %d', this.gestureSelector.props.playerIndex
-      );
-      this.handle('displayGestureSelector');
-    },
-    displayCommittedGesture: function (gesture) {
-      console.log(
-        'Triggering displayCommittedGesture, player %d', this.gestureSelector.props.playerIndex
-      );
-      this.handle('displayCommittedGesture', gesture);
-    },
-    displaySelectedGesture: function () {
-      console.log(
-        'Triggering displaySelectedGesture, player %d', this.gestureSelector.props.playerIndex
-      );
-      this.handle('displaySelectedGesture');
-    },
-    gestureSelected: function (gestureName) {
-      console.log(
-        'Triggering gestureSelected, player %d', this.gestureSelector.props.playerIndex
-      );
-      this.handle('gestureSelected', gestureName);
-    },
-    displayWinLoseTie: function (gestureName, winLoseTie) {
-      console.log(
-        'Triggering displayWinLoseTie, player %d', this.gestureSelector.props.playerIndex
-      );
-      this.handle('displayWinLoseTie', gestureName, winLoseTie);
-    },
-    hideDisplay: function () {
-      console.log('Triggering hideDisplay, player %d', this.gestureSelector.props.playerIndex);
-      this.handle('hideDisplay');
-    }
-  });
+    displayingOpponentGestureSelector: {}
+  },
+  displayGestureSelector: function () {
+    console.log(
+      'Triggering displayGestureSelector, player %d', this.gestureSelector.props.playerIndex
+    );
+    this.handle('displayGestureSelector');
+  },
+  displayCommittedGesture: function (gesture) {
+    console.log(
+      'Triggering displayCommittedGesture, player %d', this.gestureSelector.props.playerIndex
+    );
+    this.handle('displayCommittedGesture', gesture);
+  },
+  displaySelectedGesture: function () {
+    console.log(
+      'Triggering displaySelectedGesture, player %d', this.gestureSelector.props.playerIndex
+    );
+    this.handle('displaySelectedGesture');
+  },
+  gestureSelected: function (gestureName) {
+    console.log(
+      'Triggering gestureSelected, player %d', this.gestureSelector.props.playerIndex
+    );
+    this.handle('gestureSelected', gestureName);
+  },
+  displayWinLoseTie: function (gestureName, winLoseTie) {
+    console.log(
+      'Triggering displayWinLoseTie, player %d', this.gestureSelector.props.playerIndex
+    );
+    this.handle('displayWinLoseTie', gestureName, winLoseTie);
+  },
+  hideDisplay: function () {
+    console.log('Triggering hideDisplay, player %d', this.gestureSelector.props.playerIndex);
+    this.handle('hideDisplay');
+  }
+});
 
 class GestureSelector extends React.Component {
   constructor(props) {
@@ -937,5 +935,4 @@ class GestureSelector extends React.Component {
   }
 }
 
-export
-default GestureSelector;
+export default GestureSelector;

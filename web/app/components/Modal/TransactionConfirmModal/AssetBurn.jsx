@@ -3,12 +3,6 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import FormattedAsset from '../Utility/FormattedAsset';
 
-@connect((state) => {
-  return {
-    payer: state.transactionConfirm.transaction.payer,
-    amount_to_burn: state.transactionConfirm.transaction.amount_to_burn
-  };
-})
 class AssetBurn extends React.Component {
   render() {
     return (
@@ -41,4 +35,11 @@ class AssetBurn extends React.Component {
   }
 }
 
-export default AssetBurn;
+const mapStateToProps = (state) => {
+  return {
+    payer : state.transactionConfirm.transaction.payer,
+    amount_to_burn : state.transactionConfirm.transaction.amount_to_burn
+  };
+};
+
+export default connect(mapStateToProps)(AssetBurn);

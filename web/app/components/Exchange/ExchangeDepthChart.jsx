@@ -268,19 +268,19 @@ class ExchangeDepthChart extends React.Component {
   }
 }
 
-ExchangeDepthChart = connect((state) => {
+const mapStateToProps = (state) => {
   return {
-    bids: state.exchangePageReducer.bids,
-    asks: state.exchangePageReducer.asks,
-    totalAsks: state.exchangePageReducer.totalAsks,
-    totalBids: state.exchangePageReducer.totalBids,
-    settlementPrice: state.exchangePageReducer.settlementPrice,
-    power: state.exchangePageReducer.power,
-    baseAssetPrecision: state.exchangePageReducer.baseAssetPrecision,
-    quoteAssetPrecision: state.exchangePageReducer.quoteAssetPrecision,
-    baseAssetSymbol: asset_utils.getSymbol(state.exchangePageReducer.baseAssetSymbol),
-    quoteAssetSymbol: asset_utils.getSymbol(state.exchangePageReducer.quoteAssetSymbol)
+    bids : state.exchangePageReducer.bids,
+    asks : state.exchangePageReducer.asks,
+    totalAsks : state.exchangePageReducer.totalAsks,
+    totalBids : state.exchangePageReducer.totalBids,
+    settlementPrice : state.exchangePageReducer.settlementPrice,
+    power : state.exchangePageReducer.power,
+    baseAssetPrecision : state.exchangePageReducer.baseAssetPrecision,
+    quoteAssetPrecision : state.exchangePageReducer.quoteAssetPrecision,
+    baseAssetSymbol : asset_utils.getSymbol(state.exchangePageReducer.baseAssetSymbol),
+    quoteAssetSymbol : asset_utils.getSymbol(state.exchangePageReducer.quoteAssetSymbol)
   };
-})(ExchangeDepthChart);
+};
 
-export default ExchangeDepthChart;
+export default connect(mapStateToProps)(ExchangeDepthChart);

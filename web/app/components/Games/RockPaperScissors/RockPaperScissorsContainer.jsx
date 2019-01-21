@@ -6,8 +6,8 @@ import Find from './Find';
 import Explore from './Explore';
 import Create from './Create';
 import Dashboard from './Dashboard';
-import RockPaperScissorsActions from 'actions/Games/RockPaperScissors/RockPaperScissorsActions';
-import RockPaperScissorsNavigateActions from 'actions/Games/RockPaperScissors/RockPaperScissorsNavigateActions'; /* eslint-disable-line */
+import {RockPaperScissorsActions, RockPaperScissorsNavigateActions} from '../../../actions';
+import {bindActionCreators} from 'redux';
 
 class RockPaperScissorsContainer extends React.Component {
   componentDidMount() {
@@ -139,24 +139,22 @@ class RockPaperScissorsContainer extends React.Component {
   }
 }
 
-RockPaperScissorsContainer = connect((state) => {
+const mapStateToProps = (state) => {
   return {
     tab: state.rockPaperScissorsReducer.tab,
     tournamentsFilter: state.rockPaperScissorsReducer.tournamentsFilter
   };
-}, {
-  /**
- * Game actions
- */
-  changeTabParams: RockPaperScissorsActions.changeTabParams,
+};
 
-  /**
- * Navigate actions
-`*/
-  navigateToCreateTournament: RockPaperScissorsNavigateActions.navigateToCreateTournament,
-  navigateToDashboardTournaments: RockPaperScissorsNavigateActions.navigateToDashboardTournaments,
-  navigateToOpenTournaments: RockPaperScissorsNavigateActions.navigateToOpenTournaments,
-  navigateToAllTournaments: RockPaperScissorsNavigateActions.navigateToAllTournaments
-})(RockPaperScissorsContainer);
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    changeTabParams: RockPaperScissorsActions.changeTabParams,
+    navigateToCreateTournament: RockPaperScissorsNavigateActions.navigateToCreateTournament,
+    navigateToDashboardTournaments: RockPaperScissorsNavigateActions.navigateToDashboardTournaments,
+    navigateToOpenTournaments: RockPaperScissorsNavigateActions.navigateToOpenTournaments,
+    navigateToAllTournaments: RockPaperScissorsNavigateActions.navigateToAllTournaments
+  },
+  dispatch
+);
 
-export default RockPaperScissorsContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(RockPaperScissorsContainer);

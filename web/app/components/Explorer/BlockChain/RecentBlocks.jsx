@@ -67,8 +67,10 @@ class RecentBlocks extends React.Component {
   }
 }
 
-RecentBlocks = connect((state) => {
-  return {latestBlocks: state.explorerBlockchainPage.latestBlocks};
-})(RecentBlocks);
+const mapStateToProps = (state) => {
+  return {
+    latestBlocks: state.explorerBlockchainPage.latestBlocks
+  };
+};
 
-export default RecentBlocks;
+export default connect(mapStateToProps)(RecentBlocks);

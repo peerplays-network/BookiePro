@@ -3,26 +3,10 @@ import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
 import {connect} from 'react-redux';
 import utils from 'common/utils';
-import VotingActions from 'actions/VotingActions';
-import {setTransaction} from 'actions/RTransactionConfirmActions';
-import {setWalletPosition} from 'actions/RWalletUnlockActions';
+import {VotingActions, RTransactionConfirmActions, RWalletUnlockActions} from '../../actions';
 import Repository from 'repositories/chain/repository';
+import {bindActionCreators} from 'redux';
 
-@connect((state) => {
-  return {
-    proposals: state.voting.proposals.list,
-    totalBudget: state.voting.proposals.budget.total,
-    unusedBudget: state.voting.proposals.budget.unused,
-    assetSymbol: state.voting.proposals.budget.assetSymbol,
-    votes: state.voting.proposals.votes,
-    walletLocked: state.wallet.locked,
-    walletIsOpen: state.wallet.isOpen
-  };
-}, {
-  setWalletPosition,
-  publishProposals: VotingActions.publishProposals,
-  setTransaction
-})
 class Proposals extends React.Component {
   constructor(props) {
     super(props);
@@ -387,4 +371,25 @@ class Proposals extends React.Component {
   }
 }
 
-export default Proposals;
+const mapStateToProps = (state) => {
+  return {
+    proposals: state.voting.proposals.list,
+    totalBudget: state.voting.proposals.budget.total,
+    unusedBudget: state.voting.proposals.budget.unused,
+    assetSymbol: state.voting.proposals.budget.assetSymbol,
+    votes: state.voting.proposals.votes,
+    walletLocked: state.wallet.locked,
+    walletIsOpen: state.wallet.isOpen
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    setWalletPosition: RWalletUnlockActions.setWalletPosition,
+    publishProposals: VotingActions.publishProposals,
+    setTransaction: RTransactionConfirmActions.setTransaction
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Proposals);

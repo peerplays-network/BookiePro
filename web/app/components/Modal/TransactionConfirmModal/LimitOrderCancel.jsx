@@ -4,13 +4,6 @@ import {connect} from 'react-redux';
 import assetUtils from 'common/asset_utils';
 import {FormattedNumber} from 'react-intl';
 
-@connect((state) => {
-  return {
-    order: state.transactionConfirm.transaction.order,
-    fee_paying_account: state.transactionConfirm.transaction.fee_paying_account,
-    fee: state.transactionConfirm.transaction.fee
-  };
-})
 class LimitOrderCancel extends React.Component {
   render() {
     let feeValue = this.props.fee
@@ -55,4 +48,12 @@ class LimitOrderCancel extends React.Component {
   }
 }
 
-export default LimitOrderCancel;
+const mapStateToProps = (state) => {
+  return {
+    order: state.transactionConfirm.transaction.order,
+    fee_paying_account: state.transactionConfirm.transaction.fee_paying_account,
+    fee: state.transactionConfirm.transaction.fee
+  };
+};
+
+export default connect(mapStateToProps)(LimitOrderCancel);

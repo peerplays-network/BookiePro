@@ -7,28 +7,13 @@ import Tooltip from './Tooltip';
 import AccountImage from '../Account/AccountImage';
 import LinkToAccountById from '../Blockchain/LinkToAccountById';
 import FormattedAsset from '../Utility/FormattedAsset';
-import VotingActions from 'actions/VotingActions';
-import {setWalletPosition} from 'actions/RWalletUnlockActions';
-import {setTransaction} from 'actions/RTransactionConfirmActions';
+import {
+  VotingActions, RWalletUnlockActions, RTransactionConfirmActions
+} from '../../actions';
 import Repository from 'repositories/chain/repository';
 import AccountRepository from 'repositories/AccountRepository';
+import {bindActionCreators} from 'redux';
 
-@connect((state) => {
-  return {
-    account: state.app.account,
-    activeCMObjects: state.voting.committeeMembers.activeCMObjects,
-    activeCMAccounts: state.voting.committeeMembers.activeCMAccounts,
-    approvedCMIds: state.voting.committeeMembers.approvedCMIds,
-    asset: state.voting.committeeMembers.asset,
-    proxyIsEnabled: state.voting.committeeMembers.proxyIsEnabled,
-    walletLocked: state.wallet.locked,
-    walletIsOpen: state.wallet.isOpen
-  };
-}, {
-  setWalletPosition,
-  publishCM: VotingActions.publishCM,
-  setTransaction
-})
 class CommitteeMembers extends React.Component {
   constructor(props) {
     super(props);
@@ -420,4 +405,26 @@ class CommitteeMembers extends React.Component {
   }
 }
 
-export default CommitteeMembers;
+const mapStateToProps = (state) => {
+  return {
+    account: state.app.account,
+    activeCMObjects: state.voting.committeeMembers.activeCMObjects,
+    activeCMAccounts: state.voting.committeeMembers.activeCMAccounts,
+    approvedCMIds: state.voting.committeeMembers.approvedCMIds,
+    asset: state.voting.committeeMembers.asset,
+    proxyIsEnabled: state.voting.committeeMembers.proxyIsEnabled,
+    walletLocked: state.wallet.locked,
+    walletIsOpen: state.wallet.isOpen
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    setWalletPosition: RWalletUnlockActions.setWalletPosition,
+    publishCM: VotingActions.publishCM,
+    setTransaction: RTransactionConfirmActions.setTransaction
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommitteeMembers);

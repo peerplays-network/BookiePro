@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import ExchangePageActions from 'actions/ExchangePageActions';
+import {ExchangePageActions} from '../../actions';
 import ExchangeMainStatistics from './ExchangeMainStatistics';
 import ExchangeMarketsTabs from './ExchangeMarketsTabs';
 import ExchangePriceChart from './ExchangePriceChart';
@@ -10,6 +10,7 @@ import ExchangeBuyOrders from './ExchangeBuyOrders';
 import ExchangeTrade from './ExchangeTrade';
 import ExchangeHistory from './ExchangeHistory';
 import ExchangeOpenOrders from './ExchangeOpenOrders';
+import {bindActionCreators} from 'redux';
 
 class ExchangeContainer extends React.Component {
   componentDidMount() {
@@ -69,13 +70,14 @@ class ExchangeContainer extends React.Component {
   }
 }
 
-ExchangeContainer = connect((state) => { /* eslint-disable-line */
-  return {};
-}, {
-  initStarredMarkets: ExchangePageActions.initStarredMarkets,
-  getMarketStats: ExchangePageActions.getMarketStats,
-  subscribeMarket: ExchangePageActions.subscribeMarket,
-  unSubscribeMarket: ExchangePageActions.unSubscribeMarket
-})(ExchangeContainer);
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    initStarredMarkets: ExchangePageActions.initStarredMarkets,
+    getMarketStats: ExchangePageActions.getMarketStats,
+    subscribeMarket: ExchangePageActions.subscribeMarket,
+    unSubscribeMarket: ExchangePageActions.unSubscribeMarket
+  },
+  dispatch
+);
 
-export default ExchangeContainer;
+export default connect(null, mapDispatchToProps)(ExchangeContainer);

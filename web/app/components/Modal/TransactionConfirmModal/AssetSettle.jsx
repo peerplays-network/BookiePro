@@ -3,12 +3,6 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import FormattedAsset from '../Utility/FormattedAsset';
 
-@connect((state) => {
-  return {
-    account: state.transactionConfirm.transaction.account,
-    amount: state.transactionConfirm.transaction.amount
-  };
-})
 class AssetSettle extends React.Component {
   render() {
     return (
@@ -50,4 +44,11 @@ class AssetSettle extends React.Component {
   }
 }
 
-export default AssetSettle;
+const mapStateToProps = (state) => {
+  return {
+    account : state.transactionConfirm.transaction.account,
+    amount : state.transactionConfirm.transaction.amount
+  };
+};
+
+export default connect(mapStateToProps)(AssetSettle);

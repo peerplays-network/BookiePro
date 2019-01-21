@@ -2,12 +2,6 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 
-@connect((state) => {
-  return {
-    order: state.transactionConfirm.transaction.order,
-    fee_paying_account: state.transactionConfirm.transaction.fee_paying_account
-  };
-})
 class ShortOrderCancel extends React.Component {
   render() {
     return (
@@ -38,4 +32,11 @@ class ShortOrderCancel extends React.Component {
   }
 }
 
-export default ShortOrderCancel;
+const mapStateToProps = (state) => {
+  return {
+    order: state.transactionConfirm.transaction.order,
+    fee_paying_account: state.transactionConfirm.transaction.fee_paying_account
+  };
+};
+
+export default connect(mapStateToProps)(ShortOrderCancel);

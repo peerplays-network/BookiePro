@@ -61,8 +61,10 @@ class BlockChainContainer extends React.Component {
   }
 }
 
-BlockChainContainer = connect((state) => {
-  return {dataIsFetched: state.explorerBlockchainPage.dataIsFetched};
-})(BlockChainContainer);
+const mapStateToProps = (state) => {
+  return {
+    dataIsFetched : state.explorerBlockchainPage.dataIsFetched
+  };
+};
 
-export default BlockChainContainer;
+export default connect(mapStateToProps)(BlockChainContainer);

@@ -4,30 +4,13 @@ import counterpart from 'counterpart';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import AccountImage from '../Account/AccountImage';
-import VotingActions from 'actions/VotingActions';
-import {setTransaction} from 'actions/RTransactionConfirmActions';
-import {setWalletPosition} from 'actions/RWalletUnlockActions';
+import {VotingActions, RTransactionConfirmActions, RWalletUnlockActions} from '../../actions';
 import Repository from 'repositories/chain/repository';
 import AccountRepository from 'repositories/AccountRepository';
 import Tooltip from './Tooltip';
+import {bindActionCreators} from 'redux';
 
-@connect((state) => {
-  return {
-    account: state.app.account,
-    knownProxies: state.voting.proxy.knownProxies,
-    name: state.voting.proxy.name,
-    id: state.voting.proxy.id,
-    walletLocked: state.wallet.locked,
-    walletIsOpen: state.wallet.isOpen
-  };
-}, {
-  setWalletPosition,
-  changeProxy: VotingActions.changeProxy,
-  publishProxy: VotingActions.publishProxy,
-  setTransaction
-})
 class Proxy extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -289,4 +272,25 @@ class Proxy extends React.Component {
   }
 }
 
-export default Proxy;
+const mapStateToProps = (state) => {
+  return {
+    account : state.app.account,
+    knownProxies : state.voting.proxy.knownProxies,
+    name : state.voting.proxy.name,
+    id : state.voting.proxy.id,
+    walletLocked : state.wallet.locked,
+    walletIsOpen : state.wallet.isOpen
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    setWalletPosition: RWalletUnlockActions.setWalletPosition,
+    changeProxy: VotingActions.changeProxy,
+    publishProxy: VotingActions.publishProxy,
+    setTransaction: RTransactionConfirmActions.setTransaction
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Proxy);

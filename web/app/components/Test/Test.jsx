@@ -1,21 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import InnerTest from './InnerTest';
-import AccountVestingPageActions from 'actions/AccountVestingPageActions';
+import {AccountVestingPageActions} from '../../actions';
 import {connectComponentWrapper} from '../Wrappers/ConnectComponentWrapper';
+import {bindActionCreators} from 'redux';
 
-
-@connect(
-  (state) => {
-    return {
-      balances: state.accountVestingPageReducer.balances
-    };
-  },
-  {
-    fetchData: AccountVestingPageActions.fetchData,
-    claimVestingBalance: AccountVestingPageActions.claimVestingBalance
-  }
-)
 class Test extends React.Component {
   componentWillMount() { }
 
@@ -37,4 +26,18 @@ class Test extends React.Component {
   }
 }
 
-export default Test;
+const mapStateToProps = (state) => {
+  return {
+    balances: state.accountVestingPageReducer.balances
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    fetchData: AccountVestingPageActions.fetchData,
+    claimVestingBalance: AccountVestingPageActions.claimVestingBalance
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Test);

@@ -2,11 +2,6 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 
-@connect((state) => {
-  return {
-    op: state.transactionConfirm.transaction.op
-  };
-})
 class ProposalUpdate extends React.Component {
   render() {
     let fields = [ /* eslint-disable-line */
@@ -37,4 +32,10 @@ class ProposalUpdate extends React.Component {
   }
 }
 
-export default ProposalUpdate;
+const mapStateToProps = (state) => {
+  return {
+    op : state.transactionConfirm.transaction.op
+  };
+};
+
+export default connect(mapStateToProps)(ProposalUpdate);

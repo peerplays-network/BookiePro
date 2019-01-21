@@ -5,15 +5,6 @@ import {connect} from 'react-redux';
 import asset_utils from 'common/asset_utils';
 import counterpart from 'counterpart';
 
-@connect((state) => {
-  return {
-    transaction: state.transactionConfirm.transaction.transactionObject,
-    operation: state.transactionConfirm.transaction.operation,
-    whiteList:  state.transactionConfirm.transaction.whiteList,
-    payer: state.transactionConfirm.transaction.payer,
-    asset: state.transactionConfirm.transaction.asset
-  };
-})
 class RockPaperScissorsTournamentCreate extends React.Component {
   render() {
     let rows = [],
@@ -215,4 +206,14 @@ class RockPaperScissorsTournamentCreate extends React.Component {
   }
 }
 
-export default RockPaperScissorsTournamentCreate;
+const mapStateToProps = (state) => {
+  return {
+    transaction: state.transactionConfirm.transaction.transactionObject,
+    operation: state.transactionConfirm.transaction.operation,
+    whiteList: state.transactionConfirm.transaction.whiteList,
+    payer: state.transactionConfirm.transaction.payer,
+    asset: state.transactionConfirm.transaction.asset
+  };
+};
+
+export default connect(mapStateToProps)(RockPaperScissorsTournamentCreate);

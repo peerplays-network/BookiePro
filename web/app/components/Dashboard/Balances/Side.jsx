@@ -3,22 +3,12 @@ import {connect} from 'react-redux';
 import Translate from 'react-translate-component';
 import {FormattedNumber} from 'react-intl';
 import AccountImage from '../../Account/AccountImage';
-import DashboardPageActions from 'actions/DashboardPageActions';
-import NavigateActions from 'actions/NavigateActions';
+import {DashboardPageActions, NavigateActions} from '../../../actions';
 import asset_utils from 'common/asset_utils';
 import AppActions from 'actions/AppActions';
 import SideVesting from './SideVesting';
-//TODO:: Derived Data
-@connect((state) => {
-  return {
-    account: state.app.account,
-    availableBalances: state.dashboardPage.availableBalances
-  };
-}, {
-  fetchCurrentBalance: DashboardPageActions.fetchCurrentBalance,
-  navigateToDepositWithDraw: NavigateActions.navigateToDepositWithDraw,
-  logout: AppActions.logout
-})
+import {bindActionCreators} from 'redux';
+
 class Side extends React.Component {
 
   componentWillMount() {
@@ -119,4 +109,20 @@ class Side extends React.Component {
   }
 }
 
-export default Side;
+const mapStateToProps = (state) => {
+  return {
+    account: state.app.account,
+    availableBalances: state.dashboardPage.availableBalances
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    fetchCurrentBalance: DashboardPageActions.fetchCurrentBalance,
+    navigateToDepositWithDraw: NavigateActions.navigateToDepositWithDraw,
+    logout: AppActions.logout
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Side);

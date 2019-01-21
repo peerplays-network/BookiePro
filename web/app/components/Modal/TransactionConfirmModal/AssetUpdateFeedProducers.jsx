@@ -2,12 +2,6 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 
-@connect((state) => {
-  return {
-    new_feed_producers: state.transactionConfirm.transaction.new_feed_producers,
-    asset_to_update: state.transactionConfirm.transaction.asset_to_update
-  };
-})
 class AssetUpdateFeedProducers extends React.Component {
   render() {
     let producers = [];
@@ -47,4 +41,11 @@ class AssetUpdateFeedProducers extends React.Component {
   }
 }
 
-export default AssetUpdateFeedProducers;
+const mapStateToProps = (state) => {
+  return {
+    new_feed_producers: state.transactionConfirm.transaction.new_feed_producers,
+    asset_to_update: state.transactionConfirm.transaction.asset_to_update
+  };
+};
+
+export default connect(mapStateToProps)(AssetUpdateFeedProducers);

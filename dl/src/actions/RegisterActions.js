@@ -6,30 +6,32 @@ import KeyGeneratorService from 'services/KeyGeneratorService';
 import ApplicationApi from '../rpc_api/ApplicationApi';
 import CONFIG from '../config/main';
 
-/**
- * Private Redux Action Creator (RegisterConstants.REGISTER_SET_STATUS)
- *
- * @param {String} status
- * @returns {{type, status: *}}
- */
-function setRegisterStatusAction(status) {
-  return {
-    type: RegisterConstants.REGISTER_SET_STATUS,
-    status: status
-  };
-}
+class RegisterPrivateActions {
+  /**
+   * Private Redux Action Creator (RegisterConstants.REGISTER_SET_STATUS)
+   *
+   * @param {String} status
+   * @returns {{type, status: *}}
+   */
+  static setRegisterStatusAction(status) {
+    return {
+      type: RegisterConstants.REGISTER_SET_STATUS,
+      status: status
+    };
+  }
 
-/**
- * Private Redux Action Creator (RegisterConstants.REGISTER_SET_ERRORS)
- *
- * @param {Array} errors
- * @returns {{type, errors: []}}
- */
-function setCommonErrorsAction(errors) {
-  return {
-    type: RegisterConstants.REGISTER_SET_ERRORS,
-    errors: errors
-  };
+  /**
+   * Private Redux Action Creator (RegisterConstants.REGISTER_SET_ERRORS)
+   *
+   * @param {Array} errors
+   * @returns {{type, errors: []}}
+   */
+  static setCommonErrorsAction(errors) {
+    return {
+      type: RegisterConstants.REGISTER_SET_ERRORS,
+      errors: errors
+    };
+  }
 }
 
 /**
@@ -105,7 +107,7 @@ class RegisterActions {
  */
   static setRegisterStatus(status) {
     return (dispatch) => {
-      dispatch(setRegisterStatusAction(status));
+      dispatch(RegisterPrivateActions.setRegisterStatusAction(status));
     };
   }
 
@@ -128,7 +130,7 @@ class RegisterActions {
   ) {
     return (dispatch) => {
       let keys = KeyGeneratorService.generateKeys(accountName, password);
-      dispatch(setCommonErrorsAction([]));
+      dispatch(RegisterPrivateActions.setCommonErrorsAction([]));
 
       if (registrarAccount) {
         let appApi = new ApplicationApi();
@@ -172,10 +174,12 @@ class RegisterActions {
             });
 
             if (errors.length) {
-              return dispatch(setCommonErrorsAction(errors));
+              return dispatch(RegisterPrivateActions.setCommonErrorsAction(errors));
             }
 
-            return dispatch(setCommonErrorsAction(['Faucet registration failed']));
+            return dispatch(
+              RegisterPrivateActions.setCommonErrorsAction(['Faucet registration failed'])
+            );
           });
       }
     };

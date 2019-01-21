@@ -35,7 +35,6 @@ function getPrice(coreAsset, currentAsset) {
   return currentAmount / coreAmount;
 }
 
-
 class ExploreFeeScheduleActions {
   /**
  * load data for blockchain fee page (Fee Schedule Page/Tab)

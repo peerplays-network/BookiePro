@@ -4,22 +4,9 @@ import Translate from 'react-translate-component';
 import Logo from '../Forms/Logo';
 import RegisterForm from './RegisterForm';
 import LanguageSwitcher from '../Common/LanguageSwitcher';
-import RegisterActions from 'actions/RegisterActions';
-import NavigateActions from 'actions/NavigateActions';
+import {NavigateActions, RegisterActions} from '../../actions';
+import {bindActionCreators} from 'redux';
 
-@connect(
-  (state) => {
-    return {
-      registerStatus: state.register.status,
-      errors: state.register.errors,
-    };
-  },
-  {
-    setRegisterStatus: RegisterActions.setRegisterStatus,
-    register: RegisterActions.register,
-    navigateToSignIn: NavigateActions.navigateToSignIn
-  }
-)
 class Register extends React.Component {
   handleSubmit(values) {
     this.props.setRegisterStatus('loading');
@@ -63,4 +50,21 @@ class Register extends React.Component {
     );
   }
 }
-export default Register;
+
+const mapStateToProps = (state) => {
+  return {
+    registerStatus: state.register.status,
+    errors: state.register.errors
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    setRegisterStatus : RegisterActions.setRegisterStatus,
+    register : RegisterActions.register,
+    navigateToSignIn : NavigateActions.navigateToSignIn
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

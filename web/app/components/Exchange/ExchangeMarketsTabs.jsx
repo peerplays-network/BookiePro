@@ -2,11 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 import utils from 'common/utils';
-import ExchangePageActions from 'actions/ExchangePageActions';
-import NavigateActions from 'actions/NavigateActions';
+import {ExchangePageActions, NavigateActions} from '../../actions';
 import Translate from 'react-translate-component';
 import AssetName from '../Explorer/BlockChain/AssetName';
 import asset_utils from 'common/asset_utils';
+import {bindActionCreators} from 'redux';
 
 class ExchangeMarketsTabs extends React.Component {
   constructor() {
@@ -206,7 +206,7 @@ class ExchangeMarketsTabs extends React.Component {
   }
 }
 
-ExchangeMarketsTabs = connect((state) => {
+const mapStateToProps = (state) => {
   return {
     baseAssetSymbol: state.exchangePageReducer.baseAssetSymbol,
     currentTab: state.exchangePageReducer.currentTab,
@@ -216,10 +216,15 @@ ExchangeMarketsTabs = connect((state) => {
     marketRowsDataSortInvert: state.exchangePageReducer.marketRowsDataSortInvert,
     marketRowsDataLoaderIsShow: state.exchangePageReducer.marketRowsDataLoaderIsShow
   };
-}, {
-  setMarketTab: ExchangePageActions.setMarketTab,
-  changeExchangeMarketsRowsSort: ExchangePageActions.changeExchangeMarketsRowsSort,
-  navigateToExchangeMarket: NavigateActions.navigateToExchangeMarket
-})(ExchangeMarketsTabs);
+};
 
-export default ExchangeMarketsTabs;
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    setMarketTab: ExchangePageActions.setMarketTab,
+    changeExchangeMarketsRowsSort: ExchangePageActions.changeExchangeMarketsRowsSort,
+    navigateToExchangeMarket: NavigateActions.navigateToExchangeMarket
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExchangeMarketsTabs);

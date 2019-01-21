@@ -153,7 +153,7 @@ class RecentActivityList extends React.Component {
 const mapStateToProps = (state) => {
   return {
     recentActivity: state.dashboardPage.recentActivity
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps)(RecentActivityList);

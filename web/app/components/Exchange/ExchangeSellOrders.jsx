@@ -120,12 +120,12 @@ class ExchangeSellOrders extends React.Component {
   }
 }
 
-ExchangeSellOrders = connect((state) => {
+const mapStateToProps = (state) => {
   return {
     baseAsset: state.exchangePageReducer.baseAsset,
     quoteAsset: state.exchangePageReducer.quoteAsset,
     asksOrders: state.exchangePageReducer.asksOrders
   };
-})(ExchangeSellOrders);
+};
 
-export default ExchangeSellOrders;
+export default connect(mapStateToProps)(ExchangeSellOrders);

@@ -3,9 +3,6 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import Table from './Table';
 
-@connect((state) => {
-  return {feeGroups: state.exploreFeeSchedule.feeGroups};
-})
 class FeeSchedule extends React.Component {
   render() {
     let {feeGroups} = this.props;
@@ -38,4 +35,10 @@ class FeeSchedule extends React.Component {
   }
 }
 
-export default FeeSchedule;
+const mapStateToProps = (state) => {
+  return {
+    feeGroups: state.exploreFeeSchedule.feeGroups
+  };
+};
+
+export default connect(mapStateToProps)(FeeSchedule);

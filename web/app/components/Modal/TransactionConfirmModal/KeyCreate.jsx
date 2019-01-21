@@ -2,12 +2,6 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 
-@connect((state) => {
-  return {
-    fee_paying_account: state.transactionConfirm.transaction.fee_paying_account,
-    key_data: state.transactionConfirm.transaction.key_data
-  };
-})
 class KeyCreate extends React.Component {
   render() {
     return (
@@ -38,4 +32,11 @@ class KeyCreate extends React.Component {
   }
 }
 
-export default KeyCreate;
+const mapStateToProps = (state) => {
+  return {
+    fee_paying_account: state.transactionConfirm.transaction.fee_paying_account,
+    key_data: state.transactionConfirm.transaction.key_data
+  };
+};
+
+export default connect(mapStateToProps)(KeyCreate);

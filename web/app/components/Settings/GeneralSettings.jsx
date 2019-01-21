@@ -3,28 +3,10 @@ import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import Select from 'react-select';
+import {RSettingsActions} from '../../actions';
+import {bindActionCreators} from 'redux';
 
-import {switchLocale, changeSettleStatus, changeChatStatus} from 'actions/RSettingsActions';
-
-const mapStateToProps = (store) => {
-  return {
-    locale: store.settings.locale,
-    defaultLocales: store.settings.defaults.locale,
-    showSettles: store.settings.showSettles,
-    defaultShowSettles: store.pageSettings.defaults.showSettles,
-    disableChat: store.settings.disableChat,
-    defaultDisableChat: store.pageSettings.defaults.disableChat
-  };
-};
-
-@connect(mapStateToProps,
-  {
-    switchLocale,
-    changeSettleStatus,
-    changeChatStatus
-  }
-)
-export default class GeneralSettings extends React.Component {
+class GeneralSettings extends React.Component {
   onSwitchLocale(e) {
     this.props.switchLocale(e.value);
   }
@@ -68,3 +50,25 @@ export default class GeneralSettings extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (store) => {
+  return {
+    locale: store.settings.locale,
+    defaultLocales: store.settings.defaults.locale,
+    showSettles: store.settings.showSettles,
+    defaultShowSettles: store.pageSettings.defaults.showSettles,
+    disableChat: store.settings.disableChat,
+    defaultDisableChat: store.pageSettings.defaults.disableChat
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    switchLocale: RSettingsActions.switchLocale,
+    changeSettleStatus: RSettingsActions.changeSettleStatus,
+    changeChatStatus: RSettingsActions.changeChatStatus
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(GeneralSettings);

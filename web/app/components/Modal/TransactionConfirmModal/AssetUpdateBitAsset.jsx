@@ -4,14 +4,6 @@ import {connect} from 'react-redux';
 import FormattedPrice from '../Utility/FormattedPrice';
 import Inspector from 'react-json-inspector';
 
-@connect((state) => {
-  return {
-    asset_to_update: state.transactionConfirm.transaction.asset_to_update,
-    issuer: state.transactionConfirm.transaction.issuer,
-    new_issuer: state.transactionConfirm.transaction.new_issuer,
-    new_options: state.transactionConfirm.transaction.new_options
-  };
-})
 class AssetUpdateBitAsset extends React.Component {
   render() {
     return (
@@ -83,4 +75,13 @@ class AssetUpdateBitAsset extends React.Component {
   }
 }
 
-export default AssetUpdateBitAsset;
+const mapStateToProps = (state) => {
+  return {
+    asset_to_update: state.transactionConfirm.transaction.asset_to_update,
+    issuer: state.transactionConfirm.transaction.issuer,
+    new_issuer: state.transactionConfirm.transaction.new_issuer,
+    new_options: state.transactionConfirm.transaction.new_options
+  };
+};
+
+export default connect(mapStateToProps)(AssetUpdateBitAsset);

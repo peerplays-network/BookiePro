@@ -27,7 +27,7 @@ class AppPrivateActions {
       }
     };
   }
-  
+
   /**
    * Private Redux Action Creator (APP_LOGIN)
    * Account Login in app
@@ -46,7 +46,7 @@ class AppPrivateActions {
       }
     };
   }
-  
+
   /**
    *  Private Redux Action Creator (APP_LOCAL_DB_IS_INIT)
    *
@@ -59,7 +59,7 @@ class AppPrivateActions {
       dbIsInit: dbIsInit
     };
   }
-  
+
   /**
    * Private Redux Action Creator (APP_LOCAL_DB_DATA_IS_LOAD)
    *
@@ -72,7 +72,7 @@ class AppPrivateActions {
       dbDataIsLoad: dbDataIsLoad
     };
   }
-  
+
   /**
    * Private Redux Action Creator (APP_CHAIN_IS_INIT)
    *
@@ -85,7 +85,7 @@ class AppPrivateActions {
       chainIsInit: chainIsInit
     };
   }
-  
+
   /**
    * Private Redux Action Creator (APP_SET_SYNC_FAIL)
    *
@@ -98,7 +98,7 @@ class AppPrivateActions {
       syncIsFail: syncIsFail
     };
   }
-  
+
   /**
    * Private Redux Action Creator (APP_CURRENT_LOCATION)
    *
@@ -115,7 +115,7 @@ class AppPrivateActions {
       }
     };
   }
-  
+
   /**
    * Private Redux Action Creator (APP_SET_STATUS)
    *
@@ -130,7 +130,7 @@ class AppPrivateActions {
       }
     };
   }
-  
+
   /**
    * Private Redux Action Creator (APP_SET_SHOW_CANT_CONNECT_MODAL)
    * Show cant connect modal window or no
@@ -147,7 +147,6 @@ class AppPrivateActions {
     };
   }
 }
-
 class AppActions {
   /**
  * Show cant connect modal window or no

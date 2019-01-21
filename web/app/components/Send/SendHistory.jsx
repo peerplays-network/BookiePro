@@ -4,16 +4,6 @@ import {connect} from 'react-redux';
 import assetUtils from 'common/asset_utils';
 import SendHistoryRow from './SendHistoryRow';
 
-@connect((state) => {
-  return {
-    last_irreversible_block_num: state.sendPage.last_irreversible_block_num,
-    block_interval: state.sendPage.block_interval,
-    head_block_number: state.sendPage.head_block_number,
-    time: state.sendPage.time,
-    history: state.sendPage.history,
-    historyAssets: state.sendPage.historyAssets
-  };
-})
 class SendHistory extends React.Component {
   render() {
     let historyTable = this.props.history.length
@@ -64,4 +54,15 @@ class SendHistory extends React.Component {
   }
 }
 
-export default SendHistory;
+const mapStateToProps = (state) => {
+  return {
+    last_irreversible_block_num: state.sendPage.last_irreversible_block_num,
+    block_interval: state.sendPage.block_interval,
+    head_block_number: state.sendPage.head_block_number,
+    time: state.sendPage.time,
+    history: state.sendPage.history,
+    historyAssets: state.sendPage.historyAssets
+  };
+};
+
+export default connect(mapStateToProps)(SendHistory);

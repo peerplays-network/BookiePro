@@ -3,20 +3,11 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import counterpart from 'counterpart';
 import {PrivateKey} from 'peerplaysjs-lib';
-import ChangePasswordActions from 'actions/ChangePasswordActions';
-import {setTransaction} from 'actions/RTransactionConfirmActions';
+import {ChangePasswordActions, RTransactionConfirmActions} from '../../actions';
 import AssetRepository from 'repositories/AssetRepository';
+import {bindActionCreators} from 'redux';
 
-@connect((state) => {
-  return {
-    accountName: state.account.currentAccount,
-    password_pubkey: state.walletData.wallet.password_pubkey
-  };
-}, {
-  generateWallet: ChangePasswordActions.generateWallet,
-  setTransaction
-})
-export default class PasswordSettings extends React.Component {
+class PasswordSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -239,3 +230,20 @@ export default class PasswordSettings extends React.Component {
     );
   }
 };
+
+const mapStateToProps = (state) => {
+  return {
+    accountName : state.account.currentAccount,
+    password_pubkey : state.walletData.wallet.password_pubkey
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    generateWallet: ChangePasswordActions.generateWallet,
+    setTransaction: RTransactionConfirmActions.setTransaction
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordSettings);

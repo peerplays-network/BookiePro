@@ -1,21 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {FormattedNumber} from 'react-intl';
-import NavigateActions from 'actions/NavigateActions';
+import {NavigateActions} from '../../../actions';
 import asset_utils from 'common/asset_utils';
 import Translate from 'react-translate-component';
 import {getTotalVestingBalances} from 'selectors/SideVesting';
+import {bindActionCreators} from 'redux';
 
-@connect((state) => {
-
-  let data = getTotalVestingBalances(state);
-
-  return {
-    totalAmount: data.totalAmount,
-    totalClaimable: data.totalClaimable,
-    asset: state.dashboardPage.vestingAsset
-  };
-}, {navigateToVestingBalances: NavigateActions.navigateToVestingBalances})
 class SideVesting extends React.Component {
   navigateToVestingBalances() {
     this.props.navigateToVestingBalances();
@@ -106,4 +97,21 @@ class SideVesting extends React.Component {
   }
 }
 
-export default SideVesting;
+const mapStateToProps = (state) => {
+  let data = getTotalVestingBalances(state);
+
+  return {
+    totalAmount: data.totalAmount,
+    totalClaimable: data.totalClaimable,
+    asset: state.dashboardPage.vestingAsset
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    navigateToVestingBalances: NavigateActions.navigateToVestingBalances
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideVesting);

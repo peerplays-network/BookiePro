@@ -3,15 +3,6 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import asset_utils from 'common/asset_utils';
 
-@connect((state) => {
-  return {
-    transaction: state.transactionConfirm.transaction.transactionObject,
-    operation: state.transactionConfirm.transaction.operation,
-    payer: state.transactionConfirm.transaction.payer,
-    player: state.transactionConfirm.transaction.player,
-    asset: state.transactionConfirm.transaction.asset
-  };
-})
 class RockPaperScissorsTournamentJoin extends React.Component {
   render() {
     let rows = [],
@@ -124,4 +115,14 @@ class RockPaperScissorsTournamentJoin extends React.Component {
   }
 }
 
-export default RockPaperScissorsTournamentJoin;
+const mapStateToProps = (state) => {
+  return {
+    transaction: state.transactionConfirm.transaction.transactionObject,
+    operation: state.transactionConfirm.transaction.operation,
+    payer: state.transactionConfirm.transaction.payer,
+    player: state.transactionConfirm.transaction.player,
+    asset: state.transactionConfirm.transaction.asset
+  };
+};
+
+export default connect(mapStateToProps)(RockPaperScissorsTournamentJoin);

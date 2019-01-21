@@ -7,34 +7,22 @@ import utils from 'common/utils';
 import {FormattedDate} from 'react-intl';
 import PriceText from '../Utility/PriceText';
 import MarketRepository from 'repositories/MarketRepository';
-import {setTransaction} from 'actions/RTransactionConfirmActions';
-import SendPageActions from 'actions/SendPageActions';
-import ExchangePageActions from 'actions/ExchangePageActions';
-import {setWalletPosition} from 'actions/RWalletUnlockActions';
+import {
+  RTransactionConfirmActions,
+  SendPageActions,
+  ExchangePageActions,
+  RWalletUnlockActions
+} from '../../actions';
 import AssetName from '../Explorer/BlockChain/AssetName';
 import Repository from 'repositories/chain/repository';
+import {bindActionCreators} from 'redux';
 
 let callback = {
   exists: false,
   run: null
 };
 
-@connect((state) => {
-  return {
-    baseAsset: state.exchangePageReducer.baseAsset,
-    quoteAsset: state.exchangePageReducer.quoteAsset,
-    openOrders: state.exchangePageReducer.openOrders,
-    currentAccount: state.account.currentAccount,
-    walletLocked: state.wallet.locked,
-    walletIsOpen: state.wallet.isOpen
-  };
-}, {
-  setWalletPosition,
-  setTransaction,
-  removeOrderFromPage: ExchangePageActions.removeOrderFromPage,
-  updateData: ExchangePageActions.updateData
-})
-export default class ExchangeOpenOrders extends React.Component {
+class ExchangeOpenOrders extends React.Component {
 
   componentWillUpdate(nextProps) {
     const {walletLocked} = this.props;
@@ -171,3 +159,26 @@ export default class ExchangeOpenOrders extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    baseAsset: state.exchangePageReducer.baseAsset,
+    quoteAsset: state.exchangePageReducer.quoteAsset,
+    openOrders: state.exchangePageReducer.openOrders,
+    currentAccount: state.account.currentAccount,
+    walletLocked: state.wallet.locked,
+    walletIsOpen: state.wallet.isOpen
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    setWalletPosition: RWalletUnlockActions.setWalletPosition,
+    setTransaction: RTransactionConfirmActions.setTransaction,
+    removeOrderFromPage: ExchangePageActions.removeOrderFromPage,
+    updateData: ExchangePageActions.updateData
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExchangeOpenOrders);

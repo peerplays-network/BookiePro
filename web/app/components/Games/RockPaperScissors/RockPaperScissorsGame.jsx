@@ -5,11 +5,11 @@ import MatchDisplayHeader from './MatchDisplayHeader';
 import AwaitingTimerDisplay from './AwaitingTimerDisplay';
 import ConcludedGameContent from './ConcludedGameContent';
 import counterpart from 'counterpart';
-import RockPaperScissorsActions from 'actions/Games/RockPaperScissors/RockPaperScissorsActions';
-import RWalletUnlockNewActions from 'actions/RWalletUnlockNewActions';
+import {RockPaperScissorsActions, RWalletUnlockNewActions} from '../../../actions';
 import moment from 'moment-timezone';
 import TimeHelper from 'helpers/TimeHelper';
 import Translate from 'react-translate-component';
+import {bindActionCreators} from 'redux';
 
 require('./_play.scss'); //TODO::RM
 class RockPaperScissorsGame extends React.Component {
@@ -153,7 +153,7 @@ class RockPaperScissorsGame extends React.Component {
   }
 }
 
-RockPaperScissorsGame = connect((state) => {
+const mapStateToProps = (state) => {
   return {
     activeGameId: state.rockPaperScissorsReducer.activeGameId,
     match: state.rockPaperScissorsReducer.match,
@@ -168,13 +168,17 @@ RockPaperScissorsGame = connect((state) => {
       ? state.walletData.wallet.reveal_moves
       : null
   };
-}, {
-  subscribe: RockPaperScissorsActions.subscribe,
-  unSubscribe: RockPaperScissorsActions.unSubscribe,
-  setGame: RockPaperScissorsActions.setGame,
-  commitMove: RockPaperScissorsActions.commitMove,
+};
 
-  getActiveKeyFromState: RWalletUnlockNewActions.getActiveKeyFromState
-})(RockPaperScissorsGame);
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    subscribe: RockPaperScissorsActions.subscribe,
+    unSubscribe: RockPaperScissorsActions.unSubscribe,
+    setGame: RockPaperScissorsActions.setGame,
+    commitMove: RockPaperScissorsActions.commitMove,
+    getActiveKeyFromState: RWalletUnlockNewActions.getKeyFromState
+  },
+  dispatch
+);
 
-export default RockPaperScissorsGame;
+export default connect(mapStateToProps, mapDispatchToProps)(RockPaperScissorsGame);

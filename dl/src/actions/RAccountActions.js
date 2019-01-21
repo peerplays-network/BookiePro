@@ -1,41 +1,45 @@
 import AccountApi from '../api/accountApi';
 import ActionTypes from '../constants/ActionTypes';
 import Immutable from 'immutable';
-import {ChainStore} from 'peerplaysjs-lib';
+import {
+  ChainStore
+} from 'peerplaysjs-lib';
 import BalanceRepository from '../repositories/BalanceRepository';
 import AssetRepository from '../repositories/AssetRepository';
 
-/**
- * Private Redux Action Creator (ACCOUNT_SEARCH_REQUESTED)
- * set "In process"
- * @param start_symbol
- * @returns {{type, startSymbol: *}}
- */
-function action_accountSearchRequested(start_symbol) {
-  return {
-    type: ActionTypes.ACCOUNT_SEARCH_REQUESTED,
-    startSymbol: start_symbol
-  };
-}
-
-/**
- * Private Redux Action Creator (ACCOUNT_SEARCH)
- * start search account
- * @param accounts
- * @param startSymbol
- * @param coreAsset
- * @returns {{type: string, accounts: *, searchTerm: *, coreAsset: *}}
- */
-function action_accountSearch(accounts, startSymbol, coreAsset) {
-  return {
-    type: ActionTypes.ACCOUNT_SEARCH,
-    accounts: accounts,
-    searchTerm: startSymbol,
-    coreAsset
-  };
-}
-
 let accountSearchCache = {};
+
+class RAccountPrivateActions {
+  /**
+   * Private Redux Action Creator (ACCOUNT_SEARCH_REQUESTED)
+   * set "In process"
+   * @param start_symbol
+   * @returns {{type, startSymbol: *}}
+   */
+  static action_accountSearchRequested(start_symbol) {
+    return {
+      type: ActionTypes.ACCOUNT_SEARCH_REQUESTED,
+      startSymbol: start_symbol
+    };
+  }
+
+  /**
+   * Private Redux Action Creator (ACCOUNT_SEARCH)
+   * start search account
+   * @param accounts
+   * @param startSymbol
+   * @param coreAsset
+   * @returns {{type: string, accounts: *, searchTerm: *, coreAsset: *}}
+   */
+  static action_accountSearch(accounts, startSymbol, coreAsset) {
+    return {
+      type: ActionTypes.ACCOUNT_SEARCH,
+      accounts: accounts,
+      searchTerm: startSymbol,
+      coreAsset
+    };
+  }
+}
 
 class RAccountActions {
   addressThreshold(authority) {
@@ -66,8 +70,8 @@ class RAccountActions {
       return available >= required ?
         'full' :
         available > 0 ?
-        'partial' :
-        'none';
+          'partial' :
+          'none';
     };
   }
 
@@ -80,10 +84,10 @@ class RAccountActions {
 
       let owner_authority = account.get('owner');
       let active_authority = account.get('active');
-      let owner_pubkey_threshold = dispatch(pubkeyThreshold(owner_authority));
-      let active_pubkey_threshold = dispatch(pubkeyThreshold(active_authority));
-      let owner_address_threshold = dispatch(addressThreshold(owner_authority));
-      let active_address_threshold = dispatch(addressThreshold(active_authority));
+      let owner_pubkey_threshold = dispatch(this.pubkeyThreshold(owner_authority));
+      let active_pubkey_threshold = dispatch(this.pubkeyThreshold(active_authority));
+      let owner_address_threshold = dispatch(this.addressThreshold(owner_authority));
+      let active_address_threshold = dispatch(this.addressThreshold(active_authority));
       let owner_account_threshold, active_account_threshold;
 
       if (
@@ -94,8 +98,10 @@ class RAccountActions {
       }
 
       if (recursion_count < 3) {
-        owner_account_threshold = dispatch(accountThreshold(owner_authority, recursion_count));
-        active_account_threshold = dispatch(accountThreshold(active_authority, recursion_count));
+        owner_account_threshold = dispatch(this.accountThreshold(owner_authority, recursion_count));
+        active_account_threshold = dispatch(
+          this.accountThreshold(active_authority, recursion_count)
+        );
 
         if (owner_account_threshold === undefined || active_account_threshold === undefined) {
           return undefined;
@@ -140,11 +146,11 @@ class RAccountActions {
       return available >= required ?
         'full' :
         available > 0 ?
-        'partial' :
-        'none';
+          'partial' :
+          'none';
     };
   }
-  
+
   /**
    * Search account by symbol
    *
@@ -158,7 +164,7 @@ class RAccountActions {
 
       if (!accountSearchCache[uid]) {
         accountSearchCache[uid] = true;
-        dispatch(action_accountSearchRequested(start_symbol));
+        dispatch(RAccountPrivateActions.action_accountSearchRequested(start_symbol));
 
         return AccountApi.lookupAccounts(start_symbol, limit).then((result) => {
           accountSearchCache[uid] = false;
@@ -173,7 +179,9 @@ class RAccountActions {
               return a;
             });
             AssetRepository.fetchAssetsByIds(['1.3.0']).then((coreAsset) => {
-              dispatch(action_accountSearch(result, start_symbol, coreAsset[0]));
+              dispatch(
+                RAccountPrivateActions.action_accountSearch(result, start_symbol, coreAsset[0])
+              );
             });
           });
         });
@@ -181,7 +189,7 @@ class RAccountActions {
     };
   }
 
-  static accountThreshold(authority, recursion_count) {
+  accountThreshold(authority, recursion_count) {
     return (dispatch) => {
       var account_auths = authority.get('account_auths');
 
@@ -196,7 +204,7 @@ class RAccountActions {
           return undefined;
         }
 
-        return dispatch(getMyAuthorityForAccount(account, ++recursion_count));
+        return dispatch(this.getMyAuthorityForAccount(account, ++recursion_count));
       });
 
       let final = auths.reduce((map, auth) => {
@@ -205,14 +213,14 @@ class RAccountActions {
 
       return (
         final.get('full') && final.size === 1 ?
-        'full' :
-        final.get('partial') && final.size === 1 ?
-        'partial' :
-        final.get('none') && final.size === 1 ?
-        'none' :
-        final.get('full') || final.get('partial') ?
-        'partial' :
-        undefined
+          'full' :
+          final.get('partial') && final.size === 1 ?
+            'partial' :
+            final.get('none') && final.size === 1 ?
+              'none' :
+              final.get('full') || final.get('partial') ?
+                'partial' :
+                undefined
       );
     };
   }

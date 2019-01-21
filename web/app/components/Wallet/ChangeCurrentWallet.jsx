@@ -2,18 +2,10 @@ import React from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import Translate from 'react-translate-component';
-import {changeCurrentWallet} from 'actions/RWalletActions';
+import {RWalletActions} from '../../actions';
+import {bindActionCreators} from 'redux';
 
-const mapStateToProps = (state) => {
-  return {
-    newWallet: state.wallet.newWallet,
-    currentWallet: state.wallet.currentWallet,
-    walletNames: state.wallet.walletNames
-  };
-};
-
-@connect(mapStateToProps, {changeCurrentWallet})
-export default class ChangeCurrentWallet extends React.Component {
+class ChangeCurrentWallet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -87,3 +79,20 @@ export default class ChangeCurrentWallet extends React.Component {
     this.setState({currentWallet});
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    newWallet: state.wallet.newWallet,
+    currentWallet: state.wallet.currentWallet,
+    walletNames: state.wallet.walletNames
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    changeCurrentWallet: RWalletActions.changeCurrentWallet
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChangeCurrentWallet);

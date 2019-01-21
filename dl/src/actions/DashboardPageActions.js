@@ -16,7 +16,7 @@ class DashboardPagePrivateActions {
       }
     };
   }
-  
+
   /**
    * Private Redux Action Creator (DASHBOARD_CHANGE_SIDE)
    * Dashboard Side: Set available balances
@@ -29,7 +29,7 @@ class DashboardPagePrivateActions {
       payload: sideData
     };
   }
-  
+
   /**
    * Private Redux Action Creator (DASHBOARD_SET_BALANCES)
    * @param data
@@ -41,7 +41,7 @@ class DashboardPagePrivateActions {
       payload: data
     };
   }
-  
+
   /**
    * Private Redux Action Creator (DASHBOARD_UPDATE)
    * @param data
@@ -53,7 +53,7 @@ class DashboardPagePrivateActions {
       payload: data
     };
   }
-  
+
   /**
    * Private Redux Action Creator (DASHBOARD_SET_RECENT_ACTIVITY)
    * @param data
@@ -65,7 +65,7 @@ class DashboardPagePrivateActions {
       payload: data
     };
   }
-  
+
   /**
    * Private Redux Action Creator (DASHBOARD_SET_OPEN_ORDERS)
    * @param data
@@ -77,7 +77,7 @@ class DashboardPagePrivateActions {
       payload: data
     };
   }
-  
+
   /**
    * Private Redux Action Creator (DASHBOARD_SET_SIDE_VESTING_BALANCES)
    * Side Vesting
@@ -90,7 +90,7 @@ class DashboardPagePrivateActions {
       payload: data
     };
   }
-  
+
   /**
    * Private Redux Action Creator (DASHBOARD_SET_SIDE_MEMBER)
    *
@@ -282,7 +282,9 @@ class DashboardPageActions {
   static toggleShowHiddenAssets() {
     return (dispatch, getState) => {
       let state = getState();
-      dispatch(DashboardPagePrivateActions.toggleShowHiddenAssetsAction(!state.dashboardPage.showHiddenAssets));
+      dispatch(DashboardPagePrivateActions
+        .toggleShowHiddenAssetsAction(!state.dashboardPage.showHiddenAssets)
+      );
     };
   }
 

@@ -2,12 +2,6 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 
-@connect((state) => {
-  return {
-    account: state.transactionConfirm.transaction.account,
-  };
-})
-
 class AccountTransfer extends React.Component {
   render() {
     return (
@@ -30,4 +24,10 @@ class AccountTransfer extends React.Component {
   }
 }
 
-export default AccountTransfer;
+const mapStateToProps = (state) => {
+  return {
+    account : state.transactionConfirm.transaction.account,
+  };
+};
+
+export default connect(mapStateToProps)(AccountTransfer);

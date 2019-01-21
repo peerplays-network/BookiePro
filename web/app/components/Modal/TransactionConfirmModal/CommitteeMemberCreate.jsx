@@ -2,11 +2,6 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 
-@connect((state) => {
-  return {
-    committee_member_account: state.transactionConfirm.transaction.committee_member_account
-  };
-})
 class CommitteeMemberCreate extends React.Component {
   render() {
     return (
@@ -31,4 +26,10 @@ class CommitteeMemberCreate extends React.Component {
   }
 }
 
-export default CommitteeMemberCreate;
+const mapStateToProps = (state) => {
+  return {
+    committee_member_account : state.transactionConfirm.transaction.committee_member_account
+  };
+};
+
+export default connect(mapStateToProps)(CommitteeMemberCreate);

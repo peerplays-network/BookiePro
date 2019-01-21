@@ -2,14 +2,6 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import FormattedAsset from '../Utility/FormattedAsset';
-
-@connect((state) => {
-  return {
-    funding_account: state.transactionConfirm.transaction.funding_account,
-    delta_collateral: state.transactionConfirm.transaction.delta_collateral,
-    delta_debt: state.transactionConfirm.transaction.delta_debt
-  };
-})
 class CallOrderUpdate extends React.Component {
   render() {
     return (
@@ -58,4 +50,12 @@ class CallOrderUpdate extends React.Component {
   }
 }
 
-export default CallOrderUpdate;
+const mapStateToProps = (state) => {
+  return {
+    funding_account: state.transactionConfirm.transaction.funding_account,
+    delta_collateral: state.transactionConfirm.transaction.delta_collateral,
+    delta_debt: state.transactionConfirm.transaction.delta_debt
+  };
+};
+
+export default connect(mapStateToProps)(CallOrderUpdate);

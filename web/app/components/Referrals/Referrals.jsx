@@ -1,24 +1,10 @@
 import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
-import ReferralsPageActions from 'actions/ReferralsPageActions';
+import {ReferralsPageActions} from '../../actions';
 import AccountMemberService from 'services/AccountMemberService';
+import {bindActionCreators} from 'redux';
 
-const mapStateToProps = (state) => {
-  return {
-    account: state.referralsPageReducer.account,
-  };
-};
-
-@connect(
-  mapStateToProps,
-  {
-    onClickUpgradeLifetime: ReferralsPageActions.onClickUpgradeLifetime,
-    setPageData: ReferralsPageActions.setPageData,
-    subscribe: ReferralsPageActions.subscribe,
-    unSubscribe: ReferralsPageActions.unSubscribe
-  }
-)
 class Referrals extends React.Component {
   componentWillMount() {
     this.props.setPageData();
@@ -95,5 +81,21 @@ class Referrals extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    account: state.referralsPageReducer.account
+  };
+};
 
-export default Referrals;
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    onClickUpgradeLifetime: ReferralsPageActions.onClickUpgradeLifetime,
+    setPageData: ReferralsPageActions.setPageData,
+    subscribe: ReferralsPageActions.subscribe,
+    unSubscribe: ReferralsPageActions.unSubscribe
+  },
+  dispatch
+);
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Referrals);

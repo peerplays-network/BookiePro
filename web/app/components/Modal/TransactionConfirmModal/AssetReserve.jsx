@@ -2,12 +2,6 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 
-@connect((state) => {
-  return {
-    payer: state.transactionConfirm.transaction.payer,
-    amount_to_reserve: state.transactionConfirm.transaction.amount_to_reserve
-  };
-})
 class AssetReserve extends React.Component {
   render() {
     return (
@@ -46,4 +40,11 @@ class AssetReserve extends React.Component {
   }
 }
 
-export default AssetReserve;
+const mapStateToProps = (state) => {
+  return {
+    payer : state.transactionConfirm.transaction.payer,
+    amount_to_reserve : state.transactionConfirm.transaction.amount_to_reserve
+  };
+};
+
+export default connect(mapStateToProps)(AssetReserve);

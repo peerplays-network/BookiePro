@@ -6,9 +6,10 @@ import asset_utils from 'common/asset_utils';
 import {FormattedNumber} from 'react-intl';
 import TournamentStartTime from './TournamentStartTime';
 import JoinTournamentButton from './JoinTournamentButton';
-import {setWalletPosition} from 'actions/RWalletUnlockActions';
-import RockPaperScissorsActions from 'actions/Games/RockPaperScissors/RockPaperScissorsActions';
-import RockPaperScissorsNavigateActions from 'actions/Games/RockPaperScissors/RockPaperScissorsNavigateActions'; /* eslint-disable-line */
+import {
+  RWalletUnlockActions, RockPaperScissorsActions, RockPaperScissorsNavigateActions
+} from '../../../actions';
+import {bindActionCreators} from 'redux';
 
 let callback = {
   exists: false,
@@ -189,21 +190,26 @@ class Dashboard extends React.Component {
   }
 }
 
-Dashboard = connect((state) => {
+const mapStateToProps = (state) => {
   return {
     accountId: state.app.accountId,
     dashboardList: state.rockPaperScissorsReducer.dashboardList,
     walletLocked: state.wallet.locked,
     walletIsOpen: state.wallet.isOpen
   };
-}, {
-  joinToTournament: RockPaperScissorsActions.joinToTournament,
-  subscribe: RockPaperScissorsActions.subscribe,
-  unSubscribe: RockPaperScissorsActions.unSubscribe,
-  fetchDashboardTournaments: RockPaperScissorsActions.fetchDashboardTournaments,
-  navigateToDashboardTournaments: RockPaperScissorsNavigateActions.navigateToDashboardTournaments,
-  navigateToGame: RockPaperScissorsNavigateActions.navigateToGame,
-  setWalletPosition: setWalletPosition
-})(Dashboard);
+};
 
-export default Dashboard;
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    joinToTournament: RockPaperScissorsActions.joinToTournament,
+    subscribe: RockPaperScissorsActions.subscribe,
+    unSubscribe: RockPaperScissorsActions.unSubscribe,
+    fetchDashboardTournaments: RockPaperScissorsActions.fetchDashboardTournaments,
+    navigateToDashboardTournaments: RockPaperScissorsNavigateActions.navigateToDashboardTournaments,
+    navigateToGame: RockPaperScissorsNavigateActions.navigateToGame,
+    setWalletPosition: RWalletUnlockActions.setWalletPosition
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

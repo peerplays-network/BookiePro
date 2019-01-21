@@ -5,15 +5,9 @@ import Immutable from 'immutable';
 import {connect} from 'react-redux';
 import {FormattedNumber} from 'react-intl';
 import utils from 'common/utils';
-import {accountSearch} from 'actions/RAccountActions';
+import {RAccountActions} from '../../../actions';
+import {bindActionCreators} from 'redux';
 
-@connect((state) => {
-  return {
-    searchValue: state.account.search.searchTerm,
-    accountsList: state.account.search.searchAccounts,
-    coreAsset: state.account.search.coreAsset
-  };
-}, {accountSearch})
 class Accounts extends React.Component {
   constructor(props) {
     super(props);
@@ -124,4 +118,19 @@ class Accounts extends React.Component {
   }
 }
 
-export default Accounts;
+const mapStateToProps = (state) => {
+  return {
+    searchValue: state.account.search.searchTerm,
+    accountsList: state.account.search.searchAccounts,
+    coreAsset: state.account.search.coreAsset
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    accountSearch: RAccountActions.accountSearch
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Accounts);

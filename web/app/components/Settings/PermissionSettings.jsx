@@ -1,20 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import AccountImage from '../Account/AccountImage';
-import {addOwnerKeyPermissions} from 'actions/RSettingsActions';
+import {RSettingsActions} from '../../actions';
+import {bindActionCreators} from 'redux';
 
-const mapStateToProps = (state) => {
-  return {
-    currentAccount: state.account.currentAccount,
-    ownerKeyPermissions: state.settings.ownerKeyPermissions,
-  };
-};
-
-@connect(
-  mapStateToProps,
-  {addOwnerKeyPermissions}
-)
-export default class PermissionSettings extends React.Component {
+class PermissionSettings extends React.Component {
   onClickAdd(e){
     console.log(e.target);
     this.props.addOwnerKeyPermissions();
@@ -253,3 +243,19 @@ export default class PermissionSettings extends React.Component {
     );
   }
 };
+
+const mapStateToProps = (state) => {
+  return {
+    currentAccount: state.account.currentAccount,
+    ownerKeyPermissions: state.settings.ownerKeyPermissions,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    addOwnerKeyPermissions: RSettingsActions.addOwnerKeyPermissions
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(PermissionSettings);

@@ -1,15 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {changeUnit} from 'actions/RSettingsActions';
+import {RSettingsActions} from '../../../actions';
 import classNames from 'classnames';
 import asset_utils from 'common/asset_utils';
+import {bindActionCreators} from 'redux';
 
-@connect((state) => {
-  return {
-    unit: state.settings.unit,
-    unitList: state.settings.defaults.unit
-  };
-}, {changeUnit})
 class UnitSelect extends React.Component {
   constructor(props) {
     super(props);
@@ -89,4 +84,18 @@ class UnitSelect extends React.Component {
   };
 }
 
-export default UnitSelect;
+const mapStateToProps = (state) => {
+  return {
+    unit: state.settings.unit,
+    unitList: state.settings.defaults.unit
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    changeUnit: RSettingsActions.changeUnit
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(UnitSelect);

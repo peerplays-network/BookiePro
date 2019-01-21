@@ -91,11 +91,6 @@ class App extends React.Component {
   return {locale: state.settings.locale};
 })
 export default class AppContainer extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <IntlProvider

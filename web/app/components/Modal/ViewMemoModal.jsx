@@ -2,12 +2,10 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import {Modal, ModalBody} from 'react-modal-bootstrap';
-import {resetViewModalStatus} from 'actions/MemoActions';
+import {MemoActions} from '../../actions';
 import TimeAgo from '../Utility/TimeAgo';
+import {bindActionCreators} from 'redux';
 
-@connect((state) => {
-  return {isOpen: state.memoModal.isOpen, memo: state.memoModal.memo};
-}, {resetViewModalStatus})
 class ViewMemoModal extends React.Component {
   onClose() {
     this.props.resetViewModalStatus();
@@ -59,4 +57,18 @@ class ViewMemoModal extends React.Component {
   }
 }
 
-export default ViewMemoModal;
+const mapStateToProps = (state) => {
+  return {
+    isOpen : state.memoModal.isOpen,
+    memo : state.memoModal.memo
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    resetViewModalStatus: MemoActions.resetViewModalStatus
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ViewMemoModal);

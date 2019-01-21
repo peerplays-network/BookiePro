@@ -186,7 +186,7 @@ class RSettingsAcions {
     return function (dispatch, getState) {
       let hiddenAssets = getState().settings.hiddenAssets;
 
-      if (hiddenAssets.indexOf(unit) != -1) {
+      if (hiddenAssets.indexOf(unit) !== -1) {
         hiddenAssets = hiddenAssets.delete(hiddenAssets.indexOf(unit));
 
         changeStorageValue('hiddenAssets', hiddenAssets.toJS());

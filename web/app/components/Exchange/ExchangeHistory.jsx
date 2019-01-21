@@ -8,14 +8,7 @@ import AssetName from '../Explorer/BlockChain/AssetName';
 import {FormattedDate} from 'react-intl';
 import TimeHelper from 'helpers/TimeHelper';
 
-@connect((state) => {
-  return {
-    marketHistory: state.exchangePageReducer.marketHistory,
-    baseAsset: state.exchangePageReducer.baseAsset,
-    quoteAsset: state.exchangePageReducer.quoteAsset
-  };
-}, {})
-export default class ExchangeHistory extends React.Component {
+class ExchangeHistory extends React.Component {
   _createRows() {
     let {marketHistory, baseAsset, quoteAsset} = this.props;
 
@@ -141,3 +134,13 @@ export default class ExchangeHistory extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    marketHistory: state.exchangePageReducer.marketHistory,
+    baseAsset: state.exchangePageReducer.baseAsset,
+    quoteAsset: state.exchangePageReducer.quoteAsset
+  };
+};
+
+export default connect(mapStateToProps)(ExchangeHistory);

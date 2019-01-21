@@ -1,7 +1,6 @@
 import React from 'react';
 import Translate from 'react-translate-component';
 
-//@connect()
 class Table extends React.Component {
   render() {
     let rows = this.props.rows.map((row) => {

@@ -43,8 +43,6 @@ const renderFieldInput = ({className, placeholder, input, type, meta: {touched, 
   </div>
 );
 
-
-
 const normalizeNumberOfPlayers = (value, previousValue) => {
   if (value === '' || (/^\d*$/.test(value) && value > 0 && value <= 64)) {
     return parseInt(value);
@@ -61,7 +59,6 @@ const _checkMaxPrecision = (value, precision) => {
 };
 
 const normalizeAmount = (value, previousValue, precision) => {
-
   if (
     (!isNaN(parseFloat(value)) && isFinite(value) && !_checkMaxPrecision(value, precision)) ||
     value === '' ||
@@ -611,29 +608,27 @@ CreateForm = reduxForm({
 
 const selector = formValueSelector('rockPaperScissorsCreateForm'); // <-- same as form name
 
-CreateForm = connect(
-  (state) => {
-    // can select values individually
-    const buyInSymbol = selector(state, 'buy_in_asset_symbol'),
-      has_started = selector(state, 'has_started'),
-      whitelist = selector(state, 'whitelist'),
-      suggestions = selector(state, 'suggestions'),
-      suggestionsResults = selector(state, 'suggestionsResults'),
-      start_time = selector(state, 'start_time'),
-      registration_deadline = selector(state, 'registration_deadline'),
-      buy_in_amount = selector(state, 'buy_in_amount');
+const mapStateToProps = (state) => {
+  // can select values individually
+  const buyInSymbol = selector(state, 'buy_in_asset_symbol'),
+    has_started = selector(state, 'has_started'),
+    whitelist = selector(state, 'whitelist'),
+    suggestions = selector(state, 'suggestions'),
+    suggestionsResults = selector(state, 'suggestionsResults'),
+    start_time = selector(state, 'start_time'),
+    registration_deadline = selector(state, 'registration_deadline'),
+    buy_in_amount = selector(state, 'buy_in_amount');
 
-    return {
-      buyInSymbol: buyInSymbol,
-      has_started: has_started,
-      whitelist: whitelist,
-      suggestions: suggestions,
-      suggestionsResults: suggestionsResults,
-      start_time: start_time,
-      registration_deadline: registration_deadline,
-      buy_in_amount: buy_in_amount
-    };
-  }
-)(CreateForm);
+  return {
+    buyInSymbol: buyInSymbol,
+    has_started: has_started,
+    whitelist: whitelist,
+    suggestions: suggestions,
+    suggestionsResults: suggestionsResults,
+    start_time: start_time,
+    registration_deadline: registration_deadline,
+    buy_in_amount: buy_in_amount
+  };
+};
 
-export default CreateForm;
+export default connect(mapStateToProps)(CreateForm);

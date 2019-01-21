@@ -3,7 +3,7 @@ import {Field, reduxForm} from 'redux-form';
 import {ChainValidation} from 'peerplaysjs-lib';
 import Translate from 'react-translate-component';
 import AccountRepository from 'repositories/AccountRepository';
-import LoginActions from 'actions/LoginActions';
+import {LoginActions} from '../../actions';
 
 const renderField = ({
   tabIndex,
@@ -142,7 +142,7 @@ LoginForm = reduxForm({
     const errors = {};
     let accountError = ChainValidation.is_account_name_error(values.accountName);
 
-    if(accountError) {
+    if (accountError) {
       errors.accountName = (
         <Translate content='errors.login_error'/>
       );//accountError;
@@ -150,7 +150,7 @@ LoginForm = reduxForm({
 
     let MAX_PASSWORD_CHARACTERS = 22;
 
-    if(!values.password || values.password.length < MAX_PASSWORD_CHARACTERS) {
+    if (!values.password || values.password.length < MAX_PASSWORD_CHARACTERS) {
       errors.password = (
         <Translate
           content='errors.password_must_be_X_characters_or_more'

@@ -55,11 +55,11 @@ class ActivityBlocks extends React.Component {
   }
 }
 
-ActivityBlocks = connect((state) => {
+const mapStateToProps = (state) => {
   return {
     operations: state.explorerBlockchainPage.operations,
     coreAsset: state.explorerBlockchainPage.coreAsset
   };
-})(ActivityBlocks);
+};
 
-export default ActivityBlocks;
+export default connect(mapStateToProps)(ActivityBlocks);

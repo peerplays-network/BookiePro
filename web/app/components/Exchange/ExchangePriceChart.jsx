@@ -1,8 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import HighstockThemeService from 'services/HighstockThemeService';
-import ExchangePageActions from 'actions/ExchangePageActions';
+import {ExchangePageActions} from '../../actions';
 import PeriodNameHelper from 'helpers/PeriodNameHelper';
+import {bindActionCreators} from 'redux';
 
 let Highstock = require('highcharts/highstock.src');
 require('highcharts/modules/exporting')(Highstock);
@@ -402,7 +403,7 @@ class ExchangePriceChart extends React.Component {
   }
 }
 
-ExchangePriceChart = connect((state) => {
+const mapStateToProps = (state) => {
   return {
     currentBucket: state.exchangePageReducer.currentBucket,
     highPriceList: state.exchangePageReducer.highPriceList,
@@ -410,12 +411,15 @@ ExchangePriceChart = connect((state) => {
     priceChartCurrentPeriod: state.exchangePageReducer.priceChartCurrentPeriod,
     buckets: state.exchangePageReducer.buckets,
     priceChartStatusLoader: state.exchangePageReducer.priceChartStatusLoader
-
   };
-}, {
-  changePriceChartPeriod: ExchangePageActions.changePriceChartPeriod,
-  changePriceChartBucket: ExchangePageActions.changePriceChartBucket
+};
 
-})(ExchangePriceChart);
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    changePriceChartPeriod: ExchangePageActions.changePriceChartPeriod,
+    changePriceChartBucket: ExchangePageActions.changePriceChartBucket
+  },
+  dispatch
+);
 
-export default ExchangePriceChart;
+export default connect(mapStateToProps, mapDispatchToProps)(ExchangePriceChart);

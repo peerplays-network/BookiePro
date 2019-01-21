@@ -3,13 +3,6 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import FormattedAsset from '../Utility/FormattedAsset';
 
-@connect((state) => {
-  return {
-    from_account: state.transactionConfirm.transaction.from_account,
-    asset_id: state.transactionConfirm.transaction.asset_id,
-    amount: state.transactionConfirm.transaction.amount
-  };
-})
 class AssetFundFeePool extends React.Component {
   render() {
     return (
@@ -48,4 +41,12 @@ class AssetFundFeePool extends React.Component {
   }
 }
 
-export default AssetFundFeePool;
+const mapStateToProps = (state) => {
+  return {
+    from_account: state.transactionConfirm.transaction.from_account,
+    asset_id: state.transactionConfirm.transaction.asset_id,
+    amount: state.transactionConfirm.transaction.amount
+  };
+};
+
+export default connect(mapStateToProps)(AssetFundFeePool);

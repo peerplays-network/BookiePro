@@ -3,17 +3,7 @@ import Translate from 'react-translate-component';
 import WitnessRow from './WitnessRow';
 import {connect} from 'react-redux';
 
-@connect((state) => {
-  return {
-    current: state.voting.witnesses.currentWitnessId,
-    activeWitnesseObjects: state.voting.witnesses.activeWitnesseObjects,
-    activeWitnesseAccounts: state.voting.witnesses.activeWitnesseAccounts,
-    sortBy: state.voting.witnesses.sortBy,
-    inverseSort: state.voting.witnesses.inverseSort
-  };
-})
 class WitnessListNew extends React.Component {
-
   shouldComponentUpdate(nextProps) {
     return (
       nextProps.current !== this.props.current
@@ -111,4 +101,14 @@ class WitnessListNew extends React.Component {
   }
 }
 
-export default WitnessListNew;
+const mapStateToProps = (state) => {
+  return {
+    current : state.voting.witnesses.currentWitnessId,
+    activeWitnesseObjects : state.voting.witnesses.activeWitnesseObjects,
+    activeWitnesseAccounts : state.voting.witnesses.activeWitnesseAccounts,
+    sortBy : state.voting.witnesses.sortBy,
+    inverseSort : state.voting.witnesses.inverseSort
+  };
+};
+
+export default connect(mapStateToProps)(WitnessListNew);

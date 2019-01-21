@@ -6,9 +6,9 @@ import asset_utils from 'common/asset_utils';
 import {FormattedNumber} from 'react-intl';
 import TournamentStartTime from './TournamentStartTime';
 import JoinTournamentButton from './JoinTournamentButton';
-import {setWalletPosition} from 'actions/RWalletUnlockActions';
-import RockPaperScissorsActions from 'actions/Games/RockPaperScissors/RockPaperScissorsActions';
+import {RWalletUnlockActions, RockPaperScissorsActions} from '../../../actions';
 import DropDownTrigger from './DropDownTrigger';
+import {bindActionCreators} from 'redux';
 
 let callback = {
   exists: false,
@@ -192,20 +192,26 @@ class Find extends React.Component {
   }
 }
 
-Find = connect((state) => {
-  return {accountId: state.app.accountId,
+const mapStateToProps = (state) => {
+  return {
+    accountId: state.app.accountId,
     findList: state.rockPaperScissorsReducer.findList,
     findDropDownItems: state.rockPaperScissorsReducer.findDropDownItems,
     walletLocked: state.wallet.locked,
     walletIsOpen: state.wallet.isOpen
   };
-}, {
-  setFindDDCurrent: RockPaperScissorsActions.setFindDDCurrent,
-  joinToTournament: RockPaperScissorsActions.joinToTournament,
-  fetchFindTournaments: RockPaperScissorsActions.fetchFindTournaments,
-  subscribe: RockPaperScissorsActions.subscribe,
-  unSubscribe: RockPaperScissorsActions.unSubscribe,
-  setWalletPosition: setWalletPosition
-})(Find);
+};
 
-export default Find;
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    setFindDDCurrent: RockPaperScissorsActions.setFindDDCurrent,
+    joinToTournament: RockPaperScissorsActions.joinToTournament,
+    fetchFindTournaments: RockPaperScissorsActions.fetchFindTournaments,
+    subscribe: RockPaperScissorsActions.subscribe,
+    unSubscribe: RockPaperScissorsActions.unSubscribe,
+    setWalletPosition: RWalletUnlockActions.setWalletPosition
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Find);

@@ -122,21 +122,21 @@ class Statistics extends React.Component {
   }
 }
 
-Statistics = connect((state) => {
+const mapStateToProps = (state) => {
   return {
-    head_block_number: state.explorerBlockchainPage.head_block_number,
-    active_witnesses: state.explorerBlockchainPage.active_witnesses,
-    active_committee_members: state.explorerBlockchainPage.active_committee_members,
-    recently_missed_count: state.explorerBlockchainPage.recently_missed_count,
-    current_supply: state.explorerBlockchainPage.current_supply,
-    confidential_supply: state.explorerBlockchainPage.confidential_supply,
-    trxPerSec: state.explorerBlockchainPage.trxPerSec,
-    trxPerBlock: state.explorerBlockchainPage.trxPerBlock,
-    avgTime: state.explorerBlockchainPage.avgTime,
-    updatedAt: state.explorerBlockchainPage.updatedAt,
-    time: state.explorerBlockchainPage.time,
-    coreAsset: state.explorerBlockchainPage.coreAsset
+    head_block_number : state.explorerBlockchainPage.head_block_number,
+    active_witnesses : state.explorerBlockchainPage.active_witnesses,
+    active_committee_members : state.explorerBlockchainPage.active_committee_members,
+    recently_missed_count : state.explorerBlockchainPage.recently_missed_count,
+    current_supply : state.explorerBlockchainPage.current_supply,
+    confidential_supply : state.explorerBlockchainPage.confidential_supply,
+    trxPerSec : state.explorerBlockchainPage.trxPerSec,
+    trxPerBlock : state.explorerBlockchainPage.trxPerBlock,
+    avgTime : state.explorerBlockchainPage.avgTime,
+    updatedAt : state.explorerBlockchainPage.updatedAt,
+    time : state.explorerBlockchainPage.time,
+    coreAsset : state.explorerBlockchainPage.coreAsset
   };
-})(Statistics);
+};
 
-export default Statistics;
+export default connect(mapStateToProps)(Statistics);

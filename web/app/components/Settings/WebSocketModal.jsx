@@ -8,21 +8,9 @@ import {
   addConnection,
   removeConnection
 } from 'actions/PageSettingsActions';
+import {bindActionCreators} from 'redux';
 
-const mapStateToProps = (state) => {
-  return {
-    connection : state.settings.connection,
-    defaultConnection : state.pageSettings.defaults.connection
-  };
-};
-
-@connect(
-  mapStateToProps,
-  {addConnection,removeConnection},
-  null,
-  {withRef: true}
-)
-export default class WebSocketsModal extends React.Component {
+class WebSocketsModal extends React.Component {
   constructor() {
     super();
     let protocol = window.location.protocol;
@@ -170,3 +158,20 @@ export default class WebSocketsModal extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    connection: state.settings.connection,
+    defaultConnection: state.pageSettings.defaults.connection
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    addConnection,
+    removeConnection
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps, null, {withRef: true})(WebSocketsModal);

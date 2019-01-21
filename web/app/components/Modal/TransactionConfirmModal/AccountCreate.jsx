@@ -2,14 +2,6 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 
-@connect((state) => {
-  return {
-    name: state.transactionConfirm.transaction.name,
-    registrar: state.transactionConfirm.transaction.registrar,
-    referrer: state.transactionConfirm.transaction.referrer
-  };
-})
-
 class AccountCreate extends React.Component {
   render() {
     return (
@@ -50,4 +42,12 @@ class AccountCreate extends React.Component {
   }
 }
 
-export default AccountCreate;
+const mapStateToProps = (state) => {
+  return {
+    name : state.transactionConfirm.transaction.name,
+    registrar : state.transactionConfirm.transaction.registrar,
+    referrer : state.transactionConfirm.transaction.referrer
+  };
+};
+
+export default connect(mapStateToProps)(AccountCreate);

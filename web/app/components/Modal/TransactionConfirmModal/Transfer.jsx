@@ -4,14 +4,6 @@ import {connect} from 'react-redux';
 import {FormattedNumber} from 'react-intl';
 import assetUtils from 'common/asset_utils';
 
-@connect((state) => {
-  return {
-    nameFrom: state.transactionConfirm.transaction.nameFrom,
-    nameTo: state.transactionConfirm.transaction.nameTo,
-    amount: state.transactionConfirm.transaction.amount,
-    fee: state.transactionConfirm.transaction.fee
-  };
-})
 class Transfer extends React.Component {
   render() {
     const {amount, fee} = this.props;
@@ -65,4 +57,13 @@ class Transfer extends React.Component {
   }
 }
 
-export default Transfer;
+const mapStateToProps = (state) => {
+  return {
+    nameFrom: state.transactionConfirm.transaction.nameFrom,
+    nameTo: state.transactionConfirm.transaction.nameTo,
+    amount: state.transactionConfirm.transaction.amount,
+    fee: state.transactionConfirm.transaction.fee
+  };
+};
+
+export default connect(mapStateToProps)(Transfer);

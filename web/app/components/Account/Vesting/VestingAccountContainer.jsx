@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import Translate from 'react-translate-component';
 import VestingBalance from './VestingBalance';
 import {AccountVestingPageActions} from '../../../actions';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 
 class VestingAccountContainer extends React.Component {
   componentWillMount() {
@@ -78,8 +78,9 @@ class VestingAccountContainer extends React.Component {
 const mapStateToProps = (state) => {
   return {
     balances: state.accountVestingPageReducer.balances
-  }
-}
+  };
+};
+
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     fetchData: AccountVestingPageActions.fetchData,

@@ -4,14 +4,6 @@ import {connect} from 'react-redux';
 import FormattedAsset from '../Utility/FormattedAsset';
 import Inspector from 'react-json-inspector';
 
-@connect((state) => {
-  return {
-    amount: state.transactionConfirm.transaction.amount,
-    from: state.transactionConfirm.transaction.from,
-    blinding_factor: state.transactionConfirm.transaction.blinding_factor,
-    outputs: state.transactionConfirm.transaction.outputs
-  };
-})
 class TransferToBlind extends React.Component {
   rendeR() {
     return (
@@ -67,4 +59,13 @@ class TransferToBlind extends React.Component {
   }
 }
 
-export default TransferToBlind;
+const mapStateToProps = (state) => {
+  return {
+    amount: state.transactionConfirm.transaction.amount,
+    from: state.transactionConfirm.transaction.from,
+    blinding_factor: state.transactionConfirm.transaction.blinding_factor,
+    outputs: state.transactionConfirm.transaction.outputs
+  };
+};
+
+export default connect(mapStateToProps)(TransferToBlind);

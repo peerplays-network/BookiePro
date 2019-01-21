@@ -3,13 +3,6 @@ import {connect} from 'react-redux';
 import TimeAgo from '../Utility/TimeAgo';
 import FormattedAsset from '../Utility/FormattedAsset';
 
-@connect((state) => {
-  return {
-    asset: state.voting.witnesses.asset,
-    blockInterval: state.voting.witnesses.blockInterval,
-    mostRecent: state.voting.witnesses.currentAslot
-  };
-})
 class WitnessRow extends React.Component {
   shouldComponentUpdate(nextProps) {
     return (
@@ -46,5 +39,12 @@ class WitnessRow extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    asset: state.voting.witnesses.asset,
+    blockInterval: state.voting.witnesses.blockInterval,
+    mostRecent: state.voting.witnesses.currentAslot
+  };
+};
 
-export default WitnessRow;
+export default connect(mapStateToProps)(WitnessRow);

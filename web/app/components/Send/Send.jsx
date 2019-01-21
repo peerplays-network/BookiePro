@@ -6,34 +6,15 @@ import Select from 'react-select';
 import {FormattedNumber} from 'react-intl';
 import Side from '../Dashboard/Balances/Side';
 import SendHistory from './SendHistory';
-import SendPageActions from 'actions/SendPageActions';
-import {setWalletPosition} from 'actions/RWalletUnlockActions';
-import {setCurrentLocation} from 'actions/AppActions';
-import {setTransaction} from 'actions/RTransactionConfirmActions';
+import {
+  SendPageActions, RWalletUnlockActions, AppActions, RTransactionConfirmActions
+} from '../../actions';
 import AccountRepository from 'repositories/AccountRepository';
 import AssetRepository from 'repositories/AssetRepository';
 import utils from 'common/utils';
 import asset_utils from 'common/asset_utils';
-@connect((state) => {
-  return {
-    currentAccount: state.account.currentAccount,
-    walletLocked: state.wallet.locked,
-    walletIsOpen: state.wallet.isOpen,
-    balance: state.sendPage.balance,
-    symbols: state.sendPage.symbols,
-    selectedSymbol: state.sendPage.selectedSymbol,
-    assets: state.sendPage.assets,
-    accountId: state.sendPage.accountId,
-    history: state.sendPage.history,
-    encryptedKey: (state.walletData.wallet) ? state.walletData.wallet.encrypted_brainkey : null,
-    aesPrivate: state.walletData.aesPrivate
-  };
-}, {
-  setWalletPosition,
-  setCurrentLocation,
-  setTransaction,
-  getTransferTransaction: SendPageActions.getTransferTransaction
-})
+import {bindActionCreators} from 'redux';
+
 class Send extends React.Component {
   constructor(props) {
     super(props);
@@ -370,4 +351,32 @@ class Send extends React.Component {
   }
 }
 
-export default Send;
+const mapStateToProps = (state) => {
+  return {
+    currentAccount : state.account.currentAccount,
+    walletLocked : state.wallet.locked,
+    walletIsOpen : state.wallet.isOpen,
+    balance : state.sendPage.balance,
+    symbols : state.sendPage.symbols,
+    selectedSymbol : state.sendPage.selectedSymbol,
+    assets : state.sendPage.assets,
+    accountId : state.sendPage.accountId,
+    history : state.sendPage.history,
+    encryptedKey : (state.walletData.wallet)
+      ? state.walletData.wallet.encrypted_brainkey
+      : null,
+    aesPrivate : state.walletData.aesPrivate
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    setWalletPosition: RWalletUnlockActions.setWalletStatus,
+    setCurrentLocation: AppActions.setCurrentLocation,
+    setTransaction: RTransactionConfirmActions.setTransaction,
+    getTransferTransaction: SendPageActions.getTransferTransaction
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Send);

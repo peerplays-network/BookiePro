@@ -4,13 +4,9 @@ import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
 import className from 'classnames';
 import {deleteWallet} from 'actions/RWalletActions';
+import {bindActionCreators} from 'redux';
 
-const mapStateToProps = (state) => {
-  return {walletNames: state.wallet.walletNames};
-};
-
-@connect(mapStateToProps, {deleteWallet})
-export default class Delete extends React.Component {
+class Delete extends React.Component {
 
   constructor(props) {
     super(props);
@@ -111,3 +107,16 @@ export default class Delete extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {walletNames: state.wallet.walletNames};
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    deleteWallet
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Delete);

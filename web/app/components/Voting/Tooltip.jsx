@@ -1,7 +1,6 @@
 import React from 'react';
 
 class Tooltip extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {

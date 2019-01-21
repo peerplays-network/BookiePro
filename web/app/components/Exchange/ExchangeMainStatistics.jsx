@@ -89,7 +89,7 @@ class ExchangeMainStatistics extends React.Component {
   }
 }
 
-ExchangeMainStatistics = connect((state) => {
+const mapStateToProps = (state) => {
   return {
     baseAssetName: state.exchangePageReducer.baseAssetName,
     quoteAssetName: state.exchangePageReducer.quoteAssetName,
@@ -101,6 +101,6 @@ ExchangeMainStatistics = connect((state) => {
     volumeBase: state.exchangePageReducer.volumeBase,
     volumeQuote: state.exchangePageReducer.volumeQuote
   };
-}, {})(ExchangeMainStatistics);
+};
 
-export default ExchangeMainStatistics;
+export default connect(mapStateToProps)(ExchangeMainStatistics);

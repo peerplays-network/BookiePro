@@ -3,13 +3,6 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import asset_utils from 'common/asset_utils';
 
-@connect((state) => {
-  return {
-    asset: state.transactionConfirm.transaction.asset,
-    account: state.transactionConfirm.transaction.account,
-    transaction: state.transactionConfirm.transaction.transactionObject,
-  };
-})
 class VestingBalanceWithdraw extends React.Component {
   render() {
     let {account, transaction, asset} = this.props;
@@ -78,4 +71,12 @@ class VestingBalanceWithdraw extends React.Component {
   }
 }
 
-export default VestingBalanceWithdraw;
+const mapStateToProps = (state) => {
+  return {
+    asset: state.transactionConfirm.transaction.asset,
+    account: state.transactionConfirm.transaction.account,
+    transaction: state.transactionConfirm.transaction.transactionObject
+  };
+};
+
+export default connect(mapStateToProps)(VestingBalanceWithdraw);

@@ -2,27 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Logo from '../Forms/Logo';
 import LoginForm from './LoginForm';
-import NavigateActions from 'actions/NavigateActions';
-import LoginActions from 'actions/LoginActions';
+import {NavigateActions, LoginActions} from '../../actions';
 import LanguageSwitcher from '../Common/LanguageSwitcher';
 import Translate from 'react-translate-component';
+import {bindActionCreators} from 'redux';
 
-@connect(
-  (state) => {
-    return {
-      status: state.loginPage.status,
-      errors: state.loginPage.errors,
-      locale: state.settings.locale
-    };
-  },
-  {
-    login: LoginActions.login,
-    setLoginStatus: LoginActions.setLoginStatus,
-    navigateToSignUp: NavigateActions.navigateToSignUp,
-    navigateToForgotPassword: NavigateActions.navigateToForgotPassword,
-    navigateToClaim: NavigateActions.navigateToClaim
-  }
-)
 class Login extends React.Component {
   handleSubmit(values) {
     let next;
@@ -119,4 +103,23 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => {
+  return {
+    status: state.loginPage.status,
+    errors: state.loginPage.errors,
+    locale: state.settings.locale
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    login: LoginActions.login,
+    setLoginStatus: LoginActions.setLoginStatus,
+    navigateToSignUp: NavigateActions.navigateToSignUp,
+    navigateToForgotPassword: NavigateActions.navigateToForgotPassword,
+    navigateToClaim: NavigateActions.navigateToClaim
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

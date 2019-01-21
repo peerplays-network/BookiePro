@@ -3,12 +3,6 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import FormattedAsset from '../Utility/FormattedAsset';
 
-@connect((state) => {
-  return {
-    amount_to_claim: state.transactionConfirm.transaction.amount_to_claim,
-    issuer: state.transactionConfirm.transaction.issuer
-  };
-})
 class AssetClaimFees extends React.Component {
   render() {
     return (
@@ -42,4 +36,11 @@ class AssetClaimFees extends React.Component {
   }
 }
 
-export default AssetClaimFees;
+const mapStateToProps = (state) => {
+  return {
+    amount_to_claim: state.transactionConfirm.transaction.amount_to_claim,
+    issuer: state.transactionConfirm.transaction.issuer
+  };
+};
+
+export default connect(mapStateToProps)(AssetClaimFees);

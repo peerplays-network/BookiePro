@@ -4,24 +4,9 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 import asset_utils from 'common/asset_utils';
-import SettingsClaimActions from 'actions/SettingsClaimActions';
+import {SettingsClaimActions} from '../../actions';
+import {bindActionCreators} from 'redux';
 
-const mapStateToProps = (store) => {
-  return {
-    claim_error: store.pageSettings.claim_error,
-    claim_balances: store.pageSettings.claim_balances
-  };
-};
-
-@connect(mapStateToProps,
-  {
-    lookupBalances: SettingsClaimActions.lookupBalances,
-    importBalance: SettingsClaimActions.importBalance,
-    resetKey: SettingsClaimActions.resetKey,
-    resetBalances: SettingsClaimActions.resetBalances,
-
-  }
-)
 class ClaimSettings extends React.Component {
 
   constructor(props) {
@@ -233,4 +218,21 @@ class ClaimSettings extends React.Component {
   }
 }
 
-export default ClaimSettings;
+const mapStateToProps = (store) => {
+  return {
+    claim_error: store.pageSettings.claim_error,
+    claim_balances: store.pageSettings.claim_balances
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    lookupBalances : SettingsClaimActions.lookupBalances,
+    importBalance : SettingsClaimActions.importBalance,
+    resetKey : SettingsClaimActions.resetKey,
+    resetBalances : SettingsClaimActions.resetBalances
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClaimSettings);

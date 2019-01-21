@@ -4,15 +4,9 @@ import ReactDOM from 'react-dom';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import {Modal} from 'react-modal-bootstrap';
-import HelpActions from 'actions/HelpActions';
-import NavigateActions from 'actions/NavigateActions';
+import {HelpActions, NavigateActions} from '../../actions';
+import {bindActionCreators} from 'redux';
 
-@connect((state) => {
-  return {showHelpModal: state.helpReducer.showHelpModal};
-}, {
-  toggleHelpModal: HelpActions.toggleHelpModal,
-  navigateToSettingsClaim: NavigateActions.navigateToSettingsClaim
-})
 class HelpModal extends React.Component {
 
   onClickClose(e) {
@@ -352,4 +346,18 @@ class HelpModal extends React.Component {
   }
 }
 
-export default HelpModal;
+const mapStateToProps = (state) => {
+  return {
+    showHelpModal : state.helpReducer.showHelpModal
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    toggleHelpModal: HelpActions.toggleHelpModal,
+    navigateToSettingsClaim: NavigateActions.navigateToSettingsClaim
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(HelpModal);

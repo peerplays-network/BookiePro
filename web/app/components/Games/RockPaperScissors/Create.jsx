@@ -1,9 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import RockPaperScissorsActions from 'actions/Games/RockPaperScissors/RockPaperScissorsActions';
+import {RockPaperScissorsActions, RWalletUnlockActions} from '../../../actions';
 import CreateForm from './CreateForm';
-import {setWalletPosition} from 'actions/RWalletUnlockActions';
 import Translate from 'react-translate-component';
+import {bindActionCreators} from 'redux';
 
 let callback = {
   exists: false,
@@ -75,19 +75,24 @@ class Create extends React.Component {
   }
 }
 
-Create = connect((state) => {
+const mapStateToProps = (state) => {
   return {
     unit: state.rockPaperScissorsReducer.unit,
     unitList: state.rockPaperScissorsReducer.unitList,
     walletLocked: state.wallet.locked,
     walletIsOpen: state.wallet.isOpen
   };
-}, {
-  subscribe: RockPaperScissorsActions.subscribe,
-  unSubscribe: RockPaperScissorsActions.unSubscribe,
-  fetchAvailableUnits: RockPaperScissorsActions.fetchAvailableUnits,
-  createTournament: RockPaperScissorsActions.createTournament,
-  setWalletPosition: setWalletPosition
-})(Create);
+};
 
-export default Create;
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    subscribe: RockPaperScissorsActions.subscribe,
+    unSubscribe: RockPaperScissorsActions.unSubscribe,
+    fetchAvailableUnits: RockPaperScissorsActions.fetchAvailableUnits,
+    createTournament: RockPaperScissorsActions.createTournament,
+    setWalletPosition: RWalletUnlockActions.setWalletPosition
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Create);

@@ -4,24 +4,10 @@ import counterpart from 'counterpart';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 import Notices from './Notices';
-import AppActions from 'actions/AppActions';
-import HelpActions from 'actions/HelpActions';
+import {AppActions, HelpActions} from '../../actions';
 import Translate from 'react-translate-component';
+import {bindActionCreators} from 'redux';
 
-@connect((state) => {
-  return {
-    active: state.active,
-    wallet: state.walletData.wallet,
-    linkedAccounts: state.account.linkedAccounts,
-    currentAccount: state.account.currentAccount,
-    starredAccounts: state.account.starredAccounts,
-    locked: state.wallet.locked,
-    current_wallet: state.wallet.currentWallet
-  };
-}, {
-  logout: AppActions.logout,
-  toggleHelpModal: HelpActions.toggleHelpModal
-})
 class Header extends React.Component {
   onLogoutClick(e) {
     e.preventDefault();
@@ -106,4 +92,24 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+  return {
+    active : state.active,
+    wallet : state.walletData.wallet,
+    linkedAccounts : state.account.linkedAccounts,
+    currentAccount : state.account.currentAccount,
+    starredAccounts : state.account.starredAccounts,
+    locked : state.wallet.locked,
+    current_wallet : state.wallet.currentWallet
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    logout: AppActions.logout,
+    toggleHelpModal: HelpActions.toggleHelpModal
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

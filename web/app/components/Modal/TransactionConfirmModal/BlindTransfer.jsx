@@ -3,12 +3,6 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import Inspector from 'react-json-inspector';
 
-@connect((state) => {
-  return {
-    inputs: state.transactionConfirm.transaction.inputs,
-    outputs: state.transactionConfirm.transaction.outputs
-  };
-})
 class BlindTransfer extends React.Component {
   render() {
     return (
@@ -39,4 +33,11 @@ class BlindTransfer extends React.Component {
   }
 }
 
-export default BlindTransfer;
+const mapStateToProps = (state) => {
+  return {
+    inputs: state.transactionConfirm.transaction.inputs,
+    outputs: state.transactionConfirm.transaction.outputs
+  };
+};
+
+export default connect(mapStateToProps)(BlindTransfer);

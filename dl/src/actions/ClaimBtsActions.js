@@ -38,7 +38,6 @@ class ClaimBtsPrivateActions {
     };
   }
 }
-
 class ClaimBtsActions {
   /**
  * Change button Status
@@ -112,12 +111,16 @@ class ClaimBtsActions {
             dispatch(ClaimBtsPrivateActions.setStatus('default'));
           });
         } else {
-          dispatch(ClaimBtsPrivateActions.setErrors([counterpart.translate('errors.incorrect_private_key')]));
+          dispatch(ClaimBtsPrivateActions.setErrors(
+            [counterpart.translate('errors.incorrect_private_key')]
+          ));
           dispatch(ClaimBtsPrivateActions.setStatus('default'));
         }
       }).catch((err) => {
         console.warn('Error:', err);
-        dispatch(ClaimBtsPrivateActions.setErrors([counterpart.translate('errors.incorrect_private_key')]));
+        dispatch(ClaimBtsPrivateActions.setErrors(
+          [counterpart.translate('errors.incorrect_private_key')]
+        ));
         dispatch(ClaimBtsPrivateActions.setStatus('default'));
       });
     };

@@ -3,14 +3,6 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import asset_utils from 'common/asset_utils';
 
-@connect((state) => {
-  return {
-    transaction: state.transactionConfirm.transaction.transactionObject,
-    assets: state.transactionConfirm.transaction.assets,
-    account: state.transactionConfirm.transaction.account,
-    ownerKey: state.transactionConfirm.transaction.ownerKey
-  };
-})
 class BalanceClaim extends React.Component {
   render() {
     let transaction = this.props.transaction,
@@ -95,4 +87,13 @@ class BalanceClaim extends React.Component {
   }
 }
 
-export default BalanceClaim;
+const mapStateToProps = (state) => {
+  return {
+    transaction: state.transactionConfirm.transaction.transactionObject,
+    assets: state.transactionConfirm.transaction.assets,
+    account: state.transactionConfirm.transaction.account,
+    ownerKey: state.transactionConfirm.transaction.ownerKey
+  };
+};
+
+export default connect(mapStateToProps)(BalanceClaim);

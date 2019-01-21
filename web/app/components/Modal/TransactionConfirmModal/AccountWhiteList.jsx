@@ -2,14 +2,6 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 
-
-@connect((state) => {
-  return {
-    authorizing_account: state.transactionConfirm.transaction.authorizing_account,
-    account_to_list: state.transactionConfirm.transaction.account_to_list,
-    listing: state.transactionConfirm.transaction.listing
-  };
-})
 class AccountWhiteList extends React.Component {
 
   render() {
@@ -56,4 +48,12 @@ class AccountWhiteList extends React.Component {
   }
 }
 
-export default AccountWhiteList;
+const mapStateToProps = (state) => {
+  return {
+    authorizing_account : state.transactionConfirm.transaction.authorizing_account,
+    account_to_list : state.transactionConfirm.transaction.account_to_list,
+    listing : state.transactionConfirm.transaction.listing
+  };
+};
+
+export default connect(mapStateToProps)(AccountWhiteList);

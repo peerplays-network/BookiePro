@@ -4,19 +4,7 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import LoadingIndicator from '../LoadingIndicator';
 
-const mapStateToProps = (state) => {
-  return {
-    account_refs: state.accountRefs.account_refs,
-    pubkeys: state.balanceClaimActive.pubkeys,
-    addresses: state.balanceClaimActive.addresses,
-    walletNames: state.balanceClaimActive.walletNames,
-    address_to_pubkey: state.balanceClaimActive.address_to_pubkey,
-    state: state.balanceClaimActive.state
-  };
-};
-
-@connect(mapStateToProps, {})
-export default class BalanceClaimActive extends Component {
+class BalanceClaimActive extends Component {
   render() {
     if (!this.props.account_refs.size) {
       return (
@@ -87,3 +75,16 @@ export default class BalanceClaimActive extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    account_refs: state.accountRefs.account_refs,
+    pubkeys: state.balanceClaimActive.pubkeys,
+    addresses: state.balanceClaimActive.addresses,
+    walletNames: state.balanceClaimActive.walletNames,
+    address_to_pubkey: state.balanceClaimActive.address_to_pubkey,
+    state: state.balanceClaimActive.state
+  };
+};
+
+export default connect(mapStateToProps)(BalanceClaimActive);

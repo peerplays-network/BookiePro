@@ -2,11 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import AccountMemberService from 'services/AccountMemberService';
 import Translate from 'react-translate-component';
-import ReferralsPageActions from 'actions/ReferralsPageActions';
+import {ReferralsPageActions} from '../../../actions';
+import {bindActionCreators} from 'redux';
 
-@connect((state) => {
-  return {account: state.dashboardPage.memberAccount};
-}, {onClickUpgradeLifetime: ReferralsPageActions.onClickUpgradeLifetime})
 class SideMember extends React.Component {
 
   navigateToVestingBalances() {
@@ -53,4 +51,17 @@ class SideMember extends React.Component {
   }
 }
 
-export default SideMember;
+const mapStateToProps = (state) => {
+  return {
+    account: state.dashboardPage.memberAccount
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    onClickUpgradeLifetime: ReferralsPageActions.onClickUpgradeLifetime
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideMember);

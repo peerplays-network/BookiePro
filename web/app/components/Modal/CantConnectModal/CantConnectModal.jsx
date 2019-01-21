@@ -5,9 +5,6 @@ import {Modal, ModalBody} from 'react-modal-bootstrap';
 import AppService from '../../../../../dl/src/services/AppService';
 import store from 'store/configureStore';
 
-@connect((state) => {
-  return {showCantConnectModal: state.app.showCantConnectModal};
-}, {})
 class CantConnectModal extends React.Component {
   tryAgainHandler() {
     AppService.init(store);
@@ -57,4 +54,10 @@ class CantConnectModal extends React.Component {
   }
 }
 
-export default CantConnectModal;
+const mapStateToProps = (state) => {
+  return {
+    showCantConnectModal : state.app.showCantConnectModal
+  };
+};
+
+export default connect(mapStateToProps)(CantConnectModal);

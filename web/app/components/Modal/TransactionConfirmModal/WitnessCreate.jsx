@@ -2,11 +2,6 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 
-@connect((state) => {
-  return {
-    witness_account: state.transactionConfirm.transaction.witness_account
-  };
-})
 class WitnessCreate extends React.Component {
   render() {
     return (
@@ -29,4 +24,10 @@ class WitnessCreate extends React.Component {
   }
 }
 
-export default WitnessCreate;
+const mapStateToProps = (state) => {
+  return {
+    witness_account : state.transactionConfirm.transaction.witness_account
+  };
+};
+
+export default connect(mapStateToProps)(WitnessCreate);

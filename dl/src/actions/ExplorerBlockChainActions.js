@@ -5,6 +5,12 @@ import ColorHelper from '../helpers/ColorHelper';
 import TimeHelper from '../helpers/TimeHelper';
 import Repository from '../repositories/chain/repository';
 
+let MAX_LATEST_BLOCKS = 20;
+let MAX_LATEST_OPERATIONS = 100;
+let operationIncrement = 1;
+let latestBlock = 0;
+let fetchedObjects = {};
+
 class ExplorerBlockChainPrivateActions {
   /**
    * Private Redux Action Creator (EXPLORER_BLOCK_CHAIN_CHANGE_STATISTIC)
@@ -18,7 +24,7 @@ class ExplorerBlockChainPrivateActions {
       payload: data
     };
   }
-  
+
   /**
    * Private Redux Action Creator (EXPLORER_BLOCK_CHAIN_CHANGE_RECENT_BLOCKS)
    * Set recent blocks on explore page
@@ -31,7 +37,7 @@ class ExplorerBlockChainPrivateActions {
       payload: data
     };
   }
-  
+
   /**
    * Private Redux Action Creator (EXPLORER_BLOCK_CHAIN_CHANGE_OPERATION_BLOCKS)
    * Set operation list
@@ -44,7 +50,7 @@ class ExplorerBlockChainPrivateActions {
       payload: data
     };
   }
-  
+
   /**
    * Private Redux Action Creator (EXPLORER_BLOCK_CHAIN_SET_DATA_IS_FETCHED)
    * At least once the data were collected
@@ -58,12 +64,6 @@ class ExplorerBlockChainPrivateActions {
     };
   }
 }
-
-let MAX_LATEST_BLOCKS = 20;
-let MAX_LATEST_OPERATIONS = 100;
-let operationIncrement = 1;
-let latestBlock = 0;
-let fetchedObjects = {};
 
 class ExplorerBlockChainActions {
   /**

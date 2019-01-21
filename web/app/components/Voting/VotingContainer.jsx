@@ -2,14 +2,13 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import {connect} from 'react-redux';
-import VotingActions from 'actions/VotingActions';
-/*COMPONENTS*/
+import {VotingActions} from '../../actions';
 import Proxy from './Proxy';
 import Witnesses from './Witnesses';
 import CommitteeMembers from './CommitteeMembers';
 import SLoader from '../Loaders/SLoader';
+import {bindActionCreators} from 'redux';
 
-@connect(null, {fetchData: VotingActions.fetchData})
 class VotingContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -93,4 +92,11 @@ class VotingContainer extends React.Component {
   }
 }
 
-export default VotingContainer;
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    fetchData : VotingActions.fetchData
+  },
+  dispatch
+);
+
+export default connect(null, mapDispatchToProps)(VotingContainer);

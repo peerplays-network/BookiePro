@@ -33,3 +33,5 @@ class RWalletUnlockActions {
     };
   }
 }
+
+export default RWalletUnlockActions;

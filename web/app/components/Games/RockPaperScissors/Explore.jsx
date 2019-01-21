@@ -7,9 +7,10 @@ import moment from 'moment-timezone';
 import TournamentStartTime from './TournamentStartTime';
 import JoinTournamentButton from './JoinTournamentButton';
 import Pagination from './Pagination';
-import {setWalletPosition} from 'actions/RWalletUnlockActions';
-import RockPaperScissorsActions from 'actions/Games/RockPaperScissors/RockPaperScissorsActions';
-import RockPaperScissorsNavigateActions from 'actions/Games/RockPaperScissors/RockPaperScissorsNavigateActions'; /* eslint-disable-line */ 
+import {
+  RWalletUnlockActions, RockPaperScissorsActions, RockPaperScissorsNavigateActions
+} from '../../../actions';
+import {bindActionCreators} from 'redux';
 
 let callback = {
   exists: false,
@@ -216,7 +217,7 @@ class Explore extends React.Component {
   }
 }
 
-Explore = connect((state) => {
+const mapStateToProps = (state) => {
   return {
     accountId: state.app.accountId,
     exploreList: state.rockPaperScissorsReducer.exploreList,
@@ -226,23 +227,21 @@ Explore = connect((state) => {
     walletLocked: state.wallet.locked,
     walletIsOpen: state.wallet.isOpen
   };
-}, {
-  /**
- * Navigate actions
- */
-  navigateToGame: RockPaperScissorsNavigateActions.navigateToGame,
-  navigateToAllTournaments: RockPaperScissorsNavigateActions.navigateToAllTournaments,
+};
 
-  /**
- * Actions
- */
-  setSortExploreBy: RockPaperScissorsActions.setSortExploreBy,
-  setExploreDDCurrent: RockPaperScissorsActions.setExploreDDCurrent,
-  joinToTournament: RockPaperScissorsActions.joinToTournament,
-  fetchExploreTournaments: RockPaperScissorsActions.fetchExploreTournaments,
-  subscribe: RockPaperScissorsActions.subscribe,
-  unSubscribe: RockPaperScissorsActions.unSubscribe,
-  setWalletPosition: setWalletPosition
-})(Explore);
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    navigateToGame: RockPaperScissorsNavigateActions.navigateToGame,
+    navigateToAllTournaments: RockPaperScissorsNavigateActions.navigateToAllTournaments,
+    setSortExploreBy: RockPaperScissorsActions.setSortExploreBy,
+    setExploreDDCurrent: RockPaperScissorsActions.setExploreDDCurrent,
+    joinToTournament: RockPaperScissorsActions.joinToTournament,
+    fetchExploreTournaments: RockPaperScissorsActions.fetchExploreTournaments,
+    subscribe: RockPaperScissorsActions.subscribe,
+    unSubscribe: RockPaperScissorsActions.unSubscribe,
+    setWalletPosition: RWalletUnlockActions.setWalletPosition
+  },
+  dispatch
+);
 
-export default Explore;
+export default connect(mapStateToProps, mapDispatchToProps)(Explore);

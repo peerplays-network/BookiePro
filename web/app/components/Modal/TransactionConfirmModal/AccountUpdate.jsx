@@ -5,18 +5,6 @@ import Inspector from 'react-json-inspector';
 import {FormattedNumber} from 'react-intl';
 import assetUtils from 'common/asset_utils';
 
-@connect((state) => {
-  return {
-    account: state.transactionConfirm.transaction.account,
-    transactionObject: state.transactionConfirm.transaction.transactionObject,
-    memo_key: state.transactionConfirm.transaction.memo_key,
-    voting_account: state.transactionConfirm.transaction.voting_account,
-    num_committee: state.transactionConfirm.transaction.num_committee,
-    num_witnesses: state.transactionConfirm.transaction.num_witnesses,
-    fee: state.transactionConfirm.transaction.fee
-  };
-})
-
 class AccountUpdate extends React.Component {
   render() {
     const options = this.props.transactionObject.operations[0][1];
@@ -127,4 +115,16 @@ class AccountUpdate extends React.Component {
   }
 }
 
-export default AccountUpdate;
+const mapStateToProps = (state) => {
+  return {
+    account : state.transactionConfirm.transaction.account,
+    transactionObject : state.transactionConfirm.transaction.transactionObject,
+    memo_key : state.transactionConfirm.transaction.memo_key,
+    voting_account : state.transactionConfirm.transaction.voting_account,
+    num_committee : state.transactionConfirm.transaction.num_committee,
+    num_witnesses : state.transactionConfirm.transaction.num_witnesses,
+    fee : state.transactionConfirm.transaction.fee
+  };
+};
+
+export default connect(mapStateToProps)(AccountUpdate);

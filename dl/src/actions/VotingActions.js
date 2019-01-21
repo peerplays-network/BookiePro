@@ -77,7 +77,6 @@ class VotingActions {
     };
   }
 
-
   /**
  * Update only a witness page
  * @returns {function(*, *)}

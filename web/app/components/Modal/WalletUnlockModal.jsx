@@ -4,28 +4,10 @@ import counterpart from 'counterpart';
 import {connect} from 'react-redux';
 import {Modal, ModalBody} from 'react-modal-bootstrap';
 import {PrivateKey} from 'peerplaysjs-lib';
-import {setWalletPosition, setWalletStatus} from 'actions/RWalletUnlockActions';
-import RWalletUnlockNewActions from 'actions/RWalletUnlockNewActions';
+import {RWalletDataActions, RWalletUnlockActions, RWalletUnlockNewActions} from '../../actions';
 import CryptoService from 'services/CryptoService';
-import {setAesPrivate} from 'actions/RWalletDataActions';
+import {bindActionCreators} from 'redux';
 
-@connect((state) => {
-  return {
-    newWallet: state.wallet.newWallet,
-    currentWallet: state.wallet.currentWallet,
-    walletNames: state.wallet.walletNames,
-    locked : state.wallet.locked,
-    isOpen: state.wallet.isOpen,
-    wallet: state.walletData.wallet,
-    success: state.wallet.success,
-    cancel: state.wallet.cancel
-  };
-}, {
-  setWalletPosition,
-  setWalletStatus,
-  setAesPrivate,
-  resetWalletPasswordWindow: RWalletUnlockNewActions.resetWalletPasswordWindow
-})
 class WalletUnlockModal extends React.Component {
   constructor(props) {
     super();
@@ -144,4 +126,27 @@ class WalletUnlockModal extends React.Component {
   }
 }
 
-export default WalletUnlockModal;
+const mapStateToProps = (state) => {
+  return {
+    newWallet: state.wallet.newWallet,
+    currentWallet: state.wallet.currentWallet,
+    walletNames: state.wallet.walletNames,
+    locked: state.wallet.locked,
+    isOpen: state.wallet.isOpen,
+    wallet: state.walletData.wallet,
+    success: state.wallet.success,
+    cancel: state.wallet.cancel
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    setWalletPosition: RWalletUnlockActions.setWalletPosition,
+    setWalletStatus: RWalletUnlockActions.setWalletStatus,
+    setAesPrivate: RWalletDataActions.setAesPrivate,
+    resetWalletPasswordWindow: RWalletUnlockNewActions.resetWalletPasswordWindow
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(WalletUnlockModal);

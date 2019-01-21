@@ -4,14 +4,6 @@ import React from 'react';
 import ChainTypes from 'components/Utility/ChainTypes';
 import Immutable from 'immutable';
 
-@connect(
-  (state)=>{
-    return {
-      unit : state.settings.unit,
-      marketStats: state.market.allMarketStats
-    };
-  }
-)
 @BindToChainState({keep_updating: true})
 class BindBalances extends React.Component {
     static propTypes = {
@@ -40,8 +32,13 @@ class BindBalances extends React.Component {
         <BindAssets { ...this.props } balances={ amounts } fromAssets={ assets } toAsset={ unit } />
       );
     }
-
 }
+
+const mapStateToProps = (state) => {
+  return {
+    unit: state.settings.unit
+  };
+};
 
 @BindToChainState({keep_updating: true})
 class BindAssets extends React.Component {
@@ -59,4 +56,4 @@ class BindAssets extends React.Component {
     }
 }
 
-export default BindBalances;
+export default connect(mapStateToProps)(BindBalances);

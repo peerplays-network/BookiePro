@@ -1,19 +1,16 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import TimeAgo from '../../Utility/TimeAgo';
-import {RWalletUnlockNewActions} from '../../../actions';
-import {MemoActions} from '../../../actions';
+import {RWalletUnlockNewActions, MemoActions} from '../../../actions';
 import Translate from 'react-translate-component';
 import MemoService from 'services/MemoService';
 import {PrivateKey} from 'peerplaysjs-lib';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 
 class RecentActivityRow extends React.Component {
   constructor(props) {
     super(props);
-    this.memoClick = this
-      .memoClick
-      .bind(this);
+    this.memoClick = this.memoClick.bind(this);
   }
 
   /**
@@ -142,7 +139,7 @@ const mapStateToProps = (state) => {
     aes: state.walletData.aesPrivate,
     currentAccount: state.account.currentAccount,
     walletData: state.walletData
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
@@ -152,4 +149,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
   },
   dispatch
 );
+
 export default connect(mapStateToProps, mapDispatchToProps)(RecentActivityRow);

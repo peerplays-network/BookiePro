@@ -2,12 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
-import NotificationsActions from 'actions/NotificationsActions';
+import {NotificationsActions} from '../../actions';
 import Translate from 'react-translate-component';
+import {bindActionCreators} from 'redux';
 
-@connect((state) => {
-  return {messages: state.notificationsReducer.messages, language: state.settings.locale};
-}, {closeMessage: NotificationsActions.closeMessage})
 class Notices extends React.Component {
   constructor(props) {
     super(props);
@@ -106,4 +104,18 @@ class Notices extends React.Component {
   }
 }
 
-export default Notices;
+const mapStateToProps = (state) => {
+  return {
+    messages : state.notificationsReducer.messages,
+    language : state.settings.locale
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    closeMessage: NotificationsActions.closeMessage
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notices);

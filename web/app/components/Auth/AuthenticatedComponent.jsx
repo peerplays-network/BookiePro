@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import NavigateActions from 'actions/NavigateActions';
+import {NavigateActions} from '../../actions';
 
 export function requireAuthentication(Component) {
   class AuthenticatedComponent extends React.Component {

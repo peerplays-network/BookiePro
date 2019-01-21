@@ -8,8 +8,8 @@ class AppSettingsActions {
    * @param locale
    * @returns {function(*)}
    */
-  static switchLocale(locale) {
-    return (dispatch) => {
+  static switchLocale(locale) { // eslint-disable-line
+    return (dispatch) => { // eslint-disable-line
       //TODO::
     };
   }

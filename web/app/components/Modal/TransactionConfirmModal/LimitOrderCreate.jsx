@@ -6,16 +6,6 @@ import FormattedPrice from 'components/Utility/FormattedPrice';
 import FormattedAsset from 'components/Utility/FormattedAsset';
 import assetUtils from 'common/asset_utils';
 
-@connect((state) => {
-  return {
-    amount_to_sell: state.transactionConfirm.transaction.amount_to_sell,
-    operationType: state.transactionConfirm.transaction.operationType,
-    min_to_receive: state.transactionConfirm.transaction.min_to_receive,
-    seller: state.transactionConfirm.transaction.seller,
-    expiration: state.transactionConfirm.transaction.expiration,
-    fee: state.transactionConfirm.transaction.fee
-  };
-})
 class LimitOrderCreate extends React.Component {
   render() {
     let feeValue = this.props.fee
@@ -101,4 +91,15 @@ class LimitOrderCreate extends React.Component {
   }
 }
 
-export default LimitOrderCreate;
+const mapStateToProps = (state) => {
+  return {
+    amount_to_sell: state.transactionConfirm.transaction.amount_to_sell,
+    operationType: state.transactionConfirm.transaction.operationType,
+    min_to_receive: state.transactionConfirm.transaction.min_to_receive,
+    seller: state.transactionConfirm.transaction.seller,
+    expiration: state.transactionConfirm.transaction.expiration,
+    fee: state.transactionConfirm.transaction.fee
+  };
+};
+
+export default connect(mapStateToProps)(LimitOrderCreate);

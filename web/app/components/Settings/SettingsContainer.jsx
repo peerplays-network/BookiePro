@@ -6,15 +6,6 @@ import GeneralSettings from './GeneralSettings';
 import PasswordSettings from './PasswordSettings';
 import ClaimSettings from './ClaimSettings';
 
-const mapStateToProps = (state) => {
-  return {
-    menuEntries: state.pageSettings.menuEntries,
-  };
-};
-
-@connect(
-  mapStateToProps
-)
 class SettingsContainer extends React.Component {
   onChangeActiveMenuItem(e) {
     let selectedTab;
@@ -95,4 +86,10 @@ class SettingsContainer extends React.Component {
   }
 }
 
-export default SettingsContainer;
+const mapStateToProps = (state) => {
+  return {
+    menuEntries: state.pageSettings.menuEntries
+  };
+};
+
+export default connect(mapStateToProps)(SettingsContainer);

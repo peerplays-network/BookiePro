@@ -4,11 +4,6 @@ import {connect} from 'react-redux';
 import utils from 'common/utils';
 import Inspector from 'react-json-inspector';
 
-@connect((state) => {
-  return {
-    op: state.transactionConfirm.transaction.op
-  };
-})
 class AssetCreate extends React.Component {
   render() {
     return (
@@ -98,4 +93,10 @@ class AssetCreate extends React.Component {
   }
 }
 
-export default AssetCreate;
+const mapStateToProps = (state) => {
+  return {
+    op: state.transactionConfirm.transaction.op
+  };
+};
+
+export default connect(mapStateToProps)(AssetCreate);

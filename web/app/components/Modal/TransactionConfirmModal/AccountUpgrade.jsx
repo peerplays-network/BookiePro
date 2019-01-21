@@ -3,16 +3,6 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import asset_utils from 'common/asset_utils';
 
-@connect((state) => {
-  return {
-    transaction: state.transactionConfirm.transaction.transactionObject,
-    account_to_upgrade: state.transactionConfirm.transaction.account_to_upgrade,
-    upgrade_to_lifetime_member: state.transactionConfirm.transaction.upgrade_to_lifetime_member,
-    account: state.transactionConfirm.transaction.account,
-    asset: state.transactionConfirm.transaction.asset
-  };
-})
-
 class AccountUpgrade extends React.Component {
   render() {
     let transaction = this.props.transaction,
@@ -78,4 +68,14 @@ class AccountUpgrade extends React.Component {
   }
 }
 
-export default AccountUpgrade;
+const mapStateToProps = (state) => {
+  return {
+    transaction : state.transactionConfirm.transaction.transactionObject,
+    account_to_upgrade : state.transactionConfirm.transaction.account_to_upgrade,
+    upgrade_to_lifetime_member : state.transactionConfirm.transaction.upgrade_to_lifetime_member,
+    account : state.transactionConfirm.transaction.account,
+    asset : state.transactionConfirm.transaction.asset
+  };
+};
+
+export default connect(mapStateToProps)(AccountUpgrade);

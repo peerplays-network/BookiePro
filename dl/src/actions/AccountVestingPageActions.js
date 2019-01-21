@@ -18,7 +18,7 @@ class AccountVestingPagePrivateActions {
       payload: data
     };
   }
-  
+
   /**
    * Private Redux Action Creator (RESET_ACCOUNT_VESTING_DATA)
    * Reset page(balance list)
@@ -31,7 +31,6 @@ class AccountVestingPagePrivateActions {
     };
   }
 }
-
 class AccountVestingPageActions {
   /**
  * Set account vesting list

@@ -4,15 +4,6 @@ import {connect} from 'react-redux';
 import {FormattedNumber, FormattedDate} from 'react-intl';
 import assetUtils from 'common/asset_utils';
 
-@connect((state) => {
-  return {
-    review_period_seconds: state.transactionConfirm.transaction.review_period_seconds,
-    expiration_time: state.transactionConfirm.transaction.expiration_time,
-    proposed_operations: state.transactionConfirm.transaction.proposed_operations,
-    fee_paying_account: state.transactionConfirm.transaction.fee_paying_account,
-    fee: state.transactionConfirm.transaction.fee
-  };
-})
 class CreateProposal extends React.Component {
   render() {
     const expiration_date = new Date((this.props.expiration_time + 86400) * 1000 );
@@ -89,4 +80,14 @@ class CreateProposal extends React.Component {
   }
 }
 
-export default CreateProposal;
+const mapStateToProps = (state) => {
+  return {
+    review_period_seconds: state.transactionConfirm.transaction.review_period_seconds,
+    expiration_time: state.transactionConfirm.transaction.expiration_time,
+    proposed_operations: state.transactionConfirm.transaction.proposed_operations,
+    fee_paying_account: state.transactionConfirm.transaction.fee_paying_account,
+    fee: state.transactionConfirm.transaction.fee
+  };
+};
+
+export default connect(mapStateToProps)(CreateProposal);

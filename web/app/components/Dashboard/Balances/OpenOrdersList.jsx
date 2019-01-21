@@ -96,6 +96,7 @@ const mapStateToProps = (state) => {
     openOrders: state.dashboardPage.openOrders,
     headBlockNumber: state.dashboardPage.headBlockNumber,
     blockInterval: state.dashboardPage.blockInterval
-  }
-}
+  };
+};
+
 export default connect(mapStateToProps)(OpenOrdersList);

@@ -5,12 +5,7 @@ import {connect} from 'react-redux';
 import {Modal, ModalBody} from 'react-modal-bootstrap';
 import AccountRepository from 'repositories/AccountRepository';
 import AssetRepository from 'repositories/AssetRepository';
-import {
-  clearTransaction,
-  setProposeAccount,
-  setTransaction,
-  confirmTransaction
-} from 'actions/RTransactionConfirmActions';
+import {RTransactionConfirmActions} from '../../../actions';
 import Transfer from './Transfer';
 import CreateProposal from './CreateProposal';
 import AccountUpdate from './AccountUpdate';
@@ -21,34 +16,11 @@ import BalanceClaim from './BalanceClaim';
 import VestingBalanceWithdraw from './VestingBalanceWithdraw';
 import RockPaperScissorsTournamentCreate from './RockPaperScissorsTournamentCreate';
 import RockPaperScissorsTournamentJoin from './RockPaperScissorsTournamentJoin';
+import {bindActionCreators} from 'redux';
 
 require('./operations.scss');
 require('./json-inspector.scss');
 
-@connect((state) => {
-  return {
-    proposeAccount : state.account.currentAccount,
-    isOpen: state.transactionConfirm.isOpen,
-    transactionType: state.transactionConfirm.transactionType,
-    transaction: state.transactionConfirm.transaction,
-    transactionObject: state.transactionConfirm.transaction.transactionObject,
-    transactionFunction: state.transactionConfirm.transaction.transactionFunction,
-    transactionFunctionCallback: state.transactionConfirm.transaction.transactionFunctionCallback,
-    functionArguments: state.transactionConfirm.transaction.functionArguments,
-    propose: state.transactionConfirm.propose,
-    proposedOperation: state.transactionConfirm.transaction.proposedOperation,
-    broadcasting: state.transactionConfirm.broadcasting,
-    broadcastSuccess: state.transactionConfirm.broadcastSuccess,
-    broadcastError: state.transactionConfirm.broadcastError,
-    isConfirm: state.transactionConfirm.isConfirm,
-    btnStatus: state.transactionConfirm.btnStatus
-  };
-}, {
-  clearTransaction,
-  setProposeAccount,
-  confirmTransaction,
-  setTransaction
-})
 class TransactionConfirmModal extends React.Component {
   constructor() {
     super();
@@ -296,4 +268,34 @@ class TransactionConfirmModal extends React.Component {
   }
 }
 
-export default TransactionConfirmModal;
+const mapStateToProps = (state) => {
+  return {
+    proposeAccount: state.account.currentAccount,
+    isOpen: state.transactionConfirm.isOpen,
+    transactionType: state.transactionConfirm.transactionType,
+    transaction: state.transactionConfirm.transaction,
+    transactionObject: state.transactionConfirm.transaction.transactionObject,
+    transactionFunction: state.transactionConfirm.transaction.transactionFunction,
+    transactionFunctionCallback: state.transactionConfirm.transaction.transactionFunctionCallback,
+    functionArguments: state.transactionConfirm.transaction.functionArguments,
+    propose: state.transactionConfirm.propose,
+    proposedOperation: state.transactionConfirm.transaction.proposedOperation,
+    broadcasting: state.transactionConfirm.broadcasting,
+    broadcastSuccess: state.transactionConfirm.broadcastSuccess,
+    broadcastError: state.transactionConfirm.broadcastError,
+    isConfirm: state.transactionConfirm.isConfirm,
+    btnStatus: state.transactionConfirm.btnStatus
+  };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    clearTransaction: RTransactionConfirmActions.clearTransaction,
+    setProposeAccount: RTransactionConfirmActions.setProposeAccount,
+    confirmTransaction: RTransactionConfirmActions.confirmTransaction,
+    setTransaction: RTransactionConfirmActions.setTransaction
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionConfirmModal);
