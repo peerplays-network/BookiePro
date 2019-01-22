@@ -136,7 +136,6 @@ module.exports = function (options) {
           '/home/sigve/Dev/graphene/react-foundation-apps'
         ],
         loaders: ['babel-loader']
-        // loaders: options.prod ? ['babel-loader'] : ['babel-loader?cacheDirectory=../../babel-cache']
       },
       {
         test: /\.js$/,
