@@ -10,7 +10,7 @@ import Translate from 'react-translate-component';
 import {DateField, DatePicker} from 'react-date-picker';
 import 'react-date-picker/index.css';
 import {WithContext as ReactTags} from 'react-tag-input';
-import Utils from '../../../../../dl/src/common/utils';
+import Utils from '../../../common/utils';
 
 const renderFieldNumberOfPlayers = (
   {className, placeholder, input, type, meta: {touched, error}}

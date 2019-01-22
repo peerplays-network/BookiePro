@@ -76,11 +76,6 @@ module.exports = function (options) {
       }));
     }
 
-    // plugins.push(new webpack.optimize.CommonsChunkPlugin({
-    //     names: ["app", "vendors"],
-    //     filename: "vendors.js"
-    // }));
-
     // PROD OUTPUT PATH
     outputPath = path.join(root_dir, 'dist');
 
@@ -141,11 +136,12 @@ module.exports = function (options) {
           path.join(root_dir, 'node_modules/react-foundation-apps'),
           '/home/sigve/Dev/graphene/react-foundation-apps'
         ],
-        loaders: options.prod ? ['babel-loader'] : ['babel-loader?cacheDirectory=../babel-cache']
+        loaders: ['babel-loader']
+        // loaders: options.prod ? ['babel-loader'] : ['babel-loader?cacheDirectory=../../babel-cache']
       },
       {
         test: /\.js$/,
-        exclude: [/node_modules/, path.resolve(root_dir, '../dl/node_modules')],
+        exclude: [/node_modules/, path.resolve(root_dir, '../node_modules')],
         loader: 'babel-loader',
         query: {
           compact: false,
@@ -156,7 +152,7 @@ module.exports = function (options) {
         test: /\.json/,
         loader: 'json',
         exclude: [
-          path.resolve(root_dir, '../dl/src/common'),
+          path.resolve(root_dir, '../common'),
           path.resolve(root_dir, 'app/assets/locales')
         ]
       },
@@ -221,7 +217,7 @@ module.exports = function (options) {
       }
     },
     resolve: {
-      root: [path.resolve(root_dir, './app'), path.resolve(root_dir, '../dl/src')],
+      root: [path.resolve(root_dir, './app')],
       extensions: ['', '.js', '.jsx', '.coffee', '.json'],
       modulesDirectories: ['node_modules'],
       fallback: [path.resolve(root_dir, './node_modules')]
@@ -240,14 +236,6 @@ module.exports = function (options) {
       'createjs': 'createjs'
     }
   };
-
-  // if(options.prod) config.entry.vendors = [
-  //     "classnames", "react-router", "highcharts/highstock",
-  //     "counterpart", "react-translate-component",
-  //     "perfect-scrollbar", "jdenticon", "react-notification-system", "react-tooltip",
-  //     "whatwg-fetch", "alt", "react-json-inspector",
-  //     "immutable", "peerplaysjs-lib"
-  // ];
 
   return config;
 };

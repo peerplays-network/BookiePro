@@ -5,10 +5,10 @@ var webpack = require('webpack');
 var ProgressPlugin = require('webpack/lib/ProgressPlugin');
 var WebpackDevServer = require('webpack-dev-server');
 var config = isDevNet ?
-require('./conf/webpack-dev-net') :
+require('./config/webpack-dev-net') :
 require(env ?
-  './conf/webpack-dev-ugly' :
-  './conf/webpack-dev'
+  './config/webpack-dev-ugly' :
+  './config/webpack-dev'
   );
   var chalk = require('chalk');
   var opn = require('opn');
@@ -19,9 +19,9 @@ require(env ?
   var compiler = webpack(config);
   
   var whichConfig = (isDevNet)
-      ? './conf/webpack-dev-net'
-      : (env ? './conf/webpack-dev-ugly' : './conf/webpack-dev');
-  console.log('Using ' + whichConfig + ' webpack config.');
+      ? './config/webpack-dev-net'
+      : (env ? './config/webpack-dev-ugly' : './config/webpack-dev');
+  console.log('Using ' + whichConfig + '.');
 
 var isInteractive = process.stdout.isTTY;
 var DEFAULT_PORT = process.env.PORT || 8082;
