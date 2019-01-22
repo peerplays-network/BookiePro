@@ -1,5 +1,5 @@
 {
-  "name": "peerplays-core-ui",
+  "name": "peerplays-core-gui",
   "version": "0.2.0",
   "description": "Advanced wallet interface for graphene based blockchains (Bishares, Muse..)",
   "homepage": "https://github.com/PBSA/peerplays-ui#readme",

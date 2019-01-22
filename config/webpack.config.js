@@ -19,7 +19,7 @@ module.exports = function (options) {
     scssLoaders = 'style!css!postcss-loader!sass?outputStyle=expanded';
 
   // DIRECTORY CLEANER
-  var cleanDirectories = ['dist'];
+  var cleanDirectories = ['build'];
 
   // OUTPUT PATH
   var outputPath = path.join(root_dir, 'assets');
@@ -76,14 +76,14 @@ module.exports = function (options) {
     }
 
     // PROD OUTPUT PATH
-    outputPath = path.join(root_dir, 'dist');
+    outputPath = path.join(root_dir, 'build');
 
     plugins.push(new CopyWebpackPlugin([{
-      from: path.resolve(root_dir, 'app/assets/openpgp'),
+      from: path.resolve(root_dir, 'src/assets/openpgp'),
       to: path.resolve(outputPath, 'openpgp')
     },
     {
-      from: path.resolve(root_dir, 'app/assets/createjs-2015.11.26.min.js'),
+      from: path.resolve(root_dir, 'src/assets/createjs-2015.11.26.min.js'),
       to: path.resolve(outputPath, 'createjs-2015.11.26.min.js')
     },
     ]));
@@ -112,10 +112,10 @@ module.exports = function (options) {
   var config = {
     entry: {
       app: options.prod ?
-        path.resolve(root_dir, 'app/Main.js') : [
+        path.resolve(root_dir, 'src/Main.js') : [
           'webpack-dev-server/client?http://localhost:8082',
           'webpack/hot/only-dev-server',
-          path.resolve(root_dir, 'app/Main-dev.js')
+          path.resolve(root_dir, 'src/Main-dev.js')
         ]
     },
     output: {
@@ -127,11 +127,11 @@ module.exports = function (options) {
     devtool: options.prod ? 'cheap-module-source-map' : 'eval',
     debug: !options.prod,
     module: {
-      noParse: /node_modules\/openpgp\/dist\/openpgp.js/,
+      noParse: /node_modules\/openpgp\/build\/openpgp.js/,
       loaders: [{
         test: /\.jsx$/,
         include: [
-          path.join(root_dir, 'app'),
+          path.join(root_dir, 'src'),
           path.join(root_dir, 'node_modules/react-foundation-apps'),
           '/home/sigve/Dev/graphene/react-foundation-apps'
         ],
@@ -151,7 +151,7 @@ module.exports = function (options) {
         loader: 'json',
         exclude: [
           path.resolve(root_dir, '../common'),
-          path.resolve(root_dir, 'app/assets/locales')
+          path.resolve(root_dir, 'src/assets/locales')
         ]
       },
       {
@@ -174,8 +174,8 @@ module.exports = function (options) {
         test: /(\.png$)/,
         loader: 'url-loader?limit=100000',
         exclude: [
-          path.resolve(root_dir, 'app/assets/asset-symbols'),
-          path.resolve(root_dir, 'app/assets/images')
+          path.resolve(root_dir, 'src/assets/asset-symbols'),
+          path.resolve(root_dir, 'src/assets/images')
         ]
       },
       {
@@ -193,7 +193,7 @@ module.exports = function (options) {
           })}`
         ],
         exclude: [
-          path.join(root_dir, 'app/assets/images')
+          path.join(root_dir, 'src/assets/images')
         ]
       },
       {
@@ -203,7 +203,7 @@ module.exports = function (options) {
       {
         test: /.*\.svg$/,
         loaders: ['svg-inline-loader', 'svgo-loader'],
-        exclude: [path.resolve(root_dir, 'app/assets/images/games/rps')]
+        exclude: [path.resolve(root_dir, 'src/assets/images/games/rps')]
       },
       {
         test: /\.md/,
@@ -215,7 +215,7 @@ module.exports = function (options) {
       }
     },
     resolve: {
-      root: [path.resolve(root_dir, './app')],
+      root: [path.resolve(root_dir, './src')],
       extensions: ['', '.js', '.jsx', '.coffee', '.json'],
       modulesDirectories: ['node_modules'],
       fallback: [path.resolve(root_dir, './node_modules')]

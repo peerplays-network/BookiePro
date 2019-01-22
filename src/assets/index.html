@@ -295,7 +295,23 @@
             padding-bottom: 90px;
             margin: 30px auto;
         }
+
     </style>
+    <script>
+        var ref = encodeURIComponent(document.referrer);
+        if (window.process && window.process.versions && window.process.versions['electron']) {
+            window.electron = window.process.versions['electron'];
+            window.remote = require('electron').remote;
+            window._$guid$_ = window.remote.getGlobal('guid');
+            window.app_version = window.remote.getGlobal('version');
+            ref = 'lw-' + window.process.platform + '-' + window.app_version + '-' + window.remote.getGlobal('guid');
+            window.onload = function (e) {
+                var content = document.getElementById("content");
+                if (content) content.className = "electron " + window.process.platform;
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="app.css">
 </head>
 <body class="loginBg">
 <div id="content">
@@ -321,7 +337,20 @@
         </div>
     </div>
 </div>
-<script src="/app/assets/createjs-2015.11.26.min.js"></script>
-<script src="/app.js" charset="utf-8"></script>
+
+<script src="createjs-2015.11.26.min.js"></script>
+<script src="app.js" charset="utf-8"></script>
+
+<script>
+    var BTSW = window.BTSW || {};
+    (function () {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.async = true;
+        script.src = 'https://bitshares.openledger.info/widgets/2/w.js?ref=' + ref;
+        var entry = document.getElementsByTagName('script')[0];
+        entry.parentNode.insertBefore(script, entry);
+    }());
+</script>
 </body>
 </html>
