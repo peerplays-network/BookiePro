@@ -58,8 +58,6 @@ function fetchFaucetAddress(
   referral
 ) {
   return new Promise((resolve, reject) => {
-    // let index = Math.floor(Math.random() * Object.keys(faucets).length);
-    // let faucetAddress = faucets[index];
     let faucetAddress = faucet;
 
     if (window && window.location && window.location.protocol === 'https:') {
