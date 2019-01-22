@@ -37,7 +37,7 @@ class RegisterPrivateActions {
 /**
  * Faucet file
  */
-const faucets = require('json!common/' + CONFIG.FAUCET_FILE + '.json');
+const faucet = CONFIG.FAUCET_URL;
 
 /**
  * Get Faucet Address
@@ -58,8 +58,9 @@ function fetchFaucetAddress(
   referral
 ) {
   return new Promise((resolve, reject) => {
-    let index = Math.floor(Math.random() * Object.keys(faucets).length);
-    let faucetAddress = faucets[index];
+    // let index = Math.floor(Math.random() * Object.keys(faucets).length);
+    // let faucetAddress = faucets[index];
+    let faucetAddress = faucet;
 
     if (window && window.location && window.location.protocol === 'https:') {
       faucetAddress = faucetAddress.replace(/http:\/\//, 'https://');

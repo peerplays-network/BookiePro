@@ -36,7 +36,7 @@ module.exports = function (options) {
     CORE_ASSET: JSON.stringify(Config.CORE_ASSET),
     BLOCKCHAIN_URL: JSON.stringify(Config.BLOCKCHAIN_URLS),
     FAUCET_URL: JSON.stringify(Config.FAUCET_URLS),
-    FAUCET_FILE: JSON.stringify(options.faucetFile || Config.FAUCET_FILE),
+    // FAUCET_FILE: JSON.stringify(options.faucetFile || Config.FAUCET_FILE),
     BITSHARES_WS: JSON.stringify(options.BITSHARES_WS || Config.BITSHARES_WS),
   };
   // COMMON PLUGINS

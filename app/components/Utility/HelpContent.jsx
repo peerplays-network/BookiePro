@@ -4,7 +4,7 @@ import counterpart from 'counterpart';
 import utils from 'common/utils';
 import {routerShape} from 'react-router/lib/PropTypes';
 
-let req = require.context('../../../../help', true, /\.md/);
+let req = require.context('../../../help', true, /\.md/);
 let HelpData = {};
 
 function endsWith(str, suffix) {

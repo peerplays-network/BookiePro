@@ -1,7 +1,7 @@
 import AccountRepository from '../repositories/AccountRepository';
 import CONFIG from '../config/main';
 
-const faucets = require('json!common/' + CONFIG.FAUCET_FILE + '.json');
+const faucet = CONFIG.FAUCET_URL;
 
 class AccountService {
   /**
@@ -46,8 +46,9 @@ class AccountService {
     referral
   ) {
     return new Promise((resolve, reject) => {
-      let index = Math.floor(Math.random() * Object.keys(faucets).length);
-      let faucetAddress = faucets[index];
+      // let index = Math.floor(Math.random() * Object.keys(faucets).length);
+      // let faucetAddress = faucets[index];
+      let faucetAddress = faucet;
 
       if (window && window.location && window.location.protocol === 'https:') {
         faucetAddress = faucetAddress.replace(/http:\/\//, 'https://');

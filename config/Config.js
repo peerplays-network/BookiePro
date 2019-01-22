@@ -19,7 +19,7 @@ const Config = {
   FAUCET_URLS: shuffledFaucetUrls,
 
   CORE_ASSET: 'PPY',
-  FAUCET_FILE: 'faucetUrls',
+  FAUCET_URL: 'faucetUrls',
   BITSHARES_WS: 'wss://bitshares.openledger.info/ws',
   SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME: 'ppcoreupdates',
 };
