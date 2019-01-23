@@ -6,7 +6,7 @@ node_modules
 *.map
 css
 *.log
-dist
+build
 
 web/app/components/Exchange/exchange.css
 cli/bundle.js

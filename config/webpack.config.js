@@ -148,7 +148,7 @@ module.exports = function (options) {
       },
       {
         test: /\.json/,
-        loader: 'raw-loader',
+        loader: 'json',
         exclude: [
           path.resolve(root_dir, '../common'),
           path.resolve(root_dir, 'src/assets/locales')
