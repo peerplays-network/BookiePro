@@ -17,6 +17,23 @@
     "url": "git://github.com/PBSA/peerplays-core-gui"
   },
   "scripts": {
+    "pre-release-s1": "npm run electron",
+    "pre-release-s2": "cd electron/node_modules/electron-prebuilt; rm -rf dist;",
+    "pre-release-all": "npm run pre-release-s1 && npm run pre-release-s2",
+    "post-release": "cp -a electron/releases/. releases; echo 'Release builds can be found in ./releases directory';",
+    "mac-r": "cd electron/node_modules/electron-prebuilt; npm_config_platform=darwin npm run postinstall; cd ../../; npm run release",
+    "win-r": "cd electron/node_modules/electron-prebuilt; npm_config_platform=win32 npm run postinstall; cd ../../; npm run release-windows",
+    "lin-r": "cd electron/node_modules/electron-prebuilt; npm_config_platform=linux npm run postinstall; cd ../../; npm run release-linux",
+    "pre-mwl-1": "npm run pre-release-s2; npm run mac-r",
+    "pre-mwl-2": "npm run pre-release-s2; npm run win-r",
+    "pre-mwl-3": "npm run pre-release-s2; npm run lin-r",
+    "mwl": "npm run pre-mwl-1 && npm run pre-mwl-2 && npm run pre-mwl-3",
+
+    "release-mac": "npm run pre-release-all && npm run mac-r && cd ../ && npm run post-release;",
+    "release-win": "npm run pre-release-all && npm run win-r && cd ../ && npm run post-release;",
+    "release-lin": "npm run pre-release-all && npm run lin-r && cd ../ && npm run post-release;",
+    "release-mwl": "rm -rf releases; rm -rf electron/releases; npm run pre-release-s1 && npm run mwl && npm run post-release",
+    
     "test-old": "./node_modules/.bin/mocha --compilers coffee:coffee-script,js:babel/register --require coffee-script/register",
     "test": "jest",
     "profile-dev": "webpack --config config/webpack-dev.js --profile --json > stats-dev.json",

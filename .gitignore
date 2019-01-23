@@ -7,6 +7,7 @@ node_modules
 css
 *.log
 build
+releases
 
 web/app/components/Exchange/exchange.css
 cli/bundle.js
