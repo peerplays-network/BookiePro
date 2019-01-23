@@ -67,7 +67,7 @@ module.exports = function (options) {
         minimize: true,
         sourceMap: true,
         compress: {
-          warnings: true
+          warnings: false
         },
         output: {
           screw_ie8: true
@@ -100,7 +100,7 @@ module.exports = function (options) {
         minimize: true,
         sourceMap: true,
         compress: {
-          warnings: true
+          warnings: false
         },
         output: {
           screw_ie8: true
@@ -148,7 +148,7 @@ module.exports = function (options) {
       },
       {
         test: /\.json/,
-        loader: 'json',
+        loader: 'raw-loader',
         exclude: [
           path.resolve(root_dir, '../common'),
           path.resolve(root_dir, 'src/assets/locales')

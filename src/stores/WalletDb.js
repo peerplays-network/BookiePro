@@ -19,7 +19,8 @@ var TRACE = false;
 let dictJson;
 
 if (__ELECTRON__) { // eslint-disable-line
-  dictJson = require('json!common/dictionary_en.json'); // eslint-disable-line
+  // dictJson = require('json!common/dictionary_en.json'); // eslint-disable-line
+  dictJson = require('../common/dictionary_en.json');
 }
 
 /** Represents a single wallet and related indexedDb database operations. */
