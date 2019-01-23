@@ -1,6 +1,6 @@
 const endpoints = {
   environments: {
-    beatrice: {
+    alice: {
       apiEndpoints: [
         'wss://alex-pu.info/ws', // alex-pu ✅
         'wss://api1.peerplays.download/ws', //api1 ✅
@@ -26,7 +26,7 @@ const endpoints = {
     }
   }
 };
-let current = 'beatrice'; // Set the current default environment.
+let current = 'alice'; // Set the current default environment.
 
 // Check to make sure a valid target is specified.
 if (process.env && process.env.TARGET && endpoints.environments[process.env.TARGET]) {
