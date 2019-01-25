@@ -14,7 +14,7 @@ cli/bundle.js
 web/dist-prod
 plasma
 web/stats*
-
+babel-cache/*
 \!documents
 !babel-cache/.gitkeep
 web/build/
