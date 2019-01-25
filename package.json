@@ -28,12 +28,10 @@
     "pre-mwl-2": "npm run pre-release-s2; npm run win-r",
     "pre-mwl-3": "npm run pre-release-s2; npm run lin-r",
     "mwl": "npm run pre-mwl-1 && npm run pre-mwl-2 && npm run pre-mwl-3",
-
     "release-mac": "npm run pre-release-all && npm run mac-r && npm run post-release;",
     "release-win": "npm run pre-release-all && npm run win-r && npm run post-release;",
     "release-lin": "npm run pre-release-all && npm run lin-r && npm run post-release;",
     "release-mwl": "rm -rf releases; rm -rf electron/releases; npm run pre-release-s1 && npm run mwl && npm run post-release",
-    
     "test-old": "./node_modules/.bin/mocha --compilers coffee:coffee-script,js:babel/register --require coffee-script/register",
     "test": "jest",
     "profile-dev": "webpack --config config/webpack-dev.js --profile --json > stats-dev.json",
