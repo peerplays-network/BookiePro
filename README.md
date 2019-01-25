@@ -87,16 +87,15 @@ cd ../electron; npm install
 ```
 
 ## Building the Executable
+>The exectuable will appear within the "releases" folder within the "electron" folder for windows users. Linux based systems will have the releases in the root of the project after running the below script(s).
+### Building the executable for Mac, Windows, and Linux
+```
+npm run release-mwl
+```
 ### Building the executable for MacOS
 ```
-npm run electron
-cd ../electron/node_modules/electron-prebuilt; rm -rf dist
-npm_config_platform=darwin npm run postinstall
-cd ../../
-npm run release
+npm run release-mac
 ```
-
-The exectuable will appear within the "releases" folder within the "electron" folder.
 
 ### Building the Executable for Linux
 
@@ -106,22 +105,10 @@ brew install dpkg fakeroot
 ```
 
 ```
-npm run electron
-cd ../electron/node_modules/electron-prebuilt; rm -rf dist
-npm_config_platform=linux npm run postinstall
-cd ../../
-npm run release-linux
+npm run release-lin
 ```
-
-The exectuable will appear within the "releases" folder within the "electron" folder.
 
 ### Building the Executable for Windows
 ```
-npm run electron
-cd ../electron/node_modules/electron-prebuilt; rm -rf dist
-npm_config_platform=win32 npm run postinstall
-cd ../../
-npm run release-windows
+npm run release-win
 ```
-
-The exectuable will appear within the "releases" folder within the "electron" folder.
