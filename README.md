@@ -82,15 +82,14 @@ cd peerplays-core-gui
 
 Before building the GUI you will need to install the various dependencies that are unique for each subdirectory "module":
 ```
-cd dl; npm install
-cd ../web; npm install
+npm install
 cd ../electron; npm install
 ```
 
 ## Building the Executable
 ### Building the executable for MacOS
 ```
-cd web; npm run electron
+npm run electron
 cd ../electron/node_modules/electron-prebuilt; rm -rf dist
 npm_config_platform=darwin npm run postinstall
 cd ../../
@@ -107,7 +106,7 @@ brew install dpkg fakeroot
 ```
 
 ```
-cd web; npm run electron
+npm run electron
 cd ../electron/node_modules/electron-prebuilt; rm -rf dist
 npm_config_platform=linux npm run postinstall
 cd ../../
@@ -118,7 +117,7 @@ The exectuable will appear within the "releases" folder within the "electron" fo
 
 ### Building the Executable for Windows
 ```
-cd web; npm run electron
+npm run electron
 cd ../electron/node_modules/electron-prebuilt; rm -rf dist
 npm_config_platform=win32 npm run postinstall
 cd ../../
