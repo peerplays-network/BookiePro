@@ -124,7 +124,7 @@ module.exports = function (options) {
       pathinfo: !options.prod,
       sourceMapFilename: '[name].js.map'
     },
-    devtool: options.prod ? 'cheap-module-source-map' : 'eval',
+    devtool: options.prod ? 'cheap-module-source-map' : 'source-map',
     debug: !options.prod,
     module: {
       noParse: /node_modules\/openpgp\/build\/openpgp.js/,
