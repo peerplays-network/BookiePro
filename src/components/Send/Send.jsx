@@ -375,7 +375,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
-    setWalletPosition: RWalletUnlockActions.setWalletStatus,
+    setWalletPosition: RWalletUnlockActions.setWalletPosition,
     setCurrentLocation: AppActions.setCurrentLocation,
     setTransaction: RTransactionConfirmActions.setTransaction,
     getTransferTransaction: SendPageActions.getTransferTransaction
