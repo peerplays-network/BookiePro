@@ -25,10 +25,10 @@ class ChangePasswordActions {
           return false;
         }
 
-        const oldPasswordAes = Aes.fromSeed( oldPassword );
+        const oldPasswordAes = Aes.fromSeed( oldPassword);
         const oldEncryptionBuffer = oldPasswordAes
           .decryptHexToBuffer(getState().walletData.wallet.encryption_key);
-        const oldAesPrivate = Aes.fromSeed( oldEncryptionBuffer );
+        const oldAesPrivate = Aes.fromSeed( oldEncryptionBuffer);
         const oldOwnerPrivateKeyEncrypted = getState().privateKey.keys.get('owner').encrypted_key;
         const oldOwnerPrivateKeyBuffer = oldAesPrivate
           .decryptHexToBuffer(oldOwnerPrivateKeyEncrypted);
@@ -37,15 +37,15 @@ class ChangePasswordActions {
         const oldActivePrivateKeyBuffer = oldAesPrivate
           .decryptHexToBuffer(encryptedKey);//.toBuffer());
         const oldActivePrivateKey = PrivateKey.fromBuffer(oldActivePrivateKeyBuffer);
-        const passwordAes = Aes.fromSeed( newPassword );
+        const passwordAes = Aes.fromSeed( newPassword);
         const encryptionBuffer = key.get_random_key().toBuffer();
-        const encryptionKey = passwordAes.encryptToHex( encryptionBuffer );
-        const aesPrivate = Aes.fromSeed( encryptionBuffer );
+        const encryptionKey = passwordAes.encryptToHex( encryptionBuffer);
+        const aesPrivate = Aes.fromSeed( encryptionBuffer);
         let keys = KeyGeneratorService.generateKeys(getState().account.currentAccount, newPassword);
         const activePrivateKey = keys.active;
         const activePublicKey = activePrivateKey.toPublicKey().toPublicKeyString();
         const activePrivateKeyEncrypted = aesPrivate.encryptToHex(activePrivateKey.toBuffer());
-        const passwordPrivate = PrivateKey.fromSeed( newPassword );
+        const passwordPrivate = PrivateKey.fromSeed( newPassword);
         const passwordPublic = passwordPrivate.toPublicKey().toPublicKeyString();
         const wallet = {
           public_name : getState().walletData.wallet.public_name,
