@@ -149,9 +149,6 @@ class Send extends React.Component {
   }
 
   onSend(walletLocked) {
-    console.log('onSend()');
-    console.log(walletLocked);
-
     if (walletLocked && !this.props.walletIsOpen) {
       this.props.setWalletPosition(true);
     }
