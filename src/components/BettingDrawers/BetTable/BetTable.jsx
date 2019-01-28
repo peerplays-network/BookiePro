@@ -1,5 +1,5 @@
 /**
- * BetTable is a compoent used exclusively in QuickBetDrawer and MarketDrawer. As
+ * BetTable is a component used exclusively in QuickBetDrawer and MarketDrawer. As
  * its name implies, it is table showing bets data. It is a pure presentational
  * component that does not have any internal state at all. All behaviors are
  * driven by props passed from the parent component.
@@ -15,7 +15,7 @@ import React from 'react';
 import {Button, Icon, Table} from 'antd';
 import Immutable from 'immutable';
 import {I18n} from 'react-redux-i18n';
-import {CurrencyUtils} from '../../../utility';
+// import {CurrencyUtils} from '../../../utility';
 import BetTableInput from './BetTableInput';
 
 /**
@@ -35,21 +35,21 @@ const renderTeam = (text, record) => (
   </div>
 );
 
-const renderTitle = (text, currencySymbol) => {
-  let split = false;
+// const renderTitle = (text, currencySymbol) => {
+//   let split = false;
 
-  if (text.toLowerCase().indexOf('liability') !== -1) {
-    split = true;
-  }
+//   if (text.toLowerCase().indexOf('liability') !== -1) {
+//     split = true;
+//   }
 
-  return (
-    <div>
-      <p>
-        {text} {split ? <br /> : null} ({currencySymbol})
-      </p>
-    </div>
-  );
-};
+//   return (
+//     <div>
+//       <p>
+//         {text} {split ? <br /> : null} ({currencySymbol})
+//       </p>
+//     </div>
+//   );
+// };
 
 /**
  * Returns a function that renders an Input field.
@@ -181,10 +181,9 @@ const getBackColumns = (
   activeTab,
   disabled
 ) => {
-  const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
 
   const teamColumn = {
-    title: 'BACK',
+    title: 'Back (Bet For)',
     dataIndex: 'back',
     key: 'back',
     width: '25%',
@@ -193,7 +192,7 @@ const getBackColumns = (
   };
 
   const oddsColumn = {
-    title: `ODDS (${oddsFormat ? oddsFormat.substring(0, 3).toUpperCase() : ''})`,
+    title: 'Odds',
     dataIndex: 'odds',
     key: 'odds',
     width: '25%',
@@ -215,7 +214,7 @@ const getBackColumns = (
   }
 
   const stakeColumn = {
-    title: renderTitle('Stake', currencySymbol),
+    title: 'Stake',
     dataIndex: 'stake',
     key: 'stake',
     width: '25%',
@@ -237,7 +236,7 @@ const getBackColumns = (
   }
 
   const profitColumn = {
-    title: renderTitle('Profit', currencySymbol),
+    title: 'Profit',
     dataIndex: 'profit',
     key: 'profit',
     className: 'numeric readonly' // this field is always readonly
@@ -290,10 +289,9 @@ const getLayColumns = (
   activeTab,
   disabled
 ) => {
-  const currencySymbol = CurrencyUtils.getCurrencySymbol(currencyFormat, 'white');
 
   const teamColumn = {
-    title: 'LAY',
+    title: 'Lay (Bet Against)',
     dataIndex: 'lay',
     key: 'lay',
     width: '25%',
@@ -302,7 +300,7 @@ const getLayColumns = (
   };
 
   const oddsColumn = {
-    title: `ODDS (${oddsFormat ? oddsFormat.substring(0, 3).toUpperCase() : ''})`,
+    title: 'Odds',
     dataIndex: 'odds',
     key: 'odds',
     width: '25%',
@@ -323,7 +321,7 @@ const getLayColumns = (
   }
 
   const stakeColumn = {
-    title: renderTitle('Backers Stake', currencySymbol),
+    title: 'Backer\'s Stake',
     dataIndex: 'stake',
     key: 'stake',
     width: '25%',
@@ -345,7 +343,7 @@ const getLayColumns = (
   }
 
   const liabilityColumn = {
-    title: renderTitle('Liability', currencySymbol),
+    title: 'Liability',
     dataIndex: 'liability',
     key: 'liability',
     className: 'numeric readonly' // this field is always readonly

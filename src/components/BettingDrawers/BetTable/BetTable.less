@@ -64,6 +64,9 @@ div.bet-table-wrapper {
         tr{
           height:37px;
         }
+        tr > th.team {
+          font-weight: 700;
+        }
         tr > th.numeric {
           font-size: 12px;
           font-weight:700;
@@ -197,8 +200,8 @@ div.bet-table-wrapper {
       }
 
       .ant-table-thead > tr > th {
-        background-color: @editable_table_header_bg;
-        color: white;
+        background-color: @editable_table_back_header_bg;
+        color: black;
       }
 
       .ant-table-tbody > tr > td {
@@ -228,7 +231,7 @@ div.bet-table-wrapper {
 
       .ant-table-thead > tr > th {
         background-color: @editable_table_lay_header_bg;
-        color: white;
+        color: black;
         word-break: break-word;
       }
       .ant-table-tbody > tr > td {
