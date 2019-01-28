@@ -31,7 +31,7 @@ export default class BackupBrainkey extends Component {
       </div> :
       <Translate className='facolor-error' component='p' content='wallet.brainkey_not_backed_up' />;
 
-    if(this.state.verified) {
+    if (this.state.verified) {
       var sha1 = hash.sha1(this.state.brainkey).toString('hex').substring(0,4);
       content = <div>
         <h3><Translate content='wallet.brainkey' /></h3>
@@ -48,7 +48,7 @@ export default class BackupBrainkey extends Component {
       </div>;
     }
 
-    if(!content && this.state.brainkey) {
+    if (!content && this.state.brainkey) {
       var sha1 = hash.sha1(this.state.brainkey).toString('hex').substring(0,4); // eslint-disable-line
       content = <span>
         <h3><Translate content='wallet.brainkey' /></h3>
@@ -74,7 +74,7 @@ export default class BackupBrainkey extends Component {
       </span>;
     }
 
-    if(!content) {
+    if (!content) {
       content = <span>
         <label><Translate content='wallet.enter_password' /></label>
         <form onSubmit={ this.onSubmit.bind(this) } className='name-form' noValidate>
@@ -119,10 +119,10 @@ export default class BackupBrainkey extends Component {
     e.preventDefault();
     var was_locked = WalletDb.isLocked();
 
-    if(WalletDb.validatePassword(this.state.password, true)) {
+    if (WalletDb.validatePassword(this.state.password, true)) {
       var brainkey = WalletDb.getBrainKey();
 
-      if(was_locked) {
+      if (was_locked) {
         WalletDb.onLock();
       }
 

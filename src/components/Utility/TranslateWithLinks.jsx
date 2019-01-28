@@ -44,7 +44,7 @@ export default class TranslateWithLinks extends React.Component {
   }
 
   linkToAccount(name_or_id) {
-    if(!name_or_id) {
+    if (!name_or_id) {
       return <span>-</span>;
     }
 
@@ -54,7 +54,7 @@ export default class TranslateWithLinks extends React.Component {
   }
 
   linkToAsset(symbol_or_id) {
-    if(!symbol_or_id) {
+    if (!symbol_or_id) {
       return <span>-</span>;
     }
 

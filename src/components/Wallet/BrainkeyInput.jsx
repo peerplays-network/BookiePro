@@ -119,7 +119,7 @@ export default class BrainkeyInput extends Component {
       var state = {};
       state[id] = value;
 
-      if(id === 'brnkey') {
+      if (id === 'brnkey') {
         var brnkey = key.normalize_brainKey(value);
         this.props.onChange( brnkey.length < 50 ? null : brnkey );
         state.check_digits = brnkey.length < 50 ? null :

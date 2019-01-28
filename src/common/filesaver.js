@@ -62,8 +62,8 @@ var saveAs = saveAs || (function(view) {
             file.remove();
           }
         }
-      }
-      ;
+      };
+
       view.addEventListener("downloadfinished", revoker);
       */
       setTimeout(revoker, arbitrary_revoke_timeout);
@@ -254,8 +254,7 @@ var saveAs = saveAs || (function(view) {
     , FS_proto = FileSaver.prototype
     , saveAs = function(blob, name, no_auto_bom) {
       return new FileSaver(blob, name, no_auto_bom);
-    }
-  ;
+    };
 
   // IE 10+ (native saveAs)
   if (typeof navigator !== 'undefined' && navigator.msSaveOrOpenBlob) {

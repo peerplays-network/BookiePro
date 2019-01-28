@@ -26,7 +26,7 @@ class CachedPropertyStore extends BaseStore {
   }
 
   onSet({name, value}) {
-    if(this.state.props.get(name) === value) {
+    if (this.state.props.get(name) === value) {
       return;
     }
 
@@ -38,7 +38,7 @@ class CachedPropertyStore extends BaseStore {
   onGet({name}) {
     var value = this.state.props.get(name);
 
-    if(value !== undefined) {
+    if (value !== undefined) {
       return value;
     }
 

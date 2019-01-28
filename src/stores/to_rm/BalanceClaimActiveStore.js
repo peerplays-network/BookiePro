@@ -147,7 +147,7 @@ class BalanceClaimActiveStore extends BaseStore {
       no_balance_address.add(addy);
     }
 
-    // for(let addy of this.addresses) ChainStore.getBalanceObjects(addy) // Test with ChainStore
+    // for (let addy of this.addresses) ChainStore.getBalanceObjects(addy) // Test with ChainStore
     return db.exec('get_balance_objects', [this.addresses]).then( (result) => {
       var balance_ids = [];
 

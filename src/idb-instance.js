@@ -280,7 +280,7 @@ var iDB = (function () {
             var wallet_array = results[i];
 
             // their should be only 1 wallet per database
-            for(let wallet of wallet_array) {
+            for (let wallet of wallet_array) {
               wallet.backup_date = new Date().toISOString();
             }
           }

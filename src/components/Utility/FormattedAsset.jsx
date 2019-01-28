@@ -73,7 +73,7 @@ class FormattedAsset extends React.Component {
         asPercentage
       } = this.props;
 
-      if( asset && asset.toJS ) {
+      if (asset && asset.toJS) {
         asset = asset.toJS();
       }
 

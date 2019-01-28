@@ -42,11 +42,11 @@ const renderField = ({
 );
 
 const normalizeAccount = (value, previousValue) => {
-  if(!value.length) {
+  if (!value.length) {
     return value;
   }
 
-  if(/[^A-Za-z0-9-]/.test(value)) {
+  if (/[^A-Za-z0-9-]/.test(value)) {
     return previousValue && previousValue.toLowerCase();
   }
 
@@ -165,7 +165,7 @@ LoginForm = reduxForm({
     return AccountRepository.lookupAccounts(values.accountName, 100).then((result) => {
       let account = result.find((a) => a[0] === values.accountName);
 
-      if(!account) {
+      if (!account) {
         dispatch(LoginActions.setLoginAccount(null));
         throw {accountName: <Translate content='errors.account_not_found' />};
       } else {

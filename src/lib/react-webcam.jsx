@@ -51,7 +51,7 @@ module.exports = React.createClass({
         var videoSource = null;
         sourceInfos.forEach(function(sourceInfo) {
           if (sourceInfo.kind === 'audio') {
-            if( ! self.props.noAudio) {
+            if (! self.props.noAudio) {
               console.log(sourceInfo.id, sourceInfo.label || 'microphone');
               audioSource = sourceInfo.id;
             }

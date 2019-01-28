@@ -10,7 +10,7 @@ class TranslateHtml extends React.Component {
     let splitText = utils.get_translation_parts(text);
 
     keys.forEach((key) => {
-      if(key.arg === 'asset') {
+      if (key.arg === 'asset') {
         key.value = assetUtils.getSymbol(key.value);
       }
 

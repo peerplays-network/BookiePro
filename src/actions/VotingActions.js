@@ -130,7 +130,7 @@ class VotingActions {
    * @returns {function(*, *)}
    */
   static publishProxy(proxyId) {
-    return ( getState) => {
+    return (getState) => {
       return Repository.getAccount(getState().app.account).then((result) => {
         let account = result.toJS();
         account.account = account.id;
@@ -286,7 +286,7 @@ class VotingActions {
    * @returns {function(*, *)}
    */
   static publishWitnesses(witnesses) {
-    return ( getState) => {
+    return (getState) => {
       return Repository.getAccount(getState().app.account).then((result) => {
         let account = result.toJS();
         account.account = account.id;
@@ -435,7 +435,7 @@ class VotingActions {
 
     return Promise.all(workerPromises).then((result) => {
       result = result.filter((w) => {
-        if(!w) {
+        if (!w) {
           return false;
         }
 

@@ -21,7 +21,7 @@ class WalletUnlockStore {
   onUnlock({resolve, reject}) {
     this._setLockTimeout();
 
-    if( ! WalletDb.isLocked()) {
+    if ( ! WalletDb.isLocked()) {
       resolve();
       return;
     }
@@ -30,7 +30,7 @@ class WalletUnlockStore {
   }
 
   onLock({resolve}) {
-    if(WalletDb.isLocked()) {
+    if (WalletDb.isLocked()) {
       resolve();
       return;
     }

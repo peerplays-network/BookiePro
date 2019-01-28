@@ -16,7 +16,7 @@ export default class BalanceClaimAssetTotals extends Component {
   }
 
   render() {
-    if( this.props.balances === undefined ) {
+    if (this.props.balances === undefined ) {
       return (<div><Translate content='wallet.loading_balances'/>&hellip;</div>);
     }
 

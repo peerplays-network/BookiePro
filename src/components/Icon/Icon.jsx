@@ -20,11 +20,11 @@ class Icon extends React.Component {
   render() {
     let classes = 'icon ' + this.props.name;
 
-    if(this.props.size) {
+    if (this.props.size) {
       classes += ' icon-' + this.props.size;
     }
 
-    if(this.props.className) {
+    if (this.props.className) {
       classes += ' ' + this.props.className;
     }
 

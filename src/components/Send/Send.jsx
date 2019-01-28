@@ -44,7 +44,7 @@ class Send extends React.Component {
   onInputChange(e) {
     let value = e.target.value.trim();
 
-    if(Number(value)) {
+    if (Number(value)) {
       this.setState({
         recipientName: '',
         invalidName: null
@@ -52,7 +52,7 @@ class Send extends React.Component {
       return;
     }
 
-    if(value === '') {
+    if (value === '') {
       this.setState({
         recipientName: value,
         invalidName: null
@@ -61,7 +61,7 @@ class Send extends React.Component {
     }
 
 
-    if(value === this.props.currentAccount){
+    if (value === this.props.currentAccount){
       this.setState({
         recipientName: value,
         invalidName: counterpart.translate('errors.cant_send_yourself')
@@ -75,20 +75,20 @@ class Send extends React.Component {
 
   verifyInputValue(value) {
     AccountRepository.fetchFullAccount(value).then((result) => {
-      if(!result) {
+      if (!result) {
         invalidName = counterpart.translate('errors.unknown_account'); // eslint-disable-line
       }
 
       let account = result[1].account;
 
-      if(this.state.recipientName === account.name) {
+      if (this.state.recipientName === account.name) {
         this.setState({
           recipient: account,
           invalidName: null
         });
       }
     }).catch((invalidName) => { // eslint-disable-line
-      if(this.state.recipientName === value) {
+      if (this.state.recipientName === value) {
         this.setState({
           recipientName: value,
           invalidName: counterpart.translate('errors.invalid_account')
@@ -186,14 +186,14 @@ class Send extends React.Component {
       }
 
       let check = this.props.balance.filter((item) => {
-        if(item.symbol === asset.symbol) {
+        if (item.symbol === asset.symbol) {
           return amount <= item.balance;
         }
 
         return false;
       });
 
-      if(!check.length) {
+      if (!check.length) {
         this.setState({invalidAmount: 'Insufficient balance'});
         return;
       }
@@ -237,11 +237,15 @@ class Send extends React.Component {
   componentWillUpdate(nextProps) {
     const {walletLocked} = this.props;
 
-    if(!nextProps.walletLocked && nextProps.walletLocked !== walletLocked && nextProps.aesPrivate) {
+    if (
+      !nextProps.walletLocked
+      && nextProps.walletLocked !== walletLocked
+      && nextProps.aesPrivate
+    ) {
       this.onSend(nextProps.walletLocked);
     }
 
-    if(!this.props.symbols &&  nextProps.symbols) {
+    if (!this.props.symbols &&  nextProps.symbols) {
       this.setState({selectedSymbol: nextProps.symbols[0]});
     }
   }

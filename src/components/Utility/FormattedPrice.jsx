@@ -79,7 +79,7 @@ class FormattedPrice extends React.Component {
         marketDirections, marketId, hide_symbols} = this.props;
       let invertPrice = marketDirections.get(marketId);
 
-      if( invertPrice ) {
+      if (invertPrice) {
         let tmp = base_asset;
         base_asset = quote_asset;
         quote_asset = tmp;
