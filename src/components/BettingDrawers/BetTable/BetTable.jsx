@@ -12,7 +12,7 @@
  * all values are displayed as text.
  */
 import React from 'react';
-import {Button, Icon, Table} from 'antd';
+import {Button, Table} from 'antd';
 import Immutable from 'immutable';
 import {I18n} from 'react-redux-i18n';
 // import {CurrencyUtils} from '../../../utility';
@@ -146,10 +146,11 @@ const renderOdds = (
  */
 const renderDeleteButton = (deleteOne, activeTab, disabled) => (text, record) => (
   <Button 
-    className='btn' 
+    className='btn'
+    shape='circle'
+    icon='close'
     disabled={ disabled } 
     onClick={ () => deleteOne(Immutable.fromJS(record)) }>
-    <Icon type='close' />
   </Button>
 );
 
