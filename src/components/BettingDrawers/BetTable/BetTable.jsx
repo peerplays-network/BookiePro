@@ -304,7 +304,7 @@ const getLayColumns = (
     dataIndex: 'odds',
     key: 'odds',
     width: '25%',
-    className: 'numeric readonly'
+    className: 'readonly'
   };
 
   if (!readonly) {
