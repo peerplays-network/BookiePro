@@ -15,8 +15,10 @@ import React from 'react';
 import {Button, Table} from 'antd';
 import Immutable from 'immutable';
 import {I18n} from 'react-redux-i18n';
-// import {CurrencyUtils} from '../../../utility';
+import {CurrencyUtils} from '../../../utility';
 import BetTableInput from './BetTableInput';
+
+const currencySymbol = CurrencyUtils.getCurrencySymbol('BTF', 'black');
 
 /**
  * Render the team name and the market group of the associated bet. This is used
@@ -33,6 +35,15 @@ const renderTeam = (text, record) => (
     <div className='team'>{record.betting_market_description}</div>
   </div>
 );
+
+const renderProfitLiability = (record) => { 
+  if (!record) {
+    return;
+  }
+
+  return <span>{currencySymbol}{record}</span>;
+};
+
 
 // const renderTitle = (text, currencySymbol) => {
 //   let split = false;
@@ -239,7 +250,8 @@ const getBackColumns = (
     title: 'Profit',
     dataIndex: 'profit',
     key: 'profit',
-    className: 'numeric readonly' // this field is always readonly
+    className: 'numeric readonly', // this field is always readonly
+    render: renderProfitLiability
   };
 
   if (!readonly) {
@@ -346,7 +358,8 @@ const getLayColumns = (
     title: 'Liability',
     dataIndex: 'liability',
     key: 'liability',
-    className: 'numeric readonly' // this field is always readonly
+    className: 'numeric readonly', // this field is always readonly
+    render: renderProfitLiability
   };
 
   if (!readonly) {
