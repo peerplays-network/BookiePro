@@ -31,7 +31,6 @@ import BetTableInput from './BetTableInput';
 const renderTeam = (text, record) => (
   <div>
     <div className='team'>{record.betting_market_description}</div>
-    <div className='market_type'>{record.betting_market_group_description}</div>
   </div>
 );
 
@@ -186,7 +185,7 @@ const getBackColumns = (
     title: 'Back (Bet For)',
     dataIndex: 'back',
     key: 'back',
-    width: '25%',
+    width: '40%',
     className: 'team',
     render: renderTeam
   };
@@ -250,7 +249,7 @@ const getBackColumns = (
 
   if (!readonly) {
     // delete button
-    columns.push({
+    columns.unshift({
       title: '',
       dataIndex: 'delete',
       key: 'delete',
@@ -294,7 +293,7 @@ const getLayColumns = (
     title: 'Lay (Bet Against)',
     dataIndex: 'lay',
     key: 'lay',
-    width: '25%',
+    width: '40%',
     className: 'team',
     render: renderTeam
   };
@@ -357,7 +356,7 @@ const getLayColumns = (
 
   if (!readonly) {
     // delete button
-    columns.push({
+    columns.unshift({
       title: '',
       dataIndex: 'delete',
       key: 'delete',

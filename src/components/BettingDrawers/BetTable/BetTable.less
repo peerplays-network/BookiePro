@@ -72,6 +72,9 @@ div.bet-table-wrapper {
         tr > th.numeric {
           font-size: 12px;
           font-weight:700;
+          &.readonly {
+            text-align: right;
+          }
           p {
             display: inline-block;
           }
@@ -89,11 +92,12 @@ div.bet-table-wrapper {
         > td.team > div {
           div.team {
             color: @black;
-            font-size: 11px;
+            font-size: 14px;
             font-weight:normal;
             margin-bottom: 1px;
             word-break: break-word;
             hyphens: auto;
+            padding-left: 15px; 
           }
           div.market_type {
             font-size: 9px;
@@ -126,6 +130,7 @@ div.bet-table-wrapper {
             font-size: 13px;
             line-height: 18px;
             padding: 0 6px;
+            text-align: right;
           }
           .ant-input {
             font-size: 16px;
@@ -151,7 +156,7 @@ div.bet-table-wrapper {
         }
         // Special override of the last cell
         > td:nth-of-type(4) {
-          padding-left: 8px;
+          padding-left: 1px;
           padding-right: 5px;
         }
 
@@ -165,8 +170,6 @@ div.bet-table-wrapper {
           button {
             position: absolute;
             margin-top: -8px;
-            right: 5px;
-            width: 15px;
             height: 15px;
             display: flex;
             flex-direction: column;
