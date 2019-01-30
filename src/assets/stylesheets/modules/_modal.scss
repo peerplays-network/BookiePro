@@ -117,7 +117,6 @@
       width: 730px;
       max-width: 100%;
       background: $clear-color2;
-      padding: 30px 50px 40px;
       -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
       box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
       @include border-radius(2px);
@@ -131,7 +130,6 @@
         width: 900px;
         max-width: 100%;
         max-height: 90vh;
-        overflow: auto;
       }
 
       &-type02 {
@@ -170,16 +168,19 @@
     color: $clear-color;
     font-size: 24px;
     font-weight: 400;
-    margin-bottom: 30px;
     padding-bottom: 15px;
     font-family: $ff-main;
+    padding-top: 20px;
+    padding-left: 50px;
   }
 
   &Body {
-    font-size: 16px;
-    color: #757575;
-    margin-bottom: 20px;
-    font-family: $ff-main;
+    height: 428px;
+    overflow-y: auto;
+
+    &-text-body {
+      padding: 30px 50px 40px;
+    }
   }
 
   &Footer {
