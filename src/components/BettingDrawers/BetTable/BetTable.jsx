@@ -167,7 +167,7 @@ const renderProfit = (currencyFormat) => (text, record) => {
     return;
   }
 
-  return <div>{CurrencyUtils.getCurrencySymbol(currencyFormat, 'black')} {record.profit}</div>;
+  return <div>{CurrencyUtils.getCurrencySymbol(currencyFormat, 'black')}{record.profit}</div>;
 };
 
 
@@ -183,7 +183,7 @@ const renderLiability = (currencyFormat) => (text, record) => {
     return;
   }
 
-  return <div>{CurrencyUtils.getCurrencySymbol(currencyFormat, 'black')} {record.liability}</div>;
+  return <div>{CurrencyUtils.getCurrencySymbol(currencyFormat, 'black')}{record.liability}</div>;
 };
 
 /**
