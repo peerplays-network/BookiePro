@@ -18,8 +18,6 @@ import {I18n} from 'react-redux-i18n';
 import {CurrencyUtils} from '../../../utility';
 import BetTableInput from './BetTableInput';
 
-const currencySymbol = CurrencyUtils.getCurrencySymbol('BTF', 'black');
-
 /**
  * Render the team name and the market group of the associated bet. This is used
  * to render the content for the first column of the BetTable (BACK / LAY).
@@ -35,15 +33,6 @@ const renderTeam = (text, record) => (
     <div className='team'>{record.betting_market_description}</div>
   </div>
 );
-
-const renderProfitLiability = (record) => { 
-  if (!record) {
-    return;
-  }
-
-  return <span>{currencySymbol}{record}</span>;
-};
-
 
 // const renderTitle = (text, currencySymbol) => {
 //   let split = false;
@@ -165,6 +154,38 @@ const renderDeleteButton = (deleteOne, activeTab, disabled) => (text, record) =>
   </Button>
 );
 
+
+/**
+ * Returns a function that renders the Profit column cell values
+ *
+ * @param {string} currencyFormat - a string representing the currency format to
+ * be used to format the Odds or Stake values on screen
+ * @returns {Function} - the actual cell rendering function used by antd Table
+ */
+const renderProfit = (currencyFormat) => (text, record) => {
+  if (!record.profit) {
+    return;
+  }
+
+  return <div>{CurrencyUtils.getCurrencySymbol(currencyFormat, 'black')} {record.profit}</div>;
+};
+
+
+/**
+ * Returns a function that renders the Liability column cell values
+ *
+ * @param {string} currencyFormat - a string representing the currency format to
+ * be used to format the Odds or Stake values on screen
+ * @returns {Function} - the actual cell rendering function used by antd Table
+ */
+const renderLiability = (currencyFormat) => (text, record) => {
+  if (!record.liability) {
+    return;
+  }
+
+  return <div>{CurrencyUtils.getCurrencySymbol(currencyFormat, 'black')} {record.liability}</div>;
+};
+
 /**
  * Returns an array of column definition objects of the Back Bet Table.
  *
@@ -251,7 +272,7 @@ const getBackColumns = (
     dataIndex: 'profit',
     key: 'profit',
     className: 'numeric readonly', // this field is always readonly
-    render: renderProfitLiability
+    render: renderProfit(currencyFormat)
   };
 
   if (!readonly) {
@@ -359,7 +380,7 @@ const getLayColumns = (
     dataIndex: 'liability',
     key: 'liability',
     className: 'numeric readonly', // this field is always readonly
-    render: renderProfitLiability
+    render: renderLiability(currencyFormat)
   };
 
   if (!readonly) {
