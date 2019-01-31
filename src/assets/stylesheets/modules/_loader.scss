@@ -1,0 +1,165 @@
+.loader {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 9;
+  overflow: hidden;
+  width: 100%;
+  text-align: center;
+
+  &:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    content: '';
+    display: block;
+    width: 49px;
+    height: 49px;
+    @include border-radius(50%);
+    border: 3px solid $color-add;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    @include animation(cssload-spin 1000ms infinite linear);
+  }
+
+  &-color-brand:after {
+    border-color: $color-add transparent $color-add transparent;
+  }
+
+  &-white:after {
+    border-color: $clear-color2 transparent $clear-color2 transparent;
+  }
+
+  &-black:after {
+    border-color: $clear-color transparent $clear-color transparent;
+  }
+
+  &-l:after {
+    width: 59px;
+    height: 59px;
+  }
+
+  &-m:after {
+    width: 49px;
+    height: 49px;
+  }
+
+  &-s:after {
+    width: 39px;
+    height: 39px;
+  }
+
+  &-xs:after {
+    width: 29px;
+    height: 29px;
+  }
+
+  &-xxs:after {
+    width: 19px;
+    height: 19px;
+  }
+
+  &-xxxs:after {
+    width: 15px;
+    height: 15px;
+  }
+
+  &-bg {
+    &-white {
+      &:before {
+        position: absolute;
+        content: '';
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, .3);
+      }
+    }
+
+    &-gray {
+      &:before {
+        position: absolute;
+        content: '';
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, .6);
+      }
+    }
+  }
+
+  &-relative {
+    position: relative;
+    margin: 5px 18px;
+    z-index: 0;
+  }
+
+  &Icon {
+    font-size: 20px;
+    color: $clear-color2;
+    vertical-align: middle;
+    padding-right: 6px;
+
+    &+.btnText {
+      padding-right: 28px;
+    }
+  }
+
+}
+
+.btn-loader {
+  position: relative;
+  color: transparent !important;
+
+}
+
+@keyframes cssload-spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes cssload-spin {
+  100% {
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-ms-keyframes cssload-spin {
+  100% {
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes cssload-spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes cssload-spin {
+  100% {
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  &-splash {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+  }
+}

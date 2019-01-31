@@ -1,0 +1,279 @@
+@mixin gradient($from: #000, $to: #fff) {
+  background-color: $from;
+  background-image: -webkit-gradient(linear, left top, left bottom, from($from), to($to));
+  background-image: -webkit-linear-gradient(top, $from, $to);
+  background-image: -moz-linear-gradient(top, $from, $to);
+  background-image: -o-linear-gradient(top, $from, $to);
+  background-image: linear-gradient(to bottom, $from, $to);
+}
+
+@mixin opacity($opacity: 0.5) {
+  -webkit-opacity: $opacity;
+  -moz-opacity: $opacity;
+  opacity: $opacity;
+}
+
+//
+//@mixin box-shadow($insert, $x: 0, $y: 0, $blur: 10px, $color: #666) when ($insert = false){
+//  -webkit-box-shadow: inset $x $y $blur $color;
+//  box-shadow: inset $x $y $blur $color;
+//}
+//
+//@mixin box-shadow($insert, $x: 0, $y: 0, $blur: 10px, $color: #666) when ($insert = true){
+//  -webkit-box-shadow: $x $y $blur $color;
+//  box-shadow: $x $y $blur $color;
+//}
+
+@mixin box-shadow($arguments: 0 1px 5px rgba(0, 0, 0, .3)) {
+  -webkit-box-shadow: $arguments;
+  box-shadow: $arguments;
+}
+
+//@mixin text-shadow($x: 1px, $y: 1px, $radius: 2px, $color: #000){
+//  -webkit-text-shadow: $arguments;
+//  -moz-text-shadow: $arguments;
+//  text-shadow: $arguments;
+//}
+
+@mixin box-sizing($type: border-box) {
+  -webkit-box-sizing: $type;
+  -moz-box-sizing: $type;
+  box-sizing: $type;
+}
+
+@mixin border-radius($r: 3px) {
+  -webkit-border-radius: $r;
+  -moz-border-radius: $r;
+  border-radius: $r;
+}
+
+@mixin column($count: 3, $gap: 1em) {
+  -webkit-column-count: $count;
+  -webkit-column-gap: $gap;
+  -moz-column-count: $count;
+  -moz-column-gap: $gap;
+  column-count: $count;
+  column-gap: $gap;
+}
+
+@mixin transition($arguments: all 0.2s ease) {
+  -webkit-transition: $arguments;
+  -moz-transition: $arguments;
+  -o-transition: $arguments;
+  transition: $arguments;
+}
+
+@mixin transform($value) {
+  -webkit-transform: $value;
+  -moz-transform: $value;
+  -ms-transform: $value;
+  -o-transform: $value;
+  transform: $value;
+}
+
+@mixin translate ($value) {
+  -webkit-transform: translate($value);
+  -moz-transform: translate($value);
+  -ms-transform: translate($value);
+  -o-transform: translate($value);
+}
+
+@mixin clearfix() {
+
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin table_clearfix() {
+  display: table;
+
+  &:after {
+    content: '. @include ';
+    display: block;
+    word-spacing: 99in;
+    height: 0;
+    overflow: hidden;
+    font-size: 0.13em;
+    line-height: 0;
+  }
+}
+
+@mixin va_middle_out() {
+  position: relative;
+  line-height: 0;
+  font-size: 0;
+
+  &:after {
+    position: relative;
+    content: "";
+    height: 100%;
+    width: 0;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+@mixin va_middle_in() {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+  width: 100%;
+  text-decoration: none;
+}
+
+@mixin justified() {
+  line-height: 0;
+  font-size: 0;
+  text-align: justify;
+  text-align-last: justify;
+
+  &:after {
+    width: 100%;
+    height: 0;
+    visibility: hidden;
+    overflow: hidden;
+    content: '';
+    display: inline-block;
+  }
+}
+
+@mixin user-sel-n() {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@mixin ellipsis() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin pos-center() {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  @include translate(-50% 50%);
+}
+
+@mixin plhl-color($color) {
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+
+  &::-moz-placeholder {
+    color: $color;
+  }
+
+  &:-moz-placeholder {
+    color: $color;
+  }
+
+  &:-ms-input-placeholder {
+    color: $color !important;
+  }
+}
+
+@mixin img-retina($file-1x, $file-2x, $width-1x, $height-1x) {
+  background-image: url("#{$file-1x}");
+
+  @media only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (min--moz-device-pixel-ratio: 2),
+    only screen and (-o-min-device-pixel-ratio: 2/1),
+    only screen and (min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 192dpi),
+    only screen and (min-resolution: 2dppx) {
+    background-image: url("#{$file-2x}");
+    background-size: $width-1x $height-1x;
+  }
+}
+
+.gradient {
+
+  // Horizontal gradient, from left to right
+  //
+  // Creates two color stops, start and end, by specifying a color and position for each color stop.
+  // Color stops are not available in IE9 and below.
+  @mixin horizontal($start-color: #555, $end-color: #333, $start-percent: 0%, $end-percent: 100%) {
+    background-image: -webkit-linear-gradient(left, color-stop($start-color $start-percent), color-stop($end-color $end-percent)); // Safari 5.1-6, Chrome 10+
+    background-image: linear-gradient(to right, $start-color $start-percent, $end-color $end-percent); // Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
+    background-repeat: repeat-x;
+    filter: unquote(("progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$start-color}', endColorstr='#{$end-color}', GradientType=1)")); // IE9 and down
+  }
+
+  // Vertical gradient, from top to bottom
+  //
+  // Creates two color stops, start and end, by specifying a color and position for each color stop.
+  // Color stops are not available in IE9 and below.
+  @mixin vertical($start-color: #555, $end-color: #333, $start-percent: 0%, $end-percent: 100%) {
+    background-image: -webkit-linear-gradient(top, $start-color $start-percent, $end-color $end-percent); // Safari 5.1-6, Chrome 10+
+    background-image: linear-gradient(to bottom, $start-color $start-percent, $end-color $end-percent); // Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
+    background-repeat: repeat-x;
+    filter: unquote(("progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$start-color}', endColorstr='#{$end-color}', GradientType=0)")); // IE9 and down
+  }
+
+  @mixin directional($start-color: #555, $end-color: #333, $deg: 45deg) {
+    background-repeat: repeat-x;
+    background-image: -webkit-linear-gradient($deg, $start-color, $end-color); // Safari 5.1-6, Chrome 10+
+    background-image: linear-gradient($deg, $start-color, $end-color); // Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
+  }
+
+  @mixin horizontal-three-colors($start-color: #00b3ee, $mid-color: #7a43b6, $color-stop: 50%, $end-color: #c3325f) {
+    background-image: -webkit-linear-gradient(left, $start-color, $mid-color $color-stop, $end-color);
+    background-image: linear-gradient(to right, $start-color, $mid-color $color-stop, $end-color);
+    background-repeat: no-repeat;
+    filter: unquote(("progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$start-color}', endColorstr='#{$end-color}', GradientType=1)")); // IE9 and down, gets no color-stop at all for proper fallback
+  }
+
+  @mixin vertical-three-colors($start-color: #00b3ee, $mid-color: #7a43b6, $color-stop: 50%, $end-color: #c3325f) {
+    background-image: -webkit-linear-gradient($start-color, $mid-color $color-stop, $end-color);
+    background-image: linear-gradient($start-color, $mid-color $color-stop, $end-color);
+    background-repeat: no-repeat;
+    filter: unquote(("progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$start-color}', endColorstr='#{$end-color}', GradientType=0)")); // IE9 and down, gets no color-stop at all for proper fallback
+  }
+
+  @mixin radial($inner-color: #555, $outer-color: #333) {
+    background-image: -webkit-radial-gradient(circle, $inner-color, $outer-color);
+    background-image: radial-gradient(circle, $inner-color, $outer-color);
+    background-repeat: no-repeat;
+  }
+
+  @mixin striped($color: rgba(255, 255, 255, .15), $angle: 45deg) {
+    background-image: -webkit-linear-gradient($angle, $color 25%, transparent 25%, transparent 50%, $color 50%, $color 75%, transparent 75%, transparent);
+    background-image: linear-gradient($angle, $color 25%, transparent 25%, transparent 50%, $color 50%, $color 75%, transparent 75%, transparent);
+  }
+}
+
+@mixin backface-visibility($visibility) {
+  -webkit-backface-visibility: $visibility;
+  -moz-backface-visibility: $visibility;
+  backface-visibility: $visibility;
+}
+
+@mixin rotate($degrees) {
+  -webkit-transform: rotate($degrees);
+  -ms-transform: rotate($degrees); // IE9+
+  transform: rotate($degrees);
+}
+
+@mixin sticky() {
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
+}
+
+@mixin animation($arguments) {
+  -webkit-animation: $arguments;
+  -moz-animation: $arguments;
+  -ms-animation: $arguments;
+  -o-animation: $arguments;
+  animation: $arguments;
+}

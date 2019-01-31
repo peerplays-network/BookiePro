@@ -3,12 +3,11 @@
 node_modules
 */node_modules
 */npm-debug.log
-cli/bundle
 *.map
 css
 *.log
-cli/examples.txt
-dist
+build
+releases
 
 web/app/components/Exchange/exchange.css
 cli/bundle.js
@@ -21,3 +20,10 @@ babel-cache/*
 web/build/
 electron/build
 electron/tmp
+.sass-cache
+node_modules
+bower_components
+bundle
+stats-dev.json
+stats-prod.json
+*.json.gzip

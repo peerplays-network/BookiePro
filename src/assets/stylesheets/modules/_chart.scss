@@ -1,0 +1,27 @@
+.chart__wrap {
+  padding: 30px;
+}
+
+.chart__title {
+  color: $text-color2;
+  font-size: 16px;
+  text-align: center;
+  margin: 0 0 10px;
+}
+
+.highcharts-tooltip {
+  z-index: 1;
+
+  .text {
+    font-size: 10px;
+    line-height: 12px;
+    color: $faded-color;
+    text-transform: uppercase;
+  }
+
+  .num {
+    font-size: 10px;
+    line-height: 12px;
+    color: $clear-color;
+  }
+}

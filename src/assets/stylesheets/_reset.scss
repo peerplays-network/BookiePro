@@ -1,0 +1,93 @@
+html,body,h1,h2,h3,h4,h5,h6,p,em,strong,abbr,acronym,blockquote,q,cite,ins,del,dfn,a,div,span,pre,
+hr,address,br,b,i,sub,sup,big,small,tt,table,tr,caption,thead,tbody,tfoot,col,colgroup,form,input,
+label,textarea,button,fieldset,legend,select,option,ul,ol,li,dl,dt,dd,code,var,samp,img,object,
+param,map,area {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,
+big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,
+dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,figure,
+figcaption,header,footer,aside,article {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+input[type=button],
+input[type=submit],
+button {
+  cursor: pointer;
+}
+
+button {
+  border: 0;
+}
+
+*:focus {
+  outline: none;
+}
+
+button::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="file"]>input[type="button"]::-moz-focus-inner {
+  border: none;
+  outline: none;
+}
+
+button.ui-button::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/* reset extra padding in Firefox */
+::-ms-clear {
+  width: 0;
+  height: 0;
+}
+
+::-ms-reveal {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* Internet Explorer 10 in Windows 8 and Windows Phone 8 Bug fix */
+@-webkit-viewport {
+  width: device-width;
+}
+
+@-moz-viewport {
+  width: device-width;
+}
+
+@-ms-viewport {
+  width: device-width;
+}
+
+@-o-viewport {
+  width: device-width;
+}
+
+@viewport {
+  width: device-width;
+}

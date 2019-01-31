@@ -1,0 +1,160 @@
+.dd {
+  position: relative;
+
+  &.open {
+    &>.ddMenu {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .ddTrigger:after {
+      @include transform(rotate(180deg));
+    }
+
+    .ddTrigger__icon {
+      &:before {
+        @include transform(rotate(180deg));
+      }
+    }
+  }
+
+  &-hover {
+    &:hover {
+      .ddMenu {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+
+  }
+
+  &Trigger {
+    position: relative;
+    display: block;
+    padding-right: 15px;
+    cursor: pointer;
+
+    &-hover {
+      &:hover {
+        &~.ddMenu {
+          visibility: visible;
+          opacity: 1;
+        }
+      }
+
+    }
+
+    &:after {
+      position: absolute;
+      display: inline-block;
+      content: "\e901";
+      font-family: icomoon, sans-serif;
+      font-size: 5px;
+      line-height: 5px;
+      color: $aside-title-color;
+      top: 50%;
+      margin-top: -2px;
+      right: 2px;
+    }
+
+    &__icon {
+      position: absolute;
+      font-size: 20px;
+      color: #d5d5d5;
+      right: -20px;
+      top: 50%;
+      margin-top: -11px;
+      @include transition(color .2s ease);
+
+      &:before {
+        display: inline-block;
+      }
+    }
+
+    &__label {
+      font-size: 12px;
+      color: #9a999b;
+      margin-bottom: 5px;
+    }
+
+    &__labeled {
+      font-size: 16px;
+      color: $clear-color;
+      padding-bottom: 10px;
+    }
+  }
+
+  &Menu {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    //left: 0;
+    right: -20px;
+    width: 100%;
+    background: $clear-color2;
+    background: $dd-bg;
+    @include border-radius();
+    @include box-shadow(0 1px 4px rgba(0, 0, 0, 0.15));
+
+    &:after {
+      position: absolute;
+      content: '';
+      z-index: 1;
+      background: rgba(0, 0, 0, .5);
+      top: 100%;
+      left: 0;
+      right: 0;
+    }
+
+    &__list {
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-height: 400px;
+    }
+
+    &__item {}
+
+    &__link {
+      display: block;
+      padding: 12px 20px;
+      font-size: 14px;
+      color: $text-color-bg;
+      cursor: pointer;
+
+      &:hover {
+        background: rgba($text-color-bg, .1);
+      }
+    }
+
+    &__icon {
+      float: left;
+      font-size: 15px;
+      width: 30px;
+
+      &+span {
+        display: block;
+        overflow: hidden;
+      }
+
+      &.chart {
+        font-size: 10px;
+        padding-top: 3px;
+      }
+
+      &.close {
+        font-size: 12px;
+        padding-top: 2px;
+      }
+    }
+
+    .aside__balanceUnit & {
+      margin-top: 10px;
+      text-align: right;
+      min-width: 150px;
+      left: auto;
+      right: 0;
+    }
+  }
+}

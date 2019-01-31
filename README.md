@@ -21,15 +21,11 @@ git clone https://github.com/PBSA/peerplays-core-gui
 cd peerplays-core-gui
 ```
 
-Before launching the GUI you will need to install the npm packages for each subdirectory:
-```
-cd dl; npm install
-cd ../web; npm install
-```
-
 ## Running the dev server
 
-Once all the packages have been installed you can start the development server by going to the ./web folder and running:
+Once all the packages have been installed you can start the development server by running the start script.
+> Before running this script, ensure you have at least one environments settings configured within `./config/enpoints.js`. By default, Alice endpoint is configured and the start script will point to it.
+> To point to another endpoint configuration, add it to the `endpoints.js` file and select it with the start script like so: `TARGET=notAlice npm run start`
 ```
 npm start
 ```
@@ -82,22 +78,21 @@ cd peerplays-core-gui
 
 Before building the GUI you will need to install the various dependencies that are unique for each subdirectory "module":
 ```
-cd dl; npm install
-cd ../web; npm install
+npm install
 cd ../electron; npm install
+cd build/; npm install
 ```
 
 ## Building the Executable
+>The exectuable will appear within the "releases" folder within the "electron" folder for windows users. Linux based systems will have the releases in the root of the project after running the below script(s).
+### Building the executable for Mac, Windows, and Linux
+```
+npm run release-mwl
+```
 ### Building the executable for MacOS
 ```
-cd web; npm run electron
-cd ../electron/node_modules/electron-prebuilt; rm -rf dist
-npm_config_platform=darwin npm run postinstall
-cd ../../
-npm run release
+npm run release-mac
 ```
-
-The exectuable will appear within the "releases" folder within the "electron" folder.
 
 ### Building the Executable for Linux
 
@@ -107,22 +102,10 @@ brew install dpkg fakeroot
 ```
 
 ```
-cd web; npm run electron
-cd ../electron/node_modules/electron-prebuilt; rm -rf dist
-npm_config_platform=linux npm run postinstall
-cd ../../
-npm run release-linux
+npm run release-lin
 ```
-
-The exectuable will appear within the "releases" folder within the "electron" folder.
 
 ### Building the Executable for Windows
 ```
-cd web; npm run electron
-cd ../electron/node_modules/electron-prebuilt; rm -rf dist
-npm_config_platform=win32 npm run postinstall
-cd ../../
-npm run release-windows
+npm run release-win
 ```
-
-The exectuable will appear within the "releases" folder within the "electron" folder.

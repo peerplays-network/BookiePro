@@ -1,0 +1,223 @@
+@font-face {
+  font-family: icomoon;
+  src: url('../fonts/icomoon/icomoon.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"],
+[class*=" icon-"],
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-check:before {
+  content: "\e911";
+}
+
+.icon-close:before {
+  content: "\e912";
+}
+
+.icon-window:before {
+  content: "\e913";
+}
+
+.icon-star-filled:before {
+  content: "\e915";
+}
+
+.icon-settings-filled:before {
+  content: "\e916";
+}
+
+.icon-help-filled:before {
+  content: "\e917";
+}
+
+.icon-add:before {
+  content: "\e900";
+}
+
+.icon-arrow:before {
+  content: "\e901";
+}
+
+.icon-bitcoin:before {
+  content: "\e902";
+}
+
+.icon-arrows:before {
+  content: "\e903";
+}
+
+.icon-email:before {
+  content: "\e904";
+}
+
+.icon-help:before {
+  content: "\e905";
+}
+
+.icon-key:before {
+  content: "\e906";
+}
+
+.icon-password:before {
+  content: "\e907";
+}
+
+.icon-star:before {
+  content: "\e908";
+}
+
+.icon-search:before {
+  content: "\e909";
+}
+
+.icon-arrow-top:before {
+  content: "\e90a";
+}
+
+.icon-settings:before {
+  content: "\e90b";
+}
+
+.icon-str_close:before {
+  content: "\e90c";
+}
+
+.icon-str_open:before {
+  //content: "\e90d";
+  display: block;
+  content: "\e90c";
+  @include transform(rotate(180deg));
+}
+
+.icon-update:before {
+  content: "\e90e";
+}
+
+.icon-user:before {
+  content: "\e90f";
+}
+
+.icon-verify:before {
+  content: "\e910";
+}
+
+.icon-arrow-top2:before {
+  content: "\e914";
+}
+
+.icon-star2:before {
+  content: "\e918";
+}
+
+.icon-rocket:before {
+  content: "\e919";
+}
+
+.icon-cube:before {
+  content: "\e91a";
+}
+
+.icon-arrows2:before {
+  content: "\e91b";
+}
+
+.icon-funds:before {
+  content: "\e91c";
+}
+
+.icon-arrows3:before {
+  content: "\e91f";
+}
+
+.icon-chart:before {
+  content: "\e91d";
+}
+
+.icon-arrow2:before {
+  content: "\e91e";
+}
+
+.icon-calendar:before {
+  content: "\e920";
+}
+
+.icon-cube-filled:before {
+  content: "\e921";
+}
+
+.icon-cube-filled2:before {
+  content: "\e922";
+}
+
+.icon-cube-filled3:before {
+  content: "\e923";
+}
+
+.icon-arrows2-filled:before {
+  content: "\e924";
+}
+
+.icon-funds-filled:before {
+  content: "\e925";
+}
+
+.icon-star-filled2:before {
+  content: "\e926";
+}
+
+.icon-rocket-filled:before {
+  content: "\e927";
+}
+
+.icon-chart2:before {
+  content: "\e928";
+}
+
+.icon-close2:before {
+  content: "\e929";
+}
+
+.icon-chart3-filled:before {
+  content: "\e92a";
+}
+
+.icon-chart3:before {
+  content: "\e92b";
+}
+
+.icon-check2-filled:before {
+  content: "\e92c";
+}
+
+.icon-check2:before {
+  content: "\e92d";
+}
+
+.icon-clock-filled:before {
+  content: "\e92e";
+}
+
+.icon-clock:before {
+  content: "\e92f";
+}
+
+.icon-claim:before {
+  content: "\e930";
+}
