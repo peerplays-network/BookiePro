@@ -130,6 +130,7 @@
         width: 900px;
         max-width: 100%;
         max-height: 90vh;
+        overflow: hidden;
       }
 
       &-type02 {
@@ -175,7 +176,7 @@
   }
 
   &Body {
-    height: 428px;
+    height: 783px;
     overflow-y: auto;
 
     &-text-body {
