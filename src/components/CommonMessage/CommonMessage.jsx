@@ -2,21 +2,21 @@ import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 //need to be imported
-import './CommonMessage.less';
+import './CommonMessage.scss';
 import CommonMessageActions from '../../actions/CommonMessageActions';//added
-import {Config} from '../../constants';//added
+import Config from '../../../config/Config';//added
 import MessageType from '../../constants/MessageTypes';//added
 import _ from 'lodash';
 
 const compileMessage = (props) => {
   let messageList;
 
-  if (props.location === 'exchange') {
-    messageList = props.exchangeMessages;
+  if (props.location === 'header') {
+    messageList = props.headerMessages;
   }
 
-  if (props.location === 'betslip') {
-    messageList = props.betslipMessages;
+  if (props.location === 'sideBar') {
+    messageList = props.sideBarMessages;
   }
 
   // Filter the message list to only show the number of messages configured.
@@ -76,8 +76,8 @@ class CommonMessage extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    let propsMerged = this.props.exchangeMessages.concat(this.props.betslipMessages);
-    let prevPropsMerged = prevProps.exchangeMessages.concat(prevProps.betslipMessages);
+    let propsMerged = this.props.headerMessages.concat(this.props.sideBarMessages);
+    let prevPropsMerged = prevProps.headerMessages.concat(prevProps.sideBarMessages);
 
     // Use lodash for a deep comparison of the merged messages.
     if (!_.isEqual(propsMerged, prevPropsMerged)) {
@@ -96,30 +96,31 @@ class CommonMessage extends PureComponent {
 
 const mapStateToProps = (state) => {
   const reverse = Config.commonMessageModule.sortingMethod === 'oldest';
-  const messages = state.get('commonMessage');
-  let exchangeMessages = messages.get('exchangeMessages');
-  let betslipMessages = messages.get('betslipMessages');
+
+  const messages = state.commonMessage;
+  let headerMessages = messages.get('headerMessages');
+  let sideBarMessages = messages.get('sideBarMessages');
   const numOfCommonMessageToDisplay = Config.commonMessageModule.numOfCommonMessageToDisplay;
 
   if (reverse) {
-    exchangeMessages = exchangeMessages.reverse();
-    betslipMessages = betslipMessages.reverse();
+    headerMessages = headerMessages.reverse();
+    sideBarMessages = sideBarMessages.reverse();
   }
 
   // Determine the number of messages for calculating the heigh offset needed.
-  let numOfExchangeMessages = exchangeMessages.size;
-  let numOfBetslipMessages = betslipMessages.size;
+  let numOfheaderMessages = headerMessages.size;
+  let numOfsideBarMessages = sideBarMessages.size;
 
-  if (numOfExchangeMessages > numOfCommonMessageToDisplay) {
-    numOfExchangeMessages = numOfCommonMessageToDisplay;
+  if (numOfheaderMessages > numOfCommonMessageToDisplay) {
+    numOfheaderMessages = numOfCommonMessageToDisplay;
   }
 
-  if (numOfBetslipMessages > numOfCommonMessageToDisplay) {
-    numOfBetslipMessages = numOfCommonMessageToDisplay;
+  if (numOfsideBarMessages > numOfCommonMessageToDisplay) {
+    numOfsideBarMessages = numOfCommonMessageToDisplay;
   }
 
   //Calculate the heights of the exchange child div and the betslip child div.
-  const exchangeMessagingHeight = 36 * numOfExchangeMessages;
+  const exchangeMessagingHeight = 36 * numOfheaderMessages;
 
 
   // Dynamically apply a style to the split panes.
@@ -137,8 +138,8 @@ const mapStateToProps = (state) => {
   }
 
   return {
-    exchangeMessages,
-    betslipMessages,
+    headerMessages,
+    sideBarMessages,
     numOfCommonMessageToDisplay
   };
 };

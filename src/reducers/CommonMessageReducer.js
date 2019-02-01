@@ -1,15 +1,16 @@
 import Immutable from 'immutable';
-import {ActionTypes} from '../constants';
+import ActionTypes from '../constants/ActionTypes';
 
 let initialState = Immutable.fromJS({
   messageCount: 0,
-  exchangeMessages: [],
-  betslipMessages: []
+  headerMessages: [],
+  sideBarMessages: []
 });
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.COMMON_MSG_ADD_MSG: {
+      console.log('ADD MESSAGE REDUCER');
       let newMsg = Immutable.fromJS([{
         content: action.content,
         messageType: action.messageType,
@@ -31,23 +32,23 @@ export default function(state = initialState, action) {
       let messageCount = state.get('messageCount');
       const newMessageCount = --messageCount;
       const id = action.id;
-      const newExchangeMsgState = state.get('exchangeMessages')
+      const newExchangeMsgState = state.get('headerMessages')
         .filter((m) => {
           let mID = m.get('id');
 
           // Filter exchange messages.
-          return mID === 'e' + id;
+          return mID === 'h' + id;
         });
-      const newBetslipMessageState = state.get('betslipMessages')
+      const newsideBarMessagestate = state.get('sideBarMessages')
         .filter((m) => {
           let mID = m.get('id');
 
           // Filter betslip messages.
-          return mID === 'b' + id;
+          return mID === 's' + id;
         });
 
-      return state.set('exchangeMessages', newExchangeMsgState)
-        .set('betslipMessages', newBetslipMessageState)
+      return state.set('headerMessages', newExchangeMsgState)
+        .set('sideBarMessages', newsideBarMessagestate)
         .set('messageCount', newMessageCount);
     }
 

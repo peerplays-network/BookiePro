@@ -1,6 +1,6 @@
 const MessageLocation = {
-  BETSLIP: 'betslip',
-  EXCHANGE: 'exchange'
+  HEADER: 'header',
+  SIDEBAR: 'sideBar'
 };
 
 export default MessageLocation;

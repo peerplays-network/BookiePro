@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants';
+import ActionTypes from '../constants/ActionTypes';
 import MessageLocation from '../constants/MessageLocation';
 
 class CommonMessagePrivateActions {
@@ -31,7 +31,7 @@ class CommonMessageActions {
    * @static
    * @param {string} content - The message to be added.
    * @param {string} messageType - 'info', 'success', 'warning', or 'error'
-   * @param {string} loc - 'exchange' or 'betslip'. Where the message is to appear.
+   * @param {string} loc - 'header' or 'aside'. Where the message is to appear.
    * @param {string} id - optional variable. If not supplied, one will be generated.
    * @returns
    * @memberof CommonMessageActions
@@ -43,10 +43,10 @@ class CommonMessageActions {
         // Generate a unique id for the new message based on the existing number of messages.
         id = getState().get('commonMessage').get('messageCount') + 1;
 
-        if (loc === MessageLocation.EXCHANGE) {
-          id = 'e' + id;
+        if (loc === MessageLocation.HEADER) {
+          id = 'h' + id;
         } else {
-          id = 'b' + id;
+          id = 's' + id;
         }
       }
 
