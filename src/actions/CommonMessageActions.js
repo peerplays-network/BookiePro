@@ -4,7 +4,7 @@ import MessageLocation from '../constants/MessageLocation';
 class CommonMessagePrivateActions {
   static removeMessage(id) {
     return {
-      type: ActionTypes.COMMON_MSG_REMOVE_MESSAGE,
+      type: ActionTypes.COMMON_MSG_REMOVE_MSG,
       id
     };
   }

@@ -160,7 +160,7 @@ export default {
     /*
     * Common Message Reducer
     */
-   COMMON_MSG_REMOVE_MESSAGE: 'COMMON_MSG_REMOVE_MESSAGE',
+   COMMON_MSG_REMOVE_MSG: 'COMMON_MSG_REMOVE_MSG',
    COMMON_MSG_ADD_MSG: 'COMMON_MSG_ADD_MSG',
 
     /**

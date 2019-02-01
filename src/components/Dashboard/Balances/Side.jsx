@@ -15,6 +15,10 @@ class Side extends React.Component {
     this.props.fetchCurrentBalance();
   }
 
+  getPosition() {
+    return this.props.activeNotification ? 'static' : 'fixed';
+  }
+
   onLogoutClick(e) {
     e.preventDefault();
     this.props.logout();
@@ -32,7 +36,7 @@ class Side extends React.Component {
     let availableKeys = Object.keys(availableBalances);
 
     return (
-      <aside className='aside'>
+      <aside className='aside' style={ {position: this.getPosition()} }>
         <div className='nav__user dd dd-hover'>
           <div className='nav__userDDTrigger ddTrigger'>
             <div className='nav__userPic'>
@@ -112,7 +116,8 @@ class Side extends React.Component {
 const mapStateToProps = (state) => {
   return {
     account: state.app.account,
-    availableBalances: state.dashboardPage.availableBalances
+    availableBalances: state.dashboardPage.availableBalances,
+    activeNotification: state.commonMessage.get('activeMessage')
   };
 };
 

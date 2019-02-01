@@ -4,13 +4,13 @@ import ActionTypes from '../constants/ActionTypes';
 let initialState = Immutable.fromJS({
   messageCount: 0,
   headerMessages: [],
-  sideBarMessages: []
+  sideBarMessages: [],
+  activeMessage: false,
 });
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.COMMON_MSG_ADD_MSG: {
-      console.log('ADD MESSAGE REDUCER');
       let newMsg = Immutable.fromJS([{
         content: action.content,
         messageType: action.messageType,
@@ -21,12 +21,13 @@ export default function(state = initialState, action) {
       let messageCount = state.get('messageCount') + 1;
 
       let newState = state.update(location, (msgs) => newMsg.concat(msgs))
-        .set('messageCount', messageCount);
+        .set('messageCount', messageCount)
+        .set('activeMessage', true);
 
       return newState;
     }
 
-    case ActionTypes.COMMON_MSG_REMOVE_MESSAGE: {
+    case ActionTypes.COMMON_MSG_REMOVE_MSG: {
       // get current state of messages
       // operate on the one matching supplied id
       let messageCount = state.get('messageCount');
@@ -49,7 +50,8 @@ export default function(state = initialState, action) {
 
       return state.set('headerMessages', newExchangeMsgState)
         .set('sideBarMessages', newsideBarMessagestate)
-        .set('messageCount', newMessageCount);
+        .set('messageCount', newMessageCount)
+        .set('activeMessage', false);
     }
 
     case ActionTypes.COMMON_MSG_RESET: {

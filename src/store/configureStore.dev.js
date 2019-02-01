@@ -16,8 +16,10 @@ export default function configureStore(preloadedState) {
 
   let actionsWhitelist;
 
+  //add actions to whitelist in order to see them
   if (Config.commonMessageModule.disableActionsInRedux) {
-    actionsWhitelist = ['COMMON_MSG_ADD_MSG'];//add actions to whitelist in order to see them
+    actionsWhitelist = ['COMMON_MSG_ADD_MSG',
+      'COMMON_MSG_REMOVE_MSG'];
   }
 
   // Configure enhancer for redux dev tools extensions (if available)
