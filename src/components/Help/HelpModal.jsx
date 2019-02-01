@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
-import {Modal, ModalHeader, ModalBody, ModalTitle} from 'react-modal-bootstrap';
+import {Modal, ModalHeader, ModalTitle} from 'react-modal-bootstrap';
 import {HelpActions, NavigateActions} from '../../actions';
 import {bindActionCreators} from 'redux';
 
@@ -42,7 +42,7 @@ class HelpModal extends React.Component {
           <ModalHeader closeButton>
             <ModalTitle><Translate component='div' className='modalTitle' content='help.title'/><a href='' onClick={ this.onClickClose.bind(this) } className='modalClose icon-close'></a> {/*eslint-disable-line*/}</ModalTitle>
           </ModalHeader>
-          <ModalBody>
+          <div style={ {maxHeight: 'calc(100vh - 210px)', overflowY: 'auto'} }>
             <div className='modalBody'>
               <div className='modalBody-text-body'>
                 <Translate component='div' className='help__h3' content='help.title_welcome'/>
@@ -344,7 +344,7 @@ class HelpModal extends React.Component {
                 </div>
               </div>
             </div>
-          </ModalBody>
+          </div>
         </div>
       </Modal>
     );
