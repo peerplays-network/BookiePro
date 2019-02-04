@@ -8,7 +8,6 @@ import rootReducer from '../reducers';
 // import DevTools from 'containers/DevTools';
 import {hashHistory} from 'react-router';
 import {routerMiddleware} from 'react-router-redux';
-//import * as actionCreators from '../actions/CommonMessageActions';
 
 const middleware = routerMiddleware(hashHistory);
 

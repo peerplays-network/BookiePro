@@ -33,7 +33,7 @@ export default function(state = initialState, action) {
       let messageCount = state.get('messageCount');
       const newMessageCount = --messageCount;
       const id = action.id;
-      const newExchangeMsgState = state.get('headerMessages')
+      const newHeaderMsgState = state.get('headerMessages')
         .filter((m) => {
           let mID = m.get('id');
 
@@ -48,7 +48,7 @@ export default function(state = initialState, action) {
           return mID === 's' + id;
         });
 
-      return state.set('headerMessages', newExchangeMsgState)
+      return state.set('headerMessages', newHeaderMsgState)
         .set('sideBarMessages', newsideBarMessagestate)
         .set('messageCount', newMessageCount)
         .set('activeMessage', false);
