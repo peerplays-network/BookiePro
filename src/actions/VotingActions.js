@@ -12,6 +12,7 @@ import {
   VOTING_SET_NEW_WITNESSES,
   VOTING_UPDATE_WITNESS_TAB
 } from 'constants/ActionTypes';
+import Config from '../../config/Config';
 
 let witness_object_type  = parseInt(ChainTypes.object_type.witness, 10);
 let witness_prefix = '1.' + witness_object_type + '.';
@@ -184,8 +185,10 @@ class VotingActions {
           let objectAccounts = {};
           let allWitnesses = [];
 
-          // allWitnesses = allWitnesses.concat(object200.active_witnesses); // active witness list
-          allWitnesses = allWitnesses.concat(witnesses);
+          allWitnesses = allWitnesses.concat(Config.ACTIVE_WITNESS_ONLY
+            ? object200.active_witnesses
+            : witnesses
+          );
           votesArray.forEach((vote) => {
             if (allWitnesses.indexOf(vote.get('id')) === -1) {
               allWitnesses.push(vote.get('id'));
