@@ -310,12 +310,12 @@ class HelpModal extends React.Component {
                 </div>
                 <a
                   onClick={ (e) => {
-                    window.open('http://www.peerplays.com/news/wp-content/uploads/2017/06/' +
+                    window.open('https://www.peerplays.com/wp-content/uploads/2017/11/' +
                       'Howto-Claim-Your-PPY-Tokens.pdf',
                     'newwindow', 'width=500, height=400');
                     e.preventDefault();
                   } }
-                  href='http://www.peerplays.com/news/wp-content/uploads/2017/06/Howto-Claim-Your-PPY-Tokens.pdf' /* eslint-disable-line */
+                  href='https://www.peerplays.com/wp-content/uploads/2017/11/Howto-Claim-Your-PPY-Tokens.pdf' /* eslint-disable-line */
                   className='help__link txt-low'>
                   <Translate component='span' content='help.help.link_pdf'/>
                 </a>
