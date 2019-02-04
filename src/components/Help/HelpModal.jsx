@@ -40,7 +40,7 @@ class HelpModal extends React.Component {
         onRequestHide={ this.hideModal.bind(this) }>
         <div className='modal-dialogContent w-900'>
           <ModalHeader closeButton>
-            <ModalTitle><Translate component='div' className='modalTitle' content='help.title'/><a href='' onClick={ this.onClickClose.bind(this) } className='modalClose icon-close'></a> {/*eslint-disable-line*/}</ModalTitle>
+            <ModalTitle><Translate component='div' className='modalTitle help' content='help.title'/><a href='' onClick={ this.onClickClose.bind(this) } className='modalClose icon-close'></a> {/*eslint-disable-line*/}</ModalTitle>
           </ModalHeader>
           <div style={ {maxHeight: 'calc(100vh - 210px)', overflowY: 'auto'} }>
             <div className='modalBody'>

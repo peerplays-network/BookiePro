@@ -172,8 +172,12 @@
     padding-bottom: 15px;
     font-family: $ff-main;
     padding-top: 20px;
-    padding-left: 50px;
+    
+    &.help {
+      padding-left: 50px;
+    }
   }
+
 
   &Body {
     &-text-body {
