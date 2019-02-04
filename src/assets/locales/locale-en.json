@@ -237,7 +237,7 @@
     }
   },
   "errors": {
-    "login_error": "Please enter an account name starting with a letter and containing at least one dash, a number, or no vowels",
+    "login_error": "Please enter an account name, starting with a letter and containing at least one dash or number",
     "incorrect_username_or_password": "Incorrect username or password",
     "incorrect_private_key": "Incorrect Private key",
     "password_must_be_X_characters_or_more": "Password should be at least %(cnt)s symbols (alphanumeric)",
