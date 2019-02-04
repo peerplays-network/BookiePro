@@ -117,6 +117,7 @@
       width: 730px;
       max-width: 100%;
       background: $clear-color2;
+      padding: 30px 50px 40px;
       -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
       box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
       @include border-radius(2px);
@@ -127,6 +128,7 @@
       }
 
       &.w-900 {
+        padding: 0px;
         width: 900px;
         max-width: 100%;
         max-height: 90vh;
@@ -171,10 +173,10 @@
     font-weight: 400;
     padding-bottom: 15px;
     font-family: $ff-main;
-    padding-top: 20px;
-    
+
     &.help {
       padding-left: 50px;
+      padding-top: 20px;
     }
   }
 
@@ -189,7 +191,6 @@
     overflow: hidden;
     margin: 20px 0 0;
     padding-top: 10px;
-    padding-bottom: 30px;
   }
 }
 
