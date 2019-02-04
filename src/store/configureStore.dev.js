@@ -27,9 +27,7 @@ export default function configureStore(preloadedState) {
       dispatch: true
     },
     // Option for immutable
-    //serialize: {immutable: Immutable},
     actionsWhitelist: actionsWhitelist,
-    //actionCreators: {actionCreators}
   });
 
   // Construct enhancer

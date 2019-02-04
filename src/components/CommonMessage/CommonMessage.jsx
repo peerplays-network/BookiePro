@@ -5,6 +5,7 @@ import CommonMessageActions from '../../actions/CommonMessageActions';//added
 import Config from '../../../config/Config';//added
 import MessageType from '../../constants/MessageTypes';//added
 import _ from 'lodash';
+import './CommonMessage.scss';
 
 const compileMessage = (props) => {
   let messageList;
