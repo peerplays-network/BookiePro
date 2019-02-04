@@ -8,6 +8,7 @@ import asset_utils from 'common/asset_utils';
 import AppActions from 'actions/AppActions';
 import SideVesting from './SideVesting';
 import {bindActionCreators} from 'redux';
+import CommonMessage from '../../CommonMessage';
 
 class Side extends React.Component {
 
@@ -37,6 +38,7 @@ class Side extends React.Component {
 
     return (
       <aside className='aside' style={ {position: this.getPosition()} }>
+        <CommonMessage location='sideBar' />
         <div className='nav__user dd dd-hover'>
           <div className='nav__userDDTrigger ddTrigger'>
             <div className='nav__userPic'>
