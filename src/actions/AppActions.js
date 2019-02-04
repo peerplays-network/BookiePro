@@ -9,6 +9,8 @@ import RememberMeService from 'services/RememberMeService';
 import CryptoElectronService from '../services/CryptoElectronService';
 import Repository from 'repositories/chain/repository';
 import CONFIG from '../config/main';
+import SendPageActions from './SendPageActions';
+import DashboardPageActions from './DashboardPageActions';
 
 class AppPrivateActions {
   /**
@@ -264,6 +266,8 @@ class AppActions {
       }
 
       dispatch(PrivateKeyActions.setKeys());
+      dispatch(SendPageActions.resetSendPage());
+      dispatch(DashboardPageActions.resetDasbhoard());
 
       return WalletService.resetDBTables().then(() => {
         dispatch(AppPrivateActions.logoutAction());

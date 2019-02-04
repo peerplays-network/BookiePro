@@ -202,6 +202,15 @@ class DashboardPageActions {
     };
   }
 
+  /*
+  * reset reducer to initial state
+  */
+  static resetDasbhoard() {
+    return {
+      type: ActionTypes.DASHBOARD_RESET,
+    };
+  }
+
   /**
  * Dashboard Side: Set available balances
  * @param side Object

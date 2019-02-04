@@ -98,6 +98,15 @@ class SendPageActions {
   }
 
   /**
+   * reset reducer to initial state
+   */
+  static resetSendPage() {
+    return {
+      type: ActionTypes.SEND_PAGE_RESET,
+    };
+  }
+
+  /**
    * Get transaction for transfer
    *
    * @param {string} from_account
