@@ -158,7 +158,8 @@ class VotingActions {
       Repository.getAccount(accountName),
       Repository.getObject('2.0.0'),
       Repository.getObject('2.1.0'),
-      Repository.getObject('1.3.0')
+      Repository.getObject('1.3.0'),
+      Repository.getWitnesses()
     ]).then((results) => {
       let account = results[0].toJS();
       let votes = account.options.votes;
@@ -166,6 +167,7 @@ class VotingActions {
       let object200 = results[1].toJS();
       let object210 = results[2].toJS();
       let coreAsset = results[3].toJS();
+      let witnesses = results[4].toJS();
 
       return Promise.all([Repository.getObject(object210.current_witness), (votes && votes.length)
         ? Repository.getObjectsByVoteIds(votes)
@@ -182,7 +184,8 @@ class VotingActions {
           let objectAccounts = {};
           let allWitnesses = [];
 
-          allWitnesses = allWitnesses.concat(object200.active_witnesses);
+          // allWitnesses = allWitnesses.concat(object200.active_witnesses); // active witness list
+          allWitnesses = allWitnesses.concat(witnesses);
           votesArray.forEach((vote) => {
             if (allWitnesses.indexOf(vote.get('id')) === -1) {
               allWitnesses.push(vote.get('id'));
