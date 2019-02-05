@@ -22,8 +22,10 @@ class Accounts extends React.Component {
   }
 
   onSearch(e) {
-    this.props.accountSearch(e.target.value);
-    this.setState({searchValue: e.target.value});
+    if (e.target.value.toLowerCase() === e.target.value) {
+      this.props.accountSearch(e.target.value);
+      this.setState({searchValue: e.target.value});
+    }
   }
 
   render() {
