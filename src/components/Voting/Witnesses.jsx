@@ -49,9 +49,7 @@ class Witnesses extends React.Component {
       value = value.substring(0, GRAPHENE_MAX_ACCOUNT_NAME_LENGTH);
     }
 
-    if(value.toLowerCase() === value) {
-      this.setState({requestInProcess: true, item_name_input: value});
-    }
+    this.setState({requestInProcess: true, item_name_input: value});
   }
 
   verifyInputValue(value, uniqueRequestId) {
