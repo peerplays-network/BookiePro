@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import CommonMessageActions from '../../actions/CommonMessageActions';//added
-import Config from '../../../config/Config';//added
-import MessageType from '../../constants/MessageTypes';//added
+import CommonMessageActions from '../../actions/CommonMessageActions';
+import Config from '../../../config/Config';
+import MessageType from '../../constants/MessageTypes';
 import _ from 'lodash';
 import './CommonMessage.scss';
 
