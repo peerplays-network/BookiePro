@@ -1,8 +1,7 @@
 import React from 'react';
 import Side from './Side';
 import Balances from './Balances';
-import CommonMessage from '../../CommonMessage/CommonMessage';
-
+import CommonMessage from '../../CommonMessage';
 class BalancesContainer extends React.Component {
   render() {
     return (
