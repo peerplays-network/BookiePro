@@ -47,11 +47,13 @@ class CommitteeMembers extends React.Component {
       value = value.substring(0, GRAPHENE_MAX_ACCOUNT_NAME_LENGTH);
     }
 
-    this.setState({
-      requestInProcess: true,
-      inputName: value,
-      error: null
-    });
+    if(value.toLowerCase() === value) {
+      this.setState({
+        requestInProcess: true,
+        inputName: value,
+        error: null
+      });
+    }
   }
 
   verifyInputValue(value, uniqueRequestId) {

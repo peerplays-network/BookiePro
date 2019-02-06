@@ -35,19 +35,21 @@ class Proxy extends React.Component {
   onInputChange(e) {
     const GRAPHENE_MAX_ACCOUNT_NAME_LENGTH = 63;
     let value = e.target.value.trim();
-
-    if (value.length > GRAPHENE_MAX_ACCOUNT_NAME_LENGTH) {
-      value = value.substring(0, GRAPHENE_MAX_ACCOUNT_NAME_LENGTH);
-    } else if (value === this.props.account) {
-      this.setState({
-        inputName: value,
-        error: counterpart.translate('errors.cant_proxy_yourself')
-      });
-      return;
-    } else {
-      this.uniqueRequestId = _.uniqueId();
-      this.debounceOnInputChange();
-      this.setState({requestInProcess: true, inputName: value, error: null});
+    
+    if(value.toLowerCase() === value) {
+      if (value.length > GRAPHENE_MAX_ACCOUNT_NAME_LENGTH) {
+        value = value.substring(0, GRAPHENE_MAX_ACCOUNT_NAME_LENGTH);
+      } else if (value === this.props.account) {
+        this.setState({
+          inputName: value,
+          error: counterpart.translate('errors.cant_proxy_yourself')
+        });
+        return;
+      } else {
+        this.uniqueRequestId = _.uniqueId();
+        this.debounceOnInputChange();
+        this.setState({requestInProcess: true, inputName: value, error: null});
+      }
     }
   }
 

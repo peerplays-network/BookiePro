@@ -44,33 +44,34 @@ class Send extends React.Component {
   onInputChange(e) {
     let value = e.target.value.trim();
 
-    if (Number(value)) {
-      this.setState({
-        recipientName: '',
-        invalidName: null
-      });
-      return;
+    if(value.toLowerCase() === value) {
+      if (Number(value)) {
+        this.setState({
+          recipientName: '',
+          invalidName: null
+        });
+        return;
+      }
+
+      if (value === '') {
+        this.setState({
+          recipientName: value,
+          invalidName: null
+        });
+        return;
+      }
+
+      if (value === this.props.currentAccount){
+        this.setState({
+          recipientName: value,
+          invalidName: counterpart.translate('errors.cant_send_yourself')
+        });
+        return;
+      }
+
+      this.setState({recipientName: value});
+      this.verifyInputValue(value);
     }
-
-    if (value === '') {
-      this.setState({
-        recipientName: value,
-        invalidName: null
-      });
-      return;
-    }
-
-
-    if (value === this.props.currentAccount){
-      this.setState({
-        recipientName: value,
-        invalidName: counterpart.translate('errors.cant_send_yourself')
-      });
-      return;
-    }
-
-    this.setState({recipientName: value});
-    this.verifyInputValue(value);
   }
 
   verifyInputValue(value) {
