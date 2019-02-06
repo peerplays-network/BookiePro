@@ -60,7 +60,6 @@ class Send extends React.Component {
       return;
     }
 
-
     if (value === this.props.currentAccount){
       this.setState({
         recipientName: value,
