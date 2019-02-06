@@ -42,7 +42,7 @@ class Send extends React.Component {
   }
 
   onInputChange(e) {
-    let value = e.target.value.trim();
+    let value = e.target.value.trim().toLowerCase();
 
     if (Number(value)) {
       this.setState({
