@@ -42,6 +42,9 @@ export default function (state = initialState, action) {
         history: action.payload.history,
         historyAssets: action.payload.historyAssets
       });
+    //reset to initial state
+    case ActionTypes.SEND_PAGE_RESET:
+      return Object.assign({}, state, initialState);
       // Page assets <select> symbol
     case ActionTypes.SEND_PAGE_SET_SYMBOL:
       return Object.assign({}, state, {
