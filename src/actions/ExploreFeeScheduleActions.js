@@ -59,7 +59,7 @@ class ExploreFeeScheduleActions {
           business : [20,21,22,23,24,29,30,31,34,35,36],
           game : [45,46]
         };
-        let ltmRequired = [5, 7, 20, 21, 34];
+        let ltmRequired = [];
         let scale   = currentFees.scale;
         let feesRaw = currentFees.parameters;
         let trxTypes = counterpart.translate('transaction.trxTypes');
