@@ -109,7 +109,7 @@ class WalletPassword extends Component {
     onPassword(e) {
       e.preventDefault();
 
-      if( WalletDb.validatePassword(this.state.password) ) {
+      if (WalletDb.validatePassword(this.state.password) ) {
         this.setState({verified: true});
         this.props.onValid(this.state.password);
       } else {
@@ -124,7 +124,7 @@ class WalletPassword extends Component {
     }
 
     render() {
-      if(this.state.verified) {
+      if (this.state.verified) {
         return (
           <div className='grid-content'>{this.props.children}</div>
         );

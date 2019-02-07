@@ -71,7 +71,7 @@ class FormattedAssetNew extends React.Component {
       } = this.props;
       let assetImm = asset;
 
-      if( asset && asset.toJS ) {
+      if (asset && asset.toJS) {
         asset = asset.toJS();
       }
 

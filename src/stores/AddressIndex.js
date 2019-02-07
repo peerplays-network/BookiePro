@@ -53,7 +53,7 @@ class AddressIndex extends BaseStore {
       } else {
         this.setState({saving: false});
       }
-    }).catch ( (e) => {
+    }).catch ((e) => {
       throw e;
     });
   }
@@ -104,7 +104,7 @@ class AddressIndex extends BaseStore {
             reject(e);
           }
         };
-      }).catch ( (e) => {
+      }).catch ((e) => {
         throw e;
       });
     });

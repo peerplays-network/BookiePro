@@ -56,12 +56,12 @@ class AssetSelector extends React.Component {
     }
 
     getNameType(value) {
-      if(!value) {
+      if (!value) {
         return null;
       }
 
-      // if(value[0] === "#" && utils.is_object_id("1.2." + value.substring(1))) return "id";
-      if(!ChainValidation.is_valid_symbol_error(value, true)) {
+      // if (value[0] === "#" && utils.is_object_id("1.2." + value.substring(1))) return "id";
+      if (!ChainValidation.is_valid_symbol_error(value, true)) {
         return 'symbol';
       }
 
@@ -83,13 +83,13 @@ class AssetSelector extends React.Component {
     }
 
     componentDidMount() {
-      if(this.props.onFound && this.props.asset) {
+      if (this.props.onFound && this.props.asset) {
         this.props.onFound(this.props.asset);
       }
     }
 
     componentWillReceiveProps(newProps) {
-      if(this.props.onFound && newProps.asset !== this.props.asset) {
+      if (this.props.onFound && newProps.asset !== this.props.asset) {
         this.props.onFound(newProps.asset);
       }
     }
@@ -97,7 +97,7 @@ class AssetSelector extends React.Component {
     onFound(e) {
       e.preventDefault();
 
-      if(this.props.onFound && !this.getError() && !this.props.disableActionButton) {
+      if (this.props.onFound && !this.getError() && !this.props.disableActionButton) {
         if (this.props.asset) {
           this.props.onFound(this.props.asset);
         }

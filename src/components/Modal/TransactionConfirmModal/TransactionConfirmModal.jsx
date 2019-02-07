@@ -50,7 +50,7 @@ class TransactionConfirmModal extends React.Component {
   onSelectPropose() {
     let proposeCheckedStatus = !!this.props.propose ? false : true;
 
-    if(!proposeCheckedStatus) {
+    if (!proposeCheckedStatus) {
       this.props.setProposeAccount(null);
       this.setState({proposeCheckedStatus});
       return;

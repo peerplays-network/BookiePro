@@ -51,7 +51,7 @@ class WalletUnlockModal extends React.Component {
     const password_private = PrivateKey.fromSeed( password );
     const password_pubkey = password_private.toPublicKey().toPublicKeyString();
 
-    if(this.props.wallet.password_pubkey !== password_pubkey){
+    if (this.props.wallet.password_pubkey !== password_pubkey) {
       this.setState({password_error: true});
       return;
     }

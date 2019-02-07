@@ -8,8 +8,7 @@
 */
 (function(g){
   var h=g.seriesTypes,l=g.merge,t=g.extendClass,u=g.getOptions().plotOptions,v=function(){},m=g.each,r=g.pick,p=g.Series,s=g.Color;u.treemap=l(u.scatter,{showInLegend:!1,marker:!1,borderColor:'#E0E0E0',borderWidth:1,dataLabels:{enabled:!0,defer:!1,verticalAlign:'middle',formatter:function(){
-    return this.point.name||this.point.id
-    ;
+    return this.point.name||this.point.id;
   },inside:!0},tooltip:{headerFormat:'',pointFormat:'<b>{point.name}</b>: {point.node.val}</b><br/>'},layoutAlgorithm:'sliceAndDice',layoutStartingDirection:'vertical',
   alternateStartingDirection:!1,levelIsConstant:!0,states:{hover:{borderColor:'#A0A0A0',brightness:h.heatmap?0:0.1,shadow:!1}},drillUpButton:{position:{align:'left',x:10,y:-50}}});h.treemap=t(h.scatter,l({pointAttrToOptions:{stroke:'borderColor','stroke-width':'borderWidth',fill:'color',dashstyle:'borderDashStyle'},pointArrayMap:['value'],axisTypes:h.heatmap?['xAxis','yAxis','colorAxis']:['xAxis','yAxis'],optionalAxis:'colorAxis',getSymbol:v,parallelArrays:['x','y','value','colorValue'],colorKey:'colorValue',
     translateColors:h.heatmap&&h.heatmap.prototype.translateColors},{type:'treemap',trackerGroups:['group','dataLabelsGroup'],pointClass:t(g.Point,{setState:function(a,b){
@@ -17,35 +16,28 @@
   },setVisible:h.pie.prototype.pointClass.prototype.setVisible}),handleLayout:function(){
     var a=this.tree,b;
 
-    if(this.points.length){
+    if (this.points.length) {
       this.nodeMap=[],a=this.tree=this.getTree(),
       this.rootNode=r(this.rootNode,''),this.levelMap=this.getLevels(),m(this.points,function(a){
         delete a.plotX;delete a.plotY;
       }),b=this.getSeriesArea(a.val),this.nodeMap[''].values=b,this.calculateArea(a,b),this.setPointValues();
     }
 
-    ;
   },getTree:function(){
     var a=this,b=0,c=[],d=[],e,f=function(a){
         m(c[a],function(a){
-          c[''].push(a)
-          ;
-        })
-        ;
+          c[''].push(a);
+        });
       },j=function(b,c,d,e,f,k,o){
         var g=[],h=0,q;q=f[c];var l,p;o&&(o=r(q&&q.visible,!0));p=r(q&&q.name,'');e[b]!==void 0&&m(e[b],function(c){
           l=j(f[c].id,c,d+1,e,f,b,o);
 
-          if(l.visible||!a.options.ignoreHiddenPoint){
+          if (l.visible||!a.options.ignoreHiddenPoint) {
             h+=
 l.val,a.insertElementSorted(g,l,function(a,b){
               return a.val>b.val
-              ;
             })
-            ;
           }
-
-          ;
         });q=r(f[c]&&f[c].value,h,0);o=q>0?o:!1;c={id:b,i:c,children:g,childrenTotal:h,val:q,level:d,parent:k,name:p,visible:o};return a.nodeMap[c.id]=c;
       };
 

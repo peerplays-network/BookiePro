@@ -30,7 +30,7 @@ class Referrals extends React.Component {
     let membership = 'account.member.' + member_status;
     let expiration = null;
 
-    if( member_status === 'annual' ) {
+    if (member_status === 'annual' ) {
       expiration = (
         <span>
         (<Translate content='account.member.expires'/>
@@ -41,9 +41,9 @@ class Referrals extends React.Component {
 
     let expiration_date = account.get('membership_expiration_date');
 
-    if( expiration_date === '1969-12-31T23:59:59' ) {
+    if (expiration_date === '1969-12-31T23:59:59') {
       expiration_date = 'Never';
-    } else if( expiration_date === '1970-01-01T00:00:00' ) {
+    } else if (expiration_date === '1970-01-01T00:00:00') {
       expiration_date = 'N/A';
     }
 

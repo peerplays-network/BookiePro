@@ -32,7 +32,7 @@ module.exports = idb_helper = {
         })
     },
     
-    /** Chain an add event.  Provide the @param store and @param object and
+    /** Chain an add event. Provide the @param store and @param object and
         this method gives you convenient hooks into the database events.
         
         @param event_callback (within active transaction)
@@ -43,24 +43,23 @@ module.exports = idb_helper = {
             var request = store.add(object)
             
             var event_promise = null
-            if(event_callback)
+            if (event_callback)
                 request.onsuccess = new ChainEvent(
                     request.onsuccess, event => {
                         event_promise = event_callback(event)
                     }).event
             
             var request_promise = idb_helper.on_request_end(request).then( event => {
-                //DEBUG console.log('... object',object,'result',event.target.result,'event',event)
-                if ( event.target.result != void 0) {
+                if (event.target.result != void 0) {
                     //todo does event provide the keyPath name? (instead of id)
                     object.id = event.target.result
                 }
                 return [ object, event ]
-            })
+            });
             
-            if(event_promise)
+            if (event_promise)
                 return Promise.all([event_promise, request_promise])
-            return request_promise
+            return request_promise;
             
         }(object, event_callback)//copy var references for callbacks
     },

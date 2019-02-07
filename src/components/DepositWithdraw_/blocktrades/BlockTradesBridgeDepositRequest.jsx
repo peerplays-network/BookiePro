@@ -814,7 +814,7 @@ class BlockTradesBridgeDepositRequest extends React.Component {
 
       if (deposit_or_withdraw === 'withdraw') {
         withdraw_output_coin_types.forEach((allowed_withdraw_output_coin_type) => {
-          if(new_output_coin_type === allowed_withdraw_output_coin_type){
+          if (new_output_coin_type === allowed_withdraw_output_coin_type) {
             this.setState({
               coin_symbol: new_output_coin_type + 'output',
               supports_output_memos: this.state.coins_by_type[allowed_withdraw_output_coin_type]

@@ -69,7 +69,7 @@ class Pagination extends React.Component {
       to = currentPage + offset;
     }
 
-    for(let i = from; i <= to; ++i) {
+    for (let i = from; i <= to; ++i) {
       buttons.push(this.renderInternalLink(i, currentPage === i));
     }
 

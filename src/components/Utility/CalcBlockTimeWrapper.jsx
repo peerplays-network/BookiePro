@@ -12,7 +12,7 @@ class CalcBlockTimeWrapper extends Component {
   }
 
   componentWillReceiveProps(next_props) {
-    if(next_props.block_number !== this.props.block_number) {
+    if (next_props.block_number !== this.props.block_number) {
       return true;
     }
 

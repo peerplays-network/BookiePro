@@ -479,8 +479,7 @@ class AccountWrapper extends React.Component {
             debt={ debt }
             collateral={ collateral }/>
         )
-        : null
-      ;
+        : null;
     }
 }
 

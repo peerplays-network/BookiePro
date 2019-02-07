@@ -41,7 +41,7 @@ class AssetSelector extends React.Component {
     }
 
     render() {
-      if(this.props.assets.length === 0) {
+      if (this.props.assets.length === 0) {
         return null;
       }
 
@@ -49,7 +49,7 @@ class AssetSelector extends React.Component {
         return <AssetOption key={ value } asset={ value } asset_id={ value }/>;
       });
 
-      if(this.props.assets.length === 1) {
+      if (this.props.assets.length === 1) {
         return (
           <FormattedAsset asset={ this.props.assets[0] } amount={ 0 } hide_amount={ true }/>
         );

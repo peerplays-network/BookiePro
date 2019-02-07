@@ -95,6 +95,9 @@ export default function (state = defaultState, action) {
       return Object.assign({}, state, {
         openOrders: action.payload.openOrders
       });
+      //reset to default state
+    case ActionTypes.DASHBOARD_RESET:
+      return Object.assign({}, state, defaultState);
     default:
       // We return the previous state in the default case
       return state;

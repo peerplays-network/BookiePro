@@ -13,7 +13,7 @@ class WitnessRow extends React.Component {
   render() {
     let {witnessAccount, witness, rank, asset, blockInterval} = this.props;
 
-    if ( !witness ) {
+    if (!witness ) {
       return null;
     }
 

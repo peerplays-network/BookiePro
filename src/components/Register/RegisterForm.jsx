@@ -41,8 +41,7 @@ const renderField = ({
         </span>
         {(touched) && error && <span className='error__hint'>{error}</span>}
         {!error && errors && errors.length ? errors.map((err) => {
-          return <span className='error__hint' key={ err }>{err}</span>
-          ;
+          return <span className='error__hint' key={ err }>{err}</span>;
         }) : <span className='error__hint'>&nbsp;</span>
         }
       </span>
@@ -169,11 +168,11 @@ const renderRecoveryButtonFields = (fields) => {
 
 const normalizeAccount = (value, previousValue) => {
 
-  if(!value.length) {
+  if (!value.length) {
     return value;
   }
 
-  if(/[^A-Za-z0-9-]/.test(value)) {
+  if (/[^A-Za-z0-9-]/.test(value)) {
     return previousValue && previousValue.toLowerCase();
   }
 
@@ -361,7 +360,7 @@ export default RegisterForm = reduxForm({
       }
     }
 
-    if(!values.password || values.password.length < MAX_PASSWORD_CHARACTERS) {
+    if (!values.password || values.password.length < MAX_PASSWORD_CHARACTERS) {
       errors.password = (
         <Translate
           content='errors.password_must_be_X_characters_or_more'
@@ -387,7 +386,7 @@ export default RegisterForm = reduxForm({
     return AccountRepository.lookupAccounts(values.accountName, 100).then((result) => {
       let account = result.find((a) => a[0] === values.accountName);
 
-      if(account) {
+      if (account) {
         throw {accountName: <Translate content='errors.name_is_taken' />};
       }
     });

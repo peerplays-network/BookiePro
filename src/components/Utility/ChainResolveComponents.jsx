@@ -30,16 +30,17 @@ class ResolveLinkedAccountsChainState extends Component {
     render() {
       var linkedAccounts = [];
       pairs(this.props.linkedAccounts).forEach( (account) => {
-        if( !account[1]) {
+        if (!account[1]) {
           return;
         }
 
         console.log('... account.toJS()', account[1].toJS());
         linkedAccounts.push(account[1]);
       });
+
       var child = Children.only(this.props.children);
 
-      if( ! child) {
+      if (!child) {
         return (
           <span>{linkedAccounts.map((a) => <br>{a.toJS()}</br>)}</span>
         );
@@ -47,6 +48,6 @@ class ResolveLinkedAccountsChainState extends Component {
 
       // Pass the list to a child reactjs component as this.props.resolvedLinkedAccounts
       child = React.addons.cloneWithProps(child, {linkedAccounts});
-      return <span>{child}</span>;
+      return (<span>{child}</span>);
     }
 }

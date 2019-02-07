@@ -280,7 +280,7 @@ class AccountRepository {
       // let fee_asset = chain_fee_asset.toJS();
       //
       // // Default to CORE in case of faulty core_exchange_rate
-      // if( fee_asset.options.core_exchange_rate.base.asset_id === "1.3.0" &&
+      // if (fee_asset.options.core_exchange_rate.base.asset_id === "1.3.0" &&
       //     fee_asset.options.core_exchange_rate.quote.asset_id === "1.3.0" ) {
       //    fee_asset_id = "1.3.0";
       // }
