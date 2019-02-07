@@ -29,6 +29,14 @@ class Repository {
     });
   }
 
+  static getWitnesses() {
+    return new Promise((resolve, reject) => {
+      let witnesses = ChainStore.fetchWitnessAccounts();
+
+      return resolve(witnesses);
+    });
+  }
+
   /**
    * This method will attempt to lookup witness by account_id.
    * @param {string} accountId
