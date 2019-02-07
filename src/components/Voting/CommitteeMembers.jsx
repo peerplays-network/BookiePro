@@ -56,7 +56,7 @@ class CommitteeMembers extends React.Component {
 
   verifyInputValue(value, uniqueRequestId) {
     AccountRepository.fetchFullAccount(value).then((result) => {
-      if(!result) {
+      if (!result) {
         throw 'Unknown account';
       }
 
@@ -66,7 +66,7 @@ class CommitteeMembers extends React.Component {
         return this.validateAccount(account);
       }
     }).then( (isCommitteeMember) => {
-      if(isCommitteeMember) {
+      if (isCommitteeMember) {
         throw isCommitteeMember;
       }
 
@@ -148,7 +148,7 @@ class CommitteeMembers extends React.Component {
 
 
   validateAccount(account) {
-    if(!account) {
+    if (!account) {
       return null;
     }
 
@@ -163,11 +163,11 @@ class CommitteeMembers extends React.Component {
   }
 
   onPublishChanges(walletLocked){
-    if(walletLocked && !this.props.walletIsOpen) {
+    if (walletLocked && !this.props.walletIsOpen) {
       this.props.setWalletPosition(true);
     }
 
-    if(walletLocked) {
+    if (walletLocked) {
       return;
     } else {
       this.props.publishCM(this.state.committeeMembers).then((tr) => {
@@ -195,11 +195,11 @@ class CommitteeMembers extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.walletLocked !== this.props.walletLocked && !nextProps.walletLocked) {
+    if (nextProps.walletLocked !== this.props.walletLocked && !nextProps.walletLocked) {
       this.onPublishChanges(nextProps.walletLocked);
     }
 
-    if(JSON.stringify(nextProps.approvedCMIds) !== JSON.stringify(this.props.approvedCMIds)) {
+    if (JSON.stringify(nextProps.approvedCMIds) !== JSON.stringify(this.props.approvedCMIds)) {
       this.setState({
         committeeMembers: nextProps.approvedCMIds,
         prev_committeeMembers: nextProps.approvedCMIds,

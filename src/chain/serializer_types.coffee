@@ -310,7 +310,7 @@ id_type = (reserved_spaces, object_type)->
         
         "#{reserved_spaces}.#{object_type_id}."+object
     compare: (a, b) ->
-        if(Array.isArray(a) && Array.isArray(b) && a.length > 0 && b.length > 0)
+        if (Array.isArray(a) && Array.isArray(b) && a.length > 0 && b.length > 0)
             return a[0] - b[0]
         else
             return 0

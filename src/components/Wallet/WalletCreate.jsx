@@ -22,7 +22,7 @@ class WalletCreate extends Component {
   render() {
     console.log('wallet from DB', WalletDb.getWallet());
 
-    if(WalletDb.getWallet() && this.props.children) {
+    if (WalletDb.getWallet() && this.props.children) {
       return <div>{this.props.children}</div>;
     }
 
@@ -90,12 +90,12 @@ class CreateNewWallet extends Component {
       let key_id = event.target.id;
       let value = event.target.value;
 
-      if(key_id === 'wallet_public_name') {
+      if (key_id === 'wallet_public_name') {
         //case in-sensitive
         value = value.toLowerCase();
 
         // Allow only valid file name characters
-        if( /[^a-z0-9_-]/.test(value) ) {
+        if (/[^a-z0-9_-]/.test(value) ) {
           return;
         }
       }
@@ -117,7 +117,7 @@ class CreateNewWallet extends Component {
 
       var isValid = errors.wallet_public_name === null && state.valid_password !== null;
 
-      if(this.state.custom_brainkey && isValid) {
+      if (this.state.custom_brainkey && isValid) {
         isValid = this.state.brnkey !== null;
       }
 
@@ -133,7 +133,7 @@ class CreateNewWallet extends Component {
       let errors = state.errors;
       let has_wallet = !!this.props.current_wallet;
 
-      if(this.state.create_submitted &&
+      if (this.state.create_submitted &&
           this.state.wallet_public_name === this.props.current_wallet) {
         return (
           <div>

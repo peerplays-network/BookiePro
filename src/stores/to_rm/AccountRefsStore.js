@@ -25,7 +25,7 @@ class AccountRefsStore extends BaseStore {
   }
 
   onAddPrivateKey({private_key_object}) {
-    if(ChainStore.getAccountRefsOfKey(private_key_object.pubkey) !== undefined) {
+    if (ChainStore.getAccountRefsOfKey(private_key_object.pubkey) !== undefined) {
       this.chainStoreUpdate();
     }
   }
@@ -38,7 +38,7 @@ class AccountRefsStore extends BaseStore {
   }
 
   chainStoreUpdate() {
-    if(this.chainstore_account_ids_by_key === ChainStore.account_ids_by_key) {
+    if (this.chainstore_account_ids_by_key === ChainStore.account_ids_by_key) {
       return;
     }
 
@@ -60,7 +60,7 @@ class AccountRefsStore extends BaseStore {
         return;
       }
 
-      if ( ! refs.size) {
+      if (! refs.size) {
         /*{
           // Performance optimization...
           // There are no references for this public key, this is going
@@ -70,7 +70,7 @@ class AccountRefsStore extends BaseStore {
           // account references may be pending.
           var private_key_object = PrivateKeyStore.getState().keys.get(pubkey);
 
-          if( typeof private_key_object.brainkey_sequence === 'number' ) {
+          if (typeof private_key_object.brainkey_sequence === 'number' ) {
             return;
           }
         }*/
@@ -106,9 +106,8 @@ function loadNoAccountRefs() {
 function saveNoAccountRefs(no_account_refs) {
   var array = [];
 
-  for(let pubkey of no_account_refs) {
-    array.push(pubkey)
-    ;
+  for (let pubkey of no_account_refs) {
+    array.push(pubkey);
   }
 
   iDB.root.setProperty('no_account_refs', array);

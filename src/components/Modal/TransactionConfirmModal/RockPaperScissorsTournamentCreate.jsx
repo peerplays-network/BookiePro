@@ -13,7 +13,7 @@ class RockPaperScissorsTournamentCreate extends React.Component {
       transaction = this.props.transaction,
       whiteList = this.props.whiteList;
 
-    if(whiteList && whiteList.length) {
+    if (whiteList && whiteList.length) {
       for(var i=0; i < whiteList.length;i++) {
         whitelist_records.push(whiteList[i]['text']);
       }

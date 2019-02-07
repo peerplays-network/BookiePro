@@ -98,6 +98,15 @@ class SendPageActions {
   }
 
   /**
+   * reset reducer to initial state
+   */
+  static resetSendPage() {
+    return {
+      type: ActionTypes.SEND_PAGE_RESET,
+    };
+  }
+
+  /**
    * Get transaction for transfer
    *
    * @param {string} from_account
@@ -124,7 +133,7 @@ class SendPageActions {
     optional_nonce = null
   ) {
 
-    return (getState) => {
+    return (dispatch, getState) => {
       return new Promise((resolve, reject) => {
         // Get the encrypted memo key.
         const encryptedMemoKey = getState().walletData.wallet.encrypted_memo_key;
@@ -230,7 +239,7 @@ class SendPageActions {
    * @returns {function(*, *)}
    */
   static transferTransaction(tr) {
-    return (getState) => {
+    return (dispatch, getState) => {
       return new Promise((resolve, reject) => {
         let encrypted_key = getState().walletData.wallet.encrypted_brainkey;
         const activePrivateKeyBuffer = getState().walletData.aesPrivate

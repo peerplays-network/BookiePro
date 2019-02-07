@@ -12,7 +12,7 @@ class WalletUnlockActions {
       this.dispatch({resolve, reject});
     }).then( (was_unlocked) => {
       //DEBUG  console.log('... WalletUnlockStore\tmodal unlock')
-      if(was_unlocked) {
+      if (was_unlocked) {
         WrappedWalletUnlockActions.change();
       }
     });

@@ -26,7 +26,7 @@ class WitnessListNew extends React.Component {
       if (w) {
         let s = w.last_aslot;
 
-        if( most_recent_aslot < s ) {
+        if (most_recent_aslot < s) {
           most_recent_aslot = s;
         }
 

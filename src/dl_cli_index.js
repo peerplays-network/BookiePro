@@ -21,7 +21,7 @@ module.exports = {
   db: ()=> Apis.instance().db_api(),
 
   resolve: (object, atty = '_') => {
-    if( ! object['then']) {
+    if (! object['then']) {
       console.log(object);
       return object;
     }
@@ -45,7 +45,7 @@ module.exports = {
     }
 
     for (var obj in module.exports) {
-      if(obj === 'init') {
+      if (obj === 'init') {
         continue;
       }
 

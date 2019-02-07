@@ -47,7 +47,7 @@ function updateChainStore() {
 
         break;
       case LocationConstants.DEPOSIT_WITHDRAW:
-        if(currentState.app.account) {
+        if (currentState.app.account) {
           DashboardBalancesService.fetchCurrentBalance(
             currentState.app.account,
             currentState.settings.unit,
@@ -59,7 +59,7 @@ function updateChainStore() {
 
         break;
       case LocationConstants.SEND:
-        if(currentState.app.account) {
+        if (currentState.app.account) {
           DashboardBalancesService.fetchCurrentBalance(
             currentState.app.account,
             currentState.settings.unit,
@@ -84,7 +84,7 @@ function updateChainStore() {
               currentState.settings.unit, currentState.settings.hiddenAssets
             );
 
-            if(data && data.dataBalances){
+            if (data && data.dataBalances){
               let baseAsset = currentState.exchangePageReducer.baseAssetId;
               let quoteAsset = currentState.exchangePageReducer.quoteAssetId;
               let coreAsset = '1.3.0';

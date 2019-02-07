@@ -130,7 +130,7 @@ class VotingActions {
    * @returns {function(*, *)}
    */
   static publishProxy(proxyId) {
-    return ( getState) => {
+    return (dispatch, getState) => {
       return Repository.getAccount(getState().app.account).then((result) => {
         let account = result.toJS();
         account.account = account.id;
@@ -286,7 +286,7 @@ class VotingActions {
    * @returns {function(*, *)}
    */
   static publishWitnesses(witnesses) {
-    return ( getState) => {
+    return (dispatch, getState) => {
       return Repository.getAccount(getState().app.account).then((result) => {
         let account = result.toJS();
         account.account = account.id;
@@ -388,7 +388,7 @@ class VotingActions {
    * @returns {function(*, *)}
    */
   static publishCM(committeeMembers) {
-    return (getState) => {
+    return (dispatch, getState) => {
       return Repository.getAccount(getState().app.account).then((result) => {
         let account = result.toJS();
         account.account = account.id;
@@ -435,7 +435,7 @@ class VotingActions {
 
     return Promise.all(workerPromises).then((result) => {
       result = result.filter((w) => {
-        if(!w) {
+        if (!w) {
           return false;
         }
 
@@ -593,7 +593,7 @@ class VotingActions {
    * @returns {function(*, *)}
    */
   static publishProposals(votes) {
-    return (getState) => {
+    return (dispatch, getState) => {
       return Repository.getAccount(getState().app.account).then((result) => {
         let account = result.toJS();
         account.account = account.id;
@@ -637,7 +637,7 @@ class VotingActions {
   }
 
   static holdTransaction(tr) {
-    return (getState) => {
+    return (dispatch, getState) => {
       return new Promise((resolve, reject) => {
         let aes_private = getState().walletData.aesPrivate,
           keys = getState().privateKey.keys,

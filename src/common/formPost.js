@@ -3,7 +3,7 @@ module.exports =
   SerializeToQuery:function(obj) {
     var str = [];
 
-    for( var p in obj) {
+    for (var p in obj) {
       if (obj.hasOwnProperty(p)) {
         str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
       }

@@ -34,7 +34,7 @@ export default class WalletActions {
         dispatch(WalletActions.lockAccount());
       }, getState().settings.walletLockTimeout);
 
-      if(getState().wallet.locked) {
+      if (getState().wallet.locked) {
         dispatch({
           type: ActionTypes.SET_LOCK_STATUS,
           payload: false,

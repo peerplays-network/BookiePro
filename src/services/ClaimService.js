@@ -24,16 +24,16 @@ class ClaimService {
 
       let balance_ids = [];
 
-      for(let balance of results) {
+      for (let balance of results) {
         balance_ids.push(balance.id);
       }
 
       return BalanceRepository.getVestedBalances(balance_ids).then( (vested_balances) => {
         let balances = Immutable.List().withMutations( (balance_list) => {
-          for(let i = 0; i < results.length; i++) {
+          for (let i = 0; i < results.length; i++) {
             let balance = results[i];
 
-            if(balance.vesting_policy) {
+            if (balance.vesting_policy) {
               balance.vested_balance = vested_balances[i];
             }
 
@@ -43,13 +43,13 @@ class ClaimService {
         });
         let balance_claims = [];
 
-        for(let balance of balances) {
+        for (let balance of balances) {
           balance = balance.toJS();
           let {vested_balance, public_key_string} = balance;
           let total_claimed;
 
-          if( vested_balance ) {
-            if(vested_balance.amount === 0) {
+          if (vested_balance ) {
+            if (vested_balance.amount === 0) {
               // recently claimed
               continue;
             }
@@ -84,7 +84,7 @@ class ClaimService {
             tr = wallet_api.new_transaction();
           tr.add_signer(privateKey, publicKey);
 
-          for(let balance_claim of balance_claims) {
+          for (let balance_claim of balance_claims) {
             tr.add_type_operation('balance_claim', balance_claim);
           }
 

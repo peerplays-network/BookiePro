@@ -23,12 +23,12 @@ class PasswordSettings extends React.Component {
   onChangeInputCurrentPassword(e) {
     let currentPassword = e.target.value;
 
-    if(!currentPassword) {
+    if (!currentPassword) {
       this.setState({currentPassword, invalidPassword: null});
       return;
     }
 
-    if(currentPassword.length < 22) {
+    if (currentPassword.length < 22) {
       this.setState({
         currentPassword,
         invalidPassword: counterpart.translate(
@@ -44,12 +44,12 @@ class PasswordSettings extends React.Component {
   onChangeInputNewPassword(e) {
     let newPassword = e.target.value;
 
-    if(!newPassword) {
+    if (!newPassword) {
       this.setState({newPassword, invalidNewPassword: null});
       return;
     }
 
-    if(newPassword.length < 22) {
+    if (newPassword.length < 22) {
       this.setState({
         newPassword,
         invalidNewPassword: counterpart.translate(
@@ -65,12 +65,12 @@ class PasswordSettings extends React.Component {
   onChangeInputConfirmNewPassword(e) {
     let confirmNewPassword = e.target.value;
 
-    if(!confirmNewPassword) {
+    if (!confirmNewPassword) {
       this.setState({confirmNewPassword, invalidConfirmNewPassword: null});
       return;
     }
 
-    if(confirmNewPassword.length < 22) {
+    if (confirmNewPassword.length < 22) {
       this.setState({
         confirmNewPassword,
         invalidConfirmNewPassword: counterpart.translate(
@@ -88,12 +88,12 @@ class PasswordSettings extends React.Component {
     const password_private = PrivateKey.fromSeed( password );
     const password_pubkey = password_private.toPublicKey().toPublicKeyString();
 
-    if(this.props.password_pubkey !== password_pubkey){
+    if (this.props.password_pubkey !== password_pubkey) {
       this.setState({invalidPassword: counterpart.translate('errors.incorrect_password')});
       return;
     }
 
-    if(this.state.newPassword !== this.state.confirmNewPassword) {
+    if (this.state.newPassword !== this.state.confirmNewPassword) {
       this.setState({
         invalidConfirmNewPassword: counterpart.translate('errors.password_retype_match')
       });

@@ -109,8 +109,7 @@ class ApplicationApi {
           memo_from_public = null;
         }
 
-        memo_to_public = chain_to.getIn(['options', 'memo_key'])
-        ;
+        memo_to_public = chain_to.getIn(['options', 'memo_key']);
 
         if (/111111111111111111111/.test(memo_to_public)) {
           memo_to_public = null;

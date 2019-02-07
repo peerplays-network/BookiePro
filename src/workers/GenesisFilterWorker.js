@@ -1,13 +1,13 @@
 
-var GenesisFilter = require( 'chain/GenesisFilter' );
+var GenesisFilter = require('chain/GenesisFilter');
 
 onmessage = function(event) {
   try {
     console.log('GenesisFilterWorker start');
     var {account_keys, bloom_filter} = event.data;
-    var genesis_filter = new GenesisFilter( bloom_filter );
+    var genesis_filter = new GenesisFilter( bloom_filter);
     genesis_filter.filter( account_keys, (status) => {
-      if ( status.success ) {
+      if (status.success) {
         postMessage({account_keys, status});
         console.log('GenesisFilterWorker done');
         return;
@@ -15,7 +15,7 @@ onmessage = function(event) {
 
       postMessage({status});
     });
-  } catch( e ) {
+  } catch( e) {
     console.error('GenesisFilterWorker', e);
   }
 };

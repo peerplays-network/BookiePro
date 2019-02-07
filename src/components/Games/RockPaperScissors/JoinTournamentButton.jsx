@@ -107,8 +107,8 @@ class JoinTournamentButton extends React.Component {
             className={ 'btn btn-join' } />
         );
       } else {
-        if(whitelistedplayers.length !== 0) {
-          if(whitelistedplayers.includes(accountId)) {
+        if (whitelistedplayers.length !== 0) {
+          if (whitelistedplayers.includes(accountId)) {
             return (
               <Translate
                 content='games.rps_game.join'

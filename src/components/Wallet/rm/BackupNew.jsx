@@ -65,7 +65,7 @@ export class Create extends React.Component {
       callback = ()=>{
         setBackupDate();
 
-        if(this.props.downloadCb){
+        if (this.props.downloadCb){
           this.props.downloadCb();
         }
       };
@@ -171,7 +171,7 @@ class Download extends React.Component {
   }
 
   componentDidMount() {
-    if( ! this.isFileSaverSupported ){
+    if (! this.isFileSaverSupported ){
       console.error('File saving is not supported');
     }
   }
@@ -182,7 +182,7 @@ class Download extends React.Component {
     var blob = new Blob([ contents ], {
       type: 'application/octet-stream; charset=us-ascii'});
 
-    if(blob.size !== size) {
+    if (blob.size !== size) {
       throw new Error('Invalid backup to download conversion');
     }
 

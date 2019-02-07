@@ -1,9 +1,9 @@
 {
-  "name": "Peerplays-Core",
+  "name": "peerplays-core",
   "productName": "Peerplays Core",
   "identifier": "org.peerplays.peerplays",
   "description": "Peerplays Core Graphical Interface",
-  "version": "0.2.0",
+  "version": "0.3.2",
   "author": "community@peerplays.org",
   "main": "electron.js",
   "config": {

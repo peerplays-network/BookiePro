@@ -34,11 +34,11 @@ class WalletUnlockModal extends React.Component {
   componentDidMount() {
     let modal = ReactDOM.findDOMNode(this.refs.modal);
     ZfApi.subscribe(this.props.modalId, (name, msg) => {
-      if(name !== this.props.modalId) {
+      if (name !== this.props.modalId) {
         return;
       }
 
-      if(msg === 'close') {
+      if (msg === 'close') {
         WalletUnlockActions.cancel();
       } else if (msg === 'open') {
         this.refs.password_input.clear();
@@ -57,8 +57,7 @@ class WalletUnlockModal extends React.Component {
   }
 
   componentDidUpdate() {
-    //DEBUG console.log('... componentDidUpdate this.props.resolve', this.props.resolve)
-    if(this.props.resolve) {
+    if (this.props.resolve) {
       if (WalletDb.isLocked()) {
         ZfApi.publish(this.props.modalId, 'open');
       } else {

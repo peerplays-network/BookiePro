@@ -608,7 +608,7 @@ class DashboardBalancesService {
 
     // Debt value
     // for (let asset in debt) {
-    //     if(assetData.hasOwnProperty(asset)){
+    //     if (assetData.hasOwnProperty(asset)){
     //
     //         assetData[asset]['debt'] += debt[asset];
     //         assetData[asset]['totalBalance'] -= debt[asset];

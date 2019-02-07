@@ -1,6 +1,6 @@
 {
   "name": "peerplays-core-gui",
-  "version": "0.2.0",
+  "version": "0.3.2",
   "description": "Advanced wallet interface for graphene based blockchains (Bishares, Muse..)",
   "homepage": "./",
   "author": "Cryptonomex, Inc.",
@@ -17,8 +17,7 @@
     "url": "git://github.com/PBSA/peerplays-core-gui"
   },
   "scripts": {
-    "new-build": "node scripts/build.js",
-    "pre-release-s1": "npm run electron",
+    "pre-release-s1": "rm -rf releases; rm -rf electron/releases; npm run electron; npm run postelectron;",
     "pre-release-s2": "cd electron/node_modules/electron-prebuilt; rm -rf dist;",
     "pre-release-all": "npm run pre-release-s1 && npm run pre-release-s2",
     "post-release": "cp -a electron/releases/. releases; echo 'Release builds can be found in ./releases directory';",
@@ -32,7 +31,7 @@
     "release-mac": "npm run pre-release-all && npm run mac-r && npm run post-release;",
     "release-win": "npm run pre-release-all && npm run win-r && npm run post-release;",
     "release-lin": "npm run pre-release-all && npm run lin-r && npm run post-release;",
-    "release-mwl": "rm -rf releases; rm -rf electron/releases; npm run pre-release-s1 && npm run mwl && npm run post-release",
+    "release-mwl": "npm run pre-release-s1 && npm run mwl && npm run post-release",
     "test-old": "./node_modules/.bin/mocha --compilers coffee:coffee-script,js:babel/register --require coffee-script/register",
     "test": "jest",
     "profile-dev": "webpack --config config/webpack-dev.js --profile --json > stats-dev.json",
@@ -48,7 +47,7 @@
     "build-prod": "NODE_ENV=production webpack --config config/webpack-deploy-prod.js --progress --display-error-details --colors",
     "build-remote-dev": "NODE_ENV=production webpack --config config/webpack-deploy-remote.js --progress --display-error-details --colors",
     "electron": "NODE_ENV=production webpack --config config/webpack-electron.js --progress --display-error-details --colors;",
-    "postelectron": " echo 'copying to electron/build..'; cp -r build/* ../electron/build/; echo 'done.'",
+    "postelectron": " echo 'copying to electron/build..'; cp -r build/* electron/build/; echo 'done.'",
     "build-win32": "set NODE_ENV=production && webpack --config config/webpack-deploy-prod.js --progress --colors &&  echo 'copying to electron/build..' &&  xcopy dist ..\\electron\\build /s /e /y && echo 'done.'",
     "build-electron-win": "set NODE_ENV=production && webpack --config config/webpack-electron.js --progress --colors &&  echo 'copying to electron/build..' &&  xcopy dist ..\\electron\\build /s /e /y && echo 'done.'"
   },
@@ -136,7 +135,7 @@
   "devDependencies": {
     "babel": "^5.8.29",
     "babel-core": "^5.8.33",
-    "babel-eslint": "^6.0.4",
+    "babel-eslint": "^10.0.1",
     "babel-jest": "^5.3.0",
     "babel-loader": "^5.3.3",
     "babel-plugin-react-transform": "^1.1.1",
@@ -158,7 +157,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-prettier": "^3.0.0",
-    "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-react": "^7.12.4",
     "extract-text-webpack-plugin": "^0.9.1",
     "fake-indexeddb": "^1.0.3",
     "file-loader": "^0.8.5",

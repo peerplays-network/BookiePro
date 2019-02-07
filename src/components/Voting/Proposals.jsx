@@ -18,19 +18,19 @@ class Proposals extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.proposals && !this.props.proposals) {
+    if (nextProps.proposals && !this.props.proposals) {
       this.setState({
         proposals: nextProps.proposals
       });
     }
 
-    if(nextProps.votes && !this.props.votes) {
+    if (nextProps.votes && !this.props.votes) {
       this.setState({
         votes: nextProps.votes
       });
     }
 
-    if(nextProps.walletLocked !== this.props.walletLocked) {
+    if (nextProps.walletLocked !== this.props.walletLocked) {
       this.onPublish(nextProps.walletLocked);
     }
   }
@@ -53,11 +53,11 @@ class Proposals extends React.Component {
     let {votes} = this.state;
     let addVotes = [], removeVotes = [];
 
-    if( votes.has( obj.vote_against ) ) {
+    if (votes.has(obj.vote_against)) {
       removeVotes.push(obj.vote_against);
     }
 
-    if( !votes.has( obj.vote_for ) ) {
+    if (!votes.has(obj.vote_for)) {
       addVotes.push(obj.vote_for);
     }
 
@@ -90,11 +90,11 @@ class Proposals extends React.Component {
     let {votes} = this.state;
     let addVotes = [], removeVotes = [];
 
-    if( votes.has( obj.vote_against ) ) {
+    if (votes.has(obj.vote_against)) {
       removeVotes.push(obj.vote_against);
     }
 
-    if( votes.has( obj.vote_for ) ) {
+    if (votes.has(obj.vote_for)) {
       removeVotes.push(obj.vote_for);
     }
 
@@ -124,7 +124,7 @@ class Proposals extends React.Component {
       this.props.setWalletPosition(true);
     }
 
-    if(walletLocked) {
+    if (walletLocked) {
       return;
     } else {
       this.props.publishProposals(this.state.votes).then((tr) => {

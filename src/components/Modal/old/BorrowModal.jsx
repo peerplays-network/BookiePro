@@ -532,8 +532,7 @@ class BorrowModalContent extends React.Component {
                 <Translate content='borrow.adjust' />
               </div>
               <div onClick={ (e) => {
-                e.preventDefault(); this.setState(this._initialState(this.props))
-                ;
+                e.preventDefault(); this.setState(this._initialState(this.props));
               } } href className='button info'><Translate content='wallet.reset' /></div>
             </div>
           </form>

@@ -13,11 +13,10 @@ var Utils = {
   },
 
   is_object_id: (obj_id) => {
-    if( 'string' != typeof obj_id ) {
+    if ('string' != typeof obj_id) {
       return false;
     }
 
-    ;
     let match = id_regex.exec(obj_id);
     return (match !== null && obj_id.split('.').length === 3);
   },
@@ -308,7 +307,7 @@ var Utils = {
 
     if (value === '.' || value === '') {
       return value;
-    } else if( value.length ) {
+    } else if (value.length) {
       let n = Number(value);
 
       if (isNaN(n)) {
@@ -332,7 +331,7 @@ var Utils = {
 
     if (value.length && isNaN(fvalue) && value !== '.') {
       throw 'parse_float_with_comma: must be a number';
-    } else if ( fvalue < 0) {
+    } else if (fvalue < 0) {
       return 0;
     }
 

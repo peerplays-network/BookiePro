@@ -12,7 +12,7 @@ module.exports = (key) => {
     get(key, dv = {}) {
       let rv;
 
-      if ( ls_key_exists(STORAGE_KEY + key, ls) ) {
+      if (ls_key_exists(STORAGE_KEY + key, ls) ) {
         rv = JSON.parse(ls.getItem(STORAGE_KEY + key));
       }
 
