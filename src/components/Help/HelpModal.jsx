@@ -32,7 +32,6 @@ class HelpModal extends React.Component {
   render() {
     return (
       <Modal
-        ref='modal'
         className='backdrop-help'
         isOpen={ this.props.showHelpModal }
         backdrop={ true }
@@ -42,7 +41,7 @@ class HelpModal extends React.Component {
           <ModalHeader closeButton>
             <ModalTitle><Translate component='div' className='modalTitle help' content='help.title'/><a href='' onClick={ this.onClickClose.bind(this) } className='modalClose icon-close'></a> {/*eslint-disable-line*/}</ModalTitle>
           </ModalHeader>
-          <div style={ {maxHeight: 'calc(100vh - 210px)', overflowY: 'auto'} }>
+          <div ref='modal' style={ {maxHeight: 'calc(100vh - 210px)', overflowY: 'auto'} }>
             <div className='modalBody'>
               <div className='modalBody-text-body'>
                 <Translate component='div' className='help__h3' content='help.title_welcome'/>
