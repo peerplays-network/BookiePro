@@ -25,7 +25,7 @@ class HelpModal extends React.Component {
   }
 
   scrollToHeaderByRefName(refName, e) {
-    ReactDOM.findDOMNode(this.refs.modal).scrollTop = this.refs[refName].offsetTop;
+    ReactDOM.findDOMNode(this.refs.modal).scrollTop = this.refs[refName].offsetTop-70;
     e.preventDefault();
   }
 
