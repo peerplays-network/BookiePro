@@ -245,7 +245,7 @@ class Proposals extends React.Component {
       : null;
 
     return (
-      <div id='proposals' className='tab__deploy' style={ {display: 'block'} }>
+      <div id='proposals' className='tab__deploy block'>
         <div className='tab__deployHead'>
           <div className='title'><Translate content='account.votes.proposals.title' /></div>
           <div className='row'>

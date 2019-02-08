@@ -135,10 +135,7 @@ class Dashboard extends React.Component {
     return (
       <div
         id='dashboard'
-        className='tab__deploy'
-        style={ {
-          display: 'block'
-        } }>
+        className='tab__deploy block'>
         <div className='box-inner box-inner-2'>
           <div className='table__section'>
             <Translate

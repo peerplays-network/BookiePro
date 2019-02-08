@@ -59,7 +59,9 @@
       margin-bottom: 21px;
     }
 
-    .fieldWrap {}
+    &.block {
+      display: block
+    }
 
     & p {
       font-size: 16px;

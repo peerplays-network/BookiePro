@@ -157,7 +157,7 @@ class PasswordSettings extends React.Component {
     || !!(invalidPassword || invalidNewPassword || invalidConfirmNewPassword);
 
     return (
-      <div id='password' className='tab__deploy' style={ {display: 'block'} }>
+      <div id='password' className='tab__deploy block'>
         <div className='tab__deployHead'>
           <div className='title'><Translate content='settings.password_text' /></div>
         </div>

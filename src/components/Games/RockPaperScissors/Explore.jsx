@@ -83,10 +83,7 @@ class Explore extends React.Component {
       <div>
         <div
           id='explore'
-          className='tab__deploy general__tab'
-          style={ {
-            display: 'block'
-          } }>
+          className='tab__deploy general__tab block'>
           <div
             className='radio-tab-pane'
             id='radio1'

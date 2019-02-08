@@ -52,10 +52,7 @@ class Create extends React.Component {
     return (
       <div
         id='create'
-        className='tab__deploy'
-        style={ {
-          display: 'block'
-        } }>
+        className='tab__deploy block'>
         <div className='tab__deployHead'>
           <Translate
             component='div'
