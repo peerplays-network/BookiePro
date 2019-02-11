@@ -4,6 +4,7 @@ import {ChainValidation} from 'peerplaysjs-lib';
 import Translate from 'react-translate-component';
 import AccountRepository from 'repositories/AccountRepository';
 import {LoginActions} from '../../actions';
+import Normalize from '../Utility/Normalizer';
 
 const renderField = ({
   tabIndex,
@@ -40,19 +41,6 @@ const renderField = ({
     }) : <span className='error__hint'>&nbsp;</span>}
   </label>
 );
-
-const normalizeAccount = (value, previousValue) => {
-  if (!value.length) {
-    return value;
-  }
-
-  if (/[^A-Za-z0-9-]/.test(value)) {
-    return previousValue && previousValue.toLowerCase();
-  }
-
-  return value;
-};
-
 class LoginForm extends React.Component {
   componentWillMount() {
     this.props.initialize({
@@ -115,7 +103,7 @@ class LoginForm extends React.Component {
           component={ renderField }
           placeholder='login.login_form_login_account_placeholder'
           type='text'
-          normalize={ normalizeAccount }
+          normalize={ Normalize.normalizeAccount }
           tabIndex='1'
         />
         <Field

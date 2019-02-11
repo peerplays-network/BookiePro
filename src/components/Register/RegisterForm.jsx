@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import {saveAs} from 'common/filesaver.js';
 import copy from 'copy-to-clipboard';
 import RandomString from 'randomstring';
+import Normalizer from '../Utility/Normalizer';
 
 const renderField = ({
   tabIndex,
@@ -166,20 +167,6 @@ const renderRecoveryButtonFields = (fields) => {
   );
 };
 
-const normalizeAccount = (value, previousValue) => {
-
-  if (!value.length) {
-    return value;
-  }
-
-  if (/[^A-Za-z0-9-]/.test(value)) {
-    return previousValue && previousValue.toLowerCase();
-  }
-
-  return value;
-};
-
-
 class RegisterForm extends React.Component {
   componentWillMount() {
     this.handleInitialize();
@@ -265,7 +252,7 @@ class RegisterForm extends React.Component {
           component={ renderField }
           placeholder='login.login_form_login_account_placeholder'
           type='text'
-          normalize={ normalizeAccount }
+          normalize={ Normalizer.normalizeAccount }
           tabIndex='1'/>
         <Field
           name='password'
@@ -274,7 +261,7 @@ class RegisterForm extends React.Component {
           component={ renderPasswordField }
           placeholder='login.login_form_login_password_placeholder'
           type='text'
-          normalize={ normalizeAccount }
+          normalize={ Normalizer.normalizePassword }
           onClickCopy={ this.onClickCopy.bind(this) }
           tabIndex='2'
         />
@@ -285,7 +272,7 @@ class RegisterForm extends React.Component {
           component={ renderRetypePasswordField }
           placeholder='login.login_form_login_password_placeholder'
           type='text'
-          normalize={ normalizeAccount }
+          normalize={ Normalizer.normalizePassword }
           tabIndex='3'
         />
         <Translate component='div' className='loginCreate__note1' content='sign_up.note1' />
