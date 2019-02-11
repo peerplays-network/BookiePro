@@ -42,7 +42,7 @@ class Send extends React.Component {
   }
 
   onInputChange(e) {
-    let value = e.target.value.trim();
+    let value = e.target.value.trim().toLowerCase();
 
     if (Number(value)) {
       this.setState({
@@ -59,7 +59,6 @@ class Send extends React.Component {
       });
       return;
     }
-
 
     if (value === this.props.currentAccount){
       this.setState({
