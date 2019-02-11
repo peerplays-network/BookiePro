@@ -333,6 +333,10 @@ class HistoryService {
         }
 
         case ChainTypes.operations.betting_market_group_resolved: {
+          if (!operationContent.has('resolutions')) {
+            return;
+          }
+
           const resolutions = operationContent.get('resolutions');
           const bettingMarketIds = resolutions.map((resolution) => resolution.get(0));
           let gameResultByBettingMarketId = Immutable.Map(resolutions);
