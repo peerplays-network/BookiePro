@@ -4,7 +4,6 @@
 
 ### Changed
 
-- End user can no longer add the logged in user as a proxy account.
 - The fees list now shows fee amounts (some were “-*”).
 - Better error handling and error display when confirming a transaction.
 - Prior users transaction history will no longer be displayed briefly to the different, newly logged in user.
