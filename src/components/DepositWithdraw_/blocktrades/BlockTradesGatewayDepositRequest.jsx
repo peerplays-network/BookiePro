@@ -1,3 +1,4 @@
+//unused
 import React from 'react';
 import Translate from 'react-translate-component';
 import {ChainStore} from 'peerplaysjs-lib';

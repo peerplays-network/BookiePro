@@ -1,3 +1,4 @@
+//unused
 import WalletDb from 'stores/WalletDb';
 
 class BlockTradesDepositAddressCache {

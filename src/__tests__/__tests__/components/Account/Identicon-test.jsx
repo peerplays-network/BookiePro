@@ -1,3 +1,4 @@
+//unused
 import React from "react/addons"; 
 var TestUtils = React.addons.TestUtils;
 jest.dontMock("../../../app/components/Account/Identicon.jsx");

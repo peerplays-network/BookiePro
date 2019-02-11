@@ -1,3 +1,4 @@
+//unused
 import React from 'react';
 import {connect} from 'react-redux';
 import Translate from 'react-translate-component';
