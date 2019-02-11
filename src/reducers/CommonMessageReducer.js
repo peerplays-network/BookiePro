@@ -31,21 +31,21 @@ export default function(state = initialState, action) {
       // get current state of messages
       // operate on the one matching supplied id
       let messageCount = state.get('messageCount');
-      const newMessageCount = --messageCount;
+      const newMessageCount = messageCount > 0 ? --messageCount : 0; // cannot have negative count
       const id = action.id;
       const newHeaderMsgState = state.get('headerMessages')
         .filter((m) => {
           let mID = m.get('id');
 
-          // Filter exchange messages.
-          return mID === 'h' + id;
+          // // Filter exchange messages.
+          return mID !== id;
         });
       const newsideBarMessagestate = state.get('sideBarMessages')
         .filter((m) => {
           let mID = m.get('id');
 
           // Filter betslip messages.
-          return mID === 's' + id;
+          return mID !== id;
         });
 
       return state.set('headerMessages', newHeaderMsgState)
