@@ -22,6 +22,7 @@ const Config = {
   FAUCET_URL: 'faucetUrls',
   BITSHARES_WS: 'wss://bitshares.openledger.info/ws',
   SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME: 'ppcoreupdates',
+  ACTIVE_WITNESS_ONLY: false,
 
   commonMessageModule: {
     numOfCommonMessageToDisplay: 1,
