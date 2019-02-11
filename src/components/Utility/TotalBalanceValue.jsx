@@ -1,3 +1,4 @@
+//unused
 import React from 'react';
 import FormattedAsset from './FormattedAsset';
 import ChainTypes from './ChainTypes';

@@ -1,3 +1,4 @@
+//unused
 import React from 'react';
 import {Link} from 'react-router';
 import Translate from 'react-translate-component';
@@ -17,6 +18,7 @@ class ExplorerCard extends React.Component {
 
 class Explorer extends React.Component {
   render() {
+    console.log('AM I USED');
     return (
       <div className='grid-block page-layout flex-start'>
         <div className='grid-block regular-padding small-up-1 medium-up-2 large-up-3'>

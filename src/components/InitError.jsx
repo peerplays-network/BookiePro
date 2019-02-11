@@ -1,3 +1,4 @@
+//unused
 import React from 'react';
 import connectToStores from 'alt/utils/connectToStores';
 import BlockchainStore from 'stores/BlockchainStore';

@@ -1,3 +1,4 @@
+//unused
 import React from 'react';
 import BalanceClaimActive from 'components/Wallet/BalanceClaimActive';
 import Translate from 'react-translate-component';
