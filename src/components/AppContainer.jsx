@@ -57,7 +57,8 @@ class App extends React.Component {
 
       content = (
         <div className='wrapper wrapper-with-footer'>
-          <Header pathname={ pathname }/> {this.props.children}
+          <Header pathname={ pathname }/>
+          {this.props.children}
         </div>
       );
     }

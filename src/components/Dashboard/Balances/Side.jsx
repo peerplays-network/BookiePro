@@ -16,10 +16,6 @@ class Side extends React.Component {
     this.props.fetchCurrentBalance();
   }
 
-  getPosition() {
-    return this.props.activeNotification ? 'static' : 'fixed';
-  }
-
   onLogoutClick(e) {
     e.preventDefault();
     this.props.logout();
@@ -27,6 +23,10 @@ class Side extends React.Component {
 
   navigateToDepositWithDraw() {
     this.props.navigateToDepositWithDraw();
+  }
+
+  getTopMargin() {
+    return this.props.activeNotification ? '35px' : '0px';
   }
 
   render() {
@@ -37,7 +37,7 @@ class Side extends React.Component {
     let availableKeys = Object.keys(availableBalances);
 
     return (
-      <aside className='aside' style={ {position: this.getPosition()} }>
+      <aside className='aside' style={ {marginTop: this.getTopMargin()} }>
         <CommonMessage location='sideBar' />
         <div className='nav__user dd dd-hover'>
           <div className='nav__userDDTrigger ddTrigger'>
