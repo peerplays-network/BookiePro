@@ -7,6 +7,7 @@ import Notices from './Notices';
 import {AppActions, HelpActions} from '../../actions';
 import Translate from 'react-translate-component';
 import {bindActionCreators} from 'redux';
+import CommonMessage from '../CommonMessage';
 
 class Header extends React.Component {
   onLogoutClick(e) {
@@ -87,6 +88,7 @@ class Header extends React.Component {
           </nav>
           <nav className='nav__right'></nav>
         </div>
+        <CommonMessage location='header' />
       </div>
     );
   }
@@ -100,7 +102,7 @@ const mapStateToProps = (state) => {
     currentAccount : state.account.currentAccount,
     starredAccounts : state.account.starredAccounts,
     locked : state.wallet.locked,
-    current_wallet : state.wallet.currentWallet
+    current_wallet : state.wallet.currentWallet,
   };
 };
 

@@ -8,11 +8,10 @@
   height: $headerHeight;
   background: $clear-color2;
   @include box-shadow(0 2px 7px rgba(0, 0, 0, 0.08));
-  padding: 0 0 0 18px;
 
   .box {
     @include clearfix;
     height: 100%;
-    padding: 0;
+    padding: 0 0 0 18px;
   }
 }
