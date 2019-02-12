@@ -13,10 +13,8 @@
     "help": "Ayuda",
     "notices": "Notices",
     "dashboard": "Tablero",
-    "play": "Play",
     "vote": "Vote",
-    "network": "Network",
-    "exchange": "Exchange"
+    "network": "Network"
   },
   "dashboard": {
     "show_hidden": "Show hidden assets",
@@ -34,15 +32,12 @@
     "other_assets": "Other Assets",
     "balances": "Balances",
     "balances_row_menu": {
-      "deposit_withdraw": "Deposit/Withdraw",
       "send": "Send",
-      "markets": "Markets",
       "show_asset": "Show asset",
       "hide_asset": "Hide asset"
     },
     "side": {
       "available_balances": "Available Balances:",
-      "deposit_withdraw": "Deposit/Withdraw",
       "vesting_balances": "Vesting Balances (Witness Pay)",
       "claim_balances": "Claim Balances",
       "total": "Total:",

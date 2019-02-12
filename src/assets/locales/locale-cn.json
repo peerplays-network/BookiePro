@@ -13,10 +13,8 @@
     "help": "帮助",
     "notices": "Notices",
     "dashboard": "概览",
-    "play": "Play",
     "vote": "Vote",
     "network": "Network",
-    "exchange": "交易",
     "no_notices_message": "You don't have messages."
   },
   "dashboard": {
@@ -33,17 +31,13 @@
     "core_tokens": "Peerplays Core Tokens",
     "digital_currencies": "Digital Currencies",
     "other_assets": "Other Assets",
-    "balances": "Balances",
     "balances_row_menu": {
-      "deposit_withdraw": "Deposit/Withdraw",
       "send": "Send",
-      "markets": "Markets",
       "show_asset": "Show asset",
       "hide_asset": "Hide asset"
     },
     "side": {
       "available_balances": "Available Balances:",
-      "deposit_withdraw": "Deposit/Withdraw",
       "vesting_balances": "Vesting Balances (Witness Pay)",
       "claim_balances": "Claim Balances",
       "total": "Total:",
