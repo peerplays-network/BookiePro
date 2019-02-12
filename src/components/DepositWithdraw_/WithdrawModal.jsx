@@ -1,3 +1,4 @@
+//unused
 import React from 'react';
 import Trigger from 'react-foundation-apps/src/trigger';
 import Translate from 'react-translate-component';
