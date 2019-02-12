@@ -1,3 +1,4 @@
+//unused
 import React, {Component} from 'react';
 
 import Translate from 'react-translate-component';
