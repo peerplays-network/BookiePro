@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {RockPaperScissorsActions, RWalletUnlockActions} from '../../../actions';
+import {RWalletUnlockActions} from '../../../actions';
 import CreateForm from './CreateForm';
 import Translate from 'react-translate-component';
 import {bindActionCreators} from 'redux';
@@ -74,8 +74,6 @@ class Create extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    unit: state.rockPaperScissorsReducer.unit,
-    unitList: state.rockPaperScissorsReducer.unitList,
     walletLocked: state.wallet.locked,
     walletIsOpen: state.wallet.isOpen
   };
@@ -83,10 +81,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
-    subscribe: RockPaperScissorsActions.subscribe,
-    unSubscribe: RockPaperScissorsActions.unSubscribe,
-    fetchAvailableUnits: RockPaperScissorsActions.fetchAvailableUnits,
-    createTournament: RockPaperScissorsActions.createTournament,
     setWalletPosition: RWalletUnlockActions.setWalletPosition
   },
   dispatch
