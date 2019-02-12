@@ -1,4 +1,3 @@
-//unused
 import React, {Component} from 'react';
 import {FormattedDate} from 'react-intl';
 import Translate from 'react-translate-component';
