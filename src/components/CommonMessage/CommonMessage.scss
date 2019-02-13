@@ -1,5 +1,7 @@
 .c-common-message {
 	&__background{
+		position: fixed;
+		margin-top: 54px;
 		width: 100%;
 		top: -36px;
 		height: 36px;
@@ -43,13 +45,13 @@
 
 @keyframes slideDown {
 	0% {
-		transform: translateY(-30%);
+		transform: translateY(0%);
 		opacity: 0;
 	}
-	90% {
+	30% {
 		opacity: 1;
 	}
 	100% {
-		transform: translateY(0%);
+		transform: translateY(100%);
 	}
 }

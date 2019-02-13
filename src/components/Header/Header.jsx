@@ -7,7 +7,6 @@ import Notices from './Notices';
 import {AppActions, HelpActions} from '../../actions';
 import Translate from 'react-translate-component';
 import {bindActionCreators} from 'redux';
-import CommonMessage from '../CommonMessage';
 
 class Header extends React.Component {
   onLogoutClick(e) {
@@ -88,7 +87,6 @@ class Header extends React.Component {
           </nav>
           <nav className='nav__right'></nav>
         </div>
-        <CommonMessage location='header' />
       </div>
     );
   }
