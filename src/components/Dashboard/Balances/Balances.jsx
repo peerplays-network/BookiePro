@@ -34,10 +34,6 @@ class Balances extends React.Component {
     this.props.navigateToDepositWithDraw(symbol);
   }
 
-  getMargin() {
-    return this.props.activeNotification ? '35px' : '0px';
-  }
-
   renderBalanceList(list, title, showHideOption, onAfterChangeShow, onAfterChangeHide) {
     return (
       <BalanceList
@@ -61,7 +57,7 @@ class Balances extends React.Component {
 
     return (
       <section className='content content-aside'>
-        <div className='box' style={ {marginTop: this.getMargin()} }>
+        <div className='box'>
           <div className='content__head db'>
             <button
               type='button'
@@ -136,7 +132,6 @@ const mapStateToProps = (state) => {
     decimals: dashboard.decimals,
     showHiddenAssets: dashboard.showHiddenAssets,
     hiddenAssets: state.settings.hiddenAssets,
-    activeNotification: state.commonMessage.get('activeMessage'),
   };
 };
 
