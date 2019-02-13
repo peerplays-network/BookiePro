@@ -1,5 +1,5 @@
 /* Libs */
-import React from 'react';
+import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
 
 /* Components */
@@ -58,7 +58,11 @@ class App extends React.Component {
       content = (
         <div className='wrapper wrapper-with-footer'>
           <Header pathname={ pathname }/>
-          {this.props.children}
+          {this.props.activeNotification ?
+            <div className='message'>{this.props.children}</div>
+            :
+            <div className='no-message'>{this.props.children}</div>
+          }
         </div>
       );
     }
@@ -98,7 +102,8 @@ const mapStateToProps = (state) => {
     chainIsInit: state.app.chainIsInit,
     syncIsFail: state.app.syncIsFail,
     showHelpPopup: state.helpReducer.showHelpModal,
-    locale: state.settings.locale
+    locale: state.settings.locale,
+    activeNotification: state.commonMessage.get('activeMessage'),
   };
 };
 
