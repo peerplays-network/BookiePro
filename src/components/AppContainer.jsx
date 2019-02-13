@@ -1,5 +1,5 @@
 /* Libs */
-import React, {Fragment} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 
 /* Components */
@@ -12,6 +12,8 @@ import ViewMemoModal from 'components/Modal/ViewMemoModal';
 import CantConnectModal from 'components/Modal/CantConnectModal/CantConnectModal';
 import HelpModal from '../components/Help/HelpModal';
 import intlData from 'components/Utility/intlData';
+import CommonMessage from 'components/CommonMessage';
+
 
 /* Other */
 import {routerShape} from 'react-router/lib/PropTypes';
@@ -58,6 +60,7 @@ class App extends React.Component {
       content = (
         <div className='wrapper wrapper-with-footer'>
           <Header pathname={ pathname }/>
+          <CommonMessage location='header' />
           {this.props.activeNotification ?
             <div className='message'>{this.props.children}</div>
             :
