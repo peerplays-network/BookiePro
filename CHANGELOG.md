@@ -21,3 +21,4 @@
 
 - Witnesses list now displays all registered witnesses, not just the active ones.
 - Multiple Node Endpoint Support added.
+- Commone Message Module has been implemented.
