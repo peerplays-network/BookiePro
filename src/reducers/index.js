@@ -25,6 +25,8 @@ import SoftwareUpdateReducer from './SoftwareUpdateReducer';
 import NotificationsReducer from './NotificationsReducer';
 import HelpReducer from './HelpReducer';
 import MemoReducer from './MemoReducer';
+import CommonMessageReducer from './CommonMessageReducer';
+
 import {
   reducer as formReducer
 } from 'redux-form';
@@ -56,6 +58,7 @@ const rootReducer = combineReducers({
   notificationsReducer: NotificationsReducer,
   helpReducer: HelpReducer,
   memoModal: MemoReducer,
+  commonMessage: CommonMessageReducer,
   // Games
   rockPaperScissorsReducer: RockPaperScissorsReducer,
   //Common form reducer: npm redux-form
