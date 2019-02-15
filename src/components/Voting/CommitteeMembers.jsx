@@ -41,7 +41,7 @@ class CommitteeMembers extends React.Component {
     this.uniqueRequestId = _.uniqueId();
     this.debounceOnInputChange();
     const GRAPHENE_MAX_ACCOUNT_NAME_LENGTH = 63;
-    let value = e.target.value.trim();
+    let value = e.target.value.trim().toLowerCase();
 
     if (value.length > GRAPHENE_MAX_ACCOUNT_NAME_LENGTH) {
       value = value.substring(0, GRAPHENE_MAX_ACCOUNT_NAME_LENGTH);
