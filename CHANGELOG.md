@@ -4,7 +4,7 @@
 
 ### Changed
 
-- The fees list now shows fee amounts (some were “-*”).
+- The fees list now shows fee amounts correctly (some were “-*”).
 - Better error handling and error display when confirming a transaction.
 - Prior users transaction history will no longer be displayed briefly to the different, newly logged in user.
 - The header of the help modal will now be fixed to the top when scrolling the help modal content.
