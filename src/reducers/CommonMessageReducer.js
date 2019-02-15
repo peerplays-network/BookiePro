@@ -30,7 +30,7 @@ export default function(state = initialState, action) {
       // get current state of messages
       // operate on the one matching supplied id
       let messageCount = state.get('messageCount');
-      const newMessageCount = --messageCount;
+      const newMessageCount = messageCount > 0 ? --messageCount : 0; // cannot have negative count
       const id = action.id;
       console.log('message count remove: ', messageCount);
       const activeMessage = newMessageCount === 0 ? false : true;
