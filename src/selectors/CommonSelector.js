@@ -61,16 +61,6 @@ const getActiveEventsById = createSelector([getEventsById], (eventsById) => {
   return eventsById.filter(isActiveEvent);
 });
 
-const getEventStatusById = createSelector([getEventsById], (eventsById) => {
-  const eventStatus = (event) => ObjectUtils.eventStatus(event);
-  return eventsById.filter(eventStatus);
-});
-
-const getActiveEventsById = createSelector([getEventsById], (eventsById) => {
-  const isActiveEvent = (event) => ObjectUtils.isActiveEvent(event);
-  return eventsById.filter(isActiveEvent);
-});
-
 const getActiveEventsBySportId = createSelector(
   [getActiveEventsById, getEventGroupsById],
   (activeEventsById, eventGroupsById) => activeEventsById.toList().groupBy((event) => {
