@@ -72,6 +72,8 @@ const renderInput = (
   action,
   currencyFormat,
   oddsFormat,
+  isValidBetTotal,
+  autoOddsPopulated,
   activeTab,
   disabled
 ) => (text, record) => (
