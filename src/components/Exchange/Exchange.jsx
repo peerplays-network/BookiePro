@@ -133,10 +133,6 @@ class Exchange extends PureComponent {
     const {sidebarWidth, betslipWidth, splitPaneStyle} = LayoutConstants;
 
     let transitionName = this.props.location.pathname.split('/');
-    const splitPaneStyle = {
-      top: '0px',
-      position: 'fixed'
-    };
 
     //confirmation modal about leaving current route.
     let unplacedBetModal = (
