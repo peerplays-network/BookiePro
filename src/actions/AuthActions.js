@@ -179,7 +179,7 @@ class AuthActions {
       return dispatch(AuthPrivateActions.processLogin(accountName, password))
         .then(() => {
           // Navigate to home page
-          dispatch(NavigateActions.navigateTo('/betting/exchange'));
+          dispatch(NavigateActions.navigateTo('/exchange'));
           // Set login status to done
           dispatch(AuthPrivateActions.setLoginLoadingStatusAction(LoadingStatus.DONE));
         })
@@ -216,7 +216,7 @@ class AuthActions {
           if (depositsEnabled) {
             dispatch(NavigateActions.navigateTo('/deposit'));
           } else {
-            dispatch(NavigateActions.navigateTo('/betting/exchange'));
+            dispatch(NavigateActions.navigateTo('/exchange'));
           }
 
           // Set register status to done

@@ -20,7 +20,7 @@ class Sport extends PureComponent {
     if (!nextProps.sport || nextProps.sport.isEmpty()) {
       // Sport doesn't exist,
       // Go back to home page
-      this.props.navigateTo('/betting/exchange');
+      this.props.navigateTo('/exchange');
     } else {
       const prevSportId = this.props.params.objectId;
       const nextSportId = nextProps.params.objectId;
@@ -58,7 +58,7 @@ class Sport extends PureComponent {
                     events={ sortedEvents.slice(0, MAX_EVENTS_PER_WIDGET) }
                     currencyFormat={ currencyFormat }
                     showFooter={ events.size > MAX_EVENTS_PER_WIDGET }
-                    footerLink={ `/betting/exchange/eventgroup/${eventGroupId}` }
+                    footerLink={ `/exchange/eventgroup/${eventGroupId}` }
                     pagination={ false } // No pagination, only show top records
                     canCreateBet={ this.props.canCreateBet }
                   />

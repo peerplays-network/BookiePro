@@ -30,13 +30,13 @@ class SportsbookToggle extends PureComponent {
     switch (mode) {
       case BookieModes.EXCHANGE: {
         this.props.setMode(BookieModes.EXCHANGE);
-        this.props.navigateTo('/betting/exchange' + subroute);
+        this.props.navigateTo('/exchange' + subroute);
         break;
       }
 
       case BookieModes.SPORTSBOOK: {
         this.props.setMode(BookieModes.SPORTSBOOK);
-        this.props.navigateTo('/betting/sportsbook' + subroute);
+        this.props.navigateTo('/sportsbook' + subroute);
         break;
       }
 

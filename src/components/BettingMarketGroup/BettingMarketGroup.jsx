@@ -38,7 +38,7 @@ class BettingMarketGroup extends PureComponent {
     ) {
       // Betting market group doesn't exist,
       // Go back to home page
-      this.props.navigateTo('/betting/exchange');
+      this.props.navigateTo('/exchange');
     } else {
       
       const prevBettingMarketGroupId = this.props.params.objectId;

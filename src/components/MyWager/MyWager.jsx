@@ -80,7 +80,7 @@ class MyWager extends PureComponent {
   /** Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb */
   onHomeLinkClick(e) {
     e.preventDefault();
-    this.props.navigateTo('/betting/exchange');
+    this.props.navigateTo('/exchange');
   }
 
   /**
@@ -168,7 +168,7 @@ class MyWager extends PureComponent {
    *    This will navigat user to event full market screen
    */
   handleEventClick(record) {
-    this.props.navigateTo(`/betting/exchange/bettingmarketgroup/${record.group_id}`);
+    this.props.navigateTo(`/exchange/bettingmarketgroup/${record.group_id}`);
   }
 
   /**

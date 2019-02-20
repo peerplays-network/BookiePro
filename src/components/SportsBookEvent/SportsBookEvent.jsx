@@ -36,7 +36,7 @@ class SportsBookEvent extends PureComponent {
     if (!nextProps.event || nextProps.event.isEmpty()) {
       // Betting market group doesn't exist,
       // Go back to home page
-      this.props.navigateTo('/betting/exchange');
+      this.props.navigateTo('/exchange');
     } else {
       const prevEventId = this.props.params.eventId;
       const nextEventId = nextProps.params.eventId;
