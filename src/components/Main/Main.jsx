@@ -31,7 +31,7 @@ class Main extends PureComponent {
 
   //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
   handleNavigateToHome() {
-    this.props.navigateTo('/betting/exchange');
+    this.props.navigateTo('/exchange');
   }
 
   onRouteChange() {

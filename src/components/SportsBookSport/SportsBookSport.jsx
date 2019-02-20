@@ -52,7 +52,7 @@ class SportsBookSport extends PureComponent {
                   <div className='more-sport-link'>
                     <a 
                       onClick={ () => this.props.navigateTo(
-                        '/betting/sportsbook/eventgroup/' + eg.get('id')
+                        '/sportsbook/eventgroup/' + eg.get('id')
                       ) }
                     >
                       More { eg.get('name') }

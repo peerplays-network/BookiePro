@@ -216,7 +216,7 @@ class MyAccount extends PureComponent {
    * link on the Breadcrumb - {@link Exchange}
    */
   handleNavigateToHome() {
-    this.props.navigateTo('/betting/exchange');
+    this.props.navigateTo('/exchange');
   }
 
   /**

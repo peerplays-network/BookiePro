@@ -31,7 +31,7 @@ class NavBar extends PureComponent {
       path = BookieModes.SPORTSBOOK;
     }
     
-    this.props.navigateTo('/betting/' + path);
+    this.props.navigateTo(path);
   }
 
   //Called by parent component Main
@@ -41,7 +41,7 @@ class NavBar extends PureComponent {
 
   renderLogo() {
     //Hide cursor and deactivate click event of logo when on home page
-    const isHomeScreen = window.location.hash.endsWith('/betting/exchange');
+    const isHomeScreen = window.location.hash.endsWith('/exchange');
     return (
       <div
         className={ 'logo' + (!isHomeScreen ? ' link' : '') }

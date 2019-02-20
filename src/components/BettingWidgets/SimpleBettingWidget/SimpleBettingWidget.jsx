@@ -121,7 +121,7 @@ const getColumns = (renderOffer, renderOfferClick, navigateTo, currencyFormat, s
       render: (text, record) => EventNameUtils.breakAtVs(record.get('event_name')),
       onCellClick: (record) => {
         record.get('bettingMarketGroupId') &&
-          navigateTo('/betting/exchange/bettingmarketgroup/' + record.get('bettingMarketGroupId'));
+          navigateTo('/exchange/bettingmarketgroup/' + record.get('bettingMarketGroupId'));
       }
     },
     {

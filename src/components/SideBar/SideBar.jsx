@@ -183,12 +183,12 @@ class SideBar extends PureComponent {
    * @param keyPath - is the path from root to current node
    */
   onNodeMouseClick(event, tree, node) {
-    let navPath = '/betting';
+    let navPath;
 
     if (this.props.bookMode === BookieModes.SPORTSBOOK) {
-      navPath += '/sportsbook';
+      navPath = '/sportsbook';
     } else {
-      navPath += '/exchange';
+      navPath = '/exchange';
     }
 
     // '0' is hardcode id for all-sports node,
