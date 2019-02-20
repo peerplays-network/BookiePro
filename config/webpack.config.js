@@ -14,7 +14,6 @@ function extractForProduction(loaders) {
 }
 
 module.exports = function (options) {
-  console.log('PRODUCTION?', options.prod, '=================================');
   // STYLE LOADERS
   var cssLoaders = 'style-loader!css-loader!postcss-loader',
     scssLoaders = 'style!css!postcss-loader!sass?outputStyle=expanded';
