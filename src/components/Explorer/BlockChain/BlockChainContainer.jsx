@@ -27,10 +27,7 @@ class BlockChainContainer extends React.Component {
     return (
       <div
         id='blockchain'
-        className='tab__deploy'
-        style={ {
-          display: 'block'
-        } }>
+        className='tab__deploy block'>
         <Statistics/>
         <div className='box-inner box-inner-2'>
           <div className='clearfix'>

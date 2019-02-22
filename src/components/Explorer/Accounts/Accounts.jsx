@@ -22,8 +22,9 @@ class Accounts extends React.Component {
   }
 
   onSearch(e) {
-    this.props.accountSearch(e.target.value);
-    this.setState({searchValue: e.target.value});
+    let value = e.target.value.toLowerCase();
+    this.props.accountSearch(value);
+    this.setState({searchValue: value});
   }
 
   render() {
@@ -65,7 +66,7 @@ class Accounts extends React.Component {
       );
     });
     return (
-      <div id='accounts' className='tab__deploy' style={ {display: 'block'} }>
+      <div id='accounts' className='tab__deploy block'>
         <div className='tab__deployHead'>
           <div className='title col'>
             <Translate content='explore.accounts.explore_bitshares_accounts'/>

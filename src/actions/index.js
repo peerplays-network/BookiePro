@@ -1,5 +1,3 @@
-import RockPaperScissorsActions from './Games/RockPaperScissors/RockPaperScissorsActions';
-import RockPaperScissorsNavigateActions from './Games/RockPaperScissors/RockPaperScissorsNavigateActions'; // eslint-disable-line
 import AccountVestingPageActions from './AccountVestingPageActions';
 import AppActions from './AppActions';
 import AppSettingsActions from './AppSettingsActions';
@@ -36,8 +34,6 @@ import VotingActions from './VotingActions';
 import WalletUnlockActions from './WalletUnlockActions';
 
 export {
-  RockPaperScissorsActions,
-  RockPaperScissorsNavigateActions,
   AccountVestingPageActions,
   AppActions,
   AppSettingsActions,

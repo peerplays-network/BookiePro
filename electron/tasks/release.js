@@ -1,7 +1,6 @@
 
 
 var gulp = require('gulp');
-var utils = require('./utils');
 
 var releaseForOs = {
   osx: require('./release_osx'),

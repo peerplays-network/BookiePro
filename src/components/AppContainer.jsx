@@ -12,6 +12,8 @@ import ViewMemoModal from 'components/Modal/ViewMemoModal';
 import CantConnectModal from 'components/Modal/CantConnectModal/CantConnectModal';
 import HelpModal from '../components/Help/HelpModal';
 import intlData from 'components/Utility/intlData';
+import CommonMessage from 'components/CommonMessage';
+
 
 /* Other */
 import {routerShape} from 'react-router/lib/PropTypes';
@@ -57,7 +59,13 @@ class App extends React.Component {
 
       content = (
         <div className='wrapper wrapper-with-footer'>
-          <Header pathname={ pathname }/> {this.props.children}
+          <Header pathname={ pathname }/>
+          <CommonMessage location='header' />
+          {this.props.activeNotification ?
+            <div className='message'>{this.props.children}</div>
+            :
+            <div className='no-message'>{this.props.children}</div>
+          }
         </div>
       );
     }
@@ -97,7 +105,8 @@ const mapStateToProps = (state) => {
     chainIsInit: state.app.chainIsInit,
     syncIsFail: state.app.syncIsFail,
     showHelpPopup: state.helpReducer.showHelpModal,
-    locale: state.settings.locale
+    locale: state.settings.locale,
+    activeNotification: state.commonMessage.get('activeMessage'),
   };
 };
 

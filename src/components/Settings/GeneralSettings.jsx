@@ -27,7 +27,7 @@ class GeneralSettings extends React.Component {
     let {locale} = this.props;
 
     return (
-      <div id='general' className='tab__deploy general__tab' style={ {display: 'block'} }>
+      <div id='general' className='tab__deploy general__tab block'>
         <div className='tab__deployHead'>
           <div className='title'><Translate content='settings.general' /></div>
           <div className='desc'><Translate content='settings.general_text' /></div>

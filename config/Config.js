@@ -22,6 +22,14 @@ const Config = {
   FAUCET_URL: 'faucetUrls',
   BITSHARES_WS: 'wss://bitshares.openledger.info/ws',
   SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME: 'ppcoreupdates',
+  ACTIVE_WITNESS_ONLY: false,
+
+  commonMessageModule: {
+    numOfCommonMessageToDisplay: 1,
+    sortingMethod: 'recent', // recent OR oldest
+    timeout: 7500, // 7.5 seconds for auto-dismissal messages
+    disableActionsInRedux: true
+  },
 };
 
 module.exports = Config;

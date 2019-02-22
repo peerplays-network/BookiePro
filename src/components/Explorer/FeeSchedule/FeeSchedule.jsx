@@ -19,10 +19,7 @@ class FeeSchedule extends React.Component {
     return (
       <div
         id='feeSchedule'
-        className='tab__deploy'
-        style={ {
-          display: 'block'
-        } }
+        className='tab__deploy block'
       >
         <div className='tab__deployHead'>
           <div className='title col'><Translate content='explore.feeSchedule.title'/></div>

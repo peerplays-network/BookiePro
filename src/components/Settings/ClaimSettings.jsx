@@ -72,7 +72,7 @@ class ClaimSettings extends React.Component {
     }
 
     return (
-      <div id='claim' className='tab__deploy' style={ {display: 'block'} }>
+      <div id='claim' className='tab__deploy block'>
         <div className='tab__deployHead'>
           <div className='title'>
             <Translate component='span' className='' content='settings.claim_sharedrop.title' />

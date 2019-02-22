@@ -37,7 +37,7 @@ class PermissionSettings extends React.Component {
       );
     }) : null;
     return (
-      <div id='permissions' className='tab__deploy permissions__tab' style={ {display: 'block'} }>
+      <div id='permissions' className='tab__deploy permissions__tab block'>
         <div className='tab__deployHead'>
           <div className='title'>
                         Owner Key Permissions

@@ -20,11 +20,12 @@ import ExploreFeeScheduleReducer from './ExploreFeeScheduleReducer';
 import ExchangePageReducer from './ExchangePageReducer';
 import ReferralsPageReducer from './ReferralsPageReducer';
 import AccountVestingPageReducer from './AccountVestingPageReducer';
-import RockPaperScissorsReducer from './Games/RockPaperScissorsReducer';
 import SoftwareUpdateReducer from './SoftwareUpdateReducer';
 import NotificationsReducer from './NotificationsReducer';
 import HelpReducer from './HelpReducer';
 import MemoReducer from './MemoReducer';
+import CommonMessageReducer from './CommonMessageReducer';
+
 import {
   reducer as formReducer
 } from 'redux-form';
@@ -56,8 +57,7 @@ const rootReducer = combineReducers({
   notificationsReducer: NotificationsReducer,
   helpReducer: HelpReducer,
   memoModal: MemoReducer,
-  // Games
-  rockPaperScissorsReducer: RockPaperScissorsReducer,
+  commonMessage: CommonMessageReducer,
   //Common form reducer: npm redux-form
   form: formReducer
 });

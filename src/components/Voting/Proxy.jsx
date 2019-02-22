@@ -34,7 +34,7 @@ class Proxy extends React.Component {
 
   onInputChange(e) {
     const GRAPHENE_MAX_ACCOUNT_NAME_LENGTH = 63;
-    let value = e.target.value.trim();
+    let value = e.target.value.trim().toLowerCase();
 
     if (value.length > GRAPHENE_MAX_ACCOUNT_NAME_LENGTH) {
       value = value.substring(0, GRAPHENE_MAX_ACCOUNT_NAME_LENGTH);
@@ -157,10 +157,7 @@ class Proxy extends React.Component {
     return (
       <div
         id='proxy'
-        className='tab__deploy'
-        style={ {
-          display: 'block'
-        } }>
+        className='tab__deploy block'>
         <div className='tab__deployHead'>
           <div className='title'>
             <Translate content='votes.proxy_short'/>
