@@ -157,6 +157,12 @@ export default {
     APP_SET_STATUS : 'APP_SET_STATUS',
     APP_SET_SHOW_CANT_CONNECT_MODAL : 'APP_SET_SHOW_CANT_CONNECT_MODAL',
 
+    /*
+    * Common Message Reducer
+    */
+   COMMON_MSG_REMOVE_MSG: 'COMMON_MSG_REMOVE_MSG',
+   COMMON_MSG_ADD_MSG: 'COMMON_MSG_ADD_MSG',
+
     /**
      * Dashboard Reducer
      *

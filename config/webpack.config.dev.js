@@ -1,4 +1,5 @@
 module.exports = require('./webpack.config')({
   prod: false,
-  ugly: true
+  ugly: false,
+  electron: false
 });
