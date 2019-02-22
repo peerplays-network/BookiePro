@@ -24,6 +24,7 @@ var publicUrl = publicPath.slice(0, -1);
 function extractForProduction(loaders) {
   return ExtractTextPlugin.extract('style', loaders.substr(loaders.indexOf('!')));
 }
+
 // STYLE LOADERS
 var cssLoaders = 'style-loader!css-loader!postcss-loader',
   scssLoaders = 'style!css!postcss-loader!sass?outputStyle=expanded';
@@ -32,7 +33,7 @@ var cssLoaders = 'style-loader!css-loader!postcss-loader',
 var cleanDirectories = ['build'];
 
 // OUTPUT PATH
-var outputPath = path.join(root_dir, 'assets');
+var outputPath = path.join(root_dir, 'build');
 
 // GLOBAL VAR DEFINE
 var define = {
@@ -52,19 +53,19 @@ var define = {
 var plugins = [
   new HtmlWebpackPlugin({
     inject: true,
-      template: paths.appHtml,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true
-      }
+    template: paths.appHtml,
+    minify: {
+      removeComments: true,
+      collapseWhitespace: true,
+      removeRedundantAttributes: true,
+      useShortDoctype: true,
+      removeEmptyAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      keepClosingSlash: true,
+      minifyJS: true,
+      minifyCSS: true,
+      minifyURLs: true
+    }
   }),
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.OccurrenceOrderPlugin(),
@@ -89,13 +90,13 @@ var plugins = [
     }
   }),
   new CopyWebpackPlugin([{
-      from: path.resolve(root_dir, 'src/assets/openpgp'),
-      to: path.resolve(outputPath, 'openpgp')
-    },
-    {
-      from: path.resolve(root_dir, 'src/assets/createjs-2015.11.26.min.js'),
-      to: path.resolve(outputPath, 'createjs-2015.11.26.min.js')
-    },
+    from: path.resolve(root_dir, 'src/assets/openpgp'),
+    to: path.resolve(outputPath, 'openpgp')
+  },
+  {
+    from: path.resolve(root_dir, 'src/assets/createjs-2015.11.26.min.js'),
+    to: path.resolve(outputPath, 'createjs-2015.11.26.min.js')
+  },
   ]),
   new ManifestPlugin({
     fileName: 'asset-manifest.json'
@@ -113,7 +114,7 @@ module.exports = {
   bail: true,
   devtool: 'source-map',
   entry: {
-    app: paths.appIndexJs
+    app: path.resolve(root_dir, 'src/Main.js')
   },
   output: {
     path: paths.appBuild,
@@ -125,93 +126,93 @@ module.exports = {
   module: {
     noParse: /node_modules\/openpgp\/build\/openpgp.js/,
     loaders: [{
-        test: /\.jsx$/,
-        include: [
-          path.join(root_dir, 'src'),
-          path.join(root_dir, 'node_modules/react-foundation-apps'),
-          '/home/sigve/Dev/graphene/react-foundation-apps'
-        ],
-        loaders: ['babel-loader']
-      },
-      {
-        test: /\.js$/,
-        exclude: [/node_modules/, path.resolve(root_dir, '../node_modules')],
-        loader: 'babel-loader',
-        query: {
-          compact: false,
-          cacheDirectory: true
-        }
-      },
-      {
-        test: /\.json/,
-        loader: 'json',
-        exclude: [
-          path.resolve(root_dir, '../common'),
-          path.resolve(root_dir, 'src/assets/locales')
-        ]
-      },
-      {
-        test: /\.coffee$/,
-        loader: 'coffee-loader'
-      },
-      {
-        test: /\.(coffee\.md|litcoffee)$/,
-        loader: 'coffee-loader?literate'
-      },
-      {
-        test: /\.css$/,
-        loader: cssLoaders
-      },
-      {
-        test: /\.scss$/,
-        loader: scssLoaders
-      },
-      {
-        test: /(\.png$)/,
-        loader: 'url-loader?limit=100000',
-        exclude: [
-          path.resolve(root_dir, 'src/assets/asset-symbols'),
-          path.resolve(root_dir, 'src/assets/images')
-        ]
-      },
-      {
-        test: /\.svg$/,
-        loader: 'file',
-        query: {
-          name: 'static/media/[name].[hash:8].[ext]'
-        }
-      },
-      {
-        test: /\.(jpe?g|png|gif)$/i,
-        loaders: [
-          'file?hash=sha512&digest=hex&name=[hash].[ext]',
-          `image-webpack?${JSON.stringify({
-            bypassOnDebug: true,
-            optipng: {
-              optimizationLevel: true
-            },
-            gifsicle: {
-              interlaced: true
-            }
-          })}`
-        ],
-        exclude: [
-          path.join(root_dir, 'src/assets/images')
-        ]
-      },
-      {
-        test: /\.woff$/,
-        loader: 'url-loader?limit=100000&mimetype=application/font-woff'
-      },
-      {
-        test: /.*\.svg$/,
-        loaders: ['svg-inline-loader', 'svgo-loader'],
-        exclude: [path.resolve(root_dir, 'src/assets/images/games/rps')]
-      },
-      {
-        test: /\.md/,
-        loader: 'html?removeAttributeQuotes=false!remarkable'
-      },
+      test: /\.jsx$/,
+      include: [
+        path.join(root_dir, 'src'),
+        path.join(root_dir, 'node_modules/react-foundation-apps'),
+        '/home/sigve/Dev/graphene/react-foundation-apps'
+      ],
+      loaders: ['babel-loader']
+    },
+    {
+      test: /\.js$/,
+      exclude: [/node_modules/, path.resolve(root_dir, '../node_modules')],
+      loader: 'babel-loader',
+      query: {
+        compact: false,
+        cacheDirectory: true
+      }
+    },
+    {
+      test: /\.json/,
+      loader: 'json',
+      exclude: [
+        path.resolve(root_dir, '../common'),
+        path.resolve(root_dir, 'src/assets/locales')
+      ]
+    },
+    {
+      test: /\.coffee$/,
+      loader: 'coffee-loader'
+    },
+    {
+      test: /\.(coffee\.md|litcoffee)$/,
+      loader: 'coffee-loader?literate'
+    },
+    {
+      test: /\.css$/,
+      loader: cssLoaders
+    },
+    {
+      test: /\.scss$/,
+      loader: scssLoaders
+    },
+    {
+      test: /(\.png$)/,
+      loader: 'url-loader?limit=100000',
+      exclude: [
+        path.resolve(root_dir, 'src/assets/asset-symbols'),
+        path.resolve(root_dir, 'src/assets/images')
+      ]
+    },
+    {
+      test: /\.svg$/,
+      loader: 'file',
+      query: {
+        name: 'static/media/[name].[hash:8].[ext]'
+      }
+    },
+    {
+      test: /\.(jpe?g|png|gif)$/i,
+      loaders: [
+        'file?hash=sha512&digest=hex&name=[hash].[ext]',
+        `image-webpack?${JSON.stringify({
+          bypassOnDebug: true,
+          optipng: {
+            optimizationLevel: true
+          },
+          gifsicle: {
+            interlaced: true
+          }
+        })}`
+      ],
+      exclude: [
+        path.join(root_dir, 'src/assets/images')
+      ]
+    },
+    {
+      test: /\.woff$/,
+      loader: 'url-loader?limit=100000&mimetype=application/font-woff'
+    },
+    {
+      test: /.*\.svg$/,
+      loaders: ['svg-inline-loader', 'svgo-loader'],
+      exclude: [path.resolve(root_dir, 'src/assets/images/games/rps')]
+    },
+    {
+      test: /\.md/,
+      loader: 'html?removeAttributeQuotes=false!remarkable'
+    },
     ],
     postcss: function () {
       return [precss, autoprefixer];
