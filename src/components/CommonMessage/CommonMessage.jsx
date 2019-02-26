@@ -56,7 +56,7 @@ class CommonMessage extends PureComponent {
   setTimer(id) {
     const {timeout} = this.state;
     clearTimeout(timeout);
-    console.log('setting timer')
+
     this.setState({
       timeout: setTimeout(
         this.props.clearMessage.bind(this, id), Config.commonMessageModule.timeout
