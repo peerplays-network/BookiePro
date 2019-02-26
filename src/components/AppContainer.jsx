@@ -107,7 +107,10 @@ const mapStateToProps = (state) => {
     showHelpPopup: state.helpReducer.showHelpModal,
     locale: state.settings.locale,
     activeNotification: state.commonMessage.get('activeMessage'),
+<<<<<<< HEAD
     headerMessages: state.commonMessage.get('headerMessages')
+=======
+>>>>>>> develop
   };
 };
 

@@ -38,7 +38,8 @@ class Side extends React.Component {
 
     return (
       <aside className='aside' style={ {marginTop: this.getTopMargin()} }>
-        {this.props.sideBarMessages.size > 0 ? <div><CommonMessage location='sideBar' /></div> : null}
+        {this.props.sideBarMessages.size > 0 ?
+          <div><CommonMessage location='sideBar' /></div> : null}
         <div className='nav__user dd dd-hover'>
           <div className='nav__userDDTrigger ddTrigger'>
             <div className='nav__userPic'>
