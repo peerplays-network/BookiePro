@@ -27,7 +27,7 @@ const compileMessage = (props) => {
 
     return (
       <div
-        className={ 'c-common-message__background ' + messageType }
+        className={ props.location === 'header' ? 'c-common-message__background ' + messageType :'c-common-message__background small ' + messageType }
         key={ key }
         id={ id }
       >
@@ -56,7 +56,7 @@ class CommonMessage extends PureComponent {
   setTimer(id) {
     const {timeout} = this.state;
     clearTimeout(timeout);
-
+    console.log('setting timer')
     this.setState({
       timeout: setTimeout(
         this.props.clearMessage.bind(this, id), Config.commonMessageModule.timeout
@@ -83,7 +83,12 @@ class CommonMessage extends PureComponent {
       this.checkToAssignTimer(propsMerged);
     }
   }
-  
+
+  componentDidMount() {
+    let propsMerged = this.props.headerMessages.concat(this.props.sideBarMessages);
+    this.checkToAssignTimer(propsMerged);
+  }
+
   render() {
     return (
       <div>

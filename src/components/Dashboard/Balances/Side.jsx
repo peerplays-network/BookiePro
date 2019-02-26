@@ -38,7 +38,7 @@ class Side extends React.Component {
 
     return (
       <aside className='aside' style={ {marginTop: this.getTopMargin()} }>
-        <CommonMessage location='sideBar' />
+        {this.props.sideBarMessages.size > 0 ? <div><CommonMessage location='sideBar' /></div> : null}
         <div className='nav__user dd dd-hover'>
           <div className='nav__userDDTrigger ddTrigger'>
             <div className='nav__userPic'>
@@ -119,7 +119,8 @@ const mapStateToProps = (state) => {
   return {
     account: state.app.account,
     availableBalances: state.dashboardPage.availableBalances,
-    activeNotification: state.commonMessage.get('activeMessage')
+    activeNotification: state.commonMessage.get('activeMessage'),
+    sideBarMessages: state.commonMessage.get('sideBarMessages')
   };
 };
 

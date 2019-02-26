@@ -32,7 +32,6 @@ export default function(state = initialState, action) {
       let messageCount = state.get('messageCount');
       const newMessageCount = messageCount > 0 ? --messageCount : 0; // cannot have negative count
       const id = action.id;
-      console.log('message count remove: ', messageCount);
       const activeMessage = newMessageCount === 0 ? false : true;
       const newHeaderMsgState = state.get('headerMessages')
         .filter((m) => {

@@ -56,11 +56,11 @@ class App extends React.Component {
       document.getElementsByTagName('body')[0].className = 'loginBg';
       content = (<div className='wrapper wrapper-with-footer'>{this.props.children}</div>);
     } else {
-
+      console.log('header size: ', this.props.headerMessages.size );
       content = (
         <div className='wrapper wrapper-with-footer'>
           <Header pathname={ pathname }/>
-          <CommonMessage location='header' />
+          {this.props.headerMessages.size > 0 ? <CommonMessage location='header' /> : null }
           {this.props.activeNotification ?
             <div className='message'>{this.props.children}</div>
             :
@@ -107,6 +107,7 @@ const mapStateToProps = (state) => {
     showHelpPopup: state.helpReducer.showHelpModal,
     locale: state.settings.locale,
     activeNotification: state.commonMessage.get('activeMessage'),
+    headerMessages: state.commonMessage.get('headerMessages')
   };
 };
 

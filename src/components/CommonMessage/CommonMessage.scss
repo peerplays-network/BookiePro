@@ -13,6 +13,9 @@
 		animation-duration: 0.2s;
 		animation-timing-function: ease-in-out;
 		animation-fill-mode: forwards;
+		&.small {
+			width: 24%;
+		}
 		p {
 			float: right;
 			&:hover {
