@@ -32,6 +32,7 @@ import PropTypes from 'prop-types';
 import {SidebarSelector} from '../../selectors';
 import log from 'loglevel';
 import {DateUtils} from '../../utility';
+import {BookieModes} from '../../constants';
 
 class SideBar extends PureComponent {
   constructor(props) {
@@ -47,10 +48,19 @@ class SideBar extends PureComponent {
   componentWillReceiveProps(nextProps) {
     if (
       this.props.completeTree !== nextProps.completeTree ||
-      this.props.objectId !== nextProps.objectId
+      this.props.objectId !== nextProps.objectId ||
+      this.props.bookMode !== nextProps.bookMode
     ) {
       this.setState({
         tree: this.createCurrentStateTree(nextProps.completeTree, nextProps.objectId)
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.bookMode !== this.props.bookMode) {
+      this.setState({
+        tree: this.createCurrentStateTree(this.props.completeTree, this.props.objectId)
       });
     }
   }
@@ -73,10 +83,7 @@ class SideBar extends PureComponent {
    * for detailed explanation.
    */
   /* https://stackoverflow.com/questions/41298577/how-to-get-altered-tree-from-immutable-tree-maximising-reuse-of-nodes*/  //eslint-disable-line
-  createCurrentStateTree(
-    completeTree,
-    targetObjectId
-  ) {
+  createCurrentStateTree(completeTree, targetObjectId) {
     if (!targetObjectId || targetObjectId === 'exchange') {
       //hardcode id for all-sports node,
       targetObjectId = '0';
@@ -94,25 +101,28 @@ class SideBar extends PureComponent {
 
       // For sport
       if (keyPath.length === 1) {
-        newTree = newTree.updateIn(keyPath.slice(0, 1), this.setNodeSelected);
+        newTree = newTree.updateIn(keyPath.slice(0, 1), (node) => node.set('isSelected', true).set('isOpen', true)); // eslint-disable-line
       } else if (keyPath.length === 3) {
         // For event group
         newTree = newTree
-          .updateIn(keyPath.slice(0, 1), this.setNodeOpen)
-          .updateIn(keyPath.slice(0, 3), this.setNodeSelected);
+          .updateIn(keyPath.slice(0, 1), (node) => node.set('isOpen', true))
+          .updateIn(keyPath.slice(0, 3), (node) => node.set('isSelected', true).set('isOpen', true)
+          );
       } else if (keyPath.length === 5) {
         // For event
         newTree = newTree
-          .updateIn(keyPath.slice(0, 1), this.setNodeOpen)
-          .updateIn(keyPath.slice(0, 3), this.setNodeSelected)
-          .updateIn(keyPath.slice(0, 5), this.setNodeSelected);
+          .updateIn(keyPath.slice(0, 1), (node) => node.set('isOpen', true))
+          .updateIn(keyPath.slice(0, 3), (node) => node.set('isSelected', true).set('isOpen', true))
+          .updateIn(keyPath.slice(0, 5), (node) => node.set('isSelected', true).set('isOpen', true)
+          );
       } else if (keyPath.length === 7) {
         // For betting market group
         newTree = newTree
-          .updateIn(keyPath.slice(0, 1), this.setNodeOpen)
-          .updateIn(keyPath.slice(0, 3), this.setNodeOpen)
-          .updateIn(keyPath.slice(0, 5), this.setNodeSelected)
-          .updateIn(keyPath.slice(0, 7), this.setNodeSelected);
+          .updateIn(keyPath.slice(0, 1), (node) => node.set('isOpen', true))
+          .updateIn(keyPath.slice(0, 3), (node) => node.set('isOpen', true))
+          .updateIn(keyPath.slice(0, 5), (node) => node.set('isSelected', true).set('isOpen', true))
+          .updateIn(keyPath.slice(0, 7), (node) => node.set('isSelected', true).set('isOpen', true)
+          );
       }
 
       // Compare all nodes to see which ones were altered:
@@ -120,16 +130,27 @@ class SideBar extends PureComponent {
       const altered = differences(completeTree, newTree, 'children').map((x) => x.get('id'));
 
       if (keyPath.length >= 5) {
+        if (this.props.bookMode === BookieModes.SPORTSBOOK) {
+          // If we're in sportbook mode
+          // remove all the children of the event from being shown in the sidebar.
+          keyPath.push('children');
+          newTree = newTree.removeIn(keyPath);
+        }
+
         newTree = newTree.setIn(
           keyPath.slice(0, 4),
-          newTree.getIn(keyPath.slice(0, 4)).filter((metric) => metric.get('id') === altered[2])
+          newTree.getIn(keyPath.slice(0, 4)).filter((metric) => {
+            return metric.get('id') === altered[2];
+          })
         );
       }
 
       if (keyPath.length >= 3) {
         newTree = newTree.setIn(
           keyPath.slice(0, 2),
-          newTree.getIn(keyPath.slice(0, 2)).filter((metric) => metric.get('id') === altered[1])
+          newTree.getIn(keyPath.slice(0, 2)).filter((metric) => {
+            return metric.get('id') === altered[1];
+          })
         );
       }
 
@@ -165,24 +186,37 @@ class SideBar extends PureComponent {
    * @param keyPath - is the path from root to current node
    */
   onNodeMouseClick(event, tree, node) {
-    const {navigateTo} = this.props;
+    let navPath = '';
+
+    if (this.props.bookMode === BookieModes.SPORTSBOOK) {
+      navPath = '/sportsbook';
+    } else {
+      navPath = '/exchange';
+    }
 
     // '0' is hardcode id for all-sports node,
     if (node.id === '0') {
-      navigateTo('/exchange/');
+      this.props.navigateTo(navPath);
     } else {
       if (node.customComponent.toLowerCase() === 'event') {
+        // If you're viewing a sportsbook, there is no BMG page. Stop and redirect to events page.
+
+        if (this.props.bookMode === BookieModes.SPORTSBOOK) {
+          // Return early so no further code is executed.
+          return this.props.navigateTo(navPath + '/events/' + node.id);
+        }
+
         const moneyline = node.children.filter(
           (mktGroup) => mktGroup.description.toUpperCase() === 'MONEYLINE'
         );
 
         if (moneyline.length > 0) {
-          navigateTo('/exchange/bettingmarketgroup/' + moneyline[0].id);
+          this.props.navigateTo(navPath + '/bettingmarketgroup/' + moneyline[0].id);
         } else {
-          navigateTo('/exchange/bettingmarketgroup/' + node.children[0].id);
+          this.props.navigateTo(navPath + '/bettingmarketgroup/' + node.children[0].id);
         }
       } else {
-        navigateTo('/exchange/' + node.customComponent.toLowerCase() + '/' + node.id);
+        this.props.navigateTo(navPath + '/' + node.customComponent.toLowerCase() + '/' + node.id);
       }
     }
   }
@@ -263,7 +297,8 @@ SideBar.defaultProps = {
 
 const mapStateToProps = (state) => {
   return {
-    completeTree: SidebarSelector.getSidebarCompleteTree(state)
+    completeTree: SidebarSelector.getSidebarCompleteTree(state),
+    bookMode: state.getIn(['app', 'bookMode'])
   };
 };
 
