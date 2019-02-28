@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Clock from '../Clock';
 import {I18n} from 'react-redux-i18n';
 import {Config} from '../../../../constants';
+import SportsbookToggle from '../SportsbookToggle';
 
 class MacTitleBar extends PureComponent {
   render() {
@@ -14,6 +15,7 @@ class MacTitleBar extends PureComponent {
       onResizeClick,
       onCloseClick,
       isFullscreen,
+      loggedIn,
       ...props
     } = this.props;
 
@@ -33,6 +35,9 @@ class MacTitleBar extends PureComponent {
           />
         </div>
         <div className='right'>
+          {loggedIn && (
+            <SportsbookToggle />
+          )}
           <Clock className='clock' />
         </div>
       </div>

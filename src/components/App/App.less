@@ -205,3 +205,25 @@ body {
   line-height: 1.42857143; //reference from bootstrap
   color: @primary_label;
 }
+
+.sportsBookToggle {
+  z-index: 100;
+  margin: 5px;
+  p {
+    display: inline-block;
+    padding: 2px 6px 2px 6px;
+    border: 1px solid @cello;
+    text-transform: uppercase;
+
+    &.active {
+      background-color: @cello;
+      color: @update_highlight;
+    }
+
+    &:hover {
+      background-color: @cello;
+      cursor: pointer;
+      color: @update_highlight;
+    }
+  }
+}
