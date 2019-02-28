@@ -14,8 +14,8 @@ const compileMessage = (props) => {
     messageList = props.headerMessages;
   }
 
-  if (props.location === 'sideBar') {
-    messageList = props.sideBarMessages;
+  if (props.location === 'side') {
+    messageList = props.sideMessages;
   }
 
   // Filter the message list to only show the number of messages configured.
@@ -27,7 +27,7 @@ const compileMessage = (props) => {
 
     return (
       <div
-        className={ props.location === 'header' ? 'c-common-message__background ' + messageType :'c-common-message__background small ' + messageType }
+        className={ 'c-common-message__background ' + messageType }
         key={ key }
         id={ id }
       >
@@ -75,8 +75,8 @@ class CommonMessage extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    let propsMerged = this.props.headerMessages.concat(this.props.sideBarMessages);
-    let prevPropsMerged = prevProps.headerMessages.concat(prevProps.sideBarMessages);
+    let propsMerged = this.props.headerMessages.concat(this.props.sideMessages);
+    let prevPropsMerged = prevProps.headerMessages.concat(prevProps.sideMessages);
 
     // Use lodash for a deep comparison of the merged messages.
     if (!_.isEqual(propsMerged, prevPropsMerged)) {
@@ -85,7 +85,7 @@ class CommonMessage extends PureComponent {
   }
 
   componentDidMount() {
-    let propsMerged = this.props.headerMessages.concat(this.props.sideBarMessages);
+    let propsMerged = this.props.headerMessages.concat(this.props.sideMessages);
     this.checkToAssignTimer(propsMerged);
   }
 
@@ -103,24 +103,24 @@ const mapStateToProps = (state) => {
 
   const messages = state.commonMessage;
   let headerMessages = messages.get('headerMessages');
-  let sideBarMessages = messages.get('sideBarMessages');
+  let sideMessages = messages.get('sideMessages');
   const numOfCommonMessageToDisplay = Config.commonMessageModule.numOfCommonMessageToDisplay;
 
   if (reverse) {
     headerMessages = headerMessages.reverse();
-    sideBarMessages = sideBarMessages.reverse();
+    sideMessages = sideMessages.reverse();
   }
 
   // Determine the number of messages for calculating the heigh offset needed.
   let numOfheaderMessages = headerMessages.size;
-  let numOfsideBarMessages = sideBarMessages.size;
+  let numOfsideMessages = sideMessages.size;
 
   if (numOfheaderMessages > numOfCommonMessageToDisplay) {
     numOfheaderMessages = numOfCommonMessageToDisplay;
   }
 
-  if (numOfsideBarMessages > numOfCommonMessageToDisplay) {
-    numOfsideBarMessages = numOfCommonMessageToDisplay;
+  if (numOfsideMessages > numOfCommonMessageToDisplay) {
+    numOfsideMessages = numOfCommonMessageToDisplay;
   }
 
   //Calculate the heights of the exchange child div and the betslip child div.
@@ -143,7 +143,7 @@ const mapStateToProps = (state) => {
 
   return {
     headerMessages,
-    sideBarMessages,
+    sideMessages,
     numOfCommonMessageToDisplay
   };
 };

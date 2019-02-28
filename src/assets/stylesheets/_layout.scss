@@ -48,12 +48,14 @@ body {
   &-with-footer {
     padding-bottom: 50px;
   }
-  .message {
-    margin-top: 85px;
-  }
-  .no-message {
-    margin-top: 55px;
-  }
+}
+
+.message_wrapper{
+  width: 100%;
+  top: 50px;
+  padding: 5px 0;
+  position: fixed;
+  z-index: 1;
 }
 
 #content {

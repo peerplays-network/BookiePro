@@ -1,6 +1,6 @@
 const MessageLocation = {
   HEADER: 'header',
-  SIDEBAR: 'sideBar'
+  SIDEBAR: 'side'
 };
 
 export default MessageLocation;
