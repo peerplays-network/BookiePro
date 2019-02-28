@@ -15,11 +15,6 @@ var Config = require('./Config');
 // It requires a trailing slash, or the file assets will get an incorrect path.
 var publicPath = paths.servedPath;
 
-// `publicUrl` is just like `publicPath`, but we will provide it to our app
-// as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
-// Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
-var publicUrl = publicPath.slice(0, -1);
-
 // FUNCTION TO EXTRACT CSS FOR PRODUCTION
 function extractForProduction(loaders) {
   return ExtractTextPlugin.extract('style', loaders.substr(loaders.indexOf('!')));
@@ -89,15 +84,6 @@ var plugins = [
       screw_ie8: true
     }
   }),
-  new CopyWebpackPlugin([{
-    from: path.resolve(root_dir, 'src/assets/openpgp'),
-    to: path.resolve(outputPath, 'openpgp')
-  },
-  {
-    from: path.resolve(root_dir, 'src/assets/createjs-2015.11.26.min.js'),
-    to: path.resolve(outputPath, 'createjs-2015.11.26.min.js')
-  },
-  ]),
   new ManifestPlugin({
     fileName: 'asset-manifest.json'
   })
@@ -124,95 +110,82 @@ module.exports = {
   },
   debug: false,
   module: {
-    noParse: /node_modules\/openpgp\/build\/openpgp.js/,
-    loaders: [{
-      test: /\.jsx$/,
-      include: [
-        path.join(root_dir, 'src'),
-        path.join(root_dir, 'node_modules/react-foundation-apps'),
-        '/home/sigve/Dev/graphene/react-foundation-apps'
-      ],
-      loaders: ['babel-loader']
-    },
-    {
-      test: /\.js$/,
-      exclude: [/node_modules/, path.resolve(root_dir, '../node_modules')],
-      loader: 'babel-loader',
-      query: {
-        compact: false,
-        cacheDirectory: true
-      }
-    },
-    {
-      test: /\.json/,
-      loader: 'json',
-      exclude: [
-        path.resolve(root_dir, '../common'),
-        path.resolve(root_dir, 'src/assets/locales')
-      ]
-    },
-    {
-      test: /\.coffee$/,
-      loader: 'coffee-loader'
-    },
-    {
-      test: /\.(coffee\.md|litcoffee)$/,
-      loader: 'coffee-loader?literate'
-    },
-    {
-      test: /\.css$/,
-      loader: cssLoaders
-    },
-    {
-      test: /\.scss$/,
-      loader: scssLoaders
-    },
-    {
-      test: /(\.png$)/,
-      loader: 'url-loader?limit=100000',
-      exclude: [
-        path.resolve(root_dir, 'src/assets/asset-symbols'),
-        path.resolve(root_dir, 'src/assets/images')
-      ]
-    },
-    {
-      test: /\.svg$/,
-      loader: 'file',
-      query: {
-        name: 'static/media/[name].[hash:8].[ext]'
-      }
-    },
-    {
-      test: /\.(jpe?g|png|gif)$/i,
-      loaders: [
-        'file?hash=sha512&digest=hex&name=[hash].[ext]',
-        `image-webpack?${JSON.stringify({
-          bypassOnDebug: true,
-          optipng: {
-            optimizationLevel: true
-          },
-          gifsicle: {
-            interlaced: true
-          }
-        })}`
-      ],
-      exclude: [
-        path.join(root_dir, 'src/assets/images')
-      ]
-    },
-    {
-      test: /\.woff$/,
-      loader: 'url-loader?limit=100000&mimetype=application/font-woff'
-    },
-    {
-      test: /.*\.svg$/,
-      loaders: ['svg-inline-loader', 'svgo-loader'],
-      exclude: [path.resolve(root_dir, 'src/assets/images/games/rps')]
-    },
-    {
-      test: /\.md/,
-      loader: 'html?removeAttributeQuotes=false!remarkable'
-    },
+    noParse: /node_modules\/build/,
+    loaders: [
+      // "url" loader embeds assets smaller than specified size as data URLs to avoid requests.
+      // Otherwise, it acts like the "file" loader.
+      {
+        exclude: [
+          /\.html$/,
+          /\.(js|jsx)$/,
+          /\.css$/,
+          /\.json$/,
+          /\.svg$/,
+          /\.less$/
+        ],
+        loader: 'url',
+        query: {
+          limit: 10000,
+          name: 'static/media/[name].[hash:8].[ext]'
+        }
+      },
+      {
+        test: /\.jsx$/,
+        include: [
+          path.join(root_dir, 'src'),
+          path.join(root_dir, 'node_modules/react-foundation-apps'),
+          '/home/sigve/Dev/graphene/react-foundation-apps'
+        ],
+        loaders: ['babel-loader']
+      },
+      {
+        test: /\.js$/,
+        exclude: [/node_modules/, path.resolve(root_dir, '../node_modules')],
+        loader: 'babel-loader',
+        query: {
+          compact: false,
+          cacheDirectory: true
+        }
+      },
+      {
+        test: /\.json/,
+        loader: 'json',
+        exclude: [
+          path.resolve(root_dir, '../common'),
+          path.resolve(root_dir, 'src/assets/locales')
+        ]
+      },
+      {
+        test: /\.coffee$/,
+        loader: 'coffee-loader'
+      },
+      {
+        test: /\.(coffee\.md|litcoffee)$/,
+        loader: 'coffee-loader?literate'
+      },
+      {
+        test: /\.css$/,
+        loader: cssLoaders
+      },
+      {
+        test: /\.scss$/,
+        loader: scssLoaders
+      },
+      {
+        test: /\.woff$/,
+        loader: 'url-loader?limit=100000&mimetype=application/font-woff'
+      },
+      {
+        test: /.*\.svg$/,
+        loader: 'file',
+        query: {
+          name: 'static/media/[name].[hash:8].[ext]'
+        }
+      },
+      {
+        test: /\.md/,
+        loader: 'html?removeAttributeQuotes=false!remarkable'
+      },
     ],
     postcss: function () {
       return [precss, autoprefixer];
@@ -233,8 +206,5 @@ module.exports = {
   remarkable: {
     preset: 'full',
     typographer: true
-  },
-  externals: {
-    'createjs': 'createjs'
   }
 };
