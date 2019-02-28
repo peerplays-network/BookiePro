@@ -15,6 +15,7 @@ import ObjectUtils from './ObjectUtils';
 import MyWagerUtils from './MyWagerUtils';
 import AuthUtils from './AuthUtils';
 import HelpAndSupportUtils from './HelpAndSupportUtils';
+import SportsbookUtils from './SportsbookUtils';
 
 export {
   AppUtils,
@@ -33,5 +34,6 @@ export {
   MyWagerUtils,
   ObjectUtils,
   HelpAndSupportUtils,
-  AuthUtils
+  AuthUtils,
+  SportsbookUtils,
 };

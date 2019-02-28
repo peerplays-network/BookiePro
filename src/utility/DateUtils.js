@@ -113,6 +113,22 @@ const DateUtils = {
     return formatted;
   },
 
+  getMonthDayAndTime(date) {
+    let wrappedDate = moment(date);
+    let formatted = wrappedDate.format('MMM D H:mm');
+
+    if (
+      wrappedDate
+        .calendar()
+        .toLowerCase()
+        .indexOf('today') !== -1
+    ) {
+      formatted = I18n.t('mybets.today');
+    }
+    
+    return formatted;
+  },
+
   /**
    * calculate start date and end date given time range period data
    *

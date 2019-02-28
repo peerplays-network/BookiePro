@@ -19,6 +19,8 @@ import BettingMarketStatus from './BettingMarketStatus';
 import BettingMarketGroupStatus from './BettingMarketGroupStatus';
 import BettingDrawerStates from './BettingDrawerStates';
 import BettingMarketResolutionTypes from './BettingMarketResolutionTypes';
+import BackingWidgetTypes from './BackingWidgetTypes';
+import LayoutConstants from './LayoutConstants';
 
 export {
   Config,
@@ -41,5 +43,7 @@ export {
   BettingMarketStatus,
   BettingMarketGroupStatus,
   BettingMarketResolutionTypes,
-  BookieModes
+  BookieModes,
+  BackingWidgetTypes,
+  LayoutConstants,
 };

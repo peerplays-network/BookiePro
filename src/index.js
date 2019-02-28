@@ -16,6 +16,10 @@ import Main from './components/Main';
 import Exchange from './components/Exchange';
 import AllSports from './components/AllSports';
 import Sport from './components/Sport';
+import SportsBook from './components/SportsBook';
+import SportsBookEvent from './components/SportsBookEvent';
+import SportsBookEventGroup from './components/SportsBookEventGroup';
+import SportsBookSport from './components/SportsBookSport';
 import EventGroup from './components/EventGroup';
 import BettingMarketGroup from './components/BettingMarketGroup';
 import configureStore from './store/configureStore';
@@ -112,6 +116,14 @@ const routes = (
         />
         <Route path='BettingMarketGroup/:objectId' component={ BettingMarketGroup } />
       </Route>
+      
+      <Route path='sportsbook'>
+        <IndexRoute component={ SportsBook } />
+        <Route path='Sport/:objectId' component={ SportsBookSport } />
+        <Route path='EventGroup/:objectId' component={ SportsBookEventGroup } />
+        <Route path='events/:eventId' component={ SportsBookEvent } />
+      </Route>
+
       <Route path='/my-account' component={ MyAccount } />
       <Route path='/change-password' component={ ChangePassword } />
       <Route path='/my-wager' component={ MyWager } />
