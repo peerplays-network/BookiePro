@@ -111,81 +111,100 @@ module.exports = {
   debug: false,
   module: {
     noParse: /node_modules\/build/,
-    loaders: [
-      // "url" loader embeds assets smaller than specified size as data URLs to avoid requests.
-      // Otherwise, it acts like the "file" loader.
-      {
-        exclude: [
-          /\.html$/,
-          /\.(js|jsx)$/,
-          /\.css$/,
-          /\.json$/,
-          /\.svg$/,
-          /\.less$/
-        ],
-        loader: 'url',
-        query: {
-          limit: 10000,
-          name: 'static/media/[name].[hash:8].[ext]'
+    loaders: [{
+      test: /\.jsx$/,
+      include: [
+        path.join(root_dir, 'src'),
+        path.join(root_dir, 'node_modules/react-foundation-apps'),
+        '/home/sigve/Dev/graphene/react-foundation-apps'
+      ],
+      loaders: ['babel-loader']
+    },
+    {
+      test: /\.js$/,
+      exclude: [/node_modules/, path.resolve(root_dir, '../node_modules')],
+      loader: 'babel-loader',
+      query: {
+        compact: false,
+        cacheDirectory: true
+      }
+    },
+    {
+      test: /\.json/,
+      loader: 'json',
+      exclude: [
+        path.resolve(root_dir, '../common'),
+        path.resolve(root_dir, 'src/assets/locales')
+      ]
+    },
+    {
+      test: /\.coffee$/,
+      loader: 'coffee-loader'
+    },
+    {
+      test: /\.(coffee\.md|litcoffee)$/,
+      loader: 'coffee-loader?literate'
+    },
+    {
+      test: /\.css$/,
+      loader: cssLoaders
+    },
+    {
+      test: /\.scss$/,
+      loader: scssLoaders
+    },
+    {
+      test: /(\.png$)/,
+      loader: 'url-loader?limit=100000',
+      query: {
+        name: 'static/media/[name].[hash:8].[ext]'
+      },
+      exclude: [
+        path.resolve(root_dir, 'src/assets/asset-symbols'),
+        path.resolve(root_dir, 'src/assets/images')
+      ]
+    },
+    {
+      test: /\.svg$/,
+      loader: 'file',
+      query: {
+        name: 'static/media/[name].[hash:8].[ext]'
+      }
+    },
+    {
+      test: /\.(jpe?g|png|gif)$/i,
+      loaders: [
+        'file?hash=sha512&digest=hex&name=[hash].[ext]',
+        {
+          loader: 'image-webpack',
+          options: {
+            bypassOnDebug: true,
+            optipng: {
+              optimizationLevel: true
+            },
+            gifsicle: {
+              interlaced: true
+            }
+          }
         }
-      },
-      {
-        test: /\.jsx$/,
-        include: [
-          path.join(root_dir, 'src'),
-          path.join(root_dir, 'node_modules/react-foundation-apps'),
-          '/home/sigve/Dev/graphene/react-foundation-apps'
-        ],
-        loaders: ['babel-loader']
-      },
-      {
-        test: /\.js$/,
-        exclude: [/node_modules/, path.resolve(root_dir, '../node_modules')],
-        loader: 'babel-loader',
-        query: {
-          compact: false,
-          cacheDirectory: true
-        }
-      },
-      {
-        test: /\.json/,
-        loader: 'json',
-        exclude: [
-          path.resolve(root_dir, '../common'),
-          path.resolve(root_dir, 'src/assets/locales')
-        ]
-      },
-      {
-        test: /\.coffee$/,
-        loader: 'coffee-loader'
-      },
-      {
-        test: /\.(coffee\.md|litcoffee)$/,
-        loader: 'coffee-loader?literate'
-      },
-      {
-        test: /\.css$/,
-        loader: cssLoaders
-      },
-      {
-        test: /\.scss$/,
-        loader: scssLoaders
-      },
-      {
-        test: /\.woff$/,
-        loader: 'url-loader?limit=100000&mimetype=application/font-woff'
-      },
-      {
-        test: /.*\.svg$/,
-        loader: 'file',
-        query: {
-          name: 'static/media/[name].[hash:8].[ext]'
-        }
-      },
-      {
-        test: /\.md/,
-        loader: 'html?removeAttributeQuotes=false!remarkable'
-      },
+      ],
+      exclude: [
+        path.join(root_dir, 'src/assets/images')
+      ]
+    },
+    {
+      test: /\.woff$/,
+      loader: 'url-loader?limit=100000&mimetype=application/font-woff'
+    },
+    {
+      test: /.*\.svg$/,
+      loaders: ['svg-inline-loader', 'svgo-loader'],
+      exclude: [path.resolve(root_dir, 'src/assets/images/games/rps')]
+    },
+    {
+      test: /\.md/,
+      loader: 'html?removeAttributeQuotes=false!remarkable'
+    },
     ],
     postcss: function () {
       return [precss, autoprefixer];
