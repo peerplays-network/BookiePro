@@ -226,6 +226,37 @@ window.onunhandledrejection = (data) => {
 };
 
 if (CONFIG.__ELECTRON__) {
+  let electron = window.require('electron');
+
+  const {remote} = electron;
+  const {Menu, MenuItem} = remote;
+
+  const menu = new Menu();
+  menu.append(
+    new MenuItem({
+      label: 'Copy',
+      click() {
+        document.execCommand('copy');
+      }
+    })
+  );
+  menu.append(
+    new MenuItem({
+      label: 'Paste',
+      click() {
+        document.execCommand('paste');
+      }
+    })
+  );
+
+  document.addEventListener(
+    'contextmenu',
+    (e) => {
+      e.preventDefault();
+      menu.popup({window: remote.getCurrentWindow()});
+    },
+    false
+  );
 
   let ipcRenderer = window.require('electron').ipcRenderer;
 
