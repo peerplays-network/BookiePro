@@ -14,8 +14,7 @@ module.exports = {
   'number-no-trailing-zeros': true,
   'property-case': 'lower',
   'property-no-unknown': true,
-  // ensure webpack autoprefixer is working properly before
-  // 'property-no-vendor-prefix': true,
+  // ensure webpack autoprefixer is working before applying `property-no-vendor-prefix` rule.
   'rule-empty-line-before': [
     'always-multi-line',
     {
