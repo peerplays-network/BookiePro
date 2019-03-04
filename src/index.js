@@ -117,7 +117,7 @@ const routes = (
         <Route path='BettingMarketGroup/:objectId' component={ BettingMarketGroup } />
       </Route>
       
-      <Route path='sportsbook'>
+      <Route path='sportsbook' component={ Exchange }>
         <IndexRoute component={ SportsBook } />
         <Route path='Sport/:objectId' component={ SportsBookSport } />
         <Route path='EventGroup/:objectId' component={ SportsBookEventGroup } />
