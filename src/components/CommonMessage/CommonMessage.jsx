@@ -32,14 +32,13 @@ const compileMessage = (props) => {
         id={ id }
       >
         <div className='cmn-msg__cont'>
-          <span>{pair.get('content') }
-            <p onClick={ () => props.clearMessage(id) }>X</p>
-          </span>
+          <span>{pair.get('content') }</span>
+          <p onClick={ () => props.clearMessage(id) }>X</p>
         </div>
       </div>
     );
   });
-  return <div>{messages}</div>;
+  return <div className='cmn-msg'>{messages}</div>;
 };
 
 class CommonMessage extends PureComponent {

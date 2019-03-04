@@ -1,28 +1,22 @@
 .cmn-msg {
+  width: 100%;
+  top: 50px;
+  height: 36px;
+  padding: 0 0;
+  display: flex;
+  z-index: 1;
+  color: white;
+  animation-name: slideDown;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
   &__bkg{
-    width: 100%;
-    top: 50px;
-    height: 36px;
-    padding: 5px 0;
-    display: table;
-    z-index: 1;
-    color: white;
-    animation-name: slideDown;
-    animation-duration: 0.2s;
-    animation-timing-function: ease-in-out;
-    animation-fill-mode: forwards;
+    flex-grow: 1;
 
     .aside & {
       position: relative;
       margin-top: 0;
       top: 0px;
-    }
-    p {
-      float: right;
-
-      &:hover {
-        cursor: pointer;
-      }
     }
     &--info {
       background-color: fade-in(#204496, 1);
@@ -41,10 +35,14 @@
     }
   }
   &__cont {
-    text-align: left;
-    display: table-cell;
-    vertical-align: middle;
-    padding: 0 1vw;
+    display: flex;
+    justify-content: space-between;
+    padding: .6vw 1vw;
+    p {
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 }
 
