@@ -78,7 +78,7 @@ class App extends React.Component {
           <Header pathname={ pathname }/>
           {this.props.headerMessages.size > 0 ?
             <div>
-              <div className='message_wrapper'><CommonMessage location='header'/></div>
+              <CommonMessage location='header'/>
               <div style={ {marginTop: this.getTopMargin()} }>{this.props.children}</div>
             </div>
             :

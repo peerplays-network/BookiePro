@@ -38,7 +38,7 @@ const compileMessage = (props) => {
       </div>
     );
   });
-  return <div className='cmn-msg'>{messages}</div>;
+  return messages;
 };
 
 class CommonMessage extends PureComponent {
@@ -90,7 +90,7 @@ class CommonMessage extends PureComponent {
 
   render() {
     return (
-      <div>
+      <div className='cmn-msg'>
         {compileMessage(this.props)}
       </div>
     );
@@ -122,8 +122,8 @@ const mapStateToProps = (state) => {
     numOfsideMessages = numOfCommonMessageToDisplay;
   }
 
-  //Calculate the heights of the exchange child div and the betslip child div.
-  const exchangeMessagingHeight = 36 * numOfheaderMessages;
+  //Calculate the heights of the header child div and the betslip child div.
+  const exchangeMessagingHeight = 35 * numOfheaderMessages;
 
 
   // Dynamically apply a style to the split panes.
