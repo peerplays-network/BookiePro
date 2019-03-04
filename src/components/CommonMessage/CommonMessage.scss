@@ -1,4 +1,4 @@
-@mixin common-message__background {
+@mixin cm-msg__bkg {
     width: 100%;
     top: 50px;
     height: 36px;
@@ -18,9 +18,9 @@
     }
   }
   
-  .c-common-message {
-    &__background{
-      @include common-message__background;
+  .cmn-msg {
+    &__bkg{
+      @include cm-msg__bkg;
       p {
         float: right;
 
@@ -28,23 +28,23 @@
           cursor: pointer;
         }
       }
-      &.info {
+      &--info {
         background-color: fade-in(#204496, 1);
       }
-      &.error {
+      &--error {
         background-color: fade-in(#D60D2E, 1);
       }
-      &.warning {
+      &--warning {
         background-color: fade-in(#FF9603, 1);
       }
-      &.success {
+      &--success {
         background-color: fade-in(#02A04A, 1);
       }
-      &.none {
+      &--none {
         display: none;
       }
     }
-    &__content {
+    &__cont {
       text-align: left;
       display: table-cell;
       vertical-align: middle;

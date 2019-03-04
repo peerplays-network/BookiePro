@@ -27,11 +27,11 @@ const compileMessage = (props) => {
 
     return (
       <div
-        className={ 'c-common-message__background ' + messageType }
+        className={ 'cmn-msg__bkg cmn-msg__bkg--' + messageType }
         key={ key }
         id={ id }
       >
-        <div className='c-common-message__content'>
+        <div className='cmn-msg__cont'>
           <span>{pair.get('content') }
             <p onClick={ () => props.clearMessage(id) }>X</p>
           </span>
@@ -133,7 +133,7 @@ const mapStateToProps = (state) => {
   if (messagingDivExist) {
     const messagingExchange = document.getElementsByClassName('messaging')[0]
       .children[1].children[0];
-    
+
     const messagingBetslip = document.getElementsByClassName('messaging')[0]
       .children[1].children[2];
 
