@@ -6,16 +6,6 @@ module.exports = {
   'declarations',
   {
     type: 'at-rule',
-    name: 'include',
-    parameter: 'susy-breakpoint'
-  },
-  {
-    type: 'at-rule',
-    name: 'include',
-    parameter: 'susy-media'
-  },
-  {
-    type: 'at-rule',
     name: 'media'
   }
   ],
