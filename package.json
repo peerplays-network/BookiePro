@@ -185,6 +185,8 @@
     "string-replace-loader": "^1.0.5",
     "string-replace-webpack-plugin": "0.0.3",
     "style-loader": "^0.12.4",
+    "stylelint": "^9.10.1",
+    "stylelint-order": "^2.1.0",
     "svg-inline-loader": "^0.3.0",
     "svgo-loader": "^1.1.0",
     "traceur": "0.0.110",
