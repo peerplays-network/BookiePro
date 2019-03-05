@@ -17,6 +17,7 @@
     "url": "git://github.com/PBSA/peerplays-core-gui"
   },
   "scripts": {
+    "stylelint": "stylelint '**/*.scss'",
     "pre-release-s1": "rm -rf releases; rm -rf electron/releases; npm run electron; npm run postelectron;",
     "pre-release-s2": "cd electron/node_modules/electron-prebuilt; rm -rf dist;",
     "pre-release-all": "npm run pre-release-s1 && npm run pre-release-s2",
@@ -185,6 +186,8 @@
     "string-replace-loader": "^1.0.5",
     "string-replace-webpack-plugin": "0.0.3",
     "style-loader": "^0.12.4",
+    "stylelint": "^9.10.1",
+    "stylelint-order": "^2.1.0",
     "svg-inline-loader": "^0.3.0",
     "svgo-loader": "^1.1.0",
     "traceur": "0.0.110",
