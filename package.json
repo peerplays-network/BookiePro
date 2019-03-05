@@ -18,7 +18,7 @@
   },
   "scripts": {
     "stylelint": "stylelint '**/*.scss'",
-    "pre-release-s1": "npm run stylelint && rm -rf releases; rm -rf electron/releases; npm run electron; npm run postelectron;",
+    "pre-release-s1": "rm -rf releases; rm -rf electron/releases; npm run electron; npm run postelectron;",
     "pre-release-s2": "cd electron/node_modules/electron-prebuilt; rm -rf dist;",
     "pre-release-all": "npm run pre-release-s1 && npm run pre-release-s2",
     "post-release": "cp -a electron/releases/. releases; echo 'Release builds can be found in ./releases directory';",
@@ -39,7 +39,7 @@
     "profile-build": "NODE_ENV=production webpack --config config/webpack-deploy-prod.js --profile --json > stats-prod.json",
     "profile-nougly": "NODE_ENV=production webpack --config config/webpack-prod-nougly.js --profile --json > stats-prod-nougly.json",
     "debug": "node --inspect server.js",
-    "start": "npm run stylelint && node server.js",
+    "start": "node server.js",
     "start-dev-net": "DEV_NET=true node server.js",
     "start-prod": "PROD=true node server.js",
     "build": "NODE_ENV=production webpack --config config/webpack-deploy-prod.js --progress --display-error-details --colors",
