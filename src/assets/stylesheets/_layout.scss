@@ -39,11 +39,8 @@ body {
 
 .wrapper {
   background: $body-bg;
-  position: relative;
   overflow: hidden;
   z-index: 2;
-  min-height: 100%;
-  height: auto !important;
 
   &-with-footer {
     padding-bottom: 50px;
@@ -203,6 +200,7 @@ a {
   padding: 0 $defXPad;
   //max-width: $maxWidth;
   margin: 0 auto;
+  padding-top: 55px;
 
   &-inPadding {
     //padding: 50px 0;

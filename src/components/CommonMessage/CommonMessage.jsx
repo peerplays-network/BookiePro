@@ -109,7 +109,7 @@ const mapStateToProps = (state) => {
 
   //Calculate the heights of the header child div and the betslip child div.
   const messagingHeight = 35 * numOfheaderMessages;
-  const domLoaded = document.getElementsByClassName('messaging').length > 0;
+  const domLoaded = document.getElementsByClassName('main').length > 0;
 
   if (domLoaded) {
     // Add padding to the main.

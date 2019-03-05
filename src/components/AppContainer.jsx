@@ -58,8 +58,8 @@ class App extends React.Component {
       content = (
         <div className='wrapper wrapper-with-footer'>
           <Header pathname={ pathname }/>
-          <div className='messaging'>
-            {this.props.headerMessages.length > 0 ? <CommonMessage location='header'/> : null}
+          <div>
+            <CommonMessage location='header'/>
             <div>{this.props.children}</div>
           </div>
         </div>
