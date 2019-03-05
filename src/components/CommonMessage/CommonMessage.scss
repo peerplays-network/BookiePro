@@ -1,3 +1,7 @@
+.messaging {
+  padding-top: 55px;
+}
+
 .cmn-msg {
   position: fixed;
   top: 55px;
@@ -5,19 +9,13 @@
   height: 35px;
   z-index: 1;
   color: white;
-  animation-name: slideDown;
-  animation-duration: 0.2s;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
 
   &__bkg{
-    flex-grow: 1;
+    animation-name: slideDown;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
 
-    .aside & {
-      position: relative;
-      margin-top: 0;
-      top: 0px;
-    }
     &--info {
       background-color: fade-in(#204496, 1);
     }
@@ -36,13 +34,18 @@
   }
 
   &__cont {
-    display: flex;
-    justify-content: space-between;
-    padding: .5vw 1vw;
-    p {
+    display: grid;
+    grid-template-columns: auto 30px;
+    grid-template-areas: 'msg dismiss';
+    padding: 7.25px 1vw;
+
+    &-txt {
       &:hover {
         cursor: pointer;
       }
+    }
+    &-dismiss {
+      justify-self: end;
     }
   }
 }

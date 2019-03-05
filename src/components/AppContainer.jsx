@@ -13,31 +13,13 @@ import CantConnectModal from 'components/Modal/CantConnectModal/CantConnectModal
 import HelpModal from '../components/Help/HelpModal';
 import intlData from 'components/Utility/intlData';
 import CommonMessage from 'components/CommonMessage';
-import Config from '../../config/Config';
 
 /* Other */
 import {routerShape} from 'react-router/lib/PropTypes';
-import Message from '../constants/Message';
 
 class App extends React.Component {
   static contextTypes = {
     router: routerShape
-  }
-
-  getTopMargin() {
-    const numOfMessages = Config.commonMessageModule.numOfCommonMessageToDisplay;
-    let margin;
-
-    if(numOfMessages > 1){
-      margin = Message.HeaderOffset +
-      (this.props.headerMessages.size * Message.MessageOffset) + 'px';
-    }else if(this.props.headerMessages.size > 0){
-      margin = Message.HeaderOffset + Message.MessageOffset + 'px';
-    } else{
-      margin = Message.HeaderOffset;
-    }
-
-    return margin;
   }
 
   render() {
@@ -76,13 +58,10 @@ class App extends React.Component {
       content = (
         <div className='wrapper wrapper-with-footer'>
           <Header pathname={ pathname }/>
-          {this.props.headerMessages.size > 0 ?
-            <div>
-              <CommonMessage location='header'/>
-              <div style={ {marginTop: this.getTopMargin()} }>{this.props.children}</div>
-            </div>
-            :
-            <div style={ {marginTop: this.getTopMargin()} }>{this.props.children}</div>}
+          <div className='messaging'>
+            {this.props.headerMessages.length > 0 ? <CommonMessage location='header'/> : null}
+            <div>{this.props.children}</div>
+          </div>
         </div>
       );
     }

@@ -14,10 +14,6 @@ const compileMessage = (props) => {
     messageList = props.headerMessages;
   }
 
-  if (props.location === 'side') {
-    messageList = props.sideMessages;
-  }
-
   // Filter the message list to only show the number of messages configured.
   messageList = messageList.slice(0, props.numOfCommonMessageToDisplay);
 
@@ -32,8 +28,8 @@ const compileMessage = (props) => {
         id={ id }
       >
         <div className='cmn-msg__cont'>
-          <span>{pair.get('content') }</span>
-          <p onClick={ () => props.clearMessage(id) }>X</p>
+          <span className='cmn-msg__cont-txt'>{pair.get('content') }</span>
+          <p className='cmn-msg__cont-dismiss'onClick={ () => props.clearMessage(id) }>X</p>
         </div>
       </div>
     );
@@ -74,18 +70,14 @@ class CommonMessage extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    let propsMerged = this.props.headerMessages.concat(this.props.sideMessages);
-    let prevPropsMerged = prevProps.headerMessages.concat(prevProps.sideMessages);
-
     // Use lodash for a deep comparison of the merged messages.
-    if (!_.isEqual(propsMerged, prevPropsMerged)) {
-      this.checkToAssignTimer(propsMerged);
+    if (!_.isEqual(this.props.headerMessages, prevProps.headerMessages)) {
+      this.checkToAssignTimer(this.props.headerMessages);
     }
   }
 
   componentDidMount() {
-    let propsMerged = this.props.headerMessages.concat(this.props.sideMessages);
-    this.checkToAssignTimer(propsMerged);
+    this.checkToAssignTimer(this.props.headerMessages);
   }
 
   render() {
@@ -102,47 +94,33 @@ const mapStateToProps = (state) => {
 
   const messages = state.commonMessage;
   let headerMessages = messages.get('headerMessages');
-  let sideMessages = messages.get('sideMessages');
   const numOfCommonMessageToDisplay = Config.commonMessageModule.numOfCommonMessageToDisplay;
 
   if (reverse) {
     headerMessages = headerMessages.reverse();
-    sideMessages = sideMessages.reverse();
   }
 
   // Determine the number of messages for calculating the heigh offset needed.
   let numOfheaderMessages = headerMessages.size;
-  let numOfsideMessages = sideMessages.size;
 
   if (numOfheaderMessages > numOfCommonMessageToDisplay) {
     numOfheaderMessages = numOfCommonMessageToDisplay;
   }
 
-  if (numOfsideMessages > numOfCommonMessageToDisplay) {
-    numOfsideMessages = numOfCommonMessageToDisplay;
-  }
-
   //Calculate the heights of the header child div and the betslip child div.
-  const exchangeMessagingHeight = 35 * numOfheaderMessages;
+  const messagingHeight = 35 * numOfheaderMessages;
+  const domLoaded = document.getElementsByClassName('messaging').length > 0;
 
+  if (domLoaded) {
+    // Add padding to the main.
+    document.getElementsByClassName('main')[0].style.paddingTop = messagingHeight + 'px';
 
-  // Dynamically apply a style to the split panes.
-  const messagingDivExist = document.getElementsByClassName('messaging').length > 0;
-
-  if (messagingDivExist) {
-    const messagingExchange = document.getElementsByClassName('messaging')[0]
-      .children[1].children[0];
-
-    const messagingBetslip = document.getElementsByClassName('messaging')[0]
-      .children[1].children[2];
-
-    messagingExchange.style.height = 'calc(100% - ' + exchangeMessagingHeight + 'px)';
-    messagingBetslip.style.height = 'calc(100% - ' + exchangeMessagingHeight + 'px)';
+    // Due to the nature of the aside, we need to modify the top value.
+    document.getElementsByClassName('aside')[0].style.marginTop = messagingHeight + 'px';
   }
 
   return {
     headerMessages,
-    sideMessages,
     numOfCommonMessageToDisplay
   };
 };

@@ -8,9 +8,6 @@ import asset_utils from 'common/asset_utils';
 import AppActions from 'actions/AppActions';
 import SideVesting from './SideVesting';
 import {bindActionCreators} from 'redux';
-import CommonMessage from '../../CommonMessage';
-import Message from '../../../constants/Message';
-import Config from '../../../../config/Config';
 class Side extends React.Component {
 
   componentWillMount() {
@@ -26,21 +23,6 @@ class Side extends React.Component {
     this.props.navigateToDepositWithDraw();
   }
 
-  getTopMargin() {
-    const numOfMessages = Config.commonMessageModule.numOfCommonMessageToDisplay;
-    let margin;
-
-    if(numOfMessages > 1) {
-      margin = this.props.headerMessages.size * Message.MessageOffset + 'px';
-    } else if(this.props.headerMessages.size > 0){
-      margin = Message.MessageOffset + 'px';
-    } else {
-      margin = 0;
-    }
-
-    return margin;
-  }
-
   render() {
     let {
       availableBalances,
@@ -49,9 +31,7 @@ class Side extends React.Component {
     let availableKeys = Object.keys(availableBalances);
 
     return (
-      <aside className='aside' style={ {marginTop: this.getTopMargin()} }>
-        {this.props.sideMessages.size > 0 ?
-          <div><CommonMessage location='side' /></div> : null}
+      <aside className='aside'>
         <div className='nav__user dd dd-hover'>
           <div className='nav__userDDTrigger ddTrigger'>
             <div className='nav__userPic'>
@@ -133,7 +113,6 @@ const mapStateToProps = (state) => {
     account: state.app.account,
     availableBalances: state.dashboardPage.availableBalances,
     headerMessages: state.commonMessage.get('headerMessages'),
-    sideMessages: state.commonMessage.get('sideMessages')
   };
 };
 
