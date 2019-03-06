@@ -12,6 +12,7 @@ import {Layout} from 'antd';
 //import SearchMenu from './SearchMenu';
 import TopMenu from './TopMenu';
 import logo from '../../../assets/images/bookie_logo_topnav.png';
+import {BookieModes} from '../../../constants';
 
 const {Header} = Layout;
 
@@ -24,7 +25,13 @@ class NavBar extends PureComponent {
 
   //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
   handleNavigateToHome() {
-    this.props.navigateTo('/exchange');
+    let path = BookieModes.EXCHANGE;
+
+    if (this.props.bookMode === BookieModes.SPORTSBOOK) {
+      path = BookieModes.SPORTSBOOK;
+    }
+    
+    this.props.navigateTo(path);
   }
 
   //Called by parent component Main
