@@ -35,13 +35,11 @@
     grid-template-areas: 'msg dismiss';
     padding: 7.25px 1vw;
 
-    &-txt {
+    &-dismiss {
+      justify-self: end;
       &:hover {
         cursor: pointer;
       }
-    }
-    &-dismiss {
-      justify-self: end;
     }
   }
 }
