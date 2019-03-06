@@ -71,7 +71,8 @@ const mapStateToProps = (state) => {
     completeTree: SidebarSelector.getSidebarCompleteTree(state),
     sidebarLoadingStatus: state.getIn(['sidebar', 'loadingStatus']),
     searchResult: event.get('searchResult'),
-    getSearchEventsLoadingStatus: event.get('getSearchEventsLoadingStatus')
+    getSearchEventsLoadingStatus: event.get('getSearchEventsLoadingStatus'),
+    bookMode: state.getIn(['app', 'bookMode'])
   };
 };
 
