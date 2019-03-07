@@ -6,6 +6,7 @@ import Config from '../../../config/Config';
 import MessageType from '../../constants/MessageTypes';
 import _ from 'lodash';
 import './CommonMessage.scss';
+import Immutable from 'immutable';
 
 const compileMessage = (props) => {
   let messageList;
@@ -45,29 +46,37 @@ class CommonMessage extends PureComponent {
       timeout: null
     };
 
+    this.timerList = Immutable.List();
     this.checkToAssignTimer = this.checkToAssignTimer.bind(this);
   }
 
-  setTimer(id) {
-    const {timeout} = this.state;
-    clearTimeout(timeout);
-
-    this.setState({
-      timeout: setTimeout(
+  // Only the most recent message has an associated timer.
+  // Other messages will not have a timer until they are shown.
+  setTimer(id, index) {
+    if (index === 0) {
+      this.timerList = this.timerList.push(setTimeout(
         this.props.clearMessage.bind(this, id), Config.commonMessageModule.timeout
-      )
-    });
+      ));
+    } else {
+      this.timerList.forEach((timer, index) => {
+        if (index !== this.timerList.size-1) {
+          clearTimeout(timer);
+        }
+      });
+
+    }
   }
 
   checkToAssignTimer(messages) {
-    messages.forEach((msg) => {
+    messages.forEach((msg, index) => {
       let msgType = msg.get('messageType');
 
       if (msgType === MessageType.SUCCESS || msgType === MessageType.INFO) {
-        this.setTimer(msg.get('id'));
+        this.setTimer(msg.get('id'), index);
       }
     });
   }
+
 
   componentDidUpdate(prevProps) {
     // Use lodash for a deep comparison of the merged messages.
