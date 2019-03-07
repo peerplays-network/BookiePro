@@ -56,10 +56,12 @@ class OpenBets extends PureComponent {
         this.props.updateOpenBetsLoadingStatus(LoadingStatus.DONE);
 
         // Check how many bets were removed and display appropriate message
-        if (prevProps.unmatchedBets.size > 1 && this.props.unmatchedBets.size === 0) {
-          this.props.messageFromLoadState(LoadingStatus.DONE_UNMATCHED_BET_CANCEL_ALL);
-        } else if (this.props.unmatchedBets.size === (prevProps.unmatchedBets.size - 1)) {
-          this.props.messageFromLoadState(LoadingStatus.DONE_UNMATCHED_BET_CANCEL);
+        if (this.props.openBetsLoadingStatus === 'bet_delete') {
+          if (prevProps.unmatchedBets.size > 1 && this.props.unmatchedBets.size === 0) {
+            this.props.messageFromLoadState(LoadingStatus.DONE_UNMATCHED_BET_CANCEL_ALL);
+          } else if (this.props.unmatchedBets.size === (prevProps.unmatchedBets.size - 1)) {
+            this.props.messageFromLoadState(LoadingStatus.DONE_UNMATCHED_BET_CANCEL);
+          }
         }
 
       } else if (prevProps.overlay === 'SUBMIT_BETS_SUCCESS') {
