@@ -17,6 +17,12 @@ class CommonMessagePrivateActions {
       id
     };
   }
+
+  static clearAllMessages() {
+    return {
+      type: ActionTypes.COMMON_MSG_RESET,
+    };
+  }
 }
 
 class CommonMessageActions {
@@ -51,6 +57,12 @@ class CommonMessageActions {
       }
 
       dispatch(CommonMessagePrivateActions.addMessage(content, messageType, loc, id));
+    };
+  }
+
+  static resetMessages() {
+    return (dispatch) => {
+      dispatch(CommonMessagePrivateActions.clearAllMessages());
     };
   }
 }

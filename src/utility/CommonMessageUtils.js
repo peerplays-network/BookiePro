@@ -32,7 +32,7 @@ var CommonMessageUtils = {
     } else {
       // If there are no erronous bets, ensure there are no warning messages to indicate
       // otherwise.
-      return CommonMessageActions.clearMessage(id);
+      return CommonMessageActions.resetMessages();
     }
   },
 
