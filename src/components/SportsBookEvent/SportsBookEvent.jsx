@@ -56,7 +56,7 @@ class SportsBookEvent extends PureComponent {
 
   render() {
     // Return nothing if betting market group doesn't exist
-    if (!this.props.event || this.props.event.isEmpty() || this.props.eventStatus === null) {
+    if (!this.props.event || this.props.event.isEmpty() || this.props.eventStatus === null) {      
       return null;
     } else {
       return (
@@ -69,13 +69,14 @@ class SportsBookEvent extends PureComponent {
             eventStatus={ this.props.eventStatus[1] }
             eventStatusClassName={ this.props.eventStatus[0] }
           />
-          {this.props.marketData.map((item, index) => {
+
+          {this.props.marketData.map((e, index) =>  {
             return (
               <BackingWidgetContainer
                 key={ index }
-                widgetTitle={ item.get('description') }
-                marketData={ item }
-                eventStatus={ this.props.eventStatus }
+                widgetTitle={ e.get('description') }
+                marketData={ e }
+                eventStatus={ e.get('status') }
               />
             );
           })}

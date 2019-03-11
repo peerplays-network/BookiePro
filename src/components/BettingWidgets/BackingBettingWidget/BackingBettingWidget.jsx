@@ -102,8 +102,6 @@ class BackingBettingWidget extends PureComponent {
 
 BackingBettingWidget.propTypes = {
   isLiveMarket: PropTypes.bool.isRequired,
-  eventStatus: PropTypes.any.isRequired,
-  title: PropTypes.string.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => {
