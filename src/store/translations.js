@@ -426,7 +426,9 @@ export const translationsObject = {
             good_bets_1: 'Would you like to update 1 bet with ',
             good_bets: 'Would you like to update %{good_bets} bets with ',
             cancel_button: 'CANCEL',
-            confirm_button: 'CONFIRM BET'
+            confirm_button: 'CONFIRM BET',
+            cancel_bet: 'Bet successfully cancelled',
+            cancel_bets: 'All bets have been successfully cancelled',
           },
           perfect: {
             good_bets_1: 'You are about to update 1 bet for a total liability of ',
