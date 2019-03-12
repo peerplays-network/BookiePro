@@ -35,6 +35,7 @@ class BackingWidgetContainer extends PureComponent {
             eventID={ this.props.marketData.get('event_id') }
             eventTime={ this.props.eventTime }
             eventStatus={ this.props.marketData.get('status') }
+            eventRoute={ this.props.eventRoute }
             columnType={ this.props.marketData.get('description') }
             marketData={ this.props.marketData }
             isLiveMarket={ true }

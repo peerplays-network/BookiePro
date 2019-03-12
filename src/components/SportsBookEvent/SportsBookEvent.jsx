@@ -80,8 +80,7 @@ class SportsBookEvent extends PureComponent {
                 eventName={ this.props.eventName }
                 eventTime={ this.props.eventTime }
                 event={ this.props.event }
-
-
+                eventRoute={ this.props.route.path ? true : false }
               />
             );
           })}

@@ -36,7 +36,7 @@ class BackingBettingWidget extends PureComponent {
     let span = 24;
 
     // If the following if statement is true, then the component is an event
-    if (this.props.eventTime) {
+    if (this.props.eventTime && !this.props.eventRoute) {
       eventFlag = true;
       dateString = DateUtils.getMonthDayAndTime(this.props.eventTime);
       createBet = this.props.quickBetDrawerCreateBet;
@@ -47,7 +47,7 @@ class BackingBettingWidget extends PureComponent {
         (SportsbookUtils.isAbleToBet(this.props.eventStatus) ? 'active ' : 'disabled ') }>
         <div>
 
-          { eventFlag && 
+          { eventFlag &&
             <Col span={ 10 }>
               <Col className='date' span={ 5 }>
                 { dateString }
