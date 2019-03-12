@@ -8,6 +8,7 @@ import {withRouter} from 'react-router';
 import {NavigateActions, SidebarActions, AppActions, EventActions} from '../../actions';
 import {LoadingStatus} from '../../constants';
 import {SidebarSelector} from '../../selectors';
+import {AppUtils} from '../../utility';
 const {Content} = Layout;
 
 class Main extends PureComponent {
@@ -31,7 +32,7 @@ class Main extends PureComponent {
 
   //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
   handleNavigateToHome() {
-    this.props.navigateTo('/exchange');
+    this.props.navigateTo(AppUtils.getHomePath(this.props.bookMode));
   }
 
   onRouteChange() {
