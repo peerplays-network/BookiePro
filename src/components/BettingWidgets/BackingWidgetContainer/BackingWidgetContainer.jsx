@@ -30,11 +30,11 @@ class BackingWidgetContainer extends PureComponent {
 
         { eventFlag && this.props.marketData.size > 0 && // eslint-disable-line
           (<BackingBettingWidget
-            key={ this.props.marketData.get('eventID') }
-            title={ this.props.marketData.get('eventName') }
-            eventID={ this.props.marketData.get('eventID') }
-            eventTime={ this.props.marketData.get('eventTime') }
-            eventStatus={ this.props.marketData.get('eventStatus') }
+            key={ this.props.marketData.get('id') }
+            title={ this.props.eventName }
+            eventID={ this.props.marketData.get('event_id') }
+            eventTime={ this.props.eventTime }
+            eventStatus={ this.props.marketData.get('status') }
             columnType={ this.props.marketData.get('description') }
             marketData={ this.props.marketData }
             isLiveMarket={ true }

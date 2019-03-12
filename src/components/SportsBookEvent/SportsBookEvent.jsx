@@ -76,7 +76,12 @@ class SportsBookEvent extends PureComponent {
                 key={ index }
                 widgetTitle={ e.get('description') }
                 marketData={ e }
-                eventStatus={ e.get('status') }
+                eventStatus={ this.props.eventStatus }
+                eventName={ this.props.eventName }
+                eventTime={ this.props.eventTime }
+                event={ this.props.event }
+
+
               />
             );
           })}
