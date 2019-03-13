@@ -2,7 +2,7 @@ const _ = require('lodash');
 const {version} = require('../package.json');
 const getClientEnvironment = require('./env');
 const env = getClientEnvironment();
-const {Manager} = require('../../peerplaysjs-ws/');
+// const {Manager} = require('../../peerplaysjs-ws/');
 // Get the endpoints available.
 const blockchainUrls = env.raw.apiEndpoints;
 // Get the faucet endpoints available.
@@ -10,26 +10,12 @@ const faucetUrls = env.raw.faucetUrls;
 
 // Shuffle the available enpoints.
 const shuffledFaucetUrls = _.shuffle(faucetUrls);
-
-let x = new Manager({
-  url: 'wss://api.ppytest.blckchnd.com',
-  urls: blockchainUrls
-});
-
-let t1 = new Date().getTime();
-x.checkConnections().then((response) => {
-  console.log(response);
-  let sorted = Object.keys(response).sort((a,b) => response[a]-response[b]);
-  console.log(new Date().getTime() - t1);
-
-  console.log(sorted);
-
-});
+const shuffledBlockchainUrls = _.shuffle(blockchainUrls);
 
 const Config = {
   APP_VERSION: version,
   APP_PACKAGE_VERSION: version,
-  BLOCKCHAIN_URLS: blockchainUrls,
+  BLOCKCHAIN_URLS: shuffledBlockchainUrls,
   FAUCET_URLS: shuffledFaucetUrls,
 
   CORE_ASSET: 'PPY',

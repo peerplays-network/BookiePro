@@ -33,7 +33,6 @@ class ConnectManager {
 
     //const connectionString = this.blockchainUrls[this.blockchainUrlIndex];
     let manager = new Manager({
-      url: 'wss://api.ppy.steemul.ru:8080',
       urls: this.blockchainUrls
     });
 
