@@ -31,17 +31,15 @@ class ConnectManager {
     this.callback = callback;
     this.callback(store);
 
-    //const connectionString = this.blockchainUrls[this.blockchainUrlIndex];
     let manager = new Manager({
       urls: this.blockchainUrls
     });
-
-    // Display the blockchain api node that we are conencting to.
 
     return manager.sortNodesByLatency().then((list) => {
       console.log('response: ', list);
       return list;
     }).then((list) => {
+      // Display the blockchain api node that we are conencting to.
       const connectionString = list[this.blockchainUrlIndex];
       console.log(`%cConnected to: ${connectionString}.`,
         'background: #222 color: green; font-size: large');
