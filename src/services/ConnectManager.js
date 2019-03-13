@@ -3,7 +3,6 @@ import {Apis} from 'peerplaysjs-ws';
 import CONFIG from '../config/main';
 import {Manager} from '../../../peerplaysjs-ws/';
 let instances = {};
-
 class ConnectManager {
   constructor() {
     this.blockchainUrlIndex = 0;
@@ -36,7 +35,6 @@ class ConnectManager {
     });
 
     return manager.sortNodesByLatency().then((list) => {
-      console.log('response: ', list);
       return list;
     }).then((list) => {
       // Display the blockchain api node that we are conencting to.
