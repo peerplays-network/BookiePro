@@ -9,7 +9,6 @@ const blockchainUrls = env.raw.apiEndpoints;
 const faucetUrls = env.raw.faucetUrls;
 
 // Shuffle the available enpoints.
-const shuffledBlockchainUrls = _.shuffle(blockchainUrls);
 const shuffledFaucetUrls = _.shuffle(faucetUrls);
 
 let x = new Manager({
@@ -30,7 +29,7 @@ x.checkConnections().then((response) => {
 const Config = {
   APP_VERSION: version,
   APP_PACKAGE_VERSION: version,
-  BLOCKCHAIN_URLS: shuffledBlockchainUrls,
+  BLOCKCHAIN_URLS: blockchainUrls,
   FAUCET_URLS: shuffledFaucetUrls,
 
   CORE_ASSET: 'PPY',
