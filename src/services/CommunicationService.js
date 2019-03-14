@@ -1027,7 +1027,6 @@ class CommunicationService {
    * Withdraw money
    */
   static withdraw() {
-    // TODO: Replace later
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve();
@@ -1039,7 +1038,6 @@ class CommunicationService {
    * Get deposit address
    */
   static getDepositAddress() {
-    // TODO: Replace later
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve('THISISDUMMYDEPOSITADDRESSFORANYACCOUNTID');

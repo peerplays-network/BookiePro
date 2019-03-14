@@ -1514,8 +1514,6 @@ export const translationsObject = {
           }
         ]
       },
-      // TODO: the following should be deprecated but floating help is still referring to these
-      // Revisit this after the floating help is revamped
       question1: 'What is BookiePro?',
       answer1:
         'BookiePro is a betting exchange where people from all over the world can bet on sports.',

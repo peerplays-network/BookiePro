@@ -104,7 +104,6 @@ class MywagerActions {
             id: bet.get('id'),
             betting_market_id: bet.get('betting_market_id'),
             back_or_lay: bet.get('back_or_lay'),
-            // TODO: use betcategories instead of MyWagerTabTypes to avoid confusion
             stake: CurrencyUtils.getFormattedCurrency(
               getStakeFromBetObject(bet) / Math.pow(10, precision),
               currencyFormat,
@@ -137,14 +136,6 @@ class MywagerActions {
           exportData.push(Immutable.Map(rowObj));
         });
 
-        //Generated Resolved bets export object array using foreach to display 
-        // properties in particular order in excel.
-        //TODO: Need to check if this can be improved
-        /*NOTE: Things to be taken care of for Resolved bet export data are listed below:-
-          1. Object property name change as per column configuration
-          2. Sequence of properties in Object as per column configuration
-          3. Removing unwanted columns from export data
-        */
         const columns = getResolvedBetsColumns(currencyFormat, true);
         exportData.forEach((row, index) => {
           row = row.merge({

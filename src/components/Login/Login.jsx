@@ -64,7 +64,6 @@ class Login extends PureComponent {
     if (accountError) {
       //overriding blockchain error with general error
       //Note: even if the username format is incorrect it will show this generic error
-      //TODO: confirm if we really need to show generic error for these errors
       errors.userName = I18n.t('login.username_notfound');
       throw new SubmissionError(errors);
     } else {
