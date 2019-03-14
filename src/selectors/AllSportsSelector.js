@@ -2,7 +2,7 @@ import CommonSelector from './CommonSelector';
 import {createSelector} from 'reselect';
 import Immutable from 'immutable';
 import {DateUtils} from '../utility';
-import {Config, LoadingStatus} from '../constants';
+import {Config} from '../constants';
 
 const {
   getBettingMarketsById,
@@ -97,6 +97,7 @@ const getAllSportsData = createSelector(
       const eventNodes = activeEvents
         .map((event) => {
           let eventStatus = event.get('status');
+
           if (eventStatus !== null && eventStatus !== undefined) {
             const offers =
               simpleBettingWidgetBinnedOrderBooksByEventId.get(event.get('id')) || Immutable.List();
