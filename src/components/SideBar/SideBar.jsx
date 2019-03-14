@@ -33,6 +33,7 @@ import {SidebarSelector} from '../../selectors';
 import log from 'loglevel';
 import {DateUtils} from '../../utility';
 import {BookieModes} from '../../constants';
+import AppUtils from './../../utility/AppUtils';
 
 class SideBar extends PureComponent {
   constructor(props) {
@@ -186,11 +187,7 @@ class SideBar extends PureComponent {
    * @param keyPath - is the path from root to current node
    */
   onNodeMouseClick(event, tree, node) {
-    let navPath = '/exchange';
-
-    if (this.props.bookMode === BookieModes.SPORTSBOOK) {
-      navPath = '/sportsbook';
-    }
+    let navPath = (AppUtils.getHomePath(this.props.bookMode));
 
     // '0' is hardcode id for all-sports node,
     if (node.id === '0') {
