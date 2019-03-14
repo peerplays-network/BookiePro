@@ -154,6 +154,7 @@ class Exchange extends PureComponent {
          pathTokens[2].toLowerCase() !== 'events'))  {
         return <QuickBetDrawer currencyFormat={ this.props.currencyFormat } />;
       }
+
       return <MarketDrawer currencyFormat={ this.props.currencyFormat } />;
     };
 
