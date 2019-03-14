@@ -42,7 +42,7 @@ class BettingMarket extends PureComponent {
     } else {
       this.props.createBet(
         'back',
-        this.props.eventID,
+        this.props.bettingMarketId,
         odds
       );
     }
