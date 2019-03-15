@@ -197,7 +197,7 @@ class ChangePasswordForm extends PureComponent {
                     className='btn-regular btn-cancel'
                     key='back'
                     onClick={ handleCancel }>
-                      { I18n.t('changePassword.cancel') }
+                    { I18n.t('changePassword.cancel') }
                   </Button>,
                   <Button
                     className='btn-regular btn-download'

@@ -24,12 +24,13 @@ class ChangePassword extends PureComponent {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.showModal = this.showModal.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.downloadPassword = this.downloadPassword.bind(this);
     this.handleOldPasswordCheck = this.handleOldPasswordCheck.bind(this);
     this.navigateToMyAccount = this.navigateToMyAccount.bind(this);
     this.navigateToHome = this.navigateToHome.bind(this);
-    this.showModal = this.showModal.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
-    this.state = { visible: false, isPwDownloaded: false };
+    this.state = {visible: false, isPwDownloaded: false};
   }
 
   /**
@@ -41,17 +42,19 @@ class ChangePassword extends PureComponent {
     this.props.changePassword(values.get('old_password'), values.get('new_password'));
   }
 
-  showModal = () => {
+  showModal() {
     this.setState({
       visible: true
     });
   }
-  handleCancel = () => {
+
+  handleCancel() {
     this.setState({
       visible: false
     });
   }
-  downloadPassword = () => {
+
+  downloadPassword() {
     // Get the password and convert it to a blob
     const blob = new Blob([ this.props.newPassword ], {
       type: 'text/plain'
