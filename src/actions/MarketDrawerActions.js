@@ -388,15 +388,9 @@ class MarketDrawerActions {
           .map(formatBet)
           .toList();
 
-        let reverse = openedUnmatchedBets.reverse();
-        console.log('Before sort: ');
-        reverse.forEach((e) => {
-          console.log(e.get('id'));
-        });
-
         // Sort the bets by id incrementally
-        let sorted = BettingModuleUtils.sortBetsById(reverse);
-        console.log('After sort: ', sorted.forEach((e) => console.log(e.get('id'))));
+        openedUnmatchedBets = BettingModuleUtils.sortBetsById(openedUnmatchedBets);
+        openedMatchedBets = BettingModuleUtils.sortBetsById(openedMatchedBets);
 
         dispatch(
           MarketDrawerPrivateActions.getOpenBets(
