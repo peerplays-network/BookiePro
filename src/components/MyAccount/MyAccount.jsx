@@ -50,6 +50,8 @@ import {
 import {MyAccountPageSelector} from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
 import {Config} from '../../constants';
+import {AppUtils} from '../../utility';
+
 
 const Option = Select.Option;
 
@@ -216,7 +218,7 @@ class MyAccount extends PureComponent {
    * link on the Breadcrumb - {@link Exchange}
    */
   handleNavigateToHome() {
-    this.props.navigateTo('/exchange');
+    this.props.navigateTo(AppUtils.getHomePath(this.props.bookMode));
   }
 
   /**
@@ -400,7 +402,8 @@ const mapStateToProps = (state) => ({
   availableBalance: MyAccountPageSelector.availableBalanceSelector(state),
   withdrawLoadingStatus: MyAccountPageSelector.withdrawLoadingStatusSelector(state),
   convertedAvailableBalance: MyAccountPageSelector.formattedAvailableBalanceSelector(state),
-  accountName: MyAccountPageSelector.accountNameSelector(state)
+  accountName: MyAccountPageSelector.accountNameSelector(state),
+  bookMode: state.getIn(['app', 'bookMode'])
 });
 
 function mapDispatchToProps(dispatch) {

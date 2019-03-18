@@ -5,7 +5,7 @@ import {SimpleBettingWidget} from '../BettingWidgets';
 import {EventGroupPageActions, NavigateActions} from '../../actions';
 import {EventGroupPageSelector, QuickBetDrawerSelector} from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
-import {DateUtils} from '../../utility';
+import {DateUtils, AppUtils} from '../../utility';
 import {bindActionCreators} from 'redux';
 
 const MAX_EVENT_PER_PAGE = 15;
@@ -20,7 +20,7 @@ class EventGroup extends PureComponent {
     if (!nextProps.eventGroup || nextProps.eventGroup.isEmpty()) {
       // Event group doesn't exist,
       // Go back to home page
-      this.props.navigateTo('/exchange');
+      this.props.navigateTo(AppUtils.getHomePath(this.props.bookMode));
     } else {
       const prevEventGroupId = this.props.params.objectId;
       const nextEventGroupId = nextProps.params.objectId;
@@ -76,7 +76,8 @@ const mapStateToProps = (state, ownProps) => {
       sportName: EventGroupPageSelector.getSportName(state, ownProps),
       eventGroupName: EventGroupPageSelector.getEventGroupName(state, ownProps),
       events: EventGroupPageSelector.getEventGroupPageData(state, ownProps),
-      canCreateBet: QuickBetDrawerSelector.canAcceptBet(state, ownProps)
+      canCreateBet: QuickBetDrawerSelector.canAcceptBet(state, ownProps),
+      bookMode: state.getIn(['app', 'bookMode'])
     });
   }
 

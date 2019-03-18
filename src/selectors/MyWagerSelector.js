@@ -176,6 +176,7 @@ const getExtendedBets = createSelector(
     return bet
       .set('betting_market_description', bettingMarketDescription)
       .set('betting_market_group_description', bettingMarketGroupDescription)
+      .set('event_id', eventId)
       .set('event_name', eventName)
       .set('event_time', eventTime)
       .set('sport_name', sportName);
