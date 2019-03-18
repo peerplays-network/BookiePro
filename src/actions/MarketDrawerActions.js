@@ -9,7 +9,7 @@ import {
 import Immutable from 'immutable';
 import moment from 'moment';
 import BetActions from './BetActions';
-import {CurrencyUtils, ObjectUtils} from '../utility';
+import {CurrencyUtils, ObjectUtils, BettingModuleUtils} from '../utility';
 
 class MarketDrawerPrivateActions {
   static updateOpenBetsLoadingStatus(loadingStatus) {
@@ -379,14 +379,24 @@ class MarketDrawerActions {
           return formattedBet;
         };
 
-        const openedUnmatchedBets = unmatchedBetsById
+        let openedUnmatchedBets = unmatchedBetsById
           .filter(filterRelatedBet)
           .map(formatBet)
           .toList();
-        const openedMatchedBets = matchedBetsById
+        let openedMatchedBets = matchedBetsById
           .filter(filterRelatedBet)
           .map(formatBet)
           .toList();
+
+        let reverse = openedUnmatchedBets.reverse();
+        console.log('Before sort: ');
+        reverse.forEach((e) => {
+          console.log(e.get('id'));
+        });
+
+        // Sort the bets by id incrementally
+        let sorted = BettingModuleUtils.sortBetsById(reverse);
+        console.log('After sort: ', sorted.forEach((e) => console.log(e.get('id'))));
 
         dispatch(
           MarketDrawerPrivateActions.getOpenBets(
