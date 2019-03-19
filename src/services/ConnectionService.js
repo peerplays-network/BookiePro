@@ -45,7 +45,7 @@ class ConnectionService {
           // Internet is on and websocket is open
 
           // Setup the health check.
-          CommunicationService.ping();
+          CommunicationService.ping(this.blockchainUrlIndex);
 
           this.connectionStatusCallback(ConnectionStatus.CONNECTED);
         } else {
