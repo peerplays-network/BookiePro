@@ -259,9 +259,8 @@ const getSportData = createSelector(
     if (!eventGroups || !events || !sport) {
       return;
     }
-
+    
     let sportData = Immutable.Map();
-
     sportData = sportData
       .set('eventGroups', eventGroups.get(sport.get('id')))
       .set('sportId', sport.get('id'))
@@ -270,21 +269,36 @@ const getSportData = createSelector(
     eventGroups = sportData.get('eventGroups').map((eg) => {
       let eventList = events.get(eg.get('id'));
 
-      if (eventList) {
+      if (eventList && eg.get('name').toUpperCase() !== 'FRIENDLY INTERNATIONAL') {
         eventList = eventList.map((e) => {
-          let bmgs = bmgsByEventID[e.get('id')];
+          if (e.get('status') !== null && e.get('status') !== undefined) {
 
-          if (bmgs) {
-            bmgs = bmgs.map((bmg) => {
-              let bmgID = bmg.get('id');
-              return bmg.set('bettingMarkets', bettingMarketsWithOrderBook[bmgID]);
-            });
+            let bmgs = bmgsByEventID[e.get('id')];
 
-            bmgs = SportsbookUtils.sortAndCenter(bmgs);
-          }
+            if (bmgs) {
+              bmgs = bmgs.map((bmg) => {
+                let bmgID = bmg.get('id');
+                return bmg.set('bettingMarkets', bettingMarketsWithOrderBook[bmgID]);
+              }).filter((bmg) => {
+                let description = bmg.get('description').toUpperCase();
+                let passesFilters = false;
+
+                if ((description === 'MONEYLINE' ||
+                description === 'MATCH ODDS') && description !== 'FRIENDLY INTERNATIONAL') {
+                  passesFilters = true;
+                }
+    
+                return passesFilters;
+              });
+
+              bmgs = SportsbookUtils.sortAndCenter(bmgs);
+            }
           
-          // Put the list of BMGs into their respective events
-          return e.set('bettingMarketGroups', bmgs);
+            // Put the list of BMGs into their respective events
+            return e.set('bettingMarketGroups', bmgs);
+          } else {
+            return Immutable.List();
+          }
         });
 
         eventList = eventList.filter((e) => e);
@@ -336,8 +350,18 @@ const getEventGroupData = createSelector(
         bmgs = bmgs.map((bmg) => {
           let bmgID = bmg.get('id');
           return bmg.set('bettingMarkets', bettingMarketsWithOrderBook[bmgID]);
-        });
+        }).filter((bmg) => {
+          let description = bmg.get('description').toUpperCase();
+          let passesFilters = false;
+          
+          if ((description === 'MONEYLINE' ||
+            description === 'MATCH ODDS') && description !== 'FRIENDLY INTERNATIONAL') {
+            passesFilters = true;
+          }
 
+          return passesFilters;
+        });
+        // console.log(bmgs);
         bmgs = SportsbookUtils.sortAndCenter(bmgs);
       }
       
