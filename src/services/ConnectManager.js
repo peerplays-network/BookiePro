@@ -1,7 +1,5 @@
-import {ApisInstance} from 'peerplaysjs-ws';
-import {Apis} from 'peerplaysjs-ws';
+import {ApisInstance, Apis, Manager} from 'peerplaysjs-ws';
 import CONFIG from '../config/main';
-import {Manager} from '../../../peerplaysjs-ws/';
 let instances = {};
 class ConnectManager {
   constructor() {
