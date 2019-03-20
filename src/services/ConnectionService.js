@@ -1,4 +1,4 @@
-import {Apis} from 'peerplaysjs-ws';
+import {Apis, Manager} from 'peerplaysjs-ws';
 import {Config, ConnectionStatus} from '../constants';
 import {ConnectionUtils} from '../utility';
 import log from 'loglevel';
@@ -108,21 +108,30 @@ class ConnectionService {
     // Set connection status callback
     this.connectionStatusCallback = connectionStatusCallback;
 
+    //instantiate manager instance with list of blockchain urls
+    let manager = new Manager({
+      urls: Config.blockchainUrls
+    });
+
+
+
     // Set connection status to be connecting
     this.connectionStatusCallback(ConnectionStatus.CONNECTING);
 
-    // Connecting to blockchain
-    const connectionString = Config.blockchainUrls[this.blockchainUrlIndex];
+    return manager.sortNodesByLatency().then((list) => {
+      return list;
+    }).then((list) => {
+      // Connecting to blockchain
+      const connectionString = list[this.blockchainUrlIndex];
 
-    return Apis.instance(connectionString, true)
-      .init_promise.then((res) => {
-        // Print out which blockchain we are connecting to
-        log.debug('Connected to:', res[0] ? res[0].network_name : 'Undefined Blockchain');
-      })
-      .catch(() => {
-        // Close residue connection to blockchain
-        this.closeConnectionToBlockchain();
-      });
+      return Apis.instance(connectionString, true).init_promise;
+    }).then((res) => {
+      // Print out which blockchain we are connecting to
+      log.debug('Connected to:', res[0] ? res[0].network_name : 'Undefined Blockchain');
+    }).catch(() => {
+      // Close residue connection to blockchain
+      this.closeConnectionToBlockchain();
+    });
   }
 }
 
