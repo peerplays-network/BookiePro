@@ -301,8 +301,6 @@ const getSportData = createSelector(
           }
         });
 
-        eventList = eventList.filter((e) => e);
-
         eventList = SportsbookUtils.sortEventsByDate(eventList);
 
         if (eventList) {
@@ -315,7 +313,6 @@ const getSportData = createSelector(
       }
     });
 
-    eventGroups = eventGroups.filter((eg) => eg);
 
     sportData = sportData.set('eventGroups', eventGroups);
 
