@@ -51,12 +51,13 @@ class BettingMarket extends PureComponent {
 
   render() {
     const {title, backOrigin} = this.props;
+    console.log(this.props.eventRoute);
     return (
       <div 
         className={
           'backBettingMarket ' +
           (SportsbookUtils.isAbleToBet(this.props.eventStatus) ? 'active ' : 'disabled ') +
-          (this.props.eventFlag ? 'eventFlag' : '')
+          (this.props.eventRoute ? 'eventFlag' : '')
         }
         onClick={ this.offerClicked }
       >

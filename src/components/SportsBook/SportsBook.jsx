@@ -12,7 +12,7 @@ class SportsBook extends PureComponent {
   render() {
 
     return (
-      <div className='all-sports-wrapper'>
+      <div id='all-sports-wrapper'>
         <div className='banner-ad-header' />
         {
           this.props.allSports.map((sport) => {

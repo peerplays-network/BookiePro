@@ -84,6 +84,7 @@ class BackingBettingWidget extends PureComponent {
                   title={ description }
                   eventName={ this.props.title }
                   eventID={ this.props.eventID }
+                  eventRoute={ this.props.eventRoute }
                   backOrigin={ item.get('backOrigin') }
                   bettingMarketId={ item.get('id') }
                   eventStatus={ this.props.eventStatus }
