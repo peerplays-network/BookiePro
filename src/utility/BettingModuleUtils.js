@@ -455,6 +455,8 @@ var BettingModuleUtils = {
       });
 
       return sorted;
+    } else {
+      return bets;
     }
   }
 };
