@@ -40,9 +40,11 @@ class BackingBettingWidget extends PureComponent {
     // If the following if statement is true, then the component is an event
     if (this.props.eventTime) {
       eventFlag = true;
-      dateString = DateUtils.getMonthAndDay(this.props.eventTime);
+      const localDate = moment.utc(this.props.eventTime).local();
+
+      dateString = DateUtils.getMonthAndDay(localDate);
       createBet = this.props.quickBetDrawerCreateBet;
-      eventTime = moment.utc(this.props.eventTime).local().format('H:mm');
+      eventTime = localDate.format('H:mm');
     }
 
     return (
