@@ -436,24 +436,26 @@ var BettingModuleUtils = {
    * @returns {Immutable.List} sorted.
    */
   sortBetsById: function(bets) {
-    const sorted = bets.sort((a, b) => {
-      // Split by .
-      const aId = a.get('id').split('.');
-      // Select the ending number of the id
-      const aIdEnd = parseInt(aId[2], 0);
+    if (bets.size > 0) {
+      const sorted = bets.sort((a, b) => {
+        // Split by .
+        const aId = a.get('id').split('.');
+        // Select the ending number of the id
+        const aIdEnd = parseInt(aId[aId.length - 1], 0);
 
-      const bId = b.get('id').split('.');
-      const bIdEnd = parseInt(bId[2], 0);
+        const bId = b.get('id').split('.');
+        const bIdEnd = parseInt(bId[2], 0);
 
-      // Sort
-      if (aIdEnd < bIdEnd) {
-        return -1;
-      } else {
-        return 1;
-      }
-    });
+        // Sort
+        if (aIdEnd < bIdEnd) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
 
-    return sorted;
+      return sorted;
+    }
   }
 };
 
