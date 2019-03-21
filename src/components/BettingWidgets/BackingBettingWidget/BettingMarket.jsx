@@ -51,7 +51,6 @@ class BettingMarket extends PureComponent {
 
   render() {
     const {title, backOrigin} = this.props;
-    console.log(this.props.eventRoute);
     return (
       <div 
         className={
