@@ -1,4 +1,4 @@
-import {Apis, Manager} from 'peerplaysjs-ws';
+import {Apis, ConnectionManager} from 'peerplaysjs-ws';
 import {Config, ConnectionStatus} from '../constants';
 import {ConnectionUtils} from '../utility';
 import log from 'loglevel';
@@ -108,17 +108,15 @@ class ConnectionService {
     // Set connection status callback
     this.connectionStatusCallback = connectionStatusCallback;
 
-    //instantiate manager instance with list of blockchain urls
-    let manager = new Manager({
+    //instantiate ConnectionManager instance with list of blockchain urls
+    let wsConnectionManager = new ConnectionManager({
       urls: Config.blockchainUrls
     });
-
-
 
     // Set connection status to be connecting
     this.connectionStatusCallback(ConnectionStatus.CONNECTING);
 
-    return manager.sortNodesByLatency().then((list) => {
+    return wsConnectionManager.sortNodesByLatency().then((list) => {
       return list;
     }).then((list) => {
       // Connecting to blockchain
