@@ -1,4 +1,4 @@
-import {ApisInstance, Apis, Manager} from 'peerplaysjs-ws';
+import {ApisInstance, Apis, ConnectionManager} from 'peerplaysjs-ws';
 import CONFIG from '../config/main';
 let instances = {};
 class ConnectManager {
@@ -28,11 +28,11 @@ class ConnectManager {
     this.callback = callback;
     this.callback(store);
 
-    let manager = new Manager({
+    let wsConnectionManager = new ConnectionManager({
       urls: this.blockchainUrls
     });
 
-    return manager.sortNodesByLatency().then((list) => {
+    return wsConnectionManager.sortNodesByLatency().then((list) => {
       return list;
     }).then((list) => {
       // Display the blockchain api node that we are conencting to.

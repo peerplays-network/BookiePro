@@ -9,12 +9,11 @@ const faucetUrls = env.raw.faucetUrls;
 
 // Shuffle the available enpoints.
 const shuffledFaucetUrls = _.shuffle(faucetUrls);
-const shuffledBlockchainUrls = _.shuffle(blockchainUrls);
 
 const Config = {
   APP_VERSION: version,
   APP_PACKAGE_VERSION: version,
-  BLOCKCHAIN_URLS: shuffledBlockchainUrls,
+  BLOCKCHAIN_URLS: blockchainUrls,
   FAUCET_URLS: shuffledFaucetUrls,
 
   CORE_ASSET: 'PPY',
