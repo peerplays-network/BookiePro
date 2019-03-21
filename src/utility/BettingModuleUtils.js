@@ -431,7 +431,7 @@ var BettingModuleUtils = {
   },
 
   /**
-   * Takes in an immutable map of bets and sorts them by id incrementally.
+   * Takes in an immutable list of bets and sorts them by id incrementally.
    * @param {Immutable.List} bets
    * @returns {Immutable.List} sorted.
    */
