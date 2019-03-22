@@ -23,7 +23,7 @@ import _ from 'lodash';
 import log from 'loglevel';
 import DrawerActions from '../actions/DrawerActions';
 import {I18n} from 'react-redux-i18n';
-import {Manager, ChainWebSocket} from 'peerplaysjs-ws';
+import {ConnectionManager, ChainWebSocket} from 'peerplaysjs-ws';
 const TIMEOUT_LENGTH = 500;
 const SYNC_MIN_INTERVAL = 1000; // 1 seconds
 
@@ -543,19 +543,19 @@ class CommunicationService {
    * @memberof CommunicationService
    */
   static ping(blockChainUrlIndex) {
-    // Clear the timeout, this will help prevent zombie timeout loops.
 
     let currentConnectedNode = Config.blockchainUrls[blockChainUrlIndex];
-    let manager = new Manager({
+    let wsConnectionManager = new ConnectionManager({
       urls: [currentConnectedNode]
     });
-    let conn = new ChainWebSocket(manager.url);
+    let conn = new ChainWebSocket(wsConnectionManager.url);
 
     if (CommunicationService.PING_TIMEOUT) {
+      // Clear the timeout, this will help prevent zombie timeout loops.
       CommunicationService.clearPing();
     }
 
-    manager.ping(conn).then(() => {
+    wsConnectionManager.ping(conn).then(() => {
       CommunicationService.PING_TIMEOUT = 
         setTimeout(CommunicationService.ping, Config.pingInterval, blockChainUrlIndex);
     }).catch((err) => {
