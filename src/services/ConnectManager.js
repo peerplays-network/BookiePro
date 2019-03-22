@@ -33,10 +33,10 @@ class ConnectManager {
     this.blockchainUrlIndex++;
     const connectionString = this.sortedUrls[this.blockchainUrlIndex];
 
-    return Apis.instance(connectionString, true).init_promise.then((res) => {
+    return Apis.instance(connectionString, true).init_promise.then(() => {
       console.log(`%cConnected to: ${connectionString}.`,
         'background: #222 color: green; font-size: large');
-    }).catch((err) => {
+    }).catch(() => {
       console.error(`%cConnection to: ${connectionString} failed.`,
         'background: #222; color: red; font-size: large');
 
@@ -69,8 +69,8 @@ class ConnectManager {
       }).catch(() => {
         console.error('%cNo Available Nodes.',
           'background: #222; color: red; font-size: large');
-  
-        return Promise.reject(); 
+
+        return Promise.reject();
       });
     }
   }
