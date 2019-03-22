@@ -170,8 +170,6 @@ class HistoryService {
    */
 
   static convertRawHistoryToMyBets(state, rawHistory) {
-    // TODO: find better place to put odds precision (this one should be
-    // returned by blockchain anyway)
     const oddsPrecision = Config.oddsPrecision;
     const dynGlobalObject = state.getIn(['app', 'blockchainDynamicGlobalProperty']);
     const globalObject = state.getIn(['app', 'blockchainGlobalProperty']);
