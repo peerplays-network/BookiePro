@@ -127,7 +127,6 @@ class TopMenu extends PureComponent {
   }
 
   handleClick(e) {
-    //TODO:handle selected menu
     event.preventDefault();
 
     this.setState({
@@ -545,7 +544,6 @@ function mapDispatchToProps(dispatch) {
     {
       getDepositAddress: BalanceActions.getDepositAddress,
       navigateTo: NavigateActions.navigateTo,
-      //TODO: Wallet Address verification and error response pending.
       withdraw: BalanceActions.topMenuWithdraw,
       resetWithdrawLoadingStatus: BalanceActions.resetTopMenuWithdrawLoadingStatus,
       logout: AuthActions.logoutAndShowPopupIfNeeded,

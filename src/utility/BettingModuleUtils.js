@@ -173,10 +173,6 @@ var BettingModuleUtils = {
     let exposure = 0.0;
 
     bets.forEach((bet) => {
-      // TODO: Confirm if stake should be empty or having having a zero
-      // value if it is not available
-      // TODO: Confirm if profit/liability should be empty or having a zero
-      // value if it is not available
       if (
         isFieldInvalid(bet, 'odds') ||
         isFieldInvalid(bet, 'stake') ||

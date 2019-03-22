@@ -426,7 +426,9 @@ export const translationsObject = {
             good_bets_1: 'Would you like to update 1 bet with ',
             good_bets: 'Would you like to update %{good_bets} bets with ',
             cancel_button: 'CANCEL',
-            confirm_button: 'CONFIRM BET'
+            confirm_button: 'CONFIRM BET',
+            cancel_bet: 'Bet successfully cancelled',
+            cancel_bets: 'All bets have been successfully cancelled',
           },
           perfect: {
             good_bets_1: 'You are about to update 1 bet for a total liability of ',
@@ -1512,8 +1514,6 @@ export const translationsObject = {
           }
         ]
       },
-      // TODO: the following should be deprecated but floating help is still referring to these
-      // Revisit this after the floating help is revamped
       question1: 'What is BookiePro?',
       answer1:
         'BookiePro is a betting exchange where people from all over the world can bet on sports.',

@@ -1,7 +1,7 @@
 @import (reference) '../App/Colors.less';
 
-.c-common-message {
-	&__background{
+.cmn-msg {
+	&__bkg{
 		width: 100%;
 		top: -36px;
 		height: 36px;
@@ -19,23 +19,23 @@
 				cursor: pointer;
 			}
 		}
-		&.info {
+		&--info {
 			background-color: fade(@system_info, 100%);
 		}
-		&.error {
+		&--error {
 			background-color: fade(@system_error, 100%);
 		}
-		&.warning {
+		&--warning {
 			background-color: fade(@system_warning, 100%);
 		}
-		&.success {
+		&--success {
 			background-color: fade(@system_success, 100%);
 		}
-		&.none {
+		&--none {
 			display: none;
 		}
 	}
-	&__content {
+	&__cont {
 		text-align: left;
 		display: table-cell;
 		vertical-align: middle;
