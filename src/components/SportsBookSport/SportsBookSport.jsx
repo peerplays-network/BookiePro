@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {EventPageSelector} from '../../selectors';
 import {BackingWidgetContainer} from '../BettingWidgets';
 import {SportBanner} from '../Banners';
-import {SportsbookUtils, ObjectUtils} from '../../utility';
+import {ObjectUtils} from '../../utility';
 import {NavigateActions} from '../../actions';
 
 const MAX_EVENTS = 10;
@@ -28,8 +28,7 @@ class SportsBookSport extends PureComponent {
               if (bmgs) {
                 let bmg = bmgs.first();
 
-                if (SportsbookUtils.isMatchodds(bmg) || 
-                    SportsbookUtils.isMoneyline(bmg)) {
+                if (bmg) {
                   eventsToDisplay.push(
                     bmg
                       .set('eventName', e.get('name'))
