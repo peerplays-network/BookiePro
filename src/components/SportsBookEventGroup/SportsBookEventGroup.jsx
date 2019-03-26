@@ -5,7 +5,7 @@ import {BackingWidgetContainer} from '../BettingWidgets';
 import {SportBanner} from '../Banners';
 import {SportsbookUtils, ObjectUtils} from '../../utility';
 
-const MAX_EVENTS = 25;
+const MAX_EVENTS = 20;
 class SportsBookEventGroup extends PureComponent {
   constructor(props) {
     super(props);
@@ -23,6 +23,12 @@ class SportsBookEventGroup extends PureComponent {
   }
 
   renderPagination(numPages) {
+
+    // Do not render pagination if there are less than two pages.
+    if (numPages < 2) {
+      return;
+    }
+
     let pageNumbers = [];
 
     for (let i = 0; i < numPages; i++) {
@@ -36,7 +42,7 @@ class SportsBookEventGroup extends PureComponent {
           onClick={ () => this.setPage(page) }
           className={ this.state.pagination === page ? 'active' : '' }
         >
-          { page }
+          { page + 1 }
         </li>
       );
     });
