@@ -70,7 +70,7 @@ class SportsBookEvent extends PureComponent {
             eventStatusClassName={ this.props.eventStatus[0] }
           />
 
-          {this.props.marketData.map((e, index) =>  {
+          {this.props.marketData.reverse().map((e, index) =>  {
             return (
               <BackingWidgetContainer
                 key={ index }
