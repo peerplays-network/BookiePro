@@ -252,7 +252,7 @@ class RegisterForm extends React.Component {
           component={ renderField }
           placeholder='login.login_form_login_account_placeholder'
           type='text'
-          normalize={ Normalizer.normalizeAccount }
+          normalize={ Normalizer.normalizeAccountSignup }
           tabIndex='1'/>
         <Field
           name='password'
