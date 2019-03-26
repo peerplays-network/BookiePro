@@ -73,6 +73,10 @@ class BackingBettingWidget extends PureComponent {
               span = SportsbookUtils.getColumnSize(this.props.columnType, eventFlag);
             } else {
               span = SportsbookUtils.getColumnSize(title, eventFlag);
+              
+              if (bettingMarkets.length === 3) {
+                span = 8;
+              }
             }
 
             return (
