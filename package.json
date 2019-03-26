@@ -17,6 +17,7 @@
     "url": "git://github.com/peerplays-network/peerplays-core-gui"
   },
   "scripts": {
+    "stylelint": "stylelint '**/*.scss'",
     "test-old": "./node_modules/.bin/mocha --compilers coffee:coffee-script,js:babel/register --require coffee-script/register",
     "test": "jest",
     "profile-dev": "webpack --config config/webpack.config.dev.js --profile --json > stats-dev.json",
@@ -160,6 +161,8 @@
     "string-replace-loader": "^1.0.5",
     "string-replace-webpack-plugin": "0.0.3",
     "style-loader": "^0.12.4",
+    "stylelint": "^9.10.1",
+    "stylelint-order": "^2.1.0",
     "svg-inline-loader": "^0.3.0",
     "svgo-loader": "^1.1.0",
     "traceur": "0.0.110",
