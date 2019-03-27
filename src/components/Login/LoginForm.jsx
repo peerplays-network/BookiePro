@@ -103,7 +103,7 @@ class LoginForm extends React.Component {
           component={ renderField }
           placeholder='login.login_form_login_account_placeholder'
           type='text'
-          normalize={ Normalize.normalizeAccount }
+          normalize={ Normalize.normalizeAccountLogin }
           tabIndex='1'
         />
         <Field
