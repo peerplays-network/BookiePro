@@ -64,7 +64,7 @@
     "numeral": "^2.0.6",
     "object-assign": "^4.0.1",
     "peerjs": "^0.3.14",
-    "peerplaysjs-lib": "peerplays-network/peerplaysjs-lib#PJL-10-NEW",
+    "peerplaysjs-lib": "peerplays-network/peerplaysjs-lib",
     "peerplaysjs-ws": "peerplays-network/peerplaysjs-ws",
     "perfect-scrollbar": "^0.6.11",
     "qr-image": "3.1.0",
