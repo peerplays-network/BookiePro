@@ -60,15 +60,16 @@ class ConnectManager {
         return list;
       }).then((list) => {
         this.sortedUrls = list;
+        console.log('sorted list: ', this.sortedUrls);
         const connectionString = list[this.blockchainUrlIndex];
 
         // Display the blockchain api node that we are conencting to.
         console.log(`%cConnected to: ${connectionString}.`,
           'background: #222 color: green; font-size: large');
         return Apis.instance(connectionString, true).init_promise;
-      }).catch(() => {
+      }).catch((err) => {
         console.error('%cNo Available Nodes.',
-          'background: #222; color: red; font-size: large');
+          'background: #222; color: red; font-size: large: ', err);
 
         return Promise.reject();
       });
