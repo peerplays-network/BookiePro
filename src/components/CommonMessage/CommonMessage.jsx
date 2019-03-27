@@ -18,6 +18,7 @@ const compileMessage = (props) => {
   // Filter the message list to only show the number of messages configured.
   messageList = messageList.slice(0, props.numOfCommonMessageToDisplay);
 
+
   const messages = messageList.map((pair, key) => {
     let messageType = pair.get('messageType');
     let id = pair.get('id');
@@ -118,15 +119,11 @@ const mapStateToProps = (state) => {
 
   //Calculate the heights of the header child div and the betslip child div.
   const messagingHeight = 35 * numOfheaderMessages;
-  const domLoaded = document.getElementsByClassName('main').length > 0 &&
-   document.getElementsByClassName('aside').length > 0;
+  const domLoaded = document.getElementsByClassName('main').length > 0;
 
   if (domLoaded) {
     // Add padding to the main.
     document.getElementsByClassName('main')[0].style.paddingTop = messagingHeight + 'px';
-
-    // Due to the nature of the aside, we need to modify the top value.
-    document.getElementsByClassName('aside')[0].style.marginTop = messagingHeight + 'px';
   }
 
   return {
