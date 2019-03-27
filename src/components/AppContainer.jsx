@@ -17,6 +17,7 @@ import CommonMessage from 'components/CommonMessage';
 
 /* Other */
 import {routerShape} from 'react-router/lib/PropTypes';
+import SplashScreen from './SplashScreen/SplashScreen';
 
 class App extends React.Component {
   static contextTypes = {
@@ -51,7 +52,9 @@ class App extends React.Component {
         <div className='wrapper wrapper-with-footer'></div>
       );
     } else if (!this.props.dbIsInit || !this.props.dbDataIsLoad || !this.props.chainIsInit) {
-      content = (<div></div>);
+      content = (
+        <SplashScreen />
+      );
     } else if (urlsWithYellowBackground.indexOf(this.props.location.pathname) >= 0) {
       document.getElementsByTagName('body')[0].className = 'loginBg';
       content = (<div className='wrapper wrapper-with-footer'>{this.props.children}</div>);
