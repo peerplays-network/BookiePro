@@ -14,7 +14,6 @@ import HelpModal from '../components/Help/HelpModal';
 import intlData from 'components/Utility/intlData';
 import CommonMessage from 'components/CommonMessage';
 
-
 /* Other */
 import {routerShape} from 'react-router/lib/PropTypes';
 import SplashScreen from './SplashScreen/SplashScreen';
@@ -59,16 +58,13 @@ class App extends React.Component {
       document.getElementsByTagName('body')[0].className = 'loginBg';
       content = (<div className='wrapper wrapper-with-footer'>{this.props.children}</div>);
     } else {
-
       content = (
         <div className='wrapper wrapper-with-footer'>
           <Header pathname={ pathname }/>
-          <CommonMessage location='header' />
-          {this.props.activeNotification ?
-            <div className='message'>{this.props.children}</div>
-            :
-            <div className='no-message'>{this.props.children}</div>
-          }
+          <div>
+            <CommonMessage location='header'/>
+            <div>{this.props.children}</div>
+          </div>
         </div>
       );
     }
@@ -110,6 +106,7 @@ const mapStateToProps = (state) => {
     showHelpPopup: state.helpReducer.showHelpModal,
     locale: state.settings.locale,
     activeNotification: state.commonMessage.get('activeMessage'),
+    headerMessages: state.commonMessage.get('headerMessages')
   };
 };
 
