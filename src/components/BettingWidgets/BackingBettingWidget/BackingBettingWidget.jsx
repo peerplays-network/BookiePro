@@ -50,9 +50,8 @@ class BackingBettingWidget extends PureComponent {
     return (
       <div className={ 'backingBettingWidget ' +
         (SportsbookUtils.isAbleToBet(this.props.eventStatus) ? 'active ' : 'disabled ') }>
-        <div>
 
-          { eventFlag &&
+        { eventFlag &&
             <Col span={ 10 }>
               <Col className='date' span={ 5 }>
                 <span className='dateString'>
@@ -69,46 +68,45 @@ class BackingBettingWidget extends PureComponent {
                 </p>
               </Col>
             </Col>
-          }
+        }
           
-          {bettingMarkets && bettingMarkets.map((item, index) => {
+        {bettingMarkets && bettingMarkets.map((item, index) => {
 
-            let description = item.get('description');
+          let description = item.get('description');
 
-            if (eventFlag && description === 'The Draw') {
-              description = 'Draw';
-              span = 2;
-            } else if (eventFlag) {
-              span = SportsbookUtils.getColumnSize(this.props.columnType, eventFlag);
-            } else {
-              span = SportsbookUtils.getColumnSize(title, eventFlag);
+          if (eventFlag && description === 'The Draw') {
+            description = 'Draw';
+            span = 2;
+          } else if (eventFlag) {
+            span = SportsbookUtils.getColumnSize(this.props.columnType, eventFlag);
+          } else {
+            span = SportsbookUtils.getColumnSize(title, eventFlag);
               
-              if (bettingMarkets.length === 3) {
-                span = 8;
-              }
+            if (bettingMarkets.length === 3) {
+              span = 8;
             }
+          }
 
-            return (
-              <Col
-                key={ index } 
-                span={ span }
-              >
-                <BettingMarket
-                  title={ description }
-                  eventName={ this.props.title }
-                  eventID={ this.props.eventID }
-                  eventRoute={ this.props.eventRoute }
-                  backOrigin={ item.get('backOrigin') }
-                  bettingMarketId={ item.get('id') }
-                  eventStatus={ this.props.eventStatus }
-                  isLiveMarket={ this.props.isLiveMarket }
-                  createBet={ createBet }
-                  eventFlag={ eventFlag }
-                />
-              </Col>
-            );
-          })}
-        </div>
+          return (
+            <Col
+              key={ index } 
+              span={ span }
+            >
+              <BettingMarket
+                title={ description }
+                eventName={ this.props.title }
+                eventID={ this.props.eventID }
+                eventRoute={ this.props.eventRoute }
+                backOrigin={ item.get('backOrigin') }
+                bettingMarketId={ item.get('id') }
+                eventStatus={ this.props.eventStatus }
+                isLiveMarket={ this.props.isLiveMarket }
+                createBet={ createBet }
+                eventFlag={ eventFlag }
+              />
+            </Col>
+          );
+        })}
       </div>
     );
   }
