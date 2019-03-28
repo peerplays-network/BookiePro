@@ -7,6 +7,7 @@ import {NavigateActions} from '../../actions';
 import Faq from './Faq';
 import FaqBanner from '../../assets/images/FAQ_banner@2x.png';
 import PeerPlaysLogo from '../PeerPlaysLogo';
+import {AppUtils} from '../../utility';
 
 class HelpAndSupport extends PureComponent {
   constructor(props) {
@@ -16,7 +17,7 @@ class HelpAndSupport extends PureComponent {
 
   //Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb
   handleNavigateToHome() {
-    this.props.navigateTo('/exchange');
+    this.props.navigateTo(AppUtils.getHomePath(this.props.bookMode));
   }
 
   render() {
@@ -39,6 +40,11 @@ class HelpAndSupport extends PureComponent {
   }
 }
 
+const mapStateToProps = (state) => ({
+  bookMode: state.getIn(['app', 'bookMode'])
+});
+
+
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     navigateTo: NavigateActions.navigateTo
@@ -47,6 +53,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
 );
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(HelpAndSupport);

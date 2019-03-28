@@ -18,6 +18,7 @@ import BettingMarket from './BettingMarket';
 import {Col} from 'antd';
 import {SportsbookUtils} from '../../../utility';
 import {DateUtils} from '../../../utility';
+import moment from 'moment';
 
 class BackingBettingWidget extends PureComponent {
   render() {
@@ -34,12 +35,16 @@ class BackingBettingWidget extends PureComponent {
     let eventFlag = false;
 
     let span = 24;
+    let eventTime;
 
     // If the following if statement is true, then the component is an event
     if (this.props.eventTime && !this.props.eventRoute) {
       eventFlag = true;
-      dateString = DateUtils.getMonthDayAndTime(this.props.eventTime);
+      const localDate = moment.utc(this.props.eventTime).local();
+
+      dateString = DateUtils.getMonthAndDay(localDate);
       createBet = this.props.quickBetDrawerCreateBet;
+      eventTime = localDate.format('H:mm');
     }
 
     return (
@@ -50,7 +55,11 @@ class BackingBettingWidget extends PureComponent {
           { eventFlag &&
             <Col span={ 10 }>
               <Col className='date' span={ 5 }>
-                { dateString }
+                <span className='dateString'>
+                  {dateString}
+                  <br />
+                  {eventTime}
+                </span>
               </Col>
 
               <Col className='name' span={ 19 }>
