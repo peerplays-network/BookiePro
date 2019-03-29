@@ -7,7 +7,7 @@
 - Fixed a bug that caused incorrect transaction history to be displayed.
 - Fixed bets not appearing in the center pane when an event is in progress.
 - Fixed a bug that caused all common message component messages to be removed when one is removed.
-- Fixed a bug that prevented bet placing excpet on a certain portion of the bucket in the center pane.
+- Fixed a bug that prevented bet placing except on a certain portion of the bucket in the center pane.
 
 ### Added
 
