@@ -481,6 +481,11 @@ export const translationsObject = {
         content: {
           average_odds: 'Average Odds'
         }
+      },
+      subtotal: {
+        amount: 'Bet Amount:',
+        fee: 'Transaction Fee:',
+        total: 'Total:'
       }
     },
     bet_error: {
