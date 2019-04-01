@@ -22,6 +22,8 @@ import {TransactionBuilder, ChainTypes} from 'peerplaysjs-lib';
 import {SoftwareUpdateActions} from '.';
 import Immutable from 'immutable';
 import AllSportsActions from './AllSportsActions';
+import StorageUtils from '../utility/StorageUtils';
+
 
 const ACCOUNT_UPDATE = `${ChainTypes.reserved_spaces.protocol_ids}.${ChainTypes.operations.account_update}`; // eslint-disable-line
 
@@ -176,8 +178,16 @@ class AuthActions {
       return dispatch(AuthPrivateActions.processLogin(accountName, password))
         .then(() => {
           log.debug('Login succeed.');
+
           // Navigate to home page
-          dispatch(NavigateActions.navigateTo('/exchange'));
+          const mode = StorageUtils.getBookMode();
+
+          if (mode === 'sportsbook') {
+            dispatch(NavigateActions.navigateTo('/sportsbook'));
+          } else {
+            dispatch(NavigateActions.navigateTo('/exchange'));   
+          }
+
           // Set login status to done
           dispatch(AuthPrivateActions.setLoginLoadingStatusAction(LoadingStatus.DONE));
         })
