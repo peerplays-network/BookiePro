@@ -32,7 +32,7 @@ export const translationsObject = {
       loading: 'Loading your transaction history, this may take a moment.'
     },
     titleBar: {
-      title: 'BookiePro.fun',
+      title: 'BookiePro',
       clock: 'Local Time'
     },
     searchMenu: {
@@ -108,7 +108,7 @@ export const translationsObject = {
     },
     registration: {
       eulaAgree:
-        'I accept the terms of the BookiePro.fun <a href="http://www.bookiepro.fun/eula">End User License Agreement</a>'
+        'I accept the terms of the BookiePro <a href="http://www.bookiepro.com/eula">End User License Agreement</a>'
     },
     signup: {
       new_acc_req_text: 'Create a new Bookie account',
@@ -121,7 +121,7 @@ export const translationsObject = {
       cannot_recover_password_warning:
         'I understand that PBSA <span class="mediumMessageInText">cannot recover my password.</span>',
       securely_saved_password_warning:
-        'I understand that BookiePro.fun passwords cannot be recovered if lost, and that I have securely saved my password recovery file.',
+        'I understand that BookiePro passwords cannot be recovered if lost, and that I have securely saved my password recovery file.',
       create_account: 'Create Account',
       already_account: 'Already have an account?',
       log_in: 'Log In',
@@ -854,24 +854,24 @@ export const translationsObject = {
         header: 'Overview',
         questionAnswerPairs: [
           {
-            question: 'What is BookiePro.fun?',
+            question: 'What is BookiePro?',
             answer:
-              'BookiePro.fun is a betting exchange where people from all over the world can bet with “play” tokens on a wide range of sports events.'
+              'BookiePro is a betting exchange where people from all over the world can bet with “play” tokens on a wide range of sports events.'
           },
           {
-            question: 'What currencies can I bet with on BookiePro.fun?',
+            question: 'What currencies can I bet with on BookiePro?',
             answer:
-              'BookiePro.fun uses only the “play” token BitFun (BTF). BitFun holds no actual value and should not be considered a currency of any kind.'
+              'BookiePro uses only the “play” token BitFun (BTF). BitFun holds no actual value and should not be considered a currency of any kind.'
           },
           {
-            question: 'How is BookiePro.fun different from a regular sportsbook?',
+            question: 'How is BookiePro different from a regular sportsbook?',
             answer:
               'When you bet with a sportsbook, your wager is matched by the “house” (the sportsbook operator). ' +
-              'If you win this bet, this sportsbook operator pays you directly. BookiePro.fun is a betting exchange - so there is no house. ' +
+              'If you win this bet, this sportsbook operator pays you directly. BookiePro is a betting exchange - so there is no house. ' +
               'Instead, the platform matches your bet with those of other users who want to take the opposite side of your bet.'
           },
           {
-            question: 'How does the BookiePro.fun betting exchange work?',
+            question: 'How does the BookiePro betting exchange work?',
             answer:
               'A betting exchange is similar to a stock exchange. A stock exchange matches orders between anyone who wants to buy ' +
               'and sell a particular stock. A betting exchange matches the orders between anyone who wants to back (bet ‘for’) or lay (bet ' +
@@ -879,25 +879,25 @@ export const translationsObject = {
           },
 
           {
-            question: 'How do I find someone to bet with on BookiePro.fun?',
+            question: 'How do I find someone to bet with on BookiePro?',
             answer:
-              'BookiePro.fun automatically matches bets between you and other users from around the world. All you have to do is ' +
-              'choose a sport and event to bet on, and decide how much you want to bet and at what price. BookiePro.fun takes care of the rest ' +
+              'BookiePro automatically matches bets between you and other users from around the world. All you have to do is ' +
+              'choose a sport and event to bet on, and decide how much you want to bet and at what price. BookiePro takes care of the rest ' +
               '- matching your bet at the best available price, holding all funds in escrow, and then releasing the funds to the winner when the sports event is finished.'
           },
           {
-            question: 'How is BookiePro.fun different from other betting exchanges?',
+            question: 'How is BookiePro different from other betting exchanges?',
             answer:
-              'Traditional betting exchanges operate the software which matches your bets on a centralized server. On BookiePro.fun, ' +
-              'the software that matches your bets operates on a public blockchain. This makes BookiePro.fun transparent and accessible ' +
+              'Traditional betting exchanges operate the software which matches your bets on a centralized server. On BookiePro, ' +
+              'the software that matches your bets operates on a public blockchain. This makes BookiePro transparent and accessible ' +
               'from every country on Earth. Read more about how blockchain can move betting exchanges on to the next level ' +
               '<a href="https://www.peerplays.com/reinventing-betting-exchange-egr/">here</a> ' +
               'and <a href="https://www.peerplays.com/return-exchange-igb/">here</a>.'
           },
           {
-            question: 'Who owns BookiePro.fun?',
+            question: 'Who owns BookiePro?',
             answer:
-              'No single person, company, or central authority owns or operates BookiePro.fun. The BookiePro.fun app is an ' +
+              'No single person, company, or central authority owns or operates BookiePro. The BookiePro app is an ' +
               'application that interfaces with the Peerplays blockchain. As the Racing Post puts it: “...because of the way blockchains ' +
               'work, Peerplays is largely automated and self-sustaining. No one owns it, no single person or organisation is responsible for it…"'
           },
@@ -905,12 +905,12 @@ export const translationsObject = {
             question: 'What is a blockchain?',
             answer:
               'A blockchain is a digital database managed by a decentralized collective of digital stakeholders. Blockchains use ' +
-              'advanced cryptographic techniques to securely record your transactions on a public network. BookiePro.fun runs on a Peerplays ' +
+              'advanced cryptographic techniques to securely record your transactions on a public network. BookiePro runs on a Peerplays ' +
               'blockchain, which is custom-built to support online gambling.'
           },
           {
             question:
-              'How does BookiePro.fun’s decentralized approach benefit bettors, compared to a traditional centralized sportsbook?',
+              'How does BookiePro’s decentralized approach benefit bettors, compared to a traditional centralized sportsbook?',
             answer:
               'Decentralized sports betting provides the following benefits for bettors:' +
               '<ul><li>provably fair (traditional sportsbooks don’t publish their back-end code and business logic)</li>' +
@@ -930,9 +930,9 @@ export const translationsObject = {
               '<li>ability to trade back and forth in markets</li></ul>'
           },
           {
-            question: 'Who is the team behind BookiePro.fun?',
+            question: 'Who is the team behind BookiePro?',
             answer:
-              'The development of BookiePro.fun has been supported by the Peerplays Blockchain Standards Association (PBSA), ' +
+              'The development of BookiePro has been supported by the Peerplays Blockchain Standards Association (PBSA), ' +
               'a non-profit organization based in Canada and dedicated to promoting transparent and fair gaming standards for the Peerplays blockchain.'
           }
         ]
@@ -941,51 +941,51 @@ export const translationsObject = {
         header: 'Account Management & Security',
         questionAnswerPairs: [
           {
-            question: 'How do I sign up for a BookiePro.fun account?',
+            question: 'How do I sign up for a BookiePro account?',
             answer:
-              'Opening an account with BookiePro.fun is quick and simple. First, download and install the app. ' +
-              'Then, click the SIGN UP button on the BookiePro.fun app front page and follow the on-screen instructions.'
+              'Opening an account with BookiePro is quick and simple. First, download and install the app. ' +
+              'Then, click the SIGN UP button on the BookiePro app front page and follow the on-screen instructions.'
           },
           {
             question:
-              'Will I need to provide any ID, proof of address, or other personal documentation when signing up for a BookiePro.fun account?',
+              'Will I need to provide any ID, proof of address, or other personal documentation when signing up for a BookiePro account?',
             answer: 'No. Bookie does not require any personal information for account creation.'
           },
           {
-            question: 'What personal information does BookiePro.fun hold about me?',
+            question: 'What personal information does BookiePro hold about me?',
             answer:
-              'BookiePro.fun does not store or hold any personal information about you whatsoever, not even your name.'
+              'BookiePro does not store or hold any personal information about you whatsoever, not even your name.'
           },
           {
-            question: 'Does BookiePro.fun track or store my IP address or any other such data?',
+            question: 'Does BookiePro track or store my IP address or any other such data?',
             answer:
-              'BookiePro.fun does not store or track user IP addresses, mac addresses or any other such identifying information.'
+              'BookiePro does not store or track user IP addresses, mac addresses or any other such identifying information.'
           },
           {
-            question: 'What information do I need to log into my BookiePro.fun account?',
+            question: 'What information do I need to log into my BookiePro account?',
             answer:
-              'Only two items of information are required to log into BookiePro.fun:\n' +
+              'Only two items of information are required to log into BookiePro:\n' +
               '1.\t Username \n' +
               '2.\t Password \n' +
-              'It is important that you save your BookiePro.fun password in multiple secure offline places.'
+              'It is important that you save your BookiePro password in multiple secure offline places.'
           },
           {
-            question: 'How do I recover my BookiePro.fun password',
+            question: 'How do I recover my BookiePro password',
             answer:
-              'There is no way to recover your BookiePro.fun password. If you lose your password you will not be able to log into your account ' +
+              'There is no way to recover your BookiePro password. If you lose your password you will not be able to log into your account ' +
               'and you will lose access to all funds in that account forever. When creating your account, every user is prompted to save a file containing ' +
               'the password to their hard drive. Users should also save their password in a secure place offline. Never share your password with anyone.'
           },
           {
-            question: 'I’ve lost my BookiePro.fun password, what should I do?',
+            question: 'I’ve lost my BookiePro password, what should I do?',
             answer:
-              'If you lose your password, you will not be able to log into your BookiePro.fun account again. Ever. All funds in that account will remain untouched but inaccessible.'
+              'If you lose your password, you will not be able to log into your BookiePro account again. Ever. All funds in that account will remain untouched but inaccessible.'
           },
           {
             question: 'Who can I share my password with?',
             answer:
               'NEVER share your password with anyone. You are the ONLY person who knows your password - keep it that way! ' +
-              'Only enter your password into the BookiePro.fun application, never anywhere else.'
+              'Only enter your password into the BookiePro application, never anywhere else.'
           },
           {
             question: 'Can I change my password?',
@@ -994,31 +994,31 @@ export const translationsObject = {
               'and follow the instructions. Your new password must contain 22 characters. Characters can be letters (both upper- and lower-case) and numbers.'
           },
           {
-            question: 'Can I open more than one BookiePro.fun account?',
+            question: 'Can I open more than one BookiePro account?',
             answer:
-              'No. Having multiple BookiePro.fun accounts is not allowed while Competitions are running.'
+              'No. Having multiple BookiePro accounts is not allowed while Competitions are running.'
           },
           {
-            question: 'Can I open a BookiePro.fun account from anywhere in the world?',
+            question: 'Can I open a BookiePro account from anywhere in the world?',
             answer:
-              'BookiePro.fun places no geographical restrictions on the location of its users. However, it is the bettor’s ' +
-              'responsibility to adhere to local laws at all times, as laid out in the BookiePro.fun <a href="http://www.bookiepro.fun/eula/">EULA</a>.'
+              'BookiePro places no geographical restrictions on the location of its users. However, it is the bettor’s ' +
+              'responsibility to adhere to local laws at all times, as laid out in the BookiePro <a href="http://www.bookiepro.com/eula/">EULA</a>.'
           },
           {
             question: 'Can I change my account name?',
             answer:
-              'No, a BookiePro.fun account name cannot be changed after the account has been created.'
+              'No, a BookiePro account name cannot be changed after the account has been created.'
           },
           {
             question: 'Can I login to my account from multiple devices?',
             answer:
-              'Yes. Simply download the BookiePro.fun app to a second device and log in using your account name and password. ' +
-              'No further information is required to log into your BookiePro.fun account.'
+              'Yes. Simply download the BookiePro app to a second device and log in using your account name and password. ' +
+              'No further information is required to log into your BookiePro account.'
           },
           {
             question: 'Where can I view my current bets/bet history/all transactions?',
             answer:
-              'From within the BookiePro.fun app, click on the “My Bets” icon. Here, you can see your Matched Bets, ' +
+              'From within the BookiePro app, click on the “My Bets” icon. Here, you can see your Matched Bets, ' +
               'Unmatched, and Settled Bets. You can also export this list as a spreadsheet.'
           }
         ]
@@ -1027,27 +1027,27 @@ export const translationsObject = {
         header: 'Funds',
         questionAnswerPairs: [
           {
-            question: 'What currencies can I bet with on BookiePro.fun?',
+            question: 'What currencies can I bet with on BookiePro?',
             answer:
-              'The play token BitFun has been created specifically for BookiePro.fun and is the only crypto asset that can be used in the app. ' +
-              'Do not attempt to move any real fiat or crypto currencies to your BookiePro.fun account - it will not work and you risk losing those funds.'
+              'The play token BitFun has been created specifically for BookiePro and is the only crypto asset that can be used in the app. ' +
+              'Do not attempt to move any real fiat or crypto currencies to your BookiePro account - it will not work and you risk losing those funds.'
           },
           {
             question: 'How do I get BitFun?',
             answer:
-              'You can earn BitFun top-ups to your BookiePro.fun account. Visit the <a href="http://www.bookiepro.fun/CompetitionCommunity/"' +
+              'You can earn BitFun top-ups to your BookiePro account. Visit the <a href="http://www.bookiepro.com/CompetitionCommunity/"' +
               '>official Bitcointalk thread</a> for more information.'
           },
           {
-            question: 'How do I deposit funds with BookiePro.fun?',
+            question: 'How do I deposit funds with BookiePro?',
             answer:
-              'You cannot deposit BitFun into your BookiePro.fun account. If you are eligible for top-ups, this will be handled by PBSA ' +
+              'You cannot deposit BitFun into your BookiePro account. If you are eligible for top-ups, this will be handled by PBSA ' +
               'within the time frames indicated on the main Bitcointalk thread, as above.'
           },
           {
-            question: 'How do I withdraw funds (BitFun) from BookiePro.fun?',
+            question: 'How do I withdraw funds (BitFun) from BookiePro?',
             answer:
-              'You cannot withdraw BitFun from your BookiePro.fun account at any time for any reason.'
+              'You cannot withdraw BitFun from your BookiePro account at any time for any reason.'
           }
           /*{
             question: 'What currencies can I bet with on Bookie?',
@@ -1090,10 +1090,10 @@ export const translationsObject = {
         header: 'Betting',
         questionAnswerPairs: [
           {
-            question: 'How do I place a bet on BookiePro.fun?',
+            question: 'How do I place a bet on BookiePro?',
             answer:
               'Bookie is a betting exchange, which allows you to place a bet by either Backing ' +
-              '(as bettors normally do) or Laying a bet (like a sportsbook would do). BookiePro.fun has ' +
+              '(as bettors normally do) or Laying a bet (like a sportsbook would do). BookiePro has ' +
               'no ‘house’, so all bets you place will be matched by other users who want to take ' +
               'the opposite side of your bet.\n\n' +
               'To get started:\n' +
@@ -1152,8 +1152,8 @@ export const translationsObject = {
           {
             question: 'What odds can I bet at?',
             answer:
-              'BookiePro.fun uses a Decimal odds system at its core. It allows you to bet using the Decimal odds increments specified in the table below.\n ' +
-              //'BookiePro.fun also allows users to display all odds using the American format. This can be toggled in My Account.\n\n' +
+              'BookiePro uses a Decimal odds system at its core. It allows you to bet using the Decimal odds increments specified in the table below.\n ' +
+              //'BookiePro also allows users to display all odds using the American format. This can be toggled in My Account.\n\n' +
               '<table><tbody><tr><td><b>Price</b></td><td style="padding-left:15px;"><b>Increment</b></td></tr>' +
               '<tr><td>1.01 → 2</td><td style="padding-left:15px;">0.01</td></tr>' +
               '<tr><td>2 → 3</td><td style="padding-left:15px;">0.02</td></tr>' +
@@ -1185,20 +1185,20 @@ export const translationsObject = {
           {
             question: 'What is Live betting?',
             answer:
-              'Live betting is when you bet during the actual event/match/game. BookiePro.fun offers Live betting on many different Events. ' +
+              'Live betting is when you bet during the actual event/match/game. BookiePro offers Live betting on many different Events. ' +
               'All bets placed before a match goes live will be cancelled when the market goes in-play.'
           },
           {
             question: 'I believe my bet has been settled incorrectly. What can I do?',
             answer:
               'A <i>settled bet</i> (i.e. where funds have been paid out as winning bets) is final and irreversible. ' +
-              'Funds cannot be reclaimed from accounts once they have been settled (paid out) by BookiePro.fun.'
+              'Funds cannot be reclaimed from accounts once they have been settled (paid out) by BookiePro.'
           },
           {
             question: 'How long after an Event finishes do bets get settled?',
             answer:
               'Bets are normally settled within approximately 15 minutes of the event finishing though often much sooner. ' +
-              'Exceptions can occur if there are delays in reporting final results by the third party data feeds that BookiePro.fun uses.'
+              'Exceptions can occur if there are delays in reporting final results by the third party data feeds that BookiePro uses.'
           },
           {
             question: 'What happens if the sporting event is abandoned or does not start? ',
@@ -1207,29 +1207,29 @@ export const translationsObject = {
               'Any wagered funds will be returned to all parties. '
           },
           {
-            question: 'What is the source of the betting information on BookiePro.fun?',
+            question: 'What is the source of the betting information on BookiePro?',
             answer:
-              'BookiePro.fun is populated with sports betting data using a decentralized Oracle system that is connected to multiple third party sports data feeds.'
+              'BookiePro is populated with sports betting data using a decentralized Oracle system that is connected to multiple third party sports data feeds.'
           },
           {
             question:
-              'I don’t see the sport/event that I am interested in on BookiePro.fun, why not?',
+              'I don’t see the sport/event that I am interested in on BookiePro, why not?',
             answer:
-              'Sporting events appear on BookiePro.fun a certain number of days before they begin - typically a lead time of between ' +
+              'Sporting events appear on BookiePro a certain number of days before they begin - typically a lead time of between ' +
               'two to six days is used. In other cases, such as the Group Stage of big tournaments like the World Cup, events show several weeks in advance.\n\n' +
-              'If the sport you’re looking for is not covered on BookiePro.fun, don’t fret. The app is constantly updating and expanding ' +
+              'If the sport you’re looking for is not covered on BookiePro, don’t fret. The app is constantly updating and expanding ' +
               'its offerings and the sport or league you are interested in may be included in the future.'
           },
           {
             question: 'Can I create a new market?',
             answer:
-              'No. New markets cannot be created by users of BookiePro.fun. Markets are created by the Witnesses who run the ' +
-              'Peerplays blockchain that BookiePro.fun is built on. '
+              'No. New markets cannot be created by users of BookiePro. Markets are created by the Witnesses who run the ' +
+              'Peerplays blockchain that BookiePro is built on. '
           },
           {
             question: 'Can I offer new odds?',
             answer:
-              'Yes! Placing bets at odds that suit *you* is at the core of the BookiePro.fun experience! If you are not happy ' +
+              'Yes! Placing bets at odds that suit *you* is at the core of the BookiePro experience! If you are not happy ' +
               'with the odds being offered at any time - back your own judgement and submit your own.'
           }
           /*{
@@ -1275,15 +1275,15 @@ export const translationsObject = {
         header: 'Commission & Fees',
         questionAnswerPairs: [
           {
-            question: 'Is there a charge or a fee for me to bet with BookiePro.fun?',
+            question: 'Is there a charge or a fee for me to bet with BookiePro?',
             answer:
-              'Yes. There are two charges made to users of BookiePro.fun - Commission and Transaction Fees.'
+              'Yes. There are two charges made to users of BookiePro - Commission and Transaction Fees.'
           },
           {
             question: 'How does Commission work?',
             answer:
-              'BookiePro.fun charges a Commission on any net winnings in a particular market. So if, for example, you have net winnings ' +
-              'of 10 BitFun in the Moneyline market on the Jets @ 49ers game, Commission will be charged on that 10 BitFun. BookiePro.fun\'s ' +
+              'BookiePro charges a Commission on any net winnings in a particular market. So if, for example, you have net winnings ' +
+              'of 10 BitFun in the Moneyline market on the Jets @ 49ers game, Commission will be charged on that 10 BitFun. BookiePro\'s ' +
               'Commission rate is 1%. We talk about “net winnings” because users can have multiple bets (back and lay) in a single ' +
               'market - it is the net profit across all those bets that is liable to have Commission paid on it. If a user makes a net ' +
               'loss in a market (or zero profit, neither plus nor minus) then no Commission is due.\n\n' +
@@ -1298,7 +1298,7 @@ export const translationsObject = {
           {
             question: 'How does the Transaction Fee work?',
             answer:
-              'BookiePro.fun also charges a tiny Transaction Fee for every new bet you place. This Transaction Fee is set at 0.01 mBTF. ' +
+              'BookiePro also charges a tiny Transaction Fee for every new bet you place. This Transaction Fee is set at 0.01 mBTF. ' +
               'It is only charged when you make the following actions:<ul><li>place a bet</li><li>edit a bet</li><li>change your password</li></ul>' +
               'The Transaction Fee is charged when you are making a new bet and is shown in your betslip as an additional fee on top of your ' +
               'bet stake. Transaction Fees are paid regardless of whether you are net winner in a market (unlike Commission).'
@@ -1306,7 +1306,7 @@ export const translationsObject = {
           {
             question: 'Why have fees for a play money product?',
             answer:
-              'BookiePro.fun uses “play” tokens (‘BitFun’) which means Commission and Transaction Fees have no real-world value, ' +
+              'BookiePro uses “play” tokens (‘BitFun’) which means Commission and Transaction Fees have no real-world value, ' +
               'but they have been included in the app so that this functionality can be properly tested in a live deployment.'
           }
         ]
@@ -1366,30 +1366,30 @@ export const translationsObject = {
         header: 'Miscellaneous',
         questionAnswerPairs: [
           {
-            question: 'Can I use BookiePro.fun on my mobile?',
+            question: 'Can I use BookiePro on my mobile?',
             answer:
-              'Not yet. For now BookiePro.fun is a desktop/laptop-only application. Development on mobile versions is proceeding through 2018. Watch this space!'
+              'Not yet. For now BookiePro is a desktop/laptop-only application. Development on mobile versions is proceeding through 2018. Watch this space!'
           },
           {
             question:
-              'Does BookiePro.fun have an API for integration with third party trading software?',
+              'Does BookiePro have an API for integration with third party trading software?',
             answer:
-              'BookiePro.fun runs on top of Peerplays, a fully public blockchain to which anyone can connect. ' +
+              'BookiePro runs on top of Peerplays, a fully public blockchain to which anyone can connect. ' +
               'The app itself connects to the blockchain using an API. However, this API is not yet appropriate for general purpose use by third parties - ' +
-              'it requires productizing and documenting, a process that is currently underway. Expect the first publicly documented BookiePro.fun API to be released later in 2018!'
+              'it requires productizing and documenting, a process that is currently underway. Expect the first publicly documented BookiePro API to be released later in 2018!'
           },
           {
             question: 'Can I build a bot on Peerplays blockchain?',
             answer:
-              'Absolutely. PBSA is committed to seeing BookiePro.fun support users who wish to automate their interaction with the sports betting exchange. ' +
+              'Absolutely. PBSA is committed to seeing BookiePro support users who wish to automate their interaction with the sports betting exchange. ' +
               'The release of a user-friendly, well-documented API later this year will be a huge positive step in this direction.'
           },
           {
-            question: 'Is it necessary to update BookiePro.fun when a new version is available?',
+            question: 'Is it necessary to update BookiePro when a new version is available?',
             answer:
-              'There are two sorts of BookiePro.fun updates - hard and soft updates. All updates are made by downloading and installing ' +
-              'the latest version of the app from the BookiePro.fun website.\n\n' +
-              'A hard update is a required update - you will not be able to use BookiePro.fun without making this update. ' +
+              'There are two sorts of BookiePro updates - hard and soft updates. All updates are made by downloading and installing ' +
+              'the latest version of the app from the BookiePro website.\n\n' +
+              'A hard update is a required update - you will not be able to use BookiePro without making this update. ' +
               'The app will tell you if a hard update is required when you log in and will not allow you to use the app until you make the update.\n\n' +
               'A soft update is optional for users to make - it is likely to provide some small functional improvements or minor bug fixes, but the app can be used without making the update. '
           } /*,
@@ -1416,23 +1416,23 @@ export const translationsObject = {
         ]
       },
       topicRules: {
-        header: 'BookiePro.fun Rules',
+        header: 'BookiePro Rules',
         questionAnswerPairs: [
           {
             question: '',
             answer:
-              'BookiePro.fun is a fully decentralized sports betting exchange. ' +
-              'As such, there is no single centralized authority that enforces or implements BookiePro.fun rules. ' +
+              'BookiePro is a fully decentralized sports betting exchange. ' +
+              'As such, there is no single centralized authority that enforces or implements BookiePro rules. ' +
               'Instead, rules are implemented when consensus is reached amongst the block producers (“Witnesses”) of ' +
-              'the Peerplays blockchain on which BookiePro.fun is built. These Witnesses are, together, the final ' +
-              'arbiters for BookiePro.fun and their judgement on the acceptance and settlement of bets, and any other ' +
-              'ruling decision on BookiePro.fun, is final.\n\n' +
-              'The following is a list of BookiePro.fun rules which are to be read in conjunction with the market-specific rules provided for each market.'
+              'the Peerplays blockchain on which BookiePro is built. These Witnesses are, together, the final ' +
+              'arbiters for BookiePro and their judgement on the acceptance and settlement of bets, and any other ' +
+              'ruling decision on BookiePro, is final.\n\n' +
+              'The following is a list of BookiePro rules which are to be read in conjunction with the market-specific rules provided for each market.'
           },
           {
             question: 'Placing bets',
             answer:
-              'Users are solely responsible for all transactions they make on BookiePro.fun. Users are solely responsible for managing their bets at all times.\n\n' +
+              'Users are solely responsible for all transactions they make on BookiePro. Users are solely responsible for managing their bets at all times.\n\n' +
               'Users are responsible for their own account transactions. Please be sure to review your bets for any mistakes ' +
               'prior to submitting bets. Once a transaction is complete, it cannot be modified or refunded (notwithstanding that ' +
               'unmatched bets can be cancelled, as per normal betting exchange functionality).'
@@ -1454,20 +1454,20 @@ export const translationsObject = {
               'on the date of the event’s conclusion. "Overturned" decisions or results modified at a later date will not be recognized.'
           },
           {
-            question: 'Event information on BookiePro.fun',
+            question: 'Event information on BookiePro',
             answer:
-              'Witnesses on the Peerplays blockchain aim to provide timely and correct information regarding to events and markets offered on Bookiepro.fun, ' +
+              'Witnesses on the Peerplays blockchain aim to provide timely and correct information regarding to events and markets offered on Bookiepro, ' +
               'including but not limited to  dates, times, participants and status of events and markets. ' +
               'However, the provision of this information is dependent upon timely and correct reporting of sporting ' +
               'events from third party data providers, over which Witnesses have no control. As such, there is no ' +
               'guarantee that events and markets will be turned in-play and closed at the correct time.'
           },
           {
-            question: 'Currency on BookiePro.fun (BitFun)',
+            question: 'Currency on BookiePro (BitFun)',
             answer:
-              'BookiePro.fun uses play money called BitFun. BitFun has no real world value and is purely ' +
-              'used for the purposes of allowing users to test the BookiePro.fun product. ' +
-              'Any BitFun that are transferred to a BookiePro.fun account are not the property of the user of that account. ' +
+              'BookiePro uses play money called BitFun. BitFun has no real world value and is purely ' +
+              'used for the purposes of allowing users to test the BookiePro product. ' +
+              'Any BitFun that are transferred to a BookiePro account are not the property of the user of that account. ' +
               'Users have no claim whatsoever over any BitFun that may accrue or exist in their account. ' +
               'BitFun may be debited from any account without the account owner’s permission and/or cease to exist at a future date.\n\n' +
               'One Bitfun (BTF) play money token is equal to a thousand milli-BitFun (mBTF).'
@@ -1482,14 +1482,14 @@ export const translationsObject = {
           {
             question: 'In-Play betting',
             answer:
-              'In-Play betting is offered on many markets in BookiePro.fun - ' +
+              'In-Play betting is offered on many markets in BookiePro - ' +
               'please check individual market-specific rules for details. There is currently ' +
-              'no in-play bet placement delay in BookiePro.fun.\n\n' +
+              'no in-play bet placement delay in BookiePro.\n\n' +
               'Markets that are scheduled to be turned in-play but which do not turn in-play for ' +
               'any reason will be settled as if they had turned in-play. In-play markets are unmanaged, ' +
               'which means they are not paused for any so-called significant events, including but not ' +
               'limited to teams scoring, players being ejected, or stoppages in play.\n\n' +
-              'Users of BookiePro.fun should be aware that any broadcast described as ‘live’ ' +
+              'Users of BookiePro should be aware that any broadcast described as ‘live’ ' +
               'is always subject to some transmission delay and may even be pre-recorded. ' +
               'The delay between a sporting event happening in real-life and the report of this event ' +
               'via a ‘live’ broadcast will vary depending on the particularities of that broadcast.'
@@ -1497,7 +1497,7 @@ export const translationsObject = {
           {
             question: 'Suspensions',
             answer:
-              'Betting on BookiePro.fun may be suspended at any time if Witnesses reach consensus agreement to do so.'
+              'Betting on BookiePro may be suspended at any time if Witnesses reach consensus agreement to do so.'
           },
           {
             question: 'Market-specific rules',
