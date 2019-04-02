@@ -8,6 +8,25 @@
   padding: 0px;
   display: block;
   width:100%;
+  height: @tileHeight;
+
+  /* Media Queries for 125-150% zoom levels */
+  @media (max-width: 1400px) {
+    height:50px;
+  }
+
+  @media (max-width: 1281px) {
+    height:60px;
+  }
+
+  .ant-col-2 {
+    .backBettingMarket {
+      @media (max-width: 1281px) {
+        padding-left: 8px;
+      }
+    }
+
+  }
 
   &.disabled {
     .name, .date {
@@ -20,13 +39,16 @@
     }
   }
 
-
   .date {
     font-size: 12px;
     font-weight: 300;
     padding: 4px 4px 4px 12px;
     display: flex;
     align-items: center;
+
+    .dateString {
+      min-width: 38px;
+    }
   }
 
   .name {
@@ -43,7 +65,7 @@
   .name, .date {
     color: @white;
     background-color: @midnight;
-    height: @tileHeight;
+    height: -webkit-fill-available;
     line-height: 1.2;
   }
 
@@ -51,7 +73,7 @@
     background-color: @midnight;
     padding: 4px 16px 6px 16px;
     margin: 0px 0px 4px 4px;
-    height: @tileHeight;
+    height: -webkit-fill-available;
     line-height: 1.2;
 
     &.eventFlag {
