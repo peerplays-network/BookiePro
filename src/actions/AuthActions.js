@@ -1,4 +1,4 @@
-import {LoadingStatus, ActionTypes, Config} from '../constants';
+import {LoadingStatus, ActionTypes, Config, BookieModes} from '../constants';
 import {
   CommunicationService,
   KeyGeneratorService,
@@ -182,7 +182,7 @@ class AuthActions {
           // Navigate to home page
           const mode = StorageUtils.getBookMode();
 
-          if (mode === 'sportsbook') {
+          if (mode === BookieModes.SPORTSBOOK) {
             dispatch(NavigateActions.navigateTo('/sportsbook'));
           } else {
             dispatch(NavigateActions.navigateTo('/exchange'));   
