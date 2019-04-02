@@ -31,13 +31,22 @@ class BettingMarket extends PureComponent {
       odds = 1.01;
     }
 
-    this.props.createBet(
-      this.props.eventID,
-      this.props.eventName,
-      'back', 
-      this.props.bettingMarketId,
-      odds,
-    );
+    if (this.props.eventFlag) {
+      this.props.createBet(
+        this.props.eventID,
+        this.props.eventName,
+        'back', 
+        this.props.bettingMarketId,
+        odds,
+      );
+    } else {
+      this.props.createBet(
+        'back',
+        this.props.bettingMarketId,
+        odds
+      );
+    }
+
   }
 
   render() {
@@ -47,7 +56,7 @@ class BettingMarket extends PureComponent {
         className={
           'backBettingMarket ' +
           (SportsbookUtils.isAbleToBet(this.props.eventStatus) ? 'active ' : 'disabled ') +
-          (this.props.eventFlag ? 'eventFlag' : '')
+          (this.props.eventRoute ? 'eventFlag' : '')
         }
         onClick={ this.offerClicked }
       >
@@ -59,9 +68,7 @@ class BettingMarket extends PureComponent {
 }
 
 BettingMarket.propTypes = {
-  title: PropTypes.string.isRequired,
   isLiveMarket: PropTypes.bool.isRequired,
-  eventStatus: PropTypes.any.isRequired,
   createBet: PropTypes.func.isRequired,
   bettingMarketId: PropTypes.string.isRequired,
   eventFlag: PropTypes.bool
