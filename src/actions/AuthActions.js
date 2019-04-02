@@ -24,7 +24,6 @@ import Immutable from 'immutable';
 import AllSportsActions from './AllSportsActions';
 import StorageUtils from '../utility/StorageUtils';
 
-
 const ACCOUNT_UPDATE = `${ChainTypes.reserved_spaces.protocol_ids}.${ChainTypes.operations.account_update}`; // eslint-disable-line
 
 let initialState = Immutable.fromJS({
@@ -178,7 +177,6 @@ class AuthActions {
       return dispatch(AuthPrivateActions.processLogin(accountName, password))
         .then(() => {
           log.debug('Login succeed.');
-
           // Navigate to home page
           const mode = StorageUtils.getBookMode();
 

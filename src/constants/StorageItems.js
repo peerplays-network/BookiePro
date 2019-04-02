@@ -3,4 +3,3 @@ const StorageItems = {
 };
   
 export default StorageItems;
-  
