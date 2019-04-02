@@ -5,7 +5,7 @@ import {BackingWidgetContainer} from '../BettingWidgets';
 import {SportBanner} from '../Banners';
 import {ObjectUtils} from '../../utility';
 
-const MAX_EVENTS = 20;
+const MAX_EVENTS = 15;
 class SportsBookEventGroup extends PureComponent {
   constructor(props) {
     super(props);
@@ -57,7 +57,6 @@ class SportsBookEventGroup extends PureComponent {
       let pagination = '';
 
       if (events) {
-
         let start = this.state.pagination * MAX_EVENTS;
         let finish = (this.state.pagination + 1) * MAX_EVENTS;
         let numPages = Math.ceil(events.size / MAX_EVENTS);
@@ -66,7 +65,7 @@ class SportsBookEventGroup extends PureComponent {
         events.slice(start, finish).forEach((e) => {
           let bmgs = e.get('bettingMarketGroups');
           
-          if(bmgs) {
+          if(bmgs && !bmgs.isEmpty()) {
             let bmg = bmgs.first();
 
             eventsToDisplay.push(

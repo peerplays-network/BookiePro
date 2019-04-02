@@ -358,12 +358,15 @@ const getEventGroupData = createSelector(
 
           return passesFilters;
         });
-        // console.log(bmgs);
         bmgs = SportsbookUtils.sortAndCenter(bmgs);
       }
       
-      // Put the list of BMGs into their respective events
-      return e.set('bettingMarketGroups', bmgs);
+      // Put the list of BMGs into their respective events, only if the list is not empty.
+      if (!bmgs.isEmpty()) {
+        return e.set('bettingMarketGroups', bmgs);
+      }
+
+      return null;
     });
 
     eventList = eventList.filter((e) => e);
