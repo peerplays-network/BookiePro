@@ -343,7 +343,7 @@ const getEventGroupData = createSelector(
     eventList = eventList.map((e) => {
       let bmgs = bmgsByEventID[e.get('id')];
 
-      if(bmgs) {
+      if (bmgs) {
         bmgs = bmgs.map((bmg) => {
           let bmgID = bmg.get('id');
           return bmg.set('bettingMarkets', bettingMarketsWithOrderBook[bmgID]);
