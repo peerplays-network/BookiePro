@@ -42,7 +42,7 @@ class SportsBookEventGroup extends PureComponent {
           onClick={ () => this.setPage(page) }
           className={ this.state.pagination === page ? 'active' : '' }
         >
-          { page + 1 }
+          { page + 1 /* page starts from 0, but we want the display to start from 1 */}
         </li>
       );
     });
