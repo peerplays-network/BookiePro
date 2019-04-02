@@ -4,13 +4,18 @@ import {bindActionCreators} from 'redux';
 import {BackingWidgetContainer} from '../BettingWidgets';
 import {EventPageSelector} from '../../selectors';
 import {ObjectUtils, SportsbookUtils} from '../../utility';
-import {NavigateActions} from '../../actions';
+import {NavigateActions, AllSportsActions} from '../../actions';
 
 const MAX_EVENTS = 3;
+const {getData} = AllSportsActions;
 
 class SportsBook extends PureComponent {
-  render() {
 
+  componentDidMount() {
+    this.props.dispatch(getData());
+  }
+
+  render() {
     return (
       <div className='all-sports-wrapper'>
         <div className='banner-ad-header' />
@@ -76,11 +81,10 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(
-  {
-    navigateTo: NavigateActions.navigateTo
-  },
-  dispatch
-);
+const mapDispatchToProps = (dispatch) => {
+  const actions = bindActionCreators({navigateTo: NavigateActions.navigateTo});
+  return {...actions, dispatch};
+};
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(SportsBook);
