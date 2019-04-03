@@ -65,7 +65,7 @@ class SportsBookEventGroup extends PureComponent {
         events.slice(start, finish).forEach((e) => {
           let bmgs = e.get('bettingMarketGroups');
           
-          if(bmgs && !bmgs.isEmpty()) {
+          if (bmgs && !bmgs.isEmpty()) {
             let bmg = bmgs.first();
 
             eventsToDisplay.push(

@@ -206,7 +206,7 @@ const getAllSportsData = createSelector(
         activeEvents.map((e) => {
           let bmgs = bmgsByEventID[e.get('id')];
 
-          if(bmgs) {
+          if (bmgs) {
             bmgs = bmgs.filter((bmg) => {
               let description = bmg.get('description').toUpperCase();
               let passesFilters = false;
