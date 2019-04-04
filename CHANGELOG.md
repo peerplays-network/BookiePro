@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.4.2-rc.1] - 03-28-19
+
+### Changed
+
+- Removed common option row from proposal confirmation modals.
+- Resolved issues with vote tab hanging on load.
+- Cleaned up some residue files in the repository.
+- Login form allows full stops and dashes to ensure older bitshares generated accounts can login.
+
 ## [0.4.0] - 02-15-19
 
 ### Changed
