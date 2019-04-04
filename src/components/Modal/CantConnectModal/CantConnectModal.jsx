@@ -3,11 +3,13 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import {Modal, ModalBody} from 'react-modal-bootstrap';
 import AppService from '../../../services/AppService';
+import AppActions from '../../../actions/AppActions';
 import store from 'store/configureStore';
-
+import {bindActionCreators} from 'redux';
 class CantConnectModal extends React.Component {
   tryAgainHandler() {
     AppService.init(store);
+    this.props.setShowCantConnectStatus(false);
   }
 
   render() {
@@ -40,7 +42,7 @@ class CantConnectModal extends React.Component {
                     className='modalTitle'
                     content='cant_connect_modal_blockchain.title'/>
                   <div className='modalFooter text_c'>
-                    <button onClick={ this.tryAgainHandler } className='btn btn-sbm'>
+                    <button onClick={ this.tryAgainHandler.bind(this) } className='btn btn-sbm'>
                       <Translate content='cant_connect_modal_blockchain.try_again'/>
                     </button>
                   </div>
@@ -60,4 +62,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(CantConnectModal);
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    setShowCantConnectStatus: AppActions.setShowCantConnectStatus,
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CantConnectModal);
