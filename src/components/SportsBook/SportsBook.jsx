@@ -5,8 +5,7 @@ import {BackingWidgetContainer} from '../BettingWidgets';
 import {EventPageSelector} from '../../selectors';
 import {ObjectUtils, SportsbookUtils} from '../../utility';
 import {NavigateActions, AllSportsActions} from '../../actions';
-
-const MAX_EVENTS = 3;
+import {Config} from '../../constants';
 
 class SportsBook extends PureComponent {
 
@@ -23,7 +22,7 @@ class SportsBook extends PureComponent {
 
             const events = sport.get('events');
             let eventsToDisplay = [];
-            events && events.slice(0, MAX_EVENTS).forEach((e) => {
+            events && events.slice(0, Config.maxEvents).forEach((e) => {
               let bmgs = e.get('bettingMarketGroups');
               
               if (bmgs) {
