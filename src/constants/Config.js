@@ -39,6 +39,7 @@ const Config = {
   hardUpdateGracePeriod: 43200, // 12 Hour Hard-Update Grace Period
   coinTransactionFee: 0.00001,
   mCoinTransactionFee: 0.01,
+  maxEvents: 3,
   broadcastAccount: {
     name: process.env.accounts.broadcasts.name,
     keys: {

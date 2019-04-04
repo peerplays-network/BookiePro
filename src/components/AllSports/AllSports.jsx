@@ -7,8 +7,9 @@ import PeerPlaysLogo from '../PeerPlaysLogo';
 import {DateUtils} from '../../utility';
 import Loading from '../Loading';
 import {bindActionCreators} from 'redux';
+import {Config} from '../../constants';
 
-const MAX_EVENTS_PER_WIDGET = 3;
+const MAX_EVENTS_PER_WIDGET = Config.maxEvents;
 
 class AllSports extends PureComponent {
   componentDidMount() {
