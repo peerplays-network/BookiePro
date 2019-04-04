@@ -4,6 +4,7 @@ import {EventPageSelector, EventGroupPageSelector} from '../../selectors';
 import {BackingWidgetContainer} from '../BettingWidgets';
 import {SportBanner} from '../Banners';
 import {ObjectUtils} from '../../utility';
+import {Icon} from 'antd';
 
 const MAX_EVENTS = 15;
 class SportsBookEventGroup extends PureComponent {
@@ -35,7 +36,7 @@ class SportsBookEventGroup extends PureComponent {
       pageNumbers.push(i);
     }
 
-    return pageNumbers.map((page) => {
+    const pageNum = pageNumbers.map((page) => {
       return (
         <li 
           key={ page } 
@@ -46,6 +47,34 @@ class SportsBookEventGroup extends PureComponent {
         </li>
       );
     });
+
+    const prevButton =
+      <span className={ this.state.pagination === 0 ? 'no-cursor' : '' }>
+        <li 
+          onClick={ () => this.setPage(this.state.pagination-1) }
+          className={ this.state.pagination === 0 ? 'no-click' : '' }
+        >
+          <Icon type='left' className='pagination-icon' />
+        </li>
+      </span > ;
+
+    const nextButton = 
+    <span className={ this.state.pagination === numPages-1 ? 'no-cursor' : '' }>
+      <li 
+        onClick={ () => this.setPage(this.state.pagination+1) }
+        className={ this.state.pagination === numPages-1 ? 'no-click' : '' }
+      >
+        <Icon type='right' className='pagination-icon'/>
+      </li>
+    </span>;
+
+    return (
+      <span>
+        {prevButton}
+        {pageNum}
+        {nextButton}
+      </span>
+    );
   }
 
   render() {

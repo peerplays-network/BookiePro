@@ -8,10 +8,19 @@
   justify-content: flex-end;
   font-size: 16px;
 
+  .no-cursor {
+    cursor: not-allowed;
+  }
+
+  .pagination-icon {
+    font-size: 12px;
+  }
+
   li {
     display: inline-block;
     padding: 5px 10px 5px 10px;
     margin-right: 10px;
+    font-size: 16px;
 
     &:hover {
       cursor: pointer;
@@ -21,5 +30,10 @@
     &.active {
       background-color: @cello;
     }
+
+    &.no-click {
+      pointer-events: none;
+    }
+    
   }
 }
