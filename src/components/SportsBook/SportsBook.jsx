@@ -7,12 +7,11 @@ import {ObjectUtils, SportsbookUtils} from '../../utility';
 import {NavigateActions, AllSportsActions} from '../../actions';
 
 const MAX_EVENTS = 3;
-const {getData} = AllSportsActions;
 
 class SportsBook extends PureComponent {
 
   componentDidMount() {
-    this.props.dispatch(getData());
+    this.props.getData();
   }
 
   render() {
@@ -23,14 +22,11 @@ class SportsBook extends PureComponent {
           this.props.allSports.map((sport) => {
 
             const events = sport.get('events');
-
             let eventsToDisplay = [];
-
             events && events.slice(0, MAX_EVENTS).forEach((e) => {
-
               let bmgs = e.get('bettingMarketGroups');
               
-              if(bmgs) {
+              if (bmgs) {
                 let bmg = bmgs.first();
 
                 if (bmg && SportsbookUtils.hasBettingMarkets(bmg)) {
@@ -81,10 +77,13 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  const actions = bindActionCreators({navigateTo: NavigateActions.navigateTo});
-  return {...actions, dispatch};
-};
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    navigateTo: NavigateActions.navigateTo,
+    getData: AllSportsActions.getData
+  },
+  dispatch
+);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(SportsBook);
