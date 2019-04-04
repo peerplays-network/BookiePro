@@ -112,8 +112,14 @@
   "dependencies": {},
   "main": "src/index.js",
   "scripts": {
+    "init": "npm install commitizen -g && npm i",
     "start": "node scripts/start.js",
     "commit": "git-cz",
+    "pre-release": "npm run release -- --prerelease rc",
+    "release": "standard-version",
+    "release:major": "npm run release -- --release-as major",
+    "release:minor": "npm run release -- --release-as minor",
+    "release:patch": "npm run release -- --release-as patch",
     "build": "node scripts/build.js",
     "test": "jest",
     "updateSnapshot": "jest --updateSnapshot"
