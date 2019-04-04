@@ -206,7 +206,7 @@ const getAllSportsData = createSelector(
         activeEvents.map((e) => {
           let bmgs = bmgsByEventID[e.get('id')];
 
-          if(bmgs) {
+          if (bmgs) {
             bmgs = bmgs.filter((bmg) => {
               let description = bmg.get('description').toUpperCase();
               let passesFilters = false;
@@ -343,7 +343,7 @@ const getEventGroupData = createSelector(
     eventList = eventList.map((e) => {
       let bmgs = bmgsByEventID[e.get('id')];
 
-      if(bmgs) {
+      if (bmgs) {
         bmgs = bmgs.map((bmg) => {
           let bmgID = bmg.get('id');
           return bmg.set('bettingMarkets', bettingMarketsWithOrderBook[bmgID]);
@@ -358,12 +358,15 @@ const getEventGroupData = createSelector(
 
           return passesFilters;
         });
-        // console.log(bmgs);
         bmgs = SportsbookUtils.sortAndCenter(bmgs);
       }
       
-      // Put the list of BMGs into their respective events
-      return e.set('bettingMarketGroups', bmgs);
+      // Put the list of BMGs into their respective events, only if the list is not empty.
+      if (!bmgs.isEmpty()) {
+        return e.set('bettingMarketGroups', bmgs);
+      }
+
+      return null;
     });
 
     eventList = eventList.filter((e) => e);

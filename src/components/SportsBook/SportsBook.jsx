@@ -25,7 +25,7 @@ class SportsBook extends PureComponent {
 
               let bmgs = e.get('bettingMarketGroups');
               
-              if(bmgs) {
+              if (bmgs) {
                 let bmg = bmgs.first();
 
                 if (bmg && SportsbookUtils.hasBettingMarkets(bmg)) {

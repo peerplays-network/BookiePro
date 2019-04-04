@@ -22,7 +22,7 @@ const AppUtils = {
   getHomePath(mode) {
     let path;
 
-    switch(mode) {
+    switch (mode) {
       case BookieModes.EXCHANGE:
         path = '/exchange';
         break;
