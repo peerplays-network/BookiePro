@@ -115,7 +115,7 @@
     "init": "npm install commitizen -g && npm i",
     "start": "node scripts/start.js",
     "commit": "git-cz",
-    "prerelease": "npm run release -- --prerelease rc",
+    "pre-release": "npm run release -- --prerelease rc",
     "release": "standard-version",
     "release-major": "npm run release -- --release-as major",
     "release-minor": "npm run release -- --release-as minor",
