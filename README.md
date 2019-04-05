@@ -90,7 +90,7 @@ npm run release-major // major bump
 npm run release-minor // minor bump
 npm run release-patch // patch bump
 // To cut a pre-release:
-npm run prerelease // v0.2.1 to v0.2.2-rc.0
+npm run pre-release // v0.2.1 to v0.2.2-rc.0
 ```
 
 ## Production
