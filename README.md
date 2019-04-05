@@ -132,7 +132,7 @@ npm config set msvs_version 2015 --global
 ## Obtain the Source Code of the Core GUI Wallet
 
 ```bash
-git clone https://github.com/PBSA/peerplays-core-gui.git
+git clone https://github.com/peerplays-network/peerplays-core-gui.git
 cd peerplays-core-gui
 ```
 

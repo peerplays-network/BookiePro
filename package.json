@@ -2,11 +2,11 @@
   "name": "peerplays-core-gui",
   "version": "0.4.3",
   "description": "Advanced wallet interface for graphene based blockchains (Bishares, Muse..)",
-  "homepage": "https://github.com/PBSA/peerplays-ui#readme",
+  "homepage": "https://github.com/peerplays-network/peerplays-ui#readme",
   "author": "Cryptonomex, Inc.",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/PBSA/peerplays-core-gui/issues"
+    "url": "https://github.com/peerplays-network/peerplays-core-gui/issues"
   },
   "engines": {
     "node": ">=5.0.0",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/PBSA/peerplays-core-gui"
+    "url": "git://github.com/peerplays-network/peerplays-core-gui"
   },
   "scripts": {
     "init": "npm install commitizen -g && npm i",
