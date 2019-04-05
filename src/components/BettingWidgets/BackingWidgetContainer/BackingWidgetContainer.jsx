@@ -7,7 +7,7 @@ class BackingWidgetContainer extends PureComponent {
 
     let eventFlag = false;
 
-    if (this.props.marketData.length) {
+    if (this.props.marketData.size > 0) {
       eventFlag = true;
     }
     
@@ -15,16 +15,7 @@ class BackingWidgetContainer extends PureComponent {
       <div className='backingWidgetContainer'>
         <div className='title'>{this.props.widgetTitle}</div>
 
-        { !eventFlag && this.props.marketData.length > 0 &&
-          <BackingBettingWidget
-            marketData={ this.props.marketData }
-            title={ this.props.widgetTitle }
-            eventStatus={ this.props.eventStatus }
-            isLiveMarket={ true }
-          />
-        }
-
-        { eventFlag && this.props.marketData.length > 0 && this.props.marketData.map((market, index) => { // eslint-disable-line
+{ !eventFlag && this.props.marketData.length > 0 && this.props.marketData.map((market, index) => { // eslint-disable-line
           return (<BackingBettingWidget
             key={ index }
             title={ market.get('eventName') }
@@ -36,6 +27,20 @@ class BackingWidgetContainer extends PureComponent {
             isLiveMarket={ true }
           />);
         })}
+
+        { eventFlag && this.props.marketData.size > 0 && // eslint-disable-line
+          (<BackingBettingWidget
+            key={ this.props.marketData.get('id') }
+            title={ this.props.eventName }
+            eventID={ this.props.marketData.get('event_id') }
+            eventTime={ this.props.eventTime }
+            eventStatus={ this.props.marketData.get('status') }
+            eventRoute={ this.props.eventRoute }
+            columnType={ this.props.marketData.get('description') }
+            marketData={ this.props.marketData }
+            isLiveMarket={ true }
+          />)
+        }
       </div>
     );
   }
