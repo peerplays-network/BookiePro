@@ -5,13 +5,6 @@ All notable changes to this project will be documented in this file. See [standa
 <a name="0.4.3"></a>
 ## [0.4.3](https://github.com/PBSA/peerplays-core-gui/compare/v0.4.0...v0.4.3) (2019-04-05)
 
-
-
-<a name="0.4.1"></a>
-## [0.4.1](https://github.com/PBSA/peerplays-core-gui/compare/v0.4.0...v0.4.1) (2019-04-05)
-
-
-
 ## [0.4.2-rc.1] - 03-28-19
 
 ### Changed
