@@ -85,9 +85,9 @@ When using standard version to cut a release, there is automated changelog modif
 // If you typically use npm version to cut a new release, do this instead:
 npm run release
 // To cut a release and bump the version by major, minor, or patch, use the following respectively:
-npm run release --major // major bump
-npm run release --minor // minor bump
-npm run release --patch // patch bump
+npm run release-major // major bump
+npm run release-minor // minor bump
+npm run release-patch // patch bump
 // To cut a pre-release:
 npm run prerelease // v0.2.1 to v0.2.2-rc.0
 ```
