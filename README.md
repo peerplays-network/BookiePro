@@ -59,6 +59,7 @@ Once the compilation is done the GUI will be available in your browser at: local
 > If you have run the init script, you can commit via `git cz`.  
 > If you have not run the init script, you must commit via `npm run commit`.  
 > If you do neither, commit message consistency will be difficult for you.
+
 This repository uses a combination of tools to aid in consistent commit messages. The reason we do this is so we can have dynamic changelog creation and smart semantic versioning based on commits (with the ability to override).
 
 The following tools are used:
