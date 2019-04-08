@@ -42,82 +42,31 @@ module.exports = function (options) {
   var plugins = [
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.DefinePlugin(define)
-  ];
-
-  if (options.prod) {
-    // WRAP INTO CSS FILE
-    cssLoaders = extractForProduction(cssLoaders);
-    scssLoaders = extractForProduction(scssLoaders);
-
-    // PROD PLUGINS
-    plugins.push(new Clean(cleanDirectories, {
-      root: root_dir
-    }));
-    plugins.push(new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    }));
-
-    plugins.push(new ExtractTextPlugin('app.css'));
-
-    if (!options.noUgly) {
-      plugins.push(new webpack.optimize.UglifyJsPlugin({
-        minimize: true,
-        sourceMap: true,
-        compress: {
-          warnings: false
-        },
-        output: {
-          screw_ie8: true
-        }
-      }));
-    }
-
-    // PROD OUTPUT PATH
-    outputPath = path.join(root_dir, 'build');
-  } else {
-
-    plugins.push(new webpack.DefinePlugin({
+    new webpack.DefinePlugin(define),
+    new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development')
       }
-    })),
-
-    plugins.push(new webpack.HotModuleReplacementPlugin());
-
-    if (options.ugly) {
-      plugins.push(new webpack.optimize.UglifyJsPlugin({
-        minimize: true,
-        sourceMap: true,
-        compress: {
-          warnings: false
-        },
-        output: {
-          screw_ie8: true
-        }
-      }));
-    }
-  }
+    }),
+    new webpack.HotModuleReplacementPlugin()
+  ];
 
   var config = {
     entry: {
-      app: options.prod ?
-        path.resolve(root_dir, 'src/Main.js') : [
-          'webpack-dev-server/client?http://localhost:8082',
-          'webpack/hot/only-dev-server',
-          path.resolve(root_dir, 'src/Main-dev.js')
-        ]
+      app: [
+        'webpack-dev-server/client?http://localhost:8082',
+        'webpack/hot/only-dev-server',
+        path.resolve(root_dir, 'src/Main-dev.js')
+      ]
     },
     output: {
       path: outputPath,
       filename: 'app.js',
-      pathinfo: !options.prod,
+      pathinfo: false,
       sourceMapFilename: '[name].js.map'
     },
-    devtool: options.prod ? 'cheap-module-source-map' : 'source-map',
-    debug: !options.prod,
+    devtool: 'source-map',
+    debug: true,
     module: {
       noParse: /node_modules\/build/,
       loaders: [{

@@ -29,12 +29,17 @@
     "test": "jest",
     "profile-dev": "webpack --config config/webpack.config.dev.js --profile --json > stats-dev.json",
     "debug": "node --inspect server.js",
-    "start": "node server.js",
+    "start": "node scripts/start.js",
     "start-prod": "PROD=true node server.js",
-    "build": "node scripts/build.js"
-  },
-  "directories": {
-    "doc": "docs"
+    "make-build": "mkdir -p build",
+    "build": "npm run clean && node scripts/build.js",
+    "clean": "rm -rf build/* && rm -rf dist",
+    "electron": "electron build/electron.js",
+    "copy:electron": "npm run make-build && cp electron.js build/",
+    "compile": "npm run copy:electron",
+    "dist": "npm run compile && electron-builder -wml",
+    "live": "npm run copy:electron && ELECTRON_IS_DEV=1 electron build/electron.js",
+    "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
     "ReconnectingWebSocket": "git+https://github.com/svk31/reconnecting-websocket.git",
@@ -49,6 +54,7 @@
     "copy-to-clipboard": "^3.0.5",
     "counterpart": "^0.17.1",
     "electron-context-menu": "^0.10.0",
+    "electron-is-dev": "0.3.0",
     "event-emitter": "^0.3.4",
     "foundation-apps": "git+https://github.com/zurb/foundation-apps.git",
     "git-rev-sync": "^1.4.0",
@@ -136,7 +142,8 @@
     "cz-conventional-changelog": "^2.1.0",
     "detect-port": "^1.3.0",
     "dotenv": "^2.0.0",
-    "electron-builder": "^14.1.1",
+    "electron": "^2.0.2",
+    "electron-builder": "20.2.0",
     "es6-promise": "^3.0.2",
     "eslint": "^5.10.0",
     "eslint-config-react-app": "^3.0.5",
