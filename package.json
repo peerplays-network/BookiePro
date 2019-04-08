@@ -2,7 +2,7 @@
   "name": "bookie",
   "author": "Peerplays Blockchain Standards Association",
   "description": "Electron app powered by CRA",
-  "version": "1.2.16",
+  "version": "1.2.17",
   "private": true,
   "homepage": "./",
   "devDependencies": {
@@ -29,7 +29,8 @@
     "dateformat": "~2.0.0",
     "detect-port": "1.0.1",
     "dotenv": "2.0.0",
-    "electron": "^1.8.6",
+    "electron": "^2.0.2",
+    "electron-builder": "20.2.0",
     "enzyme": "~2.7.1",
     "eslint": "^5.2.0",
     "eslint-config-react-app": "^0.5.2",
@@ -109,7 +110,9 @@
     "webpack-manifest-plugin": "1.1.0",
     "whatwg-fetch": "2.0.2"
   },
-  "dependencies": {},
+  "dependencies": {
+    "electron-is-dev": "0.3.0"
+  },
   "main": "src/index.js",
   "scripts": {
     "init": "npm install commitizen -g && npm i",
@@ -120,9 +123,18 @@
     "release-major": "npm run release -- --release-as major",
     "release-minor": "npm run release -- --release-as minor",
     "release-patch": "npm run release -- --release-as patch",
-    "build": "node scripts/build.js",
     "test": "jest",
-    "updateSnapshot": "jest --updateSnapshot"
+    "updateSnapshot": "jest --updateSnapshot",
+    "build": "npm run clean && node scripts/build.js",
+    "electron": "electron build/electron.js",
+    "clean": "rm -rf build/* && rm -rf dist",
+    "make-build": "mkdir -p build",
+    "copy:electron": "npm run make-build && cp electron.js build/",
+    "compile": "npm run copy:electron",
+    "dist": "npm run compile && electron-builder -wm",
+    "dist-linux": "npm run compile && electron-builder -l",
+    "live": "npm run copy:electron && ELECTRON_IS_DEV=1 electron build/electron.js",
+    "postinstall": "electron-builder install-app-deps"
   },
   "jest": {
     "verbose": true,
