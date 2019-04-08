@@ -295,7 +295,7 @@ class CommitteeMembers extends React.Component {
     });
 
     return (
-      <div id='committee' className='tab__deploy' style={ {display: 'block'} }>
+      <div id='committee' className='tab__deploy block'>
         <div className='tab__deployHead'>
           <div className='title'>
             <Translate content='votes.advisors' />
