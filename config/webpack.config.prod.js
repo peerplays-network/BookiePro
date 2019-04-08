@@ -25,7 +25,7 @@ var cssLoaders = 'style-loader!css-loader!postcss-loader',
   scssLoaders = 'style!css!postcss-loader!sass?outputStyle=expanded';
 
 // DIRECTORY CLEANER
-var cleanDirectories = ['build'];
+var cleanDirectories = ['build', 'dist'];
 
 // OUTPUT PATH
 var outputPath = path.join(root_dir, 'build');
