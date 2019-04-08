@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {FormattedDate} from 'react-intl';
 import Translate from 'react-translate-component';
-import WalletActions from 'actions/WalletActions';
-import WalletDb from 'stores/WalletDb';
+import WalletActions from '../../actions/WalletActions';
+import WalletDb from '../../stores/WalletDb';
 import {hash} from 'peerplaysjs-lib';
 
 export default class BackupBrainkey extends Component {

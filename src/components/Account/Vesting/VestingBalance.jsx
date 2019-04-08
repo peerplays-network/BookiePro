@@ -1,5 +1,5 @@
 import React from 'react';
-import utils from 'common/utils';
+import utils from '../../../common/utils';
 import {FormattedNumber} from 'react-intl';
 import Translate from 'react-translate-component';
 

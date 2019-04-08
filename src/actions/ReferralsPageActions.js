@@ -2,9 +2,9 @@ import ActionTypes from '../constants/ActionTypes';
 import {
   ChainStore
 } from 'peerplaysjs-lib';
-import Repository from 'repositories/chain/repository';
-import KeysService from 'services/KeysService';
-import TransactionService from 'services/TransactionService';
+import Repository from '../repositories/chain/repository';
+import KeysService from '../services/KeysService';
+import TransactionService from '../services/TransactionService';
 
 let subscribers = {
   referral: null

@@ -2,7 +2,7 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import {FormattedNumber, FormattedDate} from 'react-intl';
-import assetUtils from 'common/asset_utils';
+import assetUtils from '../../../common/asset_utils';
 
 class CreateProposal extends React.Component {
   render() {

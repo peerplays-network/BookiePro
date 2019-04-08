@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import counterpart from 'counterpart';
-import Logo from 'components/Forms/Logo';
+import Logo from '../Forms/Logo';
 import {NavigateActions, ClaimBtsActions} from '../../actions';
 import ClaimBtsForm from './ClaimBtsForm';
 import Translate from 'react-translate-component';

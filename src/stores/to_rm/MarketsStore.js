@@ -1,12 +1,12 @@
-import ls from 'common/localStorage';
+import ls from '../../common/localStorage';
 import {ChainStore} from 'peerplaysjs-lib';
-import utils from 'common/utils';
-import {LimitOrder, CallOrder, SettleOrder} from './tcomb_structs';
+import utils from '../../common/utils';
+import {LimitOrder, CallOrder, SettleOrder} from '../tcomb_structs';
 
 var Immutable = require('immutable');
-var alt = require('../alt-instance');
-var MarketsActions = require('../actions/MarketsActions');
-var market_utils = require('../common/market_utils');
+var alt = require('../../alt-instance');
+var MarketsActions = require('../../../actions/MarketsActions');
+var market_utils = require('../../common/market_utils');
 let marketStorage = new ls('__peerplays__');
 
 class MarketsStore {

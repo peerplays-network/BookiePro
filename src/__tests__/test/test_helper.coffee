@@ -1,14 +1,14 @@
 assert = require 'assert'
 secureRandom = require 'secure-random'
 
-WalletDb = require "stores/WalletDb"
-AccountActions = require "actions/AccountActions"
-PrivateKeyStore = require "stores/PrivateKeyStore"
+WalletDb = require "../stores/WalletDb"
+AccountActions = require "../actions/AccountActions"
+PrivateKeyStore = require "../stores/PrivateKeyStore"
 
 var {PrivateKey} = require("peerplaysjs-lib");
 
 # register listener
-require "stores/WalletUnlockStore"
+require "../stores/WalletUnlockStore"
 
 # Confirm only works when there is a UI
 WalletDb.confirm_transactions = false

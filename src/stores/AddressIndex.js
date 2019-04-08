@@ -3,7 +3,7 @@ import iDB from '../idb-instance';
 import {key} from 'peerplaysjs-lib';
 import {ChainConfig} from 'peerplaysjs-ws';
 import Immutable from 'immutable';
-import BaseStore from 'stores/BaseStore';
+import BaseStore from '../stores/BaseStore';
 
 class AddressIndex extends BaseStore {
   constructor() {
@@ -63,7 +63,7 @@ class AddressIndex extends BaseStore {
     return new Promise( (resolve, reject) => {
       this.saving();
       this.loadAddyMap().then( () => {
-        var AddressIndexWorker = require('worker!workers/AddressIndexWorker'); /* eslint-disable-line */
+        var AddressIndexWorker = require('worker!../workers/AddressIndexWorker'); /* eslint-disable-line */
         var worker = new AddressIndexWorker();
         worker.postMessage({pubkeys, address_prefix: ChainConfig.address_prefix});
         var _this = this;

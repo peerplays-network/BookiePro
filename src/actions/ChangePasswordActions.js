@@ -1,12 +1,12 @@
 import ActionTypes from '../constants/ActionTypes';
 import {PrivateKey, key, Aes} from 'peerplaysjs-lib';
 import {WalletTcomb} from '../stores/tcomb_structs';
-import iDB from 'idb-instance';
+import iDB from '../idb-instance';
 import {Apis} from 'peerplaysjs-ws';
-import WalletService from 'services/WalletService';
+import WalletService from '../services/WalletService';
 import KeyGeneratorService from '../services/KeyGeneratorService';
-import PrivateKeyActions from 'actions/RPrivateKeyActions';
-import AccountRepository from 'repositories/AccountRepository';
+import PrivateKeyActions from '../actions/RPrivateKeyActions';
+import AccountRepository from '../repositories/AccountRepository';
 
 class ChangePasswordActions {
   /**

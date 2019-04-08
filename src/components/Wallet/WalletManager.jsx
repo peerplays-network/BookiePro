@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
 import connectToStores from 'alt/utils/connectToStores';
-import WalletActions from 'actions/WalletActions';
-import WalletManagerStore from 'stores/WalletManagerStore';
+// import WalletActions from '../../actions/WalletActions';
+import WalletManagerStore from '../../stores/to_rm/WalletManagerStore';
 import Translate from 'react-translate-component';
 import cname from 'classnames';
 import counterpart from 'counterpart';

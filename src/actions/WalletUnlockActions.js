@@ -1,5 +1,5 @@
 //TODO::rm file
-import alt from 'alt-instance';
+import alt from '../alt-instance';
 
 class WalletUnlockActions {
   /** If you get resolved then the wallet is or was just unlocked. If you get

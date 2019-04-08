@@ -2,9 +2,9 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
 import {connect} from 'react-redux';
-import utils from 'common/utils';
+import utils from '../../common/utils';
 import {VotingActions, RTransactionConfirmActions, RWalletUnlockActions} from '../../actions';
-import Repository from 'repositories/chain/repository';
+import Repository from '../../repositories/chain/repository';
 import {bindActionCreators} from 'redux';
 
 class Proposals extends React.Component {

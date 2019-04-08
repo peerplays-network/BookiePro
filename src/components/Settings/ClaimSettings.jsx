@@ -3,7 +3,7 @@ import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
-import asset_utils from 'common/asset_utils';
+import asset_utils from '../../common/asset_utils';
 import {SettingsClaimActions} from '../../actions';
 import {bindActionCreators} from 'redux';
 

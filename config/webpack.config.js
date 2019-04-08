@@ -28,15 +28,14 @@ module.exports = function (options) {
   var define = {
     APP_PACKAGE_VERSION: JSON.stringify(Config.APP_PACKAGE_VERSION),
     SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME: JSON.stringify(
-      options.SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME
-      || Config.SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME
+      Config.SOFTWARE_UPDATE_REFERENCE_ACCOUNT_NAME
     ),
     APP_VERSION: JSON.stringify(Config.APP_VERSION),
-    __ELECTRON__: !!options.electron,
+    __ELECTRON__: false,
     CORE_ASSET: JSON.stringify(Config.CORE_ASSET),
     BLOCKCHAIN_URL: JSON.stringify(Config.BLOCKCHAIN_URLS),
     FAUCET_URL: JSON.stringify(Config.FAUCET_URLS),
-    BITSHARES_WS: JSON.stringify(options.BITSHARES_WS || Config.BITSHARES_WS),
+    BITSHARES_WS: JSON.stringify(Config.BITSHARES_WS),
   };
   // COMMON PLUGINS
   var plugins = [

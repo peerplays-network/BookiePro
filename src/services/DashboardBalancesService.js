@@ -2,9 +2,9 @@ import Immutable from 'immutable';
 import {ChainStore} from 'peerplaysjs-lib';
 import Repository from '../repositories/chain/repository';
 import {formatOperation} from './FormatOperation';
-import utils from 'common/utils';
-import market_utils from 'common/market_utils';
-import asset_utils from 'common/asset_utils';
+import utils from '../common/utils';
+import market_utils from '../common/market_utils';
+import asset_utils from '../common/asset_utils';
 
 let dataIsFetched = false;
 let marketStatsByName = {},

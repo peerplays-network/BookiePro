@@ -1,26 +1,26 @@
-import IntlStore from 'stores/IntlStore'; // eslint-disable-line
-import store from 'store/configureStore';
-import CONFIG from 'config/main';
+import IntlStore from './stores/IntlStore' // eslint-disable-line
+import store from './store/configureStore';
+import CONFIG from '../config/Config';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-	Router,
-	Route,
-	IndexRoute,
-	IndexRedirect,
-	hashHistory
+  Router,
+  Route,
+  IndexRoute,
+  IndexRedirect,
+  hashHistory
 } from 'react-router';
 import {
-	Provider
+  Provider
 } from 'react-redux';
 import {
-	syncHistoryWithStore
+  syncHistoryWithStore
 } from 'react-router-redux';
-import LocationConstants from 'constants/LocationConstants';
-import AppActions from 'actions/AppActions';
-import AppService from 'services/AppService';
+import LocationConstants from './constants/LocationConstants';
+import AppActions from './actions/AppActions';
+import AppService from './services/AppService';
 import {
-	requireAuthentication
+  requireAuthentication
 } from './components/Auth/AuthenticatedComponent';
 import AppContainer from './components/AppContainer';
 import BalancesDashboard from './components/Dashboard/Balances/BalancesContainer';
@@ -44,8 +44,6 @@ import Referrals from './components/Referrals/Referrals';
 import Empty from './components/Empty';
 import ClaimBtsContainer from './components/ClaimBts/ClaimBtsContainer';
 import AboutContainer from './components/About/AboutContainer';
-import RockPaperScissorsContainer from './components/Games/RockPaperScissors/RockPaperScissorsContainer'; /*eslint-disable-line */
-import RockPaperScissorsGame from './components/Games/RockPaperScissors/RockPaperScissorsGame';
 import ClaimSettings from './components/Settings/ClaimSettings';
 require('./components/Utility/Prototypes'); /*eslint-disable-line */
 
@@ -97,36 +95,30 @@ const routes = (
       <IndexRoute
         params={ {tab: 'dashboard'} }
         title='Dashboard'
-        component={ requireAuthentication(RockPaperScissorsContainer) }
       />
       <Route
         path='explore/all'
         params={ {tab: 'explore', tournamentsFilter: 'all'} }
         title='Explore All'
-        component={ requireAuthentication(RockPaperScissorsContainer) }
       />
       <Route
         path='explore/find'
         params={ {tab: 'find', tournamentsFilter: 'find'} }
         title='Find'
-        component={ requireAuthentication(RockPaperScissorsContainer) }
       />
       <Route
         path='create'
         params={ {tab: 'create'} }
         title='Create'
-        component={ requireAuthentication(RockPaperScissorsContainer) }
       />
       <Route
         path='dashboard'
         params={ {tab: 'dashboard'} }
         title='Dashboard Open'
-        component={ requireAuthentication(RockPaperScissorsContainer) }
       />
       <Route
         path='game/:id'
         title='Game'
-        component={ requireAuthentication(RockPaperScissorsGame) }
       />
     </Route>
     <Route path='explore'>

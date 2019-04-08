@@ -5,14 +5,14 @@ import {connect} from 'react-redux';
 /* Components */
 import {IntlProvider} from 'react-intl';
 import NotificationSystem from 'react-notification-system';
-import Header from 'components/Header/Header';
-import TransactionConfirmModal from 'components/Modal/TransactionConfirmModal/TransactionConfirmModal'; // eslint-disable-line
-import WalletUnlockModal from 'components/Modal/WalletUnlockModal';
-import ViewMemoModal from 'components/Modal/ViewMemoModal';
-import CantConnectModal from 'components/Modal/CantConnectModal/CantConnectModal';
-import HelpModal from '../components/Help/HelpModal';
-import intlData from 'components/Utility/intlData';
-import CommonMessage from 'components/CommonMessage';
+import Header from './Header/Header';
+import TransactionConfirmModal from './Modal/TransactionConfirmModal/TransactionConfirmModal'; // eslint-disable-line
+import WalletUnlockModal from './Modal/WalletUnlockModal';
+import ViewMemoModal from './Modal/ViewMemoModal';
+import CantConnectModal from './Modal/CantConnectModal/CantConnectModal';
+import HelpModal from './Help/HelpModal';
+import intlData from './Utility/intlData';
+import CommonMessage from './CommonMessage';
 
 /* Other */
 import {routerShape} from 'react-router/lib/PropTypes';

@@ -1,11 +1,11 @@
 import Immutable from 'immutable';
-import utils from 'common/utils';
+import utils from '../common/utils';
 import AssetNameHelper from '../helpers/AssetNameHelper';
 import AssetRepository from '../repositories/AssetRepository';
 import HistoryRepository from '../repositories/HistoryRepository';
 import OrderRepository from '../repositories/OrderRepository';
-import Repository from 'repositories/chain/repository';
-import ExchangeMarketService from 'services/ExchangeMarketService';
+import Repository from '../repositories/chain/repository';
+import ExchangeMarketService from '../services/ExchangeMarketService';
 import MarketUtils from '../common/market_utils';
 
 let activeMarketHistory = Immutable.OrderedSet();

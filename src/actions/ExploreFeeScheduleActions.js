@@ -2,7 +2,7 @@ import ActionTypes from '../constants/ActionTypes';
 import Repository from '../repositories/chain/repository';
 import {ChainTypes} from 'peerplaysjs-lib';
 import counterpart from 'counterpart';
-import assetUtils from 'common/asset_utils';
+import assetUtils from '../common/asset_utils';
 
 /**
  * Fnc: get equivalent amount value

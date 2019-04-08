@@ -1,16 +1,16 @@
-import alt from 'alt-instance';
-import BaseStore from 'stores/BaseStore';
-import iDB from 'idb-instance';
-import idb_helper from 'idb-helper';
+import alt from '../alt-instance';
+import BaseStore from '../stores/BaseStore';
+import iDB from '../idb-instance';
+import idb_helper from '../idb-helper';
 import {cloneDeep} from 'lodash';
-import PrivateKeyStore from 'stores/PrivateKeyStore';
+import PrivateKeyStore from '../stores/PrivateKeyStore';
 import {WalletTcomb} from './tcomb_structs';
-import TransactionConfirmActions from 'actions/TransactionConfirmActions';
-import WalletUnlockActions from 'actions/WalletUnlockActions';
-import PrivateKeyActions from 'actions/PrivateKeyActions';
+import TransactionConfirmActions from '../actions/TransactionConfirmActions';
+import WalletUnlockActions from '../actions/WalletUnlockActions';
+import PrivateKeyActions from '../actions/PrivateKeyActions';
 import {ChainStore,PrivateKey,key,Aes} from 'peerplaysjs-lib';
 import {Apis,ChainConfig} from 'peerplaysjs-ws';
-import AddressIndex from 'stores/AddressIndex';
+import AddressIndex from '../stores/AddressIndex';
 
 ChainConfig.setPrefix('PPY');
 
@@ -470,7 +470,7 @@ class WalletDb extends BaseStore {
         private_plainhex_array.push(private_key_obj.private_plainhex);
       }
 
-      var AesWorker = require('worker!workers/AesWorker'); /* eslint-disable-line */
+      var AesWorker = require('worker!../workers/AesWorker'); /* eslint-disable-line */
       var worker = new AesWorker();
       worker.postMessage({
         private_plainhex_array,

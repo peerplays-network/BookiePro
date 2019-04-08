@@ -3,7 +3,7 @@ import {
   VOTING_CHANGE_PROXY,
   VOTING_SET_NEW_WITNESSES,
   VOTING_UPDATE_WITNESS_TAB
-} from 'constants/ActionTypes';
+} from '../constants/ActionTypes';
 
 
 /**

@@ -1,5 +1,5 @@
 import ActionTypes from '../constants/ActionTypes';
-import KeysService from 'services/KeysService';
+import KeysService from '../services/KeysService';
 
 class RWalletUnlockNewActions {
   /**

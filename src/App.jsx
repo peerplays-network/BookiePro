@@ -3,9 +3,9 @@
  */
 // Adds a .equals method to Array for use in shouldComponentUpdate
 // This needs to be initalized here even though IntlStore is never used
-import IntlStore from 'stores/IntlStore'; // eslint-disable-line
-import store from 'store/configureStore';
-import CONFIG from 'config/main';
+// import IntlStore from 'stores/IntlStore'; // eslint-disable-line
+import store from './store/configureStore';
+import CONFIG from '../config/Config';
 /**
  * Libs
  */
@@ -14,17 +14,17 @@ import ReactDOM from 'react-dom';
 import {Router, Route, IndexRoute, IndexRedirect, hashHistory} from 'react-router';
 import {Provider} from 'react-redux';
 import {syncHistoryWithStore} from 'react-router-redux';
-import LocationConstants from 'constants/LocationConstants';
+import LocationConstants from './constants/LocationConstants';
 
 /**
  * Actions
  */
-import AppActions from 'actions/AppActions';
+import AppActions from './actions/AppActions';
 
 /**
  * Services
  */
-import AppService from 'services/AppService';
+import AppService from './services/AppService';
 
 /**
  * Wrappers

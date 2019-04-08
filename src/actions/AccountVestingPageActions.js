@@ -1,8 +1,8 @@
 import ActionTypes from '../constants/ActionTypes';
-import Repository from 'repositories/chain/repository';
-import BalanceRepository from 'repositories/BalanceRepository';
-import KeysService from 'services/KeysService';
-import TransactionService from 'services/TransactionService';
+import Repository from '../repositories/chain/repository';
+import BalanceRepository from '../repositories/BalanceRepository';
+import KeysService from '../services/KeysService';
+import TransactionService from '../services/TransactionService';
 
 class AccountVestingPagePrivateActions {
   /**

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import connectToStores from 'alt/utils/connectToStores';
-import BalanceClaimActiveStore from 'stores/BalanceClaimActiveStore';
-import FormattedAsset from 'components/Utility/FormattedAsset';
+import BalanceClaimActiveStore from '../../stores/to_rm/BalanceClaimActiveStore';
+import FormattedAsset from '../Utility/FormattedAsset';
 import Translate from 'react-translate-component';
 
 @connectToStores

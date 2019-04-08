@@ -4,8 +4,8 @@ import Translate from 'react-translate-component';
 import {FormattedNumber} from 'react-intl';
 import AccountImage from '../../Account/AccountImage';
 import {DashboardPageActions, NavigateActions} from '../../../actions';
-import asset_utils from 'common/asset_utils';
-import AppActions from 'actions/AppActions';
+import asset_utils from '../../../common/asset_utils';
+import AppActions from '../../../actions/AppActions';
 import SideVesting from './SideVesting';
 import {bindActionCreators} from 'redux';
 class Side extends React.Component {

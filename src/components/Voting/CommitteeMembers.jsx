@@ -10,8 +10,8 @@ import FormattedAsset from '../Utility/FormattedAsset';
 import {
   VotingActions, RWalletUnlockActions, RTransactionConfirmActions
 } from '../../actions';
-import Repository from 'repositories/chain/repository';
-import AccountRepository from 'repositories/AccountRepository';
+import Repository from '../../repositories/chain/repository';
+import AccountRepository from '../../repositories/AccountRepository';
 import {bindActionCreators} from 'redux';
 
 class CommitteeMembers extends React.Component {

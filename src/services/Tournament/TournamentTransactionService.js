@@ -1,7 +1,7 @@
-import {setTransaction} from 'actions/RTransactionConfirmActions';
+import {setTransaction} from '../../actions/RTransactionConfirmActions';
 import {PrivateKey} from 'peerplaysjs-lib';
-import WalletApi from 'rpc_api/WalletApi';
-import AccountRepository from 'repositories/AccountRepository';
+import WalletApi from '../../rpc_api/WalletApi';
+import AccountRepository from '../../repositories/AccountRepository';
 
 let wallet_api = new WalletApi();
 
