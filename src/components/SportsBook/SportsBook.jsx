@@ -11,6 +11,8 @@ const MAX_EVENTS = 3;
 class SportsBook extends PureComponent {
   render() {
 
+    let content = null;
+
     return (
       <div id='all-sports-wrapper'>
         <div className='banner-ad-header' />
@@ -40,8 +42,17 @@ class SportsBook extends PureComponent {
               }
             });
 
-            if (eventsToDisplay.length > 0) {
-              return (
+            content = (
+              <div key={ sport.get('name') }>
+                <BackingWidgetContainer
+                  widgetTitle={ sport.get('name') }
+                  marketData={ eventsToDisplay }
+                />
+              </div>
+            );
+
+            if (events && events.size > 3) { // Show the More link
+              content = (
                 <div key={ sport.get('name') }>
                   <BackingWidgetContainer
                     widgetTitle={ sport.get('name') }
@@ -53,11 +64,15 @@ class SportsBook extends PureComponent {
                         '/sportsbook/sport/' + sport.get('sport_id')
                       ) }
                     >
-                      More { sport.get('name') }
+                    More { sport.get('name') }
                     </a>
                   </div>
                 </div>
               );
+            }
+
+            if (eventsToDisplay.length > 0) {
+              return content;
             } else {
               return null;
             }
