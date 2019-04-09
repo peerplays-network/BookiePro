@@ -1,4 +1,18 @@
-# Changelog
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="0.4.3"></a>
+## [0.4.3](https://github.com/peerplays-network/peerplays-core-gui/compare/v0.4.0...v0.4.3) (2019-04-05)
+
+## [0.4.2-rc.1] - 03-28-19
+
+### Changed
+
+- Removed common option row from proposal confirmation modals.
+- Resolved issues with vote tab hanging on load.
+- Cleaned up some residue files in the repository.
+- Login form allows full stops and dashes to ensure older bitshares generated accounts can login.
 
 ## [0.4.0] - 02-15-19
 

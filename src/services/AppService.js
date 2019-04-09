@@ -7,7 +7,6 @@ import AccountLoginService from './AccountLoginService';
 import LoginService from './LoginService';
 import WalletService from './WalletService';
 import RememberMeService from './RememberMeService';
-import SettingsStorageService from './SettingsStorageService';
 import ConnectManager from './ConnectManager';
 import AppActions from '../actions/AppActions';
 import ChainStoreHeartbeater from '../app/ChainStoreHeartbeater';
@@ -26,27 +25,13 @@ class AppService {
   static init(store) {
     const ConnectionCallback = (store) => {
       ConnectManager.setDefaultRpcConnectionStatusCallback((value) => {
-        if (SettingsStorageService.get('changeConnection')) {
-          switch (value) {
-            case 'error':
-              store.dispatch(AppActions.setStatus('reconnect'));
-              break;
-            case 'open':
-              SettingsStorageService.remove('changeConnection');
-              store.dispatch(AppActions.setStatus(null));
-              break;
-            default:
-              store.dispatch(AppActions.setStatus(null));
-          }
-        } else {
-          switch (value) {
-            case 'error':
-              store.dispatch(AppActions.setShowCantConnectStatus(true));
-              break;
-            case 'open':
-              store.dispatch(AppActions.setShowCantConnectStatus(false));
-              store.dispatch(AppActions.setStatus(null));
-          }
+        switch (value) {
+          case 'error':
+            store.dispatch(AppActions.resetCache());
+            store.dispatch(AppActions.setShowCantConnectStatus(true));
+            break;
+          case 'open':
+            store.dispatch(AppActions.setStatus(null));
         }
       });
     };
