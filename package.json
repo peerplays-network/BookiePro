@@ -1,8 +1,8 @@
 {
   "name": "peerplays-core-gui",
-  "version": "0.4.0",
-  "description": "Advanced wallet interface for graphene based blockchains (Bitshares, Muse..)",
-  "homepage": "./",
+  "version": "0.4.3",
+  "description": "Advanced wallet interface for graphene based blockchains (Bishares, Muse..)",
+  "homepage": "https://github.com/peerplays-network/peerplays-ui#readme",
   "author": "Cryptonomex, Inc.",
   "license": "MIT",
   "bugs": {
@@ -17,6 +17,13 @@
     "url": "git://github.com/peerplays-network/peerplays-core-gui"
   },
   "scripts": {
+    "init": "npm install commitizen -g && npm i",
+    "commit": "git-cz",
+    "pre-release": "npm run release -- --prerelease rc",
+    "release": "standard-version",
+    "release-major": "npm run release -- --release-as major",
+    "release-minor": "npm run release -- --release-as minor",
+    "release-patch": "npm run release -- --release-as patch",
     "stylelint": "stylelint '**/*.scss'",
     "test-old": "./node_modules/.bin/mocha --compilers coffee:coffee-script,js:babel/register --require coffee-script/register",
     "test": "jest",
@@ -109,6 +116,8 @@
     "whatwg-fetch": "^0.11.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^7.5.2",
+    "@commitlint/config-conventional": "^7.5.0",
     "babel": "^5.8.29",
     "babel-core": "^5.8.33",
     "babel-eslint": "^10.0.1",
@@ -121,8 +130,10 @@
     "coffee-loader": "^0.7.2",
     "coffee-script": "~1.8.0",
     "coffeeify": "~0.7.0",
+    "commitizen": "^3.0.7",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.22.0",
+    "cz-conventional-changelog": "^2.1.0",
     "detect-port": "^1.3.0",
     "dotenv": "^2.0.0",
     "electron-builder": "^14.1.1",
@@ -138,6 +149,7 @@
     "fake-indexeddb": "^1.0.3",
     "file-loader": "^0.8.5",
     "html-webpack-plugin": "^2.24.0",
+    "husky": "^1.3.1",
     "image-webpack-loader": "^3.0.0",
     "json-loader": "^0.5.3",
     "mocha": "^2.5.3",
@@ -158,6 +170,7 @@
     "remarkable-loader": "^0.1.0",
     "sass-loader": "^3.1.1",
     "script-loader": "^0.6.1",
+    "standard-version": "^5.0.2",
     "string-replace-loader": "^1.0.5",
     "string-replace-webpack-plugin": "0.0.3",
     "style-loader": "^0.12.4",
@@ -198,5 +211,10 @@
       "/node_modules/",
       "/utils/"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

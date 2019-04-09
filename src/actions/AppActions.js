@@ -251,6 +251,15 @@ class AppActions {
   }
 
   /**
+ *  Reducer: App reset cache action called when reconnecting to blockchain
+ *
+ * @returns {Function}
+ */
+  static resetCache() {
+    return Repository.resetCache();
+  }
+
+  /**
  *  Reducer: APP Logout action
  *
  * @returns {Function}
