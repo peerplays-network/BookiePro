@@ -1,5 +1,5 @@
-import alt from 'alt-instance';
-import BaseStore from 'stores/BaseStore';
+import alt from '../../alt-instance';
+import BaseStore from '../../stores/BaseStore';
 
 class ImportKeysStore extends BaseStore {
   constructor() {

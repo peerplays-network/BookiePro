@@ -1,5 +1,5 @@
 import {PrivateKey} from 'peerplaysjs-lib';
-import RWalletUnlockNewActions from 'actions/RWalletUnlockNewActions';
+import RWalletUnlockNewActions from '../actions/RWalletUnlockNewActions';
 
 class KeysService {
 

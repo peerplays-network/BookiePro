@@ -1,5 +1,5 @@
-import StorageService from 'services/StorageService';
-import Repository from 'repositories/chain/repository';
+import StorageService from '../services/StorageService';
+import Repository from '../repositories/chain/repository';
 
 class AccountLoginService {
   /**

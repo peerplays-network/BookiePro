@@ -1,7 +1,7 @@
 import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
-import asset_utils from 'common/asset_utils';
+import asset_utils from '../../../common/asset_utils';
 
 class BalanceClaim extends React.Component {
   render() {

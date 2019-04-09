@@ -1,8 +1,8 @@
-import alt from 'alt-instance';
+import alt from '../../alt-instance';
 import Immutable from 'immutable';
 import {ChainStore, key} from 'peerplaysjs-lib';
-import BaseStore from 'stores/BaseStore';
-import BrainkeyActions from 'actions/BrainkeyActions';
+import BaseStore from '../../stores/BaseStore';
+import BrainkeyActions from '../../actions/BrainkeyActions';
 
 /** Each instance supports a single brainkey. */
 export default class BrainkeyStoreFactory {

@@ -2,8 +2,8 @@ import React, {PropTypes} from 'react';
 import Translate from 'react-translate-component';
 import cnames from 'classnames';
 import connectToStores from 'alt/utils/connectToStores';
-import SettingsActions from 'actions/SettingsActions';
-import SettingsStore from 'stores/SettingsStore';
+import SettingsActions from '../../actions/SettingsActions';
+import SettingsStore from '../../stores/SettingsStore';
 
 /**
  *  Renders a tab layout, handling switching and optionally persists the currently open tab using

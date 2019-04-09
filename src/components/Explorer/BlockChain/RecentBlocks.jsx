@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import utils from 'common/utils';
+import utils from '../../../common/utils';
 import {FormattedDate} from 'react-intl';
 import Translate from 'react-translate-component';
 

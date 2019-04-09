@@ -2,9 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {FormattedNumber} from 'react-intl';
 import {NavigateActions} from '../../../actions';
-import asset_utils from 'common/asset_utils';
+import asset_utils from '../../../common/asset_utils';
 import Translate from 'react-translate-component';
-import {getTotalVestingBalances} from 'selectors/SideVesting';
+import {getTotalVestingBalances} from '../../../selectors/SideVesting';
 import {bindActionCreators} from 'redux';
 
 class SideVesting extends React.Component {

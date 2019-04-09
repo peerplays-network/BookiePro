@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import TimeAgo from '../../Utility/TimeAgo';
 import {RWalletUnlockNewActions, MemoActions} from '../../../actions';
 import Translate from 'react-translate-component';
-import MemoService from 'services/MemoService';
+import MemoService from '../../../services/MemoService';
 import {PrivateKey} from 'peerplaysjs-lib';
 import {bindActionCreators} from 'redux';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {reduce, zipObject} from 'lodash';
 import counterpart from 'counterpart';
-import utils from 'common/utils';
+import utils from '../../common/utils';
 import {routerShape} from 'react-router/lib/PropTypes';
 
 let req = require.context('../../../help', true, /\.md/);

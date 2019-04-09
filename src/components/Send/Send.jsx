@@ -9,10 +9,10 @@ import SendHistory from './SendHistory';
 import {
   SendPageActions, RWalletUnlockActions, AppActions, RTransactionConfirmActions
 } from '../../actions';
-import AccountRepository from 'repositories/AccountRepository';
-import AssetRepository from 'repositories/AssetRepository';
-import utils from 'common/utils';
-import asset_utils from 'common/asset_utils';
+import AccountRepository from '../../repositories/AccountRepository';
+import AssetRepository from '../../repositories/AssetRepository';
+import utils from '../../common/utils';
+import asset_utils from '../../common/asset_utils';
 import {bindActionCreators} from 'redux';
 
 class Send extends React.Component {

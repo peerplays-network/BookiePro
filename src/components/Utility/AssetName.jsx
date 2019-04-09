@@ -1,6 +1,6 @@
 import React from 'react';
-import utils from 'common/utils';
-import asset_utils from 'common/asset_utils';
+import utils from '../../common/utils';
+import asset_utils from '../../common/asset_utils';
 import ChainTypes from './ChainTypes';
 import BindToChainState from './BindToChainState';
 

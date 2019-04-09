@@ -1,5 +1,5 @@
 import {ChainStore} from 'peerplaysjs-lib';
-import iDB from 'idb-instance';
+import iDB from '../idb-instance';
 import {
   listenChainStore
 } from './ChainStoreService';

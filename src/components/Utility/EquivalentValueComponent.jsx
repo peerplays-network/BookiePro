@@ -2,11 +2,11 @@ import React from 'react';
 import FormattedAsset from './FormattedAsset';
 import ChainTypes from './ChainTypes';
 import BindToChainState from './BindToChainState';
-import utils from 'common/utils';
-import MarketsActions from 'actions/MarketsActions';
+import utils from '../../common/utils';
+import MarketsActions from '../../actions/MarketsActions';
 import {ChainStore} from 'peerplaysjs-lib';
 import connectToStores from 'alt/utils/connectToStores';
-import MarketsStore from 'stores/MarketsStore';
+import MarketsStore from '../../stores/to_rm/MarketsStore';
 import Translate from 'react-translate-component';
 
 /**

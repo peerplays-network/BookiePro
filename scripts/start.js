@@ -1,8 +1,9 @@
-var production = (process.env.PROD || false);
+process.env.NODE_ENV = 'development';
+
 var webpack = require('webpack');
 var ProgressPlugin = require('webpack/lib/ProgressPlugin');
 var WebpackDevServer = require('webpack-dev-server');
-var config = require(production ? './config/webpack.config.prod' : './config/webpack.config.dev');
+var config = require('../config/webpack.config.dev');
 var chalk = require('chalk');
 var opn = require('opn');
 var detect = require('detect-port');

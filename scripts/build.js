@@ -25,9 +25,9 @@ var stripAnsi = require('strip-ansi');
 var useYarn = fs.existsSync(paths.yarnLockFile);
 
 // Warn and crash if required files are missing
-// if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
-//   process.exit(1);
-// }
+if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
+  process.exit(1);
+}
 
 // Input: /User/dan/app/build/static/js/main.82be8.js
 // Output: /static/js/main.js

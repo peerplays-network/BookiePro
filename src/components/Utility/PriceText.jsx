@@ -1,5 +1,5 @@
 import React from 'react';
-import utils from 'common/utils';
+import utils from '../../common/utils';
 
 class PriceText extends React.Component {
     static propTypes = {

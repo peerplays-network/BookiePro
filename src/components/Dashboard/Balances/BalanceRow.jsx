@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 import {FormattedNumber} from 'react-intl';
 import classNames from 'classnames';
 import Translate from 'react-translate-component';
-import asset_utils from 'common/asset_utils';
+import asset_utils from '../../../common/asset_utils';
 
 class BalanceRow extends React.Component {
   constructor(props) {

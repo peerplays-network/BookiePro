@@ -3,9 +3,9 @@ import MarketRepository from '../repositories/MarketRepository';
 import AssetRepository from '../repositories/AssetRepository';
 import ExchangeService from '../services/ExchangeService';//TODO::rm
 import AssetNameHelper from '../helpers/AssetNameHelper';
-import Repository from 'repositories/chain/repository';
+import Repository from '../repositories/chain/repository';
 import {EmitterInstance} from 'peerplaysjs-lib';
-import ls from 'common/localStorage';
+import ls from '../common/localStorage';
 
 let emitter = EmitterInstance.emitter();
 let storage = new ls('__peerplays__'); // eslint-disable-line

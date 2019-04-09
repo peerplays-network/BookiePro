@@ -1,8 +1,8 @@
-import alt from 'alt-instance';
+import alt from '../../alt-instance';
 import Immutable from 'immutable';
-import iDB from 'idb-instance';
-import BaseStore from 'stores/BaseStore';
-import CachedPropertyActions from 'actions/CachedPropertyActions';
+import iDB from '../../idb-instance';
+import BaseStore from '../../stores/BaseStore';
+import CachedPropertyActions from '../../actions/CachedPropertyActions';
 
 class CachedPropertyStore extends BaseStore {
   constructor() {

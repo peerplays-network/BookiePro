@@ -1,5 +1,5 @@
-import utils from 'common/utils';
-import Repository from 'repositories/chain/repository';
+import utils from '../common/utils';
+import Repository from '../repositories/chain/repository';
 
 class ExchangeMarketService {
   /**

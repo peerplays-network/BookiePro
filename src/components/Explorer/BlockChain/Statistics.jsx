@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import utils from 'common/utils';
+import utils from '../../../common/utils';
 import {FormattedNumber, FormattedRelative} from 'react-intl';
 import counterpart from 'counterpart';
 import moment from 'moment-timezone';

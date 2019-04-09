@@ -5,8 +5,8 @@ import {connect} from 'react-redux';
 import _ from 'lodash';
 import AccountImage from '../Account/AccountImage';
 import {VotingActions, RTransactionConfirmActions, RWalletUnlockActions} from '../../actions';
-import Repository from 'repositories/chain/repository';
-import AccountRepository from 'repositories/AccountRepository';
+import Repository from '../../repositories/chain/repository';
+import AccountRepository from '../../repositories/AccountRepository';
 import Tooltip from './Tooltip';
 import {bindActionCreators} from 'redux';
 

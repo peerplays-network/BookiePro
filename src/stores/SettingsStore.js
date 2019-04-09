@@ -1,5 +1,5 @@
 import {merge} from 'lodash';
-import ls from 'common/localStorage';
+import ls from '../common/localStorage';
 var alt = require('../alt-instance');
 var SettingsActions = require('../actions/SettingsActions');
 var IntlActions = require('../actions/IntlActions');

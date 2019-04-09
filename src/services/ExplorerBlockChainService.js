@@ -1,4 +1,4 @@
-import market_utils from 'common/market_utils';
+import market_utils from '../common/market_utils';
 
 let {
   operations

@@ -1,4 +1,4 @@
-import LocationConstants from 'constants/LocationConstants';
+import LocationConstants from '../constants/LocationConstants';
 import DashboardBalancesService from './DashboardBalancesService';
 import DashboardPageActions from '../actions/DashboardPageActions';
 import ExplorerBlockChainActions from '../actions/ExplorerBlockChainActions';

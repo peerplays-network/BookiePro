@@ -4,7 +4,7 @@ import Translate from 'react-translate-component';
 import Immutable from 'immutable';
 import {connect} from 'react-redux';
 import {FormattedNumber} from 'react-intl';
-import utils from 'common/utils';
+import utils from '../../../common/utils';
 import {RAccountActions} from '../../../actions';
 import {bindActionCreators} from 'redux';
 

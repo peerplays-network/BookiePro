@@ -2,9 +2,9 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import {FormattedDate, FormattedNumber} from 'react-intl';
-import FormattedPrice from 'components/Utility/FormattedPrice';
-import FormattedAsset from 'components/Utility/FormattedAsset';
-import assetUtils from 'common/asset_utils';
+import FormattedPrice from '../../Utility/FormattedPrice';
+import FormattedAsset from '../..//Utility/FormattedAsset';
+import assetUtils from '../../../common/asset_utils';
 
 class LimitOrderCreate extends React.Component {
   render() {

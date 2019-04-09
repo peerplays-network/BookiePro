@@ -1,5 +1,5 @@
 import React from 'react';
-import utils from 'common/utils';
+import utils from '../../../common/utils';
 
 class AssetName extends React.Component {
   static propTypes = {

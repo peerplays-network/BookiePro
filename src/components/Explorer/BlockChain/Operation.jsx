@@ -4,7 +4,7 @@ import FormattedPrice from './FormattedPrice';
 import FormattedAmount from './FormattedAmount';
 import TimeRelativeOnce from './TimeRelativeOnce';
 import TranslateHtml from '../../Utility/TranslateHtml';
-import account_constants from 'chain/account_constants';
+import account_constants from '../../../chain/account_constants';
 
 let {operations} = require('peerplaysjs-lib').ChainTypes;
 let ops = Object.keys(operations);

@@ -1,11 +1,11 @@
-import alt from 'alt-instance';
+import alt from '../../alt-instance';
 import Immutable from 'immutable';
-import BaseStore from 'stores/BaseStore';
+import BaseStore from '../../stores/BaseStore';
 import {key} from 'peerplaysjs-lib';
 import {Apis} from 'peerplaysjs-ws';
-import iDB from 'idb-instance';
-import BalanceClaimActiveActions from 'actions/BalanceClaimActiveActions';
-import TransactionConfirmActions from 'actions/TransactionConfirmActions';
+import iDB from '../../idb-instance';
+import BalanceClaimActiveActions from '../../actions/BalanceClaimActiveActions';
+import TransactionConfirmActions from '../../actions/TransactionConfirmActions';
 
 class BalanceClaimActiveStore extends BaseStore {
   constructor() {

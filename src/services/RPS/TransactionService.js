@@ -1,7 +1,7 @@
 import {GameMoves} from 'peerplaysjs-lib';
-import RPSRepository from 'repositories/RPSRepository';
-import Repository from 'repositories/chain/repository';
-import iDB from 'idb-instance';
+import RPSRepository from '../../repositories/RPSRepository';
+import Repository from '../../repositories/chain/repository';
+import iDB from '../../idb-instance';
 
 class TransactionService {
   /**

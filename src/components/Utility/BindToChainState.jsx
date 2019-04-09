@@ -2,7 +2,7 @@ import React from 'react';
 import {curry, flow, reject, clone, pairs, omit, get, pick} from 'lodash';
 import {ChainStore} from 'peerplaysjs-lib';
 import ChainTypes from './ChainTypes';
-import utils from 'common/utils';
+import utils from '../../common/utils';
 import LoadingIndicator from '../LoadingIndicator';
 
 /**

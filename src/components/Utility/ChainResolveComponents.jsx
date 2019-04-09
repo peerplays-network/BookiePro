@@ -2,9 +2,9 @@
 /** Generic set of components for dealing with data in the ChainStore */
 import React, {Component, Children} from 'react';
 import connectToStores from 'alt/utils/connectToStores';
-import ChainTypes from 'components/Utility/ChainTypes';
-import BindToChainState from 'components/Utility/BindToChainState';
-import AccountStore from 'stores/AccountStore';
+import ChainTypes from '../Utility/ChainTypes';
+import BindToChainState from '../Utility/BindToChainState';
+import AccountStore from '../../stores/AccountStore';
 import {pairs} from 'lodash';
 
 @connectToStores

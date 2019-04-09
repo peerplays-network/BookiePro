@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import counterpart from 'counterpart';
 import {PrivateKey} from 'peerplaysjs-lib';
 import {ChangePasswordActions, RTransactionConfirmActions} from '../../actions';
-import AssetRepository from 'repositories/AssetRepository';
+import AssetRepository from '../../repositories/AssetRepository';
 import {bindActionCreators} from 'redux';
 
 class PasswordSettings extends React.Component {

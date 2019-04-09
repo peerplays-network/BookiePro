@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {Modal, ModalBody} from 'react-modal-bootstrap';
 import {PrivateKey} from 'peerplaysjs-lib';
 import {RWalletDataActions, RWalletUnlockActions, RWalletUnlockNewActions} from '../../actions';
-import CryptoService from 'services/CryptoService';
+import CryptoService from '../../services/CryptoService';
 import {bindActionCreators} from 'redux';
 
 class WalletUnlockModal extends React.Component {

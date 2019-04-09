@@ -1,14 +1,11 @@
-var path = require('path');
-var paths = require('./paths');
+var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var ManifestPlugin = require('webpack-manifest-plugin');
+var path = require('path');
+var paths = require('./paths');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var Clean = require('clean-webpack-plugin');
-require('es6-promise').polyfill();
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-// BASE APP DIR
-var root_dir = path.resolve(__dirname, '..');
 var Config = require('./Config');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -25,10 +22,7 @@ var cssLoaders = 'style-loader!css-loader!postcss-loader',
   scssLoaders = 'style!css!postcss-loader!sass?outputStyle=expanded';
 
 // DIRECTORY CLEANER
-var cleanDirectories = ['build'];
-
-// OUTPUT PATH
-var outputPath = path.join(root_dir, 'build');
+var cleanDirectories = ['build', 'dist'];
 
 // GLOBAL VAR DEFINE
 var define = {
@@ -65,9 +59,7 @@ var plugins = [
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.OccurrenceOrderPlugin(),
   new webpack.DefinePlugin(define),
-  new Clean(cleanDirectories, {
-    root: root_dir
-  }),
+  new Clean(cleanDirectories),
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify('production')
@@ -78,34 +70,40 @@ var plugins = [
     minimize: true,
     sourceMap: true,
     compress: {
+      screw_ie8: true, // React doesn't support IE8
       warnings: false
     },
+    mangle: {
+      screw_ie8: true,
+    },
     output: {
+      comments: false,
       screw_ie8: true
     }
   }),
-  new ManifestPlugin({
-    fileName: 'asset-manifest.json'
-  })
+  new ManifestPlugin({fileName: 'asset-manifest.json'})
 ];
 
 // WRAP INTO CSS FILE
 cssLoaders = extractForProduction(cssLoaders);
 scssLoaders = extractForProduction(scssLoaders);
 
-// PROD OUTPUT PATH
-outputPath = path.join(root_dir, 'build');
-
 module.exports = {
   bail: true,
   devtool: 'source-map',
-  entry: {
-    app: path.resolve(root_dir, 'src/Main.js')
-  },
+  entry: [
+    require.resolve('./polyfills'),
+    paths.appIndexJs
+  ],
   output: {
+    // The build folder
     path: paths.appBuild,
+    // Generated JS file names (with nested folders).
+    // There will be one main bundle, and one file per asynchronous chunk.
+    // We don't currently advertise code splitting but Webpack supports it.
     filename: 'static/js/[name].[chunkhash:8].js',
     chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+    // We inferred the "public path" (such as / or /my-project) from homepage.
     publicPath: publicPath
   },
   debug: false,
@@ -114,15 +112,15 @@ module.exports = {
     loaders: [{
       test: /\.jsx$/,
       include: [
-        path.join(root_dir, 'src'),
-        path.join(root_dir, 'node_modules/react-foundation-apps'),
+        paths.appSrc,
+        path.join(paths.appNodeModules, '/react-foundation-apps'),
         '/home/sigve/Dev/graphene/react-foundation-apps'
       ],
       loaders: ['babel-loader']
     },
     {
       test: /\.js$/,
-      exclude: [/node_modules/, path.resolve(root_dir, '../node_modules')],
+      exclude: [/node_modules/, paths.appNodeModules],
       loader: 'babel-loader',
       query: {
         compact: false,
@@ -133,8 +131,8 @@ module.exports = {
       test: /\.json/,
       loader: 'json',
       exclude: [
-        path.resolve(root_dir, '../common'),
-        path.resolve(root_dir, 'src/assets/locales')
+        // path.resolve(root_dir, '../common'),
+        paths.locales
       ]
     },
     {
@@ -159,10 +157,7 @@ module.exports = {
       query: {
         name: 'static/media/[name].[hash:8].[ext]'
       },
-      exclude: [
-        path.resolve(root_dir, 'src/assets/asset-symbols'),
-        path.resolve(root_dir, 'src/assets/images')
-      ]
+      exclude: [paths.assetSymbols, paths.assetImages]
     },
     {
       test: /\.svg$/,
@@ -188,9 +183,7 @@ module.exports = {
           }
         }
       ],
-      exclude: [
-        path.join(root_dir, 'src/assets/images')
-      ]
+      exclude: [paths.assetImages]
     },
     {
       test: /\.woff$/,
@@ -199,29 +192,31 @@ module.exports = {
     {
       test: /.*\.svg$/,
       loaders: ['svg-inline-loader', 'svgo-loader'],
-      exclude: [path.resolve(root_dir, 'src/assets/images/games/rps')]
+      exclude: [paths.rps]
     },
     {
       test: /\.md/,
       loader: 'html?removeAttributeQuotes=false!remarkable'
     },
     ],
-    postcss: function () {
-      return [precss, autoprefixer];
-    }
+    postcss: function() {
+      return [
+        autoprefixer({
+          browsers: [
+            '>1%',
+            'last 4 versions',
+            'Firefox ESR',
+            'not ie < 9', // React doesn't support IE8 anyway
+          ]
+        }),
+      ];
+    },
   },
   resolve: {
-    root: [path.resolve(root_dir, './src')],
     extensions: ['', '.js', '.jsx', '.coffee', '.json'],
-    modulesDirectories: ['node_modules'],
-    fallback: [path.resolve(root_dir, './node_modules')]
-  },
-  resolveLoader: {
-    root: path.join(root_dir, 'node_modules'),
-    fallback: [path.resolve(root_dir, './node_modules')]
+    fallback: paths.nodePaths
   },
   plugins: plugins,
-  root: outputPath,
   remarkable: {
     preset: 'full',
     typographer: true

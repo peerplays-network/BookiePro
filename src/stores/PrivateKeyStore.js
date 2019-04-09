@@ -4,9 +4,9 @@ import BaseStore from './BaseStore';
 import idb_helper from '../idb-helper';
 import WalletDb from './WalletDb';
 import {PrivateKeyTcomb} from './tcomb_structs';
-import PrivateKeyActions from 'actions/PrivateKeyActions';
+import PrivateKeyActions from '../actions/PrivateKeyActions';
 // import CachedPropertyActions from "actions/CachedPropertyActions"
-import AddressIndex from 'stores/AddressIndex';
+import AddressIndex from '../stores/AddressIndex';
 import {PublicKey, ChainStore, Aes} from 'peerplaysjs-lib';
 
 /** No need to wait on the promises returned by this store as long as
