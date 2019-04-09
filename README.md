@@ -17,7 +17,7 @@ nvm use v5
 
 Once you have Node installed, you can clone the repo:
 ```
-git clone https://github.com/PBSA/peerplays-core-gui
+git clone https://github.com/peerplays-network/peerplays-core-gui
 cd peerplays-core-gui
 ```
 
@@ -72,7 +72,7 @@ npm config set msvs_version 2015 --global
 
 ## Obtain the Source Code of the Core GUI Wallet
 ```
-git clone https://github.com/PBSA/peerplays-core-gui.git
+git clone https://github.com/peerplays-network/peerplays-core-gui.git
 cd peerplays-core-gui
 ```
 

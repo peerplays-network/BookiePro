@@ -183,7 +183,6 @@
     }
 
     .loader-splash {
-      top: 20px;
       position: relative;
       width: 50px;
       height: 50px;
@@ -299,6 +298,20 @@
       margin: 30px auto;
     }
   </style>
+  <script>
+    var ref = encodeURIComponent(document.referrer);
+    if (window.process && window.process.versions && window.process.versions['electron']) {
+      window.electron = window.process.versions['electron'];
+      window.remote = require('electron').remote;
+      window._$guid$_ = window.remote.getGlobal('guid');
+      window.app_version = window.remote.getGlobal('version');
+      ref = 'lw-' + window.process.platform + '-' + window.app_version + '-' + window.remote.getGlobal('guid');
+      window.onload = function (e) {
+        var content = document.getElementById("content");
+        if (content) content.className = "electron " + window.process.platform;
+      }
+    }
+  </script>
 </head>
 
 <body class="loginBg">
@@ -324,8 +337,10 @@
         </div>
       </div>
     </div>
-</div>
-<script src="/app.js" charset="utf-8"></script>
+  </div>
+
+  <script src="app.js" charset="utf-8"></script>
+
 </body>
 
 </html>
