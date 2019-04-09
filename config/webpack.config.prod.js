@@ -1,3 +1,4 @@
+var autoprefixer = require('autoprefixer');
 var path = require('path');
 var paths = require('./paths');
 var webpack = require('webpack');
@@ -215,9 +216,18 @@ module.exports = {
       loader: 'html?removeAttributeQuotes=false!remarkable'
     },
     ],
-    postcss: function () {
-      return [precss, autoprefixer];
-    }
+    postcss: function() {
+      return [
+        autoprefixer({
+          browsers: [
+            '>1%',
+            'last 4 versions',
+            'Firefox ESR',
+            'not ie < 9', // React doesn't support IE8 anyway
+          ]
+        }),
+      ];
+    },
   },
   resolve: {
     // root: [path.resolve(root_dir, './src')],

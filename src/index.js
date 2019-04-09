@@ -246,7 +246,8 @@ const routes = (
 ReactDOM.render(
   <Provider store={ store }>
     <Router history={ syncHistoryWithStore(hashHistory, store) } routes={ routes }/>
-  </Provider>, document.getElementById('content')
+  </Provider>,
+  document.getElementById('content')
 );
 
 window.onunhandledrejection = (data) => {

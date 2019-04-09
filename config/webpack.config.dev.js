@@ -1,4 +1,5 @@
 var path = require('path');
+var paths = require('./paths');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var Clean = require('clean-webpack-plugin');
@@ -11,6 +12,8 @@ var Config = require('./Config');
 function extractForProduction(loaders) {
   return ExtractTextPlugin.extract('style', loaders.substr(loaders.indexOf('!')));
 }
+
+var publicPath = '/';
 
 // STYLE LOADERS
 var cssLoaders = 'style-loader!css-loader!postcss-loader',
@@ -52,18 +55,22 @@ var plugins = [
 
 
 module.exports = {
-  entry: {
-    app: [
-      'webpack-dev-server/client?http://localhost:8082',
-      'webpack/hot/only-dev-server',
-      path.resolve(root_dir, 'src/Main-dev.js')
-    ]
-  },
+  entry: [
+    require.resolve('react-dev-utils/webpackHotDevClient'),
+    // Finally, this is your app's code:
+    paths.appIndexJs
+  ],
   output: {
-    path: outputPath,
+    // Next line is not used in dev but WebpackDevServer crashes without it:
+    path: paths.appBuild,
+    // Add /* filename */ comments to generated require()s in the output.
+    pathinfo: true,
+    // This does not produce a real file. It's just the virtual path that is
+    // served by WebpackDevServer in development. This is the JS bundle
+    // containing code from all our entry points, and the Webpack runtime.
     filename: 'app.js',
-    pathinfo: false,
-    sourceMapFilename: '[name].js.map'
+    // This is the URL that app is served from. We use "/" in development.
+    publicPath: publicPath
   },
   devtool: 'source-map',
   debug: true,
