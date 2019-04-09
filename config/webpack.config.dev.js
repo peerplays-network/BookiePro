@@ -5,7 +5,7 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var Clean = require('clean-webpack-plugin');
-// require('es6-promise').polyfill();
+
 // BASE APP DIR
 var root_dir = path.resolve(__dirname, '..');
 var Config = require('./Config');
@@ -23,9 +23,6 @@ var cssLoaders = 'style-loader!css-loader!postcss-loader',
 
 // DIRECTORY CLEANER
 var cleanDirectories = ['build'];
-
-// OUTPUT PATH
-var outputPath = path.join(root_dir, 'assets');
 
 // GLOBAL VAR DEFINE
 var define = {
@@ -64,6 +61,7 @@ var plugins = [
 module.exports = {
   entry: [
     require.resolve('react-dev-utils/webpackHotDevClient'),
+    require.resolve('./polyfills'),
     // Finally, this is your app's code:
     paths.appIndexJs
   ],
@@ -86,7 +84,7 @@ module.exports = {
     loaders: [{
       test: /\.jsx$/,
       include: [
-        path.join(root_dir, 'src'),
+        paths.appSrc,
         path.join(root_dir, 'node_modules/react-foundation-apps'),
         '/home/sigve/Dev/graphene/react-foundation-apps'
       ],
@@ -94,7 +92,7 @@ module.exports = {
     },
     {
       test: /\.js$/,
-      exclude: [/node_modules/, path.resolve(root_dir, '../node_modules')],
+      exclude: [/node_modules/, paths.appNodeModules],
       loader: 'babel-loader',
       query: {
         compact: false,
@@ -105,8 +103,8 @@ module.exports = {
       test: /\.json/,
       loader: 'json',
       exclude: [
-        path.resolve(root_dir, '../common'),
-        path.resolve(root_dir, 'src/assets/locales')
+        // path.resolve(root_dir, '../common'),
+        paths.locales
       ]
     },
     {
@@ -128,10 +126,7 @@ module.exports = {
     {
       test: /(\.png$)/,
       loader: 'url-loader?limit=100000',
-      exclude: [
-        path.resolve(root_dir, 'src/assets/asset-symbols'),
-        path.resolve(root_dir, 'src/assets/images')
-      ]
+      exclude: [paths.assetSymbols, paths.assetImages]
     },
     {
       test: /\.(jpe?g|png|gif|svg)$/i,
@@ -158,38 +153,33 @@ module.exports = {
     {
       test: /.*\.svg$/,
       loaders: ['svg-inline-loader', 'svgo-loader'],
-      exclude: [path.resolve(root_dir, 'src/assets/images/games/rps')]
+      exclude: [paths.rps]
     },
     {
       test: /\.md/,
       loader: 'html?removeAttributeQuotes=false!remarkable'
     },
     ],
-    postcss: function () {
-      return [precss, autoprefixer];
-    }
+    postcss: function() {
+      return [
+        autoprefixer({
+          browsers: [
+            '>1%',
+            'last 4 versions',
+            'Firefox ESR',
+            'not ie < 9', // React doesn't support IE8 anyway
+          ]
+        }),
+      ];
+    },
   },
   resolve: {
-    root: [path.resolve(root_dir, './src')],
     extensions: ['', '.js', '.jsx', '.coffee', '.json'],
-    modulesDirectories: ['node_modules'],
-    fallback: [path.resolve(root_dir, './node_modules')]
-  },
-  resolveLoader: {
-    root: path.join(root_dir, 'node_modules'),
-    fallback: [path.resolve(root_dir, './node_modules')]
+    fallback: paths.nodePaths
   },
   plugins: plugins,
-  root: outputPath,
   remarkable: {
     preset: 'full',
     typographer: true
-  },
-  // Some libraries import Node modules but don't use them in the browser.
-  // Tell Webpack to provide empty mocks for them so importing them works.
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty'
   }
 };

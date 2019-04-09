@@ -3,6 +3,7 @@ directories:
 appId: com.peerplays.peerplayscoregui
 productName: Peerplays Core GUI
 extraMetadata:
+  main: build/electron.js
   name: Peerplays Core GUI
   homepage: https://www.peerplays.com/
   description: A GUI for interacting with the Peerplays Blockchain

@@ -7,7 +7,6 @@ var paths = require('./paths');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var Clean = require('clean-webpack-plugin');
 var Config = require('./Config');
-// require('es6-promise').polyfill();
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -24,9 +23,6 @@ var cssLoaders = 'style-loader!css-loader!postcss-loader',
 
 // DIRECTORY CLEANER
 var cleanDirectories = ['build', 'dist'];
-
-// PROD OUTPUT PATH
-var outputPath = paths.appBuild;
 
 // GLOBAL VAR DEFINE
 var define = {
@@ -95,9 +91,10 @@ scssLoaders = extractForProduction(scssLoaders);
 module.exports = {
   bail: true,
   devtool: 'source-map',
-  entry: {
-    app: paths.appIndexJs
-  },
+  entry: [
+    require.resolve('./polyfills'),
+    paths.appIndexJs
+  ],
   output: {
     // The build folder
     path: paths.appBuild,
@@ -216,12 +213,10 @@ module.exports = {
     },
   },
   resolve: {
-    root: [paths.appSrc],
     extensions: ['', '.js', '.jsx', '.coffee', '.json'],
     fallback: paths.nodePaths
   },
   plugins: plugins,
-  root: outputPath,
   remarkable: {
     preset: 'full',
     typographer: true

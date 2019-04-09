@@ -72,6 +72,7 @@ module.exports = {
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   locales: resolveApp('src/assets/locales'),
+  assets: resolveApp('src/assets'),
   assetSymbols: resolveApp('src/assets/asset-symbols'),
   assetImages: resolveApp('src/assets/images'),
   rps: resolveApp('src/assets/images/games/rps'),
