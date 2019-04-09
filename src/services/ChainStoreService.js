@@ -117,7 +117,13 @@ function updateChainStore() {
 export function listenChainStore(chainStore, reduxStore) {
   ChainStore = chainStore;
   ReduxStore = reduxStore;
-  ChainStore.subscribe(updateChainStore);
+
+  if(chainStore.subscribers.has(updateChainStore) === false) {
+    ChainStore.subscribe(updateChainStore);
+  } else {
+    ChainStore.unsubscribe(updateChainStore);
+    ChainStore.subscribe(updateChainStore);
+  }
 }
 
 export function subscribe() {}
