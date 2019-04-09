@@ -1,26 +1,27 @@
-/* Libs */
-import React from 'react';
+import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
-
-/* Components */
+import intlData from '../Utility/intlData';
 import {IntlProvider} from 'react-intl';
+import CantConnectModal from '../Modal/CantConnectModal/CantConnectModal';
+import CommonMessage from '../CommonMessage';
+import Header from '../Header/Header';
+import HelpModal from '../Help/HelpModal';
 import NotificationSystem from 'react-notification-system';
-import Header from './Header/Header';
-import TransactionConfirmModal from './Modal/TransactionConfirmModal/TransactionConfirmModal'; // eslint-disable-line
-import WalletUnlockModal from './Modal/WalletUnlockModal';
-import ViewMemoModal from './Modal/ViewMemoModal';
-import CantConnectModal from './Modal/CantConnectModal/CantConnectModal';
-import HelpModal from './Help/HelpModal';
-import intlData from './Utility/intlData';
-import CommonMessage from './CommonMessage';
-
-/* Other */
+import TransactionConfirmModal from '../Modal/TransactionConfirmModal/TransactionConfirmModal';
+import WalletUnlockModal from '../Modal/WalletUnlockModal';
+import ViewMemoModal from '../Modal/ViewMemoModal';
 import {routerShape} from 'react-router/lib/PropTypes';
 
-class App extends React.Component {
+class App extends PureComponent {
+  _notificationSystem = null;
+
+  componentDidMount() {
+    this._notificationSystem = this.refs.notificationSystem;
+  }
+
   static contextTypes = {
     router: routerShape
-  }
+  };
 
   render() {
     let content = null;
@@ -53,7 +54,9 @@ class App extends React.Component {
       content = (<div></div>);
     } else if (urlsWithYellowBackground.indexOf(this.props.location.pathname) >= 0) {
       document.getElementsByTagName('body')[0].className = 'loginBg';
-      content = (<div className='wrapper wrapper-with-footer'>{this.props.children}</div>);
+      content = (
+        <div className='wrapper wrapper-with-footer'>{this.props.children}</div>
+      );
     } else {
       content = (
         <div className='wrapper wrapper-with-footer'>
@@ -67,27 +70,22 @@ class App extends React.Component {
     }
 
     return (
-      <div className='out'>
-        {content}
-        <NotificationSystem ref='notificationSystem' allowHTML={ true }/>
-        <TransactionConfirmModal/>
-        <WalletUnlockModal/>
-        <CantConnectModal/>
-        <ViewMemoModal/>
-        <HelpModal/>
-      </div>
-    );
-  }
-}
-
-class AppContainer extends React.Component {
-  render() {
-    return (
       <IntlProvider
         locale={ this.props.locale.replace(/cn/, 'zh') }
         formats={ intlData.formats }
         initialNow={ Date.now() }>
-        <App { ...this.props }/>
+        <div className='out'>
+          {content}
+          <NotificationSystem
+            ref= 'notificationSystem'
+            allowHTML={ true }
+          />
+          <TransactionConfirmModal/>
+          <WalletUnlockModal/>
+          <CantConnectModal/>
+          <ViewMemoModal/>
+          <HelpModal/>
+        </div>
       </IntlProvider>
     );
   }
@@ -107,4 +105,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(AppContainer);
+export default connect(mapStateToProps)(App);

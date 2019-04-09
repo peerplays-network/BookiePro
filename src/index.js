@@ -1,28 +1,16 @@
 import IntlStore from './stores/IntlStore' // eslint-disable-line
+import App from './components/App';
 import store from './store/configureStore';
 import CONFIG from '../config/Config';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  Router,
-  Route,
-  IndexRoute,
-  IndexRedirect,
-  hashHistory
-} from 'react-router';
-import {
-  Provider
-} from 'react-redux';
-import {
-  syncHistoryWithStore
-} from 'react-router-redux';
+import {Router, Route, IndexRoute, IndexRedirect, hashHistory} from 'react-router';
+import {Provider} from 'react-redux';
+import {syncHistoryWithStore} from 'react-router-redux';
 import LocationConstants from './constants/LocationConstants';
 import AppActions from './actions/AppActions';
 import AppService from './services/AppService';
-import {
-  requireAuthentication
-} from './components/Auth/AuthenticatedComponent';
-import AppContainer from './components/AppContainer';
+import {requireAuthentication} from './components/Auth/AuthenticatedComponent';
 import BalancesDashboard from './components/Dashboard/Balances/BalancesContainer';
 import AdvancedOptionsDashboard from './components/Dashboard/AdvancedOptions/AdvancedOptions';
 import ExplorerBlockChain from './components/Explorer/BlockChain/BlockChainContainer';
@@ -51,7 +39,7 @@ require('./components/Utility/Prototypes'); /*eslint-disable-line */
 AppService.init(store);
 
 const routes = (
-  <Route path='/' component={ AppContainer }>
+  <Route path='/' component={ App }>
     <IndexRedirect to='/dashboard'/>
     <Route path='/login' component={ Login }/>
     <Route path='/sign-up' component={ Register }/>

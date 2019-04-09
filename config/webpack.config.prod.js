@@ -1,16 +1,13 @@
 var autoprefixer = require('autoprefixer');
-var path = require('path');
-var paths = require('./paths');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var ManifestPlugin = require('webpack-manifest-plugin');
+var path = require('path');
+var paths = require('./paths');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var Clean = require('clean-webpack-plugin');
-require('es6-promise').polyfill();
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-// BASE APP DIR
-var root_dir = path.resolve(__dirname, '..');
 var Config = require('./Config');
+// require('es6-promise').polyfill();
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -28,8 +25,8 @@ var cssLoaders = 'style-loader!css-loader!postcss-loader',
 // DIRECTORY CLEANER
 var cleanDirectories = ['build', 'dist'];
 
-// OUTPUT PATH
-var outputPath = path.join(root_dir, 'build');
+// PROD OUTPUT PATH
+var outputPath = paths.appBuild;
 
 // GLOBAL VAR DEFINE
 var define = {
@@ -66,9 +63,7 @@ var plugins = [
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.OccurrenceOrderPlugin(),
   new webpack.DefinePlugin(define),
-  new Clean(cleanDirectories, {
-    root: root_dir
-  }),
+  new Clean(cleanDirectories),
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify('production')
@@ -97,15 +92,11 @@ var plugins = [
 cssLoaders = extractForProduction(cssLoaders);
 scssLoaders = extractForProduction(scssLoaders);
 
-// PROD OUTPUT PATH
-outputPath = path.join(root_dir, 'build');
-
 module.exports = {
   bail: true,
   devtool: 'source-map',
   entry: {
     app: paths.appIndexJs
-    // app: path.resolve(root_dir, 'src/Main.js')
   },
   output: {
     // The build folder
@@ -124,15 +115,15 @@ module.exports = {
     loaders: [{
       test: /\.jsx$/,
       include: [
-        path.join(root_dir, 'src'),
-        path.join(root_dir, 'node_modules/react-foundation-apps'),
+        paths.appSrc,
+        path.join(paths.appNodeModules, '/react-foundation-apps'),
         '/home/sigve/Dev/graphene/react-foundation-apps'
       ],
       loaders: ['babel-loader']
     },
     {
       test: /\.js$/,
-      exclude: [/node_modules/, path.resolve(root_dir, '../node_modules')],
+      exclude: [/node_modules/, paths.appNodeModules],
       loader: 'babel-loader',
       query: {
         compact: false,
@@ -143,8 +134,8 @@ module.exports = {
       test: /\.json/,
       loader: 'json',
       exclude: [
-        path.resolve(root_dir, '../common'),
-        path.resolve(root_dir, 'src/assets/locales')
+        // path.resolve(root_dir, '../common'),
+        paths.locales
       ]
     },
     {
@@ -169,10 +160,7 @@ module.exports = {
       query: {
         name: 'static/media/[name].[hash:8].[ext]'
       },
-      exclude: [
-        path.resolve(root_dir, 'src/assets/asset-symbols'),
-        path.resolve(root_dir, 'src/assets/images')
-      ]
+      exclude: [paths.assetSymbols, paths.assetImages]
     },
     {
       test: /\.svg$/,
@@ -198,9 +186,7 @@ module.exports = {
           }
         }
       ],
-      exclude: [
-        path.join(root_dir, 'src/assets/images')
-      ]
+      exclude: [paths.assetImages]
     },
     {
       test: /\.woff$/,
@@ -209,7 +195,7 @@ module.exports = {
     {
       test: /.*\.svg$/,
       loaders: ['svg-inline-loader', 'svgo-loader'],
-      exclude: [path.resolve(root_dir, 'src/assets/images/games/rps')]
+      exclude: [paths.rps]
     },
     {
       test: /\.md/,
@@ -230,18 +216,12 @@ module.exports = {
     },
   },
   resolve: {
-    // root: [path.resolve(root_dir, './src')],
+    root: [paths.appSrc],
     extensions: ['', '.js', '.jsx', '.coffee', '.json'],
-    // modulesDirectories: ['node_modules'],
     fallback: paths.nodePaths
-    // fallback: [path.resolve(root_dir, './node_modules')]
   },
-  // resolveLoader: {
-  //   root: path.join(root_dir, 'node_modules'),
-  //   fallback: [path.resolve(root_dir, './node_modules')]
-  // },
   plugins: plugins,
-  // root: outputPath,
+  root: outputPath,
   remarkable: {
     preset: 'full',
     typographer: true

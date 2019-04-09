@@ -1,9 +1,11 @@
+var autoprefixer = require('autoprefixer');
 var path = require('path');
 var paths = require('./paths');
 var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var Clean = require('clean-webpack-plugin');
-require('es6-promise').polyfill();
+// require('es6-promise').polyfill();
 // BASE APP DIR
 var root_dir = path.resolve(__dirname, '..');
 var Config = require('./Config');
@@ -41,6 +43,11 @@ var define = {
 
 // COMMON PLUGINS
 var plugins = [
+  // Generates an `index.html` file with the <script> injected.
+  new HtmlWebpackPlugin({
+    inject: true,
+    template: paths.appHtml,
+  }),
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.OccurrenceOrderPlugin(),
   new webpack.DefinePlugin(define),
@@ -68,7 +75,7 @@ module.exports = {
     // This does not produce a real file. It's just the virtual path that is
     // served by WebpackDevServer in development. This is the JS bundle
     // containing code from all our entry points, and the Webpack runtime.
-    filename: 'app.js',
+    filename: 'static/js/bundle.js',
     // This is the URL that app is served from. We use "/" in development.
     publicPath: publicPath
   },
@@ -177,5 +184,12 @@ module.exports = {
   remarkable: {
     preset: 'full',
     typographer: true
+  },
+  // Some libraries import Node modules but don't use them in the browser.
+  // Tell Webpack to provide empty mocks for them so importing them works.
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
   }
 };
