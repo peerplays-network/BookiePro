@@ -1,10 +1,10 @@
-import alt from '../alt-instance';
-import iDB from '../idb-instance';
+import alt from '../../alt-instance';
+import iDB from '../../idb-instance';
 import Immutable from 'immutable';
-import BaseStore from './BaseStore';
+import BaseStore from '../../stores/BaseStore';
 import {ChainStore} from 'peerplaysjs-lib';
-import PrivateKeyStore from 'stores/PrivateKeyStore';
-import PrivateKeyActions from 'actions/PrivateKeyActions';
+import PrivateKeyStore from '../../stores/PrivateKeyStore';
+import PrivateKeyActions from '../../actions/PrivateKeyActions';
 
 class AccountRefsStore extends BaseStore {
   constructor() {

@@ -1,5 +1,5 @@
 import ActionTypes from '../constants/ActionTypes';
-import {getViewSettings} from 'services/ViewSettingsService';
+import {getViewSettings} from '../services/ViewSettingsService';
 import Immutable from 'immutable';
 
 let activeSetting = getViewSettings('activeSetting') ? getViewSettings('activeSetting') : 'general';

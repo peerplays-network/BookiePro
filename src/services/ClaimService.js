@@ -2,7 +2,7 @@ import AccountRepository from '../repositories/AccountRepository';
 import BalanceRepository from '../repositories/BalanceRepository';
 import Immutable from 'immutable';
 import {PrivateKey, key} from 'peerplaysjs-lib';
-import WalletApi from 'rpc_api/WalletApi';
+import WalletApi from '../rpc_api/WalletApi';
 
 class ClaimService {
   /**

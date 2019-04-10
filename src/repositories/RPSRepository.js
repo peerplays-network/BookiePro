@@ -1,4 +1,4 @@
-import WalletApi from 'rpc_api/WalletApi';
+import WalletApi from '../rpc_api/WalletApi';
 import AccountRepository from './AccountRepository';
 
 let wallet_api = new WalletApi();

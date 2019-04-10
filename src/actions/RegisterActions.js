@@ -2,7 +2,7 @@ import RegisterConstants from '../constants/Register';
 import LoginService from '../services/LoginService';
 import NavigateActions from './NavigateActions';
 import AccountRepository from '../repositories/AccountRepository';
-import KeyGeneratorService from 'services/KeyGeneratorService';
+import KeyGeneratorService from '../services/KeyGeneratorService';
 import ApplicationApi from '../rpc_api/ApplicationApi';
 import CONFIG from '../config/main';
 

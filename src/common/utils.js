@@ -1,5 +1,5 @@
 import {ChainTypes} from 'peerplaysjs-lib';
-import asset_utils from 'common/asset_utils';
+import asset_utils from '../common/asset_utils';
 
 var numeral = require('numeral');
 

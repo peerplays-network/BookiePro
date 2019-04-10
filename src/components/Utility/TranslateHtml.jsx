@@ -1,7 +1,7 @@
 import React from 'react';
 import counterpart from 'counterpart';
-import utils from 'common/utils';
-import assetUtils from 'common/asset_utils';
+import utils from '../../common/utils';
+import assetUtils from '../../common/asset_utils';
 
 class TranslateHtml extends React.Component {
   render() {

@@ -1,4 +1,4 @@
-import idb_helper from 'idb-helper';
+import idb_helper from './idb-helper';
 import iDB from './idb-instance';
 
 const DB_VERSION_MAIN = 1;

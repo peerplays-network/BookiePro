@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import counterpart from 'counterpart';
 import {PrivateKey} from 'peerplaysjs-lib';
 import {ChangePasswordActions, RTransactionConfirmActions} from '../../actions';
-import AssetRepository from 'repositories/AssetRepository';
+import AssetRepository from '../../repositories/AssetRepository';
 import {bindActionCreators} from 'redux';
 
 class PasswordSettings extends React.Component {
@@ -157,7 +157,7 @@ class PasswordSettings extends React.Component {
     || !!(invalidPassword || invalidNewPassword || invalidConfirmNewPassword);
 
     return (
-      <div id='password' className='tab__deploy' style={ {display: 'block'} }>
+      <div id='password' className='tab__deploy block'>
         <div className='tab__deployHead'>
           <div className='title'><Translate content='settings.password_text' /></div>
         </div>

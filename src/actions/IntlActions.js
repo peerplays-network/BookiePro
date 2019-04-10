@@ -4,7 +4,7 @@ var locales = {};
 
 if ( __ELECTRON__) { // eslint-disable-line
   ['cn', 'de', 'es', 'fr', 'ko', 'tr'].forEach((locale) => {
-    locales[locale] = require('json!assets/locales/locale-' + locale + '.json');
+    locales[locale] = require('json!../assets/locales/locale-' + locale + '.json');
   });
 }
 

@@ -4,7 +4,7 @@ import Translate from 'react-translate-component';
 import Immutable from 'immutable';
 import {connect} from 'react-redux';
 import {FormattedNumber} from 'react-intl';
-import utils from 'common/utils';
+import utils from '../../../common/utils';
 import {RAccountActions} from '../../../actions';
 import {bindActionCreators} from 'redux';
 
@@ -66,7 +66,7 @@ class Accounts extends React.Component {
       );
     });
     return (
-      <div id='accounts' className='tab__deploy' style={ {display: 'block'} }>
+      <div id='accounts' className='tab__deploy block'>
         <div className='tab__deployHead'>
           <div className='title col'>
             <Translate content='explore.accounts.explore_bitshares_accounts'/>

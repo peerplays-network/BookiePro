@@ -3,8 +3,8 @@ import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
 import {connect} from 'react-redux';
 import {Modal, ModalBody} from 'react-modal-bootstrap';
-import AccountRepository from 'repositories/AccountRepository';
-import AssetRepository from 'repositories/AssetRepository';
+import AccountRepository from '../../../repositories/AccountRepository';
+import AssetRepository from '../../../repositories/AssetRepository';
 import {RTransactionConfirmActions} from '../../../actions';
 import Transfer from './Transfer';
 import CreateProposal from './CreateProposal';
@@ -14,8 +14,6 @@ import LimitOrderCancel from './LimitOrderCancel';
 import AccountUpgrade from './AccountUpgrade';
 import BalanceClaim from './BalanceClaim';
 import VestingBalanceWithdraw from './VestingBalanceWithdraw';
-import RockPaperScissorsTournamentCreate from './RockPaperScissorsTournamentCreate';
-import RockPaperScissorsTournamentJoin from './RockPaperScissorsTournamentJoin';
 import {bindActionCreators} from 'redux';
 
 require('./operations.scss');
@@ -126,17 +124,6 @@ class TransactionConfirmModal extends React.Component {
       case 'vesting_balance_withdraw':
         transaction = <VestingBalanceWithdraw />;
         title=<Translate content='transaction.trxTypes.vesting_balance_withdraw' />;
-        break;
-        /**
-       * Games
-       */
-      case 'tournament_create':
-        transaction = <RockPaperScissorsTournamentCreate />;
-        title=<Translate content='transaction.trxTypes.tournament_create' />;
-        break;
-      case 'tournament_join':
-        transaction = <RockPaperScissorsTournamentJoin />;
-        title=<Translate content='transaction.trxTypes.tournament_join' />;
         break;
     }
 

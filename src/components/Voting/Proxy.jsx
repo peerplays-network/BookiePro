@@ -5,8 +5,8 @@ import {connect} from 'react-redux';
 import _ from 'lodash';
 import AccountImage from '../Account/AccountImage';
 import {VotingActions, RTransactionConfirmActions, RWalletUnlockActions} from '../../actions';
-import Repository from 'repositories/chain/repository';
-import AccountRepository from 'repositories/AccountRepository';
+import Repository from '../../repositories/chain/repository';
+import AccountRepository from '../../repositories/AccountRepository';
 import Tooltip from './Tooltip';
 import {bindActionCreators} from 'redux';
 
@@ -157,10 +157,7 @@ class Proxy extends React.Component {
     return (
       <div
         id='proxy'
-        className='tab__deploy'
-        style={ {
-          display: 'block'
-        } }>
+        className='tab__deploy block'>
         <div className='tab__deployHead'>
           <div className='title'>
             <Translate content='votes.proxy_short'/>

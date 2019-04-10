@@ -2,7 +2,7 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import {ReferralsPageActions} from '../../actions';
-import AccountMemberService from 'services/AccountMemberService';
+import AccountMemberService from '../../services/AccountMemberService';
 import {bindActionCreators} from 'redux';
 
 class Referrals extends React.Component {

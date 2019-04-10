@@ -1,7 +1,7 @@
 import {Apis} from 'peerplaysjs-ws';
 import {FetchChain} from 'peerplaysjs-lib';
-import WalletApi from 'rpc_api/WalletApi';
-import accountUtils from 'common/account_utils';
+import WalletApi from '../rpc_api/WalletApi';
+import accountUtils from '../common/account_utils';
 
 let wallet_api = new WalletApi();
 

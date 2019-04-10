@@ -1,6 +1,6 @@
 //TODO:: rm file
-import alt from 'alt-instance';
-import NotificationActions from 'actions/NotificationActions';
+import alt from '../alt-instance';
+import NotificationActions from '../actions/NotificationsActions';
 
 class NotificationStore {
   constructor() {

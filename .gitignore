@@ -6,20 +6,16 @@ node_modules
 *.map
 css
 *.log
-build
-releases
+build/
+releases/
+dist/
 
 web/app/components/Exchange/exchange.css
 cli/bundle.js
-web/dist-prod
 plasma
-web/stats*
 babel-cache/*
 \!documents
 !babel-cache/.gitkeep
-web/build/
-electron/build
-electron/tmp
 .sass-cache
 node_modules
 bower_components

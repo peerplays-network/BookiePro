@@ -1,5 +1,5 @@
 //TODO::rm file
-import alt from 'alt-instance';
+import alt from '../alt-instance';
 import {ChainConfig} from 'peerplaysjs-ws';
 
 class TransactionConfirmActions {

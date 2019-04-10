@@ -6,7 +6,7 @@ import {
 import {
   Apis
 } from 'peerplaysjs-ws';
-import WalletApi from 'rpc_api/WalletApi';
+import WalletApi from '../rpc_api/WalletApi';
 
 class AccountRepository {
   static fetchFullAccount(accountIdOrName) {

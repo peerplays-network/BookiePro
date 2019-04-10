@@ -3,9 +3,10 @@ import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import {Modal, ModalBody} from 'react-modal-bootstrap';
 import AppService from '../../../services/AppService';
+import store from '../../../store/configureStore';
 import AppActions from '../../../actions/AppActions';
-import store from 'store/configureStore';
 import {bindActionCreators} from 'redux';
+
 class CantConnectModal extends React.Component {
   tryAgainHandler() {
     AppService.init(store);

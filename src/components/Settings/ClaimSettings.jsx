@@ -3,7 +3,7 @@ import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
-import asset_utils from 'common/asset_utils';
+import asset_utils from '../../common/asset_utils';
 import {SettingsClaimActions} from '../../actions';
 import {bindActionCreators} from 'redux';
 
@@ -72,7 +72,7 @@ class ClaimSettings extends React.Component {
     }
 
     return (
-      <div id='claim' className='tab__deploy' style={ {display: 'block'} }>
+      <div id='claim' className='tab__deploy block'>
         <div className='tab__deployHead'>
           <div className='title'>
             <Translate component='span' className='' content='settings.claim_sharedrop.title' />

@@ -1,6 +1,6 @@
 import {Apis} from 'peerplaysjs-ws';
-import idb_helper from 'idb-helper';
-import iDBRoot from 'idb-root';
+import idb_helper from './idb-helper';
+import iDBRoot from './idb-root';
 
 const DB_VERSION = 2; // Initial value was 1
 const DB_PREFIX = 'graphene_v2';

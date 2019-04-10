@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import TimeAgo from '../../Utility/TimeAgo';
 import Translate from 'react-translate-component';
-import asset_utils from 'common/asset_utils';
+import asset_utils from '../../../common/asset_utils';
 
 class OpenOrdersList extends React.Component {
   render() {

@@ -2,9 +2,9 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
 import {connect} from 'react-redux';
-import utils from 'common/utils';
+import utils from '../../common/utils';
 import {VotingActions, RTransactionConfirmActions, RWalletUnlockActions} from '../../actions';
-import Repository from 'repositories/chain/repository';
+import Repository from '../../repositories/chain/repository';
 import {bindActionCreators} from 'redux';
 
 class Proposals extends React.Component {
@@ -245,7 +245,7 @@ class Proposals extends React.Component {
       : null;
 
     return (
-      <div id='proposals' className='tab__deploy' style={ {display: 'block'} }>
+      <div id='proposals' className='tab__deploy block'>
         <div className='tab__deployHead'>
           <div className='title'><Translate content='account.votes.proposals.title' /></div>
           <div className='row'>

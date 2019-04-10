@@ -1,6 +1,6 @@
 import React from 'react';
 import Translate from 'react-translate-component';
-import utils from 'common/utils';
+import utils from '../../../common/utils';
 import BalanceComponent from '../../Utility/BalanceComponent';
 import counterpart from 'counterpart';
 import AmountSelector from '../../Utility/AmountSelector';

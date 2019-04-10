@@ -1,4 +1,4 @@
-import ls from 'common/localStorage';
+import ls from '../common/localStorage';
 import Immutable from 'immutable';
 
 const STORAGE_KEY = '__peerplays__';

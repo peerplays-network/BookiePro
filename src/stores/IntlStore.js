@@ -12,9 +12,9 @@ var alt = require('../alt-instance');
 var IntlActions = require('../actions/IntlActions');
 var SettingsActions = require('../actions/SettingsActions');
 var BaseStore = require('./BaseStore');
-var counterpart = require('counterpart-instance');
-var locale_en = require('json!assets/locales/locale-en'); /* eslint-disable-line */
-var ls = require('common/localStorage');
+var counterpart = require('../counterpart-instance');
+var locale_en = require('json!../assets/locales/locale-en'); /* eslint-disable-line */
+var ls = require('../common/localStorage');
 let ss = new ls('__peerplays__');
 
 counterpart.registerTranslations('en', locale_en);

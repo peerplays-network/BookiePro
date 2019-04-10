@@ -10,8 +10,8 @@ import FormattedAsset from '../Utility/FormattedAsset';
 import {
   VotingActions, RWalletUnlockActions, RTransactionConfirmActions
 } from '../../actions';
-import Repository from 'repositories/chain/repository';
-import AccountRepository from 'repositories/AccountRepository';
+import Repository from '../../repositories/chain/repository';
+import AccountRepository from '../../repositories/AccountRepository';
 import {bindActionCreators} from 'redux';
 
 class CommitteeMembers extends React.Component {
@@ -295,7 +295,7 @@ class CommitteeMembers extends React.Component {
     });
 
     return (
-      <div id='committee' className='tab__deploy' style={ {display: 'block'} }>
+      <div id='committee' className='tab__deploy block'>
         <div className='tab__deployHead'>
           <div className='title'>
             <Translate content='votes.advisors' />

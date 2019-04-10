@@ -4,7 +4,7 @@ var Immutable = require('immutable');
 var VoteActions = require('../actions/VoteActions');
 var AccountActions = require('../actions/AccountActions');
 var AccountStore = require('../stores/AccountStore');
-var Utils = require('common/utils');
+var Utils = require('../common/utils');
 
 const COMMITTEE_MEMBER = 0;
 const WITNESS = 1;
