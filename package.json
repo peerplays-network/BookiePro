@@ -1,6 +1,6 @@
 {
   "name": "peerplays-core-gui",
-  "version": "0.4.3",
+  "version": "0.4.5",
   "description": "Advanced wallet interface for graphene based blockchains (Bishares, Muse..)",
   "homepage": "https://github.com/peerplays-network/peerplays-ui#readme",
   "author": "Cryptonomex, Inc.",

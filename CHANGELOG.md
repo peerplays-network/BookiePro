@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.5"></a>
+## [0.4.5](https://github.com/peerplays-network/peerplays-core-gui/compare/v0.4.3...v0.4.5) (2019-04-10)
+
+
+### Bug Fixes
+
+* fixed merge conflicts ([cc63ce3](https://github.com/peerplays-network/peerplays-core-gui/commit/cc63ce3))
+
+
+### build
+
+* peerplaysjs dependencies update ([caf68c9](https://github.com/peerplays-network/peerplays-core-gui/commit/caf68c9))
+
+
+### BREAKING CHANGES
+
+* new library code in use and required for this branches new latency conenctivity
+code
+
+
+
+<a name="0.4.4"></a>
+## [0.4.4](https://github.com/peerplays-network/peerplays-core-gui/compare/v0.4.3...v0.4.4) (2019-04-10)
+
+
+### Bug Fixes
+
+* fixed merge conflicts ([cc63ce3](https://github.com/peerplays-network/peerplays-core-gui/commit/cc63ce3))
+
+
+### build
+
+* peerplaysjs dependencies update ([caf68c9](https://github.com/peerplays-network/peerplays-core-gui/commit/caf68c9))
+
+
+### BREAKING CHANGES
+
+* new library code in use and required for this branches new latency conenctivity
+code
+
+
+
 <a name="0.4.3"></a>
 ## [0.4.3](https://github.com/peerplays-network/peerplays-core-gui/compare/v0.4.0...v0.4.3) (2019-04-05)
 
