@@ -189,6 +189,7 @@ const getAllSportsData = createSelector(
   ],
   (sportsById, activeEventsBySportId, bmgsByEventID, bettingMarketsWithOrderBook) => {
     let allSportsData = Immutable.List();
+    const filters = Config.filters;
 
     // Iterate through each sport to build each sport node
     sportsById.forEach((sport) => {
@@ -211,8 +212,8 @@ const getAllSportsData = createSelector(
               let description = bmg.get('description').toUpperCase();
               let passesFilters = false;
               
-              if ((description === 'MONEYLINE' ||
-                description === 'MATCH ODDS') && description !== 'FRIENDLY INTERNATIONAL') {
+              if (filters.bettingMarketGroup.description.includes(description) 
+              && filters.eventGroup !== description) {
                 passesFilters = true;
               }
 
