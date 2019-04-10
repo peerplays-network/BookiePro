@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.1"></a>
+## [0.5.1](https://github.com/peerplays-network/peerplays-core-gui/compare/v0.5.0...v0.5.1) (2019-04-10)
+
+
+### build
+
+* peerplaysjs dependencies update ([caf68c9](https://github.com/peerplays-network/peerplays-core-gui/commit/caf68c9))
+
+
+### BREAKING CHANGES
+
+* new library code in use and required for this branches new latency conenctivity
+code
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/peerplays-network/peerplays-core-gui/compare/v0.4.3...v0.5.0) (2019-04-09)
 
@@ -26,13 +42,6 @@ All notable changes to this project will be documented in this file. See [standa
 * build process has changed. building executables not working yet
 * electron upgrade and many file/script modifications
 
-
-<a name="0.4.4"></a>
-## [0.4.4](https://github.com/peerplays-network/peerplays-core-gui/compare/v0.4.5...v0.4.4) (2019-04-10)
-
-### Changed
-
-- Connect to nodes based on their latency.
 
 <a name="0.4.3"></a>
 ## [0.4.3](https://github.com/peerplays-network/peerplays-core-gui/compare/v0.4.0...v0.4.3) (2019-04-05)
