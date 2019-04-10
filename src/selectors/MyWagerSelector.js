@@ -99,7 +99,6 @@ const getRelatedBetsCollection = createSelector(
 
 // memoized selector - function totaling stake and liability
 // The following functionality only applies if all bets are under the same currency format
-// TODO: modify the logic and the UI if we support multiple currency
 const getBetTotal = createSelector(
   [getActiveTab, getRelatedBetsCollection, getCurrencyFormat, getAssetsById],
   (activeTab, bets, currencyFormat, assetsById) => {

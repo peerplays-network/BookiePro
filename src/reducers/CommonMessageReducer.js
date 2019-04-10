@@ -29,21 +29,23 @@ export default function(state = initialState, action) {
       // get current state of messages
       // operate on the one matching supplied id
       let messageCount = state.get('messageCount');
-      const newMessageCount = --messageCount;
+      const newMessageCount = messageCount > 0 ? --messageCount : 0; // cannot have negative count
+
+
       const id = action.id;
       const newExchangeMsgState = state.get('exchangeMessages')
         .filter((m) => {
           let mID = m.get('id');
 
           // Filter exchange messages.
-          return mID === 'e' + id;
+          return mID !== id;
         });
       const newBetslipMessageState = state.get('betslipMessages')
         .filter((m) => {
           let mID = m.get('id');
 
           // Filter betslip messages.
-          return mID === 'b' + id;
+          return mID !== id;
         });
 
       return state.set('exchangeMessages', newExchangeMsgState)
