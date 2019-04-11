@@ -32,6 +32,7 @@ import BetTable from '../BetTable';
 import {Empty, OverlayUtils} from '../Common';
 import {BettingDrawerStates, Config} from '../../../constants';
 import {MyAccountPageSelector} from '../../../selectors';
+import Subtotal from '../MarketDrawer/Subtotal';
 import CommonMessage from '../../CommonMessage/CommonMessage';
 import CommonMessageUtils from '../../../utility/CommonMessageUtils';
 
@@ -84,6 +85,28 @@ class QuickBetDrawer extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
+    // Get the button element in the footer.
+    let rect = document.getElementById('btn--place-bet');
+    let footerID = 'qbd-footer';
+
+    // If the `rect` exists, we will proceed to get its location in the DOM.
+    if (rect) {
+      // Determine if the 'rect' is visible within its scrollable element. 'content
+      let rectParent = rect.parentElement.parentElement.parentElement.parentElement;
+      
+      BettingModuleUtils.inViewport(rect, rectParent, footerID);
+
+      // Add event listener for scrolling/resize on the place bet button parent div.
+      // Just a precaution.
+      rectParent.addEventListener('scroll', () => {
+        BettingModuleUtils.inViewport(rect, rectParent, footerID);
+      });
+      // Window event listener for immediate update of footer while resizing.
+      window.addEventListener('resize', () => {
+        BettingModuleUtils.inViewport(rect, rectParent, footerID);
+      });
+    }
+
     Ps.update(ReactDOM.findDOMNode(this.refs.bettingtable));
     
     if (prevProps.betsError[0] !== this.props.betsError[0]) {
@@ -93,14 +116,6 @@ class QuickBetDrawer extends PureComponent {
   }
 
   render() {
-    let expandedFooterStyle = '';
-
-    if (this.props.isValidBetTotal){
-      expandedFooterStyle = '50px';
-    } else {
-      expandedFooterStyle = '100px';
-    }
-
     return (
       <div id='quick-bet-drawer' ref='drawer'>
         <SplitPane split='horizontal' defaultSize='40px' allowResize={ false }>
@@ -113,15 +128,26 @@ class QuickBetDrawer extends PureComponent {
             defaultSize={ 40 }
             primary='second'
             allowResize={ false }
-            pane1Style={ {overflowY: 'hidden', paddingBottom: expandedFooterStyle} }
+            pane1Style={ {overflowY: 'hidden'} }
           >
             {renderContent(this.props)}
             {!this.props.bets.isEmpty() && (
-              <div className={ `footer ${this.props.obscureContent ? 'dimmed' : ''}` }>
+              <div 
+                className={
+                  `quick-bet-drawer__footer${this.props.obscureContent ? '-dimmed' : ''}`
+                }
+                id='qbd-footer'
+              >
+                <Subtotal
+                  betAmount={ this.props.totalBetAmountFloat }
+                  transactionFee={ this.props.transactionFee }
+                  currencyFormat={ this.props.currencyFormat }
+                />
                 <Button
                   className={ `btn place-bet btn${
                     this.props.numberOfGoodBets > 0 ? '-regular' : '-disabled'
                   }` }
+                  id='btn--place-bet'
                   onClick={ () => this.props.clickPlaceBet(
                     this.props.totalBetAmountFloat, 
                     this.props.currencyFormat
@@ -130,8 +156,6 @@ class QuickBetDrawer extends PureComponent {
                   disabled={ !this.props.isValidBetTotal }
                 >
                   {I18n.t('quick_bet_drawer.unconfirmed_bets.content.place_bet_button')}
-                  {this.props.currencySymbol}
-                  {this.props.totalBetAmountString}
                 </Button>
               </div>
             )}
@@ -276,10 +300,11 @@ const mapStateToProps = (state, ownProps) => {
     numberOfBadBets: numberOfBadBets,
     totalBetAmountFloat: totalAmount,
     oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
+    transactionFee,
     currencySymbol,
-    totalBetAmountString: totalBetAmountString,
-    availableBalance: availableBalance,
-    isValidBetTotal: isValidBetTotal,
+    totalBetAmountString,
+    availableBalance,
+    isValidBetTotal,
     betsError,
     autoOddsPopulated
   };
