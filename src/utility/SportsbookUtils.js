@@ -241,27 +241,30 @@ const sortAndCenter = (bettingMarketGroups) => {
 };
 
 const isAbleToBet = (eventStatus) => {
-  if (!eventStatus) {
-    return true;
+  let canBet = true; 
+
+  if (eventStatus) {
+    let status = eventStatus;
+    
+    // Err Handling, in case data does not come as an array.
+    if (eventStatus.constructor === Array) { 
+      status = eventStatus[1];
+    }
+  
+    switch (status) {
+      case EventStatus.FINISHED:
+      case EventStatus.FROZEN:
+      case EventStatus.COMPLETED:
+      case EventStatus.SETTLED:
+      case EventStatus.CANCELED:
+        canBet = false;
+        break;
+      default:
+        break;
+    }
   }
 
-  let status = eventStatus;
-
-  if (eventStatus.constructor === Array) { // Err Handling, in case data does not come as an array.
-    status = eventStatus[1];
-  }
-
-  switch (status) {
-    case EventStatus.FINISHED:
-    case EventStatus.FROZEN:
-    case EventStatus.COMPLETED:
-    case EventStatus.SETTLED:
-    case EventStatus.CANCELED:
-      return false;
-    default:
-      return true;
-  }
-
+  return canBet;
 };
 
 const hasBettingMarkets = (bettingMarketGroup) => {

@@ -45,5 +45,5 @@ export {
   BettingMarketResolutionTypes,
   BookieModes,
   BackingWidgetTypes,
-  LayoutConstants,
+  LayoutConstants
 };

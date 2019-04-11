@@ -22,7 +22,7 @@
       "vars": "all", "args": "after-used"
     }],
     "keyword-spacing": ["error", { "before": true, "after": true }],
-    "comma-dangle": "off",
+    "comma-dangle": "error",
     "indent": ["error", 2, {"SwitchCase": 1}],
     "quotes": ["error", "single"],
     "semi": ["error", "always"],

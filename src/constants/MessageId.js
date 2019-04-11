@@ -8,7 +8,7 @@ const MessageId = {
       INCOMPLETE_BET: 'war-b-IB'
     },
     ERROR: {
-      INSUFFICIENT_FUNDS: 'err-b-IF',
+      INSUFFICIENT_FUNDS: 'err-b-IF'
     }
   },
   EXCHANGE: {

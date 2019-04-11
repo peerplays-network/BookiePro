@@ -69,7 +69,7 @@ class SportsbookToggle extends PureComponent {
 SportsbookToggle.propTypes = {
   bookMode: PropTypes.string,
   setMode: PropTypes.func,
-  navigateTo: PropTypes.func,
+  navigateTo: PropTypes.func
 };
 
 const mapStateToProps = (state) => {
@@ -99,7 +99,7 @@ const mapStateToProps = (state) => {
       } else if (objectType === ChainTypes.object_type.event.toString()) {
         // We want to have the 'first' bmgID on hand incase the user toggles to the sportsbook
         let bmg = EventPageSelector.getFirstBettingMarketGroupByEventId(state, {
-          eventId: blockchainObject,
+          eventId: blockchainObject
         });
 
         if (bmg) {
@@ -112,7 +112,7 @@ const mapStateToProps = (state) => {
   return {
     bookMode: state.getIn(['app', 'bookMode']),
     previousRoute: state.getIn(['routing', 'previousRoute']),
-    sportID, eventGroupID, eventID, bmgID,
+    sportID, eventGroupID, eventID, bmgID
   };
 };
 
@@ -120,7 +120,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       setMode: AppActions.setBookMode,
-      navigateTo: NavigateActions.navigateTo,
+      navigateTo: NavigateActions.navigateTo
     },
     dispatch
   );
