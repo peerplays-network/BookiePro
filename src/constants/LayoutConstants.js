@@ -4,8 +4,8 @@ const LayoutConstants = {
   betslipWidth: 360,
   splitPaneStyle: {
     top: '0px',
-    position: 'fixed',
-  },
+    position: 'fixed'
+  }
 };
 
 export default LayoutConstants;

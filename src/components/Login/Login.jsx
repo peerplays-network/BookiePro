@@ -112,7 +112,7 @@ class Login extends PureComponent {
 
 const mapStateToProps = (state) => ({
   errors: state.getIn(['auth', 'loginErrors']),
-  status: state.getIn(['auth', 'loginLoadingStatus']),
+  status: state.getIn(['auth', 'loginLoadingStatus'])
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(

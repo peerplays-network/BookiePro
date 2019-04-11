@@ -13,7 +13,7 @@ import {
   EventGroupPageSelector,
   MarketDrawerSelector,
   MyAccountPageSelector,
-  EventPageSelector,
+  EventPageSelector
 } from '../../selectors';
 
 class SportsBookEvent extends PureComponent {
@@ -103,7 +103,7 @@ const mapStateToProps = (state, ownProps) => {
 
   let props = {
     event,
-    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state),
+    oddsFormat: MyAccountPageSelector.oddsFormatSelector(state)
   };
 
   // Populate other properties if betting market group exists
@@ -119,7 +119,7 @@ const mapStateToProps = (state, ownProps) => {
       unconfirmedBets: BettingMarketGroupPageSelector.getUnconfirmedBets(state, ownProps),
       loadingStatus: BettingMarketGroupPageSelector.getLoadingStatus(state, ownProps),
       canCreateBet: MarketDrawerSelector.canAcceptBet(state, ownProps),
-      sportName,
+      sportName
     });
   }
 
