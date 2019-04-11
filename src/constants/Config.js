@@ -24,6 +24,18 @@ const Config = {
   oddsPrecision: 10000, 
   blockchainUrls: shuffledBlockhainUrls,
   coreAsset: ASSET_ID,
+  // Entries to filter.
+  filters: {
+    eventGroup: {
+      name: ['FRIENDLY INTERNATIONAL']
+    },
+    bettingMarketGroup: {
+      description: ['MONEYLINE', 'MATCH ODDS']
+    },
+    sport: {
+      name: ['IGB LIVE!']
+    }
+  },
   hardUpdateGracePeriod: 43200, // 12 Hour Hard-Update Grace Period
   coinTransactionFee: 0.00001,
   mCoinTransactionFee: 0.01,

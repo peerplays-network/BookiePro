@@ -61,7 +61,6 @@ class AssetActions {
             LoadingStatus.LOADING
           )
         );
-        // TODO: mark later
         return CommunicationService.getAssetsByIds(idsOfAssetsToBeRetrieved).then((assets) => {
           // Add to redux store
           dispatch(AssetActions.addOrUpdateAssetsAction(assets));
