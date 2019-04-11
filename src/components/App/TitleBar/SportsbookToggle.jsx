@@ -7,6 +7,8 @@ import {I18n} from 'react-redux-i18n';
 import {BookieModes} from '../../../constants';
 import {EventPageSelector} from '../../../selectors';
 import {ChainTypes} from 'peerplaysjs-lib';
+import StorageUtils from '../../../utility/StorageUtils';
+import StorageItems from '../../../constants/StorageItems';
 
 class SportsbookToggle extends PureComponent {
   constructor(props) {
@@ -26,6 +28,8 @@ class SportsbookToggle extends PureComponent {
     } else if (this.props.bmgID) {
       subroute = '/BettingMarketGroup/' + this.props.bmgID;
     }
+
+    StorageUtils.set(StorageItems.BOOKIE_MODE_PREFERENCE, mode);
 
     switch (mode) {
       case BookieModes.EXCHANGE: {

@@ -6,13 +6,14 @@ import {AllSportsSelector, QuickBetDrawerSelector} from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
 import {DateUtils} from '../../utility';
 import Loading from '../Loading';
+import {bindActionCreators} from 'redux';
+import {Config} from '../../constants';
 
-const MAX_EVENTS_PER_WIDGET = 3;
-const {getData} = AllSportsActions;
+const MAX_EVENTS_PER_WIDGET = Config.maxEvents;
 
 class AllSports extends PureComponent {
   componentDidMount() {
-    this.props.dispatch(getData());
+    this.props.getData();
   }
 
   render() {
@@ -61,4 +62,11 @@ const mapStateToProps = (state) => ({
   canCreateBet: QuickBetDrawerSelector.canAcceptBet(state)
 });
 
-export default connect(mapStateToProps)(AllSports);
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    getData: AllSportsActions.getData
+  },
+  dispatch
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllSports);

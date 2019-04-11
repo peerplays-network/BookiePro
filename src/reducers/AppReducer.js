@@ -1,6 +1,6 @@
-import {ActionTypes, LoadingStatus, ConnectionStatus, AppBackgroundTypes, 
-  BookieModes} from '../constants';
+import {ActionTypes, LoadingStatus, ConnectionStatus, AppBackgroundTypes} from '../constants';
 import Immutable from 'immutable';
+import StorageUtils from '../utility/StorageUtils';
 
 const initialState = Immutable.fromJS({
   appBackgroundType: AppBackgroundTypes.GRADIENT_BG,
@@ -18,8 +18,7 @@ const initialState = Immutable.fromJS({
   isTitleBarTransparent: true,
   gatewayAccount: {},
   showLicenseScreen: false,
-  bookMode: BookieModes.EXCHANGE,
-
+  bookMode: StorageUtils.getBookMode(),
 });
 
 export default function(state = initialState, action) {
