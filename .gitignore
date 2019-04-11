@@ -69,3 +69,6 @@ typings/
 
 # blockchain connection configurations
 config.js
+
+# next.js build output
+.next
