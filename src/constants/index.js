@@ -7,6 +7,7 @@ import ObjectPrefix from './ObjectPrefix';
 import BetTypes from './BetTypes';
 import BetCategories from './BetCategories';
 import CurrencyTypes from './CurrencyTypes';
+import BookieModes from './BookieModes';
 import TimeRangePeriodTypes from './TimeRangePeriodTypes';
 import ChainTypes from './ChainTypes';
 import AppBackgroundTypes from './AppBackgroundTypes';
@@ -18,6 +19,8 @@ import BettingMarketStatus from './BettingMarketStatus';
 import BettingMarketGroupStatus from './BettingMarketGroupStatus';
 import BettingDrawerStates from './BettingDrawerStates';
 import BettingMarketResolutionTypes from './BettingMarketResolutionTypes';
+import BackingWidgetTypes from './BackingWidgetTypes';
+import LayoutConstants from './LayoutConstants';
 
 export {
   Config,
@@ -39,5 +42,8 @@ export {
   EventStatus,
   BettingMarketStatus,
   BettingMarketGroupStatus,
-  BettingMarketResolutionTypes
+  BettingMarketResolutionTypes,
+  BookieModes,
+  BackingWidgetTypes,
+  LayoutConstants,
 };

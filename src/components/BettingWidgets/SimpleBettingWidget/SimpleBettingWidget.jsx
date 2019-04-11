@@ -78,7 +78,7 @@ const hasOffers = (record, index) => {
 
   // This checks that there is a betting market exisiting to pair up with another.
   // aka: a second team betting market to be a competitor to the first one
-  if(index && offers.getIn([index - 1, 'betting_market_id']) === undefined) {
+  if (index && offers.getIn([index - 1, 'betting_market_id']) === undefined) {
     hasOffers = false;
   }
 

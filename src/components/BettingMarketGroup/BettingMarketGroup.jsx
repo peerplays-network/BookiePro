@@ -11,6 +11,7 @@ import {BettingMarketGroupPageActions, MarketDrawerActions, NavigateActions} fro
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import PeerPlaysLogo from '../PeerPlaysLogo';
+import {AppUtils} from '../../utility';
 import _ from 'lodash';
 
 class BettingMarketGroup extends PureComponent {
@@ -37,7 +38,7 @@ class BettingMarketGroup extends PureComponent {
     ) {
       // Betting market group doesn't exist,
       // Go back to home page
-      this.props.navigateTo('/exchange');
+      this.props.navigateTo(AppUtils.getHomePath(this.props.bookMode));
     } else {
       
       const prevBettingMarketGroupId = this.props.params.objectId;
@@ -145,6 +146,7 @@ const mapStateToProps = (state, ownProps) => {
       widgetTitle: BettingMarketGroupPageSelector.getWidgetTitle(state, ownProps),
       rules: BettingMarketGroupPageSelector.getRules(state, ownProps),
       canCreateBet: MarketDrawerSelector.canAcceptBet(state, ownProps),
+      bookMode: state.getIn(['app', 'bookMode']),
       sportName
     });
   }

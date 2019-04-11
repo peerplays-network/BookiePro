@@ -90,6 +90,16 @@ class AppActions {
   }
 
   /**
+   * Action to set the Book mode ( Exchange or SportsBook )
+   */
+  static setBookMode(mode) {
+    return {
+      type: ActionTypes.APP_SET_BOOK_MODE,
+      mode
+    };
+  }
+
+  /**
    * Action to show logout popup
    */
   static showNotificationCardAction(isShowNotificationCard) {

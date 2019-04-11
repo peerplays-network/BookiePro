@@ -33,7 +33,11 @@ export const translationsObject = {
     },
     titleBar: {
       title: 'BookiePro.fun',
-      clock: 'Local Time'
+      clock: 'Local Time',
+      sportsbookToggle: {
+        exchange: 'Exchange',
+        sportsbook: 'Sportsbook'
+      }
     },
     searchMenu: {
       no_of_result_0: 'No results found',

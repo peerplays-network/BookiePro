@@ -17,6 +17,7 @@ import {NavigateActions, AuthActions} from '../../actions';
 import {LoadingStatus} from '../../constants';
 import Immutable from 'immutable';
 import PeerPlaysLogo from '../PeerPlaysLogo';
+import {AppUtils} from '../../utility';
 
 class ChangePassword extends PureComponent {
   constructor(props) {
@@ -77,7 +78,7 @@ class ChangePassword extends PureComponent {
    * @param {object} event - the 'Home' link click event
    */
   navigateToHome(event) {
-    this.navigateToLocation(event, '/exchange');
+    this.navigateToLocation(event, AppUtils.getHomePath(this.props.bookMode));
   }
 
   render() {
@@ -141,12 +142,14 @@ class ChangePassword extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
+  const bookMode =  state.getIn(['app', 'bookMode']);
   const loadingStatus = state.getIn(['auth', 'changePasswordLoadingStatus']);
   const errors =
     loadingStatus === LoadingStatus.ERROR
       ? state.getIn(['auth', 'changePasswordErrors'])
       : Immutable.List();
   return {
+    bookMode,
     loadingStatus,
     errors
   };

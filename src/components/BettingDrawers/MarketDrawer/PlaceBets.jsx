@@ -181,7 +181,7 @@ const mapStateToProps = (state, ownProps) => {
     // If odds exists, it has either been provided by the user and is an incomplete bet or it has 
     // been provided via clicking a bet from the /exchange.
     // If odds exists, autopopulated bets increment.
-    if( profit && odds && stake){
+    if ( profit && odds && stake){
       autoOddsPopulated = autoOddsPopulated + 1;
     }
     

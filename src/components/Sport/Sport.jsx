@@ -5,7 +5,7 @@ import {SimpleBettingWidget} from '../BettingWidgets';
 import {SportPageActions, NavigateActions} from '../../actions';
 import {SportPageSelector, QuickBetDrawerSelector} from '../../selectors';
 import PeerPlaysLogo from '../PeerPlaysLogo';
-import {DateUtils} from '../../utility';
+import {DateUtils, AppUtils} from '../../utility';
 import {bindActionCreators} from 'redux';
 
 const MAX_EVENTS_PER_WIDGET = 10;
@@ -20,7 +20,7 @@ class Sport extends PureComponent {
     if (!nextProps.sport || nextProps.sport.isEmpty()) {
       // Sport doesn't exist,
       // Go back to home page
-      this.props.navigateTo('/exchange');
+      this.props.navigateTo(AppUtils.getHomePath(this.props.bookMode));
     } else {
       const prevSportId = this.props.params.objectId;
       const nextSportId = nextProps.params.objectId;
@@ -76,9 +76,11 @@ class Sport extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => {
   const sport = SportPageSelector.getSport(state, ownProps);
+  const bookMode = state.getIn(['app', 'bookMode']);
 
   let props = {
-    sport
+    sport,
+    bookMode
   };
 
   // Populate other properties if sport exists

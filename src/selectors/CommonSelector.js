@@ -33,7 +33,11 @@ const getRulesById = (state) => state.getIn(['rule', 'rulesById']);
 
 const getSportsById = (state) => state.getIn(['sport', 'sportsById']);
 
+const getSportById = (state, sportId) => state.getIn(['sport', 'sportsById', sportId]);
+
 const getEventGroupsById = (state) => state.getIn(['eventGroup', 'eventGroupsById']);
+
+const getEventGroupById = (state, eventGroupId) => state.getIn(['eventGroup', 'eventGroupsById', eventGroupId]); // eslint-disable-line
 
 const getEventGroupsBySportId = createSelector(
   getEventGroupsById, 
@@ -229,6 +233,8 @@ const CommonSelector = {
   getNotificationSetting,
   getAssetsById,
   getSportsById,
+  getSportById,
+  getEventGroupById,
   getEventGroupsById,
   getEventGroupsBySportId,
   getEventsById,

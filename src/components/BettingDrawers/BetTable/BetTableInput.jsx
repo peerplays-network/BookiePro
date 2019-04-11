@@ -297,7 +297,7 @@ class BetTableInput extends PureComponent {
 
     // Override the disabled state of the input fields if the default state of stake,
     // undefined, is present.
-    if(isEmpty || oddsPopulated || this.props.autoOddsPopulated > 0){
+    if (isEmpty || oddsPopulated || this.props.autoOddsPopulated > 0){
       isValid = true;
     } else {
       isValid = isValidBetTotal;

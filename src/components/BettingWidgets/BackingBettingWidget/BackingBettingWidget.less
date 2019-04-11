@@ -1,0 +1,136 @@
+@import (reference) '../../App/Colors.less';
+@import (reference) '../../App/ProThemeColors.less';
+
+@tileHeight: 40px;
+
+.backingBettingWidget {
+  background-color: @cinder;
+  padding: 0px;
+  display: block;
+  width:100%;
+  height: @tileHeight;
+
+  /* Media Queries for 125-150% zoom levels */
+  @media (max-width: 1400px) {
+    height:50px;
+  }
+
+  @media (max-width: 1281px) {
+    height:60px;
+  }
+
+  .ant-col-2 {
+    .backBettingMarket {
+      @media (max-width: 1281px) {
+        padding-left: 8px;
+      }
+    }
+
+  }
+
+  &.disabled {
+    .name, .date {
+      color: grey;
+
+      &:hover {
+        color: grey;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .date {
+    font-size: 12px;
+    font-weight: 300;
+    padding: 4px 4px 4px 12px;
+    display: flex;
+    align-items: center;
+
+    .dateString {
+      min-width: 38px;
+    }
+  }
+
+  .name {
+    display: flex;
+    align-items: center;
+    padding: 4px 12px 4px 8px;
+
+    &:hover {
+      color: @dark_tangerine;
+      cursor: pointer;
+    }
+  }
+
+  .name, .date {
+    color: @white;
+    background-color: @midnight;
+    height: -webkit-fill-available;
+    line-height: 1.2;
+  }
+
+  .backBettingMarket {
+    background-color: @midnight;
+    padding: 4px 16px 6px 16px;
+    margin: 0px 0px 4px 4px;
+    height: -webkit-fill-available;
+    line-height: 1.2;
+
+    &.eventFlag {
+      display: flex;
+
+      .odds {
+        margin-top: 8px;
+        text-align: right;
+      }
+
+      .bmTitle {
+        margin-top: 8px;
+      }
+    }
+
+    &.active:hover {
+      background-color: @cello;
+      cursor: pointer;
+    }
+
+    &.disabled {
+      .odds, .bmTitle {
+        color: grey;
+      }
+
+      &:hover {
+        cursor: not-allowed;
+        color: grey;
+      }
+    }
+
+    .bmTitle {
+      width: 100%;
+    }
+
+    .odds {
+      float: left;
+      width: 100%;
+    }
+
+    .bmTitle, .odds {
+
+      &.eventFlag {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+        float: left;
+      }
+
+      display: inline-block;
+    }
+
+    .odds {
+      color: @anakiwa;
+      float: right;
+      font-weight: bold;
+    }
+  }
+}

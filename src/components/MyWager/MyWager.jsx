@@ -39,8 +39,9 @@ import {bindActionCreators} from 'redux';
 import {Map} from 'immutable';
 import {I18n} from 'react-redux-i18n';
 import {MyWagerSelector, MyAccountPageSelector} from '../../selectors';
-import {MyWagerTabTypes} from '../../constants';
+import {MyWagerTabTypes, BookieModes} from '../../constants';
 import PeerPlaysLogo from '../PeerPlaysLogo';
+import {AppUtils} from '../../utility';
 
 const {getBetData, getBetTotal, getCurrencyFormat, getBetsLoadingStatus} = MyWagerSelector;
 const TabPane = Tabs.TabPane;
@@ -80,7 +81,7 @@ class MyWager extends PureComponent {
   /** Redirect to 'Home' screen when clicked on 'Home' link on the Breadcrumb */
   onHomeLinkClick(e) {
     e.preventDefault();
-    this.props.navigateTo('/exchange');
+    this.props.navigateTo(AppUtils.getHomePath(this.props.bookMode));
   }
 
   /**
@@ -168,7 +169,13 @@ class MyWager extends PureComponent {
    *    This will navigat user to event full market screen
    */
   handleEventClick(record) {
-    this.props.navigateTo(`/exchange/bettingmarketgroup/${record.group_id}`);
+    if (this.props.bookMode === BookieModes.EXCHANGE) {
+      this.props.navigateTo(`/exchange/bettingmarketgroup/${record.group_id}`);
+    }
+
+    if (this.props.bookMode === BookieModes.SPORTSBOOK) {
+      this.props.navigateTo(`/sportsbook/events/${record.event_id}`);
+    }
   }
 
   /**
@@ -298,6 +305,7 @@ function filterOdds(tableData, oddsFormat) {
 }
 
 const mapStateToProps = (state) => ({
+  bookMode: state.getIn(['app', 'bookMode']),
   betsData: getBetData(state),
   betsLoadingStatus: getBetsLoadingStatus(state),
   betsCurrencyFormat: getCurrencyFormat(state),

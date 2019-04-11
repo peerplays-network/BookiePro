@@ -527,7 +527,7 @@ class BetActions {
         betDiff.map((item) => {
           item[0] = CurrencyUtils.correctFloatingPointPrecision([item[0], item[2]], currencyType);
 
-          if(item[1] === 'decrement') {
+          if (item[1] === 'decrement') {
             changeType = BetTypes.DECREMENT;
           }
 
