@@ -15,6 +15,8 @@ const {
   getEventsByEventGroupId
 } = CommonSelector;
 
+const filters = Config.filters;
+
 const getEvent = (state, id) => state.getIn(['event', 'eventsById', id]);
 
 const getEventIdByFromBMGId = (state, id) => {
@@ -211,8 +213,7 @@ const getAllSportsData = createSelector(
               let description = bmg.get('description').toUpperCase();
               let passesFilters = false;
               
-              if ((description === 'MONEYLINE' ||
-                description === 'MATCH ODDS') && description !== 'FRIENDLY INTERNATIONAL') {
+              if (filters.bettingMarketGroup.description.includes(description)) {
                 passesFilters = true;
               }
 
@@ -268,8 +269,9 @@ const getSportData = createSelector(
 
     eventGroups = sportData.get('eventGroups').map((eg) => {
       let eventList = events.get(eg.get('id'));
+      let eventName = eg.get('name').toUpperCase();
 
-      if (eventList && eg.get('name').toUpperCase() !== 'FRIENDLY INTERNATIONAL') {
+      if (eventList && !filters.eventGroup.name.includes(eventName)) {
         eventList = eventList.map((e) => {
           if (e.get('status') !== null && e.get('status') !== undefined) {
 
@@ -283,8 +285,7 @@ const getSportData = createSelector(
                 let description = bmg.get('description').toUpperCase();
                 let passesFilters = false;
 
-                if ((description === 'MONEYLINE' ||
-                description === 'MATCH ODDS') && description !== 'FRIENDLY INTERNATIONAL') {
+                if (filters.bettingMarketGroup.description.includes(description)) {
                   passesFilters = true;
                 }
     
@@ -351,8 +352,7 @@ const getEventGroupData = createSelector(
           let description = bmg.get('description').toUpperCase();
           let passesFilters = false;
           
-          if ((description === 'MONEYLINE' ||
-            description === 'MATCH ODDS') && description !== 'FRIENDLY INTERNATIONAL') {
+          if (filters.bettingMarketGroup.description.includes(description)) {
             passesFilters = true;
           }
 
