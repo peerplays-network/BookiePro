@@ -548,7 +548,7 @@ class CommunicationService {
     let wsConnectionManager = new ConnectionManager({
       urls: [currentConnectedNode]
     });
-    let conn = new ChainWebSocket(wsConnectionManager.url);
+    let conn = new ChainWebSocket(wsConnectionManager.urls);
 
     if (CommunicationService.PING_TIMEOUT) {
       // Clear the timeout, this will help prevent zombie timeout loops.
