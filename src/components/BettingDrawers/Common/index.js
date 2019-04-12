@@ -9,5 +9,5 @@ export {
   Overlay,
   Waiting,
   PlaceBetConfirm,
-  OverlayUtils,
+  OverlayUtils
 };
