@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import {PrivateKey, PublicKey} from 'peerplaysjs-lib';
 import {version} from '../../package.json';
 import {ChainConfig} from 'peerplaysjs-ws';
@@ -12,17 +10,13 @@ ChainConfig.setPrefix(process.env.prefix);
 
 const blockchainUrls = process.env.apiEndpoints;
 
-// Shuffle list of blockchain nodes
-// So every bookie app will not always connect to the first node in the list
-const shuffledBlockhainUrls = _.shuffle(blockchainUrls);
-
 const ASSET_ID = process.env.assetId;
 
 const Config = {
   version: version,
   // NOTE: I think this should be inside blockchain global objects
   oddsPrecision: 10000, 
-  blockchainUrls: shuffledBlockhainUrls,
+  blockchainUrls: blockchainUrls,
   coreAsset: ASSET_ID,
   // Entries to filter.
   filters: {

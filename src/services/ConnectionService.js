@@ -1,4 +1,4 @@
-import {Apis} from 'peerplaysjs-ws';
+import {Apis, ConnectionManager} from 'peerplaysjs-ws';
 import {Config, ConnectionStatus} from '../constants';
 import {ConnectionUtils} from '../utility';
 import log from 'loglevel';
@@ -7,6 +7,7 @@ import CommunicationService from './CommunicationService';
 class ConnectionService {
   constructor() {
     this.blockchainUrlIndex = 0; // Index of blockchain url to be used from the list
+    this.sortedUrls = []; //sorted list of witness nodes based on latency
 
     // Listen for the loss of internet.
     window.addEventListener('offline', this.offlineStatusCallback.bind(this));
@@ -97,6 +98,26 @@ class ConnectionService {
     CommunicationService.clearPing();
   }
 
+  reconnectToBlockchain() {
+    // Increment the index for the next connection attempt
+    this.blockchainUrlIndex++;
+    
+    // Reset the index if we've gone past the end.
+    if (this.blockchainUrlIndex >= this.sortedUrls.length) {
+      this.blockchainUrlIndex = 0;
+    }
+
+    const connectionString = this.sortedUrls[this.blockchainUrlIndex];
+
+    return Apis.instance(connectionString, true).init_promise.then((res) => {
+      // Print out which blockchain we are connecting to
+      log.debug('Connected to:', res[0] ? res[0].network_name : 'Undefined Blockchain');
+    }).catch(() => {
+      // Close residue connection to blockchain
+      this.closeConnectionToBlockchain();
+    });
+  }
+
   /**
    * Open websocket connection to blockchain
    *
@@ -105,24 +126,36 @@ class ConnectionService {
    * @memberof ConnectionService
    */
   connectToBlockchain(connectionStatusCallback) {
-    // Set connection status callback
-    this.connectionStatusCallback = connectionStatusCallback;
+    if (this.sortedUrls.length > 1) {
+      return this.reconnectToBlockchain();
+    } else {
+      // Set connection status callback
+      this.connectionStatusCallback = connectionStatusCallback;
 
-    // Set connection status to be connecting
-    this.connectionStatusCallback(ConnectionStatus.CONNECTING);
+      //instantiate ConnectionManager instance with list of blockchain urls
+      let wsConnectionManager = new ConnectionManager({
+        urls: Config.blockchainUrls
+      });
 
-    // Connecting to blockchain
-    const connectionString = Config.blockchainUrls[this.blockchainUrlIndex];
+      // Set connection status to be connecting
+      this.connectionStatusCallback(ConnectionStatus.CONNECTING);
 
-    return Apis.instance(connectionString, true)
-      .init_promise.then((res) => {
+      return wsConnectionManager.sortNodesByLatency().then((list) => {
+        return list;
+      }).then((list) => {
+        this.sortedUrls = list;
+        // Connecting to blockchain
+        const connectionString = list[this.blockchainUrlIndex];
+
+        return Apis.instance(connectionString, true).init_promise;
+      }).then((res) => {
         // Print out which blockchain we are connecting to
         log.debug('Connected to:', res[0] ? res[0].network_name : 'Undefined Blockchain');
-      })
-      .catch(() => {
+      }).catch(() => {
         // Close residue connection to blockchain
         this.closeConnectionToBlockchain();
       });
+    }
   }
 }
 
