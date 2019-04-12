@@ -209,11 +209,12 @@ const mapStateToProps = (state, ownProps) => {
     state.getIn(['setting', 'settingByAccountId', accountId]) ||
     state.getIn(['setting', 'defaultSetting']);
   const currencyFormat = setting.get('currencyFormat');
+  const marketDrawerPaths = ['bettingmarketgroup', 'events'];
   // Determine which betting drawer we should check
   let path = ['marketDrawer', 'unconfirmedBets'];
   const transitionName = ownProps.location.pathname.split('/');
 
-  if (transitionName.length < 3 || transitionName[2].toLowerCase() !== 'bettingmarketgroup') {
+  if (transitionName.length < 3 || !marketDrawerPaths.includes(transitionName[2].toLowerCase())) {
     path = ['quickBetDrawer', 'bets'];
   }
 
