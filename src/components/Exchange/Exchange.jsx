@@ -16,6 +16,10 @@ import UnplacedBetModal from '../Modal/UnplacedBetModal';
 import Ps from 'perfect-scrollbar';
 import CommonMessage from '../CommonMessage/CommonMessage';
 import CommonMessageActions from '../../actions/CommonMessageActions';
+import AppActions from '../../actions/AppActions';
+import BookieModes from '../../constants/BookieModes';
+
+let nextPathName;
 
 class Exchange extends PureComponent {
   constructor(props) {
@@ -76,7 +80,7 @@ class Exchange extends PureComponent {
    * Situations could be
    *   - leaving without unconfirmed bets.
    *   - leaving after clicking confirm button in modal when there is unconfirmed bets.
-   *
+   * 
    * Attempts to reset the store about unconfirmed bets as well as state of UI like modal 
    * visibliity and overlay.
    */
@@ -87,6 +91,13 @@ class Exchange extends PureComponent {
     this.props.clearMarketBetsOverlay();
 
     this.setModalVisible(false);
+
+    if (nextPathName[1] === BookieModes.SPORTSBOOK) {
+      this.props.setMode(BookieModes.SPORTSBOOK);
+    } else if (nextPathName[1] === BookieModes.EXCHANGE) {
+      this.props.setMode(BookieModes.EXCHANGE);
+    }
+
     this.setState({
       confirmToLeave: true
     });
@@ -114,6 +125,8 @@ class Exchange extends PureComponent {
     this.setState({
       nextLocation
     });
+
+    nextPathName = nextLocation.pathname.split('/');
 
     if (
       !this.props.isShowLogoutPopup &&
@@ -233,7 +246,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     clearQuickBetsOverlay: QuickBetDrawerActions.hideOverlay,
     clearMarketDrawerBetslips: MarketDrawerActions.deleteAllUnconfirmedBets,
     clearMarketBetsOverlay: MarketDrawerActions.hideOverlay,
-    addCommonMessage: CommonMessageActions.newMessage
+    addCommonMessage: CommonMessageActions.newMessage,
+    setMode: AppActions.setBookMode,
   },
   dispatch
 );
