@@ -430,6 +430,36 @@ var BettingModuleUtils = {
     }
   },
 
+  /**
+   * Takes in an immutable list of bets and sorts them by id incrementally.
+   * @param {Immutable.List} bets
+   * @returns {Immutable.List} sorted.
+   */
+  sortBetsById: function(bets) {
+    if (bets.size > 0) {
+      const sorted = bets.sort((a, b) => {
+        // Split by .
+        const aId = a.get('id').split('.');
+        // Select the ending number of the id
+        const aIdEnd = parseInt(aId[aId.length - 1], 0);
+
+        const bId = b.get('id').split('.');
+        const bIdEnd = parseInt(bId[2], 0);
+
+        // Sort
+        if (aIdEnd < bIdEnd) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+
+      return sorted;
+    } else {
+      return bets;
+    }
+  },
+
   //  =========== UI/DOM Manipulation ===========
   // Subtotal DOM sticky/unsticky
   modifyFooterLocation: function(isVisibleInDOM, rectParent, footerID) {
