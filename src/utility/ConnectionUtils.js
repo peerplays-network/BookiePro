@@ -1,7 +1,7 @@
 /**
  * The ConnectionUtils contains all the network connection checking functions.
  */
-import {Apis} from 'peerplaysjs-ws';
+import {Apis} from 'peerplaysjs-lib';
 
 const ConnectionUtils = {
   /**
