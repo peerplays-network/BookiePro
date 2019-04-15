@@ -1,26 +1,41 @@
 const config = {
   environments: {
-    someEnvironmentName: {
+    alice: {
       assetId: '1.3.1',
       apiEndpoints: [
-        'insert api endpoint urls here' // multiple are supported.
+        'wss://api.eifos.org', // eifos-witness ✅
+        'wss://api.ppy.us.altcap.io', // winner.winner.chicken.dinner ✅
+        'wss://api.ppy.nuevax.com', // nuevax ✅
+        'ws://18.184.122.253:8090', // phi-guy ✅
+        'wss://peerplaysblockchain.net/mainnet/api', // houdini-witness ✅
+        'wss://ppyseed.spacemx.tech', // spacecrypt-witness ❌
+        'wss://api.ppy.alex-pu.info', // alex-pu ✅
+        'wss://ip254.ip-91-121-48.eu', // melea-trust ✅
+        'wss://ppyws.roelandp.nl/ws', // roelandp ✅
+        'wss://api.ppy.blckchnd.com', // blckchnd ✅
+        'wss://pma.blockveritas.co/ws', // taconator-witness-wallet ✅
+        'wss://node.peerblock.trade:8090', // bitcoinsig ❌
+        'wss://api2.ppy.blckchnd.com' // royal-flush ✅
       ],
-      faucetUrls: ['insert faucet url here'],
-      prefix: 'TEST',
+      faucetUrls: [
+        'https://faucet.peerplays.download/faucet'
+      ],
+      prefix: 'PPY',
       accounts: {
         broadcasts: {
-          name: 'broadcasts',
-          key: 'insertKeyHere'
+          name: 'pbsa-broadcasts',
+          key: 'PPYTEST8H4L2UeaXRRAt5nVR4GSGFdt232711wyzTQnFRJeoJeLXXZT23'
         },
         updates: {
-          name: 'updates',
-          key: 'insertKeyHere'
+          name: 'bookie-updates',
+          key: '5Kjqz8HwRBCW7ZtvhmM2NhAqaPpLQvBShKjVNcKdbm8gdXi5V3J'
         }
       }
     }
   }
 };
-let current = 'someEnvironmentName'; // Set the current default environment.
+
+let current = 'alice'; // Set the current to elizabeth by default.
 
 // Check to make sure a valid target is specified.
 if (process.env && process.env.TARGET && config.environments[process.env.TARGET]) {
