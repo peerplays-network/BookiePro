@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import {PrivateKey, PublicKey} from 'peerplaysjs-lib';
 import {version} from '../../package.json';
-import {ChainConfig} from 'peerplaysjs-ws';
+import {ChainConfig} from 'peerplaysjs-lib';
 
 console.log(`Configuration loaded for ${process.env.name || 'unknown'}`);
 
