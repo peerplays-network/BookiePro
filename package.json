@@ -64,7 +64,6 @@
     "numeral": "~2.0.4",
     "object-assign": "4.1.1",
     "peerplaysjs-lib": "peerplays-network/peerplaysjs-lib",
-    "peerplaysjs-ws": "peerplays-network/peerplaysjs-ws",
     "perfect-scrollbar": "~0.6.11",
     "postcss-loader": "1.2.2",
     "promise": "7.1.1",
