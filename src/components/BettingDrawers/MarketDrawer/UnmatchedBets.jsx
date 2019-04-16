@@ -37,6 +37,7 @@ class UnmatchedBets extends PureComponent {
           oddsFormat={ this.props.oddsFormat }
           activeTab={ this.props.activeTab }
           disabled={ this.props.disabled }
+          bookMode={ this.props.bookMode }
         />
         {!this.props.bets.isEmpty() && (
           <div className={ `buttons ${this.props.obscureContent ? 'dimmed' : ''}` }>
@@ -64,6 +65,7 @@ class UnmatchedBets extends PureComponent {
 }
 
 const mapStateToProps = (state, props) => {
+  const bookMode = state.getIn(['app', 'bookMode']);
   const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
   // Transform the raw bet data into a specific format for the EditableBetTable
   const originalBets = unmatchedBets;
@@ -95,6 +97,7 @@ const mapStateToProps = (state, props) => {
   );
 
   return {
+    bookMode,
     bets: page,
     obscureContent,
     currencySymbol,

@@ -31,6 +31,7 @@ class MatchedBets extends PureComponent {
           dimmed={ this.props.obscureContent }
           currencyFormat={ this.props.currencyFormat }
           oddsFormat={ this.props.oddsFormat }
+          bookMode={ this.props.bookMode }
         />
         {!this.props.bets.isEmpty() && (
           <div className={ `controls ${this.props.obscureContent ? 'dimmed' : ''}` }>
@@ -82,6 +83,7 @@ const groupBetsByAverageOdds = (matchedBets, oddsFormat, currencyFormat) => {
 };
 
 const mapStateToProps = (state) => {
+  const bookMode = state.getIn(['app', 'bookMode']);
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   const groupByAverageOdds = state.getIn(['marketDrawer', 'groupByAverageOdds']);
   const oddsFormat = MyAccountPageSelector.oddsFormatSelector(state);
@@ -137,6 +139,7 @@ const mapStateToProps = (state) => {
     overlay !== BettingDrawerStates.NO_OVERLAY &&
     overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
   return {
+    bookMode,
     originalBets,
     bets: page,
     obscureContent,
