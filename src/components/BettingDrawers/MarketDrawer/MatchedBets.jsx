@@ -19,6 +19,7 @@ import BetTable from '../BetTable';
 import './MatchedBets.less';
 import {BettingDrawerStates, BetTypes} from '../../../constants';
 import {MyAccountPageSelector} from '../../../selectors';
+import BookieModes from './../../../constants/BookieModes';
 
 class MatchedBets extends PureComponent {
   render() {
@@ -94,6 +95,10 @@ const mapStateToProps = (state) => {
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
     const betType = bet.get('bet_type');
+
+    if (bookMode === BookieModes.SPORTSBOOK && betType === 'lay') {
+      return;
+    }
 
     // Page content are grouped by market type (back or lay)
     if (!page.has(betType)) {
