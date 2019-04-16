@@ -185,7 +185,7 @@ TitleBar.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    loggedIn: state.getIn(['account', 'isLoggedIn']),
+    loggedIn: state.getIn(['account', 'isLoggedIn'])
   };
 };
 
