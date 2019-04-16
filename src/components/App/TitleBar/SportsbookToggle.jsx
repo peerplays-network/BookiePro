@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {withRouter} from 'react-router';
 import PropTypes from 'prop-types';
 import {AppActions, NavigateActions} from '../../../actions';
 import {I18n} from 'react-redux-i18n';
@@ -16,6 +17,7 @@ class SportsbookToggle extends PureComponent {
 
   toggle(mode) {
     let subroute = '';
+    let path = '/exchange';
 
     if (this.props.sportID) {
       subroute = '/sport/' + this.props.sportID;
@@ -27,22 +29,12 @@ class SportsbookToggle extends PureComponent {
       subroute = '/BettingMarketGroup/' + this.props.bmgID;
     }
 
-    switch (mode) {
-      case BookieModes.EXCHANGE: {
-        this.props.setMode(BookieModes.EXCHANGE);
-        this.props.navigateTo('/exchange' + subroute);
-        break;
-      }
-
-      case BookieModes.SPORTSBOOK: {
-        this.props.setMode(BookieModes.SPORTSBOOK);
-        this.props.navigateTo('/sportsbook' + subroute);
-        break;
-      }
-
-      default:
-        break;
+    if (mode === BookieModes.SPORTSBOOK) {
+      path = '/sportsbook';
     }
+
+    this.props.navigateTo(path + subroute);
+
   }
 
   render() {
@@ -72,9 +64,18 @@ SportsbookToggle.propTypes = {
   navigateTo: PropTypes.func,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   const previousRoute = state.getIn(['routing', 'locationBeforeTransitions']);
   let sportID, eventGroupID, eventID, bmgID;
+
+  const marketDrawerPaths = ['bettingmarketgroup', 'events'];
+  // Determine which betting drawer we should check
+  let path = ['marketDrawer', 'unconfirmedBets'];
+  const transitionName = ownProps.location.pathname.split('/');
+
+  if (transitionName.length < 3 || !marketDrawerPaths.includes(transitionName[2].toLowerCase())) {
+    path = ['quickBetDrawer', 'bets'];
+  }
 
   // If the previous route exists
   if (previousRoute) {
@@ -113,6 +114,7 @@ const mapStateToProps = (state) => {
     bookMode: state.getIn(['app', 'bookMode']),
     previousRoute: state.getIn(['routing', 'previousRoute']),
     sportID, eventGroupID, eventID, bmgID,
+    hasUnplacedBets: !state.getIn(path).isEmpty(),
   };
 };
 
@@ -126,7 +128,7 @@ const mapDispatchToProps = (dispatch) => {
   );
 };
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(SportsbookToggle);
+)(SportsbookToggle));
