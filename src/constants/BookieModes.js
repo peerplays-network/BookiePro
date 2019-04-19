@@ -1,5 +1,5 @@
 const BookieModes = {
   EXCHANGE: 'exchange',
-  SPORTSBOOK: 'sportsbook',
+  SPORTSBOOK: 'sportsbook'
 };
 export default BookieModes;

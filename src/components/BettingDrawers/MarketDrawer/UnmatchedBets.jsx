@@ -21,6 +21,7 @@ import BetTable from '../BetTable';
 import './UnmatchedBets.less';
 import {BettingDrawerStates} from '../../../constants';
 import {MyAccountPageSelector} from '../../../selectors';
+import BookieModes from './../../../constants/BookieModes';
 
 class UnmatchedBets extends PureComponent {
   render() {
@@ -37,6 +38,7 @@ class UnmatchedBets extends PureComponent {
           oddsFormat={ this.props.oddsFormat }
           activeTab={ this.props.activeTab }
           disabled={ this.props.disabled }
+          bookMode={ this.props.bookMode }
         />
         {!this.props.bets.isEmpty() && (
           <div className={ `buttons ${this.props.obscureContent ? 'dimmed' : ''}` }>
@@ -64,6 +66,7 @@ class UnmatchedBets extends PureComponent {
 }
 
 const mapStateToProps = (state, props) => {
+  const bookMode = state.getIn(['app', 'bookMode']);
   const unmatchedBets = state.getIn(['marketDrawer', 'unmatchedBets']);
   // Transform the raw bet data into a specific format for the EditableBetTable
   const originalBets = unmatchedBets;
@@ -72,6 +75,10 @@ const mapStateToProps = (state, props) => {
   originalBets.forEach((bet) => {
     const betType = bet.get('bet_type');
 
+    if (bookMode === BookieModes.SPORTSBOOK && betType === 'lay') {
+      return;
+    }
+ 
     // Page content are grouped by market type (back or lay)
     if (!page.has(betType)) {
       page = page.set(betType, Immutable.List());
@@ -95,6 +102,7 @@ const mapStateToProps = (state, props) => {
   );
 
   return {
+    bookMode,
     bets: page,
     obscureContent,
     currencySymbol,

@@ -18,7 +18,7 @@ const initialState = Immutable.fromJS({
   isTitleBarTransparent: true,
   gatewayAccount: {},
   showLicenseScreen: false,
-  bookMode: BookieModes.EXCHANGE,
+  bookMode: BookieModes.EXCHANGE
 
 });
 
@@ -117,7 +117,7 @@ export default function(state = initialState, action) {
 
     case ActionTypes.APP_SET_BOOK_MODE: {
       return state.merge({
-        bookMode: action.mode,
+        bookMode: action.mode
       });
     }
 

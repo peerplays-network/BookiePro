@@ -19,6 +19,7 @@ import BetTable from '../BetTable';
 import './MatchedBets.less';
 import {BettingDrawerStates, BetTypes} from '../../../constants';
 import {MyAccountPageSelector} from '../../../selectors';
+import BookieModes from './../../../constants/BookieModes';
 
 class MatchedBets extends PureComponent {
   render() {
@@ -31,6 +32,7 @@ class MatchedBets extends PureComponent {
           dimmed={ this.props.obscureContent }
           currencyFormat={ this.props.currencyFormat }
           oddsFormat={ this.props.oddsFormat }
+          bookMode={ this.props.bookMode }
         />
         {!this.props.bets.isEmpty() && (
           <div className={ `controls ${this.props.obscureContent ? 'dimmed' : ''}` }>
@@ -82,6 +84,7 @@ const groupBetsByAverageOdds = (matchedBets, oddsFormat, currencyFormat) => {
 };
 
 const mapStateToProps = (state) => {
+  const bookMode = state.getIn(['app', 'bookMode']);
   const matchedBets = state.getIn(['marketDrawer', 'matchedBets']);
   const groupByAverageOdds = state.getIn(['marketDrawer', 'groupByAverageOdds']);
   const oddsFormat = MyAccountPageSelector.oddsFormatSelector(state);
@@ -92,6 +95,10 @@ const mapStateToProps = (state) => {
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
     const betType = bet.get('bet_type');
+
+    if (bookMode === BookieModes.SPORTSBOOK && betType === 'lay') {
+      return;
+    }
 
     // Page content are grouped by market type (back or lay)
     if (!page.has(betType)) {
@@ -137,6 +144,7 @@ const mapStateToProps = (state) => {
     overlay !== BettingDrawerStates.NO_OVERLAY &&
     overlay !== BettingDrawerStates.SUBMIT_BETS_SUCCESS;
   return {
+    bookMode,
     originalBets,
     bets: page,
     obscureContent,

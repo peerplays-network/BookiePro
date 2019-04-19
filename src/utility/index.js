@@ -35,5 +35,5 @@ export {
   ObjectUtils,
   HelpAndSupportUtils,
   AuthUtils,
-  SportsbookUtils,
+  SportsbookUtils
 };
