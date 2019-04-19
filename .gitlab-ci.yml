@@ -1,0 +1,21 @@
+# Node docker image on which this would be run
+image: node:8.9.4
+
+stages:
+  - build
+  - deploy
+
+# Builds app
+build:
+  stage: build
+  script:
+    - npm install
+  tags:
+    - docker
+
+# Deploys app to QA 
+deployToQA:
+  stage: deploy
+  script:
+    - bash deploy/deploy.sh
+  when: manual
