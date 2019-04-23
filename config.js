@@ -18,7 +18,7 @@ const config = {
         'wss://api2.ppy.blckchnd.com/ws' // royal-flush ✅
       ],
       faucetUrls: [
-        'https://faucet.peerplays.download/faucet'
+        'https://btfun-faucet.bookie.download/faucet'
       ],
       prefix: 'PPY',
       accounts: {
