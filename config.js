@@ -15,7 +15,7 @@ const config = {
         'wss://api.ppy.blckchnd.com', // blckchnd ✅
         'wss://pma.blockveritas.co/ws', // taconator-witness-wallet ✅
         'wss://node.peerblock.trade:8090', // bitcoinsig ❌
-        'wss://api2.ppy.blckchnd.com' // royal-flush ✅
+        'wss://api2.ppy.blckchnd.com/ws' // royal-flush ✅
       ],
       faucetUrls: [
         'https://faucet.peerplays.download/faucet'
