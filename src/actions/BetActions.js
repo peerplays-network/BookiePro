@@ -497,26 +497,39 @@ class BetActions {
           return;
         }
 
+        // Get the bet type
+        let betType = bet.get('bet_type');
+
         // Get the bet differences.
+        const odds = bet.get('odds');
+        const original_odds = bet.get('original_odds');
+        oddsDiff = ObjectUtils.getBetAttrDiff(odds, original_odds);
+        oddsDiff.push('odds');
+
         const stake = bet.get('stake');
         const original_stake = bet.get('original_stake');
         stakeDiff = ObjectUtils.getBetAttrDiff(stake, original_stake);
         stakeDiff.push('stake');
 
-        const profit = bet.get('profit');
-        const original_profit = bet.get('original_profit');
-        profitDiff = ObjectUtils.getBetAttrDiff(profit, original_profit);
-        profitDiff.push('profit');
+        if (betType === 'lay') {
+          const liability = bet.get('liability');
+          const original_liability = bet.get('original_liability');
+          liabilityDiff = ObjectUtils.getBetAttrDiff(liability, original_liability);
+          liabilityDiff.push('liability');
 
-        const liability = bet.get('liability');
-        const original_liability = bet.get('original_liability');
-        liabilityDiff = ObjectUtils.getBetAttrDiff(liability, original_liability);
-        liabilityDiff.push('liability');
+          // Lay bets do not have a profit, set diff to 0.
+          profitDiff = [0, 'none', 'profit'];
+        }
 
-        const odds = bet.get('odds');
-        const original_odds = bet.get('original_odds');
-        oddsDiff = ObjectUtils.getBetAttrDiff(odds, original_odds);
-        oddsDiff.push('odds');
+        if (betType === 'back') {
+          const profit = bet.get('profit');
+          const original_profit = bet.get('original_profit');
+          profitDiff = ObjectUtils.getBetAttrDiff(profit, original_profit);
+          profitDiff.push('profit');
+
+          // Back bets do not have a liability, set diff to 0.
+          liabilityDiff = [0, 'none', 'liability'];
+        }
 
         // Are there any instances of decremental changes?
         // betDiff -> [x][0] = {number} amount
@@ -527,7 +540,7 @@ class BetActions {
         betDiff.map((item) => {
           item[0] = CurrencyUtils.correctFloatingPointPrecision([item[0], item[2]], currencyType);
 
-          if(item[1] === 'decrement') {
+          if (item[1] === 'decrement') {
             changeType = BetTypes.DECREMENT;
           }
 
