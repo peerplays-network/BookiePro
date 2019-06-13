@@ -53,6 +53,21 @@ const isRunningInsideElectron = AppUtils.isRunningInsideElectron();
 
 if (isRunningInsideElectron) {
   electron = window.require('electron');
+  const {ipcRenderer} = electron;
+
+  electron.ipcRenderer.send('variable-request', [
+    'name',
+    'appPath'
+  ]);
+
+  ipcRenderer.on('variable-reply', function (event, args) {
+    let appName = args[0];
+    let appPath = args[1];
+    let referrer = appPath.split(appName)[1].split('/')[0].split('.')[0].split('-')[1];
+    localStorage.setItem('referrer', referrer);
+  });
+
+
   // add a listener to handle all clicks
   document.addEventListener('click', (event) => {
     // act on any clicks that are hyperlinks preceeded by http

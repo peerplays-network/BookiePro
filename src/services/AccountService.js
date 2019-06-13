@@ -27,6 +27,8 @@ class AccountServices {
         apiEP = '/faucet';
       }
 
+      let referrer = localStorage.getItem('referrer');
+
       // Call faucet api to register for account
       return fetch(faucetAddress + apiEP, {
         method: 'post',
@@ -42,7 +44,7 @@ class AccountServices {
             active_key: activePublicKey,
             memo_key: memoPublicKey,
             refcode: '',
-            referrer: ''
+            referrer: referrer ? atob(referrer) : ''
           }
         })
       })
