@@ -45,6 +45,7 @@ class Signup extends PureComponent {
   handleSubmit(values) {
     this.props.signup(
       values.get('accountName'),
+      values.get('referrerName'),
       values.get('password'),
       this.props.depositsEnabled
     );

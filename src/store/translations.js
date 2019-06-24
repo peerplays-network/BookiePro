@@ -130,7 +130,8 @@ export const translationsObject = {
       password_no_match: 'The passwords do not match',
       repeat_password: 'Repeat your password',
       field_req: 'Field is required',
-      acc_name_taken: 'Account name is already taken'
+      acc_name_taken: 'Account name is already taken',
+      referrer_name: 'Referrer Name - (Optional)'
     },
     login: {
       username: 'Account Name',

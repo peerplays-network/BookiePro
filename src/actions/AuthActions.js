@@ -191,7 +191,7 @@ class AuthActions {
     };
   }
 
-  static signup(accountName, password, depositsEnabled) {
+  static signup(accountName, referrerName, password, depositsEnabled) {
     return (dispatch) => {
       // Set register status to loading
       dispatch(AuthPrivateActions.setSignupLoadingStatusAction(LoadingStatus.LOADING));
@@ -204,7 +204,7 @@ class AuthActions {
       if (registerThroughRegistrar) {
         register = AccountService.registerThroughRegistrar(accountName, keys);
       } else {
-        register = AccountService.registerThroughFaucet(1, accountName, keys);
+        register = AccountService.registerThroughFaucet(1, accountName, referrerName, keys);
       }
 
       register

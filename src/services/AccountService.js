@@ -9,7 +9,7 @@ class AccountServices {
   /**
    * Ask the faucet to create account for us
    */
-  static registerThroughFaucet(attempt, accountName, keys) {
+  static registerThroughFaucet(attempt, accountName, referrerName, keys) {
     const ownerPublicKey = keys.owner.toPublicKey().toPublicKeyString();
     const activePublicKey = keys.active.toPublicKey().toPublicKeyString();
     const memoPublicKey = keys.memo.toPublicKey().toPublicKeyString();
@@ -27,7 +27,17 @@ class AccountServices {
         apiEP = '/faucet';
       }
 
-      let referrer = localStorage.getItem('referrer');
+      let referrer = '';
+      
+      /** Assign value to referrer based on input field or local storage,
+       *  priority given to Input field
+       *  Empty string if neither exist
+       */
+      if (referrerName) {
+        referrer = referrerName;
+      } else if (localStorage.getItem('referrer')) {
+        referrer = localStorage.getItem('referrer');
+      }
 
       // Call faucet api to register for account
       return fetch(faucetAddress + apiEP, {
@@ -44,7 +54,7 @@ class AccountServices {
             active_key: activePublicKey,
             memo_key: memoPublicKey,
             refcode: '',
-            referrer: referrer ? atob(referrer) : ''
+            referrer: referrer
           }
         })
       })
