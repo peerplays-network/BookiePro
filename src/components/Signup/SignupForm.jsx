@@ -81,8 +81,11 @@ const renderReferrer = ({tabIndex, input, type, placeholder,
       tabIndex={ tabIndex }
     />
     {input.value !== '' && touched && error && <span className='errorText'>{error}</span>}
-    {!asyncValidating && touched && !error && !active && <span className='validReferrerAccount'>
-    Valid Referrer</span>}
+    {
+      !asyncValidating && input.value !== '' &&
+      touched && !error && !active &&
+      <span className='validReferrerAccount'>Valid Referrer</span>
+    }
   </div>
 );
 
@@ -438,7 +441,12 @@ export default reduxForm({
 
     return errors;
   },
-  asyncValidate: (values) => {
+  asyncValidate: function referrerName(values) {
+
+    if (!values.get('referrerName')) {
+      return Promise.resolve();
+    }
+
     return lookupAccount(values.get('referrerName'), 100)
       .then((result) => {
         if(!result) {

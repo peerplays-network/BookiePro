@@ -36,7 +36,7 @@ class AccountServices {
       if (referrerName) {
         referrer = referrerName;
       } else if (localStorage.getItem('referrer')) {
-        referrer = localStorage.getItem('referrer');
+        referrer = atob(localStorage.getItem('referrer'));
       }
 
       // Call faucet api to register for account

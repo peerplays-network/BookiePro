@@ -63,30 +63,24 @@ if (isRunningInsideElectron) {
     'appPath'
   ]);
 
-  // Get the app path and name of the file being run.
-  ipcRenderer.on('pathReply', function (event, args) {
-    let appName = args[0];
-    let appPath = args[1];
-
-    if (isWindowsPlatform) {
-      ipcRenderer.send('windowsPathRequest', [
-        'paths'
-      ]);
-    } else {
-      referrer = appPath.split(appName)[1].split('/')[0].split('.')[0].split('-')[1];
-      setReferrer(referrer);
-    }
-  });
-
-  
+  if (isWindowsPlatform) {
+    ipcRenderer.send('windowsPathRequest', ['paths']);
+  } else {
+    ipcRenderer.send('macPathRequest', ['paths']);
+  }
 
   ipcRenderer.on('windowsPathReply', function(event, args) {
     referrer = args[0].split('BookiePro')[1].split('.exe')[0].split('-')[1];
     setReferrer(referrer);
   });
 
+  ipcRenderer.on('macPathReply', function(event, args) {
+    referrer = args[0].split('BookiePro')[1].split('.dmg')[0].split('-')[1];
+    setReferrer(referrer);
+  });
+
   function setReferrer(referrer) {
-    localStorage.setItem('referrer', referrer || 'a2VlZ2FuLWxlZS1mcmFuY2lz');
+    localStorage.setItem('referrer', referrer);
   }
 
   // add a listener to handle all clicks
