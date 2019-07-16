@@ -4,6 +4,7 @@ import CommunicationService from './CommunicationService';
 import WalletService from './WalletService';
 import {I18n} from 'react-redux-i18n';
 import {TransactionBuilder} from 'peerplaysjs-lib';
+import {AuthUtils} from '../utility';
 
 class AccountServices {
   /**
@@ -14,7 +15,7 @@ class AccountServices {
     const activePublicKey = keys.active.toPublicKey().toPublicKeyString();
     const memoPublicKey = keys.memo.toPublicKey().toPublicKeyString();
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       // Use random faucet
       const faucets = Config.faucetUrls;
       let index = Math.floor(Math.random() * Object.keys(faucets).length);
@@ -37,6 +38,12 @@ class AccountServices {
         referrer = referrerName;
       } else if (localStorage.getItem('referrer')) {
         referrer = atob(localStorage.getItem('referrer'));
+      }
+
+      let result = await AuthUtils.lookupAccount(referrer, 100);
+
+      if (!result) {
+        referrer = '';
       }
 
       // Call faucet api to register for account

@@ -13,15 +13,7 @@ import {FileSaverUtils} from '../../utility';
 import {LoadingStatus} from '../../constants';
 import {I18n, Translate} from 'react-redux-i18n';
 import {AuthUtils} from '../../utility';
-import {Apis} from 'peerplaysjs-ws';
-
 const {saveAs} = FileSaverUtils;
-
-const lookupAccount = (startChar, limit) => {
-  return Apis.instance().db_api().exec('get_account_by_name', [
-    startChar, limit
-  ]);
-};
 
 /**
  * This statless function generates the Account Nanem field. It is passed as the
@@ -447,7 +439,7 @@ export default reduxForm({
       return Promise.resolve();
     }
 
-    return lookupAccount(values.get('referrerName'), 100)
+    return AuthUtils.lookupAccount(values.get('referrerName'), 100)
       .then((result) => {
         if(!result) {
           throw {referrerName: 'Account does not exist'};
