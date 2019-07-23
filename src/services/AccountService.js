@@ -29,7 +29,7 @@ class AccountServices {
       }
 
       let referrer = '';
-      
+
       /** Assign value to referrer based on input field or local storage,
        *  priority given to Input field
        *  Empty string if neither exist
@@ -44,6 +44,12 @@ class AccountServices {
 
       if (!result) {
         referrer = '';
+      } else {
+        let {id, lifetime_referrer} = result;
+
+        if (id !== lifetime_referrer) {
+          referrer = '';
+        }
       }
 
       // Call faucet api to register for account

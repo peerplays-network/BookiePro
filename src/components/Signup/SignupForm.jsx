@@ -444,6 +444,12 @@ export default reduxForm({
         if(!result) {
           throw {referrerName: 'Account does not exist'};
         }
+
+        let {id, lifetime_referrer} = result;
+
+        if (id !== lifetime_referrer) {
+          throw {referrerName: 'Referrer must be lifetime member'};
+        }
       });
   }
 })(SignupForm);
