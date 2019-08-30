@@ -68,7 +68,7 @@ const config = {
   }
 };
 
-let current = 'beatrice'; // Set the current default.
+let current = 'alice'; // Set the current to elizabeth by default.
 
 // Check to make sure a valid target is specified.
 if (process.env && process.env.TARGET && config.environments[process.env.TARGET]) {
