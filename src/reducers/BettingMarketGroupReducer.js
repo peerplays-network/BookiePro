@@ -10,7 +10,6 @@ let initialState = Immutable.fromJS({
 
 export default function(state = initialState, action) {
   let newBmgDesc = (bmg) => {
-    // (bettingMarketGroup && bettingMarketGroup.get('description')) || ''
     let description = bmg.get('description');
     let uiaSuffixIndex = description.indexOf('_');
 
