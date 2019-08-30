@@ -1,4 +1,4 @@
-import {ActionTypes} from '../constants';
+import {ActionTypes, Config} from '../constants';
 import Immutable from 'immutable';
 
 let initialState = Immutable.fromJS({
@@ -21,6 +21,20 @@ export default function(state = initialState, action) {
 
   let newBMGsById = (bmgs) => {
     let bettingMarketGroupsById = Immutable.Map();
+    let currency = Config.features.currency;
+
+    bmgs = bmgs.filter((bmg) => {
+      let desc = bmg.get('description');
+      
+      // Retain old data that does not have suffixes.
+      if (!desc.includes('_')) {
+        return true;
+      }
+
+      // Only display data that has a suffix that matches the application display filter.
+      return desc.includes(currency);
+    });
+
     bmgs.forEach((bettingMarketGroup) => {
       bettingMarketGroup = bettingMarketGroup.set('description', newBmgDesc(bettingMarketGroup));
       bettingMarketGroupsById = bettingMarketGroupsById.set(
