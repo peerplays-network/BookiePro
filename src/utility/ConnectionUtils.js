@@ -14,7 +14,7 @@ const ConnectionUtils = {
 
   /**
    * Check if websocket is open through websocket ready state
-   * @returns {boolean} - if websocket connnecting to peerplaysjs-ws ready.
+   * @returns {boolean} - if websocket connnecting to peerplaysjs-lib.ws ready.
    */
   isWebsocketOpen() {
     const websocketReadyState =
