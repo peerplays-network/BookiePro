@@ -2,7 +2,3 @@
 	path = lib/peerplaysjs-lib
 	url = https://github.com/PBSA/peerplaysjs-lib-private.git/
 	branch = master
-[submodule "lib/peerplaysjs-ws"]
-	path = lib/peerplaysjs-ws
-	url = https://github.com/PBSA/peerplaysjs-ws-private.git/
-	branch = betting2
