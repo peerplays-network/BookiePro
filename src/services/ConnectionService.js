@@ -1,4 +1,4 @@
-import {Apis} from 'peerplaysjs-ws';
+import {Apis} from 'peerplaysjs-lib';
 import {Config, ConnectionStatus} from '../constants';
 import {ConnectionUtils} from '../utility';
 import log from 'loglevel';

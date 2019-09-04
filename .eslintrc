@@ -46,7 +46,7 @@
         { "blankLine": "always", "prev": "*", "next": "block-like" },
         { "blankLine": "always", "prev": "block-like", "next": "*" }
     ],
-    "max-len": ["error", {"code": 100}],
+    "max-len": ["error", {"code": 200}],
     "implicit-arrow-linebreak": ["error", "beside"],
     "no-control-regex": "off",
     "arrow-parens": ["error", "always"]

@@ -1,4 +1,4 @@
-import {Apis} from 'peerplaysjs-ws';
+import {Apis} from 'peerplaysjs-lib';
 import {BlockchainUtils, ObjectUtils} from '../utility';
 import {
   AssetActions,
@@ -571,7 +571,7 @@ class CommunicationService {
 
     if (!db_api) {
       return Promise.reject(
-        new Error('Api not found, please ensure Apis from peerplaysjs-ws is initialized first')
+        new Error('Api not found, please ensure Apis from peerplaysjs-lib.ws is initialized first')
       );
     }
 

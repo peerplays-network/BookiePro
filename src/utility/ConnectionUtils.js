@@ -1,7 +1,7 @@
 /**
  * The ConnectionUtils contains all the network connection checking functions.
  */
-import {Apis} from 'peerplaysjs-ws';
+import {Apis} from 'peerplaysjs-lib';
 
 const ConnectionUtils = {
   /**
@@ -14,7 +14,7 @@ const ConnectionUtils = {
 
   /**
    * Check if websocket is open through websocket ready state
-   * @returns {boolean} - if websocket connnecting to peerplaysjs-ws ready.
+   * @returns {boolean} - if websocket connnecting to peerplaysjs-lib.ws ready.
    */
   isWebsocketOpen() {
     const websocketReadyState =
