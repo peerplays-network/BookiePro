@@ -88,7 +88,7 @@ const mapStateToProps = (state) => {
   const currencyFormat = MyAccountPageSelector.currencyFormatSelector(state);
   // Transform the raw bet data into a specific format for the EditableBetTable
   const originalBets = matchedBets;
-  // This is essentially the same procedure used in BetSlip
+  // This is essentially the same procedure used in PlaceBets
   let page = Immutable.Map();
   originalBets.forEach((bet) => {
     const betType = bet.get('bet_type');

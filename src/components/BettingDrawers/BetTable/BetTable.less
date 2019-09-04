@@ -135,6 +135,10 @@ div.bet-table-wrapper {
             height: 28px;
             line-height: 28px;
             padding: 5px;
+            &.disabled {
+              border: 1px @error solid;
+              background-color: fade(@error, 20%);
+            }
           }
 
           p {            

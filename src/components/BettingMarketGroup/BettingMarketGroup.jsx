@@ -103,9 +103,9 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     getData: BettingMarketGroupPageActions.getData,
     createBet: MarketDrawerActions.createBet,
-    getPlacedBets: MarketDrawerActions.getPlacedBets,
+    getOpenBets: MarketDrawerActions.getOpenBets,
     navigateTo: NavigateActions.navigateTo,
-    updatePlacedBetsLoadingStatus: MarketDrawerActions.updatePlacedBetsLoadingStatus
+    updateOpenBetsLoadingStatus: MarketDrawerActions.updateOpenBetsLoadingStatus
   },
   dispatch
 );

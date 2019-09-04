@@ -96,12 +96,6 @@ class BinnedOrderBookActions {
     };
   }
 
-  /**
-   * Remove binned order books betting market ids
-   * TODO: Use this whenever the user is leaving a page related to the binned order books
-   * (Since we want to avoid keep storing and keep updating binnedOrderBooks since the 
-   * amount of data is potentially huge)
-   */
   static removeBinnedOrderBooksByBettingMarketIds(bettingMarketIds) {
     return (dispatch) => {
       // Add to store

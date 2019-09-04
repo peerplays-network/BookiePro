@@ -2,13 +2,15 @@ import CommonSelector from './CommonSelector';
 import {createSelector} from 'reselect';
 import {DateUtils} from '../utility';
 import Immutable from 'immutable';
+import {Config} from '../constants';
 
 const {
   getBettingMarketsById,
   getSportsById,
   getEventGroupsById,
   getActiveEventsByEventGroupId,
-  getSimpleBettingWidgetBinnedOrderBooksByEventId
+  getSimpleBettingWidgetBinnedOrderBooksByEventId,
+  getBettingMarketGroupsById
 } = CommonSelector;
 
 const getRelatedEventGroupId = (state, ownProps) => ownProps.params.objectId;
@@ -104,20 +106,24 @@ const getEventGroupPageData = createSelector(
     getEventGroupPageLoadingStatus,
     getActiveEventsByEventGroupId,
     getBettingMarketsById,
-    getSimpleBettingWidgetBinnedOrderBooksByEventId
+    getSimpleBettingWidgetBinnedOrderBooksByEventId,
+    getBettingMarketGroupsById
   ],
   (
     relatedEventGroupId,
     eventGroupPageLoadingStatus,
     activeEventsByEventGroupId,
     bettingMarketsById,
-    simpleBettingWidgetBinnedOrderBooksByEventId
+    simpleBettingWidgetBinnedOrderBooksByEventId,
+    bettingMarketGroupsById
   ) => {
     // Process all sports data only if the necessary data has been finished loaded
     // NOTE if you do not want to see incremental update, re-enable this if clause
     // if (eventGroupPageLoadingStatus !== LoadingStatus.DONE) {
     //   return Immutable.List();
     // }
+
+    let coreAsset = Config.coreAsset;
 
     // Create event nodes (= event group page data) based on active events
     const activeEvents = activeEventsByEventGroupId.get(relatedEventGroupId) || Immutable.List();
@@ -129,16 +135,26 @@ const getEventGroupPageData = createSelector(
           // Find the MoneyLine Betting Market Group of this event
           const bettingMarketId = offers.getIn(['0', 'betting_market_id']);
           const bettingMarketGroupId = bettingMarketsById.getIn([bettingMarketId, 'group_id']);
-          // Create event node
-          return Immutable.fromJS({
-            event_id: event.get('id'),
-            event_name: event.get('name'),
-            time: DateUtils.getLocalDate(event.get('start_time')),
-            isLiveMarket: event.get('is_live_market'),
-            eventStatus: event.get('status').toLowerCase(),
-            offers,
-            bettingMarketGroupId: bettingMarketGroupId
-          });
+          const bettingMarketGroupAsset = bettingMarketGroupsById.getIn([
+            bettingMarketGroupId,
+            'asset_id'
+          ]);
+
+
+          if (bettingMarketGroupAsset === coreAsset) {
+            // Create event node
+            return Immutable.fromJS({
+              event_id: event.get('id'),
+              event_name: event.get('name'),
+              time: DateUtils.getLocalDate(event.get('start_time')),
+              isLiveMarket: event.get('is_live_market'),
+              eventStatus: event.get('status').toLowerCase(),
+              offers,
+              bettingMarketGroupId: bettingMarketGroupId
+            });
+          } else {
+            return Immutable.List();
+          }
         } else {
           return Immutable.List();
         }

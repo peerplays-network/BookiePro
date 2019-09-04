@@ -9,7 +9,9 @@ let initialState = Immutable.fromJS({
   withdrawError: null,
   topMenuWithdrawLoadingStatus: LoadingStatus.DEFAULT,
   topMenuWithdrawError: null,
-  availableBalancesByAssetId: {}
+  availableBalancesByAssetId: {},
+  balanceErrors: null,
+  balanceLoadingStatus: LoadingStatus.DEFAULT
 });
 
 export default function(state = initialState, action) {

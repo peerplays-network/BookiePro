@@ -45,8 +45,8 @@ class BettingMarketGroupPageActions {
       // get related betting market group object
       dispatch(BettingMarketGroupActions.getBettingMarketGroupsByIds([bettingMktGrpId]))
         .then((bettingMarketGroups) => {
-          // Get placed bets for market drawer
-          dispatch(MarketDrawerActions.getPlacedBets(bettingMktGrpId));
+          // Get open bets for market drawer
+          dispatch(MarketDrawerActions.getOpenBets(bettingMktGrpId));
 
           const bettingMarketGroup = bettingMarketGroups.get(0);
           const eventId = bettingMarketGroup && bettingMarketGroup.get('event_id');

@@ -1,0 +1,7 @@
+organization=peerplays-network
+projectKey=peerplays-network_BookiePro
+serverUrl=https://sonarcloud.io
+serverVersion=7.8.0.24676
+dashboardUrl=https://sonarcloud.io/dashboard?id=peerplays-network_BookiePro
+ceTaskId=AWqetC3xcMoWyatDOkba
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWqetC3xcMoWyatDOkba

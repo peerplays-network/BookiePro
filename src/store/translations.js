@@ -231,21 +231,7 @@ export const translationsObject = {
       help: 'Help & Support',
       signout: 'Log Out'
     },
-    landing: {
-      login: 'LOG IN',
-      signup: 'JOIN BOOKIEPRO NOW',
-      slogan: 'Bet from Anywhere in the World',
-      intro: 'Sign-Up and Start Betting in 2 Minutes!',
-      copyright: 'COPYRIGHT',
-      privacy_policy: 'PRIVACY POLICY',
-      registerStepTitle: 'Register',
-      registerStepMessage: 'Create an Account',
-      depositStepTitle: 'Deposit',
-      depositStepMessage: 'Add Wallet',
-      betStepTitle: 'Bet',
-      betStepMessage: 'Easy Betting',
-      help_and_support: 'HELP'
-    },
+    
     mybets: {
       // profit_liability: 'Profit / </br>Liability' +
       // '%{currency}',
@@ -320,7 +306,7 @@ export const translationsObject = {
       in_play: 'IN-PLAY'
     },
     quick_bet_drawer: {
-      header: 'BETSLIP',
+      header: 'PLACE BETS',
       unconfirmed_bets: {
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
@@ -374,10 +360,10 @@ export const translationsObject = {
       }
     },
     market_drawer: {
-      tab1: 'BETSLIP',
-      tab2: 'PLACED BETS',
+      tab1: 'PLACE BETS',
+      tab2: 'OPEN BETS',
       unconfirmed_bets: {
-        header: 'Betslip',
+        header: 'Place Bets',
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
           my_bet_button: 'View My Bets'
@@ -427,8 +413,8 @@ export const translationsObject = {
           place_bet_button: 'PLACE BET '
         }
       },
-      placed_bets: {
-        header: 'PLACED BETS',
+      open_bets: {
+        header: 'OPEN BETS',
         empty: {
           instructions: 'CLICK ON THE ODDS TO ADD<br/>SELECTIONS TO THE BETSLIP',
           my_bet_button: 'VIEW MY BETS'
@@ -440,7 +426,9 @@ export const translationsObject = {
             good_bets_1: 'Would you like to update 1 bet with ',
             good_bets: 'Would you like to update %{good_bets} bets with ',
             cancel_button: 'CANCEL',
-            confirm_button: 'CONFIRM BET'
+            confirm_button: 'CONFIRM BET',
+            cancel_bet: 'Bet successfully cancelled',
+            cancel_bets: 'All bets have been successfully cancelled'
           },
           perfect: {
             good_bets_1: 'You are about to update 1 bet for a total liability of ',
@@ -493,9 +481,18 @@ export const translationsObject = {
         content: {
           average_odds: 'Average Odds'
         }
+      },
+      subtotal: {
+        amount: 'Bet Amount:',
+        fee: 'Transaction Fee:',
+        total: 'Total:'
       }
     },
-    rules_dialogue: {
+    bet_error: {
+      insufficient_balance: 'One or more of your bets exceed your balance.',
+      incomplete_bet: 'Please submit odds and/or stake for all bets.'
+    },
+    rules_dialogue:{
       title: 'Rules',
       buttonTitle: 'Rules',
       content:
@@ -1522,8 +1519,6 @@ export const translationsObject = {
           }
         ]
       },
-      // TODO: the following should be deprecated but floating help is still referring to these
-      // Revisit this after the floating help is revamped
       question1: 'What is BookiePro?',
       answer1:
         'BookiePro is a betting exchange where people from all over the world can bet on sports.',

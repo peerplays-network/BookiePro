@@ -75,7 +75,6 @@ class Export extends PureComponent {
       <Card className='export-card' title={ I18n.t('application.exportLoadingHeader') }>
         <p>{I18n.t('application.exportDataFetchMsg')}</p>
         <div className='loader-icon-main'>
-          {/* TODO: Loader icon change as per mockup */}
           <Icon type='loading' />
         </div>
         <div className='card-footer'>

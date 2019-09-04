@@ -24,9 +24,21 @@ const Config = {
   oddsPrecision: 10000, 
   blockchainUrls: shuffledBlockhainUrls,
   coreAsset: ASSET_ID,
+  // Entries to filter.
+  filters: {
+    eventGroup: {
+      name: ['FRIENDLY INTERNATIONAL']
+    },
+    bettingMarketGroup: {
+      description: ['MONEYLINE', 'MATCH ODDS']
+    },
+    sport: {
+      name: ['IGB LIVE!']
+    }
+  },
   hardUpdateGracePeriod: 43200, // 12 Hour Hard-Update Grace Period
-  btfTransactionFee: 0.00001,
-  mbtfTransactionFee: 0.01,
+  coinTransactionFee: 0.00001,
+  mCoinTransactionFee: 0.01,
   broadcastAccount: {
     name: process.env.accounts.broadcasts.name,
     keys: {
@@ -59,6 +71,12 @@ const Config = {
     // base coin (BTC, BTF, etc.) with a precision of three.
     coin: 0.00001,       // The base coin. ie: BTC, BTF, etc.
     miliCoin: 0.01       // The mili version of the base coin. ie: mBTC, mBTF, etc.
+  },
+  commonMessageModule: {
+    numOfCommonMessageToDisplay: 1,
+    sortingMethod: 'recent', // recent OR oldest
+    timeout: 7500, // 7.5 seconds for auto-dismissal messages
+    disableActionsInRedux: true
   },
   features: {
     withdrawels: false,

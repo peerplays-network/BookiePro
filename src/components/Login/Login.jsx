@@ -64,7 +64,6 @@ class Login extends PureComponent {
     if (accountError) {
       //overriding blockchain error with general error
       //Note: even if the username format is incorrect it will show this generic error
-      //TODO: confirm if we really need to show generic error for these errors
       errors.userName = I18n.t('login.username_notfound');
       throw new SubmissionError(errors);
     } else {
@@ -87,23 +86,25 @@ class Login extends PureComponent {
 
   render() {
     return (
-      <div className='loginBackground'>
-        <div className='loginComponent'>
-          <div className='wrapper'>
-            <div className='text-center'>
-              <img src={ logo } height='132' width='280' alt='' />
-              <div className='center-ele'>
-                <LoginForm
-                  onClickSignup={ this.onClickSignup }
-                  onSubmit={ this.handleSubmit }
-                  errors={ this.props.errors }
-                  status={ this.props.status }
-                />
+      <div>
+        <div className='loginBackground'>
+          <div className='loginComponent'>
+            <div className='wrapper'>
+              <div className='text-center'>
+                <img src={ logo } height='132' width='280' alt='' />
+                <div className='center-ele'>
+                  <LoginForm
+                    onClickSignup={ this.onClickSignup }
+                    onSubmit={ this.handleSubmit }
+                    errors={ this.props.errors }
+                    status={ this.props.status }
+                  />
+                </div>
               </div>
             </div>
           </div>
+          <FloatingHelp />
         </div>
-        <FloatingHelp />
       </div>
     );
   }

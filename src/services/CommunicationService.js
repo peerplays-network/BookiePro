@@ -176,7 +176,7 @@ class CommunicationService {
                   ObjectUtils.betBelongsToBMG(this.getState(), betId, currentBMG)) {
                 // If it does, then trigger a loading screen on the placed bets tab.
                 this.dispatch(
-                  MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.BET_DELETE)
+                  MarketDrawerActions.updateOpenBetsLoadingStatus(LoadingStatus.BET_DELETE)
                 );
               }
             } else if (operationType === ChainTypes.operations.bet_place) {
@@ -1027,7 +1027,6 @@ class CommunicationService {
    * Withdraw money
    */
   static withdraw() {
-    // TODO: Replace later
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve();
@@ -1039,7 +1038,6 @@ class CommunicationService {
    * Get deposit address
    */
   static getDepositAddress() {
-    // TODO: Replace later
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve('THISISDUMMYDEPOSITADDRESSFORANYACCOUNTID');

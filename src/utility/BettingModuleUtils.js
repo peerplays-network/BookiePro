@@ -6,7 +6,7 @@
  * Those utility functions are mostly used in betslips, betting widgets and
  *  betting drawers components.
  */
-import {BetTypes} from '../constants';
+import {BetTypes, Config} from '../constants';
 import Immutable from 'immutable';
 import {CurrencyUtils} from './';
 
@@ -23,6 +23,7 @@ If current currency is mBTF:
 const oddsPlaces = 2;
 const stakePlaces = 5; //minimum stake = 0.001 BTF
 const exposurePlaces = 5;
+const configCurrency = Config.features.currency;
 
 var isFieldInvalid = function(object, field) {
   if (!object.has(field)) {
@@ -56,10 +57,10 @@ var BettingModuleUtils = {
    *
    * @param {string} odds
    * @param {string} profit - profit or liability
-   * @param {string} currency - display currency, 'BTF' or 'mBTF'
-   * @returns {string} - stake, based on either BTF or mBTF
+   * @param {string} currency - display currency, 'coin' or 'mCoin'
+   * @returns {string} - stake, based on either coin or mCoin
    */
-  getStake: function(odds, profit, currency = 'BTF') {
+  getStake: function(odds, profit, currency = configCurrency) {
     const floatProfit = parseFloat(profit);
     const floatOdds = parseFloat(odds);
 
@@ -83,14 +84,15 @@ var BettingModuleUtils = {
    *
    * @param {string} stake
    * @param {string} odds
-   * @param {string} currency - display currency, 'BTF' or 'mBTF'
-   * @returns {string} - profit of liability, based on either BTF or mBTF
+   * @param {string} currency - display currency, 'coin' or 'mCoin'
+   * @returns {string} - profit of liability, based on either coin or mCoin
    */
-  getProfitOrLiability: function(stake, odds, currencyFormat = 'BTF', profitOrLiability) {
+  getProfitOrLiability: function(stake, odds, currencyFormat = configCurrency, profitOrLiability) {
     if (stake && stake.toString().indexOf('*') === -1) {
       let floatStake = parseFloat(stake);
       let floatOdds = parseFloat(odds);
-
+      let currencyType = CurrencyUtils.getCurrencyType(currencyFormat);
+      
       //check invalid input
       if (isNaN(floatStake) || isNaN(floatOdds)) {
         return;
@@ -102,11 +104,11 @@ var BettingModuleUtils = {
 
       // Any mBTF passed into this function will be 1000 times larger than it needs to be.
       //  The return function will multiply the mBTF value by 1000.
-      if (currencyFormat === 'mBTF') {
+      if (currencyType === 'mCoin') {
         floatStake = floatStake / 1000;
       }
       
-      let precision = CurrencyUtils.fieldPrecisionMap[profitOrLiability][currencyFormat];
+      let precision = CurrencyUtils.fieldPrecisionMap[profitOrLiability][currencyType];
       let amount = (floatStake * (floatOdds - 1)).toFixed(precision);
         
       return CurrencyUtils.getFormattedCurrency(amount, currencyFormat, precision);
@@ -122,10 +124,10 @@ var BettingModuleUtils = {
    *
    * @param {string} odds : odds
    * @param {string} stake : stake
-   * @param {string} currency - display currency, 'BTF' or 'mBTF'
-   * @returns {string} - payout, based on either BTF or mBTF
+   * @param {string} currency - display currency, 'coin' or 'mCoin'
+   * @returns {string} - payout, based on either coin or mCoin
    */
-  getPayout: function(stake, odds, currency = 'BTF') {
+  getPayout: function(stake, odds, currency = configCurrency) {
     const floatStake = parseFloat(stake);
     const floatOdds = parseFloat(odds);
 
@@ -163,18 +165,14 @@ var BettingModuleUtils = {
    * @param {string} bettingMarketId : id of the betting market for which expsoure
    * calculation specified
    * @param {Immutable.List} bets - unconfirmedBets, marketDrawer.unconfirmedBets stored in redux
-   * @param {string} currency - display currency, 'BTF' or 'mBTF'
+   * @param {string} currency - display currency, 'coin' or 'mCoin'
    * @returns {string} - exposure of the target betting market, either BTF or mBTF, based
    * on currency param
    */
-  getExposure: function(bettingMarketId, bets, currency = 'BTF') {
+  getExposure: function(bettingMarketId, bets, currency = configCurrency) {
     let exposure = 0.0;
 
     bets.forEach((bet) => {
-      // TODO: Confirm if stake should be empty or having having a zero
-      // value if it is not available
-      // TODO: Confirm if profit/liability should be empty or having a zero
-      // value if it is not available
       if (
         isFieldInvalid(bet, 'odds') ||
         isFieldInvalid(bet, 'stake') ||
@@ -212,7 +210,7 @@ var BettingModuleUtils = {
     return (parseFloat(marketExposure) + parseFloat(betslipExposure)).toFixed(exposurePlaces);
   },
 
-  //  =========== Book Percentage  ===========
+  //  =========== Book Percentage ===========
 
   /**
    *  Calculate book percentage with provided best back/lay odds of selection. Formula is as follow:
@@ -244,10 +242,10 @@ var BettingModuleUtils = {
    *
    * @param {Immutable.List} bets - unconfirmedBets in betslip,
    * marketDrawer.unconfirmedBets stored in redux
-   * @param {string} currency - display currency, 'BTF' or 'mBTF'
+   * @param {string} currency - display currency, 'coin' or 'mCoin'
    * @returns {double} - total: total value of betslip
    */
-  getBetslipTotal: function(bets, currency = 'BTF') {
+  getBetslipTotal: function(bets, currency = configCurrency) {
     const accumulator = (total, bet) => {
       if (
         isFieldInvalid(bet, 'odds') ||
@@ -305,7 +303,8 @@ var BettingModuleUtils = {
    *    - groupedProfitOrLiability
    *    - groupedStake
    */
-  calculateAverageOddsFromMatchedBets: function(matchedBets, currency = 'BTF') {
+  calculateAverageOddsFromMatchedBets: function(matchedBets, currency = configCurrency) {
+    const currencyType = CurrencyUtils.getCurrencyType(currency);
     // Assume all the bets are of the same bet type so we can just sample from the first bet
     const profitOrLiability =
       matchedBets
@@ -326,14 +325,14 @@ var BettingModuleUtils = {
       groupedProfitOrLiability: CurrencyUtils.getFormattedCurrency(
         groupedProfitOrLiability,
         currency,
-        CurrencyUtils.fieldPrecisionMap['avgProfitLiability'][currency],
+        CurrencyUtils.fieldPrecisionMap['avgProfitLiability'][currencyType],
         true,
         true
       ),
       groupedStake: CurrencyUtils.getFormattedCurrency(
         groupedStake,
         currency,
-        CurrencyUtils.fieldPrecisionMap['avgStake'][currency],
+        CurrencyUtils.fieldPrecisionMap['avgStake'][currencyType],
         true,
         true
       )
@@ -346,8 +345,40 @@ var BettingModuleUtils = {
    * @param { Immutable.Maps} - bet
    * @returns {boolean} - if the bet valid
    */
-  isValidBet: function(bet) {
-    return !isFieldInvalid(bet, 'odds') && !isFieldInvalid(bet, 'stake');
+  isValidBet: function(bet, balance, currencyType) {
+    
+    let proposedBetAmount = 0;
+    let bet_type = bet.get('bet_type');
+    let stake =  parseFloat(bet.get('stake'));
+    let liability = parseFloat(bet.get('liability'));
+    let validBetAmount = false;
+
+    // Calculate price of bet, balance.
+    // Convert the balance to a human recognizable number.
+    // mili[coin] = balance / 100,000
+    // [coin] = balance / 100,000,000
+    if (currencyType === 'mCoin') {
+      balance = balance / Math.pow(10, 5);
+    } else {
+      balance = balance / Math.pow(10, 8);
+    }
+
+    let transactionFee = currencyType === 'coin'
+      ? Config.coinTransactionFee 
+      : Config.mCoinTransactionFee;
+
+    // Check if bet is larger than the balance available.
+    if (bet_type && bet_type.toLowerCase() === 'back'){
+      proposedBetAmount = transactionFee + stake;
+    } else if (bet_type && bet_type.toLowerCase() === 'lay'){
+      proposedBetAmount = transactionFee + liability;
+    }
+
+    if (proposedBetAmount <= balance){
+      validBetAmount = true;
+    }
+
+    return !isFieldInvalid(bet, 'odds') && !isFieldInvalid(bet, 'stake') && validBetAmount;
   },
 
   /**
@@ -397,6 +428,67 @@ var BettingModuleUtils = {
         }
       }
     }
+  },
+
+  //  =========== UI/DOM Manipulation ===========
+  // Subtotal DOM sticky/unsticky
+  modifyFooterLocation: function(isVisibleInDOM, rectParent, footerID) {
+    // The rectParent needs to have its height adjusted to manipulate the scrollable region of the 
+    // betslip tab.
+    let footer = document.getElementById(footerID);
+    let footerClass = footer && footer.className;
+    let scrollableDiv = rectParent.children[0];
+    let scrollableDivClass = scrollableDiv.className;
+    let fCIndex = footerClass && footerClass.indexOf('sticky');
+    let sCIndex = scrollableDivClass.indexOf('footer--sticky');
+
+    if (!isVisibleInDOM) {
+      // Append the sticky class.
+      if (fCIndex === -1) {
+        footer.className = footerClass + ' sticky';
+      }
+
+      if (sCIndex === -1) {
+        scrollableDiv.className = scrollableDivClass + ' footer--sticky';
+      }
+    } else {
+      // Two children down from the rectParent is the div that has a height changing as bets are
+      // added or deleted from it. If this child elements height is less than rectParents, we can
+      // remove the sticky class from the footer.
+      let offsetAddition = 120; // To make up for the existance of footer
+
+      if (footerID.indexOf('pb') !== -1) {
+        offsetAddition = 160;
+      }
+
+      let childOfChild = rectParent.firstElementChild.firstElementChild;
+      let cOcHeight = childOfChild.offsetHeight + offsetAddition;
+      let rectParentHeight = rectParent.offsetHeight;
+
+      if (cOcHeight < rectParentHeight) {
+        if (fCIndex !== -1) {
+          footer.className = footerClass.substring(0, fCIndex - 1);
+        }
+
+        if (sCIndex !== -1) {
+          scrollableDiv.className = scrollableDivClass.substring(0, sCIndex - 1);
+        }
+      }
+    }
+  },
+
+  inViewport: function(rect, rectParent, footerID) {
+    let isVisibleInDOM;
+
+    let rectBounding = rect.getBoundingClientRect();
+    // Determing if the `rect` is visible with the following checks.
+    isVisibleInDOM =
+      rectBounding.top >= 0 &&
+      rectBounding.left >= 0 &&
+      rectBounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rectBounding.right <= (window.innerWidth || document.documentElement.clientWidth);
+
+    this.modifyFooterLocation(isVisibleInDOM, rectParent, footerID);
   }
 };
 

@@ -143,7 +143,6 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
     getAssetsById,
     getEventGroupsById
   ],
-  // TO DO: FIX ME. .map with .filter
   (
     binnedOrderBooksByBettingMarketId,
     bettingMarketsById,
@@ -154,6 +153,7 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
   ) => {
     let simpleBettingWidgetBinnedOrderBooksByEventId = Immutable.Map();
     binnedOrderBooksByBettingMarketId.forEach((binnedOrderBook, bettingMarketId) => {
+      const filters = Config.filters;
       const bettingMarket = bettingMarketsById.get(bettingMarketId);
       const bettingMarketGroupId = bettingMarket && bettingMarket.get('group_id');
       const bettingMarketGroup = bettingMarketGroupsById.get(bettingMarketGroupId);
@@ -166,16 +166,15 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
         // Ensure bettingMarketGroup exists.
         // Remove instances of friendly international event group(s) from the bookie pro fun beta.
         if (
-          bettingMarketGroup !== undefined &&
-          eventGroupName.toUpperCase() !== 'FRIENDLY INTERNATIONAL'
+          bettingMarketGroup !== undefined && 
+          !filters.eventGroup.name.includes(eventGroupName.toUpperCase())
         ) {
           // NOTE: Assume description can be used as comparison
-          var isMoneyline =
-            !!bettingMarketGroup &&
-            (bettingMarketGroup.get('description').toUpperCase() === 'MONEYLINE' ||
-              bettingMarketGroup.get('description').toUpperCase() === 'MATCH ODDS');
+          const bmgDescription = bettingMarketGroup.get('description').toUpperCase();
+          var passesFilters =
+            !!bettingMarketGroup && filters.bettingMarketGroup.description.includes(bmgDescription);
 
-          if (eventId && isMoneyline) {
+          if (eventId && passesFilters) {
             // Implicit Rule: the first betting market is for the home team
             let simpleBettingWidgetBinnedOrderBook = Immutable.Map()
               .set('betting_market_id', bettingMarketId)
@@ -186,13 +185,14 @@ const getSimpleBettingWidgetBinnedOrderBooksByEventId = createSelector(
             const assetPrecision = assetsById.getIn([
               bettingMarketGroup.get('asset_id'),
               'precision'
-            ]);
+            ]) || 0;
+
             let aggregated_lay_bets =
               (binnedOrderBook && binnedOrderBook.get('aggregated_lay_bets')) || Immutable.List();
             aggregated_lay_bets = aggregated_lay_bets.map((aggregated_lay_bet) => {
               const odds = aggregated_lay_bet.get('backer_multiplier') / Config.oddsPrecision;
               const price = aggregated_lay_bet.get('amount_to_bet') / Math.pow(10, assetPrecision);
-              return aggregated_lay_bet.set('odds', odds).set('price', price);
+              return aggregated_lay_bet.set('odds', odds).set('price', price / (odds - 1));
             });
             let aggregated_back_bets =
               (binnedOrderBook && binnedOrderBook.get('aggregated_back_bets')) || Immutable.List();

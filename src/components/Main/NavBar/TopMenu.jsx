@@ -127,7 +127,6 @@ class TopMenu extends PureComponent {
   }
 
   handleClick(e) {
-    //TODO:handle selected menu
     event.preventDefault();
 
     this.setState({
@@ -224,14 +223,20 @@ class TopMenu extends PureComponent {
       />
     );
 
-    const iconCurrencyClass = (isAmountComponentVisible, curr) => {
-      let configCurr = Config.features.currency;
+    const iconCurrencyClass = (isAmountComponentVisible, currencyFormat) => {
+      let configCurrency = Config.features.currency;
+      let isMili = CurrencyUtils.getCurrencyType(currencyFormat) === 'mCoin';
 
-      if (curr !== configCurr && curr !== 'm' + configCurr) {
-        curr = Config.features.currency;
+      if (currencyFormat !== configCurrency) {
+
+        if (isMili) {
+          currencyFormat = 'm' + configCurrency;
+        } else {
+          currencyFormat = configCurrency;
+        }
       }
 
-      switch (curr) {
+      switch (currencyFormat) {
         case 'BTC':
           return isAmountComponentVisible ? 'bitcoin-icon-selected' : 'bitcoin-icon';
         case 'mBTC':
@@ -467,6 +472,7 @@ const mapStateToProps = (state) => {
     state.getIn(['setting', 'defaultSetting']);
   const precision = state.getIn(['asset', 'assetsById', Config.coreAsset, 'precision']);
   let balance = state.getIn(['balance', 'availableBalancesByAssetId', Config.coreAsset, 'balance']);
+  const currencyFormat = setting.get('currencyFormat');
 
   // Make Sure the balance is 0
   if (!balance || balance < 0) {
@@ -475,7 +481,7 @@ const mapStateToProps = (state) => {
 
   const convertedAvailableBalance = CurrencyUtils.getFormattedCurrency(
     balance / Math.pow(10, precision),
-    setting.get('currencyFormat'),
+    currencyFormat,
     BettingModuleUtils.exposurePlaces,
     false
   );
@@ -496,7 +502,7 @@ const mapStateToProps = (state) => {
   });
   inGameAmount = CurrencyUtils.getFormattedCurrency(
     inGameAmount / Math.pow(10, precision),
-    setting.get('currencyFormat'),
+    currencyFormat,
     BettingModuleUtils.stakePlaces
   );
 
@@ -538,7 +544,6 @@ function mapDispatchToProps(dispatch) {
     {
       getDepositAddress: BalanceActions.getDepositAddress,
       navigateTo: NavigateActions.navigateTo,
-      //TODO: Wallet Address verification and error response pending.
       withdraw: BalanceActions.topMenuWithdraw,
       resetWithdrawLoadingStatus: BalanceActions.resetTopMenuWithdrawLoadingStatus,
       logout: AuthActions.logoutAndShowPopupIfNeeded,

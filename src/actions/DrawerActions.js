@@ -22,7 +22,7 @@ class DrawerActions {
   static deleteBets(bettingMarketIds) {
     return (dispatch, getState) => {
       // Get all unplaced bets from state. There exists two locations for them.
-      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.LOADING));
+      dispatch(MarketDrawerActions.updateOpenBetsLoadingStatus(LoadingStatus.LOADING));
       const unconfirmedBets = getState().getIn(['marketDrawer', 'unconfirmedBets']);
       const bets = getState().getIn(['quickBetDrawer', 'bets']);
       // Concatinate the unplaced bets
@@ -46,7 +46,7 @@ class DrawerActions {
       dispatch(PrivateDrawerActions.deleteManyUnconfirmedBets(betIdsToDelete));
       // 'bets' can be seen in redux state under Quick Bet Drawer.
       dispatch(PrivateDrawerActions.deleteManyBets(betsToDelete.map((b) => b.get('id'))));
-      dispatch(MarketDrawerActions.updatePlacedBetsLoadingStatus(LoadingStatus.DONE));
+      dispatch(MarketDrawerActions.updateOpenBetsLoadingStatus(LoadingStatus.DONE));
     };
   }
 }

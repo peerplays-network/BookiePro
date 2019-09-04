@@ -1,45 +1,95 @@
 @import '../../App/Colors.less';
 @import '../../App/Common.less';
 
-@betslip-width: 360px;
+@betslip-width: 349px;
 @betslip-title-height: 40px;
 @betslip-footer-height: 40px;
 
-div.betslip {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: @betslip-title-height;
-
-  div.content {
-    position: relative;
+#market-drawer {
+  .betslip {
+    position: absolute;
+    width: 100%;
     height: 100%;
-  }
+    top: @betslip-title-height;
 
-  div.footer {
-    align-self: flex-end;
-    background-color: @betslip_bg;
-    width: @betslip-width;
-    padding: 6px;
-    margin-bottom: 40px;
-
-    &.dimmed {
-      opacity: .1;
+    .SplitPane {
+      overflow-y: scroll!important;
+      overflow: scroll !important;
+      min-height: 100px!important;
+      height: 100%;
+      &.footer--sticky {
+        height: ~"calc(100% - 160px)"!important;
+      }
     }
 
-    > button.place-bet {
+    .place-bet {
       color: @black_pearl_dark;
-      font-size: 18px;
       font-weight: 700;
       height: 40px;
+      margin-bottom: 5px;
       .btn-regular;
         width: 100%;
-        text-transform: none;  // for displaying mB properly
+        text-transform: none; // for displaying mB properly
       &:disabled{
         .btn-disabled;
       }
       span {
         display: inline-block;
+      }
+    }
+
+    .content {
+      position: relative;
+      height: 100%;
+    }
+
+    .place-bet-drawer {
+      &__footer {
+        font-size: 18px;
+        background-color: @betslip_bg;
+        position: absolute;
+        width: @betslip-width;
+        padding: 5px;
+        margin: 0px 5px;
+
+        &-dimmed {
+          width: 100%;
+          opacity: .1;
+          padding-top: 5px;
+          .place-bet {
+            padding: 5px;
+            left: 10px;
+            width: 339px;
+          }
+        }
+
+        &.sticky {
+          width: 350px;
+          position: fixed;
+          bottom: 0;
+          right: 0;
+          margin-right: 10px;
+        }
+
+        .place-bet {
+          font-size: 18px;
+          width: 100%;
+          text-transform: none; // for displaying mB properly
+          margin-bottom: 5px;
+          
+          span {
+            padding-right: 2px;
+          }
+
+          .currency-symbol {
+            height: 14px;
+            width: auto;
+            padding: 0 2px;
+            &.btc, &.mbtf, &.mbtc {
+              margin-bottom: 0;
+            }
+          }
+        }
       }
     }
   }
