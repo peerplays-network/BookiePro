@@ -1,17 +1,24 @@
-# Node docker image on which this would be run
-image: node:8.9.4
+# gitlab scanning
+include:
+  - template: Dependency-Scanning.gitlab-ci.yml
+  - template: License-Management.gitlab-ci.yml
+
+# node docker image on which this would be run
+image: node:12.2.0
 
 stages:
   - build
+  - test
   - deploy
 
-# Builds app
+# builds app
 build:
   stage: build
   script:
-    - npm install
+    - npm install -f
   tags:
     - docker
+
 
 # Deploys app to QA 
 deployToQA:
