@@ -40,7 +40,8 @@ class SportsBookSport extends PureComponent {
               }
             });
 
-            return eventsToDisplay.length > 0 && 
+            if (events && events.size > MAX_EVENTS) {
+              return eventsToDisplay.length > 0 && 
               (
                 <div key={ eg.get('name') }>
                   <BackingWidgetContainer
@@ -57,6 +58,18 @@ class SportsBookSport extends PureComponent {
                       More { eg.get('name') }
                     </a>
                   </div>
+                </div>
+              );
+            }
+
+            return eventsToDisplay.length > 0 && 
+              (
+                <div key={ eg.get('name') }>
+                  <BackingWidgetContainer
+                    widgetTitle={ eg.get('name') }
+                    marketData={ eventsToDisplay }
+                    eventStatus={ [''] }
+                  />
                 </div>
               );
           })
