@@ -1,7 +1,9 @@
 # gitlab scanning
 include:
   - template: Dependency-Scanning.gitlab-ci.yml
-  - template: License-Management.gitlab-ci.yml
+  - template: License-Scanning.gitlab-ci.yml
+  - template: SAST.gitlab-ci.yml
+  - template: Secret-Detection.gitlab-ci.yml
 
 # node docker image on which this would be run
 image: node:12.2.0
