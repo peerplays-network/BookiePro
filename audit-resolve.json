@@ -1,0 +1,350 @@
+{
+  "decisions": {
+    "16|sinon>build>jxLoader>js-yaml": {
+      "decision": "fix",
+      "madeAt": 1604604786979
+    },
+    "39|sinon>build>uglify-js": {
+      "decision": "fix",
+      "madeAt": 1604604786979
+    },
+    "48|sinon>build>uglify-js": {
+      "decision": "fix",
+      "madeAt": 1604604786979
+    },
+    "788|sinon>build>jxLoader>js-yaml": {
+      "decision": "fix",
+      "madeAt": 1604604786979
+    },
+    "813|sinon>build>jxLoader>js-yaml": {
+      "decision": "fix",
+      "madeAt": 1604604786979
+    },
+    "117|foreman>shell-quote": {
+      "decision": "fix",
+      "madeAt": 1604604929710
+    },
+    "645|foreman": {
+      "decision": "fix",
+      "madeAt": 1604604929710
+    },
+    "1486|foreman>http-proxy": {
+      "decision": "fix",
+      "madeAt": 1604604929710
+    },
+    "130|react-scripts>fsevents>node-pre-gyp>request>tough-cookie": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "338|react-scripts>fsevents>node-pre-gyp>rimraf>glob>minimatch>brace-expansion": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "338|react-scripts>fsevents>node-pre-gyp>tar>fstream>rimraf>glob>minimatch>brace-expansion": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "338|react-scripts>fsevents>node-pre-gyp>tar-pack>tar>fstream>rimraf>glob>minimatch>brace-expansion": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "338|react-scripts>fsevents>node-pre-gyp>tar-pack>fstream>rimraf>glob>minimatch>brace-expansion": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "338|react-scripts>fsevents>node-pre-gyp>tar-pack>fstream-ignore>fstream>rimraf>glob>minimatch>brace-expansion": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "338|react-scripts>fsevents>node-pre-gyp>tar-pack>rimraf>glob>minimatch>brace-expansion": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "338|react-scripts>fsevents>node-pre-gyp>tar-pack>fstream-ignore>minimatch>brace-expansion": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "525|react-scripts>fsevents>node-pre-gyp>request>tough-cookie": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "534|react-scripts>eslint-plugin-import>eslint-module-utils>debug": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "534|react-scripts>fsevents>node-pre-gyp>tar-pack>debug": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "535|react-scripts>url-loader>mime": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "572|react-scripts>fsevents>node-pre-gyp>request>har-validator>is-my-json-valid": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "598|react-scripts>fsevents>node-pre-gyp>request>tunnel-agent": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "606|react-scripts>fsevents>node-pre-gyp>request>http-signature>sshpk": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "612|react-scripts>fsevents>node-pre-gyp>rc>deep-extend": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "663|react-scripts>webpack-dev-server>open": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "664|react-scripts>fsevents>node-pre-gyp>request>stringstream": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "695|react-scripts>react-dev-utils": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "725|react-scripts>webpack-dev-server": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "786|react-scripts>webpack-dev-server>http-proxy-middleware>micromatch>braces": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "786|react-scripts>babel-jest>babel-plugin-istanbul>test-exclude>micromatch>braces": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "786|react-scripts>jest>jest-cli>jest-runtime>babel-jest>babel-plugin-istanbul>test-exclude>micromatch>braces": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "786|react-scripts>jest>jest-cli>jest-runtime>babel-plugin-istanbul>test-exclude>micromatch>braces": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "786|react-scripts>http-proxy-middleware>micromatch>braces": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "786|react-scripts>webpack>watchpack>chokidar>anymatch>micromatch>braces": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "788|react-scripts>css-loader>cssnano>postcss-svgo>svgo>js-yaml": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "803|react-scripts>fsevents>node-pre-gyp>tar": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "803|react-scripts>fsevents>node-pre-gyp>tar-pack>tar": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "813|react-scripts>css-loader>cssnano>postcss-svgo>svgo>js-yaml": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "886|react-scripts>fsevents>node-pre-gyp>tar>fstream": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "886|react-scripts>fsevents>node-pre-gyp>tar-pack>tar>fstream": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "886|react-scripts>fsevents>node-pre-gyp>tar-pack>fstream": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "886|react-scripts>fsevents>node-pre-gyp>tar-pack>fstream-ignore>fstream": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "996|react-scripts>fsevents>node-pre-gyp>request>extend": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "1179|react-scripts>fsevents>node-pre-gyp>mkdirp>minimist": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "1179|react-scripts>fsevents>node-pre-gyp>tar>fstream>mkdirp>minimist": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "1179|react-scripts>fsevents>node-pre-gyp>tar-pack>tar>fstream>mkdirp>minimist": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "1179|react-scripts>fsevents>node-pre-gyp>tar-pack>fstream>mkdirp>minimist": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "1179|react-scripts>fsevents>node-pre-gyp>tar-pack>fstream-ignore>fstream>mkdirp>minimist": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "1179|react-scripts>fsevents>node-pre-gyp>rc>minimist": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "1179|react-scripts>webpack>optimist>minimist": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "1179|react-scripts>webpack-dev-server>optimist>minimist": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "1469|react-scripts>fsevents>node-pre-gyp>request>qs": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "1500|react-scripts>jest>jest-cli>jest-runtime>yargs>yargs-parser": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "1500|react-scripts>jest>jest-cli>yargs>yargs-parser": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "1555|react-scripts>fsevents>node-pre-gyp>request>bl": {
+      "decision": "fix",
+      "madeAt": 1604605040872
+    },
+    "535|url-loader>mime": {
+      "decision": "fix",
+      "madeAt": 1604605088067
+    },
+    "663|webpack-dev-server>open": {
+      "decision": "fix",
+      "madeAt": 1604605141927
+    },
+    "725|webpack-dev-server": {
+      "decision": "fix",
+      "madeAt": 1604605141927
+    },
+    "786|webpack-dev-server>http-proxy-middleware>micromatch>braces": {
+      "decision": "fix",
+      "madeAt": 1604605141927
+    },
+    "1179|webpack-dev-server>optimist>minimist": {
+      "decision": "fix",
+      "madeAt": 1604605141927
+    },
+    "695|react-dev-utils": {
+      "decision": "fix",
+      "madeAt": 1604605269596
+    },
+    "788|css-loader>cssnano>postcss-svgo>svgo>js-yaml": {
+      "decision": "fix",
+      "madeAt": 1604605336829
+    },
+    "813|css-loader>cssnano>postcss-svgo>svgo>js-yaml": {
+      "decision": "fix",
+      "madeAt": 1604605336829
+    },
+    "1500|electron-builder>yargs>yargs-parser": {
+      "decision": "fix",
+      "madeAt": 1604605421028
+    },
+    "1500|standard-version>yargs>yargs-parser": {
+      "decision": "fix",
+      "madeAt": 1604605483120
+    },
+    "1556|react>fbjs>isomorphic-fetch>node-fetch": {
+      "decision": "fix",
+      "madeAt": 1604605608643
+    },
+    "1556|react-dom>fbjs>isomorphic-fetch>node-fetch": {
+      "decision": "fix",
+      "madeAt": 1604605653130
+    },
+    "1556|react-test-renderer>fbjs>isomorphic-fetch>node-fetch": {
+      "decision": "fix",
+      "madeAt": 1604605798424
+    },
+    "1065|commitizen>inquirer>lodash": {
+      "decision": "fix",
+      "madeAt": 1604605836624
+    },
+    "1523|commitizen>inquirer>lodash": {
+      "decision": "fix",
+      "madeAt": 1604605836624
+    },
+    "1490|commitizen>find-node-modules>findup-sync>micromatch>braces>snapdragon-node>define-property>is-descriptor>is-accessor-descriptor>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    },
+    "1490|lint-staged>micromatch>braces>snapdragon-node>define-property>is-descriptor>is-accessor-descriptor>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    },
+    "1490|react-scripts>webpack>watchpack>chokidar>readdirp>micromatch>braces>snapdragon-node>define-property>is-descriptor>is-accessor-descriptor>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    },
+    "1490|webpack>watchpack>chokidar>readdirp>micromatch>braces>snapdragon-node>define-property>is-descriptor>is-accessor-descriptor>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    },
+    "1490|stylelint>globby>fast-glob>micromatch>braces>snapdragon-node>define-property>is-descriptor>is-accessor-descriptor>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    },
+    "1490|commitizen>find-node-modules>findup-sync>micromatch>braces>snapdragon-node>define-property>is-descriptor>is-data-descriptor>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    },
+    "1490|lint-staged>micromatch>braces>snapdragon-node>define-property>is-descriptor>is-data-descriptor>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    },
+    "1490|react-scripts>webpack>watchpack>chokidar>readdirp>micromatch>braces>snapdragon-node>define-property>is-descriptor>is-data-descriptor>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    },
+    "1490|webpack>watchpack>chokidar>readdirp>micromatch>braces>snapdragon-node>define-property>is-descriptor>is-data-descriptor>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    },
+    "1490|stylelint>globby>fast-glob>micromatch>braces>snapdragon-node>define-property>is-descriptor>is-data-descriptor>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    },
+    "1490|commitizen>find-node-modules>findup-sync>micromatch>braces>snapdragon-node>define-property>is-descriptor>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    },
+    "1490|lint-staged>micromatch>braces>snapdragon-node>define-property>is-descriptor>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    },
+    "1490|react-scripts>webpack>watchpack>chokidar>readdirp>micromatch>braces>snapdragon-node>define-property>is-descriptor>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    },
+    "1490|webpack>watchpack>chokidar>readdirp>micromatch>braces>snapdragon-node>define-property>is-descriptor>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    },
+    "1490|stylelint>globby>fast-glob>micromatch>braces>snapdragon-node>define-property>is-descriptor>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    },
+    "1490|stylelint>global-modules>global-prefix>kind-of": {
+      "decision": "fix",
+      "madeAt": 1604605899783
+    }
+  },
+  "rules": {},
+  "version": 1
+}
