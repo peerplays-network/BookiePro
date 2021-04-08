@@ -1,44 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {
-  Router, 
-  Route, 
-  hashHistory, 
-  IndexRoute
-} from 'react-router';
+import {ConnectedRouter} from 'connected-react-router/immutable';
 import App from './components/App';
-import MyAccount from './components/MyAccount';
-import MyWager from './components/MyWager';
-import Signup from './components/Signup';
-import Login from './components/Login';
-import Main from './components/Main';
-import Exchange from './components/Exchange';
-import AllSports from './components/AllSports';
-import Sport from './components/Sport';
-import EventGroup from './components/EventGroup';
-import BettingMarketGroup from './components/BettingMarketGroup';
-import configureStore from './store/configureStore';
-import {syncHistoryWithStore} from 'react-router-redux';
-import Deposit from './components/Deposit';
-import ChangePassword from './components/ChangePassword';
-import Welcome from './components/Welcome';
-import HelpAndSupport from './components/HelpAndSupport';
-import {LocaleProvider} from 'antd';
+import configureStore, {history} from './store/configureStore';
+import {ConfigProvider} from 'antd';
 import {I18n} from 'react-redux-i18n';
 import log from 'loglevel';
-import LicenseScreen from './components/LicenseScreen';
 import {AppUtils} from './utility';
 
 // Configure store
 const store = configureStore();
-// Configure history
-const history = syncHistoryWithStore(hashHistory, store, {
-  selectLocationState(state) {
-    // Custom selector for immutable redux state
-    return state.get('routing').toJS();
-  }
-});
 
 // Configure log
 // Level of log is TRACE > DEBUG > INFO > WARN > ERROR
@@ -92,38 +64,13 @@ if (isRunningInsideElectron) {
   );
 }
 
-// Add new page here
-const routes = (
-  <Route path='/' component={ App }>
-    <Route path='/login' component={ Login } />
-    <Route path='/signup' component={ Signup } />
-    <Route path='/license' component={ LicenseScreen } />
-    <Route path='/welcome' component={ Welcome } />
-    <Route path='/deposit' component={ Deposit } />
-    <Route component={ Main }>
-      <Route path='/help-and-support' component={ HelpAndSupport } />
-      <Route path='/exchange' component={ Exchange }>
-        <IndexRoute component={ AllSports } />
-        <Route path='Sport/:objectId' component={ Sport } />
-        <Route path='EventGroup/:objectId' component={ EventGroup } />
-        <Route
-          path=':eventName/:eventId/BettingMarketGroup/:objectId/'
-          component={ BettingMarketGroup }
-        />
-        <Route path='BettingMarketGroup/:objectId' component={ BettingMarketGroup } />
-      </Route>
-      <Route path='/my-account' component={ MyAccount } />
-      <Route path='/change-password' component={ ChangePassword } />
-      <Route path='/my-wager' component={ MyWager } />
-    </Route>
-  </Route>
-);
-
 ReactDOM.render(
-  <LocaleProvider locale={ I18n.t('application.locale') }>
+  <ConfigProvider locale={ I18n.t('application.locale') }>
     <Provider store={ store }>
-      <Router history={ history } routes={ routes } />
+      <ConnectedRouter history={ history }>
+        <App />
+      </ConnectedRouter>
     </Provider>
-  </LocaleProvider>,
+  </ConfigProvider>,
   document.getElementById('root')
 );

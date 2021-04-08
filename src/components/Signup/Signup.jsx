@@ -6,7 +6,6 @@
  */
 import React, {PureComponent} from 'react';
 import logo from '../../assets/images/bookie_logo_signup.png';
-import {Form} from 'antd';
 import SignupForm from './SignupForm';
 import {NavigateActions, AuthActions, AppActions} from '../../actions';
 import {connect} from 'react-redux';
@@ -98,4 +97,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Form.create()(Signup));
+)(Signup);

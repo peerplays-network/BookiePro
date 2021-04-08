@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
-import {hashHistory} from 'react-router';
-import {routerMiddleware} from 'react-router-redux';
+import {createBrowserHistory} from 'history';
+import {routerMiddleware} from 'connected-react-router/immutable';
 import localforage from 'localforage';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {autoRehydrate, persistStore, createTransform} from 'redux-persist-immutable';
@@ -13,6 +13,8 @@ import rootReducer from '../reducers';
 import log from 'loglevel';
 import * as actionCreators from '../actions/CommonMessageActions';
 import {Config} from '../constants';
+
+export const history = createBrowserHistory();
 
 const syncImmutableTranslationWithStore = (store) => {
   I18n.setTranslationsGetter(() => {
@@ -53,11 +55,11 @@ export default function configureStore() {
 
   // Construct enhancer
   const enhancer = composeEnhancers(
-    applyMiddleware(thunk, routerMiddleware(hashHistory)),
+    applyMiddleware(thunk, routerMiddleware(history)),
     autoRehydrate()
   );
 
-  const store = createStore(rootReducer, initialState, enhancer);
+  const store = createStore(rootReducer(history), initialState, enhancer);
 
   // Configure localforage Indexeddb setting ( for redux-persist)
   localforage.config({

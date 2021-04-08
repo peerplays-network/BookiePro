@@ -8,7 +8,7 @@
  * under the `auth` in the Redux store if the operation was successful.
  */
 import React, {PureComponent} from 'react';
-import {Card, Breadcrumb, Form} from 'antd';
+import {Card, Breadcrumb} from 'antd';
 import {I18n, Translate} from 'react-redux-i18n';
 import ChangePasswordForm from './ChangePasswordForm';
 import {connect} from 'react-redux';
@@ -165,4 +165,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Form.create()(ChangePassword));
+)(ChangePassword);

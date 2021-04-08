@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux-immutable';
 import {reducer as formReducer} from 'redux-form/immutable';
+import {connectRouter} from 'connected-react-router/immutable';
 
 import AssetReducer from './AssetReducer';
 import SettingReducer from './SettingReducer';
@@ -32,7 +33,8 @@ import MywagerReducer from './MywagerReducer';
 import MyAccountPageReducer from './MyAccountPageReducer';
 import RuleReducer from './RuleReducer';
 
-const rootReducer = combineReducers({
+const rootReducer = (history) => combineReducers({
+  router: connectRouter(history),
   app: AppReducer,
   auth: AuthReducer,
   asset: AssetReducer,

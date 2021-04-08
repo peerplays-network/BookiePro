@@ -22,7 +22,6 @@ import React, {PureComponent} from 'react';
 import {BettingModuleUtils, CurrencyUtils} from '../../../utility';
 import {BetTypes, Config, LoadingStatus} from '../../../constants';
 import ReactTable from 'react-table';
-import 'react-table/react-table.css';
 import Immutable from 'immutable';
 import RulesButton from '../RulesButton';
 import {I18n} from 'react-redux-i18n';

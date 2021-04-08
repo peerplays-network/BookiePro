@@ -1,4 +1,0 @@
-[submodule "lib/peerplaysjs-lib"]
-	path = lib/peerplaysjs-lib
-	url = https://github.com/PBSA/peerplaysjs-lib-private.git/
-	branch = master

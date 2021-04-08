@@ -1,4 +1,9 @@
 import React, {PureComponent} from 'react';
+import {
+  Route,
+  Switch
+} from 'react-router';
+
 import {LoadingStatus, AppBackgroundTypes, ConnectionStatus} from '../../constants';
 import {NavigateActions, AppActions, AuthActions} from '../../actions';
 import {connect} from 'react-redux';
@@ -11,6 +16,20 @@ import TitleBar from './TitleBar';
 import {I18n} from 'react-redux-i18n';
 import Loading from '../Loading';
 import LicenseScreen from '../LicenseScreen';
+import MyAccount from '../MyAccount';
+import MyWager from '../MyWager';
+import Signup from '../Signup';
+import Login from '../Login';
+import Main from '../Main';
+import Exchange from '../Exchange';
+import AllSports from '../AllSports';
+import Sport from '../Sport';
+import EventGroup from '../EventGroup';
+import BettingMarketGroup from '../BettingMarketGroup';
+import Deposit from '../Deposit';
+import ChangePassword from '../ChangePassword';
+import Welcome from '../Welcome';
+import HelpAndSupport from '../HelpAndSupport';
 
 const isWindowsPlatform = AppUtils.isWindowsPlatform();
 const titleBarHeight = isWindowsPlatform ? '32px' : '40px';
@@ -166,7 +185,40 @@ class App extends PureComponent {
     } else if (connectToBlockchainLoadingStatus === LoadingStatus.LOADING) {
       content = <Loading />;
     } else {
-      content = children;
+      content = (
+        <Switch>
+          <Route path='/login' component={ Login } />
+          <Route path='/signup' component={ Signup } />
+          <Route path='/license' component={ LicenseScreen } />
+          <Route path='/welcome' component={ Welcome } />
+          <Route path='/deposit' component={ Deposit } />
+          <Route path='/(help-and-support|exchange|my-account|change-password|my-wager)' render={() => (
+            <Main>
+              <Switch>
+                <Route path='/help-and-support' component={ HelpAndSupport } />
+                <Route path='/exchange' component={ Exchange }/>
+                <Route path='/my-account' component={ MyAccount } />
+                <Route path='/change-password' component={ ChangePassword } />
+                <Route path='/my-wager' component={ MyWager } />
+              </Switch>
+            </Main>
+          )} />
+          <Route path='/exchange' render={() => (
+            <Exchange>
+              <Switch>
+                <Route path='' component={ AllSports }/>
+                <Route path='Sport/:objectId' component={ Sport } />
+                <Route path='EventGroup/:objectId' component={ EventGroup } />
+                <Route
+                  path=':eventName/:eventId/BettingMarketGroup/:objectId/'
+                  component={ BettingMarketGroup }
+                />
+                <Route path='BettingMarketGroup/:objectId' component={ BettingMarketGroup } />
+              </Switch>
+            </Exchange>)
+          }>
+          </Route>
+        </Switch>);
     }
 
     // Determine app background

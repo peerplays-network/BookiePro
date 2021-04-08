@@ -28,7 +28,7 @@ The application will be opened as a web app (in a browser instance) and an Elect
 - [Electron](https://electronjs.org/) (wrapping into desktop app)
 - [Redux](https://redux.js.org/) (single source of truth state management)
 - React-Router (we use this to control navigation)
-- React-Router-Redux (sync React-Router with Redux so we can handle navigation with Redux)
+- Connected-React-Router (sync React-Router with Redux so we can handle navigation with Redux)
 - [Ant-Design](https://ant.design/) (CSS/UI library)
 - Redux dev tools (allow user to debug )
 - [ESlint](https://eslint.org/) (to ensure code style consistency)

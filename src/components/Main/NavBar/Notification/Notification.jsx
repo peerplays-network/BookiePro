@@ -68,7 +68,7 @@ export class Notification extends PureComponent {
 Notification.propTypes = {
   onClickItem: PropTypes.func,
   onClickCloseItem: PropTypes.func,
-  notifications: React.PropTypes.instanceOf(Immutable.List)
+  notifications: PropTypes.instanceOf(Immutable.List)
 };
 
 Notification.defaultProps = {

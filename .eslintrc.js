@@ -1,4 +1,4 @@
-{
+module.exports = {
   "plugins": [
     "prettier",
     "react"
@@ -9,6 +9,7 @@
   "env": {
     "browser": true
   },
+  "parser": "@babel/eslint-parser",
   "rules": {
     "jsx-quotes": [2, "prefer-single"],
     "react/jsx-curly-spacing": [2, "always"],
@@ -34,6 +35,7 @@
     "no-plusplus": "off",
     "no-useless-escape": "off",
     "no-restricted-properties": "off",
+    "no-restricted-globals": "off",
     "consistent-return": "off",
     "guard-for-in": "off",
     "no-loop-func": "off",
@@ -54,4 +56,4 @@
   "settings": {
     "import/resolver": "webpack"
   }
-}
+};
