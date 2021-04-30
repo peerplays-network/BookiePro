@@ -134,16 +134,11 @@ module.exports = {
           },
         }]
       },
-      // "file" loader for svg
+      // svg files should be marked as resources in Webpack 5
       {
         test: /\.svg$/,
         exclude: /node_modules/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: 'static/media/[name].[hash:8].[ext]'
-          }
-        }]
+        type: 'asset/resource'
       },
       // Parse less files and modify variables
       {

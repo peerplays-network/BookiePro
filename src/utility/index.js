@@ -1,7 +1,7 @@
 import BlockchainUtils from './BlockchainUtils';
 import ConnectionUtils from './ConnectionUtils';
 import StringUtils from './StringUtils';
-import TreeUtils from './TreeUtils';
+import * as TreeUtils from './TreeUtils';
 import BettingModuleUtils from './BettingModuleUtils';
 import CurrencyUtils from './CurrencyUtils';
 import ExportUtils from './ExportUtils';

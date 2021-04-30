@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import {PrivateKey, PublicKey} from 'peerplaysjs-lib';
-import {version} from '../../package.json';
+import packageJson from '../../package.json';
 import {ChainConfig} from 'peerplaysjs-lib';
 
 console.log(`Configuration loaded for ${process.env.name || 'unknown'}`);
@@ -19,7 +19,7 @@ const shuffledBlockhainUrls = _.shuffle(blockchainUrls);
 const ASSET_ID = process.env.assetId;
 
 const Config = {
-  version: version,
+  version: packageJson.version,
   // NOTE: I think this should be inside blockchain global objects
   oddsPrecision: 10000, 
   blockchainUrls: shuffledBlockhainUrls,
