@@ -244,7 +244,7 @@ class SignupForm extends PureComponent {
     let blob = new Blob([password], {
       type: 'text/plain'
     });
-    saveAs(blob, 'BookiePro.fun_Password.txt');
+    saveAs(blob, 'BookiePro_Password.txt');
   }
 
   /**

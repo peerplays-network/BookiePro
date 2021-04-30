@@ -87,7 +87,7 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         loader: 'eslint',
-        include: paths.appSrc,
+        include: paths.appSrc
       }
     ],
     loaders: [
@@ -121,7 +121,7 @@ module.exports = {
         loader: 'babel',
         query: {
           plugins: [
-            ['import', [{libraryName: 'antd', style: true}]],  // import less
+            ['import', [{libraryName: 'antd', style: true}]]  // import less
           ],
           // This is a feature of `babel-loader` for webpack (not Babel itself).
           // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -156,7 +156,7 @@ module.exports = {
       {
         test: /\.less$/,
         loader: 'style!css!postcss!less'
-      },
+      }
       // ** STOP ** Are you adding a new loader?
       // Remember to add the new extension(s) to the "url" loader exclusion list.
     ],
@@ -172,9 +172,9 @@ module.exports = {
           '>1%',
           'last 4 versions',
           'Firefox ESR',
-          'not ie < 9', // React doesn't support IE8 anyway
+          'not ie < 9' // React doesn't support IE8 anyway
         ]
-      }),
+      })
     ];
   },
   plugins: [
@@ -186,7 +186,7 @@ module.exports = {
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
-      template: paths.appHtml,
+      template: paths.appHtml
     }),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.

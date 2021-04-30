@@ -1,0 +1,25 @@
+directories:
+  output: dist
+appId: com.peerplays.bookie
+productName: BookiePro
+extraMetadata:
+  name: BookiePro
+  homepage: http://bookie.exchange/
+  description: BookiePro is the first truly global betting exchange. Using a decentralized blockchain foundation, BookiePro has been built to address three key challenges in sports betting today.
+  author: 
+    name: BookiePro
+    email: bookie@peerplays.com
+mac:
+  category: public.app-category.productivity
+  icon: build/icon.icns
+win:
+  target:
+    - nsis
+  icon: build/icon.ico
+linux: 
+  target:
+    - deb
+  icon: icon.png
+files:
+  - build/**/*
+electronVersion: 1.8.2

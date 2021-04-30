@@ -20,7 +20,7 @@ class CommonMessagePrivateActions {
 
   static clearAllMessages() {
     return {
-      type: ActionTypes.COMMON_MSG_RESET,
+      type: ActionTypes.COMMON_MSG_RESET
     };
   }
 }

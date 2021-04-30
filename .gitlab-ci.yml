@@ -1,0 +1,30 @@
+# gitlab scanning
+include:
+  - template: Dependency-Scanning.gitlab-ci.yml
+  - template: License-Scanning.gitlab-ci.yml
+  - template: SAST.gitlab-ci.yml
+  - template: Secret-Detection.gitlab-ci.yml
+
+# node docker image on which this would be run
+image: node:12.2.0
+
+stages:
+  - build
+  - test
+  - deploy
+
+# builds app
+build:
+  stage: build
+  script:
+    - npm install -f
+  tags:
+    - docker
+
+
+# Deploys app to QA 
+deployToQA:
+  stage: deploy
+  script:
+    - bash deploy/deploy.sh
+  when: manual
