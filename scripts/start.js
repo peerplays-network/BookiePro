@@ -64,7 +64,10 @@ function setupCompiler(host, port, protocol) {
     // We have switched off the default Webpack output in WebpackDevServer
     // options so we are going to "massage" the warnings and errors and present
     // them in a readable focused way.
-    var messages = formatWebpackMessages(stats.toJson({}, true));
+    var messages = formatWebpackMessages({
+      errors: stats.toJson({}, true).errors.map((e) => e.message),
+      warnings: stats.toJson({}, true).warnings.map((e) => e.message),
+    });
     var isSuccessful = !messages.errors.length && !messages.warnings.length;
     var showInstructions = isSuccessful && (isInteractive || isFirstCompile);
 
