@@ -5,6 +5,15 @@
 // BTFUN: https://btfun-faucet.bookie.download/faucet (BTF given on registration)
 // Please replace the faucet under Alice with the correct one for your needs.
 
+
+// DEFAULT_TOKEN='TEST'
+// DEFAULT_QUOTE='BTC'
+// FAUCET_URL='https://irona-faucet.peerplays.download/faucet'
+// DEX_URL='https://dex1.peerplays.download'
+// DEFAULT_CHAIN_ID='bfa03fc73c9310519bf20e30dc1d3130b4871e8ce7e93da4093696a0a21e5dc8'
+// BLOCKCHAIN_ENDPOINTS='wss://irona.peerplays.download/api'
+
+
 const config = {
   environments: {
     alice: {
@@ -22,10 +31,12 @@ const config = {
         'wss://api.ppy.blckchnd.com', // blckchnd
         'wss://pma.blockveritas.co/ws', // taconator-witness-wallet
         'wss://node.peerblock.trade:8090', // bitcoinsig
-        'wss://api2.ppy.blckchnd.com/ws' // royal-flush
+        'wss://api2.ppy.blckchnd.com/ws', // royal-flush
+        'wss://irona.peerplays.download/api'
       ],
       faucetUrls: [
-        'https://btfun-faucet.bookie.download/faucet'
+        // 'https://btfun-faucet.bookie.download/faucet'
+        'http://irona-faucet.peerplays.download/faucet'
       ],
       prefix: 'PPY',
       accounts: {
@@ -50,9 +61,13 @@ const config = {
         'wss://peerplaysblockchain.net/testnet/api',
         'wss://bnode2.peerblock.trade',
         'wss://test.phiguy.info/',
-        'wss://api.ppytest.nuevax.com/ws'
+        'wss://api.ppytest.nuevax.com/ws',
+        'wss://irona.peerplays.download/api'
       ],
-      faucetUrls: ['https://beatrice-faucet.peerplays.download/faucet'],
+      faucetUrls: [
+        // 'https://beatrice-faucet.peerplays.download/faucet'
+        'http://irona-faucet.peerplays.download/faucet'
+      ],
       prefix: 'TEST',
       accounts: {
         broadcasts: {
