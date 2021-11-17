@@ -68,7 +68,7 @@ const config = {
         'http://irona-faucet.peerplays.download/faucet'
       ],
       prefix: 'TEST',
-      
+
       accounts: {
         broadcasts: {
           name: 'pbsa-broadcasts',
@@ -84,7 +84,7 @@ const config = {
 };
 
 let current = 'alice'; // Set the current default.
-
+// console.log(`config.js === ${current}`);
 // Check to make sure a valid target is specified.
 if (
   process.env &&

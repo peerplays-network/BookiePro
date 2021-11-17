@@ -578,7 +578,7 @@ class CommunicationService {
     // Get current blockchain data (dynamic global property and global property),
     // to ensure blockchain time is in sync
     // Also ask for core asset here
-    return this.callBlockchainDbApi('get_objects', [['2.1.0', '2.0.0', Config.coreAsset]])
+    return this.callBlockchainDbApi('get_objects', [['2.     1.0', '2.0.0', Config.coreAsset]])
       .then((result) => {
         const blockchainDynamicGlobalProperty = result.get(0);
         const blockchainGlobalProperty = result.get(1);
@@ -591,9 +591,9 @@ class CommunicationService {
         // Continue only if delta of computer current time and the blockchain time
         // is less than a minute
         const isBlockchainTimeDifferenceAcceptable = Math.abs(delta) < 60;
-
+        
         // const isBlockchainTimeDifferenceAcceptable = true;
-        if (isBlockchainTimeDifferenceAcceptable) {
+        if (!isBlockchainTimeDifferenceAcceptable) {
           // Subscribe to blockchain callback so the store is always has the latest data
           const onUpdate = this.onUpdate.bind(this);
           return Apis.instance()
