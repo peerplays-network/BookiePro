@@ -52,15 +52,15 @@ const config = {
     beatrice: {
       assetId: '1.3.1',
       apiEndpoints: [
-        'wss://api-beatrice01.eifos.org',
-        'wss://testnet-ppyapi.spacemx.tech',
-        'wss://api-testnet.ppy.alex-pu.info',
-        'wss://api.ppy-beatrice.blckchnd.com',
-        'wss://pta.blockveritas.co/ws',
-        'wss://peerplaysblockchain.net/testnet/api',
-        'wss://bnode2.peerblock.trade',
-        'wss://test.phiguy.info/',
-        'wss://api.ppytest.nuevax.com/ws',
+        // 'wss://api-beatrice01.eifos.org',
+        // 'wss://testnet-ppyapi.spacemx.tech',
+        // 'wss://api-testnet.ppy.alex-pu.info',
+        // 'wss://api.ppy-beatrice.blckchnd.com',
+        // 'wss://pta.blockveritas.co/ws',
+        // 'wss://peerplaysblockchain.net/testnet/api',
+        // 'wss://bnode2.peerblock.trade',
+        // 'wss://test.phiguy.info/',
+        // 'wss://api.ppytest.nuevax.com/ws',
         'wss://irona.peerplays.download/api'
       ],
       faucetUrls: [
@@ -74,7 +74,7 @@ const config = {
           name: 'pbsa-broadcasts',
           key: 'PPYTEST8H4L2UeaXRRAt5nVR4GSGFdt232711wyzTQnFRJeoJeLXXZT23'
         },
-        updates: {
+      updates: {
           name: 'bookie-updates',
           key: '5Kjqz8HwRBCW7ZtvhmM2NhAqaPpLQvBShKjVNcKdbm8gdXi5V3J'
         }

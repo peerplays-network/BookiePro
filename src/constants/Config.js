@@ -9,18 +9,18 @@ console.log(`Configuration loaded for ${process.env.name || 'unknown'}`);
 // This sets the prefx of the supporting libraries to the PPY prefix
 // This line needs to be edited for connecting to chains with a different core asset
 ChainConfig.setPrefix(process.env.prefix);
-console.log(`config.ja / prefix === ${process.env.prefix}`);
+// console.log(`config.ja / prefix === ${process.env.prefix}`);
 const blockchainUrls = process.env.apiEndpoints;
-console.log(`Config.js/ blockchainURL::: ${blockchainUrls}`);
+// console.log(`Config.js/ blockchainURL::: ${blockchainUrls}`);
 // Shuffle list of blockchain nodes
 // So every bookie app will not always connect to the first node in the list
 const shuffledBlockhainUrls = _.shuffle(blockchainUrls);
 
-console.log(`Config.js/ shuffledBlockhainUrls::: ${shuffledBlockhainUrls}`);
+// console.log(`Config.js/ shuffledBlockhainUrls::: ${shuffledBlockhainUrls}`);
 
 const ASSET_ID = process.env.assetId;
-console.log(`Config.js/ Asset_id::: ${ASSET_ID}`);
-console.log(`configjs/process env ==== ${process.env}`);
+// console.log(`Config.js/ Asset_id::: ${ASSET_ID}`);
+// console.log(`configjs/process env ==== ${process.env}`);
 const Config = {
   version: version,
   // NOTE: I think this should be inside blockchain global objects
