@@ -591,9 +591,9 @@ class CommunicationService {
         // Continue only if delta of computer current time and the blockchain time
         // is less than a minute
         const isBlockchainTimeDifferenceAcceptable = Math.abs(delta) < 60;
-
+        
         // const isBlockchainTimeDifferenceAcceptable = true;
-        if (isBlockchainTimeDifferenceAcceptable) {
+        if (!isBlockchainTimeDifferenceAcceptable) {
           // Subscribe to blockchain callback so the store is always has the latest data
           const onUpdate = this.onUpdate.bind(this);
           return Apis.instance()

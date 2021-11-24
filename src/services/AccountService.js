@@ -21,10 +21,13 @@ class AccountServices {
       let faucetAddress = faucets[index];
 
       // Beatrice faucet api endpoint is different.
+      // https://irona-faucet.peerplays.download/faucet
       let apiEP = '/api/v1/accounts';
 
-      if (process.env.name === 'beatrice') {
-        apiEP = '/faucet';
+      if (process.env.name !== 'beatrice') {
+        // apiEP = '/faucet';
+        apiEP = '';
+        
       }
 
       // Call faucet api to register for account
