@@ -24,6 +24,7 @@ build:
 deployToQA:
   stage: deploy
   script:
+    - npm install
     - npm run start
   tags:
     - deploy
