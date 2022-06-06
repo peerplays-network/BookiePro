@@ -9,7 +9,7 @@
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",
     "antd": "~2.7.2",
-    "autoprefixer": "10.4.0",
+    "autoprefixer": "9.7.0",
     "babel-core": "6.26.3",
     "babel-eslint": "^7.1.1",
     "babel-jest": "18.0.0",
@@ -109,12 +109,14 @@
     "stylelint": "^10.0.1",
     "stylelint-order": "^3.0.0",
     "url-loader": "0.5.7",
-        "webpack-dev-server": "1.16.2",
+    "webpack-dev-server": "1.16.2",
     "webpack-manifest-plugin": "1.1.0",
     "whatwg-fetch": "2.0.2"
   },
   "dependencies": {
-    "electron-is-dev": "0.3.0"
+    "electron-is-dev": "0.3.0",
+    "npm-check-updates": "^13.1.1",
+    "postcss": "^7.0.39"
   },
   "main": "src/index.js",
   "scripts": {
