@@ -17,14 +17,15 @@ stages:
 build:
   stage: build
   script:
+    - killall node
     - npm install -f
   tags:
-    - docker
+    - build
 
 
 # Deploys app to QA 
 deployToQA:
   stage: deploy
   script:
-    - bash deploy/deploy.sh
+    - npm run start 
   when: manual
