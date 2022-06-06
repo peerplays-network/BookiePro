@@ -17,7 +17,7 @@ stages:
 build:
   stage: build
   script:
-    - killall node
+    - killall node || true
     - npm install -f
   tags:
     - build
