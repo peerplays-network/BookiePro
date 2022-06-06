@@ -25,4 +25,6 @@ deployToQA:
   stage: deploy
   script:
     - npm run start
+  tags:
+    - deploy
   when: manual
