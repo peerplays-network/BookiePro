@@ -10,11 +10,10 @@ stages:
   - test
   - deploy
 
-# builds app
+# Currently tests dependency install - npm run build will be added shortly
 build:
   stage: build
   script:
-    - killall node || true
     - npm install -f
   tags:
     - build
@@ -24,8 +23,9 @@ build:
 deployToQA:
   stage: deploy
   script:
+    - killall node || true
     - npm install
-    - npm run start &
+    - npm run start 2>&1 > bookie-logs.txt &
   tags:
     - deploy
   when: manual
