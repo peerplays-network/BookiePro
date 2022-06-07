@@ -5,26 +5,27 @@ include:
   - template: SAST.gitlab-ci.yml
   - template: Secret-Detection.gitlab-ci.yml
 
-# node docker image on which this would be run
-image: node:12.2.0
-
 stages:
   - build
   - test
   - deploy
 
-# builds app
+# Currently tests dependency install - npm run build will be added shortly
 build:
   stage: build
   script:
     - npm install -f
   tags:
-    - docker
+    - build
 
 
 # Deploys app to QA 
 deployToQA:
   stage: deploy
   script:
-    - bash deploy/deploy.sh
+    - killall node || true
+    - npm install
+    - npm run start 2>&1 > bookie-logs.txt &
+  tags:
+    - deploy
   when: manual
