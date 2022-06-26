@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {Apis} from 'peerplaysjs-lib';
 import {BlockchainUtils, ObjectUtils} from '../utility';
 import {
@@ -583,17 +584,21 @@ class CommunicationService {
         const blockchainDynamicGlobalProperty = result.get(0);
         const blockchainGlobalProperty = result.get(1);
         const coreAsset = result.get(2);
-        const now = new Date().getTime();
-        const headTime = blockchainTimeStringToDate(
+        // console.log('CORE ASSET HERE: ' + coreAsset);
+        //???const now = new Date().getTime();
+        /* ??? const headTime = blockchainTimeStringToDate(
           blockchainDynamicGlobalProperty.get('time')
         ).getTime();
-        const delta = (now - headTime) / 1000;
+        */
+        //???const delta = (now - headTime) / 1000;
         // Continue only if delta of computer current time and the blockchain time
         // is less than a minute
-        const isBlockchainTimeDifferenceAcceptable = Math.abs(delta) < 60;
+        //??? const isBlockchainTimeDifferenceAcceptable = Math.abs(delta) < 60 * 60 * 24 * 1000;
         
-        // const isBlockchainTimeDifferenceAcceptable = true;
-        if (!isBlockchainTimeDifferenceAcceptable) {
+        console.log('OMITTING TIME CHECKING');
+        const isBlockchainTimeDifferenceAcceptable = true;
+
+        if (isBlockchainTimeDifferenceAcceptable) {
           // Subscribe to blockchain callback so the store is always has the latest data
           const onUpdate = this.onUpdate.bind(this);
           return Apis.instance()

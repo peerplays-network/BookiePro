@@ -167,15 +167,18 @@ class AppActions {
       ConnectionService.connectToBlockchain(connectionStatusCallback)
         .then(() => {
           // Sync with blockchain
+          console.log('ConnectionService Trying to Sync with BC');
           return CommunicationService.syncWithBlockchain(dispatch, getState);
         })
         .then(() => {
           // Listen to software update
+          console.log('ConnectionService Trying to List Software update in BC');
           return dispatch(SoftwareUpdateActions.listenToSoftwareUpdate());
         })
         .then(() => {
           // Fetch gateway account
           const gatewayAccountName = Config.gatewayAccountName;
+          console.log('ConnectionService Trying to Fetch account name from BC: ' + gatewayAccountName);
           return CommunicationService.getFullAccount(gatewayAccountName);
         })
         .then((gatewayFullAccount) => {
@@ -191,6 +194,7 @@ class AppActions {
         })
         .catch((error) => {
           log.error('Fail to connect to blockchain', error);
+          console.log('ERROR: Failed to connect');
           let desyncError = I18n.t('connectionErrorModal.outOfSyncClock');
 
           if (error.message === desyncError) {

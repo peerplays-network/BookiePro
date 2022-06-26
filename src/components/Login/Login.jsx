@@ -99,6 +99,7 @@ class Login extends PureComponent {
                     errors={ this.props.errors }
                     status={ this.props.status }
                   />
+                  
                 </div>
               </div>
             </div>

@@ -231,6 +231,7 @@ const mapStateToProps = (state) => {
   // Handle explicit errors.
   // - clock desync, websocket disconnect
   if (error === LoadingStatus.ERROR_DESYNC) {
+    console.log('ERROR: GUI Failed to connect');
     errorMsg = I18n.t('connectionErrorModal.outOfSyncClock');
   } else {
     // Default error message will be assigned when initial connection to any 

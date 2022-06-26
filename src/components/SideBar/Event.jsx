@@ -18,7 +18,7 @@ class Event extends PureComponent {
 
     return (
       <div>
-        {data.start_time && <label className='event-date-header'>{date}</label>}
+        {data.start_time && <label className='event-date-/header'>{date}</label>}
         {data.isLiveMarket ? (
           <div className='event-node-container-live' key={ id } onClick={ onClick }>
             <i className='live-icon' />

@@ -15,7 +15,7 @@
 const config = {
   environments: {
     alice: {
-      assetId: '1.3.1',
+      assetId: '1.3.0',
       apiEndpoints: [
         // 'wss://api.eifos.org', // eifos-witness
         // 'wss://api.ppy.us.altcap.io', // winner.winner.chicken.dinner
@@ -31,12 +31,15 @@ const config = {
         // 'wss://api2.ppy.blckchnd.com/ws', // royal-flush
         // 'wss://ppyws.roelandp.nl/ws', // roelandp
         'wss://irona.peerplays.download/api'
+        //        'ws://96.46.50.60:8090'
+        //'wss://api.i9networks.net.br/api'
       ],
       faucetUrls: [
         // 'https://btfun-faucet.bookie.download/faucet'
-        'http://irona-faucet.peerplays.download/faucet'
+        //???'http://irona-faucet.peerplays.download/faucet'
+        'https://irona-faucet.peerplays.download/api/v1/accounts'
       ],
-      prefix: 'PPY',
+      prefix: 'TEST',
       accounts: {
         broadcasts: {
           name: 'pbsa-broadcasts',
