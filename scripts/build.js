@@ -41,6 +41,7 @@ function getDifferenceLabel(currentSize, previousSize) {
   var FIFTY_KILOBYTES = 1024 * 50;
   var difference = currentSize - previousSize;
   var fileSize = !Number.isNaN(difference) ? filesize(difference) : 0;
+
   if (difference >= FIFTY_KILOBYTES) {
     return chalk.red('+' + fileSize);
   } else if (difference < FIFTY_KILOBYTES && difference > 0) {
@@ -56,7 +57,7 @@ function getDifferenceLabel(currentSize, previousSize) {
 // This lets us display how much they changed later.
 recursive(paths.appBuild, (err, fileNames) => {
   var previousSizeMap = (fileNames || [])
-    .filter(fileName => /\.(js|css)$/.test(fileName))
+    .filter((fileName) => /\.(js|css)$/.test(fileName))
     .reduce((memo, fileName) => {
       var contents = fs.readFileSync(fileName);
       var key = removeFileNameHash(fileName);
@@ -78,8 +79,8 @@ recursive(paths.appBuild, (err, fileNames) => {
 // Print a detailed summary of build files.
 function printFileSizes(stats, previousSizeMap) {
   var assets = stats.toJson().assets
-    .filter(asset => /\.(js|css)$/.test(asset.name))
-    .map(asset => {
+    .filter((asset) => /\.(js|css)$/.test(asset.name))
+    .map((asset) => {
       var fileContents = fs.readFileSync(paths.appBuild + '/' + asset.name);
       var size = gzipSize(fileContents);
       var previousSize = previousSizeMap[removeFileNameHash(asset.name)];
@@ -93,15 +94,17 @@ function printFileSizes(stats, previousSizeMap) {
     });
   assets.sort((a, b) => b.size - a.size);
   var longestSizeLabelLength = Math.max.apply(null,
-    assets.map(a => stripAnsi(a.sizeLabel).length)
+    assets.map((a) => stripAnsi(a.sizeLabel).length)
   );
-  assets.forEach(asset => {
+  assets.forEach((asset) => {
     var sizeLabel = asset.sizeLabel;
     var sizeLength = stripAnsi(sizeLabel).length;
+
     if (sizeLength < longestSizeLabelLength) {
       var rightPadding = ' '.repeat(longestSizeLabelLength - sizeLength);
       sizeLabel += rightPadding;
     }
+
     console.log(
       '  ' + sizeLabel +
       '  ' + chalk.dim(asset.folder + path.sep) + chalk.cyan(asset.name)
@@ -113,7 +116,7 @@ function printFileSizes(stats, previousSizeMap) {
 function printErrors(summary, errors) {
   console.log(chalk.red(summary));
   console.log();
-  errors.forEach(err => {
+  errors.forEach((err) => {
     console.log(err.message || err);
     console.log();
   });
@@ -151,6 +154,7 @@ function build(previousSizeMap) {
     var publicUrl = paths.publicUrl;
     var publicPath = config.output.publicPath;
     var publicPathname = url.parse(publicPath).pathname;
+
     if (publicUrl && publicUrl.indexOf('.github.io/') !== -1) {
       // "homepage": "http://user.github.io/project"
       console.log('The project was built assuming it is hosted at ' + chalk.green(publicPathname) + '.');
@@ -158,14 +162,17 @@ function build(previousSizeMap) {
       console.log();
       console.log('The ' + chalk.cyan('build') + ' folder is ready to be deployed.');
       console.log('To publish it at ' + chalk.green(publicUrl) + ', run:');
+
       // If script deploy has been added to package.json, skip the instructions
       if (typeof appPackage.scripts.deploy === 'undefined') {
         console.log();
+
         if (useYarn) {
           console.log('  ' + chalk.cyan('yarn') +  ' add --dev gh-pages');
         } else {
           console.log('  ' + chalk.cyan('npm') +  ' install --save-dev gh-pages');
         }
+
         console.log();
         console.log('Add the following script in your ' + chalk.cyan('package.json') + '.');
         console.log();
@@ -178,6 +185,7 @@ function build(previousSizeMap) {
         console.log();
         console.log('Then run:');
       }
+
       console.log();
       console.log('  ' + chalk.cyan(useYarn ? 'yarn' : 'npm') +  ' run deploy');
       console.log();
@@ -198,19 +206,22 @@ function build(previousSizeMap) {
         // no homepage
         console.log('The project was built assuming it is hosted at the server root.');
         console.log('To override this, specify the ' + chalk.green('homepage') + ' in your '  + chalk.cyan('package.json') + '.');
-        console.log('For example, add this to build it for GitHub Pages:')
+        console.log('For example, add this to build it for GitHub Pages:');
         console.log();
         console.log('  ' + chalk.green('"homepage"') + chalk.cyan(': ') + chalk.green('"http://myname.github.io/myapp"') + chalk.cyan(','));
         console.log();
       }
+
       console.log('The ' + chalk.cyan('build') + ' folder is ready to be deployed.');
-      console.log('You may also serve it locally with a static server:')
+      console.log('You may also serve it locally with a static server:');
       console.log();
+
       if (useYarn) {
         console.log('  ' + chalk.cyan('yarn') +  ' global add pushstate-server');
       } else {
         console.log('  ' + chalk.cyan('npm') +  ' install -g pushstate-server');
       }
+
       console.log('  ' + chalk.cyan('pushstate-server') + ' build');
       console.log('  ' + chalk.cyan(openCommand) + ' http://localhost:9000');
       console.log();
@@ -221,6 +232,6 @@ function build(previousSizeMap) {
 function copyPublicFolder() {
   fs.copySync(paths.appPublic, paths.appBuild, {
     dereference: true,
-    filter: file => file !== paths.appHtml
+    filter: (file) => file !== paths.appHtml
   });
 }

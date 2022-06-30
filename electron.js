@@ -27,7 +27,7 @@ function createWindow() {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    mainWindow = null
+    mainWindow = null;
     // Quit the app when main window is closed
     app.quit();
   });
@@ -45,34 +45,34 @@ function createWindow() {
   //This is implmented to fix the copy paste issue in electron app for mac
   //reference: https://pracucci.com/atom-electron-enable-copy-and-paste.html
   menu = Menu.buildFromTemplate([{
-      label: 'Application',
-      submenu: [{
-        label: 'Quit',
-        accelerator: 'Command+Q',
-        click: function () {
-          app.quit();
-        }
-      }]
+    label: 'Application',
+    submenu: [{
+      label: 'Quit',
+      accelerator: 'Command+Q',
+      click: function () {
+        app.quit();
+      }
+    }]
+  },
+  {
+    label: 'Edit',
+    submenu: [{
+      label: 'Copy',
+      accelerator: 'CmdOrCtrl+C',
+      selector: 'copy:'
     },
     {
-      label: 'Edit',
-      submenu: [{
-          label: 'Copy',
-          accelerator: 'CmdOrCtrl+C',
-          selector: 'copy:'
-        },
-        {
-          label: 'Paste',
-          accelerator: 'CmdOrCtrl+V',
-          selector: 'paste:'
-        },
-        {
-          label: 'Select All',
-          accelerator: 'CmdOrCtrl+A',
-          selector: 'selectAll:'
-        }
-      ]
+      label: 'Paste',
+      accelerator: 'CmdOrCtrl+V',
+      selector: 'paste:'
+    },
+    {
+      label: 'Select All',
+      accelerator: 'CmdOrCtrl+A',
+      selector: 'selectAll:'
     }
+    ]
+  }
   ]);
 
   Menu.setApplicationMenu(menu);
