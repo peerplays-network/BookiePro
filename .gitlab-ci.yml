@@ -17,6 +17,7 @@ build:
     - yarn
   tags:
     - build
+  when: manual 
 
 
 # Deploys app to QA 
@@ -25,7 +26,7 @@ deployToQA:
   script:
     - killall node || true
     - yarn
-    - yarn start 2>&1 > bookie-logs.txt &
+    - yarn start 2>&1 > bookie-logs.txt
   tags:
     - deploy
   when: manual
