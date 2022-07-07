@@ -14,7 +14,7 @@ stages:
 build:
   stage: build
   script:
-    - npm install -f
+    - yarn
   tags:
     - build
 
@@ -24,8 +24,8 @@ deployToQA:
   stage: deploy
   script:
     - killall node || true
-    - npm install
-    - npm run start 2>&1 > bookie-logs.txt &
+    - yarn
+    - yarn start 2>&1 > bookie-logs.txt &
   tags:
     - deploy
   when: manual
