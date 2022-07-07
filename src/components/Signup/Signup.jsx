@@ -5,7 +5,7 @@
  * The states of the component are maintained in the Redux store under 'auth'.
  */
 import React, {PureComponent} from 'react';
-import logo from '../../assets/images/bookie_logo_signup.png';
+import logo from '../../assets/images/six_logo_signup.png';
 import {Form} from 'antd';
 import SignupForm from './SignupForm';
 import {NavigateActions, AuthActions, AppActions} from '../../actions';

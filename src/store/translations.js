@@ -32,7 +32,7 @@ export const translationsObject = {
       loading: 'Loading your transaction history, this may take a moment.'
     },
     titleBar: {
-      title: 'BookiePro',
+      title: 'SIXPro',
       clock: 'Local Time'
     },
     searchMenu: {
