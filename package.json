@@ -9,7 +9,7 @@
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",
     "antd": "~3.26.20",
-    "autoprefixer": "9.7.0",
+    "autoprefixer": "8.6.5",
     "babel-core": "6.26.3",
     "babel-eslint": "^7.1.1",
     "babel-jest": "18.5.0-alpha.7da3df39",
@@ -204,5 +204,16 @@
   "license": "ISC",
   "bugs": {
     "url": "https://gitlab.com/PBSA/bookie/bookiepro/issues"
-  }
+  },
+
+  "browserslist": [
+    ">1%",
+    "last 20 versions",
+    "Firefox >= 60",
+    "Safari >= 13",
+    "Chrome >= 70",
+    "not ie < 11",
+    "not op_mini all"
+  ]
+
 }
