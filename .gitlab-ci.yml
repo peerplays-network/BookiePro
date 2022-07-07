@@ -17,16 +17,15 @@ build:
     - yarn
   tags:
     - build
-  when: manual 
 
 
 # Deploys app to QA 
 deployToQA:
   stage: deploy
   script:
-    - killall node || true
+    - pm2 stop 0 && pm2 del 0
     - yarn
-    - yarn start 2>&1 > bookie-logs.txt
+    - pm2 start yarn --name six -- start 
   tags:
     - deploy
   when: manual
