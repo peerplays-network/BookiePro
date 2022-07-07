@@ -5,6 +5,7 @@ var url = require('url');
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
 var appDirectory = fs.realpathSync(process.cwd());
+
 function resolveApp(relativePath) {
   return path.resolve(appDirectory, relativePath);
 }
@@ -27,13 +28,14 @@ function resolveApp(relativePath) {
 var nodePaths = (process.env.NODE_PATH || '')
   .split(process.platform === 'win32' ? ';' : ':')
   .filter(Boolean)
-  .filter(folder => !path.isAbsolute(folder))
+  .filter((folder) => !path.isAbsolute(folder))
   .map(resolveApp);
 
 var envPublicUrl = process.env.PUBLIC_URL;
 
 function ensureSlash(path, needsSlash) {
   var hasSlash = path.endsWith('/');
+
   if (hasSlash && !needsSlash) {
     return path.substr(path, path.length - 1);
   } else if (!hasSlash && needsSlash) {

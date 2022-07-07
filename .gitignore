@@ -72,3 +72,11 @@ config.js
 
 # next.js build output
 .next
+/.idea/.gitignore
+/.idea/bookiepro.iml
+/.idea/codeStyles/Project.xml
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+/package-lock.json

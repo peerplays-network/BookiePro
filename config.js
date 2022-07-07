@@ -77,7 +77,7 @@ const config = {
           name: 'pbsa-broadcasts',
           key: 'PPYTEST8H4L2UeaXRRAt5nVR4GSGFdt232711wyzTQnFRJeoJeLXXZT23'
         },
-      updates: {
+        updates: {
           name: 'bookie-updates',
           key: '5Kjqz8HwRBCW7ZtvhmM2NhAqaPpLQvBShKjVNcKdbm8gdXi5V3J'
         }
@@ -87,6 +87,7 @@ const config = {
 };
 
 let current = 'alice'; // Set the current default.
+
 // console.log(`config.js === ${current}`);
 // Check to make sure a valid target is specified.
 if (

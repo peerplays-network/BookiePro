@@ -108,7 +108,7 @@ module.exports = {
         loader: 'babel',
         query: {
           plugins: [
-            ['import', [{ libraryName: "antd", style: true }]],  // import less
+            ['import', [{libraryName: 'antd', style: true}]]  // import less
           ]
         }
       },
@@ -146,7 +146,7 @@ module.exports = {
       {
         test: /\.less$/,
         loader: 'style!css!postcss!less'
-      },
+      }
       // ** STOP ** Are you adding a new loader?
       // Remember to add the new extension(s) to the "url" loader exclusion list.
     ]
@@ -160,9 +160,9 @@ module.exports = {
           '>1%',
           'last 4 versions',
           'Firefox ESR',
-          'not ie < 9', // React doesn't support IE8 anyway
+          'not ie < 9' // React doesn't support IE8 anyway
         ]
-      }),
+      })
     ];
   },
   plugins: [

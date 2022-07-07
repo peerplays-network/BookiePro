@@ -6,7 +6,7 @@ var REACT_APP = /^REACT_APP_/i;
 function getClientEnvironment(publicUrl) {
   var raw = Object
     .keys(process.env)
-    .filter(key => REACT_APP.test(key))
+    .filter((key) => REACT_APP.test(key))
     .reduce((env, key) => {
       env[key] = process.env[key];
       return env;
@@ -33,7 +33,7 @@ function getClientEnvironment(publicUrl) {
       }, {})
   };
 
-  return { raw, stringified };
+  return {raw, stringified};
 }
 
 module.exports = getClientEnvironment;
