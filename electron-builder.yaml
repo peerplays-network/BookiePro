@@ -1,14 +1,14 @@
 directories:
   output: dist
-appId: com.peerplays.bookie
-productName: BookiePro
+appId: com.peerplays.sixpro
+productName: SixPro
 extraMetadata:
-  name: BookiePro
-  homepage: http://bookie.exchange/
-  description: BookiePro is the first truly global betting exchange. Using a decentralized blockchain foundation, BookiePro has been built to address three key challenges in sports betting today.
+  name: SixPro
+  homepage: http://sixpro.exchange/
+  description: SixPro is the first truly global betting exchange. Using a decentralized blockchain foundation, SixPro has been built to address three key challenges in sports betting today.
   author: 
-    name: BookiePro
-    email: bookie@peerplays.com
+    name: SixPro
+    email: six@peerplays.com
 mac:
   category: public.app-category.productivity
   icon: build/icon.icns

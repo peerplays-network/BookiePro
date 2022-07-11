@@ -108,7 +108,7 @@ export const translationsObject = {
     },
     registration: {
       eulaAgree:
-        'I accept the terms of the BookiePro <a href="http://www.bookiepro.com/eula">End User License Agreement</a>'
+        'I accept the terms of the SixPro <a href="http://www.bookiepro.com/eula">End User License Agreement</a>'
     },
     signup: {
       new_acc_req_text: 'Create a new Bookie account',
@@ -121,7 +121,7 @@ export const translationsObject = {
       cannot_recover_password_warning:
         'I understand that PBSA <span class="mediumMessageInText">cannot recover my password.</span>',
       securely_saved_password_warning:
-        'I understand that BookiePro passwords cannot be recovered if lost, and that I have securely saved my password recovery file.',
+        'I understand that SixPro passwords cannot be recovered if lost, and that I have securely saved my password recovery file.',
       create_account: 'Create Account',
       already_account: 'Already have an account?',
       log_in: 'Log In',
@@ -516,7 +516,7 @@ export const translationsObject = {
             '%{datetime}</br>' +
             'Win Only Market</p>' +
             '<p>MARKET INFORMATION</p>' +
-            '<p>For further information please see BookiePro Rules.</p>' +
+            '<p>For further information please see SixPro Rules.</p>' +
             '<p>Who will win this match? This market INCLUDES any overtime that may be played. IN THE EVENT OF A TIE AFTER OVERTIME ALL BETS PLACED ON THIS MARKET WILL BE VOID. ' +
             'At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
             '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -531,7 +531,7 @@ export const translationsObject = {
             '%{datetime}</br>' +
             'Win Only Market</p>' +
             '<p>MARKET INFORMATION</p>' +
-            '<p>For further information please see BookiePro Rules.</p>' +
+            '<p>For further information please see SixPro Rules.</p>' +
             '<p>Which team will win this match with the stated handicap applied? This market INCLUDES any overtime that may be played. ' +
             'At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
             '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -546,7 +546,7 @@ export const translationsObject = {
             '%{datetime}</br>' +
             'Win Only Market</p>' +
             '<p>MARKET INFORMATION</p>' +
-            '<p>For further information please see BookiePro Rules.</p>' +
+            '<p>For further information please see SixPro Rules.</p>' +
             '<p>How many points in total will be scored in this game  - more or less than the stated number? This market INCLUDES any overtime that may be played. ' +
             'At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
             '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -564,7 +564,7 @@ export const translationsObject = {
             '%{datetime}</br>' +
             'Win Only Market</p>' +
             '<p>MARKET INFORMATION</p>' +
-            '<p>For further information please see BookiePro Rules.</p>' +
+            '<p>For further information please see SixPro Rules.</p>' +
             '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
             'At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
             '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -579,7 +579,7 @@ export const translationsObject = {
             '%{datetime}</br>' +
             'Win Only Market</p>' +
             '<p>MARKET INFORMATION</p>' +
-            '<p>For further information please see BookiePro Rules.</p>' +
+            '<p>For further information please see SixPro Rules.</p>' +
             '<p>Which team will win this match with the stated handicap applied? This market INCLUDES any overtime that may be played. ' +
             'At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
             '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -594,7 +594,7 @@ export const translationsObject = {
             '%{datetime}</br>' +
             'Win Only Market</p>' +
             '<p>MARKET INFORMATION</p>' +
-            '<p>For further information please see BookiePro Rules.</p>' +
+            '<p>For further information please see SixPro Rules.</p>' +
             '<p>How many points in total will be scored in this game - more or less than the stated number? This market INCLUDES any overtime that may be played. ' +
             'At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
             '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -612,7 +612,7 @@ export const translationsObject = {
             '%{datetime}</br>' +
             'Win Only Market</p>' +
             '<p>MARKET INFORMATION</p>' +
-            '<p>For further information please see BookiePro Rules.</p>' +
+            '<p>For further information please see SixPro Rules.</p>' +
             '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
             'At the start of play all unmatched bets will be canceled and the market turned in-play</p>' +
             '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -627,7 +627,7 @@ export const translationsObject = {
             '%{datetime}</br>' +
             'Win Only Market</p>' +
             '<p>MARKET INFORMATION</p>' +
-            '<p>For further information please see BookiePro Rules.</p>' +
+            '<p>For further information please see SixPro Rules.</p>' +
             '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
             'At the start of play all unmatched bets will be canceled and the market turned in-play</p>' +
             '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -643,7 +643,7 @@ export const translationsObject = {
             '%{datetime}</br>' +
             'Win Only Market</p>' +
             '<p>MARKET INFORMATION</p>' +
-            '<p>For further information please see BookiePro Rules.</p>' +
+            '<p>For further information please see SixPro Rules.</p>' +
             '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
             'At the start of play all unmatched bets will be canceled and the market turned in-play</p>' +
             '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -661,7 +661,7 @@ export const translationsObject = {
             '%{datetime}</br>' +
             'Win Only Market</p>' +
             '<p>MARKET INFORMATION</p>' +
-            '<p>For further information please see BookiePro Rules.</p>' +
+            '<p>For further information please see SixPro Rules.</p>' +
             '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
             'At the start of play all unmatched bets will be canceled and the market turned in-play</p>' +
             '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -676,7 +676,7 @@ export const translationsObject = {
             '%{datetime}</br>' +
             'Win Only Market</p>' +
             '<p>MARKET INFORMATION</p>' +
-            '<p>For further information please see BookiePro Rules.</p>' +
+            '<p>For further information please see SixPro Rules.</p>' +
             '<p>Who will win this match? This market INCLUDES any overtime that may be played. ' +
             'At the start of play all unmatched bets will be canceled and the market turned in-play</p>' +
             '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -691,7 +691,7 @@ export const translationsObject = {
             '%{datetime}</br>' +
             'Win Only Market</p>' +
             '<p>MARKET INFORMATION</p>' +
-            '<p>For further information please see BookiePro Rules.</p>' +
+            '<p>For further information please see SixPro Rules.</p>' +
             '<p>How many goals in total will be scored in this match - more or less than the stated number? ' +
             'All bets apply to Full Time according to the match officials, plus any stoppage time. ' +
             'Extra-time/penalty shoot-outs are not included. At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
@@ -707,7 +707,7 @@ export const translationsObject = {
             '%{datetime}</br>' +
             'Win Only Market</p>' +
             '<p>MARKET INFORMATION</p>' +
-            '<p>For further information please see BookiePro Rules.</p>' +
+            '<p>For further information please see SixPro Rules.</p>' +
             '<p>Predict the result of this match. All bets apply to Full Time according to the match officials, plus any stoppage time. ' +
             'Extra-time/penalty shoot-outs are not included. At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
             '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -722,7 +722,7 @@ export const translationsObject = {
             '%{datetime}</br>' +
             'Win Only Market</p>' +
             '<p>MARKET INFORMATION</p>' +
-            '<p>For further information please see BookiePro Rules.</p>' +
+            '<p>For further information please see SixPro Rules.</p>' +
             '<p>Predict the score of this match. All bets apply to Full Time according to the match officials, plus any stoppage time. ' +
             'Extra-time/penalty shoot-outs are not included. At the start of play all unmatched bets will be canceled and the market turned in-play. </p>' +
             '<p>Please note that this market will not be actively managed therefore it is the responsibility of all users to manage their in-play positions. ' +
@@ -854,24 +854,24 @@ export const translationsObject = {
         header: 'Overview',
         questionAnswerPairs: [
           {
-            question: 'What is BookiePro?',
+            question: 'What is SixPro?',
             answer:
-              'BookiePro is a betting exchange where people from all over the world can bet with “play” tokens on a wide range of sports events.'
+              'SixPro is a betting exchange where people from all over the world can bet with “play” tokens on a wide range of sports events.'
           },
           {
-            question: 'What currencies can I bet with on BookiePro?',
+            question: 'What currencies can I bet with on SixPro?',
             answer:
-              'BookiePro uses only the “play” token BitFun (BTF). BitFun holds no actual value and should not be considered a currency of any kind.'
+              'SixPro uses only the “play” token BitFun (BTF). BitFun holds no actual value and should not be considered a currency of any kind.'
           },
           {
-            question: 'How is BookiePro different from a regular sportsbook?',
+            question: 'How is SixPro different from a regular sportsbook?',
             answer:
               'When you bet with a sportsbook, your wager is matched by the “house” (the sportsbook operator). ' +
-              'If you win this bet, this sportsbook operator pays you directly. BookiePro is a betting exchange - so there is no house. ' +
+              'If you win this bet, this sportsbook operator pays you directly. SixPro is a betting exchange - so there is no house. ' +
               'Instead, the platform matches your bet with those of other users who want to take the opposite side of your bet.'
           },
           {
-            question: 'How does the BookiePro betting exchange work?',
+            question: 'How does the SixPro betting exchange work?',
             answer:
               'A betting exchange is similar to a stock exchange. A stock exchange matches orders between anyone who wants to buy ' +
               'and sell a particular stock. A betting exchange matches the orders between anyone who wants to back (bet ‘for’) or lay (bet ' +
@@ -879,25 +879,25 @@ export const translationsObject = {
           },
 
           {
-            question: 'How do I find someone to bet with on BookiePro?',
+            question: 'How do I find someone to bet with on SixPro?',
             answer:
-              'BookiePro automatically matches bets between you and other users from around the world. All you have to do is ' +
-              'choose a sport and event to bet on, and decide how much you want to bet and at what price. BookiePro takes care of the rest ' +
+              'SixPro automatically matches bets between you and other users from around the world. All you have to do is ' +
+              'choose a sport and event to bet on, and decide how much you want to bet and at what price. SixPro takes care of the rest ' +
               '- matching your bet at the best available price, holding all funds in escrow, and then releasing the funds to the winner when the sports event is finished.'
           },
           {
-            question: 'How is BookiePro different from other betting exchanges?',
+            question: 'How is SixPro different from other betting exchanges?',
             answer:
-              'Traditional betting exchanges operate the software which matches your bets on a centralized server. On BookiePro, ' +
-              'the software that matches your bets operates on a public blockchain. This makes BookiePro transparent and accessible ' +
+              'Traditional betting exchanges operate the software which matches your bets on a centralized server. On SixPro, ' +
+              'the software that matches your bets operates on a public blockchain. This makes SixPro transparent and accessible ' +
               'from every country on Earth. Read more about how blockchain can move betting exchanges on to the next level ' +
               '<a href="https://www.peerplays.com/reinventing-betting-exchange-egr/">here</a> ' +
               'and <a href="https://www.peerplays.com/return-exchange-igb/">here</a>.'
           },
           {
-            question: 'Who owns BookiePro?',
+            question: 'Who owns SixPro?',
             answer:
-              'No single person, company, or central authority owns or operates BookiePro. The BookiePro app is an ' +
+              'No single person, company, or central authority owns or operates SixPro. The SixPro app is an ' +
               'application that interfaces with the Peerplays blockchain. As the Racing Post puts it: “...because of the way blockchains ' +
               'work, Peerplays is largely automated and self-sustaining. No one owns it, no single person or organisation is responsible for it…"'
           },
@@ -905,12 +905,12 @@ export const translationsObject = {
             question: 'What is a blockchain?',
             answer:
               'A blockchain is a digital database managed by a decentralized collective of digital stakeholders. Blockchains use ' +
-              'advanced cryptographic techniques to securely record your transactions on a public network. BookiePro runs on a Peerplays ' +
+              'advanced cryptographic techniques to securely record your transactions on a public network. SixPro runs on a Peerplays ' +
               'blockchain, which is custom-built to support online gambling.'
           },
           {
             question:
-              'How does BookiePro’s decentralized approach benefit bettors, compared to a traditional centralized sportsbook?',
+              'How does SixPro’s decentralized approach benefit bettors, compared to a traditional centralized sportsbook?',
             answer:
               'Decentralized sports betting provides the following benefits for bettors:' +
               '<ul><li>provably fair (traditional sportsbooks don’t publish their back-end code and business logic)</li>' +
@@ -930,9 +930,9 @@ export const translationsObject = {
               '<li>ability to trade back and forth in markets</li></ul>'
           },
           {
-            question: 'Who is the team behind BookiePro?',
+            question: 'Who is the team behind SixPro?',
             answer:
-              'The development of BookiePro has been supported by the Peerplays Blockchain Standards Association (PBSA), ' +
+              'The development of SixPro has been supported by the Peerplays Blockchain Standards Association (PBSA), ' +
               'a non-profit organization based in Canada and dedicated to promoting transparent and fair gaming standards for the Peerplays blockchain.'
           }
         ]
@@ -941,51 +941,51 @@ export const translationsObject = {
         header: 'Account Management & Security',
         questionAnswerPairs: [
           {
-            question: 'How do I sign up for a BookiePro account?',
+            question: 'How do I sign up for a SixPro account?',
             answer:
-              'Opening an account with BookiePro is quick and simple. First, download and install the app. ' +
-              'Then, click the SIGN UP button on the BookiePro app front page and follow the on-screen instructions.'
+              'Opening an account with SixPro is quick and simple. First, download and install the app. ' +
+              'Then, click the SIGN UP button on the SixPro app front page and follow the on-screen instructions.'
           },
           {
             question:
-              'Will I need to provide any ID, proof of address, or other personal documentation when signing up for a BookiePro account?',
+              'Will I need to provide any ID, proof of address, or other personal documentation when signing up for a SixPro account?',
             answer: 'No. Bookie does not require any personal information for account creation.'
           },
           {
-            question: 'What personal information does BookiePro hold about me?',
+            question: 'What personal information does SixPro hold about me?',
             answer:
-              'BookiePro does not store or hold any personal information about you whatsoever, not even your name.'
+              'SixPro does not store or hold any personal information about you whatsoever, not even your name.'
           },
           {
-            question: 'Does BookiePro track or store my IP address or any other such data?',
+            question: 'Does SixPro track or store my IP address or any other such data?',
             answer:
-              'BookiePro does not store or track user IP addresses, mac addresses or any other such identifying information.'
+              'SixPro does not store or track user IP addresses, mac addresses or any other such identifying information.'
           },
           {
-            question: 'What information do I need to log into my BookiePro account?',
+            question: 'What information do I need to log into my SixPro account?',
             answer:
-              'Only two items of information are required to log into BookiePro:\n' +
+              'Only two items of information are required to log into SixPro:\n' +
               '1.\t Username \n' +
               '2.\t Password \n' +
-              'It is important that you save your BookiePro password in multiple secure offline places.'
+              'It is important that you save your SixPro password in multiple secure offline places.'
           },
           {
-            question: 'How do I recover my BookiePro password',
+            question: 'How do I recover my SixPro password',
             answer:
-              'There is no way to recover your BookiePro password. If you lose your password you will not be able to log into your account ' +
+              'There is no way to recover your SixPro password. If you lose your password you will not be able to log into your account ' +
               'and you will lose access to all funds in that account forever. When creating your account, every user is prompted to save a file containing ' +
               'the password to their hard drive. Users should also save their password in a secure place offline. Never share your password with anyone.'
           },
           {
-            question: 'I’ve lost my BookiePro password, what should I do?',
+            question: 'I’ve lost my SixPro password, what should I do?',
             answer:
-              'If you lose your password, you will not be able to log into your BookiePro account again. Ever. All funds in that account will remain untouched but inaccessible.'
+              'If you lose your password, you will not be able to log into your SixPro account again. Ever. All funds in that account will remain untouched but inaccessible.'
           },
           {
             question: 'Who can I share my password with?',
             answer:
               'NEVER share your password with anyone. You are the ONLY person who knows your password - keep it that way! ' +
-              'Only enter your password into the BookiePro application, never anywhere else.'
+              'Only enter your password into the SixPro application, never anywhere else.'
           },
           {
             question: 'Can I change my password?',
@@ -994,31 +994,31 @@ export const translationsObject = {
               'and follow the instructions. Your new password must contain 22 characters. Characters can be letters (both upper- and lower-case) and numbers.'
           },
           {
-            question: 'Can I open more than one BookiePro account?',
+            question: 'Can I open more than one SixPro account?',
             answer:
-              'No. Having multiple BookiePro accounts is not allowed while Competitions are running.'
+              'No. Having multiple SixPro accounts is not allowed while Competitions are running.'
           },
           {
-            question: 'Can I open a BookiePro account from anywhere in the world?',
+            question: 'Can I open a SixPro account from anywhere in the world?',
             answer:
-              'BookiePro places no geographical restrictions on the location of its users. However, it is the bettor’s ' +
-              'responsibility to adhere to local laws at all times, as laid out in the BookiePro <a href="http://www.bookiepro.com/eula/">EULA</a>.'
+              'SixPro places no geographical restrictions on the location of its users. However, it is the bettor’s ' +
+              'responsibility to adhere to local laws at all times, as laid out in the SixPro <a href="http://www.bookiepro.com/eula/">EULA</a>.'
           },
           {
             question: 'Can I change my account name?',
             answer:
-              'No, a BookiePro account name cannot be changed after the account has been created.'
+              'No, a SixPro account name cannot be changed after the account has been created.'
           },
           {
             question: 'Can I login to my account from multiple devices?',
             answer:
-              'Yes. Simply download the BookiePro app to a second device and log in using your account name and password. ' +
-              'No further information is required to log into your BookiePro account.'
+              'Yes. Simply download the SixPro app to a second device and log in using your account name and password. ' +
+              'No further information is required to log into your SixPro account.'
           },
           {
             question: 'Where can I view my current bets/bet history/all transactions?',
             answer:
-              'From within the BookiePro app, click on the “My Bets” icon. Here, you can see your Matched Bets, ' +
+              'From within the SixPro app, click on the “My Bets” icon. Here, you can see your Matched Bets, ' +
               'Unmatched, and Settled Bets. You can also export this list as a spreadsheet.'
           }
         ]
@@ -1027,27 +1027,27 @@ export const translationsObject = {
         header: 'Funds',
         questionAnswerPairs: [
           {
-            question: 'What currencies can I bet with on BookiePro?',
+            question: 'What currencies can I bet with on SixPro?',
             answer:
-              'The play token BitFun has been created specifically for BookiePro and is the only crypto asset that can be used in the app. ' +
-              'Do not attempt to move any real fiat or crypto currencies to your BookiePro account - it will not work and you risk losing those funds.'
+              'The play token BitFun has been created specifically for SixPro and is the only crypto asset that can be used in the app. ' +
+              'Do not attempt to move any real fiat or crypto currencies to your SixPro account - it will not work and you risk losing those funds.'
           },
           {
             question: 'How do I get BitFun?',
             answer:
-              'You can earn BitFun top-ups to your BookiePro account. Visit the <a href="http://www.bookiepro.com/CompetitionCommunity/"' +
+              'You can earn BitFun top-ups to your SixPro account. Visit the <a href="http://www.bookiepro.com/CompetitionCommunity/"' +
               '>official Bitcointalk thread</a> for more information.'
           },
           {
-            question: 'How do I deposit funds with BookiePro?',
+            question: 'How do I deposit funds with SixPro?',
             answer:
-              'You cannot deposit BitFun into your BookiePro account. If you are eligible for top-ups, this will be handled by PBSA ' +
+              'You cannot deposit BitFun into your SixPro account. If you are eligible for top-ups, this will be handled by PBSA ' +
               'within the time frames indicated on the main Bitcointalk thread, as above.'
           },
           {
-            question: 'How do I withdraw funds (BitFun) from BookiePro?',
+            question: 'How do I withdraw funds (BitFun) from SixPro?',
             answer:
-              'You cannot withdraw BitFun from your BookiePro account at any time for any reason.'
+              'You cannot withdraw BitFun from your SixPro account at any time for any reason.'
           }
           /*{
             question: 'What currencies can I bet with on Bookie?',
@@ -1090,10 +1090,10 @@ export const translationsObject = {
         header: 'Betting',
         questionAnswerPairs: [
           {
-            question: 'How do I place a bet on BookiePro?',
+            question: 'How do I place a bet on SixPro?',
             answer:
               'Bookie is a betting exchange, which allows you to place a bet by either Backing ' +
-              '(as bettors normally do) or Laying a bet (like a sportsbook would do). BookiePro has ' +
+              '(as bettors normally do) or Laying a bet (like a sportsbook would do). SixPro has ' +
               'no ‘house’, so all bets you place will be matched by other users who want to take ' +
               'the opposite side of your bet.\n\n' +
               'To get started:\n' +
@@ -1152,8 +1152,8 @@ export const translationsObject = {
           {
             question: 'What odds can I bet at?',
             answer:
-              'BookiePro uses a Decimal odds system at its core. It allows you to bet using the Decimal odds increments specified in the table below.\n ' +
-              //'BookiePro also allows users to display all odds using the American format. This can be toggled in My Account.\n\n' +
+              'SixPro uses a Decimal odds system at its core. It allows you to bet using the Decimal odds increments specified in the table below.\n ' +
+              //'SixPro also allows users to display all odds using the American format. This can be toggled in My Account.\n\n' +
               '<table><tbody><tr><td><b>Price</b></td><td style="padding-left:15px;"><b>Increment</b></td></tr>' +
               '<tr><td>1.01 → 2</td><td style="padding-left:15px;">0.01</td></tr>' +
               '<tr><td>2 → 3</td><td style="padding-left:15px;">0.02</td></tr>' +
@@ -1185,20 +1185,20 @@ export const translationsObject = {
           {
             question: 'What is Live betting?',
             answer:
-              'Live betting is when you bet during the actual event/match/game. BookiePro offers Live betting on many different Events. ' +
+              'Live betting is when you bet during the actual event/match/game. SixPro offers Live betting on many different Events. ' +
               'All bets placed before a match goes live will be cancelled when the market goes in-play.'
           },
           {
             question: 'I believe my bet has been settled incorrectly. What can I do?',
             answer:
               'A <i>settled bet</i> (i.e. where funds have been paid out as winning bets) is final and irreversible. ' +
-              'Funds cannot be reclaimed from accounts once they have been settled (paid out) by BookiePro.'
+              'Funds cannot be reclaimed from accounts once they have been settled (paid out) by SixPro.'
           },
           {
             question: 'How long after an Event finishes do bets get settled?',
             answer:
               'Bets are normally settled within approximately 15 minutes of the event finishing though often much sooner. ' +
-              'Exceptions can occur if there are delays in reporting final results by the third party data feeds that BookiePro uses.'
+              'Exceptions can occur if there are delays in reporting final results by the third party data feeds that SixPro uses.'
           },
           {
             question: 'What happens if the sporting event is abandoned or does not start? ',
@@ -1207,29 +1207,29 @@ export const translationsObject = {
               'Any wagered funds will be returned to all parties. '
           },
           {
-            question: 'What is the source of the betting information on BookiePro?',
+            question: 'What is the source of the betting information on SixPro?',
             answer:
-              'BookiePro is populated with sports betting data using a decentralized Oracle system that is connected to multiple third party sports data feeds.'
+              'SixPro is populated with sports betting data using a decentralized Oracle system that is connected to multiple third party sports data feeds.'
           },
           {
             question:
-              'I don’t see the sport/event that I am interested in on BookiePro, why not?',
+              'I don’t see the sport/event that I am interested in on SixPro, why not?',
             answer:
-              'Sporting events appear on BookiePro a certain number of days before they begin - typically a lead time of between ' +
+              'Sporting events appear on SixPro a certain number of days before they begin - typically a lead time of between ' +
               'two to six days is used. In other cases, such as the Group Stage of big tournaments like the World Cup, events show several weeks in advance.\n\n' +
-              'If the sport you’re looking for is not covered on BookiePro, don’t fret. The app is constantly updating and expanding ' +
+              'If the sport you’re looking for is not covered on SixPro, don’t fret. The app is constantly updating and expanding ' +
               'its offerings and the sport or league you are interested in may be included in the future.'
           },
           {
             question: 'Can I create a new market?',
             answer:
-              'No. New markets cannot be created by users of BookiePro. Markets are created by the Witnesses who run the ' +
-              'Peerplays blockchain that BookiePro is built on. '
+              'No. New markets cannot be created by users of SixPro. Markets are created by the Witnesses who run the ' +
+              'Peerplays blockchain that SixPro is built on. '
           },
           {
             question: 'Can I offer new odds?',
             answer:
-              'Yes! Placing bets at odds that suit *you* is at the core of the BookiePro experience! If you are not happy ' +
+              'Yes! Placing bets at odds that suit *you* is at the core of the SixPro experience! If you are not happy ' +
               'with the odds being offered at any time - back your own judgement and submit your own.'
           }
           /*{
@@ -1275,15 +1275,15 @@ export const translationsObject = {
         header: 'Commission & Fees',
         questionAnswerPairs: [
           {
-            question: 'Is there a charge or a fee for me to bet with BookiePro?',
+            question: 'Is there a charge or a fee for me to bet with SixPro?',
             answer:
-              'Yes. There are two charges made to users of BookiePro - Commission and Transaction Fees.'
+              'Yes. There are two charges made to users of SixPro - Commission and Transaction Fees.'
           },
           {
             question: 'How does Commission work?',
             answer:
-              'BookiePro charges a Commission on any net winnings in a particular market. So if, for example, you have net winnings ' +
-              'of 10 BitFun in the Moneyline market on the Jets @ 49ers game, Commission will be charged on that 10 BitFun. BookiePro\'s ' +
+              'SixPro charges a Commission on any net winnings in a particular market. So if, for example, you have net winnings ' +
+              'of 10 BitFun in the Moneyline market on the Jets @ 49ers game, Commission will be charged on that 10 BitFun. SixPro\'s ' +
               'Commission rate is 1%. We talk about “net winnings” because users can have multiple bets (back and lay) in a single ' +
               'market - it is the net profit across all those bets that is liable to have Commission paid on it. If a user makes a net ' +
               'loss in a market (or zero profit, neither plus nor minus) then no Commission is due.\n\n' +
@@ -1298,7 +1298,7 @@ export const translationsObject = {
           {
             question: 'How does the Transaction Fee work?',
             answer:
-              'BookiePro also charges a tiny Transaction Fee for every new bet you place. This Transaction Fee is set at 0.01 mBTF. ' +
+              'SixPro also charges a tiny Transaction Fee for every new bet you place. This Transaction Fee is set at 0.01 mBTF. ' +
               'It is only charged when you make the following actions:<ul><li>place a bet</li><li>edit a bet</li><li>change your password</li></ul>' +
               'The Transaction Fee is charged when you are making a new bet and is shown in your betslip as an additional fee on top of your ' +
               'bet stake. Transaction Fees are paid regardless of whether you are net winner in a market (unlike Commission).'
@@ -1306,7 +1306,7 @@ export const translationsObject = {
           {
             question: 'Why have fees for a play money product?',
             answer:
-              'BookiePro uses “play” tokens (‘BitFun’) which means Commission and Transaction Fees have no real-world value, ' +
+              'SixPro uses “play” tokens (‘BitFun’) which means Commission and Transaction Fees have no real-world value, ' +
               'but they have been included in the app so that this functionality can be properly tested in a live deployment.'
           }
         ]
@@ -1366,30 +1366,30 @@ export const translationsObject = {
         header: 'Miscellaneous',
         questionAnswerPairs: [
           {
-            question: 'Can I use BookiePro on my mobile?',
+            question: 'Can I use SixPro on my mobile?',
             answer:
-              'Not yet. For now BookiePro is a desktop/laptop-only application. Development on mobile versions is proceeding through 2018. Watch this space!'
+              'Not yet. For now SixPro is a desktop/laptop-only application. Development on mobile versions is proceeding through 2018. Watch this space!'
           },
           {
             question:
-              'Does BookiePro have an API for integration with third party trading software?',
+              'Does SixPro have an API for integration with third party trading software?',
             answer:
-              'BookiePro runs on top of Peerplays, a fully public blockchain to which anyone can connect. ' +
+              'SixPro runs on top of Peerplays, a fully public blockchain to which anyone can connect. ' +
               'The app itself connects to the blockchain using an API. However, this API is not yet appropriate for general purpose use by third parties - ' +
-              'it requires productizing and documenting, a process that is currently underway. Expect the first publicly documented BookiePro API to be released later in 2018!'
+              'it requires productizing and documenting, a process that is currently underway. Expect the first publicly documented SixPro API to be released later in 2018!'
           },
           {
             question: 'Can I build a bot on Peerplays blockchain?',
             answer:
-              'Absolutely. PBSA is committed to seeing BookiePro support users who wish to automate their interaction with the sports betting exchange. ' +
+              'Absolutely. PBSA is committed to seeing SixPro support users who wish to automate their interaction with the sports betting exchange. ' +
               'The release of a user-friendly, well-documented API later this year will be a huge positive step in this direction.'
           },
           {
-            question: 'Is it necessary to update BookiePro when a new version is available?',
+            question: 'Is it necessary to update SixPro when a new version is available?',
             answer:
-              'There are two sorts of BookiePro updates - hard and soft updates. All updates are made by downloading and installing ' +
-              'the latest version of the app from the BookiePro website.\n\n' +
-              'A hard update is a required update - you will not be able to use BookiePro without making this update. ' +
+              'There are two sorts of SixPro updates - hard and soft updates. All updates are made by downloading and installing ' +
+              'the latest version of the app from the SixPro website.\n\n' +
+              'A hard update is a required update - you will not be able to use SixPro without making this update. ' +
               'The app will tell you if a hard update is required when you log in and will not allow you to use the app until you make the update.\n\n' +
               'A soft update is optional for users to make - it is likely to provide some small functional improvements or minor bug fixes, but the app can be used without making the update. '
           } /*,
@@ -1416,23 +1416,23 @@ export const translationsObject = {
         ]
       },
       topicRules: {
-        header: 'BookiePro Rules',
+        header: 'SixPro Rules',
         questionAnswerPairs: [
           {
             question: '',
             answer:
-              'BookiePro is a fully decentralized sports betting exchange. ' +
-              'As such, there is no single centralized authority that enforces or implements BookiePro rules. ' +
+              'SixPro is a fully decentralized sports betting exchange. ' +
+              'As such, there is no single centralized authority that enforces or implements SixPro rules. ' +
               'Instead, rules are implemented when consensus is reached amongst the block producers (“Witnesses”) of ' +
-              'the Peerplays blockchain on which BookiePro is built. These Witnesses are, together, the final ' +
-              'arbiters for BookiePro and their judgement on the acceptance and settlement of bets, and any other ' +
-              'ruling decision on BookiePro, is final.\n\n' +
-              'The following is a list of BookiePro rules which are to be read in conjunction with the market-specific rules provided for each market.'
+              'the Peerplays blockchain on which SixPro is built. These Witnesses are, together, the final ' +
+              'arbiters for SixPro and their judgement on the acceptance and settlement of bets, and any other ' +
+              'ruling decision on SixPro, is final.\n\n' +
+              'The following is a list of SixPro rules which are to be read in conjunction with the market-specific rules provided for each market.'
           },
           {
             question: 'Placing bets',
             answer:
-              'Users are solely responsible for all transactions they make on BookiePro. Users are solely responsible for managing their bets at all times.\n\n' +
+              'Users are solely responsible for all transactions they make on SixPro. Users are solely responsible for managing their bets at all times.\n\n' +
               'Users are responsible for their own account transactions. Please be sure to review your bets for any mistakes ' +
               'prior to submitting bets. Once a transaction is complete, it cannot be modified or refunded (notwithstanding that ' +
               'unmatched bets can be cancelled, as per normal betting exchange functionality).'
@@ -1454,7 +1454,7 @@ export const translationsObject = {
               'on the date of the event’s conclusion. "Overturned" decisions or results modified at a later date will not be recognized.'
           },
           {
-            question: 'Event information on BookiePro',
+            question: 'Event information on SixPro',
             answer:
               'Witnesses on the Peerplays blockchain aim to provide timely and correct information regarding to events and markets offered on Bookiepro, ' +
               'including but not limited to  dates, times, participants and status of events and markets. ' +
@@ -1463,11 +1463,11 @@ export const translationsObject = {
               'guarantee that events and markets will be turned in-play and closed at the correct time.'
           },
           {
-            question: 'Currency on BookiePro (BitFun)',
+            question: 'Currency on SixPro (BitFun)',
             answer:
-              'BookiePro uses play money called BitFun. BitFun has no real world value and is purely ' +
-              'used for the purposes of allowing users to test the BookiePro product. ' +
-              'Any BitFun that are transferred to a BookiePro account are not the property of the user of that account. ' +
+              'SixPro uses play money called BitFun. BitFun has no real world value and is purely ' +
+              'used for the purposes of allowing users to test the SixPro product. ' +
+              'Any BitFun that are transferred to a SixPro account are not the property of the user of that account. ' +
               'Users have no claim whatsoever over any BitFun that may accrue or exist in their account. ' +
               'BitFun may be debited from any account without the account owner’s permission and/or cease to exist at a future date.\n\n' +
               'One Bitfun (BTF) play money token is equal to a thousand milli-BitFun (mBTF).'
@@ -1482,14 +1482,14 @@ export const translationsObject = {
           {
             question: 'In-Play betting',
             answer:
-              'In-Play betting is offered on many markets in BookiePro - ' +
+              'In-Play betting is offered on many markets in SixPro - ' +
               'please check individual market-specific rules for details. There is currently ' +
-              'no in-play bet placement delay in BookiePro.\n\n' +
+              'no in-play bet placement delay in SixPro.\n\n' +
               'Markets that are scheduled to be turned in-play but which do not turn in-play for ' +
               'any reason will be settled as if they had turned in-play. In-play markets are unmanaged, ' +
               'which means they are not paused for any so-called significant events, including but not ' +
               'limited to teams scoring, players being ejected, or stoppages in play.\n\n' +
-              'Users of BookiePro should be aware that any broadcast described as ‘live’ ' +
+              'Users of SixPro should be aware that any broadcast described as ‘live’ ' +
               'is always subject to some transmission delay and may even be pre-recorded. ' +
               'The delay between a sporting event happening in real-life and the report of this event ' +
               'via a ‘live’ broadcast will vary depending on the particularities of that broadcast.'
@@ -1497,7 +1497,7 @@ export const translationsObject = {
           {
             question: 'Suspensions',
             answer:
-              'Betting on BookiePro may be suspended at any time if Witnesses reach consensus agreement to do so.'
+              'Betting on SixPro may be suspended at any time if Witnesses reach consensus agreement to do so.'
           },
           {
             question: 'Market-specific rules',
@@ -1519,61 +1519,61 @@ export const translationsObject = {
           }
         ]
       },
-      question1: 'What is BookiePro?',
+      question1: 'What is SixPro?',
       answer1:
-        'BookiePro is a betting exchange where people from all over the world can bet on sports.',
-      question2: 'How is BookiePro different from a regular sportsbook?',
+        'SixPro is a betting exchange where people from all over the world can bet on sports.',
+      question2: 'How is SixPro different from a regular sportsbook?',
       answer2:
         'When you bet with a sportsbook, your wager is matched by the “house”' +
         '(the sportsbook operator). If you win this bet, this sportsbook operator pays you directly.' +
-        'BookiePro has no house. Instead, BookiePro matches your bet with other users who want to bet against you.',
-      question3: 'Who owns BookiePro?',
+        'SixPro has no house. Instead, SixPro matches your bet with other users who want to bet against you.',
+      question3: 'Who owns SixPro?',
       answer3:
-        'No single person, company, or central authority owns BookiePro. The BookiePro betting exchange ' +
+        'No single person, company, or central authority owns SixPro. The SixPro betting exchange ' +
         'is an application that interfaces with the Peerplays blockchain. The holders of Peerplays blockchain ' +
         'tokens (called ‘PPY’) are in charge of voting to maintain consensus about the management of the network.',
       question4: 'What is a blockchain?',
       answer4:
         'A blockchain is a digital database managed by a decentralized collective of digital stakeholders. ' +
         'Blockchains use advanced cryptographic techniques to securely record your transactions on a public network. ' +
-        'BookiePro runs on the Peerplays blockchain, which is custom-built to support online gambling.',
-      question5: 'How does the BookiePro betting exchange work?',
+        'SixPro runs on the Peerplays blockchain, which is custom-built to support online gambling.',
+      question5: 'How does the SixPro betting exchange work?',
       answer5:
         'A betting exchange is similar to a stock exchange. A stock exchange matches orders between anyone who ' +
         'wants to buy and sell stocks. A betting exchange matches the orders between anyone who wants to place or take bets.',
       question6: 'How do I find someone to bet with?',
       answer6:
-        'BookiePro automatically matches bets between you and other users from around the world. ' +
-        'All you have to do is choose a sport and event to bet on, tell BookiePro how much you want to bet, ' +
-        'and post the funds to cover your bet. BookiePro takes care of the rest - matching your bet at best available price, ' +
+        'SixPro automatically matches bets between you and other users from around the world. ' +
+        'All you have to do is choose a sport and event to bet on, tell SixPro how much you want to bet, ' +
+        'and post the funds to cover your bet. SixPro takes care of the rest - matching your bet at best available price, ' +
         'holding all funds in escrow, and then releasing the funds to the winner when the sports event is finished.',
-      question7: 'How is BookiePro different from other betting exchanges?',
+      question7: 'How is SixPro different from other betting exchanges?',
       answer7:
         'Traditional betting exchanges operate the software which matches your bets on a centralized server. ' +
-        'On BookiePro, the software that matches your bets operates on a public blockchain. This makes BookiePro transparent ' +
+        'On SixPro, the software that matches your bets operates on a public blockchain. This makes SixPro transparent ' +
         'and accessible from every country on Earth.',
-      question8: 'Will BookiePro take a cut or \'rake\' of my winnings?',
+      question8: 'Will SixPro take a cut or \'rake\' of my winnings?',
       answer8:
-        'No. In contrast to other betting exchanges, BookiePro does not take a commission on winning bets. ' +
-        'Instead, BookiePro charges a small commission on each bet when it is matched. This fee is calculated as a ' +
+        'No. In contrast to other betting exchanges, SixPro does not take a commission on winning bets. ' +
+        'Instead, SixPro charges a small commission on each bet when it is matched. This fee is calculated as a ' +
         'percentage of the betting stake.',
-      question9: 'Will BookiePro restrict my account if I win too much?',
+      question9: 'Will SixPro restrict my account if I win too much?',
       answer9:
         'No. Bookie will not close or limit the account of any user, unlike many sportsbooks and betting exchanges. ' +
-        'BookiePro welcomes winners!',
-      question10: 'What currencies can I bet with on BookiePro?',
+        'SixPro welcomes winners!',
+      question10: 'What currencies can I bet with on SixPro?',
       answer10:
-        'BookiePro is capable of accepting all digital currencies, but since Bitcoin is the most widely traded and ' +
-        'liquid digital currency right now, BookiePro will be launched as a “Bitcoin-only” desktop application.',
-      question11: 'Where do BookiePro’s revenues go?',
+        'SixPro is capable of accepting all digital currencies, but since Bitcoin is the most widely traded and ' +
+        'liquid digital currency right now, SixPro will be launched as a “Bitcoin-only” desktop application.',
+      question11: 'Where do SixPro’s revenues go?',
       answer11:
-        'All profits generated by BookiePro are paid out at regular intervals to anyone who holds PPY tokens.',
-      question12: 'Can I use BookiePro on my mobile?',
+        'All profits generated by SixPro are paid out at regular intervals to anyone who holds PPY tokens.',
+      question12: 'Can I use SixPro on my mobile?',
       answer12:
         'The Bookie mobile app (Android) will launch in Q1 2018. Bookie will first be made available as a desktop application, launching in Q4 2017.',
-      question13: 'Who is the team behind BookiePro?',
+      question13: 'Who is the team behind SixPro?',
       answer13:
-        'The development of BookiePro has been supported by the Peerplays Blockchain Standards Association (PBSA), ' +
+        'The development of SixPro has been supported by the Peerplays Blockchain Standards Association (PBSA), ' +
         'a non-profit organization based in Canada and dedicated to promoting transparent and fair gaming standards for the Peerplays blockchain.'
     },
     license_screen: {
