@@ -210,7 +210,7 @@ module.exports = {
         screw_ie8: true
       }
     }),*/
-    
+
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
