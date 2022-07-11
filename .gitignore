@@ -80,3 +80,4 @@ config.js
 /.idea/modules.xml
 /.idea/vcs.xml
 /package-lock.json
+/hybrid_bundle/build-sixpro_app-*
