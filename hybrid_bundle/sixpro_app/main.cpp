@@ -1,8 +1,11 @@
-#include "sixpro.h"
+#include "window.h"
 
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
+
+
+#include "webserverthread.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,7 +20,17 @@ int main(int argc, char *argv[])
             break;
         }
     }
-    SixPro w;
-    w.show();
+    //SixPro w;
+
+    QCoreApplication::addLibraryPath("./plugins");
+
+    // Web Server starting in new thread
+    thread2 thread;
+    thread.start();
+
+    Window w;
+    //w.show();
+    //w.showFullScreen();
+    w.showMaximized();
     return a.exec();
 }

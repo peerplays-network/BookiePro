@@ -11,8 +11,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools WebView WebEngineWidgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools WebView WebEngineWidgets)
 
 set(TS_FILES sixpro_app_en_US.ts)
 
@@ -21,6 +21,13 @@ set(PROJECT_SOURCES
         sixpro.cpp
         sixpro.h
         sixpro.ui
+        mainlayout.cpp
+        mainlayout.h
+        window.cpp
+        window.h
+        webserverthread.cpp
+        webserverthread.h
+        httplib.h
         ${TS_FILES}
 )
 
@@ -51,7 +58,7 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(sixpro_app PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(sixpro_app PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::WebEngineWidgets)
 
 set_target_properties(sixpro_app PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
