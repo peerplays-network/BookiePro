@@ -1,8 +1,26 @@
+
+#ifdef _WIN32
+//#define WIN32_LEAN_AND_MEAN  // We only need minimal includes
+//#include <pthread.h>
+//#elif defined(HAVE_PTHREAD)
+//#include <pthread.h>
+//#else
+//#error "No suitable threading library available."
+#include <winsock2.h> // Note: To fix bug for winsock v1 and v2 both inclusion
+#include <windows.h>
+
+#endif
+
 #include "window.h"
 
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
+#include <QThread>
+
+#include <QWebEngineProfile>
+#include <QWebEngineSettings>
+
 
 
 #include "webserverthread.h"
@@ -22,7 +40,12 @@ int main(int argc, char *argv[])
     }
     //SixPro w;
 
-    QCoreApplication::addLibraryPath("./plugins");
+    //QCoreApplication::addLibraryPath("./plugins");
+
+    QWebEngineProfile::defaultProfile()->settings()->setAttribute(QWebEngineSettings::PluginsEnabled, true);
+    QWebEngineProfile::defaultProfile()->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, true);
+    QWebEngineProfile::defaultProfile()->settings()->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
+    QWebEngineProfile::defaultProfile()->settings()->setAttribute(QWebEngineSettings::DnsPrefetchEnabled, true);
 
     // Web Server starting in new thread
     thread2 thread;
