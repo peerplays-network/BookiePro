@@ -82,3 +82,4 @@ config.js
 /package-lock.json
 /hybrid_bundle/build-sixpro_app-*
 /hybrid_bundle/sixpro_app/sixpro_app.pro.user
+/hybrid_bundle/SixPRO_INSTALLER_LINUX/packages/com.peerplays.sixpro/data/*
