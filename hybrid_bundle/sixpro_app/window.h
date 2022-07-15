@@ -7,8 +7,15 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 
+#include <QWebEngineProfile>
+#include <QWebEngineSettings>
+
 #include <QtWebEngineWidgets/QtWebEngineWidgets>
 #include <QUrl>
+
+
+
+#include <QTimer>
 
 #include "mainlayout.h"
 
@@ -22,9 +29,13 @@ class Window : public QWidget
     Q_OBJECT
 
 public:
+    QWebEngineView *view;
 
     MainLayout *layout;
     Window();
+
+    void update();
+
 
     void setWidgetsInside(QWidget *wdgCenter);
 
