@@ -138,7 +138,7 @@
     "updateSnapshot": "jest --updateSnapshot",
     "build": "npm run clean && node scripts/build.js",
     "build_win": "npm run clean_win ; node scripts/build.js",
-    "clean": "rm -rf build/* && rm -rf dist",
+    "clean": "shx --silence rm -rf build/* && shx --silence rm -rf dist",
     "clean_win": "rmdir /s /q build/* ; rmdir /s /q dist",
     "electron": "electron build/electron.js",
     "make-build": "mkdir -p build",
