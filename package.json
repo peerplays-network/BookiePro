@@ -118,6 +118,7 @@
     "babel-preset-es2015": "^6.24.1",
     "electron-is-dev": "0.3.0",
     "postcss": "^8.4.14",
+    "shx": "^0.3.4",
     "terser": "^5.14.1",
     "uglifyjs-webpack-plugin": "^2.2.0"
   },
