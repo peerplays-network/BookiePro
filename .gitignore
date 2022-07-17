@@ -83,3 +83,11 @@ config.js
 /hybrid_bundle/build-sixpro_app-*
 /hybrid_bundle/sixpro_app/sixpro_app.pro.user
 /hybrid_bundle/SixPRO_INSTALLER_LINUX/packages/com.peerplays.sixpro/data/*
+/hybrid_bundle/SixPRO_INSTALLER_WIN/SIXPRO_WEB_APP_installer.exe
+/hybrid_bundle/SixPRO_INSTALLER_WIN/packages/com.peerplays.sixpro/data/*
+/hybrid_bundle/build_win_631_release*
+/hybrid_bundle/deploy_win_631_release*
+/www/asset-manifest.json
+/www/icon.icns
+/www/icon.ico
+/www*

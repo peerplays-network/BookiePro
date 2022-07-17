@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <Installer>
+        <Name>SixPRO</Name>
+        <Version>1.4.0</Version>
+        <Title>SixPRO Installer</Title>
+        <Publisher>PBSA</Publisher>
+        <WizardStyle>Aero</WizardStyle>
+<!-- Directory name is used in component.xml -->
+        <StartMenuDir>SixPRO</StartMenuDir>
+        <TargetDir>@ApplicationsDir@/SixPRO</TargetDir>
+    </Installer>

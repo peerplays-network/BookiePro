@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <Package>
+        <DisplayName>SixPRO</DisplayName>
+        <Description>This is SixPRO installer</Description>
+        <Version>1.4.0</Version>
+        <ReleaseDate>2022-07-12</ReleaseDate>
+        <Default>true</Default>
+        <Script>installscript.qs</Script>
+    </Package>
