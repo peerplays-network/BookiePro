@@ -33,6 +33,7 @@ cd deploy_win_631_release
 C:\Qt\6.3.1\msvc2019_64\bin\windeployqt.exe C:/bookiepro/hybrid_bundle/build_win_631_release/release/sixpro_app.exe  --dir .
 
 copy c:\bookiepro\hybrid_bundle\build_win_631_release\release\sixpro_app.exe .
+copy c:\bookiepro\hybrid_bundle\sixpro_app\sixpro_logo* .
 
 xcopy C:\bookiepro\www  C:\bookiepro\hybrid_bundle\deploy_win_631_release\www  /E /H /C /I  /Y  
 
