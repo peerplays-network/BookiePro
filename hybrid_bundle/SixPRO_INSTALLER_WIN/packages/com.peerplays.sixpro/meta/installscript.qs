@@ -12,7 +12,7 @@ Component.prototype.createOperations = function()
 {
     component.createOperations();
     if (systemInfo.productType === "windows") {
-        component.addOperation("CreateShortcut", "@TargetDir@/DistributionKit/sixpro_app_target", "@StartMenuDir@/sixpro_app.lnk", "workingDirectory=@TargetDir@", "iconPath=@TargetDir@/DistributionKit/sixpro_app_target","iconId=0", "description=sixpro_app Executable");
-        component.addOperation("CreateShortcut", "@TargetDir@/DistributionKit/sixpro_app_target", "@DesktopDir@/sixpro_app.lnk", "workingDirectory=@TargetDir@", "iconPath=@TargetDir@/DistributionKit/sixpro_app_target","iconId=0", "description=sixpro_app Executable");
+        component.addOperation("CreateShortcut", "@TargetDir@/sixpro_app.exe", "@StartMenuDir@/SIX PRO.lnk", "workingDirectory=@TargetDir@/", "iconPath=@TargetDir@/sixpro_logo_icon.ico","iconId=0", "description=SIX PRO");
+        component.addOperation("CreateShortcut", "@TargetDir@/sixpro_app.exe", "@DesktopDir@/SIX PRO.lnk", "workingDirectory=@TargetDir@/", "iconPath=@TargetDir@/sixpro_logo_icon.ico","iconId=0", "description=SIX PRO");
     }
 };
